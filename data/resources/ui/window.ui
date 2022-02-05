@@ -16,7 +16,7 @@
       </item>
     </section>
   </menu>
-  <template class="ExampleApplicationWindow" parent="GtkApplicationWindow">
+  <template class="Window" parent="GtkApplicationWindow">
     <child type="titlebar">
       <object class="GtkHeaderBar" id="headerbar">
         <child type="end">

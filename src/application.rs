@@ -7,7 +7,7 @@ use gtk::subclass::prelude::*;
 use gtk::{gdk, gio, glib};
 
 use crate::config::{APP_ID, PKGDATADIR, PROFILE, VERSION};
-use crate::window::ExampleApplicationWindow;
+use crate::window::Window;
 
 mod imp {
     use super::*;
@@ -15,22 +15,22 @@ mod imp {
     use once_cell::sync::OnceCell;
 
     #[derive(Debug, Default)]
-    pub struct ExampleApplication {
-        pub window: OnceCell<WeakRef<ExampleApplicationWindow>>,
+    pub struct Application {
+        pub window: OnceCell<WeakRef<Window>>,
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for ExampleApplication {
-        const NAME: &'static str = "ExampleApplication";
-        type Type = super::ExampleApplication;
+    impl ObjectSubclass for Application {
+        const NAME: &'static str = "Application";
+        type Type = super::Application;
         type ParentType = gtk::Application;
     }
 
-    impl ObjectImpl for ExampleApplication {}
+    impl ObjectImpl for Application {}
 
-    impl ApplicationImpl for ExampleApplication {
+    impl ApplicationImpl for Application {
         fn activate(&self, app: &Self::Type) {
-            debug!("GtkApplication<ExampleApplication>::activate");
+            debug!("GtkApplication<Application>::activate");
             self.parent_activate(app);
 
             if let Some(window) = self.window.get() {
@@ -39,7 +39,7 @@ mod imp {
                 return;
             }
 
-            let window = ExampleApplicationWindow::new(app);
+            let window = Window::new(app);
             self.window
                 .set(window.downgrade())
                 .expect("Window already set.");
@@ -48,7 +48,7 @@ mod imp {
         }
 
         fn startup(&self, app: &Self::Type) {
-            debug!("GtkApplication<ExampleApplication>::startup");
+            debug!("GtkApplication<Application>::startup");
             self.parent_startup(app);
 
             // Set icons for shell
@@ -60,29 +60,28 @@ mod imp {
         }
     }
 
-    impl GtkApplicationImpl for ExampleApplication {}
+    impl GtkApplicationImpl for Application {}
 }
 
 glib::wrapper! {
-    pub struct ExampleApplication(ObjectSubclass<imp::ExampleApplication>)
+    pub struct Application(ObjectSubclass<imp::Application>)
         @extends gio::Application, gtk::Application,
         @implements gio::ActionMap, gio::ActionGroup;
 }
 
-impl ExampleApplication {
-    pub fn new() -> Self {
+impl Default for Application {
+    fn default() -> Self {
         glib::Object::new(&[
             ("application-id", &Some(APP_ID)),
             ("flags", &gio::ApplicationFlags::empty()),
-            (
-                "resource-base-path",
-                &Some("/com/github/marhkb/Symphony/"),
-            ),
+            ("resource-base-path", &Some("/com/github/marhkb/Symphony/")),
         ])
         .expect("Application initialization failed...")
     }
+}
 
-    fn main_window(&self) -> ExampleApplicationWindow {
+impl Application {
+    fn main_window(&self) -> Window {
         self.imp().window.get().unwrap().upgrade().unwrap()
     }
 

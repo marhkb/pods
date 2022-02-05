@@ -6,7 +6,7 @@ mod window;
 use gettextrs::{gettext, LocaleCategory};
 use gtk::{gio, glib};
 
-use self::application::ExampleApplication;
+use self::application::Application;
 use self::config::{GETTEXT_PACKAGE, LOCALEDIR, RESOURCES_FILE};
 
 fn main() {
@@ -23,6 +23,6 @@ fn main() {
     let res = gio::Resource::load(RESOURCES_FILE).expect("Could not load gresource file");
     gio::resources_register(&res);
 
-    let app = ExampleApplication::new();
+    let app = Application::default();
     app.run();
 }
