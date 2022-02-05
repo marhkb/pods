@@ -9,6 +9,7 @@ use gettextrs::{gettext, LocaleCategory};
 use gtk::prelude::ApplicationExt;
 use gtk::{gio, glib};
 use log::LevelFilter;
+use syslog::Facility;
 
 use self::application::Application;
 use self::config::{GETTEXT_PACKAGE, LOCALEDIR, RESOURCES_FILE};
@@ -43,8 +44,8 @@ fn main() {
                 None => LevelFilter::Warn,
             };
 
-            std::env::set_var("RUST_LOG", log_level_filter.as_str());
-            pretty_env_logger::init();
+            syslog::init(Facility::LOG_USER, log_level_filter, Some("rodman"))
+                .expect("could not initialize logging");
 
             -1
         }
