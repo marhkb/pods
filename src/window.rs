@@ -8,13 +8,14 @@ use crate::config::{APP_ID, PROFILE};
 mod imp {
     use super::*;
 
+    use adw::subclass::prelude::AdwApplicationWindowImpl;
     use gtk::CompositeTemplate;
 
     #[derive(Debug, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Symphony/ui/window.ui")]
     pub struct Window {
         #[template_child]
-        pub headerbar: TemplateChild<gtk::HeaderBar>,
+        pub headerbar: TemplateChild<adw::HeaderBar>,
         pub settings: gio::Settings,
     }
 
@@ -31,7 +32,7 @@ mod imp {
     impl ObjectSubclass for Window {
         const NAME: &'static str = "Window";
         type Type = super::Window;
-        type ParentType = gtk::ApplicationWindow;
+        type ParentType = adw::ApplicationWindow;
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
@@ -71,11 +72,12 @@ mod imp {
     }
 
     impl ApplicationWindowImpl for Window {}
+    impl AdwApplicationWindowImpl for Window {}
 }
 
 glib::wrapper! {
     pub struct Window(ObjectSubclass<imp::Window>)
-        @extends gtk::Widget, gtk::Window, gtk::ApplicationWindow,
+        @extends gtk::Widget, gtk::Window, gtk::ApplicationWindow, adw::ApplicationWindow,
         @implements gio::ActionMap, gio::ActionGroup, gtk::Root;
 }
 

@@ -16,24 +16,29 @@
       </item>
     </section>
   </menu>
-  <template class="Window" parent="GtkApplicationWindow">
-    <child type="titlebar">
-      <object class="GtkHeaderBar" id="headerbar">
-        <child type="end">
-          <object class="GtkMenuButton" id="appmenu_button">
-            <property name="icon-name">open-menu-symbolic</property>
-            <property name="menu-model">primary_menu</property>
+  <template class="Window" parent="AdwApplicationWindow">
+    <property name="content">
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="AdwHeaderBar" id="headerbar">
+            <child type="end">
+              <object class="GtkMenuButton" id="appmenu_button">
+                <property name="icon-name">open-menu-symbolic</property>
+                <property name="menu-model">primary_menu</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label">
+            <property name="label" translatable="yes">Hello world!</property>
+            <style>
+              <class name="title-header"/>
+            </style>
           </object>
         </child>
       </object>
-    </child>
-    <child>
-      <object class="GtkLabel" id="label">
-        <property name="label" translatable="yes">Hello world!</property>
-        <style>
-          <class name="title-header"/>
-        </style>
-      </object>
-    </child>
+    </property>
   </template>
 </interface>

@@ -23,7 +23,40 @@
             "--share=network"
         ]
     },
+    "cleanup": [
+        "/include",
+        "/lib/cmake",
+        "/lib/pkgconfig",
+        "*.a"
+    ],
     "modules": [
+        {
+            "name": "gtk",
+            "buildsystem": "meson",
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://gitlab.gnome.org/GNOME/gtk.git",
+                    "tag": "4.6.0"
+                }
+            ]
+        },
+        {
+            "name": "libadwaita",
+            "buildsystem": "meson",
+            "config-opts": [
+                "-Dvapi=false",
+                "-Dexamples=false",
+                "-Dtests=false"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://gitlab.gnome.org/GNOME/libadwaita.git",
+                    "tag": "1.0.1"
+                }
+            ]
+        },
         {
             "name": "symphony",
             "buildsystem": "meson",
