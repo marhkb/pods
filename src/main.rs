@@ -3,16 +3,17 @@ mod application;
 mod config;
 mod window;
 
+use std::str::FromStr;
+
 use gettextrs::{gettext, LocaleCategory};
+use gtk::prelude::ApplicationExt;
 use gtk::{gio, glib};
+use log::LevelFilter;
 
 use self::application::Application;
 use self::config::{GETTEXT_PACKAGE, LOCALEDIR, RESOURCES_FILE};
 
 fn main() {
-    // Initialize logger
-    pretty_env_logger::init();
-
     // Prepare i18n
     gettextrs::setlocale(LocaleCategory::LcAll, "");
     gettextrs::bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR).expect("Unable to bind the text domain");
@@ -26,6 +27,50 @@ fn main() {
     let res = gio::Resource::load(RESOURCES_FILE).expect("Could not load gresource file");
     gio::resources_register(&res);
 
-    let app = Application::default();
+    let app = setup_cli(Application::default());
+
+    // Command line handling
+    app.connect_handle_local_options(|_, dict| {
+        if dict.contains("version") {
+            // Print version ...
+            println!("symphony {}", config::VERSION);
+            // ... and exit application.
+            1
+        } else {
+            let log_level_filter = match dict.lookup::<String>("log-level").unwrap() {
+                Some(level) => LevelFilter::from_str(&level).expect("Error on parsing log-level"),
+                // Standard log levels if not specified by user
+                None => LevelFilter::Warn,
+            };
+
+            std::env::set_var("RUST_LOG", log_level_filter.as_str());
+            pretty_env_logger::init();
+
+            -1
+        }
+    });
+
     app.run();
+}
+
+fn setup_cli<A: glib::IsA<gio::Application>>(app: A) -> A {
+    app.add_main_option(
+        "version",
+        b'v'.into(),
+        glib::OptionFlags::NONE,
+        glib::OptionArg::None,
+        &gettext("Prints application version"),
+        None,
+    );
+
+    app.add_main_option(
+        "log-level",
+        b'l'.into(),
+        glib::OptionFlags::NONE,
+        glib::OptionArg::String,
+        &gettext("Specify the minimum log level"),
+        Some("error|warn|info|debug|trace"),
+    );
+
+    app
 }
