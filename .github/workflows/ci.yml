@@ -1,0 +1,38 @@
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+name: CI
+
+jobs:
+  rustfmt:
+    name: Rustfmt
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+          components: rustfmt
+      - name: Create blank versions of configured file
+        run: echo -e "" >> src/config.rs
+      - name: Run cargo fmt
+        run: cargo fmt --all -- --check
+
+  flatpak:
+    name: Flatpak
+    runs-on: ubuntu-20.04
+    container:
+      image: bilelmoussaoui/flatpak-github-actions:gnome-41
+      options: --privileged
+    steps:
+    - uses: actions/checkout@v2
+    - uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v4
+      with:
+        bundle: symphony.flatpak
+        manifest-path: build-aux/com.github.marhkb.Symphony.Devel.json
+        run-tests: true
+        cache-key: flatpak-builder-${{ github.sha }}

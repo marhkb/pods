@@ -1,0 +1,6 @@
+data/com.github.marhkb.Symphony.desktop.in.in
+data/com.github.marhkb.Symphony.gschema.xml.in
+data/com.github.marhkb.Symphony.metainfo.xml.in.in
+data/resources/ui/shortcuts.ui
+data/resources/ui/window.ui
+src/application.rs

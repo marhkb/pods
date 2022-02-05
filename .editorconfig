@@ -1,0 +1,21 @@
+root = true
+[*]
+indent_style = space
+end_of_line = lf
+trim_trailing_whitespace = true
+insert_final_newline = true
+charset = utf-8
+
+[*.{build,css,doap,scss,ui,xml,xml.in,xml.in.in,yaml,yml}]
+indent_size = 2
+
+[*.{json,py,rs}]
+indent_size = 4
+
+[*.{c,h,h.in}]
+indent_size = 2
+max_line_length = 80
+
+[NEWS]
+indent_size = 2
+max_line_length = 72
