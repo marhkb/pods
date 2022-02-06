@@ -1,6 +1,7 @@
 mod application;
 #[rustfmt::skip]
 mod config;
+mod images;
 mod window;
 
 use std::str::FromStr;

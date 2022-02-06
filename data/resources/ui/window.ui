@@ -21,7 +21,13 @@
       <object class="GtkBox">
         <property name="orientation">vertical</property>
         <child>
-          <object class="AdwHeaderBar" id="headerbar">
+          <object class="AdwHeaderBar">
+            <property name="centering-policy">strict</property>
+            <child type="title">
+              <object class="AdwViewSwitcherTitle" id="title">
+                <property name="stack">stack</property>
+              </object>
+            </child>
             <child type="end">
               <object class="GtkMenuButton" id="appmenu_button">
                 <property name="icon-name">open-menu-symbolic</property>
@@ -31,11 +37,34 @@
           </object>
         </child>
         <child>
-          <object class="GtkLabel" id="label">
-            <property name="label" translatable="yes">Hello world!</property>
-            <style>
-              <class name="title-header"/>
-            </style>
+          <object class="AdwViewStack" id="stack">
+            <property name="vexpand">True</property>
+            <child>
+              <object class="AdwViewStackPage">
+                <property name="title" translatable="yes">Images</property>
+                <property name="icon-name">image-x-generic-symbolic</property>
+                <property name="child">
+                  <object class="Images" id="images"/>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwViewStackPage">
+                <property name="title" translatable="yes">Containers</property>
+                <property name="icon-name">utilities-terminal-symbolic</property>
+                <property name="child">
+                  <object class="AdwBin"/>
+                </property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwViewSwitcherBar">
+            <property name="stack">stack</property>
+            <binding name="reveal">
+              <lookup name="title-visible">title</lookup>
+            </binding>
           </object>
         </child>
       </object>

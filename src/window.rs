@@ -6,6 +6,8 @@ use crate::application::Application;
 use crate::config::{APP_ID, PROFILE};
 
 mod imp {
+    use crate::images::Images;
+
     use super::*;
 
     use adw::subclass::prelude::AdwApplicationWindowImpl;
@@ -15,14 +17,14 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Symphony/ui/window.ui")]
     pub struct Window {
         #[template_child]
-        pub headerbar: TemplateChild<adw::HeaderBar>,
+        pub images: TemplateChild<Images>,
         pub settings: gio::Settings,
     }
 
     impl Default for Window {
         fn default() -> Self {
             Self {
-                headerbar: TemplateChild::default(),
+                images: Default::default(),
                 settings: gio::Settings::new(APP_ID),
             }
         }
