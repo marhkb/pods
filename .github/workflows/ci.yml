@@ -8,7 +8,7 @@ name: CI
 jobs:
   rustfmt:
     name: Rustfmt
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
@@ -22,9 +22,33 @@ jobs:
       - name: Run cargo fmt
         run: cargo fmt --all -- --check
 
+  clippy:
+    name: Clippy
+    runs-on: ubuntu-latest
+    container:
+      image: bilelmoussaoui/flatpak-github-actions:gnome-41
+      options: --privileged
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build dependencies
+        run: |
+          flatpak-builder \
+          --disable-rofiles-fuse \
+          --install-deps-from=flathub \
+          --keep-build-dirs \
+          --stop-at=symphony \
+          flatpak_app build-aux/com.github.marhkb.Symphony.Devel.json
+      - name: Run clippy
+        run: |
+          echo "cargo clippy -- -D warnings" \
+          | flatpak-builder \
+          --disable-rofiles-fuse \
+          --build-shell=symphony \
+          flatpak_app build-aux/com.github.marhkb.Symphony.Devel.json
+
   flatpak:
     name: Flatpak
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     container:
       image: bilelmoussaoui/flatpak-github-actions:gnome-41
       options: --privileged
