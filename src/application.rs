@@ -1,18 +1,18 @@
 use gettextrs::gettext;
-use log::{debug, info};
-
 use glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::{gdk, gio, glib};
+use log::{debug, info};
 
 use crate::config::{APP_ID, PKGDATADIR, PROFILE, VERSION};
 use crate::window::Window;
 
 mod imp {
-    use super::*;
     use glib::WeakRef;
     use once_cell::sync::OnceCell;
+
+    use super::*;
 
     #[derive(Debug, Default)]
     pub struct Application {

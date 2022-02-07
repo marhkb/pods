@@ -6,12 +6,11 @@ use crate::application::Application;
 use crate::config::{APP_ID, PROFILE};
 
 mod imp {
-    use crate::images::Images;
-
-    use super::*;
-
     use adw::subclass::prelude::AdwApplicationWindowImpl;
     use gtk::CompositeTemplate;
+
+    use super::*;
+    use crate::images::Images;
 
     #[derive(Debug, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Symphony/ui/window.ui")]
