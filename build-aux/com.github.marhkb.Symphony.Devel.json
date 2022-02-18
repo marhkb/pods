@@ -11,16 +11,19 @@
         "--device=dri",
         "--env=RUST_LOG=symphony=debug",
         "--env=G_MESSAGES_DEBUG=none",
-        "--env=RUST_BACKTRACE=1"
+        "--env=RUST_BACKTRACE=1",
+        "--filesystem=xdg-run/podman/podman.sock:ro"
     ],
     "build-options" : {
         "append-path" : "/usr/lib/sdk/rust-stable/bin",
         "build-args" : [
-            "--share=network"
+            "--share=network",
+            "--filesystem=xdg-run/podman/podman.sock:ro"
         ],
         "test-args": [
             "--socket=x11",
-            "--share=network"
+            "--share=network",
+            "--filesystem=xdg-run/podman/podman.sock:ro"
         ]
     },
     "cleanup": [
