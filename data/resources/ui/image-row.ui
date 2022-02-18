@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
+
+  <menu id="menu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">_Delete</attribute>
+        <attribute name="action">image.delete</attribute>
+      </item>
+    </section>
+  </menu>
+
   <template class="ImageRow" parent="AdwExpanderRow">
+
     <child>
 
       <object class="GtkListBoxRow">
@@ -87,8 +98,16 @@
             </child>
 
           </object>
-
         </child>
+
+      </object>
+    </child>
+
+    <child type="action">
+      <object class="GtkMenuButton">
+        <property name="icon-name">view-more-symbolic</property>
+        <property name="menu-model">menu</property>
+        <property name="valign">center</property>
       </object>
     </child>
 

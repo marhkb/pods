@@ -179,6 +179,14 @@ impl ImageList {
             .sum()
     }
 
+    pub fn remove_image(&self, id: &str) {
+        let mut list = self.imp().list.borrow_mut();
+        if let Some((idx, ..)) = list.shift_remove_full(id) {
+            drop(list);
+            self.items_changed(idx as u32, 1, 0);
+        }
+    }
+
     fn fetch_images(&self) {
         do_async(
             glib::PRIORITY_DEFAULT_IDLE,
