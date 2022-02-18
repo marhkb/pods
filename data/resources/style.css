@@ -1,4 +1,13 @@
-.title-header{
+.title-header {
   font-size: 36px;
   font-weight: bold;
+}
+
+.image-tag-none .title {
+  color: @dark_1;
+}
+
+.property-row {
+  margin: 9px 12px;
+  font-size: 0.95em;
 }

@@ -3,7 +3,10 @@
   <gresource prefix="/com/github/marhkb/Symphony/">
     <!-- see https://gtk-rs.org/gtk4-rs/git/docs/gtk4/struct.Application.html#automatic-resources -->
     <file compressed="true" preprocess="xml-stripblanks" alias="gtk/help-overlay.ui">ui/shortcuts.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">ui/images.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/image-row.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/images-panel.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/property-row.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/sidebar-row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/window.ui</file>
 
     <file compressed="true">style.css</file>

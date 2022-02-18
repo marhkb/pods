@@ -1,30 +1,40 @@
+use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::{gio, glib};
 
 use crate::application::Application;
 use crate::config::{APP_ID, PROFILE};
+use crate::view;
 
 mod imp {
     use adw::subclass::prelude::AdwApplicationWindowImpl;
     use gtk::CompositeTemplate;
 
     use super::*;
-    use crate::images::Images;
 
     #[derive(Debug, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Symphony/ui/window.ui")]
     pub struct Window {
-        #[template_child]
-        pub images: TemplateChild<Images>,
         pub settings: gio::Settings,
+        #[template_child]
+        pub leaflet: TemplateChild<adw::Leaflet>,
+        #[template_child]
+        pub sidebar: TemplateChild<gtk::Box>,
+        #[template_child]
+        pub list_box: TemplateChild<gtk::ListBox>,
+        #[template_child]
+        pub stack: TemplateChild<gtk::Stack>,
     }
 
     impl Default for Window {
         fn default() -> Self {
             Self {
-                images: Default::default(),
                 settings: gio::Settings::new(APP_ID),
+                leaflet: Default::default(),
+                sidebar: Default::default(),
+                list_box: Default::default(),
+                stack: Default::default(),
             }
         }
     }
@@ -37,6 +47,12 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
+            klass.install_action("leaflet.back", None, move |widget, _, _| {
+                widget
+                    .imp()
+                    .leaflet
+                    .navigate(adw::NavigationDirection::Back);
+            });
         }
 
         // You must call `Widget`'s `init_template()` within `instance_init()`.
@@ -56,6 +72,22 @@ mod imp {
 
             // Load latest window state
             obj.load_window_size();
+
+            self.list_box.bind_model(
+                Some(&gtk::SingleSelection::new(Some(&self.stack.pages()))),
+                |obj| {
+                    let stack_page = obj.downcast_ref::<gtk::StackPage>().unwrap();
+
+                    view::SidebarRow::new(
+                        stack_page.icon_name().as_deref(),
+                        stack_page.name().unwrap().as_str(),
+                        stack_page.title().as_deref(),
+                    )
+                    .upcast()
+                },
+            );
+
+            obj.setup_navigation();
         }
     }
 
@@ -112,6 +144,51 @@ impl Window {
 
         if is_maximized {
             self.maximize();
+        }
+    }
+
+    fn setup_navigation(&self) {
+        let imp = self.imp();
+
+        self.action_set_enabled("leaflet.back", imp.leaflet.is_folded());
+
+        self.set_selected_sidebar_row();
+        imp.leaflet
+            .connect_folded_notify(clone!(@weak self as obj => move |_| {
+                obj.set_selected_sidebar_row();
+            }));
+
+        imp.list_box
+            .connect_selected_rows_changed(clone!(@weak self as obj => move |list_box| {
+                if let Some(row) = list_box.selected_row() {
+                    let imp = obj.imp();
+
+                    imp.leaflet.navigate(adw::NavigationDirection::Forward);
+                    imp.stack.set_visible_child_name(
+                        row
+                            .child()
+                            .unwrap()
+                            .downcast_ref::<view::SidebarRow>()
+                            .unwrap()
+                            .panel_name()
+                    );
+                }
+            }));
+    }
+
+    fn set_selected_sidebar_row(&self) {
+        let imp = self.imp();
+
+        self.action_set_enabled("leaflet.back", imp.leaflet.is_folded());
+
+        if imp.leaflet.is_folded() {
+            imp.list_box.unselect_all();
+        } else {
+            imp.list_box.select_row(
+                imp.list_box
+                    .row_at_index(imp.stack.pages().selection().minimum() as i32)
+                    .as_ref(),
+            );
         }
     }
 }

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="ImageRow" parent="AdwExpanderRow">
+    <child>
+
+      <object class="GtkListBoxRow">
+        <property name="activatable">False</property>
+
+        <child>
+
+          <object class="GtkListBox">
+            <style>
+              <class name="boxed-list"/>
+            </style>
+
+            <property name="margin-bottom">12</property>
+            <property name="margin-end">12</property>
+            <property name="margin-start">12</property>
+            <property name="margin-top">12</property>
+            <property name="selection-mode">none</property>
+
+            <child>
+              <object class="PropertyRow" id="id_row">
+                <property name="key">Id</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="PropertyRow" id="created_row">
+                <property name="key">Created</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="PropertyRow" id="size_row">
+                <property name="key">Disk space</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="PropertyRow" id="containers_row">
+                <property name="key">Used By</property>
+                <binding name="visible">
+                  <lookup name="containers" type="Image">
+                    <lookup name="image">ImageRow</lookup>
+                  </lookup>
+                </binding>
+              </object>
+            </child>
+
+            <child>
+              <object class="PropertyRow" id="command_row">
+                <property name="key">Command</property>
+                <binding name="value">
+                  <lookup name="cmd" type="ImageConfig">
+                    <lookup name="config" type="Image">
+                      <lookup name="image">ImageRow</lookup>
+                    </lookup>
+                  </lookup>
+                </binding>
+              </object>
+            </child>
+
+            <child>
+              <object class="PropertyRow" id="entrypoint_row">
+                <property name="key">Entry Point</property>
+                <binding name="value">
+                  <lookup name="entrypoint" type="ImageConfig">
+                    <lookup name="config" type="Image">
+                      <lookup name="image">ImageRow</lookup>
+                    </lookup>
+                  </lookup>
+                </binding>
+              </object>
+            </child>
+
+            <child>
+              <object class="PropertyRow" id="ports_row">
+                <property name="key">Ports</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="PropertyRow" id="repo_tags_row">
+                <property name="key">Tags</property>
+              </object>
+            </child>
+
+          </object>
+
+        </child>
+      </object>
+    </child>
+
+  </template>
+</interface>
