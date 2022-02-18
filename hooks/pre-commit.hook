@@ -3,7 +3,7 @@
 
 install_rustfmt() {
     if ! which rustup &> /dev/null; then
-        curl https://sh.rustup.rs -sSf  | sh -s -- -y
+        curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain none -y
         export PATH=$PATH:$HOME/.cargo/bin
         if ! which rustup &> /dev/null; then
             echo "Failed to install rustup. Performing the commit without style checking."
@@ -11,13 +11,18 @@ install_rustfmt() {
         fi
     fi
 
-    if ! rustup component list|grep rustfmt &> /dev/null; then
+    if ! rustup toolchain list | grep nightly &> /dev/null; then
+        echo "Installing minimal rust nightly toolchain…"
+        rustup toolchain install nightly --profile minimal
+    fi
+
+    if ! rustup component list --toolchain=nightly | grep rustfmt &> /dev/null; then
         echo "Installing rustfmt…"
-        rustup component add rustfmt
+        rustup component add rustfmt --toolchain=nightly
     fi
 }
 
-if ! which cargo >/dev/null 2>&1 || ! cargo fmt --help >/dev/null 2>&1; then
+if ! which cargo >/dev/null 2>&1 || ! cargo +nightly fmt --help >/dev/null 2>&1; then
     echo "Unable to check the project’s code style, because rustfmt could not be run."
 
     if [ ! -t 1 ]; then
@@ -46,10 +51,10 @@ if ! which cargo >/dev/null 2>&1 || ! cargo fmt --help >/dev/null 2>&1; then
 fi
 
 echo "--Checking style--"
-cargo fmt --all -- --check
+cargo +nightly fmt --all -- --check
 if test $? != 0; then
     echo "--Checking style fail--"
-    echo "Please fix the above issues, either manually or by running: cargo fmt --all"
+    echo "Please fix the above issues, either manually or by running: cargo +nightly fmt --all"
 
     exit -1
 else
