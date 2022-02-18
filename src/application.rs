@@ -13,6 +13,7 @@ mod imp {
     use once_cell::sync::OnceCell;
 
     use super::*;
+    use crate::view;
 
     #[derive(Debug, Default)]
     pub struct Application {
@@ -24,6 +25,11 @@ mod imp {
         const NAME: &'static str = "Application";
         type Type = super::Application;
         type ParentType = gtk::Application;
+
+        fn class_init(_: &mut Self::Class) {
+            // Initialize all classes here
+            view::ImagesPanel::static_type();
+        }
     }
 
     impl ObjectImpl for Application {}

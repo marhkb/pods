@@ -1,7 +1,9 @@
 mod application;
 #[rustfmt::skip]
 mod config;
-mod images;
+mod model;
+mod utils;
+mod view;
 mod window;
 
 use std::str::FromStr;
@@ -10,10 +12,17 @@ use gettextrs::{gettext, LocaleCategory};
 use gtk::prelude::ApplicationExt;
 use gtk::{gio, glib};
 use log::LevelFilter;
+use once_cell::sync::Lazy;
 use syslog::Facility;
 
 use self::application::Application;
 use self::config::{GETTEXT_PACKAGE, LOCALEDIR, RESOURCES_FILE};
+
+pub static RUNTIME: Lazy<tokio::runtime::Runtime> =
+    Lazy::new(|| tokio::runtime::Runtime::new().unwrap());
+
+pub static PODMAN: Lazy<podman_api::Podman> =
+    Lazy::new(|| podman_api::Podman::unix("/run/user/1000/podman/podman.sock"));
 
 fn main() {
     // Prepare i18n
