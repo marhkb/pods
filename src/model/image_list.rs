@@ -3,10 +3,10 @@ use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::{gio, glib};
-use podman_api::opts::ImageListOpts;
+use podman_api::opts::{EventsOpts, ImageListOpts};
 
 use crate::model::Image;
-use crate::utils::do_async;
+use crate::utils::{self, do_async};
 use crate::PODMAN;
 
 mod imp {
@@ -93,7 +93,7 @@ mod imp {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
             obj.connect_items_changed(|self_, _, _, _| self_.notify("len"));
-            obj.fetch_images();
+            obj.setup();
         }
     }
 
@@ -187,7 +187,28 @@ impl ImageList {
         }
     }
 
-    fn fetch_images(&self) {
+    fn setup(&self) {
+        utils::run_stream(
+            PODMAN.events(
+                &EventsOpts::builder()
+                    .filters([("type".to_string(), vec!["image".to_string()])])
+                    .build(),
+            ),
+            clone!(@weak self as obj => @default-return glib::Continue(false), move |result| {
+                match result {
+                    Ok(event) => {
+                        log::debug!("Event: {event:?}");
+                        match event.action.as_str() {
+                            "remove" => obj.remove_image(&event.actor.id),
+                            other => log::warn!("Unknown action: {}", other),
+                        }
+                    },
+                    Err(e) => log::error!("Image list event error: {e}"),
+                };
+                glib::Continue(true)
+            }),
+        );
+
         do_async(
             glib::PRIORITY_DEFAULT_IDLE,
             async move {
