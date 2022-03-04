@@ -1,8 +1,8 @@
-use gtk::glib;
+use gtk::glib::{self, clone};
 use gtk::subclass::prelude::*;
 use podman_api::models::{LibpodImageInspectResponse, LibpodImageSummary};
 
-use crate::{model, utils};
+use crate::{model, utils, PODMAN};
 
 mod imp {
     use std::cell::Cell;
@@ -388,5 +388,23 @@ impl Image {
 
     pub fn virtual_size(&self) -> u64 {
         *self.imp().virtual_size.get().unwrap()
+    }
+}
+
+impl Image {
+    pub fn delete<F>(&self, op: F)
+    where
+        F: FnOnce(podman_api::Error) + 'static,
+    {
+        let image = podman_api::api::Image::new(&*PODMAN, self.id());
+        utils::do_async(
+            async move { image.remove().await },
+            clone!(@weak self as obj => move |result| {
+                if let Err(e) = result {
+                    log::error!("Error on removing image: {}", e);
+                    op(e);
+                }
+            }),
+        );
     }
 }

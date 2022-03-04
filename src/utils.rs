@@ -71,20 +71,16 @@ where
 }
 
 // Function from https://gitlab.gnome.org/GNOME/fractal/-/blob/fractal-next/src/utils.rs
-pub fn do_async<
+pub fn do_async<R, Fut, F>(tokio_fut: Fut, glib_closure: F)
+where
     R: Send + 'static,
-    F1: Future<Output = R> + Send + 'static,
-    F2: Future<Output = ()> + 'static,
-    FN: FnOnce(R) -> F2 + 'static,
->(
-    priority: glib::source::Priority,
-    tokio_fut: F1,
-    glib_closure: FN,
-) {
-    let handle = RUNTIME.spawn(async move { tokio_fut.await });
+    Fut: Future<Output = R> + Send + 'static,
+    F: FnOnce(R) + 'static,
+{
+    let handle = RUNTIME.spawn(tokio_fut);
 
-    glib::MainContext::default().spawn_local_with_priority(priority, async move {
-        glib_closure(handle.await.unwrap()).await
+    glib::MainContext::default().spawn_local_with_priority(Default::default(), async move {
+        glib_closure(handle.await.unwrap());
     });
 }
 

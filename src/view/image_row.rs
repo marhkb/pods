@@ -1,16 +1,15 @@
 use gtk::glib;
-use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 
-use crate::{model, utils, view, PODMAN};
+use crate::model;
 
 mod imp {
     use std::cell::RefCell;
 
     use adw::subclass::prelude::{ExpanderRowImpl, PreferencesRowImpl};
     use gettextrs::gettext;
-    use gtk::glib::closure;
+    use gtk::glib::{clone, closure};
     use gtk::CompositeTemplate;
     use once_cell::sync::Lazy;
 
@@ -48,7 +47,14 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
             klass.install_action("image.delete", None, move |widget, _, _| {
-                widget.delete();
+                widget.action_set_enabled("image.delete", false);
+                widget
+                    .image()
+                    .unwrap()
+                    .delete(clone!(@weak widget => move |_| {
+                        widget.action_set_enabled("image.delete", true);
+                        // TODO: Show a toast notification
+                    }));
             });
         }
 
@@ -65,7 +71,7 @@ mod imp {
                     "Image",
                     "The image of this ImageRow",
                     model::Image::static_type(),
-                    glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT,
+                    glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
                 )]
             });
             PROPERTIES.as_ref()
@@ -272,27 +278,5 @@ impl From<&model::Image> for ImageRow {
 impl ImageRow {
     pub fn image(&self) -> Option<model::Image> {
         self.imp().image.borrow().clone()
-    }
-
-    fn delete(&self) {
-        self.action_set_enabled("login.previous", false);
-
-        let image = podman_api::api::Image::new(&*PODMAN, self.image().unwrap().id());
-        utils::do_async(
-            glib::PRIORITY_DEFAULT_IDLE,
-            async move { image.remove().await },
-            clone!(@weak self as obj => move |result| async move {
-                obj.action_set_enabled("login.previous", true);
-                match result {
-                    Ok(_) => {
-                        obj.ancestor(view::ImagesPanel::static_type()).unwrap().downcast_ref::<view::ImagesPanel>().unwrap().remove_image(obj.image().unwrap().id());
-                    }
-                    Err(e)=> {
-                        log::error!("Error on removing image: {}", e);
-                        // TODO: Show a toast notification
-                    }
-                }
-            }),
-        );
     }
 }
