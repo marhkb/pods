@@ -6,8 +6,7 @@ use gtk::{gio, glib};
 use podman_api::opts::{EventsOpts, ImageListOpts};
 
 use crate::model::Image;
-use crate::utils::{self, do_async};
-use crate::PODMAN;
+use crate::{utils, PODMAN};
 
 mod imp {
     use std::cell::{Cell, RefCell};
@@ -209,27 +208,25 @@ impl ImageList {
             }),
         );
 
-        do_async(
-            glib::PRIORITY_DEFAULT_IDLE,
+        utils::do_async(
             async move {
                 PODMAN
                     .images()
                     .list(&ImageListOpts::builder().all(true).build())
                     .await
             },
-            clone!(@weak self as obj => move |result| async move {
+            clone!(@weak self as obj => move |result| {
                 match result {
                     Ok(summaries) => {
                         {
                             obj.set_to_fetch(summaries.len() as u32);
                             summaries.into_iter().for_each(|summary| {
-                                do_async(
-                                    glib::PRIORITY_DEFAULT_IDLE,
+                                utils::do_async(
                                     async move {
                                         PODMAN.images().get(summary.id.as_deref().unwrap()).inspect()
                                             .map_ok(|inspect_response| (summary, inspect_response)).await
                                     },
-                                    clone!(@weak obj => move |result| async move {
+                                    clone!(@weak obj => move |result| {
                                         match result {
                                             Ok((summary, inspect_response)) => {
                                                 obj.imp().list.borrow_mut().insert(
