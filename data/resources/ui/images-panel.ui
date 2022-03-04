@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
+
+  <menu id="menu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Prune unused images</attribute>
+        <attribute name="action">images.prune-unused</attribute>
+      </item>
+    </section>
+  </menu>
+
   <template class="ImagesPanel" parent="GtkWidget">
     <property name="layout-manager">
       <object class="GtkBoxLayout">
@@ -26,6 +36,13 @@
             <property name="title" translatable="yes">Images</property>
           </object>
         </property>
+
+        <child type="end">
+          <object class="GtkMenuButton">
+            <property name="icon-name">view-more-symbolic</property>
+            <property name="menu-model">menu</property>
+          </object>
+        </child>
 
       </object>
     </child>

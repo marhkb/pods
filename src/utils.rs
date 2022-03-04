@@ -1,9 +1,11 @@
 use std::collections::BTreeSet;
+use std::marker::PhantomData;
 use std::ops::Deref;
 
 use futures::{Future, Stream, StreamExt};
 use gettextrs::gettext;
-use gtk::glib;
+use gtk::prelude::{Cast, ListModelExt};
+use gtk::{gio, glib};
 use paste::paste;
 
 use crate::RUNTIME;
@@ -101,4 +103,87 @@ where
             }
         }
     });
+}
+
+pub trait ToTypedListModel {
+    fn to_typed_list_model<T>(self) -> TypedListModel<Self, T>
+    where
+        Self: Sized;
+}
+
+impl<M: glib::IsA<gio::ListModel>> ToTypedListModel for M {
+    fn to_typed_list_model<T>(self) -> TypedListModel<Self, T>
+    where
+        Self: Sized,
+    {
+        TypedListModel::from(self)
+    }
+}
+
+#[derive(Clone)]
+pub struct TypedListModel<M, T> {
+    model: M,
+    _phantom: PhantomData<T>,
+}
+
+impl<M, T> From<M> for TypedListModel<M, T> {
+    fn from(model: M) -> Self {
+        Self {
+            model,
+            _phantom: PhantomData,
+        }
+    }
+}
+
+impl<M, T> TypedListModel<M, T>
+where
+    M: glib::IsA<gio::ListModel>,
+    T: Clone,
+{
+    pub fn iter(&self) -> TypedListModelIter<M, T> {
+        self.to_owned().into()
+    }
+}
+
+pub struct TypedListModelIter<M, T> {
+    typed_list_store: TypedListModel<M, T>,
+    index: u32,
+}
+
+impl<M, T> From<TypedListModel<M, T>> for TypedListModelIter<M, T> {
+    fn from(typed_list_store: TypedListModel<M, T>) -> Self {
+        TypedListModelIter {
+            typed_list_store,
+            index: 0,
+        }
+    }
+}
+
+impl<M: glib::IsA<gio::ListModel>, T: glib::IsA<glib::Object>> Iterator
+    for TypedListModelIter<M, T>
+{
+    type Item = T;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        let t = self
+            .typed_list_store
+            .model
+            .item(self.index)
+            .and_then(|o| o.downcast::<T>().ok());
+        self.index += 1;
+        t
+    }
+}
+
+impl<M, T> IntoIterator for TypedListModel<M, T>
+where
+    M: glib::IsA<gio::ListModel>,
+    T: glib::IsA<glib::Object>,
+{
+    type Item = T;
+    type IntoIter = TypedListModelIter<M, T>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.into()
+    }
 }
