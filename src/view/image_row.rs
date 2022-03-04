@@ -1,8 +1,9 @@
 use gtk::glib;
+use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 
-use crate::model;
+use crate::{model, utils, view, PODMAN};
 
 mod imp {
     use std::cell::RefCell;
@@ -46,6 +47,9 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
+            klass.install_action("image.delete", None, move |widget, _, _| {
+                widget.delete();
+            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -268,5 +272,27 @@ impl From<&model::Image> for ImageRow {
 impl ImageRow {
     pub fn image(&self) -> Option<model::Image> {
         self.imp().image.borrow().clone()
+    }
+
+    fn delete(&self) {
+        self.action_set_enabled("login.previous", false);
+
+        let image = podman_api::api::Image::new(&*PODMAN, self.image().unwrap().id());
+        utils::do_async(
+            glib::PRIORITY_DEFAULT_IDLE,
+            async move { image.remove().await },
+            clone!(@weak self as obj => move |result| async move {
+                obj.action_set_enabled("login.previous", true);
+                match result {
+                    Ok(_) => {
+                        obj.ancestor(view::ImagesPanel::static_type()).unwrap().downcast_ref::<view::ImagesPanel>().unwrap().remove_image(obj.image().unwrap().id());
+                    }
+                    Err(e)=> {
+                        log::error!("Error on removing image: {}", e);
+                        // TODO: Show a toast notification
+                    }
+                }
+            }),
+        );
     }
 }

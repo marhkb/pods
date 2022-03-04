@@ -139,21 +139,29 @@ mod imp {
             .bind(&*self.image_group, "description", Some(obj));
 
             gtk::ClosureExpression::new::<Option<String>, _, _>(
-                fetched_params,
-                closure!(|images: Self::Type, fetched: u32, to_fetch: u32| {
-                    if fetched == to_fetch {
-                        let list = images.image_list();
-                        Some(gettext!(
-                            "{} images total, {}  {} unused images, {}",
-                            list.len(),
-                            glib::format_size(list.total_size()),
-                            list.num_unused_images(),
-                            glib::format_size(list.unused_size()),
-                        ))
-                    } else {
-                        None
+                [
+                    &fetched_params[0],
+                    &fetched_params[1],
+                    &image_list_expr
+                        .chain_property::<model::ImageList>("len")
+                        .upcast(),
+                ],
+                closure!(
+                    |images: Self::Type, fetched: u32, to_fetch: u32, len: u32| {
+                        if fetched == to_fetch {
+                            let list = images.image_list();
+                            Some(gettext!(
+                                "{} images total, {}  {} unused images, {}",
+                                len,
+                                glib::format_size(list.total_size()),
+                                list.num_unused_images(),
+                                glib::format_size(list.unused_size()),
+                            ))
+                        } else {
+                            None
+                        }
                     }
-                }),
+                ),
             )
             .bind(&*self.image_group, "description", Some(obj));
 
@@ -184,5 +192,9 @@ impl Default for ImagesPanel {
 impl ImagesPanel {
     pub fn image_list(&self) -> &model::ImageList {
         self.imp().image_list.get_or_init(model::ImageList::default)
+    }
+
+    pub fn remove_image(&self, id: &str) {
+        self.image_list().remove_image(id);
     }
 }

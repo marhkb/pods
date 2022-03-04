@@ -1,7 +1,7 @@
 use std::collections::BTreeSet;
 use std::ops::Deref;
 
-use futures::Future;
+use futures::{Future, Stream, StreamExt};
 use gettextrs::gettext;
 use gtk::glib;
 use paste::paste;
@@ -85,5 +85,24 @@ pub fn do_async<
 
     glib::MainContext::default().spawn_local_with_priority(priority, async move {
         glib_closure(handle.await.unwrap()).await
+    });
+}
+
+pub fn run_stream<S, I, F>(mut stream: S, glib_closure: F)
+where
+    S: Stream<Item = I> + Send + Unpin + 'static,
+    I: Send + 'static,
+    F: Fn(I) -> glib::Continue + 'static,
+{
+    let (sender, receiver) = glib::MainContext::sync_channel::<I>(Default::default(), 5);
+
+    receiver.attach(None, glib_closure);
+
+    RUNTIME.spawn(async move {
+        while let Some(item) = stream.next().await {
+            if sender.send(item).is_err() {
+                break;
+            }
+        }
     });
 }
