@@ -30,6 +30,39 @@ jobs:
       options: --privileged
     steps:
       - uses: actions/checkout@v2
+
+      - name: Cache flatpak
+        id: cache-flatpak
+        uses: actions/cache@v2
+        with:
+          path: .flatpak-builder
+          key: ${{ runner.os }}-flatpak-${{ hashFiles('build-aux/com.github.marhkb.Symphony.Devel.json') }}
+          restore-keys: ${{ runner.os }}-flatpak-
+
+      - name: Cache cargo
+        id: cache-cargo
+        uses: actions/cache@v2
+        with:
+          path: /github/home/.cargo
+          key: ${{ runner.os }}-cargo-${{ hashFiles('Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-cargo-
+
+      - name: Cache target
+        id: cache-target
+        uses: actions/cache@v2
+        with:
+          path: target
+          key: ${{ runner.os }}-target-${{ hashFiles('target/CACHEDIR.TAG') }}
+          restore-keys: ${{ runner.os }}-target-
+
+      - name: Create dummy versions of configured file
+        run: |
+          sed \
+            -e 's/str =.*;/str = "";/g' \
+            -e 's/i32 =.*;/i32 = 0;/g' \
+            src/config.rs.in \
+            > src/config.rs
+
       - name: Build dependencies
         run: |
           flatpak-builder \
@@ -38,13 +71,13 @@ jobs:
           --keep-build-dirs \
           --stop-at=symphony \
           flatpak_app build-aux/com.github.marhkb.Symphony.Devel.json
+
       - name: Run clippy
         run: |
-          echo "cargo clippy -- -D warnings" \
-          | flatpak-builder \
-          --disable-rofiles-fuse \
-          --build-shell=symphony \
-          flatpak_app build-aux/com.github.marhkb.Symphony.Devel.json
+          flatpak-builder \
+          --run \
+          flatpak_app build-aux/com.github.marhkb.Symphony.Devel.json \
+          cargo clippy -- -D warnings
 
   flatpak:
     name: Flatpak
