@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="ImagesPruneDialog" parent="GtkDialog">
+    <property name="height-request">350</property>
+    <property name="width-request">450</property>
+    <property name="modal">True</property>
+
+    <child type="action">
+      <object class="GtkButton" id="button_cancel">
+        <property name="label">Cancel</property>
+      </object>
+    </child>
+
+    <child type="action">
+      <object class="GtkButton" id="button_prune">
+        <property name="label">Prune</property>
+        <style>
+          <class name="destructive-action"/>
+        </style>
+      </object>
+    </child>
+
+    <child internal-child="content_area">
+      <object class="GtkBox">
+        <child>
+          <object class="AdwStatusPage" id="status_page">
+            <property name="icon-name">emblem-ok-symbolic</property>
+            <property name="title" translatable="yes">No Images To Be Pruned</property>
+            <property name="vexpand">True</property>
+          </object>
+        </child>
+        <child>
+
+          <object class="GtkScrolledWindow" id="scrolled_window">
+            <property name="vexpand">True</property>
+            <property name="hscrollbar-policy">never</property>
+            <child>
+
+              <object class="GtkListView" id="list_view">
+                <binding name="model">
+                  <lookup name="images-to-prune">ImagesPruneDialog</lookup>
+                </binding>
+                <property name="factory">
+                  <object class="GtkBuilderListItemFactory">
+                    <property name="bytes">
+                      <![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GtkListItem">
+    <property name="activatable">False</property>
+    <property name="child">
+      <object class="ImageRowSimple">
+        <property name="margin-top">3</property>
+        <property name="margin-bottom">3</property>
+        <binding name="image">
+          <lookup name="item">GtkListItem</lookup>
+        </binding>
+      </object>
+    </property>
+  </template>
+</interface>
+                ]]>
+                    </property>
+                  </object>
+                </property>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <action-widgets>
+      <action-widget response="cancel">button_cancel</action-widget>
+      <action-widget response="accept">button_prune</action-widget>
+    </action-widgets>
+
+  </template>
+</interface>

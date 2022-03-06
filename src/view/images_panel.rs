@@ -2,7 +2,8 @@ use gtk::glib;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 
-use crate::model;
+use crate::utils::ToTypedListModel;
+use crate::{model, view};
 
 mod imp {
     use gettextrs::gettext;
@@ -12,7 +13,6 @@ mod imp {
     use once_cell::unsync::OnceCell;
 
     use super::*;
-    use crate::view;
 
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Symphony/ui/images-panel.ui")]
@@ -44,6 +44,9 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
+            klass.install_action("images.prune-unused", None, move |widget, _, _| {
+                widget.show_prune_dialog();
+            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -194,7 +197,26 @@ impl ImagesPanel {
         self.imp().image_list.get_or_init(model::ImageList::default)
     }
 
-    pub fn remove_image(&self, id: &str) {
-        self.image_list().remove_image(id);
+    fn show_prune_dialog(&self) {
+        let dialog = view::ImagesPruneDialog::from(self.image_list());
+        dialog.set_transient_for(Some(
+            &self.root().unwrap().downcast::<gtk::Window>().unwrap(),
+        ));
+        dialog.run_async(|dialog, response| {
+            if matches!(response, gtk::ResponseType::Accept) {
+                dialog
+                    .images_to_prune()
+                    .unwrap()
+                    .to_owned()
+                    .to_typed_list_model::<model::Image>()
+                    .iter()
+                    .for_each(|image| {
+                        image.delete(|_| {
+                            // TODO: Show a toast notification
+                        })
+                    });
+            }
+            dialog.close();
+        });
     }
 }
