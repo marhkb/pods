@@ -5,8 +5,7 @@ use gtk::subclass::prelude::*;
 use gtk::{gio, glib};
 use podman_api::opts::{EventsOpts, ImageListOpts};
 
-use crate::model::Image;
-use crate::{utils, PODMAN};
+use crate::{model, utils, PODMAN};
 
 mod imp {
     use std::cell::{Cell, RefCell};
@@ -19,7 +18,7 @@ mod imp {
     #[derive(Debug, Default)]
     pub struct ImageList {
         pub fetched: Cell<u32>,
-        pub list: RefCell<IndexMap<String, Image>>,
+        pub list: RefCell<IndexMap<String, model::Image>>,
         pub to_fetch: Cell<u32>,
     }
 
@@ -98,7 +97,7 @@ mod imp {
 
     impl ListModelImpl for ImageList {
         fn item_type(&self, _list_model: &Self::Type) -> glib::Type {
-            Image::static_type()
+            model::Image::static_type()
         }
 
         fn n_items(&self, _list_model: &Self::Type) -> u32 {
@@ -156,7 +155,12 @@ impl ImageList {
     }
 
     pub fn total_size(&self) -> u64 {
-        self.imp().list.borrow().values().map(Image::size).sum()
+        self.imp()
+            .list
+            .borrow()
+            .values()
+            .map(model::Image::size)
+            .sum()
     }
 
     pub fn num_unused_images(&self) -> usize {
@@ -174,7 +178,7 @@ impl ImageList {
             .borrow()
             .values()
             .filter(|image| image.repo_tags().is_empty())
-            .map(Image::size)
+            .map(model::Image::size)
             .sum()
     }
 
@@ -231,7 +235,7 @@ impl ImageList {
                                             Ok((summary, inspect_response)) => {
                                                 obj.imp().list.borrow_mut().insert(
                                                     summary.id.clone().unwrap(),
-                                                    Image::from_libpod(summary, inspect_response)
+                                                    model::Image::from_libpod(summary, inspect_response)
                                                 );
 
                                                 obj.set_fetched(obj.fetched() + 1);
