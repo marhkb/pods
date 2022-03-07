@@ -7,6 +7,10 @@
   color: @dark_1;
 }
 
+.image-to-be-deleted .title {
+  color: @red_3;
+}
+
 .property-row {
   margin: 9px 12px;
   font-size: 0.95em;

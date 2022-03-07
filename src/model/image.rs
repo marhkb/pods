@@ -1,4 +1,5 @@
 use gtk::glib::{self, clone};
+use gtk::prelude::ObjectExt;
 use gtk::subclass::prelude::*;
 use podman_api::models::{LibpodImageInspectResponse, LibpodImageSummary};
 
@@ -34,6 +35,7 @@ mod imp {
         pub shared_size: OnceCell<u64>,
         pub user: OnceCell<String>,
         pub virtual_size: OnceCell<u64>,
+        pub to_be_deleted: Cell<bool>,
     }
 
     #[glib::object_subclass]
@@ -190,6 +192,13 @@ mod imp {
                         u64::default(),
                         glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
                     ),
+                    glib::ParamSpecBoolean::new(
+                        "to-be-deleted",
+                        "To Be Deleted",
+                        "Whether this image is to be deleted",
+                        bool::default(),
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                    ),
                 ]
             });
             PROPERTIES.as_ref()
@@ -222,6 +231,7 @@ mod imp {
                 "shared-size" => self.shared_size.set(value.get().unwrap()).unwrap(),
                 "user" => self.user.set(value.get().unwrap()).unwrap(),
                 "virtual-size" => self.virtual_size.set(value.get().unwrap()).unwrap(),
+                "to-be-deleted" => self.to_be_deleted.set(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
@@ -247,6 +257,7 @@ mod imp {
                 "shared-size" => obj.shared_size().to_value(),
                 "user" => obj.user().to_value(),
                 "virtual-size" => obj.virtual_size().to_value(),
+                "to-be-deleted" => obj.to_be_deleted().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -389,6 +400,18 @@ impl Image {
     pub fn virtual_size(&self) -> u64 {
         *self.imp().virtual_size.get().unwrap()
     }
+
+    pub fn to_be_deleted(&self) -> bool {
+        self.imp().to_be_deleted.get()
+    }
+
+    fn set_to_be_deleted(&self, value: bool) {
+        if self.to_be_deleted() == value {
+            return;
+        }
+        self.imp().to_be_deleted.set(value);
+        self.notify("to-be-deleted");
+    }
 }
 
 impl Image {
@@ -396,6 +419,8 @@ impl Image {
     where
         F: FnOnce(podman_api::Error) + 'static,
     {
+        self.set_to_be_deleted(true);
+
         let image = podman_api::api::Image::new(&*PODMAN, self.id());
         utils::do_async(
             async move { image.remove().await },
