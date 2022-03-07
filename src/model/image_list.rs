@@ -190,28 +190,7 @@ impl ImageList {
         }
     }
 
-    fn setup(&self) {
-        utils::run_stream(
-            PODMAN.events(
-                &EventsOpts::builder()
-                    .filters([("type".to_string(), vec!["image".to_string()])])
-                    .build(),
-            ),
-            clone!(@weak self as obj => @default-return glib::Continue(false), move |result| {
-                match result {
-                    Ok(event) => {
-                        log::debug!("Event: {event:?}");
-                        match event.action.as_str() {
-                            "remove" => obj.remove_image(&event.actor.id),
-                            other => log::warn!("Unknown action: {}", other),
-                        }
-                    },
-                    Err(e) => log::error!("Image list event error: {e}"),
-                };
-                glib::Continue(true)
-            }),
-        );
-
+    fn refresh(&self) {
         utils::do_async(
             async move {
                 PODMAN
@@ -221,9 +200,15 @@ impl ImageList {
             },
             clone!(@weak self as obj => move |result| {
                 match result {
-                    Ok(summaries) => {
+                    Ok(mut summaries) => {
                         {
+                            summaries.retain(|summary| {
+                                !obj.imp().list.borrow().contains_key(summary.id.as_ref().unwrap())
+                            });
+
+                            obj.set_fetched(0);
                             obj.set_to_fetch(summaries.len() as u32);
+
                             summaries.into_iter().for_each(|summary| {
                                 utils::do_async(
                                     async move {
@@ -256,5 +241,31 @@ impl ImageList {
                 }
             }),
         );
+    }
+
+    fn setup(&self) {
+        utils::run_stream(
+            PODMAN.events(
+                &EventsOpts::builder()
+                    .filters([("type".to_string(), vec!["image".to_string()])])
+                    .build(),
+            ),
+            clone!(@weak self as obj => @default-return glib::Continue(false), move |result| {
+                match result {
+                    Ok(event) => {
+                        log::debug!("Event: {event:?}");
+                        match event.action.as_str() {
+                            "remove" => obj.remove_image(&event.actor.id),
+                            "build" => obj.refresh(),
+                            other => log::warn!("Unknown action: {}", other),
+                        }
+                    },
+                    Err(e) => log::error!("Image list event error: {e}"),
+                };
+                glib::Continue(true)
+            }),
+        );
+
+        self.refresh();
     }
 }
