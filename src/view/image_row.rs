@@ -115,21 +115,30 @@ mod imp {
                 .bind(obj, "title", Some(obj));
 
             let css_classes = obj.css_classes();
-            repo_tags_expr
-                .chain_closure::<Vec<String>>(closure!(
-                    |_: glib::Object, repo_tags: utils::BoxedStringVec| {
-                        repo_tags
-                            .iter()
-                            .next()
-                            .map(|_| None)
-                            .unwrap_or_else(|| Some(glib::GString::from("image-tag-none")))
-                            .iter()
-                            .chain(css_classes.iter())
-                            .cloned()
-                            .collect::<Vec<_>>()
-                    }
-                ))
-                .bind(obj, "css-classes", Some(obj));
+            gtk::ClosureExpression::new::<Vec<String>, _, _>(
+                &[
+                    repo_tags_expr,
+                    image_expr.chain_property::<model::Image>("to-be-deleted"),
+                ],
+                closure!(|_: glib::Object,
+                          repo_tags: utils::BoxedStringVec,
+                          to_be_deleted: bool| {
+                    repo_tags
+                        .iter()
+                        .next()
+                        .map(|_| None)
+                        .unwrap_or_else(|| Some(glib::GString::from("image-tag-none")))
+                        .into_iter()
+                        .chain(if to_be_deleted {
+                            Some(glib::GString::from("image-to-be-deleted"))
+                        } else {
+                            None
+                        })
+                        .chain(css_classes.iter().cloned())
+                        .collect::<Vec<_>>()
+                }),
+            )
+            .bind(obj, "css-classes", Some(obj));
 
             image_expr
                 .chain_property::<model::Image>("id")
