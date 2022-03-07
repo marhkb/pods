@@ -1,9 +1,10 @@
 use std::borrow::Borrow;
 
-use gtk::glib;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
+use gtk::{gio, glib};
 
+use crate::config::APP_ID;
 use crate::utils::ToTypedListModel;
 use crate::{model, view};
 
@@ -106,6 +107,10 @@ mod imp {
 
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
+
+            gio::Settings::new(APP_ID)
+                .bind("show-intermediate-images", obj, "show-intermediates")
+                .build();
 
             obj.setup_image_list_view();
 
