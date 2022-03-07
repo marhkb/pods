@@ -91,7 +91,6 @@ mod imp {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
             obj.connect_items_changed(|self_, _, _, _| self_.notify("len"));
-            obj.setup();
         }
     }
 
@@ -254,7 +253,7 @@ impl ImageList {
         );
     }
 
-    fn setup(&self) {
+    pub fn setup(&self) {
         utils::run_stream(
             PODMAN.events(
                 &EventsOpts::builder()

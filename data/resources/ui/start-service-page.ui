@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="StartServicePage" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBoxLayout">
+        <property name="orientation">vertical</property>
+      </object>
+    </property>
+
+    <child>
+      <object class="AdwHeaderBar" id="header_bar"/>
+    </child>
+
+    <child>
+      <object class="AdwStatusPage" id="status_page">
+        <property name="description" translatable="yes">The podman service is currently not running</property>
+        <property name="title" translatable="yes">Welcome to Symphony</property>
+        <property name="vexpand">True</property>
+
+        <child>
+          <object class="GtkButton">
+            <property name="action-name">app.start-service</property>
+            <property name="halign">center</property>
+            <property name="label" translatable="yes">_Start Podman Service</property>
+            <property name="use-underline">True</property>
+            <style>
+              <class name="pill"/>
+              <class name="suggested-action"/>
+            </style>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>
