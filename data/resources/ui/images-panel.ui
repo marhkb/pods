@@ -4,6 +4,12 @@
   <menu id="menu">
     <section>
       <item>
+        <attribute name="label" translatable="yes">Show intermediate images</attribute>
+        <attribute name="action">images.show-intermediates</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
         <attribute name="label" translatable="yes">Prune unused images</attribute>
         <attribute name="action">images.prune-unused</attribute>
       </item>
