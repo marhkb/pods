@@ -1,3 +1,5 @@
+use std::borrow::Borrow;
+
 use gtk::glib;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
@@ -6,6 +8,8 @@ use crate::utils::ToTypedListModel;
 use crate::{model, view};
 
 mod imp {
+    use std::cell::Cell;
+
     use gettextrs::gettext;
     use gtk::glib::closure;
     use gtk::CompositeTemplate;
@@ -18,6 +22,7 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Symphony/ui/images-panel.ui")]
     pub struct ImagesPanel {
         pub image_list: OnceCell<model::ImageList>,
+        pub show_intermediates: Cell<bool>,
         #[template_child]
         pub header_bar: TemplateChild<adw::HeaderBar>,
         #[template_child]
@@ -44,6 +49,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
+            klass.install_property_action("images.show-intermediates", "show-intermediates");
             klass.install_action("images.prune-unused", None, move |widget, _, _| {
                 widget.show_prune_dialog();
             });
@@ -57,26 +63,51 @@ mod imp {
     impl ObjectImpl for ImagesPanel {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecObject::new(
-                    "image-list",
-                    "Image List",
-                    "The list of images",
-                    model::ImageList::static_type(),
-                    glib::ParamFlags::READABLE,
-                )]
+                vec![
+                    glib::ParamSpecObject::new(
+                        "image-list",
+                        "Image List",
+                        "The list of images",
+                        model::ImageList::static_type(),
+                        glib::ParamFlags::READABLE,
+                    ),
+                    glib::ParamSpecBoolean::new(
+                        "show-intermediates",
+                        "Show Intermediates",
+                        "Whether to also show intermediate images",
+                        false,
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                    ),
+                ]
             });
             PROPERTIES.as_ref()
+        }
+
+        fn set_property(
+            &self,
+            obj: &Self::Type,
+            _id: usize,
+            value: &glib::Value,
+            pspec: &glib::ParamSpec,
+        ) {
+            match pspec.name() {
+                "show-intermediates" => obj.set_show_intermediates(value.get().unwrap()),
+                _ => unimplemented!(),
+            }
         }
 
         fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
                 "image-list" => obj.image_list().to_value(),
+                "show-intermediates" => obj.show_intermediates().to_value(),
                 _ => unimplemented!(),
             }
         }
 
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
+
+            obj.setup_image_list_view();
 
             let image_list_expr = Self::Type::this_expression("image-list");
 
@@ -195,6 +226,36 @@ impl Default for ImagesPanel {
 impl ImagesPanel {
     pub fn image_list(&self) -> &model::ImageList {
         self.imp().image_list.get_or_init(model::ImageList::default)
+    }
+
+    pub fn show_intermediates(&self) -> bool {
+        self.imp().show_intermediates.get()
+    }
+
+    pub fn set_show_intermediates(&self, value: bool) {
+        if self.show_intermediates() == value {
+            return;
+        }
+        self.imp().show_intermediates.set(value);
+        self.notify("show-intermediates");
+
+        self.setup_image_list_view();
+    }
+
+    fn setup_image_list_view(&self) {
+        let list_box = self.imp().list_box.borrow();
+        if self.show_intermediates() {
+            list_box.unset_filter_func();
+        } else {
+            list_box.set_filter_func(|row| {
+                let image = row
+                    .downcast_ref::<view::ImageRow>()
+                    .unwrap()
+                    .image()
+                    .unwrap();
+                !image.dangling() && image.containers() > 0
+            });
+        }
     }
 
     fn show_prune_dialog(&self) {
