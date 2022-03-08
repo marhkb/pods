@@ -256,7 +256,7 @@ impl ImageList {
                         log::debug!("Event: {event:?}");
                         match event.action.as_str() {
                             "remove" => obj.remove_image(&event.actor.id),
-                            "build" => obj.refresh(),
+                            "build" | "pull" => obj.refresh(),
                             other => log::warn!("Unknown action: {}", other),
                         }
                     },
