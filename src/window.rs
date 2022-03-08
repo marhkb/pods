@@ -1,3 +1,5 @@
+use std::time::Duration;
+
 use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
@@ -30,6 +32,8 @@ mod imp {
         pub panel_stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub images_panel: TemplateChild<view::ImagesPanel>,
+        #[template_child]
+        pub connection_lost_page: TemplateChild<view::ConnectionLostPage>,
     }
 
     #[glib::object_subclass]
@@ -195,11 +199,27 @@ impl Window {
                     let imp = obj.imp();
                     imp.main_stack.set_visible_child(&*imp.leaflet);
                     imp.images_panel.image_list().setup();
+
+                    obj.periodic_service_check();
                 }
                 Err(e) => {
                     log::error!("Could not connect to podman: {e}");
                     // TODO: Show a toast message
                 }
+            }),
+        );
+    }
+
+    fn periodic_service_check(&self) {
+        utils::do_async(
+            async {
+                while PODMAN.ping().await.is_ok() {
+                    tokio::time::sleep(Duration::from_secs(1)).await;
+                }
+            },
+            clone!(@weak self as obj => move |_| {
+                let imp = obj.imp();
+                imp.main_stack.set_visible_child(&*imp.connection_lost_page);
             }),
         );
     }

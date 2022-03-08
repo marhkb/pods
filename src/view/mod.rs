@@ -1,3 +1,4 @@
+mod connection_lost_page;
 mod image_row;
 mod image_row_simple;
 mod images_panel;
@@ -6,6 +7,7 @@ mod property_row;
 mod sidebar_row;
 mod start_service_page;
 
+pub use self::connection_lost_page::ConnectionLostPage;
 pub use self::image_row::ImageRow;
 pub use self::image_row_simple::ImageRowSimple;
 pub use self::images_panel::ImagesPanel;

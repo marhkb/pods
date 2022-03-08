@@ -129,6 +129,10 @@
           </object>
         </child>
 
+        <child>
+          <object class="ConnectionLostPage" id="connection_lost_page"/>
+        </child>
+
       </object>
     </property>
   </template>
