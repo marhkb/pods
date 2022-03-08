@@ -262,18 +262,21 @@ impl ImageList {
                     .build(),
             ),
             clone!(@weak self as obj => @default-return glib::Continue(false), move |result| {
-                match result {
+                glib::Continue(match result {
                     Ok(event) => {
                         log::debug!("Event: {event:?}");
                         match event.action.as_str() {
                             "remove" => obj.remove_image(&event.actor.id),
                             "build" | "pull" => obj.refresh(),
-                            other => log::warn!("Unknown action: {}", other),
+                            other => log::warn!("Unknown action: {other}"),
                         }
+                        true
                     },
-                    Err(e) => log::error!("Image list event error: {e}"),
-                };
-                glib::Continue(true)
+                    Err(e) => {
+                        log::error!("Stopping image event stream due to error: {e}");
+                        false
+                    }
+                })
             }),
         );
 
