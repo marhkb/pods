@@ -198,46 +198,57 @@ impl ImageList {
                     .list(&ImageListOpts::builder().all(true).build())
                     .await
             },
-            clone!(@weak self as obj => move |result| {
-                match result {
-                    Ok(mut summaries) => {
-                        {
-                            summaries.retain(|summary| {
-                                !obj.imp().list.borrow().contains_key(summary.id.as_ref().unwrap())
-                            });
+            clone!(@weak self as obj => move |result| match result {
+                Ok(mut summaries) => {
+                    let to_remove = obj
+                        .imp()
+                        .list
+                        .borrow()
+                        .keys()
+                        .filter(|id| {
+                            !summaries
+                                .iter()
+                                .any(|summary| summary.id.as_ref() == Some(id))
+                        })
+                        .cloned()
+                        .collect::<Vec<_>>();
+                    to_remove.iter().for_each(|id| obj.remove_image(id));
 
-                            obj.set_fetched(0);
-                            obj.set_to_fetch(summaries.len() as u32);
+                    summaries.retain(|summary| {
+                        !obj.imp().list.borrow().contains_key(summary.id.as_ref().unwrap())
+                    });
 
-                            summaries.into_iter().for_each(|summary| {
-                                utils::do_async(
-                                    async move {
-                                        PODMAN.images().get(summary.id.as_deref().unwrap()).inspect()
-                                            .map_ok(|inspect_response| (summary, inspect_response)).await
-                                    },
-                                    clone!(@weak obj => move |result| {
-                                        match result {
-                                            Ok((summary, inspect_response)) => {
-                                                obj.imp().list.borrow_mut().insert(
-                                                    summary.id.clone().unwrap(),
-                                                    model::Image::from_libpod(summary, inspect_response)
-                                                );
+                    obj.set_fetched(0);
+                    obj.set_to_fetch(summaries.len() as u32);
 
-                                                obj.set_fetched(obj.fetched() + 1);
-                                                obj.items_changed(obj.len() - 1, 0, 1);
-                                            }
-                                            Err(e) => {
-                                                log::error!("Error on inspecting image: {}", e);
-                                            }
-                                        }
-                                    })
-                                );
-                            });
-                        }
-                    }
-                    Err(e) => {
-                        log::error!("Error on retrieving images: {}", e);
-                    }
+                    summaries.into_iter().for_each(|summary| {
+                        utils::do_async(
+                            async move {
+                                PODMAN.images().get(summary.id.as_deref().unwrap()).inspect()
+                                    .map_ok(|inspect_response| (summary, inspect_response)).await
+                            },
+                            clone!(@weak obj => move |result| {
+                                match result {
+                                    Ok((summary, inspect_response)) => {
+                                        obj.imp().list.borrow_mut().insert(
+                                            summary.id.clone().unwrap(),
+                                            model::Image::from_libpod(summary, inspect_response)
+                                        );
+
+                                        obj.set_fetched(obj.fetched() + 1);
+                                        obj.items_changed(obj.len() - 1, 0, 1);
+                                    }
+                                    Err(e) => {
+                                        log::error!("Error on inspecting image: {}", e);
+                                    }
+                                }
+                            })
+                        );
+                    });
+                }
+                Err(e) => {
+                    log::error!("Error on retrieving images: {}", e);
+                    // TODO: Show a toast notification
                 }
             }),
         );
