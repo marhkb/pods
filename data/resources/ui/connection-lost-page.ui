@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="ConnectionLostPage" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBoxLayout">
+        <property name="orientation">vertical</property>
+      </object>
+    </property>
+
+    <child>
+      <object class="AdwHeaderBar" id="header_bar"/>
+    </child>
+
+    <child>
+      <object class="AdwStatusPage" id="status_page">
+        <property name="description" translatable="yes">
+An unexpected error has occurred and Symphony has lost connection to Podman Unix.If the connection has been disconnected unintentionally, you can try to re-establish it.
+</property>
+        <property name="title" translatable="yes">Lost Connection to Podman</property>
+        <property name="icon-name">face-sad-symbolic</property>
+        <property name="vexpand">True</property>
+
+        <child>
+          <object class="GtkButton">
+            <property name="action-name">app.start-service</property>
+            <property name="halign">center</property>
+            <property name="label" translatable="yes">_Restart Podman Service</property>
+            <property name="use-underline">True</property>
+            <style>
+              <class name="pill"/>
+              <class name="suggested-action"/>
+            </style>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>

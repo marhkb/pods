@@ -1,3 +1,5 @@
+use std::time::Duration;
+
 use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
@@ -5,7 +7,7 @@ use gtk::{gio, glib};
 
 use crate::application::Application;
 use crate::config::{APP_ID, PROFILE};
-use crate::view;
+use crate::{utils, view, PODMAN};
 
 mod imp {
     use adw::subclass::prelude::AdwApplicationWindowImpl;
@@ -17,13 +19,21 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Symphony/ui/window.ui")]
     pub struct Window {
         #[template_child]
+        pub main_stack: TemplateChild<gtk::Stack>,
+        #[template_child]
+        pub start_service_page: TemplateChild<view::StartServicePage>,
+        #[template_child]
         pub leaflet: TemplateChild<adw::Leaflet>,
         #[template_child]
         pub sidebar: TemplateChild<gtk::Box>,
         #[template_child]
         pub list_box: TemplateChild<gtk::ListBox>,
         #[template_child]
-        pub stack: TemplateChild<gtk::Stack>,
+        pub panel_stack: TemplateChild<gtk::Stack>,
+        #[template_child]
+        pub images_panel: TemplateChild<view::ImagesPanel>,
+        #[template_child]
+        pub connection_lost_page: TemplateChild<view::ConnectionLostPage>,
     }
 
     #[glib::object_subclass]
@@ -40,6 +50,8 @@ mod imp {
                     .leaflet
                     .navigate(adw::NavigationDirection::Back);
             });
+
+            view::StartServicePage::static_type();
         }
 
         // You must call `Widget`'s `init_template()` within `instance_init()`.
@@ -61,7 +73,7 @@ mod imp {
             obj.load_window_size();
 
             self.list_box.bind_model(
-                Some(&gtk::SingleSelection::new(Some(&self.stack.pages()))),
+                Some(&gtk::SingleSelection::new(Some(&self.panel_stack.pages()))),
                 |obj| {
                     let stack_page = obj.downcast_ref::<gtk::StackPage>().unwrap();
 
@@ -75,6 +87,8 @@ mod imp {
             );
 
             obj.setup_navigation();
+
+            obj.check_service();
         }
     }
 
@@ -149,7 +163,7 @@ impl Window {
                     let imp = obj.imp();
 
                     imp.leaflet.navigate(adw::NavigationDirection::Forward);
-                    imp.stack.set_visible_child_name(
+                    imp.panel_stack.set_visible_child_name(
                         row
                             .child()
                             .unwrap()
@@ -171,9 +185,42 @@ impl Window {
         } else {
             imp.list_box.select_row(
                 imp.list_box
-                    .row_at_index(imp.stack.pages().selection().minimum() as i32)
+                    .row_at_index(imp.panel_stack.pages().selection().minimum() as i32)
                     .as_ref(),
             );
         }
+    }
+
+    pub fn check_service(&self) {
+        utils::do_async(
+            PODMAN.ping(),
+            clone!(@weak self as obj => move |result| match result {
+                Ok(_) => {
+                    let imp = obj.imp();
+                    imp.main_stack.set_visible_child(&*imp.leaflet);
+                    imp.images_panel.image_list().setup();
+
+                    obj.periodic_service_check();
+                }
+                Err(e) => {
+                    log::error!("Could not connect to podman: {e}");
+                    // TODO: Show a toast message
+                }
+            }),
+        );
+    }
+
+    fn periodic_service_check(&self) {
+        utils::do_async(
+            async {
+                while PODMAN.ping().await.is_ok() {
+                    tokio::time::sleep(Duration::from_secs(1)).await;
+                }
+            },
+            clone!(@weak self as obj => move |_| {
+                let imp = obj.imp();
+                imp.main_stack.set_visible_child(&*imp.connection_lost_page);
+            }),
+        );
     }
 }

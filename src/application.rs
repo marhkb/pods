@@ -1,3 +1,5 @@
+use std::process;
+
 use gettextrs::gettext;
 use glib::clone;
 use gtk::prelude::*;
@@ -107,6 +109,13 @@ impl Application {
             app.show_about_dialog();
         }));
         self.add_action(&action_about);
+
+        // Start podman user service
+        let action_start_service = gio::SimpleAction::new("start-service", None);
+        action_start_service.connect_activate(clone!(@weak self as app => move |_, _| {
+            app.start_service();
+        }));
+        self.add_action(&action_start_service);
     }
 
     // Sets up keyboard shortcuts
@@ -142,6 +151,36 @@ impl Application {
             .build();
 
         dialog.present();
+    }
+
+    fn start_service(&self) {
+        match process::Command::new("flatpak-spawn")
+            .args(&[
+                "--host",
+                "systemctl",
+                "--user",
+                "enable",
+                "--now",
+                "podman.socket",
+            ])
+            .output()
+        {
+            Ok(output) => {
+                if output.status.success() {
+                    self.main_window().check_service()
+                } else {
+                    log::error!(
+                        "command to start podman returned exit code: {}",
+                        output.status
+                    );
+                    // TODO: Show a toast message
+                }
+            }
+            Err(e) => {
+                log::error!("Failed to execute command to start podman: {e}");
+                // TODO: Show a toast message
+            }
+        }
     }
 
     pub fn run(&self) {
