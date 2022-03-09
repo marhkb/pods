@@ -7,8 +7,6 @@
         <attribute name="label" translatable="yes">Show intermediate images</attribute>
         <attribute name="action">images.show-intermediates</attribute>
       </item>
-    </section>
-    <section>
       <item>
         <attribute name="label" translatable="yes">Prune unused images</attribute>
         <attribute name="action">images.prune-unused</attribute>
@@ -33,7 +31,8 @@
             <property name="icon-name">go-previous-symbolic</property>
             <binding name="visible">
               <lookup name="sensitive">back_button</lookup>
-            </binding>>
+            </binding>
+            >
           </object>
         </child>
 
