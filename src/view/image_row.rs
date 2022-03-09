@@ -71,7 +71,7 @@ mod imp {
                     "Image",
                     "The image of this ImageRow",
                     model::Image::static_type(),
-                    glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
+                    glib::ParamFlags::READWRITE,
                 )]
             });
             PROPERTIES.as_ref()
