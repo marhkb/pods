@@ -11,10 +11,10 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default)]
-    pub struct ImageConfig {
-        pub cmd: OnceCell<Option<String>>,
-        pub entrypoint: OnceCell<Option<String>>,
-        pub exposed_ports: OnceCell<utils::BoxedStringBTreeSet>,
+    pub(crate) struct ImageConfig {
+        pub(super) cmd: OnceCell<Option<String>>,
+        pub(super) entrypoint: OnceCell<Option<String>>,
+        pub(super) exposed_ports: OnceCell<utils::BoxedStringBTreeSet>,
     }
 
     #[glib::object_subclass]
@@ -81,11 +81,11 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub struct ImageConfig(ObjectSubclass<imp::ImageConfig>);
+    pub(crate) struct ImageConfig(ObjectSubclass<imp::ImageConfig>);
 }
 
 impl ImageConfig {
-    pub fn from_libpod(config: podman_api::models::ImageConfig) -> Self {
+    pub(crate) fn from_libpod(config: podman_api::models::ImageConfig) -> Self {
         glib::Object::new(&[
             (
                 "cmd",
@@ -114,15 +114,15 @@ impl ImageConfig {
         .expect("Failed to create ImageConfig")
     }
 
-    pub fn cmd(&self) -> Option<&str> {
+    pub(crate) fn cmd(&self) -> Option<&str> {
         self.imp().cmd.get().unwrap().as_deref()
     }
 
-    pub fn entrypoint(&self) -> Option<&str> {
+    pub(crate) fn entrypoint(&self) -> Option<&str> {
         self.imp().entrypoint.get().unwrap().as_deref()
     }
 
-    pub fn exposed_ports(&self) -> &utils::BoxedStringBTreeSet {
+    pub(crate) fn exposed_ports(&self) -> &utils::BoxedStringBTreeSet {
         self.imp().exposed_ports.get().unwrap()
     }
 }

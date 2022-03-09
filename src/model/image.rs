@@ -15,27 +15,27 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default)]
-    pub struct Image {
-        pub architecture: OnceCell<Option<String>>,
-        pub author: OnceCell<Option<String>>,
-        pub comment: OnceCell<Option<String>>,
-        pub config: OnceCell<model::ImageConfig>,
-        pub config_digest: OnceCell<Option<String>>,
-        pub containers: Cell<u64>,
-        pub created: OnceCell<i64>,
-        pub dangling: Cell<bool>,
-        pub digest: OnceCell<String>,
-        pub history: OnceCell<utils::BoxedStringVec>,
-        pub id: OnceCell<String>,
-        pub parent_id: OnceCell<Option<String>>,
-        pub read_only: OnceCell<bool>,
-        pub repo_digests: OnceCell<utils::BoxedStringVec>,
-        pub repo_tags: OnceCell<utils::BoxedStringVec>,
-        pub size: OnceCell<u64>,
-        pub shared_size: OnceCell<u64>,
-        pub user: OnceCell<String>,
-        pub virtual_size: OnceCell<u64>,
-        pub to_be_deleted: Cell<bool>,
+    pub(crate) struct Image {
+        pub(super) architecture: OnceCell<Option<String>>,
+        pub(super) author: OnceCell<Option<String>>,
+        pub(super) comment: OnceCell<Option<String>>,
+        pub(super) config: OnceCell<model::ImageConfig>,
+        pub(super) config_digest: OnceCell<Option<String>>,
+        pub(super) containers: Cell<u64>,
+        pub(super) created: OnceCell<i64>,
+        pub(super) dangling: Cell<bool>,
+        pub(super) digest: OnceCell<String>,
+        pub(super) history: OnceCell<utils::BoxedStringVec>,
+        pub(super) id: OnceCell<String>,
+        pub(super) parent_id: OnceCell<Option<String>>,
+        pub(super) read_only: OnceCell<bool>,
+        pub(super) repo_digests: OnceCell<utils::BoxedStringVec>,
+        pub(super) repo_tags: OnceCell<utils::BoxedStringVec>,
+        pub(super) size: OnceCell<u64>,
+        pub(super) shared_size: OnceCell<u64>,
+        pub(super) user: OnceCell<String>,
+        pub(super) virtual_size: OnceCell<u64>,
+        pub(super) to_be_deleted: Cell<bool>,
     }
 
     #[glib::object_subclass]
@@ -265,11 +265,11 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub struct Image(ObjectSubclass<imp::Image>);
+    pub(crate) struct Image(ObjectSubclass<imp::Image>);
 }
 
 impl Image {
-    pub fn from_libpod(
+    pub(crate) fn from_libpod(
         summary: LibpodImageSummary,
         inspect_response: LibpodImageInspectResponse,
     ) -> Self {
@@ -325,83 +325,83 @@ impl Image {
         .expect("Failed to create Image")
     }
 
-    pub fn architecture(&self) -> Option<&str> {
+    pub(crate) fn architecture(&self) -> Option<&str> {
         self.imp().architecture.get().unwrap().as_deref()
     }
 
-    pub fn author(&self) -> Option<&str> {
+    pub(crate) fn author(&self) -> Option<&str> {
         self.imp().author.get().unwrap().as_deref()
     }
 
-    pub fn comment(&self) -> Option<&str> {
+    pub(crate) fn comment(&self) -> Option<&str> {
         self.imp().comment.get().unwrap().as_deref()
     }
 
-    pub fn config(&self) -> &model::ImageConfig {
+    pub(crate) fn config(&self) -> &model::ImageConfig {
         self.imp().config.get().unwrap()
     }
 
-    pub fn config_digest(&self) -> Option<&str> {
+    pub(crate) fn config_digest(&self) -> Option<&str> {
         self.imp().config_digest.get().unwrap().as_deref()
     }
 
-    pub fn containers(&self) -> u64 {
+    pub(crate) fn containers(&self) -> u64 {
         self.imp().containers.get()
     }
 
-    pub fn created(&self) -> i64 {
+    pub(crate) fn created(&self) -> i64 {
         *self.imp().created.get().unwrap()
     }
 
-    pub fn dangling(&self) -> bool {
+    pub(crate) fn dangling(&self) -> bool {
         self.imp().dangling.get()
     }
 
-    pub fn digest(&self) -> &str {
+    pub(crate) fn digest(&self) -> &str {
         self.imp().digest.get().unwrap()
     }
 
-    pub fn history(&self) -> &utils::BoxedStringVec {
+    pub(crate) fn history(&self) -> &utils::BoxedStringVec {
         self.imp().history.get().unwrap()
     }
 
-    pub fn id(&self) -> &str {
+    pub(crate) fn id(&self) -> &str {
         self.imp().id.get().unwrap()
     }
 
-    pub fn parent_id(&self) -> Option<&str> {
+    pub(crate) fn parent_id(&self) -> Option<&str> {
         self.imp().parent_id.get().unwrap().as_deref()
     }
 
-    pub fn read_only(&self) -> bool {
+    pub(crate) fn read_only(&self) -> bool {
         *self.imp().read_only.get().unwrap()
     }
 
-    pub fn repo_digests(&self) -> &utils::BoxedStringVec {
+    pub(crate) fn repo_digests(&self) -> &utils::BoxedStringVec {
         self.imp().repo_digests.get().unwrap()
     }
 
-    pub fn repo_tags(&self) -> &utils::BoxedStringVec {
+    pub(crate) fn repo_tags(&self) -> &utils::BoxedStringVec {
         self.imp().repo_tags.get().unwrap()
     }
 
-    pub fn size(&self) -> u64 {
+    pub(crate) fn size(&self) -> u64 {
         *self.imp().size.get().unwrap()
     }
 
-    pub fn shared_size(&self) -> u64 {
+    pub(crate) fn shared_size(&self) -> u64 {
         *self.imp().shared_size.get().unwrap()
     }
 
-    pub fn user(&self) -> &str {
+    pub(crate) fn user(&self) -> &str {
         self.imp().user.get().unwrap()
     }
 
-    pub fn virtual_size(&self) -> u64 {
+    pub(crate) fn virtual_size(&self) -> u64 {
         *self.imp().virtual_size.get().unwrap()
     }
 
-    pub fn to_be_deleted(&self) -> bool {
+    pub(crate) fn to_be_deleted(&self) -> bool {
         self.imp().to_be_deleted.get()
     }
 
@@ -415,7 +415,7 @@ impl Image {
 }
 
 impl Image {
-    pub fn delete<F>(&self, op: F)
+    pub(crate) fn delete<F>(&self, op: F)
     where
         F: FnOnce(podman_api::Error) + 'static,
     {

@@ -17,10 +17,10 @@ mod imp {
 
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Symphony/ui/image-row-simple.ui")]
-    pub struct ImageRowSimple {
-        pub image: RefCell<Option<model::Image>>,
+    pub(crate) struct ImageRowSimple {
+        pub(super) image: RefCell<Option<model::Image>>,
         #[template_child]
-        pub label: TemplateChild<gtk::Label>,
+        pub(super) label: TemplateChild<gtk::Label>,
     }
 
     #[glib::object_subclass]
@@ -99,12 +99,12 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub struct ImageRowSimple(ObjectSubclass<imp::ImageRowSimple>)
+    pub(crate) struct ImageRowSimple(ObjectSubclass<imp::ImageRowSimple>)
         @extends gtk::Widget;
 }
 
 impl ImageRowSimple {
-    pub fn image(&self) -> Option<model::Image> {
+    pub(crate) fn image(&self) -> Option<model::Image> {
         self.imp().image.borrow().clone()
     }
 }

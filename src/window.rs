@@ -17,23 +17,23 @@ mod imp {
 
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Symphony/ui/window.ui")]
-    pub struct Window {
+    pub(crate) struct Window {
         #[template_child]
-        pub main_stack: TemplateChild<gtk::Stack>,
+        pub(super) main_stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub start_service_page: TemplateChild<view::StartServicePage>,
+        pub(super) start_service_page: TemplateChild<view::StartServicePage>,
         #[template_child]
-        pub leaflet: TemplateChild<adw::Leaflet>,
+        pub(super) leaflet: TemplateChild<adw::Leaflet>,
         #[template_child]
-        pub sidebar: TemplateChild<gtk::Box>,
+        pub(super) sidebar: TemplateChild<gtk::Box>,
         #[template_child]
-        pub list_box: TemplateChild<gtk::ListBox>,
+        pub(super) list_box: TemplateChild<gtk::ListBox>,
         #[template_child]
-        pub panel_stack: TemplateChild<gtk::Stack>,
+        pub(super) panel_stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub images_panel: TemplateChild<view::ImagesPanel>,
+        pub(super) images_panel: TemplateChild<view::ImagesPanel>,
         #[template_child]
-        pub connection_lost_page: TemplateChild<view::ConnectionLostPage>,
+        pub(super) connection_lost_page: TemplateChild<view::ConnectionLostPage>,
     }
 
     #[glib::object_subclass]
@@ -110,13 +110,13 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub struct Window(ObjectSubclass<imp::Window>)
+    pub(crate) struct Window(ObjectSubclass<imp::Window>)
         @extends gtk::Widget, gtk::Window, gtk::ApplicationWindow, adw::ApplicationWindow,
         @implements gio::ActionMap, gio::ActionGroup, gtk::Root;
 }
 
 impl Window {
-    pub fn new(app: &Application) -> Self {
+    pub(crate) fn new(app: &Application) -> Self {
         glib::Object::new(&[("application", app)]).expect("Failed to create Window")
     }
 
@@ -191,7 +191,7 @@ impl Window {
         }
     }
 
-    pub fn check_service(&self) {
+    pub(crate) fn check_service(&self) {
         utils::do_async(
             PODMAN.ping(),
             clone!(@weak self as obj => move |result| match result {

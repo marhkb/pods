@@ -16,10 +16,10 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default)]
-    pub struct ImageList {
-        pub fetched: Cell<u32>,
-        pub list: RefCell<IndexMap<String, model::Image>>,
-        pub to_fetch: Cell<u32>,
+    pub(crate) struct ImageList {
+        pub(super) fetched: Cell<u32>,
+        pub(super) list: RefCell<IndexMap<String, model::Image>>,
+        pub(super) to_fetch: Cell<u32>,
     }
 
     #[glib::object_subclass]
@@ -114,7 +114,7 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub struct ImageList(ObjectSubclass<imp::ImageList>)
+    pub(crate) struct ImageList(ObjectSubclass<imp::ImageList>)
         @implements gio::ListModel;
 }
 
@@ -125,7 +125,7 @@ impl Default for ImageList {
 }
 
 impl ImageList {
-    pub fn fetched(&self) -> u32 {
+    pub(crate) fn fetched(&self) -> u32 {
         self.imp().fetched.get()
     }
 
@@ -137,11 +137,11 @@ impl ImageList {
         self.notify("fetched");
     }
 
-    pub fn len(&self) -> u32 {
+    pub(crate) fn len(&self) -> u32 {
         self.n_items()
     }
 
-    pub fn to_fetch(&self) -> u32 {
+    pub(crate) fn to_fetch(&self) -> u32 {
         self.imp().to_fetch.get()
     }
 
@@ -153,7 +153,7 @@ impl ImageList {
         self.notify("to-fetch");
     }
 
-    pub fn total_size(&self) -> u64 {
+    pub(crate) fn total_size(&self) -> u64 {
         self.imp()
             .list
             .borrow()
@@ -162,7 +162,7 @@ impl ImageList {
             .sum()
     }
 
-    pub fn num_unused_images(&self) -> usize {
+    pub(crate) fn num_unused_images(&self) -> usize {
         self.imp()
             .list
             .borrow()
@@ -171,7 +171,7 @@ impl ImageList {
             .count()
     }
 
-    pub fn unused_size(&self) -> u64 {
+    pub(crate) fn unused_size(&self) -> u64 {
         self.imp()
             .list
             .borrow()
@@ -181,7 +181,7 @@ impl ImageList {
             .sum()
     }
 
-    pub fn remove_image(&self, id: &str) {
+    pub(crate) fn remove_image(&self, id: &str) {
         let mut list = self.imp().list.borrow_mut();
         if let Some((idx, ..)) = list.shift_remove_full(id) {
             drop(list);
@@ -253,7 +253,7 @@ impl ImageList {
         );
     }
 
-    pub fn setup(&self) {
+    pub(crate) fn setup(&self) {
         utils::run_stream(
             PODMAN.events(
                 &EventsOpts::builder()

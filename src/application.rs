@@ -18,8 +18,8 @@ mod imp {
     use crate::view;
 
     #[derive(Debug, Default)]
-    pub struct Application {
-        pub window: OnceCell<WeakRef<Window>>,
+    pub(crate) struct Application {
+        pub(super) window: OnceCell<WeakRef<Window>>,
     }
 
     #[glib::object_subclass]
@@ -72,7 +72,7 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub struct Application(ObjectSubclass<imp::Application>)
+    pub(crate) struct Application(ObjectSubclass<imp::Application>)
         @extends gio::Application, gtk::Application,
         @implements gio::ActionMap, gio::ActionGroup;
 }
@@ -183,7 +183,7 @@ impl Application {
         }
     }
 
-    pub fn run(&self) {
+    pub(crate) fn run(&self) {
         info!("Symphony ({})", APP_ID);
         info!("Version: {} ({})", VERSION, PROFILE);
         info!("Datadir: {}", PKGDATADIR);

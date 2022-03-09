@@ -18,10 +18,10 @@ use syslog::Facility;
 use self::application::Application;
 use self::config::{GETTEXT_PACKAGE, LOCALEDIR, RESOURCES_FILE};
 
-pub static RUNTIME: Lazy<tokio::runtime::Runtime> =
+pub(crate) static RUNTIME: Lazy<tokio::runtime::Runtime> =
     Lazy::new(|| tokio::runtime::Runtime::new().unwrap());
 
-pub static PODMAN: Lazy<podman_api::Podman> =
+pub(crate) static PODMAN: Lazy<podman_api::Podman> =
     Lazy::new(|| podman_api::Podman::unix("/run/user/1000/podman/podman.sock"));
 
 fn main() {

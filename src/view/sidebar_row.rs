@@ -11,12 +11,12 @@ mod imp {
 
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Symphony/ui/sidebar-row.ui")]
-    pub struct SidebarRow {
-        pub icon_name: OnceCell<Option<String>>,
-        pub panel_name: OnceCell<String>,
-        pub panel_title: OnceCell<Option<String>>,
+    pub(crate) struct SidebarRow {
+        pub(super) icon_name: OnceCell<Option<String>>,
+        pub(super) panel_name: OnceCell<String>,
+        pub(super) panel_title: OnceCell<Option<String>>,
         #[template_child]
-        pub content_box: TemplateChild<gtk::Box>,
+        pub(super) content_box: TemplateChild<gtk::Box>,
     }
 
     #[glib::object_subclass]
@@ -97,7 +97,7 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub struct SidebarRow(ObjectSubclass<imp::SidebarRow>)
+    pub(crate) struct SidebarRow(ObjectSubclass<imp::SidebarRow>)
         @extends gtk::Widget;
 }
 
@@ -108,7 +108,11 @@ impl Default for SidebarRow {
 }
 
 impl SidebarRow {
-    pub fn new(icon_name: Option<&str>, panel_name: &str, panel_title: Option<&str>) -> Self {
+    pub(crate) fn new(
+        icon_name: Option<&str>,
+        panel_name: &str,
+        panel_title: Option<&str>,
+    ) -> Self {
         glib::Object::new(&[
             ("icon-name", &icon_name),
             ("panel-name", &panel_name),
@@ -117,15 +121,15 @@ impl SidebarRow {
         .expect("Failed to create SidebarRow")
     }
 
-    pub fn icon_name(&self) -> Option<&str> {
+    pub(crate) fn icon_name(&self) -> Option<&str> {
         self.imp().icon_name.get().and_then(Option::as_deref)
     }
 
-    pub fn panel_name(&self) -> &str {
+    pub(crate) fn panel_name(&self) -> &str {
         self.imp().panel_name.get().unwrap()
     }
 
-    pub fn panel_title(&self) -> Option<&str> {
+    pub(crate) fn panel_title(&self) -> Option<&str> {
         self.imp().panel_title.get().and_then(Option::as_deref)
     }
 }
