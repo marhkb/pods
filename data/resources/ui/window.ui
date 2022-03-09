@@ -105,19 +105,8 @@
                     <property name="title" translatable="yes">Containers</property>
                     <property name="icon-name">utilities-terminal-symbolic</property>
                     <property name="child">
-                      <object class="GtkBox">
-                        <property name="orientation">vertical</property>
-
-                        <child>
-                          <object class="AdwHeaderBar">
-                            <property name="show-start-title-buttons">False</property>
-                          </object>
-                        </child>
-
-                        <child>
-                          <object class="AdwBin"/>
-                        </child>
-
+                      <object class="ContainersPanel" id="containers_panel">
+                        <property name="hexpand">True</property>
                       </object>
                     </property>
                   </object>
