@@ -50,8 +50,6 @@ mod imp {
                     .leaflet
                     .navigate(adw::NavigationDirection::Back);
             });
-
-            view::StartServicePage::static_type();
         }
 
         // You must call `Widget`'s `init_template()` within `instance_init()`.

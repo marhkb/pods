@@ -11,7 +11,6 @@ mod imp {
     use once_cell::unsync::OnceCell;
 
     use super::*;
-    use crate::view;
 
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Symphony/ui/images-prune-dialog.ui")]
@@ -33,7 +32,6 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
-            view::ImageRowSimple::static_type();
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {

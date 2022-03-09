@@ -30,7 +30,9 @@ mod imp {
 
         fn class_init(_: &mut Self::Class) {
             // Initialize all classes here
+            view::ImageRowSimple::static_type();
             view::ImagesPanel::static_type();
+            view::StartServicePage::static_type();
         }
     }
 
