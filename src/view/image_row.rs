@@ -18,24 +18,24 @@ mod imp {
 
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Symphony/ui/image-row.ui")]
-    pub struct ImageRow {
-        pub image: RefCell<Option<model::Image>>,
+    pub(crate) struct ImageRow {
+        pub(super) image: RefCell<Option<model::Image>>,
         #[template_child]
-        pub id_row: TemplateChild<view::PropertyRow>,
+        pub(super) id_row: TemplateChild<view::PropertyRow>,
         #[template_child]
-        pub created_row: TemplateChild<view::PropertyRow>,
+        pub(super) created_row: TemplateChild<view::PropertyRow>,
         #[template_child]
-        pub size_row: TemplateChild<view::PropertyRow>,
+        pub(super) size_row: TemplateChild<view::PropertyRow>,
         #[template_child]
-        pub containers_row: TemplateChild<view::PropertyRow>,
+        pub(super) containers_row: TemplateChild<view::PropertyRow>,
         #[template_child]
-        pub command_row: TemplateChild<view::PropertyRow>,
+        pub(super) command_row: TemplateChild<view::PropertyRow>,
         #[template_child]
-        pub entrypoint_row: TemplateChild<view::PropertyRow>,
+        pub(super) entrypoint_row: TemplateChild<view::PropertyRow>,
         #[template_child]
-        pub ports_row: TemplateChild<view::PropertyRow>,
+        pub(super) ports_row: TemplateChild<view::PropertyRow>,
         #[template_child]
-        pub repo_tags_row: TemplateChild<view::PropertyRow>,
+        pub(super) repo_tags_row: TemplateChild<view::PropertyRow>,
     }
 
     #[glib::object_subclass]
@@ -274,7 +274,7 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub struct ImageRow(ObjectSubclass<imp::ImageRow>)
+    pub(crate) struct ImageRow(ObjectSubclass<imp::ImageRow>)
         @extends gtk::Widget, gtk::ListBoxRow, adw::PreferencesRow, adw::ExpanderRow;
 }
 
@@ -285,7 +285,7 @@ impl From<&model::Image> for ImageRow {
 }
 
 impl ImageRow {
-    pub fn image(&self) -> Option<model::Image> {
+    pub(crate) fn image(&self) -> Option<model::Image> {
         self.imp().image.borrow().clone()
     }
 }

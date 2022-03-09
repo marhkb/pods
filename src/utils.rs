@@ -15,7 +15,7 @@ macro_rules! boxed_type {
         paste! {
             #[derive(Clone, Debug, PartialEq, glib::Boxed)]
             #[boxed_type(name = "" $name "")]
-            pub struct $name(pub $type);
+            pub(crate) struct $name(pub(crate) $type);
 
             impl Deref for $name {
                 type Target = $type;
@@ -31,7 +31,7 @@ macro_rules! boxed_type {
 boxed_type!(BoxedStringVec, Vec<String>);
 boxed_type!(BoxedStringBTreeSet, BTreeSet<String>);
 
-pub fn escape(text: &str) -> String {
+pub(crate) fn escape(text: &str) -> String {
     text.replace('&', "&amp;")
         .replace('<', "&lt;")
         .replace('>', "&gt;")
@@ -39,7 +39,7 @@ pub fn escape(text: &str) -> String {
         .replace('"', "&quot;")
 }
 
-pub fn format_option<'a, T>(option: Option<T>) -> String
+pub(crate) fn format_option<'a, T>(option: Option<T>) -> String
 where
     T: AsRef<str> + 'a,
 {
@@ -48,7 +48,7 @@ where
         .unwrap_or_else(|| gettext("<none>"))
 }
 
-pub fn format_iter<'a, I, T: ?Sized>(iter: I, sep: &str) -> String
+pub(crate) fn format_iter<'a, I, T: ?Sized>(iter: I, sep: &str) -> String
 where
     I: IntoIterator<Item = &'a T>,
     T: AsRef<str> + 'a,
@@ -56,7 +56,7 @@ where
     format_option(format_iter_or_none(iter, sep))
 }
 
-pub fn format_iter_or_none<'a, I, T: ?Sized + 'a>(iter: I, sep: &str) -> Option<String>
+pub(crate) fn format_iter_or_none<'a, I, T: ?Sized + 'a>(iter: I, sep: &str) -> Option<String>
 where
     I: IntoIterator<Item = &'a T>,
     T: AsRef<str> + 'a,
@@ -73,7 +73,7 @@ where
 }
 
 // Function from https://gitlab.gnome.org/GNOME/fractal/-/blob/fractal-next/src/utils.rs
-pub fn do_async<R, Fut, F>(tokio_fut: Fut, glib_closure: F)
+pub(crate) fn do_async<R, Fut, F>(tokio_fut: Fut, glib_closure: F)
 where
     R: Send + 'static,
     Fut: Future<Output = R> + Send + 'static,
@@ -86,7 +86,7 @@ where
     });
 }
 
-pub fn run_stream<S, I, F>(mut stream: S, glib_closure: F)
+pub(crate) fn run_stream<S, I, F>(mut stream: S, glib_closure: F)
 where
     S: Stream<Item = I> + Send + Unpin + 'static,
     I: Send + 'static,
@@ -105,7 +105,7 @@ where
     });
 }
 
-pub trait ToTypedListModel {
+pub(crate) trait ToTypedListModel {
     fn to_typed_list_model<T>(self) -> TypedListModel<Self, T>
     where
         Self: Sized;
@@ -121,7 +121,7 @@ impl<M: glib::IsA<gio::ListModel>> ToTypedListModel for M {
 }
 
 #[derive(Clone)]
-pub struct TypedListModel<M, T> {
+pub(crate) struct TypedListModel<M, T> {
     model: M,
     _phantom: PhantomData<T>,
 }
@@ -140,12 +140,12 @@ where
     M: glib::IsA<gio::ListModel>,
     T: Clone,
 {
-    pub fn iter(&self) -> TypedListModelIter<M, T> {
+    pub(crate) fn iter(&self) -> TypedListModelIter<M, T> {
         self.to_owned().into()
     }
 }
 
-pub struct TypedListModelIter<M, T> {
+pub(crate) struct TypedListModelIter<M, T> {
     typed_list_store: TypedListModel<M, T>,
     index: u32,
 }

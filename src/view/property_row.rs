@@ -11,11 +11,11 @@ mod imp {
 
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Symphony/ui/property-row.ui")]
-    pub struct PropertyRow {
+    pub(crate) struct PropertyRow {
         #[template_child]
-        pub key_label: TemplateChild<gtk::Label>,
+        pub(super) key_label: TemplateChild<gtk::Label>,
         #[template_child]
-        pub value_label: TemplateChild<gtk::Label>,
+        pub(super) value_label: TemplateChild<gtk::Label>,
     }
 
     #[glib::object_subclass]
@@ -111,7 +111,7 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub struct PropertyRow(ObjectSubclass<imp::PropertyRow>)
+    pub(crate) struct PropertyRow(ObjectSubclass<imp::PropertyRow>)
         @extends gtk::Widget, gtk::ListBoxRow, adw::PreferencesRow, adw::ExpanderRow;
 }
 
@@ -122,33 +122,33 @@ impl Default for PropertyRow {
 }
 
 impl PropertyRow {
-    pub fn key(&self) -> glib::GString {
+    pub(crate) fn key(&self) -> glib::GString {
         self.imp().key_label.label()
     }
 
-    pub fn set_key(&self, key: &str) {
+    pub(crate) fn set_key(&self, key: &str) {
         if key == self.key().as_str() {
             return;
         }
         self.imp().key_label.set_label(key);
     }
 
-    pub fn value(&self) -> glib::GString {
+    pub(crate) fn value(&self) -> glib::GString {
         self.imp().value_label.label()
     }
 
-    pub fn set_value(&self, value: &str) {
+    pub(crate) fn set_value(&self, value: &str) {
         if value == self.value().as_str() {
             return;
         }
         self.imp().value_label.set_label(value);
     }
 
-    pub fn value_wrap_mode(&self) -> pango::WrapMode {
+    pub(crate) fn value_wrap_mode(&self) -> pango::WrapMode {
         self.imp().value_label.wrap_mode()
     }
 
-    pub fn set_value_wrap_mode(&self, mode: pango::WrapMode) {
+    pub(crate) fn set_value_wrap_mode(&self, mode: pango::WrapMode) {
         if mode == self.value_wrap_mode() {
             return;
         }

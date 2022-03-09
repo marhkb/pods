@@ -9,11 +9,11 @@ mod imp {
 
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Symphony/ui/start-service-page.ui")]
-    pub struct StartServicePage {
+    pub(crate) struct StartServicePage {
         #[template_child]
-        pub header_bar: TemplateChild<adw::HeaderBar>,
+        pub(super) header_bar: TemplateChild<adw::HeaderBar>,
         #[template_child]
-        pub status_page: TemplateChild<adw::StatusPage>,
+        pub(super) status_page: TemplateChild<adw::StatusPage>,
     }
 
     #[glib::object_subclass]
@@ -42,6 +42,6 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub struct StartServicePage(ObjectSubclass<imp::StartServicePage>)
+    pub(crate) struct StartServicePage(ObjectSubclass<imp::StartServicePage>)
         @extends gtk::Widget;
 }

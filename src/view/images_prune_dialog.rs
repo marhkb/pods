@@ -15,14 +15,14 @@ mod imp {
 
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Symphony/ui/images-prune-dialog.ui")]
-    pub struct ImagesPruneDialog {
-        pub images_to_prune: OnceCell<gtk::NoSelection>,
+    pub(crate) struct ImagesPruneDialog {
+        pub(super) images_to_prune: OnceCell<gtk::NoSelection>,
         #[template_child]
-        pub button_prune: TemplateChild<gtk::Button>,
+        pub(super) button_prune: TemplateChild<gtk::Button>,
         #[template_child]
-        pub status_page: TemplateChild<adw::StatusPage>,
+        pub(super) status_page: TemplateChild<adw::StatusPage>,
         #[template_child]
-        pub list_view: TemplateChild<gtk::ListView>,
+        pub(super) list_view: TemplateChild<gtk::ListView>,
     }
 
     #[glib::object_subclass]
@@ -91,7 +91,7 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub struct ImagesPruneDialog(ObjectSubclass<imp::ImagesPruneDialog>)
+    pub(crate) struct ImagesPruneDialog(ObjectSubclass<imp::ImagesPruneDialog>)
         @extends gtk::Widget, gtk::Window, gtk::Dialog,
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget, gtk::Native, gtk::Root, gtk::ShortcutManager;
 }
@@ -116,7 +116,7 @@ impl From<&model::ImageList> for ImagesPruneDialog {
 }
 
 impl ImagesPruneDialog {
-    pub fn images_to_prune(&self) -> Option<&gtk::NoSelection> {
+    pub(crate) fn images_to_prune(&self) -> Option<&gtk::NoSelection> {
         self.imp().images_to_prune.get()
     }
 

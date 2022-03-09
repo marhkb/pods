@@ -2,6 +2,6 @@ mod image;
 mod image_config;
 mod image_list;
 
-pub use self::image::Image;
-pub use self::image_config::ImageConfig;
-pub use self::image_list::ImageList;
+pub(crate) use self::image::Image;
+pub(crate) use self::image_config::ImageConfig;
+pub(crate) use self::image_list::ImageList;

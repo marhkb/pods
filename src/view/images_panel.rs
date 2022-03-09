@@ -21,25 +21,25 @@ mod imp {
 
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Symphony/ui/images-panel.ui")]
-    pub struct ImagesPanel {
-        pub image_list: OnceCell<model::ImageList>,
-        pub show_intermediates: Cell<bool>,
+    pub(crate) struct ImagesPanel {
+        pub(super) image_list: OnceCell<model::ImageList>,
+        pub(super) show_intermediates: Cell<bool>,
         #[template_child]
-        pub header_bar: TemplateChild<adw::HeaderBar>,
+        pub(super) header_bar: TemplateChild<adw::HeaderBar>,
         #[template_child]
-        pub overlay: TemplateChild<gtk::Overlay>,
+        pub(super) overlay: TemplateChild<gtk::Overlay>,
         #[template_child]
-        pub progress_stack: TemplateChild<gtk::Stack>,
+        pub(super) progress_stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub progress_bar: TemplateChild<gtk::ProgressBar>,
+        pub(super) progress_bar: TemplateChild<gtk::ProgressBar>,
         #[template_child]
-        pub spinner: TemplateChild<gtk::Spinner>,
+        pub(super) spinner: TemplateChild<gtk::Spinner>,
         #[template_child]
-        pub scrolled_window: TemplateChild<gtk::ScrolledWindow>,
+        pub(super) scrolled_window: TemplateChild<gtk::ScrolledWindow>,
         #[template_child]
-        pub image_group: TemplateChild<adw::PreferencesGroup>,
+        pub(super) image_group: TemplateChild<adw::PreferencesGroup>,
         #[template_child]
-        pub list_box: TemplateChild<gtk::ListBox>,
+        pub(super) list_box: TemplateChild<gtk::ListBox>,
     }
 
     #[glib::object_subclass]
@@ -218,7 +218,7 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub struct ImagesPanel(ObjectSubclass<imp::ImagesPanel>)
+    pub(crate) struct ImagesPanel(ObjectSubclass<imp::ImagesPanel>)
         @extends gtk::Widget;
 }
 
@@ -229,15 +229,15 @@ impl Default for ImagesPanel {
 }
 
 impl ImagesPanel {
-    pub fn image_list(&self) -> &model::ImageList {
+    pub(crate) fn image_list(&self) -> &model::ImageList {
         self.imp().image_list.get_or_init(model::ImageList::default)
     }
 
-    pub fn show_intermediates(&self) -> bool {
+    pub(crate) fn show_intermediates(&self) -> bool {
         self.imp().show_intermediates.get()
     }
 
-    pub fn set_show_intermediates(&self, value: bool) {
+    pub(crate) fn set_show_intermediates(&self, value: bool) {
         if self.show_intermediates() == value {
             return;
         }
