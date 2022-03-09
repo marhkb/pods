@@ -118,10 +118,7 @@ impl SidebarRow {
     }
 
     pub fn icon_name(&self) -> Option<&str> {
-        match self.imp().icon_name.get() {
-            None => None,
-            Some(s) => s.as_deref(),
-        }
+        self.imp().icon_name.get().and_then(Option::as_deref)
     }
 
     pub fn panel_name(&self) -> &str {
@@ -129,9 +126,6 @@ impl SidebarRow {
     }
 
     pub fn panel_title(&self) -> Option<&str> {
-        match self.imp().panel_title.get() {
-            None => None,
-            Some(s) => s.as_deref(),
-        }
+        self.imp().panel_title.get().and_then(Option::as_deref)
     }
 }
