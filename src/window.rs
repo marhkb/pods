@@ -13,10 +13,9 @@ mod imp {
 
     use super::*;
 
-    #[derive(Debug, CompositeTemplate)]
+    #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Symphony/ui/window.ui")]
     pub struct Window {
-        pub settings: gio::Settings,
         #[template_child]
         pub leaflet: TemplateChild<adw::Leaflet>,
         #[template_child]
@@ -25,18 +24,6 @@ mod imp {
         pub list_box: TemplateChild<gtk::ListBox>,
         #[template_child]
         pub stack: TemplateChild<gtk::Stack>,
-    }
-
-    impl Default for Window {
-        fn default() -> Self {
-            Self {
-                settings: gio::Settings::new(APP_ID),
-                leaflet: Default::default(),
-                sidebar: Default::default(),
-                list_box: Default::default(),
-                stack: Default::default(),
-            }
-        }
     }
 
     #[glib::object_subclass]
@@ -120,25 +107,23 @@ impl Window {
     }
 
     fn save_window_size(&self) -> Result<(), glib::BoolError> {
-        let imp = self.imp();
-
         let (width, height) = self.default_size();
 
-        imp.settings.set_int("window-width", width)?;
-        imp.settings.set_int("window-height", height)?;
+        let settings = gio::Settings::new(APP_ID);
 
-        imp.settings
-            .set_boolean("is-maximized", self.is_maximized())?;
+        settings.set_int("window-width", width)?;
+        settings.set_int("window-height", height)?;
+        settings.set_boolean("is-maximized", self.is_maximized())?;
 
         Ok(())
     }
 
     fn load_window_size(&self) {
-        let imp = self.imp();
+        let settings = gio::Settings::new(APP_ID);
 
-        let width = imp.settings.int("window-width");
-        let height = imp.settings.int("window-height");
-        let is_maximized = imp.settings.boolean("is-maximized");
+        let width = settings.int("window-width");
+        let height = settings.int("window-height");
+        let is_maximized = settings.boolean("is-maximized");
 
         self.set_default_size(width, height);
 
