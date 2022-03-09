@@ -79,11 +79,9 @@ mod imp {
             self.parent_constructed(obj);
 
             obj.set_visible();
-            obj.images_to_prune().unwrap().connect_items_changed(
-                clone!(@weak obj => move |_, _, _, _| {
-                    obj.set_visible();
-                }),
-            );
+            obj.images_to_prune()
+                .unwrap()
+                .connect_items_changed(clone!(@weak obj => move |_, _, _, _| obj.set_visible()));
         }
     }
 
