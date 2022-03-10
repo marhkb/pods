@@ -32,7 +32,6 @@
             <binding name="visible">
               <lookup name="sensitive">back_button</lookup>
             </binding>
-            >
           </object>
         </child>
 
