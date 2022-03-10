@@ -1,3 +1,7 @@
+.font-small {
+  font-size: 0.95em;
+}
+
 .title-header {
   font-size: 36px;
   font-weight: bold;
@@ -13,5 +17,4 @@
 
 .property-row {
   margin: 9px 12px;
-  font-size: 0.95em;
 }

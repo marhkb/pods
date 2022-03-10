@@ -20,6 +20,7 @@
           <object class="GtkListBox">
             <style>
               <class name="boxed-list"/>
+              <class name="font-small"/>
             </style>
             <property name="margin-bottom">12</property>
             <property name="margin-end">12</property>
