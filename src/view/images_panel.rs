@@ -32,7 +32,7 @@ mod imp {
         #[template_child]
         pub(super) spinner: TemplateChild<gtk::Spinner>,
         #[template_child]
-        pub(super) scrolled_window: TemplateChild<gtk::ScrolledWindow>,
+        pub(super) preferences_page: TemplateChild<adw::PreferencesPage>,
         #[template_child]
         pub(super) image_group: TemplateChild<adw::PreferencesGroup>,
         #[template_child]
@@ -164,7 +164,7 @@ mod imp {
 
             image_len_expr
                 .chain_closure::<bool>(closure!(|_: glib::Object, len: u32| { len > 0 }))
-                .bind(&*self.scrolled_window, "visible", Some(obj));
+                .bind(&*self.preferences_page, "visible", Some(obj));
 
             gtk::ClosureExpression::new::<f64, _, _>(
                 fetched_params,

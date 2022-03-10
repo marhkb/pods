@@ -99,7 +99,7 @@
             </child>
 
             <child>
-              <object class="AdwPreferencesPage" id="scrolled_window">
+              <object class="AdwPreferencesPage" id="preferences_page">
                 <property name="valign">start</property>
 
                 <child>
