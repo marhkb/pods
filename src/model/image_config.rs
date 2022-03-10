@@ -1,13 +1,12 @@
 use gtk::glib;
+use gtk::prelude::{StaticType, ToValue};
 use gtk::subclass::prelude::*;
+use once_cell::sync::Lazy;
+use once_cell::unsync::OnceCell;
 
 use crate::utils;
 
 mod imp {
-    use gtk::prelude::{StaticType, ToValue};
-    use once_cell::sync::Lazy;
-    use once_cell::unsync::OnceCell;
-
     use super::*;
 
     #[derive(Debug, Default)]

@@ -1,19 +1,16 @@
-use gtk::glib;
+use std::cell::RefCell;
+
+use adw::subclass::prelude::{ExpanderRowImpl, PreferencesRowImpl};
+use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
+use gtk::{glib, CompositeTemplate};
+use once_cell::sync::Lazy;
 
-use crate::model;
+use crate::{model, utils};
 
 mod imp {
-    use std::cell::RefCell;
-
-    use adw::subclass::prelude::{ExpanderRowImpl, PreferencesRowImpl};
-    use gtk::glib::closure;
-    use gtk::CompositeTemplate;
-    use once_cell::sync::Lazy;
-
     use super::*;
-    use crate::utils;
 
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Symphony/ui/image-row-simple.ui")]

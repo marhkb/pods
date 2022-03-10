@@ -1,15 +1,14 @@
+use adw::subclass::prelude::*;
+use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::{glib, CompositeTemplate};
+use once_cell::sync::Lazy;
+use once_cell::unsync::OnceCell;
 
 use crate::model;
 
 mod imp {
-    use adw::subclass::prelude::*;
-    use gtk::glib::clone;
-    use once_cell::sync::Lazy;
-    use once_cell::unsync::OnceCell;
-
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]

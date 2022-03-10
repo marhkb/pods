@@ -1,18 +1,16 @@
 use std::time::Duration;
 
+use adw::subclass::prelude::AdwApplicationWindowImpl;
 use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
-use gtk::{gio, glib};
+use gtk::{gio, glib, CompositeTemplate};
 
 use crate::application::Application;
 use crate::config::{APP_ID, PROFILE};
 use crate::{utils, view, PODMAN};
 
 mod imp {
-    use adw::subclass::prelude::AdwApplicationWindowImpl;
-    use gtk::CompositeTemplate;
-
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
