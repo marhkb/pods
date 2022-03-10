@@ -67,9 +67,11 @@
                 </property>
               </object>
             </child>
+
             <child>
               <object class="GtkStackPage">
                 <property name="name">bar</property>
+
                 <property name="child">
                   <object class="GtkProgressBar" id="progress_bar">
                     <style>
@@ -77,8 +79,10 @@
                     </style>
                   </object>
                 </property>
+
               </object>
             </child>
+
           </object>
         </child>
 
@@ -125,7 +129,6 @@
 
       </object>
     </child>
-
 
   </template>
 </interface>

@@ -13,17 +13,14 @@
   <template class="ImageRow" parent="AdwExpanderRow">
 
     <child>
-
       <object class="GtkListBoxRow">
         <property name="activatable">False</property>
 
         <child>
-
           <object class="GtkListBox">
             <style>
               <class name="boxed-list"/>
             </style>
-
             <property name="margin-bottom">12</property>
             <property name="margin-end">12</property>
             <property name="margin-start">12</property>

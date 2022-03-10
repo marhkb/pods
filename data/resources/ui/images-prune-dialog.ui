@@ -13,15 +13,16 @@
 
     <child type="action">
       <object class="GtkButton" id="button_prune">
-        <property name="label">Prune</property>
         <style>
           <class name="destructive-action"/>
         </style>
+        <property name="label">Prune</property>
       </object>
     </child>
 
     <child internal-child="content_area">
       <object class="GtkBox">
+
         <child>
           <object class="AdwStatusPage" id="status_page">
             <property name="icon-name">emblem-ok-symbolic</property>
@@ -29,13 +30,13 @@
             <property name="vexpand">True</property>
           </object>
         </child>
-        <child>
 
+        <child>
           <object class="GtkScrolledWindow" id="scrolled_window">
             <property name="vexpand">True</property>
             <property name="hscrollbar-policy">never</property>
-            <child>
 
+            <child>
               <object class="GtkListView" id="list_view">
                 <binding name="model">
                   <lookup name="images-to-prune">ImagesPruneDialog</lookup>
