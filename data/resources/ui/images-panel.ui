@@ -84,7 +84,7 @@
         </child>
 
         <child>
-          <object class="GtkBox" id="content_box">
+          <object class="GtkBox">
             <property name="orientation">vertical</property>
             <property name="vexpand">True</property>
 
