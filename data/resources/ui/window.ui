@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
+
   <menu id="primary_menu">
     <section>
       <item>
@@ -16,9 +17,10 @@
       </item>
     </section>
   </menu>
-  <template class="Window" parent="AdwApplicationWindow">
-    <property name="content">
 
+  <template class="Window" parent="AdwApplicationWindow">
+
+    <property name="content">
       <object class="GtkStack" id="main_stack">
         <property name="transition-type">crossfade</property>
 
@@ -91,11 +93,13 @@
                     <property name="name">images</property>
                     <property name="title" translatable="yes">Images</property>
                     <property name="icon-name">image-x-generic-symbolic</property>
+
                     <property name="child">
                       <object class="ImagesPanel" id="images_panel">
                         <property name="hexpand">True</property>
                       </object>
                     </property>
+
                   </object>
                 </child>
 
@@ -104,6 +108,7 @@
                     <property name="name">containers</property>
                     <property name="title" translatable="yes">Containers</property>
                     <property name="icon-name">utilities-terminal-symbolic</property>
+
                     <property name="child">
                       <object class="GtkBox">
                         <property name="orientation">vertical</property>
@@ -120,6 +125,7 @@
 
                       </object>
                     </property>
+
                   </object>
                 </child>
 
@@ -135,5 +141,6 @@
 
       </object>
     </property>
+
   </template>
 </interface>

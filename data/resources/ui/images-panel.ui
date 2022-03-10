@@ -32,7 +32,6 @@
             <binding name="visible">
               <lookup name="sensitive">back_button</lookup>
             </binding>
-            >
           </object>
         </child>
 
@@ -68,9 +67,11 @@
                 </property>
               </object>
             </child>
+
             <child>
               <object class="GtkStackPage">
                 <property name="name">bar</property>
+
                 <property name="child">
                   <object class="GtkProgressBar" id="progress_bar">
                     <style>
@@ -78,13 +79,15 @@
                     </style>
                   </object>
                 </property>
+
               </object>
             </child>
+
           </object>
         </child>
 
         <child>
-          <object class="GtkBox" id="content_box">
+          <object class="GtkBox">
             <property name="orientation">vertical</property>
             <property name="vexpand">True</property>
 
@@ -99,7 +102,7 @@
             </child>
 
             <child>
-              <object class="AdwPreferencesPage" id="scrolled_window">
+              <object class="AdwPreferencesPage" id="preferences_page">
                 <property name="valign">start</property>
 
                 <child>
@@ -126,7 +129,6 @@
 
       </object>
     </child>
-
 
   </template>
 </interface>

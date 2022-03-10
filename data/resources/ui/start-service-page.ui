@@ -19,14 +19,14 @@
 
         <child>
           <object class="GtkButton">
-            <property name="action-name">app.start-service</property>
-            <property name="halign">center</property>
-            <property name="label" translatable="yes">_Start Podman Service</property>
-            <property name="use-underline">True</property>
             <style>
               <class name="pill"/>
               <class name="suggested-action"/>
             </style>
+            <property name="action-name">app.start-service</property>
+            <property name="halign">center</property>
+            <property name="label" translatable="yes">_Start Podman Service</property>
+            <property name="use-underline">True</property>
           </object>
         </child>
 

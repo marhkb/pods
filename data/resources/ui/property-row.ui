@@ -2,11 +2,13 @@
 <interface>
   <template class="PropertyRow" parent="GtkListBoxRow">
     <property name="activatable">False</property>
+
     <child>
       <object class="GtkBox">
         <style>
           <class name="property-row"/>
         </style>
+
         <child>
           <object class="GtkLabel" id="key_label">
             <property name="label" translatable="yes">Created</property>
@@ -14,19 +16,22 @@
             <property name="xalign">0</property>
           </object>
         </child>
+
         <child>
           <object class="GtkLabel" id="value_label">
             <style>
               <class name="dim-label"/>
             </style>
+            <property name="hexpand">True</property>
             <property name="selectable">True</property>
             <property name="wrap">True</property>
             <property name="wrap-mode">word</property>
             <property name="xalign">1</property>
-            <property name="hexpand">True</property>
           </object>
         </child>
+
       </object>
     </child>
+
   </template>
 </interface>
