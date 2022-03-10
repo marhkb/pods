@@ -1,21 +1,19 @@
 use std::process;
 
 use gettextrs::gettext;
-use glib::clone;
+use glib::{clone, WeakRef};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::{gdk, gio, glib};
 use log::{debug, info};
+use once_cell::sync::OnceCell;
 
 use crate::config::{APP_ID, PKGDATADIR, PROFILE, VERSION};
+use crate::view;
 use crate::window::Window;
 
 mod imp {
-    use glib::WeakRef;
-    use once_cell::sync::OnceCell;
-
     use super::*;
-    use crate::view;
 
     #[derive(Debug, Default)]
     pub(crate) struct Application {

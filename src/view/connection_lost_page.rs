@@ -1,10 +1,8 @@
-use gtk::glib;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
+use gtk::{glib, CompositeTemplate};
 
 mod imp {
-    use gtk::CompositeTemplate;
-
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]

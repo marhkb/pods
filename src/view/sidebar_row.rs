@@ -1,12 +1,10 @@
-use gtk::glib;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
+use gtk::{glib, CompositeTemplate};
+use once_cell::sync::Lazy;
+use once_cell::unsync::OnceCell;
 
 mod imp {
-    use gtk::CompositeTemplate;
-    use once_cell::sync::Lazy;
-    use once_cell::unsync::OnceCell;
-
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]

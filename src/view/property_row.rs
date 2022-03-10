@@ -1,12 +1,10 @@
+use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
-use gtk::{glib, pango};
+use gtk::{glib, pango, CompositeTemplate};
+use once_cell::sync::Lazy;
 
 mod imp {
-    use gtk::glib::clone;
-    use gtk::CompositeTemplate;
-    use once_cell::sync::Lazy;
-
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]

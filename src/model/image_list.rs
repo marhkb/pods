@@ -1,18 +1,17 @@
+use std::cell::{Cell, RefCell};
+
 use futures::TryFutureExt;
 use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::{gio, glib};
+use indexmap::IndexMap;
+use once_cell::sync::Lazy;
 use podman_api::opts::{EventsOpts, ImageListOpts};
 
 use crate::{model, utils, PODMAN};
 
 mod imp {
-    use std::cell::{Cell, RefCell};
-
-    use indexmap::IndexMap;
-    use once_cell::sync::Lazy;
-
     use super::*;
 
     #[derive(Debug, Default)]

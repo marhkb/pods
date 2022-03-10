@@ -1,22 +1,19 @@
 use std::borrow::Borrow;
+use std::cell::Cell;
 
+use gettextrs::gettext;
+use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
-use gtk::{gio, glib};
+use gtk::{gio, glib, CompositeTemplate};
+use once_cell::sync::Lazy;
+use once_cell::unsync::OnceCell;
 
 use crate::config::APP_ID;
 use crate::utils::ToTypedListModel;
 use crate::{model, view};
 
 mod imp {
-    use std::cell::Cell;
-
-    use gettextrs::gettext;
-    use gtk::glib::closure;
-    use gtk::CompositeTemplate;
-    use once_cell::sync::Lazy;
-    use once_cell::unsync::OnceCell;
-
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]

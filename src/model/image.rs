@@ -1,17 +1,15 @@
+use std::cell::Cell;
+
 use gtk::glib::{self, clone};
-use gtk::prelude::ObjectExt;
+use gtk::prelude::{ObjectExt, StaticType, ToValue};
 use gtk::subclass::prelude::*;
+use once_cell::sync::Lazy;
+use once_cell::unsync::OnceCell;
 use podman_api::models::{LibpodImageInspectResponse, LibpodImageSummary};
 
 use crate::{model, utils, PODMAN};
 
 mod imp {
-    use std::cell::Cell;
-
-    use gtk::prelude::{StaticType, ToValue};
-    use once_cell::sync::Lazy;
-    use once_cell::unsync::OnceCell;
-
     use super::*;
 
     #[derive(Debug, Default)]
