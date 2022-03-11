@@ -8,8 +8,7 @@ use gtk::{gio, glib, CompositeTemplate};
 use once_cell::sync::Lazy;
 
 use crate::application::Application;
-use crate::config::{APP_ID, PROFILE};
-use crate::{utils, view, PODMAN};
+use crate::{config, utils, view, PODMAN};
 
 mod imp {
     use gtk::glib::closure;
@@ -104,7 +103,7 @@ mod imp {
             self.parent_constructed(obj);
 
             // Devel Profile
-            if PROFILE == "Devel" {
+            if config::PROFILE == "Devel" {
                 obj.add_css_class("devel");
             }
 
@@ -162,7 +161,7 @@ impl Window {
     fn save_window_size(&self) -> Result<(), glib::BoolError> {
         let (width, height) = self.default_size();
 
-        let settings = gio::Settings::new(APP_ID);
+        let settings = gio::Settings::new(config::APP_ID);
 
         settings.set_int("window-width", width)?;
         settings.set_int("window-height", height)?;
@@ -172,7 +171,7 @@ impl Window {
     }
 
     fn load_window_size(&self) {
-        let settings = gio::Settings::new(APP_ID);
+        let settings = gio::Settings::new(config::APP_ID);
 
         let width = settings.int("window-width");
         let height = settings.int("window-height");

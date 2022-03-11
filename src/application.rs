@@ -8,9 +8,8 @@ use gtk::{gdk, gio, glib};
 use log::{debug, info};
 use once_cell::sync::OnceCell;
 
-use crate::config::{APP_ID, PKGDATADIR, PROFILE, VERSION};
-use crate::view;
 use crate::window::Window;
+use crate::{config, view};
 
 mod imp {
     use super::*;
@@ -60,7 +59,7 @@ mod imp {
             self.parent_startup(app);
 
             // Set icons for shell
-            gtk::Window::set_default_icon_name(APP_ID);
+            gtk::Window::set_default_icon_name(config::APP_ID);
 
             app.setup_css();
             app.setup_gactions();
@@ -80,7 +79,7 @@ glib::wrapper! {
 impl Default for Application {
     fn default() -> Self {
         glib::Object::new(&[
-            ("application-id", &Some(APP_ID)),
+            ("application-id", &Some(config::APP_ID)),
             ("flags", &gio::ApplicationFlags::empty()),
             ("resource-base-path", &Some("/com/github/marhkb/Symphony/")),
         ])
@@ -137,12 +136,12 @@ impl Application {
 
     fn show_about_dialog(&self) {
         let dialog = gtk::AboutDialog::builder()
-            .logo_icon_name(APP_ID)
+            .logo_icon_name(config::APP_ID)
             // Insert your license of choice here
             // .license_type(gtk::License::MitX11)
             // Insert your website here
             // .website("https://gitlab.gnome.org/bilelmoussaoui/symphony/")
-            .version(VERSION)
+            .version(config::VERSION)
             .transient_for(&self.main_window())
             .translator_credits(&gettext("translator-credits"))
             .modal(true)
@@ -184,9 +183,9 @@ impl Application {
     }
 
     pub(crate) fn run(&self) {
-        info!("Symphony ({})", APP_ID);
-        info!("Version: {} ({})", VERSION, PROFILE);
-        info!("Datadir: {}", PKGDATADIR);
+        info!("Symphony ({})", config::APP_ID);
+        info!("Version: {} ({})", config::VERSION, config::PROFILE);
+        info!("Datadir: {}", config::PKGDATADIR);
 
         ApplicationExtManual::run(self);
     }
