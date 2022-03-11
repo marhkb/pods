@@ -60,7 +60,7 @@
 
                 <child>
                   <object class="AdwPreferencesGroup" id="container_group">
-                    <property name="title">User Containers</property>
+                    <property name="title" translatable="yes">Summary</property>
 
                     <child>
                       <object class="GtkListBox" id="list_box">
