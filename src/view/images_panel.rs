@@ -22,8 +22,6 @@ mod imp {
         pub(super) image_list: OnceCell<model::ImageList>,
         pub(super) show_intermediates: Cell<bool>,
         #[template_child]
-        pub(super) header_bar: TemplateChild<adw::HeaderBar>,
-        #[template_child]
         pub(super) overlay: TemplateChild<gtk::Overlay>,
         #[template_child]
         pub(super) progress_stack: TemplateChild<gtk::Stack>,
@@ -207,7 +205,6 @@ mod imp {
         }
 
         fn dispose(&self, _obj: &Self::Type) {
-            self.header_bar.unparent();
             self.overlay.unparent();
         }
     }
@@ -260,7 +257,7 @@ impl ImagesPanel {
         }
     }
 
-    fn show_prune_dialog(&self) {
+    pub(crate) fn show_prune_dialog(&self) {
         let dialog = view::ImagesPruneDialog::from(self.image_list());
         dialog.set_transient_for(Some(
             &self.root().unwrap().downcast::<gtk::Window>().unwrap(),
