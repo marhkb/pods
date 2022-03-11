@@ -18,112 +18,109 @@
     </section>
   </menu>
 
+  <menu id="images_menu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Show intermediate images</attribute>
+        <attribute name="action">images.show-intermediates</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Prune unused images</attribute>
+        <attribute name="action">images.prune-unused</attribute>
+      </item>
+    </section>
+  </menu>
+
   <template class="Window" parent="AdwApplicationWindow">
 
     <property name="content">
       <object class="GtkStack" id="main_stack">
         <property name="transition-type">crossfade</property>
 
+        <!-- Start Service Page -->
         <child>
           <object class="StartServicePage" id="start_service_page"/>
         </child>
 
+        <!-- Main View -->
         <child>
-          <object class="AdwLeaflet" id="leaflet">
-            <property name="can-navigate-back">True</property>
+          <object class="GtkBox" id="main_view_box">
+            <property name="orientation">vertical</property>
 
+            <!-- Headerbar -->
             <child>
-              <object class="GtkBox" id="sidebar">
-                <property name="orientation">vertical</property>
+              <object class="AdwHeaderBar">
+                <property name="centering-policy">strict</property>
 
-                <child>
-                  <object class="AdwHeaderBar">
-                    <binding name="show-end-title-buttons">
-                      <lookup name="folded">leaflet</lookup>
-                    </binding>
-
-                    <child type="end">
-                      <object class="GtkMenuButton" id="appmenu_button">
-                        <property name="icon-name">open-menu-symbolic</property>
-                        <property name="menu-model">primary_menu</property>
-                      </object>
-                    </child>
-
+                <child type="title">
+                  <object class="AdwViewSwitcherTitle" id="title">
+                    <property name="stack">panel_stack</property>
                   </object>
                 </child>
 
-                <child>
-                  <object class="GtkScrolledWindow">
-                    <property name="hscrollbar-policy">never</property>
-                    <property name="propagate-natural-width">True</property>
-                    <property name="vexpand">True</property>
+                <child type="end">
+                  <object class="GtkMenuButton">
+                    <property name="icon-name">open-menu-symbolic</property>
+                    <property name="menu-model">primary_menu</property>
+                  </object>
+                </child>
 
-                    <child>
-                      <object class="GtkListBox" id="list_box">
-                        <style>
-                          <class name="navigation-sidebar"/>
-                        </style>
-                        <property name="vexpand">True</property>
-                      </object>
-                    </child>
-
+                <child type="end">
+                  <object class="GtkMenuButton" id="images_menu_button">
+                    <property name="icon-name">view-more-symbolic</property>
+                    <property name="menu-model">images_menu</property>
                   </object>
                 </child>
 
               </object>
             </child>
 
+            <!-- Panel Stack -->
             <child>
-              <object class="AdwLeafletPage">
-                <property name="navigatable">False</property>
-                <property name="child">
-                  <object class="GtkSeparator"/>
-                </property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkStack" id="panel_stack">
-                <property name="transition-type">crossfade</property>
+              <object class="AdwViewStack" id="panel_stack">
                 <property name="vexpand">True</property>
-                <property name="width-request">400</property>
 
+                <!-- Images Panel -->
                 <child>
-                  <object class="GtkStackPage">
-                    <property name="name">images</property>
-                    <property name="title" translatable="yes">Images</property>
+                  <object class="AdwViewStackPage">
                     <property name="icon-name">image-x-generic-symbolic</property>
-
+                    <property name="name" translatable="yes">images</property>
+                    <property name="title" translatable="yes">Images</property>
                     <property name="child">
-                      <object class="ImagesPanel" id="images_panel">
-                        <property name="hexpand">True</property>
-                      </object>
+                      <object class="ImagesPanel" id="images_panel"/>
                     </property>
-
                   </object>
                 </child>
 
+                <!-- Containers Panel -->
                 <child>
-                  <object class="GtkStackPage">
-                    <property name="name">containers</property>
-                    <property name="title" translatable="yes">Containers</property>
+                  <object class="AdwViewStackPage">
                     <property name="icon-name">utilities-terminal-symbolic</property>
-
+                    <property name="name" translatable="yes">containers</property>
+                    <property name="title" translatable="yes">Containers</property>
                     <property name="child">
-                      <object class="ContainersPanel" id="containers_panel">
-                        <property name="hexpand">True</property>
-                      </object>
+                      <object class="ContainersPanel" id="containers_panel"/>
                     </property>
-
                   </object>
                 </child>
 
+              </object>
+            </child>
+
+            <!-- View Switcher Bar -->
+            <child>
+              <object class="AdwViewSwitcherBar">
+                <property name="stack">panel_stack</property>
+                <binding name="reveal">
+                  <lookup name="title-visible">title</lookup>
+                </binding>
               </object>
             </child>
 
           </object>
         </child>
 
+        <!-- Connection Lost Page -->
         <child>
           <object class="ConnectionLostPage" id="connection_lost_page"/>
         </child>

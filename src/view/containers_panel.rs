@@ -16,8 +16,6 @@ mod imp {
     pub(crate) struct ContainersPanel {
         pub(super) container_list: OnceCell<model::ContainerList>,
         #[template_child]
-        pub(super) header_bar: TemplateChild<adw::HeaderBar>,
-        #[template_child]
         pub(super) overlay: TemplateChild<gtk::Overlay>,
         #[template_child]
         pub(super) progress_stack: TemplateChild<gtk::Stack>,
@@ -161,7 +159,6 @@ mod imp {
         }
 
         fn dispose(&self, _obj: &Self::Type) {
-            self.header_bar.unparent();
             self.overlay.unparent();
         }
     }

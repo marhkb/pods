@@ -3,34 +3,8 @@
 
   <template class="ContainersPanel" parent="GtkWidget">
     <property name="layout-manager">
-      <object class="GtkBoxLayout">
-        <property name="orientation">vertical</property>
-      </object>
+      <object class="GtkBinLayout"/>
     </property>
-
-    <child>
-      <object class="AdwHeaderBar" id="header_bar">
-        <property name="show-start-title-buttons">False</property>
-
-        <child type="start">
-          <object class="GtkButton" id="back_button">
-            <property name="action-name">leaflet.back</property>
-            <property name="icon-name">go-previous-symbolic</property>
-            <binding name="visible">
-              <lookup name="sensitive">back_button</lookup>
-            </binding>
-            >
-          </object>
-        </child>
-
-        <property name="title-widget">
-          <object class="AdwWindowTitle">
-            <property name="title" translatable="yes">Containers</property>
-          </object>
-        </property>
-
-      </object>
-    </child>
 
     <child>
       <object class="GtkOverlay" id="overlay">

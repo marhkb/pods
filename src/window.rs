@@ -5,12 +5,15 @@ use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::{gio, glib, CompositeTemplate};
+use once_cell::sync::Lazy;
 
 use crate::application::Application;
 use crate::config::{APP_ID, PROFILE};
 use crate::{utils, view, PODMAN};
 
 mod imp {
+    use gtk::glib::closure;
+
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
@@ -21,13 +24,11 @@ mod imp {
         #[template_child]
         pub(super) start_service_page: TemplateChild<view::StartServicePage>,
         #[template_child]
-        pub(super) leaflet: TemplateChild<adw::Leaflet>,
+        pub(super) main_view_box: TemplateChild<gtk::Box>,
         #[template_child]
-        pub(super) sidebar: TemplateChild<gtk::Box>,
+        pub(super) images_menu_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
-        pub(super) list_box: TemplateChild<gtk::ListBox>,
-        #[template_child]
-        pub(super) panel_stack: TemplateChild<gtk::Stack>,
+        pub(super) panel_stack: TemplateChild<adw::ViewStack>,
         #[template_child]
         pub(super) images_panel: TemplateChild<view::ImagesPanel>,
         #[template_child]
@@ -44,11 +45,9 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
-            klass.install_action("leaflet.back", None, move |widget, _, _| {
-                widget
-                    .imp()
-                    .leaflet
-                    .navigate(adw::NavigationDirection::Back);
+            klass.install_property_action("images.show-intermediates", "show-intermediate-images");
+            klass.install_action("images.prune-unused", None, move |widget, _, _| {
+                widget.imp().images_panel.show_prune_dialog();
             });
         }
 
@@ -59,6 +58,48 @@ mod imp {
     }
 
     impl ObjectImpl for Window {
+        fn properties() -> &'static [glib::ParamSpec] {
+            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
+                vec![glib::ParamSpecBoolean::new(
+                    "show-intermediate-images",
+                    "Show Intermediate Images",
+                    "Whether to also show intermediate images",
+                    bool::default(),
+                    glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                )]
+            });
+            PROPERTIES.as_ref()
+        }
+
+        fn set_property(
+            &self,
+            _obj: &Self::Type,
+            _id: usize,
+            value: &glib::Value,
+            pspec: &glib::ParamSpec,
+        ) {
+            match pspec.name() {
+                "show-intermediate-images" => {
+                    self.images_panel
+                        .set_show_intermediates(value.get().unwrap());
+                }
+                _ => unimplemented!(),
+            }
+        }
+
+        fn property(&self, _obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            match pspec.name() {
+                "show-intermediate-images" => self
+                    .images_panel
+                    .try_get()
+                    .as_ref()
+                    .map(view::ImagesPanel::show_intermediates)
+                    .unwrap_or_default()
+                    .to_value(),
+                _ => unimplemented!(),
+            }
+        }
+
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
@@ -70,21 +111,21 @@ mod imp {
             // Load latest window state
             obj.load_window_size();
 
-            self.list_box.bind_model(
-                Some(&gtk::SingleSelection::new(Some(&self.panel_stack.pages()))),
-                |obj| {
-                    let stack_page = obj.downcast_ref::<gtk::StackPage>().unwrap();
-
-                    view::SidebarRow::new(
-                        stack_page.icon_name().as_deref(),
-                        stack_page.name().unwrap().as_str(),
-                        stack_page.title().as_deref(),
-                    )
-                    .upcast()
-                },
+            obj.notify("show-intermediate-images");
+            self.images_panel.connect_notify_local(
+                Some("show-intermediates"),
+                clone!(@weak obj => move |_, _| obj.notify("show-intermediate-images")),
             );
 
-            obj.setup_navigation();
+            adw::ViewStack::this_expression("visible-child-name")
+                .chain_closure::<bool>(closure!(|_: glib::Object, name: Option<&str>| {
+                    name == Some("images")
+                }))
+                .bind(
+                    &*self.images_menu_button,
+                    "visible",
+                    Some(&*self.panel_stack),
+                );
 
             obj.check_service();
         }
@@ -144,58 +185,13 @@ impl Window {
         }
     }
 
-    fn setup_navigation(&self) {
-        let imp = self.imp();
-
-        self.action_set_enabled("leaflet.back", imp.leaflet.is_folded());
-
-        self.set_selected_sidebar_row();
-        imp.leaflet
-            .connect_folded_notify(clone!(@weak self as obj => move |_| {
-                obj.set_selected_sidebar_row();
-            }));
-
-        imp.list_box
-            .connect_selected_rows_changed(clone!(@weak self as obj => move |list_box| {
-                if let Some(row) = list_box.selected_row() {
-                    let imp = obj.imp();
-
-                    imp.leaflet.navigate(adw::NavigationDirection::Forward);
-                    imp.panel_stack.set_visible_child_name(
-                        row
-                            .child()
-                            .unwrap()
-                            .downcast_ref::<view::SidebarRow>()
-                            .unwrap()
-                            .panel_name()
-                    );
-                }
-            }));
-    }
-
-    fn set_selected_sidebar_row(&self) {
-        let imp = self.imp();
-
-        self.action_set_enabled("leaflet.back", imp.leaflet.is_folded());
-
-        if imp.leaflet.is_folded() {
-            imp.list_box.unselect_all();
-        } else {
-            imp.list_box.select_row(
-                imp.list_box
-                    .row_at_index(imp.panel_stack.pages().selection().minimum() as i32)
-                    .as_ref(),
-            );
-        }
-    }
-
     pub(crate) fn check_service(&self) {
         utils::do_async(
             PODMAN.ping(),
             clone!(@weak self as obj => move |result| match result {
                 Ok(_) => {
                     let imp = obj.imp();
-                    imp.main_stack.set_visible_child(&*imp.leaflet);
+                    imp.main_stack.set_visible_child(&*imp.main_view_box);
                     imp.images_panel.image_list().setup();
                     imp.containers_panel.container_list().setup();
 
