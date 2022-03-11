@@ -21,5 +21,10 @@
       <summary>Whether to show intermediate images</summary>
       <description></description>
     </key>
+    <key name="show-only-running-containers" type="b">
+      <default>true</default>
+      <summary>Whether to show only running containers</summary>
+      <description></description>
+    </key>
   </schema>
 </schemalist>

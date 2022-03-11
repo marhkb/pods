@@ -31,6 +31,15 @@
     </section>
   </menu>
 
+  <menu id="containers_menu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Show only running containers</attribute>
+        <attribute name="action">containers.show-only-running</attribute>
+      </item>
+    </section>
+  </menu>
+
   <template class="Window" parent="AdwApplicationWindow">
 
     <property name="content">
@@ -56,6 +65,13 @@
                   <object class="GtkMenuButton" id="images_menu_button">
                     <property name="icon-name">view-more-symbolic</property>
                     <property name="menu-model">images_menu</property>
+                  </object>
+                </child>
+
+                <child type="start">
+                  <object class="GtkMenuButton" id="containers_menu_button">
+                    <property name="icon-name">view-more-symbolic</property>
+                    <property name="menu-model">containers_menu</property>
                   </object>
                 </child>
 

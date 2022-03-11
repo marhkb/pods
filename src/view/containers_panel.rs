@@ -1,12 +1,14 @@
+use std::cell::Cell;
+
 use gettextrs::gettext;
 use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
-use gtk::{glib, CompositeTemplate};
+use gtk::{gio, glib, CompositeTemplate};
 use once_cell::sync::Lazy;
 use once_cell::unsync::OnceCell;
 
-use crate::{model, view};
+use crate::{config, model, view};
 
 mod imp {
     use super::*;
@@ -15,6 +17,7 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Symphony/ui/containers-panel.ui")]
     pub(crate) struct ContainersPanel {
         pub(super) container_list: OnceCell<model::ContainerList>,
+        pub(super) show_only_running: Cell<bool>,
         #[template_child]
         pub(super) overlay: TemplateChild<gtk::Overlay>,
         #[template_child]
@@ -49,26 +52,53 @@ mod imp {
     impl ObjectImpl for ContainersPanel {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecObject::new(
-                    "container-list",
-                    "Container List",
-                    "The list of containers",
-                    model::ContainerList::static_type(),
-                    glib::ParamFlags::READABLE,
-                )]
+                vec![
+                    glib::ParamSpecObject::new(
+                        "container-list",
+                        "Container List",
+                        "The list of containers",
+                        model::ContainerList::static_type(),
+                        glib::ParamFlags::READABLE,
+                    ),
+                    glib::ParamSpecBoolean::new(
+                        "show-only-running",
+                        "Show-Only-Running",
+                        "Whether to show only running containers",
+                        true,
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                    ),
+                ]
             });
             PROPERTIES.as_ref()
+        }
+
+        fn set_property(
+            &self,
+            obj: &Self::Type,
+            _id: usize,
+            value: &glib::Value,
+            pspec: &glib::ParamSpec,
+        ) {
+            match pspec.name() {
+                "show-only-running" => obj.set_show_only_running(value.get().unwrap()),
+                _ => unimplemented!(),
+            }
         }
 
         fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
                 "container-list" => obj.container_list().to_value(),
+                "show-only-running" => obj.show_only_running().to_value(),
                 _ => unimplemented!(),
             }
         }
 
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
+
+            gio::Settings::new(config::APP_ID)
+                .bind("show-only-running-containers", obj, "show-only-running")
+                .build();
 
             let container_list_expr = Self::Type::this_expression("container-list");
 
@@ -181,5 +211,35 @@ impl ContainersPanel {
         self.imp()
             .container_list
             .get_or_init(model::ContainerList::default)
+    }
+
+    pub(crate) fn show_only_running(&self) -> bool {
+        self.imp().show_only_running.get()
+    }
+
+    pub(crate) fn set_show_only_running(&self, value: bool) {
+        if self.show_only_running() == value {
+            return;
+        }
+        self.imp().show_only_running.set(value);
+        self.notify("show-only-running");
+
+        self.setup_container_list_view();
+    }
+
+    fn setup_container_list_view(&self) {
+        let list_box = &*self.imp().list_box;
+        if self.show_only_running() {
+            list_box.set_filter_func(|row| {
+                let container = row
+                    .downcast_ref::<view::ContainerRow>()
+                    .unwrap()
+                    .container()
+                    .unwrap();
+                container.status() == model::ContainerStatus::Running
+            });
+        } else {
+            list_box.unset_filter_func();
+        }
     }
 }

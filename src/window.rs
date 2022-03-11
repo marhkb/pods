@@ -28,6 +28,8 @@ mod imp {
         #[template_child]
         pub(super) images_menu_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
+        pub(super) containers_menu_button: TemplateChild<gtk::MenuButton>,
+        #[template_child]
         pub(super) panel_stack: TemplateChild<adw::ViewStack>,
         #[template_child]
         pub(super) images_panel: TemplateChild<view::ImagesPanel>,
@@ -45,10 +47,16 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
+
             klass.install_property_action("images.show-intermediates", "show-intermediate-images");
             klass.install_action("images.prune-unused", None, move |widget, _, _| {
                 widget.imp().images_panel.show_prune_dialog();
             });
+
+            klass.install_property_action(
+                "containers.show-only-running",
+                "show-only-running-containers",
+            );
         }
 
         // You must call `Widget`'s `init_template()` within `instance_init()`.
@@ -60,13 +68,22 @@ mod imp {
     impl ObjectImpl for Window {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecBoolean::new(
-                    "show-intermediate-images",
-                    "Show Intermediate Images",
-                    "Whether to also show intermediate images",
-                    bool::default(),
-                    glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                )]
+                vec![
+                    glib::ParamSpecBoolean::new(
+                        "show-intermediate-images",
+                        "Show Intermediate Images",
+                        "Whether to also show intermediate images",
+                        bool::default(),
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                    ),
+                    glib::ParamSpecBoolean::new(
+                        "show-only-running-containers",
+                        "Show Only Running Containers",
+                        "Whether to show only running containers",
+                        true,
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                    ),
+                ]
             });
             PROPERTIES.as_ref()
         }
@@ -83,6 +100,10 @@ mod imp {
                     self.images_panel
                         .set_show_intermediates(value.get().unwrap());
                 }
+                "show-only-running-containers" => {
+                    self.containers_panel
+                        .set_show_only_running(value.get().unwrap());
+                }
                 _ => unimplemented!(),
             }
         }
@@ -95,6 +116,13 @@ mod imp {
                     .as_ref()
                     .map(view::ImagesPanel::show_intermediates)
                     .unwrap_or_default()
+                    .to_value(),
+                "show-only-running-containers" => self
+                    .containers_panel
+                    .try_get()
+                    .as_ref()
+                    .map(view::ContainersPanel::show_only_running)
+                    .unwrap_or(true)
                     .to_value(),
                 _ => unimplemented!(),
             }
@@ -117,12 +145,28 @@ mod imp {
                 clone!(@weak obj => move |_, _| obj.notify("show-intermediate-images")),
             );
 
+            obj.notify("show-only-running-containers");
+            self.containers_panel.connect_notify_local(
+                Some("show-only-running"),
+                clone!(@weak obj => move |_, _| obj.notify("show-only-running-containers")),
+            );
+
             adw::ViewStack::this_expression("visible-child-name")
                 .chain_closure::<bool>(closure!(|_: glib::Object, name: Option<&str>| {
                     name == Some("images")
                 }))
                 .bind(
                     &*self.images_menu_button,
+                    "visible",
+                    Some(&*self.panel_stack),
+                );
+
+            adw::ViewStack::this_expression("visible-child-name")
+                .chain_closure::<bool>(closure!(|_: glib::Object, name: Option<&str>| {
+                    name == Some("containers")
+                }))
+                .bind(
+                    &*self.containers_menu_button,
                     "visible",
                     Some(&*self.panel_stack),
                 );
