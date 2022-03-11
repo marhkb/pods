@@ -12,7 +12,7 @@ use podman_api::models::{LibpodContainerInspectResponse, ListContainer};
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, glib::Enum)]
 #[enum_type(name = "ContainerStatus")]
-pub enum Status {
+pub(crate) enum Status {
     Configured,
     Exited,
     Running,
