@@ -52,6 +52,13 @@
               <object class="AdwHeaderBar">
                 <property name="centering-policy">strict</property>
 
+                <child type="start">
+                  <object class="GtkMenuButton" id="images_menu_button">
+                    <property name="icon-name">view-more-symbolic</property>
+                    <property name="menu-model">images_menu</property>
+                  </object>
+                </child>
+
                 <child type="title">
                   <object class="AdwViewSwitcherTitle" id="title">
                     <property name="stack">panel_stack</property>
@@ -62,13 +69,6 @@
                   <object class="GtkMenuButton">
                     <property name="icon-name">open-menu-symbolic</property>
                     <property name="menu-model">primary_menu</property>
-                  </object>
-                </child>
-
-                <child type="end">
-                  <object class="GtkMenuButton" id="images_menu_button">
-                    <property name="icon-name">view-more-symbolic</property>
-                    <property name="menu-model">images_menu</property>
                   </object>
                 </child>
 
