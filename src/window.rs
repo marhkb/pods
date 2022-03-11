@@ -31,6 +31,8 @@ mod imp {
         #[template_child]
         pub(super) images_panel: TemplateChild<view::ImagesPanel>,
         #[template_child]
+        pub(super) containers_panel: TemplateChild<view::ContainersPanel>,
+        #[template_child]
         pub(super) connection_lost_page: TemplateChild<view::ConnectionLostPage>,
     }
 
@@ -195,6 +197,7 @@ impl Window {
                     let imp = obj.imp();
                     imp.main_stack.set_visible_child(&*imp.leaflet);
                     imp.images_panel.image_list().setup();
+                    imp.containers_panel.container_list().setup();
 
                     obj.periodic_service_check();
                 }

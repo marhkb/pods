@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+
+  <template class="ContainersPanel" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBoxLayout">
+        <property name="orientation">vertical</property>
+      </object>
+    </property>
+
+    <child>
+      <object class="AdwHeaderBar" id="header_bar">
+        <property name="show-start-title-buttons">False</property>
+
+        <child type="start">
+          <object class="GtkButton" id="back_button">
+            <property name="action-name">leaflet.back</property>
+            <property name="icon-name">go-previous-symbolic</property>
+            <binding name="visible">
+              <lookup name="sensitive">back_button</lookup>
+            </binding>
+            >
+          </object>
+        </child>
+
+        <property name="title-widget">
+          <object class="AdwWindowTitle">
+            <property name="title" translatable="yes">Containers</property>
+          </object>
+        </property>
+
+      </object>
+    </child>
+
+    <child>
+      <object class="GtkOverlay" id="overlay">
+
+        <child type="overlay">
+          <object class="GtkStack" id="progress_stack">
+            <property name="transition-type">crossfade</property>
+            <property name="valign">start</property>
+
+            <child>
+              <object class="GtkStackPage">
+                <property name="name">empty</property>
+                <property name="child">
+                  <object class="AdwBin"/>
+                </property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkStackPage">
+                <property name="name">bar</property>
+                <property name="child">
+                  <object class="GtkProgressBar" id="progress_bar">
+                    <style>
+                      <class name="osd"/>
+                    </style>
+                  </object>
+                </property>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+            <property name="vexpand">True</property>
+
+            <child>
+              <object class="GtkSpinner" id="spinner">
+                <property name="halign">center</property>
+                <property name="height-request">30</property>
+                <property name="spinning">True</property>
+                <property name="vexpand">True</property>
+                <property name="width-request">30</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwPreferencesPage" id="preferences_page">
+                <property name="valign">start</property>
+
+                <child>
+                  <object class="AdwPreferencesGroup" id="container_group">
+                    <property name="title">User Containers</property>
+
+                    <child>
+                      <object class="GtkListBox" id="list_box">
+                        <style>
+                          <class name="boxed-list"/>
+                        </style>
+                        <property name="selection-mode">none</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>
