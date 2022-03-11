@@ -9,9 +9,8 @@ use gtk::{gio, glib, CompositeTemplate};
 use once_cell::sync::Lazy;
 use once_cell::unsync::OnceCell;
 
-use crate::config::APP_ID;
 use crate::utils::ToTypedListModel;
-use crate::{model, view};
+use crate::{config, model, view};
 
 mod imp {
     use super::*;
@@ -103,7 +102,7 @@ mod imp {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
-            gio::Settings::new(APP_ID)
+            gio::Settings::new(config::APP_ID)
                 .bind("show-intermediate-images", obj, "show-intermediates")
                 .build();
 
