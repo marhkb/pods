@@ -136,7 +136,6 @@ impl Container {
         _list_container: ListContainer,
         inspect_response: LibpodContainerInspectResponse,
     ) -> Self {
-        println!("{:?}", inspect_response.state);
         glib::Object::new(&[
             ("image-name", &inspect_response.image_name),
             ("name", &inspect_response.name),
