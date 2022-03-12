@@ -183,13 +183,16 @@ mod imp {
                     |images: Self::Type, fetched: u32, to_fetch: u32, len: u32| {
                         if fetched == to_fetch {
                             let list = images.image_list();
-                            Some(gettext!(
-                                "{} images total, {}  {} unused images, {}",
-                                len,
-                                glib::format_size(list.total_size()),
-                                list.num_unused_images(),
-                                glib::format_size(list.unused_size()),
-                            ))
+                            Some(
+                                // Translators: There's a wide space (U+2002) between the two {} {}.
+                                gettext!(
+                                    "{} images total, {} {} unused images, {}",
+                                    len,
+                                    glib::format_size(list.total_size()),
+                                    list.num_unused_images(),
+                                    glib::format_size(list.unused_size()),
+                                ),
+                            )
                         } else {
                             None
                         }
