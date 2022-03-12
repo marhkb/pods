@@ -172,9 +172,19 @@ mod imp {
                         .chain_property::<model::ContainerList>("len")
                         .upcast(),
                 ],
-                closure!(|_: glib::Object, fetched: u32, to_fetch: u32, len: u32| {
+                closure!(|panel: Self::Type, fetched: u32, to_fetch: u32, len: u32| {
                     if fetched == to_fetch {
-                        Some(gettext!("{} Containers total", len))
+                        let list = panel.container_list();
+                        Some(
+                            // Translators: There's a wide space (U+2002) between every ", {}".
+                            gettext!(
+                                "{} Containers total, {} running, {} configured, {} exited",
+                                len,
+                                list.count(model::ContainerStatus::Running),
+                                list.count(model::ContainerStatus::Configured),
+                                list.count(model::ContainerStatus::Exited),
+                            ),
+                        )
                     } else {
                         None
                     }
