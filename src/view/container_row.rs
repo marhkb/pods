@@ -76,6 +76,7 @@ mod imp {
             self.parent_constructed(obj);
 
             let container_expr = Self::Type::this_expression("container");
+            let status_expr = container_expr.chain_property::<model::Container>("status");
 
             container_expr
                 .chain_property::<model::Container>("name")
@@ -91,16 +92,14 @@ mod imp {
                 }))
                 .bind(obj, "subtitle", Some(obj));
 
-            container_expr
-                .chain_property::<model::Container>("status")
+            status_expr
                 .chain_closure::<String>(closure!(
                     |_: glib::Object, status: model::ContainerStatus| status.to_string()
                 ))
                 .bind(&*self.status_label, "label", Some(obj));
 
             let css_classes = self.status_label.css_classes();
-            container_expr
-                .chain_property::<model::Container>("status")
+            status_expr
                 .chain_closure::<Vec<String>>(closure!(
                     |_: glib::Object, status: model::ContainerStatus| {
                         css_classes
