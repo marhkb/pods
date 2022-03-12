@@ -2,13 +2,15 @@ use std::cell::{Cell, RefCell};
 use std::fmt;
 use std::str::FromStr;
 
+use futures::{Future, TryFutureExt};
 use gettextrs::gettext;
-use gtk::glib;
+use gtk::glib::{self, clone};
 use gtk::prelude::{ObjectExt, StaticType, ToValue};
 use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
+use once_cell::unsync::OnceCell;
 
-use crate::api;
+use crate::{api, utils, PODMAN};
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, glib::Enum)]
 #[enum_type(name = "ContainerStatus")]
@@ -79,6 +81,8 @@ mod imp {
 
     #[derive(Debug, Default)]
     pub(crate) struct Container {
+        pub(super) action_ongoing: Cell<bool>,
+        pub(super) id: OnceCell<String>,
         pub(super) image_name: RefCell<Option<String>>,
         pub(super) name: RefCell<Option<String>>,
         pub(super) status: Cell<Status>,
@@ -95,6 +99,20 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
+                    glib::ParamSpecBoolean::new(
+                        "action-ongoing",
+                        "Action Ongoing",
+                        "Whether an action (starting, stopping, etc.) is currently ongoing",
+                        false,
+                        glib::ParamFlags::READWRITE,
+                    ),
+                    glib::ParamSpecString::new(
+                        "id",
+                        "Id",
+                        "The id of this container",
+                        Option::default(),
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
+                    ),
                     glib::ParamSpecString::new(
                         "image-name",
                         "Image Name",
@@ -134,6 +152,8 @@ mod imp {
             pspec: &glib::ParamSpec,
         ) {
             match pspec.name() {
+                "action-ongoing" => obj.set_action_ongoing(value.get().unwrap()),
+                "id" => self.id.set(value.get().unwrap()).unwrap(),
                 "image-name" => obj.set_image_name(value.get().unwrap()),
                 "name" => obj.set_name(value.get().unwrap()),
                 "status" => obj.set_status(value.get().unwrap()),
@@ -143,6 +163,8 @@ mod imp {
 
         fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
+                "action-ongoing" => obj.action_ongoing().to_value(),
+                "id" => obj.id().to_value(),
                 "image-name" => obj.image_name().to_value(),
                 "name" => obj.name().to_value(),
                 "status" => obj.status().to_value(),
@@ -159,6 +181,7 @@ glib::wrapper! {
 impl From<api::LibpodContainerInspectResponse> for Container {
     fn from(inspect_response: api::LibpodContainerInspectResponse) -> Self {
         glib::Object::new(&[
+            ("id", &inspect_response.id),
             ("image-name", &inspect_response.image_name),
             ("name", &inspect_response.name),
             ("status", &status(inspect_response.state)),
@@ -169,9 +192,26 @@ impl From<api::LibpodContainerInspectResponse> for Container {
 
 impl Container {
     pub(crate) fn update(&self, inspect_response: api::LibpodContainerInspectResponse) {
+        self.set_action_ongoing(false);
         self.set_image_name(inspect_response.image_name);
         self.set_name(inspect_response.name);
         self.set_status(status(inspect_response.state));
+    }
+
+    pub(crate) fn action_ongoing(&self) -> bool {
+        self.imp().action_ongoing.get()
+    }
+
+    pub(crate) fn set_action_ongoing(&self, value: bool) {
+        if self.action_ongoing() == value {
+            return;
+        }
+        self.imp().action_ongoing.replace(value);
+        self.notify("action-ongoing");
+    }
+
+    pub(crate) fn id(&self) -> Option<&str> {
+        self.imp().id.get().map(String::as_str)
     }
 
     pub(crate) fn image_name(&self) -> Option<String> {
@@ -208,6 +248,237 @@ impl Container {
         }
         self.imp().status.set(value);
         self.notify("status");
+    }
+}
+
+impl Container {
+    fn action<Fut, FutOp, ErrOp>(&self, fut_op: FutOp, err_op: ErrOp)
+    where
+        Fut: Future<Output = api::Result<()>> + Send,
+        FutOp: FnOnce(api::Container<'static>) -> Fut + Send + 'static,
+        ErrOp: FnOnce(api::Error) + 'static,
+    {
+        if self.action_ongoing() {
+            return;
+        }
+
+        // This will be either set back to `false` in `Self::update` or in case of an error.
+        self.set_action_ongoing(true);
+
+        let container = api::Container::new(&*PODMAN, self.id().unwrap_or_default());
+        utils::do_async(
+            async move { fut_op(container).await },
+            clone!(@weak self as obj => move |result| match result {
+                Ok(_) => {
+                    log::info!("Container <{}>: Action is finished", obj.id().unwrap_or_default());
+                }
+                Err(e) => {
+                    obj.set_action_ongoing(false);
+                    err_op(e)
+                }
+            }),
+        );
+    }
+
+    pub(crate) fn start<F>(&self, err_op: F)
+    where
+        F: FnOnce(api::Error) + 'static,
+    {
+        log::info!("Container <{}>: Starting…'", self.id().unwrap_or_default());
+        self.action(
+            |container| async move { container.start(None).await },
+            clone!(@weak self as obj => move |e| {
+                log::error!(
+                    "Container <{}>: Error while starting: {}",
+                    obj.id().unwrap_or_default(),
+                    e
+                );
+                err_op(e);
+            }),
+        );
+    }
+
+    pub(crate) fn stop<F>(&self, err_op: F)
+    where
+        F: FnOnce(api::Error) + 'static,
+    {
+        log::info!("Container <{}>: Stopping…'", self.id().unwrap_or_default());
+        self.action(
+            |container| async move { container.stop(&Default::default()).await },
+            clone!(@weak self as obj => move |e| {
+                log::error!(
+                    "Container <{}>: Error while stopping: {}",
+                    obj.id().unwrap_or_default(),
+                    e
+                );
+                err_op(e);
+            }),
+        );
+    }
+
+    pub(crate) fn force_stop<F>(&self, err_op: F)
+    where
+        F: FnOnce(api::Error) + 'static,
+    {
+        log::info!(
+            "Container <{}>: Force stopping…'",
+            self.id().unwrap_or_default()
+        );
+        self.action(
+            |container| async move { container.kill().await },
+            clone!(@weak self as obj => move |e| {
+                log::error!(
+                    "Container <{}>: Error while force stopping: {}",
+                    obj.id().unwrap_or_default(),
+                    e
+                );
+                err_op(e);
+            }),
+        );
+    }
+
+    pub(crate) fn restart<F>(&self, err_op: F)
+    where
+        F: FnOnce(api::Error) + 'static,
+    {
+        log::info!(
+            "Container <{}>: Restarting…'",
+            self.id().unwrap_or_default()
+        );
+        self.action(
+            |container| async move { container.restart().await },
+            clone!(@weak self as obj => move |e| {
+                log::error!(
+                    "Container <{}>: Error while restarting: {}",
+                    obj.id().unwrap_or_default(),
+                    e
+                );
+                err_op(e);
+            }),
+        );
+    }
+
+    pub(crate) fn force_restart<F>(&self, err_op: F)
+    where
+        F: FnOnce(api::Error) + 'static,
+    {
+        log::info!(
+            "Container <{}>: Force restarting…'",
+            self.id().unwrap_or_default()
+        );
+        self.action(
+            |container| async move { container.kill().and_then(|_| container.start(None)).await },
+            clone!(@weak self as obj => move |e| {
+                log::error!(
+                    "Container <{}>: Error while force restarting: {}",
+                    obj.id().unwrap_or_default(),
+                    e
+                );
+                err_op(e);
+            }),
+        );
+    }
+
+    pub(crate) fn pause<F>(&self, err_op: F)
+    where
+        F: FnOnce(api::Error) + 'static,
+    {
+        log::info!("Container <{}>: Pausing…'", self.id().unwrap_or_default());
+        self.action(
+            |container| async move { container.pause().await },
+            clone!(@weak self as obj => move |e| {
+                log::error!(
+                    "Container <{}>: Error while pausing: {}",
+                    obj.id().unwrap_or_default(),
+                    e
+                );
+                err_op(e);
+            }),
+        );
+    }
+
+    pub(crate) fn resume<F>(&self, err_op: F)
+    where
+        F: FnOnce(api::Error) + 'static,
+    {
+        log::info!("Container <{}>: Resuming…'", self.id().unwrap_or_default());
+        self.action(
+            |container| async move { container.unpause().await },
+            clone!(@weak self as obj => move |e| {
+                log::error!(
+                    "Container <{}>: Error while resuming: {}",
+                    obj.id().unwrap_or_default(),
+                    e
+                );
+                err_op(e);
+            }),
+        );
+    }
+
+    pub(crate) fn commit<F>(&self, err_op: F)
+    where
+        F: FnOnce(api::Error) + 'static,
+    {
+        log::info!(
+            "Container <{}>: Committing…'",
+            self.id().unwrap_or_default()
+        );
+        self.action(
+            |container| async move { container.commit(&Default::default()).await },
+            clone!(@weak self as obj => move |e| {
+                log::error!(
+                    "Container <{}>: Error while committing: {}",
+                    obj.id().unwrap_or_default(),
+                    e
+                );
+                err_op(e);
+            }),
+        );
+    }
+
+    pub(crate) fn delete<F>(&self, err_op: F)
+    where
+        F: FnOnce(api::Error) + 'static,
+    {
+        log::info!("Container <{}>: Deleting…'", self.id().unwrap_or_default());
+        self.action(
+            |container| async move { container.delete(&Default::default()).await },
+            clone!(@weak self as obj => move |e| {
+                log::error!(
+                    "Container <{}>: Error while deleting: {}",
+                    obj.id().unwrap_or_default(),
+                    e
+                );
+                err_op(e);
+            }),
+        );
+    }
+
+    pub(crate) fn force_delete<F>(&self, err_op: F)
+    where
+        F: FnOnce(api::Error) + 'static,
+    {
+        log::info!(
+            "Container <{}>: Force deleting…'",
+            self.id().unwrap_or_default()
+        );
+        self.action(
+            |container| async move {
+                let delete_opts = Default::default();
+                container
+                    .stop(&Default::default())
+                    .and_then(|_| container.delete(&delete_opts))
+                    .await
+            },
+            clone!(@weak self as obj => move |e| {
+                log::error!(
+                    "Container <{}>: Error while force deleting: {}",
+                    obj.id().unwrap_or_default(),
+                    e
+                );
+                err_op(e);
+            }),
+        );
     }
 }
 

@@ -1,12 +1,15 @@
 use std::cell::RefCell;
+use std::error;
 
 use adw::subclass::prelude::{ActionRowImpl, PreferencesRowImpl};
-use gtk::glib::closure;
+use gettextrs::gettext;
+use gtk::glib::{clone, closure};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
-use gtk::{glib, CompositeTemplate};
+use gtk::{gio, glib, CompositeTemplate};
 use once_cell::sync::Lazy;
 
+use crate::window::Window;
 use crate::{model, utils};
 
 mod imp {
@@ -17,7 +20,17 @@ mod imp {
     pub(crate) struct ContainerRow {
         pub(super) container: RefCell<Option<model::Container>>,
         #[template_child]
+        pub(super) stopped_menu: TemplateChild<gio::MenuModel>,
+        #[template_child]
+        pub(super) running_menu: TemplateChild<gio::MenuModel>,
+        #[template_child]
+        pub(super) paused_menu: TemplateChild<gio::MenuModel>,
+        #[template_child]
         pub(super) status_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub(super) menu_stack: TemplateChild<gtk::Stack>,
+        #[template_child]
+        pub(super) menu_button: TemplateChild<gtk::MenuButton>,
     }
 
     #[glib::object_subclass]
@@ -28,6 +41,39 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
+
+            klass.install_action("container.start", None, move |widget, _, _| {
+                widget.start();
+            });
+            klass.install_action("container.stop", None, move |widget, _, _| {
+                widget.stop();
+            });
+            klass.install_action("container.force-stop", None, move |widget, _, _| {
+                widget.force_stop();
+            });
+            klass.install_action("container.restart", None, move |widget, _, _| {
+                widget.restart();
+            });
+            klass.install_action("container.force-restart", None, move |widget, _, _| {
+                widget.force_restart();
+            });
+            klass.install_action("container.pause", None, move |widget, _, _| {
+                widget.pause();
+            });
+            klass.install_action("container.resume", None, move |widget, _, _| {
+                widget.resume();
+            });
+
+            klass.install_action("container.commit", None, move |widget, _, _| {
+                widget.commit();
+            });
+
+            klass.install_action("container.delete", None, move |widget, _, _| {
+                widget.delete();
+            });
+            klass.install_action("container.force-delete", None, move |widget, _, _| {
+                widget.force_delete();
+            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -123,6 +169,36 @@ mod imp {
                     }
                 ))
                 .bind(&*self.status_label, "css-classes", Some(obj));
+
+            container_expr
+                .chain_property::<model::Container>("action-ongoing")
+                .chain_closure::<String>(closure!(|_: glib::Object, action_ongoing: bool| {
+                    if action_ongoing {
+                        "ongoing"
+                    } else {
+                        "menu"
+                    }
+                }))
+                .bind(&*self.menu_stack, "visible-child-name", Some(obj));
+
+            status_expr
+                .chain_closure::<Option<gio::MenuModel>>(closure!(
+                    |obj: Self::Type, status: model::ContainerStatus| {
+                        use model::ContainerStatus::*;
+
+                        let imp = obj.imp();
+                        Some(
+                            match status {
+                                Running => &*imp.running_menu,
+                                Paused => &*imp.paused_menu,
+                                Configured | Exited | Dead | Stopped => &*imp.stopped_menu,
+                                _ => return None,
+                            }
+                            .to_owned(),
+                        )
+                    }
+                ))
+                .bind(&*self.menu_button, "menu-model", Some(obj));
         }
     }
 
@@ -146,5 +222,101 @@ impl From<&model::Container> for ContainerRow {
 impl ContainerRow {
     pub(crate) fn container(&self) -> Option<model::Container> {
         self.imp().container.borrow().clone()
+    }
+}
+
+impl ContainerRow {
+    fn show_toast(&self, title: &str, e: impl error::Error) {
+        self.root()
+            .unwrap()
+            .downcast::<Window>()
+            .unwrap()
+            .show_toast(
+                &adw::Toast::builder()
+                    .title(&format!("{}: {}", title, e))
+                    .timeout(3)
+                    .priority(adw::ToastPriority::High)
+                    .build(),
+            );
+    }
+
+    pub(crate) fn start(&self) {
+        self.container()
+            .unwrap()
+            .start(clone!(@weak self as obj => move |e| {
+                obj.show_toast(&gettext("Error on starting container"), e);
+            }));
+    }
+
+    pub(crate) fn stop(&self) {
+        self.container()
+            .unwrap()
+            .stop(clone!(@weak self as obj => move |e| {
+                obj.show_toast(&gettext("Error on stopping container"), e);
+            }));
+    }
+
+    pub(crate) fn force_stop(&self) {
+        self.container()
+            .unwrap()
+            .force_stop(clone!(@weak self as obj => move |e| {
+                obj.show_toast(&gettext("Error on force stopping container"), e);
+            }));
+    }
+
+    pub(crate) fn restart(&self) {
+        self.container()
+            .unwrap()
+            .restart(clone!(@weak self as obj => move |e| {
+                obj.show_toast(&gettext("Error on restarting container"), e);
+            }));
+    }
+
+    pub(crate) fn force_restart(&self) {
+        self.container()
+            .unwrap()
+            .force_restart(clone!(@weak self as obj => move |e| {
+                obj.show_toast(&gettext("Error on force restarting container"), e);
+            }));
+    }
+
+    pub(crate) fn pause(&self) {
+        self.container()
+            .unwrap()
+            .pause(clone!(@weak self as obj => move |e| {
+                obj.show_toast(&gettext("Error on pausing container"), e);
+            }));
+    }
+
+    pub(crate) fn resume(&self) {
+        self.container()
+            .unwrap()
+            .resume(clone!(@weak self as obj => move |e| {
+                obj.show_toast(&gettext("Error on resuming container"), e);
+            }));
+    }
+
+    pub(crate) fn commit(&self) {
+        self.container()
+            .unwrap()
+            .commit(clone!(@weak self as obj => move |e| {
+                obj.show_toast(&gettext("Error on committing container"), e);
+            }));
+    }
+
+    pub(crate) fn delete(&self) {
+        self.container()
+            .unwrap()
+            .delete(clone!(@weak self as obj => move |e| {
+                obj.show_toast(&gettext("Error on deleting container"), e);
+            }));
+    }
+
+    pub(crate) fn force_delete(&self) {
+        self.container()
+            .unwrap()
+            .force_delete(clone!(@weak self as obj => move |e| {
+                obj.show_toast(&gettext("Error on force deleting container"), e);
+            }));
     }
 }
