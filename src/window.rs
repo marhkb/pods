@@ -47,6 +47,12 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
+            // Initialize all classes here
+            view::CheckServicePage::static_type();
+            view::ImageRowSimple::static_type();
+            view::ImagesPanel::static_type();
+            view::StartServicePage::static_type();
+
             klass.install_property_action("images.show-intermediates", "show-intermediate-images");
             klass.install_action("images.prune-unused", None, move |widget, _, _| {
                 widget.imp().images_panel.show_prune_dialog();

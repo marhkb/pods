@@ -8,8 +8,8 @@ use gtk::{gdk, gio, glib};
 use log::{debug, info};
 use once_cell::sync::OnceCell;
 
+use crate::config;
 use crate::window::Window;
-use crate::{config, view};
 
 mod imp {
     use super::*;
@@ -24,14 +24,6 @@ mod imp {
         const NAME: &'static str = "Application";
         type Type = super::Application;
         type ParentType = gtk::Application;
-
-        fn class_init(_: &mut Self::Class) {
-            // Initialize all classes here
-            view::CheckServicePage::static_type();
-            view::ImageRowSimple::static_type();
-            view::ImagesPanel::static_type();
-            view::StartServicePage::static_type();
-        }
     }
 
     impl ObjectImpl for Application {}
