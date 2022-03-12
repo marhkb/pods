@@ -151,6 +151,15 @@ impl ContainerList {
         self.notify("to-fetch");
     }
 
+    pub(crate) fn count(&self, status: model::ContainerStatus) -> usize {
+        self.imp()
+            .list
+            .borrow()
+            .values()
+            .filter(|container| container.status() == status)
+            .count()
+    }
+
     fn add_or_update_container(&self, id: String) {
         utils::do_async(
             async move { PODMAN.containers().get(id).inspect().await },
