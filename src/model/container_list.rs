@@ -1,11 +1,10 @@
 use std::cell::{Cell, RefCell};
 
-use futures::TryFutureExt;
 use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::{gio, glib};
-use indexmap::IndexMap;
+use indexmap::map::{Entry, IndexMap};
 use once_cell::sync::Lazy;
 use podman_api::opts::{ContainerListOpts, EventsOpts};
 
@@ -152,6 +151,34 @@ impl ContainerList {
         self.notify("to-fetch");
     }
 
+    fn add_or_update_container(&self, id: String) {
+        utils::do_async(
+            async move { PODMAN.containers().get(id).inspect().await },
+            clone!(@weak self as obj => move |result| {
+                match result {
+                    Ok(inspect_response) => {
+                        let mut list = obj.imp().list.borrow_mut();
+                        let entry = list.entry(inspect_response.id.clone().unwrap());
+                        match entry {
+                            Entry::Vacant(entry) => {
+                                entry.insert(model::Container::from(inspect_response));
+
+                                drop(list);
+                                obj.items_changed(obj.len() - 1, 0, 1);
+                            }
+                            Entry::Occupied(entry) => {
+                                entry.get().update(inspect_response);
+                            }
+                        }
+                    }
+                    Err(e) => {
+                        log::error!("Error on inspecting image: {}", e);
+                    }
+                }
+            }),
+        );
+    }
+
     pub(crate) fn remove_container(&self, id: &str) {
         let mut list = self.imp().list.borrow_mut();
         if let Some((idx, ..)) = list.shift_remove_full(id) {
@@ -169,7 +196,7 @@ impl ContainerList {
                     .await
             },
             clone!(@weak self as obj => move |result| match result {
-                Ok(mut list_containers) => {
+                Ok(list_containers) => {
                     let to_remove = obj
                         .imp()
                         .list
@@ -184,36 +211,12 @@ impl ContainerList {
                         .collect::<Vec<_>>();
                     to_remove.iter().for_each(|id| obj.remove_container(id));
 
-                    list_containers.retain(|summary| {
-                        !obj.imp().list.borrow().contains_key(summary.id.as_ref().unwrap())
-                    });
-
                     obj.set_fetched(0);
                     obj.set_to_fetch(list_containers.len() as u32);
 
                     list_containers.into_iter().for_each(|list_container| {
-                        utils::do_async(
-                            async move {
-                                PODMAN.containers().get(list_container.id.as_deref().unwrap()).inspect()
-                                    .map_ok(|inspect_response| (list_container, inspect_response)).await
-                            },
-                            clone!(@weak obj => move |result| {
-                                match result {
-                                    Ok((list_container, inspect_response)) => {
-                                        obj.imp().list.borrow_mut().insert(
-                                            list_container.id.clone().unwrap(),
-                                            model::Container::from_libpod(list_container, inspect_response)
-                                        );
-
-                                        obj.set_fetched(obj.fetched() + 1);
-                                        obj.items_changed(obj.len() - 1, 0, 1);
-                                    }
-                                    Err(e) => {
-                                        log::error!("Error on inspecting image: {}", e);
-                                    }
-                                }
-                            })
-                        );
+                        obj.add_or_update_container(list_container.id.unwrap());
+                        obj.set_fetched(obj.fetched() + 1);
                     });
                 }
                 Err(e) => {
@@ -235,11 +238,7 @@ impl ContainerList {
                 glib::Continue(match result {
                     Ok(event) => {
                         log::debug!("Event: {event:?}");
-                        // match event.action.as_str() {
-                        //     "remove" => obj.remove_image(&event.actor.id),
-                        //     "build" | "pull" => obj.refresh(),
-                        //     other => log::warn!("Unknown action: {other}"),
-                        // }
+                        obj.refresh();
                         true
                     },
                     Err(e) => {
