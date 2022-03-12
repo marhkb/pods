@@ -231,18 +231,21 @@ impl Window {
     pub(crate) fn check_service(&self) {
         utils::do_async(
             PODMAN.ping(),
-            clone!(@weak self as obj => move |result| match result {
-                Ok(_) => {
-                    let imp = obj.imp();
-                    imp.main_stack.set_visible_child(&*imp.main_view_box);
-                    imp.images_panel.image_list().setup();
-                    imp.containers_panel.container_list().setup();
+            clone!(@weak self as obj => move |result| {
+                let imp = obj.imp();
+                match result {
+                    Ok(_) => {
+                        imp.main_stack.set_visible_child(&*imp.main_view_box);
+                        imp.images_panel.image_list().setup();
+                        imp.containers_panel.container_list().setup();
 
-                    obj.periodic_service_check();
-                }
-                Err(e) => {
-                    log::error!("Could not connect to podman: {e}");
-                    // TODO: Show a toast message
+                        obj.periodic_service_check();
+                    }
+                    Err(e) => {
+                        imp.main_stack.set_visible_child(&*imp.start_service_page);
+                        log::error!("Could not connect to podman: {e}");
+                        // TODO: Show a toast message
+                    }
                 }
             }),
         );

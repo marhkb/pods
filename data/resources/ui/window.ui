@@ -46,6 +46,11 @@
       <object class="GtkStack" id="main_stack">
         <property name="transition-type">crossfade</property>
 
+        <!-- Check Service Page -->
+        <child>
+          <object class="CheckServicePage"/>
+        </child>
+
         <!-- Start Service Page -->
         <child>
           <object class="StartServicePage" id="start_service_page"/>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="CheckServicePage" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBoxLayout">
+        <property name="orientation">vertical</property>
+      </object>
+    </property>
+
+    <child>
+      <object class="AdwHeaderBar" id="header_bar"/>
+    </child>
+
+    <child>
+      <object class="AdwStatusPage" id="status_page">
+        <property name="icon-name">system-search-symbolic</property>
+        <property name="title" translatable="yes">Checking Connection to Podman Service</property>
+        <property name="vexpand">True</property>
+
+        <child>
+          <object class="GtkSpinner" id="spinner">
+            <property name="halign">center</property>
+            <property name="height-request">30</property>
+            <property name="spinning">True</property>
+            <property name="vexpand">True</property>
+            <property name="width-request">30</property>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>
