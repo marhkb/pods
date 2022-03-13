@@ -14,6 +14,7 @@ use podman_api::models::{InspectContainerState, LibpodContainerInspectResponse};
 pub(crate) enum Status {
     Configured,
     Exited,
+    Paused,
     Running,
     Unknown,
 }
@@ -31,6 +32,7 @@ impl FromStr for Status {
         Ok(match s {
             "configured" => Self::Configured,
             "exited" => Self::Exited,
+            "paused" => Self::Paused,
             "running" => Self::Running,
             _ => Self::Unknown,
         })
@@ -45,6 +47,7 @@ impl fmt::Display for Status {
             match self {
                 Self::Configured => gettext("Configured"),
                 Self::Exited => gettext("Exited"),
+                Self::Paused => gettext("Paused"),
                 Self::Running => gettext("Running"),
                 Self::Unknown => gettext("Unknown"),
             }
