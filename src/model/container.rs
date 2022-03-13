@@ -17,6 +17,7 @@ pub(crate) enum Status {
     Created,
     Exited,
     Paused,
+    Restarting,
     Running,
     Unknown,
 }
@@ -36,6 +37,7 @@ impl FromStr for Status {
             "created" => Self::Created,
             "exited" => Self::Exited,
             "paused" => Self::Paused,
+            "restarting" => Self::Restarting,
             "running" => Self::Running,
             _ => Self::Unknown,
         })
@@ -52,6 +54,7 @@ impl fmt::Display for Status {
                 Self::Created => gettext("Created"),
                 Self::Exited => gettext("Exited"),
                 Self::Paused => gettext("Paused"),
+                Self::Restarting => gettext("Restarting"),
                 Self::Running => gettext("Running"),
                 Self::Unknown => gettext("Unknown"),
             }

@@ -109,6 +109,7 @@ mod imp {
                                 model::ContainerStatus::Created => "container-status-created",
                                 model::ContainerStatus::Exited => "container-status-exited",
                                 model::ContainerStatus::Paused => "container-status-paused",
+                                model::ContainerStatus::Restarting => "container-status-restarting",
                                 model::ContainerStatus::Running => "container-status-running",
                                 model::ContainerStatus::Unknown => "container-status-unknown",
                             })))

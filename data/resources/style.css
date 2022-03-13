@@ -44,6 +44,10 @@
   background-color: @dark_1;
 }
 
+.container-status-restarting {
+  background-color: @yellow_5;
+}
+
 .container-status-running {
   background-color: @green_5;
 }
