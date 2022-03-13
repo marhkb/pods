@@ -7,9 +7,8 @@ use gtk::subclass::prelude::*;
 use gtk::{gio, glib};
 use indexmap::IndexMap;
 use once_cell::sync::Lazy;
-use podman_api::opts::{EventsOpts, ImageListOpts};
 
-use crate::{model, utils, PODMAN};
+use crate::{api, model, utils, PODMAN};
 
 mod imp {
     use super::*;
@@ -193,7 +192,7 @@ impl ImageList {
             async move {
                 PODMAN
                     .images()
-                    .list(&ImageListOpts::builder().all(true).build())
+                    .list(&api::ImageListOpts::builder().all(true).build())
                     .await
             },
             clone!(@weak self as obj => move |result| match result {
@@ -255,7 +254,7 @@ impl ImageList {
     pub(crate) fn setup(&self) {
         utils::run_stream(
             PODMAN.events(
-                &EventsOpts::builder()
+                &api::EventsOpts::builder()
                     .filters([("type".to_string(), vec!["image".to_string()])])
                     .build(),
             ),

@@ -5,9 +5,8 @@ use gtk::prelude::{ObjectExt, StaticType, ToValue};
 use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
 use once_cell::unsync::OnceCell;
-use podman_api::models::{LibpodImageInspectResponse, LibpodImageSummary};
 
-use crate::{model, utils, PODMAN};
+use crate::{api, model, utils, PODMAN};
 
 mod imp {
     use super::*;
@@ -268,8 +267,8 @@ glib::wrapper! {
 
 impl Image {
     pub(crate) fn from_libpod(
-        summary: LibpodImageSummary,
-        inspect_response: LibpodImageInspectResponse,
+        summary: api::LibpodImageSummary,
+        inspect_response: api::LibpodImageInspectResponse,
     ) -> Self {
         glib::Object::new(&[
             ("architecture", &inspect_response.architecture),
@@ -415,11 +414,11 @@ impl Image {
 impl Image {
     pub(crate) fn delete<F>(&self, op: F)
     where
-        F: FnOnce(podman_api::Error) + 'static,
+        F: FnOnce(api::Error) + 'static,
     {
         self.set_to_be_deleted(true);
 
-        let image = podman_api::api::Image::new(&*PODMAN, self.id());
+        let image = api::Image::new(&*PODMAN, self.id());
         utils::do_async(
             async move { image.remove().await },
             clone!(@weak self as obj => move |result| {

@@ -7,7 +7,8 @@ use gtk::glib;
 use gtk::prelude::{ObjectExt, StaticType, ToValue};
 use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
-use podman_api::models::{InspectContainerState, LibpodContainerInspectResponse};
+
+use crate::api;
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, glib::Enum)]
 #[enum_type(name = "ContainerStatus")]
@@ -137,8 +138,8 @@ glib::wrapper! {
     pub(crate) struct Container(ObjectSubclass<imp::Container>);
 }
 
-impl From<LibpodContainerInspectResponse> for Container {
-    fn from(inspect_response: LibpodContainerInspectResponse) -> Self {
+impl From<api::LibpodContainerInspectResponse> for Container {
+    fn from(inspect_response: api::LibpodContainerInspectResponse) -> Self {
         glib::Object::new(&[
             ("image-name", &inspect_response.image_name),
             ("name", &inspect_response.name),
@@ -149,7 +150,7 @@ impl From<LibpodContainerInspectResponse> for Container {
 }
 
 impl Container {
-    pub(crate) fn update(&self, inspect_response: LibpodContainerInspectResponse) {
+    pub(crate) fn update(&self, inspect_response: api::LibpodContainerInspectResponse) {
         self.set_image_name(inspect_response.image_name);
         self.set_name(inspect_response.name);
         self.set_status(status(inspect_response.state));
@@ -192,7 +193,7 @@ impl Container {
     }
 }
 
-fn status(state: Option<InspectContainerState>) -> Status {
+fn status(state: Option<api::InspectContainerState>) -> Status {
     state
         .and_then(|state| state.status)
         .map_or_else(Status::default, |s| match Status::from_str(&s) {
