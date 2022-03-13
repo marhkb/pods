@@ -32,6 +32,10 @@
   background-color: @blue_3;
 }
 
+.container-status-created {
+  background-color: @brown_4;
+}
+
 .container-status-exited {
   background-color: @orange_3;
 }
