@@ -43,7 +43,7 @@ impl FromStr for Status {
             "removing" => Self::Removing,
             "restarting" => Self::Restarting,
             "running" => Self::Running,
-            _ => Self::Unknown,
+            _ => return Err(Self::Unknown),
         })
     }
 }
