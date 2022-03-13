@@ -10,7 +10,6 @@ use once_cell::sync::Lazy;
 use crate::{model, utils};
 
 mod imp {
-
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
