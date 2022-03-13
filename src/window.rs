@@ -1,7 +1,7 @@
 use std::time::Duration;
 
 use adw::subclass::prelude::AdwApplicationWindowImpl;
-use gtk::glib::clone;
+use gtk::glib::{clone, closure};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::{gio, glib, CompositeTemplate};
@@ -11,8 +11,6 @@ use crate::application::Application;
 use crate::{config, utils, view, PODMAN};
 
 mod imp {
-    use gtk::glib::closure;
-
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
