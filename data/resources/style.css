@@ -36,10 +36,14 @@
   background-color: @orange_3;
 }
 
+.container-status-paused {
+  background-color: @dark_1;
+}
+
 .container-status-running {
   background-color: @green_5;
 }
 
 .container-status-unknown {
-  background-color: @light_5;
+  background-color: @red_2;
 }

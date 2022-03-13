@@ -14,6 +14,7 @@ use podman_api::models::{InspectContainerState, LibpodContainerInspectResponse};
 pub(crate) enum Status {
     Configured,
     Exited,
+    Paused,
     Running,
     Unknown,
 }
@@ -25,14 +26,15 @@ impl Default for Status {
 }
 
 impl FromStr for Status {
-    type Err = ();
+    type Err = Self;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         Ok(match s {
             "configured" => Self::Configured,
             "exited" => Self::Exited,
+            "paused" => Self::Paused,
             "running" => Self::Running,
-            _ => return Err(()),
+            _ => Self::Unknown,
         })
     }
 }
@@ -45,6 +47,7 @@ impl fmt::Display for Status {
             match self {
                 Self::Configured => gettext("Configured"),
                 Self::Exited => gettext("Exited"),
+                Self::Paused => gettext("Paused"),
                 Self::Running => gettext("Running"),
                 Self::Unknown => gettext("Unknown"),
             }
@@ -192,7 +195,11 @@ impl Container {
 fn status(state: Option<InspectContainerState>) -> Status {
     state
         .and_then(|state| state.status)
-        .map_or_else(Status::default, |s| {
-            Status::from_str(&s).expect("Could not parse container status")
+        .map_or_else(Status::default, |s| match Status::from_str(&s) {
+            Ok(status) => status,
+            Err(status) => {
+                log::warn!("Unknown status: {s}");
+                status
+            }
         })
 }
