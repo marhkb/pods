@@ -106,8 +106,12 @@ mod imp {
                             .cloned()
                             .chain(Some(glib::GString::from(match status {
                                 model::ContainerStatus::Configured => "container-status-configured",
+                                model::ContainerStatus::Created => "container-status-created",
+                                model::ContainerStatus::Dead => "container-status-dead",
                                 model::ContainerStatus::Exited => "container-status-exited",
                                 model::ContainerStatus::Paused => "container-status-paused",
+                                model::ContainerStatus::Removing => "container-status-removing",
+                                model::ContainerStatus::Restarting => "container-status-restarting",
                                 model::ContainerStatus::Running => "container-status-running",
                                 model::ContainerStatus::Unknown => "container-status-unknown",
                             })))

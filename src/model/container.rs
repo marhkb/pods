@@ -14,8 +14,12 @@ use crate::api;
 #[enum_type(name = "ContainerStatus")]
 pub(crate) enum Status {
     Configured,
+    Created,
+    Dead,
     Exited,
     Paused,
+    Removing,
+    Restarting,
     Running,
     Unknown,
 }
@@ -32,10 +36,14 @@ impl FromStr for Status {
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         Ok(match s {
             "configured" => Self::Configured,
+            "created" => Self::Created,
+            "dead" => Self::Dead,
             "exited" => Self::Exited,
             "paused" => Self::Paused,
+            "removing" => Self::Removing,
+            "restarting" => Self::Restarting,
             "running" => Self::Running,
-            _ => Self::Unknown,
+            _ => return Err(Self::Unknown),
         })
     }
 }
@@ -47,8 +55,12 @@ impl fmt::Display for Status {
             "{}",
             match self {
                 Self::Configured => gettext("Configured"),
+                Self::Created => gettext("Created"),
+                Self::Dead => gettext("Dead"),
                 Self::Exited => gettext("Exited"),
                 Self::Paused => gettext("Paused"),
+                Self::Removing => gettext("Removing"),
+                Self::Restarting => gettext("Restarting"),
                 Self::Running => gettext("Running"),
                 Self::Unknown => gettext("Unknown"),
             }

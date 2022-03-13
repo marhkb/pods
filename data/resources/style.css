@@ -32,12 +32,28 @@
   background-color: @blue_3;
 }
 
+.container-status-created {
+  background-color: @brown_4;
+}
+
+.container-status-dead {
+  background-color: @dark_3;
+}
+
 .container-status-exited {
   background-color: @orange_3;
 }
 
 .container-status-paused {
   background-color: @dark_1;
+}
+
+.container-status-removing {
+  background-color: @purple_3;
+}
+
+.container-status-restarting {
+  background-color: @yellow_5;
 }
 
 .container-status-running {
