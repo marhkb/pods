@@ -25,14 +25,14 @@ impl Default for Status {
 }
 
 impl FromStr for Status {
-    type Err = ();
+    type Err = Self;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         Ok(match s {
             "configured" => Self::Configured,
             "exited" => Self::Exited,
             "running" => Self::Running,
-            _ => return Err(()),
+            _ => Self::Unknown,
         })
     }
 }
@@ -192,7 +192,11 @@ impl Container {
 fn status(state: Option<InspectContainerState>) -> Status {
     state
         .and_then(|state| state.status)
-        .map_or_else(Status::default, |s| {
-            Status::from_str(&s).expect("Could not parse container status")
+        .map_or_else(Status::default, |s| match Status::from_str(&s) {
+            Ok(status) => status,
+            Err(status) => {
+                log::warn!("Unknown status: {s}");
+                status
+            }
         })
 }
