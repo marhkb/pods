@@ -10,6 +10,12 @@ use once_cell::sync::Lazy;
 
 use crate::{api, model, utils, PODMAN};
 
+#[derive(Clone, Debug)]
+pub(crate) enum Error {
+    List,
+    Inspect(String),
+}
+
 mod imp {
     use super::*;
 
@@ -187,7 +193,10 @@ impl ImageList {
         }
     }
 
-    fn refresh(&self) {
+    fn refresh<F>(&self, err_op: F)
+    where
+        F: FnOnce(Error) + Clone + 'static,
+    {
         utils::do_async(
             async move {
                 PODMAN
@@ -219,12 +228,13 @@ impl ImageList {
                     obj.set_to_fetch(summaries.len() as u32);
 
                     summaries.into_iter().for_each(|summary| {
+                        let err = Error::Inspect(summary.id.clone().unwrap());
                         utils::do_async(
                             async move {
                                 PODMAN.images().get(summary.id.as_deref().unwrap()).inspect()
                                     .map_ok(|inspect_response| (summary, inspect_response)).await
                             },
-                            clone!(@weak obj => move |result| {
+                            clone!(@weak obj, @strong err_op => move |result| {
                                 match result {
                                     Ok((summary, inspect_response)) => {
                                         obj.imp().list.borrow_mut().insert(
@@ -237,6 +247,7 @@ impl ImageList {
                                     }
                                     Err(e) => {
                                         log::error!("Error on inspecting image: {}", e);
+                                        err_op(err);
                                     }
                                 }
                             })
@@ -245,26 +256,32 @@ impl ImageList {
                 }
                 Err(e) => {
                     log::error!("Error on retrieving images: {}", e);
-                    // TODO: Show a toast notification
+                    err_op(Error::List);
                 }
             }),
         );
     }
 
-    pub(crate) fn setup(&self) {
+    pub(crate) fn setup<F>(&self, err_op: F)
+    where
+        F: FnOnce(Error) + Clone + 'static,
+    {
         utils::run_stream(
             PODMAN.events(
                 &api::EventsOpts::builder()
                     .filters([("type".to_string(), vec!["image".to_string()])])
                     .build(),
             ),
-            clone!(@weak self as obj => @default-return glib::Continue(false), move |result| {
+            clone!(
+                @weak self as obj, @strong err_op => @default-return glib::Continue(false),
+                move |result|
+            {
                 glib::Continue(match result {
                     Ok(event) => {
                         log::debug!("Event: {event:?}");
                         match event.action.as_str() {
                             "remove" => obj.remove_image(&event.actor.id),
-                            "build" | "pull" => obj.refresh(),
+                            "build" | "pull" => obj.refresh(err_op.clone()),
                             other => log::warn!("Unknown action: {other}"),
                         }
                         true
@@ -277,6 +294,6 @@ impl ImageList {
             }),
         );
 
-        self.refresh();
+        self.refresh(err_op);
     }
 }

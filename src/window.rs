@@ -1,6 +1,7 @@
 use std::time::Duration;
 
 use adw::subclass::prelude::AdwApplicationWindowImpl;
+use gettextrs::gettext;
 use gtk::glib::{clone, closure};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
@@ -8,7 +9,7 @@ use gtk::{gio, glib, CompositeTemplate};
 use once_cell::sync::Lazy;
 
 use crate::application::Application;
-use crate::{config, utils, view, PODMAN};
+use crate::{config, model, utils, view, PODMAN};
 
 mod imp {
     use super::*;
@@ -242,7 +243,21 @@ impl Window {
                 match result {
                     Ok(_) => {
                         imp.main_stack.set_visible_child(&*imp.main_view_box);
-                        imp.images_panel.image_list().setup();
+                        imp.images_panel.image_list().setup(clone!(@weak obj => move |e| {
+                            obj.show_toast(&adw::Toast::builder()
+                                .title(&match e {
+                                    model::ImageListError::List => {
+                                        gettext("Error on loading images")
+                                    }
+                                    model::ImageListError::Inspect(id) => {
+                                        gettext!("Error on inspecting image '{}'", id)
+                                    }
+                                })
+                                .timeout(3)
+                                .priority(adw::ToastPriority::High)
+                                .build(),
+                            );
+                        }));
                         imp.containers_panel.container_list().setup();
 
                         obj.periodic_service_check();
