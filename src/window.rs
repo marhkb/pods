@@ -17,6 +17,8 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Symphony/ui/window.ui")]
     pub(crate) struct Window {
         #[template_child]
+        pub(super) toast_overlay: TemplateChild<adw::ToastOverlay>,
+        #[template_child]
         pub(super) main_stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) start_service_page: TemplateChild<view::StartServicePage>,
@@ -267,5 +269,9 @@ impl Window {
                 imp.main_stack.set_visible_child(&*imp.connection_lost_page);
             }),
         );
+    }
+
+    pub(crate) fn show_toast(&self, toast: &adw::Toast) {
+        self.imp().toast_overlay.add_toast(toast);
     }
 }

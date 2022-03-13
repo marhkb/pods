@@ -165,12 +165,27 @@ impl Application {
                         "command to start podman returned exit code: {}",
                         output.status
                     );
-                    // TODO: Show a toast message
+                    self.main_window().show_toast(
+                        &adw::Toast::builder()
+                            .title(&gettext!(
+                                "Command to start podman returned exit code: {}",
+                                output.status
+                            ))
+                            .timeout(3)
+                            .priority(adw::ToastPriority::High)
+                            .build(),
+                    );
                 }
             }
             Err(e) => {
                 log::error!("Failed to execute command to start podman: {e}");
-                // TODO: Show a toast message
+                self.main_window().show_toast(
+                    &adw::Toast::builder()
+                        .title(&gettext("Failed to execute command to start podman"))
+                        .timeout(3)
+                        .priority(adw::ToastPriority::High)
+                        .build(),
+                );
             }
         }
     }
