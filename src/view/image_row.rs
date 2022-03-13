@@ -8,6 +8,7 @@ use gtk::subclass::prelude::*;
 use gtk::{glib, CompositeTemplate};
 use once_cell::sync::Lazy;
 
+use crate::window::Window;
 use crate::{model, utils, view};
 
 mod imp {
@@ -50,7 +51,13 @@ mod imp {
                     .unwrap()
                     .delete(clone!(@weak widget => move |_| {
                         widget.action_set_enabled("image.delete", true);
-                        // TODO: Show a toast notification
+                        widget.root().unwrap().downcast::<Window>().unwrap().show_toast(
+                            &adw::Toast::builder()
+                                .title(&gettext("Error on deleting image"))
+                                .timeout(3)
+                                .priority(adw::ToastPriority::High)
+                                .build()
+                        );
                     }));
             });
         }

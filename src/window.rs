@@ -1,6 +1,7 @@
 use std::time::Duration;
 
 use adw::subclass::prelude::AdwApplicationWindowImpl;
+use gettextrs::gettext;
 use gtk::glib::{clone, closure};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
@@ -8,7 +9,7 @@ use gtk::{gio, glib, CompositeTemplate};
 use once_cell::sync::Lazy;
 
 use crate::application::Application;
-use crate::{config, utils, view, PODMAN};
+use crate::{config, model, utils, view, PODMAN};
 
 mod imp {
     use super::*;
@@ -16,6 +17,8 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Symphony/ui/window.ui")]
     pub(crate) struct Window {
+        #[template_child]
+        pub(super) toast_overlay: TemplateChild<adw::ToastOverlay>,
         #[template_child]
         pub(super) main_stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -240,15 +243,43 @@ impl Window {
                 match result {
                     Ok(_) => {
                         imp.main_stack.set_visible_child(&*imp.main_view_box);
-                        imp.images_panel.image_list().setup();
-                        imp.containers_panel.container_list().setup();
+                        imp.images_panel.image_list().setup(clone!(@weak obj => move |e| {
+                            obj.show_toast(&adw::Toast::builder()
+                                .title(&match e {
+                                    model::ImageListError::List => {
+                                        gettext("Error on loading images")
+                                    }
+                                    model::ImageListError::Inspect(id) => {
+                                        gettext!("Error on inspecting image '{}'", id)
+                                    }
+                                })
+                                .timeout(3)
+                                .priority(adw::ToastPriority::High)
+                                .build(),
+                            );
+                        }));
+                        imp.containers_panel.container_list().setup(clone!(@weak obj => move |e| {
+                            obj.show_toast(&adw::Toast::builder()
+                                .title(&match e {
+                                    model::ContainerListError::List => {
+                                        gettext("Error on loading containers")
+                                    }
+                                    model::ContainerListError::Inspect(id) => {
+                                        gettext!("Error on inspecting container '{}'", id)
+                                    }
+                                })
+                                .timeout(3)
+                                .priority(adw::ToastPriority::High)
+                                .build(),
+                            );
+                        }));
 
                         obj.periodic_service_check();
                     }
                     Err(e) => {
                         imp.main_stack.set_visible_child(&*imp.start_service_page);
                         log::error!("Could not connect to podman: {e}");
-                        // TODO: Show a toast message
+                        // No need to show a toast. The start service page is enough.
                     }
                 }
             }),
@@ -267,5 +298,9 @@ impl Window {
                 imp.main_stack.set_visible_child(&*imp.connection_lost_page);
             }),
         );
+    }
+
+    pub(crate) fn show_toast(&self, toast: &adw::Toast) {
+        self.imp().toast_overlay.add_toast(toast);
     }
 }

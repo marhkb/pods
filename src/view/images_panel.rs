@@ -2,7 +2,7 @@ use std::borrow::Borrow;
 use std::cell::Cell;
 
 use gettextrs::gettext;
-use gtk::glib::closure;
+use gtk::glib::{clone, closure};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::{gio, glib, CompositeTemplate};
@@ -10,6 +10,7 @@ use once_cell::sync::Lazy;
 use once_cell::unsync::OnceCell;
 
 use crate::utils::ToTypedListModel;
+use crate::window::Window;
 use crate::{config, model, view};
 
 mod imp {
@@ -262,7 +263,7 @@ impl ImagesPanel {
         dialog.set_transient_for(Some(
             &self.root().unwrap().downcast::<gtk::Window>().unwrap(),
         ));
-        dialog.run_async(|dialog, response| {
+        dialog.run_async(clone!(@weak self as obj => move |dialog, response| {
             if matches!(response, gtk::ResponseType::Accept) {
                 dialog
                     .images_to_prune()
@@ -271,12 +272,19 @@ impl ImagesPanel {
                     .to_typed_list_model::<model::Image>()
                     .iter()
                     .for_each(|image| {
-                        image.delete(|_| {
-                            // TODO: Show a toast notification
-                        })
+                        let id = image.id().to_owned();
+                        image.delete(clone!(@weak obj => move |_| {
+                            obj.root().unwrap().downcast::<Window>().unwrap().show_toast(
+                                &adw::Toast::builder()
+                                    .title(&gettext!("Error on pruning image '{}'", id))
+                                    .timeout(3)
+                                    .priority(adw::ToastPriority::High)
+                                    .build()
+                            );
+                        }))
                     });
             }
             dialog.close();
-        });
+        }));
     }
 }
