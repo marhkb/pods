@@ -258,7 +258,21 @@ impl Window {
                                 .build(),
                             );
                         }));
-                        imp.containers_panel.container_list().setup();
+                        imp.containers_panel.container_list().setup(clone!(@weak obj => move |e| {
+                            obj.show_toast(&adw::Toast::builder()
+                                .title(&match e {
+                                    model::ContainerListError::List => {
+                                        gettext("Error on loading containers")
+                                    }
+                                    model::ContainerListError::Inspect(id) => {
+                                        gettext!("Error on inspecting container '{}'", id)
+                                    }
+                                })
+                                .timeout(3)
+                                .priority(adw::ToastPriority::High)
+                                .build(),
+                            );
+                        }));
 
                         obj.periodic_service_check();
                     }

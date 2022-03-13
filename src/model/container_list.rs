@@ -9,6 +9,12 @@ use once_cell::sync::Lazy;
 
 use crate::{api, model, utils, PODMAN};
 
+#[derive(Clone, Debug)]
+pub(crate) enum Error {
+    List,
+    Inspect(String),
+}
+
 mod imp {
     use super::*;
 
@@ -159,7 +165,11 @@ impl ContainerList {
             .count()
     }
 
-    fn add_or_update_container(&self, id: String) {
+    fn add_or_update_container<F>(&self, id: String, err_op: F)
+    where
+        F: FnOnce(Error) + 'static,
+    {
+        let err = Error::Inspect(id.clone());
         utils::do_async(
             async move { PODMAN.containers().get(id).inspect().await },
             clone!(@weak self as obj => move |result| {
@@ -181,6 +191,7 @@ impl ContainerList {
                     }
                     Err(e) => {
                         log::error!("Error on inspecting image: {}", e);
+                        err_op(err);
                     }
                 }
             }),
@@ -195,7 +206,10 @@ impl ContainerList {
         }
     }
 
-    fn refresh(&self) {
+    fn refresh<F>(&self, err_op: F)
+    where
+        F: FnOnce(Error) + Clone + 'static,
+    {
         utils::do_async(
             async move {
                 PODMAN
@@ -223,30 +237,36 @@ impl ContainerList {
                     obj.set_to_fetch(list_containers.len() as u32);
 
                     list_containers.into_iter().for_each(|list_container| {
-                        obj.add_or_update_container(list_container.id.unwrap());
+                        obj.add_or_update_container(list_container.id.unwrap(), err_op.clone());
                         obj.set_fetched(obj.fetched() + 1);
                     });
                 }
                 Err(e) => {
                     log::error!("Error on retrieving images: {}", e);
-                    // TODO: Show a toast notification
+                    err_op(Error::List);
                 }
             }),
         );
     }
 
-    pub(crate) fn setup(&self) {
+    pub(crate) fn setup<F>(&self, err_op: F)
+    where
+        F: FnOnce(Error) + Clone + 'static,
+    {
         utils::run_stream(
             PODMAN.events(
                 &api::EventsOpts::builder()
                     .filters([("type".to_string(), vec!["container".to_string()])])
                     .build(),
             ),
-            clone!(@weak self as obj => @default-return glib::Continue(false), move |result| {
+            clone!(
+                @weak self as obj, @strong err_op=> @default-return glib::Continue(false),
+                move |result|
+            {
                 glib::Continue(match result {
                     Ok(event) => {
                         log::debug!("Event: {event:?}");
-                        obj.refresh();
+                        obj.refresh(err_op.clone());
                         true
                     },
                     Err(e) => {
@@ -257,6 +277,6 @@ impl ContainerList {
             }),
         );
 
-        self.refresh();
+        self.refresh(err_op);
     }
 }
