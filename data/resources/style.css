@@ -41,5 +41,5 @@
 }
 
 .container-status-unknown {
-  background-color: @light_5;
+  background-color: @red_2;
 }
