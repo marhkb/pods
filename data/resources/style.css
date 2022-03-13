@@ -44,6 +44,10 @@
   background-color: @dark_1;
 }
 
+.container-status-removing {
+  background-color: @purple_3;
+}
+
 .container-status-restarting {
   background-color: @yellow_5;
 }
