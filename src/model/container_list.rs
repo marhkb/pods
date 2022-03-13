@@ -6,9 +6,8 @@ use gtk::subclass::prelude::*;
 use gtk::{gio, glib};
 use indexmap::map::{Entry, IndexMap};
 use once_cell::sync::Lazy;
-use podman_api::opts::{ContainerListOpts, EventsOpts};
 
-use crate::{model, utils, PODMAN};
+use crate::{api, model, utils, PODMAN};
 
 mod imp {
     use super::*;
@@ -201,7 +200,7 @@ impl ContainerList {
             async move {
                 PODMAN
                     .containers()
-                    .list(&ContainerListOpts::builder().all(true).build())
+                    .list(&api::ContainerListOpts::builder().all(true).build())
                     .await
             },
             clone!(@weak self as obj => move |result| match result {
@@ -239,7 +238,7 @@ impl ContainerList {
     pub(crate) fn setup(&self) {
         utils::run_stream(
             PODMAN.events(
-                &EventsOpts::builder()
+                &api::EventsOpts::builder()
                     .filters([("type".to_string(), vec!["container".to_string()])])
                     .build(),
             ),

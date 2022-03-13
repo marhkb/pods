@@ -1,3 +1,4 @@
+mod api;
 mod application;
 #[rustfmt::skip]
 mod config;
@@ -21,8 +22,8 @@ use self::config::{GETTEXT_PACKAGE, LOCALEDIR, RESOURCES_FILE};
 pub(crate) static RUNTIME: Lazy<tokio::runtime::Runtime> =
     Lazy::new(|| tokio::runtime::Runtime::new().unwrap());
 
-pub(crate) static PODMAN: Lazy<podman_api::Podman> =
-    Lazy::new(|| podman_api::Podman::unix("/run/user/1000/podman/podman.sock"));
+pub(crate) static PODMAN: Lazy<api::Podman> =
+    Lazy::new(|| api::Podman::unix("/run/user/1000/podman/podman.sock"));
 
 fn main() {
     // Prepare i18n
