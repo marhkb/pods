@@ -36,6 +36,10 @@
   background-color: @brown_4;
 }
 
+.container-status-dead {
+  background-color: @dark_3;
+}
+
 .container-status-exited {
   background-color: @orange_3;
 }

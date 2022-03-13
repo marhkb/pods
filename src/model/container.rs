@@ -15,6 +15,7 @@ use crate::api;
 pub(crate) enum Status {
     Configured,
     Created,
+    Dead,
     Exited,
     Paused,
     Removing,
@@ -36,6 +37,7 @@ impl FromStr for Status {
         Ok(match s {
             "configured" => Self::Configured,
             "created" => Self::Created,
+            "dead" => Self::Dead,
             "exited" => Self::Exited,
             "paused" => Self::Paused,
             "removing" => Self::Removing,
@@ -54,6 +56,7 @@ impl fmt::Display for Status {
             match self {
                 Self::Configured => gettext("Configured"),
                 Self::Created => gettext("Created"),
+                Self::Dead => gettext("Dead"),
                 Self::Exited => gettext("Exited"),
                 Self::Paused => gettext("Paused"),
                 Self::Removing => gettext("Removing"),
