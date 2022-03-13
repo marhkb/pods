@@ -23,7 +23,7 @@ pub(crate) static RUNTIME: Lazy<tokio::runtime::Runtime> =
     Lazy::new(|| tokio::runtime::Runtime::new().unwrap());
 
 pub(crate) static PODMAN: Lazy<api::Podman> =
-    Lazy::new(|| api::Podman::unix("/run/user/1000/podman/podman.sock"));
+    Lazy::new(|| api::Podman::unix(glib::user_runtime_dir().join("podman/podman.sock")));
 
 fn main() {
     // Prepare i18n
