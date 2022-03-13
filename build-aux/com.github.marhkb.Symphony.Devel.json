@@ -18,13 +18,11 @@
     "build-options" : {
         "append-path" : "/usr/lib/sdk/rust-stable/bin",
         "build-args" : [
-            "--share=network",
-            "--filesystem=xdg-run/podman:ro"
+            "--share=network"
         ],
         "test-args": [
             "--socket=x11",
-            "--share=network",
-            "--filesystem=xdg-run/podman:ro"
+            "--share=network"
         ]
     },
     "cleanup": [
