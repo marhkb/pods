@@ -9,6 +9,7 @@
         "--socket=fallback-x11",
         "--socket=wayland",
         "--socket=session-bus",
+        "--share=ipc",
         "--device=dri",
         "--env=RUST_LOG=symphony=debug",
         "--env=G_MESSAGES_DEBUG=none",
