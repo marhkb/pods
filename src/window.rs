@@ -248,7 +248,7 @@ impl Window {
                     Err(e) => {
                         imp.main_stack.set_visible_child(&*imp.start_service_page);
                         log::error!("Could not connect to podman: {e}");
-                        // TODO: Show a toast message
+                        // No need to show a toast. The start service page is enough.
                     }
                 }
             }),
