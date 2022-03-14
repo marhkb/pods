@@ -64,21 +64,40 @@
           </object>
         </child>
 
-        <!-- List of images -->
         <child>
-          <object class="AdwPreferencesPage">
-            <property name="valign">start</property>
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
 
             <child>
-              <object class="AdwPreferencesGroup" id="image_group">
-                <property name="title" translatable="yes">Summary</property>
+              <object class="GtkSearchBar" id="search_bar">
+
+                <property name="child">
+                  <object class="GtkSearchEntry">
+                    <property name="hexpand">True</property>
+                  </object>
+                </property>
+
+              </object>
+            </child>
+
+            <!-- List of images -->
+            <child>
+              <object class="AdwPreferencesPage">
+                <property name="valign">start</property>
 
                 <child>
-                  <object class="GtkListBox" id="list_box">
-                    <style>
-                      <class name="boxed-list"/>
-                    </style>
-                    <property name="selection-mode">none</property>
+                  <object class="AdwPreferencesGroup" id="image_group">
+                    <property name="title" translatable="yes">Summary</property>
+
+                    <child>
+                      <object class="GtkListBox" id="list_box">
+                        <style>
+                          <class name="boxed-list"/>
+                        </style>
+                        <property name="selection-mode">none</property>
+                      </object>
+                    </child>
+
                   </object>
                 </child>
 

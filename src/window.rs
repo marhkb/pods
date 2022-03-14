@@ -28,6 +28,8 @@ mod imp {
         #[template_child]
         pub(super) images_menu_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
+        pub(super) images_search_button: TemplateChild<gtk::ToggleButton>,
+        #[template_child]
         pub(super) containers_menu_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
         pub(super) panel_stack: TemplateChild<adw::ViewStack>,
@@ -145,6 +147,9 @@ mod imp {
             // Load settings.
             obj.load_settings();
 
+            self.images_panel
+                .connect_search_button(&*self.images_search_button);
+
             obj.notify("show-intermediate-images");
             self.images_panel.connect_notify_local(
                 Some("show-intermediates"),
@@ -163,6 +168,15 @@ mod imp {
                 }))
                 .bind(
                     &*self.images_menu_button,
+                    "visible",
+                    Some(&*self.panel_stack),
+                );
+            adw::ViewStack::this_expression("visible-child-name")
+                .chain_closure::<bool>(closure!(|_: glib::Object, name: Option<&str>| {
+                    name == Some("images")
+                }))
+                .bind(
+                    &*self.images_search_button,
                     "visible",
                     Some(&*self.panel_stack),
                 );
