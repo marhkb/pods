@@ -180,6 +180,7 @@ impl ContainerList {
         utils::do_async(
             async move { PODMAN.containers().get(id).inspect().await },
             clone!(@weak self as obj => move |result| {
+                obj.set_fetched(obj.fetched() + 1);
                 match result {
                     Ok(inspect_response) => {
                         let mut list = obj.imp().list.borrow_mut();
@@ -248,7 +249,6 @@ impl ContainerList {
 
                         list_containers.into_iter().for_each(|list_container| {
                             obj.add_or_update_container(list_container.id.unwrap(), err_op.clone());
-                            obj.set_fetched(obj.fetched() + 1);
                         });
                     }
                     Err(e) => {
