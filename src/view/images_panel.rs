@@ -128,7 +128,7 @@ mod imp {
             gtk::ClosureExpression::new::<f64, _, _>(
                 fetched_params,
                 closure!(|_: glib::Object, fetched: u32, to_fetch: u32| {
-                    fetched as f64 / to_fetch as f64
+                    f64::min(1.0, fetched as f64 / to_fetch as f64)
                 }),
             )
             .bind(&*self.progress_bar, "fraction", Some(obj));
