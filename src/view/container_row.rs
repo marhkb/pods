@@ -101,20 +101,22 @@ mod imp {
             status_expr
                 .chain_closure::<Vec<String>>(closure!(
                     |_: glib::Object, status: model::ContainerStatus| {
+                        use model::ContainerStatus::*;
+
                         css_classes
                             .iter()
                             .cloned()
                             .chain(Some(glib::GString::from(match status {
-                                model::ContainerStatus::Configured => "container-status-configured",
-                                model::ContainerStatus::Created => "container-status-created",
-                                model::ContainerStatus::Dead => "container-status-dead",
-                                model::ContainerStatus::Exited => "container-status-exited",
-                                model::ContainerStatus::Paused => "container-status-paused",
-                                model::ContainerStatus::Removing => "container-status-removing",
-                                model::ContainerStatus::Restarting => "container-status-restarting",
-                                model::ContainerStatus::Running => "container-status-running",
-                                model::ContainerStatus::Stopped => "container-status-stopped",
-                                model::ContainerStatus::Unknown => "container-status-unknown",
+                                Configured => "container-status-configured",
+                                Created => "container-status-created",
+                                Dead => "container-status-dead",
+                                Exited => "container-status-exited",
+                                Paused => "container-status-paused",
+                                Removing => "container-status-removing",
+                                Restarting => "container-status-restarting",
+                                Running => "container-status-running",
+                                Stopped => "container-status-stopped",
+                                Unknown => "container-status-unknown",
                             })))
                             .collect::<Vec<_>>()
                     }
