@@ -131,7 +131,7 @@ mod imp {
             gtk::ClosureExpression::new::<String, _, _>(
                 fetched_params,
                 closure!(|_: glib::Object, fetched: u32, to_fetch: u32| {
-                    if fetched == to_fetch {
+                    if fetched >= to_fetch {
                         "empty"
                     } else {
                         "bar"
