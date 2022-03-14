@@ -17,7 +17,6 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Symphony/ui/containers-panel.ui")]
     pub(crate) struct ContainersPanel {
         pub(super) container_list: OnceCell<model::ContainerList>,
-        pub(super) filter: OnceCell<gtk::CustomFilter>,
         pub(super) show_only_running: Cell<bool>,
         #[template_child]
         pub(super) status_page: TemplateChild<adw::StatusPage>,
@@ -179,7 +178,13 @@ mod imp {
                         item.downcast_ref::<model::Container>().unwrap().status()
                             == model::ContainerStatus::Running
                 }));
-            let filter_model = gtk::FilterListModel::new(Some(obj.container_list()), Some(&filter));
+
+            obj.connect_notify_local(
+                Some("show-only-running"),
+                clone!(@weak filter => move |_ ,_| {
+                    filter.changed(gtk::FilterChange::Different);
+                }),
+            );
 
             obj.container_list().connect_notify_local(
                 Some("fetched"),
@@ -187,6 +192,8 @@ mod imp {
                     filter.changed(gtk::FilterChange::Different);
                 }),
             );
+
+            let filter_model = gtk::FilterListModel::new(Some(obj.container_list()), Some(&filter));
 
             obj.set_list_box_visibility(filter_model.upcast_ref());
             filter_model.connect_items_changed(clone!(@weak obj => move |model, _, _, _| {
@@ -196,8 +203,6 @@ mod imp {
             self.list_box.bind_model(Some(&filter_model), |item| {
                 view::ContainerRow::from(item.downcast_ref().unwrap()).upcast()
             });
-
-            self.filter.set(filter).unwrap();
 
             gio::Settings::new(config::APP_ID)
                 .bind("show-only-running-containers", obj, "show-only-running")
@@ -238,13 +243,7 @@ impl ContainersPanel {
         if self.show_only_running() == value {
             return;
         }
-        let imp = self.imp();
-        imp.show_only_running.set(value);
-        imp.filter
-            .get()
-            .unwrap()
-            .changed(gtk::FilterChange::Different);
-
+        self.imp().show_only_running.set(value);
         self.notify("show-only-running");
     }
 
