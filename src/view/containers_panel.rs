@@ -96,7 +96,7 @@ mod imp {
             self.parent_constructed(obj);
 
             let container_list_expr = Self::Type::this_expression("container-list");
-            let container_len_expr =
+            let container_list_len_expr =
                 container_list_expr.chain_property::<model::ContainerList>("len");
             let fetched_params = &[
                 container_list_expr
@@ -109,14 +109,14 @@ mod imp {
 
             gtk::ClosureExpression::new::<bool, _, _>(
                 &[
-                    container_len_expr.clone(),
+                    container_list_len_expr.clone(),
                     container_list_expr.chain_property::<model::ContainerList>("listing"),
                 ],
                 closure!(|_: glib::Object, len: u32, listing: bool| len == 0 && listing),
             )
             .bind(&*self.status_page, "visible", Some(obj));
 
-            container_len_expr
+            container_list_len_expr
                 .chain_closure::<bool>(closure!(|_: glib::Object, len: u32| { len > 0 }))
                 .bind(&*self.overlay, "visible", Some(obj));
 
@@ -154,33 +154,24 @@ mod imp {
                     Some(&*self.progress_stack),
                 );
 
-            gtk::ClosureExpression::new::<Option<String>, _, _>(
-                [
-                    &fetched_params[0],
-                    &fetched_params[1],
-                    &container_list_expr
-                        .chain_property::<model::ContainerList>("len")
-                        .upcast(),
-                ],
-                closure!(|panel: Self::Type, fetched: u32, to_fetch: u32, len: u32| {
-                    if fetched == to_fetch {
+            container_list_len_expr
+                .chain_closure::<String>(closure!(|panel: Self::Type, len: u32| {
+                    if len > 0 {
                         let list = panel.container_list();
-                        Some(
-                            // Translators: There's a wide space (U+2002) between every ", {}".
-                            gettext!(
-                                "{} Containers total, {} running, {} configured, {} exited",
-                                len,
-                                list.count(model::ContainerStatus::Running),
-                                list.count(model::ContainerStatus::Configured),
-                                list.count(model::ContainerStatus::Exited),
-                            ),
+
+                        // Translators: There's a wide space (U+2002) between every ", {}".
+                        gettext!(
+                            "{} Containers total, {} running, {} configured, {} exited",
+                            list.n_items(),
+                            list.count(model::ContainerStatus::Running),
+                            list.count(model::ContainerStatus::Configured),
+                            list.count(model::ContainerStatus::Exited),
                         )
                     } else {
-                        None
+                        gettext("No containers found")
                     }
-                }),
-            )
-            .bind(&*self.container_group, "description", Some(obj));
+                }))
+                .bind(&*self.container_group, "description", Some(obj));
 
             let filter =
                 gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
