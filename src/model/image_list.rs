@@ -200,7 +200,7 @@ impl ImageList {
         }
     }
 
-    fn refresh<F>(&self, err_op: F)
+    pub(crate) fn refresh<F>(&self, err_op: F)
     where
         F: FnOnce(Error) + Clone + 'static,
     {
@@ -274,38 +274,14 @@ impl ImageList {
         );
     }
 
-    pub(crate) fn setup<F>(&self, err_op: F)
+    pub(crate) fn handle_event<F>(&self, event: api::Event, err_op: F)
     where
         F: FnOnce(Error) + Clone + 'static,
     {
-        utils::run_stream(
-            PODMAN.events(
-                &api::EventsOpts::builder()
-                    .filters([("type".to_string(), vec!["image".to_string()])])
-                    .build(),
-            ),
-            clone!(
-                @weak self as obj, @strong err_op => @default-return glib::Continue(false),
-                move |result|
-            {
-                glib::Continue(match result {
-                    Ok(event) => {
-                        log::debug!("Event: {event:?}");
-                        match event.action.as_str() {
-                            "remove" => obj.remove_image(&event.actor.id),
-                            "build" | "pull" => obj.refresh(err_op.clone()),
-                            other => log::warn!("Unknown action: {other}"),
-                        }
-                        true
-                    },
-                    Err(e) => {
-                        log::error!("Stopping image event stream due to error: {e}");
-                        false
-                    }
-                })
-            }),
-        );
-
-        self.refresh(err_op);
+        match event.action.as_str() {
+            "remove" => self.remove_image(&event.actor.id),
+            "build" | "pull" => self.refresh(err_op),
+            other => log::warn!("Unknown action: {other}"),
+        }
     }
 }
