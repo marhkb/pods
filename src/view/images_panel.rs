@@ -19,7 +19,6 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Symphony/ui/images-panel.ui")]
     pub(crate) struct ImagesPanel {
         pub(super) image_list: OnceCell<model::ImageList>,
-        pub(super) filter: OnceCell<gtk::CustomFilter>,
         pub(super) show_intermediates: Cell<bool>,
         #[template_child]
         pub(super) status_page: TemplateChild<adw::StatusPage>,
@@ -189,7 +188,13 @@ mod imp {
                         true
                     }
                 }));
-            let filter_model = gtk::FilterListModel::new(Some(obj.image_list()), Some(&filter));
+
+            obj.connect_notify_local(
+                Some("show-intermediates"),
+                clone!(@weak filter => move |_ ,_| {
+                    filter.changed(gtk::FilterChange::Different);
+                }),
+            );
 
             obj.image_list().connect_notify_local(
                 Some("fetched"),
@@ -197,6 +202,8 @@ mod imp {
                     filter.changed(gtk::FilterChange::Different);
                 }),
             );
+
+            let filter_model = gtk::FilterListModel::new(Some(obj.image_list()), Some(&filter));
 
             obj.set_list_box_visibility(filter_model.upcast_ref());
             filter_model.connect_items_changed(clone!(@weak obj => move |model, _, _, _| {
@@ -206,8 +213,6 @@ mod imp {
             self.list_box.bind_model(Some(&filter_model), |item| {
                 view::ImageRow::from(item.downcast_ref().unwrap()).upcast()
             });
-
-            self.filter.set(filter).unwrap();
 
             gio::Settings::new(config::APP_ID)
                 .bind("show-intermediate-images", obj, "show-intermediates")
@@ -246,13 +251,7 @@ impl ImagesPanel {
         if self.show_intermediates() == value {
             return;
         }
-        let imp = self.imp();
-        imp.show_intermediates.set(value);
-        imp.filter
-            .get()
-            .unwrap()
-            .changed(gtk::FilterChange::Different);
-
+        self.imp().show_intermediates.set(value);
         self.notify("show-intermediates");
     }
 
