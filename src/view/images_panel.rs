@@ -22,13 +22,13 @@ mod imp {
         pub(super) filter: OnceCell<gtk::CustomFilter>,
         pub(super) show_intermediates: Cell<bool>,
         #[template_child]
+        pub(super) status_page: TemplateChild<adw::StatusPage>,
+        #[template_child]
         pub(super) overlay: TemplateChild<gtk::Overlay>,
         #[template_child]
         pub(super) progress_stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) progress_bar: TemplateChild<gtk::ProgressBar>,
-        #[template_child]
-        pub(super) status_page: TemplateChild<adw::StatusPage>,
         #[template_child]
         pub(super) preferences_page: TemplateChild<adw::PreferencesPage>,
         #[template_child]
@@ -114,6 +114,19 @@ mod imp {
                     .upcast(),
             ];
 
+            gtk::ClosureExpression::new::<bool, _, _>(
+                &[
+                    image_len_expr.clone(),
+                    image_list_expr.chain_property::<model::ImageList>("listing"),
+                ],
+                closure!(|_: glib::Object, len: u32, listing: bool| len == 0 && listing),
+            )
+            .bind(&*self.status_page, "visible", Some(obj));
+
+            image_len_expr
+                .chain_closure::<bool>(closure!(|_: glib::Object, len: u32| { len > 0 }))
+                .bind(&*self.overlay, "visible", Some(obj));
+
             gtk::ClosureExpression::new::<f64, _, _>(
                 fetched_params,
                 closure!(|_: glib::Object, fetched: u32, to_fetch: u32| {
@@ -147,19 +160,6 @@ mod imp {
                     "transition-duration",
                     Some(&*self.progress_stack),
                 );
-
-            gtk::ClosureExpression::new::<bool, _, _>(
-                &[
-                    image_len_expr.clone(),
-                    image_list_expr.chain_property::<model::ImageList>("listing"),
-                ],
-                closure!(|_: glib::Object, len: u32, listing: bool| len == 0 && listing),
-            )
-            .bind(&*self.status_page, "visible", Some(obj));
-
-            image_len_expr
-                .chain_closure::<bool>(closure!(|_: glib::Object, len: u32| { len > 0 }))
-                .bind(&*self.preferences_page, "visible", Some(obj));
 
             gtk::ClosureExpression::new::<f64, _, _>(
                 fetched_params,
@@ -222,6 +222,7 @@ mod imp {
         }
 
         fn dispose(&self, _obj: &Self::Type) {
+            self.status_page.unparent();
             self.overlay.unparent();
         }
     }
