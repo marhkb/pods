@@ -224,6 +224,7 @@ mod imp {
             self.overlay.unparent();
         }
     }
+
     impl WidgetImpl for ImagesPanel {}
 }
 
