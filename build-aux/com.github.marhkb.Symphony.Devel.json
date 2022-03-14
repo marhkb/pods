@@ -9,22 +9,22 @@
         "--socket=fallback-x11",
         "--socket=wayland",
         "--socket=session-bus",
+        "--share=ipc",
         "--device=dri",
         "--env=RUST_LOG=symphony=debug",
         "--env=G_MESSAGES_DEBUG=none",
         "--env=RUST_BACKTRACE=1",
+        "--filesystem=/run/systemd/journal",
         "--filesystem=xdg-run/podman:ro"
     ],
     "build-options" : {
         "append-path" : "/usr/lib/sdk/rust-stable/bin",
         "build-args" : [
-            "--share=network",
-            "--filesystem=xdg-run/podman:ro"
+            "--share=network"
         ],
         "test-args": [
             "--socket=x11",
-            "--share=network",
-            "--filesystem=xdg-run/podman:ro"
+            "--share=network"
         ]
     },
     "cleanup": [
