@@ -19,7 +19,9 @@ mod imp {
         pub(super) container_list: OnceCell<model::ContainerList>,
         pub(super) show_only_running: Cell<bool>,
         #[template_child]
-        pub(super) status_page: TemplateChild<adw::StatusPage>,
+        pub(super) main_stack: TemplateChild<gtk::Stack>,
+        #[template_child]
+        pub(super) spinner: TemplateChild<gtk::Spinner>,
         #[template_child]
         pub(super) overlay: TemplateChild<gtk::Overlay>,
         #[template_child]
@@ -110,18 +112,21 @@ mod imp {
                     .upcast(),
             ];
 
-            gtk::ClosureExpression::new::<bool, _, _>(
+            gtk::ClosureExpression::new::<gtk::Widget, _, _>(
                 &[
                     container_list_len_expr.clone(),
                     container_list_expr.chain_property::<model::ContainerList>("listing"),
                 ],
-                closure!(|_: glib::Object, len: u32, listing: bool| len == 0 && listing),
+                closure!(|obj: Self::Type, len: u32, listing: bool| {
+                    let imp = obj.imp();
+                    if len == 0 && listing {
+                        imp.spinner.upcast_ref::<gtk::Widget>().clone()
+                    } else {
+                        imp.overlay.upcast_ref::<gtk::Widget>().clone()
+                    }
+                }),
             )
-            .bind(&*self.status_page, "visible", Some(obj));
-
-            container_list_len_expr
-                .chain_closure::<bool>(closure!(|_: glib::Object, len: u32| { len > 0 }))
-                .bind(&*self.overlay, "visible", Some(obj));
+            .bind(&*self.main_stack, "visible-child", Some(obj));
 
             gtk::ClosureExpression::new::<f64, _, _>(
                 fetched_params,
@@ -237,8 +242,7 @@ mod imp {
         }
 
         fn dispose(&self, _obj: &Self::Type) {
-            self.status_page.unparent();
-            self.overlay.unparent();
+            self.main_stack.unparent();
         }
     }
 
