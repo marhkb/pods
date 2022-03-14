@@ -1,7 +1,7 @@
 use std::cell::Cell;
 
 use gettextrs::gettext;
-use gtk::glib::closure;
+use gtk::glib::{clone, closure};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::{gio, glib, CompositeTemplate};
@@ -17,6 +17,7 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Symphony/ui/containers-panel.ui")]
     pub(crate) struct ContainersPanel {
         pub(super) container_list: OnceCell<model::ContainerList>,
+        pub(super) filter: OnceCell<gtk::CustomFilter>,
         pub(super) show_only_running: Cell<bool>,
         #[template_child]
         pub(super) overlay: TemplateChild<gtk::Overlay>,
@@ -25,7 +26,7 @@ mod imp {
         #[template_child]
         pub(super) progress_bar: TemplateChild<gtk::ProgressBar>,
         #[template_child]
-        pub(super) spinner: TemplateChild<gtk::Spinner>,
+        pub(super) status_page: TemplateChild<adw::StatusPage>,
         #[template_child]
         pub(super) preferences_page: TemplateChild<adw::PreferencesPage>,
         #[template_child]
@@ -96,12 +97,9 @@ mod imp {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
-            gio::Settings::new(config::APP_ID)
-                .bind("show-only-running-containers", obj, "show-only-running")
-                .build();
-
             let container_list_expr = Self::Type::this_expression("container-list");
-
+            let container_len_expr =
+                container_list_expr.chain_property::<model::ContainerList>("len");
             let fetched_params = &[
                 container_list_expr
                     .chain_property::<model::ContainerList>("fetched")
@@ -145,12 +143,14 @@ mod imp {
                     Some(&*self.progress_stack),
                 );
 
-            let container_len_expr =
-                container_list_expr.chain_property::<model::ContainerList>("len");
-
-            container_len_expr
-                .chain_closure::<bool>(closure!(|_: glib::Object, len: u32| { len == 0 }))
-                .bind(&*self.spinner, "visible", Some(obj));
+            gtk::ClosureExpression::new::<bool, _, _>(
+                &[
+                    container_len_expr.clone(),
+                    container_list_expr.chain_property::<model::ContainerList>("listing"),
+                ],
+                closure!(|_: glib::Object, len: u32, listing: bool| len == 0 && listing),
+            )
+            .bind(&*self.status_page, "visible", Some(obj));
 
             container_len_expr
                 .chain_closure::<bool>(closure!(|_: glib::Object, len: u32| { len > 0 }))
@@ -192,10 +192,23 @@ mod imp {
             )
             .bind(&*self.container_group, "description", Some(obj));
 
-            self.list_box
-                .bind_model(Some(obj.container_list()), |item| {
-                    view::ContainerRow::from(item.downcast_ref().unwrap()).upcast()
-                })
+            let filter =
+                gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
+                    !obj.show_only_running() ||
+                        item.downcast_ref::<model::Container>().unwrap().status()
+                            == model::ContainerStatus::Running
+                }));
+            let filter_model = gtk::FilterListModel::new(Some(obj.container_list()), Some(&filter));
+
+            self.list_box.bind_model(Some(&filter_model), |item| {
+                view::ContainerRow::from(item.downcast_ref().unwrap()).upcast()
+            });
+
+            self.filter.set(filter).unwrap();
+
+            gio::Settings::new(config::APP_ID)
+                .bind("show-only-running-containers", obj, "show-only-running")
+                .build();
         }
 
         fn dispose(&self, _obj: &Self::Type) {
@@ -231,25 +244,13 @@ impl ContainersPanel {
         if self.show_only_running() == value {
             return;
         }
-        self.imp().show_only_running.set(value);
+        let imp = self.imp();
+        imp.show_only_running.set(value);
+        imp.filter
+            .get()
+            .unwrap()
+            .changed(gtk::FilterChange::Different);
+
         self.notify("show-only-running");
-
-        self.setup_container_list_view();
-    }
-
-    fn setup_container_list_view(&self) {
-        let list_box = &*self.imp().list_box;
-        if self.show_only_running() {
-            list_box.set_filter_func(|row| {
-                let container = row
-                    .downcast_ref::<view::ContainerRow>()
-                    .unwrap()
-                    .container()
-                    .unwrap();
-                container.status() == model::ContainerStatus::Running
-            });
-        } else {
-            list_box.unset_filter_func();
-        }
     }
 }

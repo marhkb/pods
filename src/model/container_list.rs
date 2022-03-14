@@ -22,6 +22,7 @@ mod imp {
     pub(crate) struct ContainerList {
         pub(super) fetched: Cell<u32>,
         pub(super) list: RefCell<IndexMap<String, model::Container>>,
+        pub(super) listing: Cell<bool>,
         pub(super) to_fetch: Cell<u32>,
     }
 
@@ -55,6 +56,13 @@ mod imp {
                         0,
                         glib::ParamFlags::READABLE,
                     ),
+                    glib::ParamSpecBoolean::new(
+                        "listing",
+                        "Listing",
+                        "Wether containers are currently listed",
+                        false,
+                        glib::ParamFlags::READABLE,
+                    ),
                     glib::ParamSpecUInt::new(
                         "to-fetch",
                         "To Fetch",
@@ -73,6 +81,7 @@ mod imp {
             match pspec.name() {
                 "fetched" => obj.fetched().to_value(),
                 "len" => obj.len().to_value(),
+                "listing" => obj.listing().to_value(),
                 "to-fetch" => obj.to_fetch().to_value(),
                 _ => unimplemented!(),
             }
@@ -130,6 +139,18 @@ impl ContainerList {
         self.n_items()
     }
 
+    pub(crate) fn listing(&self) -> bool {
+        self.imp().listing.get()
+    }
+
+    fn set_listing(&self, value: bool) {
+        if self.listing() == value {
+            return;
+        }
+        self.imp().listing.set(value);
+        self.notify("listing");
+    }
+
     pub(crate) fn to_fetch(&self) -> u32 {
         self.imp().to_fetch.get()
     }
@@ -159,6 +180,7 @@ impl ContainerList {
         utils::do_async(
             async move { PODMAN.containers().get(id).inspect().await },
             clone!(@weak self as obj => move |result| {
+                obj.set_fetched(obj.fetched() + 1);
                 match result {
                     Ok(inspect_response) => {
                         let mut list = obj.imp().list.borrow_mut();
@@ -196,6 +218,7 @@ impl ContainerList {
     where
         F: FnOnce(Error) + Clone + 'static,
     {
+        self.set_listing(true);
         utils::do_async(
             async move {
                 PODMAN
@@ -203,33 +226,35 @@ impl ContainerList {
                     .list(&api::ContainerListOpts::builder().all(true).build())
                     .await
             },
-            clone!(@weak self as obj => move |result| match result {
-                Ok(list_containers) => {
-                    let to_remove = obj
-                        .imp()
-                        .list
-                        .borrow()
-                        .keys()
-                        .filter(|id| {
-                            !list_containers
-                                .iter()
-                                .any(|summary| summary.id.as_ref() == Some(id))
-                        })
-                        .cloned()
-                        .collect::<Vec<_>>();
-                    to_remove.iter().for_each(|id| obj.remove_container(id));
+            clone!(@weak self as obj => move |result| {
+                obj.set_listing(false);
+                match result {
+                    Ok(list_containers) => {
+                        let to_remove = obj
+                            .imp()
+                            .list
+                            .borrow()
+                            .keys()
+                            .filter(|id| {
+                                !list_containers
+                                    .iter()
+                                    .any(|summary| summary.id.as_ref() == Some(id))
+                            })
+                            .cloned()
+                            .collect::<Vec<_>>();
+                        to_remove.iter().for_each(|id| obj.remove_container(id));
 
-                    obj.set_fetched(0);
-                    obj.set_to_fetch(list_containers.len() as u32);
+                        obj.set_fetched(0);
+                        obj.set_to_fetch(list_containers.len() as u32);
 
-                    list_containers.into_iter().for_each(|list_container| {
-                        obj.add_or_update_container(list_container.id.unwrap(), err_op.clone());
-                        obj.set_fetched(obj.fetched() + 1);
-                    });
-                }
-                Err(e) => {
-                    log::error!("Error on retrieving images: {}", e);
-                    err_op(Error::List);
+                        list_containers.into_iter().for_each(|list_container| {
+                            obj.add_or_update_container(list_container.id.unwrap(), err_op.clone());
+                        });
+                    }
+                    Err(e) => {
+                        log::error!("Error on retrieving images: {}", e);
+                        err_op(Error::List);
+                    }
                 }
             }),
         );
