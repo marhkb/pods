@@ -161,14 +161,6 @@ mod imp {
                     Some(&*self.progress_stack),
                 );
 
-            gtk::ClosureExpression::new::<f64, _, _>(
-                fetched_params,
-                closure!(|_: glib::Object, fetched: u32, to_fetch: u32| {
-                    fetched as f64 / to_fetch as f64
-                }),
-            )
-            .bind(&*self.image_group, "description", Some(obj));
-
             gtk::ClosureExpression::new::<Option<String>, _, _>(
                 [
                     &fetched_params[0],
