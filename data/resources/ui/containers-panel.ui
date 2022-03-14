@@ -3,12 +3,35 @@
 
   <template class="ContainersPanel" parent="GtkWidget">
     <property name="layout-manager">
-      <object class="GtkBinLayout"/>
+      <object class="GtkBoxLayout">
+        <property name="orientation">vertical</property>
+      </object>
     </property>
 
+    <!-- Initial Status Page -->
+    <child>
+      <object class="AdwStatusPage" id="status_page">
+        <property name="description" translatable="yes">Please wait a moment</property>
+        <property name="title" translatable="yes">Containers Are Being Retieved</property>
+        <property name="vexpand">True</property>
+
+        <child>
+          <object class="GtkSpinner">
+            <property name="halign">center</property>
+            <property name="height-request">30</property>
+            <property name="spinning">True</property>
+            <property name="width-request">30</property>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <!-- Main view -->
     <child>
       <object class="GtkOverlay" id="overlay">
 
+        <!-- Progress bar overlay -->
         <child type="overlay">
           <object class="GtkStack" id="progress_stack">
             <property name="transition-type">crossfade</property>
@@ -39,46 +62,21 @@
           </object>
         </child>
 
+        <!-- List of containers -->
         <child>
-          <object class="GtkBox">
-            <property name="orientation">vertical</property>
-            <property name="vexpand">True</property>
+          <object class="AdwPreferencesPage" id="preferences_page">
+            <property name="valign">start</property>
 
             <child>
-              <object class="AdwStatusPage" id="status_page">
-                <property name="description" translatable="yes">Please wait a moment</property>
-                <property name="title" translatable="yes">Images Are Being Retieved</property>
-                <property name="vexpand">True</property>
+              <object class="AdwPreferencesGroup" id="container_group">
+                <property name="title" translatable="yes">Summary</property>
 
                 <child>
-                  <object class="GtkSpinner">
-                    <property name="halign">center</property>
-                    <property name="height-request">30</property>
-                    <property name="spinning">True</property>
-                    <property name="width-request">30</property>
-                  </object>
-                </child>
-
-              </object>
-            </child>
-
-            <child>
-              <object class="AdwPreferencesPage" id="preferences_page">
-                <property name="valign">start</property>
-
-                <child>
-                  <object class="AdwPreferencesGroup" id="container_group">
-                    <property name="title" translatable="yes">Summary</property>
-
-                    <child>
-                      <object class="GtkListBox" id="list_box">
-                        <style>
-                          <class name="boxed-list"/>
-                        </style>
-                        <property name="selection-mode">none</property>
-                      </object>
-                    </child>
-
+                  <object class="GtkListBox" id="list_box">
+                    <style>
+                      <class name="boxed-list"/>
+                    </style>
+                    <property name="selection-mode">none</property>
                   </object>
                 </child>
 
