@@ -14,6 +14,7 @@
         "--env=RUST_LOG=symphony=debug",
         "--env=G_MESSAGES_DEBUG=none",
         "--env=RUST_BACKTRACE=1",
+        "--filesystem=/run/systemd/journal",
         "--filesystem=xdg-run/podman:ro"
     ],
     "build-options" : {

@@ -12,9 +12,7 @@ use std::str::FromStr;
 use gettextrs::{gettext, LocaleCategory};
 use gtk::prelude::ApplicationExt;
 use gtk::{gio, glib};
-use log::LevelFilter;
 use once_cell::sync::Lazy;
-use syslog::Facility;
 
 use self::application::Application;
 use self::config::{GETTEXT_PACKAGE, LOCALEDIR, RESOURCES_FILE};
@@ -50,13 +48,26 @@ fn main() {
             1
         } else {
             let log_level_filter = match dict.lookup::<String>("log-level").unwrap() {
-                Some(level) => LevelFilter::from_str(&level).expect("Error on parsing log-level"),
+                Some(level) => {
+                    log::LevelFilter::from_str(&level).expect("Error on parsing log-level")
+                }
                 // Standard log levels if not specified by user
-                None => LevelFilter::Warn,
+                None => log::LevelFilter::Warn,
             };
 
-            syslog::init(Facility::LOG_USER, log_level_filter, Some("rodman"))
-                .expect("could not initialize logging");
+            if syslog::init_unix(syslog::Facility::LOG_USER, log_level_filter).is_err()
+                && syslog::init_unix_custom(
+                    syslog::Facility::LOG_USER,
+                    log_level_filter,
+                    "/run/systemd/journal/dev-log",
+                )
+                .is_err()
+            {
+                println!(
+                    "Could not initialize logging. \
+                    Tried socket paths '/dev/log' and '/run/systemd/journal/dev-log'"
+                );
+            }
 
             -1
         }
