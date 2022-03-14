@@ -1,4 +1,3 @@
-use std::borrow::Borrow;
 use std::cell::Cell;
 
 use gettextrs::gettext;
@@ -20,6 +19,7 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Symphony/ui/images-panel.ui")]
     pub(crate) struct ImagesPanel {
         pub(super) image_list: OnceCell<model::ImageList>,
+        pub(super) filter: OnceCell<gtk::CustomFilter>,
         pub(super) show_intermediates: Cell<bool>,
         #[template_child]
         pub(super) overlay: TemplateChild<gtk::Overlay>,
@@ -102,12 +102,6 @@ mod imp {
 
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
-
-            gio::Settings::new(config::APP_ID)
-                .bind("show-intermediate-images", obj, "show-intermediates")
-                .build();
-
-            obj.setup_image_list_view();
 
             let image_list_expr = Self::Type::this_expression("image-list");
             let image_len_expr = image_list_expr.chain_property::<model::ImageList>("len");
@@ -203,9 +197,28 @@ mod imp {
             )
             .bind(&*self.image_group, "description", Some(obj));
 
-            self.list_box.bind_model(Some(obj.image_list()), |item| {
+            let filter =
+                gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
+                    if obj.show_intermediates() {
+                        let image = item
+                            .downcast_ref::<model::Image>()
+                            .unwrap();
+                        !image.dangling() && image.containers() > 0
+                    } else {
+                        true
+                    }
+                }));
+            let filter_model = gtk::FilterListModel::new(Some(obj.image_list()), Some(&filter));
+
+            self.list_box.bind_model(Some(&filter_model), |item| {
                 view::ImageRow::from(item.downcast_ref().unwrap()).upcast()
-            })
+            });
+
+            self.filter.set(filter).unwrap();
+
+            gio::Settings::new(config::APP_ID)
+                .bind("show-intermediate-images", obj, "show-intermediates")
+                .build();
         }
 
         fn dispose(&self, _obj: &Self::Type) {
@@ -239,26 +252,14 @@ impl ImagesPanel {
         if self.show_intermediates() == value {
             return;
         }
-        self.imp().show_intermediates.set(value);
+        let imp = self.imp();
+        imp.show_intermediates.set(value);
+        imp.filter
+            .get()
+            .unwrap()
+            .changed(gtk::FilterChange::Different);
+
         self.notify("show-intermediates");
-
-        self.setup_image_list_view();
-    }
-
-    fn setup_image_list_view(&self) {
-        let list_box = self.imp().list_box.borrow();
-        if self.show_intermediates() {
-            list_box.unset_filter_func();
-        } else {
-            list_box.set_filter_func(|row| {
-                let image = row
-                    .downcast_ref::<view::ImageRow>()
-                    .unwrap()
-                    .image()
-                    .unwrap();
-                !image.dangling() && image.containers() > 0
-            });
-        }
     }
 
     pub(crate) fn show_prune_dialog(&self) {
