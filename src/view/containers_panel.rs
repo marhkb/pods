@@ -192,6 +192,11 @@ mod imp {
                 }));
             let filter_model = gtk::FilterListModel::new(Some(obj.container_list()), Some(&filter));
 
+            obj.set_list_box_visibility(filter_model.upcast_ref());
+            filter_model.connect_items_changed(clone!(@weak obj => move |model, _, _, _| {
+                obj.set_list_box_visibility(model.upcast_ref());
+            }));
+
             self.list_box.bind_model(Some(&filter_model), |item| {
                 view::ContainerRow::from(item.downcast_ref().unwrap()).upcast()
             });
@@ -245,5 +250,9 @@ impl ContainersPanel {
             .changed(gtk::FilterChange::Different);
 
         self.notify("show-only-running");
+    }
+
+    fn set_list_box_visibility(&self, model: &gio::ListModel) {
+        self.imp().list_box.set_visible(model.n_items() > 0);
     }
 }
