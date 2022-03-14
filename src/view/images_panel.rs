@@ -19,7 +19,6 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Symphony/ui/images-panel.ui")]
     pub(crate) struct ImagesPanel {
         pub(super) image_list: OnceCell<model::ImageList>,
-        // pub(super) search_text: RefCell<Option<String>>,
         pub(super) show_intermediates: Cell<bool>,
         #[template_child]
         pub(super) main_stack: TemplateChild<gtk::Stack>,
