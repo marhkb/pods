@@ -17,7 +17,6 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Symphony/ui/containers-panel.ui")]
     pub(crate) struct ContainersPanel {
         pub(super) container_list: OnceCell<model::ContainerList>,
-        pub(super) filter: OnceCell<gtk::CustomFilter>,
         pub(super) show_only_running: Cell<bool>,
         #[template_child]
         pub(super) status_page: TemplateChild<adw::StatusPage>,
@@ -27,8 +26,6 @@ mod imp {
         pub(super) progress_stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) progress_bar: TemplateChild<gtk::ProgressBar>,
-        #[template_child]
-        pub(super) preferences_page: TemplateChild<adw::PreferencesPage>,
         #[template_child]
         pub(super) container_group: TemplateChild<adw::PreferencesGroup>,
         #[template_child]
@@ -98,7 +95,7 @@ mod imp {
             self.parent_constructed(obj);
 
             let container_list_expr = Self::Type::this_expression("container-list");
-            let container_len_expr =
+            let container_list_len_expr =
                 container_list_expr.chain_property::<model::ContainerList>("len");
             let fetched_params = &[
                 container_list_expr
@@ -111,21 +108,21 @@ mod imp {
 
             gtk::ClosureExpression::new::<bool, _, _>(
                 &[
-                    container_len_expr.clone(),
+                    container_list_len_expr.clone(),
                     container_list_expr.chain_property::<model::ContainerList>("listing"),
                 ],
                 closure!(|_: glib::Object, len: u32, listing: bool| len == 0 && listing),
             )
             .bind(&*self.status_page, "visible", Some(obj));
 
-            container_len_expr
+            container_list_len_expr
                 .chain_closure::<bool>(closure!(|_: glib::Object, len: u32| { len > 0 }))
                 .bind(&*self.overlay, "visible", Some(obj));
 
             gtk::ClosureExpression::new::<f64, _, _>(
                 fetched_params,
                 closure!(|_: glib::Object, fetched: u32, to_fetch: u32| {
-                    fetched as f64 / to_fetch as f64
+                    f64::min(1.0, fetched as f64 / to_fetch as f64)
                 }),
             )
             .bind(&*self.progress_bar, "fraction", Some(obj));
@@ -133,7 +130,7 @@ mod imp {
             gtk::ClosureExpression::new::<String, _, _>(
                 fetched_params,
                 closure!(|_: glib::Object, fetched: u32, to_fetch: u32| {
-                    if fetched == to_fetch {
+                    if fetched >= to_fetch {
                         "empty"
                     } else {
                         "bar"
@@ -156,33 +153,24 @@ mod imp {
                     Some(&*self.progress_stack),
                 );
 
-            gtk::ClosureExpression::new::<Option<String>, _, _>(
-                [
-                    &fetched_params[0],
-                    &fetched_params[1],
-                    &container_list_expr
-                        .chain_property::<model::ContainerList>("len")
-                        .upcast(),
-                ],
-                closure!(|panel: Self::Type, fetched: u32, to_fetch: u32, len: u32| {
-                    if fetched == to_fetch {
+            container_list_len_expr
+                .chain_closure::<String>(closure!(|panel: Self::Type, len: u32| {
+                    if len > 0 {
                         let list = panel.container_list();
-                        Some(
-                            // Translators: There's a wide space (U+2002) between every ", {}".
-                            gettext!(
-                                "{} Containers total, {} running, {} configured, {} exited",
-                                len,
-                                list.count(model::ContainerStatus::Running),
-                                list.count(model::ContainerStatus::Configured),
-                                list.count(model::ContainerStatus::Exited),
-                            ),
+
+                        // Translators: There's a wide space (U+2002) between every ", {}".
+                        gettext!(
+                            "{} Containers total, {} running, {} configured, {} exited",
+                            list.n_items(),
+                            list.count(model::ContainerStatus::Running),
+                            list.count(model::ContainerStatus::Configured),
+                            list.count(model::ContainerStatus::Exited),
                         )
                     } else {
-                        None
+                        gettext("No containers found")
                     }
-                }),
-            )
-            .bind(&*self.container_group, "description", Some(obj));
+                }))
+                .bind(&*self.container_group, "description", Some(obj));
 
             let filter =
                 gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
@@ -190,6 +178,21 @@ mod imp {
                         item.downcast_ref::<model::Container>().unwrap().status()
                             == model::ContainerStatus::Running
                 }));
+
+            obj.connect_notify_local(
+                Some("show-only-running"),
+                clone!(@weak filter => move |_ ,_| {
+                    filter.changed(gtk::FilterChange::Different);
+                }),
+            );
+
+            obj.container_list().connect_notify_local(
+                Some("fetched"),
+                clone!(@weak filter => move |_ ,_| {
+                    filter.changed(gtk::FilterChange::Different);
+                }),
+            );
+
             let filter_model = gtk::FilterListModel::new(Some(obj.container_list()), Some(&filter));
 
             obj.set_list_box_visibility(filter_model.upcast_ref());
@@ -201,8 +204,6 @@ mod imp {
                 view::ContainerRow::from(item.downcast_ref().unwrap()).upcast()
             });
 
-            self.filter.set(filter).unwrap();
-
             gio::Settings::new(config::APP_ID)
                 .bind("show-only-running-containers", obj, "show-only-running")
                 .build();
@@ -213,6 +214,7 @@ mod imp {
             self.overlay.unparent();
         }
     }
+
     impl WidgetImpl for ContainersPanel {}
 }
 
@@ -242,13 +244,7 @@ impl ContainersPanel {
         if self.show_only_running() == value {
             return;
         }
-        let imp = self.imp();
-        imp.show_only_running.set(value);
-        imp.filter
-            .get()
-            .unwrap()
-            .changed(gtk::FilterChange::Different);
-
+        self.imp().show_only_running.set(value);
         self.notify("show-only-running");
     }
 
