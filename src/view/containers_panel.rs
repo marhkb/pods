@@ -29,6 +29,8 @@ mod imp {
         #[template_child]
         pub(super) search_bar: TemplateChild<gtk::SearchBar>,
         #[template_child]
+        pub(super) search_entry: TemplateChild<gtk::SearchEntry>,
+        #[template_child]
         pub(super) container_group: TemplateChild<adw::PreferencesGroup>,
         #[template_child]
         pub(super) list_box: TemplateChild<gtk::ListBox>,
@@ -174,7 +176,7 @@ mod imp {
                 }))
                 .bind(&*self.container_group, "description", Some(obj));
 
-            let filter =
+            let properties_filter =
                 gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
                     !obj.show_only_running() ||
                         item.downcast_ref::<model::Container>().unwrap().status()
@@ -183,19 +185,42 @@ mod imp {
 
             obj.connect_notify_local(
                 Some("show-only-running"),
-                clone!(@weak filter => move |_ ,_| {
-                    filter.changed(gtk::FilterChange::Different);
+                clone!(@weak properties_filter => move |_ ,_| {
+                    properties_filter.changed(gtk::FilterChange::Different);
                 }),
             );
+
+            let search_filter =
+                gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
+                    let container = item
+                        .downcast_ref::<model::Container>()
+                        .unwrap();
+                    let query = obj.imp().search_entry.text();
+                    let query = query.as_str();
+
+                    container.name().map(|name| name.contains(query)).unwrap_or(false)
+                }));
+
+            self.search_entry
+                .connect_search_changed(clone!(@weak search_filter => move |_| {
+                    search_filter.changed(gtk::FilterChange::Different);
+                }));
 
             obj.container_list().connect_notify_local(
                 Some("fetched"),
-                clone!(@weak filter => move |_ ,_| {
-                    filter.changed(gtk::FilterChange::Different);
+                clone!(@weak properties_filter, @weak search_filter => move |_ ,_| {
+                    properties_filter.changed(gtk::FilterChange::Different);
+                    search_filter.changed(gtk::FilterChange::Different);
                 }),
             );
 
-            let filter_model = gtk::FilterListModel::new(Some(obj.container_list()), Some(&filter));
+            let filter_model = gtk::FilterListModel::new(
+                Some(&gtk::FilterListModel::new(
+                    Some(obj.container_list()),
+                    Some(&search_filter),
+                )),
+                Some(&properties_filter),
+            );
 
             obj.set_list_box_visibility(filter_model.upcast_ref());
             filter_model.connect_items_changed(clone!(@weak obj => move |model, _, _, _| {
