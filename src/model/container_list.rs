@@ -69,20 +69,6 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
-            match pspec.name() {
-                "fetched" => obj.set_fetched(value.get().unwrap()),
-                "to-fetch" => obj.set_to_fetch(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
-        }
-
         fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
                 "fetched" => obj.fetched().to_value(),
