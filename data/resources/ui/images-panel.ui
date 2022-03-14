@@ -46,12 +46,20 @@
             <property name="vexpand">True</property>
 
             <child>
-              <object class="GtkSpinner" id="spinner">
-                <property name="halign">center</property>
-                <property name="height-request">30</property>
-                <property name="spinning">True</property>
+              <object class="AdwStatusPage" id="status_page">
+                <property name="description" translatable="yes">Please wait a moment</property>
+                <property name="title" translatable="yes">Images Are Being Retieved</property>
                 <property name="vexpand">True</property>
-                <property name="width-request">30</property>
+
+                <child>
+                  <object class="GtkSpinner">
+                    <property name="halign">center</property>
+                    <property name="height-request">30</property>
+                    <property name="spinning">True</property>
+                    <property name="width-request">30</property>
+                  </object>
+                </child>
+
               </object>
             </child>
 

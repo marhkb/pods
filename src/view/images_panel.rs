@@ -28,7 +28,7 @@ mod imp {
         #[template_child]
         pub(super) progress_bar: TemplateChild<gtk::ProgressBar>,
         #[template_child]
-        pub(super) spinner: TemplateChild<gtk::Spinner>,
+        pub(super) status_page: TemplateChild<adw::StatusPage>,
         #[template_child]
         pub(super) preferences_page: TemplateChild<adw::PreferencesPage>,
         #[template_child]
@@ -110,7 +110,7 @@ mod imp {
             obj.setup_image_list_view();
 
             let image_list_expr = Self::Type::this_expression("image-list");
-
+            let image_len_expr = image_list_expr.chain_property::<model::ImageList>("len");
             let fetched_params = &[
                 image_list_expr
                     .chain_property::<model::ImageList>("fetched")
@@ -154,11 +154,14 @@ mod imp {
                     Some(&*self.progress_stack),
                 );
 
-            let image_len_expr = image_list_expr.chain_property::<model::ImageList>("len");
-
-            image_len_expr
-                .chain_closure::<bool>(closure!(|_: glib::Object, len: u32| { len == 0 }))
-                .bind(&*self.spinner, "visible", Some(obj));
+            gtk::ClosureExpression::new::<bool, _, _>(
+                &[
+                    image_len_expr.clone(),
+                    image_list_expr.chain_property::<model::ImageList>("listing"),
+                ],
+                closure!(|_: glib::Object, len: u32, listing: bool| len == 0 && listing),
+            )
+            .bind(&*self.status_page, "visible", Some(obj));
 
             image_len_expr
                 .chain_closure::<bool>(closure!(|_: glib::Object, len: u32| { len > 0 }))
