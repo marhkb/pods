@@ -142,8 +142,8 @@ mod imp {
                 obj.add_css_class("devel");
             }
 
-            // Load latest window state
-            obj.load_window_size();
+            // Load settings.
+            obj.load_settings();
 
             obj.notify("show-intermediate-images");
             self.images_panel.connect_notify_local(
@@ -221,7 +221,7 @@ impl Window {
         Ok(())
     }
 
-    fn load_window_size(&self) {
+    fn load_settings(&self) {
         let settings = gio::Settings::new(config::APP_ID);
 
         let width = settings.int("window-width");
@@ -233,6 +233,14 @@ impl Window {
         if is_maximized {
             self.maximize();
         }
+
+        settings
+            .bind(
+                "last-used-view",
+                &*self.imp().panel_stack,
+                "visible-child-name",
+            )
+            .build();
     }
 
     pub(crate) fn check_service(&self) {
