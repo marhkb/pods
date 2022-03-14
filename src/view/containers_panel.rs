@@ -27,6 +27,8 @@ mod imp {
         #[template_child]
         pub(super) progress_bar: TemplateChild<gtk::ProgressBar>,
         #[template_child]
+        pub(super) search_bar: TemplateChild<gtk::SearchBar>,
+        #[template_child]
         pub(super) container_group: TemplateChild<adw::PreferencesGroup>,
         #[template_child]
         pub(super) list_box: TemplateChild<gtk::ListBox>,
@@ -250,5 +252,12 @@ impl ContainersPanel {
 
     fn set_list_box_visibility(&self, model: &gio::ListModel) {
         self.imp().list_box.set_visible(model.n_items() > 0);
+    }
+
+    pub(crate) fn connect_search_button(&self, search_button: &gtk::ToggleButton) {
+        search_button
+            .bind_property("active", &*self.imp().search_bar, "search-mode-enabled")
+            .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
+            .build();
     }
 }

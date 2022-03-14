@@ -89,6 +89,12 @@
                       </object>
                     </child>
 
+                    <child type="start">
+                      <object class="GtkToggleButton" id="containers_search_button">
+                        <property name="icon-name">system-search-symbolic</property>
+                      </object>
+                    </child>
+
                     <child type="title">
                       <object class="AdwViewSwitcherTitle" id="title">
                         <property name="stack">panel_stack</property>
