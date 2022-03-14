@@ -33,7 +33,7 @@ mod imp {
         #[template_child]
         pub(super) search_entry: TemplateChild<gtk::SearchEntry>,
         #[template_child]
-        pub(super) container_group: TemplateChild<adw::PreferencesGroup>,
+        pub(super) containers_group: TemplateChild<adw::PreferencesGroup>,
         #[template_child]
         pub(super) list_box: TemplateChild<gtk::ListBox>,
     }
@@ -179,7 +179,7 @@ mod imp {
                         gettext("No containers found")
                     }
                 }))
-                .bind(&*self.container_group, "description", Some(obj));
+                .bind(&*self.containers_group, "description", Some(obj));
 
             let properties_filter =
                 gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {

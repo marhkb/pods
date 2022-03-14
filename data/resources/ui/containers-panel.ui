@@ -78,7 +78,7 @@
                     <property name="valign">start</property>
 
                     <child>
-                      <object class="AdwPreferencesGroup" id="container_group">
+                      <object class="AdwPreferencesGroup" id="containers_group">
                         <property name="title" translatable="yes">Summary</property>
 
                         <child>
