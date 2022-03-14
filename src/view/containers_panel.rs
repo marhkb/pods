@@ -25,7 +25,7 @@ mod imp {
         #[template_child]
         pub(super) progress_bar: TemplateChild<gtk::ProgressBar>,
         #[template_child]
-        pub(super) spinner: TemplateChild<gtk::Spinner>,
+        pub(super) status_page: TemplateChild<adw::StatusPage>,
         #[template_child]
         pub(super) preferences_page: TemplateChild<adw::PreferencesPage>,
         #[template_child]
@@ -101,7 +101,8 @@ mod imp {
                 .build();
 
             let container_list_expr = Self::Type::this_expression("container-list");
-
+            let container_len_expr =
+                container_list_expr.chain_property::<model::ContainerList>("len");
             let fetched_params = &[
                 container_list_expr
                     .chain_property::<model::ContainerList>("fetched")
@@ -145,12 +146,14 @@ mod imp {
                     Some(&*self.progress_stack),
                 );
 
-            let container_len_expr =
-                container_list_expr.chain_property::<model::ContainerList>("len");
-
-            container_len_expr
-                .chain_closure::<bool>(closure!(|_: glib::Object, len: u32| { len == 0 }))
-                .bind(&*self.spinner, "visible", Some(obj));
+            gtk::ClosureExpression::new::<bool, _, _>(
+                &[
+                    container_len_expr.clone(),
+                    container_list_expr.chain_property::<model::ContainerList>("listing"),
+                ],
+                closure!(|_: glib::Object, len: u32, listing: bool| len == 0 && listing),
+            )
+            .bind(&*self.status_page, "visible", Some(obj));
 
             container_len_expr
                 .chain_closure::<bool>(closure!(|_: glib::Object, len: u32| { len > 0 }))
