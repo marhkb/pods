@@ -113,6 +113,7 @@ mod imp {
                                 model::ContainerStatus::Removing => "container-status-removing",
                                 model::ContainerStatus::Restarting => "container-status-restarting",
                                 model::ContainerStatus::Running => "container-status-running",
+                                model::ContainerStatus::Stopped => "container-status-stopped",
                                 model::ContainerStatus::Unknown => "container-status-unknown",
                             })))
                             .collect::<Vec<_>>()
