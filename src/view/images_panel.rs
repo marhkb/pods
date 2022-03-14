@@ -36,7 +36,7 @@ mod imp {
         #[template_child]
         pub(super) search_entry: TemplateChild<gtk::SearchEntry>,
         #[template_child]
-        pub(super) image_group: TemplateChild<adw::PreferencesGroup>,
+        pub(super) images_group: TemplateChild<adw::PreferencesGroup>,
         #[template_child]
         pub(super) list_box: TemplateChild<gtk::ListBox>,
     }
@@ -181,7 +181,7 @@ mod imp {
                         gettext("No images found")
                     }
                 }))
-                .bind(&*self.image_group, "description", Some(obj));
+                .bind(&*self.images_group, "description", Some(obj));
 
             let properties_filter =
                 gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {

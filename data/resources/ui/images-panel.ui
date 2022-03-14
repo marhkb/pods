@@ -80,7 +80,7 @@
                     <property name="valign">start</property>
 
                     <child>
-                      <object class="AdwPreferencesGroup" id="image_group">
+                      <object class="AdwPreferencesGroup" id="images_group">
                         <property name="title" translatable="yes">Summary</property>
 
                         <child>
