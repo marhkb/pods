@@ -214,7 +214,7 @@ fn status(state: Option<api::InspectContainerState>) -> Status {
         .map_or_else(Status::default, |s| match Status::from_str(&s) {
             Ok(status) => status,
             Err(status) => {
-                log::warn!("Unknown status: {s}");
+                log::warn!("Unknown container status: {s}");
                 status
             }
         })
