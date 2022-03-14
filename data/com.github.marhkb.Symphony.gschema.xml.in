@@ -16,6 +16,11 @@
       <summary>Default window maximized behaviour</summary>
       <description></description>
     </key>
+    <key name="last-used-view" type="s">
+      <default>''</default>
+      <summary>The last used view</summary>
+      <description></description>
+    </key>
     <key name="show-intermediate-images" type="b">
       <default>false</default>
       <summary>Whether to show intermediate images</summary>
