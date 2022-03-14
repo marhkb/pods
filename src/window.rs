@@ -5,7 +5,7 @@ use gettextrs::gettext;
 use gtk::glib::{clone, closure};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
-use gtk::{gio, glib, CompositeTemplate};
+use gtk::{gdk, gio, glib, CompositeTemplate};
 use once_cell::sync::Lazy;
 
 use crate::application::Application;
@@ -67,6 +67,17 @@ mod imp {
                 "containers.show-only-running",
                 "show-only-running-containers",
             );
+
+            klass.add_binding_action(
+                gdk::Key::F,
+                gdk::ModifierType::CONTROL_MASK,
+                "win.toggle-search",
+                None,
+            );
+
+            klass.install_action("win.toggle-search", None, |widget, _, _| {
+                widget.toggle_search();
+            });
         }
 
         // You must call `Widget`'s `init_template()` within `instance_init()`.
@@ -269,6 +280,16 @@ impl Window {
                 "visible-child-name",
             )
             .build();
+    }
+
+    fn toggle_search(&self) {
+        let imp = self.imp();
+
+        match imp.panel_stack.visible_child_name().as_deref() {
+            Some("images") => imp.images_panel.toggle_search(),
+            Some("containers") => imp.containers_panel.toggle_search(),
+            _ => unreachable!(),
+        }
     }
 
     pub(crate) fn check_service(&self) {

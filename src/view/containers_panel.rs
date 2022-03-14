@@ -285,4 +285,14 @@ impl ContainersPanel {
             .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
             .build();
     }
+
+    pub(crate) fn toggle_search(&self) {
+        let imp = self.imp();
+        if imp.search_bar.is_search_mode() {
+            imp.search_bar.set_search_mode(false);
+        } else {
+            imp.search_bar.set_search_mode(true);
+            imp.search_entry.grab_focus();
+        }
+    }
 }
