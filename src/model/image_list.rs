@@ -23,6 +23,7 @@ mod imp {
     pub(crate) struct ImageList {
         pub(super) fetched: Cell<u32>,
         pub(super) list: RefCell<IndexMap<String, model::Image>>,
+        pub(super) listing: Cell<bool>,
         pub(super) to_fetch: Cell<u32>,
     }
 
@@ -56,6 +57,13 @@ mod imp {
                         0,
                         glib::ParamFlags::READABLE,
                     ),
+                    glib::ParamSpecBoolean::new(
+                        "listing",
+                        "Listing",
+                        "Wether images are currently listed",
+                        false,
+                        glib::ParamFlags::READABLE,
+                    ),
                     glib::ParamSpecUInt::new(
                         "to-fetch",
                         "To Fetch",
@@ -74,6 +82,7 @@ mod imp {
             match pspec.name() {
                 "fetched" => obj.fetched().to_value(),
                 "len" => obj.len().to_value(),
+                "listing" => obj.listing().to_value(),
                 "to-fetch" => obj.to_fetch().to_value(),
                 _ => unimplemented!(),
             }
@@ -131,6 +140,18 @@ impl ImageList {
         self.n_items()
     }
 
+    pub(crate) fn listing(&self) -> bool {
+        self.imp().listing.get()
+    }
+
+    fn set_listing(&self, value: bool) {
+        if self.listing() == value {
+            return;
+        }
+        self.imp().listing.set(value);
+        self.notify("listing");
+    }
+
     pub(crate) fn to_fetch(&self) -> u32 {
         self.imp().to_fetch.get()
     }
@@ -183,6 +204,7 @@ impl ImageList {
     where
         F: FnOnce(Error) + Clone + 'static,
     {
+        self.set_listing(true);
         utils::do_async(
             async move {
                 PODMAN
@@ -190,59 +212,63 @@ impl ImageList {
                     .list(&api::ImageListOpts::builder().all(true).build())
                     .await
             },
-            clone!(@weak self as obj => move |result| match result {
-                Ok(mut summaries) => {
-                    let to_remove = obj
-                        .imp()
-                        .list
-                        .borrow()
-                        .keys()
-                        .filter(|id| {
-                            !summaries
-                                .iter()
-                                .any(|summary| summary.id.as_ref() == Some(id))
-                        })
-                        .cloned()
-                        .collect::<Vec<_>>();
-                    to_remove.iter().for_each(|id| obj.remove_image(id));
-
-                    summaries.retain(|summary| {
-                        !obj.imp().list.borrow().contains_key(summary.id.as_ref().unwrap())
-                    });
-
-                    obj.set_fetched(0);
-                    obj.set_to_fetch(summaries.len() as u32);
-
-                    summaries.into_iter().for_each(|summary| {
-                        let err = Error::Inspect(summary.id.clone().unwrap());
-                        utils::do_async(
-                            async move {
-                                PODMAN.images().get(summary.id.as_deref().unwrap()).inspect()
-                                    .map_ok(|inspect_response| (summary, inspect_response)).await
-                            },
-                            clone!(@weak obj, @strong err_op => move |result| {
-                                match result {
-                                    Ok((summary, inspect_response)) => {
-                                        obj.imp().list.borrow_mut().insert(
-                                            summary.id.clone().unwrap(),
-                                            model::Image::from_libpod(summary, inspect_response)
-                                        );
-
-                                        obj.set_fetched(obj.fetched() + 1);
-                                        obj.items_changed(obj.len() - 1, 0, 1);
-                                    }
-                                    Err(e) => {
-                                        log::error!("Error on inspecting image: {}", e);
-                                        err_op(err);
-                                    }
-                                }
+            clone!(@weak self as obj => move |result| {
+                obj.set_listing(false);
+                match result {
+                    Ok(mut summaries) => {
+                        let to_remove = obj
+                            .imp()
+                            .list
+                            .borrow()
+                            .keys()
+                            .filter(|id| {
+                                !summaries
+                                    .iter()
+                                    .any(|summary| summary.id.as_ref() == Some(id))
                             })
-                        );
-                    });
-                }
-                Err(e) => {
-                    log::error!("Error on retrieving images: {}", e);
-                    err_op(Error::List);
+                            .cloned()
+                            .collect::<Vec<_>>();
+                        to_remove.iter().for_each(|id| obj.remove_image(id));
+
+                        summaries.retain(|summary| {
+                            !obj.imp().list.borrow().contains_key(summary.id.as_ref().unwrap())
+                        });
+
+                        obj.set_fetched(0);
+                        obj.set_to_fetch(summaries.len() as u32);
+
+                        summaries.into_iter().for_each(|summary| {
+                            let err = Error::Inspect(summary.id.clone().unwrap());
+                            utils::do_async(
+                                async move {
+                                    PODMAN.images().get(summary.id.as_deref().unwrap()).inspect()
+                                        .map_ok(|inspect_response| (summary, inspect_response))
+                                        .await
+                                },
+                                clone!(@weak obj, @strong err_op => move |result| {
+                                    match result {
+                                        Ok((summary, inspect_response)) => {
+                                            obj.imp().list.borrow_mut().insert(
+                                                summary.id.clone().unwrap(),
+                                                model::Image::from_libpod(summary, inspect_response)
+                                            );
+
+                                            obj.set_fetched(obj.fetched() + 1);
+                                            obj.items_changed(obj.len() - 1, 0, 1);
+                                        }
+                                        Err(e) => {
+                                            log::error!("Error on inspecting image: {}", e);
+                                            err_op(err);
+                                        }
+                                    }
+                                })
+                            );
+                        });
+                    }
+                    Err(e) => {
+                        log::error!("Error on retrieving images: {}", e);
+                        err_op(Error::List);
+                    }
                 }
             }),
         );
