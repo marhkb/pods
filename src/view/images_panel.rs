@@ -102,7 +102,7 @@ mod imp {
             self.parent_constructed(obj);
 
             let image_list_expr = Self::Type::this_expression("image-list");
-            let image_len_expr = image_list_expr.chain_property::<model::ImageList>("len");
+            let image_list_len_expr = image_list_expr.chain_property::<model::ImageList>("len");
             let fetched_params = &[
                 image_list_expr
                     .chain_property::<model::ImageList>("fetched")
@@ -114,14 +114,14 @@ mod imp {
 
             gtk::ClosureExpression::new::<bool, _, _>(
                 &[
-                    image_len_expr.clone(),
+                    image_list_len_expr.clone(),
                     image_list_expr.chain_property::<model::ImageList>("listing"),
                 ],
                 closure!(|_: glib::Object, len: u32, listing: bool| len == 0 && listing),
             )
             .bind(&*self.status_page, "visible", Some(obj));
 
-            image_len_expr
+            image_list_len_expr
                 .chain_closure::<bool>(closure!(|_: glib::Object, len: u32| { len > 0 }))
                 .bind(&*self.overlay, "visible", Some(obj));
 
@@ -159,33 +159,24 @@ mod imp {
                     Some(&*self.progress_stack),
                 );
 
-            gtk::ClosureExpression::new::<Option<String>, _, _>(
-                [
-                    &fetched_params[0],
-                    &fetched_params[1],
-                    &image_list_expr
-                        .chain_property::<model::ImageList>("len")
-                        .upcast(),
-                ],
-                closure!(|panel: Self::Type, fetched: u32, to_fetch: u32, len: u32| {
-                    if fetched == to_fetch {
+            image_list_len_expr
+                .chain_closure::<String>(closure!(|panel: Self::Type, len: u32| {
+                    if len > 0 {
                         let list = panel.image_list();
-                        Some(
-                            // Translators: There's a wide space (U+2002) between the two {} {}.
-                            gettext!(
-                                "{} images total, {} {} unused images, {}",
-                                len,
-                                glib::format_size(list.total_size()),
-                                list.num_unused_images(),
-                                glib::format_size(list.unused_size()),
-                            ),
+
+                        // Translators: There's a wide space (U+2002) between the two {} {}.
+                        gettext!(
+                            "{} images total, {} {} unused images, {}",
+                            len,
+                            glib::format_size(list.total_size()),
+                            list.num_unused_images(),
+                            glib::format_size(list.unused_size()),
                         )
                     } else {
-                        None
+                        gettext("No images found")
                     }
-                }),
-            )
-            .bind(&*self.image_group, "description", Some(obj));
+                }))
+                .bind(&*self.image_group, "description", Some(obj));
 
             let filter =
                 gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
