@@ -28,8 +28,6 @@ mod imp {
         #[template_child]
         pub(super) progress_bar: TemplateChild<gtk::ProgressBar>,
         #[template_child]
-        pub(super) preferences_page: TemplateChild<adw::PreferencesPage>,
-        #[template_child]
         pub(super) container_group: TemplateChild<adw::PreferencesGroup>,
         #[template_child]
         pub(super) list_box: TemplateChild<gtk::ListBox>,
