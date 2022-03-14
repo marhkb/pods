@@ -1,5 +1,3 @@
-use std::time::Duration;
-
 use adw::subclass::prelude::AdwApplicationWindowImpl;
 use gettextrs::gettext;
 use gtk::glib::{clone, closure};
@@ -9,7 +7,7 @@ use gtk::{gdk, gio, glib, CompositeTemplate};
 use once_cell::sync::Lazy;
 
 use crate::application::Application;
-use crate::{config, model, utils, view, PODMAN};
+use crate::{api, config, model, utils, view, PODMAN};
 
 mod imp {
     use super::*;
@@ -300,38 +298,14 @@ impl Window {
                 match result {
                     Ok(_) => {
                         imp.main_stack.set_visible_child(&*imp.main_view_box);
-                        imp.images_panel.image_list().setup(clone!(@weak obj => move |e| {
-                            obj.show_toast(&adw::Toast::builder()
-                                .title(&match e {
-                                    model::ImageListError::List => {
-                                        gettext("Error on loading images")
-                                    }
-                                    model::ImageListError::Inspect(id) => {
-                                        gettext!("Error on inspecting image '{}'", id)
-                                    }
-                                })
-                                .timeout(3)
-                                .priority(adw::ToastPriority::High)
-                                .build(),
-                            );
+                        imp.images_panel.image_list().refresh(clone!(@weak obj => move |e| {
+                            obj.images_err_op(e);
                         }));
-                        imp.containers_panel.container_list().setup(clone!(@weak obj => move |e| {
-                            obj.show_toast(&adw::Toast::builder()
-                                .title(&match e {
-                                    model::ContainerListError::List => {
-                                        gettext("Error on loading containers")
-                                    }
-                                    model::ContainerListError::Inspect(id) => {
-                                        gettext!("Error on inspecting container '{}'", id)
-                                    }
-                                })
-                                .timeout(3)
-                                .priority(adw::ToastPriority::High)
-                                .build(),
-                            );
+                        imp.containers_panel.container_list().refresh(clone!(@weak obj => move |e| {
+                            obj.containers_err_op(e);
                         }));
 
-                        obj.periodic_service_check();
+                        obj.start_event_listener();
                     }
                     Err(e) => {
                         imp.main_stack.set_visible_child(&*imp.start_service_page);
@@ -343,18 +317,70 @@ impl Window {
         );
     }
 
-    fn periodic_service_check(&self) {
-        utils::do_async(
-            async {
-                while PODMAN.ping().await.is_ok() {
-                    tokio::time::sleep(Duration::from_secs(1)).await;
-                }
-            },
-            clone!(@weak self as obj => move |_| {
+    fn start_event_listener(&self) {
+        utils::run_stream(
+            PODMAN.events(&api::EventsOpts::builder().build()),
+            clone!(
+                @weak self as obj => @default-return glib::Continue(false),
+                move |result|
+            {
                 let imp = obj.imp();
-                imp.main_stack.set_visible_child(&*imp.connection_lost_page);
+
+                glib::Continue(match result {
+                    Ok(event) => {
+                        log::debug!("Event: {event:?}");
+                        match event.typ.as_str() {
+                            "image" => imp.images_panel.image_list().handle_event(
+                                event,
+                                clone!(@weak obj => move |e| obj.images_err_op(e)),
+                            ),
+                            "container" => imp.containers_panel.container_list().handle_event(
+                                event,
+                                clone!(@weak obj => move |e| obj.containers_err_op(e)),
+                            ),
+                            other => log::warn!("Unhandled event type: {other}"),
+                        }
+                        true
+                    },
+                    Err(e) => {
+                        log::error!("Stopping image event stream due to error: {e}");
+
+                        imp.main_stack.set_visible_child(&*imp.connection_lost_page);
+                        false
+                    }
+                })
             }),
         );
+    }
+
+    fn images_err_op(&self, e: model::ImageListError) {
+        self.show_toast(
+            &adw::Toast::builder()
+                .title(&match e {
+                    model::ImageListError::List => gettext("Error on loading images"),
+                    model::ImageListError::Inspect(id) => {
+                        gettext!("Error on inspecting image '{}'", id)
+                    }
+                })
+                .timeout(3)
+                .priority(adw::ToastPriority::High)
+                .build(),
+        );
+    }
+
+    fn containers_err_op(&self, e: model::ContainerListError) {
+        self.show_toast(
+            &adw::Toast::builder()
+                .title(&match e {
+                    model::ContainerListError::List => gettext("Error on loading containers"),
+                    model::ContainerListError::Inspect(id) => {
+                        gettext!("Error on inspecting container '{}'", id)
+                    }
+                })
+                .timeout(3)
+                .priority(adw::ToastPriority::High)
+                .build(),
+        )
     }
 
     pub(crate) fn show_toast(&self, toast: &adw::Toast) {

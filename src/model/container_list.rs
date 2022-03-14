@@ -214,7 +214,7 @@ impl ContainerList {
         }
     }
 
-    fn refresh<F>(&self, err_op: F)
+    pub(crate) fn refresh<F>(&self, err_op: F)
     where
         F: FnOnce(Error) + Clone + 'static,
     {
@@ -260,34 +260,10 @@ impl ContainerList {
         );
     }
 
-    pub(crate) fn setup<F>(&self, err_op: F)
+    pub(crate) fn handle_event<F>(&self, _event: api::Event, err_op: F)
     where
         F: FnOnce(Error) + Clone + 'static,
     {
-        utils::run_stream(
-            PODMAN.events(
-                &api::EventsOpts::builder()
-                    .filters([("type".to_string(), vec!["container".to_string()])])
-                    .build(),
-            ),
-            clone!(
-                @weak self as obj, @strong err_op=> @default-return glib::Continue(false),
-                move |result|
-            {
-                glib::Continue(match result {
-                    Ok(event) => {
-                        log::debug!("Event: {event:?}");
-                        obj.refresh(err_op.clone());
-                        true
-                    },
-                    Err(e) => {
-                        log::error!("Stopping image event stream due to error: {e}");
-                        false
-                    }
-                })
-            }),
-        );
-
         self.refresh(err_op);
     }
 }
