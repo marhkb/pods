@@ -19,6 +19,7 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Symphony/ui/images-panel.ui")]
     pub(crate) struct ImagesPanel {
         pub(super) image_list: OnceCell<model::ImageList>,
+        // pub(super) search_text: RefCell<Option<String>>,
         pub(super) show_intermediates: Cell<bool>,
         #[template_child]
         pub(super) status_page: TemplateChild<adw::StatusPage>,
@@ -28,6 +29,10 @@ mod imp {
         pub(super) progress_stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) progress_bar: TemplateChild<gtk::ProgressBar>,
+        #[template_child]
+        pub(super) search_bar: TemplateChild<gtk::SearchBar>,
+        #[template_child]
+        pub(super) search_entry: TemplateChild<gtk::SearchEntry>,
         #[template_child]
         pub(super) image_group: TemplateChild<adw::PreferencesGroup>,
         #[template_child]
@@ -177,7 +182,7 @@ mod imp {
                 }))
                 .bind(&*self.image_group, "description", Some(obj));
 
-            let filter =
+            let properties_filter =
                 gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
                     if obj.show_intermediates() {
                         true
@@ -191,19 +196,43 @@ mod imp {
 
             obj.connect_notify_local(
                 Some("show-intermediates"),
-                clone!(@weak filter => move |_ ,_| {
-                    filter.changed(gtk::FilterChange::Different);
+                clone!(@weak properties_filter => move |_ ,_| {
+                    properties_filter.changed(gtk::FilterChange::Different);
                 }),
             );
+
+            let search_filter = gtk::CustomFilter::new(
+                clone!(@weak obj => @default-return false, move |item| {
+                    let image = item
+                        .downcast_ref::<model::Image>()
+                        .unwrap();
+                    let query = obj.imp().search_entry.text();
+                    let query = query.as_str();
+
+                    image.id().contains(query) || image.repo_tags().iter().any(|s| s.contains(query))
+                }),
+            );
+
+            self.search_entry
+                .connect_search_changed(clone!(@weak search_filter => move |_| {
+                    search_filter.changed(gtk::FilterChange::Different);
+                }));
 
             obj.image_list().connect_notify_local(
                 Some("fetched"),
-                clone!(@weak filter => move |_ ,_| {
-                    filter.changed(gtk::FilterChange::Different);
+                clone!(@weak properties_filter, @weak search_filter => move |_ ,_| {
+                    properties_filter.changed(gtk::FilterChange::Different);
+                    search_filter.changed(gtk::FilterChange::Different);
                 }),
             );
 
-            let filter_model = gtk::FilterListModel::new(Some(obj.image_list()), Some(&filter));
+            let filter_model = gtk::FilterListModel::new(
+                Some(&gtk::FilterListModel::new(
+                    Some(obj.image_list()),
+                    Some(&search_filter),
+                )),
+                Some(&properties_filter),
+            );
 
             obj.set_list_box_visibility(filter_model.upcast_ref());
             filter_model.connect_items_changed(clone!(@weak obj => move |model, _, _, _| {
@@ -254,6 +283,23 @@ impl ImagesPanel {
         }
         self.imp().show_intermediates.set(value);
         self.notify("show-intermediates");
+    }
+
+    pub(crate) fn connect_search_button(&self, search_button: &gtk::ToggleButton) {
+        search_button
+            .bind_property("active", &*self.imp().search_bar, "search-mode-enabled")
+            .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
+            .build();
+    }
+
+    pub(crate) fn toggle_search(&self) {
+        let imp = self.imp();
+        if imp.search_bar.is_search_mode() {
+            imp.search_bar.set_search_mode(false);
+        } else {
+            imp.search_bar.set_search_mode(true);
+            imp.search_entry.grab_focus();
+        }
     }
 
     pub(crate) fn show_prune_dialog(&self) {

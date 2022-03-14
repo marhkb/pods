@@ -5,7 +5,7 @@ use gettextrs::gettext;
 use gtk::glib::{clone, closure};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
-use gtk::{gio, glib, CompositeTemplate};
+use gtk::{gdk, gio, glib, CompositeTemplate};
 use once_cell::sync::Lazy;
 
 use crate::application::Application;
@@ -28,7 +28,11 @@ mod imp {
         #[template_child]
         pub(super) images_menu_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
+        pub(super) images_search_button: TemplateChild<gtk::ToggleButton>,
+        #[template_child]
         pub(super) containers_menu_button: TemplateChild<gtk::MenuButton>,
+        #[template_child]
+        pub(super) containers_search_button: TemplateChild<gtk::ToggleButton>,
         #[template_child]
         pub(super) panel_stack: TemplateChild<adw::ViewStack>,
         #[template_child]
@@ -63,6 +67,17 @@ mod imp {
                 "containers.show-only-running",
                 "show-only-running-containers",
             );
+
+            klass.add_binding_action(
+                gdk::Key::F,
+                gdk::ModifierType::CONTROL_MASK,
+                "win.toggle-search",
+                None,
+            );
+
+            klass.install_action("win.toggle-search", None, |widget, _, _| {
+                widget.toggle_search();
+            });
         }
 
         // You must call `Widget`'s `init_template()` within `instance_init()`.
@@ -145,6 +160,12 @@ mod imp {
             // Load settings.
             obj.load_settings();
 
+            self.images_panel
+                .connect_search_button(&*self.images_search_button);
+
+            self.containers_panel
+                .connect_search_button(&*self.containers_search_button);
+
             obj.notify("show-intermediate-images");
             self.images_panel.connect_notify_local(
                 Some("show-intermediates"),
@@ -166,6 +187,15 @@ mod imp {
                     "visible",
                     Some(&*self.panel_stack),
                 );
+            adw::ViewStack::this_expression("visible-child-name")
+                .chain_closure::<bool>(closure!(|_: glib::Object, name: Option<&str>| {
+                    name == Some("images")
+                }))
+                .bind(
+                    &*self.images_search_button,
+                    "visible",
+                    Some(&*self.panel_stack),
+                );
 
             adw::ViewStack::this_expression("visible-child-name")
                 .chain_closure::<bool>(closure!(|_: glib::Object, name: Option<&str>| {
@@ -173,6 +203,15 @@ mod imp {
                 }))
                 .bind(
                     &*self.containers_menu_button,
+                    "visible",
+                    Some(&*self.panel_stack),
+                );
+            adw::ViewStack::this_expression("visible-child-name")
+                .chain_closure::<bool>(closure!(|_: glib::Object, name: Option<&str>| {
+                    name == Some("containers")
+                }))
+                .bind(
+                    &*self.containers_search_button,
                     "visible",
                     Some(&*self.panel_stack),
                 );
@@ -241,6 +280,16 @@ impl Window {
                 "visible-child-name",
             )
             .build();
+    }
+
+    fn toggle_search(&self) {
+        let imp = self.imp();
+
+        match imp.panel_stack.visible_child_name().as_deref() {
+            Some("images") => imp.images_panel.toggle_search(),
+            Some("containers") => imp.containers_panel.toggle_search(),
+            _ => unreachable!(),
+        }
     }
 
     pub(crate) fn check_service(&self) {
