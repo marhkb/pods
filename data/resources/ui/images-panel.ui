@@ -8,7 +8,7 @@
     <child>
       <object class="GtkOverlay" id="overlay">
 
-        <child >
+        <child>
           <object class="GtkStack" id="progress_stack">
             <property name="transition-type">crossfade</property>
             <property name="valign">start</property>
