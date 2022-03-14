@@ -49,10 +49,6 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
-            klass.install_property_action("images.show-intermediates", "show-intermediates");
-            klass.install_action("images.prune-unused", None, move |widget, _, _| {
-                widget.show_prune_dialog();
-            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
