@@ -180,12 +180,12 @@ mod imp {
             let filter =
                 gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
                     if obj.show_intermediates() {
+                        true
+                    } else {
                         let image = item
                             .downcast_ref::<model::Image>()
                             .unwrap();
                         !image.dangling() && image.containers() > 0
-                    } else {
-                        true
                     }
                 }));
 
