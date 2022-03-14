@@ -181,6 +181,13 @@ mod imp {
                 }));
             let filter_model = gtk::FilterListModel::new(Some(obj.container_list()), Some(&filter));
 
+            obj.container_list().connect_notify_local(
+                Some("fetched"),
+                clone!(@weak filter => move |_ ,_| {
+                    filter.changed(gtk::FilterChange::Different);
+                }),
+            );
+
             obj.set_list_box_visibility(filter_model.upcast_ref());
             filter_model.connect_items_changed(clone!(@weak obj => move |model, _, _, _| {
                 obj.set_list_box_visibility(model.upcast_ref());
