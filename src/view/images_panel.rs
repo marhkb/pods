@@ -19,7 +19,6 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Symphony/ui/images-panel.ui")]
     pub(crate) struct ImagesPanel {
         pub(super) image_list: OnceCell<model::ImageList>,
-        // pub(super) search_text: RefCell<Option<String>>,
         pub(super) show_intermediates: Cell<bool>,
         #[template_child]
         pub(super) main_stack: TemplateChild<gtk::Stack>,
@@ -36,7 +35,7 @@ mod imp {
         #[template_child]
         pub(super) search_entry: TemplateChild<gtk::SearchEntry>,
         #[template_child]
-        pub(super) image_group: TemplateChild<adw::PreferencesGroup>,
+        pub(super) images_group: TemplateChild<adw::PreferencesGroup>,
         #[template_child]
         pub(super) list_box: TemplateChild<gtk::ListBox>,
     }
@@ -49,10 +48,6 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
-            klass.install_property_action("images.show-intermediates", "show-intermediates");
-            klass.install_action("images.prune-unused", None, move |widget, _, _| {
-                widget.show_prune_dialog();
-            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -185,7 +180,7 @@ mod imp {
                         gettext("No images found")
                     }
                 }))
-                .bind(&*self.image_group, "description", Some(obj));
+                .bind(&*self.images_group, "description", Some(obj));
 
             let properties_filter =
                 gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
