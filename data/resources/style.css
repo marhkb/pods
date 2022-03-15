@@ -29,27 +29,27 @@
 }
 
 .container-status-configured {
-  background-color: @blue_3;
-}
-
-.container-status-created {
-  background-color: @brown_4;
-}
-
-.container-status-dead {
-  background-color: @dark_3;
-}
-
-.container-status-exited {
-  background-color: @orange_3;
-}
-
-.container-status-paused {
   background-color: @dark_1;
 }
 
+.container-status-created {
+  background-color: @dark_1;
+}
+
+.container-status-dead {
+  background-color: @dark_1;
+}
+
+.container-status-exited {
+  background-color: @dark_1;
+}
+
+.container-status-paused {
+  background-color: @brown_3;
+}
+
 .container-status-removing {
-  background-color: @purple_3;
+  background-color: @yellow_5;
 }
 
 .container-status-restarting {
@@ -61,9 +61,9 @@
 }
 
 .container-status-stopped {
-  background-color: @dark_2;
+  background-color: @dark_1;
 }
 
 .container-status-unknown {
-  background-color: @red_2;
+  background-color: @red_3;
 }
