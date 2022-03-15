@@ -359,6 +359,7 @@ impl Window {
                 .title(&match e {
                     model::ImageListError::List => gettext("Error on loading images"),
                     model::ImageListError::Inspect(id) => {
+                        // Translators: "{}" is the placeholder for the image id.
                         gettext!("Error on inspecting image '{}'", id)
                     }
                 })
@@ -374,6 +375,7 @@ impl Window {
                 .title(&match e {
                     model::ContainerListError::List => gettext("Error on loading containers"),
                     model::ContainerListError::Inspect(id) => {
+                        // Translators: "{}" is the placeholder for the container id.
                         gettext!("Error on inspecting container '{}'", id)
                     }
                 })

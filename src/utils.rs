@@ -43,9 +43,9 @@ pub(crate) fn format_option<'a, T>(option: Option<T>) -> String
 where
     T: AsRef<str> + 'a,
 {
-    option
-        .map(|t| String::from(t.as_ref()))
-        .unwrap_or_else(|| gettext("<none>"))
+    option.map(|t| String::from(t.as_ref())).unwrap_or_else(||
+            // Translators: This string will be shown when a property of an entity like an image is null.
+            gettext("<none>"))
 }
 
 pub(crate) fn format_iter<'a, I, T: ?Sized>(iter: I, sep: &str) -> String

@@ -168,8 +168,8 @@ mod imp {
                     if len > 0 {
                         let list = panel.image_list();
 
-                        // Translators: There's a wide space (U+2002) between the two {} {}.
                         gettext!(
+                            // Translators: There's a wide space (U+2002) between the two {} {}.
                             "{} images total, {} {} unused images, {}",
                             len,
                             glib::format_size(list.total_size()),
@@ -335,7 +335,9 @@ impl ImagesPanel {
                         image.delete(clone!(@weak obj => move |_| {
                             obj.root().unwrap().downcast::<Window>().unwrap().show_toast(
                                 &adw::Toast::builder()
-                                    .title(&gettext!("Error on pruning image '{}'", id))
+                                    .title(
+                                        // Translators: "{}" is a placeholder for the image id.
+                                        &gettext!("Error on pruning image '{}'", id))
                                     .timeout(3)
                                     .priority(adw::ToastPriority::High)
                                     .build()
