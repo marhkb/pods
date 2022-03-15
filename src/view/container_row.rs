@@ -116,6 +116,7 @@ mod imp {
                                 Restarting => "container-status-restarting",
                                 Running => "container-status-running",
                                 Stopped => "container-status-stopped",
+                                Stopping => "container-status-stopping",
                                 Unknown => "container-status-unknown",
                             })))
                             .collect::<Vec<_>>()

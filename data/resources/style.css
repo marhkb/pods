@@ -64,6 +64,10 @@
   background-color: @dark_1;
 }
 
+.container-status-stopping {
+  background-color: @dark_1;
+}
+
 .container-status-unknown {
   background-color: @red_3;
 }
