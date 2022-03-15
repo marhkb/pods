@@ -184,14 +184,12 @@ mod imp {
 
             let properties_filter =
                 gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
-                    if obj.show_intermediates() {
-                        true
-                    } else {
-                        let image = item
-                            .downcast_ref::<model::Image>()
-                            .unwrap();
-                        !image.dangling() && image.containers() > 0
-                    }
+                    obj.show_intermediates()
+                    || !item
+                        .downcast_ref::<model::Image>()
+                        .unwrap()
+                        .repo_tags()
+                        .is_empty()
                 }));
 
             obj.connect_notify_local(
