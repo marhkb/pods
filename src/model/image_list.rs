@@ -253,8 +253,8 @@ impl ImageList {
                                                 model::Image::from_libpod(summary, inspect_response)
                                             );
 
-                                            obj.set_fetched(obj.fetched() + 1);
                                             obj.items_changed(obj.len() - 1, 0, 1);
+                                            obj.set_fetched(obj.fetched() + 1);
                                         }
                                         Err(e) => {
                                             log::error!("Error on inspecting image: {}", e);
