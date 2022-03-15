@@ -130,8 +130,7 @@ impl Application {
     fn show_about_dialog(&self) {
         let dialog = gtk::AboutDialog::builder()
             .logo_icon_name(config::APP_ID)
-            // Insert your license of choice here
-            // .license_type(gtk::License::MitX11)
+            .license_type(gtk::License::Gpl30)
             // Insert your website here
             // .website("https://gitlab.gnome.org/bilelmoussaoui/symphony/")
             .version(config::VERSION)
