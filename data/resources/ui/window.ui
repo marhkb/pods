@@ -120,7 +120,7 @@
                     <child>
                       <object class="AdwViewStackPage">
                         <property name="icon-name">image-x-generic-symbolic</property>
-                        <property name="name" translatable="yes">images</property>
+                        <property name="name">images</property>
                         <property name="title" translatable="yes">Images</property>
                         <property name="child">
                           <object class="ImagesPanel" id="images_panel"/>
@@ -132,7 +132,7 @@
                     <child>
                       <object class="AdwViewStackPage">
                         <property name="icon-name">utilities-terminal-symbolic</property>
-                        <property name="name" translatable="yes">containers</property>
+                        <property name="name">containers</property>
                         <property name="title" translatable="yes">Containers</property>
                         <property name="child">
                           <object class="ContainersPanel" id="containers_panel"/>
