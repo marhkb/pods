@@ -101,7 +101,25 @@ mod imp {
             );
 
             obj.set_images_to_prune(gtk::NoSelection::new(Some(&gtk::FilterListModel::new(
-                Some(image_list),
+                Some(&gtk::SortListModel::new(
+                    Some(image_list),
+                    Some(&gtk::CustomSorter::new(|obj1, obj2| {
+                        let image1 = obj1.downcast_ref::<model::Image>().unwrap();
+                        let image2 = obj2.downcast_ref::<model::Image>().unwrap();
+
+                        if image1.repo_tags().is_empty() {
+                            if image2.repo_tags().is_empty() {
+                                image1.id().cmp(image2.id()).into()
+                            } else {
+                                gtk::Ordering::Larger
+                            }
+                        } else if image2.repo_tags().is_empty() {
+                            gtk::Ordering::Smaller
+                        } else {
+                            image1.repo_tags().cmp(image2.repo_tags()).into()
+                        }
+                    })),
+                )),
                 Some(&filter),
             ))));
 
