@@ -211,28 +211,39 @@ mod imp {
                     search_filter.changed(gtk::FilterChange::Different);
                 }));
 
+            let sorter = gtk::CustomSorter::new(|obj1, obj2| {
+                let container1 = obj1.downcast_ref::<model::Container>().unwrap();
+                let container2 = obj2.downcast_ref::<model::Container>().unwrap();
+
+                container1.name().cmp(&container2.name()).into()
+            });
+
             obj.container_list().connect_notify_local(
                 Some("fetched"),
-                clone!(@weak properties_filter, @weak search_filter => move |_ ,_| {
+                clone!(@weak properties_filter, @weak search_filter, @weak sorter => move |_ ,_| {
                     properties_filter.changed(gtk::FilterChange::Different);
                     search_filter.changed(gtk::FilterChange::Different);
+                    sorter.changed(gtk::SorterChange::Different);
                 }),
             );
 
-            let filter_model = gtk::FilterListModel::new(
+            let model = gtk::SortListModel::new(
                 Some(&gtk::FilterListModel::new(
-                    Some(obj.container_list()),
-                    Some(&search_filter),
+                    Some(&gtk::FilterListModel::new(
+                        Some(obj.container_list()),
+                        Some(&search_filter),
+                    )),
+                    Some(&properties_filter),
                 )),
-                Some(&properties_filter),
+                Some(&sorter),
             );
 
-            obj.set_list_box_visibility(filter_model.upcast_ref());
-            filter_model.connect_items_changed(clone!(@weak obj => move |model, _, _, _| {
+            obj.set_list_box_visibility(model.upcast_ref());
+            model.connect_items_changed(clone!(@weak obj => move |model, _, _, _| {
                 obj.set_list_box_visibility(model.upcast_ref());
             }));
 
-            self.list_box.bind_model(Some(&filter_model), |item| {
+            self.list_box.bind_model(Some(&model), |item| {
                 view::ContainerRow::from(item.downcast_ref().unwrap()).upcast()
             });
 
