@@ -226,20 +226,38 @@ mod imp {
                 }),
             );
 
-            let filter_model = gtk::FilterListModel::new(
+            let model = gtk::SortListModel::new(
                 Some(&gtk::FilterListModel::new(
-                    Some(obj.image_list()),
-                    Some(&search_filter),
+                    Some(&gtk::FilterListModel::new(
+                        Some(obj.image_list()),
+                        Some(&search_filter),
+                    )),
+                    Some(&properties_filter),
                 )),
-                Some(&properties_filter),
+                Some(&gtk::CustomSorter::new(|obj1, obj2| {
+                    let image1 = obj1.downcast_ref::<model::Image>().unwrap();
+                    let image2 = obj2.downcast_ref::<model::Image>().unwrap();
+
+                    if image1.repo_tags().is_empty() {
+                        if image2.repo_tags().is_empty() {
+                            image1.id().cmp(image2.id()).into()
+                        } else {
+                            gtk::Ordering::Larger
+                        }
+                    } else if image2.repo_tags().is_empty() {
+                        gtk::Ordering::Smaller
+                    } else {
+                        image1.repo_tags().cmp(image2.repo_tags()).into()
+                    }
+                })),
             );
 
-            obj.set_list_box_visibility(filter_model.upcast_ref());
-            filter_model.connect_items_changed(clone!(@weak obj => move |model, _, _, _| {
+            obj.set_list_box_visibility(model.upcast_ref());
+            model.connect_items_changed(clone!(@weak obj => move |model, _, _, _| {
                 obj.set_list_box_visibility(model.upcast_ref());
             }));
 
-            self.list_box.bind_model(Some(&filter_model), |item| {
+            self.list_box.bind_model(Some(&model), |item| {
                 view::ImageRow::from(item.downcast_ref().unwrap()).upcast()
             });
 
