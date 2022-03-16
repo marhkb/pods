@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: symphony\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-16 02:17+0100\n"
+"POT-Creation-Date: 2022-03-16 11:43+0100\n"
 "PO-Revision-Date: 2022-03-16 02:17+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -23,7 +23,9 @@ msgid "Symphony"
 msgstr ""
 
 #: data/com.github.marhkb.Symphony.desktop.in.in:4
-msgid "Write a GTK + Rust application"
+#: data/com.github.marhkb.Symphony.metainfo.xml.in.in:8
+#: data/com.github.marhkb.Symphony.metainfo.xml.in.in:10
+msgid "A Podman desktop application"
 msgstr ""
 
 #: data/com.github.marhkb.Symphony.desktop.in.in:9
@@ -56,11 +58,6 @@ msgstr ""
 msgid "Whether to show only running containers"
 msgstr ""
 
-#: data/com.github.marhkb.Symphony.metainfo.xml.in.in:8
-#: data/com.github.marhkb.Symphony.metainfo.xml.in.in:10
-msgid "A podman desktop application"
-msgstr ""
-
 #: data/com.github.marhkb.Symphony.metainfo.xml.in.in:15
 msgid "Main window"
 msgstr ""
@@ -71,17 +68,16 @@ msgstr ""
 
 #: data/resources/ui/connection-lost-page.ui:16
 msgid ""
-"\n"
 "An unexpected error has occurred and Symphony has lost connection to Podman "
-"Unix.If the connection has been disconnected unintentionally, you can try to "
-"re-establish it.\n"
+"Unix. If the connection has been disconnected unintentionally, you can try "
+"to re-establish it."
 msgstr ""
 
-#: data/resources/ui/connection-lost-page.ui:20
+#: data/resources/ui/connection-lost-page.ui:18
 msgid "Lost Connection to Podman"
 msgstr ""
 
-#: data/resources/ui/connection-lost-page.ui:31
+#: data/resources/ui/connection-lost-page.ui:29
 msgid "_Restart Podman Service"
 msgstr ""
 
@@ -99,7 +95,7 @@ msgid "Created"
 msgstr ""
 
 #: data/resources/ui/start-service-page.ui:16
-msgid "The podman service is currently not running"
+msgid "The Podman service is currently not running"
 msgstr ""
 
 #: data/resources/ui/start-service-page.ui:17
@@ -337,11 +333,11 @@ msgstr ""
 
 #. Translators: "{}" is the placeholder for the exit code.
 #: src/application.rs:171
-msgid "Command to start podman returned exit code: {}"
+msgid "Command to start Podman returned exit code: {}"
 msgstr ""
 
 #: src/application.rs:184
-msgid "Failed to execute command to start podman"
+msgid "Failed to execute command to start Podman"
 msgstr ""
 
 #: src/main.rs:85
