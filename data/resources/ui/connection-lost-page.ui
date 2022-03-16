@@ -18,18 +18,36 @@
         <property name="title" translatable="yes">Lost Connection to Podman</property>
         <property name="vexpand">True</property>
 
-        <child>
-          <object class="GtkButton">
-            <style>
-              <class name="pill"/>
-              <class name="suggested-action"/>
-            </style>
-            <property name="action-name">app.start-service</property>
-            <property name="halign">center</property>
-            <property name="label" translatable="yes">_Restart Podman Service</property>
-            <property name="use-underline">True</property>
+        <property name="child">
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+            <property name="spacing">18</property>
+
+            <child>
+              <object class="GtkButton" id="button">
+                <style>
+                  <class name="pill"/>
+                  <class name="suggested-action"/>
+                </style>
+                <property name="action-name">app.start-service</property>
+                <property name="halign">center</property>
+                <property name="label" translatable="yes">_Restart Podman Service</property>
+                <property name="use-underline">True</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkSpinner">
+                <property name="halign">center</property>
+                <property name="height-request">30</property>
+                <property name="spinning" bind-source="button" bind-property="sensitive" bind-flags="sync-create|invert-boolean"/>
+                <property name="vexpand">True</property>
+                <property name="width-request">30</property>
+              </object>
+            </child>
+
           </object>
-        </child>
+        </property>
 
       </object>
     </child>

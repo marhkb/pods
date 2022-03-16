@@ -296,6 +296,8 @@ impl Window {
         // We disable the start service page here in order to prevent the button from flashing to
         // `sensitive` at the beginning of the transition to the main view.
         imp.start_service_page.set_enabled(false);
+        // Same reason applies here as above.
+        imp.connection_lost_page.set_enabled(false);
 
         utils::do_async(
             PODMAN.ping(),
@@ -352,6 +354,7 @@ impl Window {
                     Err(e) => {
                         log::error!("Stopping image event stream due to error: {e}");
 
+                        imp.connection_lost_page.set_enabled(true);
                         imp.main_stack.set_visible_child(&*imp.connection_lost_page);
                         false
                     }
