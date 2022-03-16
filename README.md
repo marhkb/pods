@@ -18,3 +18,8 @@
 <p align="center">
   <img src="data/resources/screenshots/preview.png" alt="Preview"/>
 </p>
+
+Interact with Podman using an intuitive desktop application.
+
+Symphony focuses on simplicity and good usability.
+The only requirement is that you have Podman installed.
