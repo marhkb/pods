@@ -3,21 +3,20 @@
 <component type="desktop-application">
   <id>@app-id@</id>
   <metadata_license>CC0</metadata_license>
-  <!-- Insert your license of choice here -->
-  <!-- <project_license>MIT</project_license> -->
+  <project_license>GPL-3.0+</project_license>
   <name>Symphony</name>
-  <summary>Write a GTK + Rust application</summary>
+  <summary>A podman desktop application</summary>
   <description>
-    <p>A boilerplate template for GTK + Rust. It uses Meson as a build system and has flatpak support by default.</p>
+    <p>A podman desktop application</p>
   </description>
   <screenshots>
     <screenshot type="default">
-      <image>https://gitlab.gnome.org/bilelmoussaoui/symphony/raw/master/data/resources/screenshots/screenshot1.png</image>
+      <image>https://github.com/marhkb/symphony/raw/master/data/resources/screenshots/screenshot1.png</image>
       <caption>Main window</caption>
     </screenshot>
   </screenshots>
-  <url type="homepage">https://gitlab.gnome.org/bilelmoussaoui/symphony</url>
-  <url type="bugtracker">https://gitlab.gnome.org/bilelmoussaoui/symphony/issues</url>
+  <url type="homepage">https://github.com/marhkb/symphony</url>
+  <url type="bugtracker">https://github.com/marhkb/symphony/issues</url>
   <content_rating type="oars-1.0" />
   <releases>
     <release version="0.0.1" date="2019-07-11" />
