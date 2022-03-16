@@ -168,12 +168,10 @@ mod imp {
                         let list = panel.container_list();
 
                         gettext!(
-                            // Translators: There's a wide space (U+2002) between every ", {}".
-                            "{} Containers total, {} running, {} configured, {} exited",
+                            // Translators: There's a wide space (U+2002) between ", {}".
+                            "{} Containers total, {} running",
                             list.n_items(),
                             list.count(model::ContainerStatus::Running),
-                            list.count(model::ContainerStatus::Configured),
-                            list.count(model::ContainerStatus::Exited),
                         )
                     } else {
                         gettext("No containers found")
