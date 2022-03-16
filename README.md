@@ -23,3 +23,8 @@ Interact with Podman using an intuitive desktop application.
 
 Symphony focuses on simplicity and good usability.
 The only requirement is that you have Podman installed.
+
+
+## ⚡ Disclaimer
+
+Symphony is currently under heavy development. So be prepared for missing features and a lot of bugs.
