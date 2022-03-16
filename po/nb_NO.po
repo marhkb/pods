@@ -8,365 +8,386 @@ msgstr ""
 "Project-Id-Version: symphony\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-16 15:52+0100\n"
-"PO-Revision-Date: 2022-03-16 02:17+0100\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
-"Language: nb\n"
+"PO-Revision-Date: 2022-03-17 15:47+0000\n"
+"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
+"Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/"
+"symphony/symphony/nb_NO/>\n"
+"Language: nb_NO\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.12-dev\n"
 
 #: data/com.github.marhkb.Symphony.desktop.in.in:3
 #: data/com.github.marhkb.Symphony.metainfo.xml.in.in:7 src/main.rs:32
 msgid "Symphony"
-msgstr ""
+msgstr "Symphony"
 
 #: data/com.github.marhkb.Symphony.desktop.in.in:4
 #: data/com.github.marhkb.Symphony.metainfo.xml.in.in:8
 #: data/com.github.marhkb.Symphony.metainfo.xml.in.in:10
 msgid "A Podman desktop application"
-msgstr ""
+msgstr "Et Podman-skrivebordsprogram"
 
 #: data/com.github.marhkb.Symphony.desktop.in.in:9
+#, fuzzy
 msgid "Gnome;GTK;"
-msgstr ""
+msgstr "GNOME;GTK;"
 
 #: data/com.github.marhkb.Symphony.gschema.xml.in:6
 #: data/com.github.marhkb.Symphony.gschema.xml.in:7
 msgid "Default window width"
-msgstr ""
+msgstr "Forvalgt vindusbredde"
 
 #: data/com.github.marhkb.Symphony.gschema.xml.in:11
 #: data/com.github.marhkb.Symphony.gschema.xml.in:12
 msgid "Default window height"
-msgstr ""
+msgstr "Forvalgt vindushøyde"
 
 #: data/com.github.marhkb.Symphony.gschema.xml.in:16
 msgid "Default window maximized behaviour"
-msgstr ""
+msgstr "Forvalg adferd for maksimert vindu"
 
 #: data/com.github.marhkb.Symphony.gschema.xml.in:21
 msgid "The last used view"
-msgstr ""
+msgstr "Sist brukte visning"
 
 #: data/com.github.marhkb.Symphony.gschema.xml.in:26
+#, fuzzy
 msgid "Whether to show intermediate images"
-msgstr ""
+msgstr "Hvorvidt kun mellomliggende avtrykk skal vises"
 
 #: data/com.github.marhkb.Symphony.gschema.xml.in:31
 msgid "Whether to show only running containers"
-msgstr ""
+msgstr "Hvorvidt kun kjørende beholdere skal vises"
 
 #: data/com.github.marhkb.Symphony.metainfo.xml.in.in:15
 msgid "Main window"
-msgstr ""
+msgstr "Hovedvindu"
 
 #: data/com.github.marhkb.Symphony.metainfo.xml.in.in:32
 msgid "Marcus Behrendt"
-msgstr ""
+msgstr "Marcus Behrendt"
 
 #: data/resources/ui/connection-lost-page.ui:16
+#, fuzzy
 msgid ""
 "An unexpected error has occurred and Symphony has lost connection to Podman "
 "Unix. If the connection has been disconnected unintentionally, you can try "
 "to re-establish it."
 msgstr ""
+"En uventet feil gjorde at Symphony mistet tilkoblingen til Podman Unix. "
+"Tilkoblingen har blitt koblet fra uforvarende. Du kan prøve å re-etablere "
+"den."
 
 #: data/resources/ui/connection-lost-page.ui:18
 msgid "Lost Connection to Podman"
-msgstr ""
+msgstr "Mistet tilkoblingen til Podman"
 
 #: data/resources/ui/connection-lost-page.ui:29
 msgid "_Restart Podman Service"
-msgstr ""
+msgstr "_Start Podmantjenesten på ny"
 
 #: data/resources/ui/image-row.ui:7 data/resources/ui/container-row.ui:19
 #: data/resources/ui/container-row.ui:56 data/resources/ui/container-row.ui:93
 msgid "_Delete"
-msgstr ""
+msgstr "_Slett"
 
 #: data/resources/ui/images-prune-dialog.ui:29
+#, fuzzy
 msgid "No Images To Be Pruned"
-msgstr ""
+msgstr "Ingen avtrykk å beskjære"
 
 #: data/resources/ui/property-row.ui:14 src/model/container.rs:64
 msgid "Created"
-msgstr ""
+msgstr "Opprettet"
 
 #: data/resources/ui/start-service-page.ui:16
 msgid "The Podman service is currently not running"
-msgstr ""
+msgstr "Podman-tjenesten kjører ikke"
 
 #: data/resources/ui/start-service-page.ui:17
 msgid "Welcome to Symphony"
-msgstr ""
+msgstr "Velkommen"
 
 #: data/resources/ui/start-service-page.ui:28
 msgid "_Start Podman Service"
-msgstr ""
+msgstr "_Start Podman-tjenesten"
 
 #: data/resources/ui/check-service-page.ui:17
 msgid "Checking Connection to Podman Service"
-msgstr ""
+msgstr "Sjekker tilkobling til Podman-tjenesten"
 
 #: data/resources/ui/containers-panel.ui:82
 #: data/resources/ui/images-panel.ui:84
 msgid "Summary"
-msgstr ""
+msgstr "Sammendrag"
 
 #: data/resources/ui/shortcuts.ui:13
 msgctxt "shortcut window"
 msgid "General"
-msgstr ""
+msgstr "Generelt"
 
 #: data/resources/ui/shortcuts.ui:17
 msgctxt "shortcut window"
 msgid "Show Shortcuts"
-msgstr ""
+msgstr "Vis snarveier"
 
 #: data/resources/ui/shortcuts.ui:24
 msgctxt "shortcut window"
 msgid "Quit"
-msgstr ""
+msgstr "Avslutt"
 
 #: data/resources/ui/shortcuts.ui:31
 msgctxt "shortcut window"
 msgid "Search"
-msgstr ""
+msgstr "Søk"
 
 #: data/resources/ui/window.ui:7
 msgid "_Preferences"
-msgstr ""
+msgstr "_Innstillinger"
 
 #: data/resources/ui/window.ui:11
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "_Tastatursnarveier"
 
 #: data/resources/ui/window.ui:15
 msgid "_About Symphony"
-msgstr ""
+msgstr "_Om Symphony"
 
 #: data/resources/ui/window.ui:24
+#, fuzzy
 msgid "Show intermediate images"
-msgstr ""
+msgstr "Vis mellomliggende avtrykk"
 
 #: data/resources/ui/window.ui:28
 msgid "Prune unused images"
-msgstr ""
+msgstr "Beskjær ubrukte avtrykk"
 
 #: data/resources/ui/window.ui:37
 msgid "Show only running containers"
-msgstr ""
+msgstr "Kun vis kjørende beholdere"
 
 #: data/resources/ui/window.ui:124
 msgid "Images"
-msgstr ""
+msgstr "Avtrykk"
 
 #: data/resources/ui/window.ui:136
 msgid "Containers"
-msgstr ""
+msgstr "Beholdere"
 
 #: data/resources/ui/container-row.ui:7
 msgid "_Start"
-msgstr ""
+msgstr "_Start"
 
 #: data/resources/ui/container-row.ui:13 data/resources/ui/container-row.ui:50
 #: data/resources/ui/container-row.ui:87
 msgid "_Commit"
-msgstr ""
+msgstr "_Send inn"
 
 #: data/resources/ui/container-row.ui:28 data/resources/ui/container-row.ui:65
 msgid "_Stop"
-msgstr ""
+msgstr "_Stopp"
 
 #: data/resources/ui/container-row.ui:32 data/resources/ui/container-row.ui:69
 msgid "_Force Stop"
-msgstr ""
+msgstr "_Tving stopp"
 
 #: data/resources/ui/container-row.ui:36 data/resources/ui/container-row.ui:73
+#, fuzzy
 msgid "_Restart"
-msgstr ""
+msgstr "_Omstart"
 
 #: data/resources/ui/container-row.ui:40 data/resources/ui/container-row.ui:77
+#, fuzzy
 msgid "F_orce Restart"
-msgstr ""
+msgstr "T_ving omstart"
 
 #: data/resources/ui/container-row.ui:44
 msgid "_Pause"
-msgstr ""
+msgstr "_Pause"
 
 #: data/resources/ui/container-row.ui:81
 msgid "_Resume"
-msgstr ""
+msgstr "_Fortsett"
 
 #: src/model/container.rs:63
 msgid "Configured"
-msgstr ""
+msgstr "Oppsatt"
 
 #: src/model/container.rs:65
 msgid "Dead"
-msgstr ""
+msgstr "Død"
 
 #: src/model/container.rs:66
 msgid "Exited"
-msgstr ""
+msgstr "Avsluttet"
 
 #: src/model/container.rs:67
 msgid "Paused"
-msgstr ""
+msgstr "Pauset"
 
 #: src/model/container.rs:68
 msgid "Removing"
-msgstr ""
+msgstr "Fjerner"
 
 #: src/model/container.rs:69
 msgid "Restarting"
-msgstr ""
+msgstr "Starter på ny"
 
 #: src/model/container.rs:70
 msgid "Running"
-msgstr ""
+msgstr "Kjører"
 
 #: src/model/container.rs:71
 msgid "Stopped"
-msgstr ""
+msgstr "Stoppet"
 
 #: src/model/container.rs:72
 msgid "Stopping"
-msgstr ""
+msgstr "Stopper"
 
 #: src/model/container.rs:73
 msgid "Unknown"
-msgstr ""
+msgstr "Ukjent"
 
 #: src/view/container_row.rs:247
+#, fuzzy
 msgid "Error on starting container"
-msgstr ""
+msgstr "Kunne ikke starte beholder"
 
 #: src/view/container_row.rs:255
+#, fuzzy
 msgid "Error on stopping container"
-msgstr ""
+msgstr "Kunne ikke stoppe beholder"
 
 #: src/view/container_row.rs:263
 msgid "Error on force stopping container"
-msgstr ""
+msgstr "Kunne ikke tvinge gjennom stopp av beholder"
 
 #: src/view/container_row.rs:271
 msgid "Error on restarting container"
-msgstr ""
+msgstr "Kunne ikke starte beholder på ny"
 
 #: src/view/container_row.rs:279
 msgid "Error on force restarting container"
-msgstr ""
+msgstr "Kunne ikke tvinge gjennom omstart av beholder"
 
 #: src/view/container_row.rs:287
 msgid "Error on pausing container"
-msgstr ""
+msgstr "Kunne ikke sette beholder på pause"
 
 #: src/view/container_row.rs:295
 msgid "Error on resuming container"
-msgstr ""
+msgstr "Kunne ikke gjenoppta beholder"
 
 #: src/view/container_row.rs:303
 msgid "Error on committing container"
-msgstr ""
+msgstr "Kunne ikke sende inn beholder"
 
 #: src/view/container_row.rs:311
 msgid "Error on deleting container"
-msgstr ""
+msgstr "Kunne ikke slette beholder"
 
 #: src/view/container_row.rs:319
 msgid "Error on force deleting container"
-msgstr ""
+msgstr "Kunne ikke tving gjennom sletting av beholder"
 
 #. Translators: There's a wide space (U+2002) between ", {}".
 #: src/view/containers_panel.rs:172
 msgid "{} Containers total, {} running"
-msgstr ""
+msgstr "{} beholdere totalt, {} kjører"
 
 #: src/view/containers_panel.rs:177
 msgid "No containers found"
-msgstr ""
+msgstr "Fant ingen beholdere"
 
 #: src/view/image_row.rs:56
+#, fuzzy
 msgid "Error on deleting image"
-msgstr ""
+msgstr "Kunne ikke slette avtrykk"
 
 #. Translators: "{}" are placeholders for storage space.
 #: src/view/image_row.rs:190
 msgid "{} (Virtual: {})"
-msgstr ""
+msgstr "{} (Virtuelt: {})"
 
 #. Translators: "{}" are placeholders for storage space.
 #: src/view/image_row.rs:199
 msgid "{} (Shared: {})"
-msgstr ""
+msgstr "{} (Delt: {})"
 
 #. Translators: "{}" are placeholders for storage space.
 #: src/view/image_row.rs:209
+#, fuzzy
 msgid "{} (Shared: {}, Virtual: {})"
-msgstr ""
+msgstr "{} (delt: {}, virtuelt: {})"
 
 #. Translators: "{}" is placeholder for an integer value.
 #: src/view/image_row.rs:224
 msgid "By {} containers"
-msgstr ""
+msgstr "Av {} beholdere"
 
 #. Translators: There's a wide space (U+2002) between the two {} {}.
 #: src/view/images_panel.rs:173
 msgid "{} images total, {} {} unused images, {}"
-msgstr ""
+msgstr "{} avtrykk totalt, {} {} ubrukte avtrykk, {}"
 
 #: src/view/images_panel.rs:180
 msgid "No images found"
-msgstr ""
+msgstr "Fant ingen avtrykk"
 
 #. Translators: "{}" is a placeholder for the image id.
 #: src/view/images_panel.rs:340
+#, fuzzy
 msgid "Error on pruning image '{}'"
-msgstr ""
+msgstr "Kunne ikke beskjære «{}»-avtrykket"
 
 #: src/application.rs:138
 msgid "translator-credits"
-msgstr ""
+msgstr "Allan Nordhøy, <epost@anotheragency.no>"
 
 #. Translators: "{}" is the placeholder for the exit code.
 #: src/application.rs:171
 msgid "Command to start Podman returned exit code: {}"
-msgstr ""
+msgstr "Kommando for start av Podman returnerte avslutningskode: {}"
 
 #: src/application.rs:184
 msgid "Failed to execute command to start Podman"
-msgstr ""
+msgstr "Klarte ikke å kjøre kommando for start av Podman"
 
 #: src/main.rs:85
 msgid "Prints application version"
-msgstr ""
+msgstr "Skriver ut programversjonen"
 
 #: src/main.rs:94
 msgid "Specify the minimum log level"
-msgstr ""
+msgstr "Angi minste loggføringsnivå"
 
 #. Translators: This string will be shown when a property of an entity like an image is null.
 #: src/utils.rs:48
+#, fuzzy
 msgid "<none>"
-msgstr ""
+msgstr "<ingen>"
 
 #: src/window.rs:360
 msgid "Error on loading images"
-msgstr ""
+msgstr "Kunne ikke laste inn avtrykk"
 
 #. Translators: "{}" is the placeholder for the image id.
 #: src/window.rs:363
+#, fuzzy
 msgid "Error on inspecting image '{}'"
-msgstr ""
+msgstr "Kunne ikke inspisere «{}»-avtrykket"
 
 #: src/window.rs:376
+#, fuzzy
 msgid "Error on loading containers"
-msgstr ""
+msgstr "Kunne ikke laste inn beholdere"
 
 #. Translators: "{}" is the placeholder for the container id.
 #: src/window.rs:379
+#, fuzzy
 msgid "Error on inspecting container '{}'"
-msgstr ""
+msgstr "Kunne ikke inspisere «{}»-beholderen"
