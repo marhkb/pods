@@ -28,3 +28,9 @@ The only requirement is that you have Podman installed.
 ## ⚡ Disclaimer
 
 Symphony is currently under heavy development. So be prepared for missing features and a lot of bugs.
+
+
+## 🔌 Installation
+
+You can grab the latest CI build from [here](https://nightly.link/marhkb/symphony/workflows/ci/main/symphony-x86_64.zip).
+Then you need to unzip the archive's content and install the application with the command `flatpak install symphony.flatpak`.
