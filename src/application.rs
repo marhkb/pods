@@ -161,14 +161,14 @@ impl Application {
                     self.main_window().check_service()
                 } else {
                     log::error!(
-                        "command to start podman returned exit code: {}",
+                        "command to start Podman returned exit code: {}",
                         output.status
                     );
                     self.main_window().show_toast(
                         &adw::Toast::builder()
                             .title(&gettext!(
                                 // Translators: "{}" is the placeholder for the exit code.
-                                "Command to start podman returned exit code: {}",
+                                "Command to start Podman returned exit code: {}",
                                 output.status
                             ))
                             .timeout(3)
@@ -178,10 +178,10 @@ impl Application {
                 }
             }
             Err(e) => {
-                log::error!("Failed to execute command to start podman: {e}");
+                log::error!("Failed to execute command to start Podman: {e}");
                 self.main_window().show_toast(
                     &adw::Toast::builder()
-                        .title(&gettext("Failed to execute command to start podman"))
+                        .title(&gettext("Failed to execute command to start Podman"))
                         .timeout(3)
                         .priority(adw::ToastPriority::High)
                         .build(),
