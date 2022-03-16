@@ -76,3 +76,14 @@ ninja -C _build install
 
 You can help Symphony translate into your native language. If you found any typos
 or think you can improve a translation, you can use the [Weblate](https://hosted.weblate.org/engage/symphony/) platform.
+
+
+## 💝 Acknowledgment
+
+The library [podman-api-rs](https://github.com/vv9k/podman-api-rs) provides a rust interface to the Podman API.
+Without this great project, Symphony would probably never have come into existence.
+
+I also wanted to thank [SeaDve](https://github.com/SeaDve), from whom I took the [gettext](https://github.com/SeaDve/scripts/blob/0bd6f162ec8f2b3f0a9ad12816477fed934077db/gettext_rs.py) python script and whose projects like [Kooha](https://github.com/SeaDve/Kooha) and [Mousai](https://github.com/SeaDve/Mousai) served as inspiration for the README.
+
+And also, a warm thank you to all the [contributors](https://github.com/marhkb/symphony/graphs/contributors)
+and [translators](https://hosted.weblate.org/engage/symphony/) from Weblate.
