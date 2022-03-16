@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Symphony
-Comment=Write a GTK + Rust application
+Comment=A Podman desktop application
 Type=Application
 Exec=symphony
 Terminal=false
