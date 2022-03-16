@@ -8,14 +8,16 @@ msgstr ""
 "Project-Id-Version: symphony\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-16 15:52+0100\n"
-"PO-Revision-Date: 2022-03-16 02:17+0100\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2022-03-16 15:46+0000\n"
+"Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/symphony/symphony/"
+"fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.12-dev\n"
 
 #: data/com.github.marhkb.Symphony.desktop.in.in:3
 #: data/com.github.marhkb.Symphony.metainfo.xml.in.in:7 src/main.rs:32
@@ -44,27 +46,27 @@ msgstr "Hauteur de la fenêtre par défaut"
 
 #: data/com.github.marhkb.Symphony.gschema.xml.in:16
 msgid "Default window maximized behaviour"
-msgstr ""
+msgstr "Comportement par défaut de la fenêtre maximisée"
 
 #: data/com.github.marhkb.Symphony.gschema.xml.in:21
 msgid "The last used view"
-msgstr ""
+msgstr "La dernière vue utilisée"
 
 #: data/com.github.marhkb.Symphony.gschema.xml.in:26
 msgid "Whether to show intermediate images"
-msgstr ""
+msgstr "Afficher ou non les images intermédiaires"
 
 #: data/com.github.marhkb.Symphony.gschema.xml.in:31
 msgid "Whether to show only running containers"
-msgstr ""
+msgstr "Si on doit afficher uniquement les conteneurs en cours d'exécution"
 
 #: data/com.github.marhkb.Symphony.metainfo.xml.in.in:15
 msgid "Main window"
-msgstr ""
+msgstr "Fenêtre principale"
 
 #: data/com.github.marhkb.Symphony.metainfo.xml.in.in:32
 msgid "Marcus Behrendt"
-msgstr ""
+msgstr "Marcus Behrendt"
 
 #: data/resources/ui/connection-lost-page.ui:16
 msgid ""
@@ -72,104 +74,107 @@ msgid ""
 "Unix. If the connection has been disconnected unintentionally, you can try "
 "to re-establish it."
 msgstr ""
+"Une erreur inattendue s'est produite et Symphony a perdu la connexion avec "
+"Podman Unix. Si la connexion a été déconnectée involontairement, vous pouvez "
+"essayer de la rétablir."
 
 #: data/resources/ui/connection-lost-page.ui:18
 msgid "Lost Connection to Podman"
-msgstr ""
+msgstr "Connexion perdue avec Podman"
 
 #: data/resources/ui/connection-lost-page.ui:29
 msgid "_Restart Podman Service"
-msgstr ""
+msgstr "_Restaurer le service Podman"
 
 #: data/resources/ui/image-row.ui:7 data/resources/ui/container-row.ui:19
 #: data/resources/ui/container-row.ui:56 data/resources/ui/container-row.ui:93
 msgid "_Delete"
-msgstr ""
+msgstr "_Supprimer"
 
 #: data/resources/ui/images-prune-dialog.ui:29
 msgid "No Images To Be Pruned"
-msgstr ""
+msgstr "Aucune image à élaguer"
 
 #: data/resources/ui/property-row.ui:14 src/model/container.rs:64
 msgid "Created"
-msgstr ""
+msgstr "Créé"
 
 #: data/resources/ui/start-service-page.ui:16
 msgid "The Podman service is currently not running"
-msgstr ""
+msgstr "Le service Podman ne fonctionne pas actuellement"
 
 #: data/resources/ui/start-service-page.ui:17
 msgid "Welcome to Symphony"
-msgstr ""
+msgstr "Bienvenue sur Symphony"
 
 #: data/resources/ui/start-service-page.ui:28
 msgid "_Start Podman Service"
-msgstr ""
+msgstr "_Démarrer le service Podman"
 
 #: data/resources/ui/check-service-page.ui:17
 msgid "Checking Connection to Podman Service"
-msgstr ""
+msgstr "Vérification de la connexion au service Podman"
 
 #: data/resources/ui/containers-panel.ui:82
 #: data/resources/ui/images-panel.ui:84
 msgid "Summary"
-msgstr ""
+msgstr "Résumé"
 
 #: data/resources/ui/shortcuts.ui:13
 msgctxt "shortcut window"
 msgid "General"
-msgstr ""
+msgstr "Général"
 
 #: data/resources/ui/shortcuts.ui:17
 msgctxt "shortcut window"
 msgid "Show Shortcuts"
-msgstr ""
+msgstr "Afficher les raccourcis"
 
 #: data/resources/ui/shortcuts.ui:24
 msgctxt "shortcut window"
 msgid "Quit"
-msgstr ""
+msgstr "Quitter"
 
 #: data/resources/ui/shortcuts.ui:31
 msgctxt "shortcut window"
 msgid "Search"
-msgstr ""
+msgstr "Chercher"
 
 #: data/resources/ui/window.ui:7
 msgid "_Preferences"
-msgstr ""
+msgstr "_Préférences"
 
 #: data/resources/ui/window.ui:11
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "_Raccourcis clavier"
 
 #: data/resources/ui/window.ui:15
 msgid "_About Symphony"
-msgstr ""
+msgstr "_À propos de Symphony"
 
 #: data/resources/ui/window.ui:24
 msgid "Show intermediate images"
-msgstr ""
+msgstr "Afficher les images intermédiaires"
 
 #: data/resources/ui/window.ui:28
 msgid "Prune unused images"
-msgstr ""
+msgstr "Élaguer les images inutilisées"
 
 #: data/resources/ui/window.ui:37
 msgid "Show only running containers"
-msgstr ""
+msgstr "Afficher uniquement les conteneurs en cours d'exécution"
 
 #: data/resources/ui/window.ui:124
 msgid "Images"
-msgstr ""
+msgstr "Images"
 
 #: data/resources/ui/window.ui:136
 msgid "Containers"
-msgstr ""
+msgstr "Conteneurs"
 
 #: data/resources/ui/container-row.ui:7
 msgid "_Start"
-msgstr ""
+msgstr "_Démarrer"
 
 #: data/resources/ui/container-row.ui:13 data/resources/ui/container-row.ui:50
 #: data/resources/ui/container-row.ui:87
@@ -178,75 +183,75 @@ msgstr ""
 
 #: data/resources/ui/container-row.ui:28 data/resources/ui/container-row.ui:65
 msgid "_Stop"
-msgstr ""
+msgstr "_Arrêter"
 
 #: data/resources/ui/container-row.ui:32 data/resources/ui/container-row.ui:69
 msgid "_Force Stop"
-msgstr ""
+msgstr "_Forcer l'arrêt"
 
 #: data/resources/ui/container-row.ui:36 data/resources/ui/container-row.ui:73
 msgid "_Restart"
-msgstr ""
+msgstr "_Redémarrer"
 
 #: data/resources/ui/container-row.ui:40 data/resources/ui/container-row.ui:77
 msgid "F_orce Restart"
-msgstr ""
+msgstr "F_orcer le redémarrage"
 
 #: data/resources/ui/container-row.ui:44
 msgid "_Pause"
-msgstr ""
+msgstr "_Pause"
 
 #: data/resources/ui/container-row.ui:81
 msgid "_Resume"
-msgstr ""
+msgstr "_Reprendre"
 
 #: src/model/container.rs:63
 msgid "Configured"
-msgstr ""
+msgstr "Configuré"
 
 #: src/model/container.rs:65
 msgid "Dead"
-msgstr ""
+msgstr "Mort"
 
 #: src/model/container.rs:66
 msgid "Exited"
-msgstr ""
+msgstr "Sorti"
 
 #: src/model/container.rs:67
 msgid "Paused"
-msgstr ""
+msgstr "En pause"
 
 #: src/model/container.rs:68
 msgid "Removing"
-msgstr ""
+msgstr "Retrait"
 
 #: src/model/container.rs:69
 msgid "Restarting"
-msgstr ""
+msgstr "Redémarrage"
 
 #: src/model/container.rs:70
 msgid "Running"
-msgstr ""
+msgstr "En exécution"
 
 #: src/model/container.rs:71
 msgid "Stopped"
-msgstr ""
+msgstr "Arrêté"
 
 #: src/model/container.rs:72
 msgid "Stopping"
-msgstr ""
+msgstr "Arrêt en cours"
 
 #: src/model/container.rs:73
 msgid "Unknown"
-msgstr ""
+msgstr "Inconnu"
 
 #: src/view/container_row.rs:247
 msgid "Error on starting container"
-msgstr ""
+msgstr "Erreur lors du démarrage du conteneur"
 
 #: src/view/container_row.rs:255
 msgid "Error on stopping container"
-msgstr ""
+msgstr "Erreur lors de l'arrêt du conteneur"
 
 #: src/view/container_row.rs:263
 msgid "Error on force stopping container"
