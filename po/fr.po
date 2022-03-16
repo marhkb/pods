@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: symphony\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-16 15:52+0100\n"
-"PO-Revision-Date: 2022-03-16 15:46+0000\n"
+"PO-Revision-Date: 2022-03-16 21:46+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/symphony/symphony/"
 "fr/>\n"
@@ -255,82 +255,82 @@ msgstr "Erreur lors de l'arrêt du conteneur"
 
 #: src/view/container_row.rs:263
 msgid "Error on force stopping container"
-msgstr ""
+msgstr "Erreur lors de l'arrêt forcé du conteneur"
 
 #: src/view/container_row.rs:271
 msgid "Error on restarting container"
-msgstr ""
+msgstr "Erreur lors du redémarrage du conteneur"
 
 #: src/view/container_row.rs:279
 msgid "Error on force restarting container"
-msgstr ""
+msgstr "Erreur lors du redémarrage forcé du conteneur"
 
 #: src/view/container_row.rs:287
 msgid "Error on pausing container"
-msgstr ""
+msgstr "Erreur lors de la mise en pause du conteneur"
 
 #: src/view/container_row.rs:295
 msgid "Error on resuming container"
-msgstr ""
+msgstr "Erreur lors de la reprise du conteneur"
 
 #: src/view/container_row.rs:303
 msgid "Error on committing container"
-msgstr ""
+msgstr "Erreur lors de la validation du conteneur"
 
 #: src/view/container_row.rs:311
 msgid "Error on deleting container"
-msgstr ""
+msgstr "Erreur lors de la suppression d'un conteneur"
 
 #: src/view/container_row.rs:319
 msgid "Error on force deleting container"
-msgstr ""
+msgstr "Erreur lors de la suppression forcée d'un conteneur"
 
 #. Translators: There's a wide space (U+2002) between ", {}".
 #: src/view/containers_panel.rs:172
 msgid "{} Containers total, {} running"
-msgstr ""
+msgstr "{} Nombre total de conteneurs, {} en cours d'exécution"
 
 #: src/view/containers_panel.rs:177 src/view/containers_panel.rs:179
 msgid "No containers found"
-msgstr ""
+msgstr "Aucun conteneur trouvé"
 
 #: src/view/image_row.rs:56
 msgid "Error on deleting image"
-msgstr ""
+msgstr "Erreur lors de la suppression d'une image"
 
 #. Translators: "{}" are placeholders for storage space.
 #: src/view/image_row.rs:190
 msgid "{} (Virtual: {})"
-msgstr ""
+msgstr "{} (Virtuel : {})"
 
 #. Translators: "{}" are placeholders for storage space.
 #: src/view/image_row.rs:199
 msgid "{} (Shared: {})"
-msgstr ""
+msgstr "{} (Partagé : {})"
 
 #. Translators: "{}" are placeholders for storage space.
 #: src/view/image_row.rs:209
 msgid "{} (Shared: {}, Virtual: {})"
-msgstr ""
+msgstr "{} (Partagé : {}, Virtuel : {})"
 
 #. Translators: "{}" is placeholder for an integer value.
 #: src/view/image_row.rs:224
 msgid "By {} containers"
-msgstr ""
+msgstr "Par {} conteneurs"
 
 #. Translators: There's a wide space (U+2002) between the two {} {}.
 #: src/view/images_panel.rs:173
 msgid "{} images total, {} {} unused images, {}"
-msgstr ""
+msgstr "{} images totales, {}{} images non utilisées, {}"
 
 #: src/view/images_panel.rs:180
 msgid "No images found"
-msgstr ""
+msgstr "Aucune image trouvée"
 
 #. Translators: "{}" is a placeholder for the image id.
 #: src/view/images_panel.rs:340
 msgid "Error on pruning image '{}'"
-msgstr ""
+msgstr "Erreur lors de l'élagage de l'image « {} »"
 
 #: src/application.rs:138
 msgid "translator-credits"
@@ -339,44 +339,46 @@ msgstr ""
 #. Translators: "{}" is the placeholder for the exit code.
 #: src/application.rs:171
 msgid "Command to start Podman returned exit code: {}"
-msgstr ""
+msgstr "La commande de démarrage de Podman a renvoyé un code de sortie : {}"
 
 #: src/application.rs:184
 msgid "Failed to execute command to start Podman"
-msgstr ""
+msgstr "Échec de l'exécution de la commande de démarrage de Podman"
 
 #: src/main.rs:85
 msgid "Prints application version"
-msgstr ""
+msgstr "Imprime la version de l'application"
 
 #: src/main.rs:94
 msgid "Specify the minimum log level"
-msgstr ""
+msgstr "Spécifier le niveau minimal de journalisation"
 
 #. Translators: This string will be shown when a property of an entity like an image is null.
 #: src/utils.rs:48
 msgid "<none>"
-msgstr ""
+msgstr "<aucun>"
 
 #: src/window.rs:360
 msgid "Error on loading images"
-msgstr ""
+msgstr "Erreur lors du chargement des images"
 
 #. Translators: "{}" is the placeholder for the image id.
 #: src/window.rs:363
 msgid "Error on inspecting image '{}'"
-msgstr ""
+msgstr "Erreur lors de l'inspection de l'image « {} »"
 
 #: src/window.rs:376
 msgid "Error on loading containers"
-msgstr ""
+msgstr "Erreur lors du chargement des conteneurs"
 
 #. Translators: "{}" is the placeholder for the container id.
 #: src/window.rs:379
 msgid "Error on inspecting container '{}'"
-msgstr ""
+msgstr "Erreur lors de l'inspection du conteneur « {} »"
 
 #. Translators: There's a wide space (U+2002) between every ", {}".
 #: src/view/containers_panel.rs:172
 msgid "{} Containers total, {} running, {} configured, {} exited"
 msgstr ""
+"{} Nombre total de conteneurs, {} en cours d'exécution, {} configurés, {} "
+"abandonnés"
