@@ -5,9 +5,9 @@
   <metadata_license>CC0</metadata_license>
   <project_license>GPL-3.0+</project_license>
   <name>Symphony</name>
-  <summary>A podman desktop application</summary>
+  <summary>A Podman desktop application</summary>
   <description>
-    <p>A podman desktop application</p>
+    <p>A Podman desktop application</p>
   </description>
   <screenshots>
     <screenshot type="default">
