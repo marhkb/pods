@@ -129,10 +129,10 @@ impl Application {
 
     fn show_about_dialog(&self) {
         let dialog = gtk::AboutDialog::builder()
+            .program_name("Symphony")
             .logo_icon_name(config::APP_ID)
             .license_type(gtk::License::Gpl30)
-            // Insert your website here
-            // .website("https://gitlab.gnome.org/bilelmoussaoui/symphony/")
+            .website("https://github.com/marhkb/symphony/")
             .version(config::VERSION)
             .transient_for(&self.main_window())
             .translator_credits(&gettext("translator-credits"))
