@@ -12,3 +12,9 @@
     <img src="https://github.com/marhkb/symphony/actions/workflows/ci.yml/badge.svg" alt="CI status"/>
   </a>
 </p>
+
+<br>
+
+<p align="center">
+  <img src="data/resources/screenshots/preview.png" alt="Preview"/>
+</p>
