@@ -20,27 +20,27 @@ msgstr ""
 #: data/com.github.marhkb.Symphony.desktop.in.in:3
 #: data/com.github.marhkb.Symphony.metainfo.xml.in.in:7 src/main.rs:32
 msgid "Symphony"
-msgstr ""
+msgstr "Symphony"
 
 #: data/com.github.marhkb.Symphony.desktop.in.in:4
 #: data/com.github.marhkb.Symphony.metainfo.xml.in.in:8
 #: data/com.github.marhkb.Symphony.metainfo.xml.in.in:10
 msgid "A Podman desktop application"
-msgstr ""
+msgstr "Une application de bureau Podman"
 
 #: data/com.github.marhkb.Symphony.desktop.in.in:9
 msgid "Gnome;GTK;"
-msgstr ""
+msgstr "Gnome;GTK;"
 
 #: data/com.github.marhkb.Symphony.gschema.xml.in:6
 #: data/com.github.marhkb.Symphony.gschema.xml.in:7
 msgid "Default window width"
-msgstr ""
+msgstr "Largeur de la fenêtre par défaut"
 
 #: data/com.github.marhkb.Symphony.gschema.xml.in:11
 #: data/com.github.marhkb.Symphony.gschema.xml.in:12
 msgid "Default window height"
-msgstr ""
+msgstr "Hauteur de la fenêtre par défaut"
 
 #: data/com.github.marhkb.Symphony.gschema.xml.in:16
 msgid "Default window maximized behaviour"
@@ -285,7 +285,7 @@ msgstr ""
 msgid "{} Containers total, {} running"
 msgstr ""
 
-#: src/view/containers_panel.rs:177
+#: src/view/containers_panel.rs:177 src/view/containers_panel.rs:179
 msgid "No containers found"
 msgstr ""
 
@@ -369,4 +369,9 @@ msgstr ""
 #. Translators: "{}" is the placeholder for the container id.
 #: src/window.rs:379
 msgid "Error on inspecting container '{}'"
+msgstr ""
+
+#. Translators: There's a wide space (U+2002) between every ", {}".
+#: src/view/containers_panel.rs:172
+msgid "{} Containers total, {} running, {} configured, {} exited"
 msgstr ""
