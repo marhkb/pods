@@ -13,7 +13,7 @@
 
     <child>
       <object class="AdwStatusPage" id="status_page">
-        <property name="description" translatable="yes">The Podman service is currently not running</property>
+        <property name="description" translatable="yes">The Podman service is currently not running.</property>
         <property name="title" translatable="yes">Welcome to Symphony</property>
         <property name="vexpand">True</property>
 
