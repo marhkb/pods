@@ -70,3 +70,9 @@ cd symphony
 meson _build --prefix=/usr/local
 ninja -C _build install
 ```
+
+
+## 🙌 Help translate Symphony
+
+You can help Symphony translate into your native language. If you found any typos
+or think you can improve a translation, you can use the [Weblate](https://hosted.weblate.org/engage/symphony/) platform.
