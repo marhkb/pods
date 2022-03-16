@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: symphony\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-16 11:43+0100\n"
+"POT-Creation-Date: 2022-03-16 15:52+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -280,12 +280,12 @@ msgstr ""
 msgid "Error on force deleting container"
 msgstr ""
 
-#. Translators: There's a wide space (U+2002) between every ", {}".
+#. Translators: There's a wide space (U+2002) between ", {}".
 #: src/view/containers_panel.rs:172
-msgid "{} Containers total, {} running, {} configured, {} exited"
+msgid "{} Containers total, {} running"
 msgstr ""
 
-#: src/view/containers_panel.rs:179
+#: src/view/containers_panel.rs:177
 msgid "No containers found"
 msgstr ""
 
