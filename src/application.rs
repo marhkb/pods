@@ -167,6 +167,7 @@ impl Application {
                     self.main_window().show_toast(
                         &adw::Toast::builder()
                             .title(&gettext!(
+                                // Translators: "{}" is the placeholder for the exit code.
                                 "Command to start podman returned exit code: {}",
                                 output.status
                             ))

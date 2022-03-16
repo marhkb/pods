@@ -186,6 +186,7 @@ mod imp {
                                 formatted_size.to_string()
                             } else {
                                 gettext!(
+                                    // Translators: "{}" are placeholders for storage space.
                                     "{} (Virtual: {})",
                                     formatted_size,
                                     glib::format_size(virtual_size),
@@ -194,6 +195,7 @@ mod imp {
                         } else if size == virtual_size {
                             if shared_size > 0 {
                                 gettext!(
+                                    // Translators: "{}" are placeholders for storage space.
                                     "{} (Shared: {})",
                                     formatted_size,
                                     glib::format_size(shared_size),
@@ -203,6 +205,7 @@ mod imp {
                             }
                         } else {
                             gettext!(
+                                // Translators: "{}" are placeholders for storage space.
                                 "{} (Shared: {}, Virtual: {})",
                                 formatted_size,
                                 glib::format_size(shared_size),
@@ -217,6 +220,7 @@ mod imp {
             image_expr
                 .chain_property::<model::Image>("containers")
                 .chain_closure::<String>(closure!(|_: glib::Object, containers: u64| {
+                    // Translators: "{}" is placeholder for an integer value.
                     gettext!("By {} containers", containers)
                 }))
                 .bind(&*self.containers_row, "value", Some(obj));

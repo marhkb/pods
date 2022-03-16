@@ -167,8 +167,8 @@ mod imp {
                     if len > 0 {
                         let list = panel.container_list();
 
-                        // Translators: There's a wide space (U+2002) between every ", {}".
                         gettext!(
+                            // Translators: There's a wide space (U+2002) between every ", {}".
                             "{} Containers total, {} running, {} configured, {} exited",
                             list.n_items(),
                             list.count(model::ContainerStatus::Running),
