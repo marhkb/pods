@@ -12,6 +12,8 @@ mod imp {
         pub(super) header_bar: TemplateChild<adw::HeaderBar>,
         #[template_child]
         pub(super) status_page: TemplateChild<adw::StatusPage>,
+        #[template_child]
+        pub(super) button: TemplateChild<gtk::Button>,
     }
 
     #[glib::object_subclass]
@@ -42,4 +44,10 @@ mod imp {
 glib::wrapper! {
     pub(crate) struct StartServicePage(ObjectSubclass<imp::StartServicePage>)
         @extends gtk::Widget;
+}
+
+impl StartServicePage {
+    pub(crate) fn set_enabled(&self, value: bool) {
+        self.imp().button.set_sensitive(value);
+    }
 }

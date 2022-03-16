@@ -291,6 +291,14 @@ impl Window {
     }
 
     pub(crate) fn check_service(&self) {
+        let imp = self.imp();
+
+        // We disable the start service page here in order to prevent the button from flashing to
+        // `sensitive` at the beginning of the transition to the main view.
+        imp.start_service_page.set_enabled(false);
+        // Same reason applies here as above.
+        imp.connection_lost_page.set_enabled(false);
+
         utils::do_async(
             PODMAN.ping(),
             clone!(@weak self as obj => move |result| {
@@ -308,6 +316,7 @@ impl Window {
                         obj.start_event_listener();
                     }
                     Err(e) => {
+                        imp.start_service_page.set_enabled(true);
                         imp.main_stack.set_visible_child(&*imp.start_service_page);
                         log::error!("Could not connect to Podman: {e}");
                         // No need to show a toast. The start service page is enough.
@@ -345,6 +354,7 @@ impl Window {
                     Err(e) => {
                         log::error!("Stopping image event stream due to error: {e}");
 
+                        imp.connection_lost_page.set_enabled(true);
                         imp.main_stack.set_visible_child(&*imp.connection_lost_page);
                         false
                     }

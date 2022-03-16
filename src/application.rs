@@ -1,5 +1,6 @@
-use std::process;
+use std::io;
 
+use futures::{future, FutureExt};
 use gettextrs::gettext;
 use glib::{clone, WeakRef};
 use gtk::prelude::*;
@@ -8,8 +9,8 @@ use gtk::{gdk, gio, glib};
 use log::{debug, info};
 use once_cell::sync::OnceCell;
 
-use crate::config;
 use crate::window::Window;
+use crate::{config, utils};
 
 mod imp {
     use super::*;
@@ -104,8 +105,9 @@ impl Application {
 
         // Start podman user service
         let action_start_service = gio::SimpleAction::new("start-service", None);
-        action_start_service.connect_activate(clone!(@weak self as app => move |_, _| {
-            app.start_service();
+        action_start_service.connect_activate(clone!(@weak self as app => move |action, _| {
+            action.set_enabled(false);
+            app.start_service(action);
         }));
         self.add_action(&action_start_service);
     }
@@ -144,49 +146,68 @@ impl Application {
         dialog.present();
     }
 
-    fn start_service(&self) {
-        match process::Command::new("flatpak-spawn")
-            .args(&[
-                "--host",
-                "systemctl",
-                "--user",
-                "enable",
-                "--now",
-                "podman.socket",
-            ])
-            .output()
-        {
-            Ok(output) => {
-                if output.status.success() {
-                    self.main_window().check_service()
-                } else {
-                    log::error!(
-                        "command to start Podman returned exit code: {}",
+    fn start_service(&self, action: &gio::SimpleAction) {
+        utils::do_async(
+            future::try_select(
+                start_service_assuming_flatpak().boxed(),
+                start_service_assuming_native().boxed(),
+            ),
+            clone!(@weak self as obj, @weak action => move |result| match result {
+                Ok(future::Either::Left((output, _)))
+                | Ok(future::Either::Right((output, _))) => {
+                    obj.on_service_start_command_issued(output, &action);
+                },
+                Err(future::Either::Left((e1, f))) | Err(future::Either::Right((e1, f))) => {
+                    utils::do_async(f, clone!(@weak obj, @weak action => move |result| match result {
+                        Ok(output) => obj.on_service_start_command_issued(output, &action),
+                        Err(e2) => {
+                            action.set_enabled(true);
+
+                            log::error!(
+                                "Failed to execute command to start Podman. \
+                                Neither flatpak nor native method worked.\n\t{e1}\n\t{e2}"
+                            );
+                            obj.main_window().show_toast(
+                                &adw::Toast::builder()
+                                    .title(
+                                        &gettext("Failed to execute command to start Podman")
+                                    )
+                                    .timeout(3)
+                                    .priority(adw::ToastPriority::High)
+                                    .build(),
+                            );
+                        }
+                    }));
+                },
+            }),
+        );
+    }
+
+    fn on_service_start_command_issued(
+        &self,
+        output: std::process::Output,
+        action: &gio::SimpleAction,
+    ) {
+        action.set_enabled(true);
+
+        if output.status.success() {
+            self.main_window().check_service();
+        } else {
+            log::error!(
+                "command to start Podman returned exit code: {}",
+                output.status
+            );
+            self.main_window().show_toast(
+                &adw::Toast::builder()
+                    .title(&gettext!(
+                        // Translators: "{}" is the placeholder for the exit code.
+                        "Command to start Podman returned exit code: {}",
                         output.status
-                    );
-                    self.main_window().show_toast(
-                        &adw::Toast::builder()
-                            .title(&gettext!(
-                                // Translators: "{}" is the placeholder for the exit code.
-                                "Command to start Podman returned exit code: {}",
-                                output.status
-                            ))
-                            .timeout(3)
-                            .priority(adw::ToastPriority::High)
-                            .build(),
-                    );
-                }
-            }
-            Err(e) => {
-                log::error!("Failed to execute command to start Podman: {e}");
-                self.main_window().show_toast(
-                    &adw::Toast::builder()
-                        .title(&gettext("Failed to execute command to start Podman"))
-                        .timeout(3)
-                        .priority(adw::ToastPriority::High)
-                        .build(),
-                );
-            }
+                    ))
+                    .timeout(3)
+                    .priority(adw::ToastPriority::High)
+                    .build(),
+            );
         }
     }
 
@@ -197,4 +218,25 @@ impl Application {
 
         ApplicationExtManual::run(self);
     }
+}
+
+async fn start_service_assuming_flatpak() -> Result<std::process::Output, io::Error> {
+    tokio::process::Command::new("flatpak-spawn")
+        .args(&[
+            "--host",
+            "systemctl",
+            "--user",
+            "enable",
+            "--now",
+            "podman.socket",
+        ])
+        .output()
+        .await
+}
+
+async fn start_service_assuming_native() -> Result<std::process::Output, io::Error> {
+    tokio::process::Command::new("systemctl")
+        .args(&["--user", "enable", "--now", "podman.socket"])
+        .output()
+        .await
 }
