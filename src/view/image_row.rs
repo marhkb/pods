@@ -49,7 +49,7 @@ mod imp {
                     "Image",
                     "The image of this ImageRow",
                     model::Image::static_type(),
-                    glib::ParamFlags::READWRITE,
+                    glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT,
                 )]
             });
             PROPERTIES.as_ref()
@@ -123,6 +123,14 @@ mod imp {
                     id.chars().take(12).collect::<String>()
                 }))
                 .bind(obj, "subtitle", Some(obj));
+
+            obj.image().unwrap().connect_notify_local(
+                Some("to-be-deleted"),
+                clone!(@weak obj => move|image, _| {
+                    obj.action_set_enabled("image.show-details", !image.to_be_deleted());
+                    obj.action_set_enabled("image.delete", !image.to_be_deleted());
+                }),
+            );
         }
     }
 
@@ -149,21 +157,17 @@ impl ImageRow {
     }
 
     fn delete(&self) {
-        self.action_set_enabled("image.delete", false);
         self.image().unwrap().delete(
-            clone!(@weak self as obj => move |image, result| match result {
-                Ok(_) => obj.show_toast(
+            clone!(@weak self as obj => move |image, result| obj.show_toast(&match result {
+                Ok(_) => {
                     // Translators: "{}" is a placeholder for the image id.
-                    &gettext!("Successfully deleted image '{}'", image.id())
-                ),
-                Err(_) => {
-                    obj.action_set_enabled("image.delete", true);
-                    obj.show_toast(
-                        // Translators: "{}" is a placeholder for the image id.
-                        &gettext!("Error on deleting image '{}'", image.id())
-                    );
+                    gettext!("Successfully deleted image '{}'", image.id())
                 }
-            }),
+                Err(_) => {
+                    // Translators: "{}" is a placeholder for the image id.
+                    gettext!("Error on deleting image '{}'", image.id())
+                }
+            })),
         );
     }
 
