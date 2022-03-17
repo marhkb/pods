@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+
+  <menu id="menu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">_Delete Image</attribute>
+        <attribute name="action">image.delete</attribute>
+      </item>
+    </section>
+  </menu>
+
+  <template class="ImageDetailsPage" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBoxLayout">
+        <property name="orientation">vertical</property>
+      </object>
+    </property>
+
+    <child>
+      <object class="AdwHeaderBar" id="header_bar">
+
+        <child type="start">
+          <object class="GtkButton">
+            <property name="icon-name">go-previous-symbolic</property>
+            <property name="action-name">navigation.back</property>
+          </object>
+        </child>
+
+        <child type="title">
+          <object class="AdwWindowTitle">
+            <property name="title" translatable="yes">Image Details</property>
+          </object>
+        </child>
+
+        <child type="end">
+          <object class="GtkMenuButton">
+            <property name="icon-name">view-more-symbolic</property>
+            <property name="menu-model">menu</property>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <child>
+      <object class="GtkStack" id="stack">
+
+        <child>
+          <object class="AdwPreferencesPage">
+            <property name="valign">start</property>
+            <property name="name">details</property>
+
+            <child>
+              <object class="AdwPreferencesGroup">
+
+                <child>
+                  <object class="GtkListBox">
+                    <style>
+                      <class name="boxed-list"/>
+                    </style>
+                    <property name="margin-bottom">12</property>
+                    <property name="margin-end">12</property>
+                    <property name="margin-start">12</property>
+                    <property name="margin-top">12</property>
+                    <property name="selection-mode">none</property>
+
+                    <child>
+                      <object class="PropertyRow" id="id_row">
+                        <property name="key">Id</property>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="PropertyRow" id="created_row">
+                        <property name="key">Created</property>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="PropertyRow" id="size_row">
+                        <property name="key">Disk space</property>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="PropertyRow" id="containers_row">
+                        <property name="key">Used By</property>
+                        <binding name="visible">
+                          <lookup name="containers" type="Image">
+                            <lookup name="image">ImageDetailsPage</lookup>
+                          </lookup>
+                        </binding>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="PropertyRow" id="command_row">
+                        <property name="key">Command</property>
+                        <binding name="value">
+                          <lookup name="cmd" type="ImageConfig">
+                            <lookup name="config" type="Image">
+                              <lookup name="image">ImageDetailsPage</lookup>
+                            </lookup>
+                          </lookup>
+                        </binding>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="PropertyRow" id="entrypoint_row">
+                        <property name="key">Entry Point</property>
+                        <binding name="value">
+                          <lookup name="entrypoint" type="ImageConfig">
+                            <lookup name="config" type="Image">
+                              <lookup name="image">ImageDetailsPage</lookup>
+                            </lookup>
+                          </lookup>
+                        </binding>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="PropertyRow" id="ports_row">
+                        <property name="key">Ports</property>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="PropertyRow" id="repo_tags_row">
+                        <property name="key">Tags</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkStackPage">
+            <property name="name">deleted</property>
+
+            <property name="child">
+              <object class="AdwStatusPage">
+                <property name="icon-name">user-trash-symbolic</property>
+                <property name="title" translatable="yes">Image Has Been Deleted</property>
+                <property name="vexpand">True</property>
+              </object>
+            </property>
+
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+
+</interface>

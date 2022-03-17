@@ -1,9 +1,10 @@
 use adw::subclass::prelude::AdwApplicationWindowImpl;
+use adw::traits::BinExt;
 use gettextrs::gettext;
 use gtk::glib::{clone, closure};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
-use gtk::{gdk, gio, glib, CompositeTemplate};
+use gtk::{gdk, gio, glib, CompositeTemplate, Widget};
 use once_cell::sync::Lazy;
 
 use crate::application::Application;
@@ -22,7 +23,7 @@ mod imp {
         #[template_child]
         pub(super) start_service_page: TemplateChild<view::StartServicePage>,
         #[template_child]
-        pub(super) main_view_box: TemplateChild<gtk::Box>,
+        pub(super) leaflet: TemplateChild<adw::Leaflet>,
         #[template_child]
         pub(super) images_menu_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
@@ -37,6 +38,8 @@ mod imp {
         pub(super) images_panel: TemplateChild<view::ImagesPanel>,
         #[template_child]
         pub(super) containers_panel: TemplateChild<view::ContainersPanel>,
+        #[template_child]
+        pub(super) details_bin: TemplateChild<adw::Bin>,
         #[template_child]
         pub(super) connection_lost_page: TemplateChild<view::ConnectionLostPage>,
     }
@@ -314,7 +317,7 @@ impl Window {
                 let imp = obj.imp();
                 match result {
                     Ok(_) => {
-                        imp.main_stack.set_visible_child(&*imp.main_view_box);
+                        imp.main_stack.set_visible_child(&*imp.leaflet);
                         imp.images_panel.image_list().refresh(clone!(@weak obj => move |e| {
                             obj.images_err_op(e);
                         }));
@@ -406,5 +409,16 @@ impl Window {
 
     pub(crate) fn show_toast(&self, toast: &adw::Toast) {
         self.imp().toast_overlay.add_toast(toast);
+    }
+
+    pub(crate) fn show_details<W: glib::IsA<Widget>>(&self, widget: &W) {
+        let imp = self.imp();
+
+        imp.details_bin.set_child(Some(widget));
+        imp.leaflet.navigate(adw::NavigationDirection::Forward);
+    }
+
+    pub(crate) fn hide_details(&self) {
+        self.imp().leaflet.navigate(adw::NavigationDirection::Back);
     }
 }
