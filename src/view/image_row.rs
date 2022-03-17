@@ -1,8 +1,6 @@
-use std::cell::RefCell;
-
 use adw::subclass::prelude::{ExpanderRowImpl, PreferencesRowImpl};
 use gettextrs::gettext;
-use gtk::glib::{clone, closure};
+use gtk::glib::{clone, closure, WeakRef};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::{glib, CompositeTemplate};
@@ -17,7 +15,7 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Symphony/ui/image-row.ui")]
     pub(crate) struct ImageRow {
-        pub(super) image: RefCell<Option<model::Image>>,
+        pub(super) image: WeakRef<model::Image>,
         #[template_child]
         pub(super) id_row: TemplateChild<view::PropertyRow>,
         #[template_child]
@@ -90,7 +88,7 @@ mod imp {
         ) {
             match pspec.name() {
                 "image" => {
-                    self.image.replace(value.get().unwrap());
+                    self.image.set(value.get().unwrap());
                 }
                 _ => unimplemented!(),
             }
@@ -294,6 +292,6 @@ impl From<&model::Image> for ImageRow {
 
 impl ImageRow {
     pub(crate) fn image(&self) -> Option<model::Image> {
-        self.imp().image.borrow().clone()
+        self.imp().image.upgrade()
     }
 }
