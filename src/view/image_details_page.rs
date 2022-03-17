@@ -1,5 +1,5 @@
 use gettextrs::gettext;
-use gtk::glib::{closure, WeakRef};
+use gtk::glib::{clone, closure, WeakRef};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::{glib, CompositeTemplate};
@@ -18,7 +18,7 @@ mod imp {
         #[template_child]
         pub(super) header_bar: TemplateChild<adw::HeaderBar>,
         #[template_child]
-        pub(super) preferences_page: TemplateChild<adw::PreferencesRow>,
+        pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) id_row: TemplateChild<view::PropertyRow>,
         #[template_child]
@@ -47,6 +47,9 @@ mod imp {
             Self::bind_template(klass);
             klass.install_action("navigation.back", None, move |widget, _, _| {
                 widget.navigate_back();
+            });
+            klass.install_action("image.delete", None, move |widget, _, _| {
+                widget.delete();
             });
         }
 
@@ -218,11 +221,18 @@ mod imp {
                     |_: glib::Object, repo_tags: utils::BoxedStringVec| { repo_tags.len() > 0 }
                 ))
                 .bind(&*self.repo_tags_row, "visible", Some(obj));
+
+            obj.image().unwrap().connect_notify_local(
+                Some("to-be-deleted"),
+                clone!(@weak obj => move|image, _| {
+                    obj.action_set_enabled("image.delete", !image.to_be_deleted());
+                }),
+            );
         }
 
         fn dispose(&self, _obj: &Self::Type) {
             self.header_bar.unparent();
-            self.preferences_page.unparent();
+            self.stack.unparent();
         }
     }
 
@@ -250,5 +260,37 @@ impl ImageDetailsPage {
             .downcast::<Window>()
             .unwrap()
             .hide_details();
+    }
+
+    fn delete(&self) {
+        self.image().unwrap().delete(
+            clone!(@weak self as obj => move |image, result| match result {
+                Ok(_) => {
+                    obj.imp().stack.set_visible_child_name("deleted");
+                    obj.show_toast(
+                        // Translators: "{}" is a placeholder for the image id.
+                        &gettext!("Successfully deleted image '{}'", image.id())
+                    );
+                }
+                Err(_) => obj.show_toast(
+                    // Translators: "{}" is a placeholder for the image id.
+                    &gettext!("Error on deleting image '{}'", image.id())
+                ),
+            }),
+        );
+    }
+
+    fn show_toast(&self, title: &str) {
+        self.root()
+            .unwrap()
+            .downcast::<Window>()
+            .unwrap()
+            .show_toast(
+                &adw::Toast::builder()
+                    .title(title)
+                    .timeout(3)
+                    .priority(adw::ToastPriority::High)
+                    .build(),
+            );
     }
 }
