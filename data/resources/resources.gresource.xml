@@ -7,6 +7,7 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/connection-lost-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/containers-panel.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container-row.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/image-details-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/image-row-simple.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/image-row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/images-panel.ui</file>

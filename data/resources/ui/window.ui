@@ -61,96 +61,109 @@
 
             <!-- Main View -->
             <child>
-              <object class="GtkBox" id="main_view_box">
-                <property name="orientation">vertical</property>
+              <object class="AdwLeaflet" id="leaflet">
+                <property name="can-navigate-back">True</property>
+                <property name="width-request">360</property>
+                <property name="can-unfold">False</property>
 
-                <!-- Headerbar -->
                 <child>
-                  <object class="AdwHeaderBar">
-                    <property name="centering-policy">strict</property>
+                  <object class="GtkBox">
+                    <property name="orientation">vertical</property>
 
-                    <child type="start">
-                      <object class="GtkMenuButton" id="images_menu_button">
-                        <property name="icon-name">view-more-symbolic</property>
-                        <property name="menu-model">images_menu</property>
+                    <!-- Headerbar -->
+                    <child>
+                      <object class="AdwHeaderBar">
+                        <property name="centering-policy">strict</property>
+
+                        <child type="start">
+                          <object class="GtkMenuButton" id="images_menu_button">
+                            <property name="icon-name">view-more-symbolic</property>
+                            <property name="menu-model">images_menu</property>
+                          </object>
+                        </child>
+
+                        <child type="start">
+                          <object class="GtkToggleButton" id="images_search_button">
+                            <property name="icon-name">system-search-symbolic</property>
+                          </object>
+                        </child>
+
+                        <child type="start">
+                          <object class="GtkMenuButton" id="containers_menu_button">
+                            <property name="icon-name">view-more-symbolic</property>
+                            <property name="menu-model">containers_menu</property>
+                          </object>
+                        </child>
+
+                        <child type="start">
+                          <object class="GtkToggleButton" id="containers_search_button">
+                            <property name="icon-name">system-search-symbolic</property>
+                          </object>
+                        </child>
+
+                        <child type="title">
+                          <object class="AdwViewSwitcherTitle" id="title">
+                            <property name="stack">panel_stack</property>
+                          </object>
+                        </child>
+
+                        <child type="end">
+                          <object class="GtkMenuButton">
+                            <property name="icon-name">open-menu-symbolic</property>
+                            <property name="menu-model">primary_menu</property>
+                          </object>
+                        </child>
+
                       </object>
                     </child>
 
-                    <child type="start">
-                      <object class="GtkToggleButton" id="images_search_button">
-                        <property name="icon-name">system-search-symbolic</property>
+                    <!-- Panel Stack -->
+                    <child>
+                      <object class="AdwViewStack" id="panel_stack">
+                        <property name="vexpand">True</property>
+
+                        <!-- Images Panel -->
+                        <child>
+                          <object class="AdwViewStackPage">
+                            <property name="icon-name">image-x-generic-symbolic</property>
+                            <property name="name">images</property>
+                            <property name="title" translatable="yes">Images</property>
+                            <property name="child">
+                              <object class="ImagesPanel" id="images_panel"/>
+                            </property>
+                          </object>
+                        </child>
+
+                        <!-- Containers Panel -->
+                        <child>
+                          <object class="AdwViewStackPage">
+                            <property name="icon-name">utilities-terminal-symbolic</property>
+                            <property name="name">containers</property>
+                            <property name="title" translatable="yes">Containers</property>
+                            <property name="child">
+                              <object class="ContainersPanel" id="containers_panel"/>
+                            </property>
+                          </object>
+                        </child>
+
                       </object>
                     </child>
 
-                    <child type="start">
-                      <object class="GtkMenuButton" id="containers_menu_button">
-                        <property name="icon-name">view-more-symbolic</property>
-                        <property name="menu-model">containers_menu</property>
-                      </object>
-                    </child>
-
-                    <child type="start">
-                      <object class="GtkToggleButton" id="containers_search_button">
-                        <property name="icon-name">system-search-symbolic</property>
-                      </object>
-                    </child>
-
-                    <child type="title">
-                      <object class="AdwViewSwitcherTitle" id="title">
+                    <!-- View Switcher Bar -->
+                    <child>
+                      <object class="AdwViewSwitcherBar">
                         <property name="stack">panel_stack</property>
-                      </object>
-                    </child>
-
-                    <child type="end">
-                      <object class="GtkMenuButton">
-                        <property name="icon-name">open-menu-symbolic</property>
-                        <property name="menu-model">primary_menu</property>
+                        <binding name="reveal">
+                          <lookup name="title-visible">title</lookup>
+                        </binding>
                       </object>
                     </child>
 
                   </object>
                 </child>
 
-                <!-- Panel Stack -->
                 <child>
-                  <object class="AdwViewStack" id="panel_stack">
-                    <property name="vexpand">True</property>
-
-                    <!-- Images Panel -->
-                    <child>
-                      <object class="AdwViewStackPage">
-                        <property name="icon-name">image-x-generic-symbolic</property>
-                        <property name="name">images</property>
-                        <property name="title" translatable="yes">Images</property>
-                        <property name="child">
-                          <object class="ImagesPanel" id="images_panel"/>
-                        </property>
-                      </object>
-                    </child>
-
-                    <!-- Containers Panel -->
-                    <child>
-                      <object class="AdwViewStackPage">
-                        <property name="icon-name">utilities-terminal-symbolic</property>
-                        <property name="name">containers</property>
-                        <property name="title" translatable="yes">Containers</property>
-                        <property name="child">
-                          <object class="ContainersPanel" id="containers_panel"/>
-                        </property>
-                      </object>
-                    </child>
-
-                  </object>
-                </child>
-
-                <!-- View Switcher Bar -->
-                <child>
-                  <object class="AdwViewSwitcherBar">
-                    <property name="stack">panel_stack</property>
-                    <binding name="reveal">
-                      <lookup name="title-visible">title</lookup>
-                    </binding>
-                  </object>
+                  <object class="AdwBin" id="details_bin"/>
                 </child>
 
               </object>
