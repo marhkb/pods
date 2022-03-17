@@ -1,7 +1,5 @@
-use std::cell::RefCell;
-
 use adw::subclass::prelude::{ExpanderRowImpl, PreferencesRowImpl};
-use gtk::glib::closure;
+use gtk::glib::{closure, WeakRef};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::{glib, CompositeTemplate};
@@ -10,12 +8,13 @@ use once_cell::sync::Lazy;
 use crate::{model, utils};
 
 mod imp {
+
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Symphony/ui/image-row-simple.ui")]
     pub(crate) struct ImageRowSimple {
-        pub(super) image: RefCell<Option<model::Image>>,
+        pub(super) image: WeakRef<model::Image>,
         #[template_child]
         pub(super) label: TemplateChild<gtk::Label>,
     }
@@ -58,7 +57,7 @@ mod imp {
         ) {
             match pspec.name() {
                 "image" => {
-                    self.image.replace(value.get().unwrap());
+                    self.image.set(value.get().unwrap());
                 }
                 _ => unimplemented!(),
             }
@@ -102,6 +101,6 @@ glib::wrapper! {
 
 impl ImageRowSimple {
     pub(crate) fn image(&self) -> Option<model::Image> {
-        self.imp().image.borrow().clone()
+        self.imp().image.upgrade()
     }
 }

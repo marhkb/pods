@@ -1,9 +1,8 @@
-use std::cell::RefCell;
 use std::error;
 
 use adw::subclass::prelude::{ActionRowImpl, PreferencesRowImpl};
 use gettextrs::gettext;
-use gtk::glib::{clone, closure};
+use gtk::glib::{clone, closure, WeakRef};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::{gio, glib, CompositeTemplate};
@@ -18,7 +17,7 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Symphony/ui/container-row.ui")]
     pub(crate) struct ContainerRow {
-        pub(super) container: RefCell<Option<model::Container>>,
+        pub(super) container: WeakRef<model::Container>,
         #[template_child]
         pub(super) stopped_menu: TemplateChild<gio::MenuModel>,
         #[template_child]
@@ -104,7 +103,7 @@ mod imp {
         ) {
             match pspec.name() {
                 "container" => {
-                    self.container.replace(value.get().unwrap());
+                    self.container.set(value.get().unwrap());
                 }
                 _ => unimplemented!(),
             }
@@ -221,7 +220,7 @@ impl From<&model::Container> for ContainerRow {
 
 impl ContainerRow {
     pub(crate) fn container(&self) -> Option<model::Container> {
-        self.imp().container.borrow().clone()
+        self.imp().container.upgrade()
     }
 }
 
