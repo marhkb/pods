@@ -43,20 +43,7 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
             klass.install_action("image.delete", None, move |widget, _, _| {
-                widget.action_set_enabled("image.delete", false);
-                widget
-                    .image()
-                    .unwrap()
-                    .delete(clone!(@weak widget => move |_| {
-                        widget.action_set_enabled("image.delete", true);
-                        widget.root().unwrap().downcast::<Window>().unwrap().show_toast(
-                            &adw::Toast::builder()
-                                .title(&gettext("Error on deleting image"))
-                                .timeout(3)
-                                .priority(adw::ToastPriority::High)
-                                .build()
-                        );
-                    }));
+                widget.delete();
             });
         }
 
@@ -293,5 +280,21 @@ impl From<&model::Image> for ImageRow {
 impl ImageRow {
     pub(crate) fn image(&self) -> Option<model::Image> {
         self.imp().image.upgrade()
+    }
+
+    fn delete(&self) {
+        self.action_set_enabled("image.delete", false);
+        self.image()
+            .unwrap()
+            .delete(clone!(@weak self as obj => move |_| {
+                obj.action_set_enabled("image.delete", true);
+                obj.root().unwrap().downcast::<Window>().unwrap().show_toast(
+                    &adw::Toast::builder()
+                        .title(&gettext("Error on deleting image"))
+                        .timeout(3)
+                        .priority(adw::ToastPriority::High)
+                        .build()
+                );
+            }));
     }
 }
