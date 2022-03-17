@@ -423,6 +423,7 @@ impl Image {
             async move { image.remove().await },
             clone!(@weak self as obj => move |result| {
                 if let Err(e) = result {
+                    obj.set_to_be_deleted(false);
                     log::error!("Error on removing image: {}", e);
                     op(e);
                 }
