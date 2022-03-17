@@ -284,17 +284,34 @@ impl ImageRow {
 
     fn delete(&self) {
         self.action_set_enabled("image.delete", false);
-        self.image()
+        self.image().unwrap().delete(
+            clone!(@weak self as obj => move |image, result| match result {
+                Ok(_) => obj.show_toast(
+                    // Translators: "{}" is a placeholder for the image id.
+                    &gettext!("Successfully deleted image '{}'", image.id())
+                ),
+                Err(_) => {
+                    obj.action_set_enabled("image.delete", true);
+                    obj.show_toast(
+                        // Translators: "{}" is a placeholder for the image id.
+                        &gettext!("Error on deleting image '{}'", image.id())
+                    );
+                }
+            }),
+        );
+    }
+
+    fn show_toast(&self, title: &str) {
+        self.root()
             .unwrap()
-            .delete(clone!(@weak self as obj => move |_| {
-                obj.action_set_enabled("image.delete", true);
-                obj.root().unwrap().downcast::<Window>().unwrap().show_toast(
-                    &adw::Toast::builder()
-                        .title(&gettext("Error on deleting image"))
-                        .timeout(3)
-                        .priority(adw::ToastPriority::High)
-                        .build()
-                );
-            }));
+            .downcast::<Window>()
+            .unwrap()
+            .show_toast(
+                &adw::Toast::builder()
+                    .title(title)
+                    .timeout(3)
+                    .priority(adw::ToastPriority::High)
+                    .build(),
+            );
     }
 }
