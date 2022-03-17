@@ -1,4 +1,5 @@
-use std::cell::Cell;
+use std::cell::{Cell, RefCell, RefMut};
+use std::rc::Rc;
 
 use gettextrs::gettext;
 use gtk::glib::{clone, closure};
@@ -10,7 +11,7 @@ use once_cell::unsync::OnceCell;
 
 use crate::utils::ToTypedListModel;
 use crate::window::Window;
-use crate::{config, model, view};
+use crate::{api, config, model, view};
 
 mod imp {
     use super::*;
@@ -317,36 +318,93 @@ impl ImagesPanel {
         }
     }
 
-    pub(crate) fn show_prune_dialog(&self) {
+    pub(crate) fn show_prune_dialog<F>(&self, op: F)
+    where
+        F: FnOnce() + Clone + 'static,
+    {
         let dialog = view::ImagesPruneDialog::from(self.image_list());
         dialog.set_transient_for(Some(
             &self.root().unwrap().downcast::<gtk::Window>().unwrap(),
         ));
         dialog.run_async(clone!(@weak self as obj => move |dialog, response| {
             if matches!(response, gtk::ResponseType::Accept) {
-                dialog
+                let images_to_prune = dialog
                     .images_to_prune()
-                    .unwrap()
+                    .unwrap();
+
+                let len = images_to_prune.n_items();
+                let num_errors = Rc::new(RefCell::new(0));
+
+                let mut iter = images_to_prune
                     .to_owned()
                     .to_typed_list_model::<model::Image>()
-                    .iter()
-                    .for_each(|image| {
-                        let id = image.id().to_owned();
-                        image.delete(clone!(@weak obj => move |_| {
-                            obj.root().unwrap().downcast::<Window>().unwrap().show_toast(
-                                &adw::Toast::builder()
-                                    .title(
-                                        // Translators: "{}" is a placeholder for the image id.
-                                        &gettext!("Error on pruning image '{}'", id))
-                                    .timeout(3)
-                                    .priority(adw::ToastPriority::High)
-                                    .build()
-                            );
-                        }))
-                    });
+                    .iter();
+
+                let first_image = iter.next();
+
+                iter.for_each(|image| {
+                    image.delete(clone!(@weak obj, @strong num_errors => move |image, result| {
+                        obj.check_prune_error(result, image.id(), &mut num_errors.borrow_mut());
+                    }));
+                });
+
+                match first_image {
+                    Some(image) => {
+                        image.delete(clone!(@weak obj, @strong num_errors => move |image, result| {
+                            let mut num_errors = num_errors.borrow_mut();
+                            obj.check_prune_error(result, image.id(), &mut num_errors);
+
+                            let num_pruned_images = len - *num_errors;
+                            obj.show_toast(&if *num_errors == 0 {
+                                gettext!(
+                                    // Translators: "{}" is a placeholder for the number of images.
+                                    "{} images have been pruned",
+                                    num_pruned_images,
+                                )
+                            } else {
+                                gettext!(
+                                    // Translators: "{}" are placeholders for cardinal numbers.
+                                    "{} images have been pruned ({} errors)",
+                                    num_pruned_images,
+                                    *num_errors
+                                )
+                            });
+
+                            op();
+                        }));
+                    }
+                    None => op(),
+                }
+            } else {
+                op();
             }
             dialog.close();
         }));
+    }
+
+    fn check_prune_error(&self, result: api::Result<()>, id: &str, num_errors: &mut RefMut<u32>) {
+        if result.is_err() {
+            self.show_toast(
+                // Translators: "{}" is a placeholder for the image id.
+                &gettext!("Error on pruning image '{}'", id),
+            );
+
+            **num_errors += 1;
+        }
+    }
+
+    fn show_toast(&self, title: &str) {
+        self.root()
+            .unwrap()
+            .downcast::<Window>()
+            .unwrap()
+            .show_toast(
+                &adw::Toast::builder()
+                    .title(title)
+                    .timeout(3)
+                    .priority(adw::ToastPriority::High)
+                    .build(),
+            );
     }
 
     fn set_list_box_visibility(&self, model: &gio::ListModel) {

@@ -58,7 +58,7 @@ mod imp {
 
             klass.install_property_action("images.show-intermediates", "show-intermediate-images");
             klass.install_action("images.prune-unused", None, move |widget, _, _| {
-                widget.imp().images_panel.show_prune_dialog();
+                widget.show_prune_dialog();
             });
 
             klass.install_property_action(
@@ -278,6 +278,15 @@ impl Window {
                 "visible-child-name",
             )
             .build();
+    }
+
+    fn show_prune_dialog(&self) {
+        self.action_set_enabled("images.prune-unused", false);
+        self.imp()
+            .images_panel
+            .show_prune_dialog(clone!(@weak self as obj => move || {
+                obj.action_set_enabled("images.prune-unused", true);
+            }));
     }
 
     fn toggle_search(&self) {

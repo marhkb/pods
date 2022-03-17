@@ -414,7 +414,7 @@ impl Image {
 impl Image {
     pub(crate) fn delete<F>(&self, op: F)
     where
-        F: FnOnce(api::Error) + 'static,
+        F: FnOnce(&Self, api::Result<()>) + 'static,
     {
         self.set_to_be_deleted(true);
 
@@ -422,11 +422,11 @@ impl Image {
         utils::do_async(
             async move { image.remove().await },
             clone!(@weak self as obj => move |result| {
-                if let Err(e) = result {
+                if let Err(ref e) = result {
                     obj.set_to_be_deleted(false);
                     log::error!("Error on removing image: {}", e);
-                    op(e);
                 }
+                op(&obj, result);
             }),
         );
     }
