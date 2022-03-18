@@ -1,4 +1,3 @@
-use adw::subclass::prelude::{ExpanderRowImpl, PreferencesRowImpl};
 use gtk::glib::{closure, WeakRef};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
@@ -89,9 +88,6 @@ mod imp {
     }
 
     impl WidgetImpl for ImageRowSimple {}
-    impl ListBoxRowImpl for ImageRowSimple {}
-    impl PreferencesRowImpl for ImageRowSimple {}
-    impl ExpanderRowImpl for ImageRowSimple {}
 }
 
 glib::wrapper! {
