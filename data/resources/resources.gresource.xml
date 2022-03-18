@@ -11,6 +11,7 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/image-details-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/image-row-simple.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/image-row.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/image-used-by-row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/images-panel.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/images-prune-dialog.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/property-row.ui</file>
