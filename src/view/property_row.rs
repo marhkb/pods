@@ -110,7 +110,7 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct PropertyRow(ObjectSubclass<imp::PropertyRow>)
-        @extends gtk::Widget, gtk::ListBoxRow, adw::PreferencesRow, adw::ExpanderRow;
+        @extends gtk::Widget, gtk::ListBoxRow;
 }
 
 impl Default for PropertyRow {
