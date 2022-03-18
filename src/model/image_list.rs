@@ -1,7 +1,7 @@
 use std::cell::{Cell, RefCell};
 
 use futures::TryFutureExt;
-use gtk::glib::clone;
+use gtk::glib::{clone, WeakRef};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::{gio, glib};
@@ -21,6 +21,8 @@ mod imp {
 
     #[derive(Debug, Default)]
     pub(crate) struct ImageList {
+        pub(super) client: WeakRef<model::Client>,
+
         pub(super) fetched: Cell<u32>,
         pub(super) list: RefCell<IndexMap<String, model::Image>>,
         pub(super) listing: Cell<bool>,
@@ -39,6 +41,13 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
+                    glib::ParamSpecObject::new(
+                        "client",
+                        "Client",
+                        "The podman client",
+                        model::Client::static_type(),
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
+                    ),
                     glib::ParamSpecUInt::new(
                         "fetched",
                         "Fetched",
@@ -78,8 +87,22 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
+        fn set_property(
+            &self,
+            _obj: &Self::Type,
+            _id: usize,
+            value: &glib::Value,
+            pspec: &glib::ParamSpec,
+        ) {
+            match pspec.name() {
+                "client" => self.client.set(value.get().unwrap()),
+                _ => unimplemented!(),
+            }
+        }
+
         fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
+                "client" => obj.client().to_value(),
                 "fetched" => obj.fetched().to_value(),
                 "len" => obj.len().to_value(),
                 "listing" => obj.listing().to_value(),
@@ -117,13 +140,17 @@ glib::wrapper! {
         @implements gio::ListModel;
 }
 
-impl Default for ImageList {
-    fn default() -> Self {
-        glib::Object::new(&[]).expect("Failed to create ImageList")
+impl From<&model::Client> for ImageList {
+    fn from(client: &model::Client) -> Self {
+        glib::Object::new(&[("client", client)]).expect("Failed to create ImageList")
     }
 }
 
 impl ImageList {
+    pub(crate) fn client(&self) -> Option<model::Client> {
+        self.imp().client.upgrade()
+    }
+
     pub(crate) fn fetched(&self) -> u32 {
         self.imp().fetched.get()
     }

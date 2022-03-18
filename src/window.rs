@@ -16,6 +16,7 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Symphony/ui/window.ui")]
     pub(crate) struct Window {
+        pub(super) client: model::Client,
         #[template_child]
         pub(super) toast_overlay: TemplateChild<adw::ToastOverlay>,
         #[template_child]
@@ -160,6 +161,10 @@ mod imp {
 
             // Load settings.
             obj.load_settings();
+
+            self.images_panel.set_image_list(self.client.image_list());
+            self.containers_panel
+                .set_container_list(self.client.container_list());
 
             self.images_panel
                 .connect_search_button(&*self.images_search_button);
@@ -318,12 +323,17 @@ impl Window {
                 match result {
                     Ok(_) => {
                         imp.main_stack.set_visible_child(&*imp.leaflet);
-                        imp.images_panel.image_list().refresh(clone!(@weak obj => move |e| {
-                            obj.images_err_op(e);
-                        }));
-                        imp.containers_panel.container_list().refresh(clone!(@weak obj => move |e| {
-                            obj.containers_err_op(e);
-                        }));
+                        imp.images_panel.image_list().unwrap().refresh(
+                            clone!(@weak obj => move |e| {
+                                obj.images_err_op(e);
+                            }),
+                        );
+                        imp.containers_panel
+                            .container_list()
+                            .unwrap()
+                            .refresh(clone!(@weak obj => move |e| {
+                                obj.containers_err_op(e);
+                            }));
 
                         obj.start_event_listener();
                     }
@@ -351,14 +361,18 @@ impl Window {
                     Ok(event) => {
                         log::debug!("Event: {event:?}");
                         match event.typ.as_str() {
-                            "image" => imp.images_panel.image_list().handle_event(
+                            "image" => imp.images_panel.image_list().unwrap().handle_event(
                                 event,
                                 clone!(@weak obj => move |e| obj.images_err_op(e)),
                             ),
-                            "container" => imp.containers_panel.container_list().handle_event(
-                                event,
-                                clone!(@weak obj => move |e| obj.containers_err_op(e)),
-                            ),
+                            "container" => imp
+                                .containers_panel
+                                .container_list()
+                                .unwrap()
+                                .handle_event(
+                                    event,
+                                    clone!(@weak obj => move |e| obj.containers_err_op(e)),
+                                ),
                             other => log::warn!("Unhandled event type: {other}"),
                         }
                         true

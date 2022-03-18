@@ -1,12 +1,11 @@
 use std::cell::Cell;
 
 use gettextrs::gettext;
-use gtk::glib::{clone, closure};
+use gtk::glib::{clone, closure, WeakRef};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::{gio, glib, CompositeTemplate};
 use once_cell::sync::Lazy;
-use once_cell::unsync::OnceCell;
 
 use crate::{config, model, view};
 
@@ -16,7 +15,7 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Symphony/ui/containers-panel.ui")]
     pub(crate) struct ContainersPanel {
-        pub(super) container_list: OnceCell<model::ContainerList>,
+        pub(super) container_list: WeakRef<model::ContainerList>,
         pub(super) show_only_running: Cell<bool>,
         #[template_child]
         pub(super) main_stack: TemplateChild<gtk::Stack>,
@@ -62,7 +61,7 @@ mod imp {
                         "Container List",
                         "The list of containers",
                         model::ContainerList::static_type(),
-                        glib::ParamFlags::READABLE,
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
                     ),
                     glib::ParamSpecBoolean::new(
                         "show-only-running",
@@ -84,6 +83,7 @@ mod imp {
             pspec: &glib::ParamSpec,
         ) {
             match pspec.name() {
+                "container-list" => obj.set_container_list(value.get().unwrap()),
                 "show-only-running" => obj.set_show_only_running(value.get().unwrap()),
                 _ => unimplemented!(),
             }
@@ -162,88 +162,23 @@ mod imp {
                     Some(&*self.progress_stack),
                 );
 
-            container_list_len_expr
-                .chain_closure::<String>(closure!(|panel: Self::Type, len: u32| {
-                    if len > 0 {
-                        let list = panel.container_list();
-
-                        gettext!(
-                            // Translators: There's a wide space (U+2002) between ", {}".
-                            "{} Containers total, {} running",
-                            list.n_items(),
-                            list.count(model::ContainerStatus::Running),
-                        )
-                    } else {
-                        gettext("No containers found")
+            gtk::ClosureExpression::new::<String, _, _>(
+                &[container_list_expr, container_list_len_expr],
+                closure!(
+                    |_: glib::Object, list: Option<model::ContainerList>, _: u32| {
+                        match list.filter(|list| list.len() > 0) {
+                            Some(list) => gettext!(
+                                // Translators: There's a wide space (U+2002) between ", {}".
+                                "{} Containers total, {} running",
+                                list.len(),
+                                list.count(model::ContainerStatus::Running),
+                            ),
+                            None => gettext("No containers found"),
+                        }
                     }
-                }))
-                .bind(&*self.containers_group, "description", Some(obj));
-
-            let properties_filter =
-                gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
-                    !obj.show_only_running() ||
-                        item.downcast_ref::<model::Container>().unwrap().status()
-                            == model::ContainerStatus::Running
-                }));
-
-            obj.connect_notify_local(
-                Some("show-only-running"),
-                clone!(@weak properties_filter => move |_ ,_| {
-                    properties_filter.changed(gtk::FilterChange::Different);
-                }),
-            );
-
-            let search_filter =
-                gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
-                    let container = item
-                        .downcast_ref::<model::Container>()
-                        .unwrap();
-                    let query = obj.imp().search_entry.text();
-                    let query = query.as_str();
-
-                    container.name().map(|name| name.contains(query)).unwrap_or(false)
-                }));
-
-            self.search_entry
-                .connect_search_changed(clone!(@weak search_filter => move |_| {
-                    search_filter.changed(gtk::FilterChange::Different);
-                }));
-
-            let sorter = gtk::CustomSorter::new(|obj1, obj2| {
-                let container1 = obj1.downcast_ref::<model::Container>().unwrap();
-                let container2 = obj2.downcast_ref::<model::Container>().unwrap();
-
-                container1.name().cmp(&container2.name()).into()
-            });
-
-            obj.container_list().connect_notify_local(
-                Some("fetched"),
-                clone!(@weak properties_filter, @weak search_filter, @weak sorter => move |_ ,_| {
-                    properties_filter.changed(gtk::FilterChange::Different);
-                    search_filter.changed(gtk::FilterChange::Different);
-                    sorter.changed(gtk::SorterChange::Different);
-                }),
-            );
-
-            let model = gtk::SortListModel::new(
-                Some(&gtk::FilterListModel::new(
-                    Some(&gtk::FilterListModel::new(
-                        Some(obj.container_list()),
-                        Some(&search_filter),
-                    )),
-                    Some(&properties_filter),
-                )),
-                Some(&sorter),
-            );
-
-            obj.set_list_box_visibility(model.upcast_ref());
-            model.connect_items_changed(clone!(@weak obj => move |model, _, _, _| {
-                obj.set_list_box_visibility(model.upcast_ref());
-            }));
-
-            self.list_box.bind_model(Some(&model), |item| {
-                view::ContainerRow::from(item.downcast_ref().unwrap()).upcast()
-            });
+                ),
+            )
+            .bind(&*self.containers_group, "description", Some(obj));
 
             gio::Settings::new(config::APP_ID)
                 .bind("show-only-running-containers", obj, "show-only-running")
@@ -270,10 +205,88 @@ impl Default for ContainersPanel {
 }
 
 impl ContainersPanel {
-    pub(crate) fn container_list(&self) -> &model::ContainerList {
-        self.imp()
-            .container_list
-            .get_or_init(model::ContainerList::default)
+    pub(crate) fn container_list(&self) -> Option<model::ContainerList> {
+        self.imp().container_list.upgrade()
+    }
+
+    pub(crate) fn set_container_list(&self, value: &model::ContainerList) {
+        if self.container_list().as_ref() == Some(value) {
+            return;
+        }
+
+        // TODO: For multi-client: Figure out whether signal handlers need to be disconnected.
+        let imp = self.imp();
+
+        let properties_filter = gtk::CustomFilter::new(
+            clone!(@weak self as obj => @default-return false, move |item| {
+                !obj.show_only_running() ||
+                    item.downcast_ref::<model::Container>().unwrap().status()
+                        == model::ContainerStatus::Running
+            }),
+        );
+
+        self.connect_notify_local(
+            Some("show-only-running"),
+            clone!(@weak properties_filter => move |_ ,_| {
+                properties_filter.changed(gtk::FilterChange::Different);
+            }),
+        );
+
+        let search_filter = gtk::CustomFilter::new(
+            clone!(@weak self as obj => @default-return false, move |item| {
+                let container = item
+                    .downcast_ref::<model::Container>()
+                    .unwrap();
+                let query = obj.imp().search_entry.text();
+                let query = query.as_str();
+
+                container.name().map(|name| name.contains(query)).unwrap_or(false)
+            }),
+        );
+
+        imp.search_entry
+            .connect_search_changed(clone!(@weak search_filter => move |_| {
+                search_filter.changed(gtk::FilterChange::Different);
+            }));
+
+        let sorter = gtk::CustomSorter::new(|obj1, obj2| {
+            let container1 = obj1.downcast_ref::<model::Container>().unwrap();
+            let container2 = obj2.downcast_ref::<model::Container>().unwrap();
+
+            container1.name().cmp(&container2.name()).into()
+        });
+
+        value.connect_notify_local(
+            Some("fetched"),
+            clone!(@weak properties_filter, @weak search_filter, @weak sorter => move |_ ,_| {
+                properties_filter.changed(gtk::FilterChange::Different);
+                search_filter.changed(gtk::FilterChange::Different);
+                sorter.changed(gtk::SorterChange::Different);
+            }),
+        );
+
+        let model = gtk::SortListModel::new(
+            Some(&gtk::FilterListModel::new(
+                Some(&gtk::FilterListModel::new(
+                    Some(value),
+                    Some(&search_filter),
+                )),
+                Some(&properties_filter),
+            )),
+            Some(&sorter),
+        );
+
+        self.set_list_box_visibility(model.upcast_ref());
+        model.connect_items_changed(clone!(@weak self as obj => move |model, _, _, _| {
+            obj.set_list_box_visibility(model.upcast_ref());
+        }));
+
+        imp.list_box.bind_model(Some(&model), |item| {
+            view::ContainerRow::from(item.downcast_ref().unwrap()).upcast()
+        });
+
+        self.imp().container_list.set(Some(value));
+        self.notify("container-list");
     }
 
     pub(crate) fn show_only_running(&self) -> bool {
