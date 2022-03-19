@@ -20,6 +20,7 @@ pub(crate) use self::containers_panel::ContainersPanel;
 pub(crate) use self::image_details_page::ImageDetailsPage;
 pub(crate) use self::image_row::ImageRow;
 pub(crate) use self::image_row_simple::ImageRowSimple;
+pub(crate) use self::image_used_by_row::ImageUsedByRow;
 pub(crate) use self::images_panel::ImagesPanel;
 pub(crate) use self::images_prune_dialog::ImagesPruneDialog;
 pub(crate) use self::property_row::PropertyRow;

@@ -26,7 +26,7 @@ mod imp {
         #[template_child]
         pub(super) size_row: TemplateChild<view::PropertyRow>,
         #[template_child]
-        pub(super) containers_row: TemplateChild<view::PropertyRow>,
+        pub(super) images_used_by_row: TemplateChild<view::ImageUsedByRow>,
         #[template_child]
         pub(super) command_row: TemplateChild<view::PropertyRow>,
         #[template_child]
@@ -97,6 +97,9 @@ mod imp {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
+            self.images_used_by_row
+                .set_container_list(Some(obj.image().unwrap().container_list()));
+
             let image_expr = Self::Type::this_expression("image");
             let image_config_expr = image_expr.chain_property::<model::Image>("config");
 
@@ -165,14 +168,6 @@ mod imp {
                 ),
             )
             .bind(&*self.size_row, "value", Some(obj));
-
-            image_expr
-                .chain_property::<model::Image>("containers")
-                .chain_closure::<String>(closure!(|_: glib::Object, containers: u64| {
-                    // Translators: "{}" is placeholder for an integer value.
-                    gettext!("By {} containers", containers)
-                }))
-                .bind(&*self.containers_row, "value", Some(obj));
 
             image_config_expr
                 .chain_property::<model::ImageConfig>("cmd")
