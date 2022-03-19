@@ -48,7 +48,7 @@
 
         <child>
           <object class="AdwPreferencesPage">
-            <property name="valign">start</property>
+            <property name="vexpand">True</property>
             <property name="name">details</property>
 
             <child>
