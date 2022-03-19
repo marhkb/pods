@@ -77,7 +77,7 @@
                 <!-- List of images -->
                 <child>
                   <object class="AdwPreferencesPage">
-                    <property name="valign">start</property>
+                    <property name="vexpand">True</property>
 
                     <child>
                       <object class="AdwPreferencesGroup" id="images_group">
