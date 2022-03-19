@@ -2,24 +2,24 @@ use std::cell::{Cell, RefCell, RefMut};
 use std::rc::Rc;
 
 use gettextrs::gettext;
-use gtk::glib::{clone, closure};
+use gtk::glib::{clone, closure, WeakRef};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::{gio, glib, CompositeTemplate};
 use once_cell::sync::Lazy;
-use once_cell::unsync::OnceCell;
 
 use crate::utils::ToTypedListModel;
 use crate::window::Window;
 use crate::{api, config, model, view};
 
 mod imp {
+
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Symphony/ui/images-panel.ui")]
     pub(crate) struct ImagesPanel {
-        pub(super) image_list: OnceCell<model::ImageList>,
+        pub(super) image_list: WeakRef<model::ImageList>,
         pub(super) show_intermediates: Cell<bool>,
         #[template_child]
         pub(super) main_stack: TemplateChild<gtk::Stack>,
@@ -65,7 +65,7 @@ mod imp {
                         "Image List",
                         "The list of images",
                         model::ImageList::static_type(),
-                        glib::ParamFlags::READABLE,
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
                     ),
                     glib::ParamSpecBoolean::new(
                         "show-intermediates",
@@ -87,6 +87,7 @@ mod imp {
             pspec: &glib::ParamSpec,
         ) {
             match pspec.name() {
+                "image-list" => obj.set_image_list(value.get().unwrap()),
                 "show-intermediates" => obj.set_show_intermediates(value.get().unwrap()),
                 _ => unimplemented!(),
             }
@@ -164,101 +165,23 @@ mod imp {
                     Some(&*self.progress_stack),
                 );
 
-            image_list_len_expr
-                .chain_closure::<String>(closure!(|panel: Self::Type, len: u32| {
-                    if len > 0 {
-                        let list = panel.image_list();
-
-                        gettext!(
+            gtk::ClosureExpression::new::<String, _, _>(
+                &[image_list_expr, image_list_len_expr],
+                closure!(|_: glib::Object, list: Option<model::ImageList>, _: u32| {
+                    match list.filter(|list| list.len() > 0) {
+                        Some(list) => gettext!(
                             // Translators: There's a wide space (U+2002) between the two {} {}.
                             "{} images total, {} {} unused images, {}",
-                            len,
+                            list.len(),
                             glib::format_size(list.total_size()),
                             list.num_unused_images(),
                             glib::format_size(list.unused_size()),
-                        )
-                    } else {
-                        gettext("No images found")
+                        ),
+                        None => gettext("No images found"),
                     }
-                }))
-                .bind(&*self.images_group, "description", Some(obj));
-
-            let properties_filter =
-                gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
-                    obj.show_intermediates()
-                    || !item
-                        .downcast_ref::<model::Image>()
-                        .unwrap()
-                        .repo_tags()
-                        .is_empty()
-                }));
-
-            obj.connect_notify_local(
-                Some("show-intermediates"),
-                clone!(@weak properties_filter => move |_ ,_| {
-                    properties_filter.changed(gtk::FilterChange::Different);
                 }),
-            );
-
-            let search_filter = gtk::CustomFilter::new(
-                clone!(@weak obj => @default-return false, move |item| {
-                    let image = item
-                        .downcast_ref::<model::Image>()
-                        .unwrap();
-                    let query = obj.imp().search_entry.text();
-                    let query = query.as_str();
-
-                    image.id().contains(query) || image.repo_tags().iter().any(|s| s.contains(query))
-                }),
-            );
-
-            self.search_entry
-                .connect_search_changed(clone!(@weak search_filter => move |_| {
-                    search_filter.changed(gtk::FilterChange::Different);
-                }));
-
-            obj.image_list().connect_notify_local(
-                Some("fetched"),
-                clone!(@weak properties_filter, @weak search_filter => move |_ ,_| {
-                    properties_filter.changed(gtk::FilterChange::Different);
-                    search_filter.changed(gtk::FilterChange::Different);
-                }),
-            );
-
-            let model = gtk::SortListModel::new(
-                Some(&gtk::FilterListModel::new(
-                    Some(&gtk::FilterListModel::new(
-                        Some(obj.image_list()),
-                        Some(&search_filter),
-                    )),
-                    Some(&properties_filter),
-                )),
-                Some(&gtk::CustomSorter::new(|obj1, obj2| {
-                    let image1 = obj1.downcast_ref::<model::Image>().unwrap();
-                    let image2 = obj2.downcast_ref::<model::Image>().unwrap();
-
-                    if image1.repo_tags().is_empty() {
-                        if image2.repo_tags().is_empty() {
-                            image1.id().cmp(image2.id()).into()
-                        } else {
-                            gtk::Ordering::Larger
-                        }
-                    } else if image2.repo_tags().is_empty() {
-                        gtk::Ordering::Smaller
-                    } else {
-                        image1.repo_tags().cmp(image2.repo_tags()).into()
-                    }
-                })),
-            );
-
-            obj.set_list_box_visibility(model.upcast_ref());
-            model.connect_items_changed(clone!(@weak obj => move |model, _, _, _| {
-                obj.set_list_box_visibility(model.upcast_ref());
-            }));
-
-            self.list_box.bind_model(Some(&model), |item| {
-                view::ImageRow::from(item.downcast_ref().unwrap()).upcast()
-            });
+            )
+            .bind(&*self.images_group, "description", Some(obj));
 
             gio::Settings::new(config::APP_ID)
                 .bind("show-intermediate-images", obj, "show-intermediates")
@@ -285,8 +208,98 @@ impl Default for ImagesPanel {
 }
 
 impl ImagesPanel {
-    pub(crate) fn image_list(&self) -> &model::ImageList {
-        self.imp().image_list.get_or_init(model::ImageList::default)
+    pub(crate) fn image_list(&self) -> Option<model::ImageList> {
+        self.imp().image_list.upgrade()
+    }
+
+    pub(crate) fn set_image_list(&self, value: &model::ImageList) {
+        if self.image_list().as_ref() == Some(value) {
+            return;
+        }
+
+        // TODO: For multi-client: Figure out whether signal handlers need to be disconnected.
+        let imp = self.imp();
+
+        let properties_filter = gtk::CustomFilter::new(
+            clone!(@weak self as obj => @default-return false, move |item| {
+                obj.show_intermediates()
+                || !item
+                    .downcast_ref::<model::Image>()
+                    .unwrap()
+                    .repo_tags()
+                    .is_empty()
+            }),
+        );
+
+        self.connect_notify_local(
+            Some("show-intermediates"),
+            clone!(@weak properties_filter => move |_ ,_| {
+                properties_filter.changed(gtk::FilterChange::Different);
+            }),
+        );
+
+        let search_filter = gtk::CustomFilter::new(
+            clone!(@weak self as obj => @default-return false, move |item| {
+                let image = item
+                    .downcast_ref::<model::Image>()
+                    .unwrap();
+                let query = obj.imp().search_entry.text();
+                let query = query.as_str();
+
+                image.id().contains(query) || image.repo_tags().iter().any(|s| s.contains(query))
+            }),
+        );
+
+        imp.search_entry
+            .connect_search_changed(clone!(@weak search_filter => move |_| {
+                search_filter.changed(gtk::FilterChange::Different);
+            }));
+
+        value.connect_notify_local(
+            Some("fetched"),
+            clone!(@weak properties_filter, @weak search_filter => move |_ ,_| {
+                properties_filter.changed(gtk::FilterChange::Different);
+                search_filter.changed(gtk::FilterChange::Different);
+            }),
+        );
+
+        let model = gtk::SortListModel::new(
+            Some(&gtk::FilterListModel::new(
+                Some(&gtk::FilterListModel::new(
+                    Some(value),
+                    Some(&search_filter),
+                )),
+                Some(&properties_filter),
+            )),
+            Some(&gtk::CustomSorter::new(|obj1, obj2| {
+                let image1 = obj1.downcast_ref::<model::Image>().unwrap();
+                let image2 = obj2.downcast_ref::<model::Image>().unwrap();
+
+                if image1.repo_tags().is_empty() {
+                    if image2.repo_tags().is_empty() {
+                        image1.id().cmp(image2.id()).into()
+                    } else {
+                        gtk::Ordering::Larger
+                    }
+                } else if image2.repo_tags().is_empty() {
+                    gtk::Ordering::Smaller
+                } else {
+                    image1.repo_tags().cmp(image2.repo_tags()).into()
+                }
+            })),
+        );
+
+        self.set_list_box_visibility(model.upcast_ref());
+        model.connect_items_changed(clone!(@weak self as obj => move |model, _, _, _| {
+            obj.set_list_box_visibility(model.upcast_ref());
+        }));
+
+        imp.list_box.bind_model(Some(&model), |item| {
+            view::ImageRow::from(item.downcast_ref().unwrap()).upcast()
+        });
+
+        self.imp().image_list.set(Some(value));
+        self.notify("image-list");
     }
 
     pub(crate) fn show_intermediates(&self) -> bool {
@@ -322,7 +335,7 @@ impl ImagesPanel {
     where
         F: FnOnce() + Clone + 'static,
     {
-        let dialog = view::ImagesPruneDialog::from(self.image_list());
+        let dialog = view::ImagesPruneDialog::from(&self.image_list().unwrap());
         dialog.set_transient_for(Some(
             &self.root().unwrap().downcast::<gtk::Window>().unwrap(),
         ));

@@ -1,6 +1,7 @@
 use std::cell::{Cell, RefCell};
 
-use gtk::glib::clone;
+use gtk::glib::subclass::Signal;
+use gtk::glib::{clone, WeakRef};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::{gio, glib};
@@ -20,6 +21,8 @@ mod imp {
 
     #[derive(Debug, Default)]
     pub(crate) struct ContainerList {
+        pub(super) client: WeakRef<model::Client>,
+
         pub(super) fetched: Cell<u32>,
         pub(super) list: RefCell<IndexMap<String, model::Container>>,
         pub(super) listing: Cell<bool>,
@@ -35,9 +38,36 @@ mod imp {
     }
 
     impl ObjectImpl for ContainerList {
+        fn signals() -> &'static [Signal] {
+            static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
+                vec![
+                    Signal::builder(
+                        "container-added",
+                        &[model::Container::static_type().into()],
+                        <()>::static_type().into(),
+                    )
+                    .build(),
+                    Signal::builder(
+                        "container-removed",
+                        &[str::static_type().into()],
+                        <()>::static_type().into(),
+                    )
+                    .build(),
+                ]
+            });
+            SIGNALS.as_ref()
+        }
+
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
+                    glib::ParamSpecObject::new(
+                        "client",
+                        "Client",
+                        "The podman client",
+                        model::Client::static_type(),
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
+                    ),
                     glib::ParamSpecUInt::new(
                         "fetched",
                         "Fetched",
@@ -77,8 +107,22 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
+        fn set_property(
+            &self,
+            _obj: &Self::Type,
+            _id: usize,
+            value: &glib::Value,
+            pspec: &glib::ParamSpec,
+        ) {
+            match pspec.name() {
+                "client" => self.client.set(value.get().unwrap()),
+                _ => unimplemented!(),
+            }
+        }
+
         fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
+                "client" => obj.client().to_value(),
                 "fetched" => obj.fetched().to_value(),
                 "len" => obj.len().to_value(),
                 "listing" => obj.listing().to_value(),
@@ -116,13 +160,17 @@ glib::wrapper! {
         @implements gio::ListModel;
 }
 
-impl Default for ContainerList {
-    fn default() -> Self {
-        glib::Object::new(&[]).expect("Failed to create ContainerList")
+impl From<&model::Client> for ContainerList {
+    fn from(client: &model::Client) -> Self {
+        glib::Object::new(&[("client", client)]).expect("Failed to create ContainerList")
     }
 }
 
 impl ContainerList {
+    pub(crate) fn client(&self) -> Option<model::Client> {
+        self.imp().client.upgrade()
+    }
+
     pub(crate) fn fetched(&self) -> u32 {
         self.imp().fetched.get()
     }
@@ -186,9 +234,11 @@ impl ContainerList {
                         let entry = list.entry(inspect_response.id.clone().unwrap());
                         match entry {
                             Entry::Vacant(entry) => {
-                                entry.insert(model::Container::from(inspect_response));
+                                let container = model::Container::from(inspect_response);
+                                entry.insert(container.clone());
 
                                 drop(list);
+                                obj.container_added(&container);
                                 obj.items_changed(obj.len() - 1, 0, 1);
                             }
                             Entry::Occupied(entry) => {
@@ -208,8 +258,9 @@ impl ContainerList {
 
     pub(crate) fn remove_container(&self, id: &str) {
         let mut list = self.imp().list.borrow_mut();
-        if let Some((idx, ..)) = list.shift_remove_full(id) {
+        if let Some((idx, id, _)) = list.shift_remove_full(id) {
             drop(list);
+            self.container_removed(&id);
             self.items_changed(idx as u32, 1, 0);
         }
     }
@@ -265,5 +316,39 @@ impl ContainerList {
         F: FnOnce(Error) + Clone + 'static,
     {
         self.refresh(err_op);
+    }
+
+    fn container_added(&self, container: &model::Container) {
+        self.emit_by_name::<()>("container-added", &[container]);
+    }
+
+    fn container_removed(&self, id: &str) {
+        self.emit_by_name::<()>("container-removed", &[&id]);
+    }
+
+    pub(crate) fn connect_container_added<F: Fn(&Self, &model::Container) + 'static>(
+        &self,
+        f: F,
+    ) -> glib::SignalHandlerId {
+        self.connect_local("container-added", true, move |values| {
+            let obj = values[0].get::<Self>().unwrap();
+            let container = values[1].get::<model::Container>().unwrap();
+            f(&obj, &container);
+
+            None
+        })
+    }
+
+    pub(crate) fn connect_container_removed<F: Fn(&Self, &str) + 'static>(
+        &self,
+        f: F,
+    ) -> glib::SignalHandlerId {
+        self.connect_local("container-removed", true, move |values| {
+            let obj = values[0].get::<Self>().unwrap();
+            let id = values[1].get::<&str>().unwrap();
+            f(&obj, id);
+
+            None
+        })
     }
 }

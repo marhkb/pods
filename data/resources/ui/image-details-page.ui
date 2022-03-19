@@ -84,14 +84,7 @@
                     </child>
 
                     <child>
-                      <object class="PropertyRow" id="containers_row">
-                        <property name="key">Used By</property>
-                        <binding name="visible">
-                          <lookup name="containers" type="Image">
-                            <lookup name="image">ImageDetailsPage</lookup>
-                          </lookup>
-                        </binding>
-                      </object>
+                      <object class="ImageUsedByRow" id="images_used_by_row"/>
                     </child>
 
                     <child>

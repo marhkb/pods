@@ -1,7 +1,9 @@
+use std::borrow::Borrow;
 use std::cell::{Cell, RefCell};
 
 use futures::TryFutureExt;
-use gtk::glib::clone;
+use gtk::glib::subclass::Signal;
+use gtk::glib::{clone, WeakRef};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::{gio, glib};
@@ -21,6 +23,8 @@ mod imp {
 
     #[derive(Debug, Default)]
     pub(crate) struct ImageList {
+        pub(super) client: WeakRef<model::Client>,
+
         pub(super) fetched: Cell<u32>,
         pub(super) list: RefCell<IndexMap<String, model::Image>>,
         pub(super) listing: Cell<bool>,
@@ -36,9 +40,28 @@ mod imp {
     }
 
     impl ObjectImpl for ImageList {
+        fn signals() -> &'static [Signal] {
+            static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
+                vec![Signal::builder(
+                    "image-added",
+                    &[model::Image::static_type().into()],
+                    <()>::static_type().into(),
+                )
+                .build()]
+            });
+            SIGNALS.as_ref()
+        }
+
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
+                    glib::ParamSpecObject::new(
+                        "client",
+                        "Client",
+                        "The podman client",
+                        model::Client::static_type(),
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
+                    ),
                     glib::ParamSpecUInt::new(
                         "fetched",
                         "Fetched",
@@ -78,8 +101,22 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
+        fn set_property(
+            &self,
+            _obj: &Self::Type,
+            _id: usize,
+            value: &glib::Value,
+            pspec: &glib::ParamSpec,
+        ) {
+            match pspec.name() {
+                "client" => self.client.set(value.get().unwrap()),
+                _ => unimplemented!(),
+            }
+        }
+
         fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
+                "client" => obj.client().to_value(),
                 "fetched" => obj.fetched().to_value(),
                 "len" => obj.len().to_value(),
                 "listing" => obj.listing().to_value(),
@@ -117,13 +154,17 @@ glib::wrapper! {
         @implements gio::ListModel;
 }
 
-impl Default for ImageList {
-    fn default() -> Self {
-        glib::Object::new(&[]).expect("Failed to create ImageList")
+impl From<&model::Client> for ImageList {
+    fn from(client: &model::Client) -> Self {
+        glib::Object::new(&[("client", client)]).expect("Failed to create ImageList")
     }
 }
 
 impl ImageList {
+    pub(crate) fn client(&self) -> Option<model::Client> {
+        self.imp().client.upgrade()
+    }
+
     pub(crate) fn fetched(&self) -> u32 {
         self.imp().fetched.get()
     }
@@ -192,6 +233,10 @@ impl ImageList {
             .sum()
     }
 
+    pub(crate) fn get_image<Q: Borrow<str> + ?Sized>(&self, id: &Q) -> Option<model::Image> {
+        self.imp().list.borrow().get(id.borrow()).cloned()
+    }
+
     pub(crate) fn remove_image(&self, id: &str) {
         let mut list = self.imp().list.borrow_mut();
         if let Some((idx, ..)) = list.shift_remove_full(id) {
@@ -248,12 +293,18 @@ impl ImageList {
                                 clone!(@weak obj, @strong err_op => move |result| {
                                     match result {
                                         Ok((summary, inspect_response)) => {
+                                            let image = model::Image::from_libpod(
+                                                summary,
+                                                inspect_response
+                                            );
                                             obj.imp().list.borrow_mut().insert(
-                                                summary.id.clone().unwrap(),
-                                                model::Image::from_libpod(summary, inspect_response)
+                                                image.id().to_owned(),
+                                                image.clone()
                                             );
 
+                                            obj.image_added(&image);
                                             obj.items_changed(obj.len() - 1, 0, 1);
+
                                             obj.set_fetched(obj.fetched() + 1);
                                         }
                                         Err(e) => {
@@ -283,5 +334,22 @@ impl ImageList {
             "build" | "pull" => self.refresh(err_op),
             other => log::warn!("Unknown action: {other}"),
         }
+    }
+
+    fn image_added(&self, image: &model::Image) {
+        self.emit_by_name::<()>("image-added", &[image]);
+    }
+
+    pub(crate) fn connect_image_added<F: Fn(&Self, &model::Image) + 'static>(
+        &self,
+        f: F,
+    ) -> glib::SignalHandlerId {
+        self.connect_local("image-added", true, move |values| {
+            let obj = values[0].get::<Self>().unwrap();
+            let image = values[1].get::<model::Image>().unwrap();
+            f(&obj, &image);
+
+            None
+        })
     }
 }

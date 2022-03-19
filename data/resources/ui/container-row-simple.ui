@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+
+  <template class="ContainerRowSimple" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBoxLayout">
+        <property name="spacing">12</property>
+      </object>
+    </property>
+    <property name="halign">end</property>
+
+    <child>
+      <object class="GtkLabel" id="name_label">
+        <property name="valign">center</property>
+      </object>
+    </child>
+
+    <child>
+      <object class="GtkLabel" id="status_label">
+        <style>
+          <class name="container-status"/>
+        </style>
+        <property name="valign">center</property>
+      </object>
+    </child>
+
+  </template>
+</interface>
