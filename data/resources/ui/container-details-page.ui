@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+
+  <template class="ContainerDetailsPage" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBoxLayout">
+        <property name="orientation">vertical</property>
+      </object>
+    </property>
+
+    <child>
+      <object class="AdwHeaderBar" id="header_bar">
+
+        <child type="start">
+          <object class="GtkButton">
+            <property name="icon-name">go-previous-symbolic</property>
+            <property name="action-name">navigation.back</property>
+          </object>
+        </child>
+
+        <child type="title">
+          <object class="AdwWindowTitle">
+            <property name="title" translatable="yes">Container Details</property>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <child>
+      <object class="AdwPreferencesPage" id="preferences_page">
+        <property name="vexpand">True</property>
+
+        <child>
+          <object class="AdwPreferencesGroup">
+
+            <child>
+              <object class="GtkListBox">
+                <style>
+                  <class name="boxed-list"/>
+                </style>
+
+                <child>
+                  <object class="PropertyRow" id="id_row">
+                    <property name="key" translatable="yes">Id</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="PropertyRow" id="image_row">
+                    <property name="key" translatable="yes">Image</property>
+                    <binding name="value">
+                      <lookup name="image-name" type="Container">
+                        <lookup name="container">ContainerDetailsPage</lookup>
+                      </lookup>
+                    </binding>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="PropertyRow" id="name_row">
+                    <property name="key" translatable="yes">Name</property>
+                    <binding name="value">
+                      <lookup name="name" type="Container">
+                        <lookup name="container">ContainerDetailsPage</lookup>
+                      </lookup>
+                    </binding>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkListBoxRow" id="status_row">
+                    <property name="activatable">False</property>
+
+                    <child>
+                      <object class="GtkBox">
+                        <style>
+                          <class name="property-row"/>
+                        </style>
+                        <property name="hexpand">True</property>
+
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="label" translatable="yes">Status</property>
+                            <property name="hexpand">True</property>
+                            <property name="xalign">0</property>
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="GtkLabel" id="status_label">
+                            <style>
+                              <class name="container-status"/>
+                            </style>
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+
+</interface>

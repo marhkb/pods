@@ -1,5 +1,6 @@
 mod check_service_page;
 mod connection_lost_page;
+mod container_details_page;
 mod container_row;
 mod container_row_simple;
 mod containers_panel;
