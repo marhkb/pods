@@ -53,7 +53,7 @@ mod imp {
                     "container",
                     "Container",
                     "The container of this ContainerDetailsPage",
-                    model::Image::static_type(),
+                    model::Container::static_type(),
                     glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT,
                 )]
             });
