@@ -1,3 +1,4 @@
+use std::borrow::Borrow;
 use std::cell::Cell;
 
 use gtk::glib::{self, clone};
@@ -13,6 +14,8 @@ mod imp {
 
     #[derive(Debug, Default)]
     pub(crate) struct Image {
+        pub(super) container_list: OnceCell<model::SimpleContainerList>,
+
         pub(super) architecture: OnceCell<Option<String>>,
         pub(super) author: OnceCell<Option<String>>,
         pub(super) comment: OnceCell<Option<String>>,
@@ -46,6 +49,13 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
+                    glib::ParamSpecObject::new(
+                        "container-list",
+                        "Container List",
+                        "The list of containers associated with this Image",
+                        model::SimpleContainerList::static_type(),
+                        glib::ParamFlags::READABLE,
+                    ),
                     glib::ParamSpecString::new(
                         "architecture",
                         "Architecture",
@@ -235,6 +245,7 @@ mod imp {
 
         fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
+                "container-list" => obj.container_list().to_value(),
                 "architecture" => obj.architecture().to_value(),
                 "author" => obj.author().to_value(),
                 "comment" => obj.comment().to_value(),
@@ -320,6 +331,10 @@ impl Image {
             ),
         ])
         .expect("Failed to create Image")
+    }
+
+    pub(crate) fn container_list(&self) -> &model::SimpleContainerList {
+        self.imp().container_list.get_or_init(Default::default)
     }
 
     pub(crate) fn architecture(&self) -> Option<&str> {
@@ -412,6 +427,14 @@ impl Image {
 }
 
 impl Image {
+    pub(crate) fn add_container(&self, container: model::Container) {
+        self.container_list().add_container(container);
+    }
+
+    pub(crate) fn remove_container<Q: Borrow<str> + ?Sized>(&self, id: &Q) {
+        self.container_list().remove_container(id);
+    }
+
     pub(crate) fn delete<F>(&self, op: F)
     where
         F: FnOnce(&Self, api::Result<()>) + 'static,

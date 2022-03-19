@@ -12,3 +12,4 @@ pub(crate) use self::container_list::{ContainerList, Error as ContainerListError
 pub(crate) use self::image::Image;
 pub(crate) use self::image_config::ImageConfig;
 pub(crate) use self::image_list::{Error as ImageListError, ImageList};
+pub(crate) use self::simple_container_list::SimpleContainerList;
