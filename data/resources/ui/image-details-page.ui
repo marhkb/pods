@@ -62,19 +62,19 @@
 
                     <child>
                       <object class="PropertyRow" id="id_row">
-                        <property name="key">Id</property>
+                        <property name="key" translatable="True">Id</property>
                       </object>
                     </child>
 
                     <child>
                       <object class="PropertyRow" id="created_row">
-                        <property name="key">Created</property>
+                        <property name="key" translatable="True">Created</property>
                       </object>
                     </child>
 
                     <child>
                       <object class="PropertyRow" id="size_row">
-                        <property name="key">Disk space</property>
+                        <property name="key" translatable="True">Disk space</property>
                       </object>
                     </child>
 
@@ -84,7 +84,7 @@
 
                     <child>
                       <object class="PropertyRow" id="command_row">
-                        <property name="key">Command</property>
+                        <property name="key" translatable="True">Command</property>
                         <binding name="value">
                           <lookup name="cmd" type="ImageConfig">
                             <lookup name="config" type="Image">
@@ -97,7 +97,7 @@
 
                     <child>
                       <object class="PropertyRow" id="entrypoint_row">
-                        <property name="key">Entry Point</property>
+                        <property name="key" translatable="True">Entry Point</property>
                         <binding name="value">
                           <lookup name="entrypoint" type="ImageConfig">
                             <lookup name="config" type="Image">
@@ -110,13 +110,13 @@
 
                     <child>
                       <object class="PropertyRow" id="ports_row">
-                        <property name="key">Ports</property>
+                        <property name="key" translatable="True">Ports</property>
                       </object>
                     </child>
 
                     <child>
                       <object class="PropertyRow" id="repo_tags_row">
-                        <property name="key">Tags</property>
+                        <property name="key" translatable="True">Tags</property>
                       </object>
                     </child>
 
