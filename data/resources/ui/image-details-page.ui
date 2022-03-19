@@ -49,7 +49,6 @@
         <child>
           <object class="AdwPreferencesPage">
             <property name="vexpand">True</property>
-            <property name="name">details</property>
 
             <child>
               <object class="AdwPreferencesGroup">
