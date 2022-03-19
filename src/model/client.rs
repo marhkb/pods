@@ -1,10 +1,12 @@
 use gtk::glib;
+use gtk::glib::clone;
 use gtk::prelude::{StaticType, ToValue};
 use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
 use once_cell::unsync::OnceCell;
 
 use crate::model;
+use crate::utils::ToTypedListModel;
 
 mod imp {
     use super::*;
@@ -52,6 +54,35 @@ mod imp {
 
                 _ => unimplemented!(),
             }
+        }
+
+        fn constructed(&self, obj: &Self::Type) {
+            self.parent_constructed(obj);
+
+            obj.image_list()
+                .connect_image_added(clone!(@weak obj => move |_, image| {
+                    obj.container_list()
+                        .to_owned()
+                        .to_typed_list_model::<model::Container>()
+                        .into_iter()
+                        .filter(|container| container.image_id() == Some(image.id()))
+                        .for_each(|container| {
+                            image.add_container(container);
+                        });
+                }));
+
+            obj.container_list()
+                .connect_container_added(clone!(@weak obj => move |_, container| {
+                    if let Some(image) = obj.image_list().get_image(container.image_id().unwrap()) {
+                        image.add_container(container.to_owned());
+                    }
+                }));
+            obj.container_list()
+                .connect_container_removed(clone!(@weak obj => move |_, id| {
+                    if let Some(image) = obj.image_list().get_image(id) {
+                        image.remove_container(id);
+                    }
+                }));
         }
     }
 }
