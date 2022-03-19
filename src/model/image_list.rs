@@ -1,6 +1,8 @@
+use std::borrow::Borrow;
 use std::cell::{Cell, RefCell};
 
 use futures::TryFutureExt;
+use gtk::glib::subclass::Signal;
 use gtk::glib::{clone, WeakRef};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
@@ -38,6 +40,18 @@ mod imp {
     }
 
     impl ObjectImpl for ImageList {
+        fn signals() -> &'static [Signal] {
+            static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
+                vec![Signal::builder(
+                    "image-added",
+                    &[model::Image::static_type().into()],
+                    <()>::static_type().into(),
+                )
+                .build()]
+            });
+            SIGNALS.as_ref()
+        }
+
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
@@ -219,6 +233,10 @@ impl ImageList {
             .sum()
     }
 
+    pub(crate) fn get_image<Q: Borrow<str> + ?Sized>(&self, id: &Q) -> Option<model::Image> {
+        self.imp().list.borrow().get(id.borrow()).cloned()
+    }
+
     pub(crate) fn remove_image(&self, id: &str) {
         let mut list = self.imp().list.borrow_mut();
         if let Some((idx, ..)) = list.shift_remove_full(id) {
@@ -275,12 +293,18 @@ impl ImageList {
                                 clone!(@weak obj, @strong err_op => move |result| {
                                     match result {
                                         Ok((summary, inspect_response)) => {
+                                            let image = model::Image::from_libpod(
+                                                summary,
+                                                inspect_response
+                                            );
                                             obj.imp().list.borrow_mut().insert(
-                                                summary.id.clone().unwrap(),
-                                                model::Image::from_libpod(summary, inspect_response)
+                                                image.id().to_owned(),
+                                                image.clone()
                                             );
 
+                                            obj.image_added(&image);
                                             obj.items_changed(obj.len() - 1, 0, 1);
+
                                             obj.set_fetched(obj.fetched() + 1);
                                         }
                                         Err(e) => {
@@ -310,5 +334,22 @@ impl ImageList {
             "build" | "pull" => self.refresh(err_op),
             other => log::warn!("Unknown action: {other}"),
         }
+    }
+
+    fn image_added(&self, image: &model::Image) {
+        self.emit_by_name::<()>("image-added", &[image]);
+    }
+
+    pub(crate) fn connect_image_added<F: Fn(&Self, &model::Image) + 'static>(
+        &self,
+        f: F,
+    ) -> glib::SignalHandlerId {
+        self.connect_local("image-added", true, move |values| {
+            let obj = values[0].get::<Self>().unwrap();
+            let image = values[1].get::<model::Image>().unwrap();
+            f(&obj, &image);
+
+            None
+        })
     }
 }
