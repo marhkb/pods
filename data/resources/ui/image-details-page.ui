@@ -12,113 +12,141 @@
 
   <template class="ImageDetailsPage" parent="GtkWidget">
     <property name="layout-manager">
-      <object class="GtkBoxLayout">
-        <property name="orientation">vertical</property>
-      </object>
+      <object class="GtkBinLayout"/>
     </property>
 
     <child>
-      <object class="AdwHeaderBar" id="header_bar">
-
-        <child type="start">
-          <object class="GtkButton">
-            <property name="icon-name">go-previous-symbolic</property>
-            <property name="action-name">navigation.back</property>
-          </object>
-        </child>
-
-        <child type="title">
-          <object class="AdwWindowTitle">
-            <property name="title" translatable="yes">Image Details</property>
-          </object>
-        </child>
-
-        <child type="end">
-          <object class="GtkMenuButton">
-            <property name="icon-name">view-more-symbolic</property>
-            <property name="menu-model">menu</property>
-          </object>
-        </child>
-
-      </object>
-    </child>
-
-    <child>
-      <object class="GtkStack" id="stack">
+      <object class="AdwLeaflet" id="leaflet">
+        <property name="can-navigate-back">True</property>
+        <property name="can-unfold">False</property>
 
         <child>
-          <object class="AdwPreferencesPage">
-            <property name="vexpand">True</property>
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
 
             <child>
-              <object class="AdwPreferencesGroup">
+              <object class="AdwHeaderBar">
+
+                <child type="start">
+                  <object class="GtkButton">
+                    <property name="icon-name">go-previous-symbolic</property>
+                    <property name="action-name">navigation.back</property>
+                  </object>
+                </child>
+
+                <child type="title">
+                  <object class="AdwWindowTitle">
+                    <property name="title" translatable="yes">Image Details</property>
+                  </object>
+                </child>
+
+                <child type="end">
+                  <object class="GtkMenuButton">
+                    <property name="icon-name">view-more-symbolic</property>
+                    <property name="menu-model">menu</property>
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkStack" id="stack">
 
                 <child>
-                  <object class="GtkListBox">
-                    <style>
-                      <class name="boxed-list"/>
-                    </style>
-                    <property name="selection-mode">none</property>
+                  <object class="AdwPreferencesPage">
+                    <property name="vexpand">True</property>
 
                     <child>
-                      <object class="PropertyRow" id="id_row">
-                        <property name="key" translatable="True">Id</property>
+                      <object class="AdwPreferencesGroup">
+
+                        <child>
+                          <object class="GtkListBox">
+                            <style>
+                              <class name="boxed-list"/>
+                            </style>
+                            <property name="selection-mode">none</property>
+
+                            <child>
+                              <object class="PropertyRow" id="id_row">
+                                <property name="key" translatable="True">Id</property>
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="PropertyRow" id="created_row">
+                                <property name="key" translatable="True">Created</property>
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="PropertyRow" id="size_row">
+                                <property name="key" translatable="True">Disk space</property>
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="ImageUsedByRow" id="images_used_by_row"/>
+                            </child>
+
+                            <child>
+                              <object class="PropertyRow" id="command_row">
+                                <property name="key" translatable="True">Command</property>
+                                <binding name="value">
+                                  <lookup name="cmd" type="ImageConfig">
+                                    <lookup name="config" type="Image">
+                                      <lookup name="image">ImageDetailsPage</lookup>
+                                    </lookup>
+                                  </lookup>
+                                </binding>
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="PropertyRow" id="entrypoint_row">
+                                <property name="key" translatable="True">Entry Point</property>
+                                <binding name="value">
+                                  <lookup name="entrypoint" type="ImageConfig">
+                                    <lookup name="config" type="Image">
+                                      <lookup name="image">ImageDetailsPage</lookup>
+                                    </lookup>
+                                  </lookup>
+                                </binding>
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="PropertyRow" id="ports_row">
+                                <property name="key" translatable="True">Ports</property>
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="PropertyRow" id="repo_tags_row">
+                                <property name="key" translatable="True">Tags</property>
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
                       </object>
                     </child>
 
-                    <child>
-                      <object class="PropertyRow" id="created_row">
-                        <property name="key" translatable="True">Created</property>
-                      </object>
-                    </child>
+                  </object>
+                </child>
 
-                    <child>
-                      <object class="PropertyRow" id="size_row">
-                        <property name="key" translatable="True">Disk space</property>
-                      </object>
-                    </child>
+                <child>
+                  <object class="GtkStackPage">
+                    <property name="name">deleted</property>
 
-                    <child>
-                      <object class="ImageUsedByRow" id="images_used_by_row"/>
-                    </child>
-
-                    <child>
-                      <object class="PropertyRow" id="command_row">
-                        <property name="key" translatable="True">Command</property>
-                        <binding name="value">
-                          <lookup name="cmd" type="ImageConfig">
-                            <lookup name="config" type="Image">
-                              <lookup name="image">ImageDetailsPage</lookup>
-                            </lookup>
-                          </lookup>
-                        </binding>
+                    <property name="child">
+                      <object class="AdwStatusPage">
+                        <property name="icon-name">user-trash-symbolic</property>
+                        <property name="title" translatable="yes">Image Has Been Deleted</property>
+                        <property name="vexpand">True</property>
                       </object>
-                    </child>
-
-                    <child>
-                      <object class="PropertyRow" id="entrypoint_row">
-                        <property name="key" translatable="True">Entry Point</property>
-                        <binding name="value">
-                          <lookup name="entrypoint" type="ImageConfig">
-                            <lookup name="config" type="Image">
-                              <lookup name="image">ImageDetailsPage</lookup>
-                            </lookup>
-                          </lookup>
-                        </binding>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="PropertyRow" id="ports_row">
-                        <property name="key" translatable="True">Ports</property>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="PropertyRow" id="repo_tags_row">
-                        <property name="key" translatable="True">Tags</property>
-                      </object>
-                    </child>
+                    </property>
 
                   </object>
                 </child>
@@ -130,15 +158,11 @@
         </child>
 
         <child>
-          <object class="GtkStackPage">
-            <property name="name">deleted</property>
+          <object class="AdwLeafletPage">
+            <property name="name">overlay</property>
 
             <property name="child">
-              <object class="AdwStatusPage">
-                <property name="icon-name">user-trash-symbolic</property>
-                <property name="title" translatable="yes">Image Has Been Deleted</property>
-                <property name="vexpand">True</property>
-              </object>
+              <object class="LeafletOverlay" id="leaflet_overlay"/>
             </property>
 
           </object>

@@ -4,7 +4,7 @@ use gtk::subclass::prelude::*;
 use gtk::{glib, CompositeTemplate};
 use once_cell::sync::Lazy;
 
-use crate::{model, utils};
+use crate::{model, utils, view};
 
 mod imp {
     use super::*;
@@ -27,6 +27,10 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
+
+            klass.install_action("container.show-details", None, move |widget, _, _| {
+                widget.show_details();
+            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -73,13 +77,20 @@ mod imp {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
+            self.name_label.connect_activate_link(|label, _| {
+                label
+                    .activate_action("container.show-details", None)
+                    .unwrap();
+                gtk::Inhibit(true)
+            });
+
             let container_expr = Self::Type::this_expression("container");
             let status_expr = container_expr.chain_property::<model::Container>("status");
 
             container_expr
                 .chain_property::<model::Container>("name")
-                .chain_closure::<String>(closure!(|_: glib::Object, name: Option<String>| {
-                    utils::escape(&utils::format_option(name))
+                .chain_closure::<String>(closure!(|_: glib::Object, name: String| {
+                    format!("<a href=''>{}</a>", name)
                 }))
                 .bind(&*self.name_label, "label", Some(obj));
 
@@ -149,5 +160,11 @@ impl ContainerRowSimple {
         }
         self.imp().container.set(value);
         self.notify("container");
+    }
+
+    fn show_details(&self) {
+        utils::find_leaflet_overview(self).show_details(&view::ContainerDetailsPage::from(
+            &self.container().unwrap(),
+        ));
     }
 }

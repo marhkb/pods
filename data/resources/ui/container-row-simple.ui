@@ -12,6 +12,7 @@
     <child>
       <object class="GtkLabel" id="name_label">
         <property name="valign">center</property>
+        <property name="use-markup">True</property>
       </object>
     </child>
 
