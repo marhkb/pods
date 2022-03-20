@@ -183,43 +183,35 @@ mod imp {
                 clone!(@weak obj => move |_, _| obj.notify("show-only-running-containers")),
             );
 
-            adw::ViewStack::this_expression("visible-child-name")
-                .chain_closure::<bool>(closure!(|_: glib::Object, name: Option<&str>| {
-                    name == Some("images")
-                }))
-                .bind(
-                    &*self.images_menu_button,
-                    "visible",
-                    Some(&*self.panel_stack),
-                );
-            adw::ViewStack::this_expression("visible-child-name")
-                .chain_closure::<bool>(closure!(|_: glib::Object, name: Option<&str>| {
-                    name == Some("images")
-                }))
-                .bind(
-                    &*self.images_search_button,
-                    "visible",
-                    Some(&*self.panel_stack),
-                );
+            let visible_child_name_expr = adw::ViewStack::this_expression("visible-child-name");
+            let is_images_visible_expr = visible_child_name_expr.chain_closure::<bool>(closure!(
+                |_: glib::Object, name: Option<&str>| name == Some("images")
+            ));
+            let is_containers_visible_expr = visible_child_name_expr.chain_closure::<bool>(
+                closure!(|_: glib::Object, name: Option<&str>| name == Some("containers")),
+            );
 
-            adw::ViewStack::this_expression("visible-child-name")
-                .chain_closure::<bool>(closure!(|_: glib::Object, name: Option<&str>| {
-                    name == Some("containers")
-                }))
-                .bind(
-                    &*self.containers_menu_button,
-                    "visible",
-                    Some(&*self.panel_stack),
-                );
-            adw::ViewStack::this_expression("visible-child-name")
-                .chain_closure::<bool>(closure!(|_: glib::Object, name: Option<&str>| {
-                    name == Some("containers")
-                }))
-                .bind(
-                    &*self.containers_search_button,
-                    "visible",
-                    Some(&*self.panel_stack),
-                );
+            is_images_visible_expr.bind(
+                &*self.images_menu_button,
+                "visible",
+                Some(&*self.panel_stack),
+            );
+            is_images_visible_expr.bind(
+                &*self.images_search_button,
+                "visible",
+                Some(&*self.panel_stack),
+            );
+
+            is_containers_visible_expr.bind(
+                &*self.containers_menu_button,
+                "visible",
+                Some(&*self.panel_stack),
+            );
+            is_containers_visible_expr.bind(
+                &*self.containers_search_button,
+                "visible",
+                Some(&*self.panel_stack),
+            );
 
             obj.check_service();
         }
