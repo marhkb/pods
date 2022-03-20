@@ -304,14 +304,13 @@ impl ImageList {
 
                                             obj.image_added(&image);
                                             obj.items_changed(obj.len() - 1, 0, 1);
-
-                                            obj.set_fetched(obj.fetched() + 1);
                                         }
                                         Err(e) => {
                                             log::error!("Error on inspecting image: {}", e);
                                             err_op(err);
                                         }
                                     }
+                                    obj.set_fetched(obj.fetched() + 1);
                                 })
                             );
                         });
