@@ -22,8 +22,6 @@ mod imp {
         #[template_child]
         pub(super) image_spinner: TemplateChild<gtk::Spinner>,
         #[template_child]
-        pub(super) name_row: TemplateChild<view::PropertyRow>,
-        #[template_child]
         pub(super) status_label: TemplateChild<gtk::Label>,
     }
 
