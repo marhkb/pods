@@ -67,13 +67,16 @@ mod imp {
                         .into_iter()
                         .filter(|container| container.image_id() == Some(image.id()))
                         .for_each(|container| {
+                            container.set_image(Some(image));
                             image.add_container(container);
                         });
                 }));
 
             obj.container_list()
                 .connect_container_added(clone!(@weak obj => move |_, container| {
-                    if let Some(image) = obj.image_list().get_image(container.image_id().unwrap()) {
+                    let image = obj.image_list().get_image(container.image_id().unwrap());
+                    container.set_image(image.as_ref());
+                    if let Some(image) = image {
                         image.add_container(container.to_owned());
                     }
                 }));
