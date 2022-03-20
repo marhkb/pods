@@ -4,13 +4,13 @@ use std::str::FromStr;
 
 use futures::{Future, TryFutureExt};
 use gettextrs::gettext;
-use gtk::glib::{self, clone};
+use gtk::glib::{self, clone, WeakRef};
 use gtk::prelude::{ObjectExt, StaticType, ToValue};
 use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
 use once_cell::unsync::OnceCell;
 
-use crate::{api, utils, PODMAN};
+use crate::{api, model, utils, PODMAN};
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, glib::Enum)]
 #[enum_type(name = "ContainerStatus")]
@@ -83,6 +83,7 @@ mod imp {
     pub(crate) struct Container {
         pub(super) action_ongoing: Cell<bool>,
         pub(super) id: OnceCell<String>,
+        pub(super) image: WeakRef<model::Image>,
         pub(super) image_id: OnceCell<String>,
         pub(super) image_name: RefCell<Option<String>>,
         pub(super) name: RefCell<Option<String>>,
@@ -113,6 +114,13 @@ mod imp {
                         "The id of this container",
                         Option::default(),
                         glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
+                    ),
+                    glib::ParamSpecObject::new(
+                        "image",
+                        "Image",
+                        "The image of this container",
+                        model::Image::static_type(),
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
                     ),
                     glib::ParamSpecString::new(
                         "image-id",
@@ -162,6 +170,7 @@ mod imp {
             match pspec.name() {
                 "action-ongoing" => obj.set_action_ongoing(value.get().unwrap()),
                 "id" => self.id.set(value.get().unwrap()).unwrap(),
+                "image" => obj.set_image(value.get().unwrap()),
                 "image-id" => self.image_id.set(value.get().unwrap()).unwrap(),
                 "image-name" => obj.set_image_name(value.get().unwrap()),
                 "name" => obj.set_name(value.get().unwrap()),
@@ -174,6 +183,7 @@ mod imp {
             match pspec.name() {
                 "action-ongoing" => obj.action_ongoing().to_value(),
                 "id" => obj.id().to_value(),
+                "image" => obj.image().to_value(),
                 "image-id" => obj.image_id().to_value(),
                 "image-name" => obj.image_name().to_value(),
                 "name" => obj.name().to_value(),
@@ -223,6 +233,18 @@ impl Container {
 
     pub(crate) fn id(&self) -> Option<&str> {
         self.imp().id.get().map(String::as_str)
+    }
+
+    pub(crate) fn image(&self) -> Option<model::Image> {
+        self.imp().image.upgrade()
+    }
+
+    pub(crate) fn set_image(&self, value: Option<&model::Image>) {
+        if self.image().as_ref() == value {
+            return;
+        }
+        self.imp().image.set(value);
+        self.notify("image");
     }
 
     pub(crate) fn image_id(&self) -> Option<&str> {
