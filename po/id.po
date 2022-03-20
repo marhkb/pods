@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: symphony\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-16 15:52+0100\n"
-"PO-Revision-Date: 2022-03-19 21:27+0000\n"
+"PO-Revision-Date: 2022-03-20 21:04+0000\n"
 "Last-Translator: ᅟ <rmnscnce@ya.ru>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/symphony/"
 "symphony/id/>\n"
@@ -31,7 +31,6 @@ msgid "A Podman desktop application"
 msgstr "Aplikasi desktop untuk Podman"
 
 #: data/com.github.marhkb.Symphony.desktop.in.in:9
-#, fuzzy
 msgid "Gnome;GTK;"
 msgstr "Gnome;GTK;"
 
@@ -66,7 +65,6 @@ msgid "Main window"
 msgstr "Jendela utama"
 
 #: data/com.github.marhkb.Symphony.metainfo.xml.in.in:32
-#, fuzzy
 msgid "Marcus Behrendt"
 msgstr "Marcus Behrendt"
 
@@ -196,9 +194,8 @@ msgid "_Restart"
 msgstr "_Mulai Ulang"
 
 #: data/resources/ui/container-row.ui:40 data/resources/ui/container-row.ui:77
-#, fuzzy
 msgid "F_orce Restart"
-msgstr "P_aksa Mulai Ulang"
+msgstr "_Paksa Mulai Ulang"
 
 #: data/resources/ui/container-row.ui:44
 msgid "_Pause"
@@ -303,9 +300,8 @@ msgstr "Galat saat menghapus image"
 
 #. Translators: "{}" are placeholders for storage space.
 #: src/view/image_row.rs:190
-#, fuzzy
 msgid "{} (Virtual: {})"
-msgstr "{} (Virtual: {})"
+msgstr "{} (Ruang virtual: {})"
 
 #. Translators: "{}" are placeholders for storage space.
 #: src/view/image_row.rs:199
@@ -315,7 +311,7 @@ msgstr "{} (Terbagikan: {})"
 #. Translators: "{}" are placeholders for storage space.
 #: src/view/image_row.rs:209
 msgid "{} (Shared: {}, Virtual: {})"
-msgstr "{} (Terbagikan: {}, Virtual: {})"
+msgstr "{} (Terbagikan: {}, Ruang virtual: {})"
 
 #. Translators: "{}" is placeholder for an integer value.
 #: src/view/image_row.rs:224
@@ -337,7 +333,6 @@ msgid "Error on pruning image '{}'"
 msgstr "Galat saat memangkas image '{}'"
 
 #: src/application.rs:138
-#, fuzzy
 msgid "translator-credits"
 msgstr "kredit-penerjemah"
 
