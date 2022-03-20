@@ -22,8 +22,6 @@ mod imp {
         #[template_child]
         pub(super) image_spinner: TemplateChild<gtk::Spinner>,
         #[template_child]
-        pub(super) name_row: TemplateChild<view::PropertyRow>,
-        #[template_child]
         pub(super) status_label: TemplateChild<gtk::Label>,
     }
 
@@ -132,24 +130,12 @@ mod imp {
             status_expr
                 .chain_closure::<Vec<String>>(closure!(
                     |_: glib::Object, status: model::ContainerStatus| {
-                        use model::ContainerStatus::*;
-
                         css_classes
                             .iter()
                             .cloned()
-                            .chain(Some(glib::GString::from(match status {
-                                Configured => "container-status-configured",
-                                Created => "container-status-created",
-                                Dead => "container-status-dead",
-                                Exited => "container-status-exited",
-                                Paused => "container-status-paused",
-                                Removing => "container-status-removing",
-                                Restarting => "container-status-restarting",
-                                Running => "container-status-running",
-                                Stopped => "container-status-stopped",
-                                Stopping => "container-status-stopping",
-                                Unknown => "container-status-unknown",
-                            })))
+                            .chain(Some(glib::GString::from(view::container_status_css_class(
+                                status,
+                            ))))
                             .collect::<Vec<_>>()
                     }
                 ))

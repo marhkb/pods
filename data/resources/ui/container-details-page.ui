@@ -46,6 +46,7 @@
                         <style>
                           <class name="boxed-list"/>
                         </style>
+                        <property name="selection-mode">none</property>
 
                         <child>
                           <object class="PropertyRow" id="id_row">
