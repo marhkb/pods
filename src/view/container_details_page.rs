@@ -14,13 +14,13 @@ mod imp {
     pub(crate) struct ContainerDetailsPage {
         pub(super) container: WeakRef<model::Container>,
         #[template_child]
-        pub(super) header_bar: TemplateChild<adw::HeaderBar>,
-        #[template_child]
-        pub(super) preferences_page: TemplateChild<adw::PreferencesPage>,
+        pub(super) leaflet: TemplateChild<adw::Leaflet>,
         #[template_child]
         pub(super) id_row: TemplateChild<view::PropertyRow>,
         #[template_child]
-        pub(super) image_row: TemplateChild<view::PropertyRow>,
+        pub(super) image_name_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub(super) image_spinner: TemplateChild<gtk::Spinner>,
         #[template_child]
         pub(super) name_row: TemplateChild<view::PropertyRow>,
         #[template_child]
@@ -37,6 +37,9 @@ mod imp {
             Self::bind_template(klass);
             klass.install_action("navigation.back", None, move |widget, _, _| {
                 widget.navigate_back();
+            });
+            klass.install_action("image.show-details", None, move |widget, _, _| {
+                widget.show_details();
             });
         }
 
@@ -84,8 +87,14 @@ mod imp {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
+            self.image_name_label.connect_activate_link(|label, _| {
+                label.activate_action("image.show-details", None).unwrap();
+                gtk::Inhibit(true)
+            });
+
             let container_expr = Self::Type::this_expression("container");
             let status_expr = container_expr.chain_property::<model::Container>("status");
+            let image_expr = container_expr.chain_property::<model::Container>("image");
 
             container_expr
                 .chain_property::<model::Container>("id")
@@ -93,6 +102,25 @@ mod imp {
                     id.chars().take(12).collect::<String>()
                 }))
                 .bind(&*self.id_row, "value", Some(obj));
+
+            image_expr
+                .chain_property::<model::Image>("repo-tags")
+                .chain_closure::<String>(closure!(
+                    |_: glib::Object, repo_tags: utils::BoxedStringVec| {
+                        repo_tags
+                            .iter()
+                            .next()
+                            .map(|tag| format!("<a href=''>{}</a>", tag))
+                            .unwrap_or_default()
+                    }
+                ))
+                .bind(&*self.image_name_label, "label", Some(obj));
+
+            image_expr
+                .chain_closure::<bool>(closure!(|_: glib::Object, image: Option<model::Image>| {
+                    image.is_none()
+                }))
+                .bind(&*self.image_spinner, "visible", Some(obj));
 
             status_expr
                 .chain_closure::<String>(closure!(
@@ -129,8 +157,7 @@ mod imp {
         }
 
         fn dispose(&self, _obj: &Self::Type) {
-            self.header_bar.unparent();
-            self.preferences_page.unparent();
+            self.leaflet.unparent();
         }
     }
 
@@ -154,5 +181,11 @@ impl ContainerDetailsPage {
 
     fn navigate_back(&self) {
         utils::find_leaflet_overview(self).hide_details();
+    }
+
+    fn show_details(&self) {
+        utils::find_leaflet_overview(&*self.imp().leaflet).show_details(
+            &view::ImageDetailsPage::from(&self.container().unwrap().image().unwrap()),
+        );
     }
 }
