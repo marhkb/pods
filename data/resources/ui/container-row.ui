@@ -98,7 +98,7 @@
 
   <template class="ContainerRow" parent="AdwActionRow">
 
-    <child type="suffix">
+    <child>
       <object class="GtkLabel" id="status_label">
         <style>
           <class name="container-status"/>
@@ -107,7 +107,7 @@
       </object>
     </child>
 
-    <child type="suffix">
+    <child>
       <object class="GtkStack" id="menu_stack">
 
         <child>

@@ -1,4 +1,3 @@
-use adw::subclass::prelude::{ExpanderRowImpl, PreferencesRowImpl};
 use gtk::glib::{closure, WeakRef};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
@@ -8,7 +7,6 @@ use once_cell::sync::Lazy;
 use crate::{model, utils};
 
 mod imp {
-
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
@@ -89,9 +87,6 @@ mod imp {
     }
 
     impl WidgetImpl for ImageRowSimple {}
-    impl ListBoxRowImpl for ImageRowSimple {}
-    impl PreferencesRowImpl for ImageRowSimple {}
-    impl ExpanderRowImpl for ImageRowSimple {}
 }
 
 glib::wrapper! {

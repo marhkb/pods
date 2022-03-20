@@ -11,8 +11,6 @@
 
         <child>
           <object class="GtkLabel" id="key_label">
-            <property name="label" translatable="yes">Created</property>
-            <property name="vexpand">True</property>
             <property name="xalign">0</property>
           </object>
         </child>
