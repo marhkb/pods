@@ -250,11 +250,7 @@ impl ImageDetailsPage {
     }
 
     fn navigate_back(&self) {
-        self.root()
-            .unwrap()
-            .downcast::<Window>()
-            .unwrap()
-            .hide_details();
+        utils::find_leaflet_overview(self).hide_details();
     }
 
     fn delete(&self) {

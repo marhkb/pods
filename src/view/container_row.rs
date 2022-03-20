@@ -324,12 +324,8 @@ impl ContainerRow {
     }
 
     fn show_details(&self) {
-        self.root()
-            .unwrap()
-            .downcast::<Window>()
-            .unwrap()
-            .show_details(&view::ContainerDetailsPage::from(
-                &self.container().unwrap(),
-            ));
+        utils::find_leaflet_overview(self).show_details(&view::ContainerDetailsPage::from(
+            &self.container().unwrap(),
+        ));
     }
 }

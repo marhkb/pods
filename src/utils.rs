@@ -4,11 +4,12 @@ use std::ops::Deref;
 
 use futures::{Future, Stream, StreamExt};
 use gettextrs::gettext;
-use gtk::prelude::{Cast, ListModelExt};
+use gtk::prelude::{Cast, ListModelExt, StaticType};
+use gtk::traits::WidgetExt;
 use gtk::{gio, glib};
 use paste::paste;
 
-use crate::RUNTIME;
+use crate::{view, RUNTIME};
 
 macro_rules! boxed_type {
     ($name:ident, $type:ty) => {
@@ -30,6 +31,20 @@ macro_rules! boxed_type {
 
 boxed_type!(BoxedStringVec, Vec<String>);
 boxed_type!(BoxedStringBTreeSet, BTreeSet<String>);
+
+pub(crate) fn find_leaflet_overview<W: glib::IsA<gtk::Widget>>(widget: &W) -> view::LeafletOverlay {
+    let leaflet = widget
+        .ancestor(adw::Leaflet::static_type())
+        .unwrap()
+        .downcast::<adw::Leaflet>()
+        .unwrap();
+
+    leaflet
+        .child_by_name("overlay")
+        .unwrap()
+        .downcast::<view::LeafletOverlay>()
+        .unwrap()
+}
 
 pub(crate) fn escape(text: &str) -> String {
     text.replace('&', "&amp;")

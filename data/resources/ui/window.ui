@@ -163,7 +163,14 @@
                 </child>
 
                 <child>
-                  <object class="AdwBin" id="details_bin"/>
+                  <object class="AdwLeafletPage">
+                    <property name="name">overlay</property>
+
+                    <property name="child">
+                      <object class="LeafletOverlay" id="leaflet_overlay"/>
+                    </property>
+
+                  </object>
                 </child>
 
               </object>

@@ -15,6 +15,7 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/image-used-by-row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/images-panel.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/images-prune-dialog.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/leaflet-overlay.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/property-row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/start-service-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/window.ui</file>

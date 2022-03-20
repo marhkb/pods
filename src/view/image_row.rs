@@ -186,10 +186,7 @@ impl ImageRow {
     }
 
     fn show_details(&self) {
-        self.root()
-            .unwrap()
-            .downcast::<Window>()
-            .unwrap()
+        utils::find_leaflet_overview(self)
             .show_details(&view::ImageDetailsPage::from(&self.image().unwrap()));
     }
 }

@@ -1,10 +1,9 @@
 use adw::subclass::prelude::AdwApplicationWindowImpl;
-use adw::traits::BinExt;
 use gettextrs::gettext;
 use gtk::glib::{clone, closure};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
-use gtk::{gdk, gio, glib, CompositeTemplate, Widget};
+use gtk::{gdk, gio, glib, CompositeTemplate};
 use once_cell::sync::Lazy;
 
 use crate::application::Application;
@@ -40,7 +39,7 @@ mod imp {
         #[template_child]
         pub(super) containers_panel: TemplateChild<view::ContainersPanel>,
         #[template_child]
-        pub(super) details_bin: TemplateChild<adw::Bin>,
+        pub(super) leaflet_overlay: TemplateChild<view::LeafletOverlay>,
         #[template_child]
         pub(super) connection_lost_page: TemplateChild<view::ConnectionLostPage>,
     }
@@ -423,16 +422,5 @@ impl Window {
 
     pub(crate) fn show_toast(&self, toast: &adw::Toast) {
         self.imp().toast_overlay.add_toast(toast);
-    }
-
-    pub(crate) fn show_details<W: glib::IsA<Widget>>(&self, widget: &W) {
-        let imp = self.imp();
-
-        imp.details_bin.set_child(Some(widget));
-        imp.leaflet.navigate(adw::NavigationDirection::Forward);
-    }
-
-    pub(crate) fn hide_details(&self) {
-        self.imp().leaflet.navigate(adw::NavigationDirection::Back);
     }
 }

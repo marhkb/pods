@@ -4,8 +4,7 @@ use gtk::subclass::prelude::*;
 use gtk::{glib, CompositeTemplate};
 use once_cell::sync::Lazy;
 
-use crate::window::Window;
-use crate::{model, view};
+use crate::{model, utils, view};
 
 mod imp {
     use super::*;
@@ -154,10 +153,6 @@ impl ContainerDetailsPage {
     }
 
     fn navigate_back(&self) {
-        self.root()
-            .unwrap()
-            .downcast::<Window>()
-            .unwrap()
-            .hide_details();
+        utils::find_leaflet_overview(self).hide_details();
     }
 }
