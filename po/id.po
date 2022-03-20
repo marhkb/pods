@@ -8,62 +8,67 @@ msgstr ""
 "Project-Id-Version: symphony\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-16 15:52+0100\n"
-"PO-Revision-Date: 2022-03-16 02:17+0100\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2022-03-19 21:27+0000\n"
+"Last-Translator: ᅟ <rmnscnce@ya.ru>\n"
+"Language-Team: Indonesian <https://hosted.weblate.org/projects/symphony/"
+"symphony/id/>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 4.12-dev\n"
 
 #: data/com.github.marhkb.Symphony.desktop.in.in:3
 #: data/com.github.marhkb.Symphony.metainfo.xml.in.in:7 src/main.rs:32
 msgid "Symphony"
-msgstr ""
+msgstr "Symphony"
 
 #: data/com.github.marhkb.Symphony.desktop.in.in:4
 #: data/com.github.marhkb.Symphony.metainfo.xml.in.in:8
 #: data/com.github.marhkb.Symphony.metainfo.xml.in.in:10
 msgid "A Podman desktop application"
-msgstr ""
+msgstr "Aplikasi desktop untuk Podman"
 
 #: data/com.github.marhkb.Symphony.desktop.in.in:9
+#, fuzzy
 msgid "Gnome;GTK;"
-msgstr ""
+msgstr "Gnome;GTK;"
 
 #: data/com.github.marhkb.Symphony.gschema.xml.in:6
 #: data/com.github.marhkb.Symphony.gschema.xml.in:7
 msgid "Default window width"
-msgstr ""
+msgstr "Lebar jendela default"
 
 #: data/com.github.marhkb.Symphony.gschema.xml.in:11
 #: data/com.github.marhkb.Symphony.gschema.xml.in:12
 msgid "Default window height"
-msgstr ""
+msgstr "Tinggi jendela default"
 
 #: data/com.github.marhkb.Symphony.gschema.xml.in:16
 msgid "Default window maximized behaviour"
-msgstr ""
+msgstr "Perilaku jendela penuh default"
 
 #: data/com.github.marhkb.Symphony.gschema.xml.in:21
 msgid "The last used view"
-msgstr ""
+msgstr "Tampilan yang terakhir digunakan"
 
 #: data/com.github.marhkb.Symphony.gschema.xml.in:26
 msgid "Whether to show intermediate images"
-msgstr ""
+msgstr "Apakah akan menunjukkan image antara"
 
 #: data/com.github.marhkb.Symphony.gschema.xml.in:31
 msgid "Whether to show only running containers"
-msgstr ""
+msgstr "Apakah hanya akan menunjukkan container yang sedang berjalan"
 
 #: data/com.github.marhkb.Symphony.metainfo.xml.in.in:15
 msgid "Main window"
-msgstr ""
+msgstr "Jendela utama"
 
 #: data/com.github.marhkb.Symphony.metainfo.xml.in.in:32
+#, fuzzy
 msgid "Marcus Behrendt"
-msgstr ""
+msgstr "Marcus Behrendt"
 
 #: data/resources/ui/connection-lost-page.ui:16
 msgid ""
@@ -71,301 +76,307 @@ msgid ""
 "Unix. If the connection has been disconnected unintentionally, you can try "
 "to re-establish it."
 msgstr ""
+"Galat yang tak terduga telah terjadi dan Symphony kehilangan sambungan pada "
+"Unix Podman. Apabila sambungan telah diputus secara tidak sengaja, Anda "
+"dapat mencoba untuk menyambungkannya kembali."
 
 #: data/resources/ui/connection-lost-page.ui:18
 msgid "Lost Connection to Podman"
-msgstr ""
+msgstr "Kehilangan sambungan ke Podman"
 
 #: data/resources/ui/connection-lost-page.ui:29
 msgid "_Restart Podman Service"
-msgstr ""
+msgstr "_Nyalakan Ulang Layanan Podman"
 
 #: data/resources/ui/image-row.ui:7 data/resources/ui/container-row.ui:19
 #: data/resources/ui/container-row.ui:56 data/resources/ui/container-row.ui:93
 msgid "_Delete"
-msgstr ""
+msgstr "_Hapus"
 
 #: data/resources/ui/images-prune-dialog.ui:29
 msgid "No Images To Be Pruned"
-msgstr ""
+msgstr "Tidak Ada Image Yang Akan Dipangkas"
 
 #: data/resources/ui/property-row.ui:14 src/model/container.rs:64
 msgid "Created"
-msgstr ""
+msgstr "Dibuat"
 
 #: data/resources/ui/start-service-page.ui:16
 msgid "The Podman service is currently not running"
-msgstr ""
+msgstr "Layanan Podman sedang tidak berjalan"
 
 #: data/resources/ui/start-service-page.ui:17
 msgid "Welcome to Symphony"
-msgstr ""
+msgstr "Selamat Datang di Symphony"
 
 #: data/resources/ui/start-service-page.ui:28
 msgid "_Start Podman Service"
-msgstr ""
+msgstr "_Jalankan Layanan Podman"
 
 #: data/resources/ui/check-service-page.ui:17
 msgid "Checking Connection to Podman Service"
-msgstr ""
+msgstr "Memeriksa Sambungan ke Layanan Podman"
 
 #: data/resources/ui/containers-panel.ui:82
 #: data/resources/ui/images-panel.ui:84
 msgid "Summary"
-msgstr ""
+msgstr "Ringkasan"
 
 #: data/resources/ui/shortcuts.ui:13
 msgctxt "shortcut window"
 msgid "General"
-msgstr ""
+msgstr "Umum"
 
 #: data/resources/ui/shortcuts.ui:17
 msgctxt "shortcut window"
 msgid "Show Shortcuts"
-msgstr ""
+msgstr "Tunjukkan Pintasan"
 
 #: data/resources/ui/shortcuts.ui:24
 msgctxt "shortcut window"
 msgid "Quit"
-msgstr ""
+msgstr "Keluar"
 
 #: data/resources/ui/shortcuts.ui:31
 msgctxt "shortcut window"
 msgid "Search"
-msgstr ""
+msgstr "Cari"
 
 #: data/resources/ui/window.ui:7
 msgid "_Preferences"
-msgstr ""
+msgstr "_Pilihan"
 
 #: data/resources/ui/window.ui:11
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "_Pintasan Papan Ketik"
 
 #: data/resources/ui/window.ui:15
 msgid "_About Symphony"
-msgstr ""
+msgstr "_Tentang Symphony"
 
 #: data/resources/ui/window.ui:24
 msgid "Show intermediate images"
-msgstr ""
+msgstr "Tunjukkan image antara"
 
 #: data/resources/ui/window.ui:28
 msgid "Prune unused images"
-msgstr ""
+msgstr "Pangkas image yang tidak digunakan"
 
 #: data/resources/ui/window.ui:37
 msgid "Show only running containers"
-msgstr ""
+msgstr "Hanya tunjukkan container yang sedang berjalan"
 
 #: data/resources/ui/window.ui:124
 msgid "Images"
-msgstr ""
+msgstr "Image"
 
 #: data/resources/ui/window.ui:136
 msgid "Containers"
-msgstr ""
+msgstr "Container"
 
 #: data/resources/ui/container-row.ui:7
 msgid "_Start"
-msgstr ""
+msgstr "_Mulai"
 
 #: data/resources/ui/container-row.ui:13 data/resources/ui/container-row.ui:50
 #: data/resources/ui/container-row.ui:87
 msgid "_Commit"
-msgstr ""
+msgstr "_Tetapkan"
 
 #: data/resources/ui/container-row.ui:28 data/resources/ui/container-row.ui:65
 msgid "_Stop"
-msgstr ""
+msgstr "_Berhenti"
 
 #: data/resources/ui/container-row.ui:32 data/resources/ui/container-row.ui:69
 msgid "_Force Stop"
-msgstr ""
+msgstr "_Paksa Berhenti"
 
 #: data/resources/ui/container-row.ui:36 data/resources/ui/container-row.ui:73
 msgid "_Restart"
-msgstr ""
+msgstr "_Mulai Ulang"
 
 #: data/resources/ui/container-row.ui:40 data/resources/ui/container-row.ui:77
+#, fuzzy
 msgid "F_orce Restart"
-msgstr ""
+msgstr "P_aksa Mulai Ulang"
 
 #: data/resources/ui/container-row.ui:44
 msgid "_Pause"
-msgstr ""
+msgstr "_Jeda"
 
 #: data/resources/ui/container-row.ui:81
 msgid "_Resume"
-msgstr ""
+msgstr "_Lanjutkan"
 
 #: src/model/container.rs:63
 msgid "Configured"
-msgstr ""
+msgstr "Diatur"
 
 #: src/model/container.rs:65
 msgid "Dead"
-msgstr ""
+msgstr "Mati"
 
 #: src/model/container.rs:66
 msgid "Exited"
-msgstr ""
+msgstr "Keluar"
 
 #: src/model/container.rs:67
 msgid "Paused"
-msgstr ""
+msgstr "Dijeda"
 
 #: src/model/container.rs:68
 msgid "Removing"
-msgstr ""
+msgstr "Menghapus"
 
 #: src/model/container.rs:69
 msgid "Restarting"
-msgstr ""
+msgstr "Memulai ulang"
 
 #: src/model/container.rs:70
 msgid "Running"
-msgstr ""
+msgstr "Berjalan"
 
 #: src/model/container.rs:71
 msgid "Stopped"
-msgstr ""
+msgstr "Terhenti"
 
 #: src/model/container.rs:72
 msgid "Stopping"
-msgstr ""
+msgstr "Menghentikan"
 
 #: src/model/container.rs:73
 msgid "Unknown"
-msgstr ""
+msgstr "Tidak diketahui"
 
 #: src/view/container_row.rs:247
 msgid "Error on starting container"
-msgstr ""
+msgstr "Galat saat memulai container"
 
 #: src/view/container_row.rs:255
 msgid "Error on stopping container"
-msgstr ""
+msgstr "Galat saat menghentikan container"
 
 #: src/view/container_row.rs:263
 msgid "Error on force stopping container"
-msgstr ""
+msgstr "Galat saat menghentikan container dengan paksa"
 
 #: src/view/container_row.rs:271
 msgid "Error on restarting container"
-msgstr ""
+msgstr "Galat saat memulai ulang container"
 
 #: src/view/container_row.rs:279
 msgid "Error on force restarting container"
-msgstr ""
+msgstr "Galat saat memulai ulang container dengan paksa"
 
 #: src/view/container_row.rs:287
 msgid "Error on pausing container"
-msgstr ""
+msgstr "Galat saat menjeda container"
 
 #: src/view/container_row.rs:295
 msgid "Error on resuming container"
-msgstr ""
+msgstr "Galat saat melanjutkan container"
 
 #: src/view/container_row.rs:303
 msgid "Error on committing container"
-msgstr ""
+msgstr "Galat saat menetapkan container"
 
 #: src/view/container_row.rs:311
 msgid "Error on deleting container"
-msgstr ""
+msgstr "Galat saat menghapus container"
 
 #: src/view/container_row.rs:319
 msgid "Error on force deleting container"
-msgstr ""
+msgstr "Galat saat menghapus container dengan paksa"
 
 #. Translators: There's a wide space (U+2002) between ", {}".
 #: src/view/containers_panel.rs:172
 msgid "{} Containers total, {} running"
-msgstr ""
+msgstr "{} Total container, {} berjalan"
 
 #: src/view/containers_panel.rs:177
 msgid "No containers found"
-msgstr ""
+msgstr "Tidak ada container ditemukan"
 
 #: src/view/image_row.rs:56
 msgid "Error on deleting image"
-msgstr ""
+msgstr "Galat saat menghapus image"
 
 #. Translators: "{}" are placeholders for storage space.
 #: src/view/image_row.rs:190
+#, fuzzy
 msgid "{} (Virtual: {})"
-msgstr ""
+msgstr "{} (Virtual: {})"
 
 #. Translators: "{}" are placeholders for storage space.
 #: src/view/image_row.rs:199
 msgid "{} (Shared: {})"
-msgstr ""
+msgstr "{} (Terbagikan: {})"
 
 #. Translators: "{}" are placeholders for storage space.
 #: src/view/image_row.rs:209
 msgid "{} (Shared: {}, Virtual: {})"
-msgstr ""
+msgstr "{} (Terbagikan: {}, Virtual: {})"
 
 #. Translators: "{}" is placeholder for an integer value.
 #: src/view/image_row.rs:224
 msgid "By {} containers"
-msgstr ""
+msgstr "Oleh {} container"
 
 #. Translators: There's a wide space (U+2002) between the two {} {}.
 #: src/view/images_panel.rs:173
 msgid "{} images total, {} {} unused images, {}"
-msgstr ""
+msgstr "{} total image, {} {} image tak terpakai, {}"
 
 #: src/view/images_panel.rs:180
 msgid "No images found"
-msgstr ""
+msgstr "Tidak ada image ditemukan"
 
 #. Translators: "{}" is a placeholder for the image id.
 #: src/view/images_panel.rs:340
 msgid "Error on pruning image '{}'"
-msgstr ""
+msgstr "Galat saat memangkas image '{}'"
 
 #: src/application.rs:138
+#, fuzzy
 msgid "translator-credits"
-msgstr ""
+msgstr "kredit-penerjemah"
 
 #. Translators: "{}" is the placeholder for the exit code.
 #: src/application.rs:171
 msgid "Command to start Podman returned exit code: {}"
-msgstr ""
+msgstr "Perintah untuk memulai Podman mengembalikan kode exit: {}"
 
 #: src/application.rs:184
 msgid "Failed to execute command to start Podman"
-msgstr ""
+msgstr "Gagal untuk menjalankan perintah memulai Podman"
 
 #: src/main.rs:85
 msgid "Prints application version"
-msgstr ""
+msgstr "Mencetak versi aplikasi"
 
 #: src/main.rs:94
 msgid "Specify the minimum log level"
-msgstr ""
+msgstr "Tetapkan tingkatan log minimum"
 
 #. Translators: This string will be shown when a property of an entity like an image is null.
 #: src/utils.rs:48
 msgid "<none>"
-msgstr ""
+msgstr "<kosong>"
 
 #: src/window.rs:360
 msgid "Error on loading images"
-msgstr ""
+msgstr "Galat dalam pemuatan image"
 
 #. Translators: "{}" is the placeholder for the image id.
 #: src/window.rs:363
 msgid "Error on inspecting image '{}'"
-msgstr ""
+msgstr "Galat saat memeriksa image '{}'"
 
 #: src/window.rs:376
 msgid "Error on loading containers"
-msgstr ""
+msgstr "Galat saat memuat container"
 
 #. Translators: "{}" is the placeholder for the container id.
 #: src/window.rs:379
 msgid "Error on inspecting container '{}'"
-msgstr ""
+msgstr "Galat saat memeriksa container '{}'"

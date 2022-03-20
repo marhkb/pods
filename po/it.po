@@ -8,25 +8,27 @@ msgstr ""
 "Project-Id-Version: symphony\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-16 15:52+0100\n"
-"PO-Revision-Date: 2022-03-16 02:17+0100\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2022-03-19 21:27+0000\n"
+"Last-Translator: Andrea Brandi <git@andreabrandi.com>\n"
+"Language-Team: Italian <https://hosted.weblate.org/projects/symphony/"
+"symphony/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.12-dev\n"
 
 #: data/com.github.marhkb.Symphony.desktop.in.in:3
 #: data/com.github.marhkb.Symphony.metainfo.xml.in.in:7 src/main.rs:32
 msgid "Symphony"
-msgstr ""
+msgstr "Symphony"
 
 #: data/com.github.marhkb.Symphony.desktop.in.in:4
 #: data/com.github.marhkb.Symphony.metainfo.xml.in.in:8
 #: data/com.github.marhkb.Symphony.metainfo.xml.in.in:10
 msgid "A Podman desktop application"
-msgstr ""
+msgstr "Un'applicazione desktop per Podman"
 
 #: data/com.github.marhkb.Symphony.desktop.in.in:9
 msgid "Gnome;GTK;"
@@ -35,16 +37,16 @@ msgstr ""
 #: data/com.github.marhkb.Symphony.gschema.xml.in:6
 #: data/com.github.marhkb.Symphony.gschema.xml.in:7
 msgid "Default window width"
-msgstr ""
+msgstr "Larghezza finestra predefinita"
 
 #: data/com.github.marhkb.Symphony.gschema.xml.in:11
 #: data/com.github.marhkb.Symphony.gschema.xml.in:12
 msgid "Default window height"
-msgstr ""
+msgstr "Altezza finestra predefinita"
 
 #: data/com.github.marhkb.Symphony.gschema.xml.in:16
 msgid "Default window maximized behaviour"
-msgstr ""
+msgstr "Comportamento predefinito finestra massimizzata"
 
 #: data/com.github.marhkb.Symphony.gschema.xml.in:21
 msgid "The last used view"
@@ -60,7 +62,7 @@ msgstr ""
 
 #: data/com.github.marhkb.Symphony.metainfo.xml.in.in:15
 msgid "Main window"
-msgstr ""
+msgstr "Finestra principale"
 
 #: data/com.github.marhkb.Symphony.metainfo.xml.in.in:32
 msgid "Marcus Behrendt"
@@ -75,16 +77,16 @@ msgstr ""
 
 #: data/resources/ui/connection-lost-page.ui:18
 msgid "Lost Connection to Podman"
-msgstr ""
+msgstr "Connessione persa con Podman"
 
 #: data/resources/ui/connection-lost-page.ui:29
 msgid "_Restart Podman Service"
-msgstr ""
+msgstr "_Riavvia servizio Podman"
 
 #: data/resources/ui/image-row.ui:7 data/resources/ui/container-row.ui:19
 #: data/resources/ui/container-row.ui:56 data/resources/ui/container-row.ui:93
 msgid "_Delete"
-msgstr ""
+msgstr "_Cancella"
 
 #: data/resources/ui/images-prune-dialog.ui:29
 msgid "No Images To Be Pruned"
@@ -118,34 +120,34 @@ msgstr ""
 #: data/resources/ui/shortcuts.ui:13
 msgctxt "shortcut window"
 msgid "General"
-msgstr ""
+msgstr "Generale"
 
 #: data/resources/ui/shortcuts.ui:17
 msgctxt "shortcut window"
 msgid "Show Shortcuts"
-msgstr ""
+msgstr "Mostra scorciatoie"
 
 #: data/resources/ui/shortcuts.ui:24
 msgctxt "shortcut window"
 msgid "Quit"
-msgstr ""
+msgstr "Esci"
 
 #: data/resources/ui/shortcuts.ui:31
 msgctxt "shortcut window"
 msgid "Search"
-msgstr ""
+msgstr "Ricerca"
 
 #: data/resources/ui/window.ui:7
 msgid "_Preferences"
-msgstr ""
+msgstr "_Preferenze"
 
 #: data/resources/ui/window.ui:11
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "_Scorciatoie da tastiera"
 
 #: data/resources/ui/window.ui:15
 msgid "_About Symphony"
-msgstr ""
+msgstr "_Informazioni su Symphony"
 
 #: data/resources/ui/window.ui:24
 msgid "Show intermediate images"

@@ -20,7 +20,7 @@ msgstr ""
 #: data/com.github.marhkb.Symphony.desktop.in.in:3
 #: data/com.github.marhkb.Symphony.metainfo.xml.in.in:7 src/main.rs:32
 msgid "Symphony"
-msgstr ""
+msgstr "Symphony"
 
 #: data/com.github.marhkb.Symphony.desktop.in.in:4
 #: data/com.github.marhkb.Symphony.metainfo.xml.in.in:8
@@ -35,16 +35,16 @@ msgstr ""
 #: data/com.github.marhkb.Symphony.gschema.xml.in:6
 #: data/com.github.marhkb.Symphony.gschema.xml.in:7
 msgid "Default window width"
-msgstr ""
+msgstr "Standard-Fensterbreite"
 
 #: data/com.github.marhkb.Symphony.gschema.xml.in:11
 #: data/com.github.marhkb.Symphony.gschema.xml.in:12
 msgid "Default window height"
-msgstr ""
+msgstr "Standardmäßige Fensterhöhe"
 
 #: data/com.github.marhkb.Symphony.gschema.xml.in:16
 msgid "Default window maximized behaviour"
-msgstr ""
+msgstr "Standardverhalten bei maximiertem Fenster"
 
 #: data/com.github.marhkb.Symphony.gschema.xml.in:21
 msgid "The last used view"
@@ -74,17 +74,19 @@ msgid ""
 msgstr ""
 
 #: data/resources/ui/connection-lost-page.ui:18
+#: data/resources/ui/connection-lost-page.ui:20
 msgid "Lost Connection to Podman"
 msgstr ""
 
 #: data/resources/ui/connection-lost-page.ui:29
+#: data/resources/ui/connection-lost-page.ui:31
 msgid "_Restart Podman Service"
 msgstr ""
 
 #: data/resources/ui/image-row.ui:7 data/resources/ui/container-row.ui:19
 #: data/resources/ui/container-row.ui:56 data/resources/ui/container-row.ui:93
 msgid "_Delete"
-msgstr ""
+msgstr "_Löschen"
 
 #: data/resources/ui/images-prune-dialog.ui:29
 msgid "No Images To Be Pruned"
@@ -92,7 +94,7 @@ msgstr ""
 
 #: data/resources/ui/property-row.ui:14 src/model/container.rs:64
 msgid "Created"
-msgstr ""
+msgstr "Erstellt"
 
 #: data/resources/ui/start-service-page.ui:16
 msgid "The Podman service is currently not running"
@@ -165,7 +167,7 @@ msgstr ""
 
 #: data/resources/ui/window.ui:136
 msgid "Containers"
-msgstr ""
+msgstr "Container"
 
 #: data/resources/ui/container-row.ui:7
 msgid "_Start"
@@ -202,11 +204,11 @@ msgstr ""
 
 #: src/model/container.rs:63
 msgid "Configured"
-msgstr ""
+msgstr "Konfiguriert"
 
 #: src/model/container.rs:65
 msgid "Dead"
-msgstr ""
+msgstr "Tot"
 
 #: src/model/container.rs:66
 msgid "Exited"
@@ -250,7 +252,7 @@ msgstr ""
 
 #: src/view/container_row.rs:263
 msgid "Error on force stopping container"
-msgstr ""
+msgstr "Fehler beim erzwungenen Stoppen des Containers"
 
 #: src/view/container_row.rs:271
 msgid "Error on restarting container"
@@ -258,11 +260,11 @@ msgstr ""
 
 #: src/view/container_row.rs:279
 msgid "Error on force restarting container"
-msgstr ""
+msgstr "Fehler beim erzwungenen Neustarten des Containers"
 
 #: src/view/container_row.rs:287
 msgid "Error on pausing container"
-msgstr ""
+msgstr "Fehler beim Pausieren des Containers"
 
 #: src/view/container_row.rs:295
 msgid "Error on resuming container"
@@ -270,28 +272,28 @@ msgstr ""
 
 #: src/view/container_row.rs:303
 msgid "Error on committing container"
-msgstr ""
+msgstr "Fehler beim Committen des Containers"
 
 #: src/view/container_row.rs:311
 msgid "Error on deleting container"
-msgstr ""
+msgstr "Fehler beim Löschen des Containers"
 
 #: src/view/container_row.rs:319
 msgid "Error on force deleting container"
-msgstr ""
+msgstr "Fehler beim erzwungenen Löschen des Containers"
 
 #. Translators: There's a wide space (U+2002) between ", {}".
 #: src/view/containers_panel.rs:172
 msgid "{} Containers total, {} running"
 msgstr ""
 
-#: src/view/containers_panel.rs:177
+#: src/view/containers_panel.rs:177 src/view/containers_panel.rs:179
 msgid "No containers found"
 msgstr ""
 
 #: src/view/image_row.rs:56
 msgid "Error on deleting image"
-msgstr ""
+msgstr "Fehler beim Löschen des Images"
 
 #. Translators: "{}" are placeholders for storage space.
 #: src/view/image_row.rs:190
@@ -325,7 +327,7 @@ msgstr ""
 #. Translators: "{}" is a placeholder for the image id.
 #: src/view/images_panel.rs:340
 msgid "Error on pruning image '{}'"
-msgstr ""
+msgstr "Fehler beim Beschneiden des Images '{}'"
 
 #: src/application.rs:138
 msgid "translator-credits"
@@ -355,18 +357,53 @@ msgstr ""
 
 #: src/window.rs:360
 msgid "Error on loading images"
-msgstr ""
+msgstr "Fehler beim Laden der Images"
 
 #. Translators: "{}" is the placeholder for the image id.
 #: src/window.rs:363
 msgid "Error on inspecting image '{}'"
-msgstr ""
+msgstr "Fehler beim Inspizieren des Images '{}'"
 
 #: src/window.rs:376
 msgid "Error on loading containers"
-msgstr ""
+msgstr "Fehler beim Laden der Container"
 
 #. Translators: "{}" is the placeholder for the container id.
 #: src/window.rs:379
 msgid "Error on inspecting container '{}'"
+msgstr "Fehler beim Inspizieren des Containers '{}'"
+
+#. Translators: There's a wide space (U+2002) between every ", {}".
+#: src/view/containers_panel.rs:172
+msgid "{} Containers total, {} running, {} configured, {} exited"
+msgstr "{} Containers insgesamt, {} laufend, {} konfiguriert, {} beendet"
+
+#: data/com.github.marhkb.Symphony.desktop.in.in:4
+msgid "Write a GTK + Rust application"
+msgstr ""
+
+#: data/com.github.marhkb.Symphony.metainfo.xml.in.in:8
+#: data/com.github.marhkb.Symphony.metainfo.xml.in.in:10
+msgid "A podman desktop application"
+msgstr ""
+
+#: data/resources/ui/connection-lost-page.ui:16
+msgid ""
+"\n"
+"An unexpected error has occurred and Symphony has lost connection to Podman "
+"Unix.If the connection has been disconnected unintentionally, you can try to "
+"re-establish it.\n"
+msgstr ""
+
+#: data/resources/ui/start-service-page.ui:16
+msgid "The podman service is currently not running"
+msgstr ""
+
+#. Translators: "{}" is the placeholder for the exit code.
+#: src/application.rs:171
+msgid "Command to start podman returned exit code: {}"
+msgstr ""
+
+#: src/application.rs:184
+msgid "Failed to execute command to start podman"
 msgstr ""
