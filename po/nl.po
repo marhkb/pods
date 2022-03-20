@@ -1,0 +1,377 @@
+# Dutch translations for symphony package.
+# Copyright (C) 2022 THE symphony'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the symphony package.
+# Automatically generated, 2022.
+# Gert-dev <qnyasgjhapqyuhoibr@kiabws.com>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: symphony\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-03-16 15:52+0100\n"
+"PO-Revision-Date: 2022-03-20 20:18+0100\n"
+"Last-Translator: Gert-dev <qnyasgjhapqyuhoibr@kiabws.com>\n"
+"Language-Team: none\n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"X-Generator: Gtranslator 41.0\n"
+
+#: data/com.github.marhkb.Symphony.desktop.in.in:3
+#: data/com.github.marhkb.Symphony.metainfo.xml.in.in:7 src/main.rs:32
+msgid "Symphony"
+msgstr "Symphony"
+
+#: data/com.github.marhkb.Symphony.desktop.in.in:4
+#: data/com.github.marhkb.Symphony.metainfo.xml.in.in:8
+#: data/com.github.marhkb.Symphony.metainfo.xml.in.in:10
+msgid "A Podman desktop application"
+msgstr "Een desktop-applicatie voor Podman"
+
+#: data/com.github.marhkb.Symphony.desktop.in.in:9
+msgid "Gnome;GTK;"
+msgstr "Gnome;GTK;"
+
+#: data/com.github.marhkb.Symphony.gschema.xml.in:6
+#: data/com.github.marhkb.Symphony.gschema.xml.in:7
+msgid "Default window width"
+msgstr "Standaardbreedte venster"
+
+#: data/com.github.marhkb.Symphony.gschema.xml.in:11
+#: data/com.github.marhkb.Symphony.gschema.xml.in:12
+msgid "Default window height"
+msgstr "Standaardhoogte venster"
+
+#: data/com.github.marhkb.Symphony.gschema.xml.in:16
+msgid "Default window maximized behaviour"
+msgstr "Standaardgedrag bij maximaliseren"
+
+#: data/com.github.marhkb.Symphony.gschema.xml.in:21
+msgid "The last used view"
+msgstr "Laatstgebruikte weergave"
+
+#: data/com.github.marhkb.Symphony.gschema.xml.in:26
+msgid "Whether to show intermediate images"
+msgstr "Of tussengelegen afbeeldingen getoond moeten worden"
+
+#: data/com.github.marhkb.Symphony.gschema.xml.in:31
+msgid "Whether to show only running containers"
+msgstr "Of alleen draaiende containers getoond moeten worden"
+
+#: data/com.github.marhkb.Symphony.metainfo.xml.in.in:15
+msgid "Main window"
+msgstr "Hoofdvenster"
+
+#: data/com.github.marhkb.Symphony.metainfo.xml.in.in:32
+msgid "Marcus Behrendt"
+msgstr "Marcus Behrendt"
+
+#: data/resources/ui/connection-lost-page.ui:16
+msgid ""
+"An unexpected error has occurred and Symphony has lost connection to Podman "
+"Unix. If the connection has been disconnected unintentionally, you can try "
+"to re-establish it."
+msgstr ""
+"Er is een onverwacht probleem opgetreden waardoor de verbinding tussen "
+"Symphony en Podman weggevalen is. Indien de verbinding onopzettelijk "
+"verbroken is, kunt u opnieuw proberen te verbinden."
+
+#: data/resources/ui/connection-lost-page.ui:18
+msgid "Lost Connection to Podman"
+msgstr "Verbinding met Podman verbroken"
+
+#: data/resources/ui/connection-lost-page.ui:29
+msgid "_Restart Podman Service"
+msgstr "Podman-service _herstarten"
+
+#: data/resources/ui/image-row.ui:7 data/resources/ui/container-row.ui:19
+#: data/resources/ui/container-row.ui:56 data/resources/ui/container-row.ui:93
+msgid "_Delete"
+msgstr "_Verwijderen"
+
+#: data/resources/ui/images-prune-dialog.ui:29
+msgid "No Images To Be Pruned"
+msgstr "Geen afbeeldingen om op te ruimen"
+
+#: data/resources/ui/property-row.ui:14 src/model/container.rs:64
+msgid "Created"
+msgstr "Aangemaakt"
+
+#: data/resources/ui/start-service-page.ui:16
+msgid "The Podman service is currently not running"
+msgstr "De Podman-service draait momenteel niet"
+
+#: data/resources/ui/start-service-page.ui:17
+msgid "Welcome to Symphony"
+msgstr "Welkom bij Symphony"
+
+#: data/resources/ui/start-service-page.ui:28
+msgid "_Start Podman Service"
+msgstr "Podman-service _starten"
+
+#: data/resources/ui/check-service-page.ui:17
+msgid "Checking Connection to Podman Service"
+msgstr "Verbinding met Podman-service controleren"
+
+#: data/resources/ui/containers-panel.ui:82
+#: data/resources/ui/images-panel.ui:84
+msgid "Summary"
+msgstr "Samenvatting"
+
+#: data/resources/ui/shortcuts.ui:13
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Algemeen"
+
+#: data/resources/ui/shortcuts.ui:17
+msgctxt "shortcut window"
+msgid "Show Shortcuts"
+msgstr "Toon sneltoetsen"
+
+#: data/resources/ui/shortcuts.ui:24
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Afsluiten"
+
+#: data/resources/ui/shortcuts.ui:31
+msgctxt "shortcut window"
+msgid "Search"
+msgstr "Zoeken"
+
+#: data/resources/ui/window.ui:7
+msgid "_Preferences"
+msgstr "_Voorkeuren"
+
+#: data/resources/ui/window.ui:11
+msgid "_Keyboard Shortcuts"
+msgstr "_Sneltoetsen"
+
+#: data/resources/ui/window.ui:15
+msgid "_About Symphony"
+msgstr "_Over Symphony"
+
+#: data/resources/ui/window.ui:24
+msgid "Show intermediate images"
+msgstr "Toon tussengelegen afbeeldingen"
+
+#: data/resources/ui/window.ui:28
+msgid "Prune unused images"
+msgstr "Ongebruikte afbeeldingen opschonen"
+
+#: data/resources/ui/window.ui:37
+msgid "Show only running containers"
+msgstr "Alleen draaiende containers tonen"
+
+#: data/resources/ui/window.ui:124
+msgid "Images"
+msgstr "Afbeeldingen"
+
+#: data/resources/ui/window.ui:136
+msgid "Containers"
+msgstr "Containers"
+
+#: data/resources/ui/container-row.ui:7
+msgid "_Start"
+msgstr "_Starten"
+
+#: data/resources/ui/container-row.ui:13 data/resources/ui/container-row.ui:50
+#: data/resources/ui/container-row.ui:87
+msgid "_Commit"
+msgstr "_Verzenden"
+
+#: data/resources/ui/container-row.ui:28 data/resources/ui/container-row.ui:65
+msgid "_Stop"
+msgstr "_Stoppen"
+
+#: data/resources/ui/container-row.ui:32 data/resources/ui/container-row.ui:69
+msgid "_Force Stop"
+msgstr "Ge_forceerd stoppen"
+
+#: data/resources/ui/container-row.ui:36 data/resources/ui/container-row.ui:73
+msgid "_Restart"
+msgstr "_Herstarten"
+
+#: data/resources/ui/container-row.ui:40 data/resources/ui/container-row.ui:77
+msgid "F_orce Restart"
+msgstr "Gef_orceerd herstarten"
+
+#: data/resources/ui/container-row.ui:44
+msgid "_Pause"
+msgstr "_Pauzeren"
+
+#: data/resources/ui/container-row.ui:81
+msgid "_Resume"
+msgstr "_Hervatten"
+
+#: src/model/container.rs:63
+msgid "Configured"
+msgstr "Geconfigureerd"
+
+#: src/model/container.rs:65
+msgid "Dead"
+msgstr "Dood"
+
+#: src/model/container.rs:66
+msgid "Exited"
+msgstr "Geëindigd"
+
+#: src/model/container.rs:67
+msgid "Paused"
+msgstr "Gepauzeerd"
+
+#: src/model/container.rs:68
+msgid "Removing"
+msgstr "Aan het verwijderen"
+
+#: src/model/container.rs:69
+msgid "Restarting"
+msgstr "Aan het herstarten"
+
+#: src/model/container.rs:70
+msgid "Running"
+msgstr "Draaiend"
+
+#: src/model/container.rs:71
+msgid "Stopped"
+msgstr "Gestopt"
+
+#: src/model/container.rs:72
+msgid "Stopping"
+msgstr "Aan het stoppen"
+
+#: src/model/container.rs:73
+msgid "Unknown"
+msgstr "Onbekend"
+
+#: src/view/container_row.rs:247
+msgid "Error on starting container"
+msgstr "Fout bij starten container"
+
+#: src/view/container_row.rs:255
+msgid "Error on stopping container"
+msgstr "Fout bij stoppen container"
+
+#: src/view/container_row.rs:263
+msgid "Error on force stopping container"
+msgstr "Fout bij geforceerd stoppen container"
+
+#: src/view/container_row.rs:271
+msgid "Error on restarting container"
+msgstr "Fout bij herstarten container"
+
+#: src/view/container_row.rs:279
+msgid "Error on force restarting container"
+msgstr "Fout bij geforceerd herstarten container"
+
+#: src/view/container_row.rs:287
+msgid "Error on pausing container"
+msgstr "Fout bij pauzeren container"
+
+#: src/view/container_row.rs:295
+msgid "Error on resuming container"
+msgstr "Fout bij hervatten container"
+
+#: src/view/container_row.rs:303
+msgid "Error on committing container"
+msgstr "Fout bij verzenden container"
+
+#: src/view/container_row.rs:311
+msgid "Error on deleting container"
+msgstr "Fout bij verwijderen container"
+
+#: src/view/container_row.rs:319
+msgid "Error on force deleting container"
+msgstr "Fout bij geforceerd verwijderen container"
+
+#. Translators: There's a wide space (U+2002) between ", {}".
+#: src/view/containers_panel.rs:172
+msgid "{} Containers total, {} running"
+msgstr "{} containers in totaal, {} draaiend"
+
+#: src/view/containers_panel.rs:177
+msgid "No containers found"
+msgstr "Geen containers gevonden"
+
+#: src/view/image_row.rs:56
+msgid "Error on deleting image"
+msgstr "Fout bij verwijderen afbeelding"
+
+#. Translators: "{}" are placeholders for storage space.
+#: src/view/image_row.rs:190
+msgid "{} (Virtual: {})"
+msgstr "{} (virtueel: {})"
+
+#. Translators: "{}" are placeholders for storage space.
+#: src/view/image_row.rs:199
+msgid "{} (Shared: {})"
+msgstr "{} (gedeeld: {})"
+
+#. Translators: "{}" are placeholders for storage space.
+#: src/view/image_row.rs:209
+msgid "{} (Shared: {}, Virtual: {})"
+msgstr "{} (gedeeld: {}, virtueel: {})"
+
+#. Translators: "{}" is placeholder for an integer value.
+#: src/view/image_row.rs:224
+msgid "By {} containers"
+msgstr "Door {} containers"
+
+#. Translators: There's a wide space (U+2002) between the two {} {}.
+#: src/view/images_panel.rs:173
+msgid "{} images total, {} {} unused images, {}"
+msgstr "{} afbeeldingen in totaal, {} {} ongebruikte afbeeldingen, {}"
+
+#: src/view/images_panel.rs:180
+msgid "No images found"
+msgstr "Geen afbeeldingen gevonden"
+
+#. Translators: "{}" is a placeholder for the image id.
+#: src/view/images_panel.rs:340
+msgid "Error on pruning image '{}'"
+msgstr "Fout bij opschonen afbeelding '{}'"
+
+#: src/application.rs:138
+msgid "translator-credits"
+msgstr "Gert-dev"
+
+#. Translators: "{}" is the placeholder for the exit code.
+#: src/application.rs:171
+msgid "Command to start Podman returned exit code: {}"
+msgstr "Commando om Podman te starten gaf volgende stopcode terug: {}"
+
+#: src/application.rs:184
+msgid "Failed to execute command to start Podman"
+msgstr "Fout bij uitvoeren commando om Podman te starten"
+
+#: src/main.rs:85
+msgid "Prints application version"
+msgstr "Applicatieversie tonen"
+
+#: src/main.rs:94
+msgid "Specify the minimum log level"
+msgstr "Minimumniveau logging instellen"
+
+#. Translators: This string will be shown when a property of an entity like an image is null.
+#: src/utils.rs:48
+msgid "<none>"
+msgstr "<geen>"
+
+#: src/window.rs:360
+msgid "Error on loading images"
+msgstr "Fotu bij laden afbeeldingen"
+
+#. Translators: "{}" is the placeholder for the image id.
+#: src/window.rs:363
+msgid "Error on inspecting image '{}'"
+msgstr "Fout bij inspecteren afbeelding '{}'"
+
+#: src/window.rs:376
+msgid "Error on loading containers"
+msgstr "Fout bij laden containers"
+
+#. Translators: "{}" is the placeholder for the container id.
+#: src/window.rs:379
+msgid "Error on inspecting container '{}'"
+msgstr "Fout bij inspecteren container '{}'"
