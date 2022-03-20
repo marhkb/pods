@@ -16,7 +16,7 @@ mod imp {
     pub(crate) struct ImageDetailsPage {
         pub(super) image: WeakRef<model::Image>,
         #[template_child]
-        pub(super) header_bar: TemplateChild<adw::HeaderBar>,
+        pub(super) leaflet: TemplateChild<adw::Leaflet>,
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -226,8 +226,7 @@ mod imp {
         }
 
         fn dispose(&self, _obj: &Self::Type) {
-            self.header_bar.unparent();
-            self.stack.unparent();
+            self.leaflet.unparent();
         }
     }
 
@@ -250,11 +249,7 @@ impl ImageDetailsPage {
     }
 
     fn navigate_back(&self) {
-        self.root()
-            .unwrap()
-            .downcast::<Window>()
-            .unwrap()
-            .hide_details();
+        utils::find_leaflet_overview(self).hide_details();
     }
 
     fn delete(&self) {
