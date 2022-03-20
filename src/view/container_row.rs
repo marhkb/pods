@@ -9,7 +9,7 @@ use gtk::{gio, glib, CompositeTemplate};
 use once_cell::sync::Lazy;
 
 use crate::window::Window;
-use crate::{model, utils};
+use crate::{model, utils, view};
 
 mod imp {
     use super::*;
@@ -40,6 +40,10 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
+
+            klass.install_action("container.show-details", None, move |widget, _, _| {
+                widget.show_details();
+            });
 
             klass.install_action("container.start", None, move |widget, _, _| {
                 widget.start();
@@ -317,5 +321,15 @@ impl ContainerRow {
             .force_delete(clone!(@weak self as obj => move |e| {
                 obj.show_toast(&gettext("Error on force deleting container"), e);
             }));
+    }
+
+    fn show_details(&self) {
+        self.root()
+            .unwrap()
+            .downcast::<Window>()
+            .unwrap()
+            .show_details(&view::ContainerDetailsPage::from(
+                &self.container().unwrap(),
+            ));
     }
 }

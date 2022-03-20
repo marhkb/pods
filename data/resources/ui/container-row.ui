@@ -97,6 +97,8 @@
   </menu>
 
   <template class="ContainerRow" parent="AdwActionRow">
+    <property name="activatable">True</property>
+    <property name="action-name">container.show-details</property>
 
     <child>
       <object class="GtkLabel" id="status_label">
@@ -142,6 +144,15 @@
           </object>
         </child>
 
+      </object>
+    </child>
+
+    <child>
+      <object class="GtkImage">
+        <property name="icon_name">go-next-symbolic</property>
+        <style>
+          <class name="dim-label"/>
+        </style>
       </object>
     </child>
 

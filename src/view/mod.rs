@@ -1,5 +1,6 @@
 mod check_service_page;
 mod connection_lost_page;
+mod container_details_page;
 mod container_row;
 mod container_row_simple;
 mod containers_panel;
@@ -14,6 +15,7 @@ mod start_service_page;
 
 pub(crate) use self::check_service_page::CheckServicePage;
 pub(crate) use self::connection_lost_page::ConnectionLostPage;
+pub(crate) use self::container_details_page::ContainerDetailsPage;
 pub(crate) use self::container_row::ContainerRow;
 pub(crate) use self::container_row_simple::ContainerRowSimple;
 pub(crate) use self::containers_panel::ContainersPanel;
