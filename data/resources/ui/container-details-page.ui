@@ -3,95 +3,133 @@
 
   <template class="ContainerDetailsPage" parent="GtkWidget">
     <property name="layout-manager">
-      <object class="GtkBoxLayout">
-        <property name="orientation">vertical</property>
-      </object>
+      <object class="GtkBinLayout"/>
     </property>
 
     <child>
-      <object class="AdwHeaderBar" id="header_bar">
-
-        <child type="start">
-          <object class="GtkButton">
-            <property name="icon-name">go-previous-symbolic</property>
-            <property name="action-name">navigation.back</property>
-          </object>
-        </child>
-
-        <child type="title">
-          <object class="AdwWindowTitle">
-            <property name="title" translatable="yes">Container Details</property>
-          </object>
-        </child>
-
-      </object>
-    </child>
-
-    <child>
-      <object class="AdwPreferencesPage" id="preferences_page">
-        <property name="vexpand">True</property>
+      <object class="AdwLeaflet" id="leaflet">
+        <property name="can-navigate-back">True</property>
+        <property name="can-unfold">False</property>
 
         <child>
-          <object class="AdwPreferencesGroup">
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
 
             <child>
-              <object class="GtkListBox">
-                <style>
-                  <class name="boxed-list"/>
-                </style>
+              <object class="AdwHeaderBar">
 
-                <child>
-                  <object class="PropertyRow" id="id_row">
-                    <property name="key" translatable="yes">Id</property>
+                <child type="start">
+                  <object class="GtkButton">
+                    <property name="icon-name">go-previous-symbolic</property>
+                    <property name="action-name">navigation.back</property>
                   </object>
                 </child>
 
-                <child>
-                  <object class="PropertyRow" id="image_row">
-                    <property name="key" translatable="yes">Image</property>
-                    <binding name="value">
-                      <lookup name="image-name" type="Container">
-                        <lookup name="container">ContainerDetailsPage</lookup>
-                      </lookup>
-                    </binding>
+                <child type="title">
+                  <object class="AdwWindowTitle">
+                    <property name="title" translatable="yes">Container Details</property>
                   </object>
                 </child>
 
-                <child>
-                  <object class="PropertyRow" id="name_row">
-                    <property name="key" translatable="yes">Name</property>
-                    <binding name="value">
-                      <lookup name="name" type="Container">
-                        <lookup name="container">ContainerDetailsPage</lookup>
-                      </lookup>
-                    </binding>
-                  </object>
-                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwPreferencesPage">
+                <property name="vexpand">True</property>
 
                 <child>
-                  <object class="GtkListBoxRow" id="status_row">
-                    <property name="activatable">False</property>
+                  <object class="AdwPreferencesGroup">
 
                     <child>
-                      <object class="GtkBox">
+                      <object class="GtkListBox">
                         <style>
-                          <class name="property-row"/>
+                          <class name="boxed-list"/>
                         </style>
-                        <property name="hexpand">True</property>
 
                         <child>
-                          <object class="GtkLabel">
-                            <property name="label" translatable="yes">Status</property>
-                            <property name="hexpand">True</property>
-                            <property name="xalign">0</property>
+                          <object class="PropertyRow" id="id_row">
+                            <property name="key" translatable="yes">Id</property>
                           </object>
                         </child>
 
                         <child>
-                          <object class="GtkLabel" id="status_label">
-                            <style>
-                              <class name="container-status"/>
-                            </style>
+                          <object class="GtkListBoxRow">
+                            <property name="activatable">False</property>
+
+                            <child>
+                              <object class="GtkBox">
+                                <style>
+                                  <class name="property-row"/>
+                                </style>
+
+                                <child>
+                                  <object class="GtkLabel">
+                                    <property name="label" translatable="yes">Image</property>
+                                    <property name="hexpand">True</property>
+                                    <property name="xalign">0</property>
+                                  </object>
+                                </child>
+
+                                <child>
+                                  <object class="GtkLabel" id="image_name_label">
+                                    <property name="use-markup">True</property>
+                                  </object>
+                                </child>
+
+                                <child>
+                                  <object class="GtkSpinner" id="image_spinner">
+                                    <property name="spinning">True</property>
+                                  </object>
+                                </child>
+
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="PropertyRow" id="name_row">
+                            <property name="key" translatable="yes">Name</property>
+                            <binding name="value">
+                              <lookup name="name" type="Container">
+                                <lookup name="container">ContainerDetailsPage</lookup>
+                              </lookup>
+                            </binding>
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="GtkListBoxRow" id="status_row">
+                            <property name="activatable">False</property>
+
+                            <child>
+                              <object class="GtkBox">
+                                <style>
+                                  <class name="property-row"/>
+                                </style>
+                                <property name="hexpand">True</property>
+
+                                <child>
+                                  <object class="GtkLabel">
+                                    <property name="label" translatable="yes">Status</property>
+                                    <property name="hexpand">True</property>
+                                    <property name="xalign">0</property>
+                                  </object>
+                                </child>
+
+                                <child>
+                                  <object class="GtkLabel" id="status_label">
+                                    <style>
+                                      <class name="container-status"/>
+                                    </style>
+                                  </object>
+                                </child>
+
+                              </object>
+                            </child>
+
                           </object>
                         </child>
 
@@ -103,6 +141,17 @@
 
               </object>
             </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwLeafletPage">
+            <property name="name">overlay</property>
+
+            <property name="child">
+              <object class="LeafletOverlay" id="leaflet_overlay"/>
+            </property>
 
           </object>
         </child>
