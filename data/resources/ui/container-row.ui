@@ -1,101 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
 
-  <menu id="stopped_menu">
-    <section>
-      <item>
-        <attribute name="label" translatable="yes">_Start</attribute>
-        <attribute name="action">container.start</attribute>
-      </item>
-    </section>
-    <section>
-      <item>
-        <attribute name="label" translatable="yes">_Commit</attribute>
-        <attribute name="action">container.commit</attribute>
-      </item>
-    </section>
-    <section>
-      <item>
-        <attribute name="label" translatable="yes">_Delete</attribute>
-        <attribute name="action">container.delete</attribute>
-      </item>
-    </section>
-  </menu>
-
-  <menu id="running_menu">
-    <section>
-      <item>
-        <attribute name="label" translatable="yes">_Stop</attribute>
-        <attribute name="action">container.stop</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">_Force Stop</attribute>
-        <attribute name="action">container.force-stop</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">_Restart</attribute>
-        <attribute name="action">container.restart</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">F_orce Restart</attribute>
-        <attribute name="action">container.force-restart</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">_Pause</attribute>
-        <attribute name="action">container.pause</attribute>
-      </item>
-    </section>
-    <section>
-      <item>
-        <attribute name="label" translatable="yes">_Commit</attribute>
-        <attribute name="action">container.commit</attribute>
-      </item>
-    </section>
-    <section>
-      <item>
-        <attribute name="label" translatable="yes">_Delete</attribute>
-        <attribute name="action">container.delete</attribute>
-      </item>
-    </section>
-  </menu>
-
-  <menu id="paused_menu">
-    <section>
-      <item>
-        <attribute name="label" translatable="yes">_Stop</attribute>
-        <attribute name="action">container.stop</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">_Force Stop</attribute>
-        <attribute name="action">container.force-stop</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">_Restart</attribute>
-        <attribute name="action">container.restart</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">F_orce Restart</attribute>
-        <attribute name="action">container.force-restart</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">_Resume</attribute>
-        <attribute name="action">container.resume</attribute>
-      </item>
-    </section>
-    <section>
-      <item>
-        <attribute name="label" translatable="yes">_Commit</attribute>
-        <attribute name="action">container.commit</attribute>
-      </item>
-    </section>
-    <section>
-      <item>
-        <attribute name="label" translatable="yes">_Delete</attribute>
-        <attribute name="action">container.delete</attribute>
-      </item>
-    </section>
-  </menu>
-
   <template class="ContainerRow" parent="AdwActionRow">
     <property name="activatable">True</property>
     <property name="action-name">container.show-details</property>
@@ -136,7 +41,6 @@
             <property name="child">
               <object class="GtkMenuButton" id="menu_button">
                 <property name="icon-name">view-more-symbolic</property>
-                <property name="menu-model">stopped_menu</property>
                 <property name="valign">center</property>
               </object>
             </property>

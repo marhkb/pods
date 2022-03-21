@@ -1,6 +1,7 @@
 use std::error;
 
 use adw::subclass::prelude::{ActionRowImpl, PreferencesRowImpl};
+use cascade::cascade;
 use gettextrs::gettext;
 use gtk::glib::{clone, closure, WeakRef};
 use gtk::prelude::*;
@@ -18,12 +19,6 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Symphony/ui/container-row.ui")]
     pub(crate) struct ContainerRow {
         pub(super) container: WeakRef<model::Container>,
-        #[template_child]
-        pub(super) stopped_menu: TemplateChild<gio::MenuModel>,
-        #[template_child]
-        pub(super) running_menu: TemplateChild<gio::MenuModel>,
-        #[template_child]
-        pub(super) paused_menu: TemplateChild<gio::MenuModel>,
         #[template_child]
         pub(super) status_label: TemplateChild<gtk::Label>,
         #[template_child]
@@ -174,19 +169,15 @@ mod imp {
 
             status_expr
                 .chain_closure::<Option<gio::MenuModel>>(closure!(
-                    |obj: Self::Type, status: model::ContainerStatus| {
+                    |_: Self::Type, status: model::ContainerStatus| {
                         use model::ContainerStatus::*;
 
-                        let imp = obj.imp();
-                        Some(
-                            match status {
-                                Running => &*imp.running_menu,
-                                Paused => &*imp.paused_menu,
-                                Configured | Exited | Dead | Stopped => &*imp.stopped_menu,
-                                _ => return None,
-                            }
-                            .to_owned(),
-                        )
+                        Some(match status {
+                            Running => running_menu(),
+                            Paused => paused_menu(),
+                            Configured | Exited | Dead | Stopped => stopped_menu(),
+                            _ => return None,
+                        })
                     }
                 ))
                 .bind(&*self.menu_button, "menu-model", Some(obj));
@@ -315,5 +306,59 @@ impl ContainerRow {
         utils::find_leaflet_overview(self).show_details(&view::ContainerDetailsPage::from(
             &self.container().unwrap(),
         ));
+    }
+}
+
+fn base_menu() -> gio::Menu {
+    cascade! {
+        gio::Menu::new();
+        ..append_section(None, &cascade!{
+            gio::Menu::new();
+            ..append(Some(&gettext("_Commit")), Some("container.commit"));
+        });
+        ..append_section(None, &cascade!{
+            gio::Menu::new();
+            ..append(Some(&gettext("_Delete")), Some("container.delete"));
+        });
+    }
+}
+
+fn stopped_menu() -> gio::Menu {
+    cascade! {
+        base_menu();
+        ..prepend_section(None, &cascade! {
+            gio::Menu::new();
+            ..append(Some(&gettext("_Start")), Some("container.start"));
+        });
+    }
+}
+
+fn not_stopped_menu() -> gio::Menu {
+    cascade! {
+        gio::Menu::new();
+        ..append(Some(&gettext("_Stop")), Some("container.stop"));
+        ..append(Some(&gettext("_Force Stop")), Some("container.force-stop"));
+        ..append(Some(&gettext("_Restart")), Some("container.restart"));
+        ..append(Some(&gettext("F_orce Restart")), Some("container.force-restart"));
+    }
+}
+
+fn running_menu() -> gio::Menu {
+    cascade! {
+        base_menu();
+        ..prepend_section(None, &cascade! {
+            not_stopped_menu();
+            ..append(Some(&gettext("_Pause")), Some("container.pause"));
+        });
+    }
+}
+
+fn paused_menu() -> gio::Menu {
+    cascade! {
+        base_menu();
+        ..prepend_section(None, &cascade! {
+            not_stopped_menu();
+            ..append(Some(&gettext("_Resume")), Some("container.resume"));
+        });
     }
 }
