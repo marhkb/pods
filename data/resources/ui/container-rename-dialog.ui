@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="ContainerRenameDialog" parent="GtkDialog">
+    <property name="modal">True</property>
+    <property name="resizable">False</property>
+    <property name="title"></property>
+
+    <child type="action">
+      <object class="GtkButton" id="button_cancel">
+        <property name="label" translatable="yes">_Cancel</property>
+        <property name="use-underline">True</property>
+      </object>
+    </child>
+
+    <child type="action">
+      <object class="GtkButton" id="button_rename">
+        <style>
+          <class name="suggested-action"/>
+        </style>
+        <property name="action-name">container.rename</property>
+        <property name="label" translatable="yes">_Rename</property>
+        <property name="use-underline">True</property>
+      </object>
+    </child>
+
+    <child internal-child="content_area">
+      <object class="GtkBox">
+        <property name="margin-bottom">36</property>
+        <property name="margin-end">12</property>
+        <property name="margin-start">12</property>
+        <property name="margin-top">36</property>
+
+        <child>
+          <object class="AdwClamp">
+            <property name="maximum-size">350</property>
+
+            <property name="child">
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <property name="spacing">12</property>
+
+                <child>
+                  <object class="GtkLabel" id="heading_label">
+                    <style>
+                      <class name="heading"/>
+                    </style>
+                    <property name="justify">center</property>
+                    <property name="wrap">True</property>
+                    <property name="wrap-mode">word</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkEntry" id="entry"/>
+                </child>
+
+                <child>
+                  <object class="GtkLabel" id="error_label">
+                    <property name="visible">False</property>
+                    <property name="wrap">True</property>
+                    <property name="wrap-mode">word-char</property>
+                    <style>
+                      <class name="error"/>
+                    </style>
+                  </object>
+                </child>
+
+              </object>
+            </property>
+
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <action-widgets>
+      <action-widget response="cancel">button_cancel</action-widget>
+    </action-widgets>
+
+  </template>
+</interface>

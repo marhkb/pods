@@ -289,11 +289,11 @@ impl Container {
 }
 
 impl Container {
-    fn action<Fut, FutOp, ErrOp>(&self, fut_op: FutOp, err_op: ErrOp)
+    fn action<Fut, FutOp, ResOp>(&self, fut_op: FutOp, err_op: ResOp)
     where
         Fut: Future<Output = api::Result<()>> + Send,
         FutOp: FnOnce(api::Container<'static>) -> Fut + Send + 'static,
-        ErrOp: FnOnce(api::Error) + 'static,
+        ResOp: FnOnce(api::Result<()>) + 'static,
     {
         if self.action_ongoing() {
             return;
@@ -305,57 +305,64 @@ impl Container {
         let container = api::Container::new(&*PODMAN, self.id().unwrap_or_default());
         utils::do_async(
             async move { fut_op(container).await },
-            clone!(@weak self as obj => move |result| match result {
-                Ok(_) => {
-                    log::info!("Container <{}>: Action is finished", obj.id().unwrap_or_default());
+            clone!(@weak self as obj => move |result| {
+                match result {
+                    Ok(_) => {
+                        log::info!(
+                            "Container <{}>: Action is finished",
+                            obj.id().unwrap_or_default()
+                        );
+                    }
+                    Err(_) => obj.set_action_ongoing(false),
                 }
-                Err(e) => {
-                    obj.set_action_ongoing(false);
-                    err_op(e)
-                }
+                err_op(result)
             }),
         );
     }
 
-    pub(crate) fn start<F>(&self, err_op: F)
+    pub(crate) fn start<F>(&self, op: F)
     where
-        F: FnOnce(api::Error) + 'static,
+        F: FnOnce(api::Result<()>) + 'static,
     {
         log::info!("Container <{}>: Starting…'", self.id().unwrap_or_default());
         self.action(
             |container| async move { container.start(None).await },
-            clone!(@weak self as obj => move |e| {
-                log::error!(
-                    "Container <{}>: Error while starting: {}",
-                    obj.id().unwrap_or_default(),
-                    e
-                );
-                err_op(e);
+            clone!(@weak self as obj => move |result| {
+                if let Err(ref e) = result {
+                    log::error!(
+                        "Container <{}>: Error while starting: {}",
+                        obj.id().unwrap_or_default(),
+                        e
+                    );
+                }
+                op(result);
             }),
         );
     }
 
-    pub(crate) fn stop<F>(&self, err_op: F)
+    pub(crate) fn stop<F>(&self, op: F)
     where
-        F: FnOnce(api::Error) + 'static,
+        F: FnOnce(api::Result<()>) + 'static,
     {
         log::info!("Container <{}>: Stopping…'", self.id().unwrap_or_default());
         self.action(
             |container| async move { container.stop(&Default::default()).await },
-            clone!(@weak self as obj => move |e| {
-                log::error!(
-                    "Container <{}>: Error while stopping: {}",
-                    obj.id().unwrap_or_default(),
-                    e
-                );
-                err_op(e);
+            clone!(@weak self as obj => move |result| {
+                if let Err(ref e) = result {
+                    log::error!(
+                        "Container <{}>: Error while stopping: {}",
+                        obj.id().unwrap_or_default(),
+                        e
+                    );
+                }
+                op(result);
             }),
         );
     }
 
-    pub(crate) fn force_stop<F>(&self, err_op: F)
+    pub(crate) fn force_stop<F>(&self, op: F)
     where
-        F: FnOnce(api::Error) + 'static,
+        F: FnOnce(api::Result<()>) + 'static,
     {
         log::info!(
             "Container <{}>: Force stopping…'",
@@ -363,20 +370,22 @@ impl Container {
         );
         self.action(
             |container| async move { container.kill().await },
-            clone!(@weak self as obj => move |e| {
-                log::error!(
-                    "Container <{}>: Error while force stopping: {}",
-                    obj.id().unwrap_or_default(),
-                    e
-                );
-                err_op(e);
+            clone!(@weak self as obj => move |result| {
+                if let Err(ref e) = result {
+                    log::error!(
+                        "Container <{}>: Error while force stopping: {}",
+                        obj.id().unwrap_or_default(),
+                        e
+                    );
+                }
+                op(result);
             }),
         );
     }
 
-    pub(crate) fn restart<F>(&self, err_op: F)
+    pub(crate) fn restart<F>(&self, op: F)
     where
-        F: FnOnce(api::Error) + 'static,
+        F: FnOnce(api::Result<()>) + 'static,
     {
         log::info!(
             "Container <{}>: Restarting…'",
@@ -384,20 +393,22 @@ impl Container {
         );
         self.action(
             |container| async move { container.restart().await },
-            clone!(@weak self as obj => move |e| {
-                log::error!(
-                    "Container <{}>: Error while restarting: {}",
-                    obj.id().unwrap_or_default(),
-                    e
-                );
-                err_op(e);
+            clone!(@weak self as obj => move |result| {
+                if let Err(ref e) = result {
+                    log::error!(
+                        "Container <{}>: Error while restarting: {}",
+                        obj.id().unwrap_or_default(),
+                        e
+                    );
+                }
+                op(result);
             }),
         );
     }
 
-    pub(crate) fn force_restart<F>(&self, err_op: F)
+    pub(crate) fn force_restart<F>(&self, op: F)
     where
-        F: FnOnce(api::Error) + 'static,
+        F: FnOnce(api::Result<()>) + 'static,
     {
         log::info!(
             "Container <{}>: Force restarting…'",
@@ -405,56 +416,83 @@ impl Container {
         );
         self.action(
             |container| async move { container.kill().and_then(|_| container.start(None)).await },
-            clone!(@weak self as obj => move |e| {
-                log::error!(
-                    "Container <{}>: Error while force restarting: {}",
-                    obj.id().unwrap_or_default(),
-                    e
-                );
-                err_op(e);
+            clone!(@weak self as obj => move |result| {
+                if let Err(ref e) = result {
+                    log::error!(
+                        "Container <{}>: Error while force restarting: {}",
+                        obj.id().unwrap_or_default(),
+                        e
+                    );
+                }
+                op(result);
             }),
         );
     }
 
-    pub(crate) fn pause<F>(&self, err_op: F)
+    pub(crate) fn pause<F>(&self, op: F)
     where
-        F: FnOnce(api::Error) + 'static,
+        F: FnOnce(api::Result<()>) + 'static,
     {
         log::info!("Container <{}>: Pausing…'", self.id().unwrap_or_default());
         self.action(
             |container| async move { container.pause().await },
-            clone!(@weak self as obj => move |e| {
-                log::error!(
-                    "Container <{}>: Error while pausing: {}",
-                    obj.id().unwrap_or_default(),
-                    e
-                );
-                err_op(e);
+            clone!(@weak self as obj => move |result| {
+                if let Err(ref e) = result {
+                    log::error!(
+                        "Container <{}>: Error while pausing: {}",
+                        obj.id().unwrap_or_default(),
+                        e
+                    );
+                }
+                op(result);
             }),
         );
     }
 
-    pub(crate) fn resume<F>(&self, err_op: F)
+    pub(crate) fn resume<F>(&self, op: F)
     where
-        F: FnOnce(api::Error) + 'static,
+        F: FnOnce(api::Result<()>) + 'static,
     {
         log::info!("Container <{}>: Resuming…'", self.id().unwrap_or_default());
         self.action(
             |container| async move { container.unpause().await },
-            clone!(@weak self as obj => move |e| {
-                log::error!(
-                    "Container <{}>: Error while resuming: {}",
-                    obj.id().unwrap_or_default(),
-                    e
-                );
-                err_op(e);
+            clone!(@weak self as obj => move |result| {
+                if let Err(ref e) = result {
+                    log::error!(
+                        "Container <{}>: Error while resuming: {}",
+                        obj.id().unwrap_or_default(),
+                        e
+                    );
+                }
+                op(result);
             }),
         );
     }
 
-    pub(crate) fn commit<F>(&self, err_op: F)
+    pub(crate) fn rename<F>(&self, new_name: String, op: F)
     where
-        F: FnOnce(api::Error) + 'static,
+        F: FnOnce(api::Result<()>) + 'static,
+    {
+        log::info!("Container <{}>: Renaming…'", self.id().unwrap_or_default());
+        self.action(
+            |container| async move { container.rename(new_name).await },
+            clone!(@weak self as obj => move |result| {
+                obj.set_action_ongoing(false);
+                if let Err(ref e) = result {
+                    log::error!(
+                        "Container <{}>: Error renaming container: {}",
+                        obj.id().unwrap_or_default(),
+                        e
+                    );
+                }
+                op(result);
+            }),
+        );
+    }
+
+    pub(crate) fn commit<F>(&self, op: F)
+    where
+        F: FnOnce(api::Result<()>) + 'static,
     {
         log::info!(
             "Container <{}>: Committing…'",
@@ -462,38 +500,42 @@ impl Container {
         );
         self.action(
             |container| async move { container.commit(&Default::default()).await },
-            clone!(@weak self as obj => move |e| {
-                log::error!(
-                    "Container <{}>: Error while committing: {}",
-                    obj.id().unwrap_or_default(),
-                    e
-                );
-                err_op(e);
+            clone!(@weak self as obj => move |result| {
+                if let Err(ref e) = result {
+                    log::error!(
+                        "Container <{}>: Error while committing: {}",
+                        obj.id().unwrap_or_default(),
+                        e
+                    );
+                }
+                op(result);
             }),
         );
     }
 
-    pub(crate) fn delete<F>(&self, err_op: F)
+    pub(crate) fn delete<F>(&self, op: F)
     where
-        F: FnOnce(api::Error) + 'static,
+        F: FnOnce(api::Result<()>) + 'static,
     {
         log::info!("Container <{}>: Deleting…'", self.id().unwrap_or_default());
         self.action(
             |container| async move { container.delete(&Default::default()).await },
-            clone!(@weak self as obj => move |e| {
-                log::error!(
-                    "Container <{}>: Error while deleting: {}",
-                    obj.id().unwrap_or_default(),
-                    e
-                );
-                err_op(e);
+            clone!(@weak self as obj => move |result| {
+                if let Err(ref e) = result {
+                    log::error!(
+                        "Container <{}>: Error while deleting: {}",
+                        obj.id().unwrap_or_default(),
+                        e
+                    );
+                }
+                op(result);
             }),
         );
     }
 
-    pub(crate) fn force_delete<F>(&self, err_op: F)
+    pub(crate) fn force_delete<F>(&self, op: F)
     where
-        F: FnOnce(api::Error) + 'static,
+        F: FnOnce(api::Result<()>) + 'static,
     {
         log::info!(
             "Container <{}>: Force deleting…'",
@@ -507,13 +549,15 @@ impl Container {
                     .and_then(|_| container.delete(&delete_opts))
                     .await
             },
-            clone!(@weak self as obj => move |e| {
-                log::error!(
-                    "Container <{}>: Error while force deleting: {}",
-                    obj.id().unwrap_or_default(),
-                    e
-                );
-                err_op(e);
+            clone!(@weak self as obj => move |result| {
+                if let Err(ref e) = result {
+                    log::error!(
+                        "Container <{}>: Error while force deleting: {}",
+                        obj.id().unwrap_or_default(),
+                        e
+                    );
+                }
+                op(result);
             }),
         );
     }
