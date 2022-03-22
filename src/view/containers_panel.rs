@@ -6,6 +6,7 @@ use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::{gio, glib, CompositeTemplate};
 use once_cell::sync::Lazy;
+use once_cell::unsync::OnceCell;
 
 use crate::{config, model, view};
 
@@ -17,6 +18,9 @@ mod imp {
     pub(crate) struct ContainersPanel {
         pub(super) container_list: WeakRef<model::ContainerList>,
         pub(super) show_only_running: Cell<bool>,
+        pub(super) properties_filter: OnceCell<gtk::Filter>,
+        pub(super) search_filter: OnceCell<gtk::Filter>,
+        pub(super) sorter: OnceCell<gtk::Sorter>,
         #[template_child]
         pub(super) main_stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -180,6 +184,45 @@ mod imp {
             )
             .bind(&*self.containers_group, "description", Some(obj));
 
+            let properties_filter =
+                gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
+                    !obj.show_only_running() ||
+                        item.downcast_ref::<model::Container>().unwrap().status()
+                            == model::ContainerStatus::Running
+                }));
+
+            obj.connect_notify_local(
+                Some("show-only-running"),
+                clone!(@weak obj => move |_ ,_| obj.update_properties_filter()),
+            );
+
+            let search_filter =
+                gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
+                    let container = item
+                        .downcast_ref::<model::Container>()
+                        .unwrap();
+                    let query = obj.imp().search_entry.text();
+                    let query = query.as_str();
+
+                    container.name().map(|name| name.contains(query)).unwrap_or(false)
+                }));
+
+            self.search_entry
+                .connect_search_changed(clone!(@weak obj => move |_| obj.update_search_filter()));
+
+            let sorter = gtk::CustomSorter::new(|obj1, obj2| {
+                let container1 = obj1.downcast_ref::<model::Container>().unwrap();
+                let container2 = obj2.downcast_ref::<model::Container>().unwrap();
+
+                container1.name().cmp(&container2.name()).into()
+            });
+
+            self.properties_filter
+                .set(properties_filter.upcast())
+                .unwrap();
+            self.search_filter.set(search_filter.upcast()).unwrap();
+            self.sorter.set(sorter.upcast()).unwrap();
+
             gio::Settings::new(config::APP_ID)
                 .bind("show-only-running-containers", obj, "show-only-running")
                 .build();
@@ -215,65 +258,26 @@ impl ContainersPanel {
         }
 
         // TODO: For multi-client: Figure out whether signal handlers need to be disconnected.
-        let imp = self.imp();
-
-        let properties_filter = gtk::CustomFilter::new(
-            clone!(@weak self as obj => @default-return false, move |item| {
-                !obj.show_only_running() ||
-                    item.downcast_ref::<model::Container>().unwrap().status()
-                        == model::ContainerStatus::Running
-            }),
-        );
-
-        self.connect_notify_local(
-            Some("show-only-running"),
-            clone!(@weak properties_filter => move |_ ,_| {
-                properties_filter.changed(gtk::FilterChange::Different);
-            }),
-        );
-
-        let search_filter = gtk::CustomFilter::new(
-            clone!(@weak self as obj => @default-return false, move |item| {
-                let container = item
-                    .downcast_ref::<model::Container>()
-                    .unwrap();
-                let query = obj.imp().search_entry.text();
-                let query = query.as_str();
-
-                container.name().map(|name| name.contains(query)).unwrap_or(false)
-            }),
-        );
-
-        imp.search_entry
-            .connect_search_changed(clone!(@weak search_filter => move |_| {
-                search_filter.changed(gtk::FilterChange::Different);
-            }));
-
-        let sorter = gtk::CustomSorter::new(|obj1, obj2| {
-            let container1 = obj1.downcast_ref::<model::Container>().unwrap();
-            let container2 = obj2.downcast_ref::<model::Container>().unwrap();
-
-            container1.name().cmp(&container2.name()).into()
-        });
-
         value.connect_notify_local(
             Some("fetched"),
-            clone!(@weak properties_filter, @weak search_filter, @weak sorter => move |_ ,_| {
-                properties_filter.changed(gtk::FilterChange::Different);
-                search_filter.changed(gtk::FilterChange::Different);
-                sorter.changed(gtk::SorterChange::Different);
+            clone!(@weak self as obj => move |_ ,_| {
+                obj.update_properties_filter();
+                obj.update_search_filter();
+                obj.update_sorter();
             }),
         );
+
+        let imp = self.imp();
 
         let model = gtk::SortListModel::new(
             Some(&gtk::FilterListModel::new(
                 Some(&gtk::FilterListModel::new(
                     Some(value),
-                    Some(&search_filter),
+                    imp.search_filter.get(),
                 )),
-                Some(&properties_filter),
+                imp.properties_filter.get(),
             )),
-            Some(&sorter),
+            imp.sorter.get(),
         );
 
         self.set_list_box_visibility(model.upcast_ref());
@@ -285,7 +289,7 @@ impl ContainersPanel {
             view::ContainerRow::from(item.downcast_ref().unwrap()).upcast()
         });
 
-        self.imp().container_list.set(Some(value));
+        imp.container_list.set(Some(value));
         self.notify("container-list");
     }
 
@@ -320,5 +324,29 @@ impl ContainersPanel {
             imp.search_bar.set_search_mode(true);
             imp.search_entry.grab_focus();
         }
+    }
+
+    pub(crate) fn update_properties_filter(&self) {
+        self.imp()
+            .properties_filter
+            .get()
+            .unwrap()
+            .changed(gtk::FilterChange::Different);
+    }
+
+    pub(crate) fn update_search_filter(&self) {
+        self.imp()
+            .search_filter
+            .get()
+            .unwrap()
+            .changed(gtk::FilterChange::Different);
+    }
+
+    pub(crate) fn update_sorter(&self) {
+        self.imp()
+            .sorter
+            .get()
+            .unwrap()
+            .changed(gtk::SorterChange::Different);
     }
 }
