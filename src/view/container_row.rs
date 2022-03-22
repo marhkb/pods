@@ -358,7 +358,7 @@ fn base_menu() -> gio::Menu {
         gio::Menu::new();
         ..append_section(None, &cascade!{
             gio::Menu::new();
-            ..append(Some(&gettext("_Rename…")), Some("container.rename"));
+            ..append(Some(&gettext("Re_name…")), Some("container.rename"));
         });
         ..append_section(None, &cascade!{
             gio::Menu::new();
@@ -384,9 +384,9 @@ fn stopped_menu() -> gio::Menu {
 fn not_stopped_menu() -> gio::Menu {
     cascade! {
         gio::Menu::new();
-        ..append(Some(&gettext("_Stop")), Some("container.stop"));
+        ..append(Some(&gettext("S_top")), Some("container.stop"));
         ..append(Some(&gettext("_Force Stop")), Some("container.force-stop"));
-        ..append(Some(&gettext("_Restart")), Some("container.restart"));
+        ..append(Some(&gettext("R_estart")), Some("container.restart"));
         ..append(Some(&gettext("F_orce Restart")), Some("container.force-restart"));
     }
 }
