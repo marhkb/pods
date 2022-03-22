@@ -8,7 +8,8 @@
 
     <child type="action">
       <object class="GtkButton" id="button_cancel">
-        <property name="label">Cancel</property>
+        <property name="label">_Cancel</property>
+        <property name="use-underline">True</property>
       </object>
     </child>
 
@@ -17,7 +18,8 @@
         <style>
           <class name="destructive-action"/>
         </style>
-        <property name="label">Prune</property>
+        <property name="label">_Prune</property>
+        <property name="use-underline">True</property>
       </object>
     </child>
 
