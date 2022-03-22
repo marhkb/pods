@@ -107,18 +107,16 @@ mod imp {
             let container_list_expr = Self::Type::this_expression("container-list");
             let container_list_len_expr =
                 container_list_expr.chain_property::<model::ContainerList>("len");
-            let fetched_params = &[
-                container_list_expr
-                    .chain_property::<model::ContainerList>("fetched")
-                    .upcast(),
-                container_list_expr
-                    .chain_property::<model::ContainerList>("to-fetch")
-                    .upcast(),
+            let fetched_expr =
+                container_list_expr.chain_property::<model::ContainerList>("fetched");
+            let fetching_exprs = &[
+                fetched_expr.clone(),
+                container_list_expr.chain_property::<model::ContainerList>("to-fetch"),
             ];
 
             gtk::ClosureExpression::new::<gtk::Widget, _, _>(
                 &[
-                    container_list_len_expr.clone(),
+                    container_list_len_expr,
                     container_list_expr.chain_property::<model::ContainerList>("listing"),
                 ],
                 closure!(|obj: Self::Type, len: u32, listing: bool| {
@@ -133,7 +131,7 @@ mod imp {
             .bind(&*self.main_stack, "visible-child", Some(obj));
 
             gtk::ClosureExpression::new::<f64, _, _>(
-                fetched_params,
+                fetching_exprs,
                 closure!(|_: glib::Object, fetched: u32, to_fetch: u32| {
                     f64::min(1.0, fetched as f64 / to_fetch as f64)
                 }),
@@ -141,7 +139,7 @@ mod imp {
             .bind(&*self.progress_bar, "fraction", Some(obj));
 
             gtk::ClosureExpression::new::<String, _, _>(
-                fetched_params,
+                fetching_exprs,
                 closure!(|_: glib::Object, fetched: u32, to_fetch: u32| {
                     if fetched >= to_fetch {
                         "empty"
@@ -167,7 +165,7 @@ mod imp {
                 );
 
             gtk::ClosureExpression::new::<String, _, _>(
-                &[container_list_expr, container_list_len_expr],
+                &[container_list_expr, fetched_expr],
                 closure!(
                     |_: glib::Object, list: Option<model::ContainerList>, _: u32| {
                         match list.filter(|list| list.len() > 0) {
