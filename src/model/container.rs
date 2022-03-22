@@ -469,6 +469,27 @@ impl Container {
         );
     }
 
+    pub(crate) fn rename<F>(&self, new_name: String, op: F)
+    where
+        F: FnOnce(api::Result<()>) + 'static,
+    {
+        log::info!("Container <{}>: Renaming…'", self.id().unwrap_or_default());
+        self.action(
+            |container| async move { container.rename(new_name).await },
+            clone!(@weak self as obj => move |result| {
+                obj.set_action_ongoing(false);
+                if let Err(ref e) = result {
+                    log::error!(
+                        "Container <{}>: Error renaming container: {}",
+                        obj.id().unwrap_or_default(),
+                        e
+                    );
+                }
+                op(result);
+            }),
+        );
+    }
+
     pub(crate) fn commit<F>(&self, op: F)
     where
         F: FnOnce(api::Result<()>) + 'static,
