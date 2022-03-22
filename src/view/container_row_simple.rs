@@ -151,7 +151,7 @@ impl ContainerRowSimple {
     }
 
     fn show_details(&self) {
-        utils::find_leaflet_overview(self).show_details(&view::ContainerDetailsPage::from(
+        utils::find_leaflet_overlay(self).show_details(&view::ContainerDetailsPage::from(
             &self.container().unwrap(),
         ));
     }
