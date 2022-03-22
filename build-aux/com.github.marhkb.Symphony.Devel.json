@@ -1,11 +1,13 @@
 {
     "app-id": "com.github.marhkb.Symphony.Devel",
     "runtime": "org.gnome.Platform",
-    "runtime-version": "41",
+    "runtime-version": "42",
     "sdk": "org.gnome.Sdk",
-    "sdk-extensions": ["org.freedesktop.Sdk.Extension.rust-stable"],
+    "sdk-extensions": [
+        "org.freedesktop.Sdk.Extension.rust-stable"
+    ],
     "command": "symphony",
-    "finish-args" : [
+    "finish-args": [
         "--socket=fallback-x11",
         "--socket=wayland",
         "--socket=session-bus",
@@ -17,9 +19,9 @@
         "--filesystem=/run/systemd/journal",
         "--filesystem=xdg-run/podman:ro"
     ],
-    "build-options" : {
-        "append-path" : "/usr/lib/sdk/rust-stable/bin",
-        "build-args" : [
+    "build-options": {
+        "append-path": "/usr/lib/sdk/rust-stable/bin",
+        "build-args": [
             "--share=network"
         ],
         "test-args": [
@@ -27,45 +29,14 @@
             "--share=network"
         ]
     },
-    "cleanup": [
-        "/include",
-        "/lib/cmake",
-        "/lib/pkgconfig",
-        "*.a"
-    ],
     "modules": [
-        {
-            "name": "gtk",
-            "buildsystem": "meson",
-            "sources": [
-                {
-                    "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/gtk.git",
-                    "tag": "4.6.2"
-                }
-            ]
-        },
-        {
-            "name": "libadwaita",
-            "buildsystem": "meson",
-            "config-opts": [
-                "-Dvapi=false",
-                "-Dexamples=false",
-                "-Dtests=false"
-            ],
-            "sources": [
-                {
-                    "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/libadwaita.git",
-                    "tag": "1.1.0"
-                }
-            ]
-        },
         {
             "name": "symphony",
             "buildsystem": "meson",
             "run-tests": true,
-            "config-opts": ["-Dprofile=development"],
+            "config-opts": [
+                "-Dprofile=development"
+            ],
             "sources": [
                 {
                     "type": "dir",
