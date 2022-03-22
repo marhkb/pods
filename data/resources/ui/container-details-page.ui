@@ -25,6 +25,14 @@
                   </object>
                 </child>
 
+                <child type="start">
+                  <object class="GtkButton" id="go_first_button">
+                    <property name="icon-name">go-first-symbolic</property>
+                    <property name="action-name">navigation.go-first</property>
+                    <property name="visible" bind-source="go_first_button" bind-property="sensitive" bind-flags="sync-create"/>
+                  </object>
+                </child>
+
                 <child type="title">
                   <object class="AdwWindowTitle">
                     <property name="title" translatable="yes">Container Details</property>

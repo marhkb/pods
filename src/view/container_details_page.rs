@@ -4,6 +4,7 @@ use gtk::subclass::prelude::*;
 use gtk::{glib, CompositeTemplate};
 use once_cell::sync::Lazy;
 
+use crate::window::Window;
 use crate::{model, utils, view};
 
 mod imp {
@@ -33,6 +34,9 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
+            klass.install_action("navigation.go-first", None, move |widget, _, _| {
+                widget.navigate_to_first();
+            });
             klass.install_action("navigation.back", None, move |widget, _, _| {
                 widget.navigate_back();
             });
@@ -147,7 +151,16 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for ContainerDetailsPage {}
+    impl WidgetImpl for ContainerDetailsPage {
+        fn realize(&self, widget: &Self::Type) {
+            self.parent_realize(widget);
+
+            widget.action_set_enabled(
+                "navigation.go-first",
+                widget.previous_leaflet_overlay() != widget.root_leaflet_overlay(),
+            );
+        }
+    }
 }
 
 glib::wrapper! {
@@ -165,13 +178,34 @@ impl ContainerDetailsPage {
         self.imp().container.upgrade()
     }
 
+    fn navigate_to_first(&self) {
+        self.root_leaflet_overlay().hide_details();
+    }
+
     fn navigate_back(&self) {
-        utils::find_leaflet_overview(self).hide_details();
+        self.previous_leaflet_overlay().hide_details();
     }
 
     fn show_details(&self) {
-        utils::find_leaflet_overview(&*self.imp().leaflet).show_details(
-            &view::ImageDetailsPage::from(&self.container().unwrap().image().unwrap()),
-        );
+        self.this_leaflet_overlay()
+            .show_details(&view::ImageDetailsPage::from(
+                &self.container().unwrap().image().unwrap(),
+            ));
+    }
+
+    fn previous_leaflet_overlay(&self) -> view::LeafletOverlay {
+        utils::find_leaflet_overview(self)
+    }
+
+    fn this_leaflet_overlay(&self) -> view::LeafletOverlay {
+        utils::leaflet_overlay(&*self.imp().leaflet)
+    }
+
+    fn root_leaflet_overlay(&self) -> view::LeafletOverlay {
+        self.root()
+            .unwrap()
+            .downcast::<Window>()
+            .unwrap()
+            .leaflet_overlay()
     }
 }
