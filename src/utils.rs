@@ -32,7 +32,7 @@ macro_rules! boxed_type {
 boxed_type!(BoxedStringVec, Vec<String>);
 boxed_type!(BoxedStringBTreeSet, BTreeSet<String>);
 
-pub(crate) fn find_leaflet_overview<W: glib::IsA<gtk::Widget>>(widget: &W) -> view::LeafletOverlay {
+pub(crate) fn find_leaflet_overlay<W: glib::IsA<gtk::Widget>>(widget: &W) -> view::LeafletOverlay {
     leaflet_overlay(
         &widget
             .ancestor(adw::Leaflet::static_type())

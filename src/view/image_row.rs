@@ -186,7 +186,7 @@ impl ImageRow {
     }
 
     fn show_details(&self) {
-        utils::find_leaflet_overview(self)
+        utils::find_leaflet_overlay(self)
             .show_details(&view::ImageDetailsPage::from(&self.image().unwrap()));
     }
 }

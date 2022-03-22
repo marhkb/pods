@@ -269,7 +269,7 @@ impl ImageDetailsPage {
     }
 
     fn previous_leaflet_overlay(&self) -> view::LeafletOverlay {
-        utils::find_leaflet_overview(self)
+        utils::find_leaflet_overlay(self)
     }
 
     fn root_leaflet_overlay(&self) -> view::LeafletOverlay {
