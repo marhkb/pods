@@ -223,83 +223,83 @@ impl ContainerRow {
     }
 
     pub(crate) fn start(&self) {
-        self.container()
-            .unwrap()
-            .start(clone!(@weak self as obj => move |e| {
+        self.container().unwrap().start(
+            clone!(@weak self as obj => move |result| if let Err(e) = result {
                 obj.show_toast(&gettext("Error on starting container"), e);
-            }));
+            }),
+        );
     }
 
     pub(crate) fn stop(&self) {
-        self.container()
-            .unwrap()
-            .stop(clone!(@weak self as obj => move |e| {
+        self.container().unwrap().stop(
+            clone!(@weak self as obj => move |result| if let Err(e) = result {
                 obj.show_toast(&gettext("Error on stopping container"), e);
-            }));
+            }),
+        );
     }
 
     pub(crate) fn force_stop(&self) {
-        self.container()
-            .unwrap()
-            .force_stop(clone!(@weak self as obj => move |e| {
+        self.container().unwrap().force_stop(
+            clone!(@weak self as obj => move |result| if let Err(e) = result {
                 obj.show_toast(&gettext("Error on force stopping container"), e);
-            }));
+            }),
+        );
     }
 
     pub(crate) fn restart(&self) {
-        self.container()
-            .unwrap()
-            .restart(clone!(@weak self as obj => move |e| {
+        self.container().unwrap().restart(
+            clone!(@weak self as obj => move |result| if let Err(e) = result {
                 obj.show_toast(&gettext("Error on restarting container"), e);
-            }));
+            }),
+        );
     }
 
     pub(crate) fn force_restart(&self) {
-        self.container()
-            .unwrap()
-            .force_restart(clone!(@weak self as obj => move |e| {
+        self.container().unwrap().force_restart(
+            clone!(@weak self as obj => move |result| if let Err(e) = result {
                 obj.show_toast(&gettext("Error on force restarting container"), e);
-            }));
+            }),
+        );
     }
 
     pub(crate) fn pause(&self) {
-        self.container()
-            .unwrap()
-            .pause(clone!(@weak self as obj => move |e| {
+        self.container().unwrap().pause(
+            clone!(@weak self as obj => move |result| if let Err(e) = result {
                 obj.show_toast(&gettext("Error on pausing container"), e);
-            }));
+            }),
+        );
     }
 
     pub(crate) fn resume(&self) {
-        self.container()
-            .unwrap()
-            .resume(clone!(@weak self as obj => move |e| {
+        self.container().unwrap().resume(
+            clone!(@weak self as obj => move |result| if let Err(e) = result {
                 obj.show_toast(&gettext("Error on resuming container"), e);
-            }));
+            }),
+        );
     }
 
     pub(crate) fn commit(&self) {
-        self.container()
-            .unwrap()
-            .commit(clone!(@weak self as obj => move |e| {
+        self.container().unwrap().commit(
+            clone!(@weak self as obj => move |result| if let Err(e) = result {
                 obj.show_toast(&gettext("Error on committing container"), e);
-            }));
+            }),
+        );
     }
 
     pub(crate) fn delete(&self) {
-        self.container()
-            .unwrap()
-            .delete(clone!(@weak self as obj => move |e| {
+        self.container().unwrap().delete(
+            clone!(@weak self as obj => move |result| if let Err(e) = result {
                 obj.show_toast(&gettext("Error on deleting container"), e);
-            }));
+            }),
+        );
     }
 
     pub(crate) fn force_delete(&self) {
-        self.container()
-            .unwrap()
-            .force_delete(clone!(@weak self as obj => move |e| {
+        self.container().unwrap().force_delete(
+            clone!(@weak self as obj => move |result| if let Err(e) = result {
                 obj.show_toast(&gettext("Error on force deleting container"), e);
-            }));
+            }),
+        );
     }
 
     fn show_details(&self) {
@@ -312,6 +312,10 @@ impl ContainerRow {
 fn base_menu() -> gio::Menu {
     cascade! {
         gio::Menu::new();
+        ..append_section(None, &cascade!{
+            gio::Menu::new();
+            ..append(Some(&gettext("_Rename…")), Some("container.rename"));
+        });
         ..append_section(None, &cascade!{
             gio::Menu::new();
             ..append(Some(&gettext("_Commit")), Some("container.commit"));
