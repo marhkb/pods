@@ -415,4 +415,8 @@ impl Window {
     pub(crate) fn show_toast(&self, toast: &adw::Toast) {
         self.imp().toast_overlay.add_toast(toast);
     }
+
+    pub(crate) fn leaflet_overlay(&self) -> view::LeafletOverlay {
+        utils::leaflet_overlay(&*self.imp().leaflet)
+    }
 }
