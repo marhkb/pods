@@ -62,6 +62,10 @@ mod imp {
                 widget.resume();
             });
 
+            klass.install_action("container.rename", None, move |widget, _, _| {
+                widget.rename();
+            });
+
             klass.install_action("container.commit", None, move |widget, _, _| {
                 widget.commit();
             });
@@ -276,6 +280,46 @@ impl ContainerRow {
                 obj.show_toast(&gettext("Error on resuming container"), e);
             }),
         );
+    }
+
+    pub(crate) fn rename(&self) {
+        let dialog = view::ContainerRenameDialog::from(self.container());
+        dialog.set_transient_for(Some(
+            &self.root().unwrap().downcast::<gtk::Window>().unwrap(),
+        ));
+        dialog.run_async(clone!(@weak self as obj => move |dialog, response| {
+            obj.on_rename_dialog_response(dialog.upcast_ref(), response, |obj, dialog| {
+                dialog.connect_response(clone!(@weak obj => move |dialog, response| {
+                    obj.on_rename_dialog_response(dialog, response, |_, _| {});
+                }));
+            });
+        }));
+    }
+
+    fn on_rename_dialog_response<F>(&self, dialog: &gtk::Dialog, response: gtk::ResponseType, op: F)
+    where
+        F: Fn(&Self, &gtk::Dialog),
+    {
+        match response {
+            gtk::ResponseType::Cancel => dialog.close(),
+            gtk::ResponseType::Apply => {
+                dialog.close();
+                glib::timeout_add_seconds_local_once(
+                    1,
+                    clone!(@weak self as obj => move || {
+                        let panel = obj
+                            .ancestor(view::ContainersPanel::static_type())
+                            .unwrap()
+                            .downcast::<view::ContainersPanel>()
+                            .unwrap();
+
+                        panel.update_search_filter();
+                        panel.update_sorter();
+                    }),
+                );
+            }
+            _ => op(self, dialog),
+        }
     }
 
     pub(crate) fn commit(&self) {
