@@ -4,6 +4,7 @@
     <property name="height-request">350</property>
     <property name="width-request">450</property>
     <property name="modal">True</property>
+    <property name="title"/>
 
     <child type="action">
       <object class="GtkButton" id="button_cancel">
