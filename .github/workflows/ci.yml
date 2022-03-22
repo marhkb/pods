@@ -52,7 +52,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: target
-          key: ${{ runner.os }}-target-${{ hashFiles('target/CACHEDIR.TAG') }}
+          key: ${{ runner.os }}-target-${{ hashFiles('Cargo.lock') }}
           restore-keys: ${{ runner.os }}-target-
 
       - name: Create dummy versions of configured file
