@@ -4,10 +4,12 @@
     <property name="height-request">350</property>
     <property name="width-request">450</property>
     <property name="modal">True</property>
+    <property name="title"/>
 
     <child type="action">
       <object class="GtkButton" id="button_cancel">
-        <property name="label">Cancel</property>
+        <property name="label">_Cancel</property>
+        <property name="use-underline">True</property>
       </object>
     </child>
 
@@ -16,7 +18,8 @@
         <style>
           <class name="destructive-action"/>
         </style>
-        <property name="label">Prune</property>
+        <property name="label">_Prune</property>
+        <property name="use-underline">True</property>
       </object>
     </child>
 
