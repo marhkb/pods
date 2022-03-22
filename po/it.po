@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: symphony\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-16 15:52+0100\n"
-"PO-Revision-Date: 2022-03-19 21:27+0000\n"
+"PO-Revision-Date: 2022-03-20 21:04+0000\n"
 "Last-Translator: Andrea Brandi <git@andreabrandi.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/symphony/"
 "symphony/it/>\n"
@@ -32,7 +32,7 @@ msgstr "Un'applicazione desktop per Podman"
 
 #: data/com.github.marhkb.Symphony.desktop.in.in:9
 msgid "Gnome;GTK;"
-msgstr ""
+msgstr "Gnome;GTK;"
 
 #: data/com.github.marhkb.Symphony.gschema.xml.in:6
 #: data/com.github.marhkb.Symphony.gschema.xml.in:7
@@ -50,15 +50,15 @@ msgstr "Comportamento predefinito finestra massimizzata"
 
 #: data/com.github.marhkb.Symphony.gschema.xml.in:21
 msgid "The last used view"
-msgstr ""
+msgstr "L'ultima vista utilizzata"
 
 #: data/com.github.marhkb.Symphony.gschema.xml.in:26
 msgid "Whether to show intermediate images"
-msgstr ""
+msgstr "Mostra immagini intermedie"
 
 #: data/com.github.marhkb.Symphony.gschema.xml.in:31
 msgid "Whether to show only running containers"
-msgstr ""
+msgstr "Mostra solo contenitori in esecuzione"
 
 #: data/com.github.marhkb.Symphony.metainfo.xml.in.in:15
 msgid "Main window"
@@ -66,7 +66,7 @@ msgstr "Finestra principale"
 
 #: data/com.github.marhkb.Symphony.metainfo.xml.in.in:32
 msgid "Marcus Behrendt"
-msgstr ""
+msgstr "Marcus Behrendt"
 
 #: data/resources/ui/connection-lost-page.ui:16
 msgid ""
@@ -74,6 +74,9 @@ msgid ""
 "Unix. If the connection has been disconnected unintentionally, you can try "
 "to re-establish it."
 msgstr ""
+"Si è verificato un errore imprevisto e Symphony ha perso la connessione a "
+"Podman Unix. Se la connessione è stata interrotta involontariamente, provare "
+"a ristabilire la connessione."
 
 #: data/resources/ui/connection-lost-page.ui:18
 msgid "Lost Connection to Podman"
@@ -90,32 +93,32 @@ msgstr "_Cancella"
 
 #: data/resources/ui/images-prune-dialog.ui:29
 msgid "No Images To Be Pruned"
-msgstr ""
+msgstr "Nessuna immagine da eliminare"
 
 #: data/resources/ui/property-row.ui:14 src/model/container.rs:64
 msgid "Created"
-msgstr ""
+msgstr "Creato"
 
 #: data/resources/ui/start-service-page.ui:16
 msgid "The Podman service is currently not running"
-msgstr ""
+msgstr "Il servizio Podman non è in esecuzione"
 
 #: data/resources/ui/start-service-page.ui:17
 msgid "Welcome to Symphony"
-msgstr ""
+msgstr "Benvenuto in Symphony"
 
 #: data/resources/ui/start-service-page.ui:28
 msgid "_Start Podman Service"
-msgstr ""
+msgstr "_Avvia servizio Podman"
 
 #: data/resources/ui/check-service-page.ui:17
 msgid "Checking Connection to Podman Service"
-msgstr ""
+msgstr "Verifica connessione al servizio Podman"
 
 #: data/resources/ui/containers-panel.ui:82
 #: data/resources/ui/images-panel.ui:84
 msgid "Summary"
-msgstr ""
+msgstr "Sommario"
 
 #: data/resources/ui/shortcuts.ui:13
 msgctxt "shortcut window"
@@ -151,224 +154,224 @@ msgstr "_Informazioni su Symphony"
 
 #: data/resources/ui/window.ui:24
 msgid "Show intermediate images"
-msgstr ""
+msgstr "Mostra immagini intermedie"
 
 #: data/resources/ui/window.ui:28
 msgid "Prune unused images"
-msgstr ""
+msgstr "Elimina immagini inutilizzate"
 
 #: data/resources/ui/window.ui:37
 msgid "Show only running containers"
-msgstr ""
+msgstr "Mostra solo contenitori in esecuzione"
 
 #: data/resources/ui/window.ui:124
 msgid "Images"
-msgstr ""
+msgstr "Immagini"
 
 #: data/resources/ui/window.ui:136
 msgid "Containers"
-msgstr ""
+msgstr "Contenitori"
 
 #: data/resources/ui/container-row.ui:7
 msgid "_Start"
-msgstr ""
+msgstr "_Avvio"
 
 #: data/resources/ui/container-row.ui:13 data/resources/ui/container-row.ui:50
 #: data/resources/ui/container-row.ui:87
 msgid "_Commit"
-msgstr ""
+msgstr "_Commit"
 
 #: data/resources/ui/container-row.ui:28 data/resources/ui/container-row.ui:65
 msgid "_Stop"
-msgstr ""
+msgstr "_Arresto"
 
 #: data/resources/ui/container-row.ui:32 data/resources/ui/container-row.ui:69
 msgid "_Force Stop"
-msgstr ""
+msgstr "_Forza arresto"
 
 #: data/resources/ui/container-row.ui:36 data/resources/ui/container-row.ui:73
 msgid "_Restart"
-msgstr ""
+msgstr "_Riavvio"
 
 #: data/resources/ui/container-row.ui:40 data/resources/ui/container-row.ui:77
 msgid "F_orce Restart"
-msgstr ""
+msgstr "F_orza Riavvio"
 
 #: data/resources/ui/container-row.ui:44
 msgid "_Pause"
-msgstr ""
+msgstr "_Pausa"
 
 #: data/resources/ui/container-row.ui:81
 msgid "_Resume"
-msgstr ""
+msgstr "_Riprendi"
 
 #: src/model/container.rs:63
 msgid "Configured"
-msgstr ""
+msgstr "Configurato"
 
 #: src/model/container.rs:65
 msgid "Dead"
-msgstr ""
+msgstr "Inattivo"
 
 #: src/model/container.rs:66
 msgid "Exited"
-msgstr ""
+msgstr "Terminato"
 
 #: src/model/container.rs:67
 msgid "Paused"
-msgstr ""
+msgstr "Sospeso"
 
 #: src/model/container.rs:68
 msgid "Removing"
-msgstr ""
+msgstr "Rimozione"
 
 #: src/model/container.rs:69
 msgid "Restarting"
-msgstr ""
+msgstr "Riavvio"
 
 #: src/model/container.rs:70
 msgid "Running"
-msgstr ""
+msgstr "In esecuzione"
 
 #: src/model/container.rs:71
 msgid "Stopped"
-msgstr ""
+msgstr "Arrestato"
 
 #: src/model/container.rs:72
 msgid "Stopping"
-msgstr ""
+msgstr "Interruzione"
 
 #: src/model/container.rs:73
 msgid "Unknown"
-msgstr ""
+msgstr "Sconosciuto"
 
 #: src/view/container_row.rs:247
 msgid "Error on starting container"
-msgstr ""
+msgstr "Errore all'avvio del contenitore"
 
 #: src/view/container_row.rs:255
 msgid "Error on stopping container"
-msgstr ""
+msgstr "Errore durante l'arresto del contenitore"
 
 #: src/view/container_row.rs:263
 msgid "Error on force stopping container"
-msgstr ""
+msgstr "Errore durante l'arresto forzato del contenitore"
 
 #: src/view/container_row.rs:271
 msgid "Error on restarting container"
-msgstr ""
+msgstr "Errore durante il riavvio del contenitore"
 
 #: src/view/container_row.rs:279
 msgid "Error on force restarting container"
-msgstr ""
+msgstr "Errore durante il riavvio forzato del contenitore"
 
 #: src/view/container_row.rs:287
 msgid "Error on pausing container"
-msgstr ""
+msgstr "Errore durante la sospensione del contenitore"
 
 #: src/view/container_row.rs:295
 msgid "Error on resuming container"
-msgstr ""
+msgstr "Errore durante la ripresa del contenitore"
 
 #: src/view/container_row.rs:303
 msgid "Error on committing container"
-msgstr ""
+msgstr "Errore durante il commit del contenitore"
 
 #: src/view/container_row.rs:311
 msgid "Error on deleting container"
-msgstr ""
+msgstr "Errore durante l'eliminazione del contenitore"
 
 #: src/view/container_row.rs:319
 msgid "Error on force deleting container"
-msgstr ""
+msgstr "Errore durante l'eliminazione forzata del contenitore"
 
 #. Translators: There's a wide space (U+2002) between ", {}".
 #: src/view/containers_panel.rs:172
 msgid "{} Containers total, {} running"
-msgstr ""
+msgstr "{} Contenitori totali, {} in esecuzione"
 
 #: src/view/containers_panel.rs:177
 msgid "No containers found"
-msgstr ""
+msgstr "Nessun contenitore trovato"
 
 #: src/view/image_row.rs:56
 msgid "Error on deleting image"
-msgstr ""
+msgstr "Errore durante l'eliminazione dell'immagine"
 
 #. Translators: "{}" are placeholders for storage space.
 #: src/view/image_row.rs:190
 msgid "{} (Virtual: {})"
-msgstr ""
+msgstr "{} (Virtuali: {})"
 
 #. Translators: "{}" are placeholders for storage space.
 #: src/view/image_row.rs:199
 msgid "{} (Shared: {})"
-msgstr ""
+msgstr "{} (Condivisi: {})"
 
 #. Translators: "{}" are placeholders for storage space.
 #: src/view/image_row.rs:209
 msgid "{} (Shared: {}, Virtual: {})"
-msgstr ""
+msgstr "{} (Condivisi: {}, Virtuali: {})"
 
 #. Translators: "{}" is placeholder for an integer value.
 #: src/view/image_row.rs:224
 msgid "By {} containers"
-msgstr ""
+msgstr "Da {} contenitori"
 
 #. Translators: There's a wide space (U+2002) between the two {} {}.
 #: src/view/images_panel.rs:173
 msgid "{} images total, {} {} unused images, {}"
-msgstr ""
+msgstr "{} immagini totali, {} {} immagini inutilizzate, {}"
 
 #: src/view/images_panel.rs:180
 msgid "No images found"
-msgstr ""
+msgstr "Nessuna immagine trovata"
 
 #. Translators: "{}" is a placeholder for the image id.
 #: src/view/images_panel.rs:340
 msgid "Error on pruning image '{}'"
-msgstr ""
+msgstr "Errore durante l'eliminazione dell'immagine '{}'"
 
 #: src/application.rs:138
 msgid "translator-credits"
-msgstr ""
+msgstr "Andrea Brandi <git@andreabrandi.com>"
 
 #. Translators: "{}" is the placeholder for the exit code.
 #: src/application.rs:171
 msgid "Command to start Podman returned exit code: {}"
-msgstr ""
+msgstr "Il comando per avviare Podman ha restituito il codice di uscita: {}"
 
 #: src/application.rs:184
 msgid "Failed to execute command to start Podman"
-msgstr ""
+msgstr "Impossibile eseguire il comando per avviare Podman"
 
 #: src/main.rs:85
 msgid "Prints application version"
-msgstr ""
+msgstr "Mostra versione dell'applicazione"
 
 #: src/main.rs:94
 msgid "Specify the minimum log level"
-msgstr ""
+msgstr "Specifica livello minimo dei log"
 
 #. Translators: This string will be shown when a property of an entity like an image is null.
 #: src/utils.rs:48
 msgid "<none>"
-msgstr ""
+msgstr "<nessuno>"
 
 #: src/window.rs:360
 msgid "Error on loading images"
-msgstr ""
+msgstr "Errore durante il caricamento delle immagini"
 
 #. Translators: "{}" is the placeholder for the image id.
 #: src/window.rs:363
 msgid "Error on inspecting image '{}'"
-msgstr ""
+msgstr "Errore durante il controllo dell'immagine '{}'"
 
 #: src/window.rs:376
 msgid "Error on loading containers"
-msgstr ""
+msgstr "Errore durante il caricamento dei contenitori"
 
 #. Translators: "{}" is the placeholder for the container id.
 #: src/window.rs:379
 msgid "Error on inspecting container '{}'"
-msgstr ""
+msgstr "Errore durante il controllo del contenitore '{}'"
