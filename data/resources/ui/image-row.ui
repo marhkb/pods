@@ -16,6 +16,9 @@
 
     <child>
       <object class="GtkMenuButton">
+        <style>
+          <class name="flat"/>
+        </style>
         <property name="icon-name">view-more-symbolic</property>
         <property name="menu-model">menu</property>
         <property name="valign">center</property>
