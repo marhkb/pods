@@ -33,12 +33,16 @@ boxed_type!(BoxedStringVec, Vec<String>);
 boxed_type!(BoxedStringBTreeSet, BTreeSet<String>);
 
 pub(crate) fn find_leaflet_overview<W: glib::IsA<gtk::Widget>>(widget: &W) -> view::LeafletOverlay {
-    let leaflet = widget
-        .ancestor(adw::Leaflet::static_type())
-        .unwrap()
-        .downcast::<adw::Leaflet>()
-        .unwrap();
+    leaflet_overlay(
+        &widget
+            .ancestor(adw::Leaflet::static_type())
+            .unwrap()
+            .downcast::<adw::Leaflet>()
+            .unwrap(),
+    )
+}
 
+pub(crate) fn leaflet_overlay(leaflet: &adw::Leaflet) -> view::LeafletOverlay {
     leaflet
         .child_by_name("overlay")
         .unwrap()
