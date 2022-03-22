@@ -1,4 +1,5 @@
 use std::cell::{Cell, RefCell};
+use std::collections::HashSet;
 
 use gtk::glib::subclass::Signal;
 use gtk::glib::{clone, WeakRef};
@@ -27,6 +28,8 @@ mod imp {
         pub(super) list: RefCell<IndexMap<String, model::Container>>,
         pub(super) listing: Cell<bool>,
         pub(super) to_fetch: Cell<u32>,
+
+        pub(super) failed: RefCell<HashSet<String>>,
     }
 
     #[glib::object_subclass]
@@ -224,14 +227,14 @@ impl ContainerList {
     where
         F: FnOnce(Error) + 'static,
     {
-        let err = Error::Inspect(id.clone());
         utils::do_async(
-            async move { PODMAN.containers().get(id).inspect().await },
-            clone!(@weak self as obj => move |result| {
+            async move { (PODMAN.containers().get(id.as_str()).inspect().await, id) },
+            clone!(@weak self as obj => move |(result, id)| {
+                let imp = obj.imp();
                 match result {
                     Ok(inspect_response) => {
-                        let mut list = obj.imp().list.borrow_mut();
-                        let entry = list.entry(inspect_response.id.clone().unwrap());
+                        let mut list = imp.list.borrow_mut();
+                        let entry = list.entry(id);
                         match entry {
                             Entry::Vacant(entry) => {
                                 let container = model::Container::from(inspect_response);
@@ -248,7 +251,9 @@ impl ContainerList {
                     }
                     Err(e) => {
                         log::error!("Error on inspecting image: {}", e);
-                        err_op(err);
+                        if imp.failed.borrow_mut().insert(id.clone()) {
+                            err_op(Error::Inspect(id));
+                        }
                     }
                 }
                 obj.set_fetched(obj.fetched() + 1);
@@ -257,6 +262,8 @@ impl ContainerList {
     }
 
     pub(crate) fn remove_container(&self, id: &str) {
+        self.imp().failed.borrow_mut().remove(id);
+
         let mut list = self.imp().list.borrow_mut();
         if let Some((idx, id, _)) = list.shift_remove_full(id) {
             drop(list);

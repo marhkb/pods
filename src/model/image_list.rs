@@ -1,5 +1,6 @@
 use std::borrow::Borrow;
 use std::cell::{Cell, RefCell};
+use std::collections::HashSet;
 
 use futures::TryFutureExt;
 use gtk::glib::subclass::Signal;
@@ -29,6 +30,8 @@ mod imp {
         pub(super) list: RefCell<IndexMap<String, model::Image>>,
         pub(super) listing: Cell<bool>,
         pub(super) to_fetch: Cell<u32>,
+
+        pub(super) failed: RefCell<HashSet<String>>,
     }
 
     #[glib::object_subclass]
@@ -238,6 +241,8 @@ impl ImageList {
     }
 
     pub(crate) fn remove_image(&self, id: &str) {
+        self.imp().failed.borrow_mut().remove(id);
+
         let mut list = self.imp().list.borrow_mut();
         if let Some((idx, ..)) = list.shift_remove_full(id) {
             drop(list);
@@ -283,21 +288,27 @@ impl ImageList {
                         obj.set_to_fetch(summaries.len() as u32);
 
                         summaries.into_iter().for_each(|summary| {
-                            let err = Error::Inspect(summary.id.clone().unwrap());
                             utils::do_async(
                                 async move {
-                                    PODMAN.images().get(summary.id.as_deref().unwrap()).inspect()
-                                        .map_ok(|inspect_response| (summary, inspect_response))
-                                        .await
+                                    (
+                                        summary.id.clone().unwrap(),
+                                        PODMAN
+                                            .images()
+                                            .get(summary.id.as_deref().unwrap())
+                                            .inspect()
+                                            .map_ok(|inspect_response| (summary, inspect_response))
+                                            .await,
+                                    )
                                 },
-                                clone!(@weak obj, @strong err_op => move |result| {
+                                clone!(@weak obj, @strong err_op => move |(id, result)| {
+                                    let imp = obj.imp();
                                     match result {
                                         Ok((summary, inspect_response)) => {
                                             let image = model::Image::from_libpod(
                                                 summary,
                                                 inspect_response
                                             );
-                                            obj.imp().list.borrow_mut().insert(
+                                            imp.list.borrow_mut().insert(
                                                 image.id().to_owned(),
                                                 image.clone()
                                             );
@@ -307,7 +318,9 @@ impl ImageList {
                                         }
                                         Err(e) => {
                                             log::error!("Error on inspecting image: {}", e);
-                                            err_op(err);
+                                            if imp.failed.borrow_mut().insert(id.clone()) {
+                                                err_op(Error::Inspect(id));
+                                            }
                                         }
                                     }
                                     obj.set_fetched(obj.fetched() + 1);
