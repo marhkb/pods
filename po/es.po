@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: symphony\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:53+0100\n"
-"PO-Revision-Date: 2022-03-19 21:27+0000\n"
+"PO-Revision-Date: 2022-03-24 13:57+0000\n"
 "Last-Translator: Óscar Fernández Díaz <oscfdezdz@tuta.io>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/symphony/"
 "symphony/es/>\n"
@@ -91,35 +91,33 @@ msgid "_Restart Podman Service"
 msgstr "_Reiniciar el servicio de Podman"
 
 #: data/resources/ui/container-details-page.ui:38
-#, fuzzy
 msgid "Container Details"
-msgstr "Contenedores"
+msgstr "Detalles del contenedor"
 
 #: data/resources/ui/container-details-page.ui:61
 msgid "Id"
-msgstr ""
+msgstr "Identificador"
 
 #: data/resources/ui/container-details-page.ui:77
-#, fuzzy
 msgid "Image"
-msgstr "Imágenes"
+msgstr "Imagen"
 
 #: data/resources/ui/container-details-page.ui:103
 msgid "Name"
-msgstr ""
+msgstr "Nombre"
 
 #: data/resources/ui/container-details-page.ui:125
 msgid "Status"
-msgstr ""
+msgstr "Estado"
 
 #: data/resources/ui/container-rename-dialog.ui:10
 #: data/resources/ui/images-prune-dialog.ui:11
 msgid "_Cancel"
-msgstr ""
+msgstr "_Cancelar"
 
 #: data/resources/ui/container-rename-dialog.ui:21
 msgid "_Rename"
-msgstr ""
+msgstr "_Renombrar"
 
 #: data/resources/ui/containers-panel.ui:82
 #: data/resources/ui/images-panel.ui:84
@@ -127,18 +125,16 @@ msgid "Summary"
 msgstr "Resumen"
 
 #: data/resources/ui/image-details-page.ui:7
-#, fuzzy
 msgid "_Delete Image"
-msgstr "_Eliminar"
+msgstr "_Eliminar imagen"
 
 #: data/resources/ui/image-details-page.ui:47
-#, fuzzy
 msgid "Image Details"
-msgstr "Imágenes"
+msgstr "Detalles de la imagen"
 
 #: data/resources/ui/image-details-page.ui:154
 msgid "Image Has Been Deleted"
-msgstr ""
+msgstr "La imagen ha sido eliminada"
 
 #: data/resources/ui/image-row.ui:7 src/view/container_row.rs:369
 msgid "_Delete"
@@ -146,16 +142,15 @@ msgstr "_Eliminar"
 
 #: data/resources/ui/image-used-by-row.ui:14
 msgid "Used By"
-msgstr ""
+msgstr "Usada por"
 
 #: data/resources/ui/image-used-by-row.ui:46
-#, fuzzy
 msgid "unused"
-msgstr "Pausado"
+msgstr "sin uso"
 
 #: data/resources/ui/images-prune-dialog.ui:21
 msgid "_Prune"
-msgstr ""
+msgstr "_Podar"
 
 #: data/resources/ui/images-prune-dialog.ui:32
 msgid "No Images To Be Pruned"
@@ -182,9 +177,8 @@ msgid "Search"
 msgstr "Buscar"
 
 #: data/resources/ui/start-service-page.ui:16
-#, fuzzy
 msgid "The Podman service is currently not running."
-msgstr "El servicio Podman no está actualmente en funcionamiento"
+msgstr "El servicio Podman no está actualmente en funcionamiento."
 
 #: data/resources/ui/start-service-page.ui:17
 msgid "Welcome to Symphony"
@@ -298,7 +292,7 @@ msgstr "<ninguna>"
 
 #: src/view/container_rename_dialog.rs:87
 msgid "Rename container «{}»"
-msgstr ""
+msgstr "Renombrar el contenedor «{}»"
 
 #: src/view/container_row.rs:232
 msgid "Error on starting container"
@@ -342,7 +336,7 @@ msgstr "Error al forzar el eliminado del contenedor"
 
 #: src/view/container_row.rs:361
 msgid "_Rename…"
-msgstr ""
+msgstr "_Renombrar…"
 
 #: src/view/container_row.rs:365
 msgid "_Commit"
@@ -403,13 +397,12 @@ msgstr "{} (Compartida: {}, Virtual: {})"
 #. Translators: "{}" is a placeholder for the image id.
 #: src/view/image_details_page.rs:290 src/view/image_row.rs:164
 msgid "Successfully deleted image '{}'"
-msgstr ""
+msgstr "Se ha eliminado con éxito la imagen '{}'"
 
 #. Translators: "{}" is a placeholder for the image id.
 #: src/view/image_details_page.rs:295 src/view/image_row.rs:168
-#, fuzzy
 msgid "Error on deleting image '{}'"
-msgstr "Error al eliminar la imagen"
+msgstr "Error al eliminar la imagen '{}'"
 
 #. Translators: There's a wide space (U+2002) between the two {} {}.
 #: src/view/images_panel.rs:176
@@ -422,14 +415,13 @@ msgstr "No se encontraron imágenes"
 
 #. Translators: "{}" is a placeholder for the number of images.
 #: src/view/images_panel.rs:381
-#, fuzzy
 msgid "{} images have been pruned"
-msgstr "No hay imágenes que podar"
+msgstr "{} imágenes han sido podadas"
 
 #. Translators: "{}" are placeholders for cardinal numbers.
 #: src/view/images_panel.rs:387
 msgid "{} images have been pruned ({} errors)"
-msgstr ""
+msgstr "{} imágenes han sido podadas ({} errores)"
 
 #. Translators: "{}" is a placeholder for the image id.
 #: src/view/images_panel.rs:409
