@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+
+  <template class="ContainerDetailsPanel" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBinLayout"/>
+    </property>
+
+    <child>
+      <object class="AdwPreferencesPage" id="preferences_page">
+        <property name="vexpand">True</property>
+
+        <child>
+          <object class="AdwPreferencesGroup">
+
+            <child>
+              <object class="GtkListBox">
+                <style>
+                  <class name="boxed-list"/>
+                </style>
+                <property name="selection-mode">none</property>
+
+                <child>
+                  <object class="PropertyRow" id="id_row">
+                    <property name="key" translatable="yes">Id</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkListBoxRow">
+                    <property name="activatable">False</property>
+
+                    <child>
+                      <object class="GtkBox">
+                        <style>
+                          <class name="property-row"/>
+                        </style>
+
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="label" translatable="yes">Image</property>
+                            <property name="hexpand">True</property>
+                            <property name="xalign">0</property>
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="GtkLabel" id="image_name_label">
+                            <property name="use-markup">True</property>
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="GtkSpinner" id="image_spinner">
+                            <property name="spinning">True</property>
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+                <child>
+                  <object class="PropertyRow" id="name_row">
+                    <property name="key" translatable="yes">Name</property>
+                    <binding name="value">
+                      <lookup name="name" type="Container">
+                        <lookup name="container">ContainerDetailsPanel</lookup>
+                      </lookup>
+                    </binding>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkListBoxRow" id="status_row">
+                    <property name="activatable">False</property>
+
+                    <child>
+                      <object class="GtkBox">
+                        <style>
+                          <class name="property-row"/>
+                        </style>
+                        <property name="hexpand">True</property>
+
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="label" translatable="yes">Status</property>
+                            <property name="hexpand">True</property>
+                            <property name="xalign">0</property>
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="GtkLabel" id="status_label">
+                            <style>
+                              <class name="container-status"/>
+                            </style>
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+
+</interface>
