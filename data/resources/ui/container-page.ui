@@ -73,9 +73,15 @@
                     <property name="icon-name">utilities-terminal-symbolic</property>
                     <property name="name">logs</property>
                     <property name="title" translatable="yes">Logs</property>
+
                     <property name="child">
-                      <object class="AdwBin"/>
+                      <object class="ContainerLogsPanel">
+                        <binding name="container">
+                          <lookup name="container">ContainerPage</lookup>
+                        </binding>
+                      </object>
                     </property>
+
                   </object>
                 </child>
 
