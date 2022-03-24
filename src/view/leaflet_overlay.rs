@@ -57,5 +57,6 @@ impl LeafletOverlay {
 
     pub(crate) fn hide_details(&self) {
         self.leaflet().navigate(adw::NavigationDirection::Back);
+        self.set_child(gtk::Widget::NONE);
     }
 }
