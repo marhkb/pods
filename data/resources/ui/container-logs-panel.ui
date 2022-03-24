@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+
+  <template class="ContainerLogsPanel" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBinLayout"/>
+    </property>
+
+    <child>
+      <object class="GtkOverlay" id="overlay">
+
+        <child type="overlay">
+          <object class="GtkRevealer">
+            <property name="halign">end</property>
+            <property name="margin-bottom">18</property>
+            <property name="margin-end">18</property>
+            <property name="reveal-child" bind-source="ContainerLogsPanel" bind-property="sticky" bind-flags="sync-create | invert-boolean"/>
+            <property name="transition-type">crossfade</property>
+            <property name="valign">end</property>
+
+            <child>
+              <object class="GtkButton">
+                <property name="action-name">logs.scroll-down</property>
+                <property name="halign">center</property>
+                <property name="icon-name">go-bottom-symbolic</property>
+                <property name="valign">end</property>
+                <accessibility>
+                  <property name="label" translatable="yes">Scroll to bottom</property>
+                </accessibility>
+                <style>
+                  <class name="osd"/>
+                  <class name="circular"/>
+                </style>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkScrolledWindow" id="scrolled_window">
+            <property name="hscrollbar-policy">never</property>
+            <property name="vexpand">True</property>
+
+            <child>
+              <object class="GtkTextView">
+                <property name="buffer">
+                  <object class="GtkTextBuffer" id="text_buffer"/>
+                </property>
+                <property name="editable">False</property>
+                <property name="wrap-mode">char</property>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+
+</interface>

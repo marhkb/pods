@@ -18,6 +18,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4361135be9122e0870de935d7c439aef945b9f9ddd4199a553b5270b49c82a27"
 
 [[package]]
+name = "arrayvec"
+version = "0.5.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "23b62fc65de8e4e7f52534fb52b0f3ed04746ae267519eef2a83941e8085068b"
+
+[[package]]
 name = "autocfg"
 version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -122,6 +128,27 @@ dependencies = [
  "serde",
  "time 0.1.44",
  "winapi",
+]
+
+[[package]]
+name = "containers-api-conn"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b556df09c7386a733ab63b5e42590cbdcffeb51fb51a3da08a82c8befd143622"
+dependencies = [
+ "futures-util",
+ "futures_codec",
+ "http",
+ "hyper",
+ "hyperlocal",
+ "log",
+ "mime",
+ "pin-project 1.0.10",
+ "serde",
+ "serde_json",
+ "thiserror",
+ "tokio",
+ "url",
 ]
 
 [[package]]
@@ -611,9 +638,9 @@ checksum = "c4a1e36c821dbe04574f602848a19f742f4fb3c98d40449f11bcad18d6b17421"
 
 [[package]]
 name = "hyper"
-version = "0.14.17"
+version = "0.14.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "043f0e083e9901b6cc658a77d1eb86f4fc650bbb977a4337dd63192826aa85dd"
+checksum = "b26ae0a80afebe130861d90abf98e3814a4f28a4c6ffeb5ab8ebb2be311e0ef2"
 dependencies = [
  "bytes 1.1.0",
  "futures-channel",
@@ -991,23 +1018,19 @@ checksum = "58893f751c9b0412871a09abd62ecd2a00298c6c83befa223ef98c52aef40cbe"
 
 [[package]]
 name = "podman-api"
-version = "0.1.1"
+version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a6d8d7a5166367c7a7f9b13e9ddb96e8bde2eadb53a4a257cf4d9b932af16669"
+checksum = "b26224ab71db31c8e120b0b20d1f99780badab147e6b0b6dcbb86f4db22ed717"
 dependencies = [
  "base64",
  "byteorder",
  "bytes 1.1.0",
  "chrono",
+ "containers-api-conn",
  "futures-util",
  "futures_codec",
- "http",
- "hyper",
- "hyperlocal",
  "log",
- "mime",
  "paste",
- "pin-project 1.0.10",
  "podman-api-stubs",
  "serde",
  "serde_json",
@@ -1018,9 +1041,9 @@ dependencies = [
 
 [[package]]
 name = "podman-api-stubs"
-version = "0.1.0"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1e5dd8e985f3dae74f68cdb14659da2784de1ed3ef807a5e2b4f3c1bee8aeeb9"
+checksum = "6c46bcfbf08824de3f426b1ba4561cd9e835ace19fd3d142a642ebd724cc69d9"
 dependencies = [
  "chrono",
  "serde",
@@ -1216,6 +1239,7 @@ dependencies = [
  "podman-api",
  "syslog",
  "tokio",
+ "vte",
 ]
 
 [[package]]
@@ -1416,6 +1440,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "utf8parse"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "936e4b492acfd135421d8dca4b1aa80a7bfc26e702ef3af710e0752684df5372"
+
+[[package]]
 name = "version-compare"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1426,6 +1456,27 @@ name = "version_check"
 version = "0.9.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "49874b5167b65d7193b8aba1567f5c7d93d001cafc34600cee003eda787e483f"
+
+[[package]]
+name = "vte"
+version = "0.10.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6cbce692ab4ca2f1f3047fcf732430249c0e971bfdd2b234cf2c47ad93af5983"
+dependencies = [
+ "arrayvec",
+ "utf8parse",
+ "vte_generate_state_changes",
+]
+
+[[package]]
+name = "vte_generate_state_changes"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d257817081c7dffcdbab24b9e62d2def62e2ff7d00b1c20062551e6cccc145ff"
+dependencies = [
+ "proc-macro2",
+ "quote",
+]
 
 [[package]]
 name = "want"

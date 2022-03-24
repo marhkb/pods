@@ -109,7 +109,7 @@ pub(crate) fn run_stream<S, I, F>(mut stream: S, glib_closure: F)
 where
     S: Stream<Item = I> + Send + Unpin + 'static,
     I: Send + 'static,
-    F: Fn(I) -> glib::Continue + 'static,
+    F: FnMut(I) -> glib::Continue + 'static,
 {
     let (sender, receiver) = glib::MainContext::sync_channel::<I>(Default::default(), 5);
 

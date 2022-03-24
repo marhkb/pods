@@ -561,6 +561,16 @@ impl Container {
             }),
         );
     }
+
+    pub(crate) fn logs(&self) -> impl futures::Stream<Item = api::Result<Vec<u8>>> + 'static {
+        api::Container::new(&*PODMAN, self.id().unwrap_or_default()).logs(
+            &api::ContainerLogsOpts::builder()
+                .follow(true)
+                .stdout(true)
+                .stderr(true)
+                .build(),
+        )
+    }
 }
 
 fn status(state: Option<api::InspectContainerState>) -> Status {

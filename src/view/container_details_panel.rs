@@ -4,18 +4,17 @@ use gtk::subclass::prelude::*;
 use gtk::{glib, CompositeTemplate};
 use once_cell::sync::Lazy;
 
-use crate::window::Window;
 use crate::{model, utils, view};
 
 mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(resource = "/com/github/marhkb/Symphony/ui/container-details-page.ui")]
-    pub(crate) struct ContainerDetailsPage {
+    #[template(resource = "/com/github/marhkb/Symphony/ui/container-details-panel.ui")]
+    pub(crate) struct ContainerDetailsPanel {
         pub(super) container: WeakRef<model::Container>,
         #[template_child]
-        pub(super) leaflet: TemplateChild<adw::Leaflet>,
+        pub(super) preferences_page: TemplateChild<adw::PreferencesPage>,
         #[template_child]
         pub(super) id_row: TemplateChild<view::PropertyRow>,
         #[template_child]
@@ -27,19 +26,13 @@ mod imp {
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for ContainerDetailsPage {
-        const NAME: &'static str = "ContainerDetailsPage";
-        type Type = super::ContainerDetailsPage;
+    impl ObjectSubclass for ContainerDetailsPanel {
+        const NAME: &'static str = "ContainerDetailsPanel";
+        type Type = super::ContainerDetailsPanel;
         type ParentType = gtk::Widget;
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
-            klass.install_action("navigation.go-first", None, move |widget, _, _| {
-                widget.navigate_to_first();
-            });
-            klass.install_action("navigation.back", None, move |widget, _, _| {
-                widget.navigate_back();
-            });
             klass.install_action("image.show-details", None, move |widget, _, _| {
                 widget.show_details();
             });
@@ -50,13 +43,13 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for ContainerDetailsPage {
+    impl ObjectImpl for ContainerDetailsPanel {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![glib::ParamSpecObject::new(
                     "container",
                     "Container",
-                    "The container of this ContainerDetailsPage",
+                    "The container of this ContainerDetailsPanel",
                     model::Container::static_type(),
                     glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT,
                 )]
@@ -147,65 +140,25 @@ mod imp {
         }
 
         fn dispose(&self, _obj: &Self::Type) {
-            self.leaflet.unparent();
+            self.preferences_page.unparent();
         }
     }
 
-    impl WidgetImpl for ContainerDetailsPage {
-        fn realize(&self, widget: &Self::Type) {
-            self.parent_realize(widget);
-
-            widget.action_set_enabled(
-                "navigation.go-first",
-                widget.previous_leaflet_overlay() != widget.root_leaflet_overlay(),
-            );
-        }
-    }
+    impl WidgetImpl for ContainerDetailsPanel {}
 }
 
 glib::wrapper! {
-    pub(crate) struct ContainerDetailsPage(ObjectSubclass<imp::ContainerDetailsPage>) @extends gtk::Widget;
+    pub(crate) struct ContainerDetailsPanel(ObjectSubclass<imp::ContainerDetailsPanel>) @extends gtk::Widget;
 }
 
-impl From<&model::Container> for ContainerDetailsPage {
-    fn from(image: &model::Container) -> Self {
-        glib::Object::new(&[("container", image)]).expect("Failed to create ContainerDetailsPage")
-    }
-}
-
-impl ContainerDetailsPage {
+impl ContainerDetailsPanel {
     pub(crate) fn container(&self) -> Option<model::Container> {
         self.imp().container.upgrade()
     }
 
-    fn navigate_to_first(&self) {
-        self.root_leaflet_overlay().hide_details();
-    }
-
-    fn navigate_back(&self) {
-        self.previous_leaflet_overlay().hide_details();
-    }
-
     fn show_details(&self) {
-        self.this_leaflet_overlay()
-            .show_details(&view::ImageDetailsPage::from(
-                &self.container().unwrap().image().unwrap(),
-            ));
-    }
-
-    fn previous_leaflet_overlay(&self) -> view::LeafletOverlay {
-        utils::find_leaflet_overlay(self)
-    }
-
-    fn this_leaflet_overlay(&self) -> view::LeafletOverlay {
-        utils::leaflet_overlay(&*self.imp().leaflet)
-    }
-
-    fn root_leaflet_overlay(&self) -> view::LeafletOverlay {
-        self.root()
-            .unwrap()
-            .downcast::<Window>()
-            .unwrap()
-            .leaflet_overlay()
+        utils::find_leaflet_overlay(self).show_details(&view::ImageDetailsPage::from(
+            &self.container().unwrap().image().unwrap(),
+        ));
     }
 }
