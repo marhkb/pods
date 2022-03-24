@@ -6,6 +6,7 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/check-service-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/connection-lost-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container-details-panel.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/container-logs-panel.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/containers-panel.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container-rename-dialog.ui</file>
