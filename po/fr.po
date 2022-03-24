@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: symphony\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:53+0100\n"
-"PO-Revision-Date: 2022-03-16 21:46+0000\n"
-"Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
+"PO-Revision-Date: 2022-03-24 22:31+0000\n"
+"Last-Translator: ButterflyOfFire <ButterflyOfFire@protonmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/symphony/symphony/"
 "fr/>\n"
 "Language: fr\n"
@@ -91,22 +91,20 @@ msgid "_Restart Podman Service"
 msgstr "_Restaurer le service Podman"
 
 #: data/resources/ui/container-details-page.ui:38
-#, fuzzy
 msgid "Container Details"
-msgstr "Conteneurs"
+msgstr "Détails du conteneur"
 
 #: data/resources/ui/container-details-page.ui:61
 msgid "Id"
-msgstr ""
+msgstr "Id"
 
 #: data/resources/ui/container-details-page.ui:77
-#, fuzzy
 msgid "Image"
-msgstr "Images"
+msgstr "Image"
 
 #: data/resources/ui/container-details-page.ui:103
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 #: data/resources/ui/container-details-page.ui:125
 msgid "Status"
@@ -182,9 +180,8 @@ msgid "Search"
 msgstr "Chercher"
 
 #: data/resources/ui/start-service-page.ui:16
-#, fuzzy
 msgid "The Podman service is currently not running."
-msgstr "Le service Podman ne fonctionne pas actuellement"
+msgstr "Le service Podman ne fonctionne pas actuellement."
 
 #: data/resources/ui/start-service-page.ui:17
 msgid "Welcome to Symphony"
