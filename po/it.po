@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: symphony\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:53+0100\n"
-"PO-Revision-Date: 2022-03-25 21:13+0000\n"
+"PO-Revision-Date: 2022-03-25 21:40+0000\n"
 "Last-Translator: Andrea Brandi <git@andreabrandi.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/symphony/"
 "symphony/it/>\n"
@@ -46,7 +46,7 @@ msgstr "Altezza finestra predefinita"
 
 #: data/com.github.marhkb.Symphony.gschema.xml.in:16
 msgid "Default window maximized behaviour"
-msgstr "Comportamento predefinito finestra massimizzata"
+msgstr "Comportamento predefinito della finestra massimizzata"
 
 #: data/com.github.marhkb.Symphony.gschema.xml.in:21
 msgid "The last used view"
@@ -177,9 +177,8 @@ msgid "Search"
 msgstr "Ricerca"
 
 #: data/resources/ui/start-service-page.ui:16
-#, fuzzy
 msgid "The Podman service is currently not running."
-msgstr "Il servizio Podman non è in esecuzione"
+msgstr "Il servizio Podman non è in esecuzione."
 
 #: data/resources/ui/start-service-page.ui:17
 msgid "Welcome to Symphony"
@@ -293,7 +292,7 @@ msgstr "<nessuno>"
 
 #: src/view/container_rename_dialog.rs:87
 msgid "Rename container «{}»"
-msgstr ""
+msgstr "Rinomina contenitore «{}»"
 
 #: src/view/container_row.rs:232
 msgid "Error on starting container"
@@ -337,7 +336,7 @@ msgstr "Errore durante l'eliminazione forzata del contenitore"
 
 #: src/view/container_row.rs:361
 msgid "_Rename…"
-msgstr ""
+msgstr "_Rinomina…"
 
 #: src/view/container_row.rs:365
 msgid "_Commit"
@@ -398,13 +397,12 @@ msgstr "{} (Condivisi: {}, Virtuali: {})"
 #. Translators: "{}" is a placeholder for the image id.
 #: src/view/image_details_page.rs:290 src/view/image_row.rs:164
 msgid "Successfully deleted image '{}'"
-msgstr ""
+msgstr "L'immagine '{}' è stata eliminata"
 
 #. Translators: "{}" is a placeholder for the image id.
 #: src/view/image_details_page.rs:295 src/view/image_row.rs:168
-#, fuzzy
 msgid "Error on deleting image '{}'"
-msgstr "Errore durante l'eliminazione dell'immagine"
+msgstr "Errore durante l'eliminazione dell'immagine '{}'"
 
 #. Translators: There's a wide space (U+2002) between the two {} {}.
 #: src/view/images_panel.rs:176
@@ -417,14 +415,13 @@ msgstr "Nessuna immagine trovata"
 
 #. Translators: "{}" is a placeholder for the number of images.
 #: src/view/images_panel.rs:381
-#, fuzzy
 msgid "{} images have been pruned"
-msgstr "Nessuna immagine da eliminare"
+msgstr "Le immagini {} sono state eliminate"
 
 #. Translators: "{}" are placeholders for cardinal numbers.
 #: src/view/images_panel.rs:387
 msgid "{} images have been pruned ({} errors)"
-msgstr ""
+msgstr "Le immagini {} sono state eliminate ({} errori)"
 
 #. Translators: "{}" is a placeholder for the image id.
 #: src/view/images_panel.rs:409
