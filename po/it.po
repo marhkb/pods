@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: symphony\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:53+0100\n"
-"PO-Revision-Date: 2022-03-20 21:04+0000\n"
+"PO-Revision-Date: 2022-03-25 21:13+0000\n"
 "Last-Translator: Andrea Brandi <git@andreabrandi.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/symphony/"
 "symphony/it/>\n"
@@ -91,35 +91,33 @@ msgid "_Restart Podman Service"
 msgstr "_Riavvia servizio Podman"
 
 #: data/resources/ui/container-details-page.ui:38
-#, fuzzy
 msgid "Container Details"
-msgstr "Contenitori"
+msgstr "Dettagli contenitore"
 
 #: data/resources/ui/container-details-page.ui:61
 msgid "Id"
-msgstr ""
+msgstr "ID"
 
 #: data/resources/ui/container-details-page.ui:77
-#, fuzzy
 msgid "Image"
-msgstr "Immagini"
+msgstr "Immagine"
 
 #: data/resources/ui/container-details-page.ui:103
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #: data/resources/ui/container-details-page.ui:125
 msgid "Status"
-msgstr ""
+msgstr "Stato"
 
 #: data/resources/ui/container-rename-dialog.ui:10
 #: data/resources/ui/images-prune-dialog.ui:11
 msgid "_Cancel"
-msgstr ""
+msgstr "_Annulla"
 
 #: data/resources/ui/container-rename-dialog.ui:21
 msgid "_Rename"
-msgstr ""
+msgstr "_Rinomina"
 
 #: data/resources/ui/containers-panel.ui:82
 #: data/resources/ui/images-panel.ui:84
@@ -127,18 +125,16 @@ msgid "Summary"
 msgstr "Sommario"
 
 #: data/resources/ui/image-details-page.ui:7
-#, fuzzy
 msgid "_Delete Image"
-msgstr "_Cancella"
+msgstr "_Cancella immagine"
 
 #: data/resources/ui/image-details-page.ui:47
-#, fuzzy
 msgid "Image Details"
-msgstr "Immagini"
+msgstr "Dettagli immagine"
 
 #: data/resources/ui/image-details-page.ui:154
 msgid "Image Has Been Deleted"
-msgstr ""
+msgstr "L'immagine è stata eliminata"
 
 #: data/resources/ui/image-row.ui:7 src/view/container_row.rs:369
 msgid "_Delete"
@@ -146,16 +142,15 @@ msgstr "_Cancella"
 
 #: data/resources/ui/image-used-by-row.ui:14
 msgid "Used By"
-msgstr ""
+msgstr "Usato da"
 
 #: data/resources/ui/image-used-by-row.ui:46
-#, fuzzy
 msgid "unused"
-msgstr "Sospeso"
+msgstr "Inutilizzato"
 
 #: data/resources/ui/images-prune-dialog.ui:21
 msgid "_Prune"
-msgstr ""
+msgstr "_Elimina"
 
 #: data/resources/ui/images-prune-dialog.ui:32
 msgid "No Images To Be Pruned"
