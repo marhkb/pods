@@ -1,3 +1,5 @@
+use adw::subclass::prelude::{ActionRowImpl, PreferencesRowImpl};
+use adw::traits::PreferencesRowExt;
 use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
@@ -11,8 +13,6 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Symphony/ui/property-row.ui")]
     pub(crate) struct PropertyRow {
         #[template_child]
-        pub(super) key_label: TemplateChild<gtk::Label>,
-        #[template_child]
         pub(super) value_label: TemplateChild<gtk::Label>,
     }
 
@@ -20,7 +20,7 @@ mod imp {
     impl ObjectSubclass for PropertyRow {
         const NAME: &'static str = "PropertyRow";
         type Type = super::PropertyRow;
-        type ParentType = gtk::ListBoxRow;
+        type ParentType = adw::ActionRow;
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
@@ -89,8 +89,8 @@ mod imp {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
-            self.key_label.connect_notify_local(
-                Some("label"),
+            obj.connect_notify_local(
+                Some("title"),
                 clone!(@weak obj => move |_, _| obj.notify("key")),
             );
             self.value_label.connect_notify_local(
@@ -106,11 +106,13 @@ mod imp {
 
     impl WidgetImpl for PropertyRow {}
     impl ListBoxRowImpl for PropertyRow {}
+    impl PreferencesRowImpl for PropertyRow {}
+    impl ActionRowImpl for PropertyRow {}
 }
 
 glib::wrapper! {
     pub(crate) struct PropertyRow(ObjectSubclass<imp::PropertyRow>)
-        @extends gtk::Widget, gtk::ListBoxRow;
+        @extends gtk::Widget, gtk::ListBoxRow, adw::PreferencesRow, adw::ActionRow;
 }
 
 impl Default for PropertyRow {
@@ -121,14 +123,14 @@ impl Default for PropertyRow {
 
 impl PropertyRow {
     pub(crate) fn key(&self) -> glib::GString {
-        self.imp().key_label.label()
+        self.title()
     }
 
     pub(crate) fn set_key(&self, key: &str) {
         if key == self.key().as_str() {
             return;
         }
-        self.imp().key_label.set_label(key);
+        self.set_title(key);
     }
 
     pub(crate) fn value(&self) -> glib::GString {

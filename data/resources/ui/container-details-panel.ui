@@ -27,22 +27,12 @@
                 </child>
 
                 <child>
-                  <object class="GtkListBoxRow">
+                  <object class="AdwActionRow">
                     <property name="activatable">False</property>
+                    <property name="title" translatable="yes">Image</property>
 
                     <child>
                       <object class="GtkBox">
-                        <style>
-                          <class name="property-row"/>
-                        </style>
-
-                        <child>
-                          <object class="GtkLabel">
-                            <property name="label" translatable="yes">Image</property>
-                            <property name="hexpand">True</property>
-                            <property name="xalign">0</property>
-                          </object>
-                        </child>
 
                         <child>
                           <object class="GtkLabel" id="image_name_label">
@@ -74,32 +64,16 @@
                 </child>
 
                 <child>
-                  <object class="GtkListBoxRow" id="status_row">
+                  <object class="AdwActionRow" id="status_row">
                     <property name="activatable">False</property>
+                    <property name="title" translatable="yes">Status</property>
 
                     <child>
-                      <object class="GtkBox">
+                      <object class="GtkLabel" id="status_label">
                         <style>
-                          <class name="property-row"/>
+                          <class name="container-status"/>
                         </style>
-                        <property name="hexpand">True</property>
-
-                        <child>
-                          <object class="GtkLabel">
-                            <property name="label" translatable="yes">Status</property>
-                            <property name="hexpand">True</property>
-                            <property name="xalign">0</property>
-                          </object>
-                        </child>
-
-                        <child>
-                          <object class="GtkLabel" id="status_label">
-                            <style>
-                              <class name="container-status"/>
-                            </style>
-                          </object>
-                        </child>
-
+                        <property name="valign">center</property>
                       </object>
                     </child>
 

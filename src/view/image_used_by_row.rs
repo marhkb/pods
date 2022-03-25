@@ -1,3 +1,4 @@
+use adw::subclass::prelude::{ActionRowImpl, PreferencesRowImpl};
 use gtk::glib::{closure, WeakRef};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
@@ -23,7 +24,7 @@ mod imp {
     impl ObjectSubclass for ImageUsedByRow {
         const NAME: &'static str = "ImageUsedByRow";
         type Type = super::ImageUsedByRow;
-        type ParentType = gtk::ListBoxRow;
+        type ParentType = adw::ActionRow;
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
@@ -86,11 +87,13 @@ mod imp {
 
     impl WidgetImpl for ImageUsedByRow {}
     impl ListBoxRowImpl for ImageUsedByRow {}
+    impl PreferencesRowImpl for ImageUsedByRow {}
+    impl ActionRowImpl for ImageUsedByRow {}
 }
 
 glib::wrapper! {
     pub(crate) struct ImageUsedByRow(ObjectSubclass<imp::ImageUsedByRow>)
-        @extends gtk::Widget, gtk::ListBoxRow;
+        @extends gtk::Widget, gtk::ListBoxRow, adw::PreferencesRow, adw::ActionRow;
 }
 
 impl Default for ImageUsedByRow {
