@@ -250,7 +250,7 @@ impl ContainerList {
                         }
                     }
                     Err(e) => {
-                        log::error!("Error on inspecting image: {}", e);
+                        log::error!("Error on inspecting container '{id}': {e}");
                         if imp.failed.borrow_mut().insert(id.clone()) {
                             err_op(Error::Inspect(id));
                         }
