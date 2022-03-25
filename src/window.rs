@@ -1,4 +1,5 @@
 use adw::subclass::prelude::AdwApplicationWindowImpl;
+use cascade::cascade;
 use gettextrs::gettext;
 use gtk::glib::{clone, closure};
 use gtk::prelude::*;
@@ -60,6 +61,10 @@ mod imp {
             view::ImageRowSimple::static_type();
             view::ImagesPanel::static_type();
             view::StartServicePage::static_type();
+
+            klass.install_action("win.show-podman-info", None, |widget, _, _| {
+                widget.show_podman_info_dialog();
+            });
 
             klass.install_property_action("images.show-intermediates", "show-intermediate-images");
             klass.install_action("images.prune-unused", None, move |widget, _, _| {
@@ -279,6 +284,14 @@ impl Window {
                 "visible-child-name",
             )
             .build();
+    }
+
+    fn show_podman_info_dialog(&self) {
+        cascade! {
+            view::InfoDialog::default();
+            ..set_transient_for(Some(self));
+        }
+        .present();
     }
 
     fn show_prune_dialog(&self) {

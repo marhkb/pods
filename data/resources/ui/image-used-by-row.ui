@@ -1,54 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="ImageUsedByRow" parent="GtkListBoxRow">
+  <template class="ImageUsedByRow" parent="AdwActionRow">
     <property name="activatable">False</property>
+    <property name="title" translatable="yes">Used By</property>
 
     <child>
-      <object class="GtkBox">
-        <style>
-          <class name="property-row"/>
-        </style>
+      <object class="GtkStack" id="stack">
+        <property name="valign">center</property>
 
         <child>
-          <object class="GtkLabel">
-            <property name="label" translatable="yes">Used By</property>
-            <property name="vexpand">True</property>
-            <property name="hexpand">True</property>
-            <property name="xalign">0</property>
+          <object class="GtkStackPage">
+            <property name="name">containers</property>
+
+            <property name="child">
+              <object class="GtkListBox" id="list_box">
+                <property name="selection-mode">none</property>
+              </object>
+            </property>
+
           </object>
         </child>
 
         <child>
-          <object class="GtkStack" id="stack">
+          <object class="GtkStackPage">
+            <property name="name">unused</property>
 
-            <child>
-              <object class="GtkStackPage">
-                <property name="name">containers</property>
-
-                <property name="child">
-                  <object class="GtkListBox" id="list_box">
-                    <property name="selection-mode">none</property>
-                  </object>
-                </property>
-
+            <property name="child">
+              <object class="GtkLabel">
+                <style>
+                  <class name="dim-label"/>
+                </style>
+                <property name="label" translatable="yes">unused</property>
               </object>
-            </child>
-
-            <child>
-              <object class="GtkStackPage">
-                <property name="name">unused</property>
-
-                <property name="child">
-                  <object class="GtkLabel">
-                    <style>
-                      <class name="dim-label"/>
-                    </style>
-                    <property name="label" translatable="yes">unused</property>
-                  </object>
-                </property>
-
-              </object>
-            </child>
+            </property>
 
           </object>
         </child>

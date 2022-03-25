@@ -6,10 +6,6 @@
   color: @red_3;
 }
 
-.property-row {
-  margin: 9px 12px;
-}
-
 .container-status {
   color: @accent_fg_color;
   font-size: 0.8em;
