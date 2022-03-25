@@ -317,7 +317,7 @@ impl ImageList {
                                             obj.items_changed(obj.len() - 1, 0, 1);
                                         }
                                         Err(e) => {
-                                            log::error!("Error on inspecting image: {}", e);
+                                            log::error!("Error on inspecting image '{id}': {e}");
                                             if imp.failed.borrow_mut().insert(id.clone()) {
                                                 err_op(Error::Inspect(id));
                                             }

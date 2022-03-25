@@ -1025,7 +1025,6 @@ dependencies = [
  "base64",
  "byteorder",
  "bytes 1.1.0",
- "chrono",
  "containers-api-conn",
  "futures-util",
  "futures_codec",
