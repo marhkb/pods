@@ -13,6 +13,7 @@ mod image_row_simple;
 mod image_used_by_row;
 mod images_panel;
 mod images_prune_dialog;
+mod info_dialog;
 mod leaflet_overlay;
 mod property_row;
 mod start_service_page;
