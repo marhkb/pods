@@ -33,6 +33,7 @@ pub(crate) use self::image_row_simple::ImageRowSimple;
 pub(crate) use self::image_used_by_row::ImageUsedByRow;
 pub(crate) use self::images_panel::ImagesPanel;
 pub(crate) use self::images_prune_dialog::ImagesPruneDialog;
+pub(crate) use self::info_dialog::InfoDialog;
 pub(crate) use self::leaflet_overlay::LeafletOverlay;
 pub(crate) use self::property_row::PropertyRow;
 pub(crate) use self::start_service_page::StartServicePage;
