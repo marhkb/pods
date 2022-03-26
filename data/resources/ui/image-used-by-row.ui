@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <template class="ImageUsedByRow" parent="AdwActionRow">
+    <style>
+      <class name="property-row"/>
+    </style>
     <property name="activatable">False</property>
     <property name="title" translatable="yes">Used By</property>
 
