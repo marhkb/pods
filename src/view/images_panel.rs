@@ -250,7 +250,13 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for ImagesPanel {}
+    impl WidgetImpl for ImagesPanel {
+        fn root(&self, widget: &Self::Type) {
+            self.parent_root(widget);
+            self.search_bar
+                .set_key_capture_widget(widget.root().as_ref());
+        }
+    }
 }
 
 glib::wrapper! {
