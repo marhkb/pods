@@ -16,6 +16,7 @@ mod images_prune_dialog;
 mod info_dialog;
 mod leaflet_overlay;
 mod property_row;
+mod property_widget_row;
 mod start_service_page;
 
 pub(crate) use self::check_service_page::CheckServicePage;

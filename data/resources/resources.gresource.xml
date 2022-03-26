@@ -21,6 +21,7 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/info-dialog.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/leaflet-overlay.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/property-row.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/property-widget-row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/start-service-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/window.ui</file>
 
