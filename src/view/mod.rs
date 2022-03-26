@@ -37,6 +37,7 @@ pub(crate) use self::images_prune_dialog::ImagesPruneDialog;
 pub(crate) use self::info_dialog::InfoDialog;
 pub(crate) use self::leaflet_overlay::LeafletOverlay;
 pub(crate) use self::property_row::PropertyRow;
+pub(crate) use self::property_widget_row::PropertyWidgetRow;
 pub(crate) use self::start_service_page::StartServicePage;
 use crate::model;
 
