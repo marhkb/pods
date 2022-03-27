@@ -60,6 +60,7 @@ mod imp {
             view::ContainerLogsPanel::static_type();
             view::ImageRowSimple::static_type();
             view::ImagesPanel::static_type();
+            view::PropertyWidgetRow::static_type();
             view::StartServicePage::static_type();
 
             klass.install_action("win.show-podman-info", None, |widget, _, _| {

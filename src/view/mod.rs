@@ -16,6 +16,7 @@ mod images_prune_dialog;
 mod info_dialog;
 mod leaflet_overlay;
 mod property_row;
+mod property_widget_row;
 mod start_service_page;
 
 pub(crate) use self::check_service_page::CheckServicePage;
@@ -36,6 +37,7 @@ pub(crate) use self::images_prune_dialog::ImagesPruneDialog;
 pub(crate) use self::info_dialog::InfoDialog;
 pub(crate) use self::leaflet_overlay::LeafletOverlay;
 pub(crate) use self::property_row::PropertyRow;
+pub(crate) use self::property_widget_row::PropertyWidgetRow;
 pub(crate) use self::start_service_page::StartServicePage;
 use crate::model;
 

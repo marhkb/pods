@@ -72,6 +72,9 @@ mod imp {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
+            // Remove header class from action row header box.
+            obj.child().unwrap().remove_css_class("header");
+
             Self::Type::this_expression("container-list")
                 .chain_property::<model::SimpleContainerList>("len")
                 .chain_closure::<String>(closure!(|_: glib::Object, len: u32| {

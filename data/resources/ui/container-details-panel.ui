@@ -27,27 +27,26 @@
                 </child>
 
                 <child>
-                  <object class="AdwActionRow">
-                    <property name="activatable">False</property>
-                    <property name="title" translatable="yes">Image</property>
+                  <object class="PropertyWidgetRow">
+                    <property name="key" translatable="yes">Image</property>
 
-                    <child>
-                      <object class="GtkBox">
+                    <property name="widget">
+                        <object class="GtkBox">
 
-                        <child>
-                          <object class="GtkLabel" id="image_name_label">
-                            <property name="use-markup">True</property>
-                          </object>
-                        </child>
+                          <child>
+                            <object class="GtkLabel" id="image_name_label">
+                              <property name="use-markup">True</property>
+                            </object>
+                          </child>
 
-                        <child>
-                          <object class="GtkSpinner" id="image_spinner">
-                            <property name="spinning">True</property>
-                          </object>
-                        </child>
+                          <child>
+                            <object class="GtkSpinner" id="image_spinner">
+                              <property name="spinning">True</property>
+                            </object>
+                          </child>
 
-                      </object>
-                    </child>
+                        </object>
+                    </property>
 
                   </object>
                 </child>
@@ -64,18 +63,17 @@
                 </child>
 
                 <child>
-                  <object class="AdwActionRow" id="status_row">
-                    <property name="activatable">False</property>
-                    <property name="title" translatable="yes">Status</property>
+                  <object class="PropertyWidgetRow" id="status_row">
+                    <property name="key" translatable="yes">Status</property>
 
-                    <child>
+                    <property name="widget">
                       <object class="GtkLabel" id="status_label">
                         <style>
                           <class name="container-status"/>
                         </style>
                         <property name="valign">center</property>
                       </object>
-                    </child>
+                    </property>
 
                   </object>
                 </child>
