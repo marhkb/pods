@@ -1,4 +1,5 @@
 mod check_service_page;
+mod circular_progress_bar;
 mod connection_lost_page;
 mod container_details_panel;
 mod container_logs_panel;

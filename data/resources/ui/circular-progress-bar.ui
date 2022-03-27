@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Inspired by https://github.com/phastmike/vala-circular-progress-bar/blob/1528d42a6045734038bf0022a88b846edf582b3a/circular-progress-bar.vala. -->
+<interface>
+
+  <template class="CircularProgressBar" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBinLayout"/>
+    </property>
+
+    <child>
+      <object class="GtkOverlay" id="overlay">
+
+        <child type="overlay">
+          <object class="GtkBox">
+            <style>
+              <class name="circular-progress-bar"/>
+            </style>
+            <property name="orientation">vertical</property>
+            <property name="valign">center</property>
+            <property name="halign">center</property>
+
+            <child>
+              <object class="GtkLabel" id="description_label">
+                <property name="justify">center</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkLabel" id="percentage_label">
+                <property name="justify">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkDrawingArea" id="drawing_area"/>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+
+</interface>
