@@ -20,6 +20,12 @@ mod imp {
     pub(crate) struct ContainerRow {
         pub(super) container: WeakRef<model::Container>,
         #[template_child]
+        pub(super) stats_box: TemplateChild<gtk::Box>,
+        #[template_child]
+        pub(super) cpu_bar: TemplateChild<view::CircularProgressBar>,
+        #[template_child]
+        pub(super) mem_bar: TemplateChild<view::CircularProgressBar>,
+        #[template_child]
         pub(super) status_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) menu_stack: TemplateChild<gtk::Stack>,
@@ -123,6 +129,7 @@ mod imp {
             self.parent_constructed(obj);
 
             let container_expr = Self::Type::this_expression("container");
+            let stats_expr = container_expr.chain_property::<model::Container>("stats");
             let status_expr = container_expr.chain_property::<model::Container>("status");
 
             container_expr
@@ -138,6 +145,35 @@ mod imp {
                     utils::escape(&utils::format_option(name))
                 }))
                 .bind(obj, "subtitle", Some(obj));
+
+            status_expr
+                .chain_closure::<bool>(closure!(
+                    |_: glib::Object, status: model::ContainerStatus| matches!(
+                        status,
+                        model::ContainerStatus::Running
+                    )
+                ))
+                .bind(&*self.stats_box, "visible", Some(obj));
+
+            stats_expr
+                .chain_closure::<f64>(closure!(
+                    |_: glib::Object, stats: Option<model::BoxedContainerStats>| {
+                        stats
+                            .and_then(|stats| stats.CPU.map(|perc| perc as f64 * 0.01))
+                            .unwrap_or_default()
+                    }
+                ))
+                .bind(&*self.cpu_bar, "percentage", Some(obj));
+
+            stats_expr
+                .chain_closure::<f64>(closure!(
+                    |_: glib::Object, stats: Option<model::BoxedContainerStats>| {
+                        stats
+                            .and_then(|stats| stats.mem_perc.map(|perc| perc as f64 * 0.01))
+                            .unwrap_or_default()
+                    }
+                ))
+                .bind(&*self.mem_bar, "percentage", Some(obj));
 
             status_expr
                 .chain_closure::<String>(closure!(

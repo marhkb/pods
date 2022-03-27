@@ -6,6 +6,26 @@
     <property name="action-name">container.show-details</property>
 
     <child>
+      <object class="GtkBox" id="stats_box">
+
+        <child>
+          <object class="CircularProgressBar" id="cpu_bar">
+            <property name="width-request">42</property>
+            <property name="label">cpu</property>
+          </object>
+        </child>
+
+        <child>
+          <object class="CircularProgressBar" id="mem_bar">
+            <property name="width-request">42</property>
+            <property name="label">mem</property>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <child>
       <object class="GtkLabel" id="status_label">
         <style>
           <class name="container-status"/>

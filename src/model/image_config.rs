@@ -1,3 +1,5 @@
+use std::collections::BTreeSet;
+
 use gtk::glib;
 use gtk::prelude::{StaticType, ToValue};
 use gtk::subclass::prelude::*;
@@ -102,10 +104,10 @@ impl ImageConfig {
             ),
             (
                 "exposed-ports",
-                &utils::BoxedStringBTreeSet(
+                &utils::BoxedStringBTreeSet::from(
                     config
                         .exposed_ports
-                        .map(|ports| ports.into_keys().collect())
+                        .map(|ports| ports.into_keys().collect::<BTreeSet<_>>())
                         .unwrap_or_default(),
                 ),
             ),

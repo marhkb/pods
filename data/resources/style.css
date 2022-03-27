@@ -10,6 +10,10 @@
   margin: 9px 12px;
 }
 
+.circular-progress-bar {
+  font-size: 0.65em;
+}
+
 .container-status {
   color: @accent_fg_color;
   font-size: 0.8em;

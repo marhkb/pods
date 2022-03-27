@@ -1,4 +1,5 @@
 mod check_service_page;
+mod circular_progress_bar;
 mod connection_lost_page;
 mod container_details_panel;
 mod container_logs_panel;
@@ -20,6 +21,7 @@ mod property_widget_row;
 mod start_service_page;
 
 pub(crate) use self::check_service_page::CheckServicePage;
+pub(crate) use self::circular_progress_bar::CircularProgressBar;
 pub(crate) use self::connection_lost_page::ConnectionLostPage;
 pub(crate) use self::container_details_panel::ContainerDetailsPanel;
 pub(crate) use self::container_logs_panel::ContainerLogsPanel;

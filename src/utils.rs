@@ -1,36 +1,47 @@
 use std::collections::BTreeSet;
 use std::marker::PhantomData;
-use std::ops::Deref;
 
 use futures::{Future, Stream, StreamExt};
 use gettextrs::gettext;
 use gtk::prelude::{Cast, ListModelExt, StaticType};
 use gtk::traits::WidgetExt;
 use gtk::{gio, glib};
-use paste::paste;
 
 use crate::{view, RUNTIME};
 
-macro_rules! boxed_type {
-    ($name:ident, $type:ty) => {
-        paste! {
-            #[derive(Clone, Debug, PartialEq, glib::Boxed)]
-            #[boxed_type(name = "" $name "")]
-            pub(crate) struct $name(pub(crate) $type);
+#[macro_export]
+macro_rules! monad_boxed_type {
+    ($vis:vis $boxed:ident($type:ty) $(impls $($trait:tt),+)? $(is $($prop:tt),+)?) => {
+        paste::paste! {
+            #[derive(Clone, PartialEq, glib::Boxed, $($($trait),+)?)]
+            #[boxed_type(name = "" $boxed "", $($($prop),+)?)]
+            $vis struct $boxed($type);
+        }
 
-            impl Deref for $name {
-                type Target = $type;
+        impl std::ops::Deref for $boxed {
+            type Target = $type;
 
-                fn deref(&self) -> &Self::Target {
-                    &self.0
-                }
+            fn deref(&self) -> &Self::Target {
+                &self.0
+            }
+        }
+
+        impl From<$boxed> for $type {
+            fn from(boxed: $boxed) -> Self {
+                boxed.0
+            }
+        }
+
+        impl From<$type> for $boxed {
+            fn from(inner: $type) -> Self {
+                Self(inner)
             }
         }
     };
 }
 
-boxed_type!(BoxedStringVec, Vec<String>);
-boxed_type!(BoxedStringBTreeSet, BTreeSet<String>);
+monad_boxed_type!(pub(crate) BoxedStringVec(Vec<String>) impls Debug, Default);
+monad_boxed_type!(pub(crate) BoxedStringBTreeSet(BTreeSet<String>) impls Debug, Default);
 
 pub(crate) fn find_leaflet_overlay<W: glib::IsA<gtk::Widget>>(widget: &W) -> view::LeafletOverlay {
     leaflet_overlay(

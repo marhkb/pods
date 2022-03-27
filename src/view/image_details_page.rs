@@ -190,7 +190,7 @@ mod imp {
                 .chain_property::<model::ImageConfig>("exposed-ports")
                 .chain_closure::<String>(closure!(
                     |_: glib::Object, exposed_ports: utils::BoxedStringBTreeSet| {
-                        utils::format_iter(exposed_ports.0.iter(), "\n")
+                        utils::format_iter(exposed_ports.iter(), "\n")
                     }
                 ))
                 .bind(&*self.ports_row, "value", Some(obj));
