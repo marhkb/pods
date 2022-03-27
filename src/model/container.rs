@@ -10,7 +10,7 @@ use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
 use once_cell::unsync::OnceCell;
 
-use crate::{api, model, utils, PODMAN};
+use crate::{api, model, monad_boxed_type, utils, PODMAN};
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, glib::Enum)]
 #[enum_type(name = "ContainerStatus")]
@@ -76,6 +76,8 @@ impl fmt::Display for Status {
     }
 }
 
+monad_boxed_type!(pub(crate) BoxedContainerStats(api::LibpodContainerStats) impls Debug is nullable);
+
 mod imp {
     use super::*;
 
@@ -87,6 +89,7 @@ mod imp {
         pub(super) image_id: OnceCell<String>,
         pub(super) image_name: RefCell<Option<String>>,
         pub(super) name: RefCell<Option<String>>,
+        pub(super) stats: RefCell<Option<BoxedContainerStats>>,
         pub(super) status: Cell<Status>,
     }
 
@@ -147,6 +150,13 @@ mod imp {
                             | glib::ParamFlags::CONSTRUCT
                             | glib::ParamFlags::EXPLICIT_NOTIFY,
                     ),
+                    glib::ParamSpecBoxed::new(
+                        "stats",
+                        "Stats",
+                        "The statistics of this container",
+                        BoxedContainerStats::static_type(),
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                    ),
                     glib::ParamSpecEnum::new(
                         "status",
                         "Status",
@@ -174,6 +184,7 @@ mod imp {
                 "image-id" => self.image_id.set(value.get().unwrap()).unwrap(),
                 "image-name" => obj.set_image_name(value.get().unwrap()),
                 "name" => obj.set_name(value.get().unwrap()),
+                "stats" => obj.set_stats(value.get().unwrap()),
                 "status" => obj.set_status(value.get().unwrap()),
                 _ => unimplemented!(),
             }
@@ -187,9 +198,14 @@ mod imp {
                 "image-id" => obj.image_id().to_value(),
                 "image-name" => obj.image_name().to_value(),
                 "name" => obj.name().to_value(),
+                "stats" => obj.stats().to_value(),
                 "status" => obj.status().to_value(),
                 _ => unimplemented!(),
             }
+        }
+
+        fn constructed(&self, obj: &Self::Type) {
+            self.parent_constructed(obj);
         }
     }
 }
@@ -275,6 +291,18 @@ impl Container {
         self.notify("name");
     }
 
+    pub(crate) fn stats(&self) -> Option<BoxedContainerStats> {
+        self.imp().stats.borrow().clone()
+    }
+
+    pub fn set_stats(&self, value: Option<BoxedContainerStats>) {
+        if self.stats() == value {
+            return;
+        }
+        self.imp().stats.replace(value);
+        self.notify("stats");
+    }
+
     pub(crate) fn status(&self) -> Status {
         self.imp().status.get()
     }
@@ -282,6 +310,9 @@ impl Container {
     pub(crate) fn set_status(&self, value: Status) {
         if self.status() == value {
             return;
+        }
+        if value == Status::Running {
+            self.run_stats_stream();
         }
         self.imp().status.set(value);
         self.notify("status");
@@ -558,6 +589,26 @@ impl Container {
                     );
                 }
                 op(result);
+            }),
+        );
+    }
+
+    fn run_stats_stream(&self) {
+        utils::run_stream(
+            api::Container::new(&*PODMAN, self.id().unwrap_or_default()).stats_stream(Some(1)),
+            clone!(@weak self as obj => @default-return glib::Continue(false), move |result| {
+                glib::Continue(match result {
+                    Ok(stats) => {
+                        obj.set_stats(
+                            stats
+                                .stats
+                                .and_then(|mut stats| stats.pop())
+                                .map(BoxedContainerStats),
+                        );
+                        true
+                    }
+                    Err(_) => false,
+                })
             }),
         );
     }
