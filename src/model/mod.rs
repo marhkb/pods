@@ -7,7 +7,7 @@ mod image_list;
 mod simple_container_list;
 
 pub(crate) use self::client::Client;
-pub(crate) use self::container::{Container, Status as ContainerStatus};
+pub(crate) use self::container::{BoxedContainerStats, Container, Status as ContainerStatus};
 pub(crate) use self::container_list::{ContainerList, Error as ContainerListError};
 pub(crate) use self::image::Image;
 pub(crate) use self::image_config::ImageConfig;

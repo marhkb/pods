@@ -56,6 +56,7 @@ mod imp {
 
             // Initialize all classes here
             view::CheckServicePage::static_type();
+            view::CircularProgressBar::static_type();
             view::ContainerDetailsPanel::static_type();
             view::ContainerLogsPanel::static_type();
             view::ImageRowSimple::static_type();
