@@ -299,7 +299,7 @@ impl Image {
             ("digest", summary.digest.as_ref().unwrap()),
             (
                 "history",
-                &utils::BoxedStringVec(summary.history.unwrap_or_default()),
+                &utils::BoxedStringVec::from(summary.history.unwrap_or_default()),
             ),
             ("id", &summary.id),
             (
@@ -313,11 +313,11 @@ impl Image {
             ("read-only", &summary.read_only.unwrap_or_default()),
             (
                 "repo-digests",
-                &utils::BoxedStringVec(summary.repo_digests.unwrap_or_default()),
+                &utils::BoxedStringVec::from(summary.repo_digests.unwrap_or_default()),
             ),
             (
                 "repo-tags",
-                &utils::BoxedStringVec(summary.repo_tags.unwrap_or_default()),
+                &utils::BoxedStringVec::from(summary.repo_tags.unwrap_or_default()),
             ),
             ("size", &(summary.size.unwrap_or_default() as u64)),
             (
