@@ -10,7 +10,8 @@ msgstr ""
 "POT-Creation-Date: 2022-03-22 22:53+0100\n"
 "PO-Revision-Date: 2022-03-25 21:40+0000\n"
 "Last-Translator: Andrea Brandi <git@andreabrandi.com>\n"
-"Language-Team: Italian <https://hosted.weblate.org/projects/pods/pods/it/>\n"
+"Language-Team: Italian <https://hosted.weblate.org/projects/pods/"
+"pods/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,58 +27,44 @@ msgstr "Pods"
 #: data/com.github.marhkb.Pods.desktop.in.in:4
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
-#: data/com.github.marhkb.Symphony.desktop.in.in:4
-#: data/com.github.marhkb.Symphony.metainfo.xml.in.in:8
-#: data/com.github.marhkb.Symphony.metainfo.xml.in.in:10
 msgid "A Podman desktop application"
 msgstr "Un'applicazione desktop per Podman"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:9
-#: data/com.github.marhkb.Symphony.desktop.in.in:9
 msgid "Gnome;GTK;"
 msgstr "Gnome;GTK;"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:6
 #: data/com.github.marhkb.Pods.gschema.xml.in:7
-#: data/com.github.marhkb.Symphony.gschema.xml.in:6
-#: data/com.github.marhkb.Symphony.gschema.xml.in:7
 msgid "Default window width"
 msgstr "Larghezza finestra predefinita"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:11
 #: data/com.github.marhkb.Pods.gschema.xml.in:12
-#: data/com.github.marhkb.Symphony.gschema.xml.in:11
-#: data/com.github.marhkb.Symphony.gschema.xml.in:12
 msgid "Default window height"
 msgstr "Altezza finestra predefinita"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:16
-#: data/com.github.marhkb.Symphony.gschema.xml.in:16
 msgid "Default window maximized behaviour"
 msgstr "Comportamento predefinito della finestra massimizzata"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:21
-#: data/com.github.marhkb.Symphony.gschema.xml.in:21
 msgid "The last used view"
 msgstr "L'ultima vista utilizzata"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:26
-#: data/com.github.marhkb.Symphony.gschema.xml.in:26
 msgid "Whether to show intermediate images"
 msgstr "Mostra immagini intermedie"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:31
-#: data/com.github.marhkb.Symphony.gschema.xml.in:31
 msgid "Whether to show only running containers"
 msgstr "Mostra solo contenitori in esecuzione"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:15
-#: data/com.github.marhkb.Symphony.metainfo.xml.in.in:15
 msgid "Main window"
 msgstr "Finestra principale"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:32
-#: data/com.github.marhkb.Symphony.metainfo.xml.in.in:32
 msgid "Marcus Behrendt"
 msgstr "Marcus Behrendt"
 
@@ -91,9 +78,9 @@ msgid ""
 "Unix. If the connection has been disconnected unintentionally, you can try "
 "to re-establish it."
 msgstr ""
-"Si è verificato un errore imprevisto e Pods ha perso la connessione a Podman "
-"Unix. Se la connessione è stata interrotta involontariamente, provare a "
-"ristabilire la connessione."
+"Si è verificato un errore imprevisto e Pods ha perso la connessione a "
+"Podman Unix. Se la connessione è stata interrotta involontariamente, provare "
+"a ristabilire la connessione."
 
 #: data/resources/ui/connection-lost-page.ui:18
 msgid "Lost Connection to Podman"
@@ -458,29 +445,6 @@ msgstr "Errore durante il caricamento dei contenitori"
 #: src/window.rs:406
 msgid "Error on inspecting container '{}'"
 msgstr "Errore durante il controllo del contenitore '{}'"
-
-#: data/com.github.marhkb.Symphony.desktop.in.in:3
-#: data/com.github.marhkb.Symphony.metainfo.xml.in.in:7 src/main.rs:32
-msgid "Symphony"
-msgstr "Symphony"
-
-#: data/resources/ui/connection-lost-page.ui:16
-msgid ""
-"An unexpected error has occurred and Symphony has lost connection to Podman "
-"Unix. If the connection has been disconnected unintentionally, you can try "
-"to re-establish it."
-msgstr ""
-"Si è verificato un errore imprevisto e Symphony ha perso la connessione a "
-"Podman Unix. Se la connessione è stata interrotta involontariamente, provare "
-"a ristabilire la connessione."
-
-#: data/resources/ui/start-service-page.ui:17
-msgid "Welcome to Symphony"
-msgstr "Benvenuto in Symphony"
-
-#: data/resources/ui/window.ui:15
-msgid "_About Symphony"
-msgstr "_Informazioni su Symphony"
 
 #~ msgid "By {} containers"
 #~ msgstr "Da {} contenitori"
