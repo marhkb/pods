@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:53+0100\n"
-"PO-Revision-Date: 2022-03-16 21:46+0000\n"
+"PO-Revision-Date: 2022-03-25 21:13+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/pods/pods/"
 "fr/>\n"
@@ -91,35 +91,33 @@ msgid "_Restart Podman Service"
 msgstr "_Restaurer le service Podman"
 
 #: data/resources/ui/container-details-page.ui:38
-#, fuzzy
 msgid "Container Details"
-msgstr "Conteneurs"
+msgstr "Détails du conteneur"
 
 #: data/resources/ui/container-details-page.ui:61
 msgid "Id"
-msgstr ""
+msgstr "Id"
 
 #: data/resources/ui/container-details-page.ui:77
-#, fuzzy
 msgid "Image"
-msgstr "Images"
+msgstr "Image"
 
 #: data/resources/ui/container-details-page.ui:103
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 #: data/resources/ui/container-details-page.ui:125
 msgid "Status"
-msgstr ""
+msgstr "Statut"
 
 #: data/resources/ui/container-rename-dialog.ui:10
 #: data/resources/ui/images-prune-dialog.ui:11
 msgid "_Cancel"
-msgstr ""
+msgstr "_Annuler"
 
 #: data/resources/ui/container-rename-dialog.ui:21
 msgid "_Rename"
-msgstr ""
+msgstr "_Renommer"
 
 #: data/resources/ui/containers-panel.ui:82
 #: data/resources/ui/images-panel.ui:84
@@ -127,18 +125,16 @@ msgid "Summary"
 msgstr "Résumé"
 
 #: data/resources/ui/image-details-page.ui:7
-#, fuzzy
 msgid "_Delete Image"
-msgstr "_Supprimer"
+msgstr "_Supprimer l'image"
 
 #: data/resources/ui/image-details-page.ui:47
-#, fuzzy
 msgid "Image Details"
-msgstr "Images"
+msgstr "Détails de l'image"
 
 #: data/resources/ui/image-details-page.ui:154
 msgid "Image Has Been Deleted"
-msgstr ""
+msgstr "L'image a été supprimée"
 
 #: data/resources/ui/image-row.ui:7 src/view/container_row.rs:369
 msgid "_Delete"
@@ -146,16 +142,15 @@ msgstr "_Supprimer"
 
 #: data/resources/ui/image-used-by-row.ui:14
 msgid "Used By"
-msgstr ""
+msgstr "Utilisée par"
 
 #: data/resources/ui/image-used-by-row.ui:46
-#, fuzzy
 msgid "unused"
-msgstr "En pause"
+msgstr "non utilisé"
 
 #: data/resources/ui/images-prune-dialog.ui:21
 msgid "_Prune"
-msgstr ""
+msgstr "_Élaguer"
 
 #: data/resources/ui/images-prune-dialog.ui:32
 msgid "No Images To Be Pruned"
@@ -182,9 +177,8 @@ msgid "Search"
 msgstr "Chercher"
 
 #: data/resources/ui/start-service-page.ui:16
-#, fuzzy
 msgid "The Podman service is currently not running."
-msgstr "Le service Podman ne fonctionne pas actuellement"
+msgstr "Le service Podman ne fonctionne pas actuellement."
 
 #: data/resources/ui/start-service-page.ui:17
 msgid "Welcome to Pods"
@@ -298,7 +292,7 @@ msgstr "<aucun>"
 
 #: src/view/container_rename_dialog.rs:87
 msgid "Rename container «{}»"
-msgstr ""
+msgstr "Renommer le conteneur « {} »"
 
 #: src/view/container_row.rs:232
 msgid "Error on starting container"
@@ -342,7 +336,7 @@ msgstr "Erreur lors de la suppression forcée d'un conteneur"
 
 #: src/view/container_row.rs:361
 msgid "_Rename…"
-msgstr ""
+msgstr "_Renommer…"
 
 #: src/view/container_row.rs:365
 msgid "_Commit"
@@ -403,13 +397,12 @@ msgstr "{} (Partagé : {}, Virtuel : {})"
 #. Translators: "{}" is a placeholder for the image id.
 #: src/view/image_details_page.rs:290 src/view/image_row.rs:164
 msgid "Successfully deleted image '{}'"
-msgstr ""
+msgstr "L'image « {} » a bien été supprimée"
 
 #. Translators: "{}" is a placeholder for the image id.
 #: src/view/image_details_page.rs:295 src/view/image_row.rs:168
-#, fuzzy
 msgid "Error on deleting image '{}'"
-msgstr "Erreur lors de la suppression d'une image"
+msgstr "Erreur lors de la suppression de « {} »"
 
 #. Translators: There's a wide space (U+2002) between the two {} {}.
 #: src/view/images_panel.rs:176
@@ -422,14 +415,13 @@ msgstr "Aucune image trouvée"
 
 #. Translators: "{}" is a placeholder for the number of images.
 #: src/view/images_panel.rs:381
-#, fuzzy
 msgid "{} images have been pruned"
-msgstr "Aucune image à élaguer"
+msgstr "{} images ont été élaguées"
 
 #. Translators: "{}" are placeholders for cardinal numbers.
 #: src/view/images_panel.rs:387
 msgid "{} images have been pruned ({} errors)"
-msgstr ""
+msgstr "{} images ont été élaguées ({} erreurs)"
 
 #. Translators: "{}" is a placeholder for the image id.
 #: src/view/images_panel.rs:409
