@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-28 23:02+0200\n"
-"PO-Revision-Date: 2022-03-19 21:27+0000\n"
+"PO-Revision-Date: 2022-03-30 00:10+0000\n"
 "Last-Translator: Gustavo Costa <xfgusta@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/pods/"
 "pods/pt_BR/>\n"
@@ -75,25 +75,23 @@ msgstr "Verificando a conexão com o serviço Podman"
 #: data/resources/ui/container-rename-dialog.ui:10
 #: data/resources/ui/images-prune-dialog.ui:11
 msgid "_Cancel"
-msgstr ""
+msgstr "_Cancelar"
 
 #: data/resources/ui/container-rename-dialog.ui:21
 msgid "_Rename"
-msgstr ""
+msgstr "_Renomear"
 
 #: data/resources/ui/image-details-page.ui:7
-#, fuzzy
 msgid "_Delete Image"
-msgstr "_Excluir"
+msgstr "_Excluir imagem"
 
 #: data/resources/ui/image-details-page.ui:47
-#, fuzzy
 msgid "Image Details"
-msgstr "Imagens"
+msgstr "Detalhes da imagem"
 
 #: data/resources/ui/image-details-page.ui:154
 msgid "Image Has Been Deleted"
-msgstr ""
+msgstr "A imagem foi excluída"
 
 #: data/resources/ui/image-row.ui:7 src/view/container_row.rs:404
 msgid "_Delete"
@@ -134,28 +132,27 @@ msgstr "Pesquisar"
 
 #: data/resources/ui/container-logs-panel.ui:28
 msgid "Scroll to bottom"
-msgstr ""
+msgstr "Role para baixo"
 
 #: data/resources/ui/container-page.ui:57
-#, fuzzy
 msgid "Details"
-msgstr "Imagens"
+msgstr "Detalhes"
 
 #: data/resources/ui/container-page.ui:75
 msgid "Logs"
-msgstr ""
+msgstr "Logs"
 
 #: data/resources/ui/info-dialog.ui:6 data/resources/ui/info-dialog.ui:10
 msgid "Podman Info"
-msgstr ""
+msgstr "Informações do Podman"
 
 #: data/resources/ui/info-dialog.ui:15 data/resources/ui/info-dialog.ui:49
 msgid "Version"
-msgstr ""
+msgstr "Versão"
 
 #: data/resources/ui/info-dialog.ui:19
 msgid "API Version"
-msgstr ""
+msgstr "Versão da API"
 
 #: data/resources/ui/info-dialog.ui:25
 msgid "Built Time"
@@ -167,7 +164,7 @@ msgstr ""
 
 #: data/resources/ui/info-dialog.ui:37
 msgid "Go Version"
-msgstr ""
+msgstr "Versão do Go"
 
 #: data/resources/ui/info-dialog.ui:43
 msgid "Os Arch"
@@ -175,12 +172,11 @@ msgstr ""
 
 #: data/resources/ui/info-dialog.ui:59
 msgid "Describes the container storage and its attributes."
-msgstr ""
+msgstr "Descreve o armazenamento do contêiner e seus atributos."
 
 #: data/resources/ui/info-dialog.ui:63
-#, fuzzy
 msgid "Config File"
-msgstr "Configurado"
+msgstr "Arquivo de configuração"
 
 #: data/resources/ui/info-dialog.ui:69
 #, fuzzy
@@ -234,33 +230,31 @@ msgstr ""
 
 #: data/resources/ui/info-dialog.ui:173
 msgid "Volume Path"
-msgstr ""
+msgstr "Caminho do volume"
 
 #: data/resources/ui/container-details-panel.ui:25
 msgid "Id"
-msgstr ""
+msgstr "Id"
 
 #: data/resources/ui/container-details-panel.ui:31
-#, fuzzy
 msgid "Image"
-msgstr "Imagens"
+msgstr "Imagem"
 
 #: data/resources/ui/container-details-panel.ui:56
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #: data/resources/ui/container-details-panel.ui:67
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 #: data/resources/ui/image-used-by-row.ui:8
 msgid "Used By"
-msgstr ""
+msgstr "Usado por"
 
 #: data/resources/ui/image-used-by-row.ui:36
-#, fuzzy
 msgid "unused"
-msgstr "Pausado"
+msgstr "não utilizado"
 
 #: data/resources/ui/connection-lost-page.ui:16
 msgid ""
@@ -273,16 +267,15 @@ msgstr ""
 
 #: data/resources/ui/connection-lost-page.ui:18
 msgid "Lost Connection to Podman"
-msgstr ""
+msgstr "Perda de conexão com o Podman"
 
 #: data/resources/ui/connection-lost-page.ui:34
 msgid "_Restart Podman Service"
 msgstr "_Reiniciar o serviço Podman"
 
 #: data/resources/ui/start-service-page.ui:16
-#, fuzzy
 msgid "The Podman service is currently not running."
-msgstr "O serviço Podman não está em execução no momento"
+msgstr "O serviço Podman não está em execução no momento."
 
 #: data/resources/ui/start-service-page.ui:17
 msgid "Welcome to Pods"
@@ -294,7 +287,7 @@ msgstr "_Iniciar o serviço Podman"
 
 #: data/resources/ui/window.ui:7
 msgid "_Show Podman Info"
-msgstr ""
+msgstr "_Mostrar informações do Podman"
 
 #: data/resources/ui/window.ui:13
 msgid "_Preferences"
@@ -361,8 +354,9 @@ msgid "Unknown"
 msgstr "Desconhecido"
 
 #: src/view/container_rename_dialog.rs:87
+#, fuzzy
 msgid "Rename container «{}»"
-msgstr ""
+msgstr "Renomear o contêiner \"{}\""
 
 #: src/view/container_row.rs:268
 msgid "Error on starting container"
@@ -406,7 +400,7 @@ msgstr "Erro ao forçar a exclusão do contêiner"
 
 #: src/view/container_row.rs:396
 msgid "Re_name…"
-msgstr ""
+msgstr "Re_nomear…"
 
 #: src/view/container_row.rs:400
 msgid "_Commit"
@@ -418,14 +412,13 @@ msgstr "_Iniciar"
 
 #: src/view/container_row.rs:422
 msgid "S_top"
-msgstr ""
+msgstr "_Parar"
 
 #: src/view/container_row.rs:423
 msgid "_Force Stop"
 msgstr "_Forçar parada"
 
 #: src/view/container_row.rs:424
-#, fuzzy
 msgid "R_estart"
 msgstr "_Reiniciar"
 
@@ -468,13 +461,12 @@ msgstr "{} (compartilhado: {}, virtual: {})"
 #. Translators: "{}" is a placeholder for the image id.
 #: src/view/image_details_page.rs:290 src/view/image_row.rs:164
 msgid "Successfully deleted image '{}'"
-msgstr ""
+msgstr "Imagem '{}' excluída com sucesso"
 
 #. Translators: "{}" is a placeholder for the image id.
 #: src/view/image_details_page.rs:295 src/view/image_row.rs:168
-#, fuzzy
 msgid "Error on deleting image '{}'"
-msgstr "Erro ao excluir imagem"
+msgstr "Erro ao excluir a imagem '{}'"
 
 #. Translators: There's a wide space (U+2002) between the two {} {}.
 #: src/view/images_panel.rs:176
@@ -508,30 +500,28 @@ msgstr ""
 
 #. Translators: "{}" is a placeholder for a cardinal numbers.
 #: src/view/info_dialog.rs:163
-#, fuzzy
 msgid "{} Containers"
-msgstr "Contêineres"
+msgstr "{} contêineres"
 
 #. Translators: "{}" is a placeholder for a cardinal number.
 #: src/view/info_dialog.rs:196
 msgid "{} Options"
-msgstr ""
+msgstr "{} opções"
 
 #. Translators: "{}" is placeholders for a cardinal number.
 #: src/view/info_dialog.rs:219
 msgid "{} States"
-msgstr ""
+msgstr "{} estados"
 
 #. Translators: "{}" is placeholders for a cardinal number.
 #: src/view/info_dialog.rs:239
-#, fuzzy
 msgid "{} Images"
-msgstr "Imagens"
+msgstr "{} imagens"
 
 #. Translators: The placeholder "{}" is for the error message.
 #: src/view/info_dialog.rs:258
 msgid "Error: {}"
-msgstr ""
+msgstr "Erro: {}"
 
 #: src/application.rs:140
 msgid "translator-credits"
