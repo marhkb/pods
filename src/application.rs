@@ -75,7 +75,7 @@ impl Default for Application {
         glib::Object::new(&[
             ("application-id", &Some(config::APP_ID)),
             ("flags", &gio::ApplicationFlags::empty()),
-            ("resource-base-path", &Some("/com/github/marhkb/Symphony/")),
+            ("resource-base-path", &Some("/com/github/marhkb/Pods/")),
         ])
         .expect("Application initialization failed...")
     }
@@ -119,7 +119,7 @@ impl Application {
 
     fn setup_css(&self) {
         let provider = gtk::CssProvider::new();
-        provider.load_from_resource("/com/github/marhkb/Symphony/style.css");
+        provider.load_from_resource("/com/github/marhkb/Pods/style.css");
         if let Some(display) = gdk::Display::default() {
             gtk::StyleContext::add_provider_for_display(
                 &display,
@@ -131,10 +131,10 @@ impl Application {
 
     fn show_about_dialog(&self) {
         let dialog = gtk::AboutDialog::builder()
-            .program_name("Symphony")
+            .program_name("Pods")
             .logo_icon_name(config::APP_ID)
             .license_type(gtk::License::Gpl30)
-            .website("https://github.com/marhkb/symphony/")
+            .website("https://github.com/marhkb/pods/")
             .version(config::VERSION)
             .transient_for(&self.main_window())
             .translator_credits(&gettext("translator-credits"))
@@ -212,7 +212,7 @@ impl Application {
     }
 
     pub(crate) fn run(&self) {
-        info!("Symphony ({})", config::APP_ID);
+        info!("Pods ({})", config::APP_ID);
         info!("Version: {} ({})", config::VERSION, config::PROFILE);
         info!("Datadir: {}", config::PKGDATADIR);
 

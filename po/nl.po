@@ -1,12 +1,12 @@
-# Dutch translations for symphony package.
-# Copyright (C) 2022 THE symphony'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the symphony package.
+# Dutch translations for pods package.
+# Copyright (C) 2022 THE pods'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the pods package.
 # Automatically generated, 2022.
 # Gert-dev <qnyasgjhapqyuhoibr@kiabws.com>, 2022.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: symphony\n"
+"Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:53+0100\n"
 "PO-Revision-Date: 2022-03-20 20:18+0100\n"
@@ -19,52 +19,52 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "X-Generator: Gtranslator 41.0\n"
 
-#: data/com.github.marhkb.Symphony.desktop.in.in:3
-#: data/com.github.marhkb.Symphony.metainfo.xml.in.in:7 src/main.rs:32
-msgid "Symphony"
-msgstr "Symphony"
+#: data/com.github.marhkb.Pods.desktop.in.in:3
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:32
+msgid "Pods"
+msgstr "Pods"
 
-#: data/com.github.marhkb.Symphony.desktop.in.in:4
-#: data/com.github.marhkb.Symphony.metainfo.xml.in.in:8
-#: data/com.github.marhkb.Symphony.metainfo.xml.in.in:10
+#: data/com.github.marhkb.Pods.desktop.in.in:4
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
 msgid "A Podman desktop application"
 msgstr "Een desktop-applicatie voor Podman"
 
-#: data/com.github.marhkb.Symphony.desktop.in.in:9
+#: data/com.github.marhkb.Pods.desktop.in.in:9
 msgid "Gnome;GTK;"
 msgstr "Gnome;GTK;"
 
-#: data/com.github.marhkb.Symphony.gschema.xml.in:6
-#: data/com.github.marhkb.Symphony.gschema.xml.in:7
+#: data/com.github.marhkb.Pods.gschema.xml.in:6
+#: data/com.github.marhkb.Pods.gschema.xml.in:7
 msgid "Default window width"
 msgstr "Standaardbreedte venster"
 
-#: data/com.github.marhkb.Symphony.gschema.xml.in:11
-#: data/com.github.marhkb.Symphony.gschema.xml.in:12
+#: data/com.github.marhkb.Pods.gschema.xml.in:11
+#: data/com.github.marhkb.Pods.gschema.xml.in:12
 msgid "Default window height"
 msgstr "Standaardhoogte venster"
 
-#: data/com.github.marhkb.Symphony.gschema.xml.in:16
+#: data/com.github.marhkb.Pods.gschema.xml.in:16
 msgid "Default window maximized behaviour"
 msgstr "Standaardgedrag bij maximaliseren"
 
-#: data/com.github.marhkb.Symphony.gschema.xml.in:21
+#: data/com.github.marhkb.Pods.gschema.xml.in:21
 msgid "The last used view"
 msgstr "Laatstgebruikte weergave"
 
-#: data/com.github.marhkb.Symphony.gschema.xml.in:26
+#: data/com.github.marhkb.Pods.gschema.xml.in:26
 msgid "Whether to show intermediate images"
 msgstr "Of tussengelegen afbeeldingen getoond moeten worden"
 
-#: data/com.github.marhkb.Symphony.gschema.xml.in:31
+#: data/com.github.marhkb.Pods.gschema.xml.in:31
 msgid "Whether to show only running containers"
 msgstr "Of alleen draaiende containers getoond moeten worden"
 
-#: data/com.github.marhkb.Symphony.metainfo.xml.in.in:15
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:15
 msgid "Main window"
 msgstr "Hoofdvenster"
 
-#: data/com.github.marhkb.Symphony.metainfo.xml.in.in:32
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:32
 msgid "Marcus Behrendt"
 msgstr "Marcus Behrendt"
 
@@ -74,12 +74,12 @@ msgstr "Verbinding met Podman-service controleren"
 
 #: data/resources/ui/connection-lost-page.ui:16
 msgid ""
-"An unexpected error has occurred and Symphony has lost connection to Podman "
+"An unexpected error has occurred and Pods has lost connection to Podman "
 "Unix. If the connection has been disconnected unintentionally, you can try "
 "to re-establish it."
 msgstr ""
 "Er is een onverwacht probleem opgetreden waardoor de verbinding tussen "
-"Symphony en Podman weggevalen is. Indien de verbinding onopzettelijk "
+"Pods en Podman weggevalen is. Indien de verbinding onopzettelijk "
 "verbroken is, kunt u opnieuw proberen te verbinden."
 
 #: data/resources/ui/connection-lost-page.ui:18
@@ -187,8 +187,8 @@ msgid "The Podman service is currently not running."
 msgstr "De Podman-service draait momenteel niet"
 
 #: data/resources/ui/start-service-page.ui:17
-msgid "Welcome to Symphony"
-msgstr "Welkom bij Symphony"
+msgid "Welcome to Pods"
+msgstr "Welkom bij Pods"
 
 #: data/resources/ui/start-service-page.ui:33
 msgid "_Start Podman Service"
@@ -203,8 +203,8 @@ msgid "_Keyboard Shortcuts"
 msgstr "_Sneltoetsen"
 
 #: data/resources/ui/window.ui:15
-msgid "_About Symphony"
-msgstr "_Over Symphony"
+msgid "_About Pods"
+msgstr "_Over Pods"
 
 #: data/resources/ui/window.ui:24
 msgid "Show intermediate images"

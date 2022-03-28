@@ -14,7 +14,7 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(resource = "/com/github/marhkb/Symphony/ui/containers-panel.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/containers-panel.ui")]
     pub(crate) struct ContainersPanel {
         pub(super) container_list: WeakRef<model::ContainerList>,
         pub(super) show_only_running: Cell<bool>,

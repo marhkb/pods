@@ -18,7 +18,7 @@
         <attribute name="action">win.show-help-overlay</attribute>
       </item>
       <item>
-        <attribute name="label" translatable="yes">_About Symphony</attribute>
+        <attribute name="label" translatable="yes">_About Pods</attribute>
         <attribute name="action">app.about</attribute>
       </item>
     </section>

@@ -14,7 +14,7 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(resource = "/com/github/marhkb/Symphony/ui/container-logs-panel.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/container-logs-panel.ui")]
     pub(crate) struct ContainerLogsPanel {
         pub(super) container: WeakRef<model::Container>,
         pub(super) is_auto_scrolling: Cell<bool>,

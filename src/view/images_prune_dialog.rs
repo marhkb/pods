@@ -12,7 +12,7 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(resource = "/com/github/marhkb/Symphony/ui/images-prune-dialog.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/images-prune-dialog.ui")]
     pub(crate) struct ImagesPruneDialog {
         pub(super) image_list: OnceCell<model::ImageList>,
         pub(super) images_to_prune: OnceCell<gtk::NoSelection>,

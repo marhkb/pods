@@ -12,7 +12,7 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(resource = "/com/github/marhkb/Symphony/ui/container-rename-dialog.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/container-rename-dialog.ui")]
     pub(crate) struct ContainerRenameDialog {
         pub(super) container: WeakRef<model::Container>,
         #[template_child]

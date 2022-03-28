@@ -16,7 +16,7 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(resource = "/com/github/marhkb/Symphony/ui/images-panel.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/images-panel.ui")]
     pub(crate) struct ImagesPanel {
         pub(super) image_list: WeakRef<model::ImageList>,
         pub(super) show_intermediates: Cell<bool>,

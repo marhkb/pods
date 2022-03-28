@@ -11,7 +11,7 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(resource = "/com/github/marhkb/Symphony/ui/image-used-by-row.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/image-used-by-row.ui")]
     pub(crate) struct ImageUsedByRow {
         pub(super) container_list: WeakRef<model::SimpleContainerList>,
         #[template_child]

@@ -6,7 +6,7 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(resource = "/com/github/marhkb/Symphony/ui/connection-lost-page.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/connection-lost-page.ui")]
     pub(crate) struct ConnectionLostPage {
         #[template_child]
         pub(super) header_bar: TemplateChild<adw::HeaderBar>,

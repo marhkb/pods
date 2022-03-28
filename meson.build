@@ -1,5 +1,5 @@
 project(
-  'symphony',
+  'pods',
   'rust',
   version: '0.0.1',
   meson_version: '>= 0.59',
@@ -9,7 +9,7 @@ project(
 i18n = import('i18n')
 gnome = import('gnome')
 
-base_id = 'com.github.marhkb.Symphony'
+base_id = 'com.github.marhkb.Pods'
 
 dependency('glib-2.0', version: '>= 2.66')
 dependency('gio-2.0', version: '>= 2.66')

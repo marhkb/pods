@@ -10,7 +10,7 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(resource = "/com/github/marhkb/Symphony/ui/property-widget-row.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/property-widget-row.ui")]
     pub(crate) struct PropertyWidgetRow {
         #[template_child]
         pub(super) bin: TemplateChild<adw::Bin>,

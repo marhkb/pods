@@ -1,8 +1,8 @@
 [Desktop Entry]
-Name=Symphony
+Name=Pods
 Comment=A Podman desktop application
 Type=Application
-Exec=symphony
+Exec=pods
 Terminal=false
 Categories=GNOME;GTK;
 Keywords=Gnome;GTK;

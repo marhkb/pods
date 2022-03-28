@@ -4,19 +4,19 @@
   <id>@app-id@</id>
   <metadata_license>CC0</metadata_license>
   <project_license>GPL-3.0+</project_license>
-  <name>Symphony</name>
+  <name>Pods</name>
   <summary>A Podman desktop application</summary>
   <description>
     <p>A Podman desktop application</p>
   </description>
   <screenshots>
     <screenshot type="default">
-      <image>https://github.com/marhkb/symphony/raw/master/data/resources/screenshots/screenshot1.png</image>
+      <image>https://github.com/marhkb/pods/raw/master/data/resources/screenshots/screenshot1.png</image>
       <caption>Main window</caption>
     </screenshot>
   </screenshots>
-  <url type="homepage">https://github.com/marhkb/symphony</url>
-  <url type="bugtracker">https://github.com/marhkb/symphony/issues</url>
+  <url type="homepage">https://github.com/marhkb/pods</url>
+  <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.0" />
   <releases>
     <release version="0.0.1" date="2019-07-11" />

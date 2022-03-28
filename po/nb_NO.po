@@ -1,17 +1,17 @@
-# Norwegian Bokmal translations for symphony package.
-# Copyright (C) 2022 THE symphony'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the symphony package.
+# Norwegian Bokmal translations for pods package.
+# Copyright (C) 2022 THE pods'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the pods package.
 # Automatically generated, 2022.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: symphony\n"
+"Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:53+0100\n"
 "PO-Revision-Date: 2022-03-17 15:47+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/"
-"symphony/symphony/nb_NO/>\n"
+"pods/pods/nb_NO/>\n"
 "Language: nb_NO\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,54 +19,54 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.12-dev\n"
 
-#: data/com.github.marhkb.Symphony.desktop.in.in:3
-#: data/com.github.marhkb.Symphony.metainfo.xml.in.in:7 src/main.rs:32
-msgid "Symphony"
-msgstr "Symphony"
+#: data/com.github.marhkb.Pods.desktop.in.in:3
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:32
+msgid "Pods"
+msgstr "Pods"
 
-#: data/com.github.marhkb.Symphony.desktop.in.in:4
-#: data/com.github.marhkb.Symphony.metainfo.xml.in.in:8
-#: data/com.github.marhkb.Symphony.metainfo.xml.in.in:10
+#: data/com.github.marhkb.Pods.desktop.in.in:4
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
 msgid "A Podman desktop application"
 msgstr "Et Podman-skrivebordsprogram"
 
-#: data/com.github.marhkb.Symphony.desktop.in.in:9
+#: data/com.github.marhkb.Pods.desktop.in.in:9
 #, fuzzy
 msgid "Gnome;GTK;"
 msgstr "GNOME;GTK;"
 
-#: data/com.github.marhkb.Symphony.gschema.xml.in:6
-#: data/com.github.marhkb.Symphony.gschema.xml.in:7
+#: data/com.github.marhkb.Pods.gschema.xml.in:6
+#: data/com.github.marhkb.Pods.gschema.xml.in:7
 msgid "Default window width"
 msgstr "Forvalgt vindusbredde"
 
-#: data/com.github.marhkb.Symphony.gschema.xml.in:11
-#: data/com.github.marhkb.Symphony.gschema.xml.in:12
+#: data/com.github.marhkb.Pods.gschema.xml.in:11
+#: data/com.github.marhkb.Pods.gschema.xml.in:12
 msgid "Default window height"
 msgstr "Forvalgt vindushøyde"
 
-#: data/com.github.marhkb.Symphony.gschema.xml.in:16
+#: data/com.github.marhkb.Pods.gschema.xml.in:16
 msgid "Default window maximized behaviour"
 msgstr "Forvalg adferd for maksimert vindu"
 
-#: data/com.github.marhkb.Symphony.gschema.xml.in:21
+#: data/com.github.marhkb.Pods.gschema.xml.in:21
 msgid "The last used view"
 msgstr "Sist brukte visning"
 
-#: data/com.github.marhkb.Symphony.gschema.xml.in:26
+#: data/com.github.marhkb.Pods.gschema.xml.in:26
 #, fuzzy
 msgid "Whether to show intermediate images"
 msgstr "Hvorvidt kun mellomliggende avtrykk skal vises"
 
-#: data/com.github.marhkb.Symphony.gschema.xml.in:31
+#: data/com.github.marhkb.Pods.gschema.xml.in:31
 msgid "Whether to show only running containers"
 msgstr "Hvorvidt kun kjørende beholdere skal vises"
 
-#: data/com.github.marhkb.Symphony.metainfo.xml.in.in:15
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:15
 msgid "Main window"
 msgstr "Hovedvindu"
 
-#: data/com.github.marhkb.Symphony.metainfo.xml.in.in:32
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:32
 msgid "Marcus Behrendt"
 msgstr "Marcus Behrendt"
 
@@ -77,11 +77,11 @@ msgstr "Sjekker tilkobling til Podman-tjenesten"
 #: data/resources/ui/connection-lost-page.ui:16
 #, fuzzy
 msgid ""
-"An unexpected error has occurred and Symphony has lost connection to Podman "
+"An unexpected error has occurred and Pods has lost connection to Podman "
 "Unix. If the connection has been disconnected unintentionally, you can try "
 "to re-establish it."
 msgstr ""
-"En uventet feil gjorde at Symphony mistet tilkoblingen til Podman Unix. "
+"En uventet feil gjorde at Pods mistet tilkoblingen til Podman Unix. "
 "Tilkoblingen har blitt koblet fra uforvarende. Du kan prøve å re-etablere "
 "den."
 
@@ -191,7 +191,7 @@ msgid "The Podman service is currently not running."
 msgstr "Podman-tjenesten kjører ikke"
 
 #: data/resources/ui/start-service-page.ui:17
-msgid "Welcome to Symphony"
+msgid "Welcome to Pods"
 msgstr "Velkommen"
 
 #: data/resources/ui/start-service-page.ui:33
@@ -207,8 +207,8 @@ msgid "_Keyboard Shortcuts"
 msgstr "_Tastatursnarveier"
 
 #: data/resources/ui/window.ui:15
-msgid "_About Symphony"
-msgstr "_Om Symphony"
+msgid "_About Pods"
+msgstr "_Om Pods"
 
 #: data/resources/ui/window.ui:24
 #, fuzzy

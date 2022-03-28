@@ -13,7 +13,7 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(resource = "/com/github/marhkb/Symphony/ui/image-row.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/image-row.ui")]
     pub(crate) struct ImageRow {
         pub(super) image: WeakRef<model::Image>,
     }
