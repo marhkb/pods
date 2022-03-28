@@ -13,7 +13,7 @@
 
     <child>
       <object class="AdwStatusPage" id="status_page">
-        <property name="description" translatable="yes">An unexpected error has occurred and Symphony has lost connection to Podman Unix. If the connection has been disconnected unintentionally, you can try to re-establish it.</property>
+        <property name="description" translatable="yes">An unexpected error has occurred and Pods has lost connection to Podman Unix. If the connection has been disconnected unintentionally, you can try to re-establish it.</property>
         <property name="icon-name">face-sad-symbolic</property>
         <property name="title" translatable="yes">Lost Connection to Podman</property>
         <property name="vexpand">True</property>

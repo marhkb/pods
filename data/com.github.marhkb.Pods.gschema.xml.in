@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <schemalist>
-  <schema path="/com/github/marhkb/Symphony/" id="@app-id@" gettext-domain="@gettext-package@">
+  <schema path="/com/github/marhkb/Pods/" id="@app-id@" gettext-domain="@gettext-package@">
     <key name="window-width" type="i">
       <default>600</default>
       <summary>Default window width</summary>

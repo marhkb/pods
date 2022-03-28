@@ -8,7 +8,7 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(resource = "/com/github/marhkb/Symphony/ui/leaflet-overlay.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/leaflet-overlay.ui")]
     pub(crate) struct LeafletOverlay;
 
     #[glib::object_subclass]

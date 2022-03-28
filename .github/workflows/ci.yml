@@ -36,7 +36,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: .flatpak-builder
-          key: ${{ runner.os }}-flatpak-${{ hashFiles('build-aux/com.github.marhkb.Symphony.Devel.json') }}
+          key: ${{ runner.os }}-flatpak-${{ hashFiles('build-aux/com.github.marhkb.Pods.Devel.json') }}
           restore-keys: ${{ runner.os }}-flatpak-
 
       - name: Cache cargo
@@ -69,14 +69,14 @@ jobs:
           --disable-rofiles-fuse \
           --install-deps-from=flathub \
           --keep-build-dirs \
-          --stop-at=symphony \
-          flatpak_app build-aux/com.github.marhkb.Symphony.Devel.json
+          --stop-at=pods \
+          flatpak_app build-aux/com.github.marhkb.Pods.Devel.json
 
       - name: Run clippy
         run: |
           flatpak-builder \
           --run \
-          flatpak_app build-aux/com.github.marhkb.Symphony.Devel.json \
+          flatpak_app build-aux/com.github.marhkb.Pods.Devel.json \
           cargo clippy -- -D warnings
 
   flatpak:
@@ -89,7 +89,7 @@ jobs:
     - uses: actions/checkout@v2
     - uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v4
       with:
-        bundle: symphony.flatpak
-        manifest-path: build-aux/com.github.marhkb.Symphony.Devel.json
+        bundle: pods.flatpak
+        manifest-path: build-aux/com.github.marhkb.Pods.Devel.json
         run-tests: true
         cache-key: flatpak-builder-${{ github.sha }}

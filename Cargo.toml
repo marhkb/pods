@@ -1,5 +1,5 @@
 [package]
-name = "symphony"
+name = "pods"
 version = "0.1.0"
 authors = ["Marcus Behrendt <marcus.behrendt.86@gmail.com>"]
 edition = "2021"

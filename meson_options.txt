@@ -6,5 +6,5 @@ option(
     'development'
   ],
   value: 'default',
-  description: 'The build profile for Symphony. One of "default" or "development".'
+  description: 'The build profile for Pods. One of "default" or "development".'
 )

@@ -13,7 +13,7 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(resource = "/com/github/marhkb/Symphony/ui/info-dialog.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/info-dialog.ui")]
     pub(crate) struct InfoDialog {
         #[template_child]
         pub(super) preferences_page: TemplateChild<adw::PreferencesPage>,

@@ -10,7 +10,7 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(resource = "/com/github/marhkb/Symphony/ui/container-row-simple.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/container-row-simple.ui")]
     pub(crate) struct ContainerRowSimple {
         pub(super) container: WeakRef<model::Container>,
         #[template_child]

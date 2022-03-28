@@ -14,7 +14,7 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(resource = "/com/github/marhkb/Symphony/ui/window.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/window.ui")]
     pub(crate) struct Window {
         pub(super) client: model::Client,
         #[template_child]

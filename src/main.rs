@@ -29,7 +29,7 @@ fn main() {
     gettextrs::bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR).expect("Unable to bind the text domain");
     gettextrs::textdomain(GETTEXT_PACKAGE).expect("Unable to switch to the text domain");
 
-    glib::set_application_name(&gettext("Symphony"));
+    glib::set_application_name(&gettext("Pods"));
 
     gtk::init().expect("Unable to start GTK4");
     adw::init();
@@ -43,7 +43,7 @@ fn main() {
     app.connect_handle_local_options(|_, dict| {
         if dict.contains("version") {
             // Print version ...
-            println!("symphony {}", config::VERSION);
+            println!("pods {}", config::VERSION);
             // ... and exit application.
             1
         } else {

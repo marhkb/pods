@@ -6,7 +6,7 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(resource = "/com/github/marhkb/Symphony/ui/start-service-page.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/start-service-page.ui")]
     pub(crate) struct StartServicePage {
         #[template_child]
         pub(super) header_bar: TemplateChild<adw::HeaderBar>,

@@ -10,7 +10,7 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(resource = "/com/github/marhkb/Symphony/ui/property-row.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/property-row.ui")]
     pub(crate) struct PropertyRow {
         #[template_child]
         pub(super) value_label: TemplateChild<gtk::Label>,
