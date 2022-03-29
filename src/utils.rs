@@ -1,5 +1,6 @@
 use std::collections::BTreeSet;
 use std::marker::PhantomData;
+use std::ops::Deref;
 
 use futures::{Future, Stream, StreamExt};
 use gettextrs::gettext;
@@ -7,7 +8,7 @@ use gtk::prelude::{Cast, ListModelExt, StaticType};
 use gtk::traits::WidgetExt;
 use gtk::{gio, glib};
 
-use crate::{view, RUNTIME};
+use crate::{config, view, RUNTIME};
 
 #[macro_export]
 macro_rules! monad_boxed_type {
@@ -42,6 +43,23 @@ macro_rules! monad_boxed_type {
 
 monad_boxed_type!(pub(crate) BoxedStringVec(Vec<String>) impls Debug, Default);
 monad_boxed_type!(pub(crate) BoxedStringBTreeSet(BTreeSet<String>) impls Debug, Default);
+
+#[derive(Debug)]
+pub(crate) struct PodsSettings(gio::Settings);
+
+impl Default for PodsSettings {
+    fn default() -> Self {
+        Self(gio::Settings::new(config::APP_ID))
+    }
+}
+
+impl Deref for PodsSettings {
+    type Target = gio::Settings;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
 
 pub(crate) fn find_leaflet_overlay<W: glib::IsA<gtk::Widget>>(widget: &W) -> view::LeafletOverlay {
     leaflet_overlay(

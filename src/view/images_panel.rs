@@ -10,7 +10,7 @@ use once_cell::sync::{Lazy, OnceCell};
 
 use crate::utils::ToTypedListModel;
 use crate::window::Window;
-use crate::{api, config, model, view};
+use crate::{api, model, utils, view};
 
 mod imp {
     use super::*;
@@ -18,6 +18,7 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/images-panel.ui")]
     pub(crate) struct ImagesPanel {
+        pub(super) settings: utils::PodsSettings,
         pub(super) image_list: WeakRef<model::ImageList>,
         pub(super) show_intermediates: Cell<bool>,
         pub(super) properties_filter: OnceCell<gtk::Filter>,
@@ -240,7 +241,7 @@ mod imp {
             self.search_filter.set(search_filter.upcast()).unwrap();
             self.sorter.set(sorter.upcast()).unwrap();
 
-            gio::Settings::new(config::APP_ID)
+            self.settings
                 .bind("show-intermediate-images", obj, "show-intermediates")
                 .build();
         }

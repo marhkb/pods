@@ -8,7 +8,7 @@ use gtk::{gio, glib, CompositeTemplate};
 use once_cell::sync::Lazy;
 use once_cell::unsync::OnceCell;
 
-use crate::{config, model, view};
+use crate::{model, utils, view};
 
 mod imp {
     use super::*;
@@ -16,6 +16,7 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/containers-panel.ui")]
     pub(crate) struct ContainersPanel {
+        pub(super) settings: utils::PodsSettings,
         pub(super) container_list: WeakRef<model::ContainerList>,
         pub(super) show_only_running: Cell<bool>,
         pub(super) properties_filter: OnceCell<gtk::Filter>,
@@ -221,7 +222,7 @@ mod imp {
             self.search_filter.set(search_filter.upcast()).unwrap();
             self.sorter.set(sorter.upcast()).unwrap();
 
-            gio::Settings::new(config::APP_ID)
+            self.settings
                 .bind("show-only-running-containers", obj, "show-only-running")
                 .build();
         }
