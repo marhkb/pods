@@ -1019,8 +1019,7 @@ checksum = "58893f751c9b0412871a09abd62ecd2a00298c6c83befa223ef98c52aef40cbe"
 [[package]]
 name = "podman-api"
 version = "0.2.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e6f5feb48a56d781a1376628b9492fbb2d482a0cf89459c9f5522071ff42a284"
+source = "git+https://github.com/vv9k/podman-api-rs.git#e219a2e8d2723e432dc801fb13f11e52b1d5b509"
 dependencies = [
  "base64",
  "byteorder",
