@@ -102,6 +102,30 @@ mod imp {
 
             self.drawing_area
                 .set_draw_func(clone!(@weak obj => move |_, cr, w, h| {
+                    let colors = if adw::StyleManager::default().is_dark() {
+                        [
+                            // @dark_1
+                            (0.466, 0.462, 0.482),
+                            // @accent_color
+                            (0.470, 0.682, 0.929),
+                            // @warning_color
+                            (0.972, 0.894, 0.360),
+                            // @error_color
+                            (1.0, 0.482, 0.388)
+                        ]
+                    } else {
+                        [
+                            // @headerbar_bg_color
+                            (0.921, 0.921, 0.921),
+                            // @accent_color
+                            (0.109, 0.443, 0.847),
+                            // @warning_color
+                            (0.682, 0.482, 0.011),
+                            // @error_color
+                            (0.752, 0.109, 0.156)
+                        ]
+                    };
+
                     let pi = f64::consts::PI;
 
                     cr.save().unwrap();
@@ -118,21 +142,17 @@ mod imp {
 
                     // Radius Fill
                     cr.arc(center_x, center_y, delta, 0.0, 2. * pi);
-                     // @headerbar_bg_color
-                    cr.set_source_rgb(0.921, 0.921, 0.921);
+                    cr.set_source_rgb(colors[0].0, colors[0].1, colors[0].2);
                     cr.stroke().unwrap();
 
                     // Percentage
                     let current_percentage = obj.current_percentage();
                     if current_percentage < 0.8 {
-                        // @accent_color
-                        cr.set_source_rgb(0.109, 0.443, 0.847);
+                        cr.set_source_rgb(colors[1].0, colors[1].1, colors[1].2);
                     } else if current_percentage < 0.95 {
-                        // @warning_color
-                        cr.set_source_rgb(0.682, 0.482, 0.011);
+                        cr.set_source_rgb(colors[2].0, colors[2].1, colors[2].2);
                     } else {
-                        // @error_color
-                        cr.set_source_rgb(0.752, 0.109, 0.156);
+                        cr.set_source_rgb(colors[3].0, colors[3].1, colors[3].2);
                     }
                     cr.arc(
                         center_x,
@@ -145,6 +165,10 @@ mod imp {
 
                     cr.restore().unwrap();
                 }));
+
+            adw::StyleManager::default().connect_dark_notify(clone!(@weak obj => move |_| {
+                obj.imp().drawing_area.queue_draw();
+            }));
 
             Self::Type::this_expression("percentage")
                 .chain_closure::<String>(closure!(|_: glib::Object, percentage: f64| {
