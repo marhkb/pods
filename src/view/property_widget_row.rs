@@ -79,9 +79,6 @@ mod imp {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
-            // Remove header class from action row header box.
-            obj.child().unwrap().remove_css_class("header");
-
             obj.connect_notify_local(
                 Some("title"),
                 clone!(@weak obj => move |_, _| obj.notify("key")),

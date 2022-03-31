@@ -6,10 +6,6 @@
   color: @red_3;
 }
 
-.property-row > box {
-  margin: 9px 12px;
-}
-
 .circular-progress-bar {
   font-size: 0.65em;
 }
