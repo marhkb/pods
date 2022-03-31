@@ -26,6 +26,16 @@
       <summary>Whether to show intermediate images</summary>
       <description></description>
     </key>
+    <key name="prune-all-images" type="b">
+      <default>false</default>
+      <summary>Remove all images not in use by containers, not just dangling ones</summary>
+      <description></description>
+    </key>
+    <key name="prune-external-images" type="b">
+      <default>false</default>
+      <summary>Remove images even when they are used by external containers (e.g, by build containers)</summary>
+      <description></description>
+    </key>
     <key name="show-only-running-containers" type="b">
       <default>true</default>
       <summary>Whether to show only running containers</summary>

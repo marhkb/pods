@@ -16,6 +16,7 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/window.ui")]
     pub(crate) struct Window {
+        pub(super) settings: utils::PodsSettings,
         pub(super) client: model::Client,
         #[template_child]
         pub(super) toast_overlay: TemplateChild<adw::ToastOverlay>,
@@ -257,17 +258,17 @@ impl Window {
     fn save_window_size(&self) -> Result<(), glib::BoolError> {
         let (width, height) = self.default_size();
 
-        let settings = gio::Settings::new(config::APP_ID);
-
-        settings.set_int("window-width", width)?;
-        settings.set_int("window-height", height)?;
-        settings.set_boolean("is-maximized", self.is_maximized())?;
+        let imp = self.imp();
+        imp.settings.set_int("window-width", width)?;
+        imp.settings.set_int("window-height", height)?;
+        imp.settings
+            .set_boolean("is-maximized", self.is_maximized())?;
 
         Ok(())
     }
 
     fn load_settings(&self) {
-        let settings = gio::Settings::new(config::APP_ID);
+        let settings = &*self.imp().settings;
 
         let width = settings.int("window-width");
         let height = settings.int("window-height");

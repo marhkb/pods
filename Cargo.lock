@@ -1012,14 +1012,14 @@ checksum = "8b870d8c151b6f2fb93e84a13146138f05d02ed11c7e7c54f8826aaaf7c9f184"
 
 [[package]]
 name = "pkg-config"
-version = "0.3.24"
+version = "0.3.25"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "58893f751c9b0412871a09abd62ecd2a00298c6c83befa223ef98c52aef40cbe"
+checksum = "1df8c4ec4b0627e53bdf214615ad287367e482558cf84b109250b37464dc03ae"
 
 [[package]]
 name = "podman-api"
 version = "0.2.2"
-source = "git+https://github.com/vv9k/podman-api-rs.git#e219a2e8d2723e432dc801fb13f11e52b1d5b509"
+source = "git+https://github.com/vv9k/podman-api-rs.git#886cdc79536c7427a3bbeb61ed3dc101f8200207"
 dependencies = [
  "base64",
  "byteorder",
