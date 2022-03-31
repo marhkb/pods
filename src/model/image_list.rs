@@ -258,7 +258,13 @@ impl ImageList {
             async move { PODMAN.images().prune(&opts).await },
             |result| {
                 match result.as_ref() {
-                    Ok(reports) => match reports {
+                    Ok(reports) => match reports.as_ref().and_then(|reports| {
+                        if reports.is_empty() {
+                            None
+                        } else {
+                            Some(reports)
+                        }
+                    }) {
                         Some(reports) => {
                             let (num_images, errors, total_size) = reports
                                 .iter()

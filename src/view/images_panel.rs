@@ -1,5 +1,5 @@
-use std::cell::{Cell, RefCell, RefMut};
-use std::rc::Rc;
+use std::borrow::Cow;
+use std::cell::Cell;
 
 use gettextrs::gettext;
 use gtk::glib::{clone, closure, WeakRef};
@@ -8,7 +8,6 @@ use gtk::subclass::prelude::*;
 use gtk::{gio, glib, CompositeTemplate};
 use once_cell::sync::{Lazy, OnceCell};
 
-use crate::utils::ToTypedListModel;
 use crate::window::Window;
 use crate::{api, model, utils, view};
 
@@ -349,75 +348,74 @@ impl ImagesPanel {
     where
         F: FnOnce() + Clone + 'static,
     {
-        let dialog = view::ImagesPruneDialog::from(&self.image_list().unwrap());
+        let dialog = view::ImagesPruneDialog::default();
         dialog.set_transient_for(Some(
             &self.root().unwrap().downcast::<gtk::Window>().unwrap(),
         ));
         dialog.run_async(clone!(@weak self as obj => move |dialog, response| {
-            if matches!(response, gtk::ResponseType::Accept) {
-                let images_to_prune = dialog
-                    .images_to_prune()
-                    .unwrap();
-
-                let len = images_to_prune.n_items();
-                let num_errors = Rc::new(RefCell::new(0));
-
-                let mut iter = images_to_prune
-                    .to_owned()
-                    .to_typed_list_model::<model::Image>()
-                    .iter();
-
-                let first_image = iter.next();
-
-                iter.for_each(|image| {
-                    image.delete(clone!(@weak obj, @strong num_errors => move |image, result| {
-                        obj.check_prune_error(result, image.id(), &mut num_errors.borrow_mut());
-                    }));
-                });
-
-                match first_image {
-                    Some(image) => {
-                        image.delete(clone!(@weak obj, @strong num_errors => move |image, result| {
-                            let mut num_errors = num_errors.borrow_mut();
-                            obj.check_prune_error(result, image.id(), &mut num_errors);
-
-                            let num_pruned_images = len - *num_errors;
-                            obj.show_toast(&if *num_errors == 0 {
-                                gettext!(
-                                    // Translators: "{}" is a placeholder for the number of images.
-                                    "{} images have been pruned",
-                                    num_pruned_images,
+            match (response, obj.image_list()) {
+                (gtk::ResponseType::Accept, Some(image_list)) => {
+                    let imp = obj.imp();
+                    image_list.prune(
+                        api::ImagePruneOpts::builder()
+                            .all(imp.settings.get("prune-all-images"))
+                            .external(imp.settings.get("prune-external-images"))
+                            .filter(if dialog.has_prune_until_filter() {
+                                Some(api::ImagePruneFilter::Until(
+                                    dialog.prune_until_timestamp().to_string())
                                 )
                             } else {
-                                gettext!(
-                                    // Translators: "{}" are placeholders for cardinal numbers.
-                                    "{} images have been pruned ({} errors)",
-                                    num_pruned_images,
-                                    *num_errors
-                                )
-                            });
+                                None
+                            })
+                            .build(),
+                        clone!(@weak obj => move |result| {
+                            obj.show_toast(&match result {
+                                Ok(reports) => match reports.as_ref().and_then(|reports| {
+                                    if reports.is_empty() {
+                                        None
+                                    } else {
+                                        Some(reports)
+                                    }
+                                }) {
+                                    Some(reports) => {
+                                        let (num_images, num_errors, total_size) = reports
+                                            .iter()
+                                            .map(|report| match report.err {
+                                                Some(_) => (0, 1, 0),
+                                                None => (1, 0, report.size.unwrap_or(0)),
+                                            })
+                                            .fold((0, 0, 0), |acc, i| {
+                                                (acc.0 + i.0, acc.1 + i.1, acc.2 + i.2)
+                                            });
+                                        gettext!(
+                                            // Translators: The first two placeholders are for a numbers, the last for disk space.
+                                            "{} images pruned ({} errors). {} space reclaimed.",
+                                            num_images,
+                                            if num_errors == 0 {
+                                                Cow::Borrowed("no")
+                                            } else {
+                                                Cow::Owned(num_errors.to_string())
+                                            },
+                                            glib::format_size(total_size as u64),
+                                        )
+                                    }
 
+                                    None => gettext("There are no images to be pruned."),
+                                },
+                                Err(e) => gettext!(
+                                    // Translators: "{}" is a placeholder for an error message.
+                                    "Error on pruning images: '{}'",
+                                    e
+                                ),
+                            });
                             op();
-                        }));
-                    }
-                    None => op(),
-                }
-            } else {
-                op();
+                        }),
+                    )
+                },
+                _ => op(),
             }
             dialog.close();
         }));
-    }
-
-    fn check_prune_error(&self, result: api::Result<()>, id: &str, num_errors: &mut RefMut<u32>) {
-        if result.is_err() {
-            self.show_toast(
-                // Translators: "{}" is a placeholder for the image id.
-                &gettext!("Error on pruning image '{}'", id),
-            );
-
-            **num_errors += 1;
-        }
     }
 
     fn show_toast(&self, title: &str) {
