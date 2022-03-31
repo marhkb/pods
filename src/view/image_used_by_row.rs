@@ -143,7 +143,17 @@ impl ImageUsedByRow {
                 gtk::ListBoxRow::builder()
                     .activatable(false)
                     .selectable(false)
-                    .child(&view::ContainerRowSimple::from(obj.downcast_ref()))
+                    .child(
+                        &adw::Bin::builder()
+                            .halign(gtk::Align::End)
+                            .margin_bottom(9)
+                            .margin_end(18)
+                            .margin_start(18)
+                            .margin_top(9)
+                            .valign(gtk::Align::Center)
+                            .child(&view::ContainerRowSimple::from(obj.downcast_ref()))
+                            .build(),
+                    )
                     .build()
                     .upcast()
             },

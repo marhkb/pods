@@ -7,7 +7,6 @@
         <property name="spacing">12</property>
       </object>
     </property>
-    <property name="halign">end</property>
 
     <child>
       <object class="GtkLabel" id="name_label">

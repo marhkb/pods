@@ -17,6 +17,9 @@
 
             <property name="child">
               <object class="GtkListBox" id="list_box">
+                <style>
+                  <class name="boxed-list"/>
+                </style>
                 <property name="selection-mode">none</property>
               </object>
             </property>
