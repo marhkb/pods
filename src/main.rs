@@ -52,7 +52,10 @@ fn main() {
                     log::LevelFilter::from_str(&level).expect("Error on parsing log-level")
                 }
                 // Standard log levels if not specified by user
-                None => log::LevelFilter::Warn,
+                #[cfg(debug_assertions)]
+                None => log::LevelFilter::Debug,
+                #[cfg(not(debug_assertions))]
+                None => log::LevelFilter::Info,
             };
 
             if syslog::init_unix(syslog::Facility::LOG_USER, log_level_filter).is_err()
