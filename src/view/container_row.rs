@@ -215,7 +215,7 @@ mod imp {
                         Some(match status {
                             Running => running_menu(),
                             Paused => paused_menu(),
-                            Configured | Exited | Dead | Stopped => stopped_menu(),
+                            Configured | Created | Exited | Dead | Stopped => stopped_menu(),
                             _ => return None,
                         })
                     }
