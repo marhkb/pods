@@ -155,7 +155,7 @@ impl ContainerLogsPanel {
                 clone!(@weak self as obj => @default-return glib::Continue(false), move |result| {
                     glib::Continue(match result {
                         Ok(line) => {
-                            if perform.decode(&line[8..]) {
+                            if line.len() > 8 && perform.decode(&line[8..]) {
                                 let imp = obj.imp();
 
                                 imp.text_buffer.insert_markup(
