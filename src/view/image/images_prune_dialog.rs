@@ -2,7 +2,7 @@ use std::cell::Cell;
 
 use adw::subclass::prelude::*;
 use gettextrs::gettext;
-use gtk::glib::clone;
+use gtk::glib::{clone, closure};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::{glib, CompositeTemplate};
@@ -23,8 +23,6 @@ impl Default for TimeFormat {
 }
 
 mod imp {
-    use gtk::glib::closure;
-
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
