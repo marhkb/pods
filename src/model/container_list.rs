@@ -52,7 +52,7 @@ mod imp {
                     .build(),
                     Signal::builder(
                         "container-removed",
-                        &[str::static_type().into()],
+                        &[model::Container::static_type().into()],
                         <()>::static_type().into(),
                     )
                     .build(),
@@ -265,10 +265,10 @@ impl ContainerList {
         self.imp().failed.borrow_mut().remove(id);
 
         let mut list = self.imp().list.borrow_mut();
-        if let Some((idx, id, container)) = list.shift_remove_full(id) {
+        if let Some((idx, _, container)) = list.shift_remove_full(id) {
             container.set_deleted(true);
             drop(list);
-            self.container_removed(&id);
+            self.container_removed(&container);
             self.items_changed(idx as u32, 1, 0);
         }
     }
@@ -330,8 +330,8 @@ impl ContainerList {
         self.emit_by_name::<()>("container-added", &[container]);
     }
 
-    fn container_removed(&self, id: &str) {
-        self.emit_by_name::<()>("container-removed", &[&id]);
+    fn container_removed(&self, model: &model::Container) {
+        self.emit_by_name::<()>("container-removed", &[&model]);
     }
 
     pub(crate) fn connect_container_added<F: Fn(&Self, &model::Container) + 'static>(
@@ -347,14 +347,14 @@ impl ContainerList {
         })
     }
 
-    pub(crate) fn connect_container_removed<F: Fn(&Self, &str) + 'static>(
+    pub(crate) fn connect_container_removed<F: Fn(&Self, &model::Container) + 'static>(
         &self,
         f: F,
     ) -> glib::SignalHandlerId {
         self.connect_local("container-removed", true, move |values| {
             let obj = values[0].get::<Self>().unwrap();
-            let id = values[1].get::<&str>().unwrap();
-            f(&obj, id);
+            let container = values[1].get::<model::Container>().unwrap();
+            f(&obj, &container);
 
             None
         })
