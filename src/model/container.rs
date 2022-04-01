@@ -636,13 +636,21 @@ impl Container {
         );
     }
 
-    pub(crate) fn logs(&self) -> impl futures::Stream<Item = api::Result<Vec<u8>>> + 'static {
+    pub(crate) fn logs(
+        &self,
+        since: Option<glib::DateTime>,
+    ) -> impl futures::Stream<Item = api::Result<Vec<u8>>> + 'static {
+        let opts = api::ContainerLogsOpts::builder()
+            .follow(true)
+            .stdout(true)
+            .stderr(true);
+
         api::Container::new(&*PODMAN, self.id().unwrap_or_default()).logs(
-            &api::ContainerLogsOpts::builder()
-                .follow(true)
-                .stdout(true)
-                .stderr(true)
-                .build(),
+            &match since {
+                Some(date_time) => opts.since(date_time.to_unix().to_string()),
+                None => opts,
+            }
+            .build(),
         )
     }
 }
