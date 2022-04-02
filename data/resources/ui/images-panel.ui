@@ -67,7 +67,7 @@
 
                     <property name="child">
                       <object class="GtkSearchEntry" id="search_entry">
-                        <property name="hexpand">True</property>
+                        <property name="max-width-chars">48</property>
                       </object>
                     </property>
 

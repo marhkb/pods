@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
 
-  <menu id="primary_menu">
+  <menu id="menu">
     <section>
       <item>
         <attribute name="label" translatable="yes">_Show Podman Info</attribute>
@@ -20,28 +20,6 @@
       <item>
         <attribute name="label" translatable="yes">_About Pods</attribute>
         <attribute name="action">app.about</attribute>
-      </item>
-    </section>
-  </menu>
-
-  <menu id="images_menu">
-    <section>
-      <item>
-        <attribute name="label" translatable="yes">Show intermediate images</attribute>
-        <attribute name="action">images.show-intermediates</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">Prune unused images</attribute>
-        <attribute name="action">images.prune-unused</attribute>
-      </item>
-    </section>
-  </menu>
-
-  <menu id="containers_menu">
-    <section>
-      <item>
-        <attribute name="label" translatable="yes">Show only running containers</attribute>
-        <attribute name="action">containers.show-only-running</attribute>
       </item>
     </section>
   </menu>
@@ -81,22 +59,8 @@
                         <property name="centering-policy">strict</property>
 
                         <child type="start">
-                          <object class="GtkMenuButton" id="images_menu_button">
-                            <property name="icon-name">view-more-symbolic</property>
-                            <property name="menu-model">images_menu</property>
-                          </object>
-                        </child>
-
-                        <child type="start">
                           <object class="GtkToggleButton" id="images_search_button">
                             <property name="icon-name">system-search-symbolic</property>
-                          </object>
-                        </child>
-
-                        <child type="start">
-                          <object class="GtkMenuButton" id="containers_menu_button">
-                            <property name="icon-name">view-more-symbolic</property>
-                            <property name="menu-model">containers_menu</property>
                           </object>
                         </child>
 
@@ -115,7 +79,13 @@
                         <child type="end">
                           <object class="GtkMenuButton">
                             <property name="icon-name">open-menu-symbolic</property>
-                            <property name="menu-model">primary_menu</property>
+                            <property name="menu-model">menu</property>
+                          </object>
+                        </child>
+
+                        <child type="end">
+                          <object class="GtkMenuButton" id="context_menu_button">
+                            <property name="icon-name">view-more-symbolic</property>
                           </object>
                         </child>
 

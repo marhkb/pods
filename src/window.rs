@@ -27,13 +27,11 @@ mod imp {
         #[template_child]
         pub(super) leaflet: TemplateChild<adw::Leaflet>,
         #[template_child]
-        pub(super) images_menu_button: TemplateChild<gtk::MenuButton>,
-        #[template_child]
         pub(super) images_search_button: TemplateChild<gtk::ToggleButton>,
         #[template_child]
-        pub(super) containers_menu_button: TemplateChild<gtk::MenuButton>,
-        #[template_child]
         pub(super) containers_search_button: TemplateChild<gtk::ToggleButton>,
+        #[template_child]
+        pub(super) context_menu_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
         pub(super) panel_stack: TemplateChild<adw::ViewStack>,
         #[template_child]
@@ -194,34 +192,41 @@ mod imp {
             );
 
             let visible_child_name_expr = adw::ViewStack::this_expression("visible-child-name");
-            let is_images_visible_expr = visible_child_name_expr.chain_closure::<bool>(closure!(
-                |_: glib::Object, name: Option<&str>| name == Some("images")
-            ));
-            let is_containers_visible_expr = visible_child_name_expr.chain_closure::<bool>(
-                closure!(|_: glib::Object, name: Option<&str>| name == Some("containers")),
-            );
 
-            is_images_visible_expr.bind(
-                &*self.images_menu_button,
-                "visible",
-                Some(&*self.panel_stack),
-            );
-            is_images_visible_expr.bind(
-                &*self.images_search_button,
-                "visible",
-                Some(&*self.panel_stack),
-            );
+            visible_child_name_expr
+                .chain_closure::<bool>(closure!(
+                    |_: glib::Object, name: Option<&str>| name == Some("images")
+                ))
+                .bind(
+                    &*self.images_search_button,
+                    "visible",
+                    Some(&*self.panel_stack),
+                );
+            visible_child_name_expr
+                .chain_closure::<bool>(closure!(
+                    |_: glib::Object, name: Option<&str>| name == Some("containers")
+                ))
+                .bind(
+                    &*self.containers_search_button,
+                    "visible",
+                    Some(&*self.panel_stack),
+                );
 
-            is_containers_visible_expr.bind(
-                &*self.containers_menu_button,
-                "visible",
-                Some(&*self.panel_stack),
-            );
-            is_containers_visible_expr.bind(
-                &*self.containers_search_button,
-                "visible",
-                Some(&*self.panel_stack),
-            );
+            visible_child_name_expr
+                .chain_closure::<Option<gio::Menu>>(closure!(
+                    |_: glib::Object, name: Option<&str>| {
+                        name.and_then(|name| match name {
+                            "images" => Some(view::images_menu()),
+                            "containers" => Some(view::containers_menu()),
+                            _ => None,
+                        })
+                    }
+                ))
+                .bind(
+                    &*self.context_menu_button,
+                    "menu-model",
+                    Some(&*self.panel_stack),
+                );
 
             obj.check_service();
         }
