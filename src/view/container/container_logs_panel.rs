@@ -17,9 +17,11 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/container-logs-panel.ui")]
     pub(crate) struct ContainerLogsPanel {
         pub(super) container: WeakRef<model::Container>,
+        pub(super) abort_handle: RefCell<Option<stream::AbortHandle>>,
+        pub(super) handler_id: RefCell<Option<glib::SignalHandlerId>>,
+        pub(super) last_log_time: RefCell<Option<glib::DateTime>>,
         pub(super) is_auto_scrolling: Cell<bool>,
         pub(super) sticky: Cell<bool>,
-        pub(super) abort_handle: RefCell<Option<stream::AbortHandle>>,
         #[template_child]
         pub(super) overlay: TemplateChild<gtk::Overlay>,
         #[template_child]
@@ -118,9 +120,8 @@ mod imp {
             obj.scroll_down();
         }
 
-        fn dispose(&self, obj: &Self::Type) {
+        fn dispose(&self, _obj: &Self::Type) {
             self.overlay.unparent();
-            obj.abort();
         }
     }
 
@@ -138,39 +139,33 @@ impl ContainerLogsPanel {
     }
 
     fn set_container(&self, value: Option<&model::Container>) {
-        if self.container().as_ref() == value {
+        let container = self.container();
+
+        if container.as_ref() == value {
             return;
         }
 
         self.abort();
 
         let imp = self.imp();
+
+        if let Some(container) = container {
+            container.disconnect(imp.handler_id.take().unwrap());
+        }
+
         if let Some(container) = value {
-            let mut perform = MarkupPerform::default();
+            self.connect_logs(container, None);
 
-            let (logs, handle) = stream::abortable(container.logs());
-
-            utils::run_stream(
-                logs,
-                clone!(@weak self as obj => @default-return glib::Continue(false), move |result| {
-                    glib::Continue(match result {
-                        Ok(line) => {
-                            if line.len() > 8 && perform.decode(&line[8..]) {
-                                let imp = obj.imp();
-
-                                imp.text_buffer.insert_markup(
-                                    &mut imp.text_buffer.end_iter(),
-                                    &format!("{}\n", perform.move_out_buffer()),
-                                );
-                            }
-                            true
-                        }
-                        Err(_) => false,
-                    })
+            let handler_id = container.connect_notify_local(
+                Some("status"),
+                clone!(@weak self as obj => move |container, _| {
+                    if let model::ContainerStatus::Running = container.status() {
+                        obj.abort();
+                        obj.connect_logs(container, obj.imp().last_log_time.borrow().clone());
+                    }
                 }),
             );
-
-            imp.abort_handle.replace(Some(handle));
+            imp.handler_id.replace(Some(handler_id));
         }
 
         imp.container.set(value);
@@ -196,6 +191,34 @@ impl ContainerLogsPanel {
         imp.is_auto_scrolling.set(true);
         imp.scrolled_window
             .emit_by_name::<bool>("scroll-child", &[&gtk::ScrollType::End, &false]);
+    }
+
+    fn connect_logs(&self, container: &model::Container, since: Option<glib::DateTime>) {
+        let mut perform = MarkupPerform::default();
+
+        utils::run_stream(
+            container.logs(since),
+            clone!(@weak self as obj => @default-return glib::Continue(false), move |result| {
+                glib::Continue(match result {
+                    Ok(line) => {
+                        let imp = obj.imp();
+                        if line.len() > 8 && perform.decode(&line[8..]) {
+
+                            imp.text_buffer.insert_markup(
+                                &mut imp.text_buffer.end_iter(),
+                                &format!("{}\n", perform.move_out_buffer()),
+                            );
+                        }
+                        imp.last_log_time.replace(glib::DateTime::now_local().ok());
+                        true
+                    }
+                    Err(e) => {
+                        log::warn!("Stopping container log stream due to error: {e}");
+                        false
+                    }
+                })
+            }),
+        );
     }
 
     fn abort(&self) {

@@ -10,25 +10,30 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(resource = "/com/github/marhkb/Pods/ui/container-row-simple.ui")]
-    pub(crate) struct ContainerRowSimple {
+    #[template(resource = "/com/github/marhkb/Pods/ui/container-details-panel.ui")]
+    pub(crate) struct ContainerDetailsPanel {
         pub(super) container: WeakRef<model::Container>,
         #[template_child]
-        pub(super) name_label: TemplateChild<gtk::Label>,
+        pub(super) preferences_page: TemplateChild<adw::PreferencesPage>,
+        #[template_child]
+        pub(super) id_row: TemplateChild<view::PropertyRow>,
+        #[template_child]
+        pub(super) image_name_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub(super) image_spinner: TemplateChild<gtk::Spinner>,
         #[template_child]
         pub(super) status_label: TemplateChild<gtk::Label>,
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for ContainerRowSimple {
-        const NAME: &'static str = "ContainerRowSimple";
-        type Type = super::ContainerRowSimple;
+    impl ObjectSubclass for ContainerDetailsPanel {
+        const NAME: &'static str = "ContainerDetailsPanel";
+        type Type = super::ContainerDetailsPanel;
         type ParentType = gtk::Widget;
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
-
-            klass.install_action("container.show-details", None, move |widget, _, _| {
+            klass.install_action("image.show-details", None, move |widget, _, _| {
                 widget.show_details();
             });
         }
@@ -38,17 +43,15 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for ContainerRowSimple {
+    impl ObjectImpl for ContainerDetailsPanel {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![glib::ParamSpecObject::new(
                     "container",
-                    "container",
-                    "The Container of this ContainerRowSimple",
+                    "Container",
+                    "The container of this ContainerDetailsPanel",
                     model::Container::static_type(),
-                    glib::ParamFlags::READWRITE
-                        | glib::ParamFlags::CONSTRUCT
-                        | glib::ParamFlags::EXPLICIT_NOTIFY,
+                    glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT,
                 )]
             });
             PROPERTIES.as_ref()
@@ -56,13 +59,15 @@ mod imp {
 
         fn set_property(
             &self,
-            obj: &Self::Type,
+            _obj: &Self::Type,
             _id: usize,
             value: &glib::Value,
             pspec: &glib::ParamSpec,
         ) {
             match pspec.name() {
-                "container" => obj.set_container(value.get().unwrap()),
+                "container" => {
+                    self.container.set(value.get().unwrap());
+                }
                 _ => unimplemented!(),
             }
         }
@@ -77,22 +82,40 @@ mod imp {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
-            self.name_label.connect_activate_link(|label, _| {
-                label
-                    .activate_action("container.show-details", None)
-                    .unwrap();
+            self.image_name_label.connect_activate_link(|label, _| {
+                label.activate_action("image.show-details", None).unwrap();
                 gtk::Inhibit(true)
             });
 
             let container_expr = Self::Type::this_expression("container");
             let status_expr = container_expr.chain_property::<model::Container>("status");
+            let image_expr = container_expr.chain_property::<model::Container>("image");
 
             container_expr
-                .chain_property::<model::Container>("name")
-                .chain_closure::<String>(closure!(|_: glib::Object, name: String| {
-                    format!("<a href=''>{}</a>", name)
+                .chain_property::<model::Container>("id")
+                .chain_closure::<String>(closure!(|_: glib::Object, id: &str| {
+                    id.chars().take(12).collect::<String>()
                 }))
-                .bind(&*self.name_label, "label", Some(obj));
+                .bind(&*self.id_row, "value", Some(obj));
+
+            image_expr
+                .chain_property::<model::Image>("repo-tags")
+                .chain_closure::<String>(closure!(
+                    |_: glib::Object, repo_tags: utils::BoxedStringVec| {
+                        repo_tags
+                            .iter()
+                            .next()
+                            .map(|tag| format!("<a href=''>{}</a>", tag))
+                            .unwrap_or_default()
+                    }
+                ))
+                .bind(&*self.image_name_label, "label", Some(obj));
+
+            image_expr
+                .chain_closure::<bool>(closure!(|_: glib::Object, image: Option<model::Image>| {
+                    image.is_none()
+                }))
+                .bind(&*self.image_spinner, "visible", Some(obj));
 
             status_expr
                 .chain_closure::<String>(closure!(
@@ -107,9 +130,9 @@ mod imp {
                         css_classes
                             .iter()
                             .cloned()
-                            .chain(Some(glib::GString::from(view::container_status_css_class(
-                                status,
-                            ))))
+                            .chain(Some(glib::GString::from(
+                                super::super::container_status_css_class(status),
+                            )))
                             .collect::<Vec<_>>()
                     }
                 ))
@@ -117,41 +140,25 @@ mod imp {
         }
 
         fn dispose(&self, _obj: &Self::Type) {
-            self.name_label.unparent();
-            self.status_label.unparent();
+            self.preferences_page.unparent();
         }
     }
 
-    impl WidgetImpl for ContainerRowSimple {}
+    impl WidgetImpl for ContainerDetailsPanel {}
 }
 
 glib::wrapper! {
-    pub(crate) struct ContainerRowSimple(ObjectSubclass<imp::ContainerRowSimple>)
-        @extends gtk::Widget;
+    pub(crate) struct ContainerDetailsPanel(ObjectSubclass<imp::ContainerDetailsPanel>) @extends gtk::Widget;
 }
 
-impl From<Option<&model::Container>> for ContainerRowSimple {
-    fn from(container: Option<&model::Container>) -> Self {
-        glib::Object::new(&[("container", &container)])
-            .expect("Failed to create ContainerRowSimple")
-    }
-}
-
-impl ContainerRowSimple {
+impl ContainerDetailsPanel {
     pub(crate) fn container(&self) -> Option<model::Container> {
         self.imp().container.upgrade()
     }
 
-    pub(crate) fn set_container(&self, value: Option<&model::Container>) {
-        if self.container().as_ref() == value {
-            return;
-        }
-        self.imp().container.set(value);
-        self.notify("container");
-    }
-
     fn show_details(&self) {
-        utils::find_leaflet_overlay(self)
-            .show_details(&view::ContainerPage::from(&self.container().unwrap()));
+        utils::find_leaflet_overlay(self).show_details(&view::ImageDetailsPage::from(
+            &self.container().unwrap().image().unwrap(),
+        ));
     }
 }

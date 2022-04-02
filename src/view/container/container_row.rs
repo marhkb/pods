@@ -1,24 +1,23 @@
-use std::error;
+use std::cell::RefCell;
 
 use adw::subclass::prelude::{ActionRowImpl, PreferencesRowImpl};
-use cascade::cascade;
-use gettextrs::gettext;
 use gtk::glib::{clone, closure, WeakRef};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::{gio, glib, CompositeTemplate};
 use once_cell::sync::Lazy;
 
-use crate::window::Window;
 use crate::{model, utils, view};
 
 mod imp {
+
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/container-row.ui")]
     pub(crate) struct ContainerRow {
         pub(super) container: WeakRef<model::Container>,
+        pub(super) handler_id: RefCell<Option<glib::SignalHandlerId>>,
         #[template_child]
         pub(super) stats_box: TemplateChild<gtk::Box>,
         #[template_child]
@@ -47,40 +46,40 @@ mod imp {
             });
 
             klass.install_action("container.start", None, move |widget, _, _| {
-                widget.start();
+                super::super::start(widget.upcast_ref(), &widget.container().unwrap());
             });
             klass.install_action("container.stop", None, move |widget, _, _| {
-                widget.stop();
+                super::super::stop(widget.upcast_ref(), &widget.container().unwrap());
             });
             klass.install_action("container.force-stop", None, move |widget, _, _| {
-                widget.force_stop();
+                super::super::force_stop(widget.upcast_ref(), &widget.container().unwrap());
             });
             klass.install_action("container.restart", None, move |widget, _, _| {
-                widget.restart();
+                super::super::restart(widget.upcast_ref(), &widget.container().unwrap());
             });
             klass.install_action("container.force-restart", None, move |widget, _, _| {
-                widget.force_restart();
+                super::super::force_restart(widget.upcast_ref(), &widget.container().unwrap());
             });
             klass.install_action("container.pause", None, move |widget, _, _| {
-                widget.pause();
+                super::super::pause(widget.upcast_ref(), &widget.container().unwrap());
             });
             klass.install_action("container.resume", None, move |widget, _, _| {
-                widget.resume();
+                super::super::resume(widget.upcast_ref(), &widget.container().unwrap());
             });
 
             klass.install_action("container.rename", None, move |widget, _, _| {
-                widget.rename();
+                super::super::rename(widget.upcast_ref(), widget.container());
             });
 
             klass.install_action("container.commit", None, move |widget, _, _| {
-                widget.commit();
+                super::super::commit(widget.upcast_ref(), &widget.container().unwrap());
             });
 
             klass.install_action("container.delete", None, move |widget, _, _| {
-                widget.delete();
+                super::super::delete(widget.upcast_ref(), &widget.container().unwrap());
             });
             klass.install_action("container.force-delete", None, move |widget, _, _| {
-                widget.force_delete();
+                super::super::force_delete(widget.upcast_ref(), &widget.container().unwrap());
             });
         }
 
@@ -97,7 +96,7 @@ mod imp {
                     "container",
                     "The Container of this ContainerRow",
                     model::Container::static_type(),
-                    glib::ParamFlags::READWRITE,
+                    glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
                 )]
             });
             PROPERTIES.as_ref()
@@ -105,15 +104,13 @@ mod imp {
 
         fn set_property(
             &self,
-            _obj: &Self::Type,
+            obj: &Self::Type,
             _id: usize,
             value: &glib::Value,
             pspec: &glib::ParamSpec,
         ) {
             match pspec.name() {
-                "container" => {
-                    self.container.set(value.get().unwrap());
-                }
+                "container" => obj.set_container(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
@@ -188,9 +185,9 @@ mod imp {
                         css_classes
                             .iter()
                             .cloned()
-                            .chain(Some(glib::GString::from(view::container_status_css_class(
-                                status,
-                            ))))
+                            .chain(Some(glib::GString::from(
+                                super::super::container_status_css_class(status),
+                            )))
                             .collect::<Vec<_>>()
                     }
                 ))
@@ -213,9 +210,11 @@ mod imp {
                         use model::ContainerStatus::*;
 
                         Some(match status {
-                            Running => running_menu(),
-                            Paused => paused_menu(),
-                            Configured | Created | Exited | Dead | Stopped => stopped_menu(),
+                            Running => super::super::running_menu(),
+                            Paused => super::super::paused_menu(),
+                            Configured | Created | Exited | Dead | Stopped => {
+                                super::super::stopped_menu()
+                            }
                             _ => return None,
                         })
                     }
@@ -245,203 +244,48 @@ impl ContainerRow {
     pub(crate) fn container(&self) -> Option<model::Container> {
         self.imp().container.upgrade()
     }
-}
 
-impl ContainerRow {
-    fn show_toast(&self, title: &str, e: impl error::Error) {
-        self.root()
-            .unwrap()
-            .downcast::<Window>()
-            .unwrap()
-            .show_toast(
-                &adw::Toast::builder()
-                    .title(&format!("{}: {}", title, e))
-                    .timeout(3)
-                    .priority(adw::ToastPriority::High)
-                    .build(),
-            );
-    }
+    fn set_container(&self, value: Option<&model::Container>) {
+        let container = self.container();
 
-    pub(crate) fn start(&self) {
-        self.container().unwrap().start(
-            clone!(@weak self as obj => move |result| if let Err(e) = result {
-                obj.show_toast(&gettext("Error on starting container"), e);
-            }),
-        );
-    }
-
-    pub(crate) fn stop(&self) {
-        self.container().unwrap().stop(
-            clone!(@weak self as obj => move |result| if let Err(e) = result {
-                obj.show_toast(&gettext("Error on stopping container"), e);
-            }),
-        );
-    }
-
-    pub(crate) fn force_stop(&self) {
-        self.container().unwrap().force_stop(
-            clone!(@weak self as obj => move |result| if let Err(e) = result {
-                obj.show_toast(&gettext("Error on force stopping container"), e);
-            }),
-        );
-    }
-
-    pub(crate) fn restart(&self) {
-        self.container().unwrap().restart(
-            clone!(@weak self as obj => move |result| if let Err(e) = result {
-                obj.show_toast(&gettext("Error on restarting container"), e);
-            }),
-        );
-    }
-
-    pub(crate) fn force_restart(&self) {
-        self.container().unwrap().force_restart(
-            clone!(@weak self as obj => move |result| if let Err(e) = result {
-                obj.show_toast(&gettext("Error on force restarting container"), e);
-            }),
-        );
-    }
-
-    pub(crate) fn pause(&self) {
-        self.container().unwrap().pause(
-            clone!(@weak self as obj => move |result| if let Err(e) = result {
-                obj.show_toast(&gettext("Error on pausing container"), e);
-            }),
-        );
-    }
-
-    pub(crate) fn resume(&self) {
-        self.container().unwrap().resume(
-            clone!(@weak self as obj => move |result| if let Err(e) = result {
-                obj.show_toast(&gettext("Error on resuming container"), e);
-            }),
-        );
-    }
-
-    pub(crate) fn rename(&self) {
-        let dialog = view::ContainerRenameDialog::from(self.container());
-        dialog.set_transient_for(Some(
-            &self.root().unwrap().downcast::<gtk::Window>().unwrap(),
-        ));
-        dialog.run_async(clone!(@weak self as obj => move |dialog, response| {
-            obj.on_rename_dialog_response(dialog.upcast_ref(), response, |obj, dialog| {
-                dialog.connect_response(clone!(@weak obj => move |dialog, response| {
-                    obj.on_rename_dialog_response(dialog, response, |_, _| {});
-                }));
-            });
-        }));
-    }
-
-    fn on_rename_dialog_response<F>(&self, dialog: &gtk::Dialog, response: gtk::ResponseType, op: F)
-    where
-        F: Fn(&Self, &gtk::Dialog),
-    {
-        match response {
-            gtk::ResponseType::Cancel => dialog.close(),
-            gtk::ResponseType::Apply => {
-                dialog.close();
-                glib::timeout_add_seconds_local_once(
-                    1,
-                    clone!(@weak self as obj => move || {
-                        let panel = obj
-                            .ancestor(view::ContainersPanel::static_type())
-                            .unwrap()
-                            .downcast::<view::ContainersPanel>()
-                            .unwrap();
-
-                        panel.update_search_filter();
-                        panel.update_sorter();
-                    }),
-                );
-            }
-            _ => op(self, dialog),
+        if container.as_ref() == value {
+            return;
         }
-    }
 
-    pub(crate) fn commit(&self) {
-        self.container().unwrap().commit(
-            clone!(@weak self as obj => move |result| if let Err(e) = result {
-                obj.show_toast(&gettext("Error on committing container"), e);
-            }),
-        );
-    }
+        let imp = self.imp();
 
-    pub(crate) fn delete(&self) {
-        self.container().unwrap().delete(
-            clone!(@weak self as obj => move |result| if let Err(e) = result {
-                obj.show_toast(&gettext("Error on deleting container"), e);
-            }),
-        );
-    }
+        if let Some(container) = container {
+            container.disconnect(imp.handler_id.take().unwrap());
+        }
 
-    pub(crate) fn force_delete(&self) {
-        self.container().unwrap().force_delete(
-            clone!(@weak self as obj => move |result| if let Err(e) = result {
-                obj.show_toast(&gettext("Error on force deleting container"), e);
-            }),
-        );
+        if let Some(container) = value {
+            let handler_id = container.connect_notify_local(
+                Some("name"),
+                clone!(@weak self as obj => move |_, _| {
+                    glib::timeout_add_seconds_local_once(
+                        1,
+                        clone!(@weak obj => move || {
+                            let panel = obj
+                                .ancestor(view::ContainersPanel::static_type())
+                                .unwrap()
+                                .downcast::<view::ContainersPanel>()
+                                .unwrap();
+
+                            panel.update_search_filter();
+                            panel.update_sorter();
+                        }),
+                    );
+                }),
+            );
+            imp.handler_id.replace(Some(handler_id));
+        }
+
+        imp.container.set(value);
+        self.notify("container");
     }
 
     fn show_details(&self) {
         utils::find_leaflet_overlay(self)
             .show_details(&view::ContainerPage::from(&self.container().unwrap()));
-    }
-}
-
-fn base_menu() -> gio::Menu {
-    cascade! {
-        gio::Menu::new();
-        ..append_section(None, &cascade!{
-            gio::Menu::new();
-            ..append(Some(&gettext("Re_name…")), Some("container.rename"));
-        });
-        ..append_section(None, &cascade!{
-            gio::Menu::new();
-            ..append(Some(&gettext("_Commit")), Some("container.commit"));
-        });
-        ..append_section(None, &cascade!{
-            gio::Menu::new();
-            ..append(Some(&gettext("_Delete")), Some("container.delete"));
-        });
-    }
-}
-
-fn stopped_menu() -> gio::Menu {
-    cascade! {
-        base_menu();
-        ..prepend_section(None, &cascade! {
-            gio::Menu::new();
-            ..append(Some(&gettext("_Start")), Some("container.start"));
-        });
-    }
-}
-
-fn not_stopped_menu() -> gio::Menu {
-    cascade! {
-        gio::Menu::new();
-        ..append(Some(&gettext("S_top")), Some("container.stop"));
-        ..append(Some(&gettext("_Force Stop")), Some("container.force-stop"));
-        ..append(Some(&gettext("R_estart")), Some("container.restart"));
-        ..append(Some(&gettext("F_orce Restart")), Some("container.force-restart"));
-    }
-}
-
-fn running_menu() -> gio::Menu {
-    cascade! {
-        base_menu();
-        ..prepend_section(None, &cascade! {
-            not_stopped_menu();
-            ..append(Some(&gettext("_Pause")), Some("container.pause"));
-        });
-    }
-}
-
-fn paused_menu() -> gio::Menu {
-    cascade! {
-        base_menu();
-        ..prepend_section(None, &cascade! {
-            not_stopped_menu();
-            ..append(Some(&gettext("_Resume")), Some("container.resume"));
-        });
     }
 }

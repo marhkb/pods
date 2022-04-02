@@ -84,6 +84,8 @@ mod imp {
     #[derive(Debug, Default)]
     pub(crate) struct Container {
         pub(super) action_ongoing: Cell<bool>,
+        pub(super) deleted: Cell<bool>,
+
         pub(super) id: OnceCell<String>,
         pub(super) image: WeakRef<model::Image>,
         pub(super) image_id: OnceCell<String>,
@@ -109,7 +111,14 @@ mod imp {
                         "Action Ongoing",
                         "Whether an action (starting, stopping, etc.) is currently ongoing",
                         false,
-                        glib::ParamFlags::READWRITE,
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                    ),
+                    glib::ParamSpecBoolean::new(
+                        "deleted",
+                        "Deleted",
+                        "Whether this container is deleted",
+                        false,
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
                     ),
                     glib::ParamSpecString::new(
                         "id",
@@ -179,6 +188,7 @@ mod imp {
         ) {
             match pspec.name() {
                 "action-ongoing" => obj.set_action_ongoing(value.get().unwrap()),
+                "deleted" => obj.set_deleted(value.get().unwrap()),
                 "id" => self.id.set(value.get().unwrap()).unwrap(),
                 "image" => obj.set_image(value.get().unwrap()),
                 "image-id" => self.image_id.set(value.get().unwrap()).unwrap(),
@@ -193,6 +203,7 @@ mod imp {
         fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
                 "action-ongoing" => obj.action_ongoing().to_value(),
+                "deleted" => obj.deleted().to_value(),
                 "id" => obj.id().to_value(),
                 "image" => obj.image().to_value(),
                 "image-id" => obj.image_id().to_value(),
@@ -245,6 +256,18 @@ impl Container {
         }
         self.imp().action_ongoing.replace(value);
         self.notify("action-ongoing");
+    }
+
+    pub(crate) fn deleted(&self) -> bool {
+        self.imp().deleted.get()
+    }
+
+    pub(crate) fn set_deleted(&self, value: bool) {
+        if self.deleted() == value {
+            return;
+        }
+        self.imp().deleted.replace(value);
+        self.notify("deleted");
     }
 
     pub(crate) fn id(&self) -> Option<&str> {
@@ -613,13 +636,21 @@ impl Container {
         );
     }
 
-    pub(crate) fn logs(&self) -> impl futures::Stream<Item = api::Result<Vec<u8>>> + 'static {
+    pub(crate) fn logs(
+        &self,
+        since: Option<glib::DateTime>,
+    ) -> impl futures::Stream<Item = api::Result<Vec<u8>>> + 'static {
+        let opts = api::ContainerLogsOpts::builder()
+            .follow(true)
+            .stdout(true)
+            .stderr(true);
+
         api::Container::new(&*PODMAN, self.id().unwrap_or_default()).logs(
-            &api::ContainerLogsOpts::builder()
-                .follow(true)
-                .stdout(true)
-                .stderr(true)
-                .build(),
+            &match since {
+                Some(date_time) => opts.since(date_time.to_unix().to_string()),
+                None => opts,
+            }
+            .build(),
         )
     }
 }

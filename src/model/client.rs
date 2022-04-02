@@ -80,12 +80,16 @@ mod imp {
                         image.add_container(container.to_owned());
                     }
                 }));
-            obj.container_list()
-                .connect_container_removed(clone!(@weak obj => move |_, id| {
-                    if let Some(image) = obj.image_list().get_image(id) {
-                        image.remove_container(id);
+            obj.container_list().connect_container_removed(
+                clone!(@weak obj => move |_, container| {
+                    if let Some(image) = container
+                        .image_id()
+                        .and_then(|id| obj.image_list().get_image(id))
+                    {
+                        image.remove_container(container.id().unwrap());
                     }
-                }));
+                }),
+            );
         }
     }
 }
