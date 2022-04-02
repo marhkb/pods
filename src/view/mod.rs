@@ -14,11 +14,10 @@ pub(crate) use self::circular_progress_bar::CircularProgressBar;
 pub(crate) use self::connection_lost_page::ConnectionLostPage;
 pub(crate) use self::container::{
     menu as containers_menu, ContainerDetailsPanel, ContainerLogsPanel, ContainerPage,
-    ContainerRenameDialog, ContainerRow, ContainerRowSimple, ContainersPanel,
+    ContainerRenameDialog, ContainerRow, ContainersPanel,
 };
 pub(crate) use self::image::{
-    menu as images_menu, ImageDetailsPage, ImageRow, ImageRowSimple, ImageUsedByRow, ImagesPanel,
-    ImagesPruneDialog,
+    menu as images_menu, ImageDetailsPage, ImageRow, ImageRowSimple, ImagesPanel, ImagesPruneDialog,
 };
 pub(crate) use self::info_dialog::InfoDialog;
 pub(crate) use self::leaflet_overlay::LeafletOverlay;

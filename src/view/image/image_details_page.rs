@@ -2,7 +2,7 @@ use gettextrs::gettext;
 use gtk::glib::{clone, closure, WeakRef};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
-use gtk::{glib, CompositeTemplate};
+use gtk::{gio, glib, CompositeTemplate};
 use once_cell::sync::Lazy;
 
 use crate::window::Window;
@@ -18,6 +18,8 @@ mod imp {
         #[template_child]
         pub(super) leaflet: TemplateChild<adw::Leaflet>,
         #[template_child]
+        pub(super) window_title: TemplateChild<adw::WindowTitle>,
+        #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) id_row: TemplateChild<view::PropertyRow>,
@@ -26,8 +28,6 @@ mod imp {
         #[template_child]
         pub(super) size_row: TemplateChild<view::PropertyRow>,
         #[template_child]
-        pub(super) images_used_by_row: TemplateChild<view::ImageUsedByRow>,
-        #[template_child]
         pub(super) command_row: TemplateChild<view::PropertyRow>,
         #[template_child]
         pub(super) entrypoint_row: TemplateChild<view::PropertyRow>,
@@ -35,6 +35,10 @@ mod imp {
         pub(super) ports_row: TemplateChild<view::PropertyRow>,
         #[template_child]
         pub(super) repo_tags_row: TemplateChild<view::PropertyRow>,
+        #[template_child]
+        pub(super) containers_preferences_group: TemplateChild<adw::PreferencesGroup>,
+        #[template_child]
+        pub(super) list_box: TemplateChild<gtk::ListBox>,
     }
 
     #[glib::object_subclass]
@@ -100,18 +104,16 @@ mod imp {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
-            self.images_used_by_row
-                .set_container_list(Some(obj.image().unwrap().container_list()));
-
             let image_expr = Self::Type::this_expression("image");
-            let image_config_expr = image_expr.chain_property::<model::Image>("config");
-
-            image_expr
+            let image_id_expr = image_expr
                 .chain_property::<model::Image>("id")
                 .chain_closure::<String>(closure!(|_: glib::Object, id: &str| {
                     id.chars().take(12).collect::<String>()
-                }))
-                .bind(&*self.id_row, "value", Some(obj));
+                }));
+
+            image_id_expr.bind(&*self.window_title, "subtitle", Some(obj));
+
+            image_id_expr.bind(&*self.id_row, "value", Some(obj));
 
             image_expr
                 .chain_property::<model::Image>("created")
@@ -172,6 +174,8 @@ mod imp {
             )
             .bind(&*self.size_row, "value", Some(obj));
 
+            let image_config_expr = image_expr.chain_property::<model::Image>("config");
+
             image_config_expr
                 .chain_property::<model::ImageConfig>("cmd")
                 .chain_closure::<bool>(closure!(|_: glib::Object, cmd: Option<&str>| {
@@ -219,6 +223,42 @@ mod imp {
                     |_: glib::Object, repo_tags: utils::BoxedStringVec| { repo_tags.len() > 0 }
                 ))
                 .bind(&*self.repo_tags_row, "visible", Some(obj));
+
+            let container_list_expr = image_expr.chain_property::<model::Image>("container-list");
+
+            gtk::ClosureExpression::new::<String, _, _>(
+                &[
+                    container_list_expr.chain_property::<model::SimpleContainerList>("len"),
+                    container_list_expr.chain_property::<model::SimpleContainerList>("running"),
+                ],
+                closure!(|_: glib::Object, len: u32, running: u32| {
+                    if len > 0 {
+                        gettext!(
+                            // Translators: There's a wide space (U+2002) between ", {}".
+                            "{} Containers total, {} running",
+                            len,
+                            running
+                        )
+                    } else {
+                        gettext("There are no containers associated with this image.")
+                    }
+                }),
+            )
+            .bind(
+                &*self.containers_preferences_group,
+                "description",
+                Some(obj),
+            );
+
+            let model = obj.image().unwrap().container_list().to_owned();
+            obj.set_list_box_visibility(model.upcast_ref());
+            model.connect_items_changed(clone!(@weak obj => move |model, _, _, _| {
+                obj.set_list_box_visibility(model.upcast_ref());
+            }));
+
+            self.list_box.bind_model(Some(&model), |item| {
+                view::ContainerRow::from(item.downcast_ref().unwrap()).upcast()
+            });
 
             obj.image().unwrap().connect_notify_local(
                 Some("to-be-deleted"),
@@ -310,5 +350,9 @@ impl ImageDetailsPage {
                     .priority(adw::ToastPriority::High)
                     .build(),
             );
+    }
+
+    fn set_list_box_visibility(&self, model: &gio::ListModel) {
+        self.imp().list_box.set_visible(model.n_items() > 0);
     }
 }

@@ -1,6 +1,7 @@
 use std::borrow::Borrow;
 use std::cell::RefCell;
 
+use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::{gio, glib};
@@ -26,15 +27,26 @@ mod imp {
     impl ObjectImpl for SimpleContainerList {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecUInt::new(
-                    "len",
-                    "Len",
-                    "The length of this list",
-                    0,
-                    std::u32::MAX,
-                    0,
-                    glib::ParamFlags::READABLE,
-                )]
+                vec![
+                    glib::ParamSpecUInt::new(
+                        "len",
+                        "Len",
+                        "The length of this list",
+                        0,
+                        std::u32::MAX,
+                        0,
+                        glib::ParamFlags::READABLE,
+                    ),
+                    glib::ParamSpecUInt::new(
+                        "running",
+                        "Running",
+                        "The number of running containers",
+                        0,
+                        std::u32::MAX,
+                        0,
+                        glib::ParamFlags::READABLE,
+                    ),
+                ]
             });
             PROPERTIES.as_ref()
         }
@@ -42,6 +54,7 @@ mod imp {
         fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
                 "len" => obj.len().to_value(),
+                "running" => obj.running().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -88,8 +101,23 @@ impl SimpleContainerList {
             .imp()
             .0
             .borrow_mut()
-            .insert_full(container.id().unwrap().to_owned(), container);
-        self.items_changed(index as u32, if old_value.is_some() { 1 } else { 0 }, 1);
+            .insert_full(container.id().unwrap().to_owned(), container.clone());
+
+        self.items_changed(
+            index as u32,
+            if old_value.is_some() {
+                1
+            } else {
+                container.connect_notify_local(
+                    Some("status"),
+                    clone!(@weak self as obj => move |_, _| {
+                        obj.notify("running");
+                    }),
+                );
+                0
+            },
+            1,
+        );
     }
 
     pub(crate) fn remove_container<Q: Borrow<str> + ?Sized>(&self, id: &Q) {
@@ -104,5 +132,14 @@ impl SimpleContainerList {
 impl SimpleContainerList {
     pub(crate) fn len(&self) -> u32 {
         self.n_items()
+    }
+
+    pub(crate) fn running(&self) -> u32 {
+        self.imp()
+            .0
+            .borrow()
+            .values()
+            .filter(|container| container.status() == model::ContainerStatus::Running)
+            .count() as u32
     }
 }
