@@ -19,7 +19,7 @@ pub(crate) use self::container_page::ContainerPage;
 pub(crate) use self::container_rename_dialog::ContainerRenameDialog;
 pub(crate) use self::container_row::ContainerRow;
 pub(crate) use self::container_row_simple::ContainerRowSimple;
-pub(crate) use self::containers_panel::ContainersPanel;
+pub(crate) use self::containers_panel::{menu, ContainersPanel};
 use crate::window::Window;
 use crate::{model, view};
 

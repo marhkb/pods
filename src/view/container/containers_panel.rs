@@ -1,5 +1,6 @@
 use std::cell::Cell;
 
+use cascade::cascade;
 use gettextrs::gettext;
 use gtk::glib::{clone, closure, WeakRef};
 use gtk::prelude::*;
@@ -353,5 +354,15 @@ impl ContainersPanel {
             .get()
             .unwrap()
             .changed(gtk::SorterChange::Different);
+    }
+}
+
+pub(crate) fn menu() -> gio::Menu {
+    cascade! {
+        gio::Menu::new();
+        ..append_section(None, &cascade!{
+            gio::Menu::new();
+            ..append(Some(&gettext("_Show only running containers")), Some("containers.show-only-running"));
+        });
     }
 }

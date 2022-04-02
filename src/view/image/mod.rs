@@ -9,5 +9,5 @@ pub(crate) use self::image_details_page::ImageDetailsPage;
 pub(crate) use self::image_row::ImageRow;
 pub(crate) use self::image_row_simple::ImageRowSimple;
 pub(crate) use self::image_used_by_row::ImageUsedByRow;
-pub(crate) use self::images_panel::ImagesPanel;
+pub(crate) use self::images_panel::{menu, ImagesPanel};
 pub(crate) use self::images_prune_dialog::ImagesPruneDialog;
