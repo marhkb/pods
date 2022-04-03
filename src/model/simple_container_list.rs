@@ -2,6 +2,7 @@ use std::borrow::Borrow;
 use std::cell::RefCell;
 
 use gtk::glib::clone;
+use gtk::glib::subclass::Signal;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::{gio, glib};
@@ -25,6 +26,18 @@ mod imp {
     }
 
     impl ObjectImpl for SimpleContainerList {
+        fn signals() -> &'static [Signal] {
+            static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
+                vec![Signal::builder(
+                    "container-name-changed",
+                    &[model::Container::static_type().into()],
+                    <()>::static_type().into(),
+                )
+                .build()]
+            });
+            SIGNALS.as_ref()
+        }
+
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
@@ -114,6 +127,12 @@ impl SimpleContainerList {
                         obj.notify("running");
                     }),
                 );
+                container.connect_notify_local(
+                    Some("name"),
+                    clone!(@weak self as obj => move |container, _| {
+                        obj.container_name_changed(container)
+                    }),
+                );
                 0
             },
             1,
@@ -141,5 +160,22 @@ impl SimpleContainerList {
             .values()
             .filter(|container| container.status() == model::ContainerStatus::Running)
             .count() as u32
+    }
+
+    fn container_name_changed(&self, container: &model::Container) {
+        self.emit_by_name::<()>("container-name-changed", &[container]);
+    }
+
+    pub(crate) fn connect_name_changed<F: Fn(&Self, &model::Container) + 'static>(
+        &self,
+        f: F,
+    ) -> glib::SignalHandlerId {
+        self.connect_local("container-name-changed", true, move |values| {
+            let obj = values[0].get::<Self>().unwrap();
+            let container = values[1].get::<model::Container>().unwrap();
+            f(&obj, &container);
+
+            None
+        })
     }
 }

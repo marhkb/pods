@@ -51,6 +51,12 @@ mod imp {
                     )
                     .build(),
                     Signal::builder(
+                        "container-name-changed",
+                        &[model::Container::static_type().into()],
+                        <()>::static_type().into(),
+                    )
+                    .build(),
+                    Signal::builder(
                         "container-removed",
                         &[model::Container::static_type().into()],
                         <()>::static_type().into(),
@@ -238,6 +244,12 @@ impl ContainerList {
                         match entry {
                             Entry::Vacant(entry) => {
                                 let container = model::Container::from(inspect_response);
+                                container.connect_notify_local(
+                                    Some("name"),
+                                    clone!(@weak obj => move |container, _| {
+                                        obj.container_name_changed(container);
+                                    })
+                                );
                                 entry.insert(container.clone());
 
                                 drop(list);
@@ -330,6 +342,10 @@ impl ContainerList {
         self.emit_by_name::<()>("container-added", &[container]);
     }
 
+    fn container_name_changed(&self, container: &model::Container) {
+        self.emit_by_name::<()>("container-name-changed", &[container]);
+    }
+
     fn container_removed(&self, model: &model::Container) {
         self.emit_by_name::<()>("container-removed", &[&model]);
     }
@@ -339,6 +355,19 @@ impl ContainerList {
         f: F,
     ) -> glib::SignalHandlerId {
         self.connect_local("container-added", true, move |values| {
+            let obj = values[0].get::<Self>().unwrap();
+            let container = values[1].get::<model::Container>().unwrap();
+            f(&obj, &container);
+
+            None
+        })
+    }
+
+    pub(crate) fn connect_name_changed<F: Fn(&Self, &model::Container) + 'static>(
+        &self,
+        f: F,
+    ) -> glib::SignalHandlerId {
+        self.connect_local("container-name-changed", true, move |values| {
             let obj = values[0].get::<Self>().unwrap();
             let container = values[1].get::<model::Container>().unwrap();
             f(&obj, &container);

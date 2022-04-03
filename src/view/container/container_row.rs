@@ -1,7 +1,5 @@
-use std::cell::RefCell;
-
 use adw::subclass::prelude::{ActionRowImpl, PreferencesRowImpl};
-use gtk::glib::{clone, closure, WeakRef};
+use gtk::glib::{closure, WeakRef};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::{gio, glib, CompositeTemplate};
@@ -17,7 +15,6 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/container-row.ui")]
     pub(crate) struct ContainerRow {
         pub(super) container: WeakRef<model::Container>,
-        pub(super) handler_id: RefCell<Option<glib::SignalHandlerId>>,
         #[template_child]
         pub(super) stats_box: TemplateChild<gtk::Box>,
         #[template_child]
@@ -246,41 +243,10 @@ impl ContainerRow {
     }
 
     fn set_container(&self, value: Option<&model::Container>) {
-        let container = self.container();
-
-        if container.as_ref() == value {
+        if self.container().as_ref() == value {
             return;
         }
-
-        let imp = self.imp();
-
-        if let Some(container) = container {
-            container.disconnect(imp.handler_id.take().unwrap());
-        }
-
-        if let Some(container) = value {
-            let handler_id = container.connect_notify_local(
-                Some("name"),
-                clone!(@weak self as obj => move |_, _| {
-                    glib::timeout_add_seconds_local_once(
-                        1,
-                        clone!(@weak obj => move || {
-                            let panel = obj
-                                .ancestor(view::ContainersPanel::static_type())
-                                .unwrap()
-                                .downcast::<view::ContainersPanel>()
-                                .unwrap();
-
-                            panel.update_search_filter();
-                            panel.update_sorter();
-                        }),
-                    );
-                }),
-            );
-            imp.handler_id.replace(Some(handler_id));
-        }
-
-        imp.container.set(value);
+        self.imp().container.set(value);
         self.notify("container");
     }
 
