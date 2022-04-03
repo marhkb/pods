@@ -20,6 +20,8 @@ mod imp {
         #[template_child]
         pub(super) window_title: TemplateChild<adw::WindowTitle>,
         #[template_child]
+        pub(super) menu_button: TemplateChild<gtk::MenuButton>,
+        #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) id_row: TemplateChild<view::PropertyRow>,
@@ -50,6 +52,10 @@ mod imp {
             });
             klass.install_action("navigation.back", None, move |widget, _, _| {
                 widget.navigate_back();
+            });
+
+            klass.install_action("image.create-container", None, move |widget, _, _| {
+                widget.create_container();
             });
             klass.install_action("image.delete", None, move |widget, _, _| {
                 widget.delete();
@@ -99,6 +105,9 @@ mod imp {
 
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
+
+            self.menu_button
+                .set_menu_model(Some(&super::super::image_menu()));
 
             let image_expr = Self::Type::this_expression("image");
             let image_id_expr = image_expr
@@ -280,35 +289,15 @@ impl ImageDetailsPage {
             .leaflet_overlay()
     }
 
-    fn delete(&self) {
-        self.image().unwrap().delete(
-            clone!(@weak self as obj => move |image, result| match result {
-                Ok(_) => {
-                    obj.imp().stack.set_visible_child_name("deleted");
-                    obj.show_toast(
-                        // Translators: "{}" is a placeholder for the image id.
-                        &gettext!("Successfully deleted image '{}'", image.id())
-                    );
-                }
-                Err(_) => obj.show_toast(
-                    // Translators: "{}" is a placeholder for the image id.
-                    &gettext!("Error on deleting image '{}'", image.id())
-                ),
-            }),
-        );
+    fn create_container(&self) {
+        if let Some(image) = self.image().as_ref() {
+            super::create_container(self.upcast_ref(), image);
+        }
     }
 
-    fn show_toast(&self, title: &str) {
-        self.root()
-            .unwrap()
-            .downcast::<Window>()
-            .unwrap()
-            .show_toast(
-                &adw::Toast::builder()
-                    .title(title)
-                    .timeout(3)
-                    .priority(adw::ToastPriority::High)
-                    .build(),
-            );
+    fn delete(&self) {
+        if let Some(image) = self.image().as_ref() {
+            super::delete(self.upcast_ref(), image);
+        }
     }
 }

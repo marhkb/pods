@@ -1,6 +1,5 @@
 use std::borrow::Cow;
 
-use cascade::cascade;
 use gettextrs::gettext;
 use gtk::glib::{clone, closure, WeakRef};
 use gtk::prelude::*;
@@ -431,19 +430,5 @@ impl ImagesPanel {
             .get()
             .unwrap()
             .changed(gtk::FilterChange::Different);
-    }
-}
-
-pub(crate) fn menu() -> gio::Menu {
-    cascade! {
-        gio::Menu::new();
-        ..append_section(None, &cascade!{
-            gio::Menu::new();
-            ..append(Some(&gettext("_Show intermediate images")), Some("images.show-intermediates"));
-        });
-        ..append_section(None, &cascade!{
-            gio::Menu::new();
-            ..append(Some(&gettext("_Prune unused images")), Some("images.prune-unused"));
-        });
     }
 }

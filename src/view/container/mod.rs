@@ -17,6 +17,7 @@ use gtk::prelude::{Cast, DialogExtManual};
 use gtk::traits::{DialogExt, GtkWindowExt, WidgetExt};
 use gtk::{gio, glib};
 
+pub(crate) use self::container_creation_dialog::ContainerCreationDialog;
 pub(crate) use self::container_details_panel::ContainerDetailsPanel;
 pub(crate) use self::container_logs_panel::ContainerLogsPanel;
 pub(crate) use self::container_page::ContainerPage;
@@ -27,7 +28,6 @@ pub(crate) use self::containers_panel::{menu, ContainersPanel};
 pub(crate) use self::env_var_row::EnvVarRow;
 pub(crate) use self::port_mapping_row::PortMappingRow;
 pub(crate) use self::volume_row::VolumeRow;
-use crate::window::Window;
 use crate::{model, view};
 
 fn container_status_css_class(status: model::ContainerStatus) -> &'static str {
@@ -157,18 +157,7 @@ fn on_rename_dialog_response<F>(
 }
 
 fn show_toast(widget: &gtk::Widget, title: &str, e: impl std::error::Error) {
-    widget
-        .root()
-        .unwrap()
-        .downcast::<Window>()
-        .unwrap()
-        .show_toast(
-            &adw::Toast::builder()
-                .title(&format!("{}: {}", title, e))
-                .timeout(3)
-                .priority(adw::ToastPriority::High)
-                .build(),
-        );
+    super::show_toast(widget, &format!("{}: {}", title, e));
 }
 
 fn base_menu() -> gio::Menu {
