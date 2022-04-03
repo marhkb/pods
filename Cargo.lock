@@ -1083,6 +1083,7 @@ dependencies = [
  "once_cell",
  "paste",
  "podman-api",
+ "serde",
  "sourceview5",
  "syslog",
  "tokio",

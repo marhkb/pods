@@ -6,6 +6,7 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/check-service-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/circular-progress-bar.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/connection-lost-page.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/container-creation-dialog.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container-details-panel.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container-logs-panel.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container-page.ui</file>

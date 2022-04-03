@@ -1,3 +1,4 @@
+mod container_creation_dialog;
 mod container_details_panel;
 mod container_logs_panel;
 mod container_page;
@@ -23,6 +24,9 @@ pub(crate) use self::container_rename_dialog::ContainerRenameDialog;
 pub(crate) use self::container_row::ContainerRow;
 pub(crate) use self::containers_group::ContainersGroup;
 pub(crate) use self::containers_panel::{menu, ContainersPanel};
+pub(crate) use self::env_var_row::EnvVarRow;
+pub(crate) use self::port_mapping_row::PortMappingRow;
+pub(crate) use self::volume_row::VolumeRow;
 use crate::window::Window;
 use crate::{model, view};
 
