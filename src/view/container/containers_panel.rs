@@ -273,6 +273,16 @@ impl ContainersPanel {
             }),
         );
 
+        value.connect_name_changed(clone!(@weak self as obj => move |_, _| {
+            glib::timeout_add_seconds_local_once(
+                1,
+                clone!(@weak obj => move || {
+                    obj.update_search_filter();
+                    obj.update_sorter();
+                }),
+            );
+        }));
+
         let imp = self.imp();
 
         let model = gtk::SortListModel::new(
@@ -332,7 +342,7 @@ impl ContainersPanel {
         }
     }
 
-    pub(crate) fn update_properties_filter(&self) {
+    fn update_properties_filter(&self) {
         self.imp()
             .properties_filter
             .get()
@@ -340,7 +350,7 @@ impl ContainersPanel {
             .changed(gtk::FilterChange::Different);
     }
 
-    pub(crate) fn update_search_filter(&self) {
+    fn update_search_filter(&self) {
         self.imp()
             .search_filter
             .get()
@@ -348,7 +358,7 @@ impl ContainersPanel {
             .changed(gtk::FilterChange::Different);
     }
 
-    pub(crate) fn update_sorter(&self) {
+    fn update_sorter(&self) {
         self.imp()
             .sorter
             .get()
