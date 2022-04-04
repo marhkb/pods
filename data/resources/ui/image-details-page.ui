@@ -139,18 +139,14 @@
                     </child>
 
                     <child>
-                      <object class="AdwPreferencesGroup" id="containers_preferences_group">
+                      <object class="ContainersGroup" id="containers_group">
+                        <binding name="container-list">
+                          <lookup name="container-list" type="Image">
+                            <lookup name="image">ImageDetailsPage</lookup>
+                          </lookup>
+                        </binding>
                         <property name="title" translatable="yes">Associated Containers</property>
-
-                        <child>
-                          <object class="GtkListBox" id="list_box">
-                            <style>
-                              <class name="boxed-list"/>
-                            </style>
-                            <property name="selection-mode">none</property>
-                          </object>
-                        </child>
-
+                        <property name="no-containers-label" translatable="yes">There are no containers associated with this image.</property>
                       </object>
                     </child>
 
