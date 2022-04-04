@@ -9,6 +9,7 @@ use gtk::{gio, glib, CompositeTemplate};
 use once_cell::sync::Lazy;
 use once_cell::unsync::OnceCell;
 
+use crate::model::AbstractContainerListExt;
 use crate::{model, utils, view};
 
 mod imp {
@@ -241,20 +242,20 @@ impl ContainersGroup {
 
         if let Some(value) = value {
             // TODO: For multi-client: Figure out whether signal handlers need to be disconnected.
-            value.connect_local(
-                "container-name-changed",
-                false,
-                clone!(@weak self as obj => @default-return None, move |_| {
-                    glib::timeout_add_seconds_local_once(
-                        1,
-                        clone!(@weak obj => move || {
-                            obj.update_search_filter();
-                            obj.update_sorter();
-                        }),
-                    );
-                    None
-                }),
+            value.connect_notify_local(
+                Some("running"),
+                clone!(@weak self as obj => move |_, _| obj.update_properties_filter()),
             );
+
+            value.connect_container_name_changed(clone!(@weak self as obj => move |_, _| {
+                glib::timeout_add_seconds_local_once(
+                    1,
+                    clone!(@weak obj => move || {
+                        obj.update_search_filter();
+                        obj.update_sorter();
+                    }),
+                );
+            }));
 
             let model = gtk::SortListModel::new(
                 Some(&gtk::FilterListModel::new(

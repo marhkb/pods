@@ -102,7 +102,7 @@ pub(crate) trait AbstractContainerListExt: IsA<AbstractContainerList> {
         })
     }
 
-    fn connect_name_changed<F: Fn(&Self, &model::Container) + 'static>(
+    fn connect_container_name_changed<F: Fn(&Self, &model::Container) + 'static>(
         &self,
         f: F,
     ) -> glib::SignalHandlerId {
