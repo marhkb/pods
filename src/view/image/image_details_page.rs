@@ -2,7 +2,7 @@ use gettextrs::gettext;
 use gtk::glib::{clone, closure, WeakRef};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
-use gtk::{gio, glib, CompositeTemplate};
+use gtk::{glib, CompositeTemplate};
 use once_cell::sync::Lazy;
 
 use crate::window::Window;
@@ -35,10 +35,6 @@ mod imp {
         pub(super) ports_row: TemplateChild<view::PropertyRow>,
         #[template_child]
         pub(super) repo_tags_row: TemplateChild<view::PropertyRow>,
-        #[template_child]
-        pub(super) containers_preferences_group: TemplateChild<adw::PreferencesGroup>,
-        #[template_child]
-        pub(super) list_box: TemplateChild<gtk::ListBox>,
     }
 
     #[glib::object_subclass]
@@ -224,60 +220,7 @@ mod imp {
                 ))
                 .bind(&*self.repo_tags_row, "visible", Some(obj));
 
-            let container_list_expr = image_expr.chain_property::<model::Image>("container-list");
-
-            gtk::ClosureExpression::new::<String, _, _>(
-                &[
-                    container_list_expr.chain_property::<model::SimpleContainerList>("len"),
-                    container_list_expr.chain_property::<model::SimpleContainerList>("running"),
-                ],
-                closure!(|_: glib::Object, len: u32, running: u32| {
-                    if len > 0 {
-                        gettext!(
-                            // Translators: There's a wide space (U+2002) between ", {}".
-                            "{} Containers total, {} running",
-                            len,
-                            running
-                        )
-                    } else {
-                        gettext("There are no containers associated with this image.")
-                    }
-                }),
-            )
-            .bind(
-                &*self.containers_preferences_group,
-                "description",
-                Some(obj),
-            );
-
-            let sorter = gtk::CustomSorter::new(|obj1, obj2| {
-                let container1 = obj1.downcast_ref::<model::Container>().unwrap();
-                let container2 = obj2.downcast_ref::<model::Container>().unwrap();
-
-                container1.name().cmp(&container2.name()).into()
-            });
-
-            let image = obj.image().unwrap();
-            let model = image.container_list();
-
-            model.connect_name_changed(clone!(@weak sorter => move |_, _| {
-                glib::timeout_add_seconds_local_once(
-                    1,
-                    clone!(@weak sorter => move || sorter.changed(gtk::SorterChange::Different)),
-                );
-            }));
-
-            self.list_box.bind_model(
-                Some(&gtk::SortListModel::new(Some(model), Some(&sorter))),
-                |item| view::ContainerRow::from(item.downcast_ref().unwrap()).upcast(),
-            );
-
-            obj.set_list_box_visibility(model.upcast_ref());
-            model.connect_items_changed(clone!(@weak obj => move |model, _, _, _| {
-                obj.set_list_box_visibility(model.upcast_ref());
-            }));
-
-            image.connect_notify_local(
+            obj.image().unwrap().connect_notify_local(
                 Some("to-be-deleted"),
                 clone!(@weak obj => move|image, _| {
                     obj.action_set_enabled("image.delete", !image.to_be_deleted());
@@ -367,9 +310,5 @@ impl ImageDetailsPage {
                     .priority(adw::ToastPriority::High)
                     .build(),
             );
-    }
-
-    fn set_list_box_visibility(&self, model: &gio::ListModel) {
-        self.imp().list_box.set_visible(model.n_items() > 0);
     }
 }

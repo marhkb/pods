@@ -58,6 +58,7 @@ mod imp {
             view::CircularProgressBar::static_type();
             view::ContainerDetailsPanel::static_type();
             view::ContainerLogsPanel::static_type();
+            view::ContainersGroup::static_type();
             view::ImageRowSimple::static_type();
             view::ImagesPanel::static_type();
             view::PropertyWidgetRow::static_type();
@@ -111,7 +112,7 @@ mod imp {
                         "Show Only Running Containers",
                         "Whether to show only running containers",
                         true,
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                        glib::ParamFlags::READWRITE,
                     ),
                 ]
             });
@@ -131,8 +132,12 @@ mod imp {
                         .set_show_intermediates(value.get().unwrap());
                 }
                 "show-only-running-containers" => {
-                    self.containers_panel
-                        .set_show_only_running(value.get().unwrap());
+                    self.settings
+                        .set::<bool>(
+                            "show-only-running-containers",
+                            &value.get::<bool>().unwrap(),
+                        )
+                        .unwrap();
                 }
                 _ => unimplemented!(),
             }
@@ -148,11 +153,8 @@ mod imp {
                     .unwrap_or_default()
                     .to_value(),
                 "show-only-running-containers" => self
-                    .containers_panel
-                    .try_get()
-                    .as_ref()
-                    .map(view::ContainersPanel::show_only_running)
-                    .unwrap_or(true)
+                    .settings
+                    .get::<bool>("show-only-running-containers")
                     .to_value(),
                 _ => unimplemented!(),
             }
@@ -169,6 +171,11 @@ mod imp {
             // Load settings.
             obj.load_settings();
 
+            self.settings.connect_changed(
+                Some("show-only-running-containers"),
+                clone!(@weak obj => move |_, _| obj.notify("show-only-running-containers")),
+            );
+
             self.images_panel.set_image_list(self.client.image_list());
             self.containers_panel
                 .set_container_list(self.client.container_list());
@@ -183,12 +190,6 @@ mod imp {
             self.images_panel.connect_notify_local(
                 Some("show-intermediates"),
                 clone!(@weak obj => move |_, _| obj.notify("show-intermediate-images")),
-            );
-
-            obj.notify("show-only-running-containers");
-            self.containers_panel.connect_notify_local(
-                Some("show-only-running"),
-                clone!(@weak obj => move |_, _| obj.notify("show-only-running-containers")),
             );
 
             let visible_child_name_expr = adw::ViewStack::this_expression("visible-child-name");

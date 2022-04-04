@@ -6,6 +6,7 @@ use once_cell::sync::Lazy;
 use once_cell::unsync::OnceCell;
 
 use crate::model;
+use crate::model::AbstractContainerListExt;
 use crate::utils::ToTypedListModel;
 
 mod imp {

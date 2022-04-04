@@ -3,6 +3,7 @@ mod container_logs_panel;
 mod container_page;
 mod container_rename_dialog;
 mod container_row;
+mod containers_group;
 mod containers_panel;
 
 use cascade::cascade;
@@ -17,6 +18,7 @@ pub(crate) use self::container_logs_panel::ContainerLogsPanel;
 pub(crate) use self::container_page::ContainerPage;
 pub(crate) use self::container_rename_dialog::ContainerRenameDialog;
 pub(crate) use self::container_row::ContainerRow;
+pub(crate) use self::containers_group::ContainersGroup;
 pub(crate) use self::containers_panel::{menu, ContainersPanel};
 use crate::window::Window;
 use crate::{model, view};

@@ -2,13 +2,13 @@ use std::borrow::Borrow;
 use std::cell::RefCell;
 
 use gtk::glib::clone;
-use gtk::glib::subclass::Signal;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::{gio, glib};
 use indexmap::map::IndexMap;
 use once_cell::sync::Lazy;
 
+use super::AbstractContainerListExt;
 use crate::model;
 
 mod imp {
@@ -22,22 +22,10 @@ mod imp {
         const NAME: &'static str = "SimpleContainerList";
         type Type = super::SimpleContainerList;
         type ParentType = glib::Object;
-        type Interfaces = (gio::ListModel,);
+        type Interfaces = (gio::ListModel, model::AbstractContainerList);
     }
 
     impl ObjectImpl for SimpleContainerList {
-        fn signals() -> &'static [Signal] {
-            static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
-                vec![Signal::builder(
-                    "container-name-changed",
-                    &[model::Container::static_type().into()],
-                    <()>::static_type().into(),
-                )
-                .build()]
-            });
-            SIGNALS.as_ref()
-        }
-
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
@@ -99,7 +87,7 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct SimpleContainerList(ObjectSubclass<imp::SimpleContainerList>)
-        @implements gio::ListModel;
+        @implements gio::ListModel, model::AbstractContainerList;
 }
 
 impl Default for SimpleContainerList {
@@ -130,7 +118,7 @@ impl SimpleContainerList {
                 container.connect_notify_local(
                     Some("name"),
                     clone!(@weak self as obj => move |container, _| {
-                        obj.container_name_changed(container)
+                        obj.container_name_changed(container);
                     }),
                 );
                 0
@@ -146,9 +134,7 @@ impl SimpleContainerList {
             self.items_changed(idx as u32, 1, 0);
         }
     }
-}
 
-impl SimpleContainerList {
     pub(crate) fn len(&self) -> u32 {
         self.n_items()
     }
@@ -160,22 +146,5 @@ impl SimpleContainerList {
             .values()
             .filter(|container| container.status() == model::ContainerStatus::Running)
             .count() as u32
-    }
-
-    fn container_name_changed(&self, container: &model::Container) {
-        self.emit_by_name::<()>("container-name-changed", &[container]);
-    }
-
-    pub(crate) fn connect_name_changed<F: Fn(&Self, &model::Container) + 'static>(
-        &self,
-        f: F,
-    ) -> glib::SignalHandlerId {
-        self.connect_local("container-name-changed", true, move |values| {
-            let obj = values[0].get::<Self>().unwrap();
-            let container = values[1].get::<model::Container>().unwrap();
-            f(&obj, &container);
-
-            None
-        })
     }
 }

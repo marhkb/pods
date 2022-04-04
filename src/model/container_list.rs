@@ -1,7 +1,6 @@
 use std::cell::{Cell, RefCell};
 use std::collections::HashSet;
 
-use gtk::glib::subclass::Signal;
 use gtk::glib::{clone, WeakRef};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
@@ -9,6 +8,7 @@ use gtk::{gio, glib};
 use indexmap::map::{Entry, IndexMap};
 use once_cell::sync::Lazy;
 
+use crate::model::AbstractContainerListExt;
 use crate::{api, model, utils, PODMAN};
 
 #[derive(Clone, Debug)]
@@ -37,36 +37,10 @@ mod imp {
         const NAME: &'static str = "ContainerList";
         type Type = super::ContainerList;
         type ParentType = glib::Object;
-        type Interfaces = (gio::ListModel,);
+        type Interfaces = (gio::ListModel, model::AbstractContainerList);
     }
 
     impl ObjectImpl for ContainerList {
-        fn signals() -> &'static [Signal] {
-            static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
-                vec![
-                    Signal::builder(
-                        "container-added",
-                        &[model::Container::static_type().into()],
-                        <()>::static_type().into(),
-                    )
-                    .build(),
-                    Signal::builder(
-                        "container-name-changed",
-                        &[model::Container::static_type().into()],
-                        <()>::static_type().into(),
-                    )
-                    .build(),
-                    Signal::builder(
-                        "container-removed",
-                        &[model::Container::static_type().into()],
-                        <()>::static_type().into(),
-                    )
-                    .build(),
-                ]
-            });
-            SIGNALS.as_ref()
-        }
-
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
@@ -103,6 +77,15 @@ mod imp {
                         glib::ParamFlags::READABLE,
                     ),
                     glib::ParamSpecUInt::new(
+                        "running",
+                        "Running",
+                        "The number of running containers",
+                        0,
+                        std::u32::MAX,
+                        0,
+                        glib::ParamFlags::READABLE,
+                    ),
+                    glib::ParamSpecUInt::new(
                         "to-fetch",
                         "To Fetch",
                         "The number of images to be fetched",
@@ -135,6 +118,7 @@ mod imp {
                 "fetched" => obj.fetched().to_value(),
                 "len" => obj.len().to_value(),
                 "listing" => obj.listing().to_value(),
+                "running" => obj.running().to_value(),
                 "to-fetch" => obj.to_fetch().to_value(),
                 _ => unimplemented!(),
             }
@@ -166,7 +150,7 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct ContainerList(ObjectSubclass<imp::ContainerList>)
-        @implements gio::ListModel;
+        @implements gio::ListModel, model::AbstractContainerList;
 }
 
 impl From<&model::Client> for ContainerList {
@@ -208,6 +192,15 @@ impl ContainerList {
         self.notify("listing");
     }
 
+    pub(crate) fn running(&self) -> u32 {
+        self.imp()
+            .list
+            .borrow()
+            .values()
+            .filter(|container| container.status() == model::ContainerStatus::Running)
+            .count() as u32
+    }
+
     pub(crate) fn to_fetch(&self) -> u32 {
         self.imp().to_fetch.get()
     }
@@ -218,15 +211,6 @@ impl ContainerList {
         }
         self.imp().to_fetch.set(value);
         self.notify("to-fetch");
-    }
-
-    pub(crate) fn count(&self, status: model::ContainerStatus) -> usize {
-        self.imp()
-            .list
-            .borrow()
-            .values()
-            .filter(|container| container.status() == status)
-            .count()
     }
 
     fn add_or_update_container<F>(&self, id: String, err_op: F)
@@ -245,6 +229,12 @@ impl ContainerList {
                             Entry::Vacant(entry) => {
                                 let container = model::Container::from(inspect_response);
                                 container.connect_notify_local(
+                                    Some("status"),
+                                    clone!(@weak obj => move |_, _| {
+                                        obj.notify("running");
+                                    }),
+                                );
+                                container.connect_notify_local(
                                     Some("name"),
                                     clone!(@weak obj => move |container, _| {
                                         obj.container_name_changed(container);
@@ -257,7 +247,9 @@ impl ContainerList {
                                 obj.items_changed(obj.len() - 1, 0, 1);
                             }
                             Entry::Occupied(entry) => {
-                                entry.get().update(inspect_response);
+                                let container = entry.get().clone();
+                                drop(list);
+                                container.update(inspect_response)
                             }
                         }
                     }
@@ -336,56 +328,5 @@ impl ContainerList {
         F: FnOnce(Error) + Clone + 'static,
     {
         self.refresh(err_op);
-    }
-
-    fn container_added(&self, container: &model::Container) {
-        self.emit_by_name::<()>("container-added", &[container]);
-    }
-
-    fn container_name_changed(&self, container: &model::Container) {
-        self.emit_by_name::<()>("container-name-changed", &[container]);
-    }
-
-    fn container_removed(&self, model: &model::Container) {
-        self.emit_by_name::<()>("container-removed", &[&model]);
-    }
-
-    pub(crate) fn connect_container_added<F: Fn(&Self, &model::Container) + 'static>(
-        &self,
-        f: F,
-    ) -> glib::SignalHandlerId {
-        self.connect_local("container-added", true, move |values| {
-            let obj = values[0].get::<Self>().unwrap();
-            let container = values[1].get::<model::Container>().unwrap();
-            f(&obj, &container);
-
-            None
-        })
-    }
-
-    pub(crate) fn connect_name_changed<F: Fn(&Self, &model::Container) + 'static>(
-        &self,
-        f: F,
-    ) -> glib::SignalHandlerId {
-        self.connect_local("container-name-changed", true, move |values| {
-            let obj = values[0].get::<Self>().unwrap();
-            let container = values[1].get::<model::Container>().unwrap();
-            f(&obj, &container);
-
-            None
-        })
-    }
-
-    pub(crate) fn connect_container_removed<F: Fn(&Self, &model::Container) + 'static>(
-        &self,
-        f: F,
-    ) -> glib::SignalHandlerId {
-        self.connect_local("container-removed", true, move |values| {
-            let obj = values[0].get::<Self>().unwrap();
-            let container = values[1].get::<model::Container>().unwrap();
-            f(&obj, &container);
-
-            None
-        })
     }
 }
