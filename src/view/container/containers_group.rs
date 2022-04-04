@@ -70,13 +70,6 @@ mod imp {
                         model::AbstractContainerList::static_type(),
                         glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
                     ),
-                    glib::ParamSpecBoolean::new(
-                        "show-only-running",
-                        "Show-Only-Running",
-                        "Whether to show only running containers",
-                        true,
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
                     glib::ParamSpecString::new(
                         "search-text",
                         "Search Text",
@@ -100,7 +93,6 @@ mod imp {
                 "no-containers-label" => obj.set_no_containers_label(value.get().unwrap()),
                 "menu-button-visible" => self.menu_button.set_visible(value.get().unwrap()),
                 "container-list" => obj.set_container_list(value.get().unwrap()),
-                "show-only-running" => obj.set_show_only_running(value.get().unwrap()),
                 "search-text" => obj.set_search_text(value.get().unwrap()),
                 _ => unimplemented!(),
             }
@@ -111,7 +103,6 @@ mod imp {
                 "no-containers-label" => obj.no_containers_label().to_value(),
                 "menu-button-visible" => self.menu_button.is_visible().to_value(),
                 "container-list" => obj.container_list().to_value(),
-                "show-only-running" => obj.show_only_running().to_value(),
                 "search-text" => obj.search_text().to_value(),
                 _ => unimplemented!(),
             }
@@ -129,7 +120,7 @@ mod imp {
 
             self.settings.connect_changed(
                 Some("show-only-running-containers"),
-                clone!(@weak obj => move |_, _| obj.notify("show-only-running")),
+                clone!(@weak obj => move |_, _| obj.update_properties_filter()),
             );
 
             let container_list_expr = Self::Type::this_expression("container-list");
@@ -294,17 +285,6 @@ impl ContainersGroup {
         self.imp()
             .settings
             .get::<bool>("show-only-running-containers")
-    }
-
-    pub(crate) fn set_show_only_running(&self, value: bool) {
-        if self.show_only_running() == value {
-            return;
-        }
-        self.imp()
-            .settings
-            .set("show-only-running-containers", &value)
-            .unwrap();
-        self.notify("show-only-running");
     }
 
     pub(crate) fn search_text(&self) -> Option<String> {
