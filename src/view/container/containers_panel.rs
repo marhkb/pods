@@ -9,6 +9,7 @@ use gtk::{gio, glib, CompositeTemplate};
 use once_cell::sync::Lazy;
 use once_cell::unsync::OnceCell;
 
+use crate::model::AbstractContainerListExt;
 use crate::{model, utils, view};
 
 mod imp {
