@@ -5,6 +5,7 @@ use gtk::subclass::prelude::*;
 use gtk::{gio, glib, CompositeTemplate};
 use once_cell::sync::Lazy;
 
+use crate::model::AbstractContainerListExt;
 use crate::window::Window;
 use crate::{model, utils, view};
 
