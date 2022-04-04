@@ -3,6 +3,7 @@ mod container_logs_panel;
 mod container_page;
 mod container_rename_dialog;
 mod container_row;
+mod containers_group;
 mod containers_panel;
 
 use cascade::cascade;
