@@ -242,6 +242,10 @@ impl ContainersGroup {
 
         if let Some(value) = value {
             // TODO: For multi-client: Figure out whether signal handlers need to be disconnected.
+            value.connect_notify_local(
+                Some("running"),
+                clone!(@weak self as obj => move |_, _| obj.update_properties_filter()),
+            );
 
             value.connect_container_name_changed(clone!(@weak self as obj => move |_, _| {
                 glib::timeout_add_seconds_local_once(
