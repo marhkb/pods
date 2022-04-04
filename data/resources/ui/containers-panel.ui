@@ -78,18 +78,13 @@
                     <property name="vexpand">True</property>
 
                     <child>
-                      <object class="AdwPreferencesGroup" id="containers_group">
+                      <object class="ContainersGroup" id="containers_group">
+                        <binding name="container-list">
+                          <lookup name="container-list">ContainersPanel</lookup>
+                        </binding>
                         <property name="title" translatable="yes">Summary</property>
-
-                        <child>
-                          <object class="GtkListBox" id="list_box">
-                            <style>
-                              <class name="boxed-list"/>
-                            </style>
-                            <property name="selection-mode">none</property>
-                          </object>
-                        </child>
-
+                        <property name="no-containers-label" translatable="yes">No containers found</property>
+                        <property name="menu-button-visible">False</property>
                       </object>
                     </child>
 

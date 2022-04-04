@@ -14,7 +14,7 @@ pub(crate) use self::circular_progress_bar::CircularProgressBar;
 pub(crate) use self::connection_lost_page::ConnectionLostPage;
 pub(crate) use self::container::{
     menu as containers_menu, ContainerDetailsPanel, ContainerLogsPanel, ContainerPage,
-    ContainerRenameDialog, ContainerRow, ContainersPanel,
+    ContainerRenameDialog, ContainerRow, ContainersGroup, ContainersPanel,
 };
 pub(crate) use self::image::{
     menu as images_menu, ImageDetailsPage, ImageRow, ImageRowSimple, ImagesPanel, ImagesPruneDialog,
