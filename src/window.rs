@@ -128,8 +128,9 @@ mod imp {
         ) {
             match pspec.name() {
                 "show-intermediate-images" => {
-                    self.images_panel
-                        .set_show_intermediates(value.get().unwrap());
+                    self.settings
+                        .set::<bool>("show-intermediate-images", &value.get::<bool>().unwrap())
+                        .unwrap();
                 }
                 "show-only-running-containers" => {
                     self.settings
@@ -146,11 +147,8 @@ mod imp {
         fn property(&self, _obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
                 "show-intermediate-images" => self
-                    .images_panel
-                    .try_get()
-                    .as_ref()
-                    .map(view::ImagesPanel::show_intermediates)
-                    .unwrap_or_default()
+                    .settings
+                    .get::<bool>("show-intermediate-images")
                     .to_value(),
                 "show-only-running-containers" => self
                     .settings

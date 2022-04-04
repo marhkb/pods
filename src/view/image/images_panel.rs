@@ -1,5 +1,4 @@
 use std::borrow::Cow;
-use std::cell::Cell;
 
 use cascade::cascade;
 use gettextrs::gettext;
@@ -20,7 +19,6 @@ mod imp {
     pub(crate) struct ImagesPanel {
         pub(super) settings: utils::PodsSettings,
         pub(super) image_list: WeakRef<model::ImageList>,
-        pub(super) show_intermediates: Cell<bool>,
         pub(super) properties_filter: OnceCell<gtk::Filter>,
         pub(super) search_filter: OnceCell<gtk::Filter>,
         pub(super) sorter: OnceCell<gtk::Sorter>,
@@ -62,22 +60,13 @@ mod imp {
     impl ObjectImpl for ImagesPanel {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecObject::new(
-                        "image-list",
-                        "Image List",
-                        "The list of images",
-                        model::ImageList::static_type(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecBoolean::new(
-                        "show-intermediates",
-                        "Show Intermediates",
-                        "Whether to also show intermediate images",
-                        false,
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                ]
+                vec![glib::ParamSpecObject::new(
+                    "image-list",
+                    "Image List",
+                    "The list of images",
+                    model::ImageList::static_type(),
+                    glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                )]
             });
             PROPERTIES.as_ref()
         }
@@ -91,7 +80,6 @@ mod imp {
         ) {
             match pspec.name() {
                 "image-list" => obj.set_image_list(value.get().unwrap()),
-                "show-intermediates" => obj.set_show_intermediates(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
@@ -99,13 +87,17 @@ mod imp {
         fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
                 "image-list" => obj.image_list().to_value(),
-                "show-intermediates" => obj.show_intermediates().to_value(),
                 _ => unimplemented!(),
             }
         }
 
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
+
+            self.settings.connect_changed(
+                Some("show-intermediate-images"),
+                clone!(@weak obj => move |_, _| obj.update_properties_filter()),
+            );
 
             let image_list_expr = Self::Type::this_expression("image-list");
             let image_list_len_expr = image_list_expr.chain_property::<model::ImageList>("len");
@@ -240,10 +232,6 @@ mod imp {
                 .unwrap();
             self.search_filter.set(search_filter.upcast()).unwrap();
             self.sorter.set(sorter.upcast()).unwrap();
-
-            self.settings
-                .bind("show-intermediate-images", obj, "show-intermediates")
-                .build();
         }
 
         fn dispose(&self, _obj: &Self::Type) {
@@ -317,15 +305,7 @@ impl ImagesPanel {
     }
 
     pub(crate) fn show_intermediates(&self) -> bool {
-        self.imp().show_intermediates.get()
-    }
-
-    pub(crate) fn set_show_intermediates(&self, value: bool) {
-        if self.show_intermediates() == value {
-            return;
-        }
-        self.imp().show_intermediates.set(value);
-        self.notify("show-intermediates");
+        self.imp().settings.get::<bool>("show-intermediate-images")
     }
 
     pub(crate) fn connect_search_button(&self, search_button: &gtk::ToggleButton) {
