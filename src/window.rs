@@ -1,4 +1,5 @@
 use adw::subclass::prelude::AdwApplicationWindowImpl;
+use adw::traits::BinExt;
 use cascade::cascade;
 use gettextrs::gettext;
 use gtk::glib::{clone, closure};
@@ -313,10 +314,12 @@ impl Window {
     fn toggle_search(&self) {
         let imp = self.imp();
 
-        match imp.panel_stack.visible_child_name().as_deref() {
-            Some("images") => imp.images_panel.toggle_search(),
-            Some("containers") => imp.containers_panel.toggle_search(),
-            _ => unreachable!(),
+        if imp.leaflet_overlay.child().is_none() {
+            match imp.panel_stack.visible_child_name().as_deref() {
+                Some("images") => imp.images_panel.toggle_search(),
+                Some("containers") => imp.containers_panel.toggle_search(),
+                _ => unreachable!(),
+            }
         }
     }
 
