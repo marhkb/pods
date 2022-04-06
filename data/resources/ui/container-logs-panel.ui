@@ -43,7 +43,7 @@
             <property name="vexpand">True</property>
 
             <child>
-              <object class="GtkTextView">
+              <object class="GtkTextView" id="text_view">
                 <property name="buffer">
                   <object class="GtkTextBuffer" id="text_buffer"/>
                 </property>
