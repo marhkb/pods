@@ -28,8 +28,6 @@ mod imp {
         pub(super) scrolled_window: TemplateChild<gtk::ScrolledWindow>,
         #[template_child]
         pub(super) text_buffer: TemplateChild<gtk::TextBuffer>,
-        #[template_child]
-        pub(super) text_view: TemplateChild<gtk::TextView>,
     }
 
     #[glib::object_subclass]
@@ -98,8 +96,7 @@ mod imp {
 
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
-            self.text_view.set_property("monospace", true);
-            self.text_view.set_property("cursor-visible", false);
+
             let adj = self.scrolled_window.vadjustment();
             adj.connect_value_changed(clone!(@weak obj => move |adj| {
                 let self_ = Self::from_instance(&obj);
