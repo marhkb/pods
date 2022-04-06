@@ -49,6 +49,8 @@
                 </property>
                 <property name="editable">False</property>
                 <property name="wrap-mode">char</property>
+                <property name="monospace">True</property>
+                <property name="cursor-visible">False</property>
               </object>
             </child>
 
