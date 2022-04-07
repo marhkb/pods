@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-28 23:02+0200\n"
-"PO-Revision-Date: 2022-03-20 20:18+0100\n"
+"PO-Revision-Date: 2022-04-06 21:10+0000\n"
 "Last-Translator: Gert-dev <qnyasgjhapqyuhoibr@kiabws.com>\n"
-"Language-Team: none\n"
+"Language-Team: Dutch <https://hosted.weblate.org/projects/pods/pods/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Generator: Gtranslator 41.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.12-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:32
@@ -75,25 +75,23 @@ msgstr "Verbinding met Podman-service controleren"
 #: data/resources/ui/container-rename-dialog.ui:10
 #: data/resources/ui/images-prune-dialog.ui:11
 msgid "_Cancel"
-msgstr ""
+msgstr "_Annuleren"
 
 #: data/resources/ui/container-rename-dialog.ui:21
 msgid "_Rename"
-msgstr ""
+msgstr "_Hernoemen"
 
 #: data/resources/ui/image-details-page.ui:7
-#, fuzzy
 msgid "_Delete Image"
-msgstr "_Verwijderen"
+msgstr "Afbeelding _verwijderen"
 
 #: data/resources/ui/image-details-page.ui:47
-#, fuzzy
 msgid "Image Details"
-msgstr "Afbeeldingen"
+msgstr "Afbeeldingsdetails"
 
 #: data/resources/ui/image-details-page.ui:154
 msgid "Image Has Been Deleted"
-msgstr ""
+msgstr "Afbeelding werd verwijderd"
 
 #: data/resources/ui/image-row.ui:7 src/view/container_row.rs:404
 msgid "_Delete"
@@ -106,7 +104,7 @@ msgstr "Samenvatting"
 
 #: data/resources/ui/images-prune-dialog.ui:21
 msgid "_Prune"
-msgstr ""
+msgstr "_Opschonen"
 
 #: data/resources/ui/images-prune-dialog.ui:32
 msgid "No Images To Be Pruned"
@@ -134,63 +132,59 @@ msgstr "Zoeken"
 
 #: data/resources/ui/container-logs-panel.ui:28
 msgid "Scroll to bottom"
-msgstr ""
+msgstr "Naar beneden scrollen"
 
 #: data/resources/ui/container-page.ui:57
-#, fuzzy
 msgid "Details"
-msgstr "Afbeeldingen"
+msgstr "Details"
 
 #: data/resources/ui/container-page.ui:75
 msgid "Logs"
-msgstr ""
+msgstr "Logboeken"
 
 #: data/resources/ui/info-dialog.ui:6 data/resources/ui/info-dialog.ui:10
 msgid "Podman Info"
-msgstr ""
+msgstr "Podman-informatie"
 
 #: data/resources/ui/info-dialog.ui:15 data/resources/ui/info-dialog.ui:49
 msgid "Version"
-msgstr ""
+msgstr "Versie"
 
 #: data/resources/ui/info-dialog.ui:19
 msgid "API Version"
-msgstr ""
+msgstr "API-versie"
 
 #: data/resources/ui/info-dialog.ui:25
 msgid "Built Time"
-msgstr ""
+msgstr "Bouwtijdstip"
 
 #: data/resources/ui/info-dialog.ui:31
-#, fuzzy
 msgid "Git Commit"
-msgstr "_Verzenden"
+msgstr "Git Commit"
 
 #: data/resources/ui/info-dialog.ui:37
 msgid "Go Version"
-msgstr ""
+msgstr "Go-versie"
 
 #: data/resources/ui/info-dialog.ui:43
 msgid "Os Arch"
-msgstr ""
+msgstr "OS-architectuur"
 
 #: data/resources/ui/info-dialog.ui:59
 msgid "Describes the container storage and its attributes."
-msgstr ""
+msgstr "Beschrijft de containeropslag en de bijhorende attributen."
 
 #: data/resources/ui/info-dialog.ui:63
-#, fuzzy
 msgid "Config File"
-msgstr "Geconfigureerd"
+msgstr "Configuratiebestand"
 
 #: data/resources/ui/info-dialog.ui:69
-#, fuzzy
 msgid "Container Store"
-msgstr "Containers"
+msgstr "Containeropslag"
 
 #: data/resources/ui/info-dialog.ui:70
 msgid "Describes the quantity of containers in the store by status."
-msgstr ""
+msgstr "Beschrijft het aantal containers in de opslag per status."
 
 #: data/resources/ui/info-dialog.ui:87 src/model/container.rs:67
 msgid "Paused"
@@ -206,62 +200,61 @@ msgstr "Gestopt"
 
 #: data/resources/ui/info-dialog.ui:108
 msgid "Graph Driver Name"
-msgstr ""
+msgstr "Graph-stuurprogrammanaam"
 
 #: data/resources/ui/info-dialog.ui:114
 msgid "Graph Options"
-msgstr ""
+msgstr "Graph-opties"
 
 #: data/resources/ui/info-dialog.ui:134
 msgid "Graph Root"
-msgstr ""
+msgstr "Graph root"
 
 #: data/resources/ui/info-dialog.ui:140
 msgid "Graph Status"
-msgstr ""
+msgstr "Graph-status"
 
 #: data/resources/ui/info-dialog.ui:160
-#, fuzzy
 msgid "Image Store"
-msgstr "Afbeeldingen"
+msgstr "Afbeeldingsopslag"
 
 #: data/resources/ui/info-dialog.ui:161
 msgid "Describes the image store. Right now only the number of images present."
 msgstr ""
+"Beschrijft de afbeeldingsopslag. Momenteel enkel het aantal beschikbare "
+"afbeeldingen."
 
 #: data/resources/ui/info-dialog.ui:167
 msgid "Run Root"
-msgstr ""
+msgstr "Root uitvoeren"
 
 #: data/resources/ui/info-dialog.ui:173
 msgid "Volume Path"
-msgstr ""
+msgstr "Volumepad"
 
 #: data/resources/ui/container-details-panel.ui:25
 msgid "Id"
-msgstr ""
+msgstr "Id"
 
 #: data/resources/ui/container-details-panel.ui:31
-#, fuzzy
 msgid "Image"
-msgstr "Afbeeldingen"
+msgstr "Afbeelding"
 
 #: data/resources/ui/container-details-panel.ui:56
 msgid "Name"
-msgstr ""
+msgstr "Naam"
 
 #: data/resources/ui/container-details-panel.ui:67
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 #: data/resources/ui/image-used-by-row.ui:8
 msgid "Used By"
-msgstr ""
+msgstr "Gebruikt door"
 
 #: data/resources/ui/image-used-by-row.ui:36
-#, fuzzy
 msgid "unused"
-msgstr "Gepauzeerd"
+msgstr "ongebruikt"
 
 #: data/resources/ui/connection-lost-page.ui:16
 msgid ""
@@ -282,9 +275,8 @@ msgid "_Restart Podman Service"
 msgstr "Podman-service _herstarten"
 
 #: data/resources/ui/start-service-page.ui:16
-#, fuzzy
 msgid "The Podman service is currently not running."
-msgstr "De Podman-service draait momenteel niet"
+msgstr "De Podman-service draait momenteel niet."
 
 #: data/resources/ui/start-service-page.ui:17
 msgid "Welcome to Pods"
@@ -296,7 +288,7 @@ msgstr "Podman-service _starten"
 
 #: data/resources/ui/window.ui:7
 msgid "_Show Podman Info"
-msgstr ""
+msgstr "Podman-informatie _tonen"
 
 #: data/resources/ui/window.ui:13
 msgid "_Preferences"
@@ -364,7 +356,7 @@ msgstr "Onbekend"
 
 #: src/view/container_rename_dialog.rs:87
 msgid "Rename container «{}»"
-msgstr ""
+msgstr "Container hernoemen «{}»"
 
 #: src/view/container_row.rs:268
 msgid "Error on starting container"
@@ -408,7 +400,7 @@ msgstr "Fout bij geforceerd verwijderen container"
 
 #: src/view/container_row.rs:396
 msgid "Re_name…"
-msgstr ""
+msgstr "_Hernoemen…"
 
 #: src/view/container_row.rs:400
 msgid "_Commit"
@@ -420,14 +412,13 @@ msgstr "_Starten"
 
 #: src/view/container_row.rs:422
 msgid "S_top"
-msgstr ""
+msgstr "S_toppen"
 
 #: src/view/container_row.rs:423
 msgid "_Force Stop"
 msgstr "Ge_forceerd stoppen"
 
 #: src/view/container_row.rs:424
-#, fuzzy
 msgid "R_estart"
 msgstr "_Herstarten"
 
@@ -470,13 +461,12 @@ msgstr "{} (gedeeld: {}, virtueel: {})"
 #. Translators: "{}" is a placeholder for the image id.
 #: src/view/image_details_page.rs:290 src/view/image_row.rs:164
 msgid "Successfully deleted image '{}'"
-msgstr ""
+msgstr "Afbeelding '{}' met succes verwijderd"
 
 #. Translators: "{}" is a placeholder for the image id.
 #: src/view/image_details_page.rs:295 src/view/image_row.rs:168
-#, fuzzy
 msgid "Error on deleting image '{}'"
-msgstr "Fout bij verwijderen afbeelding"
+msgstr "Fout bij verwijderen afbeelding '{}'"
 
 #. Translators: There's a wide space (U+2002) between the two {} {}.
 #: src/view/images_panel.rs:176
@@ -489,14 +479,13 @@ msgstr "Geen afbeeldingen gevonden"
 
 #. Translators: "{}" is a placeholder for the number of images.
 #: src/view/images_panel.rs:387
-#, fuzzy
 msgid "{} images have been pruned"
-msgstr "Geen afbeeldingen om op te ruimen"
+msgstr "'{}' afbeeldingen opgeruimd"
 
 #. Translators: "{}" are placeholders for cardinal numbers.
 #: src/view/images_panel.rs:393
 msgid "{} images have been pruned ({} errors)"
-msgstr ""
+msgstr "{} afbeeldingen werden opgeschoond ({} fouten)"
 
 #. Translators: "{}" is a placeholder for the image id.
 #: src/view/images_panel.rs:415
@@ -507,34 +496,32 @@ msgstr "Fout bij opschonen afbeelding '{}'"
 #: src/view/info_dialog.rs:127
 #, c-format
 msgid "%x %X"
-msgstr ""
+msgstr "%x %X"
 
 #. Translators: "{}" is a placeholder for a cardinal numbers.
 #: src/view/info_dialog.rs:163
-#, fuzzy
 msgid "{} Containers"
-msgstr "Containers"
+msgstr "{} Containers"
 
 #. Translators: "{}" is a placeholder for a cardinal number.
 #: src/view/info_dialog.rs:196
 msgid "{} Options"
-msgstr ""
+msgstr "{} Opties"
 
 #. Translators: "{}" is placeholders for a cardinal number.
 #: src/view/info_dialog.rs:219
 msgid "{} States"
-msgstr ""
+msgstr "{} Statussen"
 
 #. Translators: "{}" is placeholders for a cardinal number.
 #: src/view/info_dialog.rs:239
-#, fuzzy
 msgid "{} Images"
-msgstr "Afbeeldingen"
+msgstr "{} Afbeeldingen"
 
 #. Translators: The placeholder "{}" is for the error message.
 #: src/view/info_dialog.rs:258
 msgid "Error: {}"
-msgstr ""
+msgstr "Fout: {}"
 
 #: src/application.rs:140
 msgid "translator-credits"
