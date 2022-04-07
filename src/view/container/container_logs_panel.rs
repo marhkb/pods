@@ -98,17 +98,9 @@ mod imp {
             self.parent_constructed(obj);
 
             let adj = self.scrolled_window.vadjustment();
+            obj.on_adjustment_changed(&adj);
             adj.connect_value_changed(clone!(@weak obj => move |adj| {
-                let self_ = Self::from_instance(&obj);
-
-                if self_.is_auto_scrolling.get() {
-                    if adj.value() + adj.page_size() >= adj.upper() {
-                        self_.is_auto_scrolling.set(false);
-                        obj.set_sticky(true);
-                    }
-                } else {
-                    obj.set_sticky(adj.value() + adj.page_size() >= adj.upper());
-                }
+                obj.on_adjustment_changed(adj);
             }));
 
             adj.connect_upper_notify(clone!(@weak obj => move |_| {
@@ -191,6 +183,19 @@ impl ContainerLogsPanel {
         imp.is_auto_scrolling.set(true);
         imp.scrolled_window
             .emit_by_name::<bool>("scroll-child", &[&gtk::ScrollType::End, &false]);
+    }
+
+    fn on_adjustment_changed(&self, adj: &gtk::Adjustment) {
+        let imp = self.imp();
+
+        if imp.is_auto_scrolling.get() {
+            if adj.value() + adj.page_size() >= adj.upper() {
+                imp.is_auto_scrolling.set(false);
+                self.set_sticky(true);
+            }
+        } else {
+            self.set_sticky(adj.value() + adj.page_size() >= adj.upper());
+        }
     }
 
     fn connect_logs(&self, container: &model::Container, since: Option<glib::DateTime>) {
