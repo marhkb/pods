@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+
+  <template class="TextSearchEntry" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBoxLayout"/>
+    </property>
+    <property name="width-request">225</property>
+    <property name="valign">center</property>
+
+    <child>
+      <object class="GtkImage" id="image">
+        <property name="icon-name">edit-find-symbolic</property>
+      </object>
+    </child>
+
+    <child>
+      <object class="GtkText" id="text">
+      </object>
+    </child>
+
+    <child>
+      <object class="GtkLabel" id="info_label">
+        <style>
+          <class name="numeric"/>
+        </style>
+        <attributes>
+          <attribute name="foreground-alpha" value="33000"/>
+        </attributes>
+        <property name="xalign">1</property>
+        <property name="width-request">100</property>
+        <property name="halign">fill</property>
+      </object>
+    </child>
+
+  </template>
+</interface>
