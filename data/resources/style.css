@@ -62,3 +62,7 @@
 .container-status-unknown {
   background-color: @red_3;
 }
+
+.text-view {
+  font-size: 0.85em;
+}

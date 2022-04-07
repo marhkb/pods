@@ -64,6 +64,8 @@ mod imp {
             view::ImagesPanel::static_type();
             view::PropertyWidgetRow::static_type();
             view::StartServicePage::static_type();
+            view::TextSearchEntry::static_type();
+            sourceview5::View::static_type();
 
             klass.install_action("win.show-podman-info", None, |widget, _, _| {
                 widget.show_podman_info_dialog();

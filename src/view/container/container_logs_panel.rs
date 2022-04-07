@@ -2,13 +2,16 @@ use std::cell::{Cell, RefCell};
 use std::mem;
 
 use futures::stream;
+use gettextrs::gettext;
 use gtk::glib::{clone, WeakRef};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::{glib, CompositeTemplate};
 use once_cell::sync::Lazy;
+use once_cell::unsync::OnceCell;
+use sourceview5::traits::{SearchSettingsExt, ViewExt};
 
-use crate::{model, utils};
+use crate::{model, utils, view};
 
 mod imp {
     use super::*;
@@ -17,17 +20,32 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/container-logs-panel.ui")]
     pub(crate) struct ContainerLogsPanel {
         pub(super) container: WeakRef<model::Container>,
+        pub(super) search_settings: sourceview5::SearchSettings,
+        pub(super) search_context: OnceCell<sourceview5::SearchContext>,
+        pub(super) search_iters: RefCell<Option<(gtk::TextIter, gtk::TextIter)>>,
         pub(super) abort_handle: RefCell<Option<stream::AbortHandle>>,
         pub(super) handler_id: RefCell<Option<glib::SignalHandlerId>>,
         pub(super) last_log_time: RefCell<Option<glib::DateTime>>,
         pub(super) is_auto_scrolling: Cell<bool>,
         pub(super) sticky: Cell<bool>,
         #[template_child]
+        pub(super) search_bar: TemplateChild<gtk::SearchBar>,
+        #[template_child]
+        pub(super) search_entry: TemplateChild<view::TextSearchEntry>,
+        #[template_child]
+        pub(super) regex_button: TemplateChild<gtk::CheckButton>,
+        #[template_child]
+        pub(super) case_button: TemplateChild<gtk::CheckButton>,
+        #[template_child]
+        pub(super) word_button: TemplateChild<gtk::CheckButton>,
+        #[template_child]
         pub(super) overlay: TemplateChild<gtk::Overlay>,
         #[template_child]
         pub(super) scrolled_window: TemplateChild<gtk::ScrolledWindow>,
         #[template_child]
-        pub(super) text_buffer: TemplateChild<gtk::TextBuffer>,
+        pub(super) source_view: TemplateChild<sourceview5::View>,
+        #[template_child]
+        pub(super) source_buffer: TemplateChild<sourceview5::Buffer>,
     }
 
     #[glib::object_subclass]
@@ -96,6 +114,62 @@ mod imp {
 
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
+
+            let mut maybe_gutter_child = <sourceview5::View as ViewExt>::gutter(
+                &*self.source_view,
+                gtk::TextWindowType::Left,
+            )
+            .first_child();
+
+            while let Some(child) = maybe_gutter_child {
+                if child.is::<sourceview5::GutterRenderer>() {
+                    child.set_margin_start(4);
+                }
+
+                maybe_gutter_child = child.next_sibling()
+            }
+
+            self.search_bar.connect_search_mode_enabled_notify(
+                clone!(@weak obj => move |search_bar| {
+                    let search_entry = &*obj.imp().search_entry;
+                    if search_bar.is_search_mode() {
+                        search_entry.grab_focus();
+                    } else {
+                        search_entry.set_text("");
+                    }
+                }),
+            );
+
+            self.search_entry
+                .bind_property("text", &self.search_settings, "search-text")
+                .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
+                .build();
+
+            self.search_settings.set_wrap_around(true);
+
+            self.regex_button
+                .bind_property("active", &self.search_settings, "regex-enabled")
+                .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
+                .build();
+
+            self.case_button
+                .bind_property("active", &self.search_settings, "case-sensitive")
+                .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
+                .build();
+
+            self.word_button
+                .bind_property("active", &self.search_settings, "at-word-boundaries")
+                .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
+                .build();
+
+            let search_context =
+                sourceview5::SearchContext::new(&*self.source_buffer, Some(&self.search_settings));
+
+            search_context.connect_occurrences_count_notify(clone!(@weak obj => move |_| {
+                obj.update_search_occurences()
+            }));
+
+            self.search_context.set(search_context).unwrap();
 
             let adj = self.scrolled_window.vadjustment();
             obj.on_adjustment_changed(&adj);
@@ -208,10 +282,16 @@ impl ContainerLogsPanel {
                     Ok(line) => {
                         let imp = obj.imp();
                         if line.len() > 8 && perform.decode(&line[8..]) {
+                            let line_buffer = perform.move_out_buffer();
 
-                            imp.text_buffer.insert_markup(
-                                &mut imp.text_buffer.end_iter(),
-                                &format!("{}\n", perform.move_out_buffer()),
+                            let source_buffer = &*imp.source_buffer;
+                            source_buffer.insert_markup(
+                                &mut source_buffer.end_iter(),
+                                &if source_buffer.start_iter() == source_buffer.end_iter() {
+                                    line_buffer
+                                } else {
+                                    format!("\n{}", line_buffer)
+                                },
                             );
                         }
                         imp.last_log_time.replace(glib::DateTime::now_local().ok());
@@ -230,6 +310,116 @@ impl ContainerLogsPanel {
         if let Some(handle) = self.imp().abort_handle.take() {
             handle.abort();
         }
+    }
+
+    pub(crate) fn connect_search_button(&self, search_button: &gtk::ToggleButton) {
+        search_button
+            .bind_property("active", &*self.imp().search_bar, "search-mode-enabled")
+            .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
+            .build();
+    }
+
+    pub(crate) fn toggle_search(&self) {
+        let imp = self.imp();
+        imp.search_bar
+            .set_search_mode(!imp.search_bar.is_search_mode());
+    }
+
+    fn update_search_occurences(&self) {
+        let imp = self.imp();
+
+        let search_context = imp.search_context.get().unwrap();
+        let count = search_context.occurrences_count();
+        imp.search_entry.set_info(&if count > 0 {
+            gettext!(
+                "{} of {}",
+                imp.search_iters
+                    .borrow()
+                    .as_ref()
+                    .map(|(start_iter, end_iter)| search_context
+                        .occurrence_position(start_iter, end_iter))
+                    .unwrap_or(0),
+                count
+            )
+        } else {
+            String::new()
+        });
+    }
+
+    pub(crate) fn search_backward(&self) {
+        let imp = self.imp();
+
+        let iter_at_cursor = imp.source_buffer.iter_at_offset({
+            let pos = imp.source_buffer.cursor_position();
+            if pos >= 0 {
+                pos
+            } else {
+                i32::MAX
+            }
+        });
+
+        imp.search_iters.replace_with(|iters| {
+            match imp.search_context.get().unwrap().backward(
+                &iters
+                    .map(|(start_iter, end_iter)| {
+                        if iter_at_cursor >= start_iter && iter_at_cursor <= end_iter {
+                            start_iter
+                        } else {
+                            iter_at_cursor
+                        }
+                    })
+                    .unwrap_or(iter_at_cursor),
+            ) {
+                Some((mut start, end, _)) => {
+                    imp.source_view
+                        .scroll_to_iter(&mut start, 0.0, false, 0.0, 0.0);
+                    imp.source_buffer.place_cursor(&start);
+
+                    Some((start, end))
+                }
+                None => None,
+            }
+        });
+
+        self.update_search_occurences();
+    }
+
+    pub(crate) fn search_forward(&self) {
+        let imp = self.imp();
+
+        let iter_at_cursor = imp.source_buffer.iter_at_offset({
+            let pos = imp.source_buffer.cursor_position();
+            if pos > 0 {
+                pos
+            } else {
+                0
+            }
+        });
+
+        imp.search_iters.replace_with(|iters| {
+            match imp.search_context.get().unwrap().forward(
+                &iters
+                    .map(|(start_iter, end_iter)| {
+                        if iter_at_cursor >= start_iter && iter_at_cursor <= end_iter {
+                            end_iter
+                        } else {
+                            iter_at_cursor
+                        }
+                    })
+                    .unwrap_or(iter_at_cursor),
+            ) {
+                Some((start, mut end, _)) => {
+                    imp.source_view
+                        .scroll_to_iter(&mut end, 0.0, false, 0.0, 0.0);
+                    imp.source_buffer.place_cursor(&end);
+
+                    Some((start, end))
+                }
+                None => None,
+            }
+        });
+
+        self.update_search_occurences();
     }
 }
 
