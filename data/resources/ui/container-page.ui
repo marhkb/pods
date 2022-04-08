@@ -58,6 +58,12 @@
                           </object>
                         </child>
 
+                        <child type="end">
+                          <object class="GtkToggleButton" id="logs_search_button">
+                            <property name="icon-name">system-search-symbolic</property>
+                          </object>
+                        </child>
+
                       </object>
                     </child>
 
@@ -92,7 +98,7 @@
                             <property name="title" translatable="yes">Logs</property>
 
                             <property name="child">
-                              <object class="ContainerLogsPanel">
+                              <object class="ContainerLogsPanel" id="logs_panel">
                                 <binding name="container">
                                   <lookup name="container">ContainerPage</lookup>
                                 </binding>

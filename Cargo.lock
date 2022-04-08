@@ -1062,6 +1062,7 @@ dependencies = [
  "once_cell",
  "paste",
  "podman-api",
+ "sourceview5",
  "syslog",
  "tokio",
  "vte",
@@ -1238,6 +1239,42 @@ checksum = "66d72b759436ae32898a2af0a14218dbf55efde3feeb170eb623637db85ee1e0"
 dependencies = [
  "libc",
  "winapi",
+]
+
+[[package]]
+name = "sourceview5"
+version = "0.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ec66e5db143023da4dbe7dcb5f9d7bb50c0e5668c3ea91d40e8ba188f7f07a54"
+dependencies = [
+ "bitflags",
+ "futures-channel",
+ "futures-core",
+ "gdk-pixbuf",
+ "gdk4",
+ "gio",
+ "glib",
+ "gtk4",
+ "libc",
+ "pango",
+ "sourceview5-sys",
+]
+
+[[package]]
+name = "sourceview5-sys"
+version = "0.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6bbf0b30cd67340b8fc695f460859dbadaec159850c260a0f766cc607bb14a86"
+dependencies = [
+ "gdk-pixbuf-sys",
+ "gdk4-sys",
+ "gio-sys",
+ "glib-sys",
+ "gobject-sys",
+ "gtk4-sys",
+ "libc",
+ "pango-sys",
+ "system-deps",
 ]
 
 [[package]]

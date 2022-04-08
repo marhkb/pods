@@ -1,7 +1,7 @@
-use gtk::glib::{closure, WeakRef};
+use gtk::glib::{clone, closure, WeakRef};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
-use gtk::{gio, glib, CompositeTemplate};
+use gtk::{gdk, gio, glib, CompositeTemplate};
 use once_cell::sync::Lazy;
 
 use crate::window::Window;
@@ -20,6 +20,12 @@ mod imp {
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) menu_button: TemplateChild<gtk::MenuButton>,
+        #[template_child]
+        pub(super) logs_search_button: TemplateChild<gtk::ToggleButton>,
+        #[template_child]
+        pub(super) panel_stack: TemplateChild<adw::ViewStack>,
+        #[template_child]
+        pub(super) logs_panel: TemplateChild<view::ContainerLogsPanel>,
     }
 
     #[glib::object_subclass]
@@ -35,6 +41,36 @@ mod imp {
             });
             klass.install_action("navigation.back", None, move |widget, _, _| {
                 widget.navigate_back();
+            });
+
+            klass.add_binding_action(
+                gdk::Key::F,
+                gdk::ModifierType::CONTROL_MASK,
+                "logs.toggle-search",
+                None,
+            );
+            klass.install_action("logs.toggle-search", None, |widget, _, _| {
+                widget.toggle_logs_search();
+            });
+
+            klass.add_binding_action(
+                gdk::Key::G,
+                gdk::ModifierType::CONTROL_MASK | gdk::ModifierType::SHIFT_MASK,
+                "logs.search-backward",
+                None,
+            );
+            klass.install_action("logs.search-backward", None, |widget, _, _| {
+                widget.search_logs_backward();
+            });
+
+            klass.add_binding_action(
+                gdk::Key::G,
+                gdk::ModifierType::CONTROL_MASK,
+                "logs.search-forward",
+                None,
+            );
+            klass.install_action("logs.search-forward", None, |widget, _, _| {
+                widget.search_logs_forward();
             });
 
             klass.install_action("container.start", None, move |widget, _, _| {
@@ -118,6 +154,18 @@ mod imp {
 
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
+
+            self.logs_panel
+                .connect_search_button(&*self.logs_search_button);
+
+            obj.update_buttons_and_actions(false);
+            self.panel_stack.connect_visible_child_name_notify(
+                clone!(@weak obj => move |panel_stack| {
+                    obj.update_buttons_and_actions(
+                        matches!(panel_stack.visible_child_name().as_deref(), Some("logs")),
+                    );
+                }),
+            );
 
             let container_expr = Self::Type::this_expression("container");
 
@@ -210,5 +258,24 @@ impl ContainerPage {
             .downcast::<Window>()
             .unwrap()
             .leaflet_overlay()
+    }
+
+    fn update_buttons_and_actions(&self, logs_visible: bool) {
+        self.imp().logs_search_button.set_visible(logs_visible);
+        self.action_set_enabled("logs.toggle-search", logs_visible);
+        self.action_set_enabled("logs.search-backward", logs_visible);
+        self.action_set_enabled("logs.search-forward", logs_visible);
+    }
+
+    fn toggle_logs_search(&self) {
+        self.imp().logs_panel.toggle_search();
+    }
+
+    fn search_logs_backward(&self) {
+        self.imp().logs_panel.search_backward();
+    }
+
+    fn search_logs_forward(&self) {
+        self.imp().logs_panel.search_forward();
     }
 }

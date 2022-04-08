@@ -1,4 +1,5 @@
 use adw::subclass::prelude::AdwApplicationWindowImpl;
+use adw::traits::BinExt;
 use cascade::cascade;
 use gettextrs::gettext;
 use gtk::glib::{clone, closure};
@@ -63,6 +64,8 @@ mod imp {
             view::ImagesPanel::static_type();
             view::PropertyWidgetRow::static_type();
             view::StartServicePage::static_type();
+            view::TextSearchEntry::static_type();
+            sourceview5::View::static_type();
 
             klass.install_action("win.show-podman-info", None, |widget, _, _| {
                 widget.show_podman_info_dialog();
@@ -313,10 +316,12 @@ impl Window {
     fn toggle_search(&self) {
         let imp = self.imp();
 
-        match imp.panel_stack.visible_child_name().as_deref() {
-            Some("images") => imp.images_panel.toggle_search(),
-            Some("containers") => imp.containers_panel.toggle_search(),
-            _ => unreachable!(),
+        if imp.leaflet_overlay.child().is_none() {
+            match imp.panel_stack.visible_child_name().as_deref() {
+                Some("images") => imp.images_panel.toggle_search(),
+                Some("containers") => imp.containers_panel.toggle_search(),
+                _ => unreachable!(),
+            }
         }
     }
 
