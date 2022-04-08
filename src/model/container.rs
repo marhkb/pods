@@ -99,7 +99,6 @@ mod imp {
     impl ObjectSubclass for Container {
         const NAME: &'static str = "Container";
         type Type = super::Container;
-        type ParentType = glib::Object;
     }
 
     impl ObjectImpl for Container {

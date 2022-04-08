@@ -38,7 +38,6 @@ mod imp {
     impl ObjectSubclass for ImageList {
         const NAME: &'static str = "ImageList";
         type Type = super::ImageList;
-        type ParentType = glib::Object;
         type Interfaces = (gio::ListModel,);
     }
 

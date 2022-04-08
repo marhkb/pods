@@ -36,7 +36,6 @@ mod imp {
     impl ObjectSubclass for ContainerList {
         const NAME: &'static str = "ContainerList";
         type Type = super::ContainerList;
-        type ParentType = glib::Object;
         type Interfaces = (gio::ListModel, model::AbstractContainerList);
     }
 
