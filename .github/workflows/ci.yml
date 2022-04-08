@@ -47,13 +47,13 @@ jobs:
           key: ${{ runner.os }}-cargo-${{ hashFiles('Cargo.lock') }}
           restore-keys: ${{ runner.os }}-cargo-
 
-      - name: Cache target
-        id: cache-target
-        uses: actions/cache@v2
-        with:
-          path: target
-          key: ${{ runner.os }}-target-${{ hashFiles('Cargo.lock') }}
-          restore-keys: ${{ runner.os }}-target-
+      # - name: Cache target
+      #   id: cache-target
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: target
+      #     key: ${{ runner.os }}-target-${{ hashFiles('Cargo.lock') }}
+      #     restore-keys: ${{ runner.os }}-target-
 
       - name: Create dummy versions of configured file
         run: |
