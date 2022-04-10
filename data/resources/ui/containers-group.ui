@@ -3,13 +3,6 @@
 
   <template class="ContainersGroup" parent="AdwPreferencesGroup">
 
-    <property name="header-suffix">
-      <object class="GtkMenuButton" id="menu_button">
-        <property name="icon-name">view-more-symbolic</property>
-        <property name="valign">center</property>
-      </object>
-    </property>
-
     <child>
       <object class="GtkListBox" id="list_box">
         <style>

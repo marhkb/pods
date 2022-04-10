@@ -10,6 +10,7 @@ use crate::{model, view};
 
 mod imp {
     use super::*;
+    use crate::utils;
 
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/containers-panel.ui")]
@@ -142,6 +143,15 @@ mod imp {
                     "transition-duration",
                     Some(&*self.progress_stack),
                 );
+
+            utils::PodsSettings::default()
+                .bind(
+                    "show-only-running-containers",
+                    &*self.containers_group,
+                    "show-only-running",
+                )
+                .flags(gio::SettingsBindFlags::GET)
+                .build();
 
             self.search_entry
                 .connect_search_changed(clone!(@weak obj => move |search_entry| {
