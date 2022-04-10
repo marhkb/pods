@@ -32,6 +32,8 @@ mod imp {
         #[template_child]
         pub(super) containers_search_button: TemplateChild<gtk::ToggleButton>,
         #[template_child]
+        pub(super) menu_button: TemplateChild<gtk::MenuButton>,
+        #[template_child]
         pub(super) context_menu_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
         pub(super) panel_stack: TemplateChild<adw::ViewStack>,
@@ -171,6 +173,13 @@ mod imp {
 
             // Load settings.
             obj.load_settings();
+
+            self.menu_button
+                .popover()
+                .unwrap()
+                .downcast::<gtk::PopoverMenu>()
+                .unwrap()
+                .add_child(&view::ThemeSelector::default(), "theme");
 
             self.settings.connect_changed(
                 Some("show-only-running-containers"),

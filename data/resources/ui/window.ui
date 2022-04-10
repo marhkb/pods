@@ -4,6 +4,11 @@
   <menu id="menu">
     <section>
       <item>
+        <attribute name="custom">theme</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
         <attribute name="label" translatable="yes">_Show Podman Info</attribute>
         <attribute name="action">win.show-podman-info</attribute>
       </item>
@@ -77,7 +82,7 @@
                         </child>
 
                         <child type="end">
-                          <object class="GtkMenuButton">
+                          <object class="GtkMenuButton" id="menu_button">
                             <property name="icon-name">open-menu-symbolic</property>
                             <property name="menu-model">menu</property>
                           </object>
