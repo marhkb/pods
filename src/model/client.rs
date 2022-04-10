@@ -22,7 +22,6 @@ mod imp {
     impl ObjectSubclass for Client {
         const NAME: &'static str = "Client";
         type Type = super::Client;
-        type ParentType = glib::Object;
     }
 
     impl ObjectImpl for Client {

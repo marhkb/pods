@@ -1,4 +1,4 @@
-use std::cell::RefCell;
+use std::cell::{Cell, RefCell};
 
 use adw::subclass::prelude::PreferencesGroupImpl;
 use gettextrs::gettext;
@@ -10,7 +10,7 @@ use once_cell::sync::Lazy;
 use once_cell::unsync::OnceCell;
 
 use crate::model::AbstractContainerListExt;
-use crate::{model, utils, view};
+use crate::{model, view};
 
 mod imp {
     use super::*;
@@ -18,15 +18,13 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/containers-group.ui")]
     pub(crate) struct ContainersGroup {
-        pub(super) settings: utils::PodsSettings,
         pub(super) container_list: WeakRef<model::AbstractContainerList>,
         pub(super) no_containers_label: RefCell<Option<String>>,
+        pub(super) show_only_running: Cell<bool>,
         pub(super) properties_filter: OnceCell<gtk::Filter>,
         pub(super) search_filter: OnceCell<gtk::Filter>,
         pub(super) sorter: OnceCell<gtk::Sorter>,
         pub(super) search_text: RefCell<Option<String>>,
-        #[template_child]
-        pub(super) menu_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
         pub(super) list_box: TemplateChild<gtk::ListBox>,
     }
@@ -57,18 +55,18 @@ mod imp {
                         None,
                         glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
                     ),
-                    glib::ParamSpecBoolean::new(
-                        "menu-button-visible",
-                        "menu Button Visible",
-                        "Whether the menu button is visible",
-                        false,
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
                     glib::ParamSpecObject::new(
                         "container-list",
                         "Container List",
                         "The list of containers",
                         model::AbstractContainerList::static_type(),
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                    ),
+                    glib::ParamSpecBoolean::new(
+                        "show-only-running",
+                        "Show only Running",
+                        "Whether to show only running containers",
+                        false,
                         glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
                     ),
                     glib::ParamSpecString::new(
@@ -92,8 +90,8 @@ mod imp {
         ) {
             match pspec.name() {
                 "no-containers-label" => obj.set_no_containers_label(value.get().unwrap()),
-                "menu-button-visible" => self.menu_button.set_visible(value.get().unwrap()),
                 "container-list" => obj.set_container_list(value.get().unwrap()),
+                "show-only-running" => obj.set_show_only_running(value.get().unwrap()),
                 "search-text" => obj.set_search_text(value.get().unwrap()),
                 _ => unimplemented!(),
             }
@@ -102,8 +100,8 @@ mod imp {
         fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
                 "no-containers-label" => obj.no_containers_label().to_value(),
-                "menu-button-visible" => self.menu_button.is_visible().to_value(),
                 "container-list" => obj.container_list().to_value(),
+                "show-only-running" => obj.show_only_running().to_value(),
                 "search-text" => obj.search_text().to_value(),
                 _ => unimplemented!(),
             }
@@ -111,18 +109,6 @@ mod imp {
 
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
-
-            self.menu_button
-                .set_menu_model(Some(&view::containers_menu()));
-
-            self.menu_button.connect_visible_notify(
-                clone!(@weak obj => move |_| obj.notify("menu-button-visible")),
-            );
-
-            self.settings.connect_changed(
-                Some("show-only-running-containers"),
-                clone!(@weak obj => move |_, _| obj.update_properties_filter()),
-            );
 
             let container_list_expr = Self::Type::this_expression("container-list");
             gtk::ClosureExpression::new::<Option<String>, _, _>(
@@ -283,9 +269,16 @@ impl ContainersGroup {
     }
 
     pub(crate) fn show_only_running(&self) -> bool {
-        self.imp()
-            .settings
-            .get::<bool>("show-only-running-containers")
+        self.imp().show_only_running.get()
+    }
+
+    pub(crate) fn set_show_only_running(&self, value: bool) {
+        if self.show_only_running() == value {
+            return;
+        }
+        self.imp().show_only_running.replace(value);
+        self.notify("show-only-running");
+        self.update_properties_filter()
     }
 
     pub(crate) fn search_text(&self) -> Option<String> {

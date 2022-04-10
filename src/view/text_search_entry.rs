@@ -79,7 +79,9 @@ mod imp {
 
             self.text.connect_notify_local(
                 None,
-                clone!(@weak obj => move |_, pspec| obj.notify(pspec.name())),
+                clone!(@weak obj => move |_, pspec| if obj.has_property(pspec.name(), None) {
+                    obj.notify(pspec.name())
+                }),
             );
 
             self.info_label.connect_notify_local(

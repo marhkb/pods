@@ -22,7 +22,6 @@ mod imp {
     impl ObjectSubclass for ImageConfig {
         const NAME: &'static str = "ImageConfig";
         type Type = super::ImageConfig;
-        type ParentType = glib::Object;
     }
 
     impl ObjectImpl for ImageConfig {
