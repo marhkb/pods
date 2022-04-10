@@ -9,7 +9,7 @@ use gtk::subclass::prelude::*;
 use gtk::{glib, CompositeTemplate};
 use once_cell::sync::Lazy;
 use once_cell::unsync::OnceCell;
-use sourceview5::traits::{SearchSettingsExt, ViewExt};
+use sourceview5::traits::{BufferExt, SearchSettingsExt, ViewExt};
 
 use crate::{model, utils, view};
 
@@ -114,6 +114,12 @@ mod imp {
 
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
+
+            let adw_style_manager = adw::StyleManager::default();
+            obj.on_notify_dark(&adw_style_manager);
+            adw_style_manager.connect_dark_notify(clone!(@weak obj => move |style_manager| {
+                obj.on_notify_dark(style_manager);
+            }));
 
             let mut maybe_gutter_child = <sourceview5::View as ViewExt>::gutter(
                 &*self.source_view,
@@ -420,6 +426,18 @@ impl ContainerLogsPanel {
         });
 
         self.update_search_occurences();
+    }
+
+    fn on_notify_dark(&self, style_manager: &adw::StyleManager) {
+        self.imp().source_buffer.set_style_scheme(
+            sourceview5::StyleSchemeManager::default()
+                .scheme(if style_manager.is_dark() {
+                    "Adwaita-dark"
+                } else {
+                    "Adwaita"
+                })
+                .as_ref(),
+        );
     }
 }
 
