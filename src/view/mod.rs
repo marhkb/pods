@@ -9,6 +9,7 @@ mod property_row;
 mod property_widget_row;
 mod start_service_page;
 mod text_search_entry;
+mod theme_selector;
 
 pub(crate) use self::check_service_page::CheckServicePage;
 pub(crate) use self::circular_progress_bar::CircularProgressBar;

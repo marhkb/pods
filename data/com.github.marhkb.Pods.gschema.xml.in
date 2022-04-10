@@ -16,6 +16,16 @@
       <summary>Default window maximized behaviour</summary>
       <description></description>
     </key>
+    <key name="style-variant" type="s">
+      <choices>
+        <choice value="follow"/>
+        <choice value="light"/>
+        <choice value="dark"/>
+      </choices>
+      <default>'follow'</default>
+      <summary>Style Variant</summary>
+      <description>Use the light or dark variant of the GTK theme</description>
+    </key>
     <key name="last-used-view" type="s">
       <default>''</default>
       <summary>The last used view</summary>
