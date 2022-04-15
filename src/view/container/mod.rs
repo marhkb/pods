@@ -5,6 +5,7 @@ mod container_rename_dialog;
 mod container_row;
 mod containers_group;
 mod containers_panel;
+mod env_var_row;
 mod port_mapping_row;
 mod volume_row;
 

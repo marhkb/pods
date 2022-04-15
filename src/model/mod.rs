@@ -14,6 +14,7 @@ pub(crate) use self::abstract_container_list::{AbstractContainerList, AbstractCo
 pub(crate) use self::client::Client;
 pub(crate) use self::container::{BoxedContainerStats, Container, Status as ContainerStatus};
 pub(crate) use self::container_list::{ContainerList, Error as ContainerListError};
+pub(crate) use self::env_var::EnvVar;
 pub(crate) use self::image::Image;
 pub(crate) use self::image_config::ImageConfig;
 pub(crate) use self::image_list::{Error as ImageListError, ImageList};
