@@ -79,72 +79,78 @@
                     </child>
 
                     <child>
-                      <object class="GtkBox">
-                        <property name="halign">center</property>
-                        <property name="margin-bottom">18</property>
-                        <property name="margin-end">12</property>
-                        <property name="margin-start">12</property>
-                        <property name="margin-top">18</property>
-                        <property name="spacing">36</property>
-
-                        <child>
-                          <object class="GtkCalendar" id="calendar">
-                            <style>
-                              <class name="card"/>
-                            </style>
-                          </object>
-                        </child>
+                      <object class="AdwPreferencesRow">
+                        <property name="activatable">False</property>
 
                         <child>
                           <object class="GtkBox">
-                            <property name="spacing">6</property>
-                            <property name="valign">center</property>
+                            <property name="halign">center</property>
+                            <property name="margin-bottom">18</property>
+                            <property name="margin-end">12</property>
+                            <property name="margin-start">12</property>
+                            <property name="margin-top">18</property>
+                            <property name="spacing">36</property>
 
                             <child>
-                              <object class="GtkSpinButton" id="hour_spin_button">
-                                <property name="adjustment">
-                                  <object class="GtkAdjustment" id="hour_adjustment">
-                                    <property name="lower">0</property>
-                                    <property name="page_increment">4</property>
-                                    <property name="step-increment">1</property>
-                                  </object>
-                                </property>
-                                <property name="orientation">vertical</property>
-                                <property name="wrap">True</property>
+                              <object class="GtkCalendar" id="calendar">
+                                <style>
+                                  <class name="card"/>
+                                </style>
                               </object>
                             </child>
 
                             <child>
-                              <object class="GtkLabel">
-                                <property name="label">:</property>
-                              </object>
-                            </child>
-
-                            <child>
-                              <object class="GtkSpinButton" id="minute_spin_button">
-                                <property name="adjustment">
-                                  <object class="GtkAdjustment">
-                                    <property name="lower">0</property>
-                                    <property name="page_increment">10</property>
-                                    <property name="step-increment">1</property>
-                                    <property name="upper">59</property>
-                                  </object>
-                                </property>
-                                <property name="orientation">vertical</property>
-                                <property name="wrap">True</property>
-                              </object>
-                            </child>
-
-                            <child>
-                              <object class="GtkComboBoxText" id="period_combo_box">
+                              <object class="GtkBox">
+                                <property name="spacing">6</property>
                                 <property name="valign">center</property>
-                                <items>
-                                  <item translatable="yes">AM</item>
-                                  <item translatable="yes">PM</item>
-                                </items>
+
+                                <child>
+                                  <object class="GtkSpinButton" id="hour_spin_button">
+                                    <property name="adjustment">
+                                      <object class="GtkAdjustment" id="hour_adjustment">
+                                        <property name="lower">0</property>
+                                        <property name="page_increment">4</property>
+                                        <property name="step-increment">1</property>
+                                      </object>
+                                    </property>
+                                    <property name="orientation">vertical</property>
+                                    <property name="wrap">True</property>
+                                  </object>
+                                </child>
+
+                                <child>
+                                  <object class="GtkLabel">
+                                    <property name="label">:</property>
+                                  </object>
+                                </child>
+
+                                <child>
+                                  <object class="GtkSpinButton" id="minute_spin_button">
+                                    <property name="adjustment">
+                                      <object class="GtkAdjustment">
+                                        <property name="lower">0</property>
+                                        <property name="page_increment">10</property>
+                                        <property name="step-increment">1</property>
+                                        <property name="upper">59</property>
+                                      </object>
+                                    </property>
+                                    <property name="orientation">vertical</property>
+                                    <property name="wrap">True</property>
+                                  </object>
+                                </child>
+
+                                <child>
+                                  <object class="GtkComboBoxText" id="period_combo_box">
+                                    <property name="valign">center</property>
+                                    <items>
+                                      <item translatable="yes">AM</item>
+                                      <item translatable="yes">PM</item>
+                                    </items>
+                                  </object>
+                                </child>
+
                               </object>
                             </child>
-
 
                           </object>
                         </child>
