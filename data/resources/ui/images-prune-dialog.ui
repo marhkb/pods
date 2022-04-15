@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <template class="ImagesPruneDialog" parent="GtkDialog">
-    <property name="height-request">600</property>
-    <property name="width-request">600</property>
+    <property name="default-height">600</property>
+    <property name="default-width">600</property>
     <property name="modal">True</property>
     <property name="title" translatable="yes">Prune Unused Images</property>
 
