@@ -2,6 +2,7 @@ mod abstract_container_list;
 mod client;
 mod container;
 mod container_list;
+mod env_var;
 mod image;
 mod image_config;
 mod image_list;
