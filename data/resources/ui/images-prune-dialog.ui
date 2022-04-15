@@ -61,15 +61,11 @@
                 </child>
 
                 <child>
-                  <object class="AdwExpanderRow">
-                    <property name="enable-expansion" bind-source="prune_until_switch" bind-property="active" bind-flags="sync-create"/>
+                  <object class="AdwExpanderRow" id="prune_until_expander_row">
                     <property name="title" translatable="yes">Prune Until</property>
                     <property name="subtitle" translatable="yes">Prune images created before this timestamp.</property>
-                    <child type="action">
-                      <object class="GtkSwitch" id="prune_until_switch">
-                        <property name="valign">center</property>
-                      </object>
-                    </child>
+                    <property name="enable-expansion">False</property>
+                    <property name="show-enable-switch">True</property>
 
                     <child type="action">
                       <object class="GtkLabel" id="prune_until_label">
@@ -78,7 +74,7 @@
                           <class name="dim-label"/>
                         </style>
                         <property name="valign">center</property>
-                        <property name="visible" bind-source="prune_until_switch" bind-property="active" bind-flags="sync-create"/>
+                        <property name="visible" bind-source="prune_until_expander_row" bind-property="enable-expansion" bind-flags="sync-create"/>
                       </object>
                     </child>
 

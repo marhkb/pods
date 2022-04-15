@@ -1,6 +1,7 @@
 use std::cell::Cell;
 
 use adw::subclass::prelude::*;
+use adw::traits::ExpanderRowExt;
 use gettextrs::gettext;
 use gtk::glib::{clone, closure};
 use gtk::prelude::*;
@@ -41,7 +42,7 @@ mod imp {
         #[template_child]
         pub(super) prune_external_switch: TemplateChild<gtk::Switch>,
         #[template_child]
-        pub(super) prune_until_switch: TemplateChild<gtk::Switch>,
+        pub(super) prune_until_expander_row: TemplateChild<adw::ExpanderRow>,
         #[template_child]
         pub(super) prune_until_label: TemplateChild<gtk::Label>,
         #[template_child]
@@ -305,7 +306,7 @@ impl Default for ImagesPruneDialog {
 
 impl ImagesPruneDialog {
     pub(crate) fn has_prune_until_filter(&self) -> bool {
-        self.imp().prune_until_switch.is_active()
+        self.imp().prune_until_expander_row.enables_expansion()
     }
 
     pub(crate) fn prune_until_timestamp(&self) -> i64 {
