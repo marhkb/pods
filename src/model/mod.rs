@@ -5,6 +5,7 @@ mod container_list;
 mod image;
 mod image_config;
 mod image_list;
+mod port_mapping;
 mod simple_container_list;
 
 pub(crate) use self::abstract_container_list::{AbstractContainerList, AbstractContainerListExt};
