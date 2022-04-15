@@ -18,3 +18,4 @@ pub(crate) use self::image_config::ImageConfig;
 pub(crate) use self::image_list::{Error as ImageListError, ImageList};
 pub(crate) use self::port_mapping::{PortMapping, Protocol as PortMappingProtocol};
 pub(crate) use self::simple_container_list::SimpleContainerList;
+pub(crate) use self::volume::{SELinux as VolumeSELinux, Volume};

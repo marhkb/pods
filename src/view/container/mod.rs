@@ -6,6 +6,7 @@ mod container_row;
 mod containers_group;
 mod containers_panel;
 mod port_mapping_row;
+mod volume_row;
 
 use cascade::cascade;
 use gettextrs::gettext;

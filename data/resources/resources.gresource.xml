@@ -26,6 +26,7 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/start-service-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/text-search-entry.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/theme-selector.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/volume-row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/window.ui</file>
 
     <file compressed="true">style.css</file>
