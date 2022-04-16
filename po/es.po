@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-28 23:02+0200\n"
-"PO-Revision-Date: 2022-03-24 13:57+0000\n"
-"Last-Translator: Óscar Fernández Díaz <oscfdezdz@tuta.io>\n"
+"PO-Revision-Date: 2022-04-17 22:06+0000\n"
+"Last-Translator: Sergio Varela <sergitroll9@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/pods/pods/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -131,63 +131,59 @@ msgstr "Buscar"
 
 #: data/resources/ui/container-logs-panel.ui:28
 msgid "Scroll to bottom"
-msgstr ""
+msgstr "Desplazarse hacia abajo"
 
 #: data/resources/ui/container-page.ui:57
-#, fuzzy
 msgid "Details"
-msgstr "Detalles de la imagen"
+msgstr "Detalles"
 
 #: data/resources/ui/container-page.ui:75
 msgid "Logs"
-msgstr ""
+msgstr "Registros"
 
 #: data/resources/ui/info-dialog.ui:6 data/resources/ui/info-dialog.ui:10
 msgid "Podman Info"
-msgstr ""
+msgstr "Información de Podman"
 
 #: data/resources/ui/info-dialog.ui:15 data/resources/ui/info-dialog.ui:49
 msgid "Version"
-msgstr ""
+msgstr "Versión"
 
 #: data/resources/ui/info-dialog.ui:19
 msgid "API Version"
-msgstr ""
+msgstr "Versión API"
 
 #: data/resources/ui/info-dialog.ui:25
 msgid "Built Time"
-msgstr ""
+msgstr "Tiempo de construcción"
 
 #: data/resources/ui/info-dialog.ui:31
-#, fuzzy
 msgid "Git Commit"
-msgstr "_Confirmar"
+msgstr "Commits Git"
 
 #: data/resources/ui/info-dialog.ui:37
 msgid "Go Version"
-msgstr ""
+msgstr "Versión de Go"
 
 #: data/resources/ui/info-dialog.ui:43
 msgid "Os Arch"
-msgstr ""
+msgstr "Arquitectura del SO"
 
 #: data/resources/ui/info-dialog.ui:59
 msgid "Describes the container storage and its attributes."
-msgstr ""
+msgstr "Describe el almacenamiento del contenedor y sus atributos."
 
 #: data/resources/ui/info-dialog.ui:63
-#, fuzzy
 msgid "Config File"
-msgstr "Configurado"
+msgstr "Archivo de configuración"
 
 #: data/resources/ui/info-dialog.ui:69
-#, fuzzy
 msgid "Container Store"
-msgstr "Contenedores"
+msgstr "Tienda de contenedores"
 
 #: data/resources/ui/info-dialog.ui:70
 msgid "Describes the quantity of containers in the store by status."
-msgstr ""
+msgstr "Describe la cantidad de contenedores en el almacén por estado."
 
 #: data/resources/ui/info-dialog.ui:87 src/model/container.rs:67
 msgid "Paused"
@@ -203,37 +199,37 @@ msgstr "Detenido"
 
 #: data/resources/ui/info-dialog.ui:108
 msgid "Graph Driver Name"
-msgstr ""
+msgstr "Nombre del driver gráfico"
 
 #: data/resources/ui/info-dialog.ui:114
 msgid "Graph Options"
-msgstr ""
+msgstr "Opciones de gráfica"
 
 #: data/resources/ui/info-dialog.ui:134
 msgid "Graph Root"
-msgstr ""
+msgstr "Raíz del gráfico"
 
 #: data/resources/ui/info-dialog.ui:140
-#, fuzzy
 msgid "Graph Status"
-msgstr "Estado"
+msgstr "Estado del gráfico"
 
 #: data/resources/ui/info-dialog.ui:160
-#, fuzzy
 msgid "Image Store"
-msgstr "Imagen"
+msgstr "Tienda de imágenes"
 
 #: data/resources/ui/info-dialog.ui:161
 msgid "Describes the image store. Right now only the number of images present."
 msgstr ""
+"Describe el almacén de imágenes. En este momento sólo el número de imágenes "
+"presentes."
 
 #: data/resources/ui/info-dialog.ui:167
 msgid "Run Root"
-msgstr ""
+msgstr "Ejecutar Raíz"
 
 #: data/resources/ui/info-dialog.ui:173
 msgid "Volume Path"
-msgstr ""
+msgstr "Ruta del volumen"
 
 #: data/resources/ui/container-details-panel.ui:25
 msgid "Id"
@@ -291,7 +287,7 @@ msgstr "_Iniciar el servicio de Podman"
 
 #: data/resources/ui/window.ui:7
 msgid "_Show Podman Info"
-msgstr ""
+msgstr "_Mostrar información de Podman"
 
 #: data/resources/ui/window.ui:13
 msgid "_Preferences"
@@ -402,9 +398,8 @@ msgid "Error on force deleting container"
 msgstr "Error al forzar el eliminado del contenedor"
 
 #: src/view/container_row.rs:396
-#, fuzzy
 msgid "Re_name…"
-msgstr "_Renombrar…"
+msgstr "Re_nombrar…"
 
 #: src/view/container_row.rs:400
 msgid "_Commit"
@@ -416,16 +411,15 @@ msgstr "_Iniciar"
 
 #: src/view/container_row.rs:422
 msgid "S_top"
-msgstr ""
+msgstr "P_arar"
 
 #: src/view/container_row.rs:423
 msgid "_Force Stop"
 msgstr "_Forzar detención"
 
 #: src/view/container_row.rs:424
-#, fuzzy
 msgid "R_estart"
-msgstr "_Reiniciar"
+msgstr "R_einiciar"
 
 #: src/view/container_row.rs:425
 msgid "F_orce Restart"
@@ -501,35 +495,32 @@ msgstr "Error al podar la imagen '{}'"
 #: src/view/info_dialog.rs:127
 #, c-format
 msgid "%x %X"
-msgstr ""
+msgstr "%x %X"
 
 #. Translators: "{}" is a placeholder for a cardinal numbers.
 #: src/view/info_dialog.rs:163
-#, fuzzy
 msgid "{} Containers"
-msgstr "Contenedores"
+msgstr "{} Contenedores"
 
 #. Translators: "{}" is a placeholder for a cardinal number.
 #: src/view/info_dialog.rs:196
 msgid "{} Options"
-msgstr ""
+msgstr "{} Opciones"
 
 #. Translators: "{}" is placeholders for a cardinal number.
 #: src/view/info_dialog.rs:219
-#, fuzzy
 msgid "{} States"
-msgstr "Estado"
+msgstr "{} Estados"
 
 #. Translators: "{}" is placeholders for a cardinal number.
 #: src/view/info_dialog.rs:239
-#, fuzzy
 msgid "{} Images"
-msgstr "Imágenes"
+msgstr "{} Imágenes"
 
 #. Translators: The placeholder "{}" is for the error message.
 #: src/view/info_dialog.rs:258
 msgid "Error: {}"
-msgstr ""
+msgstr "Error: {}"
 
 #: src/application.rs:140
 msgid "translator-credits"
