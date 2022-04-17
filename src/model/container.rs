@@ -642,7 +642,8 @@ impl Container {
         let opts = api::ContainerLogsOpts::builder()
             .follow(true)
             .stdout(true)
-            .stderr(true);
+            .stderr(true)
+            .timestamps(true);
 
         api::Container::new(&*PODMAN, self.id().unwrap_or_default()).logs(
             &match since {
