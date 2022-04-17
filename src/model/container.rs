@@ -637,7 +637,7 @@ impl Container {
 
     pub(crate) fn logs(
         &self,
-        since: Option<glib::DateTime>,
+        since: Option<&str>,
     ) -> impl futures::Stream<Item = api::Result<Vec<u8>>> + 'static {
         let opts = api::ContainerLogsOpts::builder()
             .follow(true)
@@ -647,7 +647,7 @@ impl Container {
 
         api::Container::new(&*PODMAN, self.id().unwrap_or_default()).logs(
             &match since {
-                Some(date_time) => opts.since(date_time.to_unix().to_string()),
+                Some(date_time) => opts.since(date_time),
                 None => opts,
             }
             .build(),

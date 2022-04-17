@@ -1,5 +1,6 @@
 use std::borrow::Cow;
 use std::cell::{Cell, RefCell};
+use std::collections::BTreeMap;
 use std::mem;
 
 use futures::stream;
@@ -26,7 +27,7 @@ mod imp {
         pub(super) search_iters: RefCell<Option<(gtk::TextIter, gtk::TextIter)>>,
         pub(super) abort_handle: RefCell<Option<stream::AbortHandle>>,
         pub(super) handler_id: RefCell<Option<glib::SignalHandlerId>>,
-        pub(super) last_log_time: RefCell<Option<glib::DateTime>>,
+        pub(super) log_timestamps: RefCell<BTreeMap<u32, String>>,
         pub(super) is_auto_scrolling: Cell<bool>,
         pub(super) sticky: Cell<bool>,
         #[template_child]
@@ -234,7 +235,15 @@ impl ContainerLogsPanel {
                 clone!(@weak self as obj => move |container, _| {
                     if let model::ContainerStatus::Running = container.status() {
                         obj.abort();
-                        obj.connect_logs(container, obj.imp().last_log_time.borrow().clone());
+                        obj.connect_logs(
+                            container,
+                            obj.imp()
+                                .log_timestamps
+                                .borrow()
+                                .values()
+                                .last()
+                                .map(String::as_str)
+                        );
                     }
                 }),
             );
@@ -279,7 +288,7 @@ impl ContainerLogsPanel {
         }
     }
 
-    fn connect_logs(&self, container: &model::Container, since: Option<glib::DateTime>) {
+    fn connect_logs(&self, container: &model::Container, since: Option<&str>) {
         let mut perform = MarkupPerform::default();
 
         utils::run_stream(
@@ -301,9 +310,13 @@ impl ContainerLogsPanel {
                                         Cow::Owned(format!("\n{}", log_message))
                                     },
                                 );
+
+                                imp.log_timestamps.borrow_mut().insert(
+                                    source_buffer.line_count() as u32 - 1,
+                                    timestamp.to_owned()
+                                );
                             }
                         }
-                        imp.last_log_time.replace(glib::DateTime::now_local().ok());
                         true
                     }
                     Err(e) => {
