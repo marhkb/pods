@@ -1,3 +1,4 @@
+use std::borrow::Cow;
 use std::cell::{Cell, RefCell};
 use std::mem;
 
@@ -290,15 +291,17 @@ impl ContainerLogsPanel {
                         if line.len() > 8 && perform.decode(&line[8..]) {
                             let line_buffer = perform.move_out_buffer();
 
-                            let source_buffer = &*imp.source_buffer;
-                            source_buffer.insert_markup(
-                                &mut source_buffer.end_iter(),
-                                &if source_buffer.start_iter() == source_buffer.end_iter() {
-                                    line_buffer
-                                } else {
-                                    format!("\n{}", line_buffer)
-                                },
-                            );
+                            if let Some((timestamp, log_message)) = line_buffer.split_once(' ') {
+                                let source_buffer = &*imp.source_buffer;
+                                source_buffer.insert_markup(
+                                    &mut source_buffer.end_iter(),
+                                    &if source_buffer.start_iter() == source_buffer.end_iter() {
+                                        Cow::Borrowed(log_message)
+                                    } else {
+                                        Cow::Owned(format!("\n{}", log_message))
+                                    },
+                                );
+                            }
                         }
                         imp.last_log_time.replace(glib::DateTime::now_local().ok());
                         true
