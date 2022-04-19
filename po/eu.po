@@ -8,248 +8,252 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-28 23:02+0200\n"
-"PO-Revision-Date: 2022-03-16 02:17+0100\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2022-04-17 22:06+0000\n"
+"Last-Translator: Sergio Varela <sergitroll9@gmail.com>\n"
+"Language-Team: Basque <https://hosted.weblate.org/projects/pods/pods/eu/>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.12-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:32
 msgid "Pods"
-msgstr ""
+msgstr "Sinfonia"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:4
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
 msgid "A Podman desktop application"
-msgstr ""
+msgstr "Podman mahaigaineko aplikazio bat"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:9
 msgid "Gnome;GTK;"
-msgstr ""
+msgstr "Gnome;GTK;"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:6
 #: data/com.github.marhkb.Pods.gschema.xml.in:7
 msgid "Default window width"
-msgstr ""
+msgstr "Aurrez zehaztutako leihoaren zabalera"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:11
 #: data/com.github.marhkb.Pods.gschema.xml.in:12
 msgid "Default window height"
-msgstr ""
+msgstr "Aurrez zehaztutako leihoaren altuera"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:16
 msgid "Default window maximized behaviour"
-msgstr ""
+msgstr "Aurrez zehaztutako leihoaren altuera"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:21
 msgid "The last used view"
-msgstr ""
+msgstr "Erabilitako azken ikuspegia"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:26
 msgid "Whether to show intermediate images"
-msgstr ""
+msgstr "Tarteko irudiak erakusten badira"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:31
 msgid "Whether to show only running containers"
-msgstr ""
+msgstr "Martxan dauden edukiontziak bakarrik erakusten badira"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:15
 msgid "Main window"
-msgstr ""
+msgstr "Leiho nagusia"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:32
 msgid "Marcus Behrendt"
-msgstr ""
+msgstr "Marcus Behrendt"
 
 #: data/resources/ui/check-service-page.ui:17
 msgid "Checking Connection to Podman Service"
-msgstr ""
+msgstr "Podman zerbitzuarekiko konexioa egiaztatzen"
 
 #: data/resources/ui/container-rename-dialog.ui:10
 #: data/resources/ui/images-prune-dialog.ui:11
 msgid "_Cancel"
-msgstr ""
+msgstr "_Ezeztatu"
 
 #: data/resources/ui/container-rename-dialog.ui:21
 msgid "_Rename"
-msgstr ""
+msgstr "_Berrizendatu"
 
 #: data/resources/ui/image-details-page.ui:7
 msgid "_Delete Image"
-msgstr ""
+msgstr "_Irudia ezabatu"
 
 #: data/resources/ui/image-details-page.ui:47
 msgid "Image Details"
-msgstr ""
+msgstr "Irudiaren xehetasunak"
 
 #: data/resources/ui/image-details-page.ui:154
 msgid "Image Has Been Deleted"
-msgstr ""
+msgstr "Irudia ezabatu egin da"
 
 #: data/resources/ui/image-row.ui:7 src/view/container_row.rs:404
 msgid "_Delete"
-msgstr ""
+msgstr "_Ezabatu"
 
 #: data/resources/ui/images-panel.ui:84
 #: data/resources/ui/containers-panel.ui:82
 msgid "Summary"
-msgstr ""
+msgstr "Laburpena"
 
 #: data/resources/ui/images-prune-dialog.ui:21
 msgid "_Prune"
-msgstr ""
+msgstr "_Inausi"
 
 #: data/resources/ui/images-prune-dialog.ui:32
 msgid "No Images To Be Pruned"
-msgstr ""
+msgstr "Ez dago inausteko irudirik"
 
 #: data/resources/ui/shortcuts.ui:13
 msgctxt "shortcut window"
 msgid "General"
-msgstr ""
+msgstr "Orokorra"
 
 #: data/resources/ui/shortcuts.ui:17
 msgctxt "shortcut window"
 msgid "Show Shortcuts"
-msgstr ""
+msgstr "Erakutsi lasterbideak"
 
 #: data/resources/ui/shortcuts.ui:24
 msgctxt "shortcut window"
 msgid "Quit"
-msgstr ""
+msgstr "Irten"
 
 #: data/resources/ui/shortcuts.ui:31
 msgctxt "shortcut window"
 msgid "Search"
-msgstr ""
+msgstr "Bilatu"
 
 #: data/resources/ui/container-logs-panel.ui:28
 msgid "Scroll to bottom"
-msgstr ""
+msgstr "Beherantz mugitu"
 
 #: data/resources/ui/container-page.ui:57
 msgid "Details"
-msgstr ""
+msgstr "Xehetasunak"
 
 #: data/resources/ui/container-page.ui:75
 msgid "Logs"
-msgstr ""
+msgstr "Erregistroak"
 
 #: data/resources/ui/info-dialog.ui:6 data/resources/ui/info-dialog.ui:10
 msgid "Podman Info"
-msgstr ""
+msgstr "Podmanen informazioa"
 
 #: data/resources/ui/info-dialog.ui:15 data/resources/ui/info-dialog.ui:49
 msgid "Version"
-msgstr ""
+msgstr "Bertsioa"
 
 #: data/resources/ui/info-dialog.ui:19
 msgid "API Version"
-msgstr ""
+msgstr "API bertsioa"
 
 #: data/resources/ui/info-dialog.ui:25
 msgid "Built Time"
-msgstr ""
+msgstr "Eraikuntza-denbora"
 
 #: data/resources/ui/info-dialog.ui:31
 msgid "Git Commit"
-msgstr ""
+msgstr "Git Commitak"
 
 #: data/resources/ui/info-dialog.ui:37
 msgid "Go Version"
-msgstr ""
+msgstr "Go bertsioa"
 
 #: data/resources/ui/info-dialog.ui:43
 msgid "Os Arch"
-msgstr ""
+msgstr "SE arkitektura"
 
 #: data/resources/ui/info-dialog.ui:59
 msgid "Describes the container storage and its attributes."
-msgstr ""
+msgstr "Edukiontziaren biltegiratzea eta ezaugarriak deskribatzen ditu."
 
 #: data/resources/ui/info-dialog.ui:63
 msgid "Config File"
-msgstr ""
+msgstr "Konfigurazio-fitxategia"
 
 #: data/resources/ui/info-dialog.ui:69
 msgid "Container Store"
-msgstr ""
+msgstr "Edukiontzien denda"
 
 #: data/resources/ui/info-dialog.ui:70
 msgid "Describes the quantity of containers in the store by status."
-msgstr ""
+msgstr "Deskribatu biltegiko edukiontzi kopurua egoeraren arabera."
 
 #: data/resources/ui/info-dialog.ui:87 src/model/container.rs:67
 msgid "Paused"
-msgstr ""
+msgstr "Pausatua"
 
 #: data/resources/ui/info-dialog.ui:93 src/model/container.rs:70
 msgid "Running"
-msgstr ""
+msgstr "Exekutatzen"
 
 #: data/resources/ui/info-dialog.ui:99 src/model/container.rs:71
 msgid "Stopped"
-msgstr ""
+msgstr "Geldituta"
 
 #: data/resources/ui/info-dialog.ui:108
 msgid "Graph Driver Name"
-msgstr ""
+msgstr "Driver grafikoaren izena"
 
 #: data/resources/ui/info-dialog.ui:114
 msgid "Graph Options"
-msgstr ""
+msgstr "Grafikoko ezarpenak"
 
 #: data/resources/ui/info-dialog.ui:134
 msgid "Graph Root"
-msgstr ""
+msgstr "Grafikoaren erroa"
 
 #: data/resources/ui/info-dialog.ui:140
 msgid "Graph Status"
-msgstr ""
+msgstr "Grafikoaren egoera"
 
 #: data/resources/ui/info-dialog.ui:160
 msgid "Image Store"
-msgstr ""
+msgstr "Irudi denda"
 
 #: data/resources/ui/info-dialog.ui:161
 msgid "Describes the image store. Right now only the number of images present."
 msgstr ""
+"Irudien denda deskribatzen du. Une honetan, bertan dauden irudien kopurua "
+"baino ez."
 
 #: data/resources/ui/info-dialog.ui:167
 msgid "Run Root"
-msgstr ""
+msgstr "Exekutatu erroa"
 
 #: data/resources/ui/info-dialog.ui:173
 msgid "Volume Path"
-msgstr ""
+msgstr "Bolumenaren ibilbidea"
 
 #: data/resources/ui/container-details-panel.ui:25
 msgid "Id"
-msgstr ""
+msgstr "Identifikatzailea"
 
 #: data/resources/ui/container-details-panel.ui:31
 msgid "Image"
-msgstr ""
+msgstr "Irudia"
 
 #: data/resources/ui/container-details-panel.ui:56
 msgid "Name"
-msgstr ""
+msgstr "Izena"
 
 #: data/resources/ui/container-details-panel.ui:67
 msgid "Status"
-msgstr ""
+msgstr "Egoera"
 
 #: data/resources/ui/image-used-by-row.ui:8
 msgid "Used By"
-msgstr ""
+msgstr "Honek erabilia"
 
 #: data/resources/ui/image-used-by-row.ui:36
 msgid "unused"
-msgstr ""
+msgstr "erabilerarik gabe"
 
 #: data/resources/ui/connection-lost-page.ui:16
 msgid ""
@@ -257,304 +261,306 @@ msgid ""
 "Unix. If the connection has been disconnected unintentionally, you can try "
 "to re-establish it."
 msgstr ""
+"Ustekabeko akats bat gertatu da eta Sinfoniak Podman Unixekiko lotura galdu "
+"du. Konexioa nahi gabe deskonektatu bada, berrezartzen saia zaitezke."
 
 #: data/resources/ui/connection-lost-page.ui:18
 msgid "Lost Connection to Podman"
-msgstr ""
+msgstr "Konexio galduta Podman-ekin"
 
 #: data/resources/ui/connection-lost-page.ui:34
 msgid "_Restart Podman Service"
-msgstr ""
+msgstr "_Podman zerbitzua berrabiarazi"
 
 #: data/resources/ui/start-service-page.ui:16
 msgid "The Podman service is currently not running."
-msgstr ""
+msgstr "Podman zerbitzua ez dago martxan."
 
 #: data/resources/ui/start-service-page.ui:17
 msgid "Welcome to Pods"
-msgstr ""
+msgstr "Ongi etorri Sinfoniara"
 
 #: data/resources/ui/start-service-page.ui:33
 msgid "_Start Podman Service"
-msgstr ""
+msgstr "_Podman-en zerbitzua hasi"
 
 #: data/resources/ui/window.ui:7
 msgid "_Show Podman Info"
-msgstr ""
+msgstr "_Podmanen informazioa erakutsi"
 
 #: data/resources/ui/window.ui:13
 msgid "_Preferences"
-msgstr ""
+msgstr "_Lehentasunak"
 
 #: data/resources/ui/window.ui:17
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "_Teklatuko lasterbideak"
 
 #: data/resources/ui/window.ui:21
 msgid "_About Pods"
-msgstr ""
+msgstr "_Sinfoniari buruz"
 
 #: data/resources/ui/window.ui:30
 msgid "Show intermediate images"
-msgstr ""
+msgstr "Tarteko irudiak erakutsi"
 
 #: data/resources/ui/window.ui:34
 msgid "Prune unused images"
-msgstr ""
+msgstr "Erabili gabeko irudiak inausi"
 
 #: data/resources/ui/window.ui:43
 msgid "Show only running containers"
-msgstr ""
+msgstr "Erakutsi martxan dauden edukiontziak bakarrik"
 
 #: data/resources/ui/window.ui:135
 msgid "Images"
-msgstr ""
+msgstr "Irudiak"
 
 #: data/resources/ui/window.ui:147
 msgid "Containers"
-msgstr ""
+msgstr "Edukiontziak"
 
 #: src/model/container.rs:63
 msgid "Configured"
-msgstr ""
+msgstr "Konfiguratua"
 
 #: src/model/container.rs:64
 msgid "Created"
-msgstr ""
+msgstr "Sortua"
 
 #: src/model/container.rs:65
 msgid "Dead"
-msgstr ""
+msgstr "Itzalita"
 
 #: src/model/container.rs:66
 msgid "Exited"
-msgstr ""
+msgstr "Abandonatua"
 
 #: src/model/container.rs:68
 msgid "Removing"
-msgstr ""
+msgstr "Kentzen"
 
 #: src/model/container.rs:69
 msgid "Restarting"
-msgstr ""
+msgstr "Berrabiarazten"
 
 #: src/model/container.rs:72
 msgid "Stopping"
-msgstr ""
+msgstr "Geldiarazten"
 
 #: src/model/container.rs:73
 msgid "Unknown"
-msgstr ""
+msgstr "Ezezaguna"
 
 #: src/view/container_rename_dialog.rs:87
 msgid "Rename container «{}»"
-msgstr ""
+msgstr "«{ }» edukiontzia berriz izendatu"
 
 #: src/view/container_row.rs:268
 msgid "Error on starting container"
-msgstr ""
+msgstr "Errorea edukiontzia hastean"
 
 #: src/view/container_row.rs:276
 msgid "Error on stopping container"
-msgstr ""
+msgstr "Errorea edukiontzia gelditzean"
 
 #: src/view/container_row.rs:284
 msgid "Error on force stopping container"
-msgstr ""
+msgstr "Errore bat edukiontzia gelditzeko behartzean"
 
 #: src/view/container_row.rs:292
 msgid "Error on restarting container"
-msgstr ""
+msgstr "Errorea edukiontzia berriz hastean"
 
 #: src/view/container_row.rs:300
 msgid "Error on force restarting container"
-msgstr ""
+msgstr "Errore bat edukiontzia berriz hastea behartzean"
 
 #: src/view/container_row.rs:308
 msgid "Error on pausing container"
-msgstr ""
+msgstr "Errorea edukiontzia pausatzean"
 
 #: src/view/container_row.rs:316
 msgid "Error on resuming container"
-msgstr ""
+msgstr "Errorea edukiontzia berriz martxan jartzean"
 
 #: src/view/container_row.rs:364
 msgid "Error on committing container"
-msgstr ""
+msgstr "Errorea edukiontzia baieztatzean"
 
 #: src/view/container_row.rs:372
 msgid "Error on deleting container"
-msgstr ""
+msgstr "Errorea edukiontzia ezabatzean"
 
 #: src/view/container_row.rs:380
 msgid "Error on force deleting container"
-msgstr ""
+msgstr "Errorea edukiontziaren ezabaketa behartzean"
 
 #: src/view/container_row.rs:396
 msgid "Re_name…"
-msgstr ""
+msgstr "Be_rrizendatu…"
 
 #: src/view/container_row.rs:400
 msgid "_Commit"
-msgstr ""
+msgstr "_Commit"
 
 #: src/view/container_row.rs:414
 msgid "_Start"
-msgstr ""
+msgstr "_Hasi"
 
 #: src/view/container_row.rs:422
 msgid "S_top"
-msgstr ""
+msgstr "G_elditu"
 
 #: src/view/container_row.rs:423
 msgid "_Force Stop"
-msgstr ""
+msgstr "_Atxiloketa behartu"
 
 #: src/view/container_row.rs:424
 msgid "R_estart"
-msgstr ""
+msgstr "B_errabiarazi"
 
 #: src/view/container_row.rs:425
 msgid "F_orce Restart"
-msgstr ""
+msgstr "Be_hartu berriz hastea"
 
 #: src/view/container_row.rs:434
 msgid "_Pause"
-msgstr ""
+msgstr "_Pausarazi"
 
 #: src/view/container_row.rs:444
 msgid "_Resume"
-msgstr ""
+msgstr "_Berrekin"
 
 #. Translators: There's a wide space (U+2002) between ", {}".
 #: src/view/containers_panel.rs:174
 msgid "{} Containers total, {} running"
-msgstr ""
+msgstr "{} Edukiontziak guztira,  {} egikaritzen"
 
 #: src/view/containers_panel.rs:178
 msgid "No containers found"
-msgstr ""
+msgstr "Ez dira edukiontzirik aurkitu"
 
 #. Translators: "{}" are placeholders for storage space.
 #: src/view/image_details_page.rs:145
 msgid "{} (Virtual: {})"
-msgstr ""
+msgstr "{} (Birtuala: {})"
 
 #. Translators: "{}" are placeholders for storage space.
 #: src/view/image_details_page.rs:154
 msgid "{} (Shared: {})"
-msgstr ""
+msgstr "{} (Partekatuta: {})"
 
 #. Translators: "{}" are placeholders for storage space.
 #: src/view/image_details_page.rs:164
 msgid "{} (Shared: {}, Virtual: {})"
-msgstr ""
+msgstr "{} (Partekatuta: {}, Birtuala: {})"
 
 #. Translators: "{}" is a placeholder for the image id.
 #: src/view/image_details_page.rs:290 src/view/image_row.rs:164
 msgid "Successfully deleted image '{}'"
-msgstr ""
+msgstr "'{}' irudia ondo ezabatu da"
 
 #. Translators: "{}" is a placeholder for the image id.
 #: src/view/image_details_page.rs:295 src/view/image_row.rs:168
 msgid "Error on deleting image '{}'"
-msgstr ""
+msgstr "Errorea '{}' irudia ezabatzean"
 
 #. Translators: There's a wide space (U+2002) between the two {} {}.
 #: src/view/images_panel.rs:176
 msgid "{} images total, {} {} unused images, {}"
-msgstr ""
+msgstr "{} irudi guztira, {} {} erabili gabeko irudiak, {}"
 
 #: src/view/images_panel.rs:182
 msgid "No images found"
-msgstr ""
+msgstr "Ez da irudirik aurkitu"
 
 #. Translators: "{}" is a placeholder for the number of images.
 #: src/view/images_panel.rs:387
 msgid "{} images have been pruned"
-msgstr ""
+msgstr "{} irudi inausi dira"
 
 #. Translators: "{}" are placeholders for cardinal numbers.
 #: src/view/images_panel.rs:393
 msgid "{} images have been pruned ({} errors)"
-msgstr ""
+msgstr "{} irudi inausi dira ({} errore)"
 
 #. Translators: "{}" is a placeholder for the image id.
 #: src/view/images_panel.rs:415
 msgid "Error on pruning image '{}'"
-msgstr ""
+msgstr "Errorea '{}' irudia inaustean"
 
 #. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
 #: src/view/info_dialog.rs:127
 #, c-format
 msgid "%x %X"
-msgstr ""
+msgstr "%x %X"
 
 #. Translators: "{}" is a placeholder for a cardinal numbers.
 #: src/view/info_dialog.rs:163
 msgid "{} Containers"
-msgstr ""
+msgstr "{} Edukiontziak"
 
 #. Translators: "{}" is a placeholder for a cardinal number.
 #: src/view/info_dialog.rs:196
 msgid "{} Options"
-msgstr ""
+msgstr "{} Ezarpenak"
 
 #. Translators: "{}" is placeholders for a cardinal number.
 #: src/view/info_dialog.rs:219
 msgid "{} States"
-msgstr ""
+msgstr "{} Egoerak"
 
 #. Translators: "{}" is placeholders for a cardinal number.
 #: src/view/info_dialog.rs:239
 msgid "{} Images"
-msgstr ""
+msgstr "{} Irudiak"
 
 #. Translators: The placeholder "{}" is for the error message.
 #: src/view/info_dialog.rs:258
 msgid "Error: {}"
-msgstr ""
+msgstr "Errorea: {}"
 
 #: src/application.rs:140
 msgid "translator-credits"
-msgstr ""
+msgstr "Sergio Varela Guinea <sergiovg01@outlook.com>"
 
 #: src/application.rs:173
 msgid "Failed to execute command to start Podman"
-msgstr ""
+msgstr "Podman hasteko komandoa gauzatzean huts egin da"
 
 #. Translators: "{}" is the placeholder for the exit code.
 #: src/application.rs:204
 msgid "Command to start Podman returned exit code: {}"
-msgstr ""
+msgstr "Podman abiarazteko komandoak irteera-kode bat itzuli du: {}"
 
 #: src/main.rs:85
 msgid "Prints application version"
-msgstr ""
+msgstr "Inprimatu aplikazioaren bertsioa"
 
 #: src/main.rs:94
 msgid "Specify the minimum log level"
-msgstr ""
+msgstr "Erregistroaren gutxieneko maila zehaztu"
 
 #. Translators: This string will be shown when a property of an entity like an image is null.
 #: src/utils.rs:78
 msgid "<none>"
-msgstr ""
+msgstr "<batere ez>"
 
 #: src/window.rs:404
 msgid "Error on loading images"
-msgstr ""
+msgstr "Errorea irudiak kargatzean"
 
 #. Translators: "{}" is the placeholder for the image id.
 #: src/window.rs:407
 msgid "Error on inspecting image '{}'"
-msgstr ""
+msgstr "Errorea '{}' irudia ikuskatzean"
 
 #: src/window.rs:420
 msgid "Error on loading containers"
-msgstr ""
+msgstr "Errorea edukiontziak kargatzean"
 
 #. Translators: "{}" is the placeholder for the container id.
 #: src/window.rs:423
 msgid "Error on inspecting container '{}'"
-msgstr ""
+msgstr "Errorea '{}' edukiontzia ikuskatzean"
