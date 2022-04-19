@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
 
-  <menu id="menu">
-    <section>
-      <item>
-        <attribute name="label" translatable="yes">_Delete Image</attribute>
-        <attribute name="action">image.delete</attribute>
-      </item>
-    </section>
-  </menu>
-
   <template class="ImageDetailsPage" parent="GtkWidget">
     <property name="layout-manager">
       <object class="GtkBinLayout"/>
@@ -49,9 +40,8 @@
                 </child>
 
                 <child type="end">
-                  <object class="GtkMenuButton">
+                  <object class="GtkMenuButton" id="menu_button">
                     <property name="icon-name">view-more-symbolic</property>
-                    <property name="menu-model">menu</property>
                   </object>
                 </child>
 

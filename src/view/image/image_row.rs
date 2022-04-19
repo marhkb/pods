@@ -1,12 +1,10 @@
 use adw::subclass::prelude::{ActionRowImpl, PreferencesRowImpl};
-use gettextrs::gettext;
 use gtk::glib::{clone, closure, WeakRef};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::{glib, CompositeTemplate};
 use once_cell::sync::Lazy;
 
-use crate::window::Window;
 use crate::{model, utils, view};
 
 mod imp {
@@ -16,6 +14,8 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/image-row.ui")]
     pub(crate) struct ImageRow {
         pub(super) image: WeakRef<model::Image>,
+        #[template_child]
+        pub(super) menu_button: TemplateChild<gtk::MenuButton>,
     }
 
     #[glib::object_subclass]
@@ -31,6 +31,9 @@ mod imp {
                 widget.show_details();
             });
 
+            klass.install_action("image.create-container", None, move |widget, _, _| {
+                widget.create_container();
+            });
             klass.install_action("image.delete", None, move |widget, _, _| {
                 widget.delete();
             });
@@ -79,6 +82,9 @@ mod imp {
 
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
+
+            self.menu_button
+                .set_menu_model(Some(&super::super::image_menu()));
 
             let image_expr = Self::Type::this_expression("image");
             let repo_tags_expr = image_expr.chain_property::<model::Image>("repo-tags");
@@ -156,37 +162,20 @@ impl ImageRow {
         self.imp().image.upgrade()
     }
 
-    fn delete(&self) {
-        self.image().unwrap().delete(
-            clone!(@weak self as obj => move |image, result| obj.show_toast(&match result {
-                Ok(_) => {
-                    // Translators: "{}" is a placeholder for the image id.
-                    gettext!("Successfully deleted image '{}'", image.id())
-                }
-                Err(_) => {
-                    // Translators: "{}" is a placeholder for the image id.
-                    gettext!("Error on deleting image '{}'", image.id())
-                }
-            })),
-        );
-    }
-
-    fn show_toast(&self, title: &str) {
-        self.root()
-            .unwrap()
-            .downcast::<Window>()
-            .unwrap()
-            .show_toast(
-                &adw::Toast::builder()
-                    .title(title)
-                    .timeout(3)
-                    .priority(adw::ToastPriority::High)
-                    .build(),
-            );
-    }
-
     fn show_details(&self) {
         utils::find_leaflet_overlay(self)
             .show_details(&view::ImageDetailsPage::from(&self.image().unwrap()));
+    }
+
+    fn create_container(&self) {
+        if let Some(image) = self.image().as_ref() {
+            super::create_container(self.upcast_ref(), image);
+        }
+    }
+
+    fn delete(&self) {
+        if let Some(image) = self.image().as_ref() {
+            super::delete(self.upcast_ref(), image);
+        }
     }
 }
