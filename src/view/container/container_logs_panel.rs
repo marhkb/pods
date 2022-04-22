@@ -11,7 +11,9 @@ use gtk::subclass::prelude::*;
 use gtk::{glib, CompositeTemplate};
 use once_cell::sync::Lazy;
 use once_cell::unsync::OnceCell;
-use sourceview5::traits::{BufferExt, SearchSettingsExt, ViewExt};
+use sourceview5::traits::{
+    BufferExt, GutterRendererExt, GutterRendererTextExt, SearchSettingsExt, ViewExt,
+};
 
 use crate::{model, utils, view};
 
@@ -22,6 +24,7 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/container-logs-panel.ui")]
     pub(crate) struct ContainerLogsPanel {
         pub(super) container: WeakRef<model::Container>,
+        pub(super) renderer_timestamps: OnceCell<sourceview5::GutterRendererText>,
         pub(super) search_settings: sourceview5::SearchSettings,
         pub(super) search_context: OnceCell<sourceview5::SearchContext>,
         pub(super) search_iters: RefCell<Option<(gtk::TextIter, gtk::TextIter)>>,
@@ -122,6 +125,27 @@ mod imp {
             adw_style_manager.connect_dark_notify(clone!(@weak obj => move |style_manager| {
                 obj.on_notify_dark(style_manager);
             }));
+
+            let renderer_timestamps = sourceview5::GutterRendererText::builder()
+                .margin_end(6)
+                .build();
+            renderer_timestamps.connect_query_data(clone!(@weak obj => move |renderer, _, line| {
+                let log_timestamps = obj.imp().log_timestamps.borrow_mut();
+                let date_time = format!(
+                    "<span foreground=\"#865e3c\">{}</span>",
+                    log_timestamps.get(&line).unwrap()
+                );
+                renderer.set_markup(&date_time);
+
+                let (width, _) = renderer.measure_markup(&date_time);
+                renderer.set_width_request(width.max(renderer.width_request()));
+            }));
+            self.source_buffer.connect_cursor_moved(
+                clone!(@weak renderer_timestamps => move |_| renderer_timestamps.queue_draw()),
+            );
+            <sourceview5::View as ViewExt>::gutter(&*self.source_view, gtk::TextWindowType::Left)
+                .insert(&renderer_timestamps, 0);
+            self.renderer_timestamps.set(renderer_timestamps).unwrap();
 
             let mut maybe_gutter_child = <sourceview5::View as ViewExt>::gutter(
                 &*self.source_view,
