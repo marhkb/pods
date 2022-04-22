@@ -23,6 +23,7 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/container-logs-panel.ui")]
     pub(crate) struct ContainerLogsPanel {
+        pub(super) settings: utils::PodsSettings,
         pub(super) container: WeakRef<model::Container>,
         pub(super) renderer_timestamps: OnceCell<sourceview5::GutterRendererText>,
         pub(super) search_settings: sourceview5::SearchSettings,
@@ -368,6 +369,14 @@ impl ContainerLogsPanel {
                 "visible",
             )
             .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
+            .build();
+
+        imp.settings
+            .bind(
+                "show-log-timestamps",
+                &*imp.renderer_timestamps.get().unwrap(),
+                "visible",
+            )
             .build();
     }
 
