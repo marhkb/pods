@@ -51,5 +51,10 @@
       <summary>Whether to show only running containers</summary>
       <description></description>
     </key>
+    <key name="show-log-timestamps" type="b">
+      <default>false</default>
+      <summary>Whether to show a timestamp for each log line</summary>
+      <description></description>
+    </key>
   </schema>
 </schemalist>
