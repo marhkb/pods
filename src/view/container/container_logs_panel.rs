@@ -358,6 +358,19 @@ impl ContainerLogsPanel {
         }
     }
 
+    pub(crate) fn connect_show_timestamp_button(&self, show_timestamp_button: &gtk::ToggleButton) {
+        let imp = self.imp();
+
+        show_timestamp_button
+            .bind_property(
+                "active",
+                &*imp.renderer_timestamps.get().unwrap(),
+                "visible",
+            )
+            .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
+            .build();
+    }
+
     pub(crate) fn connect_search_button(&self, search_button: &gtk::ToggleButton) {
         search_button
             .bind_property("active", &*self.imp().search_bar, "search-mode-enabled")
