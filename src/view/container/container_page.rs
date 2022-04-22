@@ -21,6 +21,8 @@ mod imp {
         #[template_child]
         pub(super) menu_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
+        pub(super) logs_show_timestamps_button: TemplateChild<gtk::ToggleButton>,
+        #[template_child]
         pub(super) logs_search_button: TemplateChild<gtk::ToggleButton>,
         #[template_child]
         pub(super) panel_stack: TemplateChild<adw::ViewStack>,
@@ -156,6 +158,9 @@ mod imp {
             self.parent_constructed(obj);
 
             self.logs_panel
+                .connect_show_timestamp_button(&*self.logs_show_timestamps_button);
+
+            self.logs_panel
                 .connect_search_button(&*self.logs_search_button);
 
             obj.update_buttons_and_actions(false);
@@ -261,7 +266,11 @@ impl ContainerPage {
     }
 
     fn update_buttons_and_actions(&self, logs_visible: bool) {
+        self.imp()
+            .logs_show_timestamps_button
+            .set_visible(logs_visible);
         self.imp().logs_search_button.set_visible(logs_visible);
+
         self.action_set_enabled("logs.toggle-search", logs_visible);
         self.action_set_enabled("logs.search-backward", logs_visible);
         self.action_set_enabled("logs.search-forward", logs_visible);

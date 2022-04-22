@@ -59,6 +59,21 @@
                         </child>
 
                         <child type="end">
+                          <object class="GtkSeparator">
+                            <style>
+                              <class name="spacer"/>
+                            </style>
+                          </object>
+                        </child>
+
+                        <child type="end">
+                          <object class="GtkToggleButton" id="logs_show_timestamps_button">
+                            <property name="icon-name">preferences-system-time-symbolic</property>
+                            <property name="tooltip-text" translatable="yes">Toggle timestamps</property>
+                          </object>
+                        </child>
+
+                        <child type="end">
                           <object class="GtkToggleButton" id="logs_search_button">
                             <property name="icon-name">system-search-symbolic</property>
                           </object>
