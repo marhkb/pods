@@ -99,7 +99,7 @@
                       <property name="column">3</property>
                       <property name="row">0</property>
                     </layout>
-                    <property name="label" translatable="yes">Protocol</property>
+                    <property name="label" translatable="yes">SELinux</property>
                   </object>
                 </child>
 
