@@ -104,8 +104,8 @@ mod imp {
                 .set_draw_func(clone!(@weak obj => move |_, cr, w, h| {
                     let colors = if adw::StyleManager::default().is_dark() {
                         [
-                            // @dark_1
-                            (0.466, 0.462, 0.482),
+                            // @dark_2
+                            (0.368, 0.360, 0.392),
                             // @accent_color
                             (0.470, 0.682, 0.929),
                             // @warning_color
@@ -115,8 +115,8 @@ mod imp {
                         ]
                     } else {
                         [
-                            // @headerbar_bg_color
-                            (0.921, 0.921, 0.921),
+                            // @light_3
+                            (0.870, 0.866, 0.854),
                             // @accent_color
                             (0.109, 0.443, 0.847),
                             // @warning_color
@@ -130,22 +130,24 @@ mod imp {
 
                     cr.save().unwrap();
 
-                    let line_width = 2.0;
                     let center_x = w as f64 / 2.0;
                     let center_y = h as f64 / 2.0;
-                    let radius = f64::min(center_x, center_y) - 1.0;
-
-                    let delta = radius - (line_width / 2.0);
+                    let radius = f64::min(center_x, center_y);
 
                     cr.set_line_cap(gdk::cairo::LineCap::Butt);
-                    cr.set_line_width(line_width);
 
                     // Radius Fill
-                    cr.arc(center_x, center_y, delta, 0.0, 2. * pi);
+                    let line_width_fill = 1.0;
+                    let delta_fill = radius - (line_width_fill / 2.0) - 1.0;
+                    cr.set_line_width(line_width_fill);
+                    cr.arc(center_x, center_y, delta_fill, 0.0, 2. * pi);
                     cr.set_source_rgb(colors[0].0, colors[0].1, colors[0].2);
                     cr.stroke().unwrap();
 
                     // Percentage
+                    let line_width_percentage = 3.0;
+                    let delta_percentage = radius - (line_width_percentage / 2.0);
+
                     let current_percentage = obj.current_percentage();
                     if current_percentage < 0.8 {
                         cr.set_source_rgb(colors[1].0, colors[1].1, colors[1].2);
@@ -154,10 +156,12 @@ mod imp {
                     } else {
                         cr.set_source_rgb(colors[3].0, colors[3].1, colors[3].2);
                     }
+
+                    cr.set_line_width(line_width_percentage);
                     cr.arc(
                         center_x,
                         center_y,
-                        delta,
+                        delta_percentage,
                         1.5 * pi,
                         (1.5 + current_percentage * 2.0) * pi,
                     );
