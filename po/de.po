@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-28 23:02+0200\n"
+"POT-Creation-Date: 2022-04-25 00:15+0200\n"
 "PO-Revision-Date: 2022-03-16 02:17+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -46,16 +46,38 @@ msgstr "Standardmäßige Fensterhöhe"
 msgid "Default window maximized behaviour"
 msgstr "Standardverhalten bei maximiertem Fenster"
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:21
-msgid "The last used view"
+#: data/com.github.marhkb.Pods.gschema.xml.in:26
+msgid "Style Variant"
 msgstr ""
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:26
-msgid "Whether to show intermediate images"
+#: data/com.github.marhkb.Pods.gschema.xml.in:27
+msgid "Use the light or dark variant of the GTK theme"
 msgstr ""
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:31
+msgid "The last used view"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.gschema.xml.in:36
+msgid "Whether to show intermediate images"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.gschema.xml.in:41
+msgid "Remove all images not in use by containers, not just dangling ones"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.gschema.xml.in:46
+msgid ""
+"Remove images even when they are used by external containers (e.g, by build "
+"containers)"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.gschema.xml.in:51
 msgid "Whether to show only running containers"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.gschema.xml.in:56
+msgid "Whether to show a timestamp for each log line"
 msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:15
@@ -72,41 +94,12 @@ msgstr ""
 
 #: data/resources/ui/container-rename-dialog.ui:10
 #: data/resources/ui/images-prune-dialog.ui:11
+#: data/resources/ui/container-creation-dialog.ui:21
 msgid "_Cancel"
 msgstr ""
 
 #: data/resources/ui/container-rename-dialog.ui:21
 msgid "_Rename"
-msgstr ""
-
-#: data/resources/ui/image-details-page.ui:7
-#, fuzzy
-msgid "_Delete Image"
-msgstr "_Löschen"
-
-#: data/resources/ui/image-details-page.ui:47
-msgid "Image Details"
-msgstr ""
-
-#: data/resources/ui/image-details-page.ui:154
-msgid "Image Has Been Deleted"
-msgstr ""
-
-#: data/resources/ui/image-row.ui:7 src/view/container_row.rs:404
-msgid "_Delete"
-msgstr "_Löschen"
-
-#: data/resources/ui/images-panel.ui:84
-#: data/resources/ui/containers-panel.ui:82
-msgid "Summary"
-msgstr ""
-
-#: data/resources/ui/images-prune-dialog.ui:21
-msgid "_Prune"
-msgstr ""
-
-#: data/resources/ui/images-prune-dialog.ui:32
-msgid "No Images To Be Pruned"
 msgstr ""
 
 #: data/resources/ui/shortcuts.ui:13
@@ -127,18 +120,6 @@ msgstr ""
 #: data/resources/ui/shortcuts.ui:31
 msgctxt "shortcut window"
 msgid "Search"
-msgstr ""
-
-#: data/resources/ui/container-logs-panel.ui:28
-msgid "Scroll to bottom"
-msgstr ""
-
-#: data/resources/ui/container-page.ui:57
-msgid "Details"
-msgstr ""
-
-#: data/resources/ui/container-page.ui:75
-msgid "Logs"
 msgstr ""
 
 #: data/resources/ui/info-dialog.ui:6 data/resources/ui/info-dialog.ui:10
@@ -236,23 +217,18 @@ msgid "Id"
 msgstr ""
 
 #: data/resources/ui/container-details-panel.ui:31
+#: data/resources/ui/container-creation-dialog.ui:72
+#: data/resources/ui/container-creation-dialog.ui:78
 msgid "Image"
 msgstr ""
 
 #: data/resources/ui/container-details-panel.ui:56
+#: data/resources/ui/container-creation-dialog.ui:53
 msgid "Name"
 msgstr ""
 
 #: data/resources/ui/container-details-panel.ui:67
 msgid "Status"
-msgstr ""
-
-#: data/resources/ui/image-used-by-row.ui:8
-msgid "Used By"
-msgstr ""
-
-#: data/resources/ui/image-used-by-row.ui:36
-msgid "unused"
 msgstr ""
 
 #: data/resources/ui/connection-lost-page.ui:16
@@ -282,41 +258,288 @@ msgstr ""
 msgid "_Start Podman Service"
 msgstr ""
 
-#: data/resources/ui/window.ui:7
+#: data/resources/ui/images-panel.ui:84
+#: data/resources/ui/containers-panel.ui:85
+msgid "Summary"
+msgstr ""
+
+#: data/resources/ui/container-logs-panel.ui:28
+msgid "Scroll to bottom"
+msgstr ""
+
+#: data/resources/ui/container-logs-panel.ui:72
+msgid "Move to previous match (Ctrl+Shift+G)"
+msgstr ""
+
+#: data/resources/ui/container-logs-panel.ui:80
+msgid "Move to next match (Ctrl+G)"
+msgstr ""
+
+#: data/resources/ui/container-logs-panel.ui:90
+msgid "Toggle search options"
+msgstr ""
+
+#: data/resources/ui/container-logs-panel.ui:113
+msgid "Re_gular expressions"
+msgstr ""
+
+#: data/resources/ui/container-logs-panel.ui:120
+msgid "_Case sensitive"
+msgstr ""
+
+#: data/resources/ui/container-logs-panel.ui:127
+msgid "Match whole _word only"
+msgstr ""
+
+#: data/resources/ui/containers-panel.ui:86
+msgid "No containers found"
+msgstr ""
+
+#: data/resources/ui/theme-selector.ui:22
+#: data/resources/ui/theme-selector.ui:24
+msgid "Follow system style"
+msgstr ""
+
+#: data/resources/ui/theme-selector.ui:38
+#: data/resources/ui/theme-selector.ui:40
+msgid "Light style"
+msgstr ""
+
+#: data/resources/ui/theme-selector.ui:55
+#: data/resources/ui/theme-selector.ui:57
+msgid "Dark style"
+msgstr ""
+
+#: data/resources/ui/window.ui:12
 msgid "_Show Podman Info"
 msgstr ""
 
-#: data/resources/ui/window.ui:13
+#: data/resources/ui/window.ui:18
 msgid "_Preferences"
 msgstr ""
 
-#: data/resources/ui/window.ui:17
+#: data/resources/ui/window.ui:22
 msgid "_Keyboard Shortcuts"
 msgstr ""
 
-#: data/resources/ui/window.ui:21
+#: data/resources/ui/window.ui:26
 msgid "_About Pods"
 msgstr ""
 
-#: data/resources/ui/window.ui:30
-msgid "Show intermediate images"
-msgstr ""
-
-#: data/resources/ui/window.ui:34
-msgid "Prune unused images"
-msgstr ""
-
-#: data/resources/ui/window.ui:43
-msgid "Show only running containers"
-msgstr ""
-
-#: data/resources/ui/window.ui:135
+#: data/resources/ui/window.ui:110
 msgid "Images"
 msgstr ""
 
-#: data/resources/ui/window.ui:147
+#: data/resources/ui/window.ui:122
 msgid "Containers"
 msgstr "Container"
+
+#: data/resources/ui/images-prune-dialog.ui:7
+msgid "Prune Unused Images"
+msgstr ""
+
+#: data/resources/ui/images-prune-dialog.ui:21
+msgid "_Prune"
+msgstr ""
+
+#: data/resources/ui/images-prune-dialog.ui:35
+msgid "Options"
+msgstr ""
+
+#: data/resources/ui/images-prune-dialog.ui:40
+msgid "Prune All"
+msgstr ""
+
+#: data/resources/ui/images-prune-dialog.ui:41
+msgid "Remove all images not in use by containers, not just dangling ones."
+msgstr ""
+
+#: data/resources/ui/images-prune-dialog.ui:53
+msgid "Prune External"
+msgstr ""
+
+#: data/resources/ui/images-prune-dialog.ui:54
+msgid ""
+"Remove images even when they are used by external containers (e.g, by build "
+"containers)."
+msgstr ""
+
+#: data/resources/ui/images-prune-dialog.ui:65
+msgid "Prune Until"
+msgstr ""
+
+#: data/resources/ui/images-prune-dialog.ui:66
+msgid "Prune images created before this timestamp."
+msgstr ""
+
+#: data/resources/ui/images-prune-dialog.ui:146
+msgid "AM"
+msgstr ""
+
+#: data/resources/ui/images-prune-dialog.ui:147
+msgid "PM"
+msgstr ""
+
+#: data/resources/ui/container-creation-dialog.ui:7
+#, fuzzy
+msgid "_Create"
+msgstr "Erstellt"
+
+#: data/resources/ui/container-creation-dialog.ui:17
+#, fuzzy
+msgid "Create Container"
+msgstr "Container"
+
+#: data/resources/ui/container-creation-dialog.ui:32
+#, fuzzy
+msgid "Create and run"
+msgstr "Erstellt"
+
+#: data/resources/ui/container-creation-dialog.ui:68
+#: data/resources/ui/container-page.ui:95
+msgid "Details"
+msgstr ""
+
+#: data/resources/ui/container-creation-dialog.ui:96
+msgid "Command"
+msgstr ""
+
+#: data/resources/ui/container-creation-dialog.ui:109
+msgid "Terminal"
+msgstr ""
+
+#: data/resources/ui/container-creation-dialog.ui:122
+msgid "Memory limit"
+msgstr ""
+
+#: data/resources/ui/container-creation-dialog.ui:164
+msgid "KB"
+msgstr ""
+
+#: data/resources/ui/container-creation-dialog.ui:165
+msgid "MB"
+msgstr ""
+
+#: data/resources/ui/container-creation-dialog.ui:166
+msgid "GB"
+msgstr ""
+
+#: data/resources/ui/container-creation-dialog.ui:190
+msgid "Port Mappings"
+msgstr ""
+
+#: data/resources/ui/container-creation-dialog.ui:216
+msgid "Volumes"
+msgstr ""
+
+#: data/resources/ui/container-creation-dialog.ui:242
+msgid "Environment Variables"
+msgstr ""
+
+#: data/resources/ui/env-var-row.ui:30
+msgid "Key"
+msgstr ""
+
+#: data/resources/ui/env-var-row.ui:49
+msgid "Value"
+msgstr ""
+
+#: data/resources/ui/image-details-page.ui:38
+msgid "Image Details"
+msgstr ""
+
+#: data/resources/ui/image-details-page.ui:60
+msgid "Properties"
+msgstr ""
+
+#: data/resources/ui/image-details-page.ui:138
+#, fuzzy
+msgid "Associated Containers"
+msgstr "Container"
+
+#: data/resources/ui/image-details-page.ui:139
+msgid "There are no containers associated with this image."
+msgstr ""
+
+#: data/resources/ui/image-details-page.ui:153
+msgid "Image Has Been Deleted"
+msgstr ""
+
+#: data/resources/ui/port-mapping-row.ui:29
+msgid "IP address"
+msgstr ""
+
+#: data/resources/ui/port-mapping-row.ui:48
+msgid "Host port"
+msgstr ""
+
+#: data/resources/ui/port-mapping-row.ui:75
+#, fuzzy
+msgid "Container port"
+msgstr "Container"
+
+#: data/resources/ui/port-mapping-row.ui:102
+msgid "Protocol"
+msgstr ""
+
+#: data/resources/ui/port-mapping-row.ui:113
+msgid "TCP"
+msgstr ""
+
+#: data/resources/ui/port-mapping-row.ui:114
+msgid "UDP"
+msgstr ""
+
+#: data/resources/ui/container-page.ui:72
+msgid "Toggle timestamps"
+msgstr ""
+
+#: data/resources/ui/container-page.ui:113
+msgid "Logs"
+msgstr ""
+
+#: data/resources/ui/container-page.ui:176
+#, fuzzy
+msgid "Container Page"
+msgstr "Container"
+
+#: data/resources/ui/container-page.ui:187
+#, fuzzy
+msgid "Container Has Been Deleted"
+msgstr "Container"
+
+#: data/resources/ui/volume-row.ui:34
+msgid "Host path"
+msgstr ""
+
+#: data/resources/ui/volume-row.ui:53
+#, fuzzy
+msgid "Container path"
+msgstr "Container"
+
+#: data/resources/ui/volume-row.ui:81
+msgid "Mode"
+msgstr ""
+
+#: data/resources/ui/volume-row.ui:92
+msgid "Writable"
+msgstr ""
+
+#: data/resources/ui/volume-row.ui:102
+msgid "SELinux"
+msgstr ""
+
+#: data/resources/ui/volume-row.ui:113
+msgid "No label"
+msgstr ""
+
+#: data/resources/ui/volume-row.ui:114
+msgid "Shared"
+msgstr ""
+
+#: data/resources/ui/volume-row.ui:115
+msgid "Private"
+msgstr ""
 
 #: src/model/container.rs:63
 msgid "Configured"
@@ -350,144 +573,175 @@ msgstr ""
 msgid "Unknown"
 msgstr ""
 
-#: src/view/container_rename_dialog.rs:87
+#: src/view/container/container_logs_panel.rs:403
+msgid "{} of {}"
+msgstr ""
+
+#: src/view/container/container_rename_dialog.rs:87
 msgid "Rename container «{}»"
 msgstr ""
 
-#: src/view/container_row.rs:268
-msgid "Error on starting container"
-msgstr ""
-
-#: src/view/container_row.rs:276
-msgid "Error on stopping container"
-msgstr ""
-
-#: src/view/container_row.rs:284
-msgid "Error on force stopping container"
-msgstr "Fehler beim erzwungenen Stoppen des Containers"
-
-#: src/view/container_row.rs:292
-msgid "Error on restarting container"
-msgstr ""
-
-#: src/view/container_row.rs:300
-msgid "Error on force restarting container"
-msgstr "Fehler beim erzwungenen Neustarten des Containers"
-
-#: src/view/container_row.rs:308
-msgid "Error on pausing container"
-msgstr "Fehler beim Pausieren des Containers"
-
-#: src/view/container_row.rs:316
-msgid "Error on resuming container"
-msgstr ""
-
-#: src/view/container_row.rs:364
-msgid "Error on committing container"
-msgstr "Fehler beim Committen des Containers"
-
-#: src/view/container_row.rs:372
-msgid "Error on deleting container"
-msgstr "Fehler beim Löschen des Containers"
-
-#: src/view/container_row.rs:380
-msgid "Error on force deleting container"
-msgstr "Fehler beim erzwungenen Löschen des Containers"
-
-#: src/view/container_row.rs:396
-msgid "Re_name…"
-msgstr ""
-
-#: src/view/container_row.rs:400
-msgid "_Commit"
-msgstr ""
-
-#: src/view/container_row.rs:414
-msgid "_Start"
-msgstr ""
-
-#: src/view/container_row.rs:422
-msgid "S_top"
-msgstr ""
-
-#: src/view/container_row.rs:423
-msgid "_Force Stop"
-msgstr ""
-
-#: src/view/container_row.rs:424
-msgid "R_estart"
-msgstr ""
-
-#: src/view/container_row.rs:425
-msgid "F_orce Restart"
-msgstr ""
-
-#: src/view/container_row.rs:434
-msgid "_Pause"
-msgstr ""
-
-#: src/view/container_row.rs:444
-msgid "_Resume"
-msgstr ""
-
 #. Translators: There's a wide space (U+2002) between ", {}".
-#: src/view/containers_panel.rs:174
+#: src/view/container/containers_group.rs:123
 msgid "{} Containers total, {} running"
 msgstr ""
 
-#: src/view/containers_panel.rs:178
-msgid "No containers found"
+#: src/view/container/containers_panel.rs:223
+#, fuzzy
+msgid "_Show only running containers"
+msgstr "Fehler beim Pausieren des Containers"
+
+#: src/view/container/mod.rs:54
+msgid "Error on starting container"
+msgstr ""
+
+#: src/view/container/mod.rs:62
+msgid "Error on stopping container"
+msgstr ""
+
+#: src/view/container/mod.rs:70
+msgid "Error on force stopping container"
+msgstr "Fehler beim erzwungenen Stoppen des Containers"
+
+#: src/view/container/mod.rs:78
+msgid "Error on restarting container"
+msgstr ""
+
+#: src/view/container/mod.rs:86
+msgid "Error on force restarting container"
+msgstr "Fehler beim erzwungenen Neustarten des Containers"
+
+#: src/view/container/mod.rs:94
+msgid "Error on pausing container"
+msgstr "Fehler beim Pausieren des Containers"
+
+#: src/view/container/mod.rs:102
+msgid "Error on resuming container"
+msgstr ""
+
+#: src/view/container/mod.rs:110
+msgid "Error on committing container"
+msgstr "Fehler beim Committen des Containers"
+
+#: src/view/container/mod.rs:118
+msgid "Error on deleting container"
+msgstr "Fehler beim Löschen des Containers"
+
+#: src/view/container/mod.rs:126
+msgid "Error on force deleting container"
+msgstr "Fehler beim erzwungenen Löschen des Containers"
+
+#: src/view/container/mod.rs:168
+msgid "Re_name…"
+msgstr ""
+
+#: src/view/container/mod.rs:172
+msgid "_Commit"
+msgstr ""
+
+#: src/view/container/mod.rs:176 src/view/image/mod.rs:86
+msgid "_Delete"
+msgstr "_Löschen"
+
+#: src/view/container/mod.rs:186
+msgid "_Start"
+msgstr ""
+
+#: src/view/container/mod.rs:194
+msgid "S_top"
+msgstr ""
+
+#: src/view/container/mod.rs:195
+msgid "_Force Stop"
+msgstr ""
+
+#: src/view/container/mod.rs:196
+msgid "R_estart"
+msgstr ""
+
+#: src/view/container/mod.rs:197
+msgid "F_orce Restart"
+msgstr ""
+
+#: src/view/container/mod.rs:206
+msgid "_Pause"
+msgstr ""
+
+#: src/view/container/mod.rs:216
+msgid "_Resume"
 msgstr ""
 
 #. Translators: "{}" are placeholders for storage space.
-#: src/view/image_details_page.rs:145
+#: src/view/image/image_details_page.rs:152
 msgid "{} (Virtual: {})"
 msgstr ""
 
 #. Translators: "{}" are placeholders for storage space.
-#: src/view/image_details_page.rs:154
+#: src/view/image/image_details_page.rs:161
 msgid "{} (Shared: {})"
 msgstr ""
 
 #. Translators: "{}" are placeholders for storage space.
-#: src/view/image_details_page.rs:164
+#: src/view/image/image_details_page.rs:171
 msgid "{} (Shared: {}, Virtual: {})"
 msgstr ""
 
+#. Translators: There's a wide space (U+2002) between the two {} {}.
+#: src/view/image/images_panel.rs:168
+msgid "{} images total, {} {} unused images, {}"
+msgstr ""
+
+#: src/view/image/images_panel.rs:174
+msgid "No images found"
+msgstr ""
+
+#. Translators: The first two placeholders are for a numbers, the last for disk space.
+#: src/view/image/images_panel.rs:372
+msgid "{} images pruned ({} errors). {} space reclaimed."
+msgstr ""
+
+#: src/view/image/images_panel.rs:383
+msgid "There are no images to be pruned."
+msgstr ""
+
+#. Translators: "{}" is a placeholder for an error message.
+#: src/view/image/images_panel.rs:387
+#, fuzzy
+msgid "Error on pruning images: '{}'"
+msgstr "Fehler beim Beschneiden des Images '{}'"
+
+#. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
+#: src/view/image/images_prune_dialog.rs:192
+msgid "%x %H:%M %p"
+msgstr ""
+
+#: src/view/image/images_prune_dialog.rs:194
+msgid "Invalid date format"
+msgstr ""
+
 #. Translators: "{}" is a placeholder for the image id.
-#: src/view/image_details_page.rs:290 src/view/image_row.rs:164
+#: src/view/image/mod.rs:53
 msgid "Successfully deleted image '{}'"
 msgstr ""
 
 #. Translators: "{}" is a placeholder for the image id.
-#: src/view/image_details_page.rs:295 src/view/image_row.rs:168
+#: src/view/image/mod.rs:57
 #, fuzzy
 msgid "Error on deleting image '{}'"
 msgstr "Fehler beim Löschen des Images"
 
-#. Translators: There's a wide space (U+2002) between the two {} {}.
-#: src/view/images_panel.rs:176
-msgid "{} images total, {} {} unused images, {}"
+#: src/view/image/mod.rs:68
+msgid "_Show intermediate images"
 msgstr ""
 
-#: src/view/images_panel.rs:182
-msgid "No images found"
+#: src/view/image/mod.rs:72
+msgid "_Prune unused images…"
 msgstr ""
 
-#. Translators: "{}" is a placeholder for the number of images.
-#: src/view/images_panel.rs:387
-msgid "{} images have been pruned"
-msgstr ""
-
-#. Translators: "{}" are placeholders for cardinal numbers.
-#: src/view/images_panel.rs:393
-msgid "{} images have been pruned ({} errors)"
-msgstr ""
-
-#. Translators: "{}" is a placeholder for the image id.
-#: src/view/images_panel.rs:415
-msgid "Error on pruning image '{}'"
-msgstr "Fehler beim Beschneiden des Images '{}'"
+#: src/view/image/mod.rs:82
+#, fuzzy
+msgid "_Create Container…"
+msgstr "Container"
 
 #. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
 #: src/view/info_dialog.rs:127
@@ -543,31 +797,31 @@ msgid "Specify the minimum log level"
 msgstr ""
 
 #. Translators: This string will be shown when a property of an entity like an image is null.
-#: src/utils.rs:78
+#: src/utils.rs:113
 msgid "<none>"
 msgstr ""
 
-#: src/window.rs:404
+#: src/window.rs:423
 msgid "Error on loading images"
 msgstr "Fehler beim Laden der Images"
 
 #. Translators: "{}" is the placeholder for the image id.
-#: src/window.rs:407
+#: src/window.rs:426
 msgid "Error on inspecting image '{}'"
 msgstr "Fehler beim Inspizieren des Images '{}'"
 
-#: src/window.rs:420
+#: src/window.rs:439
 msgid "Error on loading containers"
 msgstr "Fehler beim Laden der Container"
 
 #. Translators: "{}" is the placeholder for the container id.
-#: src/window.rs:423
+#: src/window.rs:442
 msgid "Error on inspecting container '{}'"
 msgstr "Fehler beim Inspizieren des Containers '{}'"
 
 #, fuzzy
-#~ msgid "Container Details"
-#~ msgstr "Container"
+#~ msgid "_Delete Image"
+#~ msgstr "_Löschen"
 
 #~ msgid "{} Containers total, {} running, {} configured, {} exited"
 #~ msgstr "{} Containers insgesamt, {} laufend, {} konfiguriert, {} beendet"
