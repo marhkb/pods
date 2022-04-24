@@ -69,7 +69,7 @@ pub(crate) fn menu() -> gio::Menu {
         });
         ..append_section(None, &cascade!{
             gio::Menu::new();
-            ..append(Some(&gettext("_Prune unused images")), Some("images.prune-unused"));
+            ..append(Some(&gettext("_Prune unused images…")), Some("images.prune-unused"));
         });
     }
 }
