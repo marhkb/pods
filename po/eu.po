@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-28 23:02+0200\n"
+"POT-Creation-Date: 2022-04-25 00:15+0200\n"
 "PO-Revision-Date: 2022-04-17 22:06+0000\n"
 "Last-Translator: Sergio Varela <sergitroll9@gmail.com>\n"
 "Language-Team: Basque <https://hosted.weblate.org/projects/pods/pods/eu/>\n"
@@ -47,17 +47,40 @@ msgstr "Aurrez zehaztutako leihoaren altuera"
 msgid "Default window maximized behaviour"
 msgstr "Aurrez zehaztutako leihoaren altuera"
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:21
+#: data/com.github.marhkb.Pods.gschema.xml.in:26
+msgid "Style Variant"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.gschema.xml.in:27
+msgid "Use the light or dark variant of the GTK theme"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.gschema.xml.in:31
 msgid "The last used view"
 msgstr "Erabilitako azken ikuspegia"
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:26
+#: data/com.github.marhkb.Pods.gschema.xml.in:36
 msgid "Whether to show intermediate images"
 msgstr "Tarteko irudiak erakusten badira"
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:31
+#: data/com.github.marhkb.Pods.gschema.xml.in:41
+msgid "Remove all images not in use by containers, not just dangling ones"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.gschema.xml.in:46
+msgid ""
+"Remove images even when they are used by external containers (e.g, by build "
+"containers)"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.gschema.xml.in:51
 msgid "Whether to show only running containers"
 msgstr "Martxan dauden edukiontziak bakarrik erakusten badira"
+
+#: data/com.github.marhkb.Pods.gschema.xml.in:56
+#, fuzzy
+msgid "Whether to show a timestamp for each log line"
+msgstr "Tarteko irudiak erakusten badira"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:15
 msgid "Main window"
@@ -73,41 +96,13 @@ msgstr "Podman zerbitzuarekiko konexioa egiaztatzen"
 
 #: data/resources/ui/container-rename-dialog.ui:10
 #: data/resources/ui/images-prune-dialog.ui:11
+#: data/resources/ui/container-creation-dialog.ui:21
 msgid "_Cancel"
 msgstr "_Ezeztatu"
 
 #: data/resources/ui/container-rename-dialog.ui:21
 msgid "_Rename"
 msgstr "_Berrizendatu"
-
-#: data/resources/ui/image-details-page.ui:7
-msgid "_Delete Image"
-msgstr "_Irudia ezabatu"
-
-#: data/resources/ui/image-details-page.ui:47
-msgid "Image Details"
-msgstr "Irudiaren xehetasunak"
-
-#: data/resources/ui/image-details-page.ui:154
-msgid "Image Has Been Deleted"
-msgstr "Irudia ezabatu egin da"
-
-#: data/resources/ui/image-row.ui:7 src/view/container_row.rs:404
-msgid "_Delete"
-msgstr "_Ezabatu"
-
-#: data/resources/ui/images-panel.ui:84
-#: data/resources/ui/containers-panel.ui:82
-msgid "Summary"
-msgstr "Laburpena"
-
-#: data/resources/ui/images-prune-dialog.ui:21
-msgid "_Prune"
-msgstr "_Inausi"
-
-#: data/resources/ui/images-prune-dialog.ui:32
-msgid "No Images To Be Pruned"
-msgstr "Ez dago inausteko irudirik"
 
 #: data/resources/ui/shortcuts.ui:13
 msgctxt "shortcut window"
@@ -128,18 +123,6 @@ msgstr "Irten"
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "Bilatu"
-
-#: data/resources/ui/container-logs-panel.ui:28
-msgid "Scroll to bottom"
-msgstr "Beherantz mugitu"
-
-#: data/resources/ui/container-page.ui:57
-msgid "Details"
-msgstr "Xehetasunak"
-
-#: data/resources/ui/container-page.ui:75
-msgid "Logs"
-msgstr "Erregistroak"
 
 #: data/resources/ui/info-dialog.ui:6 data/resources/ui/info-dialog.ui:10
 msgid "Podman Info"
@@ -236,24 +219,19 @@ msgid "Id"
 msgstr "Identifikatzailea"
 
 #: data/resources/ui/container-details-panel.ui:31
+#: data/resources/ui/container-creation-dialog.ui:72
+#: data/resources/ui/container-creation-dialog.ui:78
 msgid "Image"
 msgstr "Irudia"
 
 #: data/resources/ui/container-details-panel.ui:56
+#: data/resources/ui/container-creation-dialog.ui:53
 msgid "Name"
 msgstr "Izena"
 
 #: data/resources/ui/container-details-panel.ui:67
 msgid "Status"
 msgstr "Egoera"
-
-#: data/resources/ui/image-used-by-row.ui:8
-msgid "Used By"
-msgstr "Honek erabilia"
-
-#: data/resources/ui/image-used-by-row.ui:36
-msgid "unused"
-msgstr "erabilerarik gabe"
 
 #: data/resources/ui/connection-lost-page.ui:16
 msgid ""
@@ -284,41 +262,292 @@ msgstr "Ongi etorri Sinfoniara"
 msgid "_Start Podman Service"
 msgstr "_Podman-en zerbitzua hasi"
 
-#: data/resources/ui/window.ui:7
+#: data/resources/ui/images-panel.ui:84
+#: data/resources/ui/containers-panel.ui:85
+msgid "Summary"
+msgstr "Laburpena"
+
+#: data/resources/ui/container-logs-panel.ui:28
+msgid "Scroll to bottom"
+msgstr "Beherantz mugitu"
+
+#: data/resources/ui/container-logs-panel.ui:72
+msgid "Move to previous match (Ctrl+Shift+G)"
+msgstr ""
+
+#: data/resources/ui/container-logs-panel.ui:80
+msgid "Move to next match (Ctrl+G)"
+msgstr ""
+
+#: data/resources/ui/container-logs-panel.ui:90
+msgid "Toggle search options"
+msgstr ""
+
+#: data/resources/ui/container-logs-panel.ui:113
+msgid "Re_gular expressions"
+msgstr ""
+
+#: data/resources/ui/container-logs-panel.ui:120
+msgid "_Case sensitive"
+msgstr ""
+
+#: data/resources/ui/container-logs-panel.ui:127
+msgid "Match whole _word only"
+msgstr ""
+
+#: data/resources/ui/containers-panel.ui:86
+msgid "No containers found"
+msgstr "Ez dira edukiontzirik aurkitu"
+
+#: data/resources/ui/theme-selector.ui:22
+#: data/resources/ui/theme-selector.ui:24
+msgid "Follow system style"
+msgstr ""
+
+#: data/resources/ui/theme-selector.ui:38
+#: data/resources/ui/theme-selector.ui:40
+msgid "Light style"
+msgstr ""
+
+#: data/resources/ui/theme-selector.ui:55
+#: data/resources/ui/theme-selector.ui:57
+msgid "Dark style"
+msgstr ""
+
+#: data/resources/ui/window.ui:12
 msgid "_Show Podman Info"
 msgstr "_Podmanen informazioa erakutsi"
 
-#: data/resources/ui/window.ui:13
+#: data/resources/ui/window.ui:18
 msgid "_Preferences"
 msgstr "_Lehentasunak"
 
-#: data/resources/ui/window.ui:17
+#: data/resources/ui/window.ui:22
 msgid "_Keyboard Shortcuts"
 msgstr "_Teklatuko lasterbideak"
 
-#: data/resources/ui/window.ui:21
+#: data/resources/ui/window.ui:26
 msgid "_About Pods"
 msgstr "_Sinfoniari buruz"
 
-#: data/resources/ui/window.ui:30
-msgid "Show intermediate images"
-msgstr "Tarteko irudiak erakutsi"
-
-#: data/resources/ui/window.ui:34
-msgid "Prune unused images"
-msgstr "Erabili gabeko irudiak inausi"
-
-#: data/resources/ui/window.ui:43
-msgid "Show only running containers"
-msgstr "Erakutsi martxan dauden edukiontziak bakarrik"
-
-#: data/resources/ui/window.ui:135
+#: data/resources/ui/window.ui:110
 msgid "Images"
 msgstr "Irudiak"
 
-#: data/resources/ui/window.ui:147
+#: data/resources/ui/window.ui:122
 msgid "Containers"
 msgstr "Edukiontziak"
+
+#: data/resources/ui/images-prune-dialog.ui:7
+#, fuzzy
+msgid "Prune Unused Images"
+msgstr "Erabili gabeko irudiak inausi"
+
+#: data/resources/ui/images-prune-dialog.ui:21
+msgid "_Prune"
+msgstr "_Inausi"
+
+#: data/resources/ui/images-prune-dialog.ui:35
+#, fuzzy
+msgid "Options"
+msgstr "{} Ezarpenak"
+
+#: data/resources/ui/images-prune-dialog.ui:40
+#, fuzzy
+msgid "Prune All"
+msgstr "_Inausi"
+
+#: data/resources/ui/images-prune-dialog.ui:41
+msgid "Remove all images not in use by containers, not just dangling ones."
+msgstr ""
+
+#: data/resources/ui/images-prune-dialog.ui:53
+msgid "Prune External"
+msgstr ""
+
+#: data/resources/ui/images-prune-dialog.ui:54
+msgid ""
+"Remove images even when they are used by external containers (e.g, by build "
+"containers)."
+msgstr ""
+
+#: data/resources/ui/images-prune-dialog.ui:65
+msgid "Prune Until"
+msgstr ""
+
+#: data/resources/ui/images-prune-dialog.ui:66
+msgid "Prune images created before this timestamp."
+msgstr ""
+
+#: data/resources/ui/images-prune-dialog.ui:146
+msgid "AM"
+msgstr ""
+
+#: data/resources/ui/images-prune-dialog.ui:147
+msgid "PM"
+msgstr ""
+
+#: data/resources/ui/container-creation-dialog.ui:7
+#, fuzzy
+msgid "_Create"
+msgstr "Sortua"
+
+#: data/resources/ui/container-creation-dialog.ui:17
+#, fuzzy
+msgid "Create Container"
+msgstr "Edukiontziak"
+
+#: data/resources/ui/container-creation-dialog.ui:32
+#, fuzzy
+msgid "Create and run"
+msgstr "Sortua"
+
+#: data/resources/ui/container-creation-dialog.ui:68
+#: data/resources/ui/container-page.ui:95
+msgid "Details"
+msgstr "Xehetasunak"
+
+#: data/resources/ui/container-creation-dialog.ui:96
+msgid "Command"
+msgstr ""
+
+#: data/resources/ui/container-creation-dialog.ui:109
+msgid "Terminal"
+msgstr ""
+
+#: data/resources/ui/container-creation-dialog.ui:122
+msgid "Memory limit"
+msgstr ""
+
+#: data/resources/ui/container-creation-dialog.ui:164
+msgid "KB"
+msgstr ""
+
+#: data/resources/ui/container-creation-dialog.ui:165
+msgid "MB"
+msgstr ""
+
+#: data/resources/ui/container-creation-dialog.ui:166
+msgid "GB"
+msgstr ""
+
+#: data/resources/ui/container-creation-dialog.ui:190
+msgid "Port Mappings"
+msgstr ""
+
+#: data/resources/ui/container-creation-dialog.ui:216
+#, fuzzy
+msgid "Volumes"
+msgstr "Bolumenaren ibilbidea"
+
+#: data/resources/ui/container-creation-dialog.ui:242
+msgid "Environment Variables"
+msgstr ""
+
+#: data/resources/ui/env-var-row.ui:30
+msgid "Key"
+msgstr ""
+
+#: data/resources/ui/env-var-row.ui:49
+msgid "Value"
+msgstr ""
+
+#: data/resources/ui/image-details-page.ui:38
+msgid "Image Details"
+msgstr "Irudiaren xehetasunak"
+
+#: data/resources/ui/image-details-page.ui:60
+msgid "Properties"
+msgstr ""
+
+#: data/resources/ui/image-details-page.ui:138
+#, fuzzy
+msgid "Associated Containers"
+msgstr "{} Edukiontziak"
+
+#: data/resources/ui/image-details-page.ui:139
+msgid "There are no containers associated with this image."
+msgstr ""
+
+#: data/resources/ui/image-details-page.ui:153
+msgid "Image Has Been Deleted"
+msgstr "Irudia ezabatu egin da"
+
+#: data/resources/ui/port-mapping-row.ui:29
+msgid "IP address"
+msgstr ""
+
+#: data/resources/ui/port-mapping-row.ui:48
+msgid "Host port"
+msgstr ""
+
+#: data/resources/ui/port-mapping-row.ui:75
+#, fuzzy
+msgid "Container port"
+msgstr "Edukiontzien denda"
+
+#: data/resources/ui/port-mapping-row.ui:102
+msgid "Protocol"
+msgstr ""
+
+#: data/resources/ui/port-mapping-row.ui:113
+msgid "TCP"
+msgstr ""
+
+#: data/resources/ui/port-mapping-row.ui:114
+msgid "UDP"
+msgstr ""
+
+#: data/resources/ui/container-page.ui:72
+msgid "Toggle timestamps"
+msgstr ""
+
+#: data/resources/ui/container-page.ui:113
+msgid "Logs"
+msgstr "Erregistroak"
+
+#: data/resources/ui/container-page.ui:176
+#, fuzzy
+msgid "Container Page"
+msgstr "Edukiontzien denda"
+
+#: data/resources/ui/container-page.ui:187
+#, fuzzy
+msgid "Container Has Been Deleted"
+msgstr "Irudia ezabatu egin da"
+
+#: data/resources/ui/volume-row.ui:34
+msgid "Host path"
+msgstr ""
+
+#: data/resources/ui/volume-row.ui:53
+#, fuzzy
+msgid "Container path"
+msgstr "Edukiontzien denda"
+
+#: data/resources/ui/volume-row.ui:81
+msgid "Mode"
+msgstr ""
+
+#: data/resources/ui/volume-row.ui:92
+msgid "Writable"
+msgstr ""
+
+#: data/resources/ui/volume-row.ui:102
+msgid "SELinux"
+msgstr ""
+
+#: data/resources/ui/volume-row.ui:113
+msgid "No label"
+msgstr ""
+
+#: data/resources/ui/volume-row.ui:114
+msgid "Shared"
+msgstr ""
+
+#: data/resources/ui/volume-row.ui:115
+msgid "Private"
+msgstr ""
 
 #: src/model/container.rs:63
 msgid "Configured"
@@ -352,143 +581,178 @@ msgstr "Geldiarazten"
 msgid "Unknown"
 msgstr "Ezezaguna"
 
-#: src/view/container_rename_dialog.rs:87
+#: src/view/container/container_logs_panel.rs:403
+msgid "{} of {}"
+msgstr ""
+
+#: src/view/container/container_rename_dialog.rs:87
 msgid "Rename container «{}»"
 msgstr "«{ }» edukiontzia berriz izendatu"
 
-#: src/view/container_row.rs:268
-msgid "Error on starting container"
-msgstr "Errorea edukiontzia hastean"
-
-#: src/view/container_row.rs:276
-msgid "Error on stopping container"
-msgstr "Errorea edukiontzia gelditzean"
-
-#: src/view/container_row.rs:284
-msgid "Error on force stopping container"
-msgstr "Errore bat edukiontzia gelditzeko behartzean"
-
-#: src/view/container_row.rs:292
-msgid "Error on restarting container"
-msgstr "Errorea edukiontzia berriz hastean"
-
-#: src/view/container_row.rs:300
-msgid "Error on force restarting container"
-msgstr "Errore bat edukiontzia berriz hastea behartzean"
-
-#: src/view/container_row.rs:308
-msgid "Error on pausing container"
-msgstr "Errorea edukiontzia pausatzean"
-
-#: src/view/container_row.rs:316
-msgid "Error on resuming container"
-msgstr "Errorea edukiontzia berriz martxan jartzean"
-
-#: src/view/container_row.rs:364
-msgid "Error on committing container"
-msgstr "Errorea edukiontzia baieztatzean"
-
-#: src/view/container_row.rs:372
-msgid "Error on deleting container"
-msgstr "Errorea edukiontzia ezabatzean"
-
-#: src/view/container_row.rs:380
-msgid "Error on force deleting container"
-msgstr "Errorea edukiontziaren ezabaketa behartzean"
-
-#: src/view/container_row.rs:396
-msgid "Re_name…"
-msgstr "Be_rrizendatu…"
-
-#: src/view/container_row.rs:400
-msgid "_Commit"
-msgstr "_Commit"
-
-#: src/view/container_row.rs:414
-msgid "_Start"
-msgstr "_Hasi"
-
-#: src/view/container_row.rs:422
-msgid "S_top"
-msgstr "G_elditu"
-
-#: src/view/container_row.rs:423
-msgid "_Force Stop"
-msgstr "_Atxiloketa behartu"
-
-#: src/view/container_row.rs:424
-msgid "R_estart"
-msgstr "B_errabiarazi"
-
-#: src/view/container_row.rs:425
-msgid "F_orce Restart"
-msgstr "Be_hartu berriz hastea"
-
-#: src/view/container_row.rs:434
-msgid "_Pause"
-msgstr "_Pausarazi"
-
-#: src/view/container_row.rs:444
-msgid "_Resume"
-msgstr "_Berrekin"
-
 #. Translators: There's a wide space (U+2002) between ", {}".
-#: src/view/containers_panel.rs:174
+#: src/view/container/containers_group.rs:123
 msgid "{} Containers total, {} running"
 msgstr "{} Edukiontziak guztira,  {} egikaritzen"
 
-#: src/view/containers_panel.rs:178
-msgid "No containers found"
-msgstr "Ez dira edukiontzirik aurkitu"
+#: src/view/container/containers_panel.rs:223
+#, fuzzy
+msgid "_Show only running containers"
+msgstr "Erakutsi martxan dauden edukiontziak bakarrik"
+
+#: src/view/container/mod.rs:54
+msgid "Error on starting container"
+msgstr "Errorea edukiontzia hastean"
+
+#: src/view/container/mod.rs:62
+msgid "Error on stopping container"
+msgstr "Errorea edukiontzia gelditzean"
+
+#: src/view/container/mod.rs:70
+msgid "Error on force stopping container"
+msgstr "Errore bat edukiontzia gelditzeko behartzean"
+
+#: src/view/container/mod.rs:78
+msgid "Error on restarting container"
+msgstr "Errorea edukiontzia berriz hastean"
+
+#: src/view/container/mod.rs:86
+msgid "Error on force restarting container"
+msgstr "Errore bat edukiontzia berriz hastea behartzean"
+
+#: src/view/container/mod.rs:94
+msgid "Error on pausing container"
+msgstr "Errorea edukiontzia pausatzean"
+
+#: src/view/container/mod.rs:102
+msgid "Error on resuming container"
+msgstr "Errorea edukiontzia berriz martxan jartzean"
+
+#: src/view/container/mod.rs:110
+msgid "Error on committing container"
+msgstr "Errorea edukiontzia baieztatzean"
+
+#: src/view/container/mod.rs:118
+msgid "Error on deleting container"
+msgstr "Errorea edukiontzia ezabatzean"
+
+#: src/view/container/mod.rs:126
+msgid "Error on force deleting container"
+msgstr "Errorea edukiontziaren ezabaketa behartzean"
+
+#: src/view/container/mod.rs:168
+msgid "Re_name…"
+msgstr "Be_rrizendatu…"
+
+#: src/view/container/mod.rs:172
+msgid "_Commit"
+msgstr "_Commit"
+
+#: src/view/container/mod.rs:176 src/view/image/mod.rs:86
+msgid "_Delete"
+msgstr "_Ezabatu"
+
+#: src/view/container/mod.rs:186
+msgid "_Start"
+msgstr "_Hasi"
+
+#: src/view/container/mod.rs:194
+msgid "S_top"
+msgstr "G_elditu"
+
+#: src/view/container/mod.rs:195
+msgid "_Force Stop"
+msgstr "_Atxiloketa behartu"
+
+#: src/view/container/mod.rs:196
+msgid "R_estart"
+msgstr "B_errabiarazi"
+
+#: src/view/container/mod.rs:197
+msgid "F_orce Restart"
+msgstr "Be_hartu berriz hastea"
+
+#: src/view/container/mod.rs:206
+msgid "_Pause"
+msgstr "_Pausarazi"
+
+#: src/view/container/mod.rs:216
+msgid "_Resume"
+msgstr "_Berrekin"
 
 #. Translators: "{}" are placeholders for storage space.
-#: src/view/image_details_page.rs:145
+#: src/view/image/image_details_page.rs:152
 msgid "{} (Virtual: {})"
 msgstr "{} (Birtuala: {})"
 
 #. Translators: "{}" are placeholders for storage space.
-#: src/view/image_details_page.rs:154
+#: src/view/image/image_details_page.rs:161
 msgid "{} (Shared: {})"
 msgstr "{} (Partekatuta: {})"
 
 #. Translators: "{}" are placeholders for storage space.
-#: src/view/image_details_page.rs:164
+#: src/view/image/image_details_page.rs:171
 msgid "{} (Shared: {}, Virtual: {})"
 msgstr "{} (Partekatuta: {}, Birtuala: {})"
 
+#. Translators: There's a wide space (U+2002) between the two {} {}.
+#: src/view/image/images_panel.rs:168
+msgid "{} images total, {} {} unused images, {}"
+msgstr "{} irudi guztira, {} {} erabili gabeko irudiak, {}"
+
+#: src/view/image/images_panel.rs:174
+msgid "No images found"
+msgstr "Ez da irudirik aurkitu"
+
+#. Translators: The first two placeholders are for a numbers, the last for disk space.
+#: src/view/image/images_panel.rs:372
+#, fuzzy
+msgid "{} images pruned ({} errors). {} space reclaimed."
+msgstr "{} irudi inausi dira ({} errore)"
+
+#: src/view/image/images_panel.rs:383
+#, fuzzy
+msgid "There are no images to be pruned."
+msgstr "Ez dago inausteko irudirik"
+
+#. Translators: "{}" is a placeholder for an error message.
+#: src/view/image/images_panel.rs:387
+#, fuzzy
+msgid "Error on pruning images: '{}'"
+msgstr "Errorea '{}' irudia inaustean"
+
+#. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
+#: src/view/image/images_prune_dialog.rs:192
+msgid "%x %H:%M %p"
+msgstr ""
+
+#: src/view/image/images_prune_dialog.rs:194
+msgid "Invalid date format"
+msgstr ""
+
 #. Translators: "{}" is a placeholder for the image id.
-#: src/view/image_details_page.rs:290 src/view/image_row.rs:164
+#: src/view/image/mod.rs:53
 msgid "Successfully deleted image '{}'"
 msgstr "'{}' irudia ondo ezabatu da"
 
 #. Translators: "{}" is a placeholder for the image id.
-#: src/view/image_details_page.rs:295 src/view/image_row.rs:168
+#: src/view/image/mod.rs:57
 msgid "Error on deleting image '{}'"
 msgstr "Errorea '{}' irudia ezabatzean"
 
-#. Translators: There's a wide space (U+2002) between the two {} {}.
-#: src/view/images_panel.rs:176
-msgid "{} images total, {} {} unused images, {}"
-msgstr "{} irudi guztira, {} {} erabili gabeko irudiak, {}"
+#: src/view/image/mod.rs:68
+#, fuzzy
+msgid "_Show intermediate images"
+msgstr "Tarteko irudiak erakutsi"
 
-#: src/view/images_panel.rs:182
-msgid "No images found"
-msgstr "Ez da irudirik aurkitu"
+#: src/view/image/mod.rs:72
+#, fuzzy
+msgid "_Prune unused images…"
+msgstr "Erabili gabeko irudiak inausi"
 
-#. Translators: "{}" is a placeholder for the number of images.
-#: src/view/images_panel.rs:387
-msgid "{} images have been pruned"
-msgstr "{} irudi inausi dira"
-
-#. Translators: "{}" are placeholders for cardinal numbers.
-#: src/view/images_panel.rs:393
-msgid "{} images have been pruned ({} errors)"
-msgstr "{} irudi inausi dira ({} errore)"
-
-#. Translators: "{}" is a placeholder for the image id.
-#: src/view/images_panel.rs:415
-msgid "Error on pruning image '{}'"
-msgstr "Errorea '{}' irudia inaustean"
+#: src/view/image/mod.rs:82
+#, fuzzy
+msgid "_Create Container…"
+msgstr "{} Edukiontziak"
 
 #. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
 #: src/view/info_dialog.rs:127
@@ -543,24 +807,36 @@ msgid "Specify the minimum log level"
 msgstr "Erregistroaren gutxieneko maila zehaztu"
 
 #. Translators: This string will be shown when a property of an entity like an image is null.
-#: src/utils.rs:78
+#: src/utils.rs:113
 msgid "<none>"
 msgstr "<batere ez>"
 
-#: src/window.rs:404
+#: src/window.rs:423
 msgid "Error on loading images"
 msgstr "Errorea irudiak kargatzean"
 
 #. Translators: "{}" is the placeholder for the image id.
-#: src/window.rs:407
+#: src/window.rs:426
 msgid "Error on inspecting image '{}'"
 msgstr "Errorea '{}' irudia ikuskatzean"
 
-#: src/window.rs:420
+#: src/window.rs:439
 msgid "Error on loading containers"
 msgstr "Errorea edukiontziak kargatzean"
 
 #. Translators: "{}" is the placeholder for the container id.
-#: src/window.rs:423
+#: src/window.rs:442
 msgid "Error on inspecting container '{}'"
 msgstr "Errorea '{}' edukiontzia ikuskatzean"
+
+#~ msgid "_Delete Image"
+#~ msgstr "_Irudia ezabatu"
+
+#~ msgid "Used By"
+#~ msgstr "Honek erabilia"
+
+#~ msgid "unused"
+#~ msgstr "erabilerarik gabe"
+
+#~ msgid "{} images have been pruned"
+#~ msgstr "{} irudi inausi dira"
