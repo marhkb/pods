@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-04-25 00:15+0200\n"
-"PO-Revision-Date: 2022-03-30 00:10+0000\n"
-"Last-Translator: Gustavo Costa <xfgusta@gmail.com>\n"
+"PO-Revision-Date: 2022-04-29 23:09+0000\n"
+"Last-Translator: William Gabriel Karvat <linkwgk@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/pods/"
 "pods/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.12-dev\n"
+"X-Generator: Weblate 4.12.1\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:32
@@ -37,42 +37,49 @@ msgstr "Gnome;GTK;"
 #: data/com.github.marhkb.Pods.gschema.xml.in:6
 #: data/com.github.marhkb.Pods.gschema.xml.in:7
 msgid "Default window width"
-msgstr ""
+msgstr "Largura padrão da janela"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:11
 #: data/com.github.marhkb.Pods.gschema.xml.in:12
 msgid "Default window height"
-msgstr ""
+msgstr "Altura padrão da janela"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:16
 msgid "Default window maximized behaviour"
-msgstr ""
+msgstr "Comportamento padrão da janela maximizada"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:26
 msgid "Style Variant"
-msgstr ""
+msgstr "Variante de Estilo"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:27
 msgid "Use the light or dark variant of the GTK theme"
-msgstr ""
+msgstr "Use a variante clara ou escura do tema GTK"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:31
+#, fuzzy
 msgid "The last used view"
-msgstr ""
+msgstr "A última visualização usada"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:36
 msgid "Whether to show intermediate images"
 msgstr ""
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:41
+#, fuzzy
 msgid "Remove all images not in use by containers, not just dangling ones"
 msgstr ""
+"Remova todas as imagens que não são usada por containers, não apenas as "
+"pendentes"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:46
+#, fuzzy
 msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)"
 msgstr ""
+"Remova imagens mesmo quando usadas por containers externos (por exemplo, por "
+"criar containers)"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:51
 msgid "Whether to show only running containers"
