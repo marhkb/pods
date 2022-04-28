@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-04-25 00:15+0200\n"
-"PO-Revision-Date: 2022-03-31 20:16+0000\n"
+"PO-Revision-Date: 2022-04-29 23:09+0000\n"
 "Last-Translator: Andrea Brandi <git@andreabrandi.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/pods/pods/it/>\n"
 "Language: it\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.12-dev\n"
+"X-Generator: Weblate 4.12.1\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:32
@@ -49,11 +49,11 @@ msgstr "Comportamento predefinito della finestra massimizzata"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:26
 msgid "Style Variant"
-msgstr ""
+msgstr "Stile aspetto"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:27
 msgid "Use the light or dark variant of the GTK theme"
-msgstr ""
+msgstr "Utilizza la variante chiara o scura del tema GTK"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:31
 msgid "The last used view"
@@ -66,21 +66,24 @@ msgstr "Mostra immagini intermedie"
 #: data/com.github.marhkb.Pods.gschema.xml.in:41
 msgid "Remove all images not in use by containers, not just dangling ones"
 msgstr ""
+"Rimuovi tutte le immagini non utilizzate dai contenitori, non solo quelle "
+"penzolanti"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:46
 msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)"
 msgstr ""
+"Rimuovi le immagini anche quando utilizzate da contenitori esterni (ad es. "
+"dai contenitori di compilazione)"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:51
 msgid "Whether to show only running containers"
 msgstr "Mostra solo contenitori in esecuzione"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:56
-#, fuzzy
 msgid "Whether to show a timestamp for each log line"
-msgstr "Mostra immagini intermedie"
+msgstr "Mostra un timestamp per ogni riga del registro"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:15
 msgid "Main window"
@@ -138,7 +141,7 @@ msgstr "Versione API"
 
 #: data/resources/ui/info-dialog.ui:25
 msgid "Built Time"
-msgstr "Tempo di compilazione"
+msgstr "Data build"
 
 #: data/resources/ui/info-dialog.ui:31
 msgid "Git Commit"
@@ -154,8 +157,7 @@ msgstr "Architettura SO"
 
 #: data/resources/ui/info-dialog.ui:59
 msgid "Describes the container storage and its attributes."
-msgstr ""
-"Descrive lo spazio di archiviazione del contenitore e i relativi attributi."
+msgstr "Spazio di archiviazione del contenitore e relativi attributi."
 
 #: data/resources/ui/info-dialog.ui:63
 msgid "Config File"
@@ -167,7 +169,7 @@ msgstr "Archivio contenitori"
 
 #: data/resources/ui/info-dialog.ui:70
 msgid "Describes the quantity of containers in the store by status."
-msgstr "Descrive la quantità di contenitori archiviati in base allo stato."
+msgstr "Quantità di contenitori archiviati in base allo stato."
 
 #: data/resources/ui/info-dialog.ui:87 src/model/container.rs:67
 msgid "Paused"
@@ -183,19 +185,19 @@ msgstr "Arrestato"
 
 #: data/resources/ui/info-dialog.ui:108
 msgid "Graph Driver Name"
-msgstr "Nome del driver grafico"
+msgstr "Driver graph"
 
 #: data/resources/ui/info-dialog.ui:114
 msgid "Graph Options"
-msgstr "Opzioni grafica"
+msgstr "Opzioni graph"
 
 #: data/resources/ui/info-dialog.ui:134
 msgid "Graph Root"
-msgstr "Percorso grafica"
+msgstr "Radice graph"
 
 #: data/resources/ui/info-dialog.ui:140
 msgid "Graph Status"
-msgstr "Stato grafica"
+msgstr "Stato graph"
 
 #: data/resources/ui/info-dialog.ui:160
 msgid "Image Store"
@@ -204,8 +206,7 @@ msgstr "Archivio immagini"
 #: data/resources/ui/info-dialog.ui:161
 msgid "Describes the image store. Right now only the number of images present."
 msgstr ""
-"Descrive l'archivio delle immagini. Al momento solo il numero delle immagini "
-"presenti."
+"Archivio delle immagini, al momento solo il numero delle immagini presenti."
 
 #: data/resources/ui/info-dialog.ui:167
 msgid "Run Root"
@@ -213,7 +214,7 @@ msgstr "Percorso di esecuzione"
 
 #: data/resources/ui/info-dialog.ui:173
 msgid "Volume Path"
-msgstr "Percorso del volume"
+msgstr "Percorso volume"
 
 #: data/resources/ui/container-details-panel.ui:25
 msgid "Id"
@@ -275,27 +276,27 @@ msgstr "Scorri alla fine"
 
 #: data/resources/ui/container-logs-panel.ui:72
 msgid "Move to previous match (Ctrl+Shift+G)"
-msgstr ""
+msgstr "Passa alla corrispondenza precedente (Ctrl+Shift+G)"
 
 #: data/resources/ui/container-logs-panel.ui:80
 msgid "Move to next match (Ctrl+G)"
-msgstr ""
+msgstr "Passa alla corrispondenza successiva (Ctrl+G)"
 
 #: data/resources/ui/container-logs-panel.ui:90
 msgid "Toggle search options"
-msgstr ""
+msgstr "Attiva/disattiva opzioni di ricerca"
 
 #: data/resources/ui/container-logs-panel.ui:113
 msgid "Re_gular expressions"
-msgstr ""
+msgstr "Espressioni re_golari"
 
 #: data/resources/ui/container-logs-panel.ui:120
 msgid "_Case sensitive"
-msgstr ""
+msgstr "_Maiuscole/minuscole"
 
 #: data/resources/ui/container-logs-panel.ui:127
 msgid "Match whole _word only"
-msgstr ""
+msgstr "Solo paro_la intera"
 
 #: data/resources/ui/containers-panel.ui:86
 msgid "No containers found"
@@ -304,21 +305,21 @@ msgstr "Nessun contenitore trovato"
 #: data/resources/ui/theme-selector.ui:22
 #: data/resources/ui/theme-selector.ui:24
 msgid "Follow system style"
-msgstr ""
+msgstr "Segui lo stile del sistema"
 
 #: data/resources/ui/theme-selector.ui:38
 #: data/resources/ui/theme-selector.ui:40
 msgid "Light style"
-msgstr ""
+msgstr "Stile chiaro"
 
 #: data/resources/ui/theme-selector.ui:55
 #: data/resources/ui/theme-selector.ui:57
 msgid "Dark style"
-msgstr ""
+msgstr "Stile scuro"
 
 #: data/resources/ui/window.ui:12
 msgid "_Show Podman Info"
-msgstr "_Mostra informazioni su Podman"
+msgstr "Mostra i_nformazioni su Podman"
 
 #: data/resources/ui/window.ui:18
 msgid "_Preferences"
@@ -341,7 +342,6 @@ msgid "Containers"
 msgstr "Contenitori"
 
 #: data/resources/ui/images-prune-dialog.ui:7
-#, fuzzy
 msgid "Prune Unused Images"
 msgstr "Elimina immagini inutilizzate"
 
@@ -350,59 +350,58 @@ msgid "_Prune"
 msgstr "_Elimina"
 
 #: data/resources/ui/images-prune-dialog.ui:35
-#, fuzzy
 msgid "Options"
-msgstr "{} Opzioni"
+msgstr "Opzioni"
 
 #: data/resources/ui/images-prune-dialog.ui:40
-#, fuzzy
 msgid "Prune All"
-msgstr "_Elimina"
+msgstr "Elimina tutto"
 
 #: data/resources/ui/images-prune-dialog.ui:41
 msgid "Remove all images not in use by containers, not just dangling ones."
 msgstr ""
+"Rimuovi tutte le immagini non utilizzate dai contenitori, non solo quelle "
+"penzolanti."
 
 #: data/resources/ui/images-prune-dialog.ui:53
 msgid "Prune External"
-msgstr ""
+msgstr "Elimina esterne"
 
 #: data/resources/ui/images-prune-dialog.ui:54
 msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)."
 msgstr ""
+"Rimuovi le immagini anche quando vengono utilizzate da contenitori esterni ("
+"ad es. dai contenitori di compilazione)."
 
 #: data/resources/ui/images-prune-dialog.ui:65
 msgid "Prune Until"
-msgstr ""
+msgstr "Elimina prima di"
 
 #: data/resources/ui/images-prune-dialog.ui:66
 msgid "Prune images created before this timestamp."
-msgstr ""
+msgstr "Elimina le immagini create prima di questo timestamp."
 
 #: data/resources/ui/images-prune-dialog.ui:146
 msgid "AM"
-msgstr ""
+msgstr "AM"
 
 #: data/resources/ui/images-prune-dialog.ui:147
 msgid "PM"
-msgstr ""
+msgstr "PM"
 
 #: data/resources/ui/container-creation-dialog.ui:7
-#, fuzzy
 msgid "_Create"
-msgstr "Creato"
+msgstr "_Crea"
 
 #: data/resources/ui/container-creation-dialog.ui:17
-#, fuzzy
 msgid "Create Container"
-msgstr "Contenitori"
+msgstr "Crea contenitore"
 
 #: data/resources/ui/container-creation-dialog.ui:32
-#, fuzzy
 msgid "Create and run"
-msgstr "Creato"
+msgstr "Crea e avvia"
 
 #: data/resources/ui/container-creation-dialog.ui:68
 #: data/resources/ui/container-page.ui:95
@@ -411,48 +410,47 @@ msgstr "Dettagli"
 
 #: data/resources/ui/container-creation-dialog.ui:96
 msgid "Command"
-msgstr ""
+msgstr "Comando"
 
 #: data/resources/ui/container-creation-dialog.ui:109
 msgid "Terminal"
-msgstr ""
+msgstr "Terminale"
 
 #: data/resources/ui/container-creation-dialog.ui:122
 msgid "Memory limit"
-msgstr ""
+msgstr "Limite di memoria"
 
 #: data/resources/ui/container-creation-dialog.ui:164
 msgid "KB"
-msgstr ""
+msgstr "KB"
 
 #: data/resources/ui/container-creation-dialog.ui:165
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 #: data/resources/ui/container-creation-dialog.ui:166
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #: data/resources/ui/container-creation-dialog.ui:190
 msgid "Port Mappings"
-msgstr ""
+msgstr "Mappature porte"
 
 #: data/resources/ui/container-creation-dialog.ui:216
-#, fuzzy
 msgid "Volumes"
-msgstr "Percorso del volume"
+msgstr "Volumi"
 
 #: data/resources/ui/container-creation-dialog.ui:242
 msgid "Environment Variables"
-msgstr ""
+msgstr "Variabili d'ambiente"
 
 #: data/resources/ui/env-var-row.ui:30
 msgid "Key"
-msgstr ""
+msgstr "Chiave"
 
 #: data/resources/ui/env-var-row.ui:49
 msgid "Value"
-msgstr ""
+msgstr "Valore"
 
 #: data/resources/ui/image-details-page.ui:38
 msgid "Image Details"
@@ -460,16 +458,15 @@ msgstr "Dettagli immagine"
 
 #: data/resources/ui/image-details-page.ui:60
 msgid "Properties"
-msgstr ""
+msgstr "Proprietà"
 
 #: data/resources/ui/image-details-page.ui:138
-#, fuzzy
 msgid "Associated Containers"
-msgstr "{} Contenitori"
+msgstr "Contenitori associati"
 
 #: data/resources/ui/image-details-page.ui:139
 msgid "There are no containers associated with this image."
-msgstr ""
+msgstr "Non ci sono contenitori associati a questa immagine."
 
 #: data/resources/ui/image-details-page.ui:153
 msgid "Image Has Been Deleted"
@@ -477,79 +474,75 @@ msgstr "L'immagine è stata eliminata"
 
 #: data/resources/ui/port-mapping-row.ui:29
 msgid "IP address"
-msgstr ""
+msgstr "Indirizzo IP"
 
 #: data/resources/ui/port-mapping-row.ui:48
 msgid "Host port"
-msgstr ""
+msgstr "Porta host"
 
 #: data/resources/ui/port-mapping-row.ui:75
-#, fuzzy
 msgid "Container port"
-msgstr "Archivio contenitori"
+msgstr "Porta contenitore"
 
 #: data/resources/ui/port-mapping-row.ui:102
 msgid "Protocol"
-msgstr ""
+msgstr "Protocollo"
 
 #: data/resources/ui/port-mapping-row.ui:113
 msgid "TCP"
-msgstr ""
+msgstr "TCP"
 
 #: data/resources/ui/port-mapping-row.ui:114
 msgid "UDP"
-msgstr ""
+msgstr "UDP"
 
 #: data/resources/ui/container-page.ui:72
 msgid "Toggle timestamps"
-msgstr ""
+msgstr "Attiva/disattiva timestamp"
 
 #: data/resources/ui/container-page.ui:113
 msgid "Logs"
-msgstr "Log"
+msgstr "Registro"
 
 #: data/resources/ui/container-page.ui:176
-#, fuzzy
 msgid "Container Page"
-msgstr "Archivio contenitori"
+msgstr "Pagina contenitore"
 
 #: data/resources/ui/container-page.ui:187
-#, fuzzy
 msgid "Container Has Been Deleted"
-msgstr "L'immagine è stata eliminata"
+msgstr "Il contenitore è stato eliminato"
 
 #: data/resources/ui/volume-row.ui:34
 msgid "Host path"
-msgstr ""
+msgstr "Percorso host"
 
 #: data/resources/ui/volume-row.ui:53
-#, fuzzy
 msgid "Container path"
-msgstr "Archivio contenitori"
+msgstr "Percorso contenitore"
 
 #: data/resources/ui/volume-row.ui:81
 msgid "Mode"
-msgstr ""
+msgstr "Modalità"
 
 #: data/resources/ui/volume-row.ui:92
 msgid "Writable"
-msgstr ""
+msgstr "Scrivibile"
 
 #: data/resources/ui/volume-row.ui:102
 msgid "SELinux"
-msgstr ""
+msgstr "SELinux"
 
 #: data/resources/ui/volume-row.ui:113
 msgid "No label"
-msgstr ""
+msgstr "Senza etichetta"
 
 #: data/resources/ui/volume-row.ui:114
 msgid "Shared"
-msgstr ""
+msgstr "Condiviso"
 
 #: data/resources/ui/volume-row.ui:115
 msgid "Private"
-msgstr ""
+msgstr "Privato"
 
 #: src/model/container.rs:63
 msgid "Configured"
@@ -585,7 +578,7 @@ msgstr "Sconosciuto"
 
 #: src/view/container/container_logs_panel.rs:403
 msgid "{} of {}"
-msgstr ""
+msgstr "{} di {}"
 
 #: src/view/container/container_rename_dialog.rs:87
 msgid "Rename container «{}»"
@@ -597,9 +590,8 @@ msgid "{} Containers total, {} running"
 msgstr "{} Contenitori totali, {} in esecuzione"
 
 #: src/view/container/containers_panel.rs:223
-#, fuzzy
 msgid "_Show only running containers"
-msgstr "Mostra solo contenitori in esecuzione"
+msgstr "Mostra solo contenitori _in esecuzione"
 
 #: src/view/container/mod.rs:54
 msgid "Error on starting container"
@@ -707,29 +699,26 @@ msgstr "Nessuna immagine trovata"
 
 #. Translators: The first two placeholders are for a numbers, the last for disk space.
 #: src/view/image/images_panel.rs:372
-#, fuzzy
 msgid "{} images pruned ({} errors). {} space reclaimed."
-msgstr "Le immagini {} sono state eliminate ({} errori)"
+msgstr "{} immagini eliminate ({} errori). {} spazio recuperato."
 
 #: src/view/image/images_panel.rs:383
-#, fuzzy
 msgid "There are no images to be pruned."
-msgstr "Nessuna immagine da eliminare"
+msgstr "Nessuna immagine da eliminare."
 
 #. Translators: "{}" is a placeholder for an error message.
 #: src/view/image/images_panel.rs:387
-#, fuzzy
 msgid "Error on pruning images: '{}'"
-msgstr "Errore durante l'eliminazione dell'immagine '{}'"
+msgstr "Errore durante l'eliminazione delle immagini: '{}'"
 
 #. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
 #: src/view/image/images_prune_dialog.rs:192
 msgid "%x %H:%M %p"
-msgstr ""
+msgstr "%x %H:%M %p"
 
 #: src/view/image/images_prune_dialog.rs:194
 msgid "Invalid date format"
-msgstr ""
+msgstr "Formato data non valido"
 
 #. Translators: "{}" is a placeholder for the image id.
 #: src/view/image/mod.rs:53
@@ -742,19 +731,16 @@ msgid "Error on deleting image '{}'"
 msgstr "Errore durante l'eliminazione dell'immagine '{}'"
 
 #: src/view/image/mod.rs:68
-#, fuzzy
 msgid "_Show intermediate images"
-msgstr "Mostra immagini intermedie"
+msgstr "_Mostra immagini intermedie"
 
 #: src/view/image/mod.rs:72
-#, fuzzy
 msgid "_Prune unused images…"
-msgstr "Elimina immagini inutilizzate"
+msgstr "_Elimina immagini inutilizzate…"
 
 #: src/view/image/mod.rs:82
-#, fuzzy
 msgid "_Create Container…"
-msgstr "{} Contenitori"
+msgstr "_Crea contenitore…"
 
 #. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
 #: src/view/info_dialog.rs:127
