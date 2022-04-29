@@ -1,16 +1,26 @@
-use std::cell::{Cell, RefCell};
+use std::cell::Cell;
+use std::cell::RefCell;
 use std::fmt;
 use std::str::FromStr;
 
-use futures::{Future, TryFutureExt};
+use futures::Future;
+use futures::TryFutureExt;
 use gettextrs::gettext;
-use gtk::glib::{self, clone, WeakRef};
-use gtk::prelude::{ObjectExt, StaticType, ToValue};
+use gtk::glib::clone;
+use gtk::glib::WeakRef;
+use gtk::glib::{self};
+use gtk::prelude::ObjectExt;
+use gtk::prelude::StaticType;
+use gtk::prelude::ToValue;
 use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
 use once_cell::unsync::OnceCell;
 
-use crate::{api, model, monad_boxed_type, utils, PODMAN};
+use crate::api;
+use crate::model;
+use crate::monad_boxed_type;
+use crate::utils;
+use crate::PODMAN;
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, glib::Enum)]
 #[enum_type(name = "ContainerStatus")]

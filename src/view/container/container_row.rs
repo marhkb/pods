@@ -1,11 +1,17 @@
-use adw::subclass::prelude::{ActionRowImpl, PreferencesRowImpl};
-use gtk::glib::{closure, WeakRef};
+use adw::subclass::prelude::ActionRowImpl;
+use adw::subclass::prelude::PreferencesRowImpl;
+use gtk::gio;
+use gtk::glib;
+use gtk::glib::closure;
+use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
-use gtk::{gio, glib, CompositeTemplate};
+use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
 
-use crate::{model, utils, view};
+use crate::model;
+use crate::utils;
+use crate::view;
 
 mod imp {
 

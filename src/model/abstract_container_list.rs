@@ -1,7 +1,8 @@
+use gtk::gio;
+use gtk::glib;
 use gtk::glib::subclass::Signal;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
-use gtk::{gio, glib};
 use once_cell::sync::Lazy;
 
 use crate::model;

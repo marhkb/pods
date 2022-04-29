@@ -1,13 +1,17 @@
 // Inspired by https://github.com/phastmike/vala-circular-progress-bar/blob/1528d42a6045734038bf0022a88b846edf582b3a/circular-progress-bar.vala.
 
-use std::cell::{Cell, RefCell};
+use std::cell::Cell;
+use std::cell::RefCell;
 use std::f64;
 use std::time::Duration;
 
-use gtk::glib::{clone, closure};
+use gtk::gdk;
+use gtk::glib;
+use gtk::glib::clone;
+use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
-use gtk::{gdk, glib, CompositeTemplate};
+use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
 
 mod imp {

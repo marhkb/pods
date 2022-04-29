@@ -1,7 +1,8 @@
+use gtk::glib;
 use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
-use gtk::{glib, CompositeTemplate};
+use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
 
 mod imp {

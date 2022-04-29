@@ -1,21 +1,28 @@
 use std::borrow::Cow;
-use std::cell::{Cell, RefCell};
+use std::cell::Cell;
+use std::cell::RefCell;
 use std::collections::BTreeMap;
 use std::mem;
 
 use futures::stream;
 use gettextrs::gettext;
-use gtk::glib::{clone, WeakRef};
+use gtk::glib;
+use gtk::glib::clone;
+use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
-use gtk::{glib, CompositeTemplate};
+use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
 use once_cell::unsync::OnceCell;
-use sourceview5::traits::{
-    BufferExt, GutterRendererExt, GutterRendererTextExt, SearchSettingsExt, ViewExt,
-};
+use sourceview5::traits::BufferExt;
+use sourceview5::traits::GutterRendererExt;
+use sourceview5::traits::GutterRendererTextExt;
+use sourceview5::traits::SearchSettingsExt;
+use sourceview5::traits::ViewExt;
 
-use crate::{model, utils, view};
+use crate::model;
+use crate::utils;
+use crate::view;
 
 mod imp {
     use super::*;

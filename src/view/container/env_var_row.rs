@@ -1,8 +1,9 @@
 use std::cell::RefCell;
 
+use gtk::glib;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
-use gtk::{glib, CompositeTemplate};
+use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
 
 use crate::model;

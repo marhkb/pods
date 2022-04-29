@@ -1,16 +1,22 @@
 use std::io;
 
-use futures::{future, FutureExt};
+use futures::future;
+use futures::FutureExt;
 use gettextrs::gettext;
-use glib::{clone, WeakRef};
+use glib::clone;
+use glib::WeakRef;
+use gtk::gdk;
+use gtk::gio;
+use gtk::glib;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
-use gtk::{gdk, gio, glib};
-use log::{debug, info};
+use log::debug;
+use log::info;
 use once_cell::sync::OnceCell;
 
+use crate::config;
+use crate::utils;
 use crate::window::Window;
-use crate::{config, utils};
 
 mod imp {
     use super::*;

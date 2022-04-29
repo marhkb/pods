@@ -1,6 +1,7 @@
 use gtk::glib;
 use gtk::glib::clone;
-use gtk::prelude::{StaticType, ToValue};
+use gtk::prelude::StaticType;
+use gtk::prelude::ToValue;
 use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
 use once_cell::unsync::OnceCell;
