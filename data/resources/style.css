@@ -110,3 +110,12 @@ checkbutton.theme-selector radio:checked {
 .text-view {
   font-size: 0.85em;
 }
+
+.star > count {
+  font-size: 0.85em;
+  font-feature-settings: "tnum";
+}
+
+.star > icon {
+  color: @yellow_3;
+}

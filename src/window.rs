@@ -72,6 +72,7 @@ mod imp {
             view::ContainerLogsPanel::static_type();
             view::ContainersGroup::static_type();
             view::ImageRowSimple::static_type();
+            view::ImageSearchResponseRow::static_type();
             view::ImagesPanel::static_type();
             view::PropertyWidgetRow::static_type();
             view::StartServicePage::static_type();
@@ -83,6 +84,9 @@ mod imp {
             });
 
             klass.install_property_action("images.show-intermediates", "show-intermediate-images");
+            klass.install_action("image.pull", None, move |widget, _, _| {
+                widget.show_pull_dialog();
+            });
             klass.install_action("images.prune-unused", None, move |widget, _, _| {
                 widget.show_prune_dialog();
             });
@@ -320,6 +324,19 @@ impl Window {
             ..set_transient_for(Some(self));
         }
         .present();
+    }
+
+    fn show_pull_dialog(&self) {
+        let dialog = view::ImagePullDialog::from(&Some(self.clone().upcast()));
+        dialog.connect_response(|dialog, response| {
+            if matches!(
+                response,
+                gtk::ResponseType::Close | gtk::ResponseType::Cancel
+            ) {
+                dialog.close();
+            }
+        });
+        dialog.present();
     }
 
     fn show_prune_dialog(&self) {

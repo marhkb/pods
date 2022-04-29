@@ -16,8 +16,10 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/containers-group.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/env-var-row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/image-details-page.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/image-pull-dialog.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/image-row-simple.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/image-row.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/image-search-response-row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/images-panel.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/images-prune-dialog.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/info-dialog.ui</file>

@@ -1,6 +1,8 @@
 mod image_details_page;
+mod image_pull_dialog;
 mod image_row;
 mod image_row_simple;
+mod image_search_response_row;
 mod images_panel;
 mod images_prune_dialog;
 
@@ -15,8 +17,10 @@ use gtk::traits::GtkWindowExt;
 use gtk::traits::WidgetExt;
 
 pub(crate) use self::image_details_page::ImageDetailsPage;
+pub(crate) use self::image_pull_dialog::ImagePullDialog;
 pub(crate) use self::image_row::ImageRow;
 pub(crate) use self::image_row_simple::ImageRowSimple;
+pub(crate) use self::image_search_response_row::ImageSearchResponseRow;
 pub(crate) use self::images_panel::ImagesPanel;
 pub(crate) use self::images_prune_dialog::ImagesPruneDialog;
 use crate::model;
@@ -75,6 +79,7 @@ pub(crate) fn menu() -> gio::Menu {
         });
         ..append_section(None, &cascade!{
             gio::Menu::new();
+            ..append(Some(&gettext("_Download new image…")), Some("image.pull"));
             ..append(Some(&gettext("_Prune unused images…")), Some("images.prune-unused"));
         });
     }
