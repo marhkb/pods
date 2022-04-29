@@ -25,6 +25,7 @@ pub(crate) use self::image::Image;
 pub(crate) use self::image_config::ImageConfig;
 pub(crate) use self::image_list::Error as ImageListError;
 pub(crate) use self::image_list::ImageList;
+pub(crate) use self::image_search_response::ImageSearchResponse;
 pub(crate) use self::port_mapping::PortMapping;
 pub(crate) use self::port_mapping::Protocol as PortMappingProtocol;
 pub(crate) use self::simple_container_list::SimpleContainerList;

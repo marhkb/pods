@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="ImageSearchResponseRow" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBoxLayout">
+        <property name="spacing">12</property>
+      </object>
+    </property>
+    <property name="hexpand">true</property>
+
+    <child>
+      <object class="GtkBox" id="left_box">
+        <property name="orientation">vertical</property>
+        <property name="spacing">1</property>
+        <property name="hexpand">true</property>
+
+        <child>
+          <object class="GtkLabel">
+            <property name="wrap">True</property>
+            <property name="wrap-mode">word</property>
+            <property name="xalign">0</property>
+            <binding name="label">
+              <lookup name="name" type="ImageSearchResponse">
+                <lookup name="image-search-response">ImageSearchResponseRow</lookup>
+              </lookup>
+            </binding>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkLabel" id="description_label">
+            <style>
+              <class name="dim-label"/>
+            </style>
+            <property name="ellipsize">end</property>
+            <property name="lines">3</property>
+            <property name="wrap">True</property>
+            <property name="wrap-mode">word</property>
+            <property name="xalign">0</property>
+            <binding name="label">
+              <lookup name="description" type="ImageSearchResponse">
+                <lookup name="image-search-response">ImageSearchResponseRow</lookup>
+              </lookup>
+            </binding>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <child>
+      <object class="GtkBox" id="right_box">
+        <style>
+          <class name="star"/>
+        </style>
+        <property name="spacing">6</property>
+        <property name="halign">end</property>
+        <property name="valign">center</property>
+
+        <child>
+          <object class="GtkLabel">
+            <property name="css-name">count</property>
+            <property name="valign">end</property>
+            <binding name="label">
+              <lookup name="stars" type="ImageSearchResponse">
+                <lookup name="image-search-response">ImageSearchResponseRow</lookup>
+              </lookup>
+            </binding>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkImage">
+            <property name="css-name">icon</property>
+            <property name="icon-name">starred-symbolic</property>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>
