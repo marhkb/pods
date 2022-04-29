@@ -28,6 +28,7 @@ pub(crate) use self::image_list::ImageList;
 pub(crate) use self::image_search_response::ImageSearchResponse;
 pub(crate) use self::port_mapping::PortMapping;
 pub(crate) use self::port_mapping::Protocol as PortMappingProtocol;
+pub(crate) use self::registry::Registry;
 pub(crate) use self::simple_container_list::SimpleContainerList;
 pub(crate) use self::volume::SELinux as VolumeSELinux;
 pub(crate) use self::volume::Volume;
