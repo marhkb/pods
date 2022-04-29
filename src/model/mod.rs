@@ -6,6 +6,7 @@ mod env_var;
 mod image;
 mod image_config;
 mod image_list;
+mod image_search_response;
 mod port_mapping;
 mod registry;
 mod simple_container_list;
