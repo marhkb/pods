@@ -1,10 +1,11 @@
 use std::borrow::Borrow;
 use std::cell::RefCell;
 
+use gtk::gio;
+use gtk::glib;
 use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
-use gtk::{gio, glib};
 use indexmap::map::IndexMap;
 use once_cell::sync::Lazy;
 

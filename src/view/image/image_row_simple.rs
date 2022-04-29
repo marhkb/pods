@@ -1,10 +1,13 @@
-use gtk::glib::{closure, WeakRef};
+use gtk::glib;
+use gtk::glib::closure;
+use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
-use gtk::{glib, CompositeTemplate};
+use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
 
-use crate::{model, utils};
+use crate::model;
+use crate::utils;
 
 mod imp {
     use super::*;

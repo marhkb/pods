@@ -1,13 +1,19 @@
 use std::borrow::Borrow;
 use std::cell::Cell;
 
-use gtk::glib::{self, clone};
-use gtk::prelude::{ObjectExt, StaticType, ToValue};
+use gtk::glib::clone;
+use gtk::glib::{self};
+use gtk::prelude::ObjectExt;
+use gtk::prelude::StaticType;
+use gtk::prelude::ToValue;
 use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
 use once_cell::unsync::OnceCell;
 
-use crate::{api, model, utils, PODMAN};
+use crate::api;
+use crate::model;
+use crate::utils;
+use crate::PODMAN;
 
 mod imp {
     use super::*;

@@ -9,13 +9,17 @@ mod window;
 
 use std::str::FromStr;
 
-use gettextrs::{gettext, LocaleCategory};
+use gettextrs::gettext;
+use gettextrs::LocaleCategory;
+use gtk::gio;
+use gtk::glib;
 use gtk::prelude::ApplicationExt;
-use gtk::{gio, glib};
 use once_cell::sync::Lazy;
 
 use self::application::Application;
-use self::config::{GETTEXT_PACKAGE, LOCALEDIR, RESOURCES_FILE};
+use self::config::GETTEXT_PACKAGE;
+use self::config::LOCALEDIR;
+use self::config::RESOURCES_FILE;
 
 pub(crate) static RUNTIME: Lazy<tokio::runtime::Runtime> =
     Lazy::new(|| tokio::runtime::Runtime::new().unwrap());

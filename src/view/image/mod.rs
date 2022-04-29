@@ -6,17 +6,23 @@ mod images_prune_dialog;
 
 use cascade::cascade;
 use gettextrs::gettext;
+use gtk::gio;
+use gtk::glib;
 use gtk::glib::clone;
-use gtk::prelude::{Cast, DialogExtManual};
-use gtk::traits::{GtkWindowExt, WidgetExt};
-use gtk::{gio, glib};
+use gtk::prelude::Cast;
+use gtk::prelude::DialogExtManual;
+use gtk::traits::GtkWindowExt;
+use gtk::traits::WidgetExt;
 
 pub(crate) use self::image_details_page::ImageDetailsPage;
 pub(crate) use self::image_row::ImageRow;
 pub(crate) use self::image_row_simple::ImageRowSimple;
 pub(crate) use self::images_panel::ImagesPanel;
 pub(crate) use self::images_prune_dialog::ImagesPruneDialog;
-use crate::{model, utils, view, PODMAN};
+use crate::model;
+use crate::utils;
+use crate::view;
+use crate::PODMAN;
 
 fn create_container<T>(widget: &gtk::Widget, from: &T)
 where

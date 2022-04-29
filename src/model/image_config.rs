@@ -1,12 +1,14 @@
 use std::collections::BTreeSet;
 
 use gtk::glib;
-use gtk::prelude::{StaticType, ToValue};
+use gtk::prelude::StaticType;
+use gtk::prelude::ToValue;
 use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
 use once_cell::unsync::OnceCell;
 
-use crate::{api, utils};
+use crate::api;
+use crate::utils;
 
 mod imp {
     use super::*;

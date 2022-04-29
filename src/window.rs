@@ -2,14 +2,23 @@ use adw::subclass::prelude::AdwApplicationWindowImpl;
 use adw::traits::BinExt;
 use cascade::cascade;
 use gettextrs::gettext;
-use gtk::glib::{clone, closure};
+use gtk::gdk;
+use gtk::gio;
+use gtk::glib;
+use gtk::glib::clone;
+use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
-use gtk::{gdk, gio, glib, CompositeTemplate};
+use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
 
+use crate::api;
 use crate::application::Application;
-use crate::{api, config, model, utils, view, PODMAN};
+use crate::config;
+use crate::model;
+use crate::utils;
+use crate::view;
+use crate::PODMAN;
 
 mod imp {
     use super::*;

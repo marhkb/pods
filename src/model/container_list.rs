@@ -1,15 +1,22 @@
-use std::cell::{Cell, RefCell};
+use std::cell::Cell;
+use std::cell::RefCell;
 use std::collections::HashSet;
 
-use gtk::glib::{clone, WeakRef};
+use gtk::gio;
+use gtk::glib;
+use gtk::glib::clone;
+use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
-use gtk::{gio, glib};
-use indexmap::map::{Entry, IndexMap};
+use indexmap::map::Entry;
+use indexmap::map::IndexMap;
 use once_cell::sync::Lazy;
 
+use crate::api;
+use crate::model;
 use crate::model::AbstractContainerListExt;
-use crate::{api, model, utils, PODMAN};
+use crate::utils;
+use crate::PODMAN;
 
 #[derive(Clone, Debug)]
 pub(crate) enum Error {

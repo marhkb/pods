@@ -2,15 +2,24 @@ use std::cell::RefCell;
 
 use adw::subclass::prelude::*;
 use adw::traits::ComboRowExt;
-use gtk::glib::{clone, closure, WeakRef};
+use gtk::gio;
+use gtk::glib;
+use gtk::glib::clone;
+use gtk::glib::closure;
+use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
-use gtk::{gio, glib, CompositeTemplate};
-use once_cell::sync::{Lazy, OnceCell};
+use gtk::CompositeTemplate;
+use once_cell::sync::Lazy;
+use once_cell::sync::OnceCell;
 use serde::Serialize;
 
+use crate::api;
+use crate::model;
+use crate::utils;
 use crate::utils::ToTypedListModel;
-use crate::{api, model, utils, view, PODMAN};
+use crate::view;
+use crate::PODMAN;
 
 mod imp {
     use super::*;

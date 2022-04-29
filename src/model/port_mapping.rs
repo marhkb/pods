@@ -1,9 +1,12 @@
-use std::cell::{Cell, RefCell};
+use std::cell::Cell;
+use std::cell::RefCell;
 use std::fmt;
 
 use gtk::glib;
 use gtk::glib::subclass::Signal;
-use gtk::prelude::{ObjectExt, StaticType, ToValue};
+use gtk::prelude::ObjectExt;
+use gtk::prelude::StaticType;
+use gtk::prelude::ToValue;
 use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
 

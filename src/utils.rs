@@ -2,13 +2,20 @@ use std::collections::BTreeSet;
 use std::marker::PhantomData;
 use std::ops::Deref;
 
-use futures::{Future, Stream, StreamExt};
+use futures::Future;
+use futures::Stream;
+use futures::StreamExt;
 use gettextrs::gettext;
-use gtk::prelude::{Cast, ListModelExt, StaticType};
+use gtk::gio;
+use gtk::glib;
+use gtk::prelude::Cast;
+use gtk::prelude::ListModelExt;
+use gtk::prelude::StaticType;
 use gtk::traits::WidgetExt;
-use gtk::{gio, glib};
 
-use crate::{config, view, RUNTIME};
+use crate::config;
+use crate::view;
+use crate::RUNTIME;
 
 #[macro_export]
 macro_rules! monad_boxed_type {

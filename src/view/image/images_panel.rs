@@ -1,14 +1,22 @@
 use std::borrow::Cow;
 
 use gettextrs::gettext;
-use gtk::glib::{clone, closure, WeakRef};
+use gtk::gio;
+use gtk::glib;
+use gtk::glib::clone;
+use gtk::glib::closure;
+use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
-use gtk::{gio, glib, CompositeTemplate};
-use once_cell::sync::{Lazy, OnceCell};
+use gtk::CompositeTemplate;
+use once_cell::sync::Lazy;
+use once_cell::sync::OnceCell;
 
+use crate::api;
+use crate::model;
+use crate::utils;
+use crate::view;
 use crate::window::Window;
-use crate::{api, model, utils, view};
 
 mod imp {
     use super::*;

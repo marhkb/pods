@@ -1,17 +1,23 @@
 use std::borrow::Borrow;
-use std::cell::{Cell, RefCell};
+use std::cell::Cell;
+use std::cell::RefCell;
 use std::collections::HashSet;
 
 use futures::TryFutureExt;
+use gtk::gio;
+use gtk::glib;
+use gtk::glib::clone;
 use gtk::glib::subclass::Signal;
-use gtk::glib::{clone, WeakRef};
+use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
-use gtk::{gio, glib};
 use indexmap::IndexMap;
 use once_cell::sync::Lazy;
 
-use crate::{api, model, utils, PODMAN};
+use crate::api;
+use crate::model;
+use crate::utils;
+use crate::PODMAN;
 
 #[derive(Clone, Debug)]
 pub(crate) enum Error {

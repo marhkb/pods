@@ -1,13 +1,18 @@
-use adw::subclass::prelude::{AdwWindowImpl, PreferencesWindowImpl};
-use adw::traits::{ExpanderRowExt, PreferencesWindowExt};
+use adw::subclass::prelude::AdwWindowImpl;
+use adw::subclass::prelude::PreferencesWindowImpl;
+use adw::traits::ExpanderRowExt;
+use adw::traits::PreferencesWindowExt;
 use cascade::cascade;
 use gettextrs::gettext;
+use gtk::glib;
 use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
-use gtk::{glib, CompositeTemplate};
+use gtk::CompositeTemplate;
 
-use crate::{utils, view, PODMAN};
+use crate::utils;
+use crate::view;
+use crate::PODMAN;
 
 mod imp {
     use super::*;

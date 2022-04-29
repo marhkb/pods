@@ -12,10 +12,14 @@ mod volume_row;
 
 use cascade::cascade;
 use gettextrs::gettext;
+use gtk::gio;
+use gtk::glib;
 use gtk::glib::clone;
-use gtk::prelude::{Cast, DialogExtManual};
-use gtk::traits::{DialogExt, GtkWindowExt, WidgetExt};
-use gtk::{gio, glib};
+use gtk::prelude::Cast;
+use gtk::prelude::DialogExtManual;
+use gtk::traits::DialogExt;
+use gtk::traits::GtkWindowExt;
+use gtk::traits::WidgetExt;
 
 pub(crate) use self::container_creation_dialog::ContainerCreationDialog;
 pub(crate) use self::container_details_panel::ContainerDetailsPanel;
@@ -24,11 +28,13 @@ pub(crate) use self::container_page::ContainerPage;
 pub(crate) use self::container_rename_dialog::ContainerRenameDialog;
 pub(crate) use self::container_row::ContainerRow;
 pub(crate) use self::containers_group::ContainersGroup;
-pub(crate) use self::containers_panel::{menu, ContainersPanel};
+pub(crate) use self::containers_panel::menu;
+pub(crate) use self::containers_panel::ContainersPanel;
 pub(crate) use self::env_var_row::EnvVarRow;
 pub(crate) use self::port_mapping_row::PortMappingRow;
 pub(crate) use self::volume_row::VolumeRow;
-use crate::{model, view};
+use crate::model;
+use crate::view;
 
 fn container_status_css_class(status: model::ContainerStatus) -> &'static str {
     use model::ContainerStatus::*;

@@ -1,9 +1,12 @@
-use adw::subclass::prelude::{ActionRowImpl, PreferencesRowImpl};
-use adw::traits::{BinExt, PreferencesRowExt};
+use adw::subclass::prelude::ActionRowImpl;
+use adw::subclass::prelude::PreferencesRowImpl;
+use adw::traits::BinExt;
+use adw::traits::PreferencesRowExt;
+use gtk::glib;
 use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
-use gtk::{glib, CompositeTemplate};
+use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
 
 mod imp {
