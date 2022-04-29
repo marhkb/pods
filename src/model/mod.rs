@@ -7,6 +7,7 @@ mod image;
 mod image_config;
 mod image_list;
 mod port_mapping;
+mod registry;
 mod simple_container_list;
 mod volume;
 
