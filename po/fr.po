@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-04-25 00:15+0200\n"
-"PO-Revision-Date: 2022-03-25 21:13+0000\n"
-"Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
+"PO-Revision-Date: 2022-04-30 16:23+0000\n"
+"Last-Translator: Abdelhak Aissat <abdelhak24062@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/pods/pods/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.12-dev\n"
+"X-Generator: Weblate 4.12.1\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:32
@@ -48,12 +48,13 @@ msgid "Default window maximized behaviour"
 msgstr "Comportement par défaut de la fenêtre maximisée"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:26
+#, fuzzy
 msgid "Style Variant"
-msgstr ""
+msgstr "Variante de style"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:27
 msgid "Use the light or dark variant of the GTK theme"
-msgstr ""
+msgstr "Utiliser la variante nuit ou jour du théme GTK"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:31
 msgid "The last used view"
@@ -66,21 +67,24 @@ msgstr "Afficher ou non les images intermédiaires"
 #: data/com.github.marhkb.Pods.gschema.xml.in:41
 msgid "Remove all images not in use by containers, not just dangling ones"
 msgstr ""
+"Supprimer toutes les images qui ne sont pas utilisées par les conteneurs, "
+"pas seulement celles en attente"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:46
 msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)"
 msgstr ""
+"Suppression des images même lorsqu'elles sont utilisées par des conteneurs "
+"externes (par exemple, par des conteneurs de construction(build containers))"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:51
 msgid "Whether to show only running containers"
 msgstr "Si on doit afficher uniquement les conteneurs en cours d'exécution"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:56
-#, fuzzy
 msgid "Whether to show a timestamp for each log line"
-msgstr "Afficher ou non les images intermédiaires"
+msgstr "Afficher ou non les date et heurs pour chaque ligne de journal"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:15
 msgid "Main window"
@@ -126,49 +130,48 @@ msgstr "Chercher"
 
 #: data/resources/ui/info-dialog.ui:6 data/resources/ui/info-dialog.ui:10
 msgid "Podman Info"
-msgstr ""
+msgstr "Information Podman"
 
 #: data/resources/ui/info-dialog.ui:15 data/resources/ui/info-dialog.ui:49
 msgid "Version"
-msgstr ""
+msgstr "Version"
 
 #: data/resources/ui/info-dialog.ui:19
 msgid "API Version"
-msgstr ""
+msgstr "Version de l'API"
 
 #: data/resources/ui/info-dialog.ui:25
 msgid "Built Time"
-msgstr ""
+msgstr "Temps de construction (compilation)"
 
 #: data/resources/ui/info-dialog.ui:31
 msgid "Git Commit"
-msgstr ""
+msgstr "Git commit"
 
 #: data/resources/ui/info-dialog.ui:37
 msgid "Go Version"
-msgstr ""
+msgstr "Version de Go"
 
 #: data/resources/ui/info-dialog.ui:43
 msgid "Os Arch"
-msgstr ""
+msgstr "Architecture Systéme"
 
 #: data/resources/ui/info-dialog.ui:59
 msgid "Describes the container storage and its attributes."
-msgstr ""
+msgstr "Décrit le stockage du conteneur et ses attributs."
 
 #: data/resources/ui/info-dialog.ui:63
 #, fuzzy
 msgid "Config File"
-msgstr "Configuré"
+msgstr "Fichier de configuration"
 
 #: data/resources/ui/info-dialog.ui:69
-#, fuzzy
 msgid "Container Store"
 msgstr "Conteneurs"
 
 #: data/resources/ui/info-dialog.ui:70
 msgid "Describes the quantity of containers in the store by status."
-msgstr ""
+msgstr "Décrit la quantité de conteneurs par statut."
 
 #: data/resources/ui/info-dialog.ui:87 src/model/container.rs:67
 msgid "Paused"
@@ -184,25 +187,25 @@ msgstr "Arrêté"
 
 #: data/resources/ui/info-dialog.ui:108
 msgid "Graph Driver Name"
-msgstr ""
+msgstr "Nom du pilote graphique"
 
 #: data/resources/ui/info-dialog.ui:114
 msgid "Graph Options"
-msgstr ""
+msgstr "Option de Graph"
 
 #: data/resources/ui/info-dialog.ui:134
+#, fuzzy
 msgid "Graph Root"
-msgstr ""
+msgstr "Racine de Graph"
 
 #: data/resources/ui/info-dialog.ui:140
 #, fuzzy
 msgid "Graph Status"
-msgstr "Statut"
+msgstr "Statut Graphique"
 
 #: data/resources/ui/info-dialog.ui:160
-#, fuzzy
 msgid "Image Store"
-msgstr "Image"
+msgstr "Images"
 
 #: data/resources/ui/info-dialog.ui:161
 msgid "Describes the image store. Right now only the number of images present."
