@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-04-25 00:15+0200\n"
-"PO-Revision-Date: 2022-04-30 16:23+0000\n"
-"Last-Translator: Abdelhak Aissat <abdelhak24062@gmail.com>\n"
+"PO-Revision-Date: 2022-05-01 17:12+0000\n"
+"Last-Translator: Pierre Thévenet <pierre.thevenet@protonmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/pods/pods/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -194,9 +194,8 @@ msgid "Graph Options"
 msgstr "Option de Graph"
 
 #: data/resources/ui/info-dialog.ui:134
-#, fuzzy
 msgid "Graph Root"
-msgstr "Racine de Graph"
+msgstr "Racine de Graphe"
 
 #: data/resources/ui/info-dialog.ui:140
 #, fuzzy
@@ -210,14 +209,16 @@ msgstr "Images"
 #: data/resources/ui/info-dialog.ui:161
 msgid "Describes the image store. Right now only the number of images present."
 msgstr ""
+"Décrit la bibliothèque d'images. Seulement le nombre d'image présente est "
+"disponible pour le moment."
 
 #: data/resources/ui/info-dialog.ui:167
 msgid "Run Root"
-msgstr ""
+msgstr "Lancer la racine"
 
 #: data/resources/ui/info-dialog.ui:173
 msgid "Volume Path"
-msgstr ""
+msgstr "Chemin du volume"
 
 #: data/resources/ui/container-details-panel.ui:25
 msgid "Id"
@@ -287,15 +288,15 @@ msgstr ""
 
 #: data/resources/ui/container-logs-panel.ui:90
 msgid "Toggle search options"
-msgstr ""
+msgstr "Alterner les options de recherche"
 
 #: data/resources/ui/container-logs-panel.ui:113
 msgid "Re_gular expressions"
-msgstr ""
+msgstr "Expressions régulières"
 
 #: data/resources/ui/container-logs-panel.ui:120
 msgid "_Case sensitive"
-msgstr ""
+msgstr "Sensible à la casse"
 
 #: data/resources/ui/container-logs-panel.ui:127
 msgid "Match whole _word only"
@@ -308,21 +309,21 @@ msgstr "Aucun conteneur trouvé"
 #: data/resources/ui/theme-selector.ui:22
 #: data/resources/ui/theme-selector.ui:24
 msgid "Follow system style"
-msgstr ""
+msgstr "Suivre the thème système"
 
 #: data/resources/ui/theme-selector.ui:38
 #: data/resources/ui/theme-selector.ui:40
 msgid "Light style"
-msgstr ""
+msgstr "Style clair"
 
 #: data/resources/ui/theme-selector.ui:55
 #: data/resources/ui/theme-selector.ui:57
 msgid "Dark style"
-msgstr ""
+msgstr "Style foncé"
 
 #: data/resources/ui/window.ui:12
 msgid "_Show Podman Info"
-msgstr ""
+msgstr "Afficher les informations Podman"
 
 #: data/resources/ui/window.ui:18
 msgid "_Preferences"
@@ -355,7 +356,7 @@ msgstr "_Élaguer"
 
 #: data/resources/ui/images-prune-dialog.ui:35
 msgid "Options"
-msgstr ""
+msgstr "Options"
 
 #: data/resources/ui/images-prune-dialog.ui:40
 #, fuzzy
@@ -365,6 +366,8 @@ msgstr "_Élaguer"
 #: data/resources/ui/images-prune-dialog.ui:41
 msgid "Remove all images not in use by containers, not just dangling ones."
 msgstr ""
+"Supprimer toutes les images actuellement non-utilisées par des conteneurs, "
+"pas seulement les images ballantes."
 
 #: data/resources/ui/images-prune-dialog.ui:53
 msgid "Prune External"
@@ -375,37 +378,36 @@ msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)."
 msgstr ""
+".Supprimer les images comprennat celles utilisées par des conteneurs "
+"externes (e.g. par des conteneurs de construction)."
 
 #: data/resources/ui/images-prune-dialog.ui:65
 msgid "Prune Until"
-msgstr ""
+msgstr "Élaguer jusqu'à"
 
 #: data/resources/ui/images-prune-dialog.ui:66
 msgid "Prune images created before this timestamp."
-msgstr ""
+msgstr "Élaguer les images crées avant cet instant."
 
 #: data/resources/ui/images-prune-dialog.ui:146
 msgid "AM"
-msgstr ""
+msgstr "AM"
 
 #: data/resources/ui/images-prune-dialog.ui:147
 msgid "PM"
-msgstr ""
+msgstr "PM"
 
 #: data/resources/ui/container-creation-dialog.ui:7
-#, fuzzy
 msgid "_Create"
-msgstr "Créé"
+msgstr "Créer"
 
 #: data/resources/ui/container-creation-dialog.ui:17
-#, fuzzy
 msgid "Create Container"
-msgstr "Conteneurs"
+msgstr "Créer des conteneurs"
 
 #: data/resources/ui/container-creation-dialog.ui:32
-#, fuzzy
 msgid "Create and run"
-msgstr "Créé"
+msgstr "Créer et lancer"
 
 #: data/resources/ui/container-creation-dialog.ui:68
 #: data/resources/ui/container-page.ui:95
@@ -415,47 +417,47 @@ msgstr "Détails de l'image"
 
 #: data/resources/ui/container-creation-dialog.ui:96
 msgid "Command"
-msgstr ""
+msgstr "Commande"
 
 #: data/resources/ui/container-creation-dialog.ui:109
 msgid "Terminal"
-msgstr ""
+msgstr "Terminal"
 
 #: data/resources/ui/container-creation-dialog.ui:122
 msgid "Memory limit"
-msgstr ""
+msgstr "Limite de mémoire"
 
 #: data/resources/ui/container-creation-dialog.ui:164
 msgid "KB"
-msgstr ""
+msgstr "KB"
 
 #: data/resources/ui/container-creation-dialog.ui:165
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 #: data/resources/ui/container-creation-dialog.ui:166
 msgid "GB"
-msgstr ""
+msgstr "MB"
 
 #: data/resources/ui/container-creation-dialog.ui:190
 msgid "Port Mappings"
-msgstr ""
+msgstr "Mappage de ports"
 
 #: data/resources/ui/container-creation-dialog.ui:216
 msgid "Volumes"
-msgstr ""
+msgstr "Volumes"
 
 #: data/resources/ui/container-creation-dialog.ui:242
 msgid "Environment Variables"
-msgstr ""
+msgstr "Variables d'environement"
 
 #: data/resources/ui/env-var-row.ui:30
 msgid "Key"
-msgstr ""
+msgstr "Clé"
 
 #: data/resources/ui/env-var-row.ui:49
 msgid "Value"
-msgstr ""
+msgstr "Valeur"
 
 #: data/resources/ui/image-details-page.ui:38
 msgid "Image Details"
@@ -463,16 +465,15 @@ msgstr "Détails de l'image"
 
 #: data/resources/ui/image-details-page.ui:60
 msgid "Properties"
-msgstr ""
+msgstr "Propriétés"
 
 #: data/resources/ui/image-details-page.ui:138
-#, fuzzy
 msgid "Associated Containers"
-msgstr "Conteneurs"
+msgstr "Conteneurs associés"
 
 #: data/resources/ui/image-details-page.ui:139
 msgid "There are no containers associated with this image."
-msgstr ""
+msgstr "Il n'y a pas de conteneurs associés à cette image."
 
 #: data/resources/ui/image-details-page.ui:153
 msgid "Image Has Been Deleted"
@@ -480,28 +481,27 @@ msgstr "L'image a été supprimée"
 
 #: data/resources/ui/port-mapping-row.ui:29
 msgid "IP address"
-msgstr ""
+msgstr "Addresse IP"
 
 #: data/resources/ui/port-mapping-row.ui:48
 msgid "Host port"
-msgstr ""
+msgstr "Port de l'hôte"
 
 #: data/resources/ui/port-mapping-row.ui:75
-#, fuzzy
 msgid "Container port"
-msgstr "Conteneurs"
+msgstr "Port du conteneur"
 
 #: data/resources/ui/port-mapping-row.ui:102
 msgid "Protocol"
-msgstr ""
+msgstr "Protocole"
 
 #: data/resources/ui/port-mapping-row.ui:113
 msgid "TCP"
-msgstr ""
+msgstr "TCP"
 
 #: data/resources/ui/port-mapping-row.ui:114
 msgid "UDP"
-msgstr ""
+msgstr "UDP"
 
 #: data/resources/ui/container-page.ui:72
 msgid "Toggle timestamps"
@@ -509,50 +509,47 @@ msgstr ""
 
 #: data/resources/ui/container-page.ui:113
 msgid "Logs"
-msgstr ""
+msgstr "Journaux"
 
 #: data/resources/ui/container-page.ui:176
-#, fuzzy
 msgid "Container Page"
-msgstr "Conteneurs"
+msgstr "Page du conteneur"
 
 #: data/resources/ui/container-page.ui:187
-#, fuzzy
 msgid "Container Has Been Deleted"
-msgstr "L'image a été supprimée"
+msgstr "Le conteneur a été supprimé"
 
 #: data/resources/ui/volume-row.ui:34
 msgid "Host path"
-msgstr ""
+msgstr "Chemin de l'hôte"
 
 #: data/resources/ui/volume-row.ui:53
-#, fuzzy
 msgid "Container path"
-msgstr "Conteneurs"
+msgstr "Chemin du conteneur"
 
 #: data/resources/ui/volume-row.ui:81
 msgid "Mode"
-msgstr ""
+msgstr "Mode"
 
 #: data/resources/ui/volume-row.ui:92
 msgid "Writable"
-msgstr ""
+msgstr "Inscriptible"
 
 #: data/resources/ui/volume-row.ui:102
 msgid "SELinux"
-msgstr ""
+msgstr "SELinux"
 
 #: data/resources/ui/volume-row.ui:113
 msgid "No label"
-msgstr ""
+msgstr "Pas d'étiquette"
 
 #: data/resources/ui/volume-row.ui:114
 msgid "Shared"
-msgstr ""
+msgstr "Partagé"
 
 #: data/resources/ui/volume-row.ui:115
 msgid "Private"
-msgstr ""
+msgstr "Privé"
 
 #: src/model/container.rs:63
 msgid "Configured"
@@ -717,15 +714,13 @@ msgid "{} images pruned ({} errors). {} space reclaimed."
 msgstr "{} images ont été élaguées ({} erreurs)"
 
 #: src/view/image/images_panel.rs:383
-#, fuzzy
 msgid "There are no images to be pruned."
-msgstr "Aucune image à élaguer"
+msgstr "Aucune image à élaguer."
 
 #. Translators: "{}" is a placeholder for an error message.
 #: src/view/image/images_panel.rs:387
-#, fuzzy
 msgid "Error on pruning images: '{}'"
-msgstr "Erreur lors de l'élagage de l'image « {} »"
+msgstr "Erreur lors de l'élagage des images: '{}'"
 
 #. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
 #: src/view/image/images_prune_dialog.rs:192
@@ -734,7 +729,7 @@ msgstr ""
 
 #: src/view/image/images_prune_dialog.rs:194
 msgid "Invalid date format"
-msgstr ""
+msgstr "Format de date invalide"
 
 #. Translators: "{}" is a placeholder for the image id.
 #: src/view/image/mod.rs:53
@@ -757,9 +752,8 @@ msgid "_Prune unused images…"
 msgstr "Élaguer les images inutilisées"
 
 #: src/view/image/mod.rs:82
-#, fuzzy
 msgid "_Create Container…"
-msgstr "Conteneurs"
+msgstr "_Créer un conteneur"
 
 #. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
 #: src/view/info_dialog.rs:127
@@ -769,31 +763,29 @@ msgstr ""
 
 #. Translators: "{}" is a placeholder for a cardinal numbers.
 #: src/view/info_dialog.rs:163
-#, fuzzy
 msgid "{} Containers"
-msgstr "Conteneurs"
+msgstr "{} Conteneurs"
 
 #. Translators: "{}" is a placeholder for a cardinal number.
 #: src/view/info_dialog.rs:196
 msgid "{} Options"
-msgstr ""
+msgstr "{} Options"
 
 #. Translators: "{}" is placeholders for a cardinal number.
 #: src/view/info_dialog.rs:219
-#, fuzzy
 msgid "{} States"
-msgstr "Statut"
+msgstr "{} Statuts"
 
 #. Translators: "{}" is placeholders for a cardinal number.
 #: src/view/info_dialog.rs:239
 #, fuzzy
 msgid "{} Images"
-msgstr "Images"
+msgstr "{} Images"
 
 #. Translators: The placeholder "{}" is for the error message.
 #: src/view/info_dialog.rs:258
 msgid "Error: {}"
-msgstr ""
+msgstr "Erreur : {}"
 
 #: src/application.rs:140
 msgid "translator-credits"
