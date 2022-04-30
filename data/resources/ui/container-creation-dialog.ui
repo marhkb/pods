@@ -24,6 +24,72 @@
     </child>
 
     <child type="action">
+      <object class="GtkStack" id="create_button_stack">
+
+        <child>
+          <object class="GtkStackPage">
+            <property name="name">create</property>
+
+            <property name="child">
+              <object class="GtkButton" id="pull_button">
+                <style>
+                  <class name="suggested-action"/>
+                </style>
+                <property name="action-name">image.pull</property>
+                <property name="use-underline">True</property>
+                <property name="label" translatable="yes">_Download</property>
+
+              </object>
+            </property>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkStackPage">
+            <property name="name">cancel</property>
+
+            <property name="child">
+              <object class="GtkButton">
+                <style>
+                  <class name="destructive-action"/>
+                </style>
+                <property name="action-name">image.cancel-pull</property>
+                <property name="use-underline">True</property>
+
+                <property name="child">
+                  <object class="GtkBox">
+                    <property name="spacing">3</property>
+                    <property name="halign">center</property>
+
+                    <child>
+                      <object class="GtkSpinner">
+                        <property name="spinning">True</property>
+                        <property name="valign">center</property>
+                        <property name="halign">center</property>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">_Cancel</property>
+                        <property name="use-underline">True</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </property>
+
+              </object>
+            </property>
+
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <child type="action">
       <object class="AdwSplitButton">
         <style>
           <class name="suggested-action"/>
@@ -79,7 +145,7 @@
                       </object>
                     </child>
 
-                    <!-- <child>
+                    <child>
                       <object class="AdwActionRow">
                         <property name="activatable_widget">pull_latest_image_switch</property>
                         <property name="title" translatable="yes">Pull latest image</property>
@@ -89,7 +155,7 @@
                           </object>
                         </child>
                       </object>
-                    </child> -->
+                    </child>
 
                     <child>
                       <object class="AdwActionRow">

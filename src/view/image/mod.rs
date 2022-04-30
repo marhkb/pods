@@ -36,9 +36,8 @@ where
     dialog.set_transient_for(Some(
         &widget.root().unwrap().downcast::<gtk::Window>().unwrap(),
     ));
-    dialog.run_async(clone!(@weak widget => move |dialog, response| {
-        if let gtk::ResponseType::Other(1) = response {
-            let id = dialog.created_container_id().unwrap().to_owned();
+    dialog.run_async(clone!(@weak widget => move |dialog, _| {
+        if let Some(id) = dialog.created_container_id().map(String::from) {
             utils::do_async(
                 async move { PODMAN.containers().get(id).start(None).await },
                 clone!(@weak widget => move |result| {

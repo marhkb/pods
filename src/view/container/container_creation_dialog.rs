@@ -2,6 +2,8 @@ use std::cell::RefCell;
 
 use adw::subclass::prelude::*;
 use adw::traits::ComboRowExt;
+use futures::TryFutureExt;
+use gettextrs::gettext;
 use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
@@ -42,8 +44,8 @@ mod imp {
         pub(super) image_property_row: TemplateChild<view::PropertyRow>,
         #[template_child]
         pub(super) image_combo_row: TemplateChild<adw::ComboRow>,
-        // #[template_child]
-        // pub(super) pull_latest_image_switch: TemplateChild<gtk::Switch>,
+        #[template_child]
+        pub(super) pull_latest_image_switch: TemplateChild<gtk::Switch>,
         #[template_child]
         pub(super) command_entry: TemplateChild<gtk::Entry>,
         #[template_child]
@@ -84,6 +86,9 @@ mod imp {
             });
             klass.install_action("container.create", None, |widget, _, _| {
                 widget.create(false);
+            });
+            klass.install_action("dialog.close", None, |widget, _, _| {
+                widget.close();
             });
         }
 
@@ -437,17 +442,40 @@ impl ContainerCreationDialog {
                 }
                 .build();
 
+                let pull_latest_tag = if imp.pull_latest_image_switch.is_active() {
+                    image.repo_tags().first().cloned()
+                } else {
+                    None
+                };
+
                 utils::do_async(
-                    async move { PODMAN.containers().create(&opts).await },
+                    async move {
+                        match pull_latest_tag {
+                            Some(repo_tag) => PODMAN
+                                .images()
+                                .pull(
+                                    &api::PullOpts::builder()
+                                        .reference(repo_tag)
+                                        .quiet(true)
+                                        .build(),
+                                )
+                                .and_then(
+                                    |_| async move { PODMAN.containers().create(&opts).await },
+                                )
+                                .await,
+                            None => PODMAN.containers().create(&opts).await,
+                        }
+                    },
                     clone!(@weak self as obj => move |result| {
                         match result {
                             Ok(info) => {
                                 obj.imp().created_container_id.set(info.id).unwrap();
-                                obj.response(gtk::ResponseType::Other(if run { 1 } else { 0 }));
+                                obj.response(gtk::ResponseType::Close)
+                            },
+                            Err(e) => {
+                                log::error!("Failed to create container: {}", e);
+                                obj.show_toast(&gettext!("Failed to create container: {}", e));
                             }
-                            Err(e) => obj.show_toast(
-                                &format!("Failed to create container: {}", e)
-                            ),
                         }
                     }),
                 );
