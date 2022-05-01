@@ -86,6 +86,21 @@ impl Deref for PodsSettings {
     }
 }
 
+pub(crate) fn show_toast<W: glib::IsA<gtk::Widget>>(widget: &W, title: &str) {
+    widget
+        .root()
+        .unwrap()
+        .downcast::<Window>()
+        .unwrap()
+        .show_toast(
+            &adw::Toast::builder()
+                .title(title)
+                .timeout(3)
+                .priority(adw::ToastPriority::High)
+                .build(),
+        );
+}
+
 pub(crate) fn show_error_toast<W: glib::IsA<gtk::Widget>>(widget: &W, title: &str, msg: &str) {
     widget
         .root()
