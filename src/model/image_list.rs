@@ -372,6 +372,7 @@ impl ImageList {
                                     match result {
                                         Ok((summary, inspect_response)) => {
                                             let image = model::Image::from_libpod(
+                                                &obj,
                                                 summary,
                                                 inspect_response
                                             );
