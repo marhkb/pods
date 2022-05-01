@@ -11,10 +11,6 @@ use gettextrs::gettext;
 use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
-use gtk::prelude::Cast;
-use gtk::prelude::DialogExtManual;
-use gtk::traits::GtkWindowExt;
-use gtk::traits::WidgetExt;
 
 pub(crate) use self::image_details_page::ImageDetailsPage;
 pub(crate) use self::image_pull_dialog::ImagePullDialog;
@@ -26,33 +22,10 @@ pub(crate) use self::images_prune_page::ImagesPrunePage;
 use crate::model;
 use crate::utils;
 use crate::view;
-use crate::PODMAN;
 
-fn create_container<T>(widget: &gtk::Widget, from: &T)
-where
-    view::ContainerCreationDialog: for<'a> From<Option<&'a T>>,
-{
-    let dialog = view::ContainerCreationDialog::from(Some(from));
-    dialog.set_transient_for(Some(
-        &widget.root().unwrap().downcast::<gtk::Window>().unwrap(),
-    ));
-    dialog.run_async(clone!(@weak widget => move |dialog, response| {
-        if let gtk::ResponseType::Other(1) = response {
-            let id = dialog.created_container_id().unwrap().to_owned();
-            utils::do_async(
-                async move { PODMAN.containers().get(id).start(None).await },
-                clone!(@weak widget => move |result| {
-                    if let Err(e) = result {
-                        super::show_toast(
-                            &widget,
-                            &format!("Failed to start container: {}", e)
-                        )
-                    }
-                }),
-            );
-        }
-        dialog.close();
-    }));
+fn create_container(widget: &gtk::Widget, client: &model::Client, image: Option<&model::Image>) {
+    utils::find_leaflet_overlay(widget)
+        .show_details(&view::ContainerCreationPage::new(client, image));
 }
 
 fn delete(widget: &gtk::Widget, image: &model::Image) {

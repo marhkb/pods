@@ -1,4 +1,4 @@
-mod container_creation_dialog;
+mod container_creation_page;
 mod container_details_panel;
 mod container_logs_panel;
 mod container_page;
@@ -21,7 +21,7 @@ use gtk::traits::DialogExt;
 use gtk::traits::GtkWindowExt;
 use gtk::traits::WidgetExt;
 
-pub(crate) use self::container_creation_dialog::ContainerCreationDialog;
+pub(crate) use self::container_creation_page::ContainerCreationPage;
 pub(crate) use self::container_details_panel::ContainerDetailsPanel;
 pub(crate) use self::container_logs_panel::ContainerLogsPanel;
 pub(crate) use self::container_page::ContainerPage;

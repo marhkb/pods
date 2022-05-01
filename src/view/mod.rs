@@ -18,7 +18,7 @@ pub(crate) use self::check_service_page::CheckServicePage;
 pub(crate) use self::circular_progress_bar::CircularProgressBar;
 pub(crate) use self::connection_lost_page::ConnectionLostPage;
 pub(crate) use self::container::menu as containers_menu;
-pub(crate) use self::container::ContainerCreationDialog;
+pub(crate) use self::container::ContainerCreationPage;
 pub(crate) use self::container::ContainerDetailsPanel;
 pub(crate) use self::container::ContainerLogsPanel;
 pub(crate) use self::container::ContainerPage;
