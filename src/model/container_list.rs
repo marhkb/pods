@@ -271,6 +271,10 @@ impl ContainerList {
         );
     }
 
+    pub(crate) fn get_container(&self, id: &str) -> Option<model::Container> {
+        self.imp().list.borrow().get(id).cloned()
+    }
+
     pub(crate) fn remove_container(&self, id: &str) {
         self.imp().failed.borrow_mut().remove(id);
 
