@@ -1,6 +1,3 @@
-use cascade::cascade;
-use gettextrs::gettext;
-use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
@@ -15,7 +12,6 @@ use crate::view;
 
 mod imp {
     use super::*;
-    use crate::utils;
 
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/containers-panel.ui")]
@@ -149,15 +145,6 @@ mod imp {
                     Some(&*self.progress_stack),
                 );
 
-            utils::PodsSettings::default()
-                .bind(
-                    "show-only-running-containers",
-                    &*self.containers_group,
-                    "show-only-running",
-                )
-                .flags(gio::SettingsBindFlags::GET)
-                .build();
-
             self.search_entry
                 .connect_search_changed(clone!(@weak obj => move |search_entry| {
                     obj.imp().containers_group.set_search_text(Some(search_entry.text().into()));
@@ -217,15 +204,5 @@ impl ContainersPanel {
             imp.search_bar.set_search_mode(true);
             imp.search_entry.grab_focus();
         }
-    }
-}
-
-pub(crate) fn menu() -> gio::Menu {
-    cascade! {
-        gio::Menu::new();
-        ..append_section(None, &cascade!{
-            gio::Menu::new();
-            ..append(Some(&gettext("_Show only running containers")), Some("containers.show-only-running"));
-        });
     }
 }

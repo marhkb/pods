@@ -10,7 +10,6 @@ use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
 
 use crate::api;
 use crate::application::Application;
@@ -90,11 +89,6 @@ mod imp {
                 widget.show_prune_page();
             });
 
-            klass.install_property_action(
-                "containers.show-only-running",
-                "show-only-running-containers",
-            );
-
             klass.add_binding_action(
                 gdk::Key::F,
                 gdk::ModifierType::CONTROL_MASK,
@@ -114,49 +108,6 @@ mod imp {
     }
 
     impl ObjectImpl for Window {
-        fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecBoolean::new(
-                    "show-only-running-containers",
-                    "Show Only Running Containers",
-                    "Whether to show only running containers",
-                    true,
-                    glib::ParamFlags::READWRITE,
-                )]
-            });
-            PROPERTIES.as_ref()
-        }
-
-        fn set_property(
-            &self,
-            _obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
-            match pspec.name() {
-                "show-only-running-containers" => {
-                    self.settings
-                        .set::<bool>(
-                            "show-only-running-containers",
-                            &value.get::<bool>().unwrap(),
-                        )
-                        .unwrap();
-                }
-                _ => unimplemented!(),
-            }
-        }
-
-        fn property(&self, _obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "show-only-running-containers" => self
-                    .settings
-                    .get::<bool>("show-only-running-containers")
-                    .to_value(),
-                _ => unimplemented!(),
-            }
-        }
-
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
@@ -174,11 +125,6 @@ mod imp {
                 .downcast::<gtk::PopoverMenu>()
                 .unwrap()
                 .add_child(&view::ThemeSelector::default(), "theme");
-
-            self.settings.connect_changed(
-                Some("show-only-running-containers"),
-                clone!(@weak obj => move |_, _| obj.notify("show-only-running-containers")),
-            );
 
             self.images_panel.set_image_list(self.client.image_list());
             self.containers_panel
@@ -216,7 +162,6 @@ mod imp {
                     |_: glib::Object, name: Option<&str>| {
                         name.and_then(|name| match name {
                             "images" => Some(view::images_menu()),
-                            "containers" => Some(view::containers_menu()),
                             _ => None,
                         })
                     }
