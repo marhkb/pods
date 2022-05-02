@@ -8,18 +8,19 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-04-25 00:15+0200\n"
-"PO-Revision-Date: 2022-04-17 22:06+0000\n"
-"Last-Translator: Sergio Varela <sergitroll9@gmail.com>\n"
+"PO-Revision-Date: 2022-05-02 20:02+0000\n"
+"Last-Translator: kigoj26611@ovout.com <kigoj26611@ovout.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/pods/pods/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.12-dev\n"
+"X-Generator: Weblate 4.12.1\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:32
+#, fuzzy
 msgid "Pods"
 msgstr "Sinfonía"
 
