@@ -28,7 +28,6 @@ pub(crate) use self::container_page::ContainerPage;
 pub(crate) use self::container_rename_dialog::ContainerRenameDialog;
 pub(crate) use self::container_row::ContainerRow;
 pub(crate) use self::containers_group::ContainersGroup;
-pub(crate) use self::containers_panel::menu;
 pub(crate) use self::containers_panel::ContainersPanel;
 pub(crate) use self::env_var_row::EnvVarRow;
 pub(crate) use self::port_mapping_row::PortMappingRow;

@@ -42,6 +42,8 @@ mod imp {
         #[template_child]
         pub(super) images_group: TemplateChild<adw::PreferencesGroup>,
         #[template_child]
+        pub(super) show_intermediates_switch: TemplateChild<gtk::Switch>,
+        #[template_child]
         pub(super) list_box: TemplateChild<gtk::ListBox>,
     }
 
@@ -101,6 +103,13 @@ mod imp {
                 Some("show-intermediate-images"),
                 clone!(@weak obj => move |_, _| obj.update_properties_filter()),
             );
+            self.settings
+                .bind(
+                    "show-intermediate-images",
+                    &*self.show_intermediates_switch,
+                    "active",
+                )
+                .build();
 
             let image_list_expr = Self::Type::this_expression("image-list");
             let image_list_len_expr = image_list_expr.chain_property::<model::ImageList>("len");
@@ -183,7 +192,7 @@ mod imp {
 
             let properties_filter =
                 gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
-                    obj.show_intermediates()
+                    obj.imp().show_intermediates_switch.is_active()
                     || !item
                         .downcast_ref::<model::Image>()
                         .unwrap()
@@ -305,10 +314,6 @@ impl ImagesPanel {
 
         imp.image_list.set(Some(value));
         self.notify("image-list");
-    }
-
-    pub(crate) fn show_intermediates(&self) -> bool {
-        self.imp().settings.get::<bool>("show-intermediate-images")
     }
 
     pub(crate) fn connect_search_button(&self, search_button: &gtk::ToggleButton) {

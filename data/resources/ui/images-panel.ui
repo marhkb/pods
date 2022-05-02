@@ -83,6 +83,25 @@
                       <object class="AdwPreferencesGroup" id="images_group">
                         <property name="title" translatable="yes">Summary</property>
 
+                        <property name="header-suffix">
+                          <object class="GtkBox">
+                            <property name="spacing">9</property>
+                            <property name="halign">center</property>
+                            <property name="valign">center</property>
+
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="label" translatable="yes">Intermediates</property>
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="GtkSwitch" id="show_intermediates_switch"/>
+                            </child>
+
+                          </object>
+                        </property>
+
                         <child>
                           <object class="GtkListBox" id="list_box">
                             <style>

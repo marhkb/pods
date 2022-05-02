@@ -10,7 +10,6 @@ use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
 
 use crate::api;
 use crate::application::Application;
@@ -42,8 +41,6 @@ mod imp {
         pub(super) containers_search_button: TemplateChild<gtk::ToggleButton>,
         #[template_child]
         pub(super) menu_button: TemplateChild<gtk::MenuButton>,
-        #[template_child]
-        pub(super) context_menu_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
         pub(super) panel_stack: TemplateChild<adw::ViewStack>,
         #[template_child]
@@ -83,18 +80,12 @@ mod imp {
                 widget.show_podman_info_dialog();
             });
 
-            klass.install_property_action("images.show-intermediates", "show-intermediate-images");
             klass.install_action("image.pull", None, move |widget, _, _| {
                 widget.show_pull_dialog();
             });
             klass.install_action("images.prune-unused", None, move |widget, _, _| {
                 widget.show_prune_page();
             });
-
-            klass.install_property_action(
-                "containers.show-only-running",
-                "show-only-running-containers",
-            );
 
             klass.add_binding_action(
                 gdk::Key::F,
@@ -115,67 +106,6 @@ mod imp {
     }
 
     impl ObjectImpl for Window {
-        fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecBoolean::new(
-                        "show-intermediate-images",
-                        "Show Intermediate Images",
-                        "Whether to also show intermediate images",
-                        bool::default(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecBoolean::new(
-                        "show-only-running-containers",
-                        "Show Only Running Containers",
-                        "Whether to show only running containers",
-                        true,
-                        glib::ParamFlags::READWRITE,
-                    ),
-                ]
-            });
-            PROPERTIES.as_ref()
-        }
-
-        fn set_property(
-            &self,
-            _obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
-            match pspec.name() {
-                "show-intermediate-images" => {
-                    self.settings
-                        .set::<bool>("show-intermediate-images", &value.get::<bool>().unwrap())
-                        .unwrap();
-                }
-                "show-only-running-containers" => {
-                    self.settings
-                        .set::<bool>(
-                            "show-only-running-containers",
-                            &value.get::<bool>().unwrap(),
-                        )
-                        .unwrap();
-                }
-                _ => unimplemented!(),
-            }
-        }
-
-        fn property(&self, _obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "show-intermediate-images" => self
-                    .settings
-                    .get::<bool>("show-intermediate-images")
-                    .to_value(),
-                "show-only-running-containers" => self
-                    .settings
-                    .get::<bool>("show-only-running-containers")
-                    .to_value(),
-                _ => unimplemented!(),
-            }
-        }
-
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
@@ -194,11 +124,6 @@ mod imp {
                 .unwrap()
                 .add_child(&view::ThemeSelector::default(), "theme");
 
-            self.settings.connect_changed(
-                Some("show-only-running-containers"),
-                clone!(@weak obj => move |_, _| obj.notify("show-only-running-containers")),
-            );
-
             self.images_panel.set_image_list(self.client.image_list());
             self.containers_panel
                 .set_container_list(self.client.container_list());
@@ -208,12 +133,6 @@ mod imp {
 
             self.containers_panel
                 .connect_search_button(&*self.containers_search_button);
-
-            obj.notify("show-intermediate-images");
-            self.images_panel.connect_notify_local(
-                Some("show-intermediates"),
-                clone!(@weak obj => move |_, _| obj.notify("show-intermediate-images")),
-            );
 
             let visible_child_name_expr = adw::ViewStack::this_expression("visible-child-name");
 
@@ -233,22 +152,6 @@ mod imp {
                 .bind(
                     &*self.containers_search_button,
                     "visible",
-                    Some(&*self.panel_stack),
-                );
-
-            visible_child_name_expr
-                .chain_closure::<Option<gio::Menu>>(closure!(
-                    |_: glib::Object, name: Option<&str>| {
-                        name.and_then(|name| match name {
-                            "images" => Some(view::images_menu()),
-                            "containers" => Some(view::containers_menu()),
-                            _ => None,
-                        })
-                    }
-                ))
-                .bind(
-                    &*self.context_menu_button,
-                    "menu-model",
                     Some(&*self.panel_stack),
                 );
 
