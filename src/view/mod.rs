@@ -11,9 +11,6 @@ mod start_service_page;
 mod text_search_entry;
 mod theme_selector;
 
-use gtk::prelude::Cast;
-use gtk::traits::WidgetExt;
-
 pub(crate) use self::check_service_page::CheckServicePage;
 pub(crate) use self::circular_progress_bar::CircularProgressBar;
 pub(crate) use self::connection_lost_page::ConnectionLostPage;
@@ -44,19 +41,3 @@ pub(crate) use self::property_widget_row::PropertyWidgetRow;
 pub(crate) use self::start_service_page::StartServicePage;
 pub(crate) use self::text_search_entry::TextSearchEntry;
 pub(crate) use self::theme_selector::ThemeSelector;
-use crate::window::Window;
-
-fn show_toast(widget: &gtk::Widget, title: &str) {
-    widget
-        .root()
-        .unwrap()
-        .downcast::<Window>()
-        .unwrap()
-        .show_toast(
-            &adw::Toast::builder()
-                .title(title)
-                .timeout(3)
-                .priority(adw::ToastPriority::High)
-                .build(),
-        );
-}

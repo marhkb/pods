@@ -30,7 +30,7 @@ fn create_container(widget: &gtk::Widget, client: &model::Client, image: Option<
 
 fn delete(widget: &gtk::Widget, image: &model::Image) {
     image.delete(
-        clone!(@weak widget => move |image, result| super::show_toast(&widget, &match result {
+        clone!(@weak widget => move |image, result| utils::show_toast(&widget, &match result {
             Ok(_) => {
                 // Translators: "{}" is a placeholder for the image id.
                 gettext!("Successfully deleted image '{}'", image.id())
