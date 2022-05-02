@@ -43,17 +43,6 @@ fn delete(widget: &gtk::Widget, image: &model::Image) {
     );
 }
 
-pub(crate) fn menu() -> gio::Menu {
-    cascade! {
-        gio::Menu::new();
-        ..append_section(None, &cascade!{
-            gio::Menu::new();
-            ..append(Some(&gettext("_Download new image…")), Some("image.pull"));
-            ..append(Some(&gettext("_Prune unused images…")), Some("images.prune-unused"));
-        });
-    }
-}
-
 fn image_menu() -> gio::Menu {
     cascade! {
         gio::Menu::new();

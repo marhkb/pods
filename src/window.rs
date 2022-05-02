@@ -42,8 +42,6 @@ mod imp {
         #[template_child]
         pub(super) menu_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
-        pub(super) context_menu_button: TemplateChild<gtk::MenuButton>,
-        #[template_child]
         pub(super) panel_stack: TemplateChild<adw::ViewStack>,
         #[template_child]
         pub(super) images_panel: TemplateChild<view::ImagesPanel>,
@@ -154,21 +152,6 @@ mod imp {
                 .bind(
                     &*self.containers_search_button,
                     "visible",
-                    Some(&*self.panel_stack),
-                );
-
-            visible_child_name_expr
-                .chain_closure::<Option<gio::Menu>>(closure!(
-                    |_: glib::Object, name: Option<&str>| {
-                        name.and_then(|name| match name {
-                            "images" => Some(view::images_menu()),
-                            _ => None,
-                        })
-                    }
-                ))
-                .bind(
-                    &*self.context_menu_button,
-                    "menu-model",
                     Some(&*self.panel_stack),
                 );
 
