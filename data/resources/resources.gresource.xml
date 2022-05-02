@@ -21,7 +21,7 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/image-row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/image-search-response-row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/images-panel.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">ui/images-prune-dialog.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/images-prune-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/info-dialog.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/leaflet-overlay.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/port-mapping-row.ui</file>

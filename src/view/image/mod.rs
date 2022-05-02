@@ -4,7 +4,7 @@ mod image_row;
 mod image_row_simple;
 mod image_search_response_row;
 mod images_panel;
-mod images_prune_dialog;
+mod images_prune_page;
 
 use cascade::cascade;
 use gettextrs::gettext;
@@ -22,7 +22,7 @@ pub(crate) use self::image_row::ImageRow;
 pub(crate) use self::image_row_simple::ImageRowSimple;
 pub(crate) use self::image_search_response_row::ImageSearchResponseRow;
 pub(crate) use self::images_panel::ImagesPanel;
-pub(crate) use self::images_prune_dialog::ImagesPruneDialog;
+pub(crate) use self::images_prune_page::ImagesPrunePage;
 use crate::model;
 use crate::utils;
 use crate::view;

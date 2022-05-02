@@ -6,12 +6,17 @@ use gettextrs::gettext;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
+use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
 
+use crate::api;
+use crate::model;
 use crate::utils;
+use crate::view;
+use crate::window::Window;
 
 #[derive(Clone, Copy, Debug)]
 enum TimeFormat {
@@ -29,16 +34,20 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(resource = "/com/github/marhkb/Pods/ui/images-prune-dialog.ui")]
-    pub(crate) struct ImagesPruneDialog {
+    #[template(resource = "/com/github/marhkb/Pods/ui/images-prune-page.ui")]
+    pub(crate) struct ImagesPrunePage {
         pub(super) desktop_settings: utils::DesktopSettings,
         pub(super) pods_settings: utils::PodsSettings,
         pub(super) time_format: Cell<TimeFormat>,
         pub(super) prune_until_timestamp: Cell<i64>,
-        // pub(super) image_list: OnceCell<model::ImageList>,
+        pub(super) image_list: WeakRef<model::ImageList>,
         // pub(super) images_to_prune: OnceCell<gtk::NoSelection>,
         #[template_child]
+        pub(super) header_bar: TemplateChild<adw::HeaderBar>,
+        #[template_child]
         pub(super) button_prune: TemplateChild<gtk::Button>,
+        #[template_child]
+        pub(super) preferences_page: TemplateChild<adw::PreferencesPage>,
         #[template_child]
         pub(super) prune_all_switch: TemplateChild<gtk::Switch>,
         #[template_child]
@@ -64,13 +73,23 @@ mod imp {
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for ImagesPruneDialog {
-        const NAME: &'static str = "ImagesPruneDialog";
-        type Type = super::ImagesPruneDialog;
-        type ParentType = gtk::Dialog;
+    impl ObjectSubclass for ImagesPrunePage {
+        const NAME: &'static str = "ImagesPrunePage";
+        type Type = super::ImagesPrunePage;
+        type ParentType = gtk::Widget;
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
+            klass.install_action("navigation.go-first", None, move |widget, _, _| {
+                widget.navigate_to_first();
+            });
+            klass.install_action("navigation.back", None, move |widget, _, _| {
+                widget.navigate_back();
+            });
+
+            klass.install_action("images.prune", None, |widget, _, _| {
+                widget.prune();
+            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -78,17 +97,17 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for ImagesPruneDialog {
+    impl ObjectImpl for ImagesPrunePage {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
-                    // glib::ParamSpecObject::new(
-                    //     "image-list",
-                    //     "Image List",
-                    //     "The list of images",
-                    //     model::ImageList::static_type(),
-                    //     glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    // ),
+                    glib::ParamSpecObject::new(
+                        "image-list",
+                        "Image List",
+                        "The list of images",
+                        model::ImageList::static_type(),
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
+                    ),
                     glib::ParamSpecInt64::new(
                         "prune-until-timestamp",
                         "Prune Until Timestamp",
@@ -118,7 +137,7 @@ mod imp {
             pspec: &glib::ParamSpec,
         ) {
             match pspec.name() {
-                // "image-list" => self.image_list.set(value.get().unwrap()).unwrap(),
+                "image-list" => self.image_list.set(value.get().unwrap()),
                 "prune-until-timestamp" => obj.set_prune_until_timestamp(value.get().unwrap()),
                 // "images-to-prune" => obj.set_images_to_prune(value.get().unwrap()),
                 _ => unimplemented!(),
@@ -127,7 +146,7 @@ mod imp {
 
         fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                // "image-list" => self.image_list.get().to_value(),
+                "image-list" => obj.image_list().to_value(),
                 "prune-until-timestamp" => obj.prune_until_timestamp().to_value(),
                 // "images-to-prune" => obj.images_to_prune().to_value(),
                 _ => unimplemented!(),
@@ -136,6 +155,15 @@ mod imp {
 
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
+
+            let image_list = obj.image_list().unwrap();
+            obj.action_set_enabled("images.prune", !image_list.pruning());
+            image_list.connect_notify_local(
+                Some("pruning"),
+                clone!(@weak obj => move |list, _| {
+                    obj.action_set_enabled("images.prune", !list.pruning());
+                }),
+            );
 
             obj.load_time_format();
             self.desktop_settings.connect_changed(
@@ -281,32 +309,42 @@ mod imp {
             self.period_combo_box
                 .set_active(Some(if hour < 12 { 0 } else { 1 }));
         }
+
+        fn dispose(&self, _obj: &Self::Type) {
+            self.header_bar.unparent();
+            self.preferences_page.unparent();
+        }
     }
 
-    impl WidgetImpl for ImagesPruneDialog {}
-    impl WindowImpl for ImagesPruneDialog {}
-    impl DialogImpl for ImagesPruneDialog {}
+    impl WidgetImpl for ImagesPrunePage {
+        fn realize(&self, widget: &Self::Type) {
+            self.parent_realize(widget);
+
+            widget.action_set_enabled(
+                "navigation.go-first",
+                widget.previous_leaflet_overlay() != widget.root_leaflet_overlay(),
+            );
+        }
+    }
 }
 
 glib::wrapper! {
-    pub(crate) struct ImagesPruneDialog(ObjectSubclass<imp::ImagesPruneDialog>)
-        @extends gtk::Widget, gtk::Window, gtk::Dialog,
-        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget, gtk::Native, gtk::Root, gtk::ShortcutManager;
+    pub(crate) struct ImagesPrunePage(ObjectSubclass<imp::ImagesPrunePage>)
+        @extends gtk::Widget,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
-// impl From<&model::ImageList> for ImagesPruneDialog {
-//     fn from(image_list: &model::ImageList) -> Self {
-//         glib::Object::new(&[("image-list", image_list), ("use-header-bar", &1)])
-//             .expect("Failed to create ImagesPruneDialog")
-//     }
-// }
-impl Default for ImagesPruneDialog {
-    fn default() -> Self {
-        glib::Object::new(&[("use-header-bar", &1)]).expect("Failed to create ImagesPruneDialog")
+impl From<&model::ImageList> for ImagesPrunePage {
+    fn from(image_list: &model::ImageList) -> Self {
+        glib::Object::new(&[("image-list", image_list)]).expect("Failed to create ImagesPrunePage")
     }
 }
 
-impl ImagesPruneDialog {
+impl ImagesPrunePage {
+    pub(crate) fn image_list(&self) -> Option<model::ImageList> {
+        self.imp().image_list.upgrade()
+    }
+
     pub(crate) fn has_prune_until_filter(&self) -> bool {
         self.imp().prune_until_expander_row.enables_expansion()
     }
@@ -371,6 +409,59 @@ impl ImagesPruneDialog {
             }
         }
     }
+
+    fn navigate_to_first(&self) {
+        self.root_leaflet_overlay().hide_details();
+    }
+
+    fn navigate_back(&self) {
+        self.previous_leaflet_overlay().hide_details();
+    }
+
+    fn previous_leaflet_overlay(&self) -> view::LeafletOverlay {
+        utils::find_leaflet_overlay(self)
+    }
+
+    fn root_leaflet_overlay(&self) -> view::LeafletOverlay {
+        self.root()
+            .unwrap()
+            .downcast::<Window>()
+            .unwrap()
+            .leaflet_overlay()
+    }
+
+    fn prune(&self) {
+        let imp = self.imp();
+        self.image_list().unwrap().prune(
+            api::ImagePruneOpts::builder()
+                .all(imp.pods_settings.get("prune-all-images"))
+                .external(imp.pods_settings.get("prune-external-images"))
+                .filter(if self.has_prune_until_filter() {
+                    Some(api::ImagePruneFilter::Until(
+                        self.prune_until_timestamp().to_string(),
+                    ))
+                } else {
+                    None
+                })
+                .build(),
+            clone!(@weak self as obj => move |result| {
+                match result {
+                    Ok(_) => utils::show_toast(
+                        &obj,
+                        &gettext("All images have been pruned"),
+                    ),
+                    Err(e) => {
+                        log::error!("Error on pruning images: {e}");
+                        utils::show_error_toast(
+                            &obj,
+                            &gettext("Error on pruning images"),
+                            &e.to_string()
+                        );
+                    }
+                }
+            }),
+        )
+    }
 }
 
 fn setup_time_spin_button(spin_button: &gtk::SpinButton) {
@@ -380,3 +471,62 @@ fn setup_time_spin_button(spin_button: &gtk::SpinButton) {
         gtk::Inhibit(true)
     });
 }
+
+// {
+//     let imp = obj.imp();
+//     image_list.prune(
+//         api::ImagePruneOpts::builder()
+//             .all(imp.settings.get("prune-all-images"))
+//             .external(imp.settings.get("prune-external-images"))
+//             .filter(if dialog.has_prune_until_filter() {
+//                 Some(api::ImagePruneFilter::Until(
+//                     dialog.prune_until_timestamp().to_string())
+//                 )
+//             } else {
+//                 None
+//             })
+//             .build(),
+//         clone!(@weak obj => move |result| {
+//             obj.show_toast(&match result {
+//                 Ok(reports) => match reports.as_ref().and_then(|reports| {
+//                     if reports.is_empty() {
+//                         None
+//                     } else {
+//                         Some(reports)
+//                     }
+//                 }) {
+//                     Some(reports) => {
+//                         let (num_images, num_errors, total_size) = reports
+//                             .iter()
+//                             .map(|report| match report.err {
+//                                 Some(_) => (0, 1, 0),
+//                                 None => (1, 0, report.size.unwrap_or(0)),
+//                             })
+//                             .fold((0, 0, 0), |acc, i| {
+//                                 (acc.0 + i.0, acc.1 + i.1, acc.2 + i.2)
+//                             });
+//                         gettext!(
+//                             // Translators: The first two placeholders are for a numbers, the last for disk space.
+//                             "{} images pruned ({} errors). {} space reclaimed.",
+//                             num_images,
+//                             if num_errors == 0 {
+//                                 Cow::Borrowed("no")
+//                             } else {
+//                                 Cow::Owned(num_errors.to_string())
+//                             },
+//                             glib::format_size(total_size as u64),
+//                         )
+//                     }
+
+//                     None => gettext("There are no images to be pruned."),
+//                 },
+//                 Err(e) => gettext!(
+//                     // Translators: "{}" is a placeholder for an error message.
+//                     "Error on pruning images: '{}'",
+//                     e
+//                 ),
+//             });
+//             op();
+//         }),
+//     )
+// }

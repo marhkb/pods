@@ -88,7 +88,7 @@ mod imp {
                 widget.show_pull_dialog();
             });
             klass.install_action("images.prune-unused", None, move |widget, _, _| {
-                widget.show_prune_dialog();
+                widget.show_prune_page();
             });
 
             klass.install_property_action(
@@ -339,13 +339,8 @@ impl Window {
         dialog.present();
     }
 
-    fn show_prune_dialog(&self) {
-        self.action_set_enabled("images.prune-unused", false);
-        self.imp()
-            .images_panel
-            .show_prune_dialog(clone!(@weak self as obj => move || {
-                obj.action_set_enabled("images.prune-unused", true);
-            }));
+    fn show_prune_page(&self) {
+        self.imp().images_panel.show_prune_page();
     }
 
     fn toggle_search(&self) {

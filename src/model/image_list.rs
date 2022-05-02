@@ -285,53 +285,7 @@ impl ImageList {
             async move { PODMAN.images().prune(&opts).await },
             clone!(@weak self as obj => move |result| {
                 match result.as_ref() {
-                    Ok(reports) => match reports.as_ref().and_then(|reports| {
-                        if reports.is_empty() {
-                            None
-                        } else {
-                            Some(reports)
-                        }
-                    }) {
-                        Some(reports) => {
-                            let (num_images, errors, total_size) = reports
-                                .iter()
-                                .map(|report| match report.err.as_ref() {
-                                    Some(err) => {
-                                        (0, report.id.clone().map(|id| (id, err.clone())), 0)
-                                    }
-                                    None => (1, None, report.size.unwrap_or(0)),
-                                })
-                                .fold((0, Vec::new(), 0), |mut acc, i| {
-                                    (
-                                        acc.0 + i.0,
-                                        {
-                                            if let Some(pair) = i.1 {
-                                                acc.1.push(pair);
-                                            }
-                                            acc.1
-                                        },
-                                        acc.2 + i.2,
-                                    )
-                                });
-
-                            let formatted_size = glib::format_size(total_size as u64);
-
-                            if errors.is_empty() {
-                                log::info!(
-                                    "{num_images} images pruned. {formatted_size} space reclaimed.",
-                                );
-                            } else {
-                                log::error!(
-                                    "{num_images} images pruned ({} errors). {formatted_size} space reclaimed.",
-                                    errors.len(),
-                                );
-                                errors.into_iter().for_each(|(id, err)| {
-                                    log::error!("Error pruning image '{id}': {err}");
-                                });
-                            }
-                        }
-                        None => log::info!("There are no images to be pruned."),
-                    },
+                    Ok(_) => log::info!("All images have been pruned"),
                     Err(e) => log::error!("Error on pruning images: {e}"),
                 }
                 obj.set_pruning(false);

@@ -36,7 +36,7 @@ pub(crate) use self::image::ImageRow;
 pub(crate) use self::image::ImageRowSimple;
 pub(crate) use self::image::ImageSearchResponseRow;
 pub(crate) use self::image::ImagesPanel;
-pub(crate) use self::image::ImagesPruneDialog;
+pub(crate) use self::image::ImagesPrunePage;
 pub(crate) use self::info_dialog::InfoDialog;
 pub(crate) use self::leaflet_overlay::LeafletOverlay;
 pub(crate) use self::property_row::PropertyRow;
