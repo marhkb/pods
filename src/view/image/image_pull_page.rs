@@ -1,38 +1,39 @@
 use std::cell::RefCell;
 
 use adw::subclass::prelude::*;
+use adw::traits::BinExt;
 use adw::traits::ComboRowExt;
 use futures::future;
 use gettextrs::gettext;
 use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
+use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
+use once_cell::sync::Lazy;
 use once_cell::unsync::OnceCell;
 
 use crate::api;
 use crate::model;
 use crate::utils;
+use crate::view;
+use crate::window::Window;
 use crate::PODMAN;
 
 mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(resource = "/com/github/marhkb/Pods/ui/image-pull-dialog.ui")]
-    pub(crate) struct ImagePullDialog {
+    #[template(resource = "/com/github/marhkb/Pods/ui/image-pull-page.ui")]
+    pub(crate) struct ImagePullPage {
+        pub(super) client: WeakRef<model::Client>,
         pub(super) search_results: gio::ListStore,
         pub(super) selection: OnceCell<gtk::SingleSelection>,
-        pub(super) pull_abort_handle: RefCell<Option<future::AbortHandle>>,
         pub(super) search_abort_handle: RefCell<Option<future::AbortHandle>>,
         #[template_child]
-        pub(super) toast_overlay: TemplateChild<adw::ToastOverlay>,
-        #[template_child]
-        pub(super) pull_controll_stack: TemplateChild<gtk::Stack>,
-        #[template_child]
-        pub(super) pull_button: TemplateChild<gtk::Button>,
+        pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) search_entry: TemplateChild<gtk::Entry>,
         #[template_child]
@@ -45,21 +46,27 @@ mod imp {
         pub(super) search_result_list_view: TemplateChild<gtk::ListView>,
         #[template_child]
         pub(super) tag_entry: TemplateChild<gtk::Entry>,
+        #[template_child]
+        pub(super) image_page_bin: TemplateChild<adw::Bin>,
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for ImagePullDialog {
-        const NAME: &'static str = "ImagePullDialog";
-        type Type = super::ImagePullDialog;
-        type ParentType = gtk::Dialog;
+    impl ObjectSubclass for ImagePullPage {
+        const NAME: &'static str = "ImagePullPage";
+        type Type = super::ImagePullPage;
+        type ParentType = gtk::Widget;
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
+            klass.install_action("navigation.go-first", None, move |widget, _, _| {
+                widget.navigate_to_first();
+            });
+            klass.install_action("navigation.back", None, move |widget, _, _| {
+                widget.navigate_back();
+            });
+
             klass.install_action("image.pull", None, |widget, _, _| {
                 widget.pull();
-            });
-            klass.install_action("image.cancel-pull", None, |widget, _, _| {
-                widget.cancel_pull();
             });
         }
 
@@ -68,11 +75,42 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for ImagePullDialog {
+    impl ObjectImpl for ImagePullPage {
+        fn properties() -> &'static [glib::ParamSpec] {
+            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
+                vec![glib::ParamSpecObject::new(
+                    "client",
+                    "Client",
+                    "The client of this ImagePullPage",
+                    model::Client::static_type(),
+                    glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
+                )]
+            });
+            PROPERTIES.as_ref()
+        }
+
+        fn set_property(
+            &self,
+            _obj: &Self::Type,
+            _id: usize,
+            value: &glib::Value,
+            pspec: &glib::ParamSpec,
+        ) {
+            match pspec.name() {
+                "client" => self.client.set(value.get().unwrap()),
+                _ => unimplemented!(),
+            }
+        }
+
+        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            match pspec.name() {
+                "client" => obj.client().to_value(),
+                _ => unimplemented!(),
+            }
+        }
+
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
-
-            obj.set_default_widget(Some(&*self.pull_button));
 
             self.search_entry
                 .connect_changed(clone!(@weak obj => move |_| obj.search()));
@@ -101,8 +139,12 @@ mod imp {
                         obj.imp().registries_combo_row.set_model(Some(&model));
                     }
                     Err(e) => {
-                        log::error!("Failed to retrieve registries: {}", e);
-                        obj.show_toast(&gettext!("Failed to retrieve registries: {}", e));
+                        log::error!("Failed to retrieve registries: {e}");
+                        utils::show_error_toast(
+                            &obj,
+                            &gettext("Failed to retrieve registries"),
+                            &e.to_string()
+                        );
                     }
                 }),
             );
@@ -143,33 +185,41 @@ mod imp {
 
             self.selection.set(selection).unwrap();
         }
-    }
 
-    impl WidgetImpl for ImagePullDialog {
-        fn show(&self, widget: &Self::Type) {
-            self.parent_show(widget);
-            self.search_entry.grab_focus();
+        fn dispose(&self, _obj: &Self::Type) {
+            self.stack.unparent();
         }
     }
 
-    impl WindowImpl for ImagePullDialog {}
-    impl DialogImpl for ImagePullDialog {}
-}
+    impl WidgetImpl for ImagePullPage {
+        fn realize(&self, widget: &Self::Type) {
+            self.parent_realize(widget);
 
-glib::wrapper! {
-    pub(crate) struct ImagePullDialog(ObjectSubclass<imp::ImagePullDialog>)
-        @extends gtk::Widget, gtk::Window, gtk::Dialog,
-        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget, gtk::Native, gtk::Root, gtk::ShortcutManager;
-}
-
-impl From<&Option<gtk::Window>> for ImagePullDialog {
-    fn from(parent_window: &Option<gtk::Window>) -> Self {
-        glib::Object::new(&[("transient-for", parent_window), ("use-header-bar", &1)])
-            .expect("Failed to create ImagePullDialog")
+            widget.action_set_enabled(
+                "navigation.go-first",
+                widget.previous_leaflet_overlay() != widget.root_leaflet_overlay(),
+            );
+        }
     }
 }
 
-impl ImagePullDialog {
+glib::wrapper! {
+    pub(crate) struct ImagePullPage(ObjectSubclass<imp::ImagePullPage>)
+        @extends gtk::Widget,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
+}
+
+impl From<&model::Client> for ImagePullPage {
+    fn from(client: &model::Client) -> Self {
+        glib::Object::new(&[("client", client)]).expect("Failed to create ImagePullPage")
+    }
+}
+
+impl ImagePullPage {
+    fn client(&self) -> Option<model::Client> {
+        self.imp().client.upgrade()
+    }
+
     fn pull(&self) {
         let imp = self.imp();
 
@@ -180,14 +230,6 @@ impl ImagePullDialog {
             .selected_item()
             .and_then(|i| i.downcast::<model::ImageSearchResponse>().ok())
         {
-            imp.pull_controll_stack.set_visible_child_name("cancel");
-            self.action_set_enabled("image.pull", false);
-
-            let (abort_handle, abort_registration) = future::AbortHandle::new_pair();
-            if let Some(old_abort_handle) = imp.pull_abort_handle.replace(Some(abort_handle)) {
-                old_abort_handle.abort();
-            }
-
             let tag = imp.tag_entry.text();
             let opts = api::PullOpts::builder()
                 .reference(format!(
@@ -202,31 +244,49 @@ impl ImagePullDialog {
                 .quiet(true)
                 .build();
 
-            utils::do_async(
-                async move {
-                    future::Abortable::new(PODMAN.images().pull(&opts), abort_registration).await
-                },
-                clone!(@weak self as obj => move |result| {
-                obj.imp().pull_controll_stack.set_visible_child_name("pull");
-                obj.action_set_enabled("image.pull", true);
+            imp.stack.set_visible_child_name("waiting");
 
-                if let Ok(result) = result {
-                    match result {
-                        Ok(_) => obj.response(gtk::ResponseType::Close),
+            utils::do_async(
+                async move { PODMAN.images().pull(&opts).await },
+                clone!(@weak self as obj => move |result| {
+                    let imp = obj.imp();
+
+                    match result.map(|report| report.id.unwrap()) {
+                        Ok(id) => {
+                            let client = imp.client.upgrade().unwrap();
+                            match client.image_list().get_image(&id) {
+                                Some(image) => obj.switch_to_image(&image),
+                                None => {
+                                    client.image_list().connect_image_added(
+                                        clone!(@weak obj => move |_, image| {
+                                            if image.id() == id.as_str() {
+                                                obj.switch_to_image(image);
+                                            }
+                                        }),
+                                    );
+                                }
+                            }
+                        }
                         Err(e) => {
+                            imp.stack.set_visible_child_name("pull-settings");
                             log::error!("Failed to pull image: {}", e);
-                            obj.show_toast(&gettext!("Failed to pull image: {}", e));
+                            utils::show_error_toast(
+                                &obj,
+                                &gettext("Failed to pull image"),
+                                &e.to_string()
+                            );
                         }
                     }
-                }}),
+                }),
             );
         }
     }
 
-    fn cancel_pull(&self) {
-        if let Some(abort_handle) = self.imp().pull_abort_handle.take() {
-            abort_handle.abort();
-        }
+    fn switch_to_image(&self, image: &model::Image) {
+        let imp = self.imp();
+        imp.image_page_bin
+            .set_child(Some(&view::ImageDetailsPage::from(image)));
+        imp.stack.set_visible_child(&*imp.image_page_bin);
     }
 
     fn search(&self) {
@@ -261,7 +321,7 @@ impl ImagePullDialog {
 
                         if responses.is_empty() {
                             imp.search_stack.set_visible_child_name("nothing");
-                            imp.no_results_status_page.set_title(&gettext!("No results for {}", term));
+                            imp.no_results_status_page.set_title(&gettext!("No Results For {}", term));
                         } else {
                             responses.into_iter().for_each(|response| {
                                 obj.imp().search_results.append(&model::ImageSearchResponse::from(response));
@@ -271,20 +331,33 @@ impl ImagePullDialog {
                     }
                     Err(e) => {
                         log::error!("Failed to search for images: {}", e);
-                        obj.show_toast(&gettext!("Failed to search for images: {}", e));
+                        utils::show_error_toast(
+                            &obj,
+                            &gettext("Failed to search for images"),
+                            &e.to_string());
                     }
                 }
             }),
         );
     }
 
-    fn show_toast(&self, title: &str) {
-        self.imp().toast_overlay.add_toast(
-            &adw::Toast::builder()
-                .title(title)
-                .timeout(3)
-                .priority(adw::ToastPriority::High)
-                .build(),
-        );
+    fn navigate_to_first(&self) {
+        self.root_leaflet_overlay().hide_details();
+    }
+
+    fn navigate_back(&self) {
+        self.previous_leaflet_overlay().hide_details();
+    }
+
+    fn previous_leaflet_overlay(&self) -> view::LeafletOverlay {
+        utils::find_leaflet_overlay(self)
+    }
+
+    fn root_leaflet_overlay(&self) -> view::LeafletOverlay {
+        self.root()
+            .unwrap()
+            .downcast::<Window>()
+            .unwrap()
+            .leaflet_overlay()
     }
 }

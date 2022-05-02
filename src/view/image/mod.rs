@@ -1,5 +1,5 @@
 mod image_details_page;
-mod image_pull_dialog;
+mod image_pull_page;
 mod image_row;
 mod image_row_simple;
 mod image_search_response_row;
@@ -13,7 +13,7 @@ use gtk::glib;
 use gtk::glib::clone;
 
 pub(crate) use self::image_details_page::ImageDetailsPage;
-pub(crate) use self::image_pull_dialog::ImagePullDialog;
+pub(crate) use self::image_pull_page::ImagePullPage;
 pub(crate) use self::image_row::ImageRow;
 pub(crate) use self::image_row_simple::ImageRowSimple;
 pub(crate) use self::image_search_response_row::ImageSearchResponseRow;

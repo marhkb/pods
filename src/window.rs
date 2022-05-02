@@ -327,16 +327,9 @@ impl Window {
     }
 
     fn show_pull_dialog(&self) {
-        let dialog = view::ImagePullDialog::from(&Some(self.clone().upcast()));
-        dialog.connect_response(|dialog, response| {
-            if matches!(
-                response,
-                gtk::ResponseType::Close | gtk::ResponseType::Cancel
-            ) {
-                dialog.close();
-            }
-        });
-        dialog.present();
+        self.imp()
+            .leaflet_overlay
+            .show_details(&view::ImagePullPage::from(&self.imp().client));
     }
 
     fn show_prune_page(&self) {
