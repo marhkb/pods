@@ -83,7 +83,6 @@ mod imp {
                 widget.show_podman_info_dialog();
             });
 
-            klass.install_property_action("images.show-intermediates", "show-intermediate-images");
             klass.install_action("image.pull", None, move |widget, _, _| {
                 widget.show_pull_dialog();
             });
@@ -117,22 +116,13 @@ mod imp {
     impl ObjectImpl for Window {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecBoolean::new(
-                        "show-intermediate-images",
-                        "Show Intermediate Images",
-                        "Whether to also show intermediate images",
-                        bool::default(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecBoolean::new(
-                        "show-only-running-containers",
-                        "Show Only Running Containers",
-                        "Whether to show only running containers",
-                        true,
-                        glib::ParamFlags::READWRITE,
-                    ),
-                ]
+                vec![glib::ParamSpecBoolean::new(
+                    "show-only-running-containers",
+                    "Show Only Running Containers",
+                    "Whether to show only running containers",
+                    true,
+                    glib::ParamFlags::READWRITE,
+                )]
             });
             PROPERTIES.as_ref()
         }
@@ -145,11 +135,6 @@ mod imp {
             pspec: &glib::ParamSpec,
         ) {
             match pspec.name() {
-                "show-intermediate-images" => {
-                    self.settings
-                        .set::<bool>("show-intermediate-images", &value.get::<bool>().unwrap())
-                        .unwrap();
-                }
                 "show-only-running-containers" => {
                     self.settings
                         .set::<bool>(
@@ -164,10 +149,6 @@ mod imp {
 
         fn property(&self, _obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "show-intermediate-images" => self
-                    .settings
-                    .get::<bool>("show-intermediate-images")
-                    .to_value(),
                 "show-only-running-containers" => self
                     .settings
                     .get::<bool>("show-only-running-containers")
@@ -208,12 +189,6 @@ mod imp {
 
             self.containers_panel
                 .connect_search_button(&*self.containers_search_button);
-
-            obj.notify("show-intermediate-images");
-            self.images_panel.connect_notify_local(
-                Some("show-intermediates"),
-                clone!(@weak obj => move |_, _| obj.notify("show-intermediate-images")),
-            );
 
             let visible_child_name_expr = adw::ViewStack::this_expression("visible-child-name");
 

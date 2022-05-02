@@ -48,10 +48,6 @@ pub(crate) fn menu() -> gio::Menu {
         gio::Menu::new();
         ..append_section(None, &cascade!{
             gio::Menu::new();
-            ..append(Some(&gettext("_Show intermediate images")), Some("images.show-intermediates"));
-        });
-        ..append_section(None, &cascade!{
-            gio::Menu::new();
             ..append(Some(&gettext("_Download new image…")), Some("image.pull"));
             ..append(Some(&gettext("_Prune unused images…")), Some("images.prune-unused"));
         });
