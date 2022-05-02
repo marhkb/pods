@@ -35,6 +35,7 @@ mod imp {
         pub(super) fetched: Cell<u32>,
         pub(super) list: RefCell<IndexMap<String, model::Image>>,
         pub(super) listing: Cell<bool>,
+        pub(super) pruning: Cell<bool>,
         pub(super) to_fetch: Cell<u32>,
 
         pub(super) failed: RefCell<HashSet<String>>,
@@ -95,6 +96,13 @@ mod imp {
                         false,
                         glib::ParamFlags::READABLE,
                     ),
+                    glib::ParamSpecBoolean::new(
+                        "pruning",
+                        "Pruning",
+                        "Wether images are currently pruned",
+                        false,
+                        glib::ParamFlags::READABLE,
+                    ),
                     glib::ParamSpecUInt::new(
                         "to-fetch",
                         "To Fetch",
@@ -128,6 +136,7 @@ mod imp {
                 "fetched" => obj.fetched().to_value(),
                 "len" => obj.len().to_value(),
                 "listing" => obj.listing().to_value(),
+                "pruning" => obj.pruning().to_value(),
                 "to-fetch" => obj.to_fetch().to_value(),
                 _ => unimplemented!(),
             }
@@ -201,6 +210,18 @@ impl ImageList {
         self.notify("listing");
     }
 
+    pub(crate) fn pruning(&self) -> bool {
+        self.imp().pruning.get()
+    }
+
+    fn set_pruning(&self, value: bool) {
+        if self.pruning() == value {
+            return;
+        }
+        self.imp().pruning.set(value);
+        self.notify("pruning");
+    }
+
     pub(crate) fn to_fetch(&self) -> u32 {
         self.imp().to_fetch.get()
     }
@@ -259,9 +280,10 @@ impl ImageList {
     where
         F: FnOnce(api::Result<Option<Vec<api::PruneReport>>>) + 'static,
     {
+        self.set_pruning(true);
         utils::do_async(
             async move { PODMAN.images().prune(&opts).await },
-            |result| {
+            clone!(@weak self as obj => move |result| {
                 match result.as_ref() {
                     Ok(reports) => match reports.as_ref().and_then(|reports| {
                         if reports.is_empty() {
@@ -312,8 +334,9 @@ impl ImageList {
                     },
                     Err(e) => log::error!("Error on pruning images: {e}"),
                 }
+                obj.set_pruning(false);
                 op(result);
-            },
+            }),
         );
     }
 
