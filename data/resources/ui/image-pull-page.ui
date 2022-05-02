@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+
+  <template class="ImagePullPage" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBinLayout"/>
+    </property>
+
+    <child>
+      <object class="GtkStack" id="stack">
+        <property name="transition-type">crossfade</property>
+
+        <child>
+          <object class="GtkStackPage">
+            <property name="name">pull-settings</property>
+
+            <property name="child">
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
+
+                <child>
+                  <object class="AdwHeaderBar">
+                    <property name="centering-policy">strict</property>
+
+                    <child type="start">
+                      <object class="GtkButton">
+                        <property name="icon-name">go-previous-symbolic</property>
+                        <property name="action-name">navigation.back</property>
+                      </object>
+                    </child>
+
+                    <child type="start">
+                      <object class="GtkButton" id="go_first_button">
+                        <property name="icon-name">go-first-symbolic</property>
+                        <property name="action-name">navigation.go-first</property>
+                        <property name="visible" bind-source="go_first_button" bind-property="sensitive" bind-flags="sync-create"/>
+                      </object>
+                    </child>
+
+                    <child type="title">
+                      <object class="AdwWindowTitle">
+                        <property name="title" translatable="yes">Search For an Image</property>
+                      </object>
+                    </child>
+
+                    <child type="end">
+                      <object class="GtkButton">
+                        <style>
+                          <class name="suggested-action"/>
+                        </style>
+                        <property name="action-name">image.pull</property>
+                        <property name="label" translatable="yes">Download</property>
+                        <property name="use-underline">True</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwPreferencesPage">
+                    <property name="vexpand">True</property>
+
+                    <child>
+                      <object class="AdwPreferencesGroup">
+
+                        <child>
+                          <object class="AdwActionRow">
+                            <property name="title" translatable="yes">Search for</property>
+                            <child>
+                              <object class="GtkEntry" id="search_entry">
+                                <property name="hexpand">True</property>
+                                <property name="valign">center</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="AdwComboRow" id="registries_combo_row">
+                            <property name="selectable">False</property>
+                            <property name="title" translatable="yes">Registry</property>
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="AdwPreferencesRow">
+                            <property name="activatable">False</property>
+                            <property name="selectable">False</property>
+                            <property name="height-request">400</property>
+
+                            <child>
+                              <object class="GtkStack" id="search_stack">
+
+                                <child>
+                                  <object class="GtkStackPage">
+                                    <property name="name">initial</property>
+                                    <property name="child">
+                                      <object class="AdwStatusPage">
+                                        <style>
+                                          <class name="compact"/>
+                                        </style>
+                                        <property name="icon-name">system-search-symbolic</property>
+                                        <property name="title" translatable="yes">No Images Found</property>
+                                        <property name="description" translatable="yes">Please start typing to look for images.</property>
+                                      </object>
+                                    </property>
+                                  </object>
+                                </child>
+
+                                <child>
+                                  <object class="GtkStackPage">
+                                    <property name="name">searching</property>
+                                    <property name="child">
+                                      <object class="AdwStatusPage">
+                                        <style>
+                                          <class name="compact"/>
+                                        </style>
+                                        <property name="icon-name">system-search-symbolic</property>
+                                        <property name="title" translatable="yes">Searching…</property>
+
+                                        <child>
+                                          <object class="GtkSpinner" id="spinner">
+                                            <property name="halign">center</property>
+                                            <property name="height-request">30</property>
+                                            <property name="spinning">True</property>
+                                            <property name="vexpand">True</property>
+                                            <property name="width-request">30</property>
+                                          </object>
+                                        </child>
+
+                                      </object>
+                                    </property>
+                                  </object>
+                                </child>
+
+                                <child>
+                                  <object class="GtkStackPage">
+                                    <property name="name">nothing</property>
+                                    <property name="child">
+                                      <object class="AdwStatusPage" id="no_results_status_page">
+                                        <style>
+                                          <class name="compact"/>
+                                        </style>
+                                        <property name="icon-name">emblem-important-symbolic</property>
+                                        <property name="description" translatable="yes">Please retry another term.</property>
+                                      </object>
+                                    </property>
+                                  </object>
+                                </child>
+
+                                <child>
+                                  <object class="GtkStackPage">
+                                    <property name="name">results</property>
+                                    <property name="child">
+
+                                      <object class="GtkScrolledWindow" id="scrolled_window">
+                                        <property name="hexpand">True</property>
+                                        <property name="vexpand">True</property>
+                                        <property name="hscrollbar-policy">never</property>
+
+                                        <child>
+                                          <object class="GtkListView" id="search_result_list_view">
+                                            <property name="show-separators">True</property>
+                                            <property name="factory">
+                                              <object class="GtkBuilderListItemFactory">
+                                                <property name="bytes">
+                                                  <![CDATA[
+                              <?xml version="1.0" encoding="UTF-8"?>
+                              <interface>
+                                <template class="GtkListItem">
+                                  <property name="activatable">False</property>
+                                  <property name="child">
+                                    <object class="ImageSearchResponseRow">
+                                      <property name="margin-bottom">9</property>
+                                      <property name="margin-end">18</property>
+                                      <property name="margin-start">18</property>
+                                      <property name="margin-top">9</property>
+                                      <binding name="image-search-response">
+                                        <lookup name="item">GtkListItem</lookup>
+                                      </binding>
+                                    </object>
+                                  </property>
+                                </template>
+                              </interface>
+                                              ]]>
+                                                </property>
+                                              </object>
+                                            </property>
+                                          </object>
+                                        </child>
+
+                                      </object>
+                                    </property>
+
+                                  </object>
+                                </child>
+
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="AdwActionRow">
+                            <property name="title" translatable="yes">Tag</property>
+                            <child>
+                              <object class="GtkEntry" id="tag_entry">
+                                <property name="placeholder-text">latest</property>
+                                <property name="hexpand">True</property>
+                                <property name="valign">center</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+              </object>
+            </property>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkStackPage">
+            <property name="name">waiting</property>
+
+            <property name="child">
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
+
+                <child>
+                  <object class="AdwHeaderBar">
+                    <property name="centering-policy">strict</property>
+
+                    <child type="start">
+                      <object class="GtkButton">
+                        <property name="icon-name">go-previous-symbolic</property>
+                        <property name="action-name">navigation.back</property>
+                      </object>
+                    </child>
+
+                    <child type="start">
+                      <object class="GtkButton">
+                        <property name="icon-name">go-first-symbolic</property>
+                        <property name="action-name">navigation.go-first</property>
+                        <property name="visible" bind-source="go_first_button" bind-property="sensitive" bind-flags="sync-create"/>
+                      </object>
+                    </child>
+
+                    <child type="title">
+                      <object class="AdwWindowTitle">
+                        <property name="title"></property>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwStatusPage">
+                    <property name="icon-name">folder-download-symbolic</property>
+                    <property name="title" translatable="yes">Please Wait a Moment</property>
+                    <property name="description" translatable="yes">The image is currently being downloaded. You are safe to leave this page.</property>
+                    <property name="vexpand">True</property>
+
+                    <property name="child">
+                      <object class="GtkSpinner">
+                        <property name="halign">center</property>
+                        <property name="height-request">30</property>
+                        <property name="spinning">True</property>
+                        <property name="vexpand">True</property>
+                        <property name="width-request">30</property>
+                      </object>
+                    </property>
+
+                  </object>
+                </child>
+
+              </object>
+            </property>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwBin" id="image_page_bin"/>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>

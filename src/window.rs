@@ -88,7 +88,7 @@ mod imp {
                 widget.show_pull_dialog();
             });
             klass.install_action("images.prune-unused", None, move |widget, _, _| {
-                widget.show_prune_dialog();
+                widget.show_prune_page();
             });
 
             klass.install_property_action(
@@ -327,25 +327,13 @@ impl Window {
     }
 
     fn show_pull_dialog(&self) {
-        let dialog = view::ImagePullDialog::from(&Some(self.clone().upcast()));
-        dialog.connect_response(|dialog, response| {
-            if matches!(
-                response,
-                gtk::ResponseType::Close | gtk::ResponseType::Cancel
-            ) {
-                dialog.close();
-            }
-        });
-        dialog.present();
+        self.imp()
+            .leaflet_overlay
+            .show_details(&view::ImagePullPage::from(&self.imp().client));
     }
 
-    fn show_prune_dialog(&self) {
-        self.action_set_enabled("images.prune-unused", false);
-        self.imp()
-            .images_panel
-            .show_prune_dialog(clone!(@weak self as obj => move || {
-                obj.action_set_enabled("images.prune-unused", true);
-            }));
+    fn show_prune_page(&self) {
+        self.imp().images_panel.show_prune_page();
     }
 
     fn toggle_search(&self) {

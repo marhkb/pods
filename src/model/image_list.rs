@@ -35,6 +35,7 @@ mod imp {
         pub(super) fetched: Cell<u32>,
         pub(super) list: RefCell<IndexMap<String, model::Image>>,
         pub(super) listing: Cell<bool>,
+        pub(super) pruning: Cell<bool>,
         pub(super) to_fetch: Cell<u32>,
 
         pub(super) failed: RefCell<HashSet<String>>,
@@ -95,6 +96,13 @@ mod imp {
                         false,
                         glib::ParamFlags::READABLE,
                     ),
+                    glib::ParamSpecBoolean::new(
+                        "pruning",
+                        "Pruning",
+                        "Wether images are currently pruned",
+                        false,
+                        glib::ParamFlags::READABLE,
+                    ),
                     glib::ParamSpecUInt::new(
                         "to-fetch",
                         "To Fetch",
@@ -128,6 +136,7 @@ mod imp {
                 "fetched" => obj.fetched().to_value(),
                 "len" => obj.len().to_value(),
                 "listing" => obj.listing().to_value(),
+                "pruning" => obj.pruning().to_value(),
                 "to-fetch" => obj.to_fetch().to_value(),
                 _ => unimplemented!(),
             }
@@ -201,6 +210,18 @@ impl ImageList {
         self.notify("listing");
     }
 
+    pub(crate) fn pruning(&self) -> bool {
+        self.imp().pruning.get()
+    }
+
+    fn set_pruning(&self, value: bool) {
+        if self.pruning() == value {
+            return;
+        }
+        self.imp().pruning.set(value);
+        self.notify("pruning");
+    }
+
     pub(crate) fn to_fetch(&self) -> u32 {
         self.imp().to_fetch.get()
     }
@@ -259,61 +280,17 @@ impl ImageList {
     where
         F: FnOnce(api::Result<Option<Vec<api::PruneReport>>>) + 'static,
     {
+        self.set_pruning(true);
         utils::do_async(
             async move { PODMAN.images().prune(&opts).await },
-            |result| {
+            clone!(@weak self as obj => move |result| {
                 match result.as_ref() {
-                    Ok(reports) => match reports.as_ref().and_then(|reports| {
-                        if reports.is_empty() {
-                            None
-                        } else {
-                            Some(reports)
-                        }
-                    }) {
-                        Some(reports) => {
-                            let (num_images, errors, total_size) = reports
-                                .iter()
-                                .map(|report| match report.err.as_ref() {
-                                    Some(err) => {
-                                        (0, report.id.clone().map(|id| (id, err.clone())), 0)
-                                    }
-                                    None => (1, None, report.size.unwrap_or(0)),
-                                })
-                                .fold((0, Vec::new(), 0), |mut acc, i| {
-                                    (
-                                        acc.0 + i.0,
-                                        {
-                                            if let Some(pair) = i.1 {
-                                                acc.1.push(pair);
-                                            }
-                                            acc.1
-                                        },
-                                        acc.2 + i.2,
-                                    )
-                                });
-
-                            let formatted_size = glib::format_size(total_size as u64);
-
-                            if errors.is_empty() {
-                                log::info!(
-                                    "{num_images} images pruned. {formatted_size} space reclaimed.",
-                                );
-                            } else {
-                                log::error!(
-                                    "{num_images} images pruned ({} errors). {formatted_size} space reclaimed.",
-                                    errors.len(),
-                                );
-                                errors.into_iter().for_each(|(id, err)| {
-                                    log::error!("Error pruning image '{id}': {err}");
-                                });
-                            }
-                        }
-                        None => log::info!("There are no images to be pruned."),
-                    },
+                    Ok(_) => log::info!("All images have been pruned"),
                     Err(e) => log::error!("Error on pruning images: {e}"),
                 }
+                obj.set_pruning(false);
                 op(result);
-            },
+            }),
         );
     }
 
@@ -372,6 +349,7 @@ impl ImageList {
                                     match result {
                                         Ok((summary, inspect_response)) => {
                                             let image = model::Image::from_libpod(
+                                                &obj,
                                                 summary,
                                                 inspect_response
                                             );

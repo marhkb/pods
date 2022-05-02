@@ -2,6 +2,7 @@ use std::borrow::Borrow;
 use std::cell::Cell;
 
 use gtk::glib::clone;
+use gtk::glib::WeakRef;
 use gtk::glib::{self};
 use gtk::prelude::ObjectExt;
 use gtk::prelude::StaticType;
@@ -20,6 +21,8 @@ mod imp {
 
     #[derive(Debug, Default)]
     pub(crate) struct Image {
+        pub(super) image_list: WeakRef<model::ImageList>,
+
         pub(super) container_list: OnceCell<model::SimpleContainerList>,
 
         pub(super) architecture: OnceCell<Option<String>>,
@@ -54,6 +57,13 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
+                    glib::ParamSpecObject::new(
+                        "image-list",
+                        "Image List",
+                        "The parent image list",
+                        model::ImageList::static_type(),
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
+                    ),
                     glib::ParamSpecObject::new(
                         "container-list",
                         "Container List",
@@ -224,6 +234,7 @@ mod imp {
             pspec: &glib::ParamSpec,
         ) {
             match pspec.name() {
+                "image-list" => self.image_list.set(value.get().unwrap()),
                 "architecture" => self.architecture.set(value.get().unwrap()).unwrap(),
                 "author" => self.author.set(value.get().unwrap()).unwrap(),
                 "comment" => self.comment.set(value.get().unwrap()).unwrap(),
@@ -250,6 +261,7 @@ mod imp {
 
         fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
+                "image-list" => obj.image_list().to_value(),
                 "container-list" => obj.container_list().to_value(),
                 "architecture" => obj.architecture().to_value(),
                 "author" => obj.author().to_value(),
@@ -283,10 +295,12 @@ glib::wrapper! {
 
 impl Image {
     pub(crate) fn from_libpod(
+        image_list: &model::ImageList,
         summary: api::LibpodImageSummary,
         inspect_response: api::LibpodImageInspectResponse,
     ) -> Self {
         glib::Object::new(&[
+            ("image-list", image_list),
             ("architecture", &inspect_response.architecture),
             ("author", &inspect_response.author),
             ("comment", &inspect_response.comment),
@@ -336,6 +350,10 @@ impl Image {
             ),
         ])
         .expect("Failed to create Image")
+    }
+
+    pub(crate) fn image_list(&self) -> Option<model::ImageList> {
+        self.imp().image_list.upgrade()
     }
 
     pub(crate) fn container_list(&self) -> &model::SimpleContainerList {

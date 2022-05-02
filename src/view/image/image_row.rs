@@ -175,7 +175,15 @@ impl ImageRow {
 
     fn create_container(&self) {
         if let Some(image) = self.image().as_ref() {
-            super::create_container(self.upcast_ref(), image);
+            super::create_container(
+                self.upcast_ref(),
+                &image
+                    .image_list()
+                    .as_ref()
+                    .and_then(model::ImageList::client)
+                    .unwrap(),
+                Some(image),
+            );
         }
     }
 
