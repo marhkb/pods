@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-04-25 00:15+0200\n"
-"PO-Revision-Date: 2022-05-01 17:12+0000\n"
-"Last-Translator: Pierre Thévenet <pierre.thevenet@protonmail.com>\n"
+"PO-Revision-Date: 2022-05-05 19:11+0000\n"
+"Last-Translator: Abdelhak Aissat <abdelhak24062@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/pods/pods/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -48,7 +48,6 @@ msgid "Default window maximized behaviour"
 msgstr "Comportement par défaut de la fenêtre maximisée"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:26
-#, fuzzy
 msgid "Style Variant"
 msgstr "Variante de style"
 
@@ -161,7 +160,6 @@ msgid "Describes the container storage and its attributes."
 msgstr "Décrit le stockage du conteneur et ses attributs."
 
 #: data/resources/ui/info-dialog.ui:63
-#, fuzzy
 msgid "Config File"
 msgstr "Fichier de configuration"
 
@@ -198,9 +196,8 @@ msgid "Graph Root"
 msgstr "Racine de Graphe"
 
 #: data/resources/ui/info-dialog.ui:140
-#, fuzzy
 msgid "Graph Status"
-msgstr "Statut Graphique"
+msgstr "Statut du graphique"
 
 #: data/resources/ui/info-dialog.ui:160
 msgid "Image Store"
@@ -276,15 +273,15 @@ msgstr "Résumé"
 
 #: data/resources/ui/container-logs-panel.ui:28
 msgid "Scroll to bottom"
-msgstr ""
+msgstr "Défiler vers le bas"
 
 #: data/resources/ui/container-logs-panel.ui:72
 msgid "Move to previous match (Ctrl+Shift+G)"
-msgstr ""
+msgstr "Passer à la correspondance précédente (Ctrl+Maj+G)"
 
 #: data/resources/ui/container-logs-panel.ui:80
 msgid "Move to next match (Ctrl+G)"
-msgstr ""
+msgstr "Aller vers correspondance précédente (Ctrl+G)"
 
 #: data/resources/ui/container-logs-panel.ui:90
 msgid "Toggle search options"
@@ -300,7 +297,7 @@ msgstr "Sensible à la casse"
 
 #: data/resources/ui/container-logs-panel.ui:127
 msgid "Match whole _word only"
-msgstr ""
+msgstr "Correspondre uniquement mot complet"
 
 #: data/resources/ui/containers-panel.ui:86
 msgid "No containers found"
@@ -346,9 +343,8 @@ msgid "Containers"
 msgstr "Conteneurs"
 
 #: data/resources/ui/images-prune-dialog.ui:7
-#, fuzzy
 msgid "Prune Unused Images"
-msgstr "Élaguer les images inutilisées"
+msgstr "Éliminé les images inutilisées"
 
 #: data/resources/ui/images-prune-dialog.ui:21
 msgid "_Prune"
@@ -359,9 +355,8 @@ msgid "Options"
 msgstr "Options"
 
 #: data/resources/ui/images-prune-dialog.ui:40
-#, fuzzy
 msgid "Prune All"
-msgstr "_Élaguer"
+msgstr "Tout supprimé"
 
 #: data/resources/ui/images-prune-dialog.ui:41
 msgid "Remove all images not in use by containers, not just dangling ones."
@@ -371,7 +366,7 @@ msgstr ""
 
 #: data/resources/ui/images-prune-dialog.ui:53
 msgid "Prune External"
-msgstr ""
+msgstr "Supprimé externe"
 
 #: data/resources/ui/images-prune-dialog.ui:54
 msgid ""
@@ -411,7 +406,6 @@ msgstr "Créer et lancer"
 
 #: data/resources/ui/container-creation-dialog.ui:68
 #: data/resources/ui/container-page.ui:95
-#, fuzzy
 msgid "Details"
 msgstr "Détails de l'image"
 
@@ -505,7 +499,7 @@ msgstr "UDP"
 
 #: data/resources/ui/container-page.ui:72
 msgid "Toggle timestamps"
-msgstr ""
+msgstr "Modifier l'horodatage"
 
 #: data/resources/ui/container-page.ui:113
 msgid "Logs"
@@ -585,7 +579,7 @@ msgstr "Inconnu"
 
 #: src/view/container/container_logs_panel.rs:403
 msgid "{} of {}"
-msgstr ""
+msgstr "{} de {}"
 
 #: src/view/container/container_rename_dialog.rs:87
 msgid "Rename container «{}»"
@@ -597,9 +591,8 @@ msgid "{} Containers total, {} running"
 msgstr "{} Nombre total de conteneurs, {} en cours d'exécution"
 
 #: src/view/container/containers_panel.rs:223
-#, fuzzy
 msgid "_Show only running containers"
-msgstr "Afficher uniquement les conteneurs en cours d'exécution"
+msgstr "_Afficher uniquement les conteneurs en cours d'exécution"
 
 #: src/view/container/mod.rs:54
 msgid "Error on starting container"
@@ -642,13 +635,12 @@ msgid "Error on force deleting container"
 msgstr "Erreur lors de la suppression forcée d'un conteneur"
 
 #: src/view/container/mod.rs:168
-#, fuzzy
 msgid "Re_name…"
-msgstr "_Renommer…"
+msgstr "Renommer…"
 
 #: src/view/container/mod.rs:172
 msgid "_Commit"
-msgstr ""
+msgstr "Commit"
 
 #: src/view/container/mod.rs:176 src/view/image/mod.rs:86
 msgid "_Delete"
@@ -660,14 +652,13 @@ msgstr "_Démarrer"
 
 #: src/view/container/mod.rs:194
 msgid "S_top"
-msgstr ""
+msgstr "S_top"
 
 #: src/view/container/mod.rs:195
 msgid "_Force Stop"
 msgstr "_Forcer l'arrêt"
 
 #: src/view/container/mod.rs:196
-#, fuzzy
 msgid "R_estart"
 msgstr "_Redémarrer"
 
@@ -709,9 +700,8 @@ msgstr "Aucune image trouvée"
 
 #. Translators: The first two placeholders are for a numbers, the last for disk space.
 #: src/view/image/images_panel.rs:372
-#, fuzzy
 msgid "{} images pruned ({} errors). {} space reclaimed."
-msgstr "{} images ont été élaguées ({} erreurs)"
+msgstr "{} images ont été éliminées ({} erreurs).{} espace récupéré"
 
 #: src/view/image/images_panel.rs:383
 msgid "There are no images to be pruned."
@@ -725,7 +715,7 @@ msgstr "Erreur lors de l'élagage des images: '{}'"
 #. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
 #: src/view/image/images_prune_dialog.rs:192
 msgid "%x %H:%M %p"
-msgstr ""
+msgstr "%x %H:%M %p"
 
 #: src/view/image/images_prune_dialog.rs:194
 msgid "Invalid date format"
@@ -742,14 +732,12 @@ msgid "Error on deleting image '{}'"
 msgstr "Erreur lors de la suppression de « {} »"
 
 #: src/view/image/mod.rs:68
-#, fuzzy
 msgid "_Show intermediate images"
 msgstr "Afficher les images intermédiaires"
 
 #: src/view/image/mod.rs:72
-#, fuzzy
 msgid "_Prune unused images…"
-msgstr "Élaguer les images inutilisées"
+msgstr "Éliminé les images inutilisées"
 
 #: src/view/image/mod.rs:82
 msgid "_Create Container…"
@@ -759,7 +747,7 @@ msgstr "_Créer un conteneur"
 #: src/view/info_dialog.rs:127
 #, c-format
 msgid "%x %X"
-msgstr ""
+msgstr "%x %X"
 
 #. Translators: "{}" is a placeholder for a cardinal numbers.
 #: src/view/info_dialog.rs:163
@@ -778,7 +766,6 @@ msgstr "{} Statuts"
 
 #. Translators: "{}" is placeholders for a cardinal number.
 #: src/view/info_dialog.rs:239
-#, fuzzy
 msgid "{} Images"
 msgstr "{} Images"
 
@@ -789,7 +776,7 @@ msgstr "Erreur : {}"
 
 #: src/application.rs:140
 msgid "translator-credits"
-msgstr ""
+msgstr "Crédits traducteur(s)"
 
 #: src/application.rs:173
 msgid "Failed to execute command to start Podman"
