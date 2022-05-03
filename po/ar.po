@@ -8,134 +8,141 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-04-25 00:15+0200\n"
-"PO-Revision-Date: 2022-03-16 02:17+0100\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2022-05-05 19:11+0000\n"
+"Last-Translator: Allaeddine Boulefaat <allaeddineboulefaat@gmail.com>\n"
+"Language-Team: Arabic <https://hosted.weblate.org/projects/pods/pods/ar/>\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+"X-Generator: Weblate 4.12.1\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:32
 msgid "Pods"
-msgstr ""
+msgstr "ناقلات"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:4
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
 msgid "A Podman desktop application"
-msgstr ""
+msgstr "تطبيق صطح المكتب ل بودمان"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:9
 msgid "Gnome;GTK;"
-msgstr ""
+msgstr "غنوم;GTK;"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:6
 #: data/com.github.marhkb.Pods.gschema.xml.in:7
 msgid "Default window width"
-msgstr ""
+msgstr "عرض النافذة الافتراضي"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:11
 #: data/com.github.marhkb.Pods.gschema.xml.in:12
 msgid "Default window height"
-msgstr ""
+msgstr "طول النافذة الافتراضي"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:16
+#, fuzzy
 msgid "Default window maximized behaviour"
-msgstr ""
+msgstr "السلوك الافتراضي للنافذة"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:26
 msgid "Style Variant"
-msgstr ""
+msgstr "نوع النمط"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:27
 msgid "Use the light or dark variant of the GTK theme"
-msgstr ""
+msgstr "استخدم النمط الفاتح أو الداكن لموضوع GTK"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:31
 msgid "The last used view"
-msgstr ""
+msgstr "آخر عرض تم استخدامه"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:36
 msgid "Whether to show intermediate images"
-msgstr ""
+msgstr "إظهار الصور الوسيطة"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:41
 msgid "Remove all images not in use by containers, not just dangling ones"
 msgstr ""
+"قم بإزالة جميع الصور غير المستخدمة بواسطة الحاويات ، وليس فقط الصور المتدلية"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:46
 msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)"
 msgstr ""
+"إزالة الصور ولو كانت مستخدمة بواسطة حاويات خارجية (على سبيل المثال ، عن طريق "
+"حاويات البناء)"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:51
 msgid "Whether to show only running containers"
-msgstr ""
+msgstr "إظهار الحاويات الشغالة فقط"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:56
 msgid "Whether to show a timestamp for each log line"
-msgstr ""
+msgstr "إظهار طابع زمني لكل سطر سجل"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:15
 msgid "Main window"
-msgstr ""
+msgstr "النافذة الرئيسية"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:32
 msgid "Marcus Behrendt"
-msgstr ""
+msgstr "ماركس برندت"
 
 #: data/resources/ui/check-service-page.ui:17
 msgid "Checking Connection to Podman Service"
-msgstr ""
+msgstr "التحقق من الاتصال بخدمة بودمان"
 
 #: data/resources/ui/container-rename-dialog.ui:10
 #: data/resources/ui/images-prune-dialog.ui:11
 #: data/resources/ui/container-creation-dialog.ui:21
 msgid "_Cancel"
-msgstr ""
+msgstr "إلغاء"
 
 #: data/resources/ui/container-rename-dialog.ui:21
 msgid "_Rename"
-msgstr ""
+msgstr "إعادة التسمية"
 
 #: data/resources/ui/shortcuts.ui:13
 msgctxt "shortcut window"
 msgid "General"
-msgstr ""
+msgstr "عام"
 
 #: data/resources/ui/shortcuts.ui:17
 msgctxt "shortcut window"
 msgid "Show Shortcuts"
-msgstr ""
+msgstr "عرض الاختصارات"
 
 #: data/resources/ui/shortcuts.ui:24
 msgctxt "shortcut window"
 msgid "Quit"
-msgstr ""
+msgstr "خروج"
 
 #: data/resources/ui/shortcuts.ui:31
 msgctxt "shortcut window"
 msgid "Search"
-msgstr ""
+msgstr "بحث"
 
 #: data/resources/ui/info-dialog.ui:6 data/resources/ui/info-dialog.ui:10
 msgid "Podman Info"
-msgstr ""
+msgstr "معلومات بودمان"
 
 #: data/resources/ui/info-dialog.ui:15 data/resources/ui/info-dialog.ui:49
 msgid "Version"
-msgstr ""
+msgstr "الإصدار"
 
 #: data/resources/ui/info-dialog.ui:19
 msgid "API Version"
-msgstr ""
+msgstr "إصدار API"
 
 #: data/resources/ui/info-dialog.ui:25
 msgid "Built Time"
-msgstr ""
+msgstr "وقت البناء"
 
 #: data/resources/ui/info-dialog.ui:31
 msgid "Git Commit"
@@ -143,90 +150,91 @@ msgstr ""
 
 #: data/resources/ui/info-dialog.ui:37
 msgid "Go Version"
-msgstr ""
+msgstr "إصدار غو"
 
 #: data/resources/ui/info-dialog.ui:43
 msgid "Os Arch"
-msgstr ""
+msgstr "معمارية النضام"
 
 #: data/resources/ui/info-dialog.ui:59
 msgid "Describes the container storage and its attributes."
-msgstr ""
+msgstr "يصف تخزين الحاوية وصفاته."
 
 #: data/resources/ui/info-dialog.ui:63
 msgid "Config File"
-msgstr ""
+msgstr "ملف الإعدادات"
 
 #: data/resources/ui/info-dialog.ui:69
 msgid "Container Store"
-msgstr ""
+msgstr "مخزن الحاوية"
 
 #: data/resources/ui/info-dialog.ui:70
 msgid "Describes the quantity of containers in the store by status."
-msgstr ""
+msgstr "يصف كمية الحاويات في المخزن حسب الحالة."
 
 #: data/resources/ui/info-dialog.ui:87 src/model/container.rs:67
 msgid "Paused"
-msgstr ""
+msgstr "متوقف مؤقتا"
 
 #: data/resources/ui/info-dialog.ui:93 src/model/container.rs:70
 msgid "Running"
-msgstr ""
+msgstr "شغال"
 
 #: data/resources/ui/info-dialog.ui:99 src/model/container.rs:71
 msgid "Stopped"
-msgstr ""
+msgstr "متوقف"
 
 #: data/resources/ui/info-dialog.ui:108
+#, fuzzy
 msgid "Graph Driver Name"
-msgstr ""
+msgstr "اسم برنامج تشغيل الرسم البياني"
 
 #: data/resources/ui/info-dialog.ui:114
 msgid "Graph Options"
-msgstr ""
+msgstr "اعدادات الرسم البياني"
 
 #: data/resources/ui/info-dialog.ui:134
 msgid "Graph Root"
-msgstr ""
+msgstr "جذر الرسم البياني"
 
 #: data/resources/ui/info-dialog.ui:140
 msgid "Graph Status"
-msgstr ""
+msgstr "حالة الرسم البياني"
 
 #: data/resources/ui/info-dialog.ui:160
 msgid "Image Store"
-msgstr ""
+msgstr "مخزن الصور"
 
 #: data/resources/ui/info-dialog.ui:161
 msgid "Describes the image store. Right now only the number of images present."
-msgstr ""
+msgstr "يصف مخزن الصور. في الوقت الحالي فقط عدد الصور الموجودة."
 
 #: data/resources/ui/info-dialog.ui:167
 msgid "Run Root"
-msgstr ""
+msgstr "تشغيل الجذر"
 
 #: data/resources/ui/info-dialog.ui:173
 msgid "Volume Path"
-msgstr ""
+msgstr "مسار المجلد"
 
 #: data/resources/ui/container-details-panel.ui:25
 msgid "Id"
-msgstr ""
+msgstr "المعرف"
 
 #: data/resources/ui/container-details-panel.ui:31
 #: data/resources/ui/container-creation-dialog.ui:72
 #: data/resources/ui/container-creation-dialog.ui:78
 msgid "Image"
-msgstr ""
+msgstr "صورة"
 
 #: data/resources/ui/container-details-panel.ui:56
 #: data/resources/ui/container-creation-dialog.ui:53
 msgid "Name"
-msgstr ""
+msgstr "إسم"
 
 #: data/resources/ui/container-details-panel.ui:67
 msgid "Status"
-msgstr ""
+msgstr "حالة"
 
 #: data/resources/ui/connection-lost-page.ui:16
 msgid ""
@@ -234,47 +242,49 @@ msgid ""
 "Unix. If the connection has been disconnected unintentionally, you can try "
 "to re-establish it."
 msgstr ""
+"حدث خطأ غير متوقع وفقدت ناقلات الاتصال بـ يونيكس بودمان. إذا تم قطع الاتصال "
+"عن غير قصد ، يمكنك محاولة إعادة إنشائه."
 
 #: data/resources/ui/connection-lost-page.ui:18
 msgid "Lost Connection to Podman"
-msgstr ""
+msgstr "فقد الاتصال بـ بودمان"
 
 #: data/resources/ui/connection-lost-page.ui:34
 msgid "_Restart Podman Service"
-msgstr ""
+msgstr "أعد تشغيل خدمة بودمان"
 
 #: data/resources/ui/start-service-page.ui:16
 msgid "The Podman service is currently not running."
-msgstr ""
+msgstr "خدمة بودمان ليست قيد التشغيل حاليًا."
 
 #: data/resources/ui/start-service-page.ui:17
 msgid "Welcome to Pods"
-msgstr ""
+msgstr "مرحبًا بكم في ناقلات"
 
 #: data/resources/ui/start-service-page.ui:33
 msgid "_Start Podman Service"
-msgstr ""
+msgstr "ابدأ خدمة بودمان"
 
 #: data/resources/ui/images-panel.ui:84
 #: data/resources/ui/containers-panel.ui:85
 msgid "Summary"
-msgstr ""
+msgstr "ملخص"
 
 #: data/resources/ui/container-logs-panel.ui:28
 msgid "Scroll to bottom"
-msgstr ""
+msgstr "انتقل إلى الأسفل"
 
 #: data/resources/ui/container-logs-panel.ui:72
 msgid "Move to previous match (Ctrl+Shift+G)"
-msgstr ""
+msgstr "الانتقال إلى التطابق السابق (Ctrl + Shift + G)"
 
 #: data/resources/ui/container-logs-panel.ui:80
 msgid "Move to next match (Ctrl+G)"
-msgstr ""
+msgstr "الانتقال إلى التطابق التالي (Ctrl + G)"
 
 #: data/resources/ui/container-logs-panel.ui:90
 msgid "Toggle search options"
-msgstr ""
+msgstr "تبديل خيارات البحث"
 
 #: data/resources/ui/container-logs-panel.ui:113
 msgid "Re_gular expressions"
@@ -290,62 +300,62 @@ msgstr ""
 
 #: data/resources/ui/containers-panel.ui:86
 msgid "No containers found"
-msgstr ""
+msgstr "لم يتم العثور على حاويات"
 
 #: data/resources/ui/theme-selector.ui:22
 #: data/resources/ui/theme-selector.ui:24
 msgid "Follow system style"
-msgstr ""
+msgstr "اتبع نمط النظام"
 
 #: data/resources/ui/theme-selector.ui:38
 #: data/resources/ui/theme-selector.ui:40
 msgid "Light style"
-msgstr ""
+msgstr "النمط المضيء"
 
 #: data/resources/ui/theme-selector.ui:55
 #: data/resources/ui/theme-selector.ui:57
 msgid "Dark style"
-msgstr ""
+msgstr "النمط المضلم"
 
 #: data/resources/ui/window.ui:12
 msgid "_Show Podman Info"
-msgstr ""
+msgstr "عرض معلومات بودمان"
 
 #: data/resources/ui/window.ui:18
 msgid "_Preferences"
-msgstr ""
+msgstr "الخيارات"
 
 #: data/resources/ui/window.ui:22
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "اختصارات لوحة المفاتيح"
 
 #: data/resources/ui/window.ui:26
 msgid "_About Pods"
-msgstr ""
+msgstr "حول ناقلات"
 
 #: data/resources/ui/window.ui:110
 msgid "Images"
-msgstr ""
+msgstr "صور"
 
 #: data/resources/ui/window.ui:122
 msgid "Containers"
-msgstr ""
+msgstr "حاويات"
 
 #: data/resources/ui/images-prune-dialog.ui:7
 msgid "Prune Unused Images"
-msgstr ""
+msgstr "حذف الصور غير المستخدمة"
 
 #: data/resources/ui/images-prune-dialog.ui:21
 msgid "_Prune"
-msgstr ""
+msgstr "حذف"
 
 #: data/resources/ui/images-prune-dialog.ui:35
 msgid "Options"
-msgstr ""
+msgstr "إعدادات"
 
 #: data/resources/ui/images-prune-dialog.ui:40
 msgid "Prune All"
-msgstr ""
+msgstr "حذف الكل"
 
 #: data/resources/ui/images-prune-dialog.ui:41
 msgid "Remove all images not in use by containers, not just dangling ones."
@@ -353,7 +363,7 @@ msgstr ""
 
 #: data/resources/ui/images-prune-dialog.ui:53
 msgid "Prune External"
-msgstr ""
+msgstr "حذف الخارجية"
 
 #: data/resources/ui/images-prune-dialog.ui:54
 msgid ""
@@ -363,11 +373,11 @@ msgstr ""
 
 #: data/resources/ui/images-prune-dialog.ui:65
 msgid "Prune Until"
-msgstr ""
+msgstr "حذف إلى حين"
 
 #: data/resources/ui/images-prune-dialog.ui:66
 msgid "Prune images created before this timestamp."
-msgstr ""
+msgstr "حذف الصور التي تم إنشاؤها قبل هذا الطابع الزمني."
 
 #: data/resources/ui/images-prune-dialog.ui:146
 msgid "AM"
@@ -379,24 +389,24 @@ msgstr ""
 
 #: data/resources/ui/container-creation-dialog.ui:7
 msgid "_Create"
-msgstr ""
+msgstr "إنشاء"
 
 #: data/resources/ui/container-creation-dialog.ui:17
 msgid "Create Container"
-msgstr ""
+msgstr "إنشاء حاوية"
 
 #: data/resources/ui/container-creation-dialog.ui:32
 msgid "Create and run"
-msgstr ""
+msgstr "إنشاء و تشغيل"
 
 #: data/resources/ui/container-creation-dialog.ui:68
 #: data/resources/ui/container-page.ui:95
 msgid "Details"
-msgstr ""
+msgstr "تفاصيل"
 
 #: data/resources/ui/container-creation-dialog.ui:96
 msgid "Command"
-msgstr ""
+msgstr "الأمر"
 
 #: data/resources/ui/container-creation-dialog.ui:109
 msgid "Terminal"
@@ -404,19 +414,19 @@ msgstr ""
 
 #: data/resources/ui/container-creation-dialog.ui:122
 msgid "Memory limit"
-msgstr ""
+msgstr "حد الذاكرة"
 
 #: data/resources/ui/container-creation-dialog.ui:164
 msgid "KB"
-msgstr ""
+msgstr "كيلو بايت"
 
 #: data/resources/ui/container-creation-dialog.ui:165
 msgid "MB"
-msgstr ""
+msgstr "ميغا بايت"
 
 #: data/resources/ui/container-creation-dialog.ui:166
 msgid "GB"
-msgstr ""
+msgstr "غيغا بايت"
 
 #: data/resources/ui/container-creation-dialog.ui:190
 msgid "Port Mappings"
@@ -428,39 +438,39 @@ msgstr ""
 
 #: data/resources/ui/container-creation-dialog.ui:242
 msgid "Environment Variables"
-msgstr ""
+msgstr "متغيرات البيئة"
 
 #: data/resources/ui/env-var-row.ui:30
 msgid "Key"
-msgstr ""
+msgstr "مفتاح"
 
 #: data/resources/ui/env-var-row.ui:49
 msgid "Value"
-msgstr ""
+msgstr "قيمة"
 
 #: data/resources/ui/image-details-page.ui:38
 msgid "Image Details"
-msgstr ""
+msgstr "تفاصيل الصورة"
 
 #: data/resources/ui/image-details-page.ui:60
 msgid "Properties"
-msgstr ""
+msgstr "خواص"
 
 #: data/resources/ui/image-details-page.ui:138
 msgid "Associated Containers"
-msgstr ""
+msgstr "الحاويات المرتبطة"
 
 #: data/resources/ui/image-details-page.ui:139
 msgid "There are no containers associated with this image."
-msgstr ""
+msgstr "لا توجد حاويات مرتبطة بهذه الصورة."
 
 #: data/resources/ui/image-details-page.ui:153
 msgid "Image Has Been Deleted"
-msgstr ""
+msgstr "تم حذف الصورة"
 
 #: data/resources/ui/port-mapping-row.ui:29
 msgid "IP address"
-msgstr ""
+msgstr "عنوان IP"
 
 #: data/resources/ui/port-mapping-row.ui:48
 msgid "Host port"
@@ -472,63 +482,63 @@ msgstr ""
 
 #: data/resources/ui/port-mapping-row.ui:102
 msgid "Protocol"
-msgstr ""
+msgstr "البروتوكول"
 
 #: data/resources/ui/port-mapping-row.ui:113
 msgid "TCP"
-msgstr ""
+msgstr "تي سي بي"
 
 #: data/resources/ui/port-mapping-row.ui:114
 msgid "UDP"
-msgstr ""
+msgstr "يو دي بي"
 
 #: data/resources/ui/container-page.ui:72
 msgid "Toggle timestamps"
-msgstr ""
+msgstr "تبديل الطوابع الزمنية"
 
 #: data/resources/ui/container-page.ui:113
 msgid "Logs"
-msgstr ""
+msgstr "السجلات"
 
 #: data/resources/ui/container-page.ui:176
 msgid "Container Page"
-msgstr ""
+msgstr "صفحة الحاوية"
 
 #: data/resources/ui/container-page.ui:187
 msgid "Container Has Been Deleted"
-msgstr ""
+msgstr "تم حذف الحاوية"
 
 #: data/resources/ui/volume-row.ui:34
 msgid "Host path"
-msgstr ""
+msgstr "مسار المضيف"
 
 #: data/resources/ui/volume-row.ui:53
 msgid "Container path"
-msgstr ""
+msgstr "مسار الحاوية"
 
 #: data/resources/ui/volume-row.ui:81
 msgid "Mode"
-msgstr ""
+msgstr "الوضع"
 
 #: data/resources/ui/volume-row.ui:92
 msgid "Writable"
-msgstr ""
+msgstr "قابل للكتابة"
 
 #: data/resources/ui/volume-row.ui:102
 msgid "SELinux"
-msgstr ""
+msgstr "لينكس معزز الامن"
 
 #: data/resources/ui/volume-row.ui:113
 msgid "No label"
-msgstr ""
+msgstr "لا تسمية"
 
 #: data/resources/ui/volume-row.ui:114
 msgid "Shared"
-msgstr ""
+msgstr "مشترك"
 
 #: data/resources/ui/volume-row.ui:115
 msgid "Private"
-msgstr ""
+msgstr "خاص"
 
 #: src/model/container.rs:63
 msgid "Configured"
@@ -540,27 +550,27 @@ msgstr ""
 
 #: src/model/container.rs:65
 msgid "Dead"
-msgstr ""
+msgstr "ميت"
 
 #: src/model/container.rs:66
 msgid "Exited"
-msgstr ""
+msgstr "مغادر"
 
 #: src/model/container.rs:68
 msgid "Removing"
-msgstr ""
+msgstr "إزالة"
 
 #: src/model/container.rs:69
 msgid "Restarting"
-msgstr ""
+msgstr "إعادة تشغيل"
 
 #: src/model/container.rs:72
 msgid "Stopping"
-msgstr ""
+msgstr "إيقاف"
 
 #: src/model/container.rs:73
 msgid "Unknown"
-msgstr ""
+msgstr "مجهول"
 
 #: src/view/container/container_logs_panel.rs:403
 msgid "{} of {}"
@@ -577,35 +587,35 @@ msgstr ""
 
 #: src/view/container/containers_panel.rs:223
 msgid "_Show only running containers"
-msgstr ""
+msgstr "اعرض فقط الحاويات قيد التشغيل"
 
 #: src/view/container/mod.rs:54
 msgid "Error on starting container"
-msgstr ""
+msgstr "خطأ في تشغيل الحاوية"
 
 #: src/view/container/mod.rs:62
 msgid "Error on stopping container"
-msgstr ""
+msgstr "خطأ في إيقاف الحاوية"
 
 #: src/view/container/mod.rs:70
 msgid "Error on force stopping container"
-msgstr ""
+msgstr "خطأ في إلزام إيقاف الحاوية"
 
 #: src/view/container/mod.rs:78
 msgid "Error on restarting container"
-msgstr ""
+msgstr "خطأ في إعادة تشغيل الحاوية"
 
 #: src/view/container/mod.rs:86
 msgid "Error on force restarting container"
-msgstr ""
+msgstr "خطأ في فرض إعادة تشغيل الحاوية"
 
 #: src/view/container/mod.rs:94
 msgid "Error on pausing container"
-msgstr ""
+msgstr "خطأ في الإيقاف المؤقت للحاوية"
 
 #: src/view/container/mod.rs:102
 msgid "Error on resuming container"
-msgstr ""
+msgstr "خطأ في استئناف الحاوية"
 
 #: src/view/container/mod.rs:110
 msgid "Error on committing container"
@@ -613,11 +623,11 @@ msgstr ""
 
 #: src/view/container/mod.rs:118
 msgid "Error on deleting container"
-msgstr ""
+msgstr "خطأ في حذف الحاوية"
 
 #: src/view/container/mod.rs:126
 msgid "Error on force deleting container"
-msgstr ""
+msgstr "خطأ في فرض حذف الحاوية"
 
 #: src/view/container/mod.rs:168
 msgid "Re_name…"
@@ -629,11 +639,11 @@ msgstr ""
 
 #: src/view/container/mod.rs:176 src/view/image/mod.rs:86
 msgid "_Delete"
-msgstr ""
+msgstr "حذف"
 
 #: src/view/container/mod.rs:186
 msgid "_Start"
-msgstr ""
+msgstr "بدء"
 
 #: src/view/container/mod.rs:194
 msgid "S_top"
@@ -641,7 +651,7 @@ msgstr ""
 
 #: src/view/container/mod.rs:195
 msgid "_Force Stop"
-msgstr ""
+msgstr "فرض الإيقاف"
 
 #: src/view/container/mod.rs:196
 msgid "R_estart"
@@ -653,11 +663,11 @@ msgstr ""
 
 #: src/view/container/mod.rs:206
 msgid "_Pause"
-msgstr ""
+msgstr "ايقاف مؤقت"
 
 #: src/view/container/mod.rs:216
 msgid "_Resume"
-msgstr ""
+msgstr "مواصلة"
 
 #. Translators: "{}" are placeholders for storage space.
 #: src/view/image/image_details_page.rs:152
@@ -681,7 +691,7 @@ msgstr ""
 
 #: src/view/image/images_panel.rs:174
 msgid "No images found"
-msgstr ""
+msgstr "لم يتم العثور على صور"
 
 #. Translators: The first two placeholders are for a numbers, the last for disk space.
 #: src/view/image/images_panel.rs:372
@@ -690,7 +700,7 @@ msgstr ""
 
 #: src/view/image/images_panel.rs:383
 msgid "There are no images to be pruned."
-msgstr ""
+msgstr "لا توجد صور للحذف."
 
 #. Translators: "{}" is a placeholder for an error message.
 #: src/view/image/images_panel.rs:387
@@ -718,7 +728,7 @@ msgstr ""
 
 #: src/view/image/mod.rs:68
 msgid "_Show intermediate images"
-msgstr ""
+msgstr "عرض الصور الوسيطة"
 
 #: src/view/image/mod.rs:72
 msgid "_Prune unused images…"
@@ -761,11 +771,11 @@ msgstr ""
 
 #: src/application.rs:140
 msgid "translator-credits"
-msgstr ""
+msgstr "\"Allaeddine boulefaat allaeddineboulefaat@gmail.com\""
 
 #: src/application.rs:173
 msgid "Failed to execute command to start Podman"
-msgstr ""
+msgstr "فشل تنفيذ الأمر لبدء بودمان"
 
 #. Translators: "{}" is the placeholder for the exit code.
 #: src/application.rs:204
@@ -774,11 +784,11 @@ msgstr ""
 
 #: src/main.rs:85
 msgid "Prints application version"
-msgstr ""
+msgstr "يضهر اصدار التطبيق"
 
 #: src/main.rs:94
 msgid "Specify the minimum log level"
-msgstr ""
+msgstr "حدد الحد الأدنى لمستوى السجل"
 
 #. Translators: This string will be shown when a property of an entity like an image is null.
 #: src/utils.rs:113
@@ -787,7 +797,7 @@ msgstr ""
 
 #: src/window.rs:423
 msgid "Error on loading images"
-msgstr ""
+msgstr "خطأ في تحميل الصور"
 
 #. Translators: "{}" is the placeholder for the image id.
 #: src/window.rs:426
@@ -796,7 +806,7 @@ msgstr ""
 
 #: src/window.rs:439
 msgid "Error on loading containers"
-msgstr ""
+msgstr "خطأ في تحميل الحاويات"
 
 #. Translators: "{}" is the placeholder for the container id.
 #: src/window.rs:442
