@@ -147,6 +147,7 @@ impl Application {
             .modal(true)
             .authors(vec!["Marcus Behrendt".into()])
             .artists(vec!["Marcus Behrendt".into()])
+            .artists(vec!["Allaeddine Boulefaat".into()])
             .build();
 
         dialog.present();
