@@ -15,6 +15,16 @@
     </section>
     <section>
       <item>
+        <attribute name="label" translatable="yes">_Download new image…</attribute>
+        <attribute name="action">image.pull</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">_Prune unused images…</attribute>
+        <attribute name="action">images.prune-unused</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
         <attribute name="label" translatable="yes">_Preferences</attribute>
         <attribute name="action">app.preferences</attribute>
       </item>
@@ -85,12 +95,6 @@
                           <object class="GtkMenuButton" id="menu_button">
                             <property name="icon-name">open-menu-symbolic</property>
                             <property name="menu-model">menu</property>
-                          </object>
-                        </child>
-
-                        <child type="end">
-                          <object class="GtkMenuButton" id="context_menu_button">
-                            <property name="icon-name">view-more-symbolic</property>
                           </object>
                         </child>
 

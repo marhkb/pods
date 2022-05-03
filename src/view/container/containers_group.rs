@@ -1,4 +1,3 @@
-use std::cell::Cell;
 use std::cell::RefCell;
 
 use adw::subclass::prelude::PreferencesGroupImpl;
@@ -16,6 +15,7 @@ use once_cell::unsync::OnceCell;
 
 use crate::model;
 use crate::model::AbstractContainerListExt;
+use crate::utils;
 use crate::view;
 
 mod imp {
@@ -24,13 +24,16 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/containers-group.ui")]
     pub(crate) struct ContainersGroup {
+        pub(super) settings: utils::PodsSettings,
         pub(super) container_list: WeakRef<model::AbstractContainerList>,
         pub(super) no_containers_label: RefCell<Option<String>>,
-        pub(super) show_only_running: Cell<bool>,
+        pub(super) show_running_settings_key: RefCell<String>,
         pub(super) properties_filter: OnceCell<gtk::Filter>,
         pub(super) search_filter: OnceCell<gtk::Filter>,
         pub(super) sorter: OnceCell<gtk::Sorter>,
         pub(super) search_text: RefCell<Option<String>>,
+        #[template_child]
+        pub(super) show_only_running_switch: TemplateChild<gtk::Switch>,
         #[template_child]
         pub(super) list_box: TemplateChild<gtk::ListBox>,
     }
@@ -61,18 +64,18 @@ mod imp {
                         None,
                         glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
                     ),
+                    glib::ParamSpecString::new(
+                        "show-running-settings-key",
+                        "Show Running Settings Key",
+                        "The settings key for showing running key",
+                        None,
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                    ),
                     glib::ParamSpecObject::new(
                         "container-list",
                         "Container List",
                         "The list of containers",
                         model::AbstractContainerList::static_type(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecBoolean::new(
-                        "show-only-running",
-                        "Show only Running",
-                        "Whether to show only running containers",
-                        false,
                         glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
                     ),
                     glib::ParamSpecString::new(
@@ -96,8 +99,10 @@ mod imp {
         ) {
             match pspec.name() {
                 "no-containers-label" => obj.set_no_containers_label(value.get().unwrap()),
+                "show-running-settings-key" => {
+                    obj.set_show_running_settings_key(value.get().unwrap_or_default());
+                }
                 "container-list" => obj.set_container_list(value.get().unwrap()),
-                "show-only-running" => obj.set_show_only_running(value.get().unwrap()),
                 "search-text" => obj.set_search_text(value.get().unwrap()),
                 _ => unimplemented!(),
             }
@@ -106,8 +111,8 @@ mod imp {
         fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
                 "no-containers-label" => obj.no_containers_label().to_value(),
+                "show-running-settings-key" => obj.show_running_settings_key().to_value(),
                 "container-list" => obj.container_list().to_value(),
-                "show-only-running" => obj.show_only_running().to_value(),
                 "search-text" => obj.search_text().to_value(),
                 _ => unimplemented!(),
             }
@@ -139,7 +144,7 @@ mod imp {
 
             let properties_filter =
                 gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
-                    !obj.show_only_running() ||
+                    !obj.imp().show_only_running_switch.is_active() ||
                         item.downcast_ref::<model::Container>().unwrap().status()
                             == model::ContainerStatus::Running
                 }));
@@ -190,6 +195,10 @@ mod imp {
                 .unwrap();
             self.search_filter.set(search_filter.upcast()).unwrap();
             self.sorter.set(sorter.upcast()).unwrap();
+
+            self.show_only_running_switch.connect_active_notify(
+                clone!(@weak obj => move |_| obj.update_properties_filter()),
+            );
         }
     }
 
@@ -219,6 +228,25 @@ impl ContainersGroup {
         }
         self.imp().no_containers_label.replace(value);
         self.notify("no-containers-label");
+    }
+
+    pub(crate) fn show_running_settings_key(&self) -> String {
+        self.imp().show_running_settings_key.borrow().to_owned()
+    }
+
+    pub(crate) fn set_show_running_settings_key(&self, value: String) {
+        if self.show_running_settings_key() == value {
+            return;
+        }
+
+        let imp = self.imp();
+
+        imp.settings
+            .bind(&value, &*imp.show_only_running_switch, "active")
+            .build();
+
+        imp.show_running_settings_key.replace(value);
+        self.notify("show-running-settings-key");
     }
 
     pub(crate) fn container_list(&self) -> Option<model::AbstractContainerList> {
@@ -272,19 +300,6 @@ impl ContainersGroup {
 
         imp.container_list.set(value);
         self.notify("container-list");
-    }
-
-    pub(crate) fn show_only_running(&self) -> bool {
-        self.imp().show_only_running.get()
-    }
-
-    pub(crate) fn set_show_only_running(&self, value: bool) {
-        if self.show_only_running() == value {
-            return;
-        }
-        self.imp().show_only_running.replace(value);
-        self.notify("show-only-running");
-        self.update_properties_filter()
     }
 
     pub(crate) fn search_text(&self) -> Option<String> {

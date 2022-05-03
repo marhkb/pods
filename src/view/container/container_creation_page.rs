@@ -1,7 +1,9 @@
 use std::cell::RefCell;
 
 use adw::subclass::prelude::*;
+use adw::traits::BinExt;
 use adw::traits::ComboRowExt;
+use futures::TryFutureExt;
 use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
@@ -11,31 +13,32 @@ use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
-use once_cell::sync::OnceCell;
 use serde::Serialize;
 
 use crate::api;
 use crate::model;
+use crate::model::AbstractContainerListExt;
+use crate::model::Client;
 use crate::utils;
 use crate::utils::ToTypedListModel;
 use crate::view;
+use crate::window::Window;
 use crate::PODMAN;
 
 mod imp {
     use super::*;
 
     #[derive(Default, CompositeTemplate)]
-    #[template(resource = "/com/github/marhkb/Pods/ui/container-creation-dialog.ui")]
-    pub(crate) struct ContainerCreationDialog {
+    #[template(resource = "/com/github/marhkb/Pods/ui/container-creation-page.ui")]
+    pub(crate) struct ContainerCreationPage {
         pub(super) names: RefCell<names::Generator<'static>>,
+        pub(super) client: WeakRef<model::Client>,
         pub(super) image: WeakRef<model::Image>,
-        pub(super) image_list: WeakRef<model::ImageList>,
         pub(super) port_mappings: RefCell<gio::ListStore>,
         pub(super) volumes: RefCell<gio::ListStore>,
         pub(super) env_vars: RefCell<gio::ListStore>,
-        pub(super) created_container_id: OnceCell<String>,
         #[template_child]
-        pub(super) toast_overlay: TemplateChild<adw::ToastOverlay>,
+        pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) name_entry: TemplateChild<gtk::Entry>,
         #[template_child]
@@ -60,16 +63,25 @@ mod imp {
         pub(super) volume_list_box: TemplateChild<gtk::ListBox>,
         #[template_child]
         pub(super) env_var_list_box: TemplateChild<gtk::ListBox>,
+        #[template_child]
+        pub(super) container_page_bin: TemplateChild<adw::Bin>,
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for ContainerCreationDialog {
-        const NAME: &'static str = "ContainerCreationDialog";
-        type Type = super::ContainerCreationDialog;
-        type ParentType = gtk::Dialog;
+    impl ObjectSubclass for ContainerCreationPage {
+        const NAME: &'static str = "ContainerCreationPage";
+        type Type = super::ContainerCreationPage;
+        type ParentType = gtk::Widget;
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
+            klass.install_action("navigation.go-first", None, move |widget, _, _| {
+                widget.navigate_to_first();
+            });
+            klass.install_action("navigation.back", None, move |widget, _, _| {
+                widget.navigate_back();
+            });
+
             klass.install_action("container.add-port-mapping", None, |widget, _, _| {
                 widget.add_port_mapping();
             });
@@ -92,22 +104,22 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for ContainerCreationDialog {
+    impl ObjectImpl for ContainerCreationPage {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
                     glib::ParamSpecObject::new(
-                        "image",
-                        "Image",
-                        "The image of this ContainerCreationDialog",
-                        model::Image::static_type(),
+                        "client",
+                        "Client",
+                        "The client of this ContainerCreationPage",
+                        model::Client::static_type(),
                         glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
                     ),
                     glib::ParamSpecObject::new(
-                        "image-list",
-                        "Image List",
-                        "The image list of this ContainerCreationDialog",
-                        model::ImageList::static_type(),
+                        "image",
+                        "Image",
+                        "The image of this ContainerCreationPage",
+                        model::Image::static_type(),
                         glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
                     ),
                 ]
@@ -123,16 +135,16 @@ mod imp {
             pspec: &glib::ParamSpec,
         ) {
             match pspec.name() {
+                "client" => self.client.set(value.get().unwrap()),
                 "image" => self.image.set(value.get().unwrap()),
-                "image-list" => self.image_list.set(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
 
         fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
+                "client" => obj.client().to_value(),
                 "image" => obj.image().to_value(),
-                "image-list" => self.image_list.upgrade().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -187,10 +199,10 @@ mod imp {
                         }
                     }
                 });
-            } else if let Some(image_list) = obj.image_list() {
+            } else if let Some(client) = obj.client() {
                 self.image_property_row.set_visible(false);
 
-                self.image_combo_row.set_model(Some(&image_list));
+                self.image_combo_row.set_model(Some(client.image_list()));
                 self.image_combo_row.set_expression(Some(&image_tag_expr));
             }
 
@@ -210,40 +222,45 @@ mod imp {
                     view::EnvVarRow::from(item.downcast_ref::<model::EnvVar>().unwrap()).upcast()
                 });
         }
+
+        fn dispose(&self, _obj: &Self::Type) {
+            self.stack.unparent();
+        }
     }
 
-    impl WidgetImpl for ContainerCreationDialog {}
-    impl WindowImpl for ContainerCreationDialog {}
-    impl DialogImpl for ContainerCreationDialog {}
+    impl WidgetImpl for ContainerCreationPage {
+        fn realize(&self, widget: &Self::Type) {
+            self.parent_realize(widget);
+
+            widget.action_set_enabled(
+                "navigation.go-first",
+                widget.previous_leaflet_overlay() != widget.root_leaflet_overlay(),
+            );
+        }
+    }
+
+    impl WindowImpl for ContainerCreationPage {}
+    impl DialogImpl for ContainerCreationPage {}
 }
 
 glib::wrapper! {
-    pub(crate) struct ContainerCreationDialog(ObjectSubclass<imp::ContainerCreationDialog>)
-        @extends gtk::Widget, gtk::Window, gtk::Dialog,
-        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget, gtk::Native, gtk::Root, gtk::ShortcutManager;
+    pub(crate) struct ContainerCreationPage(ObjectSubclass<imp::ContainerCreationPage>)
+        @extends gtk::Widget,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
-impl From<Option<&model::Image>> for ContainerCreationDialog {
-    fn from(image: Option<&model::Image>) -> Self {
-        glib::Object::new(&[("image", &image), ("use-header-bar", &1)])
-            .expect("Failed to create ContainerCreationDialog")
+impl ContainerCreationPage {
+    pub(crate) fn new(client: &Client, image: Option<&model::Image>) -> Self {
+        glib::Object::new(&[("client", client), ("image", &image)])
+            .expect("Failed to create ContainerCreationPage")
     }
-}
 
-impl From<Option<&model::ImageList>> for ContainerCreationDialog {
-    fn from(image_list: Option<&model::ImageList>) -> Self {
-        glib::Object::new(&[("image-list", &image_list), ("use-header-bar", &1)])
-            .expect("Failed to create ContainerCreationDialog")
+    fn client(&self) -> Option<model::Client> {
+        self.imp().client.upgrade()
     }
-}
 
-impl ContainerCreationDialog {
     fn image(&self) -> Option<model::Image> {
         self.imp().image.upgrade()
-    }
-
-    fn image_list(&self) -> Option<model::ImageList> {
-        self.imp().image_list.upgrade()
     }
 
     fn on_name_changed(&self) {
@@ -252,14 +269,24 @@ impl ContainerCreationDialog {
         self.action_set_enabled("container.create", enabled);
     }
 
-    fn show_toast(&self, title: &str) {
-        self.imp().toast_overlay.add_toast(
-            &adw::Toast::builder()
-                .title(title)
-                .timeout(3)
-                .priority(adw::ToastPriority::High)
-                .build(),
-        );
+    fn navigate_to_first(&self) {
+        self.root_leaflet_overlay().hide_details();
+    }
+
+    fn navigate_back(&self) {
+        self.previous_leaflet_overlay().hide_details();
+    }
+
+    fn previous_leaflet_overlay(&self) -> view::LeafletOverlay {
+        utils::find_leaflet_overlay(self)
+    }
+
+    fn root_leaflet_overlay(&self) -> view::LeafletOverlay {
+        self.root()
+            .unwrap()
+            .downcast::<Window>()
+            .unwrap()
+            .leaflet_overlay()
     }
 
     fn add_port_mapping(&self) {
@@ -437,27 +464,72 @@ impl ContainerCreationDialog {
                 }
                 .build();
 
+                imp.stack.set_visible_child_name("waiting");
+
                 utils::do_async(
                     async move { PODMAN.containers().create(&opts).await },
                     clone!(@weak self as obj => move |result| {
-                        match result {
-                            Ok(info) => {
-                                obj.imp().created_container_id.set(info.id).unwrap();
-                                obj.response(gtk::ResponseType::Other(if run { 1 } else { 0 }));
+                        let imp = obj.imp();
+
+                        match result.map(|info| info.id) {
+                            Ok(id) => {
+                                let client = imp.client.upgrade().unwrap();
+                                match client.container_list().get_container(&id) {
+                                    Some(container) => obj.switch_to_container(&container),
+                                    None => {
+                                        client.container_list().connect_container_added(
+                                            clone!(@weak obj, @strong id => move |_, container| {
+                                                if container.id() == Some(id.as_str()) {
+                                                    obj.switch_to_container(container);
+                                                }
+                                            }),
+                                        );
+                                    }
+                                }
+
+                                if run {
+                                    utils::do_async(
+                                        async move {
+                                            PODMAN
+                                                .containers()
+                                                .get(id.clone())
+                                                .start(None)
+                                                .map_ok(|_| id)
+                                                .await
+                                        },
+                                        clone!(@weak obj => move |result| if let Err(e) = result {
+                                            utils::show_error_toast(
+                                                &obj,
+                                                "Error while starting container",
+                                                &e.to_string()
+                                            );
+                                        }),
+                                    );
+                                }
                             }
-                            Err(e) => obj.show_toast(
-                                &format!("Failed to create container: {}", e)
-                            ),
+                            Err(e) => {
+                                obj.imp().stack.set_visible_child_name("creation-settings");
+                                utils::show_error_toast(
+                                    &obj,
+                                    "Error while creating container",
+                                    &e.to_string()
+                                );
+                            }
                         }
                     }),
                 );
             }
-            None => self.show_toast("Failed to create container: no image selected"),
+            None => {
+                utils::show_error_toast(self, "Failed to create container", "no image selected")
+            }
         }
     }
 
-    pub(crate) fn created_container_id(&self) -> Option<&str> {
-        self.imp().created_container_id.get().map(String::as_str)
+    fn switch_to_container(&self, container: &model::Container) {
+        let imp = self.imp();
+        imp.container_page_bin
+            .set_child(Some(&view::ContainerPage::from(container)));
+        imp.stack.set_visible_child(&*imp.container_page_bin);
     }
 }
 

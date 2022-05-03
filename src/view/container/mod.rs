@@ -1,4 +1,4 @@
-mod container_creation_dialog;
+mod container_creation_page;
 mod container_details_panel;
 mod container_logs_panel;
 mod container_page;
@@ -21,19 +21,19 @@ use gtk::traits::DialogExt;
 use gtk::traits::GtkWindowExt;
 use gtk::traits::WidgetExt;
 
-pub(crate) use self::container_creation_dialog::ContainerCreationDialog;
+pub(crate) use self::container_creation_page::ContainerCreationPage;
 pub(crate) use self::container_details_panel::ContainerDetailsPanel;
 pub(crate) use self::container_logs_panel::ContainerLogsPanel;
 pub(crate) use self::container_page::ContainerPage;
 pub(crate) use self::container_rename_dialog::ContainerRenameDialog;
 pub(crate) use self::container_row::ContainerRow;
 pub(crate) use self::containers_group::ContainersGroup;
-pub(crate) use self::containers_panel::menu;
 pub(crate) use self::containers_panel::ContainersPanel;
 pub(crate) use self::env_var_row::EnvVarRow;
 pub(crate) use self::port_mapping_row::PortMappingRow;
 pub(crate) use self::volume_row::VolumeRow;
 use crate::model;
+use crate::utils;
 use crate::view;
 
 fn container_status_css_class(status: model::ContainerStatus) -> &'static str {
@@ -57,7 +57,11 @@ fn container_status_css_class(status: model::ContainerStatus) -> &'static str {
 fn start(widget: &gtk::Widget, container: &model::Container) {
     container.start(
         clone!(@weak widget => move |result| if let Err(e) = result {
-            show_toast(&widget, &gettext("Error on starting container"), e);
+            utils::show_error_toast(
+                &widget,
+                &gettext("Error on starting container"),
+                &e.to_string()
+            );
         }),
     );
 }
@@ -65,7 +69,11 @@ fn start(widget: &gtk::Widget, container: &model::Container) {
 fn stop(widget: &gtk::Widget, container: &model::Container) {
     container.stop(
         clone!(@weak widget => move |result| if let Err(e) = result {
-            show_toast(&widget, &gettext("Error on stopping container"), e);
+            utils::show_error_toast(
+                &widget,
+                &gettext("Error on stopping container"),
+                &e.to_string()
+            );
         }),
     );
 }
@@ -73,7 +81,11 @@ fn stop(widget: &gtk::Widget, container: &model::Container) {
 fn force_stop(widget: &gtk::Widget, container: &model::Container) {
     container.force_stop(
         clone!(@weak widget => move |result| if let Err(e) = result {
-            show_toast(&widget, &gettext("Error on force stopping container"), e);
+            utils::show_error_toast(
+                &widget,
+                &gettext("Error on force stopping container"),
+                &e.to_string()
+            );
         }),
     );
 }
@@ -81,7 +93,11 @@ fn force_stop(widget: &gtk::Widget, container: &model::Container) {
 fn restart(widget: &gtk::Widget, container: &model::Container) {
     container.restart(
         clone!(@weak widget => move |result| if let Err(e) = result {
-            show_toast(&widget, &gettext("Error on restarting container"), e);
+            utils::show_error_toast(
+                &widget,
+                &gettext("Error on restarting container"),
+                &e.to_string()
+            );
         }),
     );
 }
@@ -89,7 +105,11 @@ fn restart(widget: &gtk::Widget, container: &model::Container) {
 fn force_restart(widget: &gtk::Widget, container: &model::Container) {
     container.force_restart(
         clone!(@weak widget => move |result| if let Err(e) = result {
-            show_toast(&widget, &gettext("Error on force restarting container"), e);
+            utils::show_error_toast(
+                &widget,
+                &gettext("Error on force restarting container"),
+                &e.to_string()
+            );
         }),
     );
 }
@@ -97,7 +117,11 @@ fn force_restart(widget: &gtk::Widget, container: &model::Container) {
 fn pause(widget: &gtk::Widget, container: &model::Container) {
     container.pause(
         clone!(@weak widget => move |result| if let Err(e) = result {
-            show_toast(&widget, &gettext("Error on pausing container"), e);
+            utils::show_error_toast(
+                &widget,
+                &gettext("Error on pausing container"),
+                &e.to_string()
+            );
         }),
     );
 }
@@ -105,7 +129,11 @@ fn pause(widget: &gtk::Widget, container: &model::Container) {
 fn resume(widget: &gtk::Widget, container: &model::Container) {
     container.resume(
         clone!(@weak widget => move |result| if let Err(e) = result {
-            show_toast(&widget, &gettext("Error on resuming container"), e);
+            utils::show_error_toast(
+                &widget,
+                &gettext("Error on resuming container"),
+                &e.to_string()
+            );
         }),
     );
 }
@@ -113,7 +141,11 @@ fn resume(widget: &gtk::Widget, container: &model::Container) {
 fn commit(widget: &gtk::Widget, container: &model::Container) {
     container.commit(
         clone!(@weak widget => move |result| if let Err(e) = result {
-            show_toast(&widget, &gettext("Error on committing container"), e);
+            utils::show_error_toast(
+                &widget,
+                &gettext("Error on committing container"),
+                &e.to_string()
+            );
         }),
     );
 }
@@ -121,7 +153,11 @@ fn commit(widget: &gtk::Widget, container: &model::Container) {
 fn delete(widget: &gtk::Widget, container: &model::Container) {
     container.delete(
         clone!(@weak widget => move |result| if let Err(e) = result {
-            show_toast(&widget, &gettext("Error on deleting container"), e);
+            utils::show_error_toast(
+                &widget,
+                &gettext("Error on deleting container"),
+                &e.to_string()
+            );
         }),
     );
 }
@@ -129,7 +165,11 @@ fn delete(widget: &gtk::Widget, container: &model::Container) {
 fn force_delete(widget: &gtk::Widget, container: &model::Container) {
     container.force_delete(
         clone!(@weak widget => move |result| if let Err(e) = result {
-            show_toast(&widget, &gettext("Error on force deleting container"), e);
+            utils::show_error_toast(
+                &widget,
+                &gettext("Error on force deleting container"),
+                &e.to_string()
+            );
         }),
     );
 }
@@ -160,10 +200,6 @@ fn on_rename_dialog_response<F>(
         gtk::ResponseType::Cancel | gtk::ResponseType::Apply => dialog.close(),
         _ => op(widget, dialog),
     }
-}
-
-fn show_toast(widget: &gtk::Widget, title: &str, e: impl std::error::Error) {
-    super::show_toast(widget, &format!("{}: {}", title, e));
 }
 
 fn base_menu() -> gio::Menu {

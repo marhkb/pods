@@ -1,5 +1,3 @@
-use std::borrow::Cow;
-
 use gettextrs::gettext;
 use gtk::gio;
 use gtk::glib;
@@ -12,11 +10,9 @@ use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
 use once_cell::sync::OnceCell;
 
-use crate::api;
 use crate::model;
 use crate::utils;
 use crate::view;
-use crate::window::Window;
 
 mod imp {
     use super::*;
@@ -45,6 +41,8 @@ mod imp {
         pub(super) search_entry: TemplateChild<gtk::SearchEntry>,
         #[template_child]
         pub(super) images_group: TemplateChild<adw::PreferencesGroup>,
+        #[template_child]
+        pub(super) show_intermediates_switch: TemplateChild<gtk::Switch>,
         #[template_child]
         pub(super) list_box: TemplateChild<gtk::ListBox>,
     }
@@ -105,6 +103,13 @@ mod imp {
                 Some("show-intermediate-images"),
                 clone!(@weak obj => move |_, _| obj.update_properties_filter()),
             );
+            self.settings
+                .bind(
+                    "show-intermediate-images",
+                    &*self.show_intermediates_switch,
+                    "active",
+                )
+                .build();
 
             let image_list_expr = Self::Type::this_expression("image-list");
             let image_list_len_expr = image_list_expr.chain_property::<model::ImageList>("len");
@@ -187,7 +192,7 @@ mod imp {
 
             let properties_filter =
                 gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
-                    obj.show_intermediates()
+                    obj.imp().show_intermediates_switch.is_active()
                     || !item
                         .downcast_ref::<model::Image>()
                         .unwrap()
@@ -311,10 +316,6 @@ impl ImagesPanel {
         self.notify("image-list");
     }
 
-    pub(crate) fn show_intermediates(&self) -> bool {
-        self.imp().settings.get::<bool>("show-intermediate-images")
-    }
-
     pub(crate) fn connect_search_button(&self, search_button: &gtk::ToggleButton) {
         search_button
             .bind_property("active", &*self.imp().search_bar, "search-mode-enabled")
@@ -332,92 +333,9 @@ impl ImagesPanel {
         }
     }
 
-    pub(crate) fn show_prune_dialog<F>(&self, op: F)
-    where
-        F: FnOnce() + Clone + 'static,
-    {
-        let dialog = view::ImagesPruneDialog::default();
-        dialog.set_transient_for(Some(
-            &self.root().unwrap().downcast::<gtk::Window>().unwrap(),
-        ));
-        dialog.run_async(clone!(@weak self as obj => move |dialog, response| {
-            match (response, obj.image_list()) {
-                (gtk::ResponseType::Accept, Some(image_list)) => {
-                    let imp = obj.imp();
-                    image_list.prune(
-                        api::ImagePruneOpts::builder()
-                            .all(imp.settings.get("prune-all-images"))
-                            .external(imp.settings.get("prune-external-images"))
-                            .filter(if dialog.has_prune_until_filter() {
-                                Some(api::ImagePruneFilter::Until(
-                                    dialog.prune_until_timestamp().to_string())
-                                )
-                            } else {
-                                None
-                            })
-                            .build(),
-                        clone!(@weak obj => move |result| {
-                            obj.show_toast(&match result {
-                                Ok(reports) => match reports.as_ref().and_then(|reports| {
-                                    if reports.is_empty() {
-                                        None
-                                    } else {
-                                        Some(reports)
-                                    }
-                                }) {
-                                    Some(reports) => {
-                                        let (num_images, num_errors, total_size) = reports
-                                            .iter()
-                                            .map(|report| match report.err {
-                                                Some(_) => (0, 1, 0),
-                                                None => (1, 0, report.size.unwrap_or(0)),
-                                            })
-                                            .fold((0, 0, 0), |acc, i| {
-                                                (acc.0 + i.0, acc.1 + i.1, acc.2 + i.2)
-                                            });
-                                        gettext!(
-                                            // Translators: The first two placeholders are for a numbers, the last for disk space.
-                                            "{} images pruned ({} errors). {} space reclaimed.",
-                                            num_images,
-                                            if num_errors == 0 {
-                                                Cow::Borrowed("no")
-                                            } else {
-                                                Cow::Owned(num_errors.to_string())
-                                            },
-                                            glib::format_size(total_size as u64),
-                                        )
-                                    }
-
-                                    None => gettext("There are no images to be pruned."),
-                                },
-                                Err(e) => gettext!(
-                                    // Translators: "{}" is a placeholder for an error message.
-                                    "Error on pruning images: '{}'",
-                                    e
-                                ),
-                            });
-                            op();
-                        }),
-                    )
-                },
-                _ => op(),
-            }
-            dialog.close();
-        }));
-    }
-
-    fn show_toast(&self, title: &str) {
-        self.root()
-            .unwrap()
-            .downcast::<Window>()
-            .unwrap()
-            .show_toast(
-                &adw::Toast::builder()
-                    .title(title)
-                    .timeout(3)
-                    .priority(adw::ToastPriority::High)
-                    .build(),
-            );
+    pub(crate) fn show_prune_page(&self) {
+        utils::find_leaflet_overlay(self)
+            .show_details(&view::ImagesPrunePage::from(&self.image_list().unwrap()));
     }
 
     fn set_list_box_visibility(&self, model: &gio::ListModel) {

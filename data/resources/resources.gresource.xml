@@ -6,7 +6,7 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/check-service-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/circular-progress-bar.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/connection-lost-page.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">ui/container-creation-dialog.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/container-creation-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container-details-panel.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container-logs-panel.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container-page.ui</file>
@@ -16,12 +16,12 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/containers-group.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/env-var-row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/image-details-page.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">ui/image-pull-dialog.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/image-pull-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/image-row-simple.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/image-row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/image-search-response-row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/images-panel.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">ui/images-prune-dialog.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/images-prune-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/info-dialog.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/leaflet-overlay.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/port-mapping-row.ui</file>
@@ -32,6 +32,8 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/theme-selector.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/volume-row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/window.ui</file>
+
+    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/build-configure-symbolic.svg</file>
 
     <file compressed="true">style.css</file>
   </gresource>

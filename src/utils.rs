@@ -15,6 +15,7 @@ use gtk::traits::WidgetExt;
 
 use crate::config;
 use crate::view;
+use crate::window::Window;
 use crate::RUNTIME;
 
 #[macro_export]
@@ -83,6 +84,36 @@ impl Deref for PodsSettings {
     fn deref(&self) -> &Self::Target {
         &self.0
     }
+}
+
+pub(crate) fn show_toast<W: glib::IsA<gtk::Widget>>(widget: &W, title: &str) {
+    widget
+        .root()
+        .unwrap()
+        .downcast::<Window>()
+        .unwrap()
+        .show_toast(
+            &adw::Toast::builder()
+                .title(title)
+                .timeout(3)
+                .priority(adw::ToastPriority::High)
+                .build(),
+        );
+}
+
+pub(crate) fn show_error_toast<W: glib::IsA<gtk::Widget>>(widget: &W, title: &str, msg: &str) {
+    widget
+        .root()
+        .unwrap()
+        .downcast::<Window>()
+        .unwrap()
+        .show_toast(
+            &adw::Toast::builder()
+                .title(&format!("{title}:{msg}"))
+                .timeout(3)
+                .priority(adw::ToastPriority::High)
+                .build(),
+        );
 }
 
 pub(crate) fn find_leaflet_overlay<W: glib::IsA<gtk::Widget>>(widget: &W) -> view::LeafletOverlay {
