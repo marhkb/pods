@@ -105,7 +105,7 @@
                           </object>
                         </child>
 
-                        <!-- <child>
+                        <child>
                           <object class="AdwActionRow">
                             <property name="activatable_widget">pull_latest_image_switch</property>
                             <property name="title" translatable="yes">Pull latest image</property>
@@ -115,7 +115,7 @@
                               </object>
                             </child>
                           </object>
-                        </child> -->
+                        </child>
 
                         <child>
                           <object class="AdwActionRow">

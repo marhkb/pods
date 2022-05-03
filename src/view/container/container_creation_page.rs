@@ -45,8 +45,8 @@ mod imp {
         pub(super) image_property_row: TemplateChild<view::PropertyRow>,
         #[template_child]
         pub(super) image_combo_row: TemplateChild<adw::ComboRow>,
-        // #[template_child]
-        // pub(super) pull_latest_image_switch: TemplateChild<gtk::Switch>,
+        #[template_child]
+        pub(super) pull_latest_image_switch: TemplateChild<gtk::Switch>,
         #[template_child]
         pub(super) command_entry: TemplateChild<gtk::Entry>,
         #[template_child]
@@ -157,6 +157,14 @@ mod imp {
 
             self.name_entry
                 .connect_text_notify(clone!(@weak obj => move |_| obj.on_name_changed()));
+
+            // TODO: Introduce property "selected-image"
+            let image_expr = Self::Type::this_expression("image");
+            image_expr
+                .chain_closure::<bool>(closure!(|_: glib::Object, image: Option<model::Image>| {
+                    image.is_some()
+                }))
+                .bind(&*self.pull_latest_image_switch, "visible", Some(obj));
 
             let image_tag_expr = model::Image::this_expression("repo-tags")
                 .chain_closure::<String>(closure!(
@@ -373,7 +381,7 @@ impl ContainerCreationPage {
                 .and_then(|item| item.downcast::<model::Image>().ok())
         }) {
             Some(image) => {
-                let opts = api::ContainerCreateOpts::builder()
+                let create_opts = api::ContainerCreateOpts::builder()
                     .name(imp.name_entry.text().as_str())
                     .image(image.id())
                     .terminal(imp.terminal_switch.is_active())
@@ -458,13 +466,25 @@ impl ContainerCreationPage {
 
                 let cmd = imp.command_entry.text();
                 let opts = if cmd.is_empty() {
-                    opts
+                    create_opts
                 } else {
-                    opts.command([cmd.as_str()])
+                    create_opts.command([cmd.as_str()])
                 }
                 .build();
 
                 imp.stack.set_visible_child_name("waiting");
+
+                let image_id = image.id().to_owned();
+                utils::do_async(
+                    async move {
+                        PODMAN
+                            .images()
+                            .pull(&api::PullOpts::builder().reference(image_id).build())
+                            .await
+                    },
+                    clone!(@weak self as obj => move |result| {
+                    }),
+                );
 
                 utils::do_async(
                     async move { PODMAN.containers().create(&opts).await },
