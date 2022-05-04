@@ -191,56 +191,6 @@
           </object>
         </child>
 
-        <!-- <child>
-              <object class="AdwPreferencesGroup" id="preview_preferences_group">
-                <property name="title" translatable="yes">Preview</property>
-
-                <child>
-                  <object class="GtkScrolledWindow" id="scrolled_window">
-                    <property name="vexpand">True</property>
-                    <property name="hscrollbar-policy">never</property>
-
-                    <child>
-                      <object class="GtkListView">
-                        <style>
-                          <class name="card"/>
-                        </style>
-
-                        <binding name="model">
-                          <lookup name="images-to-prune">ImagesPruneDialog</lookup>
-                        </binding>
-                        <property name="factory">
-                          <object class="GtkBuilderListItemFactory">
-                            <property name="bytes">
-                              <![CDATA[
-        <?xml version="1.0" encoding="UTF-8"?>
-        <interface>
-          <template class="GtkListItem">
-            <property name="activatable">False</property>
-            <property name="child">
-              <object class="ImageRowSimple">
-                <property name="margin-top">3</property>
-                <property name="margin-bottom">3</property>
-                <binding name="image">
-                  <lookup name="item">GtkListItem</lookup>
-                </binding>
-              </object>
-            </property>
-          </template>
-        </interface>
-                        ]]>
-                            </property>
-                          </object>
-                        </property>
-                      </object>
-                    </child>
-
-                  </object>
-                </child>
-
-              </object>
-            </child> -->
-
       </object>
     </child>
 

@@ -41,7 +41,6 @@ mod imp {
         pub(super) time_format: Cell<TimeFormat>,
         pub(super) prune_until_timestamp: Cell<i64>,
         pub(super) image_list: WeakRef<model::ImageList>,
-        // pub(super) images_to_prune: OnceCell<gtk::NoSelection>,
         #[template_child]
         pub(super) header_bar: TemplateChild<adw::HeaderBar>,
         #[template_child]
@@ -66,10 +65,6 @@ mod imp {
         pub(super) minute_spin_button: TemplateChild<gtk::SpinButton>,
         #[template_child]
         pub(super) period_combo_box: TemplateChild<gtk::ComboBoxText>,
-        // #[template_child]
-        // pub(super) preview_preferences_group: TemplateChild<adw::PreferencesGroup>,
-        // #[template_child]
-        // pub(super) scrolled_window: TemplateChild<gtk::ScrolledWindow>,
     }
 
     #[glib::object_subclass]
@@ -117,13 +112,6 @@ mod imp {
                         0,
                         glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
                     ),
-                    // glib::ParamSpecObject::new(
-                    //     "images-to-prune",
-                    //     "Images To Prune",
-                    //     "The images to prune",
-                    //     gtk::NoSelection::static_type(),
-                    //     glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    // ),
                 ]
             });
             PROPERTIES.as_ref()
@@ -139,7 +127,6 @@ mod imp {
             match pspec.name() {
                 "image-list" => self.image_list.set(value.get().unwrap()),
                 "prune-until-timestamp" => obj.set_prune_until_timestamp(value.get().unwrap()),
-                // "images-to-prune" => obj.set_images_to_prune(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
@@ -148,7 +135,6 @@ mod imp {
             match pspec.name() {
                 "image-list" => obj.image_list().to_value(),
                 "prune-until-timestamp" => obj.prune_until_timestamp().to_value(),
-                // "images-to-prune" => obj.images_to_prune().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -225,69 +211,6 @@ mod imp {
                 }))
                 .bind(&*self.prune_until_label, "label", Some(obj));
 
-            // let image_list = self.image_list.get().unwrap();
-
-            // let filter =
-            //     gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
-            //         let imp = obj.imp();
-
-            //         let image = item.downcast_ref::<model::Image>().unwrap();
-            //         image.dangling()
-            //             || (imp.prune_all_switch.is_active() && image.containers() == 0)
-            //                 && (!obj.has_prune_until_filter()
-            //                     || image.created() < imp.prune_until_timestamp.get())
-            //     }));
-            // self.prune_all_switch.connect_notify_local(
-            //     Some("active"),
-            //     clone!(@weak filter => move |_, _| {
-            //         filter.changed(gtk::FilterChange::Different)
-            //     }),
-            // );
-            // self.prune_external_switch.connect_notify_local(
-            //     Some("active"),
-            //     clone!(@weak filter => move |_, _| {
-            //         filter.changed(gtk::FilterChange::Different)
-            //     }),
-            // );
-            // obj.connect_notify_local(
-            //     Some("prune-until-timestamp"),
-            //     clone!(@weak filter => move |_, _| {
-            //         filter.changed(gtk::FilterChange::Different)
-            //     }),
-            // );
-            // image_list.connect_notify_local(
-            //     Some("fetched"),
-            //     clone!(@weak filter => move |_ ,_| filter.changed(gtk::FilterChange::Different)),
-            // );
-
-            // obj.set_images_to_prune(gtk::NoSelection::new(Some(&gtk::FilterListModel::new(
-            //     Some(&gtk::SortListModel::new(
-            //         Some(image_list),
-            //         Some(&gtk::CustomSorter::new(|obj1, obj2| {
-            //             let image1 = obj1.downcast_ref::<model::Image>().unwrap();
-            //             let image2 = obj2.downcast_ref::<model::Image>().unwrap();
-
-            //             if image1.repo_tags().is_empty() {
-            //                 if image2.repo_tags().is_empty() {
-            //                     image1.id().cmp(image2.id()).into()
-            //                 } else {
-            //                     gtk::Ordering::Larger
-            //                 }
-            //             } else if image2.repo_tags().is_empty() {
-            //                 gtk::Ordering::Smaller
-            //             } else {
-            //                 image1.repo_tags().cmp(image2.repo_tags()).into()
-            //             }
-            //         })),
-            //     )),
-            //     Some(&filter),
-            // ))));
-
-            // obj.on_images_to_prune_changed();
-            // obj.images_to_prune().unwrap().connect_items_changed(
-            //     clone!(@weak obj => move |_, _, _, _| obj.on_images_to_prune_changed()),
-            // );
-
             self.pods_settings
                 .bind("prune-all-images", &*self.prune_all_switch, "active")
                 .build();
@@ -360,35 +283,6 @@ impl ImagesPrunePage {
         self.imp().prune_until_timestamp.set(value);
         self.notify("prune-until-timestamp");
     }
-
-    // pub(crate) fn images_to_prune(&self) -> Option<&gtk::NoSelection> {
-    //     self.imp().images_to_prune.get()
-    // }
-
-    // pub(crate) fn set_images_to_prune(&self, value: gtk::NoSelection) {
-    //     if self.images_to_prune() == Some(&value) {
-    //         return;
-    //     }
-    //     self.imp().images_to_prune.set(value).unwrap();
-    //     self.notify("images-to-prune");
-    // }
-
-    // fn on_images_to_prune_changed(&self) {
-    //     let imp = self.imp();
-
-    //     let num_images = self.images_to_prune().unwrap().n_items();
-    //     let has_images = num_images > 0;
-
-    //     imp.preview_preferences_group
-    //         .set_description(Some(&if has_images {
-    //             gettext!("{} images can be pruned.", num_images)
-    //         } else {
-    //             gettext("No images to be pruned.")
-    //         }));
-
-    //     imp.button_prune.set_sensitive(has_images);
-    //     imp.scrolled_window.set_visible(has_images);
-    // }
 
     fn load_time_format(&self) {
         let imp = self.imp();
@@ -471,62 +365,3 @@ fn setup_time_spin_button(spin_button: &gtk::SpinButton) {
         gtk::Inhibit(true)
     });
 }
-
-// {
-//     let imp = obj.imp();
-//     image_list.prune(
-//         api::ImagePruneOpts::builder()
-//             .all(imp.settings.get("prune-all-images"))
-//             .external(imp.settings.get("prune-external-images"))
-//             .filter(if dialog.has_prune_until_filter() {
-//                 Some(api::ImagePruneFilter::Until(
-//                     dialog.prune_until_timestamp().to_string())
-//                 )
-//             } else {
-//                 None
-//             })
-//             .build(),
-//         clone!(@weak obj => move |result| {
-//             obj.show_toast(&match result {
-//                 Ok(reports) => match reports.as_ref().and_then(|reports| {
-//                     if reports.is_empty() {
-//                         None
-//                     } else {
-//                         Some(reports)
-//                     }
-//                 }) {
-//                     Some(reports) => {
-//                         let (num_images, num_errors, total_size) = reports
-//                             .iter()
-//                             .map(|report| match report.err {
-//                                 Some(_) => (0, 1, 0),
-//                                 None => (1, 0, report.size.unwrap_or(0)),
-//                             })
-//                             .fold((0, 0, 0), |acc, i| {
-//                                 (acc.0 + i.0, acc.1 + i.1, acc.2 + i.2)
-//                             });
-//                         gettext!(
-//                             // Translators: The first two placeholders are for a numbers, the last for disk space.
-//                             "{} images pruned ({} errors). {} space reclaimed.",
-//                             num_images,
-//                             if num_errors == 0 {
-//                                 Cow::Borrowed("no")
-//                             } else {
-//                                 Cow::Owned(num_errors.to_string())
-//                             },
-//                             glib::format_size(total_size as u64),
-//                         )
-//                     }
-
-//                     None => gettext("There are no images to be pruned."),
-//                 },
-//                 Err(e) => gettext!(
-//                     // Translators: "{}" is a placeholder for an error message.
-//                     "Error on pruning images: '{}'",
-//                     e
-//                 ),
-//             });
-//             op();
-//         }),
-//     )
-// }
