@@ -1,14 +1,20 @@
+use std::cell::Cell;
+
 use gtk::glib;
 use gtk::glib::clone;
+use gtk::prelude::ObjectExt;
 use gtk::prelude::StaticType;
 use gtk::prelude::ToValue;
 use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
 use once_cell::unsync::OnceCell;
 
+use crate::api;
 use crate::model;
 use crate::model::AbstractContainerListExt;
+use crate::utils;
 use crate::utils::ToTypedListModel;
+use crate::PODMAN;
 
 mod imp {
     use super::*;
@@ -17,6 +23,7 @@ mod imp {
     pub(crate) struct Client {
         pub(super) image_list: OnceCell<model::ImageList>,
         pub(super) container_list: OnceCell<model::ContainerList>,
+        pub(super) pruning: Cell<bool>,
     }
 
     #[glib::object_subclass]
@@ -43,6 +50,13 @@ mod imp {
                         model::ContainerList::static_type(),
                         glib::ParamFlags::READABLE,
                     ),
+                    glib::ParamSpecBoolean::new(
+                        "pruning",
+                        "Pruning",
+                        "Whether images are currently pruned",
+                        false,
+                        glib::ParamFlags::READABLE,
+                    ),
                 ]
             });
             PROPERTIES.as_ref()
@@ -52,7 +66,7 @@ mod imp {
             match pspec.name() {
                 "image-list" => obj.image_list().to_value(),
                 "container-list" => obj.container_list().to_value(),
-
+                "pruning" => obj.pruning().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -116,5 +130,35 @@ impl Client {
         self.imp()
             .container_list
             .get_or_init(|| model::ContainerList::from(self))
+    }
+
+    pub(crate) fn pruning(&self) -> bool {
+        self.imp().pruning.get()
+    }
+
+    fn set_pruning(&self, value: bool) {
+        if self.pruning() == value {
+            return;
+        }
+        self.imp().pruning.set(value);
+        self.notify("pruning");
+    }
+
+    pub(crate) fn prune<F>(&self, opts: api::ImagePruneOpts, op: F)
+    where
+        F: FnOnce(api::Result<Option<Vec<api::PruneReport>>>) + 'static,
+    {
+        self.set_pruning(true);
+        utils::do_async(
+            async move { PODMAN.images().prune(&opts).await },
+            clone!(@weak self as obj => move |result| {
+                match result.as_ref() {
+                    Ok(_) => log::info!("All images have been pruned"),
+                    Err(e) => log::error!("Error on pruning images: {e}"),
+                }
+                obj.set_pruning(false);
+                op(result);
+            }),
+        );
     }
 }
