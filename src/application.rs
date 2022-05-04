@@ -146,7 +146,10 @@ impl Application {
             .translator_credits(&gettext("translator-credits"))
             .modal(true)
             .authors(vec!["Marcus Behrendt".into()])
-            .artists(vec!["Marcus Behrendt".into()])
+            .artists(vec![
+                "Marcus Behrendt".into(),
+                "Allaeddine Boulefaat".into(),
+            ])
             .build();
 
         dialog.present();
