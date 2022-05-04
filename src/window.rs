@@ -236,7 +236,9 @@ impl Window {
     }
 
     fn show_prune_page(&self) {
-        self.imp().images_panel.show_prune_page();
+        self.imp()
+            .leaflet_overlay
+            .show_details(&view::ImagesPrunePage::from(&self.imp().client));
     }
 
     fn toggle_search(&self) {
