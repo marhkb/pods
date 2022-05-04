@@ -40,7 +40,7 @@ mod imp {
         pub(super) pods_settings: utils::PodsSettings,
         pub(super) time_format: Cell<TimeFormat>,
         pub(super) prune_until_timestamp: Cell<i64>,
-        pub(super) image_list: WeakRef<model::ImageList>,
+        pub(super) client: WeakRef<model::Client>,
         #[template_child]
         pub(super) header_bar: TemplateChild<adw::HeaderBar>,
         #[template_child]
@@ -97,10 +97,10 @@ mod imp {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
                     glib::ParamSpecObject::new(
-                        "image-list",
-                        "Image List",
-                        "The list of images",
-                        model::ImageList::static_type(),
+                        "client",
+                        "Client",
+                        "The client",
+                        model::Client::static_type(),
                         glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
                     ),
                     glib::ParamSpecInt64::new(
@@ -125,7 +125,7 @@ mod imp {
             pspec: &glib::ParamSpec,
         ) {
             match pspec.name() {
-                "image-list" => self.image_list.set(value.get().unwrap()),
+                "client" => self.client.set(value.get().unwrap()),
                 "prune-until-timestamp" => obj.set_prune_until_timestamp(value.get().unwrap()),
                 _ => unimplemented!(),
             }
@@ -133,7 +133,7 @@ mod imp {
 
         fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "image-list" => obj.image_list().to_value(),
+                "client" => obj.client().to_value(),
                 "prune-until-timestamp" => obj.prune_until_timestamp().to_value(),
                 _ => unimplemented!(),
             }
@@ -142,12 +142,12 @@ mod imp {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
-            let image_list = obj.image_list().unwrap();
-            obj.action_set_enabled("images.prune", !image_list.pruning());
-            image_list.connect_notify_local(
+            let client = obj.client().unwrap();
+            obj.action_set_enabled("images.prune", !client.pruning());
+            client.connect_notify_local(
                 Some("pruning"),
-                clone!(@weak obj => move |list, _| {
-                    obj.action_set_enabled("images.prune", !list.pruning());
+                clone!(@weak obj => move |client, _| {
+                    obj.action_set_enabled("images.prune", !client.pruning());
                 }),
             );
 
@@ -257,15 +257,15 @@ glib::wrapper! {
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
-impl From<&model::ImageList> for ImagesPrunePage {
-    fn from(image_list: &model::ImageList) -> Self {
-        glib::Object::new(&[("image-list", image_list)]).expect("Failed to create ImagesPrunePage")
+impl From<&model::Client> for ImagesPrunePage {
+    fn from(client: &model::Client) -> Self {
+        glib::Object::new(&[("client", client)]).expect("Failed to create ImagesPrunePage")
     }
 }
 
 impl ImagesPrunePage {
-    pub(crate) fn image_list(&self) -> Option<model::ImageList> {
-        self.imp().image_list.upgrade()
+    pub(crate) fn client(&self) -> Option<model::Client> {
+        self.imp().client.upgrade()
     }
 
     pub(crate) fn has_prune_until_filter(&self) -> bool {
@@ -326,7 +326,7 @@ impl ImagesPrunePage {
 
     fn prune(&self) {
         let imp = self.imp();
-        self.image_list().unwrap().prune(
+        self.client().unwrap().prune(
             api::ImagePruneOpts::builder()
                 .all(imp.pods_settings.get("prune-all-images"))
                 .external(imp.pods_settings.get("prune-external-images"))

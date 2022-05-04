@@ -333,11 +333,6 @@ impl ImagesPanel {
         }
     }
 
-    pub(crate) fn show_prune_page(&self) {
-        utils::find_leaflet_overlay(self)
-            .show_details(&view::ImagesPrunePage::from(&self.image_list().unwrap()));
-    }
-
     fn set_list_box_visibility(&self, model: &gio::ListModel) {
         self.imp().list_box.set_visible(model.n_items() > 0);
     }
