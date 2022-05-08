@@ -134,6 +134,16 @@ pub(crate) fn leaflet_overlay(leaflet: &adw::Leaflet) -> view::LeafletOverlay {
         .unwrap()
 }
 
+pub(crate) fn find_parent_leaflet_overlay<W: glib::IsA<gtk::Widget>>(
+    widget: &W,
+) -> view::LeafletOverlay {
+    widget
+        .ancestor(view::LeafletOverlay::static_type())
+        .unwrap()
+        .downcast::<view::LeafletOverlay>()
+        .unwrap()
+}
+
 pub(crate) fn escape(text: &str) -> String {
     text.replace('&', "&amp;")
         .replace('<', "&lt;")
