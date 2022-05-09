@@ -60,7 +60,7 @@ mod imp {
                     glib::ParamSpecUInt::new(
                         "fetched",
                         "Fetched",
-                        "The number of images that have been fetched",
+                        "The number of containers that have been fetched",
                         0,
                         std::u32::MAX,
                         0,
@@ -94,7 +94,7 @@ mod imp {
                     glib::ParamSpecUInt::new(
                         "to-fetch",
                         "To Fetch",
-                        "The number of images to be fetched",
+                        "The number of containers to be fetched",
                         0,
                         std::u32::MAX,
                         0,
@@ -328,7 +328,7 @@ impl ContainerList {
                         });
                     }
                     Err(e) => {
-                        log::error!("Error on retrieving images: {}", e);
+                        log::error!("Error on retrieving containers: {}", e);
                         err_op(Error::List);
                     }
                 }

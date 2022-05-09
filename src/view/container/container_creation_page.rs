@@ -170,10 +170,6 @@ mod imp {
 
                 image_tag_expr.bind(&*self.image_property_row, "value", Some(&image));
 
-                if let Some(cmd) = image.config().cmd() {
-                    self.command_entry.set_text(cmd);
-                }
-
                 image.config().exposed_ports().iter().for_each(|exposed| {
                     let port_mapping = model::PortMapping::default();
                     obj.connect_port_mapping(&port_mapping);

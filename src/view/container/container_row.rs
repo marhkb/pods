@@ -14,7 +14,6 @@ use crate::utils;
 use crate::view;
 
 mod imp {
-
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
