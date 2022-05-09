@@ -130,7 +130,10 @@ mod imp {
                 .chain_closure::<String>(closure!(|_: glib::Object, created: i64| {
                     glib::DateTime::from_unix_local(created)
                         .unwrap()
-                        .format("%x %X")
+                        .format(
+                            // Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
+                            &gettext("%x %X"),
+                        )
                         .unwrap()
                 }))
                 .bind(&*self.created_row, "value", Some(obj));
