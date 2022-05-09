@@ -96,6 +96,7 @@ mod imp {
         pub(super) action_ongoing: Cell<bool>,
         pub(super) deleted: Cell<bool>,
 
+        pub(super) created: OnceCell<i64>,
         pub(super) id: OnceCell<String>,
         pub(super) image: WeakRef<model::Image>,
         pub(super) image_id: OnceCell<String>,
@@ -128,6 +129,15 @@ mod imp {
                         "Whether this container is deleted",
                         false,
                         glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                    ),
+                    glib::ParamSpecInt64::new(
+                        "created",
+                        "Created",
+                        "The time when this container was created",
+                        i64::MIN,
+                        i64::MAX,
+                        0,
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
                     ),
                     glib::ParamSpecString::new(
                         "id",
@@ -198,6 +208,7 @@ mod imp {
             match pspec.name() {
                 "action-ongoing" => obj.set_action_ongoing(value.get().unwrap()),
                 "deleted" => obj.set_deleted(value.get().unwrap()),
+                "created" => self.created.set(value.get().unwrap()).unwrap(),
                 "id" => self.id.set(value.get().unwrap()).unwrap(),
                 "image" => obj.set_image(value.get().unwrap()),
                 "image-id" => self.image_id.set(value.get().unwrap()).unwrap(),
@@ -213,6 +224,7 @@ mod imp {
             match pspec.name() {
                 "action-ongoing" => obj.action_ongoing().to_value(),
                 "deleted" => obj.deleted().to_value(),
+                "created" => obj.created().to_value(),
                 "id" => obj.id().to_value(),
                 "image" => obj.image().to_value(),
                 "image-id" => obj.image_id().to_value(),
@@ -237,6 +249,13 @@ glib::wrapper! {
 impl From<api::LibpodContainerInspectResponse> for Container {
     fn from(inspect_response: api::LibpodContainerInspectResponse) -> Self {
         glib::Object::new(&[
+            (
+                "created",
+                &inspect_response
+                    .created
+                    .map(|dt| dt.timestamp())
+                    .unwrap_or(0),
+            ),
             ("id", &inspect_response.id),
             ("image-id", &inspect_response.image),
             ("image-name", &inspect_response.image_name),
@@ -277,6 +296,10 @@ impl Container {
         }
         self.imp().deleted.replace(value);
         self.notify("deleted");
+    }
+
+    pub(crate) fn created(&self) -> i64 {
+        *self.imp().created.get().unwrap()
     }
 
     pub(crate) fn id(&self) -> Option<&str> {
