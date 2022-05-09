@@ -52,7 +52,7 @@
                 </child>
 
                 <child>
-                  <object class="PropertyRow" id="name_row">
+                  <object class="PropertyRow">
                     <property name="key" translatable="yes">Name</property>
                     <binding name="value">
                       <lookup name="name" type="Container">
@@ -69,7 +69,7 @@
                 </child>
 
                 <child>
-                  <object class="PropertyWidgetRow" id="status_row">
+                  <object class="PropertyWidgetRow">
                     <property name="key" translatable="yes">Status</property>
 
                     <property name="widget">
