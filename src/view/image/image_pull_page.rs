@@ -251,35 +251,37 @@ impl ImagePullPage {
                 clone!(@weak self as obj => move |result| {
                     let imp = obj.imp();
 
-                    match result.map(|report| report.id.unwrap()) {
-                        Ok(id) => {
-                            let client = imp.client.upgrade().unwrap();
-                            match client.image_list().get_image(&id) {
-                                Some(image) => obj.switch_to_image(&image),
-                                None => {
-                                    client.image_list().connect_image_added(
-                                        clone!(@weak obj => move |_, image| {
-                                            if image.id() == id.as_str() {
-                                                obj.switch_to_image(image);
-                                            }
-                                        }),
-                                    );
+                    match result {
+                        Ok(report) => match report.error {
+                            Some(error) => obj.on_pull_error(&error),
+                            None => {
+                                let image_id = report.id.unwrap();
+                                let client = imp.client.upgrade().unwrap();
+                                match client.image_list().get_image(&image_id) {
+                                    Some(image) => obj.switch_to_image(&image),
+                                    None => {
+                                        client.image_list().connect_image_added(
+                                            clone!(@weak obj => move |_, image| {
+                                                if image.id() == image_id.as_str() {
+                                                    obj.switch_to_image(image);
+                                                }
+                                            }),
+                                        );
+                                    }
                                 }
                             }
                         }
-                        Err(e) => {
-                            imp.stack.set_visible_child_name("pull-settings");
-                            log::error!("Failed to pull image: {}", e);
-                            utils::show_error_toast(
-                                &obj,
-                                &gettext("Failed to pull image"),
-                                &e.to_string()
-                            );
-                        }
+                        Err(e) => obj.on_pull_error(&e.to_string()),
                     }
                 }),
             );
         }
+    }
+
+    fn on_pull_error(&self, msg: &str) {
+        self.imp().stack.set_visible_child_name("pull-settings");
+        log::error!("Failed to pull image: {}", msg);
+        utils::show_error_toast(self, &gettext("Failed to pull image"), msg);
     }
 
     fn switch_to_image(&self, image: &model::Image) {
