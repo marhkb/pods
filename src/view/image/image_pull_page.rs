@@ -1,11 +1,6 @@
-use std::cell::RefCell;
-
 use adw::subclass::prelude::*;
 use adw::traits::BinExt;
-use adw::traits::ComboRowExt;
-use futures::future;
 use gettextrs::gettext;
-use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::WeakRef;
@@ -13,7 +8,6 @@ use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
-use once_cell::unsync::OnceCell;
 
 use crate::api;
 use crate::model;
@@ -29,23 +23,10 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/image-pull-page.ui")]
     pub(crate) struct ImagePullPage {
         pub(super) client: WeakRef<model::Client>,
-        pub(super) search_results: gio::ListStore,
-        pub(super) selection: OnceCell<gtk::SingleSelection>,
-        pub(super) search_abort_handle: RefCell<Option<future::AbortHandle>>,
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub(super) search_entry: TemplateChild<gtk::Entry>,
-        #[template_child]
-        pub(super) registries_combo_row: TemplateChild<adw::ComboRow>,
-        #[template_child]
-        pub(super) search_stack: TemplateChild<gtk::Stack>,
-        #[template_child]
-        pub(super) no_results_status_page: TemplateChild<adw::StatusPage>,
-        #[template_child]
-        pub(super) search_result_list_view: TemplateChild<gtk::ListView>,
-        #[template_child]
-        pub(super) tag_entry: TemplateChild<gtk::Entry>,
+        pub(super) image_search_widget: TemplateChild<view::ImageSearchWidget>,
         #[template_child]
         pub(super) image_page_bin: TemplateChild<adw::Bin>,
     }
@@ -112,78 +93,13 @@ mod imp {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
-            self.search_entry
-                .connect_changed(clone!(@weak obj => move |_| obj.search()));
-
-            self.registries_combo_row
-                .set_expression(Some(&model::Registry::this_expression("name")));
-
-            utils::do_async(
-                PODMAN.info(),
-                clone!(@weak obj => move |result| match result {
-                    Ok(info) => {
-
-                        let model = gio::ListStore::new(model::Registry::static_type());
-                        model.append(&model::Registry::from(gettext("All registries").as_str()));
-                        info.registries
-                            .unwrap()
-                            .get("search")
-                            .unwrap()
-                            .as_array()
-                            .unwrap()
-                            .iter()
-                            .for_each(|name| {
-                                model.append(&model::Registry::from(name.as_str().unwrap()))
-                            });
-
-                        obj.imp().registries_combo_row.set_model(Some(&model));
-                    }
-                    Err(e) => {
-                        log::error!("Failed to retrieve registries: {e}");
-                        utils::show_error_toast(
-                            &obj,
-                            &gettext("Failed to retrieve registries"),
-                            &e.to_string()
-                        );
-                    }
+            obj.action_set_enabled("image.pull", false);
+            self.image_search_widget.connect_notify_local(
+                Some("selected-image"),
+                clone!(@weak obj => move |widget, _| {
+                    obj.action_set_enabled("image.pull", widget.selected_image().is_some());
                 }),
             );
-
-            let filter =
-                gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
-                    let imp = obj.imp();
-
-                    imp.registries_combo_row.selected() == 0
-                        || Some(
-                            imp.registries_combo_row
-                                .selected_item()
-                                .unwrap()
-                                .downcast::<model::Registry>()
-                                .unwrap()
-                                .name()
-                                .as_str(),
-                        ) == item
-                            .downcast_ref::<model::ImageSearchResponse>()
-                            .unwrap()
-                            .index()
-                }));
-
-            self.registries_combo_row.connect_selected_item_notify(
-                clone!(@weak filter => move |_| filter.changed(gtk::FilterChange::Different)),
-            );
-
-            let selection = gtk::SingleSelection::new(Some(&gtk::FilterListModel::new(
-                Some(&self.search_results),
-                Some(&filter),
-            )));
-            obj.action_set_enabled("image.pull", false);
-            selection.connect_selected_item_notify(clone!(@weak obj => move |selection| {
-                obj.action_set_enabled("image.pull", selection.selected_item().is_some());
-            }));
-
-            self.search_result_list_view.set_model(Some(&selection));
-
-            self.selection.set(selection).unwrap();
         }
 
         fn dispose(&self, _obj: &Self::Type) {
@@ -223,22 +139,18 @@ impl ImagePullPage {
     fn pull(&self) {
         let imp = self.imp();
 
-        if let Some(search_response) = imp
-            .selection
-            .get()
-            .unwrap()
-            .selected_item()
-            .and_then(|i| i.downcast::<model::ImageSearchResponse>().ok())
-        {
-            let tag = imp.tag_entry.text();
+        if let Some(search_response) = imp.image_search_widget.selected_image() {
+            let tag = imp.image_search_widget.tag();
             let opts = api::PullOpts::builder()
                 .reference(format!(
                     "{}:{}",
                     search_response.name().unwrap(),
                     if tag.is_empty() {
-                        "latest"
+                        imp.image_search_widget
+                            .default_tag()
+                            .unwrap_or_else(|| glib::GString::from("default"))
                     } else {
-                        tag.as_str()
+                        tag
                     }
                 ))
                 .quiet(true)
@@ -289,58 +201,6 @@ impl ImagePullPage {
         imp.image_page_bin
             .set_child(Some(&view::ImageDetailsPage::from(image)));
         imp.stack.set_visible_child(&*imp.image_page_bin);
-    }
-
-    fn search(&self) {
-        let imp = self.imp();
-
-        if let Some(abort_handle) = imp.search_abort_handle.take() {
-            abort_handle.abort();
-        }
-
-        let term = imp.search_entry.text();
-        if term.is_empty() {
-            imp.search_stack.set_visible_child_name("initial");
-            return;
-        }
-
-        imp.search_stack.set_visible_child_name("searching");
-
-        let (abort_handle, abort_registration) = future::AbortHandle::new_pair();
-        imp.search_abort_handle.replace(Some(abort_handle));
-
-        let opts = api::ImageSearchOpts::builder().term(term.as_str()).build();
-        utils::do_async(
-            async move {
-                future::Abortable::new(PODMAN.images().search(&opts), abort_registration).await
-            },
-            clone!(@weak self as obj => move |result| if let Ok(responses) = result {
-                match responses {
-                    Ok(responses) => {
-                        let imp = obj.imp();
-
-                        imp.search_results.remove_all();
-
-                        if responses.is_empty() {
-                            imp.search_stack.set_visible_child_name("nothing");
-                            imp.no_results_status_page.set_title(&gettext!("No Results For {}", term));
-                        } else {
-                            responses.into_iter().for_each(|response| {
-                                obj.imp().search_results.append(&model::ImageSearchResponse::from(response));
-                            });
-                            imp.search_stack.set_visible_child_name("results");
-                        }
-                    }
-                    Err(e) => {
-                        log::error!("Failed to search for images: {}", e);
-                        utils::show_error_toast(
-                            &obj,
-                            &gettext("Failed to search for images"),
-                            &e.to_string());
-                    }
-                }
-            }),
-        );
     }
 
     fn navigate_to_first(&self) {
