@@ -1,9 +1,11 @@
 use std::cell::RefCell;
 
 use adw::subclass::prelude::*;
+use adw::traits::ActionRowExt;
 use adw::traits::BinExt;
 use adw::traits::ComboRowExt;
 use futures::TryFutureExt;
+use gettextrs::gettext;
 use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
@@ -38,15 +40,21 @@ mod imp {
         pub(super) volumes: RefCell<gio::ListStore>,
         pub(super) env_vars: RefCell<gio::ListStore>,
         #[template_child]
+        pub(super) leaflet: TemplateChild<adw::Leaflet>,
+        #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) name_entry: TemplateChild<gtk::Entry>,
         #[template_child]
-        pub(super) image_property_row: TemplateChild<view::PropertyRow>,
+        pub(super) local_image_property_row: TemplateChild<view::PropertyRow>,
         #[template_child]
-        pub(super) image_combo_row: TemplateChild<adw::ComboRow>,
-        // #[template_child]
-        // pub(super) pull_latest_image_switch: TemplateChild<gtk::Switch>,
+        pub(super) local_image_combo_row: TemplateChild<adw::ComboRow>,
+        #[template_child]
+        pub(super) remote_image_row: TemplateChild<adw::ActionRow>,
+        #[template_child]
+        pub(super) pull_latest_image_row: TemplateChild<adw::ActionRow>,
+        #[template_child]
+        pub(super) pull_latest_image_switch: TemplateChild<gtk::Switch>,
         #[template_child]
         pub(super) command_entry: TemplateChild<gtk::Entry>,
         #[template_child]
@@ -64,7 +72,11 @@ mod imp {
         #[template_child]
         pub(super) env_var_list_box: TemplateChild<gtk::ListBox>,
         #[template_child]
+        pub(super) wait_status_page: TemplateChild<adw::StatusPage>,
+        #[template_child]
         pub(super) container_page_bin: TemplateChild<adw::Bin>,
+        #[template_child]
+        pub(super) leaflet_overlay: TemplateChild<view::LeafletOverlay>,
     }
 
     #[glib::object_subclass]
@@ -82,6 +94,13 @@ mod imp {
                 widget.navigate_back();
             });
 
+            klass.install_action("image.search", None, move |widget, _, _| {
+                widget.search_image();
+            });
+            klass.install_action("image.remove-remote", None, move |widget, _, _| {
+                widget.remove_remote();
+            });
+
             klass.install_action("container.add-port-mapping", None, |widget, _, _| {
                 widget.add_port_mapping();
             });
@@ -92,10 +111,10 @@ mod imp {
                 widget.add_env_var();
             });
             klass.install_action("container.create-and-run", None, |widget, _, _| {
-                widget.create(true);
+                widget.finish(true);
             });
             klass.install_action("container.create", None, |widget, _, _| {
-                widget.create(false);
+                widget.finish(false);
             });
         }
 
@@ -166,9 +185,9 @@ mod imp {
                 ));
 
             if let Some(image) = obj.image() {
-                self.image_combo_row.set_visible(false);
+                self.local_image_combo_row.set_visible(false);
 
-                image_tag_expr.bind(&*self.image_property_row, "value", Some(&image));
+                image_tag_expr.bind(&*self.local_image_property_row, "value", Some(&image));
 
                 image.config().exposed_ports().iter().for_each(|exposed| {
                     let port_mapping = model::PortMapping::default();
@@ -196,10 +215,22 @@ mod imp {
                     }
                 });
             } else if let Some(client) = obj.client() {
-                self.image_property_row.set_visible(false);
+                self.local_image_property_row.set_visible(false);
 
-                self.image_combo_row.set_model(Some(client.image_list()));
-                self.image_combo_row.set_expression(Some(&image_tag_expr));
+                let filter_model = gtk::FilterListModel::new(
+                    Some(client.image_list()),
+                    Some(&gtk::CustomFilter::new(|obj| {
+                        obj.downcast_ref::<model::Image>()
+                            .unwrap()
+                            .repo_tags()
+                            .first()
+                            .is_some()
+                    })),
+                );
+
+                self.local_image_combo_row.set_model(Some(&filter_model));
+                self.local_image_combo_row
+                    .set_expression(Some(&image_tag_expr));
             }
 
             self.port_mapping_list_box
@@ -220,7 +251,7 @@ mod imp {
         }
 
         fn dispose(&self, _obj: &Self::Type) {
-            self.stack.unparent();
+            self.leaflet.unparent();
         }
     }
 
@@ -283,6 +314,39 @@ impl ContainerCreationPage {
             .downcast::<Window>()
             .unwrap()
             .leaflet_overlay()
+    }
+
+    fn remove_remote(&self) {
+        let imp = self.imp();
+        imp.remote_image_row.set_subtitle("");
+        imp.remote_image_row.set_visible(false);
+        imp.local_image_combo_row.set_visible(true);
+        imp.pull_latest_image_row.set_visible(true);
+
+        imp.command_entry.set_text(
+            imp.local_image_combo_row
+                .selected_item()
+                .as_ref()
+                .and_then(|item| item.downcast_ref::<model::Image>().unwrap().config().cmd())
+                .unwrap_or_default(),
+        );
+    }
+
+    fn search_image(&self) {
+        let image_selection_page = view::ImageSelectionPage::default();
+        image_selection_page.connect_image_selected(clone!(@weak self as obj => move |_, image| {
+            let imp = obj.imp();
+
+            imp.local_image_combo_row.set_visible(false);
+            imp.remote_image_row.set_visible(true);
+            imp.remote_image_row.set_subtitle(&image);
+            imp.pull_latest_image_row.set_visible(false);
+
+            imp.command_entry.set_text("");
+        }));
+        self.imp()
+            .leaflet_overlay
+            .show_details(&image_selection_page);
     }
 
     fn add_port_mapping(&self) {
@@ -360,165 +424,215 @@ impl ContainerCreationPage {
         }));
     }
 
-    fn create(&self, run: bool) {
+    fn finish(&self, run: bool) {
         let imp = self.imp();
 
-        match self.image().or_else(|| {
-            imp.image_combo_row
+        imp.stack.set_visible_child_name("waiting");
+
+        if imp.remote_image_row.is_visible() {
+            self.pull_and_create(imp.remote_image_row.subtitle().unwrap().as_str(), None, run);
+        } else if let Some(image) = self.image().or_else(|| {
+            imp.local_image_combo_row
                 .selected_item()
-                .and_then(|item| item.downcast::<model::Image>().ok())
+                .map(|item| item.downcast().unwrap())
         }) {
-            Some(image) => {
-                let opts = api::ContainerCreateOpts::builder()
-                    .name(imp.name_entry.text().as_str())
-                    .image(image.id())
-                    .terminal(imp.terminal_switch.is_active())
-                    .resource_limits(api::LinuxResources {
-                        block_io: None,
-                        cpu: None,
-                        devices: None,
-                        hugepage_limits: None,
-                        memory: Some(api::LinuxMemory {
-                            disable_oom_killer: None,
-                            kernel: None,
-                            kernel_tcp: None,
-                            limit: if imp.memory_switch.is_active() {
-                                Some(
-                                    imp.mem_value.value() as i64
-                                        * 1024_i64.pow(
-                                            imp.mem_combo_box.active().map(|i| i + 1).unwrap_or(0),
-                                        ),
-                                )
-                            } else {
-                                None
-                            },
-                            reservation: None,
-                            swap: None,
-                            swappiness: None,
-                            use_hierarchy: None,
-                        }),
-                        network: None,
-                        pids: None,
-                        rdma: None,
-                        unified: None,
-                    })
-                    .portmappings(
-                        imp.port_mappings
-                            .borrow()
-                            .to_owned()
-                            .to_typed_list_model::<model::PortMapping>()
-                            .into_iter()
-                            .map(|port_mapping| api::PortMapping {
-                                container_port: Some(port_mapping.container_port() as i64),
-                                host_ip: None,
-                                host_port: Some(port_mapping.host_port() as i64),
-                                protocol: Some(port_mapping.protocol().to_string()),
-                                range: None,
-                            }),
-                    )
-                    .mounts(
-                        imp.volumes
-                            .borrow()
-                            .to_owned()
-                            .to_typed_list_model::<model::Volume>()
-                            .into_iter()
-                            .map(|volume| Mount {
-                                destination: Some(volume.container_path()),
-                                source: Some(volume.host_path()),
-                                _type: Some("bind".to_owned()),
-                                options: Some({
-                                    let mut options = vec![if volume.writable() {
-                                        "rw"
-                                    } else {
-                                        "ro"
-                                    }
-                                    .to_owned()];
+            if imp.pull_latest_image_switch.is_active() {
+                self.pull_and_create(
+                    image.repo_tags().first().unwrap(),
+                    Some(image.id().to_owned()),
+                    run,
+                );
+            } else {
+                self.create(image.id(), run);
+            }
+        } else {
+            imp.stack.set_visible_child_name("creation-settings");
 
-                                    let selinux = volume.selinux().to_string();
-                                    if !selinux.is_empty() {
-                                        options.push(selinux)
-                                    }
+            log::error!("Error while starting container: no image selected");
+            utils::show_error_toast(self, "Failed to create container", "no image selected")
+        }
+    }
 
-                                    options
-                                }),
-                            }),
-                    )
-                    .env(
-                        imp.env_vars
-                            .borrow()
-                            .to_owned()
-                            .to_typed_list_model::<model::EnvVar>()
-                            .into_iter()
-                            .map(|env_var| (env_var.key(), env_var.value())),
-                    );
+    fn pull_and_create(&self, reference: &str, image_id: Option<String>, run: bool) {
+        let wait_status_page = &*self.imp().wait_status_page;
 
-                let cmd = imp.command_entry.text();
-                let opts = if cmd.is_empty() {
-                    opts
-                } else {
-                    opts.command([cmd.as_str()])
+        wait_status_page.set_icon_name(Some("folder-download-symbolic"));
+        wait_status_page.set_description(Some(&gettext("The newest image is being pulled.")));
+
+        let opts = api::PullOpts::builder()
+            .reference(reference)
+            .quiet(true)
+            .build();
+
+        utils::do_async(
+            async move { PODMAN.images().pull(&opts).await },
+            clone!(@weak self as obj => move |result| {
+                match result {
+                    Ok(report) => match report.error {
+                        Some(error) => obj.on_pull_error(&error),
+                        None => obj.create(&image_id.or(report.id).unwrap(), run),
+                    }
+                    Err(e) => obj.on_pull_error(&e.to_string()),
                 }
-                .build();
+            }),
+        );
+    }
 
-                imp.stack.set_visible_child_name("waiting");
+    fn on_pull_error(&self, error: &str) {
+        self.imp().stack.set_visible_child_name("creation-settings");
+        log::error!("Error while pulling newest image: {}", error);
+        utils::show_error_toast(self, "Error while pulling newest image", error);
+    }
 
-                utils::do_async(
-                    async move { PODMAN.containers().create(&opts).await },
-                    clone!(@weak self as obj => move |result| {
-                        let imp = obj.imp();
+    fn create(&self, image_id: &str, run: bool) {
+        let imp = self.imp();
 
-                        match result.map(|info| info.id) {
-                            Ok(id) => {
-                                let client = imp.client.upgrade().unwrap();
-                                match client.container_list().get_container(&id) {
-                                    Some(container) => obj.switch_to_container(&container),
-                                    None => {
-                                        client.container_list().connect_container_added(
-                                            clone!(@weak obj, @strong id => move |_, container| {
-                                                if container.id() == Some(id.as_str()) {
-                                                    obj.switch_to_container(container);
-                                                }
-                                            }),
-                                        );
-                                    }
-                                }
+        let create_opts = api::ContainerCreateOpts::builder()
+            .name(imp.name_entry.text().as_str())
+            .image(&image_id)
+            .terminal(imp.terminal_switch.is_active())
+            .resource_limits(api::LinuxResources {
+                block_io: None,
+                cpu: None,
+                devices: None,
+                hugepage_limits: None,
+                memory: Some(api::LinuxMemory {
+                    disable_oom_killer: None,
+                    kernel: None,
+                    kernel_tcp: None,
+                    limit: if imp.memory_switch.is_active() {
+                        Some(
+                            imp.mem_value.value() as i64
+                                * 1024_i64
+                                    .pow(imp.mem_combo_box.active().map(|i| i + 1).unwrap_or(0)),
+                        )
+                    } else {
+                        None
+                    },
+                    reservation: None,
+                    swap: None,
+                    swappiness: None,
+                    use_hierarchy: None,
+                }),
+                network: None,
+                pids: None,
+                rdma: None,
+                unified: None,
+            })
+            .portmappings(
+                imp.port_mappings
+                    .borrow()
+                    .to_owned()
+                    .to_typed_list_model::<model::PortMapping>()
+                    .into_iter()
+                    .map(|port_mapping| api::PortMapping {
+                        container_port: Some(port_mapping.container_port() as i64),
+                        host_ip: None,
+                        host_port: Some(port_mapping.host_port() as i64),
+                        protocol: Some(port_mapping.protocol().to_string()),
+                        range: None,
+                    }),
+            )
+            .mounts(
+                imp.volumes
+                    .borrow()
+                    .to_owned()
+                    .to_typed_list_model::<model::Volume>()
+                    .into_iter()
+                    .map(|volume| Mount {
+                        destination: Some(volume.container_path()),
+                        source: Some(volume.host_path()),
+                        _type: Some("bind".to_owned()),
+                        options: Some({
+                            let mut options =
+                                vec![if volume.writable() { "rw" } else { "ro" }.to_owned()];
 
-                                if run {
-                                    utils::do_async(
-                                        async move {
-                                            PODMAN
-                                                .containers()
-                                                .get(id.clone())
-                                                .start(None)
-                                                .map_ok(|_| id)
-                                                .await
-                                        },
-                                        clone!(@weak obj => move |result| if let Err(e) = result {
-                                            utils::show_error_toast(
-                                                &obj,
-                                                "Error while starting container",
-                                                &e.to_string()
-                                            );
-                                        }),
-                                    );
-                                }
+                            let selinux = volume.selinux().to_string();
+                            if !selinux.is_empty() {
+                                options.push(selinux)
                             }
-                            Err(e) => {
-                                obj.imp().stack.set_visible_child_name("creation-settings");
-                                utils::show_error_toast(
-                                    &obj,
-                                    "Error while creating container",
-                                    &e.to_string()
+
+                            options
+                        }),
+                    }),
+            )
+            .env(
+                imp.env_vars
+                    .borrow()
+                    .to_owned()
+                    .to_typed_list_model::<model::EnvVar>()
+                    .into_iter()
+                    .map(|env_var| (env_var.key(), env_var.value())),
+            );
+
+        let cmd = imp.command_entry.text();
+        let opts = if cmd.is_empty() {
+            create_opts
+        } else {
+            create_opts.command([cmd.as_str()])
+        }
+        .build();
+
+        imp.wait_status_page
+            .set_icon_name(Some("build-configure-symbolic"));
+        imp.wait_status_page.set_description(Some(&gettext(
+            "The container is being created. You are safe to leave this page.",
+        )));
+
+        utils::do_async(
+            async move { PODMAN.containers().create(&opts).await },
+            clone!(@weak self as obj => move |result| {
+                let imp = obj.imp();
+
+                match result.map(|info| info.id) {
+                    Ok(id) => {
+                        let client = imp.client.upgrade().unwrap();
+                        match client.container_list().get_container(&id) {
+                            Some(container) => obj.switch_to_container(&container),
+                            None => {
+                                client.container_list().connect_container_added(
+                                    clone!(@weak obj, @strong id => move |_, container| {
+                                        if container.id() == Some(id.as_str()) {
+                                            obj.switch_to_container(container);
+                                        }
+                                    }),
                                 );
                             }
                         }
-                    }),
-                );
-            }
-            None => {
-                utils::show_error_toast(self, "Failed to create container", "no image selected")
-            }
-        }
+
+                        if run {
+                            utils::do_async(
+                                async move {
+                                    PODMAN
+                                        .containers()
+                                        .get(id.clone())
+                                        .start(None)
+                                        .map_ok(|_| id)
+                                        .await
+                                },
+                                clone!(@weak obj => move |result| if let Err(e) = result {
+                                    log::error!("Error while starting container: {}", e);
+                                    utils::show_error_toast(
+                                        &obj,
+                                        "Error while starting container",
+                                        &e.to_string()
+                                    );
+                                }),
+                            );
+                        }
+                    }
+                    Err(e) => {
+                        obj.imp().stack.set_visible_child_name("creation-settings");
+                        log::error!("Error while creating container: {}", e);
+                        utils::show_error_toast(
+                            &obj,
+                            "Error while creating container",
+                            &e.to_string()
+                        );
+                    }
+                }
+            }),
+        );
     }
 
     fn switch_to_container(&self, container: &model::Container) {
