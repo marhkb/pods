@@ -109,7 +109,7 @@ pub(crate) fn show_error_toast<W: glib::IsA<gtk::Widget>>(widget: &W, title: &st
         .unwrap()
         .show_toast(
             &adw::Toast::builder()
-                .title(&format!("{title}:{msg}"))
+                .title(&format!("{title}: {msg}"))
                 .timeout(3)
                 .priority(adw::ToastPriority::High)
                 .build(),
@@ -129,6 +129,16 @@ pub(crate) fn find_leaflet_overlay<W: glib::IsA<gtk::Widget>>(widget: &W) -> vie
 pub(crate) fn leaflet_overlay(leaflet: &adw::Leaflet) -> view::LeafletOverlay {
     leaflet
         .child_by_name("overlay")
+        .unwrap()
+        .downcast::<view::LeafletOverlay>()
+        .unwrap()
+}
+
+pub(crate) fn find_parent_leaflet_overlay<W: glib::IsA<gtk::Widget>>(
+    widget: &W,
+) -> view::LeafletOverlay {
+    widget
+        .ancestor(view::LeafletOverlay::static_type())
         .unwrap()
         .downcast::<view::LeafletOverlay>()
         .unwrap()

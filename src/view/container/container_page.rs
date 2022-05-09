@@ -261,7 +261,7 @@ impl ContainerPage {
     }
 
     fn previous_leaflet_overlay(&self) -> view::LeafletOverlay {
-        utils::find_leaflet_overlay(self)
+        utils::find_parent_leaflet_overlay(self)
     }
 
     fn root_leaflet_overlay(&self) -> view::LeafletOverlay {

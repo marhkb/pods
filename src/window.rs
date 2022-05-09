@@ -87,6 +87,10 @@ mod imp {
                 widget.show_prune_page();
             });
 
+            klass.install_action("container.create", None, move |widget, _, _| {
+                widget.create_container();
+            });
+
             klass.add_binding_action(
                 gdk::Key::F,
                 gdk::ModifierType::CONTROL_MASK,
@@ -239,6 +243,12 @@ impl Window {
         self.imp()
             .leaflet_overlay
             .show_details(&view::ImagesPrunePage::from(&self.imp().client));
+    }
+
+    fn create_container(&self) {
+        self.imp()
+            .leaflet_overlay
+            .show_details(&view::ContainerCreationPage::new(&self.imp().client, None));
     }
 
     fn toggle_search(&self) {

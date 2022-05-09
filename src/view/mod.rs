@@ -30,6 +30,8 @@ pub(crate) use self::image::ImagePullPage;
 pub(crate) use self::image::ImageRow;
 pub(crate) use self::image::ImageRowSimple;
 pub(crate) use self::image::ImageSearchResponseRow;
+pub(crate) use self::image::ImageSearchWidget;
+pub(crate) use self::image::ImageSelectionPage;
 pub(crate) use self::image::ImagesPanel;
 pub(crate) use self::image::ImagesPrunePage;
 pub(crate) use self::info_dialog::InfoDialog;
