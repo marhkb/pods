@@ -96,6 +96,7 @@ mod imp {
         pub(super) action_ongoing: Cell<bool>,
         pub(super) deleted: Cell<bool>,
 
+        pub(super) created: OnceCell<i64>,
         pub(super) id: OnceCell<String>,
         pub(super) image: WeakRef<model::Image>,
         pub(super) image_id: OnceCell<String>,
@@ -103,6 +104,7 @@ mod imp {
         pub(super) name: RefCell<Option<String>>,
         pub(super) stats: RefCell<Option<BoxedContainerStats>>,
         pub(super) status: Cell<Status>,
+        pub(super) up_since: Cell<i64>,
     }
 
     #[glib::object_subclass]
@@ -128,6 +130,15 @@ mod imp {
                         "Whether this container is deleted",
                         false,
                         glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                    ),
+                    glib::ParamSpecInt64::new(
+                        "created",
+                        "Created",
+                        "The time when this container was created",
+                        i64::MIN,
+                        i64::MAX,
+                        0,
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
                     ),
                     glib::ParamSpecString::new(
                         "id",
@@ -183,6 +194,17 @@ mod imp {
                         Status::default() as i32,
                         glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
                     ),
+                    glib::ParamSpecInt64::new(
+                        "up-since",
+                        "Up Since",
+                        "The time since the container is running",
+                        i64::MIN,
+                        i64::MAX,
+                        0,
+                        glib::ParamFlags::READWRITE
+                            | glib::ParamFlags::CONSTRUCT
+                            | glib::ParamFlags::EXPLICIT_NOTIFY,
+                    ),
                 ]
             });
             PROPERTIES.as_ref()
@@ -198,6 +220,7 @@ mod imp {
             match pspec.name() {
                 "action-ongoing" => obj.set_action_ongoing(value.get().unwrap()),
                 "deleted" => obj.set_deleted(value.get().unwrap()),
+                "created" => self.created.set(value.get().unwrap()).unwrap(),
                 "id" => self.id.set(value.get().unwrap()).unwrap(),
                 "image" => obj.set_image(value.get().unwrap()),
                 "image-id" => self.image_id.set(value.get().unwrap()).unwrap(),
@@ -205,6 +228,7 @@ mod imp {
                 "name" => obj.set_name(value.get().unwrap()),
                 "stats" => obj.set_stats(value.get().unwrap()),
                 "status" => obj.set_status(value.get().unwrap()),
+                "up-since" => obj.set_up_since(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
@@ -213,6 +237,7 @@ mod imp {
             match pspec.name() {
                 "action-ongoing" => obj.action_ongoing().to_value(),
                 "deleted" => obj.deleted().to_value(),
+                "created" => obj.created().to_value(),
                 "id" => obj.id().to_value(),
                 "image" => obj.image().to_value(),
                 "image-id" => obj.image_id().to_value(),
@@ -220,6 +245,7 @@ mod imp {
                 "name" => obj.name().to_value(),
                 "stats" => obj.stats().to_value(),
                 "status" => obj.status().to_value(),
+                "up-since" => obj.up_since().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -237,11 +263,19 @@ glib::wrapper! {
 impl From<api::LibpodContainerInspectResponse> for Container {
     fn from(inspect_response: api::LibpodContainerInspectResponse) -> Self {
         glib::Object::new(&[
+            (
+                "created",
+                &inspect_response
+                    .created
+                    .map(|dt| dt.timestamp())
+                    .unwrap_or(0),
+            ),
             ("id", &inspect_response.id),
             ("image-id", &inspect_response.image),
             ("image-name", &inspect_response.image_name),
             ("name", &inspect_response.name),
-            ("status", &status(inspect_response.state)),
+            ("status", &status(inspect_response.state.as_ref())),
+            ("up-since", &up_since(inspect_response.state.as_ref())),
         ])
         .expect("Failed to create Container")
     }
@@ -252,7 +286,8 @@ impl Container {
         self.set_action_ongoing(false);
         self.set_image_name(inspect_response.image_name);
         self.set_name(inspect_response.name);
-        self.set_status(status(inspect_response.state));
+        self.set_status(status(inspect_response.state.as_ref()));
+        self.set_up_since(up_since(inspect_response.state.as_ref()));
     }
 
     pub(crate) fn action_ongoing(&self) -> bool {
@@ -277,6 +312,10 @@ impl Container {
         }
         self.imp().deleted.replace(value);
         self.notify("deleted");
+    }
+
+    pub(crate) fn created(&self) -> i64 {
+        *self.imp().created.get().unwrap()
     }
 
     pub(crate) fn id(&self) -> Option<&str> {
@@ -348,6 +387,18 @@ impl Container {
         }
         self.imp().status.set(value);
         self.notify("status");
+    }
+
+    pub(crate) fn up_since(&self) -> i64 {
+        self.imp().up_since.get()
+    }
+
+    pub(crate) fn set_up_since(&self, value: i64) {
+        if self.up_since() == value {
+            return;
+        }
+        self.imp().up_since.set(value);
+        self.notify("up-since");
     }
 }
 
@@ -665,14 +716,20 @@ impl Container {
     }
 }
 
-fn status(state: Option<api::InspectContainerState>) -> Status {
+fn status(state: Option<&api::InspectContainerState>) -> Status {
     state
-        .and_then(|state| state.status)
-        .map_or_else(Status::default, |s| match Status::from_str(&s) {
+        .and_then(|state| state.status.as_ref())
+        .map_or_else(Status::default, |s| match Status::from_str(s) {
             Ok(status) => status,
             Err(status) => {
                 log::warn!("Unknown container status: {s}");
                 status
             }
         })
+}
+
+fn up_since(state: Option<&api::InspectContainerState>) -> i64 {
+    state
+        .and_then(|state| state.started_at.map(|dt| dt.timestamp()))
+        .unwrap_or(0)
 }
