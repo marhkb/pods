@@ -63,6 +63,12 @@
                 </child>
 
                 <child>
+                  <object class="PropertyRow" id="created_row">
+                    <property name="key" translatable="yes">Created</property>
+                  </object>
+                </child>
+
+                <child>
                   <object class="PropertyWidgetRow" id="status_row">
                     <property name="key" translatable="yes">Status</property>
 

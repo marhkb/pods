@@ -1,3 +1,4 @@
+use gettextrs::gettext;
 use gtk::glib;
 use gtk::glib::closure;
 use gtk::glib::WeakRef;
@@ -25,6 +26,8 @@ mod imp {
         pub(super) image_name_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) image_spinner: TemplateChild<gtk::Spinner>,
+        #[template_child]
+        pub(super) created_row: TemplateChild<view::PropertyRow>,
         #[template_child]
         pub(super) status_label: TemplateChild<gtk::Label>,
     }
@@ -114,6 +117,19 @@ mod imp {
                     }
                 ))
                 .bind(&*self.image_name_label, "label", Some(obj));
+
+            container_expr
+                .chain_property::<model::Container>("created")
+                .chain_closure::<String>(closure!(|_: glib::Object, created: i64| {
+                    glib::DateTime::from_unix_local(created)
+                        .unwrap()
+                        .format(
+                            // Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
+                            &gettext("%x %X"),
+                        )
+                        .unwrap()
+                }))
+                .bind(&*self.created_row, "value", Some(obj));
 
             image_expr
                 .chain_closure::<bool>(closure!(|_: glib::Object, image: Option<model::Image>| {
