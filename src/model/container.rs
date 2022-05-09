@@ -260,7 +260,7 @@ impl From<api::LibpodContainerInspectResponse> for Container {
             ("image-id", &inspect_response.image),
             ("image-name", &inspect_response.image_name),
             ("name", &inspect_response.name),
-            ("status", &status(inspect_response.state)),
+            ("status", &status(inspect_response.state.as_ref())),
         ])
         .expect("Failed to create Container")
     }
@@ -271,7 +271,7 @@ impl Container {
         self.set_action_ongoing(false);
         self.set_image_name(inspect_response.image_name);
         self.set_name(inspect_response.name);
-        self.set_status(status(inspect_response.state));
+        self.set_status(status(inspect_response.state.as_ref()));
     }
 
     pub(crate) fn action_ongoing(&self) -> bool {
@@ -688,10 +688,10 @@ impl Container {
     }
 }
 
-fn status(state: Option<api::InspectContainerState>) -> Status {
+fn status(state: Option<&api::InspectContainerState>) -> Status {
     state
-        .and_then(|state| state.status)
-        .map_or_else(Status::default, |s| match Status::from_str(&s) {
+        .and_then(|state| state.status.as_ref())
+        .map_or_else(Status::default, |s| match Status::from_str(s) {
             Ok(status) => status,
             Err(status) => {
                 log::warn!("Unknown container status: {s}");
