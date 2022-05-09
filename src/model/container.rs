@@ -104,6 +104,7 @@ mod imp {
         pub(super) name: RefCell<Option<String>>,
         pub(super) stats: RefCell<Option<BoxedContainerStats>>,
         pub(super) status: Cell<Status>,
+        pub(super) up_since: Cell<i64>,
     }
 
     #[glib::object_subclass]
@@ -193,6 +194,17 @@ mod imp {
                         Status::default() as i32,
                         glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
                     ),
+                    glib::ParamSpecInt64::new(
+                        "up-since",
+                        "Up Since",
+                        "The time since the container is running",
+                        i64::MIN,
+                        i64::MAX,
+                        0,
+                        glib::ParamFlags::READWRITE
+                            | glib::ParamFlags::CONSTRUCT
+                            | glib::ParamFlags::EXPLICIT_NOTIFY,
+                    ),
                 ]
             });
             PROPERTIES.as_ref()
@@ -216,6 +228,7 @@ mod imp {
                 "name" => obj.set_name(value.get().unwrap()),
                 "stats" => obj.set_stats(value.get().unwrap()),
                 "status" => obj.set_status(value.get().unwrap()),
+                "up-since" => obj.set_up_since(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
@@ -232,6 +245,7 @@ mod imp {
                 "name" => obj.name().to_value(),
                 "stats" => obj.stats().to_value(),
                 "status" => obj.status().to_value(),
+                "up-since" => obj.up_since().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -261,6 +275,7 @@ impl From<api::LibpodContainerInspectResponse> for Container {
             ("image-name", &inspect_response.image_name),
             ("name", &inspect_response.name),
             ("status", &status(inspect_response.state.as_ref())),
+            ("up-since", &up_since(inspect_response.state.as_ref())),
         ])
         .expect("Failed to create Container")
     }
@@ -272,6 +287,7 @@ impl Container {
         self.set_image_name(inspect_response.image_name);
         self.set_name(inspect_response.name);
         self.set_status(status(inspect_response.state.as_ref()));
+        self.set_up_since(up_since(inspect_response.state.as_ref()));
     }
 
     pub(crate) fn action_ongoing(&self) -> bool {
@@ -371,6 +387,18 @@ impl Container {
         }
         self.imp().status.set(value);
         self.notify("status");
+    }
+
+    pub(crate) fn up_since(&self) -> i64 {
+        self.imp().up_since.get()
+    }
+
+    pub(crate) fn set_up_since(&self, value: i64) {
+        if self.up_since() == value {
+            return;
+        }
+        self.imp().up_since.set(value);
+        self.notify("up-since");
     }
 }
 
@@ -698,4 +726,10 @@ fn status(state: Option<&api::InspectContainerState>) -> Status {
                 status
             }
         })
+}
+
+fn up_since(state: Option<&api::InspectContainerState>) -> i64 {
+    state
+        .and_then(|state| state.started_at.map(|dt| dt.timestamp()))
+        .unwrap_or(0)
 }
