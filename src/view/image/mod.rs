@@ -3,6 +3,7 @@ mod image_pull_page;
 mod image_row;
 mod image_row_simple;
 mod image_search_response_row;
+mod image_search_widget;
 mod images_panel;
 mod images_prune_page;
 
