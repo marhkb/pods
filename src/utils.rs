@@ -109,7 +109,7 @@ pub(crate) fn show_error_toast<W: glib::IsA<gtk::Widget>>(widget: &W, title: &st
         .unwrap()
         .show_toast(
             &adw::Toast::builder()
-                .title(&format!("{title}:{msg}"))
+                .title(&format!("{title}: {msg}"))
                 .timeout(3)
                 .priority(adw::ToastPriority::High)
                 .build(),
