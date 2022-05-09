@@ -73,11 +73,32 @@
                     <property name="key" translatable="yes">Status</property>
 
                     <property name="widget">
-                      <object class="GtkLabel" id="status_label">
-                        <style>
-                          <class name="container-status"/>
-                        </style>
+                      <object class="GtkBox">
+                        <property name="spacing">6</property>
+                        <property name="halign">end</property>
+                        <property name="hexpand">True</property>
                         <property name="valign">center</property>
+
+                        <child>
+                          <object class="GtkLabel" id="state_since_label">
+                            <style>
+                              <class name="dim-label"/>
+                            </style>
+                            <property name="selectable">True</property>
+                            <property name="wrap">True</property>
+                            <property name="wrap-mode">word</property>
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="GtkLabel" id="status_label">
+                            <style>
+                              <class name="container-status"/>
+                            </style>
+                            <property name="valign">center</property>
+                          </object>
+                        </child>
+
                       </object>
                     </property>
 

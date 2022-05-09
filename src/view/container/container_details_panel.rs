@@ -29,6 +29,8 @@ mod imp {
         #[template_child]
         pub(super) created_row: TemplateChild<view::PropertyRow>,
         #[template_child]
+        pub(super) state_since_label: TemplateChild<gtk::Label>,
+        #[template_child]
         pub(super) status_label: TemplateChild<gtk::Label>,
     }
 
@@ -136,6 +138,34 @@ mod imp {
                     image.is_none()
                 }))
                 .bind(&*self.image_spinner, "visible", Some(obj));
+
+            gtk::ClosureExpression::new::<String, _, _>(
+                &[
+                    &status_expr,
+                    &container_expr.chain_property::<model::Container>("up-since"),
+                ],
+                closure!(
+                    |_: glib::Object, status: model::ContainerStatus, up_since: i64| {
+                        use model::ContainerStatus::*;
+
+                        match status {
+                            Running | Paused => gettext!(
+                                // Translators: "{}" is a placeholder for a date time.
+                                "Up since {}",
+                                glib::DateTime::from_unix_local(up_since)
+                                    .unwrap()
+                                    .format(
+                                        // Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
+                                        &gettext("%x %X"),
+                                    )
+                                    .unwrap()
+                            ),
+                            _ => String::new(),
+                        }
+                    }
+                ),
+            )
+            .bind(&*self.state_since_label, "label", Some(obj));
 
             status_expr
                 .chain_closure::<String>(closure!(
