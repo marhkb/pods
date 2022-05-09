@@ -224,8 +224,11 @@ impl ContainerList {
         F: FnOnce(Error) + 'static,
     {
         utils::do_async(
-            async move { (PODMAN.containers().get(id.as_str()).inspect().await, id) },
-            clone!(@weak self as obj => move |(result, id)| {
+            {
+                let id = id.clone();
+                async move { PODMAN.containers().get(id).inspect().await }
+            },
+            clone!(@weak self as obj => move |result| {
                 let imp = obj.imp();
                 match result {
                     Ok(inspect_response) => {
@@ -333,10 +336,15 @@ impl ContainerList {
         );
     }
 
-    pub(crate) fn handle_event<F>(&self, _event: api::Event, err_op: F)
+    pub(crate) fn handle_event<F>(&self, event: api::Event, err_op: F)
     where
         F: FnOnce(Error) + Clone + 'static,
     {
-        self.refresh(err_op);
+        let container_id = event.actor.id;
+
+        match event.action.as_str() {
+            "remove" => self.remove_container(&container_id),
+            _ => self.add_or_update_container(container_id, err_op),
+        }
     }
 }
