@@ -58,59 +58,40 @@
               </object>
             </child>
 
+            <!-- List of images -->
             <child>
-              <object class="GtkBox">
-                <property name="orientation">vertical</property>
+              <object class="AdwPreferencesPage">
+                <property name="vexpand">True</property>
 
                 <child>
-                  <object class="GtkSearchBar" id="search_bar">
+                  <object class="AdwPreferencesGroup" id="images_group">
+                    <property name="title" translatable="yes">Summary</property>
 
-                    <property name="child">
-                      <object class="GtkSearchEntry" id="search_entry">
-                        <property name="max-width-chars">48</property>
-                      </object>
-                    </property>
-
-                  </object>
-                </child>
-
-                <!-- List of images -->
-                <child>
-                  <object class="AdwPreferencesPage">
-                    <property name="vexpand">True</property>
-
-                    <child>
-                      <object class="AdwPreferencesGroup" id="images_group">
-                        <property name="title" translatable="yes">Summary</property>
-
-                        <property name="header-suffix">
-                          <object class="GtkBox">
-                            <property name="spacing">9</property>
-                            <property name="halign">center</property>
-                            <property name="valign">center</property>
-
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="label" translatable="yes">Intermediates</property>
-                              </object>
-                            </child>
-
-                            <child>
-                              <object class="GtkSwitch" id="show_intermediates_switch"/>
-                            </child>
-
-                          </object>
-                        </property>
+                    <property name="header-suffix">
+                      <object class="GtkBox">
+                        <property name="spacing">9</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
 
                         <child>
-                          <object class="GtkListBox" id="list_box">
-                            <style>
-                              <class name="boxed-list"/>
-                            </style>
-                            <property name="selection-mode">none</property>
+                          <object class="GtkLabel">
+                            <property name="label" translatable="yes">Intermediates</property>
                           </object>
                         </child>
 
+                        <child>
+                          <object class="GtkSwitch" id="show_intermediates_switch"/>
+                        </child>
+
+                      </object>
+                    </property>
+
+                    <child>
+                      <object class="GtkListBox" id="list_box">
+                        <style>
+                          <class name="boxed-list"/>
+                        </style>
+                        <property name="selection-mode">none</property>
                       </object>
                     </child>
 

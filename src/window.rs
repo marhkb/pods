@@ -1,12 +1,10 @@
 use adw::subclass::prelude::AdwApplicationWindowImpl;
-use adw::traits::BinExt;
 use cascade::cascade;
 use gettextrs::gettext;
 use gtk::gdk;
 use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
-use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
@@ -36,17 +34,25 @@ mod imp {
         #[template_child]
         pub(super) leaflet: TemplateChild<adw::Leaflet>,
         #[template_child]
-        pub(super) images_search_button: TemplateChild<gtk::ToggleButton>,
+        pub(super) search_button: TemplateChild<gtk::ToggleButton>,
         #[template_child]
-        pub(super) containers_search_button: TemplateChild<gtk::ToggleButton>,
+        pub(super) title_stack: TemplateChild<gtk::Stack>,
+        #[template_child]
+        pub(super) title: TemplateChild<adw::ViewSwitcherTitle>,
+        #[template_child]
+        pub(super) search_entry: TemplateChild<gtk::SearchEntry>,
         #[template_child]
         pub(super) menu_button: TemplateChild<gtk::MenuButton>,
+        #[template_child]
+        pub(super) search_stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) panel_stack: TemplateChild<adw::ViewStack>,
         #[template_child]
         pub(super) images_panel: TemplateChild<view::ImagesPanel>,
         #[template_child]
         pub(super) containers_panel: TemplateChild<view::ContainersPanel>,
+        #[template_child]
+        pub(super) search_panel: TemplateChild<view::SearchPanel>,
         #[template_child]
         pub(super) leaflet_overlay: TemplateChild<view::LeafletOverlay>,
         #[template_child]
@@ -121,6 +127,55 @@ mod imp {
             // Load settings.
             obj.load_settings();
 
+            self.search_button
+                .connect_active_notify(clone!(@weak obj => move |button| {
+                    let imp = obj.imp();
+
+                    if button.is_active() {
+                        imp.title_stack.set_visible_child(&*imp.search_entry);
+                        imp.search_entry.grab_focus();
+                        imp.search_stack.set_visible_child(&*imp.search_panel);
+                    } else {
+                        imp.search_entry.set_text("");
+                        imp.title_stack.set_visible_child(&*imp.title);
+                        imp.search_stack.set_visible_child_name("main");
+                    }
+                }));
+
+            self.search_entry
+                .connect_text_notify(clone!(@weak obj => move |entry| {
+                    let imp = obj.imp();
+
+                    imp.search_panel.set_term(entry.text().into());
+                    if !entry.text().is_empty() {
+                        imp.search_button.set_active(true);
+                    }
+                }));
+
+            let search_entry_key_ctrl = gtk::EventControllerKey::new();
+            search_entry_key_ctrl.connect_key_pressed(
+                clone!(@weak obj => @default-return gtk::Inhibit(false), move |_, key, _, _| {
+                    if key == gdk::Key::Escape {
+                        obj.imp().search_button.set_active(false);
+                        gtk::Inhibit(true)
+                    } else {
+                        gtk::Inhibit(false)
+                    }
+                }),
+            );
+            self.search_entry.add_controller(&search_entry_key_ctrl);
+
+            self.search_entry.set_key_capture_widget(Some(obj));
+            self.leaflet
+                .connect_visible_child_notify(clone!(@weak obj => move |leaflet| {
+                    obj.imp().search_entry.set_key_capture_widget(
+                        if leaflet.visible_child_name().as_deref() == Some("overlay") {
+                            None
+                        } else {
+                            Some(&obj)
+                        });
+                }));
+
             self.menu_button
                 .popover()
                 .unwrap()
@@ -132,38 +187,14 @@ mod imp {
             self.containers_panel
                 .set_container_list(self.client.container_list());
 
-            self.images_panel
-                .connect_search_button(&*self.images_search_button);
-
-            self.containers_panel
-                .connect_search_button(&*self.containers_search_button);
-
-            let visible_child_name_expr = adw::ViewStack::this_expression("visible-child-name");
-
-            visible_child_name_expr
-                .chain_closure::<bool>(closure!(
-                    |_: glib::Object, name: Option<&str>| name == Some("images")
-                ))
-                .bind(
-                    &*self.images_search_button,
-                    "visible",
-                    Some(&*self.panel_stack),
-                );
-            visible_child_name_expr
-                .chain_closure::<bool>(closure!(
-                    |_: glib::Object, name: Option<&str>| name == Some("containers")
-                ))
-                .bind(
-                    &*self.containers_search_button,
-                    "visible",
-                    Some(&*self.panel_stack),
-                );
+            self.search_panel.set_client(&self.client);
 
             obj.check_service();
         }
     }
 
     impl WidgetImpl for Window {}
+
     impl WindowImpl for Window {
         // Save window state on delete event
         fn close_request(&self, window: &Self::Type) -> gtk::Inhibit {
@@ -253,14 +284,7 @@ impl Window {
 
     fn toggle_search(&self) {
         let imp = self.imp();
-
-        if imp.leaflet_overlay.child().is_none() {
-            match imp.panel_stack.visible_child_name().as_deref() {
-                Some("images") => imp.images_panel.toggle_search(),
-                Some("containers") => imp.containers_panel.toggle_search(),
-                _ => unreachable!(),
-            }
-        }
+        imp.search_button.set_active(!imp.search_button.is_active());
     }
 
     pub(crate) fn check_service(&self) {

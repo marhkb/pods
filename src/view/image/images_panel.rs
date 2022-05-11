@@ -23,7 +23,6 @@ mod imp {
         pub(super) settings: utils::PodsSettings,
         pub(super) image_list: WeakRef<model::ImageList>,
         pub(super) properties_filter: OnceCell<gtk::Filter>,
-        pub(super) search_filter: OnceCell<gtk::Filter>,
         pub(super) sorter: OnceCell<gtk::Sorter>,
         #[template_child]
         pub(super) main_stack: TemplateChild<gtk::Stack>,
@@ -35,10 +34,6 @@ mod imp {
         pub(super) progress_stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) progress_bar: TemplateChild<gtk::ProgressBar>,
-        #[template_child]
-        pub(super) search_bar: TemplateChild<gtk::SearchBar>,
-        #[template_child]
-        pub(super) search_entry: TemplateChild<gtk::SearchEntry>,
         #[template_child]
         pub(super) images_group: TemplateChild<adw::PreferencesGroup>,
         #[template_child]
@@ -205,23 +200,6 @@ mod imp {
                 clone!(@weak obj => move |_ ,_| obj.update_properties_filter()),
             );
 
-            let search_filter = gtk::CustomFilter::new(
-                clone!(@weak obj => @default-return false, move |item| {
-                    let image = item
-                        .downcast_ref::<model::Image>()
-                        .unwrap();
-                    let query = obj.imp().search_entry.text();
-                    let query = query.as_str();
-
-                    image.id().contains(query) || image.repo_tags().iter().any(|s| s.contains(query))
-                }),
-            );
-
-            self.search_entry
-                .connect_search_changed(clone!(@weak obj => move |_| {
-                    obj.update_search_filter();
-                }));
-
             let sorter = gtk::CustomSorter::new(|obj1, obj2| {
                 let image1 = obj1.downcast_ref::<model::Image>().unwrap();
                 let image2 = obj2.downcast_ref::<model::Image>().unwrap();
@@ -242,7 +220,6 @@ mod imp {
             self.properties_filter
                 .set(properties_filter.upcast())
                 .unwrap();
-            self.search_filter.set(search_filter.upcast()).unwrap();
             self.sorter.set(sorter.upcast()).unwrap();
         }
 
@@ -251,13 +228,7 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for ImagesPanel {
-        fn root(&self, widget: &Self::Type) {
-            self.parent_root(widget);
-            self.search_bar
-                .set_key_capture_widget(widget.root().as_ref());
-        }
-    }
+    impl WidgetImpl for ImagesPanel {}
 }
 
 glib::wrapper! {
@@ -286,18 +257,12 @@ impl ImagesPanel {
 
         value.connect_notify_local(
             Some("fetched"),
-            clone!(@weak self as obj => move |_ ,_| {
-                obj.update_properties_filter();
-                obj.update_search_filter();
-            }),
+            clone!(@weak self as obj => move |_ ,_| obj.update_properties_filter()),
         );
 
         let model = gtk::SortListModel::new(
             Some(&gtk::FilterListModel::new(
-                Some(&gtk::FilterListModel::new(
-                    Some(value),
-                    imp.search_filter.get(),
-                )),
+                Some(value),
                 imp.properties_filter.get(),
             )),
             imp.sorter.get(),
@@ -316,23 +281,6 @@ impl ImagesPanel {
         self.notify("image-list");
     }
 
-    pub(crate) fn connect_search_button(&self, search_button: &gtk::ToggleButton) {
-        search_button
-            .bind_property("active", &*self.imp().search_bar, "search-mode-enabled")
-            .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
-            .build();
-    }
-
-    pub(crate) fn toggle_search(&self) {
-        let imp = self.imp();
-        if imp.search_bar.is_search_mode() {
-            imp.search_bar.set_search_mode(false);
-        } else {
-            imp.search_bar.set_search_mode(true);
-            imp.search_entry.grab_focus();
-        }
-    }
-
     fn set_list_box_visibility(&self, model: &gio::ListModel) {
         self.imp().list_box.set_visible(model.n_items() > 0);
     }
@@ -340,14 +288,6 @@ impl ImagesPanel {
     pub(crate) fn update_properties_filter(&self) {
         self.imp()
             .properties_filter
-            .get()
-            .unwrap()
-            .changed(gtk::FilterChange::Different);
-    }
-
-    pub(crate) fn update_search_filter(&self) {
-        self.imp()
-            .search_filter
             .get()
             .unwrap()
             .changed(gtk::FilterChange::Different);
