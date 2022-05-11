@@ -20,8 +20,6 @@ mod imp {
         #[template_child]
         pub(super) header_bar: TemplateChild<adw::HeaderBar>,
         #[template_child]
-        pub(super) preferences_page: TemplateChild<adw::PreferencesPage>,
-        #[template_child]
         pub(super) image_search_widget: TemplateChild<view::ImageSearchWidget>,
     }
 
@@ -77,7 +75,7 @@ mod imp {
 
         fn dispose(&self, _obj: &Self::Type) {
             self.header_bar.unparent();
-            self.preferences_page.unparent();
+            self.image_search_widget.unparent();
         }
     }
 

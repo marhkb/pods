@@ -48,15 +48,8 @@
     </child>
 
     <child>
-      <object class="AdwPreferencesPage" id="preferences_page">
-        <property name="vexpand">True</property>
-
-        <child>
-          <object class="ImageSearchWidget" id="image_search_widget">
-            <property name="default-tag">latest</property>
-          </object>
-        </child>
-
+      <object class="ImageSearchWidget" id="image_search_widget">
+        <property name="default-tag">latest</property>
       </object>
     </child>
 

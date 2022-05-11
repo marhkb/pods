@@ -28,6 +28,8 @@ mod imp {
         pub(super) selection: OnceCell<gtk::SingleSelection>,
         pub(super) search_abort_handle: RefCell<Option<future::AbortHandle>>,
         #[template_child]
+        pub(super) stack: TemplateChild<gtk::Stack>,
+        #[template_child]
         pub(super) search_entry: TemplateChild<gtk::Entry>,
         #[template_child]
         pub(super) registries_combo_row: TemplateChild<adw::ComboRow>,
@@ -45,7 +47,7 @@ mod imp {
     impl ObjectSubclass for ImageSearchWidget {
         const NAME: &'static str = "ImageSearchWidget";
         type Type = super::ImageSearchWidget;
-        type ParentType = adw::PreferencesGroup;
+        type ParentType = gtk::Widget;
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
@@ -122,27 +124,30 @@ mod imp {
                 PODMAN.info(),
                 clone!(@weak obj => move |result| match result {
                     Ok(info) => {
+                        let imp = obj.imp();
+                        match info.registries.unwrap().get("search") {
+                            Some(search) => {
+                                let model = gio::ListStore::new(model::Registry::static_type());
+                                model.append(&model::Registry::from(gettext("All registries").as_str()));
+                                search
+                                    .as_array()
+                                    .unwrap()
+                                    .iter()
+                                    .for_each(|name| {
+                                        model.append(&model::Registry::from(name.as_str().unwrap()))
+                                    });
 
-                        let model = gio::ListStore::new(model::Registry::static_type());
-                        model.append(&model::Registry::from(gettext("All registries").as_str()));
-                        info.registries
-                            .unwrap()
-                            .get("search")
-                            .unwrap()
-                            .as_array()
-                            .unwrap()
-                            .iter()
-                            .for_each(|name| {
-                                model.append(&model::Registry::from(name.as_str().unwrap()))
-                            });
-
-                        obj.imp().registries_combo_row.set_model(Some(&model));
-                    }
+                                imp.registries_combo_row.set_model(Some(&model));
+                                imp.stack.set_visible_child_name("search");
+                            }
+                            None => imp.stack.set_visible_child_name("no-registries"),
+                        }
+                    },
                     Err(e) => {
-                        log::error!("Failed to retrieve registries: {e}");
+                        log::error!("Failed to retrieve podman info: {e}");
                         utils::show_error_toast(
                             &obj,
-                            &gettext("Failed to retrieve registries"),
+                            &gettext("Failed to retrieve podman info"),
                             &e.to_string()
                         );
                     }
@@ -195,6 +200,10 @@ mod imp {
                 }),
             );
         }
+
+        fn dispose(&self, _obj: &Self::Type) {
+            self.stack.unparent();
+        }
     }
 
     impl WidgetImpl for ImageSearchWidget {
@@ -214,7 +223,7 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct ImageSearchWidget(ObjectSubclass<imp::ImageSearchWidget>)
-        @extends gtk::Widget, adw::PreferencesGroup,
+        @extends gtk::Widget,
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
