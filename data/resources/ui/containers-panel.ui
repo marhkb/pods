@@ -56,38 +56,19 @@
               </object>
             </child>
 
+            <!-- List of containers -->
             <child>
-              <object class="GtkBox">
-                <property name="orientation">vertical</property>
+              <object class="AdwPreferencesPage">
+                <property name="vexpand">True</property>
 
                 <child>
-                  <object class="GtkSearchBar" id="search_bar">
-
-                    <property name="child">
-                      <object class="GtkSearchEntry" id="search_entry">
-                        <property name="max-width-chars">48</property>
-                      </object>
-                    </property>
-
-                  </object>
-                </child>
-
-                <!-- List of containers -->
-                <child>
-                  <object class="AdwPreferencesPage">
-                    <property name="vexpand">True</property>
-
-                    <child>
-                      <object class="ContainersGroup" id="containers_group">
-                        <binding name="container-list">
-                          <lookup name="container-list">ContainersPanel</lookup>
-                        </binding>
-                        <property name="title" translatable="yes">Summary</property>
-                        <property name="show-running-settings-key">show-only-running-containers</property>
-                        <property name="no-containers-label" translatable="yes">No containers found</property>
-                      </object>
-                    </child>
-
+                  <object class="ContainersGroup" id="containers_group">
+                    <binding name="container-list">
+                      <lookup name="container-list">ContainersPanel</lookup>
+                    </binding>
+                    <property name="title" translatable="yes">Summary</property>
+                    <property name="show-running-settings-key">show-only-running-containers</property>
+                    <property name="no-containers-label" translatable="yes">No containers found</property>
                   </object>
                 </child>
 

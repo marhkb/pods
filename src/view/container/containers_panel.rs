@@ -1,5 +1,4 @@
 use gtk::glib;
-use gtk::glib::clone;
 use gtk::glib::closure;
 use gtk::glib::WeakRef;
 use gtk::prelude::*;
@@ -27,10 +26,6 @@ mod imp {
         pub(super) progress_stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) progress_bar: TemplateChild<gtk::ProgressBar>,
-        #[template_child]
-        pub(super) search_bar: TemplateChild<gtk::SearchBar>,
-        #[template_child]
-        pub(super) search_entry: TemplateChild<gtk::SearchEntry>,
         #[template_child]
         pub(super) containers_group: TemplateChild<view::ContainersGroup>,
     }
@@ -144,11 +139,6 @@ mod imp {
                     "transition-duration",
                     Some(&*self.progress_stack),
                 );
-
-            self.search_entry
-                .connect_search_changed(clone!(@weak obj => move |search_entry| {
-                    obj.imp().containers_group.set_search_text(Some(search_entry.text().into()));
-                }));
         }
 
         fn dispose(&self, _obj: &Self::Type) {
@@ -156,13 +146,7 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for ContainersPanel {
-        fn root(&self, widget: &Self::Type) {
-            self.parent_root(widget);
-            self.search_bar
-                .set_key_capture_widget(widget.root().as_ref());
-        }
-    }
+    impl WidgetImpl for ContainersPanel {}
 }
 
 glib::wrapper! {
@@ -187,22 +171,5 @@ impl ContainersPanel {
         }
         self.imp().container_list.set(Some(value));
         self.notify("container-list");
-    }
-
-    pub(crate) fn connect_search_button(&self, search_button: &gtk::ToggleButton) {
-        search_button
-            .bind_property("active", &*self.imp().search_bar, "search-mode-enabled")
-            .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
-            .build();
-    }
-
-    pub(crate) fn toggle_search(&self) {
-        let imp = self.imp();
-        if imp.search_bar.is_search_mode() {
-            imp.search_bar.set_search_mode(false);
-        } else {
-            imp.search_bar.set_search_mode(true);
-            imp.search_entry.grab_focus();
-        }
     }
 }

@@ -29,9 +29,7 @@ mod imp {
         pub(super) no_containers_label: RefCell<Option<String>>,
         pub(super) show_running_settings_key: RefCell<String>,
         pub(super) properties_filter: OnceCell<gtk::Filter>,
-        pub(super) search_filter: OnceCell<gtk::Filter>,
         pub(super) sorter: OnceCell<gtk::Sorter>,
-        pub(super) search_text: RefCell<Option<String>>,
         #[template_child]
         pub(super) show_only_running_switch: TemplateChild<gtk::Switch>,
         #[template_child]
@@ -78,13 +76,6 @@ mod imp {
                         model::AbstractContainerList::static_type(),
                         glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
                     ),
-                    glib::ParamSpecString::new(
-                        "search-text",
-                        "Search Text",
-                        "The search text",
-                        None,
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
                 ]
             });
             PROPERTIES.as_ref()
@@ -103,7 +94,6 @@ mod imp {
                     obj.set_show_running_settings_key(value.get().unwrap_or_default());
                 }
                 "container-list" => obj.set_container_list(value.get().unwrap()),
-                "search-text" => obj.set_search_text(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
@@ -113,7 +103,6 @@ mod imp {
                 "no-containers-label" => obj.no_containers_label().to_value(),
                 "show-running-settings-key" => obj.show_running_settings_key().to_value(),
                 "container-list" => obj.container_list().to_value(),
-                "search-text" => obj.search_text().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -154,35 +143,6 @@ mod imp {
                 clone!(@weak obj => move |_ ,_| obj.update_properties_filter()),
             );
 
-            let search_filter =
-                gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
-                    let container = item
-                        .downcast_ref::<model::Container>()
-                        .unwrap();
-
-                    obj.search_text()
-                        .as_ref()
-                        .map(|search_text| {
-                            container
-                                .name()
-                                .map(|name| name.contains(search_text))
-                                .unwrap_or(false)
-                                || container
-                                    .id()
-                                    .map(|id| id.contains(search_text))
-                                    .unwrap_or(false)
-                                || container
-                                    .image_name()
-                                    .map(|image_name| image_name.contains(search_text))
-                                    .unwrap_or(false)
-                                || container
-                                    .image_id()
-                                    .map(|image_id| image_id.contains(search_text))
-                                    .unwrap_or(false)
-                        })
-                        .unwrap_or(true)
-                }));
-
             let sorter = gtk::CustomSorter::new(|obj1, obj2| {
                 let container1 = obj1.downcast_ref::<model::Container>().unwrap();
                 let container2 = obj2.downcast_ref::<model::Container>().unwrap();
@@ -193,7 +153,6 @@ mod imp {
             self.properties_filter
                 .set(properties_filter.upcast())
                 .unwrap();
-            self.search_filter.set(search_filter.upcast()).unwrap();
             self.sorter.set(sorter.upcast()).unwrap();
 
             self.show_only_running_switch.connect_active_notify(
@@ -270,19 +229,13 @@ impl ContainersGroup {
             value.connect_container_name_changed(clone!(@weak self as obj => move |_, _| {
                 glib::timeout_add_seconds_local_once(
                     1,
-                    clone!(@weak obj => move || {
-                        obj.update_search_filter();
-                        obj.update_sorter();
-                    }),
+                    clone!(@weak obj => move || obj.update_sorter()),
                 );
             }));
 
             let model = gtk::SortListModel::new(
                 Some(&gtk::FilterListModel::new(
-                    Some(&gtk::FilterListModel::new(
-                        Some(value),
-                        imp.search_filter.get(),
-                    )),
+                    Some(value),
                     imp.properties_filter.get(),
                 )),
                 imp.sorter.get(),
@@ -302,19 +255,6 @@ impl ContainersGroup {
         self.notify("container-list");
     }
 
-    pub(crate) fn search_text(&self) -> Option<String> {
-        self.imp().search_text.borrow().clone()
-    }
-
-    pub(crate) fn set_search_text(&self, value: Option<String>) {
-        if self.search_text() == value {
-            return;
-        }
-        self.imp().search_text.replace(value);
-        self.notify("search-text");
-        self.update_search_filter();
-    }
-
     fn set_list_box_visibility(&self, model: &gio::ListModel) {
         self.imp().list_box.set_visible(model.n_items() > 0);
     }
@@ -322,14 +262,6 @@ impl ContainersGroup {
     fn update_properties_filter(&self) {
         self.imp()
             .properties_filter
-            .get()
-            .unwrap()
-            .changed(gtk::FilterChange::Different);
-    }
-
-    fn update_search_filter(&self) {
-        self.imp()
-            .search_filter
             .get()
             .unwrap()
             .changed(gtk::FilterChange::Different);

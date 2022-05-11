@@ -80,20 +80,36 @@
                         <property name="centering-policy">strict</property>
 
                         <child type="start">
-                          <object class="GtkToggleButton" id="images_search_button">
-                            <property name="icon-name">system-search-symbolic</property>
-                          </object>
-                        </child>
-
-                        <child type="start">
-                          <object class="GtkToggleButton" id="containers_search_button">
+                          <object class="GtkToggleButton" id="search_button">
                             <property name="icon-name">system-search-symbolic</property>
                           </object>
                         </child>
 
                         <child type="title">
-                          <object class="AdwViewSwitcherTitle" id="title">
-                            <property name="stack">panel_stack</property>
+                          <object class="GtkStack" id="title_stack">
+                            <property name="transition-type">crossfade</property>
+
+                            <child>
+                              <object class="GtkStackPage">
+                                <property name="name">title</property>
+                                <property name="child">
+                                  <object class="AdwViewSwitcherTitle" id="title">
+                                    <property name="stack">panel_stack</property>
+                                  </object>
+                                </property>
+
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="GtkStackPage">
+                                <property name="name">search</property>
+                                <property name="child">
+                                  <object class="GtkSearchEntry" id="search_entry"/>
+                                </property>
+                              </object>
+                            </child>
+
                           </object>
                         </child>
 
@@ -107,45 +123,70 @@
                       </object>
                     </child>
 
-                    <!-- Panel Stack -->
                     <child>
-                      <object class="AdwViewStack" id="panel_stack">
-                        <property name="vexpand">True</property>
+                      <object class="GtkStack" id="search_stack">
+                        <property name="transition-type">crossfade</property>
 
-                        <!-- Images Panel -->
                         <child>
-                          <object class="AdwViewStackPage">
-                            <property name="icon-name">image-x-generic-symbolic</property>
-                            <property name="name">images</property>
-                            <property name="title" translatable="yes">Images</property>
+                          <object class="GtkStackPage">
+                            <property name="name">main</property>
+
                             <property name="child">
-                              <object class="ImagesPanel" id="images_panel"/>
+                              <object class="GtkBox">
+                                <property name="orientation">vertical</property>
+
+                                <!-- Panel Stack -->
+                                <child>
+                                  <object class="AdwViewStack" id="panel_stack">
+                                    <property name="vexpand">True</property>
+
+                                    <!-- Images Panel -->
+                                    <child>
+                                      <object class="AdwViewStackPage">
+                                        <property name="icon-name">image-x-generic-symbolic</property>
+                                        <property name="name">images</property>
+                                        <property name="title" translatable="yes">Images</property>
+                                        <property name="child">
+                                          <object class="ImagesPanel" id="images_panel"/>
+                                        </property>
+                                      </object>
+                                    </child>
+
+                                    <!-- Containers Panel -->
+                                    <child>
+                                      <object class="AdwViewStackPage">
+                                        <property name="icon-name">utilities-terminal-symbolic</property>
+                                        <property name="name">containers</property>
+                                        <property name="title" translatable="yes">Containers</property>
+                                        <property name="child">
+                                          <object class="ContainersPanel" id="containers_panel"/>
+                                        </property>
+                                      </object>
+                                    </child>
+
+                                  </object>
+                                </child>
+
+                                <!-- View Switcher Bar -->
+                                <child>
+                                  <object class="AdwViewSwitcherBar">
+                                    <property name="stack">panel_stack</property>
+                                    <binding name="reveal">
+                                      <lookup name="title-visible">title</lookup>
+                                    </binding>
+                                  </object>
+                                </child>
+
+                              </object>
                             </property>
+
                           </object>
                         </child>
 
-                        <!-- Containers Panel -->
                         <child>
-                          <object class="AdwViewStackPage">
-                            <property name="icon-name">utilities-terminal-symbolic</property>
-                            <property name="name">containers</property>
-                            <property name="title" translatable="yes">Containers</property>
-                            <property name="child">
-                              <object class="ContainersPanel" id="containers_panel"/>
-                            </property>
-                          </object>
+                          <object class="SearchPanel" id="search_panel"/>
                         </child>
 
-                      </object>
-                    </child>
-
-                    <!-- View Switcher Bar -->
-                    <child>
-                      <object class="AdwViewSwitcherBar">
-                        <property name="stack">panel_stack</property>
-                        <binding name="reveal">
-                          <lookup name="title-visible">title</lookup>
-                        </binding>
                       </object>
                     </child>
 

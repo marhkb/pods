@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+
+  <template class="SearchPanel" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBinLayout"/>
+    </property>
+
+    <child>
+      <object class="GtkStack" id="main_stack">
+        <property name="transition-type">crossfade</property>
+
+        <child>
+          <object class="GtkStackPage">
+            <property name="name">search</property>
+
+            <property name="child">
+              <object class="AdwStatusPage">
+                <property name="icon-name">system-search-symbolic</property>
+                <property name="title">Search</property>
+                <property name="description">Please start typing to look for results.</property>
+              </object>
+            </property>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkStackPage">
+            <property name="name">no-results</property>
+
+            <property name="child">
+              <object class="AdwStatusPage">
+                <property name="icon-name">system-search-symbolic</property>
+                <property name="title">No Results Found</property>
+                <property name="description">Please retry another term.</property>
+              </object>
+            </property>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkStackPage">
+            <property name="name">results</property>
+
+            <property name="child">
+              <object class="AdwPreferencesPage">
+                <property name="vexpand">True</property>
+
+                <child>
+                  <object class="AdwPreferencesGroup" id="images_group">
+                    <property name="title" translatable="yes">Images</property>
+
+                    <child>
+                      <object class="GtkListBox" id="images_list_box">
+                        <style>
+                          <class name="boxed-list"/>
+                        </style>
+                        <property name="selection-mode">none</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwPreferencesGroup" id="containers_group">
+                    <property name="title" translatable="yes">Containers</property>
+
+                    <child>
+                      <object class="GtkListBox" id="containers_list_box">
+                        <style>
+                          <class name="boxed-list"/>
+                        </style>
+                        <property name="selection-mode">none</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+              </object>
+            </property>
+
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>
