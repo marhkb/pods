@@ -7,6 +7,7 @@ mod info_dialog;
 mod leaflet_overlay;
 mod property_row;
 mod property_widget_row;
+mod search_panel;
 mod start_service_page;
 mod text_search_entry;
 mod theme_selector;
