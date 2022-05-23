@@ -1,5 +1,4 @@
 use gtk::gdk;
-use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
@@ -25,8 +24,6 @@ mod imp {
         pub(super) leaflet: TemplateChild<adw::Leaflet>,
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
-        #[template_child]
-        pub(super) menu_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
         pub(super) logs_show_timestamps_button: TemplateChild<gtk::ToggleButton>,
         #[template_child]
@@ -80,43 +77,6 @@ mod imp {
             );
             klass.install_action("logs.search-forward", None, |widget, _, _| {
                 widget.search_logs_forward();
-            });
-
-            klass.install_action("container.start", None, move |widget, _, _| {
-                super::super::start(widget.upcast_ref(), &widget.container().unwrap());
-            });
-            klass.install_action("container.stop", None, move |widget, _, _| {
-                super::super::stop(widget.upcast_ref(), &widget.container().unwrap());
-            });
-            klass.install_action("container.force-stop", None, move |widget, _, _| {
-                super::super::force_stop(widget.upcast_ref(), &widget.container().unwrap());
-            });
-            klass.install_action("container.restart", None, move |widget, _, _| {
-                super::super::restart(widget.upcast_ref(), &widget.container().unwrap());
-            });
-            klass.install_action("container.force-restart", None, move |widget, _, _| {
-                super::super::force_restart(widget.upcast_ref(), &widget.container().unwrap());
-            });
-            klass.install_action("container.pause", None, move |widget, _, _| {
-                super::super::pause(widget.upcast_ref(), &widget.container().unwrap());
-            });
-            klass.install_action("container.resume", None, move |widget, _, _| {
-                super::super::resume(widget.upcast_ref(), &widget.container().unwrap());
-            });
-
-            klass.install_action("container.rename", None, move |widget, _, _| {
-                super::super::rename(widget.upcast_ref(), widget.container());
-            });
-
-            klass.install_action("container.commit", None, move |widget, _, _| {
-                super::super::commit(widget.upcast_ref(), &widget.container().unwrap());
-            });
-
-            klass.install_action("container.delete", None, move |widget, _, _| {
-                super::super::delete(widget.upcast_ref(), &widget.container().unwrap());
-            });
-            klass.install_action("container.force-delete", None, move |widget, _, _| {
-                super::super::force_delete(widget.upcast_ref(), &widget.container().unwrap());
             });
         }
 
@@ -191,24 +151,6 @@ mod imp {
                     }
                 }))
                 .bind(&*self.stack, "visible-child-name", Some(obj));
-
-            container_expr
-                .chain_property::<model::Container>("status")
-                .chain_closure::<Option<gio::MenuModel>>(closure!(
-                    |_: Self::Type, status: model::ContainerStatus| {
-                        use model::ContainerStatus::*;
-
-                        Some(match status {
-                            Running => super::super::running_menu(),
-                            Paused => super::super::paused_menu(),
-                            Configured | Created | Exited | Dead | Stopped => {
-                                super::super::stopped_menu()
-                            }
-                            _ => return None,
-                        })
-                    }
-                ))
-                .bind(&*self.menu_button, "menu-model", Some(obj));
         }
 
         fn dispose(&self, _obj: &Self::Type) {

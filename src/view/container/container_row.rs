@@ -1,6 +1,5 @@
 use adw::subclass::prelude::ActionRowImpl;
 use adw::subclass::prelude::PreferencesRowImpl;
-use gtk::gio;
 use gtk::glib;
 use gtk::glib::closure;
 use gtk::glib::WeakRef;
@@ -28,10 +27,6 @@ mod imp {
         pub(super) mem_bar: TemplateChild<view::CircularProgressBar>,
         #[template_child]
         pub(super) status_label: TemplateChild<gtk::Label>,
-        #[template_child]
-        pub(super) menu_stack: TemplateChild<gtk::Stack>,
-        #[template_child]
-        pub(super) menu_button: TemplateChild<gtk::MenuButton>,
     }
 
     #[glib::object_subclass]
@@ -45,43 +40,6 @@ mod imp {
 
             klass.install_action("container.show-details", None, move |widget, _, _| {
                 widget.show_details();
-            });
-
-            klass.install_action("container.start", None, move |widget, _, _| {
-                super::super::start(widget.upcast_ref(), &widget.container().unwrap());
-            });
-            klass.install_action("container.stop", None, move |widget, _, _| {
-                super::super::stop(widget.upcast_ref(), &widget.container().unwrap());
-            });
-            klass.install_action("container.force-stop", None, move |widget, _, _| {
-                super::super::force_stop(widget.upcast_ref(), &widget.container().unwrap());
-            });
-            klass.install_action("container.restart", None, move |widget, _, _| {
-                super::super::restart(widget.upcast_ref(), &widget.container().unwrap());
-            });
-            klass.install_action("container.force-restart", None, move |widget, _, _| {
-                super::super::force_restart(widget.upcast_ref(), &widget.container().unwrap());
-            });
-            klass.install_action("container.pause", None, move |widget, _, _| {
-                super::super::pause(widget.upcast_ref(), &widget.container().unwrap());
-            });
-            klass.install_action("container.resume", None, move |widget, _, _| {
-                super::super::resume(widget.upcast_ref(), &widget.container().unwrap());
-            });
-
-            klass.install_action("container.rename", None, move |widget, _, _| {
-                super::super::rename(widget.upcast_ref(), widget.container());
-            });
-
-            klass.install_action("container.commit", None, move |widget, _, _| {
-                super::super::commit(widget.upcast_ref(), &widget.container().unwrap());
-            });
-
-            klass.install_action("container.delete", None, move |widget, _, _| {
-                super::super::delete(widget.upcast_ref(), &widget.container().unwrap());
-            });
-            klass.install_action("container.force-delete", None, move |widget, _, _| {
-                super::super::force_delete(widget.upcast_ref(), &widget.container().unwrap());
             });
         }
 
@@ -194,34 +152,6 @@ mod imp {
                     }
                 ))
                 .bind(&*self.status_label, "css-classes", Some(obj));
-
-            container_expr
-                .chain_property::<model::Container>("action-ongoing")
-                .chain_closure::<String>(closure!(|_: glib::Object, action_ongoing: bool| {
-                    if action_ongoing {
-                        "ongoing"
-                    } else {
-                        "menu"
-                    }
-                }))
-                .bind(&*self.menu_stack, "visible-child-name", Some(obj));
-
-            status_expr
-                .chain_closure::<Option<gio::MenuModel>>(closure!(
-                    |_: Self::Type, status: model::ContainerStatus| {
-                        use model::ContainerStatus::*;
-
-                        Some(match status {
-                            Running => super::super::running_menu(),
-                            Paused => super::super::paused_menu(),
-                            Configured | Created | Exited | Dead | Stopped => {
-                                super::super::stopped_menu()
-                            }
-                            _ => return None,
-                        })
-                    }
-                ))
-                .bind(&*self.menu_button, "menu-model", Some(obj));
         }
     }
 

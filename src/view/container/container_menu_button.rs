@@ -153,10 +153,11 @@ glib::wrapper! {
 }
 
 macro_rules! container_action {
-    ($action:tt, $error:tt) => {
-        fn $action(&self) {
+    (fn $name:ident => $action:ident($($param:literal),*) => $error:tt) => {
+        fn $name(&self) {
             if let Some(container) = self.container() {
                 container.$action(
+                    $($param,)*
                     clone!(@weak self as obj => move |result| if let Err(e) = result {
                         utils::show_error_toast(
                             &obj,
@@ -253,16 +254,16 @@ impl ContainerMenuButton {
         }
     }
 
-    container_action!(start, "Error on starting container");
-    container_action!(stop, "Error on stopping container");
-    container_action!(force_stop, "Error on force stopping container");
-    container_action!(restart, "Error on restarting container");
-    container_action!(force_restart, "Error on force restarting container");
-    container_action!(pause, "Error on pausing container");
-    container_action!(resume, "Error on resuming container");
-    container_action!(commit, "Error on committing container");
-    container_action!(delete, "Error on deleting container");
-    container_action!(force_delete, "Error on force deleting container");
+    container_action!(fn start => start() => "Error on starting container");
+    container_action!(fn stop => stop(false) => "Error on stopping container");
+    container_action!(fn force_stop => stop(true) => "Error on force stopping container");
+    container_action!(fn restart => restart(false) => "Error on restarting container");
+    container_action!(fn force_restart => restart(true) => "Error on force restarting container");
+    container_action!(fn pause => pause() => "Error on pausing container");
+    container_action!(fn resume => resume() => "Error on resuming container");
+    container_action!(fn commit => commit() => "Error on committing container");
+    container_action!(fn delete => delete(false) => "Error on deleting container");
+    container_action!(fn force_delete => delete(true) => "Error on force deleting container");
 
     fn rename(&self) {
         let dialog = view::ContainerRenameDialog::from(self.container());
