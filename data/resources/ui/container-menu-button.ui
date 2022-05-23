@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <menu id="menu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">_Start</attribute>
+        <attribute name="action">container.start</attribute>
+        <attribute name="hidden-when">action-disabled</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">S_top</attribute>
+        <attribute name="action">container.stop</attribute>
+        <attribute name="hidden-when">action-disabled</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">_Force Stop</attribute>
+        <attribute name="action">container.force-stop</attribute>
+        <attribute name="hidden-when">action-disabled</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">R_estart</attribute>
+        <attribute name="action">container.restart</attribute>
+        <attribute name="hidden-when">action-disabled</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">F_orce Restart</attribute>
+        <attribute name="action">container.force-restart</attribute>
+        <attribute name="hidden-when">action-disabled</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">_Resume</attribute>
+        <attribute name="action">container.resume</attribute>
+        <attribute name="hidden-when">action-disabled</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">_Pause</attribute>
+        <attribute name="action">container.pause</attribute>
+        <attribute name="hidden-when">action-disabled</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Re_name…</attribute>
+        <attribute name="action">container.rename</attribute>
+        <attribute name="hidden-when">action-disabled</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">_Commit</attribute>
+        <attribute name="action">container.commit</attribute>
+        <attribute name="hidden-when">action-disabled</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">_Delete</attribute>
+        <attribute name="action">container.delete</attribute>
+        <attribute name="hidden-when">action-disabled</attribute>
+      </item>
+    </section>
+  </menu>
+
+  <template class="ContainerMenuButton" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBinLayout"/>
+    </property>
+
+    <child>
+      <object class="GtkStack" id="stack">
+
+        <child>
+          <object class="GtkStackPage">
+            <property name="name">ongoing</property>
+
+            <property name="child">
+              <object class="GtkSpinner">
+                <property name="margin-bottom">6</property>
+                <property name="margin-end">6</property>
+                <property name="margin-start">6</property>
+                <property name="margin-top">6</property>
+                <property name="spinning">True</property>
+              </object>
+            </property>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkStackPage">
+            <property name="name">menu</property>
+
+            <property name="child">
+              <object class="GtkMenuButton" id="menu_button">
+                <property name="icon-name">view-more-symbolic</property>
+                <property name="menu-model">menu</property>
+              </object>
+            </property>
+
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>
