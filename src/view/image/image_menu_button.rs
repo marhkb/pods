@@ -183,14 +183,8 @@ impl ImageMenuButton {
 
     fn create_container(&self) {
         if let Some(image) = self.image().as_ref() {
-            utils::find_leaflet_overlay(self).show_details(&view::ContainerCreationPage::new(
-                &image
-                    .image_list()
-                    .as_ref()
-                    .and_then(model::ImageList::client)
-                    .unwrap(),
-                Some(image),
-            ));
+            utils::find_leaflet_overlay(self)
+                .show_details(&view::ContainerCreationPage::from(image));
         }
     }
 }

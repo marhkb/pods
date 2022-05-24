@@ -20,7 +20,6 @@ use serde::Serialize;
 use crate::api;
 use crate::model;
 use crate::model::AbstractContainerListExt;
-use crate::model::Client;
 use crate::utils;
 use crate::utils::ToTypedListModel;
 use crate::view;
@@ -276,12 +275,19 @@ glib::wrapper! {
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
-impl ContainerCreationPage {
-    pub(crate) fn new(client: &Client, image: Option<&model::Image>) -> Self {
-        glib::Object::new(&[("client", client), ("image", &image)])
-            .expect("Failed to create ContainerCreationPage")
+impl From<&model::Image> for ContainerCreationPage {
+    fn from(image: &model::Image) -> Self {
+        glib::Object::new(&[("image", &image)]).expect("Failed to create ContainerCreationPage")
     }
+}
 
+impl From<&model::Client> for ContainerCreationPage {
+    fn from(client: &model::Client) -> Self {
+        glib::Object::new(&[("client", client)]).expect("Failed to create ContainerCreationPage")
+    }
+}
+
+impl ContainerCreationPage {
     fn client(&self) -> Option<model::Client> {
         self.imp().client.upgrade()
     }

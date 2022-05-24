@@ -281,7 +281,7 @@ impl Window {
     fn create_container(&self) {
         self.imp()
             .leaflet_overlay
-            .show_details(&view::ContainerCreationPage::new(&self.imp().client, None));
+            .show_details(&view::ContainerCreationPage::from(&self.imp().client));
     }
 
     fn toggle_search(&self) {
