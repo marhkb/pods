@@ -6,11 +6,13 @@
     <property name="action-name">image.show-details</property>
 
     <child>
-      <object class="GtkMenuButton" id="menu_button">
+      <object class="ImageMenuButton">
         <style>
           <class name="flat"/>
         </style>
-        <property name="icon-name">view-more-symbolic</property>
+        <binding name="image">
+          <lookup name="image">ImageRow</lookup>
+        </binding>
         <property name="valign">center</property>
       </object>
     </child>

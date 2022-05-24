@@ -20,8 +20,6 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/image-row.ui")]
     pub(crate) struct ImageRow {
         pub(super) image: WeakRef<model::Image>,
-        #[template_child]
-        pub(super) menu_button: TemplateChild<gtk::MenuButton>,
     }
 
     #[glib::object_subclass]
@@ -35,13 +33,6 @@ mod imp {
 
             klass.install_action("image.show-details", None, move |widget, _, _| {
                 widget.show_details();
-            });
-
-            klass.install_action("image.create-container", None, move |widget, _, _| {
-                widget.create_container();
-            });
-            klass.install_action("image.delete", None, move |widget, _, _| {
-                widget.delete();
             });
         }
 
@@ -88,9 +79,6 @@ mod imp {
 
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
-
-            self.menu_button
-                .set_menu_model(Some(&super::super::image_menu()));
 
             let image_expr = Self::Type::this_expression("image");
             let repo_tags_expr = image_expr.chain_property::<model::Image>("repo-tags");
@@ -171,25 +159,5 @@ impl ImageRow {
     fn show_details(&self) {
         utils::find_leaflet_overlay(self)
             .show_details(&view::ImageDetailsPage::from(&self.image().unwrap()));
-    }
-
-    fn create_container(&self) {
-        if let Some(image) = self.image().as_ref() {
-            super::create_container(
-                self.upcast_ref(),
-                &image
-                    .image_list()
-                    .as_ref()
-                    .and_then(model::ImageList::client)
-                    .unwrap(),
-                Some(image),
-            );
-        }
-    }
-
-    fn delete(&self) {
-        if let Some(image) = self.image().as_ref() {
-            super::delete(self.upcast_ref(), image);
-        }
     }
 }

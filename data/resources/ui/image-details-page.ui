@@ -40,8 +40,10 @@
                 </child>
 
                 <child type="end">
-                  <object class="GtkMenuButton" id="menu_button">
-                    <property name="icon-name">view-more-symbolic</property>
+                  <object class="ImageMenuButton">
+                    <binding name="image">
+                      <lookup name="image">ImageDetailsPage</lookup>
+                    </binding>
                   </object>
                 </child>
 

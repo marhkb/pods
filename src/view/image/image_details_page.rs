@@ -25,8 +25,6 @@ mod imp {
         #[template_child]
         pub(super) window_title: TemplateChild<adw::WindowTitle>,
         #[template_child]
-        pub(super) menu_button: TemplateChild<gtk::MenuButton>,
-        #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) id_row: TemplateChild<view::PropertyRow>,
@@ -57,13 +55,6 @@ mod imp {
             });
             klass.install_action("navigation.back", None, move |widget, _, _| {
                 widget.navigate_back();
-            });
-
-            klass.install_action("image.create-container", None, move |widget, _, _| {
-                widget.create_container();
-            });
-            klass.install_action("image.delete", None, move |widget, _, _| {
-                widget.delete();
             });
         }
 
@@ -110,9 +101,6 @@ mod imp {
 
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
-
-            self.menu_button
-                .set_menu_model(Some(&super::super::image_menu()));
 
             let image_expr = Self::Type::this_expression("image");
             let image_id_expr = image_expr
@@ -295,25 +283,5 @@ impl ImageDetailsPage {
             .downcast::<Window>()
             .unwrap()
             .leaflet_overlay()
-    }
-
-    fn create_container(&self) {
-        if let Some(image) = self.image().as_ref() {
-            super::create_container(
-                self.imp().leaflet.upcast_ref(),
-                &image
-                    .image_list()
-                    .as_ref()
-                    .and_then(model::ImageList::client)
-                    .unwrap(),
-                Some(image),
-            );
-        }
-    }
-
-    fn delete(&self) {
-        if let Some(image) = self.image().as_ref() {
-            super::delete(self.upcast_ref(), image);
-        }
     }
 }
