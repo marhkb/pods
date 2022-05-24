@@ -2,6 +2,7 @@ use std::borrow::Borrow;
 use std::cell::Cell;
 
 use gtk::glib::clone;
+use gtk::glib::subclass::Signal;
 use gtk::glib::WeakRef;
 use gtk::glib::{self};
 use gtk::prelude::ObjectExt;
@@ -54,6 +55,13 @@ mod imp {
     }
 
     impl ObjectImpl for Image {
+        fn signals() -> &'static [Signal] {
+            static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
+                vec![Signal::builder("deleted", &[], <()>::static_type().into()).build()]
+            });
+            SIGNALS.as_ref()
+        }
+
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
@@ -468,12 +476,23 @@ impl Image {
         utils::do_async(
             async move { image.remove().await },
             clone!(@weak self as obj => move |result| {
-                if let Err(ref e) = result {
-                    obj.set_to_be_deleted(false);
-                    log::error!("Error on removing image: {}", e);
+                match &result {
+                    Ok(_) => obj.emit_by_name::<()>("deleted", &[]),
+                    Err(e) => {
+                        obj.set_to_be_deleted(false);
+                        log::error!("Error on removing image: {}", e);
+                    }
                 }
                 op(&obj, result);
             }),
         );
+    }
+
+    pub(crate) fn connect_deleted<F: Fn(&Self) + 'static>(&self, f: F) -> glib::SignalHandlerId {
+        self.connect_local("deleted", true, move |values| {
+            f(&values[0].get::<Self>().unwrap());
+
+            None
+        })
     }
 }
