@@ -158,42 +158,47 @@ impl ImagePullPage {
 
             imp.stack.set_visible_child_name("waiting");
 
-            utils::do_async(
-                async move { PODMAN.images().pull(&opts).await },
-                clone!(@weak self as obj => move |result| {
-                    let imp = obj.imp();
-
-                    match result {
+            utils::run_stream(
+                PODMAN.images().pull(&opts),
+                clone!(@weak self as obj => @default-return glib::Continue(false), move |result| {
+                    glib::Continue(match result {
                         Ok(report) => match report.error {
                             Some(error) => obj.on_pull_error(&error),
-                            None => {
-                                let image_id = report.id.unwrap();
-                                let client = imp.client.upgrade().unwrap();
-                                match client.image_list().get_image(&image_id) {
-                                    Some(image) => obj.switch_to_image(&image),
-                                    None => {
-                                        client.image_list().connect_image_added(
-                                            clone!(@weak obj => move |_, image| {
-                                                if image.id() == image_id.as_str() {
-                                                    obj.switch_to_image(image);
-                                                }
-                                            }),
-                                        );
+                            None => match report.stream {
+                                Some(_) => true,
+                                None => {
+                                    let imp = obj.imp();
+
+                                    let image_id = report.id.unwrap();
+                                    let client = imp.client.upgrade().unwrap();
+                                    match client.image_list().get_image(&image_id) {
+                                        Some(image) => obj.switch_to_image(&image),
+                                        None => {
+                                            client.image_list().connect_image_added(
+                                                clone!(@weak obj => move |_, image| {
+                                                    if image.id() == image_id.as_str() {
+                                                        obj.switch_to_image(image);
+                                                    }
+                                                }),
+                                            );
+                                        }
                                     }
+                                    false
                                 }
                             }
                         }
                         Err(e) => obj.on_pull_error(&e.to_string()),
-                    }
+                    })
                 }),
             );
         }
     }
 
-    fn on_pull_error(&self, msg: &str) {
+    fn on_pull_error(&self, msg: &str) -> bool {
         self.imp().stack.set_visible_child_name("pull-settings");
         log::error!("Failed to pull image: {}", msg);
         utils::show_error_toast(self, &gettext("Failed to pull image"), msg);
+        false
     }
 
     fn switch_to_image(&self, image: &model::Image) {

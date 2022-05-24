@@ -464,27 +464,31 @@ impl ContainerCreationPage {
             .quiet(true)
             .build();
 
-        utils::do_async(
-            async move { PODMAN.images().pull(&opts).await },
-            clone!(@weak self as obj => move |result| {
-                match result {
+        utils::run_stream(
+            PODMAN.images().pull(&opts),
+            clone!(@weak self as obj => @default-return glib::Continue(false), move |result| {
+                glib::Continue(match result {
                     Ok(report) => match report.error {
                         Some(error) => obj.on_pull_error(&error),
-                        None => obj.create(&image_id.or(report.id).unwrap(), run),
+                        None => match report.stream {
+                            Some(_) => true,
+                            None => obj.create(&image_id.clone().or(report.id).unwrap(), run),
+                        }
                     }
                     Err(e) => obj.on_pull_error(&e.to_string()),
-                }
+                })
             }),
         );
     }
 
-    fn on_pull_error(&self, error: &str) {
+    fn on_pull_error(&self, error: &str) -> bool {
         self.imp().stack.set_visible_child_name("creation-settings");
         log::error!("Error while pulling newest image: {}", error);
         utils::show_error_toast(self, "Error while pulling newest image", error);
+        false
     }
 
-    fn create(&self, image_id: &str, run: bool) {
+    fn create(&self, image_id: &str, run: bool) -> bool {
         let imp = self.imp();
 
         let create_opts = api::ContainerCreateOpts::builder()
@@ -633,6 +637,8 @@ impl ContainerCreationPage {
                 }
             }),
         );
+
+        true
     }
 
     fn switch_to_container(&self, container: &model::Container) {
