@@ -124,13 +124,15 @@ mod imp {
                 }))
                 .bind(obj, "subtitle", Some(obj));
 
-            obj.image().unwrap().connect_notify_local(
-                Some("to-be-deleted"),
-                clone!(@weak obj => move|image, _| {
-                    obj.action_set_enabled("image.show-details", !image.to_be_deleted());
-                    obj.action_set_enabled("image.delete", !image.to_be_deleted());
-                }),
-            );
+            if let Some(image) = obj.image() {
+                obj.action_set_enabled("image.show-details", !image.to_be_deleted());
+                image.connect_notify_local(
+                    Some("to-be-deleted"),
+                    clone!(@weak obj => move|image, _| {
+                        obj.action_set_enabled("image.show-details", !image.to_be_deleted());
+                    }),
+                );
+            }
         }
     }
 

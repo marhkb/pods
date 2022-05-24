@@ -113,6 +113,16 @@ mod imp {
                     }
                 }))
                 .bind(&*self.stack, "visible-child-name", Some(obj));
+
+            if let Some(image) = obj.image() {
+                obj.action_set_enabled("image.delete", !image.to_be_deleted());
+                image.connect_notify_local(
+                    Some("to-be-deleted"),
+                    clone!(@weak obj => move|image, _| {
+                        obj.action_set_enabled("image.delete", !image.to_be_deleted());
+                    }),
+                );
+            }
         }
 
         fn dispose(&self, obj: &Self::Type) {
