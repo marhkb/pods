@@ -1,4 +1,5 @@
 mod image_details_page;
+mod image_menu_button;
 mod image_pull_page;
 mod image_row;
 mod image_row_simple;
