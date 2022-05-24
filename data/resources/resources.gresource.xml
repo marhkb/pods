@@ -9,6 +9,7 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/container-creation-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container-details-panel.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container-logs-panel.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/container-menu-button.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/containers-panel.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container-rename-dialog.ui</file>

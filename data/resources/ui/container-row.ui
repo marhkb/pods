@@ -35,42 +35,14 @@
     </child>
 
     <child>
-      <object class="GtkStack" id="menu_stack">
-
-        <child>
-          <object class="GtkStackPage">
-            <property name="name">ongoing</property>
-
-            <property name="child">
-              <object class="GtkSpinner">
-                <property name="margin-bottom">6</property>
-                <property name="margin-end">6</property>
-                <property name="margin-start">6</property>
-                <property name="margin-top">6</property>
-                <property name="spinning">True</property>
-              </object>
-            </property>
-
-          </object>
-        </child>
-
-        <child>
-          <object class="GtkStackPage">
-            <property name="name">menu</property>
-
-            <property name="child">
-              <object class="GtkMenuButton" id="menu_button">
-                <style>
-                  <class name="flat"/>
-                </style>
-                <property name="icon-name">view-more-symbolic</property>
-                <property name="valign">center</property>
-              </object>
-            </property>
-
-          </object>
-        </child>
-
+      <object class="ContainerMenuButton" id="menu_button">
+        <style>
+          <class name="flat"/>
+        </style>
+        <binding name="container">
+          <lookup name="container">ContainerRow</lookup>
+        </binding>
+        <property name="valign">center</property>
       </object>
     </child>
 

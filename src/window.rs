@@ -73,6 +73,7 @@ mod imp {
             view::CircularProgressBar::static_type();
             view::ContainerDetailsPanel::static_type();
             view::ContainerLogsPanel::static_type();
+            view::ContainerMenuButton::static_type();
             view::ContainersGroup::static_type();
             view::ImageRowSimple::static_type();
             view::ImageSearchResponseRow::static_type();

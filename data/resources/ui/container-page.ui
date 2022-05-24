@@ -49,11 +49,10 @@
                         </child>
 
                         <child type="end">
-                          <object class="GtkMenuButton" id="menu_button">
-                            <style>
-                              <class name="flat"/>
-                            </style>
-                            <property name="icon-name">view-more-symbolic</property>
+                          <object class="ContainerMenuButton" id="menu_button">
+                            <binding name="container">
+                              <lookup name="container">ContainerPage</lookup>
+                            </binding>
                             <property name="valign">center</property>
                           </object>
                         </child>

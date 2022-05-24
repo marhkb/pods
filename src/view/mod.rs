@@ -18,6 +18,7 @@ pub(crate) use self::connection_lost_page::ConnectionLostPage;
 pub(crate) use self::container::ContainerCreationPage;
 pub(crate) use self::container::ContainerDetailsPanel;
 pub(crate) use self::container::ContainerLogsPanel;
+pub(crate) use self::container::ContainerMenuButton;
 pub(crate) use self::container::ContainerPage;
 pub(crate) use self::container::ContainerRenameDialog;
 pub(crate) use self::container::ContainerRow;
