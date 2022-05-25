@@ -5,7 +5,6 @@ use adw::traits::ActionRowExt;
 use adw::traits::BinExt;
 use adw::traits::ComboRowExt;
 use futures::TryFutureExt;
-use gettextrs::gettext;
 use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
@@ -71,7 +70,7 @@ mod imp {
         #[template_child]
         pub(super) env_var_list_box: TemplateChild<gtk::ListBox>,
         #[template_child]
-        pub(super) wait_status_page: TemplateChild<adw::StatusPage>,
+        pub(super) image_pulling_page: TemplateChild<view::ImagePullingPage>,
         #[template_child]
         pub(super) container_page_bin: TemplateChild<adw::Bin>,
         #[template_child]
@@ -433,21 +432,15 @@ impl ContainerCreationPage {
     fn finish(&self, run: bool) {
         let imp = self.imp();
 
-        imp.stack.set_visible_child_name("waiting");
-
         if imp.remote_image_row.is_visible() {
-            self.pull_and_create(imp.remote_image_row.subtitle().unwrap().as_str(), None, run);
+            self.pull_and_create(imp.remote_image_row.subtitle().unwrap().as_str(), run);
         } else if let Some(image) = self.image().or_else(|| {
             imp.local_image_combo_row
                 .selected_item()
                 .map(|item| item.downcast().unwrap())
         }) {
             if imp.pull_latest_image_switch.is_active() {
-                self.pull_and_create(
-                    image.repo_tags().first().unwrap(),
-                    Some(image.id().to_owned()),
-                    run,
-                );
+                self.pull_and_create(image.repo_tags().first().unwrap(), run);
             } else {
                 self.create(image.id(), run);
             }
@@ -459,42 +452,31 @@ impl ContainerCreationPage {
         }
     }
 
-    fn pull_and_create(&self, reference: &str, image_id: Option<String>, run: bool) {
-        let wait_status_page = &*self.imp().wait_status_page;
-
-        wait_status_page.set_icon_name(Some("folder-download-symbolic"));
-        wait_status_page.set_description(Some(&gettext("The newest image is being pulled.")));
+    fn pull_and_create(&self, reference: &str, run: bool) {
+        let imp = self.imp();
+        imp.stack.set_visible_child(&*imp.image_pulling_page);
 
         let opts = api::PullOpts::builder()
             .reference(reference)
-            .quiet(true)
+            .quiet(false)
             .build();
 
-        utils::run_stream(
-            PODMAN.images().pull(&opts),
-            clone!(@weak self as obj => @default-return glib::Continue(false), move |result| {
-                glib::Continue(match result {
-                    Ok(report) => match report.error {
-                        Some(error) => obj.on_pull_error(&error),
-                        None => match report.stream {
-                            Some(_) => true,
-                            None => obj.create(&image_id.clone().or(report.id).unwrap(), run),
-                        }
-                    }
-                    Err(e) => obj.on_pull_error(&e.to_string()),
-                })
+        imp.image_pulling_page.pull(
+            opts,
+            clone!(@weak self as obj => move |result| match result {
+                Ok(report) => obj.create(&report.id.unwrap(), run),
+                Err(e) => obj.on_pull_error(&e.to_string())
             }),
         );
     }
 
-    fn on_pull_error(&self, error: &str) -> bool {
+    fn on_pull_error(&self, error: &str) {
         self.imp().stack.set_visible_child_name("creation-settings");
         log::error!("Error while pulling newest image: {}", error);
         utils::show_error_toast(self, "Error while pulling newest image", error);
-        false
     }
 
-    fn create(&self, image_id: &str, run: bool) -> bool {
+    fn create(&self, image_id: &str, run: bool) {
         let imp = self.imp();
 
         let create_opts = api::ContainerCreateOpts::builder()
@@ -583,11 +565,7 @@ impl ContainerCreationPage {
         }
         .build();
 
-        imp.wait_status_page
-            .set_icon_name(Some("build-configure-symbolic"));
-        imp.wait_status_page.set_description(Some(&gettext(
-            "The container is being created. You are safe to leave this page.",
-        )));
+        imp.stack.set_visible_child_name("creating");
 
         utils::do_async(
             async move { PODMAN.containers().create(&opts).await },
@@ -643,8 +621,6 @@ impl ContainerCreationPage {
                 }
             }),
         );
-
-        true
     }
 
     fn switch_to_container(&self, container: &model::Container) {

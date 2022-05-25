@@ -14,7 +14,6 @@ use crate::model;
 use crate::utils;
 use crate::view;
 use crate::window::Window;
-use crate::PODMAN;
 
 mod imp {
     use super::*;
@@ -27,6 +26,8 @@ mod imp {
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) image_search_widget: TemplateChild<view::ImageSearchWidget>,
+        #[template_child]
+        pub(super) image_pulling_page: TemplateChild<view::ImagePullingPage>,
         #[template_child]
         pub(super) image_page_bin: TemplateChild<adw::Bin>,
     }
@@ -153,52 +154,42 @@ impl ImagePullPage {
                         tag
                     }
                 ))
-                .quiet(true)
+                .quiet(false)
                 .build();
 
-            imp.stack.set_visible_child_name("waiting");
+            imp.stack.set_visible_child(&*imp.image_pulling_page);
 
-            utils::run_stream(
-                PODMAN.images().pull(&opts),
-                clone!(@weak self as obj => @default-return glib::Continue(false), move |result| {
-                    glib::Continue(match result {
-                        Ok(report) => match report.error {
-                            Some(error) => obj.on_pull_error(&error),
-                            None => match report.stream {
-                                Some(_) => true,
-                                None => {
-                                    let imp = obj.imp();
+            imp.image_pulling_page.pull(
+                opts,
+                clone!(@weak self as obj => move |result| match result {
+                    Ok(report) => {
+                        let imp = obj.imp();
 
-                                    let image_id = report.id.unwrap();
-                                    let client = imp.client.upgrade().unwrap();
-                                    match client.image_list().get_image(&image_id) {
-                                        Some(image) => obj.switch_to_image(&image),
-                                        None => {
-                                            client.image_list().connect_image_added(
-                                                clone!(@weak obj => move |_, image| {
-                                                    if image.id() == image_id.as_str() {
-                                                        obj.switch_to_image(image);
-                                                    }
-                                                }),
-                                            );
+                        let image_id = report.id.unwrap();
+                        let client = imp.client.upgrade().unwrap();
+                        match client.image_list().get_image(&image_id) {
+                            Some(image) => obj.switch_to_image(&image),
+                            None => {
+                                client.image_list().connect_image_added(
+                                    clone!(@weak obj => move |_, image| {
+                                        if image.id() == image_id.as_str() {
+                                            obj.switch_to_image(image);
                                         }
-                                    }
-                                    false
-                                }
+                                    }),
+                                );
                             }
                         }
-                        Err(e) => obj.on_pull_error(&e.to_string()),
-                    })
+                    }
+                    Err(e) => obj.on_pull_error(&e.to_string())
                 }),
             );
         }
     }
 
-    fn on_pull_error(&self, msg: &str) -> bool {
+    fn on_pull_error(&self, msg: &str) {
         self.imp().stack.set_visible_child_name("pull-settings");
         log::error!("Failed to pull image: {}", msg);
         utils::show_error_toast(self, &gettext("Failed to pull image"), msg);
-        false
     }
 
     fn switch_to_image(&self, image: &model::Image) {

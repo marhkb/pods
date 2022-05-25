@@ -30,6 +30,7 @@ pub(crate) use self::container::VolumeRow;
 pub(crate) use self::image::ImageDetailsPage;
 pub(crate) use self::image::ImageMenuButton;
 pub(crate) use self::image::ImagePullPage;
+pub(crate) use self::image::ImagePullingPage;
 pub(crate) use self::image::ImageRow;
 pub(crate) use self::image::ImageRowSimple;
 pub(crate) use self::image::ImageSearchResponseRow;
