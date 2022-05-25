@@ -1,6 +1,7 @@
 mod image_details_page;
 mod image_menu_button;
 mod image_pull_page;
+mod image_pulling_page;
 mod image_row;
 mod image_row_simple;
 mod image_search_response_row;
