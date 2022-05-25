@@ -76,6 +76,7 @@ mod imp {
             view::ContainerMenuButton::static_type();
             view::ContainersGroup::static_type();
             view::ImageMenuButton::static_type();
+            view::ImagePullingPage::static_type();
             view::ImageRowSimple::static_type();
             view::ImageSearchResponseRow::static_type();
             view::ImagesPanel::static_type();

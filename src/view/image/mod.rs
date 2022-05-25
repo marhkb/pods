@@ -13,6 +13,7 @@ mod images_prune_page;
 pub(crate) use self::image_details_page::ImageDetailsPage;
 pub(crate) use self::image_menu_button::ImageMenuButton;
 pub(crate) use self::image_pull_page::ImagePullPage;
+pub(crate) use self::image_pulling_page::ImagePullingPage;
 pub(crate) use self::image_row::ImageRow;
 pub(crate) use self::image_row_simple::ImageRowSimple;
 pub(crate) use self::image_search_response_row::ImageSearchResponseRow;
