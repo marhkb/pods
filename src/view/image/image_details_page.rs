@@ -1,5 +1,6 @@
 use gettextrs::gettext;
 use gtk::glib;
+use gtk::glib::clone;
 use gtk::glib::closure;
 use gtk::glib::WeakRef;
 use gtk::prelude::*;
@@ -223,6 +224,12 @@ mod imp {
                     |_: glib::Object, repo_tags: utils::BoxedStringVec| { repo_tags.len() > 0 }
                 ))
                 .bind(&*self.repo_tags_row, "visible", Some(obj));
+
+            if let Some(image) = obj.image() {
+                image.connect_deleted(clone!(@weak obj => move |_| {
+                    obj.imp().stack.set_visible_child_name("deleted");
+                }));
+            }
         }
 
         fn dispose(&self, _obj: &Self::Type) {
