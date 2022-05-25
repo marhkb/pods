@@ -1052,6 +1052,7 @@ dependencies = [
 name = "pods"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
  "cascade",
  "futures",
  "gettext-rs",
