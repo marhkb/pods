@@ -342,8 +342,12 @@
             </child>
 
             <child>
+              <object class="ImagePullingPage" id="image_pulling_page"/>
+            </child>
+
+            <child>
               <object class="GtkStackPage">
-                <property name="name">waiting</property>
+                <property name="name">creating</property>
 
                 <property name="child">
                   <object class="GtkBox">
@@ -378,8 +382,10 @@
                     </child>
 
                     <child>
-                      <object class="AdwStatusPage" id="wait_status_page">
+                      <object class="AdwStatusPage">
+                        <property name="icon-name">build-configure-symbolic</property>
                         <property name="title" translatable="yes">Please Wait a Moment</property>
+                        <property name="description" translatable="yes">The container is being created. You are safe to leave this page.</property>
                         <property name="vexpand">True</property>
 
                         <property name="child">
