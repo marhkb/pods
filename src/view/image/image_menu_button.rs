@@ -177,16 +177,13 @@ impl ImageMenuButton {
             image.delete(clone!(@weak self as obj => move |image, result| {
                 obj.set_action_ongoing(false);
 
-                utils::show_toast(&obj, &match result {
-                    Ok(_) => {
-                        // Translators: "{}" is a placeholder for the image id.
-                        gettext!("Successfully deleted image '{}'", image.id())
-                    }
-                    Err(_) => {
-                        // Translators: "{}" is a placeholder for the image id.
-                        gettext!("Error on deleting image '{}'", image.id())
-                    }
-                })
+                if let Err(e) = result {
+                    utils::show_toast(
+                        &obj,
+                        // Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
+                        &gettext!("Error on deleting image '{}': {}", image.id(), e)
+                    );
+                }
             }));
         }
     }
