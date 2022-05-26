@@ -283,7 +283,7 @@ impl ContainerList {
 
         let mut list = self.imp().list.borrow_mut();
         if let Some((idx, _, container)) = list.shift_remove_full(id) {
-            container.set_deleted(true);
+            container.emit_deleted();
             drop(list);
             self.container_removed(&container);
             self.items_changed(idx as u32, 1, 0);

@@ -1,7 +1,6 @@
 use gtk::gdk;
 use gtk::glib;
 use gtk::glib::clone;
-use gtk::glib::closure;
 use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
@@ -139,18 +138,11 @@ mod imp {
                 }),
             );
 
-            let container_expr = Self::Type::this_expression("container");
-
-            container_expr
-                .chain_property::<model::Container>("deleted")
-                .chain_closure::<String>(closure!(|_: Self::Type, deleted: bool| {
-                    if deleted {
-                        "deleted"
-                    } else {
-                        "container"
-                    }
-                }))
-                .bind(&*self.stack, "visible-child-name", Some(obj));
+            if let Some(container) = obj.container() {
+                container.connect_deleted(clone!(@weak obj => move |_| {
+                    obj.imp().stack.set_visible_child_name("deleted");
+                }));
+            }
         }
 
         fn dispose(&self, _obj: &Self::Type) {

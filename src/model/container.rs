@@ -6,6 +6,7 @@ use std::str::FromStr;
 use futures::Future;
 use gettextrs::gettext;
 use gtk::glib::clone;
+use gtk::glib::subclass::Signal;
 use gtk::glib::WeakRef;
 use gtk::glib::{self};
 use gtk::prelude::ObjectExt;
@@ -93,7 +94,6 @@ mod imp {
     #[derive(Debug, Default)]
     pub(crate) struct Container {
         pub(super) action_ongoing: Cell<bool>,
-        pub(super) deleted: Cell<bool>,
 
         pub(super) created: OnceCell<i64>,
         pub(super) id: OnceCell<String>,
@@ -113,6 +113,13 @@ mod imp {
     }
 
     impl ObjectImpl for Container {
+        fn signals() -> &'static [Signal] {
+            static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
+                vec![Signal::builder("deleted", &[], <()>::static_type().into()).build()]
+            });
+            SIGNALS.as_ref()
+        }
+
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
@@ -218,7 +225,6 @@ mod imp {
         ) {
             match pspec.name() {
                 "action-ongoing" => obj.set_action_ongoing(value.get().unwrap()),
-                "deleted" => obj.set_deleted(value.get().unwrap()),
                 "created" => self.created.set(value.get().unwrap()).unwrap(),
                 "id" => self.id.set(value.get().unwrap()).unwrap(),
                 "image" => obj.set_image(value.get().unwrap()),
@@ -235,7 +241,6 @@ mod imp {
         fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
                 "action-ongoing" => obj.action_ongoing().to_value(),
-                "deleted" => obj.deleted().to_value(),
                 "created" => obj.created().to_value(),
                 "id" => obj.id().to_value(),
                 "image" => obj.image().to_value(),
@@ -299,18 +304,6 @@ impl Container {
         }
         self.imp().action_ongoing.replace(value);
         self.notify("action-ongoing");
-    }
-
-    pub(crate) fn deleted(&self) -> bool {
-        self.imp().deleted.get()
-    }
-
-    pub(crate) fn set_deleted(&self, value: bool) {
-        if self.deleted() == value {
-            return;
-        }
-        self.imp().deleted.replace(value);
-        self.notify("deleted");
     }
 
     pub(crate) fn created(&self) -> i64 {
@@ -586,6 +579,18 @@ impl Container {
             }
             .build(),
         )
+    }
+
+    pub(super) fn emit_deleted(&self) {
+        self.emit_by_name::<()>("deleted", &[]);
+    }
+
+    pub(crate) fn connect_deleted<F: Fn(&Self) + 'static>(&self, f: F) -> glib::SignalHandlerId {
+        self.connect_local("deleted", true, move |values| {
+            f(&values[0].get::<Self>().unwrap());
+
+            None
+        })
     }
 }
 
