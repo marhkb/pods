@@ -249,7 +249,8 @@ impl ImageList {
         self.imp().failed.borrow_mut().remove(id);
 
         let mut list = self.imp().list.borrow_mut();
-        if let Some((idx, ..)) = list.shift_remove_full(id) {
+        if let Some((idx, _, image)) = list.shift_remove_full(id) {
+            image.emit_deleted();
             drop(list);
             self.items_changed(idx as u32, 1, 0);
         }
