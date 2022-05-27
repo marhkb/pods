@@ -119,3 +119,7 @@ checkbutton.theme-selector radio:checked {
 .star > icon {
   color: @yellow_3;
 }
+
+.fake-list-label {
+  line-height: 1.4em;
+}
