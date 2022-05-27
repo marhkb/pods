@@ -101,6 +101,7 @@ mod imp {
         pub(super) image_id: OnceCell<String>,
         pub(super) image_name: RefCell<Option<String>>,
         pub(super) name: RefCell<Option<String>>,
+        pub(super) port_bindings: OnceCell<utils::BoxedStringVec>,
         pub(super) stats: RefCell<Option<BoxedContainerStats>>,
         pub(super) status: Cell<Status>,
         pub(super) up_since: Cell<i64>,
@@ -186,6 +187,13 @@ mod imp {
                             | glib::ParamFlags::EXPLICIT_NOTIFY,
                     ),
                     glib::ParamSpecBoxed::new(
+                        "port-bindings",
+                        "Port Bindings",
+                        "The port bindings of this container",
+                        utils::BoxedStringVec::static_type(),
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
+                    ),
+                    glib::ParamSpecBoxed::new(
                         "stats",
                         "Stats",
                         "The statistics of this container",
@@ -231,6 +239,7 @@ mod imp {
                 "image-id" => self.image_id.set(value.get().unwrap()).unwrap(),
                 "image-name" => obj.set_image_name(value.get().unwrap()),
                 "name" => obj.set_name(value.get().unwrap()),
+                "port-bindings" => self.port_bindings.set(value.get().unwrap()).unwrap(),
                 "stats" => obj.set_stats(value.get().unwrap()),
                 "status" => obj.set_status(value.get().unwrap()),
                 "up-since" => obj.set_up_since(value.get().unwrap()),
@@ -247,6 +256,7 @@ mod imp {
                 "image-id" => obj.image_id().to_value(),
                 "image-name" => obj.image_name().to_value(),
                 "name" => obj.name().to_value(),
+                "port-bindings" => obj.port_bindings().to_value(),
                 "stats" => obj.stats().to_value(),
                 "status" => obj.status().to_value(),
                 "up-since" => obj.up_since().to_value(),
@@ -278,6 +288,37 @@ impl From<api::LibpodContainerInspectResponse> for Container {
             ("image-id", &inspect_response.image),
             ("image-name", &inspect_response.image_name),
             ("name", &inspect_response.name),
+            (
+                "port-bindings",
+                &utils::BoxedStringVec::from(
+                    inspect_response
+                        .host_config
+                        .and_then(|config| config.port_bindings)
+                        .map(|bindings| {
+                            bindings
+                                .into_values()
+                                .flatten()
+                                .flat_map(|host_ports| {
+                                    host_ports.into_iter().map(|host_port| {
+                                        format!(
+                                            "{}:{}",
+                                            {
+                                                let ip = host_port.host_ip.unwrap_or_default();
+                                                if ip.is_empty() {
+                                                    "127.0.0.1".to_string()
+                                                } else {
+                                                    ip
+                                                }
+                                            },
+                                            host_port.host_port.unwrap()
+                                        )
+                                    })
+                                })
+                                .collect::<Vec<_>>()
+                        })
+                        .unwrap_or_default(),
+                ),
+            ),
             ("status", &status(inspect_response.state.as_ref())),
             ("up-since", &up_since(inspect_response.state.as_ref())),
         ])
@@ -352,6 +393,10 @@ impl Container {
         }
         self.imp().name.replace(value);
         self.notify("name");
+    }
+
+    pub(crate) fn port_bindings(&self) -> &utils::BoxedStringVec {
+        self.imp().port_bindings.get().unwrap()
     }
 
     pub(crate) fn stats(&self) -> Option<BoxedContainerStats> {
