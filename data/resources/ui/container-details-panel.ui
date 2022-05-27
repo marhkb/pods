@@ -63,6 +63,23 @@
                 </child>
 
                 <child>
+                  <object class="PropertyWidgetRow" id="port_bindings_row">
+                    <property name="key" translatable="yes">Port bindings</property>
+
+                    <property name="widget">
+                        <object class="GtkLabel" id="port_bindings_label">
+                          <style>
+                            <class name="fake-list-label"/>
+                          </style>
+                          <property name="justify">right</property>
+                          <property name="use-markup">True</property>
+                        </object>
+                    </property>
+
+                  </object>
+                </child>
+
+                <child>
                   <object class="PropertyRow" id="created_row">
                     <property name="key" translatable="yes">Created</property>
                   </object>

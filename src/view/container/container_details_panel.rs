@@ -27,6 +27,10 @@ mod imp {
         #[template_child]
         pub(super) image_spinner: TemplateChild<gtk::Spinner>,
         #[template_child]
+        pub(super) port_bindings_row: TemplateChild<view::PropertyWidgetRow>,
+        #[template_child]
+        pub(super) port_bindings_label: TemplateChild<gtk::Label>,
+        #[template_child]
         pub(super) created_row: TemplateChild<view::PropertyRow>,
         #[template_child]
         pub(super) state_since_label: TemplateChild<gtk::Label>,
@@ -99,6 +103,8 @@ mod imp {
             let container_expr = Self::Type::this_expression("container");
             let status_expr = container_expr.chain_property::<model::Container>("status");
             let image_expr = container_expr.chain_property::<model::Container>("image");
+            let port_bindings_expr =
+                container_expr.chain_property::<model::Container>("port-bindings");
 
             container_expr
                 .chain_property::<model::Container>("id")
@@ -138,6 +144,27 @@ mod imp {
                     image.is_none()
                 }))
                 .bind(&*self.image_spinner, "visible", Some(obj));
+
+            port_bindings_expr
+                .chain_closure::<String>(closure!(
+                    |_: glib::Object, port_bindings: utils::BoxedStringVec| {
+                        port_bindings
+                            .iter()
+                            .map(|host_port| {
+                                format!("<a href='http://{}'>{}</a>", host_port, host_port)
+                            })
+                            .collect::<Vec<_>>()
+                            .join("\n")
+                    }
+                ))
+                .bind(&*self.port_bindings_label, "label", Some(obj));
+
+            port_bindings_expr
+                .chain_closure::<bool>(closure!(
+                    |_: glib::Object, port_bindings: utils::BoxedStringVec| !port_bindings
+                        .is_empty()
+                ))
+                .bind(&*self.port_bindings_row, "visible", Some(obj));
 
             gtk::ClosureExpression::new::<String, _, _>(
                 &[
