@@ -288,7 +288,13 @@ impl From<&model::Client> for ContainerCreationPage {
 
 impl ContainerCreationPage {
     fn client(&self) -> Option<model::Client> {
-        self.imp().client.upgrade()
+        self.imp().client.upgrade().or_else(|| {
+            self.image()
+                .as_ref()
+                .and_then(model::Image::image_list)
+                .as_ref()
+                .and_then(model::ImageList::client)
+        })
     }
 
     fn image(&self) -> Option<model::Image> {
@@ -570,11 +576,9 @@ impl ContainerCreationPage {
         utils::do_async(
             async move { PODMAN.containers().create(&opts).await },
             clone!(@weak self as obj => move |result| {
-                let imp = obj.imp();
-
                 match result.map(|info| info.id) {
                     Ok(id) => {
-                        let client = imp.client.upgrade().unwrap();
+                        let client = obj.client().unwrap();
                         match client.container_list().get_container(&id) {
                             Some(container) => obj.switch_to_container(&container),
                             None => {
