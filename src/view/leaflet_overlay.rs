@@ -5,6 +5,8 @@ use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
 
+use crate::utils;
+
 mod imp {
     use super::*;
 
@@ -60,4 +62,17 @@ impl LeafletOverlay {
         self.leaflet().navigate(adw::NavigationDirection::Back);
         self.set_child(gtk::Widget::NONE);
     }
+
+    pub(crate) fn topmost_leaflet_overlay(&self) -> Self {
+        match first_leaflet_overlay(self) {
+            None => self.to_owned(),
+            Some(first) => first.topmost_leaflet_overlay(),
+        }
+    }
+}
+
+fn first_leaflet_overlay<W: glib::IsA<gtk::Widget>>(widget: &W) -> Option<LeafletOverlay> {
+    utils::ChildIter::from(widget)
+        .find_map(|child| child.downcast::<LeafletOverlay>().ok())
+        .or_else(|| utils::ChildIter::from(widget).find_map(|child| first_leaflet_overlay(&child)))
 }

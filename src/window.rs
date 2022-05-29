@@ -1,3 +1,6 @@
+use std::cell::RefCell;
+use std::collections::HashSet;
+
 use adw::subclass::prelude::AdwApplicationWindowImpl;
 use cascade::cascade;
 use gettextrs::gettext;
@@ -13,6 +16,7 @@ use crate::api;
 use crate::application::Application;
 use crate::config;
 use crate::model;
+use crate::model::AbstractContainerListExt;
 use crate::utils;
 use crate::view;
 use crate::PODMAN;
@@ -25,6 +29,7 @@ mod imp {
     pub(crate) struct Window {
         pub(super) settings: utils::PodsSettings,
         pub(super) client: model::Client,
+        pub(super) wating_search_provider_ids: RefCell<HashSet<String>>,
         #[template_child]
         pub(super) toast_overlay: TemplateChild<adw::ToastOverlay>,
         #[template_child]
@@ -192,6 +197,26 @@ mod imp {
 
             self.search_panel.set_client(&self.client);
 
+            // For GNOME search provider
+            self.client
+                .image_list()
+                .connect_image_added(clone!(@weak obj => move |_, image| {
+                    if obj.imp().wating_search_provider_ids.borrow_mut().remove(image.id()) {
+                        obj.leaflet_overlay()
+                            .topmost_leaflet_overlay()
+                            .show_details(&view::ImageDetailsPage::from(image));
+                    }
+                }));
+            self.client.container_list().connect_container_added(
+                clone!(@weak obj => move |_, container| {
+                    if obj.imp().wating_search_provider_ids.borrow_mut().remove(container.id().unwrap()) {
+                        obj.leaflet_overlay()
+                            .topmost_leaflet_overlay()
+                            .show_details(&view::ContainerPage::from(container));
+                    }
+                }),
+            );
+
             obj.check_service();
         }
     }
@@ -257,6 +282,36 @@ impl Window {
                 "visible-child-name",
             )
             .build();
+    }
+
+    pub(crate) fn show_image_details(&self, id: String) {
+        let imp = self.imp();
+
+        match imp.client.image_list().get_image(&id) {
+            Some(image) => {
+                self.leaflet_overlay()
+                    .topmost_leaflet_overlay()
+                    .show_details(&view::ImageDetailsPage::from(&image));
+            }
+            None => {
+                imp.wating_search_provider_ids.borrow_mut().insert(id);
+            }
+        };
+    }
+
+    pub(crate) fn show_container_details(&self, id: String) {
+        let imp = self.imp();
+
+        match imp.client.container_list().get_container(&id) {
+            Some(container) => {
+                self.leaflet_overlay()
+                    .topmost_leaflet_overlay()
+                    .show_details(&view::ContainerPage::from(&container));
+            }
+            None => {
+                imp.wating_search_provider_ids.borrow_mut().insert(id);
+            }
+        };
     }
 
     fn show_podman_info_dialog(&self) {

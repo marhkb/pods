@@ -155,7 +155,7 @@
                                     <!-- Containers Panel -->
                                     <child>
                                       <object class="AdwViewStackPage">
-                                        <property name="icon-name">utilities-terminal-symbolic</property>
+                                        <property name="icon-name">package-x-generic-symbolic</property>
                                         <property name="name">containers</property>
                                         <property name="title" translatable="yes">Containers</property>
                                         <property name="child">

@@ -5,6 +5,7 @@ global_conf.set_quoted('PROFILE', profile)
 global_conf.set_quoted('VERSION', version + version_suffix)
 global_conf.set_quoted('GETTEXT_PACKAGE', gettext_package)
 global_conf.set_quoted('LOCALEDIR', localedir)
+global_conf.set_quoted('OBJECT_PATH', object_path)
 config = configure_file(
   input: 'config.rs.in',
   output: 'config.rs',
