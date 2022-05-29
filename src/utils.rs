@@ -218,6 +218,22 @@ where
     });
 }
 
+pub(crate) struct ChildIter(Option<gtk::Widget>);
+impl<W: glib::IsA<gtk::Widget>> From<&W> for ChildIter {
+    fn from(widget: &W) -> Self {
+        Self(widget.first_child())
+    }
+}
+impl Iterator for ChildIter {
+    type Item = gtk::Widget;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        let r = self.0.take();
+        self.0 = r.as_ref().and_then(|widget| widget.next_sibling());
+        r
+    }
+}
+
 pub(crate) trait ToTypedListModel {
     fn to_typed_list_model<T>(self) -> TypedListModel<Self, T>
     where
