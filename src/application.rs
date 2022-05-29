@@ -89,7 +89,16 @@ impl Default for Application {
 
 impl Application {
     fn main_window(&self) -> Window {
-        self.imp().window.get().unwrap().upgrade().unwrap()
+        let imp = self.imp();
+
+        match imp.window.get() {
+            Some(window) => window.upgrade().unwrap(),
+            None => {
+                let window = Window::new(self);
+                imp.window.set(window.downgrade()).unwrap();
+                window
+            }
+        }
     }
 
     fn setup_gactions(&self) {
