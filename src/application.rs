@@ -14,16 +14,10 @@ use log::debug;
 use log::info;
 use once_cell::sync::OnceCell;
 use search_provider::SearchProvider;
-use search_provider::SearchProviderImpl;
-use serde::Deserialize;
-use serde::Serialize;
 
-use crate::api;
 use crate::config;
 use crate::utils;
 use crate::window::Window;
-use crate::PODMAN;
-use crate::RUNTIME;
 
 mod imp {
     use super::*;
@@ -97,7 +91,7 @@ impl Default for Application {
 }
 
 impl Application {
-    fn main_window(&self) -> Window {
+    pub(super) fn main_window(&self) -> Window {
         let imp = self.imp();
 
         match imp.window.get() {
@@ -263,145 +257,6 @@ impl Application {
         info!("Datadir: {}", config::PKGDATADIR);
 
         ApplicationExtManual::run(self);
-    }
-}
-
-#[derive(Clone, Debug, Serialize, Deserialize)]
-struct ResultId {
-    id: String,
-    kind: SearchResultKind,
-}
-
-#[derive(Clone, Debug, Serialize, Deserialize)]
-struct SearchResultMeta {
-    id: String,
-    name: String,
-    description: String,
-    kind: SearchResultKind,
-}
-
-#[derive(Clone, Copy, Debug, Serialize, Deserialize)]
-enum SearchResultKind {
-    Image,
-    Container,
-}
-
-impl SearchProviderImpl for Application {
-    fn activate_result(
-        &self,
-        identifier: search_provider::ResultID,
-        _terms: &[String],
-        timestamp: u32,
-    ) {
-        let window = self.main_window();
-        window.present_with_time(timestamp);
-
-        let search_result = serde_json::from_str::<ResultId>(&identifier).unwrap();
-        match search_result.kind {
-            SearchResultKind::Image => window.show_image_details(search_result.id),
-            SearchResultKind::Container => window.show_container_details(search_result.id),
-        }
-    }
-
-    fn initial_result_set(&self, terms: &[String]) -> Vec<search_provider::ResultID> {
-        let (images, containers) = RUNTIME.block_on(future::join(
-            PODMAN
-                .images()
-                .list(&api::ImageListOpts::builder().all(true).build()),
-            PODMAN
-                .containers()
-                .list(&api::ContainerListOpts::builder().all(true).build()),
-        ));
-
-        let terms_lower = terms.iter().map(|s| s.to_lowercase()).collect::<Vec<_>>();
-
-        images
-            .map(|images| {
-                images.into_iter().filter_map(|image| {
-                    let id = image.id.unwrap();
-                    let tag =
-                        utils::format_option(image.repo_tags.and_then(|r| r.first().cloned()));
-
-                    let id_lower = id.to_lowercase();
-                    let tag_lower = tag.to_lowercase();
-
-                    if terms_lower
-                        .iter()
-                        .any(|term| id_lower.contains(term) || tag_lower.contains(term))
-                    {
-                        Some(SearchResultMeta {
-                            id,
-                            name: tag,
-                            description: gettext!(
-                                // Translators: "{}" is the placeholder for the amount of containers.
-                                "{} containers",
-                                image.containers.unwrap_or_default()
-                            ),
-                            kind: SearchResultKind::Image,
-                        })
-                    } else {
-                        None
-                    }
-                })
-            })
-            .into_iter()
-            .flatten()
-            .chain(
-                containers
-                    .map(|containers| {
-                        containers.into_iter().filter_map(|container| {
-                            let id = container.id.unwrap();
-                            let name = container.names.unwrap().pop().unwrap();
-
-                            let id_lower = id.to_lowercase();
-                            let name_lower = name.to_lowercase();
-
-                            if terms_lower
-                                .iter()
-                                .any(|term| id_lower.contains(term) || name_lower.contains(term))
-                            {
-                                Some(SearchResultMeta {
-                                    id,
-                                    name,
-                                    description: container.image.unwrap(),
-                                    kind: SearchResultKind::Container,
-                                })
-                            } else {
-                                None
-                            }
-                        })
-                    })
-                    .into_iter()
-                    .flatten(),
-            )
-            .map(|search_result| serde_json::to_string(&search_result).unwrap())
-            .collect()
-    }
-
-    fn result_metas(
-        &self,
-        identifiers: &[search_provider::ResultID],
-    ) -> Vec<search_provider::ResultMeta> {
-        identifiers
-            .iter()
-            .map(|s| serde_json::from_str::<SearchResultMeta>(s).unwrap())
-            .map(|search_result| {
-                search_provider::ResultMeta::builder(
-                    serde_json::to_string(&ResultId {
-                        id: search_result.id,
-                        kind: search_result.kind,
-                    })
-                    .unwrap(),
-                    &search_result.name,
-                )
-                .description(&search_result.description)
-                .gicon(match search_result.kind {
-                    SearchResultKind::Image => "image-x-generic-symbolic",
-                    SearchResultKind::Container => "package-x-generic-symbolic",
-                })
-                .build()
-            })
-            .collect()
     }
 }
 
