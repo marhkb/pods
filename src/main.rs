@@ -3,6 +3,7 @@ mod application;
 #[rustfmt::skip]
 mod config;
 mod model;
+mod search_provider;
 mod utils;
 mod view;
 mod window;
