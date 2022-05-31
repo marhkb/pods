@@ -31,6 +31,10 @@ mod imp {
         #[template_child]
         pub(super) port_bindings_label: TemplateChild<gtk::Label>,
         #[template_child]
+        pub(super) volumes_row: TemplateChild<view::PropertyWidgetRow>,
+        #[template_child]
+        pub(super) volumes_label: TemplateChild<gtk::Label>,
+        #[template_child]
         pub(super) created_row: TemplateChild<view::PropertyRow>,
         #[template_child]
         pub(super) state_since_label: TemplateChild<gtk::Label>,
@@ -105,6 +109,7 @@ mod imp {
             let image_expr = container_expr.chain_property::<model::Container>("image");
             let port_bindings_expr =
                 container_expr.chain_property::<model::Container>("port-bindings");
+            let volumes_expr = container_expr.chain_property::<model::Container>("volumes");
 
             container_expr
                 .chain_property::<model::Container>("id")
@@ -165,6 +170,26 @@ mod imp {
                         .is_empty()
                 ))
                 .bind(&*self.port_bindings_row, "visible", Some(obj));
+
+            volumes_expr
+                .chain_closure::<String>(closure!(
+                    |_: glib::Object, volumes: utils::Boxed2StringVec| {
+                        volumes
+                            .iter()
+                            .map(|(src, dest)| {
+                                format!("<a href='file://{src}'>{src}</a>:{dest}")
+                            })
+                            .collect::<Vec<_>>()
+                            .join("\n")
+                    }
+                ))
+                .bind(&*self.volumes_label, "label", Some(obj));
+
+            volumes_expr
+                .chain_closure::<bool>(closure!(
+                    |_: glib::Object, volumes: utils::Boxed2StringVec| !volumes.is_empty()
+                ))
+                .bind(&*self.volumes_row, "visible", Some(obj));
 
             gtk::ClosureExpression::new::<String, _, _>(
                 &[

@@ -105,6 +105,7 @@ mod imp {
         pub(super) stats: RefCell<Option<BoxedContainerStats>>,
         pub(super) status: Cell<Status>,
         pub(super) up_since: Cell<i64>,
+        pub(super) volumes: OnceCell<utils::Boxed2StringVec>,
     }
 
     #[glib::object_subclass]
@@ -219,6 +220,13 @@ mod imp {
                             | glib::ParamFlags::CONSTRUCT
                             | glib::ParamFlags::EXPLICIT_NOTIFY,
                     ),
+                    glib::ParamSpecBoxed::new(
+                        "volumes",
+                        "Volumes",
+                        "The volumes of this container",
+                        utils::Boxed2StringVec::static_type(),
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
+                    ),
                 ]
             });
             PROPERTIES.as_ref()
@@ -243,6 +251,7 @@ mod imp {
                 "stats" => obj.set_stats(value.get().unwrap()),
                 "status" => obj.set_status(value.get().unwrap()),
                 "up-since" => obj.set_up_since(value.get().unwrap()),
+                "volumes" => self.volumes.set(value.get().unwrap()).unwrap(),
                 _ => unimplemented!(),
             }
         }
@@ -260,6 +269,7 @@ mod imp {
                 "stats" => obj.stats().to_value(),
                 "status" => obj.status().to_value(),
                 "up-since" => obj.up_since().to_value(),
+                "volumes" => obj.volumes().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -321,6 +331,20 @@ impl From<api::LibpodContainerInspectResponse> for Container {
             ),
             ("status", &status(inspect_response.state.as_ref())),
             ("up-since", &up_since(inspect_response.state.as_ref())),
+            (
+                "volumes",
+                &utils::Boxed2StringVec::from(
+                    inspect_response
+                        .mounts
+                        .map(|mounts| {
+                            mounts
+                                .into_iter()
+                                .map(|mount| (mount.source.unwrap(), mount.destination.unwrap()))
+                                .collect::<Vec<_>>()
+                        })
+                        .unwrap_or_default(),
+                ),
+            ),
         ])
         .expect("Failed to create Container")
     }
@@ -436,6 +460,10 @@ impl Container {
         }
         self.imp().up_since.set(value);
         self.notify("up-since");
+    }
+
+    pub(crate) fn volumes(&self) -> &utils::Boxed2StringVec {
+        self.imp().volumes.get().unwrap()
     }
 }
 
