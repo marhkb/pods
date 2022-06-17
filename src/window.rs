@@ -3,6 +3,7 @@ use std::collections::HashSet;
 
 use adw::subclass::prelude::AdwApplicationWindowImpl;
 use cascade::cascade;
+use futures::StreamExt;
 use gettextrs::gettext;
 use gtk::gdk;
 use gtk::gio;
@@ -388,10 +389,11 @@ impl Window {
 
     fn start_event_listener(&self) {
         utils::run_stream(
-            PODMAN.events(&api::EventsOpts::builder().build()),
+            PODMAN.clone(),
+            |podman| podman.events(&api::EventsOpts::builder().build()).boxed(),
             clone!(
                 @weak self as obj => @default-return glib::Continue(false),
-                move |result|
+                move |result: api::Result<api::Event>|
             {
                 let imp = obj.imp();
 

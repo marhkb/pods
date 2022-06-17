@@ -5,6 +5,7 @@ use std::collections::BTreeMap;
 use std::mem;
 
 use futures::stream;
+use futures::StreamExt;
 use gettextrs::gettext;
 use gtk::glib;
 use gtk::glib::clone;
@@ -20,6 +21,7 @@ use sourceview5::traits::GutterRendererTextExt;
 use sourceview5::traits::SearchSettingsExt;
 use sourceview5::traits::ViewExt;
 
+use crate::api;
 use crate::model;
 use crate::utils;
 use crate::view;
@@ -274,7 +276,7 @@ impl ContainerLogsPanel {
                                 .borrow()
                                 .values()
                                 .last()
-                                .map(String::as_str)
+                                .cloned()
                         );
                     }
                 }),
@@ -320,12 +322,28 @@ impl ContainerLogsPanel {
         }
     }
 
-    fn connect_logs(&self, container: &model::Container, since: Option<&str>) {
+    fn connect_logs(&self, container: &model::Container, since: Option<String>) {
         let mut perform = MarkupPerform::default();
 
         utils::run_stream(
-            container.logs(since),
-            clone!(@weak self as obj => @default-return glib::Continue(false), move |result| {
+            container.api_container(),
+            move |container| {
+                let opts = api::ContainerLogsOpts::builder()
+                    .follow(true)
+                    .stdout(true)
+                    .stderr(true)
+                    .timestamps(true);
+                container
+                    .logs(
+                        &match since {
+                            Some(date_time) => opts.since(date_time),
+                            None => opts,
+                        }
+                        .build(),
+                    )
+                    .boxed()
+            },
+            clone!(@weak self as obj => @default-return glib::Continue(false), move |result: api::Result<Vec<u8>>| {
                 glib::Continue(match result {
                     Ok(line) => {
                         let imp = obj.imp();

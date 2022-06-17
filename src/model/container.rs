@@ -4,6 +4,7 @@ use std::fmt;
 use std::str::FromStr;
 
 use futures::Future;
+use futures::StreamExt;
 use gettextrs::gettext;
 use gtk::glib::clone;
 use gtk::glib::subclass::Signal;
@@ -443,7 +444,7 @@ impl Container {
     fn action<Fut, FutOp, ResOp>(&self, name: &'static str, fut_op: FutOp, res_op: ResOp)
     where
         Fut: Future<Output = api::Result<()>> + Send,
-        FutOp: FnOnce(api::Container<'static>) -> Fut + Send + 'static,
+        FutOp: FnOnce(api::Container) -> Fut + Send + 'static,
         ResOp: FnOnce(api::Result<()>) + 'static,
     {
         if self.action_ongoing() {
@@ -455,7 +456,7 @@ impl Container {
 
         log::info!("Container <{}>: {name}…'", self.id().unwrap_or_default());
 
-        let container = api::Container::new(&*PODMAN, self.id().unwrap_or_default());
+        let container = api::Container::new(PODMAN.clone(), self.id().unwrap_or_default());
         utils::do_async(
             async move { fut_op(container).await },
             clone!(@weak self as obj => move |result| {
@@ -589,8 +590,9 @@ impl Container {
 
     fn run_stats_stream(&self) {
         utils::run_stream(
-            api::Container::new(&*PODMAN, self.id().unwrap_or_default()).stats_stream(Some(1)),
-            clone!(@weak self as obj => @default-return glib::Continue(false), move |result| {
+            self.api_container(),
+            |container| container.stats_stream(Some(1)).boxed(),
+            clone!(@weak self as obj => @default-return glib::Continue(false), move |result: api::Result<api::LibpodContainerStatsResponse>| {
                 glib::Continue(match result {
                     Ok(stats) => {
                         obj.set_stats(
@@ -607,25 +609,6 @@ impl Container {
         );
     }
 
-    pub(crate) fn logs(
-        &self,
-        since: Option<&str>,
-    ) -> impl futures::Stream<Item = api::Result<Vec<u8>>> + 'static {
-        let opts = api::ContainerLogsOpts::builder()
-            .follow(true)
-            .stdout(true)
-            .stderr(true)
-            .timestamps(true);
-
-        api::Container::new(&*PODMAN, self.id().unwrap_or_default()).logs(
-            &match since {
-                Some(date_time) => opts.since(date_time),
-                None => opts,
-            }
-            .build(),
-        )
-    }
-
     pub(super) fn emit_deleted(&self) {
         self.emit_by_name::<()>("deleted", &[]);
     }
@@ -636,6 +619,10 @@ impl Container {
 
             None
         })
+    }
+
+    pub(crate) fn api_container(&self) -> api::Container {
+        api::Container::new(PODMAN.clone(), self.id().unwrap_or_default().to_owned())
     }
 }
 
