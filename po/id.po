@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-04-25 00:15+0200\n"
-"PO-Revision-Date: 2022-03-20 21:04+0000\n"
+"PO-Revision-Date: 2022-06-12 11:19+0000\n"
 "Last-Translator: ᅟ <rmnscnce@ya.ru>\n"
-"Language-Team: Indonesian <https://hosted.weblate.org/projects/pods/pods/id/"
-">\n"
+"Language-Team: Indonesian <https://hosted.weblate.org/projects/pods/pods/id/>"
+"\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.12-dev\n"
+"X-Generator: Weblate 4.13-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:32
@@ -50,11 +50,11 @@ msgstr "Perilaku jendela penuh default"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:26
 msgid "Style Variant"
-msgstr ""
+msgstr "Varian Gaya"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:27
 msgid "Use the light or dark variant of the GTK theme"
-msgstr ""
+msgstr "Gunakan jenis tema terang atau tema gelap GTK"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:31
 msgid "The last used view"
@@ -67,21 +67,24 @@ msgstr "Apakah akan menunjukkan image antara"
 #: data/com.github.marhkb.Pods.gschema.xml.in:41
 msgid "Remove all images not in use by containers, not just dangling ones"
 msgstr ""
+"Hapus semua citra yang sedang tidak digunakan oleh container, bukan cuma "
+"yang teruntai"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:46
 msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)"
 msgstr ""
+"Hapus citra meskipun sedang digunakan oleh container eksternal (contohnya "
+"oleh container build)"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:51
 msgid "Whether to show only running containers"
 msgstr "Apakah hanya akan menunjukkan container yang sedang berjalan"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:56
-#, fuzzy
 msgid "Whether to show a timestamp for each log line"
-msgstr "Apakah akan menunjukkan image antara"
+msgstr "Apakah akan menampilkan penanda waktu pada tiap baris log"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:15
 msgid "Main window"
@@ -99,11 +102,11 @@ msgstr "Memeriksa Sambungan ke Layanan Podman"
 #: data/resources/ui/images-prune-dialog.ui:11
 #: data/resources/ui/container-creation-dialog.ui:21
 msgid "_Cancel"
-msgstr ""
+msgstr "_Batalkan"
 
 #: data/resources/ui/container-rename-dialog.ui:21
 msgid "_Rename"
-msgstr ""
+msgstr "_Ubah nama"
 
 #: data/resources/ui/shortcuts.ui:13
 msgctxt "shortcut window"
@@ -127,50 +130,47 @@ msgstr "Cari"
 
 #: data/resources/ui/info-dialog.ui:6 data/resources/ui/info-dialog.ui:10
 msgid "Podman Info"
-msgstr ""
+msgstr "Informasi mengenai Podman"
 
 #: data/resources/ui/info-dialog.ui:15 data/resources/ui/info-dialog.ui:49
 msgid "Version"
-msgstr ""
+msgstr "Versi"
 
 #: data/resources/ui/info-dialog.ui:19
 msgid "API Version"
-msgstr ""
+msgstr "Versi API"
 
 #: data/resources/ui/info-dialog.ui:25
 msgid "Built Time"
-msgstr ""
+msgstr "Waktu Dibangun"
 
 #: data/resources/ui/info-dialog.ui:31
-#, fuzzy
 msgid "Git Commit"
-msgstr "_Tetapkan"
+msgstr "_Tetapan Git"
 
 #: data/resources/ui/info-dialog.ui:37
 msgid "Go Version"
-msgstr ""
+msgstr "Versi Go"
 
 #: data/resources/ui/info-dialog.ui:43
 msgid "Os Arch"
-msgstr ""
+msgstr "Arsitektur OS"
 
 #: data/resources/ui/info-dialog.ui:59
 msgid "Describes the container storage and its attributes."
-msgstr ""
+msgstr "Menjelaskan penyimpanan container dan segala atributnya."
 
 #: data/resources/ui/info-dialog.ui:63
-#, fuzzy
 msgid "Config File"
-msgstr "Diatur"
+msgstr "Berkas Pengaturan"
 
 #: data/resources/ui/info-dialog.ui:69
-#, fuzzy
 msgid "Container Store"
-msgstr "Container"
+msgstr "Penyimpanan Container"
 
 #: data/resources/ui/info-dialog.ui:70
 msgid "Describes the quantity of containers in the store by status."
-msgstr ""
+msgstr "Menjelaskan jumlah container pada penyimpanan oleh statusnya."
 
 #: data/resources/ui/info-dialog.ui:87 src/model/container.rs:67
 msgid "Paused"
@@ -186,56 +186,56 @@ msgstr "Terhenti"
 
 #: data/resources/ui/info-dialog.ui:108
 msgid "Graph Driver Name"
-msgstr ""
+msgstr "Nama Pengendali Diagram"
 
 #: data/resources/ui/info-dialog.ui:114
 msgid "Graph Options"
-msgstr ""
+msgstr "Pilihan Diagram"
 
 #: data/resources/ui/info-dialog.ui:134
 msgid "Graph Root"
-msgstr ""
+msgstr "Akar Diagram"
 
 #: data/resources/ui/info-dialog.ui:140
 msgid "Graph Status"
-msgstr ""
+msgstr "Status Diagram"
 
 #: data/resources/ui/info-dialog.ui:160
-#, fuzzy
 msgid "Image Store"
-msgstr "Image"
+msgstr "Penyimpanan Citra"
 
 #: data/resources/ui/info-dialog.ui:161
 msgid "Describes the image store. Right now only the number of images present."
 msgstr ""
+"Menjelaskan penyimpanan citra. Untuk sekarang hanya menampilkan jumlah citra "
+"yang ada."
 
 #: data/resources/ui/info-dialog.ui:167
 msgid "Run Root"
-msgstr ""
+msgstr "Jalankan Root"
 
 #: data/resources/ui/info-dialog.ui:173
 msgid "Volume Path"
-msgstr ""
+msgstr "Jalur Volume"
 
 #: data/resources/ui/container-details-panel.ui:25
 msgid "Id"
-msgstr ""
+msgstr "ID"
 
 #: data/resources/ui/container-details-panel.ui:31
 #: data/resources/ui/container-creation-dialog.ui:72
 #: data/resources/ui/container-creation-dialog.ui:78
-#, fuzzy
 msgid "Image"
-msgstr "Image"
+msgstr "Citra"
 
 #: data/resources/ui/container-details-panel.ui:56
 #: data/resources/ui/container-creation-dialog.ui:53
 msgid "Name"
-msgstr ""
+msgstr "Nama"
 
 #: data/resources/ui/container-details-panel.ui:67
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 #: data/resources/ui/connection-lost-page.ui:16
 msgid ""
@@ -256,9 +256,8 @@ msgid "_Restart Podman Service"
 msgstr "_Nyalakan Ulang Layanan Podman"
 
 #: data/resources/ui/start-service-page.ui:16
-#, fuzzy
 msgid "The Podman service is currently not running."
-msgstr "Layanan Podman sedang tidak berjalan"
+msgstr "Layanan Podman sedang tidak berjalan."
 
 #: data/resources/ui/start-service-page.ui:17
 msgid "Welcome to Pods"
@@ -275,31 +274,31 @@ msgstr "Ringkasan"
 
 #: data/resources/ui/container-logs-panel.ui:28
 msgid "Scroll to bottom"
-msgstr ""
+msgstr "Gulirkan ke bawah"
 
 #: data/resources/ui/container-logs-panel.ui:72
 msgid "Move to previous match (Ctrl+Shift+G)"
-msgstr ""
+msgstr "Pindah ke entri yang cocok sebelumnya (Ctrl+Shift+G)"
 
 #: data/resources/ui/container-logs-panel.ui:80
 msgid "Move to next match (Ctrl+G)"
-msgstr ""
+msgstr "Pindah ke entri berikutnya yang cocok (Ctrl+G)"
 
 #: data/resources/ui/container-logs-panel.ui:90
 msgid "Toggle search options"
-msgstr ""
+msgstr "Alihkan pengaturan pencarian"
 
 #: data/resources/ui/container-logs-panel.ui:113
 msgid "Re_gular expressions"
-msgstr ""
+msgstr "Ekspresi re_guler"
 
 #: data/resources/ui/container-logs-panel.ui:120
 msgid "_Case sensitive"
-msgstr ""
+msgstr "Peka huruf besar/kecil (_C)"
 
 #: data/resources/ui/container-logs-panel.ui:127
 msgid "Match whole _word only"
-msgstr ""
+msgstr "Hanya cocokkan dengan kata yang utuh (_W)"
 
 #: data/resources/ui/containers-panel.ui:86
 msgid "No containers found"
@@ -308,21 +307,21 @@ msgstr "Tidak ada container ditemukan"
 #: data/resources/ui/theme-selector.ui:22
 #: data/resources/ui/theme-selector.ui:24
 msgid "Follow system style"
-msgstr ""
+msgstr "Ikuti gaya sistem"
 
 #: data/resources/ui/theme-selector.ui:38
 #: data/resources/ui/theme-selector.ui:40
 msgid "Light style"
-msgstr ""
+msgstr "Gaya terang"
 
 #: data/resources/ui/theme-selector.ui:55
 #: data/resources/ui/theme-selector.ui:57
 msgid "Dark style"
-msgstr ""
+msgstr "Gaya gelap"
 
 #: data/resources/ui/window.ui:12
 msgid "_Show Podman Info"
-msgstr ""
+msgstr "Tampilkan info tentang Podman (_S)"
 
 #: data/resources/ui/window.ui:18
 msgid "_Preferences"
@@ -345,214 +344,207 @@ msgid "Containers"
 msgstr "Container"
 
 #: data/resources/ui/images-prune-dialog.ui:7
-#, fuzzy
 msgid "Prune Unused Images"
-msgstr "Pangkas image yang tidak digunakan"
+msgstr "Pangkas citra yang tidak digunakan"
 
 #: data/resources/ui/images-prune-dialog.ui:21
 msgid "_Prune"
-msgstr ""
+msgstr "_Pangkas"
 
 #: data/resources/ui/images-prune-dialog.ui:35
 msgid "Options"
-msgstr ""
+msgstr "Opsi"
 
 #: data/resources/ui/images-prune-dialog.ui:40
 msgid "Prune All"
-msgstr ""
+msgstr "Pangkas Semua"
 
 #: data/resources/ui/images-prune-dialog.ui:41
 msgid "Remove all images not in use by containers, not just dangling ones."
 msgstr ""
+"Hapus semua citra yang tidak sedang digunakan oleh container, bukan hanya "
+"yang teruntai saja."
 
 #: data/resources/ui/images-prune-dialog.ui:53
 msgid "Prune External"
-msgstr ""
+msgstr "Pangkas Eksternal"
 
 #: data/resources/ui/images-prune-dialog.ui:54
 msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)."
 msgstr ""
+"Hapus citra meskipun sedang digunakan oleh container eksternal (contohnya "
+"oleh container build)."
 
 #: data/resources/ui/images-prune-dialog.ui:65
 msgid "Prune Until"
-msgstr ""
+msgstr "Pangkas Hingga"
 
 #: data/resources/ui/images-prune-dialog.ui:66
 msgid "Prune images created before this timestamp."
-msgstr ""
+msgstr "Pangkas citra yang dibuat sebelum tanda waktu berikut."
 
 #: data/resources/ui/images-prune-dialog.ui:146
 msgid "AM"
-msgstr ""
+msgstr "pagi"
 
 #: data/resources/ui/images-prune-dialog.ui:147
 msgid "PM"
-msgstr ""
+msgstr "PM"
 
 #: data/resources/ui/container-creation-dialog.ui:7
-#, fuzzy
 msgid "_Create"
-msgstr "Dibuat"
+msgstr "Buat (_C)"
 
 #: data/resources/ui/container-creation-dialog.ui:17
-#, fuzzy
 msgid "Create Container"
-msgstr "Container"
+msgstr "Buat Container"
 
 #: data/resources/ui/container-creation-dialog.ui:32
-#, fuzzy
 msgid "Create and run"
-msgstr "Dibuat"
+msgstr "Buat dan jalankan"
 
 #: data/resources/ui/container-creation-dialog.ui:68
 #: data/resources/ui/container-page.ui:95
-#, fuzzy
 msgid "Details"
-msgstr "Image"
+msgstr "Rincian"
 
 #: data/resources/ui/container-creation-dialog.ui:96
 msgid "Command"
-msgstr ""
+msgstr "Perintah"
 
 #: data/resources/ui/container-creation-dialog.ui:109
 msgid "Terminal"
-msgstr ""
+msgstr "Terminal"
 
 #: data/resources/ui/container-creation-dialog.ui:122
 msgid "Memory limit"
-msgstr ""
+msgstr "Batas memori"
 
 #: data/resources/ui/container-creation-dialog.ui:164
 msgid "KB"
-msgstr ""
+msgstr "KB"
 
 #: data/resources/ui/container-creation-dialog.ui:165
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 #: data/resources/ui/container-creation-dialog.ui:166
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #: data/resources/ui/container-creation-dialog.ui:190
 msgid "Port Mappings"
-msgstr ""
+msgstr "Pemetaan Port"
 
 #: data/resources/ui/container-creation-dialog.ui:216
 msgid "Volumes"
-msgstr ""
+msgstr "Volume"
 
 #: data/resources/ui/container-creation-dialog.ui:242
 msgid "Environment Variables"
-msgstr ""
+msgstr "Variabel Lingkungan"
 
 #: data/resources/ui/env-var-row.ui:30
 msgid "Key"
-msgstr ""
+msgstr "Kunci"
 
 #: data/resources/ui/env-var-row.ui:49
 msgid "Value"
-msgstr ""
+msgstr "Nilai"
 
 #: data/resources/ui/image-details-page.ui:38
-#, fuzzy
 msgid "Image Details"
-msgstr "Image"
+msgstr "Rincian Citra"
 
 #: data/resources/ui/image-details-page.ui:60
 msgid "Properties"
-msgstr ""
+msgstr "Properti"
 
 #: data/resources/ui/image-details-page.ui:138
-#, fuzzy
 msgid "Associated Containers"
-msgstr "Container"
+msgstr "Container Terkait"
 
 #: data/resources/ui/image-details-page.ui:139
 msgid "There are no containers associated with this image."
-msgstr ""
+msgstr "Tidak ada container yang terkait dengan citra ini."
 
 #: data/resources/ui/image-details-page.ui:153
 msgid "Image Has Been Deleted"
-msgstr ""
+msgstr "Citra Telah Dihapus"
 
 #: data/resources/ui/port-mapping-row.ui:29
 msgid "IP address"
-msgstr ""
+msgstr "Alamat IP"
 
 #: data/resources/ui/port-mapping-row.ui:48
 msgid "Host port"
-msgstr ""
+msgstr "Port host"
 
 #: data/resources/ui/port-mapping-row.ui:75
-#, fuzzy
 msgid "Container port"
-msgstr "Container"
+msgstr "Port container"
 
 #: data/resources/ui/port-mapping-row.ui:102
 msgid "Protocol"
-msgstr ""
+msgstr "Protokol"
 
 #: data/resources/ui/port-mapping-row.ui:113
 msgid "TCP"
-msgstr ""
+msgstr "TCP"
 
 #: data/resources/ui/port-mapping-row.ui:114
 msgid "UDP"
-msgstr ""
+msgstr "UDP"
 
 #: data/resources/ui/container-page.ui:72
 msgid "Toggle timestamps"
-msgstr ""
+msgstr "Alihkan tanda waktu"
 
 #: data/resources/ui/container-page.ui:113
 msgid "Logs"
-msgstr ""
+msgstr "Log"
 
 #: data/resources/ui/container-page.ui:176
-#, fuzzy
 msgid "Container Page"
-msgstr "Container"
+msgstr "Laman Container"
 
 #: data/resources/ui/container-page.ui:187
-#, fuzzy
 msgid "Container Has Been Deleted"
-msgstr "Container"
+msgstr "Container Telah Dihapus"
 
 #: data/resources/ui/volume-row.ui:34
 msgid "Host path"
-msgstr ""
+msgstr "Jalur host"
 
 #: data/resources/ui/volume-row.ui:53
-#, fuzzy
 msgid "Container path"
-msgstr "Container"
+msgstr "Jalur container"
 
 #: data/resources/ui/volume-row.ui:81
 msgid "Mode"
-msgstr ""
+msgstr "Modus"
 
 #: data/resources/ui/volume-row.ui:92
 msgid "Writable"
-msgstr ""
+msgstr "Dapat ditulis"
 
 #: data/resources/ui/volume-row.ui:102
 msgid "SELinux"
-msgstr ""
+msgstr "SELinux"
 
 #: data/resources/ui/volume-row.ui:113
 msgid "No label"
-msgstr ""
+msgstr "Tanpa label"
 
 #: data/resources/ui/volume-row.ui:114
 msgid "Shared"
-msgstr ""
+msgstr "Terbagi"
 
 #: data/resources/ui/volume-row.ui:115
 msgid "Private"
-msgstr ""
+msgstr "Privat"
 
 #: src/model/container.rs:63
 msgid "Configured"
@@ -588,11 +580,11 @@ msgstr "Tidak diketahui"
 
 #: src/view/container/container_logs_panel.rs:403
 msgid "{} of {}"
-msgstr ""
+msgstr "{} dari {}"
 
 #: src/view/container/container_rename_dialog.rs:87
 msgid "Rename container «{}»"
-msgstr ""
+msgstr "Ubah nama container «{}»"
 
 #. Translators: There's a wide space (U+2002) between ", {}".
 #: src/view/container/containers_group.rs:123
@@ -600,9 +592,8 @@ msgid "{} Containers total, {} running"
 msgstr "{} Total container, {} berjalan"
 
 #: src/view/container/containers_panel.rs:223
-#, fuzzy
 msgid "_Show only running containers"
-msgstr "Hanya tunjukkan container yang sedang berjalan"
+msgstr "Hanya tunjukkan container yang _sedang berjalan"
 
 #: src/view/container/mod.rs:54
 msgid "Error on starting container"
@@ -646,7 +637,7 @@ msgstr "Galat saat menghapus container dengan paksa"
 
 #: src/view/container/mod.rs:168
 msgid "Re_name…"
-msgstr ""
+msgstr "Ubah _nama…"
 
 #: src/view/container/mod.rs:172
 msgid "_Commit"
@@ -662,16 +653,15 @@ msgstr "_Mulai"
 
 #: src/view/container/mod.rs:194
 msgid "S_top"
-msgstr ""
+msgstr "Hentikan (_T)"
 
 #: src/view/container/mod.rs:195
 msgid "_Force Stop"
 msgstr "_Paksa Berhenti"
 
 #: src/view/container/mod.rs:196
-#, fuzzy
 msgid "R_estart"
-msgstr "_Mulai Ulang"
+msgstr "Mulai ulang (_E)"
 
 #: src/view/container/mod.rs:197
 msgid "F_orce Restart"
@@ -712,86 +702,78 @@ msgstr "Tidak ada image ditemukan"
 #. Translators: The first two placeholders are for a numbers, the last for disk space.
 #: src/view/image/images_panel.rs:372
 msgid "{} images pruned ({} errors). {} space reclaimed."
-msgstr ""
+msgstr "{} citra terpangkas ({} galat). Ruang diperoleh kembali sebanyak {}."
 
 #: src/view/image/images_panel.rs:383
-#, fuzzy
 msgid "There are no images to be pruned."
-msgstr "Tidak Ada Image Yang Akan Dipangkas"
+msgstr "Tidak ada citra untuk dipangkas."
 
 #. Translators: "{}" is a placeholder for an error message.
 #: src/view/image/images_panel.rs:387
-#, fuzzy
 msgid "Error on pruning images: '{}'"
-msgstr "Galat saat memangkas image '{}'"
+msgstr "Galat saat memangkas citra '{}'"
 
 #. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
 #: src/view/image/images_prune_dialog.rs:192
 msgid "%x %H:%M %p"
-msgstr ""
+msgstr "%x %H:%M"
 
 #: src/view/image/images_prune_dialog.rs:194
 msgid "Invalid date format"
-msgstr ""
+msgstr "Format tanggal tidak sah"
 
 #. Translators: "{}" is a placeholder for the image id.
 #: src/view/image/mod.rs:53
 msgid "Successfully deleted image '{}'"
-msgstr ""
+msgstr "Berhasil menghapus citra '{}'"
 
 #. Translators: "{}" is a placeholder for the image id.
 #: src/view/image/mod.rs:57
-#, fuzzy
 msgid "Error on deleting image '{}'"
-msgstr "Galat saat menghapus image"
+msgstr "Galat saat menghapus citra"
 
 #: src/view/image/mod.rs:68
-#, fuzzy
 msgid "_Show intermediate images"
-msgstr "Tunjukkan image antara"
+msgstr "Tunjukkan citra antara (_S)"
 
 #: src/view/image/mod.rs:72
-#, fuzzy
 msgid "_Prune unused images…"
-msgstr "Pangkas image yang tidak digunakan"
+msgstr "_Pangkas citra yang tidak digunakan…"
 
 #: src/view/image/mod.rs:82
-#, fuzzy
 msgid "_Create Container…"
-msgstr "Container"
+msgstr "Buat _Container…"
 
 #. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
 #: src/view/info_dialog.rs:127
 #, c-format
 msgid "%x %X"
-msgstr ""
+msgstr "%x %X"
 
 #. Translators: "{}" is a placeholder for a cardinal numbers.
 #: src/view/info_dialog.rs:163
-#, fuzzy
 msgid "{} Containers"
-msgstr "Container"
+msgstr "{} Container"
 
 #. Translators: "{}" is a placeholder for a cardinal number.
 #: src/view/info_dialog.rs:196
 msgid "{} Options"
-msgstr ""
+msgstr "{} Opsi"
 
 #. Translators: "{}" is placeholders for a cardinal number.
 #: src/view/info_dialog.rs:219
 msgid "{} States"
-msgstr ""
+msgstr "{} Keadaan"
 
 #. Translators: "{}" is placeholders for a cardinal number.
 #: src/view/info_dialog.rs:239
-#, fuzzy
 msgid "{} Images"
-msgstr "Image"
+msgstr "{} Citra"
 
 #. Translators: The placeholder "{}" is for the error message.
 #: src/view/info_dialog.rs:258
 msgid "Error: {}"
-msgstr ""
+msgstr "Galat: {}"
 
 #: src/application.rs:140
 msgid "translator-credits"
