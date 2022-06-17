@@ -49,6 +49,9 @@
 
     <child>
       <object class="ImageSearchWidget" id="image_search_widget">
+        <binding name="client">
+          <lookup name="client">ImageSelectionPage</lookup>
+        </binding>
         <property name="default-tag">latest</property>
       </object>
     </child>

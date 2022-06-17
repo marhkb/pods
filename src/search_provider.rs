@@ -1,5 +1,6 @@
 use futures::future;
 use gettextrs::gettext;
+use gtk::glib;
 use gtk::traits::GtkWindowExt;
 use search_provider::SearchProviderImpl;
 use serde::Deserialize;
@@ -8,7 +9,6 @@ use serde::Serialize;
 use crate::api;
 use crate::application::Application;
 use crate::utils;
-use crate::PODMAN;
 use crate::RUNTIME;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -49,11 +49,12 @@ impl SearchProviderImpl for Application {
     }
 
     fn initial_result_set(&self, terms: &[String]) -> Vec<search_provider::ResultID> {
+        let podman = api::Podman::unix(glib::user_runtime_dir().join("podman/podman.sock"));
         let (images, containers) = RUNTIME.block_on(future::join(
-            PODMAN
+            podman
                 .images()
                 .list(&api::ImageListOpts::builder().all(false).build()),
-            PODMAN
+            podman
                 .containers()
                 .list(&api::ContainerListOpts::builder().all(true).build()),
         ));

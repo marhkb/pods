@@ -14,13 +14,13 @@ use crate::model;
 use crate::model::AbstractContainerListExt;
 use crate::utils;
 use crate::utils::ToTypedListModel;
-use crate::PODMAN;
 
 mod imp {
     use super::*;
 
     #[derive(Debug, Default)]
     pub(crate) struct Client {
+        pub(super) podman: OnceCell<api::Podman>,
         pub(super) image_list: OnceCell<model::ImageList>,
         pub(super) container_list: OnceCell<model::ContainerList>,
         pub(super) pruning: Cell<bool>,
@@ -120,16 +120,22 @@ impl Default for Client {
 }
 
 impl Client {
+    pub(crate) fn podman(&self) -> &api::Podman {
+        self.imp()
+            .podman
+            .get_or_init(|| api::Podman::unix(glib::user_runtime_dir().join("podman/podman.sock")))
+    }
+
     pub(crate) fn image_list(&self) -> &model::ImageList {
         self.imp()
             .image_list
-            .get_or_init(|| model::ImageList::from(self))
+            .get_or_init(|| model::ImageList::from(Some(self)))
     }
 
     pub(crate) fn container_list(&self) -> &model::ContainerList {
         self.imp()
             .container_list
-            .get_or_init(|| model::ContainerList::from(self))
+            .get_or_init(|| model::ContainerList::from(Some(self)))
     }
 
     pub(crate) fn pruning(&self) -> bool {
@@ -150,7 +156,10 @@ impl Client {
     {
         self.set_pruning(true);
         utils::do_async(
-            async move { PODMAN.images().prune(&opts).await },
+            {
+                let podman = self.podman().clone();
+                async move { podman.images().prune(&opts).await }
+            },
             clone!(@weak self as obj => move |result| {
                 match result.as_ref() {
                     Ok(_) => log::info!("All images have been pruned"),

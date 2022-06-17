@@ -21,7 +21,6 @@ use crate::api;
 use crate::model;
 use crate::monad_boxed_type;
 use crate::utils;
-use crate::PODMAN;
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, glib::Enum)]
 #[enum_type(name = "ContainerStatus")]
@@ -94,6 +93,8 @@ mod imp {
 
     #[derive(Debug, Default)]
     pub(crate) struct Container {
+        pub(super) container_list: WeakRef<model::ContainerList>,
+
         pub(super) action_ongoing: Cell<bool>,
 
         pub(super) created: OnceCell<i64>,
@@ -125,6 +126,13 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
+                    glib::ParamSpecObject::new(
+                        "container-list",
+                        "Container List",
+                        "The parent container list",
+                        model::ContainerList::static_type(),
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
+                    ),
                     glib::ParamSpecBoolean::new(
                         "action-ongoing",
                         "Action Ongoing",
@@ -233,6 +241,7 @@ mod imp {
             pspec: &glib::ParamSpec,
         ) {
             match pspec.name() {
+                "container-list" => self.container_list.set(value.get().unwrap()),
                 "action-ongoing" => obj.set_action_ongoing(value.get().unwrap()),
                 "created" => self.created.set(value.get().unwrap()).unwrap(),
                 "id" => self.id.set(value.get().unwrap()).unwrap(),
@@ -250,6 +259,7 @@ mod imp {
 
         fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
+                "container-list" => obj.container_list().to_value(),
                 "action-ongoing" => obj.action_ongoing().to_value(),
                 "created" => obj.created().to_value(),
                 "id" => obj.id().to_value(),
@@ -275,9 +285,13 @@ glib::wrapper! {
     pub(crate) struct Container(ObjectSubclass<imp::Container>);
 }
 
-impl From<api::LibpodContainerInspectResponse> for Container {
-    fn from(inspect_response: api::LibpodContainerInspectResponse) -> Self {
+impl Container {
+    pub(crate) fn new(
+        container_list: &model::ContainerList,
+        inspect_response: api::LibpodContainerInspectResponse,
+    ) -> Self {
         glib::Object::new(&[
+            ("container-list", container_list),
             (
                 "created",
                 &inspect_response
@@ -325,15 +339,17 @@ impl From<api::LibpodContainerInspectResponse> for Container {
         ])
         .expect("Failed to create Container")
     }
-}
 
-impl Container {
     pub(crate) fn update(&self, inspect_response: api::LibpodContainerInspectResponse) {
         self.set_action_ongoing(false);
         self.set_image_name(inspect_response.image_name);
         self.set_name(inspect_response.name);
         self.set_status(status(inspect_response.state.as_ref()));
         self.set_up_since(up_since(inspect_response.state.as_ref()));
+    }
+
+    pub(crate) fn container_list(&self) -> Option<model::ContainerList> {
+        self.imp().container_list.upgrade()
     }
 
     pub(crate) fn action_ongoing(&self) -> bool {
@@ -456,9 +472,11 @@ impl Container {
 
         log::info!("Container <{}>: {name}…'", self.id().unwrap_or_default());
 
-        let container = api::Container::new(PODMAN.clone(), self.id().unwrap_or_default());
         utils::do_async(
-            async move { fut_op(container).await },
+            {
+                let container = self.api_container();
+                async move { fut_op(container).await }
+            },
             clone!(@weak self as obj => move |result| {
                 match &result {
                     Ok(_) => {
@@ -622,7 +640,15 @@ impl Container {
     }
 
     pub(crate) fn api_container(&self) -> api::Container {
-        api::Container::new(PODMAN.clone(), self.id().unwrap_or_default().to_owned())
+        api::Container::new(
+            self.container_list()
+                .unwrap()
+                .client()
+                .unwrap()
+                .podman()
+                .clone(),
+            self.id().unwrap_or_default().to_owned(),
+        )
     }
 }
 

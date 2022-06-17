@@ -342,7 +342,11 @@
             </child>
 
             <child>
-              <object class="ImagePullingPage" id="image_pulling_page"/>
+              <object class="ImagePullingPage" id="image_pulling_page">
+                <binding name="client">
+                  <lookup name="client">ContainerCreationPage</lookup>
+                </binding>
+              </object>
             </child>
 
             <child>

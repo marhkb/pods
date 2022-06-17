@@ -59,6 +59,9 @@
 
                 <child>
                   <object class="ImageSearchWidget" id="image_search_widget">
+                    <binding name="client">
+                      <lookup name="client">ImagePullPage</lookup>
+                    </binding>
                     <property name="default-tag">latest</property>
                   </object>
                 </child>
@@ -70,7 +73,11 @@
         </child>
 
         <child>
-          <object class="ImagePullingPage" id="image_pulling_page"/>
+          <object class="ImagePullingPage" id="image_pulling_page">
+            <binding name="client">
+              <lookup name="client">ImagePullPage</lookup>
+            </binding>
+          </object>
         </child>
 
         <child>

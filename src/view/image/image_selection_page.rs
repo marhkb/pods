@@ -2,11 +2,13 @@ use adw::subclass::prelude::*;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::subclass::Signal;
+use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
 
+use crate::model;
 use crate::utils;
 use crate::view;
 use crate::window::Window;
@@ -17,6 +19,7 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/image-selection-page.ui")]
     pub(crate) struct ImageSelectionPage {
+        pub(super) client: WeakRef<model::Client>,
         #[template_child]
         pub(super) header_bar: TemplateChild<adw::HeaderBar>,
         #[template_child]
@@ -61,6 +64,39 @@ mod imp {
             SIGNALS.as_ref()
         }
 
+        fn properties() -> &'static [glib::ParamSpec] {
+            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
+                vec![glib::ParamSpecObject::new(
+                    "client",
+                    "Client",
+                    "The client of this ImagePullingPage",
+                    model::Client::static_type(),
+                    glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
+                )]
+            });
+            PROPERTIES.as_ref()
+        }
+
+        fn set_property(
+            &self,
+            _obj: &Self::Type,
+            _id: usize,
+            value: &glib::Value,
+            pspec: &glib::ParamSpec,
+        ) {
+            match pspec.name() {
+                "client" => self.client.set(value.get().unwrap()),
+                _ => unimplemented!(),
+            }
+        }
+
+        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            match pspec.name() {
+                "client" => obj.client().to_value(),
+                _ => unimplemented!(),
+            }
+        }
+
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
@@ -97,13 +133,17 @@ glib::wrapper! {
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
-impl Default for ImageSelectionPage {
-    fn default() -> Self {
-        glib::Object::new(&[]).expect("Failed to create ImageSelectionPage")
+impl From<Option<&model::Client>> for ImageSelectionPage {
+    fn from(client: Option<&model::Client>) -> Self {
+        glib::Object::new(&[("client", &client)]).expect("Failed to create ImageSelectionPage")
     }
 }
 
 impl ImageSelectionPage {
+    fn client(&self) -> Option<model::Client> {
+        self.imp().client.upgrade()
+    }
+
     fn select_image(&self) {
         let imp = self.imp();
 

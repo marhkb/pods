@@ -15,7 +15,6 @@ use once_cell::unsync::OnceCell;
 use crate::api;
 use crate::model;
 use crate::utils;
-use crate::PODMAN;
 
 mod imp {
     use super::*;
@@ -302,7 +301,7 @@ glib::wrapper! {
 }
 
 impl Image {
-    pub(crate) fn from_libpod(
+    pub(crate) fn new(
         image_list: &model::ImageList,
         summary: api::LibpodImageSummary,
         inspect_response: api::LibpodImageInspectResponse,
@@ -472,9 +471,11 @@ impl Image {
     {
         self.set_to_be_deleted(true);
 
-        let image = api::Image::new(PODMAN.clone(), self.id());
         utils::do_async(
-            async move { image.remove().await },
+            {
+                let image = self.api_image();
+                async move { image.remove().await }
+            },
             clone!(@weak self as obj => move |result| {
                 if let Err(ref e) = result {
                     obj.set_to_be_deleted(false);
@@ -495,5 +496,17 @@ impl Image {
 
             None
         })
+    }
+
+    pub(crate) fn api_image(&self) -> api::Image {
+        api::Image::new(
+            self.image_list()
+                .unwrap()
+                .client()
+                .unwrap()
+                .podman()
+                .clone(),
+            self.id(),
+        )
     }
 }

@@ -16,7 +16,6 @@ use crate::api;
 use crate::model;
 use crate::model::AbstractContainerListExt;
 use crate::utils;
-use crate::PODMAN;
 
 #[derive(Clone, Debug)]
 pub(crate) enum Error {
@@ -159,9 +158,9 @@ glib::wrapper! {
         @implements gio::ListModel, model::AbstractContainerList;
 }
 
-impl From<&model::Client> for ContainerList {
-    fn from(client: &model::Client) -> Self {
-        glib::Object::new(&[("client", client)]).expect("Failed to create ContainerList")
+impl From<Option<&model::Client>> for ContainerList {
+    fn from(client: Option<&model::Client>) -> Self {
+        glib::Object::new(&[("client", &client)]).expect("Failed to create ContainerList")
     }
 }
 
@@ -226,7 +225,8 @@ impl ContainerList {
         utils::do_async(
             {
                 let id = id.clone();
-                async move { PODMAN.containers().get(id).inspect().await }
+                let podman = self.client().unwrap().podman().clone();
+                async move { podman.containers().get(id).inspect().await }
             },
             clone!(@weak self as obj => move |result| {
                 let imp = obj.imp();
@@ -236,7 +236,7 @@ impl ContainerList {
                         let entry = list.entry(id);
                         match entry {
                             Entry::Vacant(entry) => {
-                                let container = model::Container::from(inspect_response);
+                                let container = model::Container::new(&obj, inspect_response);
                                 container.connect_notify_local(
                                     Some("status"),
                                     clone!(@weak obj => move |_, _| {
@@ -296,11 +296,14 @@ impl ContainerList {
     {
         self.set_listing(true);
         utils::do_async(
-            async move {
-                PODMAN
-                    .containers()
-                    .list(&api::ContainerListOpts::builder().all(true).build())
-                    .await
+            {
+                let podman = self.client().unwrap().podman().clone();
+                async move {
+                    podman
+                        .containers()
+                        .list(&api::ContainerListOpts::builder().all(true).build())
+                        .await
+                }
             },
             clone!(@weak self as obj => move |result| {
                 obj.set_listing(false);
