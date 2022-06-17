@@ -1,5 +1,6 @@
 use adw::subclass::prelude::*;
 use anyhow::anyhow;
+use futures::StreamExt;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::prelude::*;
@@ -77,8 +78,9 @@ impl ImagePullingPage {
         F: FnOnce(anyhow::Result<api::LibpodImagesPullReport>) + Clone + 'static,
     {
         utils::run_stream(
-            PODMAN.images().pull(&opts),
-            clone!(@weak self as obj => @default-return glib::Continue(false), move |result| {
+            PODMAN.images(),
+            move |images| images.pull(&opts).boxed(),
+            clone!(@weak self as obj => @default-return glib::Continue(false), move |result: api::Result<api::LibpodImagesPullReport>| {
                 glib::Continue(match result {
                     Ok(report) => match report.error {
                         Some(error) => {

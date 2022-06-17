@@ -472,7 +472,7 @@ impl Image {
     {
         self.set_to_be_deleted(true);
 
-        let image = api::Image::new(&*PODMAN, self.id());
+        let image = api::Image::new(PODMAN.clone(), self.id());
         utils::do_async(
             async move { image.remove().await },
             clone!(@weak self as obj => move |result| {

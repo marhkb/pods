@@ -2,8 +2,8 @@ use std::collections::BTreeSet;
 use std::marker::PhantomData;
 use std::ops::Deref;
 
+use futures::stream::BoxStream;
 use futures::Future;
-use futures::Stream;
 use futures::StreamExt;
 use gettextrs::gettext;
 use gtk::gio;
@@ -199,9 +199,10 @@ where
     });
 }
 
-pub(crate) fn run_stream<S, I, F>(mut stream: S, glib_closure: F)
+pub(crate) fn run_stream<A, P, I, F>(api_entity: A, stream_producer: P, glib_closure: F)
 where
-    S: Stream<Item = I> + Send + Unpin + 'static,
+    A: Send + 'static,
+    for<'r> P: FnOnce(&'r A) -> BoxStream<'r, I> + Send + 'static,
     I: Send + 'static,
     F: FnMut(I) -> glib::Continue + 'static,
 {
@@ -210,6 +211,7 @@ where
     receiver.attach(None, glib_closure);
 
     RUNTIME.spawn(async move {
+        let mut stream = stream_producer(&api_entity);
         while let Some(item) = stream.next().await {
             if sender.send(item).is_err() {
                 break;
