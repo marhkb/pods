@@ -20,7 +20,6 @@ use crate::model;
 use crate::model::AbstractContainerListExt;
 use crate::utils;
 use crate::view;
-use crate::PODMAN;
 
 mod imp {
     use super::*;
@@ -317,7 +316,7 @@ impl Window {
 
     fn show_podman_info_dialog(&self) {
         cascade! {
-            view::InfoDialog::default();
+            view::InfoDialog::from(Some(&self.imp().client));
             ..set_transient_for(Some(self));
         }
         .present();
@@ -356,7 +355,10 @@ impl Window {
         imp.connection_lost_page.set_enabled(false);
 
         utils::do_async(
-            PODMAN.ping(),
+            {
+                let podman = self.imp().client.podman().clone();
+                async move { podman.ping().await }
+            },
             clone!(@weak self as obj => move |result| {
                 let imp = obj.imp();
                 match result {
@@ -389,7 +391,7 @@ impl Window {
 
     fn start_event_listener(&self) {
         utils::run_stream(
-            PODMAN.clone(),
+            self.imp().client.podman().clone(),
             |podman| podman.events(&api::EventsOpts::builder().build()).boxed(),
             clone!(
                 @weak self as obj => @default-return glib::Continue(false),

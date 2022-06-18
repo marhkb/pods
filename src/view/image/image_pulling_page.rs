@@ -3,15 +3,17 @@ use anyhow::anyhow;
 use futures::StreamExt;
 use gtk::glib;
 use gtk::glib::clone;
+use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
+use once_cell::sync::Lazy;
 
 use crate::api;
+use crate::model;
 use crate::utils;
 use crate::view;
 use crate::window::Window;
-use crate::PODMAN;
 
 mod imp {
     use super::*;
@@ -19,6 +21,7 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/image-pulling-page.ui")]
     pub(crate) struct ImagePullingPage {
+        pub(super) client: WeakRef<model::Client>,
         #[template_child]
         pub(super) stream_label: TemplateChild<gtk::Label>,
     }
@@ -45,6 +48,39 @@ mod imp {
     }
 
     impl ObjectImpl for ImagePullingPage {
+        fn properties() -> &'static [glib::ParamSpec] {
+            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
+                vec![glib::ParamSpecObject::new(
+                    "client",
+                    "Client",
+                    "The client of this ImagePullingPage",
+                    model::Client::static_type(),
+                    glib::ParamFlags::READWRITE,
+                )]
+            });
+            PROPERTIES.as_ref()
+        }
+
+        fn set_property(
+            &self,
+            _obj: &Self::Type,
+            _id: usize,
+            value: &glib::Value,
+            pspec: &glib::ParamSpec,
+        ) {
+            match pspec.name() {
+                "client" => self.client.set(value.get().unwrap()),
+                _ => unimplemented!(),
+            }
+        }
+
+        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            match pspec.name() {
+                "client" => obj.client().to_value(),
+                _ => unimplemented!(),
+            }
+        }
+
         fn dispose(&self, obj: &Self::Type) {
             let mut next = obj.first_child();
             while let Some(child) = next {
@@ -73,12 +109,16 @@ glib::wrapper! {
 }
 
 impl ImagePullingPage {
+    fn client(&self) -> Option<model::Client> {
+        self.imp().client.upgrade()
+    }
+
     pub(crate) fn pull<F>(&self, opts: api::PullOpts, op: F)
     where
         F: FnOnce(anyhow::Result<api::LibpodImagesPullReport>) + Clone + 'static,
     {
         utils::run_stream(
-            PODMAN.images(),
+            self.client().unwrap().podman().images(),
             move |images| images.pull(&opts).boxed(),
             clone!(@weak self as obj => @default-return glib::Continue(false), move |result: api::Result<api::LibpodImagesPullReport>| {
                 glib::Continue(match result {

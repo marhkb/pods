@@ -17,7 +17,6 @@ use once_cell::sync::Lazy;
 use crate::api;
 use crate::model;
 use crate::utils;
-use crate::PODMAN;
 
 #[derive(Clone, Debug)]
 pub(crate) enum Error {
@@ -162,9 +161,9 @@ glib::wrapper! {
         @implements gio::ListModel;
 }
 
-impl From<&model::Client> for ImageList {
-    fn from(client: &model::Client) -> Self {
-        glib::Object::new(&[("client", client)]).expect("Failed to create ImageList")
+impl From<Option<&model::Client>> for ImageList {
+    fn from(client: Option<&model::Client>) -> Self {
+        glib::Object::new(&[("client", &client)]).expect("Failed to create ImageList")
     }
 }
 
@@ -262,11 +261,14 @@ impl ImageList {
     {
         self.set_listing(true);
         utils::do_async(
-            async move {
-                PODMAN
-                    .images()
-                    .list(&api::ImageListOpts::builder().all(true).build())
-                    .await
+            {
+                let podman = self.client().unwrap().podman().clone();
+                async move {
+                    podman
+                        .images()
+                        .list(&api::ImageListOpts::builder().all(true).build())
+                        .await
+                }
             },
             clone!(@weak self as obj => move |result| {
                 obj.set_listing(false);
@@ -294,23 +296,24 @@ impl ImageList {
                         obj.set_to_fetch(summaries.len() as u32);
 
                         summaries.into_iter().for_each(|summary| {
-                            utils::do_async(
+                            utils::do_async({
+                                let podman = obj.client().unwrap().podman().clone();
                                 async move {
                                     (
                                         summary.id.clone().unwrap(),
-                                        PODMAN
+                                        podman
                                             .images()
                                             .get(summary.id.as_deref().unwrap())
                                             .inspect()
                                             .map_ok(|inspect_response| (summary, inspect_response))
                                             .await,
                                     )
-                                },
+                                }},
                                 clone!(@weak obj, @strong err_op => move |(id, result)| {
                                     let imp = obj.imp();
                                     match result {
                                         Ok((summary, inspect_response)) => {
-                                            let image = model::Image::from_libpod(
+                                            let image = model::Image::new(
                                                 &obj,
                                                 summary,
                                                 inspect_response

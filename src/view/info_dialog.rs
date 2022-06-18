@@ -6,13 +6,15 @@ use cascade::cascade;
 use gettextrs::gettext;
 use gtk::glib;
 use gtk::glib::clone;
+use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
+use once_cell::sync::Lazy;
 
+use crate::model;
 use crate::utils;
 use crate::view;
-use crate::PODMAN;
 
 mod imp {
     use super::*;
@@ -20,6 +22,8 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/info-dialog.ui")]
     pub(crate) struct InfoDialog {
+        pub(super) client: WeakRef<model::Client>,
+
         #[template_child]
         pub(super) preferences_page: TemplateChild<adw::PreferencesPage>,
 
@@ -82,6 +86,39 @@ mod imp {
     }
 
     impl ObjectImpl for InfoDialog {
+        fn properties() -> &'static [glib::ParamSpec] {
+            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
+                vec![glib::ParamSpecObject::new(
+                    "client",
+                    "Client",
+                    "The client of this ImagePullingPage",
+                    model::Client::static_type(),
+                    glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
+                )]
+            });
+            PROPERTIES.as_ref()
+        }
+
+        fn set_property(
+            &self,
+            _obj: &Self::Type,
+            _id: usize,
+            value: &glib::Value,
+            pspec: &glib::ParamSpec,
+        ) {
+            match pspec.name() {
+                "client" => self.client.set(value.get().unwrap()),
+                _ => unimplemented!(),
+            }
+        }
+
+        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            match pspec.name() {
+                "client" => obj.client().to_value(),
+                _ => unimplemented!(),
+            }
+        }
+
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
             obj.setup();
@@ -100,16 +137,23 @@ glib::wrapper! {
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget, gtk::Native, gtk::Root, gtk::ShortcutManager;
 }
 
-impl Default for InfoDialog {
-    fn default() -> Self {
-        glib::Object::new(&[]).expect("Failed to create InfoDialog")
+impl From<Option<&model::Client>> for InfoDialog {
+    fn from(client: Option<&model::Client>) -> Self {
+        glib::Object::new(&[("client", &client)]).expect("Failed to create InfoDialog")
     }
 }
 
 impl InfoDialog {
+    pub(crate) fn client(&self) -> Option<model::Client> {
+        self.imp().client.upgrade()
+    }
+
     pub(crate) fn setup(&self) {
         utils::do_async(
-            PODMAN.info(),
+            {
+                let podman = self.client().unwrap().podman().clone();
+                async move { podman.info().await }
+            },
             clone!(@weak self as obj => move |result| match result {
                 Ok(info) => {
                     obj.set_search_enabled(true);

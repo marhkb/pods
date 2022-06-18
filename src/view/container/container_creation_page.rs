@@ -23,7 +23,6 @@ use crate::utils;
 use crate::utils::ToTypedListModel;
 use crate::view;
 use crate::window::Window;
-use crate::PODMAN;
 
 mod imp {
     use super::*;
@@ -212,11 +211,11 @@ mod imp {
                         }
                     }
                 });
-            } else if let Some(client) = obj.client() {
+            } else {
                 self.local_image_property_row.set_visible(false);
 
                 let filter_model = gtk::FilterListModel::new(
-                    Some(client.image_list()),
+                    Some(obj.client().unwrap().image_list()),
                     Some(&gtk::CustomFilter::new(|obj| {
                         obj.downcast_ref::<model::Image>()
                             .unwrap()
@@ -344,7 +343,7 @@ impl ContainerCreationPage {
     }
 
     fn search_image(&self) {
-        let image_selection_page = view::ImageSelectionPage::default();
+        let image_selection_page = view::ImageSelectionPage::from(self.client().as_ref());
         image_selection_page.connect_image_selected(clone!(@weak self as obj => move |_, image| {
             let imp = obj.imp();
 
@@ -574,7 +573,10 @@ impl ContainerCreationPage {
         imp.stack.set_visible_child_name("creating");
 
         utils::do_async(
-            async move { PODMAN.containers().create(&opts).await },
+            {
+                let podman = self.client().unwrap().podman().clone();
+                async move { podman.containers().create(&opts).await }
+            },
             clone!(@weak self as obj => move |result| {
                 match result.map(|info| info.id) {
                     Ok(id) => {
@@ -594,13 +596,16 @@ impl ContainerCreationPage {
 
                         if run {
                             utils::do_async(
-                                async move {
-                                    PODMAN
-                                        .containers()
-                                        .get(id.clone())
-                                        .start(None)
-                                        .map_ok(|_| id)
-                                        .await
+                                {
+                                    let podman = obj.client().unwrap().podman().clone();
+                                    async move {
+                                        podman
+                                            .containers()
+                                            .get(id.clone())
+                                            .start(None)
+                                            .map_ok(|_| id)
+                                            .await
+                                    }
                                 },
                                 clone!(@weak obj => move |result| if let Err(e) = result {
                                     log::error!("Error while starting container: {}", e);
