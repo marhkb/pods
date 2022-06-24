@@ -123,6 +123,7 @@
                             <style>
                               <class name="card"/>
                             </style>
+                            <property name="overflow">hidden</property>
                           </object>
                         </child>
 
