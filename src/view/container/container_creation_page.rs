@@ -262,9 +262,6 @@ mod imp {
             );
         }
     }
-
-    impl WindowImpl for ContainerCreationPage {}
-    impl DialogImpl for ContainerCreationPage {}
 }
 
 glib::wrapper! {

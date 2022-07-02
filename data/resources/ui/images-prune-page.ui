@@ -44,7 +44,7 @@
         </child>
 
         <child type="end">
-          <object class="GtkSpinner"> -->
+          <object class="GtkSpinner">
             <property name="spinning">True</property>
             <property name="visible" bind-source="button_prune" bind-property="sensitive" bind-flags="sync-create|invert-boolean"/>
           </object>
@@ -123,6 +123,7 @@
                             <style>
                               <class name="card"/>
                             </style>
+                            <property name="overflow">hidden</property>
                           </object>
                         </child>
 
