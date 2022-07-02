@@ -1,3 +1,5 @@
+#![allow(clippy::format_push_string)]
+
 mod api;
 mod application;
 #[rustfmt::skip]
