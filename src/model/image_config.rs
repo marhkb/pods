@@ -87,7 +87,7 @@ glib::wrapper! {
 }
 
 impl ImageConfig {
-    pub(crate) fn from_libpod(config: api::ImageConfig) -> Self {
+    pub(crate) fn from_libpod(config: api::Config) -> Self {
         glib::Object::new(&[
             (
                 "cmd",
