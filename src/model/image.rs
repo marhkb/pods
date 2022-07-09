@@ -350,7 +350,8 @@ impl Image {
                 "shared-size",
                 &(summary.shared_size.unwrap_or_default() as u64),
             ),
-            ("user", inspect_response.user.as_ref().unwrap()),
+            // FIXME: Find the right user in the response data.
+            ("user", &glib::user_name().to_str().unwrap_or_default()),
             (
                 "virtual-size",
                 &(summary.virtual_size.unwrap_or_default() as u64),
