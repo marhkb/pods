@@ -85,11 +85,30 @@ jobs:
     container:
       image: bilelmoussaoui/flatpak-github-actions:gnome-42
       options: --privileged
+    strategy:
+      matrix:
+        arch: [x86_64, aarch64]
+      # Don't fail the whole workflow if one architecture fails
+      fail-fast: false
+    needs: [rustfmt, clippy]
     steps:
-    - uses: actions/checkout@v2
-    - uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v4
-      with:
-        bundle: pods.flatpak
-        manifest-path: build-aux/com.github.marhkb.Pods.Devel.json
-        run-tests: true
-        cache-key: flatpak-builder-${{ github.sha }}
+      - uses: actions/checkout@v2
+      # Docker is required by the docker/setup-qemu-action which enables emulation
+      - name: Install dependencies
+        if: ${{ matrix.arch != 'x86_64' }}
+        run: dnf -y install docker
+      - name: Set up QEMU
+        if: ${{ matrix.arch != 'x86_64' }}
+        id: qemu
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: arm64
+      - uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v4
+        with:
+          bundle: pods.flatpak
+          manifest-path: build-aux/com.github.marhkb.Pods.Devel.json
+          run-tests: true
+          arch: ${{ matrix.arch }}
+          # TODO: Currently there is bug where, roughly speaking, there is an error in the creation of the cache.
+          #       Consider this for removal as soon as flatpak-builder@v5 is released, which is supposed to fix it.
+          cache-key: flatpak-builder-${{ github.sha }}
