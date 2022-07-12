@@ -32,7 +32,7 @@ Pods is currently under heavy development. So be prepared for missing features a
 
 ## 🔌 Installation
 
-You can grab the latest CI build from [here](https://nightly.link/marhkb/pods/workflows/ci/main/pods-x86_64.zip).
+You can grab the latest CI build from [here](https://nightly.link/marhkb/pods/workflows/ci/main).
 Then you need to unzip the archive's content and install the application with the command `flatpak install pods.flatpak`.
 
 
