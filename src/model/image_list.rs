@@ -18,12 +18,6 @@ use crate::api;
 use crate::model;
 use crate::utils;
 
-#[derive(Clone, Debug)]
-pub(crate) enum Error {
-    List,
-    Inspect(String),
-}
-
 mod imp {
     use super::*;
 
@@ -257,7 +251,7 @@ impl ImageList {
 
     pub(crate) fn refresh<F>(&self, err_op: F)
     where
-        F: FnOnce(Error) + Clone + 'static,
+        F: FnOnce(super::RefreshError) + Clone + 'static,
     {
         self.set_listing(true);
         utils::do_async(
@@ -296,51 +290,53 @@ impl ImageList {
                         obj.set_to_fetch(summaries.len() as u32);
 
                         summaries.into_iter().for_each(|summary| {
-                            utils::do_async({
-                                let podman = obj.client().unwrap().podman().clone();
-                                async move {
-                                    (
-                                        summary.id.clone().unwrap(),
-                                        podman
-                                            .images()
-                                            .get(summary.id.as_deref().unwrap())
-                                            .inspect()
-                                            .map_ok(|inspect_response| (summary, inspect_response))
-                                            .await,
-                                    )
-                                }},
-                                clone!(@weak obj, @strong err_op => move |(id, result)| {
-                                    let imp = obj.imp();
-                                    match result {
-                                        Ok((summary, inspect_response)) => {
-                                            let image = model::Image::new(
-                                                &obj,
-                                                summary,
-                                                inspect_response
-                                            );
-                                            imp.list.borrow_mut().insert(
-                                                image.id().to_owned(),
-                                                image.clone()
-                                            );
+                            if let Some(client) = obj.client() {
+                                utils::do_async({
+                                    let podman = client.podman().clone();
+                                    async move {
+                                        (
+                                            summary.id.clone().unwrap(),
+                                            podman
+                                                .images()
+                                                .get(summary.id.as_deref().unwrap())
+                                                .inspect()
+                                                .map_ok(|inspect_response| (summary, inspect_response))
+                                                .await,
+                                        )
+                                    }},
+                                    clone!(@weak obj, @strong err_op => move |(id, result)| {
+                                        let imp = obj.imp();
+                                        match result {
+                                            Ok((summary, inspect_response)) => {
+                                                let image = model::Image::new(
+                                                    &obj,
+                                                    summary,
+                                                    inspect_response
+                                                );
+                                                imp.list.borrow_mut().insert(
+                                                    image.id().to_owned(),
+                                                    image.clone()
+                                                );
 
-                                            obj.image_added(&image);
-                                            obj.items_changed(obj.len() - 1, 0, 1);
-                                        }
-                                        Err(e) => {
-                                            log::error!("Error on inspecting image '{id}': {e}");
-                                            if imp.failed.borrow_mut().insert(id.clone()) {
-                                                err_op(Error::Inspect(id));
+                                                obj.image_added(&image);
+                                                obj.items_changed(obj.len() - 1, 0, 1);
+                                            }
+                                            Err(e) => {
+                                                log::error!("Error on inspecting image '{id}': {e}");
+                                                if imp.failed.borrow_mut().insert(id.clone()) {
+                                                    err_op(super::RefreshError::Inspect(id));
+                                                }
                                             }
                                         }
-                                    }
-                                    obj.set_fetched(obj.fetched() + 1);
-                                })
-                            );
+                                        obj.set_fetched(obj.fetched() + 1);
+                                    })
+                                );
+                            }
                         });
                     }
                     Err(e) => {
                         log::error!("Error on retrieving images: {}", e);
-                        err_op(Error::List);
+                        err_op(super::RefreshError::List);
                     }
                 }
             }),
@@ -349,7 +345,7 @@ impl ImageList {
 
     pub(crate) fn handle_event<F>(&self, event: api::Event, err_op: F)
     where
-        F: FnOnce(Error) + Clone + 'static,
+        F: FnOnce(super::RefreshError) + Clone + 'static,
     {
         match event.action.as_str() {
             "remove" => self.remove_image(&event.actor.id),

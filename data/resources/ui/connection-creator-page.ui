@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="ConnectionCreatorPage" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBoxLayout">
+        <property name="orientation">vertical</property>
+      </object>
+    </property>
+
+    <child>
+      <object class="AdwHeaderBar">
+        <property name="centering-policy">strict</property>
+
+        <child type="start">
+          <object class="GtkButton">
+            <property name="action-name">navigation.back</property>
+            <property name="icon-name">go-previous-symbolic</property>
+          </object>
+        </child>
+
+        <child type="start">
+          <object class="GtkButton" id="go_first_button">
+            <property name="action-name">navigation.go-first</property>
+            <property name="icon-name">go-first-symbolic</property>
+            <property name="visible" bind-source="go_first_button" bind-property="sensitive" bind-flags="sync-create"/>
+          </object>
+        </child>
+
+        <child type="title">
+          <object class="AdwWindowTitle">
+            <property name="title" translatable="yes">Add New Connection</property>
+          </object>
+        </child>
+
+        <child type="end">
+          <object class="GtkButton">
+            <style>
+              <class name="suggested-action"/>
+            </style>
+            <property name="action-name">client.try-connect</property>
+            <property name="label" translatable="yes">_Connect</property>
+            <property name="use-underline">True</property>
+          </object>
+        </child>
+      </object>
+    </child>
+
+    <child>
+      <object class="AdwPreferencesPage">
+        <property name="vexpand">True</property>
+
+        <child>
+          <object class="AdwPreferencesGroup">
+
+            <child>
+              <object class="AdwPreferencesRow">
+                <property name="focusable">False</property>
+                <property name="selectable">False</property>
+                <property name="activatable">False</property>
+                <child>
+                  <object class="GtkEntry" id="name_entry">
+                    <property name="placeholder-text" translatable="yes">Name</property>
+                    <property name="margin-top">6</property>
+                    <property name="margin-bottom">6</property>
+                    <property name="margin-start">6</property>
+                    <property name="margin-end">6</property>
+                  </object>
+                </child>
+
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Url</property>
+            <property name="description" translatable="yes">Choose how you want to connect to Podman.</property>
+
+            <child>
+              <object class="AdwActionRow" id="unix_socket_url_row">
+                <property name="title" translatable="yes">Unix Socket</property>
+                <child type="prefix">
+                  <object class="GtkCheckButton">
+                    <property name="active">True</property>
+                    <property name="group">custom_url_radio_button</property>
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwExpanderRow">
+                <property name="activatable">False</property>
+                <property name="enable-expansion" bind-source="custom_url_radio_button" bind-property="active" bind-flags="sync-create|bidirectional"/>
+                <property name="title" translatable="yes">Custom</property>
+
+                <child type="prefix">
+                  <object class="GtkCheckButton" id="custom_url_radio_button">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwPreferencesRow">
+                    <property name="activatable">False</property>
+
+                    <child>
+                      <object class="GtkEntry" id="url_entry">
+                        <property name="placeholder-text" translatable="yes">Connection String</property>
+                        <property name="halign">fill</property>
+                        <property name="margin-bottom">12</property>
+                        <property name="margin-end">9</property>
+                        <property name="margin-start">9</property>
+                        <property name="margin-top">12</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwPreferencesGroup">
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="activatable-widget">color_button</property>
+                <property name="title" translatable="yes">Color</property>
+                <property name="subtitle" translatable="yes">Define how to colorize the header bar.</property>
+                <child>
+                  <object class="GtkBox">
+                    <property name="spacing">6</property>
+                    <property name="valign">center</property>
+
+                    <child>
+                      <object class="GtkColorButton" id="color_button">
+                        <property name="valign">center</property>
+                        <property name="visible" bind-source="color_switch" bind-property="active" bind-flags="sync-create"/>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkSwitch" id="color_switch">
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>

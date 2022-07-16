@@ -276,9 +276,9 @@ impl From<&model::Image> for ContainerCreationPage {
     }
 }
 
-impl From<&model::Client> for ContainerCreationPage {
-    fn from(client: &model::Client) -> Self {
-        glib::Object::new(&[("client", client)]).expect("Failed to create ContainerCreationPage")
+impl From<Option<&model::Client>> for ContainerCreationPage {
+    fn from(client: Option<&model::Client>) -> Self {
+        glib::Object::new(&[("client", &client)]).expect("Failed to create ContainerCreationPage")
     }
 }
 

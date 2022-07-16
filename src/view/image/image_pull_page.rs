@@ -126,9 +126,9 @@ glib::wrapper! {
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
-impl From<&model::Client> for ImagePullPage {
-    fn from(client: &model::Client) -> Self {
-        glib::Object::new(&[("client", client)]).expect("Failed to create ImagePullPage")
+impl From<Option<&model::Client>> for ImagePullPage {
+    fn from(client: Option<&model::Client>) -> Self {
+        glib::Object::new(&[("client", &client)]).expect("Failed to create ImagePullPage")
     }
 }
 

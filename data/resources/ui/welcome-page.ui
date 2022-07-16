@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="WelcomePage" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBoxLayout">
+        <property name="orientation">vertical</property>
+      </object>
+    </property>
+
+    <child>
+      <object class="AdwHeaderBar"/>
+    </child>
+
+    <child>
+      <object class="AdwStatusPage">
+        <property name="title" translatable="yes">Welcome to Pods</property>
+        <property name="description" translatable="yes">No connections have been detected. Use the button below to create a new one.</property>
+        <property name="vexpand">True</property>
+
+        <child>
+          <object class="GtkButton">
+            <style>
+              <class name="pill"/>
+              <class name="suggested-action"/>
+            </style>
+            <property name="action-name">win.add-connection</property>
+            <property name="halign">center</property>
+            <property name="label" translatable="yes">_Add Connection</property>
+            <property name="use-underline">True</property>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>

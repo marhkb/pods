@@ -1,6 +1,7 @@
 use std::collections::BTreeSet;
 use std::marker::PhantomData;
 use std::ops::Deref;
+use std::path::PathBuf;
 
 use futures::stream::BoxStream;
 use futures::Future;
@@ -16,13 +17,14 @@ use gtk::traits::WidgetExt;
 use crate::config;
 use crate::view;
 use crate::window::Window;
+use crate::APPLICATION_OPTS;
 use crate::RUNTIME;
 
 #[macro_export]
 macro_rules! monad_boxed_type {
     ($vis:vis $boxed:ident($type:ty) $(impls $($trait:tt),+)? $(is $($prop:tt),+)?) => {
         paste::paste! {
-            #[derive(Clone, PartialEq, glib::Boxed, $($($trait),+)?)]
+            #[derive(Clone, glib::Boxed, $($($trait),+)?)]
             #[boxed_type(name = "" $boxed "", $($($prop),+)?)]
             $vis struct $boxed($type);
         }
@@ -51,6 +53,22 @@ macro_rules! monad_boxed_type {
 
 monad_boxed_type!(pub(crate) BoxedStringVec(Vec<String>) impls Debug, Default);
 monad_boxed_type!(pub(crate) BoxedStringBTreeSet(BTreeSet<String>) impls Debug, Default);
+
+pub(crate) fn config_dir() -> &'static PathBuf {
+    &APPLICATION_OPTS.get().unwrap().config_dir
+}
+
+pub(crate) fn unix_socket_url() -> String {
+    format!(
+        "unix://{}",
+        APPLICATION_OPTS
+            .get()
+            .unwrap()
+            .unix_socket_path
+            .to_str()
+            .unwrap()
+    )
+}
 
 #[derive(Debug)]
 pub(crate) struct DesktopSettings(gio::Settings);

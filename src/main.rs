@@ -5,11 +5,11 @@ mod application;
 #[rustfmt::skip]
 mod config;
 mod model;
-mod search_provider;
 mod utils;
 mod view;
 mod window;
 
+use std::path::PathBuf;
 use std::str::FromStr;
 
 use gettextrs::gettext;
@@ -18,16 +18,20 @@ use gtk::gio;
 use gtk::glib;
 use gtk::prelude::ApplicationExt;
 use once_cell::sync::Lazy;
+use once_cell::sync::OnceCell;
 
 use self::application::Application;
 use self::config::GETTEXT_PACKAGE;
 use self::config::LOCALEDIR;
 use self::config::RESOURCES_FILE;
 
+pub(crate) static APPLICATION_OPTS: OnceCell<ApplicationOptions> = OnceCell::new();
 pub(crate) static RUNTIME: Lazy<tokio::runtime::Runtime> =
     Lazy::new(|| tokio::runtime::Runtime::new().unwrap());
 
 fn main() {
+    gtk::init().expect("Failed to init gtk");
+
     // Prepare i18n
     gettextrs::setlocale(LocaleCategory::LcAll, "");
     gettextrs::bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR).expect("Unable to bind the text domain");
@@ -73,11 +77,28 @@ fn main() {
                 );
             }
 
+            APPLICATION_OPTS.set(ApplicationOptions::default()).unwrap();
+
             -1
         }
     });
 
     app.run();
+}
+
+/// Global options for the application
+#[derive(Debug)]
+pub(crate) struct ApplicationOptions {
+    pub(crate) config_dir: PathBuf,
+    pub(crate) unix_socket_path: PathBuf,
+}
+impl Default for ApplicationOptions {
+    fn default() -> Self {
+        Self {
+            config_dir: glib::user_config_dir().join("pods"),
+            unix_socket_path: glib::user_runtime_dir().join("podman").join("podman.sock"),
+        }
+    }
 }
 
 fn setup_cli<A: glib::IsA<gio::Application>>(app: A) -> A {

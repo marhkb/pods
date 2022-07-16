@@ -86,12 +86,3 @@ configure_file(
   configuration: service_conf,
   install_dir: datadir / 'dbus-1' / 'services'
 )
-search_conf = configuration_data()
-search_conf.set('appid', application_id)
-search_conf.set('object_path', object_path)
-configure_file(
-  input: '@0@.search-provider.ini'.format(base_id),
-  output: '@0@.search-provider.ini'.format(application_id),
-  configuration: search_conf,
-  install_dir: datadir / 'gnome-shell' / 'search-providers',
-)
