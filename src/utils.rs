@@ -24,7 +24,7 @@ use crate::RUNTIME;
 macro_rules! monad_boxed_type {
     ($vis:vis $boxed:ident($type:ty) $(impls $($trait:tt),+)? $(is $($prop:tt),+)?) => {
         paste::paste! {
-            #[derive(Clone, PartialEq, glib::Boxed, $($($trait),+)?)]
+            #[derive(Clone, glib::Boxed, $($($trait),+)?)]
             #[boxed_type(name = "" $boxed "", $($($prop),+)?)]
             $vis struct $boxed($type);
         }

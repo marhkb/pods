@@ -86,7 +86,7 @@ impl fmt::Display for Status {
     }
 }
 
-monad_boxed_type!(pub(crate) BoxedContainerStats(api::LibpodContainerStats) impls Debug is nullable);
+monad_boxed_type!(pub(crate) BoxedContainerStats(api::LibpodContainerStats) impls Debug, PartialEq is nullable);
 
 mod imp {
     use super::*;
