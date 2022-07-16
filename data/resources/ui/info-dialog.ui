@@ -3,11 +3,10 @@
 
   <template class="InfoDialog" parent="AdwPreferencesWindow">
     <property name="search-enabled">False</property>
-    <property name="title" translatable="yes">Podman Info</property>
+    <property name="title" translatable="yes">About Podman</property>
 
     <child>
       <object class="AdwPreferencesPage" id="preferences_page">
-        <property name="title" translatable="yes">Podman Info</property>
         <property name="visible">False</property>
 
         <child>
