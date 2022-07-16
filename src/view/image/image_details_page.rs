@@ -23,8 +23,6 @@ mod imp {
         #[template_child]
         pub(super) leaflet: TemplateChild<adw::Leaflet>,
         #[template_child]
-        pub(super) window_title: TemplateChild<adw::WindowTitle>,
-        #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) id_row: TemplateChild<view::PropertyRow>,
@@ -103,15 +101,13 @@ mod imp {
             self.parent_constructed(obj);
 
             let image_expr = Self::Type::this_expression("image");
-            let image_id_expr = image_expr
+
+            image_expr
                 .chain_property::<model::Image>("id")
                 .chain_closure::<String>(closure!(|_: glib::Object, id: &str| {
                     id.chars().take(12).collect::<String>()
-                }));
-
-            image_id_expr.bind(&*self.window_title, "subtitle", Some(obj));
-
-            image_id_expr.bind(&*self.id_row, "value", Some(obj));
+                }))
+                .bind(&*self.id_row, "value", Some(obj));
 
             image_expr
                 .chain_property::<model::Image>("created")

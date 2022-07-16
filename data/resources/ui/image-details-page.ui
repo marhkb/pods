@@ -34,7 +34,7 @@
                 </child>
 
                 <child type="title">
-                  <object class="AdwWindowTitle" id="window_title">
+                  <object class="AdwWindowTitle">
                     <property name="title" translatable="yes">Image Details</property>
                   </object>
                 </child>
