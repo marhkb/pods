@@ -1,4 +1,3 @@
-use gtk::gdk;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::WeakRef;
@@ -16,31 +15,24 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(resource = "/com/github/marhkb/Pods/ui/container-page.ui")]
-    pub(crate) struct ContainerPage {
+    #[template(resource = "/com/github/marhkb/Pods/ui/container-details-page.ui")]
+    pub(crate) struct ContainerDetailsPage {
         pub(super) container: WeakRef<model::Container>,
         #[template_child]
         pub(super) leaflet: TemplateChild<adw::Leaflet>,
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
-        #[template_child]
-        pub(super) logs_show_timestamps_button: TemplateChild<gtk::ToggleButton>,
-        #[template_child]
-        pub(super) logs_search_button: TemplateChild<gtk::ToggleButton>,
-        #[template_child]
-        pub(super) panel_stack: TemplateChild<adw::ViewStack>,
-        #[template_child]
-        pub(super) logs_panel: TemplateChild<view::ContainerLogsPanel>,
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for ContainerPage {
-        const NAME: &'static str = "ContainerPage";
-        type Type = super::ContainerPage;
+    impl ObjectSubclass for ContainerDetailsPage {
+        const NAME: &'static str = "ContainerDetailsPage";
+        type Type = super::ContainerDetailsPage;
         type ParentType = gtk::Widget;
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
+
             klass.install_action("navigation.go-first", None, move |widget, _, _| {
                 widget.navigate_to_first();
             });
@@ -48,34 +40,8 @@ mod imp {
                 widget.navigate_back();
             });
 
-            klass.add_binding_action(
-                gdk::Key::F,
-                gdk::ModifierType::CONTROL_MASK,
-                "logs.toggle-search",
-                None,
-            );
-            klass.install_action("logs.toggle-search", None, |widget, _, _| {
-                widget.toggle_logs_search();
-            });
-
-            klass.add_binding_action(
-                gdk::Key::G,
-                gdk::ModifierType::CONTROL_MASK | gdk::ModifierType::SHIFT_MASK,
-                "logs.search-backward",
-                None,
-            );
-            klass.install_action("logs.search-backward", None, |widget, _, _| {
-                widget.search_logs_backward();
-            });
-
-            klass.add_binding_action(
-                gdk::Key::G,
-                gdk::ModifierType::CONTROL_MASK,
-                "logs.search-forward",
-                None,
-            );
-            klass.install_action("logs.search-forward", None, |widget, _, _| {
-                widget.search_logs_forward();
+            klass.install_action("container.show-log", None, move |widget, _, _| {
+                widget.show_log();
             });
         }
 
@@ -84,13 +50,13 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for ContainerPage {
+    impl ObjectImpl for ContainerDetailsPage {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![glib::ParamSpecObject::new(
                     "container",
                     "Container",
-                    "The container of this ContainerPage",
+                    "The container of this ContainerDetailsPage",
                     model::Container::static_type(),
                     glib::ParamFlags::READWRITE
                         | glib::ParamFlags::CONSTRUCT
@@ -123,21 +89,6 @@ mod imp {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
-            self.logs_panel
-                .connect_show_timestamp_button(&*self.logs_show_timestamps_button);
-
-            self.logs_panel
-                .connect_search_button(&*self.logs_search_button);
-
-            obj.update_buttons_and_actions(false);
-            self.panel_stack.connect_visible_child_name_notify(
-                clone!(@weak obj => move |panel_stack| {
-                    obj.update_buttons_and_actions(
-                        matches!(panel_stack.visible_child_name().as_deref(), Some("logs")),
-                    );
-                }),
-            );
-
             if let Some(container) = obj.container() {
                 container.connect_deleted(clone!(@weak obj => move |_| {
                     obj.imp().stack.set_visible_child_name("deleted");
@@ -150,7 +101,7 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for ContainerPage {
+    impl WidgetImpl for ContainerDetailsPage {
         fn realize(&self, widget: &Self::Type) {
             self.parent_realize(widget);
 
@@ -163,16 +114,16 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub(crate) struct ContainerPage(ObjectSubclass<imp::ContainerPage>) @extends gtk::Widget;
+    pub(crate) struct ContainerDetailsPage(ObjectSubclass<imp::ContainerDetailsPage>) @extends gtk::Widget;
 }
 
-impl From<&model::Container> for ContainerPage {
+impl From<&model::Container> for ContainerDetailsPage {
     fn from(image: &model::Container) -> Self {
-        glib::Object::new(&[("container", image)]).expect("Failed to create ContainerPage")
+        glib::Object::new(&[("container", image)]).expect("Failed to create ContainerDetailsPage")
     }
 }
 
-impl ContainerPage {
+impl ContainerDetailsPage {
     fn container(&self) -> Option<model::Container> {
         self.imp().container.upgrade()
     }
@@ -206,26 +157,10 @@ impl ContainerPage {
             .leaflet_overlay()
     }
 
-    fn update_buttons_and_actions(&self, logs_visible: bool) {
-        self.imp()
-            .logs_show_timestamps_button
-            .set_visible(logs_visible);
-        self.imp().logs_search_button.set_visible(logs_visible);
-
-        self.action_set_enabled("logs.toggle-search", logs_visible);
-        self.action_set_enabled("logs.search-backward", logs_visible);
-        self.action_set_enabled("logs.search-forward", logs_visible);
-    }
-
-    fn toggle_logs_search(&self) {
-        self.imp().logs_panel.toggle_search();
-    }
-
-    fn search_logs_backward(&self) {
-        self.imp().logs_panel.search_backward();
-    }
-
-    fn search_logs_forward(&self) {
-        self.imp().logs_panel.search_forward();
+    fn show_log(&self) {
+        if let Some(container) = self.container() {
+            utils::leaflet_overlay(&*self.imp().leaflet)
+                .show_details(&view::ContainerLogPage::from(&container));
+        }
     }
 }

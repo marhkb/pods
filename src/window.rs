@@ -70,8 +70,8 @@ mod imp {
             view::ConnectionChooserPage::static_type();
             view::ConnectionRow::static_type();
             view::ConnectionSwitcherPopup::static_type();
-            view::ContainerDetailsPanel::static_type();
-            view::ContainerLogsPanel::static_type();
+            view::ContainerPropertiesGroup::static_type();
+            view::ContainerLogPage::static_type();
             view::ContainerMenuButton::static_type();
             view::ContainersGroup::static_type();
             view::ImageMenuButton::static_type();

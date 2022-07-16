@@ -7,6 +7,7 @@ use std::mem;
 use futures::stream;
 use futures::StreamExt;
 use gettextrs::gettext;
+use gtk::gdk;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::WeakRef;
@@ -25,13 +26,14 @@ use crate::api;
 use crate::model;
 use crate::utils;
 use crate::view;
+use crate::window::Window;
 
 mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(resource = "/com/github/marhkb/Pods/ui/container-logs-panel.ui")]
-    pub(crate) struct ContainerLogsPanel {
+    #[template(resource = "/com/github/marhkb/Pods/ui/container-log-page.ui")]
+    pub(crate) struct ContainerLogPage {
         pub(super) settings: utils::PodsSettings,
         pub(super) container: WeakRef<model::Container>,
         pub(super) renderer_timestamps: OnceCell<sourceview5::GutterRendererText>,
@@ -43,6 +45,12 @@ mod imp {
         pub(super) log_timestamps: RefCell<BTreeMap<u32, String>>,
         pub(super) is_auto_scrolling: Cell<bool>,
         pub(super) sticky: Cell<bool>,
+
+        #[template_child]
+        pub(super) show_timestamps_button: TemplateChild<gtk::ToggleButton>,
+        #[template_child]
+        pub(super) search_button: TemplateChild<gtk::ToggleButton>,
+
         #[template_child]
         pub(super) search_bar: TemplateChild<gtk::SearchBar>,
         #[template_child]
@@ -64,13 +72,50 @@ mod imp {
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for ContainerLogsPanel {
-        const NAME: &'static str = "ContainerLogsPanel";
-        type Type = super::ContainerLogsPanel;
+    impl ObjectSubclass for ContainerLogPage {
+        const NAME: &'static str = "ContainerLogPage";
+        type Type = super::ContainerLogPage;
         type ParentType = gtk::Widget;
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
+
+            klass.install_action("navigation.go-first", None, move |widget, _, _| {
+                widget.navigate_to_first();
+            });
+            klass.install_action("navigation.back", None, move |widget, _, _| {
+                widget.navigate_back();
+            });
+
+            klass.add_binding_action(
+                gdk::Key::F,
+                gdk::ModifierType::CONTROL_MASK,
+                "logs.toggle-search",
+                None,
+            );
+            klass.install_action("logs.toggle-search", None, |widget, _, _| {
+                widget.toggle_search();
+            });
+
+            klass.add_binding_action(
+                gdk::Key::G,
+                gdk::ModifierType::CONTROL_MASK | gdk::ModifierType::SHIFT_MASK,
+                "logs.search-backward",
+                None,
+            );
+            klass.install_action("logs.search-backward", None, |widget, _, _| {
+                widget.search_backward();
+            });
+
+            klass.add_binding_action(
+                gdk::Key::G,
+                gdk::ModifierType::CONTROL_MASK,
+                "logs.search-forward",
+                None,
+            );
+            klass.install_action("logs.search-forward", None, |widget, _, _| {
+                widget.search_forward();
+            });
 
             klass.install_action("logs.scroll-down", None, move |widget, _, _| {
                 widget.scroll_down();
@@ -82,16 +127,16 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for ContainerLogsPanel {
+    impl ObjectImpl for ContainerLogPage {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
                     glib::ParamSpecObject::new(
                         "container",
                         "Container",
-                        "The container of this ContainerLogsPanel",
+                        "The container of this ContainerLogPage",
                         model::Container::static_type(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
                     ),
                     glib::ParamSpecBoolean::new(
                         "sticky",
@@ -141,14 +186,16 @@ mod imp {
                 .build();
             renderer_timestamps.connect_query_data(clone!(@weak obj => move |renderer, _, line| {
                 let log_timestamps = obj.imp().log_timestamps.borrow_mut();
-                let date_time = format!(
-                    "<span foreground=\"#865e3c\">{}</span>",
-                    log_timestamps.get(&line).unwrap()
-                );
-                renderer.set_markup(&date_time);
+                if let Some(timestamp) = log_timestamps.get(&line) {
+                    let date_time = format!(
+                        "<span foreground=\"#865e3c\">{}</span>",
+                        timestamp
+                    );
+                    renderer.set_markup(&date_time);
 
-                let (width, _) = renderer.measure_markup(&date_time);
-                renderer.set_width_request(width.max(renderer.width_request()));
+                    let (width, _) = renderer.measure_markup(&date_time);
+                    renderer.set_width_request(width.max(renderer.width_request()));
+                }
             }));
             self.source_buffer.connect_cursor_moved(
                 clone!(@weak renderer_timestamps => move |_| renderer_timestamps.queue_draw()),
@@ -181,6 +228,28 @@ mod imp {
                     }
                 }),
             );
+
+            self.show_timestamps_button
+                .bind_property(
+                    "active",
+                    &*self.renderer_timestamps.get().unwrap(),
+                    "visible",
+                )
+                .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
+                .build();
+
+            self.settings
+                .bind(
+                    "show-log-timestamps",
+                    &*self.renderer_timestamps.get().unwrap(),
+                    "visible",
+                )
+                .build();
+
+            self.search_button
+                .bind_property("active", &*self.search_bar, "search-mode-enabled")
+                .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
+                .build();
 
             self.search_entry
                 .bind_property("text", &self.search_settings, "search-text")
@@ -233,15 +302,21 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for ContainerLogsPanel {}
+    impl WidgetImpl for ContainerLogPage {}
 }
 
 glib::wrapper! {
-    pub(crate) struct ContainerLogsPanel(ObjectSubclass<imp::ContainerLogsPanel>)
+    pub(crate) struct ContainerLogPage(ObjectSubclass<imp::ContainerLogPage>)
         @extends gtk::Widget;
 }
 
-impl ContainerLogsPanel {
+impl From<&model::Container> for ContainerLogPage {
+    fn from(image: &model::Container) -> Self {
+        glib::Object::new(&[("container", image)]).expect("Failed to create ContainerLogPage")
+    }
+}
+
+impl ContainerLogPage {
     fn container(&self) -> Option<model::Container> {
         self.imp().container.upgrade()
     }
@@ -386,34 +461,6 @@ impl ContainerLogsPanel {
         }
     }
 
-    pub(crate) fn connect_show_timestamp_button(&self, show_timestamp_button: &gtk::ToggleButton) {
-        let imp = self.imp();
-
-        show_timestamp_button
-            .bind_property(
-                "active",
-                &*imp.renderer_timestamps.get().unwrap(),
-                "visible",
-            )
-            .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
-            .build();
-
-        imp.settings
-            .bind(
-                "show-log-timestamps",
-                &*imp.renderer_timestamps.get().unwrap(),
-                "visible",
-            )
-            .build();
-    }
-
-    pub(crate) fn connect_search_button(&self, search_button: &gtk::ToggleButton) {
-        search_button
-            .bind_property("active", &*self.imp().search_bar, "search-mode-enabled")
-            .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
-            .build();
-    }
-
     pub(crate) fn toggle_search(&self) {
         let imp = self.imp();
         imp.search_bar
@@ -527,6 +574,26 @@ impl ContainerLogsPanel {
                 })
                 .as_ref(),
         );
+    }
+
+    fn navigate_to_first(&self) {
+        self.root_leaflet_overlay().hide_details();
+    }
+
+    fn navigate_back(&self) {
+        self.previous_leaflet_overlay().hide_details();
+    }
+
+    fn previous_leaflet_overlay(&self) -> view::LeafletOverlay {
+        utils::find_parent_leaflet_overlay(self)
+    }
+
+    fn root_leaflet_overlay(&self) -> view::LeafletOverlay {
+        self.root()
+            .unwrap()
+            .downcast::<Window>()
+            .unwrap()
+            .leaflet_overlay()
     }
 }
 

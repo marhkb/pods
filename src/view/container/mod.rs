@@ -1,8 +1,8 @@
 mod container_creation_page;
-mod container_details_panel;
-mod container_logs_panel;
+mod container_details_page;
+mod container_log_page;
 mod container_menu_button;
-mod container_page;
+mod container_properties_group;
 mod container_rename_dialog;
 mod container_row;
 mod containers_group;
@@ -12,10 +12,10 @@ mod port_mapping_row;
 mod volume_row;
 
 pub(crate) use self::container_creation_page::ContainerCreationPage;
-pub(crate) use self::container_details_panel::ContainerDetailsPanel;
-pub(crate) use self::container_logs_panel::ContainerLogsPanel;
+pub(crate) use self::container_details_page::ContainerDetailsPage;
+pub(crate) use self::container_log_page::ContainerLogPage;
 pub(crate) use self::container_menu_button::ContainerMenuButton;
-pub(crate) use self::container_page::ContainerPage;
+pub(crate) use self::container_properties_group::ContainerPropertiesGroup;
 pub(crate) use self::container_rename_dialog::ContainerRenameDialog;
 pub(crate) use self::container_row::ContainerRow;
 pub(crate) use self::containers_group::ContainersGroup;

@@ -412,7 +412,7 @@
             </child>
 
             <child>
-              <object class="AdwBin" id="container_page_bin"/>
+              <object class="AdwBin" id="container_details_page_bin"/>
             </child>
 
           </object>
