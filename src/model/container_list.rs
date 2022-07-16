@@ -17,12 +17,6 @@ use crate::model;
 use crate::model::AbstractContainerListExt;
 use crate::utils;
 
-#[derive(Clone, Debug)]
-pub(crate) enum Error {
-    List,
-    Inspect(String),
-}
-
 mod imp {
     use super::*;
 
@@ -220,7 +214,7 @@ impl ContainerList {
 
     fn add_or_update_container<F>(&self, id: String, err_op: F)
     where
-        F: FnOnce(Error) + 'static,
+        F: FnOnce(super::RefreshError) + 'static,
     {
         utils::do_async(
             {
@@ -265,7 +259,7 @@ impl ContainerList {
                     Err(e) => {
                         log::error!("Error on inspecting container '{id}': {e}");
                         if imp.failed.borrow_mut().insert(id.clone()) {
-                            err_op(Error::Inspect(id));
+                            err_op(super::RefreshError::Inspect(id));
                         }
                     }
                 }
@@ -292,7 +286,7 @@ impl ContainerList {
 
     pub(crate) fn refresh<F>(&self, err_op: F)
     where
-        F: FnOnce(Error) + Clone + 'static,
+        F: FnOnce(super::RefreshError) + Clone + 'static,
     {
         self.set_listing(true);
         utils::do_async(
@@ -332,7 +326,7 @@ impl ContainerList {
                     }
                     Err(e) => {
                         log::error!("Error on retrieving containers: {}", e);
-                        err_op(Error::List);
+                        err_op(super::RefreshError::List);
                     }
                 }
             }),
@@ -341,7 +335,7 @@ impl ContainerList {
 
     pub(crate) fn handle_event<F>(&self, event: api::Event, err_op: F)
     where
-        F: FnOnce(Error) + Clone + 'static,
+        F: FnOnce(super::RefreshError) + Clone + 'static,
     {
         let container_id = event.actor.id;
 

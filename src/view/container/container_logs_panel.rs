@@ -323,59 +323,61 @@ impl ContainerLogsPanel {
     }
 
     fn connect_logs(&self, container: &model::Container, since: Option<String>) {
-        let mut perform = MarkupPerform::default();
+        if let Some(container) = container.api_container() {
+            let mut perform = MarkupPerform::default();
 
-        utils::run_stream(
-            container.api_container(),
-            move |container| {
-                let opts = api::ContainerLogsOpts::builder()
-                    .follow(true)
-                    .stdout(true)
-                    .stderr(true)
-                    .timestamps(true);
-                container
-                    .logs(
-                        &match since {
-                            Some(date_time) => opts.since(date_time),
-                            None => opts,
-                        }
-                        .build(),
-                    )
-                    .boxed()
-            },
-            clone!(@weak self as obj => @default-return glib::Continue(false), move |result: api::Result<Vec<u8>>| {
-                glib::Continue(match result {
-                    Ok(line) => {
-                        let imp = obj.imp();
-                        if line.len() > 8 && perform.decode(&line[8..]) {
-                            let line_buffer = perform.move_out_buffer();
-
-                            if let Some((timestamp, log_message)) = line_buffer.split_once(' ') {
-                                let source_buffer = &*imp.source_buffer;
-                                source_buffer.insert_markup(
-                                    &mut source_buffer.end_iter(),
-                                    &if source_buffer.start_iter() == source_buffer.end_iter() {
-                                        Cow::Borrowed(log_message)
-                                    } else {
-                                        Cow::Owned(format!("\n{}", log_message))
-                                    },
-                                );
-
-                                imp.log_timestamps.borrow_mut().insert(
-                                    source_buffer.line_count() as u32 - 1,
-                                    timestamp.to_owned()
-                                );
+            utils::run_stream(
+                container,
+                move |container| {
+                    let opts = api::ContainerLogsOpts::builder()
+                        .follow(true)
+                        .stdout(true)
+                        .stderr(true)
+                        .timestamps(true);
+                    container
+                        .logs(
+                            &match since {
+                                Some(date_time) => opts.since(date_time),
+                                None => opts,
                             }
+                            .build(),
+                        )
+                        .boxed()
+                },
+                clone!(@weak self as obj => @default-return glib::Continue(false), move |result: api::Result<Vec<u8>>| {
+                    glib::Continue(match result {
+                        Ok(line) => {
+                            let imp = obj.imp();
+                            if line.len() > 8 && perform.decode(&line[8..]) {
+                                let line_buffer = perform.move_out_buffer();
+
+                                if let Some((timestamp, log_message)) = line_buffer.split_once(' ') {
+                                    let source_buffer = &*imp.source_buffer;
+                                    source_buffer.insert_markup(
+                                        &mut source_buffer.end_iter(),
+                                        &if source_buffer.start_iter() == source_buffer.end_iter() {
+                                            Cow::Borrowed(log_message)
+                                        } else {
+                                            Cow::Owned(format!("\n{}", log_message))
+                                        },
+                                    );
+
+                                    imp.log_timestamps.borrow_mut().insert(
+                                        source_buffer.line_count() as u32 - 1,
+                                        timestamp.to_owned()
+                                    );
+                                }
+                            }
+                            true
                         }
-                        true
-                    }
-                    Err(e) => {
-                        log::warn!("Stopping container log stream due to error: {e}");
-                        false
-                    }
-                })
-            }),
-        );
+                        Err(e) => {
+                            log::warn!("Stopping container log stream due to error: {e}");
+                            false
+                        }
+                    })
+                }),
+            );
+        }
     }
 
     fn abort(&self) {

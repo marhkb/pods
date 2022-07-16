@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="ConnectionSwitcherPopup" parent="GtkPopover">
+    <property name="name">connection-switcher-popup</property>
+    <property name="width-request">350</property>
+
+    <child>
+      <object class="GtkListView" id="connection_list_view">
+        <property name="single-click-activate">true</property>
+        <property name="factory">
+          <object class="GtkBuilderListItemFactory">
+            <property name="bytes">
+              <![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+<template class="GtkListItem">
+  <property name="child">
+    <object class="ConnectionRow">
+      <binding name="connection">
+        <lookup name="item">GtkListItem</lookup>
+      </binding>
+    </object>
+  </property>
+</template>
+</interface>
+              ]]>
+            </property>
+          </object>
+        </property>
+      </object>
+    </child>
+
+  </template>
+</interface>

@@ -1,5 +1,6 @@
 use std::borrow::Borrow;
 use std::cell::Cell;
+use std::ops::Deref;
 
 use gtk::glib::clone;
 use gtk::glib::subclass::Signal;
@@ -470,21 +471,20 @@ impl Image {
     where
         F: FnOnce(&Self, api::Result<()>) + 'static,
     {
-        self.set_to_be_deleted(true);
+        if let Some(image) = self.api_image() {
+            self.set_to_be_deleted(true);
 
-        utils::do_async(
-            {
-                let image = self.api_image();
-                async move { image.remove().await }
-            },
-            clone!(@weak self as obj => move |result| {
-                if let Err(ref e) = result {
-                    obj.set_to_be_deleted(false);
-                    log::error!("Error on removing image: {}", e);
-                }
-                op(&obj, result);
-            }),
-        );
+            utils::do_async(
+                async move { image.remove().await },
+                clone!(@weak self as obj => move |result| {
+                    if let Err(ref e) = result {
+                        obj.set_to_be_deleted(false);
+                        log::error!("Error on removing image: {}", e);
+                    }
+                    op(&obj, result);
+                }),
+            );
+        }
     }
 
     pub(super) fn emit_deleted(&self) {
@@ -499,15 +499,10 @@ impl Image {
         })
     }
 
-    pub(crate) fn api_image(&self) -> api::Image {
-        api::Image::new(
-            self.image_list()
-                .unwrap()
-                .client()
-                .unwrap()
-                .podman()
-                .clone(),
-            self.id(),
-        )
+    pub(crate) fn api_image(&self) -> Option<api::Image> {
+        self.image_list()
+            .unwrap()
+            .client()
+            .map(|client| api::Image::new(client.podman().deref().clone(), self.id()))
     }
 }

@@ -9,6 +9,12 @@
     </section>
     <section>
       <item>
+        <attribute name="label" translatable="yes">_Add Connection…</attribute>
+        <attribute name="action">win.add-connection</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
         <attribute name="label" translatable="yes">_Show Podman Info</attribute>
         <attribute name="action">win.show-podman-info</attribute>
       </item>
@@ -51,27 +57,46 @@
       <object class="AdwToastOverlay" id="toast_overlay">
 
         <child>
-          <object class="GtkStack" id="main_stack">
-            <property name="transition-type">crossfade</property>
+          <object class="AdwLeaflet" id="leaflet">
+            <property name="can-navigate-back">True</property>
+            <property name="can-unfold">False</property>
 
-            <!-- Check Service Page -->
             <child>
-              <object class="CheckServicePage"/>
-            </child>
+              <object class="GtkStack" id="main_stack">
+                <property name="transition-type">crossfade</property>
 
-            <!-- Start Service Page -->
-            <child>
-              <object class="StartServicePage" id="start_service_page"/>
-            </child>
-
-            <!-- Main View -->
-            <child>
-              <object class="AdwLeaflet" id="leaflet">
-                <property name="can-navigate-back">True</property>
-                <property name="can-unfold">False</property>
-
+                <!-- Empty Page -->
                 <child>
-                  <object class="GtkBox">
+                  <object class="AdwBin"/>
+                </child>
+
+                <!-- Welcome Page -->
+                <child>
+                  <object class="GtkStackPage">
+                    <property name="name">welcome</property>
+                    <property name="child">
+                      <object class="WelcomePage"/>
+                    </property>
+                  </object>
+                </child>
+
+                <!-- Connection Chooser Page -->
+                <child>
+                  <object class="GtkStackPage">
+                    <property name="name">connection-chooser</property>
+                    <property name="child">
+                      <object class="ConnectionChooserPage">
+                        <binding name="connection-manager">
+                          <lookup name="connection-manager">Window</lookup>
+                        </binding>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+
+                <!-- Client View -->
+                <child>
+                  <object class="GtkBox" id="client_box">
                     <property name="orientation">vertical</property>
 
                     <!-- Headerbar -->
@@ -120,6 +145,19 @@
                           </object>
                         </child>
 
+                        <child type="end">
+                          <object class="GtkMenuButton">
+                            <property name="popover">
+                              <object class="ConnectionSwitcherPopup">
+                                <binding name="connection-manager">
+                                  <lookup name="connection-manager">Window</lookup>
+                                </binding>
+                              </object>
+                            </property>
+                            <property name="icon-name">network-server-symbolic</property>
+                          </object>
+                        </child>
+
                       </object>
                     </child>
 
@@ -147,7 +185,15 @@
                                         <property name="name">images</property>
                                         <property name="title" translatable="yes">Images</property>
                                         <property name="child">
-                                          <object class="ImagesPanel" id="images_panel"/>
+                                          <object class="ImagesPanel" id="images_panel">
+                                            <binding name="image-list">
+                                              <lookup name="image-list" type="Client">
+                                                <lookup name="client" type="ConnectionManager">
+                                                  <lookup name="connection-manager">Window</lookup>
+                                                </lookup>
+                                              </lookup>
+                                            </binding>
+                                          </object>
                                         </property>
                                       </object>
                                     </child>
@@ -159,7 +205,15 @@
                                         <property name="name">containers</property>
                                         <property name="title" translatable="yes">Containers</property>
                                         <property name="child">
-                                          <object class="ContainersPanel" id="containers_panel"/>
+                                          <object class="ContainersPanel" id="containers_panel">
+                                            <binding name="container-list">
+                                              <lookup name="container-list" type="Client">
+                                                <lookup name="client" type="ConnectionManager">
+                                                  <lookup name="connection-manager">Window</lookup>
+                                                </lookup>
+                                              </lookup>
+                                            </binding>
+                                          </object>
                                         </property>
                                       </object>
                                     </child>
@@ -184,7 +238,13 @@
                         </child>
 
                         <child>
-                          <object class="SearchPanel" id="search_panel"/>
+                          <object class="SearchPanel" id="search_panel">
+                            <binding name="client">
+                              <lookup name="client" type="ConnectionManager">
+                                <lookup name="connection-manager">Window</lookup>
+                              </lookup>
+                            </binding>
+                          </object>
                         </child>
 
                       </object>
@@ -193,23 +253,18 @@
                   </object>
                 </child>
 
-                <child>
-                  <object class="AdwLeafletPage">
-                    <property name="name">overlay</property>
-
-                    <property name="child">
-                      <object class="LeafletOverlay" id="leaflet_overlay"/>
-                    </property>
-
-                  </object>
-                </child>
-
               </object>
             </child>
 
-            <!-- Connection Lost Page -->
             <child>
-              <object class="ConnectionLostPage" id="connection_lost_page"/>
+              <object class="AdwLeafletPage">
+                <property name="name">overlay</property>
+
+                <property name="child">
+                  <object class="LeafletOverlay" id="leaflet_overlay"/>
+                </property>
+
+              </object>
             </child>
 
           </object>

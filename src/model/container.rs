@@ -1,6 +1,7 @@
 use std::cell::Cell;
 use std::cell::RefCell;
 use std::fmt;
+use std::ops::Deref;
 use std::str::FromStr;
 
 use futures::Future;
@@ -463,39 +464,38 @@ impl Container {
         FutOp: FnOnce(api::Container) -> Fut + Send + 'static,
         ResOp: FnOnce(api::Result<()>) + 'static,
     {
-        if self.action_ongoing() {
-            return;
+        if let Some(container) = self.api_container() {
+            if self.action_ongoing() {
+                return;
+            }
+
+            // This will be either set back to `false` in `Self::update` or in case of an error.
+            self.set_action_ongoing(true);
+
+            log::info!("Container <{}>: {name}…'", self.id().unwrap_or_default());
+
+            utils::do_async(
+                async move { fut_op(container).await },
+                clone!(@weak self as obj => move |result| {
+                    match &result {
+                        Ok(_) => {
+                            log::info!(
+                                "Container <{}>: {name} has finished",
+                                obj.id().unwrap_or_default()
+                            );
+                        }
+                        Err(e) => {
+                            log::error!(
+                                "Container <{}>: Error while {name}: {e}",
+                                obj.id().unwrap_or_default(),
+                            );
+                            obj.set_action_ongoing(false);
+                        }
+                    }
+                    res_op(result)
+                }),
+            );
         }
-
-        // This will be either set back to `false` in `Self::update` or in case of an error.
-        self.set_action_ongoing(true);
-
-        log::info!("Container <{}>: {name}…'", self.id().unwrap_or_default());
-
-        utils::do_async(
-            {
-                let container = self.api_container();
-                async move { fut_op(container).await }
-            },
-            clone!(@weak self as obj => move |result| {
-                match &result {
-                    Ok(_) => {
-                        log::info!(
-                            "Container <{}>: {name} has finished",
-                            obj.id().unwrap_or_default()
-                        );
-                    }
-                    Err(e) => {
-                        log::error!(
-                            "Container <{}>: Error while {name}: {e}",
-                            obj.id().unwrap_or_default(),
-                        );
-                        obj.set_action_ongoing(false);
-                    }
-                }
-                res_op(result)
-            }),
-        );
     }
 
     pub(crate) fn start<F>(&self, op: F)
@@ -607,24 +607,29 @@ impl Container {
     }
 
     fn run_stats_stream(&self) {
-        utils::run_stream(
-            self.api_container(),
-            |container| container.stats_stream(Some(1)).boxed(),
-            clone!(@weak self as obj => @default-return glib::Continue(false), move |result: api::Result<api::LibpodContainerStatsResponse>| {
-                glib::Continue(match result {
-                    Ok(stats) => {
-                        obj.set_stats(
-                            stats
-                                .stats
-                                .and_then(|mut stats| stats.pop())
-                                .map(BoxedContainerStats),
-                        );
-                        true
-                    }
-                    Err(_) => false,
-                })
-            }),
-        );
+        if let Some(container) = self.api_container() {
+            utils::run_stream(
+                container,
+                |container| container.stats_stream(Some(1)).boxed(),
+                clone!(
+                    @weak self as obj => @default-return glib::Continue(false),
+                    move |result: api::Result<api::LibpodContainerStatsResponse>|
+                {
+                    glib::Continue(match result {
+                        Ok(stats) => {
+                            obj.set_stats(
+                                stats
+                                    .stats
+                                    .and_then(|mut stats| stats.pop())
+                                    .map(BoxedContainerStats),
+                            );
+                            true
+                        }
+                        Err(_) => false,
+                    })
+                }),
+            );
+        }
     }
 
     pub(super) fn emit_deleted(&self) {
@@ -639,16 +644,13 @@ impl Container {
         })
     }
 
-    pub(crate) fn api_container(&self) -> api::Container {
-        api::Container::new(
-            self.container_list()
-                .unwrap()
-                .client()
-                .unwrap()
-                .podman()
-                .clone(),
-            self.id().unwrap_or_default().to_owned(),
-        )
+    pub(crate) fn api_container(&self) -> Option<api::Container> {
+        self.container_list().unwrap().client().map(|client| {
+            api::Container::new(
+                client.podman().deref().clone(),
+                self.id().unwrap_or_default(),
+            )
+        })
     }
 }
 

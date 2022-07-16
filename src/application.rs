@@ -1,7 +1,5 @@
-use std::io;
+use std::borrow::Cow;
 
-use futures::future;
-use futures::FutureExt;
 use gettextrs::gettext;
 use glib::clone;
 use glib::WeakRef;
@@ -13,10 +11,8 @@ use gtk::subclass::prelude::*;
 use log::debug;
 use log::info;
 use once_cell::sync::OnceCell;
-use search_provider::SearchProvider;
 
 use crate::config;
-use crate::utils;
 use crate::window::Window;
 
 mod imp {
@@ -25,7 +21,8 @@ mod imp {
     #[derive(Default)]
     pub(crate) struct Application {
         pub(super) window: OnceCell<WeakRef<Window>>,
-        pub(super) search_provider: OnceCell<SearchProvider<super::Application>>,
+        pub(super) provider: gtk::CssProvider,
+        pub(super) default_css: OnceCell<String>,
     }
 
     #[glib::object_subclass]
@@ -66,7 +63,6 @@ mod imp {
             app.setup_css();
             app.setup_gactions();
             app.setup_accels();
-            app.setup_search_provider();
         }
     }
 
@@ -120,14 +116,6 @@ impl Application {
             app.show_about_dialog();
         }));
         self.add_action(&action_about);
-
-        // Start podman user service
-        let action_start_service = gio::SimpleAction::new("start-service", None);
-        action_start_service.connect_activate(clone!(@weak self as app => move |action, _| {
-            action.set_enabled(false);
-            app.start_service(action);
-        }));
-        self.add_action(&action_start_service);
     }
 
     // Sets up keyboard shortcuts
@@ -136,34 +124,43 @@ impl Application {
     }
 
     fn setup_css(&self) {
-        let provider = gtk::CssProvider::new();
-        provider.load_from_resource("/com/github/marhkb/Pods/style.css");
+        let imp = self.imp();
+
+        imp.provider
+            .load_from_resource("/com/github/marhkb/Pods/style.css");
+
+        imp.default_css.set(imp.provider.to_str().into()).unwrap();
+
         if let Some(display) = gdk::Display::default() {
-            gtk::StyleContext::add_provider_for_display(
-                &display,
-                &provider,
-                gtk::STYLE_PROVIDER_PRIORITY_APPLICATION,
-            );
+            gtk::StyleContext::add_provider_for_display(&display, &imp.provider, 400);
         }
     }
 
-    fn setup_search_provider(&self) {
-        glib::MainContext::default().spawn_local(clone!(@weak self as app => async move {
-            match SearchProvider::new(
-                app.clone(),
-                format!("{}.SearchProvider", config::APP_ID),
-                config::OBJECT_PATH,
+    pub(crate) fn set_headerbar_background(&self, bg_color: Option<gdk::RGBA>) {
+        let imp = self.imp();
+
+        let (bg_color, fg_color) = bg_color
+            .map(|color| {
+                (
+                    Cow::Owned(color.to_string()),
+                    if luminance(&color) > 0.4 {
+                        "rgba(0, 0, 0, 0.8)"
+                    } else {
+                        "#ffffff"
+                    },
+                )
+            })
+            .unwrap_or_else(|| (Cow::Borrowed("@headerbar_bg_color"), "@headerbar_fg_color"));
+
+        self.imp().provider.load_from_data(
+            format!(
+                "@define-color background_color {};@define-color foreground_color {}; {}",
+                bg_color,
+                fg_color,
+                imp.default_css.get().unwrap()
             )
-            .await
-            {
-                Ok(search_provider) => {
-                    if app.imp().search_provider.set(search_provider).is_err() {
-                        unreachable!("Search provider already set");
-                    }
-                }
-                Err(err) => log::debug!("Could not start search provider: {}", err),
-            }
-        }));
+            .as_bytes(),
+        );
     }
 
     fn show_about_dialog(&self) {
@@ -186,71 +183,6 @@ impl Application {
         dialog.present();
     }
 
-    fn start_service(&self, action: &gio::SimpleAction) {
-        utils::do_async(
-            future::try_select(
-                start_service_assuming_flatpak().boxed(),
-                start_service_assuming_native().boxed(),
-            ),
-            clone!(@weak self as obj, @weak action => move |result| match result {
-                Ok(future::Either::Left((output, _)))
-                | Ok(future::Either::Right((output, _))) => {
-                    obj.on_service_start_command_issued(output, &action);
-                },
-                Err(future::Either::Left((e1, f))) | Err(future::Either::Right((e1, f))) => {
-                    utils::do_async(f, clone!(@weak obj, @weak action => move |result| match result {
-                        Ok(output) => obj.on_service_start_command_issued(output, &action),
-                        Err(e2) => {
-                            action.set_enabled(true);
-
-                            log::error!(
-                                "Failed to execute command to start Podman. \
-                                Neither flatpak nor native method worked.\n\t{e1}\n\t{e2}"
-                            );
-                            obj.main_window().show_toast(
-                                &adw::Toast::builder()
-                                    .title(
-                                        &gettext("Failed to execute command to start Podman")
-                                    )
-                                    .timeout(3)
-                                    .priority(adw::ToastPriority::High)
-                                    .build(),
-                            );
-                        }
-                    }));
-                },
-            }),
-        );
-    }
-
-    fn on_service_start_command_issued(
-        &self,
-        output: std::process::Output,
-        action: &gio::SimpleAction,
-    ) {
-        action.set_enabled(true);
-
-        if output.status.success() {
-            self.main_window().check_service();
-        } else {
-            log::error!(
-                "command to start Podman returned exit code: {}",
-                output.status
-            );
-            self.main_window().show_toast(
-                &adw::Toast::builder()
-                    .title(&gettext!(
-                        // Translators: "{}" is the placeholder for the exit code.
-                        "Command to start Podman returned exit code: {}",
-                        output.status
-                    ))
-                    .timeout(3)
-                    .priority(adw::ToastPriority::High)
-                    .build(),
-            );
-        }
-    }
-
     pub(crate) fn run(&self) {
         info!("Pods ({})", config::APP_ID);
         info!("Version: {} ({})", config::VERSION, config::PROFILE);
@@ -260,23 +192,17 @@ impl Application {
     }
 }
 
-async fn start_service_assuming_flatpak() -> Result<std::process::Output, io::Error> {
-    tokio::process::Command::new("flatpak-spawn")
-        .args(&[
-            "--host",
-            "systemctl",
-            "--user",
-            "enable",
-            "--now",
-            "podman.socket",
-        ])
-        .output()
-        .await
+fn srgb(c: f32) -> f32 {
+    if c <= 0.03928 {
+        c / 12.92
+    } else {
+        ((c + 0.055) / 1.055).powf(2.4)
+    }
 }
 
-async fn start_service_assuming_native() -> Result<std::process::Output, io::Error> {
-    tokio::process::Command::new("systemctl")
-        .args(&["--user", "enable", "--now", "podman.socket"])
-        .output()
-        .await
+fn luminance(color: &gdk::RGBA) -> f32 {
+    let red = srgb(color.red());
+    let blue = srgb(color.blue());
+    let green = srgb(color.green());
+    red * 0.2126 + blue * 0.0722 + green * 0.7152
 }

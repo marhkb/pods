@@ -182,66 +182,68 @@ impl SearchPanel {
         self.imp().client.upgrade()
     }
 
-    pub(crate) fn set_client(&self, value: &model::Client) {
-        if self.client().as_ref() == Some(value) {
+    pub(crate) fn set_client(&self, value: Option<&model::Client>) {
+        if self.client().as_ref() == value {
             return;
         }
 
         let imp = self.imp();
 
-        let images_model = gtk::SliceListModel::new(
-            Some(&gtk::SortListModel::new(
-                Some(&gtk::FilterListModel::new(
-                    Some(value.image_list()),
-                    imp.filter.get(),
+        if let Some(client) = value {
+            let images_model = gtk::SliceListModel::new(
+                Some(&gtk::SortListModel::new(
+                    Some(&gtk::FilterListModel::new(
+                        Some(client.image_list()),
+                        imp.filter.get(),
+                    )),
+                    imp.sorter.get(),
                 )),
-                imp.sorter.get(),
-            )),
-            0,
-            8,
-        );
-        images_model.connect_items_changed(
-            clone!(@weak self as obj => move |_, _, _, _| obj.update_view()),
-        );
-        imp.images_list_box.bind_model(Some(&images_model), |item| {
-            view::ImageRow::from(item.downcast_ref().unwrap()).upcast()
-        });
-        imp.images_model.replace(Some(images_model.upcast()));
-
-        let containers_model = gtk::SliceListModel::new(
-            Some(&gtk::SortListModel::new(
-                Some(&gtk::FilterListModel::new(
-                    Some(value.container_list()),
-                    imp.filter.get(),
-                )),
-                imp.sorter.get(),
-            )),
-            0,
-            8,
-        );
-        containers_model.connect_items_changed(
-            clone!(@weak self as obj => move |_, _, _, _| obj.update_view()),
-        );
-        imp.containers_list_box
-            .bind_model(Some(&containers_model), |item| {
-                view::ContainerRow::from(item.downcast_ref().unwrap()).upcast()
+                0,
+                8,
+            );
+            images_model.connect_items_changed(
+                clone!(@weak self as obj => move |_, _, _, _| obj.update_view()),
+            );
+            imp.images_list_box.bind_model(Some(&images_model), |item| {
+                view::ImageRow::from(item.downcast_ref().unwrap()).upcast()
             });
-        imp.containers_model
-            .replace(Some(containers_model.upcast()));
+            imp.images_model.replace(Some(images_model.upcast()));
 
-        value.container_list().connect_container_name_changed(
-            clone!(@weak self as obj => move |_, _| {
-                glib::timeout_add_seconds_local_once(
-                    1,
-                    clone!(@weak obj => move || {
-                        obj.update_filter();
-                        obj.update_sorter();
-                    }),
-                );
-            }),
-        );
+            let containers_model = gtk::SliceListModel::new(
+                Some(&gtk::SortListModel::new(
+                    Some(&gtk::FilterListModel::new(
+                        Some(client.container_list()),
+                        imp.filter.get(),
+                    )),
+                    imp.sorter.get(),
+                )),
+                0,
+                8,
+            );
+            containers_model.connect_items_changed(
+                clone!(@weak self as obj => move |_, _, _, _| obj.update_view()),
+            );
+            imp.containers_list_box
+                .bind_model(Some(&containers_model), |item| {
+                    view::ContainerRow::from(item.downcast_ref().unwrap()).upcast()
+                });
+            imp.containers_model
+                .replace(Some(containers_model.upcast()));
 
-        imp.client.set(Some(value));
+            client.container_list().connect_container_name_changed(
+                clone!(@weak self as obj => move |_, _| {
+                    glib::timeout_add_seconds_local_once(
+                        1,
+                        clone!(@weak obj => move || {
+                            obj.update_filter();
+                            obj.update_sorter();
+                        }),
+                    );
+                }),
+            );
+        }
+
+        imp.client.set(value);
         self.notify("client");
     }
 

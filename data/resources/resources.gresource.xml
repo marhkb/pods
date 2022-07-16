@@ -3,9 +3,11 @@
   <gresource prefix="/com/github/marhkb/Pods/">
     <!-- see https://gtk-rs.org/gtk4-rs/git/docs/gtk4/struct.Application.html#automatic-resources -->
     <file compressed="true" preprocess="xml-stripblanks" alias="gtk/help-overlay.ui">ui/shortcuts.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">ui/check-service-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/circular-progress-bar.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">ui/connection-lost-page.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/connection-chooser-page.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/connection-creator-page.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/connection-row.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/connection-switcher-popup.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container-creation-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container-details-panel.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container-logs-panel.ui</file>
@@ -33,10 +35,10 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/property-row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/property-widget-row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/search-panel.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">ui/start-service-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/text-search-entry.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/theme-selector.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/volume-row.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/welcome-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/window.ui</file>
 
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/build-configure-symbolic.svg</file>

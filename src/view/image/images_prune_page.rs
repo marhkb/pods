@@ -257,9 +257,9 @@ glib::wrapper! {
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
-impl From<&model::Client> for ImagesPrunePage {
-    fn from(client: &model::Client) -> Self {
-        glib::Object::new(&[("client", client)]).expect("Failed to create ImagesPrunePage")
+impl From<Option<&model::Client>> for ImagesPrunePage {
+    fn from(client: Option<&model::Client>) -> Self {
+        glib::Object::new(&[("client", &client)]).expect("Failed to create ImagesPrunePage")
     }
 }
 

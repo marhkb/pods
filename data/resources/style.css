@@ -1,3 +1,36 @@
+headerbar {
+  background: @background_color;
+  color: @foreground_color;
+}
+
+/* START: ConnectionSwitcher/ConnectionChooser */
+#connection-switcher-popup row #selection-indicator #background,
+connectionchooserpage row #selection-indicator #background
+{
+  background-color: @shade_color;
+  padding: 15px;
+  border-radius: 9999px;
+}
+
+#connection-switcher-popup row #selection-indicator #checkmark,
+connectionchooserpage row #selection-indicator #checkmark {
+  color: @light_1;
+  border-radius: 9999px;
+  border: solid @accent_bg_color 2px;
+  background-color: @accent_bg_color;
+}
+
+#connection-switcher-popup row #selection-indicator .selected-connection,
+connectionchooserpage row #selection-indicator .selected-connection {
+  border: 2px solid @accent_bg_color;
+}
+
+#connection-switcher-popup row #selection-indicator .unselected-connection,
+connectionchooserpage row #selection-indicator .unselected-connection {
+  border: 2px solid transparent;
+}
+/* END: ConnectionSwitcher/ConnectionChooser */
+
 /* START: ThemeSelector */
 theme-selector {
   margin: 9px;
@@ -41,6 +74,16 @@ checkbutton.theme-selector radio:checked {
   color: @theme_selected_fg_color;
 }
 /* END: ThemeSelector */
+
+/* START: ConnectionSwitcher */
+#connection-switcher-popup row {
+  border-radius: 10px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+/* END: ConnectionSwitcher */
 
 .image-tag-none .title {
   color: @dark_1;

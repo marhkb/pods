@@ -1,9 +1,5 @@
-use std::cell::RefCell;
-use std::collections::HashSet;
-
 use adw::subclass::prelude::AdwApplicationWindowImpl;
 use cascade::cascade;
-use futures::StreamExt;
 use gettextrs::gettext;
 use gtk::gdk;
 use gtk::gio;
@@ -12,12 +8,11 @@ use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
+use once_cell::sync::Lazy;
 
-use crate::api;
 use crate::application::Application;
 use crate::config;
 use crate::model;
-use crate::model::AbstractContainerListExt;
 use crate::utils;
 use crate::view;
 
@@ -28,14 +23,13 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/window.ui")]
     pub(crate) struct Window {
         pub(super) settings: utils::PodsSettings,
-        pub(super) client: model::Client,
-        pub(super) wating_search_provider_ids: RefCell<HashSet<String>>,
+        pub(super) connection_manager: model::ConnectionManager,
         #[template_child]
         pub(super) toast_overlay: TemplateChild<adw::ToastOverlay>,
         #[template_child]
         pub(super) main_stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub(super) start_service_page: TemplateChild<view::StartServicePage>,
+        pub(super) client_box: TemplateChild<gtk::Box>,
         #[template_child]
         pub(super) leaflet: TemplateChild<adw::Leaflet>,
         #[template_child]
@@ -60,8 +54,6 @@ mod imp {
         pub(super) search_panel: TemplateChild<view::SearchPanel>,
         #[template_child]
         pub(super) leaflet_overlay: TemplateChild<view::LeafletOverlay>,
-        #[template_child]
-        pub(super) connection_lost_page: TemplateChild<view::ConnectionLostPage>,
     }
 
     #[glib::object_subclass]
@@ -74,8 +66,10 @@ mod imp {
             Self::bind_template(klass);
 
             // Initialize all classes here
-            view::CheckServicePage::static_type();
             view::CircularProgressBar::static_type();
+            view::ConnectionChooserPage::static_type();
+            view::ConnectionRow::static_type();
+            view::ConnectionSwitcherPopup::static_type();
             view::ContainerDetailsPanel::static_type();
             view::ContainerLogsPanel::static_type();
             view::ContainerMenuButton::static_type();
@@ -86,9 +80,18 @@ mod imp {
             view::ImageSearchResponseRow::static_type();
             view::ImagesPanel::static_type();
             view::PropertyWidgetRow::static_type();
-            view::StartServicePage::static_type();
             view::TextSearchEntry::static_type();
+            view::WelcomePage::static_type();
             sourceview5::View::static_type();
+
+            klass.install_action("win.add-connection", None, |widget, _, _| {
+                widget.add_connection();
+            });
+
+            klass.install_action("win.remove-connection", Some("s"), |widget, _, data| {
+                let uuid: String = data.unwrap().get().unwrap();
+                widget.remove_connection(&uuid);
+            });
 
             klass.install_action("win.show-podman-info", None, |widget, _, _| {
                 widget.show_podman_info_dialog();
@@ -124,6 +127,27 @@ mod imp {
     }
 
     impl ObjectImpl for Window {
+        fn properties() -> &'static [glib::ParamSpec] {
+            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
+                vec![glib::ParamSpecObject::new(
+                    "connection-manager",
+                    "Connection Manager",
+                    "The connection manager client",
+                    model::ConnectionManager::static_type(),
+                    glib::ParamFlags::READABLE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                )]
+            });
+
+            PROPERTIES.as_ref()
+        }
+
+        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            match pspec.name() {
+                "connection-manager" => obj.connection_manager().to_value(),
+                _ => unimplemented!(),
+            }
+        }
+
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
@@ -191,33 +215,43 @@ mod imp {
                 .unwrap()
                 .add_child(&view::ThemeSelector::default(), "theme");
 
-            self.images_panel.set_image_list(self.client.image_list());
-            self.containers_panel
-                .set_container_list(self.client.container_list());
+            self.connection_manager.connect_notify_local(
+                Some("client"),
+                clone!(@weak obj => move |manager, _| match manager.client() {
+                    Some(client) => client.check_service(
+                        clone!(@weak obj, @weak client => move || {
+                            let imp = obj.imp();
+                            imp.main_stack.set_visible_child(&*imp.client_box);
+                            obj.set_headerbar_background(client.connection().rgb());
+                        }),
+                        clone!(@weak obj => move |e| obj.client_err_op(e)),
+                        clone!(@weak obj, @weak manager => move |e| {
+                            utils::show_error_toast(&obj, "Connection lost", &e.to_string());
+                            manager.unset_client();
+                        }),
+                    ),
+                    None => {
+                        obj.imp()
+                            .main_stack
+                            .set_visible_child_name(if manager.n_items() > 0 {
+                                "connection-chooser"
+                            } else {
+                                "welcome"
+                            });
 
-            self.search_panel.set_client(&self.client);
-
-            // For GNOME search provider
-            self.client
-                .image_list()
-                .connect_image_added(clone!(@weak obj => move |_, image| {
-                    if obj.imp().wating_search_provider_ids.borrow_mut().remove(image.id()) {
-                        obj.leaflet_overlay()
-                            .topmost_leaflet_overlay()
-                            .show_details(&view::ImageDetailsPage::from(image));
-                    }
-                }));
-            self.client.container_list().connect_container_added(
-                clone!(@weak obj => move |_, container| {
-                    if obj.imp().wating_search_provider_ids.borrow_mut().remove(container.id().unwrap()) {
-                        obj.leaflet_overlay()
-                            .topmost_leaflet_overlay()
-                            .show_details(&view::ContainerPage::from(container));
+                        obj.set_headerbar_background(None);
                     }
                 }),
             );
 
-            obj.check_service();
+            match self.connection_manager.setup() {
+                Ok(_) => {
+                    if self.connection_manager.n_items() == 0 {
+                        self.main_stack.set_visible_child_name("welcome");
+                    }
+                }
+                Err(e) => obj.on_connection_manager_setup_error(e),
+            }
         }
     }
 
@@ -284,39 +318,44 @@ impl Window {
             .build();
     }
 
-    pub(crate) fn show_image_details(&self, id: String) {
-        let imp = self.imp();
-
-        match imp.client.image_list().get_image(&id) {
-            Some(image) => {
-                self.leaflet_overlay()
-                    .topmost_leaflet_overlay()
-                    .show_details(&view::ImageDetailsPage::from(&image));
-            }
-            None => {
-                imp.wating_search_provider_ids.borrow_mut().insert(id);
-            }
-        };
+    pub(crate) fn connection_manager(&self) -> model::ConnectionManager {
+        self.imp().connection_manager.clone()
     }
 
-    pub(crate) fn show_container_details(&self, id: String) {
-        let imp = self.imp();
+    fn set_headerbar_background(&self, rgb: Option<gdk::RGBA>) {
+        self.application()
+            .unwrap()
+            .downcast::<crate::Application>()
+            .unwrap()
+            .set_headerbar_background(rgb);
+    }
 
-        match imp.client.container_list().get_container(&id) {
-            Some(container) => {
-                self.leaflet_overlay()
-                    .topmost_leaflet_overlay()
-                    .show_details(&view::ContainerPage::from(&container));
-            }
-            None => {
-                imp.wating_search_provider_ids.borrow_mut().insert(id);
-            }
-        };
+    fn on_connection_manager_setup_error(&self, e: impl ToString) {
+        let imp = self.imp();
+        imp.main_stack
+            .set_visible_child_name(if imp.connection_manager.n_items() > 0 {
+                "connection-chooser"
+            } else {
+                "welcome"
+            });
+
+        utils::show_error_toast(self, "Connection error", &e.to_string());
+    }
+
+    fn add_connection(&self) {
+        self.leaflet_overlay()
+            .show_details(&view::ConnectionCreatorPage::from(
+                &self.connection_manager(),
+            ));
+    }
+
+    fn remove_connection(&self, uuid: &str) {
+        self.connection_manager().remove_connection(uuid);
     }
 
     fn show_podman_info_dialog(&self) {
         cascade! {
-            view::InfoDialog::from(Some(&self.imp().client));
+            view::InfoDialog::from(self.connection_manager().client().as_ref());
             ..set_transient_for(Some(self));
         }
         .present();
@@ -325,19 +364,25 @@ impl Window {
     fn show_pull_dialog(&self) {
         self.imp()
             .leaflet_overlay
-            .show_details(&view::ImagePullPage::from(&self.imp().client));
+            .show_details(&view::ImagePullPage::from(
+                self.connection_manager().client().as_ref(),
+            ));
     }
 
     fn show_prune_page(&self) {
         self.imp()
             .leaflet_overlay
-            .show_details(&view::ImagesPrunePage::from(&self.imp().client));
+            .show_details(&view::ImagesPrunePage::from(
+                self.connection_manager().client().as_ref(),
+            ));
     }
 
     fn create_container(&self) {
         self.imp()
             .leaflet_overlay
-            .show_details(&view::ContainerCreationPage::from(&self.imp().client));
+            .show_details(&view::ContainerCreationPage::from(
+                self.connection_manager().client().as_ref(),
+            ));
     }
 
     fn toggle_search(&self) {
@@ -345,122 +390,33 @@ impl Window {
         imp.search_button.set_active(!imp.search_button.is_active());
     }
 
-    pub(crate) fn check_service(&self) {
-        let imp = self.imp();
-
-        // We disable the start service page here in order to prevent the button from flashing to
-        // `sensitive` at the beginning of the transition to the main view.
-        imp.start_service_page.set_enabled(false);
-        // Same reason applies here as above.
-        imp.connection_lost_page.set_enabled(false);
-
-        utils::do_async(
-            {
-                let podman = self.imp().client.podman().clone();
-                async move { podman.ping().await }
-            },
-            clone!(@weak self as obj => move |result| {
-                let imp = obj.imp();
-                match result {
-                    Ok(_) => {
-                        imp.main_stack.set_visible_child(&*imp.leaflet);
-                        imp.images_panel.image_list().unwrap().refresh(
-                            clone!(@weak obj => move |e| {
-                                obj.images_err_op(e);
-                            }),
-                        );
-                        imp.containers_panel
-                            .container_list()
-                            .unwrap()
-                            .refresh(clone!(@weak obj => move |e| {
-                                obj.containers_err_op(e);
-                            }));
-
-                        obj.start_event_listener();
-                    }
-                    Err(e) => {
-                        imp.start_service_page.set_enabled(true);
-                        imp.main_stack.set_visible_child(&*imp.start_service_page);
-                        log::error!("Could not connect to Podman: {e}");
-                        // No need to show a toast. The start service page is enough.
-                    }
-                }
-            }),
-        );
-    }
-
-    fn start_event_listener(&self) {
-        utils::run_stream(
-            self.imp().client.podman().clone(),
-            |podman| podman.events(&api::EventsOpts::builder().build()).boxed(),
-            clone!(
-                @weak self as obj => @default-return glib::Continue(false),
-                move |result: api::Result<api::Event>|
-            {
-                let imp = obj.imp();
-
-                glib::Continue(match result {
-                    Ok(event) => {
-                        log::debug!("Event: {event:?}");
-                        match event.typ.as_str() {
-                            "image" => imp.images_panel.image_list().unwrap().handle_event(
-                                event,
-                                clone!(@weak obj => move |e| obj.images_err_op(e)),
-                            ),
-                            "container" => imp
-                                .containers_panel
-                                .container_list()
-                                .unwrap()
-                                .handle_event(
-                                    event,
-                                    clone!(@weak obj => move |e| obj.containers_err_op(e)),
-                                ),
-                            other => log::warn!("Unhandled event type: {other}"),
+    fn client_err_op(&self, e: model::ClientError) {
+        self.show_toast(
+            &adw::Toast::builder()
+                .title(&match e.err {
+                    model::RefreshError::List => gettext!(
+                        "Error on loading {}",
+                        match e.variant {
+                            model::ClientErrorVariant::Images => gettext("images"),
+                            model::ClientErrorVariant::Containers => gettext("containers"),
                         }
-                        true
-                    },
-                    Err(e) => {
-                        log::error!("Stopping image event stream due to error: {e}");
-
-                        imp.connection_lost_page.set_enabled(true);
-                        imp.main_stack.set_visible_child(&*imp.connection_lost_page);
-                        false
-                    }
-                })
-            }),
-        );
-    }
-
-    fn images_err_op(&self, e: model::ImageListError) {
-        self.show_toast(
-            &adw::Toast::builder()
-                .title(&match e {
-                    model::ImageListError::List => gettext("Error on loading images"),
-                    model::ImageListError::Inspect(id) => {
+                    ),
+                    model::RefreshError::Inspect(id) => {
                         // Translators: "{}" is the placeholder for the image id.
-                        gettext!("Error on inspecting image '{}'", id)
+                        gettext!(
+                            "Error on inspecting {} '{}'",
+                            match e.variant {
+                                model::ClientErrorVariant::Images => gettext("image"),
+                                model::ClientErrorVariant::Containers => gettext("container"),
+                            },
+                            id
+                        )
                     }
                 })
                 .timeout(3)
                 .priority(adw::ToastPriority::High)
                 .build(),
         );
-    }
-
-    fn containers_err_op(&self, e: model::ContainerListError) {
-        self.show_toast(
-            &adw::Toast::builder()
-                .title(&match e {
-                    model::ContainerListError::List => gettext("Error on loading containers"),
-                    model::ContainerListError::Inspect(id) => {
-                        // Translators: "{}" is the placeholder for the container id.
-                        gettext!("Error on inspecting container '{}'", id)
-                    }
-                })
-                .timeout(3)
-                .priority(adw::ToastPriority::High)
-                .build(),
-        )
     }
 
     pub(crate) fn show_toast(&self, toast: &adw::Toast) {
