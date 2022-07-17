@@ -71,9 +71,12 @@
 
                     <child>
                       <object class="AdwPreferencesGroup">
+                        <property name="title" translatable="yes">Utilities</property>
+
                         <child>
                           <object class="AdwActionRow">
-                            <property name="title" translatable="yes">Log Viewer</property>
+                            <property name="title" translatable="yes">Logs</property>
+                            <property name="subtitle" translatable="yes">View and search through container logs</property>
                             <property name="activatable">True</property>
                             <property name="action-name">container.show-log</property>
                             <property name="icon-name">text-editor-symbolic</property>
@@ -89,6 +92,27 @@
 
                           </object>
                         </child>
+
+                        <child>
+                          <object class="AdwActionRow">
+                            <property name="title" translatable="yes">Processes</property>
+                            <property name="subtitle" translatable="yes">View processes that are currently running inside the container</property>
+                            <property name="activatable">True</property>
+                            <property name="action-name">container.show-processes</property>
+                            <property name="icon-name">application-x-executable-symbolic</property>
+
+                            <child>
+                              <object class="GtkImage">
+                                <property name="icon_name">go-next-symbolic</property>
+                                <style>
+                                  <class name="dim-label"/>
+                                </style>
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
                       </object>
                     </child>
 

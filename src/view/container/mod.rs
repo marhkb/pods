@@ -16,6 +16,7 @@ pub(crate) use self::container_creation_page::ContainerCreationPage;
 pub(crate) use self::container_details_page::ContainerDetailsPage;
 pub(crate) use self::container_log_page::ContainerLogPage;
 pub(crate) use self::container_menu_button::ContainerMenuButton;
+pub(crate) use self::container_processes_page::ContainerProcessesPage;
 pub(crate) use self::container_properties_group::ContainerPropertiesGroup;
 pub(crate) use self::container_rename_dialog::ContainerRenameDialog;
 pub(crate) use self::container_row::ContainerRow;

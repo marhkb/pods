@@ -43,6 +43,9 @@ mod imp {
             klass.install_action("container.show-log", None, move |widget, _, _| {
                 widget.show_log();
             });
+            klass.install_action("container.show-processes", None, move |widget, _, _| {
+                widget.show_processes();
+            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -161,6 +164,13 @@ impl ContainerDetailsPage {
         if let Some(container) = self.container() {
             utils::leaflet_overlay(&*self.imp().leaflet)
                 .show_details(&view::ContainerLogPage::from(&container));
+        }
+    }
+
+    fn show_processes(&self) {
+        if let Some(container) = self.container() {
+            utils::leaflet_overlay(&*self.imp().leaflet)
+                .show_details(&view::ContainerProcessesPage::from(&container));
         }
     }
 }

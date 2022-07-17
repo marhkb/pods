@@ -20,6 +20,7 @@ pub(crate) use self::container::ContainerCreationPage;
 pub(crate) use self::container::ContainerDetailsPage;
 pub(crate) use self::container::ContainerLogPage;
 pub(crate) use self::container::ContainerMenuButton;
+pub(crate) use self::container::ContainerProcessesPage;
 pub(crate) use self::container::ContainerPropertiesGroup;
 pub(crate) use self::container::ContainerRenameDialog;
 pub(crate) use self::container::ContainerRow;
