@@ -2,6 +2,7 @@ mod container_creation_page;
 mod container_details_page;
 mod container_log_page;
 mod container_menu_button;
+mod container_processes_page;
 mod container_properties_group;
 mod container_rename_dialog;
 mod container_row;
