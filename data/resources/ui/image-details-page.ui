@@ -34,7 +34,7 @@
                 </child>
 
                 <child type="title">
-                  <object class="AdwWindowTitle" id="window_title">
+                  <object class="AdwWindowTitle">
                     <property name="title" translatable="yes">Image Details</property>
                   </object>
                 </child>
@@ -62,68 +62,58 @@
                         <property name="title" translatable="yes">Properties</property>
 
                         <child>
-                          <object class="GtkListBox">
-                            <style>
-                              <class name="boxed-list"/>
-                            </style>
-                            <property name="selection-mode">none</property>
+                          <object class="PropertyRow" id="id_row">
+                            <property name="key" translatable="True">Id</property>
+                          </object>
+                        </child>
 
-                            <child>
-                              <object class="PropertyRow" id="id_row">
-                                <property name="key" translatable="True">Id</property>
-                              </object>
-                            </child>
+                        <child>
+                          <object class="PropertyRow" id="created_row">
+                            <property name="key" translatable="True">Created</property>
+                          </object>
+                        </child>
 
-                            <child>
-                              <object class="PropertyRow" id="created_row">
-                                <property name="key" translatable="True">Created</property>
-                              </object>
-                            </child>
+                        <child>
+                          <object class="PropertyRow" id="size_row">
+                            <property name="key" translatable="True">Disk space</property>
+                          </object>
+                        </child>
 
-                            <child>
-                              <object class="PropertyRow" id="size_row">
-                                <property name="key" translatable="True">Disk space</property>
-                              </object>
-                            </child>
+                        <child>
+                          <object class="PropertyRow" id="command_row">
+                            <property name="key" translatable="True">Command</property>
+                            <binding name="value">
+                              <lookup name="cmd" type="ImageConfig">
+                                <lookup name="config" type="Image">
+                                  <lookup name="image">ImageDetailsPage</lookup>
+                                </lookup>
+                              </lookup>
+                            </binding>
+                          </object>
+                        </child>
 
-                            <child>
-                              <object class="PropertyRow" id="command_row">
-                                <property name="key" translatable="True">Command</property>
-                                <binding name="value">
-                                  <lookup name="cmd" type="ImageConfig">
-                                    <lookup name="config" type="Image">
-                                      <lookup name="image">ImageDetailsPage</lookup>
-                                    </lookup>
-                                  </lookup>
-                                </binding>
-                              </object>
-                            </child>
+                        <child>
+                          <object class="PropertyRow" id="entrypoint_row">
+                            <property name="key" translatable="True">Entry Point</property>
+                            <binding name="value">
+                              <lookup name="entrypoint" type="ImageConfig">
+                                <lookup name="config" type="Image">
+                                  <lookup name="image">ImageDetailsPage</lookup>
+                                </lookup>
+                              </lookup>
+                            </binding>
+                          </object>
+                        </child>
 
-                            <child>
-                              <object class="PropertyRow" id="entrypoint_row">
-                                <property name="key" translatable="True">Entry Point</property>
-                                <binding name="value">
-                                  <lookup name="entrypoint" type="ImageConfig">
-                                    <lookup name="config" type="Image">
-                                      <lookup name="image">ImageDetailsPage</lookup>
-                                    </lookup>
-                                  </lookup>
-                                </binding>
-                              </object>
-                            </child>
+                        <child>
+                          <object class="PropertyRow" id="ports_row">
+                            <property name="key" translatable="True">Ports</property>
+                          </object>
+                        </child>
 
-                            <child>
-                              <object class="PropertyRow" id="ports_row">
-                                <property name="key" translatable="True">Ports</property>
-                              </object>
-                            </child>
-
-                            <child>
-                              <object class="PropertyRow" id="repo_tags_row">
-                                <property name="key" translatable="True">Tags</property>
-                              </object>
-                            </child>
-
+                        <child>
+                          <object class="PropertyRow" id="repo_tags_row">
+                            <property name="key" translatable="True">Tags</property>
                           </object>
                         </child>
 
