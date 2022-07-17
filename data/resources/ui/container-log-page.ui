@@ -51,7 +51,7 @@
     </child>
 
     <child>
-      <object class="GtkOverlay" id="overlay">
+      <object class="GtkOverlay">
 
         <child type="overlay">
           <object class="GtkRevealer">

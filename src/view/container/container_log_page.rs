@@ -62,8 +62,6 @@ mod imp {
         #[template_child]
         pub(super) word_button: TemplateChild<gtk::CheckButton>,
         #[template_child]
-        pub(super) overlay: TemplateChild<gtk::Overlay>,
-        #[template_child]
         pub(super) scrolled_window: TemplateChild<gtk::ScrolledWindow>,
         #[template_child]
         pub(super) source_view: TemplateChild<sourceview5::View>,
@@ -297,8 +295,12 @@ mod imp {
             obj.scroll_down();
         }
 
-        fn dispose(&self, _obj: &Self::Type) {
-            self.overlay.unparent();
+        fn dispose(&self, obj: &Self::Type) {
+            let mut child = obj.first_child();
+            while let Some(child_) = child {
+                child = child_.next_sibling();
+                child_.unparent();
+            }
         }
     }
 
