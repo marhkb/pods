@@ -71,7 +71,7 @@ mod imp {
         #[template_child]
         pub(super) image_pulling_page: TemplateChild<view::ImagePullingPage>,
         #[template_child]
-        pub(super) container_page_bin: TemplateChild<adw::Bin>,
+        pub(super) container_details_page_bin: TemplateChild<adw::Bin>,
         #[template_child]
         pub(super) leaflet_overlay: TemplateChild<view::LeafletOverlay>,
     }
@@ -631,9 +631,10 @@ impl ContainerCreationPage {
 
     fn switch_to_container(&self, container: &model::Container) {
         let imp = self.imp();
-        imp.container_page_bin
-            .set_child(Some(&view::ContainerPage::from(container)));
-        imp.stack.set_visible_child(&*imp.container_page_bin);
+        imp.container_details_page_bin
+            .set_child(Some(&view::ContainerDetailsPage::from(container)));
+        imp.stack
+            .set_visible_child(&*imp.container_details_page_bin);
     }
 }
 

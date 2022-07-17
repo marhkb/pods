@@ -1,3 +1,4 @@
+use adw::subclass::prelude::PreferencesGroupImpl;
 use gettextrs::gettext;
 use gtk::glib;
 use gtk::glib::closure;
@@ -15,11 +16,9 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(resource = "/com/github/marhkb/Pods/ui/container-details-panel.ui")]
-    pub(crate) struct ContainerDetailsPanel {
+    #[template(resource = "/com/github/marhkb/Pods/ui/container-properties-group.ui")]
+    pub(crate) struct ContainerPropertiesGroup {
         pub(super) container: WeakRef<model::Container>,
-        #[template_child]
-        pub(super) preferences_page: TemplateChild<adw::PreferencesPage>,
         #[template_child]
         pub(super) id_row: TemplateChild<view::PropertyRow>,
         #[template_child]
@@ -39,10 +38,10 @@ mod imp {
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for ContainerDetailsPanel {
-        const NAME: &'static str = "ContainerDetailsPanel";
-        type Type = super::ContainerDetailsPanel;
-        type ParentType = gtk::Widget;
+    impl ObjectSubclass for ContainerPropertiesGroup {
+        const NAME: &'static str = "ContainerPropertiesGroup";
+        type Type = super::ContainerPropertiesGroup;
+        type ParentType = adw::PreferencesGroup;
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
@@ -56,13 +55,13 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for ContainerDetailsPanel {
+    impl ObjectImpl for ContainerPropertiesGroup {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![glib::ParamSpecObject::new(
                     "container",
                     "Container",
-                    "The container of this ContainerDetailsPanel",
+                    "The container of this ContainerPropertiesGroup",
                     model::Container::static_type(),
                     glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT,
                 )]
@@ -215,20 +214,18 @@ mod imp {
                 ))
                 .bind(&*self.status_label, "css-classes", Some(obj));
         }
-
-        fn dispose(&self, _obj: &Self::Type) {
-            self.preferences_page.unparent();
-        }
     }
 
-    impl WidgetImpl for ContainerDetailsPanel {}
+    impl WidgetImpl for ContainerPropertiesGroup {}
+    impl PreferencesGroupImpl for ContainerPropertiesGroup {}
 }
 
 glib::wrapper! {
-    pub(crate) struct ContainerDetailsPanel(ObjectSubclass<imp::ContainerDetailsPanel>) @extends gtk::Widget;
+    pub(crate) struct ContainerPropertiesGroup(ObjectSubclass<imp::ContainerPropertiesGroup>)
+        @extends gtk::Widget, adw::PreferencesGroup;
 }
 
-impl ContainerDetailsPanel {
+impl ContainerPropertiesGroup {
     pub(crate) fn container(&self) -> Option<model::Container> {
         self.imp().container.upgrade()
     }
