@@ -4,7 +4,6 @@ use std::cell::RefCell;
 use std::collections::BTreeMap;
 use std::mem;
 
-use futures::stream;
 use futures::StreamExt;
 use gettextrs::gettext;
 use gtk::gdk;
@@ -40,8 +39,6 @@ mod imp {
         pub(super) search_settings: sourceview5::SearchSettings,
         pub(super) search_context: OnceCell<sourceview5::SearchContext>,
         pub(super) search_iters: RefCell<Option<(gtk::TextIter, gtk::TextIter)>>,
-        pub(super) abort_handle: RefCell<Option<stream::AbortHandle>>,
-        pub(super) handler_id: RefCell<Option<glib::SignalHandlerId>>,
         pub(super) log_timestamps: RefCell<BTreeMap<u32, String>>,
         pub(super) is_auto_scrolling: Cell<bool>,
         pub(super) sticky: Cell<bool>,
@@ -156,7 +153,7 @@ mod imp {
             pspec: &glib::ParamSpec,
         ) {
             match pspec.name() {
-                "container" => obj.set_container(value.get().unwrap()),
+                "container" => self.container.set(value.get().unwrap()),
                 "sticky" => obj.set_sticky(value.get().unwrap()),
                 _ => unimplemented!(),
             }
@@ -292,6 +289,8 @@ mod imp {
                 }
             }));
 
+            obj.connect_logs();
+
             obj.scroll_down();
         }
 
@@ -321,48 +320,6 @@ impl From<&model::Container> for ContainerLogPage {
 impl ContainerLogPage {
     fn container(&self) -> Option<model::Container> {
         self.imp().container.upgrade()
-    }
-
-    fn set_container(&self, value: Option<&model::Container>) {
-        let container = self.container();
-
-        if container.as_ref() == value {
-            return;
-        }
-
-        self.abort();
-
-        let imp = self.imp();
-
-        if let Some(container) = container {
-            container.disconnect(imp.handler_id.take().unwrap());
-        }
-
-        if let Some(container) = value {
-            self.connect_logs(container, None);
-
-            let handler_id = container.connect_notify_local(
-                Some("status"),
-                clone!(@weak self as obj => move |container, _| {
-                    if let model::ContainerStatus::Running = container.status() {
-                        obj.abort();
-                        obj.connect_logs(
-                            container,
-                            obj.imp()
-                                .log_timestamps
-                                .borrow()
-                                .values()
-                                .last()
-                                .cloned()
-                        );
-                    }
-                }),
-            );
-            imp.handler_id.replace(Some(handler_id));
-        }
-
-        imp.container.set(value);
-        self.notify("container");
     }
 
     fn sticky(&self) -> bool {
@@ -399,25 +356,25 @@ impl ContainerLogPage {
         }
     }
 
-    fn connect_logs(&self, container: &model::Container, since: Option<String>) {
-        if let Some(container) = container.api_container() {
+    fn connect_logs(&self) {
+        if let Some(container) = self
+            .container()
+            .as_ref()
+            .and_then(model::Container::api_container)
+        {
             let mut perform = MarkupPerform::default();
 
             utils::run_stream(
                 container,
                 move |container| {
-                    let opts = api::ContainerLogsOpts::builder()
-                        .follow(true)
-                        .stdout(true)
-                        .stderr(true)
-                        .timestamps(true);
                     container
                         .logs(
-                            &match since {
-                                Some(date_time) => opts.since(date_time),
-                                None => opts,
-                            }
-                            .build(),
+                            &api::ContainerLogsOpts::builder()
+                                .follow(true)
+                                .stdout(true)
+                                .stderr(true)
+                                .timestamps(true)
+                                .build(),
                         )
                         .boxed()
                 },
@@ -454,12 +411,6 @@ impl ContainerLogPage {
                     })
                 }),
             );
-        }
-    }
-
-    fn abort(&self) {
-        if let Some(handle) = self.imp().abort_handle.take() {
-            handle.abort();
         }
     }
 
