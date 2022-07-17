@@ -134,6 +134,8 @@ impl Application {
         if let Some(display) = gdk::Display::default() {
             gtk::StyleContext::add_provider_for_display(&display, &imp.provider, 400);
         }
+
+        self.set_headerbar_background(None);
     }
 
     pub(crate) fn set_headerbar_background(&self, bg_color: Option<gdk::RGBA>) {
