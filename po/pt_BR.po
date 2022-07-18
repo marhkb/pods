@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-25 00:15+0200\n"
+"POT-Creation-Date: 2022-07-18 22:28+0200\n"
 "PO-Revision-Date: 2022-04-29 23:09+0000\n"
 "Last-Translator: William Gabriel Karvat <linkwgk@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/pods/"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Generator: Weblate 4.12.1\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:32
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:40
 msgid "Pods"
 msgstr "Pods"
 
@@ -57,22 +57,26 @@ msgid "Use the light or dark variant of the GTK theme"
 msgstr "Use a variante clara ou escura do tema GTK"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:31
+msgid "The uuid of the connection that was used the last time"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.gschema.xml.in:36
 #, fuzzy
 msgid "The last used view"
 msgstr "A última visualização usada"
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:36
+#: data/com.github.marhkb.Pods.gschema.xml.in:41
 msgid "Whether to show intermediate images"
 msgstr ""
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:41
+#: data/com.github.marhkb.Pods.gschema.xml.in:46
 #, fuzzy
 msgid "Remove all images not in use by containers, not just dangling ones"
 msgstr ""
 "Remova todas as imagens que não são usada por containers, não apenas as "
 "pendentes"
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:46
+#: data/com.github.marhkb.Pods.gschema.xml.in:51
 #, fuzzy
 msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
@@ -81,11 +85,11 @@ msgstr ""
 "Remova imagens mesmo quando usadas por containers externos (por exemplo, por "
 "criar containers)"
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:51
+#: data/com.github.marhkb.Pods.gschema.xml.in:56
 msgid "Whether to show only running containers"
 msgstr ""
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:56
+#: data/com.github.marhkb.Pods.gschema.xml.in:61
 msgid "Whether to show a timestamp for each log line"
 msgstr ""
 
@@ -97,13 +101,7 @@ msgstr "Janela principal"
 msgid "Marcus Behrendt"
 msgstr "Marcus Behrendt"
 
-#: data/resources/ui/check-service-page.ui:17
-msgid "Checking Connection to Podman Service"
-msgstr "Verificando a conexão com o serviço Podman"
-
 #: data/resources/ui/container-rename-dialog.ui:10
-#: data/resources/ui/images-prune-dialog.ui:11
-#: data/resources/ui/container-creation-dialog.ui:21
 msgid "_Cancel"
 msgstr "_Cancelar"
 
@@ -131,181 +129,6 @@ msgctxt "shortcut window"
 msgid "Search"
 msgstr "Pesquisar"
 
-#: data/resources/ui/info-dialog.ui:6 data/resources/ui/info-dialog.ui:10
-msgid "Podman Info"
-msgstr "Informações do Podman"
-
-#: data/resources/ui/info-dialog.ui:15 data/resources/ui/info-dialog.ui:49
-msgid "Version"
-msgstr "Versão"
-
-#: data/resources/ui/info-dialog.ui:19
-msgid "API Version"
-msgstr "Versão da API"
-
-#: data/resources/ui/info-dialog.ui:25
-msgid "Built Time"
-msgstr ""
-
-#: data/resources/ui/info-dialog.ui:31
-msgid "Git Commit"
-msgstr ""
-
-#: data/resources/ui/info-dialog.ui:37
-msgid "Go Version"
-msgstr "Versão do Go"
-
-#: data/resources/ui/info-dialog.ui:43
-msgid "Os Arch"
-msgstr ""
-
-#: data/resources/ui/info-dialog.ui:59
-msgid "Describes the container storage and its attributes."
-msgstr "Descreve o armazenamento do contêiner e seus atributos."
-
-#: data/resources/ui/info-dialog.ui:63
-msgid "Config File"
-msgstr "Arquivo de configuração"
-
-#: data/resources/ui/info-dialog.ui:69
-#, fuzzy
-msgid "Container Store"
-msgstr "Contêineres"
-
-#: data/resources/ui/info-dialog.ui:70
-msgid "Describes the quantity of containers in the store by status."
-msgstr ""
-
-#: data/resources/ui/info-dialog.ui:87 src/model/container.rs:67
-msgid "Paused"
-msgstr "Pausado"
-
-#: data/resources/ui/info-dialog.ui:93 src/model/container.rs:70
-msgid "Running"
-msgstr "Executando"
-
-#: data/resources/ui/info-dialog.ui:99 src/model/container.rs:71
-msgid "Stopped"
-msgstr "Parado"
-
-#: data/resources/ui/info-dialog.ui:108
-msgid "Graph Driver Name"
-msgstr ""
-
-#: data/resources/ui/info-dialog.ui:114
-msgid "Graph Options"
-msgstr ""
-
-#: data/resources/ui/info-dialog.ui:134
-msgid "Graph Root"
-msgstr ""
-
-#: data/resources/ui/info-dialog.ui:140
-msgid "Graph Status"
-msgstr ""
-
-#: data/resources/ui/info-dialog.ui:160
-#, fuzzy
-msgid "Image Store"
-msgstr "Imagens"
-
-#: data/resources/ui/info-dialog.ui:161
-msgid "Describes the image store. Right now only the number of images present."
-msgstr ""
-
-#: data/resources/ui/info-dialog.ui:167
-msgid "Run Root"
-msgstr ""
-
-#: data/resources/ui/info-dialog.ui:173
-msgid "Volume Path"
-msgstr "Caminho do volume"
-
-#: data/resources/ui/container-details-panel.ui:25
-msgid "Id"
-msgstr "Id"
-
-#: data/resources/ui/container-details-panel.ui:31
-#: data/resources/ui/container-creation-dialog.ui:72
-#: data/resources/ui/container-creation-dialog.ui:78
-msgid "Image"
-msgstr "Imagem"
-
-#: data/resources/ui/container-details-panel.ui:56
-#: data/resources/ui/container-creation-dialog.ui:53
-msgid "Name"
-msgstr "Nome"
-
-#: data/resources/ui/container-details-panel.ui:67
-msgid "Status"
-msgstr "Status"
-
-#: data/resources/ui/connection-lost-page.ui:16
-msgid ""
-"An unexpected error has occurred and Pods has lost connection to Podman "
-"Unix. If the connection has been disconnected unintentionally, you can try "
-"to re-establish it."
-msgstr ""
-"Ocorreu um erro inesperado e o Pods perdeu a conexão com o Podman Unix. Se a "
-"conexão foi desconectada involuntariamente, você pode tentar restabelecê-la."
-
-#: data/resources/ui/connection-lost-page.ui:18
-msgid "Lost Connection to Podman"
-msgstr "Perda de conexão com o Podman"
-
-#: data/resources/ui/connection-lost-page.ui:34
-msgid "_Restart Podman Service"
-msgstr "_Reiniciar o serviço Podman"
-
-#: data/resources/ui/start-service-page.ui:16
-msgid "The Podman service is currently not running."
-msgstr "O serviço Podman não está em execução no momento."
-
-#: data/resources/ui/start-service-page.ui:17
-msgid "Welcome to Pods"
-msgstr "Boas-vindas ao Pods"
-
-#: data/resources/ui/start-service-page.ui:33
-msgid "_Start Podman Service"
-msgstr "_Iniciar o serviço Podman"
-
-#: data/resources/ui/images-panel.ui:84
-#: data/resources/ui/containers-panel.ui:85
-msgid "Summary"
-msgstr "Resumo"
-
-#: data/resources/ui/container-logs-panel.ui:28
-msgid "Scroll to bottom"
-msgstr "Role para baixo"
-
-#: data/resources/ui/container-logs-panel.ui:72
-msgid "Move to previous match (Ctrl+Shift+G)"
-msgstr ""
-
-#: data/resources/ui/container-logs-panel.ui:80
-msgid "Move to next match (Ctrl+G)"
-msgstr ""
-
-#: data/resources/ui/container-logs-panel.ui:90
-msgid "Toggle search options"
-msgstr ""
-
-#: data/resources/ui/container-logs-panel.ui:113
-msgid "Re_gular expressions"
-msgstr ""
-
-#: data/resources/ui/container-logs-panel.ui:120
-msgid "_Case sensitive"
-msgstr ""
-
-#: data/resources/ui/container-logs-panel.ui:127
-msgid "Match whole _word only"
-msgstr ""
-
-#: data/resources/ui/containers-panel.ui:86
-msgid "No containers found"
-msgstr "Nenhum contêiner encontrado"
-
 #: data/resources/ui/theme-selector.ui:22
 #: data/resources/ui/theme-selector.ui:24
 msgid "Follow system style"
@@ -321,134 +144,6 @@ msgstr ""
 msgid "Dark style"
 msgstr ""
 
-#: data/resources/ui/window.ui:12
-msgid "_Show Podman Info"
-msgstr "_Mostrar informações do Podman"
-
-#: data/resources/ui/window.ui:18
-msgid "_Preferences"
-msgstr "_Preferências"
-
-#: data/resources/ui/window.ui:22
-msgid "_Keyboard Shortcuts"
-msgstr "_Atalhos de teclado"
-
-#: data/resources/ui/window.ui:26
-msgid "_About Pods"
-msgstr "_Sobre o Pods"
-
-#: data/resources/ui/window.ui:110
-msgid "Images"
-msgstr "Imagens"
-
-#: data/resources/ui/window.ui:122
-msgid "Containers"
-msgstr "Contêineres"
-
-#: data/resources/ui/images-prune-dialog.ui:7
-msgid "Prune Unused Images"
-msgstr ""
-
-#: data/resources/ui/images-prune-dialog.ui:21
-msgid "_Prune"
-msgstr ""
-
-#: data/resources/ui/images-prune-dialog.ui:35
-#, fuzzy
-msgid "Options"
-msgstr "{} opções"
-
-#: data/resources/ui/images-prune-dialog.ui:40
-msgid "Prune All"
-msgstr ""
-
-#: data/resources/ui/images-prune-dialog.ui:41
-msgid "Remove all images not in use by containers, not just dangling ones."
-msgstr ""
-
-#: data/resources/ui/images-prune-dialog.ui:53
-msgid "Prune External"
-msgstr ""
-
-#: data/resources/ui/images-prune-dialog.ui:54
-msgid ""
-"Remove images even when they are used by external containers (e.g, by build "
-"containers)."
-msgstr ""
-
-#: data/resources/ui/images-prune-dialog.ui:65
-msgid "Prune Until"
-msgstr ""
-
-#: data/resources/ui/images-prune-dialog.ui:66
-msgid "Prune images created before this timestamp."
-msgstr ""
-
-#: data/resources/ui/images-prune-dialog.ui:146
-msgid "AM"
-msgstr ""
-
-#: data/resources/ui/images-prune-dialog.ui:147
-msgid "PM"
-msgstr ""
-
-#: data/resources/ui/container-creation-dialog.ui:7
-#, fuzzy
-msgid "_Create"
-msgstr "Criado"
-
-#: data/resources/ui/container-creation-dialog.ui:17
-#, fuzzy
-msgid "Create Container"
-msgstr "Contêineres"
-
-#: data/resources/ui/container-creation-dialog.ui:32
-#, fuzzy
-msgid "Create and run"
-msgstr "Criado"
-
-#: data/resources/ui/container-creation-dialog.ui:68
-#: data/resources/ui/container-page.ui:95
-msgid "Details"
-msgstr "Detalhes"
-
-#: data/resources/ui/container-creation-dialog.ui:96
-msgid "Command"
-msgstr ""
-
-#: data/resources/ui/container-creation-dialog.ui:109
-msgid "Terminal"
-msgstr ""
-
-#: data/resources/ui/container-creation-dialog.ui:122
-msgid "Memory limit"
-msgstr ""
-
-#: data/resources/ui/container-creation-dialog.ui:164
-msgid "KB"
-msgstr ""
-
-#: data/resources/ui/container-creation-dialog.ui:165
-msgid "MB"
-msgstr ""
-
-#: data/resources/ui/container-creation-dialog.ui:166
-msgid "GB"
-msgstr ""
-
-#: data/resources/ui/container-creation-dialog.ui:190
-msgid "Port Mappings"
-msgstr ""
-
-#: data/resources/ui/container-creation-dialog.ui:216
-#, fuzzy
-msgid "Volumes"
-msgstr "Caminho do volume"
-
-#: data/resources/ui/container-creation-dialog.ui:242
-msgid "Environment Variables"
-msgstr ""
-
 #: data/resources/ui/env-var-row.ui:30
 msgid "Key"
 msgstr ""
@@ -456,27 +151,6 @@ msgstr ""
 #: data/resources/ui/env-var-row.ui:49
 msgid "Value"
 msgstr ""
-
-#: data/resources/ui/image-details-page.ui:38
-msgid "Image Details"
-msgstr "Detalhes da imagem"
-
-#: data/resources/ui/image-details-page.ui:60
-msgid "Properties"
-msgstr ""
-
-#: data/resources/ui/image-details-page.ui:138
-#, fuzzy
-msgid "Associated Containers"
-msgstr "{} contêineres"
-
-#: data/resources/ui/image-details-page.ui:139
-msgid "There are no containers associated with this image."
-msgstr ""
-
-#: data/resources/ui/image-details-page.ui:153
-msgid "Image Has Been Deleted"
-msgstr "A imagem foi excluída"
 
 #: data/resources/ui/port-mapping-row.ui:29
 msgid "IP address"
@@ -503,23 +177,10 @@ msgstr ""
 msgid "UDP"
 msgstr ""
 
-#: data/resources/ui/container-page.ui:72
-msgid "Toggle timestamps"
-msgstr ""
-
-#: data/resources/ui/container-page.ui:113
-msgid "Logs"
-msgstr "Logs"
-
-#: data/resources/ui/container-page.ui:176
+#: data/resources/ui/containers-group.ui:14
 #, fuzzy
-msgid "Container Page"
-msgstr "Contêineres"
-
-#: data/resources/ui/container-page.ui:187
-#, fuzzy
-msgid "Container Has Been Deleted"
-msgstr "A imagem foi excluída"
+msgid "Only running"
+msgstr "Executando"
 
 #: data/resources/ui/volume-row.ui:34
 msgid "Host path"
@@ -554,43 +215,607 @@ msgstr ""
 msgid "Private"
 msgstr ""
 
-#: src/model/container.rs:63
-msgid "Configured"
-msgstr "Configurado"
+#: data/resources/ui/containers-panel.ui:69
+#: data/resources/ui/images-panel.ui:68
+msgid "Summary"
+msgstr "Resumo"
 
-#: src/model/container.rs:64
+#: data/resources/ui/containers-panel.ui:71
+msgid "No containers found"
+msgstr "Nenhum contêiner encontrado"
+
+#: data/resources/ui/images-panel.ui:78
+#, fuzzy
+msgid "Intermediates"
+msgstr "Mostrar imagens intermediárias"
+
+#: data/resources/ui/search-panel.ui:53 data/resources/ui/window.ui:182
+msgid "Images"
+msgstr "Imagens"
+
+#: data/resources/ui/search-panel.ui:69 data/resources/ui/window.ui:202
+msgid "Containers"
+msgstr "Contêineres"
+
+#: data/resources/ui/image-search-widget.ui:31
+#, fuzzy
+msgid "No Registries Found"
+msgstr "Nenhuma imagem encontrada"
+
+#: data/resources/ui/image-search-widget.ui:32
+msgid ""
+"\n"
+"You cannot search for images without registries. Please follow the "
+"instructions on this <a href=\"https://github.com/containers/image/blob/"
+"b80addc01c0dab40c5d8945a1df61f3c72a3e40d/docs/containers-registries.conf.5.md"
+"\">website</a> in order to add registries.\n"
+"                "
+msgstr ""
+
+#: data/resources/ui/image-search-widget.ui:53
+#, fuzzy
+msgid "Search for"
+msgstr "Pesquisar"
+
+#: data/resources/ui/image-search-widget.ui:66
+msgid "Registry"
+msgstr ""
+
+#: data/resources/ui/image-search-widget.ui:88
+#, fuzzy
+msgid "No Images Found"
+msgstr "Nenhuma imagem encontrada"
+
+#: data/resources/ui/image-search-widget.ui:89
+msgid "Please start typing to look for images."
+msgstr ""
+
+#: data/resources/ui/image-search-widget.ui:104
+#, fuzzy
+msgid "Searching…"
+msgstr "Pesquisar"
+
+#: data/resources/ui/image-search-widget.ui:130
+msgid "Please retry another term."
+msgstr ""
+
+#: data/resources/ui/image-search-widget.ui:191
+msgid "Tag"
+msgstr ""
+
+#: data/resources/ui/container-menu-button.ui:6
+msgid "_Start"
+msgstr "_Iniciar"
+
+#: data/resources/ui/container-menu-button.ui:11
+msgid "S_top"
+msgstr "_Parar"
+
+#: data/resources/ui/container-menu-button.ui:16
+msgid "_Force Stop"
+msgstr "_Forçar parada"
+
+#: data/resources/ui/container-menu-button.ui:21
+msgid "R_estart"
+msgstr "_Reiniciar"
+
+#: data/resources/ui/container-menu-button.ui:26
+msgid "F_orce Restart"
+msgstr "F_orçar reinício"
+
+#: data/resources/ui/container-menu-button.ui:31
+msgid "_Resume"
+msgstr "_Retomar"
+
+#: data/resources/ui/container-menu-button.ui:36
+msgid "_Pause"
+msgstr "_Pausar"
+
+#: data/resources/ui/container-menu-button.ui:43
+msgid "Re_name…"
+msgstr "Re_nomear…"
+
+#: data/resources/ui/container-menu-button.ui:50
+msgid "_Commit"
+msgstr ""
+
+#: data/resources/ui/container-menu-button.ui:57
+msgid "_Delete"
+msgstr "_Excluir"
+
+#: data/resources/ui/image-menu-button.ui:6
+#, fuzzy
+msgid "_Create Container…"
+msgstr "{} contêineres"
+
+#: data/resources/ui/image-menu-button.ui:13
+#, fuzzy
+msgid "Delete"
+msgstr "_Excluir"
+
+#: data/resources/ui/image-pulling-page.ui:42
+#: data/resources/ui/container-creation-page.ui:391
+msgid "Please Wait a Moment"
+msgstr ""
+
+#: data/resources/ui/image-pulling-page.ui:43
+msgid ""
+"The image is currently being downloaded. You are safe to leave this page."
+msgstr ""
+
+#: data/resources/ui/image-pull-page.ui:42
+#: data/resources/ui/image-selection-page.ui:32
+msgid "Search For an Image"
+msgstr ""
+
+#: data/resources/ui/image-pull-page.ui:52
+msgid "Download"
+msgstr ""
+
+#: data/resources/ui/image-selection-page.ui:42
+msgid "_Select"
+msgstr ""
+
+#: data/resources/ui/images-prune-page.ui:31
+msgid "Specify Pruning Settings"
+msgstr ""
+
+#: data/resources/ui/images-prune-page.ui:41
+msgid "_Prune"
+msgstr ""
+
+#: data/resources/ui/images-prune-page.ui:62
+#, fuzzy
+msgid "Options"
+msgstr "{} opções"
+
+#: data/resources/ui/images-prune-page.ui:67
+msgid "Prune All"
+msgstr ""
+
+#: data/resources/ui/images-prune-page.ui:68
+msgid "Remove all images not in use by containers, not just dangling ones."
+msgstr ""
+
+#: data/resources/ui/images-prune-page.ui:80
+msgid "Prune External"
+msgstr ""
+
+#: data/resources/ui/images-prune-page.ui:81
+msgid ""
+"Remove images even when they are used by external containers (e.g, by build "
+"containers)."
+msgstr ""
+
+#: data/resources/ui/images-prune-page.ui:92
+msgid "Prune Until"
+msgstr ""
+
+#: data/resources/ui/images-prune-page.ui:93
+msgid "Prune images created before this timestamp."
+msgstr ""
+
+#: data/resources/ui/images-prune-page.ui:174
+msgid "AM"
+msgstr ""
+
+#: data/resources/ui/images-prune-page.ui:175
+msgid "PM"
+msgstr ""
+
+#: data/resources/ui/connection-chooser-page.ui:16
+#, fuzzy
+msgid "Connect to Podman"
+msgstr "Perda de conexão com o Podman"
+
+#: data/resources/ui/connection-chooser-page.ui:17
+msgid "Either choose an existing connection or create a new one."
+msgstr ""
+
+#: data/resources/ui/connection-chooser-page.ui:80
+msgid "_Add New Connection"
+msgstr ""
+
+#: data/resources/ui/connection-creator-page.ui:31
+msgid "Add New Connection"
+msgstr ""
+
+#: data/resources/ui/connection-creator-page.ui:41
+msgid "_Connect"
+msgstr ""
+
+#: data/resources/ui/connection-creator-page.ui:62
+#: data/resources/ui/container-creation-page.ui:84
+#: data/resources/ui/container-properties-group.ui:40
+msgid "Name"
+msgstr "Nome"
+
+#: data/resources/ui/connection-creator-page.ui:77
+msgid "Url"
+msgstr ""
+
+#: data/resources/ui/connection-creator-page.ui:78
+#, fuzzy
+msgid "Choose how you want to connect to Podman."
+msgstr "Perda de conexão com o Podman"
+
+#: data/resources/ui/connection-creator-page.ui:82
+msgid "Unix Socket"
+msgstr ""
+
+#: data/resources/ui/connection-creator-page.ui:97
+msgid "Custom"
+msgstr ""
+
+#: data/resources/ui/connection-creator-page.ui:111
+#, fuzzy
+msgid "Connection String"
+msgstr "Perda de conexão com o Podman"
+
+#: data/resources/ui/connection-creator-page.ui:135
+msgid "Color"
+msgstr ""
+
+#: data/resources/ui/connection-creator-page.ui:136
+msgid "Define how to colorize the header bar."
+msgstr ""
+
+#: data/resources/ui/welcome-page.ui:16
+msgid "Welcome to Pods"
+msgstr "Boas-vindas ao Pods"
+
+#: data/resources/ui/welcome-page.ui:17
+msgid ""
+"No connections have been detected. Use the button below to create a new one."
+msgstr ""
+
+#: data/resources/ui/welcome-page.ui:28
+msgid "_Add Connection"
+msgstr ""
+
+#: data/resources/ui/info-dialog.ui:6
+#, fuzzy
+msgid "About Podman"
+msgstr "_Sobre o Pods"
+
+#: data/resources/ui/info-dialog.ui:14 data/resources/ui/info-dialog.ui:48
+msgid "Version"
+msgstr "Versão"
+
+#: data/resources/ui/info-dialog.ui:18
+msgid "API Version"
+msgstr "Versão da API"
+
+#: data/resources/ui/info-dialog.ui:24
+msgid "Built Time"
+msgstr ""
+
+#: data/resources/ui/info-dialog.ui:30
+msgid "Git Commit"
+msgstr ""
+
+#: data/resources/ui/info-dialog.ui:36
+msgid "Go Version"
+msgstr "Versão do Go"
+
+#: data/resources/ui/info-dialog.ui:42
+msgid "Os Arch"
+msgstr ""
+
+#: data/resources/ui/info-dialog.ui:58
+msgid "Describes the container storage and its attributes."
+msgstr "Descreve o armazenamento do contêiner e seus atributos."
+
+#: data/resources/ui/info-dialog.ui:62
+msgid "Config File"
+msgstr "Arquivo de configuração"
+
+#: data/resources/ui/info-dialog.ui:68
+#, fuzzy
+msgid "Container Store"
+msgstr "Contêineres"
+
+#: data/resources/ui/info-dialog.ui:69
+msgid "Describes the quantity of containers in the store by status."
+msgstr ""
+
+#: data/resources/ui/info-dialog.ui:86 src/model/container.rs:78
+msgid "Paused"
+msgstr "Pausado"
+
+#: data/resources/ui/info-dialog.ui:92 src/model/container.rs:81
+msgid "Running"
+msgstr "Executando"
+
+#: data/resources/ui/info-dialog.ui:98 src/model/container.rs:82
+msgid "Stopped"
+msgstr "Parado"
+
+#: data/resources/ui/info-dialog.ui:107
+msgid "Graph Driver Name"
+msgstr ""
+
+#: data/resources/ui/info-dialog.ui:113
+msgid "Graph Options"
+msgstr ""
+
+#: data/resources/ui/info-dialog.ui:133
+msgid "Graph Root"
+msgstr ""
+
+#: data/resources/ui/info-dialog.ui:139
+msgid "Graph Status"
+msgstr ""
+
+#: data/resources/ui/info-dialog.ui:159
+#, fuzzy
+msgid "Image Store"
+msgstr "Imagens"
+
+#: data/resources/ui/info-dialog.ui:160
+msgid "Describes the image store. Right now only the number of images present."
+msgstr ""
+
+#: data/resources/ui/info-dialog.ui:166
+msgid "Run Root"
+msgstr ""
+
+#: data/resources/ui/info-dialog.ui:172
+msgid "Volume Path"
+msgstr "Caminho do volume"
+
+#: data/resources/ui/window.ui:12
+msgid "_Add Connection…"
+msgstr ""
+
+#: data/resources/ui/window.ui:18
+msgid "_Prune unused images…"
+msgstr ""
+
+#: data/resources/ui/window.ui:22
+msgid "_Download new image…"
+msgstr ""
+
+#: data/resources/ui/window.ui:26
+#, fuzzy
+msgid "_Create container…"
+msgstr "{} contêineres"
+
+#: data/resources/ui/window.ui:34
+#, fuzzy
+msgid "About _Podman"
+msgstr "_Sobre o Pods"
+
+#: data/resources/ui/window.ui:40
+msgid "_Keyboard Shortcuts"
+msgstr "_Atalhos de teclado"
+
+#: data/resources/ui/window.ui:44
+msgid "_About Pods"
+msgstr "_Sobre o Pods"
+
+#: data/resources/ui/container-creation-page.ui:7
+#, fuzzy
+msgid "_Create"
+msgstr "Criado"
+
+#: data/resources/ui/container-creation-page.ui:56
+#, fuzzy
+msgid "Specify Container Settings"
+msgstr "Contêineres"
+
+#: data/resources/ui/container-creation-page.ui:66
+#, fuzzy
+msgid "Create and run"
+msgstr "Criado"
+
+#: data/resources/ui/container-creation-page.ui:99
+msgid "Details"
+msgstr "Detalhes"
+
+#: data/resources/ui/container-creation-page.ui:103
+#: data/resources/ui/container-creation-page.ui:109
+msgid "Local image"
+msgstr ""
+
+#: data/resources/ui/container-creation-page.ui:126
+#, fuzzy
+msgid "Remote image"
+msgstr "_Excluir imagem"
+
+#: data/resources/ui/container-creation-page.ui:154
+msgid "Pull latest image"
+msgstr ""
+
+#: data/resources/ui/container-creation-page.ui:165
+msgid "Command"
+msgstr ""
+
+#: data/resources/ui/container-creation-page.ui:178
+msgid "Terminal"
+msgstr ""
+
+#: data/resources/ui/container-creation-page.ui:191
+msgid "Memory limit"
+msgstr ""
+
+#: data/resources/ui/container-creation-page.ui:233
+msgid "KB"
+msgstr ""
+
+#: data/resources/ui/container-creation-page.ui:234
+msgid "MB"
+msgstr ""
+
+#: data/resources/ui/container-creation-page.ui:235
+msgid "GB"
+msgstr ""
+
+#: data/resources/ui/container-creation-page.ui:259
+msgid "Port Mappings"
+msgstr ""
+
+#: data/resources/ui/container-creation-page.ui:285
+#, fuzzy
+msgid "Volumes"
+msgstr "Caminho do volume"
+
+#: data/resources/ui/container-creation-page.ui:311
+msgid "Environment Variables"
+msgstr ""
+
+#: data/resources/ui/container-creation-page.ui:392
+msgid "The container is being created. You are safe to leave this page."
+msgstr ""
+
+#: data/resources/ui/container-properties-group.ui:5
+#: data/resources/ui/image-details-page.ui:62
+msgid "Properties"
+msgstr ""
+
+#: data/resources/ui/container-properties-group.ui:9
+msgid "Id"
+msgstr "Id"
+
+#: data/resources/ui/container-properties-group.ui:15
+msgid "Image"
+msgstr "Imagem"
+
+#: data/resources/ui/container-properties-group.ui:51
+msgid "Port bindings"
+msgstr ""
+
+#: data/resources/ui/container-properties-group.ui:68 src/model/container.rs:75
 msgid "Created"
 msgstr "Criado"
 
-#: src/model/container.rs:65
+#: data/resources/ui/container-properties-group.ui:74
+msgid "Status"
+msgstr "Status"
+
+#: data/resources/ui/image-details-page.ui:38
+msgid "Image Details"
+msgstr "Detalhes da imagem"
+
+#: data/resources/ui/image-details-page.ui:130
+#, fuzzy
+msgid "Associated Containers"
+msgstr "{} contêineres"
+
+#: data/resources/ui/image-details-page.ui:131
+msgid "There are no containers associated with this image."
+msgstr ""
+
+#: data/resources/ui/image-details-page.ui:145
+msgid "Image Has Been Deleted"
+msgstr "A imagem foi excluída"
+
+#: data/resources/ui/container-details-page.ui:43
+#: data/resources/ui/container-details-page.ui:156
+#, fuzzy
+msgid "Container Details"
+msgstr "Contêineres"
+
+#: data/resources/ui/container-details-page.ui:74
+msgid "Utilities"
+msgstr ""
+
+#: data/resources/ui/container-details-page.ui:78
+msgid "Logs"
+msgstr "Logs"
+
+#: data/resources/ui/container-details-page.ui:79
+msgid "View and search through container logs"
+msgstr ""
+
+#: data/resources/ui/container-details-page.ui:98
+msgid "Processes"
+msgstr ""
+
+#: data/resources/ui/container-details-page.ui:99
+msgid "View processes that are currently running inside the container"
+msgstr ""
+
+#: data/resources/ui/container-details-page.ui:167
+#, fuzzy
+msgid "Container Has Been Deleted"
+msgstr "A imagem foi excluída"
+
+#: data/resources/ui/container-processes-page.ui:33
+#, fuzzy
+msgid "Container Processes"
+msgstr "Contêineres"
+
+#: data/resources/ui/container-log-page.ui:33
+#, fuzzy
+msgid "Container Log"
+msgstr "Contêineres"
+
+#: data/resources/ui/container-log-page.ui:40
+msgid "Toggle timestamps"
+msgstr ""
+
+#: data/resources/ui/container-log-page.ui:72
+msgid "Scroll to bottom"
+msgstr "Role para baixo"
+
+#: data/resources/ui/container-log-page.ui:115
+msgid "Move to previous match (Ctrl+Shift+G)"
+msgstr ""
+
+#: data/resources/ui/container-log-page.ui:123
+msgid "Move to next match (Ctrl+G)"
+msgstr ""
+
+#: data/resources/ui/container-log-page.ui:133
+msgid "Toggle search options"
+msgstr ""
+
+#: data/resources/ui/container-log-page.ui:156
+msgid "Re_gular expressions"
+msgstr ""
+
+#: data/resources/ui/container-log-page.ui:163
+msgid "_Case sensitive"
+msgstr ""
+
+#: data/resources/ui/container-log-page.ui:170
+msgid "Match whole _word only"
+msgstr ""
+
+#: src/model/connection_manager.rs:191
+msgid "Connection '{}' already exists."
+msgstr ""
+
+#: src/model/container.rs:74
+msgid "Configured"
+msgstr "Configurado"
+
+#: src/model/container.rs:76
 msgid "Dead"
 msgstr ""
 
-#: src/model/container.rs:66
+#: src/model/container.rs:77
 msgid "Exited"
 msgstr ""
 
-#: src/model/container.rs:68
+#: src/model/container.rs:79
 msgid "Removing"
 msgstr "Removendo"
 
-#: src/model/container.rs:69
+#: src/model/container.rs:80
 msgid "Restarting"
 msgstr "Reiniciando"
 
-#: src/model/container.rs:72
+#: src/model/container.rs:83
 msgid "Stopping"
 msgstr "Parando"
 
-#: src/model/container.rs:73
+#: src/model/container.rs:84
 msgid "Unknown"
 msgstr "Desconhecido"
 
-#: src/view/container/container_logs_panel.rs:403
-msgid "{} of {}"
-msgstr ""
-
-#: src/view/container/container_rename_dialog.rs:87
+#: src/view/container/container_rename_dialog.rs:90
 #, fuzzy
 msgid "Rename container «{}»"
 msgstr "Renomear o contêiner \"{}\""
@@ -600,250 +825,261 @@ msgstr "Renomear o contêiner \"{}\""
 msgid "{} Containers total, {} running"
 msgstr "{} contêiner(es) no total, {} em execução"
 
-#: src/view/container/containers_panel.rs:223
-#, fuzzy
-msgid "_Show only running containers"
-msgstr "Mostrar apenas contêineres em execução"
-
-#: src/view/container/mod.rs:54
-msgid "Error on starting container"
-msgstr "Erro ao iniciar o contêiner"
-
-#: src/view/container/mod.rs:62
-msgid "Error on stopping container"
-msgstr "Erro ao parar o contêiner"
-
-#: src/view/container/mod.rs:70
-msgid "Error on force stopping container"
-msgstr "Erro ao forçar a parada do contêiner"
-
-#: src/view/container/mod.rs:78
-msgid "Error on restarting container"
-msgstr "Erro ao reiniciar o contêiner"
-
-#: src/view/container/mod.rs:86
-msgid "Error on force restarting container"
-msgstr "Erro ao forçar a reinicialização do contêiner"
-
-#: src/view/container/mod.rs:94
-msgid "Error on pausing container"
-msgstr "Erro ao pausar o contêiner"
-
-#: src/view/container/mod.rs:102
-msgid "Error on resuming container"
-msgstr "Erro ao retomar o contêiner"
-
-#: src/view/container/mod.rs:110
-msgid "Error on committing container"
-msgstr ""
-
-#: src/view/container/mod.rs:118
-msgid "Error on deleting container"
-msgstr "Erro ao excluir contêiner"
-
-#: src/view/container/mod.rs:126
-msgid "Error on force deleting container"
-msgstr "Erro ao forçar a exclusão do contêiner"
-
-#: src/view/container/mod.rs:168
-msgid "Re_name…"
-msgstr "Re_nomear…"
-
-#: src/view/container/mod.rs:172
-msgid "_Commit"
-msgstr ""
-
-#: src/view/container/mod.rs:176 src/view/image/mod.rs:86
-msgid "_Delete"
-msgstr "_Excluir"
-
-#: src/view/container/mod.rs:186
-msgid "_Start"
-msgstr "_Iniciar"
-
-#: src/view/container/mod.rs:194
-msgid "S_top"
-msgstr "_Parar"
-
-#: src/view/container/mod.rs:195
-msgid "_Force Stop"
-msgstr "_Forçar parada"
-
-#: src/view/container/mod.rs:196
-msgid "R_estart"
-msgstr "_Reiniciar"
-
-#: src/view/container/mod.rs:197
-msgid "F_orce Restart"
-msgstr "F_orçar reinício"
-
-#: src/view/container/mod.rs:206
-msgid "_Pause"
-msgstr "_Pausar"
-
-#: src/view/container/mod.rs:216
-msgid "_Resume"
-msgstr "_Retomar"
-
-#. Translators: "{}" are placeholders for storage space.
-#: src/view/image/image_details_page.rs:152
-msgid "{} (Virtual: {})"
-msgstr "{} (virtual: {})"
-
-#. Translators: "{}" are placeholders for storage space.
-#: src/view/image/image_details_page.rs:161
-msgid "{} (Shared: {})"
-msgstr "{} (compartilhado: {})"
-
-#. Translators: "{}" are placeholders for storage space.
-#: src/view/image/image_details_page.rs:171
-msgid "{} (Shared: {}, Virtual: {})"
-msgstr "{} (compartilhado: {}, virtual: {})"
-
-#. Translators: There's a wide space (U+2002) between the two {} {}.
-#: src/view/image/images_panel.rs:168
-msgid "{} images total, {} {} unused images, {}"
-msgstr "{} imagem(ns) no total, {} {} imagem(ns) não utilizadas, {}"
-
-#: src/view/image/images_panel.rs:174
-msgid "No images found"
-msgstr "Nenhuma imagem encontrada"
-
-#. Translators: The first two placeholders are for a numbers, the last for disk space.
-#: src/view/image/images_panel.rs:372
-msgid "{} images pruned ({} errors). {} space reclaimed."
-msgstr ""
-
-#: src/view/image/images_panel.rs:383
-msgid "There are no images to be pruned."
-msgstr ""
-
-#. Translators: "{}" is a placeholder for an error message.
-#: src/view/image/images_panel.rs:387
-#, fuzzy
-msgid "Error on pruning images: '{}'"
-msgstr "Erro ao inspecionar a imagem '{}'"
-
 #. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
-#: src/view/image/images_prune_dialog.rs:192
-msgid "%x %H:%M %p"
-msgstr ""
-
-#: src/view/image/images_prune_dialog.rs:194
-msgid "Invalid date format"
-msgstr ""
-
-#. Translators: "{}" is a placeholder for the image id.
-#: src/view/image/mod.rs:53
-msgid "Successfully deleted image '{}'"
-msgstr "Imagem '{}' excluída com sucesso"
-
-#. Translators: "{}" is a placeholder for the image id.
-#: src/view/image/mod.rs:57
-msgid "Error on deleting image '{}'"
-msgstr "Erro ao excluir a imagem '{}'"
-
-#: src/view/image/mod.rs:68
-#, fuzzy
-msgid "_Show intermediate images"
-msgstr "Mostrar imagens intermediárias"
-
-#: src/view/image/mod.rs:72
-msgid "_Prune unused images…"
-msgstr ""
-
-#: src/view/image/mod.rs:82
-#, fuzzy
-msgid "_Create Container…"
-msgstr "{} contêineres"
-
-#. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
-#: src/view/info_dialog.rs:127
+#: src/view/container/container_properties_group.rs:135
+#: src/view/container/container_properties_group.rs:185
+#: src/view/image/image_details_page.rs:119 src/view/info_dialog.rs:176
 #, c-format
 msgid "%x %X"
 msgstr ""
 
+#. Translators: "{}" is a placeholder for a date time.
+#: src/view/container/container_properties_group.rs:180
+msgid "Up since {}"
+msgstr ""
+
+#: src/view/container/container_log_page.rs:430
+msgid "{} of {}"
+msgstr ""
+
+#. Translators: There's a wide space (U+2002) between the two {} {}.
+#: src/view/image/images_panel.rs:176
+msgid "{} images total, {} {} unused images, {}"
+msgstr "{} imagem(ns) no total, {} {} imagem(ns) não utilizadas, {}"
+
+#: src/view/image/images_panel.rs:182
+msgid "No images found"
+msgstr "Nenhuma imagem encontrada"
+
+#. Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
+#: src/view/image/image_menu_button.rs:184
+#, fuzzy
+msgid "Error on deleting image '{}': {}"
+msgstr "Erro ao excluir a imagem '{}'"
+
+#: src/view/image/image_search_widget.rs:228
+msgid "All registries"
+msgstr ""
+
+#: src/view/image/image_search_widget.rs:247
+msgid "Failed to retrieve podman info"
+msgstr ""
+
+#: src/view/image/image_search_widget.rs:325
+msgid "No Results For {}"
+msgstr ""
+
+#: src/view/image/image_search_widget.rs:337
+msgid "Failed to search for images"
+msgstr ""
+
+#: src/view/image/image_pull_page.rs:192
+msgid "Failed to pull image"
+msgstr ""
+
+#. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
+#: src/view/image/images_prune_page.rs:208
+msgid "%x %H:%M %p"
+msgstr ""
+
+#: src/view/image/images_prune_page.rs:210
+msgid "Invalid date format"
+msgstr ""
+
+#: src/view/image/images_prune_page.rs:345
+msgid "All images have been pruned"
+msgstr ""
+
+#: src/view/image/images_prune_page.rs:351
+#, fuzzy
+msgid "Error on pruning images"
+msgstr "Erro ao inspecionar a imagem '{}'"
+
+#. Translators: "{}" are placeholders for storage space.
+#: src/view/image/image_details_page.rs:144
+msgid "{} (Virtual: {})"
+msgstr "{} (virtual: {})"
+
+#. Translators: "{}" are placeholders for storage space.
+#: src/view/image/image_details_page.rs:153
+msgid "{} (Shared: {})"
+msgstr "{} (compartilhado: {})"
+
+#. Translators: "{}" are placeholders for storage space.
+#: src/view/image/image_details_page.rs:163
+msgid "{} (Shared: {}, Virtual: {})"
+msgstr "{} (compartilhado: {}, virtual: {})"
+
 #. Translators: "{}" is a placeholder for a cardinal numbers.
-#: src/view/info_dialog.rs:163
+#: src/view/info_dialog.rs:212
 msgid "{} Containers"
 msgstr "{} contêineres"
 
 #. Translators: "{}" is a placeholder for a cardinal number.
-#: src/view/info_dialog.rs:196
+#: src/view/info_dialog.rs:245
 msgid "{} Options"
 msgstr "{} opções"
 
 #. Translators: "{}" is placeholders for a cardinal number.
-#: src/view/info_dialog.rs:219
+#: src/view/info_dialog.rs:268
 msgid "{} States"
 msgstr "{} estados"
 
 #. Translators: "{}" is placeholders for a cardinal number.
-#: src/view/info_dialog.rs:239
+#: src/view/info_dialog.rs:288
 msgid "{} Images"
 msgstr "{} imagens"
 
 #. Translators: The placeholder "{}" is for the error message.
-#: src/view/info_dialog.rs:258
+#: src/view/info_dialog.rs:307
 msgid "Error: {}"
 msgstr "Erro: {}"
 
-#: src/application.rs:140
-msgid "translator-credits"
-msgstr "Gustavo Costa <xfgusta@gmail.com>"
+#: src/view/connection/connection_chooser_page.rs:118
+#, fuzzy
+msgid "Error on choosing connection"
+msgstr "Erro ao pausar o contêiner"
 
-#: src/application.rs:173
-msgid "Failed to execute command to start Podman"
-msgstr "Falha ao executar o comando para iniciar o Podman"
+#: src/view/connection/connection_creator_page.rs:188
+#, fuzzy
+msgid "Error"
+msgstr "Erro: {}"
 
-#. Translators: "{}" is the placeholder for the exit code.
-#: src/application.rs:204
-msgid "Command to start Podman returned exit code: {}"
-msgstr "O comando para iniciar o Podman retornou o código de saída: {}"
+#: src/view/connection/connection_row.rs:119
+msgid "Local connection"
+msgstr ""
 
-#: src/main.rs:85
+#: src/view/connection/connection_switcher_popup.rs:114
+#, fuzzy
+msgid "Error on swwitching connection"
+msgstr "Erro ao iniciar o contêiner"
+
+#: src/main.rs:110
 msgid "Prints application version"
 msgstr "Exibe a versão da aplicação"
 
-#: src/main.rs:94
+#: src/main.rs:119
 msgid "Specify the minimum log level"
 msgstr "Especifica o nível mínimo de log"
 
 #. Translators: This string will be shown when a property of an entity like an image is null.
-#: src/utils.rs:113
+#: src/utils.rs:179
 msgid "<none>"
 msgstr "<nenhum>"
 
-#: src/window.rs:423
-msgid "Error on loading images"
+#: src/application.rs:176
+msgid "translator-credits"
+msgstr "Gustavo Costa <xfgusta@gmail.com>"
+
+#: src/window.rs:402
+#, fuzzy
+msgid "images"
+msgstr "Imagens"
+
+#: src/window.rs:403
+#, fuzzy
+msgid "containers"
+msgstr "Contêineres"
+
+#: src/window.rs:400
+#, fuzzy
+msgid "Error on loading {}"
 msgstr "Erro ao carregar imagens"
 
-#. Translators: "{}" is the placeholder for the image id.
-#: src/window.rs:426
-msgid "Error on inspecting image '{}'"
+#: src/window.rs:411
+#, fuzzy
+msgid "image"
+msgstr "Imagem"
+
+#: src/window.rs:412
+#, fuzzy
+msgid "container"
+msgstr "Contêineres"
+
+#: src/window.rs:409
+#, fuzzy
+msgid "Error on inspecting {} '{}'"
 msgstr "Erro ao inspecionar a imagem '{}'"
 
-#: src/window.rs:439
-msgid "Error on loading containers"
-msgstr "Erro ao carregar contêineres"
+#~ msgid "Checking Connection to Podman Service"
+#~ msgstr "Verificando a conexão com o serviço Podman"
 
-#. Translators: "{}" is the placeholder for the container id.
-#: src/window.rs:442
-msgid "Error on inspecting container '{}'"
-msgstr "Erro ao inspecionar o contêiner '{}'"
+#~ msgid "Podman Info"
+#~ msgstr "Informações do Podman"
 
-#~ msgid "_Delete Image"
-#~ msgstr "_Excluir imagem"
+#~ msgid ""
+#~ "An unexpected error has occurred and Pods has lost connection to Podman "
+#~ "Unix. If the connection has been disconnected unintentionally, you can "
+#~ "try to re-establish it."
+#~ msgstr ""
+#~ "Ocorreu um erro inesperado e o Pods perdeu a conexão com o Podman Unix. "
+#~ "Se a conexão foi desconectada involuntariamente, você pode tentar "
+#~ "restabelecê-la."
+
+#~ msgid "_Restart Podman Service"
+#~ msgstr "_Reiniciar o serviço Podman"
+
+#~ msgid "The Podman service is currently not running."
+#~ msgstr "O serviço Podman não está em execução no momento."
+
+#~ msgid "_Start Podman Service"
+#~ msgstr "_Iniciar o serviço Podman"
+
+#~ msgid "_Show Podman Info"
+#~ msgstr "_Mostrar informações do Podman"
+
+#~ msgid "_Preferences"
+#~ msgstr "_Preferências"
+
+#, fuzzy
+#~ msgid "Create Container"
+#~ msgstr "Contêineres"
+
+#, fuzzy
+#~ msgid "_Show only running containers"
+#~ msgstr "Mostrar apenas contêineres em execução"
+
+#~ msgid "Error on stopping container"
+#~ msgstr "Erro ao parar o contêiner"
+
+#~ msgid "Error on force stopping container"
+#~ msgstr "Erro ao forçar a parada do contêiner"
+
+#~ msgid "Error on restarting container"
+#~ msgstr "Erro ao reiniciar o contêiner"
+
+#~ msgid "Error on force restarting container"
+#~ msgstr "Erro ao forçar a reinicialização do contêiner"
+
+#~ msgid "Error on resuming container"
+#~ msgstr "Erro ao retomar o contêiner"
+
+#~ msgid "Error on deleting container"
+#~ msgstr "Erro ao excluir contêiner"
+
+#~ msgid "Error on force deleting container"
+#~ msgstr "Erro ao forçar a exclusão do contêiner"
+
+#~ msgid "Successfully deleted image '{}'"
+#~ msgstr "Imagem '{}' excluída com sucesso"
+
+#~ msgid "Failed to execute command to start Podman"
+#~ msgstr "Falha ao executar o comando para iniciar o Podman"
+
+#~ msgid "Command to start Podman returned exit code: {}"
+#~ msgstr "O comando para iniciar o Podman retornou o código de saída: {}"
+
+#~ msgid "Error on loading containers"
+#~ msgstr "Erro ao carregar contêineres"
+
+#~ msgid "Error on inspecting container '{}'"
+#~ msgstr "Erro ao inspecionar o contêiner '{}'"
 
 #~ msgid "Used By"
 #~ msgstr "Usado por"
 
 #~ msgid "unused"
 #~ msgstr "não utilizado"
-
-#, fuzzy
-#~ msgid "Container Details"
-#~ msgstr "Contêineres"
 
 #~ msgid "_Stop"
 #~ msgstr "_Parar"
