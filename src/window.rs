@@ -231,8 +231,10 @@ mod imp {
                         }),
                     ),
                     None => {
-                        obj.imp()
-                            .main_stack
+                        let imp = obj.imp();
+
+                        imp.leaflet_overlay.hide_details();
+                        imp.main_stack
                             .set_visible_child_name(if manager.n_items() > 0 {
                                 "connection-chooser"
                             } else {
