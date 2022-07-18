@@ -137,11 +137,12 @@ dependencies = [
 ]
 
 [[package]]
-name = "containers-api-conn"
-version = "0.1.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e3143a01be4d1a4675ac1841ea101dad3919bedfe23ba571ab64ab8e8cf3eaa1"
+name = "containers-api"
+version = "0.2.0"
+source = "git+https://github.com/vv9k/containers-api#eb40045e5c4303be1f66d6b8a869c4b9f9eba523"
 dependencies = [
+ "chrono",
+ "flate2",
  "futures-util",
  "futures_codec",
  "http",
@@ -149,9 +150,11 @@ dependencies = [
  "hyperlocal",
  "log",
  "mime",
+ "paste",
  "pin-project 1.0.11",
  "serde",
  "serde_json",
+ "tar",
  "thiserror",
  "tokio",
  "url",
@@ -1066,12 +1069,12 @@ checksum = "1df8c4ec4b0627e53bdf214615ad287367e482558cf84b109250b37464dc03ae"
 [[package]]
 name = "podman-api"
 version = "0.4.0-dev"
-source = "git+https://github.com/marhkb/podman-api-rs.git?branch=staging#dcae2fed9a7b77e1e3e1be676abadafaacde326f"
+source = "git+https://github.com/marhkb/podman-api-rs.git?branch=staging#68c8e961c4e4c05ec0a6d7bf60a9c1912174f8cc"
 dependencies = [
  "base64",
  "byteorder",
  "bytes 1.1.0",
- "containers-api-conn",
+ "containers-api",
  "flate2",
  "futures-util",
  "futures_codec",
@@ -1089,7 +1092,7 @@ dependencies = [
 [[package]]
 name = "podman-api-stubs"
 version = "0.4.0-dev"
-source = "git+https://github.com/marhkb/podman-api-rs.git?branch=staging#dcae2fed9a7b77e1e3e1be676abadafaacde326f"
+source = "git+https://github.com/marhkb/podman-api-rs.git?branch=staging#68c8e961c4e4c05ec0a6d7bf60a9c1912174f8cc"
 dependencies = [
  "chrono",
  "serde",
