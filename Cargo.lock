@@ -137,11 +137,12 @@ dependencies = [
 ]
 
 [[package]]
-name = "containers-api-conn"
-version = "0.1.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b556df09c7386a733ab63b5e42590cbdcffeb51fb51a3da08a82c8befd143622"
+name = "containers-api"
+version = "0.2.0"
+source = "git+https://github.com/vv9k/containers-api#eb40045e5c4303be1f66d6b8a869c4b9f9eba523"
 dependencies = [
+ "chrono",
+ "flate2",
  "futures-util",
  "futures_codec",
  "http",
@@ -149,9 +150,11 @@ dependencies = [
  "hyperlocal",
  "log",
  "mime",
+ "paste",
  "pin-project 1.0.11",
  "serde",
  "serde_json",
+ "tar",
  "thiserror",
  "tokio",
  "url",
@@ -614,9 +617,9 @@ dependencies = [
 
 [[package]]
 name = "hashbrown"
-version = "0.12.1"
+version = "0.12.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "db0d4cf898abf0081f964436dc980e96670a0f36863e4b83aaacdb65c9d7ccc3"
+checksum = "8a9ee70c43aaf417c914396645a0fa852624801b24ebb7ae78fe8272889ac888"
 
 [[package]]
 name = "heck"
@@ -1066,12 +1069,12 @@ checksum = "1df8c4ec4b0627e53bdf214615ad287367e482558cf84b109250b37464dc03ae"
 [[package]]
 name = "podman-api"
 version = "0.4.0-dev"
-source = "git+https://github.com/marhkb/podman-api-rs.git?branch=staging#dcae2fed9a7b77e1e3e1be676abadafaacde326f"
+source = "git+https://github.com/marhkb/podman-api-rs.git?branch=staging#68c8e961c4e4c05ec0a6d7bf60a9c1912174f8cc"
 dependencies = [
  "base64",
  "byteorder",
  "bytes 1.1.0",
- "containers-api-conn",
+ "containers-api",
  "flate2",
  "futures-util",
  "futures_codec",
@@ -1089,7 +1092,7 @@ dependencies = [
 [[package]]
 name = "podman-api-stubs"
 version = "0.4.0-dev"
-source = "git+https://github.com/marhkb/podman-api-rs.git?branch=staging#dcae2fed9a7b77e1e3e1be676abadafaacde326f"
+source = "git+https://github.com/marhkb/podman-api-rs.git?branch=staging#68c8e961c4e4c05ec0a6d7bf60a9c1912174f8cc"
 dependencies = [
  "chrono",
  "serde",
@@ -1278,18 +1281,18 @@ dependencies = [
 
 [[package]]
 name = "serde"
-version = "1.0.138"
+version = "1.0.139"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1578c6245786b9d168c5447eeacfb96856573ca56c9d68fdcf394be134882a47"
+checksum = "0171ebb889e45aa68b44aee0859b3eede84c6f5f5c228e6f140c0b2a0a46cad6"
 dependencies = [
  "serde_derive",
 ]
 
 [[package]]
 name = "serde_derive"
-version = "1.0.138"
+version = "1.0.139"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "023e9b1467aef8a10fb88f25611870ada9800ef7e22afce356bb0d2387b6f27c"
+checksum = "dc1d3230c1de7932af58ad8ffbe1d784bd55efd5a9d84ac24f69c72d83543dfb"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1487,10 +1490,11 @@ checksum = "cda74da7e1a664f795bb1f8a87ec406fb89a02522cf6e50620d016add6dbbf5c"
 
 [[package]]
 name = "tokio"
-version = "1.19.2"
+version = "1.20.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c51a52ed6686dd62c320f9b89299e9dfb46f730c7a48e635c19f21d116cb1439"
+checksum = "57aec3cfa4c296db7255446efb4928a6be304b431a806216105542a67b6ca82e"
 dependencies = [
+ "autocfg",
  "bytes 1.1.0",
  "libc",
  "memchr",
@@ -1558,9 +1562,9 @@ checksum = "099b7128301d285f79ddd55b9a83d5e6b9e97c92e0ea0daebee7263e932de992"
 
 [[package]]
 name = "unicode-ident"
-version = "1.0.1"
+version = "1.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5bd2fe26506023ed7b5e1e315add59d6f584c621d037f9368fea9cfb988f368c"
+checksum = "15c61ba63f9235225a22310255a29b806b907c9b8c964bcbd0a2c70f3f2deea7"
 
 [[package]]
 name = "unicode-normalization"
