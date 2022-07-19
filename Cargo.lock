@@ -139,7 +139,7 @@ dependencies = [
 [[package]]
 name = "containers-api"
 version = "0.2.0"
-source = "git+https://github.com/vv9k/containers-api#eb40045e5c4303be1f66d6b8a869c4b9f9eba523"
+source = "git+https://github.com/vv9k/containers-api#7743e73b469180a7afe48b98b6a19e5e5c61b4b7"
 dependencies = [
  "chrono",
  "flate2",
@@ -1069,7 +1069,7 @@ checksum = "1df8c4ec4b0627e53bdf214615ad287367e482558cf84b109250b37464dc03ae"
 [[package]]
 name = "podman-api"
 version = "0.4.0-dev"
-source = "git+https://github.com/marhkb/podman-api-rs.git?branch=staging#68c8e961c4e4c05ec0a6d7bf60a9c1912174f8cc"
+source = "git+https://github.com/marhkb/podman-api-rs.git?branch=staging#d1275625ad8ff23c55192e35145f0bb0137fee88"
 dependencies = [
  "base64",
  "byteorder",
@@ -1092,7 +1092,7 @@ dependencies = [
 [[package]]
 name = "podman-api-stubs"
 version = "0.4.0-dev"
-source = "git+https://github.com/marhkb/podman-api-rs.git?branch=staging#68c8e961c4e4c05ec0a6d7bf60a9c1912174f8cc"
+source = "git+https://github.com/marhkb/podman-api-rs.git?branch=staging#d1275625ad8ff23c55192e35145f0bb0137fee88"
 dependencies = [
  "chrono",
  "serde",
