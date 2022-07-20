@@ -224,17 +224,37 @@ where
     I: Send + 'static,
     F: FnMut(I) -> glib::Continue + 'static,
 {
-    let (sender, receiver) = glib::MainContext::sync_channel::<I>(Default::default(), 5);
+    run_stream_with_finish_handler(api_entity, stream_producer, glib_closure, |_| {
+        glib::Continue(true)
+    });
+}
 
-    receiver.attach(None, glib_closure);
+pub(crate) fn run_stream_with_finish_handler<A, P, I, F, X>(
+    api_entity: A,
+    stream_producer: P,
+    glib_closure: F,
+    finish_handler: X,
+) where
+    A: Send + 'static,
+    for<'r> P: FnOnce(&'r A) -> BoxStream<'r, I> + Send + 'static,
+    I: Send + 'static,
+    F: FnMut(I) -> glib::Continue + 'static,
+    X: FnMut(()) -> glib::Continue + 'static,
+{
+    let (tx_payload, rx_payload) = glib::MainContext::sync_channel::<I>(Default::default(), 5);
+    let (tx_finish, rx_finish) = glib::MainContext::sync_channel::<()>(Default::default(), 1);
+
+    rx_payload.attach(None, glib_closure);
+    rx_finish.attach(None, finish_handler);
 
     RUNTIME.spawn(async move {
         let mut stream = stream_producer(&api_entity);
         while let Some(item) = stream.next().await {
-            if sender.send(item).is_err() {
+            if tx_payload.send(item).is_err() {
                 break;
             }
         }
+        tx_finish.send(()).unwrap();
     });
 }
 
