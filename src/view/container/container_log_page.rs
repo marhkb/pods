@@ -1,7 +1,7 @@
 use std::borrow::Cow;
 use std::cell::Cell;
 use std::cell::RefCell;
-use std::collections::BTreeMap;
+use std::collections::VecDeque;
 use std::mem;
 
 use futures::StreamExt;
@@ -27,6 +27,14 @@ use crate::utils;
 use crate::view;
 use crate::window::Window;
 
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+enum FetchLinesState {
+    #[default]
+    Waiting,
+    Fetching,
+    Finished,
+}
+
 mod imp {
     use super::*;
 
@@ -39,15 +47,19 @@ mod imp {
         pub(super) search_settings: sourceview5::SearchSettings,
         pub(super) search_context: OnceCell<sourceview5::SearchContext>,
         pub(super) search_iters: RefCell<Option<(gtk::TextIter, gtk::TextIter)>>,
-        pub(super) log_timestamps: RefCell<BTreeMap<u32, String>>,
+        pub(super) log_timestamps: RefCell<VecDeque<String>>,
+        pub(super) fetch_until: OnceCell<String>,
+        pub(super) fetch_lines_state: Cell<FetchLinesState>,
+        pub(super) fetched_lines: RefCell<VecDeque<Vec<u8>>>,
+        pub(super) prev_adj: Cell<f64>,
         pub(super) is_auto_scrolling: Cell<bool>,
         pub(super) sticky: Cell<bool>,
-
         #[template_child]
         pub(super) show_timestamps_button: TemplateChild<gtk::ToggleButton>,
         #[template_child]
         pub(super) search_button: TemplateChild<gtk::ToggleButton>,
-
+        #[template_child]
+        pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) search_bar: TemplateChild<gtk::SearchBar>,
         #[template_child]
@@ -58,6 +70,8 @@ mod imp {
         pub(super) case_button: TemplateChild<gtk::CheckButton>,
         #[template_child]
         pub(super) word_button: TemplateChild<gtk::CheckButton>,
+        #[template_child]
+        pub(super) lines_loading_revealer: TemplateChild<gtk::Revealer>,
         #[template_child]
         pub(super) scrolled_window: TemplateChild<gtk::ScrolledWindow>,
         #[template_child]
@@ -181,7 +195,7 @@ mod imp {
                 .build();
             renderer_timestamps.connect_query_data(clone!(@weak obj => move |renderer, _, line| {
                 let log_timestamps = obj.imp().log_timestamps.borrow_mut();
-                if let Some(timestamp) = log_timestamps.get(&line) {
+                if let Some(timestamp) = log_timestamps.get(line as usize) {
                     let date_time = format!(
                         "<span foreground=\"#865e3c\">{}</span>",
                         timestamp
@@ -289,7 +303,7 @@ mod imp {
                 }
             }));
 
-            obj.connect_logs();
+            obj.follow_log();
 
             obj.scroll_down();
         }
@@ -353,10 +367,13 @@ impl ContainerLogPage {
             }
         } else {
             self.set_sticky(adj.value() + adj.page_size() >= adj.upper());
+            self.load_previous_messages(adj);
         }
+
+        imp.prev_adj.replace(adj.value());
     }
 
-    fn connect_logs(&self) {
+    fn follow_log(&self) {
         if let Some(container) = self
             .container()
             .as_ref()
@@ -370,6 +387,7 @@ impl ContainerLogPage {
                     container
                         .logs(
                             &api::ContainerLogsOpts::builder()
+                                .tail("512")
                                 .follow(true)
                                 .stdout(true)
                                 .stderr(true)
@@ -379,29 +397,12 @@ impl ContainerLogPage {
                         .boxed()
                 },
                 clone!(@weak self as obj => @default-return glib::Continue(false), move |result: api::Result<Vec<u8>>| {
+                    let imp = obj.imp();
+                    imp.stack.set_visible_child_name("loaded");
+
                     glib::Continue(match result {
                         Ok(line) => {
-                            let imp = obj.imp();
-                            if line.len() > 8 && perform.decode(&line[8..]) {
-                                let line_buffer = perform.move_out_buffer();
-
-                                if let Some((timestamp, log_message)) = line_buffer.split_once(' ') {
-                                    let source_buffer = &*imp.source_buffer;
-                                    source_buffer.insert_markup(
-                                        &mut source_buffer.end_iter(),
-                                        &if source_buffer.start_iter() == source_buffer.end_iter() {
-                                            Cow::Borrowed(log_message)
-                                        } else {
-                                            Cow::Owned(format!("\n{}", log_message))
-                                        },
-                                    );
-
-                                    imp.log_timestamps.borrow_mut().insert(
-                                        source_buffer.line_count() as u32 - 1,
-                                        timestamp.to_owned()
-                                    );
-                                }
-                            }
+                            obj.insert(line, &mut perform, true);
                             true
                         }
                         Err(e) => {
@@ -411,6 +412,126 @@ impl ContainerLogPage {
                     })
                 }),
             );
+        }
+    }
+
+    fn insert(&self, line: Vec<u8>, perform: &mut MarkupPerform, at_end: bool) {
+        let imp = self.imp();
+        if line.len() > 8 && perform.decode(&line[8..]) {
+            let line_buffer = perform.move_out_buffer();
+
+            if let Some((timestamp, log_message)) = line_buffer.split_once(' ') {
+                imp.fetch_until.get_or_init(|| timestamp.to_owned());
+
+                let source_buffer = &*imp.source_buffer;
+                source_buffer.insert_markup(
+                    &mut if at_end {
+                        imp.source_buffer.end_iter()
+                    } else {
+                        imp.source_buffer.start_iter()
+                    },
+                    &if source_buffer.start_iter() == source_buffer.end_iter() {
+                        Cow::Borrowed(log_message)
+                    } else {
+                        Cow::Owned(format!("\n{}", log_message))
+                    },
+                );
+
+                let mut timestamps = imp.log_timestamps.borrow_mut();
+                if at_end {
+                    timestamps.push_back(timestamp.to_owned());
+                } else {
+                    timestamps.push_front(timestamp.to_owned());
+                }
+            }
+        }
+    }
+
+    fn load_previous_messages(&self, adj: &gtk::Adjustment) {
+        let imp = self.imp();
+
+        if adj.value() >= imp.prev_adj.get() || adj.value() >= adj.page_size() {
+            return;
+        }
+
+        match imp.fetch_lines_state.get() {
+            FetchLinesState::Waiting => {
+                if let Some(until) = imp.fetch_until.get().map(ToOwned::to_owned) {
+                    if let Some(container) = self
+                        .container()
+                        .as_ref()
+                        .and_then(model::Container::api_container)
+                    {
+                        imp.lines_loading_revealer.set_reveal_child(true);
+
+                        utils::run_stream_with_finish_handler(
+                            container,
+                            move |container| {
+                                container
+                                    .logs(
+                                        &api::ContainerLogsOpts::builder()
+                                            .until(until)
+                                            .follow(false)
+                                            .stdout(true)
+                                            .stderr(true)
+                                            .timestamps(true)
+                                            .build(),
+                                    )
+                                    .boxed()
+                            },
+                            clone!(@weak self as obj => @default-return glib::Continue(false), move |result| {
+                                let imp = obj.imp();
+                                imp.fetch_lines_state.set(FetchLinesState::Fetching);
+
+                                glib::Continue(match result {
+                                    Ok(line) => {
+                                        imp.fetched_lines.borrow_mut().push_back(line);
+                                        true
+                                    }
+                                    Err(e) => {
+                                        log::warn!("Stopping container log stream due to error: {e}");
+                                        false
+                                    }
+                                })
+                            }),
+                            clone!(@weak self as obj => @default-return glib::Continue(false), move |_| {
+                                let imp = obj.imp();
+                                imp.lines_loading_revealer.set_reveal_child(false);
+                                imp.fetch_lines_state.set(FetchLinesState::Finished);
+
+                                obj.move_lines_to_buffer();
+
+                                glib::Continue(true)
+                            }),
+                        );
+                    }
+                }
+            }
+            FetchLinesState::Finished => self.move_lines_to_buffer(),
+            _ => {}
+        }
+    }
+
+    fn move_lines_to_buffer(&self) {
+        let mut perform = MarkupPerform::default();
+
+        let imp = self.imp();
+        let mut lines = imp.fetched_lines.borrow_mut();
+
+        let had_lines = !lines.is_empty();
+
+        for _ in 0..128 {
+            match lines.pop_back() {
+                Some(line) => self.insert(line, &mut perform, false),
+                None => break,
+            }
+        }
+
+        if had_lines {
+            let adj = imp.scrolled_window.vadjustment();
+            if adj.value() < 30.0 {
+                adj.set_value(adj.value() + 30.0);
+            }
         }
     }
 
