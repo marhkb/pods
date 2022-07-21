@@ -97,6 +97,15 @@ impl Default for SimpleContainerList {
 }
 
 impl SimpleContainerList {
+    pub(crate) fn get(&self, index: usize) -> Option<model::Container> {
+        self.imp()
+            .0
+            .borrow()
+            .get_index(index)
+            .map(|(_, c)| c)
+            .cloned()
+    }
+
     pub(crate) fn add_container(&self, container: model::Container) {
         let (index, old_value) = self
             .imp()
