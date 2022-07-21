@@ -171,21 +171,69 @@ impl ImageMenuButton {
     }
 
     fn delete(&self) {
-        self.set_action_ongoing(true);
-
         if let Some(image) = self.image().as_ref() {
-            image.delete(clone!(@weak self as obj => move |image, result| {
-                obj.set_action_ongoing(false);
+            self.set_action_ongoing(true);
 
-                if let Err(e) = result {
-                    utils::show_toast(
-                        &obj,
-                        // Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
-                        &gettext!("Error on deleting image '{}': {}", image.id(), e)
-                    );
-                }
-            }));
+            let first_container = image.container_list().get(0);
+
+            if image.containers() > 0 || first_container.is_some() {
+                let dialog = gtk::MessageDialog::builder()
+                    .secondary_use_markup(true)
+                    .text(&gettext("Confirm Forced Image Deletion"))
+                    .secondary_text(
+                        &match first_container.as_ref().map(|c| c.id().unwrap()) {
+                            Some(id) => gettext!(
+                                // Translators: The "{}" is a placeholder for the image id.
+                                "Image is used by container <i>{}</i>. Deleting the image will also delete all its associated containers.",
+                                id
+                            ),
+                            None => gettext(
+                               "Image is used by a container. Deleting the image will also delete all its associated containers.",
+                           ),
+                        }
+
+                    )
+                    .modal(true)
+                    .buttons(gtk::ButtonsType::Cancel)
+                    .transient_for(self.root().unwrap().downcast_ref::<gtk::Window>().unwrap()).build();
+
+                dialog.add_action_widget(
+                    &gtk::Button::builder()
+                        .use_underline(true)
+                        .label("_Force Delete")
+                        .css_classes(vec!["destructive-action".to_string()])
+                        .build(),
+                    gtk::ResponseType::Accept,
+                );
+
+                dialog.run_async(
+                    clone!(@weak self as obj, @weak image => move |dialog, response| {
+                        if response == gtk::ResponseType::Accept {
+                            obj.delete_image(&image);
+                        } else {
+                            obj.set_action_ongoing(false);
+                        }
+                        dialog.close();
+                    }),
+                );
+            } else {
+                self.delete_image(image);
+            }
         }
+    }
+
+    fn delete_image(&self, image: &model::Image) {
+        image.delete(clone!(@weak self as obj => move |image, result| {
+            obj.set_action_ongoing(false);
+
+            if let Err(e) = result {
+                utils::show_toast(
+                    &obj,
+                    // Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
+                    &gettext!("Error on deleting image '{}': {}", image.id(), e)
+                );
+            }
+        }));
     }
 
     fn create_container(&self) {
