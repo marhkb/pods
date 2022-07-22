@@ -39,6 +39,14 @@
         <child>
           <object class="GtkShortcutsGroup">
             <property name="title" translatable="yes" context="shortcut window">Navigation</property>
+
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="title" translatable="yes" context="shortcut window">Go back</property>
+                <property name="accelerator">&lt;alt&gt;Left</property>
+              </object>
+            </child>
+
           </object>
         </child>
 
