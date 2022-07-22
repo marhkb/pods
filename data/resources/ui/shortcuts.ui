@@ -64,6 +64,12 @@
           </object>
         </child>
 
+        <child>
+          <object class="GtkShortcutsGroup">
+            <property name="title" translatable="yes" context="shortcut window">Podman</property>
+          </object>
+        </child>
+
       </object>
     </child>
 
