@@ -36,6 +36,12 @@
           </object>
         </child>
 
+        <child>
+          <object class="GtkShortcutsGroup">
+            <property name="title" translatable="yes" context="shortcut window">Navigation</property>
+          </object>
+        </child>
+
       </object>
     </child>
 
