@@ -86,6 +86,16 @@ mod imp {
             view::WelcomePage::static_type();
             sourceview5::View::static_type();
 
+            klass.add_binding_action(
+                gdk::Key::Home,
+                gdk::ModifierType::ALT_MASK,
+                "win.navigate-home",
+                None,
+            );
+            klass.install_action("win.navigate-home", None, |widget, _, _| {
+                widget.navigate_home();
+            });
+
             klass.install_action("win.add-connection", None, |widget, _, _| {
                 widget.add_connection();
             });
@@ -344,6 +354,10 @@ impl Window {
             });
 
         utils::show_error_toast(self, "Connection error", &e.to_string());
+    }
+
+    fn navigate_home(&self) {
+        self.leaflet_overlay().hide_details();
     }
 
     fn add_connection(&self) {

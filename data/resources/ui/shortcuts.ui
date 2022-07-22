@@ -47,6 +47,13 @@
               </object>
             </child>
 
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="title" translatable="yes" context="shortcut window">Return to main view</property>
+                <property name="accelerator">&lt;alt&gt;Home</property>
+              </object>
+            </child>
+
           </object>
         </child>
 
