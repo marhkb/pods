@@ -285,8 +285,12 @@ mod imp {
             let search_context =
                 sourceview5::SearchContext::new(&*self.source_buffer, Some(&self.search_settings));
 
-            search_context.connect_occurrences_count_notify(clone!(@weak obj => move |_| {
-                obj.update_search_occurences()
+            search_context.connect_occurrences_count_notify(clone!(@weak obj => move |ctx| {
+                obj.imp().search_entry.set_info(&
+                    gettext!(
+                        "0 of {}",
+                        ctx.occurrences_count(),
+                    ));
             }));
 
             self.search_context.set(search_context).unwrap();
