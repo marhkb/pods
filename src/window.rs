@@ -101,6 +101,12 @@ mod imp {
                 widget.navigate_home();
             });
 
+            klass.add_binding_action(
+                gdk::Key::C,
+                gdk::ModifierType::CONTROL_MASK | gdk::ModifierType::SHIFT_MASK,
+                "win.add-connection",
+                None,
+            );
             klass.install_action("win.add-connection", None, |widget, _, _| {
                 widget.add_connection();
             });
@@ -114,13 +120,32 @@ mod imp {
                 widget.show_podman_info_dialog();
             });
 
+            klass.add_binding_action(
+                gdk::Key::D,
+                gdk::ModifierType::CONTROL_MASK,
+                "image.pull",
+                None,
+            );
             klass.install_action("image.pull", None, move |widget, _, _| {
                 widget.show_pull_dialog();
             });
+
+            klass.add_binding_action(
+                gdk::Key::Delete,
+                gdk::ModifierType::CONTROL_MASK | gdk::ModifierType::SHIFT_MASK,
+                "images.prune-unused",
+                None,
+            );
             klass.install_action("images.prune-unused", None, move |widget, _, _| {
                 widget.show_prune_page();
             });
 
+            klass.add_binding_action(
+                gdk::Key::N,
+                gdk::ModifierType::CONTROL_MASK,
+                "container.create",
+                None,
+            );
             klass.install_action("container.create", None, move |widget, _, _| {
                 widget.create_container();
             });

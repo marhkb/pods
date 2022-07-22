@@ -67,6 +67,35 @@
         <child>
           <object class="GtkShortcutsGroup">
             <property name="title" translatable="yes" context="shortcut window">Podman</property>
+
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="title" translatable="yes" context="shortcut window">Add new connection</property>
+                <property name="accelerator">&lt;ctrl&gt;&lt;shift&gt;C</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="title" translatable="yes" context="shortcut window">Prune unused images</property>
+                <property name="accelerator">&lt;ctrl&gt;&lt;shift&gt;Delete</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="title" translatable="yes" context="shortcut window">Download image</property>
+                <property name="accelerator">&lt;ctrl&gt;D</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="title" translatable="yes" context="shortcut window">Create container</property>
+                <property name="accelerator">&lt;ctrl&gt;N</property>
+              </object>
+            </child>
+
           </object>
         </child>
 
