@@ -143,6 +143,10 @@ glib::wrapper! {
 }
 
 impl ImageMenuButton {
+    pub(crate) fn popup(&self) {
+        self.imp().menu_button.popup();
+    }
+
     pub(crate) fn image(&self) -> Option<model::Image> {
         self.imp().image.upgrade()
     }
