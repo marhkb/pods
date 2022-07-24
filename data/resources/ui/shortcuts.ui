@@ -21,6 +21,13 @@
 
             <child>
               <object class="GtkShortcutsShortcut">
+                <property name="title" translatable="yes" context="shortcut window">Show menu</property>
+                <property name="accelerator">F10</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkShortcutsShortcut">
                 <property name="title" translatable="yes" context="shortcut window">Quit</property>
                 <property name="action-name">app.quit</property>
               </object>

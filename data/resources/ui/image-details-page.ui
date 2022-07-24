@@ -40,7 +40,7 @@
                 </child>
 
                 <child type="end">
-                  <object class="ImageMenuButton">
+                  <object class="ImageMenuButton" id="menu_button">
                     <binding name="image">
                       <lookup name="image">ImageDetailsPage</lookup>
                     </binding>

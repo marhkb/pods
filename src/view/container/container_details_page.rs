@@ -1,5 +1,7 @@
 use std::cell::RefCell;
 
+use adw::traits::BinExt;
+use gtk::gdk;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
@@ -23,6 +25,8 @@ mod imp {
         pub(super) container: WeakRef<model::Container>,
         pub(super) handler_id: RefCell<Option<glib::SignalHandlerId>>,
         #[template_child]
+        pub(super) menu_button: TemplateChild<view::ContainerMenuButton>,
+        #[template_child]
         pub(super) leaflet: TemplateChild<adw::Leaflet>,
         #[template_child]
         pub(super) resources_quick_reference_group:
@@ -39,6 +43,11 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
+
+            klass.add_binding_action(gdk::Key::F10, gdk::ModifierType::empty(), "menu.show", None);
+            klass.install_action("menu.show", None, |widget, _, _| {
+                widget.show_menu();
+            });
 
             klass.install_action("navigation.go-first", None, move |widget, _, _| {
                 widget.navigate_to_first();
@@ -146,6 +155,13 @@ impl From<&model::Container> for ContainerDetailsPage {
 }
 
 impl ContainerDetailsPage {
+    fn show_menu(&self) {
+        let imp = self.imp();
+        if utils::leaflet_overlay(&imp.leaflet).child().is_none() {
+            imp.menu_button.popup();
+        }
+    }
+
     fn container(&self) -> Option<model::Container> {
         self.imp().container.upgrade()
     }
