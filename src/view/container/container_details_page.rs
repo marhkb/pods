@@ -1,5 +1,6 @@
 use gtk::glib;
 use gtk::glib::clone;
+use gtk::glib::closure;
 use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
@@ -20,6 +21,9 @@ mod imp {
         pub(super) container: WeakRef<model::Container>,
         #[template_child]
         pub(super) leaflet: TemplateChild<adw::Leaflet>,
+        #[template_child]
+        pub(super) resources_quick_reference_group:
+            TemplateChild<view::ContainerResourcesQuickReferenceGroup>,
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
     }
@@ -97,6 +101,14 @@ mod imp {
                     obj.imp().stack.set_visible_child_name("deleted");
                 }));
             }
+
+            Self::Type::this_expression("container")
+                .chain_property::<model::Container>("status")
+                .chain_closure::<bool>(closure!(
+                    |_: glib::Object, status: model::ContainerStatus| status
+                        == model::ContainerStatus::Running
+                ))
+                .bind(&*self.resources_quick_reference_group, "visible", Some(obj));
         }
 
         fn dispose(&self, _obj: &Self::Type) {

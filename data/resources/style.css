@@ -150,6 +150,14 @@ checkbutton.theme-selector radio:checked {
   background-color: @red_3;
 }
 
+.progressbar-warning trough > progress {
+  background-color: @warning_bg_color;
+}
+
+.progressbar-error trough > progress {
+  background-color: @error_bg_color;
+}
+
 .text-view {
   font-size: 0.85em;
 }

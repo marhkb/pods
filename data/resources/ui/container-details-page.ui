@@ -70,6 +70,14 @@
                     </child>
 
                     <child>
+                      <object class="ContainerResourcesQuickReferenceGroup" id="resources_quick_reference_group">
+                        <binding name="container">
+                          <lookup name="container">ContainerDetailsPage</lookup>
+                        </binding>
+                      </object>
+                    </child>
+
+                    <child>
                       <object class="AdwPreferencesGroup">
                         <property name="title" translatable="yes">Utilities</property>
 
