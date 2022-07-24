@@ -1,4 +1,5 @@
 use adw::subclass::prelude::AdwApplicationWindowImpl;
+use adw::traits::BinExt;
 use cascade::cascade;
 use gettextrs::gettext;
 use gtk::gdk;
@@ -346,10 +347,13 @@ impl Window {
     }
 
     fn add_connection(&self) {
-        self.leaflet_overlay()
-            .show_details(&view::ConnectionCreatorPage::from(
+        let leaflet_overlay = &*self.imp().leaflet_overlay;
+
+        if leaflet_overlay.child().is_none() {
+            leaflet_overlay.show_details(&view::ConnectionCreatorPage::from(
                 &self.connection_manager(),
             ));
+        }
     }
 
     fn remove_connection(&self, uuid: &str) {
@@ -365,27 +369,33 @@ impl Window {
     }
 
     fn show_pull_dialog(&self) {
-        self.imp()
-            .leaflet_overlay
-            .show_details(&view::ImagePullPage::from(
+        let leaflet_overlay = &*self.imp().leaflet_overlay;
+
+        if leaflet_overlay.child().is_none() {
+            leaflet_overlay.show_details(&view::ImagePullPage::from(
                 self.connection_manager().client().as_ref(),
             ));
+        }
     }
 
     fn show_prune_page(&self) {
-        self.imp()
-            .leaflet_overlay
-            .show_details(&view::ImagesPrunePage::from(
+        let leaflet_overlay = &*self.imp().leaflet_overlay;
+
+        if leaflet_overlay.child().is_none() {
+            leaflet_overlay.show_details(&view::ImagesPrunePage::from(
                 self.connection_manager().client().as_ref(),
             ));
+        }
     }
 
     fn create_container(&self) {
-        self.imp()
-            .leaflet_overlay
-            .show_details(&view::ContainerCreationPage::from(
+        let leaflet_overlay = &*self.imp().leaflet_overlay;
+
+        if leaflet_overlay.child().is_none() {
+            leaflet_overlay.show_details(&view::ContainerCreationPage::from(
                 self.connection_manager().client().as_ref(),
             ));
+        }
     }
 
     fn toggle_search(&self) {
