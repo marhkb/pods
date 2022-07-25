@@ -1,5 +1,7 @@
 use std::cell::RefCell;
 
+use adw::traits::BinExt;
+use gtk::gdk;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
@@ -23,6 +25,8 @@ mod imp {
         pub(super) container: WeakRef<model::Container>,
         pub(super) handler_id: RefCell<Option<glib::SignalHandlerId>>,
         #[template_child]
+        pub(super) menu_button: TemplateChild<view::ContainerMenuButton>,
+        #[template_child]
         pub(super) leaflet: TemplateChild<adw::Leaflet>,
         #[template_child]
         pub(super) resources_quick_reference_group:
@@ -40,6 +44,11 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
+            klass.add_binding_action(gdk::Key::F10, gdk::ModifierType::empty(), "menu.show", None);
+            klass.install_action("menu.show", None, |widget, _, _| {
+                widget.show_menu();
+            });
+
             klass.install_action("navigation.go-first", None, move |widget, _, _| {
                 widget.navigate_to_first();
             });
@@ -53,6 +62,34 @@ mod imp {
             klass.install_action("container.show-processes", None, move |widget, _, _| {
                 widget.show_processes();
             });
+
+            add_binding_action(
+                klass,
+                gdk::Key::F10,
+                gdk::ModifierType::SHIFT_MASK,
+                "container.start",
+            );
+
+            add_binding_action(
+                klass,
+                gdk::Key::F2,
+                gdk::ModifierType::CONTROL_MASK,
+                "container.stop",
+            );
+
+            add_binding_action(
+                klass,
+                gdk::Key::F5,
+                gdk::ModifierType::CONTROL_MASK,
+                "container.restart",
+            );
+
+            add_binding_action(
+                klass,
+                gdk::Key::F6,
+                gdk::ModifierType::SHIFT_MASK,
+                "container.rename",
+            );
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -146,6 +183,13 @@ impl From<&model::Container> for ContainerDetailsPage {
 }
 
 impl ContainerDetailsPage {
+    fn show_menu(&self) {
+        let imp = self.imp();
+        if utils::leaflet_overlay(&imp.leaflet).child().is_none() {
+            imp.menu_button.popup();
+        }
+    }
+
     fn container(&self) -> Option<model::Container> {
         self.imp().container.upgrade()
     }
@@ -192,4 +236,27 @@ impl ContainerDetailsPage {
                 .show_details(&view::ContainerProcessesPage::from(&container));
         }
     }
+}
+
+fn add_binding_action(
+    klass: &mut <imp::ContainerDetailsPage as ObjectSubclass>::Class,
+    keyval: gdk::Key,
+    mods: gdk::ModifierType,
+    action: &'static str,
+) {
+    klass.add_binding(
+        keyval,
+        mods,
+        |widget, _| {
+            let imp = widget.imp();
+            match utils::leaflet_overlay(&imp.leaflet).child() {
+                None => imp.menu_button.activate_action(action, None).is_ok(),
+                Some(_) => false,
+            }
+        },
+        None,
+    );
+
+    // For displaying a mnemonic.
+    klass.add_binding_action(keyval, mods, action, None);
 }

@@ -1,6 +1,7 @@
 use adw::subclass::prelude::BinImpl;
 use adw::traits::BinExt;
 use gtk::glib;
+use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
@@ -27,8 +28,26 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for LeafletOverlay {}
-    impl WidgetImpl for LeafletOverlay {}
+    impl ObjectImpl for LeafletOverlay {
+        fn constructed(&self, obj: &Self::Type) {
+            self.parent_constructed(obj);
+        }
+    }
+
+    impl WidgetImpl for LeafletOverlay {
+        fn realize(&self, widget: &Self::Type) {
+            self.parent_realize(widget);
+
+            widget
+                .leaflet()
+                .connect_visible_child_notify(clone!(@weak widget => move |leaflet| {
+                    if leaflet.visible_child().as_ref() != Some(widget.upcast_ref()) {
+                        widget.set_child(gtk::Widget::NONE);
+                    }
+                }));
+        }
+    }
+
     impl BinImpl for LeafletOverlay {}
 }
 
@@ -58,6 +77,5 @@ impl LeafletOverlay {
 
     pub(crate) fn hide_details(&self) {
         self.leaflet().navigate(adw::NavigationDirection::Back);
-        self.set_child(gtk::Widget::NONE);
     }
 }

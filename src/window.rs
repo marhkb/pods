@@ -1,4 +1,5 @@
 use adw::subclass::prelude::AdwApplicationWindowImpl;
+use adw::traits::BinExt;
 use cascade::cascade;
 use gettextrs::gettext;
 use gtk::gdk;
@@ -85,6 +86,27 @@ mod imp {
             view::WelcomePage::static_type();
             sourceview5::View::static_type();
 
+            klass.add_binding_action(gdk::Key::F10, gdk::ModifierType::empty(), "menu.show", None);
+            klass.install_action("menu.show", None, |widget, _, _| {
+                widget.show_menu();
+            });
+
+            klass.add_binding_action(
+                gdk::Key::Home,
+                gdk::ModifierType::ALT_MASK,
+                "win.navigate-home",
+                None,
+            );
+            klass.install_action("win.navigate-home", None, |widget, _, _| {
+                widget.navigate_home();
+            });
+
+            klass.add_binding_action(
+                gdk::Key::C,
+                gdk::ModifierType::CONTROL_MASK | gdk::ModifierType::SHIFT_MASK,
+                "win.add-connection",
+                None,
+            );
             klass.install_action("win.add-connection", None, |widget, _, _| {
                 widget.add_connection();
             });
@@ -98,13 +120,32 @@ mod imp {
                 widget.show_podman_info_dialog();
             });
 
+            klass.add_binding_action(
+                gdk::Key::D,
+                gdk::ModifierType::CONTROL_MASK,
+                "image.pull",
+                None,
+            );
             klass.install_action("image.pull", None, move |widget, _, _| {
                 widget.show_pull_dialog();
             });
+
+            klass.add_binding_action(
+                gdk::Key::Delete,
+                gdk::ModifierType::CONTROL_MASK | gdk::ModifierType::SHIFT_MASK,
+                "images.prune-unused",
+                None,
+            );
             klass.install_action("images.prune-unused", None, move |widget, _, _| {
                 widget.show_prune_page();
             });
 
+            klass.add_binding_action(
+                gdk::Key::N,
+                gdk::ModifierType::CONTROL_MASK,
+                "container.create",
+                None,
+            );
             klass.install_action("container.create", None, move |widget, _, _| {
                 widget.create_container();
             });
@@ -345,11 +386,25 @@ impl Window {
         utils::show_error_toast(self, "Connection error", &e.to_string());
     }
 
+    fn show_menu(&self) {
+        let imp = self.imp();
+        if imp.leaflet_overlay.child().is_none() {
+            imp.menu_button.popup();
+        }
+    }
+
+    fn navigate_home(&self) {
+        self.leaflet_overlay().hide_details();
+    }
+
     fn add_connection(&self) {
-        self.leaflet_overlay()
-            .show_details(&view::ConnectionCreatorPage::from(
+        let leaflet_overlay = &*self.imp().leaflet_overlay;
+
+        if leaflet_overlay.child().is_none() {
+            leaflet_overlay.show_details(&view::ConnectionCreatorPage::from(
                 &self.connection_manager(),
             ));
+        }
     }
 
     fn remove_connection(&self, uuid: &str) {
@@ -365,27 +420,33 @@ impl Window {
     }
 
     fn show_pull_dialog(&self) {
-        self.imp()
-            .leaflet_overlay
-            .show_details(&view::ImagePullPage::from(
+        let leaflet_overlay = &*self.imp().leaflet_overlay;
+
+        if leaflet_overlay.child().is_none() {
+            leaflet_overlay.show_details(&view::ImagePullPage::from(
                 self.connection_manager().client().as_ref(),
             ));
+        }
     }
 
     fn show_prune_page(&self) {
-        self.imp()
-            .leaflet_overlay
-            .show_details(&view::ImagesPrunePage::from(
+        let leaflet_overlay = &*self.imp().leaflet_overlay;
+
+        if leaflet_overlay.child().is_none() {
+            leaflet_overlay.show_details(&view::ImagesPrunePage::from(
                 self.connection_manager().client().as_ref(),
             ));
+        }
     }
 
     fn create_container(&self) {
-        self.imp()
-            .leaflet_overlay
-            .show_details(&view::ContainerCreationPage::from(
+        let leaflet_overlay = &*self.imp().leaflet_overlay;
+
+        if leaflet_overlay.child().is_none() {
+            leaflet_overlay.show_details(&view::ContainerCreationPage::from(
                 self.connection_manager().client().as_ref(),
             ));
+        }
     }
 
     fn toggle_search(&self) {

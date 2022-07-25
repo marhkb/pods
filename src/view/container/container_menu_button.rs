@@ -172,6 +172,10 @@ macro_rules! container_action {
 }
 
 impl ContainerMenuButton {
+    pub(crate) fn popup(&self) {
+        self.imp().menu_button.popup();
+    }
+
     pub(crate) fn container(&self) -> Option<model::Container> {
         self.imp().container.upgrade()
     }
