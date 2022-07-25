@@ -62,6 +62,34 @@ mod imp {
             klass.install_action("container.show-processes", None, move |widget, _, _| {
                 widget.show_processes();
             });
+
+            add_binding_action(
+                klass,
+                gdk::Key::F10,
+                gdk::ModifierType::SHIFT_MASK,
+                "container.start",
+            );
+
+            add_binding_action(
+                klass,
+                gdk::Key::F2,
+                gdk::ModifierType::CONTROL_MASK,
+                "container.stop",
+            );
+
+            add_binding_action(
+                klass,
+                gdk::Key::F5,
+                gdk::ModifierType::CONTROL_MASK,
+                "container.restart",
+            );
+
+            add_binding_action(
+                klass,
+                gdk::Key::F6,
+                gdk::ModifierType::SHIFT_MASK,
+                "container.rename",
+            );
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -208,4 +236,27 @@ impl ContainerDetailsPage {
                 .show_details(&view::ContainerProcessesPage::from(&container));
         }
     }
+}
+
+fn add_binding_action(
+    klass: &mut <imp::ContainerDetailsPage as ObjectSubclass>::Class,
+    keyval: gdk::Key,
+    mods: gdk::ModifierType,
+    action: &'static str,
+) {
+    klass.add_binding(
+        keyval,
+        mods,
+        |widget, _| {
+            let imp = widget.imp();
+            match utils::leaflet_overlay(&imp.leaflet).child() {
+                None => imp.menu_button.activate_action(action, None).is_ok(),
+                Some(_) => false,
+            }
+        },
+        None,
+    );
+
+    // For displaying a mnemonic.
+    klass.add_binding_action(keyval, mods, action, None);
 }
