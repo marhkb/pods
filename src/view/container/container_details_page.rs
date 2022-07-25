@@ -1,3 +1,5 @@
+use std::cell::RefCell;
+
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
@@ -19,6 +21,7 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/container-details-page.ui")]
     pub(crate) struct ContainerDetailsPage {
         pub(super) container: WeakRef<model::Container>,
+        pub(super) handler_id: RefCell<Option<glib::SignalHandlerId>>,
         #[template_child]
         pub(super) leaflet: TemplateChild<adw::Leaflet>,
         #[template_child]
@@ -97,9 +100,10 @@ mod imp {
             self.parent_constructed(obj);
 
             if let Some(container) = obj.container() {
-                container.connect_deleted(clone!(@weak obj => move |_| {
+                let handler_id = container.connect_deleted(clone!(@weak obj => move |_| {
                     obj.imp().stack.set_visible_child_name("deleted");
                 }));
+                self.handler_id.replace(Some(handler_id));
             }
 
             Self::Type::this_expression("container")
@@ -111,7 +115,10 @@ mod imp {
                 .bind(&*self.resources_quick_reference_group, "visible", Some(obj));
         }
 
-        fn dispose(&self, _obj: &Self::Type) {
+        fn dispose(&self, obj: &Self::Type) {
+            if let Some(container) = obj.container() {
+                container.disconnect(self.handler_id.take().unwrap());
+            }
             self.leaflet.unparent();
         }
     }
