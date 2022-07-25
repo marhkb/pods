@@ -1,3 +1,5 @@
+use std::cell::RefCell;
+
 use gettextrs::gettext;
 use gtk::glib;
 use gtk::glib::clone;
@@ -20,6 +22,7 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/image-details-page.ui")]
     pub(crate) struct ImageDetailsPage {
         pub(super) image: WeakRef<model::Image>,
+        pub(super) handler_id: RefCell<Option<glib::SignalHandlerId>>,
         #[template_child]
         pub(super) leaflet: TemplateChild<adw::Leaflet>,
         #[template_child]
@@ -222,13 +225,17 @@ mod imp {
                 .bind(&*self.repo_tags_row, "visible", Some(obj));
 
             if let Some(image) = obj.image() {
-                image.connect_deleted(clone!(@weak obj => move |_| {
+                let handler_id = image.connect_deleted(clone!(@weak obj => move |_| {
                     obj.imp().stack.set_visible_child_name("deleted");
                 }));
+                self.handler_id.replace(Some(handler_id));
             }
         }
 
-        fn dispose(&self, _obj: &Self::Type) {
+        fn dispose(&self, obj: &Self::Type) {
+            if let Some(image) = obj.image() {
+                image.disconnect(self.handler_id.take().unwrap());
+            }
             self.leaflet.unparent();
         }
     }
