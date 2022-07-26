@@ -27,31 +27,15 @@
 
             <!-- Progress bar overlay -->
             <child type="overlay">
-              <object class="GtkStack" id="progress_stack">
+              <object class="GtkRevealer" id="progress_revealer">
                 <property name="transition-type">crossfade</property>
                 <property name="valign">start</property>
 
                 <child>
-                  <object class="GtkStackPage">
-                    <property name="name">empty</property>
-                    <property name="child">
-                      <object class="AdwBin"/>
-                    </property>
-                  </object>
-                </child>
-
-                <child>
-                  <object class="GtkStackPage">
-                    <property name="name">bar</property>
-
-                    <property name="child">
-                      <object class="GtkProgressBar" id="progress_bar">
-                        <style>
-                          <class name="osd"/>
-                        </style>
-                      </object>
-                    </property>
-
+                  <object class="GtkProgressBar" id="progress_bar">
+                    <style>
+                      <class name="osd"/>
+                    </style>
                   </object>
                 </child>
 
