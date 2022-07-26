@@ -1,4 +1,4 @@
-headerbar {
+headerbar:not(.flat) {
   background: @background_color;
   color: @foreground_color;
 }

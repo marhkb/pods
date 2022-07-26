@@ -31,7 +31,7 @@ mod imp {
         #[template_child]
         pub(super) overlay: TemplateChild<gtk::Overlay>,
         #[template_child]
-        pub(super) progress_stack: TemplateChild<gtk::Stack>,
+        pub(super) progress_revealer: TemplateChild<gtk::Revealer>,
         #[template_child]
         pub(super) progress_bar: TemplateChild<gtk::ProgressBar>,
         #[template_child]
@@ -141,30 +141,24 @@ mod imp {
             )
             .bind(&*self.progress_bar, "fraction", Some(obj));
 
-            gtk::ClosureExpression::new::<String, _, _>(
+            gtk::ClosureExpression::new::<bool, _, _>(
                 fetched_params,
-                closure!(|_: glib::Object, fetched: u32, to_fetch: u32| {
-                    if fetched >= to_fetch {
-                        "empty"
-                    } else {
-                        "bar"
-                    }
-                }),
+                closure!(|_: glib::Object, fetched: u32, to_fetch: u32| fetched < to_fetch),
             )
-            .bind(&*self.progress_stack, "visible-child-name", Some(obj));
+            .bind(&*self.progress_revealer, "reveal-child", Some(obj));
 
-            gtk::Stack::this_expression("visible-child-name")
-                .chain_closure::<u32>(closure!(|_: glib::Object, name: &str| {
-                    match name {
-                        "empty" => 0_u32,
-                        "bar" => 1000,
-                        _ => unreachable!(),
+            gtk::Revealer::this_expression("child-revealed")
+                .chain_closure::<u32>(closure!(|_: glib::Object, revealed: bool| {
+                    if revealed {
+                        1000_u32
+                    } else {
+                        0_u32
                     }
                 }))
                 .bind(
-                    &*self.progress_stack,
+                    &*self.progress_revealer,
                     "transition-duration",
-                    Some(&*self.progress_stack),
+                    Some(&*self.progress_revealer),
                 );
 
             gtk::ClosureExpression::new::<String, _, _>(

@@ -9,7 +9,7 @@
     </section>
     <section>
       <item>
-        <attribute name="label" translatable="yes">_Add Connection…</attribute>
+        <attribute name="label" translatable="yes">_Add connection…</attribute>
         <attribute name="action">win.add-connection</attribute>
       </item>
     </section>
