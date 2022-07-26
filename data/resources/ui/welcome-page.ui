@@ -8,7 +8,16 @@
     </property>
 
     <child>
-      <object class="AdwHeaderBar"/>
+      <object class="AdwHeaderBar">
+        <style>
+          <class name="flat"/>
+        </style>
+        <property name="title-widget">
+          <object class="AdwWindowTitle">
+            <property name="visible">False</property>
+          </object>
+        </property>
+      </object>
     </child>
 
     <child>
