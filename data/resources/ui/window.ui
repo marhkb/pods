@@ -27,8 +27,7 @@
         <attribute name="action">container.create</attribute>
       </item>
     </section>
-    <section>
-    </section>
+    <section></section>
     <section>
       <item>
         <attribute name="label" translatable="yes">About _Podman</attribute>
@@ -204,6 +203,26 @@
                                           <object class="ContainersPanel" id="containers_panel">
                                             <binding name="container-list">
                                               <lookup name="container-list" type="Client">
+                                                <lookup name="client" type="ConnectionManager">
+                                                  <lookup name="connection-manager">Window</lookup>
+                                                </lookup>
+                                              </lookup>
+                                            </binding>
+                                          </object>
+                                        </property>
+                                      </object>
+                                    </child>
+
+                                    <!-- Pods Panel -->
+                                    <child>
+                                      <object class="AdwViewStackPage">
+                                        <property name="icon-name">pods-symbolic</property>
+                                        <property name="name">pods</property>
+                                        <property name="title" translatable="yes">Pods</property>
+                                        <property name="child">
+                                          <object class="PodsPanel" id="pods_panel">
+                                            <binding name="pod-list">
+                                              <lookup name="pod-list" type="Client">
                                                 <lookup name="client" type="ConnectionManager">
                                                   <lookup name="connection-manager">Window</lookup>
                                                 </lookup>
