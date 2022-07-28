@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+
+  <template class="PodRow" parent="AdwActionRow">
+    <property name="activatable">True</property>
+    <property name="action-name">pod.show-details</property>
+
+    <child>
+      <object class="GtkLabel" id="status_label">
+        <style>
+          <class name="container-status"/>
+        </style>
+        <property name="valign">center</property>
+      </object>
+    </child>
+
+    <child>
+      <object class="GtkImage">
+        <property name="icon_name">go-next-symbolic</property>
+        <style>
+          <class name="dim-label"/>
+        </style>
+      </object>
+    </child>
+
+  </template>
+</interface>
