@@ -18,16 +18,11 @@ use crate::utils;
 use crate::view;
 use crate::window::Window;
 
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, Default)]
 enum TimeFormat {
     Hours12,
+    #[default]
     Hours24,
-}
-
-impl Default for TimeFormat {
-    fn default() -> Self {
-        Self::Hours24
-    }
 }
 
 mod imp {

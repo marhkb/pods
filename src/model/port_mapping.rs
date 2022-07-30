@@ -10,17 +10,12 @@ use gtk::prelude::ToValue;
 use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq, glib::Enum)]
+#[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
 #[enum_type(name = "PortMappingProtocol")]
 pub(crate) enum Protocol {
+    #[default]
     Tcp,
     Udp,
-}
-
-impl Default for Protocol {
-    fn default() -> Self {
-        Self::Tcp
-    }
 }
 
 impl fmt::Display for Protocol {

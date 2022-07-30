@@ -23,7 +23,7 @@ use crate::model;
 use crate::monad_boxed_type;
 use crate::utils;
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq, glib::Enum)]
+#[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
 #[enum_type(name = "ContainerStatus")]
 pub(crate) enum Status {
     Configured,
@@ -36,13 +36,8 @@ pub(crate) enum Status {
     Running,
     Stopped,
     Stopping,
+    #[default]
     Unknown,
-}
-
-impl Default for Status {
-    fn default() -> Self {
-        Self::Unknown
-    }
 }
 
 impl FromStr for Status {
