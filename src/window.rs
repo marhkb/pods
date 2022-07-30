@@ -463,6 +463,7 @@ impl Window {
                         match e.variant {
                             model::ClientErrorVariant::Images => gettext("images"),
                             model::ClientErrorVariant::Containers => gettext("containers"),
+                            model::ClientErrorVariant::Pods => gettext("pods"),
                         }
                     ),
                     model::RefreshError::Inspect(id) => {
@@ -472,6 +473,7 @@ impl Window {
                             match e.variant {
                                 model::ClientErrorVariant::Images => gettext("image"),
                                 model::ClientErrorVariant::Containers => gettext("container"),
+                                model::ClientErrorVariant::Pods => gettext("pods"),
                             },
                             id
                         )
