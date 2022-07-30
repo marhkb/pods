@@ -28,8 +28,6 @@
       </item>
     </section>
     <section>
-    </section>
-    <section>
       <item>
         <attribute name="label" translatable="yes">About _Podman</attribute>
         <attribute name="action">win.show-podman-info</attribute>
