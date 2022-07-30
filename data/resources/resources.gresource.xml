@@ -44,6 +44,7 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/window.ui</file>
 
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/build-configure-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/pods-symbolic.svg</file>
 
     <file compressed="true">style.css</file>
   </gresource>
