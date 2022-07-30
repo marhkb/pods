@@ -225,7 +225,7 @@ impl ContainerList {
             clone!(@weak self as obj => move |result| {
                 let imp = obj.imp();
                 match result {
-                    Ok(inspect_response) => {
+                    Ok(inspect_response) => if !inspect_response.is_infra.unwrap_or(false) {
                         let mut list = imp.list.borrow_mut();
                         let entry = list.entry(id);
                         match entry {
