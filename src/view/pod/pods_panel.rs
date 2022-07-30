@@ -233,7 +233,7 @@ impl PodsPanel {
         let imp = self.imp();
 
         value.connect_notify_local(
-            Some("fetched"),
+            Some("running"),
             clone!(@weak self as obj => move |_ ,_| obj.update_properties_filter()),
         );
 
