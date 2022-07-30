@@ -104,6 +104,8 @@ mod imp {
         pub(super) image_id: OnceCell<String>,
         pub(super) image_name: RefCell<Option<String>>,
         pub(super) name: RefCell<Option<String>>,
+        pub(super) pod: WeakRef<model::Pod>,
+        pub(super) pod_id: OnceCell<Option<String>>,
         pub(super) port_bindings: OnceCell<utils::BoxedStringVec>,
         pub(super) stats: RefCell<Option<BoxedContainerStats>>,
         pub(super) status: Cell<Status>,
@@ -196,6 +198,20 @@ mod imp {
                             | glib::ParamFlags::CONSTRUCT
                             | glib::ParamFlags::EXPLICIT_NOTIFY,
                     ),
+                    glib::ParamSpecObject::new(
+                        "pod",
+                        "Pod",
+                        "The potential pod of this container",
+                        model::Pod::static_type(),
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                    ),
+                    glib::ParamSpecString::new(
+                        "pod-id",
+                        "Pod Id",
+                        "The pod id of this container",
+                        Option::default(),
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
+                    ),
                     glib::ParamSpecBoxed::new(
                         "port-bindings",
                         "Port Bindings",
@@ -249,6 +265,8 @@ mod imp {
                 "image" => obj.set_image(value.get().unwrap()),
                 "image-id" => self.image_id.set(value.get().unwrap()).unwrap(),
                 "image-name" => obj.set_image_name(value.get().unwrap()),
+                "pod" => obj.set_pod(value.get().unwrap()),
+                "pod-id" => self.pod_id.set(value.get().unwrap()).unwrap(),
                 "name" => obj.set_name(value.get().unwrap()),
                 "port-bindings" => self.port_bindings.set(value.get().unwrap()).unwrap(),
                 "stats" => obj.set_stats(value.get().unwrap()),
@@ -268,6 +286,8 @@ mod imp {
                 "image-id" => obj.image_id().to_value(),
                 "image-name" => obj.image_name().to_value(),
                 "name" => obj.name().to_value(),
+                "pod" => obj.pod().to_value(),
+                "pod-id" => obj.pod_id().to_value(),
                 "port-bindings" => obj.port_bindings().to_value(),
                 "stats" => obj.stats().to_value(),
                 "status" => obj.status().to_value(),
@@ -304,6 +324,7 @@ impl Container {
             ("image-id", &inspect_response.image),
             ("image-name", &inspect_response.image_name),
             ("name", &inspect_response.name),
+            ("pod-id", &inspect_response.pod),
             (
                 "port-bindings",
                 &utils::BoxedStringVec::from(
@@ -413,6 +434,27 @@ impl Container {
         self.notify("name");
     }
 
+    pub(crate) fn pod(&self) -> Option<model::Pod> {
+        self.imp().pod.upgrade()
+    }
+
+    pub(crate) fn set_pod(&self, value: Option<&model::Pod>) {
+        if self.pod().as_ref() == value {
+            return;
+        }
+        self.imp().pod.set(value);
+        self.notify("pod");
+    }
+
+    pub(crate) fn pod_id(&self) -> Option<&str> {
+        self.imp()
+            .pod_id
+            .get()
+            .unwrap()
+            .as_ref()
+            .map(String::as_str)
+    }
+
     pub(crate) fn port_bindings(&self) -> &utils::BoxedStringVec {
         self.imp().port_bindings.get().unwrap()
     }
@@ -439,6 +481,9 @@ impl Container {
         }
         if value == Status::Running {
             self.run_stats_stream();
+        }
+        if let Some(pod) = self.pod() {
+            pod.inspect_and_update();
         }
         self.imp().status.set(value);
         self.notify("status");

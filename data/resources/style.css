@@ -106,48 +106,56 @@ checkbutton.theme-selector radio:checked {
   padding: 5px 7px;
 }
 
-.container-status-configured {
+.container-status-configured, .pod-status-configured {
   background-color: @dark_1;
 }
 
-.container-status-created {
+.container-status-created, .pod-status-created {
   background-color: @dark_1;
 }
 
-.container-status-dead {
+.container-status-dead, .pod-status-dead {
   background-color: @dark_1;
 }
 
-.container-status-exited {
+.container-status-exited, .pod-status-exited {
   background-color: @dark_1;
 }
 
-.container-status-paused {
+.container-status-paused, .pod-status-paused {
   background-color: @brown_3;
 }
 
-.container-status-removing {
+.container-status-removing, .pod-status-removing {
   background-color: @yellow_5;
 }
 
-.container-status-restarting {
+.container-status-restarting, .pod-status-restarting {
   background-color: @yellow_5;
 }
 
-.container-status-running {
+.container-status-running, .pod-status-running {
   background-color: @green_5;
 }
 
-.container-status-stopped {
+.container-status-stopped, .pod-status-stopped {
   background-color: @dark_1;
 }
 
-.container-status-stopping {
+.container-status-stopping, .pod-status-stopping {
   background-color: @dark_1;
 }
 
-.container-status-unknown {
+.container-status-unknown, .pod-status-unknown {
   background-color: @red_3;
+}
+
+.pod-status-degraded {
+  background-color: @dark_1;
+}
+
+pod row running {
+  background-color: @green_5;
 }
 
 .progressbar-warning trough > progress {

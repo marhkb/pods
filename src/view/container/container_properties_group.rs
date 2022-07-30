@@ -26,6 +26,8 @@ mod imp {
         #[template_child]
         pub(super) image_spinner: TemplateChild<gtk::Spinner>,
         #[template_child]
+        pub(super) pod_row: TemplateChild<adw::ActionRow>,
+        #[template_child]
         pub(super) port_bindings_row: TemplateChild<view::PropertyWidgetRow>,
         #[template_child]
         pub(super) port_bindings_label: TemplateChild<gtk::Label>,
@@ -46,7 +48,10 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
             klass.install_action("image.show-details", None, move |widget, _, _| {
-                widget.show_details();
+                widget.show_image_details();
+            });
+            klass.install_action("pod.show-details", None, move |widget, _, _| {
+                widget.show_pod_details();
             });
         }
 
@@ -102,6 +107,7 @@ mod imp {
             let container_expr = Self::Type::this_expression("container");
             let status_expr = container_expr.chain_property::<model::Container>("status");
             let image_expr = container_expr.chain_property::<model::Container>("image");
+            let pod_expr = container_expr.chain_property::<model::Container>("pod");
             let port_bindings_expr =
                 container_expr.chain_property::<model::Container>("port-bindings");
 
@@ -143,6 +149,18 @@ mod imp {
                     image.is_none()
                 }))
                 .bind(&*self.image_spinner, "visible", Some(obj));
+
+            pod_expr
+                .chain_closure::<bool>(closure!(|_: glib::Object, pod: Option<model::Pod>| {
+                    pod.is_some()
+                }))
+                .bind(&*self.pod_row, "visible", Some(obj));
+
+            pod_expr
+                .chain_closure::<String>(closure!(|_: glib::Object, pod: Option<model::Pod>| {
+                    pod.as_ref().map(model::Pod::name).unwrap_or_default()
+                }))
+                .bind(&*self.pod_row, "subtitle", Some(obj));
 
             port_bindings_expr
                 .chain_closure::<String>(closure!(
@@ -230,9 +248,19 @@ impl ContainerPropertiesGroup {
         self.imp().container.upgrade()
     }
 
-    fn show_details(&self) {
-        utils::find_leaflet_overlay(self).show_details(&view::ImageDetailsPage::from(
+    fn show_image_details(&self) {
+        self.show_details(&view::ImageDetailsPage::from(
             &self.container().unwrap().image().unwrap(),
         ));
+    }
+
+    fn show_pod_details(&self) {
+        if let Some(pod) = self.container().as_ref().and_then(model::Container::pod) {
+            self.show_details(&view::PodDetailsPage::from(&pod));
+        }
+    }
+
+    fn show_details<W: glib::IsA<gtk::Widget>>(&self, widget: &W) {
+        utils::find_leaflet_overlay(self).show_details(widget);
     }
 }

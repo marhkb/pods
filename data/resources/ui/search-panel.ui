@@ -80,6 +80,22 @@
                   </object>
                 </child>
 
+                <child>
+                  <object class="AdwPreferencesGroup" id="pods_group">
+                    <property name="title" translatable="yes">Pods</property>
+
+                    <child>
+                      <object class="GtkListBox" id="pods_list_box">
+                        <style>
+                          <class name="boxed-list"/>
+                        </style>
+                        <property name="selection-mode">none</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
               </object>
             </property>
 

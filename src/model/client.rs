@@ -29,6 +29,7 @@ pub(crate) struct ClientError {
 pub(crate) enum ClientErrorVariant {
     Images,
     Containers,
+    Pods,
 }
 
 mod imp {
@@ -40,6 +41,7 @@ mod imp {
         pub(super) connection: OnceCell<model::Connection>,
         pub(super) image_list: OnceCell<model::ImageList>,
         pub(super) container_list: OnceCell<model::ContainerList>,
+        pub(super) pod_list: OnceCell<model::PodList>,
         pub(super) pruning: Cell<bool>,
     }
 
@@ -81,6 +83,13 @@ mod imp {
                         model::ContainerList::static_type(),
                         glib::ParamFlags::READABLE,
                     ),
+                    glib::ParamSpecObject::new(
+                        "pod-list",
+                        "Pod List",
+                        "The list of containers",
+                        model::PodList::static_type(),
+                        glib::ParamFlags::READABLE,
+                    ),
                     glib::ParamSpecBoolean::new(
                         "pruning",
                         "Pruning",
@@ -113,6 +122,7 @@ mod imp {
                 "podman" => obj.podman().to_value(),
                 "image-list" => obj.image_list().to_value(),
                 "container-list" => obj.container_list().to_value(),
+                "pod-list" => obj.pod_list().to_value(),
                 "pruning" => obj.pruning().to_value(),
                 _ => unimplemented!(),
             }
@@ -141,6 +151,11 @@ mod imp {
                     if let Some(image) = image {
                         image.add_container(container.to_owned());
                     }
+
+                    if let Some(pod) = container.pod_id().and_then(|id| obj.pod_list().get_pod(id)) {
+                        container.set_pod(Some(&pod));
+                        pod.container_list().add_container(container.to_owned());
+                    }
                 }));
             obj.container_list().connect_container_removed(
                 clone!(@weak obj => move |_, container| {
@@ -152,6 +167,19 @@ mod imp {
                     }
                 }),
             );
+
+            obj.pod_list()
+                .connect_pod_added(clone!(@weak obj => move |_, pod| {
+                    obj.container_list()
+                        .to_owned()
+                        .to_typed_list_model::<model::Container>()
+                        .into_iter()
+                        .filter(|container| container.pod_id() == Some(pod.id()))
+                        .for_each(|container| {
+                            container.set_pod(Some(pod));
+                            pod.container_list().add_container(container);
+                        });
+                }));
         }
     }
 }
@@ -193,6 +221,12 @@ impl Client {
         self.imp()
             .container_list
             .get_or_init(|| model::ContainerList::from(Some(self)))
+    }
+
+    pub(crate) fn pod_list(&self) -> &model::PodList {
+        self.imp()
+            .pod_list
+            .get_or_init(|| model::PodList::from(Some(self)))
     }
 
     pub(crate) fn pruning(&self) -> bool {
@@ -259,6 +293,15 @@ impl Client {
                             })
                         }
                     });
+                    obj.pod_list().refresh({
+                        let err_op = err_op.clone();
+                        |err| {
+                            err_op(ClientError {
+                                err,
+                                variant: ClientErrorVariant::Pods,
+                            })
+                        }
+                    });
 
                     op();
                     obj.start_event_listener(err_op, finish_op);
@@ -302,6 +345,15 @@ impl Client {
                                     err_op(ClientError {
                                         err,
                                         variant: ClientErrorVariant::Containers,
+                                    })
+                                }
+                            }),
+                            "pod" => obj.pod_list().handle_event(event, {
+                                let err_op = err_op.clone();
+                                |err| {
+                                    err_op(ClientError {
+                                        err,
+                                        variant: ClientErrorVariant::Pods,
                                     })
                                 }
                             }),

@@ -81,6 +81,8 @@ mod imp {
             view::ImageRowSimple::static_type();
             view::ImageSearchResponseRow::static_type();
             view::ImagesPanel::static_type();
+            view::PodRow::static_type();
+            view::PodsPanel::static_type();
             view::PropertyWidgetRow::static_type();
             view::TextSearchEntry::static_type();
             view::WelcomePage::static_type();
@@ -463,6 +465,7 @@ impl Window {
                         match e.variant {
                             model::ClientErrorVariant::Images => gettext("images"),
                             model::ClientErrorVariant::Containers => gettext("containers"),
+                            model::ClientErrorVariant::Pods => gettext("pods"),
                         }
                     ),
                     model::RefreshError::Inspect(id) => {
@@ -472,6 +475,7 @@ impl Window {
                             match e.variant {
                                 model::ClientErrorVariant::Images => gettext("image"),
                                 model::ClientErrorVariant::Containers => gettext("container"),
+                                model::ClientErrorVariant::Pods => gettext("pods"),
                             },
                             id
                         )

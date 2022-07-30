@@ -5,6 +5,7 @@ use std::collections::HashSet;
 use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
+use gtk::glib::subclass::Signal;
 use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
@@ -14,18 +15,18 @@ use once_cell::sync::Lazy;
 
 use crate::api;
 use crate::model;
-use crate::model::AbstractContainerListExt;
 use crate::utils;
 
 mod imp {
+
     use super::*;
 
     #[derive(Debug, Default)]
-    pub(crate) struct ContainerList {
+    pub(crate) struct PodList {
         pub(super) client: WeakRef<model::Client>,
 
         pub(super) fetched: Cell<u32>,
-        pub(super) list: RefCell<IndexMap<String, model::Container>>,
+        pub(super) list: RefCell<IndexMap<String, model::Pod>>,
         pub(super) listing: Cell<bool>,
         pub(super) to_fetch: Cell<u32>,
 
@@ -33,13 +34,25 @@ mod imp {
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for ContainerList {
-        const NAME: &'static str = "ContainerList";
-        type Type = super::ContainerList;
-        type Interfaces = (gio::ListModel, model::AbstractContainerList);
+    impl ObjectSubclass for PodList {
+        const NAME: &'static str = "PodList";
+        type Type = super::PodList;
+        type Interfaces = (gio::ListModel,);
     }
 
-    impl ObjectImpl for ContainerList {
+    impl ObjectImpl for PodList {
+        fn signals() -> &'static [Signal] {
+            static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
+                vec![Signal::builder(
+                    "pod-added",
+                    &[model::Pod::static_type().into()],
+                    <()>::static_type().into(),
+                )
+                .build()]
+            });
+            SIGNALS.as_ref()
+        }
+
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
@@ -53,7 +66,7 @@ mod imp {
                     glib::ParamSpecUInt::new(
                         "fetched",
                         "Fetched",
-                        "The number of containers that have been fetched",
+                        "The number of pods that have been fetched",
                         0,
                         std::u32::MAX,
                         0,
@@ -71,14 +84,14 @@ mod imp {
                     glib::ParamSpecBoolean::new(
                         "listing",
                         "Listing",
-                        "Wether containers are currently listed",
+                        "Wether pods are currently listed",
                         false,
                         glib::ParamFlags::READABLE,
                     ),
                     glib::ParamSpecUInt::new(
                         "running",
                         "Running",
-                        "The number of running containers",
+                        "The number of running pods",
                         0,
                         std::u32::MAX,
                         0,
@@ -87,7 +100,7 @@ mod imp {
                     glib::ParamSpecUInt::new(
                         "to-fetch",
                         "To Fetch",
-                        "The number of containers to be fetched",
+                        "The number of pods to be fetched",
                         0,
                         std::u32::MAX,
                         0,
@@ -128,9 +141,9 @@ mod imp {
         }
     }
 
-    impl ListModelImpl for ContainerList {
+    impl ListModelImpl for PodList {
         fn item_type(&self, _list_model: &Self::Type) -> glib::Type {
-            model::Container::static_type()
+            model::Pod::static_type()
         }
 
         fn n_items(&self, _list_model: &Self::Type) -> u32 {
@@ -148,17 +161,16 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub(crate) struct ContainerList(ObjectSubclass<imp::ContainerList>)
-        @implements gio::ListModel, model::AbstractContainerList;
+    pub(crate) struct PodList(ObjectSubclass<imp::PodList>) @implements gio::ListModel;
 }
 
-impl From<Option<&model::Client>> for ContainerList {
+impl From<Option<&model::Client>> for PodList {
     fn from(client: Option<&model::Client>) -> Self {
-        glib::Object::new(&[("client", &client)]).expect("Failed to create ContainerList")
+        glib::Object::new(&[("client", &client)]).expect("Failed to create PodList")
     }
 }
 
-impl ContainerList {
+impl PodList {
     pub(crate) fn client(&self) -> Option<model::Client> {
         self.imp().client.upgrade()
     }
@@ -196,7 +208,7 @@ impl ContainerList {
             .list
             .borrow()
             .values()
-            .filter(|container| container.status() == model::ContainerStatus::Running)
+            .filter(|pod| pod.status() == model::PodStatus::Running)
             .count() as u32
     }
 
@@ -212,7 +224,7 @@ impl ContainerList {
         self.notify("to-fetch");
     }
 
-    fn add_or_update_container<F>(&self, id: String, err_op: F)
+    fn add_or_update_pod<F>(&self, id: String, err_op: F)
     where
         F: FnOnce(super::RefreshError) + 'static,
     {
@@ -220,44 +232,38 @@ impl ContainerList {
             {
                 let id = id.clone();
                 let podman = self.client().unwrap().podman().clone();
-                async move { podman.containers().get(id).inspect().await }
+                async move { podman.pods().get(id).inspect().await }
             },
             clone!(@weak self as obj => move |result| {
                 let imp = obj.imp();
                 match result {
-                    Ok(inspect_response) => if !inspect_response.is_infra.unwrap_or(false) {
+                    Ok(inspect_response) => {
                         let mut list = imp.list.borrow_mut();
                         let entry = list.entry(id);
                         match entry {
                             Entry::Vacant(entry) => {
-                                let container = model::Container::new(&obj, inspect_response);
-                                container.connect_notify_local(
+                                let pod = model::Pod::new(&obj, inspect_response);
+                                pod.connect_notify_local(
                                     Some("status"),
                                     clone!(@weak obj => move |_, _| {
                                         obj.notify("running");
                                     }),
                                 );
-                                container.connect_notify_local(
-                                    Some("name"),
-                                    clone!(@weak obj => move |container, _| {
-                                        obj.container_name_changed(container);
-                                    })
-                                );
-                                entry.insert(container.clone());
+                                entry.insert(pod.clone());
 
                                 drop(list);
-                                obj.container_added(&container);
+                                obj.pod_added(&pod);
                                 obj.items_changed(obj.len() - 1, 0, 1);
                             }
                             Entry::Occupied(entry) => {
-                                let container = entry.get().clone();
+                                let pod = entry.get().clone();
                                 drop(list);
-                                container.update(inspect_response)
+                                pod.update(inspect_response)
                             }
                         }
                     }
                     Err(e) => {
-                        log::error!("Error on inspecting container '{id}': {e}");
+                        log::error!("Error on inspecting pod '{id}': {e}");
                         if imp.failed.borrow_mut().insert(id.clone()) {
                             err_op(super::RefreshError::Inspect(id));
                         }
@@ -268,18 +274,16 @@ impl ContainerList {
         );
     }
 
-    pub(crate) fn get_container(&self, id: &str) -> Option<model::Container> {
+    pub(crate) fn get_pod(&self, id: &str) -> Option<model::Pod> {
         self.imp().list.borrow().get(id).cloned()
     }
 
-    pub(crate) fn remove_container(&self, id: &str) {
+    pub(crate) fn remove_pod(&self, id: &str) {
         self.imp().failed.borrow_mut().remove(id);
 
         let mut list = self.imp().list.borrow_mut();
-        if let Some((idx, _, container)) = list.shift_remove_full(id) {
-            container.emit_deleted();
+        if let Some((idx, _, _)) = list.shift_remove_full(id) {
             drop(list);
-            self.container_removed(&container);
             self.items_changed(idx as u32, 1, 0);
         }
     }
@@ -294,38 +298,38 @@ impl ContainerList {
                 let podman = self.client().unwrap().podman().clone();
                 async move {
                     podman
-                        .containers()
-                        .list(&api::ContainerListOpts::builder().all(true).build())
+                        .pods()
+                        .list(&api::PodListOpts::builder().build())
                         .await
                 }
             },
             clone!(@weak self as obj => move |result| {
                 obj.set_listing(false);
                 match result {
-                    Ok(list_containers) => {
+                    Ok(list_pods) => {
                         let to_remove = obj
                             .imp()
                             .list
                             .borrow()
                             .keys()
                             .filter(|id| {
-                                !list_containers
+                                !list_pods
                                     .iter()
                                     .any(|summary| summary.id.as_ref() == Some(id))
                             })
                             .cloned()
                             .collect::<Vec<_>>();
-                        to_remove.iter().for_each(|id| obj.remove_container(id));
+                        to_remove.iter().for_each(|id| obj.remove_pod(id));
 
                         obj.set_fetched(0);
-                        obj.set_to_fetch(list_containers.len() as u32);
+                        obj.set_to_fetch(list_pods.len() as u32);
 
-                        list_containers.into_iter().for_each(|list_container| {
-                            obj.add_or_update_container(list_container.id.unwrap(), err_op.clone());
+                        list_pods.into_iter().for_each(|list_container| {
+                            obj.add_or_update_pod(list_container.id.unwrap(), err_op.clone());
                         });
                     }
                     Err(e) => {
-                        log::error!("Error on retrieving containers: {}", e);
+                        log::error!("Error on retrieving pods: {}", e);
                         err_op(super::RefreshError::List);
                     }
                 }
@@ -337,11 +341,28 @@ impl ContainerList {
     where
         F: FnOnce(super::RefreshError) + Clone + 'static,
     {
-        let container_id = event.actor.id;
+        let pod_id = event.actor.id;
 
         match event.action.as_str() {
-            "remove" => self.remove_container(&container_id),
-            _ => self.add_or_update_container(container_id, err_op),
+            "remove" => self.remove_pod(&pod_id),
+            _ => self.add_or_update_pod(pod_id, err_op),
         }
+    }
+
+    fn pod_added(&self, pod: &model::Pod) {
+        self.emit_by_name::<()>("pod-added", &[pod]);
+    }
+
+    pub(crate) fn connect_pod_added<F: Fn(&Self, &model::Pod) + 'static>(
+        &self,
+        f: F,
+    ) -> glib::SignalHandlerId {
+        self.connect_local("pod-added", true, move |values| {
+            let obj = values[0].get::<Self>().unwrap();
+            let pod = values[1].get::<model::Pod>().unwrap();
+            f(&obj, &pod);
+
+            None
+        })
     }
 }
