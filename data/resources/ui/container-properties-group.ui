@@ -36,6 +36,25 @@
     </child>
 
     <child>
+      <object class="AdwActionRow" id="pod_row">
+        <property name="title" translatable="yes">Pod</property>
+        <property name="subtitle" translatable="yes">juju</property>
+        <property name="action-name">pod.show-details</property>
+        <property name="activatable">True</property>
+
+        <child>
+          <object class="GtkImage">
+            <property name="icon_name">go-next-symbolic</property>
+            <style>
+              <class name="dim-label"/>
+            </style>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <child>
       <object class="PropertyRow">
         <property name="key" translatable="yes">Name</property>
         <binding name="value">
