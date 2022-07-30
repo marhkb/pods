@@ -143,10 +143,6 @@ checkbutton.theme-selector radio:checked {
   background-color: @red_3;
 }
 
-pod row running {
-  background-color: @green_5;
-}
-
 .progressbar-warning trough > progress {
   background-color: @warning_bg_color;
 }
