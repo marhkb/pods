@@ -26,6 +26,7 @@ mod imp {
         pub(super) sorter: OnceCell<gtk::Sorter>,
         pub(super) images_model: RefCell<Option<gio::ListModel>>,
         pub(super) containers_model: RefCell<Option<gio::ListModel>>,
+        pub(super) pods_model: RefCell<Option<gio::ListModel>>,
         #[template_child]
         pub(super) main_stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -36,6 +37,10 @@ mod imp {
         pub(super) containers_group: TemplateChild<adw::PreferencesGroup>,
         #[template_child]
         pub(super) containers_list_box: TemplateChild<gtk::ListBox>,
+        #[template_child]
+        pub(super) pods_group: TemplateChild<adw::PreferencesGroup>,
+        #[template_child]
+        pub(super) pods_list_box: TemplateChild<gtk::ListBox>,
     }
 
     #[glib::object_subclass]
@@ -127,6 +132,8 @@ mod imp {
                                 .image_id()
                                 .map(|image_id| image_id.contains(&term))
                                 .unwrap_or(false)
+                    } else if let Some(pod) = item.downcast_ref::<model::Pod>() {
+                        pod.name().contains(&term)
                     } else {
                         unreachable!();
                     }
@@ -150,6 +157,9 @@ mod imp {
                 } else if let Some(container1) = obj1.downcast_ref::<model::Container>() {
                     let container2 = obj2.downcast_ref::<model::Container>().unwrap();
                     container1.name().cmp(&container2.name()).into()
+                } else if let Some(pod1) = obj1.downcast_ref::<model::Pod>() {
+                    let pod2 = obj2.downcast_ref::<model::Pod>().unwrap();
+                    pod1.name().cmp(&pod2.name()).into()
                 } else {
                     unreachable!();
                 }
@@ -190,45 +200,26 @@ impl SearchPanel {
         let imp = self.imp();
 
         if let Some(client) = value {
-            let images_model = gtk::SliceListModel::new(
-                Some(&gtk::SortListModel::new(
-                    Some(&gtk::FilterListModel::new(
-                        Some(client.image_list()),
-                        imp.filter.get(),
-                    )),
-                    imp.sorter.get(),
-                )),
-                0,
-                8,
+            self.setup_model(
+                client.image_list(),
+                &*imp.images_list_box,
+                |item| view::ImageRow::from(item.downcast_ref().unwrap()).upcast(),
+                &imp.images_model,
             );
-            images_model.connect_items_changed(
-                clone!(@weak self as obj => move |_, _, _, _| obj.update_view()),
-            );
-            imp.images_list_box.bind_model(Some(&images_model), |item| {
-                view::ImageRow::from(item.downcast_ref().unwrap()).upcast()
-            });
-            imp.images_model.replace(Some(images_model.upcast()));
 
-            let containers_model = gtk::SliceListModel::new(
-                Some(&gtk::SortListModel::new(
-                    Some(&gtk::FilterListModel::new(
-                        Some(client.container_list()),
-                        imp.filter.get(),
-                    )),
-                    imp.sorter.get(),
-                )),
-                0,
-                8,
+            self.setup_model(
+                client.container_list(),
+                &*imp.containers_list_box,
+                |item| view::ContainerRow::from(item.downcast_ref().unwrap()).upcast(),
+                &imp.containers_model,
             );
-            containers_model.connect_items_changed(
-                clone!(@weak self as obj => move |_, _, _, _| obj.update_view()),
+
+            self.setup_model(
+                client.pod_list(),
+                &*imp.pods_list_box,
+                |item| view::PodRow::from(item.downcast_ref().unwrap()).upcast(),
+                &imp.pods_model,
             );
-            imp.containers_list_box
-                .bind_model(Some(&containers_model), |item| {
-                    view::ContainerRow::from(item.downcast_ref().unwrap()).upcast()
-                });
-            imp.containers_model
-                .replace(Some(containers_model.upcast()));
 
             client.container_list().connect_container_name_changed(
                 clone!(@weak self as obj => move |_, _| {
@@ -245,6 +236,32 @@ impl SearchPanel {
 
         imp.client.set(value);
         self.notify("client");
+    }
+
+    fn setup_model<P: Fn(&glib::Object) -> gtk::Widget + 'static>(
+        &self,
+        model: &impl IsA<gio::ListModel>,
+        list_box: &gtk::ListBox,
+        create_widget_func: P,
+        this_model: &RefCell<Option<gio::ListModel>>,
+    ) {
+        let imp = self.imp();
+
+        let model = gtk::SliceListModel::new(
+            Some(&gtk::SortListModel::new(
+                Some(&gtk::FilterListModel::new(Some(model), imp.filter.get())),
+                imp.sorter.get(),
+            )),
+            0,
+            8,
+        );
+        model.connect_items_changed(
+            clone!(@weak self as obj => move |_, _, _, _| obj.update_view()),
+        );
+        list_box.bind_model(Some(&model), move |item| {
+            create_widget_func(item.downcast_ref().unwrap())
+        });
+        this_model.replace(Some(model.upcast()));
     }
 
     pub(crate) fn term(&self) -> String {
@@ -278,8 +295,19 @@ impl SearchPanel {
                 .unwrap_or(false),
         );
 
+        imp.pods_group.set_visible(
+            imp.pods_model
+                .borrow()
+                .as_ref()
+                .map(|model| model.n_items() > 0)
+                .unwrap_or(false),
+        );
+
         imp.main_stack.set_visible_child_name(
-            if imp.images_group.is_visible() || imp.containers_group.is_visible() {
+            if imp.images_group.is_visible()
+                || imp.containers_group.is_visible()
+                || imp.pods_group.is_visible()
+            {
                 "results"
             } else if self.term().is_empty() {
                 "search"
