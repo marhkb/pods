@@ -120,7 +120,7 @@ mod imp {
                     if len > 0 {
                         Some(gettext!(
                             // Translators: There's a wide space (U+2002) between ", {}".
-                            "{} Containers total, {} running",
+                            "{} containers total, {} running",
                             len,
                             running
                         ))
