@@ -482,6 +482,9 @@ impl Container {
         if value == Status::Running {
             self.run_stats_stream();
         }
+        if let Some(pod) = self.pod() {
+            pod.inspect_and_update();
+        }
         self.imp().status.set(value);
         self.notify("status");
     }
