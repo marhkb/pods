@@ -138,11 +138,6 @@ mod imp {
                             == model::ContainerStatus::Running
                 }));
 
-            obj.connect_notify_local(
-                Some("show-only-running"),
-                clone!(@weak obj => move |_ ,_| obj.update_properties_filter()),
-            );
-
             let sorter = gtk::CustomSorter::new(|obj1, obj2| {
                 let container1 = obj1.downcast_ref::<model::Container>().unwrap();
                 let container2 = obj2.downcast_ref::<model::Container>().unwrap();
