@@ -187,11 +187,6 @@ mod imp {
                             == model::PodStatus::Running
                 }));
 
-            obj.connect_notify_local(
-                Some("show-intermediates"),
-                clone!(@weak obj => move |_ ,_| obj.update_properties_filter()),
-            );
-
             let sorter = gtk::CustomSorter::new(|obj1, obj2| {
                 let pod1 = obj1.downcast_ref::<model::Pod>().unwrap();
                 let pod2 = obj2.downcast_ref::<model::Pod>().unwrap();
