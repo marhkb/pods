@@ -120,7 +120,7 @@ mod imp {
                     if len > 0 {
                         Some(gettext!(
                             // Translators: There's a wide space (U+2002) between ", {}".
-                            "{} Containers total, {} running",
+                            "{} containers total, {} running",
                             len,
                             running
                         ))
@@ -137,11 +137,6 @@ mod imp {
                         item.downcast_ref::<model::Container>().unwrap().status()
                             == model::ContainerStatus::Running
                 }));
-
-            obj.connect_notify_local(
-                Some("show-only-running"),
-                clone!(@weak obj => move |_ ,_| obj.update_properties_filter()),
-            );
 
             let sorter = gtk::CustomSorter::new(|obj1, obj2| {
                 let container1 = obj1.downcast_ref::<model::Container>().unwrap();

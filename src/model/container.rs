@@ -7,10 +7,10 @@ use std::str::FromStr;
 use futures::Future;
 use futures::StreamExt;
 use gettextrs::gettext;
+use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::subclass::Signal;
 use gtk::glib::WeakRef;
-use gtk::glib::{self};
 use gtk::prelude::ObjectExt;
 use gtk::prelude::StaticType;
 use gtk::prelude::ToValue;
@@ -23,7 +23,7 @@ use crate::model;
 use crate::monad_boxed_type;
 use crate::utils;
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq, glib::Enum)]
+#[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
 #[enum_type(name = "ContainerStatus")]
 pub(crate) enum Status {
     Configured,
@@ -36,13 +36,8 @@ pub(crate) enum Status {
     Running,
     Stopped,
     Stopping,
+    #[default]
     Unknown,
-}
-
-impl Default for Status {
-    fn default() -> Self {
-        Self::Unknown
-    }
 }
 
 impl FromStr for Status {
@@ -103,7 +98,7 @@ mod imp {
         pub(super) image: WeakRef<model::Image>,
         pub(super) image_id: OnceCell<String>,
         pub(super) image_name: RefCell<Option<String>>,
-        pub(super) name: RefCell<Option<String>>,
+        pub(super) name: RefCell<String>,
         pub(super) pod: WeakRef<model::Pod>,
         pub(super) pod_id: OnceCell<Option<String>>,
         pub(super) port_bindings: OnceCell<utils::BoxedStringVec>,
@@ -365,7 +360,7 @@ impl Container {
     pub(crate) fn update(&self, inspect_response: api::LibpodContainerInspectResponse) {
         self.set_action_ongoing(false);
         self.set_image_name(inspect_response.image_name);
-        self.set_name(inspect_response.name);
+        self.set_name(inspect_response.name.unwrap_or_default());
         self.set_status(status(inspect_response.state.as_ref()));
         self.set_up_since(up_since(inspect_response.state.as_ref()));
     }
@@ -422,11 +417,11 @@ impl Container {
         self.notify("image-name");
     }
 
-    pub(crate) fn name(&self) -> Option<String> {
+    pub(crate) fn name(&self) -> String {
         self.imp().name.borrow().clone()
     }
 
-    pub(crate) fn set_name(&self, value: Option<String>) {
+    pub(crate) fn set_name(&self, value: String) {
         if self.name() == value {
             return;
         }

@@ -1,7 +1,9 @@
 use std::cell::RefCell;
 
+use gettextrs::gettext;
 use gtk::glib;
 use gtk::glib::clone;
+use gtk::glib::closure;
 use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
@@ -14,9 +16,6 @@ use crate::view;
 use crate::window::Window;
 
 mod imp {
-    use gettextrs::gettext;
-    use gtk::glib::closure;
-
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
@@ -94,13 +93,6 @@ mod imp {
 
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
-
-            if let Some(pod) = obj.pod() {
-                let handler_id = pod.connect_deleted(clone!(@weak obj => move |_| {
-                    obj.navigate_back();
-                }));
-                self.handler_id.replace(Some(handler_id));
-            }
 
             let pod_expr = Self::Type::this_expression("pod");
             let status_expr = pod_expr.chain_property::<model::Pod>("status");
@@ -187,7 +179,21 @@ impl PodDetailsPage {
             return;
         }
 
-        self.imp().pod.set(value);
+        let imp = self.imp();
+
+        if let Some(pod) = self.pod() {
+            pod.disconnect(imp.handler_id.take().unwrap());
+        }
+
+        if let Some(pod) = value {
+            let handler_id = pod.connect_deleted(clone!(@weak self as obj => move |pod| {
+                utils::show_toast(&obj, &gettext!("Pod '{}' has been deleted", pod.name()));
+                obj.navigate_back();
+            }));
+            imp.handler_id.replace(Some(handler_id));
+        }
+
+        imp.pod.set(value);
         self.notify("pod");
     }
 

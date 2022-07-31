@@ -54,7 +54,7 @@ mod imp {
                 vec![glib::ParamSpecObject::new(
                     "container",
                     "container",
-                    "The Container of this ContainerRow",
+                    "The container of this ContainerRow",
                     model::Container::static_type(),
                     glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
                 )]

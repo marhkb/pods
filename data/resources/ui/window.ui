@@ -28,8 +28,6 @@
       </item>
     </section>
     <section>
-    </section>
-    <section>
       <item>
         <attribute name="label" translatable="yes">About _Podman</attribute>
         <attribute name="action">win.show-podman-info</attribute>
@@ -59,7 +57,6 @@
 
             <child>
               <object class="GtkStack" id="main_stack">
-                <property name="transition-type">crossfade</property>
 
                 <!-- Empty Page -->
                 <child>
@@ -92,180 +89,185 @@
 
                 <!-- Client View -->
                 <child>
-                  <object class="GtkBox" id="client_box">
-                    <property name="orientation">vertical</property>
+                  <object class="GtkStackPage">
+                    <property name="name">client</property>
 
-                    <!-- Headerbar -->
-                    <child>
-                      <object class="AdwHeaderBar">
-                        <property name="centering-policy">strict</property>
+                    <property name="child">
+                      <object class="GtkBox">
+                        <property name="orientation">vertical</property>
 
-                        <child type="start">
-                          <object class="GtkToggleButton" id="search_button">
-                            <property name="icon-name">system-search-symbolic</property>
-                          </object>
-                        </child>
-
-                        <child type="title">
-                          <object class="GtkStack" id="title_stack">
-                            <property name="transition-type">crossfade</property>
-
-                            <child>
-                              <object class="GtkStackPage">
-                                <property name="name">title</property>
-                                <property name="child">
-                                  <object class="AdwViewSwitcherTitle" id="title">
-                                    <property name="stack">panel_stack</property>
-                                  </object>
-                                </property>
-
-                              </object>
-                            </child>
-
-                            <child>
-                              <object class="GtkStackPage">
-                                <property name="name">search</property>
-                                <property name="child">
-                                  <object class="GtkSearchEntry" id="search_entry"/>
-                                </property>
-                              </object>
-                            </child>
-
-                          </object>
-                        </child>
-
-                        <child type="end">
-                          <object class="GtkMenuButton" id="menu_button">
-                            <property name="icon-name">open-menu-symbolic</property>
-                            <property name="menu-model">menu</property>
-                          </object>
-                        </child>
-
-                        <child type="end">
-                          <object class="GtkMenuButton">
-                            <property name="popover">
-                              <object class="ConnectionSwitcherPopup">
-                                <binding name="connection-manager">
-                                  <lookup name="connection-manager">Window</lookup>
-                                </binding>
-                              </object>
-                            </property>
-                            <property name="icon-name">network-server-symbolic</property>
-                          </object>
-                        </child>
-
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="GtkStack" id="search_stack">
-                        <property name="transition-type">crossfade</property>
-
+                        <!-- Headerbar -->
                         <child>
-                          <object class="GtkStackPage">
-                            <property name="name">main</property>
+                          <object class="AdwHeaderBar">
+                            <property name="centering-policy">strict</property>
 
-                            <property name="child">
-                              <object class="GtkBox">
-                                <property name="orientation">vertical</property>
+                            <child type="start">
+                              <object class="GtkToggleButton" id="search_button">
+                                <property name="icon-name">system-search-symbolic</property>
+                              </object>
+                            </child>
 
-                                <!-- Panel Stack -->
+                            <child type="title">
+                              <object class="GtkStack" id="title_stack">
+
                                 <child>
-                                  <object class="AdwViewStack" id="panel_stack">
-                                    <property name="vexpand">True</property>
-
-                                    <!-- Images Panel -->
-                                    <child>
-                                      <object class="AdwViewStackPage">
-                                        <property name="icon-name">image-x-generic-symbolic</property>
-                                        <property name="name">images</property>
-                                        <property name="title" translatable="yes">Images</property>
-                                        <property name="child">
-                                          <object class="ImagesPanel" id="images_panel">
-                                            <binding name="image-list">
-                                              <lookup name="image-list" type="Client">
-                                                <lookup name="client" type="ConnectionManager">
-                                                  <lookup name="connection-manager">Window</lookup>
-                                                </lookup>
-                                              </lookup>
-                                            </binding>
-                                          </object>
-                                        </property>
+                                  <object class="GtkStackPage">
+                                    <property name="name">title</property>
+                                    <property name="child">
+                                      <object class="AdwViewSwitcherTitle" id="title">
+                                        <property name="stack">panel_stack</property>
                                       </object>
-                                    </child>
-
-                                    <!-- Containers Panel -->
-                                    <child>
-                                      <object class="AdwViewStackPage">
-                                        <property name="icon-name">package-x-generic-symbolic</property>
-                                        <property name="name">containers</property>
-                                        <property name="title" translatable="yes">Containers</property>
-                                        <property name="child">
-                                          <object class="ContainersPanel" id="containers_panel">
-                                            <binding name="container-list">
-                                              <lookup name="container-list" type="Client">
-                                                <lookup name="client" type="ConnectionManager">
-                                                  <lookup name="connection-manager">Window</lookup>
-                                                </lookup>
-                                              </lookup>
-                                            </binding>
-                                          </object>
-                                        </property>
-                                      </object>
-                                    </child>
-
-                                    <!-- Pods Panel -->
-                                    <child>
-                                      <object class="AdwViewStackPage">
-                                        <property name="icon-name">pods-symbolic</property>
-                                        <property name="name">pods</property>
-                                        <property name="title" translatable="yes">Pods</property>
-                                        <property name="child">
-                                          <object class="PodsPanel" id="pods_panel">
-                                            <binding name="pod-list">
-                                              <lookup name="pod-list" type="Client">
-                                                <lookup name="client" type="ConnectionManager">
-                                                  <lookup name="connection-manager">Window</lookup>
-                                                </lookup>
-                                              </lookup>
-                                            </binding>
-                                          </object>
-                                        </property>
-                                      </object>
-                                    </child>
+                                    </property>
 
                                   </object>
                                 </child>
 
-                                <!-- View Switcher Bar -->
                                 <child>
-                                  <object class="AdwViewSwitcherBar">
-                                    <property name="stack">panel_stack</property>
-                                    <binding name="reveal">
-                                      <lookup name="title-visible">title</lookup>
+                                  <object class="GtkStackPage">
+                                    <property name="name">search</property>
+                                    <property name="child">
+                                      <object class="GtkSearchEntry" id="search_entry"/>
+                                    </property>
+                                  </object>
+                                </child>
+
+                              </object>
+                            </child>
+
+                            <child type="end">
+                              <object class="GtkMenuButton" id="menu_button">
+                                <property name="icon-name">open-menu-symbolic</property>
+                                <property name="menu-model">menu</property>
+                              </object>
+                            </child>
+
+                            <child type="end">
+                              <object class="GtkMenuButton">
+                                <property name="popover">
+                                  <object class="ConnectionSwitcherPopup">
+                                    <binding name="connection-manager">
+                                      <lookup name="connection-manager">Window</lookup>
                                     </binding>
                                   </object>
-                                </child>
-
+                                </property>
+                                <property name="icon-name">network-server-symbolic</property>
                               </object>
-                            </property>
+                            </child>
 
                           </object>
                         </child>
 
                         <child>
-                          <object class="SearchPanel" id="search_panel">
-                            <binding name="client">
-                              <lookup name="client" type="ConnectionManager">
-                                <lookup name="connection-manager">Window</lookup>
-                              </lookup>
-                            </binding>
+                          <object class="GtkStack" id="search_stack">
+
+                            <child>
+                              <object class="GtkStackPage">
+                                <property name="name">main</property>
+
+                                <property name="child">
+                                  <object class="GtkBox">
+                                    <property name="orientation">vertical</property>
+
+                                    <!-- Panel Stack -->
+                                    <child>
+                                      <object class="AdwViewStack" id="panel_stack">
+                                        <property name="vexpand">True</property>
+
+                                        <!-- Images Panel -->
+                                        <child>
+                                          <object class="AdwViewStackPage">
+                                            <property name="icon-name">image-x-generic-symbolic</property>
+                                            <property name="name">images</property>
+                                            <property name="title" translatable="yes">Images</property>
+                                            <property name="child">
+                                              <object class="ImagesPanel" id="images_panel">
+                                                <binding name="image-list">
+                                                  <lookup name="image-list" type="Client">
+                                                    <lookup name="client" type="ConnectionManager">
+                                                      <lookup name="connection-manager">Window</lookup>
+                                                    </lookup>
+                                                  </lookup>
+                                                </binding>
+                                              </object>
+                                            </property>
+                                          </object>
+                                        </child>
+
+                                        <!-- Containers Panel -->
+                                        <child>
+                                          <object class="AdwViewStackPage">
+                                            <property name="icon-name">package-x-generic-symbolic</property>
+                                            <property name="name">containers</property>
+                                            <property name="title" translatable="yes">Containers</property>
+                                            <property name="child">
+                                              <object class="ContainersPanel" id="containers_panel">
+                                                <binding name="container-list">
+                                                  <lookup name="container-list" type="Client">
+                                                    <lookup name="client" type="ConnectionManager">
+                                                      <lookup name="connection-manager">Window</lookup>
+                                                    </lookup>
+                                                  </lookup>
+                                                </binding>
+                                              </object>
+                                            </property>
+                                          </object>
+                                        </child>
+
+                                        <!-- Pods Panel -->
+                                        <child>
+                                          <object class="AdwViewStackPage">
+                                            <property name="icon-name">pods-symbolic</property>
+                                            <property name="name">pods</property>
+                                            <property name="title" translatable="yes">Pods</property>
+                                            <property name="child">
+                                              <object class="PodsPanel" id="pods_panel">
+                                                <binding name="pod-list">
+                                                  <lookup name="pod-list" type="Client">
+                                                    <lookup name="client" type="ConnectionManager">
+                                                      <lookup name="connection-manager">Window</lookup>
+                                                    </lookup>
+                                                  </lookup>
+                                                </binding>
+                                              </object>
+                                            </property>
+                                          </object>
+                                        </child>
+
+                                      </object>
+                                    </child>
+
+                                    <!-- View Switcher Bar -->
+                                    <child>
+                                      <object class="AdwViewSwitcherBar">
+                                        <property name="stack">panel_stack</property>
+                                        <binding name="reveal">
+                                          <lookup name="title-visible">title</lookup>
+                                        </binding>
+                                      </object>
+                                    </child>
+
+                                  </object>
+                                </property>
+
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="SearchPanel" id="search_panel">
+                                <binding name="client">
+                                  <lookup name="client" type="ConnectionManager">
+                                    <lookup name="connection-manager">Window</lookup>
+                                  </lookup>
+                                </binding>
+                              </object>
+                            </child>
+
                           </object>
                         </child>
 
                       </object>
-                    </child>
 
+                    </property>
                   </object>
                 </child>
 

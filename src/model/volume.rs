@@ -10,18 +10,13 @@ use gtk::prelude::ToValue;
 use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq, glib::Enum)]
+#[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
 #[enum_type(name = "VolumeSELinux")]
 pub(crate) enum SELinux {
+    #[default]
     NoLabel,
     Shared,
     Private,
-}
-
-impl Default for SELinux {
-    fn default() -> Self {
-        Self::NoLabel
-    }
 }
 
 impl fmt::Display for SELinux {

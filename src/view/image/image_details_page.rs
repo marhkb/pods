@@ -30,7 +30,7 @@ mod imp {
         #[template_child]
         pub(super) menu_button: TemplateChild<view::ImageMenuButton>,
         #[template_child]
-        pub(super) stack: TemplateChild<gtk::Stack>,
+        pub(super) repo_tags_row: TemplateChild<view::PropertyRow>,
         #[template_child]
         pub(super) id_row: TemplateChild<view::PropertyRow>,
         #[template_child]
@@ -43,8 +43,6 @@ mod imp {
         pub(super) entrypoint_row: TemplateChild<view::PropertyRow>,
         #[template_child]
         pub(super) ports_row: TemplateChild<view::PropertyRow>,
-        #[template_child]
-        pub(super) repo_tags_row: TemplateChild<view::PropertyRow>,
     }
 
     #[glib::object_subclass]
@@ -89,7 +87,10 @@ mod imp {
                     "Image",
                     "The image of this ImageDetailsPage",
                     model::Image::static_type(),
-                    glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT,
+                    glib::ParamFlags::READWRITE
+                        | glib::ParamFlags::CONSTRUCT
+                        | glib::ParamFlags::READWRITE
+                        | glib::ParamFlags::EXPLICIT_NOTIFY,
                 )]
             });
             PROPERTIES.as_ref()
@@ -97,15 +98,13 @@ mod imp {
 
         fn set_property(
             &self,
-            _obj: &Self::Type,
+            obj: &Self::Type,
             _id: usize,
             value: &glib::Value,
             pspec: &glib::ParamSpec,
         ) {
             match pspec.name() {
-                "image" => {
-                    self.image.set(value.get().unwrap());
-                }
+                "image" => obj.set_image(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
@@ -121,6 +120,22 @@ mod imp {
             self.parent_constructed(obj);
 
             let image_expr = Self::Type::this_expression("image");
+
+            image_expr
+                .chain_property::<model::Image>("repo-tags")
+                .chain_closure::<String>(closure!(
+                    |_: glib::Object, repo_tags: utils::BoxedStringVec| {
+                        utils::format_iter(&mut repo_tags.iter(), "; ")
+                    }
+                ))
+                .bind(&*self.repo_tags_row, "value", Some(obj));
+
+            image_expr
+                .chain_property::<model::Image>("repo-tags")
+                .chain_closure::<bool>(closure!(
+                    |_: glib::Object, repo_tags: utils::BoxedStringVec| { repo_tags.len() > 0 }
+                ))
+                .bind(&*self.repo_tags_row, "visible", Some(obj));
 
             image_expr
                 .chain_property::<model::Image>("id")
@@ -224,29 +239,6 @@ mod imp {
                     }
                 ))
                 .bind(&*self.ports_row, "visible", Some(obj));
-
-            image_expr
-                .chain_property::<model::Image>("repo-tags")
-                .chain_closure::<String>(closure!(
-                    |_: glib::Object, repo_tags: utils::BoxedStringVec| {
-                        utils::format_iter(&mut repo_tags.iter(), "; ")
-                    }
-                ))
-                .bind(&*self.repo_tags_row, "value", Some(obj));
-
-            image_expr
-                .chain_property::<model::Image>("repo-tags")
-                .chain_closure::<bool>(closure!(
-                    |_: glib::Object, repo_tags: utils::BoxedStringVec| { repo_tags.len() > 0 }
-                ))
-                .bind(&*self.repo_tags_row, "visible", Some(obj));
-
-            if let Some(image) = obj.image() {
-                let handler_id = image.connect_deleted(clone!(@weak obj => move |_| {
-                    obj.imp().stack.set_visible_child_name("deleted");
-                }));
-                self.handler_id.replace(Some(handler_id));
-            }
         }
 
         fn dispose(&self, obj: &Self::Type) {
@@ -289,6 +281,29 @@ impl ImageDetailsPage {
 
     pub(crate) fn image(&self) -> Option<model::Image> {
         self.imp().image.upgrade()
+    }
+
+    pub(crate) fn set_image(&self, value: Option<&model::Image>) {
+        if self.image().as_ref() == value {
+            return;
+        }
+
+        let imp = self.imp();
+
+        if let Some(image) = self.image() {
+            image.disconnect(imp.handler_id.take().unwrap());
+        }
+
+        if let Some(image) = value {
+            let handler_id = image.connect_deleted(clone!(@weak self as obj => move |image| {
+                utils::show_toast(&obj, &gettext!("Image '{}' has been deleted", image.id()));
+                obj.navigate_back();
+            }));
+            imp.handler_id.replace(Some(handler_id));
+        }
+
+        imp.image.set(value);
+        self.notify("image");
     }
 
     fn navigate_to_first(&self) {
