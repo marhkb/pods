@@ -93,11 +93,7 @@ mod imp {
                 }))
                 .bind(&*self.heading_label, "label", Some(obj));
 
-            if let Some(name) = self
-                .container
-                .upgrade()
-                .and_then(|container| container.name())
-            {
+            if let Some(name) = self.container.upgrade().map(|container| container.name()) {
                 self.entry.set_text(&name);
                 self.entry.grab_focus();
             }
@@ -150,7 +146,7 @@ impl ContainerRenameDialog {
                     match result {
                         Ok(_) => {
                             if let Some(container) = imp.container.upgrade() {
-                                container.set_name(Some(new_name));
+                                container.set_name(new_name);
                             }
                             obj.response(gtk::ResponseType::Apply);
                         }

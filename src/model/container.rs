@@ -98,7 +98,7 @@ mod imp {
         pub(super) image: WeakRef<model::Image>,
         pub(super) image_id: OnceCell<String>,
         pub(super) image_name: RefCell<Option<String>>,
-        pub(super) name: RefCell<Option<String>>,
+        pub(super) name: RefCell<String>,
         pub(super) pod: WeakRef<model::Pod>,
         pub(super) pod_id: OnceCell<Option<String>>,
         pub(super) port_bindings: OnceCell<utils::BoxedStringVec>,
@@ -360,7 +360,7 @@ impl Container {
     pub(crate) fn update(&self, inspect_response: api::LibpodContainerInspectResponse) {
         self.set_action_ongoing(false);
         self.set_image_name(inspect_response.image_name);
-        self.set_name(inspect_response.name);
+        self.set_name(inspect_response.name.unwrap_or_default());
         self.set_status(status(inspect_response.state.as_ref()));
         self.set_up_since(up_since(inspect_response.state.as_ref()));
     }
@@ -417,11 +417,11 @@ impl Container {
         self.notify("image-name");
     }
 
-    pub(crate) fn name(&self) -> Option<String> {
+    pub(crate) fn name(&self) -> String {
         self.imp().name.borrow().clone()
     }
 
-    pub(crate) fn set_name(&self, value: Option<String>) {
+    pub(crate) fn set_name(&self, value: String) {
         if self.name() == value {
             return;
         }

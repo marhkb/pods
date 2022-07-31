@@ -117,9 +117,7 @@ mod imp {
                         || image.repo_tags().iter().any(|s| s.contains(&term))
                     } else if let Some(container) = item.downcast_ref::<model::Container>() {
                         container
-                            .name()
-                            .map(|name| name.contains(&term))
-                            .unwrap_or(false)
+                            .name().contains(&term)
                             || container
                                 .id()
                                 .map(|id| id.contains(&term))
