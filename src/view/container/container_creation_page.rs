@@ -40,7 +40,7 @@ mod imp {
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub(super) name_entry: TemplateChild<gtk::Entry>,
+        pub(super) name_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
         pub(super) local_image_property_row: TemplateChild<view::PropertyRow>,
         #[template_child]
@@ -52,7 +52,7 @@ mod imp {
         #[template_child]
         pub(super) pull_latest_image_switch: TemplateChild<gtk::Switch>,
         #[template_child]
-        pub(super) command_entry: TemplateChild<gtk::Entry>,
+        pub(super) command_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
         pub(super) terminal_switch: TemplateChild<gtk::Switch>,
         #[template_child]
@@ -167,10 +167,10 @@ mod imp {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
-            self.name_entry
+            self.name_entry_row
                 .set_text(&self.names.borrow_mut().next().unwrap());
 
-            self.name_entry
+            self.name_entry_row
                 .connect_text_notify(clone!(@weak obj => move |_| obj.on_name_changed()));
 
             let image_tag_expr = model::Image::this_expression("repo-tags")
@@ -297,7 +297,7 @@ impl ContainerCreationPage {
     }
 
     fn on_name_changed(&self) {
-        let enabled = self.imp().name_entry.text().len() > 0;
+        let enabled = self.imp().name_entry_row.text().len() > 0;
         self.action_set_enabled("container.create-and-run", enabled);
         self.action_set_enabled("container.create", enabled);
     }
@@ -329,7 +329,7 @@ impl ContainerCreationPage {
         imp.local_image_combo_row.set_visible(true);
         imp.pull_latest_image_row.set_visible(true);
 
-        imp.command_entry.set_text(
+        imp.command_entry_row.set_text(
             imp.local_image_combo_row
                 .selected_item()
                 .as_ref()
@@ -348,7 +348,7 @@ impl ContainerCreationPage {
             imp.remote_image_row.set_subtitle(&image);
             imp.pull_latest_image_row.set_visible(false);
 
-            imp.command_entry.set_text("");
+            imp.command_entry_row.set_text("");
         }));
         self.imp()
             .leaflet_overlay
@@ -481,7 +481,7 @@ impl ContainerCreationPage {
         let imp = self.imp();
 
         let create_opts = api::ContainerCreateOpts::builder()
-            .name(imp.name_entry.text().as_str())
+            .name(imp.name_entry_row.text().as_str())
             .image(&image_id)
             .terminal(imp.terminal_switch.is_active())
             .resource_limits(api::LinuxResources {
@@ -558,7 +558,7 @@ impl ContainerCreationPage {
                     .map(|env_var| (env_var.key(), env_var.value())),
             );
 
-        let cmd = imp.command_entry.text();
+        let cmd = imp.command_entry_row.text();
         let opts = if cmd.is_empty() {
             create_opts
         } else {

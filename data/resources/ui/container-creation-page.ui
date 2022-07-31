@@ -80,14 +80,8 @@
                           <object class="AdwPreferencesGroup">
 
                             <child>
-                              <object class="AdwActionRow">
+                              <object class="AdwEntryRow" id="name_entry_row">
                                 <property name="title" translatable="yes">Name</property>
-                                <child>
-                                  <object class="GtkEntry" id="name_entry">
-                                    <property name="hexpand">True</property>
-                                    <property name="valign">center</property>
-                                  </object>
-                                </child>
                               </object>
                             </child>
 
@@ -161,14 +155,8 @@
                             </child>
 
                             <child>
-                              <object class="AdwActionRow">
+                              <object class="AdwEntryRow" id="command_entry_row">
                                 <property name="title" translatable="yes">Command</property>
-                                <child>
-                                  <object class="GtkEntry" id="command_entry">
-                                    <property name="hexpand">True</property>
-                                    <property name="valign">center</property>
-                                  </object>
-                                </child>
                               </object>
                             </child>
 
