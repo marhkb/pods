@@ -30,8 +30,6 @@ mod imp {
         #[template_child]
         pub(super) main_stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub(super) client_box: TemplateChild<gtk::Box>,
-        #[template_child]
         pub(super) leaflet: TemplateChild<adw::Leaflet>,
         #[template_child]
         pub(super) search_button: TemplateChild<gtk::ToggleButton>,
@@ -265,7 +263,7 @@ mod imp {
                     Some(client) => client.check_service(
                         clone!(@weak obj, @weak client => move || {
                             let imp = obj.imp();
-                            imp.main_stack.set_visible_child(&*imp.client_box);
+                            imp.main_stack.set_visible_child_full("client", gtk::StackTransitionType::None);
                             obj.set_headerbar_background(client.connection().rgb());
                         }),
                         clone!(@weak obj => move |e| obj.client_err_op(e)),
@@ -278,12 +276,14 @@ mod imp {
                         let imp = obj.imp();
 
                         imp.leaflet_overlay.hide_details();
-                        imp.main_stack
-                            .set_visible_child_name(if manager.n_items() > 0 {
+                        imp.main_stack.set_visible_child_full(
+                            if manager.n_items() > 0 {
                                 "connection-chooser"
                             } else {
                                 "welcome"
-                            });
+                            },
+                            gtk::StackTransitionType::Crossfade
+                        );
 
                         obj.set_headerbar_background(None);
                     }
