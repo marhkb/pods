@@ -61,7 +61,6 @@
     <child>
       <object class="AdwActionRow" id="pod_row">
         <property name="title" translatable="yes">Pod</property>
-        <property name="subtitle" translatable="yes">juju</property>
         <property name="action-name">pod.show-details</property>
         <property name="activatable">True</property>
 
