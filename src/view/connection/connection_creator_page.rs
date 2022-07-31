@@ -22,13 +22,13 @@ mod imp {
     pub(crate) struct ConnectionCreatorPage {
         pub(super) connection_manager: OnceCell<model::ConnectionManager>,
         #[template_child]
-        pub(super) name_entry: TemplateChild<gtk::Entry>,
+        pub(super) name_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
         pub(super) unix_socket_url_row: TemplateChild<adw::ActionRow>,
         #[template_child]
         pub(super) custom_url_radio_button: TemplateChild<gtk::CheckButton>,
         #[template_child]
-        pub(super) url_entry: TemplateChild<gtk::Entry>,
+        pub(super) url_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
         pub(super) color_button: TemplateChild<gtk::ColorButton>,
         #[template_child]
@@ -98,8 +98,8 @@ mod imp {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
-            obj.action_set_enabled("client.try-connect", !self.name_entry.text().is_empty());
-            self.name_entry
+            obj.action_set_enabled("client.try-connect", !self.name_entry_row.text().is_empty());
+            self.name_entry_row
                 .connect_changed(clone!(@weak obj => move |entry| {
                     obj.action_set_enabled("client.try-connect", !entry.text().is_empty())
                 }));
@@ -134,7 +134,7 @@ mod imp {
 
             glib::idle_add_local(
                 clone!(@weak widget => @default-return glib::Continue(false), move || {
-                    widget.imp().name_entry.grab_focus();
+                    widget.imp().name_entry_row.grab_focus();
                     glib::Continue(false)
                 }),
             );
@@ -163,9 +163,9 @@ impl ConnectionCreatorPage {
         let imp = self.imp();
 
         if let Err(e) = self.connection_manager().try_connect(
-            imp.name_entry.text().as_str(),
+            imp.name_entry_row.text().as_str(),
             if imp.custom_url_radio_button.is_active() {
-                imp.url_entry.text().into()
+                imp.url_entry_row.text().into()
             } else {
                 utils::unix_socket_url()
             }
