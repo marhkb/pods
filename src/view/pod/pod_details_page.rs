@@ -96,7 +96,8 @@ mod imp {
             self.parent_constructed(obj);
 
             if let Some(pod) = obj.pod() {
-                let handler_id = pod.connect_deleted(clone!(@weak obj => move |_| {
+                let handler_id = pod.connect_deleted(clone!(@weak obj => move |pod| {
+                    utils::show_toast(&obj, &gettext!("Pod '{}' has been deleted", pod.name()));
                     obj.navigate_back();
                 }));
                 self.handler_id.replace(Some(handler_id));
