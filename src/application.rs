@@ -166,23 +166,43 @@ impl Application {
     }
 
     fn show_about_dialog(&self) {
-        let dialog = gtk::AboutDialog::builder()
-            .program_name("Pods")
-            .logo_icon_name(config::APP_ID)
-            .license_type(gtk::License::Gpl30)
-            .website("https://github.com/marhkb/pods/")
-            .version(config::VERSION)
+        let about = adw::AboutWindow::builder()
             .transient_for(&self.main_window())
-            .translator_credits(&gettext("translator-credits"))
-            .modal(true)
-            .authors(vec!["Marcus Behrendt".into()])
+            .application_name("Pods")
+            .application_icon(config::APP_ID)
+            .version(config::VERSION)
+            .website("https://github.com/marhkb/pods/")
+            .issue_url("https://github.com/marhkb/pods/issues")
+            .developer_name("Marcus Behrendt")
+            .copyright("© 2022 Marcus Behrendt")
+            .license_type(gtk::License::Gpl30)
+            .developers(vec!["Marcus Behrendt https://github.com/marhkb".into()])
+            .designers(vec!["Marcus Behrendt https://github.com/marhkb".into()])
             .artists(vec![
-                "Marcus Behrendt".into(),
-                "Allaeddine Boulefaat".into(),
+                "Marcus Behrendt https://github.com/marhkb".into(),
+                "Allaeddine Boulefaat https://github.com/allaeddineomc".into(),
             ])
+            .translator_credits(gettext("translator-credits").as_str())
             .build();
 
-        dialog.present();
+        about.add_credit_section(
+            Some(&gettext("Translators")),
+            &[
+                "Andrea Brandi https://github.com/starise",
+                "Óscar Fernández https://github.com/oscfdezdz",
+                "rmnscnce https://github.com/rmnscnce",
+                "ButterflyOfFire https://github.com/BoFFire",
+                "Gustavo Costa https://github.com/xfgusta",
+                "Allaeddine Boulefaat https://github.com/allaeddineomc",
+                "Gert-dev https://github.com/Gert-dev",
+                "Abdelhak AISSAT https://github.com/abdelhak2406",
+                "Pierre Thévenet https://github.com/pthevenet",
+                "Allan Nordhøy https://github.com/comradekingu",
+                "William Gabriel Karvat https://github.com/WgkLink",
+            ],
+        );
+
+        about.present();
     }
 
     pub(crate) fn run(&self) {
