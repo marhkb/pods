@@ -12,112 +12,41 @@
         <property name="can-unfold">False</property>
 
         <child>
-          <object class="GtkStack" id="stack">
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
 
+            <!-- Headerbar -->
             <child>
-              <object class="GtkBox">
-                <property name="orientation">vertical</property>
+              <object class="AdwHeaderBar">
+                <property name="centering-policy">strict</property>
 
-                <!-- Headerbar -->
-                <child>
-                  <object class="AdwHeaderBar">
-                    <property name="centering-policy">strict</property>
-
-                    <child type="start">
-                      <object class="GtkButton">
-                        <property name="icon-name">go-previous-symbolic</property>
-                        <property name="action-name">navigation.back</property>
-                      </object>
-                    </child>
-
-                    <child type="start">
-                      <object class="GtkButton" id="go_first_button">
-                        <property name="icon-name">go-first-symbolic</property>
-                        <property name="action-name">navigation.go-first</property>
-                        <property name="visible" bind-source="go_first_button" bind-property="sensitive" bind-flags="sync-create"/>
-                      </object>
-                    </child>
-
-                    <child type="title">
-                      <object class="AdwWindowTitle">
-                        <property name="title" translatable="yes">Container Details</property>
-                      </object>
-                    </child>
-
-                    <child type="end">
-                      <object class="ContainerMenuButton" id="menu_button">
-                        <binding name="container">
-                          <lookup name="container">ContainerDetailsPage</lookup>
-                        </binding>
-                        <property name="valign">center</property>
-                      </object>
-                    </child>
-
+                <child type="start">
+                  <object class="GtkButton">
+                    <property name="icon-name">go-previous-symbolic</property>
+                    <property name="action-name">navigation.back</property>
                   </object>
                 </child>
 
-                <child>
-                  <object class="AdwPreferencesPage" id="preferences_page">
-                    <property name="vexpand">True</property>
+                <child type="start">
+                  <object class="GtkButton" id="go_first_button">
+                    <property name="icon-name">go-first-symbolic</property>
+                    <property name="action-name">navigation.go-first</property>
+                    <property name="visible" bind-source="go_first_button" bind-property="sensitive" bind-flags="sync-create"/>
+                  </object>
+                </child>
 
-                    <!-- Details Panel -->
-                    <child>
-                      <object class="ContainerPropertiesGroup">
-                        <binding name="container">
-                          <lookup name="container">ContainerDetailsPage</lookup>
-                        </binding>
-                      </object>
-                    </child>
+                <child type="title">
+                  <object class="AdwWindowTitle">
+                    <property name="title" translatable="yes">Container Details</property>
+                  </object>
+                </child>
 
-                    <child>
-                      <object class="ContainerResourcesQuickReferenceGroup" id="resources_quick_reference_group">
-                        <binding name="container">
-                          <lookup name="container">ContainerDetailsPage</lookup>
-                        </binding>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="AdwPreferencesGroup">
-                        <property name="title" translatable="yes">Utilities</property>
-
-                        <child>
-                          <object class="AdwActionRow">
-                            <property name="title" translatable="yes">Logs</property>
-                            <property name="subtitle" translatable="yes">View and search through container logs</property>
-                            <property name="activatable">True</property>
-                            <property name="action-name">container.show-log</property>
-                            <property name="icon-name">text-editor-symbolic</property>
-
-                            <child>
-                              <object class="GtkImage">
-                                <property name="icon_name">go-next-symbolic</property>
-                              </object>
-                            </child>
-
-                          </object>
-                        </child>
-
-                        <child>
-                          <object class="AdwActionRow">
-                            <property name="title" translatable="yes">Processes</property>
-                            <property name="subtitle" translatable="yes">View processes that are currently running inside the container</property>
-                            <property name="activatable">True</property>
-                            <property name="action-name">container.show-processes</property>
-                            <property name="icon-name">application-x-executable-symbolic</property>
-
-                            <child>
-                              <object class="GtkImage">
-                                <property name="icon_name">go-next-symbolic</property>
-                              </object>
-                            </child>
-
-                          </object>
-                        </child>
-
-                      </object>
-                    </child>
-
+                <child type="end">
+                  <object class="ContainerMenuButton" id="menu_button">
+                    <binding name="container">
+                      <lookup name="container">ContainerDetailsPage</lookup>
+                    </binding>
+                    <property name="valign">center</property>
                   </object>
                 </child>
 
@@ -125,54 +54,66 @@
             </child>
 
             <child>
-              <object class="GtkStackPage">
-                <property name="name">deleted</property>
+              <object class="AdwPreferencesPage" id="preferences_page">
+                <property name="vexpand">True</property>
 
-                <property name="child">
+                <!-- Details Panel -->
+                <child>
+                  <object class="ContainerPropertiesGroup">
+                    <binding name="container">
+                      <lookup name="container">ContainerDetailsPage</lookup>
+                    </binding>
+                  </object>
+                </child>
 
-                  <object class="GtkBox">
-                    <property name="orientation">vertical</property>
+                <child>
+                  <object class="ContainerResourcesQuickReferenceGroup" id="resources_quick_reference_group">
+                    <binding name="container">
+                      <lookup name="container">ContainerDetailsPage</lookup>
+                    </binding>
+                  </object>
+                </child>
 
-                    <!-- Headerbar -->
+                <child>
+                  <object class="AdwPreferencesGroup">
+                    <property name="title" translatable="yes">Utilities</property>
+
                     <child>
-                      <object class="AdwHeaderBar">
-                        <property name="centering-policy">strict</property>
+                      <object class="AdwActionRow">
+                        <property name="title" translatable="yes">Logs</property>
+                        <property name="subtitle" translatable="yes">View and search through container logs</property>
+                        <property name="activatable">True</property>
+                        <property name="action-name">container.show-log</property>
+                        <property name="icon-name">text-editor-symbolic</property>
 
-                        <child type="start">
-                          <object class="GtkButton">
-                            <property name="icon-name">go-previous-symbolic</property>
-                            <property name="action-name">navigation.back</property>
-                          </object>
-                        </child>
-
-                        <child type="start">
-                          <object class="GtkButton">
-                            <property name="icon-name">go-first-symbolic</property>
-                            <property name="action-name">navigation.go-first</property>
-                            <property name="visible" bind-source="go_first_button" bind-property="sensitive" bind-flags="sync-create"/>
-                          </object>
-                        </child>
-
-                        <child type="title">
-                          <object class="AdwWindowTitle">
-                            <property name="title" translatable="yes">Container Details</property>
+                        <child>
+                          <object class="GtkImage">
+                            <property name="icon_name">go-next-symbolic</property>
                           </object>
                         </child>
 
                       </object>
                     </child>
 
-                    <!-- Status Page -->
                     <child>
-                      <object class="AdwStatusPage">
-                        <property name="icon-name">user-trash-symbolic</property>
-                        <property name="title" translatable="yes">Container Has Been Deleted</property>
-                        <property name="vexpand">True</property>
+                      <object class="AdwActionRow">
+                        <property name="title" translatable="yes">Processes</property>
+                        <property name="subtitle" translatable="yes">View processes that are currently running inside the container</property>
+                        <property name="activatable">True</property>
+                        <property name="action-name">container.show-processes</property>
+                        <property name="icon-name">application-x-executable-symbolic</property>
+
+                        <child>
+                          <object class="GtkImage">
+                            <property name="icon_name">go-next-symbolic</property>
+                          </object>
+                        </child>
+
                       </object>
                     </child>
 
                   </object>
-                </property>
+                </child>
 
               </object>
             </child>

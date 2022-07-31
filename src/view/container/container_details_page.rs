@@ -1,6 +1,7 @@
 use std::cell::RefCell;
 
 use adw::traits::BinExt;
+use gettextrs::gettext;
 use gtk::gdk;
 use gtk::glib;
 use gtk::glib::clone;
@@ -31,8 +32,6 @@ mod imp {
         #[template_child]
         pub(super) resources_quick_reference_group:
             TemplateChild<view::ContainerResourcesQuickReferenceGroup>,
-        #[template_child]
-        pub(super) stack: TemplateChild<gtk::Stack>,
     }
 
     #[glib::object_subclass]
@@ -136,13 +135,6 @@ mod imp {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
-            if let Some(container) = obj.container() {
-                let handler_id = container.connect_deleted(clone!(@weak obj => move |_| {
-                    obj.imp().stack.set_visible_child_name("deleted");
-                }));
-                self.handler_id.replace(Some(handler_id));
-            }
-
             Self::Type::this_expression("container")
                 .chain_property::<model::Container>("status")
                 .chain_closure::<bool>(closure!(
@@ -199,7 +191,21 @@ impl ContainerDetailsPage {
             return;
         }
 
-        self.imp().container.set(value);
+        let imp = self.imp();
+
+        if let Some(container) = self.container() {
+            container.disconnect(imp.handler_id.take().unwrap());
+        }
+
+        if let Some(container) = value {
+            let handler_id = container.connect_deleted(clone!(@weak self as obj => move |container| {
+                utils::show_toast(&obj, &gettext!("Container '{}' has been deleted", container.name()));
+                obj.navigate_back();
+            }));
+            imp.handler_id.replace(Some(handler_id));
+        }
+
+        imp.container.set(value);
         self.notify("container");
     }
 
