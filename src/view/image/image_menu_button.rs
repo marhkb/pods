@@ -1,5 +1,7 @@
 use std::cell::Cell;
 
+use adw::prelude::MessageDialogExtManual;
+use adw::traits::MessageDialogExt;
 use gettextrs::gettext;
 use gtk::glib;
 use gtk::glib::clone;
@@ -181,14 +183,14 @@ impl ImageMenuButton {
             let first_container = image.container_list().get(0);
 
             if image.containers() > 0 || first_container.is_some() {
-                let dialog = gtk::MessageDialog::builder()
-                    .secondary_use_markup(true)
-                    .text(&gettext("Confirm Forced Image Deletion"))
-                    .secondary_text(
-                        &match first_container.as_ref().map(|c| c.id().unwrap()) {
+                let dialog = adw::MessageDialog::builder()
+                    .heading(&gettext("Confirm Forced Image Deletion"))
+                    .body_use_markup(true)
+                    .body(
+                        &match first_container.as_ref().map(|c| c.name()) {
                             Some(id) => gettext!(
-                                // Translators: The "{}" is a placeholder for the image id.
-                                "Image is used by container <i>{}</i>. Deleting the image will also delete all its associated containers.",
+                                // Translators: The "{}" is a placeholder for the container name.
+                                "Image is used by container <b>{}</b>. Deleting the image will also delete all its associated containers.",
                                 id
                             ),
                             None => gettext(
@@ -198,28 +200,27 @@ impl ImageMenuButton {
 
                     )
                     .modal(true)
-                    .buttons(gtk::ButtonsType::Cancel)
                     .transient_for(self.root().unwrap().downcast_ref::<gtk::Window>().unwrap()).build();
 
-                dialog.add_action_widget(
-                    &gtk::Button::builder()
-                        .use_underline(true)
-                        .label("_Force Delete")
-                        .css_classes(vec!["destructive-action".to_string()])
-                        .build(),
-                    gtk::ResponseType::Accept,
-                );
+                dialog.add_responses(&[
+                    ("cancel", &gettext("_Cancel")),
+                    ("delete", &gettext("_Force Delete")),
+                ]);
+                dialog.set_default_response(Some("cancel"));
+                dialog.set_response_appearance("delete", adw::ResponseAppearance::Destructive);
 
-                dialog.run_async(
-                    clone!(@weak self as obj, @weak image => move |dialog, response| {
-                        if response == gtk::ResponseType::Accept {
+                dialog.connect_response(
+                    None,
+                    clone!(@weak self as obj, @weak image => move |_, response| {
+                        if response == "delete" {
                             obj.delete_image(&image);
                         } else {
                             obj.set_action_ongoing(false);
                         }
-                        dialog.close();
                     }),
                 );
+
+                dialog.present();
             } else {
                 self.delete_image(image);
             }
