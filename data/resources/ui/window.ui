@@ -109,7 +109,6 @@
 
                             <child type="title">
                               <object class="GtkStack" id="title_stack">
-                                <property name="transition-type">crossfade</property>
 
                                 <child>
                                   <object class="GtkStackPage">
@@ -160,7 +159,6 @@
 
                         <child>
                           <object class="GtkStack" id="search_stack">
-                            <property name="transition-type">crossfade</property>
 
                             <child>
                               <object class="GtkStackPage">
