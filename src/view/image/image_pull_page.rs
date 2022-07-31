@@ -140,18 +140,11 @@ impl ImagePullPage {
         let imp = self.imp();
 
         if let Some(search_response) = imp.image_search_widget.selected_image() {
-            let tag = imp.image_search_widget.tag();
             let opts = api::PullOpts::builder()
                 .reference(format!(
                     "{}:{}",
                     search_response.name().unwrap(),
-                    if tag.is_empty() {
-                        imp.image_search_widget
-                            .default_tag()
-                            .unwrap_or_else(|| glib::GString::from("default"))
-                    } else {
-                        tag
-                    }
+                    imp.image_search_widget.tag(),
                 ))
                 .quiet(false)
                 .build();
