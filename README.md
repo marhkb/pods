@@ -60,7 +60,7 @@ The following packages are required to build Pods:
 * cargo
 * glib2
 * gtk4
-* libadwaita
+* libadwaita >= 1.2
 
 #### Build Instruction
 
