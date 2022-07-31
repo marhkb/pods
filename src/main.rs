@@ -31,6 +31,7 @@ pub(crate) static RUNTIME: Lazy<tokio::runtime::Runtime> =
 
 fn main() {
     gtk::init().expect("Failed to init gtk");
+    adw::init();
 
     // Prepare i18n
     gettextrs::setlocale(LocaleCategory::LcAll, "");
