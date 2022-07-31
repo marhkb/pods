@@ -328,6 +328,10 @@ impl Pod {
         self.notify("status");
     }
 
+    pub(super) fn emit_deleted(&self) {
+        self.emit_by_name::<()>("deleted", &[]);
+    }
+
     pub(crate) fn connect_deleted<F: Fn(&Self) + 'static>(&self, f: F) -> glib::SignalHandlerId {
         self.connect_local("deleted", true, move |values| {
             f(&values[0].get::<Self>().unwrap());
