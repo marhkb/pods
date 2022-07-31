@@ -263,6 +263,7 @@ mod imp {
                     Some(client) => client.check_service(
                         clone!(@weak obj, @weak client => move || {
                             let imp = obj.imp();
+                            imp.search_button.set_active(false);
                             imp.main_stack.set_visible_child_full("client", gtk::StackTransitionType::None);
                             obj.set_headerbar_background(client.connection().rgb());
                         }),
