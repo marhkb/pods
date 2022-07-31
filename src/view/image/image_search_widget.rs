@@ -9,7 +9,6 @@ use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::WeakRef;
 use gtk::prelude::*;
-use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
 use once_cell::unsync::OnceCell;
@@ -31,7 +30,7 @@ mod imp {
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub(super) search_entry: TemplateChild<gtk::Entry>,
+        pub(super) search_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
         pub(super) registries_combo_row: TemplateChild<adw::ComboRow>,
         #[template_child]
@@ -41,7 +40,7 @@ mod imp {
         #[template_child]
         pub(super) search_result_list_view: TemplateChild<gtk::ListView>,
         #[template_child]
-        pub(super) tag_entry: TemplateChild<gtk::Entry>,
+        pub(super) tag_entry_row: TemplateChild<adw::EntryRow>,
     }
 
     #[glib::object_subclass]
@@ -89,7 +88,7 @@ mod imp {
                         "Default Tag",
                         "The default image tag for the image",
                         Some("latest"),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                        glib::ParamFlags::READABLE,
                     ),
                 ]
             });
@@ -106,7 +105,6 @@ mod imp {
             match pspec.name() {
                 "client" => obj.set_client(value.get().unwrap()),
                 "tag" => obj.set_tag(value.get().unwrap()),
-                "default-tag" => obj.set_default_tag(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
@@ -124,7 +122,7 @@ mod imp {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
-            self.search_entry
+            self.search_entry_row
                 .connect_changed(clone!(@weak obj => move |_| obj.search()));
 
             self.registries_combo_row
@@ -166,7 +164,7 @@ mod imp {
 
             self.selection.set(selection).unwrap();
 
-            self.tag_entry.connect_notify_local(
+            self.tag_entry_row.connect_notify_local(
                 None,
                 clone!(@weak obj => move |_, pspec| {
                     match pspec.name() {
@@ -187,7 +185,7 @@ mod imp {
             self.parent_realize(widget);
             glib::idle_add_local(
                 clone!(@weak widget => @default-return glib::Continue(false), move || {
-                    widget.imp().search_entry.grab_focus();
+                    widget.imp().search_entry_row.grab_focus();
                     glib::Continue(false)
                 }),
             );
@@ -266,25 +264,23 @@ impl ImageSearchWidget {
     }
 
     pub(crate) fn tag(&self) -> glib::GString {
-        self.imp().tag_entry.text()
+        let tag = self.imp().tag_entry_row.text();
+        if tag.is_empty() {
+            glib::GString::from(self.default_tag())
+        } else {
+            tag
+        }
     }
 
     pub(crate) fn set_tag(&self, value: &str) {
         if self.tag().as_str() == value {
             return;
         }
-        self.imp().tag_entry.set_text(value);
+        self.imp().tag_entry_row.set_text(value);
     }
 
-    pub(crate) fn default_tag(&self) -> Option<glib::GString> {
-        self.imp().tag_entry.placeholder_text()
-    }
-
-    pub(crate) fn set_default_tag(&self, value: Option<&str>) {
-        if self.default_tag().as_deref() == value {
-            return;
-        }
-        self.imp().tag_entry.set_placeholder_text(value);
+    pub(crate) fn default_tag(&self) -> &'static str {
+        "latest"
     }
 
     fn search(&self) {
@@ -294,7 +290,7 @@ impl ImageSearchWidget {
             abort_handle.abort();
         }
 
-        let term = imp.search_entry.text();
+        let term = imp.search_entry_row.text();
         if term.is_empty() {
             imp.search_stack.set_visible_child_name("initial");
             return;

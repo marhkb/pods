@@ -53,22 +53,11 @@
           <object class="AdwPreferencesGroup">
 
             <child>
-              <object class="AdwPreferencesRow">
-                <property name="focusable">False</property>
-                <property name="selectable">False</property>
-                <property name="activatable">False</property>
-                <child>
-                  <object class="GtkEntry" id="name_entry">
-                    <property name="placeholder-text" translatable="yes">Name</property>
-                    <property name="margin-top">6</property>
-                    <property name="margin-bottom">6</property>
-                    <property name="margin-start">6</property>
-                    <property name="margin-end">6</property>
-                  </object>
-                </child>
-
+              <object class="AdwEntryRow" id="name_entry_row">
+                <property name="title" translatable="yes">Name</property>
               </object>
             </child>
+
           </object>
         </child>
 
@@ -103,20 +92,8 @@
                 </child>
 
                 <child>
-                  <object class="AdwPreferencesRow">
-                    <property name="activatable">False</property>
-
-                    <child>
-                      <object class="GtkEntry" id="url_entry">
-                        <property name="placeholder-text" translatable="yes">Connection String</property>
-                        <property name="halign">fill</property>
-                        <property name="margin-bottom">12</property>
-                        <property name="margin-end">9</property>
-                        <property name="margin-start">9</property>
-                        <property name="margin-top">12</property>
-                      </object>
-                    </child>
-
+                  <object class="AdwEntryRow" id="url_entry_row">
+                    <property name="title" translatable="yes">Connection String</property>
                   </object>
                 </child>
 
