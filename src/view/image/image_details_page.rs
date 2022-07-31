@@ -32,6 +32,8 @@ mod imp {
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
+        pub(super) repo_tags_row: TemplateChild<view::PropertyRow>,
+        #[template_child]
         pub(super) id_row: TemplateChild<view::PropertyRow>,
         #[template_child]
         pub(super) created_row: TemplateChild<view::PropertyRow>,
@@ -43,8 +45,6 @@ mod imp {
         pub(super) entrypoint_row: TemplateChild<view::PropertyRow>,
         #[template_child]
         pub(super) ports_row: TemplateChild<view::PropertyRow>,
-        #[template_child]
-        pub(super) repo_tags_row: TemplateChild<view::PropertyRow>,
     }
 
     #[glib::object_subclass]
@@ -121,6 +121,22 @@ mod imp {
             self.parent_constructed(obj);
 
             let image_expr = Self::Type::this_expression("image");
+
+            image_expr
+                .chain_property::<model::Image>("repo-tags")
+                .chain_closure::<String>(closure!(
+                    |_: glib::Object, repo_tags: utils::BoxedStringVec| {
+                        utils::format_iter(&mut repo_tags.iter(), "; ")
+                    }
+                ))
+                .bind(&*self.repo_tags_row, "value", Some(obj));
+
+            image_expr
+                .chain_property::<model::Image>("repo-tags")
+                .chain_closure::<bool>(closure!(
+                    |_: glib::Object, repo_tags: utils::BoxedStringVec| { repo_tags.len() > 0 }
+                ))
+                .bind(&*self.repo_tags_row, "visible", Some(obj));
 
             image_expr
                 .chain_property::<model::Image>("id")
@@ -224,22 +240,6 @@ mod imp {
                     }
                 ))
                 .bind(&*self.ports_row, "visible", Some(obj));
-
-            image_expr
-                .chain_property::<model::Image>("repo-tags")
-                .chain_closure::<String>(closure!(
-                    |_: glib::Object, repo_tags: utils::BoxedStringVec| {
-                        utils::format_iter(&mut repo_tags.iter(), "; ")
-                    }
-                ))
-                .bind(&*self.repo_tags_row, "value", Some(obj));
-
-            image_expr
-                .chain_property::<model::Image>("repo-tags")
-                .chain_closure::<bool>(closure!(
-                    |_: glib::Object, repo_tags: utils::BoxedStringVec| { repo_tags.len() > 0 }
-                ))
-                .bind(&*self.repo_tags_row, "visible", Some(obj));
 
             if let Some(image) = obj.image() {
                 let handler_id = image.connect_deleted(clone!(@weak obj => move |_| {

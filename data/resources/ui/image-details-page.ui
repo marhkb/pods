@@ -62,6 +62,12 @@
                         <property name="title" translatable="yes">Properties</property>
 
                         <child>
+                          <object class="PropertyRow" id="repo_tags_row">
+                            <property name="key" translatable="True">Tags</property>
+                          </object>
+                        </child>
+
+                        <child>
                           <object class="PropertyRow" id="id_row">
                             <property name="key" translatable="True">Id</property>
                           </object>
@@ -108,12 +114,6 @@
                         <child>
                           <object class="PropertyRow" id="ports_row">
                             <property name="key" translatable="True">Ports</property>
-                          </object>
-                        </child>
-
-                        <child>
-                          <object class="PropertyRow" id="repo_tags_row">
-                            <property name="key" translatable="True">Tags</property>
                           </object>
                         </child>
 
