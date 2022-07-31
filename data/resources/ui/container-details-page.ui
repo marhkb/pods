@@ -92,9 +92,6 @@
                             <child>
                               <object class="GtkImage">
                                 <property name="icon_name">go-next-symbolic</property>
-                                <style>
-                                  <class name="dim-label"/>
-                                </style>
                               </object>
                             </child>
 
@@ -112,9 +109,6 @@
                             <child>
                               <object class="GtkImage">
                                 <property name="icon_name">go-next-symbolic</property>
-                                <style>
-                                  <class name="dim-label"/>
-                                </style>
                               </object>
                             </child>
 
