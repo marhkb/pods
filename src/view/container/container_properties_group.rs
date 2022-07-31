@@ -1,6 +1,9 @@
+use std::cell::RefCell;
+
 use adw::subclass::prelude::PreferencesGroupImpl;
 use gettextrs::gettext;
 use gtk::glib;
+use gtk::glib::clone;
 use gtk::glib::closure;
 use gtk::glib::WeakRef;
 use gtk::prelude::*;
@@ -19,12 +22,13 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/container-properties-group.ui")]
     pub(crate) struct ContainerPropertiesGroup {
         pub(super) container: WeakRef<model::Container>,
+        pub(super) handler_id: RefCell<Option<glib::SignalHandlerId>>,
         #[template_child]
         pub(super) id_row: TemplateChild<view::PropertyRow>,
         #[template_child]
-        pub(super) image_name_label: TemplateChild<gtk::Label>,
+        pub(super) image_row: TemplateChild<adw::ActionRow>,
         #[template_child]
-        pub(super) image_spinner: TemplateChild<gtk::Spinner>,
+        pub(super) image_action_stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) pod_row: TemplateChild<adw::ActionRow>,
         #[template_child]
@@ -68,7 +72,9 @@ mod imp {
                     "Container",
                     "The container of this ContainerPropertiesGroup",
                     model::Container::static_type(),
-                    glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT,
+                    glib::ParamFlags::READWRITE
+                        | glib::ParamFlags::CONSTRUCT
+                        | glib::ParamFlags::EXPLICIT_NOTIFY,
                 )]
             });
             PROPERTIES.as_ref()
@@ -76,15 +82,13 @@ mod imp {
 
         fn set_property(
             &self,
-            _obj: &Self::Type,
+            obj: &Self::Type,
             _id: usize,
             value: &glib::Value,
             pspec: &glib::ParamSpec,
         ) {
             match pspec.name() {
-                "container" => {
-                    self.container.set(value.get().unwrap());
-                }
+                "container" => obj.set_container(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
@@ -98,11 +102,6 @@ mod imp {
 
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
-
-            self.image_name_label.connect_activate_link(|label, _| {
-                label.activate_action("image.show-details", None).unwrap();
-                gtk::Inhibit(true)
-            });
 
             let container_expr = Self::Type::this_expression("container");
             let status_expr = container_expr.chain_property::<model::Container>("status");
@@ -122,14 +121,21 @@ mod imp {
                 .chain_property::<model::Image>("repo-tags")
                 .chain_closure::<String>(closure!(
                     |_: glib::Object, repo_tags: utils::BoxedStringVec| {
-                        repo_tags
-                            .iter()
-                            .next()
-                            .map(|tag| format!("<a href=''>{}</a>", tag))
-                            .unwrap_or_default()
+                        repo_tags.iter().next().cloned().unwrap_or_default()
                     }
                 ))
-                .bind(&*self.image_name_label, "label", Some(obj));
+                .bind(&*self.image_row, "subtitle", Some(obj));
+
+            image_expr
+                .chain_closure::<String>(closure!(
+                    |_: glib::Object, image: Option<model::Image>| {
+                        match image {
+                            None => "waiting",
+                            Some(_) => "ready",
+                        }
+                    }
+                ))
+                .bind(&*self.image_action_stack, "visible-child-name", Some(obj));
 
             container_expr
                 .chain_property::<model::Container>("created")
@@ -143,12 +149,6 @@ mod imp {
                         .unwrap()
                 }))
                 .bind(&*self.created_row, "value", Some(obj));
-
-            image_expr
-                .chain_closure::<bool>(closure!(|_: glib::Object, image: Option<model::Image>| {
-                    image.is_none()
-                }))
-                .bind(&*self.image_spinner, "visible", Some(obj));
 
             pod_expr
                 .chain_closure::<bool>(closure!(|_: glib::Object, pod: Option<model::Pod>| {
@@ -246,6 +246,31 @@ glib::wrapper! {
 impl ContainerPropertiesGroup {
     pub(crate) fn container(&self) -> Option<model::Container> {
         self.imp().container.upgrade()
+    }
+
+    pub(crate) fn set_container(&self, value: Option<&model::Container>) {
+        if self.container().as_ref() == value {
+            return;
+        }
+        let imp = self.imp();
+
+        if let Some(container) = self.container() {
+            container.disconnect(imp.handler_id.take().unwrap());
+        }
+
+        if let Some(container) = value {
+            self.action_set_enabled("image.show-details", container.image().is_some());
+            let handler_id = container.connect_notify_local(
+                Some("image"),
+                clone!(@weak self as obj => move |container, _| {
+                    obj.action_set_enabled("image.show-details", container.image().is_some());
+                }),
+            );
+            imp.handler_id.replace(Some(handler_id));
+        }
+
+        imp.container.set(value);
+        self.notify("container");
     }
 
     fn show_image_details(&self) {
