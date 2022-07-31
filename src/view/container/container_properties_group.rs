@@ -26,12 +26,6 @@ mod imp {
         #[template_child]
         pub(super) id_row: TemplateChild<view::PropertyRow>,
         #[template_child]
-        pub(super) image_row: TemplateChild<adw::ActionRow>,
-        #[template_child]
-        pub(super) image_action_stack: TemplateChild<gtk::Stack>,
-        #[template_child]
-        pub(super) pod_row: TemplateChild<adw::ActionRow>,
-        #[template_child]
         pub(super) port_bindings_row: TemplateChild<view::PropertyWidgetRow>,
         #[template_child]
         pub(super) port_bindings_label: TemplateChild<gtk::Label>,
@@ -41,6 +35,12 @@ mod imp {
         pub(super) state_since_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) status_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub(super) image_row: TemplateChild<adw::ActionRow>,
+        #[template_child]
+        pub(super) image_action_stack: TemplateChild<gtk::Stack>,
+        #[template_child]
+        pub(super) pod_row: TemplateChild<adw::ActionRow>,
     }
 
     #[glib::object_subclass]
@@ -105,10 +105,10 @@ mod imp {
 
             let container_expr = Self::Type::this_expression("container");
             let status_expr = container_expr.chain_property::<model::Container>("status");
-            let image_expr = container_expr.chain_property::<model::Container>("image");
-            let pod_expr = container_expr.chain_property::<model::Container>("pod");
             let port_bindings_expr =
                 container_expr.chain_property::<model::Container>("port-bindings");
+            let image_expr = container_expr.chain_property::<model::Container>("image");
+            let pod_expr = container_expr.chain_property::<model::Container>("pod");
 
             container_expr
                 .chain_property::<model::Container>("id")
@@ -116,26 +116,6 @@ mod imp {
                     id.chars().take(12).collect::<String>()
                 }))
                 .bind(&*self.id_row, "value", Some(obj));
-
-            image_expr
-                .chain_property::<model::Image>("repo-tags")
-                .chain_closure::<String>(closure!(
-                    |_: glib::Object, repo_tags: utils::BoxedStringVec| {
-                        repo_tags.iter().next().cloned().unwrap_or_default()
-                    }
-                ))
-                .bind(&*self.image_row, "subtitle", Some(obj));
-
-            image_expr
-                .chain_closure::<String>(closure!(
-                    |_: glib::Object, image: Option<model::Image>| {
-                        match image {
-                            None => "waiting",
-                            Some(_) => "ready",
-                        }
-                    }
-                ))
-                .bind(&*self.image_action_stack, "visible-child-name", Some(obj));
 
             container_expr
                 .chain_property::<model::Container>("created")
@@ -149,18 +129,6 @@ mod imp {
                         .unwrap()
                 }))
                 .bind(&*self.created_row, "value", Some(obj));
-
-            pod_expr
-                .chain_closure::<bool>(closure!(|_: glib::Object, pod: Option<model::Pod>| {
-                    pod.is_some()
-                }))
-                .bind(&*self.pod_row, "visible", Some(obj));
-
-            pod_expr
-                .chain_closure::<String>(closure!(|_: glib::Object, pod: Option<model::Pod>| {
-                    pod.as_ref().map(model::Pod::name).unwrap_or_default()
-                }))
-                .bind(&*self.pod_row, "subtitle", Some(obj));
 
             port_bindings_expr
                 .chain_closure::<String>(closure!(
@@ -231,6 +199,38 @@ mod imp {
                     }
                 ))
                 .bind(&*self.status_label, "css-classes", Some(obj));
+
+            image_expr
+                .chain_property::<model::Image>("repo-tags")
+                .chain_closure::<String>(closure!(
+                    |_: glib::Object, repo_tags: utils::BoxedStringVec| {
+                        repo_tags.iter().next().cloned().unwrap_or_default()
+                    }
+                ))
+                .bind(&*self.image_row, "subtitle", Some(obj));
+
+            image_expr
+                .chain_closure::<String>(closure!(
+                    |_: glib::Object, image: Option<model::Image>| {
+                        match image {
+                            None => "waiting",
+                            Some(_) => "ready",
+                        }
+                    }
+                ))
+                .bind(&*self.image_action_stack, "visible-child-name", Some(obj));
+
+            pod_expr
+                .chain_closure::<bool>(closure!(|_: glib::Object, pod: Option<model::Pod>| {
+                    pod.is_some()
+                }))
+                .bind(&*self.pod_row, "visible", Some(obj));
+
+            pod_expr
+                .chain_closure::<String>(closure!(|_: glib::Object, pod: Option<model::Pod>| {
+                    pod.as_ref().map(model::Pod::name).unwrap_or_default()
+                }))
+                .bind(&*self.pod_row, "subtitle", Some(obj));
         }
     }
 

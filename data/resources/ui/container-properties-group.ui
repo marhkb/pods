@@ -22,58 +22,6 @@
     </child>
 
     <child>
-      <object class="AdwActionRow" id="image_row">
-        <property name="title" translatable="yes">Image</property>
-        <property name="action-name">image.show-details</property>
-        <property name="activatable">True</property>
-
-        <child>
-          <object class="GtkStack" id="image_action_stack">
-
-            <child>
-              <object class="GtkStackPage">
-                <property name="name">waiting</property>
-                <property name="child">
-                  <object class="GtkSpinner">
-                    <property name="spinning">True</property>
-                  </object>
-                </property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkStackPage">
-                <property name="name">ready</property>
-                <property name="child">
-                  <object class="GtkImage">
-                    <property name="icon_name">go-next-symbolic</property>
-                  </object>
-                </property>
-              </object>
-            </child>
-
-          </object>
-        </child>
-
-      </object>
-    </child>
-
-    <child>
-      <object class="AdwActionRow" id="pod_row">
-        <property name="title" translatable="yes">Pod</property>
-        <property name="action-name">pod.show-details</property>
-        <property name="activatable">True</property>
-
-        <child>
-          <object class="GtkImage">
-            <property name="icon_name">go-next-symbolic</property>
-          </object>
-        </child>
-
-      </object>
-    </child>
-
-    <child>
       <object class="PropertyWidgetRow" id="port_bindings_row">
         <property name="key" translatable="yes">Port bindings</property>
 
@@ -129,6 +77,58 @@
 
           </object>
         </property>
+
+      </object>
+    </child>
+
+    <child>
+      <object class="AdwActionRow" id="image_row">
+        <property name="title" translatable="yes">Image</property>
+        <property name="action-name">image.show-details</property>
+        <property name="activatable">True</property>
+
+        <child>
+          <object class="GtkStack" id="image_action_stack">
+
+            <child>
+              <object class="GtkStackPage">
+                <property name="name">waiting</property>
+                <property name="child">
+                  <object class="GtkSpinner">
+                    <property name="spinning">True</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkStackPage">
+                <property name="name">ready</property>
+                <property name="child">
+                  <object class="GtkImage">
+                    <property name="icon_name">go-next-symbolic</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <child>
+      <object class="AdwActionRow" id="pod_row">
+        <property name="title" translatable="yes">Pod</property>
+        <property name="action-name">pod.show-details</property>
+        <property name="activatable">True</property>
+
+        <child>
+          <object class="GtkImage">
+            <property name="icon_name">go-next-symbolic</property>
+          </object>
+        </child>
 
       </object>
     </child>
