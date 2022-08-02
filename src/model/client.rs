@@ -140,7 +140,7 @@ mod imp {
                         .filter(|container| container.image_id() == Some(image.id()))
                         .for_each(|container| {
                             container.set_image(Some(image));
-                            image.add_container(container);
+                            image.add_container(&container);
                         });
                 }));
 
@@ -149,12 +149,12 @@ mod imp {
                     let image = obj.image_list().get_image(container.image_id().unwrap());
                     container.set_image(image.as_ref());
                     if let Some(image) = image {
-                        image.add_container(container.to_owned());
+                        image.add_container(container);
                     }
 
                     if let Some(pod) = container.pod_id().and_then(|id| obj.pod_list().get_pod(id)) {
                         container.set_pod(Some(&pod));
-                        pod.container_list().add_container(container.to_owned());
+                        pod.container_list().add_container(container);
                     }
                 }));
             obj.container_list().connect_container_removed(
@@ -177,7 +177,7 @@ mod imp {
                         .filter(|container| container.pod_id() == Some(pod.id()))
                         .for_each(|container| {
                             container.set_pod(Some(pod));
-                            pod.container_list().add_container(container);
+                            pod.container_list().add_container(&container);
                         });
                 }));
         }

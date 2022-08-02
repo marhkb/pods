@@ -4,6 +4,7 @@ use std::cell::RefCell;
 use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
+use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use indexmap::map::IndexMap;
@@ -16,7 +17,9 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default)]
-    pub(crate) struct SimpleContainerList(pub(super) RefCell<IndexMap<String, model::Container>>);
+    pub(crate) struct SimpleContainerList(
+        pub(super) RefCell<IndexMap<String, WeakRef<model::Container>>>,
+    );
 
     #[glib::object_subclass]
     impl ObjectSubclass for SimpleContainerList {
@@ -79,8 +82,7 @@ mod imp {
             self.0
                 .borrow()
                 .get_index(position as usize)
-                .map(|(_, obj)| obj.upcast_ref())
-                .cloned()
+                .and_then(|(_, obj)| obj.upgrade().map(|c| c.upcast()))
         }
     }
 }
@@ -103,15 +105,19 @@ impl SimpleContainerList {
             .borrow()
             .get_index(index)
             .map(|(_, c)| c)
-            .cloned()
+            .and_then(WeakRef::upgrade)
     }
 
-    pub(crate) fn add_container(&self, container: model::Container) {
-        let (index, old_value) = self
-            .imp()
-            .0
-            .borrow_mut()
-            .insert_full(container.id().unwrap().to_owned(), container.clone());
+    pub(crate) fn add_container(&self, container: &model::Container) {
+        let (index, old_value) =
+            self.imp()
+                .0
+                .borrow_mut()
+                .insert_full(container.id().unwrap().to_owned(), {
+                    let weak_ref = WeakRef::new();
+                    weak_ref.set(Some(container));
+                    weak_ref
+                });
 
         self.items_changed(
             index as u32,
@@ -153,6 +159,7 @@ impl SimpleContainerList {
             .0
             .borrow()
             .values()
+            .filter_map(WeakRef::upgrade)
             .filter(|container| container.status() == model::ContainerStatus::Running)
             .count() as u32
     }

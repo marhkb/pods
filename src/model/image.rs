@@ -459,7 +459,7 @@ impl Image {
 }
 
 impl Image {
-    pub(crate) fn add_container(&self, container: model::Container) {
+    pub(crate) fn add_container(&self, container: &model::Container) {
         self.container_list().add_container(container);
     }
 
