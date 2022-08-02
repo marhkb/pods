@@ -38,13 +38,14 @@ mod imp {
         fn realize(&self, widget: &Self::Type) {
             self.parent_realize(widget);
 
-            widget
-                .leaflet()
-                .connect_visible_child_notify(clone!(@weak widget => move |leaflet| {
-                    if leaflet.visible_child().as_ref() != Some(widget.upcast_ref()) {
-                        widget.set_child(gtk::Widget::NONE);
+            widget.leaflet().connect_child_transition_running_notify(
+                clone!(@weak widget => move |leaflet| {
+                    if !leaflet.is_child_transition_running()
+                        && &leaflet.visible_child().unwrap() != widget.upcast_ref::<gtk::Widget>() {
+                            widget.set_child(gtk::Widget::NONE);
                     }
-                }));
+                }),
+            );
         }
     }
 

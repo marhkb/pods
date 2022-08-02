@@ -582,7 +582,7 @@ impl ContainerCreationPage {
                             None => {
                                 client.container_list().connect_container_added(
                                     clone!(@weak obj, @strong id => move |_, container| {
-                                        if container.id() == Some(id.as_str()) {
+                                        if container.id() == id.as_str() {
                                             obj.switch_to_container(container);
                                         }
                                     }),

@@ -385,8 +385,8 @@ impl Container {
         *self.imp().created.get().unwrap()
     }
 
-    pub(crate) fn id(&self) -> Option<&str> {
-        self.imp().id.get().map(String::as_str)
+    pub(crate) fn id(&self) -> &str {
+        self.imp().id.get().unwrap()
     }
 
     pub(crate) fn image(&self) -> Option<model::Image> {
@@ -512,7 +512,7 @@ impl Container {
             // This will be either set back to `false` in `Self::update` or in case of an error.
             self.set_action_ongoing(true);
 
-            log::info!("Container <{}>: {name}…'", self.id().unwrap_or_default());
+            log::info!("Container <{}>: {name}…'", self.id());
 
             utils::do_async(
                 async move { fut_op(container).await },
@@ -521,13 +521,13 @@ impl Container {
                         Ok(_) => {
                             log::info!(
                                 "Container <{}>: {name} has finished",
-                                obj.id().unwrap_or_default()
+                                obj.id()
                             );
                         }
                         Err(e) => {
                             log::error!(
                                 "Container <{}>: Error while {name}: {e}",
-                                obj.id().unwrap_or_default(),
+                                obj.id(),
                             );
                             obj.set_action_ongoing(false);
                         }
@@ -685,12 +685,10 @@ impl Container {
     }
 
     pub(crate) fn api_container(&self) -> Option<api::Container> {
-        self.container_list().unwrap().client().map(|client| {
-            api::Container::new(
-                client.podman().deref().clone(),
-                self.id().unwrap_or_default(),
-            )
-        })
+        self.container_list()
+            .unwrap()
+            .client()
+            .map(|client| api::Container::new(client.podman().deref().clone(), self.id()))
     }
 }
 
