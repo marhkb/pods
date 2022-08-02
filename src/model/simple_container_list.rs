@@ -113,7 +113,7 @@ impl SimpleContainerList {
             self.imp()
                 .0
                 .borrow_mut()
-                .insert_full(container.id().unwrap().to_owned(), {
+                .insert_full(container.id().to_owned(), {
                     let weak_ref = WeakRef::new();
                     weak_ref.set(Some(container));
                     weak_ref

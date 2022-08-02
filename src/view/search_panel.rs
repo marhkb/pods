@@ -119,9 +119,7 @@ mod imp {
                         container
                             .name().contains(&term)
                             || container
-                                .id()
-                                .map(|id| id.contains(&term))
-                                .unwrap_or(false)
+                                .id().contains(&term)
                             || container
                                 .image_name()
                                 .map(|image_name| image_name.contains(&term))

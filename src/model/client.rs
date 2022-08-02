@@ -163,7 +163,7 @@ mod imp {
                         .image_id()
                         .and_then(|id| obj.image_list().get_image(id))
                     {
-                        image.remove_container(container.id().unwrap());
+                        image.remove_container(container.id());
                     }
                 }),
             );
