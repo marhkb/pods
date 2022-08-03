@@ -48,6 +48,10 @@ mod imp {
             klass.install_action("navigation.back", None, move |widget, _, _| {
                 widget.navigate_back();
             });
+
+            klass.install_action("pod.show-processes", None, move |widget, _, _| {
+                widget.show_processes();
+            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -195,6 +199,12 @@ impl PodDetailsPage {
 
         imp.pod.set(value);
         self.notify("pod");
+    }
+
+    fn show_processes(&self) {
+        if let Some(pod) = self.pod() {
+            utils::leaflet_overlay(&*self.imp().leaflet).show_details(&view::TopPage::from(&pod));
+        }
     }
 
     fn navigate_to_first(&self) {
