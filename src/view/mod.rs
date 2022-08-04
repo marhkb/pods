@@ -44,6 +44,7 @@ pub(crate) use self::image::ImagesPrunePage;
 pub(crate) use self::info_dialog::InfoDialog;
 pub(crate) use self::leaflet_overlay::LeafletOverlay;
 pub(crate) use self::pod::PodDetailsPage;
+pub(crate) use self::pod::PodMenuButton;
 pub(crate) use self::pod::PodRow;
 pub(crate) use self::pod::PodsPanel;
 pub(crate) use self::property_row::PropertyRow;
