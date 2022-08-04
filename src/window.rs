@@ -250,13 +250,6 @@ mod imp {
                         });
                 }));
 
-            self.menu_button
-                .popover()
-                .unwrap()
-                .downcast::<gtk::PopoverMenu>()
-                .unwrap()
-                .add_child(&view::ThemeSelector::default(), "theme");
-
             self.connection_manager.connect_notify_local(
                 Some("client"),
                 clone!(@weak obj => move |manager, _| match manager.client() {

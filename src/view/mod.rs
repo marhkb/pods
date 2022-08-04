@@ -9,7 +9,6 @@ mod property_row;
 mod property_widget_row;
 mod search_panel;
 mod text_search_entry;
-mod theme_selector;
 mod top_page;
 mod welcome_page;
 
@@ -51,6 +50,5 @@ pub(crate) use self::property_row::PropertyRow;
 pub(crate) use self::property_widget_row::PropertyWidgetRow;
 pub(crate) use self::search_panel::SearchPanel;
 pub(crate) use self::text_search_entry::TextSearchEntry;
-pub(crate) use self::theme_selector::ThemeSelector;
 pub(crate) use self::top_page::TopPage;
 pub(crate) use self::welcome_page::WelcomePage;

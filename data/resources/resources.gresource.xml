@@ -40,7 +40,6 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/property-widget-row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/search-panel.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/text-search-entry.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">ui/theme-selector.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/top-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/volume-row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/welcome-page.ui</file>
