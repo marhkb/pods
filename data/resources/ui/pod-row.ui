@@ -15,6 +15,18 @@
     </child>
 
     <child>
+      <object class="PodMenuButton" id="menu_button">
+        <style>
+          <class name="flat"/>
+        </style>
+        <binding name="pod">
+          <lookup name="pod">PodRow</lookup>
+        </binding>
+        <property name="valign">center</property>
+      </object>
+    </child>
+
+    <child>
       <object class="GtkImage">
         <property name="icon_name">go-next-symbolic</property>
       </object>
