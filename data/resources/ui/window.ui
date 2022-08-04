@@ -4,11 +4,6 @@
   <menu id="menu">
     <section>
       <item>
-        <attribute name="custom">theme</attribute>
-      </item>
-    </section>
-    <section>
-      <item>
         <attribute name="label" translatable="yes">_Add connection…</attribute>
         <attribute name="action">win.add-connection</attribute>
       </item>
