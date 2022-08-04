@@ -1,6 +1,8 @@
 use std::cell::RefCell;
 
+use adw::traits::BinExt;
 use gettextrs::gettext;
+use gtk::gdk;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
@@ -24,6 +26,8 @@ mod imp {
         pub(super) pod: WeakRef<model::Pod>,
         pub(super) handler_id: RefCell<Option<glib::SignalHandlerId>>,
         #[template_child]
+        pub(super) menu_button: TemplateChild<view::PodMenuButton>,
+        #[template_child]
         pub(super) leaflet: TemplateChild<adw::Leaflet>,
         #[template_child]
         pub(super) id_row: TemplateChild<view::PropertyRow>,
@@ -41,6 +45,11 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
+
+            klass.add_binding_action(gdk::Key::F10, gdk::ModifierType::empty(), "menu.show", None);
+            klass.install_action("menu.show", None, |widget, _, _| {
+                widget.show_menu();
+            });
 
             klass.install_action("navigation.go-first", None, move |widget, _, _| {
                 widget.navigate_to_first();
@@ -174,6 +183,12 @@ impl From<&model::Pod> for PodDetailsPage {
 }
 
 impl PodDetailsPage {
+    fn show_menu(&self) {
+        let imp = self.imp();
+        if utils::leaflet_overlay(&imp.leaflet).child().is_none() {
+            imp.menu_button.popup();
+        }
+    }
     fn pod(&self) -> Option<model::Pod> {
         self.imp().pod.upgrade()
     }

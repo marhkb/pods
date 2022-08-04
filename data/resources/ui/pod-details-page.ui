@@ -41,6 +41,15 @@
                   </object>
                 </child>
 
+                <child type="end">
+                  <object class="PodMenuButton" id="menu_button">
+                    <binding name="pod">
+                      <lookup name="pod">PodDetailsPage</lookup>
+                    </binding>
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+
               </object>
             </child>
 

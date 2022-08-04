@@ -4,6 +4,8 @@ use std::fmt;
 use std::ops::Deref;
 use std::str::FromStr;
 
+use futures::Future;
+use futures::TryFutureExt;
 use gettextrs::gettext;
 use gtk::glib::clone;
 use gtk::glib::subclass::Signal;
@@ -88,8 +90,9 @@ mod imp {
     #[derive(Debug, Default)]
     pub(crate) struct Pod {
         pub(super) pod_list: WeakRef<model::PodList>,
-
         pub(super) container_list: OnceCell<model::SimpleContainerList>,
+
+        pub(super) action_ongoing: Cell<bool>,
 
         pub(super) created: OnceCell<i64>,
         pub(super) id: OnceCell<String>,
@@ -201,6 +204,7 @@ mod imp {
         ) {
             match pspec.name() {
                 "pod-list" => self.pod_list.set(value.get().unwrap()),
+                "action-ongoing" => obj.set_action_ongoing(value.get().unwrap()),
                 "created" => self.created.set(value.get().unwrap()).unwrap(),
                 "id" => self.id.set(value.get().unwrap()).unwrap(),
                 "name" => obj.set_name(value.get().unwrap()),
@@ -214,6 +218,7 @@ mod imp {
             match pspec.name() {
                 "pod-list" => obj.pod_list().to_value(),
                 "container-list" => obj.container_list().to_value(),
+                "action-ongoing" => obj.action_ongoing().to_value(),
                 "created" => obj.created().to_value(),
                 "id" => obj.id().to_value(),
                 "name" => obj.name().to_value(),
@@ -259,6 +264,7 @@ impl Pod {
     }
 
     pub(crate) fn update(&self, inspect_response: api::LibpodPodInspectResponse) {
+        self.set_action_ongoing(false);
         self.set_name(inspect_response.name.unwrap_or_default());
         self.set_num_containers(inspect_response.num_containers.unwrap_or(0));
         self.set_status(status(inspect_response.state.as_deref()));
@@ -284,6 +290,19 @@ impl Pod {
     pub(crate) fn container_list(&self) -> &model::SimpleContainerList {
         self.imp().container_list.get_or_init(Default::default)
     }
+
+    pub(crate) fn action_ongoing(&self) -> bool {
+        self.imp().action_ongoing.get()
+    }
+
+    pub(crate) fn set_action_ongoing(&self, value: bool) {
+        if self.action_ongoing() == value {
+            return;
+        }
+        self.imp().action_ongoing.replace(value);
+        self.notify("action-ongoing");
+    }
+
     pub(crate) fn created(&self) -> i64 {
         *self.imp().created.get().unwrap()
     }
@@ -339,6 +358,137 @@ impl Pod {
             None
         })
     }
+}
+
+impl Pod {
+    fn action<Fut, FutOp, ResOp>(&self, name: &'static str, fut_op: FutOp, res_op: ResOp)
+    where
+        Fut: Future<Output = api::Result<()>> + Send,
+        FutOp: FnOnce(api::Pod) -> Fut + Send + 'static,
+        ResOp: FnOnce(api::Result<()>) + 'static,
+    {
+        if let Some(pod) = self.api_pod() {
+            if self.action_ongoing() {
+                return;
+            }
+
+            // This will be either set back to `false` in `Self::update` or in case of an error.
+            self.set_action_ongoing(true);
+
+            log::info!("Pod <{}>: {name}…'", self.id());
+
+            utils::do_async(
+                async move { fut_op(pod).await },
+                clone!(@weak self as obj => move |result| {
+                    match &result {
+                        Ok(_) => {
+                            log::info!(
+                                "Pod <{}>: {name} has finished",
+                                obj.id()
+                            );
+                        }
+                        Err(e) => {
+                            log::error!(
+                                "Pod <{}>: Error while {name}: {e}",
+                                obj.id(),
+                            );
+                            obj.set_action_ongoing(false);
+                        }
+                    }
+                    res_op(result)
+                }),
+            );
+        }
+    }
+
+    pub(crate) fn start<F>(&self, op: F)
+    where
+        F: FnOnce(api::Result<()>) + 'static,
+    {
+        self.action(
+            "starting",
+            |pod| async move { pod.start().await.map(|_| ()) },
+            op,
+        );
+    }
+
+    pub(crate) fn stop<F>(&self, force: bool, op: F)
+    where
+        F: FnOnce(api::Result<()>) + 'static,
+    {
+        self.action(
+            if force { "force stopping" } else { "stopping" },
+            move |pod| async move {
+                if force {
+                    pod.kill().await.map(|_| ())
+                } else {
+                    pod.stop().await.map(|_| ())
+                }
+            },
+            op,
+        );
+    }
+
+    pub(crate) fn restart<F>(&self, force: bool, op: F)
+    where
+        F: FnOnce(api::Result<()>) + 'static,
+    {
+        self.action(
+            if force {
+                "force restarting"
+            } else {
+                "restarting"
+            },
+            move |pod| async move {
+                if force {
+                    pod.kill().and_then(|_| pod.start()).await.map(|_| ())
+                } else {
+                    pod.restart().await.map(|_| ())
+                }
+            },
+            op,
+        );
+    }
+
+    pub(crate) fn pause<F>(&self, op: F)
+    where
+        F: FnOnce(api::Result<()>) + 'static,
+    {
+        self.action(
+            "pausing",
+            |pod| async move { pod.pause().await.map(|_| ()) },
+            op,
+        );
+    }
+
+    pub(crate) fn resume<F>(&self, op: F)
+    where
+        F: FnOnce(api::Result<()>) + 'static,
+    {
+        self.action(
+            "resuming",
+            |pod| async move { pod.unpause().await.map(|_| ()) },
+            op,
+        );
+    }
+
+    pub(crate) fn delete<F>(&self, force: bool, op: F)
+    where
+        F: FnOnce(api::Result<()>) + 'static,
+    {
+        self.action(
+            if force { "force deleting" } else { "deleting" },
+            move |pod| async move {
+                if force {
+                    pod.remove().await
+                } else {
+                    pod.delete().await
+                }
+                .map(|_| ())
+            },
+            op,
+        );
+    }
 
     pub(crate) fn api_pod(&self) -> Option<api::Pod> {
         self.pod_list()
@@ -347,8 +497,6 @@ impl Pod {
             .map(|client| api::Pod::new(client.podman().deref().clone(), self.id()))
     }
 }
-
-impl Pod {}
 
 fn status(state: Option<&str>) -> Status {
     state.map_or_else(Status::default, |s| match Status::from_str(s) {
