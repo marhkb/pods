@@ -239,7 +239,7 @@ impl ContainerDetailsPage {
     fn show_processes(&self) {
         if let Some(container) = self.container() {
             utils::leaflet_overlay(&*self.imp().leaflet)
-                .show_details(&view::ContainerProcessesPage::from(&container));
+                .show_details(&view::TopPage::from(&container));
         }
     }
 }

@@ -1,6 +1,10 @@
+use futures::stream;
 use futures::StreamExt;
+use futures::TryStreamExt;
+use gettextrs::gettext;
 use gtk::glib;
 use gtk::glib::clone;
+use gtk::glib::closure;
 use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
@@ -18,18 +22,21 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(resource = "/com/github/marhkb/Pods/ui/container-processes-page.ui")]
-    pub(crate) struct ContainerProcessesPage {
-        pub(super) container: WeakRef<model::Container>,
+    #[template(resource = "/com/github/marhkb/Pods/ui/top-page.ui")]
+    pub(crate) struct TopPage {
+        /// A `Container` or a `Pod`
+        pub(super) top_source: WeakRef<glib::Object>,
         pub(super) tree_store: OnceCell<gtk::TreeStore>,
+        #[template_child]
+        pub(super) window_title: TemplateChild<adw::WindowTitle>,
         #[template_child]
         pub(super) tree_view: TemplateChild<gtk::TreeView>,
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for ContainerProcessesPage {
-        const NAME: &'static str = "ContainerProcessesPage";
-        type Type = super::ContainerProcessesPage;
+    impl ObjectSubclass for TopPage {
+        const NAME: &'static str = "TopPage";
+        type Type = super::TopPage;
         type ParentType = gtk::Widget;
 
         fn class_init(klass: &mut Self::Class) {
@@ -48,14 +55,14 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for ContainerProcessesPage {
+    impl ObjectImpl for TopPage {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![glib::ParamSpecObject::new(
-                    "container",
-                    "Container",
-                    "The container of this ContainerProcessesPage",
-                    model::Container::static_type(),
+                    "top-source",
+                    "Top Source",
+                    "The source of the processes of this TopPage",
+                    glib::Object::static_type(),
                     glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
                 )]
             });
@@ -70,20 +77,39 @@ mod imp {
             pspec: &glib::ParamSpec,
         ) {
             match pspec.name() {
-                "container" => self.container.set(value.get().unwrap()),
+                "top-source" => self.top_source.set(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
 
         fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "container" => obj.container().to_value(),
+                "top-source" => obj.top_source().to_value(),
                 _ => unimplemented!(),
             }
         }
 
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
+
+            Self::Type::this_expression("top-source")
+                .chain_closure::<String>(closure!(
+                    |_: Self::Type, top_source: Option<glib::Object>| {
+                        top_source
+                            .and_then(|top_source| {
+                                if top_source.downcast_ref::<model::Container>().is_some() {
+                                    Some(gettext("Container Processes"))
+                                } else if top_source.downcast_ref::<model::Pod>().is_some() {
+                                    Some(gettext("Pod Processes"))
+                                } else {
+                                    None
+                                }
+                            })
+                            .unwrap_or_default()
+                    }
+                ))
+                .bind(&*self.window_title, "title", Some(obj));
+
             obj.connect_top_stream();
         }
 
@@ -96,39 +122,48 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for ContainerProcessesPage {}
+    impl WidgetImpl for TopPage {}
 }
 
 glib::wrapper! {
-    pub(crate) struct ContainerProcessesPage(ObjectSubclass<imp::ContainerProcessesPage>)
+    pub(crate) struct TopPage(ObjectSubclass<imp::TopPage>)
         @extends gtk::Widget;
 }
 
-impl From<&model::Container> for ContainerProcessesPage {
-    fn from(image: &model::Container) -> Self {
-        glib::Object::new(&[("container", image)]).expect("Failed to create ContainerProcessesPage")
+impl From<&model::Container> for TopPage {
+    fn from(container: &model::Container) -> Self {
+        glib::Object::new(&[("top-source", container)]).expect("Failed to create TopPage")
     }
 }
 
-impl ContainerProcessesPage {
-    fn container(&self) -> Option<model::Container> {
-        self.imp().container.upgrade()
+impl From<&model::Pod> for TopPage {
+    fn from(pod: &model::Pod) -> Self {
+        glib::Object::new(&[("top-source", pod)]).expect("Failed to create TopPage")
+    }
+}
+
+impl TopPage {
+    fn top_source(&self) -> Option<glib::Object> {
+        self.imp().top_source.upgrade()
     }
 
     fn connect_top_stream(&self) {
-        if let Some(container) = self
-            .container()
-            .as_ref()
-            .and_then(model::Container::api_container)
-        {
+        if let Some(processes_source) = self.top_source().as_ref().and_then(|obj| {
+            if let Some(container) = obj.downcast_ref::<model::Container>() {
+                container
+                    .api_container()
+                    .map(|c| Box::new(c) as Box<dyn TopSource>)
+            } else if let Some(pod) = obj.downcast_ref::<model::Pod>() {
+                pod.api_pod().map(|p| Box::new(p) as Box<dyn TopSource>)
+            } else {
+                unreachable!("unknown type for top source: {obj:?}")
+            }
+        }) {
             utils::run_stream(
-                container,
-                move |container| {
-                    container
-                        .top_stream(&api::ContainerTopOpts::builder().delay(2).build())
-                        .boxed()
-                },
-                clone!(@weak self as obj => @default-return glib::Continue(false), move |result: api::Result<api::ContainerTopOkBody>| {
+                processes_source,
+                move |container| container.stream(),
+                clone!(@weak self as obj => @default-return glib::Continue(false), move |result: api::Result<TopStreamElement>| {
+
                     glib::Continue(match result {
                         Ok(top) => {
                             let imp = obj.imp();
@@ -194,7 +229,7 @@ impl ContainerProcessesPage {
                             true
                         }
                         Err(e) => {
-                            log::warn!("Stopping container top stream due to error: {e}");
+                            log::warn!("Stopping top stream due to error: {e}");
                             false
                         }
                     })
@@ -222,4 +257,35 @@ impl ContainerProcessesPage {
             .unwrap()
             .leaflet_overlay()
     }
+}
+
+trait TopSource: Send {
+    fn stream(&self) -> stream::BoxStream<api::Result<TopStreamElement>>;
+}
+
+impl TopSource for api::Container {
+    fn stream(&self) -> stream::BoxStream<api::Result<TopStreamElement>> {
+        self.top_stream(&api::ContainerTopOpts::builder().delay(2).build())
+            .map_ok(|x| TopStreamElement {
+                processes: x.processes,
+                titles: x.titles,
+            })
+            .boxed()
+    }
+}
+
+impl TopSource for api::Pod {
+    fn stream(&self) -> stream::BoxStream<api::Result<TopStreamElement>> {
+        self.top_stream(&api::PodTopOpts::builder().delay(2).build())
+            .map_ok(|x| TopStreamElement {
+                processes: x.processes,
+                titles: x.titles,
+            })
+            .boxed()
+    }
+}
+
+struct TopStreamElement {
+    pub processes: Vec<Vec<String>>,
+    pub titles: Vec<String>,
 }

@@ -110,6 +110,30 @@
                   </object>
                 </child>
 
+                <child>
+                  <object class="AdwPreferencesGroup">
+                    <property name="title" translatable="yes">Utilities</property>
+
+                    <child>
+                      <object class="AdwActionRow">
+                        <property name="title" translatable="yes">Processes</property>
+                        <property name="subtitle" translatable="yes">View processes that are currently running inside the pod.</property>
+                        <property name="activatable">True</property>
+                        <property name="action-name">pod.show-processes</property>
+                        <property name="icon-name">application-x-executable-symbolic</property>
+
+                        <child>
+                          <object class="GtkImage">
+                            <property name="icon_name">go-next-symbolic</property>
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
               </object>
             </child>
 

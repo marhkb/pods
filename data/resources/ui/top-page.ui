@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
 
-  <template class="ContainerProcessesPage" parent="GtkWidget">
+  <template class="TopPage" parent="GtkWidget">
     <property name="layout-manager">
       <object class="GtkBoxLayout">
         <property name="orientation">vertical</property>
@@ -29,9 +29,7 @@
         </child>
 
         <child type="title">
-          <object class="AdwWindowTitle">
-            <property name="title" translatable="yes">Container Processes</property>
-          </object>
+          <object class="AdwWindowTitle" id="window_title"/>
         </child>
 
       </object>

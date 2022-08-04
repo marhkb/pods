@@ -12,7 +12,6 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/container-details-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container-log-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container-menu-button.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">ui/container-processes-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/containers-panel.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container-properties-group.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container-rename-dialog.ui</file>
@@ -42,6 +41,7 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/search-panel.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/text-search-entry.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/theme-selector.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/top-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/volume-row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/welcome-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/window.ui</file>
