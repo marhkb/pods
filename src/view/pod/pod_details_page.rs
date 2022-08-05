@@ -61,6 +61,13 @@ mod imp {
             klass.install_action("pod.show-processes", None, move |widget, _, _| {
                 widget.show_processes();
             });
+
+            add_binding_action(
+                klass,
+                gdk::Key::N,
+                gdk::ModifierType::CONTROL_MASK,
+                "pod.create-container",
+            );
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -241,4 +248,27 @@ impl PodDetailsPage {
             .unwrap()
             .leaflet_overlay()
     }
+}
+
+fn add_binding_action(
+    klass: &mut <imp::PodDetailsPage as ObjectSubclass>::Class,
+    keyval: gdk::Key,
+    mods: gdk::ModifierType,
+    action: &'static str,
+) {
+    klass.add_binding(
+        keyval,
+        mods,
+        |widget, _| {
+            let imp = widget.imp();
+            match utils::leaflet_overlay(&imp.leaflet).child() {
+                None => imp.menu_button.activate_action(action, None).is_ok(),
+                Some(_) => false,
+            }
+        },
+        None,
+    );
+
+    // For displaying a mnemonic.
+    klass.add_binding_action(keyval, mods, action, None);
 }

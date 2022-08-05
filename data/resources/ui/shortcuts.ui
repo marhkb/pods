@@ -148,6 +148,20 @@
           </object>
         </child>
 
+        <child>
+          <object class="GtkShortcutsGroup">
+            <property name="title" translatable="yes" context="shortcut window">Pod</property>
+
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="title" translatable="yes" context="shortcut window">Create container inside pod</property>
+                <property name="accelerator">&lt;ctrl&gt;N</property>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
       </object>
     </child>
 
