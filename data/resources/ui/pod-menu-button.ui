@@ -3,6 +3,12 @@
   <menu id="menu">
     <section>
       <item>
+        <attribute name="label" translatable="yes">_Create Container</attribute>
+        <attribute name="action">pod.create-container</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
         <attribute name="label" translatable="yes">_Start</attribute>
         <attribute name="action">pod.start</attribute>
         <attribute name="hidden-when">action-disabled</attribute>

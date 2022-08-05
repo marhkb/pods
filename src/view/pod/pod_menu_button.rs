@@ -14,6 +14,7 @@ use once_cell::sync::Lazy;
 
 use crate::model;
 use crate::utils;
+use crate::view;
 
 mod imp {
     use super::*;
@@ -37,6 +38,10 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
+
+            klass.install_action("pod.create-container", None, move |widget, _, _| {
+                widget.create_container();
+            });
 
             klass.install_action("pod.start", None, move |widget, _, _| {
                 widget.start();
@@ -198,6 +203,12 @@ impl PodMenuButton {
 
         imp.pod.set(value);
         self.notify("pod");
+    }
+
+    fn create_container(&self) {
+        if let Some(pod) = self.pod().as_ref() {
+            utils::find_leaflet_overlay(self).show_details(&view::ContainerCreationPage::from(pod));
+        }
     }
 
     fn update_actions(&self, pod: &model::Pod) {
