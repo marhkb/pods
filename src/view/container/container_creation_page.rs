@@ -4,6 +4,7 @@ use adw::subclass::prelude::*;
 use adw::traits::ActionRowExt;
 use adw::traits::BinExt;
 use adw::traits::ComboRowExt;
+use adw::traits::ExpanderRowExt;
 use futures::TryFutureExt;
 use gtk::gio;
 use gtk::glib;
@@ -32,6 +33,7 @@ mod imp {
         pub(super) names: RefCell<names::Generator<'static>>,
         pub(super) client: WeakRef<model::Client>,
         pub(super) image: WeakRef<model::Image>,
+        pub(super) pod: WeakRef<model::Pod>,
         pub(super) port_mappings: RefCell<gio::ListStore>,
         pub(super) volumes: RefCell<gio::ListStore>,
         pub(super) env_vars: RefCell<gio::ListStore>,
@@ -47,6 +49,14 @@ mod imp {
         pub(super) local_image_combo_row: TemplateChild<adw::ComboRow>,
         #[template_child]
         pub(super) remote_image_row: TemplateChild<adw::ActionRow>,
+        #[template_child]
+        pub(super) pod_property_row: TemplateChild<view::PropertyRow>,
+        #[template_child]
+        pub(super) pod_expander_row: TemplateChild<adw::ExpanderRow>,
+        #[template_child]
+        pub(super) pod_switch: TemplateChild<gtk::Switch>,
+        #[template_child]
+        pub(super) pod_combo_row: TemplateChild<adw::ComboRow>,
         #[template_child]
         pub(super) pull_latest_image_row: TemplateChild<adw::ActionRow>,
         #[template_child]
@@ -137,6 +147,15 @@ mod imp {
                         model::Image::static_type(),
                         glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
                     ),
+                    glib::ParamSpecObject::new(
+                        "pod",
+                        "Pod",
+                        "The pod of this ContainerCreationPage",
+                        model::Pod::static_type(),
+                        glib::ParamFlags::READWRITE
+                            | glib::ParamFlags::CONSTRUCT
+                            | glib::ParamFlags::EXPLICIT_NOTIFY,
+                    ),
                 ]
             });
             PROPERTIES.as_ref()
@@ -144,7 +163,7 @@ mod imp {
 
         fn set_property(
             &self,
-            _obj: &Self::Type,
+            obj: &Self::Type,
             _id: usize,
             value: &glib::Value,
             pspec: &glib::ParamSpec,
@@ -152,6 +171,7 @@ mod imp {
             match pspec.name() {
                 "client" => self.client.set(value.get().unwrap()),
                 "image" => self.image.set(value.get().unwrap()),
+                "pod" => obj.set_pod(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
@@ -160,6 +180,7 @@ mod imp {
             match pspec.name() {
                 "client" => obj.client().to_value(),
                 "image" => obj.image().to_value(),
+                "pod" => obj.pod().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -179,6 +200,7 @@ mod imp {
                         utils::escape(&utils::format_option(repo_tags.iter().next()))
                     }
                 ));
+            let pod_name_expr = model::Pod::this_expression("name");
 
             if let Some(image) = obj.image() {
                 self.local_image_combo_row.set_visible(false);
@@ -229,6 +251,41 @@ mod imp {
                     .set_expression(Some(&image_tag_expr));
             }
 
+            if let Some(pod) = obj.pod() {
+                self.pod_expander_row.set_visible(false);
+                pod_name_expr.bind(&*self.pod_property_row, "value", Some(&pod));
+            } else {
+                self.pod_property_row.set_visible(false);
+
+                obj.connect_notify_local(Some("pod"), |obj, _| {
+                    obj.imp().pod_expander_row.set_subtitle(
+                        &obj.pod().as_ref().map(model::Pod::name).unwrap_or_default(),
+                    );
+                });
+
+                self.pod_switch
+                    .connect_active_notify(clone!(@weak obj => move |_| {
+                        obj.imp().pod_combo_row.notify("selected-item");
+                    }));
+
+                self.pod_combo_row.connect_selected_item_notify(
+                    clone!(@weak obj => move |combo_row| {
+                        obj.set_pod(
+                            if obj.imp().pod_switch.is_active() {
+                                combo_row.selected_item().and_then(|o| o.downcast().ok())
+                            } else {
+                                None
+                            }
+                            .as_ref(),
+                        );
+                    }),
+                );
+
+                self.pod_combo_row.set_expression(Some(&pod_name_expr));
+                self.pod_combo_row
+                    .set_model(Some(obj.client().unwrap().pod_list()));
+            }
+
             self.port_mapping_list_box
                 .bind_model(Some(&*self.port_mappings.borrow()), |item| {
                     view::PortMappingRow::from(item.downcast_ref::<model::PortMapping>().unwrap())
@@ -275,6 +332,12 @@ impl From<&model::Image> for ContainerCreationPage {
     }
 }
 
+impl From<&model::Pod> for ContainerCreationPage {
+    fn from(pod: &model::Pod) -> Self {
+        glib::Object::new(&[("pod", &pod)]).expect("Failed to create ContainerCreationPage")
+    }
+}
+
 impl From<Option<&model::Client>> for ContainerCreationPage {
     fn from(client: Option<&model::Client>) -> Self {
         glib::Object::new(&[("client", &client)]).expect("Failed to create ContainerCreationPage")
@@ -283,17 +346,39 @@ impl From<Option<&model::Client>> for ContainerCreationPage {
 
 impl ContainerCreationPage {
     fn client(&self) -> Option<model::Client> {
-        self.imp().client.upgrade().or_else(|| {
-            self.image()
-                .as_ref()
-                .and_then(model::Image::image_list)
-                .as_ref()
-                .and_then(model::ImageList::client)
-        })
+        self.imp()
+            .client
+            .upgrade()
+            .or_else(|| {
+                self.image()
+                    .as_ref()
+                    .and_then(model::Image::image_list)
+                    .as_ref()
+                    .and_then(model::ImageList::client)
+            })
+            .or_else(|| {
+                self.pod()
+                    .as_ref()
+                    .and_then(model::Pod::pod_list)
+                    .as_ref()
+                    .and_then(model::PodList::client)
+            })
     }
 
     fn image(&self) -> Option<model::Image> {
         self.imp().image.upgrade()
+    }
+
+    fn pod(&self) -> Option<model::Pod> {
+        self.imp().pod.upgrade()
+    }
+
+    fn set_pod(&self, value: Option<&model::Pod>) {
+        if self.pod().as_ref() == value {
+            return;
+        }
+        self.imp().pod.set(value);
+        self.notify("pod");
     }
 
     fn on_name_changed(&self) {
@@ -483,6 +568,7 @@ impl ContainerCreationPage {
         let create_opts = api::ContainerCreateOpts::builder()
             .name(imp.name_entry_row.text().as_str())
             .image(&image_id)
+            .pod(self.pod().as_ref().map(model::Pod::name))
             .terminal(imp.terminal_switch.is_active())
             .resource_limits(api::LinuxResources {
                 block_io: None,

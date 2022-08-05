@@ -143,6 +143,30 @@
                             </child>
 
                             <child>
+                              <object class="PropertyRow" id="pod_property_row">
+                                <property name="key" translatable="yes">Pod</property>
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="AdwExpanderRow" id="pod_expander_row">
+                                <property name="enable-expansion" bind-source="pod_switch" bind-property="active" bind-flags="sync-create"/>
+                                <property name="title" translatable="yes">Pod</property>
+
+                                <child type="action">
+                                  <object class="GtkSwitch" id="pod_switch">
+                                    <property name="valign">center</property>
+                                  </object>
+                                </child>
+
+                                <child>
+                                  <object class="AdwComboRow" id="pod_combo_row"/>
+                                </child>
+
+                              </object>
+                            </child>
+
+                            <child>
                               <object class="AdwActionRow" id="pull_latest_image_row">
                                 <property name="activatable_widget">pull_latest_image_switch</property>
                                 <property name="title" translatable="yes">Pull latest image</property>
