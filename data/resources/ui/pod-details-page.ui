@@ -103,7 +103,7 @@
                         <property name="widget">
                           <object class="GtkLabel" id="status_label">
                             <style>
-                              <class name="container-status"/>
+                              <class name="pod-status"/>
                             </style>
                             <property name="halign">end</property>
                             <property name="hexpand">True</property>
