@@ -95,6 +95,7 @@ mod imp {
         pub(super) action_ongoing: Cell<bool>,
 
         pub(super) created: OnceCell<i64>,
+        pub(super) hostname: OnceCell<String>,
         pub(super) id: OnceCell<String>,
         pub(super) name: RefCell<String>,
         pub(super) num_containers: Cell<i64>,
@@ -156,6 +157,13 @@ mod imp {
                         glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
                     ),
                     glib::ParamSpecString::new(
+                        "hostname",
+                        "Hostname",
+                        "The hostname of this pod",
+                        Option::default(),
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
+                    ),
+                    glib::ParamSpecString::new(
                         "id",
                         "Id",
                         "The id of this pod",
@@ -206,6 +214,7 @@ mod imp {
                 "pod-list" => self.pod_list.set(value.get().unwrap()),
                 "action-ongoing" => obj.set_action_ongoing(value.get().unwrap()),
                 "created" => self.created.set(value.get().unwrap()).unwrap(),
+                "hostname" => self.hostname.set(value.get().unwrap()).unwrap(),
                 "id" => self.id.set(value.get().unwrap()).unwrap(),
                 "name" => obj.set_name(value.get().unwrap()),
                 "num-containers" => obj.set_num_containers(value.get().unwrap()),
@@ -220,6 +229,7 @@ mod imp {
                 "container-list" => obj.container_list().to_value(),
                 "action-ongoing" => obj.action_ongoing().to_value(),
                 "created" => obj.created().to_value(),
+                "hostname" => obj.hostname().to_value(),
                 "id" => obj.id().to_value(),
                 "name" => obj.name().to_value(),
                 "num-containers" => obj.num_containers().to_value(),
@@ -252,6 +262,7 @@ impl Pod {
                     .map(|dt| dt.timestamp())
                     .unwrap_or(0),
             ),
+            ("hostname", &inspect_response.hostname.unwrap_or_default()),
             ("id", &inspect_response.id),
             ("name", &inspect_response.name),
             (
@@ -305,6 +316,10 @@ impl Pod {
 
     pub(crate) fn created(&self) -> i64 {
         *self.imp().created.get().unwrap()
+    }
+
+    pub(crate) fn hostname(&self) -> &str {
+        self.imp().hostname.get().unwrap()
     }
 
     pub(crate) fn id(&self) -> &str {
