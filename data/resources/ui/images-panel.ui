@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
 
+  <menu id="menu">
+    <item>
+      <attribute name="label" translatable="yes">_Download…</attribute>
+      <attribute name="action">images.pull</attribute>
+    </item>
+    <item>
+      <attribute name="label" translatable="yes">_Prune…</attribute>
+      <attribute name="action">images.prune-unused</attribute>
+    </item>
+  </menu>
+
   <template class="ImagesPanel" parent="GtkWidget">
     <property name="layout-manager">
       <object class="GtkBinLayout"/>
@@ -64,7 +75,16 @@
                         </child>
 
                         <child>
-                          <object class="GtkSwitch" id="show_intermediates_switch"/>
+                          <object class="GtkSwitch" id="show_intermediates_switch">
+                            <property name="valign">center</property>
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="GtkMenuButton">
+                            <property name="icon-name">view-more-symbolic</property>
+                            <property name="menu-model">menu</property>
+                          </object>
                         </child>
 
                       </object>

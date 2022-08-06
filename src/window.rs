@@ -122,26 +122,6 @@ mod imp {
             });
 
             klass.add_binding_action(
-                gdk::Key::D,
-                gdk::ModifierType::CONTROL_MASK,
-                "image.pull",
-                None,
-            );
-            klass.install_action("image.pull", None, move |widget, _, _| {
-                widget.show_pull_dialog();
-            });
-
-            klass.add_binding_action(
-                gdk::Key::Delete,
-                gdk::ModifierType::CONTROL_MASK | gdk::ModifierType::SHIFT_MASK,
-                "images.prune-unused",
-                None,
-            );
-            klass.install_action("images.prune-unused", None, move |widget, _, _| {
-                widget.show_prune_page();
-            });
-
-            klass.add_binding_action(
                 gdk::Key::N,
                 gdk::ModifierType::CONTROL_MASK,
                 "container.create",
@@ -424,26 +404,6 @@ impl Window {
             ..set_transient_for(Some(self));
         }
         .present();
-    }
-
-    fn show_pull_dialog(&self) {
-        let leaflet_overlay = &*self.imp().leaflet_overlay;
-
-        if leaflet_overlay.child().is_none() {
-            leaflet_overlay.show_details(&view::ImagePullPage::from(
-                self.connection_manager().client().as_ref(),
-            ));
-        }
-    }
-
-    fn show_prune_page(&self) {
-        let leaflet_overlay = &*self.imp().leaflet_overlay;
-
-        if leaflet_overlay.child().is_none() {
-            leaflet_overlay.show_details(&view::ImagesPrunePage::from(
-                self.connection_manager().client().as_ref(),
-            ));
-        }
     }
 
     fn create_container(&self) {

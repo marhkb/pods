@@ -10,14 +10,6 @@
     </section>
     <section>
       <item>
-        <attribute name="label" translatable="yes">_Prune unused images…</attribute>
-        <attribute name="action">images.prune-unused</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">_Download new image…</attribute>
-        <attribute name="action">image.pull</attribute>
-      </item>
-      <item>
         <attribute name="label" translatable="yes">_Create container…</attribute>
         <attribute name="action">container.create</attribute>
       </item>
