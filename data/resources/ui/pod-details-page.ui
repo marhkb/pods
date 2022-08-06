@@ -80,6 +80,17 @@
                     </child>
 
                     <child>
+                      <object class="PropertyRow" id="hostname_row">
+                        <property name="key" translatable="yes">Hostname</property>
+                        <binding name="value">
+                          <lookup name="hostname" type="Pod">
+                            <lookup name="pod">PodDetailsPage</lookup>
+                          </lookup>
+                        </binding>
+                      </object>
+                    </child>
+
+                    <child>
                       <object class="PropertyRow" id="created_row">
                         <property name="key" translatable="yes">Created</property>
                       </object>

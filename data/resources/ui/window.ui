@@ -21,6 +21,10 @@
         <attribute name="label" translatable="yes">_Create container…</attribute>
         <attribute name="action">container.create</attribute>
       </item>
+      <item>
+        <attribute name="label" translatable="yes">Cr_eate Pod…</attribute>
+        <attribute name="action">pod.create</attribute>
+      </item>
     </section>
     <section>
       <item>
