@@ -50,6 +50,8 @@ mod imp {
         #[template_child]
         pub(super) containers_panel: TemplateChild<view::ContainersPanel>,
         #[template_child]
+        pub(super) pods_panel: TemplateChild<view::PodsPanel>,
+        #[template_child]
         pub(super) search_panel: TemplateChild<view::SearchPanel>,
         #[template_child]
         pub(super) leaflet_overlay: TemplateChild<view::LeafletOverlay>,
@@ -110,6 +112,16 @@ mod imp {
             );
             klass.install_action("win.add-connection", None, |widget, _, _| {
                 widget.add_connection();
+            });
+
+            klass.add_binding_action(
+                gdk::Key::N,
+                gdk::ModifierType::CONTROL_MASK,
+                "entity.create",
+                None,
+            );
+            klass.install_action("entity.create", None, move |widget, _, _| {
+                widget.create_entity();
             });
 
             klass.install_action("win.remove-connection", Some("s"), |widget, _, data| {
@@ -371,6 +383,24 @@ impl Window {
             leaflet_overlay.show_details(&view::ConnectionCreatorPage::from(
                 &self.connection_manager(),
             ));
+        }
+    }
+
+    fn create_entity(&self) {
+        let imp = self.imp();
+        let leaflet_overlay = &*imp.leaflet_overlay;
+
+        if self.connection_manager().client().is_some() && leaflet_overlay.child().is_none() {
+            imp.panel_stack
+                .visible_child_name()
+                .map(|name| match name.as_str() {
+                    "images" => imp.images_panel.activate_action("images.pull", None),
+                    "containers" => imp
+                        .containers_panel
+                        .activate_action("containers.create", None),
+                    "pods" => imp.pods_panel.activate_action("pods.create", None),
+                    _ => unreachable!(),
+                });
         }
     }
 
