@@ -122,16 +122,6 @@ mod imp {
             });
 
             klass.add_binding_action(
-                gdk::Key::N,
-                gdk::ModifierType::CONTROL_MASK,
-                "container.create",
-                None,
-            );
-            klass.install_action("container.create", None, move |widget, _, _| {
-                widget.create_container();
-            });
-
-            klass.add_binding_action(
                 gdk::Key::P,
                 gdk::ModifierType::CONTROL_MASK,
                 "pod.create",
@@ -404,16 +394,6 @@ impl Window {
             ..set_transient_for(Some(self));
         }
         .present();
-    }
-
-    fn create_container(&self) {
-        let leaflet_overlay = &*self.imp().leaflet_overlay;
-
-        if leaflet_overlay.child().is_none() {
-            leaflet_overlay.show_details(&view::ContainerCreationPage::from(
-                self.connection_manager().client().as_ref(),
-            ));
-        }
     }
 
     fn create_pod(&self) {
