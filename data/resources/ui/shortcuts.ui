@@ -70,28 +70,14 @@
 
             <child>
               <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes" context="shortcut window">Add new connection</property>
-                <property name="accelerator">&lt;ctrl&gt;&lt;shift&gt;C</property>
+                <property name="title" translatable="yes" context="shortcut window">Add a new connection</property>
+                <property name="accelerator">&lt;ctrl&gt;&lt;shift&gt;N</property>
               </object>
             </child>
 
             <child>
               <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes" context="shortcut window">Prune unused images</property>
-                <property name="accelerator">&lt;ctrl&gt;&lt;shift&gt;Delete</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes" context="shortcut window">Download image</property>
-                <property name="accelerator">&lt;ctrl&gt;D</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes" context="shortcut window">Create container</property>
+                <property name="title" translatable="yes" context="shortcut window">Create a new entity</property>
                 <property name="accelerator">&lt;ctrl&gt;N</property>
               </object>
             </child>
@@ -128,34 +114,6 @@
               <object class="GtkShortcutsShortcut">
                 <property name="title" translatable="yes" context="shortcut window">Rename</property>
                 <property name="accelerator">&lt;shift&gt;F6</property>
-              </object>
-            </child>
-
-          </object>
-        </child>
-
-        <child>
-          <object class="GtkShortcutsGroup">
-            <property name="title" translatable="yes" context="shortcut window">Image</property>
-
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes" context="shortcut window">Create container from image</property>
-                <property name="accelerator">&lt;ctrl&gt;N</property>
-              </object>
-            </child>
-
-          </object>
-        </child>
-
-        <child>
-          <object class="GtkShortcutsGroup">
-            <property name="title" translatable="yes" context="shortcut window">Pod</property>
-
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes" context="shortcut window">Create container inside pod</property>
-                <property name="accelerator">&lt;ctrl&gt;N</property>
               </object>
             </child>
 

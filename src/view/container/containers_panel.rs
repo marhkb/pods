@@ -1,3 +1,5 @@
+use adw::traits::BinExt;
+use gtk::gdk;
 use gtk::glib;
 use gtk::glib::closure;
 use gtk::glib::WeakRef;
@@ -7,7 +9,9 @@ use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
 
 use crate::model;
+use crate::utils;
 use crate::view;
+use crate::window::Window;
 
 mod imp {
     use super::*;
@@ -38,6 +42,16 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
+
+            klass.add_binding_action(
+                gdk::Key::N,
+                gdk::ModifierType::CONTROL_MASK,
+                "containers.create",
+                None,
+            );
+            klass.install_action("containers.create", None, move |widget, _, _| {
+                widget.create_container();
+            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -165,5 +179,21 @@ impl ContainersPanel {
         }
         self.imp().container_list.set(Some(value));
         self.notify("container-list");
+    }
+
+    fn create_container(&self) {
+        let leaflet_overlay = utils::find_leaflet_overlay(self);
+
+        if leaflet_overlay.child().is_none() {
+            leaflet_overlay.show_details(&view::ContainerCreationPage::from(
+                self.root()
+                    .unwrap()
+                    .downcast::<Window>()
+                    .unwrap()
+                    .connection_manager()
+                    .client()
+                    .as_ref(),
+            ));
+        }
     }
 }

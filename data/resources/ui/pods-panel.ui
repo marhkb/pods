@@ -64,7 +64,16 @@
                         </child>
 
                         <child>
-                          <object class="GtkSwitch" id="show_only_running_switch"/>
+                          <object class="GtkSwitch" id="show_only_running_switch">
+                            <property name="valign">center</property>
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="GtkButton">
+                            <property name="action-name">pods.create</property>
+                            <property name="icon-name">list-add-symbolic</property>
+                          </object>
                         </child>
 
                       </object>

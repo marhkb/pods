@@ -1,4 +1,6 @@
+use adw::traits::BinExt;
 use gettextrs::gettext;
+use gtk::gdk;
 use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
@@ -13,6 +15,7 @@ use once_cell::sync::OnceCell;
 use crate::model;
 use crate::utils;
 use crate::view;
+use crate::window::Window;
 
 mod imp {
     use super::*;
@@ -50,6 +53,20 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
+
+            klass.add_binding_action(
+                gdk::Key::N,
+                gdk::ModifierType::CONTROL_MASK,
+                "images.pull",
+                None,
+            );
+            klass.install_action("images.pull", None, move |widget, _, _| {
+                widget.show_download_page();
+            });
+
+            klass.install_action("images.prune-unused", None, move |widget, _, _| {
+                widget.show_prune_page();
+            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -285,5 +302,30 @@ impl ImagesPanel {
             .get()
             .unwrap()
             .changed(gtk::FilterChange::Different);
+    }
+
+    fn show_download_page(&self) {
+        let leaflet_overlay = utils::find_leaflet_overlay(self);
+
+        if leaflet_overlay.child().is_none() {
+            leaflet_overlay.show_details(&view::ImagePullPage::from(self.client().as_ref()));
+        }
+    }
+
+    fn show_prune_page(&self) {
+        let leaflet_overlay = utils::find_leaflet_overlay(self);
+
+        if leaflet_overlay.child().is_none() {
+            leaflet_overlay.show_details(&view::ImagesPrunePage::from(self.client().as_ref()));
+        }
+    }
+
+    fn client(&self) -> Option<model::Client> {
+        self.root()
+            .unwrap()
+            .downcast::<Window>()
+            .unwrap()
+            .connection_manager()
+            .client()
     }
 }

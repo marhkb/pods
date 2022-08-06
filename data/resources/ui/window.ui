@@ -10,24 +10,6 @@
     </section>
     <section>
       <item>
-        <attribute name="label" translatable="yes">_Prune unused images…</attribute>
-        <attribute name="action">images.prune-unused</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">_Download new image…</attribute>
-        <attribute name="action">image.pull</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">_Create container…</attribute>
-        <attribute name="action">container.create</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">Cr_eate Pod…</attribute>
-        <attribute name="action">pod.create</attribute>
-      </item>
-    </section>
-    <section>
-      <item>
         <attribute name="label" translatable="yes">About _Podman</attribute>
         <attribute name="action">win.show-podman-info</attribute>
       </item>

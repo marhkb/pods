@@ -66,12 +66,23 @@ mod imp {
                 widget.navigate_back();
             });
 
-            add_binding_action(
-                klass,
+            // For displaying a mnemonic.
+            klass.add_binding_action(
                 gdk::Key::N,
                 gdk::ModifierType::CONTROL_MASK,
                 "image.create-container",
+                None,
             );
+
+            klass.add_binding_action(
+                gdk::Key::N,
+                gdk::ModifierType::CONTROL_MASK,
+                "containers.create",
+                None,
+            );
+            klass.install_action("containers.create", None, move |widget, _, _| {
+                widget.create_container();
+            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -325,27 +336,14 @@ impl ImageDetailsPage {
             .unwrap()
             .leaflet_overlay()
     }
-}
 
-fn add_binding_action(
-    klass: &mut <imp::ImageDetailsPage as ObjectSubclass>::Class,
-    keyval: gdk::Key,
-    mods: gdk::ModifierType,
-    action: &'static str,
-) {
-    klass.add_binding(
-        keyval,
-        mods,
-        |widget, _| {
-            let imp = widget.imp();
-            match utils::leaflet_overlay(&imp.leaflet).child() {
-                None => imp.menu_button.activate_action(action, None).is_ok(),
-                Some(_) => false,
-            }
-        },
-        None,
-    );
+    fn create_container(&self) {
+        let imp = self.imp();
 
-    // For displaying a mnemonic.
-    klass.add_binding_action(keyval, mods, action, None);
+        if utils::leaflet_overlay(&*imp.leaflet).child().is_none() {
+            imp.menu_button
+                .activate_action("image.create-container", None)
+                .unwrap();
+        }
+    }
 }

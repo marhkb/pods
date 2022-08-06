@@ -50,6 +50,8 @@ mod imp {
         #[template_child]
         pub(super) containers_panel: TemplateChild<view::ContainersPanel>,
         #[template_child]
+        pub(super) pods_panel: TemplateChild<view::PodsPanel>,
+        #[template_child]
         pub(super) search_panel: TemplateChild<view::SearchPanel>,
         #[template_child]
         pub(super) leaflet_overlay: TemplateChild<view::LeafletOverlay>,
@@ -103,13 +105,23 @@ mod imp {
             });
 
             klass.add_binding_action(
-                gdk::Key::C,
+                gdk::Key::N,
                 gdk::ModifierType::CONTROL_MASK | gdk::ModifierType::SHIFT_MASK,
                 "win.add-connection",
                 None,
             );
             klass.install_action("win.add-connection", None, |widget, _, _| {
                 widget.add_connection();
+            });
+
+            klass.add_binding_action(
+                gdk::Key::N,
+                gdk::ModifierType::CONTROL_MASK,
+                "entity.create",
+                None,
+            );
+            klass.install_action("entity.create", None, move |widget, _, _| {
+                widget.create_entity();
             });
 
             klass.install_action("win.remove-connection", Some("s"), |widget, _, data| {
@@ -119,46 +131,6 @@ mod imp {
 
             klass.install_action("win.show-podman-info", None, |widget, _, _| {
                 widget.show_podman_info_dialog();
-            });
-
-            klass.add_binding_action(
-                gdk::Key::D,
-                gdk::ModifierType::CONTROL_MASK,
-                "image.pull",
-                None,
-            );
-            klass.install_action("image.pull", None, move |widget, _, _| {
-                widget.show_pull_dialog();
-            });
-
-            klass.add_binding_action(
-                gdk::Key::Delete,
-                gdk::ModifierType::CONTROL_MASK | gdk::ModifierType::SHIFT_MASK,
-                "images.prune-unused",
-                None,
-            );
-            klass.install_action("images.prune-unused", None, move |widget, _, _| {
-                widget.show_prune_page();
-            });
-
-            klass.add_binding_action(
-                gdk::Key::N,
-                gdk::ModifierType::CONTROL_MASK,
-                "container.create",
-                None,
-            );
-            klass.install_action("container.create", None, move |widget, _, _| {
-                widget.create_container();
-            });
-
-            klass.add_binding_action(
-                gdk::Key::P,
-                gdk::ModifierType::CONTROL_MASK,
-                "pod.create",
-                None,
-            );
-            klass.install_action("pod.create", None, move |widget, _, _| {
-                widget.create_pod();
             });
 
             klass.add_binding_action(
@@ -414,6 +386,24 @@ impl Window {
         }
     }
 
+    fn create_entity(&self) {
+        let imp = self.imp();
+        let leaflet_overlay = &*imp.leaflet_overlay;
+
+        if self.connection_manager().client().is_some() && leaflet_overlay.child().is_none() {
+            imp.panel_stack
+                .visible_child_name()
+                .map(|name| match name.as_str() {
+                    "images" => imp.images_panel.activate_action("images.pull", None),
+                    "containers" => imp
+                        .containers_panel
+                        .activate_action("containers.create", None),
+                    "pods" => imp.pods_panel.activate_action("pods.create", None),
+                    _ => unreachable!(),
+                });
+        }
+    }
+
     fn remove_connection(&self, uuid: &str) {
         self.connection_manager().remove_connection(uuid);
     }
@@ -424,46 +414,6 @@ impl Window {
             ..set_transient_for(Some(self));
         }
         .present();
-    }
-
-    fn show_pull_dialog(&self) {
-        let leaflet_overlay = &*self.imp().leaflet_overlay;
-
-        if leaflet_overlay.child().is_none() {
-            leaflet_overlay.show_details(&view::ImagePullPage::from(
-                self.connection_manager().client().as_ref(),
-            ));
-        }
-    }
-
-    fn show_prune_page(&self) {
-        let leaflet_overlay = &*self.imp().leaflet_overlay;
-
-        if leaflet_overlay.child().is_none() {
-            leaflet_overlay.show_details(&view::ImagesPrunePage::from(
-                self.connection_manager().client().as_ref(),
-            ));
-        }
-    }
-
-    fn create_container(&self) {
-        let leaflet_overlay = &*self.imp().leaflet_overlay;
-
-        if leaflet_overlay.child().is_none() {
-            leaflet_overlay.show_details(&view::ContainerCreationPage::from(
-                self.connection_manager().client().as_ref(),
-            ));
-        }
-    }
-
-    fn create_pod(&self) {
-        let leaflet_overlay = &*self.imp().leaflet_overlay;
-
-        if leaflet_overlay.child().is_none() {
-            leaflet_overlay.show_details(&view::PodCreationPage::from(
-                self.connection_manager().client().as_ref(),
-            ));
-        }
     }
 
     fn toggle_search(&self) {
