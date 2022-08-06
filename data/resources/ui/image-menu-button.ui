@@ -3,7 +3,7 @@
   <menu id="menu">
     <section>
       <item>
-        <attribute name="label" translatable="yes">_Create container…</attribute>
+        <attribute name="label" translatable="yes">_Create Container…</attribute>
         <attribute name="action">image.create-container</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
