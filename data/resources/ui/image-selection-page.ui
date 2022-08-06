@@ -52,7 +52,6 @@
         <binding name="client">
           <lookup name="client">ImageSelectionPage</lookup>
         </binding>
-        <property name="default-tag">latest</property>
       </object>
     </child>
 

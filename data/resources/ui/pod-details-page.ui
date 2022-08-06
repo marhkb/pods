@@ -63,12 +63,6 @@
                     <property name="title" translatable="yes">Properties</property>
 
                     <child>
-                      <object class="PropertyRow" id="id_row">
-                        <property name="key" translatable="yes">Id</property>
-                      </object>
-                    </child>
-
-                    <child>
                       <object class="PropertyRow">
                         <property name="key" translatable="yes">Name</property>
                         <binding name="value">
@@ -76,6 +70,12 @@
                             <lookup name="pod">PodDetailsPage</lookup>
                           </lookup>
                         </binding>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="PropertyRow" id="id_row">
+                        <property name="key" translatable="yes">Id</property>
                       </object>
                     </child>
 
@@ -103,7 +103,7 @@
                         <property name="widget">
                           <object class="GtkLabel" id="status_label">
                             <style>
-                              <class name="container-status"/>
+                              <class name="pod-status"/>
                             </style>
                             <property name="halign">end</property>
                             <property name="hexpand">True</property>
