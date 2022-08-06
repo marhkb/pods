@@ -10,12 +10,6 @@
     </section>
     <section>
       <item>
-        <attribute name="label" translatable="yes">Cr_eate Pod…</attribute>
-        <attribute name="action">pod.create</attribute>
-      </item>
-    </section>
-    <section>
-      <item>
         <attribute name="label" translatable="yes">About _Podman</attribute>
         <attribute name="action">win.show-podman-info</attribute>
       </item>
