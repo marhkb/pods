@@ -105,7 +105,7 @@ mod imp {
             });
 
             klass.add_binding_action(
-                gdk::Key::C,
+                gdk::Key::N,
                 gdk::ModifierType::CONTROL_MASK | gdk::ModifierType::SHIFT_MASK,
                 "win.add-connection",
                 None,
