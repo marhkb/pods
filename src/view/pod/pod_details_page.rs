@@ -32,6 +32,8 @@ mod imp {
         #[template_child]
         pub(super) id_row: TemplateChild<view::PropertyRow>,
         #[template_child]
+        pub(super) hostname_row: TemplateChild<view::PropertyRow>,
+        #[template_child]
         pub(super) created_row: TemplateChild<view::PropertyRow>,
         #[template_child]
         pub(super) status_label: TemplateChild<gtk::Label>,
@@ -123,6 +125,13 @@ mod imp {
                     id.chars().take(12).collect::<String>()
                 }))
                 .bind(&*self.id_row, "value", Some(obj));
+
+            pod_expr
+                .chain_property::<model::Pod>("hostname")
+                .chain_closure::<bool>(closure!(|_: glib::Object, hostname: &str| {
+                    !hostname.is_empty()
+                }))
+                .bind(&*self.hostname_row, "visible", Some(obj));
 
             pod_expr
                 .chain_property::<model::Pod>("created")
