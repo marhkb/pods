@@ -270,22 +270,11 @@
                           <object class="AdwPreferencesGroup">
                             <property name="title" translatable="yes">Port Mappings</property>
 
-                            <property name="header-suffix">
-                              <object class="GtkButton">
-                                <style>
-                                  <class name="flat"/>
-                                </style>
-                                <property name="action-name">container.add-port-mapping</property>
-                                <property name="icon-name">list-add-symbolic</property>
-                              </object>
-                            </property>
-
                             <child>
                               <object class="GtkListBox" id="port_mapping_list_box">
                                 <style>
                                   <class name="boxed-list"/>
                                 </style>
-                                <property name="visible">False</property>
                               </object>
                             </child>
 
@@ -296,22 +285,11 @@
                           <object class="AdwPreferencesGroup">
                             <property name="title" translatable="yes">Volumes</property>
 
-                            <property name="header-suffix">
-                              <object class="GtkButton">
-                                <style>
-                                  <class name="flat"/>
-                                </style>
-                                <property name="action-name">container.add-volume</property>
-                                <property name="icon-name">list-add-symbolic</property>
-                              </object>
-                            </property>
-
                             <child>
                               <object class="GtkListBox" id="volume_list_box">
                                 <style>
                                   <class name="boxed-list"/>
                                 </style>
-                                <property name="visible">False</property>
                               </object>
                             </child>
 
@@ -322,22 +300,11 @@
                           <object class="AdwPreferencesGroup">
                             <property name="title" translatable="yes">Environment Variables</property>
 
-                            <property name="header-suffix">
-                              <object class="GtkButton">
-                                <style>
-                                  <class name="flat"/>
-                                </style>
-                                <property name="action-name">container.add-env-var</property>
-                                <property name="icon-name">list-add-symbolic</property>
-                              </object>
-                            </property>
-
                             <child>
                               <object class="GtkListBox" id="env_var_list_box">
                                 <style>
                                   <class name="boxed-list"/>
                                 </style>
-                                <property name="visible">False</property>
                               </object>
                             </child>
 
