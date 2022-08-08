@@ -291,16 +291,55 @@ mod imp {
                     view::PortMappingRow::from(item.downcast_ref::<model::PortMapping>().unwrap())
                         .upcast()
                 });
+            self.port_mapping_list_box.append(
+                &gtk::ListBoxRow::builder()
+                    .action_name("container.add-port-mapping")
+                    .selectable(false)
+                    .child(
+                        &gtk::Image::builder()
+                            .icon_name("list-add-symbolic")
+                            .margin_top(12)
+                            .margin_bottom(12)
+                            .build(),
+                    )
+                    .build(),
+            );
 
             self.volume_list_box
                 .bind_model(Some(&*self.volumes.borrow()), |item| {
                     view::VolumeRow::from(item.downcast_ref::<model::Volume>().unwrap()).upcast()
                 });
+            self.volume_list_box.append(
+                &gtk::ListBoxRow::builder()
+                    .action_name("container.add-volume")
+                    .selectable(false)
+                    .child(
+                        &gtk::Image::builder()
+                            .icon_name("list-add-symbolic")
+                            .margin_top(12)
+                            .margin_bottom(12)
+                            .build(),
+                    )
+                    .build(),
+            );
 
             self.env_var_list_box
                 .bind_model(Some(&*self.env_vars.borrow()), |item| {
                     view::EnvVarRow::from(item.downcast_ref::<model::EnvVar>().unwrap()).upcast()
                 });
+            self.env_var_list_box.append(
+                &gtk::ListBoxRow::builder()
+                    .action_name("container.add-env-var")
+                    .selectable(false)
+                    .child(
+                        &gtk::Image::builder()
+                            .icon_name("list-add-symbolic")
+                            .margin_top(12)
+                            .margin_bottom(12)
+                            .build(),
+                    )
+                    .build(),
+            );
         }
 
         fn dispose(&self, _obj: &Self::Type) {
@@ -444,10 +483,7 @@ impl ContainerCreationPage {
         let port_mapping = model::PortMapping::default();
         self.connect_port_mapping(&port_mapping);
 
-        let imp = self.imp();
-
-        imp.port_mappings.borrow().insert(0, &port_mapping);
-        imp.port_mapping_list_box.set_visible(true);
+        self.imp().port_mappings.borrow().append(&port_mapping);
     }
 
     fn connect_port_mapping(&self, port_mapping: &model::PortMapping) {
@@ -457,10 +493,6 @@ impl ContainerCreationPage {
             let port_mappings = imp.port_mappings.borrow();
             if let Some(pos) = port_mappings.find(port_mapping) {
                 port_mappings.remove(pos);
-
-                if port_mappings.n_items() == 0 {
-                    imp.port_mapping_list_box.set_visible(false);
-                }
             }
         }));
     }
@@ -469,10 +501,7 @@ impl ContainerCreationPage {
         let volume = model::Volume::default();
         self.connect_volume(&volume);
 
-        let imp = self.imp();
-
-        imp.volumes.borrow().insert(0, &volume);
-        imp.volume_list_box.set_visible(true);
+        self.imp().volumes.borrow().append(&volume);
     }
 
     fn connect_volume(&self, volume: &model::Volume) {
@@ -482,10 +511,6 @@ impl ContainerCreationPage {
             let volumes = imp.volumes.borrow();
             if let Some(pos) = volumes.find(volume) {
                 volumes.remove(pos);
-
-                if volumes.n_items() == 0 {
-                    imp.volume_list_box.set_visible(false);
-                }
             }
         }));
     }
@@ -494,10 +519,7 @@ impl ContainerCreationPage {
         let env_var = model::EnvVar::default();
         self.connect_env_var(&env_var);
 
-        let imp = self.imp();
-
-        imp.env_vars.borrow().insert(0, &env_var);
-        imp.env_var_list_box.set_visible(true);
+        self.imp().env_vars.borrow().append(&env_var);
     }
 
     fn connect_env_var(&self, env_var: &model::EnvVar) {
@@ -507,10 +529,6 @@ impl ContainerCreationPage {
             let env_vars = imp.env_vars.borrow();
             if let Some(pos) = env_vars.find(env_var) {
                 env_vars.remove(pos);
-
-                if env_vars.n_items() == 0 {
-                    imp.env_var_list_box.set_visible(false);
-                }
             }
         }));
     }
