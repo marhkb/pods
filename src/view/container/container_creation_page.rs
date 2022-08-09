@@ -78,6 +78,16 @@ mod imp {
         #[template_child]
         pub(super) env_var_list_box: TemplateChild<gtk::ListBox>,
         #[template_child]
+        pub(super) health_check_command_entry_row: TemplateChild<adw::EntryRow>,
+        #[template_child]
+        pub(super) health_check_interval_value: TemplateChild<gtk::Adjustment>,
+        #[template_child]
+        pub(super) health_check_timeout_value: TemplateChild<gtk::Adjustment>,
+        #[template_child]
+        pub(super) health_check_start_period_value: TemplateChild<gtk::Adjustment>,
+        #[template_child]
+        pub(super) health_check_retries_value: TemplateChild<gtk::Adjustment>,
+        #[template_child]
         pub(super) image_pulling_page: TemplateChild<view::ImagePullingPage>,
         #[template_child]
         pub(super) container_details_page_bin: TemplateChild<adw::Bin>,
@@ -663,10 +673,30 @@ impl ContainerCreationPage {
             );
 
         let cmd = imp.command_entry_row.text();
-        let opts = if cmd.is_empty() {
+        let create_opts = if cmd.is_empty() {
             create_opts
         } else {
             create_opts.command([cmd.as_str()])
+        };
+
+        let healthcheck_cmd = imp.health_check_command_entry_row.text();
+        let opts = if healthcheck_cmd.is_empty() {
+            create_opts
+        } else {
+            create_opts.health_config(api::Schema2HealthConfig {
+                interval: Some(imp.health_check_interval_value.value() as i64 * 1_000_000_000),
+                retries: Some(imp.health_check_retries_value.value() as i64),
+                start_period: Some(
+                    imp.health_check_start_period_value.value() as i64 * 1_000_000_000,
+                ),
+                test: Some(
+                    healthcheck_cmd
+                        .split(' ')
+                        .map(str::to_string)
+                        .collect::<Vec<_>>(),
+                ),
+                timeout: Some(imp.health_check_timeout_value.value() as i64 * 1_000_000_000),
+            })
         }
         .build();
 
