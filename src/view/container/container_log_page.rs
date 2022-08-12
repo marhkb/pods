@@ -239,18 +239,14 @@ mod imp {
             );
 
             self.show_timestamps_button
-                .bind_property(
-                    "active",
-                    &*self.renderer_timestamps.get().unwrap(),
-                    "visible",
-                )
+                .bind_property("active", self.renderer_timestamps.get().unwrap(), "visible")
                 .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
                 .build();
 
             self.settings
                 .bind(
                     "show-log-timestamps",
-                    &*self.renderer_timestamps.get().unwrap(),
+                    self.renderer_timestamps.get().unwrap(),
                     "visible",
                 )
                 .build();
