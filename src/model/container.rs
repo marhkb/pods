@@ -82,6 +82,47 @@ impl fmt::Display for Status {
     }
 }
 
+#[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
+#[enum_type(name = "ContainerHealthStatus")]
+pub(crate) enum HealthStatus {
+    Starting,
+    Healthy,
+    Unhealthy,
+    Unconfigured,
+    #[default]
+    Unknown,
+}
+
+impl FromStr for HealthStatus {
+    type Err = Self;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        Ok(match s {
+            "starting" => Self::Starting,
+            "healthy" => Self::Healthy,
+            "unhealthy" => Self::Unhealthy,
+            "" => Self::Unconfigured,
+            _ => return Err(Self::Unknown),
+        })
+    }
+}
+
+impl fmt::Display for HealthStatus {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                Self::Starting => gettext("Checking"),
+                Self::Healthy => gettext("Healthy"),
+                Self::Unhealthy => gettext("Unhealthy"),
+                Self::Unconfigured => gettext("Unconfigured"),
+                Self::Unknown => gettext("Unknown"),
+            }
+        )
+    }
+}
+
 monad_boxed_type!(pub(crate) BoxedContainerStats(api::LibpodContainerStats) impls Debug, PartialEq is nullable);
 
 mod imp {
@@ -94,6 +135,7 @@ mod imp {
         pub(super) action_ongoing: Cell<bool>,
 
         pub(super) created: OnceCell<i64>,
+        pub(super) health_status: Cell<HealthStatus>,
         pub(super) id: OnceCell<String>,
         pub(super) image: WeakRef<model::Image>,
         pub(super) image_id: OnceCell<String>,
@@ -153,6 +195,16 @@ mod imp {
                         i64::MAX,
                         0,
                         glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
+                    ),
+                    glib::ParamSpecEnum::new(
+                        "health-status",
+                        "Health Status",
+                        "The status of this container",
+                        HealthStatus::static_type(),
+                        HealthStatus::default() as i32,
+                        glib::ParamFlags::READWRITE
+                            | glib::ParamFlags::CONSTRUCT
+                            | glib::ParamFlags::EXPLICIT_NOTIFY,
                     ),
                     glib::ParamSpecString::new(
                         "id",
@@ -256,6 +308,7 @@ mod imp {
                 "container-list" => self.container_list.set(value.get().unwrap()),
                 "action-ongoing" => obj.set_action_ongoing(value.get().unwrap()),
                 "created" => self.created.set(value.get().unwrap()).unwrap(),
+                "health-status" => obj.set_health_status(value.get().unwrap()),
                 "id" => self.id.set(value.get().unwrap()).unwrap(),
                 "image" => obj.set_image(value.get().unwrap()),
                 "image-id" => self.image_id.set(value.get().unwrap()).unwrap(),
@@ -276,6 +329,7 @@ mod imp {
                 "container-list" => obj.container_list().to_value(),
                 "action-ongoing" => obj.action_ongoing().to_value(),
                 "created" => obj.created().to_value(),
+                "health-status" => obj.health_status().to_value(),
                 "id" => obj.id().to_value(),
                 "image" => obj.image().to_value(),
                 "image-id" => obj.image_id().to_value(),
@@ -314,6 +368,10 @@ impl Container {
                     .created
                     .map(|dt| dt.timestamp())
                     .unwrap_or(0),
+            ),
+            (
+                "health-status",
+                &health_status(inspect_response.state.as_ref()),
             ),
             ("id", &inspect_response.id),
             ("image-id", &inspect_response.image),
@@ -359,6 +417,7 @@ impl Container {
 
     pub(crate) fn update(&self, inspect_response: api::LibpodContainerInspectResponse) {
         self.set_action_ongoing(false);
+        self.set_health_status(health_status(inspect_response.state.as_ref()));
         self.set_image_name(inspect_response.image_name);
         self.set_name(inspect_response.name.unwrap_or_default());
         self.set_status(status(inspect_response.state.as_ref()));
@@ -383,6 +442,18 @@ impl Container {
 
     pub(crate) fn created(&self) -> i64 {
         *self.imp().created.get().unwrap()
+    }
+
+    pub(crate) fn health_status(&self) -> HealthStatus {
+        self.imp().health_status.get()
+    }
+
+    pub(crate) fn set_health_status(&self, value: HealthStatus) {
+        if self.health_status() == value {
+            return;
+        }
+        self.imp().health_status.set(value);
+        self.notify("health-status");
     }
 
     pub(crate) fn id(&self) -> &str {
@@ -702,6 +773,20 @@ fn status(state: Option<&api::InspectContainerState>) -> Status {
                 status
             }
         })
+}
+
+fn health_status(state: Option<&api::InspectContainerState>) -> HealthStatus {
+    state
+        .and_then(|state| state.health.as_ref())
+        .and_then(|health| health.status.as_ref())
+        .map(|s| match HealthStatus::from_str(s) {
+            Ok(status) => status,
+            Err(status) => {
+                log::warn!("Unknown container health status: {s}");
+                status
+            }
+        })
+        .unwrap_or_default()
 }
 
 fn up_since(state: Option<&api::InspectContainerState>) -> i64 {
