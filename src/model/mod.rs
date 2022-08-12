@@ -26,6 +26,7 @@ pub(crate) use self::connection::ConnectionInfo;
 pub(crate) use self::connection_manager::ConnectionManager;
 pub(crate) use self::container::BoxedContainerStats;
 pub(crate) use self::container::Container;
+pub(crate) use self::container::HealthStatus as ContainerHealthStatus;
 pub(crate) use self::container::Status as ContainerStatus;
 pub(crate) use self::container_list::ContainerList;
 pub(crate) use self::env_var::EnvVar;

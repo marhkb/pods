@@ -69,7 +69,7 @@
             <child>
               <object class="GtkLabel" id="status_label">
                 <style>
-                  <class name="container-status"/>
+                  <class name="status-badge"/>
                 </style>
                 <property name="valign">center</property>
               </object>

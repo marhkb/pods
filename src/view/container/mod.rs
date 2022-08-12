@@ -44,3 +44,15 @@ fn container_status_css_class(status: model::ContainerStatus) -> &'static str {
         Unknown => "container-status-unknown",
     }
 }
+
+fn container_health_status_css_class(status: model::ContainerHealthStatus) -> &'static str {
+    use model::ContainerHealthStatus::*;
+
+    match status {
+        Starting => "container-health-status-checking",
+        Healthy => "container-health-status-healthy",
+        Unhealthy => "container-health-status-unhealthy",
+        Unconfigured => "container-health-status-unconfigured",
+        Unknown => "container-health-status-unknown",
+    }
+}
