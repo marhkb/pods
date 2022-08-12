@@ -82,6 +82,22 @@
     </child>
 
     <child>
+      <object class="PropertyWidgetRow">
+        <property name="key" translatable="yes">Health Check</property>
+
+        <property name="widget">
+          <object class="GtkLabel" id="health_status_label">
+            <style>
+              <class name="status-badge"/>
+            </style>
+            <property name="valign">center</property>
+          </object>
+        </property>
+
+      </object>
+    </child>
+
+    <child>
       <object class="AdwActionRow" id="image_row">
         <property name="title" translatable="yes">Image</property>
         <property name="action-name">image.show-details</property>

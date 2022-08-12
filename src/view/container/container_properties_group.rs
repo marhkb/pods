@@ -36,6 +36,8 @@ mod imp {
         #[template_child]
         pub(super) status_label: TemplateChild<gtk::Label>,
         #[template_child]
+        pub(super) health_status_label: TemplateChild<gtk::Label>,
+        #[template_child]
         pub(super) image_row: TemplateChild<adw::ActionRow>,
         #[template_child]
         pub(super) image_action_stack: TemplateChild<gtk::Stack>,
@@ -105,6 +107,8 @@ mod imp {
 
             let container_expr = Self::Type::this_expression("container");
             let status_expr = container_expr.chain_property::<model::Container>("status");
+            let health_status_expr =
+                container_expr.chain_property::<model::Container>("health_status");
             let port_bindings_expr =
                 container_expr.chain_property::<model::Container>("port-bindings");
             let image_expr = container_expr.chain_property::<model::Container>("image");
@@ -199,6 +203,27 @@ mod imp {
                     }
                 ))
                 .bind(&*self.status_label, "css-classes", Some(obj));
+
+            health_status_expr
+                .chain_closure::<String>(closure!(
+                    |_: glib::Object, status: model::ContainerHealthStatus| status.to_string()
+                ))
+                .bind(&*self.health_status_label, "label", Some(obj));
+
+            let css_classes = self.status_label.css_classes();
+            health_status_expr
+                .chain_closure::<Vec<String>>(closure!(
+                    |_: glib::Object, status: model::ContainerHealthStatus| {
+                        css_classes
+                            .iter()
+                            .cloned()
+                            .chain(Some(glib::GString::from(
+                                super::super::container_health_status_css_class(status),
+                            )))
+                            .collect::<Vec<_>>()
+                    }
+                ))
+                .bind(&*self.health_status_label, "css-classes", Some(obj));
 
             image_expr
                 .chain_property::<model::Image>("repo-tags")
