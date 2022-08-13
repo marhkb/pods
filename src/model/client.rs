@@ -165,6 +165,10 @@ mod imp {
                     {
                         image.remove_container(container.id());
                     }
+
+                    if let Some(pod) = container.pod() {
+                        pod.container_list().remove_container(container.id());
+                    }
                 }),
             );
 
