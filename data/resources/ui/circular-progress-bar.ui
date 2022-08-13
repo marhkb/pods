@@ -12,25 +12,13 @@
       <object class="GtkOverlay" id="overlay">
 
         <child type="overlay">
-          <object class="GtkBox">
+          <object class="GtkLabel" id="description_label">
             <style>
               <class name="circular-progress-bar"/>
             </style>
-            <property name="orientation">vertical</property>
+            <property name="justify">center</property>
             <property name="valign">center</property>
             <property name="halign">center</property>
-
-            <child>
-              <object class="GtkLabel" id="description_label">
-                <property name="justify">center</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkLabel" id="percentage_label">
-                <property name="justify">center</property>
-              </object>
-            </child>
           </object>
         </child>
 

@@ -8,7 +8,6 @@ use std::time::Duration;
 use gtk::gdk;
 use gtk::glib;
 use gtk::glib::clone;
-use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
@@ -28,8 +27,6 @@ mod imp {
         pub(super) overlay: TemplateChild<gtk::Overlay>,
         #[template_child]
         pub(super) description_label: TemplateChild<gtk::Label>,
-        #[template_child]
-        pub(super) percentage_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) drawing_area: TemplateChild<gtk::DrawingArea>,
     }
@@ -99,6 +96,7 @@ mod imp {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
+            // gdk::cairo::Context::fill(&self)
             self.description_label.connect_notify_local(
                 Some("label"),
                 clone!(@weak obj => move |_, _| obj.notify("label")),
@@ -115,7 +113,9 @@ mod imp {
                             // @warning_color
                             (0.972, 0.894, 0.360),
                             // @error_color
-                            (1.0, 0.482, 0.388)
+                            (1.0, 0.482, 0.388),
+                            // @view_bg_color
+                            (0.188, 0.188, 0.188),
                         ]
                     } else {
                         [
@@ -126,7 +126,9 @@ mod imp {
                             // @warning_color
                             (0.682, 0.482, 0.011),
                             // @error_color
-                            (0.752, 0.109, 0.156)
+                            (0.752, 0.109, 0.156),
+                            // @window_bg_color
+                            (0.98, 0.98, 0.98),
                         ]
                     };
 
@@ -143,6 +145,11 @@ mod imp {
                     // Radius Fill
                     let line_width_fill = 1.0;
                     let delta_fill = radius - (line_width_fill / 2.0) - 1.0;
+
+                    cr.arc(center_x, center_y, delta_fill, 0.0, 2. * pi);
+                    cr.set_source_rgb(colors[4].0, colors[4].1, colors[4].2);
+                    cr.fill().unwrap();
+
                     cr.set_line_width(line_width_fill);
                     cr.arc(center_x, center_y, delta_fill, 0.0, 2. * pi);
                     cr.set_source_rgb(colors[0].0, colors[0].1, colors[0].2);
@@ -171,23 +178,20 @@ mod imp {
                     );
                     cr.stroke().unwrap();
 
+                    cr.arc(
+                        center_x,
+                        center_y,
+                        delta_percentage,
+                        1.5 * pi,
+                        (1.5 + current_percentage * 2.0) * pi,
+                    );
+
                     cr.restore().unwrap();
                 }));
 
             adw::StyleManager::default().connect_dark_notify(clone!(@weak obj => move |_| {
                 obj.imp().drawing_area.queue_draw();
             }));
-
-            Self::Type::this_expression("percentage")
-                .chain_closure::<String>(closure!(|_: glib::Object, percentage: f64| {
-                    let percentage = percentage * 100.0;
-                    if percentage < 10.0 {
-                        format!("{:.1}%", percentage)
-                    } else {
-                        format!("{:.0}%", percentage)
-                    }
-                }))
-                .bind(&*self.percentage_label, "label", Some(obj));
         }
 
         fn dispose(&self, _obj: &Self::Type) {

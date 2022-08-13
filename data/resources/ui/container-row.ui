@@ -7,17 +7,19 @@
 
     <child>
       <object class="GtkBox" id="stats_box">
+        <property name="margin-end">3</property>
+        <property name="spacing">2</property>
 
         <child>
           <object class="CircularProgressBar" id="cpu_bar">
-            <property name="width-request">42</property>
+            <property name="width-request">36</property>
             <property name="label">cpu</property>
           </object>
         </child>
 
         <child>
           <object class="CircularProgressBar" id="mem_bar">
-            <property name="width-request">42</property>
+            <property name="width-request">36</property>
             <property name="label">mem</property>
           </object>
         </child>
