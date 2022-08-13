@@ -196,7 +196,9 @@ mod imp {
                         "The status of this pod",
                         Status::static_type(),
                         Status::default() as i32,
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                        glib::ParamFlags::READWRITE
+                            | glib::ParamFlags::CONSTRUCT
+                            | glib::ParamFlags::EXPLICIT_NOTIFY,
                     ),
                 ]
             });
@@ -236,10 +238,6 @@ mod imp {
                 "status" => obj.status().to_value(),
                 _ => unimplemented!(),
             }
-        }
-
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
         }
     }
 }

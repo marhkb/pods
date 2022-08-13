@@ -279,7 +279,9 @@ mod imp {
                         "The status of this container",
                         Status::static_type(),
                         Status::default() as i32,
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                        glib::ParamFlags::READWRITE
+                            | glib::ParamFlags::CONSTRUCT
+                            | glib::ParamFlags::EXPLICIT_NOTIFY,
                     ),
                     glib::ParamSpecInt64::new(
                         "up-since",
@@ -507,6 +509,9 @@ impl Container {
     pub(crate) fn set_pod(&self, value: Option<&model::Pod>) {
         if self.pod().as_ref() == value {
             return;
+        }
+        if let Some(pod) = value {
+            pod.inspect_and_update();
         }
         self.imp().pod.set(value);
         self.notify("pod");
@@ -743,7 +748,10 @@ impl Container {
         }
     }
 
-    pub(super) fn emit_deleted(&self) {
+    pub(super) fn on_deleted(&self) {
+        if let Some(pod) = self.pod() {
+            pod.inspect_and_update();
+        }
         self.emit_by_name::<()>("deleted", &[]);
     }
 
