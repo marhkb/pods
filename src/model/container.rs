@@ -508,6 +508,9 @@ impl Container {
         if self.pod().as_ref() == value {
             return;
         }
+        if let Some(pod) = value {
+            pod.inspect_and_update();
+        }
         self.imp().pod.set(value);
         self.notify("pod");
     }
