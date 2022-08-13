@@ -69,12 +69,28 @@
             <child>
               <object class="GtkLabel" id="status_label">
                 <style>
-                  <class name="container-status"/>
+                  <class name="status-badge"/>
                 </style>
                 <property name="valign">center</property>
               </object>
             </child>
 
+          </object>
+        </property>
+
+      </object>
+    </child>
+
+    <child>
+      <object class="PropertyWidgetRow">
+        <property name="key" translatable="yes">Health Check</property>
+
+        <property name="widget">
+          <object class="GtkLabel" id="health_status_label">
+            <style>
+              <class name="status-badge"/>
+            </style>
+            <property name="valign">center</property>
           </object>
         </property>
 

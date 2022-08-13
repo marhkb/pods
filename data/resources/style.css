@@ -53,7 +53,7 @@ connectionchooserpage row #selection-indicator .unselected-connection {
   font-size: 0.65em;
 }
 
-.container-status, .pod-status {
+.status-badge {
   color: @accent_fg_color;
   font-size: 0.8em;
   font-weight: bold;
@@ -74,7 +74,9 @@ connectionchooserpage row #selection-indicator .unselected-connection {
 .pod-status-exited,
 .pod-status-stopped,
 .pod-status-stopping,
-.pod-status-degraded
+.pod-status-degraded,
+.container-health-status-checking,
+.container-health-status-unconfigured
 {
   background-color: @dark_1;
 }
@@ -92,11 +94,19 @@ connectionchooserpage row #selection-indicator .unselected-connection {
 }
 
 .container-status-running, .pod-status-running {
-  background-color: @green_5;
+  background-color: @accent_bg_color;
 }
 
-.container-status-unknown, .pod-status-unknown {
-  background-color: @red_3;
+.container-status-unknown,
+.pod-status-unknown,
+.container-health-status-unhealthy,
+.container-health-status-unknown
+{
+  background-color: @error_bg_color;
+}
+
+.container-health-status-healthy {
+  background-color: @success_bg_color;
 }
 
 .progressbar-warning trough > progress {

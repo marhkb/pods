@@ -26,6 +26,8 @@ mod imp {
         #[template_child]
         pub(super) mem_bar: TemplateChild<view::CircularProgressBar>,
         #[template_child]
+        pub(super) health_status_label: TemplateChild<gtk::Label>,
+        #[template_child]
         pub(super) status_label: TemplateChild<gtk::Label>,
     }
 
@@ -87,6 +89,8 @@ mod imp {
 
             let container_expr = Self::Type::this_expression("container");
             let stats_expr = container_expr.chain_property::<model::Container>("stats");
+            let health_status_expr =
+                container_expr.chain_property::<model::Container>("health-status");
             let status_expr = container_expr.chain_property::<model::Container>("status");
 
             container_expr
@@ -132,6 +136,38 @@ mod imp {
                 ))
                 .bind(&*self.mem_bar, "percentage", Some(obj));
 
+            health_status_expr
+                .chain_closure::<String>(closure!(
+                    |_: glib::Object, status: model::ContainerHealthStatus| status.to_string()
+                ))
+                .bind(&*self.health_status_label, "label", Some(obj));
+
+            gtk::ClosureExpression::new::<bool, _, _>(
+                &[status_expr.upcast_ref(), health_status_expr.upcast_ref()],
+                closure!(|_: Self::Type,
+                          status: model::ContainerStatus,
+                          health_status: model::ContainerHealthStatus| {
+                    status == model::ContainerStatus::Running
+                        && health_status != model::ContainerHealthStatus::Unconfigured
+                }),
+            )
+            .bind(&*self.health_status_label, "visible", Some(obj));
+
+            let css_classes = self.health_status_label.css_classes();
+            health_status_expr
+                .chain_closure::<Vec<String>>(closure!(
+                    |_: glib::Object, status: model::ContainerHealthStatus| {
+                        css_classes
+                            .iter()
+                            .cloned()
+                            .chain(Some(glib::GString::from(
+                                super::super::container_health_status_css_class(status),
+                            )))
+                            .collect::<Vec<_>>()
+                    }
+                ))
+                .bind(&*self.health_status_label, "css-classes", Some(obj));
+
             status_expr
                 .chain_closure::<String>(closure!(
                     |_: glib::Object, status: model::ContainerStatus| status.to_string()
@@ -139,9 +175,10 @@ mod imp {
                 .bind(&*self.status_label, "label", Some(obj));
 
             let css_classes = self.status_label.css_classes();
+
             status_expr
                 .chain_closure::<Vec<String>>(closure!(
-                    |_: glib::Object, status: model::ContainerStatus| {
+                    |_: Self::Type, status: model::ContainerStatus| {
                         css_classes
                             .iter()
                             .cloned()
