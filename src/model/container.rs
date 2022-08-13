@@ -746,7 +746,10 @@ impl Container {
         }
     }
 
-    pub(super) fn emit_deleted(&self) {
+    pub(super) fn on_deleted(&self) {
+        if let Some(pod) = self.pod() {
+            pod.inspect_and_update();
+        }
         self.emit_by_name::<()>("deleted", &[]);
     }
 
