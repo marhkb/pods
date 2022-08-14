@@ -30,6 +30,8 @@ pub(crate) static RUNTIME: Lazy<tokio::runtime::Runtime> =
     Lazy::new(|| tokio::runtime::Runtime::new().unwrap());
 
 fn main() {
+    glib::log_set_writer_func(glib::log_writer_journald);
+
     gtk::init().expect("Failed to init gtk");
     adw::init();
 
