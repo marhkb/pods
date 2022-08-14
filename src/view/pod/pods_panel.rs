@@ -1,5 +1,6 @@
 use adw::traits::BinExt;
 use gettextrs::gettext;
+use gettextrs::ngettext;
 use gtk::gdk;
 use gtk::gio;
 use gtk::glib;
@@ -179,15 +180,23 @@ mod imp {
                     pod_list_expr.chain_property::<model::PodList>("running"),
                 ],
                 closure!(|_: Self::Type, len: u32, running: u32| {
-                    if len > 0 {
-                        gettext!(
+                    if len == 0 {
+                        gettext("No pods found")
+                    } else if len == 1 {
+                        if running == 1 {
+                            gettext("1 pod, running")
+                        } else {
+                            gettext("1 pod, stopped")
+                        }
+                    } else {
+                        ngettext!(
                             // Translators: There's a wide space (U+2002) between ", {}".
+                            "{} pod total, {} running",
                             "{} pods total, {} running",
                             len,
-                            running
+                            len,
+                            running,
                         )
-                    } else {
-                        gettext("No pods found")
                     }
                 }),
             )

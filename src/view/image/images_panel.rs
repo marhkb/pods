@@ -1,5 +1,6 @@
 use adw::traits::BinExt;
 use gettextrs::gettext;
+use gettextrs::ngettext;
 use gtk::gdk;
 use gtk::gio;
 use gtk::glib;
@@ -181,15 +182,31 @@ mod imp {
             gtk::ClosureExpression::new::<String, _, _>(
                 &[image_list_expr, image_list_len_expr],
                 closure!(|_: glib::Object, list: Option<model::ImageList>, _: u32| {
-                    match list.filter(|list| list.len() > 0) {
-                        Some(list) => gettext!(
-                            // Translators: There's a wide space (U+2002) between the two {} {}.
-                            "{} images total, {} {} unused images, {}",
-                            list.len(),
-                            glib::format_size(list.total_size()),
-                            list.num_unused_images(),
-                            glib::format_size(list.unused_size()),
-                        ),
+                    match list {
+                        Some(list) => {
+                            let len = list.n_items();
+
+                            if len == 0 {
+                                gettext("No images found")
+                            } else if len == 1 {
+                                if list.num_unused_images() == 0 {
+                                    gettext("1 image, used")
+                                } else {
+                                    gettext("1 image, unused")
+                                }
+                            } else {
+                                ngettext!(
+                                    // Translators: There's a wide space (U+2002) between ", {}".
+                                    "{} image total, {} {} unused, {}",
+                                    "{} images total, {} {} unused, {}",
+                                    len,
+                                    len,
+                                    glib::format_size(list.total_size()),
+                                    list.num_unused_images(),
+                                    glib::format_size(list.unused_size()),
+                                )
+                            }
+                        }
                         None => gettext("No images found"),
                     }
                 }),
