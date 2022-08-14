@@ -30,7 +30,6 @@ mod imp {
     #[derive(Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/container-creation-page.ui")]
     pub(crate) struct ContainerCreationPage {
-        pub(super) names: RefCell<names::Generator<'static>>,
         pub(super) client: WeakRef<model::Client>,
         pub(super) image: WeakRef<model::Image>,
         pub(super) pod: WeakRef<model::Pod>,
@@ -42,7 +41,7 @@ mod imp {
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub(super) name_entry_row: TemplateChild<adw::EntryRow>,
+        pub(super) name_entry_row: TemplateChild<view::RandomNameEntryRow>,
         #[template_child]
         pub(super) local_image_property_row: TemplateChild<view::PropertyRow>,
         #[template_child]
@@ -197,9 +196,6 @@ mod imp {
 
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
-
-            self.name_entry_row
-                .set_text(&self.names.borrow_mut().next().unwrap());
 
             self.name_entry_row
                 .connect_text_notify(clone!(@weak obj => move |_| obj.on_name_changed()));
