@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="RandomNameEntryRow" parent="AdwEntryRow">
+
+    <child type="suffix">
+      <object class="GtkButton" id="generate_button">
+        <style>
+          <class name="flat"/>
+        </style>
+        <property name="action-name">random-name-entry-row.generate</property>
+        <property name="icon-name">view-refresh-symbolic</property>
+        <property name="valign">center</property>
+      </object>
+    </child>
+
+  </template>
+</interface>

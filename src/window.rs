@@ -85,6 +85,7 @@ mod imp {
             view::PodRow::static_type();
             view::PodsPanel::static_type();
             view::PropertyWidgetRow::static_type();
+            view::RandomNameEntryRow::static_type();
             view::TextSearchEntry::static_type();
             view::WelcomePage::static_type();
             sourceview5::View::static_type();

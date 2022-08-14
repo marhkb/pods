@@ -70,7 +70,7 @@
                           <object class="AdwPreferencesGroup">
 
                             <child>
-                              <object class="AdwEntryRow" id="name_entry_row">
+                              <object class="RandomNameEntryRow" id="name_entry_row">
                                 <property name="title" translatable="yes">Name</property>
                               </object>
                             </child>

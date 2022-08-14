@@ -1,5 +1,3 @@
-use std::cell::RefCell;
-
 use adw::subclass::prelude::*;
 use adw::traits::BinExt;
 use gtk::glib;
@@ -21,13 +19,12 @@ mod imp {
     #[derive(Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/pod-creation-page.ui")]
     pub(crate) struct PodCreationPage {
-        pub(super) names: RefCell<names::Generator<'static>>,
         pub(super) client: WeakRef<model::Client>,
 
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub(super) name_entry_row: TemplateChild<adw::EntryRow>,
+        pub(super) name_entry_row: TemplateChild<view::RandomNameEntryRow>,
         #[template_child]
         pub(super) hostname_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
@@ -95,9 +92,6 @@ mod imp {
 
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
-
-            self.name_entry_row
-                .set_text(&self.names.borrow_mut().next().unwrap());
 
             self.name_entry_row
                 .connect_text_notify(clone!(@weak obj => move |_| obj.on_name_changed()));
