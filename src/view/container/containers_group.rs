@@ -2,6 +2,7 @@ use std::cell::RefCell;
 
 use adw::subclass::prelude::PreferencesGroupImpl;
 use gettextrs::gettext;
+use gettextrs::ngettext;
 use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
@@ -117,15 +118,25 @@ mod imp {
                     container_list_expr.chain_property::<model::AbstractContainerList>("running"),
                 ],
                 closure!(|obj: Self::Type, len: u32, running: u32| {
-                    if len > 0 {
-                        Some(gettext!(
-                            // Translators: There's a wide space (U+2002) between ", {}".
-                            "{} containers total, {} running",
-                            len,
-                            running
-                        ))
-                    } else {
+                    if len == 0 {
                         obj.no_containers_label()
+                    } else {
+                        Some(if len == 1 {
+                            if running == 1 {
+                                gettext("1 container, running")
+                            } else {
+                                gettext("1 container, stopped")
+                            }
+                        } else {
+                            ngettext!(
+                                // Translators: There's a wide space (U+2002) between ", {}".
+                                "{} container total, {} running",
+                                "{} containers total, {} running",
+                                len,
+                                len,
+                                running,
+                            )
+                        })
                     }
                 }),
             )

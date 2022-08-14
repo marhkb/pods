@@ -1,6 +1,7 @@
 use adw::subclass::prelude::ActionRowImpl;
 use adw::subclass::prelude::PreferencesRowImpl;
 use gettextrs::gettext;
+use gettextrs::ngettext;
 use gtk::glib;
 use gtk::glib::closure;
 use gtk::glib::WeakRef;
@@ -95,9 +96,14 @@ mod imp {
                 .chain_property::<model::AbstractContainerList>("len")
                 .chain_closure::<String>(closure!(|_: glib::Object, num_containers: u32| {
                     if num_containers > 0 {
-                        gettext!("{} containers", num_containers)
+                        ngettext!(
+                            "{} container",
+                            "{} containers",
+                            num_containers,
+                            num_containers
+                        )
                     } else {
-                        gettext("empty")
+                        gettext("No containers")
                     }
                 }))
                 .bind(obj, "subtitle", Some(obj));

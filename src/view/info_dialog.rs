@@ -4,6 +4,7 @@ use adw::traits::ExpanderRowExt;
 use adw::traits::PreferencesWindowExt;
 use cascade::cascade;
 use gettextrs::gettext;
+use gettextrs::ngettext;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::WeakRef;
@@ -209,7 +210,7 @@ impl InfoDialog {
                             store.container_store.as_ref().and_then(|s| {
                                 s.number.map(|n| {
                                     // Translators: "{}" is a placeholder for a cardinal numbers.
-                                    gettext!("{} Containers", n)
+                                    ngettext!("{} Container", "{} Containers", n as u32, n)
                                 })
                             })
                         })));
@@ -242,7 +243,7 @@ impl InfoDialog {
                         .set_label(&utils::format_option(store.and_then(|store| {
                             store.graph_options.as_ref().map(|o| {
                                 // Translators: "{}" is a placeholder for a cardinal number.
-                                gettext!("{} Options", o.len())
+                                ngettext!("{} Option", "{} Options", o.len() as u32, o.len())
                             })
                         })));
                     if let Some(graph_options) =
@@ -265,7 +266,7 @@ impl InfoDialog {
                         .set_label(&utils::format_option(store.and_then(|store| {
                             store.graph_status.as_ref().map(|s| {
                                 // Translators: "{}" is placeholders for a cardinal number.
-                                gettext!("{} States", s.len())
+                                ngettext!("{} State", "{} States", s.len() as u32, s.len())
                             })
                         })));
                     if let Some(graph_status) = info
@@ -285,7 +286,7 @@ impl InfoDialog {
                         .set_value(&utils::format_option(store.and_then(|store| {
                             store.image_store.as_ref().and_then(|s| s.number).map(|n| {
                                 // Translators: "{}" is placeholders for a cardinal number.
-                                gettext!("{} Images", n)
+                                ngettext!("{} Image", "{} Images", n as u32, n)
                             })
                         })));
                     imp.store_run_root_row.set_value(&utils::format_option(
