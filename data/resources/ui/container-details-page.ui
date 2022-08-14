@@ -81,7 +81,7 @@
                     <child>
                       <object class="AdwActionRow">
                         <property name="title" translatable="yes">Logs</property>
-                        <property name="subtitle" translatable="yes">View and search through container logs</property>
+                        <property name="subtitle" translatable="yes">View and search through container logs.</property>
                         <property name="activatable">True</property>
                         <property name="action-name">container.show-log</property>
                         <property name="icon-name">text-editor-symbolic</property>
@@ -98,7 +98,7 @@
                     <child>
                       <object class="AdwActionRow">
                         <property name="title" translatable="yes">Processes</property>
-                        <property name="subtitle" translatable="yes">View processes that are currently running inside the container</property>
+                        <property name="subtitle" translatable="yes">View processes that are currently running inside the container.</property>
                         <property name="activatable">True</property>
                         <property name="action-name">container.show-processes</property>
                         <property name="icon-name">application-x-executable-symbolic</property>
