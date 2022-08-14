@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-18 22:28+0200\n"
+"POT-Creation-Date: 2022-08-14 23:18+0200\n"
 "PO-Revision-Date: 2022-05-05 19:11+0000\n"
 "Last-Translator: Allaeddine Boulefaat <allaeddineboulefaat@gmail.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/pods/pods/ar/>\n"
@@ -20,7 +20,9 @@ msgstr ""
 "X-Generator: Weblate 4.12.1\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:40
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
+#: data/resources/ui/search-panel.ui:84 data/resources/ui/window.ui:202
+#: src/main.rs:43
 msgid "Pods"
 msgstr "ناقلات"
 
@@ -87,6 +89,11 @@ msgid "Whether to show only running containers"
 msgstr "إظهار الحاويات الشغالة فقط"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:61
+#, fuzzy
+msgid "Whether to show only running pods"
+msgstr "إظهار الحاويات الشغالة فقط"
+
+#: data/com.github.marhkb.Pods.gschema.xml.in:66
 msgid "Whether to show a timestamp for each log line"
 msgstr "إظهار طابع زمني لكل سطر سجل"
 
@@ -98,7 +105,347 @@ msgstr "النافذة الرئيسية"
 msgid "Marcus Behrendt"
 msgstr "ماركس برندت"
 
+#: data/resources/ui/connection-chooser-page.ui:16
+#, fuzzy
+msgid "Connect to Podman"
+msgstr "فقد الاتصال بـ بودمان"
+
+#: data/resources/ui/connection-chooser-page.ui:17
+msgid "Either choose an existing connection or create a new one."
+msgstr ""
+
+#: data/resources/ui/connection-chooser-page.ui:80
+msgid "_Add New Connection"
+msgstr ""
+
+#: data/resources/ui/connection-creator-page.ui:31
+msgid "Add New Connection"
+msgstr ""
+
+#: data/resources/ui/connection-creator-page.ui:41
+msgid "_Connect"
+msgstr ""
+
+#: data/resources/ui/connection-creator-page.ui:57
+#: data/resources/ui/container-creation-page.ui:83
+#: data/resources/ui/container-properties-group.ui:9
+#: data/resources/ui/pod-creation-page.ui:74
+#: data/resources/ui/pod-details-page.ui:67
+msgid "Name"
+msgstr "إسم"
+
+#: data/resources/ui/connection-creator-page.ui:66
+msgid "Url"
+msgstr ""
+
+#: data/resources/ui/connection-creator-page.ui:67
+#, fuzzy
+msgid "Choose how you want to connect to Podman."
+msgstr "فقد الاتصال بـ بودمان"
+
+#: data/resources/ui/connection-creator-page.ui:71
+msgid "Unix Socket"
+msgstr ""
+
+#: data/resources/ui/connection-creator-page.ui:86
+msgid "Custom"
+msgstr ""
+
+#: data/resources/ui/connection-creator-page.ui:96
+#, fuzzy
+msgid "Connection String"
+msgstr "فقد الاتصال بـ بودمان"
+
+#: data/resources/ui/connection-creator-page.ui:112
+msgid "Color"
+msgstr ""
+
+#: data/resources/ui/connection-creator-page.ui:113
+msgid "Define how to colorize the header bar."
+msgstr ""
+
+#: data/resources/ui/container-creation-page.ui:7
+msgid "_Create"
+msgstr "إنشاء"
+
+#: data/resources/ui/container-creation-page.ui:56
+msgid "Specify Container Settings"
+msgstr ""
+
+#: data/resources/ui/container-creation-page.ui:66
+msgid "Create and run"
+msgstr "إنشاء و تشغيل"
+
+#: data/resources/ui/container-creation-page.ui:123
+msgid "Details"
+msgstr "تفاصيل"
+
+#: data/resources/ui/container-creation-page.ui:131
+#: data/resources/ui/container-creation-page.ui:137
+msgid "Local image"
+msgstr ""
+
+#: data/resources/ui/container-creation-page.ui:154
+#, fuzzy
+msgid "Remote image"
+msgstr "إزالة"
+
+#: data/resources/ui/container-creation-page.ui:181
+#: data/resources/ui/container-creation-page.ui:188
+#: data/resources/ui/container-properties-group.ui:139
+#, fuzzy
+msgid "Pod"
+msgstr "ناقلات"
+
+#: data/resources/ui/container-creation-page.ui:206
+msgid "Pull latest image"
+msgstr ""
+
+#: data/resources/ui/container-creation-page.ui:217
+#: data/resources/ui/container-creation-page.ui:378
+msgid "Command"
+msgstr "الأمر"
+
+#: data/resources/ui/container-creation-page.ui:224
+msgid "Terminal"
+msgstr ""
+
+#: data/resources/ui/container-creation-page.ui:237
+msgid "Memory limit"
+msgstr "حد الذاكرة"
+
+#: data/resources/ui/container-creation-page.ui:279
+msgid "KB"
+msgstr "كيلو بايت"
+
+#: data/resources/ui/container-creation-page.ui:280
+msgid "MB"
+msgstr "ميغا بايت"
+
+#: data/resources/ui/container-creation-page.ui:281
+msgid "GB"
+msgstr "غيغا بايت"
+
+#: data/resources/ui/container-creation-page.ui:308
+msgid "Integration"
+msgstr ""
+
+#: data/resources/ui/container-creation-page.ui:318
+msgid "Port Mappings"
+msgstr ""
+
+#: data/resources/ui/container-creation-page.ui:333
+msgid "Volumes"
+msgstr ""
+
+#: data/resources/ui/container-creation-page.ui:348
+msgid "Environment Variables"
+msgstr "متغيرات البيئة"
+
+#: data/resources/ui/container-creation-page.ui:369
+#: data/resources/ui/container-properties-group.ui:86
+msgid "Health Check"
+msgstr ""
+
+#: data/resources/ui/container-creation-page.ui:384
+msgid "Interval"
+msgstr ""
+
+#: data/resources/ui/container-creation-page.ui:385
+msgid "Interval how often health check is run."
+msgstr ""
+
+#: data/resources/ui/container-creation-page.ui:408
+#: data/resources/ui/container-creation-page.ui:444
+#: data/resources/ui/container-creation-page.ui:480
+msgid "seconds"
+msgstr ""
+
+#: data/resources/ui/container-creation-page.ui:420
+msgid "Timeout"
+msgstr ""
+
+#: data/resources/ui/container-creation-page.ui:421
+msgid ""
+"The maximum time allowed to complete the health check before an interval is "
+"considered failed."
+msgstr ""
+
+#: data/resources/ui/container-creation-page.ui:456
+msgid "Start period"
+msgstr ""
+
+#: data/resources/ui/container-creation-page.ui:457
+msgid "The initialization time needed for a container to bootstrap."
+msgstr ""
+
+#: data/resources/ui/container-creation-page.ui:492
+msgid "Retries"
+msgstr ""
+
+#: data/resources/ui/container-creation-page.ui:493
+msgid ""
+"The number of retries allowed before a healthcheck is considered to be "
+"unhealthy."
+msgstr ""
+
+#: data/resources/ui/container-creation-page.ui:580
+#: data/resources/ui/image-pulling-page.ui:42
+msgid "Please Wait a Moment"
+msgstr ""
+
+#: data/resources/ui/container-creation-page.ui:581
+msgid "The container is being created. You are safe to leave this page."
+msgstr ""
+
+#: data/resources/ui/container-details-page.ui:40
+#, fuzzy
+msgid "Container Details"
+msgstr "حاويات"
+
+#: data/resources/ui/container-details-page.ui:79
+#: data/resources/ui/pod-details-page.ui:135
+msgid "Utilities"
+msgstr ""
+
+#: data/resources/ui/container-details-page.ui:83
+msgid "Logs"
+msgstr "السجلات"
+
+#: data/resources/ui/container-details-page.ui:84
+msgid "View and search through container logs"
+msgstr ""
+
+#: data/resources/ui/container-details-page.ui:100
+#: data/resources/ui/pod-details-page.ui:139
+msgid "Processes"
+msgstr ""
+
+#: data/resources/ui/container-details-page.ui:101
+msgid "View processes that are currently running inside the container"
+msgstr ""
+
+#: data/resources/ui/container-log-page.ui:33
+#, fuzzy
+msgid "Container Log"
+msgstr "صفحة الحاوية"
+
+#: data/resources/ui/container-log-page.ui:40
+msgid "Toggle timestamps"
+msgstr "تبديل الطوابع الزمنية"
+
+#: data/resources/ui/container-log-page.ui:89
+msgid "Scroll to bottom"
+msgstr "انتقل إلى الأسفل"
+
+#: data/resources/ui/container-log-page.ui:132
+msgid "Move to previous match (Ctrl+Shift+G)"
+msgstr "الانتقال إلى التطابق السابق (Ctrl + Shift + G)"
+
+#: data/resources/ui/container-log-page.ui:140
+msgid "Move to next match (Ctrl+G)"
+msgstr "الانتقال إلى التطابق التالي (Ctrl + G)"
+
+#: data/resources/ui/container-log-page.ui:150
+msgid "Toggle search options"
+msgstr "تبديل خيارات البحث"
+
+#: data/resources/ui/container-log-page.ui:173
+msgid "Re_gular expressions"
+msgstr ""
+
+#: data/resources/ui/container-log-page.ui:180
+msgid "_Case sensitive"
+msgstr ""
+
+#: data/resources/ui/container-log-page.ui:187
+msgid "Match whole _word only"
+msgstr ""
+
+#: data/resources/ui/container-log-page.ui:228
+msgid "Loading previous lines"
+msgstr ""
+
+#: data/resources/ui/container-menu-button.ui:6
+#: data/resources/ui/pod-menu-button.ui:12
+msgid "_Start"
+msgstr "بدء"
+
+#: data/resources/ui/container-menu-button.ui:11
+#: data/resources/ui/pod-menu-button.ui:17
+msgid "S_top"
+msgstr ""
+
+#: data/resources/ui/container-menu-button.ui:16
+#: data/resources/ui/pod-menu-button.ui:22
+msgid "_Force Stop"
+msgstr "فرض الإيقاف"
+
+#: data/resources/ui/container-menu-button.ui:21
+#: data/resources/ui/pod-menu-button.ui:27
+msgid "R_estart"
+msgstr ""
+
+#: data/resources/ui/container-menu-button.ui:26
+#: data/resources/ui/pod-menu-button.ui:32
+msgid "F_orce Restart"
+msgstr ""
+
+#: data/resources/ui/container-menu-button.ui:31
+#: data/resources/ui/pod-menu-button.ui:37
+msgid "_Resume"
+msgstr "مواصلة"
+
+#: data/resources/ui/container-menu-button.ui:36
+#: data/resources/ui/pod-menu-button.ui:42
+msgid "_Pause"
+msgstr "ايقاف مؤقت"
+
+#: data/resources/ui/container-menu-button.ui:43
+msgid "Re_name…"
+msgstr ""
+
+#: data/resources/ui/container-menu-button.ui:50
+msgid "_Commit"
+msgstr ""
+
+#: data/resources/ui/container-menu-button.ui:57
+#: data/resources/ui/pod-menu-button.ui:49
+msgid "_Delete"
+msgstr "حذف"
+
+#: data/resources/ui/container-properties-group.ui:5
+#: data/resources/ui/image-details-page.ui:59
+#: data/resources/ui/pod-details-page.ui:63
+msgid "Properties"
+msgstr "خواص"
+
+#: data/resources/ui/container-properties-group.ui:20
+#: data/resources/ui/pod-details-page.ui:78
+msgid "Id"
+msgstr "المعرف"
+
+#: data/resources/ui/container-properties-group.ui:26
+msgid "Port bindings"
+msgstr ""
+
+#: data/resources/ui/container-properties-group.ui:43
+#: data/resources/ui/pod-details-page.ui:95 src/model/container.rs:70
+#: src/model/pod.rs:71
+msgid "Created"
+msgstr ""
+
+#: data/resources/ui/container-properties-group.ui:49
+#: data/resources/ui/pod-details-page.ui:101
+msgid "Status"
+msgstr "حالة"
+
+#: data/resources/ui/container-properties-group.ui:102
+msgid "Image"
+msgstr "صورة"
+
 #: data/resources/ui/container-rename-dialog.ui:10
+#: src/view/image/image_menu_button.rs:206 src/view/pod/pod_menu_button.rs:282
 msgid "_Cancel"
 msgstr "إلغاء"
 
@@ -106,40 +453,41 @@ msgstr "إلغاء"
 msgid "_Rename"
 msgstr "إعادة التسمية"
 
-#: data/resources/ui/shortcuts.ui:13
-msgctxt "shortcut window"
-msgid "General"
-msgstr "عام"
+#: data/resources/ui/container-resources-quick-reference-group.ui:13
+msgid "Resources Quick Reference"
+msgstr ""
 
-#: data/resources/ui/shortcuts.ui:17
-msgctxt "shortcut window"
-msgid "Show Shortcuts"
-msgstr "عرض الاختصارات"
+#: data/resources/ui/container-resources-quick-reference-group.ui:41
+#, fuzzy
+msgid "CPU"
+msgstr "تي سي بي"
 
-#: data/resources/ui/shortcuts.ui:24
-msgctxt "shortcut window"
-msgid "Quit"
-msgstr "خروج"
+#: data/resources/ui/container-resources-quick-reference-group.ui:89
+#, fuzzy
+msgid "Memory"
+msgstr "حد الذاكرة"
 
-#: data/resources/ui/shortcuts.ui:31
-msgctxt "shortcut window"
-msgid "Search"
-msgstr "بحث"
+#: data/resources/ui/container-resources-quick-reference-group.ui:132
+msgid "Network"
+msgstr ""
 
-#: data/resources/ui/theme-selector.ui:22
-#: data/resources/ui/theme-selector.ui:24
-msgid "Follow system style"
-msgstr "اتبع نمط النظام"
+#: data/resources/ui/container-resources-quick-reference-group.ui:231
+msgid "Disk"
+msgstr ""
 
-#: data/resources/ui/theme-selector.ui:38
-#: data/resources/ui/theme-selector.ui:40
-msgid "Light style"
-msgstr "النمط المضيء"
+#: data/resources/ui/containers-group.ui:14 data/resources/ui/pods-panel.ui:62
+#, fuzzy
+msgid "Only running"
+msgstr "شغال"
 
-#: data/resources/ui/theme-selector.ui:55
-#: data/resources/ui/theme-selector.ui:57
-msgid "Dark style"
-msgstr "النمط المضلم"
+#: data/resources/ui/containers-panel.ui:55
+#: data/resources/ui/images-panel.ui:63 data/resources/ui/pods-panel.ui:52
+msgid "Summary"
+msgstr "ملخص"
+
+#: data/resources/ui/containers-panel.ui:57
+msgid "No containers found"
+msgstr "لم يتم العثور على حاويات"
 
 #: data/resources/ui/env-var-row.ui:30
 msgid "Key"
@@ -149,88 +497,41 @@ msgstr "مفتاح"
 msgid "Value"
 msgstr "قيمة"
 
-#: data/resources/ui/port-mapping-row.ui:29
-msgid "IP address"
-msgstr "عنوان IP"
+#: data/resources/ui/image-details-page.ui:38
+msgid "Image Details"
+msgstr "تفاصيل الصورة"
 
-#: data/resources/ui/port-mapping-row.ui:48
-msgid "Host port"
+#: data/resources/ui/image-details-page.ui:127
+msgid "Associated Containers"
+msgstr "الحاويات المرتبطة"
+
+#: data/resources/ui/image-details-page.ui:128
+msgid "There are no containers associated with this image."
+msgstr "لا توجد حاويات مرتبطة بهذه الصورة."
+
+#: data/resources/ui/image-menu-button.ui:6
+#: data/resources/ui/pod-menu-button.ui:6
+msgid "_Create Container…"
 msgstr ""
 
-#: data/resources/ui/port-mapping-row.ui:75
-msgid "Container port"
+#: data/resources/ui/image-menu-button.ui:13
+#, fuzzy
+msgid "Delete"
+msgstr "حذف"
+
+#: data/resources/ui/image-pulling-page.ui:43
+msgid ""
+"The image is currently being downloaded. You are safe to leave this page."
 msgstr ""
 
-#: data/resources/ui/port-mapping-row.ui:102
-msgid "Protocol"
-msgstr "البروتوكول"
+#: data/resources/ui/image-pull-page.ui:42
+#: data/resources/ui/image-selection-page.ui:32
+msgid "Search For an Image"
+msgstr ""
 
-#: data/resources/ui/port-mapping-row.ui:113
-msgid "TCP"
-msgstr "تي سي بي"
-
-#: data/resources/ui/port-mapping-row.ui:114
-msgid "UDP"
-msgstr "يو دي بي"
-
-#: data/resources/ui/containers-group.ui:14
-#, fuzzy
-msgid "Only running"
-msgstr "شغال"
-
-#: data/resources/ui/volume-row.ui:34
-msgid "Host path"
-msgstr "مسار المضيف"
-
-#: data/resources/ui/volume-row.ui:53
-msgid "Container path"
-msgstr "مسار الحاوية"
-
-#: data/resources/ui/volume-row.ui:81
-msgid "Mode"
-msgstr "الوضع"
-
-#: data/resources/ui/volume-row.ui:92
-msgid "Writable"
-msgstr "قابل للكتابة"
-
-#: data/resources/ui/volume-row.ui:102
-msgid "SELinux"
-msgstr "لينكس معزز الامن"
-
-#: data/resources/ui/volume-row.ui:113
-msgid "No label"
-msgstr "لا تسمية"
-
-#: data/resources/ui/volume-row.ui:114
-msgid "Shared"
-msgstr "مشترك"
-
-#: data/resources/ui/volume-row.ui:115
-msgid "Private"
-msgstr "خاص"
-
-#: data/resources/ui/containers-panel.ui:69
-#: data/resources/ui/images-panel.ui:68
-msgid "Summary"
-msgstr "ملخص"
-
-#: data/resources/ui/containers-panel.ui:71
-msgid "No containers found"
-msgstr "لم يتم العثور على حاويات"
-
-#: data/resources/ui/images-panel.ui:78
-#, fuzzy
-msgid "Intermediates"
-msgstr "عرض الصور الوسيطة"
-
-#: data/resources/ui/search-panel.ui:53 data/resources/ui/window.ui:182
-msgid "Images"
-msgstr "صور"
-
-#: data/resources/ui/search-panel.ui:69 data/resources/ui/window.ui:202
-msgid "Containers"
-msgstr "حاويات"
+#: data/resources/ui/image-pull-page.ui:52
+msgid "Download"
+msgstr ""
 
 #: data/resources/ui/image-search-widget.ui:31
 #, fuzzy
@@ -252,103 +553,49 @@ msgstr ""
 msgid "Search for"
 msgstr "بحث"
 
-#: data/resources/ui/image-search-widget.ui:66
+#: data/resources/ui/image-search-widget.ui:60
 msgid "Registry"
 msgstr ""
 
-#: data/resources/ui/image-search-widget.ui:88
+#: data/resources/ui/image-search-widget.ui:82
 #, fuzzy
 msgid "No Images Found"
 msgstr "لم يتم العثور على صور"
 
-#: data/resources/ui/image-search-widget.ui:89
+#: data/resources/ui/image-search-widget.ui:83
 msgid "Please start typing to look for images."
 msgstr ""
 
-#: data/resources/ui/image-search-widget.ui:104
+#: data/resources/ui/image-search-widget.ui:98
 #, fuzzy
 msgid "Searching…"
 msgstr "بحث"
 
-#: data/resources/ui/image-search-widget.ui:130
+#: data/resources/ui/image-search-widget.ui:124
 msgid "Please retry another term."
 msgstr ""
 
-#: data/resources/ui/image-search-widget.ui:191
-msgid "Tag"
-msgstr ""
-
-#: data/resources/ui/container-menu-button.ui:6
-msgid "_Start"
-msgstr "بدء"
-
-#: data/resources/ui/container-menu-button.ui:11
-msgid "S_top"
-msgstr ""
-
-#: data/resources/ui/container-menu-button.ui:16
-msgid "_Force Stop"
-msgstr "فرض الإيقاف"
-
-#: data/resources/ui/container-menu-button.ui:21
-msgid "R_estart"
-msgstr ""
-
-#: data/resources/ui/container-menu-button.ui:26
-msgid "F_orce Restart"
-msgstr ""
-
-#: data/resources/ui/container-menu-button.ui:31
-msgid "_Resume"
-msgstr "مواصلة"
-
-#: data/resources/ui/container-menu-button.ui:36
-msgid "_Pause"
-msgstr "ايقاف مؤقت"
-
-#: data/resources/ui/container-menu-button.ui:43
-msgid "Re_name…"
-msgstr ""
-
-#: data/resources/ui/container-menu-button.ui:50
-msgid "_Commit"
-msgstr ""
-
-#: data/resources/ui/container-menu-button.ui:57
-msgid "_Delete"
-msgstr "حذف"
-
-#: data/resources/ui/image-menu-button.ui:6
-msgid "_Create Container…"
-msgstr ""
-
-#: data/resources/ui/image-menu-button.ui:13
-#, fuzzy
-msgid "Delete"
-msgstr "حذف"
-
-#: data/resources/ui/image-pulling-page.ui:42
-#: data/resources/ui/container-creation-page.ui:391
-msgid "Please Wait a Moment"
-msgstr ""
-
-#: data/resources/ui/image-pulling-page.ui:43
-msgid ""
-"The image is currently being downloaded. You are safe to leave this page."
-msgstr ""
-
-#: data/resources/ui/image-pull-page.ui:42
-#: data/resources/ui/image-selection-page.ui:32
-msgid "Search For an Image"
-msgstr ""
-
-#: data/resources/ui/image-pull-page.ui:52
-msgid "Download"
+#: data/resources/ui/image-search-widget.ui:185
+msgid "Tag ('latest' if empty)"
 msgstr ""
 
 #: data/resources/ui/image-selection-page.ui:42
 msgid "_Select"
 msgstr ""
+
+#: data/resources/ui/images-panel.ui:6
+msgid "_Download…"
+msgstr ""
+
+#: data/resources/ui/images-panel.ui:10
+#, fuzzy
+msgid "_Prune…"
+msgstr "حذف"
+
+#: data/resources/ui/images-panel.ui:73
+#, fuzzy
+msgid "Intermediates"
+msgstr "عرض الصور الوسيطة"
 
 #: data/resources/ui/images-prune-page.ui:31
 msgid "Specify Pruning Settings"
@@ -396,76 +643,6 @@ msgstr ""
 msgid "PM"
 msgstr ""
 
-#: data/resources/ui/connection-chooser-page.ui:16
-#, fuzzy
-msgid "Connect to Podman"
-msgstr "فقد الاتصال بـ بودمان"
-
-#: data/resources/ui/connection-chooser-page.ui:17
-msgid "Either choose an existing connection or create a new one."
-msgstr ""
-
-#: data/resources/ui/connection-chooser-page.ui:80
-msgid "_Add New Connection"
-msgstr ""
-
-#: data/resources/ui/connection-creator-page.ui:31
-msgid "Add New Connection"
-msgstr ""
-
-#: data/resources/ui/connection-creator-page.ui:41
-msgid "_Connect"
-msgstr ""
-
-#: data/resources/ui/connection-creator-page.ui:62
-#: data/resources/ui/container-creation-page.ui:84
-#: data/resources/ui/container-properties-group.ui:40
-msgid "Name"
-msgstr "إسم"
-
-#: data/resources/ui/connection-creator-page.ui:77
-msgid "Url"
-msgstr ""
-
-#: data/resources/ui/connection-creator-page.ui:78
-#, fuzzy
-msgid "Choose how you want to connect to Podman."
-msgstr "فقد الاتصال بـ بودمان"
-
-#: data/resources/ui/connection-creator-page.ui:82
-msgid "Unix Socket"
-msgstr ""
-
-#: data/resources/ui/connection-creator-page.ui:97
-msgid "Custom"
-msgstr ""
-
-#: data/resources/ui/connection-creator-page.ui:111
-#, fuzzy
-msgid "Connection String"
-msgstr "فقد الاتصال بـ بودمان"
-
-#: data/resources/ui/connection-creator-page.ui:135
-msgid "Color"
-msgstr ""
-
-#: data/resources/ui/connection-creator-page.ui:136
-msgid "Define how to colorize the header bar."
-msgstr ""
-
-#: data/resources/ui/welcome-page.ui:16
-msgid "Welcome to Pods"
-msgstr "مرحبًا بكم في ناقلات"
-
-#: data/resources/ui/welcome-page.ui:17
-msgid ""
-"No connections have been detected. Use the button below to create a new one."
-msgstr ""
-
-#: data/resources/ui/welcome-page.ui:28
-msgid "_Add Connection"
-msgstr ""
-
 #: data/resources/ui/info-dialog.ui:6
 #, fuzzy
 msgid "About Podman"
@@ -511,15 +688,18 @@ msgstr "مخزن الحاوية"
 msgid "Describes the quantity of containers in the store by status."
 msgstr "يصف كمية الحاويات في المخزن حسب الحالة."
 
-#: data/resources/ui/info-dialog.ui:86 src/model/container.rs:78
+#: data/resources/ui/info-dialog.ui:86 src/model/container.rs:73
+#: src/model/pod.rs:75
 msgid "Paused"
 msgstr "متوقف مؤقتا"
 
-#: data/resources/ui/info-dialog.ui:92 src/model/container.rs:81
+#: data/resources/ui/info-dialog.ui:92 src/model/container.rs:76
+#: src/model/pod.rs:78
 msgid "Running"
 msgstr "شغال"
 
-#: data/resources/ui/info-dialog.ui:98 src/model/container.rs:82
+#: data/resources/ui/info-dialog.ui:98 src/model/container.rs:77
+#: src/model/pod.rs:79
 msgid "Stopped"
 msgstr "متوقف"
 
@@ -556,369 +736,288 @@ msgstr "تشغيل الجذر"
 msgid "Volume Path"
 msgstr "مسار المجلد"
 
-#: data/resources/ui/window.ui:12
-msgid "_Add Connection…"
+#: data/resources/ui/pod-creation-page.ui:47
+msgid "Specify Pod Settings"
 msgstr ""
 
-#: data/resources/ui/window.ui:18
-msgid "_Prune unused images…"
-msgstr ""
-
-#: data/resources/ui/window.ui:22
-msgid "_Download new image…"
-msgstr ""
-
-#: data/resources/ui/window.ui:26
+#: data/resources/ui/pod-creation-page.ui:57
 #, fuzzy
-msgid "_Create container…"
-msgstr "إنشاء حاوية"
+msgid "Create"
+msgstr "إنشاء"
 
-#: data/resources/ui/window.ui:34
+#: data/resources/ui/pod-creation-page.ui:86
+#: data/resources/ui/pod-details-page.ui:84
+msgid "Hostname"
+msgstr ""
+
+#: data/resources/ui/pod-details-page.ui:40
+#, fuzzy
+msgid "Pod Details"
+msgstr "تفاصيل"
+
+#: data/resources/ui/pod-details-page.ui:128
+#: data/resources/ui/search-panel.ui:68 data/resources/ui/window.ui:182
+msgid "Containers"
+msgstr "حاويات"
+
+#: data/resources/ui/pod-details-page.ui:129
+#, fuzzy
+msgid "There are no containers in this pod."
+msgstr "لا توجد حاويات مرتبطة بهذه الصورة."
+
+#: data/resources/ui/pod-details-page.ui:140
+msgid "View processes that are currently running inside the pod."
+msgstr ""
+
+#: data/resources/ui/port-mapping-row.ui:29
+msgid "IP address"
+msgstr "عنوان IP"
+
+#: data/resources/ui/port-mapping-row.ui:48
+msgid "Host port"
+msgstr ""
+
+#: data/resources/ui/port-mapping-row.ui:75
+msgid "Container port"
+msgstr ""
+
+#: data/resources/ui/port-mapping-row.ui:102
+msgid "Protocol"
+msgstr "البروتوكول"
+
+#: data/resources/ui/port-mapping-row.ui:113
+msgid "TCP"
+msgstr "تي سي بي"
+
+#: data/resources/ui/port-mapping-row.ui:114
+msgid "UDP"
+msgstr "يو دي بي"
+
+#: data/resources/ui/search-panel.ui:52 data/resources/ui/window.ui:162
+msgid "Images"
+msgstr "صور"
+
+#: data/resources/ui/shortcuts.ui:13
+msgctxt "shortcut window"
+msgid "General"
+msgstr "عام"
+
+#: data/resources/ui/shortcuts.ui:17
+msgctxt "shortcut window"
+msgid "Show Shortcuts"
+msgstr "عرض الاختصارات"
+
+#: data/resources/ui/shortcuts.ui:24
+msgctxt "shortcut window"
+msgid "Show menu"
+msgstr ""
+
+#: data/resources/ui/shortcuts.ui:31
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "خروج"
+
+#: data/resources/ui/shortcuts.ui:38
+msgctxt "shortcut window"
+msgid "Search"
+msgstr "بحث"
+
+#: data/resources/ui/shortcuts.ui:48
+msgctxt "shortcut window"
+msgid "Navigation"
+msgstr ""
+
+#: data/resources/ui/shortcuts.ui:52
+msgctxt "shortcut window"
+msgid "Go back"
+msgstr ""
+
+#: data/resources/ui/shortcuts.ui:59
+msgctxt "shortcut window"
+msgid "Return to main view"
+msgstr ""
+
+#: data/resources/ui/shortcuts.ui:69
+#, fuzzy
+msgctxt "shortcut window"
+msgid "Podman"
+msgstr "معلومات بودمان"
+
+#: data/resources/ui/shortcuts.ui:73
+msgctxt "shortcut window"
+msgid "Add a new connection"
+msgstr ""
+
+#: data/resources/ui/shortcuts.ui:80
+#, fuzzy
+msgctxt "shortcut window"
+msgid "Create a new entity"
+msgstr "إنشاء و تشغيل"
+
+#: data/resources/ui/shortcuts.ui:90
+#, fuzzy
+msgctxt "shortcut window"
+msgid "Container"
+msgstr "حاويات"
+
+#: data/resources/ui/shortcuts.ui:94
+#, fuzzy
+msgctxt "shortcut window"
+msgid "Start"
+msgstr "بدء"
+
+#: data/resources/ui/shortcuts.ui:101
+#, fuzzy
+msgctxt "shortcut window"
+msgid "Stop"
+msgstr "متوقف"
+
+#: data/resources/ui/shortcuts.ui:108
+#, fuzzy
+msgctxt "shortcut window"
+msgid "Restart"
+msgstr "إعادة تشغيل"
+
+#: data/resources/ui/shortcuts.ui:115
+#, fuzzy
+msgctxt "shortcut window"
+msgid "Rename"
+msgstr "إعادة التسمية"
+
+#: data/resources/ui/volume-row.ui:34
+msgid "Host path"
+msgstr "مسار المضيف"
+
+#: data/resources/ui/volume-row.ui:53
+msgid "Container path"
+msgstr "مسار الحاوية"
+
+#: data/resources/ui/volume-row.ui:81
+msgid "Mode"
+msgstr "الوضع"
+
+#: data/resources/ui/volume-row.ui:92
+msgid "Writable"
+msgstr "قابل للكتابة"
+
+#: data/resources/ui/volume-row.ui:102
+msgid "SELinux"
+msgstr "لينكس معزز الامن"
+
+#: data/resources/ui/volume-row.ui:113
+msgid "No label"
+msgstr "لا تسمية"
+
+#: data/resources/ui/volume-row.ui:114
+msgid "Shared"
+msgstr "مشترك"
+
+#: data/resources/ui/volume-row.ui:115
+msgid "Private"
+msgstr "خاص"
+
+#: data/resources/ui/welcome-page.ui:29
+msgid "Welcome to Pods"
+msgstr "مرحبًا بكم في ناقلات"
+
+#: data/resources/ui/welcome-page.ui:30
+msgid ""
+"No connections have been detected. Use the button below to create a new one."
+msgstr ""
+
+#: data/resources/ui/welcome-page.ui:40
+msgid "_Add Connection"
+msgstr ""
+
+#: data/resources/ui/window.ui:7
+msgid "_Add connection…"
+msgstr ""
+
+#: data/resources/ui/window.ui:13
 #, fuzzy
 msgid "About _Podman"
 msgstr "حول ناقلات"
 
-#: data/resources/ui/window.ui:40
+#: data/resources/ui/window.ui:19
 msgid "_Keyboard Shortcuts"
 msgstr "اختصارات لوحة المفاتيح"
 
-#: data/resources/ui/window.ui:44
+#: data/resources/ui/window.ui:23
 msgid "_About Pods"
 msgstr "حول ناقلات"
 
-#: data/resources/ui/container-creation-page.ui:7
-msgid "_Create"
-msgstr "إنشاء"
+#: src/application.rs:185
+msgid "translator-credits"
+msgstr "\"Allaeddine boulefaat allaeddineboulefaat@gmail.com\""
 
-#: data/resources/ui/container-creation-page.ui:56
-msgid "Specify Container Settings"
-msgstr ""
-
-#: data/resources/ui/container-creation-page.ui:66
-msgid "Create and run"
-msgstr "إنشاء و تشغيل"
-
-#: data/resources/ui/container-creation-page.ui:99
-msgid "Details"
-msgstr "تفاصيل"
-
-#: data/resources/ui/container-creation-page.ui:103
-#: data/resources/ui/container-creation-page.ui:109
-msgid "Local image"
-msgstr ""
-
-#: data/resources/ui/container-creation-page.ui:126
+#: src/application.rs:189
 #, fuzzy
-msgid "Remote image"
-msgstr "إزالة"
+msgid "Translators"
+msgstr "\"Allaeddine boulefaat allaeddineboulefaat@gmail.com\""
 
-#: data/resources/ui/container-creation-page.ui:154
-msgid "Pull latest image"
-msgstr ""
+#: src/main.rs:113
+msgid "Prints application version"
+msgstr "يضهر اصدار التطبيق"
 
-#: data/resources/ui/container-creation-page.ui:165
-msgid "Command"
-msgstr "الأمر"
-
-#: data/resources/ui/container-creation-page.ui:178
-msgid "Terminal"
-msgstr ""
-
-#: data/resources/ui/container-creation-page.ui:191
-msgid "Memory limit"
-msgstr "حد الذاكرة"
-
-#: data/resources/ui/container-creation-page.ui:233
-msgid "KB"
-msgstr "كيلو بايت"
-
-#: data/resources/ui/container-creation-page.ui:234
-msgid "MB"
-msgstr "ميغا بايت"
-
-#: data/resources/ui/container-creation-page.ui:235
-msgid "GB"
-msgstr "غيغا بايت"
-
-#: data/resources/ui/container-creation-page.ui:259
-msgid "Port Mappings"
-msgstr ""
-
-#: data/resources/ui/container-creation-page.ui:285
-msgid "Volumes"
-msgstr ""
-
-#: data/resources/ui/container-creation-page.ui:311
-msgid "Environment Variables"
-msgstr "متغيرات البيئة"
-
-#: data/resources/ui/container-creation-page.ui:392
-msgid "The container is being created. You are safe to leave this page."
-msgstr ""
-
-#: data/resources/ui/container-properties-group.ui:5
-#: data/resources/ui/image-details-page.ui:62
-msgid "Properties"
-msgstr "خواص"
-
-#: data/resources/ui/container-properties-group.ui:9
-msgid "Id"
-msgstr "المعرف"
-
-#: data/resources/ui/container-properties-group.ui:15
-msgid "Image"
-msgstr "صورة"
-
-#: data/resources/ui/container-properties-group.ui:51
-msgid "Port bindings"
-msgstr ""
-
-#: data/resources/ui/container-properties-group.ui:68 src/model/container.rs:75
-msgid "Created"
-msgstr ""
-
-#: data/resources/ui/container-properties-group.ui:74
-msgid "Status"
-msgstr "حالة"
-
-#: data/resources/ui/image-details-page.ui:38
-msgid "Image Details"
-msgstr "تفاصيل الصورة"
-
-#: data/resources/ui/image-details-page.ui:130
-msgid "Associated Containers"
-msgstr "الحاويات المرتبطة"
-
-#: data/resources/ui/image-details-page.ui:131
-msgid "There are no containers associated with this image."
-msgstr "لا توجد حاويات مرتبطة بهذه الصورة."
-
-#: data/resources/ui/image-details-page.ui:145
-msgid "Image Has Been Deleted"
-msgstr "تم حذف الصورة"
-
-#: data/resources/ui/container-details-page.ui:43
-#: data/resources/ui/container-details-page.ui:156
-#, fuzzy
-msgid "Container Details"
-msgstr "حاويات"
-
-#: data/resources/ui/container-details-page.ui:74
-msgid "Utilities"
-msgstr ""
-
-#: data/resources/ui/container-details-page.ui:78
-msgid "Logs"
-msgstr "السجلات"
-
-#: data/resources/ui/container-details-page.ui:79
-msgid "View and search through container logs"
-msgstr ""
-
-#: data/resources/ui/container-details-page.ui:98
-msgid "Processes"
-msgstr ""
-
-#: data/resources/ui/container-details-page.ui:99
-msgid "View processes that are currently running inside the container"
-msgstr ""
-
-#: data/resources/ui/container-details-page.ui:167
-msgid "Container Has Been Deleted"
-msgstr "تم حذف الحاوية"
-
-#: data/resources/ui/container-processes-page.ui:33
-#, fuzzy
-msgid "Container Processes"
-msgstr "صفحة الحاوية"
-
-#: data/resources/ui/container-log-page.ui:33
-#, fuzzy
-msgid "Container Log"
-msgstr "صفحة الحاوية"
-
-#: data/resources/ui/container-log-page.ui:40
-msgid "Toggle timestamps"
-msgstr "تبديل الطوابع الزمنية"
-
-#: data/resources/ui/container-log-page.ui:72
-msgid "Scroll to bottom"
-msgstr "انتقل إلى الأسفل"
-
-#: data/resources/ui/container-log-page.ui:115
-msgid "Move to previous match (Ctrl+Shift+G)"
-msgstr "الانتقال إلى التطابق السابق (Ctrl + Shift + G)"
-
-#: data/resources/ui/container-log-page.ui:123
-msgid "Move to next match (Ctrl+G)"
-msgstr "الانتقال إلى التطابق التالي (Ctrl + G)"
-
-#: data/resources/ui/container-log-page.ui:133
-msgid "Toggle search options"
-msgstr "تبديل خيارات البحث"
-
-#: data/resources/ui/container-log-page.ui:156
-msgid "Re_gular expressions"
-msgstr ""
-
-#: data/resources/ui/container-log-page.ui:163
-msgid "_Case sensitive"
-msgstr ""
-
-#: data/resources/ui/container-log-page.ui:170
-msgid "Match whole _word only"
-msgstr ""
+#: src/main.rs:122
+msgid "Specify the minimum log level"
+msgstr "حدد الحد الأدنى لمستوى السجل"
 
 #: src/model/connection_manager.rs:191
 msgid "Connection '{}' already exists."
 msgstr ""
 
-#: src/model/container.rs:74
+#: src/model/container.rs:69 src/model/pod.rs:70
 msgid "Configured"
 msgstr ""
 
-#: src/model/container.rs:76
+#: src/model/container.rs:71 src/model/pod.rs:72
 msgid "Dead"
 msgstr "ميت"
 
-#: src/model/container.rs:77
+#: src/model/container.rs:72 src/model/pod.rs:74
 msgid "Exited"
 msgstr "مغادر"
 
-#: src/model/container.rs:79
+#: src/model/container.rs:74 src/model/pod.rs:76
 msgid "Removing"
 msgstr "إزالة"
 
-#: src/model/container.rs:80
+#: src/model/container.rs:75 src/model/pod.rs:77
 msgid "Restarting"
 msgstr "إعادة تشغيل"
 
-#: src/model/container.rs:83
+#: src/model/container.rs:78 src/model/pod.rs:80
 msgid "Stopping"
 msgstr "إيقاف"
 
-#: src/model/container.rs:84
+#: src/model/container.rs:79 src/model/container.rs:120 src/model/pod.rs:81
 msgid "Unknown"
 msgstr "مجهول"
 
-#: src/view/container/container_rename_dialog.rs:90
-msgid "Rename container «{}»"
+#: src/model/container.rs:116
+msgid "Checking"
 msgstr ""
 
-#. Translators: There's a wide space (U+2002) between ", {}".
-#: src/view/container/containers_group.rs:123
-msgid "{} Containers total, {} running"
+#: src/model/container.rs:117
+msgid "Healthy"
 msgstr ""
 
-#. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
-#: src/view/container/container_properties_group.rs:135
-#: src/view/container/container_properties_group.rs:185
-#: src/view/image/image_details_page.rs:119 src/view/info_dialog.rs:176
-#, c-format
-msgid "%x %X"
+#: src/model/container.rs:118
+msgid "Unhealthy"
 msgstr ""
 
-#. Translators: "{}" is a placeholder for a date time.
-#: src/view/container/container_properties_group.rs:180
-msgid "Up since {}"
+#: src/model/container.rs:119
+msgid "Unconfigured"
 msgstr ""
 
-#: src/view/container/container_log_page.rs:430
-msgid "{} of {}"
+#: src/model/pod.rs:73
+msgid "Degraded"
 msgstr ""
 
-#. Translators: There's a wide space (U+2002) between the two {} {}.
-#: src/view/image/images_panel.rs:176
-msgid "{} images total, {} {} unused images, {}"
-msgstr ""
-
-#: src/view/image/images_panel.rs:182
-msgid "No images found"
-msgstr "لم يتم العثور على صور"
-
-#. Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
-#: src/view/image/image_menu_button.rs:184
-#, fuzzy
-msgid "Error on deleting image '{}': {}"
-msgstr "خطأ في تحميل الصور"
-
-#: src/view/image/image_search_widget.rs:228
-msgid "All registries"
-msgstr ""
-
-#: src/view/image/image_search_widget.rs:247
-msgid "Failed to retrieve podman info"
-msgstr ""
-
-#: src/view/image/image_search_widget.rs:325
-msgid "No Results For {}"
-msgstr ""
-
-#: src/view/image/image_search_widget.rs:337
-msgid "Failed to search for images"
-msgstr ""
-
-#: src/view/image/image_pull_page.rs:192
-msgid "Failed to pull image"
-msgstr ""
-
-#. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
-#: src/view/image/images_prune_page.rs:208
-msgid "%x %H:%M %p"
-msgstr ""
-
-#: src/view/image/images_prune_page.rs:210
-msgid "Invalid date format"
-msgstr ""
-
-#: src/view/image/images_prune_page.rs:345
-#, fuzzy
-msgid "All images have been pruned"
-msgstr "لا توجد صور للحذف."
-
-#: src/view/image/images_prune_page.rs:351
-#, fuzzy
-msgid "Error on pruning images"
-msgstr "خطأ في تحميل الصور"
-
-#. Translators: "{}" are placeholders for storage space.
-#: src/view/image/image_details_page.rs:144
-msgid "{} (Virtual: {})"
-msgstr ""
-
-#. Translators: "{}" are placeholders for storage space.
-#: src/view/image/image_details_page.rs:153
-msgid "{} (Shared: {})"
-msgstr ""
-
-#. Translators: "{}" are placeholders for storage space.
-#: src/view/image/image_details_page.rs:163
-msgid "{} (Shared: {}, Virtual: {})"
-msgstr ""
-
-#. Translators: "{}" is a placeholder for a cardinal numbers.
-#: src/view/info_dialog.rs:212
-msgid "{} Containers"
-msgstr ""
-
-#. Translators: "{}" is a placeholder for a cardinal number.
-#: src/view/info_dialog.rs:245
-msgid "{} Options"
-msgstr ""
-
-#. Translators: "{}" is placeholders for a cardinal number.
-#: src/view/info_dialog.rs:268
-msgid "{} States"
-msgstr ""
-
-#. Translators: "{}" is placeholders for a cardinal number.
-#: src/view/info_dialog.rs:288
-msgid "{} Images"
-msgstr ""
-
-#. Translators: The placeholder "{}" is for the error message.
-#: src/view/info_dialog.rs:307
-msgid "Error: {}"
+#. Translators: This string will be shown when a property of an entity like an image is null.
+#: src/utils.rs:179
+msgid "<none>"
 msgstr ""
 
 #: src/view/connection/connection_chooser_page.rs:118
@@ -939,57 +1038,364 @@ msgstr ""
 msgid "Error on swwitching connection"
 msgstr "خطأ في تشغيل الحاوية"
 
-#: src/main.rs:110
-msgid "Prints application version"
-msgstr "يضهر اصدار التطبيق"
+#: src/view/container/container_details_page.rs:202
+#, fuzzy
+msgid "Container '{}' has been deleted"
+msgstr "تم حذف الحاوية"
 
-#: src/main.rs:119
-msgid "Specify the minimum log level"
-msgstr "حدد الحد الأدنى لمستوى السجل"
-
-#. Translators: This string will be shown when a property of an entity like an image is null.
-#: src/utils.rs:179
-msgid "<none>"
+#: src/view/container/container_log_page.rs:287
+msgid "0 of {}"
 msgstr ""
 
-#: src/application.rs:176
-msgid "translator-credits"
-msgstr "\"Allaeddine boulefaat allaeddineboulefaat@gmail.com\""
+#: src/view/container/container_log_page.rs:551
+msgid "{} of {}"
+msgstr ""
 
-#: src/window.rs:402
+#. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
+#: src/view/container/container_properties_group.rs:131
+#: src/view/container/container_properties_group.rs:175
+#: src/view/image/image_details_page.rs:165 src/view/info_dialog.rs:177
+#: src/view/pod/pod_details_page.rs:154
+#, c-format
+msgid "%x %X"
+msgstr ""
+
+#. Translators: "{}" is a placeholder for a date time.
+#: src/view/container/container_properties_group.rs:170
+msgid "Up since {}"
+msgstr ""
+
+#: src/view/container/container_rename_dialog.rs:89
+msgid "Rename container «{}»"
+msgstr ""
+
+#: src/view/container/container_resources_quick_reference_group.rs:107
+#: src/view/container/container_resources_quick_reference_group.rs:129
+#: src/view/container/container_resources_quick_reference_group.rs:133
+#: src/view/container/container_resources_quick_reference_group.rs:137
+#: src/view/container/container_resources_quick_reference_group.rs:140
+#: src/view/container/container_resources_quick_reference_group.rs:267
+msgid "?"
+msgstr ""
+
+#: src/view/container/container_resources_quick_reference_group.rs:104
+msgid "{} %"
+msgstr ""
+
+#: src/view/container/container_resources_quick_reference_group.rs:125
+msgid "{} / {} ({} %)"
+msgstr ""
+
+#. Translators: For example 5 MB / s.
+#: src/view/container/container_resources_quick_reference_group.rs:254
+msgid "{} / s"
+msgstr ""
+
+#: src/view/container/containers_group.rs:126
+#, fuzzy
+msgid "1 container, running"
+msgstr "لم يتم العثور على حاويات"
+
+#: src/view/container/containers_group.rs:128
+#, fuzzy
+msgid "1 container, stopped"
+msgstr "مخزن الحاوية"
+
+#. Translators: There's a wide space (U+2002) between ", {}".
+#: src/view/container/containers_group.rs:133
+msgid "{} container total, {} running"
+msgid_plural "{} containers total, {} running"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
+
+#. Translators: "{}" are placeholders for storage space.
+#: src/view/image/image_details_page.rs:190
+msgid "{} (Virtual: {})"
+msgstr ""
+
+#. Translators: "{}" are placeholders for storage space.
+#: src/view/image/image_details_page.rs:199
+msgid "{} (Shared: {})"
+msgstr ""
+
+#. Translators: "{}" are placeholders for storage space.
+#: src/view/image/image_details_page.rs:209
+msgid "{} (Shared: {}, Virtual: {})"
+msgstr ""
+
+#: src/view/image/image_details_page.rs:310
+#, fuzzy
+msgid "Image '{}' has been deleted"
+msgstr "تم حذف الصورة"
+
+#: src/view/image/image_menu_button.rs:187
+msgid "Confirm Forced Image Deletion"
+msgstr ""
+
+#. Translators: The "{}" is a placeholder for the container name.
+#: src/view/image/image_menu_button.rs:193
+msgid ""
+"Image is used by container <b>{}</b>. Deleting the image will also delete "
+"all its associated containers."
+msgstr ""
+
+#: src/view/image/image_menu_button.rs:197
+msgid ""
+"Image is used by a container. Deleting the image will also delete all its "
+"associated containers."
+msgstr ""
+
+#: src/view/image/image_menu_button.rs:207 src/view/pod/pod_menu_button.rs:283
+#, fuzzy
+msgid "_Force Delete"
+msgstr "حذف"
+
+#. Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
+#: src/view/image/image_menu_button.rs:238
+#, fuzzy
+msgid "Error on deleting image '{}': {}"
+msgstr "خطأ في تحميل الصور"
+
+#: src/view/image/image_pull_page.rs:184
+msgid "Failed to pull image"
+msgstr ""
+
+#: src/view/image/image_search_widget.rs:226
+msgid "All registries"
+msgstr ""
+
+#: src/view/image/image_search_widget.rs:245
+msgid "Failed to retrieve podman info"
+msgstr ""
+
+#: src/view/image/image_search_widget.rs:321
+msgid "No Results For {}"
+msgstr ""
+
+#: src/view/image/image_search_widget.rs:333
+msgid "Failed to search for images"
+msgstr ""
+
+#: src/view/image/images_panel.rs:190 src/view/image/images_panel.rs:210
+msgid "No images found"
+msgstr "لم يتم العثور على صور"
+
+#: src/view/image/images_panel.rs:193
+#, fuzzy
+msgid "1 image, used"
+msgstr "لم يتم العثور على صور"
+
+#: src/view/image/images_panel.rs:195
+#, fuzzy
+msgid "1 image, unused"
+msgstr "لم يتم العثور على صور"
+
+#. Translators: There's a wide space (U+2002) between ", {}".
+#: src/view/image/images_panel.rs:200
+msgid "{} image total, {} {} unused, {}"
+msgid_plural "{} images total, {} {} unused, {}"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
+
+#. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
+#: src/view/image/images_prune_page.rs:202
+msgid "%x %H:%M %p"
+msgstr ""
+
+#: src/view/image/images_prune_page.rs:204
+msgid "Invalid date format"
+msgstr ""
+
+#: src/view/image/images_prune_page.rs:339
+#, fuzzy
+msgid "All images have been pruned"
+msgstr "لا توجد صور للحذف."
+
+#: src/view/image/images_prune_page.rs:345
+#, fuzzy
+msgid "Error on pruning images"
+msgstr "خطأ في تحميل الصور"
+
+#. Translators: "{}" is a placeholder for a cardinal numbers.
+#: src/view/info_dialog.rs:213
+#, fuzzy
+msgid "{} Container"
+msgid_plural "{} Containers"
+msgstr[0] "حاويات"
+msgstr[1] "حاويات"
+msgstr[2] "حاويات"
+msgstr[3] "حاويات"
+msgstr[4] "حاويات"
+msgstr[5] "حاويات"
+
+#. Translators: "{}" is a placeholder for a cardinal number.
+#: src/view/info_dialog.rs:246
+#, fuzzy
+msgid "{} Option"
+msgid_plural "{} Options"
+msgstr[0] "إعدادات"
+msgstr[1] "إعدادات"
+msgstr[2] "إعدادات"
+msgstr[3] "إعدادات"
+msgstr[4] "إعدادات"
+msgstr[5] "إعدادات"
+
+#. Translators: "{}" is placeholders for a cardinal number.
+#: src/view/info_dialog.rs:269
+msgid "{} State"
+msgid_plural "{} States"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
+
+#. Translators: "{}" is placeholders for a cardinal number.
+#: src/view/info_dialog.rs:289
+#, fuzzy
+msgid "{} Image"
+msgid_plural "{} Images"
+msgstr[0] "صورة"
+msgstr[1] "صورة"
+msgstr[2] "صورة"
+msgstr[3] "صورة"
+msgstr[4] "صورة"
+msgstr[5] "صورة"
+
+#. Translators: The placeholder "{}" is for the error message.
+#: src/view/info_dialog.rs:308
+msgid "Error: {}"
+msgstr ""
+
+#: src/view/pod/pod_details_page.rs:236
+msgid "Pod '{}' has been deleted"
+msgstr ""
+
+#: src/view/pod/pod_menu_button.rs:263
+msgid "Confirm Forced Pod Deletion"
+msgstr ""
+
+#. Translators: The "{}" is a placeholder for the container name.
+#: src/view/pod/pod_menu_button.rs:269
+msgid ""
+"Pod contains container <b>{}</b>. Deleting the pod will also delete all its "
+"containers."
+msgstr ""
+
+#: src/view/pod/pod_menu_button.rs:273
+msgid ""
+"Pod conains a container. Deleting the pod will also delete all its "
+"containers."
+msgstr ""
+
+#: src/view/pod/pod_row.rs:100
+#, fuzzy
+msgid "{} container"
+msgid_plural "{} containers"
+msgstr[0] "حاويات"
+msgstr[1] "حاويات"
+msgstr[2] "حاويات"
+msgstr[3] "حاويات"
+msgstr[4] "حاويات"
+msgstr[5] "حاويات"
+
+#: src/view/pod/pod_row.rs:106
+#, fuzzy
+msgid "No containers"
+msgstr "حاويات"
+
+#: src/view/pod/pods_panel.rs:184
+#, fuzzy
+msgid "No pods found"
+msgstr "لم يتم العثور على صور"
+
+#: src/view/pod/pods_panel.rs:187
+#, fuzzy
+msgid "1 pod, running"
+msgstr "شغال"
+
+#: src/view/pod/pods_panel.rs:189
+msgid "1 pod, stopped"
+msgstr ""
+
+#. Translators: There's a wide space (U+2002) between ", {}".
+#: src/view/pod/pods_panel.rs:194
+msgid "{} pod total, {} running"
+msgid_plural "{} pods total, {} running"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
+
+#: src/view/top_page.rs:101
+#, fuzzy
+msgid "Container Processes"
+msgstr "صفحة الحاوية"
+
+#: src/view/top_page.rs:103
+#, fuzzy
+msgid "Pod Processes"
+msgstr "صفحة الحاوية"
+
+#: src/window.rs:432
 #, fuzzy
 msgid "images"
 msgstr "صور"
 
-#: src/window.rs:403
+#: src/window.rs:433
 #, fuzzy
 msgid "containers"
 msgstr "حاويات"
 
-#: src/window.rs:400
+#: src/window.rs:434 src/window.rs:444
+msgid "pods"
+msgstr ""
+
+#: src/window.rs:430
 #, fuzzy
 msgid "Error on loading {}"
 msgstr "خطأ في تحميل الصور"
 
-#: src/window.rs:411
+#: src/window.rs:442
 #, fuzzy
 msgid "image"
 msgstr "صورة"
 
-#: src/window.rs:412
+#: src/window.rs:443
 #, fuzzy
 msgid "container"
 msgstr "حاويات"
 
-#: src/window.rs:409
+#: src/window.rs:440
 msgid "Error on inspecting {} '{}'"
 msgstr ""
 
+#~ msgid "Follow system style"
+#~ msgstr "اتبع نمط النظام"
+
+#~ msgid "Light style"
+#~ msgstr "النمط المضيء"
+
+#~ msgid "Dark style"
+#~ msgstr "النمط المضلم"
+
+#, fuzzy
+#~ msgid "_Create container…"
+#~ msgstr "إنشاء حاوية"
+
 #~ msgid "Checking Connection to Podman Service"
 #~ msgstr "التحقق من الاتصال بخدمة بودمان"
-
-#~ msgid "Podman Info"
-#~ msgstr "معلومات بودمان"
 
 #~ msgid ""
 #~ "An unexpected error has occurred and Pods has lost connection to Podman "
