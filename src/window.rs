@@ -70,7 +70,7 @@ mod imp {
             view::CircularProgressBar::static_type();
             view::ConnectionChooserPage::static_type();
             view::ConnectionRow::static_type();
-            view::ConnectionSwitcherPopup::static_type();
+            view::ConnectionSwitcherWidget::static_type();
             view::ContainerPropertiesGroup::static_type();
             view::ContainerLogPage::static_type();
             view::ContainerMenuButton::static_type();
@@ -184,6 +184,20 @@ mod imp {
 
             // Load settings.
             obj.load_settings();
+
+            let popover_menu = self
+                .menu_button
+                .popover()
+                .unwrap()
+                .downcast::<gtk::PopoverMenu>()
+                .unwrap();
+
+            popover_menu.set_widget_name("main-menu");
+
+            popover_menu.add_child(
+                &view::ConnectionSwitcherWidget::from(&self.connection_manager),
+                "connections",
+            );
 
             self.search_button
                 .connect_active_notify(clone!(@weak obj => move |button| {

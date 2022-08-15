@@ -17,7 +17,7 @@ pub(crate) use self::circular_progress_bar::CircularProgressBar;
 pub(crate) use self::connection::ConnectionChooserPage;
 pub(crate) use self::connection::ConnectionCreatorPage;
 pub(crate) use self::connection::ConnectionRow;
-pub(crate) use self::connection::ConnectionSwitcherPopup;
+pub(crate) use self::connection::ConnectionSwitcherWidget;
 pub(crate) use self::container::ContainerCreationPage;
 pub(crate) use self::container::ContainerDetailsPage;
 pub(crate) use self::container::ContainerLogPage;

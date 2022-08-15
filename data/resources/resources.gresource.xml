@@ -7,7 +7,7 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/connection-chooser-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/connection-creator-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/connection-row.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">ui/connection-switcher-popup.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/connection-switcher-widget.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container-creation-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container-details-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container-log-page.ui</file>

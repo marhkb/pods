@@ -141,6 +141,7 @@ impl PropertyRow {
     }
 
     pub(crate) fn set_value(&self, value: &str) {
+        self.style_context().color();
         if value == self.value().as_str() {
             return;
         }

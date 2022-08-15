@@ -7,8 +7,6 @@
         <property name="spacing">10</property>
       </object>
     </property>
-    <property name="margin-start">3</property>
-    <property name="margin-end">3</property>
 
     <child>
       <object class="GtkOverlay">
@@ -47,7 +45,7 @@
             </binding>
             <property name="ellipsize">end</property>
             <property name="hexpand">True</property>
-            <property name="max-width-chars">32</property>
+            <property name="max-width-chars">16</property>
             <property name="single-line-mode">True</property>
             <property name="vexpand">True</property>
             <property name="xalign">0.0</property>
@@ -62,7 +60,7 @@
             </style>
             <property name="ellipsize">end</property>
             <property name="hexpand">True</property>
-            <property name="max-width-chars">32</property>
+            <property name="max-width-chars">16</property>
             <property name="single-line-mode">True</property>
             <property name="vexpand">True</property>
             <property name="xalign">0.0</property>
@@ -74,12 +72,14 @@
 
     <child>
       <object class="GtkButton" id="delete_button">
+        <style>
+          <class name="circular"/>
+        </style>
+        <property name="name">delete-button</property>
         <property name="action-name">win.remove-connection</property>
         <property name="action-target">''</property>
         <property name="icon-name">user-trash-symbolic</property>
         <property name="valign">center</property>
-        <property name="height-request">44</property>
-        <property name="width-request">44</property>
         <property name="visible" bind-source="delete_button" bind-property="sensitive" bind-flags="sync-create"/>
       </object>
     </child>
