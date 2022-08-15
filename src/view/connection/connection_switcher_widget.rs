@@ -46,7 +46,9 @@ mod imp {
                     "Connection Manager",
                     "The connection manager client",
                     model::ConnectionManager::static_type(),
-                    glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT,
+                    glib::ParamFlags::READWRITE
+                        | glib::ParamFlags::CONSTRUCT
+                        | glib::ParamFlags::EXPLICIT_NOTIFY,
                 )]
             });
 
