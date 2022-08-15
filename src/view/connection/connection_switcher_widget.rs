@@ -120,7 +120,7 @@ impl ConnectionSwitcherWidget {
     fn on_error(&self, e: impl ToString) {
         utils::show_error_toast(
             self,
-            &gettext("Error on swwitching connection"),
+            &gettext("Error on switching connection"),
             &e.to_string(),
         );
     }
