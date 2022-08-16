@@ -1,5 +1,4 @@
 use adw::subclass::prelude::*;
-use gettextrs::gettext;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
@@ -9,6 +8,7 @@ use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
 
 use crate::model;
+use crate::view;
 
 mod imp {
     use super::*;
@@ -20,11 +20,15 @@ mod imp {
         #[template_child]
         pub(super) button_rename: TemplateChild<gtk::Button>,
         #[template_child]
-        pub(super) heading_label: TemplateChild<gtk::Label>,
+        pub(super) entry_row: TemplateChild<view::RandomNameEntryRow>,
         #[template_child]
-        pub(super) entry: TemplateChild<gtk::Entry>,
+        pub(super) error_label_row: TemplateChild<adw::PreferencesRow>,
+        #[template_child]
+        pub(super) error_label_revealer: TemplateChild<gtk::Revealer>,
         #[template_child]
         pub(super) error_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub(super) id_row: TemplateChild<view::PropertyRow>,
     }
 
     #[glib::object_subclass]
@@ -82,35 +86,41 @@ mod imp {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
-            Self::Type::this_expression("container")
-                .chain_property::<model::Container>("id")
-                .chain_closure::<String>(closure!(|_: Self::Type, id: String| {
-                    gettext!(
-                        "Rename container «{}»",
-                        id.chars().take(12).collect::<String>()
-                    )
-                }))
-                .bind(&*self.heading_label, "label", Some(obj));
-
             if let Some(name) = self.container.upgrade().map(|container| container.name()) {
-                self.entry.set_text(&name);
-                self.entry.grab_focus();
+                self.entry_row.set_text(&name);
+                self.entry_row.grab_focus();
             }
 
-            obj.action_set_enabled("container.rename", !self.entry.text().is_empty());
-            self.entry
+            obj.action_set_enabled("container.rename", !self.entry_row.text().is_empty());
+            self.entry_row
                 .connect_changed(clone!(@weak obj => move |entry| {
                     let imp = obj.imp();
-                    imp.entry.remove_css_class("error");
-                    imp.error_label.set_visible(false);
+                    imp.entry_row.remove_css_class("error");
+                    imp.error_label_revealer.set_reveal_child(false);
                     obj.action_set_enabled("container.rename", !entry.text().is_empty());
                 }));
 
             // Just setting 'obj.set_default_widget(Some(&*self.button_rename));' seems to have no
             // effect.
-            self.entry.connect_activate(clone!(@weak obj => move |_| {
-                obj.imp().button_rename.activate();
-            }));
+            self.entry_row
+                .connect_activate(clone!(@weak obj => move |_| {
+                    obj.imp().button_rename.activate();
+                }));
+
+            self.error_label_revealer.connect_child_revealed_notify(
+                clone!(@weak obj => move |revealer| {
+                    if !revealer.reveals_child() {
+                        obj.imp().error_label_row.set_visible(false);
+                    }
+                }),
+            );
+
+            Self::Type::this_expression("container")
+                .chain_property::<model::Container>("id")
+                .chain_closure::<String>(closure!(|_: Self::Type, id: String| {
+                    id.chars().take(12).collect::<String>()
+                }))
+                .bind(&*self.id_row, "value", Some(obj));
         }
     }
 
@@ -137,7 +147,7 @@ impl ContainerRenameDialog {
         let imp = self.imp();
 
         if let Some(container) = imp.container.upgrade() {
-            let new_name = imp.entry.text().to_string();
+            let new_name = imp.entry_row.text().to_string();
             container.rename(
                 new_name.clone(),
                 clone!(@weak self as obj => move |result| {
@@ -150,8 +160,9 @@ impl ContainerRenameDialog {
                             obj.response(gtk::ResponseType::Apply);
                         }
                         Err(e) => {
-                            imp.entry.add_css_class("error");
-                            imp.error_label.set_visible(true);
+                            imp.entry_row.add_css_class("error");
+                            imp.error_label_row.set_visible(true);
+                            imp.error_label_revealer.set_reveal_child(true);
                             imp.error_label.set_text(&e.to_string());
                         }
                     }
