@@ -1,6 +1,4 @@
-use gettextrs::gettext;
 use gtk::glib;
-use gtk::glib::clone;
 use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
@@ -8,7 +6,6 @@ use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
 
 use crate::model;
-use crate::utils;
 
 mod imp {
     use super::*;
@@ -17,8 +14,6 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/connection-chooser-page.ui")]
     pub(crate) struct ConnectionChooserPage {
         pub(super) connection_manager: WeakRef<model::ConnectionManager>,
-        #[template_child]
-        pub(super) connection_list_view: TemplateChild<gtk::ListView>,
     }
 
     #[glib::object_subclass]
@@ -72,28 +67,6 @@ mod imp {
             }
         }
 
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
-
-            self.connection_list_view.connect_activate(
-                clone!(@weak obj => move |list_view, index| {
-                    let connection = list_view
-                        .model()
-                        .unwrap()
-                        .item(index)
-                        .unwrap()
-                        .downcast::<model::Connection>()
-                        .unwrap();
-
-                    if let Err(e) = obj.connection_manager().unwrap().set_client_from(
-                        connection.uuid(),
-                    ) {
-                        obj.on_error(e);
-                    }
-                }),
-            );
-        }
-
         fn dispose(&self, obj: &Self::Type) {
             let mut child = obj.first_child();
             while let Some(child_) = child {
@@ -112,14 +85,6 @@ glib::wrapper! {
 }
 
 impl ConnectionChooserPage {
-    fn on_error(&self, e: impl ToString) {
-        utils::show_error_toast(
-            self,
-            &gettext("Error on choosing connection"),
-            &e.to_string(),
-        );
-    }
-
     pub(crate) fn connection_manager(&self) -> Option<model::ConnectionManager> {
         self.imp().connection_manager.upgrade()
     }
@@ -129,14 +94,7 @@ impl ConnectionChooserPage {
             return;
         }
 
-        let imp = self.imp();
-
-        if let Some(manager) = value {
-            let model = gtk::NoSelection::new(Some(manager));
-            imp.connection_list_view.set_model(Some(&model));
-        }
-
-        imp.connection_manager.set(value);
+        self.imp().connection_manager.set(value);
         self.notify("connection-manager");
     }
 }

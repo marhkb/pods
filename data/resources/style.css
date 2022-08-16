@@ -3,43 +3,51 @@ headerbar:not(.flat) {
   color: @foreground_color;
 }
 
-/* START: ConnectionSwitcher/ConnectionChooser */
-#connection-switcher-popup row #selection-indicator #background,
-connectionchooserpage row #selection-indicator #background
-{
+connectionswitchermenu row #selection-indicator #background {
   background-color: @shade_color;
-  padding: 15px;
   border-radius: 9999px;
 }
 
-#connection-switcher-popup row #selection-indicator #checkmark,
-connectionchooserpage row #selection-indicator #checkmark {
+#main-menu connectionswitchermenu row #selection-indicator #background,
+#main-menu connectionswitchermenu row #delete-button {
+  max-height: 34px;
+  max-width: 34px;
+  min-height: 34px;
+  min-width: 34px;
+}
+
+connectionchooserpage connectionswitchermenu row #selection-indicator #background,
+connectionchooserpage connectionswitchermenu row #delete-button {
+  max-height: 44px;
+  max-width: 44px;
+  min-height: 44px;
+  min-width: 44px;
+}
+
+connectionswitchermenu row #selection-indicator #checkmark {
   color: @light_1;
   border-radius: 9999px;
   border: solid @accent_bg_color 2px;
   background-color: @accent_bg_color;
 }
 
-#connection-switcher-popup row #selection-indicator .selected-connection,
-connectionchooserpage row #selection-indicator .selected-connection {
+connectionswitchermenu row #selection-indicator .selected-connection {
   border: 2px solid @accent_bg_color;
 }
 
-#connection-switcher-popup row #selection-indicator .unselected-connection,
-connectionchooserpage row #selection-indicator .unselected-connection {
-  border: 2px solid transparent;
+connectionswitchermenu row #selection-indicator .unselected-connection {
+  padding: 1px;
+  border: 1px solid @borders;
 }
-/* END: ConnectionSwitcher/ConnectionChooser */
 
-/* START: ConnectionSwitcher */
-#connection-switcher-popup row {
-  border-radius: 10px;
-  margin-top: 2px;
-  margin-bottom: 2px;
-  padding-top: 7px;
-  padding-bottom: 7px;
+#main-menu connectionswitchermenu row {
+  border-radius: 9px;
+  padding: 6px;
 }
-/* END: ConnectionSwitcher */
+
+connectionchooserpage connectionswitchermenu row {
+  padding: 9px;
+}
 
 .image-tag-none .title {
   color: @dark_1;

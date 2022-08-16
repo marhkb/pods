@@ -1,6 +1,5 @@
 use gettextrs::gettext;
 use glib::subclass::InitializingObject;
-use gtk::gio::{self};
 use gtk::glib::clone;
 use gtk::glib::WeakRef;
 use gtk::glib::{self};
@@ -16,22 +15,22 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(resource = "/com/github/marhkb/Pods/ui/connection-switcher-popup.ui")]
-    pub(crate) struct ConnectionSwitcherPopup {
+    #[template(resource = "/com/github/marhkb/Pods/ui/connection-switcher-widget.ui")]
+    pub(crate) struct ConnectionSwitcherWidget {
         pub(super) connection_manager: WeakRef<model::ConnectionManager>,
         #[template_child]
         pub(super) connection_list_view: TemplateChild<gtk::ListView>,
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for ConnectionSwitcherPopup {
-        const NAME: &'static str = "ConnectionSwitcherPopup";
-        type Type = super::ConnectionSwitcherPopup;
-        type ParentType = gtk::Popover;
+    impl ObjectSubclass for ConnectionSwitcherWidget {
+        const NAME: &'static str = "ConnectionSwitcherWidget";
+        type Type = super::ConnectionSwitcherWidget;
+        type ParentType = gtk::Widget;
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
-            klass.set_accessible_role(gtk::AccessibleRole::Dialog);
+            klass.set_css_name("connectionswitchermenu");
         }
 
         fn instance_init(obj: &InitializingObject<Self>) {
@@ -39,7 +38,7 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for ConnectionSwitcherPopup {
+    impl ObjectImpl for ConnectionSwitcherWidget {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![glib::ParamSpecObject::new(
@@ -47,7 +46,7 @@ mod imp {
                     "Connection Manager",
                     "The connection manager client",
                     model::ConnectionManager::static_type(),
-                    glib::ParamFlags::READWRITE,
+                    glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT,
                 )]
             });
 
@@ -95,19 +94,29 @@ mod imp {
                 }),
             );
         }
+
+        fn dispose(&self, _obj: &Self::Type) {
+            self.connection_list_view.unparent();
+        }
     }
 
-    impl WidgetImpl for ConnectionSwitcherPopup {}
-    impl PopoverImpl for ConnectionSwitcherPopup {}
+    impl WidgetImpl for ConnectionSwitcherWidget {}
 }
 
 glib::wrapper! {
-    pub(crate) struct ConnectionSwitcherPopup(ObjectSubclass<imp::ConnectionSwitcherPopup>)
-        @extends gtk::Widget, gtk::Popover,
-        @implements gtk::Accessible, gio::ListModel;
+    pub(crate) struct ConnectionSwitcherWidget(ObjectSubclass<imp::ConnectionSwitcherWidget>)
+        @extends gtk::Widget,
+        @implements gtk::Accessible;
 }
 
-impl ConnectionSwitcherPopup {
+impl From<&model::ConnectionManager> for ConnectionSwitcherWidget {
+    fn from(connection_manager: &model::ConnectionManager) -> Self {
+        glib::Object::new(&[("connection-manager", &connection_manager)])
+            .expect("Failed to create ConnectionSwitcherWidget")
+    }
+}
+
+impl ConnectionSwitcherWidget {
     fn on_error(&self, e: impl ToString) {
         utils::show_error_toast(
             self,

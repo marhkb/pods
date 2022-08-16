@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="ConnectionSwitcherPopup" parent="GtkPopover">
-    <property name="name">connection-switcher-popup</property>
-    <property name="width-request">350</property>
+  <template class="ConnectionSwitcherWidget" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBinLayout"/>
+    </property>
 
     <child>
       <object class="GtkListView" id="connection_list_view">
