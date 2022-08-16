@@ -46,7 +46,9 @@ mod imp {
                     "Connection Manager",
                     "The connection manager client",
                     model::ConnectionManager::static_type(),
-                    glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT,
+                    glib::ParamFlags::READWRITE
+                        | glib::ParamFlags::CONSTRUCT
+                        | glib::ParamFlags::EXPLICIT_NOTIFY,
                 )]
             });
 
@@ -120,7 +122,7 @@ impl ConnectionSwitcherWidget {
     fn on_error(&self, e: impl ToString) {
         utils::show_error_toast(
             self,
-            &gettext("Error on swwitching connection"),
+            &gettext("Error on switching connection"),
             &e.to_string(),
         );
     }

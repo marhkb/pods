@@ -139,6 +139,9 @@
 
                                             <child type="suffix">
                                               <object class="GtkButton">
+                                                <style>
+                                                  <class name="flat"/>
+                                                </style>
                                                 <property name="action-name">image.search</property>
                                                 <property name="icon-name">system-search-symbolic</property>
                                                 <property name="margin-start">9</property>

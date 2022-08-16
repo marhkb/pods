@@ -71,9 +71,9 @@ mod imp {
             view::ConnectionChooserPage::static_type();
             view::ConnectionRow::static_type();
             view::ConnectionSwitcherWidget::static_type();
-            view::ContainerPropertiesGroup::static_type();
             view::ContainerLogPage::static_type();
             view::ContainerMenuButton::static_type();
+            view::ContainerPropertiesGroup::static_type();
             view::ContainerResourcesQuickReferenceGroup::static_type();
             view::ContainersGroup::static_type();
             view::ImageMenuButton::static_type();
@@ -84,6 +84,7 @@ mod imp {
             view::PodMenuButton::static_type();
             view::PodRow::static_type();
             view::PodsPanel::static_type();
+            view::PropertyRow::static_type();
             view::PropertyWidgetRow::static_type();
             view::RandomNameEntryRow::static_type();
             view::TextSearchEntry::static_type();
