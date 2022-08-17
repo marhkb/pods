@@ -6,6 +6,7 @@ use gtk::gdk;
 use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
+use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
@@ -205,11 +206,11 @@ mod imp {
                     let imp = obj.imp();
 
                     if button.is_active() {
+                        imp.search_entry.delete_text(0, imp.search_entry.text().len() as i32 - 1);
                         imp.title_stack.set_visible_child(&*imp.search_entry);
                         imp.search_entry.grab_focus();
                         imp.search_stack.set_visible_child(&*imp.search_panel);
                     } else {
-                        imp.search_entry.set_text("");
                         imp.title_stack.set_visible_child(&*imp.title);
                         imp.search_stack.set_visible_child_name("main");
                     }
@@ -248,6 +249,12 @@ mod imp {
                             Some(&obj)
                         });
                 }));
+
+            gtk::Stack::this_expression("visible-child-name")
+                .chain_closure::<bool>(closure!(|_: gtk::Stack, visible_child_name: &str| {
+                    visible_child_name == "title"
+                }))
+                .bind(&*self.menu_button, "visible", Some(&*self.title_stack));
 
             self.connection_manager.connect_notify_local(
                 Some("client"),

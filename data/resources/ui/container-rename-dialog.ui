@@ -4,7 +4,6 @@
     <property name="modal">True</property>
     <property name="resizable">False</property>
     <property name="title"></property>
-    <!-- <property name="width-request">450</property> -->
 
     <child type="action">
       <object class="GtkButton" id="button_cancel">
@@ -31,8 +30,6 @@
         <property name="margin-start">18</property>
         <property name="margin-top">24</property>
 
-        <!-- <child>
-          <object class="AdwPreferencesPage"> -->
         <child>
           <object class="AdwClamp">
             <property name="maximum-size">400</property>
