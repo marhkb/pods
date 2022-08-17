@@ -206,11 +206,11 @@ mod imp {
                     let imp = obj.imp();
 
                     if button.is_active() {
+                        imp.search_entry.delete_text(0, imp.search_entry.text().len() as i32 - 1);
                         imp.title_stack.set_visible_child(&*imp.search_entry);
                         imp.search_entry.grab_focus();
                         imp.search_stack.set_visible_child(&*imp.search_panel);
                     } else {
-                        imp.search_entry.set_text("");
                         imp.title_stack.set_visible_child(&*imp.title);
                         imp.search_stack.set_visible_child_name("main");
                     }
