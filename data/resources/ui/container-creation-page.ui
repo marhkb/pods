@@ -63,7 +63,7 @@
                               <class name="suggested-action"/>
                             </style>
                             <property name="action-name">container.create-and-run</property>
-                            <property name="label" translatable="yes">Create and run</property>
+                            <property name="label" translatable="yes">_Run</property>
                             <property name="menu-model">menu</property>
                             <property name="use-underline">True</property>
                           </object>
