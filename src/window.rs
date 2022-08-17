@@ -6,6 +6,7 @@ use gtk::gdk;
 use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
+use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
@@ -248,6 +249,12 @@ mod imp {
                             Some(&obj)
                         });
                 }));
+
+            gtk::Stack::this_expression("visible-child-name")
+                .chain_closure::<bool>(closure!(|_: gtk::Stack, visible_child_name: &str| {
+                    visible_child_name == "title"
+                }))
+                .bind(&*self.menu_button, "visible", Some(&*self.title_stack));
 
             self.connection_manager.connect_notify_local(
                 Some("client"),
