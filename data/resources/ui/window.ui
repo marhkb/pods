@@ -105,6 +105,7 @@
                                     <property name="child">
                                       <object class="AdwViewSwitcherTitle" id="title">
                                         <property name="stack">panel_stack</property>
+                                        <property name="title" translatable="yes">Pods</property>
                                       </object>
                                     </property>
 
