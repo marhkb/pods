@@ -60,6 +60,7 @@
                 <style>
                   <class name="dim-label"/>
                 </style>
+                <property name="hexpand">True</property>
                 <property name="selectable">True</property>
                 <property name="wrap">True</property>
                 <property name="wrap-mode">word</property>
