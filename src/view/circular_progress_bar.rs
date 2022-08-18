@@ -104,31 +104,51 @@ mod imp {
 
             self.drawing_area
                 .set_draw_func(clone!(@weak obj => move |_, cr, w, h| {
-                    let colors = if adw::StyleManager::default().is_dark() {
+                    let style_manager = adw::StyleManager::default();
+
+                    let colors = if style_manager.is_dark() {
                         [
-                            // @dark_2
-                            (0.368, 0.360, 0.392),
+                            // background: @view_bg_color
+                            (0.188, 0.188, 0.188, 1.0),
+                            // @borders
+                            (
+                                1.0,
+                                1.0,
+                                1.0,
+                                if style_manager.is_high_contrast() {
+                                    0.5
+                                } else {
+                                    0.15
+                                },
+                            ),
                             // @accent_color
-                            (0.470, 0.682, 0.929),
+                            (0.470, 0.682, 0.929, 1.0),
                             // @warning_color
-                            (0.972, 0.894, 0.360),
+                            (0.972, 0.894, 0.360, 1.0),
                             // @error_color
-                            (1.0, 0.482, 0.388),
-                            // @view_bg_color
-                            (0.188, 0.188, 0.188),
+                            (1.0, 0.482, 0.388, 1.0),
                         ]
                     } else {
                         [
-                            // @light_3
-                            (0.870, 0.866, 0.854),
+                            // background: @window_bg_color
+                            (0.98, 0.98, 0.98, 1.0),
+                            // @borders
+                            (
+                                0.0,
+                                0.0,
+                                0.0,
+                                if style_manager.is_high_contrast() {
+                                    0.5
+                                } else {
+                                    0.15
+                                },
+                            ),
                             // @accent_color
-                            (0.109, 0.443, 0.847),
+                            (0.109, 0.443, 0.847, 1.0),
                             // @warning_color
-                            (0.682, 0.482, 0.011),
+                            (0.682, 0.482, 0.011, 1.0),
                             // @error_color
-                            (0.752, 0.109, 0.156),
-                            // @window_bg_color
-                            (0.98, 0.98, 0.98),
+                            (0.752, 0.109, 0.156, 1.0),
                         ]
                     };
 
@@ -147,12 +167,12 @@ mod imp {
                     let delta_fill = radius - (line_width_fill / 2.0) - 1.0;
 
                     cr.arc(center_x, center_y, delta_fill, 0.0, 2. * pi);
-                    cr.set_source_rgb(colors[4].0, colors[4].1, colors[4].2);
+                    cr.set_source_rgba(colors[0].0, colors[0].1, colors[0].2, colors[0].3);
                     cr.fill().unwrap();
 
                     cr.set_line_width(line_width_fill);
                     cr.arc(center_x, center_y, delta_fill, 0.0, 2. * pi);
-                    cr.set_source_rgb(colors[0].0, colors[0].1, colors[0].2);
+                    cr.set_source_rgba(colors[1].0, colors[1].1, colors[1].2, colors[1].3);
                     cr.stroke().unwrap();
 
                     // Percentage
@@ -161,11 +181,11 @@ mod imp {
 
                     let current_percentage = obj.current_percentage();
                     if current_percentage < 0.8 {
-                        cr.set_source_rgb(colors[1].0, colors[1].1, colors[1].2);
+                        cr.set_source_rgba(colors[2].0, colors[2].1, colors[2].2, colors[2].3);
                     } else if current_percentage < 0.95 {
-                        cr.set_source_rgb(colors[2].0, colors[2].1, colors[2].2);
+                        cr.set_source_rgba(colors[3].0, colors[3].1, colors[3].2, colors[3].3);
                     } else {
-                        cr.set_source_rgb(colors[3].0, colors[3].1, colors[3].2);
+                        cr.set_source_rgba(colors[4].0, colors[4].1, colors[4].2, colors[4].3);
                     }
 
                     cr.set_line_width(line_width_percentage);
@@ -192,6 +212,11 @@ mod imp {
             adw::StyleManager::default().connect_dark_notify(clone!(@weak obj => move |_| {
                 obj.imp().drawing_area.queue_draw();
             }));
+            adw::StyleManager::default().connect_high_contrast_notify(
+                clone!(@weak obj => move |_| {
+                    obj.imp().drawing_area.queue_draw();
+                }),
+            );
         }
 
         fn dispose(&self, _obj: &Self::Type) {
