@@ -1,9 +1,7 @@
 use std::borrow::Borrow;
 use std::cell::Cell;
 use std::cell::RefCell;
-use std::collections::HashSet;
 
-use futures::TryFutureExt;
 use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
@@ -24,13 +22,8 @@ mod imp {
     #[derive(Debug, Default)]
     pub(crate) struct ImageList {
         pub(super) client: WeakRef<model::Client>,
-
-        pub(super) fetched: Cell<u32>,
         pub(super) list: RefCell<IndexMap<String, model::Image>>,
         pub(super) listing: Cell<bool>,
-        pub(super) to_fetch: Cell<u32>,
-
-        pub(super) failed: RefCell<HashSet<String>>,
     }
 
     #[glib::object_subclass]
@@ -64,15 +57,6 @@ mod imp {
                         glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
                     ),
                     glib::ParamSpecUInt::new(
-                        "fetched",
-                        "Fetched",
-                        "The number of images that have been fetched",
-                        0,
-                        std::u32::MAX,
-                        0,
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecUInt::new(
                         "len",
                         "Len",
                         "The length of this list",
@@ -86,15 +70,6 @@ mod imp {
                         "Listing",
                         "Wether images are currently listed",
                         false,
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecUInt::new(
-                        "to-fetch",
-                        "To Fetch",
-                        "The number of images to be fetched",
-                        0,
-                        std::u32::MAX,
-                        0,
                         glib::ParamFlags::READABLE,
                     ),
                 ]
@@ -118,10 +93,8 @@ mod imp {
         fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
                 "client" => obj.client().to_value(),
-                "fetched" => obj.fetched().to_value(),
                 "len" => obj.len().to_value(),
                 "listing" => obj.listing().to_value(),
-                "to-fetch" => obj.to_fetch().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -166,18 +139,6 @@ impl ImageList {
         self.imp().client.upgrade()
     }
 
-    pub(crate) fn fetched(&self) -> u32 {
-        self.imp().fetched.get()
-    }
-
-    fn set_fetched(&self, value: u32) {
-        if self.fetched() == value {
-            return;
-        }
-        self.imp().fetched.set(value);
-        self.notify("fetched");
-    }
-
     pub(crate) fn len(&self) -> u32 {
         self.n_items()
     }
@@ -192,18 +153,6 @@ impl ImageList {
         }
         self.imp().listing.set(value);
         self.notify("listing");
-    }
-
-    pub(crate) fn to_fetch(&self) -> u32 {
-        self.imp().to_fetch.get()
-    }
-
-    fn set_to_fetch(&self, value: u32) {
-        if self.to_fetch() == value {
-            return;
-        }
-        self.imp().to_fetch.set(value);
-        self.notify("to-fetch");
     }
 
     pub(crate) fn total_size(&self) -> u64 {
@@ -239,8 +188,6 @@ impl ImageList {
     }
 
     pub(crate) fn remove_image(&self, id: &str) {
-        self.imp().failed.borrow_mut().remove(id);
-
         let mut list = self.imp().list.borrow_mut();
         if let Some((idx, _, image)) = list.shift_remove_full(id) {
             image.emit_deleted();
@@ -286,53 +233,23 @@ impl ImageList {
                             !obj.imp().list.borrow().contains_key(summary.id.as_ref().unwrap())
                         });
 
-                        obj.set_fetched(0);
-                        obj.set_to_fetch(summaries.len() as u32);
+                        let index = obj.len();
+                        let added = summaries.len();
 
                         summaries.into_iter().for_each(|summary| {
-                            if let Some(client) = obj.client() {
-                                utils::do_async({
-                                    let podman = client.podman().clone();
-                                    async move {
-                                        (
-                                            summary.id.clone().unwrap(),
-                                            podman
-                                                .images()
-                                                .get(summary.id.as_deref().unwrap())
-                                                .inspect()
-                                                .map_ok(|inspect_response| (summary, inspect_response))
-                                                .await,
-                                        )
-                                    }},
-                                    clone!(@weak obj, @strong err_op => move |(id, result)| {
-                                        let imp = obj.imp();
-                                        match result {
-                                            Ok((summary, inspect_response)) => {
-                                                let image = model::Image::new(
-                                                    &obj,
-                                                    summary,
-                                                    inspect_response
-                                                );
-                                                imp.list.borrow_mut().insert(
-                                                    image.id().to_owned(),
-                                                    image.clone()
-                                                );
+                            let image = model::Image::new(
+                                &obj,
+                                summary,
+                            );
+                            obj.imp().list.borrow_mut().insert(
+                                image.id().to_owned(),
+                                image.clone()
+                            );
 
-                                                obj.image_added(&image);
-                                                obj.items_changed(obj.len() - 1, 0, 1);
-                                            }
-                                            Err(e) => {
-                                                log::error!("Error on inspecting image '{id}': {e}");
-                                                if imp.failed.borrow_mut().insert(id.clone()) {
-                                                    err_op(super::RefreshError::Inspect(id));
-                                                }
-                                            }
-                                        }
-                                        obj.set_fetched(obj.fetched() + 1);
-                                    })
-                                );
-                            }
+                            obj.image_added(&image);
                         });
+
+                        obj.items_changed(index, 0, added as u32);
                     }
                     Err(e) => {
                         log::error!("Error on retrieving images: {}", e);

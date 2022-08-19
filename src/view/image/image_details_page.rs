@@ -217,24 +217,29 @@ mod imp {
             )
             .bind(&*self.size_row, "value", Some(obj));
 
-            let image_config_expr = image_expr.chain_property::<model::Image>("config");
+            let details_expr = image_expr.chain_property::<model::Image>("details");
+            let image_config_expr = details_expr.chain_property::<model::ImageDetails>("config");
+            let cmd_expr = image_config_expr.chain_property::<model::ImageConfig>("cmd");
+            let entrypoint_expr =
+                image_config_expr.chain_property::<model::ImageConfig>("entrypoint");
+            let exposed_ports_expr =
+                image_config_expr.chain_property::<model::ImageConfig>("exposed-ports");
 
-            image_config_expr
-                .chain_property::<model::ImageConfig>("cmd")
+            cmd_expr.bind(&*self.command_row, "value", Some(obj));
+            cmd_expr
                 .chain_closure::<bool>(closure!(|_: glib::Object, cmd: Option<&str>| {
                     cmd.is_some()
                 }))
                 .bind(&*self.command_row, "visible", Some(obj));
 
-            image_config_expr
-                .chain_property::<model::ImageConfig>("entrypoint")
+            entrypoint_expr.bind(&*self.entrypoint_row, "value", Some(obj));
+            entrypoint_expr
                 .chain_closure::<bool>(closure!(|_: glib::Object, entrypoint: Option<&str>| {
                     entrypoint.is_some()
                 }))
                 .bind(&*self.entrypoint_row, "visible", Some(obj));
 
-            image_config_expr
-                .chain_property::<model::ImageConfig>("exposed-ports")
+            exposed_ports_expr
                 .chain_closure::<String>(closure!(
                     |_: glib::Object, exposed_ports: utils::BoxedStringBTreeSet| {
                         utils::format_iter(exposed_ports.iter(), "\n")
@@ -242,8 +247,7 @@ mod imp {
                 ))
                 .bind(&*self.ports_row, "value", Some(obj));
 
-            image_config_expr
-                .chain_property::<model::ImageConfig>("exposed-ports")
+            exposed_ports_expr
                 .chain_closure::<bool>(closure!(
                     |_: glib::Object, exposed_ports: utils::BoxedStringBTreeSet| {
                         exposed_ports.len() > 0
@@ -306,6 +310,11 @@ impl ImageDetailsPage {
         }
 
         if let Some(image) = value {
+            image.load_details();
+            image.connect_loading_details_failed(clone!(@weak self as obj => move |_| {
+                utils::show_toast(&obj, &gettext("Error on loading image details"));
+            }));
+
             let handler_id = image.connect_deleted(clone!(@weak self as obj => move |image| {
                 utils::show_toast(&obj, &gettext!("Image '{}' has been deleted", image.id()));
                 obj.navigate_back();
