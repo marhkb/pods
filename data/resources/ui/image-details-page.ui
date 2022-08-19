@@ -85,32 +85,21 @@
                     <child>
                       <object class="PropertyRow" id="command_row">
                         <property name="key" translatable="True">Command</property>
-                        <binding name="value">
-                          <lookup name="cmd" type="ImageConfig">
-                            <lookup name="config" type="Image">
-                              <lookup name="image">ImageDetailsPage</lookup>
-                            </lookup>
-                          </lookup>
-                        </binding>
+                        <property name="visible">False</property>
                       </object>
                     </child>
 
                     <child>
                       <object class="PropertyRow" id="entrypoint_row">
                         <property name="key" translatable="True">Entry Point</property>
-                        <binding name="value">
-                          <lookup name="entrypoint" type="ImageConfig">
-                            <lookup name="config" type="Image">
-                              <lookup name="image">ImageDetailsPage</lookup>
-                            </lookup>
-                          </lookup>
-                        </binding>
+                        <property name="visible">False</property>
                       </object>
                     </child>
 
                     <child>
                       <object class="PropertyRow" id="ports_row">
                         <property name="key" translatable="True">Ports</property>
+                        <property name="visible">False</property>
                       </object>
                     </child>
 

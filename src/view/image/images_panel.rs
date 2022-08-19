@@ -31,14 +31,6 @@ mod imp {
         #[template_child]
         pub(super) main_stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub(super) spinner: TemplateChild<gtk::Spinner>,
-        #[template_child]
-        pub(super) overlay: TemplateChild<gtk::Overlay>,
-        #[template_child]
-        pub(super) progress_revealer: TemplateChild<gtk::Revealer>,
-        #[template_child]
-        pub(super) progress_bar: TemplateChild<gtk::ProgressBar>,
-        #[template_child]
         pub(super) images_group: TemplateChild<adw::PreferencesGroup>,
         #[template_child]
         pub(super) show_intermediates_switch: TemplateChild<gtk::Switch>,
@@ -126,58 +118,21 @@ mod imp {
 
             let image_list_expr = Self::Type::this_expression("image-list");
             let image_list_len_expr = image_list_expr.chain_property::<model::ImageList>("len");
-            let fetched_params = &[
-                image_list_expr
-                    .chain_property::<model::ImageList>("fetched")
-                    .upcast(),
-                image_list_expr
-                    .chain_property::<model::ImageList>("to-fetch")
-                    .upcast(),
-            ];
 
-            gtk::ClosureExpression::new::<gtk::Widget, _, _>(
+            gtk::ClosureExpression::new::<String, _, _>(
                 &[
                     image_list_len_expr.clone(),
                     image_list_expr.chain_property::<model::ImageList>("listing"),
                 ],
-                closure!(|obj: Self::Type, len: u32, listing: bool| {
-                    let imp = obj.imp();
+                closure!(|_: Self::Type, len: u32, listing: bool| {
                     if len == 0 && listing {
-                        imp.spinner.upcast_ref::<gtk::Widget>().clone()
+                        "spinner"
                     } else {
-                        imp.overlay.upcast_ref::<gtk::Widget>().clone()
+                        "images"
                     }
                 }),
             )
-            .bind(&*self.main_stack, "visible-child", Some(obj));
-
-            gtk::ClosureExpression::new::<f64, _, _>(
-                fetched_params,
-                closure!(|_: glib::Object, fetched: u32, to_fetch: u32| {
-                    f64::min(1.0, fetched as f64 / to_fetch as f64)
-                }),
-            )
-            .bind(&*self.progress_bar, "fraction", Some(obj));
-
-            gtk::ClosureExpression::new::<bool, _, _>(
-                fetched_params,
-                closure!(|_: glib::Object, fetched: u32, to_fetch: u32| fetched < to_fetch),
-            )
-            .bind(&*self.progress_revealer, "reveal-child", Some(obj));
-
-            gtk::Revealer::this_expression("child-revealed")
-                .chain_closure::<u32>(closure!(|_: glib::Object, revealed: bool| {
-                    if revealed {
-                        1000_u32
-                    } else {
-                        0_u32
-                    }
-                }))
-                .bind(
-                    &*self.progress_revealer,
-                    "transition-duration",
-                    Some(&*self.progress_revealer),
-                );
+            .bind(&*self.main_stack, "visible-child-name", Some(obj));
 
             gtk::ClosureExpression::new::<String, _, _>(
                 &[image_list_expr, image_list_len_expr],
@@ -282,11 +237,6 @@ impl ImagesPanel {
 
         // TODO: For multi-client: Figure out whether signal handlers need to be disconnected.
         let imp = self.imp();
-
-        value.connect_notify_local(
-            Some("fetched"),
-            clone!(@weak self as obj => move |_ ,_| obj.update_properties_filter()),
-        );
 
         let model = gtk::SortListModel::new(
             Some(&gtk::FilterListModel::new(

@@ -26,10 +26,6 @@ mod imp {
 
         pub(super) container_list: OnceCell<model::SimpleContainerList>,
 
-        pub(super) architecture: OnceCell<Option<String>>,
-        pub(super) author: OnceCell<Option<String>>,
-        pub(super) comment: OnceCell<Option<String>>,
-        pub(super) config: OnceCell<model::ImageConfig>,
         pub(super) config_digest: OnceCell<Option<String>>,
         pub(super) containers: Cell<u64>,
         pub(super) created: OnceCell<i64>,
@@ -45,6 +41,10 @@ mod imp {
         pub(super) shared_size: OnceCell<u64>,
         pub(super) user: OnceCell<String>,
         pub(super) virtual_size: OnceCell<u64>,
+
+        pub(super) details: OnceCell<model::ImageDetails>,
+        pub(super) can_request_details: Cell<bool>,
+
         pub(super) to_be_deleted: Cell<bool>,
     }
 
@@ -57,7 +57,11 @@ mod imp {
     impl ObjectImpl for Image {
         fn signals() -> &'static [Signal] {
             static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
-                vec![Signal::builder("deleted", &[], <()>::static_type().into()).build()]
+                vec![
+                    Signal::builder("loading-details-failed", &[], <()>::static_type().into())
+                        .build(),
+                    Signal::builder("deleted", &[], <()>::static_type().into()).build(),
+                ]
             });
             SIGNALS.as_ref()
         }
@@ -78,34 +82,6 @@ mod imp {
                         "The list of containers associated with this Image",
                         model::SimpleContainerList::static_type(),
                         glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecString::new(
-                        "architecture",
-                        "Architecture",
-                        "The architecture of this Image",
-                        Option::default(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    glib::ParamSpecString::new(
-                        "author",
-                        "Author",
-                        "The author of this Image",
-                        Option::default(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    glib::ParamSpecString::new(
-                        "comment",
-                        "Comment",
-                        "The author of this Image",
-                        Option::default(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    glib::ParamSpecObject::new(
-                        "config",
-                        "Config",
-                        "The config of this Image",
-                        model::ImageConfig::static_type(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
                     ),
                     glib::ParamSpecString::new(
                         "config-digest",
@@ -222,6 +198,13 @@ mod imp {
                         u64::default(),
                         glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
                     ),
+                    glib::ParamSpecObject::new(
+                        "details",
+                        "Details",
+                        "Finer details of the image",
+                        model::ImageDetails::static_type(),
+                        glib::ParamFlags::READABLE,
+                    ),
                     glib::ParamSpecBoolean::new(
                         "to-be-deleted",
                         "To Be Deleted",
@@ -243,10 +226,6 @@ mod imp {
         ) {
             match pspec.name() {
                 "image-list" => self.image_list.set(value.get().unwrap()),
-                "architecture" => self.architecture.set(value.get().unwrap()).unwrap(),
-                "author" => self.author.set(value.get().unwrap()).unwrap(),
-                "comment" => self.comment.set(value.get().unwrap()).unwrap(),
-                "config" => self.config.set(value.get().unwrap()).unwrap(),
                 "config-digest" => self.config_digest.set(value.get().unwrap()).unwrap(),
                 "containers" => self.containers.set(value.get().unwrap()),
                 "created" => self.created.set(value.get().unwrap()).unwrap(),
@@ -271,10 +250,6 @@ mod imp {
             match pspec.name() {
                 "image-list" => obj.image_list().to_value(),
                 "container-list" => obj.container_list().to_value(),
-                "architecture" => obj.architecture().to_value(),
-                "author" => obj.author().to_value(),
-                "comment" => obj.comment().to_value(),
-                "config" => obj.config().to_value(),
                 "config-digest" => obj.config_digest().to_value(),
                 "containers" => obj.containers().to_value(),
                 "created" => obj.created().to_value(),
@@ -290,9 +265,15 @@ mod imp {
                 "shared-size" => obj.shared_size().to_value(),
                 "user" => obj.user().to_value(),
                 "virtual-size" => obj.virtual_size().to_value(),
+                "details" => obj.details().to_value(),
                 "to-be-deleted" => obj.to_be_deleted().to_value(),
                 _ => unimplemented!(),
             }
+        }
+
+        fn constructed(&self, obj: &Self::Type) {
+            self.parent_constructed(obj);
+            self.can_request_details.set(true);
         }
     }
 }
@@ -302,20 +283,9 @@ glib::wrapper! {
 }
 
 impl Image {
-    pub(crate) fn new(
-        image_list: &model::ImageList,
-        summary: api::LibpodImageSummary,
-        inspect_response: api::LibpodImageInspectResponse,
-    ) -> Self {
+    pub(crate) fn new(image_list: &model::ImageList, summary: api::LibpodImageSummary) -> Self {
         glib::Object::new(&[
             ("image-list", image_list),
-            ("architecture", &inspect_response.architecture),
-            ("author", &inspect_response.author),
-            ("comment", &inspect_response.comment),
-            (
-                "config",
-                &model::ImageConfig::from_libpod(inspect_response.config.unwrap()),
-            ),
             ("config-digest", &summary.config_digest),
             (
                 "containers",
@@ -367,22 +337,6 @@ impl Image {
 
     pub(crate) fn container_list(&self) -> &model::SimpleContainerList {
         self.imp().container_list.get_or_init(Default::default)
-    }
-
-    pub(crate) fn architecture(&self) -> Option<&str> {
-        self.imp().architecture.get().unwrap().as_deref()
-    }
-
-    pub(crate) fn author(&self) -> Option<&str> {
-        self.imp().author.get().unwrap().as_deref()
-    }
-
-    pub(crate) fn comment(&self) -> Option<&str> {
-        self.imp().comment.get().unwrap().as_deref()
-    }
-
-    pub(crate) fn config(&self) -> &model::ImageConfig {
-        self.imp().config.get().unwrap()
     }
 
     pub(crate) fn config_digest(&self) -> Option<&str> {
@@ -445,6 +399,50 @@ impl Image {
         *self.imp().virtual_size.get().unwrap()
     }
 
+    pub(crate) fn details(&self) -> Option<&model::ImageDetails> {
+        self.imp().details.get()
+    }
+
+    fn set_details(&self, value: model::ImageDetails) {
+        if self.details().is_some() {
+            return;
+        }
+        self.imp().details.set(value).unwrap();
+        self.notify("details");
+    }
+
+    pub(crate) fn load_details(&self) {
+        let imp = self.imp();
+        if !imp.can_request_details.get() {
+            return;
+        }
+
+        imp.can_request_details.set(false);
+
+        let podman = self
+            .image_list()
+            .unwrap()
+            .client()
+            .unwrap()
+            .podman()
+            .clone();
+        let id = self.id().to_owned();
+
+        utils::do_async(
+            async move { podman.images().get(id).inspect().await },
+            clone!(@weak self as obj => move |result| match result {
+                Ok(inspect_response) => obj.set_details(model::ImageDetails::from(
+                    inspect_response
+                )),
+                Err(e) => {
+                    log::error!("Error on inspecting image '{}': {e}", obj.id());
+                    obj.emit_by_name::<()>("loading-details-failed", &[]);
+                    obj.imp().can_request_details.set(true);
+                },
+            }),
+        );
+    }
+
     pub(crate) fn to_be_deleted(&self) -> bool {
         self.imp().to_be_deleted.get()
     }
@@ -489,6 +487,17 @@ impl Image {
 
     pub(super) fn emit_deleted(&self) {
         self.emit_by_name::<()>("deleted", &[]);
+    }
+
+    pub(crate) fn connect_loading_details_failed<F: Fn(&Self) + 'static>(
+        &self,
+        f: F,
+    ) -> glib::SignalHandlerId {
+        self.connect_local("loading-details-failed", true, move |values| {
+            f(&values[0].get::<Self>().unwrap());
+
+            None
+        })
     }
 
     pub(crate) fn connect_deleted<F: Fn(&Self) + 'static>(&self, f: F) -> glib::SignalHandlerId {

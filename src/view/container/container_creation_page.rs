@@ -36,6 +36,8 @@ mod imp {
         pub(super) port_mappings: RefCell<gio::ListStore>,
         pub(super) volumes: RefCell<gio::ListStore>,
         pub(super) env_vars: RefCell<gio::ListStore>,
+        pub(super) command_row_handler:
+            RefCell<Option<(glib::SignalHandlerId, WeakRef<model::Image>)>>,
         #[template_child]
         pub(super) leaflet: TemplateChild<adw::Leaflet>,
         #[template_child]
@@ -213,31 +215,17 @@ mod imp {
 
                 image_tag_expr.bind(&*self.local_image_property_row, "value", Some(&image));
 
-                image.config().exposed_ports().iter().for_each(|exposed| {
-                    let port_mapping = model::PortMapping::default();
-                    obj.connect_port_mapping(&port_mapping);
-                    self.port_mappings.borrow().append(&port_mapping);
-                    self.port_mapping_list_box.set_visible(true);
-
-                    let mut split = exposed.split_terminator('/');
-                    if let Some(port) = split.next() {
-                        match port.parse() {
-                            Ok(port) => {
-                                port_mapping.set_host_port(port);
-                                port_mapping.set_container_port(port);
-                            }
-                            Err(e) => log::warn!("Error on parsing port: {e}"),
-                        }
-
-                        if let Some(protocol) = split.next() {
-                            match protocol {
-                                "tcp" => port_mapping.set_protocol(model::PortMappingProtocol::Tcp),
-                                "udp" => port_mapping.set_protocol(model::PortMappingProtocol::Udp),
-                                _ => log::warn!("Unknown protocol: {protocol}"),
-                            }
-                        }
+                match image.details() {
+                    Some(details) => obj.set_exposed_ports(details.config()),
+                    None => {
+                        image.connect_notify_local(
+                            Some("details"),
+                            clone!(@weak obj => move |image, _| {
+                                obj.set_exposed_ports(image.details().unwrap().config());
+                            }),
+                        );
                     }
-                });
+                }
             } else {
                 self.local_image_property_row.set_visible(false);
 
@@ -255,6 +243,10 @@ mod imp {
                 self.local_image_combo_row.set_model(Some(&filter_model));
                 self.local_image_combo_row
                     .set_expression(Some(&image_tag_expr));
+                self.local_image_combo_row.connect_selected_item_notify(
+                    clone!(@weak obj => move |_| obj.update_command_row()),
+                );
+                obj.update_command_row();
             }
 
             if let Some(pod) = obj.pod() {
@@ -452,6 +444,36 @@ impl ContainerCreationPage {
             .leaflet_overlay()
     }
 
+    fn set_exposed_ports(&self, config: &model::ImageConfig) {
+        let imp = self.imp();
+
+        config.exposed_ports().iter().for_each(|exposed| {
+            let port_mapping = model::PortMapping::default();
+            self.connect_port_mapping(&port_mapping);
+            imp.port_mappings.borrow().append(&port_mapping);
+            imp.port_mapping_list_box.set_visible(true);
+
+            let mut split = exposed.split_terminator('/');
+            if let Some(port) = split.next() {
+                match port.parse() {
+                    Ok(port) => {
+                        port_mapping.set_host_port(port);
+                        port_mapping.set_container_port(port);
+                    }
+                    Err(e) => log::warn!("Error on parsing port: {e}"),
+                }
+
+                if let Some(protocol) = split.next() {
+                    match protocol {
+                        "tcp" => port_mapping.set_protocol(model::PortMappingProtocol::Tcp),
+                        "udp" => port_mapping.set_protocol(model::PortMappingProtocol::Udp),
+                        _ => log::warn!("Unknown protocol: {protocol}"),
+                    }
+                }
+            }
+        });
+    }
+
     fn remove_remote(&self) {
         let imp = self.imp();
         imp.remote_image_row.set_subtitle("");
@@ -459,13 +481,45 @@ impl ContainerCreationPage {
         imp.local_image_combo_row.set_visible(true);
         imp.pull_latest_image_row.set_visible(true);
 
-        imp.command_entry_row.set_text(
-            imp.local_image_combo_row
-                .selected_item()
-                .as_ref()
-                .and_then(|item| item.downcast_ref::<model::Image>().unwrap().config().cmd())
-                .unwrap_or_default(),
-        );
+        self.update_command_row();
+    }
+
+    fn update_command_row(&self) {
+        let imp = self.imp();
+
+        match imp
+            .local_image_combo_row
+            .selected_item()
+            .as_ref()
+            .map(|item| item.downcast_ref::<model::Image>().unwrap())
+        {
+            Some(image) => match image.details() {
+                Some(details) => imp
+                    .command_entry_row
+                    .set_text(details.config().cmd().unwrap_or("")),
+                None => {
+                    if let Some((handler, image)) = imp.command_row_handler.take() {
+                        if let Some(image) = image.upgrade() {
+                            image.disconnect(handler);
+                        }
+                    }
+                    let handler = image.connect_notify_local(
+                        Some("details"),
+                        clone!(@weak self as obj => move |image, _| {
+                            obj.imp().command_entry_row.set_text(
+                                image.details().unwrap().config().cmd().unwrap_or("")
+                            );
+                        }),
+                    );
+                    let image_weak = WeakRef::new();
+                    image_weak.set(Some(image));
+                    imp.command_row_handler.replace(Some((handler, image_weak)));
+
+                    image.load_details()
+                }
+            },
+            None => imp.command_entry_row.set_text(""),
+        }
     }
 
     fn search_image(&self) {
