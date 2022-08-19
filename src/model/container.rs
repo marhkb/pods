@@ -5,7 +5,6 @@ use std::ops::Deref;
 use std::str::FromStr;
 
 use futures::Future;
-use futures::StreamExt;
 use gettextrs::gettext;
 use gtk::glib;
 use gtk::glib::clone;
@@ -550,9 +549,6 @@ impl Container {
         if self.status() == value {
             return;
         }
-        if value == Status::Running {
-            self.run_stats_stream();
-        }
         if let Some(pod) = self.pod() {
             pod.inspect_and_update();
         }
@@ -720,32 +716,6 @@ impl Container {
             },
             op,
         );
-    }
-
-    fn run_stats_stream(&self) {
-        if let Some(container) = self.api_container() {
-            utils::run_stream(
-                container,
-                |container| container.stats_stream(Some(1)).boxed(),
-                clone!(
-                    @weak self as obj => @default-return glib::Continue(false),
-                    move |result: api::Result<api::LibpodContainerStatsResponse>|
-                {
-                    glib::Continue(match result {
-                        Ok(stats) => {
-                            obj.set_stats(
-                                stats
-                                    .stats
-                                    .and_then(|mut stats| stats.pop())
-                                    .map(BoxedContainerStats),
-                            );
-                            true
-                        }
-                        Err(_) => false,
-                    })
-                }),
-            );
-        }
     }
 
     pub(super) fn on_deleted(&self) {

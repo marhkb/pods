@@ -2,6 +2,7 @@ use std::cell::Cell;
 use std::cell::RefCell;
 use std::collections::HashSet;
 
+use futures::StreamExt;
 use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
@@ -125,6 +126,39 @@ mod imp {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
             obj.connect_items_changed(|self_, _, _, _| self_.notify("len"));
+
+            utils::run_stream(
+                obj.client().unwrap().podman().containers(),
+                |containers| {
+                    containers
+                        .stats_stream(
+                            &api::ContainerStatsOptsBuilder::default()
+                                .interval(1)
+                                .build(),
+                        )
+                        .boxed()
+                },
+                clone!(
+                    @weak obj => @default-return glib::Continue(false),
+                    move |result: api::Result<api::LibpodContainerStatsResponse>|
+                {
+                    glib::Continue(match result.ok().and_then(|stats| stats.stats) {
+                        Some(stats) => {
+                            stats.into_iter().for_each(|stat| {
+                                if let Some(container) = obj.get_container(stat.container_id.as_ref().unwrap()) {
+                                    if container.status() == model::ContainerStatus::Running {
+                                        container.set_stats(Some(model::BoxedContainerStats::from(stat)));
+                                    }
+                                }
+                            });
+                            true
+                        }
+                        None => false,
+                    })
+                }),
+            );
+
+            obj.client().unwrap().podman();
         }
     }
 
