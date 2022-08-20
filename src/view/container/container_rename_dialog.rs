@@ -149,17 +149,12 @@ impl ContainerRenameDialog {
         if let Some(container) = imp.container.upgrade() {
             let new_name = imp.entry_row.text().to_string();
             container.rename(
-                new_name.clone(),
+                new_name,
                 clone!(@weak self as obj => move |result| {
-                    let imp = obj.imp();
                     match result {
-                        Ok(_) => {
-                            if let Some(container) = imp.container.upgrade() {
-                                container.set_name(new_name);
-                            }
-                            obj.response(gtk::ResponseType::Apply);
-                        }
+                        Ok(_) => obj.response(gtk::ResponseType::Apply),
                         Err(e) => {
+                            let imp = obj.imp();
                             imp.entry_row.add_css_class("error");
                             imp.error_label_row.set_visible(true);
                             imp.error_label_revealer.set_reveal_child(true);
