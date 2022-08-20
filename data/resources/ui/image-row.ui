@@ -11,6 +11,7 @@
         <style>
           <class name="status-badge"/>
           <class name="container-status-dead"/>
+          <class name="numeric"/>
         </style>
         <property name="spacing">4</property>
         <property name="valign">center</property>
@@ -37,7 +38,7 @@
         <child>
           <object class="GtkImage">
             <property name="icon-name">package-x-generic-symbolic</property>
-            <property name="pixel-size">13</property>
+            <property name="pixel-size">14</property>
           </object>
         </child>
 
@@ -50,6 +51,7 @@
         <style>
           <class name="status-badge"/>
           <class name="container-status-exited"/>
+          <class name="numeric"/>
         </style>
         <property name="spacing">4</property>
         <property name="valign">center</property>
@@ -61,7 +63,7 @@
         <child>
           <object class="GtkImage">
             <property name="icon-name">package-x-generic-symbolic</property>
-            <property name="pixel-size">13</property>
+            <property name="pixel-size">14</property>
           </object>
         </child>
 
@@ -74,6 +76,7 @@
         <style>
           <class name="status-badge"/>
           <class name="container-status-paused"/>
+          <class name="numeric"/>
         </style>
         <property name="spacing">4</property>
         <property name="valign">center</property>
@@ -100,7 +103,7 @@
         <child>
           <object class="GtkImage">
             <property name="icon-name">package-x-generic-symbolic</property>
-            <property name="pixel-size">13</property>
+            <property name="pixel-size">14</property>
           </object>
         </child>
 
@@ -113,6 +116,7 @@
         <style>
           <class name="status-badge"/>
           <class name="container-status-running"/>
+          <class name="numeric"/>
         </style>
         <property name="spacing">4</property>
         <property name="valign">center</property>
@@ -139,7 +143,7 @@
         <child>
           <object class="GtkImage">
             <property name="icon-name">package-x-generic-symbolic</property>
-            <property name="pixel-size">13</property>
+            <property name="pixel-size">14</property>
           </object>
         </child>
 

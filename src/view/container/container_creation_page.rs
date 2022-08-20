@@ -215,13 +215,18 @@ mod imp {
 
                 image_tag_expr.bind(&*self.local_image_property_row, "value", Some(&image));
 
-                match image.details() {
-                    Some(details) => obj.set_exposed_ports(details.config()),
+                match image.details().map(model::ImageDetails::config) {
+                    Some(config) => {
+                        self.command_entry_row.set_text(config.cmd().unwrap_or(""));
+                        obj.set_exposed_ports(config);
+                    }
                     None => {
                         image.connect_notify_local(
                             Some("details"),
                             clone!(@weak obj => move |image, _| {
-                                obj.set_exposed_ports(image.details().unwrap().config());
+                                let config = image.details().unwrap().config();
+                                obj.imp().command_entry_row.set_text(config.cmd().unwrap_or(""));
+                                obj.set_exposed_ports(config);
                             }),
                         );
                     }
