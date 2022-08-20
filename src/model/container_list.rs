@@ -259,7 +259,10 @@ impl ContainerList {
                         let index = obj.len();
                         let mut added = 0;
 
-                        list_containers.into_iter().for_each(|list_container| {
+                        list_containers
+                        .into_iter()
+                        .filter(|list_container| !list_container.is_infra.unwrap_or_default())
+                        .for_each(|list_container| {
                             let mut list = obj.imp().list.borrow_mut();
 
                             match list.entry(list_container.id.as_ref().unwrap().to_owned()) {
