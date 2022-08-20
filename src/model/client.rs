@@ -288,15 +288,18 @@ impl Client {
                             })
                         }
                     });
-                    obj.container_list().refresh({
-                        let err_op = err_op.clone();
-                        |err| {
-                            err_op(ClientError {
-                                err,
-                                variant: ClientErrorVariant::Containers,
-                            })
+                    obj.container_list().refresh(
+                        None,
+                        {
+                            let err_op = err_op.clone();
+                            |err| {
+                                err_op(ClientError {
+                                    err,
+                                    variant: ClientErrorVariant::Containers,
+                                })
+                            }
                         }
-                    });
+                    );
                     obj.pod_list().refresh({
                         let err_op = err_op.clone();
                         |err| {
