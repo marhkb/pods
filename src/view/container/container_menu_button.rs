@@ -210,52 +210,20 @@ impl ContainerMenuButton {
     fn update_actions(&self, container: &model::Container) {
         use model::ContainerStatus::*;
 
-        match container.status() {
-            Running => {
-                self.action_set_enabled("container.start", false);
-                self.action_set_enabled("container.stop", true);
-                self.action_set_enabled("container.force-stop", true);
-                self.action_set_enabled("container.restart", true);
-                self.action_set_enabled("container.force-restart", true);
-                self.action_set_enabled("container.resume", false);
-                self.action_set_enabled("container.pause", true);
-                self.action_set_enabled("container.delete", false);
-                self.action_set_enabled("container.force-delete", true);
-            }
-            Paused => {
-                self.action_set_enabled("container.start", false);
-                self.action_set_enabled("container.stop", false);
-                self.action_set_enabled("container.force-stop", false);
-                self.action_set_enabled("container.restart", false);
-                self.action_set_enabled("container.force-restart", false);
-                self.action_set_enabled("container.resume", true);
-                self.action_set_enabled("container.pause", false);
-                self.action_set_enabled("container.delete", false);
-                self.action_set_enabled("container.force-delete", true);
-            }
-            Configured | Created | Exited | Dead | Stopped => {
-                self.action_set_enabled("container.start", true);
-                self.action_set_enabled("container.stop", false);
-                self.action_set_enabled("container.force-stop", false);
-                self.action_set_enabled("container.restart", false);
-                self.action_set_enabled("container.force-restart", false);
-                self.action_set_enabled("container.resume", false);
-                self.action_set_enabled("container.pause", false);
-                self.action_set_enabled("container.delete", true);
-                self.action_set_enabled("container.force-delete", false);
-            }
-            _ => {
-                self.action_set_enabled("container.start", false);
-                self.action_set_enabled("container.stop", false);
-                self.action_set_enabled("container.force-stop", false);
-                self.action_set_enabled("container.restart", false);
-                self.action_set_enabled("container.force-restart", false);
-                self.action_set_enabled("container.resume", false);
-                self.action_set_enabled("container.pause", false);
-                self.action_set_enabled("container.delete", false);
-                self.action_set_enabled("container.force-delete", false);
-            }
-        }
+        let status = container.status();
+
+        self.action_set_enabled("container.start", matches!(status, Created | Exited));
+        self.action_set_enabled("container.stop", matches!(status, Running));
+        self.action_set_enabled("container.force-stop", matches!(status, Running));
+        self.action_set_enabled("container.restart", matches!(status, Running));
+        self.action_set_enabled("container.force-restart", matches!(status, Running));
+        self.action_set_enabled("container.resume", matches!(status, Paused));
+        self.action_set_enabled("container.pause", matches!(status, Running));
+        self.action_set_enabled(
+            "container.delete",
+            matches!(status, Created | Exited | Dead),
+        );
+        self.action_set_enabled("container.force-delete", matches!(status, Running | Paused));
     }
 
     container_action!(fn start => start() => "Error on starting container");

@@ -23,14 +23,6 @@ mod imp {
         #[template_child]
         pub(super) main_stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub(super) spinner: TemplateChild<gtk::Spinner>,
-        #[template_child]
-        pub(super) overlay: TemplateChild<gtk::Overlay>,
-        #[template_child]
-        pub(super) progress_revealer: TemplateChild<gtk::Revealer>,
-        #[template_child]
-        pub(super) progress_bar: TemplateChild<gtk::ProgressBar>,
-        #[template_child]
         pub(super) containers_group: TemplateChild<view::ContainersGroup>,
     }
 
@@ -99,54 +91,21 @@ mod imp {
             let container_list_expr = Self::Type::this_expression("container-list");
             let container_list_len_expr =
                 container_list_expr.chain_property::<model::ContainerList>("len");
-            let fetching_exprs = &[
-                container_list_expr.chain_property::<model::ContainerList>("fetched"),
-                container_list_expr.chain_property::<model::ContainerList>("to-fetch"),
-            ];
 
-            gtk::ClosureExpression::new::<gtk::Widget, _, _>(
+            gtk::ClosureExpression::new::<String, _, _>(
                 &[
                     container_list_len_expr,
                     container_list_expr.chain_property::<model::ContainerList>("listing"),
                 ],
-                closure!(|obj: Self::Type, len: u32, listing: bool| {
-                    let imp = obj.imp();
+                closure!(|_: Self::Type, len: u32, listing: bool| {
                     if len == 0 && listing {
-                        imp.spinner.upcast_ref::<gtk::Widget>().clone()
+                        "spinner"
                     } else {
-                        imp.overlay.upcast_ref::<gtk::Widget>().clone()
+                        "containers"
                     }
                 }),
             )
-            .bind(&*self.main_stack, "visible-child", Some(obj));
-
-            gtk::ClosureExpression::new::<f64, _, _>(
-                fetching_exprs,
-                closure!(|_: glib::Object, fetched: u32, to_fetch: u32| {
-                    f64::min(1.0, fetched as f64 / to_fetch as f64)
-                }),
-            )
-            .bind(&*self.progress_bar, "fraction", Some(obj));
-
-            gtk::ClosureExpression::new::<bool, _, _>(
-                fetching_exprs,
-                closure!(|_: glib::Object, fetched: u32, to_fetch: u32| fetched < to_fetch),
-            )
-            .bind(&*self.progress_revealer, "reveal-child", Some(obj));
-
-            gtk::Revealer::this_expression("child-revealed")
-                .chain_closure::<u32>(closure!(|_: glib::Object, revealed: bool| {
-                    if revealed {
-                        1000_u32
-                    } else {
-                        0_u32
-                    }
-                }))
-                .bind(
-                    &*self.progress_revealer,
-                    "transition-duration",
-                    Some(&*self.progress_revealer),
-                );
+            .bind(&*self.main_stack, "visible-child-name", Some(obj));
         }
 
         fn dispose(&self, _obj: &Self::Type) {

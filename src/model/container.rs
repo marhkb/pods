@@ -25,16 +25,12 @@ use crate::utils;
 #[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
 #[enum_type(name = "ContainerStatus")]
 pub(crate) enum Status {
-    Configured,
     Created,
     Dead,
     Exited,
     Paused,
-    Removing,
     Restarting,
     Running,
-    Stopped,
-    Stopping,
     #[default]
     Unknown,
 }
@@ -44,16 +40,12 @@ impl FromStr for Status {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         Ok(match s {
-            "configured" => Self::Configured,
             "created" => Self::Created,
             "dead" => Self::Dead,
             "exited" => Self::Exited,
             "paused" => Self::Paused,
-            "removing" => Self::Removing,
             "restarting" => Self::Restarting,
             "running" => Self::Running,
-            "stopped" => Self::Stopped,
-            "stopping" => Self::Stopping,
             _ => return Err(Self::Unknown),
         })
     }
@@ -65,16 +57,12 @@ impl fmt::Display for Status {
             f,
             "{}",
             match self {
-                Self::Configured => gettext("Configured"),
                 Self::Created => gettext("Created"),
                 Self::Dead => gettext("Dead"),
                 Self::Exited => gettext("Exited"),
                 Self::Paused => gettext("Paused"),
-                Self::Removing => gettext("Removing"),
                 Self::Restarting => gettext("Restarting"),
                 Self::Running => gettext("Running"),
-                Self::Stopped => gettext("Stopped"),
-                Self::Stopping => gettext("Stopping"),
                 Self::Unknown => gettext("Unknown"),
             }
         )
@@ -359,70 +347,63 @@ glib::wrapper! {
 impl Container {
     pub(crate) fn new(
         container_list: &model::ContainerList,
-        inspect_response: api::LibpodContainerInspectResponse,
+        list_container: api::ListContainer,
     ) -> Self {
         glib::Object::new(&[
             ("container-list", container_list),
             (
                 "created",
-                &inspect_response
-                    .created
-                    .map(|dt| dt.timestamp())
-                    .unwrap_or(0),
+                &list_container.created.map(|dt| dt.timestamp()).unwrap_or(0),
             ),
             (
                 "health-status",
-                &health_status(inspect_response.state.as_ref()),
+                &health_status(list_container.status.as_deref()),
             ),
-            ("id", &inspect_response.id),
-            ("image-id", &inspect_response.image),
-            ("image-name", &inspect_response.image_name),
-            ("name", &inspect_response.name),
-            ("pod-id", &inspect_response.pod),
+            ("id", &list_container.id),
+            ("image-id", &list_container.image_id),
+            ("image-name", &list_container.image),
+            ("name", &list_container.names.unwrap()[0]),
+            ("pod-id", &list_container.pod),
             (
                 "port-bindings",
                 &utils::BoxedStringVec::from(
-                    inspect_response
-                        .host_config
-                        .and_then(|config| config.port_bindings)
-                        .map(|bindings| {
-                            bindings
-                                .into_values()
-                                .flatten()
-                                .flat_map(|host_ports| {
-                                    host_ports.into_iter().map(|host_port| {
-                                        format!(
-                                            "{}:{}",
-                                            {
-                                                let ip = host_port.host_ip.unwrap_or_default();
-                                                if ip.is_empty() {
-                                                    "127.0.0.1".to_string()
-                                                } else {
-                                                    ip
-                                                }
-                                            },
-                                            host_port.host_port.unwrap()
-                                        )
-                                    })
+                    list_container
+                        .ports
+                        .map(|mappings| {
+                            mappings
+                                .into_iter()
+                                .map(|host_port| {
+                                    format!(
+                                        "{}:{}",
+                                        {
+                                            let ip = host_port.host_ip.unwrap_or_default();
+                                            if ip.is_empty() {
+                                                "127.0.0.1".to_string()
+                                            } else {
+                                                ip
+                                            }
+                                        },
+                                        host_port.host_port.unwrap()
+                                    )
                                 })
                                 .collect::<Vec<_>>()
                         })
                         .unwrap_or_default(),
                 ),
             ),
-            ("status", &status(inspect_response.state.as_ref())),
-            ("up-since", &up_since(inspect_response.state.as_ref())),
+            ("status", &status(list_container.state.as_deref())),
+            ("up-since", &list_container.started_at.unwrap()),
         ])
         .expect("Failed to create Container")
     }
 
-    pub(crate) fn update(&self, inspect_response: api::LibpodContainerInspectResponse) {
+    pub(crate) fn update(&self, list_container: api::ListContainer) {
         self.set_action_ongoing(false);
-        self.set_health_status(health_status(inspect_response.state.as_ref()));
-        self.set_image_name(inspect_response.image_name);
-        self.set_name(inspect_response.name.unwrap_or_default());
-        self.set_status(status(inspect_response.state.as_ref()));
-        self.set_up_since(up_since(inspect_response.state.as_ref()));
+        self.set_health_status(health_status(list_container.status.as_deref()));
+        self.set_image_name(list_container.image);
+        self.set_name(list_container.names.unwrap()[0].clone());
+        self.set_status(status(list_container.state.as_deref()));
+        self.set_up_since(list_container.started_at.unwrap());
     }
 
     pub(crate) fn container_list(&self) -> Option<model::ContainerList> {
@@ -741,34 +722,24 @@ impl Container {
     }
 }
 
-fn status(state: Option<&api::InspectContainerState>) -> Status {
-    state
-        .and_then(|state| state.status.as_ref())
-        .map_or_else(Status::default, |s| match Status::from_str(s) {
-            Ok(status) => status,
-            Err(status) => {
-                log::warn!("Unknown container status: {s}");
-                status
-            }
-        })
+fn status(s: Option<&str>) -> Status {
+    s.map(|s| match Status::from_str(s) {
+        Ok(status) => status,
+        Err(status) => {
+            log::warn!("Unknown container status: {s}");
+            status
+        }
+    })
+    .unwrap_or_default()
 }
 
-fn health_status(state: Option<&api::InspectContainerState>) -> HealthStatus {
-    state
-        .and_then(|state| state.health.as_ref())
-        .and_then(|health| health.status.as_ref())
-        .map(|s| match HealthStatus::from_str(s) {
-            Ok(status) => status,
-            Err(status) => {
-                log::warn!("Unknown container health status: {s}");
-                status
-            }
-        })
-        .unwrap_or_default()
-}
-
-fn up_since(state: Option<&api::InspectContainerState>) -> i64 {
-    state
-        .and_then(|state| state.started_at.map(|dt| dt.timestamp()))
-        .unwrap_or(0)
+fn health_status(s: Option<&str>) -> HealthStatus {
+    s.map(|s| match HealthStatus::from_str(s) {
+        Ok(status) => status,
+        Err(status) => {
+            log::warn!("Unknown container health status: {s}");
+            status
+        }
+    })
+    .unwrap_or_default()
 }

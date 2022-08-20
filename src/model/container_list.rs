@@ -1,6 +1,5 @@
 use std::cell::Cell;
 use std::cell::RefCell;
-use std::collections::HashSet;
 
 use futures::StreamExt;
 use gtk::gio;
@@ -24,13 +23,8 @@ mod imp {
     #[derive(Debug, Default)]
     pub(crate) struct ContainerList {
         pub(super) client: WeakRef<model::Client>,
-
-        pub(super) fetched: Cell<u32>,
         pub(super) list: RefCell<IndexMap<String, model::Container>>,
         pub(super) listing: Cell<bool>,
-        pub(super) to_fetch: Cell<u32>,
-
-        pub(super) failed: RefCell<HashSet<String>>,
     }
 
     #[glib::object_subclass]
@@ -115,11 +109,9 @@ mod imp {
         fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
                 "client" => obj.client().to_value(),
-                "fetched" => obj.fetched().to_value(),
                 "len" => obj.len().to_value(),
                 "listing" => obj.listing().to_value(),
                 "running" => obj.running().to_value(),
-                "to-fetch" => obj.to_fetch().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -197,18 +189,6 @@ impl ContainerList {
         self.imp().client.upgrade()
     }
 
-    pub(crate) fn fetched(&self) -> u32 {
-        self.imp().fetched.get()
-    }
-
-    fn set_fetched(&self, value: u32) {
-        if self.fetched() == value {
-            return;
-        }
-        self.imp().fetched.set(value);
-        self.notify("fetched");
-    }
-
     pub(crate) fn len(&self) -> u32 {
         self.n_items()
     }
@@ -234,81 +214,11 @@ impl ContainerList {
             .count() as u32
     }
 
-    pub(crate) fn to_fetch(&self) -> u32 {
-        self.imp().to_fetch.get()
-    }
-
-    fn set_to_fetch(&self, value: u32) {
-        if self.to_fetch() == value {
-            return;
-        }
-        self.imp().to_fetch.set(value);
-        self.notify("to-fetch");
-    }
-
-    fn add_or_update_container<F>(&self, id: String, err_op: F)
-    where
-        F: FnOnce(super::RefreshError) + 'static,
-    {
-        utils::do_async(
-            {
-                let id = id.clone();
-                let podman = self.client().unwrap().podman().clone();
-                async move { podman.containers().get(id).inspect().await }
-            },
-            clone!(@weak self as obj => move |result| {
-                let imp = obj.imp();
-                match result {
-                    Ok(inspect_response) => if !inspect_response.is_infra.unwrap_or(false) {
-                        let mut list = imp.list.borrow_mut();
-                        let entry = list.entry(id);
-                        match entry {
-                            Entry::Vacant(entry) => {
-                                let container = model::Container::new(&obj, inspect_response);
-                                container.connect_notify_local(
-                                    Some("status"),
-                                    clone!(@weak obj => move |_, _| {
-                                        obj.notify("running");
-                                    }),
-                                );
-                                container.connect_notify_local(
-                                    Some("name"),
-                                    clone!(@weak obj => move |container, _| {
-                                        obj.container_name_changed(container);
-                                    })
-                                );
-                                entry.insert(container.clone());
-
-                                drop(list);
-                                obj.container_added(&container);
-                                obj.items_changed(obj.len() - 1, 0, 1);
-                            }
-                            Entry::Occupied(entry) => {
-                                let container = entry.get().clone();
-                                drop(list);
-                                container.update(inspect_response)
-                            }
-                        }
-                    }
-                    Err(e) => {
-                        log::error!("Error on inspecting container '{id}': {e}");
-                        if imp.failed.borrow_mut().insert(id.clone()) {
-                            err_op(super::RefreshError::Inspect(id));
-                        }
-                    }
-                }
-                obj.set_fetched(obj.fetched() + 1);
-            }),
-        );
-    }
-
     pub(crate) fn get_container(&self, id: &str) -> Option<model::Container> {
         self.imp().list.borrow().get(id).cloned()
     }
 
     pub(crate) fn remove_container(&self, id: &str) {
-        self.imp().failed.borrow_mut().remove(id);
-
         let mut list = self.imp().list.borrow_mut();
         if let Some((idx, _, container)) = list.shift_remove_full(id) {
             container.on_deleted();
@@ -318,7 +228,7 @@ impl ContainerList {
         }
     }
 
-    pub(crate) fn refresh<F>(&self, err_op: F)
+    pub(crate) fn refresh<F>(&self, id: Option<String>, err_op: F)
     where
         F: FnOnce(super::RefreshError) + Clone + 'static,
     {
@@ -329,7 +239,16 @@ impl ContainerList {
                 async move {
                     podman
                         .containers()
-                        .list(&api::ContainerListOpts::builder().all(true).build())
+                        .list(
+                            &api::ContainerListOpts::builder()
+                                .all(true)
+                                .filter(
+                                    id.to_owned()
+                                        .map(api::Id::from)
+                                        .map(api::ContainerListFilter::Id),
+                                )
+                                .build(),
+                        )
                         .await
                 }
             },
@@ -337,26 +256,42 @@ impl ContainerList {
                 obj.set_listing(false);
                 match result {
                     Ok(list_containers) => {
-                        let to_remove = obj
-                            .imp()
-                            .list
-                            .borrow()
-                            .keys()
-                            .filter(|id| {
-                                !list_containers
-                                    .iter()
-                                    .any(|summary| summary.id.as_ref() == Some(id))
-                            })
-                            .cloned()
-                            .collect::<Vec<_>>();
-                        to_remove.iter().for_each(|id| obj.remove_container(id));
-
-                        obj.set_fetched(0);
-                        obj.set_to_fetch(list_containers.len() as u32);
+                        let index = obj.len();
+                        let mut added = 0;
 
                         list_containers.into_iter().for_each(|list_container| {
-                            obj.add_or_update_container(list_container.id.unwrap(), err_op.clone());
+                            let mut list = obj.imp().list.borrow_mut();
+
+                            match list.entry(list_container.id.as_ref().unwrap().to_owned()) {
+                                Entry::Vacant(e) => {
+                                    let container = model::Container::new(&obj, list_container);
+                                    container.connect_notify_local(
+                                        Some("status"),
+                                        clone!(@weak obj => move |_, _| {
+                                            obj.notify("running");
+                                        }),
+                                    );
+                                    container.connect_notify_local(
+                                        Some("name"),
+                                        clone!(@weak obj => move |container, _| {
+                                            obj.container_name_changed(container);
+                                        })
+                                    );
+
+                                    e.insert(container.clone());
+                                    obj.container_added(&container);
+
+                                    added += 1;
+                                }
+                                Entry::Occupied(e) => {
+                                    let container = e.get().clone();
+                                    drop(list);
+                                    container.update(list_container);
+                                }
+                            }
                         });
+
+                        obj.items_changed(index, 0, added as u32);
                     }
                     Err(e) => {
                         log::error!("Error on retrieving containers: {}", e);
@@ -375,7 +310,10 @@ impl ContainerList {
 
         match event.action.as_str() {
             "remove" => self.remove_container(&container_id),
-            _ => self.add_or_update_container(container_id, err_op),
+            _ => self.refresh(
+                self.get_container(&container_id).map(|_| container_id),
+                err_op,
+            ),
         }
     }
 }
