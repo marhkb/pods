@@ -9,6 +9,7 @@ use gtk::glib::subclass::Signal;
 use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
+use indexmap::map::Entry;
 use indexmap::IndexMap;
 use once_cell::sync::Lazy;
 
@@ -214,41 +215,25 @@ impl ImageList {
             clone!(@weak self as obj => move |result| {
                 obj.set_listing(false);
                 match result {
-                    Ok(mut summaries) => {
-                        let to_remove = obj
-                            .imp()
-                            .list
-                            .borrow()
-                            .keys()
-                            .filter(|id| {
-                                !summaries
-                                    .iter()
-                                    .any(|summary| summary.id.as_ref() == Some(id))
-                            })
-                            .cloned()
-                            .collect::<Vec<_>>();
-                        to_remove.iter().for_each(|id| obj.remove_image(id));
-
-                        summaries.retain(|summary| {
-                            !obj.imp().list.borrow().contains_key(summary.id.as_ref().unwrap())
-                        });
-
+                    Ok(summaries) => {
                         let index = obj.len();
-                        let added = summaries.len();
+                        let mut added = 0;
 
+                        let mut list = obj.imp().list.borrow_mut();
                         summaries.into_iter().for_each(|summary| {
-                            let image = model::Image::new(
-                                &obj,
-                                summary,
-                            );
-                            obj.imp().list.borrow_mut().insert(
-                                image.id().to_owned(),
-                                image.clone()
-                            );
+                            if let Entry::Vacant(e) =
+                                list.entry(summary.id.as_ref().unwrap().to_owned())
+                            {
+                                let image = model::Image::new(&obj, summary);
 
-                            obj.image_added(&image);
+                                e.insert(image.clone());
+                                obj.image_added(&image);
+
+                                added += 1;
+                            }
                         });
 
+                        drop(list);
                         obj.items_changed(index, 0, added as u32);
                     }
                     Err(e) => {
