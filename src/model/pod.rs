@@ -25,17 +25,13 @@ use crate::utils;
 #[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
 #[enum_type(name = "PodStatus")]
 pub(crate) enum Status {
-    Configured,
     Created,
     Dead,
     Degraded,
     Exited,
     Paused,
-    Removing,
     Restarting,
     Running,
-    Stopped,
-    Stopping,
     #[default]
     Unknown,
 }
@@ -45,17 +41,13 @@ impl FromStr for Status {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         Ok(match s {
-            "Configured" => Self::Configured,
             "Created" => Self::Created,
             "Dead" => Self::Dead,
             "Degraded" => Self::Degraded,
             "Exited" => Self::Exited,
             "Paused" => Self::Paused,
-            "Removing" => Self::Removing,
             "Restarting" => Self::Restarting,
             "Running" => Self::Running,
-            "Stopped" => Self::Stopped,
-            "Stopping" => Self::Stopping,
             _ => return Err(Self::Unknown),
         })
     }
@@ -67,17 +59,13 @@ impl fmt::Display for Status {
             f,
             "{}",
             match self {
-                Self::Configured => gettext("Configured"),
                 Self::Created => gettext("Created"),
                 Self::Dead => gettext("Dead"),
                 Self::Degraded => gettext("Degraded"),
                 Self::Exited => gettext("Exited"),
                 Self::Paused => gettext("Paused"),
-                Self::Removing => gettext("Removing"),
                 Self::Restarting => gettext("Restarting"),
                 Self::Running => gettext("Running"),
-                Self::Stopped => gettext("Stopped"),
-                Self::Stopping => gettext("Stopping"),
                 Self::Unknown => gettext("Unknown"),
             }
         )

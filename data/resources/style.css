@@ -10,16 +10,12 @@ connectionswitchermenu row #selection-indicator #background {
 
 #main-menu connectionswitchermenu row #selection-indicator #background,
 #main-menu connectionswitchermenu row #delete-button {
-  max-height: 34px;
-  max-width: 34px;
   min-height: 34px;
   min-width: 34px;
 }
 
 connectionchooserpage connectionswitchermenu row #selection-indicator #background,
 connectionchooserpage connectionswitchermenu row #delete-button {
-  max-height: 44px;
-  max-width: 44px;
   min-height: 44px;
   min-width: 44px;
 }
@@ -68,18 +64,12 @@ connectionchooserpage connectionswitchermenu row {
   min-width: 1.7em;
   border-radius: 9999px;
   padding: 5px 7px;
-  border: 1px solid @borders;
 }
 
 .container-status-created,
-.container-status-dead,
 .container-status-exited,
-.pod-status-configured,
 .pod-status-created,
-.pod-status-dead,
 .pod-status-exited,
-.pod-status-stopped,
-.pod-status-stopping,
 .pod-status-degraded,
 .container-health-status-checking,
 .container-health-status-unconfigured
@@ -92,7 +82,6 @@ connectionchooserpage connectionswitchermenu row {
 }
 
 .container-status-restarting,
-.pod-status-removing,
 .pod-status-restarting
 {
   background-color: @yellow_5;
@@ -102,7 +91,9 @@ connectionchooserpage connectionswitchermenu row {
   background-color: @accent_bg_color;
 }
 
+.container-status-dead,
 .container-status-unknown,
+.pod-status-dead,
 .pod-status-unknown,
 .container-health-status-unhealthy,
 .container-health-status-unknown

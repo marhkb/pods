@@ -46,15 +46,6 @@ mod imp {
                         glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
                     ),
                     glib::ParamSpecUInt::new(
-                        "fetched",
-                        "Fetched",
-                        "The number of containers that have been fetched",
-                        0,
-                        std::u32::MAX,
-                        0,
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecUInt::new(
                         "len",
                         "Len",
                         "The length of this list",
@@ -74,15 +65,6 @@ mod imp {
                         "running",
                         "Running",
                         "The number of running containers",
-                        0,
-                        std::u32::MAX,
-                        0,
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecUInt::new(
-                        "to-fetch",
-                        "To Fetch",
-                        "The number of containers to be fetched",
                         0,
                         std::u32::MAX,
                         0,
@@ -259,7 +241,10 @@ impl ContainerList {
                         let index = obj.len();
                         let mut added = 0;
 
-                        list_containers.into_iter().for_each(|list_container| {
+                        list_containers
+                        .into_iter()
+                        .filter(|list_container| !list_container.is_infra.unwrap_or_default())
+                        .for_each(|list_container| {
                             let mut list = obj.imp().list.borrow_mut();
 
                             match list.entry(list_container.id.as_ref().unwrap().to_owned()) {
