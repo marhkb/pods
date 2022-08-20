@@ -10,16 +10,12 @@ connectionswitchermenu row #selection-indicator #background {
 
 #main-menu connectionswitchermenu row #selection-indicator #background,
 #main-menu connectionswitchermenu row #delete-button {
-  max-height: 34px;
-  max-width: 34px;
   min-height: 34px;
   min-width: 34px;
 }
 
 connectionchooserpage connectionswitchermenu row #selection-indicator #background,
 connectionchooserpage connectionswitchermenu row #delete-button {
-  max-height: 44px;
-  max-width: 44px;
   min-height: 44px;
   min-width: 44px;
 }
