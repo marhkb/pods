@@ -71,12 +71,9 @@ connectionchooserpage connectionswitchermenu row {
   border: 1px solid @borders;
 }
 
-.container-status-configured,
 .container-status-created,
 .container-status-dead,
 .container-status-exited,
-.container-status-stopped,
-.container-status-stopping,
 .pod-status-configured,
 .pod-status-created,
 .pod-status-dead,
@@ -94,7 +91,6 @@ connectionchooserpage connectionswitchermenu row {
   background-color: @brown_3;
 }
 
-.container-status-removing,
 .container-status-restarting,
 .pod-status-removing,
 .pod-status-restarting
