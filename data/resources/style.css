@@ -64,7 +64,6 @@ connectionchooserpage connectionswitchermenu row {
   min-width: 1.7em;
   border-radius: 9999px;
   padding: 5px 7px;
-  border: 1px solid @borders;
 }
 
 .container-status-created,
