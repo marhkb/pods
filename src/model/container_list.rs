@@ -62,6 +62,42 @@ mod imp {
                         glib::ParamFlags::READABLE,
                     ),
                     glib::ParamSpecUInt::new(
+                        "created",
+                        "Created",
+                        "The number of created containers",
+                        0,
+                        std::u32::MAX,
+                        0,
+                        glib::ParamFlags::READABLE,
+                    ),
+                    glib::ParamSpecUInt::new(
+                        "dead",
+                        "Dead",
+                        "The number of dead containers",
+                        0,
+                        std::u32::MAX,
+                        0,
+                        glib::ParamFlags::READABLE,
+                    ),
+                    glib::ParamSpecUInt::new(
+                        "exited",
+                        "Exited",
+                        "The number of exited containers",
+                        0,
+                        std::u32::MAX,
+                        0,
+                        glib::ParamFlags::READABLE,
+                    ),
+                    glib::ParamSpecUInt::new(
+                        "paused",
+                        "Paused",
+                        "The number of paused containers",
+                        0,
+                        std::u32::MAX,
+                        0,
+                        glib::ParamFlags::READABLE,
+                    ),
+                    glib::ParamSpecUInt::new(
                         "running",
                         "Running",
                         "The number of running containers",
@@ -93,6 +129,10 @@ mod imp {
                 "client" => obj.client().to_value(),
                 "len" => obj.len().to_value(),
                 "listing" => obj.listing().to_value(),
+                "created" => obj.created().to_value(),
+                "dead" => obj.dead().to_value(),
+                "exited" => obj.exited().to_value(),
+                "paused" => obj.paused().to_value(),
                 "running" => obj.running().to_value(),
                 _ => unimplemented!(),
             }
@@ -187,12 +227,32 @@ impl ContainerList {
         self.notify("listing");
     }
 
+    pub(crate) fn created(&self) -> u32 {
+        self.num_containers_of_status(model::ContainerStatus::Created)
+    }
+
+    pub(crate) fn dead(&self) -> u32 {
+        self.num_containers_of_status(model::ContainerStatus::Dead)
+    }
+
+    pub(crate) fn exited(&self) -> u32 {
+        self.num_containers_of_status(model::ContainerStatus::Exited)
+    }
+
+    pub(crate) fn paused(&self) -> u32 {
+        self.num_containers_of_status(model::ContainerStatus::Paused)
+    }
+
     pub(crate) fn running(&self) -> u32 {
+        self.num_containers_of_status(model::ContainerStatus::Running)
+    }
+
+    pub(crate) fn num_containers_of_status(&self, status: model::ContainerStatus) -> u32 {
         self.imp()
             .list
             .borrow()
             .values()
-            .filter(|container| container.status() == model::ContainerStatus::Running)
+            .filter(|container| container.status() == status)
             .count() as u32
     }
 
@@ -253,6 +313,10 @@ impl ContainerList {
                                     container.connect_notify_local(
                                         Some("status"),
                                         clone!(@weak obj => move |_, _| {
+                                            obj.notify("created");
+                                            obj.notify("dead");
+                                            obj.notify("exited");
+                                            obj.notify("paused");
                                             obj.notify("running");
                                         }),
                                     );

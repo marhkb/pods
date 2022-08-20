@@ -42,6 +42,42 @@ mod imp {
                         glib::ParamFlags::READABLE,
                     ),
                     glib::ParamSpecUInt::new(
+                        "created",
+                        "Created",
+                        "The number of created containers",
+                        0,
+                        std::u32::MAX,
+                        0,
+                        glib::ParamFlags::READABLE,
+                    ),
+                    glib::ParamSpecUInt::new(
+                        "dead",
+                        "Dead",
+                        "The number of dead containers",
+                        0,
+                        std::u32::MAX,
+                        0,
+                        glib::ParamFlags::READABLE,
+                    ),
+                    glib::ParamSpecUInt::new(
+                        "exited",
+                        "Exited",
+                        "The number of exited containers",
+                        0,
+                        std::u32::MAX,
+                        0,
+                        glib::ParamFlags::READABLE,
+                    ),
+                    glib::ParamSpecUInt::new(
+                        "paused",
+                        "Paused",
+                        "The number of paused containers",
+                        0,
+                        std::u32::MAX,
+                        0,
+                        glib::ParamFlags::READABLE,
+                    ),
+                    glib::ParamSpecUInt::new(
                         "running",
                         "Running",
                         "The number of running containers",
@@ -58,6 +94,10 @@ mod imp {
         fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
                 "len" => obj.len().to_value(),
+                "created" => obj.created().to_value(),
+                "dead" => obj.dead().to_value(),
+                "exited" => obj.exited().to_value(),
+                "paused" => obj.paused().to_value(),
                 "running" => obj.running().to_value(),
                 _ => unimplemented!(),
             }
@@ -109,37 +149,34 @@ impl SimpleContainerList {
     }
 
     pub(crate) fn add_container(&self, container: &model::Container) {
-        let (index, old_value) =
-            self.imp()
-                .0
-                .borrow_mut()
-                .insert_full(container.id().to_owned(), {
-                    let weak_ref = WeakRef::new();
-                    weak_ref.set(Some(container));
-                    weak_ref
-                });
+        let (index, _) = self
+            .imp()
+            .0
+            .borrow_mut()
+            .insert_full(container.id().to_owned(), {
+                let weak_ref = WeakRef::new();
+                weak_ref.set(Some(container));
+                weak_ref
+            });
 
-        self.items_changed(
-            index as u32,
-            if old_value.is_some() {
-                1
-            } else {
-                container.connect_notify_local(
-                    Some("status"),
-                    clone!(@weak self as obj => move |_, _| {
-                        obj.notify("running");
-                    }),
-                );
-                container.connect_notify_local(
-                    Some("name"),
-                    clone!(@weak self as obj => move |container, _| {
-                        obj.container_name_changed(container);
-                    }),
-                );
-                0
-            },
-            1,
+        container.connect_notify_local(
+            Some("status"),
+            clone!(@weak self as obj => move |_, _| {
+                obj.notify("created");
+                obj.notify("dead");
+                obj.notify("exited");
+                obj.notify("paused");
+                obj.notify("running");
+            }),
         );
+        container.connect_notify_local(
+            Some("name"),
+            clone!(@weak self as obj => move |container, _| {
+                obj.container_name_changed(container);
+            }),
+        );
+
+        self.items_changed(index as u32, 0, 1);
     }
 
     pub(crate) fn remove_container<Q: Borrow<str> + ?Sized>(&self, id: &Q) {
@@ -154,13 +191,33 @@ impl SimpleContainerList {
         self.n_items()
     }
 
+    pub(crate) fn created(&self) -> u32 {
+        self.num_containers_of_status(model::ContainerStatus::Created)
+    }
+
+    pub(crate) fn dead(&self) -> u32 {
+        self.num_containers_of_status(model::ContainerStatus::Dead)
+    }
+
+    pub(crate) fn exited(&self) -> u32 {
+        self.num_containers_of_status(model::ContainerStatus::Exited)
+    }
+
+    pub(crate) fn paused(&self) -> u32 {
+        self.num_containers_of_status(model::ContainerStatus::Paused)
+    }
+
     pub(crate) fn running(&self) -> u32 {
+        self.num_containers_of_status(model::ContainerStatus::Running)
+    }
+
+    pub(crate) fn num_containers_of_status(&self, status: model::ContainerStatus) -> u32 {
         self.imp()
             .0
             .borrow()
             .values()
             .filter_map(WeakRef::upgrade)
-            .filter(|container| container.status() == model::ContainerStatus::Running)
+            .filter(|container| container.status() == status)
             .count() as u32
     }
 }
