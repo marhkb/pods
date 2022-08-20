@@ -216,10 +216,7 @@ impl PodMenuButton {
 
         let status = pod.status();
 
-        self.action_set_enabled(
-            "pod.start",
-            matches!(pod.status(), Configured | Created | Exited | Dead | Stopped),
-        );
+        self.action_set_enabled("pod.start", matches!(pod.status(), Created | Exited | Dead));
         self.action_set_enabled("pod.stop", matches!(status, Running));
         self.action_set_enabled("pod.force-stop", matches!(status, Running));
         self.action_set_enabled("pod.restart", matches!(status, Running));
@@ -228,10 +225,7 @@ impl PodMenuButton {
         self.action_set_enabled("pod.pause", matches!(status, Running));
         self.action_set_enabled(
             "pod.delete",
-            matches!(
-                status,
-                Configured | Created | Exited | Dead | Stopped | Degraded
-            ),
+            matches!(status, Created | Exited | Dead | Degraded),
         );
         self.action_set_enabled("pod.force-delete", matches!(status, Running | Paused));
     }

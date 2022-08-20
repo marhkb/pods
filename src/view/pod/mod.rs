@@ -16,17 +16,13 @@ fn pod_status_css_class(status: model::PodStatus) -> &'static str {
     use model::PodStatus::*;
 
     match status {
-        Configured => "pod-status-configured",
         Created => "pod-status-created",
         Dead => "pod-status-dead",
         Degraded => "pod-status-degraded",
         Exited => "pod-status-exited",
         Paused => "pod-status-paused",
-        Removing => "pod-status-removing",
         Restarting => "pod-status-restarting",
         Running => "pod-status-running",
-        Stopped => "pod-status-stopped",
-        Stopping => "pod-status-stopping",
         Unknown => "pod-status-unknown",
     }
 }
