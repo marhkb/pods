@@ -43,6 +43,8 @@ mod imp {
         pub(super) entrypoint_row: TemplateChild<view::PropertyRow>,
         #[template_child]
         pub(super) ports_row: TemplateChild<view::PropertyRow>,
+        #[template_child]
+        pub(super) details_loading_row: TemplateChild<adw::PreferencesRow>,
     }
 
     #[glib::object_subclass]
@@ -254,6 +256,12 @@ mod imp {
                     }
                 ))
                 .bind(&*self.ports_row, "visible", Some(obj));
+
+            details_expr
+                .chain_closure::<bool>(closure!(
+                    |_: glib::Object, cmd: Option<model::ImageDetails>| { cmd.is_none() }
+                ))
+                .bind(&*self.details_loading_row, "visible", Some(obj));
         }
 
         fn dispose(&self, obj: &Self::Type) {
