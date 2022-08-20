@@ -67,10 +67,8 @@ connectionchooserpage connectionswitchermenu row {
 }
 
 .container-status-created,
-.container-status-dead,
 .container-status-exited,
 .pod-status-created,
-.pod-status-dead,
 .pod-status-exited,
 .pod-status-degraded,
 .container-health-status-checking,
@@ -93,7 +91,9 @@ connectionchooserpage connectionswitchermenu row {
   background-color: @accent_bg_color;
 }
 
+.container-status-dead,
 .container-status-unknown,
+.pod-status-dead,
 .pod-status-unknown,
 .container-health-status-unhealthy,
 .container-health-status-unknown
