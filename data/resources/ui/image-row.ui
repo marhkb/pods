@@ -5,6 +5,147 @@
     <property name="activatable">True</property>
     <property name="action-name">image.show-details</property>
 
+    <!-- Dead containers -->
+    <child>
+      <object class="GtkBox">
+        <style>
+          <class name="status-badge"/>
+          <class name="container-status-dead"/>
+        </style>
+        <property name="spacing">4</property>
+        <property name="valign">center</property>
+        <binding name="visible">
+          <lookup name="dead" type="SimpleContainerList">
+            <lookup name="container-list" type="Image">
+              <lookup name="image">ImageRow</lookup>
+            </lookup>
+          </lookup>
+        </binding>
+
+        <child>
+          <object class="GtkLabel">
+            <binding name="label">
+              <lookup name="dead" type="SimpleContainerList">
+                <lookup name="container-list" type="Image">
+                  <lookup name="image">ImageRow</lookup>
+                </lookup>
+              </lookup>
+            </binding>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkImage">
+            <property name="icon-name">package-x-generic-symbolic</property>
+            <property name="pixel-size">13</property>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <!-- Created or exited containers -->
+    <child>
+      <object class="GtkBox" id="num_created_or_exited_box">
+        <style>
+          <class name="status-badge"/>
+          <class name="container-status-exited"/>
+        </style>
+        <property name="spacing">4</property>
+        <property name="valign">center</property>
+
+        <child>
+          <object class="GtkLabel" id="num_created_or_exited_label"/>
+        </child>
+
+        <child>
+          <object class="GtkImage">
+            <property name="icon-name">package-x-generic-symbolic</property>
+            <property name="pixel-size">13</property>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <!-- Paused Containers -->
+    <child>
+      <object class="GtkBox">
+        <style>
+          <class name="status-badge"/>
+          <class name="container-status-paused"/>
+        </style>
+        <property name="spacing">4</property>
+        <property name="valign">center</property>
+        <binding name="visible">
+          <lookup name="paused" type="SimpleContainerList">
+            <lookup name="container-list" type="Image">
+              <lookup name="image">ImageRow</lookup>
+            </lookup>
+          </lookup>
+        </binding>
+
+        <child>
+          <object class="GtkLabel">
+            <binding name="label">
+              <lookup name="paused" type="SimpleContainerList">
+                <lookup name="container-list" type="Image">
+                  <lookup name="image">ImageRow</lookup>
+                </lookup>
+              </lookup>
+            </binding>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkImage">
+            <property name="icon-name">package-x-generic-symbolic</property>
+            <property name="pixel-size">13</property>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <!-- Running containers -->
+    <child>
+      <object class="GtkBox">
+        <style>
+          <class name="status-badge"/>
+          <class name="container-status-running"/>
+        </style>
+        <property name="spacing">4</property>
+        <property name="valign">center</property>
+        <binding name="visible">
+          <lookup name="running" type="SimpleContainerList">
+            <lookup name="container-list" type="Image">
+              <lookup name="image">ImageRow</lookup>
+            </lookup>
+          </lookup>
+        </binding>
+
+        <child>
+          <object class="GtkLabel">
+            <binding name="label">
+              <lookup name="running" type="SimpleContainerList">
+                <lookup name="container-list" type="Image">
+                  <lookup name="image">ImageRow</lookup>
+                </lookup>
+              </lookup>
+            </binding>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkImage">
+            <property name="icon-name">package-x-generic-symbolic</property>
+            <property name="pixel-size">13</property>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
     <child>
       <object class="ImageMenuButton">
         <style>
