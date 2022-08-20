@@ -38,7 +38,7 @@
         <child>
           <object class="GtkImage">
             <property name="icon-name">package-x-generic-symbolic</property>
-            <property name="pixel-size">13</property>
+            <property name="pixel-size">14</property>
           </object>
         </child>
 
@@ -63,7 +63,7 @@
         <child>
           <object class="GtkImage">
             <property name="icon-name">package-x-generic-symbolic</property>
-            <property name="pixel-size">13</property>
+            <property name="pixel-size">14</property>
           </object>
         </child>
 
@@ -103,7 +103,7 @@
         <child>
           <object class="GtkImage">
             <property name="icon-name">package-x-generic-symbolic</property>
-            <property name="pixel-size">13</property>
+            <property name="pixel-size">14</property>
           </object>
         </child>
 
@@ -143,7 +143,7 @@
         <child>
           <object class="GtkImage">
             <property name="icon-name">package-x-generic-symbolic</property>
-            <property name="pixel-size">13</property>
+            <property name="pixel-size">14</property>
           </object>
         </child>
 
