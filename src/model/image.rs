@@ -13,8 +13,8 @@ use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
 use once_cell::unsync::OnceCell;
 
-use crate::api;
 use crate::model;
+use crate::podman;
 use crate::utils;
 
 mod imp {
@@ -26,7 +26,6 @@ mod imp {
 
         pub(super) container_list: OnceCell<model::SimpleContainerList>,
 
-        pub(super) config_digest: OnceCell<Option<String>>,
         pub(super) containers: Cell<u64>,
         pub(super) created: OnceCell<i64>,
         pub(super) dangling: Cell<bool>,
@@ -82,13 +81,6 @@ mod imp {
                         "The list of containers associated with this Image",
                         model::SimpleContainerList::static_type(),
                         glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecString::new(
-                        "config-digest",
-                        "Config Digest",
-                        "The config digest of this Image",
-                        Option::default(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
                     ),
                     glib::ParamSpecUInt64::new(
                         "containers",
@@ -226,7 +218,6 @@ mod imp {
         ) {
             match pspec.name() {
                 "image-list" => self.image_list.set(value.get().unwrap()),
-                "config-digest" => self.config_digest.set(value.get().unwrap()).unwrap(),
                 "containers" => self.containers.set(value.get().unwrap()),
                 "created" => self.created.set(value.get().unwrap()).unwrap(),
                 "dangling" => self.dangling.set(value.get().unwrap()),
@@ -250,7 +241,6 @@ mod imp {
             match pspec.name() {
                 "image-list" => obj.image_list().to_value(),
                 "container-list" => obj.container_list().to_value(),
-                "config-digest" => obj.config_digest().to_value(),
                 "containers" => obj.containers().to_value(),
                 "created" => obj.created().to_value(),
                 "dangling" => obj.dangling().to_value(),
@@ -283,10 +273,12 @@ glib::wrapper! {
 }
 
 impl Image {
-    pub(crate) fn new(image_list: &model::ImageList, summary: api::LibpodImageSummary) -> Self {
+    pub(crate) fn new(
+        image_list: &model::ImageList,
+        summary: podman::models::LibpodImageSummary,
+    ) -> Self {
         glib::Object::new(&[
             ("image-list", image_list),
-            ("config-digest", &summary.config_digest),
             (
                 "containers",
                 &(summary.containers.unwrap_or_default() as u64),
@@ -337,10 +329,6 @@ impl Image {
 
     pub(crate) fn container_list(&self) -> &model::SimpleContainerList {
         self.imp().container_list.get_or_init(Default::default)
-    }
-
-    pub(crate) fn config_digest(&self) -> Option<&str> {
-        self.imp().config_digest.get().unwrap().as_deref()
     }
 
     pub(crate) fn containers(&self) -> u64 {
@@ -467,7 +455,7 @@ impl Image {
 
     pub(crate) fn delete<F>(&self, op: F)
     where
-        F: FnOnce(&Self, api::Result<()>) + 'static,
+        F: FnOnce(&Self, podman::Result<()>) + 'static,
     {
         if let Some(image) = self.api_image() {
             self.set_to_be_deleted(true);
@@ -508,10 +496,10 @@ impl Image {
         })
     }
 
-    pub(crate) fn api_image(&self) -> Option<api::Image> {
+    pub(crate) fn api_image(&self) -> Option<podman::api::Image> {
         self.image_list()
             .unwrap()
             .client()
-            .map(|client| api::Image::new(client.podman().deref().clone(), self.id()))
+            .map(|client| podman::api::Image::new(client.podman().deref().clone(), self.id()))
     }
 }

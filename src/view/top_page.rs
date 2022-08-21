@@ -12,8 +12,8 @@ use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
 use once_cell::unsync::OnceCell;
 
-use crate::api;
 use crate::model;
+use crate::podman;
 use crate::utils;
 use crate::view;
 use crate::window::Window;
@@ -162,7 +162,7 @@ impl TopPage {
             utils::run_stream(
                 processes_source,
                 move |container| container.stream(),
-                clone!(@weak self as obj => @default-return glib::Continue(false), move |result: api::Result<TopStreamElement>| {
+                clone!(@weak self as obj => @default-return glib::Continue(false), move |result: podman::Result<TopStreamElement>| {
 
                     glib::Continue(match result {
                         Ok(top) => {
@@ -260,12 +260,12 @@ impl TopPage {
 }
 
 trait TopSource: Send {
-    fn stream(&self) -> stream::BoxStream<api::Result<TopStreamElement>>;
+    fn stream(&self) -> stream::BoxStream<podman::Result<TopStreamElement>>;
 }
 
-impl TopSource for api::Container {
-    fn stream(&self) -> stream::BoxStream<api::Result<TopStreamElement>> {
-        self.top_stream(&api::ContainerTopOpts::builder().delay(2).build())
+impl TopSource for podman::api::Container {
+    fn stream(&self) -> stream::BoxStream<podman::Result<TopStreamElement>> {
+        self.top_stream(&podman::opts::ContainerTopOpts::builder().delay(2).build())
             .map_ok(|x| TopStreamElement {
                 processes: x.processes,
                 titles: x.titles,
@@ -274,9 +274,9 @@ impl TopSource for api::Container {
     }
 }
 
-impl TopSource for api::Pod {
-    fn stream(&self) -> stream::BoxStream<api::Result<TopStreamElement>> {
-        self.top_stream(&api::PodTopOpts::builder().delay(2).build())
+impl TopSource for podman::api::Pod {
+    fn stream(&self) -> stream::BoxStream<podman::Result<TopStreamElement>> {
+        self.top_stream(&podman::opts::PodTopOpts::builder().delay(2).build())
             .map_ok(|x| TopStreamElement {
                 processes: x.processes,
                 titles: x.titles,

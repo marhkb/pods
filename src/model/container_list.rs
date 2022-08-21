@@ -12,9 +12,9 @@ use indexmap::map::Entry;
 use indexmap::map::IndexMap;
 use once_cell::sync::Lazy;
 
-use crate::api;
 use crate::model;
 use crate::model::AbstractContainerListExt;
+use crate::podman;
 use crate::utils;
 
 mod imp {
@@ -146,7 +146,7 @@ mod imp {
                 |containers| {
                     containers
                         .stats_stream(
-                            &api::ContainerStatsOptsBuilder::default()
+                            &podman::opts::ContainerStatsOptsBuilder::default()
                                 .interval(1)
                                 .build(),
                         )
@@ -154,21 +154,37 @@ mod imp {
                 },
                 clone!(
                     @weak obj => @default-return glib::Continue(false),
-                    move |result: api::Result<api::LibpodContainerStatsResponse>|
+                    move |result: podman::Result<podman::models::ContainerStats200Response>|
                 {
-                    glib::Continue(match result.ok().and_then(|stats| stats.stats) {
-                        Some(stats) => {
-                            stats.into_iter().for_each(|stat| {
-                                if let Some(container) = obj.get_container(stat.container_id.as_ref().unwrap()) {
-                                    if container.status() == model::ContainerStatus::Running {
-                                        container.set_stats(Some(model::BoxedContainerStats::from(stat)));
+                    glib::Continue(
+                        match result
+                            .map_err(anyhow::Error::from)
+                            .and_then(|mut value| {
+                                serde_json::from_value::<Vec<podman::models::ContainerStats>>(
+                                    value.as_object_mut().unwrap().remove("Stats").unwrap()
+                                )
+                                .map_err(anyhow::Error::from)
+                            })
+                        {
+                            Ok(stats) => {
+                                stats.into_iter().for_each(|stat| {
+                                    if let Some(container) =
+                                        obj.get_container(stat.container_id.as_ref().unwrap())
+                                    {
+                                        if container.status() == model::ContainerStatus::Running {
+                                            container
+                                                .set_stats(Some(model::BoxedContainerStats::from(stat)));
+                                        }
                                     }
-                                }
-                            });
-                            true
-                        }
-                        None => false,
-                    })
+                                });
+                                true
+                            }
+                            Err(e) => {
+                                log::warn!("Stopping stats stream due to error: {e}");
+                                false
+                            },
+                        },
+                    )
                 }),
             );
 
@@ -282,12 +298,12 @@ impl ContainerList {
                     podman
                         .containers()
                         .list(
-                            &api::ContainerListOpts::builder()
+                            &podman::opts::ContainerListOpts::builder()
                                 .all(true)
                                 .filter(
                                     id.to_owned()
-                                        .map(api::Id::from)
-                                        .map(api::ContainerListFilter::Id),
+                                        .map(podman::Id::from)
+                                        .map(podman::opts::ContainerListFilter::Id),
                                 )
                                 .build(),
                         )
@@ -351,7 +367,7 @@ impl ContainerList {
         );
     }
 
-    pub(crate) fn handle_event<F>(&self, event: api::Event, err_op: F)
+    pub(crate) fn handle_event<F>(&self, event: podman::models::Event, err_op: F)
     where
         F: FnOnce(super::RefreshError) + Clone + 'static,
     {

@@ -16,9 +16,9 @@ use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
 use serde::Serialize;
 
-use crate::api;
 use crate::model;
 use crate::model::AbstractContainerListExt;
+use crate::podman;
 use crate::utils;
 use crate::utils::ToTypedListModel;
 use crate::view;
@@ -625,7 +625,7 @@ impl ContainerCreationPage {
         let imp = self.imp();
         imp.stack.set_visible_child(&*imp.image_pulling_page);
 
-        let opts = api::PullOpts::builder()
+        let opts = podman::opts::PullOpts::builder()
             .reference(reference)
             .quiet(false)
             .build();
@@ -648,49 +648,21 @@ impl ContainerCreationPage {
     fn create(&self, image_id: &str, run: bool) {
         let imp = self.imp();
 
-        let create_opts = api::ContainerCreateOpts::builder()
+        let create_opts = podman::opts::ContainerCreateOpts::builder()
             .name(imp.name_entry_row.text().as_str())
             .image(&image_id)
             .pod(self.pod().as_ref().map(model::Pod::name))
             .terminal(imp.terminal_switch.is_active())
-            .resource_limits(api::LinuxResources {
-                block_io: None,
-                cpu: None,
-                devices: None,
-                hugepage_limits: None,
-                memory: Some(api::LinuxMemory {
-                    disable_oom_killer: None,
-                    kernel: None,
-                    kernel_tcp: None,
-                    limit: if imp.memory_switch.is_active() {
-                        Some(
-                            imp.mem_value.value() as i64
-                                * 1024_i64
-                                    .pow(imp.mem_combo_box.active().map(|i| i + 1).unwrap_or(0)),
-                        )
-                    } else {
-                        None
-                    },
-                    reservation: None,
-                    swap: None,
-                    swappiness: None,
-                    use_hierarchy: None,
-                }),
-                network: None,
-                pids: None,
-                rdma: None,
-                unified: None,
-            })
             .portmappings(
                 imp.port_mappings
                     .borrow()
                     .to_owned()
                     .to_typed_list_model::<model::PortMapping>()
                     .into_iter()
-                    .map(|port_mapping| api::PortMapping {
-                        container_port: Some(port_mapping.container_port() as i64),
+                    .map(|port_mapping| podman::models::PortMapping {
+                        container_port: Some(port_mapping.container_port() as u16),
                         host_ip: None,
-                        host_port: Some(port_mapping.host_port() as i64),
+                        host_port: Some(port_mapping.host_port() as u16),
                         protocol: Some(port_mapping.protocol().to_string()),
                         range: None,
                     }),
@@ -727,6 +699,53 @@ impl ContainerCreationPage {
                     .map(|env_var| (env_var.key(), env_var.value())),
             );
 
+        let create_opts = if imp.memory_switch.is_active() {
+            create_opts.resource_limits(podman::models::LinuxResources {
+                block_io: podman::models::LinuxBlockIo {
+                    leaf_weight: None,
+                    throttle_read_bps_device: None,
+                    throttle_read_iops_device: None,
+                    throttle_write_bps_device: None,
+                    throttle_write_iops_device: None,
+                    weight: None,
+                    weight_device: None,
+                },
+                cpu: podman::models::LinuxCpu {
+                    cpus: None,
+                    mems: None,
+                    period: None,
+                    quota: None,
+                    realtime_period: None,
+                    realtime_runtime: None,
+                    shares: None,
+                },
+                devices: None,
+                hugepage_limits: None,
+                memory: podman::models::LinuxMemory {
+                    disable_oom_killer: None,
+                    kernel: None,
+                    kernel_tcp: None,
+                    limit: Some(
+                        imp.mem_value.value() as i64
+                            * 1024_i64.pow(imp.mem_combo_box.active().map(|i| i + 1).unwrap_or(0)),
+                    ),
+                    reservation: None,
+                    swap: None,
+                    swappiness: None,
+                    use_hierarchy: None,
+                },
+                network: podman::models::LinuxNetwork {
+                    class_id: None,
+                    priorities: None,
+                },
+                pids: podman::models::LinuxPids { limit: None },
+                rdma: None,
+                unified: None,
+            })
+        } else {
+            create_opts
+        };
+
         let cmd = imp.command_entry_row.text();
         let create_opts = if cmd.is_empty() {
             create_opts
@@ -738,19 +757,17 @@ impl ContainerCreationPage {
         let opts = if healthcheck_cmd.is_empty() {
             create_opts
         } else {
-            create_opts.health_config(api::Schema2HealthConfig {
-                interval: Some(imp.health_check_interval_value.value() as i64 * 1_000_000_000),
+            create_opts.health_config(podman::models::Schema2HealthConfig {
+                interval: imp.health_check_interval_value.value() as i64 * 1_000_000_000,
                 retries: Some(imp.health_check_retries_value.value() as i64),
-                start_period: Some(
-                    imp.health_check_start_period_value.value() as i64 * 1_000_000_000,
-                ),
+                start_period: imp.health_check_start_period_value.value() as i64 * 1_000_000_000,
                 test: Some(
                     healthcheck_cmd
                         .split(' ')
                         .map(str::to_string)
                         .collect::<Vec<_>>(),
                 ),
-                timeout: Some(imp.health_check_timeout_value.value() as i64 * 1_000_000_000),
+                timeout: imp.health_check_timeout_value.value() as i64 * 1_000_000_000,
             })
         }
         .build();

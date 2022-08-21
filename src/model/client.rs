@@ -10,14 +10,14 @@ use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
 use once_cell::unsync::OnceCell;
 
-use crate::api;
 use crate::model;
 use crate::model::AbstractContainerListExt;
 use crate::monad_boxed_type;
+use crate::podman;
 use crate::utils;
 use crate::utils::ToTypedListModel;
 
-monad_boxed_type!(pub(crate) BoxedPodman(api::Podman) impls Debug);
+monad_boxed_type!(pub(crate) BoxedPodman(podman::Podman) impls Debug);
 
 #[derive(Clone, Debug)]
 pub(crate) struct ClientError {
@@ -193,10 +193,10 @@ glib::wrapper! {
 }
 
 impl TryFrom<&model::Connection> for Client {
-    type Error = api::Error;
+    type Error = podman::Error;
 
     fn try_from(connection: &model::Connection) -> Result<Self, Self::Error> {
-        api::Podman::new(connection.url()).map(|podman| {
+        podman::Podman::new(connection.url()).map(|podman| {
             glib::Object::new(&[
                 ("connection", connection),
                 ("podman", &BoxedPodman::from(podman)),
@@ -245,9 +245,9 @@ impl Client {
         self.notify("pruning");
     }
 
-    pub(crate) fn prune<F>(&self, opts: api::ImagePruneOpts, op: F)
+    pub(crate) fn prune<F>(&self, opts: podman::opts::ImagePruneOpts, op: F)
     where
-        F: FnOnce(api::Result<Option<Vec<api::PruneReport>>>) + 'static,
+        F: FnOnce(podman::Result<Option<Vec<podman::models::PruneReport>>>) + 'static,
     {
         self.set_pruning(true);
         utils::do_async(
@@ -270,7 +270,7 @@ impl Client {
     where
         T: FnOnce() + 'static,
         E: FnOnce(ClientError) + Clone + 'static,
-        F: FnOnce(api::Error) + Clone + 'static,
+        F: FnOnce(podman::Error) + Clone + 'static,
     {
         utils::do_async(
             {
@@ -324,14 +324,18 @@ impl Client {
     fn start_event_listener<E, F>(&self, err_op: E, finish_op: F)
     where
         E: FnOnce(ClientError) + Clone + 'static,
-        F: FnOnce(api::Error) + Clone + 'static,
+        F: FnOnce(podman::Error) + Clone + 'static,
     {
         utils::run_stream(
             self.podman().clone(),
-            |podman| podman.events(&api::EventsOpts::builder().build()).boxed(),
+            |podman| {
+                podman
+                    .events(&podman::opts::EventsOpts::builder().build())
+                    .boxed()
+            },
             clone!(
                 @weak self as obj => @default-return glib::Continue(false),
-                move |result: api::Result<api::Event>|
+                move |result: podman::Result<podman::models::Event>|
             {
                 glib::Continue(match result {
                     Ok(event) => {

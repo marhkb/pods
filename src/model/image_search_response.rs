@@ -4,7 +4,7 @@ use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
 use once_cell::unsync::OnceCell;
 
-use crate::api;
+use crate::podman;
 
 mod imp {
     use super::*;
@@ -124,8 +124,8 @@ glib::wrapper! {
     pub(crate) struct ImageSearchResponse(ObjectSubclass<imp::ImageSearchResponse>);
 }
 
-impl From<api::LibpodImageSearchResponse> for ImageSearchResponse {
-    fn from(response: api::LibpodImageSearchResponse) -> Self {
+impl From<podman::models::RegistrySearchResponse> for ImageSearchResponse {
+    fn from(response: podman::models::RegistrySearchResponse) -> Self {
         glib::Object::new(&[
             ("automated", &response.automated),
             ("description", &response.description),

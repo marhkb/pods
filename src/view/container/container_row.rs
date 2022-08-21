@@ -120,7 +120,7 @@ mod imp {
                 .chain_closure::<f64>(closure!(
                     |_: glib::Object, stats: Option<model::BoxedContainerStats>| {
                         stats
-                            .and_then(|stats| stats.CPU.map(|perc| perc as f64 * 0.01))
+                            .and_then(|stats| stats.cpu.map(|perc| perc as f64 * 0.01))
                             .unwrap_or_default()
                     }
                 ))

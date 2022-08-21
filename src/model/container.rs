@@ -17,9 +17,9 @@ use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
 use once_cell::unsync::OnceCell;
 
-use crate::api;
 use crate::model;
 use crate::monad_boxed_type;
+use crate::podman;
 use crate::utils;
 
 #[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
@@ -110,7 +110,7 @@ impl fmt::Display for HealthStatus {
     }
 }
 
-monad_boxed_type!(pub(crate) BoxedContainerStats(api::LibpodContainerStats) impls Debug, PartialEq is nullable);
+monad_boxed_type!(pub(crate) BoxedContainerStats(podman::models::ContainerStats) impls Debug, PartialEq is nullable);
 
 mod imp {
     use super::*;
@@ -347,7 +347,7 @@ glib::wrapper! {
 impl Container {
     pub(crate) fn new(
         container_list: &model::ContainerList,
-        list_container: api::ListContainer,
+        list_container: podman::models::ListContainer,
     ) -> Self {
         glib::Object::new(&[
             ("container-list", container_list),
@@ -397,7 +397,7 @@ impl Container {
         .expect("Failed to create Container")
     }
 
-    pub(crate) fn update(&self, list_container: api::ListContainer) {
+    pub(crate) fn update(&self, list_container: podman::models::ListContainer) {
         self.set_action_ongoing(false);
         self.set_health_status(health_status(list_container.status.as_deref()));
         self.set_image_name(list_container.image);
@@ -553,9 +553,9 @@ impl Container {
 impl Container {
     fn action<Fut, FutOp, ResOp>(&self, name: &'static str, fut_op: FutOp, res_op: ResOp)
     where
-        Fut: Future<Output = api::Result<()>> + Send,
-        FutOp: FnOnce(api::Container) -> Fut + Send + 'static,
-        ResOp: FnOnce(api::Result<()>) + 'static,
+        Fut: Future<Output = podman::Result<()>> + Send,
+        FutOp: FnOnce(podman::api::Container) -> Fut + Send + 'static,
+        ResOp: FnOnce(podman::Result<()>) + 'static,
     {
         if let Some(container) = self.api_container() {
             if self.action_ongoing() {
@@ -593,7 +593,7 @@ impl Container {
 
     pub(crate) fn start<F>(&self, op: F)
     where
-        F: FnOnce(api::Result<()>) + 'static,
+        F: FnOnce(podman::Result<()>) + 'static,
     {
         self.action(
             "starting",
@@ -604,7 +604,7 @@ impl Container {
 
     pub(crate) fn stop<F>(&self, force: bool, op: F)
     where
-        F: FnOnce(api::Result<()>) + 'static,
+        F: FnOnce(podman::Result<()>) + 'static,
     {
         self.action(
             if force { "force stopping" } else { "stopping" },
@@ -621,7 +621,7 @@ impl Container {
 
     pub(crate) fn restart<F>(&self, force: bool, op: F)
     where
-        F: FnOnce(api::Result<()>) + 'static,
+        F: FnOnce(podman::Result<()>) + 'static,
     {
         self.action(
             if force {
@@ -642,7 +642,7 @@ impl Container {
 
     pub(crate) fn pause<F>(&self, op: F)
     where
-        F: FnOnce(api::Result<()>) + 'static,
+        F: FnOnce(podman::Result<()>) + 'static,
     {
         self.action(
             "pausing",
@@ -653,7 +653,7 @@ impl Container {
 
     pub(crate) fn resume<F>(&self, op: F)
     where
-        F: FnOnce(api::Result<()>) + 'static,
+        F: FnOnce(podman::Result<()>) + 'static,
     {
         self.action(
             "resuming",
@@ -664,7 +664,7 @@ impl Container {
 
     pub(crate) fn rename<F>(&self, new_name: String, op: F)
     where
-        F: FnOnce(api::Result<()>) + 'static,
+        F: FnOnce(podman::Result<()>) + 'static,
     {
         self.action(
             "renaming",
@@ -675,7 +675,7 @@ impl Container {
 
     pub(crate) fn commit<F>(&self, op: F)
     where
-        F: FnOnce(api::Result<()>) + 'static,
+        F: FnOnce(podman::Result<()>) + 'static,
     {
         self.action(
             "committing",
@@ -686,13 +686,17 @@ impl Container {
 
     pub(crate) fn delete<F>(&self, force: bool, op: F)
     where
-        F: FnOnce(api::Result<()>) + 'static,
+        F: FnOnce(podman::Result<()>) + 'static,
     {
         self.action(
             if force { "force deleting" } else { "deleting" },
             move |container| async move {
                 container
-                    .delete(&api::ContainerDeleteOpts::builder().force(force).build())
+                    .delete(
+                        &podman::opts::ContainerDeleteOpts::builder()
+                            .force(force)
+                            .build(),
+                    )
                     .await
             },
             op,
@@ -714,11 +718,11 @@ impl Container {
         })
     }
 
-    pub(crate) fn api_container(&self) -> Option<api::Container> {
+    pub(crate) fn api_container(&self) -> Option<podman::api::Container> {
         self.container_list()
             .unwrap()
             .client()
-            .map(|client| api::Container::new(client.podman().deref().clone(), self.id()))
+            .map(|client| podman::api::Container::new(client.podman().deref().clone(), self.id()))
     }
 }
 

@@ -103,7 +103,7 @@ mod imp {
                         gettext!(
                             "{} %",
                             stats
-                                .and_then(|stats| stats.CPU.map(|perc| format!("{perc:.1}")))
+                                .and_then(|stats| stats.cpu.map(|perc| format!("{perc:.1}")))
                                 .unwrap_or_else(|| gettext("?")),
                         )
                     }
@@ -112,7 +112,7 @@ mod imp {
 
             obj.bind_stats_fraction(
                 stats_expr.upcast_ref(),
-                |stats| stats.CPU,
+                |stats| stats.cpu,
                 &*self.cpu_progress_bar,
             );
 
@@ -190,7 +190,7 @@ impl ContainerResourcesQuickReferenceGroup {
         fraction_op: F,
         progress_bar: &gtk::ProgressBar,
     ) where
-        F: Fn(model::BoxedContainerStats) -> Option<f32> + Clone + 'static,
+        F: Fn(model::BoxedContainerStats) -> Option<f64> + Clone + 'static,
     {
         let fraction_op_clone = fraction_op.clone();
         stats_expr
@@ -237,7 +237,7 @@ impl ContainerResourcesQuickReferenceGroup {
         throughput_op: F,
         label: &gtk::Label,
     ) where
-        F: Fn(model::BoxedContainerStats) -> Option<i64> + 'static,
+        F: Fn(model::BoxedContainerStats) -> Option<u64> + 'static,
     {
         let prev_value = Cell::new(-1);
 
@@ -255,11 +255,11 @@ impl ContainerResourcesQuickReferenceGroup {
                                 glib::format_size(if prev_value.get() == -1 {
                                     0
                                 } else {
-                                    (value - prev_value.get()) as u64
+                                    value - prev_value.get() as u64
                                 })
                             );
 
-                            prev_value.set(value);
+                            prev_value.set(value as i64);
 
                             s
                         })

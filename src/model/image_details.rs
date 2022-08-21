@@ -5,8 +5,8 @@ use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
 use once_cell::unsync::OnceCell;
 
-use crate::api;
 use crate::model;
+use crate::podman;
 
 mod imp {
     use super::*;
@@ -94,15 +94,15 @@ glib::wrapper! {
     pub(crate) struct ImageDetails(ObjectSubclass<imp::ImageDetails>);
 }
 
-impl From<api::LibpodImageInspectResponse> for ImageDetails {
-    fn from(inspect_response: api::LibpodImageInspectResponse) -> Self {
+impl From<podman::models::InspectImageResponseLibpod> for ImageDetails {
+    fn from(inspect_response: podman::models::InspectImageResponseLibpod) -> Self {
         glib::Object::new(&[
             ("architecture", &inspect_response.architecture),
             ("author", &inspect_response.author),
             ("comment", &inspect_response.comment),
             (
                 "config",
-                &model::ImageConfig::from_libpod(inspect_response.config.unwrap()),
+                &model::ImageConfig::from_libpod(inspect_response.config),
             ),
         ])
         .expect("Failed to create ImageDetails")

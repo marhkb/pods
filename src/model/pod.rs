@@ -18,8 +18,8 @@ use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
 use once_cell::unsync::OnceCell;
 
-use crate::api;
 use crate::model;
+use crate::podman;
 use crate::utils;
 
 #[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
@@ -86,7 +86,7 @@ mod imp {
         pub(super) hostname: OnceCell<String>,
         pub(super) id: OnceCell<String>,
         pub(super) name: RefCell<String>,
-        pub(super) num_containers: Cell<i64>,
+        pub(super) num_containers: Cell<u64>,
         pub(super) status: Cell<Status>,
     }
 
@@ -167,12 +167,12 @@ mod imp {
                             | glib::ParamFlags::CONSTRUCT
                             | glib::ParamFlags::EXPLICIT_NOTIFY,
                     ),
-                    glib::ParamSpecInt64::new(
+                    glib::ParamSpecUInt64::new(
                         "num-containers",
                         "Num Containers",
                         "The number of containers in this pod",
-                        0,
-                        i64::MAX,
+                        u64::MIN,
+                        u64::MAX,
                         0,
                         glib::ParamFlags::READWRITE
                             | glib::ParamFlags::CONSTRUCT
@@ -237,7 +237,7 @@ glib::wrapper! {
 impl Pod {
     pub(crate) fn new(
         pod_list: &model::PodList,
-        inspect_response: api::LibpodPodInspectResponse,
+        inspect_response: podman::models::PodInspectResponse,
     ) -> Self {
         glib::Object::new(&[
             ("pod-list", pod_list),
@@ -260,7 +260,7 @@ impl Pod {
         .expect("Failed to create Pod")
     }
 
-    pub(crate) fn update(&self, inspect_response: api::LibpodPodInspectResponse) {
+    pub(crate) fn update(&self, inspect_response: podman::models::PodInspectResponse) {
         self.set_action_ongoing(false);
         self.set_name(inspect_response.name.unwrap_or_default());
         self.set_num_containers(inspect_response.num_containers.unwrap_or(0));
@@ -324,11 +324,11 @@ impl Pod {
         self.notify("name");
     }
 
-    pub(crate) fn num_containers(&self) -> i64 {
+    pub(crate) fn num_containers(&self) -> u64 {
         self.imp().num_containers.get()
     }
 
-    fn set_num_containers(&self, value: i64) {
+    fn set_num_containers(&self, value: u64) {
         if self.num_containers() == value {
             return;
         }
@@ -364,9 +364,9 @@ impl Pod {
 impl Pod {
     fn action<Fut, FutOp, ResOp>(&self, name: &'static str, fut_op: FutOp, res_op: ResOp)
     where
-        Fut: Future<Output = api::Result<()>> + Send,
-        FutOp: FnOnce(api::Pod) -> Fut + Send + 'static,
-        ResOp: FnOnce(api::Result<()>) + 'static,
+        Fut: Future<Output = podman::Result<()>> + Send,
+        FutOp: FnOnce(podman::api::Pod) -> Fut + Send + 'static,
+        ResOp: FnOnce(podman::Result<()>) + 'static,
     {
         if let Some(pod) = self.api_pod() {
             if self.action_ongoing() {
@@ -404,7 +404,7 @@ impl Pod {
 
     pub(crate) fn start<F>(&self, op: F)
     where
-        F: FnOnce(api::Result<()>) + 'static,
+        F: FnOnce(podman::Result<()>) + 'static,
     {
         self.action(
             "starting",
@@ -415,7 +415,7 @@ impl Pod {
 
     pub(crate) fn stop<F>(&self, force: bool, op: F)
     where
-        F: FnOnce(api::Result<()>) + 'static,
+        F: FnOnce(podman::Result<()>) + 'static,
     {
         self.action(
             if force { "force stopping" } else { "stopping" },
@@ -432,7 +432,7 @@ impl Pod {
 
     pub(crate) fn restart<F>(&self, force: bool, op: F)
     where
-        F: FnOnce(api::Result<()>) + 'static,
+        F: FnOnce(podman::Result<()>) + 'static,
     {
         self.action(
             if force {
@@ -453,7 +453,7 @@ impl Pod {
 
     pub(crate) fn pause<F>(&self, op: F)
     where
-        F: FnOnce(api::Result<()>) + 'static,
+        F: FnOnce(podman::Result<()>) + 'static,
     {
         self.action(
             "pausing",
@@ -464,7 +464,7 @@ impl Pod {
 
     pub(crate) fn resume<F>(&self, op: F)
     where
-        F: FnOnce(api::Result<()>) + 'static,
+        F: FnOnce(podman::Result<()>) + 'static,
     {
         self.action(
             "resuming",
@@ -475,7 +475,7 @@ impl Pod {
 
     pub(crate) fn delete<F>(&self, force: bool, op: F)
     where
-        F: FnOnce(api::Result<()>) + 'static,
+        F: FnOnce(podman::Result<()>) + 'static,
     {
         self.action(
             if force { "force deleting" } else { "deleting" },
@@ -491,11 +491,11 @@ impl Pod {
         );
     }
 
-    pub(crate) fn api_pod(&self) -> Option<api::Pod> {
+    pub(crate) fn api_pod(&self) -> Option<podman::api::Pod> {
         self.pod_list()
             .unwrap()
             .client()
-            .map(|client| api::Pod::new(client.podman().deref().clone(), self.id()))
+            .map(|client| podman::api::Pod::new(client.podman().deref().clone(), self.id()))
     }
 }
 

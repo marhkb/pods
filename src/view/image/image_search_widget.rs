@@ -13,8 +13,8 @@ use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
 use once_cell::unsync::OnceCell;
 
-use crate::api;
 use crate::model;
+use crate::podman;
 use crate::utils;
 
 mod imp {
@@ -225,11 +225,9 @@ impl ImageSearchWidget {
                                 let model = gio::ListStore::new(model::Registry::static_type());
                                 model.append(&model::Registry::from(gettext("All registries").as_str()));
                                 search
-                                    .as_array()
-                                    .unwrap()
-                                    .iter()
+                                    .keys()
                                     .for_each(|name| {
-                                        model.append(&model::Registry::from(name.as_str().unwrap()))
+                                        model.append(&model::Registry::from(name.as_str()))
                                     });
 
                                 imp.registries_combo_row.set_model(Some(&model));
@@ -301,7 +299,9 @@ impl ImageSearchWidget {
         let (abort_handle, abort_registration) = future::AbortHandle::new_pair();
         imp.search_abort_handle.replace(Some(abort_handle));
 
-        let opts = api::ImageSearchOpts::builder().term(term.as_str()).build();
+        let opts = podman::opts::ImageSearchOpts::builder()
+            .term(term.as_str())
+            .build();
         utils::do_async(
             {
                 let podman = self.client().unwrap().podman().clone();

@@ -8,8 +8,8 @@ use gtk::prelude::*;
 use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
 
-use crate::api;
 use crate::model;
+use crate::podman;
 use crate::utils;
 use crate::view;
 use crate::window::Window;
@@ -112,14 +112,17 @@ impl ImagePullingPage {
         self.imp().client.upgrade()
     }
 
-    pub(crate) fn pull<F>(&self, opts: api::PullOpts, op: F)
+    pub(crate) fn pull<F>(&self, opts: podman::opts::PullOpts, op: F)
     where
-        F: FnOnce(anyhow::Result<api::LibpodImagesPullReport>) + Clone + 'static,
+        F: FnOnce(anyhow::Result<podman::models::LibpodImagesPullReport>) + Clone + 'static,
     {
         utils::run_stream(
             self.client().unwrap().podman().images(),
             move |images| images.pull(&opts).boxed(),
-            clone!(@weak self as obj => @default-return glib::Continue(false), move |result: api::Result<api::LibpodImagesPullReport>| {
+            clone!(
+                @weak self as obj => @default-return glib::Continue(false),
+                move |result: podman::Result<podman::models::LibpodImagesPullReport>|
+            {
                 glib::Continue(match result {
                     Ok(report) => match report.error {
                         Some(error) => {
