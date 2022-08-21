@@ -1117,7 +1117,7 @@ checksum = "1df8c4ec4b0627e53bdf214615ad287367e482558cf84b109250b37464dc03ae"
 [[package]]
 name = "podman-api"
 version = "0.4.0"
-source = "git+https://github.com/marhkb/podman-api-rs.git?branch=staging#a02f80d9c5a2a12feea8b1a7a3fba5d563c6624f"
+source = "git+https://github.com/marhkb/podman-api-rs.git?branch=staging#990a1162a0c04440c531cc58d48e92e4a5727be5"
 dependencies = [
  "base64",
  "byteorder",
@@ -1140,7 +1140,7 @@ dependencies = [
 [[package]]
 name = "podman-api-stubs"
 version = "0.5.0"
-source = "git+https://github.com/marhkb/podman-api-rs.git?branch=staging#a02f80d9c5a2a12feea8b1a7a3fba5d563c6624f"
+source = "git+https://github.com/marhkb/podman-api-rs.git?branch=staging#990a1162a0c04440c531cc58d48e92e4a5727be5"
 dependencies = [
  "chrono",
  "serde",

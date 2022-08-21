@@ -701,44 +701,25 @@ impl ContainerCreationPage {
 
         let create_opts = if imp.memory_switch.is_active() {
             create_opts.resource_limits(podman::models::LinuxResources {
-                block_io: podman::models::LinuxBlockIo {
-                    leaf_weight: None,
-                    throttle_read_bps_device: None,
-                    throttle_read_iops_device: None,
-                    throttle_write_bps_device: None,
-                    throttle_write_iops_device: None,
-                    weight: None,
-                    weight_device: None,
-                },
-                cpu: podman::models::LinuxCpu {
-                    cpus: None,
-                    mems: None,
-                    period: None,
-                    quota: None,
-                    realtime_period: None,
-                    realtime_runtime: None,
-                    shares: None,
-                },
+                block_io: None,
+                cpu: None,
                 devices: None,
                 hugepage_limits: None,
-                memory: podman::models::LinuxMemory {
+                memory: Some(podman::models::LinuxMemory {
                     disable_oom_killer: None,
                     kernel: None,
                     kernel_tcp: None,
                     limit: Some(
                         imp.mem_value.value() as i64
-                            * 1024_i64.pow(imp.mem_combo_box.active().map(|i| i + 1).unwrap_or(0)),
+                            * 1000_i64.pow(imp.mem_combo_box.active().map(|i| i + 1).unwrap_or(0)),
                     ),
                     reservation: None,
                     swap: None,
                     swappiness: None,
                     use_hierarchy: None,
-                },
-                network: podman::models::LinuxNetwork {
-                    class_id: None,
-                    priorities: None,
-                },
-                pids: podman::models::LinuxPids { limit: None },
+                }),
+                network: None,
+                pids: None,
                 rdma: None,
                 unified: None,
             })
