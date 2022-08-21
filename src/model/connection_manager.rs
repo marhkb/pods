@@ -18,8 +18,8 @@ use indexmap::IndexMap;
 use once_cell::sync::Lazy;
 use tokio::io::AsyncWriteExt;
 
-use crate::api;
 use crate::model;
+use crate::podman;
 use crate::utils;
 use crate::utils::config_dir;
 use crate::RUNTIME;
@@ -182,7 +182,7 @@ impl ConnectionManager {
         op: F,
     ) -> anyhow::Result<()>
     where
-        F: FnOnce(api::Result<api::LibpodPingInfo>) + 'static,
+        F: FnOnce(podman::Result<podman::models::LibpodPingInfo>) + 'static,
     {
         let imp = self.imp();
 

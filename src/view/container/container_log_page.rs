@@ -21,8 +21,8 @@ use sourceview5::traits::GutterRendererTextExt;
 use sourceview5::traits::SearchSettingsExt;
 use sourceview5::traits::ViewExt;
 
-use crate::api;
 use crate::model;
+use crate::podman;
 use crate::utils;
 use crate::view;
 use crate::window::Window;
@@ -386,7 +386,7 @@ impl ContainerLogPage {
                 move |container| {
                     container
                         .logs(
-                            &api::ContainerLogsOpts::builder()
+                            &podman::opts::ContainerLogsOpts::builder()
                                 .tail("512")
                                 .follow(true)
                                 .stdout(true)
@@ -396,7 +396,7 @@ impl ContainerLogPage {
                         )
                         .boxed()
                 },
-                clone!(@weak self as obj => @default-return glib::Continue(false), move |result: api::Result<Vec<u8>>| {
+                clone!(@weak self as obj => @default-return glib::Continue(false), move |result: podman::Result<Vec<u8>>| {
                     let imp = obj.imp();
                     imp.stack.set_visible_child_name("loaded");
 
@@ -469,7 +469,7 @@ impl ContainerLogPage {
                             move |container| {
                                 container
                                     .logs(
-                                        &api::ContainerLogsOpts::builder()
+                                        &podman::opts::ContainerLogsOpts::builder()
                                             .until(until)
                                             .follow(false)
                                             .stdout(true)

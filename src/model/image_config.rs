@@ -7,7 +7,7 @@ use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
 use once_cell::unsync::OnceCell;
 
-use crate::api;
+use crate::podman;
 use crate::utils;
 
 mod imp {
@@ -87,7 +87,7 @@ glib::wrapper! {
 }
 
 impl ImageConfig {
-    pub(crate) fn from_libpod(config: api::Config) -> Self {
+    pub(crate) fn from_libpod(config: podman::models::ImageConfig) -> Self {
         glib::Object::new(&[
             (
                 "cmd",

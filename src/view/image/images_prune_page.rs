@@ -11,8 +11,8 @@ use gtk::prelude::*;
 use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
 
-use crate::api;
 use crate::model;
+use crate::podman;
 use crate::utils;
 use crate::view;
 use crate::window::Window;
@@ -321,11 +321,11 @@ impl ImagesPrunePage {
     fn prune(&self) {
         let imp = self.imp();
         self.client().unwrap().prune(
-            api::ImagePruneOpts::builder()
+            podman::opts::ImagePruneOpts::builder()
                 .all(imp.pods_settings.get("prune-all-images"))
                 .external(imp.pods_settings.get("prune-external-images"))
                 .filter(if self.has_prune_until_filter() {
-                    Some(api::ImagePruneFilter::Until(
+                    Some(podman::opts::ImagePruneFilter::Until(
                         self.prune_until_timestamp().to_string(),
                     ))
                 } else {

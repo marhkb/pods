@@ -7,8 +7,8 @@ use gtk::prelude::*;
 use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
 
-use crate::api;
 use crate::model;
+use crate::podman;
 use crate::utils;
 use crate::view;
 use crate::window::Window;
@@ -162,7 +162,7 @@ impl PodCreationPage {
     fn create(&self) {
         let imp = self.imp();
 
-        let opts = api::PodCreateOpts::builder()
+        let opts = podman::opts::PodCreateOpts::builder()
             .name(imp.name_entry_row.text().as_str())
             .hostname(imp.hostname_entry_row.text().as_str())
             .build();

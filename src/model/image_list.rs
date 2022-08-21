@@ -13,8 +13,8 @@ use indexmap::map::Entry;
 use indexmap::IndexMap;
 use once_cell::sync::Lazy;
 
-use crate::api;
 use crate::model;
+use crate::podman;
 use crate::utils;
 
 mod imp {
@@ -208,7 +208,7 @@ impl ImageList {
                 async move {
                     podman
                         .images()
-                        .list(&api::ImageListOpts::builder().all(true).build())
+                        .list(&podman::opts::ImageListOpts::builder().all(true).build())
                         .await
                 }
             },
@@ -245,7 +245,7 @@ impl ImageList {
         );
     }
 
-    pub(crate) fn handle_event<F>(&self, event: api::Event, err_op: F)
+    pub(crate) fn handle_event<F>(&self, event: podman::models::Event, err_op: F)
     where
         F: FnOnce(super::RefreshError) + Clone + 'static,
     {

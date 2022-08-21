@@ -8,8 +8,8 @@ use gtk::prelude::*;
 use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
 
-use crate::api;
 use crate::model;
+use crate::podman;
 use crate::utils;
 use crate::view;
 use crate::window::Window;
@@ -140,7 +140,7 @@ impl ImagePullPage {
         let imp = self.imp();
 
         if let Some(search_response) = imp.image_search_widget.selected_image() {
-            let opts = api::PullOpts::builder()
+            let opts = podman::opts::PullOpts::builder()
                 .reference(format!(
                     "{}:{}",
                     search_response.name().unwrap(),

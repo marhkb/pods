@@ -164,115 +164,102 @@ impl InfoDialog {
                     imp.preferences_page.set_visible(true);
 
                     // Version
-                    let version = info.version.as_ref();
+                    let version = info.version;
                     imp.version_api_version_row.set_value(&utils::format_option(
-                        version.and_then(|version| version.api_version.as_ref()),
+                        version.api_version,
                     ));
                     imp.version_built_time_row
-                        .set_value(&utils::format_option(version.and_then(|version| {
-                            version.built.and_then(|t| {
-                                glib::DateTime::from_unix_local(t).ok().map(|d| {
-                                    d.format(
-                                        // Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
-                                        &gettext("%x %X"),
-                                    )
-                                    .unwrap()
-                                })
+                        .set_value(&utils::format_option(version.built.and_then(|t|
+                            glib::DateTime::from_unix_local(t).ok().map(|d| {
+                                d.format(
+                                    // Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
+                                    &gettext("%x %X"),
+                                )
+                                .unwrap()
                             })
-                        })));
+                        )));
                     imp.version_git_commit_row
-                        .set_value(&utils::format_option(version.and_then(|version| {
-                            version.git_commit.as_ref().and_then(|s| {
-                                if s.is_empty() {
-                                    None
-                                } else {
-                                    Some(s)
-                                }
-                            })
+                        .set_value(&utils::format_option(version.git_commit.as_ref().and_then(|s| {
+                            if s.is_empty() {
+                                None
+                            } else {
+                                Some(s)
+                            }
                         })));
                     imp.version_go_version_row.set_value(&utils::format_option(
-                        version.and_then(|version| version.go_version.as_ref()),
+                        version.go_version
                     ));
                     imp.version_os_arch_row.set_value(&utils::format_option(
-                        version.and_then(|version| version.os_arch.as_ref()),
+                        version.os_arch
                     ));
                     imp.version_version_row.set_value(&utils::format_option(
-                        version.and_then(|version| version.version.as_ref()),
+                        version.version
                     ));
 
                     // Store
-                    let store = info.store.as_ref();
+                    let store = info.store;
                     imp.store_config_file_row.set_value(&utils::format_option(
-                        store.and_then(|store| store.config_file.as_ref()),
+                        store.config_file.as_ref(),
                     ));
                     imp.store_container_store_label
-                        .set_label(&utils::format_option(store.and_then(|store| {
-                            store.container_store.as_ref().and_then(|s| {
-                                s.number.map(|n| {
-                                    // Translators: "{}" is a placeholder for a cardinal numbers.
-                                    ngettext!("{} Container", "{} Containers", n as u32, n)
-                                })
+                        .set_label(&utils::format_option(
+                            store.container_store.number.map(|n| {
+                                // Translators: "{}" is a placeholder for a cardinal numbers.
+                                ngettext!("{} Container", "{} Containers", n as u32, n)
                             })
-                        })));
+                        ));
                     imp.store_container_store_paused_row
-                        .set_value(&utils::format_option(store.and_then(|store| {
-                            store
-                                .container_store
-                                .as_ref()
-                                .and_then(|s| s.paused.map(|n| n.to_string()))
-                        })));
+                        .set_value(&utils::format_option(store
+                            .container_store
+                            .paused
+                            .as_ref()
+                            .map(i64::to_string)
+                        ));
                     imp.store_container_store_running_row
-                        .set_value(&utils::format_option(store.and_then(|store| {
-                            store
-                                .container_store
-                                .as_ref()
-                                .and_then(|s| s.running.map(|n| n.to_string()))
-                        })));
+                        .set_value(&utils::format_option(store
+                            .container_store
+                            .running
+                            .as_ref()
+                            .map(i64::to_string)
+                        ));
                     imp.store_container_store_stopped_row
-                        .set_value(&utils::format_option(store.and_then(|store| {
-                            store
-                                .container_store
-                                .as_ref()
-                                .and_then(|s| s.stopped.map(|n| n.to_string()))
-                        })));
+                        .set_value(&utils::format_option(store
+                            .container_store
+                            .stopped
+                            .as_ref()
+                            .map(i64::to_string)
+                        ));
                     imp.store_graph_driver_name_row
                         .set_value(&utils::format_option(
-                            store.and_then(|store| store.graph_driver_name.as_ref()),
+                            store.graph_driver_name
                         ));
                     imp.store_graph_options_label
-                        .set_label(&utils::format_option(store.and_then(|store| {
+                        .set_label(&utils::format_option(
                             store.graph_options.as_ref().map(|o| {
                                 // Translators: "{}" is a placeholder for a cardinal number.
                                 ngettext!("{} Option", "{} Options", o.len() as u32, o.len())
                             })
-                        })));
-                    if let Some(graph_options) =
-                        store.and_then(|store| store.graph_options.as_ref())
-                    {
-                        graph_options.iter().for_each(|(k, v)| {
-                            imp.store_graph_options_row.add_row(&cascade! {
-                                view::PropertyRow::default();
-                                ..set_key(k);
-                                ..set_value(&v.to_string());
-                            });
-                        });
-                    }
+                        ));
+
+                        // store.graph_options.iter().for_each(|(k, v)| {
+                        //     imp.store_graph_options_row.add_row(&cascade! {
+                        //         view::PropertyRow::default();
+                        //         ..set_key(k);
+                        //         ..set_value(&v.to_string());
+                        //     });
+                        // });
+
                     imp.store_graph_root_row.set_value(&utils::format_option(
-                        info.store
-                            .as_ref()
-                            .and_then(|store| store.graph_root.as_ref()),
+                        store.graph_root
                     ));
                     imp.store_graph_status_label
-                        .set_label(&utils::format_option(store.and_then(|store| {
+                        .set_label(&utils::format_option(
                             store.graph_status.as_ref().map(|s| {
                                 // Translators: "{}" is placeholders for a cardinal number.
                                 ngettext!("{} State", "{} States", s.len() as u32, s.len())
                             })
-                        })));
-                    if let Some(graph_status) = info
-                        .store
-                        .as_ref()
-                        .and_then(|store| store.graph_status.as_ref())
+                        ));
+                    if let Some(graph_status) = store.graph_status.as_ref()
                     {
                         graph_status.iter().for_each(|(k, v)| {
                             imp.store_graph_status_row.add_row(&cascade! {
@@ -283,20 +270,17 @@ impl InfoDialog {
                         });
                     }
                     imp.store_image_store_row
-                        .set_value(&utils::format_option(store.and_then(|store| {
-                            store.image_store.as_ref().and_then(|s| s.number).map(|n| {
+                        .set_value(&utils::format_option(
+                            store.image_store.number.map(|n| {
                                 // Translators: "{}" is placeholders for a cardinal number.
                                 ngettext!("{} Image", "{} Images", n as u32, n)
                             })
-                        })));
+                        ));
                     imp.store_run_root_row.set_value(&utils::format_option(
-                        store.and_then(|store| store.run_root.as_ref()),
+                        store.run_root
                     ));
                     imp.store_volume_path_row.set_value(&utils::format_option(
-                        store.and_then(|store| store.volume_path.as_ref()),
-                    ));
-                    imp.store_volume_path_row.set_value(&utils::format_option(
-                        store.and_then(|store| store.volume_path.as_ref()),
+                        store.volume_path
                     ));
                 }
                 Err(e) => {
