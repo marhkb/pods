@@ -139,7 +139,8 @@ mod imp {
         }
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
-            obj.connect_items_changed(|self_, _, _, _| self_.notify("len"));
+
+            model::AbstractContainerList::bootstrap(obj);
 
             utils::run_stream(
                 obj.client().unwrap().podman().containers(),
@@ -313,40 +314,23 @@ impl ContainerList {
             clone!(@weak self as obj => move |result| {
                 obj.set_listing(false);
                 match result {
-                    Ok(list_containers) => {
-                        let index = obj.len();
-                        let mut added = 0;
-
-                        list_containers
+                    Ok(list_containers) => list_containers
                         .into_iter()
                         .filter(|list_container| !list_container.is_infra.unwrap_or_default())
                         .for_each(|list_container| {
+                            let index = obj.len();
+
                             let mut list = obj.imp().list.borrow_mut();
 
                             match list.entry(list_container.id.as_ref().unwrap().to_owned()) {
                                 Entry::Vacant(e) => {
                                     let container = model::Container::new(&obj, list_container);
-                                    container.connect_notify_local(
-                                        Some("status"),
-                                        clone!(@weak obj => move |_, _| {
-                                            obj.notify("created");
-                                            obj.notify("dead");
-                                            obj.notify("exited");
-                                            obj.notify("paused");
-                                            obj.notify("running");
-                                        }),
-                                    );
-                                    container.connect_notify_local(
-                                        Some("name"),
-                                        clone!(@weak obj => move |container, _| {
-                                            obj.container_name_changed(container);
-                                        })
-                                    );
-
                                     e.insert(container.clone());
-                                    obj.container_added(&container);
 
-                                    added += 1;
+                                    drop(list);
+
+                                    obj.items_changed(index, 0, 1);
+                                    obj.container_added(&container);
                                 }
                                 Entry::Occupied(e) => {
                                     let container = e.get().clone();
@@ -354,10 +338,7 @@ impl ContainerList {
                                     container.update(list_container);
                                 }
                             }
-                        });
-
-                        obj.items_changed(index, 0, added as u32);
-                    }
+                        }),
                     Err(e) => {
                         log::error!("Error on retrieving containers: {}", e);
                         err_op(super::RefreshError::List);

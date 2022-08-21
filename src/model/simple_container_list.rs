@@ -3,7 +3,6 @@ use std::cell::RefCell;
 
 use gtk::gio;
 use gtk::glib;
-use gtk::glib::clone;
 use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
@@ -105,7 +104,7 @@ mod imp {
 
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
-            obj.connect_items_changed(|self_, _, _, _| self_.notify("len"));
+            model::AbstractContainerList::bootstrap(obj);
         }
     }
 
@@ -159,31 +158,18 @@ impl SimpleContainerList {
                 weak_ref
             });
 
-        container.connect_notify_local(
-            Some("status"),
-            clone!(@weak self as obj => move |_, _| {
-                obj.notify("created");
-                obj.notify("dead");
-                obj.notify("exited");
-                obj.notify("paused");
-                obj.notify("running");
-            }),
-        );
-        container.connect_notify_local(
-            Some("name"),
-            clone!(@weak self as obj => move |container, _| {
-                obj.container_name_changed(container);
-            }),
-        );
-
         self.items_changed(index as u32, 0, 1);
+        self.container_added(container);
     }
 
     pub(crate) fn remove_container<Q: Borrow<str> + ?Sized>(&self, id: &Q) {
         let mut list = self.imp().0.borrow_mut();
-        if let Some((idx, ..)) = list.shift_remove_full(id.borrow()) {
+        if let Some((idx, _, container)) = list.shift_remove_full(id.borrow()) {
             drop(list);
             self.items_changed(idx as u32, 1, 0);
+            if let Some(container) = container.upgrade() {
+                self.container_removed(&container);
+            }
         }
     }
 

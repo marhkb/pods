@@ -1,5 +1,6 @@
 use gtk::gio;
 use gtk::glib;
+use gtk::glib::clone;
 use gtk::glib::subclass::Signal;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
@@ -111,6 +112,43 @@ mod imp {
 glib::wrapper! {
     pub(crate) struct AbstractContainerList(ObjectInterface<imp::AbstractContainerList>)
         @requires gio::ListModel;
+}
+
+impl AbstractContainerList {
+    pub(super) fn bootstrap<L: IsA<Self> + IsA<gio::ListModel>>(list: &L)
+    where
+        L: glib::clone::Downgrade,
+        <L as glib::clone::Downgrade>::Weak: glib::clone::Upgrade,
+        <<L as glib::clone::Downgrade>::Weak as glib::clone::Upgrade>::Strong: glib::IsA<Self>,
+    {
+        list.connect_items_changed(|self_, _, _, _| self_.notify("len"));
+
+        list.connect_container_added(|list, container| {
+            Self::notify_num_containers(list);
+
+            container.connect_notify_local(
+                Some("status"),
+                clone!(@weak list => move |_, _| Self::notify_num_containers(&list)),
+            );
+
+            container.connect_notify_local(
+                Some("name"),
+                clone!(@weak list => move |container, _| {
+                    list.container_name_changed(container);
+                }),
+            );
+        });
+
+        list.connect_container_removed(|list, _| Self::notify_num_containers(list));
+    }
+
+    fn notify_num_containers(list: &impl IsA<Self>) {
+        list.notify("created");
+        list.notify("dead");
+        list.notify("exited");
+        list.notify("paused");
+        list.notify("running");
+    }
 }
 
 pub(crate) trait AbstractContainerListExt: IsA<AbstractContainerList> {
