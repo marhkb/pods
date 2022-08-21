@@ -1,6 +1,7 @@
 use std::cell::Cell;
 use std::cell::RefCell;
 
+use anyhow::anyhow;
 use futures::StreamExt;
 use gtk::gio;
 use gtk::glib;
@@ -160,12 +161,15 @@ mod imp {
                     match result
                         .map_err(anyhow::Error::from)
                         .and_then(|mut value| {
-                            serde_json::from_value::<Vec<podman::models::ContainerStats>>(
-                                value.as_object_mut().unwrap().remove("Stats").unwrap()
-                            )
-                            .map_err(anyhow::Error::from)
+                            value
+                                .as_object_mut()
+                                .and_then(|object| object.remove("Stats"))
+                                .ok_or_else(|| anyhow!("Field 'Stats' is not present"))
                         })
-                    {
+                        .and_then(|value| {
+                            serde_json::from_value::<Vec<podman::models::ContainerStats>>(value)
+                                .map_err(anyhow::Error::from)
+                        }) {
                         Ok(stats) => {
                             stats.into_iter().for_each(|stat| {
                                 if let Some(container) =
