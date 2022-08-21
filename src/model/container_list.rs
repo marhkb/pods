@@ -157,35 +157,32 @@ mod imp {
                     @weak obj => @default-return glib::Continue(false),
                     move |result: podman::Result<podman::models::ContainerStats200Response>|
                 {
-                    glib::Continue(
-                        match result
+                    match result
+                        .map_err(anyhow::Error::from)
+                        .and_then(|mut value| {
+                            serde_json::from_value::<Vec<podman::models::ContainerStats>>(
+                                value.as_object_mut().unwrap().remove("Stats").unwrap()
+                            )
                             .map_err(anyhow::Error::from)
-                            .and_then(|mut value| {
-                                serde_json::from_value::<Vec<podman::models::ContainerStats>>(
-                                    value.as_object_mut().unwrap().remove("Stats").unwrap()
-                                )
-                                .map_err(anyhow::Error::from)
-                            })
-                        {
-                            Ok(stats) => {
-                                stats.into_iter().for_each(|stat| {
-                                    if let Some(container) =
-                                        obj.get_container(stat.container_id.as_ref().unwrap())
-                                    {
-                                        if container.status() == model::ContainerStatus::Running {
-                                            container
-                                                .set_stats(Some(model::BoxedContainerStats::from(stat)));
-                                        }
+                        })
+                    {
+                        Ok(stats) => {
+                            stats.into_iter().for_each(|stat| {
+                                if let Some(container) =
+                                    obj.get_container(stat.container_id.as_ref().unwrap())
+                                {
+                                    if container.status() == model::ContainerStatus::Running {
+                                        container.set_stats(
+                                            Some(model::BoxedContainerStats::from(stat))
+                                        );
                                     }
-                                });
-                                true
-                            }
-                            Err(e) => {
-                                log::warn!("Stopping stats stream due to error: {e}");
-                                false
-                            },
-                        },
-                    )
+                                }
+                            });
+                        }
+                        Err(e) => log::warn!("Error occured on receiving stats stream element: {e}"),
+                    }
+
+                    glib::Continue(true)
                 }),
             );
 
