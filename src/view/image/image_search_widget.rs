@@ -225,7 +225,7 @@ impl ImageSearchWidget {
                                 let model = gio::ListStore::new(model::Registry::static_type());
                                 model.append(&model::Registry::from(gettext("All registries").as_str()));
                                 search
-                                    .keys()
+                                    .iter()
                                     .for_each(|name| {
                                         model.append(&model::Registry::from(name.as_str()))
                                     });
