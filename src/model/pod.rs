@@ -19,6 +19,7 @@ use once_cell::sync::Lazy;
 use once_cell::unsync::OnceCell;
 
 use crate::model;
+use crate::monad_boxed_type;
 use crate::podman;
 use crate::utils;
 
@@ -78,6 +79,8 @@ impl fmt::Display for Status {
     }
 }
 
+monad_boxed_type!(pub(crate) BoxedPodStats(podman::models::PodStatsReport) impls Debug, PartialEq is nullable);
+
 mod imp {
     use super::*;
 
@@ -93,6 +96,7 @@ mod imp {
         pub(super) id: OnceCell<String>,
         pub(super) name: RefCell<String>,
         pub(super) num_containers: Cell<u64>,
+        pub(super) stats: RefCell<Option<BoxedPodStats>>,
         pub(super) status: Cell<Status>,
 
         pub(super) data: OnceCell<model::PodData>,
@@ -183,6 +187,13 @@ mod imp {
                             | glib::ParamFlags::CONSTRUCT
                             | glib::ParamFlags::EXPLICIT_NOTIFY,
                     ),
+                    glib::ParamSpecBoxed::new(
+                        "stats",
+                        "Stats",
+                        "The statistics of this pod",
+                        BoxedPodStats::static_type(),
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                    ),
                     glib::ParamSpecEnum::new(
                         "status",
                         "Status",
@@ -220,6 +231,7 @@ mod imp {
                 "id" => self.id.set(value.get().unwrap()).unwrap(),
                 "name" => obj.set_name(value.get().unwrap()),
                 "num-containers" => obj.set_num_containers(value.get().unwrap()),
+                "stats" => obj.set_stats(value.get().unwrap()),
                 "status" => obj.set_status(value.get().unwrap()),
                 _ => unimplemented!(),
             }
@@ -235,6 +247,7 @@ mod imp {
                 "id" => obj.id().to_value(),
                 "name" => obj.name().to_value(),
                 "num-containers" => obj.num_containers().to_value(),
+                "stats" => obj.stats().to_value(),
                 "status" => obj.status().to_value(),
                 "data" => obj.data().to_value(),
                 _ => unimplemented!(),
@@ -338,6 +351,18 @@ impl Pod {
         }
         self.imp().num_containers.replace(value);
         self.notify("num-containers");
+    }
+
+    pub(crate) fn stats(&self) -> Option<BoxedPodStats> {
+        self.imp().stats.borrow().clone()
+    }
+
+    pub fn set_stats(&self, value: Option<BoxedPodStats>) {
+        if self.stats() == value {
+            return;
+        }
+        self.imp().stats.replace(value);
+        self.notify("stats");
     }
 
     pub(crate) fn status(&self) -> Status {

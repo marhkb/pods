@@ -36,6 +36,7 @@ pub(crate) use self::image_config::ImageConfig;
 pub(crate) use self::image_data::ImageData;
 pub(crate) use self::image_list::ImageList;
 pub(crate) use self::image_search_response::ImageSearchResponse;
+pub(crate) use self::pod::BoxedPodStats;
 pub(crate) use self::pod::Pod;
 pub(crate) use self::pod::Status as PodStatus;
 pub(crate) use self::pod_data::PodData;

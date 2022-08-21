@@ -20,6 +20,12 @@ mod imp {
     pub(crate) struct PodRow {
         pub(super) pod: WeakRef<model::Pod>,
         #[template_child]
+        pub(super) stats_box: TemplateChild<gtk::Box>,
+        #[template_child]
+        pub(super) cpu_bar: TemplateChild<view::CircularProgressBar>,
+        #[template_child]
+        pub(super) mem_bar: TemplateChild<view::CircularProgressBar>,
+        #[template_child]
         pub(super) status_label: TemplateChild<gtk::Label>,
     }
 
@@ -80,6 +86,7 @@ mod imp {
             self.parent_constructed(obj);
 
             let pod_expr = Self::Type::this_expression("pod");
+            let stats_expr = pod_expr.chain_property::<model::Pod>("stats");
             let status_expr = pod_expr.chain_property::<model::Pod>("status");
 
             pod_expr
@@ -95,6 +102,45 @@ mod imp {
                     id.chars().take(12).collect::<String>()
                 }))
                 .bind(obj, "subtitle", Some(obj));
+
+            status_expr
+                .chain_closure::<bool>(closure!(
+                    |_: glib::Object, status: model::PodStatus| matches!(
+                        status,
+                        model::PodStatus::Running
+                    )
+                ))
+                .bind(&*self.stats_box, "visible", Some(obj));
+
+            stats_expr
+                .chain_closure::<f64>(closure!(
+                    |_: glib::Object, stats: Option<model::BoxedPodStats>| {
+                        println!("{stats:?}");
+                        stats
+                            .and_then(|stats| {
+                                stats.cpu.as_ref().map(|perc| {
+                                    perc.split_at(perc.len() - 2).0.parse::<f64>().unwrap() * 1.0
+                                })
+                            })
+                            .unwrap_or_default()
+                    }
+                ))
+                .bind(&*self.cpu_bar, "percentage", Some(obj));
+
+            // stats_expr
+            //     .chain_closure::<f64>(closure!(
+            //         |_: glib::Object, stats: Option<model::BoxedPodStats>| {
+            //             stats
+            //                 .and_then(|stats| {
+            //                     stats
+            //                         .mem
+            //                         .as_ref()
+            //                         .map(|perc| perc.parse::<f64>().unwrap() * 0.01)
+            //                 })
+            //                 .unwrap_or_default()
+            //         }
+            //     ))
+            //     .bind(&*self.mem_bar, "percentage", Some(obj));
 
             status_expr
                 .chain_closure::<String>(closure!(|_: glib::Object, status: model::PodStatus| {

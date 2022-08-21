@@ -1,6 +1,7 @@
 use std::cell::Cell;
 use std::cell::RefCell;
 
+use futures::StreamExt;
 use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
@@ -17,7 +18,6 @@ use crate::podman;
 use crate::utils;
 
 mod imp {
-
     use super::*;
 
     #[derive(Debug, Default)]
@@ -112,6 +112,43 @@ mod imp {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
             obj.connect_items_changed(|self_, _, _, _| self_.notify("len"));
+
+            utils::run_stream(
+                obj.client().unwrap().podman().pods(),
+                |pods| {
+                    pods.stats(
+                        &podman::opts::PodStatsOptsBuilder::default()
+                            .all(true)
+                            .build(),
+                    )
+                    .boxed()
+                },
+                clone!(
+                    @weak obj => @default-return glib::Continue(false),
+                    move |result: podman::Result<podman::models::PodStatsResponse>|
+                {
+                    match result {
+                        Ok(stats) => {
+                            stats.into_iter().for_each(|stat| {
+                                println!("A: {}", stat.pod.as_ref().unwrap());
+                                if let Some(pod) =
+                                    obj.get_pod(stat.pod.as_ref().unwrap())
+                                {
+                                    println!("Foo");
+                                    // if container.status() == model::ContainerStatus::Running {
+                                        pod.set_stats(
+                                            Some(model::BoxedPodStats::from(stat))
+                                        );
+                                    // }
+                                }
+                            });
+                        }
+                        Err(e) => log::warn!("Error occured on receiving stats stream element: {e}"),
+                    }
+
+                    glib::Continue(true)
+                }),
+            );
         }
     }
 
@@ -175,7 +212,13 @@ impl PodList {
     }
 
     pub(crate) fn get_pod(&self, id: &str) -> Option<model::Pod> {
-        self.imp().list.borrow().get(id).cloned()
+        let list = self.imp().list.borrow();
+        list.get(id)
+            .or_else(|| {
+                list.iter()
+                    .find_map(|(key, val)| if key.starts_with(id) { Some(val) } else { None })
+            })
+            .cloned()
     }
 
     pub(crate) fn remove_pod(&self, id: &str) {
