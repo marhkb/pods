@@ -215,7 +215,7 @@ mod imp {
 
                 image_tag_expr.bind(&*self.local_image_property_row, "value", Some(&image));
 
-                match image.details().map(model::ImageDetails::config) {
+                match image.data().map(model::ImageData::config) {
                     Some(config) => {
                         self.command_entry_row.set_text(config.cmd().unwrap_or(""));
                         obj.set_exposed_ports(config);
@@ -224,7 +224,7 @@ mod imp {
                         image.connect_notify_local(
                             Some("details"),
                             clone!(@weak obj => move |image, _| {
-                                let config = image.details().unwrap().config();
+                                let config = image.data().unwrap().config();
                                 obj.imp().command_entry_row.set_text(config.cmd().unwrap_or(""));
                                 obj.set_exposed_ports(config);
                             }),
@@ -498,7 +498,7 @@ impl ContainerCreationPage {
             .as_ref()
             .map(|item| item.downcast_ref::<model::Image>().unwrap())
         {
-            Some(image) => match image.details() {
+            Some(image) => match image.data() {
                 Some(details) => imp
                     .command_entry_row
                     .set_text(details.config().cmd().unwrap_or("")),
@@ -512,7 +512,7 @@ impl ContainerCreationPage {
                         Some("details"),
                         clone!(@weak self as obj => move |image, _| {
                             obj.imp().command_entry_row.set_text(
-                                image.details().unwrap().config().cmd().unwrap_or("")
+                                image.data().unwrap().config().cmd().unwrap_or("")
                             );
                         }),
                     );
@@ -520,7 +520,7 @@ impl ContainerCreationPage {
                     image_weak.set(Some(image));
                     imp.command_row_handler.replace(Some((handler, image_weak)));
 
-                    image.load_details()
+                    image.inspect()
                 }
             },
             None => imp.command_entry_row.set_text(""),
@@ -739,16 +739,18 @@ impl ContainerCreationPage {
             create_opts
         } else {
             create_opts.health_config(podman::models::Schema2HealthConfig {
-                interval: imp.health_check_interval_value.value() as i64 * 1_000_000_000,
+                interval: Some(imp.health_check_interval_value.value() as i64 * 1_000_000_000),
                 retries: Some(imp.health_check_retries_value.value() as i64),
-                start_period: imp.health_check_start_period_value.value() as i64 * 1_000_000_000,
+                start_period: Some(
+                    imp.health_check_start_period_value.value() as i64 * 1_000_000_000,
+                ),
                 test: Some(
                     healthcheck_cmd
                         .split(' ')
                         .map(str::to_string)
                         .collect::<Vec<_>>(),
                 ),
-                timeout: imp.health_check_timeout_value.value() as i64 * 1_000_000_000,
+                timeout: Some(imp.health_check_timeout_value.value() as i64 * 1_000_000_000),
             })
         }
         .build();

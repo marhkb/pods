@@ -104,7 +104,7 @@
                     </child>
 
                     <child>
-                      <object class="AdwPreferencesRow" id="details_loading_row">
+                      <object class="AdwPreferencesRow" id="inspection_row">
                         <property name="activatable">False</property>
 
                         <child>

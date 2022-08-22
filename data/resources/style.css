@@ -50,7 +50,7 @@ connectionchooserpage connectionswitchermenu row {
 }
 
 .image-to-be-deleted .title {
-  color: @red_3;
+  color: @destructive_color;
 }
 
 .circular-progress-bar {
@@ -58,7 +58,6 @@ connectionchooserpage connectionswitchermenu row {
 }
 
 .status-badge {
-  color: @accent_fg_color;
   font-size: 0.8em;
   font-weight: bold;
   min-width: 1.7em;
@@ -70,7 +69,7 @@ connectionchooserpage connectionswitchermenu row {
 .container-status-exited,
 .pod-status-created,
 .pod-status-exited,
-.pod-status-degraded,
+.pod-status-stopped,
 .container-health-status-checking,
 .container-health-status-unconfigured
 {
@@ -89,6 +88,12 @@ connectionchooserpage connectionswitchermenu row {
 
 .container-status-running, .pod-status-running {
   background-color: @accent_bg_color;
+  color: @accent_fg_color;
+}
+
+.pod-status-degraded {
+  background-color: @warning_bg_color;
+  color: @warning_fg_color;
 }
 
 .container-status-dead,
@@ -99,10 +104,12 @@ connectionchooserpage connectionswitchermenu row {
 .container-health-status-unknown
 {
   background-color: @error_bg_color;
+  color: @error_fg_color;
 }
 
 .container-health-status-healthy {
   background-color: @success_bg_color;
+  color: @success_fg_color;
 }
 
 .progressbar-warning trough > progress {

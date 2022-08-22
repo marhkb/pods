@@ -32,6 +32,7 @@ pub(crate) enum Status {
     Paused,
     Restarting,
     Running,
+    Stopped,
     #[default]
     Unknown,
 }
@@ -47,6 +48,7 @@ impl FromStr for Status {
             "Exited" => Self::Exited,
             "Paused" => Self::Paused,
             "Restarting" => Self::Restarting,
+            "Stopped" => Self::Stopped,
             "Running" => Self::Running,
             _ => return Err(Self::Unknown),
         })
@@ -66,6 +68,7 @@ impl fmt::Display for Status {
                 Self::Paused => gettext("Paused"),
                 Self::Restarting => gettext("Restarting"),
                 Self::Running => gettext("Running"),
+                Self::Stopped => gettext("Stopped"),
                 Self::Unknown => gettext("Unknown"),
             }
         )
@@ -503,7 +506,7 @@ fn status(state: Option<&str>) -> Status {
     state.map_or_else(Status::default, |s| match Status::from_str(s) {
         Ok(status) => status,
         Err(status) => {
-            log::warn!("Unknown container status: {s}");
+            log::warn!("Unknown pod status: {s}");
             status
         }
     })

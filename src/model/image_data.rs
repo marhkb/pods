@@ -12,7 +12,7 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default)]
-    pub(crate) struct ImageDetails {
+    pub(crate) struct ImageData {
         pub(super) architecture: OnceCell<Option<String>>,
         pub(super) author: OnceCell<Option<String>>,
         pub(super) comment: OnceCell<Option<String>>,
@@ -20,40 +20,40 @@ mod imp {
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for ImageDetails {
-        const NAME: &'static str = "ImageDetails";
-        type Type = super::ImageDetails;
+    impl ObjectSubclass for ImageData {
+        const NAME: &'static str = "ImageData";
+        type Type = super::ImageData;
     }
 
-    impl ObjectImpl for ImageDetails {
+    impl ObjectImpl for ImageData {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
                     glib::ParamSpecString::new(
                         "architecture",
                         "Architecture",
-                        "The architecture of this ImageDetails",
+                        "The architecture of the image",
                         Option::default(),
                         glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
                     ),
                     glib::ParamSpecString::new(
                         "author",
                         "Author",
-                        "The author of this ImageDetails",
+                        "The author of the image",
                         Option::default(),
                         glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
                     ),
                     glib::ParamSpecString::new(
                         "comment",
                         "Comment",
-                        "The author of this ImageDetails",
+                        "The author of the image",
                         Option::default(),
                         glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
                     ),
                     glib::ParamSpecObject::new(
                         "config",
                         "Config",
-                        "The config of this ImageDetails",
+                        "The config of the image",
                         model::ImageConfig::static_type(),
                         glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
                     ),
@@ -91,11 +91,11 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub(crate) struct ImageDetails(ObjectSubclass<imp::ImageDetails>);
+    pub(crate) struct ImageData(ObjectSubclass<imp::ImageData>);
 }
 
-impl From<podman::models::InspectImageResponseLibpod> for ImageDetails {
-    fn from(inspect_response: podman::models::InspectImageResponseLibpod) -> Self {
+impl From<podman::models::ImageData> for ImageData {
+    fn from(inspect_response: podman::models::ImageData) -> Self {
         glib::Object::new(&[
             ("architecture", &inspect_response.architecture),
             ("author", &inspect_response.author),
@@ -105,11 +105,11 @@ impl From<podman::models::InspectImageResponseLibpod> for ImageDetails {
                 &model::ImageConfig::from_libpod(inspect_response.config),
             ),
         ])
-        .expect("Failed to create ImageDetails")
+        .expect("Failed to create ImageData")
     }
 }
 
-impl ImageDetails {
+impl ImageData {
     pub(crate) fn architecture(&self) -> Option<&str> {
         self.imp().architecture.get().unwrap().as_deref()
     }
