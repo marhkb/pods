@@ -44,7 +44,7 @@ mod imp {
         #[template_child]
         pub(super) ports_row: TemplateChild<view::PropertyRow>,
         #[template_child]
-        pub(super) details_loading_row: TemplateChild<adw::PreferencesRow>,
+        pub(super) inspection_row: TemplateChild<adw::PreferencesRow>,
     }
 
     #[glib::object_subclass]
@@ -219,8 +219,8 @@ mod imp {
             )
             .bind(&*self.size_row, "value", Some(obj));
 
-            let details_expr = image_expr.chain_property::<model::Image>("details");
-            let image_config_expr = details_expr.chain_property::<model::ImageDetails>("config");
+            let data_expr = image_expr.chain_property::<model::Image>("data");
+            let image_config_expr = data_expr.chain_property::<model::ImageData>("config");
             let cmd_expr = image_config_expr.chain_property::<model::ImageConfig>("cmd");
             let entrypoint_expr =
                 image_config_expr.chain_property::<model::ImageConfig>("entrypoint");
@@ -257,11 +257,11 @@ mod imp {
                 ))
                 .bind(&*self.ports_row, "visible", Some(obj));
 
-            details_expr
+            data_expr
                 .chain_closure::<bool>(closure!(
-                    |_: glib::Object, cmd: Option<model::ImageDetails>| { cmd.is_none() }
+                    |_: glib::Object, cmd: Option<model::ImageData>| { cmd.is_none() }
                 ))
-                .bind(&*self.details_loading_row, "visible", Some(obj));
+                .bind(&*self.inspection_row, "visible", Some(obj));
         }
 
         fn dispose(&self, obj: &Self::Type) {
@@ -318,8 +318,8 @@ impl ImageDetailsPage {
         }
 
         if let Some(image) = value {
-            image.load_details();
-            image.connect_loading_details_failed(clone!(@weak self as obj => move |_| {
+            image.inspect();
+            image.connect_inspection_failed(clone!(@weak self as obj => move |_| {
                 utils::show_toast(&obj, &gettext("Error on loading image details"));
             }));
 

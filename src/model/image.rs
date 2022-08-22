@@ -41,8 +41,8 @@ mod imp {
         pub(super) user: OnceCell<String>,
         pub(super) virtual_size: OnceCell<u64>,
 
-        pub(super) details: OnceCell<model::ImageDetails>,
-        pub(super) can_request_details: Cell<bool>,
+        pub(super) data: OnceCell<model::ImageData>,
+        pub(super) can_inspect: Cell<bool>,
 
         pub(super) to_be_deleted: Cell<bool>,
     }
@@ -57,8 +57,7 @@ mod imp {
         fn signals() -> &'static [Signal] {
             static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
                 vec![
-                    Signal::builder("loading-details-failed", &[], <()>::static_type().into())
-                        .build(),
+                    Signal::builder("inspection-failed", &[], <()>::static_type().into()).build(),
                     Signal::builder("deleted", &[], <()>::static_type().into()).build(),
                 ]
             });
@@ -191,10 +190,10 @@ mod imp {
                         glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
                     ),
                     glib::ParamSpecObject::new(
-                        "details",
-                        "Details",
-                        "Finer details of the image",
-                        model::ImageDetails::static_type(),
+                        "data",
+                        "Data",
+                        "the data of the image",
+                        model::ImageData::static_type(),
                         glib::ParamFlags::READABLE,
                     ),
                     glib::ParamSpecBoolean::new(
@@ -255,7 +254,7 @@ mod imp {
                 "shared-size" => obj.shared_size().to_value(),
                 "user" => obj.user().to_value(),
                 "virtual-size" => obj.virtual_size().to_value(),
-                "details" => obj.details().to_value(),
+                "data" => obj.data().to_value(),
                 "to-be-deleted" => obj.to_be_deleted().to_value(),
                 _ => unimplemented!(),
             }
@@ -263,7 +262,7 @@ mod imp {
 
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
-            self.can_request_details.set(true);
+            self.can_inspect.set(true);
         }
     }
 }
@@ -387,25 +386,25 @@ impl Image {
         *self.imp().virtual_size.get().unwrap()
     }
 
-    pub(crate) fn details(&self) -> Option<&model::ImageDetails> {
-        self.imp().details.get()
+    pub(crate) fn data(&self) -> Option<&model::ImageData> {
+        self.imp().data.get()
     }
 
-    fn set_details(&self, value: model::ImageDetails) {
-        if self.details().is_some() {
+    fn set_data(&self, value: model::ImageData) {
+        if self.data().is_some() {
             return;
         }
-        self.imp().details.set(value).unwrap();
-        self.notify("details");
+        self.imp().data.set(value).unwrap();
+        self.notify("data");
     }
 
-    pub(crate) fn load_details(&self) {
+    pub(crate) fn inspect(&self) {
         let imp = self.imp();
-        if !imp.can_request_details.get() {
+        if !imp.can_inspect.get() {
             return;
         }
 
-        imp.can_request_details.set(false);
+        imp.can_inspect.set(false);
 
         let podman = self
             .image_list()
@@ -419,13 +418,13 @@ impl Image {
         utils::do_async(
             async move { podman.images().get(id).inspect().await },
             clone!(@weak self as obj => move |result| match result {
-                Ok(inspect_response) => obj.set_details(model::ImageDetails::from(
+                Ok(inspect_response) => obj.set_data(model::ImageData::from(
                     inspect_response
                 )),
                 Err(e) => {
                     log::error!("Error on inspecting image '{}': {e}", obj.id());
-                    obj.emit_by_name::<()>("loading-details-failed", &[]);
-                    obj.imp().can_request_details.set(true);
+                    obj.emit_by_name::<()>("inspection-failed", &[]);
+                    obj.imp().can_inspect.set(true);
                 },
             }),
         );
@@ -477,11 +476,11 @@ impl Image {
         self.emit_by_name::<()>("deleted", &[]);
     }
 
-    pub(crate) fn connect_loading_details_failed<F: Fn(&Self) + 'static>(
+    pub(crate) fn connect_inspection_failed<F: Fn(&Self) + 'static>(
         &self,
         f: F,
     ) -> glib::SignalHandlerId {
-        self.connect_local("loading-details-failed", true, move |values| {
+        self.connect_local("inspection-failed", true, move |values| {
             f(&values[0].get::<Self>().unwrap());
 
             None
