@@ -447,28 +447,14 @@ impl Window {
     fn client_err_op(&self, e: model::ClientError) {
         self.show_toast(
             &adw::Toast::builder()
-                .title(&match e.err {
-                    model::RefreshError::List => gettext!(
-                        "Error on loading {}",
-                        match e.variant {
-                            model::ClientErrorVariant::Images => gettext("images"),
-                            model::ClientErrorVariant::Containers => gettext("containers"),
-                            model::ClientErrorVariant::Pods => gettext("pods"),
-                        }
-                    ),
-                    model::RefreshError::Inspect(id) => {
-                        // Translators: "{}" is the placeholder for the image id.
-                        gettext!(
-                            "Error on inspecting {} '{}'",
-                            match e.variant {
-                                model::ClientErrorVariant::Images => gettext("image"),
-                                model::ClientErrorVariant::Containers => gettext("container"),
-                                model::ClientErrorVariant::Pods => gettext("pods"),
-                            },
-                            id
-                        )
+                .title(&gettext!(
+                    "Error on loading {}",
+                    match e {
+                        model::ClientError::Images => gettext("images"),
+                        model::ClientError::Containers => gettext("containers"),
+                        model::ClientError::Pods => gettext("pods"),
                     }
-                })
+                ))
                 .timeout(3)
                 .priority(adw::ToastPriority::High)
                 .build(),

@@ -91,6 +91,9 @@ mod imp {
         pub(super) name: RefCell<String>,
         pub(super) num_containers: Cell<u64>,
         pub(super) status: Cell<Status>,
+
+        pub(super) data: OnceCell<model::PodData>,
+        pub(super) can_inspect: Cell<bool>,
     }
 
     #[glib::object_subclass]
@@ -102,7 +105,10 @@ mod imp {
     impl ObjectImpl for Pod {
         fn signals() -> &'static [Signal] {
             static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
-                vec![Signal::builder("deleted", &[], <()>::static_type().into()).build()]
+                vec![
+                    Signal::builder("inspection-failed", &[], <()>::static_type().into()).build(),
+                    Signal::builder("deleted", &[], <()>::static_type().into()).build(),
+                ]
             });
             SIGNALS.as_ref()
         }
@@ -148,13 +154,6 @@ mod imp {
                         glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
                     ),
                     glib::ParamSpecString::new(
-                        "hostname",
-                        "Hostname",
-                        "The hostname of this pod",
-                        Option::default(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    glib::ParamSpecString::new(
                         "id",
                         "Id",
                         "The id of this pod",
@@ -190,6 +189,13 @@ mod imp {
                         glib::ParamFlags::READWRITE
                             | glib::ParamFlags::CONSTRUCT
                             | glib::ParamFlags::EXPLICIT_NOTIFY,
+                    ),
+                    glib::ParamSpecObject::new(
+                        "data",
+                        "Data",
+                        "the data of the image",
+                        model::PodData::static_type(),
+                        glib::ParamFlags::READABLE,
                     ),
                 ]
             });
@@ -227,8 +233,14 @@ mod imp {
                 "name" => obj.name().to_value(),
                 "num-containers" => obj.num_containers().to_value(),
                 "status" => obj.status().to_value(),
+                "data" => obj.data().to_value(),
                 _ => unimplemented!(),
             }
+        }
+
+        fn constructed(&self, obj: &Self::Type) {
+            self.parent_constructed(obj);
+            self.can_inspect.set(true);
         }
     }
 }
@@ -238,49 +250,35 @@ glib::wrapper! {
 }
 
 impl Pod {
-    pub(crate) fn new(
-        pod_list: &model::PodList,
-        inspect_response: podman::models::PodInspectResponse,
-    ) -> Self {
+    pub(crate) fn new(pod_list: &model::PodList, report: podman::models::ListPodsReport) -> Self {
         glib::Object::new(&[
             ("pod-list", pod_list),
             (
                 "created",
-                &inspect_response
-                    .created
-                    .map(|dt| dt.timestamp())
-                    .unwrap_or(0),
+                &report.created.map(|dt| dt.timestamp()).unwrap_or(0),
             ),
-            ("hostname", &inspect_response.hostname.unwrap_or_default()),
-            ("id", &inspect_response.id),
-            ("name", &inspect_response.name),
+            ("id", &report.id.unwrap()),
+            ("name", &report.name.unwrap()),
             (
                 "num-containers",
-                &inspect_response.num_containers.unwrap_or(0),
+                &report.containers.map(|c| c.len() as u64).unwrap_or(0),
             ),
-            ("status", &status(inspect_response.state.as_deref())),
+            ("status", &status(report.status.as_deref())),
         ])
         .expect("Failed to create Pod")
     }
 
-    pub(crate) fn update(&self, inspect_response: podman::models::PodInspectResponse) {
+    pub(crate) fn update(&self, report: podman::models::ListPodsReport) {
         self.set_action_ongoing(false);
-        self.set_name(inspect_response.name.unwrap_or_default());
-        self.set_num_containers(inspect_response.num_containers.unwrap_or(0));
-        self.set_status(status(inspect_response.state.as_deref()));
+        self.set_name(report.name.unwrap_or_default());
+        self.set_num_containers(report.containers.map(|c| c.len() as u64).unwrap_or(0));
+        self.set_status(status(report.status.as_deref()));
     }
 
     pub(crate) fn inspect_and_update(&self) {
-        utils::do_async(
-            {
-                let pod = self.api_pod().unwrap();
-                async move { pod.inspect().await }
-            },
-            clone!(@weak self as obj => move |result| match result {
-                Ok(inspect_response) => obj.update(inspect_response),
-                Err(e) => log::error!("Error on inspecting pod '{}': {e}", obj.id()),
-            }),
-        );
+        if let Some(pod_list) = self.pod_list() {
+            pod_list.refresh(Some(self.id().to_owned()), |_| {});
+        }
     }
 
     pub(crate) fn pod_list(&self) -> Option<model::PodList> {
@@ -351,8 +349,57 @@ impl Pod {
         self.notify("status");
     }
 
+    pub(crate) fn data(&self) -> Option<&model::PodData> {
+        self.imp().data.get()
+    }
+
+    fn set_data(&self, value: model::PodData) {
+        if self.data().is_some() {
+            return;
+        }
+        self.imp().data.set(value).unwrap();
+        self.notify("data");
+    }
+
+    pub(crate) fn inspect(&self) {
+        let imp = self.imp();
+        if !imp.can_inspect.get() {
+            return;
+        }
+
+        imp.can_inspect.set(false);
+
+        let podman = self.pod_list().unwrap().client().unwrap().podman().clone();
+        let id = self.id().to_owned();
+
+        utils::do_async(
+            async move { podman.pods().get(id).inspect().await },
+            clone!(@weak self as obj => move |result| match result {
+                Ok(data) => obj.set_data(model::PodData::from(
+                    data
+                )),
+                Err(e) => {
+                    log::error!("Error on inspecting pod '{}': {e}", obj.id());
+                    obj.emit_by_name::<()>("inspection-failed", &[]);
+                    obj.imp().can_inspect.set(true);
+                },
+            }),
+        );
+    }
+
     pub(super) fn emit_deleted(&self) {
         self.emit_by_name::<()>("deleted", &[]);
+    }
+
+    pub(crate) fn connect_inspection_failed<F: Fn(&Self) + 'static>(
+        &self,
+        f: F,
+    ) -> glib::SignalHandlerId {
+        self.connect_local("inspection-failed", true, move |values| {
+            f(&values[0].get::<Self>().unwrap());
+
+            None
+        })
     }
 
     pub(crate) fn connect_deleted<F: Fn(&Self) + 'static>(&self, f: F) -> glib::SignalHandlerId {

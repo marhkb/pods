@@ -80,17 +80,6 @@
                     </child>
 
                     <child>
-                      <object class="PropertyRow" id="hostname_row">
-                        <property name="key" translatable="yes">Hostname</property>
-                        <binding name="value">
-                          <lookup name="hostname" type="Pod">
-                            <lookup name="pod">PodDetailsPage</lookup>
-                          </lookup>
-                        </binding>
-                      </object>
-                    </child>
-
-                    <child>
                       <object class="PropertyRow" id="created_row">
                         <property name="key" translatable="yes">Created</property>
                       </object>
@@ -111,6 +100,32 @@
                           </object>
                         </property>
 
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="AdwPreferencesRow" id="inspection_row">
+                        <property name="activatable">False</property>
+
+                        <child>
+                          <object class="GtkSpinner">
+                            <property name="spinning">True</property>
+                            <property name="halign">center</property>
+                            <property name="valign">center</property>
+                            <property name="vexpand">True</property>
+                            <property name="width-request">24</property>
+                            <property name="height-request">24</property>
+                            <property name="margin-bottom">12</property>
+                            <property name="margin-top">12</property>
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="PropertyRow" id="hostname_row">
+                        <property name="key" translatable="yes">Hostname</property>
                       </object>
                     </child>
 

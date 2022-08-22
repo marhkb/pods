@@ -11,6 +11,7 @@ mod image_data;
 mod image_list;
 mod image_search_response;
 mod pod;
+mod pod_data;
 mod pod_list;
 mod port_mapping;
 mod registry;
@@ -21,7 +22,6 @@ pub(crate) use self::abstract_container_list::AbstractContainerList;
 pub(crate) use self::abstract_container_list::AbstractContainerListExt;
 pub(crate) use self::client::Client;
 pub(crate) use self::client::ClientError;
-pub(crate) use self::client::ClientErrorVariant;
 pub(crate) use self::connection::Connection;
 pub(crate) use self::connection::ConnectionInfo;
 pub(crate) use self::connection_manager::ConnectionManager;
@@ -38,6 +38,7 @@ pub(crate) use self::image_list::ImageList;
 pub(crate) use self::image_search_response::ImageSearchResponse;
 pub(crate) use self::pod::Pod;
 pub(crate) use self::pod::Status as PodStatus;
+pub(crate) use self::pod_data::PodData;
 pub(crate) use self::pod_list::PodList;
 pub(crate) use self::port_mapping::PortMapping;
 pub(crate) use self::port_mapping::Protocol as PortMappingProtocol;
@@ -47,7 +48,4 @@ pub(crate) use self::volume::SELinux as VolumeSELinux;
 pub(crate) use self::volume::Volume;
 
 #[derive(Clone, Debug)]
-pub(crate) enum RefreshError {
-    List,
-    Inspect(String),
-}
+pub(crate) struct RefreshError;

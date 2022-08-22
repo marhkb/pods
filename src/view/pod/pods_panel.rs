@@ -31,14 +31,6 @@ mod imp {
         #[template_child]
         pub(super) main_stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub(super) spinner: TemplateChild<gtk::Spinner>,
-        #[template_child]
-        pub(super) overlay: TemplateChild<gtk::Overlay>,
-        #[template_child]
-        pub(super) progress_revealer: TemplateChild<gtk::Revealer>,
-        #[template_child]
-        pub(super) progress_bar: TemplateChild<gtk::ProgressBar>,
-        #[template_child]
         pub(super) pods_group: TemplateChild<adw::PreferencesGroup>,
         #[template_child]
         pub(super) show_only_running_switch: TemplateChild<gtk::Switch>,
@@ -121,62 +113,28 @@ mod imp {
                 .build();
 
             let pod_list_expr = Self::Type::this_expression("pod-list");
-            let fetched_params = &[
-                pod_list_expr
-                    .chain_property::<model::PodList>("fetched")
-                    .upcast(),
-                pod_list_expr
-                    .chain_property::<model::PodList>("to-fetch")
-                    .upcast(),
-            ];
+            let pod_list_len_expr = pod_list_expr.chain_property::<model::PodList>("len");
 
-            gtk::ClosureExpression::new::<gtk::Widget, _, _>(
+            gtk::ClosureExpression::new::<String, _, _>(
                 &[
-                    pod_list_expr.chain_property::<model::PodList>("len"),
-                    pod_list_expr.chain_property::<model::PodList>("listing"),
+                    pod_list_len_expr.as_ref(),
+                    pod_list_expr
+                        .chain_property::<model::PodList>("listing")
+                        .as_ref(),
                 ],
-                closure!(|obj: Self::Type, len: u32, listing: bool| {
-                    let imp = obj.imp();
+                closure!(|_: Self::Type, len: u32, listing: bool| {
                     if len == 0 && listing {
-                        imp.spinner.upcast_ref::<gtk::Widget>().clone()
+                        "spinner"
                     } else {
-                        imp.overlay.upcast_ref::<gtk::Widget>().clone()
+                        "pods"
                     }
                 }),
             )
-            .bind(&*self.main_stack, "visible-child", Some(obj));
-
-            gtk::ClosureExpression::new::<f64, _, _>(
-                fetched_params,
-                closure!(|_: glib::Object, fetched: u32, to_fetch: u32| {
-                    f64::min(1.0, fetched as f64 / to_fetch as f64)
-                }),
-            )
-            .bind(&*self.progress_bar, "fraction", Some(obj));
-
-            gtk::ClosureExpression::new::<bool, _, _>(
-                fetched_params,
-                closure!(|_: glib::Object, fetched: u32, to_fetch: u32| fetched < to_fetch),
-            )
-            .bind(&*self.progress_revealer, "reveal-child", Some(obj));
-
-            gtk::Revealer::this_expression("child-revealed")
-                .chain_closure::<u32>(closure!(|_: glib::Object, revealed: bool| {
-                    if revealed {
-                        1000_u32
-                    } else {
-                        0_u32
-                    }
-                }))
-                .bind(
-                    &*self.progress_revealer,
-                    "transition-duration",
-                    Some(&*self.progress_revealer),
-                );
+            .bind(&*self.main_stack, "visible-child-name", Some(obj));
 
             gtk::ClosureExpression::new::<Option<String>, _, _>(
                 &[
-                    pod_list_expr.chain_property::<model::PodList>("len"),
+                    pod_list_len_expr,
                     pod_list_expr.chain_property::<model::PodList>("running"),
                 ],
                 closure!(|_: Self::Type, len: u32, running: u32| {
