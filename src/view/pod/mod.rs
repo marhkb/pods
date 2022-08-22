@@ -23,6 +23,7 @@ fn pod_status_css_class(status: model::PodStatus) -> &'static str {
         Paused => "pod-status-paused",
         Restarting => "pod-status-restarting",
         Running => "pod-status-running",
+        Stopped => "pod-status-stopped",
         Unknown => "pod-status-unknown",
     }
 }
