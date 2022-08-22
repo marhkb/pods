@@ -20,13 +20,7 @@ use crate::utils::ToTypedListModel;
 monad_boxed_type!(pub(crate) BoxedPodman(podman::Podman) impls Debug);
 
 #[derive(Clone, Debug)]
-pub(crate) struct ClientError {
-    pub(crate) err: super::RefreshError,
-    pub(crate) variant: ClientErrorVariant,
-}
-
-#[derive(Clone, Debug)]
-pub(crate) enum ClientErrorVariant {
+pub(crate) enum ClientError {
     Images,
     Containers,
     Pods,
@@ -281,35 +275,20 @@ impl Client {
                 Ok(_) => {
                     obj.image_list().refresh({
                         let err_op = err_op.clone();
-                        |err| {
-                            err_op(ClientError {
-                                err,
-                                variant: ClientErrorVariant::Images,
-                            })
-                        }
+                        |_| err_op(ClientError::Images)
                     });
                     obj.container_list().refresh(
                         None,
                         {
                             let err_op = err_op.clone();
-                            |err| {
-                                err_op(ClientError {
-                                    err,
-                                    variant: ClientErrorVariant::Containers,
-                                })
-                            }
+                            |_| err_op(ClientError::Containers)
                         }
                     );
                     obj.pod_list().refresh(
                         None,
                         {
                             let err_op = err_op.clone();
-                            |err| {
-                                err_op(ClientError {
-                                    err,
-                                    variant: ClientErrorVariant::Pods,
-                                })
-                            }
+                            |_| err_op(ClientError::Pods)
                         }
                     );
 
@@ -346,30 +325,15 @@ impl Client {
                         match event.typ.as_str() {
                             "image" => obj.image_list().handle_event(event, {
                                 let err_op = err_op.clone();
-                                |err| {
-                                    err_op(ClientError {
-                                        err,
-                                        variant: ClientErrorVariant::Images,
-                                    })
-                                }
+                                |_| err_op(ClientError::Images)
                             }),
                             "container" => obj.container_list().handle_event(event, {
                                 let err_op = err_op.clone();
-                                |err| {
-                                    err_op(ClientError {
-                                        err,
-                                        variant: ClientErrorVariant::Containers,
-                                    })
-                                }
+                                |_| err_op(ClientError::Containers)
                             }),
                             "pod" => obj.pod_list().handle_event(event, {
                                 let err_op = err_op.clone();
-                                |err| {
-                                    err_op(ClientError {
-                                        err,
-                                        variant: ClientErrorVariant::Pods,
-                                    })
-                                }
+                                |_| err_op(ClientError::Pods)
                             }),
                             other => log::warn!("Unhandled event type: {other}"),
                         }

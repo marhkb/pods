@@ -238,7 +238,7 @@ impl ImageList {
                     }
                     Err(e) => {
                         log::error!("Error on retrieving images: {}", e);
-                        err_op(super::RefreshError::List);
+                        err_op(super::RefreshError);
                     }
                 }
             }),

@@ -239,7 +239,7 @@ impl PodList {
                         }),
                     Err(e) => {
                         log::error!("Error on retrieving containers: {}", e);
-                        err_op(super::RefreshError::List);
+                        err_op(super::RefreshError);
                     }
                 }
             }),

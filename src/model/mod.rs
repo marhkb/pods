@@ -22,7 +22,6 @@ pub(crate) use self::abstract_container_list::AbstractContainerList;
 pub(crate) use self::abstract_container_list::AbstractContainerListExt;
 pub(crate) use self::client::Client;
 pub(crate) use self::client::ClientError;
-pub(crate) use self::client::ClientErrorVariant;
 pub(crate) use self::connection::Connection;
 pub(crate) use self::connection::ConnectionInfo;
 pub(crate) use self::connection_manager::ConnectionManager;
@@ -49,7 +48,4 @@ pub(crate) use self::volume::SELinux as VolumeSELinux;
 pub(crate) use self::volume::Volume;
 
 #[derive(Clone, Debug)]
-pub(crate) enum RefreshError {
-    List,
-    Inspect(String),
-}
+pub(crate) struct RefreshError;
