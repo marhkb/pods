@@ -1,3 +1,5 @@
+use std::cell::Cell;
+
 use adw::subclass::prelude::AdwApplicationWindowImpl;
 use adw::traits::BinExt;
 use cascade::cascade;
@@ -26,6 +28,7 @@ mod imp {
     pub(crate) struct Window {
         pub(super) settings: utils::PodsSettings,
         pub(super) connection_manager: model::ConnectionManager,
+        pub(super) is_search_triggered_by_key_press: Cell<bool>,
         #[template_child]
         pub(super) toast_overlay: TemplateChild<adw::ToastOverlay>,
         #[template_child]
@@ -206,7 +209,15 @@ mod imp {
                     let imp = obj.imp();
 
                     if button.is_active() {
-                        imp.search_entry.delete_text(0, imp.search_entry.text().len() as i32 - 1);
+                        imp.search_entry.delete_text(
+                            0,
+                            imp.search_entry.text().len() as i32
+                                - if imp.is_search_triggered_by_key_press.get() {
+                                    1
+                                } else {
+                                    0
+                                },
+                        );
                         imp.title_stack.set_visible_child(&*imp.search_entry);
                         imp.search_entry.grab_focus();
                         imp.search_stack.set_visible_child(&*imp.search_panel);
@@ -214,6 +225,8 @@ mod imp {
                         imp.title_stack.set_visible_child(&*imp.title);
                         imp.search_stack.set_visible_child_name("main");
                     }
+
+                    imp.is_search_triggered_by_key_press.set(false);
                 }));
 
             self.search_entry
@@ -240,6 +253,17 @@ mod imp {
             self.search_entry.add_controller(&search_entry_key_ctrl);
 
             self.search_entry.set_key_capture_widget(Some(obj));
+
+            let search_key_capture_ctrl = gtk::EventControllerKey::new();
+            search_key_capture_ctrl.connect_key_pressed(
+                clone!(@weak obj => @default-return gtk::Inhibit(false), move |_, _, _, _| {
+                    let imp = obj.imp();
+                    imp.is_search_triggered_by_key_press.set(true);
+                    gtk::Inhibit(false)
+                }),
+            );
+            obj.add_controller(&search_key_capture_ctrl);
+
             self.leaflet
                 .connect_visible_child_notify(clone!(@weak obj => move |leaflet| {
                     obj.imp().search_entry.set_key_capture_widget(
