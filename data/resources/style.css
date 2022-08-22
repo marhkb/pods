@@ -74,16 +74,20 @@ connectionchooserpage connectionswitchermenu row {
 .container-health-status-unconfigured
 {
   background-color: @dark_1;
+  color: #ffffff;
+
 }
 
 .container-status-paused, .pod-status-paused {
   background-color: @brown_3;
+  color: #ffffff;
 }
 
 .container-status-restarting,
 .pod-status-restarting
 {
-  background-color: @yellow_5;
+  background-color: @purple_4;
+  color: #ffffff;
 }
 
 .container-status-running, .pod-status-running {
