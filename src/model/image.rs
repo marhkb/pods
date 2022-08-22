@@ -418,9 +418,7 @@ impl Image {
         utils::do_async(
             async move { podman.images().get(id).inspect().await },
             clone!(@weak self as obj => move |result| match result {
-                Ok(inspect_response) => obj.set_data(model::ImageData::from(
-                    inspect_response
-                )),
+                Ok(data) => obj.set_data(model::ImageData::from(data)),
                 Err(e) => {
                     log::error!("Error on inspecting image '{}': {e}", obj.id());
                     obj.emit_by_name::<()>("inspection-failed", &[]);
