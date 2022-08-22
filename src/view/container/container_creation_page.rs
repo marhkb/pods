@@ -739,16 +739,18 @@ impl ContainerCreationPage {
             create_opts
         } else {
             create_opts.health_config(podman::models::Schema2HealthConfig {
-                interval: imp.health_check_interval_value.value() as i64 * 1_000_000_000,
+                interval: Some(imp.health_check_interval_value.value() as i64 * 1_000_000_000),
                 retries: Some(imp.health_check_retries_value.value() as i64),
-                start_period: imp.health_check_start_period_value.value() as i64 * 1_000_000_000,
+                start_period: Some(
+                    imp.health_check_start_period_value.value() as i64 * 1_000_000_000,
+                ),
                 test: Some(
                     healthcheck_cmd
                         .split(' ')
                         .map(str::to_string)
                         .collect::<Vec<_>>(),
                 ),
-                timeout: imp.health_check_timeout_value.value() as i64 * 1_000_000_000,
+                timeout: Some(imp.health_check_timeout_value.value() as i64 * 1_000_000_000),
             })
         }
         .build();

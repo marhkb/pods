@@ -1117,7 +1117,7 @@ checksum = "1df8c4ec4b0627e53bdf214615ad287367e482558cf84b109250b37464dc03ae"
 [[package]]
 name = "podman-api"
 version = "0.4.0"
-source = "git+https://github.com/marhkb/podman-api-rs.git?branch=staging#990a1162a0c04440c531cc58d48e92e4a5727be5"
+source = "git+https://github.com/marhkb/podman-api-rs.git?branch=staging#0cbc000058d91adce50993175c82625c965876ba"
 dependencies = [
  "base64",
  "byteorder",
@@ -1140,7 +1140,7 @@ dependencies = [
 [[package]]
 name = "podman-api-stubs"
 version = "0.5.0"
-source = "git+https://github.com/marhkb/podman-api-rs.git?branch=staging#990a1162a0c04440c531cc58d48e92e4a5727be5"
+source = "git+https://github.com/marhkb/podman-api-rs.git?branch=staging#0cbc000058d91adce50993175c82625c965876ba"
 dependencies = [
  "chrono",
  "serde",
@@ -1350,9 +1350,9 @@ dependencies = [
 
 [[package]]
 name = "serde_json"
-version = "1.0.83"
+version = "1.0.85"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "38dd04e3c8279e75b31ef29dbdceebfe5ad89f4d0937213c53f7d49d01b3d5a7"
+checksum = "e55a28e3aaef9d5ce0506d0a14dbba8054ddc7e499ef522dd8b26859ec9d4a44"
 dependencies = [
  "itoa",
  "ryu",
