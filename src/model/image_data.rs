@@ -95,15 +95,12 @@ glib::wrapper! {
 }
 
 impl From<podman::models::ImageData> for ImageData {
-    fn from(inspect_response: podman::models::ImageData) -> Self {
+    fn from(data: podman::models::ImageData) -> Self {
         glib::Object::new(&[
-            ("architecture", &inspect_response.architecture),
-            ("author", &inspect_response.author),
-            ("comment", &inspect_response.comment),
-            (
-                "config",
-                &model::ImageConfig::from_libpod(inspect_response.config),
-            ),
+            ("architecture", &data.architecture),
+            ("author", &data.author),
+            ("comment", &data.comment),
+            ("config", &model::ImageConfig::from_libpod(data.config)),
         ])
         .expect("Failed to create ImageData")
     }
