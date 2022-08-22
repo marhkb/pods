@@ -503,7 +503,7 @@ fn status(state: Option<&str>) -> Status {
     state.map_or_else(Status::default, |s| match Status::from_str(s) {
         Ok(status) => status,
         Err(status) => {
-            log::warn!("Unknown container status: {s}");
+            log::warn!("Unknown pod status: {s}");
             status
         }
     })
