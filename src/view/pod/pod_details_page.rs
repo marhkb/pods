@@ -32,11 +32,13 @@ mod imp {
         #[template_child]
         pub(super) id_row: TemplateChild<view::PropertyRow>,
         #[template_child]
-        pub(super) hostname_row: TemplateChild<view::PropertyRow>,
-        #[template_child]
         pub(super) created_row: TemplateChild<view::PropertyRow>,
         #[template_child]
         pub(super) status_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub(super) hostname_row: TemplateChild<view::PropertyRow>,
+        #[template_child]
+        pub(super) inspection_row: TemplateChild<adw::PreferencesRow>,
     }
 
     #[glib::object_subclass]
@@ -129,6 +131,8 @@ mod imp {
 
             let pod_expr = Self::Type::this_expression("pod");
             let status_expr = pod_expr.chain_property::<model::Pod>("status");
+            let data_expr = pod_expr.chain_property::<model::Pod>("data");
+            let hostname_expr = data_expr.chain_property::<model::PodData>("hostname");
 
             pod_expr
                 .chain_property::<model::Pod>("id")
@@ -136,13 +140,6 @@ mod imp {
                     id.chars().take(12).collect::<String>()
                 }))
                 .bind(&*self.id_row, "value", Some(obj));
-
-            pod_expr
-                .chain_property::<model::Pod>("hostname")
-                .chain_closure::<bool>(closure!(|_: glib::Object, hostname: &str| {
-                    !hostname.is_empty()
-                }))
-                .bind(&*self.hostname_row, "visible", Some(obj));
 
             pod_expr
                 .chain_property::<model::Pod>("created")
@@ -177,6 +174,19 @@ mod imp {
                     }
                 ))
                 .bind(&*self.status_label, "css-classes", Some(obj));
+
+            hostname_expr.bind(&*self.hostname_row, "value", Some(obj));
+            hostname_expr
+                .chain_closure::<bool>(closure!(
+                    |_: glib::Object, hostname: String| !hostname.is_empty()
+                ))
+                .bind(&*self.hostname_row, "visible", Some(obj));
+
+            data_expr
+                .chain_closure::<bool>(closure!(|_: Self::Type, data: Option<model::PodData>| {
+                    data.is_none()
+                }))
+                .bind(&*self.inspection_row, "visible", Some(obj));
         }
 
         fn dispose(&self, obj: &Self::Type) {
@@ -232,6 +242,11 @@ impl PodDetailsPage {
         }
 
         if let Some(pod) = value {
+            pod.inspect();
+            pod.connect_inspection_failed(clone!(@weak self as obj => move |_| {
+                utils::show_toast(&obj, &gettext("Error on loading pod data"));
+            }));
+
             let handler_id = pod.connect_deleted(clone!(@weak self as obj => move |pod| {
                 utils::show_toast(&obj, &gettext!("Pod '{}' has been deleted", pod.name()));
                 obj.navigate_back();

@@ -300,15 +300,18 @@ impl Client {
                             }
                         }
                     );
-                    obj.pod_list().refresh({
-                        let err_op = err_op.clone();
-                        |err| {
-                            err_op(ClientError {
-                                err,
-                                variant: ClientErrorVariant::Pods,
-                            })
+                    obj.pod_list().refresh(
+                        None,
+                        {
+                            let err_op = err_op.clone();
+                            |err| {
+                                err_op(ClientError {
+                                    err,
+                                    variant: ClientErrorVariant::Pods,
+                                })
+                            }
                         }
-                    });
+                    );
 
                     op();
                     obj.start_event_listener(err_op, finish_op);
