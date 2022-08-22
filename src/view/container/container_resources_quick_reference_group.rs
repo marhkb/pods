@@ -239,7 +239,7 @@ impl ContainerResourcesQuickReferenceGroup {
     ) where
         F: Fn(model::BoxedContainerStats) -> Option<u64> + 'static,
     {
-        let prev_value = Cell::new(-1);
+        let prev_value = Cell::new(u64::MAX);
 
         stats_expr
             .chain_closure::<String>(closure_local!(move |_: Self,
@@ -252,14 +252,14 @@ impl ContainerResourcesQuickReferenceGroup {
                             let s = gettext!(
                                 // Translators: For example 5 MB / s.
                                 "{} / s",
-                                glib::format_size(if prev_value.get() == -1 {
+                                glib::format_size(if prev_value.get() >= value {
                                     0
                                 } else {
-                                    value - prev_value.get() as u64
+                                    value - prev_value.get()
                                 })
                             );
 
-                            prev_value.set(value as i64);
+                            prev_value.set(value);
 
                             s
                         })
