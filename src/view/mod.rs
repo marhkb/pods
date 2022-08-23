@@ -26,6 +26,7 @@ pub(crate) use self::container::ContainerPropertiesGroup;
 pub(crate) use self::container::ContainerRenameDialog;
 pub(crate) use self::container::ContainerResourcesQuickReferenceGroup;
 pub(crate) use self::container::ContainerRow;
+pub(crate) use self::container::ContainersCountBar;
 pub(crate) use self::container::ContainersGroup;
 pub(crate) use self::container::ContainersPanel;
 pub(crate) use self::container::EnvVarRow;
