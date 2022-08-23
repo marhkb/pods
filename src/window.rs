@@ -76,6 +76,7 @@ mod imp {
             view::ContainerMenuButton::static_type();
             view::ContainerPropertiesGroup::static_type();
             view::ContainerResourcesQuickReferenceGroup::static_type();
+            view::ContainersCountBar::static_type();
             view::ContainersGroup::static_type();
             view::ImageMenuButton::static_type();
             view::ImagePullingPage::static_type();

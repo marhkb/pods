@@ -18,13 +18,7 @@ mod imp {
 
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/image-row.ui")]
-    pub(crate) struct ImageRow {
-        pub(super) image: WeakRef<model::Image>,
-        #[template_child]
-        pub(super) num_created_or_exited_box: TemplateChild<gtk::Box>,
-        #[template_child]
-        pub(super) num_created_or_exited_label: TemplateChild<gtk::Label>,
-    }
+    pub(crate) struct ImageRow(pub(super) WeakRef<model::Image>);
 
     #[glib::object_subclass]
     impl ObjectSubclass for ImageRow {
@@ -68,7 +62,7 @@ mod imp {
         ) {
             match pspec.name() {
                 "image" => {
-                    self.image.set(value.get().unwrap());
+                    self.0.set(value.get().unwrap());
                 }
                 _ => unimplemented!(),
             }
@@ -86,14 +80,6 @@ mod imp {
 
             let image_expr = Self::Type::this_expression("image");
             let repo_tags_expr = image_expr.chain_property::<model::Image>("repo-tags");
-            let container_list_expr = image_expr.chain_property::<model::Image>("container-list");
-            let num_created_or_exited_expr = gtk::ClosureExpression::new::<u32, _, _>(
-                &[
-                    container_list_expr.chain_property::<model::SimpleContainerList>("created"),
-                    container_list_expr.chain_property::<model::SimpleContainerList>("exited"),
-                ],
-                closure!(|_: Self::Type, created: u32, exited: u32| created + exited),
-            );
 
             repo_tags_expr
                 .chain_closure::<String>(closure!(
@@ -136,9 +122,6 @@ mod imp {
                 }))
                 .bind(obj, "subtitle", Some(obj));
 
-            num_created_or_exited_expr.bind(&*self.num_created_or_exited_label, "label", Some(obj));
-            num_created_or_exited_expr.bind(&*self.num_created_or_exited_box, "visible", Some(obj));
-
             if let Some(image) = obj.image() {
                 obj.action_set_enabled("image.show-details", !image.to_be_deleted());
                 image.connect_notify_local(
@@ -170,7 +153,7 @@ impl From<&model::Image> for ImageRow {
 
 impl ImageRow {
     pub(crate) fn image(&self) -> Option<model::Image> {
-        self.imp().image.upgrade()
+        self.imp().0.upgrade()
     }
 
     fn show_details(&self) {

@@ -6,6 +6,16 @@
     <property name="action-name">pod.show-details</property>
 
     <child>
+      <object class="ContainersCountBar">
+        <binding name="container-list">
+          <lookup name="container-list" type="Pod">
+            <lookup name="pod">PodRow</lookup>
+          </lookup>
+        </binding>
+      </object>
+    </child>
+
+    <child>
       <object class="GtkLabel" id="status_label">
         <style>
           <class name="status-badge"/>
