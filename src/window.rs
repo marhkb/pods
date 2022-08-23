@@ -1,5 +1,3 @@
-use std::cell::Cell;
-
 use adw::subclass::prelude::AdwApplicationWindowImpl;
 use adw::traits::BinExt;
 use cascade::cascade;
@@ -28,7 +26,6 @@ mod imp {
     pub(crate) struct Window {
         pub(super) settings: utils::PodsSettings,
         pub(super) connection_manager: model::ConnectionManager,
-        pub(super) is_search_triggered_by_key_press: Cell<bool>,
         #[template_child]
         pub(super) toast_overlay: TemplateChild<adw::ToastOverlay>,
         #[template_child]
@@ -205,19 +202,17 @@ mod imp {
             );
 
             self.search_button
+                .connect_clicked(clone!(@weak obj => move |button| {
+                    if button.is_active() {
+                        obj.imp().search_entry.set_text("");
+                    }
+                }));
+
+            self.search_button
                 .connect_active_notify(clone!(@weak obj => move |button| {
                     let imp = obj.imp();
 
                     if button.is_active() {
-                        imp.search_entry.delete_text(
-                            0,
-                            imp.search_entry.text().len() as i32
-                                - if imp.is_search_triggered_by_key_press.get() {
-                                    1
-                                } else {
-                                    0
-                                },
-                        );
                         imp.title_stack.set_visible_child(&*imp.search_entry);
                         imp.search_entry.grab_focus();
                         imp.search_stack.set_visible_child(&*imp.search_panel);
@@ -225,17 +220,16 @@ mod imp {
                         imp.title_stack.set_visible_child(&*imp.title);
                         imp.search_stack.set_visible_child_name("main");
                     }
-
-                    imp.is_search_triggered_by_key_press.set(false);
                 }));
 
             self.search_entry
                 .connect_text_notify(clone!(@weak obj => move |entry| {
-                    let imp = obj.imp();
-
-                    imp.search_panel.set_term(entry.text().into());
-                    if !entry.text().is_empty() {
-                        imp.search_button.set_active(true);
+                    if !obj.is_showing_overlay() {
+                        let imp = obj.imp();
+                        imp.search_panel.set_term(entry.text().into());
+                        if !entry.text().is_empty() {
+                            imp.search_button.set_active(true);
+                        }
                     }
                 }));
 
@@ -258,20 +252,18 @@ mod imp {
             search_key_capture_ctrl.connect_key_pressed(
                 clone!(@weak obj => @default-return gtk::Inhibit(false), move |_, _, _, _| {
                     let imp = obj.imp();
-                    imp.is_search_triggered_by_key_press.set(true);
+                    if !obj.is_showing_overlay() && !imp.search_button.is_active() {
+                        obj.imp().search_entry.set_text("");
+                    }
+
                     gtk::Inhibit(false)
                 }),
             );
             obj.add_controller(&search_key_capture_ctrl);
 
             self.leaflet
-                .connect_visible_child_notify(clone!(@weak obj => move |leaflet| {
-                    obj.imp().search_entry.set_key_capture_widget(
-                        if leaflet.visible_child_name().as_deref() == Some("overlay") {
-                            None
-                        } else {
-                            Some(&obj)
-                        });
+                .connect_visible_child_notify(clone!(@weak obj => move |_| {
+                    obj.action_set_enabled("win.toggle-search", !obj.is_showing_overlay());
                 }));
 
             gtk::Stack::this_expression("visible-child-name")
@@ -417,6 +409,13 @@ impl Window {
         if imp.leaflet_overlay.child().is_none() {
             imp.menu_button.popup();
         }
+    }
+
+    fn is_showing_overlay(&self) -> bool {
+        matches!(
+            self.imp().leaflet.visible_child_name().as_deref(),
+            Some("overlay")
+        )
     }
 
     fn navigate_home(&self) {
