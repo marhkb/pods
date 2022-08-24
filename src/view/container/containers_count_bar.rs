@@ -114,6 +114,13 @@ mod imp {
             running_expr.bind(&*self.running_box, "visible", Some(obj));
             running_expr.bind(&*self.running_label, "label", Some(obj));
         }
+
+        fn dispose(&self, _obj: &Self::Type) {
+            self.dead_box.unparent();
+            self.created_or_exited_box.unparent();
+            self.paused_box.unparent();
+            self.running_box.unparent();
+        }
     }
 
     impl WidgetImpl for ContainersCountBar {}
