@@ -31,6 +31,8 @@ pub(crate) enum Status {
     Paused,
     Restarting,
     Running,
+    Stopped,
+    Stopping,
     #[default]
     Unknown,
 }
@@ -46,6 +48,8 @@ impl FromStr for Status {
             "paused" => Self::Paused,
             "restarting" => Self::Restarting,
             "running" => Self::Running,
+            "stopped" => Self::Stopped,
+            "stopping" => Self::Stopping,
             _ => return Err(Self::Unknown),
         })
     }
@@ -63,6 +67,8 @@ impl fmt::Display for Status {
                 Self::Paused => gettext("Paused"),
                 Self::Restarting => gettext("Restarting"),
                 Self::Running => gettext("Running"),
+                Self::Stopped => gettext("Stopped"),
+                Self::Stopping => gettext("Stopping"),
                 Self::Unknown => gettext("Unknown"),
             }
         )

@@ -39,6 +39,8 @@ fn container_status_css_class(status: model::ContainerStatus) -> &'static str {
         Paused => "container-status-paused",
         Restarting => "container-status-restarting",
         Running => "container-status-running",
+        Stopped => "container-status-stopped",
+        Stopping => "container-status-stopping",
         Unknown => "container-status-unknown",
     }
 }
