@@ -33,6 +33,7 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/images-panel.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/images-prune-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/info-dialog.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/inspection-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/leaflet-overlay.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/pod-creation-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/pod-details-page.ui</file>
