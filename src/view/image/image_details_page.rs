@@ -68,6 +68,10 @@ mod imp {
                 widget.navigate_back();
             });
 
+            klass.install_action("image.inspect", None, move |widget, _, _| {
+                widget.show_inspection();
+            });
+
             // For displaying a mnemonic.
             klass.add_binding_action(
                 gdk::Key::N,
@@ -352,6 +356,30 @@ impl ImageDetailsPage {
             .downcast::<Window>()
             .unwrap()
             .leaflet_overlay()
+    }
+
+    fn show_inspection(&self) {
+        if let Some(image) = self.image().as_ref().and_then(model::Image::api_image) {
+            self.action_set_enabled("image.inspect", false);
+            utils::do_async(
+                async move { image.inspect().await.map_err(anyhow::Error::from) },
+                clone!(@weak self as obj => move |result| {
+                    obj.action_set_enabled("image.inspect", true);
+                    match result
+                        .and_then(|data| view::InspectionPage::new(
+                            &gettext("Image Inspection"), &data
+                        ))
+                    {
+                        Ok(page) => utils::leaflet_overlay(&*obj.imp().leaflet).show_details(&page),
+                        Err(e) => utils::show_error_toast(
+                            &obj,
+                            &gettext("Error on inspecting image"),
+                            &e.to_string()
+                        ),
+                    }
+                }),
+            );
+        }
     }
 
     fn create_container(&self) {
