@@ -5,7 +5,6 @@ use std::collections::VecDeque;
 use std::mem;
 
 use futures::StreamExt;
-use gettextrs::gettext;
 use gtk::gdk;
 use gtk::glib;
 use gtk::glib::clone;
@@ -18,7 +17,6 @@ use once_cell::unsync::OnceCell;
 use sourceview5::traits::BufferExt;
 use sourceview5::traits::GutterRendererExt;
 use sourceview5::traits::GutterRendererTextExt;
-use sourceview5::traits::SearchSettingsExt;
 use sourceview5::traits::ViewExt;
 
 use crate::model;
@@ -44,9 +42,6 @@ mod imp {
         pub(super) settings: utils::PodsSettings,
         pub(super) container: WeakRef<model::Container>,
         pub(super) renderer_timestamps: OnceCell<sourceview5::GutterRendererText>,
-        pub(super) search_settings: sourceview5::SearchSettings,
-        pub(super) search_context: OnceCell<sourceview5::SearchContext>,
-        pub(super) search_iters: RefCell<Option<(gtk::TextIter, gtk::TextIter)>>,
         pub(super) log_timestamps: RefCell<VecDeque<String>>,
         pub(super) fetch_until: OnceCell<String>,
         pub(super) fetch_lines_state: Cell<FetchLinesState>,
@@ -63,13 +58,7 @@ mod imp {
         #[template_child]
         pub(super) search_bar: TemplateChild<gtk::SearchBar>,
         #[template_child]
-        pub(super) search_entry: TemplateChild<view::TextSearchEntry>,
-        #[template_child]
-        pub(super) regex_button: TemplateChild<gtk::CheckButton>,
-        #[template_child]
-        pub(super) case_button: TemplateChild<gtk::CheckButton>,
-        #[template_child]
-        pub(super) word_button: TemplateChild<gtk::CheckButton>,
+        pub(super) search_widget: TemplateChild<view::SourceViewSearchWidget>,
         #[template_child]
         pub(super) lines_loading_revealer: TemplateChild<gtk::Revealer>,
         #[template_child]
@@ -104,26 +93,6 @@ mod imp {
             );
             klass.install_action("logs.toggle-search", None, |widget, _, _| {
                 widget.toggle_search();
-            });
-
-            klass.add_binding_action(
-                gdk::Key::G,
-                gdk::ModifierType::CONTROL_MASK | gdk::ModifierType::SHIFT_MASK,
-                "logs.search-backward",
-                None,
-            );
-            klass.install_action("logs.search-backward", None, |widget, _, _| {
-                widget.search_backward();
-            });
-
-            klass.add_binding_action(
-                gdk::Key::G,
-                gdk::ModifierType::CONTROL_MASK,
-                "logs.search-forward",
-                None,
-            );
-            klass.install_action("logs.search-forward", None, |widget, _, _| {
-                widget.search_forward();
             });
 
             klass.install_action("logs.scroll-down", None, move |widget, _, _| {
@@ -229,7 +198,7 @@ mod imp {
 
             self.search_bar.connect_search_mode_enabled_notify(
                 clone!(@weak obj => move |search_bar| {
-                    let search_entry = &*obj.imp().search_entry;
+                    let search_entry = &*obj.imp().search_widget;
                     if search_bar.is_search_mode() {
                         search_entry.grab_focus();
                     } else {
@@ -256,40 +225,7 @@ mod imp {
                 .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
                 .build();
 
-            self.search_entry
-                .bind_property("text", &self.search_settings, "search-text")
-                .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
-                .build();
-
-            self.search_settings.set_wrap_around(true);
-
-            self.regex_button
-                .bind_property("active", &self.search_settings, "regex-enabled")
-                .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
-                .build();
-
-            self.case_button
-                .bind_property("active", &self.search_settings, "case-sensitive")
-                .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
-                .build();
-
-            self.word_button
-                .bind_property("active", &self.search_settings, "at-word-boundaries")
-                .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
-                .build();
-
-            let search_context =
-                sourceview5::SearchContext::new(&*self.source_buffer, Some(&self.search_settings));
-
-            search_context.connect_occurrences_count_notify(clone!(@weak obj => move |ctx| {
-                obj.imp().search_entry.set_info(&
-                    gettext!(
-                        "0 of {}",
-                        ctx.occurrences_count(),
-                    ));
-            }));
-
-            self.search_context.set(search_context).unwrap();
+            self.search_widget.set_source_view(Some(&*self.source_view));
 
             let adj = self.scrolled_window.vadjustment();
             obj.on_adjustment_changed(&adj);
@@ -539,103 +475,6 @@ impl ContainerLogPage {
         let imp = self.imp();
         imp.search_bar
             .set_search_mode(!imp.search_bar.is_search_mode());
-    }
-
-    fn update_search_occurences(&self) {
-        let imp = self.imp();
-
-        let search_context = imp.search_context.get().unwrap();
-        let count = search_context.occurrences_count();
-        imp.search_entry.set_info(&if count > 0 {
-            gettext!(
-                "{} of {}",
-                imp.search_iters
-                    .borrow()
-                    .as_ref()
-                    .map(|(start_iter, end_iter)| search_context
-                        .occurrence_position(start_iter, end_iter))
-                    .unwrap_or(0),
-                count
-            )
-        } else {
-            String::new()
-        });
-    }
-
-    pub(crate) fn search_backward(&self) {
-        let imp = self.imp();
-
-        let iter_at_cursor = imp.source_buffer.iter_at_offset({
-            let pos = imp.source_buffer.cursor_position();
-            if pos >= 0 {
-                pos
-            } else {
-                i32::MAX
-            }
-        });
-
-        imp.search_iters.replace_with(|iters| {
-            match imp.search_context.get().unwrap().backward(
-                &iters
-                    .map(|(start_iter, end_iter)| {
-                        if iter_at_cursor >= start_iter && iter_at_cursor <= end_iter {
-                            start_iter
-                        } else {
-                            iter_at_cursor
-                        }
-                    })
-                    .unwrap_or(iter_at_cursor),
-            ) {
-                Some((mut start, end, _)) => {
-                    imp.source_view
-                        .scroll_to_iter(&mut start, 0.0, false, 0.0, 0.0);
-                    imp.source_buffer.place_cursor(&start);
-
-                    Some((start, end))
-                }
-                None => None,
-            }
-        });
-
-        self.update_search_occurences();
-    }
-
-    pub(crate) fn search_forward(&self) {
-        let imp = self.imp();
-
-        let iter_at_cursor = imp.source_buffer.iter_at_offset({
-            let pos = imp.source_buffer.cursor_position();
-            if pos > 0 {
-                pos
-            } else {
-                0
-            }
-        });
-
-        imp.search_iters.replace_with(|iters| {
-            match imp.search_context.get().unwrap().forward(
-                &iters
-                    .map(|(start_iter, end_iter)| {
-                        if iter_at_cursor >= start_iter && iter_at_cursor <= end_iter {
-                            end_iter
-                        } else {
-                            iter_at_cursor
-                        }
-                    })
-                    .unwrap_or(iter_at_cursor),
-            ) {
-                Some((start, mut end, _)) => {
-                    imp.source_view
-                        .scroll_to_iter(&mut end, 0.0, false, 0.0, 0.0);
-                    imp.source_buffer.place_cursor(&end);
-
-                    Some((start, end))
-                }
-                None => None,
-            }
-        });
-
-        self.update_search_occurences();
     }
 
     fn on_notify_dark(&self, style_manager: &adw::StyleManager) {
