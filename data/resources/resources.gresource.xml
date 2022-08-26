@@ -33,6 +33,7 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/images-panel.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/images-prune-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/info-dialog.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/inspection-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/leaflet-overlay.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/pod-creation-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/pod-details-page.ui</file>
@@ -44,6 +45,7 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/property-widget-row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/random-name-entry-row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/search-panel.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/source-view-search-widget.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/text-search-entry.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/top-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/volume-row.ui</file>

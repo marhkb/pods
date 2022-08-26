@@ -62,6 +62,9 @@ mod imp {
                 widget.navigate_back();
             });
 
+            klass.install_action("pod.inspect", None, move |widget, _, _| {
+                widget.show_inspection();
+            });
             klass.install_action("pod.show-processes", None, move |widget, _, _| {
                 widget.show_processes();
             });
@@ -256,6 +259,30 @@ impl PodDetailsPage {
 
         imp.pod.set(value);
         self.notify("pod");
+    }
+
+    fn show_inspection(&self) {
+        if let Some(pod) = self.pod().as_ref().and_then(model::Pod::api_pod) {
+            self.action_set_enabled("pod.inspect", false);
+            utils::do_async(
+                async move { pod.inspect().await.map_err(anyhow::Error::from) },
+                clone!(@weak self as obj => move |result| {
+                    obj.action_set_enabled("pod.inspect", true);
+                    match result
+                        .and_then(|data| view::InspectionPage::new(
+                            &gettext("Pod Inspection"), &data
+                        ))
+                    {
+                        Ok(page) => utils::leaflet_overlay(&*obj.imp().leaflet).show_details(&page),
+                        Err(e) => utils::show_error_toast(
+                            &obj,
+                            &gettext("Error on inspecting pod"),
+                            &e.to_string()
+                        ),
+                    }
+                }),
+            );
+        }
     }
 
     fn show_processes(&self) {

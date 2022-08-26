@@ -83,12 +83,14 @@ mod imp {
             view::ImageRowSimple::static_type();
             view::ImageSearchResponseRow::static_type();
             view::ImagesPanel::static_type();
+            view::InspectionPage::static_type();
             view::PodMenuButton::static_type();
             view::PodRow::static_type();
             view::PodsPanel::static_type();
             view::PropertyRow::static_type();
             view::PropertyWidgetRow::static_type();
             view::RandomNameEntryRow::static_type();
+            view::SourceViewSearchWidget::static_type();
             view::TextSearchEntry::static_type();
             view::WelcomePage::static_type();
             sourceview5::View::static_type();

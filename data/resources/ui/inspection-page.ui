@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+
+  <template class="InspectionPage" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBoxLayout">
+        <property name="orientation">vertical</property>
+      </object>
+    </property>
+
+    <!-- Headerbar -->
+    <child>
+      <object class="AdwHeaderBar">
+        <property name="centering-policy">strict</property>
+
+        <child type="start">
+          <object class="GtkButton">
+            <property name="icon-name">go-previous-symbolic</property>
+            <property name="action-name">navigation.back</property>
+          </object>
+        </child>
+
+        <child type="start">
+          <object class="GtkButton" id="go_first_button">
+            <property name="icon-name">go-first-symbolic</property>
+            <property name="action-name">navigation.go-first</property>
+            <property name="visible" bind-source="go_first_button" bind-property="sensitive" bind-flags="sync-create"/>
+          </object>
+        </child>
+
+        <child type="title">
+          <object class="AdwWindowTitle" id="window_title"/>
+        </child>
+
+        <child type="end">
+          <object class="GtkToggleButton" id="search_button">
+            <property name="icon-name">system-search-symbolic</property>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <child>
+      <object class="GtkSearchBar" id="search_bar">
+
+        <property name="child">
+          <object class="SourceViewSearchWidget" id="search_widget"/>
+        </property>
+
+      </object>
+    </child>
+
+    <child>
+      <object class="GtkScrolledWindow" id="scrolled_window">
+        <property name="hscrollbar-policy">never</property>
+        <property name="vexpand">True</property>
+
+        <child>
+          <object class="GtkSourceView" id="source_view">
+            <style>
+              <class name="text-view"/>
+            </style>
+            <property name="buffer">
+              <object class="GtkSourceBuffer" id="source_buffer">
+                <property name="highlight-matching-brackets">False</property>
+              </object>
+            </property>
+            <property name="top-margin">12</property>
+            <property name="bottom-margin">12</property>
+            <property name="right-margin">12</property>
+            <property name="cursor-visible">False</property>
+            <property name="editable">False</property>
+            <property name="highlight-current-line">True</property>
+            <property name="monospace">True</property>
+            <property name="show-line-numbers">True</property>
+            <property name="wrap-mode">char</property>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+
+</interface>

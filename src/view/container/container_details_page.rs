@@ -55,6 +55,9 @@ mod imp {
                 widget.navigate_back();
             });
 
+            klass.install_action("container.inspect", None, move |widget, _, _| {
+                widget.show_inspection();
+            });
             klass.install_action("container.show-log", None, move |widget, _, _| {
                 widget.show_log();
             });
@@ -227,6 +230,34 @@ impl ContainerDetailsPage {
             .downcast::<Window>()
             .unwrap()
             .leaflet_overlay()
+    }
+
+    fn show_inspection(&self) {
+        if let Some(container) = self
+            .container()
+            .as_ref()
+            .and_then(model::Container::api_container)
+        {
+            self.action_set_enabled("container.inspect", false);
+            utils::do_async(
+                async move { container.inspect().await.map_err(anyhow::Error::from) },
+                clone!(@weak self as obj => move |result| {
+                    obj.action_set_enabled("container.inspect", true);
+                    match result
+                        .and_then(|data| view::InspectionPage::new(
+                            &gettext("Container Inspection"), &data
+                        ))
+                    {
+                        Ok(page) => utils::leaflet_overlay(&*obj.imp().leaflet).show_details(&page),
+                        Err(e) => utils::show_error_toast(
+                            &obj,
+                            &gettext("Error on inspecting container"),
+                            &e.to_string()
+                        ),
+                    }
+                }),
+            );
+        }
     }
 
     fn show_log(&self) {
