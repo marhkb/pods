@@ -111,6 +111,24 @@ mod imp {
                         0,
                         glib::ParamFlags::READABLE,
                     ),
+                    glib::ParamSpecUInt::new(
+                        "stopped",
+                        "Stopped",
+                        "The number of stopped containers",
+                        0,
+                        std::u32::MAX,
+                        0,
+                        glib::ParamFlags::READABLE,
+                    ),
+                    glib::ParamSpecUInt::new(
+                        "stopping",
+                        "Stopping",
+                        "The number of containers being stopped",
+                        0,
+                        std::u32::MAX,
+                        0,
+                        glib::ParamFlags::READABLE,
+                    ),
                 ]
             });
             PROPERTIES.as_ref()
@@ -158,6 +176,8 @@ impl AbstractContainerList {
         list.notify("paused");
         list.notify("removing");
         list.notify("running");
+        list.notify("stopped");
+        list.notify("stopping");
     }
 }
 

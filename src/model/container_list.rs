@@ -116,6 +116,24 @@ mod imp {
                         0,
                         glib::ParamFlags::READABLE,
                     ),
+                    glib::ParamSpecUInt::new(
+                        "stopped",
+                        "Stopped",
+                        "The number of stopped containers",
+                        0,
+                        std::u32::MAX,
+                        0,
+                        glib::ParamFlags::READABLE,
+                    ),
+                    glib::ParamSpecUInt::new(
+                        "stopping",
+                        "Stopping",
+                        "The number of containers being stopped",
+                        0,
+                        std::u32::MAX,
+                        0,
+                        glib::ParamFlags::READABLE,
+                    ),
                 ]
             });
             PROPERTIES.as_ref()
@@ -145,6 +163,8 @@ mod imp {
                 "paused" => obj.paused().to_value(),
                 "removing" => obj.removing().to_value(),
                 "running" => obj.running().to_value(),
+                "stopped" => obj.stopped().to_value(),
+                "stopping" => obj.stopping().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -277,6 +297,14 @@ impl ContainerList {
 
     pub(crate) fn running(&self) -> u32 {
         self.num_containers_of_status(model::ContainerStatus::Running)
+    }
+
+    pub(crate) fn stopped(&self) -> u32 {
+        self.num_containers_of_status(model::ContainerStatus::Stopped)
+    }
+
+    pub(crate) fn stopping(&self) -> u32 {
+        self.num_containers_of_status(model::ContainerStatus::Stopping)
     }
 
     pub(crate) fn num_containers_of_status(&self, status: model::ContainerStatus) -> u32 {
