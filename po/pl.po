@@ -8,22 +8,23 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-08-14 23:18+0200\n"
-"PO-Revision-Date: 2022-03-16 02:17+0100\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2022-08-28 16:24+0000\n"
+"Last-Translator: Wojciech Kępka <wojciech@wkepka.dev>\n"
+"Language-Team: Polish <https://hosted.weblate.org/projects/pods/pods/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 4.14.1-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
 #: data/resources/ui/search-panel.ui:84 data/resources/ui/window.ui:202
 #: src/main.rs:43
 msgid "Pods"
-msgstr ""
+msgstr "Pody"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:4
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
@@ -33,67 +34,69 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.desktop.in.in:9
 msgid "Gnome;GTK;"
-msgstr ""
+msgstr "Gnome;GTK;"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:6
 #: data/com.github.marhkb.Pods.gschema.xml.in:7
 msgid "Default window width"
-msgstr ""
+msgstr "Domyślna szerokość okna"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:11
 #: data/com.github.marhkb.Pods.gschema.xml.in:12
 msgid "Default window height"
-msgstr ""
+msgstr "Domyślna wysokość okna"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:16
 msgid "Default window maximized behaviour"
-msgstr ""
+msgstr "Domyślne zachowanie powiększonego okna"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:26
 msgid "Style Variant"
-msgstr ""
+msgstr "Wariant stylu"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:27
 msgid "Use the light or dark variant of the GTK theme"
-msgstr ""
+msgstr "Użyj jasnego lub ciemnego wariantu tła GTK"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:31
 msgid "The uuid of the connection that was used the last time"
-msgstr ""
+msgstr "Uuid ostatnio używanego połączenia"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:36
 msgid "The last used view"
-msgstr ""
+msgstr "Ostatnio używany widok"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:41
 msgid "Whether to show intermediate images"
-msgstr ""
+msgstr "Czy pokazywać pośrednie obrazki"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:46
 msgid "Remove all images not in use by containers, not just dangling ones"
-msgstr ""
+msgstr "Usuń obrazy nie używane przez wszystkie kontenery"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:51
 msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)"
 msgstr ""
+"Usuń obrazy nawet jak są używane przez zewnętrzne kontenery (n.p. przez "
+"kontenery buildowe)"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:56
 msgid "Whether to show only running containers"
-msgstr ""
+msgstr "Czy pokazywać tylko działające kontenery"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:61
 msgid "Whether to show only running pods"
-msgstr ""
+msgstr "Czy pokazywać tylko działające pody"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:66
 msgid "Whether to show a timestamp for each log line"
-msgstr ""
+msgstr "Czy pokazywać datę i godzine przy każdej lini logu"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:15
 msgid "Main window"
-msgstr ""
+msgstr "Główne okno"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:32
 msgid "Marcus Behrendt"
@@ -105,19 +108,19 @@ msgstr ""
 
 #: data/resources/ui/connection-chooser-page.ui:17
 msgid "Either choose an existing connection or create a new one."
-msgstr ""
+msgstr "Wybierz istniejące połączenie lub utwórz nowe."
 
 #: data/resources/ui/connection-chooser-page.ui:80
 msgid "_Add New Connection"
-msgstr ""
+msgstr "_Dodaj Nowe Połączenie"
 
 #: data/resources/ui/connection-creator-page.ui:31
 msgid "Add New Connection"
-msgstr ""
+msgstr "Dodaj Nowe Połączenie"
 
 #: data/resources/ui/connection-creator-page.ui:41
 msgid "_Connect"
-msgstr ""
+msgstr "_Połącz"
 
 #: data/resources/ui/connection-creator-page.ui:57
 #: data/resources/ui/container-creation-page.ui:83
@@ -125,15 +128,15 @@ msgstr ""
 #: data/resources/ui/pod-creation-page.ui:74
 #: data/resources/ui/pod-details-page.ui:67
 msgid "Name"
-msgstr ""
+msgstr "Nazwa"
 
 #: data/resources/ui/connection-creator-page.ui:66
 msgid "Url"
-msgstr ""
+msgstr "Adres Url"
 
 #: data/resources/ui/connection-creator-page.ui:67
 msgid "Choose how you want to connect to Podman."
-msgstr ""
+msgstr "Wybierz jak chcesz połączyć się do Podmana."
 
 #: data/resources/ui/connection-creator-page.ui:71
 msgid "Unix Socket"
@@ -141,7 +144,7 @@ msgstr ""
 
 #: data/resources/ui/connection-creator-page.ui:86
 msgid "Custom"
-msgstr ""
+msgstr "Niestandardowy"
 
 #: data/resources/ui/connection-creator-page.ui:96
 msgid "Connection String"
@@ -149,83 +152,83 @@ msgstr ""
 
 #: data/resources/ui/connection-creator-page.ui:112
 msgid "Color"
-msgstr ""
+msgstr "Kolor"
 
 #: data/resources/ui/connection-creator-page.ui:113
 msgid "Define how to colorize the header bar."
-msgstr ""
+msgstr "Zdefiniuj jak koloryzować pasek nagłówka."
 
 #: data/resources/ui/container-creation-page.ui:7
 msgid "_Create"
-msgstr ""
+msgstr "_Utwórz"
 
 #: data/resources/ui/container-creation-page.ui:56
 msgid "Specify Container Settings"
-msgstr ""
+msgstr "Określ Ustawienia Kontenera"
 
 #: data/resources/ui/container-creation-page.ui:66
 msgid "Create and run"
-msgstr ""
+msgstr "Utwórz i uruchom"
 
 #: data/resources/ui/container-creation-page.ui:123
 msgid "Details"
-msgstr ""
+msgstr "Szczegóły"
 
 #: data/resources/ui/container-creation-page.ui:131
 #: data/resources/ui/container-creation-page.ui:137
 msgid "Local image"
-msgstr ""
+msgstr "Lokalny obraz"
 
 #: data/resources/ui/container-creation-page.ui:154
 msgid "Remote image"
-msgstr ""
+msgstr "Zdalny obraz"
 
 #: data/resources/ui/container-creation-page.ui:181
 #: data/resources/ui/container-creation-page.ui:188
 #: data/resources/ui/container-properties-group.ui:139
 msgid "Pod"
-msgstr ""
+msgstr "Pod"
 
 #: data/resources/ui/container-creation-page.ui:206
 msgid "Pull latest image"
-msgstr ""
+msgstr "Pobierz ostatni obraz"
 
 #: data/resources/ui/container-creation-page.ui:217
 #: data/resources/ui/container-creation-page.ui:378
 msgid "Command"
-msgstr ""
+msgstr "Komenda"
 
 #: data/resources/ui/container-creation-page.ui:224
 msgid "Terminal"
-msgstr ""
+msgstr "Terminal"
 
 #: data/resources/ui/container-creation-page.ui:237
 msgid "Memory limit"
-msgstr ""
+msgstr "Limit pamięci"
 
 #: data/resources/ui/container-creation-page.ui:279
 msgid "KB"
-msgstr ""
+msgstr "KB"
 
 #: data/resources/ui/container-creation-page.ui:280
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 #: data/resources/ui/container-creation-page.ui:281
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #: data/resources/ui/container-creation-page.ui:308
 msgid "Integration"
-msgstr ""
+msgstr "Integracja"
 
 #: data/resources/ui/container-creation-page.ui:318
 msgid "Port Mappings"
-msgstr ""
+msgstr "Mapowania portów"
 
 #: data/resources/ui/container-creation-page.ui:333
 msgid "Volumes"
-msgstr ""
+msgstr "Wolumeny"
 
 #: data/resources/ui/container-creation-page.ui:348
 msgid "Environment Variables"
