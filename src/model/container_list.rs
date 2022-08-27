@@ -99,6 +99,15 @@ mod imp {
                         glib::ParamFlags::READABLE,
                     ),
                     glib::ParamSpecUInt::new(
+                        "removing",
+                        "Removing",
+                        "The number of containers being removed",
+                        0,
+                        std::u32::MAX,
+                        0,
+                        glib::ParamFlags::READABLE,
+                    ),
+                    glib::ParamSpecUInt::new(
                         "running",
                         "Running",
                         "The number of running containers",
@@ -134,6 +143,7 @@ mod imp {
                 "dead" => obj.dead().to_value(),
                 "exited" => obj.exited().to_value(),
                 "paused" => obj.paused().to_value(),
+                "removing" => obj.removing().to_value(),
                 "running" => obj.running().to_value(),
                 _ => unimplemented!(),
             }
@@ -259,6 +269,10 @@ impl ContainerList {
 
     pub(crate) fn paused(&self) -> u32 {
         self.num_containers_of_status(model::ContainerStatus::Paused)
+    }
+
+    pub(crate) fn removing(&self) -> u32 {
+        self.num_containers_of_status(model::ContainerStatus::Removing)
     }
 
     pub(crate) fn running(&self) -> u32 {
