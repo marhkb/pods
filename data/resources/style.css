@@ -104,6 +104,7 @@ connectionchooserpage connectionswitchermenu row {
 
 .container-status-dead,
 .container-status-unknown,
+.pod-status-error,
 .pod-status-dead,
 .pod-status-unknown,
 .container-health-status-unhealthy,
