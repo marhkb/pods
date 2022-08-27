@@ -35,7 +35,7 @@
 
     <!-- Created or exited containers -->
     <child>
-      <object class="GtkBox" id="created_or_exited_box">
+      <object class="GtkBox" id="not_running_box">
         <style>
           <class name="status-badge"/>
           <class name="container-status-exited"/>
@@ -45,7 +45,7 @@
         <property name="valign">center</property>
 
         <child>
-          <object class="GtkLabel" id="created_or_exited_label"/>
+          <object class="GtkLabel" id="not_running_label"/>
         </child>
 
         <child>
