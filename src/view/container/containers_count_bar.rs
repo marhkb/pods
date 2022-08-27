@@ -95,12 +95,19 @@ mod imp {
                     container_list_expr.chain_property::<model::AbstractContainerList>("created"),
                     container_list_expr.chain_property::<model::AbstractContainerList>("exited"),
                     container_list_expr.chain_property::<model::AbstractContainerList>("removing"),
+                    container_list_expr.chain_property::<model::AbstractContainerList>("stopped"),
+                    container_list_expr.chain_property::<model::AbstractContainerList>("stopping"),
                 ],
-                closure!(
-                    |_: Self::Type, created: u32, exited: u32, removing: u32| created
-                        + exited
-                        + removing
-                ),
+                closure!(|_: Self::Type,
+                          created: u32,
+                          exited: u32,
+                          removing: u32,
+                          stopped: u32,
+                          stopping: u32| created
+                    + exited
+                    + removing
+                    + stopped
+                    + stopping),
             );
             let paused_expr =
                 container_list_expr.chain_property::<model::AbstractContainerList>("paused");
