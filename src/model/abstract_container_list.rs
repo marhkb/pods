@@ -94,6 +94,15 @@ mod imp {
                         glib::ParamFlags::READABLE,
                     ),
                     glib::ParamSpecUInt::new(
+                        "removing",
+                        "Removing",
+                        "The number of containers being removed",
+                        0,
+                        std::u32::MAX,
+                        0,
+                        glib::ParamFlags::READABLE,
+                    ),
+                    glib::ParamSpecUInt::new(
                         "running",
                         "Running",
                         "The number of running containers",
@@ -147,6 +156,7 @@ impl AbstractContainerList {
         list.notify("dead");
         list.notify("exited");
         list.notify("paused");
+        list.notify("removing");
         list.notify("running");
     }
 }

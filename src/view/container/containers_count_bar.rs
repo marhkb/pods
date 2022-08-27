@@ -20,9 +20,9 @@ mod imp {
         #[template_child]
         pub(super) dead_label: TemplateChild<gtk::Label>,
         #[template_child]
-        pub(super) created_or_exited_box: TemplateChild<gtk::Box>,
+        pub(super) not_running_box: TemplateChild<gtk::Box>,
         #[template_child]
-        pub(super) created_or_exited_label: TemplateChild<gtk::Label>,
+        pub(super) not_running_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) paused_box: TemplateChild<gtk::Box>,
         #[template_child]
@@ -90,12 +90,17 @@ mod imp {
             let container_list_expr = Self::Type::this_expression("container-list");
             let dead_expr =
                 container_list_expr.chain_property::<model::AbstractContainerList>("dead");
-            let created_or_exited_expr = gtk::ClosureExpression::new::<u32, _, _>(
+            let not_running_expr = gtk::ClosureExpression::new::<u32, _, _>(
                 &[
                     container_list_expr.chain_property::<model::AbstractContainerList>("created"),
                     container_list_expr.chain_property::<model::AbstractContainerList>("exited"),
+                    container_list_expr.chain_property::<model::AbstractContainerList>("removing"),
                 ],
-                closure!(|_: Self::Type, created: u32, exited: u32| created + exited),
+                closure!(
+                    |_: Self::Type, created: u32, exited: u32, removing: u32| created
+                        + exited
+                        + removing
+                ),
             );
             let paused_expr =
                 container_list_expr.chain_property::<model::AbstractContainerList>("paused");
@@ -105,8 +110,8 @@ mod imp {
             dead_expr.bind(&*self.dead_box, "visible", Some(obj));
             dead_expr.bind(&*self.dead_label, "label", Some(obj));
 
-            created_or_exited_expr.bind(&*self.created_or_exited_box, "visible", Some(obj));
-            created_or_exited_expr.bind(&*self.created_or_exited_label, "label", Some(obj));
+            not_running_expr.bind(&*self.not_running_box, "visible", Some(obj));
+            not_running_expr.bind(&*self.not_running_label, "label", Some(obj));
 
             paused_expr.bind(&*self.paused_box, "visible", Some(obj));
             paused_expr.bind(&*self.paused_label, "label", Some(obj));
@@ -117,7 +122,7 @@ mod imp {
 
         fn dispose(&self, _obj: &Self::Type) {
             self.dead_box.unparent();
-            self.created_or_exited_box.unparent();
+            self.not_running_box.unparent();
             self.paused_box.unparent();
             self.running_box.unparent();
         }

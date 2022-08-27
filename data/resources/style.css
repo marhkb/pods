@@ -67,6 +67,7 @@ connectionchooserpage connectionswitchermenu row {
 
 .container-status-created,
 .container-status-exited,
+.container-status-removing,
 .container-status-stopped,
 .container-status-stopping,
 .pod-status-created,
