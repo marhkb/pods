@@ -100,7 +100,10 @@ impl From<podman::models::ImageData> for ImageData {
             ("architecture", &data.architecture),
             ("author", &data.author),
             ("comment", &data.comment),
-            ("config", &model::ImageConfig::from_libpod(data.config)),
+            (
+                "config",
+                &model::ImageConfig::from_libpod(data.config.unwrap()),
+            ),
         ])
         .expect("Failed to create ImageData")
     }
