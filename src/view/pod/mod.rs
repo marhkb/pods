@@ -19,6 +19,7 @@ fn pod_status_css_class(status: model::PodStatus) -> &'static str {
         Created => "pod-status-created",
         Dead => "pod-status-dead",
         Degraded => "pod-status-degraded",
+        Error => "pod-status-error",
         Exited => "pod-status-exited",
         Paused => "pod-status-paused",
         Restarting => "pod-status-restarting",
