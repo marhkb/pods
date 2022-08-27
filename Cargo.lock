@@ -155,9 +155,8 @@ dependencies = [
 
 [[package]]
 name = "containers-api"
-version = "0.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2d2ca95f626f7be904f6ee24d0a525e7564c5c99544727229577f707dca42468"
+version = "0.3.0"
+source = "git+https://github.com/vv9k/containers-api#25d008966b1367d4312a04566315e2bcedd17e16"
 dependencies = [
  "chrono",
  "flate2",
@@ -1116,8 +1115,8 @@ checksum = "1df8c4ec4b0627e53bdf214615ad287367e482558cf84b109250b37464dc03ae"
 
 [[package]]
 name = "podman-api"
-version = "0.4.0"
-source = "git+https://github.com/marhkb/podman-api-rs.git?branch=staging#134df05fc48dd8c1c784debf7bdf59b4b3e8b672"
+version = "0.5.0"
+source = "git+https://github.com/marhkb/podman-api-rs.git?branch=staging#e3f8c5ce453c0cac8621d5b3defcbc7211c401c4"
 dependencies = [
  "base64",
  "byteorder",
@@ -1139,8 +1138,9 @@ dependencies = [
 
 [[package]]
 name = "podman-api-stubs"
-version = "0.5.0"
-source = "git+https://github.com/marhkb/podman-api-rs.git?branch=staging#134df05fc48dd8c1c784debf7bdf59b4b3e8b672"
+version = "0.6.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a8de51a830dd76ebf77112a42b0e838e897b8ceb466994448ae7340b9fcd9ab2"
 dependencies = [
  "chrono",
  "serde",
@@ -1385,9 +1385,9 @@ checksum = "2fd0db749597d91ff862fd1d55ea87f7855a744a8425a64695b6fca237d1dad1"
 
 [[package]]
 name = "socket2"
-version = "0.4.4"
+version = "0.4.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "66d72b759436ae32898a2af0a14218dbf55efde3feeb170eb623637db85ee1e0"
+checksum = "10c98bba371b9b22a71a9414e420f92ddeb2369239af08200816169d5e2dd7aa"
 dependencies = [
  "libc",
  "winapi",
@@ -1450,7 +1450,7 @@ dependencies = [
  "hostname",
  "libc",
  "log",
- "time 0.3.13",
+ "time 0.3.14",
 ]
 
 [[package]]
@@ -1516,9 +1516,9 @@ dependencies = [
 
 [[package]]
 name = "time"
-version = "0.3.13"
+version = "0.3.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "db76ff9fa4b1458b3c7f077f3ff9887394058460d21e634355b273aaf11eea45"
+checksum = "3c3f9a28b618c3a6b9251b6908e9c99e04b9e5c02e6581ccbb67d59c34ef7f9b"
 dependencies = [
  "itoa",
  "libc",
