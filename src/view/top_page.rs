@@ -15,8 +15,6 @@ use once_cell::unsync::OnceCell;
 use crate::model;
 use crate::podman;
 use crate::utils;
-use crate::view;
-use crate::window::Window;
 
 mod imp {
     use super::*;
@@ -41,13 +39,6 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
-
-            klass.install_action("navigation.go-first", None, move |widget, _, _| {
-                widget.navigate_to_first();
-            });
-            klass.install_action("navigation.back", None, move |widget, _, _| {
-                widget.navigate_back();
-            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -236,26 +227,6 @@ impl TopPage {
                 }),
             );
         }
-    }
-
-    fn navigate_to_first(&self) {
-        self.root_leaflet_overlay().hide_details();
-    }
-
-    fn navigate_back(&self) {
-        self.previous_leaflet_overlay().hide_details();
-    }
-
-    fn previous_leaflet_overlay(&self) -> view::LeafletOverlay {
-        utils::find_parent_leaflet_overlay(self)
-    }
-
-    fn root_leaflet_overlay(&self) -> view::LeafletOverlay {
-        self.root()
-            .unwrap()
-            .downcast::<Window>()
-            .unwrap()
-            .leaflet_overlay()
     }
 }
 
