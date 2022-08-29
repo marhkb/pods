@@ -15,7 +15,6 @@ use once_cell::sync::Lazy;
 use crate::model;
 use crate::utils;
 use crate::view;
-use crate::window::Window;
 
 mod imp {
     use super::*;
@@ -26,9 +25,11 @@ mod imp {
         pub(super) pod: WeakRef<model::Pod>,
         pub(super) handler_id: RefCell<Option<glib::SignalHandlerId>>,
         #[template_child]
-        pub(super) menu_button: TemplateChild<view::PodMenuButton>,
-        #[template_child]
         pub(super) leaflet: TemplateChild<adw::Leaflet>,
+        #[template_child]
+        pub(super) back_navigation_controls: TemplateChild<view::BackNavigationControls>,
+        #[template_child]
+        pub(super) menu_button: TemplateChild<view::PodMenuButton>,
         #[template_child]
         pub(super) id_row: TemplateChild<view::PropertyRow>,
         #[template_child]
@@ -53,13 +54,6 @@ mod imp {
             klass.add_binding_action(gdk::Key::F10, gdk::ModifierType::empty(), "menu.show", None);
             klass.install_action("menu.show", None, |widget, _, _| {
                 widget.show_menu();
-            });
-
-            klass.install_action("navigation.go-first", None, move |widget, _, _| {
-                widget.navigate_to_first();
-            });
-            klass.install_action("navigation.back", None, move |widget, _, _| {
-                widget.navigate_back();
             });
 
             klass.install_action("pod.inspect", None, move |widget, _, _| {
@@ -200,16 +194,7 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for PodDetailsPage {
-        fn realize(&self, widget: &Self::Type) {
-            self.parent_realize(widget);
-
-            widget.action_set_enabled(
-                "navigation.go-first",
-                widget.previous_leaflet_overlay() != widget.root_leaflet_overlay(),
-            );
-        }
-    }
+    impl WidgetImpl for PodDetailsPage {}
 }
 
 glib::wrapper! {
@@ -252,7 +237,7 @@ impl PodDetailsPage {
 
             let handler_id = pod.connect_deleted(clone!(@weak self as obj => move |pod| {
                 utils::show_toast(&obj, &gettext!("Pod '{}' has been deleted", pod.name()));
-                obj.navigate_back();
+                obj.imp().back_navigation_controls.navigate_back();
             }));
             imp.handler_id.replace(Some(handler_id));
         }
@@ -289,26 +274,6 @@ impl PodDetailsPage {
         if let Some(pod) = self.pod() {
             utils::leaflet_overlay(&*self.imp().leaflet).show_details(&view::TopPage::from(&pod));
         }
-    }
-
-    fn navigate_to_first(&self) {
-        self.root_leaflet_overlay().hide_details();
-    }
-
-    fn navigate_back(&self) {
-        self.previous_leaflet_overlay().hide_details();
-    }
-
-    fn previous_leaflet_overlay(&self) -> view::LeafletOverlay {
-        utils::find_parent_leaflet_overlay(self)
-    }
-
-    fn root_leaflet_overlay(&self) -> view::LeafletOverlay {
-        self.root()
-            .unwrap()
-            .downcast::<Window>()
-            .unwrap()
-            .leaflet_overlay()
     }
 
     fn create_container(&self) {
