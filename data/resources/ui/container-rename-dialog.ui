@@ -35,34 +35,42 @@
             <property name="maximum-size">400</property>
 
             <child>
-              <object class="AdwPreferencesGroup">
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <property name="spacing">18</property>
 
                 <child>
-                  <object class="RandomNameEntryRow" id="entry_row">
-                    <property name="title" translatable="yes">Name</property>
-                  </object>
-                </child>
-
-                <child>
-                  <object class="AdwPreferencesRow" id="error_label_row">
-                    <property name="activatable">False</property>
-                    <property name="visible">False</property>
+                  <object class="AdwPreferencesGroup">
 
                     <child>
-                      <object class="GtkRevealer" id="error_label_revealer">
+                      <object class="RandomNameEntryRow" id="entry_row">
+                        <property name="title" translatable="yes">Name</property>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="AdwPreferencesRow" id="error_label_row">
+                        <property name="activatable">False</property>
+                        <property name="visible">False</property>
 
                         <child>
-                          <object class="GtkLabel" id="error_label">
-                            <style>
-                              <class name="error"/>
-                            </style>
-                            <property name="justify">center</property>
-                            <property name="margin-bottom">12</property>
-                            <property name="margin-end">12</property>
-                            <property name="margin-start">12</property>
-                            <property name="margin-top">12</property>
-                            <property name="wrap">True</property>
-                            <property name="wrap-mode">word-char</property>
+                          <object class="GtkRevealer" id="error_label_revealer">
+
+                            <child>
+                              <object class="GtkLabel" id="error_label">
+                                <style>
+                                  <class name="error"/>
+                                </style>
+                                <property name="justify">center</property>
+                                <property name="margin-bottom">12</property>
+                                <property name="margin-end">12</property>
+                                <property name="margin-start">12</property>
+                                <property name="margin-top">12</property>
+                                <property name="wrap">True</property>
+                                <property name="wrap-mode">word-char</property>
+                              </object>
+                            </child>
+
                           </object>
                         </child>
 
@@ -73,19 +81,25 @@
                 </child>
 
                 <child>
-                  <object class="PropertyRow" id="id_row">
-                    <property name="key" translatable="yes">Id</property>
-                  </object>
-                </child>
+                  <object class="AdwPreferencesGroup">
 
-                <child>
-                  <object class="PropertyRow">
-                    <property name="key" translatable="yes">Current Name</property>
-                    <binding name="value">
-                      <lookup name="name" type="Container">
-                        <lookup name="container">ContainerRenameDialog</lookup>
-                      </lookup>
-                    </binding>
+                    <child>
+                      <object class="PropertyRow" id="id_row">
+                        <property name="key" translatable="yes">Id</property>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="PropertyRow">
+                        <property name="key" translatable="yes">Current Name</property>
+                        <binding name="value">
+                          <lookup name="name" type="Container">
+                            <lookup name="container">ContainerRenameDialog</lookup>
+                          </lookup>
+                        </binding>
+                      </object>
+                    </child>
+
                   </object>
                 </child>
 
