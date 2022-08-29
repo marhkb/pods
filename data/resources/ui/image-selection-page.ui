@@ -13,18 +13,7 @@
         <property name="centering-policy">strict</property>
 
         <child type="start">
-          <object class="GtkButton">
-            <property name="icon-name">go-previous-symbolic</property>
-            <property name="action-name">navigation.back</property>
-          </object>
-        </child>
-
-        <child type="start">
-          <object class="GtkButton" id="go_first_button">
-            <property name="icon-name">go-first-symbolic</property>
-            <property name="action-name">navigation.go-first</property>
-            <property name="visible" bind-source="go_first_button" bind-property="sensitive" bind-flags="sync-create"/>
-          </object>
+          <object class="BackNavigationControls" id="back_navigation_controls"/>
         </child>
 
         <child type="title">
