@@ -18,8 +18,6 @@ mod imp {
     pub(crate) struct ContainerRenameDialog {
         pub(super) container: WeakRef<model::Container>,
         #[template_child]
-        pub(super) button_rename: TemplateChild<gtk::Button>,
-        #[template_child]
         pub(super) entry_row: TemplateChild<view::RandomNameEntryRow>,
         #[template_child]
         pub(super) error_label_row: TemplateChild<adw::PreferencesRow>,
@@ -35,11 +33,15 @@ mod imp {
     impl ObjectSubclass for ContainerRenameDialog {
         const NAME: &'static str = "ContainerRenameDialog";
         type Type = super::ContainerRenameDialog;
-        type ParentType = gtk::Dialog;
+        type ParentType = adw::Window;
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
-            klass.install_action("container.rename", None, |widget, _, _| {
+
+            klass.install_action("container-rename-dialog.cancel", None, |widget, _, _| {
+                widget.cancel();
+            });
+            klass.install_action("container-rename-dialog.rename", None, |widget, _, _| {
                 widget.rename();
             });
         }
@@ -100,13 +102,6 @@ mod imp {
                     obj.action_set_enabled("container.rename", !entry.text().is_empty());
                 }));
 
-            // Just setting 'obj.set_default_widget(Some(&*self.button_rename));' seems to have no
-            // effect.
-            self.entry_row
-                .connect_activate(clone!(@weak obj => move |_| {
-                    obj.imp().button_rename.activate();
-                }));
-
             self.error_label_revealer.connect_child_revealed_notify(
                 clone!(@weak obj => move |revealer| {
                     if !revealer.reveals_child() {
@@ -126,23 +121,27 @@ mod imp {
 
     impl WidgetImpl for ContainerRenameDialog {}
     impl WindowImpl for ContainerRenameDialog {}
-    impl DialogImpl for ContainerRenameDialog {}
+    impl AdwWindowImpl for ContainerRenameDialog {}
 }
 
 glib::wrapper! {
     pub(crate) struct ContainerRenameDialog(ObjectSubclass<imp::ContainerRenameDialog>)
-        @extends gtk::Widget, gtk::Window, gtk::Dialog,
+        @extends gtk::Widget, gtk::Window, adw::Window,
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget, gtk::Native, gtk::Root, gtk::ShortcutManager;
 }
 
 impl From<Option<model::Container>> for ContainerRenameDialog {
     fn from(container: Option<model::Container>) -> Self {
-        glib::Object::new(&[("container", &container), ("use-header-bar", &1)])
+        glib::Object::new(&[("container", &container)])
             .expect("Failed to create ContainerRenameDialog")
     }
 }
 
 impl ContainerRenameDialog {
+    fn cancel(&self) {
+        self.close();
+    }
+
     fn rename(&self) {
         let imp = self.imp();
 
@@ -152,7 +151,7 @@ impl ContainerRenameDialog {
                 new_name,
                 clone!(@weak self as obj => move |result| {
                     match result {
-                        Ok(_) => obj.response(gtk::ResponseType::Apply),
+                        Ok(_) => obj.close(),
                         Err(e) => {
                             let imp = obj.imp();
                             imp.entry_row.add_css_class("error");

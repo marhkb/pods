@@ -1,76 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="ContainerRenameDialog" parent="GtkDialog">
+  <template class="ContainerRenameDialog" parent="AdwWindow">
+    <property name="default-widget">button_rename</property>
+    <property name="deletable">False</property>
     <property name="modal">True</property>
     <property name="resizable">False</property>
-    <property name="title"></property>
 
-    <child type="action">
-      <object class="GtkButton" id="button_cancel">
-        <property name="label" translatable="yes">_Cancel</property>
-        <property name="use-underline">True</property>
-      </object>
-    </child>
-
-    <child type="action">
-      <object class="GtkButton" id="button_rename">
-        <style>
-          <class name="suggested-action"/>
-        </style>
-        <property name="action-name">container.rename</property>
-        <property name="label" translatable="yes">_Rename</property>
-        <property name="use-underline">True</property>
-      </object>
-    </child>
-
-    <child internal-child="content_area">
+    <property name="content">
       <object class="GtkBox">
-        <property name="margin-bottom">24</property>
-        <property name="margin-end">18</property>
-        <property name="margin-start">18</property>
-        <property name="margin-top">24</property>
+        <property name="orientation">vertical</property>
+
+        <!-- Headerbar -->
+        <child>
+          <object class="AdwHeaderBar">
+            <property name="centering-policy">strict</property>
+
+            <child type="start">
+              <object class="GtkButton" id="button_cancel">
+                <property name="action-name">container-rename-dialog.cancel</property>
+                <property name="label" translatable="yes">_Cancel</property>
+                <property name="use-underline">True</property>
+              </object>
+            </child>
+
+            <child type="title">
+              <object class="AdwWindowTitle">
+                <property name="title"/>
+              </object>
+            </child>
+
+            <child type="end">
+              <object class="GtkButton" id="button_rename">
+                <style>
+                  <class name="suggested-action"/>
+                </style>
+                <property name="action-name">container-rename-dialog.rename</property>
+                <property name="label" translatable="yes">_Rename</property>
+                <property name="use-underline">True</property>
+              </object>
+            </child>
+
+          </object>
+        </child>
 
         <child>
-          <object class="AdwClamp">
-            <property name="maximum-size">400</property>
+          <object class="AdwPreferencesPage">
 
             <child>
-              <object class="GtkBox">
-                <property name="orientation">vertical</property>
-                <property name="spacing">18</property>
+              <object class="AdwPreferencesGroup">
 
                 <child>
-                  <object class="AdwPreferencesGroup">
+                  <object class="RandomNameEntryRow" id="entry_row">
+                    <property name="activates-default">True</property>
+                    <property name="title" translatable="yes">Name</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwPreferencesRow" id="error_label_row">
+                    <property name="activatable">False</property>
+                    <property name="visible">False</property>
 
                     <child>
-                      <object class="RandomNameEntryRow" id="entry_row">
-                        <property name="title" translatable="yes">Name</property>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="AdwPreferencesRow" id="error_label_row">
-                        <property name="activatable">False</property>
-                        <property name="visible">False</property>
+                      <object class="GtkRevealer" id="error_label_revealer">
 
                         <child>
-                          <object class="GtkRevealer" id="error_label_revealer">
-
-                            <child>
-                              <object class="GtkLabel" id="error_label">
-                                <style>
-                                  <class name="error"/>
-                                </style>
-                                <property name="justify">center</property>
-                                <property name="margin-bottom">12</property>
-                                <property name="margin-end">12</property>
-                                <property name="margin-start">12</property>
-                                <property name="margin-top">12</property>
-                                <property name="wrap">True</property>
-                                <property name="wrap-mode">word-char</property>
-                              </object>
-                            </child>
-
+                          <object class="GtkLabel" id="error_label">
+                            <style>
+                              <class name="error"/>
+                            </style>
+                            <property name="justify">center</property>
+                            <property name="margin-bottom">12</property>
+                            <property name="margin-end">12</property>
+                            <property name="margin-start">12</property>
+                            <property name="margin-top">12</property>
+                            <property name="wrap">True</property>
+                            <property name="wrap-mode">word-char</property>
                           </object>
                         </child>
 
@@ -80,26 +85,26 @@
                   </object>
                 </child>
 
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwPreferencesGroup">
+
                 <child>
-                  <object class="AdwPreferencesGroup">
+                  <object class="PropertyRow" id="id_row">
+                    <property name="key" translatable="yes">Id</property>
+                  </object>
+                </child>
 
-                    <child>
-                      <object class="PropertyRow" id="id_row">
-                        <property name="key" translatable="yes">Id</property>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="PropertyRow">
-                        <property name="key" translatable="yes">Current Name</property>
-                        <binding name="value">
-                          <lookup name="name" type="Container">
-                            <lookup name="container">ContainerRenameDialog</lookup>
-                          </lookup>
-                        </binding>
-                      </object>
-                    </child>
-
+                <child>
+                  <object class="PropertyRow">
+                    <property name="key" translatable="yes">Current Name</property>
+                    <binding name="value">
+                      <lookup name="name" type="Container">
+                        <lookup name="container">ContainerRenameDialog</lookup>
+                      </lookup>
+                    </binding>
                   </object>
                 </child>
 
@@ -110,11 +115,7 @@
         </child>
 
       </object>
-    </child>
-
-    <action-widgets>
-      <action-widget response="cancel">button_cancel</action-widget>
-    </action-widgets>
+    </property>
 
   </template>
 </interface>

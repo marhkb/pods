@@ -242,22 +242,6 @@ impl ContainerMenuButton {
         dialog.set_transient_for(Some(
             &self.root().unwrap().downcast::<gtk::Window>().unwrap(),
         ));
-        dialog.run_async(clone!(@weak self as obj => move |dialog, response| {
-            obj.on_rename_dialog_response(dialog.upcast_ref(), response, |_, dialog| {
-                dialog.connect_response(clone!(@weak obj => move |dialog, response| {
-                    obj.on_rename_dialog_response(dialog, response, |_, _| {});
-                }));
-            });
-        }));
-    }
-
-    fn on_rename_dialog_response<F>(&self, dialog: &gtk::Dialog, response: gtk::ResponseType, op: F)
-    where
-        F: Fn(&Self, &gtk::Dialog),
-    {
-        match response {
-            gtk::ResponseType::Cancel | gtk::ResponseType::Apply => dialog.close(),
-            _ => op(self, dialog),
-        }
+        dialog.present();
     }
 }
