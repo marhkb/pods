@@ -11,7 +11,6 @@ use crate::model;
 use crate::podman;
 use crate::utils;
 use crate::view;
-use crate::window::Window;
 
 mod imp {
     use super::*;
@@ -39,12 +38,6 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
-            klass.install_action("navigation.go-first", None, move |widget, _, _| {
-                widget.navigate_to_first();
-            });
-            klass.install_action("navigation.back", None, move |widget, _, _| {
-                widget.navigate_back();
-            });
 
             klass.install_action("pod.create", None, |widget, _, _| {
                 widget.create();
@@ -106,16 +99,7 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for PodCreationPage {
-        fn realize(&self, widget: &Self::Type) {
-            self.parent_realize(widget);
-
-            widget.action_set_enabled(
-                "navigation.go-first",
-                widget.previous_leaflet_overlay() != widget.root_leaflet_overlay(),
-            );
-        }
-    }
+    impl WidgetImpl for PodCreationPage {}
 }
 
 glib::wrapper! {
@@ -137,26 +121,6 @@ impl PodCreationPage {
 
     fn on_name_changed(&self) {
         self.action_set_enabled("pod.create", self.imp().name_entry_row.text().len() > 0);
-    }
-
-    fn navigate_to_first(&self) {
-        self.root_leaflet_overlay().hide_details();
-    }
-
-    fn navigate_back(&self) {
-        self.previous_leaflet_overlay().hide_details();
-    }
-
-    fn previous_leaflet_overlay(&self) -> view::LeafletOverlay {
-        utils::find_parent_leaflet_overlay(self)
-    }
-
-    fn root_leaflet_overlay(&self) -> view::LeafletOverlay {
-        self.root()
-            .unwrap()
-            .downcast::<Window>()
-            .unwrap()
-            .leaflet_overlay()
     }
 
     fn create(&self) {

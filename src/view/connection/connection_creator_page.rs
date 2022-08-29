@@ -12,7 +12,6 @@ use once_cell::unsync::OnceCell;
 use crate::model;
 use crate::utils;
 use crate::view;
-use crate::window::Window;
 
 mod imp {
     use super::*;
@@ -21,6 +20,8 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/connection-creator-page.ui")]
     pub(crate) struct ConnectionCreatorPage {
         pub(super) connection_manager: OnceCell<model::ConnectionManager>,
+        #[template_child]
+        pub(super) back_navigation_controls: TemplateChild<view::BackNavigationControls>,
         #[template_child]
         pub(super) name_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
@@ -43,13 +44,6 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
-
-            klass.install_action("navigation.go-first", None, move |widget, _, _| {
-                widget.navigate_to_first();
-            });
-            klass.install_action("navigation.back", None, move |widget, _, _| {
-                widget.navigate_back();
-            });
 
             klass.install_action("client.try-connect", None, move |widget, _, _| {
                 widget.try_connect();
@@ -127,11 +121,6 @@ mod imp {
         fn realize(&self, widget: &Self::Type) {
             self.parent_realize(widget);
 
-            widget.action_set_enabled(
-                "navigation.go-first",
-                widget.previous_leaflet_overlay() != widget.root_leaflet_overlay(),
-            );
-
             glib::idle_add_local(
                 clone!(@weak widget => @default-return glib::Continue(false), move || {
                     widget.imp().name_entry_row.grab_focus();
@@ -176,7 +165,7 @@ impl ConnectionCreatorPage {
                 None
             },
             clone!(@weak self as obj => move |result| match result {
-                Ok(_) => obj.navigate_to_first(),
+                Ok(_) => obj.imp().back_navigation_controls.navigate_to_first(),
                 Err(e) => obj.on_error(e),
             }),
         ) {
@@ -186,25 +175,5 @@ impl ConnectionCreatorPage {
 
     fn on_error(&self, e: impl ToString) {
         utils::show_error_toast(self, &gettext("Error"), &e.to_string());
-    }
-
-    fn navigate_to_first(&self) {
-        self.root_leaflet_overlay().hide_details();
-    }
-
-    fn navigate_back(&self) {
-        self.previous_leaflet_overlay().hide_details();
-    }
-
-    fn previous_leaflet_overlay(&self) -> view::LeafletOverlay {
-        utils::find_parent_leaflet_overlay(self)
-    }
-
-    fn root_leaflet_overlay(&self) -> view::LeafletOverlay {
-        self.root()
-            .unwrap()
-            .downcast::<Window>()
-            .unwrap()
-            .leaflet_overlay()
     }
 }

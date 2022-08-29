@@ -1,3 +1,4 @@
+mod back_navigation_controls;
 mod circular_progress_bar;
 mod connection;
 mod container;
@@ -15,6 +16,7 @@ mod text_search_entry;
 mod top_page;
 mod welcome_page;
 
+pub(crate) use self::back_navigation_controls::BackNavigationControls;
 pub(crate) use self::circular_progress_bar::CircularProgressBar;
 pub(crate) use self::connection::ConnectionChooserPage;
 pub(crate) use self::connection::ConnectionCreatorPage;

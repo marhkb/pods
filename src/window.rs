@@ -68,6 +68,7 @@ mod imp {
             Self::bind_template(klass);
 
             // Initialize all classes here
+            view::BackNavigationControls::static_type();
             view::CircularProgressBar::static_type();
             view::ConnectionChooserPage::static_type();
             view::ConnectionRow::static_type();

@@ -14,8 +14,6 @@ use once_cell::sync::Lazy;
 use crate::model;
 use crate::podman;
 use crate::utils;
-use crate::view;
-use crate::window::Window;
 
 #[derive(Clone, Copy, Debug, Default)]
 enum TimeFormat {
@@ -69,12 +67,6 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
-            klass.install_action("navigation.go-first", None, move |widget, _, _| {
-                widget.navigate_to_first();
-            });
-            klass.install_action("navigation.back", None, move |widget, _, _| {
-                widget.navigate_back();
-            });
 
             klass.install_action("images.prune", None, |widget, _, _| {
                 widget.prune();
@@ -233,16 +225,7 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for ImagesPrunePage {
-        fn realize(&self, widget: &Self::Type) {
-            self.parent_realize(widget);
-
-            widget.action_set_enabled(
-                "navigation.go-first",
-                widget.previous_leaflet_overlay() != widget.root_leaflet_overlay(),
-            );
-        }
-    }
+    impl WidgetImpl for ImagesPrunePage {}
 }
 
 glib::wrapper! {
@@ -296,26 +279,6 @@ impl ImagesPrunePage {
                 imp.time_format.set(TimeFormat::Hours24);
             }
         }
-    }
-
-    fn navigate_to_first(&self) {
-        self.root_leaflet_overlay().hide_details();
-    }
-
-    fn navigate_back(&self) {
-        self.previous_leaflet_overlay().hide_details();
-    }
-
-    fn previous_leaflet_overlay(&self) -> view::LeafletOverlay {
-        utils::find_parent_leaflet_overlay(self)
-    }
-
-    fn root_leaflet_overlay(&self) -> view::LeafletOverlay {
-        self.root()
-            .unwrap()
-            .downcast::<Window>()
-            .unwrap()
-            .leaflet_overlay()
     }
 
     fn prune(&self) {
