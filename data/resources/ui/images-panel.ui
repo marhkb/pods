@@ -7,6 +7,10 @@
       <attribute name="action">images.pull</attribute>
     </item>
     <item>
+      <attribute name="label" translatable="yes">_Build…</attribute>
+      <attribute name="action">images.build</attribute>
+    </item>
+    <item>
       <attribute name="label" translatable="yes">_Prune…</attribute>
       <attribute name="action">images.prune-unused</attribute>
     </item>

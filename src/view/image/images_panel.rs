@@ -56,6 +56,10 @@ mod imp {
                 widget.show_download_page();
             });
 
+            klass.install_action("images.build", None, move |widget, _, _| {
+                widget.show_build_page();
+            });
+
             klass.install_action("images.prune-unused", None, move |widget, _, _| {
                 widget.show_prune_page();
             });
@@ -275,6 +279,14 @@ impl ImagesPanel {
 
         if leaflet_overlay.child().is_none() {
             leaflet_overlay.show_details(&view::ImagePullPage::from(self.client().as_ref()));
+        }
+    }
+
+    fn show_build_page(&self) {
+        let leaflet_overlay = utils::find_leaflet_overlay(self);
+
+        if leaflet_overlay.child().is_none() {
+            leaflet_overlay.show_details(&view::ImageBuildPage::from(self.client().as_ref()));
         }
     }
 
