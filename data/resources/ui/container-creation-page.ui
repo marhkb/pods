@@ -47,7 +47,7 @@
                         </child>
 
                         <child type="end">
-                          <object class="AdwSplitButton">
+                          <object class="AdwSplitButton" id="crate_and_run_button">
                             <style>
                               <class name="suggested-action"/>
                             </style>
@@ -69,6 +69,7 @@
 
                             <child>
                               <object class="RandomNameEntryRow" id="name_entry_row">
+                                <property name="activates-default">True</property>
                                 <property name="title" translatable="yes">Name</property>
                               </object>
                             </child>
@@ -206,6 +207,7 @@
 
                                         <child>
                                           <object class="AdwEntryRow" id="command_entry_row">
+                                            <property name="activates-default">True</property>
                                             <property name="title" translatable="yes">Command</property>
                                           </object>
                                         </child>
@@ -367,6 +369,7 @@
 
                                         <child>
                                           <object class="AdwEntryRow" id="health_check_command_entry_row">
+                                            <property name="activates-default">True</property>
                                             <property name="title" translatable="yes">Command</property>
                                           </object>
                                         </child>

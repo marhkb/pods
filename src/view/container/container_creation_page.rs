@@ -42,6 +42,8 @@ mod imp {
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
+        pub(super) crate_and_run_button: TemplateChild<adw::SplitButton>,
+        #[template_child]
         pub(super) name_entry_row: TemplateChild<view::RandomNameEntryRow>,
         #[template_child]
         pub(super) local_image_property_row: TemplateChild<view::PropertyRow>,
@@ -343,7 +345,24 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for ContainerCreationPage {}
+    impl WidgetImpl for ContainerCreationPage {
+        fn root(&self, widget: &Self::Type) {
+            self.parent_root(widget);
+
+            glib::idle_add_local(
+                clone!(@weak widget => @default-return glib::Continue(false), move || {
+                    widget.imp().name_entry_row.grab_focus();
+                    glib::Continue(false)
+                }),
+            );
+            utils::root(widget).set_default_widget(Some(&*self.crate_and_run_button));
+        }
+
+        fn unroot(&self, widget: &Self::Type) {
+            utils::root(widget).set_default_widget(gtk::Widget::NONE);
+            self.parent_unroot(widget)
+        }
+    }
 }
 
 glib::wrapper! {
