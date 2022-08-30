@@ -181,8 +181,8 @@ mod imp {
     }
 
     impl WidgetImpl for ImageSearchWidget {
-        fn realize(&self, widget: &Self::Type) {
-            self.parent_realize(widget);
+        fn root(&self, widget: &Self::Type) {
+            self.parent_root(widget);
             glib::idle_add_local(
                 clone!(@weak widget => @default-return glib::Continue(false), move || {
                     widget.imp().search_entry_row.grab_focus();
