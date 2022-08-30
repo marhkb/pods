@@ -23,6 +23,8 @@ mod imp {
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
+        pub(super) preferences_page: TemplateChild<adw::PreferencesPage>,
+        #[template_child]
         pub(super) name_entry_row: TemplateChild<view::RandomNameEntryRow>,
         #[template_child]
         pub(super) hostname_entry_row: TemplateChild<adw::EntryRow>,
@@ -124,7 +126,10 @@ impl PodCreationPage {
     }
 
     fn create(&self) {
+        self.action_set_enabled("pod.create", false);
+
         let imp = self.imp();
+        imp.preferences_page.set_sensitive(false);
 
         let opts = podman::opts::PodCreateOpts::builder()
             .name(imp.name_entry_row.text().as_str())
@@ -160,6 +165,9 @@ impl PodCreationPage {
                             "Error while creating pod",
                             &e.to_string()
                         );
+
+                        obj.action_set_enabled("pod.create", true);
+                        obj.imp().preferences_page.set_sensitive(true);
                     }
                 }
             }),

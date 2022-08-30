@@ -52,7 +52,7 @@
                     </child>
 
                     <child>
-                      <object class="AdwPreferencesPage">
+                      <object class="AdwPreferencesPage" id="preferences_page">
                         <property name="vexpand">True</property>
 
                         <child>
