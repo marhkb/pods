@@ -46,8 +46,8 @@ mod imp {
     }
 
     impl WidgetImpl for BackNavigationControls {
-        fn realize(&self, widget: &Self::Type) {
-            self.parent_realize(widget);
+        fn root(&self, widget: &Self::Type) {
+            self.parent_root(widget);
 
             widget.action_set_enabled(
                 "navigation.go-first",
