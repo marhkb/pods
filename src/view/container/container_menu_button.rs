@@ -239,9 +239,7 @@ impl ContainerMenuButton {
 
     fn rename(&self) {
         let dialog = view::ContainerRenameDialog::from(self.container());
-        dialog.set_transient_for(Some(
-            &self.root().unwrap().downcast::<gtk::Window>().unwrap(),
-        ));
+        dialog.set_transient_for(Some(&utils::root(self)));
         dialog.present();
     }
 }
