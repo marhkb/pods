@@ -1,4 +1,5 @@
 use adw::subclass::prelude::*;
+use gtk::gdk;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
@@ -87,6 +88,21 @@ mod imp {
 
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
+
+            let key_events = gtk::EventControllerKey::new();
+            obj.add_controller(&key_events);
+            key_events.connect_key_pressed(
+                clone!(@weak obj => @default-return gtk::Inhibit(false), move |_, key, _, _| {
+                    gtk::Inhibit(
+                        if key == gdk::Key::Escape {
+                            obj.cancel();
+                            true
+                        } else {
+                            false
+                        }
+                    )
+                }),
+            );
 
             if let Some(name) = self.container.upgrade().map(|container| container.name()) {
                 self.entry_row.set_text(&name);
