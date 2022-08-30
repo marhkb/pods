@@ -11,8 +11,6 @@ use once_cell::sync::Lazy;
 use crate::model;
 use crate::utils;
 use crate::view;
-use crate::window::Window;
-
 mod imp {
     use super::*;
 
@@ -145,12 +143,9 @@ impl ContainersPanel {
 
         if leaflet_overlay.child().is_none() {
             leaflet_overlay.show_details(&view::ContainerCreationPage::from(
-                self.root()
-                    .unwrap()
-                    .downcast::<Window>()
-                    .unwrap()
-                    .connection_manager()
-                    .client()
+                self.container_list()
+                    .as_ref()
+                    .and_then(model::ContainerList::client)
                     .as_ref(),
             ));
         }
