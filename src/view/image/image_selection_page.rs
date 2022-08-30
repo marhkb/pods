@@ -8,6 +8,7 @@ use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
 
 use crate::model;
+use crate::utils;
 use crate::view;
 
 mod imp {
@@ -19,6 +20,8 @@ mod imp {
         pub(super) client: WeakRef<model::Client>,
         #[template_child]
         pub(super) header_bar: TemplateChild<adw::HeaderBar>,
+        #[template_child]
+        pub(super) select_button: TemplateChild<gtk::Button>,
         #[template_child]
         pub(super) back_navigation_controls: TemplateChild<view::BackNavigationControls>,
         #[template_child]
@@ -108,7 +111,17 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for ImageSelectionPage {}
+    impl WidgetImpl for ImageSelectionPage {
+        fn root(&self, widget: &Self::Type) {
+            self.parent_root(widget);
+            utils::root(widget).set_default_widget(Some(&*self.select_button));
+        }
+
+        fn unroot(&self, widget: &Self::Type) {
+            utils::root(widget).set_default_widget(gtk::Widget::NONE);
+            self.parent_unroot(widget)
+        }
+    }
 }
 
 glib::wrapper! {
