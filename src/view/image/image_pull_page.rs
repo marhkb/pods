@@ -21,6 +21,8 @@ mod imp {
     pub(crate) struct ImagePullPage {
         pub(super) client: WeakRef<model::Client>,
         #[template_child]
+        pub(super) pull_button: TemplateChild<gtk::Button>,
+        #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) image_search_widget: TemplateChild<view::ImageSearchWidget>,
@@ -100,7 +102,17 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for ImagePullPage {}
+    impl WidgetImpl for ImagePullPage {
+        fn root(&self, widget: &Self::Type) {
+            self.parent_root(widget);
+            utils::root(widget).set_default_widget(Some(&*self.pull_button));
+        }
+
+        fn unroot(&self, widget: &Self::Type) {
+            utils::root(widget).set_default_widget(gtk::Widget::NONE);
+            self.parent_unroot(widget)
+        }
+    }
 }
 
 glib::wrapper! {

@@ -33,7 +33,7 @@
                     </child>
 
                     <child type="end">
-                      <object class="GtkButton">
+                      <object class="GtkButton" id="pull_button">
                         <style>
                           <class name="suggested-action"/>
                         </style>
