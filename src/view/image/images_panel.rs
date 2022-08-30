@@ -16,7 +16,6 @@ use once_cell::sync::OnceCell;
 use crate::model;
 use crate::utils;
 use crate::view;
-use crate::window::Window;
 
 mod imp {
     use super::*;
@@ -288,11 +287,8 @@ impl ImagesPanel {
     }
 
     fn client(&self) -> Option<model::Client> {
-        self.root()
-            .unwrap()
-            .downcast::<Window>()
-            .unwrap()
-            .connection_manager()
-            .client()
+        self.image_list()
+            .as_ref()
+            .and_then(model::ImageList::client)
     }
 }

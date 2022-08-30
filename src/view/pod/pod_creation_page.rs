@@ -19,9 +19,12 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/pod-creation-page.ui")]
     pub(crate) struct PodCreationPage {
         pub(super) client: WeakRef<model::Client>,
-
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
+        #[template_child]
+        pub(super) create_button: TemplateChild<gtk::Button>,
+        #[template_child]
+        pub(super) preferences_page: TemplateChild<adw::PreferencesPage>,
         #[template_child]
         pub(super) name_entry_row: TemplateChild<view::RandomNameEntryRow>,
         #[template_child]
@@ -99,7 +102,24 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for PodCreationPage {}
+    impl WidgetImpl for PodCreationPage {
+        fn root(&self, widget: &Self::Type) {
+            self.parent_root(widget);
+
+            glib::idle_add_local(
+                clone!(@weak widget => @default-return glib::Continue(false), move || {
+                    widget.imp().name_entry_row.grab_focus();
+                    glib::Continue(false)
+                }),
+            );
+            utils::root(widget).set_default_widget(Some(&*self.create_button));
+        }
+
+        fn unroot(&self, widget: &Self::Type) {
+            utils::root(widget).set_default_widget(gtk::Widget::NONE);
+            self.parent_unroot(widget)
+        }
+    }
 }
 
 glib::wrapper! {
@@ -124,7 +144,10 @@ impl PodCreationPage {
     }
 
     fn create(&self) {
+        self.action_set_enabled("pod.create", false);
+
         let imp = self.imp();
+        imp.preferences_page.set_sensitive(false);
 
         let opts = podman::opts::PodCreateOpts::builder()
             .name(imp.name_entry_row.text().as_str())
@@ -160,6 +183,9 @@ impl PodCreationPage {
                             "Error while creating pod",
                             &e.to_string()
                         );
+
+                        obj.action_set_enabled("pod.create", true);
+                        obj.imp().preferences_page.set_sensitive(true);
                     }
                 }
             }),

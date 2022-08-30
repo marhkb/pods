@@ -23,6 +23,8 @@ mod imp {
         #[template_child]
         pub(super) back_navigation_controls: TemplateChild<view::BackNavigationControls>,
         #[template_child]
+        pub(super) connect_button: TemplateChild<gtk::Button>,
+        #[template_child]
         pub(super) name_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
         pub(super) unix_socket_url_row: TemplateChild<adw::ActionRow>,
@@ -118,8 +120,8 @@ mod imp {
     }
 
     impl WidgetImpl for ConnectionCreatorPage {
-        fn realize(&self, widget: &Self::Type) {
-            self.parent_realize(widget);
+        fn root(&self, widget: &Self::Type) {
+            self.parent_root(widget);
 
             glib::idle_add_local(
                 clone!(@weak widget => @default-return glib::Continue(false), move || {
@@ -127,6 +129,12 @@ mod imp {
                     glib::Continue(false)
                 }),
             );
+            utils::root(widget).set_default_widget(Some(&*self.connect_button));
+        }
+
+        fn unroot(&self, widget: &Self::Type) {
+            utils::root(widget).set_default_widget(gtk::Widget::NONE);
+            self.parent_unroot(widget)
         }
     }
 }

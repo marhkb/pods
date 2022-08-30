@@ -22,7 +22,7 @@
         </child>
 
         <child type="end">
-          <object class="GtkButton">
+          <object class="GtkButton" id="connect_button">
             <style>
               <class name="suggested-action"/>
             </style>
@@ -43,6 +43,7 @@
 
             <child>
               <object class="AdwEntryRow" id="name_entry_row">
+                <property name="activates-default">True</property>
                 <property name="title" translatable="yes">Name</property>
               </object>
             </child>

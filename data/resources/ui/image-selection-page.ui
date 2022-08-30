@@ -23,7 +23,7 @@
         </child>
 
         <child type="end">
-          <object class="GtkButton">
+          <object class="GtkButton" id="select_button">
             <style>
               <class name="suggested-action"/>
             </style>

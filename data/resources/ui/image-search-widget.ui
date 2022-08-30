@@ -50,6 +50,7 @@ You cannot search for images without registries. Please follow the instructions 
 
                     <child>
                       <object class="AdwEntryRow" id="search_entry_row">
+                        <property name="activates-default">True</property>
                         <property name="title" translatable="yes">Search for</property>
                       </object>
                     </child>
@@ -182,6 +183,7 @@ You cannot search for images without registries. Please follow the instructions 
 
                     <child>
                       <object class="AdwEntryRow" id="tag_entry_row">
+                        <property name="activates-default">True</property>
                         <property name="title" translatable="yes">Tag ('latest' if empty)</property>
                       </object>
                     </child>

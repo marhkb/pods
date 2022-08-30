@@ -38,7 +38,7 @@
                         </child>
 
                         <child type="end">
-                          <object class="GtkButton">
+                          <object class="GtkButton" id="create_button">
                             <style>
                               <class name="suggested-action"/>
                             </style>
@@ -52,7 +52,7 @@
                     </child>
 
                     <child>
-                      <object class="AdwPreferencesPage">
+                      <object class="AdwPreferencesPage" id="preferences_page">
                         <property name="vexpand">True</property>
 
                         <child>
@@ -60,6 +60,7 @@
 
                             <child>
                               <object class="RandomNameEntryRow" id="name_entry_row">
+                                <property name="activates-default">True</property>
                                 <property name="title" translatable="yes">Name</property>
                               </object>
                             </child>
@@ -72,6 +73,7 @@
 
                             <child>
                               <object class="AdwEntryRow" id="hostname_entry_row">
+                                <property name="activates-default">True</property>
                                 <property name="title" translatable="yes">Hostname</property>
                               </object>
                             </child>

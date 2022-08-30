@@ -16,7 +16,6 @@ use once_cell::sync::OnceCell;
 use crate::model;
 use crate::utils;
 use crate::view;
-use crate::window::Window;
 
 mod imp {
     use super::*;
@@ -255,12 +254,9 @@ impl PodsPanel {
 
         if leaflet_overlay.child().is_none() {
             leaflet_overlay.show_details(&view::PodCreationPage::from(
-                self.root()
-                    .unwrap()
-                    .downcast::<Window>()
-                    .unwrap()
-                    .connection_manager()
-                    .client()
+                self.pod_list()
+                    .as_ref()
+                    .and_then(model::PodList::client)
                     .as_ref(),
             ));
         }
