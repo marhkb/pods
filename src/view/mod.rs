@@ -36,6 +36,7 @@ pub(crate) use self::container::ContainersPanel;
 pub(crate) use self::container::EnvVarRow;
 pub(crate) use self::container::PortMappingRow;
 pub(crate) use self::container::VolumeRow;
+pub(crate) use self::image::ImageBuildingPage;
 pub(crate) use self::image::ImageDetailsPage;
 pub(crate) use self::image::ImageMenuButton;
 pub(crate) use self::image::ImagePullPage;

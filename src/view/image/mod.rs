@@ -1,3 +1,4 @@
+mod image_building_page;
 mod image_details_page;
 mod image_menu_button;
 mod image_pull_page;
@@ -10,6 +11,7 @@ mod image_selection_page;
 mod images_panel;
 mod images_prune_page;
 
+pub(crate) use self::image_building_page::ImageBuildingPage;
 pub(crate) use self::image_details_page::ImageDetailsPage;
 pub(crate) use self::image_menu_button::ImageMenuButton;
 pub(crate) use self::image_pull_page::ImagePullPage;
