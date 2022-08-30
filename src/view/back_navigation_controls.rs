@@ -5,7 +5,6 @@ use gtk::CompositeTemplate;
 
 use crate::utils;
 use crate::view;
-use crate::window::Window;
 
 mod imp {
     use super::*;
@@ -77,10 +76,6 @@ impl BackNavigationControls {
     }
 
     fn root_leaflet_overlay(&self) -> view::LeafletOverlay {
-        self.root()
-            .unwrap()
-            .downcast::<Window>()
-            .unwrap()
-            .leaflet_overlay()
+        utils::root(self).leaflet_overlay()
     }
 }
