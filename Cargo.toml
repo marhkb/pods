@@ -7,6 +7,7 @@ edition = "2021"
 [dependencies]
 adw = { version = "0.2.0-alpha.2", package = "libadwaita", features = ["v1_2"] }
 anyhow = "=1.0"
+ashpd = { version = "0.3", features = ["feature_gtk4"] }
 cascade = "1"
 futures = { version = "0.3", default-features = false }
 gettext-rs = { version = "0.7", features = ["gettext-system"] }
