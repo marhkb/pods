@@ -270,7 +270,8 @@ impl PodMenuButton {
 
                     )
                     .modal(true)
-                    .transient_for(self.root().unwrap().downcast_ref::<gtk::Window>().unwrap()).build();
+                    .transient_for(&utils::root(self))
+                    .build();
 
                 dialog.add_responses(&[
                     ("cancel", &gettext("_Cancel")),
