@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="ImageBuildPage" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBinLayout"/>
+    </property>
+
+    <child>
+      <object class="GtkStack" id="stack">
+        <property name="transition-type">crossfade</property>
+
+        <child>
+          <object class="GtkStackPage">
+            <property name="name">build-settings</property>
+
+            <property name="child">
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
+
+                <!-- Headerbar -->
+                <child>
+                  <object class="AdwHeaderBar">
+                    <property name="centering-policy">strict</property>
+
+                    <child type="start">
+                      <object class="BackNavigationControls"/>
+                    </child>
+
+                    <child type="title">
+                      <object class="AdwWindowTitle">
+                        <property name="title" translatable="yes">Image Construction</property>
+                      </object>
+                    </child>
+
+                    <child type="end">
+                      <object class="GtkButton" id="build_button">
+                        <style>
+                          <class name="suggested-action"/>
+                        </style>
+                        <property name="action-name">image.build</property>
+                        <property name="label" translatable="yes">_Build</property>
+                        <property name="use-underline">True</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwPreferencesPage">
+
+                    <child>
+                      <object class="AdwPreferencesGroup">
+
+                        <child>
+                          <object class="AdwEntryRow" id="tag_entry_row">
+                            <property name="activates-default">True</property>
+                            <property name="title" translatable="yes">Image Name</property>
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="AdwPreferencesGroup">
+
+                        <child>
+                          <object class="AdwActionRow" id="context_dir_row">
+                            <property name="activatable-widget">open_context_dir_button</property>
+                            <property name="title" translatable="yes">Build Context Directory</property>
+
+                            <child type="suffix">
+                              <object class="GtkButton" id="open_context_dir_button">
+                                <property name="action-name">image.choose-context-dir</property>
+                                <property name="label" translatable="yes">Select…</property>
+                                <property name="valign">center</property>
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="AdwEntryRow" id="container_file_path_entry_row">
+                            <property name="activates-default">True</property>
+                            <property name="title" translatable="yes">Containerfile Path Relative to Build Context Directory</property>
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+              </object>
+            </property>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwBin" id="image_building_page_bin"/>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>

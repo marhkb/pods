@@ -22,6 +22,7 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/containers-group.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/containers-panel.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/env-var-row.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/image-build-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/image-building-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/image-details-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/image-menu-button.ui</file>
