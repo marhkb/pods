@@ -104,6 +104,10 @@ impl Deref for PodsSettings {
     }
 }
 
+pub(crate) fn root<W: glib::IsA<gtk::Widget>>(widget: &W) -> Window {
+    widget.root().unwrap().downcast::<Window>().unwrap()
+}
+
 pub(crate) fn show_toast<W: glib::IsA<gtk::Widget>>(widget: &W, title: &str) {
     widget
         .root()
