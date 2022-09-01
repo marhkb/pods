@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-08-14 23:18+0200\n"
-"PO-Revision-Date: 2022-08-13 18:22+0000\n"
+"PO-Revision-Date: 2022-09-02 09:00+0000\n"
 "Last-Translator: Óscar Fernández Díaz <oscfdezdz@tuta.io>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/pods/pods/es/>\n"
 "Language: es\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.14-dev\n"
+"X-Generator: Weblate 4.14.1-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
@@ -88,9 +88,8 @@ msgid "Whether to show only running containers"
 msgstr "Si se muestran sólo los contenedores en funcionamiento"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:61
-#, fuzzy
 msgid "Whether to show only running pods"
-msgstr "Si se muestran sólo los contenedores en funcionamiento"
+msgstr "Si se muestran sólo las cápsulas en funcionamiento"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:66
 msgid "Whether to show a timestamp for each log line"
@@ -188,9 +187,8 @@ msgstr "Imagen remota"
 #: data/resources/ui/container-creation-page.ui:181
 #: data/resources/ui/container-creation-page.ui:188
 #: data/resources/ui/container-properties-group.ui:139
-#, fuzzy
 msgid "Pod"
-msgstr "Cápsulas"
+msgstr "Cápsula"
 
 #: data/resources/ui/container-creation-page.ui:206
 msgid "Pull latest image"
@@ -223,7 +221,7 @@ msgstr "GB"
 
 #: data/resources/ui/container-creation-page.ui:308
 msgid "Integration"
-msgstr ""
+msgstr "Integración"
 
 #: data/resources/ui/container-creation-page.ui:318
 msgid "Port Mappings"
@@ -240,49 +238,53 @@ msgstr "Variables de entorno"
 #: data/resources/ui/container-creation-page.ui:369
 #: data/resources/ui/container-properties-group.ui:86
 msgid "Health Check"
-msgstr ""
+msgstr "Análisis de salud"
 
 #: data/resources/ui/container-creation-page.ui:384
 msgid "Interval"
-msgstr ""
+msgstr "Intervalo"
 
 #: data/resources/ui/container-creation-page.ui:385
 msgid "Interval how often health check is run."
-msgstr ""
+msgstr "Intervalo con el que se ejecuta el análisis de salud."
 
 #: data/resources/ui/container-creation-page.ui:408
 #: data/resources/ui/container-creation-page.ui:444
 #: data/resources/ui/container-creation-page.ui:480
 msgid "seconds"
-msgstr ""
+msgstr "segundos"
 
 #: data/resources/ui/container-creation-page.ui:420
 msgid "Timeout"
-msgstr ""
+msgstr "Tiempo límite"
 
 #: data/resources/ui/container-creation-page.ui:421
 msgid ""
 "The maximum time allowed to complete the health check before an interval is "
 "considered failed."
 msgstr ""
+"El tiempo límite para completar el análisis de salud antes de que un "
+"intervalo se considere fallido."
 
 #: data/resources/ui/container-creation-page.ui:456
 msgid "Start period"
-msgstr ""
+msgstr "Período inicial"
 
 #: data/resources/ui/container-creation-page.ui:457
 msgid "The initialization time needed for a container to bootstrap."
-msgstr ""
+msgstr "El tiempo de inicio que necesita un contenedor para arrancar."
 
 #: data/resources/ui/container-creation-page.ui:492
 msgid "Retries"
-msgstr ""
+msgstr "Reintentos"
 
 #: data/resources/ui/container-creation-page.ui:493
 msgid ""
 "The number of retries allowed before a healthcheck is considered to be "
 "unhealthy."
 msgstr ""
+"El número de reintentos permitidos antes de que se considere que un análisis "
+"no es saludable."
 
 #: data/resources/ui/container-creation-page.ui:580
 #: data/resources/ui/image-pulling-page.ui:42
@@ -358,7 +360,7 @@ msgstr "Coincidir sólo con la _palabra completa"
 
 #: data/resources/ui/container-log-page.ui:228
 msgid "Loading previous lines"
-msgstr ""
+msgstr "Cargando líneas anteriores"
 
 #: data/resources/ui/container-menu-button.ui:6
 #: data/resources/ui/pod-menu-button.ui:12
@@ -406,7 +408,7 @@ msgstr "_Confirmar"
 #: data/resources/ui/container-menu-button.ui:57
 #: data/resources/ui/pod-menu-button.ui:49
 msgid "_Delete"
-msgstr "_Quitar"
+msgstr "_Eliminar"
 
 #: data/resources/ui/container-properties-group.ui:5
 #: data/resources/ui/image-details-page.ui:59
@@ -449,25 +451,23 @@ msgstr "_Renombrar"
 
 #: data/resources/ui/container-resources-quick-reference-group.ui:13
 msgid "Resources Quick Reference"
-msgstr ""
+msgstr "Referencia rápida de recursos"
 
 #: data/resources/ui/container-resources-quick-reference-group.ui:41
-#, fuzzy
 msgid "CPU"
-msgstr "TCP"
+msgstr "CPU"
 
 #: data/resources/ui/container-resources-quick-reference-group.ui:89
-#, fuzzy
 msgid "Memory"
-msgstr "Límite de memoria"
+msgstr "Memoria"
 
 #: data/resources/ui/container-resources-quick-reference-group.ui:132
 msgid "Network"
-msgstr ""
+msgstr "Red"
 
 #: data/resources/ui/container-resources-quick-reference-group.ui:231
 msgid "Disk"
-msgstr ""
+msgstr "Disco"
 
 #: data/resources/ui/containers-group.ui:14 data/resources/ui/pods-panel.ui:62
 msgid "Only running"
@@ -509,7 +509,7 @@ msgstr "_Crear contenedor…"
 
 #: data/resources/ui/image-menu-button.ui:13
 msgid "Delete"
-msgstr "Quitar"
+msgstr "Eliminar"
 
 #: data/resources/ui/image-pulling-page.ui:43
 msgid ""
@@ -573,21 +573,19 @@ msgstr "Por favor, vuelva a intentar otro término."
 
 #: data/resources/ui/image-search-widget.ui:185
 msgid "Tag ('latest' if empty)"
-msgstr ""
+msgstr "Etiqueta (\"última\" si está vacía)"
 
 #: data/resources/ui/image-selection-page.ui:42
 msgid "_Select"
 msgstr "_Seleccionar"
 
 #: data/resources/ui/images-panel.ui:6
-#, fuzzy
 msgid "_Download…"
-msgstr "Descargar"
+msgstr "_Descargar…"
 
 #: data/resources/ui/images-panel.ui:10
-#, fuzzy
 msgid "_Prune…"
-msgstr "_Eliminar"
+msgstr "_Eliminar…"
 
 #: data/resources/ui/images-panel.ui:73
 msgid "Intermediates"
@@ -737,24 +735,21 @@ msgid "Volume Path"
 msgstr "Ruta del volumen"
 
 #: data/resources/ui/pod-creation-page.ui:47
-#, fuzzy
 msgid "Specify Pod Settings"
-msgstr "Especificar la configuración del eliminado"
+msgstr "Especificar la configuración de la cápsula"
 
 #: data/resources/ui/pod-creation-page.ui:57
-#, fuzzy
 msgid "Create"
-msgstr "_Crear"
+msgstr "Crear"
 
 #: data/resources/ui/pod-creation-page.ui:86
 #: data/resources/ui/pod-details-page.ui:84
 msgid "Hostname"
-msgstr ""
+msgstr "Nombre del host"
 
 #: data/resources/ui/pod-details-page.ui:40
-#, fuzzy
 msgid "Pod Details"
-msgstr "Detalles"
+msgstr "Detalles de la cápsula"
 
 #: data/resources/ui/pod-details-page.ui:128
 #: data/resources/ui/search-panel.ui:68 data/resources/ui/window.ui:182
@@ -762,15 +757,13 @@ msgid "Containers"
 msgstr "Contenedores"
 
 #: data/resources/ui/pod-details-page.ui:129
-#, fuzzy
 msgid "There are no containers in this pod."
-msgstr "No hay contenedores asociados a esta imagen."
+msgstr "No hay contenedores en esta cápsula."
 
 #: data/resources/ui/pod-details-page.ui:140
-#, fuzzy
 msgid "View processes that are currently running inside the pod."
 msgstr ""
-"Ver los procesos que se están ejecutando actualmente dentro del contenedor"
+"Ver los procesos que se están ejecutando actualmente dentro de la cápsula."
 
 #: data/resources/ui/port-mapping-row.ui:29
 msgid "IP address"
@@ -813,7 +806,7 @@ msgstr "Mostrar atajos"
 #: data/resources/ui/shortcuts.ui:24
 msgctxt "shortcut window"
 msgid "Show menu"
-msgstr ""
+msgstr "Mostrar menú"
 
 #: data/resources/ui/shortcuts.ui:31
 msgctxt "shortcut window"
@@ -828,65 +821,57 @@ msgstr "Buscar"
 #: data/resources/ui/shortcuts.ui:48
 msgctxt "shortcut window"
 msgid "Navigation"
-msgstr ""
+msgstr "Navegación"
 
 #: data/resources/ui/shortcuts.ui:52
 msgctxt "shortcut window"
 msgid "Go back"
-msgstr ""
+msgstr "Volver"
 
 #: data/resources/ui/shortcuts.ui:59
 msgctxt "shortcut window"
 msgid "Return to main view"
-msgstr ""
+msgstr "Volver a la vista principal"
 
 #: data/resources/ui/shortcuts.ui:69
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Podman"
-msgstr "Información de Podman"
+msgstr "Podman"
 
 #: data/resources/ui/shortcuts.ui:73
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Add a new connection"
-msgstr "Añadir conexión nueva"
+msgstr "Añadir una conexión nueva"
 
 #: data/resources/ui/shortcuts.ui:80
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Create a new entity"
-msgstr "Crear y ejecutar"
+msgstr "Crear una entidad nueva"
 
 #: data/resources/ui/shortcuts.ui:90
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Container"
-msgstr "Contenedores"
+msgstr "Contenedor"
 
 #: data/resources/ui/shortcuts.ui:94
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Start"
-msgstr "_Iniciar"
+msgstr "Iniciar"
 
 #: data/resources/ui/shortcuts.ui:101
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Stop"
-msgstr "_Detener"
+msgstr "Detener"
 
 #: data/resources/ui/shortcuts.ui:108
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Restart"
-msgstr "R_einiciar"
+msgstr "Reiniciar"
 
 #: data/resources/ui/shortcuts.ui:115
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Rename"
-msgstr "_Renombrar"
+msgstr "Renombrar"
 
 #: data/resources/ui/volume-row.ui:34
 msgid "Host path"
@@ -936,7 +921,6 @@ msgid "_Add Connection"
 msgstr "_Añadir conexión"
 
 #: data/resources/ui/window.ui:7
-#, fuzzy
 msgid "_Add connection…"
 msgstr "_Añadir conexión…"
 
@@ -957,9 +941,8 @@ msgid "translator-credits"
 msgstr "Óscar Fernández Díaz <oscfdezdz@tuta.io>"
 
 #: src/application.rs:189
-#, fuzzy
 msgid "Translators"
-msgstr "Óscar Fernández Díaz <oscfdezdz@tuta.io>"
+msgstr "Traductores"
 
 #: src/main.rs:113
 msgid "Prints application version"
@@ -1003,24 +986,23 @@ msgstr "Desconocido"
 
 #: src/model/container.rs:116
 msgid "Checking"
-msgstr ""
+msgstr "Comprobando"
 
 #: src/model/container.rs:117
 msgid "Healthy"
-msgstr ""
+msgstr "Sano"
 
 #: src/model/container.rs:118
 msgid "Unhealthy"
-msgstr ""
+msgstr "Poco sano"
 
 #: src/model/container.rs:119
-#, fuzzy
 msgid "Unconfigured"
-msgstr "Configurado"
+msgstr "Sin configurar"
 
 #: src/model/pod.rs:73
 msgid "Degraded"
-msgstr ""
+msgstr "Degradado"
 
 #. Translators: This string will be shown when a property of an entity like an image is null.
 #: src/utils.rs:179
@@ -1044,14 +1026,12 @@ msgid "Error on swwitching connection"
 msgstr "Error al conmutar la conexión"
 
 #: src/view/container/container_details_page.rs:202
-#, fuzzy
 msgid "Container '{}' has been deleted"
-msgstr "El contenedor ha sido quitado"
+msgstr "El contenedor '{}' ha sido eliminado"
 
 #: src/view/container/container_log_page.rs:287
-#, fuzzy
 msgid "0 of {}"
-msgstr "{} de {}"
+msgstr "0 de {}"
 
 #: src/view/container/container_log_page.rs:551
 msgid "{} of {}"
@@ -1082,38 +1062,35 @@ msgstr "Renombrar el contenedor «{}»"
 #: src/view/container/container_resources_quick_reference_group.rs:140
 #: src/view/container/container_resources_quick_reference_group.rs:267
 msgid "?"
-msgstr ""
+msgstr "?"
 
 #: src/view/container/container_resources_quick_reference_group.rs:104
 msgid "{} %"
-msgstr ""
+msgstr "{} %"
 
 #: src/view/container/container_resources_quick_reference_group.rs:125
 msgid "{} / {} ({} %)"
-msgstr ""
+msgstr "{} / {} ({} %)"
 
 #. Translators: For example 5 MB / s.
 #: src/view/container/container_resources_quick_reference_group.rs:254
 msgid "{} / s"
-msgstr ""
+msgstr "{} / s"
 
 #: src/view/container/containers_group.rs:126
-#, fuzzy
 msgid "1 container, running"
-msgstr "{} Contenedores en total, {} en ejecución"
+msgstr "1 contenedor, en ejecución"
 
 #: src/view/container/containers_group.rs:128
-#, fuzzy
 msgid "1 container, stopped"
-msgstr "Tienda de contenedores"
+msgstr "1 contenedor, detenido"
 
 #. Translators: There's a wide space (U+2002) between ", {}".
 #: src/view/container/containers_group.rs:133
-#, fuzzy
 msgid "{} container total, {} running"
 msgid_plural "{} containers total, {} running"
-msgstr[0] "{} Contenedores en total, {} en ejecución"
-msgstr[1] "{} Contenedores en total, {} en ejecución"
+msgstr[0] "{} contenedor en total, {} en ejecución"
+msgstr[1] "{} contenedores en total, {} en ejecución"
 
 #. Translators: "{}" are placeholders for storage space.
 #: src/view/image/image_details_page.rs:190
@@ -1131,13 +1108,12 @@ msgid "{} (Shared: {}, Virtual: {})"
 msgstr "{} (Compartida: {}, Virtual: {})"
 
 #: src/view/image/image_details_page.rs:310
-#, fuzzy
 msgid "Image '{}' has been deleted"
-msgstr "La imagen ha sido quitada"
+msgstr "La imagen '{}' ha sido eliminada"
 
 #: src/view/image/image_menu_button.rs:187
 msgid "Confirm Forced Image Deletion"
-msgstr ""
+msgstr "Confirmar eliminado forzoso de imágenes"
 
 #. Translators: The "{}" is a placeholder for the container name.
 #: src/view/image/image_menu_button.rs:193
@@ -1145,22 +1121,25 @@ msgid ""
 "Image is used by container <b>{}</b>. Deleting the image will also delete "
 "all its associated containers."
 msgstr ""
+"La imagen es usada por el contenedor <b>{}</b>. Al eliminar la imagen "
+"también se eliminarán todos sus contenedores asociados."
 
 #: src/view/image/image_menu_button.rs:197
 msgid ""
 "Image is used by a container. Deleting the image will also delete all its "
 "associated containers."
 msgstr ""
+"La imagen es usada por un contenedor. Al eliminar la imagen también se "
+"eliminarán todos sus contenedores asociados."
 
 #: src/view/image/image_menu_button.rs:207 src/view/pod/pod_menu_button.rs:283
-#, fuzzy
 msgid "_Force Delete"
-msgstr "_Quitar"
+msgstr "_Forzar eliminación"
 
 #. Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
 #: src/view/image/image_menu_button.rs:238
 msgid "Error on deleting image '{}': {}"
-msgstr "Error al quitar la imagen '{}': {}"
+msgstr "Error al eliminar la imagen '{}': {}"
 
 #: src/view/image/image_pull_page.rs:184
 msgid "Failed to pull image"
@@ -1187,22 +1166,19 @@ msgid "No images found"
 msgstr "No se encontraron imágenes"
 
 #: src/view/image/images_panel.rs:193
-#, fuzzy
 msgid "1 image, used"
-msgstr "No se encontraron imágenes"
+msgstr "1 imagen, usada"
 
 #: src/view/image/images_panel.rs:195
-#, fuzzy
 msgid "1 image, unused"
-msgstr "No se encontraron imágenes"
+msgstr "1 imagen, sin usar"
 
 #. Translators: There's a wide space (U+2002) between ", {}".
 #: src/view/image/images_panel.rs:200
-#, fuzzy
 msgid "{} image total, {} {} unused, {}"
 msgid_plural "{} images total, {} {} unused, {}"
-msgstr[0] "{} imágenes en total, {} {} imágenes no usadas, {}"
-msgstr[1] "{} imágenes en total, {} {} imágenes no usadas, {}"
+msgstr[0] "{} imagen en total, {} {} sin usar, {}"
+msgstr[1] "{} imágenes en total, {} {} sin usar, {}"
 
 #. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
 #: src/view/image/images_prune_page.rs:202
@@ -1223,34 +1199,30 @@ msgstr "Error al eliminar las imágenes"
 
 #. Translators: "{}" is a placeholder for a cardinal numbers.
 #: src/view/info_dialog.rs:213
-#, fuzzy
 msgid "{} Container"
 msgid_plural "{} Containers"
-msgstr[0] "{} Contenedores"
+msgstr[0] "{} Contenedor"
 msgstr[1] "{} Contenedores"
 
 #. Translators: "{}" is a placeholder for a cardinal number.
 #: src/view/info_dialog.rs:246
-#, fuzzy
 msgid "{} Option"
 msgid_plural "{} Options"
-msgstr[0] "{} Opciones"
+msgstr[0] "{} Opción"
 msgstr[1] "{} Opciones"
 
 #. Translators: "{}" is placeholders for a cardinal number.
 #: src/view/info_dialog.rs:269
-#, fuzzy
 msgid "{} State"
 msgid_plural "{} States"
-msgstr[0] "{} Estados"
+msgstr[0] "{} Estado"
 msgstr[1] "{} Estados"
 
 #. Translators: "{}" is placeholders for a cardinal number.
 #: src/view/info_dialog.rs:289
-#, fuzzy
 msgid "{} Image"
 msgid_plural "{} Images"
-msgstr[0] "{} Imágenes"
+msgstr[0] "{} Imagen"
 msgstr[1] "{} Imágenes"
 
 #. Translators: The placeholder "{}" is for the error message.
@@ -1260,11 +1232,11 @@ msgstr "Error: {}"
 
 #: src/view/pod/pod_details_page.rs:236
 msgid "Pod '{}' has been deleted"
-msgstr ""
+msgstr "La cápsula '{}' ha sido eliminada"
 
 #: src/view/pod/pod_menu_button.rs:263
 msgid "Confirm Forced Pod Deletion"
-msgstr ""
+msgstr "Confirmar eliminado forzoso de la cápsula"
 
 #. Translators: The "{}" is a placeholder for the container name.
 #: src/view/pod/pod_menu_button.rs:269
@@ -1272,55 +1244,53 @@ msgid ""
 "Pod contains container <b>{}</b>. Deleting the pod will also delete all its "
 "containers."
 msgstr ""
+"La cápsula contiene el contenedor <b>{}</b>. Al eliminar la cápsula también "
+"se eliminarán todos sus contenedores."
 
 #: src/view/pod/pod_menu_button.rs:273
 msgid ""
 "Pod conains a container. Deleting the pod will also delete all its "
 "containers."
 msgstr ""
+"La cápsula contiene un contenedor. Al eliminar la cápsula se eliminarán "
+"todos sus contenedores."
 
 #: src/view/pod/pod_row.rs:100
-#, fuzzy
 msgid "{} container"
 msgid_plural "{} containers"
-msgstr[0] "{} Contenedores"
-msgstr[1] "{} Contenedores"
+msgstr[0] "{} contenedor"
+msgstr[1] "{} contenedores"
 
 #: src/view/pod/pod_row.rs:106
-#, fuzzy
 msgid "No containers"
-msgstr "contenedores"
+msgstr "No hay contenedores"
 
 #: src/view/pod/pods_panel.rs:184
-#, fuzzy
 msgid "No pods found"
-msgstr "No se encontraron imágenes"
+msgstr "No se encontraron cápsulas"
 
 #: src/view/pod/pods_panel.rs:187
-#, fuzzy
 msgid "1 pod, running"
-msgstr "Sólo ejecutando"
+msgstr "1 cápsula, en ejecución"
 
 #: src/view/pod/pods_panel.rs:189
 msgid "1 pod, stopped"
-msgstr ""
+msgstr "1 cápsula, detenida"
 
 #. Translators: There's a wide space (U+2002) between ", {}".
 #: src/view/pod/pods_panel.rs:194
-#, fuzzy
 msgid "{} pod total, {} running"
 msgid_plural "{} pods total, {} running"
-msgstr[0] "{} Contenedores en total, {} en ejecución"
-msgstr[1] "{} Contenedores en total, {} en ejecución"
+msgstr[0] "{} cápsula en total, {} en ejecución"
+msgstr[1] "{} cápsulas en total, {} en ejecución"
 
 #: src/view/top_page.rs:101
 msgid "Container Processes"
 msgstr "Procesos del contenedor"
 
 #: src/view/top_page.rs:103
-#, fuzzy
 msgid "Pod Processes"
-msgstr "Procesos"
+msgstr "Procesos de la cápsula"
 
 #: src/window.rs:432
 msgid "images"
@@ -1332,7 +1302,7 @@ msgstr "contenedores"
 
 #: src/window.rs:434 src/window.rs:444
 msgid "pods"
-msgstr ""
+msgstr "cápsulass"
 
 #: src/window.rs:430
 msgid "Error on loading {}"
