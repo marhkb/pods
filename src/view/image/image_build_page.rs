@@ -29,8 +29,6 @@ mod imp {
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub(super) build_button: TemplateChild<gtk::Button>,
-        #[template_child]
         pub(super) image_building_page_bin: TemplateChild<adw::Bin>,
         #[template_child]
         pub(super) tag_entry_row: TemplateChild<adw::EntryRow>,
@@ -38,6 +36,8 @@ mod imp {
         pub(super) context_dir_row: TemplateChild<adw::ActionRow>,
         #[template_child]
         pub(super) container_file_path_entry_row: TemplateChild<adw::EntryRow>,
+        #[template_child]
+        pub(super) build_button: TemplateChild<gtk::Button>,
     }
 
     #[glib::object_subclass]
