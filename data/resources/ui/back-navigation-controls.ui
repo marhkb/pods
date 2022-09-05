@@ -2,7 +2,9 @@
 <interface>
   <template class="BackNavigationControls" parent="GtkWidget">
     <property name="layout-manager">
-      <object class="GtkBoxLayout"/>
+      <object class="GtkBoxLayout">
+        <property name="spacing">3</property>
+      </object>
     </property>
 
     <child>
