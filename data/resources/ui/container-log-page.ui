@@ -32,6 +32,7 @@
         <child type="end">
           <object class="GtkToggleButton" id="search_button">
             <property name="icon-name">system-search-symbolic</property>
+            <property name="tooltip-text" translatable="yes">Search within this log</property>
           </object>
         </child>
 
