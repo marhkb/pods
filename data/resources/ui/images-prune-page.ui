@@ -9,7 +9,6 @@
 
     <child>
       <object class="AdwHeaderBar" id="header_bar">
-        <property name="centering-policy">strict</property>
 
         <child type="start">
           <object class="BackNavigationControls"/>
