@@ -21,8 +21,6 @@ mod imp {
     pub(crate) struct ImagePullPage {
         pub(super) client: WeakRef<model::Client>,
         #[template_child]
-        pub(super) pull_button: TemplateChild<gtk::Button>,
-        #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) image_search_widget: TemplateChild<view::ImageSearchWidget>,
@@ -41,7 +39,7 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
-            klass.install_action("image.pull", None, |widget, _, _| {
+            klass.install_action("image-search-widget.select", None, |widget, _, _| {
                 widget.pull();
             });
         }
@@ -88,11 +86,11 @@ mod imp {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
-            obj.action_set_enabled("image.pull", false);
+            obj.action_set_enabled("image-search-widget.select", false);
             self.image_search_widget.connect_notify_local(
                 Some("selected-image"),
                 clone!(@weak obj => move |widget, _| {
-                    obj.action_set_enabled("image.pull", widget.selected_image().is_some());
+                    obj.action_set_enabled("image-search-widget.select", widget.selected_image().is_some());
                 }),
             );
         }
@@ -102,17 +100,7 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for ImagePullPage {
-        fn root(&self, widget: &Self::Type) {
-            self.parent_root(widget);
-            utils::root(widget).set_default_widget(Some(&*self.pull_button));
-        }
-
-        fn unroot(&self, widget: &Self::Type) {
-            utils::root(widget).set_default_widget(gtk::Widget::NONE);
-            self.parent_unroot(widget)
-        }
-    }
+    impl WidgetImpl for ImagePullPage {}
 }
 
 glib::wrapper! {

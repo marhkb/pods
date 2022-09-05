@@ -8,7 +8,6 @@ use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
 
 use crate::model;
-use crate::utils;
 use crate::view;
 
 mod imp {
@@ -20,8 +19,6 @@ mod imp {
         pub(super) client: WeakRef<model::Client>,
         #[template_child]
         pub(super) header_bar: TemplateChild<adw::HeaderBar>,
-        #[template_child]
-        pub(super) select_button: TemplateChild<gtk::Button>,
         #[template_child]
         pub(super) back_navigation_controls: TemplateChild<view::BackNavigationControls>,
         #[template_child]
@@ -37,8 +34,8 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
-            klass.install_action("image.select", None, |widget, _, _| {
-                widget.select_image();
+            klass.install_action("image-search-widget.select", None, |widget, _, _| {
+                widget.select();
             });
         }
 
@@ -96,11 +93,11 @@ mod imp {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
-            obj.action_set_enabled("image.select", false);
+            obj.action_set_enabled("image-search-widget.select", false);
             self.image_search_widget.connect_notify_local(
                 Some("selected-image"),
                 clone!(@weak obj => move |widget, _| {
-                    obj.action_set_enabled("image.select", widget.selected_image().is_some());
+                    obj.action_set_enabled("image-search-widget.select", widget.selected_image().is_some());
                 }),
             );
         }
@@ -111,17 +108,7 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for ImageSelectionPage {
-        fn root(&self, widget: &Self::Type) {
-            self.parent_root(widget);
-            utils::root(widget).set_default_widget(Some(&*self.select_button));
-        }
-
-        fn unroot(&self, widget: &Self::Type) {
-            utils::root(widget).set_default_widget(gtk::Widget::NONE);
-            self.parent_unroot(widget)
-        }
-    }
+    impl WidgetImpl for ImageSelectionPage {}
 }
 
 glib::wrapper! {
@@ -141,7 +128,7 @@ impl ImageSelectionPage {
         self.imp().client.upgrade()
     }
 
-    fn select_image(&self) {
+    fn select(&self) {
         let imp = self.imp();
 
         if let Some(search_response) = imp.image_search_widget.selected_image() {

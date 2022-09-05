@@ -41,6 +41,8 @@ mod imp {
         pub(super) search_result_list_view: TemplateChild<gtk::ListView>,
         #[template_child]
         pub(super) tag_entry_row: TemplateChild<adw::EntryRow>,
+        #[template_child]
+        pub(super) select_button: TemplateChild<gtk::Button>,
     }
 
     #[glib::object_subclass]
@@ -90,6 +92,13 @@ mod imp {
                         Some("latest"),
                         glib::ParamFlags::READABLE,
                     ),
+                    glib::ParamSpecString::new(
+                        "button-label",
+                        "Button Label",
+                        "The label of the select button",
+                        Some("latest"),
+                        glib::ParamFlags::READWRITE,
+                    ),
                 ]
             });
             PROPERTIES.as_ref()
@@ -105,6 +114,7 @@ mod imp {
             match pspec.name() {
                 "client" => obj.set_client(value.get().unwrap()),
                 "tag" => obj.set_tag(value.get().unwrap()),
+                "button-label" => self.select_button.set_label(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
@@ -115,6 +125,7 @@ mod imp {
                 "selected-image" => obj.selected_image().to_value(),
                 "tag" => obj.tag().to_value(),
                 "default-tag" => obj.default_tag().to_value(),
+                "button-label" => self.select_button.label().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -189,6 +200,12 @@ mod imp {
                     glib::Continue(false)
                 }),
             );
+            utils::root(widget).set_default_widget(Some(&*self.select_button));
+        }
+
+        fn unroot(&self, widget: &Self::Type) {
+            utils::root(widget).set_default_widget(gtk::Widget::NONE);
+            self.parent_unroot(widget)
         }
     }
 

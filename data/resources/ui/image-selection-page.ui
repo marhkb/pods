@@ -21,22 +21,12 @@
           </object>
         </child>
 
-        <child type="end">
-          <object class="GtkButton" id="select_button">
-            <style>
-              <class name="suggested-action"/>
-            </style>
-            <property name="action-name">image.select</property>
-            <property name="label" translatable="yes">_Select</property>
-            <property name="use-underline">True</property>
-          </object>
-        </child>
-
       </object>
     </child>
 
     <child>
       <object class="ImageSearchWidget" id="image_search_widget">
+        <property name="button-label">_Select</property>
         <binding name="client">
           <lookup name="client">ImageSelectionPage</lookup>
         </binding>
