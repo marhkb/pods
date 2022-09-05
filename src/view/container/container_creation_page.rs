@@ -42,8 +42,6 @@ mod imp {
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub(super) crate_and_run_button: TemplateChild<adw::SplitButton>,
-        #[template_child]
         pub(super) name_entry_row: TemplateChild<view::RandomNameEntryRow>,
         #[template_child]
         pub(super) local_image_property_row: TemplateChild<view::PropertyRow>,
@@ -89,6 +87,8 @@ mod imp {
         pub(super) health_check_start_period_value: TemplateChild<gtk::Adjustment>,
         #[template_child]
         pub(super) health_check_retries_value: TemplateChild<gtk::Adjustment>,
+        #[template_child]
+        pub(super) crate_and_run_button: TemplateChild<gtk::Button>,
         #[template_child]
         pub(super) image_pulling_page: TemplateChild<view::ImagePullingPage>,
         #[template_child]
