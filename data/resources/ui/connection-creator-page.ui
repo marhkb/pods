@@ -20,16 +20,6 @@
           </object>
         </child>
 
-        <child type="end">
-          <object class="GtkButton" id="connect_button">
-            <style>
-              <class name="suggested-action"/>
-            </style>
-            <property name="action-name">client.try-connect</property>
-            <property name="label" translatable="yes">_Connect</property>
-            <property name="use-underline">True</property>
-          </object>
-        </child>
       </object>
     </child>
 
@@ -120,6 +110,24 @@
 
                   </object>
                 </child>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwPreferencesGroup">
+
+            <child>
+              <object class="GtkButton" id="connect_button">
+                <style>
+                  <class name="suggested-action"/>
+                  <class name="pill"/>
+                </style>
+                <property name="action-name">client.try-connect</property>
+                <property name="label" translatable="yes">_Connect</property>
+                <property name="use-underline">True</property>
               </object>
             </child>
 
