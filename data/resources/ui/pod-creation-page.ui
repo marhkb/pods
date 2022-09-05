@@ -36,17 +36,6 @@
                           </object>
                         </child>
 
-                        <child type="end">
-                          <object class="GtkButton" id="create_button">
-                            <style>
-                              <class name="suggested-action"/>
-                            </style>
-                            <property name="action-name">pod.create</property>
-                            <property name="label" translatable="yes">Create</property>
-                            <property name="use-underline">True</property>
-                          </object>
-                        </child>
-
                       </object>
                     </child>
 
@@ -74,6 +63,24 @@
                               <object class="AdwEntryRow" id="hostname_entry_row">
                                 <property name="activates-default">True</property>
                                 <property name="title" translatable="yes">Hostname</property>
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="AdwPreferencesGroup">
+
+                            <child>
+                              <object class="GtkButton" id="create_button">
+                                <style>
+                                  <class name="suggested-action"/>
+                                  <class name="pill"/>
+                                </style>
+                                <property name="action-name">pod.create</property>
+                                <property name="label" translatable="yes">_Create</property>
+                                <property name="use-underline">True</property>
                               </object>
                             </child>
 
