@@ -259,6 +259,10 @@ impl PodList {
     }
 
     fn pod_added(&self, pod: &model::Pod) {
+        pod.connect_notify_local(
+            Some("status"),
+            clone!(@weak self as obj => move |_, _| obj.notify("running")),
+        );
         self.emit_by_name::<()>("pod-added", &[pod]);
     }
 
