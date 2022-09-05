@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
 
-  <menu id="menu">
-    <section>
-      <item>
-        <attribute name="label" translatable="yes">_Create</attribute>
-        <attribute name="action">container.create</attribute>
-      </item>
-    </section>
-  </menu>
-
   <template class="ContainerCreationPage" parent="GtkWidget">
     <property name="layout-manager">
       <object class="GtkBinLayout"/>
@@ -34,7 +25,6 @@
 
                     <child>
                       <object class="AdwHeaderBar">
-                        <property name="centering-policy">strict</property>
 
                         <child type="start">
                           <object class="BackNavigationControls"/>
@@ -43,18 +33,6 @@
                         <child type="title">
                           <object class="AdwWindowTitle">
                             <property name="title" translatable="yes">Specify Container Settings</property>
-                          </object>
-                        </child>
-
-                        <child type="end">
-                          <object class="AdwSplitButton" id="crate_and_run_button">
-                            <style>
-                              <class name="suggested-action"/>
-                            </style>
-                            <property name="action-name">container.create-and-run</property>
-                            <property name="label" translatable="yes">_Run</property>
-                            <property name="menu-model">menu</property>
-                            <property name="use-underline">True</property>
                           </object>
                         </child>
 
@@ -106,7 +84,6 @@
 
                             <child>
                               <object class="AdwViewStack" id="view_stack">
-                                <property name="vexpand">True</property>
 
                                 <child>
                                   <object class="AdwViewStackPage">
@@ -516,6 +493,43 @@
                           </object>
                         </child>
 
+                        <child>
+                          <object class="AdwPreferencesGroup">
+
+                            <child>
+                              <object class="GtkBox">
+                                <property name="homogeneous">True</property>
+                                <property name="spacing">12</property>
+
+                                <child>
+                                  <object class="GtkButton" id="crate_and_run_button">
+                                    <style>
+                                      <class name="suggested-action"/>
+                                      <class name="pill"/>
+                                    </style>
+                                    <property name="action-name">container.create-and-run</property>
+                                    <property name="label" translatable="yes">Create And _Run</property>
+                                    <property name="use-underline">True</property>
+                                  </object>
+                                </child>
+
+                                <child>
+                                  <object class="GtkButton">
+                                    <style>
+                                      <class name="pill"/>
+                                    </style>
+                                    <property name="action-name">container.create</property>
+                                    <property name="label" translatable="yes">_Create</property>
+                                    <property name="use-underline">True</property>
+                                  </object>
+                                </child>
+
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
                       </object>
                     </child>
 
@@ -543,7 +557,6 @@
 
                     <child>
                       <object class="AdwHeaderBar">
-                        <property name="centering-policy">strict</property>
 
                         <child type="start">
                           <object class="BackNavigationControls"/>

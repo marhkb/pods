@@ -20,7 +20,6 @@
                 <!-- Headerbar -->
                 <child>
                   <object class="AdwHeaderBar">
-                    <property name="centering-policy">strict</property>
 
                     <child type="start">
                       <object class="BackNavigationControls"/>
@@ -29,17 +28,6 @@
                     <child type="title">
                       <object class="AdwWindowTitle">
                         <property name="title" translatable="yes">Image Construction</property>
-                      </object>
-                    </child>
-
-                    <child type="end">
-                      <object class="GtkButton" id="build_button">
-                        <style>
-                          <class name="suggested-action"/>
-                        </style>
-                        <property name="action-name">image.build</property>
-                        <property name="label" translatable="yes">_Build</property>
-                        <property name="use-underline">True</property>
                       </object>
                     </child>
 
@@ -85,6 +73,24 @@
                           <object class="AdwEntryRow" id="container_file_path_entry_row">
                             <property name="activates-default">True</property>
                             <property name="title" translatable="yes">Containerfile Path Relative to Build Context Directory</property>
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="AdwPreferencesGroup">
+
+                        <child>
+                          <object class="GtkButton" id="build_button">
+                            <style>
+                              <class name="suggested-action"/>
+                              <class name="pill"/>
+                            </style>
+                            <property name="action-name">image.build</property>
+                            <property name="label" translatable="yes">_Build</property>
+                            <property name="use-underline">True</property>
                           </object>
                         </child>
 

@@ -22,13 +22,13 @@ mod imp {
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub(super) create_button: TemplateChild<gtk::Button>,
-        #[template_child]
         pub(super) preferences_page: TemplateChild<adw::PreferencesPage>,
         #[template_child]
         pub(super) name_entry_row: TemplateChild<view::RandomNameEntryRow>,
         #[template_child]
         pub(super) hostname_entry_row: TemplateChild<adw::EntryRow>,
+        #[template_child]
+        pub(super) create_button: TemplateChild<gtk::Button>,
         #[template_child]
         pub(super) pod_details_page_bin: TemplateChild<adw::Bin>,
     }

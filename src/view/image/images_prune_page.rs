@@ -36,8 +36,6 @@ mod imp {
         #[template_child]
         pub(super) header_bar: TemplateChild<adw::HeaderBar>,
         #[template_child]
-        pub(super) button_prune: TemplateChild<gtk::Button>,
-        #[template_child]
         pub(super) preferences_page: TemplateChild<adw::PreferencesPage>,
         #[template_child]
         pub(super) prune_all_switch: TemplateChild<gtk::Switch>,
@@ -57,6 +55,8 @@ mod imp {
         pub(super) minute_spin_button: TemplateChild<gtk::SpinButton>,
         #[template_child]
         pub(super) period_combo_box: TemplateChild<gtk::ComboBoxText>,
+        #[template_child]
+        pub(super) button_prune: TemplateChild<gtk::Button>,
     }
 
     #[glib::object_subclass]

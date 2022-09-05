@@ -9,7 +9,6 @@
 
     <child>
       <object class="AdwHeaderBar" id="header_bar">
-        <property name="centering-policy">strict</property>
 
         <child type="start">
           <object class="BackNavigationControls"/>
@@ -18,24 +17,6 @@
         <child type="title">
           <object class="AdwWindowTitle">
             <property name="title" translatable="yes">Specify Pruning Settings</property>
-          </object>
-        </child>
-
-        <child type="end">
-          <object class="GtkButton" id="button_prune">
-            <style>
-              <class name="destructive-action"/>
-            </style>
-            <property name="action-name">images.prune</property>
-            <property name="label" translatable="yes">_Prune</property>
-            <property name="use-underline">True</property>
-          </object>
-        </child>
-
-        <child type="end">
-          <object class="GtkSpinner">
-            <property name="spinning">True</property>
-            <property name="visible" bind-source="button_prune" bind-property="sensitive" bind-flags="sync-create|invert-boolean"/>
           </object>
         </child>
 
@@ -169,6 +150,45 @@
                           </object>
                         </child>
 
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwPreferencesGroup">
+
+            <child>
+              <object class="GtkButton" id="button_prune">
+                <style>
+                  <class name="destructive-action"/>
+                  <class name="pill"/>
+                </style>
+                <property name="action-name">images.prune</property>
+
+                <child>
+                  <object class="GtkBox">
+                    <property name="halign">center</property>
+                    <property name="spacing">6</property>
+
+                    <child>
+                      <object class="GtkSpinner">
+                        <property name="spinning">True</property>
+                        <property name="visible" bind-source="button_prune" bind-property="sensitive" bind-flags="sync-create|invert-boolean"/>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label" translatable="yes">_Prune</property>
+                        <property name="use-underline">True</property>
                       </object>
                     </child>
 

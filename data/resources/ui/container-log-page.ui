@@ -11,7 +11,6 @@
     <!-- Headerbar -->
     <child>
       <object class="AdwHeaderBar">
-        <property name="centering-policy">strict</property>
 
         <child type="start">
           <object class="BackNavigationControls"/>
@@ -33,6 +32,7 @@
         <child type="end">
           <object class="GtkToggleButton" id="search_button">
             <property name="icon-name">system-search-symbolic</property>
+            <property name="tooltip-text" translatable="yes">Search within this log</property>
           </object>
         </child>
 

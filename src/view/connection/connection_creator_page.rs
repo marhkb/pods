@@ -23,8 +23,6 @@ mod imp {
         #[template_child]
         pub(super) back_navigation_controls: TemplateChild<view::BackNavigationControls>,
         #[template_child]
-        pub(super) connect_button: TemplateChild<gtk::Button>,
-        #[template_child]
         pub(super) name_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
         pub(super) unix_socket_url_row: TemplateChild<adw::ActionRow>,
@@ -36,6 +34,8 @@ mod imp {
         pub(super) color_button: TemplateChild<gtk::ColorButton>,
         #[template_child]
         pub(super) color_switch: TemplateChild<gtk::Switch>,
+        #[template_child]
+        pub(super) connect_button: TemplateChild<gtk::Button>,
     }
 
     #[glib::object_subclass]

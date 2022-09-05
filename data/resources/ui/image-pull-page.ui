@@ -20,7 +20,6 @@
 
                 <child>
                   <object class="AdwHeaderBar">
-                    <property name="centering-policy">strict</property>
 
                     <child type="start">
                       <object class="BackNavigationControls"/>
@@ -28,18 +27,7 @@
 
                     <child type="title">
                       <object class="AdwWindowTitle">
-                        <property name="title" translatable="yes">Search For an Image</property>
-                      </object>
-                    </child>
-
-                    <child type="end">
-                      <object class="GtkButton" id="pull_button">
-                        <style>
-                          <class name="suggested-action"/>
-                        </style>
-                        <property name="action-name">image.pull</property>
-                        <property name="label" translatable="yes">Download</property>
-                        <property name="use-underline">True</property>
+                        <property name="title" translatable="yes">Download an Image</property>
                       </object>
                     </child>
 
@@ -48,6 +36,7 @@
 
                 <child>
                   <object class="ImageSearchWidget" id="image_search_widget">
+                    <property name="button-label">_Download</property>
                     <binding name="client">
                       <lookup name="client">ImagePullPage</lookup>
                     </binding>
