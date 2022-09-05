@@ -93,6 +93,7 @@
                             <child type="start">
                               <object class="GtkToggleButton" id="search_button">
                                 <property name="icon-name">system-search-symbolic</property>
+                                <property name="tooltip-text">Search for images, containers and pods</property>
                               </object>
                             </child>
 
