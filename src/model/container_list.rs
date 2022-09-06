@@ -15,6 +15,7 @@ use once_cell::sync::Lazy;
 
 use crate::model;
 use crate::model::AbstractContainerListExt;
+use crate::model::SelectableListExt;
 use crate::podman;
 use crate::utils;
 
@@ -26,13 +27,18 @@ mod imp {
         pub(super) client: WeakRef<model::Client>,
         pub(super) list: RefCell<IndexMap<String, model::Container>>,
         pub(super) listing: Cell<bool>,
+        pub(super) selection_mode: Cell<bool>,
     }
 
     #[glib::object_subclass]
     impl ObjectSubclass for ContainerList {
         const NAME: &'static str = "ContainerList";
         type Type = super::ContainerList;
-        type Interfaces = (gio::ListModel, model::AbstractContainerList);
+        type Interfaces = (
+            gio::ListModel,
+            model::AbstractContainerList,
+            model::SelectableList,
+        );
     }
 
     impl ObjectImpl for ContainerList {
@@ -134,6 +140,22 @@ mod imp {
                         0,
                         glib::ParamFlags::READABLE,
                     ),
+                    glib::ParamSpecBoolean::new(
+                        "selection-mode",
+                        "Selection Mode",
+                        "Wether the selection mode is active",
+                        false,
+                        glib::ParamFlags::READWRITE,
+                    ),
+                    glib::ParamSpecUInt::new(
+                        "num-selected",
+                        "Num Selected",
+                        "The number of selected containers",
+                        0,
+                        u32::MAX,
+                        0,
+                        glib::ParamFlags::READABLE,
+                    ),
                 ]
             });
             PROPERTIES.as_ref()
@@ -148,6 +170,7 @@ mod imp {
         ) {
             match pspec.name() {
                 "client" => self.client.set(value.get().unwrap()),
+                "selection-mode" => self.selection_mode.set(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
@@ -165,6 +188,8 @@ mod imp {
                 "running" => obj.running().to_value(),
                 "stopped" => obj.stopped().to_value(),
                 "stopping" => obj.stopping().to_value(),
+                "selection-mode" => self.selection_mode.get().to_value(),
+                "num-selected" => obj.num_selected().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -172,6 +197,7 @@ mod imp {
             self.parent_constructed(obj);
 
             model::AbstractContainerList::bootstrap(obj);
+            model::SelectableList::bootstrap(obj);
 
             utils::run_stream(
                 obj.client().unwrap().podman().containers(),
@@ -245,7 +271,7 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct ContainerList(ObjectSubclass<imp::ContainerList>)
-        @implements gio::ListModel, model::AbstractContainerList;
+        @implements gio::ListModel, model::AbstractContainerList, model::SelectableList;
 }
 
 impl From<Option<&model::Client>> for ContainerList {
