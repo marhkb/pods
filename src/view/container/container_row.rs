@@ -1,3 +1,5 @@
+use std::cell::RefCell;
+
 use adw::subclass::prelude::ActionRowImpl;
 use adw::subclass::prelude::PreferencesRowImpl;
 use gtk::glib;
@@ -9,6 +11,8 @@ use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
 
 use crate::model;
+use crate::model::SelectableExt;
+use crate::model::SelectableListExt;
 use crate::utils;
 use crate::view;
 
@@ -19,6 +23,9 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/container-row.ui")]
     pub(crate) struct ContainerRow {
         pub(super) container: WeakRef<model::Container>,
+        pub(super) bindings: RefCell<Vec<glib::Binding>>,
+        #[template_child]
+        pub(super) check_button: TemplateChild<gtk::CheckButton>,
         #[template_child]
         pub(super) stats_box: TemplateChild<gtk::Box>,
         #[template_child]
@@ -29,6 +36,8 @@ mod imp {
         pub(super) health_status_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) status_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub(super) end_box: TemplateChild<gtk::Box>,
     }
 
     #[glib::object_subclass]
@@ -40,8 +49,8 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
-            klass.install_action("container.show-details", None, move |widget, _, _| {
-                widget.show_details();
+            klass.install_action("container-row.activate", None, move |widget, _, _| {
+                widget.activate();
             });
         }
 
@@ -88,6 +97,18 @@ mod imp {
             self.parent_constructed(obj);
 
             let container_expr = Self::Type::this_expression("container");
+
+            let selection_mode_expr = container_expr
+                .chain_property::<model::Container>("container-list")
+                .chain_property::<model::ContainerList>("selection-mode");
+
+            selection_mode_expr.bind(&self.check_button.parent().unwrap(), "visible", Some(obj));
+            selection_mode_expr
+                .chain_closure::<bool>(closure!(|_: Self::Type, is_selection_mode: bool| {
+                    !is_selection_mode
+                }))
+                .bind(&*self.end_box, "visible", Some(obj));
+
             let stats_expr = container_expr.chain_property::<model::Container>("stats");
             let health_status_expr =
                 container_expr.chain_property::<model::Container>("health-status");
@@ -218,13 +239,39 @@ impl ContainerRow {
         if self.container().as_ref() == value {
             return;
         }
-        self.imp().container.set(value);
+
+        let imp = self.imp();
+
+        let mut bindings = imp.bindings.borrow_mut();
+        while let Some(binding) = bindings.pop() {
+            binding.unbind();
+        }
+
+        if let Some(container) = value {
+            let binding = container
+                .bind_property("selected", &*imp.check_button, "active")
+                .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
+                .build();
+
+            bindings.push(binding);
+        }
+
+        imp.container.set(value);
         self.notify("container");
     }
 
-    fn show_details(&self) {
-        utils::find_leaflet_overlay(self).show_details(&view::ContainerDetailsPage::from(
-            &self.container().unwrap(),
-        ));
+    fn activate(&self) {
+        if let Some(container) = self.container().as_ref() {
+            if container
+                .container_list()
+                .map(|list| list.is_selection_mode())
+                .unwrap_or(false)
+            {
+                container.select();
+            } else {
+                utils::find_leaflet_overlay(self)
+                    .show_details(&view::ContainerDetailsPage::from(container));
+            }
+        }
     }
 }
