@@ -143,12 +143,15 @@ mod imp {
         pub(super) stats: RefCell<Option<BoxedContainerStats>>,
         pub(super) status: Cell<Status>,
         pub(super) up_since: Cell<i64>,
+
+        pub(super) selected: Cell<bool>,
     }
 
     #[glib::object_subclass]
     impl ObjectSubclass for Container {
         const NAME: &'static str = "Container";
         type Type = super::Container;
+        type Interfaces = (model::Selectable,);
     }
 
     impl ObjectImpl for Container {
@@ -290,6 +293,13 @@ mod imp {
                             | glib::ParamFlags::CONSTRUCT
                             | glib::ParamFlags::EXPLICIT_NOTIFY,
                     ),
+                    glib::ParamSpecBoolean::new(
+                        "selected",
+                        "Selected",
+                        "Whether this container is selected",
+                        false,
+                        glib::ParamFlags::READWRITE,
+                    ),
                 ]
             });
             PROPERTIES.as_ref()
@@ -318,6 +328,7 @@ mod imp {
                 "stats" => obj.set_stats(value.get().unwrap()),
                 "status" => obj.set_status(value.get().unwrap()),
                 "up-since" => obj.set_up_since(value.get().unwrap()),
+                "selected" => self.selected.set(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
@@ -339,6 +350,7 @@ mod imp {
                 "stats" => obj.stats().to_value(),
                 "status" => obj.status().to_value(),
                 "up-since" => obj.up_since().to_value(),
+                "selected" => self.selected.get().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -350,7 +362,7 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub(crate) struct Container(ObjectSubclass<imp::Container>);
+    pub(crate) struct Container(ObjectSubclass<imp::Container>) @implements model::Selectable;
 }
 
 impl Container {
