@@ -13,11 +13,11 @@ use indexmap::map::IndexMap;
 use once_cell::sync::Lazy;
 
 use crate::model;
+use crate::model::SelectableListExt;
 use crate::podman;
 use crate::utils;
 
 mod imp {
-
     use super::*;
 
     #[derive(Debug, Default)]
@@ -25,13 +25,14 @@ mod imp {
         pub(super) client: WeakRef<model::Client>,
         pub(super) list: RefCell<IndexMap<String, model::Pod>>,
         pub(super) listing: Cell<bool>,
+        pub(super) selection_mode: Cell<bool>,
     }
 
     #[glib::object_subclass]
     impl ObjectSubclass for PodList {
         const NAME: &'static str = "PodList";
         type Type = super::PodList;
-        type Interfaces = (gio::ListModel,);
+        type Interfaces = (gio::ListModel, model::SelectableList);
     }
 
     impl ObjectImpl for PodList {
@@ -82,6 +83,22 @@ mod imp {
                         0,
                         glib::ParamFlags::READABLE,
                     ),
+                    glib::ParamSpecBoolean::new(
+                        "selection-mode",
+                        "Selection Mode",
+                        "Wether the selection mode is active",
+                        false,
+                        glib::ParamFlags::READWRITE,
+                    ),
+                    glib::ParamSpecUInt::new(
+                        "num-selected",
+                        "Num Selected",
+                        "The number of selected images",
+                        0,
+                        u32::MAX,
+                        0,
+                        glib::ParamFlags::READABLE,
+                    ),
                 ]
             });
             PROPERTIES.as_ref()
@@ -96,6 +113,7 @@ mod imp {
         ) {
             match pspec.name() {
                 "client" => self.client.set(value.get().unwrap()),
+                "selection-mode" => self.selection_mode.set(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
@@ -106,11 +124,14 @@ mod imp {
                 "len" => obj.len().to_value(),
                 "listing" => obj.listing().to_value(),
                 "running" => obj.running().to_value(),
+                "selection-mode" => self.selection_mode.get().to_value(),
+                "num-selected" => obj.num_selected().to_value(),
                 _ => unimplemented!(),
             }
         }
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
+            model::SelectableList::bootstrap(obj);
             obj.connect_items_changed(|self_, _, _, _| self_.notify("len"));
         }
     }
@@ -135,7 +156,8 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub(crate) struct PodList(ObjectSubclass<imp::PodList>) @implements gio::ListModel;
+    pub(crate) struct PodList(ObjectSubclass<imp::PodList>)
+        @implements gio::ListModel, model::SelectableList;
 }
 
 impl From<Option<&model::Client>> for PodList {
