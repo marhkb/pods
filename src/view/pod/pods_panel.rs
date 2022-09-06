@@ -1,4 +1,6 @@
+use adw::prelude::MessageDialogExtManual;
 use adw::traits::BinExt;
+use adw::traits::MessageDialogExt;
 use gettextrs::gettext;
 use gettextrs::ngettext;
 use gtk::gdk;
@@ -6,6 +8,7 @@ use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
+use gtk::glib::subclass::Signal;
 use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
@@ -14,6 +17,7 @@ use once_cell::sync::Lazy;
 use once_cell::sync::OnceCell;
 
 use crate::model;
+use crate::model::SelectableListExt;
 use crate::utils;
 use crate::view;
 
@@ -33,6 +37,8 @@ mod imp {
         pub(super) pods_group: TemplateChild<adw::PreferencesGroup>,
         #[template_child]
         pub(super) show_only_running_switch: TemplateChild<gtk::Switch>,
+        #[template_child]
+        pub(super) create_button: TemplateChild<gtk::Button>,
         #[template_child]
         pub(super) list_box: TemplateChild<gtk::ListBox>,
     }
@@ -55,6 +61,26 @@ mod imp {
             klass.install_action("pods.create", None, move |widget, _, _| {
                 widget.create_pod();
             });
+
+            klass.install_action(
+                "pods-panel.start-or-resume-selection",
+                None,
+                move |widget, _, _| {
+                    widget.start_selection();
+                },
+            );
+            klass.install_action("pods-panel.stop-selection", None, move |widget, _, _| {
+                widget.stop_selection();
+            });
+            klass.install_action("pods-panel.pause-selection", None, move |widget, _, _| {
+                widget.pause_selection();
+            });
+            klass.install_action("pods-panel.restart-selection", None, move |widget, _, _| {
+                widget.restart_selection();
+            });
+            klass.install_action("pods-panel.delete-selection", None, move |widget, _, _| {
+                widget.delete_selection();
+            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -63,6 +89,15 @@ mod imp {
     }
 
     impl ObjectImpl for PodsPanel {
+        fn signals() -> &'static [Signal] {
+            static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
+                vec![
+                    Signal::builder("exit-selection-mode", &[], <()>::static_type().into()).build(),
+                ]
+            });
+            SIGNALS.as_ref()
+        }
+
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![glib::ParamSpecObject::new(
@@ -113,6 +148,13 @@ mod imp {
 
             let pod_list_expr = Self::Type::this_expression("pod-list");
             let pod_list_len_expr = pod_list_expr.chain_property::<model::PodList>("len");
+
+            pod_list_expr
+                .chain_property::<model::PodList>("selection-mode")
+                .chain_closure::<bool>(closure!(|_: Self::Type, selection_mode: bool| {
+                    !selection_mode
+                }))
+                .bind(&*self.create_button, "visible", Some(obj));
 
             gtk::ClosureExpression::new::<String, _, _>(
                 &[
@@ -233,6 +275,23 @@ impl PodsPanel {
             view::PodRow::from(item.downcast_ref().unwrap()).upcast()
         });
 
+        self.action_set_enabled("pods-panel.start-or-resume-selection", false);
+        self.action_set_enabled("pods-panel.stop-selection", false);
+        self.action_set_enabled("pods-panel.pause-selection", false);
+        self.action_set_enabled("pods-panel.restart-selection", false);
+        self.action_set_enabled("pods-panel.delete-selection", false);
+        value.connect_notify_local(
+            Some("num-selected"),
+            clone!(@weak self as obj => move |list, _| {
+                let enabled = list.num_selected() > 0;
+                obj.action_set_enabled("pods-panel.start-or-resume-selection", enabled);
+                obj.action_set_enabled("pods-panel.stop-selection", enabled);
+                obj.action_set_enabled("pods-panel.pause-selection", enabled);
+                obj.action_set_enabled("pods-panel.restart-selection", enabled);
+                obj.action_set_enabled("pods-panel.delete-selection", enabled);
+            }),
+        );
+
         imp.pod_list.set(Some(value));
         self.notify("pod-list");
     }
@@ -260,5 +319,174 @@ impl PodsPanel {
                     .as_ref(),
             ));
         }
+    }
+
+    fn start_selection(&self) {
+        if let Some(list) = self.pod_list() {
+            list.selected_items()
+                .iter()
+                .map(|obj| obj.downcast_ref::<model::Pod>().unwrap())
+                .for_each(|pod| {
+                    match pod.status() {
+                        model::PodStatus::Paused => {
+                            pod.resume(clone!(@weak  self as obj => move |result| {
+                                if let Err(e) = result {
+                                    utils::show_toast(
+                                        &obj,
+                                        // Translators: The "{}" is a placeholder for an error message.
+                                        &gettext!("Error on resuming pod: {}", e)
+                                    );
+                                }
+                            }));
+                        }
+                        other if other != model::PodStatus::Running => {
+                            pod.start(clone!(@weak  self as obj => move |result| {
+                                if let Err(e) = result {
+                                    utils::show_toast(
+                                        &obj,
+                                        // Translators: The "{}" is a placeholder for an error message.
+                                        &gettext!("Error on starting pod: {}", e)
+                                    );
+                                }
+                            }));
+                        }
+                        _ => (),
+                    }
+                });
+            list.set_selection_mode(false);
+            self.emit_by_name::<()>("exit-selection-mode", &[]);
+        }
+    }
+
+    fn stop_selection(&self) {
+        if let Some(list) = self.pod_list() {
+            list.selected_items()
+                .iter()
+                .map(|obj| obj.downcast_ref::<model::Pod>().unwrap())
+                .filter(|pod| matches!(pod.status(), model::PodStatus::Running))
+                .for_each(|pod| {
+                    pod.stop(
+                        false,
+                        clone!(@weak self as obj => move |result| {
+                            if let Err(e) = result {
+                                utils::show_toast(
+                                    &obj,
+                                    // Translators: The "{}" is a placeholder for an error message.
+                                    &gettext!("Error on stopping pod: {}", e)
+                                );
+                            }
+                        }),
+                    );
+                });
+            list.set_selection_mode(false);
+            self.emit_by_name::<()>("exit-selection-mode", &[]);
+        }
+    }
+
+    fn pause_selection(&self) {
+        if let Some(list) = self.pod_list() {
+            list.selected_items()
+                .iter()
+                .map(|obj| obj.downcast_ref::<model::Pod>().unwrap())
+                .filter(|pod| matches!(pod.status(), model::PodStatus::Running))
+                .for_each(|pod| {
+                    pod.pause(clone!(@weak self as obj => move |result| {
+                        if let Err(e) = result {
+                            utils::show_toast(
+                                &obj,
+                                // Translators: The "{}" is a placeholder for an error message.
+                                &gettext!("Error on stopping pod: {}", e)
+                            );
+                        }
+                    }));
+                });
+            list.set_selection_mode(false);
+            self.emit_by_name::<()>("exit-selection-mode", &[]);
+        }
+    }
+
+    fn restart_selection(&self) {
+        if let Some(list) = self.pod_list() {
+            list.selected_items()
+                .iter()
+                .map(|obj| obj.downcast_ref::<model::Pod>().unwrap())
+                .filter(|pod| matches!(pod.status(), model::PodStatus::Running))
+                .for_each(|pod| {
+                    pod.restart(
+                        false,
+                        clone!(@weak self as obj => move |result| {
+                            if let Err(e) = result {
+                                utils::show_toast(
+                                    &obj,
+                                    // Translators: The "{}" is a placeholder for an error message.
+                                    &gettext!("Error on restarting pod: {}", e)
+                                );
+                            }
+                        }),
+                    );
+                });
+            list.set_selection_mode(false);
+            self.emit_by_name::<()>("exit-selection-mode", &[]);
+        }
+    }
+
+    fn delete_selection(&self) {
+        if self.pod_list().map(|list| list.num_selected()).unwrap_or(0) == 0 {
+            return;
+        }
+
+        let dialog = adw::MessageDialog::builder()
+            .heading(&gettext("Confirm Forced Deletion of Multiple Pods"))
+            .body_use_markup(true)
+            .body(&gettext("All associated containers will also be removed!"))
+            .modal(true)
+            .transient_for(&utils::root(self))
+            .build();
+
+        dialog.add_responses(&[
+            ("cancel", &gettext("_Cancel")),
+            ("delete", &gettext("_Delete")),
+        ]);
+        dialog.set_default_response(Some("cancel"));
+        dialog.set_response_appearance("delete", adw::ResponseAppearance::Destructive);
+
+        dialog.connect_response(
+            None,
+            clone!(@weak self as obj => move |_, response| if response == "delete" {
+                if let Some(list) = obj.pod_list() {
+                    list
+                        .selected_items()
+                        .iter().map(|obj| obj.downcast_ref::<model::Pod>().unwrap())
+                        .for_each(|pod|
+                    {
+                        pod.delete(true, clone!(@weak obj => move |result| {
+                            if let Err(e) = result {
+                                utils::show_toast(
+                                    &obj,
+                                    // Translators: The "{}" is a placeholder for an error message.
+                                    &gettext!("Error on deleting pod: {}", e)
+                                );
+                            }
+                        }));
+                    });
+                    list.set_selection_mode(false);
+                    obj.emit_by_name::<()>("exit-selection-mode", &[]);
+                }
+            }),
+        );
+
+        dialog.present();
+    }
+
+    pub(crate) fn connect_exit_selection_mode<F: Fn(&Self) + 'static>(
+        &self,
+        f: F,
+    ) -> glib::SignalHandlerId {
+        self.connect_local("exit-selection-mode", true, move |values| {
+            let obj = values[0].get::<Self>().unwrap();
+            f(&obj);
+
+            None
+        })
     }
 }
