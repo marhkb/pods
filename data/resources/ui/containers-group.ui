@@ -22,7 +22,7 @@
         </child>
 
         <child>
-          <object class="GtkButton">
+          <object class="GtkButton" id="create_button">
             <property name="action-name">containers.create</property>
             <property name="icon-name">list-add-symbolic</property>
           </object>
