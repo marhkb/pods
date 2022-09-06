@@ -1,4 +1,6 @@
+use adw::prelude::MessageDialogExtManual;
 use adw::traits::BinExt;
+use adw::traits::MessageDialogExt;
 use gettextrs::gettext;
 use gettextrs::ngettext;
 use gtk::gdk;
@@ -6,6 +8,7 @@ use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
+use gtk::glib::subclass::Signal;
 use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
@@ -14,6 +17,7 @@ use once_cell::sync::Lazy;
 use once_cell::sync::OnceCell;
 
 use crate::model;
+use crate::model::SelectableListExt;
 use crate::utils;
 use crate::view;
 
@@ -33,6 +37,8 @@ mod imp {
         pub(super) images_group: TemplateChild<adw::PreferencesGroup>,
         #[template_child]
         pub(super) show_intermediates_switch: TemplateChild<gtk::Switch>,
+        #[template_child]
+        pub(super) menu_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
         pub(super) list_box: TemplateChild<gtk::ListBox>,
     }
@@ -63,6 +69,14 @@ mod imp {
             klass.install_action("images.prune-unused", None, move |widget, _, _| {
                 widget.show_prune_page();
             });
+
+            klass.install_action(
+                "images-panel.delete-selection",
+                None,
+                move |widget, _, _| {
+                    widget.delete_selection();
+                },
+            );
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -71,6 +85,15 @@ mod imp {
     }
 
     impl ObjectImpl for ImagesPanel {
+        fn signals() -> &'static [Signal] {
+            static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
+                vec![
+                    Signal::builder("exit-selection-mode", &[], <()>::static_type().into()).build(),
+                ]
+            });
+            SIGNALS.as_ref()
+        }
+
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![glib::ParamSpecObject::new(
@@ -121,6 +144,13 @@ mod imp {
 
             let image_list_expr = Self::Type::this_expression("image-list");
             let image_list_len_expr = image_list_expr.chain_property::<model::ImageList>("len");
+
+            image_list_expr
+                .chain_property::<model::ImageList>("selection-mode")
+                .chain_closure::<bool>(closure!(|_: Self::Type, selection_mode: bool| {
+                    !selection_mode
+                }))
+                .bind(&*self.menu_button, "visible", Some(obj));
 
             gtk::ClosureExpression::new::<String, _, _>(
                 &[
@@ -258,6 +288,14 @@ impl ImagesPanel {
             view::ImageRow::from(item.downcast_ref().unwrap()).upcast()
         });
 
+        self.action_set_enabled("images-panel.delete-selection", false);
+        value.connect_notify_local(
+            Some("num-selected"),
+            clone!(@weak self as obj => move |list, _| {
+                obj.action_set_enabled("images-panel.delete-selection", list.num_selected() > 0);
+            }),
+        );
+
         imp.image_list.set(Some(value));
         self.notify("image-list");
     }
@@ -298,9 +336,75 @@ impl ImagesPanel {
         }
     }
 
+    fn delete_selection(&self) {
+        if self
+            .image_list()
+            .map(|list| list.num_selected())
+            .unwrap_or(0)
+            == 0
+        {
+            return;
+        }
+
+        let dialog = adw::MessageDialog::builder()
+            .heading(&gettext("Confirm Forced Deletion of Multiple Images"))
+            .body(&gettext(
+                "There may be containers associated with those images, which will also be removed!",
+            ))
+            .modal(true)
+            .transient_for(&utils::root(self))
+            .build();
+
+        dialog.add_responses(&[
+            ("cancel", &gettext("_Cancel")),
+            ("delete", &gettext("_Delete")),
+        ]);
+        dialog.set_default_response(Some("cancel"));
+        dialog.set_response_appearance("delete", adw::ResponseAppearance::Destructive);
+
+        dialog.connect_response(
+            None,
+            clone!(@weak self as obj => move |_, response| if response == "delete" {
+                if let Some(list) = obj.image_list() {
+                    list
+                        .selected_items()
+                        .iter().map(|obj| obj.downcast_ref::<model::Image>().unwrap())
+                        .for_each(|image|
+                    {
+                        image.delete(clone!(@weak obj => move |image, result| {
+                            if let Err(e) = result {
+                                utils::show_toast(
+                                    &obj,
+                                    // Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
+                                    &gettext!("Error on deleting image '{}': {}", image.id(), e)
+                                );
+                            }
+                        }));
+                    });
+                    list.set_selection_mode(false);
+                    obj.emit_by_name::<()>("exit-selection-mode", &[]);
+                }
+            }),
+        );
+
+        dialog.present();
+    }
+
     fn client(&self) -> Option<model::Client> {
         self.image_list()
             .as_ref()
             .and_then(model::ImageList::client)
+    }
+
+    pub(crate) fn connect_exit_selection_mode<F: Fn(&Self) + 'static>(
+        &self,
+        f: F,
+    ) -> glib::SignalHandlerId {
+        self.connect_local("exit-selection-mode", true, move |values| {
+            let obj = values[0].get::<Self>().unwrap();
+            f(&obj);
+
+            None
+        })
     }
 }

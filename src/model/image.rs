@@ -45,12 +45,15 @@ mod imp {
         pub(super) can_inspect: Cell<bool>,
 
         pub(super) to_be_deleted: Cell<bool>,
+
+        pub(super) selected: Cell<bool>,
     }
 
     #[glib::object_subclass]
     impl ObjectSubclass for Image {
         const NAME: &'static str = "Image";
         type Type = super::Image;
+        type Interfaces = (model::Selectable,);
     }
 
     impl ObjectImpl for Image {
@@ -203,6 +206,13 @@ mod imp {
                         bool::default(),
                         glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
                     ),
+                    glib::ParamSpecBoolean::new(
+                        "selected",
+                        "Selected",
+                        "Whether this image is selected",
+                        false,
+                        glib::ParamFlags::READWRITE,
+                    ),
                 ]
             });
             PROPERTIES.as_ref()
@@ -232,6 +242,7 @@ mod imp {
                 "user" => self.user.set(value.get().unwrap()).unwrap(),
                 "virtual-size" => self.virtual_size.set(value.get().unwrap()).unwrap(),
                 "to-be-deleted" => self.to_be_deleted.set(value.get().unwrap()),
+                "selected" => self.selected.set(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
@@ -256,6 +267,7 @@ mod imp {
                 "virtual-size" => obj.virtual_size().to_value(),
                 "data" => obj.data().to_value(),
                 "to-be-deleted" => obj.to_be_deleted().to_value(),
+                "selected" => self.selected.get().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -268,7 +280,7 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub(crate) struct Image(ObjectSubclass<imp::Image>);
+    pub(crate) struct Image(ObjectSubclass<imp::Image>) @implements model::Selectable;
 }
 
 impl Image {

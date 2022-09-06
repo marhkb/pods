@@ -34,6 +34,17 @@
     </section>
   </menu>
 
+  <menu id="selection-menu">
+    <item>
+      <attribute name="label" translatable="yes">_Select All</attribute>
+      <attribute name="action">win.select-all</attribute>
+    </item>
+    <item>
+      <attribute name="label" translatable="yes">Select None</attribute>
+      <attribute name="action">win.select-none</attribute>
+    </item>
+  </menu>
+
   <template class="Window" parent="AdwApplicationWindow">
 
     <property name="content">
@@ -85,51 +96,151 @@
                       <object class="GtkBox">
                         <property name="orientation">vertical</property>
 
-                        <!-- Headerbar -->
+                        <!-- Headerbars -->
                         <child>
-                          <object class="AdwHeaderBar">
-                            <property name="centering-policy">strict</property>
+                          <object class="GtkStack" id="header_stack">
 
-                            <child type="start">
-                              <object class="GtkToggleButton" id="search_button">
-                                <property name="icon-name">system-search-symbolic</property>
-                                <property name="tooltip-text">Search for images, containers and pods</property>
-                              </object>
-                            </child>
+                            <child>
+                              <object class="GtkStackPage">
+                                <property name="name">main</property>
 
-                            <child type="title">
-                              <object class="GtkStack" id="title_stack">
-                                <property name="transition-type">crossfade</property>
+                                <property name="child">
+                                  <object class="AdwHeaderBar">
+                                    <property name="centering-policy">strict</property>
 
-                                <child>
-                                  <object class="GtkStackPage">
-                                    <property name="name">title</property>
-                                    <property name="child">
-                                      <object class="AdwViewSwitcherTitle" id="title">
-                                        <property name="stack">panel_stack</property>
-                                        <property name="title" translatable="yes">Pods</property>
+                                    <child type="start">
+                                      <object class="GtkToggleButton" id="search_button">
+                                        <property name="icon-name">system-search-symbolic</property>
+                                        <property name="tooltip-text">Search for images, containers and pods</property>
                                       </object>
-                                    </property>
+                                    </child>
+
+                                    <child type="title">
+                                      <object class="GtkStack" id="title_stack">
+
+                                        <child>
+                                          <object class="GtkStackPage">
+                                            <property name="name">title</property>
+                                            <property name="child">
+                                              <object class="AdwViewSwitcherTitle" id="title">
+                                                <property name="stack">panel_stack</property>
+                                                <property name="title" translatable="yes">Pods</property>
+                                              </object>
+                                            </property>
+
+                                          </object>
+                                        </child>
+
+                                        <child>
+                                          <object class="GtkStackPage">
+                                            <property name="name">search</property>
+                                            <property name="child">
+                                              <object class="GtkSearchEntry" id="search_entry"/>
+                                            </property>
+                                          </object>
+                                        </child>
+
+                                      </object>
+                                    </child>
+
+                                    <child type="end">
+                                      <object class="GtkMenuButton" id="menu_button">
+                                        <property name="icon-name">open-menu-symbolic</property>
+                                        <property name="menu-model">menu</property>
+                                      </object>
+                                    </child>
+
+                                    <child type="end">
+                                      <object class="GtkButton" id="selection_mode_button">
+                                        <property name="action-name">win.enter-selection-mode</property>
+                                        <property name="icon-name">selection-mode-symbolic</property>
+                                      </object>
+                                    </child>
 
                                   </object>
-                                </child>
-
-                                <child>
-                                  <object class="GtkStackPage">
-                                    <property name="name">search</property>
-                                    <property name="child">
-                                      <object class="GtkSearchEntry" id="search_entry"/>
-                                    </property>
-                                  </object>
-                                </child>
+                                </property>
 
                               </object>
                             </child>
 
-                            <child type="end">
-                              <object class="GtkMenuButton" id="menu_button">
-                                <property name="icon-name">open-menu-symbolic</property>
-                                <property name="menu-model">menu</property>
+                            <child>
+                              <object class="GtkStackPage">
+                                <property name="name">selection</property>
+
+                                <property name="child">
+                                  <object class="AdwHeaderBar">
+                                    <property name="centering-policy">strict</property>
+                                    <property name="show-end-title-buttons">False</property>
+                                    <property name="show-start-title-buttons">False</property>
+
+                                    <child type="start">
+                                      <object class="GtkButton">
+                                        <property name="action-name">win.exit-selection-mode</property>
+                                        <property name="label">Cancel</property>
+                                      </object>
+                                    </child>
+
+                                    <child type="title">
+                                      <object class="GtkStack" id="selected_items_stack">
+                                        <property name="visible-child-name" bind-source="panel_stack" bind-property="visible-child-name" bind-flags="sync-create"/>
+
+                                        <child>
+                                          <object class="GtkStackPage">
+                                            <property name="name">images</property>
+
+                                            <property name="child">
+                                              <object class="GtkMenuButton" id="selected_images_button">
+                                                <style>
+                                                  <class name="flat"/>
+                                                </style>
+                                                <property name="direction">none</property>
+                                                <property name="menu-model">selection-menu</property>
+                                              </object>
+                                            </property>
+
+                                          </object>
+                                        </child>
+
+                                        <child>
+                                          <object class="GtkStackPage">
+                                            <property name="name">containers</property>
+
+                                            <property name="child">
+                                              <object class="GtkMenuButton" id="selected_containers_button">
+                                                <style>
+                                                  <class name="flat"/>
+                                                </style>
+                                                <property name="direction">none</property>
+                                                <property name="menu-model">selection-menu</property>
+                                              </object>
+                                            </property>
+
+                                          </object>
+                                        </child>
+
+                                        <child>
+                                          <object class="GtkStackPage">
+                                            <property name="name">pods</property>
+
+                                            <property name="child">
+                                              <object class="GtkMenuButton" id="selected_pods_button">
+                                                <style>
+                                                  <class name="flat"/>
+                                                </style>
+                                                <property name="direction">none</property>
+                                                <property name="menu-model">selection-menu</property>
+                                              </object>
+                                            </property>
+
+                                          </object>
+                                        </child>
+
+                                      </object>
+                                    </child>
+
+                                  </object>
+                                </property>
+
                               </object>
                             </child>
 
@@ -218,11 +329,8 @@
 
                                     <!-- View Switcher Bar -->
                                     <child>
-                                      <object class="AdwViewSwitcherBar">
+                                      <object class="AdwViewSwitcherBar" id="switcher_bar">
                                         <property name="stack">panel_stack</property>
-                                        <binding name="reveal">
-                                          <lookup name="title-visible">title</lookup>
-                                        </binding>
                                       </object>
                                     </child>
 

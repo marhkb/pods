@@ -106,15 +106,21 @@ mod imp {
                 Some(obj),
             );
 
-            Self::Type::this_expression("action-ongoing")
-                .chain_closure::<String>(closure!(|_: glib::Object, action_ongoing: bool| {
-                    if action_ongoing {
+            gtk::ClosureExpression::new::<String, _, _>(
+                &[
+                    Self::Type::this_expression("action-ongoing"),
+                    Self::Type::this_expression("image")
+                        .chain_property::<model::Image>("to-be-deleted"),
+                ],
+                closure!(|_: Self::Type, action_ongoing: bool, to_be_deleted: bool| {
+                    if action_ongoing | to_be_deleted {
                         "ongoing"
                     } else {
                         "menu"
                     }
-                }))
-                .bind(&*self.stack, "visible-child-name", Some(obj));
+                }),
+            )
+            .bind(&*self.stack, "visible-child-name", Some(obj));
 
             if let Some(image) = obj.image() {
                 obj.action_set_enabled("image.delete", !image.to_be_deleted());

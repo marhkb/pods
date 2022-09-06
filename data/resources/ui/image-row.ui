@@ -3,7 +3,15 @@
 
   <template class="ImageRow" parent="AdwActionRow">
     <property name="activatable">True</property>
-    <property name="action-name">image.show-details</property>
+    <property name="action-name">image-row.activate</property>
+
+    <child type="prefix">
+      <object class="GtkCheckButton" id="check_button">
+        <style>
+          <class name="selection-mode"/>
+        </style>
+      </object>
+    </child>
 
     <child>
       <object class="ContainersCountBar">
@@ -16,20 +24,27 @@
     </child>
 
     <child>
-      <object class="ImageMenuButton">
-        <style>
-          <class name="flat"/>
-        </style>
-        <binding name="image">
-          <lookup name="image">ImageRow</lookup>
-        </binding>
-        <property name="valign">center</property>
-      </object>
-    </child>
+      <object class="GtkBox" id="end_box">
+        <property name="spacing">3</property>
 
-    <child>
-      <object class="GtkImage">
-        <property name="icon_name">go-next-symbolic</property>
+        <child>
+          <object class="ImageMenuButton">
+            <style>
+              <class name="flat"/>
+            </style>
+            <binding name="image">
+                <lookup name="image">ImageRow</lookup>
+            </binding>
+            <property name="valign">center</property>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkImage">
+            <property name="icon_name">go-next-symbolic</property>
+          </object>
+        </child>
+
       </object>
     </child>
 

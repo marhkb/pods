@@ -97,12 +97,15 @@ mod imp {
 
         pub(super) data: OnceCell<model::PodData>,
         pub(super) can_inspect: Cell<bool>,
+
+        pub(super) selected: Cell<bool>,
     }
 
     #[glib::object_subclass]
     impl ObjectSubclass for Pod {
         const NAME: &'static str = "Pod";
         type Type = super::Pod;
+        type Interfaces = (model::Selectable,);
     }
 
     impl ObjectImpl for Pod {
@@ -200,6 +203,13 @@ mod imp {
                         model::PodData::static_type(),
                         glib::ParamFlags::READABLE,
                     ),
+                    glib::ParamSpecBoolean::new(
+                        "selected",
+                        "Selected",
+                        "Whether this image is selected",
+                        false,
+                        glib::ParamFlags::READWRITE,
+                    ),
                 ]
             });
             PROPERTIES.as_ref()
@@ -221,6 +231,7 @@ mod imp {
                 "name" => obj.set_name(value.get().unwrap()),
                 "num-containers" => obj.set_num_containers(value.get().unwrap()),
                 "status" => obj.set_status(value.get().unwrap()),
+                "selected" => self.selected.set(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
@@ -237,6 +248,7 @@ mod imp {
                 "num-containers" => obj.num_containers().to_value(),
                 "status" => obj.status().to_value(),
                 "data" => obj.data().to_value(),
+                "selected" => self.selected.get().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -249,7 +261,7 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub(crate) struct Pod(ObjectSubclass<imp::Pod>);
+    pub(crate) struct Pod(ObjectSubclass<imp::Pod>) @implements model::Selectable;
 }
 
 impl Pod {

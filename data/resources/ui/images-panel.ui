@@ -47,47 +47,103 @@
             <property name="name">images</property>
 
             <property name="child">
-              <object class="AdwPreferencesPage">
-                <property name="vexpand">True</property>
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
 
                 <child>
-                  <object class="AdwPreferencesGroup" id="images_group">
-                    <property name="title" translatable="yes">Summary</property>
+                  <object class="AdwPreferencesPage">
+                    <property name="vexpand">True</property>
 
-                    <property name="header-suffix">
-                      <object class="GtkBox">
-                        <property name="spacing">9</property>
-                        <property name="halign">center</property>
-                        <property name="valign">center</property>
+                    <child>
+                      <object class="AdwPreferencesGroup" id="images_group">
+                        <property name="title" translatable="yes">Summary</property>
 
-                        <child>
-                          <object class="GtkLabel">
-                            <property name="label" translatable="yes">Intermediates</property>
-                          </object>
-                        </child>
-
-                        <child>
-                          <object class="GtkSwitch" id="show_intermediates_switch">
+                        <property name="header-suffix">
+                          <object class="GtkBox">
+                            <property name="spacing">9</property>
+                            <property name="halign">center</property>
                             <property name="valign">center</property>
+
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="label" translatable="yes">Intermediates</property>
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="GtkSwitch" id="show_intermediates_switch">
+                                <property name="valign">center</property>
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="GtkMenuButton" id="menu_button">
+                                <property name="icon-name">view-more-symbolic</property>
+                                <property name="menu-model">menu</property>
+                              </object>
+                            </child>
+
                           </object>
-                        </child>
+                        </property>
 
                         <child>
-                          <object class="GtkMenuButton">
-                            <property name="icon-name">view-more-symbolic</property>
-                            <property name="menu-model">menu</property>
+                          <object class="GtkListBox" id="list_box">
+                            <style>
+                              <class name="boxed-list"/>
+                            </style>
+                            <property name="selection-mode">none</property>
                           </object>
                         </child>
 
                       </object>
-                    </property>
+                    </child>
 
-                    <child>
-                      <object class="GtkListBox" id="list_box">
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkActionBar">
+                    <binding name="revealed">
+                      <lookup name="selection-mode" type="ImageList">
+                        <lookup name="image-list">ImagesPanel</lookup>
+                      </lookup>
+                    </binding>
+
+                    <child type="center">
+                      <object class="AdwBin">
                         <style>
-                          <class name="boxed-list"/>
+                          <class name="toolbar"/>
                         </style>
-                        <property name="selection-mode">none</property>
+
+                        <child>
+                          <object class="GtkButton">
+                            <style>
+                              <class name="flat"/>
+                            </style>
+                            <property name="action-name">images-panel.delete-selection</property>
+
+                            <child>
+                              <object class="GtkBox">
+                                <property name="spacing">6</property>
+
+                                <child>
+                                  <object class="GtkImage">
+                                    <property name="icon-name">user-trash-symbolic</property>
+                                  </object>
+                                </child>
+
+                                <child>
+                                  <object class="GtkLabel">
+                                    <property name="label" translatable="yes">Delete</property>
+                                  </object>
+                                </child>
+
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
                       </object>
                     </child>
 

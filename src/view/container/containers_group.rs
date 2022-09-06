@@ -34,6 +34,8 @@ mod imp {
         #[template_child]
         pub(super) show_only_running_switch: TemplateChild<gtk::Switch>,
         #[template_child]
+        pub(super) create_button: TemplateChild<gtk::Button>,
+        #[template_child]
         pub(super) list_box: TemplateChild<gtk::ListBox>,
     }
 
@@ -112,6 +114,14 @@ mod imp {
             self.parent_constructed(obj);
 
             let container_list_expr = Self::Type::this_expression("container-list");
+
+            container_list_expr
+                .chain_property::<model::ContainerList>("selection-mode")
+                .chain_closure::<bool>(closure!(|_: Self::Type, selection_mode: bool| {
+                    !selection_mode
+                }))
+                .bind(&*self.create_button, "visible", Some(obj));
+
             gtk::ClosureExpression::new::<Option<String>, _, _>(
                 &[
                     container_list_expr.chain_property::<model::AbstractContainerList>("len"),
