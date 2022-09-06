@@ -1,3 +1,5 @@
+use std::cell::RefCell;
+
 use adw::subclass::prelude::ActionRowImpl;
 use adw::subclass::prelude::PreferencesRowImpl;
 use gtk::glib;
@@ -9,6 +11,8 @@ use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
 
 use crate::model;
+use crate::model::SelectableExt;
+use crate::model::SelectableListExt;
 use crate::utils;
 use crate::view;
 
@@ -19,8 +23,13 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/pod-row.ui")]
     pub(crate) struct PodRow {
         pub(super) pod: WeakRef<model::Pod>,
+        pub(super) bindings: RefCell<Vec<glib::Binding>>,
+        #[template_child]
+        pub(super) check_button: TemplateChild<gtk::CheckButton>,
         #[template_child]
         pub(super) status_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub(super) end_box: TemplateChild<gtk::Box>,
     }
 
     #[glib::object_subclass]
@@ -32,8 +41,8 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
-            klass.install_action("pod.show-details", None, move |widget, _, _| {
-                widget.show_details();
+            klass.install_action("pod-row.activate", None, move |widget, _, _| {
+                widget.activate();
             });
         }
 
@@ -80,6 +89,18 @@ mod imp {
             self.parent_constructed(obj);
 
             let pod_expr = Self::Type::this_expression("pod");
+
+            let selection_mode_expr = pod_expr
+                .chain_property::<model::Pod>("pod-list")
+                .chain_property::<model::PodList>("selection-mode");
+
+            selection_mode_expr.bind(&self.check_button.parent().unwrap(), "visible", Some(obj));
+            selection_mode_expr
+                .chain_closure::<bool>(closure!(|_: Self::Type, is_selection_mode: bool| {
+                    !is_selection_mode
+                }))
+                .bind(&*self.end_box, "visible", Some(obj));
+
             let status_expr = pod_expr.chain_property::<model::Pod>("status");
 
             pod_expr
@@ -145,12 +166,38 @@ impl PodRow {
         if self.pod().as_ref() == value {
             return;
         }
-        self.imp().pod.set(value);
+
+        let imp = self.imp();
+
+        let mut bindings = imp.bindings.borrow_mut();
+        while let Some(binding) = bindings.pop() {
+            binding.unbind();
+        }
+
+        if let Some(pod) = value {
+            let binding = pod
+                .bind_property("selected", &*imp.check_button, "active")
+                .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
+                .build();
+
+            bindings.push(binding);
+        }
+
+        imp.pod.set(value);
         self.notify("pod");
     }
 
-    fn show_details(&self) {
-        utils::find_leaflet_overlay(self)
-            .show_details(&view::PodDetailsPage::from(&self.pod().unwrap()));
+    fn activate(&self) {
+        if let Some(pod) = self.pod().as_ref() {
+            if pod
+                .pod_list()
+                .map(|list| list.is_selection_mode())
+                .unwrap_or(false)
+            {
+                pod.select();
+            } else {
+                utils::find_leaflet_overlay(self).show_details(&view::PodDetailsPage::from(pod));
+            }
+        }
     }
 }
