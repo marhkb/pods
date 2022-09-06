@@ -16,6 +16,7 @@ mod pod_list;
 mod port_mapping;
 mod registry;
 mod selectable;
+mod selectable_list;
 mod simple_container_list;
 mod volume;
 
@@ -46,6 +47,8 @@ pub(crate) use self::port_mapping::Protocol as PortMappingProtocol;
 pub(crate) use self::registry::Registry;
 pub(crate) use self::selectable::Selectable;
 pub(crate) use self::selectable::SelectableExt;
+pub(crate) use self::selectable_list::SelectableList;
+pub(crate) use self::selectable_list::SelectableListExt;
 pub(crate) use self::simple_container_list::SimpleContainerList;
 pub(crate) use self::volume::SELinux as VolumeSELinux;
 pub(crate) use self::volume::Volume;
