@@ -2,6 +2,7 @@ use adw::subclass::prelude::AdwApplicationWindowImpl;
 use adw::traits::BinExt;
 use cascade::cascade;
 use gettextrs::gettext;
+use gettextrs::ngettext;
 use gtk::gdk;
 use gtk::gio;
 use gtk::glib;
@@ -15,6 +16,7 @@ use once_cell::sync::Lazy;
 use crate::application::Application;
 use crate::config;
 use crate::model;
+use crate::model::SelectableListExt;
 use crate::utils;
 use crate::view;
 
@@ -31,6 +33,8 @@ mod imp {
         #[template_child]
         pub(super) main_stack: TemplateChild<gtk::Stack>,
         #[template_child]
+        pub(super) header_stack: TemplateChild<gtk::Stack>,
+        #[template_child]
         pub(super) leaflet: TemplateChild<adw::Leaflet>,
         #[template_child]
         pub(super) search_button: TemplateChild<gtk::ToggleButton>,
@@ -43,6 +47,16 @@ mod imp {
         #[template_child]
         pub(super) menu_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
+        pub(super) selection_mode_button: TemplateChild<gtk::Button>,
+        #[template_child]
+        pub(super) selected_items_stack: TemplateChild<gtk::Stack>,
+        #[template_child]
+        pub(super) selected_images_button: TemplateChild<gtk::MenuButton>,
+        #[template_child]
+        pub(super) selected_containers_button: TemplateChild<gtk::MenuButton>,
+        #[template_child]
+        pub(super) selected_pods_button: TemplateChild<gtk::MenuButton>,
+        #[template_child]
         pub(super) search_stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) panel_stack: TemplateChild<adw::ViewStack>,
@@ -50,6 +64,8 @@ mod imp {
         pub(super) images_panel: TemplateChild<view::ImagesPanel>,
         #[template_child]
         pub(super) containers_panel: TemplateChild<view::ContainersPanel>,
+        #[template_child]
+        pub(super) switcher_bar: TemplateChild<adw::ViewSwitcherBar>,
         #[template_child]
         pub(super) pods_panel: TemplateChild<view::PodsPanel>,
         #[template_child]
@@ -111,6 +127,19 @@ mod imp {
             );
             klass.install_action("win.navigate-home", None, |widget, _, _| {
                 widget.navigate_home();
+            });
+
+            klass.install_action("win.enter-selection-mode", None, |widget, _, _| {
+                widget.enter_selection_mode();
+            });
+            klass.install_action("win.exit-selection-mode", None, |widget, _, _| {
+                widget.exit_selection_mode();
+            });
+            klass.install_action("win.select-all", None, move |widget, _, _| {
+                widget.select_all();
+            });
+            klass.install_action("win.select-none", None, move |widget, _, _| {
+                widget.select_none();
             });
 
             klass.add_binding_action(
@@ -192,91 +221,21 @@ mod imp {
 
             // Load settings.
             obj.load_settings();
+            obj.setup_menu();
+            obj.setup_search();
+            obj.setup_panels();
 
-            let popover_menu = self
-                .menu_button
-                .popover()
-                .unwrap()
-                .downcast::<gtk::PopoverMenu>()
-                .unwrap();
+            let expr =
+                gtk::Stack::this_expression("visible-child-name").chain_closure::<bool>(closure!(
+                    |_: gtk::Stack, visible_child_name: &str| { visible_child_name == "title" }
+                ));
 
-            popover_menu.set_widget_name("main-menu");
-
-            popover_menu.add_child(
-                &view::ConnectionSwitcherWidget::from(&self.connection_manager),
-                "connections",
+            expr.bind(&*self.menu_button, "visible", Some(&*self.title_stack));
+            expr.bind(
+                &*self.selection_mode_button,
+                "visible",
+                Some(&*self.title_stack),
             );
-
-            self.search_button
-                .connect_clicked(clone!(@weak obj => move |button| {
-                    if button.is_active() {
-                        obj.imp().search_entry.set_text("");
-                    }
-                }));
-
-            self.search_button
-                .connect_active_notify(clone!(@weak obj => move |button| {
-                    let imp = obj.imp();
-
-                    if button.is_active() {
-                        imp.title_stack.set_visible_child(&*imp.search_entry);
-                        imp.search_entry.grab_focus();
-                        imp.search_stack.set_visible_child(&*imp.search_panel);
-                    } else {
-                        imp.title_stack.set_visible_child(&*imp.title);
-                        imp.search_stack.set_visible_child_name("main");
-                    }
-                }));
-
-            self.search_entry
-                .connect_text_notify(clone!(@weak obj => move |entry| {
-                    if !obj.is_showing_overlay() {
-                        let imp = obj.imp();
-                        imp.search_panel.set_term(entry.text().into());
-                        if !entry.text().is_empty() {
-                            imp.search_button.set_active(true);
-                        }
-                    }
-                }));
-
-            let search_entry_key_ctrl = gtk::EventControllerKey::new();
-            search_entry_key_ctrl.connect_key_pressed(
-                clone!(@weak obj => @default-return gtk::Inhibit(false), move |_, key, _, _| {
-                    if key == gdk::Key::Escape {
-                        obj.imp().search_button.set_active(false);
-                        gtk::Inhibit(true)
-                    } else {
-                        gtk::Inhibit(false)
-                    }
-                }),
-            );
-            self.search_entry.add_controller(&search_entry_key_ctrl);
-
-            self.search_entry.set_key_capture_widget(Some(obj));
-
-            let search_key_capture_ctrl = gtk::EventControllerKey::new();
-            search_key_capture_ctrl.connect_key_pressed(
-                clone!(@weak obj => @default-return gtk::Inhibit(false), move |_, _, _, _| {
-                    let imp = obj.imp();
-                    if !obj.is_showing_overlay() && !imp.search_button.is_active() {
-                        obj.imp().search_entry.set_text("");
-                    }
-
-                    gtk::Inhibit(false)
-                }),
-            );
-            obj.add_controller(&search_key_capture_ctrl);
-
-            self.leaflet
-                .connect_visible_child_notify(clone!(@weak obj => move |_| {
-                    obj.action_set_enabled("win.toggle-search", !obj.is_showing_overlay());
-                }));
-
-            gtk::Stack::this_expression("visible-child-name")
-                .chain_closure::<bool>(closure!(|_: gtk::Stack, visible_child_name: &str| {
-                    visible_child_name == "title"
-                }))
-                .bind(&*self.menu_button, "visible", Some(&*self.title_stack));
 
             self.connection_manager.connect_notify_local(
                 Some("client"),
@@ -286,6 +245,7 @@ mod imp {
                             let imp = obj.imp();
                             imp.search_button.set_active(false);
                             imp.main_stack.set_visible_child_full("client", gtk::StackTransitionType::None);
+                            obj.exit_selection_mode();
                             obj.set_headerbar_background(client.connection().rgb());
                         }),
                         clone!(@weak obj => move |e| obj.client_err_op(e)),
@@ -386,6 +346,166 @@ impl Window {
             .build();
     }
 
+    fn setup_menu(&self) {
+        let imp = self.imp();
+
+        let popover_menu = imp
+            .menu_button
+            .popover()
+            .unwrap()
+            .downcast::<gtk::PopoverMenu>()
+            .unwrap();
+
+        popover_menu.set_widget_name("main-menu");
+
+        popover_menu.add_child(
+            &view::ConnectionSwitcherWidget::from(&imp.connection_manager),
+            "connections",
+        );
+    }
+
+    fn setup_search(&self) {
+        let imp = self.imp();
+
+        imp.search_button
+            .connect_clicked(clone!(@weak self as obj => move |button| {
+                if button.is_active() {
+                    obj.imp().search_entry.set_text("");
+                }
+            }));
+
+        imp.search_button
+            .connect_active_notify(clone!(@weak self as obj => move |button| {
+                let imp = obj.imp();
+
+                if button.is_active() {
+                    imp.title_stack.set_visible_child(&*imp.search_entry);
+                    imp.search_entry.grab_focus();
+                    imp.search_stack.set_visible_child(&*imp.search_panel);
+                } else {
+                    imp.title_stack.set_visible_child(&*imp.title);
+                    imp.search_stack.set_visible_child_name("main");
+                }
+            }));
+
+        imp.search_entry
+            .connect_text_notify(clone!(@weak self as obj => move |entry| {
+                if obj.is_search_activatable() {
+                    let imp = obj.imp();
+                    imp.search_panel.set_term(entry.text().into());
+                    if !entry.text().is_empty() {
+                        imp.search_button.set_active(true);
+                    }
+                }
+            }));
+
+        let search_entry_key_ctrl = gtk::EventControllerKey::new();
+        search_entry_key_ctrl.connect_key_pressed(
+            clone!(@weak self as obj => @default-return gtk::Inhibit(false), move |_, key, _, _| {
+                if key == gdk::Key::Escape {
+                    obj.imp().search_button.set_active(false);
+                    gtk::Inhibit(true)
+                } else {
+                    gtk::Inhibit(false)
+                }
+            }),
+        );
+        imp.search_entry.add_controller(&search_entry_key_ctrl);
+
+        imp.search_entry.set_key_capture_widget(Some(self));
+
+        let search_key_capture_ctrl = gtk::EventControllerKey::new();
+        search_key_capture_ctrl.connect_key_pressed(
+            clone!(@weak self as obj => @default-return gtk::Inhibit(false), move |_, _, _, _| {
+                let imp = obj.imp();
+                if obj.is_search_activatable() && !imp.search_button.is_active() {
+                    imp.search_entry.set_text("");
+                }
+
+                gtk::Inhibit(false)
+            }),
+        );
+        self.add_controller(&search_key_capture_ctrl);
+
+        imp.leaflet
+            .connect_visible_child_notify(clone!(@weak self as obj => move |_| {
+                obj.check_search_action();
+            }));
+
+        imp.header_stack
+            .connect_visible_child_notify(clone!(@weak self as obj => move |_| {
+                obj.check_search_action();
+            }));
+    }
+
+    fn setup_panels(&self) {
+        let imp = self.imp();
+
+        gtk::ClosureExpression::new::<bool, _, _>(
+            &[
+                imp.title.property_expression("title-visible"),
+                imp.header_stack.property_expression("visible-child-name"),
+            ],
+            closure!(|_: Option<glib::Object>,
+                      title_visible: bool,
+                      visible_child: Option<&str>| {
+                title_visible && visible_child == Some("main")
+            }),
+        )
+        .bind(&*imp.switcher_bar, "reveal", glib::Object::NONE);
+
+        view::ImagesPanel::this_expression("image-list")
+            .chain_property::<model::ImageList>("num-selected")
+            .chain_closure::<String>(closure!(|_: view::ImagesPanel, selected: u32| ngettext!(
+                "{} Selected Image",
+                "{} Selected Images",
+                selected as u32,
+                selected
+            )))
+            .bind(
+                &*imp.selected_images_button,
+                "label",
+                Some(&*imp.images_panel),
+            );
+        view::ContainersPanel::this_expression("container-list")
+            .chain_property::<model::ContainerList>("num-selected")
+            .chain_closure::<String>(closure!(
+                |_: view::ContainersPanel, selected: u32| ngettext!(
+                    "{} Selected Container",
+                    "{} Selected Containers",
+                    selected as u32,
+                    selected
+                )
+            ))
+            .bind(
+                &*imp.selected_containers_button,
+                "label",
+                Some(&*imp.containers_panel),
+            );
+        view::PodsPanel::this_expression("pod-list")
+            .chain_property::<model::PodList>("num-selected")
+            .chain_closure::<String>(closure!(|_: view::PodsPanel, selected: u32| ngettext!(
+                "{} Selected Pod",
+                "{} Selected Pods",
+                selected as u32,
+                selected
+            )))
+            .bind(&*imp.selected_pods_button, "label", Some(&*imp.pods_panel));
+
+        imp.images_panel
+            .connect_exit_selection_mode(clone!(@weak self as obj => move |_| {
+                obj.exit_selection_mode();
+            }));
+        imp.containers_panel
+            .connect_exit_selection_mode(clone!(@weak self as obj => move |_| {
+                obj.exit_selection_mode();
+            }));
+        imp.pods_panel
+            .connect_exit_selection_mode(clone!(@weak self as obj => move |_| {
+                obj.exit_selection_mode();
+            }));
+    }
+
     pub(crate) fn connection_manager(&self) -> model::ConnectionManager {
         self.imp().connection_manager.clone()
     }
@@ -422,6 +542,104 @@ impl Window {
             self.imp().leaflet.visible_child_name().as_deref(),
             Some("overlay")
         )
+    }
+
+    fn enter_selection_mode(&self) {
+        let imp = self.imp();
+
+        // imp.search_entry.set_key_capture_widget(gtk::Widget::NONE);
+        imp.header_stack.set_visible_child_name("selection");
+
+        match imp.panel_stack.visible_child_name() {
+            Some(name) => match name.as_str() {
+                "images" => imp
+                    .images_panel
+                    .image_list()
+                    .unwrap()
+                    .set_selection_mode(true),
+                "containers" => imp
+                    .containers_panel
+                    .container_list()
+                    .unwrap()
+                    .set_selection_mode(true),
+                "pods" => imp.pods_panel.pod_list().unwrap().set_selection_mode(true),
+                _ => unreachable!(),
+            },
+            None => {}
+        }
+    }
+
+    fn exit_selection_mode(&self) {
+        let imp = self.imp();
+
+        imp.header_stack.set_visible_child_name("main");
+
+        imp.images_panel
+            .image_list()
+            .unwrap()
+            .set_selection_mode(false);
+        imp.containers_panel
+            .container_list()
+            .unwrap()
+            .set_selection_mode(false);
+        imp.pods_panel.pod_list().unwrap().set_selection_mode(false);
+    }
+
+    fn select_all(&self) {
+        let imp = self.imp();
+
+        if let Some(list) = imp
+            .images_panel
+            .image_list()
+            .filter(|list| list.is_selection_mode())
+        {
+            list.select_all()
+        } else if let Some(list) = imp
+            .containers_panel
+            .container_list()
+            .filter(|list| list.is_selection_mode())
+        {
+            list.select_all()
+        } else if let Some(list) = imp
+            .pods_panel
+            .pod_list()
+            .filter(|list| list.is_selection_mode())
+        {
+            list.select_all()
+        }
+    }
+
+    fn select_none(&self) {
+        let imp = self.imp();
+
+        if let Some(list) = imp
+            .images_panel
+            .image_list()
+            .filter(|list| list.is_selection_mode())
+        {
+            list.select_none()
+        } else if let Some(list) = imp
+            .containers_panel
+            .container_list()
+            .filter(|list| list.is_selection_mode())
+        {
+            list.select_none()
+        } else if let Some(list) = imp
+            .pods_panel
+            .pod_list()
+            .filter(|list| list.is_selection_mode())
+        {
+            list.select_none()
+        }
+    }
+
+    fn check_search_action(&self) {
+        self.action_set_enabled("win.toggle-search", self.is_search_activatable())
+    }
+
+    fn is_search_activatable(&self) -> bool {
+        !self.is_showing_overlay()
+            && self.imp().header_stack.visible_child_name().as_deref() == Some("main")
     }
 
     fn navigate_home(&self) {
