@@ -1,3 +1,5 @@
+use std::cell::RefCell;
+
 use adw::subclass::prelude::ActionRowImpl;
 use adw::subclass::prelude::PreferencesRowImpl;
 use gtk::glib;
@@ -10,6 +12,8 @@ use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
 
 use crate::model;
+use crate::model::SelectableExt;
+use crate::model::SelectableListExt;
 use crate::utils;
 use crate::view;
 
@@ -18,7 +22,14 @@ mod imp {
 
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/image-row.ui")]
-    pub(crate) struct ImageRow(pub(super) WeakRef<model::Image>);
+    pub(crate) struct ImageRow {
+        pub(super) image: WeakRef<model::Image>,
+        pub(super) bindings: RefCell<Vec<glib::Binding>>,
+        #[template_child]
+        pub(super) check_button: TemplateChild<gtk::CheckButton>,
+        #[template_child]
+        pub(super) end_box: TemplateChild<gtk::Box>,
+    }
 
     #[glib::object_subclass]
     impl ObjectSubclass for ImageRow {
@@ -29,8 +40,8 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
-            klass.install_action("image.show-details", None, move |widget, _, _| {
-                widget.show_details();
+            klass.install_action("image-row.activate", None, move |widget, _, _| {
+                widget.activate();
             });
         }
 
@@ -55,15 +66,13 @@ mod imp {
 
         fn set_property(
             &self,
-            _obj: &Self::Type,
+            obj: &Self::Type,
             _id: usize,
             value: &glib::Value,
             pspec: &glib::ParamSpec,
         ) {
             match pspec.name() {
-                "image" => {
-                    self.0.set(value.get().unwrap());
-                }
+                "image" => obj.set_image(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
@@ -79,6 +88,18 @@ mod imp {
             self.parent_constructed(obj);
 
             let image_expr = Self::Type::this_expression("image");
+
+            let selection_mode_expr = image_expr
+                .chain_property::<model::Image>("image-list")
+                .chain_property::<model::ImageList>("selection-mode");
+
+            selection_mode_expr.bind(&self.check_button.parent().unwrap(), "visible", Some(obj));
+            selection_mode_expr
+                .chain_closure::<bool>(closure!(|_: Self::Type, is_selection_mode: bool| {
+                    !is_selection_mode
+                }))
+                .bind(&*self.end_box, "visible", Some(obj));
+
             let repo_tags_expr = image_expr.chain_property::<model::Image>("repo-tags");
 
             repo_tags_expr
@@ -153,11 +174,46 @@ impl From<&model::Image> for ImageRow {
 
 impl ImageRow {
     pub(crate) fn image(&self) -> Option<model::Image> {
-        self.imp().0.upgrade()
+        self.imp().image.upgrade()
     }
 
-    fn show_details(&self) {
-        utils::find_leaflet_overlay(self)
-            .show_details(&view::ImageDetailsPage::from(&self.image().unwrap()));
+    pub(crate) fn set_image(&self, value: Option<&model::Image>) {
+        if self.image().as_ref() == value {
+            return;
+        }
+
+        let imp = self.imp();
+
+        let mut bindings = imp.bindings.borrow_mut();
+        while let Some(binding) = bindings.pop() {
+            binding.unbind();
+        }
+
+        if let Some(image) = value {
+            let binding = image
+                .bind_property("selected", &*imp.check_button, "active")
+                .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
+                .build();
+
+            bindings.push(binding);
+        }
+
+        imp.image.set(value);
+        self.notify("image")
+    }
+
+    fn activate(&self) {
+        if let Some(image) = self.image().as_ref() {
+            if image
+                .image_list()
+                .map(|list| list.is_selection_mode())
+                .unwrap_or(false)
+            {
+                image.select();
+            } else {
+                utils::find_leaflet_overlay(self)
+                    .show_details(&view::ImageDetailsPage::from(image));
+            }
+        }
     }
 }
