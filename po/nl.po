@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-08-14 23:18+0200\n"
-"PO-Revision-Date: 2022-05-05 19:11+0000\n"
-"Last-Translator: Gert-dev <qnyasgjhapqyuhoibr@kiabws.com>\n"
+"PO-Revision-Date: 2022-09-08 13:22+0000\n"
+"Last-Translator: Philip Goto <philip.goto@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/pods/pods/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.12.1\n"
+"X-Generator: Weblate 4.14.1-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
@@ -34,7 +34,7 @@ msgstr "Een desktop-applicatie voor Podman"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:9
 msgid "Gnome;GTK;"
-msgstr "Gnome;GTK;"
+msgstr "Gnome;GTK;virtualisatie;"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:6
 #: data/com.github.marhkb.Pods.gschema.xml.in:7
@@ -60,7 +60,7 @@ msgstr "Gebruik een lichte of donkere variant van het GTK-thema"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:31
 msgid "The uuid of the connection that was used the last time"
-msgstr ""
+msgstr "De UUID van de laatst gebruikte verbinding"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:36
 msgid "The last used view"
@@ -89,9 +89,8 @@ msgid "Whether to show only running containers"
 msgstr "Of alleen draaiende containers getoond moeten worden"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:61
-#, fuzzy
 msgid "Whether to show only running pods"
-msgstr "Of alleen draaiende containers getoond moeten worden"
+msgstr "Of alleen draaiende pods getoond moeten worden"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:66
 msgid "Whether to show a timestamp for each log line"
@@ -107,25 +106,24 @@ msgid "Marcus Behrendt"
 msgstr "Marcus Behrendt"
 
 #: data/resources/ui/connection-chooser-page.ui:16
-#, fuzzy
 msgid "Connect to Podman"
-msgstr "Verbinding met Podman verbroken"
+msgstr "Verbinding maken met Podman"
 
 #: data/resources/ui/connection-chooser-page.ui:17
 msgid "Either choose an existing connection or create a new one."
-msgstr ""
+msgstr "Kies een bestaande verbinding of maak een nieuwe aan."
 
 #: data/resources/ui/connection-chooser-page.ui:80
 msgid "_Add New Connection"
-msgstr ""
+msgstr "_Nieuwe verbinding toevoegen"
 
 #: data/resources/ui/connection-creator-page.ui:31
 msgid "Add New Connection"
-msgstr ""
+msgstr "Nieuwe verbinding toevoegen"
 
 #: data/resources/ui/connection-creator-page.ui:41
 msgid "_Connect"
-msgstr ""
+msgstr "_Verbinden"
 
 #: data/resources/ui/connection-creator-page.ui:57
 #: data/resources/ui/container-creation-page.ui:83
@@ -137,42 +135,39 @@ msgstr "Naam"
 
 #: data/resources/ui/connection-creator-page.ui:66
 msgid "Url"
-msgstr ""
+msgstr "URL"
 
 #: data/resources/ui/connection-creator-page.ui:67
-#, fuzzy
 msgid "Choose how you want to connect to Podman."
-msgstr "Verbinding met Podman verbroken"
+msgstr "Kies hoe u met podman wilt verbinden."
 
 #: data/resources/ui/connection-creator-page.ui:71
 msgid "Unix Socket"
-msgstr ""
+msgstr "Unix-socket"
 
 #: data/resources/ui/connection-creator-page.ui:86
 msgid "Custom"
-msgstr ""
+msgstr "Aangepast"
 
 #: data/resources/ui/connection-creator-page.ui:96
-#, fuzzy
 msgid "Connection String"
-msgstr "Verbinding met Podman verbroken"
+msgstr "Verbindingstekenreeks"
 
 #: data/resources/ui/connection-creator-page.ui:112
 msgid "Color"
-msgstr ""
+msgstr "Kleur"
 
 #: data/resources/ui/connection-creator-page.ui:113
 msgid "Define how to colorize the header bar."
-msgstr ""
+msgstr "Hoe de titelbalk moet worden gekleurd."
 
 #: data/resources/ui/container-creation-page.ui:7
 msgid "_Create"
 msgstr "_Aanmaken"
 
 #: data/resources/ui/container-creation-page.ui:56
-#, fuzzy
 msgid "Specify Container Settings"
-msgstr "Containers"
+msgstr "Containerinstellingen beheren"
 
 #: data/resources/ui/container-creation-page.ui:66
 msgid "Create and run"
@@ -185,23 +180,21 @@ msgstr "Details"
 #: data/resources/ui/container-creation-page.ui:131
 #: data/resources/ui/container-creation-page.ui:137
 msgid "Local image"
-msgstr ""
+msgstr "Lokaal schijfkopiebestand"
 
 #: data/resources/ui/container-creation-page.ui:154
-#, fuzzy
 msgid "Remote image"
-msgstr "Afbeelding _verwijderen"
+msgstr "Extern schijfkopiebestand"
 
 #: data/resources/ui/container-creation-page.ui:181
 #: data/resources/ui/container-creation-page.ui:188
 #: data/resources/ui/container-properties-group.ui:139
-#, fuzzy
 msgid "Pod"
-msgstr "Pods"
+msgstr "Pod"
 
 #: data/resources/ui/container-creation-page.ui:206
 msgid "Pull latest image"
-msgstr ""
+msgstr "Nieuwste schijfkopiebestand binnenhalen"
 
 #: data/resources/ui/container-creation-page.ui:217
 #: data/resources/ui/container-creation-page.ui:378
@@ -230,7 +223,7 @@ msgstr "GB"
 
 #: data/resources/ui/container-creation-page.ui:308
 msgid "Integration"
-msgstr ""
+msgstr "Integratie"
 
 #: data/resources/ui/container-creation-page.ui:318
 msgid "Port Mappings"
@@ -238,7 +231,7 @@ msgstr "Poort-mapping"
 
 #: data/resources/ui/container-creation-page.ui:333
 msgid "Volumes"
-msgstr "Volumes"
+msgstr "Volumen"
 
 #: data/resources/ui/container-creation-page.ui:348
 msgid "Environment Variables"
@@ -247,68 +240,71 @@ msgstr "Omgevingsvariabelen"
 #: data/resources/ui/container-creation-page.ui:369
 #: data/resources/ui/container-properties-group.ui:86
 msgid "Health Check"
-msgstr ""
+msgstr "Gezondheidscheck"
 
 #: data/resources/ui/container-creation-page.ui:384
 msgid "Interval"
-msgstr ""
+msgstr "Interval"
 
 #: data/resources/ui/container-creation-page.ui:385
 msgid "Interval how often health check is run."
-msgstr ""
+msgstr "Hoe vaak de gezondheidscheck moet worden uitgevoerd."
 
 #: data/resources/ui/container-creation-page.ui:408
 #: data/resources/ui/container-creation-page.ui:444
 #: data/resources/ui/container-creation-page.ui:480
 msgid "seconds"
-msgstr ""
+msgstr "seconden"
 
 #: data/resources/ui/container-creation-page.ui:420
 msgid "Timeout"
-msgstr ""
+msgstr "Time-out"
 
 #: data/resources/ui/container-creation-page.ui:421
 msgid ""
 "The maximum time allowed to complete the health check before an interval is "
 "considered failed."
 msgstr ""
+"De maximaal toegestane tijd dat een gezondheidscheck mag duren voor een "
+"interval wordt beschouwd als mislukt."
 
 #: data/resources/ui/container-creation-page.ui:456
 msgid "Start period"
-msgstr ""
+msgstr "Starttijd"
 
 #: data/resources/ui/container-creation-page.ui:457
 msgid "The initialization time needed for a container to bootstrap."
-msgstr ""
+msgstr "De benodigde initialisatietijd voor een container om op te starten."
 
 #: data/resources/ui/container-creation-page.ui:492
 msgid "Retries"
-msgstr ""
+msgstr "Herkansingen"
 
 #: data/resources/ui/container-creation-page.ui:493
 msgid ""
 "The number of retries allowed before a healthcheck is considered to be "
 "unhealthy."
 msgstr ""
+"Het aantal toegestane herkansingen voor een gezondheidscheck als niet-gezond "
+"wordt beschouwd."
 
 #: data/resources/ui/container-creation-page.ui:580
 #: data/resources/ui/image-pulling-page.ui:42
 msgid "Please Wait a Moment"
-msgstr ""
+msgstr "Een moment geduld"
 
 #: data/resources/ui/container-creation-page.ui:581
 msgid "The container is being created. You are safe to leave this page."
-msgstr ""
+msgstr "De container wordt aangemaakt. U kunt deze pagina verlaten."
 
 #: data/resources/ui/container-details-page.ui:40
-#, fuzzy
 msgid "Container Details"
-msgstr "Containers"
+msgstr "Container-details"
 
 #: data/resources/ui/container-details-page.ui:79
 #: data/resources/ui/pod-details-page.ui:135
 msgid "Utilities"
-msgstr ""
+msgstr "Gereedschap"
 
 #: data/resources/ui/container-details-page.ui:83
 msgid "Logs"
@@ -316,25 +312,24 @@ msgstr "Logboeken"
 
 #: data/resources/ui/container-details-page.ui:84
 msgid "View and search through container logs"
-msgstr ""
+msgstr "Bekijk en doorzoek container-logboeken"
 
 #: data/resources/ui/container-details-page.ui:100
 #: data/resources/ui/pod-details-page.ui:139
 msgid "Processes"
-msgstr ""
+msgstr "Processen"
 
 #: data/resources/ui/container-details-page.ui:101
 msgid "View processes that are currently running inside the container"
-msgstr ""
+msgstr "Bekijk processen welke momenteel binnen de container draaien"
 
 #: data/resources/ui/container-log-page.ui:33
-#, fuzzy
 msgid "Container Log"
-msgstr "Containerpoort"
+msgstr "Container-logboek"
 
 #: data/resources/ui/container-log-page.ui:40
 msgid "Toggle timestamps"
-msgstr "Tijdstempels tonen of verbergen"
+msgstr "Tijdstempels omschakelen"
 
 #: data/resources/ui/container-log-page.ui:89
 msgid "Scroll to bottom"
@@ -366,7 +361,7 @@ msgstr "Enkel volledige _woorden zoeken"
 
 #: data/resources/ui/container-log-page.ui:228
 msgid "Loading previous lines"
-msgstr ""
+msgstr "Vorige regels laden"
 
 #: data/resources/ui/container-menu-button.ui:6
 #: data/resources/ui/pod-menu-button.ui:12
@@ -428,9 +423,8 @@ msgid "Id"
 msgstr "Id"
 
 #: data/resources/ui/container-properties-group.ui:26
-#, fuzzy
 msgid "Port bindings"
-msgstr "Poort-mapping"
+msgstr "Poortbindingen"
 
 #: data/resources/ui/container-properties-group.ui:43
 #: data/resources/ui/pod-details-page.ui:95 src/model/container.rs:70
@@ -445,7 +439,7 @@ msgstr "Status"
 
 #: data/resources/ui/container-properties-group.ui:102
 msgid "Image"
-msgstr "Afbeelding"
+msgstr "Schijfkopiebestand"
 
 #: data/resources/ui/container-rename-dialog.ui:10
 #: src/view/image/image_menu_button.rs:206 src/view/pod/pod_menu_button.rs:282
@@ -458,30 +452,27 @@ msgstr "_Hernoemen"
 
 #: data/resources/ui/container-resources-quick-reference-group.ui:13
 msgid "Resources Quick Reference"
-msgstr ""
+msgstr "Bronnen"
 
 #: data/resources/ui/container-resources-quick-reference-group.ui:41
-#, fuzzy
 msgid "CPU"
-msgstr "TCP"
+msgstr "CPU"
 
 #: data/resources/ui/container-resources-quick-reference-group.ui:89
-#, fuzzy
 msgid "Memory"
-msgstr "Geheugenlimiet"
+msgstr "Geheugen"
 
 #: data/resources/ui/container-resources-quick-reference-group.ui:132
 msgid "Network"
-msgstr ""
+msgstr "Netwerk"
 
 #: data/resources/ui/container-resources-quick-reference-group.ui:231
 msgid "Disk"
-msgstr ""
+msgstr "Schijf"
 
 #: data/resources/ui/containers-group.ui:14 data/resources/ui/pods-panel.ui:62
-#, fuzzy
 msgid "Only running"
-msgstr "Draaiend"
+msgstr "Alleen draaiend"
 
 #: data/resources/ui/containers-panel.ui:55
 #: data/resources/ui/images-panel.ui:63 data/resources/ui/pods-panel.ui:52
@@ -502,7 +493,7 @@ msgstr "Waarde"
 
 #: data/resources/ui/image-details-page.ui:38
 msgid "Image Details"
-msgstr "Afbeeldingsdetails"
+msgstr "Details van schijfkopiebestand"
 
 #: data/resources/ui/image-details-page.ui:127
 msgid "Associated Containers"
@@ -510,7 +501,7 @@ msgstr "Geassocieerde containers"
 
 #: data/resources/ui/image-details-page.ui:128
 msgid "There are no containers associated with this image."
-msgstr "Er zijn geen containers geassocieerd met deze afbeelding."
+msgstr "Er zijn geen containers geassocieerd met dit schijfkopiebestand."
 
 #: data/resources/ui/image-menu-button.ui:6
 #: data/resources/ui/pod-menu-button.ui:6
@@ -518,28 +509,28 @@ msgid "_Create Container…"
 msgstr "_Container aanmaken…"
 
 #: data/resources/ui/image-menu-button.ui:13
-#, fuzzy
 msgid "Delete"
-msgstr "_Verwijderen"
+msgstr "Verwijderen"
 
 #: data/resources/ui/image-pulling-page.ui:43
 msgid ""
 "The image is currently being downloaded. You are safe to leave this page."
 msgstr ""
+"Het schijfkopiebestand wordt momenteel gedownload. U kunt deze pagina "
+"verlaten."
 
 #: data/resources/ui/image-pull-page.ui:42
 #: data/resources/ui/image-selection-page.ui:32
 msgid "Search For an Image"
-msgstr ""
+msgstr "Zoeken naar schijfkopiebestand"
 
 #: data/resources/ui/image-pull-page.ui:52
 msgid "Download"
-msgstr ""
+msgstr "Downloaden"
 
 #: data/resources/ui/image-search-widget.ui:31
-#, fuzzy
 msgid "No Registries Found"
-msgstr "Geen afbeeldingen gevonden"
+msgstr "Geen registers gevonden"
 
 #: data/resources/ui/image-search-widget.ui:32
 msgid ""
@@ -550,60 +541,60 @@ msgid ""
 "\">website</a> in order to add registries.\n"
 "                "
 msgstr ""
+"\n"
+"U kunt niet zoeken naar schijfkopiebestanden zonder registers. Volg de "
+"instructies op <a href=\"https://github.com/containers/image/blob/"
+"b80addc01c0dab40c5d8945a1df61f3c72a3e40d/docs/containers-registries.conf.5."
+"md\">deze website</a> om registers toe te voegen.\n"
+"                "
 
 #: data/resources/ui/image-search-widget.ui:53
-#, fuzzy
 msgid "Search for"
-msgstr "Zoeken"
+msgstr "Zoeken naar"
 
 #: data/resources/ui/image-search-widget.ui:60
 msgid "Registry"
-msgstr ""
+msgstr "Register"
 
 #: data/resources/ui/image-search-widget.ui:82
-#, fuzzy
 msgid "No Images Found"
-msgstr "Geen afbeeldingen gevonden"
+msgstr "Geen schijfkopiebestanden gevonden"
 
 #: data/resources/ui/image-search-widget.ui:83
 msgid "Please start typing to look for images."
-msgstr ""
+msgstr "Begin met typen om naar schijfkopiebestanden te zoeken."
 
 #: data/resources/ui/image-search-widget.ui:98
-#, fuzzy
 msgid "Searching…"
-msgstr "Zoeken"
+msgstr "Zoeken…"
 
 #: data/resources/ui/image-search-widget.ui:124
 msgid "Please retry another term."
-msgstr ""
+msgstr "Probeer opnieuw met een andere zoekterm."
 
 #: data/resources/ui/image-search-widget.ui:185
 msgid "Tag ('latest' if empty)"
-msgstr ""
+msgstr "Tag (‘latest’ indien leeg)"
 
 #: data/resources/ui/image-selection-page.ui:42
 msgid "_Select"
-msgstr ""
+msgstr "_Selecteren"
 
 #: data/resources/ui/images-panel.ui:6
-#, fuzzy
 msgid "_Download…"
-msgstr "_Ongebruikte afbeeldingen opschonen…"
+msgstr "_Downloaden…"
 
 #: data/resources/ui/images-panel.ui:10
-#, fuzzy
 msgid "_Prune…"
-msgstr "_Opschonen"
+msgstr "_Opschonen…"
 
 #: data/resources/ui/images-panel.ui:73
-#, fuzzy
 msgid "Intermediates"
-msgstr "_Toon intermediaire afbeeldingen"
+msgstr "Intermediair"
 
 #: data/resources/ui/images-prune-page.ui:31
 msgid "Specify Pruning Settings"
-msgstr ""
+msgstr "Opschoningsinstellingen beheren"
 
 #: data/resources/ui/images-prune-page.ui:41
 msgid "_Prune"
@@ -620,8 +611,8 @@ msgstr "Alles opschonen"
 #: data/resources/ui/images-prune-page.ui:68
 msgid "Remove all images not in use by containers, not just dangling ones."
 msgstr ""
-"Alle afbeeldingen die niet gebruikt worden door containers verwijderen, niet "
-"enkel de bengelende."
+"Alle schijfkopiebestanden die niet gebruikt worden door containers "
+"verwijderen, niet enkel de bengelende."
 
 #: data/resources/ui/images-prune-page.ui:80
 msgid "Prune External"
@@ -632,8 +623,8 @@ msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)."
 msgstr ""
-"Verwijder afbeeldingen zelfs als ze gebruikt worden door externe containers "
-"(bv. door (build) containers gebruikt om te bouwen)."
+"Verwijder schijfkopiebestanden zelfs als ze gebruikt worden door externe "
+"containers (bv. door build-containers)."
 
 #: data/resources/ui/images-prune-page.ui:92
 msgid "Prune Until"
@@ -641,7 +632,7 @@ msgstr "Opschonen tot"
 
 #: data/resources/ui/images-prune-page.ui:93
 msgid "Prune images created before this timestamp."
-msgstr "Verwijder afbeeldingen aangemaakt vóór dit tijdstip."
+msgstr "Verwijder schijfkopiebestanden aangemaakt vóór dit tijdstip."
 
 #: data/resources/ui/images-prune-page.ui:174
 msgid "AM"
@@ -652,9 +643,8 @@ msgid "PM"
 msgstr "PM"
 
 #: data/resources/ui/info-dialog.ui:6
-#, fuzzy
 msgid "About Podman"
-msgstr "_Over Pods"
+msgstr "Over Podman"
 
 #: data/resources/ui/info-dialog.ui:14 data/resources/ui/info-dialog.ui:48
 msgid "Version"
@@ -670,7 +660,7 @@ msgstr "Bouwtijdstip"
 
 #: data/resources/ui/info-dialog.ui:30
 msgid "Git Commit"
-msgstr "Git Commit"
+msgstr "Git-commit"
 
 #: data/resources/ui/info-dialog.ui:36
 msgid "Go Version"
@@ -721,7 +711,7 @@ msgstr "Graph-opties"
 
 #: data/resources/ui/info-dialog.ui:133
 msgid "Graph Root"
-msgstr "Graph root"
+msgstr "Graph-root"
 
 #: data/resources/ui/info-dialog.ui:139
 msgid "Graph Status"
@@ -729,13 +719,13 @@ msgstr "Graph-status"
 
 #: data/resources/ui/info-dialog.ui:159
 msgid "Image Store"
-msgstr "Afbeeldingsopslag"
+msgstr "Opslag voor schijfkopiebestanden"
 
 #: data/resources/ui/info-dialog.ui:160
 msgid "Describes the image store. Right now only the number of images present."
 msgstr ""
-"Beschrijft de afbeeldingsopslag. Momenteel enkel het aantal beschikbare "
-"afbeeldingen."
+"Beschrijft de opslag voor schijfkopiebestanden. Momenteel enkel het aantal "
+"beschikbare schijfkopiebestanden."
 
 #: data/resources/ui/info-dialog.ui:166
 msgid "Run Root"
@@ -746,24 +736,21 @@ msgid "Volume Path"
 msgstr "Volumepad"
 
 #: data/resources/ui/pod-creation-page.ui:47
-#, fuzzy
 msgid "Specify Pod Settings"
-msgstr "Containers"
+msgstr "Pod-instellingen beheren"
 
 #: data/resources/ui/pod-creation-page.ui:57
-#, fuzzy
 msgid "Create"
-msgstr "_Aanmaken"
+msgstr "Aanmaken"
 
 #: data/resources/ui/pod-creation-page.ui:86
 #: data/resources/ui/pod-details-page.ui:84
 msgid "Hostname"
-msgstr ""
+msgstr "Host-naam"
 
 #: data/resources/ui/pod-details-page.ui:40
-#, fuzzy
 msgid "Pod Details"
-msgstr "Details"
+msgstr "Pod-details"
 
 #: data/resources/ui/pod-details-page.ui:128
 #: data/resources/ui/search-panel.ui:68 data/resources/ui/window.ui:182
@@ -771,13 +758,12 @@ msgid "Containers"
 msgstr "Containers"
 
 #: data/resources/ui/pod-details-page.ui:129
-#, fuzzy
 msgid "There are no containers in this pod."
-msgstr "Er zijn geen containers geassocieerd met deze afbeelding."
+msgstr "Deze pod bevat geen containers."
 
 #: data/resources/ui/pod-details-page.ui:140
 msgid "View processes that are currently running inside the pod."
-msgstr ""
+msgstr "Bekijk processen welke nu in de pod draaien."
 
 #: data/resources/ui/port-mapping-row.ui:29
 msgid "IP address"
@@ -815,12 +801,12 @@ msgstr "Algemeen"
 #: data/resources/ui/shortcuts.ui:17
 msgctxt "shortcut window"
 msgid "Show Shortcuts"
-msgstr "Toon sneltoetsen"
+msgstr "Sneltoetsen tonen"
 
 #: data/resources/ui/shortcuts.ui:24
 msgctxt "shortcut window"
 msgid "Show menu"
-msgstr ""
+msgstr "Menu tonen"
 
 #: data/resources/ui/shortcuts.ui:31
 msgctxt "shortcut window"
@@ -835,64 +821,57 @@ msgstr "Zoeken"
 #: data/resources/ui/shortcuts.ui:48
 msgctxt "shortcut window"
 msgid "Navigation"
-msgstr ""
+msgstr "Navigatie"
 
 #: data/resources/ui/shortcuts.ui:52
 msgctxt "shortcut window"
 msgid "Go back"
-msgstr ""
+msgstr "Terug"
 
 #: data/resources/ui/shortcuts.ui:59
 msgctxt "shortcut window"
 msgid "Return to main view"
-msgstr ""
+msgstr "Terug naar hoofdscherm"
 
 #: data/resources/ui/shortcuts.ui:69
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Podman"
-msgstr "Podman-informatie"
+msgstr "Podman"
 
 #: data/resources/ui/shortcuts.ui:73
 msgctxt "shortcut window"
 msgid "Add a new connection"
-msgstr ""
+msgstr "Nieuwe verbinding toevoegen"
 
 #: data/resources/ui/shortcuts.ui:80
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Create a new entity"
-msgstr "Aanmaken en uitvoeren"
+msgstr "Nieuwe entiteit aanmaken"
 
 #: data/resources/ui/shortcuts.ui:90
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Container"
-msgstr "Containers"
+msgstr "Container"
 
 #: data/resources/ui/shortcuts.ui:94
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Start"
-msgstr "_Starten"
+msgstr "Starten"
 
 #: data/resources/ui/shortcuts.ui:101
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Stop"
-msgstr "_Stoppen"
+msgstr "Stoppen"
 
 #: data/resources/ui/shortcuts.ui:108
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Restart"
-msgstr "_Herstarten"
+msgstr "Herstarten"
 
 #: data/resources/ui/shortcuts.ui:115
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Rename"
-msgstr "_Hernoemen"
+msgstr "Hernoemen"
 
 #: data/resources/ui/volume-row.ui:34
 msgid "Host path"
@@ -934,19 +913,20 @@ msgstr "Welkom bij Pods"
 msgid ""
 "No connections have been detected. Use the button below to create a new one."
 msgstr ""
+"Er zijn geen verbindingen gedetecteerd. Gebruik de knop hieronder om een "
+"nieuwe aan te maken."
 
 #: data/resources/ui/welcome-page.ui:40
 msgid "_Add Connection"
-msgstr ""
+msgstr "Verbinding _toevoegen"
 
 #: data/resources/ui/window.ui:7
 msgid "_Add connection…"
-msgstr ""
+msgstr "Verbinding _toevoegen…"
 
 #: data/resources/ui/window.ui:13
-#, fuzzy
 msgid "About _Podman"
-msgstr "_Over Pods"
+msgstr "Over _Podman"
 
 #: data/resources/ui/window.ui:19
 msgid "_Keyboard Shortcuts"
@@ -958,12 +938,13 @@ msgstr "_Over Pods"
 
 #: src/application.rs:185
 msgid "translator-credits"
-msgstr "Gert-dev"
+msgstr ""
+"Gert-dev\n"
+"Philip Goto <philip.goto@gmail.com>"
 
 #: src/application.rs:189
-#, fuzzy
 msgid "Translators"
-msgstr "Gert-dev"
+msgstr "Vertaald door"
 
 #: src/main.rs:113
 msgid "Prints application version"
@@ -975,7 +956,7 @@ msgstr "Minimumniveau logging instellen"
 
 #: src/model/connection_manager.rs:191
 msgid "Connection '{}' already exists."
-msgstr ""
+msgstr "Verbinding ‘{}’ bestaat al."
 
 #: src/model/container.rs:69 src/model/pod.rs:70
 msgid "Configured"
@@ -1007,24 +988,23 @@ msgstr "Onbekend"
 
 #: src/model/container.rs:116
 msgid "Checking"
-msgstr ""
+msgstr "Controleren"
 
 #: src/model/container.rs:117
 msgid "Healthy"
-msgstr ""
+msgstr "Gezond"
 
 #: src/model/container.rs:118
 msgid "Unhealthy"
-msgstr ""
+msgstr "Ongezond"
 
 #: src/model/container.rs:119
-#, fuzzy
 msgid "Unconfigured"
-msgstr "Geconfigureerd"
+msgstr "Niet geconfigureerd"
 
 #: src/model/pod.rs:73
 msgid "Degraded"
-msgstr ""
+msgstr "Gedegradeerd"
 
 #. Translators: This string will be shown when a property of an entity like an image is null.
 #: src/utils.rs:179
@@ -1032,33 +1012,28 @@ msgid "<none>"
 msgstr "<geen>"
 
 #: src/view/connection/connection_chooser_page.rs:118
-#, fuzzy
 msgid "Error on choosing connection"
-msgstr "Fout bij pauzeren container"
+msgstr "Fout bij kiezen van verbinding"
 
 #: src/view/connection/connection_creator_page.rs:188
-#, fuzzy
 msgid "Error"
-msgstr "Fout: {}"
+msgstr "Fout"
 
 #: src/view/connection/connection_row.rs:119
 msgid "Local connection"
-msgstr ""
+msgstr "Lokale verbinding"
 
 #: src/view/connection/connection_switcher_popup.rs:114
-#, fuzzy
 msgid "Error on swwitching connection"
-msgstr "Fout bij starten container"
+msgstr "Fout bij wisselen van verbinding"
 
 #: src/view/container/container_details_page.rs:202
-#, fuzzy
 msgid "Container '{}' has been deleted"
-msgstr "Container werd verwijderd"
+msgstr "Container ‘{}’ is verwijderd"
 
 #: src/view/container/container_log_page.rs:287
-#, fuzzy
 msgid "0 of {}"
-msgstr "{} van {}"
+msgstr "0 van {}"
 
 #: src/view/container/container_log_page.rs:551
 msgid "{} of {}"
@@ -1076,11 +1051,11 @@ msgstr "%x %X"
 #. Translators: "{}" is a placeholder for a date time.
 #: src/view/container/container_properties_group.rs:170
 msgid "Up since {}"
-msgstr ""
+msgstr "Draaiend sinds {}"
 
 #: src/view/container/container_rename_dialog.rs:89
 msgid "Rename container «{}»"
-msgstr "Container hernoemen «{}»"
+msgstr "Container «{}» hernoemen"
 
 #: src/view/container/container_resources_quick_reference_group.rs:107
 #: src/view/container/container_resources_quick_reference_group.rs:129
@@ -1089,37 +1064,34 @@ msgstr "Container hernoemen «{}»"
 #: src/view/container/container_resources_quick_reference_group.rs:140
 #: src/view/container/container_resources_quick_reference_group.rs:267
 msgid "?"
-msgstr ""
+msgstr "?"
 
 #: src/view/container/container_resources_quick_reference_group.rs:104
 msgid "{} %"
-msgstr ""
+msgstr "{}%"
 
 #: src/view/container/container_resources_quick_reference_group.rs:125
 msgid "{} / {} ({} %)"
-msgstr ""
+msgstr "{} / {} ({}%)"
 
 #. Translators: For example 5 MB / s.
 #: src/view/container/container_resources_quick_reference_group.rs:254
 msgid "{} / s"
-msgstr ""
+msgstr "{}/s"
 
 #: src/view/container/containers_group.rs:126
-#, fuzzy
 msgid "1 container, running"
-msgstr "{} containers in totaal, {} draaiend"
+msgstr "1 container, draaiend"
 
 #: src/view/container/containers_group.rs:128
-#, fuzzy
 msgid "1 container, stopped"
-msgstr "Containeropslag"
+msgstr "1 container, gestopt"
 
 #. Translators: There's a wide space (U+2002) between ", {}".
 #: src/view/container/containers_group.rs:133
-#, fuzzy
 msgid "{} container total, {} running"
 msgid_plural "{} containers total, {} running"
-msgstr[0] "{} containers in totaal, {} draaiend"
+msgstr[0] "{} container in totaal, {} draaiend"
 msgstr[1] "{} containers in totaal, {} draaiend"
 
 #. Translators: "{}" are placeholders for storage space.
@@ -1138,13 +1110,12 @@ msgid "{} (Shared: {}, Virtual: {})"
 msgstr "{} (gedeeld: {}, virtueel: {})"
 
 #: src/view/image/image_details_page.rs:310
-#, fuzzy
 msgid "Image '{}' has been deleted"
-msgstr "Afbeelding werd verwijderd"
+msgstr "Schijfkopiebestand ‘{}’ is verwijderd"
 
 #: src/view/image/image_menu_button.rs:187
 msgid "Confirm Forced Image Deletion"
-msgstr ""
+msgstr "Geforceerde verwijdering van schijfkopiebestand bevestigen"
 
 #. Translators: The "{}" is a placeholder for the container name.
 #: src/view/image/image_menu_button.rs:193
@@ -1152,65 +1123,66 @@ msgid ""
 "Image is used by container <b>{}</b>. Deleting the image will also delete "
 "all its associated containers."
 msgstr ""
+"Schijfkopiebestand wordt gebruikt door container ‘{}’. Door deze te "
+"verwijderen worden ook alle bijbehorende containers verwijderd."
 
 #: src/view/image/image_menu_button.rs:197
 msgid ""
 "Image is used by a container. Deleting the image will also delete all its "
 "associated containers."
 msgstr ""
+"Schijfkopiebestand wordt gebruikt door een container. Door deze te "
+"verwijderen worden ook alle bijbehorende containers verwijderd."
 
 #: src/view/image/image_menu_button.rs:207 src/view/pod/pod_menu_button.rs:283
-#, fuzzy
 msgid "_Force Delete"
-msgstr "_Verwijderen"
+msgstr "_Geforceerd verwijderen"
 
 #. Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
 #: src/view/image/image_menu_button.rs:238
-#, fuzzy
 msgid "Error on deleting image '{}': {}"
-msgstr "Fout bij verwijderen afbeelding '{}'"
+msgstr "Fout bij verwijderen schijfkopiebestand ‘{}’: {}"
 
 #: src/view/image/image_pull_page.rs:184
 msgid "Failed to pull image"
-msgstr ""
+msgstr "Schijfkopiebestand binnenhalen mislukt"
 
 #: src/view/image/image_search_widget.rs:226
 msgid "All registries"
-msgstr ""
+msgstr "Alle registers"
 
 #: src/view/image/image_search_widget.rs:245
 msgid "Failed to retrieve podman info"
-msgstr ""
+msgstr "Verkrijgen van podman-info mislukt"
 
 #: src/view/image/image_search_widget.rs:321
 msgid "No Results For {}"
-msgstr ""
+msgstr "Geen resultaten voor {}"
 
 #: src/view/image/image_search_widget.rs:333
 msgid "Failed to search for images"
-msgstr ""
+msgstr "Zoeken naar schijfkopiebestanden mislukt"
 
 #: src/view/image/images_panel.rs:190 src/view/image/images_panel.rs:210
 msgid "No images found"
-msgstr "Geen afbeeldingen gevonden"
+msgstr "Geen schijfkopiebestanden gevonden"
 
 #: src/view/image/images_panel.rs:193
-#, fuzzy
 msgid "1 image, used"
-msgstr "Geen afbeeldingen gevonden"
+msgstr "1 schijfkopiebestand, in gebruik"
 
 #: src/view/image/images_panel.rs:195
-#, fuzzy
 msgid "1 image, unused"
-msgstr "Geen afbeeldingen gevonden"
+msgstr "1 schijfkopiebestand, niet in gebruik"
 
 #. Translators: There's a wide space (U+2002) between ", {}".
 #: src/view/image/images_panel.rs:200
-#, fuzzy
 msgid "{} image total, {} {} unused, {}"
 msgid_plural "{} images total, {} {} unused, {}"
-msgstr[0] "{} afbeeldingen in totaal, {} {} ongebruikte afbeeldingen, {}"
-msgstr[1] "{} afbeeldingen in totaal, {} {} ongebruikte afbeeldingen, {}"
+msgstr[0] ""
+"{} schijfkopiebestand in totaal, {} {} ongebruikte schijfkopiebestand, {}"
+msgstr[1] ""
+"{} schijfkopiebestanden in totaal, {} {} ongebruikte schijfkopiebestanden, {}"
 
 #. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
 #: src/view/image/images_prune_page.rs:202
@@ -1222,46 +1194,40 @@ msgid "Invalid date format"
 msgstr "Ongeldig datumformaat"
 
 #: src/view/image/images_prune_page.rs:339
-#, fuzzy
 msgid "All images have been pruned"
-msgstr "'{}' afbeeldingen opgeruimd"
+msgstr "Alle schijfkopiebestanden zijn opgeruimd"
 
 #: src/view/image/images_prune_page.rs:345
-#, fuzzy
 msgid "Error on pruning images"
-msgstr "Fout bij opschonen afbeeldingen: '{}'"
+msgstr "Fout bij opschonen schijfkopiebestanden"
 
 #. Translators: "{}" is a placeholder for a cardinal numbers.
 #: src/view/info_dialog.rs:213
-#, fuzzy
 msgid "{} Container"
 msgid_plural "{} Containers"
-msgstr[0] "{} Containers"
-msgstr[1] "{} Containers"
+msgstr[0] "{} container"
+msgstr[1] "{} containers"
 
 #. Translators: "{}" is a placeholder for a cardinal number.
 #: src/view/info_dialog.rs:246
-#, fuzzy
 msgid "{} Option"
 msgid_plural "{} Options"
-msgstr[0] "{} Opties"
-msgstr[1] "{} Opties"
+msgstr[0] "{} optie"
+msgstr[1] "{} opties"
 
 #. Translators: "{}" is placeholders for a cardinal number.
 #: src/view/info_dialog.rs:269
-#, fuzzy
 msgid "{} State"
 msgid_plural "{} States"
-msgstr[0] "{} Statussen"
-msgstr[1] "{} Statussen"
+msgstr[0] "{} staat"
+msgstr[1] "{} staten"
 
 #. Translators: "{}" is placeholders for a cardinal number.
 #: src/view/info_dialog.rs:289
-#, fuzzy
 msgid "{} Image"
 msgid_plural "{} Images"
-msgstr[0] "{} Afbeeldingen"
-msgstr[1] "{} Afbeeldingen"
+msgstr[0] "{} schijfkopiebestand"
+msgstr[1] "{} schijfkopiebestanden"
 
 #. Translators: The placeholder "{}" is for the error message.
 #: src/view/info_dialog.rs:308
@@ -1270,11 +1236,11 @@ msgstr "Fout: {}"
 
 #: src/view/pod/pod_details_page.rs:236
 msgid "Pod '{}' has been deleted"
-msgstr ""
+msgstr "Pod ‘{}’ is verwijderd"
 
 #: src/view/pod/pod_menu_button.rs:263
 msgid "Confirm Forced Pod Deletion"
-msgstr ""
+msgstr "Geforceerde pod-verwijdering bevestigen"
 
 #. Translators: The "{}" is a placeholder for the container name.
 #: src/view/pod/pod_menu_button.rs:269
@@ -1282,90 +1248,81 @@ msgid ""
 "Pod contains container <b>{}</b>. Deleting the pod will also delete all its "
 "containers."
 msgstr ""
+"Pod bevat container ‘{}’. Door deze pod te verwijderen zullen alle "
+"onderliggende containers ook verwijderd worden."
 
 #: src/view/pod/pod_menu_button.rs:273
 msgid ""
 "Pod conains a container. Deleting the pod will also delete all its "
 "containers."
 msgstr ""
+"Pod bevat een container. Door deze pod te verwijderen zullen alle "
+"onderliggende containers ook verwijderd worden."
 
 #: src/view/pod/pod_row.rs:100
-#, fuzzy
 msgid "{} container"
 msgid_plural "{} containers"
-msgstr[0] "{} Containers"
-msgstr[1] "{} Containers"
+msgstr[0] "{} container"
+msgstr[1] "{} containers"
 
 #: src/view/pod/pod_row.rs:106
-#, fuzzy
 msgid "No containers"
-msgstr "Containers"
+msgstr "Geen containers"
 
 #: src/view/pod/pods_panel.rs:184
-#, fuzzy
 msgid "No pods found"
-msgstr "Geen afbeeldingen gevonden"
+msgstr "Geen pods gevonden"
 
 #: src/view/pod/pods_panel.rs:187
-#, fuzzy
 msgid "1 pod, running"
-msgstr "Draaiend"
+msgstr "1 pod, draaiend"
 
 #: src/view/pod/pods_panel.rs:189
 msgid "1 pod, stopped"
-msgstr ""
+msgstr "1 pod, gestopt"
 
 #. Translators: There's a wide space (U+2002) between ", {}".
 #: src/view/pod/pods_panel.rs:194
-#, fuzzy
 msgid "{} pod total, {} running"
 msgid_plural "{} pods total, {} running"
-msgstr[0] "{} containers in totaal, {} draaiend"
-msgstr[1] "{} containers in totaal, {} draaiend"
+msgstr[0] "{} pod, {} draaiend"
+msgstr[1] "{} pods, {} draaiend"
 
 #: src/view/top_page.rs:101
-#, fuzzy
 msgid "Container Processes"
-msgstr "Containerpagina"
+msgstr "Containerprocessen"
 
 #: src/view/top_page.rs:103
-#, fuzzy
 msgid "Pod Processes"
-msgstr "Containerpagina"
+msgstr "Pod-processen"
 
 #: src/window.rs:432
-#, fuzzy
 msgid "images"
-msgstr "Afbeeldingen"
+msgstr "schijfkopiebestanden"
 
 #: src/window.rs:433
-#, fuzzy
 msgid "containers"
-msgstr "Containers"
+msgstr "containers"
 
 #: src/window.rs:434 src/window.rs:444
 msgid "pods"
-msgstr ""
+msgstr "pods"
 
 #: src/window.rs:430
-#, fuzzy
 msgid "Error on loading {}"
-msgstr "Fotu bij laden afbeeldingen"
+msgstr "Fout bij laden van {}"
 
 #: src/window.rs:442
-#, fuzzy
 msgid "image"
-msgstr "Afbeelding"
+msgstr "schijfkopiebestand"
 
 #: src/window.rs:443
-#, fuzzy
 msgid "container"
-msgstr "Containers"
+msgstr "container"
 
 #: src/window.rs:440
-#, fuzzy
 msgid "Error on inspecting {} '{}'"
-msgstr "Fout bij inspecteren afbeelding '{}'"
+msgstr "Fout bij inspecteren van ‘{}’: {}"
 
 #~ msgid "Follow system style"
 #~ msgstr "Systeemstijl volgen"
