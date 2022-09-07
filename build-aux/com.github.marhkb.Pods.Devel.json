@@ -11,7 +11,6 @@
     "finish-args": [
         "--socket=fallback-x11",
         "--socket=wayland",
-        "--socket=session-bus",
         "--share=network",
         "--share=ipc",
         "--device=dri",
