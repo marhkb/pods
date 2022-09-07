@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Marcus Behrendt 2019 <marcus.behrendt.86@gmail.com> -->
+<!-- Marcus Behrendt 2022 <marcus.behrendt.86@gmail.com> -->
 <component type="desktop-application">
   <id>@app-id@</id>
   <metadata_license>CC0</metadata_license>
@@ -7,12 +7,51 @@
   <name>Pods</name>
   <summary>A Podman desktop application</summary>
   <description>
-    <p>A Podman desktop application</p>
+    <p>Pods is a frontend for podman. It uses libadwaita for its user interface and strives to meet the design principles of GNOME.</p>
+    <p>With Pods you can, among other things:</p>
+    <ul>
+      <li>Connect to local and remote Podman instances.</li>
+      <li>Easily overview images, containers and pods.</li>
+      <li>View prepared information about images, containers, and pods.</li>
+      <li>Inspect images, containers and pods.</li>
+      <li>View and search container logs.</li>
+      <li>Monitor processes of containers and pods.</li>
+      <li>Download images and build them using Dockerfiles.</li>
+      <li>Create pods and containers.</li>
+      <li>Control the lifecycle of containers and pods (in bulk) (start, stop, pause, etc.).</li>
+      <li>Delete images, containers, and pods (in bulk).</li>
+      <li>Prune images.</li>
+      <li>Rename containers.</li>
+    </ul>
   </description>
   <screenshots>
     <screenshot type="default">
-      <image>https://github.com/marhkb/pods/raw/master/data/resources/screenshots/screenshot1.png</image>
+      <image>https://github.com/marhkb/pods/raw/main/data/resources/screenshots/screenshot1.png</image>
       <caption>Main window</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://github.com/marhkb/pods/raw/main/data/resources/screenshots/screenshot2.png</image>
+      <caption>Images Overview</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://github.com/marhkb/pods/raw/main/data/resources/screenshots/screenshot3.png</image>
+      <caption>Image Details</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://github.com/marhkb/pods/raw/main/data/resources/screenshots/screenshot4.png</image>
+      <caption>Containers Overview</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://github.com/marhkb/pods/raw/main/data/resources/screenshots/screenshot5.png</image>
+      <caption>Container Details</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://github.com/marhkb/pods/raw/main/data/resources/screenshots/screenshot6.png</image>
+      <caption>Pods Overview</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://github.com/marhkb/pods/raw/main/data/resources/screenshots/screenshot7.png</image>
+      <caption>Pod Details</caption>
     </screenshot>
   </screenshots>
   <url type="homepage">https://github.com/marhkb/pods</url>
