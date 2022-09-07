@@ -19,11 +19,22 @@
   <img src="data/resources/screenshots/preview.png" alt="Preview"/>
 </p>
 
-Interact with Podman using an intuitive desktop application.
+Pods is a frontend for podman. It uses libadwaita for its user interface and strives to meet the design principles of GNOME.
 
-Pods focuses on simplicity and good usability.
-The only requirement is that you have Podman installed.
+With Pods you can, among other things:
 
+- Connect to local and remote Podman instances.
+- Easily overview images, containers and pods.
+- View prepared information about images, containers, and pods.
+- Inspect images, containers and pods.
+- View and search container logs.
+- Monitor processes of containers and pods.
+- Download images and build them using Dockerfiles.
+- Create pods and containers.
+- Control the lifecycle of containers and pods (in bulk) (start, stop, pause, etc.).
+- Delete images, containers, and pods (in bulk).
+- Prune images.
+- Rename containers.
 
 ## ⚡ Disclaimer
 
