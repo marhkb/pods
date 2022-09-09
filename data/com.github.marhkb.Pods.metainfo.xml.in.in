@@ -56,7 +56,7 @@
   </screenshots>
   <url type="homepage">https://github.com/marhkb/pods</url>
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
-  <content_rating type="oars-1.0" />
+  <content_rating type="oars-1.1"/>
   <releases>
     <release version="0.0.1" date="2019-07-11" />
   </releases>
