@@ -61,12 +61,12 @@
     <release version="0.0.1" date="2019-07-11" />
   </releases>
   <kudos>
-     <!--
+    <!--
        GNOME Software kudos:
        https://gitlab.gnome.org/GNOME/gnome-software/blob/master/doc/kudos.md
      -->
-     <kudo>ModernToolkit</kudo>
-     <kudo>HiDpiIcon</kudo>
+    <kudo>ModernToolkit</kudo>
+    <kudo>HiDpiIcon</kudo>
   </kudos>
   <developer_name>Marcus Behrendt</developer_name>
   <update_contact>marcus.behrendt.86@gmail.com</update_contact>
