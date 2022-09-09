@@ -58,7 +58,20 @@
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.1"/>
   <releases>
-    <release version="0.0.1" date="2019-07-11" />
+    <release version="1.0.0-beta.2" date="2022-09-09">
+      <description>
+        <p>A small update with app data fixes:</p>
+        <ul>
+          <li>Updated app data content rating</li>
+          <li>Added releases in app data</li>
+        </ul>
+      </description>
+    </release>
+    <release version="1.0.0-beta.1" date="2022-09-08">
+      <description>
+        <p>This is the first 1.0.0 beta release of Pods.</p>
+      </description>
+    </release>
   </releases>
   <kudos>
     <!--
