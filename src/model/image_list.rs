@@ -238,6 +238,22 @@ impl ImageList {
                 obj.set_listing(false);
                 match result {
                     Ok(summaries) => {
+                        let to_remove = obj
+                            .imp()
+                            .list
+                            .borrow()
+                            .keys()
+                            .filter(|id| {
+                                !summaries
+                                    .iter()
+                                    .any(|summary| summary.id.as_ref() == Some(id))
+                            })
+                            .cloned()
+                            .collect::<Vec<_>>();
+                        to_remove.iter().for_each(|id| {
+                            obj.remove_image(id);
+                        });
+
                         let index = obj.len();
                         let mut added = 0;
 
