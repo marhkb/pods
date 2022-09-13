@@ -383,31 +383,49 @@ impl ContainerList {
             clone!(@weak self as obj => move |result| {
                 obj.set_listing(false);
                 match result {
-                    Ok(list_containers) => list_containers
-                        .into_iter()
-                        .filter(|list_container| !list_container.is_infra.unwrap_or_default())
-                        .for_each(|list_container| {
-                            let index = obj.len();
+                    Ok(list_containers) => {
+                        let to_remove = obj
+                            .imp()
+                            .list
+                            .borrow()
+                            .keys()
+                            .filter(|id| {
+                                !list_containers
+                                    .iter()
+                                    .any(|list_container| list_container.id.as_ref() == Some(id))
+                            })
+                            .cloned()
+                            .collect::<Vec<_>>();
+                        to_remove.iter().for_each(|id| {
+                            obj.remove_container(id);
+                        });
 
-                            let mut list = obj.imp().list.borrow_mut();
+                        list_containers
+                            .into_iter()
+                            .filter(|list_container| !list_container.is_infra.unwrap_or_default())
+                            .for_each(|list_container| {
+                                let index = obj.len();
 
-                            match list.entry(list_container.id.as_ref().unwrap().to_owned()) {
-                                Entry::Vacant(e) => {
-                                    let container = model::Container::new(&obj, list_container);
-                                    e.insert(container.clone());
+                                let mut list = obj.imp().list.borrow_mut();
 
-                                    drop(list);
+                                match list.entry(list_container.id.as_ref().unwrap().to_owned()) {
+                                    Entry::Vacant(e) => {
+                                        let container = model::Container::new(&obj, list_container);
+                                        e.insert(container.clone());
 
-                                    obj.items_changed(index, 0, 1);
-                                    obj.container_added(&container);
+                                        drop(list);
+
+                                        obj.items_changed(index, 0, 1);
+                                        obj.container_added(&container);
+                                    }
+                                    Entry::Occupied(e) => {
+                                        let container = e.get().clone();
+                                        drop(list);
+                                        container.update(list_container);
+                                    }
                                 }
-                                Entry::Occupied(e) => {
-                                    let container = e.get().clone();
-                                    drop(list);
-                                    container.update(list_container);
-                                }
-                            }
-                        }),
+                            });
+                        }
                     Err(e) => {
                         log::error!("Error on retrieving containers: {}", e);
                         err_op(super::RefreshError);
