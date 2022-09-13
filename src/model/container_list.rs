@@ -364,6 +364,7 @@ impl ContainerList {
         utils::do_async(
             {
                 let podman = self.client().unwrap().podman().clone();
+                let id = id.clone();
                 async move {
                     podman
                         .containers()
@@ -371,8 +372,7 @@ impl ContainerList {
                             &podman::opts::ContainerListOpts::builder()
                                 .all(true)
                                 .filter(
-                                    id.to_owned()
-                                        .map(podman::Id::from)
+                                    id.map(podman::Id::from)
                                         .map(podman::opts::ContainerListFilter::Id),
                                 )
                                 .build(),
@@ -384,21 +384,23 @@ impl ContainerList {
                 obj.set_listing(false);
                 match result {
                     Ok(list_containers) => {
-                        let to_remove = obj
-                            .imp()
-                            .list
-                            .borrow()
-                            .keys()
-                            .filter(|id| {
-                                !list_containers
-                                    .iter()
-                                    .any(|list_container| list_container.id.as_ref() == Some(id))
-                            })
-                            .cloned()
-                            .collect::<Vec<_>>();
-                        to_remove.iter().for_each(|id| {
-                            obj.remove_container(id);
-                        });
+                        if id.is_none() {
+                            let to_remove = obj
+                                .imp()
+                                .list
+                                .borrow()
+                                .keys()
+                                .filter(|id| {
+                                    !list_containers
+                                        .iter()
+                                        .any(|list_container| list_container.id.as_ref() == Some(id))
+                                })
+                                .cloned()
+                                .collect::<Vec<_>>();
+                            to_remove.iter().for_each(|id| {
+                                obj.remove_container(id);
+                            });
+                        }
 
                         list_containers
                             .into_iter()
