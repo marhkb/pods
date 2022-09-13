@@ -217,14 +217,14 @@ impl PodList {
         utils::do_async(
             {
                 let podman = self.client().unwrap().podman().clone();
+                let id = id.clone();
                 async move {
                     podman
                         .pods()
                         .list(
                             &podman::opts::PodListOpts::builder()
                                 .filter(
-                                    id.to_owned()
-                                        .map(podman::Id::from)
+                                    id.map(podman::Id::from)
                                         .map(podman::opts::PodListFilter::Id),
                                 )
                                 .build(),
@@ -236,21 +236,23 @@ impl PodList {
                 obj.set_listing(false);
                 match result {
                     Ok(list_pods) => {
-                        let to_remove = obj
-                            .imp()
-                            .list
-                            .borrow()
-                            .keys()
-                            .filter(|id| {
-                                !list_pods
-                                    .iter()
-                                    .any(|list_pod| list_pod.id.as_ref() == Some(id))
-                            })
-                            .cloned()
-                            .collect::<Vec<_>>();
-                        to_remove.iter().for_each(|id| {
-                            obj.remove_pod(id);
-                        });
+                        if id.is_none() {
+                            let to_remove = obj
+                                .imp()
+                                .list
+                                .borrow()
+                                .keys()
+                                .filter(|id| {
+                                    !list_pods
+                                        .iter()
+                                        .any(|list_pod| list_pod.id.as_ref() == Some(id))
+                                })
+                                .cloned()
+                                .collect::<Vec<_>>();
+                            to_remove.iter().for_each(|id| {
+                                obj.remove_pod(id);
+                            });
+                        }
 
                         list_pods
                             .into_iter()
