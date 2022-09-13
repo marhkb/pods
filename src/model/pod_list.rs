@@ -235,30 +235,48 @@ impl PodList {
             clone!(@weak self as obj => move |result| {
                 obj.set_listing(false);
                 match result {
-                    Ok(list_containers) => list_containers
-                        .into_iter()
-                        .for_each(|report| {
-                            let index = obj.len();
+                    Ok(list_pods) => {
+                        let to_remove = obj
+                            .imp()
+                            .list
+                            .borrow()
+                            .keys()
+                            .filter(|id| {
+                                !list_pods
+                                    .iter()
+                                    .any(|list_pod| list_pod.id.as_ref() == Some(id))
+                            })
+                            .cloned()
+                            .collect::<Vec<_>>();
+                        to_remove.iter().for_each(|id| {
+                            obj.remove_pod(id);
+                        });
 
-                            let mut list = obj.imp().list.borrow_mut();
+                        list_pods
+                            .into_iter()
+                            .for_each(|report| {
+                                let index = obj.len();
 
-                            match list.entry(report.id.as_ref().unwrap().to_owned()) {
-                                Entry::Vacant(e) => {
-                                    let pod = model::Pod::new(&obj, report);
-                                    e.insert(pod.clone());
+                                let mut list = obj.imp().list.borrow_mut();
 
-                                    drop(list);
+                                match list.entry(report.id.as_ref().unwrap().to_owned()) {
+                                    Entry::Vacant(e) => {
+                                        let pod = model::Pod::new(&obj, report);
+                                        e.insert(pod.clone());
 
-                                    obj.items_changed(index, 0, 1);
-                                    obj.pod_added(&pod);
+                                        drop(list);
+
+                                        obj.items_changed(index, 0, 1);
+                                        obj.pod_added(&pod);
+                                    }
+                                    Entry::Occupied(e) => {
+                                        let pod = e.get().clone();
+                                        drop(list);
+                                        pod.update(report);
+                                    }
                                 }
-                                Entry::Occupied(e) => {
-                                    let pod = e.get().clone();
-                                    drop(list);
-                                    pod.update(report);
-                                }
-                            }
-                        }),
+                            });
+                    }
                     Err(e) => {
                         log::error!("Error on retrieving containers: {}", e);
                         err_op(super::RefreshError);
