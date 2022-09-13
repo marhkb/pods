@@ -43,8 +43,21 @@ Pods is currently under heavy development. So be prepared for missing features a
 
 ## 🔌 Installation
 
-You can grab the latest CI build from [here](https://nightly.link/marhkb/pods/workflows/ci/main).
-Then you need to unzip the archive's content and install the application with the command `flatpak install pods.flatpak`.
+The application is available ob Flathub Beta. First, add the the Flathub Beta remote
+```shell
+$ flatpak remote-add --if-not-exists flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
+```
+Then you can install the application by issuing
+```shell
+$ flatpak install flathub-beta com.github.marhkb.Pods
+```
+Pods can be kept up to date by issuing flatpak's update command like
+```shell
+$ flatpak update
+```
+
+You can also grab the latest CI build from [here](https://nightly.link/marhkb/pods/workflows/ci/main).
+Then you need to unzip the archive's content and install the application with the command `flatpak install pods.flatpak`. Keep in mind
 
 
 ## 🏗️ Building from source
