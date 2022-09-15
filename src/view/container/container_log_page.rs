@@ -324,13 +324,13 @@ impl ContainerLogPage {
                         )
                         .boxed()
                 },
-                clone!(@weak self as obj => @default-return glib::Continue(false), move |result: podman::Result<Vec<u8>>| {
+                clone!(@weak self as obj => @default-return glib::Continue(false), move |result| {
                     let imp = obj.imp();
                     imp.stack.set_visible_child_name("loaded");
 
                     glib::Continue(match result {
                         Ok(line) => {
-                            obj.insert(line, &mut perform, true);
+                            obj.insert(Vec::from(line), &mut perform, true);
                             true
                         }
                         Err(e) => {
@@ -413,7 +413,7 @@ impl ContainerLogPage {
 
                                 glib::Continue(match result {
                                     Ok(line) => {
-                                        imp.fetched_lines.borrow_mut().push_back(line);
+                                        imp.fetched_lines.borrow_mut().push_back(Vec::from(line));
                                         true
                                     }
                                     Err(e) => {
