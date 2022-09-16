@@ -144,6 +144,9 @@ mod imp {
         pub(super) status: Cell<Status>,
         pub(super) up_since: Cell<i64>,
 
+        pub(super) data: OnceCell<model::ContainerData>,
+        pub(super) can_inspect: Cell<bool>,
+
         pub(super) selected: Cell<bool>,
     }
 
@@ -157,7 +160,10 @@ mod imp {
     impl ObjectImpl for Container {
         fn signals() -> &'static [Signal] {
             static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
-                vec![Signal::builder("deleted", &[], <()>::static_type().into()).build()]
+                vec![
+                    Signal::builder("inspection-failed", &[], <()>::static_type().into()).build(),
+                    Signal::builder("deleted", &[], <()>::static_type().into()).build(),
+                ]
             });
             SIGNALS.as_ref()
         }
@@ -293,6 +299,13 @@ mod imp {
                             | glib::ParamFlags::CONSTRUCT
                             | glib::ParamFlags::EXPLICIT_NOTIFY,
                     ),
+                    glib::ParamSpecObject::new(
+                        "data",
+                        "Data",
+                        "the data of the image",
+                        model::ContainerData::static_type(),
+                        glib::ParamFlags::READABLE,
+                    ),
                     glib::ParamSpecBoolean::new(
                         "selected",
                         "Selected",
@@ -350,6 +363,7 @@ mod imp {
                 "stats" => obj.stats().to_value(),
                 "status" => obj.status().to_value(),
                 "up-since" => obj.up_since().to_value(),
+                "data" => obj.data().to_value(),
                 "selected" => self.selected.get().to_value(),
                 _ => unimplemented!(),
             }
@@ -357,6 +371,7 @@ mod imp {
 
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
+            self.can_inspect.set(true);
         }
     }
 }
@@ -569,6 +584,48 @@ impl Container {
         self.imp().up_since.set(value);
         self.notify("up-since");
     }
+
+    pub(crate) fn data(&self) -> Option<&model::ContainerData> {
+        self.imp().data.get()
+    }
+
+    fn set_data(&self, data: podman::models::InspectContainerData) {
+        if let Some(old) = self.data() {
+            old.update(data);
+            return;
+        }
+        self.imp()
+            .data
+            .set(model::ContainerData::from(data))
+            .unwrap();
+        self.notify("data");
+    }
+
+    pub(crate) fn inspect(&self) {
+        let imp = self.imp();
+        if !imp.can_inspect.get() {
+            return;
+        }
+
+        imp.can_inspect.set(false);
+
+        utils::do_async(
+            {
+                let container = self.api_container().unwrap();
+                async move { container.inspect().await }
+            },
+            clone!(@weak self as obj => move |result| {
+                match result {
+                    Ok(data) => obj.set_data(data),
+                    Err(e) => {
+                        log::error!("Error on inspecting container '{}': {e}", obj.id());
+                        obj.emit_by_name::<()>("inspection-failed", &[]);
+                    },
+                }
+                obj.imp().can_inspect.set(true);
+            }),
+        );
+    }
 }
 
 impl Container {
@@ -729,6 +786,17 @@ impl Container {
             pod.inspect_and_update();
         }
         self.emit_by_name::<()>("deleted", &[]);
+    }
+
+    pub(crate) fn connect_inspection_failed<F: Fn(&Self) + 'static>(
+        &self,
+        f: F,
+    ) -> glib::SignalHandlerId {
+        self.connect_local("inspection-failed", true, move |values| {
+            f(&values[0].get::<Self>().unwrap());
+
+            None
+        })
     }
 
     pub(crate) fn connect_deleted<F: Fn(&Self) + 'static>(&self, f: F) -> glib::SignalHandlerId {
