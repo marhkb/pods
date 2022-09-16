@@ -13,6 +13,7 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/container-creation-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container-details-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container-health-check-log-row.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/container-health-check-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container-log-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container-menu-button.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container-properties-group.ui</file>

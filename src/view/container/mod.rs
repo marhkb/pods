@@ -1,6 +1,7 @@
 mod container_creation_page;
 mod container_details_page;
 mod container_health_check_log_row;
+mod container_health_check_page;
 mod container_log_page;
 mod container_menu_button;
 mod container_properties_group;
@@ -17,6 +18,7 @@ mod volume_row;
 pub(crate) use self::container_creation_page::ContainerCreationPage;
 pub(crate) use self::container_details_page::ContainerDetailsPage;
 pub(crate) use self::container_health_check_log_row::ContainerHealthCheckLogRow;
+pub(crate) use self::container_health_check_page::ContainerHealthCheckPage;
 pub(crate) use self::container_log_page::ContainerLogPage;
 pub(crate) use self::container_menu_button::ContainerMenuButton;
 pub(crate) use self::container_properties_group::ContainerPropertiesGroup;

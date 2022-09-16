@@ -90,6 +90,7 @@ mod imp {
             view::ConnectionRow::static_type();
             view::ConnectionSwitcherWidget::static_type();
             view::ContainerHealthCheckLogRow::static_type();
+            view::ContainerHealthCheckPage::static_type();
             view::ContainerLogPage::static_type();
             view::ContainerMenuButton::static_type();
             view::ContainerPropertiesGroup::static_type();
