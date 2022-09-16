@@ -58,6 +58,7 @@
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/build-configure-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/hospital-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/pods-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/status/error-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/status/success-symbolic.svg</file>
 
     <file compressed="true">style.css</file>
