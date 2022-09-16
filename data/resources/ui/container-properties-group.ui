@@ -83,17 +83,27 @@
     </child>
 
     <child>
-      <object class="PropertyWidgetRow">
-        <property name="key" translatable="yes">Health Check</property>
+      <object class="AdwActionRow" id="health_row">
+        <property name="title" translatable="yes">Health Check</property>
+        <property name="action-name">container.show-health-details</property>
+        <property name="activatable">True</property>
+        <property name="visible" bind-source="health_row" bind-property="sensitive" bind-flags="sync-create"/>
 
-        <property name="widget">
+        <child>
           <object class="GtkLabel" id="health_status_label">
             <style>
               <class name="status-badge"/>
             </style>
             <property name="valign">center</property>
           </object>
-        </property>
+        </child>
+
+        <child>
+          <object class="GtkImage">
+            <property name="icon_name">go-next-symbolic</property>
+            <property name="margin-start">6</property>
+          </object>
+        </child>
 
       </object>
     </child>
