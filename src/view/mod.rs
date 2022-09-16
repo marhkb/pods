@@ -24,6 +24,8 @@ pub(crate) use self::connection::ConnectionRow;
 pub(crate) use self::connection::ConnectionSwitcherWidget;
 pub(crate) use self::container::ContainerCreationPage;
 pub(crate) use self::container::ContainerDetailsPage;
+pub(crate) use self::container::ContainerHealthCheckLogRow;
+pub(crate) use self::container::ContainerHealthCheckPage;
 pub(crate) use self::container::ContainerLogPage;
 pub(crate) use self::container::ContainerMenuButton;
 pub(crate) use self::container::ContainerPropertiesGroup;

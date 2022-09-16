@@ -36,6 +36,8 @@ mod imp {
         #[template_child]
         pub(super) status_label: TemplateChild<gtk::Label>,
         #[template_child]
+        pub(super) health_row: TemplateChild<adw::ActionRow>,
+        #[template_child]
         pub(super) health_status_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) image_row: TemplateChild<adw::ActionRow>,
@@ -285,6 +287,7 @@ impl ContainerPropertiesGroup {
 
         if let Some(container) = value {
             self.action_set_enabled("image.show-details", container.image().is_some());
+
             let handler_id = container.connect_notify_local(
                 Some("image"),
                 clone!(@weak self as obj => move |container, _| {

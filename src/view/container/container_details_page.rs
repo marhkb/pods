@@ -52,6 +52,15 @@ mod imp {
             klass.install_action("container.inspect", None, move |widget, _, _| {
                 widget.show_inspection();
             });
+
+            klass.install_action(
+                "container.show-health-details",
+                None,
+                move |widget, _, _| {
+                    widget.show_health_details();
+                },
+            );
+
             klass.install_action("container.show-log", None, move |widget, _, _| {
                 widget.show_log();
             });
@@ -186,6 +195,16 @@ impl ContainerDetailsPage {
         }
 
         if let Some(container) = value {
+            self.action_set_enabled(
+                "container.show-health-details",
+                container.health_status() != model::ContainerHealthStatus::Unconfigured,
+            );
+
+            container.inspect();
+            container.connect_inspection_failed(clone!(@weak self as obj => move |_| {
+                utils::show_toast(&obj, &gettext("Error on loading container details"));
+            }));
+
             let handler_id = container.connect_deleted(clone!(@weak self as obj => move |container| {
                 utils::show_toast(&obj, &gettext!("Container '{}' has been deleted", container.name()));
                 obj.imp().back_navigation_controls.navigate_back();
@@ -222,6 +241,13 @@ impl ContainerDetailsPage {
                     }
                 }),
             );
+        }
+    }
+
+    fn show_health_details(&self) {
+        if let Some(container) = self.container() {
+            utils::leaflet_overlay(&*self.imp().leaflet)
+                .show_details(&view::ContainerHealthCheckPage::from(&container));
         }
     }
 
