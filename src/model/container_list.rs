@@ -445,6 +445,11 @@ impl ContainerList {
 
         match event.action.as_str() {
             "remove" => self.remove_container(&container_id),
+            "health_status" => {
+                if let Some(container) = self.get_container(&container_id) {
+                    container.inspect();
+                }
+            }
             _ => self.refresh(
                 self.get_container(&container_id).map(|_| container_id),
                 err_op,
