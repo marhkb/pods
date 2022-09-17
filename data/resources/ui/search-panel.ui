@@ -81,7 +81,7 @@
 
                 <child>
                   <object class="AdwPreferencesGroup" id="pods_group">
-                    <property name="title" translatable="yes">Pods</property>
+                    <property name="title" translatable="yes" context="podman feature">Pods</property>
 
                     <child>
                       <object class="GtkListBox" id="pods_list_box">

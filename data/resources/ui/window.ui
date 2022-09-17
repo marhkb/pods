@@ -309,7 +309,7 @@
                                           <object class="AdwViewStackPage">
                                             <property name="icon-name">pods-symbolic</property>
                                             <property name="name">pods</property>
-                                            <property name="title" translatable="yes">Pods</property>
+                                            <property name="title" translatable="yes" context="podman feature">Pods</property>
                                             <property name="child">
                                               <object class="PdsPodsPanel" id="pods_panel">
                                                 <binding name="pod-list">
