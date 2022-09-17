@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-08-14 23:18+0200\n"
+"POT-Creation-Date: 2022-09-18 00:28+0200\n"
 "PO-Revision-Date: 2022-04-29 23:09+0000\n"
 "Last-Translator: Andrea Brandi <git@andreabrandi.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/pods/pods/it/>\n"
@@ -20,14 +20,12 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
-#: data/resources/ui/search-panel.ui:84 data/resources/ui/window.ui:202
-#: src/main.rs:43
+#: data/resources/ui/window.ui:127 src/main.rs:43
 msgid "Pods"
 msgstr "Pods"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:4
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
 msgid "A Podman desktop application"
 msgstr "Un'applicazione desktop per Podman"
 
@@ -96,535 +94,759 @@ msgstr "Mostra solo contenitori in esecuzione"
 msgid "Whether to show a timestamp for each log line"
 msgstr "Mostra un timestamp per ogni riga del registro"
 
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
+msgid ""
+"Pods is a frontend for podman. It uses libadwaita for its user interface and "
+"strives to meet the design principles of GNOME."
+msgstr ""
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:11
+msgid "With Pods you can, among other things:"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:13
+msgid "Connect to local and remote Podman instances."
+msgstr ""
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:14
+#, fuzzy
+msgid "Easily overview images, containers and pods."
+msgstr "Non ci sono contenitori associati a questa immagine."
+
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:15
+msgid "View prepared information about images, containers, and pods."
+msgstr ""
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:16
+#, fuzzy
+msgid "Inspect images, containers and pods."
+msgstr "Non ci sono contenitori associati a questa immagine."
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:17
+msgid "View and search container logs."
+msgstr ""
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:18
+#, fuzzy
+msgid "Monitor processes of containers and pods."
+msgstr "Non ci sono contenitori associati a questa immagine."
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:19
+msgid "Download images and build them using Dockerfiles."
+msgstr ""
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:20
+#, fuzzy
+msgid "Create pods and containers."
+msgstr "Crea contenitore"
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:21
+msgid ""
+"Control the lifecycle of containers and pods (in bulk) (start, stop, pause, "
+"etc.)."
+msgstr ""
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:22
+msgid "Delete images, containers, and pods (in bulk)."
+msgstr ""
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:23
+#, fuzzy
+msgid "Prune images."
+msgstr "Elimina immagini inutilizzate"
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:24
+#, fuzzy
+msgid "Rename containers."
+msgstr "Rinomina contenitore «{}»"
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:30
 msgid "Main window"
 msgstr "Finestra principale"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:32
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:34
+#, fuzzy
+msgid "Images Overview"
+msgstr "Archivio immagini"
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:38
+#: data/resources/ui/image/details-page.ui:27
+msgid "Image Details"
+msgstr "Dettagli immagine"
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:42
+#, fuzzy
+msgid "Containers Overview"
+msgstr "Archivio contenitori"
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:46
+#: data/resources/ui/container/details-page.ui:28
+msgid "Container Details"
+msgstr "Dettagli contenitore"
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:50
+msgid "Pods Overview"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:54
+#: data/resources/ui/pod/details-page.ui:28
+#, fuzzy
+msgid "Pod Details"
+msgstr "Dettagli"
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:84
 msgid "Marcus Behrendt"
 msgstr "Marcus Behrendt"
 
-#: data/resources/ui/connection-chooser-page.ui:16
+#: data/resources/ui/component/back-navigation-controls.ui:14
+msgid "Return to previous page"
+msgstr ""
+
+#: data/resources/ui/component/back-navigation-controls.ui:22
+msgid "Return to main page"
+msgstr ""
+
+#: data/resources/ui/component/inspection-page.ui:26
+msgid "Search within inspection data"
+msgstr ""
+
+#: data/resources/ui/component/source-view-search-widget.ui:30
+msgid "Move to previous match (Ctrl+Shift+G)"
+msgstr "Passa alla corrispondenza precedente (Ctrl+Shift+G)"
+
+#: data/resources/ui/component/source-view-search-widget.ui:38
+msgid "Move to next match (Ctrl+G)"
+msgstr "Passa alla corrispondenza successiva (Ctrl+G)"
+
+#: data/resources/ui/component/source-view-search-widget.ui:48
+msgid "Toggle search options"
+msgstr "Attiva/disattiva opzioni di ricerca"
+
+#: data/resources/ui/component/source-view-search-widget.ui:71
+msgid "Re_gular expressions"
+msgstr "Espressioni re_golari"
+
+#: data/resources/ui/component/source-view-search-widget.ui:78
+msgid "_Case sensitive"
+msgstr "_Maiuscole/minuscole"
+
+#: data/resources/ui/component/source-view-search-widget.ui:85
+msgid "Match whole _word only"
+msgstr "Solo paro_la intera"
+
+#: data/resources/ui/connection/chooser-page.ui:31
 #, fuzzy
 msgid "Connect to Podman"
 msgstr "Connessione persa con Podman"
 
-#: data/resources/ui/connection-chooser-page.ui:17
+#: data/resources/ui/connection/chooser-page.ui:32
 msgid "Either choose an existing connection or create a new one."
 msgstr ""
 
-#: data/resources/ui/connection-chooser-page.ui:80
+#: data/resources/ui/connection/chooser-page.ui:77
 msgid "_Add New Connection"
 msgstr ""
 
-#: data/resources/ui/connection-creator-page.ui:31
+#: data/resources/ui/connection/creator-page.ui:19
 msgid "Add New Connection"
 msgstr ""
 
-#: data/resources/ui/connection-creator-page.ui:41
-msgid "_Connect"
-msgstr ""
-
-#: data/resources/ui/connection-creator-page.ui:57
-#: data/resources/ui/container-creation-page.ui:83
-#: data/resources/ui/container-properties-group.ui:9
-#: data/resources/ui/pod-creation-page.ui:74
-#: data/resources/ui/pod-details-page.ui:67
+#: data/resources/ui/connection/creator-page.ui:36
+#: data/resources/ui/container/creation-page.ui:51
+#: data/resources/ui/container/properties-group.ui:9
+#: data/resources/ui/container/rename-dialog.ui:54
+#: data/resources/ui/pod/creation-page.ui:52
+#: data/resources/ui/pod/details-page.ui:55
 msgid "Name"
 msgstr "Nome"
 
-#: data/resources/ui/connection-creator-page.ui:66
+#: data/resources/ui/connection/creator-page.ui:45
 msgid "Url"
 msgstr ""
 
-#: data/resources/ui/connection-creator-page.ui:67
+#: data/resources/ui/connection/creator-page.ui:46
 #, fuzzy
 msgid "Choose how you want to connect to Podman."
 msgstr "Connessione persa con Podman"
 
-#: data/resources/ui/connection-creator-page.ui:71
+#: data/resources/ui/connection/creator-page.ui:50
 msgid "Unix Socket"
 msgstr ""
 
-#: data/resources/ui/connection-creator-page.ui:86
+#: data/resources/ui/connection/creator-page.ui:65
 msgid "Custom"
 msgstr ""
 
-#: data/resources/ui/connection-creator-page.ui:96
+#: data/resources/ui/connection/creator-page.ui:75
 #, fuzzy
 msgid "Connection String"
 msgstr "Connessione persa con Podman"
 
-#: data/resources/ui/connection-creator-page.ui:112
+#: data/resources/ui/connection/creator-page.ui:91
 msgid "Color"
 msgstr ""
 
-#: data/resources/ui/connection-creator-page.ui:113
+#: data/resources/ui/connection/creator-page.ui:92
 msgid "Define how to colorize the header bar."
 msgstr ""
 
-#: data/resources/ui/container-creation-page.ui:7
-msgid "_Create"
-msgstr "_Crea"
+#: data/resources/ui/connection/creator-page.ui:129
+msgid "_Connect"
+msgstr ""
 
-#: data/resources/ui/container-creation-page.ui:56
+#: data/resources/ui/container/creation-page.ui:35
 #, fuzzy
 msgid "Specify Container Settings"
 msgstr "Dettagli contenitore"
 
-#: data/resources/ui/container-creation-page.ui:66
-msgid "Create and run"
-msgstr "Crea e avvia"
-
-#: data/resources/ui/container-creation-page.ui:123
+#: data/resources/ui/container/creation-page.ui:90
 msgid "Details"
 msgstr "Dettagli"
 
-#: data/resources/ui/container-creation-page.ui:131
-#: data/resources/ui/container-creation-page.ui:137
+#: data/resources/ui/container/creation-page.ui:98
+#: data/resources/ui/container/creation-page.ui:104
 msgid "Local image"
 msgstr ""
 
-#: data/resources/ui/container-creation-page.ui:154
+#: data/resources/ui/container/creation-page.ui:124
 #, fuzzy
 msgid "Remote image"
 msgstr "_Cancella immagine"
 
-#: data/resources/ui/container-creation-page.ui:181
-#: data/resources/ui/container-creation-page.ui:188
-#: data/resources/ui/container-properties-group.ui:139
+#: data/resources/ui/container/creation-page.ui:151
+#: data/resources/ui/container/creation-page.ui:158
+#: data/resources/ui/container/properties-group.ui:150
 #, fuzzy
 msgid "Pod"
 msgstr "Pods"
 
-#: data/resources/ui/container-creation-page.ui:206
+#: data/resources/ui/container/creation-page.ui:176
 msgid "Pull latest image"
 msgstr ""
 
-#: data/resources/ui/container-creation-page.ui:217
-#: data/resources/ui/container-creation-page.ui:378
+#: data/resources/ui/container/creation-page.ui:188
+#: data/resources/ui/container/creation-page.ui:350
+#: data/resources/ui/container/health-check-page.ui:53
 msgid "Command"
 msgstr "Comando"
 
-#: data/resources/ui/container-creation-page.ui:224
+#: data/resources/ui/container/creation-page.ui:195
 msgid "Terminal"
 msgstr "Terminale"
 
-#: data/resources/ui/container-creation-page.ui:237
+#: data/resources/ui/container/creation-page.ui:208
 msgid "Memory limit"
 msgstr "Limite di memoria"
 
-#: data/resources/ui/container-creation-page.ui:279
+#: data/resources/ui/container/creation-page.ui:250
 msgid "KB"
 msgstr "KB"
 
-#: data/resources/ui/container-creation-page.ui:280
+#: data/resources/ui/container/creation-page.ui:251
 msgid "MB"
 msgstr "MB"
 
-#: data/resources/ui/container-creation-page.ui:281
+#: data/resources/ui/container/creation-page.ui:252
 msgid "GB"
 msgstr "GB"
 
-#: data/resources/ui/container-creation-page.ui:308
+#: data/resources/ui/container/creation-page.ui:279
 msgid "Integration"
 msgstr ""
 
-#: data/resources/ui/container-creation-page.ui:318
+#: data/resources/ui/container/creation-page.ui:289
 msgid "Port Mappings"
 msgstr "Mappature porte"
 
-#: data/resources/ui/container-creation-page.ui:333
+#: data/resources/ui/container/creation-page.ui:304
 msgid "Volumes"
 msgstr "Volumi"
 
-#: data/resources/ui/container-creation-page.ui:348
+#: data/resources/ui/container/creation-page.ui:319
 msgid "Environment Variables"
 msgstr "Variabili d'ambiente"
 
-#: data/resources/ui/container-creation-page.ui:369
-#: data/resources/ui/container-properties-group.ui:86
+#: data/resources/ui/container/creation-page.ui:340
+#: data/resources/ui/container/properties-group.ui:87
 msgid "Health Check"
 msgstr ""
 
-#: data/resources/ui/container-creation-page.ui:384
+#: data/resources/ui/container/creation-page.ui:356
+#: data/resources/ui/container/health-check-page.ui:59
 msgid "Interval"
 msgstr ""
 
-#: data/resources/ui/container-creation-page.ui:385
+#: data/resources/ui/container/creation-page.ui:357
 msgid "Interval how often health check is run."
 msgstr ""
 
-#: data/resources/ui/container-creation-page.ui:408
-#: data/resources/ui/container-creation-page.ui:444
-#: data/resources/ui/container-creation-page.ui:480
+#: data/resources/ui/container/creation-page.ui:380
+#: data/resources/ui/container/creation-page.ui:416
+#: data/resources/ui/container/creation-page.ui:452
 msgid "seconds"
 msgstr ""
 
-#: data/resources/ui/container-creation-page.ui:420
+#: data/resources/ui/container/creation-page.ui:392
+#: data/resources/ui/container/health-check-page.ui:71
 msgid "Timeout"
 msgstr ""
 
-#: data/resources/ui/container-creation-page.ui:421
+#: data/resources/ui/container/creation-page.ui:393
 msgid ""
 "The maximum time allowed to complete the health check before an interval is "
 "considered failed."
 msgstr ""
 
-#: data/resources/ui/container-creation-page.ui:456
+#: data/resources/ui/container/creation-page.ui:428
 msgid "Start period"
 msgstr ""
 
-#: data/resources/ui/container-creation-page.ui:457
+#: data/resources/ui/container/creation-page.ui:429
 msgid "The initialization time needed for a container to bootstrap."
 msgstr ""
 
-#: data/resources/ui/container-creation-page.ui:492
+#: data/resources/ui/container/creation-page.ui:464
+#: data/resources/ui/container/health-check-page.ui:65
 msgid "Retries"
 msgstr ""
 
-#: data/resources/ui/container-creation-page.ui:493
+#: data/resources/ui/container/creation-page.ui:465
 msgid ""
 "The number of retries allowed before a healthcheck is considered to be "
 "unhealthy."
 msgstr ""
 
-#: data/resources/ui/container-creation-page.ui:580
-#: data/resources/ui/image-pulling-page.ui:42
+#: data/resources/ui/container/creation-page.ui:511
+#, fuzzy
+msgid "Create And _Run"
+msgstr "Crea e avvia"
+
+#: data/resources/ui/container/creation-page.ui:522
+#: data/resources/ui/pod/creation-page.ui:82
+msgid "_Create"
+msgstr "_Crea"
+
+#: data/resources/ui/container/creation-page.ui:577
+#: data/resources/ui/image/building-page.ui:39
+#: data/resources/ui/image/pulling-page.ui:30
 msgid "Please Wait a Moment"
 msgstr ""
 
-#: data/resources/ui/container-creation-page.ui:581
+#: data/resources/ui/container/creation-page.ui:578
 msgid "The container is being created. You are safe to leave this page."
 msgstr ""
 
-#: data/resources/ui/container-details-page.ui:40
-msgid "Container Details"
-msgstr "Dettagli contenitore"
-
-#: data/resources/ui/container-details-page.ui:79
-#: data/resources/ui/pod-details-page.ui:135
+#: data/resources/ui/container/details-page.ui:67
+#: data/resources/ui/image/details-page.ui:132
+#: data/resources/ui/pod/details-page.ui:138
 msgid "Utilities"
 msgstr ""
 
-#: data/resources/ui/container-details-page.ui:83
+#: data/resources/ui/container/details-page.ui:71
+#: data/resources/ui/image/details-page.ui:136
+#: data/resources/ui/pod/details-page.ui:142
+msgid "Inspect"
+msgstr ""
+
+#: data/resources/ui/container/details-page.ui:72
+msgid "View all container properties in a structured text form."
+msgstr ""
+
+#: data/resources/ui/container/details-page.ui:95
 msgid "Logs"
 msgstr "Registro"
 
-#: data/resources/ui/container-details-page.ui:84
-msgid "View and search through container logs"
+#: data/resources/ui/container/details-page.ui:96
+msgid "View and search through container logs."
 msgstr ""
 
-#: data/resources/ui/container-details-page.ui:100
-#: data/resources/ui/pod-details-page.ui:139
+#: data/resources/ui/container/details-page.ui:112
+#: data/resources/ui/pod/details-page.ui:166
 msgid "Processes"
 msgstr ""
 
-#: data/resources/ui/container-details-page.ui:101
-msgid "View processes that are currently running inside the container"
+#: data/resources/ui/container/details-page.ui:113
+msgid "View processes that are currently running inside the container."
 msgstr ""
 
-#: data/resources/ui/container-log-page.ui:33
+#: data/resources/ui/container/health-check-page.ui:21
+#, fuzzy
+msgid "Container Health Check"
+msgstr "Percorso contenitore"
+
+#: data/resources/ui/container/health-check-page.ui:33
+#, fuzzy
+msgid "Configuration"
+msgstr "Configurato"
+
+#: data/resources/ui/container/health-check-page.ui:37
+#: data/resources/ui/container/properties-group.ui:49
+#: data/resources/ui/pod/details-page.ui:78
+msgid "Status"
+msgstr "Stato"
+
+#: data/resources/ui/container/health-check-page.ui:77
+msgid "Failing Streak"
+msgstr ""
+
+#: data/resources/ui/container/health-check-page.ui:100
+msgid "_Run Health Check"
+msgstr ""
+
+#: data/resources/ui/container/health-check-page.ui:110
+msgid "Last 5 Runs"
+msgstr ""
+
+#: data/resources/ui/container/log-page.ui:21
 #, fuzzy
 msgid "Container Log"
 msgstr "Porta contenitore"
 
-#: data/resources/ui/container-log-page.ui:40
+#: data/resources/ui/container/log-page.ui:28
 msgid "Toggle timestamps"
 msgstr "Attiva/disattiva timestamp"
 
-#: data/resources/ui/container-log-page.ui:89
+#: data/resources/ui/container/log-page.ui:35
+msgid "Search within this log"
+msgstr ""
+
+#: data/resources/ui/container/log-page.ui:78
 msgid "Scroll to bottom"
 msgstr "Scorri alla fine"
 
-#: data/resources/ui/container-log-page.ui:132
-msgid "Move to previous match (Ctrl+Shift+G)"
-msgstr "Passa alla corrispondenza precedente (Ctrl+Shift+G)"
-
-#: data/resources/ui/container-log-page.ui:140
-msgid "Move to next match (Ctrl+G)"
-msgstr "Passa alla corrispondenza successiva (Ctrl+G)"
-
-#: data/resources/ui/container-log-page.ui:150
-msgid "Toggle search options"
-msgstr "Attiva/disattiva opzioni di ricerca"
-
-#: data/resources/ui/container-log-page.ui:173
-msgid "Re_gular expressions"
-msgstr "Espressioni re_golari"
-
-#: data/resources/ui/container-log-page.ui:180
-msgid "_Case sensitive"
-msgstr "_Maiuscole/minuscole"
-
-#: data/resources/ui/container-log-page.ui:187
-msgid "Match whole _word only"
-msgstr "Solo paro_la intera"
-
-#: data/resources/ui/container-log-page.ui:228
+#: data/resources/ui/container/log-page.ui:129
 msgid "Loading previous lines"
 msgstr ""
 
-#: data/resources/ui/container-menu-button.ui:6
-#: data/resources/ui/pod-menu-button.ui:12
+#: data/resources/ui/container/menu-button.ui:6
+#: data/resources/ui/pod/menu-button.ui:12
 msgid "_Start"
 msgstr "_Avvio"
 
-#: data/resources/ui/container-menu-button.ui:11
-#: data/resources/ui/pod-menu-button.ui:17
+#: data/resources/ui/container/menu-button.ui:11
+#: data/resources/ui/pod/menu-button.ui:17
 msgid "S_top"
 msgstr "F_erma"
 
-#: data/resources/ui/container-menu-button.ui:16
-#: data/resources/ui/pod-menu-button.ui:22
+#: data/resources/ui/container/menu-button.ui:16
+#: data/resources/ui/pod/menu-button.ui:22
 msgid "_Force Stop"
 msgstr "_Forza arresto"
 
-#: data/resources/ui/container-menu-button.ui:21
-#: data/resources/ui/pod-menu-button.ui:27
+#: data/resources/ui/container/menu-button.ui:21
+#: data/resources/ui/pod/menu-button.ui:27
 msgid "R_estart"
 msgstr "_Riavvio"
 
-#: data/resources/ui/container-menu-button.ui:26
-#: data/resources/ui/pod-menu-button.ui:32
+#: data/resources/ui/container/menu-button.ui:26
+#: data/resources/ui/pod/menu-button.ui:32
 msgid "F_orce Restart"
 msgstr "F_orza Riavvio"
 
-#: data/resources/ui/container-menu-button.ui:31
-#: data/resources/ui/pod-menu-button.ui:37
+#: data/resources/ui/container/menu-button.ui:31
+#: data/resources/ui/pod/menu-button.ui:37
 msgid "_Resume"
 msgstr "_Riprendi"
 
-#: data/resources/ui/container-menu-button.ui:36
-#: data/resources/ui/pod-menu-button.ui:42
+#: data/resources/ui/container/menu-button.ui:36
+#: data/resources/ui/pod/menu-button.ui:42
 msgid "_Pause"
 msgstr "_Pausa"
 
-#: data/resources/ui/container-menu-button.ui:43
+#: data/resources/ui/container/menu-button.ui:43
 msgid "Re_name…"
 msgstr "Ri_nomina…"
 
-#: data/resources/ui/container-menu-button.ui:50
+#: data/resources/ui/container/menu-button.ui:50
 msgid "_Commit"
 msgstr "_Commit"
 
-#: data/resources/ui/container-menu-button.ui:57
-#: data/resources/ui/pod-menu-button.ui:49
+#: data/resources/ui/container/menu-button.ui:57
+#: data/resources/ui/pod/menu-button.ui:49 src/view/containers/panel.rs:354
+#: src/view/images/images_panel.rs:360 src/view/pods/panel.rs:448
 msgid "_Delete"
 msgstr "_Cancella"
 
-#: data/resources/ui/container-properties-group.ui:5
-#: data/resources/ui/image-details-page.ui:59
-#: data/resources/ui/pod-details-page.ui:63
+#: data/resources/ui/container/properties-group.ui:5
+#: data/resources/ui/image/details-page.ui:48
+#: data/resources/ui/pod/details-page.ui:51
 msgid "Properties"
 msgstr "Proprietà"
 
-#: data/resources/ui/container-properties-group.ui:20
-#: data/resources/ui/pod-details-page.ui:78
+#: data/resources/ui/container/properties-group.ui:20
+#: data/resources/ui/container/rename-dialog.ui:95
+#: data/resources/ui/pod/details-page.ui:66
 msgid "Id"
 msgstr "ID"
 
-#: data/resources/ui/container-properties-group.ui:26
+#: data/resources/ui/container/properties-group.ui:26
 #, fuzzy
 msgid "Port bindings"
 msgstr "Mappature porte"
 
-#: data/resources/ui/container-properties-group.ui:43
-#: data/resources/ui/pod-details-page.ui:95 src/model/container.rs:70
-#: src/model/pod.rs:71
+#: data/resources/ui/container/properties-group.ui:43
+#: data/resources/ui/pod/details-page.ui:72 src/model/container.rs:66
+#: src/model/pod.rs:66
 msgid "Created"
 msgstr "Creato"
 
-#: data/resources/ui/container-properties-group.ui:49
-#: data/resources/ui/pod-details-page.ui:101
-msgid "Status"
-msgstr "Stato"
-
-#: data/resources/ui/container-properties-group.ui:102
+#: data/resources/ui/container/properties-group.ui:113
 msgid "Image"
 msgstr "Immagine"
 
-#: data/resources/ui/container-rename-dialog.ui:10
-#: src/view/image/image_menu_button.rs:206 src/view/pod/pod_menu_button.rs:282
+#: data/resources/ui/container/rename-dialog.ui:20
+#: src/view/containers/panel.rs:353 src/view/image/menu_button.rs:212
+#: src/view/images/images_panel.rs:359 src/view/pod/menu_button.rs:277
+#: src/view/pods/panel.rs:447
 msgid "_Cancel"
 msgstr "_Annulla"
 
-#: data/resources/ui/container-rename-dialog.ui:21
+#: data/resources/ui/container/rename-dialog.ui:37
 msgid "_Rename"
 msgstr "_Rinomina"
 
-#: data/resources/ui/container-resources-quick-reference-group.ui:13
+#: data/resources/ui/container/rename-dialog.ui:101
+msgid "Current Name"
+msgstr ""
+
+#: data/resources/ui/container/resources-quick-reference-group.ui:13
 msgid "Resources Quick Reference"
 msgstr ""
 
-#: data/resources/ui/container-resources-quick-reference-group.ui:41
+#: data/resources/ui/container/resources-quick-reference-group.ui:41
 #, fuzzy
 msgid "CPU"
 msgstr "TCP"
 
-#: data/resources/ui/container-resources-quick-reference-group.ui:89
+#: data/resources/ui/container/resources-quick-reference-group.ui:89
 #, fuzzy
 msgid "Memory"
 msgstr "Limite di memoria"
 
-#: data/resources/ui/container-resources-quick-reference-group.ui:132
+#: data/resources/ui/container/resources-quick-reference-group.ui:132
 msgid "Network"
 msgstr ""
 
-#: data/resources/ui/container-resources-quick-reference-group.ui:231
+#: data/resources/ui/container/resources-quick-reference-group.ui:231
 msgid "Disk"
 msgstr ""
 
-#: data/resources/ui/containers-group.ui:14 data/resources/ui/pods-panel.ui:62
+#: data/resources/ui/containers/group.ui:14 data/resources/ui/pods/panel.ui:56
 #, fuzzy
 msgid "Only running"
 msgstr "In esecuzione"
 
-#: data/resources/ui/containers-panel.ui:55
-#: data/resources/ui/images-panel.ui:63 data/resources/ui/pods-panel.ui:52
+#: data/resources/ui/containers/panel.ui:50
+#: data/resources/ui/images/panel.ui:59 data/resources/ui/pods/panel.ui:46
 msgid "Summary"
 msgstr "Sommario"
 
-#: data/resources/ui/containers-panel.ui:57
+#: data/resources/ui/containers/panel.ui:52
 msgid "No containers found"
 msgstr "Nessun contenitore trovato"
 
-#: data/resources/ui/env-var-row.ui:30
-msgid "Key"
-msgstr "Chiave"
+#: data/resources/ui/containers/panel.ui:97
+#: data/resources/ui/containers/panel.ui:240
+#: data/resources/ui/pods/panel.ui:129 data/resources/ui/pods/panel.ui:272
+#, fuzzy
+msgid "Start/Resume"
+msgstr "_Riprendi"
 
-#: data/resources/ui/env-var-row.ui:49
-msgid "Value"
-msgstr "Valore"
+#: data/resources/ui/containers/panel.ui:126
+#: data/resources/ui/containers/panel.ui:251
+#: data/resources/ui/pods/panel.ui:158 data/resources/ui/pods/panel.ui:283
+#, fuzzy
+msgid "Stop"
+msgstr "_Arresto"
 
-#: data/resources/ui/image-details-page.ui:38
-msgid "Image Details"
-msgstr "Dettagli immagine"
+#: data/resources/ui/containers/panel.ui:155
+#: data/resources/ui/containers/panel.ui:262
+#: data/resources/ui/pods/panel.ui:187 data/resources/ui/pods/panel.ui:294
+#, fuzzy
+msgid "Pause"
+msgstr "_Pausa"
 
-#: data/resources/ui/image-details-page.ui:127
-msgid "Associated Containers"
-msgstr "Contenitori associati"
+#: data/resources/ui/containers/panel.ui:184
+#: data/resources/ui/containers/panel.ui:273
+#: data/resources/ui/pods/panel.ui:216 data/resources/ui/pods/panel.ui:305
+#, fuzzy
+msgid "Restart"
+msgstr "_Riavvio"
 
-#: data/resources/ui/image-details-page.ui:128
-msgid "There are no containers associated with this image."
-msgstr "Non ci sono contenitori associati a questa immagine."
-
-#: data/resources/ui/image-menu-button.ui:6
-#: data/resources/ui/pod-menu-button.ui:6
-msgid "_Create Container…"
-msgstr "_Crea contenitore…"
-
-#: data/resources/ui/image-menu-button.ui:13
+#: data/resources/ui/containers/panel.ui:213
+#: data/resources/ui/containers/panel.ui:284
+#: data/resources/ui/image/menu-button.ui:13
+#: data/resources/ui/images/panel.ui:137 data/resources/ui/pods/panel.ui:245
+#: data/resources/ui/pods/panel.ui:316
 #, fuzzy
 msgid "Delete"
 msgstr "_Cancella"
 
-#: data/resources/ui/image-pulling-page.ui:43
-msgid ""
-"The image is currently being downloaded. You are safe to leave this page."
-msgstr ""
+#: data/resources/ui/env-var/row.ui:30
+msgid "Key"
+msgstr "Chiave"
 
-#: data/resources/ui/image-pull-page.ui:42
-#: data/resources/ui/image-selection-page.ui:32
-msgid "Search For an Image"
-msgstr ""
+#: data/resources/ui/env-var/row.ui:49
+msgid "Value"
+msgstr "Valore"
 
-#: data/resources/ui/image-pull-page.ui:52
-msgid "Download"
-msgstr ""
-
-#: data/resources/ui/image-search-widget.ui:31
+#: data/resources/ui/image-search/widget.ui:31
 #, fuzzy
 msgid "No Registries Found"
 msgstr "Nessuna immagine trovata"
 
-#: data/resources/ui/image-search-widget.ui:32
+#: data/resources/ui/image-search/widget.ui:32
 msgid ""
 "\n"
 "You cannot search for images without registries. Please follow the "
 "instructions on this <a href=\"https://github.com/containers/image/blob/"
 "b80addc01c0dab40c5d8945a1df61f3c72a3e40d/docs/containers-registries.conf.5.md"
 "\">website</a> in order to add registries.\n"
-"                "
 msgstr ""
 
-#: data/resources/ui/image-search-widget.ui:53
+#: data/resources/ui/image-search/widget.ui:54
 #, fuzzy
 msgid "Search for"
 msgstr "Ricerca"
 
-#: data/resources/ui/image-search-widget.ui:60
+#: data/resources/ui/image-search/widget.ui:61
 msgid "Registry"
 msgstr ""
 
-#: data/resources/ui/image-search-widget.ui:82
+#: data/resources/ui/image-search/widget.ui:83
 #, fuzzy
 msgid "No Images Found"
 msgstr "Nessuna immagine trovata"
 
-#: data/resources/ui/image-search-widget.ui:83
+#: data/resources/ui/image-search/widget.ui:84
 msgid "Please start typing to look for images."
 msgstr ""
 
-#: data/resources/ui/image-search-widget.ui:98
+#: data/resources/ui/image-search/widget.ui:99
 #, fuzzy
 msgid "Searching…"
 msgstr "Ricerca"
 
-#: data/resources/ui/image-search-widget.ui:124
+#: data/resources/ui/image-search/widget.ui:125
 msgid "Please retry another term."
 msgstr ""
 
-#: data/resources/ui/image-search-widget.ui:185
+#: data/resources/ui/image-search/widget.ui:187
 msgid "Tag ('latest' if empty)"
 msgstr ""
 
-#: data/resources/ui/image-selection-page.ui:42
-msgid "_Select"
+#: data/resources/ui/image/build-page.ui:30
+msgid "Image Construction"
 msgstr ""
 
-#: data/resources/ui/images-panel.ui:6
+#: data/resources/ui/image/build-page.ui:46
+#, fuzzy
+msgid "Image Name"
+msgstr "Archivio immagini"
+
+#: data/resources/ui/image/build-page.ui:59
+msgid "Build Context Directory"
+msgstr ""
+
+#: data/resources/ui/image/build-page.ui:64
+msgid "Select…"
+msgstr ""
+
+#: data/resources/ui/image/build-page.ui:75
+msgid "Containerfile Path Relative to Build Context Directory"
+msgstr ""
+
+#: data/resources/ui/image/build-page.ui:92
+msgid "_Build"
+msgstr ""
+
+#: data/resources/ui/image/building-page.ui:40
+msgid ""
+"The image is currently being built. You are safe to leave this page or wait "
+"until the process is finished and view the image."
+msgstr ""
+
+#: data/resources/ui/image/building-page.ui:76
+msgid "Generating Context Directory Tarball"
+msgstr ""
+
+#: data/resources/ui/image/building-page.ui:154
+#, fuzzy
+msgid "_View Image"
+msgstr "{} Immagini"
+
+#: data/resources/ui/image/details-page.ui:125
+msgid "Associated Containers"
+msgstr "Contenitori associati"
+
+#: data/resources/ui/image/details-page.ui:126
+msgid "There are no containers associated with this image."
+msgstr "Non ci sono contenitori associati a questa immagine."
+
+#: data/resources/ui/image/details-page.ui:137
+msgid "View all image properties in a structured text form."
+msgstr ""
+
+#: data/resources/ui/image/menu-button.ui:6
+#: data/resources/ui/pod/menu-button.ui:6
+msgid "_Create Container…"
+msgstr "_Crea contenitore…"
+
+#: data/resources/ui/image/pull-page.ui:30
+msgid "Download an Image"
+msgstr ""
+
+#: data/resources/ui/image/pulling-page.ui:31
+msgid ""
+"The image is currently being downloaded. You are safe to leave this page."
+msgstr ""
+
+#: data/resources/ui/image/selection-page.ui:20
+msgid "Search For an Image"
+msgstr ""
+
+#: data/resources/ui/images/panel.ui:6
 #, fuzzy
 msgid "_Download…"
 msgstr "_Elimina immagini inutilizzate…"
 
-#: data/resources/ui/images-panel.ui:10
+#: data/resources/ui/images/panel.ui:10
+msgid "_Build…"
+msgstr ""
+
+#: data/resources/ui/images/panel.ui:14
 #, fuzzy
 msgid "_Prune…"
 msgstr "_Elimina"
 
-#: data/resources/ui/images-panel.ui:73
+#: data/resources/ui/images/panel.ui:69
 #, fuzzy
 msgid "Intermediates"
 msgstr "_Mostra immagini intermedie"
 
-#: data/resources/ui/images-prune-page.ui:31
+#: data/resources/ui/images/prune-page.ui:19
 msgid "Specify Pruning Settings"
 msgstr ""
 
-#: data/resources/ui/images-prune-page.ui:41
-msgid "_Prune"
-msgstr "_Elimina"
-
-#: data/resources/ui/images-prune-page.ui:62
+#: data/resources/ui/images/prune-page.ui:32
 msgid "Options"
 msgstr "Opzioni"
 
-#: data/resources/ui/images-prune-page.ui:67
+#: data/resources/ui/images/prune-page.ui:37
 msgid "Prune All"
 msgstr "Elimina tutto"
 
-#: data/resources/ui/images-prune-page.ui:68
+#: data/resources/ui/images/prune-page.ui:38
 msgid "Remove all images not in use by containers, not just dangling ones."
 msgstr ""
 "Rimuovi tutte le immagini non utilizzate dai contenitori, non solo quelle "
 "penzolanti."
 
-#: data/resources/ui/images-prune-page.ui:80
+#: data/resources/ui/images/prune-page.ui:50
 msgid "Prune External"
 msgstr "Elimina esterne"
 
-#: data/resources/ui/images-prune-page.ui:81
+#: data/resources/ui/images/prune-page.ui:51
 msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)."
@@ -632,21 +854,25 @@ msgstr ""
 "Rimuovi le immagini anche quando vengono utilizzate da contenitori esterni "
 "(ad es. dai contenitori di compilazione)."
 
-#: data/resources/ui/images-prune-page.ui:92
+#: data/resources/ui/images/prune-page.ui:62
 msgid "Prune Until"
 msgstr "Elimina prima di"
 
-#: data/resources/ui/images-prune-page.ui:93
+#: data/resources/ui/images/prune-page.ui:63
 msgid "Prune images created before this timestamp."
 msgstr "Elimina le immagini create prima di questo timestamp."
 
-#: data/resources/ui/images-prune-page.ui:174
+#: data/resources/ui/images/prune-page.ui:144
 msgid "AM"
 msgstr "AM"
 
-#: data/resources/ui/images-prune-page.ui:175
+#: data/resources/ui/images/prune-page.ui:145
 msgid "PM"
 msgstr "PM"
+
+#: data/resources/ui/images/prune-page.ui:190
+msgid "_Prune"
+msgstr "_Elimina"
 
 #: data/resources/ui/info-dialog.ui:6
 #, fuzzy
@@ -693,18 +919,18 @@ msgstr "Archivio contenitori"
 msgid "Describes the quantity of containers in the store by status."
 msgstr "Quantità di contenitori archiviati in base allo stato."
 
-#: data/resources/ui/info-dialog.ui:86 src/model/container.rs:73
-#: src/model/pod.rs:75
+#: data/resources/ui/info-dialog.ui:86 src/model/container.rs:69
+#: src/model/pod.rs:71
 msgid "Paused"
 msgstr "Sospeso"
 
-#: data/resources/ui/info-dialog.ui:92 src/model/container.rs:76
-#: src/model/pod.rs:78
+#: data/resources/ui/info-dialog.ui:92 src/model/container.rs:72
+#: src/model/pod.rs:73
 msgid "Running"
 msgstr "In esecuzione"
 
-#: data/resources/ui/info-dialog.ui:98 src/model/container.rs:77
-#: src/model/pod.rs:79
+#: data/resources/ui/info-dialog.ui:98 src/model/container.rs:73
+#: src/model/pod.rs:74
 msgid "Stopped"
 msgstr "Arrestato"
 
@@ -741,67 +967,67 @@ msgstr "Percorso di esecuzione"
 msgid "Volume Path"
 msgstr "Percorso volume"
 
-#: data/resources/ui/pod-creation-page.ui:47
+#: data/resources/ui/pod/creation-page.ui:35
 #, fuzzy
 msgid "Specify Pod Settings"
 msgstr "Dettagli contenitore"
 
-#: data/resources/ui/pod-creation-page.ui:57
-#, fuzzy
-msgid "Create"
-msgstr "_Crea"
-
-#: data/resources/ui/pod-creation-page.ui:86
-#: data/resources/ui/pod-details-page.ui:84
+#: data/resources/ui/pod/creation-page.ui:65
+#: data/resources/ui/pod/details-page.ui:116
 msgid "Hostname"
 msgstr ""
 
-#: data/resources/ui/pod-details-page.ui:40
-#, fuzzy
-msgid "Pod Details"
-msgstr "Dettagli"
-
-#: data/resources/ui/pod-details-page.ui:128
-#: data/resources/ui/search-panel.ui:68 data/resources/ui/window.ui:182
+#: data/resources/ui/pod/details-page.ui:131
+#: data/resources/ui/search-panel.ui:68 data/resources/ui/window.ui:292
 msgid "Containers"
 msgstr "Contenitori"
 
-#: data/resources/ui/pod-details-page.ui:129
+#: data/resources/ui/pod/details-page.ui:132
 #, fuzzy
 msgid "There are no containers in this pod."
 msgstr "Non ci sono contenitori associati a questa immagine."
 
-#: data/resources/ui/pod-details-page.ui:140
+#: data/resources/ui/pod/details-page.ui:143
+msgid "View all pod properties in a structured text form."
+msgstr ""
+
+#: data/resources/ui/pod/details-page.ui:167
 msgid "View processes that are currently running inside the pod."
 msgstr ""
 
-#: data/resources/ui/port-mapping-row.ui:29
+#: data/resources/ui/port-mapping/row.ui:29
 msgid "IP address"
 msgstr "Indirizzo IP"
 
-#: data/resources/ui/port-mapping-row.ui:48
+#: data/resources/ui/port-mapping/row.ui:48
 msgid "Host port"
 msgstr "Porta host"
 
-#: data/resources/ui/port-mapping-row.ui:75
+#: data/resources/ui/port-mapping/row.ui:75
 msgid "Container port"
 msgstr "Porta contenitore"
 
-#: data/resources/ui/port-mapping-row.ui:102
+#: data/resources/ui/port-mapping/row.ui:102
 msgid "Protocol"
 msgstr "Protocollo"
 
-#: data/resources/ui/port-mapping-row.ui:113
+#: data/resources/ui/port-mapping/row.ui:113
 msgid "TCP"
 msgstr "TCP"
 
-#: data/resources/ui/port-mapping-row.ui:114
+#: data/resources/ui/port-mapping/row.ui:114
 msgid "UDP"
 msgstr "UDP"
 
-#: data/resources/ui/search-panel.ui:52 data/resources/ui/window.ui:162
+#: data/resources/ui/search-panel.ui:52 data/resources/ui/window.ui:272
 msgid "Images"
 msgstr "Immagini"
+
+#: data/resources/ui/search-panel.ui:84 data/resources/ui/window.ui:312
+#, fuzzy
+msgctxt "podman feature"
+msgid "Pods"
+msgstr "Pods"
 
 #: data/resources/ui/shortcuts.ui:13
 msgctxt "shortcut window"
@@ -890,67 +1116,80 @@ msgctxt "shortcut window"
 msgid "Rename"
 msgstr "_Rinomina"
 
-#: data/resources/ui/volume-row.ui:34
+#: data/resources/ui/volume/row.ui:34
 msgid "Host path"
 msgstr "Percorso host"
 
-#: data/resources/ui/volume-row.ui:53
+#: data/resources/ui/volume/row.ui:53
 msgid "Container path"
 msgstr "Percorso contenitore"
 
-#: data/resources/ui/volume-row.ui:81
+#: data/resources/ui/volume/row.ui:81
 msgid "Mode"
 msgstr "Modalità"
 
-#: data/resources/ui/volume-row.ui:92
+#: data/resources/ui/volume/row.ui:92
 msgid "Writable"
 msgstr "Scrivibile"
 
-#: data/resources/ui/volume-row.ui:102
+#: data/resources/ui/volume/row.ui:102
 msgid "SELinux"
 msgstr "SELinux"
 
-#: data/resources/ui/volume-row.ui:113
+#: data/resources/ui/volume/row.ui:113
 msgid "No label"
 msgstr "Senza etichetta"
 
-#: data/resources/ui/volume-row.ui:114
+#: data/resources/ui/volume/row.ui:114
 msgid "Shared"
 msgstr "Condiviso"
 
-#: data/resources/ui/volume-row.ui:115
+#: data/resources/ui/volume/row.ui:115
 msgid "Private"
 msgstr "Privato"
 
-#: data/resources/ui/welcome-page.ui:29
+#: data/resources/ui/welcome-page.ui:31
 msgid "Welcome to Pods"
 msgstr "Benvenuto in Pods"
 
-#: data/resources/ui/welcome-page.ui:30
+#: data/resources/ui/welcome-page.ui:32
 msgid ""
 "No connections have been detected. Use the button below to create a new one."
 msgstr ""
 
-#: data/resources/ui/welcome-page.ui:40
+#: data/resources/ui/welcome-page.ui:42
 msgid "_Add Connection"
 msgstr ""
 
-#: data/resources/ui/window.ui:7
-msgid "_Add connection…"
+#: data/resources/ui/window.ui:6
+#, fuzzy
+msgid "_Connections"
+msgstr "Connessione persa con Podman"
+
+#: data/resources/ui/window.ui:14
+msgid "_New…"
 msgstr ""
 
-#: data/resources/ui/window.ui:13
+#: data/resources/ui/window.ui:21
 #, fuzzy
 msgid "About _Podman"
 msgstr "_Informazioni su Pods"
 
-#: data/resources/ui/window.ui:19
+#: data/resources/ui/window.ui:27
 msgid "_Keyboard Shortcuts"
 msgstr "_Scorciatoie da tastiera"
 
-#: data/resources/ui/window.ui:23
+#: data/resources/ui/window.ui:31
 msgid "_About Pods"
 msgstr "_Informazioni su Pods"
+
+#: data/resources/ui/window.ui:39
+msgid "_Select All"
+msgstr ""
+
+#: data/resources/ui/window.ui:43
+msgid "Select None"
+msgstr ""
 
 #: src/application.rs:185
 msgid "translator-credits"
@@ -973,262 +1212,376 @@ msgstr "Specifica livello minimo dei log"
 msgid "Connection '{}' already exists."
 msgstr ""
 
-#: src/model/container.rs:69 src/model/pod.rs:70
-msgid "Configured"
-msgstr "Configurato"
-
-#: src/model/container.rs:71 src/model/pod.rs:72
+#: src/model/container.rs:67 src/model/pod.rs:67
 msgid "Dead"
 msgstr "Inattivo"
 
-#: src/model/container.rs:72 src/model/pod.rs:74
+#: src/model/container.rs:68 src/model/pod.rs:70
 msgid "Exited"
 msgstr "Terminato"
 
-#: src/model/container.rs:74 src/model/pod.rs:76
+#: src/model/container.rs:70
 msgid "Removing"
 msgstr "Rimozione"
 
-#: src/model/container.rs:75 src/model/pod.rs:77
+#: src/model/container.rs:71 src/model/pod.rs:72
 msgid "Restarting"
 msgstr "Riavvio"
 
-#: src/model/container.rs:78 src/model/pod.rs:80
+#: src/model/container.rs:74
 msgid "Stopping"
 msgstr "Interruzione"
 
-#: src/model/container.rs:79 src/model/container.rs:120 src/model/pod.rs:81
+#: src/model/container.rs:75 src/model/container.rs:116 src/model/pod.rs:75
 msgid "Unknown"
 msgstr "Sconosciuto"
 
-#: src/model/container.rs:116
+#: src/model/container.rs:112
 msgid "Checking"
 msgstr ""
 
-#: src/model/container.rs:117
+#: src/model/container.rs:113
 msgid "Healthy"
 msgstr ""
 
-#: src/model/container.rs:118
+#: src/model/container.rs:114
 msgid "Unhealthy"
 msgstr ""
 
-#: src/model/container.rs:119
+#: src/model/container.rs:115
 #, fuzzy
 msgid "Unconfigured"
 msgstr "Configurato"
 
-#: src/model/pod.rs:73
+#: src/model/pod.rs:68
 msgid "Degraded"
 msgstr ""
 
-#. Translators: This string will be shown when a property of an entity like an image is null.
-#: src/utils.rs:179
-msgid "<none>"
-msgstr "<nessuno>"
-
-#: src/view/connection/connection_chooser_page.rs:118
-#, fuzzy
-msgid "Error on choosing connection"
-msgstr "Errore durante la sospensione del contenitore"
-
-#: src/view/connection/connection_creator_page.rs:188
+#: src/model/pod.rs:69 src/view/connection/creator_page.rs:185
 #, fuzzy
 msgid "Error"
 msgstr "Errori: {}"
 
-#: src/view/connection/connection_row.rs:119
-msgid "Local connection"
+#. Translators: This string will be shown when a property of an entity like an image is null.
+#: src/utils.rs:173
+msgid "<none>"
+msgstr "<nessuno>"
+
+#: src/view/component/inspection_page.rs:85
+msgid "Could not set language to 'json'"
 msgstr ""
 
-#: src/view/connection/connection_switcher_popup.rs:114
-#, fuzzy
-msgid "Error on swwitching connection"
-msgstr "Errore all'avvio del contenitore"
-
-#: src/view/container/container_details_page.rs:202
-#, fuzzy
-msgid "Container '{}' has been deleted"
-msgstr "Il contenitore è stato eliminato"
-
-#: src/view/container/container_log_page.rs:287
+#: src/view/component/source_view_search_widget.rs:194
 #, fuzzy
 msgid "0 of {}"
 msgstr "{} di {}"
 
-#: src/view/container/container_log_page.rs:551
+#: src/view/component/source_view_search_widget.rs:213
 msgid "{} of {}"
 msgstr "{} di {}"
 
+#: src/view/component/top_page.rs:92
+#, fuzzy
+msgid "Container Processes"
+msgstr "Pagina contenitore"
+
+#: src/view/component/top_page.rs:94
+#, fuzzy
+msgid "Pod Processes"
+msgstr "Pagina contenitore"
+
+#: src/view/connection/row.rs:119
+msgid "Local connection"
+msgstr ""
+
+#: src/view/connection/switcher_widget.rs:125
+#, fuzzy
+msgid "Error on switching connection"
+msgstr "Errore all'avvio del contenitore"
+
+#: src/view/container/details_page.rs:206
+#, fuzzy
+msgid "Error on loading container details"
+msgstr "Errore durante il caricamento dei contenitori"
+
+#: src/view/container/details_page.rs:210
+#, fuzzy
+msgid "Container '{}' has been deleted"
+msgstr "Il contenitore è stato eliminato"
+
+#: src/view/container/details_page.rs:233
+#, fuzzy
+msgid "Container Inspection"
+msgstr "Porta contenitore"
+
+#: src/view/container/details_page.rs:239
+#, fuzzy
+msgid "Error on inspecting container"
+msgstr "Errore durante il controllo del contenitore '{}'"
+
+#: src/view/container/health_check_page.rs:200
+#: src/view/container/health_check_page.rs:216
+msgid "{} second"
+msgid_plural "{} seconds"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/view/container/health_check_page.rs:241
+#, fuzzy
+msgid "Error on runnung health check"
+msgstr "Errore durante l'eliminazione delle immagini: '{}'"
+
 #. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
-#: src/view/container/container_properties_group.rs:131
-#: src/view/container/container_properties_group.rs:175
-#: src/view/image/image_details_page.rs:165 src/view/info_dialog.rs:177
-#: src/view/pod/pod_details_page.rs:154
+#: src/view/container/properties_group.rs:133
+#: src/view/container/properties_group.rs:177
+#: src/view/health_check_log/row.rs:133 src/view/image/details_page.rs:165
+#: src/view/info_dialog.rs:176 src/view/pod/details_page.rs:148
 #, c-format
 msgid "%x %X"
 msgstr "%x %X"
 
 #. Translators: "{}" is a placeholder for a date time.
-#: src/view/container/container_properties_group.rs:170
+#: src/view/container/properties_group.rs:172
 msgid "Up since {}"
 msgstr ""
 
-#: src/view/container/container_rename_dialog.rs:89
-msgid "Rename container «{}»"
-msgstr "Rinomina contenitore «{}»"
-
-#: src/view/container/container_resources_quick_reference_group.rs:107
-#: src/view/container/container_resources_quick_reference_group.rs:129
-#: src/view/container/container_resources_quick_reference_group.rs:133
-#: src/view/container/container_resources_quick_reference_group.rs:137
-#: src/view/container/container_resources_quick_reference_group.rs:140
-#: src/view/container/container_resources_quick_reference_group.rs:267
+#: src/view/container/resources_quick_reference_group.rs:107
+#: src/view/container/resources_quick_reference_group.rs:129
+#: src/view/container/resources_quick_reference_group.rs:133
+#: src/view/container/resources_quick_reference_group.rs:137
+#: src/view/container/resources_quick_reference_group.rs:140
+#: src/view/container/resources_quick_reference_group.rs:267
 msgid "?"
 msgstr ""
 
-#: src/view/container/container_resources_quick_reference_group.rs:104
+#: src/view/container/resources_quick_reference_group.rs:104
 msgid "{} %"
 msgstr ""
 
-#: src/view/container/container_resources_quick_reference_group.rs:125
+#: src/view/container/resources_quick_reference_group.rs:125
 msgid "{} / {} ({} %)"
 msgstr ""
 
 #. Translators: For example 5 MB / s.
-#: src/view/container/container_resources_quick_reference_group.rs:254
+#: src/view/container/resources_quick_reference_group.rs:254
 msgid "{} / s"
 msgstr ""
 
-#: src/view/container/containers_group.rs:126
+#: src/view/containers/group.rs:136
 #, fuzzy
 msgid "1 container, running"
 msgstr "{} Contenitori totali, {} in esecuzione"
 
-#: src/view/container/containers_group.rs:128
+#: src/view/containers/group.rs:138
 #, fuzzy
 msgid "1 container, stopped"
 msgstr "Archivio contenitori"
 
 #. Translators: There's a wide space (U+2002) between ", {}".
-#: src/view/container/containers_group.rs:133
+#: src/view/containers/group.rs:143
 #, fuzzy
 msgid "{} container total, {} running"
 msgid_plural "{} containers total, {} running"
 msgstr[0] "{} Contenitori totali, {} in esecuzione"
 msgstr[1] "{} Contenitori totali, {} in esecuzione"
 
+#. Translators: The "{}" is a placeholder for an error message.
+#: src/view/containers/panel.rs:236
+#, fuzzy
+msgid "Error on resuming container: {}"
+msgstr "Errore durante la ripresa del contenitore"
+
+#. Translators: The "{}" is a placeholder for an error message.
+#: src/view/containers/panel.rs:247
+#, fuzzy
+msgid "Error on starting container: {}"
+msgstr "Errore durante il riavvio del contenitore"
+
+#. Translators: The "{}" is a placeholder for an error message.
+#: src/view/containers/panel.rs:274 src/view/containers/panel.rs:297
+#, fuzzy
+msgid "Error on stopping container: {}"
+msgstr "Errore durante l'arresto del contenitore"
+
+#. Translators: The "{}" is a placeholder for an error message.
+#: src/view/containers/panel.rs:321
+#, fuzzy
+msgid "Error on restarting container: {}"
+msgstr "Errore durante il riavvio del contenitore"
+
+#: src/view/containers/panel.rs:343
+msgid "Confirm Forced Deletion of Multiple Containers"
+msgstr ""
+
+#: src/view/containers/panel.rs:346
+msgid ""
+"All the data created inside the containers will be lost and running "
+"containers will be stopped!"
+msgstr ""
+
+#. Translators: The "{}" is a placeholder for an error message.
+#: src/view/containers/panel.rs:374
+#, fuzzy
+msgid "Error on deleting container: {}"
+msgstr "Errore durante l'eliminazione del contenitore"
+
+#: src/view/health_check_log/row.rs:122
+msgid "Passed Health Run"
+msgstr ""
+
+#: src/view/health_check_log/row.rs:126
+msgid "Failed Health Run: {}"
+msgstr ""
+
+#: src/view/image/build_page.rs:190
+msgid "Select File"
+msgstr ""
+
+#: src/view/image/build_page.rs:209
+msgid "Image name should not contain uppercase characters."
+msgstr ""
+
+#: src/view/image/build_page.rs:238
+msgid "Failed to build image"
+msgstr ""
+
 #. Translators: "{}" are placeholders for storage space.
-#: src/view/image/image_details_page.rs:190
+#: src/view/image/details_page.rs:190
 msgid "{} (Virtual: {})"
 msgstr "{} (Virtuali: {})"
 
 #. Translators: "{}" are placeholders for storage space.
-#: src/view/image/image_details_page.rs:199
+#: src/view/image/details_page.rs:199
 msgid "{} (Shared: {})"
 msgstr "{} (Condivisi: {})"
 
 #. Translators: "{}" are placeholders for storage space.
-#: src/view/image/image_details_page.rs:209
+#: src/view/image/details_page.rs:209
 msgid "{} (Shared: {}, Virtual: {})"
 msgstr "{} (Condivisi: {}, Virtuali: {})"
 
-#: src/view/image/image_details_page.rs:310
+#: src/view/image/details_page.rs:312
+#, fuzzy
+msgid "Error on loading image details"
+msgstr "Errore durante il caricamento dei contenitori"
+
+#: src/view/image/details_page.rs:316
 #, fuzzy
 msgid "Image '{}' has been deleted"
 msgstr "L'immagine è stata eliminata"
 
-#: src/view/image/image_menu_button.rs:187
+#: src/view/image/details_page.rs:335
+#, fuzzy
+msgid "Image Inspection"
+msgstr "Dettagli immagine"
+
+#: src/view/image/details_page.rs:341
+#, fuzzy
+msgid "Error on inspecting image"
+msgstr "Errore durante l'eliminazione delle immagini: '{}'"
+
+#: src/view/image/menu_button.rs:193
 msgid "Confirm Forced Image Deletion"
 msgstr ""
 
 #. Translators: The "{}" is a placeholder for the container name.
-#: src/view/image/image_menu_button.rs:193
+#: src/view/image/menu_button.rs:199
 msgid ""
 "Image is used by container <b>{}</b>. Deleting the image will also delete "
 "all its associated containers."
 msgstr ""
 
-#: src/view/image/image_menu_button.rs:197
+#: src/view/image/menu_button.rs:203
 msgid ""
 "Image is used by a container. Deleting the image will also delete all its "
 "associated containers."
 msgstr ""
 
-#: src/view/image/image_menu_button.rs:207 src/view/pod/pod_menu_button.rs:283
+#: src/view/image/menu_button.rs:213 src/view/pod/menu_button.rs:278
 #, fuzzy
 msgid "_Force Delete"
 msgstr "_Cancella"
 
 #. Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
-#: src/view/image/image_menu_button.rs:238
+#: src/view/image/menu_button.rs:244 src/view/images/images_panel.rs:379
 #, fuzzy
 msgid "Error on deleting image '{}': {}"
 msgstr "Errore durante l'eliminazione dell'immagine '{}'"
 
-#: src/view/image/image_pull_page.rs:184
+#: src/view/image/pull_page.rs:168
 msgid "Failed to pull image"
 msgstr ""
 
-#: src/view/image/image_search_widget.rs:226
+#: src/view/image_search/widget.rs:243
 msgid "All registries"
 msgstr ""
 
-#: src/view/image/image_search_widget.rs:245
+#: src/view/image_search/widget.rs:262
 msgid "Failed to retrieve podman info"
 msgstr ""
 
-#: src/view/image/image_search_widget.rs:321
+#: src/view/image_search/widget.rs:340
 msgid "No Results For {}"
 msgstr ""
 
-#: src/view/image/image_search_widget.rs:333
+#: src/view/image_search/widget.rs:352
 msgid "Failed to search for images"
 msgstr ""
 
-#: src/view/image/images_panel.rs:190 src/view/image/images_panel.rs:210
+#: src/view/images/images_panel.rs:178 src/view/images/images_panel.rs:198
 msgid "No images found"
 msgstr "Nessuna immagine trovata"
 
-#: src/view/image/images_panel.rs:193
+#: src/view/images/images_panel.rs:181
 #, fuzzy
 msgid "1 image, used"
 msgstr "Nessuna immagine trovata"
 
-#: src/view/image/images_panel.rs:195
+#: src/view/images/images_panel.rs:183
 #, fuzzy
 msgid "1 image, unused"
 msgstr "Nessuna immagine trovata"
 
 #. Translators: There's a wide space (U+2002) between ", {}".
-#: src/view/image/images_panel.rs:200
+#: src/view/images/images_panel.rs:188
 #, fuzzy
 msgid "{} image total, {} {} unused, {}"
 msgid_plural "{} images total, {} {} unused, {}"
 msgstr[0] "{} immagini totali, {} {} immagini inutilizzate, {}"
 msgstr[1] "{} immagini totali, {} {} immagini inutilizzate, {}"
 
+#: src/view/images/images_panel.rs:350
+msgid "Confirm Forced Deletion of Multiple Images"
+msgstr ""
+
+#: src/view/images/images_panel.rs:352
+#, fuzzy
+msgid ""
+"There may be containers associated with those images, which will also be "
+"removed!"
+msgstr "Non ci sono contenitori associati a questa immagine."
+
 #. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
-#: src/view/image/images_prune_page.rs:202
+#: src/view/images/prune_page.rs:194
 msgid "%x %H:%M %p"
 msgstr "%x %H:%M %p"
 
-#: src/view/image/images_prune_page.rs:204
+#: src/view/images/prune_page.rs:196
 msgid "Invalid date format"
 msgstr "Formato data non valido"
 
-#: src/view/image/images_prune_page.rs:339
+#: src/view/images/prune_page.rs:302
 #, fuzzy
 msgid "All images have been pruned"
 msgstr "Le immagini {} sono state eliminate"
 
-#: src/view/image/images_prune_page.rs:345
+#: src/view/images/prune_page.rs:308
 #, fuzzy
 msgid "Error on pruning images"
 msgstr "Errore durante l'eliminazione delle immagini: '{}'"
 
 #. Translators: "{}" is a placeholder for a cardinal numbers.
-#: src/view/info_dialog.rs:213
+#: src/view/info_dialog.rs:209
 #, fuzzy
 msgid "{} Container"
 msgid_plural "{} Containers"
@@ -1236,7 +1589,7 @@ msgstr[0] "{} Contenitori"
 msgstr[1] "{} Contenitori"
 
 #. Translators: "{}" is a placeholder for a cardinal number.
-#: src/view/info_dialog.rs:246
+#: src/view/info_dialog.rs:240
 #, fuzzy
 msgid "{} Option"
 msgid_plural "{} Options"
@@ -1244,7 +1597,7 @@ msgstr[0] "{} Opzioni"
 msgstr[1] "{} Opzioni"
 
 #. Translators: "{}" is placeholders for a cardinal number.
-#: src/view/info_dialog.rs:269
+#: src/view/info_dialog.rs:260
 #, fuzzy
 msgid "{} State"
 msgid_plural "{} States"
@@ -1252,7 +1605,7 @@ msgstr[0] "{} Stato"
 msgstr[1] "{} Stato"
 
 #. Translators: "{}" is placeholders for a cardinal number.
-#: src/view/info_dialog.rs:289
+#: src/view/info_dialog.rs:277
 #, fuzzy
 msgid "{} Image"
 msgid_plural "{} Images"
@@ -1260,108 +1613,169 @@ msgstr[0] "{} Immagini"
 msgstr[1] "{} Immagini"
 
 #. Translators: The placeholder "{}" is for the error message.
-#: src/view/info_dialog.rs:308
+#: src/view/info_dialog.rs:293
 msgid "Error: {}"
 msgstr "Errori: {}"
 
-#: src/view/pod/pod_details_page.rs:236
+#: src/view/pod/details_page.rs:235
+#, fuzzy
+msgid "Error on loading pod data"
+msgstr "Errore durante il caricamento delle immagini"
+
+#: src/view/pod/details_page.rs:239
 msgid "Pod '{}' has been deleted"
 msgstr ""
 
-#: src/view/pod/pod_menu_button.rs:263
+#: src/view/pod/details_page.rs:258
+msgid "Pod Inspection"
+msgstr ""
+
+#: src/view/pod/details_page.rs:264
+#, fuzzy
+msgid "Error on inspecting pod"
+msgstr "Errore durante il controllo dell'immagine '{}'"
+
+#: src/view/pod/menu_button.rs:257
 msgid "Confirm Forced Pod Deletion"
 msgstr ""
 
 #. Translators: The "{}" is a placeholder for the container name.
-#: src/view/pod/pod_menu_button.rs:269
+#: src/view/pod/menu_button.rs:263
 msgid ""
 "Pod contains container <b>{}</b>. Deleting the pod will also delete all its "
 "containers."
 msgstr ""
 
-#: src/view/pod/pod_menu_button.rs:273
+#: src/view/pod/menu_button.rs:267
 msgid ""
 "Pod conains a container. Deleting the pod will also delete all its "
 "containers."
 msgstr ""
 
-#: src/view/pod/pod_row.rs:100
-#, fuzzy
-msgid "{} container"
-msgid_plural "{} containers"
-msgstr[0] "{} Contenitori"
-msgstr[1] "{} Contenitori"
-
-#: src/view/pod/pod_row.rs:106
-#, fuzzy
-msgid "No containers"
-msgstr "Contenitori"
-
-#: src/view/pod/pods_panel.rs:184
+#: src/view/pods/panel.rs:183
 #, fuzzy
 msgid "No pods found"
 msgstr "Nessuna immagine trovata"
 
-#: src/view/pod/pods_panel.rs:187
+#: src/view/pods/panel.rs:186
 #, fuzzy
 msgid "1 pod, running"
 msgstr "In esecuzione"
 
-#: src/view/pod/pods_panel.rs:189
+#: src/view/pods/panel.rs:188
 msgid "1 pod, stopped"
 msgstr ""
 
 #. Translators: There's a wide space (U+2002) between ", {}".
-#: src/view/pod/pods_panel.rs:194
+#: src/view/pods/panel.rs:193
 #, fuzzy
 msgid "{} pod total, {} running"
 msgid_plural "{} pods total, {} running"
 msgstr[0] "{} Contenitori totali, {} in esecuzione"
 msgstr[1] "{} Contenitori totali, {} in esecuzione"
 
-#: src/view/top_page.rs:101
+#. Translators: The "{}" is a placeholder for an error message.
+#: src/view/pods/panel.rs:337
 #, fuzzy
-msgid "Container Processes"
-msgstr "Pagina contenitore"
+msgid "Error on resuming pod: {}"
+msgstr "Errore durante la ripresa del contenitore"
 
-#: src/view/top_page.rs:103
+#. Translators: The "{}" is a placeholder for an error message.
+#: src/view/pods/panel.rs:348
 #, fuzzy
-msgid "Pod Processes"
-msgstr "Pagina contenitore"
+msgid "Error on starting pod: {}"
+msgstr "Errore durante il caricamento delle immagini"
 
-#: src/window.rs:432
+#. Translators: The "{}" is a placeholder for an error message.
+#: src/view/pods/panel.rs:375 src/view/pods/panel.rs:398
+#, fuzzy
+msgid "Error on stopping pod: {}"
+msgstr "Errore durante l'arresto del contenitore"
+
+#. Translators: The "{}" is a placeholder for an error message.
+#: src/view/pods/panel.rs:422
+#, fuzzy
+msgid "Error on restarting pod: {}"
+msgstr "Errore durante il riavvio del contenitore"
+
+#: src/view/pods/panel.rs:439
+msgid "Confirm Forced Deletion of Multiple Pods"
+msgstr ""
+
+#: src/view/pods/panel.rs:441
+msgid "All associated containers will also be removed!"
+msgstr ""
+
+#. Translators: The "{}" is a placeholder for an error message.
+#: src/view/pods/panel.rs:467
+#, fuzzy
+msgid "Error on deleting pod: {}"
+msgstr "Errore durante l'eliminazione dell'immagine '{}'"
+
+#: src/window.rs:462
+#, fuzzy
+msgid "{} Selected Image"
+msgid_plural "{} Selected Images"
+msgstr[0] "{} Immagini"
+msgstr[1] "{} Immagini"
+
+#: src/window.rs:476
+#, fuzzy
+msgid "{} Selected Container"
+msgid_plural "{} Selected Containers"
+msgstr[0] "{} Contenitori"
+msgstr[1] "{} Contenitori"
+
+#: src/window.rs:490
+msgid "{} Selected Pod"
+msgid_plural "{} Selected Pods"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/window.rs:702
 #, fuzzy
 msgid "images"
 msgstr "Immagini"
 
-#: src/window.rs:433
+#: src/window.rs:703
 #, fuzzy
 msgid "containers"
 msgstr "Contenitori"
 
-#: src/window.rs:434 src/window.rs:444
+#: src/window.rs:704
 msgid "pods"
 msgstr ""
 
-#: src/window.rs:430
+#: src/window.rs:700
 #, fuzzy
 msgid "Error on loading {}"
 msgstr "Errore durante il caricamento delle immagini"
 
-#: src/window.rs:442
 #, fuzzy
-msgid "image"
-msgstr "Immagine"
+#~ msgid "Create"
+#~ msgstr "_Crea"
 
-#: src/window.rs:443
 #, fuzzy
-msgid "container"
-msgstr "Contenitori"
+#~ msgid "Error on choosing connection"
+#~ msgstr "Errore durante la sospensione del contenitore"
 
-#: src/window.rs:440
 #, fuzzy
-msgid "Error on inspecting {} '{}'"
-msgstr "Errore durante il controllo dell'immagine '{}'"
+#~ msgid "{} container"
+#~ msgid_plural "{} containers"
+#~ msgstr[0] "{} Contenitori"
+#~ msgstr[1] "{} Contenitori"
+
+#, fuzzy
+#~ msgid "No containers"
+#~ msgstr "Contenitori"
+
+#, fuzzy
+#~ msgid "image"
+#~ msgstr "Immagine"
+
+#, fuzzy
+#~ msgid "container"
+#~ msgstr "Contenitori"
 
 #~ msgid "Follow system style"
 #~ msgstr "Segui lo stile del sistema"
@@ -1406,35 +1820,17 @@ msgstr "Errore durante il controllo dell'immagine '{}'"
 #~ msgid "_Preferences"
 #~ msgstr "_Preferenze"
 
-#~ msgid "Prune Unused Images"
-#~ msgstr "Elimina immagini inutilizzate"
-
-#~ msgid "Create Container"
-#~ msgstr "Crea contenitore"
-
 #~ msgid "_Show only running containers"
 #~ msgstr "Mostra solo contenitori _in esecuzione"
-
-#~ msgid "Error on stopping container"
-#~ msgstr "Errore durante l'arresto del contenitore"
 
 #~ msgid "Error on force stopping container"
 #~ msgstr "Errore durante l'arresto forzato del contenitore"
 
-#~ msgid "Error on restarting container"
-#~ msgstr "Errore durante il riavvio del contenitore"
-
 #~ msgid "Error on force restarting container"
 #~ msgstr "Errore durante il riavvio forzato del contenitore"
 
-#~ msgid "Error on resuming container"
-#~ msgstr "Errore durante la ripresa del contenitore"
-
 #~ msgid "Error on committing container"
 #~ msgstr "Errore durante il commit del contenitore"
-
-#~ msgid "Error on deleting container"
-#~ msgstr "Errore durante l'eliminazione del contenitore"
 
 #~ msgid "Error on force deleting container"
 #~ msgstr "Errore durante l'eliminazione forzata del contenitore"
@@ -1453,12 +1849,6 @@ msgstr "Errore durante il controllo dell'immagine '{}'"
 
 #~ msgid "Command to start Podman returned exit code: {}"
 #~ msgstr "Il comando per avviare Podman ha restituito il codice di uscita: {}"
-
-#~ msgid "Error on loading containers"
-#~ msgstr "Errore durante il caricamento dei contenitori"
-
-#~ msgid "Error on inspecting container '{}'"
-#~ msgstr "Errore durante il controllo del contenitore '{}'"
 
 #~ msgid "Used By"
 #~ msgstr "Usato da"
