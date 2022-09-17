@@ -1,14 +1,12 @@
-mod pod_creation_page;
-mod pod_details_page;
-mod pod_menu_button;
-mod pod_row;
-mod pods_panel;
+mod creation_page;
+mod details_page;
+mod menu_button;
+mod row;
 
-pub(crate) use pod_creation_page::PodCreationPage;
-pub(crate) use pod_details_page::PodDetailsPage;
-pub(crate) use pod_menu_button::PodMenuButton;
-pub(crate) use pod_row::PodRow;
-pub(crate) use pods_panel::PodsPanel;
+pub(crate) use creation_page::CreationPage;
+pub(crate) use details_page::DetailsPage;
+pub(crate) use menu_button::MenuButton;
+pub(crate) use row::Row;
 
 use crate::model;
 

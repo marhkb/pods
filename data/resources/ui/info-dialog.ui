@@ -14,37 +14,37 @@
             <property name="title" translatable="yes">Version</property>
 
             <child>
-              <object class="PropertyRow" id="version_api_version_row">
+              <object class="PdsPropertyRow" id="version_api_version_row">
                 <property name="key" translatable="yes">API Version</property>
               </object>
             </child>
 
             <child>
-              <object class="PropertyRow" id="version_built_time_row">
+              <object class="PdsPropertyRow" id="version_built_time_row">
                 <property name="key" translatable="yes">Built Time</property>
               </object>
             </child>
 
             <child>
-              <object class="PropertyRow" id="version_git_commit_row">
+              <object class="PdsPropertyRow" id="version_git_commit_row">
                 <property name="key" translatable="yes">Git Commit</property>
               </object>
             </child>
 
             <child>
-              <object class="PropertyRow" id="version_go_version_row">
+              <object class="PdsPropertyRow" id="version_go_version_row">
                 <property name="key" translatable="yes">Go Version</property>
               </object>
             </child>
 
             <child>
-              <object class="PropertyRow" id="version_os_arch_row">
+              <object class="PdsPropertyRow" id="version_os_arch_row">
                 <property name="key" translatable="yes">Os Arch</property>
               </object>
             </child>
 
             <child>
-              <object class="PropertyRow" id="version_version_row">
+              <object class="PdsPropertyRow" id="version_version_row">
                 <property name="key" translatable="yes">Version</property>
               </object>
             </child>
@@ -58,7 +58,7 @@
             <property name="description" translatable="yes">Describes the container storage and its attributes.</property>
 
             <child>
-              <object class="PropertyRow" id="store_config_file_row">
+              <object class="PdsPropertyRow" id="store_config_file_row">
                 <property name="key" translatable="yes">Config File</property>
               </object>
             </child>
@@ -82,19 +82,19 @@
                 </child>
 
                 <child>
-                  <object class="PropertyRow" id="store_container_store_paused_row">
+                  <object class="PdsPropertyRow" id="store_container_store_paused_row">
                     <property name="key" translatable="yes">Paused</property>
                   </object>
                 </child>
 
                 <child>
-                  <object class="PropertyRow" id="store_container_store_running_row">
+                  <object class="PdsPropertyRow" id="store_container_store_running_row">
                     <property name="key" translatable="yes">Running</property>
                   </object>
                 </child>
 
                 <child>
-                  <object class="PropertyRow" id="store_container_store_stopped_row">
+                  <object class="PdsPropertyRow" id="store_container_store_stopped_row">
                     <property name="key" translatable="yes">Stopped</property>
                   </object>
                 </child>
@@ -103,7 +103,7 @@
             </child>
 
             <child>
-              <object class="PropertyRow" id="store_graph_driver_name_row">
+              <object class="PdsPropertyRow" id="store_graph_driver_name_row">
                 <property name="key" translatable="yes">Graph Driver Name</property>
               </object>
             </child>
@@ -129,7 +129,7 @@
             </child>
 
             <child>
-              <object class="PropertyRow" id="store_graph_root_row">
+              <object class="PdsPropertyRow" id="store_graph_root_row">
                 <property name="key" translatable="yes">Graph Root</property>
               </object>
             </child>
@@ -155,20 +155,20 @@
             </child>
 
             <child>
-              <object class="PropertyRow" id="store_image_store_row">
+              <object class="PdsPropertyRow" id="store_image_store_row">
                 <property name="key" translatable="yes">Image Store</property>
                 <property name="subtitle" translatable="yes">Describes the image store. Right now only the number of images present.</property>
               </object>
             </child>
 
             <child>
-              <object class="PropertyRow" id="store_run_root_row">
+              <object class="PdsPropertyRow" id="store_run_root_row">
                 <property name="key" translatable="yes">Run Root</property>
               </object>
             </child>
 
             <child>
-              <object class="PropertyRow" id="store_volume_path_row">
+              <object class="PdsPropertyRow" id="store_volume_path_row">
                 <property name="key" translatable="yes">Volume Path</property>
               </object>
             </child>

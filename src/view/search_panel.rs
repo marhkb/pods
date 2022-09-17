@@ -45,7 +45,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for SearchPanel {
-        const NAME: &'static str = "SearchPanel";
+        const NAME: &'static str = "PdsSearchPanel";
         type Type = super::SearchPanel;
         type ParentType = gtk::Widget;
 

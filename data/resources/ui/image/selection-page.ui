@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+
+  <template class="PdsImageSelectionPage" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBoxLayout">
+        <property name="orientation">vertical</property>
+      </object>
+    </property>
+
+    <child>
+      <object class="AdwHeaderBar" id="header_bar">
+
+        <child type="start">
+          <object class="PdsBackNavigationControls" id="back_navigation_controls"/>
+        </child>
+
+        <child type="title">
+          <object class="AdwWindowTitle">
+            <property name="title" translatable="yes">Search For an Image</property>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <child>
+      <object class="PdsImageSearchWidget" id="image_search_widget">
+        <property name="button-label">_Select</property>
+        <binding name="client">
+          <lookup name="client">PdsImageSelectionPage</lookup>
+        </binding>
+      </object>
+    </child>
+
+  </template>
+</interface>

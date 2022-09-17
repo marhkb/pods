@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+
+  <template class="PdsVolumeRow" parent="GtkListBoxRow">
+    <property name="activatable">False</property>
+    <property name="selectable">False</property>
+
+    <child>
+      <object class="GtkBox">
+        <property name="hexpand">True</property>
+        <property name="margin-bottom">18</property>
+        <property name="margin-end">12</property>
+        <property name="margin-start">12</property>
+        <property name="margin-top">18</property>
+        <property name="spacing">12</property>
+
+        <child>
+          <object class="GtkBox">
+            <property name="spacing">9</property>
+
+            <child>
+              <object class="GtkGrid">
+                <property name="hexpand">True</property>
+                <property name="column-homogeneous">True</property>
+                <property name="column-spacing">9</property>
+                <property name="row-spacing">6</property>
+
+                <child>
+                  <object class="GtkLabel">
+                    <layout>
+                      <property name="column">0</property>
+                      <property name="row">0</property>
+                    </layout>
+                    <property name="label" translatable="yes">Host path</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkEntry" id="host_path_entry">
+                    <layout>
+                      <property name="column">0</property>
+                      <property name="row">1</property>
+                    </layout>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkLabel">
+                    <layout>
+                      <property name="column">1</property>
+                      <property name="row">0</property>
+                    </layout>
+                    <property name="label" translatable="yes">Container path</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkEntry" id="container_path_entry">
+                    <layout>
+                      <property name="column">1</property>
+                      <property name="row">1</property>
+                    </layout>
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkGrid">
+                <property name="hexpand">True</property>
+                <property name="column-spacing">9</property>
+                <property name="row-spacing">6</property>
+
+                <child>
+                  <object class="GtkLabel">
+                    <layout>
+                      <property name="column">2</property>
+                      <property name="row">0</property>
+                    </layout>
+                    <property name="label" translatable="yes">Mode</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkCheckButton" id="writable_check_button">
+                    <layout>
+                      <property name="column">2</property>
+                      <property name="row">1</property>
+                    </layout>
+                    <property name="halign">center</property>
+                    <property name="label" translatable="yes">Writable</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkLabel">
+                    <layout>
+                      <property name="column">3</property>
+                      <property name="row">0</property>
+                    </layout>
+                    <property name="label" translatable="yes">SELinux</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkComboBoxText" id="selinux_combo_box">
+                    <layout>
+                      <property name="column">3</property>
+                      <property name="row">1</property>
+                    </layout>
+                    <items>
+                      <item translatable="yes">No label</item>
+                      <item translatable="yes">Shared</item>
+                      <item translatable="yes">Private</item>
+                    </items>
+                    <property name="active">0</property>
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkButton">
+            <style>
+              <class name="destructive-action"/>
+            </style>
+            <property name="action-name">volume.remove</property>
+            <property name="halign">end</property>
+            <property name="valign">end</property>
+            <property name="icon-name">list-remove-symbolic</property>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>

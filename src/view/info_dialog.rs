@@ -92,7 +92,7 @@ mod imp {
                 vec![glib::ParamSpecObject::new(
                     "client",
                     "Client",
-                    "The client of this ImagePullingPage",
+                    "The client of this info dialog",
                     model::Client::static_type(),
                     glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
                 )]

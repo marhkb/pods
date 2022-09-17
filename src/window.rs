@@ -89,7 +89,6 @@ mod imp {
             view::ConnectionChooserPage::static_type();
             view::ConnectionRow::static_type();
             view::ConnectionSwitcherWidget::static_type();
-            view::ContainerHealthCheckLogRow::static_type();
             view::ContainerHealthCheckPage::static_type();
             view::ContainerLogPage::static_type();
             view::ContainerMenuButton::static_type();
@@ -97,11 +96,12 @@ mod imp {
             view::ContainerResourcesQuickReferenceGroup::static_type();
             view::ContainersCountBar::static_type();
             view::ContainersGroup::static_type();
+            view::ContainersPanel::static_type();
+            view::HealthCheckLogRow::static_type();
             view::ImageBuildPage::static_type();
             view::ImageBuildingPage::static_type();
             view::ImageMenuButton::static_type();
             view::ImagePullingPage::static_type();
-            view::ImageRowSimple::static_type();
             view::ImageSearchResponseRow::static_type();
             view::ImagesPanel::static_type();
             view::InspectionPage::static_type();

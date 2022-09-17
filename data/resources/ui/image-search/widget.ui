@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+
+  <template class="PdsImageSearchWidget" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBinLayout"/>
+    </property>
+    <property name="vexpand">True</property>
+
+    <child>
+      <object class="GtkStack" id="stack">
+
+        <child>
+          <object class="GtkStackPage">
+            <property name="name">initial</property>
+
+            <property name="child">
+              <object class="AdwBin"/>
+            </property>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkStackPage">
+            <property name="name">no-registries</property>
+
+            <property name="child">
+              <object class="AdwStatusPage">
+                <property name="icon-name">face-sad-symbolic</property>
+                <property name="title" translatable="yes">No Registries Found</property>
+                <property name="description" translatable="yes">
+You cannot search for images without registries. Please follow the instructions on this &lt;a href=&quot;https://github.com/containers/image/blob/b80addc01c0dab40c5d8945a1df61f3c72a3e40d/docs/containers-registries.conf.5.md&quot;&gt;website&lt;/a&gt; in order to add registries.
+</property>
+              </object>
+            </property>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkStackPage">
+            <property name="name">search</property>
+
+            <property name="child">
+              <object class="AdwPreferencesPage">
+
+                <child>
+                  <object class="AdwPreferencesGroup">
+
+                    <child>
+                      <object class="AdwEntryRow" id="search_entry_row">
+                        <property name="activates-default">True</property>
+                        <property name="title" translatable="yes">Search for</property>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="AdwComboRow" id="registries_combo_row">
+                        <property name="selectable">False</property>
+                        <property name="title" translatable="yes">Registry</property>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="AdwPreferencesRow">
+                        <property name="activatable">False</property>
+                        <property name="selectable">False</property>
+                        <property name="height-request">400</property>
+
+                        <child>
+                          <object class="GtkStack" id="search_stack">
+
+                            <child>
+                              <object class="GtkStackPage">
+                                <property name="name">initial</property>
+                                <property name="child">
+                                  <object class="AdwStatusPage">
+                                    <style>
+                                      <class name="compact"/>
+                                    </style>
+                                    <property name="icon-name">system-search-symbolic</property>
+                                    <property name="title" translatable="yes">No Images Found</property>
+                                    <property name="description" translatable="yes">Please start typing to look for images.</property>
+                                  </object>
+                                </property>
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="GtkStackPage">
+                                <property name="name">searching</property>
+                                <property name="child">
+                                  <object class="AdwStatusPage">
+                                    <style>
+                                      <class name="compact"/>
+                                    </style>
+                                    <property name="icon-name">system-search-symbolic</property>
+                                    <property name="title" translatable="yes">Searching…</property>
+
+                                    <child>
+                                      <object class="GtkSpinner" id="spinner">
+                                        <property name="halign">center</property>
+                                        <property name="height-request">30</property>
+                                        <property name="spinning">True</property>
+                                        <property name="vexpand">True</property>
+                                        <property name="width-request">30</property>
+                                      </object>
+                                    </child>
+
+                                  </object>
+                                </property>
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="GtkStackPage">
+                                <property name="name">nothing</property>
+                                <property name="child">
+                                  <object class="AdwStatusPage" id="no_results_status_page">
+                                    <style>
+                                      <class name="compact"/>
+                                    </style>
+                                    <property name="icon-name">emblem-important-symbolic</property>
+                                    <property name="description" translatable="yes">Please retry another term.</property>
+                                  </object>
+                                </property>
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="GtkStackPage">
+                                <property name="name">results</property>
+                                <property name="child">
+
+                                  <object class="GtkScrolledWindow" id="scrolled_window">
+                                    <property name="hexpand">True</property>
+                                    <property name="vexpand">True</property>
+                                    <property name="hscrollbar-policy">never</property>
+
+                                    <child>
+                                      <object class="GtkListView" id="search_result_list_view">
+                                        <property name="show-separators">True</property>
+                                        <property name="factory">
+                                          <object class="GtkBuilderListItemFactory">
+                                            <property name="bytes">
+                                              <![CDATA[
+                              <?xml version="1.0" encoding="UTF-8"?>
+                              <interface>
+                                <template class="GtkListItem">
+                                  <property name="activatable">False</property>
+                                  <property name="child">
+                                    <object class="PdsImageSearchResponseRow">
+                                      <property name="margin-bottom">9</property>
+                                      <property name="margin-end">18</property>
+                                      <property name="margin-start">18</property>
+                                      <property name="margin-top">9</property>
+                                      <binding name="image-search-response">
+                                        <lookup name="item">GtkListItem</lookup>
+                                      </binding>
+                                    </object>
+                                  </property>
+                                </template>
+                              </interface>
+                                              ]]>
+                                            </property>
+                                          </object>
+                                        </property>
+                                      </object>
+                                    </child>
+
+                                  </object>
+                                </property>
+
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="AdwEntryRow" id="tag_entry_row">
+                        <property name="activates-default">True</property>
+                        <property name="title" translatable="yes">Tag ('latest' if empty)</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwPreferencesGroup">
+
+                    <child>
+                      <object class="GtkButton" id="select_button">
+                        <style>
+                          <class name="suggested-action"/>
+                          <class name="pill"/>
+                        </style>
+                        <property name="action-name">image-search-widget.select</property>
+                        <property name="use-underline">True</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+              </object>
+            </property>
+
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>
