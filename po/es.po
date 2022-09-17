@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-08-14 23:18+0200\n"
-"PO-Revision-Date: 2022-09-02 09:00+0000\n"
-"Last-Translator: Óscar Fernández Díaz <oscfdezdz@tuta.io>\n"
+"PO-Revision-Date: 2022-09-15 00:24+0000\n"
+"Last-Translator: Rafael Mardojai CM <mardojai.cardenas@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/pods/pods/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -907,7 +907,7 @@ msgstr "Privado"
 
 #: data/resources/ui/welcome-page.ui:29
 msgid "Welcome to Pods"
-msgstr "Bienvenido/a a Sinfonía"
+msgstr "Le damos la bienvenida a Cápsulas"
 
 #: data/resources/ui/welcome-page.ui:30
 msgid ""
@@ -934,7 +934,7 @@ msgstr "_Atajos del teclado"
 
 #: data/resources/ui/window.ui:23
 msgid "_About Pods"
-msgstr "_Acerca de Sinfonía"
+msgstr "_Acerca de Cápsulas"
 
 #: src/application.rs:185
 msgid "translator-credits"
@@ -966,7 +966,7 @@ msgstr "Apagado"
 
 #: src/model/container.rs:72 src/model/pod.rs:74
 msgid "Exited"
-msgstr "Abandonado"
+msgstr "Detenido"
 
 #: src/model/container.rs:74 src/model/pod.rs:76
 msgid "Removing"
@@ -1302,7 +1302,7 @@ msgstr "contenedores"
 
 #: src/window.rs:434 src/window.rs:444
 msgid "pods"
-msgstr "cápsulass"
+msgstr "cápsulas"
 
 #: src/window.rs:430
 msgid "Error on loading {}"
