@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+
+  <template class="PdsContainerDetailsPage" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBinLayout"/>
+    </property>
+
+    <child>
+      <object class="AdwLeaflet" id="leaflet">
+        <property name="can-navigate-back">True</property>
+        <property name="can-unfold">False</property>
+
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+
+            <!-- Headerbar -->
+            <child>
+              <object class="AdwHeaderBar">
+
+                <child type="start">
+                  <object class="PdsBackNavigationControls" id="back_navigation_controls"/>
+                </child>
+
+                <child type="title">
+                  <object class="AdwWindowTitle">
+                    <property name="title" translatable="yes">Container Details</property>
+                  </object>
+                </child>
+
+                <child type="end">
+                  <object class="PdsContainerMenuButton" id="menu_button">
+                    <binding name="container">
+                      <lookup name="container">PdsContainerDetailsPage</lookup>
+                    </binding>
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwPreferencesPage" id="preferences_page">
+                <property name="vexpand">True</property>
+
+                <!-- Details Panel -->
+                <child>
+                  <object class="PdsContainerPropertiesGroup">
+                    <binding name="container">
+                      <lookup name="container">PdsContainerDetailsPage</lookup>
+                    </binding>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="PdsContainerResourcesQuickReferenceGroup" id="resources_quick_reference_group">
+                    <binding name="container">
+                      <lookup name="container">PdsContainerDetailsPage</lookup>
+                    </binding>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwPreferencesGroup">
+                    <property name="title" translatable="yes">Utilities</property>
+
+                    <child>
+                      <object class="AdwActionRow" id="inspect_row">
+                        <property name="title" translatable="yes">Inspect</property>
+                        <property name="subtitle" translatable="yes">View all container properties in a structured text form.</property>
+                        <property name="activatable">True</property>
+                        <property name="action-name">container.inspect</property>
+                        <property name="icon-name">system-search-symbolic</property>
+
+                        <child>
+                          <object class="GtkSpinner">
+                            <property name="spinning">True</property>
+                            <property name="visible" bind-source="inspect_row" bind-property="sensitive" bind-flags="sync-create|invert-boolean"/>
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="GtkImage">
+                            <property name="icon_name">go-next-symbolic</property>
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="AdwActionRow">
+                        <property name="title" translatable="yes">Logs</property>
+                        <property name="subtitle" translatable="yes">View and search through container logs.</property>
+                        <property name="activatable">True</property>
+                        <property name="action-name">container.show-log</property>
+                        <property name="icon-name">text-editor-symbolic</property>
+
+                        <child>
+                          <object class="GtkImage">
+                            <property name="icon_name">go-next-symbolic</property>
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="AdwActionRow">
+                        <property name="title" translatable="yes">Processes</property>
+                        <property name="subtitle" translatable="yes">View processes that are currently running inside the container.</property>
+                        <property name="activatable">True</property>
+                        <property name="action-name">container.show-processes</property>
+                        <property name="icon-name">application-x-executable-symbolic</property>
+
+                        <child>
+                          <object class="GtkImage">
+                            <property name="icon_name">go-next-symbolic</property>
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwLeafletPage">
+            <property name="name">overlay</property>
+
+            <property name="child">
+              <object class="PdsLeafletOverlay" id="leaflet_overlay"/>
+            </property>
+
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>

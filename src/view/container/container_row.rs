@@ -20,8 +20,8 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(resource = "/com/github/marhkb/Pods/ui/container-row.ui")]
-    pub(crate) struct ContainerRow {
+    #[template(resource = "/com/github/marhkb/Pods/ui/container/row.ui")]
+    pub(crate) struct Row {
         pub(super) container: WeakRef<model::Container>,
         pub(super) bindings: RefCell<Vec<glib::Binding>>,
         #[template_child]
@@ -41,9 +41,9 @@ mod imp {
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for ContainerRow {
-        const NAME: &'static str = "ContainerRow";
-        type Type = super::ContainerRow;
+    impl ObjectSubclass for Row {
+        const NAME: &'static str = "PdsContainerRow";
+        type Type = super::Row;
         type ParentType = adw::ActionRow;
 
         fn class_init(klass: &mut Self::Class) {
@@ -59,13 +59,13 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for ContainerRow {
+    impl ObjectImpl for Row {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![glib::ParamSpecObject::new(
                     "container",
                     "container",
-                    "The container of this ContainerRow",
+                    "The container of this row",
                     model::Container::static_type(),
                     glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
                 )]
@@ -213,24 +213,24 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for ContainerRow {}
-    impl ListBoxRowImpl for ContainerRow {}
-    impl PreferencesRowImpl for ContainerRow {}
-    impl ActionRowImpl for ContainerRow {}
+    impl WidgetImpl for Row {}
+    impl ListBoxRowImpl for Row {}
+    impl PreferencesRowImpl for Row {}
+    impl ActionRowImpl for Row {}
 }
 
 glib::wrapper! {
-    pub(crate) struct ContainerRow(ObjectSubclass<imp::ContainerRow>)
+    pub(crate) struct Row(ObjectSubclass<imp::Row>)
         @extends gtk::Widget, gtk::ListBoxRow, adw::PreferencesRow, adw::ActionRow;
 }
 
-impl From<&model::Container> for ContainerRow {
+impl From<&model::Container> for Row {
     fn from(container: &model::Container) -> Self {
-        glib::Object::new(&[("container", container)]).expect("Failed to create ContainerRow")
+        glib::Object::new(&[("container", container)]).expect("Failed to create PdsContainerRow")
     }
 }
 
-impl ContainerRow {
+impl Row {
     pub(crate) fn container(&self) -> Option<model::Container> {
         self.imp().container.upgrade()
     }

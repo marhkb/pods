@@ -1,36 +1,23 @@
-mod container_creation_page;
-mod container_details_page;
-mod container_health_check_log_row;
-mod container_health_check_page;
-mod container_log_page;
-mod container_menu_button;
-mod container_properties_group;
-mod container_rename_dialog;
-mod container_resources_quick_reference_group;
 mod container_row;
-mod containers_count_bar;
-mod containers_group;
-mod containers_panel;
-mod env_var_row;
-mod port_mapping_row;
-mod volume_row;
+mod creation_page;
+mod details_page;
+mod health_check_page;
+mod log_page;
+mod menu_button;
+mod properties_group;
+mod rename_dialog;
+mod resources_quick_reference_group;
 
-pub(crate) use self::container_creation_page::ContainerCreationPage;
-pub(crate) use self::container_details_page::ContainerDetailsPage;
-pub(crate) use self::container_health_check_log_row::ContainerHealthCheckLogRow;
-pub(crate) use self::container_health_check_page::ContainerHealthCheckPage;
-pub(crate) use self::container_log_page::ContainerLogPage;
-pub(crate) use self::container_menu_button::ContainerMenuButton;
-pub(crate) use self::container_properties_group::ContainerPropertiesGroup;
-pub(crate) use self::container_rename_dialog::ContainerRenameDialog;
-pub(crate) use self::container_resources_quick_reference_group::ContainerResourcesQuickReferenceGroup;
-pub(crate) use self::container_row::ContainerRow;
-pub(crate) use self::containers_count_bar::ContainersCountBar;
-pub(crate) use self::containers_group::ContainersGroup;
-pub(crate) use self::containers_panel::ContainersPanel;
-pub(crate) use self::env_var_row::EnvVarRow;
-pub(crate) use self::port_mapping_row::PortMappingRow;
-pub(crate) use self::volume_row::VolumeRow;
+pub(crate) use container_row::Row;
+pub(crate) use creation_page::CreationPage;
+pub(crate) use details_page::DetailsPage;
+pub(crate) use health_check_page::HealthCheckPage;
+pub(crate) use log_page::LogPage;
+pub(crate) use menu_button::MenuButton;
+pub(crate) use properties_group::PropertiesGroup;
+pub(crate) use rename_dialog::RenameDialog;
+pub(crate) use resources_quick_reference_group::ResourcesQuickReferenceGroup;
+
 use crate::model;
 
 fn container_status_css_class(status: model::ContainerStatus) -> &'static str {

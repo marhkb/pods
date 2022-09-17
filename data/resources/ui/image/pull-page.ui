@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+
+  <template class="PdsImagePullPage" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBinLayout"/>
+    </property>
+
+    <child>
+      <object class="GtkStack" id="stack">
+        <property name="transition-type">crossfade</property>
+
+        <child>
+          <object class="GtkStackPage">
+            <property name="name">pull-settings</property>
+
+            <property name="child">
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
+
+                <child>
+                  <object class="AdwHeaderBar">
+
+                    <child type="start">
+                      <object class="PdsBackNavigationControls"/>
+                    </child>
+
+                    <child type="title">
+                      <object class="AdwWindowTitle">
+                        <property name="title" translatable="yes">Download an Image</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+                <child>
+                  <object class="PdsImageSearchWidget" id="image_search_widget">
+                    <property name="button-label">_Download</property>
+                    <binding name="client">
+                      <lookup name="client">PdsImagePullPage</lookup>
+                    </binding>
+                  </object>
+                </child>
+
+              </object>
+            </property>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="PdsImagePullingPage" id="image_pulling_page">
+            <binding name="client">
+              <lookup name="client">PdsImagePullPage</lookup>
+            </binding>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwBin" id="image_page_bin"/>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>

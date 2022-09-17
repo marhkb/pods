@@ -78,7 +78,7 @@
                   <object class="GtkStackPage">
                     <property name="name">connection-chooser</property>
                     <property name="child">
-                      <object class="ConnectionChooserPage">
+                      <object class="PdsConnectionChooserPage">
                         <binding name="connection-manager">
                           <lookup name="connection-manager">Window</lookup>
                         </binding>
@@ -271,7 +271,7 @@
                                             <property name="name">images</property>
                                             <property name="title" translatable="yes">Images</property>
                                             <property name="child">
-                                              <object class="ImagesPanel" id="images_panel">
+                                              <object class="PdsImagesPanel" id="images_panel">
                                                 <binding name="image-list">
                                                   <lookup name="image-list" type="Client">
                                                     <lookup name="client" type="ConnectionManager">
@@ -291,7 +291,7 @@
                                             <property name="name">containers</property>
                                             <property name="title" translatable="yes">Containers</property>
                                             <property name="child">
-                                              <object class="ContainersPanel" id="containers_panel">
+                                              <object class="PdsContainersPanel" id="containers_panel">
                                                 <binding name="container-list">
                                                   <lookup name="container-list" type="Client">
                                                     <lookup name="client" type="ConnectionManager">
@@ -311,7 +311,7 @@
                                             <property name="name">pods</property>
                                             <property name="title" translatable="yes">Pods</property>
                                             <property name="child">
-                                              <object class="PodsPanel" id="pods_panel">
+                                              <object class="PdsPodsPanel" id="pods_panel">
                                                 <binding name="pod-list">
                                                   <lookup name="pod-list" type="Client">
                                                     <lookup name="client" type="ConnectionManager">
@@ -341,7 +341,7 @@
                             </child>
 
                             <child>
-                              <object class="SearchPanel" id="search_panel">
+                              <object class="PdsSearchPanel" id="search_panel">
                                 <binding name="client">
                                   <lookup name="client" type="ConnectionManager">
                                     <lookup name="connection-manager">Window</lookup>
@@ -367,7 +367,7 @@
                 <property name="name">overlay</property>
 
                 <property name="child">
-                  <object class="LeafletOverlay" id="leaflet_overlay"/>
+                  <object class="PdsLeafletOverlay" id="leaflet_overlay"/>
                 </property>
 
               </object>

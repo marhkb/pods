@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="PdsPropertyWidgetRow" parent="AdwActionRow">
+    <property name="activatable">False</property>
+
+    <child>
+      <object class="AdwBin" id="bin"/>
+    </child>
+
+  </template>
+</interface>

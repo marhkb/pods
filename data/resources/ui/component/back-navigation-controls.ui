@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="PdsBackNavigationControls" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBoxLayout">
+        <property name="spacing">3</property>
+      </object>
+    </property>
+
+    <child>
+      <object class="GtkButton">
+        <property name="icon-name">go-previous-symbolic</property>
+        <property name="action-name">navigation.back</property>
+        <property name="tooltip-text" translatable="yes">Return to previous page</property>
+      </object>
+    </child>
+
+    <child>
+      <object class="GtkButton" id="go_first_button">
+        <property name="icon-name">go-first-symbolic</property>
+        <property name="action-name">navigation.go-first</property>
+        <property name="tooltip-text" translatable="yes">Return to main page</property>
+        <property name="visible" bind-source="go_first_button" bind-property="sensitive" bind-flags="sync-create"/>
+      </object>
+    </child>
+
+  </template>
+</interface>

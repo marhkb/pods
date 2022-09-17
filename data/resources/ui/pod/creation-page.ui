@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+
+  <template class="PdsPodCreationPage" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBinLayout"/>
+    </property>
+
+    <child>
+      <object class="AdwLeaflet" id="leaflet">
+        <property name="can-navigate-back">True</property>
+        <property name="can-unfold">False</property>
+
+        <child>
+          <object class="GtkStack" id="stack">
+            <property name="transition-type">crossfade</property>
+
+            <child>
+              <object class="GtkStackPage">
+                <property name="name">creation-settings</property>
+
+                <property name="child">
+                  <object class="GtkBox">
+                    <property name="orientation">vertical</property>
+
+                    <child>
+                      <object class="AdwHeaderBar">
+
+                        <child type="start">
+                          <object class="PdsBackNavigationControls"/>
+                        </child>
+
+                        <child type="title">
+                          <object class="AdwWindowTitle">
+                            <property name="title" translatable="yes">Specify Pod Settings</property>
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="AdwPreferencesPage" id="preferences_page">
+                        <property name="vexpand">True</property>
+
+                        <child>
+                          <object class="AdwPreferencesGroup">
+
+                            <child>
+                              <object class="PdsRandomNameEntryRow" id="name_entry_row">
+                                <property name="activates-default">True</property>
+                                <property name="title" translatable="yes">Name</property>
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="AdwPreferencesGroup">
+
+                            <child>
+                              <object class="AdwEntryRow" id="hostname_entry_row">
+                                <property name="activates-default">True</property>
+                                <property name="title" translatable="yes">Hostname</property>
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="AdwPreferencesGroup">
+
+                            <child>
+                              <object class="GtkButton" id="create_button">
+                                <style>
+                                  <class name="suggested-action"/>
+                                  <class name="pill"/>
+                                </style>
+                                <property name="action-name">pod.create</property>
+                                <property name="label" translatable="yes">_Create</property>
+                                <property name="use-underline">True</property>
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                  </object>
+                </property>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwBin" id="pod_details_page_bin"/>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwLeafletPage">
+            <property name="name">overlay</property>
+
+            <property name="child">
+              <object class="PdsLeafletOverlay" id="leaflet_overlay"/>
+            </property>
+
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>
