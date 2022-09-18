@@ -447,7 +447,7 @@ impl ContainerList {
             "remove" => self.remove_container(&container_id),
             "health_status" => {
                 if let Some(container) = self.get_container(&container_id) {
-                    container.inspect();
+                    container.inspect(|_| {});
                 }
             }
             _ => self.refresh(

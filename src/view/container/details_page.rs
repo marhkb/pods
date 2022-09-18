@@ -187,14 +187,8 @@ impl DetailsPage {
         }
 
         if let Some(container) = value {
-            self.action_set_enabled(
-                "container.show-health-details",
-                container.health_status() != model::ContainerHealthStatus::Unconfigured,
-            );
-
-            container.inspect();
-            container.connect_inspection_failed(clone!(@weak self as obj => move |_| {
-                utils::show_toast(&obj, &gettext("Error on loading container details"));
+            container.inspect(clone!(@weak self as obj => move |e| {
+                utils::show_error_toast(&obj, &gettext("Error on loading container details"), &e.to_string());
             }));
 
             let handler_id = container.connect_deleted(clone!(@weak self as obj => move |container| {
