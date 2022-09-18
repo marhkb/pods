@@ -211,6 +211,20 @@ mod imp {
                 ))
                 .bind(&*self.status_label, "css-classes", Some(obj));
 
+            health_status_expr.watch(
+                Some(obj),
+                clone!(@weak obj => move || {
+                    obj.action_set_enabled(
+                        ACTION_SHOW_HEALTH_DETAILS,
+                        obj.container()
+                            .as_ref()
+                            .map(model::Container::health_status)
+                            .map(|status| status != model::ContainerHealthStatus::Unconfigured)
+                            .unwrap_or(false),
+                    );
+                }),
+            );
+
             health_status_expr
                 .chain_closure::<String>(closure!(
                     |_: glib::Object, status: model::ContainerHealthStatus| status.to_string()
