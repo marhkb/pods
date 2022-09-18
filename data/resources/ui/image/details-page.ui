@@ -116,18 +116,6 @@
                 </child>
 
                 <child>
-                  <object class="PdsContainersGroup" id="containers_group">
-                    <binding name="container-list">
-                      <lookup name="container-list" type="Image">
-                        <lookup name="image">PdsImageDetailsPage</lookup>
-                      </lookup>
-                    </binding>
-                    <property name="title" translatable="yes">Associated Containers</property>
-                    <property name="no-containers-label" translatable="yes">There are no containers associated with this image.</property>
-                  </object>
-                </child>
-
-                <child>
                   <object class="AdwPreferencesGroup">
                     <property name="title" translatable="yes">Utilities</property>
 
@@ -155,6 +143,18 @@
                       </object>
                     </child>
 
+                  </object>
+                </child>
+
+                <child>
+                  <object class="PdsContainersGroup">
+                    <binding name="container-list">
+                      <lookup name="container-list" type="Image">
+                        <lookup name="image">PdsImageDetailsPage</lookup>
+                      </lookup>
+                    </binding>
+                    <property name="title" translatable="yes">Associated Containers</property>
+                    <property name="no-containers-label" translatable="yes">There are no containers associated with this image.</property>
                   </object>
                 </child>
 
