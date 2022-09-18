@@ -14,6 +14,8 @@ use crate::model;
 use crate::utils;
 use crate::view;
 
+const ACTION_RUN_HEALTH_COMMAND: &str = "container-health-check-page.run-health-check";
+
 mod imp {
     use super::*;
 
@@ -46,11 +48,9 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
-            klass.install_action(
-                "container-health-check-page.run-health-check",
-                None,
-                |widget, _, _| widget.run_health_check(),
-            );
+            klass.install_action(ACTION_RUN_HEALTH_COMMAND, None, |widget, _, _| {
+                widget.run_health_check()
+            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -99,17 +99,36 @@ mod imp {
 
             let container_expr = Self::Type::this_expression("container");
 
-            let status_expr = container_expr.chain_property::<model::Container>("health_status");
+            let health_status_expr =
+                container_expr.chain_property::<model::Container>("health_status");
             let data_expr = container_expr.chain_property::<model::Container>("data");
 
-            status_expr
+            gtk::ClosureExpression::new::<bool, _, _>(
+                &[&container_expr.chain_property::<model::Container>("status"), &health_status_expr],
+                closure!(|_: Self::Type,
+                          _: model::ContainerStatus,
+                          _: model::ContainerHealthStatus| false),
+            )
+            .watch(Some(obj), clone!(@weak obj => move || {
+                obj.action_set_enabled(
+                    ACTION_RUN_HEALTH_COMMAND,
+                    obj.container()
+                        .map(|container| {
+                            container.health_status() != model::ContainerHealthStatus::Unconfigured
+                                && container.status() == model::ContainerStatus::Running
+                        })
+                        .unwrap_or(false),
+                );
+            }));
+
+            health_status_expr
                 .chain_closure::<String>(closure!(
                     |_: glib::Object, status: model::ContainerHealthStatus| status.to_string()
                 ))
                 .bind(&*self.status_label, "label", Some(obj));
 
             let css_classes = self.status_label.css_classes();
-            status_expr
+            health_status_expr
                 .chain_closure::<Vec<String>>(closure!(
                     |_: glib::Object, status: model::ContainerHealthStatus| {
                         css_classes
