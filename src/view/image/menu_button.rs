@@ -16,6 +16,9 @@ use crate::model;
 use crate::utils;
 use crate::view;
 
+pub(crate) const ACTION_CREATE_CONTAINER: &str = "image-menu-button.create-container";
+pub(crate) const ACTION_DELETE_IMAGE: &str = "image-menu-button.delete-image";
+
 mod imp {
     use super::*;
 
@@ -39,10 +42,10 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
-            klass.install_action("image.create-container", None, move |widget, _, _| {
+            klass.install_action(ACTION_CREATE_CONTAINER, None, move |widget, _, _| {
                 widget.create_container();
             });
-            klass.install_action("image.delete", None, move |widget, _, _| {
+            klass.install_action(ACTION_DELETE_IMAGE, None, move |widget, _, _| {
                 widget.delete();
             });
         }
@@ -134,11 +137,7 @@ mod imp {
         }
 
         fn dispose(&self, obj: &Self::Type) {
-            let mut child = obj.first_child();
-            while let Some(child_) = child {
-                child = child_.next_sibling();
-                child_.unparent();
-            }
+            utils::ChildIter::from(obj).for_each(|child| child.unparent());
         }
     }
 
@@ -147,7 +146,8 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct MenuButton(ObjectSubclass<imp::MenuButton>)
-        @extends gtk::Widget;
+        @extends gtk::Widget,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl MenuButton {
@@ -247,7 +247,7 @@ impl MenuButton {
         }));
     }
 
-    fn create_container(&self) {
+    pub(crate) fn create_container(&self) {
         if let Some(image) = self.image().as_ref() {
             utils::find_leaflet_overlay(self)
                 .show_details(&view::ContainerCreationPage::from(image));

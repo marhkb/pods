@@ -3,6 +3,8 @@ use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
 
+use crate::utils;
+
 mod imp {
     use super::*;
 
@@ -27,11 +29,7 @@ mod imp {
 
     impl ObjectImpl for WelcomePage {
         fn dispose(&self, obj: &Self::Type) {
-            let mut child = obj.first_child();
-            while let Some(child_) = child {
-                child = child_.next_sibling();
-                child_.unparent();
-            }
+            utils::ChildIter::from(obj).for_each(|child| child.unparent());
         }
     }
 
@@ -40,5 +38,6 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct WelcomePage(ObjectSubclass<imp::WelcomePage>)
-        @extends gtk::Widget;
+        @extends gtk::Widget,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }

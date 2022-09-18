@@ -149,7 +149,7 @@
                               <class name="pill"/>
                               <class name="suggested-action"/>
                             </style>
-                            <property name="action-name">image.view</property>
+                            <property name="action-name">image-building-page.view-image"</property>
                             <property name="halign">center</property>
                             <property name="label" translatable="yes">_View Image</property>
                             <property name="use-underline">True</property>

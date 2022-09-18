@@ -15,6 +15,10 @@ use crate::model;
 use crate::utils;
 use crate::view;
 
+const ACTION_SHOW_HEALTH_DETAILS: &str = "container-properties-group.show-health-details";
+const ACTION_SHOW_IMAGE_DETAILS: &str = "container-properties-group.show-image-details";
+const ACTION_SHOW_POD_DETAILS: &str = "container-properties-group.show-pod-details";
+
 mod imp {
     use super::*;
 
@@ -55,10 +59,14 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
-            klass.install_action("image.show-details", None, move |widget, _, _| {
+
+            klass.install_action(ACTION_SHOW_HEALTH_DETAILS, None, move |widget, _, _| {
+                widget.show_health_details();
+            });
+            klass.install_action(ACTION_SHOW_IMAGE_DETAILS, None, move |widget, _, _| {
                 widget.show_image_details();
             });
-            klass.install_action("pod.show-details", None, move |widget, _, _| {
+            klass.install_action(ACTION_SHOW_POD_DETAILS, None, move |widget, _, _| {
                 widget.show_pod_details();
             });
         }
@@ -267,7 +275,8 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct PropertiesGroup(ObjectSubclass<imp::PropertiesGroup>)
-        @extends gtk::Widget, adw::PreferencesGroup;
+        @extends gtk::Widget, adw::PreferencesGroup,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl PropertiesGroup {
@@ -286,12 +295,12 @@ impl PropertiesGroup {
         }
 
         if let Some(container) = value {
-            self.action_set_enabled("image.show-details", container.image().is_some());
+            self.action_set_enabled(ACTION_SHOW_IMAGE_DETAILS, container.image().is_some());
 
             let handler_id = container.connect_notify_local(
                 Some("image"),
                 clone!(@weak self as obj => move |container, _| {
-                    obj.action_set_enabled("image.show-details", container.image().is_some());
+                    obj.action_set_enabled(ACTION_SHOW_IMAGE_DETAILS, container.image().is_some());
                 }),
             );
             imp.handler_id.replace(Some(handler_id));
@@ -299,6 +308,12 @@ impl PropertiesGroup {
 
         imp.container.set(value);
         self.notify("container");
+    }
+
+    fn show_health_details(&self) {
+        if let Some(ref container) = self.container() {
+            self.show_details(&view::ContainerHealthCheckPage::from(container));
+        }
     }
 
     fn show_image_details(&self) {

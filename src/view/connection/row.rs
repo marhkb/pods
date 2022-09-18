@@ -9,6 +9,7 @@ use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
 
 use crate::model;
+use crate::utils;
 
 mod imp {
     use super::*;
@@ -162,11 +163,7 @@ mod imp {
         }
 
         fn dispose(&self, obj: &Self::Type) {
-            let mut child = obj.first_child();
-            while let Some(child_) = child {
-                child = child_.next_sibling();
-                child_.unparent();
-            }
+            utils::ChildIter::from(obj).for_each(|child| child.unparent());
         }
     }
 
@@ -175,7 +172,8 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct Row(ObjectSubclass<imp::Row>)
-        @extends gtk::Widget, @implements gtk::Accessible;
+        @extends gtk::Widget,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl Row {

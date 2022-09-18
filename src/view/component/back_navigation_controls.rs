@@ -37,11 +37,7 @@ mod imp {
 
     impl ObjectImpl for PdsBackNavigationControls {
         fn dispose(&self, obj: &Self::Type) {
-            let mut child = obj.first_child();
-            while let Some(child_) = child {
-                child = child_.next_sibling();
-                child_.unparent();
-            }
+            utils::ChildIter::from(obj).for_each(|child| child.unparent());
         }
     }
 
@@ -59,7 +55,8 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct BackNavigationControls(ObjectSubclass<imp::PdsBackNavigationControls>)
-        @extends gtk::Widget;
+        @extends gtk::Widget,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl BackNavigationControls {
@@ -76,6 +73,6 @@ impl BackNavigationControls {
     }
 
     fn root_leaflet_overlay(&self) -> view::LeafletOverlay {
-        utils::root(self).leaflet_overlay()
+        utils::root(self).leaflet_overlay().clone()
     }
 }

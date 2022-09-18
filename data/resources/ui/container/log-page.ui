@@ -70,7 +70,7 @@
 
                     <child>
                       <object class="GtkButton">
-                        <property name="action-name">logs.scroll-down</property>
+                        <property name="action-name">container-log-page.scroll-down</property>
                         <property name="halign">center</property>
                         <property name="icon-name">go-bottom-symbolic</property>
                         <property name="valign">end</property>

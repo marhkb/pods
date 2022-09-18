@@ -73,7 +73,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for InfoDialog {
-        const NAME: &'static str = "InfoDialog";
+        const NAME: &'static str = "PdsInfoDialog";
         type Type = super::InfoDialog;
         type ParentType = adw::PreferencesWindow;
 

@@ -140,7 +140,8 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct CountBar(ObjectSubclass<imp::CountBar>)
-        @extends gtk::Widget;
+        @extends gtk::Widget,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl From<&model::AbstractContainerList> for CountBar {

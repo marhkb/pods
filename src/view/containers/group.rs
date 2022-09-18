@@ -183,7 +183,8 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct Group(ObjectSubclass<imp::Group>)
-        @extends gtk::Widget, adw::PreferencesGroup;
+        @extends gtk::Widget, adw::PreferencesGroup,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl Default for Group {
@@ -193,6 +194,10 @@ impl Default for Group {
 }
 
 impl Group {
+    pub(crate) fn action_create_container() -> &'static str {
+        "containers-group.create-container"
+    }
+
     pub(crate) fn no_containers_label(&self) -> Option<String> {
         self.imp().no_containers_label.borrow().to_owned()
     }

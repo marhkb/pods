@@ -73,11 +73,7 @@ mod imp {
         }
 
         fn dispose(&self, obj: &Self::Type) {
-            let mut next = obj.first_child();
-            while let Some(child) = next {
-                next = child.next_sibling();
-                child.unparent();
-            }
+            utils::ChildIter::from(obj).for_each(|child| child.unparent());
         }
     }
 

@@ -7,6 +7,7 @@
 
     <child>
       <object class="GtkListView" id="connection_list_view">
+        <signal name="activate" handler="activated" swapped="true"/>
         <property name="single-click-activate">true</property>
         <property name="factory">
           <object class="GtkBuilderListItemFactory">

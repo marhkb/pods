@@ -45,7 +45,7 @@
     </item>
   </menu>
 
-  <template class="Window" parent="AdwApplicationWindow">
+  <template class="PdsWindow" parent="AdwApplicationWindow">
 
     <property name="content">
       <object class="AdwToastOverlay" id="toast_overlay">
@@ -80,7 +80,7 @@
                     <property name="child">
                       <object class="PdsConnectionChooserPage">
                         <binding name="connection-manager">
-                          <lookup name="connection-manager">Window</lookup>
+                          <lookup name="connection-manager">PdsWindow</lookup>
                         </binding>
                       </object>
                     </property>
@@ -275,7 +275,7 @@
                                                 <binding name="image-list">
                                                   <lookup name="image-list" type="Client">
                                                     <lookup name="client" type="ConnectionManager">
-                                                      <lookup name="connection-manager">Window</lookup>
+                                                      <lookup name="connection-manager">PdsWindow</lookup>
                                                     </lookup>
                                                   </lookup>
                                                 </binding>
@@ -295,7 +295,7 @@
                                                 <binding name="container-list">
                                                   <lookup name="container-list" type="Client">
                                                     <lookup name="client" type="ConnectionManager">
-                                                      <lookup name="connection-manager">Window</lookup>
+                                                      <lookup name="connection-manager">PdsWindow</lookup>
                                                     </lookup>
                                                   </lookup>
                                                 </binding>
@@ -315,7 +315,7 @@
                                                 <binding name="pod-list">
                                                   <lookup name="pod-list" type="Client">
                                                     <lookup name="client" type="ConnectionManager">
-                                                      <lookup name="connection-manager">Window</lookup>
+                                                      <lookup name="connection-manager">PdsWindow</lookup>
                                                     </lookup>
                                                   </lookup>
                                                 </binding>
@@ -344,7 +344,7 @@
                               <object class="PdsSearchPanel" id="search_panel">
                                 <binding name="client">
                                   <lookup name="client" type="ConnectionManager">
-                                    <lookup name="connection-manager">Window</lookup>
+                                    <lookup name="connection-manager">PdsWindow</lookup>
                                   </lookup>
                                 </binding>
                               </object>

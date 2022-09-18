@@ -4,58 +4,58 @@
     <section>
       <item>
         <attribute name="label" translatable="yes">_Start</attribute>
-        <attribute name="action">container.start</attribute>
+        <attribute name="action">container-menu-button.start</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">S_top</attribute>
-        <attribute name="action">container.stop</attribute>
+        <attribute name="action">container-menu-button.stop</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">_Force Stop</attribute>
-        <attribute name="action">container.force-stop</attribute>
+        <attribute name="action">container-menu-button.force-stop</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">R_estart</attribute>
-        <attribute name="action">container.restart</attribute>
+        <attribute name="action">container-menu-button.restart</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">F_orce Restart</attribute>
-        <attribute name="action">container.force-restart</attribute>
+        <attribute name="action">container-menu-button.force-restart</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">_Resume</attribute>
-        <attribute name="action">container.resume</attribute>
+        <attribute name="action">container-menu-button.resume</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">_Pause</attribute>
-        <attribute name="action">container.pause</attribute>
+        <attribute name="action">container-menu-button.pause</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
     </section>
     <section>
       <item>
         <attribute name="label" translatable="yes">Re_name…</attribute>
-        <attribute name="action">container.rename</attribute>
+        <attribute name="action">container-menu-button.rename</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
     </section>
     <section>
       <item>
         <attribute name="label" translatable="yes">_Commit</attribute>
-        <attribute name="action">container.commit</attribute>
+        <attribute name="action">container-menu-button.commit</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
     </section>
     <section>
       <item>
         <attribute name="label" translatable="yes">_Delete</attribute>
-        <attribute name="action">container.delete</attribute>
+        <attribute name="action">container-menu-button.delete</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
     </section>

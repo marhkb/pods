@@ -230,7 +230,8 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct CircularProgressBar(ObjectSubclass<imp::CircularProgressBar>)
-        @extends gtk::Widget;
+        @extends gtk::Widget,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl Default for CircularProgressBar {

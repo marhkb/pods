@@ -80,12 +80,13 @@
         </property>
 
       </object>
+
     </child>
 
     <child>
       <object class="AdwActionRow" id="health_row">
         <property name="title" translatable="yes">Health Check</property>
-        <property name="action-name">container.show-health-details</property>
+        <property name="action-name">container-properties-group.show-health-details</property>
         <property name="activatable">True</property>
         <property name="visible" bind-source="health_row" bind-property="sensitive" bind-flags="sync-create"/>
 
@@ -111,7 +112,7 @@
     <child>
       <object class="AdwActionRow" id="image_row">
         <property name="title" translatable="yes">Image</property>
-        <property name="action-name">image.show-details</property>
+        <property name="action-name">container-properties-group.show-image-details</property>
         <property name="activatable">True</property>
 
         <child>
@@ -148,7 +149,7 @@
     <child>
       <object class="AdwActionRow" id="pod_row">
         <property name="title" translatable="yes">Pod</property>
-        <property name="action-name">pod.show-details</property>
+        <property name="action-name">container-properties-group.show-pod-details</property>
         <property name="activatable">True</property>
 
         <child>

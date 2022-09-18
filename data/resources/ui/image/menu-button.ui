@@ -4,14 +4,14 @@
     <section>
       <item>
         <attribute name="label" translatable="yes">_Create Container…</attribute>
-        <attribute name="action">image.create-container</attribute>
+        <attribute name="action">image-menu-button.create-container</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
     </section>
     <section>
       <item>
         <attribute name="label" translatable="yes">Delete</attribute>
-        <attribute name="action">image.delete</attribute>
+        <attribute name="action">image-menu-button.delete-image</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
     </section>
