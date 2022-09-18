@@ -7,7 +7,7 @@
     </property>
 
     <child>
-      <object class="AdwLeaflet" id="leaflet">
+      <object class="AdwLeaflet">
         <property name="can-navigate-back">True</property>
         <property name="can-unfold">False</property>
 

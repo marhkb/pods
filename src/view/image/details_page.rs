@@ -16,6 +16,9 @@ use crate::model;
 use crate::utils;
 use crate::view;
 
+const ACTION_SHOW_MENU: &str = "image-details-page.show-menu";
+const ACTION_INSPECT_IMAGE: &str = "image-details-page.inspect-image";
+
 mod imp {
     use super::*;
 
@@ -24,8 +27,6 @@ mod imp {
     pub(crate) struct DetailsPage {
         pub(super) image: WeakRef<model::Image>,
         pub(super) handler_id: RefCell<Option<glib::SignalHandlerId>>,
-        #[template_child]
-        pub(super) leaflet: TemplateChild<adw::Leaflet>,
         #[template_child]
         pub(super) back_navigation_controls: TemplateChild<view::BackNavigationControls>,
         #[template_child]
@@ -46,6 +47,8 @@ mod imp {
         pub(super) ports_row: TemplateChild<view::PropertyRow>,
         #[template_child]
         pub(super) inspection_row: TemplateChild<adw::PreferencesRow>,
+        #[template_child]
+        pub(super) leaflet_overlay: TemplateChild<view::LeafletOverlay>,
     }
 
     #[glib::object_subclass]
@@ -57,12 +60,17 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
-            klass.add_binding_action(gdk::Key::F10, gdk::ModifierType::empty(), "menu.show", None);
-            klass.install_action("menu.show", None, |widget, _, _| {
+            klass.add_binding_action(
+                gdk::Key::F10,
+                gdk::ModifierType::empty(),
+                ACTION_SHOW_MENU,
+                None,
+            );
+            klass.install_action(ACTION_SHOW_MENU, None, |widget, _, _| {
                 widget.show_menu();
             });
 
-            klass.install_action("image.inspect", None, move |widget, _, _| {
+            klass.install_action(ACTION_INSPECT_IMAGE, None, move |widget, _, _| {
                 widget.show_inspection();
             });
 
@@ -70,19 +78,16 @@ mod imp {
             klass.add_binding_action(
                 gdk::Key::N,
                 gdk::ModifierType::CONTROL_MASK,
-                "image.create-container",
+                view::ContainersGroup::action_create_container(),
                 None,
             );
-
-            klass.add_binding_action(
-                gdk::Key::N,
-                gdk::ModifierType::CONTROL_MASK,
-                "containers.create",
+            klass.install_action(
+                view::ContainersGroup::action_create_container(),
                 None,
+                move |widget, _, _| {
+                    widget.create_container();
+                },
             );
-            klass.install_action("containers.create", None, move |widget, _, _| {
-                widget.create_container();
-            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -263,10 +268,7 @@ mod imp {
         }
 
         fn dispose(&self, obj: &Self::Type) {
-            if let Some(image) = obj.image() {
-                image.disconnect(self.handler_id.take().unwrap());
-            }
-            self.leaflet.unparent();
+            utils::ChildIter::from(obj).for_each(|child| child.unparent());
         }
     }
 
@@ -274,7 +276,9 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub(crate) struct DetailsPage(ObjectSubclass<imp::DetailsPage>) @extends gtk::Widget;
+    pub(crate) struct DetailsPage(ObjectSubclass<imp::DetailsPage>)
+        @extends gtk::Widget,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl From<&model::Image> for DetailsPage {
@@ -286,7 +290,7 @@ impl From<&model::Image> for DetailsPage {
 impl DetailsPage {
     fn show_menu(&self) {
         let imp = self.imp();
-        if utils::leaflet_overlay(&imp.leaflet).child().is_none() {
+        if imp.leaflet_overlay.child().is_none() {
             imp.menu_button.popup();
         }
     }
@@ -325,17 +329,17 @@ impl DetailsPage {
 
     fn show_inspection(&self) {
         if let Some(image) = self.image().as_ref().and_then(model::Image::api_image) {
-            self.action_set_enabled("image.inspect", false);
+            self.action_set_enabled(ACTION_INSPECT_IMAGE, false);
             utils::do_async(
                 async move { image.inspect().await.map_err(anyhow::Error::from) },
                 clone!(@weak self as obj => move |result| {
-                    obj.action_set_enabled("image.inspect", true);
+                    obj.action_set_enabled(ACTION_INSPECT_IMAGE, true);
                     match result
                         .and_then(|data| view::InspectionPage::new(
                             &gettext("Image Inspection"), &data
                         ))
                     {
-                        Ok(page) => utils::leaflet_overlay(&*obj.imp().leaflet).show_details(&page),
+                        Ok(page) => obj.imp().leaflet_overlay.show_details(&page),
                         Err(e) => utils::show_error_toast(
                             &obj,
                             &gettext("Error on inspecting image"),
@@ -350,10 +354,8 @@ impl DetailsPage {
     fn create_container(&self) {
         let imp = self.imp();
 
-        if utils::leaflet_overlay(&*imp.leaflet).child().is_none() {
-            imp.menu_button
-                .activate_action("image.create-container", None)
-                .unwrap();
+        if imp.leaflet_overlay.child().is_none() {
+            imp.menu_button.create_container();
         }
     }
 }

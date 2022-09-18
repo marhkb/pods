@@ -21,6 +21,21 @@ use crate::model::SelectableListExt;
 use crate::utils;
 use crate::view;
 
+const ACTION_CREATE_POD: &str = "pods-panel.create-container";
+const ACTION_START_OR_RESUME_SELECTION: &str = "pods-panel.start-or-resume-selection";
+const ACTION_STOP_SELECTION: &str = "pods-panel.stop-selection";
+const ACTION_PAUSE_SELECTION: &str = "pods-panel.pause-selection";
+const ACTION_RESTART_SELECTION: &str = "pods-panel.restart-selection";
+const ACTION_DELETE_SELECTION: &str = "pods-panel.delete-selection";
+
+const ACTIONS_SELECTION: &[&str] = &[
+    ACTION_START_OR_RESUME_SELECTION,
+    ACTION_STOP_SELECTION,
+    ACTION_PAUSE_SELECTION,
+    ACTION_RESTART_SELECTION,
+    ACTION_DELETE_SELECTION,
+];
+
 mod imp {
     use super::*;
 
@@ -55,30 +70,30 @@ mod imp {
             klass.add_binding_action(
                 gdk::Key::N,
                 gdk::ModifierType::CONTROL_MASK,
-                "pods.create",
+                ACTION_CREATE_POD,
                 None,
             );
-            klass.install_action("pods.create", None, move |widget, _, _| {
+            klass.install_action(ACTION_CREATE_POD, None, move |widget, _, _| {
                 widget.create_pod();
             });
 
             klass.install_action(
-                "pods-panel.start-or-resume-selection",
+                ACTION_START_OR_RESUME_SELECTION,
                 None,
                 move |widget, _, _| {
                     widget.start_selection();
                 },
             );
-            klass.install_action("pods-panel.stop-selection", None, move |widget, _, _| {
+            klass.install_action(ACTION_STOP_SELECTION, None, move |widget, _, _| {
                 widget.stop_selection();
             });
-            klass.install_action("pods-panel.pause-selection", None, move |widget, _, _| {
+            klass.install_action(ACTION_PAUSE_SELECTION, None, move |widget, _, _| {
                 widget.pause_selection();
             });
-            klass.install_action("pods-panel.restart-selection", None, move |widget, _, _| {
+            klass.install_action(ACTION_RESTART_SELECTION, None, move |widget, _, _| {
                 widget.restart_selection();
             });
-            klass.install_action("pods-panel.delete-selection", None, move |widget, _, _| {
+            klass.install_action(ACTION_DELETE_SELECTION, None, move |widget, _, _| {
                 widget.delete_selection();
             });
         }
@@ -231,7 +246,8 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct Panel(ObjectSubclass<imp::Panel>)
-        @extends gtk::Widget;
+        @extends gtk::Widget,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl Default for Panel {
@@ -275,20 +291,17 @@ impl Panel {
             view::PodRow::from(item.downcast_ref().unwrap()).upcast()
         });
 
-        self.action_set_enabled("pods-panel.start-or-resume-selection", false);
-        self.action_set_enabled("pods-panel.stop-selection", false);
-        self.action_set_enabled("pods-panel.pause-selection", false);
-        self.action_set_enabled("pods-panel.restart-selection", false);
-        self.action_set_enabled("pods-panel.delete-selection", false);
+        ACTIONS_SELECTION
+            .iter()
+            .for_each(|action_name| self.action_set_enabled(action_name, false));
         value.connect_notify_local(
             Some("num-selected"),
             clone!(@weak self as obj => move |list, _| {
-                let enabled = list.num_selected() > 0;
-                obj.action_set_enabled("pods-panel.start-or-resume-selection", enabled);
-                obj.action_set_enabled("pods-panel.stop-selection", enabled);
-                obj.action_set_enabled("pods-panel.pause-selection", enabled);
-                obj.action_set_enabled("pods-panel.restart-selection", enabled);
-                obj.action_set_enabled("pods-panel.delete-selection", enabled);
+                ACTIONS_SELECTION
+                    .iter()
+                    .for_each(|action_name| {
+                        obj.action_set_enabled(action_name, list.num_selected() > 0);
+                });
             }),
         );
 

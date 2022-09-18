@@ -34,9 +34,13 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
-            klass.install_action("image-search-widget.select", None, |widget, _, _| {
-                widget.select();
-            });
+            klass.install_action(
+                view::ImageSearchWidget::action_select(),
+                None,
+                |widget, _, _| {
+                    widget.select();
+                },
+            );
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -93,11 +97,11 @@ mod imp {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
-            obj.action_set_enabled("image-search-widget.select", false);
+            obj.action_set_enabled(view::ImageSearchWidget::action_select(), false);
             self.image_search_widget.connect_notify_local(
                 Some("selected-image"),
                 clone!(@weak obj => move |widget, _| {
-                    obj.action_set_enabled("image-search-widget.select", widget.selected_image().is_some());
+                    obj.action_set_enabled(view::ImageSearchWidget::action_select(), widget.selected_image().is_some());
                 }),
             );
         }

@@ -219,6 +219,10 @@ glib::wrapper! {
 }
 
 impl Widget {
+    pub(crate) fn action_select() -> &'static str {
+        "image-search-widget.select"
+    }
+
     pub(crate) fn client(&self) -> Option<model::Client> {
         self.imp().client.upgrade()
     }

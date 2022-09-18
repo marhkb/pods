@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
 
-  <template class="InfoDialog" parent="AdwPreferencesWindow">
+  <template class="PdsInfoDialog" parent="AdwPreferencesWindow">
     <property name="search-enabled">False</property>
     <property name="title" translatable="yes">About Podman</property>
 

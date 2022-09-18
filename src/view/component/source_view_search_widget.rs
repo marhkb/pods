@@ -11,6 +11,7 @@ use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
 use sourceview5::traits::SearchSettingsExt;
 
+use crate::utils;
 use crate::view;
 
 mod imp {
@@ -138,11 +139,7 @@ mod imp {
         }
 
         fn dispose(&self, obj: &Self::Type) {
-            let mut child = obj.first_child();
-            while let Some(child_) = child {
-                child = child_.next_sibling();
-                child_.unparent();
-            }
+            utils::ChildIter::from(obj).for_each(|child| child.unparent());
         }
     }
 
@@ -162,7 +159,7 @@ mod imp {
 glib::wrapper! {
     pub(crate) struct SourceViewSearchWidget(ObjectSubclass<imp::SourceViewSearchWidget>)
         @extends gtk::Widget,
-        @implements gtk::Editable;
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget, gtk::Editable;
 }
 
 impl SourceViewSearchWidget {

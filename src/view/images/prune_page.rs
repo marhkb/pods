@@ -15,6 +15,8 @@ use crate::model;
 use crate::podman;
 use crate::utils;
 
+const ACTION_PRUNE: &str = "images-prune-page.prune";
+
 #[derive(Clone, Copy, Debug, Default)]
 enum TimeFormat {
     Hours12,
@@ -68,7 +70,7 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
-            klass.install_action("images.prune", None, |widget, _, _| {
+            klass.install_action(ACTION_PRUNE, None, |widget, _, _| {
                 widget.prune();
             });
         }
@@ -129,11 +131,11 @@ mod imp {
             self.parent_constructed(obj);
 
             let client = obj.client().unwrap();
-            obj.action_set_enabled("images.prune", !client.pruning());
+            obj.action_set_enabled(ACTION_PRUNE, !client.pruning());
             client.connect_notify_local(
                 Some("pruning"),
                 clone!(@weak obj => move |client, _| {
-                    obj.action_set_enabled("images.prune", !client.pruning());
+                    obj.action_set_enabled(ACTION_PRUNE, !client.pruning());
                 }),
             );
 

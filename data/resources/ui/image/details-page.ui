@@ -7,7 +7,7 @@
     </property>
 
     <child>
-      <object class="AdwLeaflet" id="leaflet">
+      <object class="AdwLeaflet">
         <property name="can-navigate-back">True</property>
         <property name="can-unfold">False</property>
 
@@ -136,7 +136,7 @@
                         <property name="title" translatable="yes">Inspect</property>
                         <property name="subtitle" translatable="yes">View all image properties in a structured text form.</property>
                         <property name="activatable">True</property>
-                        <property name="action-name">image.inspect</property>
+                        <property name="action-name">image-details-page.inspect-image</property>
                         <property name="icon-name">system-search-symbolic</property>
 
                         <child>

@@ -38,8 +38,6 @@ mod imp {
         pub(super) command_row_handler:
             RefCell<Option<(glib::SignalHandlerId, WeakRef<model::Image>)>>,
         #[template_child]
-        pub(super) leaflet: TemplateChild<adw::Leaflet>,
-        #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) name_entry_row: TemplateChild<view::RandomNameEntryRow>,
@@ -340,8 +338,8 @@ mod imp {
             );
         }
 
-        fn dispose(&self, _obj: &Self::Type) {
-            self.leaflet.unparent();
+        fn dispose(&self, obj: &Self::Type) {
+            utils::ChildIter::from(obj).for_each(|child| child.unparent());
         }
     }
 

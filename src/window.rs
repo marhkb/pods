@@ -76,7 +76,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for Window {
-        const NAME: &'static str = "Window";
+        const NAME: &'static str = "PdsWindow";
         type Type = super::Window;
         type ParentType = adw::ApplicationWindow;
 
@@ -714,7 +714,7 @@ impl Window {
         self.imp().toast_overlay.add_toast(toast);
     }
 
-    pub(crate) fn leaflet_overlay(&self) -> view::LeafletOverlay {
-        utils::leaflet_overlay(&*self.imp().leaflet)
+    pub(crate) fn leaflet_overlay(&self) -> &view::LeafletOverlay {
+        &*self.imp().leaflet_overlay
     }
 }

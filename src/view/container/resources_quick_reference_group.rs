@@ -180,7 +180,8 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct ResourcesQuickReferenceGroup(ObjectSubclass<imp::ResourcesQuickReferenceGroup>)
-        @extends gtk::Widget, adw::PreferencesGroup;
+        @extends gtk::Widget, adw::PreferencesGroup,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl ResourcesQuickReferenceGroup {

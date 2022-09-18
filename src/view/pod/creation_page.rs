@@ -12,6 +12,8 @@ use crate::podman;
 use crate::utils;
 use crate::view;
 
+const ACTION_CREATE: &str = "pod-creation-page.create";
+
 mod imp {
     use super::*;
 
@@ -42,7 +44,7 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
-            klass.install_action("pod.create", None, |widget, _, _| {
+            klass.install_action(ACTION_CREATE, None, |widget, _, _| {
                 widget.create();
             });
         }
@@ -94,11 +96,7 @@ mod imp {
         }
 
         fn dispose(&self, obj: &Self::Type) {
-            let mut child = obj.first_child();
-            while let Some(child_) = child {
-                child = child_.next_sibling();
-                child_.unparent();
-            }
+            utils::ChildIter::from(obj).for_each(|child| child.unparent());
         }
     }
 
@@ -140,11 +138,11 @@ impl CreationPage {
     }
 
     fn on_name_changed(&self) {
-        self.action_set_enabled("pod.create", self.imp().name_entry_row.text().len() > 0);
+        self.action_set_enabled(ACTION_CREATE, self.imp().name_entry_row.text().len() > 0);
     }
 
     fn create(&self) {
-        self.action_set_enabled("pod.create", false);
+        self.action_set_enabled(ACTION_CREATE, false);
 
         let imp = self.imp();
         imp.preferences_page.set_sensitive(false);
@@ -184,7 +182,7 @@ impl CreationPage {
                             &e.to_string()
                         );
 
-                        obj.action_set_enabled("pod.create", true);
+                        obj.action_set_enabled(ACTION_CREATE, true);
                         obj.imp().preferences_page.set_sensitive(true);
                     }
                 }

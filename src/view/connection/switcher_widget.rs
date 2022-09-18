@@ -1,6 +1,5 @@
 use gettextrs::gettext;
 use glib::subclass::InitializingObject;
-use gtk::glib::clone;
 use gtk::glib::WeakRef;
 use gtk::glib::{self};
 use gtk::prelude::*;
@@ -30,11 +29,36 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
+            Self::bind_template_callbacks(klass);
             klass.set_css_name("connectionswitchermenu");
         }
 
         fn instance_init(obj: &InitializingObject<Self>) {
             obj.init_template();
+        }
+    }
+
+    #[gtk::template_callbacks]
+    impl SwitcherWidget {
+        #[template_callback]
+        fn activated(&self, pos: u32) {
+            let connection = self
+                .connection_list_view
+                .model()
+                .unwrap()
+                .item(pos)
+                .unwrap()
+                .downcast::<model::Connection>()
+                .unwrap();
+
+            let obj = self.instance();
+            if let Err(e) = obj
+                .connection_manager()
+                .unwrap()
+                .set_client_from(connection.uuid())
+            {
+                obj.on_error(e);
+            }
         }
     }
 
@@ -75,28 +99,6 @@ mod imp {
             }
         }
 
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
-
-            self.connection_list_view.connect_activate(
-                clone!(@weak obj => move |list_view, index| {
-                    let connection = list_view
-                        .model()
-                        .unwrap()
-                        .item(index)
-                        .unwrap()
-                        .downcast::<model::Connection>()
-                        .unwrap();
-
-                    if let Err(e) = obj.connection_manager().unwrap().set_client_from(
-                        connection.uuid(),
-                    ) {
-                        obj.on_error(e);
-                    }
-                }),
-            );
-        }
-
         fn dispose(&self, _obj: &Self::Type) {
             self.connection_list_view.unparent();
         }
@@ -108,7 +110,7 @@ mod imp {
 glib::wrapper! {
     pub(crate) struct SwitcherWidget(ObjectSubclass<imp::SwitcherWidget>)
         @extends gtk::Widget,
-        @implements gtk::Accessible;
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl From<&model::ConnectionManager> for SwitcherWidget {

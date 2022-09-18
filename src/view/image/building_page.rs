@@ -16,6 +16,8 @@ use crate::podman;
 use crate::utils;
 use crate::view;
 
+const ACTION_VIEW_IMAGE: &str = "image-building-page.view-image";
+
 mod imp {
     use super::*;
 
@@ -44,7 +46,7 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
-            klass.install_action("image.view", None, move |widget, _, _| {
+            klass.install_action(ACTION_VIEW_IMAGE, None, move |widget, _, _| {
                 widget.view_image();
             });
         }
@@ -91,7 +93,7 @@ mod imp {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
-            obj.action_set_enabled("image.view", false);
+            obj.action_set_enabled(ACTION_VIEW_IMAGE, false);
 
             let adw_style_manager = adw::StyleManager::default();
             obj.on_notify_dark(&adw_style_manager);
@@ -202,7 +204,7 @@ impl BuildingPage {
 
     fn set_image(&self, image: &model::Image) {
         self.imp().image.set(Some(image));
-        self.action_set_enabled("image.view", true);
+        self.action_set_enabled(ACTION_VIEW_IMAGE, true);
     }
 
     fn on_notify_dark(&self, style_manager: &adw::StyleManager) {

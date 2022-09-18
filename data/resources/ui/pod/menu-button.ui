@@ -4,50 +4,50 @@
     <section>
       <item>
         <attribute name="label" translatable="yes">_Create Container…</attribute>
-        <attribute name="action">pod.create-container</attribute>
+        <attribute name="action">pod-menu-button.create-container</attribute>
       </item>
     </section>
     <section>
       <item>
         <attribute name="label" translatable="yes">_Start</attribute>
-        <attribute name="action">pod.start</attribute>
+        <attribute name="action">pod-menu-button.start</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">S_top</attribute>
-        <attribute name="action">pod.stop</attribute>
+        <attribute name="action">pod-menu-button.stop</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">_Force Stop</attribute>
-        <attribute name="action">pod.force-stop</attribute>
+        <attribute name="action">pod-menu-button.force-stop</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">R_estart</attribute>
-        <attribute name="action">pod.restart</attribute>
+        <attribute name="action">pod-menu-button.restart</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">F_orce Restart</attribute>
-        <attribute name="action">pod.force-restart</attribute>
+        <attribute name="action">pod-menu-button.force-restart</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">_Resume</attribute>
-        <attribute name="action">pod.resume</attribute>
+        <attribute name="action">pod-menu-button.resume</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">_Pause</attribute>
-        <attribute name="action">pod.pause</attribute>
+        <attribute name="action">pod-menu-button.pause</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
     </section>
     <section>
       <item>
         <attribute name="label" translatable="yes">_Delete</attribute>
-        <attribute name="action">pod.delete</attribute>
+        <attribute name="action">pod-menu-button.delete</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
     </section>

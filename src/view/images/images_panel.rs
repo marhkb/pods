@@ -21,6 +21,11 @@ use crate::model::SelectableListExt;
 use crate::utils;
 use crate::view;
 
+const ACTION_PULL_IMAGE: &str = "images-panel.pull-image";
+const ACTION_BUILD_IMAGE: &str = "images-panel.build-image";
+const ACTION_PRUNE_UNUSED_IMAGES: &str = "images-panel.prune-unused-images";
+const ACTION_DELETE_SELECTION: &str = "images-panel.delete-selection";
+
 mod imp {
     use super::*;
 
@@ -55,28 +60,24 @@ mod imp {
             klass.add_binding_action(
                 gdk::Key::N,
                 gdk::ModifierType::CONTROL_MASK,
-                "images.pull",
+                ACTION_PULL_IMAGE,
                 None,
             );
-            klass.install_action("images.pull", None, move |widget, _, _| {
+            klass.install_action(ACTION_PULL_IMAGE, None, move |widget, _, _| {
                 widget.show_download_page();
             });
 
-            klass.install_action("images.build", None, move |widget, _, _| {
+            klass.install_action(ACTION_BUILD_IMAGE, None, move |widget, _, _| {
                 widget.show_build_page();
             });
 
-            klass.install_action("images.prune-unused", None, move |widget, _, _| {
+            klass.install_action(ACTION_PRUNE_UNUSED_IMAGES, None, move |widget, _, _| {
                 widget.show_prune_page();
             });
 
-            klass.install_action(
-                "images-panel.delete-selection",
-                None,
-                move |widget, _, _| {
-                    widget.delete_selection();
-                },
-            );
+            klass.install_action(ACTION_DELETE_SELECTION, None, move |widget, _, _| {
+                widget.delete_selection();
+            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -249,7 +250,8 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct Panel(ObjectSubclass<imp::Panel>)
-        @extends gtk::Widget;
+        @extends gtk::Widget,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl Default for Panel {
@@ -288,11 +290,11 @@ impl Panel {
             view::ImageRow::from(item.downcast_ref().unwrap()).upcast()
         });
 
-        self.action_set_enabled("images-panel.delete-selection", false);
+        self.action_set_enabled(ACTION_DELETE_SELECTION, false);
         value.connect_notify_local(
             Some("num-selected"),
             clone!(@weak self as obj => move |list, _| {
-                obj.action_set_enabled("images-panel.delete-selection", list.num_selected() > 0);
+                obj.action_set_enabled(ACTION_DELETE_SELECTION, list.num_selected() > 0);
             }),
         );
 
@@ -373,10 +375,11 @@ impl Panel {
                     {
                         image.delete(clone!(@weak obj => move |image, result| {
                             if let Err(e) = result {
-                                utils::show_toast(
+                                utils::show_error_toast(
                                     &obj,
                                     // Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
-                                    &gettext!("Error on deleting image '{}': {}", image.id(), e)
+                                    &gettext!("Error on deleting image '{}'", image.id()),
+                                    &e.to_string()
                                 );
                             }
                         }));

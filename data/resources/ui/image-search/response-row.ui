@@ -9,7 +9,7 @@
     <property name="hexpand">true</property>
 
     <child>
-      <object class="GtkBox" id="left_box">
+      <object class="GtkBox">
         <property name="orientation">vertical</property>
         <property name="spacing">1</property>
         <property name="hexpand">true</property>
@@ -49,7 +49,7 @@
     </child>
 
     <child>
-      <object class="GtkBox" id="right_box">
+      <object class="GtkBox">
         <style>
           <class name="star"/>
         </style>

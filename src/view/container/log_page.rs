@@ -80,16 +80,20 @@ mod imp {
             klass.add_binding_action(
                 gdk::Key::F,
                 gdk::ModifierType::CONTROL_MASK,
-                "logs.toggle-search",
+                "container-log-page.toggle-search",
                 None,
             );
-            klass.install_action("logs.toggle-search", None, |widget, _, _| {
+            klass.install_action("container-log-page.toggle-search", None, |widget, _, _| {
                 widget.toggle_search();
             });
 
-            klass.install_action("logs.scroll-down", None, move |widget, _, _| {
-                widget.scroll_down();
-            });
+            klass.install_action(
+                "container-log-page.scroll-down",
+                None,
+                move |widget, _, _| {
+                    widget.scroll_down();
+                },
+            );
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -237,11 +241,7 @@ mod imp {
         }
 
         fn dispose(&self, obj: &Self::Type) {
-            let mut child = obj.first_child();
-            while let Some(child_) = child {
-                child = child_.next_sibling();
-                child_.unparent();
-            }
+            utils::ChildIter::from(obj).for_each(|child| child.unparent());
         }
     }
 
@@ -250,7 +250,8 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct LogPage(ObjectSubclass<imp::LogPage>)
-        @extends gtk::Widget;
+        @extends gtk::Widget,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl From<&model::Container> for LogPage {

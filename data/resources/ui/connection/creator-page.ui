@@ -125,7 +125,7 @@
                   <class name="suggested-action"/>
                   <class name="pill"/>
                 </style>
-                <property name="action-name">client.try-connect</property>
+                <property name="action-name">connection-creator-page.try-connect</property>
                 <property name="label" translatable="yes">_Connect</property>
                 <property name="use-underline">True</property>
               </object>

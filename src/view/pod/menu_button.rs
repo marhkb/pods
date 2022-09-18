@@ -16,6 +16,17 @@ use crate::model;
 use crate::utils;
 use crate::view;
 
+const ACTION_CREATE_CONTAINER: &str = "pod-menu-button.create-container";
+const ACTION_START: &str = "pod-menu-button.start";
+const ACTION_STOP: &str = "pod-menu-button.stop";
+const ACTION_FORCE_STOP: &str = "pod-menu-button.force-stop";
+const ACTION_RESTART: &str = "pod-menu-button.restart";
+const ACTION_FORCE_RESTART: &str = "pod-menu-button.force-restart";
+const ACTION_PAUSE: &str = "pod-menu-button.pause";
+const ACTION_RESUME: &str = "pod-menu-button.resume";
+const ACTION_DELETE: &str = "pod-menu-button.delete";
+const ACTION_FORCE_DELETE: &str = "pod-menu-button.force-delete";
+
 mod imp {
     use super::*;
 
@@ -39,36 +50,36 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
-            klass.install_action("pod.create-container", None, move |widget, _, _| {
+            klass.install_action(ACTION_CREATE_CONTAINER, None, move |widget, _, _| {
                 widget.create_container();
             });
 
-            klass.install_action("pod.start", None, move |widget, _, _| {
+            klass.install_action(ACTION_START, None, move |widget, _, _| {
                 widget.start();
             });
-            klass.install_action("pod.stop", None, move |widget, _, _| {
+            klass.install_action(ACTION_STOP, None, move |widget, _, _| {
                 widget.stop();
             });
-            klass.install_action("pod.force-stop", None, move |widget, _, _| {
+            klass.install_action(ACTION_FORCE_STOP, None, move |widget, _, _| {
                 widget.force_stop();
             });
-            klass.install_action("pod.restart", None, move |widget, _, _| {
+            klass.install_action(ACTION_RESTART, None, move |widget, _, _| {
                 widget.restart();
             });
-            klass.install_action("pod.force-restart", None, move |widget, _, _| {
+            klass.install_action(ACTION_FORCE_RESTART, None, move |widget, _, _| {
                 widget.force_restart();
             });
-            klass.install_action("pod.pause", None, move |widget, _, _| {
+            klass.install_action(ACTION_PAUSE, None, move |widget, _, _| {
                 widget.pause();
             });
-            klass.install_action("pod.resume", None, move |widget, _, _| {
+            klass.install_action(ACTION_RESUME, None, move |widget, _, _| {
                 widget.resume();
             });
 
-            klass.install_action("pod.delete", None, move |widget, _, _| {
+            klass.install_action(ACTION_DELETE, None, move |widget, _, _| {
                 widget.show_delete_confirmation_dialog(false);
             });
-            klass.install_action("pod.force-delete", None, move |widget, _, _| {
+            klass.install_action(ACTION_FORCE_DELETE, None, move |widget, _, _| {
                 widget.show_delete_confirmation_dialog(true);
             });
         }
@@ -134,11 +145,7 @@ mod imp {
         }
 
         fn dispose(&self, obj: &Self::Type) {
-            let mut child = obj.first_child();
-            while let Some(child_) = child {
-                child = child_.next_sibling();
-                child_.unparent();
-            }
+            utils::ChildIter::from(obj).for_each(|child| child.unparent());
         }
     }
 
@@ -147,7 +154,8 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct MenuButton(ObjectSubclass<imp::MenuButton>)
-        @extends gtk::Widget;
+        @extends gtk::Widget,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 macro_rules! pod_action {
@@ -205,7 +213,7 @@ impl MenuButton {
         self.notify("pod");
     }
 
-    fn create_container(&self) {
+    pub(crate) fn create_container(&self) {
         if let Some(pod) = self.pod().as_ref() {
             utils::find_leaflet_overlay(self).show_details(&view::ContainerCreationPage::from(pod));
         }
@@ -216,18 +224,21 @@ impl MenuButton {
 
         let status = pod.status();
 
-        self.action_set_enabled("pod.start", matches!(pod.status(), Created | Exited | Dead));
-        self.action_set_enabled("pod.stop", matches!(status, Running));
-        self.action_set_enabled("pod.force-stop", matches!(status, Running));
-        self.action_set_enabled("pod.restart", matches!(status, Running));
-        self.action_set_enabled("pod.force-restart", matches!(status, Running));
-        self.action_set_enabled("pod.resume", matches!(status, Paused));
-        self.action_set_enabled("pod.pause", matches!(status, Running));
         self.action_set_enabled(
-            "pod.delete",
+            ACTION_START,
+            matches!(pod.status(), Created | Exited | Dead),
+        );
+        self.action_set_enabled(ACTION_STOP, matches!(status, Running));
+        self.action_set_enabled(ACTION_FORCE_STOP, matches!(status, Running));
+        self.action_set_enabled(ACTION_RESTART, matches!(status, Running));
+        self.action_set_enabled(ACTION_FORCE_RESTART, matches!(status, Running));
+        self.action_set_enabled(ACTION_RESUME, matches!(status, Paused));
+        self.action_set_enabled(ACTION_PAUSE, matches!(status, Running));
+        self.action_set_enabled(
+            ACTION_DELETE,
             matches!(status, Created | Exited | Dead | Degraded),
         );
-        self.action_set_enabled("pod.force-delete", matches!(status, Running | Paused));
+        self.action_set_enabled(ACTION_FORCE_DELETE, matches!(status, Running | Paused));
     }
 
     pod_action!(fn start => start() => "Error on starting pod");

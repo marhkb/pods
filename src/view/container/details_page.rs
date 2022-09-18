@@ -25,14 +25,14 @@ mod imp {
         pub(super) container: WeakRef<model::Container>,
         pub(super) handler_id: RefCell<Option<glib::SignalHandlerId>>,
         #[template_child]
-        pub(super) leaflet: TemplateChild<adw::Leaflet>,
-        #[template_child]
         pub(super) back_navigation_controls: TemplateChild<view::BackNavigationControls>,
         #[template_child]
         pub(super) menu_button: TemplateChild<view::ContainerMenuButton>,
         #[template_child]
         pub(super) resources_quick_reference_group:
             TemplateChild<view::ContainerResourcesQuickReferenceGroup>,
+        #[template_child]
+        pub(super) leaflet_overlay: TemplateChild<view::LeafletOverlay>,
     }
 
     #[glib::object_subclass]
@@ -52,14 +52,6 @@ mod imp {
             klass.install_action("container.inspect", None, move |widget, _, _| {
                 widget.show_inspection();
             });
-
-            klass.install_action(
-                "container.show-health-details",
-                None,
-                move |widget, _, _| {
-                    widget.show_health_details();
-                },
-            );
 
             klass.install_action("container.show-log", None, move |widget, _, _| {
                 widget.show_log();
@@ -151,10 +143,7 @@ mod imp {
         }
 
         fn dispose(&self, obj: &Self::Type) {
-            if let Some(container) = obj.container() {
-                container.disconnect(self.handler_id.take().unwrap());
-            }
-            self.leaflet.unparent();
+            utils::ChildIter::from(obj).for_each(|child| child.unparent());
         }
     }
 
@@ -162,7 +151,9 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub(crate) struct DetailsPage(ObjectSubclass<imp::DetailsPage>) @extends gtk::Widget;
+    pub(crate) struct DetailsPage(ObjectSubclass<imp::DetailsPage>)
+        @extends gtk::Widget,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl From<&model::Container> for DetailsPage {
@@ -175,7 +166,7 @@ impl From<&model::Container> for DetailsPage {
 impl DetailsPage {
     fn show_menu(&self) {
         let imp = self.imp();
-        if utils::leaflet_overlay(&imp.leaflet).child().is_none() {
+        if imp.leaflet_overlay.child().is_none() {
             imp.menu_button.popup();
         }
     }
@@ -233,7 +224,7 @@ impl DetailsPage {
                             &gettext("Container Inspection"), &data
                         ))
                     {
-                        Ok(page) => utils::leaflet_overlay(&*obj.imp().leaflet).show_details(&page),
+                        Ok(page) =>  obj.imp().leaflet_overlay.show_details(&page),
                         Err(e) => utils::show_error_toast(
                             &obj,
                             &gettext("Error on inspecting container"),
@@ -245,23 +236,18 @@ impl DetailsPage {
         }
     }
 
-    fn show_health_details(&self) {
-        if let Some(container) = self.container() {
-            utils::leaflet_overlay(&*self.imp().leaflet)
-                .show_details(&view::ContainerHealthCheckPage::from(&container));
-        }
-    }
-
     fn show_log(&self) {
         if let Some(container) = self.container() {
-            utils::leaflet_overlay(&*self.imp().leaflet)
+            self.imp()
+                .leaflet_overlay
                 .show_details(&view::ContainerLogPage::from(&container));
         }
     }
 
     fn show_processes(&self) {
         if let Some(container) = self.container() {
-            utils::leaflet_overlay(&*self.imp().leaflet)
+            self.imp()
+                .leaflet_overlay
                 .show_details(&view::TopPage::from(&container));
         }
     }
@@ -278,7 +264,7 @@ fn add_binding_action(
         mods,
         |widget, _| {
             let imp = widget.imp();
-            match utils::leaflet_overlay(&imp.leaflet).child() {
+            match imp.leaflet_overlay.child() {
                 None => imp.menu_button.activate_action(action, None).is_ok(),
                 Some(_) => false,
             }

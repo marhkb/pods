@@ -13,6 +13,8 @@ use crate::model;
 use crate::utils;
 use crate::view;
 
+const ACTION_TRY_CONNECT: &str = "connection-creator-page.try-connect";
+
 mod imp {
     use super::*;
 
@@ -47,7 +49,7 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
-            klass.install_action("client.try-connect", None, move |widget, _, _| {
+            klass.install_action(ACTION_TRY_CONNECT, None, move |widget, _, _| {
                 widget.try_connect();
             });
         }
@@ -94,10 +96,10 @@ mod imp {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
-            obj.action_set_enabled("client.try-connect", !self.name_entry_row.text().is_empty());
+            obj.action_set_enabled(ACTION_TRY_CONNECT, !self.name_entry_row.text().is_empty());
             self.name_entry_row
                 .connect_changed(clone!(@weak obj => move |entry| {
-                    obj.action_set_enabled("client.try-connect", !entry.text().is_empty())
+                    obj.action_set_enabled(ACTION_TRY_CONNECT, !entry.text().is_empty())
                 }));
 
             self.unix_socket_url_row
@@ -111,11 +113,7 @@ mod imp {
         }
 
         fn dispose(&self, obj: &Self::Type) {
-            let mut child = obj.first_child();
-            while let Some(child_) = child {
-                child = child_.next_sibling();
-                child_.unparent();
-            }
+            utils::ChildIter::from(obj).for_each(|child| child.unparent());
         }
     }
 
@@ -141,7 +139,8 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct CreatorPage(ObjectSubclass<imp::CreatorPage>)
-        @extends gtk::Widget;
+        @extends gtk::Widget,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl From<&model::ConnectionManager> for CreatorPage {

@@ -7,6 +7,7 @@ use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
 
 use crate::model;
+use crate::utils;
 
 mod imp {
     use super::*;
@@ -16,11 +17,7 @@ mod imp {
     pub(crate) struct ResponseRow {
         pub(super) image_search_response: WeakRef<model::ImageSearchResponse>,
         #[template_child]
-        pub(super) left_box: TemplateChild<gtk::Box>,
-        #[template_child]
         pub(super) description_label: TemplateChild<gtk::Label>,
-        #[template_child]
-        pub(super) right_box: TemplateChild<gtk::Box>,
     }
 
     #[glib::object_subclass]
@@ -85,9 +82,8 @@ mod imp {
                 .bind(&*self.description_label, "visible", Some(obj));
         }
 
-        fn dispose(&self, _obj: &Self::Type) {
-            self.left_box.unparent();
-            self.right_box.unparent();
+        fn dispose(&self, obj: &Self::Type) {
+            utils::ChildIter::from(obj).for_each(|child| child.unparent());
         }
     }
 
@@ -96,7 +92,8 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct ResponseRow(ObjectSubclass<imp::ResponseRow>)
-        @extends gtk::Widget;
+        @extends gtk::Widget,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl ResponseRow {

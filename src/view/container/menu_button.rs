@@ -14,6 +14,18 @@ use crate::model;
 use crate::utils;
 use crate::view;
 
+const ACTION_START: &str = "container-menu-button.start";
+const ACTION_STOP: &str = "container-menu-button.stop";
+const ACTION_FORCE_STOP: &str = "container-menu-button.force-stop";
+const ACTION_RESTART: &str = "container-menu-button.restart";
+const ACTION_FORCE_RESTART: &str = "container-menu-button.force-restart";
+const ACTION_PAUSE: &str = "container-menu-button.pause";
+const ACTION_RESUME: &str = "container-menu-button.resume";
+const ACTION_RENAME: &str = "container-menu-button.rename";
+const ACTION_COMMIT: &str = "container-menu-button.commit";
+const ACTION_DELETE: &str = "container-menu-button.delete";
+const ACTION_FORCE_DELETE: &str = "container-menu-button.force-delete";
+
 mod imp {
     use super::*;
 
@@ -37,40 +49,40 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
-            klass.install_action("container.start", None, move |widget, _, _| {
+            klass.install_action(ACTION_START, None, move |widget, _, _| {
                 widget.start();
             });
-            klass.install_action("container.stop", None, move |widget, _, _| {
+            klass.install_action(ACTION_STOP, None, move |widget, _, _| {
                 widget.stop();
             });
-            klass.install_action("container.force-stop", None, move |widget, _, _| {
+            klass.install_action(ACTION_FORCE_STOP, None, move |widget, _, _| {
                 widget.force_stop();
             });
-            klass.install_action("container.restart", None, move |widget, _, _| {
+            klass.install_action(ACTION_RESTART, None, move |widget, _, _| {
                 widget.restart();
             });
-            klass.install_action("container.force-restart", None, move |widget, _, _| {
+            klass.install_action(ACTION_FORCE_RESTART, None, move |widget, _, _| {
                 widget.force_restart();
             });
-            klass.install_action("container.pause", None, move |widget, _, _| {
+            klass.install_action(ACTION_PAUSE, None, move |widget, _, _| {
                 widget.pause();
             });
-            klass.install_action("container.resume", None, move |widget, _, _| {
+            klass.install_action(ACTION_RESUME, None, move |widget, _, _| {
                 widget.resume();
             });
 
-            klass.install_action("container.rename", None, move |widget, _, _| {
+            klass.install_action(ACTION_RENAME, None, move |widget, _, _| {
                 widget.rename();
             });
 
-            klass.install_action("container.commit", None, move |widget, _, _| {
+            klass.install_action(ACTION_COMMIT, None, move |widget, _, _| {
                 widget.commit();
             });
 
-            klass.install_action("container.delete", None, move |widget, _, _| {
+            klass.install_action(ACTION_DELETE, None, move |widget, _, _| {
                 widget.delete();
             });
-            klass.install_action("container.force-delete", None, move |widget, _, _| {
+            klass.install_action(ACTION_FORCE_DELETE, None, move |widget, _, _| {
                 widget.force_delete();
             });
         }
@@ -136,11 +148,7 @@ mod imp {
         }
 
         fn dispose(&self, obj: &Self::Type) {
-            let mut child = obj.first_child();
-            while let Some(child_) = child {
-                child = child_.next_sibling();
-                child_.unparent();
-            }
+            utils::ChildIter::from(obj).for_each(|child| child.unparent());
         }
     }
 
@@ -149,7 +157,8 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct MenuButton(ObjectSubclass<imp::MenuButton>)
-        @extends gtk::Widget;
+        @extends gtk::Widget,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 macro_rules! container_action {
@@ -212,18 +221,15 @@ impl MenuButton {
 
         let status = container.status();
 
-        self.action_set_enabled("container.start", matches!(status, Created | Exited));
-        self.action_set_enabled("container.stop", matches!(status, Running));
-        self.action_set_enabled("container.force-stop", matches!(status, Running));
-        self.action_set_enabled("container.restart", matches!(status, Running));
-        self.action_set_enabled("container.force-restart", matches!(status, Running));
-        self.action_set_enabled("container.resume", matches!(status, Paused));
-        self.action_set_enabled("container.pause", matches!(status, Running));
-        self.action_set_enabled(
-            "container.delete",
-            matches!(status, Created | Exited | Dead),
-        );
-        self.action_set_enabled("container.force-delete", matches!(status, Running | Paused));
+        self.action_set_enabled(ACTION_START, matches!(status, Created | Exited));
+        self.action_set_enabled(ACTION_STOP, matches!(status, Running));
+        self.action_set_enabled(ACTION_FORCE_STOP, matches!(status, Running));
+        self.action_set_enabled(ACTION_RESTART, matches!(status, Running));
+        self.action_set_enabled(ACTION_FORCE_RESTART, matches!(status, Running));
+        self.action_set_enabled(ACTION_RESUME, matches!(status, Paused));
+        self.action_set_enabled(ACTION_PAUSE, matches!(status, Running));
+        self.action_set_enabled(ACTION_DELETE, matches!(status, Created | Exited | Dead));
+        self.action_set_enabled(ACTION_FORCE_DELETE, matches!(status, Running | Paused));
     }
 
     container_action!(fn start => start() => "Error on starting container");

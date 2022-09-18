@@ -17,6 +17,21 @@ use crate::model;
 use crate::model::SelectableListExt;
 use crate::utils;
 use crate::view;
+
+const ACTION_START_OR_RESUME_SELECTION: &str = "containers-panel.start-or-resume-selection";
+const ACTION_STOP_SELECTION: &str = "containers-panel.stop-selection";
+const ACTION_PAUSE_SELECTION: &str = "containers-panel.pause-selection";
+const ACTION_RESTART_SELECTION: &str = "containers-panel.restart-selection";
+const ACTION_DELETE_SELECTION: &str = "containers-panel.delete-selection";
+
+const ACTIONS_SELECTION: &[&str] = &[
+    ACTION_START_OR_RESUME_SELECTION,
+    ACTION_STOP_SELECTION,
+    ACTION_PAUSE_SELECTION,
+    ACTION_RESTART_SELECTION,
+    ACTION_DELETE_SELECTION,
+];
+
 mod imp {
     use super::*;
 
@@ -42,48 +57,36 @@ mod imp {
             klass.add_binding_action(
                 gdk::Key::N,
                 gdk::ModifierType::CONTROL_MASK,
-                "containers.create",
+                view::ContainersGroup::action_create_container(),
                 None,
             );
-            klass.install_action("containers.create", None, move |widget, _, _| {
-                widget.create_container();
-            });
+            klass.install_action(
+                view::ContainersGroup::action_create_container(),
+                None,
+                move |widget, _, _| {
+                    widget.create_container();
+                },
+            );
 
             klass.install_action(
-                "containers-panel.start-or-resume-selection",
+                ACTION_START_OR_RESUME_SELECTION,
                 None,
                 move |widget, _, _| {
                     widget.start_or_resume_selection();
                 },
             );
-            klass.install_action(
-                "containers-panel.stop-selection",
-                None,
-                move |widget, _, _| {
-                    widget.stop_selection();
-                },
-            );
-            klass.install_action(
-                "containers-panel.pause-selection",
-                None,
-                move |widget, _, _| {
-                    widget.pause_selection();
-                },
-            );
-            klass.install_action(
-                "containers-panel.restart-selection",
-                None,
-                move |widget, _, _| {
-                    widget.restart_selection();
-                },
-            );
-            klass.install_action(
-                "containers-panel.delete-selection",
-                None,
-                move |widget, _, _| {
-                    widget.delete_selection();
-                },
-            );
+            klass.install_action(ACTION_STOP_SELECTION, None, move |widget, _, _| {
+                widget.stop_selection();
+            });
+            klass.install_action(ACTION_PAUSE_SELECTION, None, move |widget, _, _| {
+                widget.pause_selection();
+            });
+            klass.install_action(ACTION_RESTART_SELECTION, None, move |widget, _, _| {
+                widget.restart_selection();
+            });
+            klass.install_action(ACTION_DELETE_SELECTION, None, move |widget, _, _| {
+                widget.delete_selection();
+            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -167,7 +170,8 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct Panel(ObjectSubclass<imp::Panel>)
-        @extends gtk::Widget;
+        @extends gtk::Widget,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl Default for Panel {
@@ -186,20 +190,17 @@ impl Panel {
             return;
         }
 
-        self.action_set_enabled("containers-panel.start-or-resume-selection", false);
-        self.action_set_enabled("containers-panel.stop-selection", false);
-        self.action_set_enabled("containers-panel.pause-selection", false);
-        self.action_set_enabled("containers-panel.restart-selection", false);
-        self.action_set_enabled("containers-panel.delete-selection", false);
+        ACTIONS_SELECTION
+            .iter()
+            .for_each(|action_name| self.action_set_enabled(action_name, false));
         value.connect_notify_local(
             Some("num-selected"),
             clone!(@weak self as obj => move |list, _| {
-                let enabled = list.num_selected() > 0;
-                obj.action_set_enabled("containers-panel.start-or-resume-selection", enabled);
-                obj.action_set_enabled("containers-panel.stop-selection", enabled);
-                obj.action_set_enabled("containers-panel.pause-selection", enabled);
-                obj.action_set_enabled("containers-panel.restart-selection", enabled);
-                obj.action_set_enabled("containers-panel.delete-selection", enabled);
+                ACTIONS_SELECTION
+                    .iter()
+                    .for_each(|action_name| {
+                        obj.action_set_enabled(action_name, list.num_selected() > 0);
+                });
             }),
         );
 
