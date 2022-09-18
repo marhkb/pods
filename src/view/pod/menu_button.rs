@@ -1,5 +1,3 @@
-use std::cell::RefCell;
-
 use adw::prelude::MessageDialogExtManual;
 use adw::traits::MessageDialogExt;
 use gettextrs::gettext;
@@ -34,7 +32,6 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/pod/menu-button.ui")]
     pub(crate) struct MenuButton {
         pub(super) pod: WeakRef<model::Pod>,
-        pub(super) status_handler_id: RefCell<Option<glib::SignalHandlerId>>,
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -132,7 +129,9 @@ mod imp {
                 Some(obj),
             );
 
-            Self::Type::this_expression("pod")
+            let pod_expr = Self::Type::this_expression("pod");
+
+            pod_expr
                 .chain_property::<model::Pod>("action-ongoing")
                 .chain_closure::<String>(closure!(|_: Self::Type, action_ongoing: bool| {
                     if action_ongoing {
@@ -142,6 +141,10 @@ mod imp {
                     }
                 }))
                 .bind(&*self.stack, "visible-child-name", Some(obj));
+
+            pod_expr
+                .chain_property::<model::Pod>("status")
+                .watch(Some(obj), clone!(@weak obj => move || obj.update_actions()));
         }
 
         fn dispose(&self, obj: &Self::Type) {
@@ -190,26 +193,7 @@ impl MenuButton {
         if self.pod().as_ref() == value {
             return;
         }
-
-        let imp = self.imp();
-
-        if let Some(handler_id) = imp.status_handler_id.take() {
-            if let Some(pod) = self.pod() {
-                pod.disconnect(handler_id);
-            }
-        }
-
-        if let Some(pod) = value {
-            self.update_actions(pod);
-
-            let status_handler_id = pod.connect_notify_local(
-                Some("status"),
-                clone!(@weak self as obj => move |pod, _| obj.update_actions(pod)),
-            );
-            imp.status_handler_id.replace(Some(status_handler_id));
-        }
-
-        imp.pod.set(value);
+        self.imp().pod.set(value);
         self.notify("pod");
     }
 
@@ -219,26 +203,28 @@ impl MenuButton {
         }
     }
 
-    fn update_actions(&self, pod: &model::Pod) {
+    fn update_actions(&self) {
         use model::PodStatus::*;
 
-        let status = pod.status();
+        if let Some(pod) = self.pod() {
+            let status = pod.status();
 
-        self.action_set_enabled(
-            ACTION_START,
-            matches!(pod.status(), Created | Exited | Dead),
-        );
-        self.action_set_enabled(ACTION_STOP, matches!(status, Running));
-        self.action_set_enabled(ACTION_FORCE_STOP, matches!(status, Running));
-        self.action_set_enabled(ACTION_RESTART, matches!(status, Running));
-        self.action_set_enabled(ACTION_FORCE_RESTART, matches!(status, Running));
-        self.action_set_enabled(ACTION_RESUME, matches!(status, Paused));
-        self.action_set_enabled(ACTION_PAUSE, matches!(status, Running));
-        self.action_set_enabled(
-            ACTION_DELETE,
-            matches!(status, Created | Exited | Dead | Degraded),
-        );
-        self.action_set_enabled(ACTION_FORCE_DELETE, matches!(status, Running | Paused));
+            self.action_set_enabled(
+                ACTION_START,
+                matches!(pod.status(), Created | Exited | Dead),
+            );
+            self.action_set_enabled(ACTION_STOP, matches!(status, Running));
+            self.action_set_enabled(ACTION_FORCE_STOP, matches!(status, Running));
+            self.action_set_enabled(ACTION_RESTART, matches!(status, Running));
+            self.action_set_enabled(ACTION_FORCE_RESTART, matches!(status, Running));
+            self.action_set_enabled(ACTION_RESUME, matches!(status, Paused));
+            self.action_set_enabled(ACTION_PAUSE, matches!(status, Running));
+            self.action_set_enabled(
+                ACTION_DELETE,
+                matches!(status, Created | Exited | Dead | Degraded),
+            );
+            self.action_set_enabled(ACTION_FORCE_DELETE, matches!(status, Running | Paused));
+        }
     }
 
     pod_action!(fn start => start() => "Error on starting pod");
