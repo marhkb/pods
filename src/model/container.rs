@@ -160,10 +160,7 @@ mod imp {
     impl ObjectImpl for Container {
         fn signals() -> &'static [Signal] {
             static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
-                vec![
-                    Signal::builder("inspection-failed", &[], <()>::static_type().into()).build(),
-                    Signal::builder("deleted", &[], <()>::static_type().into()).build(),
-                ]
+                vec![Signal::builder("deleted", &[], <()>::static_type().into()).build()]
             });
             SIGNALS.as_ref()
         }
@@ -601,7 +598,10 @@ impl Container {
         self.notify("data");
     }
 
-    pub(crate) fn inspect(&self) {
+    pub(crate) fn inspect<F>(&self, op: F)
+    where
+        F: FnOnce(podman::Error) + 'static,
+    {
         let imp = self.imp();
         if !imp.can_inspect.get() {
             return;
@@ -619,7 +619,7 @@ impl Container {
                     Ok(data) => obj.set_data(data),
                     Err(e) => {
                         log::error!("Error on inspecting container '{}': {e}", obj.id());
-                        obj.emit_by_name::<()>("inspection-failed", &[]);
+                        op(e);
                     },
                 }
                 obj.imp().can_inspect.set(true);
@@ -787,18 +787,6 @@ impl Container {
         }
         self.emit_by_name::<()>("deleted", &[]);
     }
-
-    pub(crate) fn connect_inspection_failed<F: Fn(&Self) + 'static>(
-        &self,
-        f: F,
-    ) -> glib::SignalHandlerId {
-        self.connect_local("inspection-failed", true, move |values| {
-            f(&values[0].get::<Self>().unwrap());
-
-            None
-        })
-    }
-
     pub(crate) fn connect_deleted<F: Fn(&Self) + 'static>(&self, f: F) -> glib::SignalHandlerId {
         self.connect_local("deleted", true, move |values| {
             f(&values[0].get::<Self>().unwrap());

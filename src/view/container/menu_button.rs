@@ -1,5 +1,3 @@
-use std::cell::RefCell;
-
 use gettextrs::gettext;
 use gtk::glib;
 use gtk::glib::clone;
@@ -33,7 +31,6 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/container/menu-button.ui")]
     pub(crate) struct MenuButton {
         pub(super) container: WeakRef<model::Container>,
-        pub(super) status_handler_id: RefCell<Option<glib::SignalHandlerId>>,
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -135,7 +132,9 @@ mod imp {
                 Some(obj),
             );
 
-            Self::Type::this_expression("container")
+            let container_expr = Self::Type::this_expression("container");
+
+            container_expr
                 .chain_property::<model::Container>("action-ongoing")
                 .chain_closure::<String>(closure!(|_: glib::Object, action_ongoing: bool| {
                     if action_ongoing {
@@ -145,6 +144,10 @@ mod imp {
                     }
                 }))
                 .bind(&*self.stack, "visible-child-name", Some(obj));
+
+            container_expr
+                .chain_property::<model::Container>("status")
+                .watch(Some(obj), clone!(@weak obj => move || obj.update_actions()));
         }
 
         fn dispose(&self, obj: &Self::Type) {
@@ -193,43 +196,26 @@ impl MenuButton {
         if self.container().as_ref() == value {
             return;
         }
-
-        let imp = self.imp();
-
-        if let Some(handler_id) = imp.status_handler_id.take() {
-            if let Some(container) = self.container() {
-                container.disconnect(handler_id);
-            }
-        }
-
-        if let Some(container) = value {
-            self.update_actions(container);
-
-            let status_handler_id = container.connect_notify_local(
-                Some("status"),
-                clone!(@weak self as obj => move |container, _| obj.update_actions(container)),
-            );
-            imp.status_handler_id.replace(Some(status_handler_id));
-        }
-
-        imp.container.set(value);
+        self.imp().container.set(value);
         self.notify("container");
     }
 
-    fn update_actions(&self, container: &model::Container) {
+    fn update_actions(&self) {
         use model::ContainerStatus::*;
 
-        let status = container.status();
+        if let Some(container) = self.container() {
+            let status = container.status();
 
-        self.action_set_enabled(ACTION_START, matches!(status, Created | Exited));
-        self.action_set_enabled(ACTION_STOP, matches!(status, Running));
-        self.action_set_enabled(ACTION_FORCE_STOP, matches!(status, Running));
-        self.action_set_enabled(ACTION_RESTART, matches!(status, Running));
-        self.action_set_enabled(ACTION_FORCE_RESTART, matches!(status, Running));
-        self.action_set_enabled(ACTION_RESUME, matches!(status, Paused));
-        self.action_set_enabled(ACTION_PAUSE, matches!(status, Running));
-        self.action_set_enabled(ACTION_DELETE, matches!(status, Created | Exited | Dead));
-        self.action_set_enabled(ACTION_FORCE_DELETE, matches!(status, Running | Paused));
+            self.action_set_enabled(ACTION_START, matches!(status, Created | Exited));
+            self.action_set_enabled(ACTION_STOP, matches!(status, Running));
+            self.action_set_enabled(ACTION_FORCE_STOP, matches!(status, Running));
+            self.action_set_enabled(ACTION_RESTART, matches!(status, Running));
+            self.action_set_enabled(ACTION_FORCE_RESTART, matches!(status, Running));
+            self.action_set_enabled(ACTION_RESUME, matches!(status, Paused));
+            self.action_set_enabled(ACTION_PAUSE, matches!(status, Running));
+            self.action_set_enabled(ACTION_DELETE, matches!(status, Created | Exited | Dead));
+            self.action_set_enabled(ACTION_FORCE_DELETE, matches!(status, Running | Paused));
+        }
     }
 
     container_action!(fn start => start() => "Error on starting container");

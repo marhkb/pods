@@ -1,5 +1,3 @@
-use std::cell::RefCell;
-
 use adw::subclass::prelude::PreferencesGroupImpl;
 use gettextrs::gettext;
 use gtk::glib;
@@ -26,7 +24,6 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/container/properties-group.ui")]
     pub(crate) struct PropertiesGroup {
         pub(super) container: WeakRef<model::Container>,
-        pub(super) handler_id: RefCell<Option<glib::SignalHandlerId>>,
         #[template_child]
         pub(super) id_row: TemplateChild<view::PropertyRow>,
         #[template_child]
@@ -244,6 +241,16 @@ mod imp {
                 ))
                 .bind(&*self.image_row, "subtitle", Some(obj));
 
+            image_expr.watch(
+                Some(obj),
+                clone!(@weak obj => move || {
+                    obj.action_set_enabled(
+                        ACTION_SHOW_IMAGE_DETAILS,
+                        obj.container().as_ref().and_then(model::Container::image).is_some()
+                    );
+                }),
+            );
+
             image_expr
                 .chain_closure::<String>(closure!(
                     |_: glib::Object, image: Option<model::Image>| {
@@ -288,25 +295,7 @@ impl PropertiesGroup {
         if self.container().as_ref() == value {
             return;
         }
-        let imp = self.imp();
-
-        if let Some(container) = self.container() {
-            container.disconnect(imp.handler_id.take().unwrap());
-        }
-
-        if let Some(container) = value {
-            self.action_set_enabled(ACTION_SHOW_IMAGE_DETAILS, container.image().is_some());
-
-            let handler_id = container.connect_notify_local(
-                Some("image"),
-                clone!(@weak self as obj => move |container, _| {
-                    obj.action_set_enabled(ACTION_SHOW_IMAGE_DETAILS, container.image().is_some());
-                }),
-            );
-            imp.handler_id.replace(Some(handler_id));
-        }
-
-        imp.container.set(value);
+        self.imp().container.set(value);
         self.notify("container");
     }
 

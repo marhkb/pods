@@ -502,7 +502,7 @@ impl CreationPage {
                     image_weak.set(Some(image));
                     imp.command_row_handler.replace(Some((handler, image_weak)));
 
-                    image.inspect()
+                    image.inspect(|_| {});
                 }
             },
             None => imp.command_entry_row.set_text(""),
