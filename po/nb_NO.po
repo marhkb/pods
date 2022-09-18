@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-09-18 00:28+0200\n"
-"PO-Revision-Date: 2022-03-17 15:47+0000\n"
+"PO-Revision-Date: 2022-09-18 13:38+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/pods/"
 "pods/nb_NO/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.12-dev\n"
+"X-Generator: Weblate 4.14.1\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
@@ -51,11 +51,11 @@ msgstr "Forvalg adferd for maksimert vindu"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:26
 msgid "Style Variant"
-msgstr ""
+msgstr "Stilvariant"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:27
 msgid "Use the light or dark variant of the GTK theme"
-msgstr ""
+msgstr "Bruk lys eller mørk variant av GTK-drakt"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:31
 msgid "The uuid of the connection that was used the last time"
@@ -338,7 +338,7 @@ msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:208
 msgid "Memory limit"
-msgstr ""
+msgstr "Minnegrense"
 
 #: data/resources/ui/container/creation-page.ui:250
 msgid "KB"
@@ -354,7 +354,7 @@ msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:279
 msgid "Integration"
-msgstr ""
+msgstr "Integrasjon"
 
 #: data/resources/ui/container/creation-page.ui:289
 msgid "Port Mappings"
@@ -366,17 +366,17 @@ msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:319
 msgid "Environment Variables"
-msgstr ""
+msgstr "Miljøvariabler"
 
 #: data/resources/ui/container/creation-page.ui:340
 #: data/resources/ui/container/properties-group.ui:87
 msgid "Health Check"
-msgstr ""
+msgstr "Helsesjekk"
 
 #: data/resources/ui/container/creation-page.ui:356
 #: data/resources/ui/container/health-check-page.ui:59
 msgid "Interval"
-msgstr ""
+msgstr "Intervall"
 
 #: data/resources/ui/container/creation-page.ui:357
 msgid "Interval how often health check is run."
@@ -386,12 +386,12 @@ msgstr ""
 #: data/resources/ui/container/creation-page.ui:416
 #: data/resources/ui/container/creation-page.ui:452
 msgid "seconds"
-msgstr ""
+msgstr "sekunder"
 
 #: data/resources/ui/container/creation-page.ui:392
 #: data/resources/ui/container/health-check-page.ui:71
 msgid "Timeout"
-msgstr ""
+msgstr "Tidsavbrudd"
 
 #: data/resources/ui/container/creation-page.ui:393
 msgid ""
@@ -400,8 +400,9 @@ msgid ""
 msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:428
+#, fuzzy
 msgid "Start period"
-msgstr ""
+msgstr "Startperiode"
 
 #: data/resources/ui/container/creation-page.ui:429
 msgid "The initialization time needed for a container to bootstrap."
@@ -443,7 +444,7 @@ msgstr ""
 #: data/resources/ui/image/details-page.ui:132
 #: data/resources/ui/pod/details-page.ui:138
 msgid "Utilities"
-msgstr ""
+msgstr "Verktøy"
 
 #: data/resources/ui/container/details-page.ui:71
 #: data/resources/ui/image/details-page.ui:136
@@ -456,17 +457,19 @@ msgid "View all container properties in a structured text form."
 msgstr ""
 
 #: data/resources/ui/container/details-page.ui:95
+#, fuzzy
 msgid "Logs"
-msgstr ""
+msgstr "Logger"
 
 #: data/resources/ui/container/details-page.ui:96
+#, fuzzy
 msgid "View and search through container logs."
-msgstr ""
+msgstr "Vis og søk gjennom beholderlogger."
 
 #: data/resources/ui/container/details-page.ui:112
 #: data/resources/ui/pod/details-page.ui:166
 msgid "Processes"
-msgstr ""
+msgstr "Prosesser"
 
 #: data/resources/ui/container/details-page.ui:113
 msgid "View processes that are currently running inside the container."
@@ -486,7 +489,7 @@ msgstr "Oppsatt"
 #: data/resources/ui/container/properties-group.ui:49
 #: data/resources/ui/pod/details-page.ui:78
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 #: data/resources/ui/container/health-check-page.ui:77
 msgid "Failing Streak"
@@ -498,7 +501,7 @@ msgstr ""
 
 #: data/resources/ui/container/health-check-page.ui:110
 msgid "Last 5 Runs"
-msgstr ""
+msgstr "Siste fem kjøringer"
 
 #: data/resources/ui/container/log-page.ui:21
 #, fuzzy
@@ -511,15 +514,15 @@ msgstr ""
 
 #: data/resources/ui/container/log-page.ui:35
 msgid "Search within this log"
-msgstr ""
+msgstr "Søk i denne loggen"
 
 #: data/resources/ui/container/log-page.ui:78
 msgid "Scroll to bottom"
-msgstr ""
+msgstr "Rull til bunnen"
 
 #: data/resources/ui/container/log-page.ui:129
 msgid "Loading previous lines"
-msgstr ""
+msgstr "Last inn tidligere linjer"
 
 #: data/resources/ui/container/menu-button.ui:6
 #: data/resources/ui/pod/menu-button.ui:12
@@ -529,7 +532,7 @@ msgstr "_Start"
 #: data/resources/ui/container/menu-button.ui:11
 #: data/resources/ui/pod/menu-button.ui:17
 msgid "S_top"
-msgstr ""
+msgstr "S_topp"
 
 #: data/resources/ui/container/menu-button.ui:16
 #: data/resources/ui/pod/menu-button.ui:22
@@ -560,7 +563,7 @@ msgstr "_Pause"
 
 #: data/resources/ui/container/menu-button.ui:43
 msgid "Re_name…"
-msgstr ""
+msgstr "_Gi nytt navn …"
 
 #: data/resources/ui/container/menu-button.ui:50
 msgid "_Commit"
@@ -576,13 +579,14 @@ msgstr "_Slett"
 #: data/resources/ui/image/details-page.ui:48
 #: data/resources/ui/pod/details-page.ui:51
 msgid "Properties"
-msgstr ""
+msgstr "Egenskaper"
 
 #: data/resources/ui/container/properties-group.ui:20
 #: data/resources/ui/container/rename-dialog.ui:95
 #: data/resources/ui/pod/details-page.ui:66
+#, fuzzy
 msgid "Id"
-msgstr ""
+msgstr "ID"
 
 #: data/resources/ui/container/properties-group.ui:26
 msgid "Port bindings"
@@ -608,11 +612,11 @@ msgstr ""
 
 #: data/resources/ui/container/rename-dialog.ui:37
 msgid "_Rename"
-msgstr ""
+msgstr "_Gi nytt navn"
 
 #: data/resources/ui/container/rename-dialog.ui:101
 msgid "Current Name"
-msgstr ""
+msgstr "Nåværende navn"
 
 #: data/resources/ui/container/resources-quick-reference-group.ui:13
 msgid "Resources Quick Reference"
@@ -620,19 +624,19 @@ msgstr ""
 
 #: data/resources/ui/container/resources-quick-reference-group.ui:41
 msgid "CPU"
-msgstr ""
+msgstr "Prosessor"
 
 #: data/resources/ui/container/resources-quick-reference-group.ui:89
 msgid "Memory"
-msgstr ""
+msgstr "Minne"
 
 #: data/resources/ui/container/resources-quick-reference-group.ui:132
 msgid "Network"
-msgstr ""
+msgstr "Nettverk"
 
 #: data/resources/ui/container/resources-quick-reference-group.ui:231
 msgid "Disk"
-msgstr ""
+msgstr "Disk"
 
 #: data/resources/ui/containers/group.ui:14 data/resources/ui/pods/panel.ui:56
 #, fuzzy
@@ -687,11 +691,11 @@ msgstr "_Slett"
 
 #: data/resources/ui/env-var/row.ui:30
 msgid "Key"
-msgstr ""
+msgstr "Nøkkel"
 
 #: data/resources/ui/env-var/row.ui:49
 msgid "Value"
-msgstr ""
+msgstr "Verdi"
 
 #: data/resources/ui/image-search/widget.ui:31
 #, fuzzy
@@ -714,7 +718,7 @@ msgstr "Søk"
 
 #: data/resources/ui/image-search/widget.ui:61
 msgid "Registry"
-msgstr ""
+msgstr "Register"
 
 #: data/resources/ui/image-search/widget.ui:83
 #, fuzzy
@@ -753,7 +757,7 @@ msgstr ""
 
 #: data/resources/ui/image/build-page.ui:64
 msgid "Select…"
-msgstr ""
+msgstr "Velg …"
 
 #: data/resources/ui/image/build-page.ui:75
 msgid "Containerfile Path Relative to Build Context Directory"
@@ -761,7 +765,7 @@ msgstr ""
 
 #: data/resources/ui/image/build-page.ui:92
 msgid "_Build"
-msgstr ""
+msgstr "_Bygg"
 
 #: data/resources/ui/image/building-page.ui:40
 msgid ""
@@ -881,11 +885,11 @@ msgstr "_Om Pods"
 
 #: data/resources/ui/info-dialog.ui:14 data/resources/ui/info-dialog.ui:48
 msgid "Version"
-msgstr ""
+msgstr "Versjon"
 
 #: data/resources/ui/info-dialog.ui:18
 msgid "API Version"
-msgstr ""
+msgstr "API-versjon"
 
 #: data/resources/ui/info-dialog.ui:24
 msgid "Built Time"
@@ -898,7 +902,7 @@ msgstr "_Send inn"
 
 #: data/resources/ui/info-dialog.ui:36
 msgid "Go Version"
-msgstr ""
+msgstr "Go-versjon"
 
 #: data/resources/ui/info-dialog.ui:42
 msgid "Os Arch"
@@ -977,7 +981,7 @@ msgstr ""
 #: data/resources/ui/pod/creation-page.ui:65
 #: data/resources/ui/pod/details-page.ui:116
 msgid "Hostname"
-msgstr ""
+msgstr "Vertsnavn"
 
 #: data/resources/ui/pod/details-page.ui:131
 #: data/resources/ui/search-panel.ui:68 data/resources/ui/window.ui:292
@@ -999,11 +1003,11 @@ msgstr ""
 
 #: data/resources/ui/port-mapping/row.ui:29
 msgid "IP address"
-msgstr ""
+msgstr "IP-adresse"
 
 #: data/resources/ui/port-mapping/row.ui:48
 msgid "Host port"
-msgstr ""
+msgstr "Vertsport"
 
 #: data/resources/ui/port-mapping/row.ui:75
 #, fuzzy
@@ -1012,15 +1016,15 @@ msgstr "Beholdere"
 
 #: data/resources/ui/port-mapping/row.ui:102
 msgid "Protocol"
-msgstr ""
+msgstr "Protokoll"
 
 #: data/resources/ui/port-mapping/row.ui:113
 msgid "TCP"
-msgstr ""
+msgstr "TCP"
 
 #: data/resources/ui/port-mapping/row.ui:114
 msgid "UDP"
-msgstr ""
+msgstr "UDP"
 
 #: data/resources/ui/search-panel.ui:52 data/resources/ui/window.ui:272
 msgid "Images"
@@ -1045,7 +1049,7 @@ msgstr "Vis snarveier"
 #: data/resources/ui/shortcuts.ui:24
 msgctxt "shortcut window"
 msgid "Show menu"
-msgstr ""
+msgstr "Vis meny"
 
 #: data/resources/ui/shortcuts.ui:31
 msgctxt "shortcut window"
@@ -1060,17 +1064,17 @@ msgstr "Søk"
 #: data/resources/ui/shortcuts.ui:48
 msgctxt "shortcut window"
 msgid "Navigation"
-msgstr ""
+msgstr "Navigasjon"
 
 #: data/resources/ui/shortcuts.ui:52
 msgctxt "shortcut window"
 msgid "Go back"
-msgstr ""
+msgstr "Gå tilbake"
 
 #: data/resources/ui/shortcuts.ui:59
 msgctxt "shortcut window"
 msgid "Return to main view"
-msgstr ""
+msgstr "Gå tilbake til hovedvisning"
 
 #: data/resources/ui/shortcuts.ui:69
 #, fuzzy
@@ -1081,7 +1085,7 @@ msgstr "_Om Pods"
 #: data/resources/ui/shortcuts.ui:73
 msgctxt "shortcut window"
 msgid "Add a new connection"
-msgstr ""
+msgstr "Legg til ny tilkobling"
 
 #: data/resources/ui/shortcuts.ui:80
 #, fuzzy
@@ -1116,11 +1120,11 @@ msgstr "_Omstart"
 #: data/resources/ui/shortcuts.ui:115
 msgctxt "shortcut window"
 msgid "Rename"
-msgstr ""
+msgstr "Gi nytt navn"
 
 #: data/resources/ui/volume/row.ui:34
 msgid "Host path"
-msgstr ""
+msgstr "Vertssti"
 
 #: data/resources/ui/volume/row.ui:53
 #, fuzzy
@@ -1129,7 +1133,7 @@ msgstr "Beholdere"
 
 #: data/resources/ui/volume/row.ui:81
 msgid "Mode"
-msgstr ""
+msgstr "Modus"
 
 #: data/resources/ui/volume/row.ui:92
 msgid "Writable"
@@ -1137,7 +1141,7 @@ msgstr ""
 
 #: data/resources/ui/volume/row.ui:102
 msgid "SELinux"
-msgstr ""
+msgstr "SELinux"
 
 #: data/resources/ui/volume/row.ui:113
 msgid "No label"
@@ -1145,11 +1149,11 @@ msgstr ""
 
 #: data/resources/ui/volume/row.ui:114
 msgid "Shared"
-msgstr ""
+msgstr "Delt"
 
 #: data/resources/ui/volume/row.ui:115
 msgid "Private"
-msgstr ""
+msgstr "Privat"
 
 #: data/resources/ui/welcome-page.ui:31
 msgid "Welcome to Pods"
@@ -1162,7 +1166,7 @@ msgstr ""
 
 #: data/resources/ui/welcome-page.ui:42
 msgid "_Add Connection"
-msgstr ""
+msgstr "_Legg til tilkobling"
 
 #: data/resources/ui/window.ui:6
 #, fuzzy
@@ -1171,7 +1175,7 @@ msgstr "Mistet tilkoblingen til Podman"
 
 #: data/resources/ui/window.ui:14
 msgid "_New…"
-msgstr ""
+msgstr "_Ny …"
 
 #: data/resources/ui/window.ui:21
 #, fuzzy
@@ -1188,11 +1192,11 @@ msgstr "_Om Pods"
 
 #: data/resources/ui/window.ui:39
 msgid "_Select All"
-msgstr ""
+msgstr "_Velg alle"
 
 #: data/resources/ui/window.ui:43
 msgid "Select None"
-msgstr ""
+msgstr "Fravelg alle"
 
 #: src/application.rs:185
 msgid "translator-credits"
@@ -1213,7 +1217,7 @@ msgstr "Angi minste loggføringsnivå"
 
 #: src/model/connection_manager.rs:191
 msgid "Connection '{}' already exists."
-msgstr ""
+msgstr "Tilkoblingen «{}» finnes allerede."
 
 #: src/model/container.rs:67 src/model/pod.rs:67
 msgid "Dead"
@@ -1245,11 +1249,11 @@ msgstr ""
 
 #: src/model/container.rs:113
 msgid "Healthy"
-msgstr ""
+msgstr "Sunn"
 
 #: src/model/container.rs:114
 msgid "Unhealthy"
-msgstr ""
+msgstr "Usunn"
 
 #: src/model/container.rs:115
 #, fuzzy
@@ -1262,7 +1266,7 @@ msgstr ""
 
 #: src/model/pod.rs:69 src/view/connection/creator_page.rs:185
 msgid "Error"
-msgstr ""
+msgstr "Feil"
 
 #. Translators: This string will be shown when a property of an entity like an image is null.
 #: src/utils.rs:173
@@ -1276,11 +1280,11 @@ msgstr ""
 
 #: src/view/component/source_view_search_widget.rs:194
 msgid "0 of {}"
-msgstr ""
+msgstr "0 av {}"
 
 #: src/view/component/source_view_search_widget.rs:213
 msgid "{} of {}"
-msgstr ""
+msgstr "{} av {}"
 
 #: src/view/component/top_page.rs:92
 #, fuzzy
@@ -1294,7 +1298,7 @@ msgstr "Beholdere"
 
 #: src/view/connection/row.rs:119
 msgid "Local connection"
-msgstr ""
+msgstr "Lokal tilkobling"
 
 #: src/view/connection/switcher_widget.rs:125
 #, fuzzy
@@ -1325,8 +1329,8 @@ msgstr "Kunne ikke inspisere «{}»-beholderen"
 #: src/view/container/health_check_page.rs:216
 msgid "{} second"
 msgid_plural "{} seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} sekund"
+msgstr[1] "{} sekunder"
 
 #: src/view/container/health_check_page.rs:241
 #, fuzzy
@@ -1354,11 +1358,11 @@ msgstr ""
 #: src/view/container/resources_quick_reference_group.rs:140
 #: src/view/container/resources_quick_reference_group.rs:267
 msgid "?"
-msgstr ""
+msgstr "?"
 
 #: src/view/container/resources_quick_reference_group.rs:104
 msgid "{} %"
-msgstr ""
+msgstr "{} %"
 
 #: src/view/container/resources_quick_reference_group.rs:125
 msgid "{} / {} ({} %)"
@@ -1437,7 +1441,7 @@ msgstr ""
 
 #: src/view/image/build_page.rs:190
 msgid "Select File"
-msgstr ""
+msgstr "Velg fil"
 
 #: src/view/image/build_page.rs:209
 msgid "Image name should not contain uppercase characters."
@@ -1601,8 +1605,8 @@ msgstr[1] ""
 #: src/view/info_dialog.rs:260
 msgid "{} State"
 msgid_plural "{} States"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} tilstand"
+msgstr[1] "{} tilstander"
 
 #. Translators: "{}" is placeholders for a cardinal number.
 #: src/view/info_dialog.rs:277
@@ -1615,7 +1619,7 @@ msgstr[1] "Avtrykk"
 #. Translators: The placeholder "{}" is for the error message.
 #: src/view/info_dialog.rs:293
 msgid "Error: {}"
-msgstr ""
+msgstr "Feil: {}"
 
 #: src/view/pod/details_page.rs:235
 #, fuzzy
@@ -1704,7 +1708,7 @@ msgstr ""
 
 #: src/view/pods/panel.rs:441
 msgid "All associated containers will also be removed!"
-msgstr ""
+msgstr "Alle tilknyttede beholdere vil også bli slettet!"
 
 #. Translators: The "{}" is a placeholder for an error message.
 #: src/view/pods/panel.rs:467
