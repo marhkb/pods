@@ -59,10 +59,7 @@ mod imp {
     impl ObjectImpl for Image {
         fn signals() -> &'static [Signal] {
             static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
-                vec![
-                    Signal::builder("inspection-failed", &[], <()>::static_type().into()).build(),
-                    Signal::builder("deleted", &[], <()>::static_type().into()).build(),
-                ]
+                vec![Signal::builder("deleted", &[], <()>::static_type().into()).build()]
             });
             SIGNALS.as_ref()
         }
@@ -410,7 +407,10 @@ impl Image {
         self.notify("data");
     }
 
-    pub(crate) fn inspect(&self) {
+    pub(crate) fn inspect<F>(&self, op: F)
+    where
+        F: FnOnce(podman::Error) + 'static,
+    {
         let imp = self.imp();
         if !imp.can_inspect.get() {
             return;
@@ -418,24 +418,20 @@ impl Image {
 
         imp.can_inspect.set(false);
 
-        let podman = self
-            .image_list()
-            .unwrap()
-            .client()
-            .unwrap()
-            .podman()
-            .clone();
-        let id = self.id().to_owned();
-
         utils::do_async(
-            async move { podman.images().get(id).inspect().await },
-            clone!(@weak self as obj => move |result| match result {
-                Ok(data) => obj.set_data(model::ImageData::from(data)),
-                Err(e) => {
-                    log::error!("Error on inspecting image '{}': {e}", obj.id());
-                    obj.emit_by_name::<()>("inspection-failed", &[]);
-                    obj.imp().can_inspect.set(true);
-                },
+            {
+                let image = self.api_image().unwrap();
+                async move { image.inspect().await }
+            },
+            clone!(@weak self as obj => move |result| {
+                match result {
+                    Ok(data) => obj.set_data(model::ImageData::from(data)),
+                    Err(e) => {
+                        log::error!("Error on inspecting image '{}': {e}", obj.id());
+                        op(e);
+                    },
+                }
+                obj.imp().can_inspect.set(true);
             }),
         );
     }
@@ -484,17 +480,6 @@ impl Image {
 
     pub(super) fn emit_deleted(&self) {
         self.emit_by_name::<()>("deleted", &[]);
-    }
-
-    pub(crate) fn connect_inspection_failed<F: Fn(&Self) + 'static>(
-        &self,
-        f: F,
-    ) -> glib::SignalHandlerId {
-        self.connect_local("inspection-failed", true, move |values| {
-            f(&values[0].get::<Self>().unwrap());
-
-            None
-        })
     }
 
     pub(crate) fn connect_deleted<F: Fn(&Self) + 'static>(&self, f: F) -> glib::SignalHandlerId {

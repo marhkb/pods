@@ -311,9 +311,8 @@ impl DetailsPage {
         }
 
         if let Some(image) = value {
-            image.inspect();
-            image.connect_inspection_failed(clone!(@weak self as obj => move |_| {
-                utils::show_toast(&obj, &gettext("Error on loading image details"));
+            image.inspect(clone!(@weak self as obj => move |e| {
+                utils::show_error_toast(&obj, &gettext("Error on loading image details"), &e.to_string());
             }));
 
             let handler_id = image.connect_deleted(clone!(@weak self as obj => move |image| {
