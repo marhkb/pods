@@ -58,6 +58,19 @@
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="1.0.0-beta.3" date="2022-09-18">
+      <description>
+        <p>The third beta release of Pods 1.0.0 contains the following changes:</p>
+        <ul>
+          <li>A periodic refresh interval to track entities which were created outside of podman (e.g. with buildah)</li>
+          <li>Containers now provide a detailed view of health configuration and health status</li>
+          <li>Several smaller UI improvements</li>
+          <li>Several smaller bugfixes and internal code improvements</li>
+          <li>Updated screenshots</li>
+          <li>Translation updates</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.0.0-beta.2" date="2022-09-09">
       <description>
         <p>A small update with app data fixes:</p>
