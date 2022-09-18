@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-09-18 00:28+0200\n"
-"PO-Revision-Date: 2022-09-15 00:24+0000\n"
+"PO-Revision-Date: 2022-09-18 13:38+0000\n"
 "Last-Translator: Rafael Mardojai CM <mardojai.cardenas@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/pods/pods/es/>\n"
 "Language: es\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.14.1-dev\n"
+"X-Generator: Weblate 4.14.1\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
@@ -445,7 +445,7 @@ msgstr "Utilidades"
 #: data/resources/ui/image/details-page.ui:136
 #: data/resources/ui/pod/details-page.ui:142
 msgid "Inspect"
-msgstr ""
+msgstr "Inspeccionar"
 
 #: data/resources/ui/container/details-page.ui:72
 msgid "View all container properties in a structured text form."
@@ -608,7 +608,7 @@ msgstr "_Renombrar"
 
 #: data/resources/ui/container/rename-dialog.ui:101
 msgid "Current Name"
-msgstr ""
+msgstr "Nombre actual"
 
 #: data/resources/ui/container/resources-quick-reference-group.ui:13
 msgid "Resources Quick Reference"
@@ -759,7 +759,7 @@ msgstr ""
 
 #: data/resources/ui/image/build-page.ui:92
 msgid "_Build"
-msgstr ""
+msgstr "_Construir"
 
 #: data/resources/ui/image/building-page.ui:40
 #, fuzzy
@@ -818,7 +818,7 @@ msgstr "_Descargar…"
 
 #: data/resources/ui/images/panel.ui:10
 msgid "_Build…"
-msgstr ""
+msgstr "_Construir…"
 
 #: data/resources/ui/images/panel.ui:14
 msgid "_Prune…"
@@ -1027,7 +1027,6 @@ msgid "Images"
 msgstr "Imágenes"
 
 #: data/resources/ui/search-panel.ui:84 data/resources/ui/window.ui:312
-#, fuzzy
 msgctxt "podman feature"
 msgid "Pods"
 msgstr "Cápsulas"
@@ -1166,7 +1165,7 @@ msgstr "_Añadir conexión"
 
 #: data/resources/ui/window.ui:14
 msgid "_New…"
-msgstr ""
+msgstr "_Nuevo…"
 
 #: data/resources/ui/window.ui:21
 msgid "About _Podman"
