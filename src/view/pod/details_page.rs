@@ -235,9 +235,8 @@ impl DetailsPage {
         }
 
         if let Some(pod) = value {
-            pod.inspect();
-            pod.connect_inspection_failed(clone!(@weak self as obj => move |_| {
-                utils::show_toast(&obj, &gettext("Error on loading pod data"));
+            pod.inspect(clone!(@weak self as obj => move |e| {
+                utils::show_error_toast(&obj, &gettext("Error on loading pod data"), &e.to_string());
             }));
 
             let handler_id = pod.connect_deleted(clone!(@weak self as obj => move |pod| {
