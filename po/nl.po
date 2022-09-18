@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-09-18 00:28+0200\n"
-"PO-Revision-Date: 2022-09-08 13:22+0000\n"
+"PO-Revision-Date: 2022-09-18 13:38+0000\n"
 "Last-Translator: Philip Goto <philip.goto@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/pods/pods/nl/>\n"
 "Language: nl\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.14.1-dev\n"
+"X-Generator: Weblate 4.14.1\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
@@ -100,33 +100,35 @@ msgid ""
 "Pods is a frontend for podman. It uses libadwaita for its user interface and "
 "strives to meet the design principles of GNOME."
 msgstr ""
+"Pods is een frontend voor podman. Het maakt gebruik van libadwaita voor de "
+"gebruikersinterface en streeft aan de ontwerprichtlijnen van GNOME te "
+"voldoen."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:11
 msgid "With Pods you can, among other things:"
-msgstr ""
+msgstr "Met Pods kunt u onder andere:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:13
 msgid "Connect to local and remote Podman instances."
-msgstr ""
+msgstr "Verbinden met lokale en externe podman-instanties."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:14
-#, fuzzy
 msgid "Easily overview images, containers and pods."
-msgstr "Deze pod bevat geen containers."
+msgstr ""
+"Gemakkelijk een overzicht krijgen van schijfkopiebestanden, containers en "
+"pods."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:15
 msgid "View prepared information about images, containers, and pods."
-msgstr ""
+msgstr "Informatie bekijken over schijfkopiebestanden, containers en pods."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:16
-#, fuzzy
 msgid "Inspect images, containers and pods."
-msgstr "Deze pod bevat geen containers."
+msgstr "Schijfkopiebestanden, containers en pods inspecteren."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:17
-#, fuzzy
 msgid "View and search container logs."
-msgstr "Bekijk en doorzoek container-logboeken"
+msgstr "Container-logboeken bekijken en doorzoeken."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:18
 #, fuzzy
