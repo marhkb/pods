@@ -46,6 +46,8 @@ mod imp {
         pub(super) image_action_stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) pod_row: TemplateChild<adw::ActionRow>,
+        #[template_child]
+        pub(super) pod_label: TemplateChild<gtk::Label>,
     }
 
     #[glib::object_subclass]
@@ -286,7 +288,7 @@ mod imp {
                 .chain_closure::<String>(closure!(|_: glib::Object, pod: Option<model::Pod>| {
                     pod.as_ref().map(model::Pod::name).unwrap_or_default()
                 }))
-                .bind(&*self.pod_row, "subtitle", Some(obj));
+                .bind(&*self.pod_label, "label", Some(obj));
         }
     }
 

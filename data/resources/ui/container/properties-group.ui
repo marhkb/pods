@@ -165,6 +165,18 @@
         <property name="activatable">True</property>
 
         <child>
+          <object class="GtkLabel" id="pod_label">
+            <style>
+              <class name="dim-label"/>
+            </style>
+            <property name="hexpand">True</property>
+            <property name="margin-end">3</property>
+            <property name="wrap">True</property>
+            <property name="xalign">1.0</property>
+          </object>
+        </child>
+
+        <child>
           <object class="GtkImage">
             <property name="icon_name">go-next-symbolic</property>
           </object>
