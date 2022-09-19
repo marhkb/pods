@@ -23,6 +23,9 @@
 
         <child>
           <object class="GtkButton" id="create_button">
+            <style>
+              <class name="flat"/>
+            </style>
             <property name="action-name">containers-group.create-container</property>
             <property name="icon-name">list-add-symbolic</property>
           </object>

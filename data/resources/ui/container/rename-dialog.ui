@@ -5,6 +5,7 @@
     <property name="deletable">False</property>
     <property name="modal">True</property>
     <property name="resizable">False</property>
+    <property name="width-request">400</property>
 
     <property name="content">
       <object class="GtkBox">

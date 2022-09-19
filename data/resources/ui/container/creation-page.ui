@@ -84,6 +84,7 @@
 
                             <child>
                               <object class="AdwViewStack" id="view_stack">
+                                <property name="vhomogeneous">False</property>
 
                                 <child>
                                   <object class="AdwViewStackPage">
