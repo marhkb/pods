@@ -21,7 +21,7 @@ use crate::model::SelectableListExt;
 use crate::utils;
 use crate::view;
 
-const ACTION_CREATE_POD: &str = "pods-panel.create-container";
+const ACTION_CREATE_POD: &str = "pods-panel.create-pod";
 const ACTION_START_OR_RESUME_SELECTION: &str = "pods-panel.start-or-resume-selection";
 const ACTION_STOP_SELECTION: &str = "pods-panel.stop-selection";
 const ACTION_PAUSE_SELECTION: &str = "pods-panel.pause-selection";
