@@ -41,7 +41,7 @@ mod imp {
         #[template_child]
         pub(super) health_status_label: TemplateChild<gtk::Label>,
         #[template_child]
-        pub(super) image_row: TemplateChild<adw::ActionRow>,
+        pub(super) image_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) image_action_stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -253,7 +253,7 @@ mod imp {
                         repo_tags.iter().next().cloned().unwrap_or_default()
                     }
                 ))
-                .bind(&*self.image_row, "subtitle", Some(obj));
+                .bind(&*self.image_label, "label", Some(obj));
 
             image_expr.watch(
                 Some(obj),
