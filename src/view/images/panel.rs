@@ -164,18 +164,27 @@ mod imp {
                 }),
             );
 
-            gtk::ClosureExpression::new::<String, _, _>(
+            gtk::ClosureExpression::new::<Option<String>, _, _>(
                 &[
-                    image_list_len_expr.clone(),
-                    image_list_expr.chain_property::<model::ImageList>("listing"),
+                    &image_list_len_expr,
+                    &image_list_expr.chain_property::<model::ImageList>("listing"),
+                    &image_list_expr.chain_property::<model::ImageList>("initialized"),
                 ],
-                closure!(|_: Self::Type, len: u32, listing: bool| {
-                    if len == 0 && listing {
-                        "spinner"
-                    } else {
-                        "images"
+                closure!(
+                    |_: Self::Type, len: u32, listing: bool, initialized: bool| {
+                        if len == 0 {
+                            if initialized {
+                                Some("empty")
+                            } else if listing {
+                                Some("spinner")
+                            } else {
+                                None
+                            }
+                        } else {
+                            Some("images")
+                        }
                     }
-                }),
+                ),
             )
             .bind(&*self.main_stack, "visible-child-name", Some(obj));
 
