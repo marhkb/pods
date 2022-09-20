@@ -144,6 +144,17 @@ mod imp {
             let container_list_len_expr =
                 container_list_expr.chain_property::<model::ContainerList>("len");
 
+            container_list_len_expr.watch(
+                Some(obj),
+                clone!(@weak obj => move || {
+                    let list = obj.container_list().unwrap();
+                    if list.is_selection_mode() && list.len() == 0 {
+                        list.set_selection_mode(false);
+                        obj.emit_by_name::<()>("exit-selection-mode", &[]);
+                    }
+                }),
+            );
+
             gtk::ClosureExpression::new::<String, _, _>(
                 &[
                     container_list_len_expr,

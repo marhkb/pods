@@ -171,6 +171,17 @@ mod imp {
                 }))
                 .bind(&*self.create_button, "visible", Some(obj));
 
+            pod_list_len_expr.watch(
+                Some(obj),
+                clone!(@weak obj => move || {
+                    let list = obj.pod_list().unwrap();
+                    if list.is_selection_mode() && list.len() == 0 {
+                        list.set_selection_mode(false);
+                        obj.emit_by_name::<()>("exit-selection-mode", &[]);
+                    }
+                }),
+            );
+
             gtk::ClosureExpression::new::<String, _, _>(
                 &[
                     pod_list_len_expr.as_ref(),

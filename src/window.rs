@@ -496,15 +496,15 @@ impl Window {
 
         imp.images_panel
             .connect_exit_selection_mode(clone!(@weak self as obj => move |_| {
-                obj.exit_selection_mode();
+                obj.imp().header_stack.set_visible_child_name("main");
             }));
         imp.containers_panel
             .connect_exit_selection_mode(clone!(@weak self as obj => move |_| {
-                obj.exit_selection_mode();
+                obj.imp().header_stack.set_visible_child_name("main");
             }));
         imp.pods_panel
             .connect_exit_selection_mode(clone!(@weak self as obj => move |_| {
-                obj.exit_selection_mode();
+                obj.imp().header_stack.set_visible_child_name("main");
             }));
     }
 
