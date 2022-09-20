@@ -11,6 +11,7 @@ use gtk::subclass::prelude::*;
 use indexmap::map::Entry;
 use indexmap::map::IndexMap;
 use once_cell::sync::Lazy;
+use once_cell::unsync::OnceCell;
 
 use crate::model;
 use crate::model::SelectableListExt;
@@ -25,6 +26,7 @@ mod imp {
         pub(super) client: WeakRef<model::Client>,
         pub(super) list: RefCell<IndexMap<String, model::Pod>>,
         pub(super) listing: Cell<bool>,
+        pub(super) initialized: OnceCell<()>,
         pub(super) selection_mode: Cell<bool>,
     }
 
@@ -71,6 +73,13 @@ mod imp {
                         "listing",
                         "Listing",
                         "Wether pods are currently listed",
+                        false,
+                        glib::ParamFlags::READABLE,
+                    ),
+                    glib::ParamSpecBoolean::new(
+                        "initialized",
+                        "Initialized",
+                        "Wether pods were tried to be fetched at least once",
                         false,
                         glib::ParamFlags::READABLE,
                     ),
@@ -123,6 +132,7 @@ mod imp {
                 "client" => obj.client().to_value(),
                 "len" => obj.len().to_value(),
                 "listing" => obj.listing().to_value(),
+                "initialized" => obj.is_initialized().to_value(),
                 "running" => obj.running().to_value(),
                 "selection-mode" => self.selection_mode.get().to_value(),
                 "num-selected" => obj.num_selected().to_value(),
@@ -187,6 +197,18 @@ impl PodList {
         self.notify("listing");
     }
 
+    pub(crate) fn is_initialized(&self) -> bool {
+        self.imp().initialized.get().is_some()
+    }
+
+    fn set_as_initialized(&self) {
+        if self.is_initialized() {
+            return;
+        }
+        self.imp().initialized.set(()).unwrap();
+        self.notify("initialized");
+    }
+
     pub(crate) fn running(&self) -> u32 {
         self.imp()
             .list
@@ -233,7 +255,6 @@ impl PodList {
                 }
             },
             clone!(@weak self as obj => move |result| {
-                obj.set_listing(false);
                 match result {
                     Ok(list_pods) => {
                         if id.is_none() {
@@ -284,6 +305,8 @@ impl PodList {
                         err_op(super::RefreshError);
                     }
                 }
+                obj.set_listing(false);
+                obj.set_as_initialized();
             }),
         );
     }
