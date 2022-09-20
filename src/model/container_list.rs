@@ -12,6 +12,7 @@ use gtk::subclass::prelude::*;
 use indexmap::map::Entry;
 use indexmap::map::IndexMap;
 use once_cell::sync::Lazy;
+use once_cell::unsync::OnceCell;
 
 use crate::model;
 use crate::model::AbstractContainerListExt;
@@ -27,6 +28,7 @@ mod imp {
         pub(super) client: WeakRef<model::Client>,
         pub(super) list: RefCell<IndexMap<String, model::Container>>,
         pub(super) listing: Cell<bool>,
+        pub(super) initialized: OnceCell<()>,
         pub(super) selection_mode: Cell<bool>,
     }
 
@@ -65,6 +67,13 @@ mod imp {
                         "listing",
                         "Listing",
                         "Wether containers are currently listed",
+                        false,
+                        glib::ParamFlags::READABLE,
+                    ),
+                    glib::ParamSpecBoolean::new(
+                        "initialized",
+                        "Initialized",
+                        "Wether containers were tried to be fetched at least once",
                         false,
                         glib::ParamFlags::READABLE,
                     ),
@@ -180,6 +189,7 @@ mod imp {
                 "client" => obj.client().to_value(),
                 "len" => obj.len().to_value(),
                 "listing" => obj.listing().to_value(),
+                "initialized" => obj.is_initialized().to_value(),
                 "created" => obj.created().to_value(),
                 "dead" => obj.dead().to_value(),
                 "exited" => obj.exited().to_value(),
@@ -301,6 +311,18 @@ impl ContainerList {
         self.notify("listing");
     }
 
+    pub(crate) fn is_initialized(&self) -> bool {
+        self.imp().initialized.get().is_some()
+    }
+
+    fn set_as_initialized(&self) {
+        if self.is_initialized() {
+            return;
+        }
+        self.imp().initialized.set(()).unwrap();
+        self.notify("initialized");
+    }
+
     pub(crate) fn created(&self) -> u32 {
         self.num_containers_of_status(model::ContainerStatus::Created)
     }
@@ -381,7 +403,6 @@ impl ContainerList {
                 }
             },
             clone!(@weak self as obj => move |result| {
-                obj.set_listing(false);
                 match result {
                     Ok(list_containers) => {
                         if id.is_none() {
@@ -433,6 +454,8 @@ impl ContainerList {
                         err_op(super::RefreshError);
                     }
                 }
+                obj.set_listing(false);
+                obj.set_as_initialized();
             }),
         );
     }
