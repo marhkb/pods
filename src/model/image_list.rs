@@ -12,6 +12,7 @@ use gtk::subclass::prelude::*;
 use indexmap::map::Entry;
 use indexmap::IndexMap;
 use once_cell::sync::Lazy;
+use once_cell::unsync::OnceCell;
 
 use crate::model;
 use crate::model::SelectableListExt;
@@ -26,6 +27,7 @@ mod imp {
         pub(super) client: WeakRef<model::Client>,
         pub(super) list: RefCell<IndexMap<String, model::Image>>,
         pub(super) listing: Cell<bool>,
+        pub(super) initialized: OnceCell<()>,
         pub(super) selection_mode: Cell<bool>,
     }
 
@@ -76,6 +78,13 @@ mod imp {
                         glib::ParamFlags::READABLE,
                     ),
                     glib::ParamSpecBoolean::new(
+                        "initialized",
+                        "Initialized",
+                        "Wether images were tried to be fetched at least once",
+                        false,
+                        glib::ParamFlags::READABLE,
+                    ),
+                    glib::ParamSpecBoolean::new(
                         "selection-mode",
                         "Selection Mode",
                         "Wether the selection mode is active",
@@ -115,6 +124,7 @@ mod imp {
                 "client" => obj.client().to_value(),
                 "len" => obj.len().to_value(),
                 "listing" => obj.listing().to_value(),
+                "initialized" => obj.is_initialized().to_value(),
                 "selection-mode" => self.selection_mode.get().to_value(),
                 "num-selected" => obj.num_selected().to_value(),
                 _ => unimplemented!(),
@@ -178,6 +188,18 @@ impl ImageList {
         self.notify("listing");
     }
 
+    pub(crate) fn is_initialized(&self) -> bool {
+        self.imp().initialized.get().is_some()
+    }
+
+    fn set_as_initialized(&self) {
+        if self.is_initialized() {
+            return;
+        }
+        self.imp().initialized.set(()).unwrap();
+        self.notify("initialized");
+    }
+
     pub(crate) fn total_size(&self) -> u64 {
         self.imp()
             .list
@@ -235,7 +257,6 @@ impl ImageList {
                 }
             },
             clone!(@weak self as obj => move |result| {
-                obj.set_listing(false);
                 match result {
                     Ok(summaries) => {
                         let to_remove = obj
@@ -279,6 +300,8 @@ impl ImageList {
                         err_op(super::RefreshError);
                     }
                 }
+                obj.set_listing(false);
+                obj.set_as_initialized();
             }),
         );
     }
