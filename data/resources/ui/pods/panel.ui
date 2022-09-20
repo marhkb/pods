@@ -8,7 +8,6 @@
 
     <child>
       <object class="GtkStack" id="main_stack">
-        <property name="transition-type">crossfade</property>
 
         <child>
           <object class="GtkStackPage">
@@ -326,6 +325,34 @@
                       </object>
                     </child>
 
+                  </object>
+                </child>
+
+              </object>
+            </property>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkStackPage">
+            <property name="name">empty</property>
+
+            <property name="child">
+              <object class="AdwStatusPage">
+                <property name="title" translatable="yes">No Pods Found</property>
+                <property name="description" translatable="yes">You can use the button below to create an initial pod.</property>
+
+                <child>
+                  <object class="GtkButton">
+                    <style>
+                      <class name="pill"/>
+                      <class name="suggested-action"/>
+                    </style>
+                    <property name="action-name">pods-panel.create-pod</property>
+                    <property name="halign">center</property>
+                    <property name="label" translatable="yes">_Create a Pod</property>
+                    <property name="use-underline">True</property>
                   </object>
                 </child>
 
