@@ -576,15 +576,15 @@ impl Window {
 
         imp.header_stack.set_visible_child_name("main");
 
-        imp.images_panel
-            .image_list()
-            .unwrap()
-            .set_selection_mode(false);
-        imp.containers_panel
-            .container_list()
-            .unwrap()
-            .set_selection_mode(false);
-        imp.pods_panel.pod_list().unwrap().set_selection_mode(false);
+        if let Some(list) = imp.images_panel.image_list() {
+            list.set_selection_mode(false);
+        }
+        if let Some(list) = imp.containers_panel.container_list() {
+            list.set_selection_mode(false);
+        }
+        if let Some(list) = imp.pods_panel.pod_list() {
+            list.set_selection_mode(false);
+        }
     }
 
     fn select_all(&self) {
