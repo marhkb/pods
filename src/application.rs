@@ -1,9 +1,7 @@
-use std::borrow::Cow;
-
+use adw::subclass::prelude::AdwApplicationImpl;
 use gettextrs::gettext;
 use glib::clone;
 use glib::WeakRef;
-use gtk::gdk;
 use gtk::gio;
 use gtk::glib;
 use gtk::prelude::*;
@@ -21,15 +19,13 @@ mod imp {
     #[derive(Default)]
     pub(crate) struct Application {
         pub(super) window: OnceCell<WeakRef<Window>>,
-        pub(super) provider: gtk::CssProvider,
-        pub(super) default_css: OnceCell<String>,
     }
 
     #[glib::object_subclass]
     impl ObjectSubclass for Application {
         const NAME: &'static str = "Application";
         type Type = super::Application;
-        type ParentType = gtk::Application;
+        type ParentType = adw::Application;
     }
 
     impl ObjectImpl for Application {}
@@ -60,18 +56,18 @@ mod imp {
             // Set icons for shell
             gtk::Window::set_default_icon_name(config::APP_ID);
 
-            app.setup_css();
             app.setup_gactions();
             app.setup_accels();
         }
     }
 
     impl GtkApplicationImpl for Application {}
+    impl AdwApplicationImpl for Application {}
 }
 
 glib::wrapper! {
     pub(crate) struct Application(ObjectSubclass<imp::Application>)
-        @extends gio::Application, gtk::Application,
+        @extends gio::Application, gtk::Application, adw::Application,
         @implements gio::ActionMap, gio::ActionGroup;
 }
 
@@ -123,48 +119,6 @@ impl Application {
         self.set_accels_for_action("app.quit", &["<Control>q"]);
     }
 
-    fn setup_css(&self) {
-        let imp = self.imp();
-
-        imp.provider
-            .load_from_resource("/com/github/marhkb/Pods/style.css");
-
-        imp.default_css.set(imp.provider.to_str().into()).unwrap();
-
-        if let Some(display) = gdk::Display::default() {
-            gtk::StyleContext::add_provider_for_display(&display, &imp.provider, 400);
-        }
-
-        self.set_headerbar_background(None);
-    }
-
-    pub(crate) fn set_headerbar_background(&self, bg_color: Option<gdk::RGBA>) {
-        let imp = self.imp();
-
-        let (bg_color, fg_color) = bg_color
-            .map(|color| {
-                (
-                    Cow::Owned(color.to_string()),
-                    if luminance(&color) > 0.4 {
-                        "rgba(0, 0, 0, 0.8)"
-                    } else {
-                        "#ffffff"
-                    },
-                )
-            })
-            .unwrap_or_else(|| (Cow::Borrowed("@headerbar_bg_color"), "@headerbar_fg_color"));
-
-        self.imp().provider.load_from_data(
-            format!(
-                "@define-color background_color {};@define-color foreground_color {}; {}",
-                bg_color,
-                fg_color,
-                imp.default_css.get().unwrap()
-            )
-            .as_bytes(),
-        );
-    }
-
     fn show_about_dialog(&self) {
         let about = adw::AboutWindow::builder()
             .transient_for(&self.main_window())
@@ -212,19 +166,4 @@ impl Application {
 
         ApplicationExtManual::run(self);
     }
-}
-
-fn srgb(c: f32) -> f32 {
-    if c <= 0.03928 {
-        c / 12.92
-    } else {
-        ((c + 0.055) / 1.055).powf(2.4)
-    }
-}
-
-fn luminance(color: &gdk::RGBA) -> f32 {
-    let red = srgb(color.red());
-    let blue = srgb(color.blue());
-    let green = srgb(color.green());
-    red * 0.2126 + blue * 0.0722 + green * 0.7152
 }
