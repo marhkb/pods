@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-09-18 00:28+0200\n"
-"PO-Revision-Date: 2022-09-18 13:38+0000\n"
+"PO-Revision-Date: 2022-09-20 18:24+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/pods/"
 "pods/nb_NO/>\n"
@@ -58,8 +58,9 @@ msgid "Use the light or dark variant of the GTK theme"
 msgstr "Bruk lys eller mørk variant av GTK-drakt"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:31
+#, fuzzy
 msgid "The uuid of the connection that was used the last time"
-msgstr ""
+msgstr "UUID for tilkoblingen som ble brukt forrige gang"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:36
 msgid "The last used view"
@@ -124,7 +125,7 @@ msgstr "Ingen avtrykk å beskjære"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:17
 msgid "View and search container logs."
-msgstr ""
+msgstr "Vis og søk i beholderloggføring."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:18
 #, fuzzy
@@ -202,11 +203,11 @@ msgstr "Marcus Behrendt"
 
 #: data/resources/ui/component/back-navigation-controls.ui:14
 msgid "Return to previous page"
-msgstr ""
+msgstr "Gå til forrige side"
 
 #: data/resources/ui/component/back-navigation-controls.ui:22
 msgid "Return to main page"
-msgstr ""
+msgstr "Tilbake til hovedsiden"
 
 #: data/resources/ui/component/inspection-page.ui:26
 msgid "Search within inspection data"
@@ -218,7 +219,7 @@ msgstr ""
 
 #: data/resources/ui/component/source-view-search-widget.ui:38
 msgid "Move to next match (Ctrl+G)"
-msgstr ""
+msgstr "Flytt til neste treff (Ctrl+G)"
 
 #: data/resources/ui/component/source-view-search-widget.ui:48
 msgid "Toggle search options"
@@ -226,7 +227,7 @@ msgstr ""
 
 #: data/resources/ui/component/source-view-search-widget.ui:71
 msgid "Re_gular expressions"
-msgstr ""
+msgstr "_Regulære uttrykk"
 
 #: data/resources/ui/component/source-view-search-widget.ui:78
 msgid "_Case sensitive"
@@ -247,11 +248,11 @@ msgstr ""
 
 #: data/resources/ui/connection/chooser-page.ui:77
 msgid "_Add New Connection"
-msgstr ""
+msgstr "_Legg til ny tilkobling"
 
 #: data/resources/ui/connection/creator-page.ui:19
 msgid "Add New Connection"
-msgstr ""
+msgstr "Legg til ny tilkobling"
 
 #: data/resources/ui/connection/creator-page.ui:36
 #: data/resources/ui/container/creation-page.ui:51
@@ -260,11 +261,12 @@ msgstr ""
 #: data/resources/ui/pod/creation-page.ui:52
 #: data/resources/ui/pod/details-page.ui:55
 msgid "Name"
-msgstr ""
+msgstr "Navn"
 
 #: data/resources/ui/connection/creator-page.ui:45
+#, fuzzy
 msgid "Url"
-msgstr ""
+msgstr "Nettadresse"
 
 #: data/resources/ui/connection/creator-page.ui:46
 #, fuzzy
@@ -277,7 +279,7 @@ msgstr ""
 
 #: data/resources/ui/connection/creator-page.ui:65
 msgid "Custom"
-msgstr ""
+msgstr "Egendefinert"
 
 #: data/resources/ui/connection/creator-page.ui:75
 #, fuzzy
@@ -286,7 +288,7 @@ msgstr "Mistet tilkoblingen til Podman"
 
 #: data/resources/ui/connection/creator-page.ui:91
 msgid "Color"
-msgstr ""
+msgstr "Farge"
 
 #: data/resources/ui/connection/creator-page.ui:92
 msgid "Define how to colorize the header bar."
@@ -294,7 +296,7 @@ msgstr ""
 
 #: data/resources/ui/connection/creator-page.ui:129
 msgid "_Connect"
-msgstr ""
+msgstr "_Koble til"
 
 #: data/resources/ui/container/creation-page.ui:35
 msgid "Specify Container Settings"
@@ -330,11 +332,11 @@ msgstr ""
 #: data/resources/ui/container/creation-page.ui:350
 #: data/resources/ui/container/health-check-page.ui:53
 msgid "Command"
-msgstr ""
+msgstr "Kommando"
 
 #: data/resources/ui/container/creation-page.ui:195
 msgid "Terminal"
-msgstr ""
+msgstr "Terminal"
 
 #: data/resources/ui/container/creation-page.ui:208
 msgid "Memory limit"
@@ -342,15 +344,15 @@ msgstr "Minnegrense"
 
 #: data/resources/ui/container/creation-page.ui:250
 msgid "KB"
-msgstr ""
+msgstr "KB"
 
 #: data/resources/ui/container/creation-page.ui:251
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 #: data/resources/ui/container/creation-page.ui:252
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #: data/resources/ui/container/creation-page.ui:279
 msgid "Integration"
@@ -497,7 +499,7 @@ msgstr ""
 
 #: data/resources/ui/container/health-check-page.ui:100
 msgid "_Run Health Check"
-msgstr ""
+msgstr "_Kjør helsesjekk"
 
 #: data/resources/ui/container/health-check-page.ui:110
 msgid "Last 5 Runs"
@@ -608,7 +610,7 @@ msgstr "Avtrykk"
 #: src/view/images/images_panel.rs:359 src/view/pod/menu_button.rs:277
 #: src/view/pods/panel.rs:447
 msgid "_Cancel"
-msgstr ""
+msgstr "_Avbryt"
 
 #: data/resources/ui/container/rename-dialog.ui:37
 msgid "_Rename"
@@ -821,7 +823,7 @@ msgstr "Beskjær ubrukte avtrykk"
 
 #: data/resources/ui/images/panel.ui:10
 msgid "_Build…"
-msgstr ""
+msgstr "_Bygg …"
 
 #: data/resources/ui/images/panel.ui:14
 msgid "_Prune…"
@@ -838,7 +840,7 @@ msgstr ""
 
 #: data/resources/ui/images/prune-page.ui:32
 msgid "Options"
-msgstr ""
+msgstr "Alternativer"
 
 #: data/resources/ui/images/prune-page.ui:37
 msgid "Prune All"
