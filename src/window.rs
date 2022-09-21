@@ -300,7 +300,6 @@ mod imp {
                             imp.search_button.set_active(false);
                             imp.main_stack.set_visible_child_full("client", gtk::StackTransitionType::None);
                             obj.exit_selection_mode();
-                            obj.set_headerbar_background(client.connection().rgb());
                         }),
                         clone!(@weak obj => move |e| obj.client_err_op(e)),
                         clone!(@weak obj, @weak manager => move |e| {
@@ -320,8 +319,6 @@ mod imp {
                             },
                             gtk::StackTransitionType::Crossfade
                         );
-
-                        obj.set_headerbar_background(None);
                     }
                 }),
             );
@@ -562,14 +559,6 @@ impl Window {
 
     pub(crate) fn connection_manager(&self) -> model::ConnectionManager {
         self.imp().connection_manager.clone()
-    }
-
-    fn set_headerbar_background(&self, rgb: Option<gdk::RGBA>) {
-        self.application()
-            .unwrap()
-            .downcast::<crate::Application>()
-            .unwrap()
-            .set_headerbar_background(rgb);
     }
 
     fn on_connection_manager_setup_error(&self, e: impl ToString) {

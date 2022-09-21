@@ -63,5 +63,7 @@
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/status/success-symbolic.svg</file>
 
     <file compressed="true">style.css</file>
+    <file compressed="true">style-dark.css</file>
+    <file compressed="true">style-hc.css</file>
   </gresource>
 </gresources>

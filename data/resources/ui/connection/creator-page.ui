@@ -89,7 +89,7 @@
               <object class="AdwActionRow">
                 <property name="activatable-widget">color_button</property>
                 <property name="title" translatable="yes">Color</property>
-                <property name="subtitle" translatable="yes">Define how to colorize the header bar.</property>
+                <property name="subtitle" translatable="yes">Define how to colorize the header bar (disabled).</property>
                 <child>
                   <object class="GtkBox">
                     <property name="spacing">6</property>
