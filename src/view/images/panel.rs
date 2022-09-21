@@ -153,18 +153,38 @@ mod imp {
                 }))
                 .bind(&*self.menu_button, "visible", Some(obj));
 
-            gtk::ClosureExpression::new::<String, _, _>(
-                &[
-                    image_list_len_expr.clone(),
-                    image_list_expr.chain_property::<model::ImageList>("listing"),
-                ],
-                closure!(|_: Self::Type, len: u32, listing: bool| {
-                    if len == 0 && listing {
-                        "spinner"
-                    } else {
-                        "images"
+            image_list_len_expr.watch(
+                Some(obj),
+                clone!(@weak obj => move || {
+                    let list = obj.image_list().unwrap();
+                    if list.is_selection_mode() && list.len() == 0 {
+                        list.set_selection_mode(false);
+                        obj.emit_by_name::<()>("exit-selection-mode", &[]);
                     }
                 }),
+            );
+
+            gtk::ClosureExpression::new::<Option<String>, _, _>(
+                &[
+                    &image_list_len_expr,
+                    &image_list_expr.chain_property::<model::ImageList>("listing"),
+                    &image_list_expr.chain_property::<model::ImageList>("initialized"),
+                ],
+                closure!(
+                    |_: Self::Type, len: u32, listing: bool, initialized: bool| {
+                        if len == 0 {
+                            if initialized {
+                                Some("empty")
+                            } else if listing {
+                                Some("spinner")
+                            } else {
+                                None
+                            }
+                        } else {
+                            Some("images")
+                        }
+                    }
+                ),
             )
             .bind(&*self.main_stack, "visible-child-name", Some(obj));
 

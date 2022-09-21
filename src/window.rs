@@ -194,13 +194,29 @@ mod imp {
     impl ObjectImpl for Window {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecObject::new(
-                    "connection-manager",
-                    "Connection Manager",
-                    "The connection manager client",
-                    model::ConnectionManager::static_type(),
-                    glib::ParamFlags::READABLE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                )]
+                vec![
+                    glib::ParamSpecObject::new(
+                        "connection-manager",
+                        "Connection Manager",
+                        "The connection manager client",
+                        model::ConnectionManager::static_type(),
+                        glib::ParamFlags::READABLE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                    ),
+                    glib::ParamSpecObject::new(
+                        "title-stack",
+                        "Title Stack",
+                        "The title stack",
+                        gtk::Stack::static_type(),
+                        glib::ParamFlags::READABLE,
+                    ),
+                    glib::ParamSpecObject::new(
+                        "panel-stack",
+                        "Panel Stack",
+                        "The panel stack",
+                        adw::ViewStack::static_type(),
+                        glib::ParamFlags::READABLE,
+                    ),
+                ]
             });
 
             PROPERTIES.as_ref()
@@ -209,6 +225,8 @@ mod imp {
         fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
                 "connection-manager" => obj.connection_manager().to_value(),
+                "title-stack" => self.title_stack.to_value(),
+                "panel-stack" => self.panel_stack.to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -227,17 +245,51 @@ mod imp {
             obj.setup_search();
             obj.setup_panels();
 
-            let expr =
-                gtk::Stack::this_expression("visible-child-name").chain_closure::<bool>(closure!(
-                    |_: gtk::Stack, visible_child_name: &str| { visible_child_name == "title" }
-                ));
+            let title_expr = Self::Type::this_expression("title-stack")
+                .chain_property::<gtk::Stack>("visible-child-name")
+                .chain_closure::<bool>(closure!(|_: Self::Type, visible_child_name: &str| {
+                    visible_child_name == "title"
+                }));
+            title_expr.bind(&*self.menu_button, "visible", Some(obj));
 
-            expr.bind(&*self.menu_button, "visible", Some(&*self.title_stack));
-            expr.bind(
-                &*self.selection_mode_button,
-                "visible",
-                Some(&*self.title_stack),
-            );
+            let client_expr = Self::Type::this_expression("connection-manager")
+                .chain_property::<model::ConnectionManager>("client");
+
+            gtk::ClosureExpression::new::<bool, _, _>(
+                &[
+                    title_expr.upcast_ref(),
+                    Self::Type::this_expression("panel-stack")
+                        .chain_property::<adw::ViewStack>("visible-child-name")
+                        .upcast_ref(),
+                    &client_expr
+                        .chain_property::<model::Client>("image-list")
+                        .chain_property::<model::ImageList>("len")
+                        .upcast(),
+                    &client_expr
+                        .chain_property::<model::Client>("container-list")
+                        .chain_property::<model::ContainerList>("len")
+                        .upcast(),
+                    &client_expr
+                        .chain_property::<model::Client>("pod-list")
+                        .chain_property::<model::PodList>("len")
+                        .upcast(),
+                ],
+                closure!(|_: Self::Type,
+                          title_visible: bool,
+                          visible_panel: &str,
+                          images: u32,
+                          containers: u32,
+                          pods: u32| {
+                    title_visible
+                        && match visible_panel {
+                            "images" => images > 0,
+                            "containers" => containers > 0,
+                            "pods" => pods > 0,
+                            _ => unreachable!(),
+                        }
+                }),
+            )
+            .bind(&*self.selection_mode_button, "visible", Some(obj));
 
             self.connection_manager.connect_notify_local(
                 Some("client"),
@@ -496,15 +548,15 @@ impl Window {
 
         imp.images_panel
             .connect_exit_selection_mode(clone!(@weak self as obj => move |_| {
-                obj.exit_selection_mode();
+                obj.imp().header_stack.set_visible_child_name("main");
             }));
         imp.containers_panel
             .connect_exit_selection_mode(clone!(@weak self as obj => move |_| {
-                obj.exit_selection_mode();
+                obj.imp().header_stack.set_visible_child_name("main");
             }));
         imp.pods_panel
             .connect_exit_selection_mode(clone!(@weak self as obj => move |_| {
-                obj.exit_selection_mode();
+                obj.imp().header_stack.set_visible_child_name("main");
             }));
     }
 
@@ -549,22 +601,29 @@ impl Window {
     fn enter_selection_mode(&self) {
         let imp = self.imp();
 
-        // imp.search_entry.set_key_capture_widget(gtk::Widget::NONE);
-        imp.header_stack.set_visible_child_name("selection");
-
         match imp.panel_stack.visible_child_name() {
             Some(name) => match name.as_str() {
-                "images" => imp
-                    .images_panel
-                    .image_list()
-                    .unwrap()
-                    .set_selection_mode(true),
-                "containers" => imp
-                    .containers_panel
-                    .container_list()
-                    .unwrap()
-                    .set_selection_mode(true),
-                "pods" => imp.pods_panel.pod_list().unwrap().set_selection_mode(true),
+                "images" => {
+                    let list = imp.images_panel.image_list().unwrap();
+                    if list.len() > 0 {
+                        imp.header_stack.set_visible_child_name("selection");
+                        list.set_selection_mode(true);
+                    }
+                }
+                "containers" => {
+                    let list = imp.containers_panel.container_list().unwrap();
+                    if list.len() > 0 {
+                        imp.header_stack.set_visible_child_name("selection");
+                        list.set_selection_mode(true);
+                    }
+                }
+                "pods" => {
+                    let list = imp.pods_panel.pod_list().unwrap();
+                    if list.len() > 0 {
+                        imp.header_stack.set_visible_child_name("selection");
+                        list.set_selection_mode(true);
+                    }
+                }
                 _ => unreachable!(),
             },
             None => {}
@@ -576,15 +635,15 @@ impl Window {
 
         imp.header_stack.set_visible_child_name("main");
 
-        imp.images_panel
-            .image_list()
-            .unwrap()
-            .set_selection_mode(false);
-        imp.containers_panel
-            .container_list()
-            .unwrap()
-            .set_selection_mode(false);
-        imp.pods_panel.pod_list().unwrap().set_selection_mode(false);
+        if let Some(list) = imp.images_panel.image_list() {
+            list.set_selection_mode(false);
+        }
+        if let Some(list) = imp.containers_panel.container_list() {
+            list.set_selection_mode(false);
+        }
+        if let Some(list) = imp.pods_panel.pod_list() {
+            list.set_selection_mode(false);
+        }
     }
 
     fn select_all(&self) {

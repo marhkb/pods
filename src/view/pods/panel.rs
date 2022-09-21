@@ -171,20 +171,38 @@ mod imp {
                 }))
                 .bind(&*self.create_button, "visible", Some(obj));
 
-            gtk::ClosureExpression::new::<String, _, _>(
-                &[
-                    pod_list_len_expr.as_ref(),
-                    pod_list_expr
-                        .chain_property::<model::PodList>("listing")
-                        .as_ref(),
-                ],
-                closure!(|_: Self::Type, len: u32, listing: bool| {
-                    if len == 0 && listing {
-                        "spinner"
-                    } else {
-                        "pods"
+            pod_list_len_expr.watch(
+                Some(obj),
+                clone!(@weak obj => move || {
+                    let list = obj.pod_list().unwrap();
+                    if list.is_selection_mode() && list.len() == 0 {
+                        list.set_selection_mode(false);
+                        obj.emit_by_name::<()>("exit-selection-mode", &[]);
                     }
                 }),
+            );
+
+            gtk::ClosureExpression::new::<Option<String>, _, _>(
+                &[
+                    &pod_list_len_expr,
+                    &pod_list_expr.chain_property::<model::PodList>("listing"),
+                    &pod_list_expr.chain_property::<model::PodList>("initialized"),
+                ],
+                closure!(
+                    |_: Self::Type, len: u32, listing: bool, initialized: bool| {
+                        if len == 0 {
+                            if initialized {
+                                Some("empty")
+                            } else if listing {
+                                Some("spinner")
+                            } else {
+                                None
+                            }
+                        } else {
+                            Some("pods")
+                        }
+                    }
+                ),
             )
             .bind(&*self.main_stack, "visible-child-name", Some(obj));
 

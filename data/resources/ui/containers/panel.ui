@@ -8,7 +8,6 @@
 
     <child>
       <object class="GtkStack" id="main_stack">
-        <property name="transition-type">crossfade</property>
 
         <child>
           <object class="GtkStackPage">
@@ -291,6 +290,34 @@
                       </object>
                     </child>
 
+                  </object>
+                </child>
+
+              </object>
+            </property>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkStackPage">
+            <property name="name">empty</property>
+
+            <property name="child">
+              <object class="AdwStatusPage">
+                <property name="title" translatable="yes">No Containers Found</property>
+                <property name="description" translatable="yes">You can use the button below to create an initial container.</property>
+
+                <child>
+                  <object class="GtkButton">
+                    <style>
+                      <class name="pill"/>
+                      <class name="suggested-action"/>
+                    </style>
+                    <property name="action-name">containers-group.create-container</property>
+                    <property name="halign">center</property>
+                    <property name="label" translatable="yes">_Create a Container</property>
+                    <property name="use-underline">True</property>
                   </object>
                 </child>
 

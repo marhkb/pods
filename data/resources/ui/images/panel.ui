@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
 
+  <object class="GtkSizeGroup">
+    <property name="mode">horizontal</property>
+    <widgets>
+      <widget name="pull_button"/>
+      <widget name="build_button"/>
+    </widgets>
+  </object>
+
   <menu id="menu">
     <item>
       <attribute name="label" translatable="yes">_Download…</attribute>
@@ -23,7 +31,6 @@
 
     <child>
       <object class="GtkStack" id="main_stack">
-        <property name="transition-type">crossfade</property>
 
         <child>
           <object class="GtkStackPage">
@@ -147,6 +154,54 @@
                           </object>
                         </child>
 
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+              </object>
+            </property>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkStackPage">
+            <property name="name">empty</property>
+
+            <property name="child">
+              <object class="AdwStatusPage">
+                <property name="title" translatable="yes">No Images Found</property>
+                <property name="description" translatable="yes">You can use the buttons below to add an initial image.</property>
+
+                <child>
+                  <object class="GtkBox">
+                    <property name="orientation">vertical</property>
+                    <property name="spacing">18</property>
+
+                    <child>
+                      <object class="GtkButton" id="pull_button">
+                        <style>
+                          <class name="pill"/>
+                          <class name="suggested-action"/>
+                        </style>
+                        <property name="action-name">images-panel.pull-image</property>
+                        <property name="halign">center</property>
+                        <property name="label" translatable="yes">_Download an Image</property>
+                        <property name="use-underline">True</property>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkButton" id="build_button">
+                        <style>
+                          <class name="pill"/>
+                        </style>
+                        <property name="action-name">images-panel.build-image</property>
+                        <property name="halign">center</property>
+                        <property name="label" translatable="yes">_Build a Local Image</property>
+                        <property name="use-underline">True</property>
                       </object>
                     </child>
 
