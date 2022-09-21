@@ -9,20 +9,42 @@
     </widgets>
   </object>
 
+  <object class="GtkListBoxRow" id="add_image_row">
+    <property name="action-name">images-panel.show-add-image-menu</property>
+    <property name="selectable">False</property>
+
+    <child>
+      <object class="GtkImage">
+        <property name="icon-name">view-more-symbolic</property>
+        <property name="margin-top">15</property>
+        <property name="margin-bottom">15</property>
+      </object>
+    </child>
+
+  </object>
+
   <menu id="menu">
-    <item>
-      <attribute name="label" translatable="yes">_Download…</attribute>
-      <attribute name="action">images-panel.pull-image</attribute>
-    </item>
-    <item>
-      <attribute name="label" translatable="yes">_Build…</attribute>
-      <attribute name="action">images-panel.build-image</attribute>
-    </item>
-    <item>
-      <attribute name="label" translatable="yes">_Prune…</attribute>
-      <attribute name="action">images-panel.prune-unused-images</attribute>
-    </item>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">_Download…</attribute>
+        <attribute name="action">images-panel.pull-image</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">_Build…</attribute>
+        <attribute name="action">images-panel.build-image</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">_Prune…</attribute>
+        <attribute name="action">images-panel.prune-unused-images</attribute>
+      </item>
+    </section>
   </menu>
+
+  <object class="GtkPopoverMenu" id="popover_menu">
+    <property name="menu-model">menu</property>
+  </object>
 
   <template class="PdsImagesPanel" parent="GtkWidget">
     <property name="layout-manager">
@@ -66,7 +88,7 @@
                         <property name="title" translatable="yes">Summary</property>
 
                         <property name="header-suffix">
-                          <object class="GtkBox">
+                          <object class="GtkBox" id="header_suffix_box">
                             <property name="spacing">9</property>
                             <property name="halign">center</property>
                             <property name="valign">center</property>
