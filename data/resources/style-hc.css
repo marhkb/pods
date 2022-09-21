@@ -1,0 +1,54 @@
+.container-status-created,
+.container-status-exited,
+.container-status-removing,
+.container-status-stopped,
+.container-status-stopping,
+.pod-status-created,
+.pod-status-exited,
+.pod-status-stopped,
+.container-health-status-checking,
+.container-health-status-unconfigured
+{
+  background-color: @dark_1;
+  color: #ffffff;
+
+}
+
+.container-status-paused, .pod-status-paused {
+  background-color: @brown_3;
+  color: #ffffff;
+}
+
+.container-status-restarting,
+.pod-status-restarting
+{
+  background-color: @purple_4;
+  color: #ffffff;
+}
+
+.container-status-running, .pod-status-running {
+  background-color: @accent_bg_color;
+  color: @accent_fg_color;
+}
+
+.pod-status-degraded {
+  background-color: @warning_bg_color;
+  color: @warning_fg_color;
+}
+
+.container-status-dead,
+.container-status-unknown,
+.pod-status-error,
+.pod-status-dead,
+.pod-status-unknown,
+.container-health-status-unhealthy,
+.container-health-status-unknown
+{
+  background-color: @error_bg_color;
+  color: @error_fg_color;
+}
+
+.container-health-status-healthy {
+  background-color: @success_bg_color;
+  color: @success_fg_color;
+}
