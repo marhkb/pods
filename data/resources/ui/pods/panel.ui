@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
 
+  <object class="GtkListBoxRow" id="create_pod_row">
+    <property name="action-name">pods-panel.create-pod</property>
+    <property name="selectable">False</property>
+
+    <child>
+      <object class="GtkImage">
+        <property name="icon-name">list-add-symbolic</property>
+        <property name="margin-top">15</property>
+        <property name="margin-bottom">15</property>
+      </object>
+    </child>
+
+  </object>
+
   <template class="PdsPodsPanel" parent="GtkWidget">
     <property name="layout-manager">
       <object class="GtkBinLayout"/>
@@ -45,7 +59,7 @@
                         <property name="title" translatable="yes">Summary</property>
 
                         <property name="header-suffix">
-                          <object class="GtkBox">
+                          <object class="GtkBox" id="header_suffix_box">
                             <property name="spacing">9</property>
                             <property name="halign">center</property>
                             <property name="valign">center</property>
@@ -63,7 +77,7 @@
                             </child>
 
                             <child>
-                              <object class="GtkButton" id="create_button">
+                              <object class="GtkButton" id="create_pod_button">
                                 <style>
                                   <class name="flat"/>
                                 </style>
