@@ -278,6 +278,7 @@ mod imp {
         }
 
         fn dispose(&self, _obj: &Self::Type) {
+            self.popover_menu.unparent();
             self.main_stack.unparent();
         }
     }
