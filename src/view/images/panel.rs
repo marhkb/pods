@@ -4,7 +4,6 @@ use adw::traits::MessageDialogExt;
 use gettextrs::gettext;
 use gettextrs::ngettext;
 use gtk::gdk;
-use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
@@ -24,6 +23,7 @@ use crate::view;
 const ACTION_PULL_IMAGE: &str = "images-panel.pull-image";
 const ACTION_BUILD_IMAGE: &str = "images-panel.build-image";
 const ACTION_PRUNE_UNUSED_IMAGES: &str = "images-panel.prune-unused-images";
+const ACTION_SHOW_ADD_IMAGE_MENU: &str = "images-panel.show-add-image-menu";
 const ACTION_DELETE_SELECTION: &str = "images-panel.delete-selection";
 
 mod imp {
@@ -37,9 +37,15 @@ mod imp {
         pub(super) properties_filter: OnceCell<gtk::Filter>,
         pub(super) sorter: OnceCell<gtk::Sorter>,
         #[template_child]
+        pub(super) add_image_row: TemplateChild<gtk::ListBoxRow>,
+        #[template_child]
+        pub(super) popover_menu: TemplateChild<gtk::PopoverMenu>,
+        #[template_child]
         pub(super) main_stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) images_group: TemplateChild<adw::PreferencesGroup>,
+        #[template_child]
+        pub(super) header_suffix_box: TemplateChild<gtk::Box>,
         #[template_child]
         pub(super) show_intermediates_switch: TemplateChild<gtk::Switch>,
         #[template_child]
@@ -73,6 +79,10 @@ mod imp {
 
             klass.install_action(ACTION_PRUNE_UNUSED_IMAGES, None, move |widget, _, _| {
                 widget.show_prune_page();
+            });
+
+            klass.install_action(ACTION_SHOW_ADD_IMAGE_MENU, None, move |widget, _, _| {
+                widget.show_add_image_menu();
             });
 
             klass.install_action(ACTION_DELETE_SELECTION, None, move |widget, _, _| {
@@ -131,6 +141,8 @@ mod imp {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
+            self.popover_menu.set_parent(&*self.add_image_row);
+
             self.settings.connect_changed(
                 Some("show-intermediate-images"),
                 clone!(@weak obj => move |_, _| obj.update_properties_filter()),
@@ -145,13 +157,18 @@ mod imp {
 
             let image_list_expr = Self::Type::this_expression("image-list");
             let image_list_len_expr = image_list_expr.chain_property::<model::ImageList>("len");
-
-            image_list_expr
+            let is_selection_mode_expr = image_list_expr
                 .chain_property::<model::ImageList>("selection-mode")
                 .chain_closure::<bool>(closure!(|_: Self::Type, selection_mode: bool| {
                     !selection_mode
-                }))
-                .bind(&*self.menu_button, "visible", Some(obj));
+                }));
+
+            image_list_len_expr
+                .chain_closure::<bool>(closure!(|_: Self::Type, len: u32| len > 0))
+                .bind(&*self.header_suffix_box, "visible", Some(obj));
+
+            is_selection_mode_expr.bind(&*self.menu_button, "visible", Some(obj));
+            is_selection_mode_expr.bind(&*self.add_image_row, "visible", Some(obj));
 
             image_list_len_expr.watch(
                 Some(obj),
@@ -301,14 +318,10 @@ impl Panel {
             imp.sorter.get(),
         );
 
-        self.set_list_box_visibility(model.upcast_ref());
-        model.connect_items_changed(clone!(@weak self as obj => move |model, _, _, _| {
-            obj.set_list_box_visibility(model.upcast_ref());
-        }));
-
         imp.list_box.bind_model(Some(&model), |item| {
             view::ImageRow::from(item.downcast_ref().unwrap()).upcast()
         });
+        imp.list_box.append(&*imp.add_image_row);
 
         self.action_set_enabled(ACTION_DELETE_SELECTION, false);
         value.connect_notify_local(
@@ -320,10 +333,6 @@ impl Panel {
 
         imp.image_list.set(Some(value));
         self.notify("image-list");
-    }
-
-    fn set_list_box_visibility(&self, model: &gio::ListModel) {
-        self.imp().list_box.set_visible(model.n_items() > 0);
     }
 
     pub(crate) fn update_properties_filter(&self) {
@@ -356,6 +365,10 @@ impl Panel {
         if leaflet_overlay.child().is_none() {
             leaflet_overlay.show_details(&view::ImagesPrunePage::from(self.client().as_ref()));
         }
+    }
+
+    fn show_add_image_menu(&self) {
+        self.imp().popover_menu.popup();
     }
 
     fn delete_selection(&self) {

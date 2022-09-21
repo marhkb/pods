@@ -3,7 +3,6 @@ use std::cell::RefCell;
 use adw::subclass::prelude::PreferencesGroupImpl;
 use gettextrs::gettext;
 use gettextrs::ngettext;
-use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
@@ -32,9 +31,13 @@ mod imp {
         pub(super) properties_filter: OnceCell<gtk::Filter>,
         pub(super) sorter: OnceCell<gtk::Sorter>,
         #[template_child]
+        pub(super) create_container_row: TemplateChild<gtk::ListBoxRow>,
+        #[template_child]
+        pub(super) header_suffix_box: TemplateChild<gtk::Box>,
+        #[template_child]
         pub(super) show_only_running_switch: TemplateChild<gtk::Switch>,
         #[template_child]
-        pub(super) create_button: TemplateChild<gtk::Button>,
+        pub(super) create_container_button: TemplateChild<gtk::Button>,
         #[template_child]
         pub(super) list_box: TemplateChild<gtk::ListBox>,
     }
@@ -114,17 +117,24 @@ mod imp {
             self.parent_constructed(obj);
 
             let container_list_expr = Self::Type::this_expression("container-list");
-
-            container_list_expr
+            let container_list_len_expr =
+                container_list_expr.chain_property::<model::AbstractContainerList>("len");
+            let is_selection_mode_expr = container_list_expr
                 .chain_property::<model::ContainerList>("selection-mode")
                 .chain_closure::<bool>(closure!(|_: Self::Type, selection_mode: bool| {
                     !selection_mode
-                }))
-                .bind(&*self.create_button, "visible", Some(obj));
+                }));
+
+            container_list_len_expr
+                .chain_closure::<bool>(closure!(|_: Self::Type, len: u32| len > 0))
+                .bind(&*self.header_suffix_box, "visible", Some(obj));
+
+            is_selection_mode_expr.bind(&*self.create_container_button, "visible", Some(obj));
+            is_selection_mode_expr.bind(&*self.create_container_row, "visible", Some(obj));
 
             gtk::ClosureExpression::new::<Option<String>, _, _>(
                 &[
-                    container_list_expr.chain_property::<model::AbstractContainerList>("len"),
+                    container_list_len_expr,
                     container_list_expr.chain_property::<model::AbstractContainerList>("running"),
                 ],
                 closure!(|obj: Self::Type, len: u32, running: u32| {
@@ -262,22 +272,14 @@ impl Group {
                 imp.sorter.get(),
             );
 
-            self.set_list_box_visibility(model.upcast_ref());
-            model.connect_items_changed(clone!(@weak self as obj => move |model, _, _, _| {
-                obj.set_list_box_visibility(model.upcast_ref());
-            }));
-
             imp.list_box.bind_model(Some(&model), |item| {
                 view::ContainerRow::from(item.downcast_ref().unwrap()).upcast()
             });
+            imp.list_box.append(&*imp.create_container_row);
         }
 
         imp.container_list.set(value);
         self.notify("container-list");
-    }
-
-    fn set_list_box_visibility(&self, model: &gio::ListModel) {
-        self.imp().list_box.set_visible(model.n_items() > 0);
     }
 
     fn update_properties_filter(&self) {

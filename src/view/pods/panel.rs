@@ -4,7 +4,6 @@ use adw::traits::MessageDialogExt;
 use gettextrs::gettext;
 use gettextrs::ngettext;
 use gtk::gdk;
-use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
@@ -47,13 +46,17 @@ mod imp {
         pub(super) properties_filter: OnceCell<gtk::Filter>,
         pub(super) sorter: OnceCell<gtk::Sorter>,
         #[template_child]
+        pub(super) create_pod_row: TemplateChild<gtk::ListBoxRow>,
+        #[template_child]
         pub(super) main_stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) pods_group: TemplateChild<adw::PreferencesGroup>,
         #[template_child]
+        pub(super) header_suffix_box: TemplateChild<gtk::Box>,
+        #[template_child]
         pub(super) show_only_running_switch: TemplateChild<gtk::Switch>,
         #[template_child]
-        pub(super) create_button: TemplateChild<gtk::Button>,
+        pub(super) create_pod_button: TemplateChild<gtk::Button>,
         #[template_child]
         pub(super) list_box: TemplateChild<gtk::ListBox>,
     }
@@ -163,13 +166,18 @@ mod imp {
 
             let pod_list_expr = Self::Type::this_expression("pod-list");
             let pod_list_len_expr = pod_list_expr.chain_property::<model::PodList>("len");
-
-            pod_list_expr
+            let is_selection_mode_expr = pod_list_expr
                 .chain_property::<model::PodList>("selection-mode")
                 .chain_closure::<bool>(closure!(|_: Self::Type, selection_mode: bool| {
                     !selection_mode
-                }))
-                .bind(&*self.create_button, "visible", Some(obj));
+                }));
+
+            pod_list_len_expr
+                .chain_closure::<bool>(closure!(|_: Self::Type, len: u32| len > 0))
+                .bind(&*self.header_suffix_box, "visible", Some(obj));
+
+            is_selection_mode_expr.bind(&*self.create_pod_button, "visible", Some(obj));
+            is_selection_mode_expr.bind(&*self.create_pod_row, "visible", Some(obj));
 
             pod_list_len_expr.watch(
                 Some(obj),
@@ -300,14 +308,10 @@ impl Panel {
             imp.sorter.get(),
         );
 
-        self.set_list_box_visibility(model.upcast_ref());
-        model.connect_items_changed(clone!(@weak self as obj => move |model, _, _, _| {
-            obj.set_list_box_visibility(model.upcast_ref());
-        }));
-
         imp.list_box.bind_model(Some(&model), |item| {
             view::PodRow::from(item.downcast_ref().unwrap()).upcast()
         });
+        imp.list_box.append(&*imp.create_pod_row);
 
         ACTIONS_SELECTION
             .iter()
@@ -325,10 +329,6 @@ impl Panel {
 
         imp.pod_list.set(Some(value));
         self.notify("pod-list");
-    }
-
-    fn set_list_box_visibility(&self, model: &gio::ListModel) {
-        self.imp().list_box.set_visible(model.n_items() > 0);
     }
 
     pub(crate) fn update_properties_filter(&self) {
