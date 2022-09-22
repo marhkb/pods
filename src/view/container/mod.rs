@@ -1,4 +1,3 @@
-mod container_row;
 mod creation_page;
 mod details_page;
 mod health_check_page;
@@ -7,8 +6,8 @@ mod menu_button;
 mod properties_group;
 mod rename_dialog;
 mod resources_quick_reference_group;
+mod row;
 
-pub(crate) use container_row::Row;
 pub(crate) use creation_page::CreationPage;
 pub(crate) use details_page::DetailsPage;
 pub(crate) use health_check_page::HealthCheckPage;
@@ -17,6 +16,7 @@ pub(crate) use menu_button::MenuButton;
 pub(crate) use properties_group::PropertiesGroup;
 pub(crate) use rename_dialog::RenameDialog;
 pub(crate) use resources_quick_reference_group::ResourcesQuickReferenceGroup;
+pub(crate) use row::Row;
 
 use crate::model;
 

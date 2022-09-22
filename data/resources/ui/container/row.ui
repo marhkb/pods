@@ -6,6 +6,16 @@
     <property name="action-name">container-row.activate</property>
 
     <child type="prefix">
+      <object class="GtkImage" id="status_image">
+        <style>
+          <class name="status-circle"/>
+        </style>
+        <property name="halign">center</property>
+        <property name="valign">center</property>
+      </object>
+    </child>
+
+    <child type="prefix">
       <object class="GtkCheckButton" id="check_button">
         <style>
           <class name="selection-mode"/>
@@ -14,8 +24,16 @@
     </child>
 
     <child>
+      <object class="GtkLabel" id="health_status_label">
+        <style>
+          <class name="status-badge"/>
+        </style>
+        <property name="valign">center</property>
+      </object>
+    </child>
+
+    <child>
       <object class="GtkBox" id="stats_box">
-        <property name="margin-end">3</property>
         <property name="spacing">2</property>
 
         <child>
@@ -32,24 +50,6 @@
           </object>
         </child>
 
-      </object>
-    </child>
-
-    <child>
-      <object class="GtkLabel" id="health_status_label">
-        <style>
-          <class name="status-badge"/>
-        </style>
-        <property name="valign">center</property>
-      </object>
-    </child>
-
-    <child>
-      <object class="GtkLabel" id="status_label">
-        <style>
-          <class name="status-badge"/>
-        </style>
-        <property name="valign">center</property>
       </object>
     </child>
 
