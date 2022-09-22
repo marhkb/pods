@@ -52,6 +52,11 @@ connectionchooserpage connectionswitchermenu row {
   font-size: 0.65em;
 }
 
+.status-circle {
+  border-radius: 9999px;
+  padding: 8px;
+}
+
 .status-badge {
   font-size: 0.8em;
   font-weight: bold;
