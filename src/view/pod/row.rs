@@ -25,9 +25,9 @@ mod imp {
         pub(super) pod: WeakRef<model::Pod>,
         pub(super) bindings: RefCell<Vec<glib::Binding>>,
         #[template_child]
-        pub(super) check_button: TemplateChild<gtk::CheckButton>,
+        pub(super) status_image: TemplateChild<gtk::Image>,
         #[template_child]
-        pub(super) status_label: TemplateChild<gtk::Label>,
+        pub(super) check_button: TemplateChild<gtk::CheckButton>,
         #[template_child]
         pub(super) end_box: TemplateChild<gtk::Box>,
     }
@@ -94,7 +94,7 @@ mod imp {
                 .chain_property::<model::Pod>("pod-list")
                 .chain_property::<model::PodList>("selection-mode");
 
-            selection_mode_expr.bind(&self.check_button.parent().unwrap(), "visible", Some(obj));
+            selection_mode_expr.bind(&*self.check_button, "visible", Some(obj));
             selection_mode_expr
                 .chain_closure::<bool>(closure!(|_: Self::Type, is_selection_mode: bool| {
                     !is_selection_mode
@@ -102,6 +102,31 @@ mod imp {
                 .bind(&*self.end_box, "visible", Some(obj));
 
             let status_expr = pod_expr.chain_property::<model::Pod>("status");
+
+            status_expr
+                .chain_closure::<String>(closure!(|_: Self::Type, status: model::PodStatus| {
+                    match status {
+                        model::PodStatus::Running => "media-playback-start-symbolic",
+                        model::PodStatus::Paused => "media-playback-pause-symbolic",
+                        _ => "media-playback-stop-symbolic",
+                    }
+                }))
+                .bind(&*self.status_image, "icon-name", Some(obj));
+
+            let css_classes = self.status_image.css_classes();
+            status_expr
+                .chain_closure::<Vec<String>>(closure!(
+                    |_: Self::Type, status: model::PodStatus| {
+                        css_classes
+                            .iter()
+                            .cloned()
+                            .chain(Some(glib::GString::from(
+                                super::super::pod_status_css_class(status),
+                            )))
+                            .collect::<Vec<_>>()
+                    }
+                ))
+                .bind(&*self.status_image, "css-classes", Some(obj));
 
             pod_expr
                 .chain_property::<model::Pod>("name")
@@ -116,27 +141,6 @@ mod imp {
                     id.chars().take(12).collect::<String>()
                 }))
                 .bind(obj, "subtitle", Some(obj));
-
-            status_expr
-                .chain_closure::<String>(closure!(|_: glib::Object, status: model::PodStatus| {
-                    status.to_string()
-                }))
-                .bind(&*self.status_label, "label", Some(obj));
-
-            let css_classes = self.status_label.css_classes();
-            status_expr
-                .chain_closure::<Vec<String>>(closure!(
-                    |_: glib::Object, status: model::PodStatus| {
-                        css_classes
-                            .iter()
-                            .cloned()
-                            .chain(Some(glib::GString::from(
-                                super::super::pod_status_css_class(status),
-                            )))
-                            .collect::<Vec<_>>()
-                    }
-                ))
-                .bind(&*self.status_label, "css-classes", Some(obj));
         }
     }
 
