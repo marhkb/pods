@@ -74,32 +74,30 @@ connectionchooserpage connectionswitchermenu row {
 .pod-status-exited,
 .pod-status-stopped,
 .container-health-status-checking,
-.container-health-status-unconfigured
-{
-	color: alpha(@window_fg_color, .75);
-	background-color: alpha(@window_fg_color, .15);
+.container-health-status-unconfigured {
+  color: alpha(@window_fg_color, .75);
+  background-color: alpha(@window_fg_color, .15);
 }
 
 .container-status-paused, .pod-status-paused {
-	color: @brown_4;
+  color: @brown_4;
   background: alpha(@brown_3, .25);
 }
 
 .container-status-restarting,
-.pod-status-restarting
-{
+.pod-status-restarting {
   color: @purple_3;
-	background: alpha(@purple_2, .25);
+  background: alpha(@purple_2, .25);
 }
 
 .container-status-running, .pod-status-running {
-	color: @blue_4;
-	background-color: alpha(@blue_3, .25);
+  color: @blue_4;
+  background-color: alpha(@blue_3, .25);
 }
 
 .pod-status-degraded {
-	color: #ae7b03;
-	background: alpha(@yellow_5, .25);
+  color: #ae7b03;
+  background: alpha(@yellow_5, .25);
 }
 
 .container-status-dead,
@@ -108,22 +106,21 @@ connectionchooserpage connectionswitchermenu row {
 .pod-status-dead,
 .pod-status-unknown,
 .container-health-status-unhealthy,
-.container-health-status-unknown
-{
-	color: @red_4;
-	background-color: alpha(@red_2, .25);
+.container-health-status-unknown {
+  color: @red_4;
+  background-color: alpha(@red_2, .25);
 }
 
 .container-health-status-healthy {
-	color: @green_5;
-	background-color: alpha(@green_3, .25);
+  color: @green_5;
+  background-color: alpha(@green_3, .25);
 }
 
-.progressbar-warning trough > progress {
+.progressbar-warning trough>progress {
   background-color: @warning_bg_color;
 }
 
-.progressbar-error trough > progress {
+.progressbar-error trough>progress {
   background-color: @error_bg_color;
 }
 
@@ -131,12 +128,12 @@ connectionchooserpage connectionswitchermenu row {
   font-size: 0.85em;
 }
 
-.star > count {
+.star>count {
   font-size: 0.85em;
   font-feature-settings: "tnum";
 }
 
-.star > icon {
+.star>icon {
   color: @yellow_3;
 }
 
