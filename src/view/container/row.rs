@@ -25,6 +25,8 @@ mod imp {
         pub(super) container: WeakRef<model::Container>,
         pub(super) bindings: RefCell<Vec<glib::Binding>>,
         #[template_child]
+        pub(super) status_image: TemplateChild<gtk::Image>,
+        #[template_child]
         pub(super) check_button: TemplateChild<gtk::CheckButton>,
         #[template_child]
         pub(super) stats_box: TemplateChild<gtk::Box>,
@@ -34,8 +36,6 @@ mod imp {
         pub(super) mem_bar: TemplateChild<view::CircularProgressBar>,
         #[template_child]
         pub(super) health_status_label: TemplateChild<gtk::Label>,
-        #[template_child]
-        pub(super) status_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) end_box: TemplateChild<gtk::Box>,
     }
@@ -102,7 +102,7 @@ mod imp {
                 .chain_property::<model::Container>("container-list")
                 .chain_property::<model::ContainerList>("selection-mode");
 
-            selection_mode_expr.bind(&self.check_button.parent().unwrap(), "visible", Some(obj));
+            selection_mode_expr.bind(&*self.check_button, "visible", Some(obj));
             selection_mode_expr
                 .chain_closure::<bool>(closure!(|_: Self::Type, is_selection_mode: bool| {
                     !is_selection_mode
@@ -113,6 +113,33 @@ mod imp {
             let health_status_expr =
                 container_expr.chain_property::<model::Container>("health-status");
             let status_expr = container_expr.chain_property::<model::Container>("status");
+
+            status_expr
+                .chain_closure::<String>(closure!(
+                    |_: Self::Type, status: model::ContainerStatus| {
+                        match status {
+                            model::ContainerStatus::Running => "media-playback-start-symbolic",
+                            model::ContainerStatus::Paused => "media-playback-pause-symbolic",
+                            _ => "media-playback-stop-symbolic",
+                        }
+                    }
+                ))
+                .bind(&*self.status_image, "icon-name", Some(obj));
+
+            let css_classes = self.status_image.css_classes();
+            status_expr
+                .chain_closure::<Vec<String>>(closure!(
+                    |_: Self::Type, status: model::ContainerStatus| {
+                        css_classes
+                            .iter()
+                            .cloned()
+                            .chain(Some(glib::GString::from(
+                                super::super::container_status_css_class(status),
+                            )))
+                            .collect::<Vec<_>>()
+                    }
+                ))
+                .bind(&*self.status_image, "css-classes", Some(obj));
 
             container_expr
                 .chain_property::<model::Container>("name")
@@ -188,28 +215,6 @@ mod imp {
                     }
                 ))
                 .bind(&*self.health_status_label, "css-classes", Some(obj));
-
-            status_expr
-                .chain_closure::<String>(closure!(
-                    |_: glib::Object, status: model::ContainerStatus| status.to_string()
-                ))
-                .bind(&*self.status_label, "label", Some(obj));
-
-            let css_classes = self.status_label.css_classes();
-
-            status_expr
-                .chain_closure::<Vec<String>>(closure!(
-                    |_: Self::Type, status: model::ContainerStatus| {
-                        css_classes
-                            .iter()
-                            .cloned()
-                            .chain(Some(glib::GString::from(
-                                super::super::container_status_css_class(status),
-                            )))
-                            .collect::<Vec<_>>()
-                    }
-                ))
-                .bind(&*self.status_label, "css-classes", Some(obj));
         }
     }
 

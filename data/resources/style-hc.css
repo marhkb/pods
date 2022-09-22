@@ -7,8 +7,7 @@
 .pod-status-exited,
 .pod-status-stopped,
 .container-health-status-checking,
-.container-health-status-unconfigured
-{
+.container-health-status-unconfigured {
   background-color: @dark_1;
   color: #ffffff;
 
@@ -20,8 +19,7 @@
 }
 
 .container-status-restarting,
-.pod-status-restarting
-{
+.pod-status-restarting {
   background-color: @purple_4;
   color: #ffffff;
 }
@@ -42,8 +40,7 @@
 .pod-status-dead,
 .pod-status-unknown,
 .container-health-status-unhealthy,
-.container-health-status-unknown
-{
+.container-health-status-unknown {
   background-color: @error_bg_color;
   color: @error_fg_color;
 }
