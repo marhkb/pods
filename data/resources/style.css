@@ -77,7 +77,7 @@ connectionchooserpage connectionswitchermenu row {
 
 .container-status-paused, .pod-status-paused {
 	color: @brown_4;
-	background: alpha(@brown_2, .25);
+  background: alpha(@brown_3, .25);
 }
 
 .container-status-restarting,
