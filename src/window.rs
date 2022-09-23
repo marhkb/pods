@@ -61,13 +61,19 @@ mod imp {
         #[template_child]
         pub(super) panel_stack: TemplateChild<adw::ViewStack>,
         #[template_child]
+        pub(super) images_view_stack_page: TemplateChild<adw::ViewStackPage>,
+        #[template_child]
         pub(super) images_panel: TemplateChild<view::ImagesPanel>,
+        #[template_child]
+        pub(super) containers_view_stack_page: TemplateChild<adw::ViewStackPage>,
         #[template_child]
         pub(super) containers_panel: TemplateChild<view::ContainersPanel>,
         #[template_child]
-        pub(super) switcher_bar: TemplateChild<adw::ViewSwitcherBar>,
+        pub(super) pods_view_stack_page: TemplateChild<adw::ViewStackPage>,
         #[template_child]
         pub(super) pods_panel: TemplateChild<view::PodsPanel>,
+        #[template_child]
+        pub(super) switcher_bar: TemplateChild<adw::ViewSwitcherBar>,
         #[template_child]
         pub(super) search_panel: TemplateChild<view::SearchPanel>,
         #[template_child]
@@ -252,15 +258,30 @@ mod imp {
                 }));
             title_expr.bind(&*self.menu_button, "visible", Some(obj));
 
+            let panel_stack_visible_child_name_expr =
+                Self::Type::this_expression("panel-stack")
+                    .chain_property::<adw::ViewStack>("visible-child-name");
+
             let client_expr = Self::Type::this_expression("connection-manager")
                 .chain_property::<model::ConnectionManager>("client");
+
+            panel_stack_visible_child_name_expr.watch(
+                Some(obj),
+                clone!(@weak obj => move || {
+                    let imp = obj.imp();
+                    match imp.panel_stack.visible_child_name().as_deref() {
+                        Some("images") => imp.images_view_stack_page.set_needs_attention(false),
+                        Some("containers") => imp.containers_view_stack_page.set_needs_attention(false),
+                        Some("pods") => imp.pods_view_stack_page.set_needs_attention(false),
+                        _ => {}
+                    }
+                }),
+            );
 
             gtk::ClosureExpression::new::<bool, _, _>(
                 &[
                     title_expr.upcast_ref(),
-                    Self::Type::this_expression("panel-stack")
-                        .chain_property::<adw::ViewStack>("visible-child-name")
-                        .upcast_ref(),
+                    &panel_stack_visible_child_name_expr.upcast(),
                     &client_expr
                         .chain_property::<model::Client>("image-list")
                         .chain_property::<model::ImageList>("len")
@@ -300,6 +321,46 @@ mod imp {
                             imp.search_button.set_active(false);
                             imp.main_stack.set_visible_child_full("client", gtk::StackTransitionType::None);
                             obj.exit_selection_mode();
+
+                            imp.images_view_stack_page.set_needs_attention(false);
+                            client.image_list().connect_notify_local(
+                                Some("len"),
+                                clone!(@weak obj => move |list, _|
+                            {
+                                let imp = obj.imp();
+                                if imp.panel_stack.visible_child_name().as_deref() != Some("images")
+                                    && list.is_initialized()
+                                {
+                                    imp.images_view_stack_page.set_needs_attention(true);
+                                }
+                            }));
+
+                            imp.containers_view_stack_page.set_needs_attention(false);
+                            client.container_list().connect_notify_local(
+                                Some("len"),
+                                clone!(@weak obj => move |list, _|
+                            {
+                                let imp = obj.imp();
+                                if imp.panel_stack.visible_child_name().as_deref() != Some("containers")
+                                    && list.is_initialized()
+                                {
+                                    imp.containers_view_stack_page.set_needs_attention(true);
+                                }
+                            }));
+
+                            imp.pods_view_stack_page.set_needs_attention(false);
+                            client.pod_list().connect_notify_local(
+                                Some("len"),
+                                clone!(@weak obj => move |list, _|
+                            {
+                                let imp = obj.imp();
+                                if imp.panel_stack.visible_child_name().as_deref() != Some("pods")
+                                    && list.is_initialized()
+                                {
+                                    imp.pods_view_stack_page.set_needs_attention(true);
+                                }
+                            }));
+
                         }),
                         clone!(@weak obj => move |e| obj.client_err_op(e)),
                         clone!(@weak obj, @weak manager => move |e| {
