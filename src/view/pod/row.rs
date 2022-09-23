@@ -108,6 +108,7 @@ mod imp {
                     match status {
                         model::PodStatus::Running => "media-playback-start-symbolic",
                         model::PodStatus::Paused => "media-playback-pause-symbolic",
+                        model::PodStatus::Degraded => "degraded-pod-symbolic",
                         _ => "media-playback-stop-symbolic",
                     }
                 }))
