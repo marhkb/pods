@@ -590,8 +590,8 @@ impl Window {
     fn enter_selection_mode(&self) {
         let imp = self.imp();
 
-        match imp.panel_stack.visible_child_name() {
-            Some(name) => match name.as_str() {
+        if let Some(name) = imp.panel_stack.visible_child_name() {
+            match name.as_str() {
                 "images" => {
                     let list = imp.images_panel.image_list().unwrap();
                     if list.len() > 0 {
@@ -614,8 +614,7 @@ impl Window {
                     }
                 }
                 _ => unreachable!(),
-            },
-            None => {}
+            }
         }
     }
 
