@@ -266,7 +266,7 @@
 
                                         <!-- Images Panel -->
                                         <child>
-                                          <object class="AdwViewStackPage">
+                                          <object class="AdwViewStackPage" id="images_view_stack_page">
                                             <property name="icon-name">image-x-generic-symbolic</property>
                                             <property name="name">images</property>
                                             <property name="title" translatable="yes">Images</property>
@@ -286,7 +286,7 @@
 
                                         <!-- Containers Panel -->
                                         <child>
-                                          <object class="AdwViewStackPage">
+                                          <object class="AdwViewStackPage" id="containers_view_stack_page">
                                             <property name="icon-name">package-x-generic-symbolic</property>
                                             <property name="name">containers</property>
                                             <property name="title" translatable="yes">Containers</property>
@@ -306,7 +306,7 @@
 
                                         <!-- Pods Panel -->
                                         <child>
-                                          <object class="AdwViewStackPage">
+                                          <object class="AdwViewStackPage" id="pods_view_stack_page">
                                             <property name="icon-name">pods-symbolic</property>
                                             <property name="name">pods</property>
                                             <property name="title" translatable="yes" context="podman feature">Pods</property>

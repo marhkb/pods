@@ -292,8 +292,10 @@ impl ImageList {
                             }
                         });
 
-                        drop(list);
-                        obj.items_changed(index, 0, added as u32);
+                        if added > 0 {
+                            drop(list);
+                            obj.items_changed(index, 0, added as u32);
+                        }
                     }
                     Err(e) => {
                         log::error!("Error on retrieving images: {}", e);
