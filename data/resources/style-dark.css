@@ -14,22 +14,23 @@
 
 .container-status-paused, .pod-status-paused {
 	color: @brown_1;
-	background: alpha(@brown_1, .25);
+	background: alpha(@brown_3, .35);
 }
 
 .container-status-restarting,
 .pod-status-restarting {
 	color: @purple_1;
-	background: alpha(@purple_2, .25);
+	background: alpha(@purple_2, .35);
 }
 
 .container-status-running, .pod-status-running {
 	color: @blue_1;
+	background-color: alpha(@blue_2, .35);
 }
 
 .pod-status-degraded {
 	color: @yellow_2;
-	background: alpha(#cd9309, .25);
+	background: alpha(#cd9309, .35);
 }
 
 .container-status-dead,
