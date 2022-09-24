@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
 
+  <object class="GtkSizeGroup">
+    <property name="mode">horizontal</property>
+    <widgets>
+      <widget name="abort_button"/>
+      <widget name="new_search_button"/>
+    </widgets>
+  </object>
+
   <template class="PdsImagePullingPage" parent="GtkWidget">
     <property name="layout-manager">
       <object class="GtkBoxLayout">
@@ -25,7 +33,7 @@
     </child>
 
     <child>
-      <object class="AdwStatusPage">
+      <object class="AdwStatusPage" id="status_page">
         <property name="icon-name">folder-download-symbolic</property>
         <property name="title" translatable="yes">Please Wait a Moment</property>
         <property name="description" translatable="yes">The image is currently being downloaded. You are safe to leave this page.</property>
@@ -36,26 +44,66 @@
             <property name="orientation">vertical</property>
             <property name="hexpand">True</property>
             <property name="halign">center</property>
-            <property name="spacing">18</property>
+            <property name="spacing">32</property>
 
             <child>
-              <object class="GtkLabel" id="stream_label">
-                <style>
-                  <class name="dim-label"/>
-                </style>
-                <property name="single-line-mode">True</property>
-                <property name="wrap">True</property>
-                <property name="wrap-mode">char</property>
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <property name="hexpand">True</property>
+                <property name="halign">center</property>
+                <property name="spacing">18</property>
+                <property name="visible" bind-source="abort_button" bind-property="visible" bind-flags="sync-create"/>
+
+                <child>
+                  <object class="GtkLabel" id="stream_label">
+                    <style>
+                      <class name="dim-label"/>
+                    </style>
+                    <property name="single-line-mode">True</property>
+                    <property name="wrap">True</property>
+                    <property name="wrap-mode">char</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkSpinner">
+                    <property name="halign">center</property>
+                    <property name="height-request">30</property>
+                    <property name="spinning">True</property>
+                    <property name="vexpand">True</property>
+                    <property name="width-request">30</property>
+                  </object>
+                </child>
+
               </object>
             </child>
 
             <child>
-              <object class="GtkSpinner">
+              <object class="GtkButton" id="abort_button">
+                <style>
+                  <class name="pill"/>
+                  <class name="destructive-action"/>
+                </style>
+                <property name="action-name">image-pulling-page.cancel</property>
                 <property name="halign">center</property>
-                <property name="height-request">30</property>
-                <property name="spinning">True</property>
-                <property name="vexpand">True</property>
-                <property name="width-request">30</property>
+                <property name="label" translatable="yes">_Abort</property>
+                <property name="use-underline">True</property>
+                <property name="visible" bind-source="abort_button" bind-property="sensitive" bind-flags="sync-create"/>
+                <property name="width-request">200</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkButton" id="new_search_button">
+                <style>
+                  <class name="pill"/>
+                </style>
+                <property name="action-name">image-pull-page.show-pull-settings</property>
+                <property name="halign">center</property>
+                <property name="label" translatable="yes">_New Search</property>
+                <property name="use-underline">True</property>
+                <property name="visible" bind-source="abort_button" bind-property="sensitive" bind-flags="sync-create|invert-boolean"/>
+                <property name="width-request">200</property>
               </object>
             </child>
 

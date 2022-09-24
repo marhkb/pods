@@ -1,6 +1,10 @@
+use std::cell::RefCell;
+
 use adw::subclass::prelude::*;
 use anyhow::anyhow;
+use futures::stream;
 use futures::StreamExt;
+use gettextrs::gettext;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::WeakRef;
@@ -12,6 +16,8 @@ use crate::model;
 use crate::podman;
 use crate::utils;
 
+const ACTION_CANCEL: &str = "image-pulling-page.cancel";
+
 mod imp {
     use super::*;
 
@@ -19,6 +25,9 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/image/pulling-page.ui")]
     pub(crate) struct PullingPage {
         pub(super) client: WeakRef<model::Client>,
+        pub(super) abort_handle: RefCell<Option<stream::AbortHandle>>,
+        #[template_child]
+        pub(super) status_page: TemplateChild<adw::StatusPage>,
         #[template_child]
         pub(super) stream_label: TemplateChild<gtk::Label>,
     }
@@ -31,6 +40,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
+            klass.install_action(ACTION_CANCEL, None, |widget, _, _| widget.cancel());
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -95,9 +105,25 @@ impl PullingPage {
     where
         F: FnOnce(anyhow::Result<podman::models::LibpodImagesPullReport>) + Clone + 'static,
     {
+        let imp = self.imp();
+
+        if imp.abort_handle.borrow().is_some() {
+            return;
+        }
+
+        imp.status_page.set_title(&gettext("Please Wait a Moment"));
+        imp.status_page.set_description(Some(&gettext(
+            "The image is currently being downloaded. You are safe to leave this page.",
+        )));
+
+        self.action_set_enabled(ACTION_CANCEL, true);
+
+        let (abort_handle, abort_registration) = stream::AbortHandle::new_pair();
+        imp.abort_handle.replace(Some(abort_handle));
+
         utils::run_stream(
             self.client().unwrap().podman().images(),
-            move |images| images.pull(&opts).boxed(),
+            move |images| stream::Abortable::new(images.pull(&opts), abort_registration).boxed(),
             clone!(
                 @weak self as obj => @default-return glib::Continue(false),
                 move |result: podman::Result<podman::models::LibpodImagesPullReport>|
@@ -126,5 +152,16 @@ impl PullingPage {
                 })
             }),
         );
+    }
+
+    fn cancel(&self) {
+        let imp = self.imp();
+        if let Some(abort_handle) = imp.abort_handle.take() {
+            abort_handle.abort();
+            imp.status_page
+                .set_title(&gettext("Image Download Aborted"));
+            imp.status_page.set_description(None);
+            self.action_set_enabled(ACTION_CANCEL, false);
+        }
     }
 }
