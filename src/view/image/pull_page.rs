@@ -13,6 +13,8 @@ use crate::podman;
 use crate::utils;
 use crate::view;
 
+const ACTION_SHOW_PULL_SETTINGS: &str = "image-pull-page.show-pull-settings";
+
 mod imp {
     use super::*;
 
@@ -46,6 +48,9 @@ mod imp {
                     widget.pull();
                 },
             );
+            klass.install_action(ACTION_SHOW_PULL_SETTINGS, None, |widget, _, _| {
+                widget.show_pull_settings();
+            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -167,9 +172,13 @@ impl PullPage {
     }
 
     fn on_pull_error(&self, msg: &str) {
-        self.imp().stack.set_visible_child_name("pull-settings");
+        self.show_pull_settings();
         log::error!("Failed to pull image: {}", msg);
         utils::show_error_toast(self, &gettext("Failed to pull image"), msg);
+    }
+
+    fn show_pull_settings(&self) {
+        self.imp().stack.set_visible_child_name("pull-settings");
     }
 
     fn switch_to_image(&self, image: &model::Image) {
