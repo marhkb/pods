@@ -55,7 +55,12 @@
                             <property name="orientation">vertical</property>
 
                             <property name="child">
-                              <object class="GtkFrame">
+                              <object class="AdwBin">
+                                <style>
+                                  <class name="card"/>
+                                  <class name="view"/>
+                                </style>
+                                <property name="overflow">hidden</property>
 
                                 <property name="child">
                                   <object class="GtkStack" id="frame_stack">
@@ -101,17 +106,16 @@
                                             <property name="vexpand">True</property>
 
                                             <child>
-                                              <object class="GtkSourceView">
+                                              <object class="GtkTextView">
                                                 <style>
                                                   <class name="text-view"/>
                                                 </style>
                                                 <property name="buffer">
-                                                  <object class="GtkSourceBuffer" id="source_buffer">
-                                                    <property name="highlight-matching-brackets">False</property>
-                                                  </object>
+                                                  <object class="GtkTextBuffer" id="text_buffer"/>
                                                 </property>
                                                 <property name="top-margin">12</property>
                                                 <property name="bottom-margin">12</property>
+                                                <property name="left-margin">12</property>
                                                 <property name="right-margin">12</property>
                                                 <property name="cursor-visible">False</property>
                                                 <property name="editable">False</property>
@@ -149,7 +153,7 @@
                               <class name="pill"/>
                               <class name="suggested-action"/>
                             </style>
-                            <property name="action-name">image-building-page.view-image"</property>
+                            <property name="action-name">image-building-page.view-image</property>
                             <property name="halign">center</property>
                             <property name="label" translatable="yes">_View Image</property>
                             <property name="use-underline">True</property>
