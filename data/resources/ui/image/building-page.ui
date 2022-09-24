@@ -106,17 +106,16 @@
                                             <property name="vexpand">True</property>
 
                                             <child>
-                                              <object class="GtkSourceView">
+                                              <object class="GtkTextView">
                                                 <style>
                                                   <class name="text-view"/>
                                                 </style>
                                                 <property name="buffer">
-                                                  <object class="GtkSourceBuffer" id="source_buffer">
-                                                    <property name="highlight-matching-brackets">False</property>
-                                                  </object>
+                                                  <object class="GtkTextBuffer" id="text_buffer"/>
                                                 </property>
                                                 <property name="top-margin">12</property>
                                                 <property name="bottom-margin">12</property>
+                                                <property name="left-margin">12</property>
                                                 <property name="right-margin">12</property>
                                                 <property name="cursor-visible">False</property>
                                                 <property name="editable">False</property>

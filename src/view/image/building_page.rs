@@ -9,7 +9,6 @@ use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
-use sourceview5::traits::BufferExt;
 
 use crate::model;
 use crate::podman;
@@ -32,7 +31,7 @@ mod imp {
         #[template_child]
         pub(super) frame_stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub(super) source_buffer: TemplateChild<sourceview5::Buffer>,
+        pub(super) text_buffer: TemplateChild<gtk::TextBuffer>,
         #[template_child]
         pub(super) image_page_bin: TemplateChild<adw::Bin>,
     }
@@ -92,21 +91,11 @@ mod imp {
 
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
-
             obj.action_set_enabled(ACTION_VIEW_IMAGE, false);
-
-            let adw_style_manager = adw::StyleManager::default();
-            obj.on_notify_dark(&adw_style_manager);
-            adw_style_manager.connect_dark_notify(clone!(@weak obj => move |style_manager| {
-                obj.on_notify_dark(style_manager);
-            }));
         }
+
         fn dispose(&self, obj: &Self::Type) {
-            let mut next = obj.first_child();
-            while let Some(child) = next {
-                next = child.next_sibling();
-                child.unparent();
-            }
+            utils::ChildIter::from(obj).for_each(|child| child.unparent());
         }
     }
 
@@ -153,7 +142,7 @@ impl BuildingPage {
 
                 glib::Continue(match result {
                     Ok(stream) => {
-                        let source_buffer = &*imp.source_buffer;
+                        let source_buffer = &*imp.text_buffer;
                         source_buffer.insert(&mut source_buffer.start_iter(), &stream.stream);
                         imp.last_stream.replace(Some(stream.stream));
                         true
@@ -205,17 +194,5 @@ impl BuildingPage {
     fn set_image(&self, image: &model::Image) {
         self.imp().image.set(Some(image));
         self.action_set_enabled(ACTION_VIEW_IMAGE, true);
-    }
-
-    fn on_notify_dark(&self, style_manager: &adw::StyleManager) {
-        self.imp().source_buffer.set_style_scheme(
-            sourceview5::StyleSchemeManager::default()
-                .scheme(if style_manager.is_dark() {
-                    "Adwaita-dark"
-                } else {
-                    "Adwaita"
-                })
-                .as_ref(),
-        );
     }
 }
