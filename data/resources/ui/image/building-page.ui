@@ -55,7 +55,12 @@
                             <property name="orientation">vertical</property>
 
                             <property name="child">
-                              <object class="GtkFrame">
+                              <object class="AdwBin">
+                                <style>
+                                  <class name="card"/>
+                                  <class name="view"/>
+                                </style>
+                                <property name="overflow">hidden</property>
 
                                 <property name="child">
                                   <object class="GtkStack" id="frame_stack">
