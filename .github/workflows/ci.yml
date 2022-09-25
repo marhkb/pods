@@ -1,6 +1,8 @@
 on:
   push:
     branches: [main]
+    tags:
+      - "v*"
   pull_request:
 
 name: CI
@@ -112,3 +114,31 @@ jobs:
           # TODO: Currently there is bug where, roughly speaking, there is an error in the creation of the cache.
           #       Consider this for removal as soon as flatpak-builder@v5 is released, which is supposed to fix it.
           cache-key: flatpak-builder-${{ github.sha }}
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/')
+    name: Release
+    runs-on: ubuntu-latest
+    needs: [flatpak]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Create vendored sources
+        run: build-aux/dist-vendor.sh ../ src
+        shell: bash
+      - name: Archive repository
+        run: git archive --format tar HEAD > pods-${{ github.ref_name }}.tar
+      - name: Add vendored sources and cargo config to tarball
+        run: tar -rf pods-${{ github.ref_name }}.tar .cargo vendor
+      - name: Compress tarball
+        run: xz -z pods-${{ github.ref_name }}.tar
+      - name: Generate checksum
+        run: sha256sum pods-${{ github.ref_name }}.tar.xz > pods-${{ github.ref_name }}.tar.xz.sha256sum
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          draft: true
+          prerelease: ${{ contains(github.ref, 'beta') }}
+          files: |
+            pods-${{ github.ref_name }}.tar.xz
+            pods-${{ github.ref_name }}.tar.xz.sha256sum
