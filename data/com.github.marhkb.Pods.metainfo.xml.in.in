@@ -58,6 +58,24 @@
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="1.0.0-beta.4" date="2022-09-26">
+      <description>
+        <p>Here comes the fourth beta release of Pods 1.0.0 with the following changes:</p>
+        <ul>
+          <li>The blurry symbolic application icon has been fixed, thanks to @allaeddineomc.</li>
+          <li>A status page is now displayed if there are no images, containers or pods.</li>
+          <li>The style has been improved, in particular, there is now better differentiation between light, dark and high contrast modes.</li>
+          <li>The feature for coloring the header bar has been removed. It will hopefully come back when there is API support for it.</li>
+          <li>A lot of smaller UI improvements have been implemented to give Pods a more polished look.</li>
+          <li>The flatpak runtime has been updated to version 43</li>
+          <li>Improvements in infrastructure like an issue template have landed, thanks to @vv9k.</li>
+          <li>Image downloads can now be aborted.</li>
+          <li>Arguments can now be added to a container command, thanks to @vvk9.</li>
+          <li>It's now possible to set labels on images, containers and pods, thanks to @vv9k.</li>
+          <li>Translation updates</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.0.0-beta.3" date="2022-09-18">
       <description>
         <p>The third beta release of Pods 1.0.0 contains the following changes:</p>
