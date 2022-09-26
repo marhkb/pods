@@ -35,6 +35,7 @@ mod imp {
         pub(super) port_mappings: RefCell<gio::ListStore>,
         pub(super) volumes: RefCell<gio::ListStore>,
         pub(super) env_vars: RefCell<gio::ListStore>,
+        pub(super) cmd_args: RefCell<gio::ListStore>,
         pub(super) command_row_handler:
             RefCell<Option<(glib::SignalHandlerId, WeakRef<model::Image>)>>,
         #[template_child]
@@ -61,6 +62,8 @@ mod imp {
         pub(super) pull_latest_image_switch: TemplateChild<gtk::Switch>,
         #[template_child]
         pub(super) command_entry_row: TemplateChild<adw::EntryRow>,
+        #[template_child]
+        pub(super) command_arg_list_box: TemplateChild<gtk::ListBox>,
         #[template_child]
         pub(super) terminal_switch: TemplateChild<gtk::Switch>,
         #[template_child]
@@ -119,6 +122,9 @@ mod imp {
             });
             klass.install_action("container.add-env-var", None, |widget, _, _| {
                 widget.add_env_var();
+            });
+            klass.install_action("container.add-cmd-arg", None, |widget, _, _| {
+                widget.add_cmd_arg();
             });
             klass.install_action("container.create-and-run", None, |widget, _, _| {
                 widget.finish(true);
@@ -308,6 +314,23 @@ mod imp {
             self.volume_list_box.append(
                 &gtk::ListBoxRow::builder()
                     .action_name("container.add-volume")
+                    .selectable(false)
+                    .child(
+                        &gtk::Image::builder()
+                            .icon_name("list-add-symbolic")
+                            .margin_top(12)
+                            .margin_bottom(12)
+                            .build(),
+                    )
+                    .build(),
+            );
+            self.command_arg_list_box
+                .bind_model(Some(&*self.cmd_args.borrow()), |item| {
+                    view::CmdArgRow::from(item.downcast_ref::<model::CmdArg>().unwrap()).upcast()
+                });
+            self.command_arg_list_box.append(
+                &gtk::ListBoxRow::builder()
+                    .action_name("container.add-cmd-arg")
                     .selectable(false)
                     .child(
                         &gtk::Image::builder()
@@ -562,6 +585,24 @@ impl CreationPage {
         }));
     }
 
+    fn add_cmd_arg(&self) {
+        let arg = model::CmdArg::default();
+        self.connect_cmd_arg(&arg);
+
+        self.imp().cmd_args.borrow().append(&arg);
+    }
+
+    fn connect_cmd_arg(&self, cmd_arg: &model::CmdArg) {
+        cmd_arg.connect_remove_request(clone!(@weak self as obj => move |cmd_arg| {
+            let imp = obj.imp();
+
+            let cmd_args = imp.cmd_args.borrow();
+            if let Some(pos) = cmd_args.find(cmd_arg) {
+                cmd_args.remove(pos);
+            }
+        }));
+    }
+
     fn add_env_var(&self) {
         let env_var = model::EnvVar::default();
         self.connect_env_var(&env_var);
@@ -713,7 +754,16 @@ impl CreationPage {
         let create_opts = if cmd.is_empty() {
             create_opts
         } else {
-            create_opts.command([cmd.as_str()])
+            let args = imp
+                .cmd_args
+                .borrow()
+                .to_owned()
+                .to_typed_list_model::<model::CmdArg>()
+                .into_iter()
+                .map(|arg| arg.arg());
+            let mut cmd = vec![cmd.to_string()];
+            cmd.extend(args);
+            create_opts.command(&cmd)
         };
 
         let healthcheck_cmd = imp.health_check_command_entry_row.text();
