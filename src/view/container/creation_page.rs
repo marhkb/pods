@@ -36,6 +36,7 @@ mod imp {
         pub(super) volumes: RefCell<gio::ListStore>,
         pub(super) env_vars: RefCell<gio::ListStore>,
         pub(super) cmd_args: RefCell<gio::ListStore>,
+        pub(super) labels: RefCell<gio::ListStore>,
         pub(super) command_row_handler:
             RefCell<Option<(glib::SignalHandlerId, WeakRef<model::Image>)>>,
         #[template_child]
@@ -78,6 +79,8 @@ mod imp {
         pub(super) volume_list_box: TemplateChild<gtk::ListBox>,
         #[template_child]
         pub(super) env_var_list_box: TemplateChild<gtk::ListBox>,
+        #[template_child]
+        pub(super) labels_list_box: TemplateChild<gtk::ListBox>,
         #[template_child]
         pub(super) health_check_command_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
@@ -125,6 +128,9 @@ mod imp {
             });
             klass.install_action("container.add-cmd-arg", None, |widget, _, _| {
                 widget.add_cmd_arg();
+            });
+            klass.install_action("container.add-label", None, |widget, _, _| {
+                widget.add_label();
             });
             klass.install_action("container.create-and-run", None, |widget, _, _| {
                 widget.finish(true);
@@ -344,11 +350,29 @@ mod imp {
 
             self.env_var_list_box
                 .bind_model(Some(&*self.env_vars.borrow()), |item| {
-                    view::EnvVarRow::from(item.downcast_ref::<model::EnvVar>().unwrap()).upcast()
+                    view::KeyValRow::from(item.downcast_ref::<model::KeyVal>().unwrap()).upcast()
                 });
             self.env_var_list_box.append(
                 &gtk::ListBoxRow::builder()
                     .action_name("container.add-env-var")
+                    .selectable(false)
+                    .child(
+                        &gtk::Image::builder()
+                            .icon_name("list-add-symbolic")
+                            .margin_top(12)
+                            .margin_bottom(12)
+                            .build(),
+                    )
+                    .build(),
+            );
+
+            self.labels_list_box
+                .bind_model(Some(&*self.labels.borrow()), |item| {
+                    view::KeyValRow::from(item.downcast_ref::<model::KeyVal>().unwrap()).upcast()
+                });
+            self.labels_list_box.append(
+                &gtk::ListBoxRow::builder()
+                    .action_name("container.add-label")
                     .selectable(false)
                     .child(
                         &gtk::Image::builder()
@@ -604,19 +628,37 @@ impl CreationPage {
     }
 
     fn add_env_var(&self) {
-        let env_var = model::EnvVar::default();
+        let env_var = model::KeyVal::default();
         self.connect_env_var(&env_var);
 
         self.imp().env_vars.borrow().append(&env_var);
     }
 
-    fn connect_env_var(&self, env_var: &model::EnvVar) {
+    fn connect_env_var(&self, env_var: &model::KeyVal) {
         env_var.connect_remove_request(clone!(@weak self as obj => move |env_var| {
             let imp = obj.imp();
 
             let env_vars = imp.env_vars.borrow();
             if let Some(pos) = env_vars.find(env_var) {
                 env_vars.remove(pos);
+            }
+        }));
+    }
+
+    fn add_label(&self) {
+        let label = model::KeyVal::default();
+        self.connect_label(&label);
+
+        self.imp().labels.borrow().append(&label);
+    }
+
+    fn connect_label(&self, label: &model::KeyVal) {
+        label.connect_remove_request(clone!(@weak self as obj => move |label| {
+            let imp = obj.imp();
+
+            let labels = imp.labels.borrow();
+            if let Some(pos) = labels.find(label) {
+                labels.remove(pos);
             }
         }));
     }
@@ -717,9 +759,17 @@ impl CreationPage {
                 imp.env_vars
                     .borrow()
                     .to_owned()
-                    .to_typed_list_model::<model::EnvVar>()
+                    .to_typed_list_model::<model::KeyVal>()
                     .into_iter()
                     .map(|env_var| (env_var.key(), env_var.value())),
+            )
+            .labels(
+                imp.labels
+                    .borrow()
+                    .to_owned()
+                    .to_typed_list_model::<model::KeyVal>()
+                    .into_iter()
+                    .map(|label| (label.key(), label.value())),
             );
 
         let create_opts = if imp.memory_switch.is_active() {

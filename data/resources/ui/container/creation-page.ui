@@ -355,6 +355,21 @@
                                           </object>
                                         </child>
 
+                                        <child>
+                                          <object class="AdwPreferencesGroup">
+                                            <property name="title" translatable="yes">Labels</property>
+
+                                            <child>
+                                              <object class="GtkListBox" id="labels_list_box">
+                                                <style>
+                                                  <class name="boxed-list"/>
+                                                </style>
+                                              </object>
+                                            </child>
+
+                                          </object>
+                                        </child>
+
                                       </object>
                                     </property>
 

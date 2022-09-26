@@ -1,5 +1,8 @@
+use std::cell::RefCell;
+
 use adw::subclass::prelude::*;
 use adw::traits::BinExt;
+use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::WeakRef;
@@ -10,6 +13,7 @@ use once_cell::sync::Lazy;
 use crate::model;
 use crate::podman;
 use crate::utils;
+use crate::utils::ToTypedListModel;
 use crate::view;
 
 const ACTION_CREATE: &str = "pod-creation-page.create";
@@ -21,6 +25,7 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/pod/creation-page.ui")]
     pub(crate) struct CreationPage {
         pub(super) client: WeakRef<model::Client>,
+        pub(super) labels: RefCell<gio::ListStore>,
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -29,6 +34,8 @@ mod imp {
         pub(super) name_entry_row: TemplateChild<view::RandomNameEntryRow>,
         #[template_child]
         pub(super) hostname_entry_row: TemplateChild<adw::EntryRow>,
+        #[template_child]
+        pub(super) labels_list_box: TemplateChild<gtk::ListBox>,
         #[template_child]
         pub(super) create_button: TemplateChild<gtk::Button>,
         #[template_child]
@@ -46,6 +53,10 @@ mod imp {
 
             klass.install_action(ACTION_CREATE, None, |widget, _, _| {
                 widget.create();
+            });
+
+            klass.install_action("pod.add-label", None, |widget, _, _| {
+                widget.add_label();
             });
         }
 
@@ -93,6 +104,24 @@ mod imp {
 
             self.name_entry_row
                 .connect_text_notify(clone!(@weak obj => move |_| obj.on_name_changed()));
+
+            self.labels_list_box
+                .bind_model(Some(&*self.labels.borrow()), |item| {
+                    view::KeyValRow::from(item.downcast_ref::<model::KeyVal>().unwrap()).upcast()
+                });
+            self.labels_list_box.append(
+                &gtk::ListBoxRow::builder()
+                    .action_name("pod.add-label")
+                    .selectable(false)
+                    .child(
+                        &gtk::Image::builder()
+                            .icon_name("list-add-symbolic")
+                            .margin_top(12)
+                            .margin_bottom(12)
+                            .build(),
+                    )
+                    .build(),
+            );
         }
 
         fn dispose(&self, obj: &Self::Type) {
@@ -141,6 +170,24 @@ impl CreationPage {
         self.action_set_enabled(ACTION_CREATE, self.imp().name_entry_row.text().len() > 0);
     }
 
+    fn add_label(&self) {
+        let label = model::KeyVal::default();
+        self.connect_label(&label);
+
+        self.imp().labels.borrow().append(&label);
+    }
+
+    fn connect_label(&self, label: &model::KeyVal) {
+        label.connect_remove_request(clone!(@weak self as obj => move |label| {
+            let imp = obj.imp();
+
+            let labels = imp.labels.borrow();
+            if let Some(pos) = labels.find(label) {
+                labels.remove(pos);
+            }
+        }));
+    }
+
     fn create(&self) {
         self.action_set_enabled(ACTION_CREATE, false);
 
@@ -150,6 +197,14 @@ impl CreationPage {
         let opts = podman::opts::PodCreateOpts::builder()
             .name(imp.name_entry_row.text().as_str())
             .hostname(imp.hostname_entry_row.text().as_str())
+            .labels(
+                imp.labels
+                    .borrow()
+                    .to_owned()
+                    .to_typed_list_model::<model::KeyVal>()
+                    .into_iter()
+                    .map(|label| (label.key(), label.value())),
+            )
             .build();
 
         utils::do_async(
