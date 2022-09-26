@@ -344,7 +344,7 @@ mod imp {
 
             self.env_var_list_box
                 .bind_model(Some(&*self.env_vars.borrow()), |item| {
-                    view::EnvVarRow::from(item.downcast_ref::<model::EnvVar>().unwrap()).upcast()
+                    view::KeyValRow::from(item.downcast_ref::<model::KeyVal>().unwrap()).upcast()
                 });
             self.env_var_list_box.append(
                 &gtk::ListBoxRow::builder()
@@ -604,13 +604,13 @@ impl CreationPage {
     }
 
     fn add_env_var(&self) {
-        let env_var = model::EnvVar::default();
+        let env_var = model::KeyVal::default();
         self.connect_env_var(&env_var);
 
         self.imp().env_vars.borrow().append(&env_var);
     }
 
-    fn connect_env_var(&self, env_var: &model::EnvVar) {
+    fn connect_env_var(&self, env_var: &model::KeyVal) {
         env_var.connect_remove_request(clone!(@weak self as obj => move |env_var| {
             let imp = obj.imp();
 
@@ -717,7 +717,7 @@ impl CreationPage {
                 imp.env_vars
                     .borrow()
                     .to_owned()
-                    .to_typed_list_model::<model::EnvVar>()
+                    .to_typed_list_model::<model::KeyVal>()
                     .into_iter()
                     .map(|env_var| (env_var.key(), env_var.value())),
             );

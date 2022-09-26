@@ -12,9 +12,9 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(resource = "/com/github/marhkb/Pods/ui/env-var/row.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/key-val/row.ui")]
     pub(crate) struct Row {
-        pub(super) env_var: RefCell<Option<model::EnvVar>>,
+        pub(super) key_val: RefCell<Option<model::KeyVal>>,
         pub(super) bindings: RefCell<Vec<glib::Binding>>,
         #[template_child]
         pub(super) key_entry: TemplateChild<gtk::Entry>,
@@ -24,15 +24,15 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for Row {
-        const NAME: &'static str = "PdsEnvVarRow";
+        const NAME: &'static str = "PdsKeyValRow";
         type Type = super::Row;
         type ParentType = gtk::ListBoxRow;
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
-            klass.install_action("env-var.remove", None, |widget, _, _| {
-                if let Some(env_var) = widget.env_var() {
-                    env_var.remove_request();
+            klass.install_action("key-val.remove", None, |widget, _, _| {
+                if let Some(key_val) = widget.key_val() {
+                    key_val.remove_request();
                 }
             });
         }
@@ -46,10 +46,10 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![glib::ParamSpecObject::new(
-                    "env-var",
-                    "Env Var",
-                    "The underlying environment variable",
-                    model::EnvVar::static_type(),
+                    "key-val",
+                    "Key Value",
+                    "The underlying key-value pair",
+                    model::KeyVal::static_type(),
                     glib::ParamFlags::READWRITE
                         | glib::ParamFlags::CONSTRUCT
                         | glib::ParamFlags::EXPLICIT_NOTIFY,
@@ -66,14 +66,14 @@ mod imp {
             pspec: &glib::ParamSpec,
         ) {
             match pspec.name() {
-                "env-var" => obj.set_env_var(value.get().unwrap_or_default()),
+                "key-val" => obj.set_key_val(value.get().unwrap_or_default()),
                 _ => unimplemented!(),
             }
         }
 
         fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "env-var" => obj.env_var().to_value(),
+                "key-val" => obj.key_val().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -89,19 +89,19 @@ glib::wrapper! {
         @implements gtk::Accessible, gtk::Actionable, gtk::Buildable, gtk::ConstraintTarget;
 }
 
-impl From<&model::EnvVar> for Row {
-    fn from(env_var: &model::EnvVar) -> Self {
-        glib::Object::new(&[("env-var", &env_var)]).expect("Failed to create PdsEnvVarRow")
+impl From<&model::KeyVal> for Row {
+    fn from(key_val: &model::KeyVal) -> Self {
+        glib::Object::new(&[("key-val", &key_val)]).expect("Failed to create PdsKeyValRow")
     }
 }
 
 impl Row {
-    pub(crate) fn env_var(&self) -> Option<model::EnvVar> {
-        self.imp().env_var.borrow().to_owned()
+    pub(crate) fn key_val(&self) -> Option<model::KeyVal> {
+        self.imp().key_val.borrow().to_owned()
     }
 
-    pub(crate) fn set_env_var(&self, value: Option<model::EnvVar>) {
-        if self.env_var() == value {
+    pub(crate) fn set_key_val(&self, value: Option<model::KeyVal>) {
+        if self.key_val() == value {
             return;
         }
 
@@ -112,21 +112,21 @@ impl Row {
             binding.unbind();
         }
 
-        if let Some(ref env_var) = value {
-            let binding = env_var
+        if let Some(ref key_val) = value {
+            let binding = key_val
                 .bind_property("key", &*imp.key_entry, "text")
                 .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
                 .build();
             bindings.push(binding);
 
-            let binding = env_var
+            let binding = key_val
                 .bind_property("value", &*imp.value_entry, "text")
                 .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
                 .build();
             bindings.push(binding);
         }
 
-        imp.env_var.replace(value);
-        self.notify("env-var");
+        imp.key_val.replace(value);
+        self.notify("key-val");
     }
 }

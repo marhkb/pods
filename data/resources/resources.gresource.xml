@@ -31,7 +31,6 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/containers/count-bar.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/containers/group.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/containers/panel.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">ui/env-var/row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/health-check-log/row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/image-search/response-row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/image-search/widget.ui</file>
@@ -46,6 +45,7 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/images/panel.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/images/prune-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/info-dialog.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/key-val/row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/pod/creation-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/pod/details-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/pod/menu-button.ui</file>

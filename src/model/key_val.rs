@@ -12,18 +12,18 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default)]
-    pub(crate) struct EnvVar {
+    pub(crate) struct KeyVal {
         pub(super) key: RefCell<String>,
         pub(super) value: RefCell<String>,
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for EnvVar {
-        const NAME: &'static str = "EnvVar";
-        type Type = super::EnvVar;
+    impl ObjectSubclass for KeyVal {
+        const NAME: &'static str = "KeyVal";
+        type Type = super::KeyVal;
     }
 
-    impl ObjectImpl for EnvVar {
+    impl ObjectImpl for KeyVal {
         fn signals() -> &'static [Signal] {
             static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
                 vec![Signal::builder("remove-request", &[], <()>::static_type().into()).build()]
@@ -78,16 +78,16 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub(crate) struct EnvVar(ObjectSubclass<imp::EnvVar>);
+    pub(crate) struct KeyVal(ObjectSubclass<imp::KeyVal>);
 }
 
-impl Default for EnvVar {
+impl Default for KeyVal {
     fn default() -> Self {
-        glib::Object::new(&[]).expect("Failed to create EnvVar")
+        glib::Object::new(&[]).expect("Failed to create KeyVal")
     }
 }
 
-impl EnvVar {
+impl KeyVal {
     pub(crate) fn key(&self) -> String {
         self.imp().key.borrow().to_owned()
     }

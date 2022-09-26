@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
 
-  <template class="PdsEnvVarRow" parent="GtkListBoxRow">
+  <template class="PdsKeyValRow" parent="GtkListBoxRow">
     <property name="activatable">False</property>
     <property name="selectable">False</property>
 
@@ -67,7 +67,7 @@
             <style>
               <class name="destructive-action"/>
             </style>
-            <property name="action-name">env-var.remove</property>
+            <property name="action-name">key-val.remove</property>
             <property name="halign">end</property>
             <property name="valign">end</property>
             <property name="icon-name">list-remove-symbolic</property>
