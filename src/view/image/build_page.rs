@@ -1,3 +1,5 @@
+use std::cell::RefCell;
+
 use adw::traits::ActionRowExt;
 use adw::traits::BinExt;
 use ashpd::desktop::file_chooser::FileChooserProxy;
@@ -17,6 +19,7 @@ use once_cell::sync::Lazy;
 use crate::model;
 use crate::podman;
 use crate::utils;
+use crate::utils::ToTypedListModel;
 use crate::view;
 
 mod imp {
@@ -26,6 +29,7 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/image/build-page.ui")]
     pub(crate) struct BuildPage {
         pub(super) client: WeakRef<model::Client>,
+        pub(super) labels: RefCell<gio::ListStore>,
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -36,6 +40,8 @@ mod imp {
         pub(super) context_dir_row: TemplateChild<adw::ActionRow>,
         #[template_child]
         pub(super) container_file_path_entry_row: TemplateChild<adw::EntryRow>,
+        #[template_child]
+        pub(super) labels_list_box: TemplateChild<gtk::ListBox>,
         #[template_child]
         pub(super) build_button: TemplateChild<gtk::Button>,
     }
@@ -55,6 +61,10 @@ mod imp {
 
             klass.install_action("image.choose-context-dir", None, move |widget, _, _| {
                 widget.choose_context_dir();
+            });
+
+            klass.install_action("image.add-label", None, |widget, _, _| {
+                widget.add_label();
             });
         }
 
@@ -105,6 +115,24 @@ mod imp {
                 .connect_text_notify(clone!(@weak obj => move |_| obj.on_opts_changed()));
             self.context_dir_row
                 .connect_subtitle_notify(clone!(@weak obj => move |_| obj.on_opts_changed()));
+
+            self.labels_list_box
+                .bind_model(Some(&*self.labels.borrow()), |item| {
+                    view::KeyValRow::from(item.downcast_ref::<model::KeyVal>().unwrap()).upcast()
+                });
+            self.labels_list_box.append(
+                &gtk::ListBoxRow::builder()
+                    .action_name("image.add-label")
+                    .selectable(false)
+                    .child(
+                        &gtk::Image::builder()
+                            .icon_name("list-add-symbolic")
+                            .margin_top(12)
+                            .margin_bottom(12)
+                            .build(),
+                    )
+                    .build(),
+            );
         }
 
         fn dispose(&self, obj: &Self::Type) {
@@ -197,6 +225,24 @@ impl BuildPage {
         });
     }
 
+    fn add_label(&self) {
+        let label = model::KeyVal::default();
+        self.connect_label(&label);
+
+        self.imp().labels.borrow().append(&label);
+    }
+
+    fn connect_label(&self, label: &model::KeyVal) {
+        label.connect_remove_request(clone!(@weak self as obj => move |label| {
+            let imp = obj.imp();
+
+            let labels = imp.labels.borrow();
+            if let Some(pos) = labels.find(label) {
+                labels.remove(pos);
+            }
+        }));
+    }
+
     fn build(&self) {
         let imp = self.imp();
 
@@ -219,6 +265,14 @@ impl BuildPage {
                 let opts = podman::opts::ImageBuildOptsBuilder::new(context_dir_row)
                     .dockerfile(imp.container_file_path_entry_row.text())
                     .tag(imp.tag_entry_row.text())
+                    .labels(
+                        imp.labels
+                            .borrow()
+                            .to_owned()
+                            .to_typed_list_model::<model::KeyVal>()
+                            .into_iter()
+                            .map(|label| (label.key(), label.value())),
+                    )
                     .build();
 
                 image_building_page.build(

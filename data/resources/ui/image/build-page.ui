@@ -54,25 +54,20 @@
                       <object class="AdwPreferencesGroup">
 
                         <child>
-                          <object class="AdwActionRow" id="context_dir_row">
-                            <property name="activatable-widget">open_context_dir_button</property>
-                            <property name="title" translatable="yes">Build Context Directory</property>
+                          <object class="AdwPreferencesRow">
+                            <property name="activatable">False</property>
 
-                            <child type="suffix">
-                              <object class="GtkButton" id="open_context_dir_button">
-                                <property name="action-name">image.choose-context-dir</property>
-                                <property name="label" translatable="yes">Select…</property>
-                                <property name="valign">center</property>
+                            <child>
+                              <object class="AdwViewSwitcher">
+                                <property name="margin-top">6</property>
+                                <property name="margin-bottom">6</property>
+                                <property name="stack">view_stack</property>
+                                <property name="policy">wide</property>
+                                <property name="halign">center</property>
+                                <property name="height-request">36</property>
                               </object>
                             </child>
 
-                          </object>
-                        </child>
-
-                        <child>
-                          <object class="AdwEntryRow" id="container_file_path_entry_row">
-                            <property name="activates-default">True</property>
-                            <property name="title" translatable="yes">Containerfile Path Relative to Build Context Directory</property>
                           </object>
                         </child>
 
@@ -83,14 +78,101 @@
                       <object class="AdwPreferencesGroup">
 
                         <child>
-                          <object class="GtkButton" id="build_button">
-                            <style>
-                              <class name="suggested-action"/>
-                              <class name="pill"/>
-                            </style>
-                            <property name="action-name">image.build</property>
-                            <property name="label" translatable="yes">_Build</property>
-                            <property name="use-underline">True</property>
+                          <object class="AdwViewStack" id="view_stack">
+                            <property name="vhomogeneous">False</property>
+
+                            <child>
+                              <object class="AdwViewStackPage">
+                                <property name="title" translatable="yes">Details</property>
+                                <property name="icon-name">preferences-system-symbolic</property>
+                                <property name="child">
+                                  <object class="GtkBox">
+                                    <property name="orientation">vertical</property>
+                                    <property name="spacing">18</property>
+
+                                    <child>
+                                      <object class="AdwPreferencesGroup">
+
+                                        <child>
+                                          <object class="AdwActionRow" id="context_dir_row">
+                                            <property name="activatable-widget">open_context_dir_button</property>
+                                            <property name="title" translatable="yes">Build Context Directory</property>
+
+                                            <child type="suffix">
+                                              <object class="GtkButton" id="open_context_dir_button">
+                                                <property name="action-name">image.choose-context-dir</property>
+                                                <property name="label" translatable="yes">Select…</property>
+                                                <property name="valign">center</property>
+                                              </object>
+                                            </child>
+
+                                          </object>
+                                        </child>
+
+                                        <child>
+                                          <object class="AdwEntryRow" id="container_file_path_entry_row">
+                                            <property name="activates-default">True</property>
+                                            <property name="title" translatable="yes">Containerfile Path Relative to Build Context Directory</property>
+                                          </object>
+                                        </child>
+
+                                      </object>
+                                    </child>
+
+                                    <child>
+                                      <object class="AdwPreferencesGroup">
+
+                                        <child>
+                                          <object class="GtkButton" id="build_button">
+                                            <style>
+                                              <class name="suggested-action"/>
+                                              <class name="pill"/>
+                                            </style>
+                                            <property name="action-name">image.build</property>
+                                            <property name="label" translatable="yes">_Build</property>
+                                            <property name="use-underline">True</property>
+                                          </object>
+                                        </child>
+
+                                      </object>
+                                    </child>
+
+                                  </object>
+                                </property>
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="AdwViewStackPage">
+                                <property name="title" translatable="yes">Integration</property>
+                                <property name="icon-name">application-x-addon-symbolic</property>
+
+                                <property name="child">
+                                  <object class="GtkBox">
+                                    <property name="orientation">vertical</property>
+                                    <property name="spacing">18</property>
+
+                                    <child>
+                                      <object class="AdwPreferencesGroup">
+                                        <property name="title" translatable="yes">Labels</property>
+
+                                        <child>
+                                          <object class="GtkListBox" id="labels_list_box">
+                                            <style>
+                                              <class name="boxed-list"/>
+                                            </style>
+                                          </object>
+                                        </child>
+
+                                      </object>
+                                    </child>
+
+                                  </object>
+                                </property>
+
+                              </object>
+                            </child>
+
                           </object>
                         </child>
 
