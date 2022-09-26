@@ -1,5 +1,6 @@
 mod abstract_container_list;
 mod client;
+mod cmd_arg;
 mod connection;
 mod connection_manager;
 mod container;
@@ -27,6 +28,7 @@ pub(crate) use self::abstract_container_list::AbstractContainerList;
 pub(crate) use self::abstract_container_list::AbstractContainerListExt;
 pub(crate) use self::client::Client;
 pub(crate) use self::client::ClientError;
+pub(crate) use self::cmd_arg::CmdArg;
 pub(crate) use self::connection::Connection;
 pub(crate) use self::connection::ConnectionInfo;
 pub(crate) use self::connection_manager::ConnectionManager;
