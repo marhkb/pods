@@ -4,6 +4,7 @@
     <!-- see https://gtk-rs.org/gtk4-rs/git/docs/gtk4/struct.Application.html#automatic-resources -->
     <file compressed="true" preprocess="xml-stripblanks" alias="gtk/help-overlay.ui">ui/shortcuts.ui</file>
 
+    <file compressed="true" preprocess="xml-stripblanks">ui/cmd-arg/row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/component/back-navigation-controls.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/component/circular-progress-bar.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/component/inspection-page.ui</file>

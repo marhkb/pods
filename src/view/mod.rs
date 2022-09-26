@@ -1,3 +1,4 @@
+mod cmd_arg;
 mod component;
 mod connection;
 mod container;
@@ -15,6 +16,7 @@ mod search_panel;
 mod volume;
 mod welcome_page;
 
+pub(crate) use cmd_arg::Row as CmdArgRow;
 pub(crate) use component::BackNavigationControls;
 pub(crate) use component::CircularProgressBar;
 pub(crate) use component::InspectionPage;

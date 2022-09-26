@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+
+  <template class="PdsCmdArgRow" parent="AdwEntryRow">
+    <property name="title" translatable="yes">Argument</property>
+
+    <child type="suffix">
+      <object class="GtkButton">
+        <style>
+          <class name="flat"/>
+        </style>
+        <property name="action-name">arg.remove</property>
+        <property name="halign">end</property>
+        <property name="valign">center</property>
+        <property name="icon-name">list-remove-symbolic</property>
+      </object>
+    </child>
+
+  </template>
+</interface>
