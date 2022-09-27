@@ -116,11 +116,11 @@ connectionchooserpage connectionswitchermenu row {
   background-color: alpha(@green_3, .25);
 }
 
-.progressbar-warning trough>progress {
+.progressbar-warning through>progress {
   background-color: @warning_bg_color;
 }
 
-.progressbar-error trough>progress {
+.progressbar-error through>progress {
   background-color: @error_bg_color;
 }
 

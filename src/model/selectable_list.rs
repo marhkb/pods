@@ -27,7 +27,7 @@ mod imp {
                     glib::ParamSpecBoolean::new(
                         "selection-mode",
                         "Selection Mode",
-                        "Wether the selection mode is active",
+                        "Whether the selection mode is active",
                         false,
                         glib::ParamFlags::READWRITE,
                     ),

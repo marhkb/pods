@@ -59,7 +59,7 @@ def main(src_dir: Path, build_dir: Path) -> None:
         project.replace_gettext_macros()
         project.generate_pot_files()
     except subprocess.CalledProcessError as error:
-        info(f"An error has occured: {error}")
+        info(f"An error has occurred: {error}")
     finally:
         project.restore_directory()
 
