@@ -254,7 +254,7 @@ impl HealthCheckPage {
                 clone!(@weak self as obj => move |result| if let Err(e) = result {
                     utils::show_error_toast(
                         &obj,
-                        &gettext("Error on runnung health check"),
+                        &gettext("Error on running health check"),
                         &e.to_string()
                     );
                 }),

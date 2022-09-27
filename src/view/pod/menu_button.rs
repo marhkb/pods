@@ -261,7 +261,7 @@ impl MenuButton {
                                 id
                             ),
                             None => gettext(
-                               "Pod conains a container. Deleting the pod will also delete all its containers.",
+                               "Pod contains a container. Deleting the pod will also delete all its containers.",
                            ),
                         }
 

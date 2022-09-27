@@ -72,14 +72,14 @@ mod imp {
                     glib::ParamSpecBoolean::new(
                         "listing",
                         "Listing",
-                        "Wether pods are currently listed",
+                        "Whether pods are currently listed",
                         false,
                         glib::ParamFlags::READABLE,
                     ),
                     glib::ParamSpecBoolean::new(
                         "initialized",
                         "Initialized",
-                        "Wether pods were tried to be fetched at least once",
+                        "Whether pods were tried to be fetched at least once",
                         false,
                         glib::ParamFlags::READABLE,
                     ),
@@ -95,7 +95,7 @@ mod imp {
                     glib::ParamSpecBoolean::new(
                         "selection-mode",
                         "Selection Mode",
-                        "Wether the selection mode is active",
+                        "Whether the selection mode is active",
                         false,
                         glib::ParamFlags::READWRITE,
                     ),

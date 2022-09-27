@@ -66,14 +66,14 @@ mod imp {
                     glib::ParamSpecBoolean::new(
                         "listing",
                         "Listing",
-                        "Wether containers are currently listed",
+                        "Whether containers are currently listed",
                         false,
                         glib::ParamFlags::READABLE,
                     ),
                     glib::ParamSpecBoolean::new(
                         "initialized",
                         "Initialized",
-                        "Wether containers were tried to be fetched at least once",
+                        "Whether containers were tried to be fetched at least once",
                         false,
                         glib::ParamFlags::READABLE,
                     ),
@@ -152,7 +152,7 @@ mod imp {
                     glib::ParamSpecBoolean::new(
                         "selection-mode",
                         "Selection Mode",
-                        "Wether the selection mode is active",
+                        "Whether the selection mode is active",
                         false,
                         glib::ParamFlags::READWRITE,
                     ),
@@ -249,7 +249,7 @@ mod imp {
                                 }
                             });
                         }
-                        Err(e) => log::warn!("Error occured on receiving stats stream element: {e}"),
+                        Err(e) => log::warn!("Error occurred on receiving stats stream element: {e}"),
                     }
 
                     glib::Continue(true)
