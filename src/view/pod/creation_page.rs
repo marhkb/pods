@@ -1,10 +1,13 @@
 use std::cell::RefCell;
 
 use adw::subclass::prelude::*;
+use adw::traits::ActionRowExt;
 use adw::traits::BinExt;
+use adw::traits::ComboRowExt;
 use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
+use gtk::glib::closure;
 use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::CompositeTemplate;
@@ -25,7 +28,11 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/pod/creation-page.ui")]
     pub(crate) struct CreationPage {
         pub(super) client: WeakRef<model::Client>,
+        pub(super) infra_image: WeakRef<model::Image>,
         pub(super) labels: RefCell<gio::ListStore>,
+        pub(super) infra_cmd_args: RefCell<gio::ListStore>,
+        pub(super) command_row_handler:
+            RefCell<Option<(glib::SignalHandlerId, WeakRef<model::Image>)>>,
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -37,9 +44,35 @@ mod imp {
         #[template_child]
         pub(super) labels_list_box: TemplateChild<gtk::ListBox>,
         #[template_child]
+        pub(super) disable_infra_switch: TemplateChild<gtk::Switch>,
+        #[template_child]
+        pub(super) disable_infra_row: TemplateChild<adw::ActionRow>,
+        #[template_child]
+        pub(super) infra_settings_box: TemplateChild<gtk::Box>,
+        #[template_child]
+        pub(super) infra_name_entry_row: TemplateChild<adw::EntryRow>,
+        #[template_child]
+        pub(super) infra_pull_latest_image_row: TemplateChild<adw::ActionRow>,
+        #[template_child]
+        pub(super) infra_pull_latest_image_switch: TemplateChild<gtk::Switch>,
+        #[template_child]
+        pub(super) infra_local_image_combo_row: TemplateChild<adw::ComboRow>,
+        #[template_child]
+        pub(super) infra_remote_image_row: TemplateChild<adw::ActionRow>,
+        #[template_child]
+        pub(super) infra_common_pid_file_entry_row: TemplateChild<adw::EntryRow>,
+        #[template_child]
+        pub(super) infra_command_entry_row: TemplateChild<adw::EntryRow>,
+        #[template_child]
+        pub(super) infra_command_arg_list_box: TemplateChild<gtk::ListBox>,
+        #[template_child]
         pub(super) create_button: TemplateChild<gtk::Button>,
         #[template_child]
         pub(super) pod_details_page_bin: TemplateChild<adw::Bin>,
+        #[template_child]
+        pub(super) image_pulling_page: TemplateChild<view::ImagePullingPage>,
+        #[template_child]
+        pub(super) leaflet_overlay: TemplateChild<view::LeafletOverlay>,
     }
 
     #[glib::object_subclass]
@@ -52,11 +85,22 @@ mod imp {
             Self::bind_template(klass);
 
             klass.install_action(ACTION_CREATE, None, |widget, _, _| {
-                widget.create();
+                widget.finish();
             });
-
             klass.install_action("pod.add-label", None, |widget, _, _| {
                 widget.add_label();
+            });
+            klass.install_action("pod.add-infra-cmd-arg", None, |widget, _, _| {
+                widget.add_infra_cmd_arg();
+            });
+            klass.install_action("pod.toggle-infra", None, |widget, _, _| {
+                widget.toggle_infra();
+            });
+            klass.install_action("image.infra-remove-remote", None, move |widget, _, _| {
+                widget.remove_remote();
+            });
+            klass.install_action("image.infra-search", None, move |widget, _, _| {
+                widget.search_image();
             });
         }
 
@@ -68,13 +112,22 @@ mod imp {
     impl ObjectImpl for CreationPage {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecObject::new(
-                    "client",
-                    "Client",
-                    "The client of this pod creation page",
-                    model::Client::static_type(),
-                    glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                )]
+                vec![
+                    glib::ParamSpecObject::new(
+                        "client",
+                        "Client",
+                        "The client of this pod creation page",
+                        model::Client::static_type(),
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
+                    ),
+                    glib::ParamSpecObject::new(
+                        "infra-image",
+                        "Infra Image",
+                        "The image of this pod infra creation page",
+                        model::Image::static_type(),
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
+                    ),
+                ]
             });
             PROPERTIES.as_ref()
         }
@@ -88,6 +141,7 @@ mod imp {
         ) {
             match pspec.name() {
                 "client" => self.client.set(value.get().unwrap()),
+                "infra-image" => self.infra_image.set(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
@@ -95,6 +149,7 @@ mod imp {
         fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
                 "client" => obj.client().to_value(),
+                "infra-image" => obj.image().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -122,6 +177,53 @@ mod imp {
                     )
                     .build(),
             );
+
+            self.infra_command_arg_list_box.bind_model(
+                Some(&*self.infra_cmd_args.borrow()),
+                |item| {
+                    view::CmdArgRow::from(item.downcast_ref::<model::CmdArg>().unwrap()).upcast()
+                },
+            );
+            self.infra_command_arg_list_box.append(
+                &gtk::ListBoxRow::builder()
+                    .action_name("pod.add-infra-cmd-arg")
+                    .selectable(false)
+                    .child(
+                        &gtk::Image::builder()
+                            .icon_name("list-add-symbolic")
+                            .margin_top(12)
+                            .margin_bottom(12)
+                            .build(),
+                    )
+                    .build(),
+            );
+            let image_tag_expr = model::Image::this_expression("repo-tags")
+                .chain_closure::<String>(closure!(
+                    |_: glib::Object, repo_tags: utils::BoxedStringVec| {
+                        utils::escape(&utils::format_option(repo_tags.iter().next()))
+                    }
+                ));
+
+            let filter_model = gtk::FilterListModel::new(
+                Some(obj.client().unwrap().image_list()),
+                Some(&gtk::CustomFilter::new(|obj| {
+                    obj.downcast_ref::<model::Image>()
+                        .unwrap()
+                        .repo_tags()
+                        .first()
+                        .is_some()
+                })),
+            );
+
+            self.infra_local_image_combo_row
+                .set_model(Some(&filter_model));
+            self.infra_local_image_combo_row
+                .set_expression(Some(&image_tag_expr));
+            self.infra_local_image_combo_row
+                .connect_selected_item_notify(
+                    clone!(@weak obj => move |_| obj.update_infra_command_row()),
+                );
+            obj.update_infra_command_row();
         }
 
         fn dispose(&self, obj: &Self::Type) {
@@ -170,6 +272,10 @@ impl CreationPage {
         self.action_set_enabled(ACTION_CREATE, self.imp().name_entry_row.text().len() > 0);
     }
 
+    fn image(&self) -> Option<model::Image> {
+        self.imp().infra_image.upgrade()
+    }
+
     fn add_label(&self) {
         let label = model::KeyVal::default();
         self.connect_label(&label);
@@ -188,13 +294,77 @@ impl CreationPage {
         }));
     }
 
-    fn create(&self) {
+    fn add_infra_cmd_arg(&self) {
+        let arg = model::CmdArg::default();
+        self.connect_infra_cmd_arg(&arg);
+
+        self.imp().infra_cmd_args.borrow().append(&arg);
+    }
+
+    fn connect_infra_cmd_arg(&self, cmd_arg: &model::CmdArg) {
+        cmd_arg.connect_remove_request(clone!(@weak self as obj => move |cmd_arg| {
+            let imp = obj.imp();
+
+            let cmd_args = imp.infra_cmd_args.borrow();
+            if let Some(pos) = cmd_args.find(cmd_arg) {
+                cmd_args.remove(pos);
+            }
+        }));
+    }
+
+    fn finish(&self) {
+        let imp = self.imp();
+
+        if imp.infra_remote_image_row.is_visible() {
+            self.pull_and_create(imp.infra_remote_image_row.subtitle().unwrap().as_str());
+        } else if let Some(image) = self.image().or_else(|| {
+            imp.infra_local_image_combo_row
+                .selected_item()
+                .map(|item| item.downcast().unwrap())
+        }) {
+            if imp.infra_pull_latest_image_switch.is_active() {
+                self.pull_and_create(image.repo_tags().first().unwrap());
+            } else {
+                self.create(Some(image.id()));
+            }
+        } else {
+            imp.stack.set_visible_child_name("creation-settings");
+
+            log::error!("Error while starting container: no image selected");
+            utils::show_error_toast(self, "Failed to create container", "no image selected")
+        }
+    }
+
+    fn pull_and_create(&self, reference: &str) {
+        let imp = self.imp();
+        imp.stack.set_visible_child(&*imp.image_pulling_page);
+
+        let opts = podman::opts::PullOpts::builder()
+            .reference(reference)
+            .quiet(false)
+            .build();
+
+        imp.image_pulling_page.pull(
+            opts,
+            clone!(@weak self as obj => move |result| match result {
+                Ok(report) => obj.create(report.id.as_deref()),
+                Err(e) => obj.on_pull_error(&e.to_string())
+            }),
+        );
+    }
+
+    fn on_pull_error(&self, error: &str) {
+        log::error!("Error while pulling newest image: {}", error);
+        utils::show_error_toast(self, "Error while pulling newest image", error);
+    }
+
+    fn create(&self, infra_image: Option<&str>) {
         self.action_set_enabled(ACTION_CREATE, false);
 
         let imp = self.imp();
         imp.preferences_page.set_sensitive(false);
 
-        let opts = podman::opts::PodCreateOpts::builder()
+        let mut opts = podman::opts::PodCreateOpts::builder()
             .name(imp.name_entry_row.text().as_str())
             .hostname(imp.hostname_entry_row.text().as_str())
             .labels(
@@ -204,8 +374,37 @@ impl CreationPage {
                     .to_typed_list_model::<model::KeyVal>()
                     .into_iter()
                     .map(|label| (label.key(), label.value())),
-            )
-            .build();
+            );
+
+        if imp.disable_infra_switch.is_active() {
+            opts = opts.no_infra(true);
+        } else {
+            let infra_name = imp.infra_name_entry_row.text();
+            if !infra_name.is_empty() {
+                opts = opts.infra_name(infra_name.as_str());
+            }
+            if let Some(infra_image) = infra_image {
+                opts = opts.infra_image(infra_image);
+            }
+            let infra_command = imp.infra_command_entry_row.text();
+            if !infra_command.is_empty() {
+                let args = imp
+                    .infra_cmd_args
+                    .borrow()
+                    .to_owned()
+                    .to_typed_list_model::<model::CmdArg>()
+                    .into_iter()
+                    .map(|arg| arg.arg());
+                let mut cmd = vec![infra_command.to_string()];
+                cmd.extend(args);
+                opts = opts.infra_command(cmd);
+            }
+            let infra_common_pid_file = imp.infra_common_pid_file_entry_row.text();
+            if !infra_common_pid_file.is_empty() {
+                opts = opts.infra_common_pid_file(infra_common_pid_file.as_str());
+            }
+        }
+        let opts = opts.build();
 
         utils::do_async(
             {
@@ -243,6 +442,76 @@ impl CreationPage {
                 }
             }),
         );
+    }
+
+    fn toggle_infra(&self) {
+        let imp = self.imp();
+        if imp.disable_infra_switch.is_active() {
+            imp.infra_settings_box.set_visible(false);
+        } else {
+            imp.infra_settings_box.set_visible(true);
+        }
+    }
+
+    fn remove_remote(&self) {
+        let imp = self.imp();
+        imp.infra_remote_image_row.set_subtitle("");
+        imp.infra_remote_image_row.set_visible(false);
+        imp.infra_local_image_combo_row.set_visible(true);
+    }
+
+    fn search_image(&self) {
+        let image_selection_page = view::ImageSelectionPage::from(self.client().as_ref());
+        image_selection_page.connect_image_selected(clone!(@weak self as obj => move |_, image| {
+            let imp = obj.imp();
+
+            imp.infra_local_image_combo_row.set_visible(false);
+            imp.infra_remote_image_row.set_visible(true);
+            imp.infra_remote_image_row.set_subtitle(&image);
+
+            imp.infra_command_entry_row.set_text("");
+        }));
+        self.imp()
+            .leaflet_overlay
+            .show_details(&image_selection_page);
+    }
+
+    fn update_infra_command_row(&self) {
+        let imp = self.imp();
+
+        match imp
+            .infra_local_image_combo_row
+            .selected_item()
+            .as_ref()
+            .map(|item| item.downcast_ref::<model::Image>().unwrap())
+        {
+            Some(image) => match image.data() {
+                Some(details) => imp
+                    .infra_command_entry_row
+                    .set_text(details.config().cmd().unwrap_or("")),
+                None => {
+                    if let Some((handler, image)) = imp.command_row_handler.take() {
+                        if let Some(image) = image.upgrade() {
+                            image.disconnect(handler);
+                        }
+                    }
+                    let handler = image.connect_notify_local(
+                        Some("details"),
+                        clone!(@weak self as obj => move |image, _| {
+                            obj.imp().infra_command_entry_row.set_text(
+                                image.data().unwrap().config().cmd().unwrap_or("")
+                            );
+                        }),
+                    );
+                    let image_weak = WeakRef::new();
+                    image_weak.set(Some(image));
+                    imp.command_row_handler.replace(Some((handler, image_weak)));
+
+                    image.inspect(|_| {});
+                }
+            },
+            None => imp.infra_command_entry_row.set_text(""),
+        }
     }
 
     fn switch_to_pod(&self, pod: &model::Pod) {
