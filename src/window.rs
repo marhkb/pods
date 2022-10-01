@@ -404,8 +404,15 @@ mod imp {
                 log::warn!("Failed to save window state, {}", &err);
             }
 
-            // Pass close request on to the parent
+            if view::show_ongoing_actions_warning_dialog(
+                window,
+                &self.connection_manager,
+                &gettext("Confirm Exiting The Application"),
+            ) {
             self.parent_close_request(window)
+            } else {
+                gtk::Inhibit(true)
+            }
         }
     }
 
