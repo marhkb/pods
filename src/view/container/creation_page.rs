@@ -2,10 +2,9 @@ use std::cell::RefCell;
 
 use adw::subclass::prelude::*;
 use adw::traits::ActionRowExt;
-use adw::traits::BinExt;
 use adw::traits::ComboRowExt;
 use adw::traits::ExpanderRowExt;
-use futures::TryFutureExt;
+use gettextrs::gettext;
 use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
@@ -17,7 +16,6 @@ use once_cell::sync::Lazy;
 use serde::Serialize;
 
 use crate::model;
-use crate::model::AbstractContainerListExt;
 use crate::podman;
 use crate::utils;
 use crate::utils::ToTypedListModel;
@@ -93,10 +91,6 @@ mod imp {
         pub(super) health_check_retries_value: TemplateChild<gtk::Adjustment>,
         #[template_child]
         pub(super) crate_and_run_button: TemplateChild<gtk::Button>,
-        #[template_child]
-        pub(super) image_pulling_page: TemplateChild<view::ImagePullingPage>,
-        #[template_child]
-        pub(super) container_details_page_bin: TemplateChild<adw::Bin>,
         #[template_child]
         pub(super) leaflet_overlay: TemplateChild<view::LeafletOverlay>,
     }
@@ -676,46 +670,56 @@ impl CreationPage {
             if imp.pull_latest_image_switch.is_active() {
                 self.pull_and_create(image.repo_tags().first().unwrap(), run);
             } else {
-                self.create(image.id(), run);
+                let page =
+                    view::ActionPage::from(&self.client().unwrap().action_list().create_container(
+                        imp.name_entry_row.text().as_str(),
+                        self.create().image(image.id()).build(),
+                        run,
+                    ));
+
+                imp.stack.add_child(&page);
+                imp.stack.set_visible_child(&page);
             }
         } else {
-            imp.stack.set_visible_child_name("creation-settings");
-
             log::error!("Error while starting container: no image selected");
-            utils::show_error_toast(self, "Failed to create container", "no image selected")
+            utils::show_error_toast(
+                self,
+                &gettext("Failed to create container"),
+                &gettext("no image selected"),
+            )
         }
     }
 
     fn pull_and_create(&self, reference: &str, run: bool) {
         let imp = self.imp();
-        imp.stack.set_visible_child(&*imp.image_pulling_page);
 
-        let opts = podman::opts::PullOpts::builder()
+        let pull_opts = podman::opts::PullOpts::builder()
             .reference(reference)
             .quiet(false)
             .build();
 
-        imp.image_pulling_page.pull(
-            opts,
-            clone!(@weak self as obj => move |result| match result {
-                Ok(report) => obj.create(&report.id.unwrap(), run),
-                Err(e) => obj.on_pull_error(&e.to_string())
-            }),
+        let page = view::ActionPage::from(
+            &self
+                .client()
+                .unwrap()
+                .action_list()
+                .create_container_download_image(
+                    imp.name_entry_row.text().as_str(),
+                    pull_opts,
+                    self.create(),
+                    run,
+                ),
         );
+
+        imp.stack.add_child(&page);
+        imp.stack.set_visible_child(&page);
     }
 
-    fn on_pull_error(&self, error: &str) {
-        self.imp().stack.set_visible_child_name("creation-settings");
-        log::error!("Error while pulling newest image: {}", error);
-        utils::show_error_toast(self, "Error while pulling newest image", error);
-    }
-
-    fn create(&self, image_id: &str, run: bool) {
+    fn create(&self) -> podman::opts::ContainerCreateOptsBuilder {
         let imp = self.imp();
 
         let create_opts = podman::opts::ContainerCreateOpts::builder()
             .name(imp.name_entry_row.text().as_str())
-            .image(&image_id)
             .pod(self.pod().as_ref().map(model::Pod::name))
             .terminal(imp.terminal_switch.is_active())
             .portmappings(
@@ -817,7 +821,8 @@ impl CreationPage {
         };
 
         let healthcheck_cmd = imp.health_check_command_entry_row.text();
-        let opts = if healthcheck_cmd.is_empty() {
+
+        if healthcheck_cmd.is_empty() {
             create_opts
         } else {
             create_opts.health_config(podman::models::Schema2HealthConfig {
@@ -835,76 +840,6 @@ impl CreationPage {
                 timeout: Some(imp.health_check_timeout_value.value() as i64 * 1_000_000_000),
             })
         }
-        .build();
-
-        imp.stack.set_visible_child_name("creating");
-
-        utils::do_async(
-            {
-                let podman = self.client().unwrap().podman().clone();
-                async move { podman.containers().create(&opts).await }
-            },
-            clone!(@weak self as obj => move |result| {
-                match result.map(|info| info.id) {
-                    Ok(id) => {
-                        let client = obj.client().unwrap();
-                        match client.container_list().get_container(&id) {
-                            Some(container) => obj.switch_to_container(&container),
-                            None => {
-                                client.container_list().connect_container_added(
-                                    clone!(@weak obj, @strong id => move |_, container| {
-                                        if container.id() == id.as_str() {
-                                            obj.switch_to_container(container);
-                                        }
-                                    }),
-                                );
-                            }
-                        }
-
-                        if run {
-                            utils::do_async(
-                                {
-                                    let podman = obj.client().unwrap().podman().clone();
-                                    async move {
-                                        podman
-                                            .containers()
-                                            .get(id.clone())
-                                            .start(None)
-                                            .map_ok(|_| id)
-                                            .await
-                                    }
-                                },
-                                clone!(@weak obj => move |result| if let Err(e) = result {
-                                    log::error!("Error while starting container: {}", e);
-                                    utils::show_error_toast(
-                                        &obj,
-                                        "Error while starting container",
-                                        &e.to_string()
-                                    );
-                                }),
-                            );
-                        }
-                    }
-                    Err(e) => {
-                        obj.imp().stack.set_visible_child_name("creation-settings");
-                        log::error!("Error while creating container: {}", e);
-                        utils::show_error_toast(
-                            &obj,
-                            "Error while creating container",
-                            &e.to_string()
-                        );
-                    }
-                }
-            }),
-        );
-    }
-
-    fn switch_to_container(&self, container: &model::Container) {
-        let imp = self.imp();
-        imp.container_details_page_bin
-            .set_child(Some(&view::ContainerDetailsPage::from(container)));
-        imp.stack
-            .set_visible_child(&*imp.container_details_page_bin);
     }
 }
 
