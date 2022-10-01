@@ -1,0 +1,221 @@
+use adw::subclass::prelude::*;
+use adw::traits::BinExt;
+use gettextrs::gettext;
+use gtk::glib;
+use gtk::glib::clone;
+use gtk::glib::WeakRef;
+use gtk::prelude::*;
+use gtk::CompositeTemplate;
+use once_cell::sync::Lazy;
+
+use crate::model;
+use crate::utils;
+use crate::view;
+
+const ACTION_CANCEL: &str = "action-page.cancel";
+const ACTION_VIEW_IMAGE: &str = "action-page.view-artifact";
+
+mod imp {
+    use super::*;
+
+    #[derive(Debug, Default, CompositeTemplate)]
+    #[template(resource = "/com/github/marhkb/Pods/ui/action/page.ui")]
+    pub(crate) struct Page {
+        pub(super) action: WeakRef<model::Action>,
+        #[template_child]
+        pub(super) main_stack: TemplateChild<gtk::Stack>,
+        #[template_child]
+        pub(super) status_page: TemplateChild<adw::StatusPage>,
+        #[template_child]
+        pub(super) artifact_page_bin: TemplateChild<adw::Bin>,
+    }
+
+    #[glib::object_subclass]
+    impl ObjectSubclass for Page {
+        const NAME: &'static str = "PdsActionPage";
+        type Type = super::Page;
+        type ParentType = gtk::Widget;
+
+        fn class_init(klass: &mut Self::Class) {
+            Self::bind_template(klass);
+            klass.install_action(ACTION_CANCEL, None, |widget, _, _| widget.cancel());
+            klass.install_action(ACTION_VIEW_IMAGE, None, move |widget, _, _| {
+                widget.view_artifact();
+            });
+        }
+
+        fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
+            obj.init_template();
+        }
+    }
+
+    impl ObjectImpl for Page {
+        fn properties() -> &'static [glib::ParamSpec] {
+            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
+                vec![glib::ParamSpecObject::new(
+                    "action",
+                    "Action",
+                    "The action of this image pulling page",
+                    model::Action::static_type(),
+                    glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
+                )]
+            });
+            PROPERTIES.as_ref()
+        }
+
+        fn set_property(
+            &self,
+            _obj: &Self::Type,
+            _id: usize,
+            value: &glib::Value,
+            pspec: &glib::ParamSpec,
+        ) {
+            match pspec.name() {
+                "action" => self.action.set(value.get().unwrap()),
+                _ => unimplemented!(),
+            }
+        }
+
+        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            match pspec.name() {
+                "action" => obj.action().to_value(),
+                _ => unimplemented!(),
+            }
+        }
+
+        fn constructed(&self, obj: &Self::Type) {
+            use model::ActionType::*;
+
+            self.parent_constructed(obj);
+
+            let action = obj.action().unwrap();
+
+            obj.update_state(&action);
+            action.connect_notify_local(
+                Some("state"),
+                clone!(@weak obj => move |action, _| obj.update_state(action)),
+            );
+
+            self.status_page.set_icon_name(Some(match action.type_() {
+                PruneImages => "larger-brush-symbolic",
+                DownloadImage | BuildImage => "image-x-generic-symbolic",
+                Container => "package-x-generic-symbolic",
+                Pod => "pods-symbolic",
+                _ => unimplemented!(),
+            }));
+        }
+
+        fn dispose(&self, obj: &Self::Type) {
+            utils::ChildIter::from(obj).for_each(|child| child.unparent());
+        }
+    }
+
+    impl WidgetImpl for Page {}
+}
+
+glib::wrapper! {
+    pub(crate) struct Page(ObjectSubclass<imp::Page>)
+        @extends gtk::Widget,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
+}
+
+impl From<&model::Action> for Page {
+    fn from(action: &model::Action) -> Self {
+        glib::Object::new(&[("action", &action)]).expect("Failed to build PdsImageCreationPage")
+    }
+}
+
+impl Page {
+    fn action(&self) -> Option<model::Action> {
+        self.imp().action.upgrade()
+    }
+
+    fn update_state(&self, action: &model::Action) {
+        use model::ActionState::*;
+        use model::ActionType::*;
+
+        let imp = self.imp();
+
+        match action.state() {
+            model::ActionState::Ongoing => {
+                imp.status_page.set_title(&match action.type_() {
+                    PruneImages => gettext("Images Are Currently Being Pruned"),
+                    DownloadImage => gettext("Image Is Currently Being Downloaded"),
+                    BuildImage => gettext("Image Is Currently Being Built"),
+                    Container => gettext("Container Is Currently Being Created"),
+                    Pod => gettext("Pod Is Currently Being Created"),
+                    Undefined => unreachable!(),
+                });
+            }
+            Finished => {
+                imp.status_page.set_title(&match action.type_() {
+                    PruneImages => gettext("Images Have Been Pruned"),
+                    DownloadImage => gettext("Image Has Been Downloaded"),
+                    BuildImage => gettext("Image Has Been Built"),
+                    Container => gettext("Container Has Been Created"),
+                    Pod => gettext("Pod Has Been Created"),
+                    Undefined => unreachable!(),
+                });
+            }
+            Cancelled => {
+                imp.status_page.set_title(&match action.type_() {
+                    PruneImages => gettext("Pruning of Images Has Been Aborted"),
+                    DownloadImage => gettext("Image Download Has Been Aborted"),
+                    BuildImage => gettext("Image Built Has Been Aborted"),
+                    Container => gettext("Container Creation Has Been Aborted"),
+                    Pod => gettext("Pod Creation Has Been Aborted"),
+                    Undefined => unreachable!(),
+                });
+            }
+            Failed => {
+                imp.status_page.set_title(&match action.type_() {
+                    PruneImages => gettext("Pruning of Images Has Failed"),
+                    DownloadImage => gettext("Image Download Has Failed"),
+                    BuildImage => gettext("Image Built Has Failed"),
+                    Container => gettext("Container Creation Has Failed"),
+                    Pod => gettext("Pod Creation Has Failed"),
+                    Undefined => unreachable!(),
+                });
+            }
+        }
+
+        self.action_set_enabled(ACTION_CANCEL, action.state() == Ongoing);
+        self.action_set_enabled(
+            ACTION_VIEW_IMAGE,
+            action.state() == Finished && action.type_() != PruneImages,
+        );
+    }
+
+    fn cancel(&self) {
+        if let Some(action) = self.action() {
+            action.cancel();
+        }
+    }
+
+    fn view_artifact(&self) {
+        match self.action().as_ref().and_then(model::Action::artifact) {
+            Some(artifact) => {
+                let imp = self.imp();
+
+                imp.artifact_page_bin.set_child(Some(&if let Some(image) =
+                    artifact.downcast_ref::<model::Image>()
+                {
+                    view::ImageDetailsPage::from(image).upcast::<gtk::Widget>()
+                } else if let Some(container) = artifact.downcast_ref::<model::Container>() {
+                    view::ContainerDetailsPage::from(container).upcast()
+                } else if let Some(pod) = artifact.downcast_ref::<model::Pod>() {
+                    view::PodDetailsPage::from(pod).upcast()
+                } else {
+                    unreachable!();
+                }));
+
+                imp.main_stack.set_visible_child(&*imp.artifact_page_bin);
+            }
+            None => utils::show_error_toast(
+                self,
+                &gettext("Error on opening artifact"),
+                &gettext("Artifact has been deleted"),
+            ),
+        }
+    }
+}
