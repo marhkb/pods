@@ -1,12 +1,56 @@
-connectionswitchermenu row #selection-indicator #background {
+actionsmenubutton .action-count-mask {
+  background-color: @headerbar_bg_color;
+  border-radius: 9999px;
+  margin: 0 0 10px 10px;
+  padding: 8px;
+}
+
+actionsmenubutton .action-count-badge {
+  border-radius: 9999px;
+  font-feature-settings: "tnum";
+  font-size: x-small;
+  font-weight: bold;
+  margin: 0 0 11px 11px;
+  padding: 6px;
+}
+
+actionsmenubutton.good .action-count-badge {
+  background-color: @accent_bg_color;
+  color: @accent_fg_color;
+}
+
+actionsmenubutton.finished .action-count-badge {
+  background-color: @success_bg_color;
+  color: @success_fg_color;
+}
+
+actionsmenubutton.cancelled .action-count-badge {
+  background-color: @warning_bg_color;
+  color: @warning_fg_color;
+}
+
+actionsmenubutton.failed .action-count-badge {
+  background-color: @error_bg_color;
+  color: @error_fg_color;
+}
+
+connectionswitchermenu row #selection-indicator #background,
+actionsoverview #type {
   background-color: @shade_color;
   border-radius: 9999px;
 }
 
 #main-menu connectionswitchermenu row #selection-indicator #background,
-#main-menu connectionswitchermenu row #delete-button {
+#main-menu connectionswitchermenu row #delete-button,
+actionsoverview #action,
+actionsoverview #type {
   min-height: 34px;
   min-width: 34px;
+}
+
+#main-menu connectionswitchermenu row #delete-button,
+actionsoverview #action {
+  margin-left: 12px;
 }
 
 connectionchooserpage connectionswitchermenu row #selection-indicator #background,
@@ -26,12 +70,14 @@ connectionswitchermenu row #selection-indicator .selected-connection {
   border: 2px solid @accent_bg_color;
 }
 
-connectionswitchermenu row #selection-indicator .unselected-connection {
+connectionswitchermenu row #selection-indicator .unselected-connection,
+actionsoverview #type {
   padding: 1px;
   border: 1px solid @borders;
 }
 
-#main-menu connectionswitchermenu row {
+#main-menu connectionswitchermenu row,
+actionsoverview row {
   border-radius: 9px;
   padding: 6px;
 }
