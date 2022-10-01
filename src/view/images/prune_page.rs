@@ -14,6 +14,7 @@ use once_cell::sync::Lazy;
 use crate::model;
 use crate::podman;
 use crate::utils;
+use crate::view;
 
 const ACTION_PRUNE: &str = "images-prune-page.prune";
 
@@ -36,9 +37,7 @@ mod imp {
         pub(super) prune_until_timestamp: Cell<i64>,
         pub(super) client: WeakRef<model::Client>,
         #[template_child]
-        pub(super) header_bar: TemplateChild<adw::HeaderBar>,
-        #[template_child]
-        pub(super) preferences_page: TemplateChild<adw::PreferencesPage>,
+        pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) prune_all_switch: TemplateChild<gtk::Switch>,
         #[template_child]
@@ -130,15 +129,6 @@ mod imp {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
-            let client = obj.client().unwrap();
-            obj.action_set_enabled(ACTION_PRUNE, !client.pruning());
-            client.connect_notify_local(
-                Some("pruning"),
-                clone!(@weak obj => move |client, _| {
-                    obj.action_set_enabled(ACTION_PRUNE, !client.pruning());
-                }),
-            );
-
             obj.load_time_format();
             self.desktop_settings.connect_changed(
                 Some("clock-format"),
@@ -221,9 +211,8 @@ mod imp {
                 .set_active(Some(if hour < 12 { 0 } else { 1 }));
         }
 
-        fn dispose(&self, _obj: &Self::Type) {
-            self.header_bar.unparent();
-            self.preferences_page.unparent();
+        fn dispose(&self, obj: &Self::Type) {
+            utils::ChildIter::from(obj).for_each(|child| child.unparent());
         }
     }
 
@@ -285,7 +274,8 @@ impl PrunePage {
 
     fn prune(&self) {
         let imp = self.imp();
-        self.client().unwrap().prune(
+
+        let action = self.client().unwrap().action_list().prune_images(
             podman::opts::ImagePruneOpts::builder()
                 .all(imp.pods_settings.get("prune-all-images"))
                 .external(imp.pods_settings.get("prune-external-images"))
@@ -297,23 +287,12 @@ impl PrunePage {
                     None
                 })
                 .build(),
-            clone!(@weak self as obj => move |result| {
-                match result {
-                    Ok(_) => utils::show_toast(
-                        &obj,
-                        &gettext("All images have been pruned"),
-                    ),
-                    Err(e) => {
-                        log::error!("Error on pruning images: {e}");
-                        utils::show_error_toast(
-                            &obj,
-                            &gettext("Error on pruning images"),
-                            &e.to_string()
-                        );
-                    }
-                }
-            }),
-        )
+        );
+
+        let page = view::ActionPage::from(&action);
+
+        imp.stack.add_child(&page);
+        imp.stack.set_visible_child(&page);
     }
 }
 
