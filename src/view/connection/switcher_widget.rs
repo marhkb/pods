@@ -51,6 +51,10 @@ mod imp {
                 .downcast::<model::Connection>()
                 .unwrap();
 
+            if connection.is_active() {
+                return;
+            }
+
             let obj = self.instance();
             if let Err(e) = obj
                 .connection_manager()
