@@ -1,4 +1,5 @@
 mod abstract_container_list;
+mod action;
 mod client;
 mod cmd_arg;
 mod connection;
@@ -26,6 +27,9 @@ mod volume;
 
 pub(crate) use self::abstract_container_list::AbstractContainerList;
 pub(crate) use self::abstract_container_list::AbstractContainerListExt;
+pub(crate) use self::action::Action;
+pub(crate) use self::action::State as ActionState;
+pub(crate) use self::action::Type as ActionType;
 pub(crate) use self::client::Client;
 pub(crate) use self::client::ClientError;
 pub(crate) use self::cmd_arg::CmdArg;
