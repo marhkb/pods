@@ -209,4 +209,12 @@ impl Connection {
     pub(crate) fn is_remote(&self) -> bool {
         !self.is_local()
     }
+
+    pub(crate) fn is_active(&self) -> bool {
+        self.manager()
+            .as_ref()
+            .and_then(model::ConnectionManager::client)
+            .map(|client| client.connection() == self)
+            .unwrap_or(false)
+    }
 }
