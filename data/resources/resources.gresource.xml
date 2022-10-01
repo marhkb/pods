@@ -40,7 +40,6 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/image-search/response-row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/image-search/widget.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/image/build-page.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">ui/image/building-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/image/details-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/image/menu-button.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/image/pull-page.ui</file>

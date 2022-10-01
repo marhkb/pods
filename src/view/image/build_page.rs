@@ -1,7 +1,6 @@
 use std::cell::RefCell;
 
 use adw::traits::ActionRowExt;
-use adw::traits::BinExt;
 use ashpd::desktop::file_chooser::FileChooserProxy;
 use ashpd::desktop::file_chooser::OpenFileOptions;
 use ashpd::zbus;
@@ -32,8 +31,6 @@ mod imp {
         pub(super) labels: RefCell<gio::ListStore>,
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
-        #[template_child]
-        pub(super) image_building_page_bin: TemplateChild<adw::Bin>,
         #[template_child]
         pub(super) tag_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
@@ -256,12 +253,6 @@ impl BuildPage {
 
         if !imp.tag_entry_row.text().is_empty() {
             if let Some(context_dir_row) = imp.context_dir_row.subtitle() {
-                let image_building_page = view::ImageBuildingPage::from(self.client().as_ref());
-
-                imp.image_building_page_bin
-                    .set_child(Some(&image_building_page));
-                imp.stack.set_visible_child(&*imp.image_building_page_bin);
-
                 let opts = podman::opts::ImageBuildOptsBuilder::new(context_dir_row)
                     .dockerfile(imp.container_file_path_entry_row.text())
                     .tag(imp.tag_entry_row.text())
@@ -275,17 +266,17 @@ impl BuildPage {
                     )
                     .build();
 
-                image_building_page.build(
-                    opts,
-                    clone!(@weak self as obj => move |e| obj.on_build_error(&e.to_string())),
+                let page = view::ActionPage::from(
+                    &self
+                        .client()
+                        .unwrap()
+                        .action_list()
+                        .build_image(imp.tag_entry_row.text().as_str(), opts),
                 );
+
+                imp.stack.add_child(&page);
+                imp.stack.set_visible_child(&page);
             }
         }
-    }
-
-    fn on_build_error(&self, msg: &str) {
-        self.imp().stack.set_visible_child_name("build-settings");
-        log::error!("Failed to build image: {}", msg);
-        utils::show_error_toast(self, &gettext("Failed to build image"), msg);
     }
 }

@@ -53,7 +53,6 @@ pub(crate) use containers::Group as ContainersGroup;
 pub(crate) use containers::Panel as ContainersPanel;
 pub(crate) use health_check_log::Row as HealthCheckLogRow;
 pub(crate) use image::BuildPage as ImageBuildPage;
-pub(crate) use image::BuildingPage as ImageBuildingPage;
 pub(crate) use image::DetailsPage as ImageDetailsPage;
 pub(crate) use image::MenuButton as ImageMenuButton;
 pub(crate) use image::PullPage as ImagePullPage;

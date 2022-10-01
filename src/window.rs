@@ -112,7 +112,6 @@ mod imp {
             view::CountBadge::static_type();
             view::HealthCheckLogRow::static_type();
             view::ImageBuildPage::static_type();
-            view::ImageBuildingPage::static_type();
             view::ImageMenuButton::static_type();
             view::ImagePullingPage::static_type();
             view::ImageSearchResponseRow::static_type();
