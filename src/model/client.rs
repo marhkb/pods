@@ -39,6 +39,7 @@ mod imp {
         pub(super) image_list: OnceCell<model::ImageList>,
         pub(super) container_list: OnceCell<model::ContainerList>,
         pub(super) pod_list: OnceCell<model::PodList>,
+        pub(super) action_list: OnceCell<model::ActionList>,
         pub(super) pruning: Cell<bool>,
     }
 
@@ -84,6 +85,13 @@ mod imp {
                         "pod-list",
                         "Pod List",
                         "The list of containers",
+                        model::PodList::static_type(),
+                        glib::ParamFlags::READABLE,
+                    ),
+                    glib::ParamSpecObject::new(
+                        "action-list",
+                        "Action List",
+                        "The list of actions",
                         model::PodList::static_type(),
                         glib::ParamFlags::READABLE,
                     ),
@@ -228,6 +236,12 @@ impl Client {
         self.imp()
             .pod_list
             .get_or_init(|| model::PodList::from(Some(self)))
+    }
+
+    pub(crate) fn action_list(&self) -> &model::ActionList {
+        self.imp()
+            .action_list
+            .get_or_init(|| model::ActionList::from(Some(self)))
     }
 
     pub(crate) fn pruning(&self) -> bool {
