@@ -7,6 +7,7 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/cmd-arg/row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/component/back-navigation-controls.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/component/circular-progress-bar.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/component/count-badge.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/component/inspection-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/component/leaflet-overlay.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/component/property-row.ui</file>

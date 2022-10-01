@@ -19,6 +19,7 @@ mod welcome_page;
 pub(crate) use cmd_arg::Row as CmdArgRow;
 pub(crate) use component::BackNavigationControls;
 pub(crate) use component::CircularProgressBar;
+pub(crate) use component::CountBadge;
 pub(crate) use component::InspectionPage;
 pub(crate) use component::LeafletOverlay;
 pub(crate) use component::PropertyRow;
