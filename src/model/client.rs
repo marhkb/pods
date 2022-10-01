@@ -1,9 +1,6 @@
-use std::cell::Cell;
-
 use futures::StreamExt;
 use gtk::glib;
 use gtk::glib::clone;
-use gtk::prelude::ObjectExt;
 use gtk::prelude::StaticType;
 use gtk::prelude::ToValue;
 use gtk::subclass::prelude::*;
@@ -39,7 +36,7 @@ mod imp {
         pub(super) image_list: OnceCell<model::ImageList>,
         pub(super) container_list: OnceCell<model::ContainerList>,
         pub(super) pod_list: OnceCell<model::PodList>,
-        pub(super) pruning: Cell<bool>,
+        pub(super) action_list: OnceCell<model::ActionList>,
     }
 
     #[glib::object_subclass]
@@ -87,6 +84,13 @@ mod imp {
                         model::PodList::static_type(),
                         glib::ParamFlags::READABLE,
                     ),
+                    glib::ParamSpecObject::new(
+                        "action-list",
+                        "Action List",
+                        "The list of actions",
+                        model::PodList::static_type(),
+                        glib::ParamFlags::READABLE,
+                    ),
                     glib::ParamSpecBoolean::new(
                         "pruning",
                         "Pruning",
@@ -120,7 +124,7 @@ mod imp {
                 "image-list" => obj.image_list().to_value(),
                 "container-list" => obj.container_list().to_value(),
                 "pod-list" => obj.pod_list().to_value(),
-                "pruning" => obj.pruning().to_value(),
+                "action-list" => obj.action_list().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -230,37 +234,10 @@ impl Client {
             .get_or_init(|| model::PodList::from(Some(self)))
     }
 
-    pub(crate) fn pruning(&self) -> bool {
-        self.imp().pruning.get()
-    }
-
-    fn set_pruning(&self, value: bool) {
-        if self.pruning() == value {
-            return;
-        }
-        self.imp().pruning.set(value);
-        self.notify("pruning");
-    }
-
-    pub(crate) fn prune<F>(&self, opts: podman::opts::ImagePruneOpts, op: F)
-    where
-        F: FnOnce(podman::Result<Option<Vec<podman::models::PruneReport>>>) + 'static,
-    {
-        self.set_pruning(true);
-        utils::do_async(
-            {
-                let podman = self.podman().clone();
-                async move { podman.images().prune(&opts).await }
-            },
-            clone!(@weak self as obj => move |result| {
-                match result.as_ref() {
-                    Ok(_) => log::info!("All images have been pruned"),
-                    Err(e) => log::error!("Error on pruning images: {e}"),
-                }
-                obj.set_pruning(false);
-                op(result);
-            }),
-        );
+    pub(crate) fn action_list(&self) -> &model::ActionList {
+        self.imp()
+            .action_list
+            .get_or_init(|| model::ActionList::from(Some(self)))
     }
 
     pub(crate) fn check_service<T, E, F>(&self, op: T, err_op: E, finish_op: F)

@@ -132,8 +132,10 @@ mod imp {
                 ],
                 closure!(|_: Self::Type,
                           connection: Option<model::Connection>,
-                          client: Option<model::Client>| {
-                    connection.as_ref() == client.as_ref().map(model::Client::connection)
+                          _: Option<model::Client>| {
+                    connection
+                        .map(|connection| connection.is_active())
+                        .unwrap_or(false)
                 }),
             );
 

@@ -2,8 +2,8 @@ use std::cell::RefCell;
 
 use adw::subclass::prelude::*;
 use adw::traits::ActionRowExt;
-use adw::traits::BinExt;
 use adw::traits::ComboRowExt;
+use gettextrs::gettext;
 use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
@@ -36,8 +36,6 @@ mod imp {
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub(super) preferences_page: TemplateChild<adw::PreferencesPage>,
-        #[template_child]
         pub(super) name_entry_row: TemplateChild<view::RandomNameEntryRow>,
         #[template_child]
         pub(super) hostname_entry_row: TemplateChild<adw::EntryRow>,
@@ -67,10 +65,6 @@ mod imp {
         pub(super) infra_command_arg_list_box: TemplateChild<gtk::ListBox>,
         #[template_child]
         pub(super) create_button: TemplateChild<gtk::Button>,
-        #[template_child]
-        pub(super) pod_details_page_bin: TemplateChild<adw::Bin>,
-        #[template_child]
-        pub(super) image_pulling_page: TemplateChild<view::ImagePullingPage>,
         #[template_child]
         pub(super) leaflet_overlay: TemplateChild<view::LeafletOverlay>,
     }
@@ -325,44 +319,53 @@ impl CreationPage {
             if imp.infra_pull_latest_image_switch.is_active() {
                 self.pull_and_create(image.repo_tags().first().unwrap());
             } else {
-                self.create(Some(image.id()));
+                let page =
+                    view::ActionPage::from(&self.client().unwrap().action_list().create_pod(
+                        imp.name_entry_row.text().as_str(),
+                        self.create().infra_image(image.id()).build(),
+                    ));
+
+                imp.stack.add_child(&page);
+                imp.stack.set_visible_child(&page);
             }
         } else {
-            imp.stack.set_visible_child_name("creation-settings");
-
-            log::error!("Error while starting container: no image selected");
-            utils::show_error_toast(self, "Failed to create container", "no image selected")
+            log::error!("Error while starting pod: no image selected");
+            utils::show_error_toast(
+                self,
+                &gettext("Failed to create pod"),
+                &gettext("no image selected"),
+            )
         }
     }
 
     fn pull_and_create(&self, reference: &str) {
         let imp = self.imp();
-        imp.stack.set_visible_child(&*imp.image_pulling_page);
 
-        let opts = podman::opts::PullOpts::builder()
+        let pull_opts = podman::opts::PullOpts::builder()
             .reference(reference)
             .quiet(false)
             .build();
 
-        imp.image_pulling_page.pull(
-            opts,
-            clone!(@weak self as obj => move |result| match result {
-                Ok(report) => obj.create(report.id.as_deref()),
-                Err(e) => obj.on_pull_error(&e.to_string())
-            }),
+        let page = view::ActionPage::from(
+            &self
+                .client()
+                .unwrap()
+                .action_list()
+                .create_pod_download_infra(
+                    imp.name_entry_row.text().as_str(),
+                    pull_opts,
+                    self.create(),
+                ),
         );
+
+        imp.stack.add_child(&page);
+        imp.stack.set_visible_child(&page);
     }
 
-    fn on_pull_error(&self, error: &str) {
-        log::error!("Error while pulling newest image: {}", error);
-        utils::show_error_toast(self, "Error while pulling newest image", error);
-    }
-
-    fn create(&self, infra_image: Option<&str>) {
+    fn create(&self) -> podman::opts::PodCreateOptsBuilder {
         self.action_set_enabled(ACTION_CREATE, false);
 
         let imp = self.imp();
-        imp.preferences_page.set_sensitive(false);
 
         let mut opts = podman::opts::PodCreateOpts::builder()
             .name(imp.name_entry_row.text().as_str())
@@ -383,9 +386,6 @@ impl CreationPage {
             if !infra_name.is_empty() {
                 opts = opts.infra_name(infra_name.as_str());
             }
-            if let Some(infra_image) = infra_image {
-                opts = opts.infra_image(infra_image);
-            }
             let infra_command = imp.infra_command_entry_row.text();
             if !infra_command.is_empty() {
                 let args = imp
@@ -404,44 +404,8 @@ impl CreationPage {
                 opts = opts.infra_common_pid_file(infra_common_pid_file.as_str());
             }
         }
-        let opts = opts.build();
 
-        utils::do_async(
-            {
-                let podman = self.client().unwrap().podman().clone();
-                async move { podman.pods().create(&opts).await }
-            },
-            clone!(@weak self as obj => move |result| {
-                match result.map(|pod| pod.id().to_string()) {
-                    Ok(id) => {
-                        let client = obj.client().unwrap();
-                        match client.pod_list().get_pod(&id) {
-                            Some(pod) => obj.switch_to_pod(&pod),
-                            None => {
-                                client.pod_list().connect_pod_added(
-                                    clone!(@weak obj, @strong id => move |_, pod| {
-                                        if pod.id() == id.as_str() {
-                                            obj.switch_to_pod(pod);
-                                        }
-                                    }),
-                                );
-                            }
-                        }
-                    }
-                    Err(e) => {
-                        log::error!("Error while creating pod: {}", e);
-                        utils::show_error_toast(
-                            &obj,
-                            "Error while creating pod",
-                            &e.to_string()
-                        );
-
-                        obj.action_set_enabled(ACTION_CREATE, true);
-                        obj.imp().preferences_page.set_sensitive(true);
-                    }
-                }
-            }),
-        );
+        opts
     }
 
     fn toggle_infra(&self) {
@@ -512,12 +476,5 @@ impl CreationPage {
             },
             None => imp.infra_command_entry_row.set_text(""),
         }
-    }
-
-    fn switch_to_pod(&self, pod: &model::Pod) {
-        let imp = self.imp();
-        imp.pod_details_page_bin
-            .set_child(Some(&view::PodDetailsPage::from(pod)));
-        imp.stack.set_visible_child(&*imp.pod_details_page_bin);
     }
 }

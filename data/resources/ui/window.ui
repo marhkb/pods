@@ -151,6 +151,18 @@
                                     </child>
 
                                     <child type="end">
+                                      <object class="PdsActionsMenuButton" id="actions_menu_button">
+                                        <binding name="action-list">
+                                          <lookup name="action-list" type="Client">
+                                            <lookup name="client" type="ConnectionManager">
+                                              <lookup name="connection-manager">PdsWindow</lookup>
+                                            </lookup>
+                                          </lookup>
+                                        </binding>
+                                      </object>
+                                    </child>
+
+                                    <child type="end">
                                       <object class="GtkButton" id="selection_mode_button">
                                         <property name="action-name">win.enter-selection-mode</property>
                                         <property name="icon-name">selection-mode-symbolic</property>

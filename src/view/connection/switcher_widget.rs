@@ -9,6 +9,7 @@ use once_cell::sync::Lazy;
 
 use crate::model;
 use crate::utils;
+use crate::view;
 
 mod imp {
     use super::*;
@@ -51,13 +52,23 @@ mod imp {
                 .downcast::<model::Connection>()
                 .unwrap();
 
+            if connection.is_active() {
+                return;
+            }
+
             let obj = self.instance();
-            if let Err(e) = obj
-                .connection_manager()
-                .unwrap()
-                .set_client_from(connection.uuid())
-            {
-                obj.on_error(e);
+            let connection_manager = obj.connection_manager().unwrap();
+
+            if let Some(widget) = obj.ancestor(gtk::PopoverMenu::static_type()) {
+                widget.downcast::<gtk::PopoverMenu>().unwrap().popdown();
+            }
+
+            if view::show_ongoing_actions_warning_dialog(
+                &obj,
+                &connection_manager,
+                &gettext("Confirm Switching Connection"),
+            ) {
+                obj.switch_connection(&connection_manager, connection.uuid())
             }
         }
     }
@@ -147,5 +158,11 @@ impl SwitcherWidget {
 
         imp.connection_manager.set(value);
         self.notify("connection-manager");
+    }
+
+    fn switch_connection(&self, connection_manager: &model::ConnectionManager, uuid: &str) {
+        if let Err(e) = connection_manager.set_client_from(uuid) {
+            self.on_error(e);
+        }
     }
 }

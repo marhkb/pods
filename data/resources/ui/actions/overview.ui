@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="PdsActionsOverview" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBinLayout"/>
+    </property>
+
+    <child>
+      <object class="GtkStack" id="stack">
+        <property name="hhomogeneous">False</property>
+        <property name="vhomogeneous">False</property>
+
+        <child>
+          <object class="GtkStackPage">
+            <property name="name">empty</property>
+
+            <property name="child">
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <property name="spacing">12</property>
+                <property name="margin-top">18</property>
+                <property name="margin-end">12</property>
+                <property name="margin-bottom">18</property>
+                <property name="margin-start">12</property>
+
+                <child>
+                  <object class="GtkImage">
+                    <property name="icon-name">action-unavailable-symbolic</property>
+                    <property name="icon-size">large</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkLabel">
+                    <style>
+                      <class name="heading"/>
+                    </style>
+                    <property name="label" translatable="yes">No Actions in This Session</property>
+                  </object>
+                </child>
+
+              </object>
+            </property>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkStackPage">
+            <property name="name">actions</property>
+
+            <property name="child">
+              <object class="GtkListView" id="action_list_view">
+                <signal name="activate" handler="activated" swapped="true"/>
+                <property name="single-click-activate">True</property>
+                <property name="factory">
+                  <object class="GtkBuilderListItemFactory">
+                    <property name="bytes">
+                      <![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+<template class="GtkListItem">
+  <property name="child">
+    <object class="PdsActionRow">
+      <binding name="action">
+        <lookup name="item">GtkListItem</lookup>
+      </binding>
+    </object>
+  </property>
+</template>
+</interface>
+                      ]]>
+                    </property>
+                  </object>
+                </property>
+              </object>
+            </property>
+
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>

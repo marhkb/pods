@@ -47,6 +47,8 @@ mod imp {
         #[template_child]
         pub(super) menu_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
+        pub(super) actions_menu_button: TemplateChild<view::ActionsMenuButton>,
+        #[template_child]
         pub(super) selection_mode_button: TemplateChild<gtk::Button>,
         #[template_child]
         pub(super) selected_items_stack: TemplateChild<gtk::Stack>,
@@ -90,6 +92,10 @@ mod imp {
             Self::bind_template(klass);
 
             // Initialize all classes here
+            view::ActionPage::static_type();
+            view::ActionRow::static_type();
+            view::ActionsMenuButton::static_type();
+            view::ActionsOverview::static_type();
             view::BackNavigationControls::static_type();
             view::CircularProgressBar::static_type();
             view::ConnectionChooserPage::static_type();
@@ -103,11 +109,10 @@ mod imp {
             view::ContainersCountBar::static_type();
             view::ContainersGroup::static_type();
             view::ContainersPanel::static_type();
+            view::CountBadge::static_type();
             view::HealthCheckLogRow::static_type();
             view::ImageBuildPage::static_type();
-            view::ImageBuildingPage::static_type();
             view::ImageMenuButton::static_type();
-            view::ImagePullingPage::static_type();
             view::ImageSearchResponseRow::static_type();
             view::ImagesPanel::static_type();
             view::InspectionPage::static_type();
@@ -257,6 +262,7 @@ mod imp {
                     visible_child_name == "title"
                 }));
             title_expr.bind(&*self.menu_button, "visible", Some(obj));
+            title_expr.bind(&*self.actions_menu_button, "visible", Some(obj));
 
             let panel_stack_visible_child_name_expr =
                 Self::Type::this_expression("panel-stack")
@@ -404,8 +410,15 @@ mod imp {
                 log::warn!("Failed to save window state, {}", &err);
             }
 
-            // Pass close request on to the parent
-            self.parent_close_request(window)
+            if view::show_ongoing_actions_warning_dialog(
+                window,
+                &self.connection_manager,
+                &gettext("Confirm Exiting The Application"),
+            ) {
+                self.parent_close_request(window)
+            } else {
+                gtk::Inhibit(true)
+            }
         }
     }
 

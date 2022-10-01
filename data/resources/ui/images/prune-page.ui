@@ -2,193 +2,205 @@
 <interface>
   <template class="PdsImagesPrunePage" parent="GtkWidget">
     <property name="layout-manager">
-      <object class="GtkBoxLayout">
-        <property name="orientation">vertical</property>
-      </object>
+      <object class="GtkBinLayout"/>
     </property>
 
     <child>
-      <object class="AdwHeaderBar" id="header_bar">
-
-        <child type="start">
-          <object class="PdsBackNavigationControls"/>
-        </child>
-
-        <child type="title">
-          <object class="AdwWindowTitle">
-            <property name="title" translatable="yes">Specify Pruning Settings</property>
-          </object>
-        </child>
-
-      </object>
-    </child>
-
-    <child>
-      <object class="AdwPreferencesPage" id="preferences_page">
-        <property name="vexpand">True</property>
+      <object class="GtkStack" id="stack">
+        <property name="transition-type">crossfade</property>
 
         <child>
-          <object class="AdwPreferencesGroup">
-            <property name="title" translatable="yes">Options</property>
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
 
             <child>
-              <object class="AdwActionRow">
-                <property name="activatable_widget">prune_all_switch</property>
-                <property name="title" translatable="yes">Prune All</property>
-                <property name="subtitle" translatable="yes">Remove all images not in use by containers, not just dangling ones.</property>
-                <child>
-                  <object class="GtkSwitch" id="prune_all_switch">
-                    <property name="valign">center</property>
+              <object class="AdwHeaderBar">
+
+                <child type="start">
+                  <object class="PdsBackNavigationControls"/>
+                </child>
+
+                <child type="title">
+                  <object class="AdwWindowTitle">
+                    <property name="title" translatable="yes">Specify Pruning Settings</property>
                   </object>
                 </child>
+
               </object>
             </child>
 
             <child>
-              <object class="AdwActionRow">
-                <property name="activatable_widget">prune_external_switch</property>
-                <property name="title" translatable="yes">Prune External</property>
-                <property name="subtitle" translatable="yes">Remove images even when they are used by external containers (e.g, by build containers).</property>
-                <child>
-                  <object class="GtkSwitch" id="prune_external_switch">
-                    <property name="valign">center</property>
-                  </object>
-                </child>
-              </object>
-            </child>
-
-            <child>
-              <object class="AdwExpanderRow" id="prune_until_expander_row">
-                <property name="title" translatable="yes">Prune Until</property>
-                <property name="subtitle" translatable="yes">Prune images created before this timestamp.</property>
-                <property name="enable-expansion">False</property>
-                <property name="show-enable-switch">True</property>
-
-                <child type="action">
-                  <object class="GtkLabel" id="prune_until_label">
-                    <style>
-                      <class name="caption"/>
-                      <class name="dim-label"/>
-                    </style>
-                    <property name="valign">center</property>
-                    <property name="visible" bind-source="prune_until_expander_row" bind-property="enable-expansion" bind-flags="sync-create"/>
-                  </object>
-                </child>
+              <object class="AdwPreferencesPage">
+                <property name="vexpand">True</property>
 
                 <child>
-                  <object class="AdwPreferencesRow">
-                    <property name="activatable">False</property>
+                  <object class="AdwPreferencesGroup">
+                    <property name="title" translatable="yes">Options</property>
 
                     <child>
-                      <object class="GtkBox">
-                        <property name="halign">center</property>
-                        <property name="margin-bottom">18</property>
-                        <property name="margin-end">12</property>
-                        <property name="margin-start">12</property>
-                        <property name="margin-top">18</property>
-                        <property name="spacing">36</property>
-
+                      <object class="AdwActionRow">
+                        <property name="activatable_widget">prune_all_switch</property>
+                        <property name="title" translatable="yes">Prune All</property>
+                        <property name="subtitle" translatable="yes">Remove all images not in use by containers, not just dangling ones.</property>
                         <child>
-                          <object class="GtkCalendar" id="calendar">
+                          <object class="GtkSwitch" id="prune_all_switch">
+                            <property name="valign">center</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="AdwActionRow">
+                        <property name="activatable_widget">prune_external_switch</property>
+                        <property name="title" translatable="yes">Prune External</property>
+                        <property name="subtitle" translatable="yes">Remove images even when they are used by external containers (e.g, by build containers).</property>
+                        <child>
+                          <object class="GtkSwitch" id="prune_external_switch">
+                            <property name="valign">center</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="AdwExpanderRow" id="prune_until_expander_row">
+                        <property name="title" translatable="yes">Prune Until</property>
+                        <property name="subtitle" translatable="yes">Prune images created before this timestamp.</property>
+                        <property name="enable-expansion">False</property>
+                        <property name="show-enable-switch">True</property>
+
+                        <child type="action">
+                          <object class="GtkLabel" id="prune_until_label">
                             <style>
-                              <class name="card"/>
+                              <class name="caption"/>
+                              <class name="dim-label"/>
                             </style>
-                            <property name="overflow">hidden</property>
+                            <property name="valign">center</property>
+                            <property name="visible" bind-source="prune_until_expander_row" bind-property="enable-expansion" bind-flags="sync-create"/>
                           </object>
                         </child>
 
                         <child>
-                          <object class="GtkBox">
-                            <property name="spacing">6</property>
-                            <property name="valign">center</property>
+                          <object class="AdwPreferencesRow">
+                            <property name="activatable">False</property>
 
                             <child>
-                              <object class="GtkSpinButton" id="hour_spin_button">
-                                <property name="adjustment">
-                                  <object class="GtkAdjustment" id="hour_adjustment">
-                                    <property name="lower">0</property>
-                                    <property name="page_increment">4</property>
-                                    <property name="step-increment">1</property>
+                              <object class="GtkBox">
+                                <property name="halign">center</property>
+                                <property name="margin-bottom">18</property>
+                                <property name="margin-end">12</property>
+                                <property name="margin-start">12</property>
+                                <property name="margin-top">18</property>
+                                <property name="spacing">36</property>
+
+                                <child>
+                                  <object class="GtkCalendar" id="calendar">
+                                    <style>
+                                      <class name="card"/>
+                                    </style>
+                                    <property name="overflow">hidden</property>
                                   </object>
-                                </property>
-                                <property name="orientation">vertical</property>
-                                <property name="wrap">True</property>
+                                </child>
+
+                                <child>
+                                  <object class="GtkBox">
+                                    <property name="spacing">6</property>
+                                    <property name="valign">center</property>
+
+                                    <child>
+                                      <object class="GtkSpinButton" id="hour_spin_button">
+                                        <property name="adjustment">
+                                          <object class="GtkAdjustment" id="hour_adjustment">
+                                            <property name="lower">0</property>
+                                            <property name="page_increment">4</property>
+                                            <property name="step-increment">1</property>
+                                          </object>
+                                        </property>
+                                        <property name="orientation">vertical</property>
+                                        <property name="wrap">True</property>
+                                      </object>
+                                    </child>
+
+                                    <child>
+                                      <object class="GtkLabel">
+                                        <property name="label">:</property>
+                                      </object>
+                                    </child>
+
+                                    <child>
+                                      <object class="GtkSpinButton" id="minute_spin_button">
+                                        <property name="adjustment">
+                                          <object class="GtkAdjustment">
+                                            <property name="lower">0</property>
+                                            <property name="page_increment">10</property>
+                                            <property name="step-increment">1</property>
+                                            <property name="upper">59</property>
+                                          </object>
+                                        </property>
+                                        <property name="orientation">vertical</property>
+                                        <property name="wrap">True</property>
+                                      </object>
+                                    </child>
+
+                                    <child>
+                                      <object class="GtkComboBoxText" id="period_combo_box">
+                                        <property name="valign">center</property>
+                                        <items>
+                                          <item translatable="yes">AM</item>
+                                          <item translatable="yes">PM</item>
+                                        </items>
+                                      </object>
+                                    </child>
+
+                                  </object>
+                                </child>
+
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwPreferencesGroup">
+
+                    <child>
+                      <object class="GtkButton" id="button_prune">
+                        <style>
+                          <class name="destructive-action"/>
+                          <class name="pill"/>
+                        </style>
+                        <property name="action-name">images-prune-page.prune</property>
+
+                        <child>
+                          <object class="GtkBox">
+                            <property name="halign">center</property>
+                            <property name="spacing">6</property>
+
+                            <child>
+                              <object class="GtkSpinner">
+                                <property name="spinning">True</property>
+                                <property name="visible" bind-source="button_prune" bind-property="sensitive" bind-flags="sync-create|invert-boolean"/>
                               </object>
                             </child>
 
                             <child>
                               <object class="GtkLabel">
-                                <property name="label">:</property>
-                              </object>
-                            </child>
-
-                            <child>
-                              <object class="GtkSpinButton" id="minute_spin_button">
-                                <property name="adjustment">
-                                  <object class="GtkAdjustment">
-                                    <property name="lower">0</property>
-                                    <property name="page_increment">10</property>
-                                    <property name="step-increment">1</property>
-                                    <property name="upper">59</property>
-                                  </object>
-                                </property>
-                                <property name="orientation">vertical</property>
-                                <property name="wrap">True</property>
-                              </object>
-                            </child>
-
-                            <child>
-                              <object class="GtkComboBoxText" id="period_combo_box">
-                                <property name="valign">center</property>
-                                <items>
-                                  <item translatable="yes">AM</item>
-                                  <item translatable="yes">PM</item>
-                                </items>
+                                <property name="label" translatable="yes">_Prune</property>
+                                <property name="use-underline">True</property>
                               </object>
                             </child>
 
                           </object>
                         </child>
 
-                      </object>
-                    </child>
-
-                  </object>
-                </child>
-
-              </object>
-            </child>
-
-          </object>
-        </child>
-
-        <child>
-          <object class="AdwPreferencesGroup">
-
-            <child>
-              <object class="GtkButton" id="button_prune">
-                <style>
-                  <class name="destructive-action"/>
-                  <class name="pill"/>
-                </style>
-                <property name="action-name">images-prune-page.prune</property>
-
-                <child>
-                  <object class="GtkBox">
-                    <property name="halign">center</property>
-                    <property name="spacing">6</property>
-
-                    <child>
-                      <object class="GtkSpinner">
-                        <property name="spinning">True</property>
-                        <property name="visible" bind-source="button_prune" bind-property="sensitive" bind-flags="sync-create|invert-boolean"/>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="label" translatable="yes">_Prune</property>
-                        <property name="use-underline">True</property>
                       </object>
                     </child>
 

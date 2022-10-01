@@ -156,27 +156,33 @@ impl CreatorPage {
     }
 
     fn try_connect(&self) {
-        let imp = self.imp();
-
-        if let Err(e) = self.connection_manager().try_connect(
-            imp.name_entry_row.text().as_str(),
-            if imp.custom_url_radio_button.is_active() {
-                imp.url_entry_row.text().into()
-            } else {
-                utils::unix_socket_url()
-            }
-            .as_ref(),
-            if imp.color_switch.is_active() {
-                Some(imp.color_button.rgba())
-            } else {
-                None
-            },
-            clone!(@weak self as obj => move |result| match result {
-                Ok(_) => obj.imp().back_navigation_controls.navigate_to_first(),
-                Err(e) => obj.on_error(e),
-            }),
+        if view::show_ongoing_actions_warning_dialog(
+            self,
+            self.connection_manager(),
+            &gettext("Confirm Connecting to New Instance"),
         ) {
-            self.on_error(e);
+            let imp = self.imp();
+
+            if let Err(e) = self.connection_manager().try_connect(
+                imp.name_entry_row.text().as_str(),
+                if imp.custom_url_radio_button.is_active() {
+                    imp.url_entry_row.text().into()
+                } else {
+                    utils::unix_socket_url()
+                }
+                .as_ref(),
+                if imp.color_switch.is_active() {
+                    Some(imp.color_button.rgba())
+                } else {
+                    None
+                },
+                clone!(@weak self as obj => move |result| match result {
+                    Ok(_) => obj.imp().back_navigation_controls.navigate_to_first(),
+                    Err(e) => obj.on_error(e),
+                }),
+            ) {
+                self.on_error(e);
+            }
         }
     }
 
