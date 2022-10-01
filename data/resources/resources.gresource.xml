@@ -6,6 +6,7 @@
 
     <file compressed="true" preprocess="xml-stripblanks">ui/action/row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/action/page.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/actions/overview.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/cmd-arg/row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/component/back-navigation-controls.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/component/circular-progress-bar.ui</file>
