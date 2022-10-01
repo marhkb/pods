@@ -27,6 +27,7 @@ pub(crate) use component::RandomNameEntryRow;
 pub(crate) use component::SourceViewSearchWidget;
 pub(crate) use component::TextSearchEntry;
 pub(crate) use component::TopPage;
+pub(crate) use connection::show_ongoing_actions_warning_dialog;
 pub(crate) use connection::ChooserPage as ConnectionChooserPage;
 pub(crate) use connection::CreatorPage as ConnectionCreatorPage;
 pub(crate) use connection::Row as ConnectionRow;
