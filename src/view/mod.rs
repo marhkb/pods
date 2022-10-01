@@ -56,7 +56,6 @@ pub(crate) use image::BuildPage as ImageBuildPage;
 pub(crate) use image::DetailsPage as ImageDetailsPage;
 pub(crate) use image::MenuButton as ImageMenuButton;
 pub(crate) use image::PullPage as ImagePullPage;
-pub(crate) use image::PullingPage as ImagePullingPage;
 pub(crate) use image::Row as ImageRow;
 pub(crate) use image::SelectionPage as ImageSelectionPage;
 pub(crate) use image_search::ResponseRow as ImageSearchResponseRow;

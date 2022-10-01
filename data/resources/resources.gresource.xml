@@ -43,7 +43,6 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/image/details-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/image/menu-button.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/image/pull-page.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">ui/image/pulling-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/image/row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/image/selection-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/images/panel.ui</file>

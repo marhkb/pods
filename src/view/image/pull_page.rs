@@ -1,6 +1,4 @@
 use adw::subclass::prelude::*;
-use adw::traits::BinExt;
-use gettextrs::gettext;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::WeakRef;
@@ -10,10 +8,7 @@ use once_cell::sync::Lazy;
 
 use crate::model;
 use crate::podman;
-use crate::utils;
 use crate::view;
-
-const ACTION_SHOW_PULL_SETTINGS: &str = "image-pull-page.show-pull-settings";
 
 mod imp {
     use super::*;
@@ -26,10 +21,6 @@ mod imp {
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) image_search_widget: TemplateChild<view::ImageSearchWidget>,
-        #[template_child]
-        pub(super) image_pulling_page: TemplateChild<view::ImagePullingPage>,
-        #[template_child]
-        pub(super) image_page_bin: TemplateChild<adw::Bin>,
     }
 
     #[glib::object_subclass]
@@ -48,9 +39,6 @@ mod imp {
                     widget.pull();
                 },
             );
-            klass.install_action(ACTION_SHOW_PULL_SETTINGS, None, |widget, _, _| {
-                widget.show_pull_settings();
-            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -133,58 +121,26 @@ impl PullPage {
         let imp = self.imp();
 
         if let Some(search_response) = imp.image_search_widget.selected_image() {
+            let reference = format!(
+                "{}:{}",
+                search_response.name().unwrap(),
+                imp.image_search_widget.tag(),
+            );
             let opts = podman::opts::PullOpts::builder()
-                .reference(format!(
-                    "{}:{}",
-                    search_response.name().unwrap(),
-                    imp.image_search_widget.tag(),
-                ))
+                .reference(&reference)
                 .quiet(false)
                 .build();
 
-            imp.stack.set_visible_child(&*imp.image_pulling_page);
-
-            imp.image_pulling_page.pull(
-                opts,
-                clone!(@weak self as obj => move |result| match result {
-                    Ok(report) => {
-                        let imp = obj.imp();
-
-                        let image_id = report.id.unwrap();
-                        let client = imp.client.upgrade().unwrap();
-                        match client.image_list().get_image(&image_id) {
-                            Some(image) => obj.switch_to_image(&image),
-                            None => {
-                                client.image_list().connect_image_added(
-                                    clone!(@weak obj => move |_, image| {
-                                        if image.id() == image_id.as_str() {
-                                            obj.switch_to_image(image);
-                                        }
-                                    }),
-                                );
-                            }
-                        }
-                    }
-                    Err(e) => obj.on_pull_error(&e.to_string())
-                }),
+            let page = view::ActionPage::from(
+                &self
+                    .client()
+                    .unwrap()
+                    .action_list()
+                    .download_image(&reference, opts),
             );
+
+            imp.stack.add_child(&page);
+            imp.stack.set_visible_child(&page);
         }
-    }
-
-    fn on_pull_error(&self, msg: &str) {
-        self.show_pull_settings();
-        log::error!("Failed to pull image: {}", msg);
-        utils::show_error_toast(self, &gettext("Failed to pull image"), msg);
-    }
-
-    fn show_pull_settings(&self) {
-        self.imp().stack.set_visible_child_name("pull-settings");
-    }
-
-    fn switch_to_image(&self, image: &model::Image) {
-        let imp = self.imp();
-        imp.image_page_bin
-            .set_child(Some(&view::ImageDetailsPage::from(image)));
-        imp.stack.set_visible_child(&*imp.image_page_bin);
     }
 }
