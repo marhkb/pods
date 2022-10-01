@@ -47,6 +47,8 @@ mod imp {
         #[template_child]
         pub(super) menu_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
+        pub(super) actions_menu_button: TemplateChild<view::ActionsMenuButton>,
+        #[template_child]
         pub(super) selection_mode_button: TemplateChild<gtk::Button>,
         #[template_child]
         pub(super) selected_items_stack: TemplateChild<gtk::Stack>,
@@ -262,6 +264,7 @@ mod imp {
                     visible_child_name == "title"
                 }));
             title_expr.bind(&*self.menu_button, "visible", Some(obj));
+            title_expr.bind(&*self.actions_menu_button, "visible", Some(obj));
 
             let panel_stack_visible_child_name_expr =
                 Self::Type::this_expression("panel-stack")
@@ -414,7 +417,7 @@ mod imp {
                 &self.connection_manager,
                 &gettext("Confirm Exiting The Application"),
             ) {
-            self.parent_close_request(window)
+                self.parent_close_request(window)
             } else {
                 gtk::Inhibit(true)
             }

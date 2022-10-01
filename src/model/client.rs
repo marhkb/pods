@@ -128,6 +128,7 @@ mod imp {
                 "image-list" => obj.image_list().to_value(),
                 "container-list" => obj.container_list().to_value(),
                 "pod-list" => obj.pod_list().to_value(),
+                "action-list" => obj.action_list().to_value(),
                 "pruning" => obj.pruning().to_value(),
                 _ => unimplemented!(),
             }
