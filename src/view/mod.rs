@@ -18,6 +18,7 @@ mod volume;
 mod welcome_page;
 
 pub(crate) use action::Page as ActionPage;
+pub(crate) use action::Row as ActionRow;
 pub(crate) use cmd_arg::Row as CmdArgRow;
 pub(crate) use component::BackNavigationControls;
 pub(crate) use component::CircularProgressBar;

@@ -91,6 +91,7 @@ mod imp {
 
             // Initialize all classes here
             view::ActionPage::static_type();
+            view::ActionRow::static_type();
             view::BackNavigationControls::static_type();
             view::CircularProgressBar::static_type();
             view::ConnectionChooserPage::static_type();

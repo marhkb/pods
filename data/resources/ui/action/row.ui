@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+
+  <template class="PdsActionRow" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBoxLayout">
+        <property name="spacing">10</property>
+      </object>
+    </property>
+
+    <child>
+      <object class="GtkImage" id="type_image">
+        <property name="name">type</property>
+        <property name="valign">center</property>
+      </object>
+    </child>
+
+    <child>
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
+        <property name="valign">center</property>
+
+        <child>
+          <object class="GtkLabel" id="name_label">
+            <property name="ellipsize">end</property>
+            <property name="hexpand">True</property>
+            <property name="max-width-chars">32</property>
+            <property name="single-line-mode">True</property>
+            <property name="vexpand">True</property>
+            <property name="xalign">0.0</property>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkLabel" id="state_label">
+            <style>
+              <class name="caption"/>
+            </style>
+            <property name="ellipsize">end</property>
+            <property name="hexpand">True</property>
+            <property name="max-width-chars">32</property>
+            <property name="single-line-mode">True</property>
+            <property name="vexpand">True</property>
+            <property name="xalign">0.0</property>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <child>
+      <object class="GtkButton" id="action_button">
+        <style>
+          <class name="circular"/>
+        </style>
+        <property name="name">action</property>
+        <property name="action-name">actions-overview.cancel-or-delete</property>
+        <property name="valign">center</property>
+      </object>
+    </child>
+
+  </template>
+</interface>
