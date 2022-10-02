@@ -13,10 +13,12 @@ use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
 
 use crate::model;
+use crate::podman;
 use crate::utils;
 use crate::view;
 
 const ACTION_INSPECT_IMAGE: &str = "image-details-page.inspect-image";
+const ACTION_PULL_LATEST: &str = "image-details-page.pull-latest";
 
 mod imp {
     use super::*;
@@ -61,6 +63,10 @@ mod imp {
 
             klass.install_action(ACTION_INSPECT_IMAGE, None, move |widget, _, _| {
                 widget.show_inspection();
+            });
+
+            klass.install_action(ACTION_PULL_LATEST, None, move |widget, _, _| {
+                widget.pull_latest();
             });
 
             // For displaying a mnemonic.
@@ -329,6 +335,31 @@ impl DetailsPage {
                     }
                 }),
             );
+        }
+    }
+
+    fn pull_latest(&self) {
+        if let Some(image) = self.image() {
+            if let Some(action_list) = image
+                .image_list()
+                .as_ref()
+                .and_then(model::ImageList::client)
+                .as_ref()
+                .map(model::Client::action_list)
+            {
+                let reference = image.repo_tags().first().unwrap();
+
+                let page = view::ActionPage::from(
+                    &action_list.download_image(
+                        reference,
+                        podman::opts::PullOpts::builder()
+                            .reference(reference)
+                            .build(),
+                    ),
+                );
+
+                self.imp().leaflet_overlay.show_details(&page);
+            }
         }
     }
 
