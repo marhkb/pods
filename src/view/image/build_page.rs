@@ -24,6 +24,7 @@ use crate::view;
 const ACTION_BUILD: &str = "image-build-page.build-image";
 const ACTION_SELECT_CONTEXT_DIR: &str = "image-build-page.select-context-dir";
 const ACTION_ADD_LABEL: &str = "image-build-page.add-label";
+const GSETTINGS_KEY_LAST_USED_CONTAINER_FILE_PATH: &str = "last-used-container-file-path";
 
 mod imp {
     use super::*;
@@ -31,6 +32,7 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/image/build-page.ui")]
     pub(crate) struct BuildPage {
+        pub(super) settings: utils::PodsSettings,
         pub(super) client: WeakRef<model::Client>,
         pub(super) labels: RefCell<gio::ListStore>,
         #[template_child]
@@ -110,6 +112,12 @@ mod imp {
 
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
+
+            self.container_file_path_entry_row.set_text(
+                &self
+                    .settings
+                    .string(GSETTINGS_KEY_LAST_USED_CONTAINER_FILE_PATH),
+            );
 
             obj.on_opts_changed();
             self.tag_entry_row
@@ -280,6 +288,17 @@ impl BuildPage {
 
                 imp.stack.add_child(&page);
                 imp.stack.set_visible_child(&page);
+
+                if let Err(e) = imp.settings.set_string(
+                    GSETTINGS_KEY_LAST_USED_CONTAINER_FILE_PATH,
+                    imp.container_file_path_entry_row.text().as_str(),
+                ) {
+                    log::warn!(
+                        "Error on saving gsettings '{}': {}",
+                        GSETTINGS_KEY_LAST_USED_CONTAINER_FILE_PATH,
+                        e
+                    );
+                }
             }
         }
     }
