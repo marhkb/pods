@@ -14,6 +14,9 @@ use sourceview5::traits::SearchSettingsExt;
 use crate::utils;
 use crate::view;
 
+const ACTION_SEARCH_BACKWARDS: &str = "source-view-search-widget.search-backward";
+const ACTION_SEARCH_FORWARD: &str = "source-view-search-widget.search-forward";
+
 mod imp {
     use super::*;
 
@@ -49,30 +52,22 @@ mod imp {
             klass.add_binding_action(
                 gdk::Key::G,
                 gdk::ModifierType::CONTROL_MASK | gdk::ModifierType::SHIFT_MASK,
-                "source-view-search-widget.search-backward",
+                ACTION_SEARCH_BACKWARDS,
                 None,
             );
-            klass.install_action(
-                "source-view-search-widget.search-backward",
-                None,
-                |widget, _, _| {
-                    widget.search_backward();
-                },
-            );
+            klass.install_action(ACTION_SEARCH_BACKWARDS, None, |widget, _, _| {
+                widget.search_backward();
+            });
 
             klass.add_binding_action(
                 gdk::Key::G,
                 gdk::ModifierType::CONTROL_MASK,
-                "source-view-search-widget.search-forward",
+                ACTION_SEARCH_FORWARD,
                 None,
             );
-            klass.install_action(
-                "source-view-search-widget.search-forward",
-                None,
-                |widget, _, _| {
-                    widget.search_forward();
-                },
-            );
+            klass.install_action(ACTION_SEARCH_FORWARD, None, |widget, _, _| {
+                widget.search_forward();
+            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
