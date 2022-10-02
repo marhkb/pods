@@ -273,8 +273,8 @@ impl Client {
                     );
 
                     op();
-                    obj.start_event_listener(err_op.clone(), finish_op);
-                    obj.start_refresh_interval(err_op);
+                    obj.start_event_listener(err_op, finish_op);
+                    obj.start_refresh_interval();
                 }
                 Err(e) => {
                     log::error!("Could not connect to Podman: {e}");
@@ -332,27 +332,15 @@ impl Client {
 
     /// This is needed to keep track of images and containers that are managed by Buildah.
     /// See https://github.com/marhkb/pods/issues/306
-    fn start_refresh_interval<E>(&self, err_op: E)
-    where
-        E: FnOnce(ClientError) + Clone + 'static,
-    {
+    fn start_refresh_interval(&self) {
         glib::timeout_add_seconds_local(
             SYNC_INTERVAL,
             clone!(@weak self as obj => @default-return glib::Continue(false), move || {
                 log::debug!("Syncing images, containers and pods");
 
-                obj.image_list().refresh({
-                    let err_op = err_op.clone();
-                    |_| err_op(ClientError::Images)
-                });
-                obj.container_list().refresh(None, {
-                    let err_op = err_op.clone();
-                    |_| err_op(ClientError::Containers)
-                });
-                obj.pod_list().refresh(None, {
-                    let err_op = err_op.clone();
-                    |_| err_op(ClientError::Pods)
-                });
+                obj.image_list().refresh(|_| {});
+                obj.container_list().refresh(None, |_| {});
+                obj.pod_list().refresh(None, |_| {});
 
                 log::debug!("Sleeping for {SYNC_INTERVAL} until next sync");
 
