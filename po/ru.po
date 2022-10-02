@@ -8,168 +8,177 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-09-18 00:28+0200\n"
-"PO-Revision-Date: 2022-03-16 02:17+0100\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2022-10-02 10:27+0000\n"
+"Last-Translator: lenemter <lenemter@gmail.com>\n"
+"Language-Team: Russian <https://hosted.weblate.org/projects/pods/pods/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 4.14.1\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
 #: data/resources/ui/window.ui:127 src/main.rs:43
 msgid "Pods"
-msgstr ""
+msgstr "Pods"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:4
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
 msgid "A Podman desktop application"
-msgstr ""
+msgstr "Настольное приложение Podman"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:9
 msgid "Gnome;GTK;"
-msgstr ""
+msgstr "Gnome;GTK;"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:6
 #: data/com.github.marhkb.Pods.gschema.xml.in:7
 msgid "Default window width"
-msgstr ""
+msgstr "Стандартная ширина окна"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:11
 #: data/com.github.marhkb.Pods.gschema.xml.in:12
 msgid "Default window height"
-msgstr ""
+msgstr "Стандартная высота окна"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:16
 msgid "Default window maximized behaviour"
-msgstr ""
+msgstr "Поведение развернутого окна по умолчанию"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:26
 msgid "Style Variant"
-msgstr ""
+msgstr "Вариант стиля"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:27
 msgid "Use the light or dark variant of the GTK theme"
-msgstr ""
+msgstr "Использовать светлый или темный вариант GTK темы"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:31
 msgid "The uuid of the connection that was used the last time"
-msgstr ""
+msgstr "UUID подключения, использованного в последний раз"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:36
 msgid "The last used view"
-msgstr ""
+msgstr "Последний использованный вид"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:41
 msgid "Whether to show intermediate images"
-msgstr ""
+msgstr "Показывать промежуточные образы"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:46
 msgid "Remove all images not in use by containers, not just dangling ones"
 msgstr ""
+"Удалите все неиспользуемые изображения из контейнеров, а не только висящие."
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:51
 msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)"
 msgstr ""
+"Удалять образы, даже если они используются внешними контейнерами (например, "
+"контейнерами сборки)"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:56
 msgid "Whether to show only running containers"
-msgstr ""
+msgstr "Показывать только запущенные контейнеры"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:61
 msgid "Whether to show only running pods"
-msgstr ""
+msgstr "Показывать ли только запущенные капсулы"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:66
 msgid "Whether to show a timestamp for each log line"
-msgstr ""
+msgstr "Нужно ли показывать временную метку для каждой строки журнала"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
 msgid ""
 "Pods is a frontend for podman. It uses libadwaita for its user interface and "
 "strives to meet the design principles of GNOME."
 msgstr ""
+"Pods - это фронтенд для podman. Он использует libadwaita для своего "
+"пользовательского интерфейса и стремится соответствовать принципам дизайна "
+"GNOME."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:11
 msgid "With Pods you can, among other things:"
-msgstr ""
+msgstr "С помощью Pods вы можете, помимо прочего:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:13
 msgid "Connect to local and remote Podman instances."
-msgstr ""
+msgstr "Подключайтесь к локальным и удаленным экземплярам Podman."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:14
 msgid "Easily overview images, containers and pods."
-msgstr ""
+msgstr "Удобный обзор образов, контейнеров и капсул."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:15
 msgid "View prepared information about images, containers, and pods."
-msgstr ""
+msgstr "Просмотр подготовленной информации об образах, контейнерах и капсулах."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:16
 msgid "Inspect images, containers and pods."
-msgstr ""
+msgstr "Осмотрите изображения, контейнеры и капсулы."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:17
 msgid "View and search container logs."
-msgstr ""
+msgstr "Просмотр и поиск журналов контейнеров."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:18
 msgid "Monitor processes of containers and pods."
-msgstr ""
+msgstr "Контролируйте процессы контейнеров и капсул."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:19
 msgid "Download images and build them using Dockerfiles."
-msgstr ""
+msgstr "Загружайте образы и собирайте их с помощью Dockerfiles."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:20
 msgid "Create pods and containers."
-msgstr ""
+msgstr "Создавайте капсулы и контейнеры."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:21
 msgid ""
 "Control the lifecycle of containers and pods (in bulk) (start, stop, pause, "
 "etc.)."
 msgstr ""
+"Управление жизненным циклом контейнеров и капсул (в массовом порядке) ("
+"запуск, остановка, пауза и т.д.)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:22
 msgid "Delete images, containers, and pods (in bulk)."
-msgstr ""
+msgstr "Удаление образов, контейнеров и капсул (в массовом порядке)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:23
 msgid "Prune images."
-msgstr ""
+msgstr "Обрезка изображений."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:24
 msgid "Rename containers."
-msgstr ""
+msgstr "Переименовать контейнеры."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:30
 msgid "Main window"
-msgstr ""
+msgstr "Главное окно"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:34
 msgid "Images Overview"
-msgstr ""
+msgstr "Обзор изображений"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:38
 #: data/resources/ui/image/details-page.ui:27
 msgid "Image Details"
-msgstr ""
+msgstr "Детали изображения"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:42
 msgid "Containers Overview"
-msgstr ""
+msgstr "Обзор контейнеров"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:46
 #: data/resources/ui/container/details-page.ui:28
 msgid "Container Details"
-msgstr ""
+msgstr "Детали контейнера"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:50
 msgid "Pods Overview"
@@ -182,7 +191,7 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:84
 msgid "Marcus Behrendt"
-msgstr ""
+msgstr "Marcus Behrendt"
 
 #: data/resources/ui/component/back-navigation-controls.ui:14
 msgid "Return to previous page"
@@ -497,7 +506,7 @@ msgstr ""
 #: data/resources/ui/container/menu-button.ui:6
 #: data/resources/ui/pod/menu-button.ui:12
 msgid "_Start"
-msgstr ""
+msgstr "_Запустить"
 
 #: data/resources/ui/container/menu-button.ui:11
 #: data/resources/ui/pod/menu-button.ui:17
@@ -507,7 +516,7 @@ msgstr ""
 #: data/resources/ui/container/menu-button.ui:16
 #: data/resources/ui/pod/menu-button.ui:22
 msgid "_Force Stop"
-msgstr ""
+msgstr "_Остановить Принудительно"
 
 #: data/resources/ui/container/menu-button.ui:21
 #: data/resources/ui/pod/menu-button.ui:27
@@ -517,17 +526,17 @@ msgstr ""
 #: data/resources/ui/container/menu-button.ui:26
 #: data/resources/ui/pod/menu-button.ui:32
 msgid "F_orce Restart"
-msgstr ""
+msgstr "Перезапустить Принудительно"
 
 #: data/resources/ui/container/menu-button.ui:31
 #: data/resources/ui/pod/menu-button.ui:37
 msgid "_Resume"
-msgstr ""
+msgstr "_Продолжить"
 
 #: data/resources/ui/container/menu-button.ui:36
 #: data/resources/ui/pod/menu-button.ui:42
 msgid "_Pause"
-msgstr ""
+msgstr "_Приостановить"
 
 #: data/resources/ui/container/menu-button.ui:43
 msgid "Re_name…"
@@ -541,7 +550,7 @@ msgstr ""
 #: data/resources/ui/pod/menu-button.ui:49 src/view/containers/panel.rs:354
 #: src/view/images/images_panel.rs:360 src/view/pods/panel.rs:448
 msgid "_Delete"
-msgstr ""
+msgstr "_Удалить"
 
 #: data/resources/ui/container/properties-group.ui:5
 #: data/resources/ui/image/details-page.ui:48
@@ -563,7 +572,7 @@ msgstr ""
 #: data/resources/ui/pod/details-page.ui:72 src/model/container.rs:66
 #: src/model/pod.rs:66
 msgid "Created"
-msgstr ""
+msgstr "Создано"
 
 #: data/resources/ui/container/properties-group.ui:113
 msgid "Image"
@@ -615,7 +624,7 @@ msgstr ""
 
 #: data/resources/ui/containers/panel.ui:52
 msgid "No containers found"
-msgstr ""
+msgstr "Контейнеров не найдено"
 
 #: data/resources/ui/containers/panel.ui:97
 #: data/resources/ui/containers/panel.ui:240
@@ -875,17 +884,17 @@ msgstr ""
 #: data/resources/ui/info-dialog.ui:86 src/model/container.rs:69
 #: src/model/pod.rs:71
 msgid "Paused"
-msgstr ""
+msgstr "Приостановлен"
 
 #: data/resources/ui/info-dialog.ui:92 src/model/container.rs:72
 #: src/model/pod.rs:73
 msgid "Running"
-msgstr ""
+msgstr "Работает"
 
 #: data/resources/ui/info-dialog.ui:98 src/model/container.rs:73
 #: src/model/pod.rs:74
 msgid "Stopped"
-msgstr ""
+msgstr "Остановлен"
 
 #: data/resources/ui/info-dialog.ui:107
 msgid "Graph Driver Name"
@@ -931,7 +940,7 @@ msgstr ""
 #: data/resources/ui/pod/details-page.ui:131
 #: data/resources/ui/search-panel.ui:68 data/resources/ui/window.ui:292
 msgid "Containers"
-msgstr ""
+msgstr "Контейнеры"
 
 #: data/resources/ui/pod/details-page.ui:132
 msgid "There are no containers in this pod."
@@ -971,7 +980,7 @@ msgstr ""
 
 #: data/resources/ui/search-panel.ui:52 data/resources/ui/window.ui:272
 msgid "Images"
-msgstr ""
+msgstr "Образы"
 
 #: data/resources/ui/search-panel.ui:84 data/resources/ui/window.ui:312
 msgctxt "podman feature"
@@ -986,7 +995,7 @@ msgstr ""
 #: data/resources/ui/shortcuts.ui:17
 msgctxt "shortcut window"
 msgid "Show Shortcuts"
-msgstr ""
+msgstr "Показать ярлыки"
 
 #: data/resources/ui/shortcuts.ui:24
 msgctxt "shortcut window"
@@ -996,12 +1005,12 @@ msgstr ""
 #: data/resources/ui/shortcuts.ui:31
 msgctxt "shortcut window"
 msgid "Quit"
-msgstr ""
+msgstr "Выйти"
 
 #: data/resources/ui/shortcuts.ui:38
 msgctxt "shortcut window"
 msgid "Search"
-msgstr ""
+msgstr "Поиск"
 
 #: data/resources/ui/shortcuts.ui:48
 msgctxt "shortcut window"
@@ -1117,7 +1126,7 @@ msgstr ""
 
 #: data/resources/ui/window.ui:27
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "_Сочетания клавиш"
 
 #: data/resources/ui/window.ui:31
 msgid "_About Pods"
@@ -1153,27 +1162,27 @@ msgstr ""
 
 #: src/model/container.rs:67 src/model/pod.rs:67
 msgid "Dead"
-msgstr ""
+msgstr "Мёртв"
 
 #: src/model/container.rs:68 src/model/pod.rs:70
 msgid "Exited"
-msgstr ""
+msgstr "Вышел"
 
 #: src/model/container.rs:70
 msgid "Removing"
-msgstr ""
+msgstr "Удаление"
 
 #: src/model/container.rs:71 src/model/pod.rs:72
 msgid "Restarting"
-msgstr ""
+msgstr "Перезапуск"
 
 #: src/model/container.rs:74
 msgid "Stopping"
-msgstr ""
+msgstr "Остановка"
 
 #: src/model/container.rs:75 src/model/container.rs:116 src/model/pod.rs:75
 msgid "Unknown"
-msgstr ""
+msgstr "Неизвестно"
 
 #: src/model/container.rs:112
 msgid "Checking"
