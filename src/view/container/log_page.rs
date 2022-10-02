@@ -24,6 +24,9 @@ use crate::podman;
 use crate::utils;
 use crate::view;
 
+const ACTION_TOGGLE_SEARCH: &str = "container-log-page.toggle-search";
+const ACTION_SCROLL_DOWN: &str = "container-log-page.scroll-down";
+
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 enum FetchLinesState {
     #[default]
@@ -80,20 +83,16 @@ mod imp {
             klass.add_binding_action(
                 gdk::Key::F,
                 gdk::ModifierType::CONTROL_MASK,
-                "container-log-page.toggle-search",
+                ACTION_TOGGLE_SEARCH,
                 None,
             );
-            klass.install_action("container-log-page.toggle-search", None, |widget, _, _| {
+            klass.install_action(ACTION_TOGGLE_SEARCH, None, |widget, _, _| {
                 widget.toggle_search();
             });
 
-            klass.install_action(
-                "container-log-page.scroll-down",
-                None,
-                move |widget, _, _| {
-                    widget.scroll_down();
-                },
-            );
+            klass.install_action(ACTION_SCROLL_DOWN, None, move |widget, _, _| {
+                widget.scroll_down();
+            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
