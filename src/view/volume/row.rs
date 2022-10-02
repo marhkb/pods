@@ -34,7 +34,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
-            klass.install_action("volume.remove", None, |widget, _, _| {
+            klass.install_action("volume-row.remove", None, |widget, _, _| {
                 if let Some(volume) = widget.volume() {
                     volume.remove_request();
                 }

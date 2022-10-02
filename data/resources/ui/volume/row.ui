@@ -129,7 +129,7 @@
             <style>
               <class name="destructive-action"/>
             </style>
-            <property name="action-name">volume.remove</property>
+            <property name="action-name">volume-row.remove</property>
             <property name="halign">end</property>
             <property name="valign">end</property>
             <property name="icon-name">list-remove-symbolic</property>
