@@ -41,6 +41,11 @@
       <summary>Whether to show intermediate images</summary>
       <description></description>
     </key>
+    <key name="last-used-container-file-path" type="s">
+      <default>''</default>
+      <summary>The last used container file path</summary>
+      <description></description>
+    </key>
     <key name="prune-all-images" type="b">
       <default>false</default>
       <summary>Remove all images not in use by containers, not just dangling ones</summary>
