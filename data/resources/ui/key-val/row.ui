@@ -15,47 +15,20 @@
         <property name="spacing">12</property>
 
         <child>
-          <object class="GtkGrid">
-            <property name="hexpand">True</property>
-            <property name="column-homogeneous">True</property>
-            <property name="column-spacing">9</property>
-            <property name="row-spacing">6</property>
-
-            <child>
-              <object class="GtkLabel">
-                <layout>
-                  <property name="column">0</property>
-                  <property name="row">0</property>
-                </layout>
-                <property name="label" translatable="yes">Key</property>
-              </object>
-            </child>
+          <object class="GtkBox">
+            <property name="spacing">9</property>
 
             <child>
               <object class="GtkEntry" id="key_entry">
-                <layout>
-                  <property name="column">0</property>
-                  <property name="row">1</property>
-                </layout>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkLabel">
-                <layout>
-                  <property name="column">1</property>
-                  <property name="row">0</property>
-                </layout>
-                <property name="label" translatable="yes">Value</property>
+                <property name="hexpand">True</property>
+                <property name="placeholder-text" translatable="yes">Key</property>
               </object>
             </child>
 
             <child>
               <object class="GtkEntry" id="value_entry">
-                <layout>
-                  <property name="column">1</property>
-                  <property name="row">1</property>
-                </layout>
+                <property name="hexpand">True</property>
+                <property name="placeholder-text" translatable="yes">Value</property>
               </object>
             </child>
 
@@ -64,12 +37,7 @@
 
         <child>
           <object class="GtkButton">
-            <style>
-              <class name="destructive-action"/>
-            </style>
             <property name="action-name">key-val-row.remove</property>
-            <property name="halign">end</property>
-            <property name="valign">end</property>
             <property name="icon-name">list-remove-symbolic</property>
           </object>
         </child>
