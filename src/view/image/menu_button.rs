@@ -124,15 +124,15 @@ mod imp {
                 }))
             .bind(&*self.stack, "visible-child-name", Some(obj));
 
-            if let Some(image) = obj.image() {
-                obj.action_set_enabled("image.delete", !image.to_be_deleted());
-                image.connect_notify_local(
-                    Some("to-be-deleted"),
-                    clone!(@weak obj => move|image, _| {
-                        obj.action_set_enabled("image.delete", !image.to_be_deleted());
+            to_be_deleted_expr.watch(
+                Some(obj),
+                clone!(@weak obj => move || {
+                    obj.action_set_enabled(
+                        ACTION_DELETE_IMAGE,
+                        obj.image().map(|image| !image.to_be_deleted()).unwrap_or(false)
+                    );
                     }),
                 );
-            }
         }
 
         fn dispose(&self, obj: &Self::Type) {
