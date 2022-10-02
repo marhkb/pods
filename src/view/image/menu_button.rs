@@ -122,7 +122,7 @@ mod imp {
                         "menu"
                     }
                 }))
-            .bind(&*self.stack, "visible-child-name", Some(obj));
+                .bind(&*self.stack, "visible-child-name", Some(obj));
 
             to_be_deleted_expr.watch(
                 Some(obj),
@@ -131,8 +131,8 @@ mod imp {
                         ACTION_DELETE_IMAGE,
                         obj.image().map(|image| !image.to_be_deleted()).unwrap_or(false)
                     );
-                    }),
-                );
+                }),
+            );
         }
 
         fn dispose(&self, obj: &Self::Type) {
@@ -204,7 +204,7 @@ impl MenuButton {
                 dialog.set_default_response(Some("cancel"));
                 dialog.set_response_appearance("delete", adw::ResponseAppearance::Destructive);
 
-                dialog.connect_response(
+                dialog.run_async(
                     None,
                     clone!(@weak self as obj, @weak image => move |_, response| {
                         if response == "delete" {
@@ -212,8 +212,6 @@ impl MenuButton {
                         }
                     }),
                 );
-
-                dialog.present();
             } else {
                 self.delete_image(image);
             }
