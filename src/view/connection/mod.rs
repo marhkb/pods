@@ -1,5 +1,5 @@
 mod chooser_page;
-mod creator_page;
+mod creation_page;
 mod row;
 mod switcher_widget;
 
@@ -9,7 +9,7 @@ use gettextrs::gettext;
 use gtk::glib;
 
 pub(crate) use self::chooser_page::ChooserPage;
-pub(crate) use self::creator_page::CreatorPage;
+pub(crate) use self::creation_page::CreationPage;
 pub(crate) use self::row::Row;
 pub(crate) use self::switcher_widget::SwitcherWidget;
 use crate::model;

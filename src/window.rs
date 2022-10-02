@@ -760,7 +760,7 @@ impl Window {
         let leaflet_overlay = &*self.imp().leaflet_overlay;
 
         if leaflet_overlay.child().is_none() {
-            leaflet_overlay.show_details(&view::ConnectionCreatorPage::from(
+            leaflet_overlay.show_details(&view::ConnectionCreationPage::from(
                 &self.connection_manager(),
             ));
         }
