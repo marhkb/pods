@@ -67,7 +67,7 @@
             <style>
               <class name="destructive-action"/>
             </style>
-            <property name="action-name">key-val.remove</property>
+            <property name="action-name">key-val-row.remove</property>
             <property name="halign">end</property>
             <property name="valign">end</property>
             <property name="icon-name">list-remove-symbolic</property>
