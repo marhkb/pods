@@ -34,7 +34,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
-            klass.install_action("port-mapping.remove", None, |widget, _, _| {
+            klass.install_action("port-mapping-row.remove", None, |widget, _, _| {
                 if let Some(port_mapping) = widget.port_mapping() {
                     port_mapping.remove_request();
                 }

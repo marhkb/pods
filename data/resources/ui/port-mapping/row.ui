@@ -125,7 +125,7 @@
             <style>
               <class name="destructive-action"/>
             </style>
-            <property name="action-name">port-mapping.remove</property>
+            <property name="action-name">port-mapping-row.remove</property>
             <property name="halign">end</property>
             <property name="valign">end</property>
             <property name="icon-name">list-remove-symbolic</property>
