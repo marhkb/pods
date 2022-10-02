@@ -17,13 +17,13 @@ mod imp {
         pub(super) volume: RefCell<Option<model::Volume>>,
         pub(super) bindings: RefCell<Vec<glib::Binding>>,
         #[template_child]
+        pub(super) writable_switch: TemplateChild<gtk::Switch>,
+        #[template_child]
+        pub(super) selinux_combo_box: TemplateChild<gtk::ComboBoxText>,
+        #[template_child]
         pub(super) host_path_entry: TemplateChild<gtk::Entry>,
         #[template_child]
         pub(super) container_path_entry: TemplateChild<gtk::Entry>,
-        #[template_child]
-        pub(super) writable_check_button: TemplateChild<gtk::CheckButton>,
-        #[template_child]
-        pub(super) selinux_combo_box: TemplateChild<gtk::ComboBoxText>,
     }
 
     #[glib::object_subclass]
@@ -118,19 +118,7 @@ impl Row {
 
         if let Some(ref volume) = value {
             let binding = volume
-                .bind_property("host-path", &*imp.host_path_entry, "text")
-                .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
-                .build();
-            bindings.push(binding);
-
-            let binding = volume
-                .bind_property("container-path", &*imp.container_path_entry, "text")
-                .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
-                .build();
-            bindings.push(binding);
-
-            let binding = volume
-                .bind_property("writable", &*imp.writable_check_button, "active")
+                .bind_property("writable", &*imp.writable_switch, "active")
                 .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
                 .build();
             bindings.push(binding);
@@ -158,6 +146,18 @@ impl Row {
                         .to_value(),
                     )
                 })
+                .build();
+            bindings.push(binding);
+
+            let binding = volume
+                .bind_property("host-path", &*imp.host_path_entry, "text")
+                .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
+                .build();
+            bindings.push(binding);
+
+            let binding = volume
+                .bind_property("container-path", &*imp.container_path_entry, "text")
+                .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
                 .build();
             bindings.push(binding);
         }
