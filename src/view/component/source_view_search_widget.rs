@@ -108,7 +108,7 @@ mod imp {
         fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
                 "source-view" => obj.source_view().to_value(),
-                _ => unimplemented!(),
+                other => self.search_entry.property(other),
             }
         }
 
