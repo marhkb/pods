@@ -111,7 +111,7 @@
                                                 <style>
                                                   <class name="flat"/>
                                                 </style>
-                                                <property name="action-name">image.search</property>
+                                                <property name="action-name">container-creation-page.search-image</property>
                                                 <property name="icon-name">system-search-symbolic</property>
                                                 <property name="margin-start">9</property>
                                                 <property name="valign">center</property>
@@ -131,7 +131,7 @@
                                                 <style>
                                                   <class name="flat"/>
                                                 </style>
-                                                <property name="action-name">image.remove-remote</property>
+                                                <property name="action-name">container-creation-page.remove-remote-image</property>
                                                 <property name="icon-name">edit-delete-symbolic</property>
                                                 <property name="valign">center</property>
                                               </object>
@@ -139,7 +139,7 @@
 
                                             <child type="suffix">
                                               <object class="GtkButton">
-                                                <property name="action-name">image.search</property>
+                                                <property name="action-name">container-creation-page.search-image</property>
                                                 <property name="icon-name">system-search-symbolic</property>
                                                 <property name="valign">center</property>
                                               </object>
@@ -544,7 +544,7 @@
                                   <class name="suggested-action"/>
                                   <class name="pill"/>
                                 </style>
-                                <property name="action-name">container.create-and-run</property>
+                                <property name="action-name">container-creation-page.create-and-run</property>
                                 <property name="label" translatable="yes">Create And _Run</property>
                                 <property name="use-underline">True</property>
                               </object>
@@ -555,7 +555,7 @@
                                 <style>
                                   <class name="pill"/>
                                 </style>
-                                <property name="action-name">container.create</property>
+                                <property name="action-name">container-creation-page.create</property>
                                 <property name="label" translatable="yes">_Create</property>
                                 <property name="use-underline">True</property>
                               </object>

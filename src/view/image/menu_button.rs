@@ -1,5 +1,3 @@
-use std::cell::Cell;
-
 use adw::prelude::MessageDialogExtManual;
 use adw::traits::MessageDialogExt;
 use gettextrs::gettext;
@@ -26,7 +24,6 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/image/menu-button.ui")]
     pub(crate) struct MenuButton {
         pub(super) image: WeakRef<model::Image>,
-        pub(super) action_ongoing: Cell<bool>,
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -67,13 +64,6 @@ mod imp {
                         glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
                     ),
                     glib::ParamSpecBoolean::new(
-                        "action-ongoing",
-                        "Action Ongoing",
-                        "Whether an action (starting, stopping, etc.) is currently ongoing",
-                        false,
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecBoolean::new(
                         "primary",
                         "Primary",
                         "Whether the image menu button acts as a primary menu",
@@ -94,7 +84,6 @@ mod imp {
         ) {
             match pspec.name() {
                 "image" => obj.set_image(value.get().unwrap_or_default()),
-                "action-ongoing" => obj.set_action_ongoing(value.get().unwrap()),
                 "primary" => obj.set_primary(value.get().unwrap()),
                 _ => unimplemented!(),
             }
@@ -103,7 +92,6 @@ mod imp {
         fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
                 "image" => obj.image().to_value(),
-                "action-ongoing" => obj.action_ongoing().to_value(),
                 "primary" => obj.is_primary().to_value(),
                 _ => unimplemented!(),
             }
@@ -123,31 +111,28 @@ mod imp {
                 Some(obj),
             );
 
-            gtk::ClosureExpression::new::<String, _, _>(
-                &[
-                    Self::Type::this_expression("action-ongoing"),
-                    Self::Type::this_expression("image")
-                        .chain_property::<model::Image>("to-be-deleted"),
-                ],
-                closure!(|_: Self::Type, action_ongoing: bool, to_be_deleted: bool| {
-                    if action_ongoing | to_be_deleted {
+            let to_be_deleted_expr = Self::Type::this_expression("image")
+                .chain_property::<model::Image>("to-be-deleted");
+
+            to_be_deleted_expr
+                .chain_closure::<String>(closure!(|_: glib::Object, to_be_deleted: bool| {
+                    if to_be_deleted {
                         "ongoing"
                     } else {
                         "menu"
                     }
-                }),
-            )
-            .bind(&*self.stack, "visible-child-name", Some(obj));
+                }))
+                .bind(&*self.stack, "visible-child-name", Some(obj));
 
-            if let Some(image) = obj.image() {
-                obj.action_set_enabled("image.delete", !image.to_be_deleted());
-                image.connect_notify_local(
-                    Some("to-be-deleted"),
-                    clone!(@weak obj => move|image, _| {
-                        obj.action_set_enabled("image.delete", !image.to_be_deleted());
-                    }),
-                );
-            }
+            to_be_deleted_expr.watch(
+                Some(obj),
+                clone!(@weak obj => move || {
+                    obj.action_set_enabled(
+                        ACTION_DELETE_IMAGE,
+                        obj.image().map(|image| !image.to_be_deleted()).unwrap_or(false)
+                    );
+                }),
+            );
         }
 
         fn dispose(&self, obj: &Self::Type) {
@@ -180,18 +165,6 @@ impl MenuButton {
         self.notify("image");
     }
 
-    pub(crate) fn action_ongoing(&self) -> bool {
-        self.imp().action_ongoing.get()
-    }
-
-    pub(crate) fn set_action_ongoing(&self, value: bool) {
-        if self.action_ongoing() == value {
-            return;
-        }
-        self.imp().action_ongoing.replace(value);
-        self.notify("action-ongoing");
-    }
-
     pub(crate) fn is_primary(&self) -> bool {
         self.imp().menu_button.is_primary()
     }
@@ -202,8 +175,6 @@ impl MenuButton {
 
     fn delete(&self) {
         if let Some(image) = self.image().as_ref() {
-            self.set_action_ongoing(true);
-
             let first_container = image.container_list().get(0);
 
             if image.containers() > 0 || first_container.is_some() {
@@ -233,18 +204,14 @@ impl MenuButton {
                 dialog.set_default_response(Some("cancel"));
                 dialog.set_response_appearance("delete", adw::ResponseAppearance::Destructive);
 
-                dialog.connect_response(
+                dialog.run_async(
                     None,
                     clone!(@weak self as obj, @weak image => move |_, response| {
                         if response == "delete" {
                             obj.delete_image(&image);
-                        } else {
-                            obj.set_action_ongoing(false);
                         }
                     }),
                 );
-
-                dialog.present();
             } else {
                 self.delete_image(image);
             }
@@ -253,8 +220,6 @@ impl MenuButton {
 
     fn delete_image(&self, image: &model::Image) {
         image.delete(clone!(@weak self as obj => move |image, result| {
-            obj.set_action_ongoing(false);
-
             if let Err(e) = result {
                 utils::show_toast(
                     &obj,

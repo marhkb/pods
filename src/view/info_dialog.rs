@@ -2,7 +2,6 @@ use adw::subclass::prelude::AdwWindowImpl;
 use adw::subclass::prelude::PreferencesWindowImpl;
 use adw::traits::ExpanderRowExt;
 use adw::traits::PreferencesWindowExt;
-use cascade::cascade;
 use gettextrs::gettext;
 use gettextrs::ngettext;
 use gtk::glib;
@@ -242,10 +241,11 @@ impl InfoDialog {
                         ));
                     if let Some(graph_options) = store.and_then(|s| s.graph_options.as_ref()) {
                         graph_options.iter().for_each(|(k, v)| {
-                            imp.store_graph_options_row.add_row(&cascade! {
-                                view::PropertyRow::default();
-                                ..set_key(k);
-                                ..set_value(&v.to_string());
+                            imp.store_graph_options_row.add_row(&{
+                                let row = view::PropertyRow::default();
+                                row.set_key(k);
+                                row.set_value(&v.to_string());
+                                row
                             });
                         });
                     }
@@ -263,10 +263,11 @@ impl InfoDialog {
                     if let Some(graph_status) = store.and_then(|s| s.graph_status.as_ref())
                     {
                         graph_status.iter().for_each(|(k, v)| {
-                            imp.store_graph_status_row.add_row(&cascade! {
-                                view::PropertyRow::default();
-                                ..set_key(k);
-                                ..set_value(v);
+                            imp.store_graph_status_row.add_row(&{
+                                let row = view::PropertyRow::default();
+                                row.set_key(k);
+                                row.set_value(v);
+                                row
                             });
                         });
                     }

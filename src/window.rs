@@ -1,6 +1,5 @@
 use adw::subclass::prelude::AdwApplicationWindowImpl;
 use adw::traits::BinExt;
-use cascade::cascade;
 use gettextrs::gettext;
 use gettextrs::ngettext;
 use gtk::gdk;
@@ -159,6 +158,14 @@ mod imp {
             klass.install_action("win.add-connection", None, |widget, _, _| {
                 widget.add_connection();
             });
+
+            klass.install_action(
+                "win.cancel-or-delete-action",
+                Some("u"),
+                |widget, _, data| {
+                    widget.cancel_or_delete_action(data);
+                },
+            );
 
             klass.add_binding_action(
                 gdk::Key::N,
@@ -761,9 +768,28 @@ impl Window {
         let leaflet_overlay = &*self.imp().leaflet_overlay;
 
         if leaflet_overlay.child().is_none() {
-            leaflet_overlay.show_details(&view::ConnectionCreatorPage::from(
+            leaflet_overlay.show_details(&view::ConnectionCreationPage::from(
                 &self.connection_manager(),
             ));
+        }
+    }
+
+    fn cancel_or_delete_action(&self, data: Option<&glib::Variant>) {
+        if let Some(action_list) = self
+            .connection_manager()
+            .client()
+            .as_ref()
+            .map(model::Client::action_list)
+        {
+            let action_num: u32 = data.unwrap().get().unwrap();
+
+            if let Some(action) = action_list.get(action_num) {
+                if action.state() == model::ActionState::Ongoing {
+                    action.cancel();
+                } else {
+                    action_list.remove(action_num);
+                }
+            }
         }
     }
 
@@ -790,11 +816,9 @@ impl Window {
     }
 
     fn show_podman_info_dialog(&self) {
-        cascade! {
-            view::InfoDialog::from(self.connection_manager().client().as_ref());
-            ..set_transient_for(Some(self));
-        }
-        .present();
+        let dialog = view::InfoDialog::from(self.connection_manager().client().as_ref());
+        dialog.set_transient_for(Some(self));
+        dialog.present();
     }
 
     fn toggle_search(&self) {

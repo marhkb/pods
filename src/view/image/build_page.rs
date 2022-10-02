@@ -21,6 +21,10 @@ use crate::utils;
 use crate::utils::ToTypedListModel;
 use crate::view;
 
+const ACTION_BUILD: &str = "image-build-page.build-image";
+const ACTION_SELECT_CONTEXT_DIR: &str = "image-build-page.select-context-dir";
+const ACTION_ADD_LABEL: &str = "image-build-page.add-label";
+
 mod imp {
     use super::*;
 
@@ -52,15 +56,15 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
-            klass.install_action("image.build", None, move |widget, _, _| {
+            klass.install_action(ACTION_BUILD, None, move |widget, _, _| {
                 widget.build();
             });
 
-            klass.install_action("image.choose-context-dir", None, move |widget, _, _| {
+            klass.install_action(ACTION_SELECT_CONTEXT_DIR, None, move |widget, _, _| {
                 widget.choose_context_dir();
             });
 
-            klass.install_action("image.add-label", None, |widget, _, _| {
+            klass.install_action(ACTION_ADD_LABEL, None, |widget, _, _| {
                 widget.add_label();
             });
         }
@@ -119,7 +123,7 @@ mod imp {
                 });
             self.labels_list_box.append(
                 &gtk::ListBoxRow::builder()
-                    .action_name("image.add-label")
+                    .action_name(ACTION_ADD_LABEL)
                     .selectable(false)
                     .child(
                         &gtk::Image::builder()
@@ -184,7 +188,7 @@ impl BuildPage {
                 .map(|s| !s.is_empty())
                 .unwrap_or(false);
 
-        self.action_set_enabled("image.build", enabled);
+        self.action_set_enabled(ACTION_BUILD, enabled);
     }
 
     fn choose_context_dir(&self) {

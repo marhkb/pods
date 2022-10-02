@@ -21,6 +21,16 @@ use crate::utils;
 use crate::utils::ToTypedListModel;
 use crate::view;
 
+const ACTION_SEARCH_IMAGE: &str = "container-creation-page.search-image";
+const ACTION_REMOVE_REMOTE_IMAGE: &str = "container-creation-page.remove-remote-image";
+const ACTION_ADD_CMD_ARG: &str = "container-creation-page.add-cmd-arg";
+const ACTION_ADD_PORT_MAPPING: &str = "container-creation-page.add-port-mapping";
+const ACTION_ADD_VOLUME: &str = "container-creation-page.add-volume";
+const ACTION_ADD_ENV_VAR: &str = "container-creation-page.add-env-var";
+const ACTION_ADD_LABEL: &str = "container-creation-page.add-label";
+const ACTION_CREATE_AND_RUN: &str = "container-creation-page.create-and-run";
+const ACTION_CREATE: &str = "container-creation-page.create";
+
 mod imp {
     use super::*;
 
@@ -104,32 +114,33 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
-            klass.install_action("image.search", None, move |widget, _, _| {
+            klass.install_action(ACTION_SEARCH_IMAGE, None, move |widget, _, _| {
                 widget.search_image();
             });
-            klass.install_action("image.remove-remote", None, move |widget, _, _| {
+            klass.install_action(ACTION_REMOVE_REMOTE_IMAGE, None, move |widget, _, _| {
                 widget.remove_remote();
             });
-
-            klass.install_action("container.add-port-mapping", None, |widget, _, _| {
-                widget.add_port_mapping();
-            });
-            klass.install_action("container.add-volume", None, |widget, _, _| {
-                widget.add_volume();
-            });
-            klass.install_action("container.add-env-var", None, |widget, _, _| {
-                widget.add_env_var();
-            });
-            klass.install_action("container.add-cmd-arg", None, |widget, _, _| {
+            klass.install_action(ACTION_ADD_CMD_ARG, None, |widget, _, _| {
                 widget.add_cmd_arg();
             });
-            klass.install_action("container.add-label", None, |widget, _, _| {
+
+            klass.install_action(ACTION_ADD_PORT_MAPPING, None, |widget, _, _| {
+                widget.add_port_mapping();
+            });
+            klass.install_action(ACTION_ADD_VOLUME, None, |widget, _, _| {
+                widget.add_volume();
+            });
+            klass.install_action(ACTION_ADD_ENV_VAR, None, |widget, _, _| {
+                widget.add_env_var();
+            });
+
+            klass.install_action(ACTION_ADD_LABEL, None, |widget, _, _| {
                 widget.add_label();
             });
-            klass.install_action("container.create-and-run", None, |widget, _, _| {
+            klass.install_action(ACTION_CREATE_AND_RUN, None, |widget, _, _| {
                 widget.finish(true);
             });
-            klass.install_action("container.create", None, |widget, _, _| {
+            klass.install_action(ACTION_CREATE, None, |widget, _, _| {
                 widget.finish(false);
             });
         }
@@ -287,6 +298,23 @@ mod imp {
                 self.pod_combo_row
                     .set_model(Some(obj.client().unwrap().pod_list()));
             }
+            self.command_arg_list_box
+                .bind_model(Some(&*self.cmd_args.borrow()), |item| {
+                    view::CmdArgRow::from(item.downcast_ref::<model::CmdArg>().unwrap()).upcast()
+                });
+            self.command_arg_list_box.append(
+                &gtk::ListBoxRow::builder()
+                    .action_name(ACTION_ADD_CMD_ARG)
+                    .selectable(false)
+                    .child(
+                        &gtk::Image::builder()
+                            .icon_name("list-add-symbolic")
+                            .margin_top(12)
+                            .margin_bottom(12)
+                            .build(),
+                    )
+                    .build(),
+            );
 
             self.port_mapping_list_box
                 .bind_model(Some(&*self.port_mappings.borrow()), |item| {
@@ -295,7 +323,7 @@ mod imp {
                 });
             self.port_mapping_list_box.append(
                 &gtk::ListBoxRow::builder()
-                    .action_name("container.add-port-mapping")
+                    .action_name(ACTION_ADD_PORT_MAPPING)
                     .selectable(false)
                     .child(
                         &gtk::Image::builder()
@@ -313,24 +341,7 @@ mod imp {
                 });
             self.volume_list_box.append(
                 &gtk::ListBoxRow::builder()
-                    .action_name("container.add-volume")
-                    .selectable(false)
-                    .child(
-                        &gtk::Image::builder()
-                            .icon_name("list-add-symbolic")
-                            .margin_top(12)
-                            .margin_bottom(12)
-                            .build(),
-                    )
-                    .build(),
-            );
-            self.command_arg_list_box
-                .bind_model(Some(&*self.cmd_args.borrow()), |item| {
-                    view::CmdArgRow::from(item.downcast_ref::<model::CmdArg>().unwrap()).upcast()
-                });
-            self.command_arg_list_box.append(
-                &gtk::ListBoxRow::builder()
-                    .action_name("container.add-cmd-arg")
+                    .action_name(ACTION_ADD_VOLUME)
                     .selectable(false)
                     .child(
                         &gtk::Image::builder()
@@ -348,7 +359,7 @@ mod imp {
                 });
             self.env_var_list_box.append(
                 &gtk::ListBoxRow::builder()
-                    .action_name("container.add-env-var")
+                    .action_name(ACTION_ADD_ENV_VAR)
                     .selectable(false)
                     .child(
                         &gtk::Image::builder()
@@ -366,7 +377,7 @@ mod imp {
                 });
             self.labels_list_box.append(
                 &gtk::ListBoxRow::builder()
-                    .action_name("container.add-label")
+                    .action_name(ACTION_ADD_LABEL)
                     .selectable(false)
                     .child(
                         &gtk::Image::builder()
@@ -468,8 +479,8 @@ impl CreationPage {
 
     fn on_name_changed(&self) {
         let enabled = self.imp().name_entry_row.text().len() > 0;
-        self.action_set_enabled("container.create-and-run", enabled);
-        self.action_set_enabled("container.create", enabled);
+        self.action_set_enabled(ACTION_CREATE_AND_RUN, enabled);
+        self.action_set_enabled(ACTION_CREATE, enabled);
     }
 
     fn set_exposed_ports(&self, config: &model::ImageConfig) {

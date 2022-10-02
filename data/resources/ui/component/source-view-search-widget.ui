@@ -44,7 +44,7 @@
         </child>
 
         <child>
-          <object class="GtkToggleButton">
+          <object class="GtkToggleButton" id="options_toggle_button">
             <property name="tooltip-text" translatable="yes">Toggle search options</property>
             <property name="icon-name">emblem-system-symbolic</property>
             <property name="active" bind-source="options_revealer" bind-property="reveal-child" bind-flags="sync-create|bidirectional"/>

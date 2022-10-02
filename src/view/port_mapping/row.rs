@@ -17,13 +17,13 @@ mod imp {
         pub(super) port_mapping: RefCell<Option<model::PortMapping>>,
         pub(super) bindings: RefCell<Vec<glib::Binding>>,
         #[template_child]
-        pub(super) ip_address_entry: TemplateChild<gtk::Entry>,
-        #[template_child]
-        pub(super) host_port_adjustment: TemplateChild<gtk::Adjustment>,
-        #[template_child]
         pub(super) container_port_adjustment: TemplateChild<gtk::Adjustment>,
         #[template_child]
         pub(super) protocol_combo_box: TemplateChild<gtk::ComboBoxText>,
+        #[template_child]
+        pub(super) ip_address_entry: TemplateChild<gtk::Entry>,
+        #[template_child]
+        pub(super) host_port_adjustment: TemplateChild<gtk::Adjustment>,
     }
 
     #[glib::object_subclass]
@@ -34,7 +34,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
-            klass.install_action("port-mapping.remove", None, |widget, _, _| {
+            klass.install_action("port-mapping-row.remove", None, |widget, _, _| {
                 if let Some(port_mapping) = widget.port_mapping() {
                     port_mapping.remove_request();
                 }
@@ -119,18 +119,6 @@ impl Row {
 
         if let Some(ref port_mapping) = value {
             let binding = port_mapping
-                .bind_property("ip-address", &*imp.ip_address_entry, "text")
-                .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
-                .build();
-            bindings.push(binding);
-
-            let binding = port_mapping
-                .bind_property("host-port", &*imp.host_port_adjustment, "value")
-                .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
-                .build();
-            bindings.push(binding);
-
-            let binding = port_mapping
                 .bind_property("container-port", &*imp.container_port_adjustment, "value")
                 .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
                 .build();
@@ -158,6 +146,18 @@ impl Row {
                         .to_value(),
                     )
                 })
+                .build();
+            bindings.push(binding);
+
+            let binding = port_mapping
+                .bind_property("ip-address", &*imp.ip_address_entry, "text")
+                .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
+                .build();
+            bindings.push(binding);
+
+            let binding = port_mapping
+                .bind_property("host-port", &*imp.host_port_adjustment, "value")
+                .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
                 .build();
             bindings.push(binding);
         }

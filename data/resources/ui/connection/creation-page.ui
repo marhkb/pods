@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="PdsConnectionCreatorPage" parent="GtkWidget">
+  <template class="PdsConnectionCreationPage" parent="GtkWidget">
     <property name="layout-manager">
       <object class="GtkBoxLayout">
         <property name="orientation">vertical</property>

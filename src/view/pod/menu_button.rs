@@ -276,7 +276,7 @@ impl MenuButton {
                     .body(
                         &match first_container.as_ref().map(|c| c.name()) {
                             Some(id) => gettext!(
-                                // Translators: The "{}" is a placeholder for the container name.
+                                // Translators: The "{}" is a placeholder for the pod name.
                                 "Pod contains container <b>{}</b>. Deleting the pod will also delete all its containers.",
                                 id
                             ),

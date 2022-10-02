@@ -16,6 +16,10 @@ use crate::model;
 use crate::utils;
 use crate::view;
 
+const ACTION_INSPECT: &str = "container-details-page.inspect";
+const ACTION_SHOW_LOG: &str = "container-details-page.show-log";
+const ACTION_SHOW_PROCESSES: &str = "container-details-page.show-processes";
+
 mod imp {
     use super::*;
 
@@ -44,14 +48,14 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
-            klass.install_action("container.inspect", None, move |widget, _, _| {
+            klass.install_action(ACTION_INSPECT, None, move |widget, _, _| {
                 widget.show_inspection();
             });
 
-            klass.install_action("container.show-log", None, move |widget, _, _| {
+            klass.install_action(ACTION_SHOW_LOG, None, move |widget, _, _| {
                 widget.show_log();
             });
-            klass.install_action("container.show-processes", None, move |widget, _, _| {
+            klass.install_action(ACTION_SHOW_PROCESSES, None, move |widget, _, _| {
                 widget.show_processes();
             });
 
@@ -196,11 +200,11 @@ impl DetailsPage {
             .as_ref()
             .and_then(model::Container::api_container)
         {
-            self.action_set_enabled("container.inspect", false);
+            self.action_set_enabled(ACTION_INSPECT, false);
             utils::do_async(
                 async move { container.inspect().await.map_err(anyhow::Error::from) },
                 clone!(@weak self as obj => move |result| {
-                    obj.action_set_enabled("container.inspect", true);
+                    obj.action_set_enabled(ACTION_INSPECT, true);
                     match result
                         .and_then(|data| view::InspectionPage::new(
                             &gettext("Container Inspection"), &data

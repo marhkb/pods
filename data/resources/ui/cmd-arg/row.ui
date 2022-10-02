@@ -9,7 +9,7 @@
         <style>
           <class name="flat"/>
         </style>
-        <property name="action-name">arg.remove</property>
+        <property name="action-name">cmd-arg-row.remove</property>
         <property name="halign">end</property>
         <property name="valign">center</property>
         <property name="icon-name">list-remove-symbolic</property>

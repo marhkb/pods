@@ -8,7 +8,6 @@ edition = "2021"
 adw = { version = "0.2.0-alpha.3", package = "libadwaita", features = ["v1_2"] }
 anyhow = "1.0"
 ashpd = { version = "0.3", features = ["feature_gtk4"] }
-cascade = "1"
 futures = { version = "0.3", default-features = false }
 gettext-rs = { version = "0.7", features = ["gettext-system"] }
 gtk = { version = "0.4", package = "gtk4", features = ["v4_6"] }

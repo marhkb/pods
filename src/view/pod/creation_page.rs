@@ -20,6 +20,11 @@ use crate::utils::ToTypedListModel;
 use crate::view;
 
 const ACTION_CREATE: &str = "pod-creation-page.create";
+const ACTION_ADD_LABEL: &str = "pod.add-label";
+const ACTION_ADD_INFRA_CMD_ARGS: &str = "pod.add-infra-cmd-arg";
+const ACTION_TOGGLE_INFRA: &str = "pod.toggle-infra";
+const ACTION_REMOVE_REMOTE_INFRA: &str = "image.infra-remove-remote";
+const ACTION_SEARCH_INFRA: &str = "image.infra-search";
 
 mod imp {
     use super::*;
@@ -81,19 +86,19 @@ mod imp {
             klass.install_action(ACTION_CREATE, None, |widget, _, _| {
                 widget.finish();
             });
-            klass.install_action("pod.add-label", None, |widget, _, _| {
+            klass.install_action(ACTION_ADD_LABEL, None, |widget, _, _| {
                 widget.add_label();
             });
-            klass.install_action("pod.add-infra-cmd-arg", None, |widget, _, _| {
+            klass.install_action(ACTION_ADD_INFRA_CMD_ARGS, None, |widget, _, _| {
                 widget.add_infra_cmd_arg();
             });
-            klass.install_action("pod.toggle-infra", None, |widget, _, _| {
+            klass.install_action(ACTION_TOGGLE_INFRA, None, |widget, _, _| {
                 widget.toggle_infra();
             });
-            klass.install_action("image.infra-remove-remote", None, move |widget, _, _| {
+            klass.install_action(ACTION_REMOVE_REMOTE_INFRA, None, move |widget, _, _| {
                 widget.remove_remote();
             });
-            klass.install_action("image.infra-search", None, move |widget, _, _| {
+            klass.install_action(ACTION_SEARCH_INFRA, None, move |widget, _, _| {
                 widget.search_image();
             });
         }
@@ -160,7 +165,7 @@ mod imp {
                 });
             self.labels_list_box.append(
                 &gtk::ListBoxRow::builder()
-                    .action_name("pod.add-label")
+                    .action_name(ACTION_ADD_LABEL)
                     .selectable(false)
                     .child(
                         &gtk::Image::builder()
@@ -180,7 +185,7 @@ mod imp {
             );
             self.infra_command_arg_list_box.append(
                 &gtk::ListBoxRow::builder()
-                    .action_name("pod.add-infra-cmd-arg")
+                    .action_name(ACTION_ADD_INFRA_CMD_ARGS)
                     .selectable(false)
                     .child(
                         &gtk::Image::builder()

@@ -19,8 +19,8 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(resource = "/com/github/marhkb/Pods/ui/connection/creator-page.ui")]
-    pub(crate) struct CreatorPage {
+    #[template(resource = "/com/github/marhkb/Pods/ui/connection/creation-page.ui")]
+    pub(crate) struct CreationPage {
         pub(super) connection_manager: OnceCell<model::ConnectionManager>,
         #[template_child]
         pub(super) back_navigation_controls: TemplateChild<view::BackNavigationControls>,
@@ -41,9 +41,9 @@ mod imp {
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for CreatorPage {
-        const NAME: &'static str = "PdsConnectionCreatorPage";
-        type Type = super::CreatorPage;
+    impl ObjectSubclass for CreationPage {
+        const NAME: &'static str = "PdsConnectionCreationPage";
+        type Type = super::CreationPage;
         type ParentType = gtk::Widget;
 
         fn class_init(klass: &mut Self::Class) {
@@ -59,7 +59,7 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for CreatorPage {
+    impl ObjectImpl for CreationPage {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![glib::ParamSpecObject::new(
@@ -117,7 +117,7 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for CreatorPage {
+    impl WidgetImpl for CreationPage {
         fn root(&self, widget: &Self::Type) {
             self.parent_root(widget);
 
@@ -138,19 +138,19 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub(crate) struct CreatorPage(ObjectSubclass<imp::CreatorPage>)
+    pub(crate) struct CreationPage(ObjectSubclass<imp::CreationPage>)
         @extends gtk::Widget,
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
-impl From<&model::ConnectionManager> for CreatorPage {
+impl From<&model::ConnectionManager> for CreationPage {
     fn from(connection_manager: &model::ConnectionManager) -> Self {
         glib::Object::new(&[("connection-manager", connection_manager)])
-            .expect("Failed to create PdsConnectionCreatorPage")
+            .expect("Failed to create PdsConnectionCreationPage")
     }
 }
 
-impl CreatorPage {
+impl CreationPage {
     pub(crate) fn connection_manager(&self) -> &model::ConnectionManager {
         self.imp().connection_manager.get().unwrap()
     }

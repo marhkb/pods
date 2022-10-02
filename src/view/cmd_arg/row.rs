@@ -8,6 +8,8 @@ use once_cell::sync::Lazy;
 
 use crate::model;
 
+const ACTION_REMOVE: &str = "cmd-arg-row.remove";
+
 mod imp {
     use super::*;
 
@@ -26,7 +28,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
-            klass.install_action("arg.remove", None, |widget, _, _| {
+            klass.install_action(ACTION_REMOVE, None, |widget, _, _| {
                 if let Some(cmd_arg) = widget.cmd_arg() {
                     cmd_arg.remove_request();
                 }

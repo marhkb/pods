@@ -227,12 +227,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cascade"
-version = "1.0.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d499b43edbf784dd81e16f0395f5b4350a35b477da8a074251087adefc11cb52"
-
-[[package]]
 name = "cc"
 version = "1.0.73"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1475,7 +1469,6 @@ version = "1.0.0-beta.4"
 dependencies = [
  "anyhow",
  "ashpd",
- "cascade",
  "futures",
  "gettext-rs",
  "gtk4",

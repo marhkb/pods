@@ -6,82 +6,33 @@
     <property name="selectable">False</property>
 
     <child>
-      <object class="GtkBox">
+      <object class="GtkGrid">
         <property name="hexpand">True</property>
+        <property name="column-spacing">12</property>
+        <property name="row-spacing">12</property>
         <property name="margin-bottom">18</property>
         <property name="margin-end">12</property>
         <property name="margin-start">12</property>
         <property name="margin-top">18</property>
-        <property name="spacing">12</property>
 
         <child>
-          <object class="GtkGrid">
+          <object class="GtkBox">
+            <layout>
+              <property name="column">0</property>
+              <property name="row">1</property>
+            </layout>
+            <property name="halign">end</property>
             <property name="hexpand">True</property>
-            <property name="column-spacing">9</property>
-            <property name="row-spacing">6</property>
+            <property name="spacing">15</property>
 
             <child>
               <object class="GtkLabel">
-                <layout>
-                  <property name="column">0</property>
-                  <property name="row">0</property>
-                </layout>
-                <property name="label" translatable="yes">IP address</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkEntry" id="ip_address_entry">
-                <layout>
-                  <property name="column">0</property>
-                  <property name="row">1</property>
-                </layout>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkLabel">
-                <layout>
-                  <property name="column">1</property>
-                  <property name="row">0</property>
-                </layout>
-                <property name="label" translatable="yes">Host port</property>
+                <property name="label" translatable="yes">will be mapped to container port</property>
               </object>
             </child>
 
             <child>
               <object class="GtkSpinButton">
-                <layout>
-                  <property name="column">1</property>
-                  <property name="row">1</property>
-                </layout>
-                <property name="adjustment">
-                  <object class="GtkAdjustment" id="host_port_adjustment">
-                    <property name="lower">0</property>
-                    <property name="upper">65536</property>
-                    <property name="page_increment">16</property>
-                    <property name="step-increment">1</property>
-                  </object>
-                </property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkLabel">
-                <layout>
-                  <property name="column">2</property>
-                  <property name="row">0</property>
-                </layout>
-                <property name="label" translatable="yes">Container port</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkSpinButton">
-                <layout>
-                  <property name="column">2</property>
-                  <property name="row">1</property>
-                </layout>
                 <property name="adjustment">
                   <object class="GtkAdjustment" id="container_port_adjustment">
                     <property name="lower">1</property>
@@ -93,22 +44,19 @@
               </object>
             </child>
 
-            <child>
-              <object class="GtkLabel">
-                <layout>
-                  <property name="column">3</property>
-                  <property name="row">0</property>
-                </layout>
-                <property name="label" translatable="yes">Protocol</property>
-              </object>
-            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkBox">
+            <layout>
+              <property name="column">0</property>
+              <property name="row">0</property>
+            </layout>
+            <property name="spacing">9</property>
 
             <child>
               <object class="GtkComboBoxText" id="protocol_combo_box">
-                <layout>
-                  <property name="column">3</property>
-                  <property name="row">1</property>
-                </layout>
                 <items>
                   <item translatable="yes">TCP</item>
                   <item translatable="yes">UDP</item>
@@ -117,17 +65,36 @@
               </object>
             </child>
 
+            <child>
+              <object class="GtkEntry" id="ip_address_entry">
+                <property name="hexpand">True</property>
+                <property name="placeholder-text" translatable="yes">0.0.0.0</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkSpinButton">
+                <property name="adjustment">
+                  <object class="GtkAdjustment" id="host_port_adjustment">
+                    <property name="lower">0</property>
+                    <property name="upper">65536</property>
+                    <property name="page_increment">16</property>
+                    <property name="step-increment">1</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+
           </object>
         </child>
 
         <child>
           <object class="GtkButton">
-            <style>
-              <class name="destructive-action"/>
-            </style>
-            <property name="action-name">port-mapping.remove</property>
-            <property name="halign">end</property>
-            <property name="valign">end</property>
+            <layout>
+              <property name="column">1</property>
+              <property name="row">1</property>
+            </layout>
+            <property name="action-name">port-mapping-row.remove</property>
             <property name="icon-name">list-remove-symbolic</property>
           </object>
         </child>
