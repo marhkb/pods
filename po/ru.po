@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-09-18 00:28+0200\n"
-"PO-Revision-Date: 2022-09-28 05:16+0000\n"
-"Last-Translator: Evgeniy Khramov <thejenjagamertjg@gmail.com>\n"
+"PO-Revision-Date: 2022-10-02 10:27+0000\n"
+"Last-Translator: lenemter <lenemter@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/pods/pods/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -54,11 +54,11 @@ msgstr "Вариант стиля"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:27
 msgid "Use the light or dark variant of the GTK theme"
-msgstr ""
+msgstr "Использовать светлый или темный вариант GTK темы"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:31
 msgid "The uuid of the connection that was used the last time"
-msgstr ""
+msgstr "UUID подключения, использованного в последний раз"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:36
 msgid "The last used view"
@@ -66,7 +66,7 @@ msgstr "Последний использованный вид"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:41
 msgid "Whether to show intermediate images"
-msgstr "Показывать ли промежуточные изображения"
+msgstr "Показывать промежуточные образы"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:46
 msgid "Remove all images not in use by containers, not just dangling ones"
@@ -83,7 +83,7 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:56
 msgid "Whether to show only running containers"
-msgstr "Показывать ли только запущенные контейнеры"
+msgstr "Показывать только запущенные контейнеры"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:61
 msgid "Whether to show only running pods"
@@ -191,7 +191,7 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:84
 msgid "Marcus Behrendt"
-msgstr ""
+msgstr "Marcus Behrendt"
 
 #: data/resources/ui/component/back-navigation-controls.ui:14
 msgid "Return to previous page"
@@ -506,7 +506,7 @@ msgstr ""
 #: data/resources/ui/container/menu-button.ui:6
 #: data/resources/ui/pod/menu-button.ui:12
 msgid "_Start"
-msgstr ""
+msgstr "_Запустить"
 
 #: data/resources/ui/container/menu-button.ui:11
 #: data/resources/ui/pod/menu-button.ui:17
@@ -516,7 +516,7 @@ msgstr ""
 #: data/resources/ui/container/menu-button.ui:16
 #: data/resources/ui/pod/menu-button.ui:22
 msgid "_Force Stop"
-msgstr ""
+msgstr "_Остановить Принудительно"
 
 #: data/resources/ui/container/menu-button.ui:21
 #: data/resources/ui/pod/menu-button.ui:27
@@ -526,17 +526,17 @@ msgstr ""
 #: data/resources/ui/container/menu-button.ui:26
 #: data/resources/ui/pod/menu-button.ui:32
 msgid "F_orce Restart"
-msgstr ""
+msgstr "Перезапустить Принудительно"
 
 #: data/resources/ui/container/menu-button.ui:31
 #: data/resources/ui/pod/menu-button.ui:37
 msgid "_Resume"
-msgstr ""
+msgstr "_Продолжить"
 
 #: data/resources/ui/container/menu-button.ui:36
 #: data/resources/ui/pod/menu-button.ui:42
 msgid "_Pause"
-msgstr ""
+msgstr "_Приостановить"
 
 #: data/resources/ui/container/menu-button.ui:43
 msgid "Re_name…"
@@ -550,7 +550,7 @@ msgstr ""
 #: data/resources/ui/pod/menu-button.ui:49 src/view/containers/panel.rs:354
 #: src/view/images/images_panel.rs:360 src/view/pods/panel.rs:448
 msgid "_Delete"
-msgstr ""
+msgstr "_Удалить"
 
 #: data/resources/ui/container/properties-group.ui:5
 #: data/resources/ui/image/details-page.ui:48
@@ -572,7 +572,7 @@ msgstr ""
 #: data/resources/ui/pod/details-page.ui:72 src/model/container.rs:66
 #: src/model/pod.rs:66
 msgid "Created"
-msgstr ""
+msgstr "Создано"
 
 #: data/resources/ui/container/properties-group.ui:113
 msgid "Image"
@@ -624,7 +624,7 @@ msgstr ""
 
 #: data/resources/ui/containers/panel.ui:52
 msgid "No containers found"
-msgstr ""
+msgstr "Контейнеров не найдено"
 
 #: data/resources/ui/containers/panel.ui:97
 #: data/resources/ui/containers/panel.ui:240
@@ -884,17 +884,17 @@ msgstr ""
 #: data/resources/ui/info-dialog.ui:86 src/model/container.rs:69
 #: src/model/pod.rs:71
 msgid "Paused"
-msgstr ""
+msgstr "Приостановлен"
 
 #: data/resources/ui/info-dialog.ui:92 src/model/container.rs:72
 #: src/model/pod.rs:73
 msgid "Running"
-msgstr ""
+msgstr "Работает"
 
 #: data/resources/ui/info-dialog.ui:98 src/model/container.rs:73
 #: src/model/pod.rs:74
 msgid "Stopped"
-msgstr ""
+msgstr "Остановлен"
 
 #: data/resources/ui/info-dialog.ui:107
 msgid "Graph Driver Name"
@@ -940,7 +940,7 @@ msgstr ""
 #: data/resources/ui/pod/details-page.ui:131
 #: data/resources/ui/search-panel.ui:68 data/resources/ui/window.ui:292
 msgid "Containers"
-msgstr ""
+msgstr "Контейнеры"
 
 #: data/resources/ui/pod/details-page.ui:132
 msgid "There are no containers in this pod."
@@ -980,7 +980,7 @@ msgstr ""
 
 #: data/resources/ui/search-panel.ui:52 data/resources/ui/window.ui:272
 msgid "Images"
-msgstr ""
+msgstr "Образы"
 
 #: data/resources/ui/search-panel.ui:84 data/resources/ui/window.ui:312
 msgctxt "podman feature"
@@ -995,7 +995,7 @@ msgstr ""
 #: data/resources/ui/shortcuts.ui:17
 msgctxt "shortcut window"
 msgid "Show Shortcuts"
-msgstr ""
+msgstr "Показать ярлыки"
 
 #: data/resources/ui/shortcuts.ui:24
 msgctxt "shortcut window"
@@ -1005,12 +1005,12 @@ msgstr ""
 #: data/resources/ui/shortcuts.ui:31
 msgctxt "shortcut window"
 msgid "Quit"
-msgstr ""
+msgstr "Выйти"
 
 #: data/resources/ui/shortcuts.ui:38
 msgctxt "shortcut window"
 msgid "Search"
-msgstr ""
+msgstr "Поиск"
 
 #: data/resources/ui/shortcuts.ui:48
 msgctxt "shortcut window"
@@ -1126,7 +1126,7 @@ msgstr ""
 
 #: data/resources/ui/window.ui:27
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "_Сочетания клавиш"
 
 #: data/resources/ui/window.ui:31
 msgid "_About Pods"
@@ -1162,27 +1162,27 @@ msgstr ""
 
 #: src/model/container.rs:67 src/model/pod.rs:67
 msgid "Dead"
-msgstr ""
+msgstr "Мёртв"
 
 #: src/model/container.rs:68 src/model/pod.rs:70
 msgid "Exited"
-msgstr ""
+msgstr "Вышел"
 
 #: src/model/container.rs:70
 msgid "Removing"
-msgstr ""
+msgstr "Удаление"
 
 #: src/model/container.rs:71 src/model/pod.rs:72
 msgid "Restarting"
-msgstr ""
+msgstr "Перезапуск"
 
 #: src/model/container.rs:74
 msgid "Stopping"
-msgstr ""
+msgstr "Остановка"
 
 #: src/model/container.rs:75 src/model/container.rs:116 src/model/pod.rs:75
 msgid "Unknown"
-msgstr ""
+msgstr "Неизвестно"
 
 #: src/model/container.rs:112
 msgid "Checking"
