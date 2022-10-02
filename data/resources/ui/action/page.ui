@@ -31,7 +31,7 @@
 
                 <child type="title">
                   <object class="AdwWindowTitle">
-                    <property name="title"></property>
+                    <property name="title" translatable="yes">Action Overview</property>
                   </object>
                 </child>
 
