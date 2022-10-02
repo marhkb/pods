@@ -10,7 +10,7 @@
     <child>
       <object class="GtkButton">
         <property name="icon-name">go-previous-symbolic</property>
-        <property name="action-name">navigation.back</property>
+        <property name="action-name">back-navigation-controls.back</property>
         <property name="tooltip-text" translatable="yes">Return to previous page</property>
       </object>
     </child>
@@ -18,7 +18,7 @@
     <child>
       <object class="GtkButton" id="go_first_button">
         <property name="icon-name">go-first-symbolic</property>
-        <property name="action-name">navigation.go-first</property>
+        <property name="action-name">back-navigation-controls.go-first</property>
         <property name="tooltip-text" translatable="yes">Return to main page</property>
         <property name="visible" bind-source="go_first_button" bind-property="sensitive" bind-flags="sync-create"/>
       </object>

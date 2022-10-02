@@ -6,6 +6,9 @@ use gtk::CompositeTemplate;
 use crate::utils;
 use crate::view;
 
+const ACTION_GO_FIRST: &str = "back-navigation-controls.go-first";
+const ACTION_BACK: &str = "back-navigation-controls.back";
+
 mod imp {
     use super::*;
 
@@ -22,10 +25,10 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
-            klass.install_action("navigation.go-first", None, move |widget, _, _| {
+            klass.install_action(ACTION_GO_FIRST, None, move |widget, _, _| {
                 widget.navigate_to_first();
             });
-            klass.install_action("navigation.back", None, move |widget, _, _| {
+            klass.install_action(ACTION_BACK, None, move |widget, _, _| {
                 widget.navigate_back();
             });
         }
@@ -46,7 +49,7 @@ mod imp {
             self.parent_root(widget);
 
             widget.action_set_enabled(
-                "navigation.go-first",
+                ACTION_GO_FIRST,
                 widget.previous_leaflet_overlay() != widget.root_leaflet_overlay(),
             );
         }
