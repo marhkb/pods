@@ -44,11 +44,6 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
-            klass.add_binding_action(gdk::Key::F10, gdk::ModifierType::empty(), "menu.show", None);
-            klass.install_action("menu.show", None, |widget, _, _| {
-                widget.show_menu();
-            });
-
             klass.install_action("container.inspect", None, move |widget, _, _| {
                 widget.show_inspection();
             });
@@ -164,13 +159,6 @@ impl From<&model::Container> for DetailsPage {
 }
 
 impl DetailsPage {
-    fn show_menu(&self) {
-        let imp = self.imp();
-        if imp.leaflet_overlay.child().is_none() {
-            imp.menu_button.popup();
-        }
-    }
-
     fn container(&self) -> Option<model::Container> {
         self.imp().container.upgrade()
     }

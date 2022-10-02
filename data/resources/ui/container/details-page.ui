@@ -34,7 +34,7 @@
                     <binding name="container">
                       <lookup name="container">PdsContainerDetailsPage</lookup>
                     </binding>
-                    <property name="valign">center</property>
+                    <property name="primary">True</property>
                   </object>
                 </child>
 

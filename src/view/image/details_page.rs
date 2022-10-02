@@ -16,7 +16,6 @@ use crate::model;
 use crate::utils;
 use crate::view;
 
-const ACTION_SHOW_MENU: &str = "image-details-page.show-menu";
 const ACTION_INSPECT_IMAGE: &str = "image-details-page.inspect-image";
 
 mod imp {
@@ -59,16 +58,6 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
-
-            klass.add_binding_action(
-                gdk::Key::F10,
-                gdk::ModifierType::empty(),
-                ACTION_SHOW_MENU,
-                None,
-            );
-            klass.install_action(ACTION_SHOW_MENU, None, |widget, _, _| {
-                widget.show_menu();
-            });
 
             klass.install_action(ACTION_INSPECT_IMAGE, None, move |widget, _, _| {
                 widget.show_inspection();
@@ -288,13 +277,6 @@ impl From<&model::Image> for DetailsPage {
 }
 
 impl DetailsPage {
-    fn show_menu(&self) {
-        let imp = self.imp();
-        if imp.leaflet_overlay.child().is_none() {
-            imp.menu_button.popup();
-        }
-    }
-
     pub(crate) fn image(&self) -> Option<model::Image> {
         self.imp().image.upgrade()
     }

@@ -92,13 +92,22 @@ mod imp {
     impl ObjectImpl for MenuButton {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecObject::new(
-                    "container",
-                    "container",
-                    "The Container of this menu button",
-                    model::Container::static_type(),
-                    glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                )]
+                vec![
+                    glib::ParamSpecObject::new(
+                        "container",
+                        "container",
+                        "The Container of this menu button",
+                        model::Container::static_type(),
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                    ),
+                    glib::ParamSpecBoolean::new(
+                        "primary",
+                        "Primary",
+                        "Whether the container menu button acts as a primary menu",
+                        false,
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                    ),
+                ]
             });
             PROPERTIES.as_ref()
         }
@@ -112,6 +121,7 @@ mod imp {
         ) {
             match pspec.name() {
                 "container" => obj.set_container(value.get().unwrap_or_default()),
+                "primary" => obj.set_primary(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
@@ -119,12 +129,18 @@ mod imp {
         fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
                 "container" => obj.container().to_value(),
+                "primary" => obj.is_primary().to_value(),
                 _ => unimplemented!(),
             }
         }
 
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
+
+            self.menu_button
+                .connect_primary_notify(clone!(@weak obj => move |_| {
+                    obj.notify("primary")
+                }));
 
             Self::Type::this_expression("css-classes").bind(
                 &*self.menu_button,
@@ -184,10 +200,6 @@ macro_rules! container_action {
 }
 
 impl MenuButton {
-    pub(crate) fn popup(&self) {
-        self.imp().menu_button.popup();
-    }
-
     pub(crate) fn container(&self) -> Option<model::Container> {
         self.imp().container.upgrade()
     }
@@ -198,6 +210,14 @@ impl MenuButton {
         }
         self.imp().container.set(value);
         self.notify("container");
+    }
+
+    pub(crate) fn is_primary(&self) -> bool {
+        self.imp().menu_button.is_primary()
+    }
+
+    pub(crate) fn set_primary(&self, value: bool) {
+        self.imp().menu_button.set_primary(value);
     }
 
     fn update_actions(&self) {

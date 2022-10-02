@@ -16,7 +16,6 @@ use crate::model;
 use crate::utils;
 use crate::view;
 
-const ACTION_SHOW_MENU: &str = "pod-details-page.show-menu";
 const ACTION_INSPECT_POD: &str = "pod-details-page.inspect-pod";
 const ACTION_SHOW_PROCESSES: &str = "pod-details-page.show-processes";
 
@@ -54,16 +53,6 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
-
-            klass.add_binding_action(
-                gdk::Key::F10,
-                gdk::ModifierType::empty(),
-                ACTION_SHOW_MENU,
-                None,
-            );
-            klass.install_action(ACTION_SHOW_MENU, None, |widget, _, _| {
-                widget.show_menu();
-            });
 
             klass.install_action(ACTION_INSPECT_POD, None, move |widget, _, _| {
                 widget.show_inspection();
@@ -213,12 +202,6 @@ impl From<&model::Pod> for DetailsPage {
 }
 
 impl DetailsPage {
-    fn show_menu(&self) {
-        let imp = self.imp();
-        if imp.leaflet_overlay.child().is_none() {
-            imp.menu_button.popup();
-        }
-    }
     fn pod(&self) -> Option<model::Pod> {
         self.imp().pod.upgrade()
     }

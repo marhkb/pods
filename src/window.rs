@@ -127,11 +127,6 @@ mod imp {
             view::WelcomePage::static_type();
             sourceview5::View::static_type();
 
-            klass.add_binding_action(gdk::Key::F10, gdk::ModifierType::empty(), "menu.show", None);
-            klass.install_action("menu.show", None, |widget, _, _| {
-                widget.show_menu();
-            });
-
             klass.add_binding_action(
                 gdk::Key::Home,
                 gdk::ModifierType::ALT_MASK,
@@ -645,13 +640,6 @@ impl Window {
             });
 
         utils::show_error_toast(self, "Connection error", &e.to_string());
-    }
-
-    fn show_menu(&self) {
-        let imp = self.imp();
-        if imp.leaflet_overlay.child().is_none() {
-            imp.menu_button.popup();
-        }
     }
 
     fn is_showing_overlay(&self) -> bool {
