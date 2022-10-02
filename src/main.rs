@@ -32,8 +32,7 @@ pub(crate) static RUNTIME: Lazy<tokio::runtime::Runtime> =
 fn main() {
     glib::log_set_writer_func(glib::log_writer_journald);
 
-    gtk::init().expect("Failed to init gtk");
-    adw::init();
+    adw::init().expect("Failed to init GTK/libadwaita");
 
     // Prepare i18n
     gettextrs::setlocale(LocaleCategory::LcAll, "");
