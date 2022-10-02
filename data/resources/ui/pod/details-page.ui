@@ -34,7 +34,7 @@
                     <binding name="pod">
                       <lookup name="pod">PdsPodDetailsPage</lookup>
                     </binding>
-                    <property name="valign">center</property>
+                    <property name="primary">True</property>
                   </object>
                 </child>
 
