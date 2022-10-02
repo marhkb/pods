@@ -108,28 +108,28 @@ mod imp {
 
             let filter =
                 gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
-                    let term = obj.term();
+                    let term = obj.term().to_uppercase();
 
                     if term.is_empty() {
                         false
                     } else if let Some(image) = item.downcast_ref::<model::Image>() {
                         image.id().contains(&term)
-                        || image.repo_tags().iter().any(|s| s.contains(&term))
+                        || image.repo_tags().iter().any(|s| s.to_uppercase().contains(&term))
                     } else if let Some(container) = item.downcast_ref::<model::Container>() {
                         container
-                            .name().contains(&term)
+                            .name().to_uppercase().contains(&term)
                             || container
                                 .id().contains(&term)
                             || container
                                 .image_name()
-                                .map(|image_name| image_name.contains(&term))
+                                .map(|image_name| image_name.to_uppercase().contains(&term))
                                 .unwrap_or(false)
                             || container
                                 .image_id()
                                 .map(|image_id| image_id.contains(&term))
                                 .unwrap_or(false)
                     } else if let Some(pod) = item.downcast_ref::<model::Pod>() {
-                        pod.name().contains(&term)
+                        pod.name().to_uppercase().contains(&term)
                     } else {
                         unreachable!();
                     }
