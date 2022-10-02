@@ -1,6 +1,5 @@
 use adw::subclass::prelude::AdwApplicationWindowImpl;
 use adw::traits::BinExt;
-use cascade::cascade;
 use gettextrs::gettext;
 use gettextrs::ngettext;
 use gtk::gdk;
@@ -790,11 +789,9 @@ impl Window {
     }
 
     fn show_podman_info_dialog(&self) {
-        cascade! {
-            view::InfoDialog::from(self.connection_manager().client().as_ref());
-            ..set_transient_for(Some(self));
-        }
-        .present();
+        let dialog = view::InfoDialog::from(self.connection_manager().client().as_ref());
+        dialog.set_transient_for(Some(self));
+        dialog.present();
     }
 
     fn toggle_search(&self) {
