@@ -73,6 +73,13 @@ mod imp {
                         false,
                         glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
                     ),
+                    glib::ParamSpecBoolean::new(
+                        "primary",
+                        "Primary",
+                        "Whether the image menu button acts as a primary menu",
+                        false,
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                    ),
                 ]
             });
             PROPERTIES.as_ref()
@@ -88,6 +95,7 @@ mod imp {
             match pspec.name() {
                 "image" => obj.set_image(value.get().unwrap_or_default()),
                 "action-ongoing" => obj.set_action_ongoing(value.get().unwrap()),
+                "primary" => obj.set_primary(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
@@ -96,12 +104,18 @@ mod imp {
             match pspec.name() {
                 "image" => obj.image().to_value(),
                 "action-ongoing" => obj.action_ongoing().to_value(),
+                "primary" => obj.is_primary().to_value(),
                 _ => unimplemented!(),
             }
         }
 
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
+
+            self.menu_button
+                .connect_primary_notify(clone!(@weak obj => move |_| {
+                    obj.notify("primary")
+                }));
 
             Self::Type::this_expression("css-classes").bind(
                 &*self.menu_button,
@@ -151,10 +165,6 @@ glib::wrapper! {
 }
 
 impl MenuButton {
-    pub(crate) fn popup(&self) {
-        self.imp().menu_button.popup();
-    }
-
     pub(crate) fn image(&self) -> Option<model::Image> {
         self.imp().image.upgrade()
     }
@@ -180,6 +190,14 @@ impl MenuButton {
         }
         self.imp().action_ongoing.replace(value);
         self.notify("action-ongoing");
+    }
+
+    pub(crate) fn is_primary(&self) -> bool {
+        self.imp().menu_button.is_primary()
+    }
+
+    pub(crate) fn set_primary(&self, value: bool) {
+        self.imp().menu_button.set_primary(value);
     }
 
     fn delete(&self) {
