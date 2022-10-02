@@ -11,6 +11,8 @@ use sourceview5::traits::BufferExt;
 use crate::utils;
 use crate::view;
 
+const ACTION_TOGGLE_SEARCH: &str = "inspection-page.toggle-search";
+
 mod imp {
     use super::*;
 
@@ -43,10 +45,10 @@ mod imp {
             klass.add_binding_action(
                 gdk::Key::F,
                 gdk::ModifierType::CONTROL_MASK,
-                "inspection.toggle-search",
+                ACTION_TOGGLE_SEARCH,
                 None,
             );
-            klass.install_action("inspection.toggle-search", None, |widget, _, _| {
+            klass.install_action(ACTION_TOGGLE_SEARCH, None, |widget, _, _| {
                 widget.toggle_search();
             });
         }
