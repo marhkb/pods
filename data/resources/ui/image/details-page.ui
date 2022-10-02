@@ -33,6 +33,7 @@
                     <binding name="image">
                       <lookup name="image">PdsImageDetailsPage</lookup>
                     </binding>
+                    <property name="primary">True</property>
                   </object>
                 </child>
 
