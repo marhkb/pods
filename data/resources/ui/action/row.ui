@@ -54,7 +54,7 @@
           <class name="circular"/>
         </style>
         <property name="name">action</property>
-        <property name="action-name">actions-overview.cancel-or-delete</property>
+        <property name="action-name">win.cancel-or-delete-action</property>
         <property name="valign">center</property>
       </object>
     </child>

@@ -34,14 +34,6 @@ mod imp {
             Self::bind_template(klass);
             Self::bind_template_callbacks(klass);
             klass.set_css_name("actionsoverview");
-
-            klass.install_action(
-                "actions-overview.cancel-or-delete",
-                Some("u"),
-                |widget, _, data| {
-                    widget.cancel_or_delete(data);
-                },
-            );
         }
 
         fn instance_init(obj: &InitializingObject<Self>) {
@@ -166,19 +158,5 @@ impl Overview {
 
         imp.action_list.set(value);
         self.notify("action-list");
-    }
-
-    fn cancel_or_delete(&self, data: Option<&glib::Variant>) {
-        if let Some(action_list) = self.action_list() {
-            let action_num: u32 = data.unwrap().get().unwrap();
-
-            if let Some(action) = action_list.get(action_num) {
-                if action.state() == model::ActionState::Ongoing {
-                    action.cancel();
-                } else {
-                    action_list.remove(action_num);
-                }
-            }
-        }
     }
 }

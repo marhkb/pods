@@ -159,6 +159,14 @@ mod imp {
                 widget.add_connection();
             });
 
+            klass.install_action(
+                "win.cancel-or-delete-action",
+                Some("u"),
+                |widget, _, data| {
+                    widget.cancel_or_delete_action(data);
+                },
+            );
+
             klass.add_binding_action(
                 gdk::Key::N,
                 gdk::ModifierType::CONTROL_MASK,
@@ -763,6 +771,25 @@ impl Window {
             leaflet_overlay.show_details(&view::ConnectionCreationPage::from(
                 &self.connection_manager(),
             ));
+        }
+    }
+
+    fn cancel_or_delete_action(&self, data: Option<&glib::Variant>) {
+        if let Some(action_list) = self
+            .connection_manager()
+            .client()
+            .as_ref()
+            .map(model::Client::action_list)
+        {
+            let action_num: u32 = data.unwrap().get().unwrap();
+
+            if let Some(action) = action_list.get(action_num) {
+                if action.state() == model::ActionState::Ongoing {
+                    action.cancel();
+                } else {
+                    action_list.remove(action_num);
+                }
+            }
         }
     }
 
