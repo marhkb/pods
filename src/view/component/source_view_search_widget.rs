@@ -27,6 +27,8 @@ mod imp {
         #[template_child]
         pub(super) search_entry: TemplateChild<view::TextSearchEntry>,
         #[template_child]
+        pub(super) options_toggle_button: TemplateChild<gtk::ToggleButton>,
+        #[template_child]
         pub(super) regex_button: TemplateChild<gtk::CheckButton>,
         #[template_child]
         pub(super) case_button: TemplateChild<gtk::CheckButton>,
@@ -114,6 +116,9 @@ mod imp {
 
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
+
+            // Workaround for making the button non-flat.
+            self.options_toggle_button.remove_css_class("image-button");
 
             self.search_entry
                 .bind_property("text", &self.search_settings, "search-text")
