@@ -81,6 +81,7 @@
                           <object class="AdwViewStackPage">
                             <property name="title" translatable="yes">Details</property>
                             <property name="icon-name">preferences-system-symbolic</property>
+
                             <property name="child">
                               <object class="GtkBox">
                                 <property name="orientation">vertical</property>
@@ -115,26 +116,9 @@
                                   </object>
                                 </child>
 
-                                <child>
-                                  <object class="AdwPreferencesGroup">
-
-                                    <child>
-                                      <object class="GtkButton" id="build_button">
-                                        <style>
-                                          <class name="suggested-action"/>
-                                          <class name="pill"/>
-                                        </style>
-                                        <property name="action-name">image-build-page.build-image</property>
-                                        <property name="label" translatable="yes">_Build</property>
-                                        <property name="use-underline">True</property>
-                                      </object>
-                                    </child>
-
-                                  </object>
-                                </child>
-
                               </object>
                             </property>
+
                           </object>
                         </child>
 
@@ -169,6 +153,24 @@
                           </object>
                         </child>
 
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwPreferencesGroup">
+
+                    <child>
+                      <object class="GtkButton" id="build_button">
+                        <style>
+                          <class name="suggested-action"/>
+                          <class name="pill"/>
+                        </style>
+                        <property name="action-name">image-build-page.build-image</property>
+                        <property name="label" translatable="yes">_Build</property>
+                        <property name="use-underline">True</property>
                       </object>
                     </child>
 
