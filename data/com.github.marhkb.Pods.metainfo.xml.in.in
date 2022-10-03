@@ -58,6 +58,21 @@
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="1.0.0-beta.5" date="2022-10-03">
+      <description>
+        <p>The fifth beta release of Pods 1.0.0 includes the following changes:</p>
+        <ul>
+          <li>Some typos were fixed, thanks to @kianmeng.</li>
+          <li>A tab to specify infra settings were added to the pod creation page, thanks to @vv9k.</li>
+          <li>There is now a widget that provides an overview of actions, such as building an image. Thus, the state of most actions can now be tracked.</li>
+          <li>The local search for images, containers and pods is now case-insensitive.</li>
+          <li>There were small visual adjustments all over the place.</li>
+          <li>Minor bug fixes</li>
+          <li>Internal code improvements</li>
+          <li>Translation updates</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.0.0-beta.4" date="2022-09-26">
       <description>
         <p>Here comes the fourth beta release of Pods 1.0.0 with the following changes:</p>
