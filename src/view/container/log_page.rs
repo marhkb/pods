@@ -302,11 +302,7 @@ impl LogPage {
     }
 
     fn follow_log(&self) {
-        if let Some(container) = self
-            .container()
-            .as_ref()
-            .and_then(model::Container::api_container)
-        {
+        if let Some(container) = self.container().as_ref().and_then(model::Container::api) {
             let mut perform = MarkupPerform::default();
 
             utils::run_stream(
@@ -385,10 +381,8 @@ impl LogPage {
         match imp.fetch_lines_state.get() {
             FetchLinesState::Waiting => {
                 if let Some(until) = imp.fetch_until.get().map(ToOwned::to_owned) {
-                    if let Some(container) = self
-                        .container()
-                        .as_ref()
-                        .and_then(model::Container::api_container)
+                    if let Some(container) =
+                        self.container().as_ref().and_then(model::Container::api)
                     {
                         imp.lines_loading_revealer.set_reveal_child(true);
 

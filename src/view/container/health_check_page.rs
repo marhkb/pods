@@ -244,11 +244,7 @@ impl HealthCheckPage {
     }
 
     fn run_health_check(&self) {
-        if let Some(container) = self
-            .container()
-            .as_ref()
-            .and_then(model::Container::api_container)
-        {
+        if let Some(container) = self.container().as_ref().and_then(model::Container::api) {
             utils::do_async(
                 async move { container.healthcheck().await },
                 clone!(@weak self as obj => move |result| if let Err(e) = result {

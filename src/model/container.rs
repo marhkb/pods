@@ -611,7 +611,7 @@ impl Container {
 
         utils::do_async(
             {
-                let container = self.api_container().unwrap();
+                let container = self.api().unwrap();
                 async move { container.inspect().await }
             },
             clone!(@weak self as obj => move |result| {
@@ -635,7 +635,7 @@ impl Container {
         FutOp: FnOnce(podman::api::Container) -> Fut + Send + 'static,
         ResOp: FnOnce(podman::Result<()>) + 'static,
     {
-        if let Some(container) = self.api_container() {
+        if let Some(container) = self.api() {
             if self.action_ongoing() {
                 return;
             }
@@ -795,7 +795,7 @@ impl Container {
         })
     }
 
-    pub(crate) fn api_container(&self) -> Option<podman::api::Container> {
+    pub(crate) fn api(&self) -> Option<podman::api::Container> {
         self.container_list()
             .unwrap()
             .client()

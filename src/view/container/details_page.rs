@@ -195,11 +195,7 @@ impl DetailsPage {
     }
 
     fn show_inspection(&self) {
-        if let Some(container) = self
-            .container()
-            .as_ref()
-            .and_then(model::Container::api_container)
-        {
+        if let Some(container) = self.container().as_ref().and_then(model::Container::api) {
             self.imp()
                 .leaflet_overlay
                 .show_details(&view::InspectionPage::from(view::Inspectable::Container(
