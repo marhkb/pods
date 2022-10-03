@@ -420,7 +420,7 @@ impl Image {
 
         utils::do_async(
             {
-                let image = self.api_image().unwrap();
+                let image = self.api().unwrap();
                 async move { image.inspect().await }
             },
             clone!(@weak self as obj => move |result| {
@@ -462,7 +462,7 @@ impl Image {
     where
         F: FnOnce(&Self, podman::Result<()>) + 'static,
     {
-        if let Some(image) = self.api_image() {
+        if let Some(image) = self.api() {
             self.set_to_be_deleted(true);
 
             utils::do_async(
@@ -490,7 +490,7 @@ impl Image {
         })
     }
 
-    pub(crate) fn api_image(&self) -> Option<podman::api::Image> {
+    pub(crate) fn api(&self) -> Option<podman::api::Image> {
         self.image_list()
             .unwrap()
             .client()
