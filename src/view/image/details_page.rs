@@ -315,7 +315,7 @@ impl DetailsPage {
     }
 
     fn show_inspection(&self) {
-        if let Some(image) = self.image().as_ref().and_then(model::Image::api_image) {
+        if let Some(image) = self.image().as_ref().and_then(model::Image::api) {
             self.imp()
                 .leaflet_overlay
                 .show_details(&view::InspectionPage::from(view::Inspectable::Image(image)));
