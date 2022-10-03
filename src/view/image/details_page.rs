@@ -316,25 +316,9 @@ impl DetailsPage {
 
     fn show_inspection(&self) {
         if let Some(image) = self.image().as_ref().and_then(model::Image::api_image) {
-            self.action_set_enabled(ACTION_INSPECT_IMAGE, false);
-            utils::do_async(
-                async move { image.inspect().await.map_err(anyhow::Error::from) },
-                clone!(@weak self as obj => move |result| {
-                    obj.action_set_enabled(ACTION_INSPECT_IMAGE, true);
-                    match result
-                        .and_then(|data| view::InspectionPage::new(
-                            &gettext("Image Inspection"), &data
-                        ))
-                    {
-                        Ok(page) => obj.imp().leaflet_overlay.show_details(&page),
-                        Err(e) => utils::show_error_toast(
-                            &obj,
-                            &gettext("Error on inspecting image"),
-                            &e.to_string()
-                        ),
-                    }
-                }),
-            );
+            self.imp()
+                .leaflet_overlay
+                .show_details(&view::InspectionPage::from(view::Inspectable::Image(image)));
         }
     }
 

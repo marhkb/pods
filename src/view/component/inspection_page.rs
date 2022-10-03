@@ -5,13 +5,19 @@ use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use serde::Serialize;
 use sourceview5::traits::BufferExt;
 
+use crate::podman;
 use crate::utils;
 use crate::view;
 
 const ACTION_TOGGLE_SEARCH: &str = "inspection-page.toggle-search";
+
+pub(crate) enum Inspectable {
+    Image(podman::api::Image),
+    Container(podman::api::Container),
+    Pod(podman::api::Pod),
+}
 
 mod imp {
     use super::*;
@@ -27,6 +33,10 @@ mod imp {
         pub(super) search_bar: TemplateChild<gtk::SearchBar>,
         #[template_child]
         pub(super) search_widget: TemplateChild<view::SourceViewSearchWidget>,
+        #[template_child]
+        pub(super) stack: TemplateChild<gtk::Stack>,
+        #[template_child]
+        pub(super) spinner: TemplateChild<gtk::Spinner>,
         #[template_child]
         pub(super) source_view: TemplateChild<sourceview5::View>,
         #[template_child]
@@ -109,21 +119,66 @@ glib::wrapper! {
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
-impl InspectionPage {
-    pub(crate) fn new<T: Serialize>(title: &str, data: &T) -> anyhow::Result<Self> {
-        serde_json::to_string_pretty(&data)
-            .map_err(anyhow::Error::from)
-            .map(|data| {
-                let obj: Self = glib::Object::new(&[]).expect("Failed to create PdsInspectionPage");
+impl From<Inspectable> for InspectionPage {
+    fn from(inspectabele: Inspectable) -> Self {
+        let obj: Self = glib::Object::new(&[]).expect("Failed to create PdsInspectionPage");
 
+        obj.imp().window_title.set_title(&match &inspectabele {
+            Inspectable::Image(_) => gettext("Image Inspection"),
+            Inspectable::Container(_) => gettext("Container Inspection"),
+            Inspectable::Pod(_) => gettext("Pod Inspection"),
+        });
+
+        utils::do_async(
+            async move {
+                match inspectabele {
+                    Inspectable::Image(image) => image
+                        .inspect()
+                        .await
+                        .map_err(anyhow::Error::from)
+                        .and_then(|data| {
+                            serde_json::to_string_pretty(&data).map_err(anyhow::Error::from)
+                        }),
+                    Inspectable::Container(container) => container
+                        .inspect()
+                        .await
+                        .map_err(anyhow::Error::from)
+                        .and_then(|data| {
+                            serde_json::to_string_pretty(&data).map_err(anyhow::Error::from)
+                        }),
+                    Inspectable::Pod(pod) => pod
+                        .inspect()
+                        .await
+                        .map_err(anyhow::Error::from)
+                        .and_then(|data| {
+                            serde_json::to_string_pretty(&data).map_err(anyhow::Error::from)
+                        }),
+                }
+            },
+            clone!(@weak obj => move |result| {
                 let imp = obj.imp();
-                imp.window_title.set_title(title);
-                imp.source_buffer.set_text(&data);
+                match result {
+                    Ok(text) =>  {
+                        imp.source_buffer.set_text(&text);
+                        imp.stack.set_visible_child_name("loaded");
+                    }
+                    Err(e) => {
+                        imp.spinner.set_spinning(false);
+                        utils::show_error_toast(
+                            &obj,
+                            &gettext("Inspection error"),
+                            &e.to_string()
+                        );
+                    }
+                }
+            }),
+        );
 
-                obj
-            })
+        obj
     }
+}
 
+impl InspectionPage {
     pub(crate) fn toggle_search(&self) {
         let imp = self.imp();
         imp.search_bar

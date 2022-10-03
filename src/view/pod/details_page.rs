@@ -235,25 +235,9 @@ impl DetailsPage {
 
     fn show_inspection(&self) {
         if let Some(pod) = self.pod().as_ref().and_then(model::Pod::api_pod) {
-            self.action_set_enabled(ACTION_INSPECT_POD, false);
-            utils::do_async(
-                async move { pod.inspect().await.map_err(anyhow::Error::from) },
-                clone!(@weak self as obj => move |result| {
-                    obj.action_set_enabled(ACTION_INSPECT_POD, true);
-                    match result
-                        .and_then(|data| view::InspectionPage::new(
-                            &gettext("Pod Inspection"), &data
-                        ))
-                    {
-                        Ok(page) => obj.imp().leaflet_overlay.show_details(&page),
-                        Err(e) => utils::show_error_toast(
-                            &obj,
-                            &gettext("Error on inspecting pod"),
-                            &e.to_string()
-                        ),
-                    }
-                }),
-            );
+            self.imp()
+                .leaflet_overlay
+                .show_details(&view::InspectionPage::from(view::Inspectable::Pod(pod)));
         }
     }
 
