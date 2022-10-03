@@ -200,25 +200,11 @@ impl DetailsPage {
             .as_ref()
             .and_then(model::Container::api_container)
         {
-            self.action_set_enabled(ACTION_INSPECT, false);
-            utils::do_async(
-                async move { container.inspect().await.map_err(anyhow::Error::from) },
-                clone!(@weak self as obj => move |result| {
-                    obj.action_set_enabled(ACTION_INSPECT, true);
-                    match result
-                        .and_then(|data| view::InspectionPage::new(
-                            &gettext("Container Inspection"), &data
-                        ))
-                    {
-                        Ok(page) =>  obj.imp().leaflet_overlay.show_details(&page),
-                        Err(e) => utils::show_error_toast(
-                            &obj,
-                            &gettext("Error on inspecting container"),
-                            &e.to_string()
-                        ),
-                    }
-                }),
-            );
+            self.imp()
+                .leaflet_overlay
+                .show_details(&view::InspectionPage::from(view::Inspectable::Container(
+                    container,
+                )));
         }
     }
 

@@ -13,6 +13,7 @@ mod top_page;
 pub(crate) use back_navigation_controls::BackNavigationControls;
 pub(crate) use circular_progress_bar::CircularProgressBar;
 pub(crate) use count_badge::CountBadge;
+pub(crate) use inspection_page::Inspectable;
 pub(crate) use inspection_page::InspectionPage;
 pub(crate) use leaflet_overlay::LeafletOverlay;
 pub(crate) use property_row::PropertyRow;

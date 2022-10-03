@@ -59,19 +59,12 @@
                     <property name="title" translatable="yes">Utilities</property>
 
                     <child>
-                      <object class="AdwActionRow" id="inspect_row">
+                      <object class="AdwActionRow">
                         <property name="title" translatable="yes">Inspect</property>
                         <property name="subtitle" translatable="yes">View all container properties in a structured text form.</property>
                         <property name="activatable">True</property>
                         <property name="action-name">container-details-page.inspect</property>
                         <property name="icon-name">system-search-symbolic</property>
-
-                        <child>
-                          <object class="GtkSpinner">
-                            <property name="spinning">True</property>
-                            <property name="visible" bind-source="inspect_row" bind-property="sensitive" bind-flags="sync-create|invert-boolean"/>
-                          </object>
-                        </child>
 
                         <child>
                           <object class="GtkImage">

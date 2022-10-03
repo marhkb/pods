@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-
   <template class="PdsInspectionPage" parent="GtkWidget">
     <property name="layout-manager">
       <object class="GtkBoxLayout">
@@ -41,29 +40,52 @@
     </child>
 
     <child>
-      <object class="GtkScrolledWindow" id="scrolled_window">
-        <property name="hscrollbar-policy">never</property>
-        <property name="vexpand">True</property>
+      <object class="GtkStack" id="stack">
 
         <child>
-          <object class="GtkSourceView" id="source_view">
-            <style>
-              <class name="text-view"/>
-            </style>
-            <property name="buffer">
-              <object class="GtkSourceBuffer" id="source_buffer">
-                <property name="highlight-matching-brackets">False</property>
+          <object class="GtkSpinner" id="spinner">
+            <property name="halign">center</property>
+            <property name="valign">center</property>
+            <property name="height-request">24</property>
+            <property name="width-request">24</property>
+            <property name="spinning">True</property>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkStackPage">
+            <property name="name">loaded</property>
+
+            <property name="child">
+              <object class="GtkScrolledWindow">
+                <property name="hscrollbar-policy">never</property>
+                <property name="vexpand">True</property>
+
+                <child>
+                  <object class="GtkSourceView" id="source_view">
+                    <style>
+                      <class name="text-view"/>
+                    </style>
+                    <property name="buffer">
+                      <object class="GtkSourceBuffer" id="source_buffer">
+                        <property name="highlight-matching-brackets">False</property>
+                      </object>
+                    </property>
+                    <property name="top-margin">12</property>
+                    <property name="bottom-margin">12</property>
+                    <property name="right-margin">12</property>
+                    <property name="cursor-visible">False</property>
+                    <property name="editable">False</property>
+                    <property name="highlight-current-line">True</property>
+                    <property name="monospace">True</property>
+                    <property name="show-line-numbers">True</property>
+                    <property name="wrap-mode">char</property>
+                  </object>
+                </child>
+
               </object>
             </property>
-            <property name="top-margin">12</property>
-            <property name="bottom-margin">12</property>
-            <property name="right-margin">12</property>
-            <property name="cursor-visible">False</property>
-            <property name="editable">False</property>
-            <property name="highlight-current-line">True</property>
-            <property name="monospace">True</property>
-            <property name="show-line-numbers">True</property>
-            <property name="wrap-mode">char</property>
+
           </object>
         </child>
 
@@ -71,5 +93,4 @@
     </child>
 
   </template>
-
 </interface>
