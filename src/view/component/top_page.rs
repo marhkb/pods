@@ -140,7 +140,7 @@ impl TopPage {
             if let Some(container) = obj.downcast_ref::<model::Container>() {
                 container.api().map(|c| Box::new(c) as Box<dyn TopSource>)
             } else if let Some(pod) = obj.downcast_ref::<model::Pod>() {
-                pod.api_pod().map(|p| Box::new(p) as Box<dyn TopSource>)
+                pod.api().map(|p| Box::new(p) as Box<dyn TopSource>)
             } else {
                 unreachable!("unknown type for top source: {obj:?}")
             }

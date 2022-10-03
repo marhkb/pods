@@ -234,7 +234,7 @@ impl DetailsPage {
     }
 
     fn show_inspection(&self) {
-        if let Some(pod) = self.pod().as_ref().and_then(model::Pod::api_pod) {
+        if let Some(pod) = self.pod().as_ref().and_then(model::Pod::api) {
             self.imp()
                 .leaflet_overlay
                 .show_details(&view::InspectionPage::from(view::Inspectable::Pod(pod)));
