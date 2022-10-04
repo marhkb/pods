@@ -1,3 +1,7 @@
+.destructive-button label {
+  color: @destructive_color;
+}
+
 actionsmenubutton .action-count-mask {
   background-color: @headerbar_bg_color;
   border-radius: 9999px;
