@@ -174,33 +174,12 @@
                     <child>
                       <object class="GtkButton" id="button_prune">
                         <style>
-                          <class name="destructive-action"/>
+                          <class name="destructive-button"/>
                           <class name="pill"/>
                         </style>
                         <property name="action-name">images-prune-page.prune</property>
-
-                        <child>
-                          <object class="GtkBox">
-                            <property name="halign">center</property>
-                            <property name="spacing">6</property>
-
-                            <child>
-                              <object class="GtkSpinner">
-                                <property name="spinning">True</property>
-                                <property name="visible" bind-source="button_prune" bind-property="sensitive" bind-flags="sync-create|invert-boolean"/>
-                              </object>
-                            </child>
-
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="label" translatable="yes">_Prune</property>
-                                <property name="use-underline">True</property>
-                              </object>
-                            </child>
-
-                          </object>
-                        </child>
-
+                        <property name="label" translatable="yes">_Prune</property>
+                        <property name="use-underline">True</property>
                       </object>
                     </child>
 

@@ -1,6 +1,3 @@
-use adw::prelude::MessageDialogExtManual;
-use adw::traits::MessageDialogExt;
-use gettextrs::gettext;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
@@ -12,10 +9,11 @@ use once_cell::sync::Lazy;
 
 use crate::model;
 use crate::utils;
-use crate::view;
 
-pub(crate) const ACTION_CREATE_CONTAINER: &str = "image-menu-button.create-container";
-pub(crate) const ACTION_DELETE_IMAGE: &str = "image-menu-button.delete-image";
+const ACTION_DELETE_IMAGE: &str = "image-menu-button.delete-image";
+const ACTION_INSPECT_IMAGE: &str = "image-menu-button.inspect-image";
+const ACTION_PULL_LATEST: &str = "image-menu-button.pull-latest";
+const ACTION_CREATE_CONTAINER: &str = "image-menu-button.create-container";
 
 mod imp {
     use super::*;
@@ -39,11 +37,17 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
+            klass.install_action(ACTION_DELETE_IMAGE, None, move |widget, _, _| {
+                widget.delete_image();
+            });
+            klass.install_action(ACTION_INSPECT_IMAGE, None, move |widget, _, _| {
+                widget.show_inspection();
+            });
+            klass.install_action(ACTION_PULL_LATEST, None, move |widget, _, _| {
+                widget.pull_latest();
+            });
             klass.install_action(ACTION_CREATE_CONTAINER, None, move |widget, _, _| {
                 widget.create_container();
-            });
-            klass.install_action(ACTION_DELETE_IMAGE, None, move |widget, _, _| {
-                widget.delete();
             });
         }
 
@@ -173,67 +177,19 @@ impl MenuButton {
         self.imp().menu_button.set_primary(value);
     }
 
-    fn delete(&self) {
-        if let Some(image) = self.image().as_ref() {
-            let first_container = image.container_list().get(0);
-
-            if image.containers() > 0 || first_container.is_some() {
-                let dialog = adw::MessageDialog::builder()
-                    .heading(&gettext("Confirm Forced Image Deletion"))
-                    .body_use_markup(true)
-                    .body(
-                        &match first_container.as_ref().map(|c| c.name()) {
-                            Some(id) => gettext!(
-                                // Translators: The "{}" is a placeholder for the container name.
-                                "Image is used by container <b>{}</b>. Deleting the image will also delete all its associated containers.",
-                                id
-                            ),
-                            None => gettext(
-                               "Image is used by a container. Deleting the image will also delete all its associated containers.",
-                           ),
-                        }
-
-                    )
-                    .modal(true)
-                    .transient_for(&utils::root(self)).build();
-
-                dialog.add_responses(&[
-                    ("cancel", &gettext("_Cancel")),
-                    ("delete", &gettext("_Force Delete")),
-                ]);
-                dialog.set_default_response(Some("cancel"));
-                dialog.set_response_appearance("delete", adw::ResponseAppearance::Destructive);
-
-                dialog.run_async(
-                    None,
-                    clone!(@weak self as obj, @weak image => move |_, response| {
-                        if response == "delete" {
-                            obj.delete_image(&image);
-                        }
-                    }),
-                );
-            } else {
-                self.delete_image(image);
-            }
-        }
+    fn delete_image(&self) {
+        super::delete_image_show_confirmation(self.upcast_ref(), self.image());
     }
 
-    fn delete_image(&self, image: &model::Image) {
-        image.delete(clone!(@weak self as obj => move |image, result| {
-            if let Err(e) = result {
-                utils::show_toast(
-                    &obj,
-                    // Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
-                    &gettext!("Error on deleting image '{}': {}", image.id(), e)
-                );
-            }
-        }));
+    fn show_inspection(&self) {
+        super::show_inspection(self.upcast_ref(), self.image());
     }
 
-    pub(crate) fn create_container(&self) {
-        if let Some(image) = self.image().as_ref() {
-            utils::find_leaflet_overlay(self)
-                .show_details(&view::ContainerCreationPage::from(image));
-        }
+    fn pull_latest(&self) {
+        super::pull_latest(self.upcast_ref(), self.image());
+    }
+
+    fn create_container(&self) {
+        super::create_container(self.upcast_ref(), self.image());
     }
 }
