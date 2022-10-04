@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+
+  <object class="GtkSizeGroup">
+    <property name="mode">horizontal</property>
+    <widgets>
+      <widget name="mode_box"/>
+      <widget name="host_path_entry"/>
+    </widgets>
+  </object>
+
+  <object class="GtkSizeGroup">
+    <property name="mode">horizontal</property>
+    <widgets>
+      <widget name="container_path_entry"/>
+    </widgets>
+  </object>
+
+  <template class="PdsDeviceRow" parent="GtkListBoxRow">
+    <property name="activatable">False</property>
+    <property name="selectable">False</property>
+
+    <child>
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
+        <property name="hexpand">True</property>
+        <property name="margin-start">9</property>
+        <property name="spacing">9</property>
+
+        <child>
+          <object class="GtkBox" id="mode_box">
+            <property name="hexpand">True</property>
+            <property name="margin-start">9</property>
+            <property name="spacing">9</property>
+
+            <child>
+              <object class="GtkLabel">
+                <property name="label" translatable="yes">Readable</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkSwitch" id="readable_switch">
+                <property name="valign">center</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkLabel">
+                <property name="label" translatable="yes">Writable</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkSwitch" id="writable_switch">
+                <property name="valign">center</property>
+              </object>
+            </child>
+
+
+            <child>
+              <object class="GtkLabel">
+                <property name="label" translatable="yes">mknod</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkSwitch" id="mknod_switch">
+                <property name="valign">center</property>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkBox">
+            <property name="spacing">9</property>
+
+            <child>
+              <object class="GtkEntry" id="host_path_entry">
+                <property name="hexpand">True</property>
+                <property name="placeholder-text" translatable="yes">Host path</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkEntry" id="container_path_entry">
+                <property name="hexpand">True</property>
+                <property name="placeholder-text" translatable="yes">Container path</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkButton">
+                <property name="action-name">device-row.remove</property>
+                <property name="icon-name">list-remove-symbolic</property>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>
