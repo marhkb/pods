@@ -1,6 +1,5 @@
 use std::cell::RefCell;
 
-use adw::traits::BinExt;
 use gettextrs::gettext;
 use gtk::gdk;
 use gtk::glib;
@@ -13,12 +12,12 @@ use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
 
 use crate::model;
-use crate::podman;
 use crate::utils;
 use crate::view;
 
 const ACTION_INSPECT_IMAGE: &str = "image-details-page.inspect-image";
 const ACTION_PULL_LATEST: &str = "image-details-page.pull-latest";
+const ACTION_DELETE_IMAGE: &str = "image-details-page.delete-image";
 
 mod imp {
     use super::*;
@@ -30,8 +29,6 @@ mod imp {
         pub(super) handler_id: RefCell<Option<glib::SignalHandlerId>>,
         #[template_child]
         pub(super) back_navigation_controls: TemplateChild<view::BackNavigationControls>,
-        #[template_child]
-        pub(super) menu_button: TemplateChild<view::ImageMenuButton>,
         #[template_child]
         pub(super) repo_tags_row: TemplateChild<view::PropertyRow>,
         #[template_child]
@@ -67,6 +64,10 @@ mod imp {
 
             klass.install_action(ACTION_PULL_LATEST, None, move |widget, _, _| {
                 widget.pull_latest();
+            });
+
+            klass.install_action(ACTION_DELETE_IMAGE, None, move |widget, _, _| {
+                widget.delete_image();
             });
 
             // For displaying a mnemonic.
@@ -131,6 +132,18 @@ mod imp {
             self.parent_constructed(obj);
 
             let image_expr = Self::Type::this_expression("image");
+
+            image_expr
+                .chain_property::<model::Image>("to-be-deleted")
+                .watch(
+                    Some(obj),
+                    clone!(@weak obj => move || {
+                        obj.action_set_enabled(
+                            ACTION_DELETE_IMAGE,
+                            obj.image().map(|image| !image.to_be_deleted()).unwrap_or(false),
+                        );
+                    }),
+                );
 
             image_expr
                 .chain_property::<model::Image>("repo-tags")
@@ -315,43 +328,18 @@ impl DetailsPage {
     }
 
     fn show_inspection(&self) {
-        if let Some(image) = self.image().as_ref().and_then(model::Image::api) {
-            self.imp()
-                .leaflet_overlay
-                .show_details(&view::InspectionPage::from(view::Inspectable::Image(image)));
-        }
+        super::show_inspection(self.upcast_ref(), self.image());
     }
 
     fn pull_latest(&self) {
-        if let Some(image) = self.image() {
-            if let Some(action_list) = image
-                .image_list()
-                .as_ref()
-                .and_then(model::ImageList::client)
-                .as_ref()
-                .map(model::Client::action_list)
-            {
-                let reference = image.repo_tags().first().unwrap();
+        super::pull_latest(self.upcast_ref(), self.image());
+    }
 
-                let page = view::ActionPage::from(
-                    &action_list.download_image(
-                        reference,
-                        podman::opts::PullOpts::builder()
-                            .reference(reference)
-                            .build(),
-                    ),
-                );
-
-                self.imp().leaflet_overlay.show_details(&page);
-            }
-        }
+    fn delete_image(&self) {
+        super::delete_image_show_confirmation(self.upcast_ref(), self.image());
     }
 
     fn create_container(&self) {
-        let imp = self.imp();
-
-        if imp.leaflet_overlay.child().is_none() {
-            imp.menu_button.create_container();
-        }
+        super::create_container(self.upcast_ref(), self.image());
     }
 }
