@@ -182,7 +182,7 @@ impl MenuButton {
     }
 
     fn show_inspection(&self) {
-        super::show_inspection(self.upcast_ref(), self.image());
+        super::show_inspection(&utils::find_leaflet_overlay(self), self.image());
     }
 
     fn pull_latest(&self) {
