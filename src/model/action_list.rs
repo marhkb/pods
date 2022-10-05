@@ -4,6 +4,7 @@ use std::cell::RefCell;
 use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
+use gtk::glib::subclass::Signal;
 use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
@@ -31,6 +32,18 @@ mod imp {
     }
 
     impl ObjectImpl for ActionList {
+        fn signals() -> &'static [Signal] {
+            static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
+                vec![Signal::builder(
+                    "action-added",
+                    &[model::Action::static_type().into()],
+                    <()>::static_type().into(),
+                )
+                .build()]
+            });
+            SIGNALS.as_ref()
+        }
+
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
@@ -333,6 +346,7 @@ impl ActionList {
         );
 
         self.items_changed(len as u32, 0, 1);
+        self.emit_by_name::<()>("action-added", &[&action]);
 
         action
     }
@@ -342,5 +356,18 @@ impl ActionList {
         self.notify("finished");
         self.notify("cancelled");
         self.notify("failed");
+    }
+
+    pub(crate) fn connect_action_added<F: Fn(&Self, &model::Action) + 'static>(
+        &self,
+        f: F,
+    ) -> glib::SignalHandlerId {
+        self.connect_local("action-added", true, move |values| {
+            let obj = values[0].get::<Self>().unwrap();
+            let action = values[1].get::<model::Action>().unwrap();
+            f(&obj, &action);
+
+            None
+        })
     }
 }
