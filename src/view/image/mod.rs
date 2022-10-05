@@ -79,14 +79,13 @@ fn delete_image(widget: &gtk::Widget, image: &model::Image) {
     }));
 }
 
-fn show_inspection(widget: &gtk::Widget, image: Option<model::Image>) {
+fn show_inspection(overlay: &view::LeafletOverlay, image: Option<model::Image>) {
     if let Some(image) = image.as_ref().and_then(model::Image::api) {
-        utils::find_leaflet_overlay(widget)
-            .show_details(&view::InspectionPage::from(view::Inspectable::Image(image)));
+        overlay.show_details(&view::InspectionPage::from(view::Inspectable::Image(image)));
     }
 }
 
-fn pull_latest(widget: &gtk::Widget, image: Option<model::Image>) {
+fn pull_latest(overlay: Option<&view::LeafletOverlay>, image: Option<model::Image>) {
     if let Some(image) = image {
         if let Some(action_list) = image
             .image_list()
@@ -97,16 +96,16 @@ fn pull_latest(widget: &gtk::Widget, image: Option<model::Image>) {
         {
             let reference = image.repo_tags().first().unwrap();
 
-            let page = view::ActionPage::from(
-                &action_list.download_image(
-                    reference,
-                    podman::opts::PullOpts::builder()
-                        .reference(reference)
-                        .build(),
-                ),
+            let action = action_list.download_image(
+                reference,
+                podman::opts::PullOpts::builder()
+                    .reference(reference)
+                    .build(),
             );
 
-            utils::find_leaflet_overlay(widget).show_details(&page);
+            if let Some(overlay) = overlay {
+                overlay.show_details(&view::ActionPage::from(&action));
+            }
         }
     }
 }
