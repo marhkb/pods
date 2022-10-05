@@ -103,6 +103,14 @@ mod imp {
                 Pod => "pods-symbolic",
                 _ => unimplemented!(),
             }));
+
+            obj.set_description(&action);
+            glib::timeout_add_seconds_local(
+                1,
+                clone!(@weak obj, @weak action => @default-return glib::Continue(false), move || {
+                    glib::Continue(obj.set_description(&action))
+                }),
+            );
         }
 
         fn dispose(&self, obj: &Self::Type) {
@@ -179,11 +187,37 @@ impl Page {
             }
         }
 
+        self.set_description(action);
+
         self.action_set_enabled(ACTION_CANCEL, action.state() == Ongoing);
         self.action_set_enabled(
             ACTION_VIEW_IMAGE,
             action.state() == Finished && action.type_() != PruneImages,
         );
+    }
+
+    fn set_description(&self, action: &model::Action) -> bool {
+        let state_label = &*self.imp().status_page;
+
+        match action.state() {
+            model::ActionState::Ongoing => {
+                state_label.set_description(Some(&utils::human_friendly_duration(
+                    glib::DateTime::now_local().unwrap().to_unix() - action.start_timestamp(),
+                )));
+
+                true
+            }
+            _ => {
+                state_label.set_description(Some(&gettext!(
+                    "After {}",
+                    utils::human_friendly_duration(
+                        action.end_timestamp() - action.start_timestamp(),
+                    )
+                )));
+
+                false
+            }
+        }
     }
 
     fn cancel(&self) {

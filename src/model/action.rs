@@ -49,6 +49,8 @@ mod imp {
         pub(super) type_: OnceCell<Type>,
         pub(super) name: OnceCell<String>,
         pub(super) state: Cell<State>,
+        pub(super) start_timestamp: OnceCell<i64>,
+        pub(super) end_timestamp: OnceCell<i64>,
         pub(super) output: gtk::TextBuffer,
     }
 
@@ -101,6 +103,24 @@ mod imp {
                         State::default() as i32,
                         glib::ParamFlags::READABLE,
                     ),
+                    glib::ParamSpecInt64::new(
+                        "start-timestamp",
+                        "Start Timestamp",
+                        "The timestamp when the action started",
+                        i64::MIN,
+                        i64::MAX,
+                        0,
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
+                    ),
+                    glib::ParamSpecInt64::new(
+                        "end-timestamp",
+                        "End Timestamp",
+                        "The timestamp when the action ended",
+                        i64::MIN,
+                        i64::MAX,
+                        0,
+                        glib::ParamFlags::READABLE,
+                    ),
                     glib::ParamSpecObject::new(
                         "output",
                         "Output",
@@ -124,6 +144,8 @@ mod imp {
                 "num" => self.num.set(value.get().unwrap()).unwrap(),
                 "type" => self.type_.set(value.get().unwrap()).unwrap(),
                 "name" => self.name.set(value.get().unwrap()).unwrap(),
+                "start-timestamp" => self.start_timestamp.set(value.get().unwrap()).unwrap(),
+                "end-timestamp" => self.end_timestamp.set(value.get().unwrap()).unwrap(),
                 _ => unimplemented!(),
             }
         }
@@ -134,6 +156,8 @@ mod imp {
                 "type" => obj.type_().to_value(),
                 "name" => obj.name().to_value(),
                 "state" => obj.state().to_value(),
+                "start-timestamp" => obj.start_timestamp().to_value(),
+                "end-timestamp" => obj.end_timestamp().to_value(),
                 "output" => obj.output().to_value(),
                 _ => unimplemented!(),
             }
@@ -156,8 +180,16 @@ impl Action {
 
 impl Action {
     fn new(num: u32, type_: Type, name: &str) -> Self {
-        glib::Object::new(&[("num", &num), ("type", &type_), ("name", &name)])
-            .expect("Failed to create Action")
+        glib::Object::new(&[
+            ("num", &num),
+            ("type", &type_),
+            ("name", &name),
+            (
+                "start-timestamp",
+                &glib::DateTime::now_local().unwrap().to_unix(),
+            ),
+        ])
+        .expect("Failed to create Action")
     }
 
     pub(crate) fn prune_images(
@@ -539,8 +571,31 @@ impl Action {
         if self.state() == value {
             return;
         }
+
+        if value != State::Ongoing {
+            self.set_end_timesamp(glib::DateTime::now_local().unwrap().to_unix());
+        }
+
         self.imp().state.set(value);
         self.notify("state");
+    }
+
+    pub(crate) fn start_timestamp(&self) -> i64 {
+        *self.imp().start_timestamp.get().unwrap()
+    }
+
+    pub(crate) fn end_timestamp(&self) -> i64 {
+        *self.imp().end_timestamp.get().unwrap_or(&0)
+    }
+
+    fn set_end_timesamp(&self, value: i64) {
+        let imp = self.imp();
+
+        if imp.end_timestamp.get().is_some() {
+            return;
+        }
+        imp.end_timestamp.set(value).unwrap();
+        self.notify("end-timestamp");
     }
 
     pub(crate) fn output(&self) -> gtk::TextBuffer {

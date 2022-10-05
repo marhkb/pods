@@ -1,6 +1,9 @@
+use std::cell::RefCell;
+
 use gettextrs::gettext;
 use glib::subclass::InitializingObject;
 use gtk::glib;
+use gtk::glib::clone;
 use gtk::glib::closure;
 use gtk::glib::WeakRef;
 use gtk::prelude::*;
@@ -18,6 +21,8 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/action/row.ui")]
     pub(crate) struct Row {
         pub(super) action: WeakRef<model::Action>,
+        pub(super) handler: RefCell<Option<glib::SignalHandlerId>>,
+        pub(super) timer: RefCell<Option<glib::SourceId>>,
         #[template_child]
         pub(super) type_image: TemplateChild<gtk::Image>,
         #[template_child]
@@ -116,19 +121,6 @@ mod imp {
             )
             .bind(&*self.name_label, "label", Some(obj));
 
-            state_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, state: model::ActionState| {
-                    use model::ActionState::*;
-
-                    match state {
-                        Ongoing => gettext("Ongoing"),
-                        Finished => gettext("Finished"),
-                        Cancelled => gettext("Cancelled"),
-                        Failed => gettext("Failed"),
-                    }
-                }))
-                .bind(&*self.state_label, "label", Some(obj));
-
             let classes = self.state_label.css_classes();
             state_expr
                 .chain_closure::<Vec<String>>(closure!(
@@ -190,7 +182,75 @@ impl Row {
         if self.action().as_ref() == value {
             return;
         }
-        self.imp().action.set(value);
+
+        let imp = self.imp();
+
+        if let Some(handler) = imp.handler.take() {
+            self.action().unwrap().disconnect(handler);
+        }
+
+        if let Some(timer) = imp.timer.take() {
+            timer.remove();
+        }
+
+        if let Some(action) = value {
+            self.set_state_label(action);
+
+            let handler = action.connect_notify_local(
+                Some("state"),
+                clone!(@weak self as obj => move |action, _| {
+                    obj.set_state_label(action);
+                }),
+            );
+            imp.handler.replace(Some(handler));
+
+            let timer = glib::timeout_add_seconds_local(
+                1,
+                clone!(@weak self as obj, @weak action => @default-return glib::Continue(false), move || {
+                    let is_ongoing = obj.set_state_label(&action);
+                    if !is_ongoing {
+                        if let Some(timer) = obj.imp().timer.take() {
+                            timer.remove();
+                        }
+                    }
+                    glib::Continue(is_ongoing)
+                }),
+            );
+            imp.timer.replace(Some(timer));
+        }
+
+        imp.action.set(value);
         self.notify("action");
+    }
+
+    fn set_state_label(&self, action: &model::Action) -> bool {
+        let state_label = &*self.imp().state_label;
+
+        match action.state() {
+            model::ActionState::Ongoing => {
+                state_label.set_text(&gettext!(
+                    "Ongoing ({})",
+                    &utils::human_friendly_duration(
+                        glib::DateTime::now_local().unwrap().to_unix() - action.start_timestamp()
+                    )
+                ));
+
+                true
+            }
+            _ => {
+                let duration = utils::human_friendly_duration(
+                    action.end_timestamp() - action.start_timestamp(),
+                );
+
+                state_label.set_text(&match action.state() {
+                    model::ActionState::Finished => gettext!("Finished after {}", duration),
+                    model::ActionState::Cancelled => gettext!("Cancelled after {}", duration),
+                    model::ActionState::Failed => gettext!("Failed after {}", duration),
+                    _ => unreachable!(),
+                });
+
+                false
+            }
+        }
     }
 }
