@@ -126,28 +126,29 @@ mod imp {
 
             let child_snapshot = gtk::Snapshot::new();
             widget.snapshot_child(&*self.child_bin, &child_snapshot);
-            let child_node = child_snapshot.to_node().unwrap();
 
-            widget.ensure_mask_shader();
+            if let Some(child_node) = child_snapshot.to_node() {
+                widget.ensure_mask_shader();
 
-            let maybe_compiled_masked_shader = self.mask_shader.get().unwrap();
+                let maybe_compiled_masked_shader = self.mask_shader.get().unwrap();
 
-            if let Some(ref compiled_mask_shader) = maybe_compiled_masked_shader {
-                snapshot.push_gl_shader(
-                    compiled_mask_shader,
-                    &child_node.bounds(),
-                    &gsk::ShaderArgsBuilder::new(compiled_mask_shader, None).to_args(),
-                );
-            }
+                if let Some(ref compiled_mask_shader) = maybe_compiled_masked_shader {
+                    snapshot.push_gl_shader(
+                        compiled_mask_shader,
+                        &child_node.bounds(),
+                        &gsk::ShaderArgsBuilder::new(compiled_mask_shader, None).to_args(),
+                    );
+                }
 
-            snapshot.append_node(&child_node);
+                snapshot.append_node(&child_node);
 
-            if maybe_compiled_masked_shader.is_some() {
-                snapshot.gl_shader_pop_texture();
-                widget.snapshot_child(&*self.count_mask, snapshot);
-                snapshot.gl_shader_pop_texture();
+                if maybe_compiled_masked_shader.is_some() {
+                    snapshot.gl_shader_pop_texture();
+                    widget.snapshot_child(&*self.count_mask, snapshot);
+                    snapshot.gl_shader_pop_texture();
 
-                snapshot.pop();
+                    snapshot.pop();
+                }
             } else {
                 widget.snapshot_child(&*self.count_mask, snapshot);
             }
