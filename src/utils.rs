@@ -104,6 +104,32 @@ impl Deref for PodsSettings {
     }
 }
 
+pub(crate) fn human_friendly_duration(mut seconds: i64) -> String {
+    let hours = seconds / (60 * 60);
+    if hours > 0 {
+        seconds %= 60 * 60;
+        let minutes = seconds / 60;
+        if minutes > 0 {
+            seconds %= 60;
+            gettext!("{} h {} min {} s", hours, minutes, seconds)
+        } else {
+            gettext!("{} h {} s", hours, seconds)
+        }
+    } else {
+        let minutes = seconds / 60;
+        if minutes > 0 {
+            seconds %= 60;
+            if seconds > 0 {
+                gettext!("{} min {} s", minutes, seconds)
+            } else {
+                gettext!("{} min", minutes)
+            }
+        } else {
+            gettext!("{} s", seconds)
+        }
+    }
+}
+
 pub(crate) fn root<W: glib::IsA<gtk::Widget>>(widget: &W) -> Window {
     widget.root().unwrap().downcast::<Window>().unwrap()
 }
