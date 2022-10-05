@@ -332,7 +332,7 @@ impl DetailsPage {
     }
 
     fn pull_latest(&self) {
-        super::pull_latest(self.upcast_ref(), self.image());
+        super::pull_latest(Some(&*self.imp().leaflet_overlay), self.image());
     }
 
     fn delete_image(&self) {

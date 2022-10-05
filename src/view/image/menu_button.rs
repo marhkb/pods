@@ -186,7 +186,7 @@ impl MenuButton {
     }
 
     fn pull_latest(&self) {
-        super::pull_latest(self.upcast_ref(), self.image());
+        super::pull_latest(None, self.image());
     }
 
     fn create_container(&self) {
