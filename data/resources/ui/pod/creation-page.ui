@@ -89,12 +89,61 @@
                                 <property name="icon-name">preferences-system-symbolic</property>
 
                                 <property name="child">
-                                  <object class="AdwPreferencesGroup">
+                                  <object class="GtkBox">
+                                    <property name="orientation">vertical</property>
+                                    <property name="spacing">18</property>
 
                                     <child>
-                                      <object class="AdwEntryRow" id="hostname_entry_row">
-                                        <property name="activates-default">True</property>
-                                        <property name="title" translatable="yes">Hostname</property>
+                                      <object class="AdwPreferencesGroup">
+
+                                        <child>
+                                          <object class="AdwEntryRow" id="hostname_entry_row">
+                                            <property name="activates-default">True</property>
+                                            <property name="title" translatable="yes">Hostname</property>
+                                          </object>
+                                        </child>
+
+                                        <child>
+                                          <object class="AdwActionRow" id="disable_resolv_row">
+                                            <property name="activatable_widget">disable_resolv_switch</property>
+                                            <property name="title" translatable="yes">Disable /etc/resolv.conf management</property>
+                                            <child>
+                                              <object class="GtkSwitch" id="disable_resolv_switch">
+                                                <property name="valign">center</property>
+                                                <property name="action-name">pod.toggle-resolv</property>
+                                              </object>
+                                            </child>
+                                          </object>
+                                        </child>
+
+                                      </object>
+                                    </child>
+
+                                    <child>
+                                      <object class="AdwPreferencesGroup">
+
+                                        <child>
+                                          <object class="AdwEntryRow" id="pod_create_command_entry_row">
+                                            <property name="activates-default">True</property>
+                                            <property name="title" translatable="yes">Pod Create Command</property>
+                                          </object>
+                                        </child>
+
+                                      </object>
+                                    </child>
+
+                                    <child>
+                                      <object class="AdwPreferencesGroup">
+                                        <property name="title" translatable="yes">Arguments</property>
+
+                                        <child>
+                                          <object class="GtkListBox" id="pod_create_command_arg_list_box">
+                                            <style>
+                                              <class name="boxed-list"/>
+                                            </style>
+                                          </object>
+                                        </child>
+
                                       </object>
                                     </child>
 
@@ -113,6 +162,55 @@
                                   <object class="GtkBox">
                                     <property name="orientation">vertical</property>
                                     <property name="spacing">18</property>
+
+                                    <child>
+                                      <object class="AdwPreferencesGroup">
+                                        <property name="title" translatable="yes">Devices</property>
+
+                                        <child>
+                                          <object class="GtkListBox" id="devices_list_box">
+                                            <style>
+                                              <class name="boxed-list"/>
+                                            </style>
+                                          </object>
+                                        </child>
+
+                                      </object>
+                                    </child>
+
+                                    <child>
+                                      <object class="AdwPreferencesGroup">
+                                        <property name="title" translatable="yes">Hosts</property>
+                                        <property name="header-suffix">
+                                          <object class="GtkBox">
+                                            <property name="spacing">6</property>
+
+                                            <child>
+                                              <object class="GtkLabel">
+                                                <property name="label" translatable="yes">Enabled</property>
+                                              </object>
+                                            </child>
+
+                                            <child>
+                                              <object class="GtkSwitch" id="enable_hosts_switch">
+                                                <property name="valign">center</property>
+                                                <property name="action-name">pod.toggle-hosts</property>
+                                              </object>
+                                            </child>
+
+                                          </object>
+                                        </property>
+
+                                        <child>
+                                          <object class="GtkListBox" id="hosts_list_box">
+                                            <style>
+                                              <class name="boxed-list"/>
+                                            </style>
+                                          </object>
+                                        </child>
+
+                                      </object>
+                                    </child>
 
                                     <child>
                                       <object class="AdwPreferencesGroup">

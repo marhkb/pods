@@ -4,8 +4,8 @@
     <!-- see https://gtk-rs.org/gtk4-rs/git/docs/gtk4/struct.Application.html#automatic-resources -->
     <file compressed="true" preprocess="xml-stripblanks" alias="gtk/help-overlay.ui">ui/shortcuts.ui</file>
 
-    <file compressed="true" preprocess="xml-stripblanks">ui/action/row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/action/page.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/action/row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/actions/menu-button.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/actions/overview.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/cmd-arg/row.ui</file>
@@ -36,6 +36,7 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/containers/count-bar.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/containers/group.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/containers/panel.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/device/row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/health-check-log/row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/image-search/response-row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/image-search/widget.ui</file>
