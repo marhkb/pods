@@ -17,7 +17,7 @@
         </style>
         <property name="can-target">False</property>
         <property name="halign">center</property>
-        <property name="valign">center</property>
+        <property name="valign">start</property>
       </object>
     </child>
 
@@ -28,7 +28,7 @@
         </style>
         <property name="can-target">False</property>
         <property name="halign">center</property>
-        <property name="valign">center</property>
+        <property name="valign">start</property>
 
         <child type="overlay">
           <object class="GtkLabel" id="count_label">
