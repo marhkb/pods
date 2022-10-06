@@ -110,6 +110,13 @@ mod imp {
                     }
                 }))
                 .bind(&*self.count_label, "label", Some(obj));
+
+            Self::Type::this_expression("count").watch(
+                Some(obj),
+                clone!(@weak obj => move || {
+                    obj.queue_draw();
+                }),
+            );
         }
 
         fn dispose(&self, obj: &Self::Type) {
