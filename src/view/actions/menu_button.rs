@@ -102,22 +102,20 @@ mod imp {
                 &[
                     action_list_expr.chain_property::<model::ActionList>("failed"),
                     action_list_expr.chain_property::<model::ActionList>("cancelled"),
-                    action_list_expr.chain_property::<model::ActionList>("finished"),
+                    action_list_expr.chain_property::<model::ActionList>("ongoing"),
                 ],
-                closure!(
-                    |_: Self::Type, failed: u32, cancelled: u32, finished: u32| {
+                closure!(|_: Self::Type, failed: u32, cancelled: u32, ongoing: u32| {
                         vec![if failed > 0 {
                             "failed"
                         } else if cancelled > 0 {
                             "cancelled"
-                        } else if finished > 0 {
+                    } else if ongoing > 0 {
+                        "good"
+                    } else {
                             "finished"
-                        } else {
-                            "good"
                         }
                         .to_string()]
-                    }
-                ),
+                }),
             )
             .bind(obj, "css-classes", Some(obj));
 
