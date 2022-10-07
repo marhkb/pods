@@ -37,8 +37,6 @@ mod imp {
         pub(super) prune_until_timestamp: Cell<i64>,
         pub(super) client: WeakRef<model::Client>,
         #[template_child]
-        pub(super) stack: TemplateChild<gtk::Stack>,
-        #[template_child]
         pub(super) prune_all_switch: TemplateChild<gtk::Switch>,
         #[template_child]
         pub(super) prune_external_switch: TemplateChild<gtk::Switch>,
@@ -58,6 +56,8 @@ mod imp {
         pub(super) period_combo_box: TemplateChild<gtk::ComboBoxText>,
         #[template_child]
         pub(super) button_prune: TemplateChild<gtk::Button>,
+        #[template_child]
+        pub(super) leaflet_overlay: TemplateChild<view::LeafletOverlay>,
     }
 
     #[glib::object_subclass]
@@ -289,10 +289,8 @@ impl PrunePage {
                 .build(),
         );
 
-        let page = view::ActionPage::from(&action);
-
-        imp.stack.add_child(&page);
-        imp.stack.set_visible_child(&page);
+        imp.leaflet_overlay
+            .show_details(&view::ActionPage::from(&action));
     }
 }
 
