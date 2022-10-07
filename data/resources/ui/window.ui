@@ -152,14 +152,20 @@
                                     </child>
 
                                     <child type="end">
-                                      <object class="PdsActionsMenuButton" id="actions_menu_button">
-                                        <binding name="action-list">
-                                          <lookup name="action-list" type="Client">
-                                            <lookup name="client" type="ConnectionManager">
-                                              <lookup name="connection-manager">PdsWindow</lookup>
-                                            </lookup>
-                                          </lookup>
-                                        </binding>
+                                      <object class="GtkRevealer" id="actions_menu_button_revealer">
+                                        <property name="transition-type">slide-left</property>
+
+                                        <property name="child">
+                                          <object class="PdsActionsMenuButton">
+                                            <binding name="action-list">
+                                              <lookup name="action-list" type="Client">
+                                                <lookup name="client" type="ConnectionManager">
+                                                  <lookup name="connection-manager">PdsWindow</lookup>
+                                                </lookup>
+                                              </lookup>
+                                            </binding>
+                                          </object>
+                                        </property>
                                       </object>
                                     </child>
 
