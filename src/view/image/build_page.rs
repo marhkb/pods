@@ -36,8 +36,6 @@ mod imp {
         pub(super) client: WeakRef<model::Client>,
         pub(super) labels: RefCell<gio::ListStore>,
         #[template_child]
-        pub(super) stack: TemplateChild<gtk::Stack>,
-        #[template_child]
         pub(super) tag_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
         pub(super) context_dir_row: TemplateChild<adw::ActionRow>,
@@ -47,6 +45,8 @@ mod imp {
         pub(super) labels_list_box: TemplateChild<gtk::ListBox>,
         #[template_child]
         pub(super) build_button: TemplateChild<gtk::Button>,
+        #[template_child]
+        pub(super) leaflet_overlay: TemplateChild<view::LeafletOverlay>,
     }
 
     #[glib::object_subclass]
@@ -286,8 +286,7 @@ impl BuildPage {
                         .build_image(imp.tag_entry_row.text().as_str(), opts),
                 );
 
-                imp.stack.add_child(&page);
-                imp.stack.set_visible_child(&page);
+                imp.leaflet_overlay.show_details(&page);
 
                 if let Err(e) = imp.settings.set_string(
                     GSETTINGS_KEY_LAST_USED_CONTAINER_FILE_PATH,
