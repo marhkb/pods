@@ -190,6 +190,6 @@ impl MenuButton {
     }
 
     fn create_container(&self) {
-        super::create_container(self.upcast_ref(), self.image());
+        super::create_container(&utils::find_leaflet_overlay(self), self.image());
     }
 }
