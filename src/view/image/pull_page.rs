@@ -8,6 +8,7 @@ use once_cell::sync::Lazy;
 
 use crate::model;
 use crate::podman;
+use crate::utils;
 use crate::view;
 
 mod imp {
@@ -18,9 +19,9 @@ mod imp {
     pub(crate) struct PullPage {
         pub(super) client: WeakRef<model::Client>,
         #[template_child]
-        pub(super) stack: TemplateChild<gtk::Stack>,
-        #[template_child]
         pub(super) image_search_widget: TemplateChild<view::ImageSearchWidget>,
+        #[template_child]
+        pub(super) leaflet_overlay: TemplateChild<view::LeafletOverlay>,
     }
 
     #[glib::object_subclass]
@@ -92,8 +93,8 @@ mod imp {
             );
         }
 
-        fn dispose(&self, _obj: &Self::Type) {
-            self.stack.unparent();
+        fn dispose(&self, obj: &Self::Type) {
+            utils::ChildIter::from(obj).for_each(|child| child.unparent());
         }
     }
 
@@ -139,8 +140,7 @@ impl PullPage {
                     .download_image(&reference, opts),
             );
 
-            imp.stack.add_child(&page);
-            imp.stack.set_visible_child(&page);
+            imp.leaflet_overlay.show_details(&page);
         }
     }
 }
