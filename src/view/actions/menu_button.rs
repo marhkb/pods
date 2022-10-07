@@ -1,6 +1,3 @@
-use std::cell::RefCell;
-
-use adw::traits::AnimationExt;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
@@ -23,7 +20,6 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/actions/menu-button.ui")]
     pub(crate) struct MenuButton {
         pub(super) action_list: WeakRef<model::ActionList>,
-        pub(super) handler: RefCell<Option<glib::SignalHandlerId>>,
         pub(super) overview: view::ActionsOverview,
         #[template_child]
         pub(super) menu_button: TemplateChild<gtk::MenuButton>,
@@ -159,35 +155,7 @@ impl MenuButton {
         if self.action_list().as_ref() == value {
             return;
         }
-
-        let imp = self.imp();
-
-        if let Some(action_list) = self.action_list() {
-            action_list.disconnect(imp.handler.take().unwrap());
-        }
-
-        if let Some(action_list) = value {
-            let animation_target =
-                adw::CallbackAnimationTarget::new(clone!(@weak self as obj => move |value| {
-                    obj.imp().image.set_visible((value > 25.0 && value < 50.0) || value > 75.0);
-                }));
-            let animation = adw::TimedAnimation::builder()
-                .widget(self)
-                .repeat_count(1)
-                .easing(adw::Easing::Linear)
-                .duration(800)
-                .value_from(0.0)
-                .value_to(100.0)
-                .target(&animation_target)
-                .build();
-
-            let handler = action_list.connect_action_added(move |_, _| {
-                animation.play();
-            });
-            imp.handler.replace(Some(handler));
-        }
-
-        imp.action_list.set(value);
+        self.imp().action_list.set(value);
         self.notify("action-list");
     }
 
