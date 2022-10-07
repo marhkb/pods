@@ -47,8 +47,6 @@ mod imp {
         pub(super) command_row_handler:
             RefCell<Option<(glib::SignalHandlerId, WeakRef<model::Image>)>>,
         #[template_child]
-        pub(super) stack: TemplateChild<gtk::Stack>,
-        #[template_child]
         pub(super) name_entry_row: TemplateChild<view::RandomNameEntryRow>,
         #[template_child]
         pub(super) hostname_entry_row: TemplateChild<adw::EntryRow>,
@@ -482,8 +480,7 @@ impl CreationPage {
                         self.create().infra_image(image.id()).build(),
                     ));
 
-                imp.stack.add_child(&page);
-                imp.stack.set_visible_child(&page);
+                imp.leaflet_overlay.show_details(&page);
             }
         } else {
             log::error!("Error while starting pod: no image selected");
@@ -515,13 +512,10 @@ impl CreationPage {
                 ),
         );
 
-        imp.stack.add_child(&page);
-        imp.stack.set_visible_child(&page);
+        imp.leaflet_overlay.show_details(&page);
     }
 
     fn create(&self) -> podman::opts::PodCreateOptsBuilder {
-        self.action_set_enabled(ACTION_CREATE, false);
-
         let imp = self.imp();
 
         let mut opts = podman::opts::PodCreateOpts::builder()

@@ -12,23 +12,35 @@
         <property name="can-unfold">False</property>
 
         <child>
-          <object class="GtkStack" id="stack">
-            <property name="transition-type">crossfade</property>
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
 
             <child>
-              <object class="GtkBox">
-                <property name="orientation">vertical</property>
+              <object class="AdwHeaderBar">
+
+                <child type="start">
+                  <object class="PdsBackNavigationControls"/>
+                </child>
+
+                <child type="title">
+                  <object class="AdwWindowTitle">
+                    <property name="title" translatable="yes">Specify Container Settings</property>
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwPreferencesPage">
 
                 <child>
-                  <object class="AdwHeaderBar">
+                  <object class="AdwPreferencesGroup">
 
-                    <child type="start">
-                      <object class="PdsBackNavigationControls"/>
-                    </child>
-
-                    <child type="title">
-                      <object class="AdwWindowTitle">
-                        <property name="title" translatable="yes">Specify Container Settings</property>
+                    <child>
+                      <object class="PdsRandomNameEntryRow" id="name_entry_row">
+                        <property name="activates-default">True</property>
+                        <property name="title" translatable="yes">Name</property>
                       </object>
                     </child>
 
@@ -36,221 +48,202 @@
                 </child>
 
                 <child>
-                  <object class="AdwPreferencesPage">
+                  <object class="AdwPreferencesGroup">
 
                     <child>
-                      <object class="AdwPreferencesGroup">
+                      <object class="AdwPreferencesRow">
+                        <property name="activatable">False</property>
 
                         <child>
-                          <object class="PdsRandomNameEntryRow" id="name_entry_row">
-                            <property name="activates-default">True</property>
-                            <property name="title" translatable="yes">Name</property>
+                          <object class="AdwViewSwitcher">
+                            <property name="margin-top">6</property>
+                            <property name="margin-bottom">6</property>
+                            <property name="stack">view_stack</property>
+                            <property name="policy">wide</property>
+                            <property name="halign">center</property>
+                            <property name="height-request">36</property>
                           </object>
                         </child>
 
                       </object>
                     </child>
 
-                    <child>
-                      <object class="AdwPreferencesGroup">
+                  </object>
+                </child>
 
-                        <child>
-                          <object class="AdwPreferencesRow">
-                            <property name="activatable">False</property>
-
-                            <child>
-                              <object class="AdwViewSwitcher">
-                                <property name="margin-top">6</property>
-                                <property name="margin-bottom">6</property>
-                                <property name="stack">view_stack</property>
-                                <property name="policy">wide</property>
-                                <property name="halign">center</property>
-                                <property name="height-request">36</property>
-                              </object>
-                            </child>
-
-                          </object>
-                        </child>
-
-                      </object>
-                    </child>
+                <child>
+                  <object class="AdwPreferencesGroup">
 
                     <child>
-                      <object class="AdwPreferencesGroup">
+                      <object class="AdwViewStack" id="view_stack">
+                        <property name="vhomogeneous">False</property>
 
                         <child>
-                          <object class="AdwViewStack" id="view_stack">
-                            <property name="vhomogeneous">False</property>
+                          <object class="AdwViewStackPage">
+                            <property name="title" translatable="yes">Details</property>
+                            <property name="icon-name">preferences-system-symbolic</property>
 
-                            <child>
-                              <object class="AdwViewStackPage">
-                                <property name="title" translatable="yes">Details</property>
-                                <property name="icon-name">preferences-system-symbolic</property>
+                            <property name="child">
+                              <object class="GtkBox">
+                                <property name="orientation">vertical</property>
+                                <property name="spacing">18</property>
 
-                                <property name="child">
-                                  <object class="GtkBox">
-                                    <property name="orientation">vertical</property>
-                                    <property name="spacing">18</property>
+                                <child>
+                                  <object class="AdwPreferencesGroup">
 
                                     <child>
-                                      <object class="AdwPreferencesGroup">
+                                      <object class="PdsPropertyRow" id="local_image_property_row">
+                                        <property name="key" translatable="yes">Local image</property>
+                                      </object>
+                                    </child>
 
-                                        <child>
-                                          <object class="PdsPropertyRow" id="local_image_property_row">
-                                            <property name="key" translatable="yes">Local image</property>
+                                    <child>
+                                      <object class="AdwComboRow" id="local_image_combo_row">
+                                        <property name="title" translatable="yes">Local image</property>
+                                        <property name="use-subtitle">True</property>
+
+                                        <child type="suffix">
+                                          <object class="GtkButton">
+                                            <style>
+                                              <class name="flat"/>
+                                            </style>
+                                            <property name="action-name">container-creation-page.search-image</property>
+                                            <property name="icon-name">system-search-symbolic</property>
+                                            <property name="margin-start">9</property>
+                                            <property name="valign">center</property>
+                                          </object>
+                                        </child>
+
+                                      </object>
+                                    </child>
+
+                                    <child>
+                                      <object class="AdwActionRow" id="remote_image_row">
+                                        <property name="title" translatable="yes">Remote image</property>
+                                        <property name="visible">False</property>
+
+                                        <child type="suffix">
+                                          <object class="GtkButton">
+                                            <style>
+                                              <class name="flat"/>
+                                            </style>
+                                            <property name="action-name">container-creation-page.remove-remote-image</property>
+                                            <property name="icon-name">edit-delete-symbolic</property>
+                                            <property name="valign">center</property>
+                                          </object>
+                                        </child>
+
+                                        <child type="suffix">
+                                          <object class="GtkButton">
+                                            <property name="action-name">container-creation-page.search-image</property>
+                                            <property name="icon-name">system-search-symbolic</property>
+                                            <property name="valign">center</property>
+                                          </object>
+                                        </child>
+
+                                      </object>
+                                    </child>
+
+                                    <child>
+                                      <object class="PdsPropertyRow" id="pod_property_row">
+                                        <property name="key" translatable="yes">Pod</property>
+                                      </object>
+                                    </child>
+
+                                    <child>
+                                      <object class="AdwExpanderRow" id="pod_expander_row">
+                                        <property name="enable-expansion" bind-source="pod_switch" bind-property="active" bind-flags="sync-create"/>
+                                        <property name="title" translatable="yes">Pod</property>
+
+                                        <child type="action">
+                                          <object class="GtkSwitch" id="pod_switch">
+                                            <property name="valign">center</property>
                                           </object>
                                         </child>
 
                                         <child>
-                                          <object class="AdwComboRow" id="local_image_combo_row">
-                                            <property name="title" translatable="yes">Local image</property>
-                                            <property name="use-subtitle">True</property>
+                                          <object class="AdwComboRow" id="pod_combo_row"/>
+                                        </child>
 
-                                            <child type="suffix">
-                                              <object class="GtkButton">
-                                                <style>
-                                                  <class name="flat"/>
-                                                </style>
-                                                <property name="action-name">container-creation-page.search-image</property>
-                                                <property name="icon-name">system-search-symbolic</property>
-                                                <property name="margin-start">9</property>
-                                                <property name="valign">center</property>
-                                              </object>
-                                            </child>
+                                      </object>
+                                    </child>
 
+                                    <child>
+                                      <object class="AdwActionRow" id="pull_latest_image_row">
+                                        <property name="activatable_widget">pull_latest_image_switch</property>
+                                        <property name="title" translatable="yes">Pull latest image</property>
+                                        <child>
+                                          <object class="GtkSwitch" id="pull_latest_image_switch">
+                                            <property name="valign">center</property>
+                                          </object>
+                                        </child>
+                                      </object>
+                                    </child>
+
+                                    <child>
+                                      <object class="AdwActionRow">
+                                        <property name="activatable_widget">terminal_switch</property>
+                                        <property name="title" translatable="yes">Terminal</property>
+                                        <child>
+                                          <object class="GtkSwitch" id="terminal_switch">
+                                            <property name="active">True</property>
+                                            <property name="valign">center</property>
+                                          </object>
+                                        </child>
+                                      </object>
+                                    </child>
+
+                                    <child>
+                                      <object class="AdwExpanderRow">
+                                        <property name="enable-expansion" bind-source="memory_switch" bind-property="active" bind-flags="sync-create"/>
+                                        <property name="title" translatable="yes">Memory limit</property>
+                                        <child type="action">
+                                          <object class="GtkSwitch" id="memory_switch">
+                                            <property name="valign">center</property>
                                           </object>
                                         </child>
 
                                         <child>
-                                          <object class="AdwActionRow" id="remote_image_row">
-                                            <property name="title" translatable="yes">Remote image</property>
-                                            <property name="visible">False</property>
-
-                                            <child type="suffix">
-                                              <object class="GtkButton">
-                                                <style>
-                                                  <class name="flat"/>
-                                                </style>
-                                                <property name="action-name">container-creation-page.remove-remote-image</property>
-                                                <property name="icon-name">edit-delete-symbolic</property>
-                                                <property name="valign">center</property>
-                                              </object>
-                                            </child>
-
-                                            <child type="suffix">
-                                              <object class="GtkButton">
-                                                <property name="action-name">container-creation-page.search-image</property>
-                                                <property name="icon-name">system-search-symbolic</property>
-                                                <property name="valign">center</property>
-                                              </object>
-                                            </child>
-
-                                          </object>
-                                        </child>
-
-                                        <child>
-                                          <object class="PdsPropertyRow" id="pod_property_row">
-                                            <property name="key" translatable="yes">Pod</property>
-                                          </object>
-                                        </child>
-
-                                        <child>
-                                          <object class="AdwExpanderRow" id="pod_expander_row">
-                                            <property name="enable-expansion" bind-source="pod_switch" bind-property="active" bind-flags="sync-create"/>
-                                            <property name="title" translatable="yes">Pod</property>
-
-                                            <child type="action">
-                                              <object class="GtkSwitch" id="pod_switch">
-                                                <property name="valign">center</property>
-                                              </object>
-                                            </child>
+                                          <object class="AdwPreferencesRow">
+                                            <property name="activatable">False</property>
 
                                             <child>
-                                              <object class="AdwComboRow" id="pod_combo_row"/>
-                                            </child>
-
-                                          </object>
-                                        </child>
-
-                                        <child>
-                                          <object class="AdwActionRow" id="pull_latest_image_row">
-                                            <property name="activatable_widget">pull_latest_image_switch</property>
-                                            <property name="title" translatable="yes">Pull latest image</property>
-                                            <child>
-                                              <object class="GtkSwitch" id="pull_latest_image_switch">
-                                                <property name="valign">center</property>
-                                              </object>
-                                            </child>
-                                          </object>
-                                        </child>
-
-                                        <child>
-                                          <object class="AdwActionRow">
-                                            <property name="activatable_widget">terminal_switch</property>
-                                            <property name="title" translatable="yes">Terminal</property>
-                                            <child>
-                                              <object class="GtkSwitch" id="terminal_switch">
-                                                <property name="active">True</property>
-                                                <property name="valign">center</property>
-                                              </object>
-                                            </child>
-                                          </object>
-                                        </child>
-
-                                        <child>
-                                          <object class="AdwExpanderRow">
-                                            <property name="enable-expansion" bind-source="memory_switch" bind-property="active" bind-flags="sync-create"/>
-                                            <property name="title" translatable="yes">Memory limit</property>
-                                            <child type="action">
-                                              <object class="GtkSwitch" id="memory_switch">
-                                                <property name="valign">center</property>
-                                              </object>
-                                            </child>
-
-                                            <child>
-                                              <object class="AdwPreferencesRow">
-                                                <property name="activatable">False</property>
+                                              <object class="GtkBox">
+                                                <property name="halign">center</property>
+                                                <property name="margin-bottom">18</property>
+                                                <property name="margin-end">12</property>
+                                                <property name="margin-start">12</property>
+                                                <property name="margin-top">18</property>
+                                                <property name="spacing">36</property>
 
                                                 <child>
                                                   <object class="GtkBox">
-                                                    <property name="halign">center</property>
-                                                    <property name="margin-bottom">18</property>
-                                                    <property name="margin-end">12</property>
-                                                    <property name="margin-start">12</property>
-                                                    <property name="margin-top">18</property>
-                                                    <property name="spacing">36</property>
+                                                    <property name="spacing">6</property>
+                                                    <property name="valign">center</property>
 
                                                     <child>
-                                                      <object class="GtkBox">
-                                                        <property name="spacing">6</property>
+                                                      <object class="GtkSpinButton">
+                                                        <property name="adjustment">
+                                                          <object class="GtkAdjustment" id="mem_value">
+                                                            <property name="lower">0</property>
+                                                            <property name="upper">2147483647</property>
+                                                            <property name="value">512</property>
+                                                            <property name="page_increment">32</property>
+                                                            <property name="step-increment">1</property>
+                                                          </object>
+                                                        </property>
+                                                      </object>
+                                                    </child>
+
+                                                    <child>
+                                                      <object class="GtkComboBoxText" id="mem_combo_box">
+                                                        <items>
+                                                          <item translatable="yes">KB</item>
+                                                          <item translatable="yes">MB</item>
+                                                          <item translatable="yes">GB</item>
+                                                        </items>
+                                                        <property name="active">1</property>
                                                         <property name="valign">center</property>
-
-                                                        <child>
-                                                          <object class="GtkSpinButton">
-                                                            <property name="adjustment">
-                                                              <object class="GtkAdjustment" id="mem_value">
-                                                                <property name="lower">0</property>
-                                                                <property name="upper">2147483647</property>
-                                                                <property name="value">512</property>
-                                                                <property name="page_increment">32</property>
-                                                                <property name="step-increment">1</property>
-                                                              </object>
-                                                            </property>
-                                                          </object>
-                                                        </child>
-
-                                                        <child>
-                                                          <object class="GtkComboBoxText" id="mem_combo_box">
-                                                            <items>
-                                                              <item translatable="yes">KB</item>
-                                                              <item translatable="yes">MB</item>
-                                                              <item translatable="yes">GB</item>
-                                                            </items>
-                                                            <property name="active">1</property>
-                                                            <property name="valign">center</property>
-                                                          </object>
-                                                        </child>
-
                                                       </object>
                                                     </child>
 
@@ -266,301 +259,301 @@
                                       </object>
                                     </child>
 
-                                    <child>
-                                      <object class="AdwPreferencesGroup">
-                                        <child>
-                                          <object class="AdwEntryRow" id="command_entry_row">
-                                            <property name="activates-default">True</property>
-                                            <property name="title" translatable="yes">Command</property>
-                                          </object>
-                                        </child>
-                                      </object>
-                                    </child>
-
-                                    <child>
-                                      <object class="AdwPreferencesGroup">
-                                        <property name="title" translatable="yes">Arguments</property>
-                                        <child>
-                                          <object class="GtkListBox" id="command_arg_list_box">
-                                            <style>
-                                              <class name="boxed-list"/>
-                                            </style>
-                                          </object>
-                                        </child>
-                                      </object>
-                                    </child>
-
                                   </object>
-                                </property>
+                                </child>
 
-                              </object>
-                            </child>
-
-                            <child>
-                              <object class="AdwViewStackPage">
-                                <property name="title" translatable="yes">Integration</property>
-                                <property name="icon-name">application-x-addon-symbolic</property>
-
-                                <property name="child">
-                                  <object class="GtkBox">
-                                    <property name="orientation">vertical</property>
-                                    <property name="spacing">18</property>
-
-                                    <child>
-                                      <object class="AdwPreferencesGroup">
-                                        <property name="title" translatable="yes">Port Mappings</property>
-
-                                        <child>
-                                          <object class="GtkListBox" id="port_mapping_list_box">
-                                            <style>
-                                              <class name="boxed-list"/>
-                                            </style>
-                                          </object>
-                                        </child>
-
-                                      </object>
-                                    </child>
-
-                                    <child>
-                                      <object class="AdwPreferencesGroup">
-                                        <property name="title" translatable="yes">Volumes</property>
-
-                                        <child>
-                                          <object class="GtkListBox" id="volume_list_box">
-                                            <style>
-                                              <class name="boxed-list"/>
-                                            </style>
-                                          </object>
-                                        </child>
-
-                                      </object>
-                                    </child>
-
-                                    <child>
-                                      <object class="AdwPreferencesGroup">
-                                        <property name="title" translatable="yes">Environment Variables</property>
-
-                                        <child>
-                                          <object class="GtkListBox" id="env_var_list_box">
-                                            <style>
-                                              <class name="boxed-list"/>
-                                            </style>
-                                          </object>
-                                        </child>
-
-                                      </object>
-                                    </child>
-
-                                    <child>
-                                      <object class="AdwPreferencesGroup">
-                                        <property name="title" translatable="yes">Labels</property>
-
-                                        <child>
-                                          <object class="GtkListBox" id="labels_list_box">
-                                            <style>
-                                              <class name="boxed-list"/>
-                                            </style>
-                                          </object>
-                                        </child>
-
-                                      </object>
-                                    </child>
-
-                                  </object>
-                                </property>
-
-                              </object>
-                            </child>
-
-                            <child>
-                              <object class="AdwViewStackPage">
-                                <property name="title" translatable="yes">Health Check</property>
-                                <property name="icon-name">hospital-symbolic</property>
-
-                                <property name="child">
-
+                                <child>
                                   <object class="AdwPreferencesGroup">
-
                                     <child>
-                                      <object class="AdwEntryRow" id="health_check_command_entry_row">
+                                      <object class="AdwEntryRow" id="command_entry_row">
                                         <property name="activates-default">True</property>
                                         <property name="title" translatable="yes">Command</property>
                                       </object>
                                     </child>
+                                  </object>
+                                </child>
+
+                                <child>
+                                  <object class="AdwPreferencesGroup">
+                                    <property name="title" translatable="yes">Arguments</property>
+                                    <child>
+                                      <object class="GtkListBox" id="command_arg_list_box">
+                                        <style>
+                                          <class name="boxed-list"/>
+                                        </style>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </child>
+
+                              </object>
+                            </property>
+
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="AdwViewStackPage">
+                            <property name="title" translatable="yes">Integration</property>
+                            <property name="icon-name">application-x-addon-symbolic</property>
+
+                            <property name="child">
+                              <object class="GtkBox">
+                                <property name="orientation">vertical</property>
+                                <property name="spacing">18</property>
+
+                                <child>
+                                  <object class="AdwPreferencesGroup">
+                                    <property name="title" translatable="yes">Port Mappings</property>
 
                                     <child>
-                                      <object class="AdwActionRow">
-                                        <property name="title" translatable="yes">Interval</property>
-                                        <property name="subtitle" translatable="yes">Interval how often health check is run.</property>
-
-                                        <child>
-                                          <object class="GtkBox">
-                                            <property name="spacing">6</property>
-
-                                            <child>
-                                              <object class="GtkSpinButton">
-                                                <property name="valign">center</property>
-                                                <property name="adjustment">
-                                                  <object class="GtkAdjustment" id="health_check_interval_value">
-                                                    <property name="lower">0</property>
-                                                    <property name="upper">2147483647</property>
-                                                    <property name="value">30</property>
-                                                    <property name="page_increment">32</property>
-                                                    <property name="step-increment">1</property>
-                                                  </object>
-                                                </property>
-                                              </object>
-                                            </child>
-
-                                            <child>
-                                              <object class="GtkLabel">
-                                                <property name="label" translatable="yes">seconds</property>
-                                              </object>
-                                            </child>
-
-                                          </object>
-                                        </child>
-
+                                      <object class="GtkListBox" id="port_mapping_list_box">
+                                        <style>
+                                          <class name="boxed-list"/>
+                                        </style>
                                       </object>
                                     </child>
 
+                                  </object>
+                                </child>
+
+                                <child>
+                                  <object class="AdwPreferencesGroup">
+                                    <property name="title" translatable="yes">Volumes</property>
+
                                     <child>
-                                      <object class="AdwActionRow">
-                                        <property name="title" translatable="yes">Timeout</property>
-                                        <property name="subtitle" translatable="yes">The maximum time allowed to complete the health check before an interval is considered failed.</property>
-
-                                        <child>
-                                          <object class="GtkBox">
-                                            <property name="spacing">6</property>
-
-                                            <child>
-                                              <object class="GtkSpinButton">
-                                                <property name="valign">center</property>
-                                                <property name="adjustment">
-                                                  <object class="GtkAdjustment" id="health_check_timeout_value">
-                                                    <property name="lower">0</property>
-                                                    <property name="upper">2147483647</property>
-                                                    <property name="value">30</property>
-                                                    <property name="page_increment">32</property>
-                                                    <property name="step-increment">1</property>
-                                                  </object>
-                                                </property>
-                                              </object>
-                                            </child>
-
-                                            <child>
-                                              <object class="GtkLabel">
-                                                <property name="label" translatable="yes">seconds</property>
-                                              </object>
-                                            </child>
-
-                                          </object>
-                                        </child>
-
+                                      <object class="GtkListBox" id="volume_list_box">
+                                        <style>
+                                          <class name="boxed-list"/>
+                                        </style>
                                       </object>
                                     </child>
 
+                                  </object>
+                                </child>
+
+                                <child>
+                                  <object class="AdwPreferencesGroup">
+                                    <property name="title" translatable="yes">Environment Variables</property>
+
                                     <child>
-                                      <object class="AdwActionRow">
-                                        <property name="title" translatable="yes">Start period</property>
-                                        <property name="subtitle" translatable="yes">The initialization time needed for a container to bootstrap.</property>
-
-                                        <child>
-                                          <object class="GtkBox">
-                                            <property name="spacing">6</property>
-
-                                            <child>
-                                              <object class="GtkSpinButton">
-                                                <property name="valign">center</property>
-                                                <property name="adjustment">
-                                                  <object class="GtkAdjustment" id="health_check_start_period_value">
-                                                    <property name="lower">0</property>
-                                                    <property name="upper">2147483647</property>
-                                                    <property name="value">0</property>
-                                                    <property name="page_increment">32</property>
-                                                    <property name="step-increment">1</property>
-                                                  </object>
-                                                </property>
-                                              </object>
-                                            </child>
-
-                                            <child>
-                                              <object class="GtkLabel">
-                                                <property name="label" translatable="yes">seconds</property>
-                                              </object>
-                                            </child>
-
-                                          </object>
-                                        </child>
-
+                                      <object class="GtkListBox" id="env_var_list_box">
+                                        <style>
+                                          <class name="boxed-list"/>
+                                        </style>
                                       </object>
                                     </child>
 
+                                  </object>
+                                </child>
+
+                                <child>
+                                  <object class="AdwPreferencesGroup">
+                                    <property name="title" translatable="yes">Labels</property>
+
                                     <child>
-                                      <object class="AdwActionRow">
-                                        <property name="title" translatable="yes">Retries</property>
-                                        <property name="subtitle" translatable="yes">The number of retries allowed before a healthcheck is considered to be unhealthy.</property>
+                                      <object class="GtkListBox" id="labels_list_box">
+                                        <style>
+                                          <class name="boxed-list"/>
+                                        </style>
+                                      </object>
+                                    </child>
+
+                                  </object>
+                                </child>
+
+                              </object>
+                            </property>
+
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="AdwViewStackPage">
+                            <property name="title" translatable="yes">Health Check</property>
+                            <property name="icon-name">hospital-symbolic</property>
+
+                            <property name="child">
+
+                              <object class="AdwPreferencesGroup">
+
+                                <child>
+                                  <object class="AdwEntryRow" id="health_check_command_entry_row">
+                                    <property name="activates-default">True</property>
+                                    <property name="title" translatable="yes">Command</property>
+                                  </object>
+                                </child>
+
+                                <child>
+                                  <object class="AdwActionRow">
+                                    <property name="title" translatable="yes">Interval</property>
+                                    <property name="subtitle" translatable="yes">Interval how often health check is run.</property>
+
+                                    <child>
+                                      <object class="GtkBox">
+                                        <property name="spacing">6</property>
 
                                         <child>
                                           <object class="GtkSpinButton">
                                             <property name="valign">center</property>
                                             <property name="adjustment">
-                                              <object class="GtkAdjustment" id="health_check_retries_value">
+                                              <object class="GtkAdjustment" id="health_check_interval_value">
                                                 <property name="lower">0</property>
                                                 <property name="upper">2147483647</property>
-                                                <property name="value">3</property>
+                                                <property name="value">30</property>
                                                 <property name="page_increment">32</property>
                                                 <property name="step-increment">1</property>
                                               </object>
                                             </property>
                                           </object>
                                         </child>
+
+                                        <child>
+                                          <object class="GtkLabel">
+                                            <property name="label" translatable="yes">seconds</property>
+                                          </object>
+                                        </child>
+
                                       </object>
                                     </child>
 
                                   </object>
+                                </child>
 
-                                </property>
+                                <child>
+                                  <object class="AdwActionRow">
+                                    <property name="title" translatable="yes">Timeout</property>
+                                    <property name="subtitle" translatable="yes">The maximum time allowed to complete the health check before an interval is considered failed.</property>
+
+                                    <child>
+                                      <object class="GtkBox">
+                                        <property name="spacing">6</property>
+
+                                        <child>
+                                          <object class="GtkSpinButton">
+                                            <property name="valign">center</property>
+                                            <property name="adjustment">
+                                              <object class="GtkAdjustment" id="health_check_timeout_value">
+                                                <property name="lower">0</property>
+                                                <property name="upper">2147483647</property>
+                                                <property name="value">30</property>
+                                                <property name="page_increment">32</property>
+                                                <property name="step-increment">1</property>
+                                              </object>
+                                            </property>
+                                          </object>
+                                        </child>
+
+                                        <child>
+                                          <object class="GtkLabel">
+                                            <property name="label" translatable="yes">seconds</property>
+                                          </object>
+                                        </child>
+
+                                      </object>
+                                    </child>
+
+                                  </object>
+                                </child>
+
+                                <child>
+                                  <object class="AdwActionRow">
+                                    <property name="title" translatable="yes">Start period</property>
+                                    <property name="subtitle" translatable="yes">The initialization time needed for a container to bootstrap.</property>
+
+                                    <child>
+                                      <object class="GtkBox">
+                                        <property name="spacing">6</property>
+
+                                        <child>
+                                          <object class="GtkSpinButton">
+                                            <property name="valign">center</property>
+                                            <property name="adjustment">
+                                              <object class="GtkAdjustment" id="health_check_start_period_value">
+                                                <property name="lower">0</property>
+                                                <property name="upper">2147483647</property>
+                                                <property name="value">0</property>
+                                                <property name="page_increment">32</property>
+                                                <property name="step-increment">1</property>
+                                              </object>
+                                            </property>
+                                          </object>
+                                        </child>
+
+                                        <child>
+                                          <object class="GtkLabel">
+                                            <property name="label" translatable="yes">seconds</property>
+                                          </object>
+                                        </child>
+
+                                      </object>
+                                    </child>
+
+                                  </object>
+                                </child>
+
+                                <child>
+                                  <object class="AdwActionRow">
+                                    <property name="title" translatable="yes">Retries</property>
+                                    <property name="subtitle" translatable="yes">The number of retries allowed before a healthcheck is considered to be unhealthy.</property>
+
+                                    <child>
+                                      <object class="GtkSpinButton">
+                                        <property name="valign">center</property>
+                                        <property name="adjustment">
+                                          <object class="GtkAdjustment" id="health_check_retries_value">
+                                            <property name="lower">0</property>
+                                            <property name="upper">2147483647</property>
+                                            <property name="value">3</property>
+                                            <property name="page_increment">32</property>
+                                            <property name="step-increment">1</property>
+                                          </object>
+                                        </property>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </child>
+
                               </object>
-                            </child>
 
+                            </property>
                           </object>
                         </child>
 
                       </object>
                     </child>
 
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwPreferencesGroup">
+
                     <child>
-                      <object class="AdwPreferencesGroup">
+                      <object class="GtkBox">
+                        <property name="homogeneous">True</property>
+                        <property name="spacing">12</property>
 
                         <child>
-                          <object class="GtkBox">
-                            <property name="homogeneous">True</property>
-                            <property name="spacing">12</property>
+                          <object class="GtkButton" id="crate_and_run_button">
+                            <style>
+                              <class name="suggested-action"/>
+                              <class name="pill"/>
+                            </style>
+                            <property name="action-name">container-creation-page.create-and-run</property>
+                            <property name="label" translatable="yes">Create And _Run</property>
+                            <property name="use-underline">True</property>
+                          </object>
+                        </child>
 
-                            <child>
-                              <object class="GtkButton" id="crate_and_run_button">
-                                <style>
-                                  <class name="suggested-action"/>
-                                  <class name="pill"/>
-                                </style>
-                                <property name="action-name">container-creation-page.create-and-run</property>
-                                <property name="label" translatable="yes">Create And _Run</property>
-                                <property name="use-underline">True</property>
-                              </object>
-                            </child>
-
-                            <child>
-                              <object class="GtkButton">
-                                <style>
-                                  <class name="pill"/>
-                                </style>
-                                <property name="action-name">container-creation-page.create</property>
-                                <property name="label" translatable="yes">_Create</property>
-                                <property name="use-underline">True</property>
-                              </object>
-                            </child>
-
+                        <child>
+                          <object class="GtkButton">
+                            <style>
+                              <class name="pill"/>
+                            </style>
+                            <property name="action-name">container-creation-page.create</property>
+                            <property name="label" translatable="yes">_Create</property>
+                            <property name="use-underline">True</property>
                           </object>
                         </child>
 
