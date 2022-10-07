@@ -18,22 +18,32 @@ actionsmenubutton .action-count-badge {
   padding: 6px;
 }
 
-actionsmenubutton.good .action-count-badge {
+actionsmenubutton #progressbar {
+  background-color: @headerbar_shade_color;
+  margin-bottom: 9px;
+  max-width: 8px;
+}
+
+actionsmenubutton #progressbar .through {
+  min-height: 2px;
+}
+
+actionsmenubutton.good .action-count-badge, actionsmenubutton.good #progressbar .through {
   background-color: @accent_bg_color;
   color: @accent_fg_color;
 }
 
-actionsmenubutton.finished .action-count-badge {
+actionsmenubutton.finished .action-count-badge, actionsmenubutton.finished #progressbar .through {
   background-color: @success_bg_color;
   color: @success_fg_color;
 }
 
-actionsmenubutton.cancelled .action-count-badge {
+actionsmenubutton.cancelled .action-count-badge, actionsmenubutton.cancelled #progressbar .through {
   background-color: @warning_bg_color;
   color: @warning_fg_color;
 }
 
-actionsmenubutton.failed .action-count-badge {
+actionsmenubutton.failed .action-count-badge, actionsmenubutton.failed #progressbar .through {
   background-color: @error_bg_color;
   color: @error_fg_color;
 }
