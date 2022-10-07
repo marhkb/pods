@@ -340,6 +340,6 @@ impl DetailsPage {
     }
 
     fn create_container(&self) {
-        super::create_container(self.upcast_ref(), self.image());
+        super::create_container(&*self.imp().leaflet_overlay, self.image());
     }
 }

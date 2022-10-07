@@ -110,8 +110,8 @@ fn pull_latest(overlay: Option<&view::LeafletOverlay>, image: Option<model::Imag
     }
 }
 
-pub(crate) fn create_container(widget: &gtk::Widget, image: Option<model::Image>) {
+pub(crate) fn create_container(overlay: &view::LeafletOverlay, image: Option<model::Image>) {
     if let Some(ref image) = image {
-        utils::find_leaflet_overlay(widget).show_details(&view::ContainerCreationPage::from(image));
+        overlay.show_details(&view::ContainerCreationPage::from(image));
     }
 }
