@@ -130,7 +130,10 @@ impl Application {
             .developer_name("Marcus Behrendt")
             .copyright("© 2022 Marcus Behrendt")
             .license_type(gtk::License::Gpl30)
-            .developers(vec!["Marcus Behrendt https://github.com/marhkb".into()])
+            .developers(vec![
+                "Marcus Behrendt https://github.com/marhkb".into(),
+                "Wojciech Kępka https://github.com/vv9k".into(),
+            ])
             .designers(vec!["Marcus Behrendt https://github.com/marhkb".into()])
             .artists(vec![
                 "Marcus Behrendt https://github.com/marhkb".into(),
