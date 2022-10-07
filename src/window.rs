@@ -46,7 +46,7 @@ mod imp {
         #[template_child]
         pub(super) menu_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
-        pub(super) actions_menu_button: TemplateChild<view::ActionsMenuButton>,
+        pub(super) actions_menu_button_revealer: TemplateChild<gtk::Revealer>,
         #[template_child]
         pub(super) selection_mode_button: TemplateChild<gtk::Button>,
         #[template_child]
@@ -258,20 +258,38 @@ mod imp {
             obj.setup_search();
             obj.setup_panels();
 
-            let title_expr = Self::Type::this_expression("title-stack")
+            let client_expr = Self::Type::this_expression("connection-manager")
+                .chain_property::<model::ConnectionManager>("client");
+            let title_visible_expr = Self::Type::this_expression("title-stack")
                 .chain_property::<gtk::Stack>("visible-child-name")
                 .chain_closure::<bool>(closure!(|_: Self::Type, visible_child_name: &str| {
                     visible_child_name == "title"
                 }));
-            title_expr.bind(&*self.menu_button, "visible", Some(obj));
-            title_expr.bind(&*self.actions_menu_button, "visible", Some(obj));
+            let has_actions_expr = client_expr
+                .chain_property::<model::Client>("action-list")
+                .chain_property::<model::ActionList>("len")
+                .chain_closure::<bool>(closure!(|_: Self::Type, actions: u32| actions > 0));
+
+            title_visible_expr.bind(&*self.menu_button, "visible", Some(obj));
+
+            gtk::ClosureExpression::new::<bool, _, _>(
+                &[&title_visible_expr, &has_actions_expr],
+                closure!(
+                    |_: Self::Type, title_visible: bool, has_actions: bool| title_visible
+                        && has_actions
+                ),
+            )
+            .bind(&*self.actions_menu_button_revealer, "visible", Some(obj));
+
+            has_actions_expr.bind(
+                &*self.actions_menu_button_revealer,
+                "reveal-child",
+                Some(obj),
+            );
 
             let panel_stack_visible_child_name_expr =
                 Self::Type::this_expression("panel-stack")
                     .chain_property::<adw::ViewStack>("visible-child-name");
-
-            let client_expr = Self::Type::this_expression("connection-manager")
-                .chain_property::<model::ConnectionManager>("client");
 
             panel_stack_visible_child_name_expr.watch(
                 Some(obj),
@@ -288,7 +306,7 @@ mod imp {
 
             gtk::ClosureExpression::new::<bool, _, _>(
                 &[
-                    title_expr.upcast_ref(),
+                    title_visible_expr.upcast_ref(),
                     &panel_stack_visible_child_name_expr.upcast(),
                     &client_expr
                         .chain_property::<model::Client>("image-list")

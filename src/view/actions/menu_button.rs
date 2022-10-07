@@ -1,6 +1,3 @@
-use std::cell::RefCell;
-
-use adw::traits::AnimationExt;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
@@ -15,6 +12,7 @@ use crate::utils;
 use crate::view;
 
 const ACTION_CLEAN_UP: &str = "actions-menu-button.clean-up";
+const PROGRESS_BAR_WIDTH: f64 = 24.0;
 
 mod imp {
     use super::*;
@@ -23,8 +21,11 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/actions/menu-button.ui")]
     pub(crate) struct MenuButton {
         pub(super) action_list: WeakRef<model::ActionList>,
-        pub(super) handler: RefCell<Option<glib::SignalHandlerId>>,
         pub(super) overview: view::ActionsOverview,
+        #[template_child]
+        pub(super) progress_bar: TemplateChild<gtk::Fixed>,
+        #[template_child]
+        pub(super) progress_bar_through: TemplateChild<adw::Bin>,
         #[template_child]
         pub(super) menu_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
@@ -99,6 +100,7 @@ mod imp {
 
             let action_list_expr = Self::Type::this_expression("action-list");
             let len_expr = action_list_expr.chain_property::<model::ActionList>("len");
+            let ongoing_expr = action_list_expr.chain_property::<model::ActionList>("ongoing");
 
             action_list_expr.bind(&self.overview, "action-list", Some(obj));
 
@@ -106,24 +108,28 @@ mod imp {
                 &[
                     action_list_expr.chain_property::<model::ActionList>("failed"),
                     action_list_expr.chain_property::<model::ActionList>("cancelled"),
-                    action_list_expr.chain_property::<model::ActionList>("finished"),
+                    action_list_expr.chain_property::<model::ActionList>("ongoing"),
                 ],
-                closure!(
-                    |_: Self::Type, failed: u32, cancelled: u32, finished: u32| {
-                        vec![if failed > 0 {
-                            "failed"
-                        } else if cancelled > 0 {
-                            "cancelled"
-                        } else if finished > 0 {
-                            "finished"
-                        } else {
-                            "good"
-                        }
-                        .to_string()]
+                closure!(|_: Self::Type, failed: u32, cancelled: u32, ongoing: u32| {
+                    vec![if failed > 0 {
+                        "failed"
+                    } else if cancelled > 0 {
+                        "cancelled"
+                    } else if ongoing > 0 {
+                        "good"
+                    } else {
+                        "finished"
                     }
-                ),
+                    .to_string()]
+                }),
             )
             .bind(obj, "css-classes", Some(obj));
+
+            ongoing_expr
+                .chain_closure::<i32>(closure!(|_: Self::Type, ongoing: u32| {
+                    PROGRESS_BAR_WIDTH as i32 / (ongoing + 1) as i32
+                }))
+                .bind(&*self.progress_bar_through, "width-request", Some(obj));
 
             len_expr.watch(
                 Some(obj),
@@ -134,6 +140,10 @@ mod imp {
                     );
                 }),
             );
+
+            len_expr
+                .chain_closure::<bool>(closure!(|_: Self::Type, len: u32| len > 0))
+                .bind(&*self.progress_bar, "visible", Some(obj));
         }
 
         fn dispose(&self, obj: &Self::Type) {
@@ -159,35 +169,7 @@ impl MenuButton {
         if self.action_list().as_ref() == value {
             return;
         }
-
-        let imp = self.imp();
-
-        if let Some(action_list) = self.action_list() {
-            action_list.disconnect(imp.handler.take().unwrap());
-        }
-
-        if let Some(action_list) = value {
-            let animation_target =
-                adw::CallbackAnimationTarget::new(clone!(@weak self as obj => move |value| {
-                    obj.imp().image.set_visible((value > 25.0 && value < 50.0) || value > 75.0);
-                }));
-            let animation = adw::TimedAnimation::builder()
-                .widget(self)
-                .repeat_count(1)
-                .easing(adw::Easing::Linear)
-                .duration(800)
-                .value_from(0.0)
-                .value_to(100.0)
-                .target(&animation_target)
-                .build();
-
-            let handler = action_list.connect_action_added(move |_, _| {
-                animation.play();
-            });
-            imp.handler.replace(Some(handler));
-        }
-
-        imp.action_list.set(value);
+        self.imp().action_list.set(value);
         self.notify("action-list");
     }
 
