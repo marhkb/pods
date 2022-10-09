@@ -795,6 +795,33 @@ impl Container {
         })
     }
 
+    pub(crate) fn can_start(&self) -> bool {
+        matches!(
+            self.status(),
+            Status::Created | Status::Exited | Status::Stopped
+        )
+    }
+
+    pub(crate) fn can_stop(&self) -> bool {
+        matches!(self.status(), Status::Running)
+    }
+
+    pub(crate) fn can_restart(&self) -> bool {
+        matches!(self.status(), Status::Running)
+    }
+
+    pub(crate) fn can_pause(&self) -> bool {
+        matches!(self.status(), Status::Running)
+    }
+
+    pub(crate) fn can_resume(&self) -> bool {
+        matches!(self.status(), Status::Paused)
+    }
+
+    pub(crate) fn can_delete(&self) -> bool {
+        !matches!(self.status(), Status::Running | Status::Paused)
+    }
+
     pub(crate) fn api(&self) -> Option<podman::api::Container> {
         self.container_list()
             .unwrap()
