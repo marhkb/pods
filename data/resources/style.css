@@ -1,4 +1,4 @@
-.destructive-button label {
+.destructive-button label, .destructive-button image {
   color: @destructive_color;
 }
 
