@@ -13,6 +13,7 @@ use crate::model;
 use crate::utils;
 use crate::view;
 
+const ACTION_RENAME: &str = "container-properties-group.rename";
 const ACTION_SHOW_HEALTH_DETAILS: &str = "container-properties-group.show-health-details";
 const ACTION_SHOW_IMAGE_DETAILS: &str = "container-properties-group.show-image-details";
 const ACTION_SHOW_POD_DETAILS: &str = "container-properties-group.show-pod-details";
@@ -59,6 +60,9 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
+            klass.install_action(ACTION_RENAME, None, move |widget, _, _| {
+                widget.rename();
+            });
             klass.install_action(ACTION_SHOW_HEALTH_DETAILS, None, move |widget, _, _| {
                 widget.show_health_details();
             });
@@ -313,6 +317,12 @@ impl PropertiesGroup {
         }
         self.imp().container.set(value);
         self.notify("container");
+    }
+
+    fn rename(&self) {
+        let dialog = view::ContainerRenameDialog::from(self.container());
+        dialog.set_transient_for(Some(&utils::root(self)));
+        dialog.present();
     }
 
     fn show_health_details(&self) {
