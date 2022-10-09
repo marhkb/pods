@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
 
+  <object class="GtkSizeGroup">
+    <property name="mode">horizontal</property>
+    <widgets>
+      <widget name="left_action_box"/>
+      <widget name="right_action_bin"/>
+    </widgets>
+  </object>
+
+
   <template class="PdsContainerDetailsPage" parent="GtkWidget">
     <property name="layout-manager">
       <object class="GtkBinLayout"/>
@@ -29,20 +38,11 @@
                   </object>
                 </child>
 
-                <child type="end">
-                  <object class="PdsContainerMenuButton" id="menu_button">
-                    <binding name="container">
-                      <lookup name="container">PdsContainerDetailsPage</lookup>
-                    </binding>
-                    <property name="primary">True</property>
-                  </object>
-                </child>
-
               </object>
             </child>
 
             <child>
-              <object class="AdwPreferencesPage" id="preferences_page">
+              <object class="AdwPreferencesPage">
                 <property name="vexpand">True</property>
 
                 <!-- Details Panel -->
@@ -51,6 +51,181 @@
                     <binding name="container">
                       <lookup name="container">PdsContainerDetailsPage</lookup>
                     </binding>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwPreferencesGroup">
+
+                    <child>
+                      <object class="AdwPreferencesRow" id="action_row">
+                        <property name="activatable">False</property>
+
+                        <child>
+                          <object class="GtkBox">
+                            <style>
+                              <class name="action-bar"/>
+                            </style>
+                            <property name="hexpand">True</property>
+                            <property name="spacing">18</property>
+
+                            <child>
+                              <object class="GtkBox" id="left_action_box">
+                                <property name="halign">start</property>
+                                <property name="spacing">12</property>
+
+                                <child>
+                                  <object class="GtkButton">
+                                    <style>
+                                      <class name="circular"/>
+                                      <class name="raised"/>
+                                    </style>
+                                    <property name="action-name">container-details-page.commit</property>
+                                    <property name="icon-name">merge-symbolic</property>
+                                    <property name="tooltip-text" translatable="yes">Commit</property>
+                                    <property name="valign">center</property>
+                                  </object>
+                                </child>
+
+                                <child>
+                                  <object class="GtkButton">
+                                    <style>
+                                      <class name="circular"/>
+                                      <class name="raised"/>
+                                    </style>
+                                    <property name="action-name">container-details-page.kill</property>
+                                    <property name="icon-name">skull-symbolic</property>
+                                    <property name="tooltip-text" translatable="yes">Kill</property>
+                                    <property name="valign">center</property>
+                                  </object>
+                                </child>
+
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="GtkBox">
+                                <property name="halign">center</property>
+                                <property name="hexpand">True</property>
+                                <property name="spacing">12</property>
+
+                                <child>
+                                  <object class="GtkButton">
+                                    <style>
+                                      <class name="circular"/>
+                                      <class name="raised"/>
+                                    </style>
+                                    <property name="action-name">container-details-page.restart</property>
+                                    <property name="icon-name">view-refresh-symbolic</property>
+                                    <property name="tooltip-text" translatable="yes">Restart</property>
+                                    <property name="valign">center</property>
+                                  </object>
+                                </child>
+
+                                <child>
+                                  <object class="GtkButton" id="start_or_resume_button">
+                                    <style>
+                                      <class name="circular"/>
+                                      <class name="large"/>
+                                      <class name="raised"/>
+                                    </style>
+                                    <property name="action-name">container-details-page.start</property>
+                                    <property name="tooltip-text" translatable="yes">Start/Resume</property>
+                                    <property name="valign">center</property>
+
+                                    <child>
+                                      <object class="GtkImage">
+                                        <property name="icon-name">media-playback-start-symbolic</property>
+                                        <property name="pixel-size">24</property>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </child>
+
+                                <child>
+                                  <object class="GtkButton" id="stop_button">
+                                    <style>
+                                      <class name="circular"/>
+                                      <class name="large"/>
+                                      <class name="raised"/>
+                                    </style>
+                                    <property name="action-name">container-details-page.stop</property>
+                                    <property name="tooltip-text" translatable="yes">Stop</property>
+                                    <property name="valign">center</property>
+
+                                    <child>
+                                      <object class="GtkImage">
+                                        <property name="icon-name">media-playback-stop-symbolic</property>
+                                        <property name="pixel-size">24</property>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </child>
+
+                                <child>
+                                  <object class="GtkButton" id="spinning_button">
+                                    <style>
+                                      <class name="circular"/>
+                                      <class name="large"/>
+                                      <class name="raised"/>
+                                    </style>
+                                    <property name="sensitive">False</property>
+                                    <property name="valign">center</property>
+
+                                    <child>
+                                      <object class="GtkSpinner">
+                                        <property name="spinning">True</property>
+                                        <property name="width-request">24</property>
+                                      </object>
+                                    </child>
+
+                                  </object>
+                                </child>
+
+                                <child>
+                                  <object class="GtkButton">
+                                    <style>
+                                      <class name="circular"/>
+                                      <class name="raised"/>
+                                    </style>
+                                    <property name="action-name">container-details-page.pause</property>
+                                    <property name="icon-name">media-playback-pause-symbolic</property>
+                                    <property name="tooltip-text" translatable="yes">Pause</property>
+                                    <property name="valign">center</property>
+                                  </object>
+                                </child>
+
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="AdwBin" id="right_action_bin">
+                                <property name="halign">end</property>
+
+                                <child>
+                                  <object class="GtkButton">
+                                    <style>
+                                      <class name="circular"/>
+                                      <class name="destructive-button"/>
+                                      <class name="raised"/>
+                                    </style>
+                                    <property name="action-name">container-details-page.delete</property>
+                                    <property name="icon-name">user-trash-symbolic</property>
+                                    <property name="tooltip-text" translatable="yes">Delete</property>
+                                    <property name="halign">end</property>
+                                    <property name="valign">center</property>
+                                  </object>
+                                </child>
+
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
                   </object>
                 </child>
 

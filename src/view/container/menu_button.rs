@@ -1,4 +1,3 @@
-use gettextrs::gettext;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
@@ -14,15 +13,13 @@ use crate::view;
 
 const ACTION_START: &str = "container-menu-button.start";
 const ACTION_STOP: &str = "container-menu-button.stop";
-const ACTION_FORCE_STOP: &str = "container-menu-button.force-stop";
+const ACTION_KILL: &str = "container-menu-button.kill";
 const ACTION_RESTART: &str = "container-menu-button.restart";
-const ACTION_FORCE_RESTART: &str = "container-menu-button.force-restart";
 const ACTION_PAUSE: &str = "container-menu-button.pause";
 const ACTION_RESUME: &str = "container-menu-button.resume";
 const ACTION_RENAME: &str = "container-menu-button.rename";
 const ACTION_COMMIT: &str = "container-menu-button.commit";
 const ACTION_DELETE: &str = "container-menu-button.delete";
-const ACTION_FORCE_DELETE: &str = "container-menu-button.force-delete";
 
 mod imp {
     use super::*;
@@ -47,25 +44,22 @@ mod imp {
             Self::bind_template(klass);
 
             klass.install_action(ACTION_START, None, move |widget, _, _| {
-                widget.start();
+                super::super::start(widget.upcast_ref());
             });
             klass.install_action(ACTION_STOP, None, move |widget, _, _| {
-                widget.stop();
+                super::super::stop(widget.upcast_ref());
             });
-            klass.install_action(ACTION_FORCE_STOP, None, move |widget, _, _| {
-                widget.force_stop();
+            klass.install_action(ACTION_KILL, None, move |widget, _, _| {
+                super::super::kill(widget.upcast_ref());
             });
             klass.install_action(ACTION_RESTART, None, move |widget, _, _| {
-                widget.restart();
-            });
-            klass.install_action(ACTION_FORCE_RESTART, None, move |widget, _, _| {
-                widget.force_restart();
+                super::super::restart(widget.upcast_ref());
             });
             klass.install_action(ACTION_PAUSE, None, move |widget, _, _| {
-                widget.pause();
+                super::super::pause(widget.upcast_ref());
             });
             klass.install_action(ACTION_RESUME, None, move |widget, _, _| {
-                widget.resume();
+                super::super::resume(widget.upcast_ref());
             });
 
             klass.install_action(ACTION_RENAME, None, move |widget, _, _| {
@@ -73,14 +67,11 @@ mod imp {
             });
 
             klass.install_action(ACTION_COMMIT, None, move |widget, _, _| {
-                widget.commit();
+                super::super::commit(widget.upcast_ref());
             });
 
             klass.install_action(ACTION_DELETE, None, move |widget, _, _| {
-                widget.delete();
-            });
-            klass.install_action(ACTION_FORCE_DELETE, None, move |widget, _, _| {
-                widget.force_delete();
+                super::super::delete(widget.upcast_ref());
             });
         }
 
@@ -180,25 +171,6 @@ glib::wrapper! {
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
-macro_rules! container_action {
-    (fn $name:ident => $action:ident($($param:literal),*) => $error:tt) => {
-        fn $name(&self) {
-            if let Some(container) = self.container() {
-                container.$action(
-                    $($param,)*
-                    clone!(@weak self as obj => move |result| if let Err(e) = result {
-                        utils::show_error_toast(
-                            &obj,
-                            &gettext($error),
-                            &e.to_string()
-                        );
-                    }),
-                );
-            }
-        }
-    };
-}
-
 impl MenuButton {
     pub(crate) fn container(&self) -> Option<model::Container> {
         self.imp().container.upgrade()
@@ -221,33 +193,18 @@ impl MenuButton {
     }
 
     fn update_actions(&self) {
-        use model::ContainerStatus::*;
-
         if let Some(container) = self.container() {
-            let status = container.status();
+            let can_stop = container.can_stop();
 
-            self.action_set_enabled(ACTION_START, matches!(status, Created | Exited));
-            self.action_set_enabled(ACTION_STOP, matches!(status, Running));
-            self.action_set_enabled(ACTION_FORCE_STOP, matches!(status, Running));
-            self.action_set_enabled(ACTION_RESTART, matches!(status, Running));
-            self.action_set_enabled(ACTION_FORCE_RESTART, matches!(status, Running));
-            self.action_set_enabled(ACTION_RESUME, matches!(status, Paused));
-            self.action_set_enabled(ACTION_PAUSE, matches!(status, Running));
-            self.action_set_enabled(ACTION_DELETE, matches!(status, Created | Exited | Dead));
-            self.action_set_enabled(ACTION_FORCE_DELETE, matches!(status, Running | Paused));
+            self.action_set_enabled(ACTION_START, container.can_start());
+            self.action_set_enabled(ACTION_STOP, can_stop);
+            self.action_set_enabled(ACTION_KILL, can_stop);
+            self.action_set_enabled(ACTION_RESTART, container.can_restart());
+            self.action_set_enabled(ACTION_RESUME, container.can_resume());
+            self.action_set_enabled(ACTION_PAUSE, container.can_pause());
+            self.action_set_enabled(ACTION_DELETE, container.can_delete());
         }
     }
-
-    container_action!(fn start => start() => "Error on starting container");
-    container_action!(fn stop => stop(false) => "Error on stopping container");
-    container_action!(fn force_stop => stop(true) => "Error on force stopping container");
-    container_action!(fn restart => restart(false) => "Error on restarting container");
-    container_action!(fn force_restart => restart(true) => "Error on force restarting container");
-    container_action!(fn pause => pause() => "Error on pausing container");
-    container_action!(fn resume => resume() => "Error on resuming container");
-    container_action!(fn commit => commit() => "Error on committing container");
-    container_action!(fn delete => delete(false) => "Error on deleting container");
-    container_action!(fn force_delete => delete(true) => "Error on force deleting container");
 
     fn rename(&self) {
         let dialog = view::ContainerRenameDialog::from(self.container());

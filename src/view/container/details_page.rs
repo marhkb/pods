@@ -1,8 +1,6 @@
 use std::cell::RefCell;
 
-use adw::traits::BinExt;
 use gettextrs::gettext;
-use gtk::gdk;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
@@ -15,6 +13,15 @@ use once_cell::sync::Lazy;
 use crate::model;
 use crate::utils;
 use crate::view;
+
+const ACTION_START_OR_RESUME: &str = "container-details-page.start";
+const ACTION_STOP: &str = "container-details-page.stop";
+const ACTION_KILL: &str = "container-details-page.kill";
+const ACTION_RESTART: &str = "container-details-page.restart";
+const ACTION_PAUSE: &str = "container-details-page.pause";
+const ACTION_RESUME: &str = "container-details-page.resume";
+const ACTION_COMMIT: &str = "container-details-page.commit";
+const ACTION_DELETE: &str = "container-details-page.delete";
 
 const ACTION_INSPECT: &str = "container-details-page.inspect";
 const ACTION_SHOW_LOG: &str = "container-details-page.show-log";
@@ -31,7 +38,13 @@ mod imp {
         #[template_child]
         pub(super) back_navigation_controls: TemplateChild<view::BackNavigationControls>,
         #[template_child]
-        pub(super) menu_button: TemplateChild<view::ContainerMenuButton>,
+        pub(super) action_row: TemplateChild<adw::PreferencesRow>,
+        #[template_child]
+        pub(super) start_or_resume_button: TemplateChild<gtk::Button>,
+        #[template_child]
+        pub(super) stop_button: TemplateChild<gtk::Button>,
+        #[template_child]
+        pub(super) spinning_button: TemplateChild<gtk::Button>,
         #[template_child]
         pub(super) resources_quick_reference_group:
             TemplateChild<view::ContainerResourcesQuickReferenceGroup>,
@@ -59,33 +72,34 @@ mod imp {
                 widget.show_processes();
             });
 
-            add_binding_action(
-                klass,
-                gdk::Key::F10,
-                gdk::ModifierType::SHIFT_MASK,
-                "container.start",
-            );
-
-            add_binding_action(
-                klass,
-                gdk::Key::F2,
-                gdk::ModifierType::CONTROL_MASK,
-                "container.stop",
-            );
-
-            add_binding_action(
-                klass,
-                gdk::Key::F5,
-                gdk::ModifierType::CONTROL_MASK,
-                "container.restart",
-            );
-
-            add_binding_action(
-                klass,
-                gdk::Key::F6,
-                gdk::ModifierType::SHIFT_MASK,
-                "container.rename",
-            );
+            klass.install_action(ACTION_START_OR_RESUME, None, move |widget, _, _| {
+                if widget.container().map(|c| c.can_start()).unwrap_or(false) {
+                    super::super::start(widget.upcast_ref());
+                } else {
+                    super::super::resume(widget.upcast_ref());
+                }
+            });
+            klass.install_action(ACTION_STOP, None, move |widget, _, _| {
+                super::super::stop(widget.upcast_ref());
+            });
+            klass.install_action(ACTION_KILL, None, move |widget, _, _| {
+                super::super::kill(widget.upcast_ref());
+            });
+            klass.install_action(ACTION_RESTART, None, move |widget, _, _| {
+                super::super::restart(widget.upcast_ref());
+            });
+            klass.install_action(ACTION_PAUSE, None, move |widget, _, _| {
+                super::super::pause(widget.upcast_ref());
+            });
+            klass.install_action(ACTION_RESUME, None, move |widget, _, _| {
+                super::super::resume(widget.upcast_ref());
+            });
+            klass.install_action(ACTION_COMMIT, None, move |widget, _, _| {
+                super::super::commit(widget.upcast_ref());
+            });
+            klass.install_action(ACTION_DELETE, None, move |widget, _, _| {
+                super::super::delete(widget.upcast_ref());
+            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -132,13 +146,20 @@ mod imp {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
-            Self::Type::this_expression("container")
-                .chain_property::<model::Container>("status")
+            let container_expr = Self::Type::this_expression("container");
+            let status_expr = container_expr.chain_property::<model::Container>("status");
+
+            status_expr
                 .chain_closure::<bool>(closure!(
                     |_: glib::Object, status: model::ContainerStatus| status
                         == model::ContainerStatus::Running
                 ))
                 .bind(&*self.resources_quick_reference_group, "visible", Some(obj));
+
+            status_expr.watch(Some(obj), clone!(@weak obj => move || obj.update_actions()));
+            container_expr
+                .chain_property::<model::Container>("action-ongoing")
+                .watch(Some(obj), clone!(@weak obj => move || obj.update_actions()));
         }
 
         fn dispose(&self, obj: &Self::Type) {
@@ -194,6 +215,33 @@ impl DetailsPage {
         self.notify("container");
     }
 
+    fn update_actions(&self) {
+        if let Some(container) = self.container() {
+            let imp = self.imp();
+
+            imp.action_row.set_sensitive(!container.action_ongoing());
+
+            let can_start_or_resume = container.can_start() || container.can_resume();
+            let can_stop = container.can_stop();
+
+            imp.start_or_resume_button
+                .set_visible(!container.action_ongoing() && can_start_or_resume);
+            imp.stop_button
+                .set_visible(!container.action_ongoing() && can_stop);
+            imp.spinning_button.set_visible(
+                container.action_ongoing()
+                    || (!imp.start_or_resume_button.is_visible() && !imp.stop_button.is_visible()),
+            );
+
+            self.action_set_enabled(ACTION_START_OR_RESUME, can_start_or_resume);
+            self.action_set_enabled(ACTION_STOP, can_stop);
+            self.action_set_enabled(ACTION_KILL, can_stop);
+            self.action_set_enabled(ACTION_RESTART, container.can_restart());
+            self.action_set_enabled(ACTION_PAUSE, container.can_pause());
+            self.action_set_enabled(ACTION_DELETE, container.can_delete());
+        }
+    }
+
     fn show_inspection(&self) {
         if let Some(container) = self.container().as_ref().and_then(model::Container::api) {
             self.imp()
@@ -219,27 +267,4 @@ impl DetailsPage {
                 .show_details(&view::TopPage::from(&container));
         }
     }
-}
-
-fn add_binding_action(
-    klass: &mut <imp::DetailsPage as ObjectSubclass>::Class,
-    keyval: gdk::Key,
-    mods: gdk::ModifierType,
-    action: &'static str,
-) {
-    klass.add_binding(
-        keyval,
-        mods,
-        |widget, _| {
-            let imp = widget.imp();
-            match imp.leaflet_overlay.child() {
-                None => imp.menu_button.activate_action(action, None).is_ok(),
-                Some(_) => false,
-            }
-        },
-        None,
-    );
-
-    // For displaying a mnemonic.
-    klass.add_binding_action(keyval, mods, action, None);
 }
