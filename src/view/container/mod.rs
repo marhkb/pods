@@ -48,3 +48,32 @@ fn container_health_status_css_class(status: model::ContainerHealthStatus) -> &'
         Unknown => "container-health-status-unknown",
     }
 }
+
+macro_rules! container_action {
+    (fn $name:ident => $action:ident($($param:literal),*) => $error:tt) => {
+        fn $name(widget: &gtk::Widget) {
+            use gtk::glib;
+            if let Some(container) = <gtk::Widget as gtk::prelude::ObjectExt>::property::<Option<crate::model::Container>>(widget, "container") {
+                container.$action(
+                    $($param,)*
+                    glib::clone!(@weak widget => move |result| if let Err(e) = result {
+                        crate::utils::show_error_toast(
+                            &widget,
+                            &gettextrs::gettext($error),
+                            &e.to_string()
+                        );
+                    }),
+                );
+            }
+        }
+    };
+}
+
+container_action!(fn start => start() => "Error on starting container");
+container_action!(fn stop => stop(false) => "Error on stopping container");
+container_action!(fn kill => stop(true) => "Error on killing container");
+container_action!(fn restart => restart(false) => "Error on restarting container");
+container_action!(fn pause => pause() => "Error on pausing container");
+container_action!(fn resume => resume() => "Error on resuming container");
+container_action!(fn commit => commit() => "Error on committing container");
+container_action!(fn delete => delete(false) => "Error on deleting container");

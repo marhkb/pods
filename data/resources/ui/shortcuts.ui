@@ -85,41 +85,6 @@
           </object>
         </child>
 
-        <child>
-          <object class="GtkShortcutsGroup">
-            <property name="title" translatable="yes" context="shortcut window">Container</property>
-
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes" context="shortcut window">Start</property>
-                <property name="accelerator">&lt;shift&gt;F10</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes" context="shortcut window">Stop</property>
-                <property name="accelerator">&lt;ctrl&gt;F2</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes" context="shortcut window">Restart</property>
-                <property name="accelerator">&lt;ctrl&gt;F5</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes" context="shortcut window">Rename</property>
-                <property name="accelerator">&lt;shift&gt;F6</property>
-              </object>
-            </child>
-
-          </object>
-        </child>
-
       </object>
     </child>
 

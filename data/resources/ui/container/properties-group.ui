@@ -5,13 +5,42 @@
     <property name="title" translatable="yes">Properties</property>
 
     <child>
-      <object class="PdsPropertyRow">
+      <object class="PdsPropertyWidgetRow">
         <property name="key" translatable="yes">Name</property>
-        <binding name="value">
-          <lookup name="name" type="Container">
-            <lookup name="container">PdsContainerPropertiesGroup</lookup>
-          </lookup>
-        </binding>
+
+        <property name="widget">
+          <object class="GtkBox">
+            <property name="spacing">6</property>
+
+            <child>
+              <object class="GtkLabel">
+                <style>
+                  <class name="dim-label"/>
+                </style>
+                <property name="selectable">True</property>
+                <binding name="label">
+                  <lookup name="name" type="Container">
+                    <lookup name="container">PdsContainerPropertiesGroup</lookup>
+                  </lookup>
+                </binding>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkButton">
+                <style>
+                  <class name="flat"/>
+                </style>
+                <property name="action-name">container-properties-group.rename</property>
+                <property name="icon-name">document-edit-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Rename</property>
+                <property name="valign">center</property>
+              </object>
+            </child>
+
+          </object>
+        </property>
+
       </object>
     </child>
 

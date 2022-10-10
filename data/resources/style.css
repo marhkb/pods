@@ -1,4 +1,12 @@
-.destructive-button label {
+button.large {
+  padding: 12px;
+}
+
+.action-bar {
+  padding: 9px 18px;
+}
+
+.destructive-button label, .destructive-button image {
   color: @destructive_color;
 }
 
