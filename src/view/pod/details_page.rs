@@ -1,6 +1,5 @@
 use std::cell::RefCell;
 
-use adw::traits::BinExt;
 use gettextrs::gettext;
 use gtk::gdk;
 use gtk::glib;
@@ -16,6 +15,13 @@ use crate::model;
 use crate::utils;
 use crate::view;
 
+const ACTION_START_OR_RESUME: &str = "pod-details-page.start";
+const ACTION_STOP: &str = "pod-details-page.stop";
+const ACTION_KILL: &str = "pod-details-page.kill";
+const ACTION_RESTART: &str = "pod-details-page.restart";
+const ACTION_PAUSE: &str = "pod-details-page.pause";
+const ACTION_RESUME: &str = "pod-details-page.resume";
+const ACTION_DELETE: &str = "pod-details-page.delete";
 const ACTION_INSPECT_POD: &str = "pod-details-page.inspect-pod";
 const ACTION_SHOW_PROCESSES: &str = "pod-details-page.show-processes";
 
@@ -30,7 +36,13 @@ mod imp {
         #[template_child]
         pub(super) back_navigation_controls: TemplateChild<view::BackNavigationControls>,
         #[template_child]
-        pub(super) menu_button: TemplateChild<view::PodMenuButton>,
+        pub(super) action_row: TemplateChild<adw::PreferencesRow>,
+        #[template_child]
+        pub(super) start_or_resume_button: TemplateChild<gtk::Button>,
+        #[template_child]
+        pub(super) stop_button: TemplateChild<gtk::Button>,
+        #[template_child]
+        pub(super) spinning_button: TemplateChild<gtk::Button>,
         #[template_child]
         pub(super) id_row: TemplateChild<view::PropertyRow>,
         #[template_child]
@@ -53,6 +65,32 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
+
+            klass.install_action(ACTION_START_OR_RESUME, None, move |widget, _, _| {
+                if widget.pod().map(|pod| pod.can_start()).unwrap_or(false) {
+                    super::super::start(widget.upcast_ref());
+                } else {
+                    super::super::resume(widget.upcast_ref());
+                }
+            });
+            klass.install_action(ACTION_STOP, None, move |widget, _, _| {
+                super::super::stop(widget.upcast_ref());
+            });
+            klass.install_action(ACTION_KILL, None, move |widget, _, _| {
+                super::super::kill(widget.upcast_ref());
+            });
+            klass.install_action(ACTION_RESTART, None, move |widget, _, _| {
+                super::super::restart(widget.upcast_ref());
+            });
+            klass.install_action(ACTION_PAUSE, None, move |widget, _, _| {
+                super::super::pause(widget.upcast_ref());
+            });
+            klass.install_action(ACTION_RESUME, None, move |widget, _, _| {
+                super::super::resume(widget.upcast_ref());
+            });
+            klass.install_action(ACTION_DELETE, None, move |widget, _, _| {
+                super::super::delete(widget.upcast_ref());
+            });
 
             klass.install_action(ACTION_INSPECT_POD, None, move |widget, _, _| {
                 widget.show_inspection();
@@ -179,6 +217,11 @@ mod imp {
                     data.is_none()
                 }))
                 .bind(&*self.inspection_row, "visible", Some(obj));
+
+            status_expr.watch(Some(obj), clone!(@weak obj => move || obj.update_actions()));
+            pod_expr
+                .chain_property::<model::Pod>("action-ongoing")
+                .watch(Some(obj), clone!(@weak obj => move || obj.update_actions()));
         }
 
         fn dispose(&self, obj: &Self::Type) {
@@ -233,6 +276,33 @@ impl DetailsPage {
         self.notify("pod");
     }
 
+    fn update_actions(&self) {
+        if let Some(pod) = self.pod() {
+            let imp = self.imp();
+
+            imp.action_row.set_sensitive(!pod.action_ongoing());
+
+            let can_start_or_resume = pod.can_start() || pod.can_resume();
+            let can_stop = pod.can_stop();
+
+            imp.start_or_resume_button
+                .set_visible(!pod.action_ongoing() && can_start_or_resume);
+            imp.stop_button
+                .set_visible(!pod.action_ongoing() && can_stop);
+            imp.spinning_button.set_visible(
+                pod.action_ongoing()
+                    || (!imp.start_or_resume_button.is_visible() && !imp.stop_button.is_visible()),
+            );
+
+            self.action_set_enabled(ACTION_START_OR_RESUME, can_start_or_resume);
+            self.action_set_enabled(ACTION_STOP, can_stop);
+            self.action_set_enabled(ACTION_KILL, can_stop);
+            self.action_set_enabled(ACTION_RESTART, pod.can_restart());
+            self.action_set_enabled(ACTION_PAUSE, pod.can_pause());
+            self.action_set_enabled(ACTION_DELETE, pod.can_delete());
+        }
+    }
+
     fn show_inspection(&self) {
         if let Some(pod) = self.pod().as_ref().and_then(model::Pod::api) {
             self.imp()
@@ -250,9 +320,10 @@ impl DetailsPage {
     }
 
     fn create_container(&self) {
-        let imp = self.imp();
-        if imp.leaflet_overlay.child().is_none() {
-            imp.menu_button.create_container();
+        if let Some(pod) = self.pod().as_ref() {
+            self.imp()
+                .leaflet_overlay
+                .show_details(&view::ContainerCreationPage::from(pod));
         }
     }
 }

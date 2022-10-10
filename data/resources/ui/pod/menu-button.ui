@@ -19,18 +19,8 @@
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
       <item>
-        <attribute name="label" translatable="yes">_Force Stop</attribute>
-        <attribute name="action">pod-menu-button.force-stop</attribute>
-        <attribute name="hidden-when">action-disabled</attribute>
-      </item>
-      <item>
         <attribute name="label" translatable="yes">R_estart</attribute>
         <attribute name="action">pod-menu-button.restart</attribute>
-        <attribute name="hidden-when">action-disabled</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">F_orce Restart</attribute>
-        <attribute name="action">pod-menu-button.force-restart</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
       <item>
