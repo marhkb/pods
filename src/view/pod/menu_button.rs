@@ -1,6 +1,3 @@
-use adw::prelude::MessageDialogExtManual;
-use adw::traits::MessageDialogExt;
-use gettextrs::gettext;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
@@ -17,13 +14,11 @@ use crate::view;
 const ACTION_CREATE_CONTAINER: &str = "pod-menu-button.create-container";
 const ACTION_START: &str = "pod-menu-button.start";
 const ACTION_STOP: &str = "pod-menu-button.stop";
-const ACTION_FORCE_STOP: &str = "pod-menu-button.force-stop";
+const ACTION_KILL: &str = "pod-menu-button.kill";
 const ACTION_RESTART: &str = "pod-menu-button.restart";
-const ACTION_FORCE_RESTART: &str = "pod-menu-button.force-restart";
 const ACTION_PAUSE: &str = "pod-menu-button.pause";
 const ACTION_RESUME: &str = "pod-menu-button.resume";
 const ACTION_DELETE: &str = "pod-menu-button.delete";
-const ACTION_FORCE_DELETE: &str = "pod-menu-button.force-delete";
 
 mod imp {
     use super::*;
@@ -52,32 +47,26 @@ mod imp {
             });
 
             klass.install_action(ACTION_START, None, move |widget, _, _| {
-                widget.start();
+                super::super::start(widget.upcast_ref());
             });
             klass.install_action(ACTION_STOP, None, move |widget, _, _| {
-                widget.stop();
+                super::super::stop(widget.upcast_ref());
             });
-            klass.install_action(ACTION_FORCE_STOP, None, move |widget, _, _| {
-                widget.force_stop();
+            klass.install_action(ACTION_KILL, None, move |widget, _, _| {
+                super::super::kill(widget.upcast_ref());
             });
             klass.install_action(ACTION_RESTART, None, move |widget, _, _| {
-                widget.restart();
-            });
-            klass.install_action(ACTION_FORCE_RESTART, None, move |widget, _, _| {
-                widget.force_restart();
+                super::super::restart(widget.upcast_ref());
             });
             klass.install_action(ACTION_PAUSE, None, move |widget, _, _| {
-                widget.pause();
+                super::super::pause(widget.upcast_ref());
             });
             klass.install_action(ACTION_RESUME, None, move |widget, _, _| {
-                widget.resume();
+                super::super::resume(widget.upcast_ref());
             });
 
             klass.install_action(ACTION_DELETE, None, move |widget, _, _| {
-                widget.show_delete_confirmation_dialog(false);
-            });
-            klass.install_action(ACTION_FORCE_DELETE, None, move |widget, _, _| {
-                widget.show_delete_confirmation_dialog(true);
+                super::super::show_delete_confirmation_dialog(widget.upcast_ref());
             });
         }
 
@@ -177,25 +166,6 @@ glib::wrapper! {
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
-macro_rules! pod_action {
-    (fn $name:ident => $action:ident($($param:literal),*) => $error:tt) => {
-        fn $name(&self) {
-            if let Some(pod) = self.pod() {
-                pod.$action(
-                    $($param,)*
-                    clone!(@weak self as obj => move |result| if let Err(e) = result {
-                        utils::show_error_toast(
-                            &obj,
-                            &gettext($error),
-                            &e.to_string()
-                        );
-                    }),
-                );
-            }
-        }
-    };
-}
-
 impl MenuButton {
     pub(crate) fn pod(&self) -> Option<model::Pod> {
         self.imp().pod.upgrade()
@@ -224,92 +194,16 @@ impl MenuButton {
     }
 
     fn update_actions(&self) {
-        use model::PodStatus::*;
-
         if let Some(pod) = self.pod() {
-            let status = pod.status();
+            let can_stop = pod.can_stop();
 
-            self.action_set_enabled(
-                ACTION_START,
-                matches!(pod.status(), Created | Exited | Dead),
-            );
-            self.action_set_enabled(ACTION_STOP, matches!(status, Running));
-            self.action_set_enabled(ACTION_FORCE_STOP, matches!(status, Running));
-            self.action_set_enabled(ACTION_RESTART, matches!(status, Running));
-            self.action_set_enabled(ACTION_FORCE_RESTART, matches!(status, Running));
-            self.action_set_enabled(ACTION_RESUME, matches!(status, Paused));
-            self.action_set_enabled(ACTION_PAUSE, matches!(status, Running));
-            self.action_set_enabled(
-                ACTION_DELETE,
-                matches!(status, Created | Exited | Dead | Degraded),
-            );
-            self.action_set_enabled(ACTION_FORCE_DELETE, matches!(status, Running | Paused));
-        }
-    }
-
-    pod_action!(fn start => start() => "Error on starting pod");
-    pod_action!(fn stop => stop(false) => "Error on stopping pod");
-    pod_action!(fn force_stop => stop(true) => "Error on force stopping pod");
-    pod_action!(fn restart => restart(false) => "Error on restarting pod");
-    pod_action!(fn force_restart => restart(true) => "Error on force restarting pod");
-    pod_action!(fn pause => pause() => "Error on pausing pod");
-    pod_action!(fn resume => resume() => "Error on resuming pod");
-    pod_action!(fn delete => delete(false) => "Error on deleting pod");
-    pod_action!(fn force_delete => delete(true) => "Error on force deleting pod");
-
-    fn delete_(&self, force: bool) {
-        if force {
-            self.force_delete();
-        } else {
-            self.delete();
-        }
-    }
-
-    fn show_delete_confirmation_dialog(&self, force: bool) {
-        if let Some(pod) = self.pod().as_ref() {
-            let first_container = pod.container_list().get(0);
-
-            if pod.num_containers() > 0 || first_container.is_some() {
-                let dialog = adw::MessageDialog::builder()
-                    .heading(&gettext("Confirm Forced Pod Deletion"))
-                    .body_use_markup(true)
-                    .body(
-                        &match first_container.as_ref().map(|c| c.name()) {
-                            Some(id) => gettext!(
-                                // Translators: The "{}" is a placeholder for the pod name.
-                                "Pod contains container <b>{}</b>. Deleting the pod will also delete all its containers.",
-                                id
-                            ),
-                            None => gettext(
-                               "Pod contains a container. Deleting the pod will also delete all its containers.",
-                           ),
-                        }
-
-                    )
-                    .modal(true)
-                    .transient_for(&utils::root(self))
-                    .build();
-
-                dialog.add_responses(&[
-                    ("cancel", &gettext("_Cancel")),
-                    ("delete", &gettext("_Force Delete")),
-                ]);
-                dialog.set_default_response(Some("cancel"));
-                dialog.set_response_appearance("delete", adw::ResponseAppearance::Destructive);
-
-                dialog.connect_response(
-                    None,
-                    clone!(@weak self as obj, @weak pod => move |_, response| {
-                        if response == "delete" {
-                            obj.delete_(force);
-                        }
-                    }),
-                );
-
-                dialog.present();
-            } else {
-                self.delete_(force);
-            }
+            self.action_set_enabled(ACTION_START, pod.can_start());
+            self.action_set_enabled(ACTION_STOP, can_stop);
+            self.action_set_enabled(ACTION_KILL, can_stop);
+            self.action_set_enabled(ACTION_RESTART, pod.can_restart());
+            self.action_set_enabled(ACTION_RESUME, pod.can_resume());
+            self.action_set_enabled(ACTION_PAUSE, pod.can_pause());
+            self.action_set_enabled(ACTION_DELETE, pod.can_delete());
         }
     }
 }
