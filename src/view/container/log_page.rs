@@ -341,7 +341,7 @@ impl LogPage {
 
     fn insert(&self, line: Vec<u8>, perform: &mut MarkupPerform, at_end: bool) {
         let imp = self.imp();
-        if line.len() > 8 && perform.decode(&line[8..]) {
+        if perform.decode(&line) {
             let line_buffer = perform.move_out_buffer();
 
             if let Some((timestamp, log_message)) = line_buffer.split_once(' ') {
