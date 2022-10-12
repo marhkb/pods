@@ -5,8 +5,7 @@
     <property name="layout-manager">
       <object class="GtkBoxLayout"/>
     </property>
-    <property name="width-request">225</property>
-    <property name="valign">center</property>
+    <property name="width-request">300</property>
 
     <child>
       <object class="GtkImage" id="image">
@@ -16,6 +15,7 @@
 
     <child>
       <object class="GtkText" id="text">
+        <property name="hexpand">true</property>
       </object>
     </child>
 
@@ -24,12 +24,10 @@
         <style>
           <class name="numeric"/>
         </style>
+        <property name="xalign">1</property>
         <attributes>
           <attribute name="foreground-alpha" value="33000"/>
         </attributes>
-        <property name="xalign">1</property>
-        <property name="width-request">100</property>
-        <property name="halign">fill</property>
       </object>
     </child>
 

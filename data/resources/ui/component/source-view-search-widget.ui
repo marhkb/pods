@@ -10,12 +10,10 @@
     <child>
       <object class="GtkBox">
         <property name="halign">center</property>
-        <property name="spacing">6</property>
+        <property name="spacing">8</property>
 
         <child>
-          <object class="PdsTextSearchEntry" id="search_entry">
-            <property name="max-width-chars">48</property>
-          </object>
+          <object class="PdsTextSearchEntry" id="search_entry"/>
         </child>
 
         <child>

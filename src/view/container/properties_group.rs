@@ -252,14 +252,22 @@ mod imp {
                 ))
                 .bind(&*self.health_status_label, "css-classes", Some(obj));
 
-            image_expr
-                .chain_property::<model::Image>("repo-tags")
-                .chain_closure::<String>(closure!(
-                    |_: glib::Object, repo_tags: utils::BoxedStringVec| {
-                        repo_tags.iter().next().cloned().unwrap_or_default()
+            gtk::ClosureExpression::new::<String, _, _>(
+                &[
+                    image_expr.chain_property::<model::Image>("repo-tags"),
+                    image_expr.chain_property::<model::Image>("id"),
+                ],
+                closure!(
+                    |_: glib::Object, repo_tags: utils::BoxedStringVec, id: &str| {
+                        repo_tags
+                            .iter()
+                            .next()
+                            .cloned()
+                            .unwrap_or_else(|| id.chars().take(12).collect())
                     }
-                ))
-                .bind(&*self.image_label, "label", Some(obj));
+                ),
+            )
+            .bind(&*self.image_label, "label", Some(obj));
 
             image_expr.watch(
                 Some(obj),
