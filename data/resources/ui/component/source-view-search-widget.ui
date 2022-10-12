@@ -13,9 +13,7 @@
         <property name="spacing">8</property>
 
         <child>
-          <object class="PdsTextSearchEntry" id="search_entry">
-            <property name="max-width-chars">48</property>
-          </object>
+          <object class="PdsTextSearchEntry" id="search_entry"/>
         </child>
 
         <child>
