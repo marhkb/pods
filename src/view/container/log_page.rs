@@ -5,9 +5,11 @@ use std::collections::VecDeque;
 use std::mem;
 
 use futures::StreamExt;
+use gettextrs::gettext;
 use gtk::gdk;
 use gtk::glib;
 use gtk::glib::clone;
+use gtk::glib::closure;
 use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
@@ -26,6 +28,7 @@ use crate::view;
 
 const ACTION_TOGGLE_SEARCH: &str = "container-log-page.toggle-search";
 const ACTION_SCROLL_DOWN: &str = "container-log-page.scroll-down";
+const ACTION_START_CONTAINER: &str = "container-log-page.start-container";
 
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 enum FetchLinesState {
@@ -69,6 +72,8 @@ mod imp {
         pub(super) source_view: TemplateChild<sourceview5::View>,
         #[template_child]
         pub(super) source_buffer: TemplateChild<sourceview5::Buffer>,
+        #[template_child]
+        pub(super) info_bar: TemplateChild<gtk::InfoBar>,
     }
 
     #[glib::object_subclass]
@@ -89,9 +94,11 @@ mod imp {
             klass.install_action(ACTION_TOGGLE_SEARCH, None, |widget, _, _| {
                 widget.toggle_search();
             });
-
             klass.install_action(ACTION_SCROLL_DOWN, None, move |widget, _, _| {
                 widget.scroll_down();
+            });
+            klass.install_action(ACTION_START_CONTAINER, None, move |widget, _, _| {
+                widget.start_or_resume_container();
             });
         }
 
@@ -234,6 +241,24 @@ mod imp {
                 }
             }));
 
+            Self::Type::this_expression("container")
+                .chain_property::<model::Container>("status")
+                .chain_closure::<bool>(closure!(|_: Self::Type, status: model::ContainerStatus| {
+                    status != model::ContainerStatus::Running
+                }))
+                .bind(&*self.info_bar, "revealed", Some(obj));
+
+            if let Some(container) = obj.container() {
+                container.connect_notify_local(
+                    Some("status"),
+                    clone!(@weak obj => move |container, _| {
+                        if container.status() == model::ContainerStatus::Running {
+                            obj.follow_log_again();
+                        }
+                    }),
+                );
+            }
+
             obj.follow_log();
 
             obj.scroll_down();
@@ -309,34 +334,63 @@ impl LogPage {
                 container,
                 move |container| {
                     container
-                        .logs(
-                            &podman::opts::ContainerLogsOpts::builder()
-                                .tail("512")
-                                .follow(true)
-                                .stdout(true)
-                                .stderr(true)
-                                .timestamps(true)
-                                .build(),
-                        )
+                        .logs(&basic_opts_builder().tail("512").build())
                         .boxed()
                 },
                 clone!(@weak self as obj => @default-return glib::Continue(false), move |result| {
-                    let imp = obj.imp();
-                    imp.stack.set_visible_child_name("loaded");
-
-                    glib::Continue(match result {
-                        Ok(line) => {
-                            obj.insert(Vec::from(line), &mut perform, true);
-                            true
-                        }
-                        Err(e) => {
-                            log::warn!("Stopping container log stream due to error: {e}");
-                            false
-                        }
-                    })
+                    obj.imp().stack.set_visible_child_name("loaded");
+                    obj.append_line(result, &mut perform)
                 }),
             );
         }
+    }
+
+    fn follow_log_again(&self) {
+        if let Some(container) = self.container().as_ref().and_then(model::Container::api) {
+            let mut perform = MarkupPerform::default();
+
+            let log_timestamps = self.imp().log_timestamps.borrow();
+            let opts = if !log_timestamps.is_empty() {
+                let since =
+                    glib::DateTime::from_iso8601(&log_timestamps[log_timestamps.len() - 1], None)
+                        .unwrap()
+                        .to_unix()
+                        + 1;
+                basic_opts_builder().since(since.to_string())
+            } else {
+                basic_opts_builder()
+            };
+
+            utils::run_stream(
+                container,
+                move |container| container.logs(&opts.build()).boxed(),
+                clone!(@weak self as obj => @default-return glib::Continue(false), move |result| {
+                    obj.append_line(result, &mut perform)
+                }),
+            );
+        }
+    }
+
+    fn append_line(
+        &self,
+        result: podman::Result<podman::conn::TtyChunk>,
+        perform: &mut MarkupPerform,
+    ) -> glib::Continue {
+        glib::Continue(match result {
+            Ok(line) => {
+                self.insert(Vec::from(line), perform, true);
+                true
+            }
+            Err(e) => {
+                log::warn!("Stopping container log stream due to error: {e}");
+                utils::show_error_toast(
+                    self,
+                    &gettext("Error while following log"),
+                    &e.to_string(),
+                );
+                false
+            }
+        })
     }
 
     fn insert(&self, line: Vec<u8>, perform: &mut MarkupPerform, at_end: bool) {
@@ -390,15 +444,7 @@ impl LogPage {
                             container,
                             move |container| {
                                 container
-                                    .logs(
-                                        &podman::opts::ContainerLogsOpts::builder()
-                                            .until(until)
-                                            .follow(false)
-                                            .stdout(true)
-                                            .stderr(true)
-                                            .timestamps(true)
-                                            .build(),
-                                    )
+                                    .logs(&basic_opts_builder().until(until).build())
                                     .boxed()
                             },
                             clone!(@weak self as obj => @default-return glib::Continue(false), move |result| {
@@ -457,12 +503,6 @@ impl LogPage {
         }
     }
 
-    pub(crate) fn toggle_search(&self) {
-        let imp = self.imp();
-        imp.search_bar
-            .set_search_mode(!imp.search_bar.is_search_mode());
-    }
-
     fn on_notify_dark(&self, style_manager: &adw::StyleManager) {
         self.imp().source_buffer.set_style_scheme(
             sourceview5::StyleSchemeManager::default()
@@ -473,6 +513,30 @@ impl LogPage {
                 })
                 .as_ref(),
         );
+    }
+
+    fn toggle_search(&self) {
+        let imp = self.imp();
+        imp.search_bar
+            .set_search_mode(!imp.search_bar.is_search_mode());
+    }
+
+    fn start_or_resume_container(&self) {
+        if let Some(container) = self.container() {
+            if container.can_start() {
+                container.start(clone!(@weak self as obj => move |result| {
+                    if let Err(e) = result {
+                        utils::show_error_toast(&obj, &gettext("Error starting container"), &e.to_string());
+                    }
+                }));
+            } else if container.can_resume() {
+                container.resume(clone!(@weak self as obj => move |result| {
+                    if let Err(e) = result {
+                        utils::show_error_toast(&obj, &gettext("Error resuming container"), &e.to_string());
+                    }
+                }));
+            }
+        }
     }
 }
 
@@ -531,6 +595,14 @@ impl vte::Perform for MarkupPerform {
             }
         }
     }
+}
+
+fn basic_opts_builder() -> podman::opts::ContainerLogsOptsBuilder {
+    podman::opts::ContainerLogsOpts::builder()
+        .follow(true)
+        .stdout(true)
+        .stderr(true)
+        .timestamps(true)
 }
 
 fn ansi_escape_to_markup_tags(item: u16) -> Option<(&'static str, &'static str)> {
