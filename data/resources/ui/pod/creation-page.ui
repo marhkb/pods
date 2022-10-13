@@ -191,6 +191,7 @@
                                           <object class="GtkSwitch" id="enable_hosts_switch">
                                             <property name="valign">center</property>
                                             <property name="action-name">pod.toggle-hosts</property>
+                                            <property name="active">true</property>
                                           </object>
                                         </child>
 
