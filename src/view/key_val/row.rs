@@ -2,6 +2,7 @@ use std::cell::RefCell;
 
 use gettextrs::gettext;
 use gtk::glib;
+use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
@@ -16,8 +17,6 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/key-val/row.ui")]
     pub(crate) struct Row {
         pub(super) key_val: RefCell<Option<model::KeyVal>>,
-        pub(super) key_label: RefCell<String>,
-        pub(super) value_label: RefCell<String>,
         pub(super) bindings: RefCell<Vec<glib::Binding>>,
         #[template_child]
         pub(super) key_entry: TemplateChild<gtk::Entry>,
@@ -59,18 +58,18 @@ mod imp {
                             | glib::ParamFlags::EXPLICIT_NOTIFY,
                     ),
                     glib::ParamSpecString::new(
-                        "key-label",
-                        "Key Label",
-                        "The Key Label",
+                        "key-placeholder-text",
+                        "Key Placeholder Text",
+                        "The placeholder text for the key",
                         Default::default(),
                         glib::ParamFlags::READWRITE
                             | glib::ParamFlags::CONSTRUCT
                             | glib::ParamFlags::EXPLICIT_NOTIFY,
                     ),
                     glib::ParamSpecString::new(
-                        "value-label",
-                        "Value Label",
-                        "The Value Label",
+                        "value-placeholder-text",
+                        "Value Placeholder Text",
+                        "The placeholder text for the value",
                         Default::default(),
                         glib::ParamFlags::READWRITE
                             | glib::ParamFlags::CONSTRUCT
@@ -90,8 +89,12 @@ mod imp {
         ) {
             match pspec.name() {
                 "key-val" => obj.set_key_val(value.get().unwrap_or_default()),
-                "key-label" => obj.set_key_label(value.get().unwrap_or_default()),
-                "value-label" => obj.set_value_label(value.get().unwrap_or_default()),
+                "key-placeholder-text" => {
+                    obj.set_key_placeholder_text(value.get().unwrap_or_default());
+                }
+                "value-placeholder-text" => {
+                    obj.set_value_placeholder_text(value.get().unwrap_or_default());
+                }
                 _ => unimplemented!(),
             }
         }
@@ -99,20 +102,23 @@ mod imp {
         fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
                 "key-val" => obj.key_val().to_value(),
-                "key-label" => obj.imp().key_label.borrow().to_value(),
-                "value-label" => obj.imp().value_label.borrow().to_value(),
+                "key-placeholder-text" => obj.key_placeholder_text().to_value(),
+                "value-placeholder-text" => obj.value_placeholder_text().to_value(),
                 _ => unimplemented!(),
             }
         }
 
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
-            obj.imp()
-                .key_entry
-                .set_property("placeholder-text", self.key_label.borrow().as_str());
-            obj.imp()
-                .value_entry
-                .set_property("placeholder-text", self.value_label.borrow().as_str());
+
+            self.key_entry
+                .connect_placeholder_text_notify(clone!(@weak obj => move |_| {
+                    obj.notify("key-placeholder-text");
+                }));
+            self.key_entry
+                .connect_placeholder_text_notify(clone!(@weak obj => move |_| {
+                    obj.notify("value-placeholder-text");
+                }));
         }
     }
 
@@ -128,20 +134,20 @@ glib::wrapper! {
 
 impl From<&model::KeyVal> for Row {
     fn from(key_val: &model::KeyVal) -> Self {
-        Row::new(gettext("Key"), gettext("Value"), key_val)
+        Row::new(&gettext("Key"), &gettext("Value"), key_val)
     }
 }
 
 impl Row {
     pub fn new(
-        key_label: impl Into<String>,
-        value_label: impl Into<String>,
+        key_placholder_text: impl Into<String>,
+        value_placholder_text: impl Into<String>,
         entry: &model::KeyVal,
     ) -> Self {
         glib::Object::new(&[
             ("key-val", &entry),
-            ("key-label", &key_label.into()),
-            ("value-label", &value_label.into()),
+            ("key-placeholder-text", &key_placholder_text.into()),
+            ("value-placeholder-text", &value_placholder_text.into()),
         ])
         .expect("Failed to create PdsKeyValRow")
     }
@@ -179,27 +185,19 @@ impl Row {
         self.notify("key-val");
     }
 
-    pub(crate) fn set_key_label(&self, value: Option<String>) {
-        if Some(self.imp().key_label.borrow().as_str()) == value.as_deref() {
-            return;
-        }
-
-        if let Some(value) = value {
-            self.imp().key_label.replace(value);
-        }
-
-        self.notify("key-label");
+    pub(crate) fn key_placeholder_text(&self) -> Option<glib::GString> {
+        self.imp().key_entry.placeholder_text()
     }
 
-    pub(crate) fn set_value_label(&self, value: Option<String>) {
-        if Some(self.imp().value_label.borrow().as_str()) == value.as_deref() {
-            return;
-        }
+    pub(crate) fn set_key_placeholder_text(&self, value: Option<&str>) {
+        self.imp().key_entry.set_placeholder_text(value);
+    }
 
-        if let Some(value) = value {
-            self.imp().value_label.replace(value);
-        }
+    pub(crate) fn value_placeholder_text(&self) -> Option<glib::GString> {
+        self.imp().value_entry.placeholder_text()
+    }
 
-        self.notify("value-label");
+    pub(crate) fn set_value_placeholder_text(&self, value: Option<&str>) {
+        self.imp().value_entry.set_placeholder_text(value);
     }
 }
