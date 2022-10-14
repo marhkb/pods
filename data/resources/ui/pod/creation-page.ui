@@ -106,7 +106,7 @@
                                         <child>
                                           <object class="GtkSwitch" id="disable_resolv_switch">
                                             <property name="valign">center</property>
-                                            <property name="action-name">pod.toggle-resolv</property>
+                                            <property name="action-name">pod-creation-page.toggle-resolv</property>
                                           </object>
                                         </child>
                                       </object>
@@ -190,7 +190,7 @@
                                         <child>
                                           <object class="GtkSwitch" id="enable_hosts_switch">
                                             <property name="valign">center</property>
-                                            <property name="action-name">pod.toggle-hosts</property>
+                                            <property name="action-name">pod-creation-page.toggle-hosts</property>
                                             <property name="active">true</property>
                                           </object>
                                         </child>
@@ -250,7 +250,7 @@
                                         <child>
                                           <object class="GtkSwitch" id="disable_infra_switch">
                                             <property name="valign">center</property>
-                                            <property name="action-name">pod.toggle-infra</property>
+                                            <property name="action-name">pod-creation-page.toggle-infra</property>
                                           </object>
                                         </child>
                                       </object>

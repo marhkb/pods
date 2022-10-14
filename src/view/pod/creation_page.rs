@@ -20,16 +20,16 @@ use crate::utils::ToTypedListModel;
 use crate::view;
 
 const ACTION_CREATE: &str = "pod-creation-page.create";
-const ACTION_ADD_LABEL: &str = "pod.add-label";
-const ACTION_ADD_HOST: &str = "pod.add-host";
-const ACTION_ADD_DEVICE: &str = "pod.add-device";
-const ACTION_ADD_INFRA_CMD_ARGS: &str = "pod.add-infra-cmd-arg";
-const ACTION_ADD_POD_CREATE_CMD_ARGS: &str = "pod.add-pod-create-cmd-arg";
-const ACTION_TOGGLE_INFRA: &str = "pod.toggle-infra";
-const ACTION_TOGGLE_HOSTS: &str = "pod.toggle-hosts";
-const ACTION_TOGGLE_RESOLV: &str = "pod.toggle-resolv";
-const ACTION_REMOVE_REMOTE_INFRA: &str = "image.infra-remove-remote";
-const ACTION_SEARCH_INFRA: &str = "image.infra-search";
+const ACTION_ADD_LABEL: &str = "pod-creation-page.add-label";
+const ACTION_ADD_HOST: &str = "pod-creation-page.add-host";
+const ACTION_ADD_DEVICE: &str = "pod-creation-page.add-device";
+const ACTION_ADD_INFRA_CMD_ARGS: &str = "pod-creation-page.add-infra-cmd-arg";
+const ACTION_ADD_POD_CREATE_CMD_ARGS: &str = "pod-creation-page.add-pod-create-cmd-arg";
+const ACTION_TOGGLE_INFRA: &str = "pod-creation-page.toggle-infra";
+const ACTION_TOGGLE_HOSTS: &str = "pod-creation-page.toggle-hosts";
+const ACTION_TOGGLE_RESOLV: &str = "pod-creation-page.toggle-resolv";
+const ACTION_REMOVE_REMOTE_INFRA: &str = "pod-creation-page.infra-remove-remote";
+const ACTION_SEARCH_INFRA: &str = "pod-creation-page.infra-search";
 
 mod imp {
     use super::*;
