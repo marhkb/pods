@@ -1,8 +1,10 @@
 use std::cell::Cell;
 
 use adw::subclass::prelude::PreferencesGroupImpl;
+use adw::traits::AnimationExt;
 use gettextrs::gettext;
 use gtk::glib;
+use gtk::glib::clone;
 use gtk::glib::closure;
 use gtk::glib::closure_local;
 use gtk::glib::WeakRef;
@@ -194,16 +196,30 @@ impl ResourcesQuickReferenceGroup {
         F: Fn(model::BoxedContainerStats) -> Option<f64> + Clone + 'static,
     {
         let fraction_op_clone = fraction_op.clone();
-        stats_expr
-            .chain_closure::<f64>(closure_local!(|_: glib::Object,
-                                                  stats: Option<
-                model::BoxedContainerStats,
-            >| {
-                stats
-                    .and_then(|stats| fraction_op_clone(stats).map(|perc| perc as f64 * 0.01))
-                    .unwrap_or_default()
-            }))
-            .bind(progress_bar, "fraction", Some(self));
+        let percent_expr = stats_expr.chain_closure::<f64>(closure_local!(|_: Self,
+                                                                           stats: Option<
+            model::BoxedContainerStats,
+        >| {
+            stats
+                .and_then(|stats| fraction_op_clone(stats).map(|perc| perc as f64 * 0.01))
+                .unwrap_or_default()
+        }));
+
+        let target = adw::PropertyAnimationTarget::new(progress_bar, "fraction");
+        let animation = adw::TimedAnimation::builder()
+            .widget(progress_bar)
+            .duration(750)
+            .target(&target)
+            .build();
+
+        stats_expr.clone().watch(
+            Some(self),
+            clone!(@weak self as obj, @weak progress_bar => move || {
+                animation.set_value_from(progress_bar.fraction());
+                animation.set_value_to(percent_expr.evaluate_as(Some(&obj)).unwrap_or(0.0));
+                animation.play();
+            }),
+        );
 
         let classes = progress_bar.css_classes();
         stats_expr
