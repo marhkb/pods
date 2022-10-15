@@ -101,49 +101,37 @@ mod imp {
                 .set_draw_func(clone!(@weak obj => move |_, cr, w, h| {
                     let style_manager = adw::StyleManager::default();
 
+                    let alpha = if style_manager.is_high_contrast() {
+                        (0.33, 1.0)
+                    } else {
+                        (0.15, 0.75)
+                    };
+
                     let colors = if style_manager.is_dark() {
                         [
                             // background: @view_bg_color
                             (0.188, 0.188, 0.188, 1.0),
                             // @borders
-                            (
-                                1.0,
-                                1.0,
-                                1.0,
-                                if style_manager.is_high_contrast() {
-                                    0.5
-                                } else {
-                                    0.15
-                                },
-                            ),
+                            (1.0, 1.0, 1.0, alpha.0),
                             // @accent_color
-                            (0.470, 0.682, 0.929, 1.0),
+                            (0.470, 0.682, 0.929, alpha.1),
                             // @warning_color
-                            (0.972, 0.894, 0.360, 1.0),
+                            (0.972, 0.894, 0.360, alpha.1),
                             // @error_color
-                            (1.0, 0.482, 0.388, 1.0),
+                            (1.0, 0.482, 0.388, alpha.1),
                         ]
                     } else {
                         [
                             // background: @window_bg_color
                             (0.98, 0.98, 0.98, 1.0),
                             // @borders
-                            (
-                                0.0,
-                                0.0,
-                                0.0,
-                                if style_manager.is_high_contrast() {
-                                    0.5
-                                } else {
-                                    0.15
-                                },
-                            ),
+                            (0.0, 0.0, 0.0, alpha.0),
                             // @accent_color
-                            (0.109, 0.443, 0.847, 1.0),
+                            (0.109, 0.443, 0.847, alpha.1),
                             // @warning_color
-                            (0.682, 0.482, 0.011, 1.0),
+                            (0.682, 0.482, 0.011, alpha.1),
                             // @error_color
-                            (0.752, 0.109, 0.156, 1.0),
+                            (0.752, 0.109, 0.156, alpha.1),
                         ]
                     };
 
