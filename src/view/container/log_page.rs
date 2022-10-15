@@ -10,7 +10,6 @@ use gtk::gdk;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
-use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
@@ -45,7 +44,7 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/container/log-page.ui")]
     pub(crate) struct LogPage {
         pub(super) settings: utils::PodsSettings,
-        pub(super) container: WeakRef<model::Container>,
+        pub(super) container: glib::WeakRef<model::Container>,
         pub(super) renderer_timestamps: OnceCell<sourceview5::GutterRendererText>,
         pub(super) log_timestamps: RefCell<VecDeque<String>>,
         pub(super) fetch_until: OnceCell<String>,

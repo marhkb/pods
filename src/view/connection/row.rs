@@ -2,7 +2,6 @@ use gettextrs::gettext;
 use glib::subclass::InitializingObject;
 use gtk::glib;
 use gtk::glib::closure;
-use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
@@ -17,8 +16,8 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/connection/row.ui")]
     pub(crate) struct Row {
-        pub(super) client: WeakRef<model::Client>,
-        pub(super) connection: WeakRef<model::Connection>,
+        pub(super) client: glib::WeakRef<model::Client>,
+        pub(super) connection: glib::WeakRef<model::Connection>,
         #[template_child]
         pub(super) image: TemplateChild<gtk::Image>,
         #[template_child]

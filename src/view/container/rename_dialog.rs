@@ -3,7 +3,6 @@ use gtk::gdk;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
-use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
@@ -17,7 +16,7 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/container/rename-dialog.ui")]
     pub(crate) struct RenameDialog {
-        pub(super) container: WeakRef<model::Container>,
+        pub(super) container: glib::WeakRef<model::Container>,
         #[template_child]
         pub(super) entry_row: TemplateChild<view::RandomNameEntryRow>,
         #[template_child]

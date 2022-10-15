@@ -3,7 +3,6 @@ use std::cell::RefCell;
 
 use gtk::gio;
 use gtk::glib;
-use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use indexmap::map::IndexMap;
@@ -17,7 +16,7 @@ mod imp {
 
     #[derive(Debug, Default)]
     pub(crate) struct SimpleContainerList(
-        pub(super) RefCell<IndexMap<String, WeakRef<model::Container>>>,
+        pub(super) RefCell<IndexMap<String, glib::WeakRef<model::Container>>>,
     );
 
     #[glib::object_subclass]
@@ -174,7 +173,7 @@ impl SimpleContainerList {
             .borrow()
             .get_index(index)
             .map(|(_, c)| c)
-            .and_then(WeakRef::upgrade)
+            .and_then(glib::WeakRef::upgrade)
     }
 
     pub(crate) fn add_container(&self, container: &model::Container) {
@@ -183,7 +182,7 @@ impl SimpleContainerList {
             .0
             .borrow_mut()
             .insert_full(container.id().to_owned(), {
-                let weak_ref = WeakRef::new();
+                let weak_ref = glib::WeakRef::new();
                 weak_ref.set(Some(container));
                 weak_ref
             });
@@ -244,7 +243,7 @@ impl SimpleContainerList {
             .0
             .borrow()
             .values()
-            .filter_map(WeakRef::upgrade)
+            .filter_map(glib::WeakRef::upgrade)
             .filter(|container| container.status() == status)
             .count() as u32
     }

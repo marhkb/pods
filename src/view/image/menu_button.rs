@@ -1,7 +1,6 @@
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
-use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
@@ -21,7 +20,7 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/image/menu-button.ui")]
     pub(crate) struct MenuButton {
-        pub(super) image: WeakRef<model::Image>,
+        pub(super) image: glib::WeakRef<model::Image>,
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]

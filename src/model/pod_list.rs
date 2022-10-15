@@ -5,7 +5,6 @@ use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::subclass::Signal;
-use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use indexmap::map::Entry;
@@ -23,7 +22,7 @@ mod imp {
 
     #[derive(Debug, Default)]
     pub(crate) struct PodList {
-        pub(super) client: WeakRef<model::Client>,
+        pub(super) client: glib::WeakRef<model::Client>,
         pub(super) list: RefCell<IndexMap<String, model::Pod>>,
         pub(super) listing: Cell<bool>,
         pub(super) initialized: OnceCell<()>,

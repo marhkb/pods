@@ -4,7 +4,6 @@ use std::cell::RefCell;
 use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
-use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use indexmap::IndexMap;
@@ -18,7 +17,7 @@ mod imp {
 
     #[derive(Debug, Default)]
     pub(crate) struct ActionList {
-        pub(super) client: WeakRef<model::Client>,
+        pub(super) client: glib::WeakRef<model::Client>,
         pub(super) list: RefCell<IndexMap<u32, model::Action>>,
         pub(super) action_counter: Cell<u32>,
     }

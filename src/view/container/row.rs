@@ -7,7 +7,6 @@ use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
 use gtk::glib::closure_local;
-use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
@@ -25,7 +24,7 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/container/row.ui")]
     pub(crate) struct Row {
-        pub(super) container: WeakRef<model::Container>,
+        pub(super) container: glib::WeakRef<model::Container>,
         pub(super) bindings: RefCell<Vec<glib::Binding>>,
         #[template_child]
         pub(super) status_image: TemplateChild<gtk::Image>,

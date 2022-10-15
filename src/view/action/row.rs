@@ -5,7 +5,6 @@ use glib::subclass::InitializingObject;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
-use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
@@ -20,7 +19,7 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/action/row.ui")]
     pub(crate) struct Row {
-        pub(super) action: WeakRef<model::Action>,
+        pub(super) action: glib::WeakRef<model::Action>,
         pub(super) handler: RefCell<Option<glib::SignalHandlerId>>,
         pub(super) timer: RefCell<Option<glib::SourceId>>,
         #[template_child]

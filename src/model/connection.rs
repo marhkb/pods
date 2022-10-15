@@ -2,7 +2,6 @@ use std::cell::Cell;
 
 use gtk::gdk;
 use gtk::glib;
-use gtk::glib::WeakRef;
 use gtk::prelude::ObjectExt;
 use gtk::prelude::StaticType;
 use gtk::prelude::ToValue;
@@ -27,7 +26,7 @@ mod imp {
 
     #[derive(Debug, Default)]
     pub(crate) struct Connection {
-        pub(super) manager: WeakRef<model::ConnectionManager>,
+        pub(super) manager: glib::WeakRef<model::ConnectionManager>,
         pub(super) uuid: OnceCell<String>,
         pub(super) name: OnceCell<String>,
         pub(super) url: OnceCell<String>,

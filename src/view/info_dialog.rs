@@ -6,7 +6,6 @@ use gettextrs::gettext;
 use gettextrs::ngettext;
 use gtk::glib;
 use gtk::glib::clone;
-use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
@@ -22,7 +21,7 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/info-dialog.ui")]
     pub(crate) struct InfoDialog {
-        pub(super) client: WeakRef<model::Client>,
+        pub(super) client: glib::WeakRef<model::Client>,
 
         #[template_child]
         pub(super) preferences_page: TemplateChild<adw::PreferencesPage>,

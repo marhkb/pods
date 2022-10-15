@@ -8,7 +8,6 @@ use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
 use gtk::glib::subclass::Signal;
-use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
@@ -33,7 +32,7 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/images/panel.ui")]
     pub(crate) struct Panel {
         pub(super) settings: utils::PodsSettings,
-        pub(super) image_list: WeakRef<model::ImageList>,
+        pub(super) image_list: glib::WeakRef<model::ImageList>,
         pub(super) properties_filter: OnceCell<gtk::Filter>,
         pub(super) sorter: OnceCell<gtk::Sorter>,
         #[template_child]

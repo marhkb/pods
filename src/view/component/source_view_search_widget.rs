@@ -4,7 +4,6 @@ use gettextrs::gettext;
 use gtk::gdk;
 use gtk::glib;
 use gtk::glib::clone;
-use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
@@ -26,7 +25,7 @@ mod imp {
         pub(super) search_settings: sourceview5::SearchSettings,
         pub(super) search_context: RefCell<Option<sourceview5::SearchContext>>,
         pub(super) search_iters: RefCell<Option<(gtk::TextIter, gtk::TextIter)>>,
-        pub(super) source_view: WeakRef<sourceview5::View>,
+        pub(super) source_view: glib::WeakRef<sourceview5::View>,
         #[template_child]
         pub(super) search_entry: TemplateChild<view::TextSearchEntry>,
         #[template_child]

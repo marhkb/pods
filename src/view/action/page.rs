@@ -3,7 +3,6 @@ use adw::traits::BinExt;
 use gettextrs::gettext;
 use gtk::glib;
 use gtk::glib::clone;
-use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
@@ -21,7 +20,7 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/action/page.ui")]
     pub(crate) struct Page {
-        pub(super) action: WeakRef<model::Action>,
+        pub(super) action: glib::WeakRef<model::Action>,
         #[template_child]
         pub(super) main_stack: TemplateChild<gtk::Stack>,
         #[template_child]

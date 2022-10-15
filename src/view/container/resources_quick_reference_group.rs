@@ -7,7 +7,6 @@ use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
 use gtk::glib::closure_local;
-use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
@@ -23,7 +22,7 @@ mod imp {
         resource = "/com/github/marhkb/Pods/ui/container/resources-quick-reference-group.ui"
     )]
     pub(crate) struct ResourcesQuickReferenceGroup {
-        pub(super) container: WeakRef<model::Container>,
+        pub(super) container: glib::WeakRef<model::Container>,
         #[template_child]
         pub(super) cpu_label: TemplateChild<gtk::Label>,
         #[template_child]

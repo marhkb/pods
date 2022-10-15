@@ -1,6 +1,5 @@
 use gtk::glib;
 use gtk::glib::closure;
-use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
@@ -14,7 +13,7 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/containers/count-bar.ui")]
     pub(crate) struct CountBar {
-        pub(super) container_list: WeakRef<model::AbstractContainerList>,
+        pub(super) container_list: glib::WeakRef<model::AbstractContainerList>,
         #[template_child]
         pub(super) dead_box: TemplateChild<gtk::Box>,
         #[template_child]
