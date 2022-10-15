@@ -3,7 +3,6 @@ use gettextrs::gettext;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
-use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
@@ -24,7 +23,7 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/container/properties-group.ui")]
     pub(crate) struct PropertiesGroup {
-        pub(super) container: WeakRef<model::Container>,
+        pub(super) container: glib::WeakRef<model::Container>,
         #[template_child]
         pub(super) id_row: TemplateChild<view::PropertyRow>,
         #[template_child]

@@ -5,7 +5,6 @@ use adw::subclass::prelude::PreferencesRowImpl;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
-use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
@@ -23,7 +22,7 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/image/row.ui")]
     pub(crate) struct Row {
-        pub(super) image: WeakRef<model::Image>,
+        pub(super) image: glib::WeakRef<model::Image>,
         pub(super) bindings: RefCell<Vec<glib::Binding>>,
         #[template_child]
         pub(super) check_button: TemplateChild<gtk::CheckButton>,

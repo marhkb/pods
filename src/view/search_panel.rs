@@ -3,7 +3,6 @@ use std::cell::RefCell;
 use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
-use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
@@ -20,7 +19,7 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/search-panel.ui")]
     pub(crate) struct SearchPanel {
-        pub(super) client: WeakRef<model::Client>,
+        pub(super) client: glib::WeakRef<model::Client>,
         pub(super) term: RefCell<String>,
         pub(super) filter: OnceCell<gtk::Filter>,
         pub(super) sorter: OnceCell<gtk::Sorter>,

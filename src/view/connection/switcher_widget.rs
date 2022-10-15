@@ -1,6 +1,5 @@
 use gettextrs::gettext;
 use glib::subclass::InitializingObject;
-use gtk::glib::WeakRef;
 use gtk::glib::{self};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
@@ -17,7 +16,7 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/connection/switcher-widget.ui")]
     pub(crate) struct SwitcherWidget {
-        pub(super) connection_manager: WeakRef<model::ConnectionManager>,
+        pub(super) connection_manager: glib::WeakRef<model::ConnectionManager>,
         #[template_child]
         pub(super) connection_list_view: TemplateChild<gtk::ListView>,
     }

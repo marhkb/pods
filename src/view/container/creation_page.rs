@@ -9,7 +9,6 @@ use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
-use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
@@ -37,16 +36,16 @@ mod imp {
     #[derive(Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/container/creation-page.ui")]
     pub(crate) struct CreationPage {
-        pub(super) client: WeakRef<model::Client>,
-        pub(super) image: WeakRef<model::Image>,
-        pub(super) pod: WeakRef<model::Pod>,
+        pub(super) client: glib::WeakRef<model::Client>,
+        pub(super) image: glib::WeakRef<model::Image>,
+        pub(super) pod: glib::WeakRef<model::Pod>,
         pub(super) port_mappings: RefCell<gio::ListStore>,
         pub(super) volumes: RefCell<gio::ListStore>,
         pub(super) env_vars: RefCell<gio::ListStore>,
         pub(super) cmd_args: RefCell<gio::ListStore>,
         pub(super) labels: RefCell<gio::ListStore>,
         pub(super) command_row_handler:
-            RefCell<Option<(glib::SignalHandlerId, WeakRef<model::Image>)>>,
+            RefCell<Option<(glib::SignalHandlerId, glib::WeakRef<model::Image>)>>,
         #[template_child]
         pub(super) name_entry_row: TemplateChild<view::RandomNameEntryRow>,
         #[template_child]
@@ -548,7 +547,7 @@ impl CreationPage {
                             );
                         }),
                     );
-                    let image_weak = WeakRef::new();
+                    let image_weak = glib::WeakRef::new();
                     image_weak.set(Some(image));
                     imp.command_row_handler.replace(Some((handler, image_weak)));
 

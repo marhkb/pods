@@ -1,6 +1,5 @@
 use gtk::glib;
 use gtk::glib::closure;
-use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
@@ -15,7 +14,7 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/image-search/response-row.ui")]
     pub(crate) struct ResponseRow {
-        pub(super) image_search_response: WeakRef<model::ImageSearchResponse>,
+        pub(super) image_search_response: glib::WeakRef<model::ImageSearchResponse>,
         #[template_child]
         pub(super) description_label: TemplateChild<gtk::Label>,
     }

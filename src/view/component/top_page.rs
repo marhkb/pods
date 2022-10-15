@@ -5,7 +5,6 @@ use gettextrs::gettext;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
-use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
@@ -23,7 +22,7 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/component/top-page.ui")]
     pub(crate) struct TopPage {
         /// A `Container` or a `Pod`
-        pub(super) top_source: WeakRef<glib::Object>,
+        pub(super) top_source: glib::WeakRef<glib::Object>,
         pub(super) tree_store: OnceCell<gtk::TreeStore>,
         #[template_child]
         pub(super) window_title: TemplateChild<adw::WindowTitle>,

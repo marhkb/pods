@@ -6,7 +6,6 @@ use gettextrs::gettext;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
-use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
@@ -35,7 +34,7 @@ mod imp {
         pub(super) pods_settings: utils::PodsSettings,
         pub(super) time_format: Cell<TimeFormat>,
         pub(super) prune_until_timestamp: Cell<i64>,
-        pub(super) client: WeakRef<model::Client>,
+        pub(super) client: glib::WeakRef<model::Client>,
         #[template_child]
         pub(super) prune_all_switch: TemplateChild<gtk::Switch>,
         #[template_child]

@@ -6,7 +6,6 @@ use gettextrs::ngettext;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
-use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
@@ -25,7 +24,7 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/containers/group.ui")]
     pub(crate) struct Group {
         pub(super) settings: utils::PodsSettings,
-        pub(super) container_list: WeakRef<model::AbstractContainerList>,
+        pub(super) container_list: glib::WeakRef<model::AbstractContainerList>,
         pub(super) no_containers_label: RefCell<Option<String>>,
         pub(super) show_running_settings_key: RefCell<String>,
         pub(super) properties_filter: OnceCell<gtk::Filter>,

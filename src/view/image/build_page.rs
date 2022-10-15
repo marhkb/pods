@@ -9,7 +9,6 @@ use gettextrs::gettext;
 use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
-use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
@@ -33,7 +32,7 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/image/build-page.ui")]
     pub(crate) struct BuildPage {
         pub(super) settings: utils::PodsSettings,
-        pub(super) client: WeakRef<model::Client>,
+        pub(super) client: glib::WeakRef<model::Client>,
         pub(super) labels: RefCell<gio::ListStore>,
         #[template_child]
         pub(super) tag_entry_row: TemplateChild<adw::EntryRow>,

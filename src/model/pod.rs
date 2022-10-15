@@ -9,7 +9,6 @@ use futures::TryFutureExt;
 use gettextrs::gettext;
 use gtk::glib::clone;
 use gtk::glib::subclass::Signal;
-use gtk::glib::WeakRef;
 use gtk::glib::{self};
 use gtk::prelude::ObjectExt;
 use gtk::prelude::StaticType;
@@ -83,7 +82,7 @@ mod imp {
 
     #[derive(Debug, Default)]
     pub(crate) struct Pod {
-        pub(super) pod_list: WeakRef<model::PodList>,
+        pub(super) pod_list: glib::WeakRef<model::PodList>,
         pub(super) container_list: OnceCell<model::SimpleContainerList>,
 
         pub(super) action_ongoing: Cell<bool>,

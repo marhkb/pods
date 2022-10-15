@@ -4,7 +4,6 @@ use std::ops::Deref;
 
 use gtk::glib::clone;
 use gtk::glib::subclass::Signal;
-use gtk::glib::WeakRef;
 use gtk::glib::{self};
 use gtk::prelude::ObjectExt;
 use gtk::prelude::StaticType;
@@ -22,7 +21,7 @@ mod imp {
 
     #[derive(Debug, Default)]
     pub(crate) struct Image {
-        pub(super) image_list: WeakRef<model::ImageList>,
+        pub(super) image_list: glib::WeakRef<model::ImageList>,
 
         pub(super) container_list: OnceCell<model::SimpleContainerList>,
 

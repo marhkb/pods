@@ -7,7 +7,6 @@ use gettextrs::gettext;
 use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
-use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
@@ -23,7 +22,7 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/image-search/widget.ui")]
     pub(crate) struct Widget {
-        pub(super) client: WeakRef<model::Client>,
+        pub(super) client: glib::WeakRef<model::Client>,
         pub(super) search_results: gio::ListStore,
         pub(super) selection: OnceCell<gtk::SingleSelection>,
         pub(super) search_abort_handle: RefCell<Option<future::AbortHandle>>,

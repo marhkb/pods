@@ -1,5 +1,4 @@
 use gtk::glib;
-use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
@@ -13,7 +12,7 @@ mod imp {
 
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/connection/chooser-page.ui")]
-    pub(crate) struct ChooserPage(pub(super) WeakRef<model::ConnectionManager>);
+    pub(crate) struct ChooserPage(pub(super) glib::WeakRef<model::ConnectionManager>);
 
     #[glib::object_subclass]
     impl ObjectSubclass for ChooserPage {

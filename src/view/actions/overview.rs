@@ -1,6 +1,5 @@
 use glib::subclass::InitializingObject;
 use gtk::glib::closure;
-use gtk::glib::WeakRef;
 use gtk::glib::{self};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
@@ -17,7 +16,7 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/actions/overview.ui")]
     pub(crate) struct Overview {
-        pub(super) action_list: WeakRef<model::ActionList>,
+        pub(super) action_list: glib::WeakRef<model::ActionList>,
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -152,8 +151,14 @@ impl Overview {
         let imp = self.imp();
 
         if let Some(action_list) = value {
-            let model = gtk::NoSelection::new(Some(action_list));
-            imp.action_list_view.set_model(Some(&model));
+            let sorter = gtk::NumericSorter::builder()
+                .expression(model::Action::this_expression("start-timestamp"))
+                .sort_order(gtk::SortType::Descending)
+                .build();
+            let model = gtk::SortListModel::new(Some(action_list), Some(&sorter));
+
+            imp.action_list_view
+                .set_model(Some(&gtk::NoSelection::new(Some(&model))));
         }
 
         imp.action_list.set(value);

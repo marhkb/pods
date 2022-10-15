@@ -7,7 +7,6 @@ use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
 use gtk::glib::subclass::Signal;
-use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
@@ -38,7 +37,7 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/containers/panel.ui")]
     pub(crate) struct Panel {
-        pub(super) container_list: WeakRef<model::ContainerList>,
+        pub(super) container_list: glib::WeakRef<model::ContainerList>,
         #[template_child]
         pub(super) main_stack: TemplateChild<gtk::Stack>,
         #[template_child]

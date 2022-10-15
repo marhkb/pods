@@ -4,7 +4,6 @@ use std::cell::RefCell;
 use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
-use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use indexmap::IndexMap;
@@ -18,7 +17,7 @@ mod imp {
 
     #[derive(Debug, Default)]
     pub(crate) struct ActionList {
-        pub(super) client: WeakRef<model::Client>,
+        pub(super) client: glib::WeakRef<model::Client>,
         pub(super) list: RefCell<IndexMap<u32, model::Action>>,
         pub(super) action_counter: Cell<u32>,
     }
@@ -321,10 +320,10 @@ impl ActionList {
     fn insert_action(&self, action: model::Action) -> model::Action {
         let imp = self.imp();
 
-        let len = {
+        let position = {
             let mut list = imp.list.borrow_mut();
             list.insert(imp.action_counter.replace(action.num() + 1), action.clone());
-            list.len()
+            list.len() - 1
         };
 
         action.connect_notify_local(
@@ -332,7 +331,7 @@ impl ActionList {
             clone!(@weak self as obj => move |_, _| obj.notify_num_states()),
         );
 
-        self.items_changed(len as u32, 0, 1);
+        self.items_changed(position as u32, 0, 1);
 
         action
     }

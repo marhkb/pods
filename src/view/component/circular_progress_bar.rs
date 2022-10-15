@@ -1,9 +1,7 @@
 // Inspired by https://github.com/phastmike/vala-circular-progress-bar/blob/1528d42a6045734038bf0022a88b846edf582b3a/circular-progress-bar.vala.
 
 use std::cell::Cell;
-use std::cell::RefCell;
 use std::f64;
-use std::time::Duration;
 
 use gtk::gdk;
 use gtk::glib;
@@ -20,9 +18,6 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/component/circular-progress-bar.ui")]
     pub(crate) struct CircularProgressBar {
         pub(super) percentage: Cell<f64>,
-        pub(super) current_percentage: Cell<f64>,
-        pub(super) signum: Cell<f64>,
-        pub(super) source: RefCell<Option<glib::SourceId>>,
         #[template_child]
         pub(super) overlay: TemplateChild<gtk::Overlay>,
         #[template_child]
@@ -106,49 +101,37 @@ mod imp {
                 .set_draw_func(clone!(@weak obj => move |_, cr, w, h| {
                     let style_manager = adw::StyleManager::default();
 
+                    let alpha = if style_manager.is_high_contrast() {
+                        (0.33, 1.0)
+                    } else {
+                        (0.15, 0.75)
+                    };
+
                     let colors = if style_manager.is_dark() {
                         [
                             // background: @view_bg_color
                             (0.188, 0.188, 0.188, 1.0),
                             // @borders
-                            (
-                                1.0,
-                                1.0,
-                                1.0,
-                                if style_manager.is_high_contrast() {
-                                    0.5
-                                } else {
-                                    0.15
-                                },
-                            ),
+                            (1.0, 1.0, 1.0, alpha.0),
                             // @accent_color
-                            (0.470, 0.682, 0.929, 1.0),
+                            (0.470, 0.682, 0.929, alpha.1),
                             // @warning_color
-                            (0.972, 0.894, 0.360, 1.0),
+                            (0.972, 0.894, 0.360, alpha.1),
                             // @error_color
-                            (1.0, 0.482, 0.388, 1.0),
+                            (1.0, 0.482, 0.388, alpha.1),
                         ]
                     } else {
                         [
                             // background: @window_bg_color
                             (0.98, 0.98, 0.98, 1.0),
                             // @borders
-                            (
-                                0.0,
-                                0.0,
-                                0.0,
-                                if style_manager.is_high_contrast() {
-                                    0.5
-                                } else {
-                                    0.15
-                                },
-                            ),
+                            (0.0, 0.0, 0.0, alpha.0),
                             // @accent_color
-                            (0.109, 0.443, 0.847, 1.0),
+                            (0.109, 0.443, 0.847, alpha.1),
                             // @warning_color
-                            (0.682, 0.482, 0.011, 1.0),
+                            (0.682, 0.482, 0.011, alpha.1),
                             // @error_color
-                            (0.752, 0.109, 0.156, 1.0),
+                            (0.752, 0.109, 0.156, alpha.1),
                         ]
                     };
 
@@ -179,10 +162,10 @@ mod imp {
                     let line_width_percentage = 3.0;
                     let delta_percentage = radius - (line_width_percentage / 2.0);
 
-                    let current_percentage = obj.current_percentage();
-                    if current_percentage < 0.8 {
+                    let percentage = obj.percentage();
+                    if percentage < 0.8 {
                         cr.set_source_rgba(colors[2].0, colors[2].1, colors[2].2, colors[2].3);
-                    } else if current_percentage < 0.95 {
+                    } else if percentage < 0.95 {
                         cr.set_source_rgba(colors[3].0, colors[3].1, colors[3].2, colors[3].3);
                     } else {
                         cr.set_source_rgba(colors[4].0, colors[4].1, colors[4].2, colors[4].3);
@@ -194,7 +177,7 @@ mod imp {
                         center_y,
                         delta_percentage,
                         1.5 * pi,
-                        (1.5 + current_percentage * 2.0) * pi,
+                        (1.5 + percentage * 2.0) * pi,
                     );
                     cr.stroke().unwrap();
 
@@ -203,7 +186,7 @@ mod imp {
                         center_y,
                         delta_percentage,
                         1.5 * pi,
-                        (1.5 + current_percentage * 2.0) * pi,
+                        (1.5 + percentage * 2.0) * pi,
                     );
 
                     cr.restore().unwrap();
@@ -252,68 +235,9 @@ impl CircularProgressBar {
 
         let imp = self.imp();
 
-        if let Some(source) = imp.source.take() {
-            source.remove();
-        }
-
-        let diff = value - imp.percentage.get();
-        imp.signum.set(diff.signum());
         imp.percentage.set(value);
-
-        let step = diff.abs() * 0.03 + 0.001;
-        let source = glib::timeout_add_local(
-            Duration::from_millis((500.0 / (diff.abs() / step)) as u64),
-            clone!(@weak self as obj => @default-return glib::Continue(false), move || {
-                let imp = obj.imp();
-
-                imp.drawing_area.queue_draw();
-
-                let percentage = obj.percentage();
-
-                let current = obj.current_percentage();
-                let signum = imp.signum.get();
-
-                let current_next = current + step * signum;
-
-                glib::Continue(
-                    if (signum > 0.0 && current_next >= percentage)
-                        || (signum < 0.0 && current_next <= percentage)
-                    {
-                        obj.set_current_percentage(percentage);
-                        if let Some(source) = imp.source.take() {
-                            source.remove();
-                        }
-                        false
-                    } else {
-                        obj.set_current_percentage(current_next);
-                        true
-                    },
-                )
-            }),
-        );
-        imp.source.replace(Some(source));
-
+        imp.drawing_area.queue_draw();
         self.notify("percentage");
-    }
-
-    fn current_percentage(&self) -> f64 {
-        self.imp().current_percentage.get()
-    }
-
-    fn set_current_percentage(&self, value: f64) {
-        if self.current_percentage() == value {
-            return;
-        }
-
-        let imp = self.imp();
-
-        if value < 0.95 {
-            imp.overlay.remove_css_class("error");
-        } else {
-            imp.overlay.add_css_class("error");
-        }
-
-        imp.current_percentage.set(value);
     }
 
     pub(crate) fn label(&self) -> glib::GString {

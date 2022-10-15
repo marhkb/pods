@@ -1,7 +1,6 @@
 use adw::subclass::prelude::AdwApplicationImpl;
 use gettextrs::gettext;
 use glib::clone;
-use glib::WeakRef;
 use gtk::gio;
 use gtk::glib;
 use gtk::prelude::*;
@@ -18,7 +17,7 @@ mod imp {
 
     #[derive(Default)]
     pub(crate) struct Application {
-        pub(super) window: OnceCell<WeakRef<Window>>,
+        pub(super) window: OnceCell<glib::WeakRef<Window>>,
     }
 
     #[glib::object_subclass]

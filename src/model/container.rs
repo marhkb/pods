@@ -9,7 +9,6 @@ use gettextrs::gettext;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::subclass::Signal;
-use gtk::glib::WeakRef;
 use gtk::prelude::ObjectExt;
 use gtk::prelude::StaticType;
 use gtk::prelude::ToValue;
@@ -126,18 +125,18 @@ mod imp {
 
     #[derive(Debug, Default)]
     pub(crate) struct Container {
-        pub(super) container_list: WeakRef<model::ContainerList>,
+        pub(super) container_list: glib::WeakRef<model::ContainerList>,
 
         pub(super) action_ongoing: Cell<bool>,
 
         pub(super) created: OnceCell<i64>,
         pub(super) health_status: Cell<HealthStatus>,
         pub(super) id: OnceCell<String>,
-        pub(super) image: WeakRef<model::Image>,
+        pub(super) image: glib::WeakRef<model::Image>,
         pub(super) image_id: OnceCell<String>,
         pub(super) image_name: RefCell<Option<String>>,
         pub(super) name: RefCell<String>,
-        pub(super) pod: WeakRef<model::Pod>,
+        pub(super) pod: glib::WeakRef<model::Pod>,
         pub(super) pod_id: OnceCell<Option<String>>,
         pub(super) port_bindings: OnceCell<utils::BoxedStringVec>,
         pub(super) stats: RefCell<Option<BoxedContainerStats>>,
