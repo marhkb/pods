@@ -29,7 +29,6 @@ actionsmenubutton .action-count-badge {
 actionsmenubutton #progressbar {
   background-color: @headerbar_shade_color;
   margin-bottom: 9px;
-  max-width: 8px;
 }
 
 actionsmenubutton #progressbar .through {
