@@ -2,8 +2,11 @@ use std::cell::RefCell;
 
 use adw::subclass::prelude::ActionRowImpl;
 use adw::subclass::prelude::PreferencesRowImpl;
+use adw::traits::AnimationExt;
 use gtk::glib;
+use gtk::glib::clone;
 use gtk::glib::closure;
+use gtk::glib::closure_local;
 use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
@@ -164,25 +167,12 @@ mod imp {
                 ))
                 .bind(&*self.stats_box, "visible", Some(obj));
 
-            stats_expr
-                .chain_closure::<f64>(closure!(
-                    |_: glib::Object, stats: Option<model::BoxedContainerStats>| {
-                        stats
-                            .and_then(|stats| stats.cpu.map(|perc| perc as f64 * 0.01))
-                            .unwrap_or_default()
-                    }
-                ))
-                .bind(&*self.cpu_bar, "percentage", Some(obj));
-
-            stats_expr
-                .chain_closure::<f64>(closure!(
-                    |_: glib::Object, stats: Option<model::BoxedContainerStats>| {
-                        stats
-                            .and_then(|stats| stats.mem_perc.map(|perc| perc as f64 * 0.01))
-                            .unwrap_or_default()
-                    }
-                ))
-                .bind(&*self.mem_bar, "percentage", Some(obj));
+            obj.bind_stats_percentage(stats_expr.upcast_ref(), |stats| stats.cpu, &*self.cpu_bar);
+            obj.bind_stats_percentage(
+                stats_expr.upcast_ref(),
+                |stats| stats.mem_perc,
+                &*self.mem_bar,
+            );
 
             health_status_expr
                 .chain_closure::<String>(closure!(
@@ -264,6 +254,40 @@ impl Row {
 
         imp.container.set(value);
         self.notify("container");
+    }
+
+    fn bind_stats_percentage<F>(
+        &self,
+        stats_expr: &gtk::Expression,
+        fraction_op: F,
+        progress_bar: &view::CircularProgressBar,
+    ) where
+        F: Fn(model::BoxedContainerStats) -> Option<f64> + Clone + 'static,
+    {
+        let perc_expr = stats_expr.chain_closure::<f64>(closure_local!(|_: glib::Object,
+                                                                        stats: Option<
+            model::BoxedContainerStats,
+        >| {
+            stats
+                .and_then(|stats| fraction_op(stats).map(|perc| perc as f64 * 0.01))
+                .unwrap_or_default()
+        }));
+
+        let target = adw::PropertyAnimationTarget::new(progress_bar, "percentage");
+        let animation = adw::TimedAnimation::builder()
+            .widget(progress_bar)
+            .duration(750)
+            .target(&target)
+            .build();
+
+        stats_expr.watch(
+            Some(self),
+            clone!(@weak self as obj, @weak progress_bar => move || {
+                animation.set_value_from(progress_bar.percentage());
+                animation.set_value_to(perc_expr.evaluate_as(Some(&obj)).unwrap_or(0.0));
+                animation.play();
+            }),
+        );
     }
 
     fn activate(&self) {
