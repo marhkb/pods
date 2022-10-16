@@ -750,17 +750,6 @@ impl Container {
         );
     }
 
-    pub(crate) fn commit<F>(&self, op: F)
-    where
-        F: FnOnce(podman::Result<()>) + 'static,
-    {
-        self.action(
-            "committing",
-            |container| async move { container.commit(&Default::default()).await },
-            op,
-        );
-    }
-
     pub(crate) fn delete<F>(&self, force: bool, op: F)
     where
         F: FnOnce(podman::Result<()>) + 'static,
