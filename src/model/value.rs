@@ -12,15 +12,15 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default)]
-    pub(crate) struct CmdArg(pub(super) RefCell<String>);
+    pub(crate) struct Value(pub(super) RefCell<String>);
 
     #[glib::object_subclass]
-    impl ObjectSubclass for CmdArg {
-        const NAME: &'static str = "CmdArg";
-        type Type = super::CmdArg;
+    impl ObjectSubclass for Value {
+        const NAME: &'static str = "Value";
+        type Type = super::Value;
     }
 
-    impl ObjectImpl for CmdArg {
+    impl ObjectImpl for Value {
         fn signals() -> &'static [Signal] {
             static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
                 vec![Signal::builder("remove-request", &[], <()>::static_type().into()).build()]
@@ -31,9 +31,9 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![glib::ParamSpecString::new(
-                    "arg",
-                    "Arg",
-                    "The argument",
+                    "value",
+                    "Value",
+                    "The value",
                     None,
                     glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
                 )]
@@ -49,14 +49,14 @@ mod imp {
             pspec: &glib::ParamSpec,
         ) {
             match pspec.name() {
-                "arg" => obj.set_arg(value.get().unwrap_or_default()),
+                "value" => obj.set_value(value.get().unwrap_or_default()),
                 _ => unimplemented!(),
             }
         }
 
         fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "arg" => obj.arg().to_value(),
+                "value" => obj.value().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -64,26 +64,26 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub(crate) struct CmdArg(ObjectSubclass<imp::CmdArg>);
+    pub(crate) struct Value(ObjectSubclass<imp::Value>);
 }
 
-impl Default for CmdArg {
+impl Default for Value {
     fn default() -> Self {
-        glib::Object::new(&[]).expect("Failed to create CmdArg")
+        glib::Object::new(&[]).expect("Failed to create Value")
     }
 }
 
-impl CmdArg {
-    pub(crate) fn arg(&self) -> String {
+impl Value {
+    pub(crate) fn value(&self) -> String {
         self.imp().0.borrow().to_owned()
     }
 
-    pub(crate) fn set_arg(&self, value: String) {
-        if self.arg() == value {
+    pub(crate) fn set_value(&self, value: String) {
+        if self.value() == value {
             return;
         }
         self.imp().0.replace(value);
-        self.notify("arg");
+        self.notify("value");
     }
 
     pub(crate) fn remove_request(&self) {

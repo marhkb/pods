@@ -19,12 +19,12 @@ const ACTION_KILL: &str = "container-details-page.kill";
 const ACTION_RESTART: &str = "container-details-page.restart";
 const ACTION_PAUSE: &str = "container-details-page.pause";
 const ACTION_RESUME: &str = "container-details-page.resume";
-const ACTION_COMMIT: &str = "container-details-page.commit";
 const ACTION_DELETE: &str = "container-details-page.delete";
 
 const ACTION_INSPECT: &str = "container-details-page.inspect";
 const ACTION_SHOW_LOG: &str = "container-details-page.show-log";
 const ACTION_SHOW_PROCESSES: &str = "container-details-page.show-processes";
+const ACTION_SHOW_COMMIT_PAGE: &str = "container-details-page.show-commit-page";
 
 mod imp {
     use super::*;
@@ -70,6 +70,9 @@ mod imp {
             klass.install_action(ACTION_SHOW_PROCESSES, None, move |widget, _, _| {
                 widget.show_processes();
             });
+            klass.install_action(ACTION_SHOW_COMMIT_PAGE, None, move |widget, _, _| {
+                widget.show_commit_page();
+            });
 
             klass.install_action(ACTION_START_OR_RESUME, None, move |widget, _, _| {
                 if widget.container().map(|c| c.can_start()).unwrap_or(false) {
@@ -92,9 +95,6 @@ mod imp {
             });
             klass.install_action(ACTION_RESUME, None, move |widget, _, _| {
                 super::super::resume(widget.upcast_ref());
-            });
-            klass.install_action(ACTION_COMMIT, None, move |widget, _, _| {
-                super::super::commit(widget.upcast_ref());
             });
             klass.install_action(ACTION_DELETE, None, move |widget, _, _| {
                 super::super::delete(widget.upcast_ref());
@@ -264,6 +264,14 @@ impl DetailsPage {
             self.imp()
                 .leaflet_overlay
                 .show_details(&view::TopPage::from(&container));
+        }
+    }
+
+    fn show_commit_page(&self) {
+        if let Some(container) = self.container() {
+            self.imp()
+                .leaflet_overlay
+                .show_details(&view::ContainerCommitPage::from(&container));
         }
     }
 }

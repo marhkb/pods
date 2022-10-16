@@ -8,7 +8,6 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/action/row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/actions/menu-button.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/actions/overview.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">ui/cmd-arg/row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/component/back-navigation-controls.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/component/circular-progress-bar.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/component/count-badge.ui</file>
@@ -24,6 +23,7 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/connection/creation-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/connection/row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/connection/switcher-widget.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/container/commit-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container/creation-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container/details-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container/health-check-page.ui</file>
@@ -57,6 +57,7 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/pods/panel.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/port-mapping/row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/search-panel.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/value/row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/volume/row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/welcome-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/window.ui</file>

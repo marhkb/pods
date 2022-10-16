@@ -100,6 +100,7 @@ mod imp {
             view::ConnectionChooserPage::static_type();
             view::ConnectionRow::static_type();
             view::ConnectionSwitcherWidget::static_type();
+            view::ContainerCommitPage::static_type();
             view::ContainerHealthCheckPage::static_type();
             view::ContainerLogPage::static_type();
             view::ContainerMenuButton::static_type();

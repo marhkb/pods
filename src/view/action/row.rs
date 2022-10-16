@@ -98,8 +98,9 @@ mod imp {
                         PruneImages => "larger-brush-symbolic",
                         DownloadImage => "folder-download-symbolic",
                         BuildImage => "build-configure-symbolic",
+                        Commit => "merge-symbolic",
                         Container | Pod => "list-add-symbolic",
-                        Undefined => unreachable!(),
+                        _ => unreachable!(),
                     }
                 }))
                 .bind(&*self.type_image, "icon-name", Some(obj));

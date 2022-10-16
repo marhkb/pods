@@ -1,3 +1,4 @@
+mod commit_page;
 mod creation_page;
 mod details_page;
 mod health_check_page;
@@ -8,6 +9,7 @@ mod rename_dialog;
 mod resources_quick_reference_group;
 mod row;
 
+pub(crate) use commit_page::CommitPage;
 pub(crate) use creation_page::CreationPage;
 pub(crate) use details_page::DetailsPage;
 pub(crate) use health_check_page::HealthCheckPage;
@@ -75,5 +77,4 @@ container_action!(fn kill => stop(true) => "Error on killing container");
 container_action!(fn restart => restart(false) => "Error on restarting container");
 container_action!(fn pause => pause() => "Error on pausing container");
 container_action!(fn resume => resume() => "Error on resuming container");
-container_action!(fn commit => commit() => "Error on committing container");
 container_action!(fn delete => delete(false) => "Error on deleting container");

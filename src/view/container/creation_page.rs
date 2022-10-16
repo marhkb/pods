@@ -297,7 +297,7 @@ mod imp {
             }
             self.command_arg_list_box
                 .bind_model(Some(&*self.cmd_args.borrow()), |item| {
-                    view::CmdArgRow::from(item.downcast_ref::<model::CmdArg>().unwrap()).upcast()
+                    view::ValueRow::new(item.downcast_ref().unwrap(), gettext("Argument")).upcast()
                 });
             self.command_arg_list_box.append(
                 &gtk::ListBoxRow::builder()
@@ -612,13 +612,13 @@ impl CreationPage {
     }
 
     fn add_cmd_arg(&self) {
-        let arg = model::CmdArg::default();
+        let arg = model::Value::default();
         self.connect_cmd_arg(&arg);
 
         self.imp().cmd_args.borrow().append(&arg);
     }
 
-    fn connect_cmd_arg(&self, cmd_arg: &model::CmdArg) {
+    fn connect_cmd_arg(&self, cmd_arg: &model::Value) {
         cmd_arg.connect_remove_request(clone!(@weak self as obj => move |cmd_arg| {
             let imp = obj.imp();
 
@@ -825,9 +825,9 @@ impl CreationPage {
                 .cmd_args
                 .borrow()
                 .to_owned()
-                .to_typed_list_model::<model::CmdArg>()
+                .to_typed_list_model::<model::Value>()
                 .into_iter()
-                .map(|arg| arg.arg());
+                .map(|arg| arg.value());
             let mut cmd = vec![cmd.to_string()];
             cmd.extend(args);
             create_opts.command(&cmd)
