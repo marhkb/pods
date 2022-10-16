@@ -40,6 +40,7 @@ pub(crate) use connection::ChooserPage as ConnectionChooserPage;
 pub(crate) use connection::CreationPage as ConnectionCreationPage;
 pub(crate) use connection::Row as ConnectionRow;
 pub(crate) use connection::SwitcherWidget as ConnectionSwitcherWidget;
+pub(crate) use container::CommitPage as ContainerCommitPage;
 pub(crate) use container::CreationPage as ContainerCreationPage;
 pub(crate) use container::DetailsPage as ContainerDetailsPage;
 pub(crate) use container::HealthCheckPage as ContainerHealthCheckPage;

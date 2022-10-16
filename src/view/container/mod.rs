@@ -1,3 +1,4 @@
+mod commit_page;
 mod creation_page;
 mod details_page;
 mod health_check_page;
@@ -8,6 +9,7 @@ mod rename_dialog;
 mod resources_quick_reference_group;
 mod row;
 
+pub(crate) use commit_page::CommitPage;
 pub(crate) use creation_page::CreationPage;
 pub(crate) use details_page::DetailsPage;
 pub(crate) use health_check_page::HealthCheckPage;

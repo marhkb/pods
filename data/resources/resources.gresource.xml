@@ -23,6 +23,7 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/connection/creation-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/connection/row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/connection/switcher-widget.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/container/commit-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container/creation-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container/details-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container/health-check-page.ui</file>
