@@ -58,6 +58,26 @@
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="1.0.0-beta.6" date="2022-10-16">
+      <description>
+        <p>The sixth beta release of Pods 1.0.0 includes the following changes:</p>
+        <ul>
+          <li>The duration for individual actions such as downloading an image is now displayed.</li>
+          <li>In the overview for all images, individual images can now be updated via the context menu.</li>
+          <li>Missing settings for creating pods have been added, thanks to @vv9k.</li>
+          <li>A simple progress bar is now displayed in the action menu button under the bell icon to indicate how many actions are currently running.</li>
+          <li>The icon of the button to return to the main view has been changed to a home symbol, thanks to @vv9k.</li>
+          <li>The container details page and pod details page have been revised: The menus have been removed and instead there is now a control bar.</li>
+          <li>Renaming a container within a container detail page must now be done via a button in the name row.</li>
+          <li>Fixed a bug in the container log page that caused that no more than 512 log lines could be loaded and date were truncated.</li>
+          <li>The progress bars for CPU and memory in the container details page are now animated.</li>
+          <li>The animations of the circular progress bars for CPU and memory in the overview of all containers now use better easing.</li>
+          <li>The icons and descriptions for actions like downloading an image have been made clearer.</li>
+          <li>Committing a new image from a container can now be done in a fine-grained way, in a dedicated page.</li>
+          <li>As always, there were a number of minor bug fixes, visual improvements, internal code improvements and translation updates.</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.0.0-beta.5" date="2022-10-03">
       <description>
         <p>The fifth beta release of Pods 1.0.0 includes the following changes:</p>
