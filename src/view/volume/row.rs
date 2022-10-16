@@ -19,7 +19,7 @@ mod imp {
         #[template_child]
         pub(super) writable_switch: TemplateChild<gtk::Switch>,
         #[template_child]
-        pub(super) selinux_combo_box: TemplateChild<gtk::ComboBoxText>,
+        pub(super) selinux_drop_down: TemplateChild<gtk::DropDown>,
         #[template_child]
         pub(super) host_path_entry: TemplateChild<gtk::Entry>,
         #[template_child]
@@ -124,21 +124,21 @@ impl Row {
             bindings.push(binding);
 
             let binding = volume
-                .bind_property("selinux", &*imp.selinux_combo_box, "active")
+                .bind_property("selinux", &*imp.selinux_drop_down, "selected")
                 .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
                 .transform_to(|_, value| {
                     Some(
                         match value.get::<model::VolumeSELinux>().unwrap() {
-                            model::VolumeSELinux::NoLabel => 0,
-                            model::VolumeSELinux::Shared => 1,
-                            model::VolumeSELinux::Private => 2,
+                            model::VolumeSELinux::NoLabel => 0_u32,
+                            model::VolumeSELinux::Shared => 1_u32,
+                            model::VolumeSELinux::Private => 2_u32,
                         }
                         .to_value(),
                     )
                 })
                 .transform_from(|_, value| {
                     Some(
-                        match value.get::<i32>().unwrap() {
+                        match value.get::<u32>().unwrap() {
                             0 => model::VolumeSELinux::NoLabel,
                             1 => model::VolumeSELinux::Shared,
                             _ => model::VolumeSELinux::Private,
