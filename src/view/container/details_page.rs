@@ -19,7 +19,6 @@ const ACTION_KILL: &str = "container-details-page.kill";
 const ACTION_RESTART: &str = "container-details-page.restart";
 const ACTION_PAUSE: &str = "container-details-page.pause";
 const ACTION_RESUME: &str = "container-details-page.resume";
-const ACTION_COMMIT: &str = "container-details-page.commit";
 const ACTION_DELETE: &str = "container-details-page.delete";
 
 const ACTION_INSPECT: &str = "container-details-page.inspect";
@@ -96,9 +95,6 @@ mod imp {
             });
             klass.install_action(ACTION_RESUME, None, move |widget, _, _| {
                 super::super::resume(widget.upcast_ref());
-            });
-            klass.install_action(ACTION_COMMIT, None, move |widget, _, _| {
-                super::super::commit(widget.upcast_ref());
             });
             klass.install_action(ACTION_DELETE, None, move |widget, _, _| {
                 super::super::delete(widget.upcast_ref());
