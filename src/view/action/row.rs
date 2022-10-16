@@ -96,9 +96,9 @@ mod imp {
 
                     match type_ {
                         PruneImages => "larger-brush-symbolic",
-                        DownloadImage | BuildImage => "image-x-generic-symbolic",
-                        Container => "package-x-generic-symbolic",
-                        Pod => "pods-symbolic",
+                        DownloadImage => "folder-download-symbolic",
+                        BuildImage => "build-configure-symbolic",
+                        Container | Pod => "list-add-symbolic",
                         Undefined => unreachable!(),
                     }
                 }))
