@@ -52,7 +52,7 @@ mod imp {
         #[template_child]
         pub(super) minute_spin_button: TemplateChild<gtk::SpinButton>,
         #[template_child]
-        pub(super) period_combo_box: TemplateChild<gtk::ComboBoxText>,
+        pub(super) period_drop_down: TemplateChild<gtk::DropDown>,
         #[template_child]
         pub(super) button_prune: TemplateChild<gtk::Button>,
         #[template_child]
@@ -146,7 +146,7 @@ mod imp {
                     self.calendar.property_expression("day"),
                     self.hour_spin_button.property_expression("value"),
                     self.minute_spin_button.property_expression("value"),
-                    self.period_combo_box.property_expression("active"),
+                    self.period_drop_down.property_expression("selected"),
                 ],
                 closure!(|obj: Self::Type,
                           year: i32,
@@ -154,7 +154,7 @@ mod imp {
                           day: i32,
                           hour: f64,
                           minute: f64,
-                          period: i32| {
+                          period: u32| {
                     glib::DateTime::from_local(
                         year,
                         month + 1,
@@ -206,8 +206,8 @@ mod imp {
 
             self.hour_spin_button.set_value(hour as f64);
             self.minute_spin_button.set_value(minute as f64);
-            self.period_combo_box
-                .set_active(Some(if hour < 12 { 0 } else { 1 }));
+            self.period_drop_down
+                .set_selected(if hour < 12 { 0 } else { 1 });
         }
 
         fn dispose(&self, obj: &Self::Type) {
@@ -257,7 +257,7 @@ impl PrunePage {
         match imp.desktop_settings.get::<String>("clock-format").as_str() {
             "12h" => {
                 imp.hour_adjustment.set_upper(11.0);
-                imp.period_combo_box.set_visible(true);
+                imp.period_drop_down.set_visible(true);
                 imp.time_format.set(TimeFormat::Hours12);
             }
             other => {
@@ -265,7 +265,7 @@ impl PrunePage {
                     log::warn!("Unknown time format '{other}'. Falling back to '24h'.");
                 }
                 imp.hour_adjustment.set_upper(23.0);
-                imp.period_combo_box.set_visible(false);
+                imp.period_drop_down.set_visible(false);
                 imp.time_format.set(TimeFormat::Hours24);
             }
         }
