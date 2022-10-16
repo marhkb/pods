@@ -678,12 +678,18 @@ impl CreationPage {
             if imp.pull_latest_image_switch.is_active() {
                 self.pull_and_create(image.repo_tags().first().unwrap(), run);
             } else {
-                let page =
-                    view::ActionPage::from(&self.client().unwrap().action_list().create_container(
+                let page = view::ActionPage::from(
+                    &self.client().unwrap().action_list().create_container(
                         imp.name_entry_row.text().as_str(),
+                        image
+                            .repo_tags()
+                            .first()
+                            .map(String::as_str)
+                            .unwrap_or_else(|| image.id()),
                         self.create().image(image.id()).build(),
                         run,
-                    ));
+                    ),
+                );
 
                 imp.leaflet_overlay.show_details(&page);
             }
@@ -712,6 +718,7 @@ impl CreationPage {
                 .action_list()
                 .create_container_download_image(
                     imp.name_entry_row.text().as_str(),
+                    reference,
                     pull_opts,
                     self.create(),
                     run,

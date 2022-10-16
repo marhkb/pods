@@ -21,7 +21,7 @@
         <property name="valign">center</property>
 
         <child>
-          <object class="GtkLabel" id="name_label">
+          <object class="GtkLabel" id="description_label">
             <property name="ellipsize">end</property>
             <property name="hexpand">True</property>
             <property name="single-line-mode">True</property>

@@ -25,7 +25,7 @@ mod imp {
         #[template_child]
         pub(super) type_image: TemplateChild<gtk::Image>,
         #[template_child]
-        pub(super) name_label: TemplateChild<gtk::Label>,
+        pub(super) description_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) state_label: TemplateChild<gtk::Label>,
         #[template_child]
@@ -87,7 +87,7 @@ mod imp {
 
             let action_expr = Self::Type::this_expression("action");
             let type_expr = action_expr.chain_property::<model::Action>("type");
-            let name_expr = action_expr.chain_property::<model::Action>("name");
+            let description_expr = action_expr.chain_property::<model::Action>("description");
             let state_expr = action_expr.chain_property::<model::Action>("state");
 
             type_expr
@@ -104,21 +104,7 @@ mod imp {
                 }))
                 .bind(&*self.type_image, "icon-name", Some(obj));
 
-            gtk::ClosureExpression::new::<String, _, _>(
-                &[type_expr, name_expr],
-                closure!(|_: Self::Type, type_: model::ActionType, name: String| {
-                    use model::ActionType::*;
-
-                    match type_ {
-                        PruneImages => gettext("Prune Images"),
-                        DownloadImage => gettext!("Download {}", name),
-                        BuildImage => gettext!("Build {}", name),
-                        Container | Pod => gettext!("Create {}", name),
-                        Undefined => unreachable!(),
-                    }
-                }),
-            )
-            .bind(&*self.name_label, "label", Some(obj));
+            description_expr.bind(&*self.description_label, "label", Some(obj));
 
             let classes = self.state_label.css_classes();
             state_expr

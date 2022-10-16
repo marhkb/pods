@@ -506,6 +506,7 @@ impl CreationPage {
                 .action_list()
                 .create_pod_download_infra(
                     imp.name_entry_row.text().as_str(),
+                    reference,
                     pull_opts,
                     self.create(),
                 ),
