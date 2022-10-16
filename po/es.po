@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-10-02 23:09+0200\n"
-"PO-Revision-Date: 2022-09-18 13:38+0000\n"
-"Last-Translator: Rafael Mardojai CM <mardojai.cardenas@gmail.com>\n"
+"PO-Revision-Date: 2022-10-10 18:12+0000\n"
+"Last-Translator: Óscar Fernández Díaz <oscfdezdz@tuta.io>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/pods/pods/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -68,9 +68,8 @@ msgid "Whether to show intermediate images"
 msgstr "Si se muestran las imágenes intermedias"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:46
-#, fuzzy
 msgid "The last used container file path"
-msgstr "La última vista usada"
+msgstr "La última ruta del archivo contenedor usado"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:51
 msgid "Remove all images not in use by containers, not just dangling ones"
@@ -103,47 +102,44 @@ msgid ""
 "Pods is a frontend for podman. It uses libadwaita for its user interface and "
 "strives to meet the design principles of GNOME."
 msgstr ""
+"Cápsulas es un frontend para podman. Usa libadwaita para su interfaz de "
+"usuario y se esfuerza por cumplir los principios de diseño de GNOME."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:11
 msgid "With Pods you can, among other things:"
-msgstr ""
+msgstr "Con Cápsulas puede, entre otras cosas:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:13
 msgid "Connect to local and remote Podman instances."
-msgstr ""
+msgstr "Conectar con instancias locales y remotas de Podman."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:14
-#, fuzzy
 msgid "Easily overview images, containers and pods."
-msgstr "No hay contenedores en esta cápsula."
+msgstr "Vea fácilmente las imágenes, los contenedores y las cápsulas."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:15
 msgid "View prepared information about images, containers, and pods."
-msgstr ""
+msgstr "Ver información preparada sobre imágenes, contenedores y cápsulas."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:16
-#, fuzzy
 msgid "Inspect images, containers and pods."
-msgstr "No hay contenedores en esta cápsula."
+msgstr "Inspeccionar imágenes, contenedores y cápsulas."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:17
-#, fuzzy
 msgid "View and search container logs."
-msgstr "Ver y buscar en los registros de los contenedores"
+msgstr "Ver y buscar registros de contenedores."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:18
-#, fuzzy
 msgid "Monitor processes of containers and pods."
-msgstr "No hay contenedores en esta cápsula."
+msgstr "Supervisar los procesos de los contenedores y las cápsulas."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:19
 msgid "Download images and build them using Dockerfiles."
-msgstr ""
+msgstr "Descargar imágenes y construirlas usando Dockerfiles."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:20
-#, fuzzy
 msgid "Create pods and containers."
-msgstr "_Crear contenedor"
+msgstr "Crear cápsulas y contenedores."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:21
 msgid ""
