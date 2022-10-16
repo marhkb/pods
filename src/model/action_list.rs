@@ -274,6 +274,22 @@ impl ActionList {
         ))
     }
 
+    pub(crate) fn commit_container(
+        &self,
+        image: Option<&str>,
+        container: &str,
+        api: podman::api::Container,
+        opts: podman::opts::ContainerCommitOpts,
+    ) -> model::Action {
+        self.insert_action(model::Action::commit_container(
+            self.imp().action_counter.get(),
+            image,
+            container,
+            api,
+            opts,
+        ))
+    }
+
     pub(crate) fn create_container_download_image(
         &self,
         container: &str,
