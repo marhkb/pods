@@ -73,13 +73,16 @@
                 </child>
 
                 <child>
-                  <object class="GtkComboBoxText" id="selinux_combo_box">
-                    <items>
-                      <item translatable="yes">No label</item>
-                      <item translatable="yes">Shared</item>
-                      <item translatable="yes">Private</item>
-                    </items>
-                    <property name="active">0</property>
+                  <object class="GtkDropDown" id="selinux_drop_down">
+                    <property name="model">
+                      <object class="GtkStringList">
+                        <items>
+                          <item translatable="yes">No label</item>
+                          <item translatable="yes">Shared</item>
+                          <item translatable="yes">Private</item>
+                        </items>
+                      </object>
+                    </property>
                     <property name="hexpand">True</property>
                   </object>
                 </child>

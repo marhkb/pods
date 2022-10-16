@@ -19,7 +19,7 @@ mod imp {
         #[template_child]
         pub(super) container_port_adjustment: TemplateChild<gtk::Adjustment>,
         #[template_child]
-        pub(super) protocol_combo_box: TemplateChild<gtk::ComboBoxText>,
+        pub(super) protocol_drop_down: TemplateChild<gtk::DropDown>,
         #[template_child]
         pub(super) ip_address_entry: TemplateChild<gtk::Entry>,
         #[template_child]
@@ -125,20 +125,20 @@ impl Row {
             bindings.push(binding);
 
             let binding = port_mapping
-                .bind_property("protocol", &*imp.protocol_combo_box, "active")
+                .bind_property("protocol", &*imp.protocol_drop_down, "selected")
                 .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
                 .transform_to(|_, value| {
                     Some(
                         match value.get::<model::PortMappingProtocol>().unwrap() {
-                            model::PortMappingProtocol::Tcp => 0,
-                            model::PortMappingProtocol::Udp => 1,
+                            model::PortMappingProtocol::Tcp => 0_u32,
+                            model::PortMappingProtocol::Udp => 1_u32,
                         }
                         .to_value(),
                     )
                 })
                 .transform_from(|_, value| {
                     Some(
-                        if value.get::<i32>().unwrap() == 0 {
+                        if value.get::<u32>().unwrap() == 0 {
                             model::PortMappingProtocol::Tcp
                         } else {
                             model::PortMappingProtocol::Udp

@@ -56,12 +56,15 @@
             <property name="spacing">9</property>
 
             <child>
-              <object class="GtkComboBoxText" id="protocol_combo_box">
-                <items>
-                  <item translatable="yes">TCP</item>
-                  <item translatable="yes">UDP</item>
-                </items>
-                <property name="active">0</property>
+              <object class="GtkDropDown" id="protocol_drop_down">
+                <property name="model">
+                  <object class="GtkStringList">
+                    <items>
+                      <item translatable="yes">TCP</item>
+                      <item translatable="yes">UDP</item>
+                    </items>
+                  </object>
+                </property>
               </object>
             </child>
 

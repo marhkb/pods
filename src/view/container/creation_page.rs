@@ -77,7 +77,7 @@ mod imp {
         #[template_child]
         pub(super) mem_value: TemplateChild<gtk::Adjustment>,
         #[template_child]
-        pub(super) mem_combo_box: TemplateChild<gtk::ComboBoxText>,
+        pub(super) mem_drop_down: TemplateChild<gtk::DropDown>,
         #[template_child]
         pub(super) port_mapping_list_box: TemplateChild<gtk::ListBox>,
         #[template_child]
@@ -801,7 +801,7 @@ impl CreationPage {
                     kernel_tcp: None,
                     limit: Some(
                         imp.mem_value.value() as i64
-                            * 1000_i64.pow(imp.mem_combo_box.active().map(|i| i + 1).unwrap_or(0)),
+                            * 1000_i64.pow(imp.mem_drop_down.selected() + 1),
                     ),
                     reservation: None,
                     swap: None,

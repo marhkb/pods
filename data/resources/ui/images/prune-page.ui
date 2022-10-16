@@ -145,12 +145,16 @@
                                     </child>
 
                                     <child>
-                                      <object class="GtkComboBoxText" id="period_combo_box">
+                                      <object class="GtkDropDown" id="period_drop_down">
                                         <property name="valign">center</property>
-                                        <items>
-                                          <item translatable="yes">AM</item>
-                                          <item translatable="yes">PM</item>
-                                        </items>
+                                        <property name="model">
+                                          <object class="GtkStringList">
+                                            <items>
+                                              <item translatable="yes">AM</item>
+                                              <item translatable="yes">PM</item>
+                                            </items>
+                                          </object>
+                                        </property>
                                       </object>
                                     </child>
 
