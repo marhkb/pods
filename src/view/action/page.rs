@@ -98,6 +98,7 @@ mod imp {
             self.status_page.set_icon_name(Some(match action.type_() {
                 PruneImages => "larger-brush-symbolic",
                 DownloadImage | BuildImage => "image-x-generic-symbolic",
+                Commit => "merge-symbolic",
                 Container => "package-x-generic-symbolic",
                 Pod => "pods-symbolic",
                 _ => unimplemented!(),
@@ -150,6 +151,7 @@ impl Page {
                     DownloadImage => gettext("Image Is Currently Being Downloaded"),
                     BuildImage => gettext("Image Is Currently Being Built"),
                     Container => gettext("Container Is Currently Being Created"),
+                    Commit => gettext("New Image Is Currently Being Commited"),
                     Pod => gettext("Pod Is Currently Being Created"),
                     _ => unreachable!(),
                 });
@@ -160,6 +162,7 @@ impl Page {
                     DownloadImage => gettext("Image Has Been Downloaded"),
                     BuildImage => gettext("Image Has Been Built"),
                     Container => gettext("Container Has Been Created"),
+                    Commit => gettext("New Image Has Been Commited"),
                     Pod => gettext("Pod Has Been Created"),
                     _ => unreachable!(),
                 });
@@ -170,6 +173,7 @@ impl Page {
                     DownloadImage => gettext("Image Download Has Been Aborted"),
                     BuildImage => gettext("Image Built Has Been Aborted"),
                     Container => gettext("Container Creation Has Been Aborted"),
+                    Commit => gettext("Image Commitment Has Been Aborted"),
                     Pod => gettext("Pod Creation Has Been Aborted"),
                     _ => unreachable!(),
                 });
@@ -180,6 +184,7 @@ impl Page {
                     DownloadImage => gettext("Image Download Has Failed"),
                     BuildImage => gettext("Image Built Has Failed"),
                     Container => gettext("Container Creation Has Failed"),
+                    Commit => gettext("Image Commitment Has Failed"),
                     Pod => gettext("Pod Creation Has Failed"),
                     _ => unreachable!(),
                 });
@@ -191,7 +196,7 @@ impl Page {
         self.action_set_enabled(ACTION_CANCEL, action.state() == Ongoing);
         self.action_set_enabled(
             ACTION_VIEW_IMAGE,
-            action.state() == Finished && action.type_() != PruneImages,
+            action.state() == Finished && !matches!(action.type_(), PruneImages | Commit),
         );
     }
 
