@@ -47,7 +47,7 @@ mod imp {
         pub(super) artifact: glib::WeakRef<glib::Object>,
         pub(super) num: OnceCell<u32>,
         pub(super) type_: OnceCell<Type>,
-        pub(super) name: OnceCell<String>,
+        pub(super) description: OnceCell<String>,
         pub(super) state: Cell<State>,
         pub(super) start_timestamp: OnceCell<i64>,
         pub(super) end_timestamp: OnceCell<i64>,
@@ -89,9 +89,9 @@ mod imp {
                         glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
                     ),
                     glib::ParamSpecString::new(
-                        "name",
-                        "Name",
-                        "The name of the action",
+                        "description",
+                        "Description",
+                        "The description of the action",
                         None,
                         glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
                     ),
@@ -143,7 +143,7 @@ mod imp {
             match pspec.name() {
                 "num" => self.num.set(value.get().unwrap()).unwrap(),
                 "type" => self.type_.set(value.get().unwrap()).unwrap(),
-                "name" => self.name.set(value.get().unwrap()).unwrap(),
+                "description" => self.description.set(value.get().unwrap()).unwrap(),
                 "start-timestamp" => self.start_timestamp.set(value.get().unwrap()).unwrap(),
                 "end-timestamp" => self.end_timestamp.set(value.get().unwrap()).unwrap(),
                 _ => unimplemented!(),
@@ -154,7 +154,7 @@ mod imp {
             match pspec.name() {
                 "num" => obj.num().to_value(),
                 "type" => obj.type_().to_value(),
-                "name" => obj.name().to_value(),
+                "description" => obj.description().to_value(),
                 "state" => obj.state().to_value(),
                 "start-timestamp" => obj.start_timestamp().to_value(),
                 "end-timestamp" => obj.end_timestamp().to_value(),
@@ -179,11 +179,11 @@ impl Action {
 }
 
 impl Action {
-    fn new(num: u32, type_: Type, name: &str) -> Self {
+    fn new(num: u32, type_: Type, description: &str) -> Self {
         glib::Object::new(&[
             ("num", &num),
             ("type", &type_),
-            ("name", &name),
+            ("description", &description),
             (
                 "start-timestamp",
                 &glib::DateTime::now_local().unwrap().to_unix(),
@@ -197,7 +197,7 @@ impl Action {
         client: model::Client,
         opts: podman::opts::ImagePruneOpts,
     ) -> Self {
-        let obj = Self::new(num, Type::PruneImages, "");
+        let obj = Self::new(num, Type::PruneImages, &gettext("Images: <b>Prune</b>"));
         let abort_registration = obj.setup_abort_handle();
 
         utils::do_async(
@@ -228,42 +228,43 @@ impl Action {
 
     pub(crate) fn download_image(
         num: u32,
-        name: &str,
+        image: &str,
         client: model::Client,
         opts: podman::opts::PullOpts,
     ) -> Self {
-        Self::new(num, Type::DownloadImage, name).download_image_(
-            client,
-            opts,
-            |obj, client, report| {
-                let image_id = report.id.unwrap();
-                match client.image_list().get_image(&image_id) {
-                    Some(image) => {
-                        obj.set_artifact(image.upcast_ref());
-                        obj.set_state(State::Finished);
-                    }
-                    None => {
-                        client.image_list().connect_image_added(
-                            clone!(@weak obj => move |_, image| {
-                                if image.id() == image_id.as_str() {
-                                    obj.set_artifact(image.upcast_ref());
-                                    obj.set_state(State::Finished);
-                                }
-                            }),
-                        );
-                    }
-                }
-            },
+        Self::new(
+            num,
+            Type::DownloadImage,
+            &gettext!("Image: <b>{}</b>", image),
         )
+        .download_image_(client, opts, |obj, client, report| {
+            let image_id = report.id.unwrap();
+            match client.image_list().get_image(&image_id) {
+                Some(image) => {
+                    obj.set_artifact(image.upcast_ref());
+                    obj.set_state(State::Finished);
+                }
+                None => {
+                    client
+                        .image_list()
+                        .connect_image_added(clone!(@weak obj => move |_, image| {
+                            if image.id() == image_id.as_str() {
+                                obj.set_artifact(image.upcast_ref());
+                                obj.set_state(State::Finished);
+                            }
+                        }));
+                }
+            }
+        })
     }
 
     pub(crate) fn build_image(
         num: u32,
-        name: &str,
+        image: &str,
         client: model::Client,
         opts: podman::opts::ImageBuildOpts,
     ) -> Self {
-        let obj = Self::new(num, Type::BuildImage, name);
+        let obj = Self::new(num, Type::BuildImage, &gettext!("Image: <b>{}</b>", image));
         let abort_registration = obj.setup_abort_handle();
 
         obj.insert_text(&gettext("Generating tarball of context directory..."));
@@ -329,48 +330,57 @@ impl Action {
 
     pub(crate) fn create_container(
         num: u32,
-        name: &str,
+        container: &str,
+        image: &str,
         client: model::Client,
         opts: podman::opts::ContainerCreateOpts,
         run: bool,
     ) -> Self {
-        Self::new(num, Type::Container, name).create_container_(client, opts, run)
+        Self::new(
+            num,
+            Type::Container,
+            &gettext!("Container: <b>{}</b> ← {}", container, image),
+        )
+        .create_container_(client, opts, run)
     }
 
     pub(crate) fn create_container_download_image(
         num: u32,
-        name: &str,
+        container: &str,
+        image: &str,
         client: model::Client,
         pull_opts: podman::opts::PullOpts,
         create_opts_builder: podman::opts::ContainerCreateOptsBuilder,
         run: bool,
     ) -> Self {
-        Self::new(num, Type::Container, name).download_image_(
-            client,
-            pull_opts,
-            move |obj, client, report| {
-                obj.create_container_(client, create_opts_builder.image(report.id).build(), run);
-            },
+        Self::new(
+            num,
+            Type::Container,
+            &gettext!("Container: <b>{}</b> ← {}", container, image),
         )
+        .download_image_(client, pull_opts, move |obj, client, report| {
+            obj.create_container_(client, create_opts_builder.image(report.id).build(), run);
+        })
     }
 
     pub(crate) fn create_pod(
         num: u32,
-        name: &str,
+        pod: &str,
         client: model::Client,
         opts: podman::opts::PodCreateOpts,
     ) -> Self {
-        Self::new(num, Type::Pod, name).create_pod_(client, opts)
+        Self::new(num, Type::Pod, &gettext!("Pod: <b>{}</b>", pod)).create_pod_(client, opts)
     }
 
     pub(crate) fn create_pod_download_infra(
         num: u32,
-        name: &str,
+        pod: &str,
+        image: &str,
         client: model::Client,
         pull_opts: podman::opts::PullOpts,
         create_opts_builder: podman::opts::PodCreateOptsBuilder,
     ) -> Self {
-        Self::new(num, Type::Pod, name).download_image_(
+        Self::new(num, Type::Pod, &gettext!("Pod: <b>{}</b> ← {}", pod, image)).download_image_(
             client,
             pull_opts,
             move |obj, client, report| {
@@ -559,8 +569,8 @@ impl Action {
         *self.imp().type_.get().unwrap()
     }
 
-    pub(crate) fn name(&self) -> &str {
-        self.imp().name.get().unwrap()
+    pub(crate) fn description(&self) -> &str {
+        self.imp().description.get().unwrap()
     }
 
     pub(crate) fn state(&self) -> State {

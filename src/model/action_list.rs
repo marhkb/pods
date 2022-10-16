@@ -259,13 +259,15 @@ impl ActionList {
 
     pub(crate) fn create_container(
         &self,
-        name: &str,
+        container: &str,
+        image: &str,
         opts: podman::opts::ContainerCreateOpts,
         run: bool,
     ) -> model::Action {
         self.insert_action(model::Action::create_container(
             self.imp().action_counter.get(),
-            name,
+            container,
+            image,
             self.client().unwrap(),
             opts,
             run,
@@ -274,14 +276,16 @@ impl ActionList {
 
     pub(crate) fn create_container_download_image(
         &self,
-        name: &str,
+        container: &str,
+        image: &str,
         pull_opts: podman::opts::PullOpts,
         create_opts_builder: podman::opts::ContainerCreateOptsBuilder,
         run: bool,
     ) -> model::Action {
         self.insert_action(model::Action::create_container_download_image(
             self.imp().action_counter.get(),
-            name,
+            container,
+            image,
             self.client().unwrap(),
             pull_opts,
             create_opts_builder,
@@ -289,14 +293,10 @@ impl ActionList {
         ))
     }
 
-    pub(crate) fn create_pod(
-        &self,
-        name: &str,
-        opts: podman::opts::PodCreateOpts,
-    ) -> model::Action {
+    pub(crate) fn create_pod(&self, pod: &str, opts: podman::opts::PodCreateOpts) -> model::Action {
         self.insert_action(model::Action::create_pod(
             self.imp().action_counter.get(),
-            name,
+            pod,
             self.client().unwrap(),
             opts,
         ))
@@ -304,13 +304,15 @@ impl ActionList {
 
     pub(crate) fn create_pod_download_infra(
         &self,
-        name: &str,
+        pod: &str,
+        image: &str,
         pull_opts: podman::opts::PullOpts,
         create_opts_builder: podman::opts::PodCreateOptsBuilder,
     ) -> model::Action {
         self.insert_action(model::Action::create_pod_download_infra(
             self.imp().action_counter.get(),
-            name,
+            pod,
+            image,
             self.client().unwrap(),
             pull_opts,
             create_opts_builder,
