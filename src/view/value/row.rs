@@ -1,6 +1,7 @@
 use std::cell::RefCell;
 
 use adw::subclass::prelude::*;
+use gettextrs::gettext;
 use gtk::glib;
 use gtk::prelude::*;
 use gtk::CompositeTemplate;
@@ -8,29 +9,29 @@ use once_cell::sync::Lazy;
 
 use crate::model;
 
-const ACTION_REMOVE: &str = "cmd-arg-row.remove";
+const ACTION_REMOVE: &str = "value-row.remove";
 
 mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(resource = "/com/github/marhkb/Pods/ui/cmd-arg/row.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/value/row.ui")]
     pub(crate) struct Row {
-        pub(super) arg: RefCell<Option<model::CmdArg>>,
+        pub(super) value: RefCell<Option<model::Value>>,
         pub(super) bindings: RefCell<Vec<glib::Binding>>,
     }
 
     #[glib::object_subclass]
     impl ObjectSubclass for Row {
-        const NAME: &'static str = "PdsCmdArgRow";
+        const NAME: &'static str = "PdsValueRow";
         type Type = super::Row;
         type ParentType = adw::EntryRow;
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
             klass.install_action(ACTION_REMOVE, None, |widget, _, _| {
-                if let Some(cmd_arg) = widget.cmd_arg() {
-                    cmd_arg.remove_request();
+                if let Some(value) = widget.value() {
+                    value.remove_request();
                 }
             });
         }
@@ -44,10 +45,10 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![glib::ParamSpecObject::new(
-                    "arg",
-                    "Arg",
-                    "The command argument",
-                    model::CmdArg::static_type(),
+                    "value",
+                    "Value",
+                    "The value",
+                    model::Value::static_type(),
                     glib::ParamFlags::READWRITE
                         | glib::ParamFlags::CONSTRUCT
                         | glib::ParamFlags::EXPLICIT_NOTIFY,
@@ -64,14 +65,14 @@ mod imp {
             pspec: &glib::ParamSpec,
         ) {
             match pspec.name() {
-                "arg" => obj.set_cmd_arg(value.get().unwrap_or_default()),
-                _ => unimplemented!(),
+                "value" => obj.set_value(value.get().unwrap_or_default()),
+                other => unimplemented!("{other}"),
             }
         }
 
         fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "arg" => obj.cmd_arg().to_value(),
+                "value" => obj.value().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -89,19 +90,24 @@ glib::wrapper! {
         @implements gtk::Accessible, gtk::Actionable, gtk::Buildable, gtk::ConstraintTarget, gtk::Editable;
 }
 
-impl From<&model::CmdArg> for Row {
-    fn from(cmd_arg: &model::CmdArg) -> Self {
-        glib::Object::new(&[("arg", &cmd_arg)]).expect("Failed to create PdsCmdArgRow")
+impl From<&model::Value> for Row {
+    fn from(value: &model::Value) -> Self {
+        Self::new(value, &gettext("Value"))
     }
 }
 
 impl Row {
-    pub(crate) fn cmd_arg(&self) -> Option<model::CmdArg> {
-        self.imp().arg.borrow().to_owned()
+    pub fn new(value: &model::Value, title: impl Into<String>) -> Self {
+        glib::Object::new(&[("value", &value), ("title", &title.into())])
+            .expect("Failed to create PdsValueRow")
     }
 
-    pub(crate) fn set_cmd_arg(&self, value: Option<model::CmdArg>) {
-        if self.cmd_arg() == value {
+    pub(crate) fn value(&self) -> Option<model::Value> {
+        self.imp().value.borrow().to_owned()
+    }
+
+    pub(crate) fn set_value(&self, value: Option<model::Value>) {
+        if self.value() == value {
             return;
         }
 
@@ -112,15 +118,15 @@ impl Row {
             binding.unbind();
         }
 
-        if let Some(ref cmd_arg) = value {
-            let binding = cmd_arg
-                .bind_property("arg", self, "text")
+        if let Some(ref value) = value {
+            let binding = value
+                .bind_property("value", self, "text")
                 .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
                 .build();
             bindings.push(binding);
         }
 
-        imp.arg.replace(value);
-        self.notify("arg");
+        imp.value.replace(value);
+        self.notify("value");
     }
 }

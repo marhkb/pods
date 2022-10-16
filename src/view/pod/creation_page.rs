@@ -255,7 +255,7 @@ mod imp {
             self.pod_create_command_arg_list_box.bind_model(
                 Some(&*self.pod_create_cmd_args.borrow()),
                 |item| {
-                    view::CmdArgRow::from(item.downcast_ref::<model::CmdArg>().unwrap()).upcast()
+                    view::ValueRow::new(item.downcast_ref().unwrap(), gettext("Argument")).upcast()
                 },
             );
             self.pod_create_command_arg_list_box.append(
@@ -275,7 +275,7 @@ mod imp {
             self.infra_command_arg_list_box.bind_model(
                 Some(&*self.infra_cmd_args.borrow()),
                 |item| {
-                    view::CmdArgRow::from(item.downcast_ref::<model::CmdArg>().unwrap()).upcast()
+                    view::ValueRow::new(item.downcast_ref().unwrap(), gettext("Argument")).upcast()
                 },
             );
             self.infra_command_arg_list_box.append(
@@ -425,13 +425,13 @@ impl CreationPage {
     }
 
     fn add_pod_create_cmd_arg(&self) {
-        let arg = model::CmdArg::default();
+        let arg = model::Value::default();
         self.connect_pod_create_cmd_arg(&arg);
 
         self.imp().pod_create_cmd_args.borrow().append(&arg);
     }
 
-    fn connect_pod_create_cmd_arg(&self, cmd_arg: &model::CmdArg) {
+    fn connect_pod_create_cmd_arg(&self, cmd_arg: &model::Value) {
         cmd_arg.connect_remove_request(clone!(@weak self as obj => move |cmd_arg| {
             let imp = obj.imp();
 
@@ -443,13 +443,13 @@ impl CreationPage {
     }
 
     fn add_infra_cmd_arg(&self) {
-        let arg = model::CmdArg::default();
+        let arg = model::Value::default();
         self.connect_infra_cmd_arg(&arg);
 
         self.imp().infra_cmd_args.borrow().append(&arg);
     }
 
-    fn connect_infra_cmd_arg(&self, cmd_arg: &model::CmdArg) {
+    fn connect_infra_cmd_arg(&self, cmd_arg: &model::Value) {
         cmd_arg.connect_remove_request(clone!(@weak self as obj => move |cmd_arg| {
             let imp = obj.imp();
 
@@ -548,9 +548,9 @@ impl CreationPage {
                     .infra_cmd_args
                     .borrow()
                     .to_owned()
-                    .to_typed_list_model::<model::CmdArg>()
+                    .to_typed_list_model::<model::Value>()
                     .into_iter()
-                    .map(|arg| arg.arg());
+                    .map(|arg| arg.value());
                 let mut cmd = vec![infra_command.to_string()];
                 cmd.extend(args);
                 opts = opts.infra_command(cmd);
@@ -580,9 +580,9 @@ impl CreationPage {
                 .pod_create_cmd_args
                 .borrow()
                 .to_owned()
-                .to_typed_list_model::<model::CmdArg>()
+                .to_typed_list_model::<model::Value>()
                 .into_iter()
-                .map(|arg| arg.arg());
+                .map(|arg| arg.value());
             let mut cmd = vec![create_cmd.to_string()];
             cmd.extend(args);
             opts = opts.pod_create_command(cmd);
