@@ -66,7 +66,7 @@ mod imp {
             });
 
             klass.install_action(ACTION_COMMIT, None, move |widget, _, _| {
-                super::super::commit(widget.upcast_ref());
+                widget.commit();
             });
 
             klass.install_action(ACTION_DELETE, None, move |widget, _, _| {
@@ -209,5 +209,12 @@ impl MenuButton {
         let dialog = view::ContainerRenameDialog::from(self.container());
         dialog.set_transient_for(Some(&utils::root(self)));
         dialog.present();
+    }
+
+    fn commit(&self) {
+        if let Some(container) = self.container() {
+            utils::find_leaflet_overlay(self)
+                .show_details(&view::ContainerCommitPage::from(&container));
+        }
     }
 }
