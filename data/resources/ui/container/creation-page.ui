@@ -236,13 +236,17 @@
                                                     </child>
 
                                                     <child>
-                                                      <object class="GtkComboBoxText" id="mem_combo_box">
-                                                        <items>
-                                                          <item translatable="yes">KB</item>
-                                                          <item translatable="yes">MB</item>
-                                                          <item translatable="yes">GB</item>
-                                                        </items>
-                                                        <property name="active">1</property>
+                                                      <object class="GtkDropDown" id="mem_drop_down">
+                                                        <property name="model">
+                                                          <object class="GtkStringList">
+                                                            <items>
+                                                              <item translatable="yes">KB</item>
+                                                              <item translatable="yes">MB</item>
+                                                              <item translatable="yes">GB</item>
+                                                            </items>
+                                                          </object>
+                                                        </property>
+                                                        <property name="selected">1</property>
                                                         <property name="valign">center</property>
                                                       </object>
                                                     </child>
