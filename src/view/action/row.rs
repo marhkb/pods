@@ -98,6 +98,7 @@ mod imp {
                         PruneImages => "larger-brush-symbolic",
                         DownloadImage => "folder-download-symbolic",
                         BuildImage => "build-configure-symbolic",
+                        Commit => "merge-symbolic",
                         Container | Pod => "list-add-symbolic",
                         _ => unreachable!(),
                     }
