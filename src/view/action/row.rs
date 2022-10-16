@@ -99,7 +99,7 @@ mod imp {
                         DownloadImage => "folder-download-symbolic",
                         BuildImage => "build-configure-symbolic",
                         Container | Pod => "list-add-symbolic",
-                        Undefined => unreachable!(),
+                        _ => unreachable!(),
                     }
                 }))
                 .bind(&*self.type_image, "icon-name", Some(obj));

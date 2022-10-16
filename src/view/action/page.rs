@@ -151,7 +151,7 @@ impl Page {
                     BuildImage => gettext("Image Is Currently Being Built"),
                     Container => gettext("Container Is Currently Being Created"),
                     Pod => gettext("Pod Is Currently Being Created"),
-                    Undefined => unreachable!(),
+                    _ => unreachable!(),
                 });
             }
             Finished => {
@@ -161,7 +161,7 @@ impl Page {
                     BuildImage => gettext("Image Has Been Built"),
                     Container => gettext("Container Has Been Created"),
                     Pod => gettext("Pod Has Been Created"),
-                    Undefined => unreachable!(),
+                    _ => unreachable!(),
                 });
             }
             Cancelled => {
@@ -171,7 +171,7 @@ impl Page {
                     BuildImage => gettext("Image Built Has Been Aborted"),
                     Container => gettext("Container Creation Has Been Aborted"),
                     Pod => gettext("Pod Creation Has Been Aborted"),
-                    Undefined => unreachable!(),
+                    _ => unreachable!(),
                 });
             }
             Failed => {
@@ -181,7 +181,7 @@ impl Page {
                     BuildImage => gettext("Image Built Has Failed"),
                     Container => gettext("Container Creation Has Failed"),
                     Pod => gettext("Pod Creation Has Failed"),
-                    Undefined => unreachable!(),
+                    _ => unreachable!(),
                 });
             }
         }

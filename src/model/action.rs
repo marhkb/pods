@@ -1,3 +1,4 @@
+use std::borrow::Cow;
 use std::cell::Cell;
 use std::cell::RefCell;
 
@@ -32,6 +33,7 @@ pub(crate) enum Type {
     PruneImages,
     DownloadImage,
     BuildImage,
+    Commit,
     Container,
     Pod,
     #[default]
@@ -342,6 +344,45 @@ impl Action {
             &gettext!("Container: <b>{}</b> ← {}", container, image),
         )
         .create_container_(client, opts, run)
+    }
+
+    pub(crate) fn commit_container(
+        num: u32,
+        image: Option<&str>,
+        container: &str,
+        api: podman::api::Container,
+        opts: podman::opts::ContainerCommitOpts,
+    ) -> Self {
+        let obj = Self::new(
+            num,
+            Type::Commit,
+            &gettext!(
+                "Image: <b>{}</b> ← {}",
+                image
+                    .map(Cow::Borrowed)
+                    .unwrap_or_else(|| Cow::Owned(format!("<i>&lt;{}&gt;</i>", gettext("none")))),
+                container
+            ),
+        );
+        let abort_registration = obj.setup_abort_handle();
+
+        utils::do_async(
+            async move { stream::Abortable::new(api.commit(&opts), abort_registration).await },
+            clone!(@weak obj => move |result| if let Ok(result) = result {
+                match result.as_ref() {
+                    Ok(_) => {
+                        obj.insert_text(&gettext("Finished"));
+                        obj.set_state(State::Finished);
+                    },
+                    Err(e) => {
+                        obj.insert_text(&e.to_string());
+                        obj.set_state(State::Failed);
+                    }
+                }
+            }),
+        );
+
+        obj
     }
 
     pub(crate) fn create_container_download_image(
