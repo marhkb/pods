@@ -1,7 +1,7 @@
 project(
   'pods',
   'rust',
-  version: '1.0.0-beta.5',
+  version: '1.0.0-beta.6',
   meson_version: '>= 0.59',
   # license: MIT,
 )
