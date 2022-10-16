@@ -134,10 +134,18 @@ jobs:
         run: xz -z pods-${{ github.ref_name }}.tar
       - name: Generate checksum
         run: sha256sum pods-${{ github.ref_name }}.tar.xz > pods-${{ github.ref_name }}.tar.xz.sha256sum
+      - name: Install xmllint
+        run: sudo apt-get install -y libxml2-utils
+      - name: Extract release notes
+        run: |
+          echo 'RELEASE_NOTES<<EOF' >> $GITHUB_ENV
+          xmllint --xpath '//release[1]/description' data/com.github.marhkb.Pods.metainfo.xml.in.in | xmllint --format - >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           draft: true
+          body: ${{ env.RELEASE_NOTES }}
           prerelease: ${{ contains(github.ref, 'beta') }}
           files: |
             pods-${{ github.ref_name }}.tar.xz
