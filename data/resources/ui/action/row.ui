@@ -24,8 +24,8 @@
           <object class="GtkLabel" id="name_label">
             <property name="ellipsize">end</property>
             <property name="hexpand">True</property>
-            <property name="max-width-chars">32</property>
             <property name="single-line-mode">True</property>
+            <property name="use-markup">true</property>
             <property name="vexpand">True</property>
             <property name="xalign">0.0</property>
           </object>
@@ -38,7 +38,6 @@
             </style>
             <property name="ellipsize">end</property>
             <property name="hexpand">True</property>
-            <property name="max-width-chars">32</property>
             <property name="single-line-mode">True</property>
             <property name="vexpand">True</property>
             <property name="xalign">0.0</property>
