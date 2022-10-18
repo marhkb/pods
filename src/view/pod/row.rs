@@ -122,14 +122,14 @@ mod imp {
 
             pod_expr
                 .chain_property::<model::Pod>("name")
-                .chain_closure::<String>(closure!(|_: glib::Object, name: Option<String>| {
+                .chain_closure::<String>(closure!(|_: Self::Type, name: Option<String>| {
                     utils::escape(&utils::format_option(name))
                 }))
                 .bind(obj, "title", Some(obj));
 
             pod_expr
                 .chain_property::<model::Pod>("id")
-                .chain_closure::<String>(closure!(|_: glib::Object, id: &str| {
+                .chain_closure::<String>(closure!(|_: Self::Type, id: &str| {
                     id.chars().take(12).collect::<String>()
                 }))
                 .bind(obj, "subtitle", Some(obj));

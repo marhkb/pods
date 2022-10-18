@@ -70,7 +70,7 @@ mod imp {
 
             Self::Type::this_expression("image-search-response")
                 .chain_property::<model::ImageSearchResponse>("description")
-                .chain_closure::<bool>(closure!(|_: glib::Object, description: Option<&str>| {
+                .chain_closure::<bool>(closure!(|_: Self::Type, description: Option<&str>| {
                     !description.map(str::is_empty).unwrap_or(true)
                 }))
                 .bind(&*self.description_label, "visible", Some(obj));

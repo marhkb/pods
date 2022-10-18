@@ -127,7 +127,7 @@ mod imp {
 
             container_expr
                 .chain_property::<model::Container>("id")
-                .chain_closure::<String>(closure!(|_: glib::Object, id: &str| {
+                .chain_closure::<String>(closure!(|_: Self::Type, id: &str| {
                     id.chars().take(12).collect::<String>()
                 }))
                 .bind(&*self.id_row, "value", Some(obj));
@@ -145,7 +145,7 @@ mod imp {
 
             port_bindings_expr
                 .chain_closure::<String>(closure!(
-                    |_: glib::Object, port_bindings: utils::BoxedStringVec| {
+                    |_: Self::Type, port_bindings: utils::BoxedStringVec| {
                         port_bindings
                             .iter()
                             .map(|host_port| {
@@ -159,8 +159,7 @@ mod imp {
 
             port_bindings_expr
                 .chain_closure::<bool>(closure!(
-                    |_: glib::Object, port_bindings: utils::BoxedStringVec| !port_bindings
-                        .is_empty()
+                    |_: Self::Type, port_bindings: utils::BoxedStringVec| !port_bindings.is_empty()
                 ))
                 .bind(&*self.port_bindings_row, "visible", Some(obj));
 
@@ -192,14 +191,14 @@ mod imp {
 
             status_expr
                 .chain_closure::<String>(closure!(
-                    |_: glib::Object, status: model::ContainerStatus| status.to_string()
+                    |_: Self::Type, status: model::ContainerStatus| status.to_string()
                 ))
                 .bind(&*self.status_label, "label", Some(obj));
 
             let css_classes = self.status_label.css_classes();
             status_expr
                 .chain_closure::<Vec<String>>(closure!(
-                    |_: glib::Object, status: model::ContainerStatus| {
+                    |_: Self::Type, status: model::ContainerStatus| {
                         css_classes
                             .iter()
                             .cloned()
@@ -227,14 +226,14 @@ mod imp {
 
             health_status_expr
                 .chain_closure::<String>(closure!(
-                    |_: glib::Object, status: model::ContainerHealthStatus| status.to_string()
+                    |_: Self::Type, status: model::ContainerHealthStatus| status.to_string()
                 ))
                 .bind(&*self.health_status_label, "label", Some(obj));
 
             let css_classes = self.status_label.css_classes();
             health_status_expr
                 .chain_closure::<Vec<String>>(closure!(
-                    |_: glib::Object, status: model::ContainerHealthStatus| {
+                    |_: Self::Type, status: model::ContainerHealthStatus| {
                         css_classes
                             .iter()
                             .cloned()
@@ -252,7 +251,7 @@ mod imp {
                     image_expr.chain_property::<model::Image>("id"),
                 ],
                 closure!(
-                    |_: glib::Object, repo_tags: utils::BoxedStringVec, id: &str| {
+                    |_: Self::Type, repo_tags: utils::BoxedStringVec, id: &str| {
                         repo_tags
                             .iter()
                             .next()
@@ -274,24 +273,22 @@ mod imp {
             );
 
             image_expr
-                .chain_closure::<String>(closure!(
-                    |_: glib::Object, image: Option<model::Image>| {
-                        match image {
-                            None => "waiting",
-                            Some(_) => "ready",
-                        }
+                .chain_closure::<String>(closure!(|_: Self::Type, image: Option<model::Image>| {
+                    match image {
+                        None => "waiting",
+                        Some(_) => "ready",
                     }
-                ))
+                }))
                 .bind(&*self.image_action_stack, "visible-child-name", Some(obj));
 
             pod_expr
-                .chain_closure::<bool>(closure!(|_: glib::Object, pod: Option<model::Pod>| {
+                .chain_closure::<bool>(closure!(|_: Self::Type, pod: Option<model::Pod>| {
                     pod.is_some()
                 }))
                 .bind(&*self.pod_row, "visible", Some(obj));
 
             pod_expr
-                .chain_closure::<String>(closure!(|_: glib::Object, pod: Option<model::Pod>| {
+                .chain_closure::<String>(closure!(|_: Self::Type, pod: Option<model::Pod>| {
                     pod.as_ref().map(model::Pod::name).unwrap_or_default()
                 }))
                 .bind(&*self.pod_label, "label", Some(obj));

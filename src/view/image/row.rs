@@ -95,7 +95,7 @@ mod imp {
 
             repo_tags_expr
                 .chain_closure::<String>(closure!(
-                    |_: glib::Object, repo_tags: utils::BoxedStringVec| {
+                    |_: Self::Type, repo_tags: utils::BoxedStringVec| {
                         utils::escape(&utils::format_option(repo_tags.iter().next()))
                     }
                 ))
@@ -107,29 +107,29 @@ mod imp {
                     repo_tags_expr,
                     image_expr.chain_property::<model::Image>("to-be-deleted"),
                 ],
-                closure!(|_: glib::Object,
-                          repo_tags: utils::BoxedStringVec,
-                          to_be_deleted: bool| {
-                    repo_tags
-                        .iter()
-                        .next()
-                        .map(|_| None)
-                        .unwrap_or_else(|| Some(glib::GString::from("image-tag-none")))
-                        .into_iter()
-                        .chain(if to_be_deleted {
-                            Some(glib::GString::from("image-to-be-deleted"))
-                        } else {
-                            None
-                        })
-                        .chain(css_classes.iter().cloned())
-                        .collect::<Vec<_>>()
-                }),
+                closure!(
+                    |_: Self::Type, repo_tags: utils::BoxedStringVec, to_be_deleted: bool| {
+                        repo_tags
+                            .iter()
+                            .next()
+                            .map(|_| None)
+                            .unwrap_or_else(|| Some(glib::GString::from("image-tag-none")))
+                            .into_iter()
+                            .chain(if to_be_deleted {
+                                Some(glib::GString::from("image-to-be-deleted"))
+                            } else {
+                                None
+                            })
+                            .chain(css_classes.iter().cloned())
+                            .collect::<Vec<_>>()
+                    }
+                ),
             )
             .bind(obj, "css-classes", Some(obj));
 
             image_expr
                 .chain_property::<model::Image>("id")
-                .chain_closure::<String>(closure!(|_: glib::Object, id: &str| {
+                .chain_closure::<String>(closure!(|_: Self::Type, id: &str| {
                     id.chars().take(12).collect::<String>()
                 }))
                 .bind(obj, "subtitle", Some(obj));

@@ -159,7 +159,7 @@ mod imp {
 
             pod_expr
                 .chain_property::<model::Pod>("id")
-                .chain_closure::<String>(closure!(|_: glib::Object, id: &str| {
+                .chain_closure::<String>(closure!(|_: Self::Type, id: &str| {
                     id.chars().take(12).collect::<String>()
                 }))
                 .bind(&*self.id_row, "value", Some(obj));
@@ -178,7 +178,7 @@ mod imp {
             .bind(&*self.created_row, "value", Some(obj));
 
             status_expr
-                .chain_closure::<String>(closure!(|_: glib::Object, status: model::PodStatus| {
+                .chain_closure::<String>(closure!(|_: Self::Type, status: model::PodStatus| {
                     status.to_string()
                 }))
                 .bind(&*self.status_label, "label", Some(obj));
@@ -186,7 +186,7 @@ mod imp {
             let css_classes = self.status_label.css_classes();
             status_expr
                 .chain_closure::<Vec<String>>(closure!(
-                    |_: glib::Object, status: model::PodStatus| {
+                    |_: Self::Type, status: model::PodStatus| {
                         css_classes
                             .iter()
                             .cloned()
@@ -201,7 +201,7 @@ mod imp {
             hostname_expr.bind(&*self.hostname_row, "value", Some(obj));
             hostname_expr
                 .chain_closure::<bool>(closure!(
-                    |_: glib::Object, hostname: String| !hostname.is_empty()
+                    |_: Self::Type, hostname: String| !hostname.is_empty()
                 ))
                 .bind(&*self.hostname_row, "visible", Some(obj));
 

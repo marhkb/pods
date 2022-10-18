@@ -132,7 +132,7 @@ mod imp {
 
             container_expr
                 .chain_property::<model::Container>("action-ongoing")
-                .chain_closure::<String>(closure!(|_: glib::Object, action_ongoing: bool| {
+                .chain_closure::<String>(closure!(|_: Self::Type, action_ongoing: bool| {
                     if action_ongoing {
                         "ongoing"
                     } else {

@@ -197,7 +197,7 @@ mod imp {
 
             gtk::ClosureExpression::new::<String>(
                 &[image_list_expr, image_list_len_expr],
-                closure!(|_: glib::Object, list: Option<model::ImageList>, _: u32| {
+                closure!(|_: Self::Type, list: Option<model::ImageList>, _: u32| {
                     match list {
                         Some(list) => {
                             let len = list.n_items();

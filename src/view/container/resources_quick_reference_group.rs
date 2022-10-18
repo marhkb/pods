@@ -94,7 +94,7 @@ mod imp {
 
             stats_expr
                 .chain_closure::<String>(closure!(
-                    |_: glib::Object, stats: Option<model::BoxedContainerStats>| {
+                    |_: Self::Type, stats: Option<model::BoxedContainerStats>| {
                         gettext!(
                             "{} %",
                             stats
@@ -113,7 +113,7 @@ mod imp {
 
             stats_expr
                 .chain_closure::<String>(closure!(
-                    |_: glib::Object, stats: Option<model::BoxedContainerStats>| {
+                    |_: Self::Type, stats: Option<model::BoxedContainerStats>| {
                         stats
                             .map(|stats| {
                                 gettext!(
@@ -215,11 +215,10 @@ impl ResourcesQuickReferenceGroup {
         );
 
         let classes = progress_bar.css_classes();
-        stats_expr
-            .chain_closure::<Vec<String>>(closure_local!(|_: glib::Object,
-                                                          stats: Option<
-                model::BoxedContainerStats,
-            >| {
+
+        #[rustfmt::skip]
+        stats_expr.chain_closure::<Vec<String>>(
+            closure_local!(|_: Self, stats: Option<model::BoxedContainerStats>| {
                 classes
                     .iter()
                     .cloned()
@@ -237,8 +236,9 @@ impl ResourcesQuickReferenceGroup {
                         })
                     }))
                     .collect::<Vec<_>>()
-            }))
-            .bind(progress_bar, "css-classes", Some(self));
+            })
+        )
+        .bind(progress_bar, "css-classes", Some(self));
     }
 
     fn bind_stats_throughput<F>(

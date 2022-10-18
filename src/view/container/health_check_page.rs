@@ -118,14 +118,14 @@ mod imp {
 
             health_status_expr
                 .chain_closure::<String>(closure!(
-                    |_: glib::Object, status: model::ContainerHealthStatus| status.to_string()
+                    |_: Self::Type, status: model::ContainerHealthStatus| status.to_string()
                 ))
                 .bind(&*self.status_label, "label", Some(obj));
 
             let css_classes = self.status_label.css_classes();
             health_status_expr
                 .chain_closure::<Vec<String>>(closure!(
-                    |_: glib::Object, status: model::ContainerHealthStatus| {
+                    |_: Self::Type, status: model::ContainerHealthStatus| {
                         css_classes
                             .iter()
                             .cloned()

@@ -139,21 +139,21 @@ mod imp {
 
             container_expr
                 .chain_property::<model::Container>("name")
-                .chain_closure::<String>(closure!(|_: glib::Object, name: Option<String>| {
+                .chain_closure::<String>(closure!(|_: Self::Type, name: Option<String>| {
                     utils::escape(&utils::format_option(name))
                 }))
                 .bind(obj, "title", Some(obj));
 
             container_expr
                 .chain_property::<model::Container>("image-name")
-                .chain_closure::<String>(closure!(|_: glib::Object, name: Option<String>| {
+                .chain_closure::<String>(closure!(|_: Self::Type, name: Option<String>| {
                     utils::escape(&utils::format_option(name))
                 }))
                 .bind(obj, "subtitle", Some(obj));
 
             status_expr
                 .chain_closure::<bool>(closure!(
-                    |_: glib::Object, status: model::ContainerStatus| matches!(
+                    |_: Self::Type, status: model::ContainerStatus| matches!(
                         status,
                         model::ContainerStatus::Running
                     )
@@ -169,7 +169,7 @@ mod imp {
 
             health_status_expr
                 .chain_closure::<String>(closure!(
-                    |_: glib::Object, status: model::ContainerHealthStatus| status.to_string()
+                    |_: Self::Type, status: model::ContainerHealthStatus| status.to_string()
                 ))
                 .bind(&*self.health_status_label, "label", Some(obj));
 
@@ -187,7 +187,7 @@ mod imp {
             let css_classes = self.health_status_label.css_classes();
             health_status_expr
                 .chain_closure::<Vec<String>>(closure!(
-                    |_: glib::Object, status: model::ContainerHealthStatus| {
+                    |_: Self::Type, status: model::ContainerHealthStatus| {
                         css_classes
                             .iter()
                             .cloned()
@@ -257,14 +257,14 @@ impl Row {
     ) where
         F: Fn(model::BoxedContainerStats) -> Option<f64> + Clone + 'static,
     {
-        let perc_expr = stats_expr.chain_closure::<f64>(closure_local!(|_: glib::Object,
-                                                                        stats: Option<
-            model::BoxedContainerStats,
-        >| {
-            stats
-                .and_then(|stats| fraction_op(stats).map(|perc| perc as f64 * 0.01))
-                .unwrap_or_default()
-        }));
+        #[rustfmt::skip]
+        let perc_expr = stats_expr.chain_closure::<f64>(
+            closure_local!(|_: Self, stats: Option<model::BoxedContainerStats>| {
+                stats
+                    .and_then(|stats| fraction_op(stats).map(|perc| perc as f64 * 0.01))
+                    .unwrap_or_default()
+            })
+        );
 
         let target = adw::PropertyAnimationTarget::new(progress_bar, "percentage");
         let animation = adw::TimedAnimation::builder()
