@@ -117,6 +117,9 @@ mod imp {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
+            let ticks_expr = Self::Type::this_expression("root")
+                .chain_property::<gtk::Window>("application")
+                .chain_property::<crate::Application>("ticks");
             let container_expr = Self::Type::this_expression("container");
             let status_expr = container_expr.chain_property::<model::Container>("status");
             let health_status_expr =
@@ -133,18 +136,16 @@ mod imp {
                 }))
                 .bind(&*self.id_row, "value", Some(obj));
 
-            container_expr
-                .chain_property::<model::Container>("created")
-                .chain_closure::<String>(closure!(|_: glib::Object, created: i64| {
-                    glib::DateTime::from_unix_local(created)
-                        .unwrap()
-                        .format(
-                            // Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
-                            &gettext("%x %X"),
-                        )
-                        .unwrap()
-                }))
-                .bind(&*self.created_row, "value", Some(obj));
+            gtk::ClosureExpression::new::<String, _, _>(
+                &[
+                    &ticks_expr,
+                    &container_expr.chain_property::<model::Container>("created"),
+                ],
+                closure!(|_: Self::Type, _ticks: u64, created: i64| {
+                    utils::format_ago(utils::timespan_now(created))
+                }),
+            )
+            .bind(&*self.created_row, "value", Some(obj));
 
             port_bindings_expr
                 .chain_closure::<String>(closure!(
@@ -169,29 +170,27 @@ mod imp {
 
             gtk::ClosureExpression::new::<String, _, _>(
                 &[
+                    &ticks_expr,
                     &status_expr,
                     &container_expr.chain_property::<model::Container>("up-since"),
                 ],
-                closure!(
-                    |_: glib::Object, status: model::ContainerStatus, up_since: i64| {
-                        use model::ContainerStatus::*;
+                closure!(|_: Self::Type,
+                          _ticks: u64,
+                          status: model::ContainerStatus,
+                          up_since: i64| {
+                    use model::ContainerStatus::*;
 
-                        match status {
-                            Running | Paused => gettext!(
-                                // Translators: "{}" is a placeholder for a date time.
-                                "Up since {}",
-                                glib::DateTime::from_unix_local(up_since)
-                                    .unwrap()
-                                    .format(
-                                        // Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
-                                        &gettext("%x %X"),
-                                    )
-                                    .unwrap()
-                            ),
-                            _ => String::new(),
+                    match status {
+                        Running | Paused => {
+                            // Translators: Example: since {3 hours}, since {a few seconds}
+                            gettext!(
+                                "since {}",
+                                utils::human_friendly_timespan(utils::timespan_now(up_since))
+                            )
                         }
+                        _ => String::new(),
                     }
-                ),
+                }),
             )
             .bind(&*self.state_since_label, "label", Some(obj));
 

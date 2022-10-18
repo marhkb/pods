@@ -7,6 +7,7 @@ use futures::stream::BoxStream;
 use futures::Future;
 use futures::StreamExt;
 use gettextrs::gettext;
+use gettextrs::ngettext;
 use gtk::gio;
 use gtk::glib;
 use gtk::prelude::Cast;
@@ -128,6 +129,33 @@ pub(crate) fn human_friendly_duration(mut seconds: i64) -> String {
             gettext!("{} s", seconds)
         }
     }
+}
+
+pub(crate) fn timespan_now(timestamp: i64) -> glib::TimeSpan {
+    glib::DateTime::now_utc()
+        .unwrap()
+        .difference(&glib::DateTime::from_unix_local(timestamp).unwrap())
+}
+
+pub(crate) fn human_friendly_timespan(timespan: glib::TimeSpan) -> String {
+    let minutes = timespan.as_minutes();
+    let hours = timespan.as_hours();
+
+    if minutes < 1 {
+        gettext("a few seconds")
+    } else if minutes < 60 {
+        ngettext!("{} minute", "{} minutes", minutes as u32, minutes)
+    } else if hours < 24 {
+        ngettext!("{} hour", "{} hours", hours as u32, hours)
+    } else {
+        let days = timespan.as_days();
+        ngettext!("{} day", "{} days", days as u32, days)
+    }
+}
+
+pub(crate) fn format_ago(timespan: glib::TimeSpan) -> String {
+    // Translators: Example: {3 hours} ago, {a few seconds} ago
+    gettext!("{} ago", human_friendly_timespan(timespan))
 }
 
 pub(crate) fn root<W: glib::IsA<gtk::Widget>>(widget: &W) -> Window {

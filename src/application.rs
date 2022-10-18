@@ -1,3 +1,5 @@
+use std::cell::Cell;
+
 use adw::subclass::prelude::AdwApplicationImpl;
 use gettextrs::gettext;
 use glib::clone;
@@ -7,6 +9,7 @@ use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use log::debug;
 use log::info;
+use once_cell::sync::Lazy;
 use once_cell::sync::OnceCell;
 
 use crate::config;
@@ -17,6 +20,7 @@ mod imp {
 
     #[derive(Default)]
     pub(crate) struct Application {
+        pub(super) ticks: Cell<u64>,
         pub(super) window: OnceCell<glib::WeakRef<Window>>,
     }
 
@@ -27,7 +31,42 @@ mod imp {
         type ParentType = adw::Application;
     }
 
-    impl ObjectImpl for Application {}
+    impl ObjectImpl for Application {
+        fn properties() -> &'static [glib::ParamSpec] {
+            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
+                vec![glib::ParamSpecUInt64::new(
+                    "ticks",
+                    "Ticks",
+                    "The ticks",
+                    0,
+                    u64::MAX,
+                    0,
+                    glib::ParamFlags::READABLE,
+                )]
+            });
+
+            PROPERTIES.as_ref()
+        }
+
+        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            match pspec.name() {
+                "ticks" => obj.ticks().to_value(),
+                _ => unimplemented!(),
+            }
+        }
+
+        fn constructed(&self, obj: &Self::Type) {
+            self.parent_constructed(obj);
+
+            glib::timeout_add_seconds_local(
+                10,
+                clone!(@weak obj => @default-return glib::Continue(false), move || {
+                    obj.tick();
+                    glib::Continue(true)
+                }),
+            );
+        }
+    }
 
     impl ApplicationImpl for Application {
         fn activate(&self, app: &Self::Type) {
@@ -82,6 +121,15 @@ impl Default for Application {
 }
 
 impl Application {
+    fn ticks(&self) -> u64 {
+        self.imp().ticks.get()
+    }
+
+    fn tick(&self) {
+        self.imp().ticks.set(self.ticks() + 1);
+        self.notify("ticks");
+    }
+
     pub(super) fn main_window(&self) -> Window {
         let imp = self.imp();
 
