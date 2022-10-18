@@ -1,6 +1,5 @@
 use std::cell::RefCell;
 
-use adw::subclass::prelude::ActionRowImpl;
 use adw::subclass::prelude::PreferencesRowImpl;
 use gtk::glib;
 use gtk::glib::clone;
@@ -27,6 +26,12 @@ mod imp {
         #[template_child]
         pub(super) check_button: TemplateChild<gtk::CheckButton>,
         #[template_child]
+        pub(super) repo_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub(super) id_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub(super) tag_label: TemplateChild<gtk::Label>,
+        #[template_child]
         pub(super) end_box: TemplateChild<gtk::Box>,
     }
 
@@ -34,7 +39,7 @@ mod imp {
     impl ObjectSubclass for Row {
         const NAME: &'static str = "PdsImageRow";
         type Type = super::Row;
-        type ParentType = adw::ActionRow;
+        type ParentType = adw::PreferencesRow;
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
@@ -84,7 +89,7 @@ mod imp {
                 .chain_property::<model::Image>("image-list")
                 .chain_property::<model::ImageList>("selection-mode");
 
-            selection_mode_expr.bind(&self.check_button.parent().unwrap(), "visible", Some(obj));
+            selection_mode_expr.bind(&*self.check_button, "visible", Some(obj));
             selection_mode_expr
                 .chain_closure::<bool>(closure!(|_: Self::Type, is_selection_mode: bool| {
                     !is_selection_mode
@@ -93,46 +98,67 @@ mod imp {
 
             let repo_tags_expr = image_expr.chain_property::<model::Image>("repo-tags");
 
-            repo_tags_expr
-                .chain_closure::<String>(closure!(
-                    |_: Self::Type, repo_tags: utils::BoxedStringVec| {
-                        utils::escape(&utils::format_option(repo_tags.iter().next()))
-                    }
-                ))
-                .bind(obj, "title", Some(obj));
-
-            let css_classes = obj.css_classes();
-            gtk::ClosureExpression::new::<Vec<String>>(
+            gtk::ClosureExpression::new::<String>(
                 &[
-                    repo_tags_expr,
-                    image_expr.chain_property::<model::Image>("to-be-deleted"),
+                    repo_tags_expr.upcast_ref(),
+                    image_expr
+                        .chain_property::<model::Image>("to-be-deleted")
+                        .upcast_ref(),
                 ],
                 closure!(
                     |_: Self::Type, repo_tags: utils::BoxedStringVec, to_be_deleted: bool| {
+                        let repo = repo_tags
+                            .iter()
+                            .next()
+                            .and_then(|repo_tag| repo_tag.split_once(':').map(|(name, _)| name));
+                        let repo = utils::escape(&utils::format_option(repo));
+
+                        if to_be_deleted {
+                            format!("<s>{repo}</s>")
+                        } else {
+                            repo
+                        }
+                    }
+                ),
+            )
+            .bind(&*self.repo_label, "label", Some(obj));
+
+            let css_classes = self.repo_label.css_classes();
+            repo_tags_expr
+                .chain_closure::<Vec<String>>(closure!(
+                    |_: Self::Type, repo_tags: utils::BoxedStringVec| {
                         repo_tags
                             .iter()
                             .next()
                             .map(|_| None)
-                            .unwrap_or_else(|| Some(glib::GString::from("image-tag-none")))
+                            .unwrap_or_else(|| Some(glib::GString::from("dim-label")))
                             .into_iter()
-                            .chain(if to_be_deleted {
-                                Some(glib::GString::from("image-to-be-deleted"))
-                            } else {
-                                None
-                            })
                             .chain(css_classes.iter().cloned())
                             .collect::<Vec<_>>()
                     }
-                ),
-            )
-            .bind(obj, "css-classes", Some(obj));
+                ))
+                .bind(&*self.repo_label, "css-classes", Some(obj));
 
             image_expr
                 .chain_property::<model::Image>("id")
                 .chain_closure::<String>(closure!(|_: Self::Type, id: &str| {
                     id.chars().take(12).collect::<String>()
                 }))
-                .bind(obj, "subtitle", Some(obj));
+                .bind(&*self.id_label, "label", Some(obj));
+
+            repo_tags_expr
+                .chain_closure::<String>(closure!(
+                    |_: Self::Type, repo_tags: utils::BoxedStringVec| {
+                        repo_tags
+                            .iter()
+                            .next()
+                            .and_then(|repo_tag| {
+                                repo_tag.split_once(':').map(|(_, tag)| tag.to_string())
+                            })
+                            .unwrap_or_default()
+                    }
+                ))
+                .bind(&*self.tag_label, "label", Some(obj));
 
             if let Some(image) = obj.image() {
                 obj.action_set_enabled("image.show-details", !image.to_be_deleted());
@@ -149,12 +175,11 @@ mod imp {
     impl WidgetImpl for Row {}
     impl ListBoxRowImpl for Row {}
     impl PreferencesRowImpl for Row {}
-    impl ActionRowImpl for Row {}
 }
 
 glib::wrapper! {
     pub(crate) struct Row(ObjectSubclass<imp::Row>)
-        @extends gtk::Widget, gtk::ListBoxRow, adw::PreferencesRow, adw::ActionRow,
+        @extends gtk::Widget, gtk::ListBoxRow, adw::PreferencesRow,
         @implements gtk::Accessible, gtk::Buildable, gtk::Actionable, gtk::ConstraintTarget;
 
 }

@@ -109,14 +109,6 @@ connectionchooserpage connectionswitchermenu row {
   padding: 9px;
 }
 
-.image-tag-none .title {
-  color: @dark_1;
-}
-
-.image-to-be-deleted .title {
-  color: @destructive_color;
-}
-
 .circular-progress-bar {
   font-size: 0.65em;
 }

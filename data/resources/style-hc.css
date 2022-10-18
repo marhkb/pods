@@ -1,3 +1,7 @@
+.tag-label {
+  font-weight: bold;
+}
+
 .container-status-created,
 .container-status-exited,
 .container-status-removing,
