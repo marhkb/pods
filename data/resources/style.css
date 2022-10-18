@@ -198,6 +198,10 @@ connectionchooserpage connectionswitchermenu row {
   color: @yellow_3;
 }
 
+#pod-row box.title label.subtitle  {
+  font-feature-settings: "tnum";
+}
+
 .fake-list-label {
   line-height: 1.4em;
 }
