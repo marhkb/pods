@@ -54,6 +54,18 @@ mod imp {
                 _ => unimplemented!(),
             }
         }
+
+        fn constructed(&self, obj: &Self::Type) {
+            self.parent_constructed(obj);
+
+            glib::timeout_add_seconds_local(
+                10,
+                clone!(@weak obj => @default-return glib::Continue(false), move || {
+                    obj.tick();
+                    glib::Continue(true)
+                }),
+            );
+        }
     }
 
     impl ApplicationImpl for Application {
@@ -111,6 +123,11 @@ impl Default for Application {
 impl Application {
     fn ticks(&self) -> u64 {
         self.imp().ticks.get()
+    }
+
+    fn tick(&self) {
+        self.imp().ticks.set(self.ticks() + 1);
+        self.notify("ticks");
     }
 
     pub(super) fn main_window(&self) -> Window {
