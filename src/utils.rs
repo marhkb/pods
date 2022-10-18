@@ -130,6 +130,12 @@ pub(crate) fn human_friendly_duration(mut seconds: i64) -> String {
     }
 }
 
+pub(crate) fn timespan_now(timestamp: i64) -> glib::TimeSpan {
+    glib::DateTime::now_utc()
+        .unwrap()
+        .difference(&glib::DateTime::from_unix_local(timestamp).unwrap())
+}
+
 pub(crate) fn root<W: glib::IsA<gtk::Widget>>(widget: &W) -> Window {
     widget.root().unwrap().downcast::<Window>().unwrap()
 }
