@@ -170,18 +170,18 @@ mod imp {
                 }))
                 .bind(&*self.id_row, "value", Some(obj));
 
-            pod_expr
-                .chain_property::<model::Pod>("created")
-                .chain_closure::<String>(closure!(|_: glib::Object, created: i64| {
-                    glib::DateTime::from_unix_local(created)
-                        .unwrap()
-                        .format(
-                            // Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
-                            &gettext("%x %X"),
-                        )
-                        .unwrap()
-                }))
-                .bind(&*self.created_row, "value", Some(obj));
+            gtk::ClosureExpression::new::<String, _, _>(
+                &[
+                    Self::Type::this_expression("root")
+                        .chain_property::<gtk::Window>("application")
+                        .chain_property::<crate::Application>("ticks"),
+                    pod_expr.chain_property::<model::Pod>("created"),
+                ],
+                closure!(|_: Self::Type, _ticks: u64, created: i64| {
+                    utils::format_ago(utils::timespan_now(created))
+                }),
+            )
+            .bind(&*self.created_row, "value", Some(obj));
 
             status_expr
                 .chain_closure::<String>(closure!(|_: glib::Object, status: model::PodStatus| {
