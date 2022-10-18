@@ -117,6 +117,9 @@ mod imp {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
+            let ticks_expr = Self::Type::this_expression("root")
+                .chain_property::<gtk::Window>("application")
+                .chain_property::<crate::Application>("ticks");
             let container_expr = Self::Type::this_expression("container");
             let status_expr = container_expr.chain_property::<model::Container>("status");
             let health_status_expr =
@@ -133,17 +136,15 @@ mod imp {
                 }))
                 .bind(&*self.id_row, "value", Some(obj));
 
-            container_expr
-                .chain_property::<model::Container>("created")
-                .chain_closure::<String>(closure!(|_: glib::Object, created: i64| {
-                    glib::DateTime::from_unix_local(created)
-                        .unwrap()
-                        .format(
-                            // Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
-                            &gettext("%x %X"),
+            gtk::ClosureExpression::new::<String, _, _>(
+                &[
+                    &ticks_expr,
+                    &container_expr.chain_property::<model::Container>("created"),
+                ],
+                closure!(|_: Self::Type, _ticks: u64, created: i64| {
+                    utils::format_ago(utils::timespan_now(created))
+                }),
                         )
-                        .unwrap()
-                }))
                 .bind(&*self.created_row, "value", Some(obj));
 
             port_bindings_expr
