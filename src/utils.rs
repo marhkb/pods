@@ -153,6 +153,11 @@ pub(crate) fn human_friendly_timespan(timespan: glib::TimeSpan) -> String {
     }
 }
 
+pub(crate) fn format_ago(timespan: glib::TimeSpan) -> String {
+    // Translators: Example: {3 hours} ago, {a few seconds} ago
+    gettext!("{} ago", human_friendly_timespan(timespan))
+}
+
 pub(crate) fn root<W: glib::IsA<gtk::Widget>>(widget: &W) -> Window {
     widget.root().unwrap().downcast::<Window>().unwrap()
 }
