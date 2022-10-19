@@ -54,13 +54,11 @@ mod imp {
     impl ObjectImpl for MenuButton {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecObject::new(
-                    "action-list",
-                    "Action List",
-                    "The action list of this menu button",
-                    model::ActionList::static_type(),
-                    glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                )]
+                vec![
+                    glib::ParamSpecObject::builder::<model::ActionList>("action-list")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .build(),
+                ]
             });
             PROPERTIES.as_ref()
         }

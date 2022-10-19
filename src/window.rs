@@ -209,27 +209,17 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
-                    glib::ParamSpecObject::new(
+                    glib::ParamSpecObject::builder::<model::ConnectionManager>(
                         "connection-manager",
-                        "Connection Manager",
-                        "The connection manager client",
-                        model::ConnectionManager::static_type(),
-                        glib::ParamFlags::READABLE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecObject::new(
-                        "title-stack",
-                        "Title Stack",
-                        "The title stack",
-                        gtk::Stack::static_type(),
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecObject::new(
-                        "panel-stack",
-                        "Panel Stack",
-                        "The panel stack",
-                        adw::ViewStack::static_type(),
-                        glib::ParamFlags::READABLE,
-                    ),
+                    )
+                    .flags(glib::ParamFlags::READABLE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                    .build(),
+                    glib::ParamSpecObject::builder::<gtk::Stack>("title-stack")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
+                    glib::ParamSpecObject::builder::<adw::ViewStack>("panel-stack")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
                 ]
             });
 

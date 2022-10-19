@@ -52,13 +52,9 @@ mod imp {
     impl ObjectImpl for Row {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecObject::new(
-                    "image",
-                    "Image",
-                    "The image of this row",
-                    model::Image::static_type(),
-                    glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT,
-                )]
+                vec![glib::ParamSpecObject::builder::<model::Image>("image")
+                    .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT)
+                    .build()]
             });
             PROPERTIES.as_ref()
         }

@@ -1,7 +1,7 @@
 use std::collections::BTreeSet;
 
 use gtk::glib;
-use gtk::prelude::StaticType;
+use gtk::prelude::ParamSpecBuilderExt;
 use gtk::prelude::ToValue;
 use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
@@ -30,27 +30,15 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
-                    glib::ParamSpecString::new(
-                        "cmd",
-                        "Cmd",
-                        "The command of this ImageConfig",
-                        Option::default(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    glib::ParamSpecString::new(
-                        "entrypoint",
-                        "Entrypoint",
-                        "The entrypoint of this ImageConfig",
-                        Option::default(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    glib::ParamSpecBoxed::new(
-                        "exposed-ports",
-                        "Exposed Ports",
-                        "The exposed _ports of this ImageConfig",
-                        utils::BoxedStringBTreeSet::static_type(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
+                    glib::ParamSpecString::builder("cmd")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
+                    glib::ParamSpecString::builder("entrypoint")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
+                    glib::ParamSpecBoxed::builder::<utils::BoxedStringBTreeSet>("exposed-ports")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
                 ]
             });
             PROPERTIES.as_ref()

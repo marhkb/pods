@@ -75,15 +75,15 @@ mod imp {
     impl ObjectImpl for SwitcherWidget {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecObject::new(
+                vec![glib::ParamSpecObject::builder::<model::ConnectionManager>(
                     "connection-manager",
-                    "Connection Manager",
-                    "The connection manager client",
-                    model::ConnectionManager::static_type(),
+                )
+                .flags(
                     glib::ParamFlags::READWRITE
                         | glib::ParamFlags::CONSTRUCT
                         | glib::ParamFlags::EXPLICIT_NOTIFY,
-                )]
+                )
+                .build()]
             });
 
             PROPERTIES.as_ref()

@@ -51,13 +51,9 @@ mod imp {
     impl ObjectImpl for Page {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecObject::new(
-                    "action",
-                    "Action",
-                    "The action of this image pulling page",
-                    model::Action::static_type(),
-                    glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                )]
+                vec![glib::ParamSpecObject::builder::<model::Action>("action")
+                    .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                    .build()]
             });
             PROPERTIES.as_ref()
         }

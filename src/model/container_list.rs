@@ -46,124 +46,46 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
-                    glib::ParamSpecObject::new(
-                        "client",
-                        "Client",
-                        "The podman client",
-                        model::Client::static_type(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    glib::ParamSpecUInt::new(
-                        "len",
-                        "Len",
-                        "The length of this list",
-                        0,
-                        std::u32::MAX,
-                        0,
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecBoolean::new(
-                        "listing",
-                        "Listing",
-                        "Whether containers are currently listed",
-                        false,
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecBoolean::new(
-                        "initialized",
-                        "Initialized",
-                        "Whether containers were tried to be fetched at least once",
-                        false,
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecUInt::new(
-                        "created",
-                        "Created",
-                        "The number of created containers",
-                        0,
-                        std::u32::MAX,
-                        0,
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecUInt::new(
-                        "dead",
-                        "Dead",
-                        "The number of dead containers",
-                        0,
-                        std::u32::MAX,
-                        0,
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecUInt::new(
-                        "exited",
-                        "Exited",
-                        "The number of exited containers",
-                        0,
-                        std::u32::MAX,
-                        0,
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecUInt::new(
-                        "paused",
-                        "Paused",
-                        "The number of paused containers",
-                        0,
-                        std::u32::MAX,
-                        0,
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecUInt::new(
-                        "removing",
-                        "Removing",
-                        "The number of containers being removed",
-                        0,
-                        std::u32::MAX,
-                        0,
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecUInt::new(
-                        "running",
-                        "Running",
-                        "The number of running containers",
-                        0,
-                        std::u32::MAX,
-                        0,
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecUInt::new(
-                        "stopped",
-                        "Stopped",
-                        "The number of stopped containers",
-                        0,
-                        std::u32::MAX,
-                        0,
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecUInt::new(
-                        "stopping",
-                        "Stopping",
-                        "The number of containers being stopped",
-                        0,
-                        std::u32::MAX,
-                        0,
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecBoolean::new(
-                        "selection-mode",
-                        "Selection Mode",
-                        "Whether the selection mode is active",
-                        false,
-                        glib::ParamFlags::READWRITE,
-                    ),
-                    glib::ParamSpecUInt::new(
-                        "num-selected",
-                        "Num Selected",
-                        "The number of selected containers",
-                        0,
-                        u32::MAX,
-                        0,
-                        glib::ParamFlags::READABLE,
-                    ),
+                    glib::ParamSpecObject::builder::<model::Client>("client")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
+                    glib::ParamSpecUInt::builder("len")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
+                    glib::ParamSpecBoolean::builder("listing")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
+                    glib::ParamSpecBoolean::builder("initialized")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
+                    glib::ParamSpecUInt::builder("created")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
+                    glib::ParamSpecUInt::builder("dead")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
+                    glib::ParamSpecUInt::builder("exited")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
+                    glib::ParamSpecUInt::builder("paused")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
+                    glib::ParamSpecUInt::builder("removing")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
+                    glib::ParamSpecUInt::builder("running")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
+                    glib::ParamSpecUInt::builder("stopped")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
+                    glib::ParamSpecUInt::builder("stopping")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
+                    glib::ParamSpecBoolean::builder("selection-mode").build(),
+                    glib::ParamSpecUInt::builder("num-selected")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
                 ]
             });
             PROPERTIES.as_ref()

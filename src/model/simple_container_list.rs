@@ -30,87 +30,33 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
-                    glib::ParamSpecUInt::new(
-                        "len",
-                        "Len",
-                        "The length of this list",
-                        0,
-                        std::u32::MAX,
-                        0,
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecUInt::new(
-                        "created",
-                        "Created",
-                        "The number of created containers",
-                        0,
-                        std::u32::MAX,
-                        0,
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecUInt::new(
-                        "dead",
-                        "Dead",
-                        "The number of dead containers",
-                        0,
-                        std::u32::MAX,
-                        0,
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecUInt::new(
-                        "exited",
-                        "Exited",
-                        "The number of exited containers",
-                        0,
-                        std::u32::MAX,
-                        0,
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecUInt::new(
-                        "paused",
-                        "Paused",
-                        "The number of paused containers",
-                        0,
-                        std::u32::MAX,
-                        0,
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecUInt::new(
-                        "removing",
-                        "Removing",
-                        "The number of containers being removed",
-                        0,
-                        std::u32::MAX,
-                        0,
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecUInt::new(
-                        "running",
-                        "Running",
-                        "The number of running containers",
-                        0,
-                        std::u32::MAX,
-                        0,
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecUInt::new(
-                        "stopped",
-                        "Stopped",
-                        "The number of stopped containers",
-                        0,
-                        std::u32::MAX,
-                        0,
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecUInt::new(
-                        "stopping",
-                        "Stopping",
-                        "The number of containers being stopped",
-                        0,
-                        std::u32::MAX,
-                        0,
-                        glib::ParamFlags::READABLE,
-                    ),
+                    glib::ParamSpecUInt::builder("len")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
+                    glib::ParamSpecUInt::builder("created")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
+                    glib::ParamSpecUInt::builder("dead")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
+                    glib::ParamSpecUInt::builder("exited")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
+                    glib::ParamSpecUInt::builder("paused")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
+                    glib::ParamSpecUInt::builder("removing")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
+                    glib::ParamSpecUInt::builder("running")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
+                    glib::ParamSpecUInt::builder("stopped")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
+                    glib::ParamSpecUInt::builder("stopping")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
                 ]
             });
             PROPERTIES.as_ref()

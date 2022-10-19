@@ -25,6 +25,8 @@ use crate::utils::config_dir;
 use crate::RUNTIME;
 
 mod imp {
+    use gtk::prelude::ParamSpecBuilderExt;
+
     use super::*;
 
     #[derive(Debug, Default)]
@@ -44,13 +46,9 @@ mod imp {
     impl ObjectImpl for ConnectionManager {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecObject::new(
-                    "client",
-                    "Client",
-                    "The client that is currently connected",
-                    model::Client::static_type(),
-                    glib::ParamFlags::READABLE,
-                )]
+                vec![glib::ParamSpecObject::builder::<model::Client>("client")
+                    .flags(glib::ParamFlags::READABLE)
+                    .build()]
             });
             PROPERTIES.as_ref()
         }

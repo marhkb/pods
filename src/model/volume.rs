@@ -5,7 +5,7 @@ use std::fmt;
 use gtk::glib;
 use gtk::glib::subclass::Signal;
 use gtk::prelude::ObjectExt;
-use gtk::prelude::StaticType;
+use gtk::prelude::ParamSpecBuilderExt;
 use gtk::prelude::ToValue;
 use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
@@ -60,35 +60,16 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
-                    glib::ParamSpecString::new(
-                        "host-path",
-                        "Host Path",
-                        "The host path",
-                        None,
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecString::new(
-                        "container-path",
-                        "Container Path",
-                        "The container path",
-                        None,
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecBoolean::new(
-                        "writable",
-                        "Writable",
-                        "Whether the volume is writable",
-                        true,
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecEnum::new(
-                        "selinux",
-                        "SELinux",
-                        "The SELinux policy",
-                        SELinux::static_type(),
-                        SELinux::default() as i32,
-                        glib::ParamFlags::READWRITE,
-                    ),
+                    glib::ParamSpecString::builder("host-path")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .build(),
+                    glib::ParamSpecString::builder("container-path")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .build(),
+                    glib::ParamSpecBoolean::builder("writable")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .build(),
+                    glib::ParamSpecEnum::builder::<SELinux>("selinux", SELinux::default()).build(),
                 ]
             });
             PROPERTIES.as_ref()

@@ -45,15 +45,15 @@ mod imp {
     impl ObjectImpl for Row {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecObject::new(
-                    "log",
-                    "Log",
-                    "The container health check log",
-                    model::HealthCheckLog::static_type(),
-                    glib::ParamFlags::READWRITE
-                        | glib::ParamFlags::CONSTRUCT
-                        | glib::ParamFlags::EXPLICIT_NOTIFY,
-                )]
+                vec![
+                    glib::ParamSpecObject::builder::<model::HealthCheckLog>("log")
+                        .flags(
+                            glib::ParamFlags::READWRITE
+                                | glib::ParamFlags::CONSTRUCT
+                                | glib::ParamFlags::EXPLICIT_NOTIFY,
+                        )
+                        .build(),
+                ]
             });
             PROPERTIES.as_ref()
         }

@@ -5,7 +5,7 @@ use std::fmt;
 use gtk::glib;
 use gtk::glib::subclass::Signal;
 use gtk::prelude::ObjectExt;
-use gtk::prelude::StaticType;
+use gtk::prelude::ParamSpecBuilderExt;
 use gtk::prelude::ToValue;
 use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
@@ -58,39 +58,20 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
-                    glib::ParamSpecString::new(
-                        "ip-address",
-                        "Ip Address",
-                        "The ip address",
-                        None,
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecInt::new(
-                        "host-port",
-                        "Host Port",
-                        "The host port",
-                        0,
-                        u16::MAX as i32,
-                        0,
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecInt::new(
-                        "container-port",
-                        "Container Port",
-                        "The container port",
-                        1,
-                        u16::MAX as i32,
-                        1,
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecEnum::new(
-                        "protocol",
-                        "Protocol",
-                        "The protocol",
-                        Protocol::static_type(),
-                        Protocol::default() as i32,
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
+                    glib::ParamSpecString::builder("ip-address")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .build(),
+                    glib::ParamSpecInt::builder("host-port")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .build(),
+                    glib::ParamSpecInt::builder("container-port")
+                        .minimum(1)
+                        .default_value(1)
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .build(),
+                    glib::ParamSpecEnum::builder::<Protocol>("protocol", Protocol::default())
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .build(),
                 ]
             });
             PROPERTIES.as_ref()

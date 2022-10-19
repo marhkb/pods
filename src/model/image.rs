@@ -6,7 +6,7 @@ use gtk::glib::clone;
 use gtk::glib::subclass::Signal;
 use gtk::glib::{self};
 use gtk::prelude::ObjectExt;
-use gtk::prelude::StaticType;
+use gtk::prelude::ParamSpecBuilderExt;
 use gtk::prelude::ToValue;
 use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
@@ -65,149 +65,61 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
-                    glib::ParamSpecObject::new(
-                        "image-list",
-                        "Image List",
-                        "The parent image list",
-                        model::ImageList::static_type(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    glib::ParamSpecObject::new(
-                        "container-list",
-                        "Container List",
-                        "The list of containers associated with this Image",
-                        model::SimpleContainerList::static_type(),
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecUInt64::new(
-                        "containers",
-                        "Containers",
-                        "The number of containers of this Image",
-                        u64::MIN,
-                        u64::MAX,
-                        u64::default(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT,
-                    ),
-                    glib::ParamSpecInt64::new(
-                        "created",
-                        "Created",
-                        "The creation date time of this Image",
-                        i64::MIN,
-                        i64::MAX,
-                        i64::default(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    glib::ParamSpecBoolean::new(
-                        "dangling",
-                        "Dangling",
-                        "Whether this Image is dangling",
-                        bool::default(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT,
-                    ),
-                    glib::ParamSpecString::new(
-                        "digest",
-                        "Digest",
-                        "The digest of this Image",
-                        Option::default(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    glib::ParamSpecBoxed::new(
-                        "history",
-                        "History",
-                        "The history of this Image",
-                        utils::BoxedStringVec::static_type(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    glib::ParamSpecString::new(
-                        "id",
-                        "Id",
-                        "The id of this Image",
-                        Option::default(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    glib::ParamSpecString::new(
-                        "parent-id",
-                        "Parent Id",
-                        "The id of the parent Image",
-                        Option::default(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    glib::ParamSpecBoolean::new(
-                        "read-only",
-                        "Read Only",
-                        "Whether this Image is read only",
-                        bool::default(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    glib::ParamSpecBoxed::new(
-                        "repo-digests",
-                        "Repo Digests",
-                        "The repo digests of this Image",
-                        utils::BoxedStringVec::static_type(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    glib::ParamSpecBoxed::new(
-                        "repo-tags",
-                        "Repo Tags",
-                        "The repo tags of this Image",
-                        utils::BoxedStringVec::static_type(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    glib::ParamSpecUInt64::new(
-                        "size",
-                        "Size",
-                        "The size of this Image",
-                        u64::MIN,
-                        u64::MAX,
-                        u64::default(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    glib::ParamSpecUInt64::new(
-                        "shared-size",
-                        "Shared Size",
-                        "The shared size of this Image",
-                        u64::MIN,
-                        u64::MAX,
-                        u64::default(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    glib::ParamSpecString::new(
-                        "user",
-                        "User",
-                        "The user of this Image",
-                        Option::default(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    glib::ParamSpecUInt64::new(
-                        "virtual-size",
-                        "Virtual Size",
-                        "The virtual size of this Image",
-                        u64::MIN,
-                        u64::MAX,
-                        u64::default(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    glib::ParamSpecObject::new(
-                        "data",
-                        "Data",
-                        "the data of the image",
-                        model::ImageData::static_type(),
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecBoolean::new(
-                        "to-be-deleted",
-                        "To Be Deleted",
-                        "Whether this image is to be deleted",
-                        bool::default(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecBoolean::new(
-                        "selected",
-                        "Selected",
-                        "Whether this image is selected",
-                        false,
-                        glib::ParamFlags::READWRITE,
-                    ),
+                    glib::ParamSpecObject::builder::<model::ImageList>("image-list")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
+                    glib::ParamSpecObject::builder::<model::SimpleContainerList>("container-list")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
+                    glib::ParamSpecUInt64::builder("containers")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT)
+                        .build(),
+                    glib::ParamSpecInt64::builder("created")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
+                    glib::ParamSpecBoolean::builder("dangling")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT)
+                        .build(),
+                    glib::ParamSpecString::builder("digest")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
+                    glib::ParamSpecBoxed::builder::<utils::BoxedStringVec>("history")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
+                    glib::ParamSpecString::builder("id")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
+                    glib::ParamSpecString::builder("parent-id")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
+                    glib::ParamSpecBoolean::builder("read-only")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
+                    glib::ParamSpecBoxed::builder::<utils::BoxedStringVec>("repo-digests")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
+                    glib::ParamSpecBoxed::builder::<utils::BoxedStringVec>("repo-tags")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
+                    glib::ParamSpecUInt64::builder("size")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
+                    glib::ParamSpecUInt64::builder("shared-size")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
+                    glib::ParamSpecString::builder("user")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
+                    glib::ParamSpecUInt64::builder("virtual-size")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
+                    glib::ParamSpecObject::builder::<model::ImageData>("data")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
+                    glib::ParamSpecBoolean::builder("to-be-deleted")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .build(),
+                    glib::ParamSpecBoolean::builder("selected").build(),
                 ]
             });
             PROPERTIES.as_ref()

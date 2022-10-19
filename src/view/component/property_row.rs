@@ -38,28 +38,18 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
-                    glib::ParamSpecString::new(
-                        "key",
-                        "Key",
-                        "The key of this PropertyRow",
-                        Option::default(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecString::new(
-                        "value",
-                        "Value",
-                        "The value of this PropertyRow",
-                        Option::default(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecEnum::new(
+                    glib::ParamSpecString::builder("key")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .build(),
+                    glib::ParamSpecString::builder("value")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .build(),
+                    glib::ParamSpecEnum::builder::<pango::WrapMode>(
                         "value-wrap-mode",
-                        "Value Wrap Mode",
-                        "The wrap mode of this PropertyRow's value label",
-                        pango::WrapMode::static_type(),
-                        0,
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
+                        pango::WrapMode::Word,
+                    )
+                    .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                    .build(),
                 ]
             });
             PROPERTIES.as_ref()

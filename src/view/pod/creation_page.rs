@@ -146,20 +146,12 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
-                    glib::ParamSpecObject::new(
-                        "client",
-                        "Client",
-                        "The client of this pod creation page",
-                        model::Client::static_type(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    glib::ParamSpecObject::new(
-                        "infra-image",
-                        "Infra Image",
-                        "The image of this pod infra creation page",
-                        model::Image::static_type(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
+                    glib::ParamSpecObject::builder::<model::Client>("client")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
+                    glib::ParamSpecObject::builder::<model::Image>("infra-image")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
                 ]
             });
             PROPERTIES.as_ref()

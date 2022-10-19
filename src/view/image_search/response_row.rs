@@ -37,13 +37,12 @@ mod imp {
     impl ObjectImpl for ResponseRow {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecObject::new(
-                    "image-search-response",
-                    "Image-Search-Response",
-                    "The image search response of this image search response row",
-                    model::ImageSearchResponse::static_type(),
-                    glib::ParamFlags::READWRITE,
-                )]
+                vec![
+                    glib::ParamSpecObject::builder::<model::ImageSearchResponse>(
+                        "image-search-response",
+                    )
+                    .build(),
+                ]
             });
             PROPERTIES.as_ref()
         }

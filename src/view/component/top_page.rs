@@ -48,13 +48,9 @@ mod imp {
     impl ObjectImpl for TopPage {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecObject::new(
-                    "top-source",
-                    "Top Source",
-                    "The source of the processes of this top page",
-                    glib::Object::static_type(),
-                    glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                )]
+                vec![glib::ParamSpecObject::builder::<glib::Object>("top-source")
+                    .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                    .build()]
             });
             PROPERTIES.as_ref()
         }

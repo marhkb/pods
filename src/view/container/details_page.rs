@@ -109,15 +109,15 @@ mod imp {
     impl ObjectImpl for DetailsPage {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecObject::new(
-                    "container",
-                    "Container",
-                    "The container of this details page",
-                    model::Container::static_type(),
-                    glib::ParamFlags::READWRITE
-                        | glib::ParamFlags::CONSTRUCT
-                        | glib::ParamFlags::EXPLICIT_NOTIFY,
-                )]
+                vec![
+                    glib::ParamSpecObject::builder::<model::Container>("container")
+                        .flags(
+                            glib::ParamFlags::READWRITE
+                                | glib::ParamFlags::CONSTRUCT
+                                | glib::ParamFlags::EXPLICIT_NOTIFY,
+                        )
+                        .build(),
+                ]
             });
             PROPERTIES.as_ref()
         }

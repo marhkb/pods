@@ -1,7 +1,7 @@
 use futures::StreamExt;
 use gtk::glib;
 use gtk::glib::clone;
-use gtk::prelude::StaticType;
+use gtk::prelude::ParamSpecBuilderExt;
 use gtk::prelude::ToValue;
 use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
@@ -49,55 +49,27 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
-                    glib::ParamSpecObject::new(
-                        "connection",
-                        "Connection",
-                        "The connection",
-                        model::Connection::static_type(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    glib::ParamSpecBoxed::new(
-                        "podman",
-                        "Podman",
-                        "The podman API interface",
-                        BoxedPodman::static_type(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    glib::ParamSpecObject::new(
-                        "image-list",
-                        "Image List",
-                        "The list of images",
-                        model::ImageList::static_type(),
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecObject::new(
-                        "container-list",
-                        "Container List",
-                        "The list of containers",
-                        model::ContainerList::static_type(),
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecObject::new(
-                        "pod-list",
-                        "Pod List",
-                        "The list of containers",
-                        model::PodList::static_type(),
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecObject::new(
-                        "action-list",
-                        "Action List",
-                        "The list of actions",
-                        model::PodList::static_type(),
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecBoolean::new(
-                        "pruning",
-                        "Pruning",
-                        "Whether images are currently pruned",
-                        false,
-                        glib::ParamFlags::READABLE,
-                    ),
+                    glib::ParamSpecObject::builder::<model::Connection>("connection")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
+                    glib::ParamSpecBoxed::builder::<BoxedPodman>("podman")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
+                    glib::ParamSpecObject::builder::<model::ImageList>("image-list")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
+                    glib::ParamSpecObject::builder::<model::ContainerList>("container-list")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
+                    glib::ParamSpecObject::builder::<model::PodList>("pod-list")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
+                    glib::ParamSpecObject::builder::<model::ActionList>("action-list")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
+                    glib::ParamSpecBoolean::builder("pruning")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
                 ]
             });
             PROPERTIES.as_ref()

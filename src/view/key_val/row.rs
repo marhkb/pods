@@ -48,33 +48,27 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
-                    glib::ParamSpecObject::new(
-                        "key-val",
-                        "Key Value",
-                        "The underlying key-value pair",
-                        model::KeyVal::static_type(),
-                        glib::ParamFlags::READWRITE
-                            | glib::ParamFlags::CONSTRUCT
-                            | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecString::new(
-                        "key-placeholder-text",
-                        "Key Placeholder Text",
-                        "The placeholder text for the key",
-                        Default::default(),
-                        glib::ParamFlags::READWRITE
-                            | glib::ParamFlags::CONSTRUCT
-                            | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecString::new(
-                        "value-placeholder-text",
-                        "Value Placeholder Text",
-                        "The placeholder text for the value",
-                        Default::default(),
-                        glib::ParamFlags::READWRITE
-                            | glib::ParamFlags::CONSTRUCT
-                            | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
+                    glib::ParamSpecObject::builder::<model::KeyVal>("key-val")
+                        .flags(
+                            glib::ParamFlags::READWRITE
+                                | glib::ParamFlags::CONSTRUCT
+                                | glib::ParamFlags::EXPLICIT_NOTIFY,
+                        )
+                        .build(),
+                    glib::ParamSpecString::builder("key-placeholder-text")
+                        .flags(
+                            glib::ParamFlags::READWRITE
+                                | glib::ParamFlags::CONSTRUCT
+                                | glib::ParamFlags::EXPLICIT_NOTIFY,
+                        )
+                        .build(),
+                    glib::ParamSpecString::builder("value-placeholder-text")
+                        .flags(
+                            glib::ParamFlags::READWRITE
+                                | glib::ParamFlags::CONSTRUCT
+                                | glib::ParamFlags::EXPLICIT_NOTIFY,
+                        )
+                        .build(),
                 ]
             });
             PROPERTIES.as_ref()

@@ -34,15 +34,9 @@ mod imp {
     impl ObjectImpl for Application {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecUInt64::new(
-                    "ticks",
-                    "Ticks",
-                    "The ticks",
-                    0,
-                    u64::MAX,
-                    0,
-                    glib::ParamFlags::READABLE,
-                )]
+                vec![glib::ParamSpecUInt64::builder("ticks")
+                    .flags(glib::ParamFlags::READABLE)
+                    .build()]
             });
 
             PROPERTIES.as_ref()

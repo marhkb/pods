@@ -63,41 +63,22 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
-                    glib::ParamSpecObject::new(
-                        "client",
-                        "Client",
-                        "The client of this image search widget",
-                        model::Client::static_type(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecObject::new(
-                        "selected-image",
-                        "Selected Image",
-                        "The selected image of this image search widget",
-                        model::ImageSearchResponse::static_type(),
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecString::new(
-                        "tag",
-                        "Tag",
-                        "The image tag for the image",
-                        None,
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecString::new(
-                        "default-tag",
-                        "Default Tag",
-                        "The default image tag for the image",
-                        Some("latest"),
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecString::new(
-                        "button-label",
-                        "Button Label",
-                        "The label of the select button",
-                        Some("latest"),
-                        glib::ParamFlags::READWRITE,
-                    ),
+                    glib::ParamSpecObject::builder::<model::Client>("client")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .build(),
+                    glib::ParamSpecObject::builder::<model::ImageSearchResponse>("selected-image")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
+                    glib::ParamSpecString::builder("tag")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .build(),
+                    glib::ParamSpecString::builder("default-tag")
+                        .default_value(Some("latest"))
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
+                    glib::ParamSpecString::builder("button-label")
+                        .default_value(Some("latest"))
+                        .build(),
                 ]
             });
             PROPERTIES.as_ref()

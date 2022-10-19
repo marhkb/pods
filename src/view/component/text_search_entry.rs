@@ -41,13 +41,9 @@ mod imp {
     impl ObjectImpl for TextSearchEntry {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecString::new(
-                    "info",
-                    "Info",
-                    "The info label of this text search entry",
-                    Option::default(),
-                    glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                )]
+                vec![glib::ParamSpecString::builder("info")
+                    .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                    .build()]
             });
             PROPERTIES.as_ref()
         }

@@ -6,6 +6,7 @@ use std::f64;
 use gtk::gdk;
 use gtk::glib;
 use gtk::glib::clone;
+use gtk::prelude::ParamSpecBuilderExt;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
@@ -45,22 +46,13 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
-                    glib::ParamSpecDouble::new(
-                        "percentage",
-                        "Percentage",
-                        "The progress in percentage",
-                        0.0,
-                        1.0,
-                        0.0,
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecString::new(
-                        "label",
-                        "Label",
-                        "The label that will be displayed within the circle",
-                        None,
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
+                    glib::ParamSpecDouble::builder("percentage")
+                        .maximum(1.0)
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .build(),
+                    glib::ParamSpecString::builder("label")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .build(),
                 ]
             });
             PROPERTIES.as_ref()
