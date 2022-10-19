@@ -282,7 +282,7 @@ mod imp {
             );
             let image_tag_expr = model::Image::this_expression("repo-tags")
                 .chain_closure::<String>(closure!(
-                    |_: glib::Object, repo_tags: utils::BoxedStringVec| {
+                    |_: model::Image, repo_tags: utils::BoxedStringVec| {
                         utils::escape(&utils::format_option(repo_tags.iter().next()))
                     }
                 ));

@@ -108,7 +108,7 @@ mod imp {
                 .chain_property::<model::Image>("to-be-deleted");
 
             to_be_deleted_expr
-                .chain_closure::<String>(closure!(|_: glib::Object, to_be_deleted: bool| {
+                .chain_closure::<String>(closure!(|_: Self::Type, to_be_deleted: bool| {
                     if to_be_deleted {
                         "ongoing"
                     } else {

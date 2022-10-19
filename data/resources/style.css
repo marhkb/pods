@@ -109,14 +109,6 @@ connectionchooserpage connectionswitchermenu row {
   padding: 9px;
 }
 
-.image-tag-none .title {
-  color: @dark_1;
-}
-
-.image-to-be-deleted .title {
-  color: @destructive_color;
-}
-
 .circular-progress-bar {
   font-size: 0.65em;
 }
@@ -204,6 +196,10 @@ connectionchooserpage connectionswitchermenu row {
 
 .star>icon {
   color: @yellow_3;
+}
+
+#pod-row box.title label.subtitle  {
+  font-feature-settings: "tnum";
 }
 
 .fake-list-label {

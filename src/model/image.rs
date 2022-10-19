@@ -142,7 +142,7 @@ mod imp {
                 "shared-size" => self.shared_size.set(value.get().unwrap()).unwrap(),
                 "user" => self.user.set(value.get().unwrap()).unwrap(),
                 "virtual-size" => self.virtual_size.set(value.get().unwrap()).unwrap(),
-                "to-be-deleted" => self.to_be_deleted.set(value.get().unwrap()),
+                "to-be-deleted" => self.instance().set_to_be_deleted(value.get().unwrap()),
                 "selected" => self.selected.set(value.get().unwrap()),
                 _ => unimplemented!(),
             }

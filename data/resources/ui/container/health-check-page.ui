@@ -90,24 +90,17 @@
 
         <child>
           <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Log</property>
+            <property name="description" translatable="yes">Rows describe the last 5 health check attempts and results.</property>
 
-            <child>
+            <property name="header-suffix">
               <object class="GtkButton">
-                <style>
-                  <class name="pill"/>
-                </style>
                 <property name="action-name">container-health-check-page.run-health-check</property>
-                <property name="label" translatable="yes">_Run Health Check</property>
-                <property name="use-underline">True</property>
+                  <property name="label" translatable="yes">_Run Health Check</property>
+                  <property name="use-underline">True</property>
+                  <property name="valign">center</property>
               </object>
-            </child>
-
-          </object>
-        </child>
-
-        <child>
-          <object class="AdwPreferencesGroup">
-            <property name="title" translatable="yes">Last 5 Runs</property>
+            </property>
 
             <child>
               <object class="GtkListBox" id="log_list_box">

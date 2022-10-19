@@ -120,16 +120,25 @@ mod imp {
                 ))
                 .bind(&*self.status_image, "css-classes", Some(obj));
 
-            pod_expr
-                .chain_property::<model::Pod>("name")
-                .chain_closure::<String>(closure!(|_: glib::Object, name: Option<String>| {
-                    utils::escape(&utils::format_option(name))
-                }))
-                .bind(obj, "title", Some(obj));
+            gtk::ClosureExpression::new::<String>(
+                &[
+                    pod_expr.chain_property::<model::Pod>("name"),
+                    pod_expr.chain_property::<model::Pod>("to-be-deleted"),
+                ],
+                closure!(|_: Self::Type, name: &str, to_be_deleted: bool| {
+                    let title = utils::escape(name);
+                    if to_be_deleted {
+                        format!("<s>{title}</s>")
+                    } else {
+                        title
+                    }
+                }),
+            )
+            .bind(obj, "title", Some(obj));
 
             pod_expr
                 .chain_property::<model::Pod>("id")
-                .chain_closure::<String>(closure!(|_: glib::Object, id: &str| {
+                .chain_closure::<String>(closure!(|_: Self::Type, id: &str| {
                     id.chars().take(12).collect::<String>()
                 }))
                 .bind(obj, "subtitle", Some(obj));

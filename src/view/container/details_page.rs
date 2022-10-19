@@ -145,10 +145,9 @@ mod imp {
             let status_expr = container_expr.chain_property::<model::Container>("status");
 
             status_expr
-                .chain_closure::<bool>(closure!(
-                    |_: glib::Object, status: model::ContainerStatus| status
-                        == model::ContainerStatus::Running
-                ))
+                .chain_closure::<bool>(closure!(|_: Self::Type, status: model::ContainerStatus| {
+                    status == model::ContainerStatus::Running
+                }))
                 .bind(&*self.resources_quick_reference_group, "visible", Some(obj));
 
             status_expr.watch(Some(obj), clone!(@weak obj => move || obj.update_actions()));

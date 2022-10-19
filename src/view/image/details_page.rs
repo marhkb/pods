@@ -140,7 +140,7 @@ mod imp {
             image_expr
                 .chain_property::<model::Image>("repo-tags")
                 .chain_closure::<String>(closure!(
-                    |_: glib::Object, repo_tags: utils::BoxedStringVec| {
+                    |_: Self::Type, repo_tags: utils::BoxedStringVec| {
                         utils::format_iter(&mut repo_tags.iter(), "; ")
                     }
                 ))
@@ -149,13 +149,13 @@ mod imp {
             image_expr
                 .chain_property::<model::Image>("repo-tags")
                 .chain_closure::<bool>(closure!(
-                    |_: glib::Object, repo_tags: utils::BoxedStringVec| { repo_tags.len() > 0 }
+                    |_: Self::Type, repo_tags: utils::BoxedStringVec| { repo_tags.len() > 0 }
                 ))
                 .bind(&*self.repo_tags_row, "visible", Some(obj));
 
             image_expr
                 .chain_property::<model::Image>("id")
-                .chain_closure::<String>(closure!(|_: glib::Object, id: &str| {
+                .chain_closure::<String>(closure!(|_: Self::Type, id: &str| {
                     id.chars().take(12).collect::<String>()
                 }))
                 .bind(&*self.id_row, "value", Some(obj));
@@ -184,7 +184,7 @@ mod imp {
                         .upcast(),
                 ],
                 closure!(
-                    |_: glib::Object, size: u64, shared_size: u64, virtual_size: u64| {
+                    |_: Self::Type, size: u64, shared_size: u64, virtual_size: u64| {
                         let formatted_size = glib::format_size(size);
                         if size == shared_size {
                             if shared_size == virtual_size {
@@ -232,21 +232,21 @@ mod imp {
 
             cmd_expr.bind(&*self.command_row, "value", Some(obj));
             cmd_expr
-                .chain_closure::<bool>(closure!(|_: glib::Object, cmd: Option<&str>| {
+                .chain_closure::<bool>(closure!(|_: Self::Type, cmd: Option<&str>| {
                     cmd.is_some()
                 }))
                 .bind(&*self.command_row, "visible", Some(obj));
 
             entrypoint_expr.bind(&*self.entrypoint_row, "value", Some(obj));
             entrypoint_expr
-                .chain_closure::<bool>(closure!(|_: glib::Object, entrypoint: Option<&str>| {
+                .chain_closure::<bool>(closure!(|_: Self::Type, entrypoint: Option<&str>| {
                     entrypoint.is_some()
                 }))
                 .bind(&*self.entrypoint_row, "visible", Some(obj));
 
             exposed_ports_expr
                 .chain_closure::<String>(closure!(
-                    |_: glib::Object, exposed_ports: utils::BoxedStringBTreeSet| {
+                    |_: Self::Type, exposed_ports: utils::BoxedStringBTreeSet| {
                         utils::format_iter(exposed_ports.iter(), "\n")
                     }
                 ))
@@ -254,16 +254,16 @@ mod imp {
 
             exposed_ports_expr
                 .chain_closure::<bool>(closure!(
-                    |_: glib::Object, exposed_ports: utils::BoxedStringBTreeSet| {
+                    |_: Self::Type, exposed_ports: utils::BoxedStringBTreeSet| {
                         exposed_ports.len() > 0
                     }
                 ))
                 .bind(&*self.ports_row, "visible", Some(obj));
 
             data_expr
-                .chain_closure::<bool>(closure!(
-                    |_: glib::Object, cmd: Option<model::ImageData>| { cmd.is_none() }
-                ))
+                .chain_closure::<bool>(closure!(|_: Self::Type, cmd: Option<model::ImageData>| {
+                    cmd.is_none()
+                }))
                 .bind(&*self.inspection_row, "visible", Some(obj));
         }
 

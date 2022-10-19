@@ -53,7 +53,7 @@
 
                 <property name="child">
                   <object class="GtkImage" id="image">
-                    <property name="icon-name">bell-large-symbolic</property>
+                    <property name="icon-name">preferences-system-notifications-symbolic</property>
                   </object>
                 </property>
 

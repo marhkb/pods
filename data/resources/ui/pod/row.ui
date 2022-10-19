@@ -2,6 +2,7 @@
 <interface>
 
   <template class="PdsPodRow" parent="AdwActionRow">
+    <property name="name">pod-row</property>
     <property name="activatable">True</property>
     <property name="action-name">pod-row.activate</property>
 

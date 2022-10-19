@@ -166,7 +166,7 @@ mod imp {
             .bind(obj, "prune-until-timestamp", Some(obj));
 
             Self::Type::this_expression("prune-until-timestamp")
-                .chain_closure::<String>(closure!(|_: glib::Object, unix: i64| {
+                .chain_closure::<String>(closure!(|_: Self::Type, unix: i64| {
                     glib::DateTime::from_unix_local(unix)
                         .unwrap()
                         .format(
