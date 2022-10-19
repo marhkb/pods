@@ -97,6 +97,8 @@ mod imp {
         pub(super) data: OnceCell<model::PodData>,
         pub(super) can_inspect: Cell<bool>,
 
+        pub(super) to_be_deleted: Cell<bool>,
+
         pub(super) selected: Cell<bool>,
     }
 
@@ -159,6 +161,9 @@ mod imp {
                     glib::ParamSpecObject::builder::<model::PodData>("data")
                         .flags(glib::ParamFlags::READABLE)
                         .build(),
+                    glib::ParamSpecBoolean::builder("to-be-deleted")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .build(),
                     glib::ParamSpecBoolean::builder("selected").build(),
                 ]
             });
@@ -176,6 +181,7 @@ mod imp {
                 "name" => obj.set_name(value.get().unwrap()),
                 "num-containers" => obj.set_num_containers(value.get().unwrap()),
                 "status" => obj.set_status(value.get().unwrap()),
+                "to-be-deleted" => obj.set_to_be_deleted(value.get().unwrap()),
                 "selected" => self.selected.set(value.get().unwrap()),
                 _ => unimplemented!(),
             }
@@ -194,6 +200,7 @@ mod imp {
                 "num-containers" => obj.num_containers().to_value(),
                 "status" => obj.status().to_value(),
                 "data" => obj.data().to_value(),
+                "to-be-deleted" => obj.to_be_deleted().to_value(),
                 "selected" => self.selected.get().to_value(),
                 _ => unimplemented!(),
             }
@@ -352,6 +359,18 @@ impl Pod {
         );
     }
 
+    pub(crate) fn to_be_deleted(&self) -> bool {
+        self.imp().to_be_deleted.get()
+    }
+
+    fn set_to_be_deleted(&self, value: bool) {
+        if self.to_be_deleted() == value {
+            return;
+        }
+        self.imp().to_be_deleted.set(value);
+        self.notify("to-be-deleted");
+    }
+
     pub(super) fn emit_deleted(&self) {
         self.emit_by_name::<()>("deleted", &[]);
     }
@@ -481,6 +500,9 @@ impl Pod {
     where
         F: FnOnce(podman::Result<()>) + 'static,
     {
+        if !self.action_ongoing() {
+            self.set_to_be_deleted(true);
+        }
         self.action(
             if force { "force deleting" } else { "deleting" },
             move |pod| async move {
@@ -491,7 +513,12 @@ impl Pod {
                 }
                 .map(|_| ())
             },
-            op,
+            clone!(@weak self as obj => move |result| {
+                if result.is_err() {
+                    obj.set_to_be_deleted(false);
+                }
+                op(result)
+            }),
         );
     }
 
