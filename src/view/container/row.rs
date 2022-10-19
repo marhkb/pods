@@ -137,12 +137,21 @@ mod imp {
                 ))
                 .bind(&*self.status_image, "css-classes", Some(obj));
 
-            container_expr
-                .chain_property::<model::Container>("name")
-                .chain_closure::<String>(closure!(|_: Self::Type, name: Option<String>| {
-                    utils::escape(&utils::format_option(name))
-                }))
-                .bind(obj, "title", Some(obj));
+            gtk::ClosureExpression::new::<String>(
+                &[
+                    container_expr.chain_property::<model::Container>("name"),
+                    container_expr.chain_property::<model::Container>("to-be-deleted"),
+                ],
+                closure!(|_: Self::Type, name: &str, to_be_deleted: bool| {
+                    let title = utils::escape(name);
+                    if to_be_deleted {
+                        format!("<s>{title}</s>")
+                    } else {
+                        title
+                    }
+                }),
+            )
+            .bind(obj, "title", Some(obj));
 
             container_expr
                 .chain_property::<model::Container>("image-name")
