@@ -165,13 +165,7 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            _obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
                 "client" => self.client.set(value.get().unwrap()),
                 "infra-image" => self.infra_image.set(value.get().unwrap()),
@@ -179,7 +173,8 @@ mod imp {
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            let obj = &*self.instance();
             match pspec.name() {
                 "client" => obj.client().to_value(),
                 "infra-image" => obj.image().to_value(),
@@ -187,8 +182,10 @@ mod imp {
             }
         }
 
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            let obj = &*self.instance();
 
             self.name_entry_row
                 .connect_text_notify(clone!(@weak obj => move |_| obj.on_name_changed()));
@@ -320,14 +317,16 @@ mod imp {
             obj.update_infra_command_row();
         }
 
-        fn dispose(&self, obj: &Self::Type) {
-            utils::ChildIter::from(obj).for_each(|child| child.unparent());
+        fn dispose(&self) {
+            utils::ChildIter::from(&*self.instance()).for_each(|child| child.unparent());
         }
     }
 
     impl WidgetImpl for CreationPage {
-        fn root(&self, widget: &Self::Type) {
-            self.parent_root(widget);
+        fn root(&self) {
+            self.parent_root();
+
+            let widget = &*self.instance();
 
             glib::idle_add_local(
                 clone!(@weak widget => @default-return glib::Continue(false), move || {
@@ -338,9 +337,9 @@ mod imp {
             utils::root(widget).set_default_widget(Some(&*self.create_button));
         }
 
-        fn unroot(&self, widget: &Self::Type) {
-            utils::root(widget).set_default_widget(gtk::Widget::NONE);
-            self.parent_unroot(widget)
+        fn unroot(&self) {
+            utils::root(&*self.instance()).set_default_widget(gtk::Widget::NONE);
+            self.parent_unroot()
         }
     }
 }
@@ -353,7 +352,7 @@ glib::wrapper! {
 
 impl From<Option<&model::Client>> for CreationPage {
     fn from(client: Option<&model::Client>) -> Self {
-        glib::Object::new(&[("client", &client)]).expect("Failed to create PdsPodCreationPage")
+        glib::Object::new::<Self>(&[("client", &client)])
     }
 }
 

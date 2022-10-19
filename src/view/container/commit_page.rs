@@ -2,7 +2,7 @@ use std::cell::RefCell;
 
 use adw::subclass::prelude::*;
 use adw::traits::ComboRowExt;
-use ashpd::desktop::account;
+use ashpd::desktop::account::UserInformationRequest;
 use ashpd::WindowIdentifier;
 use gettextrs::gettext;
 use gtk::gio;
@@ -93,28 +93,22 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "container" => obj.set_container(value.get().unwrap()),
+                "container" => self.instance().set_container(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "container" => obj.container().to_value(),
+                "container" => self.instance().container().to_value(),
                 _ => unimplemented!(),
             }
         }
 
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            self.parent_constructed();
 
             self.changes_list_box
                 .bind_model(Some(&*self.changes.borrow()), |item| {
@@ -135,14 +129,16 @@ mod imp {
             );
         }
 
-        fn dispose(&self, obj: &Self::Type) {
-            utils::ChildIter::from(obj).for_each(|child| child.unparent());
+        fn dispose(&self) {
+            utils::ChildIter::from(&*self.instance()).for_each(|child| child.unparent());
         }
     }
 
     impl WidgetImpl for CommitPage {
-        fn root(&self, widget: &Self::Type) {
-            self.parent_root(widget);
+        fn root(&self) {
+            self.parent_root();
+
+            let widget = &*self.instance();
 
             glib::idle_add_local(
                 clone!(@weak widget => @default-return glib::Continue(false), move || {
@@ -153,9 +149,9 @@ mod imp {
             utils::root(widget).set_default_widget(Some(&*self.commit_button));
         }
 
-        fn unroot(&self, widget: &Self::Type) {
-            utils::root(widget).set_default_widget(gtk::Widget::NONE);
-            self.parent_unroot(widget)
+        fn unroot(&self) {
+            utils::root(&*self.instance()).set_default_widget(gtk::Widget::NONE);
+            self.parent_unroot()
         }
     }
 }
@@ -168,8 +164,7 @@ glib::wrapper! {
 
 impl From<&model::Container> for CommitPage {
     fn from(container: &model::Container) -> Self {
-        glib::Object::new(&[("container", &container)])
-            .expect("Failed to create PdsContainerCommitPage")
+        glib::Object::new::<Self>(&[("container", &container)])
     }
 }
 
@@ -188,9 +183,11 @@ impl CommitPage {
 
     fn fetch_user_information(&self) {
         glib::MainContext::default().block_on(async move {
-            let identifier = WindowIdentifier::from_native(&self.native().unwrap()).await;
-
-            match account::user_information(&identifier, "").await {
+            match UserInformationRequest::default()
+                .identifier(WindowIdentifier::from_native(&self.native().unwrap()).await)
+                .build()
+                .await
+            {
                 Ok(user_info) => self.imp().author_entry_row.set_text(user_info.name()),
                 Err(e) => {
                     if let ashpd::Error::Portal(ashpd::PortalError::Cancelled(_)) = e {

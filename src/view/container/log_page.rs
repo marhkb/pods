@@ -129,21 +129,16 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
                 "container" => self.container.set(value.get().unwrap()),
-                "sticky" => obj.set_sticky(value.get().unwrap()),
+                "sticky" => self.instance().set_sticky(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            let obj = &*self.instance();
             match pspec.name() {
                 "container" => obj.container().to_value(),
                 "sticky" => obj.sticky().to_value(),
@@ -151,8 +146,10 @@ mod imp {
             }
         }
 
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            let obj = &*self.instance();
 
             let adw_style_manager = adw::StyleManager::default();
             obj.on_notify_dark(&adw_style_manager);
@@ -263,8 +260,8 @@ mod imp {
             obj.scroll_down();
         }
 
-        fn dispose(&self, obj: &Self::Type) {
-            utils::ChildIter::from(obj).for_each(|child| child.unparent());
+        fn dispose(&self) {
+            utils::ChildIter::from(&*self.instance()).for_each(|child| child.unparent());
         }
     }
 
@@ -279,7 +276,7 @@ glib::wrapper! {
 
 impl From<&model::Container> for LogPage {
     fn from(image: &model::Container) -> Self {
-        glib::Object::new(&[("container", image)]).expect("Failed to create PdsContainerLogPage")
+        glib::Object::new::<Self>(&[("container", image)])
     }
 }
 

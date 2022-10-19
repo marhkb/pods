@@ -135,28 +135,24 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "pod" => obj.set_pod(value.get().unwrap()),
+                "pod" => self.instance().set_pod(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "pod" => obj.pod().to_value(),
+                "pod" => self.instance().pod().to_value(),
                 _ => unimplemented!(),
             }
         }
 
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            let obj = &*self.instance();
 
             let pod_expr = Self::Type::this_expression("pod");
             let status_expr = pod_expr.chain_property::<model::Pod>("status");
@@ -170,7 +166,7 @@ mod imp {
                 }))
                 .bind(&*self.id_row, "value", Some(obj));
 
-            gtk::ClosureExpression::new::<String, _, _>(
+            gtk::ClosureExpression::new::<String>(
                 &[
                     Self::Type::this_expression("root")
                         .chain_property::<gtk::Window>("application")
@@ -223,8 +219,8 @@ mod imp {
                 .watch(Some(obj), clone!(@weak obj => move || obj.update_actions()));
         }
 
-        fn dispose(&self, obj: &Self::Type) {
-            utils::ChildIter::from(obj).for_each(|child| child.unparent());
+        fn dispose(&self) {
+            utils::ChildIter::from(&*self.instance()).for_each(|child| child.unparent());
         }
     }
 
@@ -239,7 +235,7 @@ glib::wrapper! {
 
 impl From<&model::Pod> for DetailsPage {
     fn from(pod: &model::Pod) -> Self {
-        glib::Object::new(&[("pod", pod)]).expect("Failed to create PdsPodDetailsPage")
+        glib::Object::new::<Self>(&[("pod", pod)])
     }
 }
 

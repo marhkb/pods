@@ -122,28 +122,24 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "container" => obj.set_container(value.get().unwrap()),
+                "container" => self.instance().set_container(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "container" => obj.container().to_value(),
+                "container" => self.instance().container().to_value(),
                 _ => unimplemented!(),
             }
         }
 
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            let obj = &*self.instance();
 
             let container_expr = Self::Type::this_expression("container");
             let status_expr = container_expr.chain_property::<model::Container>("status");
@@ -161,8 +157,8 @@ mod imp {
                 .watch(Some(obj), clone!(@weak obj => move || obj.update_actions()));
         }
 
-        fn dispose(&self, obj: &Self::Type) {
-            utils::ChildIter::from(obj).for_each(|child| child.unparent());
+        fn dispose(&self) {
+            utils::ChildIter::from(&*self.instance()).for_each(|child| child.unparent());
         }
     }
 
@@ -177,8 +173,7 @@ glib::wrapper! {
 
 impl From<&model::Container> for DetailsPage {
     fn from(image: &model::Container) -> Self {
-        glib::Object::new(&[("container", image)])
-            .expect("Failed to create PdsContainerDetailsPage")
+        glib::Object::new::<Self>(&[("container", image)])
     }
 }
 

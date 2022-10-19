@@ -65,28 +65,26 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "action-list" => obj.set_action_list(value.get().unwrap_or_default()),
+                "action-list" => self
+                    .instance()
+                    .set_action_list(value.get().unwrap_or_default()),
                 _ => unimplemented!(),
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "action-list" => obj.action_list().to_value(),
+                "action-list" => self.instance().action_list().to_value(),
                 _ => unimplemented!(),
             }
         }
 
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            let obj = &*self.instance();
 
             let popover_menu = self
                 .menu_button
@@ -103,7 +101,7 @@ mod imp {
 
             action_list_expr.bind(&self.overview, "action-list", Some(obj));
 
-            gtk::ClosureExpression::new::<Vec<String>, _, _>(
+            gtk::ClosureExpression::new::<Vec<String>>(
                 &[
                     action_list_expr.chain_property::<model::ActionList>("failed"),
                     action_list_expr.chain_property::<model::ActionList>("cancelled"),
@@ -145,8 +143,8 @@ mod imp {
                 .bind(&*self.progress_bar, "visible", Some(obj));
         }
 
-        fn dispose(&self, obj: &Self::Type) {
-            utils::ChildIter::from(obj).for_each(|child| child.unparent());
+        fn dispose(&self) {
+            utils::ChildIter::from(&*self.instance()).for_each(|child| child.unparent());
         }
     }
 

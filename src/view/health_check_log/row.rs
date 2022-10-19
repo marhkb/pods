@@ -58,28 +58,22 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "log" => obj.set_log(value.get().unwrap_or_default()),
+                "log" => self.instance().set_log(value.get().unwrap_or_default()),
                 _ => unimplemented!(),
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "log" => obj.log().to_value(),
+                "log" => self.instance().log().to_value(),
                 _ => unimplemented!(),
             }
         }
 
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            self.parent_constructed();
             self.output_text_view.remove_css_class("view");
         }
     }
@@ -98,7 +92,7 @@ glib::wrapper! {
 
 impl From<&model::HealthCheckLog> for Row {
     fn from(log: &model::HealthCheckLog) -> Self {
-        glib::Object::new(&[("log", &log)]).expect("Failed to create PdsHealthCheckLogRow")
+        glib::Object::new::<Self>(&[("log", &log)])
     }
 }
 

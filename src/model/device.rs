@@ -4,7 +4,6 @@ use std::cell::RefCell;
 use gtk::glib;
 use gtk::glib::subclass::Signal;
 use gtk::prelude::ObjectExt;
-use gtk::prelude::StaticType;
 use gtk::prelude::ToValue;
 use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
@@ -29,9 +28,8 @@ mod imp {
 
     impl ObjectImpl for Device {
         fn signals() -> &'static [Signal] {
-            static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
-                vec![Signal::builder("remove-request", &[], <()>::static_type().into()).build()]
-            });
+            static SIGNALS: Lazy<Vec<Signal>> =
+                Lazy::new(|| vec![Signal::builder("remove-request").build()]);
             SIGNALS.as_ref()
         }
 
@@ -78,13 +76,8 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            let obj = &*self.instance();
             match pspec.name() {
                 "host-path" => obj.set_host_path(value.get().unwrap_or_default()),
                 "container-path" => obj.set_container_path(value.get().unwrap()),
@@ -95,7 +88,8 @@ mod imp {
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            let obj = &*self.instance();
             match pspec.name() {
                 "host-path" => obj.host_path().to_value(),
                 "container-path" => obj.container_path().to_value(),
@@ -114,8 +108,7 @@ glib::wrapper! {
 
 impl Default for Device {
     fn default() -> Self {
-        glib::Object::new(&[("readable", &true), ("writable", &false), ("mknod", &false)])
-            .expect("Failed to create Device")
+        glib::Object::new::<Self>(&[("readable", &true), ("writable", &false), ("mknod", &false)])
     }
 }
 

@@ -50,12 +50,9 @@ mod imp {
     impl ObjectImpl for SelectionPage {
         fn signals() -> &'static [Signal] {
             static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
-                vec![Signal::builder(
-                    "image-selected",
-                    &[glib::GString::static_type().into()],
-                    <()>::static_type().into(),
-                )
-                .build()]
+                vec![Signal::builder("image-selected")
+                    .param_types([String::static_type()])
+                    .build()]
             });
             SIGNALS.as_ref()
         }
@@ -73,28 +70,24 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            _obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
                 "client" => self.client.set(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "client" => obj.client().to_value(),
+                "client" => self.instance().client().to_value(),
                 _ => unimplemented!(),
             }
         }
 
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            let obj = &*self.instance();
 
             obj.action_set_enabled(view::ImageSearchWidget::action_select(), false);
             self.image_search_widget.connect_notify_local(
@@ -105,7 +98,7 @@ mod imp {
             );
         }
 
-        fn dispose(&self, _obj: &Self::Type) {
+        fn dispose(&self) {
             self.header_bar.unparent();
             self.image_search_widget.unparent();
         }
@@ -122,7 +115,7 @@ glib::wrapper! {
 
 impl From<Option<&model::Client>> for SelectionPage {
     fn from(client: Option<&model::Client>) -> Self {
-        glib::Object::new(&[("client", &client)]).expect("Failed to create PdsImageSelectionPage")
+        glib::Object::new::<Self>(&[("client", &client)])
     }
 }
 

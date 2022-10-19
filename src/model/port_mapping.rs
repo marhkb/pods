@@ -50,9 +50,8 @@ mod imp {
 
     impl ObjectImpl for PortMapping {
         fn signals() -> &'static [Signal] {
-            static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
-                vec![Signal::builder("remove-request", &[], <()>::static_type().into()).build()]
-            });
+            static SIGNALS: Lazy<Vec<Signal>> =
+                Lazy::new(|| vec![Signal::builder("remove-request").build()]);
             SIGNALS.as_ref()
         }
 
@@ -97,13 +96,8 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            let obj = &*self.instance();
             match pspec.name() {
                 "ip-address" => obj.set_ip_address(value.get().unwrap_or_default()),
                 "host-port" => obj.set_host_port(value.get().unwrap()),
@@ -113,7 +107,8 @@ mod imp {
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            let obj = &*self.instance();
             match pspec.name() {
                 "ip-address" => obj.ip_address().to_value(),
                 "host-port" => obj.host_port().to_value(),
@@ -131,7 +126,7 @@ glib::wrapper! {
 
 impl Default for PortMapping {
     fn default() -> Self {
-        glib::Object::new(&[]).expect("Failed to create PortMapping")
+        glib::Object::new::<Self>(&[])
     }
 }
 

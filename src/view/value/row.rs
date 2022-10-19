@@ -57,22 +57,16 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "value" => obj.set_value(value.get().unwrap_or_default()),
+                "value" => self.instance().set_value(value.get().unwrap_or_default()),
                 other => unimplemented!("{other}"),
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "value" => obj.value().to_value(),
+                "value" => self.instance().value().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -98,8 +92,7 @@ impl From<&model::Value> for Row {
 
 impl Row {
     pub fn new(value: &model::Value, title: impl Into<String>) -> Self {
-        glib::Object::new(&[("value", &value), ("title", &title.into())])
-            .expect("Failed to create PdsValueRow")
+        glib::Object::new::<Self>(&[("value", &value), ("title", &title.into())])
     }
 
     pub(crate) fn value(&self) -> Option<model::Value> {

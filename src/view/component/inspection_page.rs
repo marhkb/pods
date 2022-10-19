@@ -69,8 +69,10 @@ mod imp {
     }
 
     impl ObjectImpl for InspectionPage {
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            let obj = &*self.instance();
 
             self.search_bar.connect_search_mode_enabled_notify(
                 clone!(@weak obj => move |search_bar| {
@@ -105,8 +107,8 @@ mod imp {
             }));
         }
 
-        fn dispose(&self, obj: &Self::Type) {
-            utils::ChildIter::from(obj).for_each(|child| child.unparent());
+        fn dispose(&self) {
+            utils::ChildIter::from(&*self.instance()).for_each(|child| child.unparent());
         }
     }
 
@@ -121,7 +123,7 @@ glib::wrapper! {
 
 impl From<Inspectable> for InspectionPage {
     fn from(inspectabele: Inspectable) -> Self {
-        let obj: Self = glib::Object::new(&[]).expect("Failed to create PdsInspectionPage");
+        let obj: Self = glib::Object::new::<Self>(&[]);
 
         obj.imp().window_title.set_title(&match &inspectabele {
             Inspectable::Image(_) => gettext("Image Inspection"),

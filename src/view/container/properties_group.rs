@@ -94,28 +94,24 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "container" => obj.set_container(value.get().unwrap()),
+                "container" => self.instance().set_container(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "container" => obj.container().to_value(),
+                "container" => self.instance().container().to_value(),
                 _ => unimplemented!(),
             }
         }
 
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            let obj = &*self.instance();
 
             let ticks_expr = Self::Type::this_expression("root")
                 .chain_property::<gtk::Window>("application")
@@ -136,7 +132,7 @@ mod imp {
                 }))
                 .bind(&*self.id_row, "value", Some(obj));
 
-            gtk::ClosureExpression::new::<String, _, _>(
+            gtk::ClosureExpression::new::<String>(
                 &[
                     &ticks_expr,
                     &container_expr.chain_property::<model::Container>("created"),
@@ -168,7 +164,7 @@ mod imp {
                 ))
                 .bind(&*self.port_bindings_row, "visible", Some(obj));
 
-            gtk::ClosureExpression::new::<String, _, _>(
+            gtk::ClosureExpression::new::<String>(
                 &[
                     &ticks_expr,
                     &status_expr,
@@ -250,7 +246,7 @@ mod imp {
                 ))
                 .bind(&*self.health_status_label, "css-classes", Some(obj));
 
-            gtk::ClosureExpression::new::<String, _, _>(
+            gtk::ClosureExpression::new::<String>(
                 &[
                     image_expr.chain_property::<model::Image>("repo-tags"),
                     image_expr.chain_property::<model::Image>("id"),

@@ -80,13 +80,8 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            let obj = &*self.instance();
             match pspec.name() {
                 "key-val" => obj.set_key_val(value.get().unwrap_or_default()),
                 "key-placeholder-text" => {
@@ -99,7 +94,8 @@ mod imp {
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            let obj = &*self.instance();
             match pspec.name() {
                 "key-val" => obj.key_val().to_value(),
                 "key-placeholder-text" => obj.key_placeholder_text().to_value(),
@@ -108,9 +104,10 @@ mod imp {
             }
         }
 
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            self.parent_constructed();
 
+            let obj = &*self.instance();
             self.key_entry
                 .connect_placeholder_text_notify(clone!(@weak obj => move |_| {
                     obj.notify("key-placeholder-text");
@@ -144,12 +141,11 @@ impl Row {
         value_placholder_text: impl Into<String>,
         entry: &model::KeyVal,
     ) -> Self {
-        glib::Object::new(&[
+        glib::Object::new::<Self>(&[
             ("key-val", &entry),
             ("key-placeholder-text", &key_placholder_text.into()),
             ("value-placeholder-text", &value_placholder_text.into()),
         ])
-        .expect("Failed to create PdsKeyValRow")
     }
     pub(crate) fn key_val(&self) -> Option<model::KeyVal> {
         self.imp().key_val.borrow().to_owned()

@@ -59,28 +59,24 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            _obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
                 "top-source" => self.top_source.set(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "top-source" => obj.top_source().to_value(),
+                "top-source" => self.instance().top_source().to_value(),
                 _ => unimplemented!(),
             }
         }
 
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            let obj = &*self.instance();
 
             Self::Type::this_expression("top-source")
                 .chain_closure::<String>(closure!(
@@ -103,8 +99,8 @@ mod imp {
             obj.connect_top_stream();
         }
 
-        fn dispose(&self, obj: &Self::Type) {
-            utils::ChildIter::from(obj).for_each(|child| child.unparent());
+        fn dispose(&self) {
+            utils::ChildIter::from(&*self.instance()).for_each(|child| child.unparent());
         }
     }
 
@@ -119,13 +115,13 @@ glib::wrapper! {
 
 impl From<&model::Container> for TopPage {
     fn from(container: &model::Container) -> Self {
-        glib::Object::new(&[("top-source", container)]).expect("Failed to create TopPage")
+        glib::Object::new::<Self>(&[("top-source", container)])
     }
 }
 
 impl From<&model::Pod> for TopPage {
     fn from(pod: &model::Pod) -> Self {
-        glib::Object::new(&[("top-source", pod)]).expect("Failed to create TopPage")
+        glib::Object::new::<Self>(&[("top-source", pod)])
     }
 }
 

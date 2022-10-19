@@ -55,7 +55,7 @@ mod imp {
                 return;
             }
 
-            let obj = self.instance();
+            let obj = &*self.instance();
             let connection_manager = obj.connection_manager().unwrap();
 
             if let Some(widget) = obj.ancestor(gtk::PopoverMenu::static_type()) {
@@ -63,11 +63,11 @@ mod imp {
             }
 
             if view::show_ongoing_actions_warning_dialog(
-                &obj,
+                obj,
                 &connection_manager,
                 &gettext("Confirm Switching Connection"),
             ) {
-                obj.switch_connection(&connection_manager, connection.uuid())
+                obj.switch_connection(&connection_manager, connection.uuid());
             }
         }
     }
@@ -89,27 +89,23 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "connection-manager" => obj.set_connection_manager(value.get().unwrap()),
+                "connection-manager" => {
+                    self.instance().set_connection_manager(value.get().unwrap())
+                }
                 _ => unimplemented!(),
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "connection-manager" => obj.connection_manager().to_value(),
+                "connection-manager" => self.instance().connection_manager().to_value(),
                 _ => unimplemented!(),
             }
         }
 
-        fn dispose(&self, _obj: &Self::Type) {
+        fn dispose(&self) {
             self.connection_list_view.unparent();
         }
     }
@@ -125,8 +121,7 @@ glib::wrapper! {
 
 impl From<&model::ConnectionManager> for SwitcherWidget {
     fn from(connection_manager: &model::ConnectionManager) -> Self {
-        glib::Object::new(&[("connection-manager", &connection_manager)])
-            .expect("Failed to create PdsConnectionSwitcherWidget")
+        glib::Object::new::<Self>(&[("connection-manager", &connection_manager)])
     }
 }
 

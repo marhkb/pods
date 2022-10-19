@@ -72,13 +72,8 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            let obj = &*self.instance();
             match pspec.name() {
                 "child" => obj.set_child(value.get().unwrap_or_default()),
                 "count" => obj.set_count(value.get().unwrap_or_default()),
@@ -86,15 +81,18 @@ mod imp {
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            let obj = &*self.instance();
             match pspec.name() {
                 "child" => obj.child().to_value(),
                 "count" => obj.count().to_value(),
                 _ => unimplemented!(),
             }
         }
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            let obj = &*self.instance();
 
             self.child_bin
                 .connect_child_notify(clone!(@weak obj => move |_| {
@@ -119,13 +117,15 @@ mod imp {
             );
         }
 
-        fn dispose(&self, obj: &Self::Type) {
-            utils::ChildIter::from(obj).for_each(|child| child.unparent());
+        fn dispose(&self) {
+            utils::ChildIter::from(&*self.instance()).for_each(|child| child.unparent());
         }
     }
 
     impl WidgetImpl for CountBadge {
-        fn snapshot(&self, widget: &Self::Type, snapshot: &gtk::Snapshot) {
+        fn snapshot(&self, snapshot: &gtk::Snapshot) {
+            let widget = &*self.instance();
+
             if widget.count() == 0 {
                 widget.snapshot_child(&*self.child_bin, snapshot);
                 return;

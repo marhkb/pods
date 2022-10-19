@@ -61,13 +61,7 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            _obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
                 "container-list" => {
                     self.container_list.set(value.get().unwrap());
@@ -76,20 +70,22 @@ mod imp {
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "container-list" => obj.container_list().to_value(),
+                "container-list" => self.instance().container_list().to_value(),
                 _ => unimplemented!(),
             }
         }
 
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            let obj = &*self.instance();
 
             let container_list_expr = Self::Type::this_expression("container-list");
             let dead_expr =
                 container_list_expr.chain_property::<model::AbstractContainerList>("dead");
-            let not_running_expr = gtk::ClosureExpression::new::<u32, _, _>(
+            let not_running_expr = gtk::ClosureExpression::new::<u32>(
                 &[
                     container_list_expr.chain_property::<model::AbstractContainerList>("created"),
                     container_list_expr.chain_property::<model::AbstractContainerList>("exited"),
@@ -126,7 +122,7 @@ mod imp {
             running_expr.bind(&*self.running_label, "label", Some(obj));
         }
 
-        fn dispose(&self, _obj: &Self::Type) {
+        fn dispose(&self) {
             self.dead_box.unparent();
             self.not_running_box.unparent();
             self.paused_box.unparent();
@@ -145,8 +141,7 @@ glib::wrapper! {
 
 impl From<&model::AbstractContainerList> for CountBar {
     fn from(image: &model::AbstractContainerList) -> Self {
-        glib::Object::new(&[("container-list", image)])
-            .expect("Failed to create PdsContainersCountBar")
+        glib::Object::new::<Self>(&[("container-list", image)])
     }
 }
 

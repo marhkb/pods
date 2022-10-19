@@ -34,22 +34,16 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "name" => obj.set_name(value.get().unwrap_or_default()),
+                "name" => self.instance().set_name(value.get().unwrap_or_default()),
                 _ => unimplemented!(),
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "name" => obj.name().to_value(),
+                "name" => self.instance().name().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -62,7 +56,7 @@ glib::wrapper! {
 
 impl From<&str> for Registry {
     fn from(name: &str) -> Self {
-        glib::Object::new(&[("name", &name)]).expect("Failed to create Registry")
+        glib::Object::new::<Self>(&[("name", &name)])
     }
 }
 

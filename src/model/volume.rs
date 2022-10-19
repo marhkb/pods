@@ -52,9 +52,8 @@ mod imp {
 
     impl ObjectImpl for Volume {
         fn signals() -> &'static [Signal] {
-            static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
-                vec![Signal::builder("remove-request", &[], <()>::static_type().into()).build()]
-            });
+            static SIGNALS: Lazy<Vec<Signal>> =
+                Lazy::new(|| vec![Signal::builder("remove-request").build()]);
             SIGNALS.as_ref()
         }
 
@@ -95,13 +94,8 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            let obj = &*self.instance();
             match pspec.name() {
                 "host-path" => obj.set_host_path(value.get().unwrap_or_default()),
                 "container-path" => obj.set_container_path(value.get().unwrap()),
@@ -111,7 +105,8 @@ mod imp {
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            let obj = &*self.instance();
             match pspec.name() {
                 "host-path" => obj.host_path().to_value(),
                 "container-path" => obj.container_path().to_value(),
@@ -129,7 +124,7 @@ glib::wrapper! {
 
 impl Default for Volume {
     fn default() -> Self {
-        glib::Object::new(&[("writable", &true)]).expect("Failed to create Volume")
+        glib::Object::new::<Self>(&[("writable", &true)])
     }
 }
 

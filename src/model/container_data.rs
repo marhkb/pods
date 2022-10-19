@@ -55,21 +55,18 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
                 "health-config" => self.health_config.set(value.get().unwrap()).unwrap(),
-                "health-failing-streak" => obj.set_health_failing_streak(value.get().unwrap()),
+                "health-failing-streak" => self
+                    .instance()
+                    .set_health_failing_streak(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            let obj = &*self.instance();
             match pspec.name() {
                 "health-config" => obj.health_config().to_value(),
                 "health-failing-streak" => obj.health_failing_streak().to_value(),
@@ -77,8 +74,8 @@ mod imp {
             }
         }
 
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            self.parent_constructed();
         }
     }
 }
@@ -89,7 +86,7 @@ glib::wrapper! {
 
 impl From<podman::models::InspectContainerData> for ContainerData {
     fn from(data: podman::models::InspectContainerData) -> Self {
-        let obj: Self = glib::Object::new(&[
+        let obj: Self = glib::Object::new::<Self>(&[
             (
                 "health-config",
                 &data
@@ -102,8 +99,7 @@ impl From<podman::models::InspectContainerData> for ContainerData {
                 "health-failing-streak",
                 &health_failing_streak(data.state.as_ref()),
             ),
-        ])
-        .expect("Failed to create ContainerData");
+        ]);
 
         if let Some(logs) = data
             .state

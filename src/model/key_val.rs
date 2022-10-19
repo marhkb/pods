@@ -3,7 +3,6 @@ use std::cell::RefCell;
 use gtk::glib;
 use gtk::glib::subclass::Signal;
 use gtk::prelude::ObjectExt;
-use gtk::prelude::StaticType;
 use gtk::prelude::ToValue;
 use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
@@ -25,9 +24,8 @@ mod imp {
 
     impl ObjectImpl for KeyVal {
         fn signals() -> &'static [Signal] {
-            static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
-                vec![Signal::builder("remove-request", &[], <()>::static_type().into()).build()]
-            });
+            static SIGNALS: Lazy<Vec<Signal>> =
+                Lazy::new(|| vec![Signal::builder("remove-request").build()]);
             SIGNALS.as_ref()
         }
 
@@ -53,13 +51,8 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            let obj = &*self.instance();
             match pspec.name() {
                 "key" => obj.set_key(value.get().unwrap_or_default()),
                 "value" => obj.set_value(value.get().unwrap_or_default()),
@@ -67,7 +60,8 @@ mod imp {
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            let obj = &*self.instance();
             match pspec.name() {
                 "key" => obj.key().to_value(),
                 "value" => obj.value().to_value(),
@@ -83,7 +77,7 @@ glib::wrapper! {
 
 impl Default for KeyVal {
     fn default() -> Self {
-        glib::Object::new(&[]).expect("Failed to create KeyVal")
+        glib::Object::new::<Self>(&[])
     }
 }
 

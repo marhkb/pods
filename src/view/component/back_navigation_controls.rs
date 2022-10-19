@@ -39,14 +39,16 @@ mod imp {
     }
 
     impl ObjectImpl for PdsBackNavigationControls {
-        fn dispose(&self, obj: &Self::Type) {
-            utils::ChildIter::from(obj).for_each(|child| child.unparent());
+        fn dispose(&self) {
+            utils::ChildIter::from(&*self.instance()).for_each(|child| child.unparent());
         }
     }
 
     impl WidgetImpl for PdsBackNavigationControls {
-        fn root(&self, widget: &Self::Type) {
-            self.parent_root(widget);
+        fn root(&self) {
+            self.parent_root();
+
+            let widget = &*self.instance();
 
             widget.action_set_enabled(
                 ACTION_GO_FIRST,

@@ -65,28 +65,24 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            _obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
                 "container" => self.container.set(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
 
-        fn property(&self, _obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
                 "container" => self.container.upgrade().to_value(),
                 _ => unimplemented!(),
             }
         }
 
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            let obj = &*self.instance();
 
             let key_events = gtk::EventControllerKey::new();
             obj.add_controller(&key_events);
@@ -147,8 +143,7 @@ glib::wrapper! {
 
 impl From<Option<model::Container>> for RenameDialog {
     fn from(container: Option<model::Container>) -> Self {
-        glib::Object::new(&[("container", &container)])
-            .expect("Failed to create PdsContainerRenameDialog")
+        glib::Object::new::<Self>(&[("container", &container)])
     }
 }
 

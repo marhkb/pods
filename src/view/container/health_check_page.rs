@@ -73,28 +73,24 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "container" => obj.set_container(value.get().unwrap()),
+                "container" => self.instance().set_container(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "container" => obj.container().to_value(),
+                "container" => self.instance().container().to_value(),
                 _ => unimplemented!(),
             }
         }
 
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            let obj = &*self.instance();
 
             let container_expr = Self::Type::this_expression("container");
 
@@ -102,7 +98,7 @@ mod imp {
                 container_expr.chain_property::<model::Container>("health_status");
             let data_expr = container_expr.chain_property::<model::Container>("data");
 
-            gtk::ClosureExpression::new::<bool, _, _>(
+            gtk::ClosureExpression::new::<bool>(
                 &[&container_expr.chain_property::<model::Container>("status"), &health_status_expr],
                 closure!(|_: Self::Type,
                           _: model::ContainerStatus,
@@ -163,8 +159,8 @@ mod imp {
             }));
         }
 
-        fn dispose(&self, obj: &Self::Type) {
-            utils::ChildIter::from(obj).for_each(|child| child.unparent());
+        fn dispose(&self) {
+            utils::ChildIter::from(&*self.instance()).for_each(|child| child.unparent());
         }
     }
 
@@ -179,8 +175,7 @@ glib::wrapper! {
 
 impl From<&model::Container> for HealthCheckPage {
     fn from(image: &model::Container) -> Self {
-        glib::Object::new(&[("container", image)])
-            .expect("Failed to create PdsContainerHealthCheckPage")
+        glib::Object::new::<Self>(&[("container", image)])
     }
 }
 
