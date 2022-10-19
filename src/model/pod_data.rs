@@ -1,4 +1,5 @@
 use gtk::glib::{self};
+use gtk::prelude::ParamSpecBuilderExt;
 use gtk::prelude::ToValue;
 use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
@@ -23,13 +24,9 @@ mod imp {
     impl ObjectImpl for PodData {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecString::new(
-                    "hostname",
-                    "Hostname",
-                    "The hostname of this pod",
-                    Option::default(),
-                    glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                )]
+                vec![glib::ParamSpecString::builder("hostname")
+                    .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                    .build()]
             });
             PROPERTIES.as_ref()
         }

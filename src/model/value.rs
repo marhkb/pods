@@ -3,6 +3,7 @@ use std::cell::RefCell;
 use gtk::glib;
 use gtk::glib::subclass::Signal;
 use gtk::prelude::ObjectExt;
+use gtk::prelude::ParamSpecBuilderExt;
 use gtk::prelude::ToValue;
 use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
@@ -28,13 +29,9 @@ mod imp {
 
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecString::new(
-                    "value",
-                    "Value",
-                    "The value",
-                    None,
-                    glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                )]
+                vec![glib::ParamSpecString::builder("value")
+                    .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                    .build()]
             });
             PROPERTIES.as_ref()
         }

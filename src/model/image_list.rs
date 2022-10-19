@@ -50,52 +50,22 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
-                    glib::ParamSpecObject::new(
-                        "client",
-                        "Client",
-                        "The podman client",
-                        model::Client::static_type(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    glib::ParamSpecUInt::new(
-                        "len",
-                        "Len",
-                        "The length of this list",
-                        0,
-                        std::u32::MAX,
-                        0,
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecBoolean::new(
-                        "listing",
-                        "Listing",
-                        "Whether images are currently listed",
-                        false,
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecBoolean::new(
-                        "initialized",
-                        "Initialized",
-                        "Whether images were tried to be fetched at least once",
-                        false,
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecBoolean::new(
-                        "selection-mode",
-                        "Selection Mode",
-                        "Whether the selection mode is active",
-                        false,
-                        glib::ParamFlags::READWRITE,
-                    ),
-                    glib::ParamSpecUInt::new(
-                        "num-selected",
-                        "Num Selected",
-                        "The number of selected images",
-                        0,
-                        u32::MAX,
-                        0,
-                        glib::ParamFlags::READABLE,
-                    ),
+                    glib::ParamSpecObject::builder::<model::Client>("client")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
+                    glib::ParamSpecUInt::builder("len")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
+                    glib::ParamSpecBoolean::builder("listing")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
+                    glib::ParamSpecBoolean::builder("initialized")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
+                    glib::ParamSpecBoolean::builder("selection-mode").build(),
+                    glib::ParamSpecUInt::builder("num-selected")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
                 ]
             });
             PROPERTIES.as_ref()

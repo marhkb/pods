@@ -10,7 +10,6 @@ use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::subclass::Signal;
 use gtk::prelude::ObjectExt;
-use gtk::prelude::StaticType;
 use gtk::prelude::ToValue;
 use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
@@ -121,6 +120,8 @@ impl fmt::Display for HealthStatus {
 monad_boxed_type!(pub(crate) BoxedContainerStats(podman::models::ContainerStats) impls Debug, PartialEq is nullable);
 
 mod imp {
+    use gtk::prelude::ParamSpecBuilderExt;
+
     use super::*;
 
     #[derive(Debug, Default)]
@@ -166,148 +167,81 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
-                    glib::ParamSpecObject::new(
-                        "container-list",
-                        "Container List",
-                        "The parent container list",
-                        model::ContainerList::static_type(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    glib::ParamSpecBoolean::new(
-                        "action-ongoing",
-                        "Action Ongoing",
-                        "Whether an action (starting, stopping, etc.) is currently ongoing",
-                        false,
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecBoolean::new(
-                        "deleted",
-                        "Deleted",
-                        "Whether this container is deleted",
-                        false,
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecInt64::new(
-                        "created",
-                        "Created",
-                        "The time when this container was created",
-                        i64::MIN,
-                        i64::MAX,
-                        0,
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    glib::ParamSpecEnum::new(
+                    glib::ParamSpecObject::builder::<model::ContainerList>("container-list")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
+                    glib::ParamSpecBoolean::builder("action-ongoing")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .build(),
+                    glib::ParamSpecBoolean::builder("deleted")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .build(),
+                    glib::ParamSpecInt64::builder("created")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
+                    glib::ParamSpecEnum::builder::<HealthStatus>(
                         "health-status",
-                        "Health Status",
-                        "The status of this container",
-                        HealthStatus::static_type(),
-                        HealthStatus::default() as i32,
+                        HealthStatus::default(),
+                    )
+                    .flags(
                         glib::ParamFlags::READWRITE
                             | glib::ParamFlags::CONSTRUCT
                             | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecString::new(
-                        "id",
-                        "Id",
-                        "The id of this container",
-                        Option::default(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    glib::ParamSpecObject::new(
-                        "image",
-                        "Image",
-                        "The image of this container",
-                        model::Image::static_type(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecString::new(
-                        "image-id",
-                        "Image Id",
-                        "The image id of this container",
-                        Option::default(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    glib::ParamSpecString::new(
-                        "image-name",
-                        "Image Name",
-                        "The name of the image of this container",
-                        Option::default(),
-                        glib::ParamFlags::READWRITE
-                            | glib::ParamFlags::CONSTRUCT
-                            | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecString::new(
-                        "name",
-                        "Name",
-                        "The name of this container",
-                        Option::default(),
-                        glib::ParamFlags::READWRITE
-                            | glib::ParamFlags::CONSTRUCT
-                            | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecObject::new(
-                        "pod",
-                        "Pod",
-                        "The potential pod of this container",
-                        model::Pod::static_type(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecString::new(
-                        "pod-id",
-                        "Pod Id",
-                        "The pod id of this container",
-                        Option::default(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    glib::ParamSpecBoxed::new(
-                        "port-bindings",
-                        "Port Bindings",
-                        "The port bindings of this container",
-                        utils::BoxedStringVec::static_type(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    glib::ParamSpecBoxed::new(
-                        "stats",
-                        "Stats",
-                        "The statistics of this container",
-                        BoxedContainerStats::static_type(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecEnum::new(
-                        "status",
-                        "Status",
-                        "The status of this container",
-                        Status::static_type(),
-                        Status::default() as i32,
-                        glib::ParamFlags::READWRITE
-                            | glib::ParamFlags::CONSTRUCT
-                            | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecInt64::new(
-                        "up-since",
-                        "Up Since",
-                        "The time since the container is running",
-                        i64::MIN,
-                        i64::MAX,
-                        0,
-                        glib::ParamFlags::READWRITE
-                            | glib::ParamFlags::CONSTRUCT
-                            | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecObject::new(
-                        "data",
-                        "Data",
-                        "the data of the image",
-                        model::ContainerData::static_type(),
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecBoolean::new(
-                        "selected",
-                        "Selected",
-                        "Whether this container is selected",
-                        false,
-                        glib::ParamFlags::READWRITE,
-                    ),
+                    )
+                    .build(),
+                    glib::ParamSpecString::builder("id")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
+                    glib::ParamSpecObject::builder::<model::Image>("image")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .build(),
+                    glib::ParamSpecString::builder("image-id")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
+                    glib::ParamSpecString::builder("image-name")
+                        .flags(
+                            glib::ParamFlags::READWRITE
+                                | glib::ParamFlags::CONSTRUCT
+                                | glib::ParamFlags::EXPLICIT_NOTIFY,
+                        )
+                        .build(),
+                    glib::ParamSpecString::builder("name")
+                        .flags(
+                            glib::ParamFlags::READWRITE
+                                | glib::ParamFlags::CONSTRUCT
+                                | glib::ParamFlags::EXPLICIT_NOTIFY,
+                        )
+                        .build(),
+                    glib::ParamSpecObject::builder::<model::Pod>("pod")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .build(),
+                    glib::ParamSpecString::builder("pod-id")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
+                    glib::ParamSpecBoxed::builder::<utils::BoxedStringVec>("port-bindings")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
+                    glib::ParamSpecBoxed::builder::<BoxedContainerStats>("stats")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .build(),
+                    glib::ParamSpecEnum::builder::<Status>("status", Status::default())
+                        .flags(
+                            glib::ParamFlags::READWRITE
+                                | glib::ParamFlags::CONSTRUCT
+                                | glib::ParamFlags::EXPLICIT_NOTIFY,
+                        )
+                        .build(),
+                    glib::ParamSpecInt64::builder("up-since")
+                        .flags(
+                            glib::ParamFlags::READWRITE
+                                | glib::ParamFlags::CONSTRUCT
+                                | glib::ParamFlags::EXPLICIT_NOTIFY,
+                        )
+                        .build(),
+                    glib::ParamSpecObject::builder::<model::ContainerData>("data")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
+                    glib::ParamSpecBoolean::builder("selected").build(),
                 ]
             });
             PROPERTIES.as_ref()

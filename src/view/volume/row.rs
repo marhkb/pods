@@ -49,15 +49,13 @@ mod imp {
     impl ObjectImpl for Row {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecObject::new(
-                    "volume",
-                    "Volume",
-                    "The underlying volume",
-                    model::Volume::static_type(),
-                    glib::ParamFlags::READWRITE
-                        | glib::ParamFlags::CONSTRUCT
-                        | glib::ParamFlags::EXPLICIT_NOTIFY,
-                )]
+                vec![glib::ParamSpecObject::builder::<model::Volume>("volume")
+                    .flags(
+                        glib::ParamFlags::READWRITE
+                            | glib::ParamFlags::CONSTRUCT
+                            | glib::ParamFlags::EXPLICIT_NOTIFY,
+                    )
+                    .build()]
             });
             PROPERTIES.as_ref()
         }

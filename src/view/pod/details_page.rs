@@ -122,15 +122,13 @@ mod imp {
     impl ObjectImpl for DetailsPage {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecObject::new(
-                    "pod",
-                    "Pod",
-                    "The pod of this pod details page",
-                    model::Pod::static_type(),
-                    glib::ParamFlags::READWRITE
-                        | glib::ParamFlags::CONSTRUCT
-                        | glib::ParamFlags::EXPLICIT_NOTIFY,
-                )]
+                vec![glib::ParamSpecObject::builder::<model::Pod>("pod")
+                    .flags(
+                        glib::ParamFlags::READWRITE
+                            | glib::ParamFlags::CONSTRUCT
+                            | glib::ParamFlags::EXPLICIT_NOTIFY,
+                    )
+                    .build()]
             });
             PROPERTIES.as_ref()
         }

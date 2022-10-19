@@ -24,22 +24,10 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
-                    glib::ParamSpecBoolean::new(
-                        "selection-mode",
-                        "Selection Mode",
-                        "Whether the selection mode is active",
-                        false,
-                        glib::ParamFlags::READWRITE,
-                    ),
-                    glib::ParamSpecUInt::new(
-                        "num-selected",
-                        "Num Selected",
-                        "The number of selected items",
-                        0,
-                        u32::MAX,
-                        0,
-                        glib::ParamFlags::READABLE,
-                    ),
+                    glib::ParamSpecBoolean::builder("selection-mode").build(),
+                    glib::ParamSpecUInt::builder("num-selected")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
                 ]
             });
             PROPERTIES.as_ref()

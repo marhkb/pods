@@ -2,7 +2,7 @@ use std::cell::Cell;
 
 use gtk::glib;
 use gtk::prelude::ObjectExt;
-use gtk::prelude::StaticType;
+use gtk::prelude::ParamSpecBuilderExt;
 use gtk::prelude::ToValue;
 use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
@@ -34,22 +34,12 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
-                    glib::ParamSpecBoxed::new(
-                        "health-config",
-                        "Health Config",
-                        "The health config of this container",
-                        BoxedSchema2HealthConfig::static_type(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    glib::ParamSpecUInt::new(
-                        "health-failing-streak",
-                        "Health Failing Streak",
-                        "The health failing streak of this container",
-                        0,
-                        u32::MAX,
-                        0,
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
+                    glib::ParamSpecBoxed::builder::<BoxedSchema2HealthConfig>("health-config")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
+                    glib::ParamSpecUInt::builder("health-failing-streak")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
                 ]
             });
             PROPERTIES.as_ref()

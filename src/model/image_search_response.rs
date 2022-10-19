@@ -1,4 +1,5 @@
 use gtk::glib;
+use gtk::prelude::ParamSpecBuilderExt;
 use gtk::prelude::ToValue;
 use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
@@ -30,57 +31,27 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
-                    glib::ParamSpecString::new(
-                        "automated",
-                        "Automated",
-                        "Automated indicates if the image was created by an automated build",
-                        None,
-                        glib::ParamFlags::CONSTRUCT_ONLY | glib::ParamFlags::READWRITE,
-                    ),
-                    glib::ParamSpecString::new(
-                        "description",
-                        "Description",
-                        "Description of the image",
-                        None,
-                        glib::ParamFlags::CONSTRUCT_ONLY | glib::ParamFlags::READWRITE,
-                    ),
-                    glib::ParamSpecString::new(
-                        "index",
-                        "Index",
-                        "The image index (e.g., \"docker.io\" or \"quay.io\")",
-                        None,
-                        glib::ParamFlags::CONSTRUCT_ONLY | glib::ParamFlags::READWRITE,
-                    ),
-                    glib::ParamSpecString::new(
-                        "name",
-                        "Name",
-                        "The canonical name of the image (e.g., \"docker.io/library/alpine\")",
-                        None,
-                        glib::ParamFlags::CONSTRUCT_ONLY | glib::ParamFlags::READWRITE,
-                    ),
-                    glib::ParamSpecString::new(
-                        "official",
-                        "Official",
-                        "Indicates if it's an official image",
-                        None,
-                        glib::ParamFlags::CONSTRUCT_ONLY | glib::ParamFlags::READWRITE,
-                    ),
-                    glib::ParamSpecInt64::new(
-                        "stars",
-                        "Stars",
-                        "The number of stars of the image",
-                        i64::MIN,
-                        i64::MAX,
-                        0,
-                        glib::ParamFlags::CONSTRUCT_ONLY | glib::ParamFlags::READWRITE,
-                    ),
-                    glib::ParamSpecString::new(
-                        "tag",
-                        "Tag",
-                        "the image tag",
-                        None,
-                        glib::ParamFlags::CONSTRUCT_ONLY | glib::ParamFlags::READWRITE,
-                    ),
+                    glib::ParamSpecString::builder("automated")
+                        .flags(glib::ParamFlags::CONSTRUCT_ONLY | glib::ParamFlags::READWRITE)
+                        .build(),
+                    glib::ParamSpecString::builder("description")
+                        .flags(glib::ParamFlags::CONSTRUCT_ONLY | glib::ParamFlags::READWRITE)
+                        .build(),
+                    glib::ParamSpecString::builder("index")
+                        .flags(glib::ParamFlags::CONSTRUCT_ONLY | glib::ParamFlags::READWRITE)
+                        .build(),
+                    glib::ParamSpecString::builder("name")
+                        .flags(glib::ParamFlags::CONSTRUCT_ONLY | glib::ParamFlags::READWRITE)
+                        .build(),
+                    glib::ParamSpecString::builder("official")
+                        .flags(glib::ParamFlags::CONSTRUCT_ONLY | glib::ParamFlags::READWRITE)
+                        .build(),
+                    glib::ParamSpecInt64::builder("stars")
+                        .flags(glib::ParamFlags::CONSTRUCT_ONLY | glib::ParamFlags::READWRITE)
+                        .build(),
+                    glib::ParamSpecString::builder("tag")
+                        .flags(glib::ParamFlags::CONSTRUCT_ONLY | glib::ParamFlags::READWRITE)
+                        .build(),
                 ]
             });
             PROPERTIES.as_ref()

@@ -49,13 +49,9 @@ mod imp {
     impl ObjectImpl for PullPage {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecObject::new(
-                    "client",
-                    "Client",
-                    "The client of this image pull page",
-                    model::Client::static_type(),
-                    glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                )]
+                vec![glib::ParamSpecObject::builder::<model::Client>("client")
+                    .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                    .build()]
             });
             PROPERTIES.as_ref()
         }

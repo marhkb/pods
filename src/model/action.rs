@@ -66,70 +66,30 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
-                    glib::ParamSpecObject::new(
-                        "artifact",
-                        "Artifact",
-                        "The resulting artifact of the action",
-                        glib::Object::static_type(),
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecUInt::new(
-                        "num",
-                        "Num",
-                        "The action number",
-                        0,
-                        u32::MAX,
-                        0,
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    glib::ParamSpecEnum::new(
-                        "type",
-                        "Type",
-                        "The type of the action",
-                        Type::static_type(),
-                        Type::default() as i32,
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    glib::ParamSpecString::new(
-                        "description",
-                        "Description",
-                        "The description of the action",
-                        None,
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    glib::ParamSpecEnum::new(
-                        "state",
-                        "State",
-                        "The current state of the action",
-                        State::static_type(),
-                        State::default() as i32,
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecInt64::new(
-                        "start-timestamp",
-                        "Start Timestamp",
-                        "The timestamp when the action started",
-                        i64::MIN,
-                        i64::MAX,
-                        0,
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    glib::ParamSpecInt64::new(
-                        "end-timestamp",
-                        "End Timestamp",
-                        "The timestamp when the action ended",
-                        i64::MIN,
-                        i64::MAX,
-                        0,
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecObject::new(
-                        "output",
-                        "Output",
-                        "The output of the action",
-                        gtk::TextBuffer::static_type(),
-                        glib::ParamFlags::READABLE,
-                    ),
+                    glib::ParamSpecObject::builder::<glib::Object>("artifact")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
+                    glib::ParamSpecUInt::builder("num")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
+                    glib::ParamSpecEnum::builder::<Type>("type", Type::default())
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
+                    glib::ParamSpecString::builder("description")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
+                    glib::ParamSpecEnum::builder::<State>("state", State::default())
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
+                    glib::ParamSpecInt64::builder("start-timestamp")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
+                    glib::ParamSpecInt64::builder("end-timestamp")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
+                    glib::ParamSpecObject::builder::<gtk::TextBuffer>("output")
+                        .flags(glib::ParamFlags::READABLE)
+                        .build(),
                 ]
             });
             PROPERTIES.as_ref()
