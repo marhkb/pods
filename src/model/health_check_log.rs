@@ -64,13 +64,7 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            _obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
                 "end" => self.end.set(value.get().unwrap()).unwrap(),
                 "exit-code" => self.exit_code.set(value.get().unwrap()).unwrap(),
@@ -80,7 +74,8 @@ mod imp {
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            let obj = &*self.instance();
             match pspec.name() {
                 "end" => obj.end().to_value(),
                 "exit-code" => obj.exit_code().to_value(),
@@ -99,13 +94,12 @@ glib::wrapper! {
 
 impl From<&podman::models::HealthCheckLog> for HealthCheckLog {
     fn from(data: &podman::models::HealthCheckLog) -> Self {
-        glib::Object::new(&[
+        glib::Object::new::<Self>(&[
             ("end", data.end.as_ref().unwrap()),
             ("exit-code", &data.exit_code.unwrap()),
             ("output", data.output.as_ref().unwrap()),
             ("start", data.start.as_ref().unwrap()),
         ])
-        .expect("Failed to create HealthCheckLog")
     }
 }
 

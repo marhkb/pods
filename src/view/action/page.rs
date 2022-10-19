@@ -62,30 +62,26 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            _obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
                 "action" => self.action.set(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "action" => obj.action().to_value(),
+                "action" => self.instance().action().to_value(),
                 _ => unimplemented!(),
             }
         }
 
-        fn constructed(&self, obj: &Self::Type) {
+        fn constructed(&self) {
             use model::ActionType::*;
 
-            self.parent_constructed(obj);
+            self.parent_constructed();
+
+            let obj = &*self.instance();
 
             let action = obj.action().unwrap();
 
@@ -113,8 +109,8 @@ mod imp {
             );
         }
 
-        fn dispose(&self, obj: &Self::Type) {
-            utils::ChildIter::from(obj).for_each(|child| child.unparent());
+        fn dispose(&self) {
+            utils::ChildIter::from(&*self.instance()).for_each(|child| child.unparent());
         }
     }
 
@@ -129,7 +125,7 @@ glib::wrapper! {
 
 impl From<&model::Action> for Page {
     fn from(action: &model::Action) -> Self {
-        glib::Object::new(&[("action", &action)]).expect("Failed to build PdsImageCreationPage")
+        glib::Object::new::<Self>(&[("action", &action)])
     }
 }
 

@@ -29,14 +29,16 @@ mod imp {
     }
 
     impl ObjectImpl for LeafletOverlay {
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            self.parent_constructed();
         }
     }
 
     impl WidgetImpl for LeafletOverlay {
-        fn realize(&self, widget: &Self::Type) {
-            self.parent_realize(widget);
+        fn realize(&self) {
+            self.parent_realize();
+
+            let widget = &*self.instance();
 
             widget.leaflet().connect_child_transition_running_notify(
                 clone!(@weak widget => move |leaflet| {
@@ -59,7 +61,7 @@ glib::wrapper! {
 
 impl Default for LeafletOverlay {
     fn default() -> Self {
-        glib::Object::new(&[]).expect("Failed to create PdsLeafletOverlay")
+        glib::Object::new::<Self>(&[])
     }
 }
 

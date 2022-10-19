@@ -95,11 +95,8 @@ mod imp {
 
     impl ObjectImpl for Panel {
         fn signals() -> &'static [Signal] {
-            static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
-                vec![
-                    Signal::builder("exit-selection-mode", &[], <()>::static_type().into()).build(),
-                ]
-            });
+            static SIGNALS: Lazy<Vec<Signal>> =
+                Lazy::new(|| vec![Signal::builder("exit-selection-mode").build()]);
             SIGNALS.as_ref()
         }
 
@@ -116,28 +113,24 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "container-list" => obj.set_container_list(value.get().unwrap()),
+                "container-list" => self.instance().set_container_list(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "container-list" => obj.container_list().to_value(),
+                "container-list" => self.instance().container_list().to_value(),
                 _ => unimplemented!(),
             }
         }
 
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            let obj = &*self.instance();
 
             let container_list_expr = Self::Type::this_expression("container-list");
             let container_list_len_expr =
@@ -154,7 +147,7 @@ mod imp {
                 }),
             );
 
-            gtk::ClosureExpression::new::<Option<String>, _, _>(
+            gtk::ClosureExpression::new::<Option<String>>(
                 &[
                     container_list_len_expr,
                     container_list_expr.chain_property::<model::ContainerList>("listing"),
@@ -179,7 +172,7 @@ mod imp {
             .bind(&*self.main_stack, "visible-child-name", Some(obj));
         }
 
-        fn dispose(&self, _obj: &Self::Type) {
+        fn dispose(&self) {
             self.main_stack.unparent();
         }
     }
@@ -195,7 +188,7 @@ glib::wrapper! {
 
 impl Default for Panel {
     fn default() -> Self {
-        glib::Object::new(&[]).expect("Failed to create PdsContainersPanel")
+        glib::Object::new::<Self>(&[])
     }
 }
 

@@ -63,28 +63,24 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "image" => obj.set_image(value.get().unwrap()),
+                "image" => self.instance().set_image(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "image" => obj.image().to_value(),
+                "image" => self.instance().image().to_value(),
                 _ => unimplemented!(),
             }
         }
 
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            let obj = &*self.instance();
 
             let image_expr = Self::Type::this_expression("image");
 
@@ -110,7 +106,7 @@ mod imp {
                 .bind(obj, "title", Some(obj));
 
             let css_classes = obj.css_classes();
-            gtk::ClosureExpression::new::<Vec<String>, _, _>(
+            gtk::ClosureExpression::new::<Vec<String>>(
                 &[
                     repo_tags_expr,
                     image_expr.chain_property::<model::Image>("to-be-deleted"),
@@ -169,7 +165,7 @@ glib::wrapper! {
 
 impl From<&model::Image> for Row {
     fn from(image: &model::Image) -> Self {
-        glib::Object::new(&[("image", image)]).expect("Failed to create PdsImageRow")
+        glib::Object::new::<Self>(&[("image", image)])
     }
 }
 

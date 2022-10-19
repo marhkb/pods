@@ -22,24 +22,15 @@ mod imp {
         fn signals() -> &'static [Signal] {
             static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
                 vec![
-                    Signal::builder(
-                        "container-added",
-                        &[model::Container::static_type().into()],
-                        <()>::static_type().into(),
-                    )
-                    .build(),
-                    Signal::builder(
-                        "container-name-changed",
-                        &[model::Container::static_type().into()],
-                        <()>::static_type().into(),
-                    )
-                    .build(),
-                    Signal::builder(
-                        "container-removed",
-                        &[model::Container::static_type().into()],
-                        <()>::static_type().into(),
-                    )
-                    .build(),
+                    Signal::builder("container-added")
+                        .param_types([model::Container::static_type()])
+                        .build(),
+                    Signal::builder("container-name-changed")
+                        .param_types([model::Container::static_type()])
+                        .build(),
+                    Signal::builder("container-removed")
+                        .param_types([model::Container::static_type()])
+                        .build(),
                 ]
             });
             SIGNALS.as_ref()

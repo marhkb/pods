@@ -86,13 +86,7 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            _obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
                 "automated" => self.automated.set(value.get().unwrap()).unwrap(),
                 "description" => self.description.set(value.get().unwrap()).unwrap(),
@@ -105,7 +99,8 @@ mod imp {
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            let obj = &*self.instance();
             match pspec.name() {
                 "automated" => obj.automated().to_value(),
                 "description" => obj.description().to_value(),
@@ -126,7 +121,7 @@ glib::wrapper! {
 
 impl From<podman::models::RegistrySearchResponse> for ImageSearchResponse {
     fn from(response: podman::models::RegistrySearchResponse) -> Self {
-        glib::Object::new(&[
+        glib::Object::new::<Self>(&[
             ("automated", &response.automated),
             ("description", &response.description),
             ("index", &response.index),
@@ -135,7 +130,6 @@ impl From<podman::models::RegistrySearchResponse> for ImageSearchResponse {
             ("stars", &response.stars.unwrap_or(-1)),
             ("tag", &response.tag),
         ])
-        .expect("Failed to create ImageSearchResponse")
     }
 }
 

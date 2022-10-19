@@ -62,22 +62,16 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "volume" => obj.set_volume(value.get().unwrap_or_default()),
+                "volume" => self.instance().set_volume(value.get().unwrap_or_default()),
                 _ => unimplemented!(),
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "volume" => obj.volume().to_value(),
+                "volume" => self.instance().volume().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -95,7 +89,7 @@ glib::wrapper! {
 
 impl From<&model::Volume> for Row {
     fn from(volume: &model::Volume) -> Self {
-        glib::Object::new(&[("volume", &volume)]).expect("Failed to create PdsVolumeRow")
+        glib::Object::new::<Self>(&[("volume", &volume)])
     }
 }
 
@@ -126,9 +120,9 @@ impl Row {
             let binding = volume
                 .bind_property("selinux", &*imp.selinux_drop_down, "selected")
                 .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
-                .transform_to(|_, value| {
+                .transform_to(|_, selinux: model::VolumeSELinux| {
                     Some(
-                        match value.get::<model::VolumeSELinux>().unwrap() {
+                        match selinux {
                             model::VolumeSELinux::NoLabel => 0_u32,
                             model::VolumeSELinux::Shared => 1_u32,
                             model::VolumeSELinux::Private => 2_u32,
@@ -136,9 +130,9 @@ impl Row {
                         .to_value(),
                     )
                 })
-                .transform_from(|_, value| {
+                .transform_from(|_, position: u32| {
                     Some(
-                        match value.get::<u32>().unwrap() {
+                        match position {
                             0 => model::VolumeSELinux::NoLabel,
                             1 => model::VolumeSELinux::Shared,
                             _ => model::VolumeSELinux::Private,

@@ -96,11 +96,8 @@ mod imp {
 
     impl ObjectImpl for Panel {
         fn signals() -> &'static [Signal] {
-            static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
-                vec![
-                    Signal::builder("exit-selection-mode", &[], <()>::static_type().into()).build(),
-                ]
-            });
+            static SIGNALS: Lazy<Vec<Signal>> =
+                Lazy::new(|| vec![Signal::builder("exit-selection-mode").build()]);
             SIGNALS.as_ref()
         }
 
@@ -117,28 +114,24 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "image-list" => obj.set_image_list(value.get().unwrap()),
+                "image-list" => self.instance().set_image_list(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "image-list" => obj.image_list().to_value(),
+                "image-list" => self.instance().image_list().to_value(),
                 _ => unimplemented!(),
             }
         }
 
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            let obj = &*self.instance();
 
             self.popover_menu.set_parent(&*self.add_image_row);
 
@@ -180,7 +173,7 @@ mod imp {
                 }),
             );
 
-            gtk::ClosureExpression::new::<Option<String>, _, _>(
+            gtk::ClosureExpression::new::<Option<String>>(
                 &[
                     &image_list_len_expr,
                     &image_list_expr.chain_property::<model::ImageList>("listing"),
@@ -204,7 +197,7 @@ mod imp {
             )
             .bind(&*self.main_stack, "visible-child-name", Some(obj));
 
-            gtk::ClosureExpression::new::<String, _, _>(
+            gtk::ClosureExpression::new::<String>(
                 &[image_list_expr, image_list_len_expr],
                 closure!(|_: glib::Object, list: Option<model::ImageList>, _: u32| {
                     match list {
@@ -276,7 +269,7 @@ mod imp {
             self.sorter.set(sorter.upcast()).unwrap();
         }
 
-        fn dispose(&self, _obj: &Self::Type) {
+        fn dispose(&self) {
             self.popover_menu.unparent();
             self.main_stack.unparent();
         }
@@ -293,7 +286,7 @@ glib::wrapper! {
 
 impl Default for Panel {
     fn default() -> Self {
-        glib::Object::new(&[]).expect("Failed to create PdsImagesPanel")
+        glib::Object::new::<Self>(&[])
     }
 }
 

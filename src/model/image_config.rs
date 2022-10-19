@@ -56,13 +56,7 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            _obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
                 "cmd" => self.cmd.set(value.get().unwrap()).unwrap(),
                 "entrypoint" => self.entrypoint.set(value.get().unwrap()).unwrap(),
@@ -71,7 +65,8 @@ mod imp {
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            let obj = &*self.instance();
             match pspec.name() {
                 "cmd" => obj.cmd().to_value(),
                 "entrypoint" => obj.entrypoint().to_value(),
@@ -88,7 +83,7 @@ glib::wrapper! {
 
 impl ImageConfig {
     pub(crate) fn from_libpod(config: podman::models::ImageConfig) -> Self {
-        glib::Object::new(&[
+        glib::Object::new::<Self>(&[
             (
                 "cmd",
                 &utils::format_iter_or_none(
@@ -113,7 +108,6 @@ impl ImageConfig {
                 ),
             ),
         ])
-        .expect("Failed to create ImageConfig")
     }
 
     pub(crate) fn cmd(&self) -> Option<&str> {

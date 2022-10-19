@@ -92,24 +92,19 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
                 "manager" => self.manager.set(value.get().unwrap()),
                 "uuid" => self.uuid.set(value.get().unwrap()).unwrap(),
                 "name" => self.name.set(value.get().unwrap()).unwrap(),
                 "url" => self.url.set(value.get().unwrap()).unwrap(),
-                "rgb" => obj.set_rgb(value.get().unwrap()),
+                "rgb" => self.instance().set_rgb(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            let obj = &*self.instance();
             match pspec.name() {
                 "manager" => obj.manager().to_value(),
                 "uuid" => obj.uuid().to_value(),
@@ -163,14 +158,13 @@ impl Connection {
         rgb: Option<gdk::RGBA>,
         manager: &model::ConnectionManager,
     ) -> Self {
-        glib::Object::new(&[
+        glib::Object::new::<Self>(&[
             ("manager", manager),
             ("uuid", &uuid),
             ("name", &name),
             ("url", &url),
             ("rgb", &rgb),
         ])
-        .expect("Failed to create Connection")
     }
 
     pub(crate) fn manager(&self) -> Option<model::ConnectionManager> {

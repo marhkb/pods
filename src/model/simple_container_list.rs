@@ -116,7 +116,8 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            let obj = &*self.instance();
             match pspec.name() {
                 "len" => obj.len().to_value(),
                 "created" => obj.created().to_value(),
@@ -131,22 +132,22 @@ mod imp {
             }
         }
 
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
-            model::AbstractContainerList::bootstrap(obj);
+        fn constructed(&self) {
+            self.parent_constructed();
+            model::AbstractContainerList::bootstrap(&*self.instance());
         }
     }
 
     impl ListModelImpl for SimpleContainerList {
-        fn item_type(&self, _list_model: &Self::Type) -> glib::Type {
+        fn item_type(&self) -> glib::Type {
             model::Container::static_type()
         }
 
-        fn n_items(&self, _list_model: &Self::Type) -> u32 {
+        fn n_items(&self) -> u32 {
             self.0.borrow().len() as u32
         }
 
-        fn item(&self, _list_model: &Self::Type, position: u32) -> Option<glib::Object> {
+        fn item(&self, position: u32) -> Option<glib::Object> {
             self.0
                 .borrow()
                 .get_index(position as usize)
@@ -162,7 +163,7 @@ glib::wrapper! {
 
 impl Default for SimpleContainerList {
     fn default() -> Self {
-        glib::Object::new(&[]).expect("Failed to create SimpleContainerList")
+        glib::Object::new::<Self>(&[])
     }
 }
 

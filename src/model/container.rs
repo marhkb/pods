@@ -158,9 +158,8 @@ mod imp {
 
     impl ObjectImpl for Container {
         fn signals() -> &'static [Signal] {
-            static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
-                vec![Signal::builder("deleted", &[], <()>::static_type().into()).build()]
-            });
+            static SIGNALS: Lazy<Vec<Signal>> =
+                Lazy::new(|| vec![Signal::builder("deleted").build()]);
             SIGNALS.as_ref()
         }
 
@@ -314,13 +313,8 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            let obj = &*self.instance();
             match pspec.name() {
                 "container-list" => self.container_list.set(value.get().unwrap()),
                 "action-ongoing" => obj.set_action_ongoing(value.get().unwrap()),
@@ -342,7 +336,8 @@ mod imp {
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            let obj = &*self.instance();
             match pspec.name() {
                 "container-list" => obj.container_list().to_value(),
                 "action-ongoing" => obj.action_ongoing().to_value(),
@@ -365,8 +360,8 @@ mod imp {
             }
         }
 
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            self.parent_constructed();
             self.can_inspect.set(true);
         }
     }
@@ -381,7 +376,7 @@ impl Container {
         container_list: &model::ContainerList,
         list_container: podman::models::ListContainer,
     ) -> Self {
-        glib::Object::new(&[
+        glib::Object::new::<Self>(&[
             ("container-list", container_list),
             (
                 "created",
@@ -426,7 +421,6 @@ impl Container {
             ("status", &status(list_container.state.as_deref())),
             ("up-since", &list_container.started_at.unwrap()),
         ])
-        .expect("Failed to create Container")
     }
 
     pub(crate) fn update(&self, list_container: podman::models::ListContainer) {

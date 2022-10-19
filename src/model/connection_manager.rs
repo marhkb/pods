@@ -55,24 +55,24 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "client" => obj.client().to_value(),
+                "client" => self.instance().client().to_value(),
                 _ => unimplemented!(),
             }
         }
     }
 
     impl ListModelImpl for ConnectionManager {
-        fn item_type(&self, _list_model: &Self::Type) -> glib::Type {
+        fn item_type(&self) -> glib::Type {
             model::Connection::static_type()
         }
 
-        fn n_items(&self, _list_model: &Self::Type) -> u32 {
+        fn n_items(&self) -> u32 {
             self.connections.borrow().len() as u32
         }
 
-        fn item(&self, _list_model: &Self::Type, position: u32) -> Option<glib::Object> {
+        fn item(&self, position: u32) -> Option<glib::Object> {
             self.connections
                 .borrow()
                 .get_index(position as usize)
@@ -89,7 +89,7 @@ glib::wrapper! {
 
 impl Default for ConnectionManager {
     fn default() -> Self {
-        glib::Object::new(&[]).expect("Failed to create ConnectionManager")
+        glib::Object::new::<Self>(&[])
     }
 }
 

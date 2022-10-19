@@ -107,11 +107,8 @@ mod imp {
 
     impl ObjectImpl for Panel {
         fn signals() -> &'static [Signal] {
-            static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
-                vec![
-                    Signal::builder("exit-selection-mode", &[], <()>::static_type().into()).build(),
-                ]
-            });
+            static SIGNALS: Lazy<Vec<Signal>> =
+                Lazy::new(|| vec![Signal::builder("exit-selection-mode").build()]);
             SIGNALS.as_ref()
         }
 
@@ -128,28 +125,24 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "pod-list" => obj.set_pod_list(value.get().unwrap()),
+                "pod-list" => self.instance().set_pod_list(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "pod-list" => obj.pod_list().to_value(),
+                "pod-list" => self.instance().pod_list().to_value(),
                 _ => unimplemented!(),
             }
         }
 
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            let obj = &*self.instance();
 
             self.settings.connect_changed(
                 Some("show-only-running-pods"),
@@ -189,7 +182,7 @@ mod imp {
                 }),
             );
 
-            gtk::ClosureExpression::new::<Option<String>, _, _>(
+            gtk::ClosureExpression::new::<Option<String>>(
                 &[
                     &pod_list_len_expr,
                     &pod_list_expr.chain_property::<model::PodList>("listing"),
@@ -213,7 +206,7 @@ mod imp {
             )
             .bind(&*self.main_stack, "visible-child-name", Some(obj));
 
-            gtk::ClosureExpression::new::<Option<String>, _, _>(
+            gtk::ClosureExpression::new::<Option<String>>(
                 &[
                     pod_list_len_expr,
                     pod_list_expr.chain_property::<model::PodList>("running"),
@@ -261,7 +254,7 @@ mod imp {
             self.sorter.set(sorter.upcast()).unwrap();
         }
 
-        fn dispose(&self, _obj: &Self::Type) {
+        fn dispose(&self) {
             self.main_stack.unparent();
         }
     }
@@ -277,7 +270,7 @@ glib::wrapper! {
 
 impl Default for Panel {
     fn default() -> Self {
-        glib::Object::new(&[]).expect("Failed to create PdsPodsPanel")
+        glib::Object::new::<Self>(&[])
     }
 }
 

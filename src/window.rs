@@ -236,17 +236,19 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "connection-manager" => obj.connection_manager().to_value(),
+                "connection-manager" => self.instance().connection_manager().to_value(),
                 "title-stack" => self.title_stack.to_value(),
                 "panel-stack" => self.panel_stack.to_value(),
                 _ => unimplemented!(),
             }
         }
 
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            let obj = &*self.instance();
 
             // Devel Profile
             if config::PROFILE == "Devel" {
@@ -273,7 +275,7 @@ mod imp {
 
             title_visible_expr.bind(&*self.menu_button, "visible", Some(obj));
 
-            gtk::ClosureExpression::new::<bool, _, _>(
+            gtk::ClosureExpression::new::<bool>(
                 &[&title_visible_expr, &has_actions_expr],
                 closure!(
                     |_: Self::Type, title_visible: bool, has_actions: bool| title_visible
@@ -305,7 +307,7 @@ mod imp {
                 }),
             );
 
-            gtk::ClosureExpression::new::<bool, _, _>(
+            gtk::ClosureExpression::new::<bool>(
                 &[
                     title_visible_expr.upcast_ref(),
                     &panel_stack_visible_child_name_expr.upcast(),
@@ -426,7 +428,9 @@ mod imp {
 
     impl WindowImpl for Window {
         // Save window state on delete event
-        fn close_request(&self, window: &Self::Type) -> gtk::Inhibit {
+        fn close_request(&self) -> gtk::Inhibit {
+            let window = &*self.instance();
+
             if let Err(err) = window.save_window_size() {
                 log::warn!("Failed to save window state, {}", &err);
             }
@@ -436,7 +440,7 @@ mod imp {
                 &self.connection_manager,
                 &gettext("Confirm Exiting The Application"),
             ) {
-                self.parent_close_request(window)
+                self.parent_close_request()
             } else {
                 gtk::Inhibit(true)
             }
@@ -455,7 +459,7 @@ glib::wrapper! {
 
 impl Window {
     pub(crate) fn new(app: &Application) -> Self {
-        glib::Object::new(&[("application", app)]).expect("Failed to create Window")
+        glib::Object::new::<Self>(&[("application", app)])
     }
 
     fn save_window_size(&self) -> Result<(), glib::BoolError> {
@@ -587,7 +591,7 @@ impl Window {
     fn setup_panels(&self) {
         let imp = self.imp();
 
-        gtk::ClosureExpression::new::<bool, _, _>(
+        gtk::ClosureExpression::new::<bool>(
             &[
                 imp.title.property_expression("title-visible"),
                 imp.header_stack.property_expression("visible-child-name"),

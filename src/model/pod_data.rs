@@ -34,22 +34,16 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            _obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
                 "hostname" => self.hostname.set(value.get().unwrap()).unwrap(),
                 _ => unimplemented!(),
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "hostname" => obj.hostname().to_value(),
+                "hostname" => self.instance().hostname().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -62,8 +56,7 @@ glib::wrapper! {
 
 impl From<podman::models::InspectPodData> for PodData {
     fn from(data: podman::models::InspectPodData) -> Self {
-        glib::Object::new(&[("hostname", &data.hostname.unwrap_or_default())])
-            .expect("Failed to create ImageData")
+        glib::Object::new::<Self>(&[("hostname", &data.hostname.unwrap_or_default())])
     }
 }
 

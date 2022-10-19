@@ -1,9 +1,7 @@
 use std::cell::RefCell;
 
 use adw::traits::ActionRowExt;
-use ashpd::desktop::file_chooser::FileChooserProxy;
-use ashpd::desktop::file_chooser::OpenFileOptions;
-use ashpd::zbus;
+use ashpd::desktop::file_chooser::OpenFileRequest;
 use ashpd::WindowIdentifier;
 use gettextrs::gettext;
 use gtk::gio;
@@ -89,28 +87,24 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            _obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
                 "client" => self.client.set(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "client" => obj.client().to_value(),
+                "client" => self.instance().client().to_value(),
                 _ => unimplemented!(),
             }
         }
 
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            let obj = &*self.instance();
 
             self.container_file_path_entry_row.set_text(
                 &self
@@ -143,14 +137,16 @@ mod imp {
             );
         }
 
-        fn dispose(&self, obj: &Self::Type) {
-            utils::ChildIter::from(obj).for_each(|child| child.unparent());
+        fn dispose(&self) {
+            utils::ChildIter::from(&*self.instance()).for_each(|child| child.unparent());
         }
     }
 
     impl WidgetImpl for BuildPage {
-        fn root(&self, widget: &Self::Type) {
-            self.parent_root(widget);
+        fn root(&self) {
+            self.parent_root();
+
+            let widget = &*self.instance();
 
             glib::idle_add_local(
                 clone!(@weak widget => @default-return glib::Continue(false), move || {
@@ -161,9 +157,9 @@ mod imp {
             utils::root(widget).set_default_widget(Some(&*self.build_button));
         }
 
-        fn unroot(&self, widget: &Self::Type) {
-            utils::root(widget).set_default_widget(gtk::Widget::NONE);
-            self.parent_unroot(widget)
+        fn unroot(&self) {
+            utils::root(&*self.instance()).set_default_widget(gtk::Widget::NONE);
+            self.parent_unroot()
         }
     }
 }
@@ -176,7 +172,7 @@ glib::wrapper! {
 
 impl From<Option<&model::Client>> for BuildPage {
     fn from(client: Option<&model::Client>) -> Self {
-        glib::Object::new(&[("client", &client)]).expect("Failed to create PdsImageBuildPage")
+        glib::Object::new::<Self>(&[("client", &client)])
     }
 }
 
@@ -200,6 +196,7 @@ impl BuildPage {
 
     fn choose_context_dir(&self) {
         self.open_file_chooser_dialog(
+            &gettext("Select Build Context Directory"),
             true,
             clone!(@weak self as obj => move |file| {
                 obj.imp().context_dir_row.set_subtitle(file);
@@ -207,27 +204,22 @@ impl BuildPage {
         );
     }
 
-    fn open_file_chooser_dialog<F>(&self, directory: bool, op: F)
+    fn open_file_chooser_dialog<F>(&self, title: &str, directory: bool, op: F)
     where
         F: FnOnce(&str) + 'static,
     {
         glib::MainContext::default().block_on(async move {
-            let connection = zbus::Connection::session().await.unwrap();
-            let proxy = FileChooserProxy::new(&connection).await.unwrap();
-            let native = self.native().unwrap();
-            let identifier = WindowIdentifier::from_native(&native).await;
+            let request = OpenFileRequest::default()
+                .identifier(WindowIdentifier::from_native(&self.native().unwrap()).await)
+                .title(title)
+                .directory(directory)
+                .modal(true);
 
-            let options = OpenFileOptions::default().modal(true).directory(directory);
-
-            if let Ok(files) = proxy
-                .open_file(&identifier, &gettext("Select File"), options)
-                .await
-            {
-                // let parent_window = self.root().unwrap().downcast().ok();
-                let file = gio::File::for_uri(&files.uris()[0]);
+            if let Ok(files) = request.build().await {
+                let file = gio::File::for_uri(files.uris()[0].as_str());
 
                 if let Some(path) = file.path() {
-                    op(path.to_str().unwrap())
+                    op(path.to_str().unwrap());
                 }
             }
         });

@@ -75,28 +75,24 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "container" => obj.set_container(value.get().unwrap()),
+                "container" => self.instance().set_container(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "container" => obj.container().to_value(),
+                "container" => self.instance().container().to_value(),
                 _ => unimplemented!(),
             }
         }
 
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            let obj = &*self.instance();
 
             let container_expr = Self::Type::this_expression("container");
 
@@ -179,7 +175,7 @@ mod imp {
                 ))
                 .bind(&*self.health_status_label, "label", Some(obj));
 
-            gtk::ClosureExpression::new::<bool, _, _>(
+            gtk::ClosureExpression::new::<bool>(
                 &[status_expr.upcast_ref(), health_status_expr.upcast_ref()],
                 closure!(|_: Self::Type,
                           status: model::ContainerStatus,
@@ -221,7 +217,7 @@ glib::wrapper! {
 
 impl From<&model::Container> for Row {
     fn from(container: &model::Container) -> Self {
-        glib::Object::new(&[("container", container)]).expect("Failed to create PdsContainerRow")
+        glib::Object::new::<Self>(&[("container", container)])
     }
 }
 

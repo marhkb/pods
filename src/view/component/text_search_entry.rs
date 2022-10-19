@@ -52,31 +52,24 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "info" => obj.set_info(value.get().unwrap()),
-                property => self
-                    .text
-                    .try_set_property_from_value(property, value)
-                    .unwrap(),
+                "info" => self.instance().set_info(value.get().unwrap()),
+                property => self.text.set_property_from_value(property, value),
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "info" => obj.info().to_value(),
-                property => self.text.try_property_value(property).unwrap(),
+                "info" => self.instance().info().to_value(),
+                property => self.text.property_value(property),
             }
         }
 
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            let obj = &*self.instance();
 
             self.text.connect_notify_local(
                 None,
@@ -91,7 +84,7 @@ mod imp {
             );
         }
 
-        fn dispose(&self, _obj: &Self::Type) {
+        fn dispose(&self) {
             self.image.unparent();
             self.text.unparent();
             self.info_label.unparent();
@@ -99,13 +92,13 @@ mod imp {
     }
 
     impl WidgetImpl for TextSearchEntry {
-        fn grab_focus(&self, _widget: &Self::Type) -> bool {
+        fn grab_focus(&self) -> bool {
             self.text.grab_focus()
         }
     }
 
     impl EditableImpl for TextSearchEntry {
-        fn delegate(&self, _editable: &Self::Type) -> Option<gtk::Editable> {
+        fn delegate(&self) -> Option<gtk::Editable> {
             Some(self.text.clone().upcast())
         }
     }

@@ -55,7 +55,7 @@ mod imp {
 
             let instance = self.instance();
 
-            utils::root(&instance)
+            utils::root(&*instance)
                 .leaflet_overlay()
                 .show_details(&view::ActionPage::from(&action));
 
@@ -83,28 +83,24 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "action-list" => obj.set_action_list(value.get().unwrap()),
+                "action-list" => self.instance().set_action_list(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "action-list" => obj.action_list().to_value(),
+                "action-list" => self.instance().action_list().to_value(),
                 _ => unimplemented!(),
             }
         }
 
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            let obj = &*self.instance();
 
             Self::Type::this_expression("action-list")
                 .chain_property::<model::ActionList>("len")
@@ -118,7 +114,7 @@ mod imp {
                 .bind(&*self.stack, "visible-child-name", Some(obj));
         }
 
-        fn dispose(&self, _obj: &Self::Type) {
+        fn dispose(&self) {
             self.stack.unparent();
         }
     }
@@ -134,7 +130,7 @@ glib::wrapper! {
 
 impl Default for Overview {
     fn default() -> Self {
-        glib::Object::new(&[]).expect("Failed to create PdsConnectionOverview")
+        glib::Object::new::<Self>(&[])
     }
 }
 

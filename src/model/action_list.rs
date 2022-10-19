@@ -90,20 +90,15 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            _obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
                 "client" => self.client.set(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            let obj = &*self.instance();
             match pspec.name() {
                 "client" => obj.client().to_value(),
                 "len" => obj.len().to_value(),
@@ -115,9 +110,9 @@ mod imp {
             }
         }
 
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
-            obj.connect_items_changed(|obj, _, _, _| {
+        fn constructed(&self) {
+            self.parent_constructed();
+            self.instance().connect_items_changed(|obj, _, _, _| {
                 obj.notify("len");
                 obj.notify_num_states();
             });
@@ -125,15 +120,15 @@ mod imp {
     }
 
     impl ListModelImpl for ActionList {
-        fn item_type(&self, _list_model: &Self::Type) -> glib::Type {
+        fn item_type(&self) -> glib::Type {
             model::Action::static_type()
         }
 
-        fn n_items(&self, _list_model: &Self::Type) -> u32 {
+        fn n_items(&self) -> u32 {
             self.list.borrow().len() as u32
         }
 
-        fn item(&self, _list_model: &Self::Type, position: u32) -> Option<glib::Object> {
+        fn item(&self, position: u32) -> Option<glib::Object> {
             self.list
                 .borrow()
                 .get_index(position as usize)
@@ -150,7 +145,7 @@ glib::wrapper! {
 
 impl From<Option<&model::Client>> for ActionList {
     fn from(client: Option<&model::Client>) -> Self {
-        glib::Object::new(&[("client", &client)]).expect("Failed to create ActionList")
+        glib::Object::new::<Self>(&[("client", &client)])
     }
 }
 

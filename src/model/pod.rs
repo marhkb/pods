@@ -109,9 +109,8 @@ mod imp {
 
     impl ObjectImpl for Pod {
         fn signals() -> &'static [Signal] {
-            static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
-                vec![Signal::builder("deleted", &[], <()>::static_type().into()).build()]
-            });
+            static SIGNALS: Lazy<Vec<Signal>> =
+                Lazy::new(|| vec![Signal::builder("deleted").build()]);
             SIGNALS.as_ref()
         }
 
@@ -211,13 +210,8 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            let obj = &*self.instance();
             match pspec.name() {
                 "pod-list" => self.pod_list.set(value.get().unwrap()),
                 "action-ongoing" => obj.set_action_ongoing(value.get().unwrap()),
@@ -232,7 +226,8 @@ mod imp {
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            let obj = &*self.instance();
             match pspec.name() {
                 "pod-list" => obj.pod_list().to_value(),
                 "container-list" => obj.container_list().to_value(),
@@ -249,8 +244,8 @@ mod imp {
             }
         }
 
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            self.parent_constructed();
             self.can_inspect.set(true);
         }
     }
@@ -262,7 +257,7 @@ glib::wrapper! {
 
 impl Pod {
     pub(crate) fn new(pod_list: &model::PodList, report: podman::models::ListPodsReport) -> Self {
-        glib::Object::new(&[
+        glib::Object::new::<Self>(&[
             ("pod-list", pod_list),
             (
                 "created",
@@ -276,7 +271,6 @@ impl Pod {
             ),
             ("status", &status(report.status.as_deref())),
         ])
-        .expect("Failed to create Pod")
     }
 
     pub(crate) fn update(&self, report: podman::models::ListPodsReport) {

@@ -135,13 +135,7 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            _obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
                 "num" => self.num.set(value.get().unwrap()).unwrap(),
                 "type" => self.type_.set(value.get().unwrap()).unwrap(),
@@ -152,7 +146,8 @@ mod imp {
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            let obj = &*self.instance();
             match pspec.name() {
                 "num" => obj.num().to_value(),
                 "type" => obj.type_().to_value(),
@@ -182,7 +177,7 @@ impl Action {
 
 impl Action {
     fn new(num: u32, type_: Type, description: &str) -> Self {
-        glib::Object::new(&[
+        glib::Object::new::<Self>(&[
             ("num", &num),
             ("type", &type_),
             ("description", &description),
@@ -191,7 +186,6 @@ impl Action {
                 &glib::DateTime::now_local().unwrap().to_unix(),
             ),
         ])
-        .expect("Failed to create Action")
     }
 
     pub(crate) fn prune_images(

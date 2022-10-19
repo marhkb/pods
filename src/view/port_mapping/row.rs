@@ -62,22 +62,18 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "port-mapping" => obj.set_port_mapping(value.get().unwrap_or_default()),
+                "port-mapping" => self
+                    .instance()
+                    .set_port_mapping(value.get().unwrap_or_default()),
                 _ => unimplemented!(),
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "port-mapping" => obj.port_mapping().to_value(),
+                "port-mapping" => self.instance().port_mapping().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -95,8 +91,7 @@ glib::wrapper! {
 
 impl From<&model::PortMapping> for Row {
     fn from(port_mapping: &model::PortMapping) -> Self {
-        glib::Object::new(&[("port-mapping", &port_mapping)])
-            .expect("Failed to create PdsPortMappingRow")
+        glib::Object::new::<Self>(&[("port-mapping", &port_mapping)])
     }
 }
 
@@ -127,18 +122,18 @@ impl Row {
             let binding = port_mapping
                 .bind_property("protocol", &*imp.protocol_drop_down, "selected")
                 .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
-                .transform_to(|_, value| {
+                .transform_to(|_, protocol: model::PortMappingProtocol| {
                     Some(
-                        match value.get::<model::PortMappingProtocol>().unwrap() {
+                        match protocol {
                             model::PortMappingProtocol::Tcp => 0_u32,
                             model::PortMappingProtocol::Udp => 1_u32,
                         }
                         .to_value(),
                     )
                 })
-                .transform_from(|_, value| {
+                .transform_from(|_, position: u32| {
                     Some(
-                        if value.get::<u32>().unwrap() == 0 {
+                        if position == 0 {
                             model::PortMappingProtocol::Tcp
                         } else {
                             model::PortMappingProtocol::Udp

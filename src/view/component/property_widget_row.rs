@@ -57,13 +57,8 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            let obj = &*self.instance();
             match pspec.name() {
                 "key" => obj.set_key(value.get().unwrap_or_default()),
                 "widget" => obj.set_widget(value.get().unwrap()),
@@ -71,7 +66,8 @@ mod imp {
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            let obj = &*self.instance();
             match pspec.name() {
                 "key" => obj.key().to_value(),
                 "widget" => obj.widget().to_value(),
@@ -79,8 +75,10 @@ mod imp {
             }
         }
 
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            let obj = &*self.instance();
 
             obj.connect_notify_local(
                 Some("title"),
@@ -106,7 +104,7 @@ glib::wrapper! {
 
 impl Default for PropertyWidgetRow {
     fn default() -> Self {
-        glib::Object::new(&[]).expect("Failed to create PdsPropertyWidgetRow")
+        glib::Object::new::<Self>(&[])
     }
 }
 

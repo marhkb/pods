@@ -64,22 +64,16 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "device" => obj.set_device(value.get().unwrap_or_default()),
+                "device" => self.instance().set_device(value.get().unwrap_or_default()),
                 _ => unimplemented!(),
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "device" => obj.device().to_value(),
+                "device" => self.instance().device().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -97,7 +91,7 @@ glib::wrapper! {
 
 impl From<&model::Device> for Row {
     fn from(device: &model::Device) -> Self {
-        glib::Object::new(&[("device", &device)]).expect("Failed to create PdsDeviceRow")
+        glib::Object::new::<Self>(&[("device", &device)])
     }
 }
 
