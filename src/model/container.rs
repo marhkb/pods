@@ -147,6 +147,8 @@ mod imp {
         pub(super) data: OnceCell<model::ContainerData>,
         pub(super) can_inspect: Cell<bool>,
 
+        pub(super) to_be_deleted: Cell<bool>,
+
         pub(super) selected: Cell<bool>,
     }
 
@@ -241,6 +243,9 @@ mod imp {
                     glib::ParamSpecObject::builder::<model::ContainerData>("data")
                         .flags(glib::ParamFlags::READABLE)
                         .build(),
+                    glib::ParamSpecBoolean::builder("to-be-deleted")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .build(),
                     glib::ParamSpecBoolean::builder("selected").build(),
                 ]
             });
@@ -265,6 +270,7 @@ mod imp {
                 "stats" => obj.set_stats(value.get().unwrap()),
                 "status" => obj.set_status(value.get().unwrap()),
                 "up-since" => obj.set_up_since(value.get().unwrap()),
+                "to-be-deleted" => obj.set_to_be_deleted(value.get().unwrap()),
                 "selected" => self.selected.set(value.get().unwrap()),
                 _ => unimplemented!(),
             }
@@ -289,6 +295,7 @@ mod imp {
                 "status" => obj.status().to_value(),
                 "up-since" => obj.up_since().to_value(),
                 "data" => obj.data().to_value(),
+                "to-be-deleted" => obj.to_be_deleted().to_value(),
                 "selected" => self.selected.get().to_value(),
                 _ => unimplemented!(),
             }
@@ -553,6 +560,18 @@ impl Container {
             }),
         );
     }
+
+    pub(crate) fn to_be_deleted(&self) -> bool {
+        self.imp().to_be_deleted.get()
+    }
+
+    fn set_to_be_deleted(&self, value: bool) {
+        if self.to_be_deleted() == value {
+            return;
+        }
+        self.imp().to_be_deleted.set(value);
+        self.notify("to-be-deleted");
+    }
 }
 
 impl Container {
@@ -682,6 +701,9 @@ impl Container {
     where
         F: FnOnce(podman::Result<()>) + 'static,
     {
+        if !self.action_ongoing() {
+            self.set_to_be_deleted(true);
+        }
         self.action(
             if force { "force deleting" } else { "deleting" },
             move |container| async move {
@@ -693,7 +715,12 @@ impl Container {
                     )
                     .await
             },
-            op,
+            clone!(@weak self as obj => move |result| {
+                if result.is_err() {
+                    obj.set_to_be_deleted(false);
+                }
+                op(result)
+            }),
         );
     }
 
