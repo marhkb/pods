@@ -12,11 +12,8 @@
       <object class="GtkOverlay" id="overlay">
 
         <child type="overlay">
-          <object class="GtkLabel" id="description_label">
-            <style>
-              <class name="circular-progress-bar"/>
-            </style>
-            <property name="justify">center</property>
+          <object class="GtkImage" id="icon">
+            <property name="icon-name">computer-chip-symbolic</property>
             <property name="valign">center</property>
             <property name="halign">center</property>
           </object>

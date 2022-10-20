@@ -39,14 +39,14 @@
         <child>
           <object class="PdsCircularProgressBar" id="cpu_bar">
             <property name="width-request">36</property>
-            <property name="label">cpu</property>
+            <property name="icon-name">computer-chip-symbolic</property>
           </object>
         </child>
 
         <child>
           <object class="PdsCircularProgressBar" id="mem_bar">
             <property name="width-request">36</property>
-            <property name="label">mem</property>
+            <property name="icon-name">memory-symbolic</property>
           </object>
         </child>
 
