@@ -22,7 +22,7 @@ mod imp {
         #[template_child]
         pub(super) overlay: TemplateChild<gtk::Overlay>,
         #[template_child]
-        pub(super) description_label: TemplateChild<gtk::Label>,
+        pub(super) icon: TemplateChild<gtk::Image>,
         #[template_child]
         pub(super) drawing_area: TemplateChild<gtk::DrawingArea>,
     }
@@ -50,7 +50,7 @@ mod imp {
                         .maximum(1.0)
                         .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
                         .build(),
-                    glib::ParamSpecString::builder("label")
+                    glib::ParamSpecString::builder("icon-name")
                         .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
                         .build(),
                 ]
@@ -62,7 +62,7 @@ mod imp {
             let obj = &*self.instance();
             match pspec.name() {
                 "percentage" => obj.set_percentage(value.get().unwrap()),
-                "label" => obj.set_label(value.get().unwrap()),
+                "icon-name" => obj.set_icon_name(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
@@ -71,7 +71,7 @@ mod imp {
             let obj = &*self.instance();
             match pspec.name() {
                 "percentage" => obj.percentage().to_value(),
-                "label" => obj.label().to_value(),
+                "icon-name" => obj.icon_name().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -81,10 +81,9 @@ mod imp {
 
             let obj = &*self.instance();
 
-            // gdk::cairo::Context::fill(&self)
-            self.description_label.connect_notify_local(
-                Some("label"),
-                clone!(@weak obj => move |_, _| obj.notify("label")),
+            self.icon.connect_notify_local(
+                Some("icon-name"),
+                clone!(@weak obj => move |_, _| obj.notify("icon-name")),
             );
 
             self.drawing_area
@@ -230,15 +229,11 @@ impl CircularProgressBar {
         self.notify("percentage");
     }
 
-    pub(crate) fn label(&self) -> glib::GString {
-        self.imp().description_label.label()
+    pub(crate) fn icon_name(&self) -> Option<glib::GString> {
+        self.imp().icon.icon_name()
     }
 
-    pub(crate) fn set_label(&self, value: &str) {
-        if self.label().as_str() == value {
-            return;
-        }
-        self.imp().description_label.set_label(value);
-        self.notify("label");
+    pub(crate) fn set_icon_name(&self, value: Option<&str>) {
+        self.imp().icon.set_icon_name(value);
     }
 }
