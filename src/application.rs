@@ -143,21 +143,23 @@ impl Application {
     }
 
     fn setup_gactions(&self) {
-        // Quit
-        let action_quit = gio::SimpleAction::new("quit", None);
-        action_quit.connect_activate(clone!(@weak self as app => move |_, _| {
-            // This is needed to trigger the delete event and saving the window state
-            app.main_window().close();
-            app.quit();
-        }));
-        self.add_action(&action_quit);
-
-        // About
-        let action_about = gio::SimpleAction::new("about", None);
-        action_about.connect_activate(clone!(@weak self as app => move |_, _| {
-            app.show_about_dialog();
-        }));
-        self.add_action(&action_about);
+        self.add_action_entries([
+            // Quit
+            gio::ActionEntry::builder("quit")
+                .activate(move |app: &Self, _, _| {
+                    // This is needed to trigger the delete event and saving the window state
+                    app.main_window().close();
+                    app.quit();
+                })
+                .build(),
+            // About
+            gio::ActionEntry::builder("about")
+                .activate(|app: &Self, _, _| {
+                    app.show_about_dialog();
+                })
+                .build(),
+        ])
+        .unwrap();
     }
 
     // Sets up keyboard shortcuts
