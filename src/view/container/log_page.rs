@@ -224,7 +224,7 @@ mod imp {
             }));
 
             adj.connect_upper_notify(clone!(@weak obj => move |_| {
-                if obj.sticky() || Self::from_instance(&obj).is_auto_scrolling.get() {
+                if obj.sticky() || obj.imp().is_auto_scrolling.get() {
                     obj.scroll_down();
                 }
             }));
