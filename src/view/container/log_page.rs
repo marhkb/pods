@@ -248,8 +248,6 @@ mod imp {
             }
 
             obj.follow_log();
-
-            obj.scroll_down();
         }
 
         fn dispose(&self) {
