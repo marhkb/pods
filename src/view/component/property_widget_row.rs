@@ -96,7 +96,7 @@ glib::wrapper! {
 
 impl Default for PropertyWidgetRow {
     fn default() -> Self {
-        glib::Object::new::<Self>(&[])
+        glib::Object::builder::<Self>().build()
     }
 }
 

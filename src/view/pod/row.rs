@@ -159,7 +159,7 @@ glib::wrapper! {
 
 impl From<&model::Pod> for Row {
     fn from(pod: &model::Pod) -> Self {
-        glib::Object::new::<Self>(&[("pod", pod)])
+        glib::Object::builder::<Self>().property("pod", pod).build()
     }
 }
 

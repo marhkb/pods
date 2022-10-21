@@ -186,7 +186,9 @@ glib::wrapper! {
 
 impl From<&model::Image> for Row {
     fn from(image: &model::Image) -> Self {
-        glib::Object::new::<Self>(&[("image", image)])
+        glib::Object::builder::<Self>()
+            .property("image", image)
+            .build()
     }
 }
 

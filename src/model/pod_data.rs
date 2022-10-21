@@ -53,7 +53,9 @@ glib::wrapper! {
 
 impl From<podman::models::InspectPodData> for PodData {
     fn from(data: podman::models::InspectPodData) -> Self {
-        glib::Object::new::<Self>(&[("hostname", &data.hostname.unwrap_or_default())])
+        glib::Object::builder::<Self>()
+            .property("hostname", &data.hostname.unwrap_or_default())
+            .build()
     }
 }
 

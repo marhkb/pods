@@ -175,7 +175,9 @@ glib::wrapper! {
 
 impl From<&model::Container> for HealthCheckPage {
     fn from(image: &model::Container) -> Self {
-        glib::Object::new::<Self>(&[("container", image)])
+        glib::Object::builder::<Self>()
+            .property("container", image)
+            .build()
     }
 }
 

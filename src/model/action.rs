@@ -137,15 +137,15 @@ impl Action {
 
 impl Action {
     fn new(num: u32, type_: Type, description: &str) -> Self {
-        glib::Object::new::<Self>(&[
-            ("num", &num),
-            ("type", &type_),
-            ("description", &description),
-            (
+        glib::Object::builder::<Self>()
+            .property("num", &num)
+            .property("type", &type_)
+            .property("description", &description)
+            .property(
                 "start-timestamp",
                 &glib::DateTime::now_local().unwrap().to_unix(),
-            ),
-        ])
+            )
+            .build()
     }
 
     pub(crate) fn prune_images(

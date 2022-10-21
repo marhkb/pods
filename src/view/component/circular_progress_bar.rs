@@ -208,7 +208,7 @@ glib::wrapper! {
 
 impl Default for CircularProgressBar {
     fn default() -> Self {
-        glib::Object::new::<Self>(&[])
+        glib::Object::builder::<Self>().build()
     }
 }
 

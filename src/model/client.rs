@@ -167,10 +167,10 @@ impl TryFrom<&model::Connection> for Client {
 
     fn try_from(connection: &model::Connection) -> Result<Self, Self::Error> {
         podman::Podman::new(connection.url()).map(|podman| {
-            glib::Object::new::<Self>(&[
-                ("connection", connection),
-                ("podman", &BoxedPodman::from(podman)),
-            ])
+            glib::Object::builder::<Self>()
+                .property("connection", connection)
+                .property("podman", &BoxedPodman::from(podman))
+                .build()
         })
     }
 }

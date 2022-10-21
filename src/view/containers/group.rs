@@ -186,7 +186,7 @@ glib::wrapper! {
 
 impl Default for Group {
     fn default() -> Self {
-        glib::Object::new::<Self>(&[])
+        glib::Object::builder::<Self>().build()
     }
 }
 

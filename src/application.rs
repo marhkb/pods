@@ -111,11 +111,11 @@ glib::wrapper! {
 
 impl Default for Application {
     fn default() -> Self {
-        glib::Object::new::<Self>(&[
-            ("application-id", &Some(config::APP_ID)),
-            ("flags", &gio::ApplicationFlags::empty()),
-            ("resource-base-path", &Some("/com/github/marhkb/Pods/")),
-        ])
+        glib::Object::builder::<Self>()
+            .property("application-id", &Some(config::APP_ID))
+            .property("flags", &gio::ApplicationFlags::empty())
+            .property("resource-base-path", &Some("/com/github/marhkb/Pods/"))
+            .build()
     }
 }
 

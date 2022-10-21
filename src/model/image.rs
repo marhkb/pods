@@ -190,49 +190,49 @@ impl Image {
         image_list: &model::ImageList,
         summary: podman::models::LibpodImageSummary,
     ) -> Self {
-        glib::Object::new::<Self>(&[
-            ("image-list", image_list),
-            (
+        glib::Object::builder::<Self>()
+            .property("image-list", image_list)
+            .property(
                 "containers",
                 &(summary.containers.unwrap_or_default() as u64),
-            ),
-            ("created", &summary.created.unwrap_or(0)),
-            ("dangling", &summary.dangling.unwrap_or_default()),
-            ("digest", summary.digest.as_ref().unwrap()),
-            (
+            )
+            .property("created", &summary.created.unwrap_or(0))
+            .property("dangling", &summary.dangling.unwrap_or_default())
+            .property("digest", summary.digest.as_ref().unwrap())
+            .property(
                 "history",
                 &utils::BoxedStringVec::from(summary.history.unwrap_or_default()),
-            ),
-            ("id", &summary.id),
-            (
+            )
+            .property("id", &summary.id)
+            .property(
                 "parent-id",
                 &summary
                     .parent_id
                     .as_ref()
                     .map(|id| if id.is_empty() { None } else { Some(id) })
                     .unwrap_or_default(),
-            ),
-            ("read-only", &summary.read_only.unwrap_or_default()),
-            (
+            )
+            .property("read-only", &summary.read_only.unwrap_or_default())
+            .property(
                 "repo-digests",
                 &utils::BoxedStringVec::from(summary.repo_digests.unwrap_or_default()),
-            ),
-            (
+            )
+            .property(
                 "repo-tags",
                 &utils::BoxedStringVec::from(summary.repo_tags.unwrap_or_default()),
-            ),
-            ("size", &(summary.size.unwrap_or_default() as u64)),
-            (
+            )
+            .property("size", &(summary.size.unwrap_or_default() as u64))
+            .property(
                 "shared-size",
                 &(summary.shared_size.unwrap_or_default() as u64),
-            ),
+            )
             // FIXME: Find the right user in the response data.
-            ("user", &glib::user_name().to_str().unwrap_or_default()),
-            (
+            .property("user", &glib::user_name().to_str().unwrap_or_default())
+            .property(
                 "virtual-size",
                 &(summary.virtual_size.unwrap_or_default() as u64),
-            ),
-        ])
+            )
+            .build()
     }
 
     pub(crate) fn image_list(&self) -> Option<model::ImageList> {

@@ -141,7 +141,9 @@ glib::wrapper! {
 
 impl From<Option<model::Container>> for RenameDialog {
     fn from(container: Option<model::Container>) -> Self {
-        glib::Object::new::<Self>(&[("container", &container)])
+        glib::Object::builder::<Self>()
+            .property("container", &container)
+            .build()
     }
 }
 

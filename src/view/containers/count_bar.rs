@@ -141,7 +141,9 @@ glib::wrapper! {
 
 impl From<&model::AbstractContainerList> for CountBar {
     fn from(image: &model::AbstractContainerList) -> Self {
-        glib::Object::new::<Self>(&[("container-list", image)])
+        glib::Object::builder::<Self>()
+            .property("container-list", image)
+            .build()
     }
 }
 
