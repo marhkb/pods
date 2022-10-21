@@ -58,11 +58,11 @@ mod imp {
         #[template_child]
         pub(super) search_button: TemplateChild<gtk::ToggleButton>,
         #[template_child]
-        pub(super) stack: TemplateChild<gtk::Stack>,
-        #[template_child]
         pub(super) search_bar: TemplateChild<gtk::SearchBar>,
         #[template_child]
         pub(super) search_widget: TemplateChild<view::SourceViewSearchWidget>,
+        #[template_child]
+        pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) lines_loading_revealer: TemplateChild<gtk::Revealer>,
         #[template_child]
