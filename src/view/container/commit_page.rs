@@ -61,8 +61,8 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
-            klass.install_action(ACTION_FETCH_USERNAME, None, |widget, _, _| {
-                widget.fetch_user_information();
+            klass.install_action_async(ACTION_FETCH_USERNAME, None, |widget, _, _| async move {
+                widget.fetch_user_information().await;
             });
             klass.install_action(ACTION_ADD_CHANGE, None, |widget, _, _| {
                 widget.add_change();
@@ -183,25 +183,23 @@ impl CommitPage {
         self.notify("container");
     }
 
-    fn fetch_user_information(&self) {
-        glib::MainContext::default().block_on(async move {
-            match UserInformationRequest::default()
-                .identifier(WindowIdentifier::from_native(&self.native().unwrap()).await)
-                .build()
-                .await
-            {
-                Ok(user_info) => self.imp().author_entry_row.set_text(user_info.name()),
-                Err(e) => {
-                    if let ashpd::Error::Portal(ashpd::PortalError::Cancelled(_)) = e {
-                        utils::show_error_toast(
-                            self,
-                            &gettext("Error on fetching user name"),
-                            &e.to_string(),
-                        );
-                    }
+    async fn fetch_user_information(&self) {
+        match UserInformationRequest::default()
+            .identifier(WindowIdentifier::from_native(&self.native().unwrap()).await)
+            .build()
+            .await
+        {
+            Ok(user_info) => self.imp().author_entry_row.set_text(user_info.name()),
+            Err(e) => {
+                if let ashpd::Error::Portal(ashpd::PortalError::Cancelled(_)) = e {
+                    utils::show_error_toast(
+                        self,
+                        &gettext("Error on fetching user name"),
+                        &e.to_string(),
+                    );
                 }
             }
-        });
+        }
     }
 
     fn add_change(&self) {
