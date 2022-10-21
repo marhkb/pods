@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-10-02 23:09+0200\n"
-"PO-Revision-Date: 2022-10-10 18:12+0000\n"
+"PO-Revision-Date: 2022-10-21 19:22+0000\n"
 "Last-Translator: Óscar Fernández Díaz <oscfdezdz@tuta.io>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/pods/pods/es/>\n"
 "Language: es\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.14.1\n"
+"X-Generator: Weblate 4.14.2-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
@@ -146,29 +146,28 @@ msgid ""
 "Control the lifecycle of containers and pods (in bulk) (start, stop, pause, "
 "etc.)."
 msgstr ""
+"Controlar el ciclo de vida de los contenedores y las cápsulas (en bloque) ("
+"inicio, parada, pausa, etc.)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:22
 msgid "Delete images, containers, and pods (in bulk)."
-msgstr ""
+msgstr "Eliminar imágenes, contenedores y cápsulas (en bloque)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:23
-#, fuzzy
 msgid "Prune images."
-msgstr "Quitar las imágenes no usadas"
+msgstr "Eliminar imágenes."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:24
-#, fuzzy
 msgid "Rename containers."
-msgstr "Renombrar el contenedor «{}»"
+msgstr "Renombrar contenedores."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:30
 msgid "Main window"
 msgstr "Ventana principal"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:34
-#, fuzzy
 msgid "Images Overview"
-msgstr "Tienda de imágenes"
+msgstr "Resumen de las imágenes"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:38
 #: data/resources/ui/image/details-page.ui:27
@@ -176,9 +175,8 @@ msgid "Image Details"
 msgstr "Detalles de la imagen"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:42
-#, fuzzy
 msgid "Containers Overview"
-msgstr "Tienda de contenedores"
+msgstr "Vista general de los contenedores"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:46
 #: data/resources/ui/container/details-page.ui:28
@@ -187,7 +185,7 @@ msgstr "Detalles del contenedor"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:50
 msgid "Pods Overview"
-msgstr ""
+msgstr "Vista general de las cápsulas"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:54
 #: data/resources/ui/pod/details-page.ui:28
@@ -199,22 +197,20 @@ msgid "Marcus Behrendt"
 msgstr "Marcus Behrendt"
 
 #: data/resources/ui/action/page.ui:34
-#, fuzzy
 msgid "Action Overview"
-msgstr "Tienda de contenedores"
+msgstr "Vista general de la acción"
 
 #: data/resources/ui/action/page.ui:117
 msgid "_Abort"
-msgstr ""
+msgstr "_Abortar"
 
 #: data/resources/ui/action/page.ui:132
-#, fuzzy
 msgid "_View"
-msgstr "{} Imagen"
+msgstr "_Ver"
 
 #: data/resources/ui/actions/menu-button.ui:10
 msgid "Clean up"
-msgstr ""
+msgstr "Limpiar"
 
 #: data/resources/ui/actions/overview.ui:38
 msgid "No Actions in This Session"
