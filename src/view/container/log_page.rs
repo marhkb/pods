@@ -295,7 +295,7 @@ impl LogPage {
 
         imp.is_auto_scrolling.set(true);
         imp.scrolled_window
-            .emit_by_name::<bool>("scroll-child", &[&gtk::ScrollType::End, &false]);
+            .emit_scroll_child(gtk::ScrollType::End, false);
     }
 
     fn on_adjustment_changed(&self, adj: &gtk::Adjustment) {
