@@ -272,28 +272,29 @@ where
     I: Send + 'static,
     F: FnMut(I) -> glib::Continue + 'static,
 {
-    run_stream_with_finish_handler(api_entity, stream_producer, glib_closure, |_| {
-        glib::Continue(true)
-    });
+    run_stream_with_finish_handler(api_entity, stream_producer, glib_closure, || {});
 }
 
 pub(crate) fn run_stream_with_finish_handler<A, P, I, F, X>(
     api_entity: A,
     stream_producer: P,
     glib_closure: F,
-    finish_handler: X,
+    mut finish_handler: X,
 ) where
     A: Send + 'static,
     for<'r> P: FnOnce(&'r A) -> BoxStream<'r, I> + Send + 'static,
     I: Send + 'static,
     F: FnMut(I) -> glib::Continue + 'static,
-    X: FnMut(()) -> glib::Continue + 'static,
+    X: FnMut() + 'static,
 {
     let (tx_payload, rx_payload) = glib::MainContext::sync_channel::<I>(Default::default(), 5);
     let (tx_finish, rx_finish) = glib::MainContext::sync_channel::<()>(Default::default(), 1);
 
     rx_payload.attach(None, glib_closure);
-    rx_finish.attach(None, finish_handler);
+    rx_finish.attach(None, move |_| {
+        finish_handler();
+        glib::Continue(false)
+    });
 
     RUNTIME.spawn(async move {
         let mut stream = stream_producer(&api_entity);

@@ -452,14 +452,12 @@ impl LogPage {
                                     }
                                 })
                             }),
-                            clone!(@weak self as obj => @default-return glib::Continue(false), move |_| {
+                            clone!(@weak self as obj => move || {
                                 let imp = obj.imp();
                                 imp.lines_loading_revealer.set_reveal_child(false);
                                 imp.fetch_lines_state.set(FetchLinesState::Finished);
 
                                 obj.move_lines_to_buffer();
-
-                                glib::Continue(true)
                             }),
                         );
                     }
