@@ -59,9 +59,13 @@ mod imp {
                 widget.build();
             });
 
-            klass.install_action(ACTION_SELECT_CONTEXT_DIR, None, move |widget, _, _| {
-                widget.choose_context_dir();
-            });
+            klass.install_action_async(
+                ACTION_SELECT_CONTEXT_DIR,
+                None,
+                move |widget, _, _| async move {
+                    widget.choose_context_dir().await;
+                },
+            );
 
             klass.install_action(ACTION_ADD_LABEL, None, |widget, _, _| {
                 widget.add_label();
@@ -192,35 +196,34 @@ impl BuildPage {
         self.action_set_enabled(ACTION_BUILD, enabled);
     }
 
-    fn choose_context_dir(&self) {
+    async fn choose_context_dir(&self) {
         self.open_file_chooser_dialog(
             &gettext("Select Build Context Directory"),
             true,
             clone!(@weak self as obj => move |file| {
                 obj.imp().context_dir_row.set_subtitle(file);
             }),
-        );
+        )
+        .await;
     }
 
-    fn open_file_chooser_dialog<F>(&self, title: &str, directory: bool, op: F)
+    async fn open_file_chooser_dialog<F>(&self, title: &str, directory: bool, op: F)
     where
         F: FnOnce(&str) + 'static,
     {
-        glib::MainContext::default().block_on(async move {
-            let request = OpenFileRequest::default()
-                .identifier(WindowIdentifier::from_native(&self.native().unwrap()).await)
-                .title(title)
-                .directory(directory)
-                .modal(true);
+        let request = OpenFileRequest::default()
+            .identifier(WindowIdentifier::from_native(&self.native().unwrap()).await)
+            .title(title)
+            .directory(directory)
+            .modal(true);
 
-            if let Ok(files) = request.build().await {
-                let file = gio::File::for_uri(files.uris()[0].as_str());
+        if let Ok(files) = request.build().await {
+            let file = gio::File::for_uri(files.uris()[0].as_str());
 
-                if let Some(path) = file.path() {
-                    op(path.to_str().unwrap());
-                }
+            if let Some(path) = file.path() {
+                op(path.to_str().unwrap());
             }
-        });
+        }
     }
 
     fn add_label(&self) {
