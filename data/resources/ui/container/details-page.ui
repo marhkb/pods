@@ -145,7 +145,6 @@
                                     <child>
                                       <object class="GtkSpinner">
                                         <property name="spinning">True</property>
-                                        <property name="width-request">24</property>
                                       </object>
                                     </child>
 

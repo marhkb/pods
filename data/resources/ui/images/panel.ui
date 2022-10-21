@@ -60,11 +60,10 @@
             <property name="child">
               <object class="GtkSpinner">
                 <property name="halign">center</property>
-                <property name="height-request">30</property>
-                <property name="spinning">True</property>
-                <property name="width-request">30</property>
                 <property name="valign">center</property>
-                <property name="vexpand">True</property>
+                <property name="height-request">30</property>
+                <property name="width-request">30</property>
+                <property name="spinning">True</property>
               </object>
             </property>
           </object>

@@ -251,7 +251,7 @@ impl Action {
                     },
                 })
             }),
-            clone!(@weak obj, @weak client => @default-return glib::Continue(false), move |_| {
+            clone!(@weak obj, @weak client => move || {
                 let output = obj.output();
 
                 let start = output.iter_at_line(0).unwrap();
@@ -276,8 +276,6 @@ impl Action {
                             }));
                     }
                 }
-
-                glib::Continue(false)
             }),
         );
 

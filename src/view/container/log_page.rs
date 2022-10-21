@@ -58,11 +58,11 @@ mod imp {
         #[template_child]
         pub(super) search_button: TemplateChild<gtk::ToggleButton>,
         #[template_child]
-        pub(super) stack: TemplateChild<gtk::Stack>,
-        #[template_child]
         pub(super) search_bar: TemplateChild<gtk::SearchBar>,
         #[template_child]
         pub(super) search_widget: TemplateChild<view::SourceViewSearchWidget>,
+        #[template_child]
+        pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) lines_loading_revealer: TemplateChild<gtk::Revealer>,
         #[template_child]
@@ -224,7 +224,7 @@ mod imp {
             }));
 
             adj.connect_upper_notify(clone!(@weak obj => move |_| {
-                if obj.sticky() || Self::from_instance(&obj).is_auto_scrolling.get() {
+                if obj.sticky() || obj.imp().is_auto_scrolling.get() {
                     obj.scroll_down();
                 }
             }));
@@ -248,8 +248,6 @@ mod imp {
             }
 
             obj.follow_log();
-
-            obj.scroll_down();
         }
 
         fn dispose(&self) {
@@ -297,7 +295,7 @@ impl LogPage {
 
         imp.is_auto_scrolling.set(true);
         imp.scrolled_window
-            .emit_by_name::<bool>("scroll-child", &[&gtk::ScrollType::End, &false]);
+            .emit_scroll_child(gtk::ScrollType::End, false);
     }
 
     fn on_adjustment_changed(&self, adj: &gtk::Adjustment) {
@@ -324,7 +322,7 @@ impl LogPage {
                 container,
                 move |container| {
                     container
-                        .logs(&basic_opts_builder().tail("512").build())
+                        .logs(&basic_opts_builder(true).tail("512").build())
                         .boxed()
                 },
                 clone!(@weak self as obj => @default-return glib::Continue(false), move |result| {
@@ -346,9 +344,9 @@ impl LogPage {
                         .unwrap()
                         .to_unix()
                         + 1;
-                basic_opts_builder().since(since.to_string())
+                basic_opts_builder(true).since(since.to_string())
             } else {
-                basic_opts_builder()
+                basic_opts_builder(true)
             };
 
             utils::run_stream(
@@ -434,7 +432,7 @@ impl LogPage {
                             container,
                             move |container| {
                                 container
-                                    .logs(&basic_opts_builder().until(until).build())
+                                    .logs(&basic_opts_builder(false).until(until).build())
                                     .boxed()
                             },
                             clone!(@weak self as obj => @default-return glib::Continue(false), move |result| {
@@ -452,14 +450,12 @@ impl LogPage {
                                     }
                                 })
                             }),
-                            clone!(@weak self as obj => @default-return glib::Continue(false), move |_| {
+                            clone!(@weak self as obj => move || {
                                 let imp = obj.imp();
                                 imp.lines_loading_revealer.set_reveal_child(false);
                                 imp.fetch_lines_state.set(FetchLinesState::Finished);
 
                                 obj.move_lines_to_buffer();
-
-                                glib::Continue(true)
                             }),
                         );
                     }
@@ -587,9 +583,9 @@ impl vte::Perform for MarkupPerform {
     }
 }
 
-fn basic_opts_builder() -> podman::opts::ContainerLogsOptsBuilder {
+fn basic_opts_builder(follow: bool) -> podman::opts::ContainerLogsOptsBuilder {
     podman::opts::ContainerLogsOpts::builder()
-        .follow(true)
+        .follow(follow)
         .stdout(true)
         .stderr(true)
         .timestamps(true)
