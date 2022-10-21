@@ -105,7 +105,9 @@ glib::wrapper! {
 
 impl Default for Volume {
     fn default() -> Self {
-        glib::Object::new::<Self>(&[("writable", &true)])
+        glib::Object::builder::<Self>()
+            .property("writable", &true)
+            .build()
     }
 }
 

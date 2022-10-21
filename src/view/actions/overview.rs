@@ -128,7 +128,7 @@ glib::wrapper! {
 
 impl Default for Overview {
     fn default() -> Self {
-        glib::Object::new::<Self>(&[])
+        glib::Object::builder::<Self>().build()
     }
 }
 

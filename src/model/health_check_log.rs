@@ -76,12 +76,12 @@ glib::wrapper! {
 
 impl From<&podman::models::HealthCheckLog> for HealthCheckLog {
     fn from(data: &podman::models::HealthCheckLog) -> Self {
-        glib::Object::new::<Self>(&[
-            ("end", data.end.as_ref().unwrap()),
-            ("exit-code", &data.exit_code.unwrap()),
-            ("output", data.output.as_ref().unwrap()),
-            ("start", data.start.as_ref().unwrap()),
-        ])
+        glib::Object::builder::<Self>()
+            .property("end", data.end.as_ref().unwrap())
+            .property("exit-code", &data.exit_code.unwrap())
+            .property("output", data.output.as_ref().unwrap())
+            .property("start", data.start.as_ref().unwrap())
+            .build()
     }
 }
 

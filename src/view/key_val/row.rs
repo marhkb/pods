@@ -135,11 +135,11 @@ impl Row {
         value_placholder_text: impl Into<String>,
         entry: &model::KeyVal,
     ) -> Self {
-        glib::Object::new::<Self>(&[
-            ("key-val", &entry),
-            ("key-placeholder-text", &key_placholder_text.into()),
-            ("value-placeholder-text", &value_placholder_text.into()),
-        ])
+        glib::Object::builder::<Self>()
+            .property("key-val", &entry)
+            .property("key-placeholder-text", &key_placholder_text.into())
+            .property("value-placeholder-text", &value_placholder_text.into())
+            .build()
     }
     pub(crate) fn key_val(&self) -> Option<model::KeyVal> {
         self.imp().key_val.borrow().to_owned()

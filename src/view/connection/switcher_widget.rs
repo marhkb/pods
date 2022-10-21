@@ -121,7 +121,9 @@ glib::wrapper! {
 
 impl From<&model::ConnectionManager> for SwitcherWidget {
     fn from(connection_manager: &model::ConnectionManager) -> Self {
-        glib::Object::new::<Self>(&[("connection-manager", &connection_manager)])
+        glib::Object::builder::<Self>()
+            .property("connection-manager", &connection_manager)
+            .build()
     }
 }
 

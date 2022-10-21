@@ -317,22 +317,22 @@ impl Container {
         container_list: &model::ContainerList,
         list_container: podman::models::ListContainer,
     ) -> Self {
-        glib::Object::new::<Self>(&[
-            ("container-list", container_list),
-            (
+        glib::Object::builder::<Self>()
+            .property("container-list", container_list)
+            .property(
                 "created",
                 &list_container.created.map(|dt| dt.timestamp()).unwrap_or(0),
-            ),
-            (
+            )
+            .property(
                 "health-status",
                 &health_status(list_container.status.as_deref()),
-            ),
-            ("id", &list_container.id),
-            ("image-id", &list_container.image_id),
-            ("image-name", &list_container.image),
-            ("name", &list_container.names.unwrap()[0]),
-            ("pod-id", &list_container.pod),
-            (
+            )
+            .property("id", &list_container.id)
+            .property("image-id", &list_container.image_id)
+            .property("image-name", &list_container.image)
+            .property("name", &list_container.names.unwrap()[0])
+            .property("pod-id", &list_container.pod)
+            .property(
                 "port-bindings",
                 &utils::BoxedStringVec::from(
                     list_container
@@ -358,10 +358,10 @@ impl Container {
                         })
                         .unwrap_or_default(),
                 ),
-            ),
-            ("status", &status(list_container.state.as_deref())),
-            ("up-since", &list_container.started_at.unwrap()),
-        ])
+            )
+            .property("status", &status(list_container.state.as_deref()))
+            .property("up-since", &list_container.started_at.unwrap())
+            .build()
     }
 
     pub(crate) fn update(&self, list_container: podman::models::ListContainer) {

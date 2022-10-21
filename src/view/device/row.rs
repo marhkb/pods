@@ -89,7 +89,9 @@ glib::wrapper! {
 
 impl From<&model::Device> for Row {
     fn from(device: &model::Device) -> Self {
-        glib::Object::new::<Self>(&[("device", &device)])
+        glib::Object::builder::<Self>()
+            .property("device", &device)
+            .build()
     }
 }
 

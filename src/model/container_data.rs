@@ -76,20 +76,20 @@ glib::wrapper! {
 
 impl From<podman::models::InspectContainerData> for ContainerData {
     fn from(data: podman::models::InspectContainerData) -> Self {
-        let obj: Self = glib::Object::new::<Self>(&[
-            (
+        let obj: Self = glib::Object::builder()
+            .property(
                 "health-config",
                 &data
                     .config
                     .unwrap()
                     .healthcheck
                     .map(BoxedSchema2HealthConfig),
-            ),
-            (
+            )
+            .property(
                 "health-failing-streak",
                 &health_failing_streak(data.state.as_ref()),
-            ),
-        ]);
+            )
+            .build();
 
         if let Some(logs) = data
             .state

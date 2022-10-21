@@ -111,7 +111,9 @@ glib::wrapper! {
 
 impl From<Option<&model::Client>> for SelectionPage {
     fn from(client: Option<&model::Client>) -> Self {
-        glib::Object::new::<Self>(&[("client", &client)])
+        glib::Object::builder::<Self>()
+            .property("client", &client)
+            .build()
     }
 }
 

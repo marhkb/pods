@@ -111,13 +111,17 @@ glib::wrapper! {
 
 impl From<&model::Container> for TopPage {
     fn from(container: &model::Container) -> Self {
-        glib::Object::new::<Self>(&[("top-source", container)])
+        glib::Object::builder::<Self>()
+            .property("top-source", container)
+            .build()
     }
 }
 
 impl From<&model::Pod> for TopPage {
     fn from(pod: &model::Pod) -> Self {
-        glib::Object::new::<Self>(&[("top-source", pod)])
+        glib::Object::builder::<Self>()
+            .property("top-source", pod)
+            .build()
     }
 }
 

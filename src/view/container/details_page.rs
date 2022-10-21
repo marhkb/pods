@@ -172,7 +172,9 @@ glib::wrapper! {
 
 impl From<&model::Container> for DetailsPage {
     fn from(image: &model::Container) -> Self {
-        glib::Object::new::<Self>(&[("container", image)])
+        glib::Object::builder::<Self>()
+            .property("container", image)
+            .build()
     }
 }
 

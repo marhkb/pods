@@ -123,7 +123,7 @@ glib::wrapper! {
 
 impl From<Inspectable> for InspectionPage {
     fn from(inspectabele: Inspectable) -> Self {
-        let obj: Self = glib::Object::new::<Self>(&[]);
+        let obj: Self = glib::Object::builder::<Self>().build();
 
         obj.imp().window_title.set_title(&match &inspectabele {
             Inspectable::Image(_) => gettext("Image Inspection"),

@@ -71,22 +71,22 @@ glib::wrapper! {
 
 impl ImageConfig {
     pub(crate) fn from_libpod(config: podman::models::ImageConfig) -> Self {
-        glib::Object::new::<Self>(&[
-            (
+        glib::Object::builder::<Self>()
+            .property(
                 "cmd",
                 &utils::format_iter_or_none(
                     &mut config.cmd.as_deref().unwrap_or_default().iter(),
                     " ",
                 ),
-            ),
-            (
+            )
+            .property(
                 "entrypoint",
                 &utils::format_iter_or_none(
                     &mut config.entrypoint.as_deref().unwrap_or_default().iter(),
                     " ",
                 ),
-            ),
-            (
+            )
+            .property(
                 "exposed-ports",
                 &utils::BoxedStringBTreeSet::from(
                     config
@@ -94,8 +94,8 @@ impl ImageConfig {
                         .map(|ports| ports.into_keys().collect::<BTreeSet<_>>())
                         .unwrap_or_default(),
                 ),
-            ),
-        ])
+            )
+            .build()
     }
 
     pub(crate) fn cmd(&self) -> Option<&str> {

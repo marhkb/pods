@@ -92,7 +92,9 @@ glib::wrapper! {
 
 impl From<&model::HealthCheckLog> for Row {
     fn from(log: &model::HealthCheckLog) -> Self {
-        glib::Object::new::<Self>(&[("log", &log)])
+        glib::Object::builder::<Self>()
+            .property("log", &log)
+            .build()
     }
 }
 

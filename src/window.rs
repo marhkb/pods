@@ -449,7 +449,9 @@ glib::wrapper! {
 
 impl Window {
     pub(crate) fn new(app: &Application) -> Self {
-        glib::Object::new::<Self>(&[("application", app)])
+        glib::Object::builder::<Self>()
+            .property("application", app)
+            .build()
     }
 
     fn save_window_size(&self) -> Result<(), glib::BoolError> {

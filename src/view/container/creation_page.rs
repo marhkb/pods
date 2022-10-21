@@ -409,19 +409,25 @@ glib::wrapper! {
 
 impl From<&model::Image> for CreationPage {
     fn from(image: &model::Image) -> Self {
-        glib::Object::new::<Self>(&[("image", &image)])
+        glib::Object::builder::<Self>()
+            .property("image", &image)
+            .build()
     }
 }
 
 impl From<&model::Pod> for CreationPage {
     fn from(pod: &model::Pod) -> Self {
-        glib::Object::new::<Self>(&[("pod", &pod)])
+        glib::Object::builder::<Self>()
+            .property("pod", &pod)
+            .build()
     }
 }
 
 impl From<Option<&model::Client>> for CreationPage {
     fn from(client: Option<&model::Client>) -> Self {
-        glib::Object::new::<Self>(&[("client", &client)])
+        glib::Object::builder::<Self>()
+            .property("client", &client)
+            .build()
     }
 }
 

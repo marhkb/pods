@@ -125,7 +125,9 @@ glib::wrapper! {
 
 impl From<Option<&model::Client>> for ImageList {
     fn from(client: Option<&model::Client>) -> Self {
-        glib::Object::new::<Self>(&[("client", &client)])
+        glib::Object::builder::<Self>()
+            .property("client", &client)
+            .build()
     }
 }
 
