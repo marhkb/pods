@@ -6,7 +6,6 @@ data/resources/ui/action/page.ui
 data/resources/ui/action/row.ui
 data/resources/ui/actions/menu-button.ui
 data/resources/ui/actions/overview.ui
-data/resources/ui/cmd-arg/row.ui
 data/resources/ui/component/back-navigation-controls.ui
 data/resources/ui/component/circular-progress-bar.ui
 data/resources/ui/component/count-badge.ui
@@ -22,6 +21,7 @@ data/resources/ui/connection/chooser-page.ui
 data/resources/ui/connection/creation-page.ui
 data/resources/ui/connection/row.ui
 data/resources/ui/connection/switcher-widget.ui
+data/resources/ui/container/commit-page.ui
 data/resources/ui/container/creation-page.ui
 data/resources/ui/container/details-page.ui
 data/resources/ui/container/health-check-page.ui
@@ -34,6 +34,7 @@ data/resources/ui/container/row.ui
 data/resources/ui/containers/count-bar.ui
 data/resources/ui/containers/group.ui
 data/resources/ui/containers/panel.ui
+data/resources/ui/device/row.ui
 data/resources/ui/health-check-log/row.ui
 data/resources/ui/image/build-page.ui
 data/resources/ui/image/details-page.ui
@@ -55,6 +56,7 @@ data/resources/ui/pods/panel.ui
 data/resources/ui/port-mapping/row.ui
 data/resources/ui/search-panel.ui
 data/resources/ui/shortcuts.ui
+data/resources/ui/value/row.ui
 data/resources/ui/volume/row.ui
 data/resources/ui/welcome-page.ui
 data/resources/ui/window.ui
@@ -68,12 +70,12 @@ src/model/abstract_container_list.rs
 src/model/action_list.rs
 src/model/action.rs
 src/model/client.rs
-src/model/cmd_arg.rs
 src/model/connection_manager.rs
 src/model/connection.rs
 src/model/container_data.rs
 src/model/container_list.rs
 src/model/container.rs
+src/model/device.rs
 src/model/health_check_log_list.rs
 src/model/health_check_log.rs
 src/model/image_config.rs
@@ -91,6 +93,7 @@ src/model/registry.rs
 src/model/selectable_list.rs
 src/model/selectable.rs
 src/model/simple_container_list.rs
+src/model/value.rs
 src/model/volume.rs
 src/podman.rs
 src/utils.rs
@@ -100,8 +103,6 @@ src/view/action/row.rs
 src/view/actions/menu_button.rs
 src/view/actions/mod.rs
 src/view/actions/overview.rs
-src/view/cmd_arg/mod.rs
-src/view/cmd_arg/row.rs
 src/view/component/back_navigation_controls.rs
 src/view/component/circular_progress_bar.rs
 src/view/component/count_badge.rs
@@ -119,6 +120,7 @@ src/view/connection/creation_page.rs
 src/view/connection/mod.rs
 src/view/connection/row.rs
 src/view/connection/switcher_widget.rs
+src/view/container/commit_page.rs
 src/view/container/creation_page.rs
 src/view/container/details_page.rs
 src/view/container/health_check_page.rs
@@ -133,6 +135,8 @@ src/view/containers/count_bar.rs
 src/view/containers/group.rs
 src/view/containers/mod.rs
 src/view/containers/panel.rs
+src/view/device/mod.rs
+src/view/device/row.rs
 src/view/health_check_log/mod.rs
 src/view/health_check_log/row.rs
 src/view/image/build_page.rs
@@ -162,6 +166,8 @@ src/view/pods/panel.rs
 src/view/port_mapping/mod.rs
 src/view/port_mapping/row.rs
 src/view/search_panel.rs
+src/view/value/mod.rs
+src/view/value/row.rs
 src/view/volume/mod.rs
 src/view/volume/row.rs
 src/view/welcome_page.rs
