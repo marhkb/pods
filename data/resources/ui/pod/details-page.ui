@@ -88,14 +88,13 @@
 
                         <child>
                           <object class="GtkSpinner">
-                            <property name="spinning">True</property>
                             <property name="halign">center</property>
                             <property name="valign">center</property>
-                            <property name="vexpand">True</property>
                             <property name="width-request">24</property>
                             <property name="height-request">24</property>
                             <property name="margin-bottom">12</property>
                             <property name="margin-top">12</property>
+                            <property name="spinning">True</property>
                           </object>
                         </child>
 
@@ -211,7 +210,6 @@
                                     <child>
                                       <object class="GtkSpinner">
                                         <property name="spinning">True</property>
-                                        <property name="width-request">24</property>
                                       </object>
                                     </child>
 
