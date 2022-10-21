@@ -165,31 +165,31 @@
                   </object>
                 </child>
 
-                <child>
-                  <object class="GtkInfoBar" id="info_bar">
-
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="label" translatable="yes">Streaming is disconneced because container isn't running.</property>
-                        <property name="margin-start">6</property>
-                        <property name="wrap">True</property>
-                        <property name="wrap-mode">word-char</property>
-                      </object>
-                    </child>
-
-                    <child type="action">
-                      <object class="GtkButton">
-                        <property name="action-name">container-log-page.start-container</property>
-                        <property name="label">Start/Resume Container</property>
-                      </object>
-                    </child>
-
-                  </object>
-                </child>
-
               </object>
             </property>
 
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <child>
+      <object class="GtkInfoBar" id="info_bar">
+
+        <child>
+          <object class="GtkLabel">
+            <property name="label" translatable="yes">Streaming is disconneced because container isn't running.</property>
+            <property name="margin-start">6</property>
+            <property name="wrap">True</property>
+            <property name="wrap-mode">word-char</property>
+          </object>
+        </child>
+
+        <child type="action">
+          <object class="GtkButton">
+            <property name="action-name">container-log-page.start-container</property>
+            <property name="label">Start/Resume Container</property>
           </object>
         </child>
 
