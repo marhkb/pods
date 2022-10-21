@@ -324,7 +324,7 @@ impl LogPage {
                 container,
                 move |container| {
                     container
-                        .logs(&basic_opts_builder().tail("512").build())
+                        .logs(&basic_opts_builder(true).tail("512").build())
                         .boxed()
                 },
                 clone!(@weak self as obj => @default-return glib::Continue(false), move |result| {
@@ -346,9 +346,9 @@ impl LogPage {
                         .unwrap()
                         .to_unix()
                         + 1;
-                basic_opts_builder().since(since.to_string())
+                basic_opts_builder(true).since(since.to_string())
             } else {
-                basic_opts_builder()
+                basic_opts_builder(true)
             };
 
             utils::run_stream(
@@ -434,7 +434,7 @@ impl LogPage {
                             container,
                             move |container| {
                                 container
-                                    .logs(&basic_opts_builder().until(until).build())
+                                    .logs(&basic_opts_builder(false).until(until).build())
                                     .boxed()
                             },
                             clone!(@weak self as obj => @default-return glib::Continue(false), move |result| {
@@ -585,9 +585,9 @@ impl vte::Perform for MarkupPerform {
     }
 }
 
-fn basic_opts_builder() -> podman::opts::ContainerLogsOptsBuilder {
+fn basic_opts_builder(follow: bool) -> podman::opts::ContainerLogsOptsBuilder {
     podman::opts::ContainerLogsOpts::builder()
-        .follow(true)
+        .follow(follow)
         .stdout(true)
         .stderr(true)
         .timestamps(true)
