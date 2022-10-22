@@ -28,14 +28,6 @@ mod imp {
         pub(super) source_view: glib::WeakRef<sourceview5::View>,
         #[template_child]
         pub(super) search_entry: TemplateChild<view::TextSearchEntry>,
-        #[template_child]
-        pub(super) options_toggle_button: TemplateChild<gtk::ToggleButton>,
-        #[template_child]
-        pub(super) regex_button: TemplateChild<gtk::CheckButton>,
-        #[template_child]
-        pub(super) case_button: TemplateChild<gtk::CheckButton>,
-        #[template_child]
-        pub(super) word_button: TemplateChild<gtk::CheckButton>,
     }
 
     #[glib::object_subclass]
@@ -103,9 +95,6 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            // Workaround for making the button non-flat.
-            self.options_toggle_button.remove_css_class("image-button");
-
             self.search_entry
                 .bind_property("text", &self.search_settings, "search-text")
                 .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
@@ -113,18 +102,18 @@ mod imp {
 
             self.search_settings.set_wrap_around(true);
 
-            self.regex_button
-                .bind_property("active", &self.search_settings, "regex-enabled")
+            self.search_entry
+                .bind_property("regex", &self.search_settings, "regex-enabled")
                 .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
                 .build();
 
-            self.case_button
-                .bind_property("active", &self.search_settings, "case-sensitive")
+            self.search_entry
+                .bind_property("case-sensitive", &self.search_settings, "case-sensitive")
                 .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
                 .build();
 
-            self.word_button
-                .bind_property("active", &self.search_settings, "at-word-boundaries")
+            self.search_entry
+                .bind_property("whole-word", &self.search_settings, "at-word-boundaries")
                 .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
                 .build();
         }
