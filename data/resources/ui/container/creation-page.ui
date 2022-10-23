@@ -151,20 +151,8 @@
                                     </child>
 
                                     <child>
-                                      <object class="AdwExpanderRow" id="pod_expander_row">
-                                        <property name="enable-expansion" bind-source="pod_switch" bind-property="active" bind-flags="sync-create"/>
+                                      <object class="AdwComboRow" id="pod_combo_row">
                                         <property name="title" translatable="yes">Pod</property>
-
-                                        <child type="action">
-                                          <object class="GtkSwitch" id="pod_switch">
-                                            <property name="valign">center</property>
-                                          </object>
-                                        </child>
-
-                                        <child>
-                                          <object class="AdwComboRow" id="pod_combo_row"/>
-                                        </child>
-
                                       </object>
                                     </child>
 

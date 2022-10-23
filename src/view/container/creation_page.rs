@@ -3,7 +3,6 @@ use std::cell::RefCell;
 use adw::subclass::prelude::*;
 use adw::traits::ActionRowExt;
 use adw::traits::ComboRowExt;
-use adw::traits::ExpanderRowExt;
 use gettextrs::gettext;
 use gtk::gio;
 use gtk::glib;
@@ -31,6 +30,8 @@ const ACTION_CREATE_AND_RUN: &str = "container-creation-page.create-and-run";
 const ACTION_CREATE: &str = "container-creation-page.create";
 
 mod imp {
+    use gtk::glib::closure_local;
+
     use super::*;
 
     #[derive(Default, CompositeTemplate)]
@@ -56,10 +57,6 @@ mod imp {
         pub(super) remote_image_row: TemplateChild<adw::ActionRow>,
         #[template_child]
         pub(super) pod_property_row: TemplateChild<view::PropertyRow>,
-        #[template_child]
-        pub(super) pod_expander_row: TemplateChild<adw::ExpanderRow>,
-        #[template_child]
-        pub(super) pod_switch: TemplateChild<gtk::Switch>,
         #[template_child]
         pub(super) pod_combo_row: TemplateChild<adw::ComboRow>,
         #[template_child]
@@ -249,38 +246,98 @@ mod imp {
             }
 
             if let Some(pod) = obj.pod() {
-                self.pod_expander_row.set_visible(false);
+                self.pod_combo_row.set_visible(false);
                 pod_name_expr.bind(&*self.pod_property_row, "value", Some(&pod));
             } else {
                 self.pod_property_row.set_visible(false);
 
-                obj.connect_notify_local(Some("pod"), |obj, _| {
-                    obj.imp().pod_expander_row.set_subtitle(
-                        &obj.pod().as_ref().map(model::Pod::name).unwrap_or_default(),
-                    );
-                });
-
-                self.pod_switch
-                    .connect_active_notify(clone!(@weak obj => move |_| {
-                        obj.imp().pod_combo_row.notify("selected-item");
-                    }));
-
                 self.pod_combo_row.connect_selected_item_notify(
                     clone!(@weak obj => move |combo_row| {
                         obj.set_pod(
-                            if obj.imp().pod_switch.is_active() {
-                                combo_row.selected_item().and_then(|o| o.downcast().ok())
-                            } else {
-                                None
-                            }
-                            .as_ref(),
+                            combo_row.selected_item().and_then(|o| o.downcast().ok()).as_ref(),
                         );
                     }),
                 );
 
-                self.pod_combo_row.set_expression(Some(&pod_name_expr));
+                let factory = gtk::SignalListItemFactory::new();
+                factory.connect_bind(|_, list_item| {
+                    let list_item = list_item.downcast_ref::<gtk::ListItem>().unwrap();
+
+                    if let Some(item) = list_item.item() {
+                        let label = gtk::Label::builder().xalign(0.0).build();
+
+                        if let Some(pod) = item.downcast_ref::<model::Pod>() {
+                            label.set_label(&pod.name());
+                        } else {
+                            label.set_label(&format!("<i>{}</i>", gettext("disabled")));
+                            label.set_use_markup(true);
+                            label.add_css_class("dim-label");
+                        }
+
+                        list_item.set_child(Some(&label));
+                    }
+                });
+                factory.connect_unbind(|_, list_item| {
+                    list_item
+                        .downcast_ref::<gtk::ListItem>()
+                        .unwrap()
+                        .set_child(gtk::Widget::NONE);
+                });
+                self.pod_combo_row.set_factory(Some(&factory));
+
+                let list_factory = gtk::SignalListItemFactory::new();
+                list_factory.connect_bind(clone!(@weak obj => move |_, list_item| {
+                    let list_item = list_item.downcast_ref::<gtk::ListItem>().unwrap();
+
+                    if let Some(item) = list_item.item() {
+                        let box_ = gtk::Box::builder().spacing(3).build();
+                        let label = gtk::Label::builder().xalign(0.0).build();
+
+                        if let Some(pod) = item.downcast_ref::<model::Pod>() {
+                            label.set_label(&pod.name());
+                        } else {
+                            label.set_label(&format!("<i>{}</i>", gettext("disabled")));
+                            label.set_use_markup(true);
+                            label.add_css_class("dim-label");
+                        };
+
+                        let selected_icon = gtk::Image::builder()
+                            .icon_name("object-select-symbolic")
+                            .build();
+
+                        adw::ComboRow::this_expression("selected-item")
+                            .chain_closure::<bool>(closure_local!(
+                                |_: adw::ComboRow, selected: Option<&glib::Object>| {
+                                    selected == Some(&item)
+                                }
+                            ))
+                            .bind(&selected_icon, "visible", Some(&*obj.imp().pod_combo_row));
+
+                        box_.append(&label);
+                        box_.append(&selected_icon);
+
+                        list_item.set_child(Some(&box_));
+                    }
+                }));
+                list_factory.connect_unbind(|_, list_item| {
+                    list_item
+                        .downcast_ref::<gtk::ListItem>()
+                        .unwrap()
+                        .set_child(gtk::Widget::NONE);
+                });
+                self.pod_combo_row.set_list_factory(Some(&list_factory));
+
+                let pod_list_mode = gio::ListStore::new(gio::ListModel::static_type());
+                pod_list_mode.append(&gtk::StringList::new(&[""]));
+                pod_list_mode.append(&gtk::SortListModel::new(
+                    Some(obj.client().unwrap().pod_list()),
+                    Some(&gtk::StringSorter::new(Some(model::Pod::this_expression(
+                        "name",
+                    )))),
+                ));
+
                 self.pod_combo_row
-                    .set_model(Some(obj.client().unwrap().pod_list()));
+                    .set_model(Some(&gtk::FlattenListModel::new(Some(&pod_list_mode))));
             }
             self.command_arg_list_box
                 .bind_model(Some(&*self.cmd_args.borrow()), |item| {
