@@ -1,5 +1,6 @@
 use std::cell::RefCell;
 
+use ashpd::desktop as ashpd;
 use gettextrs::gettext;
 use glib::subclass::InitializingObject;
 use gtk::glib;
@@ -9,6 +10,7 @@ use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
+use once_cell::unsync::OnceCell;
 
 use crate::model;
 use crate::utils;
@@ -20,6 +22,7 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/action/row.ui")]
     pub(crate) struct Row {
         pub(super) action: glib::WeakRef<model::Action>,
+        pub(super) notification_id: OnceCell<glib::GString>,
         pub(super) handler: RefCell<Option<glib::SignalHandlerId>>,
         pub(super) timer: RefCell<Option<glib::SourceId>>,
         #[template_child]
@@ -76,6 +79,10 @@ mod imp {
             self.parent_constructed();
 
             let obj = &*self.instance();
+
+            self.notification_id
+                .set(glib::uuid_string_random())
+                .unwrap();
 
             let action_expr = Self::Type::this_expression("action");
             let type_expr = action_expr.chain_property::<model::Action>("type");
@@ -142,7 +149,21 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for Row {}
+    impl WidgetImpl for Row {
+        fn unroot(&self) {
+            self.parent_unroot();
+
+            let id = self.notification_id.get().unwrap().to_owned();
+
+            glib::MainContext::default().spawn(async move {
+                let _ = ashpd::notification::NotificationProxy::new()
+                    .await
+                    .unwrap()
+                    .remove_notification(&id)
+                    .await;
+            });
+        }
+    }
 }
 
 glib::wrapper! {
@@ -178,6 +199,29 @@ impl Row {
                 Some("state"),
                 clone!(@weak self as obj => move |action, _| {
                     obj.set_state_label(action);
+
+                    if !matches!(action.state(), model::ActionState::Failed | model::ActionState::Finished) {
+                        return;
+                    }
+
+                    let id = obj.imp().notification_id.get().unwrap().to_owned();
+                    let notification = if action.state() == model::ActionState::Failed {
+                        ashpd::notification::Notification::new(&gettext("Failed Pods Action"))
+                            .icon(ashpd::Icon::Names(vec!["computer-fail-symbolic".to_string()]))
+                            .priority(ashpd::notification::Priority::High)
+                    } else {
+                        ashpd::notification::Notification::new(&gettext("Finished Pods Action"))
+                            .icon(ashpd::Icon::Names(vec!["checkbox-checked-symbolic".to_string()]))
+                            .priority(ashpd::notification::Priority::Low)
+                    }
+                    .body(action.description())
+                    .default_action("");
+
+                    glib::MainContext::default().spawn_local(async move {
+                        let _ = ashpd::notification::NotificationProxy::new().await.unwrap()
+                            .add_notification(&id, notification)
+                            .await;
+                    });
                 }),
             );
             imp.handler.replace(Some(handler));
