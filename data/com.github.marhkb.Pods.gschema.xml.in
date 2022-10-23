@@ -71,5 +71,25 @@
       <summary>Whether to show a timestamp for each log line</summary>
       <description></description>
     </key>
+    <key name="search-use-regex" type="b">
+      <default>false</default>
+      <summary>Whether to use a regex for search</summary>
+      <description></description>
+    </key>
+    <key name="search-regex" type="b">
+      <default>false</default>
+      <summary>Whether to use a regex for search</summary>
+      <description></description>
+    </key>
+    <key name="search-case-sensitive" type="b">
+      <default>false</default>
+      <summary>Whether search should be case-sensitive</summary>
+      <description></description>
+    </key>
+    <key name="search-whole-word" type="b">
+      <default>false</default>
+      <summary>Whether to match whole words when searching</summary>
+      <description></description>
+    </key>
   </schema>
 </schemalist>
