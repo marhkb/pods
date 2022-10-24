@@ -11,7 +11,7 @@
         <property name="hexpand">True</property>
         <property name="selectable">True</property>
         <property name="wrap">True</property>
-        <property name="wrap-mode">word</property>
+        <property name="wrap-mode">word-char</property>
         <property name="xalign">1</property>
       </object>
     </child>
