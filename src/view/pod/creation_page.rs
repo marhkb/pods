@@ -619,6 +619,7 @@ impl CreationPage {
         imp.infra_remote_image_row.set_subtitle("");
         imp.infra_remote_image_row.set_visible(false);
         imp.infra_local_image_combo_row.set_visible(true);
+        imp.infra_pull_latest_image_row.set_visible(true);
     }
 
     fn search_image(&self) {
@@ -629,6 +630,7 @@ impl CreationPage {
             imp.infra_local_image_combo_row.set_visible(false);
             imp.infra_remote_image_row.set_visible(true);
             imp.infra_remote_image_row.set_subtitle(&image);
+            imp.infra_pull_latest_image_row.set_visible(false);
 
             imp.infra_command_entry_row.set_text("");
         }));
