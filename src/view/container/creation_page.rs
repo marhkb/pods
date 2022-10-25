@@ -8,6 +8,7 @@ use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
+use gtk::glib::closure_local;
 use gtk::prelude::*;
 use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
@@ -30,8 +31,6 @@ const ACTION_CREATE_AND_RUN: &str = "container-creation-page.create-and-run";
 const ACTION_CREATE: &str = "container-creation-page.create";
 
 mod imp {
-    use gtk::glib::closure_local;
-
     use super::*;
 
     #[derive(Default, CompositeTemplate)]
