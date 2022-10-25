@@ -98,9 +98,7 @@
                                     </child>
 
                                     <child>
-                                      <object class="AdwComboRow" id="local_image_combo_row">
-                                        <property name="title" translatable="yes">Local image</property>
-                                        <property name="use-subtitle">True</property>
+                                      <object class="PdsImageLocalComboRow" id="local_image_combo_row">
 
                                         <child type="suffix">
                                           <object class="GtkButton">
@@ -108,9 +106,10 @@
                                               <class name="flat"/>
                                             </style>
                                             <property name="action-name">container-creation-page.search-image</property>
-                                            <property name="icon-name">system-search-symbolic</property>
+                                            <property name="icon-name">network-server-symbolic</property>
                                             <property name="margin-start">9</property>
                                             <property name="valign">center</property>
+                                            <property name="tooltip-text" translatable="yes">Use a remote image instead</property>
                                           </object>
                                         </child>
 
@@ -130,14 +129,19 @@
                                             <property name="action-name">container-creation-page.remove-remote-image</property>
                                             <property name="icon-name">edit-delete-symbolic</property>
                                             <property name="valign">center</property>
+                                            <property name="tooltip-text" translatable="yes">Discard remote image</property>
                                           </object>
                                         </child>
 
                                         <child type="suffix">
                                           <object class="GtkButton">
+                                            <style>
+                                              <class name="flat"/>
+                                            </style>
                                             <property name="action-name">container-creation-page.search-image</property>
                                             <property name="icon-name">system-search-symbolic</property>
                                             <property name="valign">center</property>
+                                            <property name="tooltip-text" translatable="yes">Search for another remote image</property>
                                           </object>
                                         </child>
 
@@ -153,6 +157,7 @@
                                     <child>
                                       <object class="AdwComboRow" id="pod_combo_row">
                                         <property name="title" translatable="yes">Pod</property>
+                                        <property name="use-subtitle">True</property>
                                       </object>
                                     </child>
 

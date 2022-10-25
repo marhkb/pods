@@ -57,6 +57,7 @@ pub(crate) use device::Row as DeviceRow;
 pub(crate) use health_check_log::Row as HealthCheckLogRow;
 pub(crate) use image::BuildPage as ImageBuildPage;
 pub(crate) use image::DetailsPage as ImageDetailsPage;
+pub(crate) use image::LocalComboRow as ImageLocalComboRow;
 pub(crate) use image::MenuButton as ImageMenuButton;
 pub(crate) use image::PullPage as ImagePullPage;
 pub(crate) use image::Row as ImageRow;

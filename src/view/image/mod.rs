@@ -1,5 +1,6 @@
 mod build_page;
 mod details_page;
+mod local_combo_row;
 mod menu_button;
 mod pull_page;
 mod row;
@@ -17,6 +18,7 @@ pub(crate) use pull_page::PullPage;
 pub(crate) use row::Row;
 pub(crate) use selection_page::SelectionPage;
 
+pub(crate) use self::local_combo_row::LocalComboRow;
 use crate::model;
 use crate::podman;
 use crate::utils;
