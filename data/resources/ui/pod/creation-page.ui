@@ -275,9 +275,7 @@
                                         </child>
 
                                         <child>
-                                          <object class="AdwComboRow" id="infra_local_image_combo_row">
-                                            <property name="title" translatable="yes">Local image</property>
-                                            <property name="use-subtitle">True</property>
+                                          <object class="PdsImageLocalComboRow" id="infra_local_image_combo_row">
 
                                             <child type="suffix">
                                               <object class="GtkButton">

@@ -7,7 +7,6 @@ use gettextrs::gettext;
 use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
-use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
@@ -78,7 +77,7 @@ mod imp {
         #[template_child]
         pub(super) infra_pull_latest_image_switch: TemplateChild<gtk::Switch>,
         #[template_child]
-        pub(super) infra_local_image_combo_row: TemplateChild<adw::ComboRow>,
+        pub(super) infra_local_image_combo_row: TemplateChild<view::ImageLocalComboRow>,
         #[template_child]
         pub(super) infra_remote_image_row: TemplateChild<adw::ActionRow>,
         #[template_child]
@@ -280,28 +279,9 @@ mod imp {
                     )
                     .build(),
             );
-            let image_tag_expr = model::Image::this_expression("repo-tags")
-                .chain_closure::<String>(closure!(
-                    |_: model::Image, repo_tags: utils::BoxedStringVec| {
-                        utils::escape(&utils::format_option(repo_tags.iter().next()))
-                    }
-                ));
-
-            let filter_model = gtk::FilterListModel::new(
-                Some(obj.client().unwrap().image_list()),
-                Some(&gtk::CustomFilter::new(|obj| {
-                    obj.downcast_ref::<model::Image>()
-                        .unwrap()
-                        .repo_tags()
-                        .first()
-                        .is_some()
-                })),
-            );
 
             self.infra_local_image_combo_row
-                .set_model(Some(&filter_model));
-            self.infra_local_image_combo_row
-                .set_expression(Some(&image_tag_expr));
+                .set_client(obj.client().as_ref());
             self.infra_local_image_combo_row
                 .connect_selected_item_notify(
                     clone!(@weak obj => move |_| obj.update_infra_command_row()),
