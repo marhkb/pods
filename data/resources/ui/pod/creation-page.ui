@@ -282,10 +282,11 @@
                                                 <style>
                                                   <class name="flat"/>
                                                 </style>
-                                                <property name="action-name">image.infra-search</property>
-                                                <property name="icon-name">system-search-symbolic</property>
+                                                <property name="action-name">pod-creation-page.infra-search</property>
+                                                <property name="icon-name">network-server-symbolic</property>
                                                 <property name="margin-start">9</property>
                                                 <property name="valign">center</property>
+                                                <property name="tooltip-text" translatable="yes">Use a remote image instead</property>
                                               </object>
                                             </child>
 
@@ -302,17 +303,22 @@
                                                 <style>
                                                   <class name="flat"/>
                                                 </style>
-                                                <property name="action-name">image.infra-remove-remote</property>
+                                                <property name="action-name">pod-creation-page.infra-remove-remote</property>
                                                 <property name="icon-name">edit-delete-symbolic</property>
                                                 <property name="valign">center</property>
+                                                <property name="tooltip-text" translatable="yes">Discard remote image</property>
                                               </object>
                                             </child>
 
                                             <child type="suffix">
                                               <object class="GtkButton">
-                                                <property name="action-name">image.infra-search</property>
+                                                <style>
+                                                  <class name="flat"/>
+                                                </style>
+                                                <property name="action-name">pod-creation-page.infra-search</property>
                                                 <property name="icon-name">system-search-symbolic</property>
                                                 <property name="valign">center</property>
+                                                <property name="tooltip-text" translatable="yes">Search for another remote image</property>
                                               </object>
                                             </child>
 
