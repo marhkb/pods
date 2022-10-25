@@ -51,7 +51,7 @@ mod imp {
         #[template_child]
         pub(super) local_image_property_row: TemplateChild<view::PropertyRow>,
         #[template_child]
-        pub(super) local_image_combo_row: TemplateChild<adw::ComboRow>,
+        pub(super) local_image_combo_row: TemplateChild<view::ImageLocalComboRow>,
         #[template_child]
         pub(super) remote_image_row: TemplateChild<adw::ActionRow>,
         #[template_child]
@@ -224,20 +224,7 @@ mod imp {
             } else {
                 self.local_image_property_row.set_visible(false);
 
-                let filter_model = gtk::FilterListModel::new(
-                    Some(obj.client().unwrap().image_list()),
-                    Some(&gtk::CustomFilter::new(|obj| {
-                        obj.downcast_ref::<model::Image>()
-                            .unwrap()
-                            .repo_tags()
-                            .first()
-                            .is_some()
-                    })),
-                );
-
-                self.local_image_combo_row.set_model(Some(&filter_model));
-                self.local_image_combo_row
-                    .set_expression(Some(&image_tag_expr));
+                self.local_image_combo_row.set_client(obj.client().as_ref());
                 self.local_image_combo_row.connect_selected_item_notify(
                     clone!(@weak obj => move |_| obj.update_command_row()),
                 );
