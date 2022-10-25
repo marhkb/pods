@@ -9,6 +9,7 @@ use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
 use gtk::glib::closure_local;
+use gtk::pango;
 use gtk::prelude::*;
 use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
@@ -245,31 +246,9 @@ mod imp {
                     }),
                 );
 
-                let factory = gtk::SignalListItemFactory::new();
-                factory.connect_bind(|_, list_item| {
-                    let list_item = list_item.downcast_ref::<gtk::ListItem>().unwrap();
+                let pod_name_expr = model::Pod::this_expression("name");
 
-                    if let Some(item) = list_item.item() {
-                        let label = gtk::Label::builder().xalign(0.0).build();
-
-                        if let Some(pod) = item.downcast_ref::<model::Pod>() {
-                            label.set_label(&pod.name());
-                        } else {
-                            label.set_label(&format!("<i>{}</i>", gettext("disabled")));
-                            label.set_use_markup(true);
-                            label.add_css_class("dim-label");
-                        }
-
-                        list_item.set_child(Some(&label));
-                    }
-                });
-                factory.connect_unbind(|_, list_item| {
-                    list_item
-                        .downcast_ref::<gtk::ListItem>()
-                        .unwrap()
-                        .set_child(gtk::Widget::NONE);
-                });
-                self.pod_combo_row.set_factory(Some(&factory));
+                self.pod_combo_row.set_expression(Some(&pod_name_expr));
 
                 let list_factory = gtk::SignalListItemFactory::new();
                 list_factory.connect_bind(clone!(@weak obj => move |_, list_item| {
@@ -280,7 +259,10 @@ mod imp {
                         let label = gtk::Label::builder().xalign(0.0).build();
 
                         if let Some(pod) = item.downcast_ref::<model::Pod>() {
-                            label.set_label(&pod.name());
+                            pod_name_expr.bind(&label, "label", Some(pod));
+                            label.set_max_width_chars(48);
+                            label.set_wrap(true);
+                            label.set_wrap_mode(pango::WrapMode::WordChar);
                         } else {
                             label.set_label(&format!("<i>{}</i>", gettext("disabled")));
                             label.set_use_markup(true);
