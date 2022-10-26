@@ -13,7 +13,6 @@ use gtk::pango;
 use gtk::prelude::*;
 use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
-use serde::Serialize;
 
 use crate::model;
 use crate::podman;
@@ -774,7 +773,7 @@ impl CreationPage {
                     .to_owned()
                     .to_typed_list_model::<model::Volume>()
                     .into_iter()
-                    .map(|volume| Mount {
+                    .map(|volume| podman::models::ContainerMount {
                         destination: Some(volume.container_path()),
                         source: Some(volume.host_path()),
                         _type: Some("bind".to_owned()),
@@ -789,6 +788,8 @@ impl CreationPage {
 
                             options
                         }),
+                        uid_mappings: None,
+                        gid_mappings: None,
                     }),
             )
             .env(
@@ -873,20 +874,4 @@ impl CreationPage {
             })
         }
     }
-}
-
-/// It seems that `mount` in
-/// https://docs.podman.io/en/latest/_static/api.html?version=v3.4#operation/ContainerCreateLibpod
-/// describes the wrong datatype. Hence this is used instead
-#[derive(Clone, Debug, Serialize)]
-pub struct Mount {
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub destination: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub options: Option<Vec<String>>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub source: Option<String>,
-    #[serde(rename = "Type")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub _type: Option<String>,
 }
