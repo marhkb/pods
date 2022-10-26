@@ -3,7 +3,7 @@ project(
   'rust',
   version: '1.0.0-beta.6',
   meson_version: '>= 0.59',
-  # license: MIT,
+  license: 'GPL3+',
 )
 
 i18n = import('i18n')
@@ -13,8 +13,9 @@ base_id = 'com.github.marhkb.Pods'
 
 dependency('glib-2.0', version: '>= 2.66')
 dependency('gio-2.0', version: '>= 2.66')
-dependency('gtk4', version: '>= 4.0.0')
+dependency('gtk4', version: '>= 4.8.0')
 dependency('libadwaita-1', version: '>= 1.2')
+dependency('gtksourceview-5', version: '>= 4.90')
 
 glib_compile_resources = find_program('glib-compile-resources', required: true)
 glib_compile_schemas = find_program('glib-compile-schemas', required: true)

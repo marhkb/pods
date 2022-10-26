@@ -1,6 +1,7 @@
 use futures::StreamExt;
 use gtk::glib;
 use gtk::glib::clone;
+use gtk::prelude::ListModelExtManual;
 use gtk::prelude::ParamSpecBuilderExt;
 use gtk::prelude::ToValue;
 use gtk::subclass::prelude::*;
@@ -12,7 +13,6 @@ use crate::model::AbstractContainerListExt;
 use crate::monad_boxed_type;
 use crate::podman;
 use crate::utils;
-use crate::utils::ToTypedListModel;
 
 /// Sync interval in seconds
 const SYNC_INTERVAL: u32 = 5;
@@ -104,9 +104,9 @@ mod imp {
             obj.image_list()
                 .connect_image_added(clone!(@weak obj => move |_, image| {
                     obj.container_list()
-                        .to_owned()
-                        .to_typed_list_model::<model::Container>()
-                        .into_iter()
+                        .iter::<model::Container>()
+                        .unwrap()
+                        .map(|container| container.unwrap())
                         .filter(|container| container.image_id() == Some(image.id()))
                         .for_each(|container| {
                             container.set_image(Some(image));
@@ -145,9 +145,9 @@ mod imp {
             obj.pod_list()
                 .connect_pod_added(clone!(@weak obj => move |_, pod| {
                     obj.container_list()
-                        .to_owned()
-                        .to_typed_list_model::<model::Container>()
-                        .into_iter()
+                        .iter::<model::Container>()
+                        .unwrap()
+                        .map(|container| container.unwrap())
                         .filter(|container| container.pod_id() == Some(pod.id()))
                         .for_each(|container| {
                             container.set_pod(Some(pod));

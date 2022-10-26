@@ -139,7 +139,7 @@ mod imp {
         pub(super) name: RefCell<String>,
         pub(super) pod: glib::WeakRef<model::Pod>,
         pub(super) pod_id: OnceCell<Option<String>>,
-        pub(super) port_bindings: OnceCell<utils::BoxedStringVec>,
+        pub(super) port_bindings: OnceCell<gtk::StringList>,
         pub(super) stats: RefCell<Option<BoxedContainerStats>>,
         pub(super) status: Cell<Status>,
         pub(super) up_since: Cell<i64>,
@@ -220,7 +220,7 @@ mod imp {
                     glib::ParamSpecString::builder("pod-id")
                         .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
                         .build(),
-                    glib::ParamSpecBoxed::builder::<utils::BoxedStringVec>("port-bindings")
+                    glib::ParamSpecObject::builder::<gtk::StringList>("port-bindings")
                         .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
                         .build(),
                     glib::ParamSpecBoxed::builder::<BoxedContainerStats>("stats")
@@ -332,33 +332,29 @@ impl Container {
             .property("image-name", &list_container.image)
             .property("name", &list_container.names.unwrap()[0])
             .property("pod-id", &list_container.pod)
-            .property(
-                "port-bindings",
-                &utils::BoxedStringVec::from(
-                    list_container
-                        .ports
-                        .map(|mappings| {
-                            mappings
-                                .into_iter()
-                                .map(|host_port| {
-                                    format!(
-                                        "{}:{}",
-                                        {
-                                            let ip = host_port.host_ip.unwrap_or_default();
-                                            if ip.is_empty() {
-                                                "127.0.0.1".to_string()
-                                            } else {
-                                                ip
-                                            }
-                                        },
-                                        host_port.host_port.unwrap()
-                                    )
-                                })
-                                .collect::<Vec<_>>()
-                        })
-                        .unwrap_or_default(),
-                ),
-            )
+            .property("port-bindings", &{
+                let ports = list_container
+                    .ports
+                    .unwrap_or_default()
+                    .iter()
+                    .map(|mapping| {
+                        format!(
+                            "{}:{}",
+                            {
+                                let ip = mapping.host_ip.as_deref().unwrap_or_default();
+                                if ip.is_empty() {
+                                    "127.0.0.1"
+                                } else {
+                                    ip
+                                }
+                            },
+                            mapping.host_port.unwrap()
+                        )
+                    })
+                    .collect::<Vec<_>>();
+
+                gtk::StringList::new(&ports.iter().map(String::as_str).collect::<Vec<_>>())
+            })
             .property("status", &status(list_container.state.as_deref()))
             .property("up-since", &list_container.started_at.unwrap())
             .build()
@@ -473,7 +469,7 @@ impl Container {
             .map(String::as_str)
     }
 
-    pub(crate) fn port_bindings(&self) -> &utils::BoxedStringVec {
+    pub(crate) fn port_bindings(&self) -> &gtk::StringList {
         self.imp().port_bindings.get().unwrap()
     }
 

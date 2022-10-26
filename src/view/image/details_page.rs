@@ -139,18 +139,16 @@ mod imp {
 
             image_expr
                 .chain_property::<model::Image>("repo-tags")
-                .chain_closure::<String>(closure!(
-                    |_: Self::Type, repo_tags: utils::BoxedStringVec| {
-                        utils::format_iter(&mut repo_tags.iter(), "; ")
-                    }
-                ))
+                .chain_closure::<String>(closure!(|_: Self::Type, repo_tags: gtk::StringList| {
+                    utils::format_option(repo_tags.string(0))
+                }))
                 .bind(&*self.repo_tags_row, "value", Some(obj));
 
             image_expr
                 .chain_property::<model::Image>("repo-tags")
-                .chain_closure::<bool>(closure!(
-                    |_: Self::Type, repo_tags: utils::BoxedStringVec| { repo_tags.len() > 0 }
-                ))
+                .chain_closure::<bool>(closure!(|_: Self::Type, repo_tags: gtk::StringList| {
+                    repo_tags.n_items() > 0
+                }))
                 .bind(&*self.repo_tags_row, "visible", Some(obj));
 
             image_expr

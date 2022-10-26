@@ -4,11 +4,9 @@ use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
-use utils::ToTypedListModel;
 
 use crate::model;
 use crate::model::SelectableExt;
-use crate::utils;
 
 mod imp {
     use super::*;
@@ -93,23 +91,26 @@ impl<T: IsA<SelectableList> + IsA<gio::ListModel>> SelectableListExt for T {
 
     fn select(&self, value: bool) {
         self.to_owned()
-            .to_typed_list_model::<model::Selectable>()
-            .into_iter()
-            .for_each(|obj| obj.set_selected(value));
+            .iter::<model::Selectable>()
+            .unwrap()
+            .map(|selectable| selectable.unwrap())
+            .for_each(|selectable| selectable.set_selected(value));
     }
 
     fn num_selected(&self) -> u32 {
         self.to_owned()
-            .to_typed_list_model::<model::Selectable>()
-            .into_iter()
+            .iter::<model::Selectable>()
+            .unwrap()
+            .map(|selectable| selectable.unwrap())
             .filter(|obj| obj.is_selected())
             .count() as u32
     }
 
     fn selected_items(&self) -> Vec<model::Selectable> {
         self.to_owned()
-            .to_typed_list_model::<model::Selectable>()
-            .into_iter()
+            .iter::<model::Selectable>()
+            .unwrap()
+            .map(|selectable| selectable.unwrap())
             .filter(|obj| obj.is_selected())
             .collect()
     }

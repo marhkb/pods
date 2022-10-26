@@ -79,13 +79,14 @@ environment cross-distro. Thus, it is highly recommended you use it.
 
 The following packages are required to build Pods:
 
-* meson
+* meson >= 0.59
 * ninja
 * appstream-glib (for checks)
 * cargo
-* glib2
-* gtk4
+* glib2 >= 2.66
+* gtk4 >= 4.8
 * libadwaita >= 1.2
+* gtksourceview > 4.90
 
 #### Build Instruction
 

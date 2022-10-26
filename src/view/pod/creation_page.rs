@@ -14,7 +14,6 @@ use once_cell::sync::Lazy;
 use crate::model;
 use crate::podman;
 use crate::utils;
-use crate::utils::ToTypedListModel;
 use crate::view;
 
 const ACTION_CREATE: &str = "pod-creation-page.create";
@@ -444,7 +443,7 @@ impl CreationPage {
                 .map(|item| item.downcast().unwrap())
         }) {
             if imp.infra_pull_latest_image_switch.is_active() {
-                self.pull_and_create(image.repo_tags().first().unwrap());
+                self.pull_and_create(&image.repo_tags().string(0).unwrap());
             } else {
                 let page =
                     view::ActionPage::from(&self.client().unwrap().action_list().create_pod(
@@ -497,10 +496,10 @@ impl CreationPage {
             .labels(
                 imp.labels
                     .borrow()
-                    .to_owned()
-                    .to_typed_list_model::<model::KeyVal>()
-                    .into_iter()
-                    .map(|label| (label.key(), label.value())),
+                    .iter::<glib::Object>()
+                    .unwrap()
+                    .map(|entry| entry.unwrap().downcast::<model::KeyVal>().unwrap())
+                    .map(|entry| (entry.key(), entry.value())),
             );
 
         if imp.disable_infra_switch.is_active() {
@@ -517,13 +516,12 @@ impl CreationPage {
 
             let infra_command = imp.infra_command_entry_row.text();
             if !infra_command.is_empty() {
-                let args = imp
-                    .infra_cmd_args
-                    .borrow()
-                    .to_owned()
-                    .to_typed_list_model::<model::Value>()
-                    .into_iter()
-                    .map(|arg| arg.value());
+                let args = imp.infra_cmd_args.borrow();
+                let args = args
+                    .iter::<glib::Object>()
+                    .unwrap()
+                    .map(|value| value.unwrap().downcast::<model::Value>().unwrap())
+                    .map(|value| value.value());
                 let mut cmd = vec![infra_command.to_string()];
                 cmd.extend(args);
                 opts = opts.infra_command(cmd);
@@ -538,10 +536,10 @@ impl CreationPage {
             opts = opts.add_hosts(
                 imp.hosts
                     .borrow()
-                    .to_owned()
-                    .to_typed_list_model::<model::KeyVal>()
-                    .into_iter()
-                    .map(|host| format!("{}:{}", host.key(), host.value())),
+                    .iter::<glib::Object>()
+                    .unwrap()
+                    .map(|entry| entry.unwrap().downcast::<model::KeyVal>().unwrap())
+                    .map(|entry| format!("{}:{}", entry.key(), entry.value())),
             )
         } else {
             opts = opts.no_manage_hosts(true);
@@ -549,13 +547,12 @@ impl CreationPage {
 
         let create_cmd = imp.pod_create_command_entry_row.text();
         if !create_cmd.is_empty() {
-            let args = imp
-                .pod_create_cmd_args
-                .borrow()
-                .to_owned()
-                .to_typed_list_model::<model::Value>()
-                .into_iter()
-                .map(|arg| arg.value());
+            let args = imp.pod_create_cmd_args.borrow();
+            let args = args
+                .iter::<glib::Object>()
+                .unwrap()
+                .map(|value| value.unwrap().downcast::<model::Value>().unwrap())
+                .map(|value| value.value());
             let mut cmd = vec![create_cmd.to_string()];
             cmd.extend(args);
             opts = opts.pod_create_command(cmd);
@@ -564,17 +561,17 @@ impl CreationPage {
         let devices: Vec<_> = imp
             .devices
             .borrow()
-            .to_owned()
-            .to_typed_list_model::<model::Device>()
-            .into_iter()
-            .map(|dev| {
+            .iter::<glib::Object>()
+            .unwrap()
+            .map(|device| device.unwrap().downcast::<model::Device>().unwrap())
+            .map(|device| {
                 format!(
                     "{}:{}:{}{}{}",
-                    dev.host_path(),
-                    dev.container_path(),
-                    if dev.readable() { "r" } else { "" },
-                    if dev.writable() { "w" } else { "" },
-                    if dev.mknod() { "m" } else { "" },
+                    device.host_path(),
+                    device.container_path(),
+                    if device.readable() { "r" } else { "" },
+                    if device.writable() { "w" } else { "" },
+                    if device.mknod() { "m" } else { "" },
                 )
             })
             .collect();

@@ -178,7 +178,7 @@ impl ImageList {
             .list
             .borrow()
             .values()
-            .filter(|image| image.repo_tags().is_empty())
+            .filter(|image| image.repo_tags().n_items() == 0)
             .count()
     }
 
@@ -187,7 +187,7 @@ impl ImageList {
             .list
             .borrow()
             .values()
-            .filter(|image| image.repo_tags().is_empty())
+            .filter(|image| image.repo_tags().n_items() == 0)
             .map(model::Image::size)
             .sum()
     }

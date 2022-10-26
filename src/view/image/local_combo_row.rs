@@ -76,8 +76,8 @@ mod imp {
 
             let image_tag_expr = model::Image::this_expression("repo-tags")
                 .chain_closure::<String>(closure!(
-                    |_: model::Image, repo_tags: utils::BoxedStringVec| {
-                        utils::escape(&utils::format_option(repo_tags.iter().next()))
+                    |_: model::Image, repo_tags: gtk::StringList| {
+                        utils::escape(&utils::format_option(repo_tags.string(0)))
                     }
                 ));
             obj.set_expression(Some(&image_tag_expr));
@@ -156,8 +156,8 @@ impl LocalComboRow {
                         obj.downcast_ref::<model::Image>()
                             .unwrap()
                             .repo_tags()
-                            .first()
-                            .is_some()
+                            .n_items()
+                            > 0
                     })),
                 )),
                 Some(&gtk::StringSorter::new(self.expression())),
