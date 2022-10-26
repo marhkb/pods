@@ -102,6 +102,7 @@ fn pull_latest(overlay: Option<&view::LeafletOverlay>, image: Option<model::Imag
                 &reference,
                 podman::opts::PullOpts::builder()
                     .reference(reference.as_str())
+                    .policy(podman::opts::PullPolicy::Newer)
                     .build(),
             );
 

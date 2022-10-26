@@ -686,14 +686,14 @@ impl CreationPage {
         let imp = self.imp();
 
         if imp.remote_image_row.is_visible() {
-            self.pull_and_create(imp.remote_image_row.subtitle().unwrap().as_str(), run);
+            self.pull_and_create(imp.remote_image_row.subtitle().unwrap().as_str(), true, run);
         } else if let Some(image) = self.image().or_else(|| {
             imp.local_image_combo_row
                 .selected_item()
                 .map(|item| item.downcast().unwrap())
         }) {
             if imp.pull_latest_image_switch.is_active() {
-                self.pull_and_create(&image.repo_tags().string(0).unwrap(), run);
+                self.pull_and_create(&image.repo_tags().string(0).unwrap(), false, run);
             } else {
                 let page = view::ActionPage::from(
                     &self.client().unwrap().action_list().create_container(
@@ -721,12 +721,16 @@ impl CreationPage {
         }
     }
 
-    fn pull_and_create(&self, reference: &str, run: bool) {
+    fn pull_and_create(&self, reference: &str, remote: bool, run: bool) {
         let imp = self.imp();
 
         let pull_opts = podman::opts::PullOpts::builder()
             .reference(reference)
-            .quiet(false)
+            .policy(if remote {
+                podman::opts::PullPolicy::Always
+            } else {
+                podman::opts::PullPolicy::Newer
+            })
             .build();
 
         let page = view::ActionPage::from(
