@@ -3,7 +3,7 @@ project(
   'rust',
   version: '1.0.0-beta.6',
   meson_version: '>= 0.59',
-  # license: MIT,
+  license: 'GPL3+',
 )
 
 i18n = import('i18n')
