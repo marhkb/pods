@@ -96,12 +96,15 @@ fn pull_latest(overlay: Option<&view::LeafletOverlay>, image: Option<model::Imag
             .as_ref()
             .map(model::Client::action_list)
         {
-            let reference = image.repo_tags().first().unwrap();
+            let reference = image
+                .repo_tags()
+                .string(0)
+                .unwrap();
 
             let action = action_list.download_image(
-                reference,
+                &reference,
                 podman::opts::PullOpts::builder()
-                    .reference(reference)
+                    .reference(reference.as_str())
                     .build(),
             );
 

@@ -29,12 +29,12 @@ mod imp {
         pub(super) created: OnceCell<i64>,
         pub(super) dangling: Cell<bool>,
         pub(super) digest: OnceCell<String>,
-        pub(super) history: OnceCell<utils::BoxedStringVec>,
+        pub(super) history: OnceCell<gtk::StringList>,
         pub(super) id: OnceCell<String>,
         pub(super) parent_id: OnceCell<Option<String>>,
         pub(super) read_only: OnceCell<bool>,
-        pub(super) repo_digests: OnceCell<utils::BoxedStringVec>,
-        pub(super) repo_tags: OnceCell<utils::BoxedStringVec>,
+        pub(super) repo_digests: OnceCell<gtk::StringList>,
+        pub(super) repo_tags: OnceCell<gtk::StringList>,
         pub(super) size: OnceCell<u64>,
         pub(super) shared_size: OnceCell<u64>,
         pub(super) user: OnceCell<String>,
@@ -83,7 +83,7 @@ mod imp {
                     glib::ParamSpecString::builder("digest")
                         .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
                         .build(),
-                    glib::ParamSpecBoxed::builder::<utils::BoxedStringVec>("history")
+                    glib::ParamSpecObject::builder::<gtk::StringList>("history")
                         .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
                         .build(),
                     glib::ParamSpecString::builder("id")
@@ -95,10 +95,10 @@ mod imp {
                     glib::ParamSpecBoolean::builder("read-only")
                         .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
                         .build(),
-                    glib::ParamSpecBoxed::builder::<utils::BoxedStringVec>("repo-digests")
+                    glib::ParamSpecObject::builder::<gtk::StringList>("repo-digests")
                         .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
                         .build(),
-                    glib::ParamSpecBoxed::builder::<utils::BoxedStringVec>("repo-tags")
+                    glib::ParamSpecObject::builder::<gtk::StringList>("repo-tags")
                         .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
                         .build(),
                     glib::ParamSpecUInt64::builder("size")
@@ -201,7 +201,14 @@ impl Image {
             .property("digest", summary.digest.as_ref().unwrap())
             .property(
                 "history",
-                &utils::BoxedStringVec::from(summary.history.unwrap_or_default()),
+                &gtk::StringList::new(
+                    &summary
+                        .history
+                        .unwrap_or_default()
+                        .iter()
+                        .map(String::as_str)
+                        .collect::<Vec<_>>(),
+                ),
             )
             .property("id", &summary.id)
             .property(
@@ -215,11 +222,25 @@ impl Image {
             .property("read-only", &summary.read_only.unwrap_or_default())
             .property(
                 "repo-digests",
-                &utils::BoxedStringVec::from(summary.repo_digests.unwrap_or_default()),
+                &gtk::StringList::new(
+                    &summary
+                        .repo_digests
+                        .unwrap_or_default()
+                        .iter()
+                        .map(String::as_str)
+                        .collect::<Vec<_>>(),
+                ),
             )
             .property(
                 "repo-tags",
-                &utils::BoxedStringVec::from(summary.repo_tags.unwrap_or_default()),
+                &gtk::StringList::new(
+                    &summary
+                        .repo_tags
+                        .unwrap_or_default()
+                        .iter()
+                        .map(String::as_str)
+                        .collect::<Vec<_>>(),
+                ),
             )
             .property("size", &(summary.size.unwrap_or_default() as u64))
             .property(
@@ -259,7 +280,7 @@ impl Image {
         self.imp().digest.get().unwrap()
     }
 
-    pub(crate) fn history(&self) -> &utils::BoxedStringVec {
+    pub(crate) fn history(&self) -> &gtk::StringList {
         self.imp().history.get().unwrap()
     }
 
@@ -275,11 +296,11 @@ impl Image {
         *self.imp().read_only.get().unwrap()
     }
 
-    pub(crate) fn repo_digests(&self) -> &utils::BoxedStringVec {
+    pub(crate) fn repo_digests(&self) -> &gtk::StringList {
         self.imp().repo_digests.get().unwrap()
     }
 
-    pub(crate) fn repo_tags(&self) -> &utils::BoxedStringVec {
+    pub(crate) fn repo_tags(&self) -> &gtk::StringList {
         self.imp().repo_tags.get().unwrap()
     }
 

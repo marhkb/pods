@@ -106,11 +106,10 @@ mod imp {
                         .upcast_ref(),
                 ],
                 closure!(
-                    |_: Self::Type, repo_tags: utils::BoxedStringVec, to_be_deleted: bool| {
-                        let repo = repo_tags
-                            .iter()
-                            .next()
-                            .and_then(|repo_tag| repo_tag.split_once(':').map(|(name, _)| name));
+                    |_: Self::Type, repo_tags: gtk::StringList, to_be_deleted: bool| {
+                        let repo = repo_tags.string(0).and_then(|repo_tag| {
+                            repo_tag.split_once(':').map(|(name, _)| name.to_string())
+                        });
                         let repo = utils::escape(&utils::format_option(repo));
 
                         if to_be_deleted {
@@ -126,10 +125,9 @@ mod imp {
             let css_classes = self.repo_label.css_classes();
             repo_tags_expr
                 .chain_closure::<Vec<String>>(closure!(
-                    |_: Self::Type, repo_tags: utils::BoxedStringVec| {
+                    |_: Self::Type, repo_tags: gtk::StringList| {
                         repo_tags
-                            .iter()
-                            .next()
+                            .string(0)
                             .map(|_| None)
                             .unwrap_or_else(|| Some(glib::GString::from("dim-label")))
                             .into_iter()
@@ -147,17 +145,14 @@ mod imp {
                 .bind(&*self.id_label, "label", Some(obj));
 
             repo_tags_expr
-                .chain_closure::<String>(closure!(
-                    |_: Self::Type, repo_tags: utils::BoxedStringVec| {
-                        repo_tags
-                            .iter()
-                            .next()
-                            .and_then(|repo_tag| {
-                                repo_tag.split_once(':').map(|(_, tag)| tag.to_string())
-                            })
-                            .unwrap_or_default()
-                    }
-                ))
+                .chain_closure::<String>(closure!(|_: Self::Type, repo_tags: gtk::StringList| {
+                    repo_tags
+                        .string(0)
+                        .and_then(|repo_tag| {
+                            repo_tag.split_once(':').map(|(_, tag)| tag.to_string())
+                        })
+                        .unwrap_or_default()
+                }))
                 .bind(&*self.tag_label, "label", Some(obj));
 
             if let Some(image) = obj.image() {

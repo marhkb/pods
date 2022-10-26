@@ -103,7 +103,18 @@ mod imp {
                         false
                     } else if let Some(image) = item.downcast_ref::<model::Image>() {
                         image.id().contains(&term)
-                        || image.repo_tags().iter().any(|s| s.to_uppercase().contains(&term))
+                        || image
+                            .repo_tags()
+                            .iter::<glib::Object>()
+                            .unwrap()
+                            .map(|host_port| {
+                                host_port
+                                    .unwrap()
+                                    .downcast::<gtk::StringObject>()
+                                    .unwrap()
+                                    .string()
+                            })
+                            .any(|s| s.to_uppercase().contains(&term))
                     } else if let Some(container) = item.downcast_ref::<model::Container>() {
                         container
                             .name().to_uppercase().contains(&term)
@@ -128,13 +139,13 @@ mod imp {
                 if let Some(image1) = obj1.downcast_ref::<model::Image>() {
                     let image2 = obj2.downcast_ref::<model::Image>().unwrap();
 
-                    if image1.repo_tags().is_empty() {
-                        if image2.repo_tags().is_empty() {
+                    if image1.repo_tags().n_items() == 0 {
+                        if image2.repo_tags().n_items() == 0 {
                             image1.id().cmp(image2.id()).into()
                         } else {
                             gtk::Ordering::Larger
                         }
-                    } else if image2.repo_tags().is_empty() {
+                    } else if image2.repo_tags().n_items() == 0 {
                         gtk::Ordering::Smaller
                     } else {
                         image1.repo_tags().cmp(image2.repo_tags()).into()

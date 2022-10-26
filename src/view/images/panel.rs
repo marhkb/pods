@@ -232,11 +232,11 @@ mod imp {
             let properties_filter =
                 gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
                     obj.imp().show_intermediates_switch.is_active()
-                    || !item
+                    || item
                         .downcast_ref::<model::Image>()
                         .unwrap()
                         .repo_tags()
-                        .is_empty()
+                        .n_items() > 0
                 }));
 
             obj.connect_notify_local(
@@ -248,16 +248,20 @@ mod imp {
                 let image1 = obj1.downcast_ref::<model::Image>().unwrap();
                 let image2 = obj2.downcast_ref::<model::Image>().unwrap();
 
-                if image1.repo_tags().is_empty() {
-                    if image2.repo_tags().is_empty() {
+                if image1.repo_tags().n_items() == 0 {
+                    if image2.repo_tags().n_items() == 0 {
                         image1.id().cmp(image2.id()).into()
                     } else {
                         gtk::Ordering::Larger
                     }
-                } else if image2.repo_tags().is_empty() {
+                } else if image2.repo_tags().n_items() == 0 {
                     gtk::Ordering::Smaller
                 } else {
-                    image1.repo_tags().cmp(image2.repo_tags()).into()
+                    image1
+                        .repo_tags()
+                        .string(0)
+                        .cmp(&image2.repo_tags().string(0))
+                        .into()
                 }
             });
 

@@ -145,9 +145,17 @@ mod imp {
 
             port_bindings_expr
                 .chain_closure::<String>(closure!(
-                    |_: Self::Type, port_bindings: utils::BoxedStringVec| {
+                    |_: Self::Type, port_bindings: gtk::StringList| {
                         port_bindings
-                            .iter()
+                            .iter::<glib::Object>()
+                            .unwrap()
+                            .map(|host_port| {
+                                host_port
+                                    .unwrap()
+                                    .downcast::<gtk::StringObject>()
+                                    .unwrap()
+                                    .string()
+                            })
                             .map(|host_port| {
                                 format!("<a href='http://{}'>{}</a>", host_port, host_port)
                             })
@@ -158,9 +166,9 @@ mod imp {
                 .bind(&*self.port_bindings_label, "label", Some(obj));
 
             port_bindings_expr
-                .chain_closure::<bool>(closure!(
-                    |_: Self::Type, port_bindings: utils::BoxedStringVec| !port_bindings.is_empty()
-                ))
+                .chain_closure::<bool>(closure!(|_: Self::Type, port_bindings: gtk::StringList| {
+                    port_bindings.n_items() > 0
+                }))
                 .bind(&*self.port_bindings_row, "visible", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
@@ -250,15 +258,12 @@ mod imp {
                     image_expr.chain_property::<model::Image>("repo-tags"),
                     image_expr.chain_property::<model::Image>("id"),
                 ],
-                closure!(
-                    |_: Self::Type, repo_tags: utils::BoxedStringVec, id: &str| {
-                        repo_tags
-                            .iter()
-                            .next()
-                            .cloned()
-                            .unwrap_or_else(|| id.chars().take(12).collect())
-                    }
-                ),
+                closure!(|_: Self::Type, repo_tags: gtk::StringList, id: &str| {
+                    repo_tags
+                        .string(0)
+                        .map(String::from)
+                        .unwrap_or_else(|| id.chars().take(12).collect())
+                }),
             )
             .bind(&*self.image_label, "label", Some(obj));
 

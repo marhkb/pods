@@ -52,7 +52,6 @@ macro_rules! monad_boxed_type {
     };
 }
 
-monad_boxed_type!(pub(crate) BoxedStringVec(Vec<String>) impls Debug, Default);
 monad_boxed_type!(pub(crate) BoxedStringBTreeSet(BTreeSet<String>) impls Debug, Default);
 
 pub(crate) fn config_dir() -> &'static PathBuf {

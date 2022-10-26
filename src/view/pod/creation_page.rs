@@ -444,7 +444,7 @@ impl CreationPage {
                 .map(|item| item.downcast().unwrap())
         }) {
             if imp.infra_pull_latest_image_switch.is_active() {
-                self.pull_and_create(image.repo_tags().first().unwrap());
+                self.pull_and_create(&image.repo_tags().string(0).unwrap());
             } else {
                 let page =
                     view::ActionPage::from(&self.client().unwrap().action_list().create_pod(

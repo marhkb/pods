@@ -194,8 +194,8 @@ mod imp {
 
             let image_tag_expr = model::Image::this_expression("repo-tags")
                 .chain_closure::<String>(closure!(
-                    |_: model::Image, repo_tags: utils::BoxedStringVec| {
-                        utils::escape(&utils::format_option(repo_tags.iter().next()))
+                    |_: model::Image, repo_tags: gtk::StringList| {
+                        utils::escape(&utils::format_option(repo_tags.string(0)))
                     }
                 ));
             let pod_name_expr = model::Pod::this_expression("name");
@@ -694,15 +694,16 @@ impl CreationPage {
                 .map(|item| item.downcast().unwrap())
         }) {
             if imp.pull_latest_image_switch.is_active() {
-                self.pull_and_create(image.repo_tags().first().unwrap(), run);
+                self.pull_and_create(&image.repo_tags().string(0).unwrap(), run);
             } else {
                 let page = view::ActionPage::from(
                     &self.client().unwrap().action_list().create_container(
                         imp.name_entry_row.text().as_str(),
                         image
                             .repo_tags()
-                            .first()
-                            .map(String::as_str)
+                            .string(0)
+                            .as_ref()
+                            .map(glib::GString::as_str)
                             .unwrap_or_else(|| image.id()),
                         self.create().image(image.id()).build(),
                         run,
