@@ -500,7 +500,10 @@ impl CreationPage {
     fn set_exposed_ports(&self, config: &model::ImageConfig) {
         let imp = self.imp();
 
-        config.exposed_ports().iter().for_each(|exposed| {
+        let exposed_ports = config.exposed_ports();
+        for i in 0..exposed_ports.n_items() {
+            let exposed = exposed_ports.string(i).unwrap();
+
             let port_mapping = model::PortMapping::default();
             self.connect_port_mapping(&port_mapping);
             imp.port_mappings.borrow().append(&port_mapping);
@@ -524,7 +527,7 @@ impl CreationPage {
                     }
                 }
             }
-        });
+        }
     }
 
     fn remove_remote(&self) {

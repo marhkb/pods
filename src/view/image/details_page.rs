@@ -244,18 +244,27 @@ mod imp {
 
             exposed_ports_expr
                 .chain_closure::<String>(closure!(
-                    |_: Self::Type, exposed_ports: utils::BoxedStringBTreeSet| {
-                        utils::format_iter(exposed_ports.iter(), "\n")
+                    |_: Self::Type, exposed_ports: gtk::StringList| {
+                        let exposed_ports = exposed_ports
+                            .iter::<glib::Object>()
+                            .unwrap()
+                            .map(|obj| {
+                                obj.unwrap()
+                                    .downcast::<gtk::StringObject>()
+                                    .unwrap()
+                                    .to_string()
+                            })
+                            .collect::<Vec<_>>();
+
+                        utils::format_iter(exposed_ports.iter().map(String::as_str), "\n")
                     }
                 ))
                 .bind(&*self.ports_row, "value", Some(obj));
 
             exposed_ports_expr
-                .chain_closure::<bool>(closure!(
-                    |_: Self::Type, exposed_ports: utils::BoxedStringBTreeSet| {
-                        exposed_ports.len() > 0
-                    }
-                ))
+                .chain_closure::<bool>(closure!(|_: Self::Type, exposed_ports: gtk::StringList| {
+                    exposed_ports.n_items() > 0
+                }))
                 .bind(&*self.ports_row, "visible", Some(obj));
 
             data_expr

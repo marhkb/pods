@@ -1,5 +1,3 @@
-use std::collections::BTreeSet;
-
 use gtk::glib;
 use gtk::prelude::ParamSpecBuilderExt;
 use gtk::prelude::ToValue;
@@ -17,7 +15,7 @@ mod imp {
     pub(crate) struct ImageConfig {
         pub(super) cmd: OnceCell<Option<String>>,
         pub(super) entrypoint: OnceCell<Option<String>>,
-        pub(super) exposed_ports: OnceCell<utils::BoxedStringBTreeSet>,
+        pub(super) exposed_ports: OnceCell<gtk::StringList>,
     }
 
     #[glib::object_subclass]
@@ -36,7 +34,7 @@ mod imp {
                     glib::ParamSpecString::builder("entrypoint")
                         .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
                         .build(),
-                    glib::ParamSpecBoxed::builder::<utils::BoxedStringBTreeSet>("exposed-ports")
+                    glib::ParamSpecObject::builder::<gtk::StringList>("exposed-ports")
                         .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
                         .build(),
                 ]
@@ -88,11 +86,13 @@ impl ImageConfig {
             )
             .property(
                 "exposed-ports",
-                &utils::BoxedStringBTreeSet::from(
-                    config
+                &gtk::StringList::new(
+                    &config
                         .exposed_ports
-                        .map(|ports| ports.into_keys().collect::<BTreeSet<_>>())
-                        .unwrap_or_default(),
+                        .unwrap_or_default()
+                        .keys()
+                        .map(String::as_str)
+                        .collect::<Vec<_>>(),
                 ),
             )
             .build()
@@ -106,7 +106,7 @@ impl ImageConfig {
         self.imp().entrypoint.get().unwrap().as_deref()
     }
 
-    pub(crate) fn exposed_ports(&self) -> &utils::BoxedStringBTreeSet {
+    pub(crate) fn exposed_ports(&self) -> &gtk::StringList {
         self.imp().exposed_ports.get().unwrap()
     }
 }
