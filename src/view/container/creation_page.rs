@@ -17,7 +17,6 @@ use once_cell::sync::Lazy;
 use crate::model;
 use crate::podman;
 use crate::utils;
-use crate::utils::ToTypedListModel;
 use crate::view;
 
 const ACTION_SEARCH_IMAGE: &str = "container-creation-page.search-image";
@@ -757,9 +756,9 @@ impl CreationPage {
             .portmappings(
                 imp.port_mappings
                     .borrow()
-                    .to_owned()
-                    .to_typed_list_model::<model::PortMapping>()
-                    .into_iter()
+                    .iter::<glib::Object>()
+                    .unwrap()
+                    .map(|mapping| mapping.unwrap().downcast::<model::PortMapping>().unwrap())
                     .map(|port_mapping| podman::models::PortMapping {
                         container_port: Some(port_mapping.container_port() as u16),
                         host_ip: None,
@@ -771,9 +770,9 @@ impl CreationPage {
             .mounts(
                 imp.volumes
                     .borrow()
-                    .to_owned()
-                    .to_typed_list_model::<model::Volume>()
-                    .into_iter()
+                    .iter::<glib::Object>()
+                    .unwrap()
+                    .map(|volume| volume.unwrap().downcast::<model::Volume>().unwrap())
                     .map(|volume| podman::models::ContainerMount {
                         destination: Some(volume.container_path()),
                         source: Some(volume.host_path()),
@@ -796,18 +795,18 @@ impl CreationPage {
             .env(
                 imp.env_vars
                     .borrow()
-                    .to_owned()
-                    .to_typed_list_model::<model::KeyVal>()
-                    .into_iter()
-                    .map(|env_var| (env_var.key(), env_var.value())),
+                    .iter::<glib::Object>()
+                    .unwrap()
+                    .map(|entry| entry.unwrap().downcast::<model::KeyVal>().unwrap())
+                    .map(|entry| (entry.key(), entry.value())),
             )
             .labels(
                 imp.labels
                     .borrow()
-                    .to_owned()
-                    .to_typed_list_model::<model::KeyVal>()
-                    .into_iter()
-                    .map(|label| (label.key(), label.value())),
+                    .iter::<glib::Object>()
+                    .unwrap()
+                    .map(|entry| entry.unwrap().downcast::<model::KeyVal>().unwrap())
+                    .map(|entry| (entry.key(), entry.value())),
             );
 
         let create_opts = if imp.memory_switch.is_active() {
@@ -842,13 +841,12 @@ impl CreationPage {
         let create_opts = if cmd.is_empty() {
             create_opts
         } else {
-            let args = imp
-                .cmd_args
-                .borrow()
-                .to_owned()
-                .to_typed_list_model::<model::Value>()
-                .into_iter()
-                .map(|arg| arg.value());
+            let args = imp.cmd_args.borrow();
+            let args = args
+                .iter::<glib::Object>()
+                .unwrap()
+                .map(|value| value.unwrap().downcast::<model::Value>().unwrap())
+                .map(|value| value.value());
             let mut cmd = vec![cmd.to_string()];
             cmd.extend(args);
             create_opts.command(&cmd)

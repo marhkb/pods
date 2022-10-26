@@ -15,7 +15,6 @@ use once_cell::sync::Lazy;
 use crate::model;
 use crate::podman;
 use crate::utils;
-use crate::utils::ToTypedListModel;
 use crate::view;
 
 const ACTION_BUILD: &str = "image-build-page.build-image";
@@ -263,10 +262,10 @@ impl BuildPage {
                     .labels(
                         imp.labels
                             .borrow()
-                            .to_owned()
-                            .to_typed_list_model::<model::KeyVal>()
-                            .into_iter()
-                            .map(|label| (label.key(), label.value())),
+                            .iter::<glib::Object>()
+                            .unwrap()
+                            .map(|entry| entry.unwrap().downcast::<model::KeyVal>().unwrap())
+                            .map(|entry| (entry.key(), entry.value())),
                     )
                     .build();
 
