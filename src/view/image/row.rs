@@ -1,6 +1,5 @@
 use std::cell::RefCell;
 
-use adw::subclass::prelude::PreferencesRowImpl;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
@@ -39,7 +38,7 @@ mod imp {
     impl ObjectSubclass for Row {
         const NAME: &'static str = "PdsImageRow";
         type Type = super::Row;
-        type ParentType = adw::PreferencesRow;
+        type ParentType = gtk::ListBoxRow;
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
@@ -169,12 +168,11 @@ mod imp {
 
     impl WidgetImpl for Row {}
     impl ListBoxRowImpl for Row {}
-    impl PreferencesRowImpl for Row {}
 }
 
 glib::wrapper! {
     pub(crate) struct Row(ObjectSubclass<imp::Row>)
-        @extends gtk::Widget, gtk::ListBoxRow, adw::PreferencesRow,
+        @extends gtk::Widget, gtk::ListBoxRow,
         @implements gtk::Accessible, gtk::Buildable, gtk::Actionable, gtk::ConstraintTarget;
 
 }
