@@ -206,7 +206,3 @@ connectionchooserpage connectionswitchermenu row {
 #pod-row box.title label.subtitle  {
   font-feature-settings: "tnum";
 }
-
-.fake-list-label {
-  line-height: 1.4em;
-}
