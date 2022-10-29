@@ -48,6 +48,8 @@ mod imp {
         pub(super) pod_row: TemplateChild<adw::ActionRow>,
         #[template_child]
         pub(super) pod_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub(super) inspection_row: TemplateChild<adw::PreferencesRow>,
     }
 
     #[glib::object_subclass]
@@ -117,6 +119,7 @@ mod imp {
                 .chain_property::<gtk::Window>("application")
                 .chain_property::<crate::Application>("ticks");
             let container_expr = Self::Type::this_expression("container");
+            let data_expr = container_expr.chain_property::<model::Container>("data");
             let status_expr = container_expr.chain_property::<model::Container>("status");
             let health_status_expr =
                 container_expr.chain_property::<model::Container>("health_status");
@@ -297,6 +300,12 @@ mod imp {
                     pod.as_ref().map(model::Pod::name).unwrap_or_default()
                 }))
                 .bind(&*self.pod_label, "label", Some(obj));
+
+            data_expr
+                .chain_closure::<bool>(closure!(
+                    |_: Self::Type, cmd: Option<model::ContainerData>| { cmd.is_none() }
+                ))
+                .bind(&*self.inspection_row, "visible", Some(obj));
         }
     }
 
