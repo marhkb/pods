@@ -51,23 +51,6 @@
     </child>
 
     <child>
-      <object class="PdsPropertyWidgetRow" id="port_bindings_row">
-        <property name="key" translatable="yes">Port bindings</property>
-
-        <property name="widget">
-          <object class="GtkLabel" id="port_bindings_label">
-            <style>
-              <class name="fake-list-label"/>
-            </style>
-            <property name="justify">right</property>
-            <property name="use-markup">True</property>
-          </object>
-        </property>
-
-      </object>
-    </child>
-
-    <child>
       <object class="PdsPropertyRow" id="created_row">
         <property name="key" translatable="yes">Created</property>
       </object>
@@ -109,7 +92,25 @@
         </property>
 
       </object>
+    </child>
 
+    <child>
+      <object class="AdwExpanderRow" id="port_bindings_row">
+        <property name="title" translatable="yes">Port bindings</property>
+        <property name="visible">False</property>
+
+        <child type="action">
+          <object class="GtkLabel" id="port_bindings_label">
+            <style>
+              <class name="dim-label"/>
+            </style>
+            <property name="wrap">True</property>
+            <property name="wrap-mode">word</property>
+            <property name="xalign">1</property>
+          </object>
+        </child>
+
+      </object>
     </child>
 
     <child>
