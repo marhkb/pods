@@ -1,4 +1,3 @@
-use std::collections::BTreeSet;
 use std::ops::Deref;
 use std::path::PathBuf;
 
@@ -49,8 +48,6 @@ macro_rules! monad_boxed_type {
         }
     };
 }
-
-monad_boxed_type!(pub(crate) BoxedStringBTreeSet(BTreeSet<String>) impls Debug, Default);
 
 pub(crate) fn config_dir() -> &'static PathBuf {
     &APPLICATION_OPTS.get().unwrap().config_dir
