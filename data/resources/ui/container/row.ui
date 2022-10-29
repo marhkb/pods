@@ -1,77 +1,152 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
 
-  <template class="PdsContainerRow" parent="AdwActionRow">
-    <property name="activatable">True</property>
+  <template class="PdsContainerRow" parent="GtkListBoxRow">
     <property name="action-name">container-row.activate</property>
 
-    <child type="prefix">
-      <object class="GtkImage" id="status_image">
-        <style>
-          <class name="status-circle"/>
-        </style>
-        <property name="halign">center</property>
-        <property name="valign">center</property>
-      </object>
-    </child>
-
-    <child type="prefix">
-      <object class="GtkCheckButton" id="check_button">
-        <style>
-          <class name="selection-mode"/>
-        </style>
-      </object>
-    </child>
-
     <child>
-      <object class="GtkLabel" id="health_status_label">
-        <style>
-          <class name="status-badge"/>
-        </style>
-        <property name="valign">center</property>
-      </object>
-    </child>
+      <object class="GtkBox">
+        <property name="margin-top">7</property>
+        <property name="margin-end">12</property>
+        <property name="margin-bottom">7</property>
+        <property name="margin-start">12</property>
+        <property name="spacing">6</property>
 
-    <child>
-      <object class="GtkBox" id="stats_box">
-        <property name="spacing">2</property>
-
-        <child>
-          <object class="PdsCircularProgressBar" id="cpu_bar">
-            <property name="width-request">36</property>
-            <property name="icon-name">computer-chip-symbolic</property>
-          </object>
-        </child>
-
-        <child>
-          <object class="PdsCircularProgressBar" id="mem_bar">
-            <property name="width-request">36</property>
-            <property name="icon-name">memory-symbolic</property>
-          </object>
-        </child>
-
-      </object>
-    </child>
-
-    <child>
-      <object class="GtkBox" id="end_box">
-        <property name="spacing">3</property>
-
-        <child>
-          <object class="PdsContainerMenuButton" id="menu_button">
+        <child type="prefix">
+          <object class="GtkCheckButton" id="check_button">
             <style>
-              <class name="flat"/>
+              <class name="selection-mode"/>
             </style>
-            <binding name="container">
-              <lookup name="container">PdsContainerRow</lookup>
-            </binding>
+          </object>
+        </child>
+
+        <child type="prefix">
+          <object class="GtkImage" id="status_image">
+            <style>
+              <class name="status-circle"/>
+            </style>
+            <property name="halign">center</property>
+            <property name="valign">center</property>
+            <property name="margin-end">6</property>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkBox">
+            <property name="hexpand">True</property>
+            <property name="valign">center</property>
+            <property name="orientation">vertical</property>
+            <property name="spacing">3</property>
+
+            <child>
+              <object class="GtkBox">
+                <property name="spacing">9</property>
+
+                <child>
+                  <object class="GtkLabel" id="name_label">
+                    <property name="use-markup">True</property>
+                    <property name="wrap">True</property>
+                    <property name="wrap-mode">word-char</property>
+                    <property name="xalign">0</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkBox" id="port_box">
+                    <property name="spacing">3</property>
+
+                    <child>
+                      <object class="GtkLabel">
+                        <style>
+                          <class name="caption-heading"/>
+                        </style>
+                        <property name="label" translatable="yes">Port:</property>
+                        <property name="yalign">1</property>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkLabel" id="port_label">
+                        <style>
+                          <class name="caption-heading"/>
+                        </style>
+                        <property name="yalign">1</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkLabel" id="repo_label">
+                <style>
+                  <class name="subtitle"/>
+                </style>
+                <property name="use-markup">True</property>
+                <property name="wrap">True</property>
+                <property name="wrap-mode">word</property>
+                <property name="xalign">0</property>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkLabel" id="health_status_label">
+            <style>
+              <class name="status-badge"/>
+            </style>
             <property name="valign">center</property>
           </object>
         </child>
 
         <child>
-          <object class="GtkImage">
-            <property name="icon_name">go-next-symbolic</property>
+          <object class="GtkBox" id="stats_box">
+            <property name="spacing">2</property>
+
+            <child>
+              <object class="PdsCircularProgressBar" id="cpu_bar">
+                <property name="width-request">36</property>
+                <property name="icon-name">computer-chip-symbolic</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="PdsCircularProgressBar" id="mem_bar">
+                <property name="width-request">36</property>
+                <property name="icon-name">memory-symbolic</property>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkBox" id="end_box">
+            <property name="spacing">3</property>
+
+            <child>
+              <object class="PdsContainerMenuButton" id="menu_button">
+                <style>
+                  <class name="flat"/>
+                </style>
+                <binding name="container">
+                  <lookup name="container">PdsContainerRow</lookup>
+                </binding>
+                <property name="valign">center</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkImage">
+                <property name="icon_name">go-next-symbolic</property>
+              </object>
+            </child>
+
           </object>
         </child>
 

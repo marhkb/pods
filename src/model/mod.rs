@@ -42,6 +42,7 @@ pub(crate) use self::container::BoxedContainerStats;
 pub(crate) use self::container::Container;
 pub(crate) use self::container::HealthStatus as ContainerHealthStatus;
 pub(crate) use self::container::Status as ContainerStatus;
+pub(crate) use self::container_data::BoxedPortBindings;
 pub(crate) use self::container_data::ContainerData;
 pub(crate) use self::container_list::ContainerList;
 pub(crate) use self::device::Device;

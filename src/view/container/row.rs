@@ -1,7 +1,5 @@
 use std::cell::RefCell;
 
-use adw::subclass::prelude::ActionRowImpl;
-use adw::subclass::prelude::PreferencesRowImpl;
 use adw::traits::AnimationExt;
 use gtk::glib;
 use gtk::glib::clone;
@@ -31,6 +29,14 @@ mod imp {
         #[template_child]
         pub(super) check_button: TemplateChild<gtk::CheckButton>,
         #[template_child]
+        pub(super) name_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub(super) port_box: TemplateChild<gtk::Box>,
+        #[template_child]
+        pub(super) port_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub(super) repo_label: TemplateChild<gtk::Label>,
+        #[template_child]
         pub(super) stats_box: TemplateChild<gtk::Box>,
         #[template_child]
         pub(super) cpu_bar: TemplateChild<view::CircularProgressBar>,
@@ -46,7 +52,7 @@ mod imp {
     impl ObjectSubclass for Row {
         const NAME: &'static str = "PdsContainerRow";
         type Type = super::Row;
-        type ParentType = adw::ActionRow;
+        type ParentType = gtk::ListBoxRow;
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
@@ -105,6 +111,7 @@ mod imp {
                 }))
                 .bind(&*self.end_box, "visible", Some(obj));
 
+            let port_expr = container_expr.chain_property::<model::Container>("port");
             let stats_expr = container_expr.chain_property::<model::Container>("stats");
             let health_status_expr =
                 container_expr.chain_property::<model::Container>("health-status");
@@ -143,22 +150,43 @@ mod imp {
                     container_expr.chain_property::<model::Container>("to-be-deleted"),
                 ],
                 closure!(|_: Self::Type, name: &str, to_be_deleted: bool| {
-                    let title = utils::escape(name);
+                    let name = utils::escape(name);
                     if to_be_deleted {
-                        format!("<s>{title}</s>")
+                        format!("<s>{name}</s>")
                     } else {
-                        title
+                        name
                     }
                 }),
             )
-            .bind(obj, "title", Some(obj));
+            .bind(&*self.name_label, "label", Some(obj));
+
+            port_expr.bind(&*self.port_label, "label", Some(obj));
+            port_expr
+                .chain_closure::<bool>(closure!(|_: Self::Type, port: i32| !port.is_negative()))
+                .bind(&*self.port_box, "visible", Some(obj));
+
+            let css_classes = self.port_label.css_classes();
+            status_expr
+                .chain_closure::<Vec<String>>(closure!(
+                    |_: Self::Type, status: model::ContainerStatus| {
+                        css_classes
+                            .iter()
+                            .cloned()
+                            .chain(Some(glib::GString::from(match status {
+                                model::ContainerStatus::Running => "accent",
+                                _ => "dim-label",
+                            })))
+                            .collect::<Vec<_>>()
+                    }
+                ))
+                .bind(&*self.port_box, "css-classes", Some(obj));
 
             container_expr
                 .chain_property::<model::Container>("image-name")
                 .chain_closure::<String>(closure!(|_: Self::Type, name: Option<String>| {
                     utils::escape(&utils::format_option(name))
                 }))
-                .bind(obj, "subtitle", Some(obj));
+                .bind(&*self.repo_label, "label", Some(obj));
 
             status_expr
                 .chain_closure::<bool>(closure!(
@@ -212,13 +240,11 @@ mod imp {
 
     impl WidgetImpl for Row {}
     impl ListBoxRowImpl for Row {}
-    impl PreferencesRowImpl for Row {}
-    impl ActionRowImpl for Row {}
 }
 
 glib::wrapper! {
     pub(crate) struct Row(ObjectSubclass<imp::Row>)
-        @extends gtk::Widget, gtk::ListBoxRow, adw::PreferencesRow, adw::ActionRow,
+        @extends gtk::Widget, gtk::ListBoxRow,
         @implements gtk::Accessible, gtk::Actionable, gtk::Buildable, gtk::ConstraintTarget;
 }
 

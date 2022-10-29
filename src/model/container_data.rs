@@ -1,4 +1,5 @@
 use std::cell::Cell;
+use std::collections::HashMap;
 
 use gtk::glib;
 use gtk::prelude::ObjectExt;
@@ -13,6 +14,7 @@ use crate::monad_boxed_type;
 use crate::podman;
 
 monad_boxed_type!(pub(crate) BoxedSchema2HealthConfig(podman::models::Schema2HealthConfig) impls Debug is nullable);
+monad_boxed_type!(pub(crate) BoxedPortBindings(HashMap<String, Vec<podman::models::InspectHostPort>>) impls Debug is nullable);
 
 mod imp {
     use super::*;
@@ -22,6 +24,7 @@ mod imp {
         pub(super) health_config: OnceCell<Option<BoxedSchema2HealthConfig>>,
         pub(super) health_failing_streak: Cell<u32>,
         pub(super) health_check_log_list: model::HealthCheckLogList,
+        pub(super) port_bindings: OnceCell<Option<BoxedPortBindings>>,
     }
 
     #[glib::object_subclass]
@@ -40,6 +43,9 @@ mod imp {
                     glib::ParamSpecUInt::builder("health-failing-streak")
                         .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
                         .build(),
+                    glib::ParamSpecBoxed::builder::<BoxedPortBindings>("port-bindings")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
                 ]
             });
             PROPERTIES.as_ref()
@@ -51,6 +57,7 @@ mod imp {
                 "health-failing-streak" => self
                     .instance()
                     .set_health_failing_streak(value.get().unwrap()),
+                "port-bindings" => self.port_bindings.set(value.get().unwrap()).unwrap(),
                 _ => unimplemented!(),
             }
         }
@@ -60,6 +67,7 @@ mod imp {
             match pspec.name() {
                 "health-config" => obj.health_config().to_value(),
                 "health-failing-streak" => obj.health_failing_streak().to_value(),
+                "port-bindings" => obj.port_bindings().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -88,6 +96,12 @@ impl From<podman::models::InspectContainerData> for ContainerData {
             .property(
                 "health-failing-streak",
                 &health_failing_streak(data.state.as_ref()),
+            )
+            .property(
+                "port-bindings",
+                data.host_config
+                    .and_then(|config| config.port_bindings)
+                    .map(BoxedPortBindings::from),
             )
             .build();
 
@@ -133,6 +147,10 @@ impl ContainerData {
 
     pub(crate) fn health_check_log_list(&self) -> model::HealthCheckLogList {
         self.imp().health_check_log_list.clone()
+    }
+
+    pub(crate) fn port_bindings(&self) -> Option<&BoxedPortBindings> {
+        self.imp().port_bindings.get().unwrap().as_ref()
     }
 }
 

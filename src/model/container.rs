@@ -139,7 +139,7 @@ mod imp {
         pub(super) name: RefCell<String>,
         pub(super) pod: glib::WeakRef<model::Pod>,
         pub(super) pod_id: OnceCell<Option<String>>,
-        pub(super) port_bindings: OnceCell<gtk::StringList>,
+        pub(super) port: OnceCell<i32>,
         pub(super) stats: RefCell<Option<BoxedContainerStats>>,
         pub(super) status: Cell<Status>,
         pub(super) up_since: Cell<i64>,
@@ -220,7 +220,9 @@ mod imp {
                     glib::ParamSpecString::builder("pod-id")
                         .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
                         .build(),
-                    glib::ParamSpecObject::builder::<gtk::StringList>("port-bindings")
+                    glib::ParamSpecInt::builder("port")
+                        .minimum(-1)
+                        .maximum(u16::MAX as i32)
                         .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
                         .build(),
                     glib::ParamSpecBoxed::builder::<BoxedContainerStats>("stats")
@@ -266,7 +268,7 @@ mod imp {
                 "pod" => obj.set_pod(value.get().unwrap()),
                 "pod-id" => self.pod_id.set(value.get().unwrap()).unwrap(),
                 "name" => obj.set_name(value.get().unwrap()),
-                "port-bindings" => self.port_bindings.set(value.get().unwrap()).unwrap(),
+                "port" => self.port.set(value.get().unwrap()).unwrap(),
                 "stats" => obj.set_stats(value.get().unwrap()),
                 "status" => obj.set_status(value.get().unwrap()),
                 "up-since" => obj.set_up_since(value.get().unwrap()),
@@ -290,7 +292,7 @@ mod imp {
                 "name" => obj.name().to_value(),
                 "pod" => obj.pod().to_value(),
                 "pod-id" => obj.pod_id().to_value(),
-                "port-bindings" => obj.port_bindings().to_value(),
+                "port" => obj.port().to_value(),
                 "stats" => obj.stats().to_value(),
                 "status" => obj.status().to_value(),
                 "up-since" => obj.up_since().to_value(),
@@ -332,29 +334,15 @@ impl Container {
             .property("image-name", &list_container.image)
             .property("name", &list_container.names.unwrap()[0])
             .property("pod-id", &list_container.pod)
-            .property("port-bindings", &{
-                let ports = list_container
+            .property(
+                "port",
+                &list_container
                     .ports
                     .unwrap_or_default()
-                    .iter()
-                    .map(|mapping| {
-                        format!(
-                            "{}:{}",
-                            {
-                                let ip = mapping.host_ip.as_deref().unwrap_or_default();
-                                if ip.is_empty() {
-                                    "127.0.0.1"
-                                } else {
-                                    ip
-                                }
-                            },
-                            mapping.host_port.unwrap()
-                        )
-                    })
-                    .collect::<Vec<_>>();
-
-                gtk::StringList::new(&ports.iter().map(String::as_str).collect::<Vec<_>>())
-            })
+                    .first()
+                    .map(|mapping| mapping.host_port.unwrap() as i32)
+                    .unwrap_or(-1),
+            )
             .property("status", &status(list_container.state.as_deref()))
             .property("up-since", &list_container.started_at.unwrap())
             .build()
@@ -469,8 +457,8 @@ impl Container {
             .map(String::as_str)
     }
 
-    pub(crate) fn port_bindings(&self) -> &gtk::StringList {
-        self.imp().port_bindings.get().unwrap()
+    pub(crate) fn port(&self) -> i32 {
+        *self.imp().port.get().unwrap()
     }
 
     pub(crate) fn stats(&self) -> Option<BoxedContainerStats> {

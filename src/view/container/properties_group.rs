@@ -1,8 +1,10 @@
 use adw::subclass::prelude::PreferencesGroupImpl;
+use adw::traits::ExpanderRowExt;
 use gettextrs::gettext;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
+use gtk::pango;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
@@ -27,15 +29,15 @@ mod imp {
         #[template_child]
         pub(super) id_row: TemplateChild<view::PropertyRow>,
         #[template_child]
-        pub(super) port_bindings_row: TemplateChild<view::PropertyWidgetRow>,
-        #[template_child]
-        pub(super) port_bindings_label: TemplateChild<gtk::Label>,
-        #[template_child]
         pub(super) created_row: TemplateChild<view::PropertyRow>,
         #[template_child]
         pub(super) state_since_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) status_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub(super) port_bindings_row: TemplateChild<adw::ExpanderRow>,
+        #[template_child]
+        pub(super) port_bindings_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) health_row: TemplateChild<adw::ActionRow>,
         #[template_child]
@@ -48,6 +50,8 @@ mod imp {
         pub(super) pod_row: TemplateChild<adw::ActionRow>,
         #[template_child]
         pub(super) pod_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub(super) inspection_row: TemplateChild<adw::PreferencesRow>,
     }
 
     #[glib::object_subclass]
@@ -117,11 +121,12 @@ mod imp {
                 .chain_property::<gtk::Window>("application")
                 .chain_property::<crate::Application>("ticks");
             let container_expr = Self::Type::this_expression("container");
+            let data_expr = container_expr.chain_property::<model::Container>("data");
             let status_expr = container_expr.chain_property::<model::Container>("status");
             let health_status_expr =
                 container_expr.chain_property::<model::Container>("health_status");
             let port_bindings_expr =
-                container_expr.chain_property::<model::Container>("port-bindings");
+                data_expr.chain_property::<model::ContainerData>("port-bindings");
             let image_expr = container_expr.chain_property::<model::Container>("image");
             let pod_expr = container_expr.chain_property::<model::Container>("pod");
 
@@ -143,31 +148,101 @@ mod imp {
             )
             .bind(&*self.created_row, "value", Some(obj));
 
-            port_bindings_expr
-                .chain_closure::<String>(closure!(
-                    |_: Self::Type, port_bindings: gtk::StringList| {
-                        port_bindings
-                            .iter::<glib::Object>()
-                            .unwrap()
-                            .map(|host_port| {
-                                host_port
-                                    .unwrap()
-                                    .downcast::<gtk::StringObject>()
-                                    .unwrap()
-                                    .string()
-                            })
-                            .map(|host_port| {
-                                format!("<a href='http://{}'>{}</a>", host_port, host_port)
-                            })
-                            .collect::<Vec<_>>()
-                            .join("\n")
-                    }
-                ))
-                .bind(&*self.port_bindings_label, "label", Some(obj));
+            port_bindings_expr.watch(
+                Some(obj),
+                clone!(@weak obj, @to-owned port_bindings_expr => move || {
+                    let imp = obj.imp();
 
-            port_bindings_expr
-                .chain_closure::<bool>(closure!(|_: Self::Type, port_bindings: gtk::StringList| {
-                    port_bindings.n_items() > 0
+                    imp.port_bindings_label.set_label("");
+                    utils::ChildIter::from(&*imp.port_bindings_row)
+                        .for_each(|child| imp.port_bindings_row.remove(&child));
+
+                    let port_bindings: Option<model::BoxedPortBindings> =
+                        port_bindings_expr.evaluate_as(Some(&obj));
+
+                    if let Some(port_bindings) = port_bindings {
+                        let client = obj
+                            .container()
+                            .unwrap()
+                            .container_list()
+                            .unwrap()
+                            .client()
+                            .unwrap();
+                        let connection = client.connection();
+
+                        imp.port_bindings_label.set_label(&port_bindings.len().to_string());
+
+                        port_bindings
+                            .iter()
+                            .flat_map(|(container_port, hosts)| {
+                                hosts.iter().map(move |host| (container_port, host))
+                            })
+                            .map(|(container_port, host)| {
+                                let host_ip = host.host_ip.as_deref().unwrap_or("");
+                                let host = format!(
+                                    "{}:{}",
+                                    if host_ip.is_empty() {
+                                        if connection.is_remote() {
+                                            connection.url()
+                                        } else {
+                                            "127.0.0.1"
+                                        }
+                                    } else {
+                                        host_ip
+                                    },
+                                    host.host_port.as_deref().unwrap_or("0")
+                                );
+
+                                let box_ = gtk::CenterBox::builder()
+                                    .margin_top(12)
+                                    .margin_end(12)
+                                    .margin_bottom(12)
+                                    .margin_start(12)
+                                    .build();
+
+                                box_.set_start_widget(Some(
+                                    &gtk::Label::builder()
+                                        .label(&format!("<a href='http://{}'>{}</a>", host, host))
+                                        .hexpand(true)
+                                        .selectable(true)
+                                        .use_markup(true)
+                                        .wrap(true)
+                                        .wrap_mode(pango::WrapMode::WordChar)
+                                        .xalign(0.0)
+                                        .build(),
+                                ));
+                                box_.set_center_widget(Some(
+                                    &gtk::Image::builder()
+                                        .icon_name("arrow1-right-symbolic")
+                                        .margin_start(15)
+                                        .margin_end(12)
+                                        .build()
+                                ));
+                                box_.set_end_widget(Some(&gtk::Label::builder()
+                                    .label(container_port)
+                                    .css_classes(vec!["dim-label".to_string()])
+                                    .hexpand(true)
+                                    .selectable(true)
+                                    .wrap(true)
+                                    .wrap_mode(pango::WrapMode::WordChar)
+                                    .xalign(1.0)
+                                    .build()
+                                ));
+
+                                gtk::ListBoxRow::builder()
+                                    .activatable(false)
+                                    .child(&box_)
+                                    .build()
+                            })
+                            .for_each(|row| imp.port_bindings_row.add_row(&row));
+                    }
+                }),
+            );
+
+            #[rustfmt::skip]
+            port_bindings_expr.chain_closure::<bool>(
+                closure!(|_: Self::Type, port_bindings: Option<&model::BoxedPortBindings>| {
+                    port_bindings.map(|map| !map.is_empty()).unwrap_or(false)
                 }))
                 .bind(&*self.port_bindings_row, "visible", Some(obj));
 
@@ -297,6 +372,12 @@ mod imp {
                     pod.as_ref().map(model::Pod::name).unwrap_or_default()
                 }))
                 .bind(&*self.pod_label, "label", Some(obj));
+
+            data_expr
+                .chain_closure::<bool>(closure!(
+                    |_: Self::Type, cmd: Option<model::ContainerData>| { cmd.is_none() }
+                ))
+                .bind(&*self.inspection_row, "visible", Some(obj));
         }
     }
 

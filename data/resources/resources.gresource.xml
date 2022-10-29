@@ -62,6 +62,7 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/welcome-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/window.ui</file>
 
+    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/arrow1-right-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/build-configure-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/computer-chip-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/hospital-symbolic.svg</file>
