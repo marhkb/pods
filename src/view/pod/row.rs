@@ -1,7 +1,5 @@
 use std::cell::RefCell;
 
-use adw::subclass::prelude::ActionRowImpl;
-use adw::subclass::prelude::PreferencesRowImpl;
 use gtk::glib;
 use gtk::glib::closure;
 use gtk::prelude::*;
@@ -26,16 +24,22 @@ mod imp {
         #[template_child]
         pub(super) status_image: TemplateChild<gtk::Image>,
         #[template_child]
+        pub(super) check_button_revealer: TemplateChild<gtk::Revealer>,
+        #[template_child]
         pub(super) check_button: TemplateChild<gtk::CheckButton>,
         #[template_child]
-        pub(super) end_box: TemplateChild<gtk::Box>,
+        pub(super) name_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub(super) id_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub(super) end_box_revealer: TemplateChild<gtk::Revealer>,
     }
 
     #[glib::object_subclass]
     impl ObjectSubclass for Row {
         const NAME: &'static str = "PdsPodRow";
         type Type = super::Row;
-        type ParentType = adw::ActionRow;
+        type ParentType = gtk::ListBoxRow;
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
@@ -85,12 +89,12 @@ mod imp {
                 .chain_property::<model::Pod>("pod-list")
                 .chain_property::<model::PodList>("selection-mode");
 
-            selection_mode_expr.bind(&*self.check_button, "visible", Some(obj));
+            selection_mode_expr.bind(&*self.check_button_revealer, "reveal-child", Some(obj));
             selection_mode_expr
                 .chain_closure::<bool>(closure!(|_: Self::Type, is_selection_mode: bool| {
                     !is_selection_mode
                 }))
-                .bind(&*self.end_box, "visible", Some(obj));
+                .bind(&*self.end_box_revealer, "reveal-child", Some(obj));
 
             let status_expr = pod_expr.chain_property::<model::Pod>("status");
 
@@ -134,26 +138,24 @@ mod imp {
                     }
                 }),
             )
-            .bind(obj, "title", Some(obj));
+            .bind(&*self.name_label, "label", Some(obj));
 
             pod_expr
                 .chain_property::<model::Pod>("id")
                 .chain_closure::<String>(closure!(|_: Self::Type, id: &str| {
                     id.chars().take(12).collect::<String>()
                 }))
-                .bind(obj, "subtitle", Some(obj));
+                .bind(&*self.id_label, "label", Some(obj));
         }
     }
 
     impl WidgetImpl for Row {}
     impl ListBoxRowImpl for Row {}
-    impl PreferencesRowImpl for Row {}
-    impl ActionRowImpl for Row {}
 }
 
 glib::wrapper! {
     pub(crate) struct Row(ObjectSubclass<imp::Row>)
-        @extends gtk::Widget, gtk::ListBoxRow, adw::PreferencesRow, adw::ActionRow,
+        @extends gtk::Widget, gtk::ListBoxRow,
         @implements gtk::Accessible, gtk::Buildable, gtk::Actionable, gtk::ConstraintTarget;
 }
 

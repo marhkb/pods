@@ -45,6 +45,7 @@ impl SelectableList {
         <<L as glib::clone::Downgrade>::Weak as glib::clone::Upgrade>::Strong: glib::IsA<Self>,
     {
         list.connect_items_changed(|self_, position, _, added| {
+            self_.notify("num-selected");
             (position..position + added)
                 .map(|i| self_.item(i).unwrap())
                 .for_each(|item| {

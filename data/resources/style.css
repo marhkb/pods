@@ -202,7 +202,3 @@ connectionchooserpage connectionswitchermenu row {
 .star>icon {
   color: @yellow_3;
 }
-
-#pod-row box.title label.subtitle  {
-  font-feature-settings: "tnum";
-}
