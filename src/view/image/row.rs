@@ -23,6 +23,8 @@ mod imp {
         pub(super) image: glib::WeakRef<model::Image>,
         pub(super) bindings: RefCell<Vec<glib::Binding>>,
         #[template_child]
+        pub(super) check_button_revealer: TemplateChild<gtk::Revealer>,
+        #[template_child]
         pub(super) check_button: TemplateChild<gtk::CheckButton>,
         #[template_child]
         pub(super) repo_label: TemplateChild<gtk::Label>,
@@ -31,7 +33,7 @@ mod imp {
         #[template_child]
         pub(super) tag_label: TemplateChild<gtk::Label>,
         #[template_child]
-        pub(super) end_box: TemplateChild<gtk::Box>,
+        pub(super) end_box_revealer: TemplateChild<gtk::Revealer>,
     }
 
     #[glib::object_subclass]
@@ -88,12 +90,12 @@ mod imp {
                 .chain_property::<model::Image>("image-list")
                 .chain_property::<model::ImageList>("selection-mode");
 
-            selection_mode_expr.bind(&*self.check_button, "visible", Some(obj));
+            selection_mode_expr.bind(&*self.check_button_revealer, "reveal-child", Some(obj));
             selection_mode_expr
                 .chain_closure::<bool>(closure!(|_: Self::Type, is_selection_mode: bool| {
                     !is_selection_mode
                 }))
-                .bind(&*self.end_box, "visible", Some(obj));
+                .bind(&*self.end_box_revealer, "reveal-child", Some(obj));
 
             let repo_tags_expr = image_expr.chain_property::<model::Image>("repo-tags");
 

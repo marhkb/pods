@@ -9,93 +9,114 @@
         <property name="margin-end">12</property>
         <property name="margin-bottom">7</property>
         <property name="margin-start">12</property>
-        <property name="spacing">6</property>
 
-        <child type="prefix">
-          <object class="GtkCheckButton" id="check_button">
-            <style>
-              <class name="selection-mode"/>
-            </style>
-            <property name="margin-end">6</property>
+        <child>
+          <object class="GtkRevealer" id="check_button_revealer">
+            <property name="transition-type">swing-right</property>
+
+            <child>
+              <object class="GtkCheckButton" id="check_button">
+                <style>
+                  <class name="selection-mode"/>
+                </style>
+                <property name="margin-end">12</property>
+              </object>
+            </child>
+
           </object>
         </child>
 
         <child>
           <object class="GtkBox">
-            <property name="hexpand">True</property>
-            <property name="valign">center</property>
-            <property name="orientation">vertical</property>
-            <property name="spacing">3</property>
-
-            <child>
-              <object class="GtkLabel" id="repo_label">
-                <property name="use-markup">True</property>
-                <property name="wrap">True</property>
-                <property name="wrap-mode">word</property>
-                <property name="xalign">0</property>
-              </object>
-            </child>
+            <property name="spacing">6</property>
 
             <child>
               <object class="GtkBox">
+                <property name="hexpand">True</property>
+                <property name="valign">center</property>
+                <property name="orientation">vertical</property>
                 <property name="spacing">3</property>
 
                 <child>
-                  <object class="GtkLabel" id="id_label">
-                    <style>
-                      <class name="numeric"/>
-                      <class name="subtitle"/>
-                    </style>
+                  <object class="GtkLabel" id="repo_label">
+                    <property name="use-markup">True</property>
+                    <property name="wrap">True</property>
+                    <property name="wrap-mode">word</property>
                     <property name="xalign">0</property>
                   </object>
                 </child>
 
                 <child>
-                  <object class="GtkLabel" id="tag_label">
-                    <style>
-                      <class name="accent"/>
-                      <class name="caption"/>
-                      <class name="tag-label"/>
-                    </style>
-                    <property name="xalign">0</property>
+                  <object class="GtkBox">
+                    <property name="spacing">3</property>
+
+                    <child>
+                      <object class="GtkLabel" id="id_label">
+                        <style>
+                          <class name="numeric"/>
+                          <class name="subtitle"/>
+                        </style>
+                        <property name="xalign">0</property>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkLabel" id="tag_label">
+                        <style>
+                          <class name="accent"/>
+                          <class name="caption"/>
+                          <class name="tag-label"/>
+                        </style>
+                        <property name="xalign">0</property>
+                      </object>
+                    </child>
+
                   </object>
                 </child>
 
               </object>
             </child>
 
-          </object>
-        </child>
-
-        <child>
-          <object class="PdsContainersCountBar">
-            <binding name="container-list">
-              <lookup name="container-list" type="Image">
-                <lookup name="image">PdsImageRow</lookup>
-              </lookup>
-            </binding>
-          </object>
-        </child>
-
-        <child>
-          <object class="GtkBox" id="end_box">
-            <property name="spacing">3</property>
-
             <child>
-              <object class="PdsImageMenuButton">
-                <style>
-                  <class name="flat"/>
-                </style>
-                <binding name="image">
-                  <lookup name="image">PdsImageRow</lookup>
+              <object class="PdsContainersCountBar">
+                <binding name="container-list">
+                  <lookup name="container-list" type="Image">
+                    <lookup name="image">PdsImageRow</lookup>
+                  </lookup>
                 </binding>
-                <property name="valign">center</property>
               </object>
             </child>
 
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkRevealer" id="end_box_revealer">
+            <property name="transition-type">swing-left</property>
+
             <child>
-              <object class="GtkImage">
-                <property name="icon_name">go-next-symbolic</property>
+              <object class="GtkBox">
+                <property name="margin-start">6</property>
+                <property name="spacing">3</property>
+
+                <child>
+                  <object class="PdsImageMenuButton">
+                    <style>
+                      <class name="flat"/>
+                    </style>
+                    <binding name="image">
+                      <lookup name="image">PdsImageRow</lookup>
+                    </binding>
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkImage">
+                    <property name="icon_name">go-next-symbolic</property>
+                  </object>
+                </child>
+
               </object>
             </child>
 
