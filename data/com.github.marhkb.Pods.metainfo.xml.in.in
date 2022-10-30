@@ -58,6 +58,27 @@
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="1.0.0-beta.7" date="2022-10-30">
+      <description>
+        <p>The seventh beta release of Pods 1.0.0 includes the following changes:</p>
+        <ul>
+          <li>Relative times are now used everywhere in the application. For example, you can quickly see how long a container has been running or how many days ago an image was created.</li>
+          <li>For the circular progress bar in the container row, icons are now used instead of text. Icons have also been added to the resource monitor in the container details page.</li>
+          <li>The text field for searching in the container logs and the inspection page has been completely redesigned visually.</li>
+          <li>The container log page now displays an info bar if the container is not running. The info bar also offers the possibility to start or resume the container.</li>
+          <li>Desktop notifications are now triggered on actions.</li>
+          <li>The selection of an image in the container creation page has been improved. For example, the list of images is sorted and image names are no longer ellipsized.</li>
+          <li>Also the selection of a pod in the container creation page has been improved similarly to the image selection. </li>
+          <li>The image row now shows the tag of an image in the accent color to the right of the image id.</li>
+          <li>The container row now displays the mapped host port of a container next to the container name, if there is one.</li>
+          <li>Port Bindings in the container details page are now shown inside an AdwExpanderRow</li>
+          <li>The multi-selection mode of images, containers and pods is now animated a bit more nicely.</li>
+          <li>The sizes of all GtkSpinners have been standardized throughout the application.</li>
+          <li>The gtk-rs library was updated to version 0.5, which made many internal code improvements possible.</li>
+          <li>As always, there were a number of minor bug fixes, visual improvements, internal code improvements, and translation updates that have not been mentioned here.</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.0.0-beta.6" date="2022-10-16">
       <description>
         <p>The sixth beta release of Pods 1.0.0 includes the following changes:</p>
