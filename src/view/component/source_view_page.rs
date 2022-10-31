@@ -13,18 +13,29 @@ use crate::view;
 
 const ACTION_TOGGLE_SEARCH: &str = "inspection-page.toggle-search";
 
-pub(crate) enum Inspectable {
+pub(crate) enum Entity {
     Image(podman::api::Image),
-    Container(podman::api::Container),
-    Pod(podman::api::Pod),
+    Container {
+        container: podman::api::Container,
+        mode: Mode,
+    },
+    Pod {
+        pod: podman::api::Pod,
+        mode: Mode,
+    },
+}
+
+pub(crate) enum Mode {
+    Inspect,
+    Kube,
 }
 
 mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(resource = "/com/github/marhkb/Pods/ui/component/inspection-page.ui")]
-    pub(crate) struct InspectionPage {
+    #[template(resource = "/com/github/marhkb/Pods/ui/component/source-view-page.ui")]
+    pub(crate) struct SourceViewPage {
         #[template_child]
         pub(super) window_title: TemplateChild<adw::WindowTitle>,
         #[template_child]
@@ -44,9 +55,9 @@ mod imp {
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for InspectionPage {
-        const NAME: &'static str = "PdsInspectionPage";
-        type Type = super::InspectionPage;
+    impl ObjectSubclass for SourceViewPage {
+        const NAME: &'static str = "PdsSourceViewPage";
+        type Type = super::SourceViewPage;
         type ParentType = gtk::Widget;
 
         fn class_init(klass: &mut Self::Class) {
@@ -68,7 +79,7 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for InspectionPage {
+    impl ObjectImpl for SourceViewPage {
         fn constructed(&self) {
             self.parent_constructed();
 
@@ -92,14 +103,6 @@ mod imp {
 
             self.search_widget.set_source_view(Some(&*self.source_view));
 
-            match sourceview5::LanguageManager::default().language("json") {
-                Some(lang) => self.source_buffer.set_language(Some(&lang)),
-                None => {
-                    log::warn!("Could not set language to 'json'");
-                    utils::show_toast(obj, &gettext("Could not set language to 'json'"));
-                }
-            }
-
             let adw_style_manager = adw::StyleManager::default();
             obj.on_notify_dark(&adw_style_manager);
             adw_style_manager.connect_dark_notify(clone!(@weak obj => move |style_manager| {
@@ -112,49 +115,89 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for InspectionPage {}
+    impl WidgetImpl for SourceViewPage {}
 }
 
 glib::wrapper! {
-    pub(crate) struct InspectionPage(ObjectSubclass<imp::InspectionPage>)
+    pub(crate) struct SourceViewPage(ObjectSubclass<imp::SourceViewPage>)
         @extends gtk::Widget,
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
-impl From<Inspectable> for InspectionPage {
-    fn from(inspectabele: Inspectable) -> Self {
+impl From<Entity> for SourceViewPage {
+    fn from(entity: Entity) -> Self {
         let obj: Self = glib::Object::builder::<Self>().build();
+        let imp = obj.imp();
 
-        obj.imp().window_title.set_title(&match &inspectabele {
-            Inspectable::Image(_) => gettext("Image Inspection"),
-            Inspectable::Container(_) => gettext("Container Inspection"),
-            Inspectable::Pod(_) => gettext("Pod Inspection"),
+        imp.window_title.set_title(&match &entity {
+            Entity::Image(_) => gettext("Image Inspection"),
+            Entity::Container { mode, .. } => match mode {
+                Mode::Inspect => gettext("Container Inspection"),
+                Mode::Kube => gettext("Container Kube Generation"),
+            },
+            Entity::Pod { mode, .. } => match mode {
+                Mode::Inspect => gettext("Pod Inspection"),
+                Mode::Kube => gettext("Pod Kube Generation"),
+            },
         });
+
+        let language = match &entity {
+            Entity::Image(_) => "json",
+            Entity::Container { mode, .. } => match mode {
+                Mode::Inspect => "json",
+                Mode::Kube => "yaml",
+            },
+            Entity::Pod { mode, .. } => match mode {
+                Mode::Inspect => "json",
+                Mode::Kube => "yaml",
+            },
+        };
+
+        match sourceview5::LanguageManager::default().language(language) {
+            Some(lang) => imp.source_buffer.set_language(Some(&lang)),
+            None => {
+                log::warn!("Could not set language to '{language}'");
+                utils::show_toast(&obj, &gettext!("Could not set language to '{}'", language));
+            }
+        }
 
         utils::do_async(
             async move {
-                match inspectabele {
-                    Inspectable::Image(image) => image
+                match entity {
+                    Entity::Image(image) => image
                         .inspect()
                         .await
                         .map_err(anyhow::Error::from)
                         .and_then(|data| {
                             serde_json::to_string_pretty(&data).map_err(anyhow::Error::from)
                         }),
-                    Inspectable::Container(container) => container
-                        .inspect()
-                        .await
-                        .map_err(anyhow::Error::from)
-                        .and_then(|data| {
-                            serde_json::to_string_pretty(&data).map_err(anyhow::Error::from)
-                        }),
-                    Inspectable::Pod(pod) => pod
-                        .inspect()
-                        .await
-                        .map_err(anyhow::Error::from)
-                        .and_then(|data| {
-                            serde_json::to_string_pretty(&data).map_err(anyhow::Error::from)
-                        }),
+                    Entity::Container { container, mode } => match mode {
+                        Mode::Inspect => container
+                            .inspect()
+                            .await
+                            .map_err(anyhow::Error::from)
+                            .and_then(|data| {
+                                serde_json::to_string_pretty(&data).map_err(anyhow::Error::from)
+                            }),
+                        Mode::Kube => container
+                            .generate_kube_yaml(false)
+                            .await
+                            .map_err(anyhow::Error::from),
+                    },
+                    Entity::Pod { pod, mode } => match mode {
+                        Mode::Inspect => {
+                            pod.inspect()
+                                .await
+                                .map_err(anyhow::Error::from)
+                                .and_then(|data| {
+                                    serde_json::to_string_pretty(&data).map_err(anyhow::Error::from)
+                                })
+                        }
+                        Mode::Kube => pod
+                            .generate_kube_yaml(false)
+                            .await
+                            .map_err(anyhow::Error::from),
+                    },
                 }
             },
             clone!(@weak obj => move |result| {
@@ -180,7 +223,7 @@ impl From<Inspectable> for InspectionPage {
     }
 }
 
-impl InspectionPage {
+impl SourceViewPage {
     pub(crate) fn toggle_search(&self) {
         let imp = self.imp();
         imp.search_bar

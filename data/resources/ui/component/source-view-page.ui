@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="PdsInspectionPage" parent="GtkWidget">
+  <template class="PdsSourceViewPage" parent="GtkWidget">
     <property name="layout-manager">
       <object class="GtkBoxLayout">
         <property name="orientation">vertical</property>
@@ -22,7 +22,7 @@
         <child type="end">
           <object class="GtkToggleButton" id="search_button">
             <property name="icon-name">system-search-symbolic</property>
-            <property name="tooltip-text" translatable="yes">Search within inspection data</property>
+            <property name="tooltip-text" translatable="yes">Search</property>
           </object>
         </child>
 
