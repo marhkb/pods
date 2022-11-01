@@ -27,6 +27,8 @@ mod imp {
     pub(crate) struct PropertiesGroup {
         pub(super) container: glib::WeakRef<model::Container>,
         #[template_child]
+        pub(super) inspection_spinner: TemplateChild<gtk::Spinner>,
+        #[template_child]
         pub(super) id_row: TemplateChild<view::PropertyRow>,
         #[template_child]
         pub(super) created_row: TemplateChild<view::PropertyRow>,
@@ -50,8 +52,6 @@ mod imp {
         pub(super) pod_row: TemplateChild<adw::ActionRow>,
         #[template_child]
         pub(super) pod_label: TemplateChild<gtk::Label>,
-        #[template_child]
-        pub(super) inspection_row: TemplateChild<adw::PreferencesRow>,
     }
 
     #[glib::object_subclass]
@@ -129,6 +129,12 @@ mod imp {
                 data_expr.chain_property::<model::ContainerData>("port-bindings");
             let image_expr = container_expr.chain_property::<model::Container>("image");
             let pod_expr = container_expr.chain_property::<model::Container>("pod");
+
+            data_expr
+                .chain_closure::<bool>(closure!(
+                    |_: Self::Type, cmd: Option<model::ContainerData>| { cmd.is_none() }
+                ))
+                .bind(&*self.inspection_spinner, "visible", Some(obj));
 
             container_expr
                 .chain_property::<model::Container>("id")
@@ -372,12 +378,6 @@ mod imp {
                     pod.as_ref().map(model::Pod::name).unwrap_or_default()
                 }))
                 .bind(&*self.pod_label, "label", Some(obj));
-
-            data_expr
-                .chain_closure::<bool>(closure!(
-                    |_: Self::Type, cmd: Option<model::ContainerData>| { cmd.is_none() }
-                ))
-                .bind(&*self.inspection_row, "visible", Some(obj));
         }
     }
 
