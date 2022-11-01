@@ -73,7 +73,7 @@ mod imp {
         }
 
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             match pspec.name() {
                 "client" => obj.set_client(value.get().unwrap()),
                 "term" => obj.set_term(value.get().unwrap_or_default()),
@@ -82,7 +82,7 @@ mod imp {
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             match pspec.name() {
                 "client" => obj.client().to_value(),
                 "term" => obj.term().to_value(),
@@ -93,7 +93,7 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let obj = &*self.instance();
+            let obj = &*self.obj();
 
             let filter =
                 gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {

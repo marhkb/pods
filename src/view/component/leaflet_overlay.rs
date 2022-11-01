@@ -38,7 +38,7 @@ mod imp {
         fn realize(&self) {
             self.parent_realize();
 
-            let widget = &*self.instance();
+            let widget = &*self.obj();
 
             widget.leaflet().connect_child_transition_running_notify(
                 clone!(@weak widget => move |leaflet| {

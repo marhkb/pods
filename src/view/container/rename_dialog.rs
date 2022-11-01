@@ -80,7 +80,7 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let obj = &*self.instance();
+            let obj = &*self.obj();
 
             let key_events = gtk::EventControllerKey::new();
             obj.add_controller(&key_events);

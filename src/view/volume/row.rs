@@ -62,14 +62,14 @@ mod imp {
 
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "volume" => self.instance().set_volume(value.get().unwrap_or_default()),
+                "volume" => self.obj().set_volume(value.get().unwrap_or_default()),
                 _ => unimplemented!(),
             }
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "volume" => self.instance().volume().to_value(),
+                "volume" => self.obj().volume().to_value(),
                 _ => unimplemented!(),
             }
         }

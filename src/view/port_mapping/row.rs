@@ -64,16 +64,14 @@ mod imp {
 
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "port-mapping" => self
-                    .instance()
-                    .set_port_mapping(value.get().unwrap_or_default()),
+                "port-mapping" => self.obj().set_port_mapping(value.get().unwrap_or_default()),
                 _ => unimplemented!(),
             }
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "port-mapping" => self.instance().port_mapping().to_value(),
+                "port-mapping" => self.obj().port_mapping().to_value(),
                 _ => unimplemented!(),
             }
         }

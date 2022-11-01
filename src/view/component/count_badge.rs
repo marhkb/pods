@@ -63,7 +63,7 @@ mod imp {
         }
 
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             match pspec.name() {
                 "child" => obj.set_child(value.get().unwrap_or_default()),
                 "count" => obj.set_count(value.get().unwrap_or_default()),
@@ -72,7 +72,7 @@ mod imp {
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             match pspec.name() {
                 "child" => obj.child().to_value(),
                 "count" => obj.count().to_value(),
@@ -82,7 +82,7 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let obj = &*self.instance();
+            let obj = &*self.obj();
 
             self.child_bin
                 .connect_child_notify(clone!(@weak obj => move |_| {
@@ -108,13 +108,13 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::ChildIter::from(&*self.instance()).for_each(|child| child.unparent());
+            utils::ChildIter::from(&*self.obj()).for_each(|child| child.unparent());
         }
     }
 
     impl WidgetImpl for CountBadge {
         fn snapshot(&self, snapshot: &gtk::Snapshot) {
-            let widget = &*self.instance();
+            let widget = &*self.obj();
 
             if widget.count() == 0 {
                 widget.snapshot_child(&*self.child_bin, snapshot);

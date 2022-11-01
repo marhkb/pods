@@ -114,14 +114,14 @@ mod imp {
 
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "image-list" => self.instance().set_image_list(value.get().unwrap()),
+                "image-list" => self.obj().set_image_list(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "image-list" => self.instance().image_list().to_value(),
+                "image-list" => self.obj().image_list().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -129,7 +129,7 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let obj = &*self.instance();
+            let obj = &*self.obj();
 
             self.popover_menu.set_parent(&*self.add_image_row);
 

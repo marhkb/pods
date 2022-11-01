@@ -64,7 +64,7 @@ mod imp {
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             match pspec.name() {
                 "client" => obj.client().to_value(),
                 "len" => obj.len().to_value(),
@@ -78,7 +78,7 @@ mod imp {
 
         fn constructed(&self) {
             self.parent_constructed();
-            self.instance().connect_items_changed(|obj, _, _, _| {
+            self.obj().connect_items_changed(|obj, _, _, _| {
                 obj.notify("len");
                 obj.notify_num_states();
             });

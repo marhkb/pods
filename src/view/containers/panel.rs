@@ -113,14 +113,14 @@ mod imp {
 
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "container-list" => self.instance().set_container_list(value.get().unwrap()),
+                "container-list" => self.obj().set_container_list(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "container-list" => self.instance().container_list().to_value(),
+                "container-list" => self.obj().container_list().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -128,7 +128,7 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let obj = &*self.instance();
+            let obj = &*self.obj();
 
             let container_list_expr = Self::Type::this_expression("container-list");
             let container_list_len_expr =

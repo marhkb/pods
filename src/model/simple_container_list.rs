@@ -63,7 +63,7 @@ mod imp {
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             match pspec.name() {
                 "len" => obj.len().to_value(),
                 "created" => obj.created().to_value(),
@@ -80,7 +80,7 @@ mod imp {
 
         fn constructed(&self) {
             self.parent_constructed();
-            model::AbstractContainerList::bootstrap(&*self.instance());
+            model::AbstractContainerList::bootstrap(&*self.obj());
         }
     }
 

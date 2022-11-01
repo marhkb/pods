@@ -40,7 +40,7 @@ mod imp {
 
     impl ObjectImpl for PdsBackNavigationControls {
         fn dispose(&self) {
-            utils::ChildIter::from(&*self.instance()).for_each(|child| child.unparent());
+            utils::ChildIter::from(&*self.obj()).for_each(|child| child.unparent());
         }
     }
 
@@ -48,7 +48,7 @@ mod imp {
         fn root(&self) {
             self.parent_root();
 
-            let widget = &*self.instance();
+            let widget = &*self.obj();
 
             widget.action_set_enabled(
                 ACTION_GO_FIRST,

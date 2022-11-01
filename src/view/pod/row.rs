@@ -66,14 +66,14 @@ mod imp {
 
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "pod" => self.instance().set_pod(value.get().unwrap()),
+                "pod" => self.obj().set_pod(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "pod" => self.instance().pod().to_value(),
+                "pod" => self.obj().pod().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -81,7 +81,7 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let obj = &*self.instance();
+            let obj = &*self.obj();
 
             let pod_expr = Self::Type::this_expression("pod");
 

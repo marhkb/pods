@@ -66,7 +66,7 @@ mod imp {
         }
 
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             match pspec.name() {
                 "info" => obj.set_info(value.get().unwrap()),
                 "regex" => obj.set_regex(value.get().unwrap()),
@@ -77,7 +77,7 @@ mod imp {
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             match pspec.name() {
                 "info" => obj.info().to_value(),
                 "regex" => obj.is_regex().to_value(),
@@ -90,7 +90,7 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let obj = &*self.instance();
+            let obj = &*self.obj();
 
             let settings = utils::PodsSettings::default();
             settings
@@ -124,7 +124,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::ChildIter::from(&*self.instance()).for_each(|child| child.unparent());
+            utils::ChildIter::from(&*self.obj()).for_each(|child| child.unparent());
         }
     }
 

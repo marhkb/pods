@@ -44,7 +44,7 @@ mod imp {
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "ticks" => self.instance().ticks().to_value(),
+                "ticks" => self.obj().ticks().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -52,7 +52,7 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let obj = &*self.instance();
+            let obj = &*self.obj();
 
             glib::timeout_add_seconds_local(
                 10,
@@ -69,7 +69,7 @@ mod imp {
             debug!("GtkApplication<Application>::activate");
             self.parent_activate();
 
-            let app = &self.instance();
+            let app = &self.obj();
 
             if let Some(window) = self.window.get() {
                 let window = window.upgrade().unwrap();
@@ -89,7 +89,7 @@ mod imp {
             debug!("GtkApplication<Application>::startup");
             self.parent_startup();
 
-            let app = &*self.instance();
+            let app = &*self.obj();
 
             // Set icons for shell
             gtk::Window::set_default_icon_name(config::APP_ID);

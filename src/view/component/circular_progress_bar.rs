@@ -59,7 +59,7 @@ mod imp {
         }
 
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             match pspec.name() {
                 "percentage" => obj.set_percentage(value.get().unwrap()),
                 "icon-name" => obj.set_icon_name(value.get().unwrap()),
@@ -68,7 +68,7 @@ mod imp {
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             match pspec.name() {
                 "percentage" => obj.percentage().to_value(),
                 "icon-name" => obj.icon_name().to_value(),
@@ -79,7 +79,7 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let obj = &*self.instance();
+            let obj = &*self.obj();
 
             self.icon.connect_notify_local(
                 Some("icon-name"),

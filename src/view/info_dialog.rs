@@ -103,14 +103,14 @@ mod imp {
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "client" => self.instance().client().to_value(),
+                "client" => self.obj().client().to_value(),
                 _ => unimplemented!(),
             }
         }
 
         fn constructed(&self) {
             self.parent_constructed();
-            self.instance().setup();
+            self.obj().setup();
         }
     }
 

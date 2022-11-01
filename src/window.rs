@@ -229,7 +229,7 @@ mod imp {
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "connection-manager" => self.instance().connection_manager().to_value(),
+                "connection-manager" => self.obj().connection_manager().to_value(),
                 "title-stack" => self.title_stack.to_value(),
                 "panel-stack" => self.panel_stack.to_value(),
                 _ => unimplemented!(),
@@ -239,7 +239,7 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let obj = &*self.instance();
+            let obj = &*self.obj();
 
             // Devel Profile
             if config::PROFILE == "Devel" {
@@ -420,7 +420,7 @@ mod imp {
     impl WindowImpl for Window {
         // Save window state on delete event
         fn close_request(&self) -> gtk::Inhibit {
-            let window = &*self.instance();
+            let window = &*self.obj();
 
             if let Err(err) = window.save_window_size() {
                 log::warn!("Failed to save window state, {}", &err);

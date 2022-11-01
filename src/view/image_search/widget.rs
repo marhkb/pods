@@ -85,7 +85,7 @@ mod imp {
         }
 
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             match pspec.name() {
                 "client" => obj.set_client(value.get().unwrap()),
                 "tag" => obj.set_tag(value.get().unwrap()),
@@ -95,7 +95,7 @@ mod imp {
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             match pspec.name() {
                 "client" => obj.client().to_value(),
                 "selected-image" => obj.selected_image().to_value(),
@@ -109,7 +109,7 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let obj = &*self.instance();
+            let obj = &*self.obj();
 
             self.search_entry_row
                 .connect_changed(clone!(@weak obj => move |_| obj.search()));
@@ -173,7 +173,7 @@ mod imp {
         fn root(&self) {
             self.parent_root();
 
-            let widget = &*self.instance();
+            let widget = &*self.obj();
 
             glib::idle_add_local(
                 clone!(@weak widget => @default-return glib::Continue(false), move || {
@@ -185,7 +185,7 @@ mod imp {
         }
 
         fn unroot(&self) {
-            utils::root(&*self.instance()).set_default_widget(gtk::Widget::NONE);
+            utils::root(&*self.obj()).set_default_widget(gtk::Widget::NONE);
             self.parent_unroot()
         }
     }

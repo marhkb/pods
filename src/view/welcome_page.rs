@@ -29,7 +29,7 @@ mod imp {
 
     impl ObjectImpl for WelcomePage {
         fn dispose(&self) {
-            utils::ChildIter::from(&*self.instance()).for_each(|child| child.unparent());
+            utils::ChildIter::from(&*self.obj()).for_each(|child| child.unparent());
         }
     }
 

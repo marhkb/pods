@@ -64,14 +64,14 @@ mod imp {
 
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "device" => self.instance().set_device(value.get().unwrap_or_default()),
+                "device" => self.obj().set_device(value.get().unwrap_or_default()),
                 _ => unimplemented!(),
             }
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "device" => self.instance().device().to_value(),
+                "device" => self.obj().device().to_value(),
                 _ => unimplemented!(),
             }
         }

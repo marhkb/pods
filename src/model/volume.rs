@@ -76,7 +76,7 @@ mod imp {
         }
 
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             match pspec.name() {
                 "host-path" => obj.set_host_path(value.get().unwrap_or_default()),
                 "container-path" => obj.set_container_path(value.get().unwrap()),
@@ -87,7 +87,7 @@ mod imp {
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             match pspec.name() {
                 "host-path" => obj.host_path().to_value(),
                 "container-path" => obj.container_path().to_value(),

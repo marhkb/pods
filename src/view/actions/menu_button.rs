@@ -65,16 +65,14 @@ mod imp {
 
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "action-list" => self
-                    .instance()
-                    .set_action_list(value.get().unwrap_or_default()),
+                "action-list" => self.obj().set_action_list(value.get().unwrap_or_default()),
                 _ => unimplemented!(),
             }
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "action-list" => self.instance().action_list().to_value(),
+                "action-list" => self.obj().action_list().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -82,7 +80,7 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let obj = &*self.instance();
+            let obj = &*self.obj();
 
             let popover_menu = self
                 .menu_button
@@ -142,7 +140,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::ChildIter::from(&*self.instance()).for_each(|child| child.unparent());
+            utils::ChildIter::from(&*self.obj()).for_each(|child| child.unparent());
         }
     }
 

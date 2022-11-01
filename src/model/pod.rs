@@ -171,7 +171,7 @@ mod imp {
         }
 
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             match pspec.name() {
                 "pod-list" => self.pod_list.set(value.get().unwrap()),
                 "action-ongoing" => obj.set_action_ongoing(value.get().unwrap()),
@@ -188,7 +188,7 @@ mod imp {
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             match pspec.name() {
                 "pod-list" => obj.pod_list().to_value(),
                 "container-list" => obj.container_list().to_value(),

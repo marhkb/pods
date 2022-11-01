@@ -53,7 +53,7 @@ mod imp {
                 .downcast::<model::Action>()
                 .unwrap();
 
-            let instance = self.instance();
+            let instance = self.obj();
 
             utils::root(&*instance)
                 .leaflet_overlay()
@@ -83,14 +83,14 @@ mod imp {
 
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "action-list" => self.instance().set_action_list(value.get().unwrap()),
+                "action-list" => self.obj().set_action_list(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "action-list" => self.instance().action_list().to_value(),
+                "action-list" => self.obj().action_list().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -98,7 +98,7 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let obj = &*self.instance();
+            let obj = &*self.obj();
 
             Self::Type::this_expression("action-list")
                 .chain_property::<model::ActionList>("len")

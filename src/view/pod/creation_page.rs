@@ -164,7 +164,7 @@ mod imp {
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             match pspec.name() {
                 "client" => obj.client().to_value(),
                 "infra-image" => obj.image().to_value(),
@@ -175,7 +175,7 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let obj = &*self.instance();
+            let obj = &*self.obj();
 
             self.name_entry_row
                 .connect_text_notify(clone!(@weak obj => move |_| obj.on_name_changed()));
@@ -289,7 +289,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::ChildIter::from(&*self.instance()).for_each(|child| child.unparent());
+            utils::ChildIter::from(&*self.obj()).for_each(|child| child.unparent());
         }
     }
 
@@ -297,7 +297,7 @@ mod imp {
         fn root(&self) {
             self.parent_root();
 
-            let widget = &*self.instance();
+            let widget = &*self.obj();
 
             glib::idle_add_local(
                 clone!(@weak widget => @default-return glib::Continue(false), move || {
@@ -309,7 +309,7 @@ mod imp {
         }
 
         fn unroot(&self) {
-            utils::root(&*self.instance()).set_default_widget(gtk::Widget::NONE);
+            utils::root(&*self.obj()).set_default_widget(gtk::Widget::NONE);
             self.parent_unroot()
         }
     }

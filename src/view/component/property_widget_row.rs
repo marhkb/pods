@@ -50,7 +50,7 @@ mod imp {
         }
 
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             match pspec.name() {
                 "key" => obj.set_key(value.get().unwrap_or_default()),
                 "widget" => obj.set_widget(value.get().unwrap()),
@@ -59,7 +59,7 @@ mod imp {
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             match pspec.name() {
                 "key" => obj.key().to_value(),
                 "widget" => obj.widget().to_value(),
@@ -70,7 +70,7 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let obj = &*self.instance();
+            let obj = &*self.obj();
 
             obj.connect_notify_local(
                 Some("title"),

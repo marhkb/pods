@@ -79,7 +79,7 @@ mod imp {
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "container" => self.instance().container().to_value(),
+                "container" => self.obj().container().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -87,7 +87,7 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let obj = &*self.instance();
+            let obj = &*self.obj();
 
             let stats_expr = Self::Type::this_expression("container")
                 .chain_property::<model::Container>("stats");

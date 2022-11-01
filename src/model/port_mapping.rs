@@ -78,7 +78,7 @@ mod imp {
         }
 
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             match pspec.name() {
                 "ip-address" => obj.set_ip_address(value.get().unwrap_or_default()),
                 "host-port" => obj.set_host_port(value.get().unwrap()),
@@ -89,7 +89,7 @@ mod imp {
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             match pspec.name() {
                 "ip-address" => obj.ip_address().to_value(),
                 "host-port" => obj.host_port().to_value(),
