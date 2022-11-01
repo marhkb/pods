@@ -10,7 +10,7 @@ anyhow = "1"
 ashpd = { version = "0.4.0-alpha.1", features = ["gtk4"] }
 futures = { version = "0.3", default-features = false }
 gettext-rs = { version = "0.7", features = ["gettext-system"] }
-gtk = { version = "0.5", package = "gtk4", features = ["v4_8"] }
+gtk = { version = "0.5", package = "gtk4", features = ["gnome_43"] }
 indexmap = { version = "1", features = ["serde"] }
 log = "0.4"
 names = { version = "0.14", default-features = false }
