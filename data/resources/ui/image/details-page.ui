@@ -39,6 +39,13 @@
                   <object class="AdwPreferencesGroup">
                     <property name="title" translatable="yes">Properties</property>
 
+                    <property name="header-suffix">
+                      <object class="GtkSpinner" id="inspection_spinner">
+                        <property name="spinning">True</property>
+                        <property name="width-request">18</property>
+                      </object>
+                    </property>
+
                     <child>
                       <object class="PdsPropertyRow" id="repo_tags_row">
                         <property name="key" translatable="True">Tags</property>
@@ -81,25 +88,6 @@
                       <object class="PdsPropertyRow" id="ports_row">
                         <property name="key" translatable="True">Ports</property>
                         <property name="visible">False</property>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="AdwPreferencesRow" id="inspection_row">
-                        <property name="activatable">False</property>
-
-                        <child>
-                          <object class="GtkSpinner">
-                            <property name="halign">center</property>
-                            <property name="valign">center</property>
-                            <property name="width-request">24</property>
-                            <property name="height-request">24</property>
-                            <property name="margin-bottom">12</property>
-                            <property name="margin-top">12</property>
-                            <property name="spinning">True</property>
-                          </object>
-                        </child>
-
                       </object>
                     </child>
 
