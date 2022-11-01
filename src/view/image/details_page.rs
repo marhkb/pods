@@ -106,14 +106,14 @@ mod imp {
 
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "image" => self.instance().set_image(value.get().unwrap()),
+                "image" => self.obj().set_image(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "image" => self.instance().image().to_value(),
+                "image" => self.obj().image().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -121,7 +121,7 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let obj = &*self.instance();
+            let obj = &*self.obj();
 
             let image_expr = Self::Type::this_expression("image");
             let data_expr = image_expr.chain_property::<model::Image>("data");
@@ -273,7 +273,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::ChildIter::from(&*self.instance()).for_each(|child| child.unparent());
+            utils::ChildIter::from(&*self.obj()).for_each(|child| child.unparent());
         }
     }
 

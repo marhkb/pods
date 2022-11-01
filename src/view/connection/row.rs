@@ -62,7 +62,7 @@ mod imp {
         }
 
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             match pspec.name() {
                 "client" => obj.set_client(value.get().unwrap()),
                 "connection" => obj.set_connection(value.get().unwrap()),
@@ -71,7 +71,7 @@ mod imp {
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             match pspec.name() {
                 "client" => obj.client().to_value(),
                 "connection" => obj.connection().to_value(),
@@ -82,7 +82,7 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let obj = &*self.instance();
+            let obj = &*self.obj();
 
             let connection_expr = Self::Type::this_expression("connection");
             let is_remote_expr = connection_expr.chain_property::<model::Connection>("is-remote");
@@ -154,7 +154,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::ChildIter::from(&*self.instance()).for_each(|child| child.unparent());
+            utils::ChildIter::from(&*self.obj()).for_each(|child| child.unparent());
         }
     }
 

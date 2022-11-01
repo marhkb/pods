@@ -90,7 +90,7 @@ mod imp {
         }
 
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             match pspec.name() {
                 "pod" => obj.set_pod(value.get().unwrap_or_default()),
                 "primary" => obj.set_primary(value.get().unwrap()),
@@ -99,7 +99,7 @@ mod imp {
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             match pspec.name() {
                 "pod" => obj.pod().to_value(),
                 "primary" => obj.is_primary().to_value(),
@@ -110,7 +110,7 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let obj = &*self.instance();
+            let obj = &*self.obj();
 
             self.menu_button
                 .connect_primary_notify(clone!(@weak obj => move |_| {
@@ -142,7 +142,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::ChildIter::from(&*self.instance()).for_each(|child| child.unparent());
+            utils::ChildIter::from(&*self.obj()).for_each(|child| child.unparent());
         }
     }
 

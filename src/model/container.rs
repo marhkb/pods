@@ -255,7 +255,7 @@ mod imp {
         }
 
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             match pspec.name() {
                 "container-list" => self.container_list.set(value.get().unwrap()),
                 "action-ongoing" => obj.set_action_ongoing(value.get().unwrap()),
@@ -279,7 +279,7 @@ mod imp {
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             match pspec.name() {
                 "container-list" => obj.container_list().to_value(),
                 "action-ongoing" => obj.action_ongoing().to_value(),

@@ -46,7 +46,7 @@ mod imp {
     impl ObjectImpl for RandomNameEntryRow {
         fn constructed(&self) {
             self.parent_constructed();
-            self.instance().generate_random_name()
+            self.obj().generate_random_name()
         }
     }
 

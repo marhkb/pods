@@ -65,7 +65,7 @@ mod imp {
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "client" => self.instance().client().to_value(),
+                "client" => self.obj().client().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -73,7 +73,7 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let obj = &*self.instance();
+            let obj = &*self.obj();
 
             obj.action_set_enabled(view::ImageSearchWidget::action_select(), false);
             self.image_search_widget.connect_notify_local(
@@ -85,7 +85,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::ChildIter::from(&*self.instance()).for_each(|child| child.unparent());
+            utils::ChildIter::from(&*self.obj()).for_each(|child| child.unparent());
         }
     }
 

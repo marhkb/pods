@@ -67,7 +67,7 @@ mod imp {
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "action" => self.instance().action().to_value(),
+                "action" => self.obj().action().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -77,7 +77,7 @@ mod imp {
 
             self.parent_constructed();
 
-            let obj = &*self.instance();
+            let obj = &*self.obj();
 
             let action = obj.action().unwrap();
 
@@ -106,7 +106,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::ChildIter::from(&*self.instance()).for_each(|child| child.unparent());
+            utils::ChildIter::from(&*self.obj()).for_each(|child| child.unparent());
         }
     }
 

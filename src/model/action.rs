@@ -107,7 +107,7 @@ mod imp {
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             match pspec.name() {
                 "num" => obj.num().to_value(),
                 "type" => obj.type_().to_value(),

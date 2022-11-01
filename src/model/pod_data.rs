@@ -40,7 +40,7 @@ mod imp {
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "hostname" => self.instance().hostname().to_value(),
+                "hostname" => self.obj().hostname().to_value(),
                 _ => unimplemented!(),
             }
         }

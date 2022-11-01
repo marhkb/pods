@@ -60,14 +60,14 @@ mod imp {
 
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "log" => self.instance().set_log(value.get().unwrap_or_default()),
+                "log" => self.obj().set_log(value.get().unwrap_or_default()),
                 _ => unimplemented!(),
             }
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "log" => self.instance().log().to_value(),
+                "log" => self.obj().log().to_value(),
                 _ => unimplemented!(),
             }
         }

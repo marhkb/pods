@@ -45,22 +45,20 @@ mod imp {
 
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "connection-manager" => {
-                    self.instance().set_connection_manager(value.get().unwrap())
-                }
+                "connection-manager" => self.obj().set_connection_manager(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "connection-manager" => self.instance().connection_manager().to_value(),
+                "connection-manager" => self.obj().connection_manager().to_value(),
                 _ => unimplemented!(),
             }
         }
 
         fn dispose(&self) {
-            utils::ChildIter::from(&*self.instance()).for_each(|child| child.unparent());
+            utils::ChildIter::from(&*self.obj()).for_each(|child| child.unparent());
         }
     }
 

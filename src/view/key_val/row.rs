@@ -75,7 +75,7 @@ mod imp {
         }
 
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             match pspec.name() {
                 "key-val" => obj.set_key_val(value.get().unwrap_or_default()),
                 "key-placeholder-text" => {
@@ -89,7 +89,7 @@ mod imp {
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             match pspec.name() {
                 "key-val" => obj.key_val().to_value(),
                 "key-placeholder-text" => obj.key_placeholder_text().to_value(),
@@ -101,7 +101,7 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             self.key_entry
                 .connect_placeholder_text_notify(clone!(@weak obj => move |_| {
                     obj.notify("key-placeholder-text");

@@ -80,14 +80,14 @@ mod imp {
 
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "source-view" => self.instance().set_source_view(value.get().unwrap()),
+                "source-view" => self.obj().set_source_view(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "source-view" => self.instance().source_view().to_value(),
+                "source-view" => self.obj().source_view().to_value(),
                 other => self.search_entry.property(other),
             }
         }
@@ -119,7 +119,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::ChildIter::from(&*self.instance()).for_each(|child| child.unparent());
+            utils::ChildIter::from(&*self.obj()).for_each(|child| child.unparent());
         }
     }
 

@@ -84,7 +84,7 @@ mod imp {
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             match pspec.name() {
                 "connection" => obj.connection().to_value(),
                 "podman" => obj.podman().to_value(),
@@ -99,7 +99,7 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let obj = &*self.instance();
+            let obj = &*self.obj();
 
             obj.image_list()
                 .connect_image_added(clone!(@weak obj => move |_, image| {

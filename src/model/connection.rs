@@ -77,13 +77,13 @@ mod imp {
                 "uuid" => self.uuid.set(value.get().unwrap()).unwrap(),
                 "name" => self.name.set(value.get().unwrap()).unwrap(),
                 "url" => self.url.set(value.get().unwrap()).unwrap(),
-                "rgb" => self.instance().set_rgb(value.get().unwrap()),
+                "rgb" => self.obj().set_rgb(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             match pspec.name() {
                 "manager" => obj.manager().to_value(),
                 "uuid" => obj.uuid().to_value(),

@@ -77,7 +77,7 @@ mod imp {
         }
 
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             match pspec.name() {
                 "no-containers-label" => obj.set_no_containers_label(value.get().unwrap()),
                 "show-running-settings-key" => {
@@ -89,7 +89,7 @@ mod imp {
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             match pspec.name() {
                 "no-containers-label" => obj.no_containers_label().to_value(),
                 "show-running-settings-key" => obj.show_running_settings_key().to_value(),
@@ -101,7 +101,7 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let obj = &*self.instance();
+            let obj = &*self.obj();
 
             let container_list_expr = Self::Type::this_expression("container-list");
             let container_list_len_expr =

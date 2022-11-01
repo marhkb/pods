@@ -123,14 +123,14 @@ mod imp {
 
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "pod-list" => self.instance().set_pod_list(value.get().unwrap()),
+                "pod-list" => self.obj().set_pod_list(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "pod-list" => self.instance().pod_list().to_value(),
+                "pod-list" => self.obj().pod_list().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -138,7 +138,7 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let obj = &*self.instance();
+            let obj = &*self.obj();
 
             self.settings.connect_changed(
                 Some("show-only-running-pods"),

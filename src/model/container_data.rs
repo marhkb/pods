@@ -54,16 +54,16 @@ mod imp {
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
                 "health-config" => self.health_config.set(value.get().unwrap()).unwrap(),
-                "health-failing-streak" => self
-                    .instance()
-                    .set_health_failing_streak(value.get().unwrap()),
+                "health-failing-streak" => {
+                    self.obj().set_health_failing_streak(value.get().unwrap())
+                }
                 "port-bindings" => self.port_bindings.set(value.get().unwrap()).unwrap(),
                 _ => unimplemented!(),
             }
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             match pspec.name() {
                 "health-config" => obj.health_config().to_value(),
                 "health-failing-streak" => obj.health_failing_streak().to_value(),

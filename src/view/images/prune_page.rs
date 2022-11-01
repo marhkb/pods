@@ -96,15 +96,15 @@ mod imp {
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
                 "client" => self.client.set(value.get().unwrap()),
-                "prune-until-timestamp" => self
-                    .instance()
-                    .set_prune_until_timestamp(value.get().unwrap()),
+                "prune-until-timestamp" => {
+                    self.obj().set_prune_until_timestamp(value.get().unwrap())
+                }
                 _ => unimplemented!(),
             }
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.instance();
+            let obj = &*self.obj();
             match pspec.name() {
                 "client" => obj.client().to_value(),
                 "prune-until-timestamp" => obj.prune_until_timestamp().to_value(),
@@ -115,7 +115,7 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let obj = &*self.instance();
+            let obj = &*self.obj();
 
             obj.load_time_format();
             self.desktop_settings.connect_changed(
@@ -200,7 +200,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::ChildIter::from(&*self.instance()).for_each(|child| child.unparent());
+            utils::ChildIter::from(&*self.obj()).for_each(|child| child.unparent());
         }
     }
 
