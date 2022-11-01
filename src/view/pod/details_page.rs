@@ -35,6 +35,8 @@ mod imp {
         #[template_child]
         pub(super) back_navigation_controls: TemplateChild<view::BackNavigationControls>,
         #[template_child]
+        pub(super) inspection_spinner: TemplateChild<gtk::Spinner>,
+        #[template_child]
         pub(super) action_row: TemplateChild<adw::PreferencesRow>,
         #[template_child]
         pub(super) start_or_resume_button: TemplateChild<gtk::Button>,
@@ -50,8 +52,6 @@ mod imp {
         pub(super) status_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) hostname_row: TemplateChild<view::PropertyRow>,
-        #[template_child]
-        pub(super) inspection_row: TemplateChild<adw::PreferencesRow>,
         #[template_child]
         pub(super) leaflet_overlay: TemplateChild<view::LeafletOverlay>,
     }
@@ -153,9 +153,15 @@ mod imp {
             let obj = &*self.instance();
 
             let pod_expr = Self::Type::this_expression("pod");
-            let status_expr = pod_expr.chain_property::<model::Pod>("status");
             let data_expr = pod_expr.chain_property::<model::Pod>("data");
+            let status_expr = pod_expr.chain_property::<model::Pod>("status");
             let hostname_expr = data_expr.chain_property::<model::PodData>("hostname");
+
+            data_expr
+                .chain_closure::<bool>(closure!(|_: Self::Type, cmd: Option<model::PodData>| {
+                    cmd.is_none()
+                }))
+                .bind(&*self.inspection_spinner, "visible", Some(obj));
 
             pod_expr
                 .chain_property::<model::Pod>("id")
@@ -204,12 +210,6 @@ mod imp {
                     |_: Self::Type, hostname: String| !hostname.is_empty()
                 ))
                 .bind(&*self.hostname_row, "visible", Some(obj));
-
-            data_expr
-                .chain_closure::<bool>(closure!(|_: Self::Type, data: Option<model::PodData>| {
-                    data.is_none()
-                }))
-                .bind(&*self.inspection_row, "visible", Some(obj));
 
             status_expr.watch(Some(obj), clone!(@weak obj => move || obj.update_actions()));
             pod_expr
