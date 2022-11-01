@@ -29,6 +29,8 @@ mod imp {
         #[template_child]
         pub(super) back_navigation_controls: TemplateChild<view::BackNavigationControls>,
         #[template_child]
+        pub(super) inspection_spinner: TemplateChild<gtk::Spinner>,
+        #[template_child]
         pub(super) repo_tags_row: TemplateChild<view::PropertyRow>,
         #[template_child]
         pub(super) id_row: TemplateChild<view::PropertyRow>,
@@ -42,8 +44,6 @@ mod imp {
         pub(super) entrypoint_row: TemplateChild<view::PropertyRow>,
         #[template_child]
         pub(super) ports_row: TemplateChild<view::PropertyRow>,
-        #[template_child]
-        pub(super) inspection_row: TemplateChild<adw::PreferencesRow>,
         #[template_child]
         pub(super) leaflet_overlay: TemplateChild<view::LeafletOverlay>,
     }
@@ -124,6 +124,14 @@ mod imp {
             let obj = &*self.instance();
 
             let image_expr = Self::Type::this_expression("image");
+            let data_expr = image_expr.chain_property::<model::Image>("data");
+            let repo_tags_expr = image_expr.chain_property::<model::Image>("repo-tags");
+            let image_config_expr = data_expr.chain_property::<model::ImageData>("config");
+            let cmd_expr = image_config_expr.chain_property::<model::ImageConfig>("cmd");
+            let entrypoint_expr =
+                image_config_expr.chain_property::<model::ImageConfig>("entrypoint");
+            let exposed_ports_expr =
+                image_config_expr.chain_property::<model::ImageConfig>("exposed-ports");
 
             image_expr
                 .chain_property::<model::Image>("to-be-deleted")
@@ -137,15 +145,19 @@ mod imp {
                     }),
                 );
 
-            image_expr
-                .chain_property::<model::Image>("repo-tags")
+            data_expr
+                .chain_closure::<bool>(closure!(|_: Self::Type, cmd: Option<model::ImageData>| {
+                    cmd.is_none()
+                }))
+                .bind(&*self.inspection_spinner, "visible", Some(obj));
+
+            repo_tags_expr
                 .chain_closure::<String>(closure!(|_: Self::Type, repo_tags: gtk::StringList| {
                     utils::format_option(repo_tags.string(0))
                 }))
                 .bind(&*self.repo_tags_row, "value", Some(obj));
 
-            image_expr
-                .chain_property::<model::Image>("repo-tags")
+            repo_tags_expr
                 .chain_closure::<bool>(closure!(|_: Self::Type, repo_tags: gtk::StringList| {
                     repo_tags.n_items() > 0
                 }))
@@ -220,14 +232,6 @@ mod imp {
             )
             .bind(&*self.size_row, "value", Some(obj));
 
-            let data_expr = image_expr.chain_property::<model::Image>("data");
-            let image_config_expr = data_expr.chain_property::<model::ImageData>("config");
-            let cmd_expr = image_config_expr.chain_property::<model::ImageConfig>("cmd");
-            let entrypoint_expr =
-                image_config_expr.chain_property::<model::ImageConfig>("entrypoint");
-            let exposed_ports_expr =
-                image_config_expr.chain_property::<model::ImageConfig>("exposed-ports");
-
             cmd_expr.bind(&*self.command_row, "value", Some(obj));
             cmd_expr
                 .chain_closure::<bool>(closure!(|_: Self::Type, cmd: Option<&str>| {
@@ -266,12 +270,6 @@ mod imp {
                     exposed_ports.n_items() > 0
                 }))
                 .bind(&*self.ports_row, "visible", Some(obj));
-
-            data_expr
-                .chain_closure::<bool>(closure!(|_: Self::Type, cmd: Option<model::ImageData>| {
-                    cmd.is_none()
-                }))
-                .bind(&*self.inspection_row, "visible", Some(obj));
         }
 
         fn dispose(&self) {
