@@ -22,6 +22,7 @@ const ACTION_PAUSE: &str = "pod-details-page.pause";
 const ACTION_RESUME: &str = "pod-details-page.resume";
 const ACTION_DELETE: &str = "pod-details-page.delete";
 const ACTION_INSPECT_POD: &str = "pod-details-page.inspect-pod";
+const ACTION_GENERATE_KUBE: &str = "pod-details-page.generate-kube";
 const ACTION_SHOW_PROCESSES: &str = "pod-details-page.show-processes";
 
 mod imp {
@@ -93,6 +94,9 @@ mod imp {
 
             klass.install_action(ACTION_INSPECT_POD, None, move |widget, _, _| {
                 widget.show_inspection();
+            });
+            klass.install_action(ACTION_GENERATE_KUBE, None, move |widget, _, _| {
+                widget.show_kube();
             });
             klass.install_action(ACTION_SHOW_PROCESSES, None, move |widget, _, _| {
                 widget.show_processes();
@@ -297,10 +301,18 @@ impl DetailsPage {
     }
 
     fn show_inspection(&self) {
+        self.show_kube_inspection_or_kube(view::SourceViewMode::Inspect);
+    }
+
+    fn show_kube(&self) {
+        self.show_kube_inspection_or_kube(view::SourceViewMode::Kube);
+    }
+
+    fn show_kube_inspection_or_kube(&self, mode: view::SourceViewMode) {
         if let Some(pod) = self.pod().as_ref().and_then(model::Pod::api) {
             self.imp()
                 .leaflet_overlay
-                .show_details(&view::InspectionPage::from(view::Inspectable::Pod(pod)));
+                .show_details(&view::SourceViewPage::from(view::Entity::Pod { pod, mode }));
         }
     }
 

@@ -22,6 +22,7 @@ const ACTION_RESUME: &str = "container-details-page.resume";
 const ACTION_DELETE: &str = "container-details-page.delete";
 
 const ACTION_INSPECT: &str = "container-details-page.inspect";
+const ACTION_GENERATE_KUBE: &str = "container-details-page.generate-kube";
 const ACTION_SHOW_LOG: &str = "container-details-page.show-log";
 const ACTION_SHOW_PROCESSES: &str = "container-details-page.show-processes";
 const ACTION_SHOW_COMMIT_PAGE: &str = "container-details-page.show-commit-page";
@@ -63,7 +64,9 @@ mod imp {
             klass.install_action(ACTION_INSPECT, None, move |widget, _, _| {
                 widget.show_inspection();
             });
-
+            klass.install_action(ACTION_GENERATE_KUBE, None, move |widget, _, _| {
+                widget.show_kube();
+            });
             klass.install_action(ACTION_SHOW_LOG, None, move |widget, _, _| {
                 widget.show_log();
             });
@@ -238,12 +241,21 @@ impl DetailsPage {
     }
 
     fn show_inspection(&self) {
+        self.show_kube_inspection_or_kube(view::SourceViewMode::Inspect);
+    }
+
+    fn show_kube(&self) {
+        self.show_kube_inspection_or_kube(view::SourceViewMode::Kube);
+    }
+
+    fn show_kube_inspection_or_kube(&self, mode: view::SourceViewMode) {
         if let Some(container) = self.container().as_ref().and_then(model::Container::api) {
             self.imp()
                 .leaflet_overlay
-                .show_details(&view::InspectionPage::from(view::Inspectable::Container(
+                .show_details(&view::SourceViewPage::from(view::Entity::Container {
                     container,
-                )));
+                    mode,
+                }));
         }
     }
 

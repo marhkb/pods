@@ -11,11 +11,11 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/component/back-navigation-controls.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/component/circular-progress-bar.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/component/count-badge.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">ui/component/inspection-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/component/leaflet-overlay.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/component/property-row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/component/property-widget-row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/component/random-name-entry-row.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/component/source-view-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/component/source-view-search-widget.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/component/text-search-entry.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/component/top-page.ui</file>
@@ -64,6 +64,7 @@
 
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/arrow1-right-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/build-configure-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/code-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/computer-chip-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/hospital-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/larger-brush-symbolic.svg</file>
