@@ -36,6 +36,46 @@
           </object>
         </child>
 
+        <child type="end">
+          <object class="GtkStack" id="save_stack">
+            <property name="transition-type">crossfade</property>
+
+            <child>
+              <object class="GtkStackPage">
+                <property name="name">button</property>
+
+                <property name="child">
+                  <object class="GtkButton">
+                    <property name="action-name">container-log-page.save-to-file</property>
+                    <property name="icon-name">document-save-symbolic</property>
+                    <property name="tooltip-text" translatable="yes">Save the log to a file</property>
+                  </object>
+                </property>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkStackPage">
+                <property name="name">spinner</property>
+
+                <property name="child">
+                  <object class="GtkSpinner">
+                    <property name="margin-bottom">6</property>
+                    <property name="margin-end">6</property>
+                    <property name="margin-start">6</property>
+                    <property name="margin-top">6</property>
+                    <property name="spinning">True</property>
+                    <property name="tooltip-text" translatable="yes">Log is currently being saved to a file</property>
+                  </object>
+                </property>
+
+              </object>
+            </child>
+
+          </object>
+        </child>
+
       </object>
     </child>
 

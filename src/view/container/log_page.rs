@@ -2,11 +2,17 @@ use std::borrow::Cow;
 use std::cell::Cell;
 use std::cell::RefCell;
 use std::collections::VecDeque;
+use std::io::BufWriter;
+use std::io::Write;
 use std::mem;
 
+use ashpd::desktop::file_chooser::Choice;
+use ashpd::desktop::file_chooser::SaveFileRequest;
+use ashpd::WindowIdentifier;
 use futures::StreamExt;
 use gettextrs::gettext;
 use gtk::gdk;
+use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
@@ -25,6 +31,7 @@ use crate::podman;
 use crate::utils;
 use crate::view;
 
+const ACTION_SAVE_TO_FILE: &str = "container-log-page.save-to-file";
 const ACTION_TOGGLE_SEARCH: &str = "container-log-page.toggle-search";
 const ACTION_SCROLL_DOWN: &str = "container-log-page.scroll-down";
 const ACTION_START_CONTAINER: &str = "container-log-page.start-container";
@@ -58,6 +65,8 @@ mod imp {
         #[template_child]
         pub(super) search_button: TemplateChild<gtk::ToggleButton>,
         #[template_child]
+        pub(super) save_stack: TemplateChild<gtk::Stack>,
+        #[template_child]
         pub(super) search_bar: TemplateChild<gtk::SearchBar>,
         #[template_child]
         pub(super) search_widget: TemplateChild<view::SourceViewSearchWidget>,
@@ -84,12 +93,9 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
-            klass.add_binding_action(
-                gdk::Key::F,
-                gdk::ModifierType::CONTROL_MASK,
-                ACTION_TOGGLE_SEARCH,
-                None,
-            );
+            klass.install_action_async(ACTION_SAVE_TO_FILE, None, |widget, _, _| async move {
+                widget.save_to_file().await;
+            });
             klass.install_action(ACTION_TOGGLE_SEARCH, None, |widget, _, _| {
                 widget.toggle_search();
             });
@@ -99,6 +105,13 @@ mod imp {
             klass.install_action(ACTION_START_CONTAINER, None, move |widget, _, _| {
                 widget.start_or_resume_container();
             });
+
+            klass.add_binding_action(
+                gdk::Key::F,
+                gdk::ModifierType::CONTROL_MASK,
+                ACTION_TOGGLE_SEARCH,
+                None,
+            );
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -501,6 +514,92 @@ impl LogPage {
         );
     }
 
+    async fn save_to_file(&self) {
+        if let Some(container) = self.container() {
+            let request = SaveFileRequest::default()
+                .identifier(WindowIdentifier::from_native(&self.native().unwrap()).await)
+                .current_name(&format!("{}.log", container.name()))
+                .choice(Choice::boolean(
+                    "timestamps",
+                    &gettext("Include timestamps"),
+                    false,
+                ))
+                .modal(true);
+
+            if let Ok(files) = request.build().await {
+                self.imp().save_stack.set_visible_child_name("spinner");
+
+                let file = gio::File::for_uri(files.uris()[0].as_str());
+
+                if let Some(path) = file.path() {
+                    let file = std::fs::OpenOptions::new()
+                        .write(true)
+                        .create(true)
+                        .truncate(true)
+                        .open(path)
+                        .unwrap();
+
+                    let mut writer = BufWriter::new(file);
+                    let mut perform = PlainTextPerform::default();
+
+                    let timestamps = files.choices()[0].1 == "true";
+
+                    utils::run_stream_with_finish_handler(
+                        container.api().unwrap(),
+                        move |container| {
+                            container
+                                .logs(&basic_opts_builder(false, timestamps).build())
+                                .boxed()
+                        },
+                        clone!(
+                            @weak self as obj => @default-return glib::Continue(false),
+                            move |result: podman::Result<podman::conn::TtyChunk>|
+                        {
+                            glib::Continue(match result.map(Vec::from) {
+                                Ok(line) => {
+                                    perform.decode(&line);
+
+                                    let line = perform.move_out_buffer();
+                                    if !line.is_empty() {
+                                        match writer
+                                            .write_all(line.as_bytes())
+                                            .and_then(|_| writer.write_all(b"\n"))
+                                        {
+                                            Ok(_) => true,
+                                            Err(e) => {
+                                                log::warn!("Error on saving logs: {e}");
+                                                utils::show_error_toast(
+                                                    &obj,
+                                                    &gettext("Error on saving logs"),
+                                                    &e.to_string(),
+                                                );
+                                                false
+                                            }
+                                        }
+                                    } else {
+                                        true
+                                    }
+                                }
+                                Err(e) => {
+                                    log::warn!("Error on retrieving logs: {e}");
+                                    utils::show_error_toast(
+                                        &obj,
+                                        &gettext("Error on retrieving logs"),
+                                        &e.to_string(),
+                                    );
+                                    false
+                                }
+                            })
+                        }),
+                        clone!(@weak self as obj => move || {
+                            obj.imp().save_stack.set_visible_child_name("button");
+                        }),
+                    );
+                }
+            }
+        }
+    }
+
     fn toggle_search(&self) {
         let imp = self.imp();
         imp.search_bar
@@ -604,4 +703,29 @@ fn ansi_escape_to_markup_tags(item: u16) -> Option<(&'static str, &'static str)>
         37 => ("<span foreground=\"#ffffff\">", "</span>"),
         _ => return None,
     })
+}
+
+#[derive(Debug, Default)]
+pub struct PlainTextPerform(String);
+
+impl PlainTextPerform {
+    fn move_out_buffer(&mut self) -> String {
+        let mut buffer = String::new();
+        mem::swap(&mut self.0, &mut buffer);
+        buffer
+    }
+
+    fn decode(&mut self, ansi_encoded_bytes: &[u8]) {
+        let mut parser = vte::Parser::new();
+
+        String::from_utf8_lossy(ansi_encoded_bytes)
+            .bytes()
+            .for_each(|byte| parser.advance(self, byte));
+    }
+}
+
+impl vte::Perform for PlainTextPerform {
+    fn print(&mut self, c: char) {
+        self.0.push(c);
+    }
 }
