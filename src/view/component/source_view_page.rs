@@ -1,33 +1,65 @@
+use ashpd::desktop::file_chooser::SaveFileRequest;
+use ashpd::WindowIdentifier;
 use gettextrs::gettext;
 use gtk::gdk;
+use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
+use once_cell::unsync::OnceCell;
 use sourceview5::traits::BufferExt;
 
-use crate::podman;
+use crate::model;
 use crate::utils;
 use crate::view;
 
-const ACTION_TOGGLE_SEARCH: &str = "inspection-page.toggle-search";
+const ACTION_SAVE_TO_FILE: &str = "source-view-page.save-to-file";
+const ACTION_TOGGLE_SEARCH: &str = "source-view-page.toggle-search";
 
+#[derive(Clone, Debug)]
 pub(crate) enum Entity {
-    Image(podman::api::Image),
+    Image(glib::WeakRef<model::Image>),
     Container {
-        container: podman::api::Container,
+        container: glib::WeakRef<model::Container>,
         mode: Mode,
     },
     Pod {
-        pod: podman::api::Pod,
+        pod: glib::WeakRef<model::Pod>,
         mode: Mode,
     },
 }
+impl Entity {
+    fn filename(&self) -> String {
+        match self {
+            Self::Image(image) => format!("{}.json", image.upgrade().unwrap().id()),
+            Self::Container { container, mode } => {
+                format!(
+                    "{}.{}",
+                    container.upgrade().unwrap().name(),
+                    mode.file_ext()
+                )
+            }
+            Self::Pod { pod, mode } => {
+                format!("{}.{}", pod.upgrade().unwrap().name(), mode.file_ext())
+            }
+        }
+    }
+}
 
+#[derive(Clone, Copy, Debug)]
 pub(crate) enum Mode {
     Inspect,
     Kube,
+}
+impl Mode {
+    fn file_ext(&self) -> &str {
+        match self {
+            Self::Inspect => "json",
+            Self::Kube => "yaml",
+        }
+    }
 }
 
 mod imp {
@@ -36,6 +68,7 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/component/source-view-page.ui")]
     pub(crate) struct SourceViewPage {
+        pub(super) entity: OnceCell<Entity>,
         #[template_child]
         pub(super) window_title: TemplateChild<adw::WindowTitle>,
         #[template_child]
@@ -63,15 +96,19 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
+            klass.install_action_async(ACTION_SAVE_TO_FILE, None, |widget, _, _| async move {
+                widget.save_to_file().await;
+            });
+            klass.install_action(ACTION_TOGGLE_SEARCH, None, |widget, _, _| {
+                widget.toggle_search();
+            });
+
             klass.add_binding_action(
                 gdk::Key::F,
                 gdk::ModifierType::CONTROL_MASK,
                 ACTION_TOGGLE_SEARCH,
                 None,
             );
-            klass.install_action(ACTION_TOGGLE_SEARCH, None, |widget, _, _| {
-                widget.toggle_search();
-            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -161,69 +198,121 @@ impl From<Entity> for SourceViewPage {
             }
         }
 
-        utils::do_async(
-            async move {
-                match entity {
-                    Entity::Image(image) => image
-                        .inspect()
-                        .await
-                        .map_err(anyhow::Error::from)
-                        .and_then(|data| {
-                            serde_json::to_string_pretty(&data).map_err(anyhow::Error::from)
-                        }),
-                    Entity::Container { container, mode } => match mode {
-                        Mode::Inspect => container
-                            .inspect()
+        match entity.clone() {
+            Entity::Image(image) => {
+                let api = image.upgrade().unwrap().api().unwrap();
+
+                utils::do_async(
+                    async move {
+                        api.inspect()
                             .await
                             .map_err(anyhow::Error::from)
                             .and_then(|data| {
                                 serde_json::to_string_pretty(&data).map_err(anyhow::Error::from)
-                            }),
-                        Mode::Kube => container
-                            .generate_kube_yaml(false)
-                            .await
-                            .map_err(anyhow::Error::from),
+                            })
                     },
-                    Entity::Pod { pod, mode } => match mode {
-                        Mode::Inspect => {
-                            pod.inspect()
+                    clone!(@weak obj => move |result| obj.init(result)),
+                );
+            }
+            Entity::Container { container, mode } => {
+                let api = container.upgrade().unwrap().api().unwrap();
+
+                utils::do_async(
+                    async move {
+                        match mode {
+                            Mode::Inspect => api
+                                .inspect()
                                 .await
                                 .map_err(anyhow::Error::from)
                                 .and_then(|data| {
                                     serde_json::to_string_pretty(&data).map_err(anyhow::Error::from)
-                                })
+                                }),
+                            Mode::Kube => api
+                                .generate_kube_yaml(false)
+                                .await
+                                .map_err(anyhow::Error::from),
                         }
-                        Mode::Kube => pod
-                            .generate_kube_yaml(false)
-                            .await
-                            .map_err(anyhow::Error::from),
                     },
-                }
-            },
-            clone!(@weak obj => move |result| {
-                let imp = obj.imp();
-                match result {
-                    Ok(text) =>  {
-                        imp.source_buffer.set_text(&text);
-                        imp.stack.set_visible_child_name("loaded");
-                    }
-                    Err(e) => {
-                        imp.spinner.set_spinning(false);
-                        utils::show_error_toast(
-                            &obj,
-                            &gettext("Inspection error"),
-                            &e.to_string()
-                        );
-                    }
-                }
-            }),
-        );
+                    clone!(@weak obj => move |result| obj.init(result)),
+                );
+            }
+            Entity::Pod { pod, mode } => {
+                let api = pod.upgrade().unwrap().api().unwrap();
+
+                utils::do_async(
+                    async move {
+                        match mode {
+                            Mode::Inspect => api
+                                .inspect()
+                                .await
+                                .map_err(anyhow::Error::from)
+                                .and_then(|data| {
+                                    serde_json::to_string_pretty(&data).map_err(anyhow::Error::from)
+                                }),
+                            Mode::Kube => api
+                                .generate_kube_yaml(false)
+                                .await
+                                .map_err(anyhow::Error::from),
+                        }
+                    },
+                    clone!(@weak obj => move |result| obj.init(result)),
+                );
+            }
+        };
+
+        imp.entity.set(entity).unwrap();
 
         obj
     }
 }
 
 impl SourceViewPage {
+    fn init(&self, result: anyhow::Result<String>) {
+        let imp = self.imp();
+        match result {
+            Ok(text) => {
+                imp.source_buffer.set_text(&text);
+                imp.stack.set_visible_child_name("loaded");
+            }
+            Err(e) => {
+                imp.spinner.set_spinning(false);
+                utils::show_error_toast(self, &gettext("Inspection error"), &e.to_string());
+            }
+        }
+    }
+
+    async fn save_to_file(&self) {
+        let imp = self.imp();
+
+        let request = SaveFileRequest::default()
+            .identifier(WindowIdentifier::from_native(&self.native().unwrap()).await)
+            .current_name(&imp.entity.get().unwrap().filename())
+            .modal(true);
+
+        if let Ok(files) = request.build().await {
+            let file = gio::File::for_uri(files.uris()[0].as_str());
+
+            if let Some(path) = file.path() {
+                let file = std::fs::OpenOptions::new()
+                    .write(true)
+                    .create(true)
+                    .truncate(true)
+                    .open(path)
+                    .unwrap();
+
+                let buffer = &*self.imp().source_buffer;
+                let text = buffer.text(&buffer.start_iter(), &buffer.end_iter(), false);
+
+                if let Err((msg, _)) = gio::WriteOutputStream::new(file)
+                    .write_all_future(text, glib::Priority::default())
+                    .await
+                {
+                    utils::show_error_toast(self, "Error", &msg);
+                }
+            }
+        }
+    }
+
     pub(crate) fn toggle_search(&self) {
         let imp = self.imp();
         imp.search_bar

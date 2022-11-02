@@ -26,6 +26,14 @@
           </object>
         </child>
 
+        <child type="end">
+          <object class="GtkButton">
+            <property name="action-name">source-view-page.save-to-file</property>
+            <property name="icon-name">document-save-symbolic</property>
+            <property name="tooltip-text" translatable="yes">Save the content to a file</property>
+          </object>
+        </child>
+
       </object>
     </child>
 
