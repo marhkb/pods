@@ -1618,7 +1618,7 @@ checksum = "6ac9a59f73473f1b8d852421e59e64809f025994837ef743615c6d0c5b305160"
 [[package]]
 name = "podman-api"
 version = "0.8.0-dev"
-source = "git+https://github.com/vv9k/podman-api-rs.git#6692d1d327d1eddb68a1f00fee64f8a92f0adafb"
+source = "git+https://github.com/vv9k/podman-api-rs.git#f1c8d444c6e1aa612447852c00359ac28a86fede"
 dependencies = [
  "base64",
  "byteorder",
@@ -1641,7 +1641,7 @@ dependencies = [
 [[package]]
 name = "podman-api-stubs"
 version = "0.7.0"
-source = "git+https://github.com/vv9k/podman-api-rs.git#6692d1d327d1eddb68a1f00fee64f8a92f0adafb"
+source = "git+https://github.com/vv9k/podman-api-rs.git#f1c8d444c6e1aa612447852c00359ac28a86fede"
 dependencies = [
  "chrono",
  "serde",
