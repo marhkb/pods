@@ -249,11 +249,14 @@ impl DetailsPage {
     }
 
     fn show_kube_inspection_or_kube(&self, mode: view::SourceViewMode) {
-        if let Some(container) = self.container().as_ref().and_then(model::Container::api) {
+        if let Some(container) = self.container() {
+            let weak_ref = glib::WeakRef::new();
+            weak_ref.set(Some(&container));
+
             self.imp()
                 .leaflet_overlay
                 .show_details(&view::SourceViewPage::from(view::Entity::Container {
-                    container,
+                    container: weak_ref,
                     mode,
                 }));
         }

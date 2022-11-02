@@ -82,8 +82,11 @@ fn delete_image(widget: &gtk::Widget, image: &model::Image) {
 }
 
 fn show_inspection(overlay: &view::LeafletOverlay, image: Option<model::Image>) {
-    if let Some(image) = image.as_ref().and_then(model::Image::api) {
-        overlay.show_details(&view::SourceViewPage::from(view::Entity::Image(image)));
+    if let Some(image) = image {
+        let weak_ref = glib::WeakRef::new();
+        weak_ref.set(Some(&image));
+
+        overlay.show_details(&view::SourceViewPage::from(view::Entity::Image(weak_ref)));
     }
 }
 

@@ -309,10 +309,16 @@ impl DetailsPage {
     }
 
     fn show_kube_inspection_or_kube(&self, mode: view::SourceViewMode) {
-        if let Some(pod) = self.pod().as_ref().and_then(model::Pod::api) {
+        if let Some(pod) = self.pod() {
+            let weak_ref = glib::WeakRef::new();
+            weak_ref.set(Some(&pod));
+
             self.imp()
                 .leaflet_overlay
-                .show_details(&view::SourceViewPage::from(view::Entity::Pod { pod, mode }));
+                .show_details(&view::SourceViewPage::from(view::Entity::Pod {
+                    pod: weak_ref,
+                    mode,
+                }));
         }
     }
 
