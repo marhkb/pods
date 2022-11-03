@@ -41,31 +41,6 @@ jobs:
       options: --privileged
     steps:
       - uses: actions/checkout@v3
-
-      - name: Cache flatpak
-        id: cache-flatpak
-        uses: actions/cache@v3
-        with:
-          path: .flatpak-builder
-          key: ${{ runner.os }}-flatpak-${{ hashFiles('build-aux/com.github.marhkb.Pods.Devel.json') }}
-          restore-keys: ${{ runner.os }}-flatpak-
-
-      - name: Cache cargo
-        id: cache-cargo
-        uses: actions/cache@v3
-        with:
-          path: /github/home/.cargo
-          key: ${{ runner.os }}-cargo-${{ hashFiles('Cargo.lock') }}
-          restore-keys: ${{ runner.os }}-cargo-
-
-      - name: Cache target
-        id: cache-target
-        uses: actions/cache@v3
-        with:
-          path: target
-          key: ${{ runner.os }}-target-${{ hashFiles('Cargo.lock') }}
-          restore-keys: ${{ runner.os }}-target-
-
       - name: Create dummy versions of configured file
         run: |
           sed \
