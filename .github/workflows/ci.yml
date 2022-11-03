@@ -12,7 +12,7 @@ jobs:
     name: Rustfmt
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
@@ -31,7 +31,7 @@ jobs:
       image: bilelmoussaoui/flatpak-github-actions:gnome-43
       options: --privileged
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       # - name: Cache flatpak
       #   id: cache-flatpak
@@ -94,7 +94,7 @@ jobs:
       fail-fast: false
     needs: [rustfmt, clippy]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       # Docker is required by the docker/setup-qemu-action which enables emulation
       - name: Install dependencies
         if: ${{ matrix.arch != 'x86_64' }}
@@ -122,7 +122,7 @@ jobs:
     needs: [flatpak]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Create vendored sources
         run: build-aux/dist-vendor.sh ../ src
         shell: bash
