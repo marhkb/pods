@@ -15,7 +15,7 @@ use crate::podman;
 use crate::utils;
 
 /// Sync interval in seconds
-const SYNC_INTERVAL: u32 = 5;
+const SYNC_INTERVAL: u32 = 15;
 
 monad_boxed_type!(pub(crate) BoxedPodman(podman::Podman) impls Debug);
 
