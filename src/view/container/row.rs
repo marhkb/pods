@@ -199,11 +199,11 @@ mod imp {
                 ))
                 .bind(&*self.stats_box, "visible", Some(obj));
 
-            obj.bind_stats_percentage(stats_expr.upcast_ref(), |stats| stats.cpu, &*self.cpu_bar);
+            obj.bind_stats_percentage(stats_expr.upcast_ref(), |stats| stats.cpu, &self.cpu_bar);
             obj.bind_stats_percentage(
                 stats_expr.upcast_ref(),
                 |stats| stats.mem_perc,
-                &*self.mem_bar,
+                &self.mem_bar,
             );
 
             health_status_expr
@@ -213,7 +213,7 @@ mod imp {
                 .bind(&*self.health_status_label, "label", Some(obj));
 
             gtk::ClosureExpression::new::<bool>(
-                &[status_expr.upcast_ref(), health_status_expr.upcast_ref()],
+                [status_expr.upcast_ref(), health_status_expr.upcast_ref()],
                 closure!(|_: Self::Type,
                           status: model::ContainerStatus,
                           health_status: model::ContainerHealthStatus| {

@@ -327,7 +327,7 @@ impl DetailsPage {
     }
 
     fn show_inspection(&self) {
-        super::show_inspection(&*self.imp().leaflet_overlay, self.image());
+        super::show_inspection(&self.imp().leaflet_overlay, self.image());
     }
 
     fn pull_latest(&self) {
@@ -339,6 +339,6 @@ impl DetailsPage {
     }
 
     fn create_container(&self) {
-        super::create_container(&*self.imp().leaflet_overlay, self.image());
+        super::create_container(&self.imp().leaflet_overlay, self.image());
     }
 }

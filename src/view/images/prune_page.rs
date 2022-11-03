@@ -125,8 +125,8 @@ mod imp {
                 }),
             );
 
-            setup_time_spin_button(&*self.hour_spin_button);
-            setup_time_spin_button(&*self.minute_spin_button);
+            setup_time_spin_button(&self.hour_spin_button);
+            setup_time_spin_button(&self.minute_spin_button);
 
             gtk::ClosureExpression::new::<i64>(
                 [

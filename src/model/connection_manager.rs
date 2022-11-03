@@ -134,7 +134,7 @@ impl ConnectionManager {
                 Ok(IndexMap::default())
             }
         } else {
-            std::fs::create_dir_all(&config_dir())?;
+            std::fs::create_dir_all(config_dir())?;
             Ok(IndexMap::default())
         }
     }

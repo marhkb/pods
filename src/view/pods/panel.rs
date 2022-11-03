@@ -179,7 +179,7 @@ mod imp {
             );
 
             gtk::ClosureExpression::new::<Option<String>>(
-                &[
+                [
                     &pod_list_len_expr,
                     &pod_list_expr.chain_property::<model::PodList>("listing"),
                     &pod_list_expr.chain_property::<model::PodList>("initialized"),

@@ -199,21 +199,21 @@ impl SearchPanel {
         if let Some(client) = value {
             self.setup_model(
                 client.image_list(),
-                &*imp.images_list_box,
+                &imp.images_list_box,
                 |item| view::ImageRow::from(item.downcast_ref().unwrap()).upcast(),
                 &imp.images_model,
             );
 
             self.setup_model(
                 client.container_list(),
-                &*imp.containers_list_box,
+                &imp.containers_list_box,
                 |item| view::ContainerRow::from(item.downcast_ref().unwrap()).upcast(),
                 &imp.containers_model,
             );
 
             self.setup_model(
                 client.pod_list(),
-                &*imp.pods_list_box,
+                &imp.pods_list_box,
                 |item| view::PodRow::from(item.downcast_ref().unwrap()).upcast(),
                 &imp.pods_model,
             );

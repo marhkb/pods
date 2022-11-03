@@ -99,7 +99,7 @@ mod imp {
             let data_expr = container_expr.chain_property::<model::Container>("data");
 
             gtk::ClosureExpression::new::<bool>(
-                &[&container_expr.chain_property::<model::Container>("status"), &health_status_expr],
+                [&container_expr.chain_property::<model::Container>("status"), &health_status_expr],
                 closure!(|_: Self::Type,
                           _: model::ContainerStatus,
                           _: model::ContainerHealthStatus| false),

@@ -108,7 +108,7 @@ mod imp {
             obj.bind_stats_fraction(
                 stats_expr.upcast_ref(),
                 |stats| stats.cpu,
-                &*self.cpu_progress_bar,
+                &self.cpu_progress_bar,
             );
 
             stats_expr
@@ -140,31 +140,31 @@ mod imp {
             obj.bind_stats_fraction(
                 stats_expr.upcast_ref(),
                 |stats| stats.mem_perc,
-                &*self.memory_progress_bar,
+                &self.memory_progress_bar,
             );
 
             obj.bind_stats_throughput(
                 stats_expr.upcast_ref(),
                 |stats| stats.net_input,
-                &*self.network_down_label,
+                &self.network_down_label,
             );
 
             obj.bind_stats_throughput(
                 stats_expr.upcast_ref(),
                 |stats| stats.net_output,
-                &*self.network_up_label,
+                &self.network_up_label,
             );
 
             obj.bind_stats_throughput(
                 stats_expr.upcast_ref(),
                 |stats| stats.block_input,
-                &*self.block_down_label,
+                &self.block_down_label,
             );
 
             obj.bind_stats_throughput(
                 stats_expr.upcast_ref(),
                 |stats| stats.block_output,
-                &*self.block_up_label,
+                &self.block_up_label,
             );
         }
     }

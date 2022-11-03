@@ -144,7 +144,7 @@ mod imp {
                 .bind(&*self.id_row, "value", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
-                &[
+                [
                     &ticks_expr,
                     &container_expr.chain_property::<model::Container>("created"),
                 ],
@@ -253,7 +253,7 @@ mod imp {
                 .bind(&*self.port_bindings_row, "visible", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
-                &[
+                [
                     &ticks_expr,
                     &status_expr,
                     &container_expr.chain_property::<model::Container>("up-since"),
