@@ -8,11 +8,20 @@ on:
 name: CI
 
 jobs:
+  typos:
+    name: Typos
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: crate-ci/typos@master
+        with:
+          config: ./.typos.toml
+
   rustfmt:
     name: Rustfmt
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
@@ -31,31 +40,31 @@ jobs:
       image: bilelmoussaoui/flatpak-github-actions:gnome-43
       options: --privileged
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      # - name: Cache flatpak
-      #   id: cache-flatpak
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: .flatpak-builder
-      #     key: ${{ runner.os }}-flatpak-${{ hashFiles('build-aux/com.github.marhkb.Pods.Devel.json') }}
-      #     restore-keys: ${{ runner.os }}-flatpak-
+      - name: Cache flatpak
+        id: cache-flatpak
+        uses: actions/cache@v3
+        with:
+          path: .flatpak-builder
+          key: ${{ runner.os }}-flatpak-${{ hashFiles('build-aux/com.github.marhkb.Pods.Devel.json') }}
+          restore-keys: ${{ runner.os }}-flatpak-
 
-      # - name: Cache cargo
-      #   id: cache-cargo
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: /github/home/.cargo
-      #     key: ${{ runner.os }}-cargo-${{ hashFiles('Cargo.lock') }}
-      #     restore-keys: ${{ runner.os }}-cargo-
+      - name: Cache cargo
+        id: cache-cargo
+        uses: actions/cache@v3
+        with:
+          path: /github/home/.cargo
+          key: ${{ runner.os }}-cargo-${{ hashFiles('Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-cargo-
 
-      # - name: Cache target
-      #   id: cache-target
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: target
-      #     key: ${{ runner.os }}-target-${{ hashFiles('Cargo.lock') }}
-      #     restore-keys: ${{ runner.os }}-target-
+      - name: Cache target
+        id: cache-target
+        uses: actions/cache@v3
+        with:
+          path: target
+          key: ${{ runner.os }}-target-${{ hashFiles('Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-target-
 
       - name: Create dummy versions of configured file
         run: |
@@ -92,9 +101,9 @@ jobs:
         arch: [x86_64]
       # Don't fail the whole workflow if one architecture fails
       fail-fast: false
-    needs: [rustfmt, clippy]
+    needs: [typos, rustfmt, clippy]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       # Docker is required by the docker/setup-qemu-action which enables emulation
       - name: Install dependencies
         if: ${{ matrix.arch != 'x86_64' }}
@@ -122,7 +131,7 @@ jobs:
     needs: [flatpak]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Create vendored sources
         run: build-aux/dist-vendor.sh ../ src
         shell: bash

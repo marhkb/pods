@@ -131,14 +131,14 @@ impl From<&model::KeyVal> for Row {
 
 impl Row {
     pub fn new(
-        key_placholder_text: impl Into<String>,
-        value_placholder_text: impl Into<String>,
+        key_placeholder_text: impl Into<String>,
+        value_placeholder_text: impl Into<String>,
         entry: &model::KeyVal,
     ) -> Self {
         glib::Object::builder::<Self>()
             .property("key-val", &entry)
-            .property("key-placeholder-text", &key_placholder_text.into())
-            .property("value-placeholder-text", &value_placholder_text.into())
+            .property("key-placeholder-text", &key_placeholder_text.into())
+            .property("value-placeholder-text", &value_placeholder_text.into())
             .build()
     }
     pub(crate) fn key_val(&self) -> Option<model::KeyVal> {

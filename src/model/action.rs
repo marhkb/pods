@@ -164,15 +164,15 @@ impl Action {
                 }
             },
             clone!(@weak obj => move |result| if let Ok(result) = result {
-                let ouput = obj.output();
-                let mut start_iter = ouput.start_iter();
+                let output = obj.output();
+                let mut start_iter = output.start_iter();
                 match result.as_ref() {
                     Ok(report) => {
-                        ouput.insert(&mut start_iter, &serde_json::to_string_pretty(&report).unwrap());
+                        output.insert(&mut start_iter, &serde_json::to_string_pretty(&report).unwrap());
                         obj.set_state(State::Finished);
                     },
                     Err(e) => {
-                        ouput.insert(&mut start_iter, &e.to_string());
+                        output.insert(&mut start_iter, &e.to_string());
                         obj.set_state(State::Failed);
                     }
                 }
