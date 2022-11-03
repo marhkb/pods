@@ -256,11 +256,11 @@ mod imp {
                                 obj.unwrap()
                                     .downcast::<gtk::StringObject>()
                                     .unwrap()
-                                    .to_string()
+                                    .string()
                             })
                             .collect::<Vec<_>>();
 
-                        utils::format_iter(exposed_ports.iter().map(String::as_str), "\n")
+                        utils::format_iter(exposed_ports.iter().map(glib::GString::as_str), ", ")
                     }
                 ))
                 .bind(&*self.ports_row, "value", Some(obj));
