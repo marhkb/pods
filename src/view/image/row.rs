@@ -100,7 +100,7 @@ mod imp {
             let repo_tags_expr = image_expr.chain_property::<model::Image>("repo-tags");
 
             gtk::ClosureExpression::new::<String>(
-                &[
+                [
                     repo_tags_expr.upcast_ref(),
                     image_expr
                         .chain_property::<model::Image>("to-be-deleted")

@@ -98,7 +98,7 @@ mod imp {
                 .bind(&*self.image, "icon-name", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
-                &[
+                [
                     &is_remote_expr,
                     &connection_expr.chain_property::<model::Connection>("url"),
                 ],
@@ -113,7 +113,7 @@ mod imp {
             .bind(&*self.url_label, "label", Some(obj));
 
             let is_active_expr = gtk::ClosureExpression::new::<bool>(
-                &[
+                [
                     &connection_expr,
                     &connection_expr
                         .chain_property::<model::Connection>("manager")

@@ -267,7 +267,7 @@ mod imp {
             title_visible_expr.bind(&*self.menu_button, "visible", Some(obj));
 
             gtk::ClosureExpression::new::<bool>(
-                &[&title_visible_expr, &has_actions_expr],
+                [&title_visible_expr, &has_actions_expr],
                 closure!(
                     |_: Self::Type, title_visible: bool, has_actions: bool| title_visible
                         && has_actions
@@ -299,7 +299,7 @@ mod imp {
             );
 
             gtk::ClosureExpression::new::<bool>(
-                &[
+                [
                     title_visible_expr.upcast_ref(),
                     &panel_stack_visible_child_name_expr.upcast(),
                     &client_expr
@@ -585,7 +585,7 @@ impl Window {
         let imp = self.imp();
 
         gtk::ClosureExpression::new::<bool>(
-            &[
+            [
                 imp.title.property_expression("title-visible"),
                 imp.header_stack.property_expression("visible-child-name"),
             ],
@@ -781,7 +781,7 @@ impl Window {
     }
 
     fn add_connection(&self) {
-        let leaflet_overlay = &*self.imp().leaflet_overlay;
+        let leaflet_overlay = &self.imp().leaflet_overlay;
 
         if leaflet_overlay.child().is_none() {
             leaflet_overlay.show_details(&view::ConnectionCreationPage::from(
@@ -864,6 +864,6 @@ impl Window {
     }
 
     pub(crate) fn leaflet_overlay(&self) -> &view::LeafletOverlay {
-        &*self.imp().leaflet_overlay
+        &self.imp().leaflet_overlay
     }
 }

@@ -172,7 +172,7 @@ mod imp {
             );
 
             gtk::ClosureExpression::new::<Option<String>>(
-                &[
+                [
                     &image_list_len_expr,
                     &image_list_expr.chain_property::<model::ImageList>("listing"),
                     &image_list_expr.chain_property::<model::ImageList>("initialized"),
@@ -196,7 +196,7 @@ mod imp {
             .bind(&*self.main_stack, "visible-child-name", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
-                &[image_list_expr, image_list_len_expr],
+                [image_list_expr, image_list_len_expr],
                 closure!(|_: Self::Type, list: Option<model::ImageList>, _: u32| {
                     match list {
                         Some(list) => {
