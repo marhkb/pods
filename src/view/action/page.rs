@@ -145,7 +145,7 @@ impl Page {
                     DownloadImage => gettext("Image Is Currently Being Downloaded"),
                     BuildImage => gettext("Image Is Currently Being Built"),
                     Container => gettext("Container Is Currently Being Created"),
-                    Commit => gettext("New Image Is Currently Being Commited"),
+                    Commit => gettext("New Image Is Currently Being Committed"),
                     Pod => gettext("Pod Is Currently Being Created"),
                     _ => unreachable!(),
                 });
@@ -156,7 +156,7 @@ impl Page {
                     DownloadImage => gettext("Image Has Been Downloaded"),
                     BuildImage => gettext("Image Has Been Built"),
                     Container => gettext("Container Has Been Created"),
-                    Commit => gettext("New Image Has Been Commited"),
+                    Commit => gettext("New Image Has Been Committed"),
                     Pod => gettext("Pod Has Been Created"),
                     _ => unreachable!(),
                 });

@@ -640,7 +640,7 @@ msgid "Scroll to bottom"
 msgstr ""
 
 #: data/resources/ui/container/log-page.ui:182
-msgid "Streaming is disconneced because container isn't running."
+msgid "Streaming is disconnetced because container isn't running."
 msgstr ""
 
 #: data/resources/ui/container/menu-button.ui:6
@@ -1460,7 +1460,7 @@ msgid "Container Is Currently Being Created"
 msgstr ""
 
 #: src/view/action/page.rs:148
-msgid "New Image Is Currently Being Commited"
+msgid "New Image Is Currently Being Committed"
 msgstr ""
 
 #: src/view/action/page.rs:149
@@ -1484,7 +1484,7 @@ msgid "Container Has Been Created"
 msgstr ""
 
 #: src/view/action/page.rs:159
-msgid "New Image Has Been Commited"
+msgid "New Image Has Been Committed"
 msgstr ""
 
 #: src/view/action/page.rs:160

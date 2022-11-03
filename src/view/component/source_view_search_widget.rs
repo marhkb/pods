@@ -180,7 +180,7 @@ impl SourceViewSearchWidget {
         self.notify("source-view");
     }
 
-    fn update_search_occurences(&self) {
+    fn update_search_occurrences(&self) {
         let imp = self.imp();
 
         if let Some(search_context) = imp.search_context.borrow().as_ref() {
@@ -238,7 +238,7 @@ impl SourceViewSearchWidget {
                 }
             });
 
-            self.update_search_occurences();
+            self.update_search_occurrences();
         }
     }
 
@@ -278,7 +278,7 @@ impl SourceViewSearchWidget {
                 }
             });
 
-            self.update_search_occurences();
+            self.update_search_occurrences();
         }
     }
 }

@@ -219,7 +219,7 @@
 
         <child>
           <object class="GtkLabel">
-            <property name="label" translatable="yes">Streaming is disconneced because container isn't running.</property>
+            <property name="label" translatable="yes">Streaming is disconnected because container isn't running.</property>
             <property name="margin-start">6</property>
             <property name="wrap">True</property>
             <property name="wrap-mode">word-char</property>
