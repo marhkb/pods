@@ -92,6 +92,7 @@ mod imp {
                 DownloadImage | BuildImage => "image-x-generic-symbolic",
                 Commit => "merge-symbolic",
                 Container => "package-x-generic-symbolic",
+                CopyFiles => "edit-copy-symbolic",
                 Pod => "pods-symbolic",
                 _ => unimplemented!(),
             }));
@@ -146,6 +147,7 @@ impl Page {
                     BuildImage => gettext("Image Is Currently Being Built"),
                     Container => gettext("Container Is Currently Being Created"),
                     Commit => gettext("New Image Is Currently Being Committed"),
+                    CopyFiles => gettext("Files Are Currently Being Copied"),
                     Pod => gettext("Pod Is Currently Being Created"),
                     _ => unreachable!(),
                 });
@@ -157,6 +159,7 @@ impl Page {
                     BuildImage => gettext("Image Has Been Built"),
                     Container => gettext("Container Has Been Created"),
                     Commit => gettext("New Image Has Been Committed"),
+                    CopyFiles => gettext("Files Have Beeng Copied"),
                     Pod => gettext("Pod Has Been Created"),
                     _ => unreachable!(),
                 });
@@ -168,6 +171,7 @@ impl Page {
                     BuildImage => gettext("Image Built Has Been Aborted"),
                     Container => gettext("Container Creation Has Been Aborted"),
                     Commit => gettext("Image Commitment Has Been Aborted"),
+                    CopyFiles => gettext("Copying Files Has Been Aborted"),
                     Pod => gettext("Pod Creation Has Been Aborted"),
                     _ => unreachable!(),
                 });
@@ -179,6 +183,7 @@ impl Page {
                     BuildImage => gettext("Image Built Has Failed"),
                     Container => gettext("Container Creation Has Failed"),
                     Commit => gettext("Image Commitment Has Failed"),
+                    CopyFiles => gettext("Copying Files Has Failed"),
                     Pod => gettext("Pod Creation Has Failed"),
                     _ => unreachable!(),
                 });
@@ -190,7 +195,8 @@ impl Page {
         self.action_set_enabled(ACTION_CANCEL, action.state() == Ongoing);
         self.action_set_enabled(
             ACTION_VIEW_IMAGE,
-            action.state() == Finished && !matches!(action.type_(), PruneImages | Commit),
+            action.state() == Finished
+                && !matches!(action.type_(), PruneImages | Commit | CopyFiles),
         );
     }
 

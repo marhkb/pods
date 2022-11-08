@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+
+  <template class="PdsContainerFilesGetPage" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBinLayout"/>
+    </property>
+
+    <child>
+      <object class="AdwLeaflet">
+        <property name="can-navigate-back">True</property>
+        <property name="can-unfold">False</property>
+
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+
+            <child>
+              <object class="AdwHeaderBar">
+
+                <child type="start">
+                  <object class="PdsBackNavigationControls"/>
+                </child>
+
+                <child type="title">
+                  <object class="AdwWindowTitle">
+                    <property name="title" translatable="yes">Download Files From Container</property>
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwPreferencesPage">
+
+                <child>
+                  <object class="AdwPreferencesGroup">
+
+                    <child>
+                      <object class="AdwEntryRow" id="container_path_row">
+                        <property name="activates-default">True</property>
+                        <property name="title" translatable="yes">Container Path ('/' if empty)</property>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="AdwActionRow" id="host_path_row">
+                        <property name="activatable">False</property>
+                        <property name="title" translatable="yes">Host Path</property>
+                        <property name="subtitle" translatable="yes">Select a destination tar archive on the host.</property>
+
+                        <child type="suffix">
+                          <object class="GtkButton">
+                            <property name="action-name">container-files-get-page.select-host-path</property>
+                            <property name="label" translatable="yes">Select _Path…</property>
+                            <property name="use-underline">True</property>
+                            <property name="valign">center</property>
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwPreferencesGroup">
+
+                    <child>
+                      <object class="GtkButton" id="get_button">
+                        <style>
+                          <class name="pill"/>
+                          <class name="suggested-action"/>
+                        </style>
+                        <property name="action-name">container-files-get-page.get</property>
+                        <property name="label" translatable="yes">_Download</property>
+                        <property name="use-underline">True</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwLeafletPage">
+            <property name="name">overlay</property>
+
+            <property name="child">
+              <object class="PdsLeafletOverlay" id="leaflet_overlay"/>
+            </property>
+
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>

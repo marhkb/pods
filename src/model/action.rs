@@ -1,6 +1,12 @@
 use std::borrow::Cow;
 use std::cell::Cell;
 use std::cell::RefCell;
+use std::ffi::OsStr;
+use std::fmt;
+use std::mem;
+use std::path::Path;
+use std::sync::Arc;
+use std::sync::Mutex;
 
 use futures::stream;
 use futures::StreamExt;
@@ -35,6 +41,7 @@ pub(crate) enum Type {
     BuildImage,
     Commit,
     Container,
+    CopyFiles,
     Pod,
     #[default]
     Undefined,
@@ -356,6 +363,182 @@ impl Action {
         })
     }
 
+    pub(crate) fn copy_files_into_container(
+        num: u32,
+        host_path: impl AsRef<Path> + fmt::Display + Send + Sync + 'static,
+        container_path: impl AsRef<Path> + fmt::Display + Send + Sync + 'static,
+        directory: bool,
+        container: &model::Container,
+    ) -> Self {
+        let obj = Self::new(
+            num,
+            Type::CopyFiles,
+            &gettext!(
+                "Files: <b>{}</b> ({}) ← {}",
+                container.name(),
+                container_path,
+                host_path
+            ),
+        );
+
+        obj.insert_text(&gettext("Creating tar archive…"));
+
+        let abort_registration = obj.setup_abort_handle();
+
+        utils::do_async(
+            async move {
+                let mut ar = tokio_tar::Builder::new(Vec::new());
+
+                stream::Abortable::new(
+                    async move {
+                        let file_name = host_path.as_ref().file_name();
+                        if directory {
+                            ar.append_dir_all(
+                                file_name.unwrap_or_else(|| OsStr::new(".")),
+                                host_path.as_ref(),
+                            )
+                            .await
+                        } else {
+                            match tokio::fs::File::open(host_path.as_ref()).await {
+                                Ok(mut file) => ar.append_file(file_name.unwrap(), &mut file).await,
+                                Err(e) => Err(e),
+                            }
+                        }
+                        .map(|_| ar)
+                    },
+                    abort_registration,
+                )
+                .await
+            },
+            clone!(@weak obj, @weak container => move |result| if let Ok(result) = result {
+                match result {
+                    Ok(ar) => {
+                        obj.insert_text(&gettext("Tar archive created"));
+                        obj.insert_text(&gettext("Unwrapping tar archive…"));
+
+                        let abort_registration = obj.setup_abort_handle();
+                        utils::do_async(
+                            stream::Abortable::new(ar.into_inner(), abort_registration),
+                            clone!(@weak obj, @weak container => move |result| if let Ok(result) = result {
+                                match result {
+                                    Ok(data) => {
+                                        obj.insert_text(&gettext("Tar archive unwrapped"));
+                                        obj.insert_text(&gettext("Copying files into container…"));
+
+                                        let abort_registration = obj.setup_abort_handle();
+                                        let api = container.api().unwrap();
+                                        utils::do_async(
+                                            async move {
+                                                stream::Abortable::new(
+                                                    api.copy_to(container_path, data.into()),
+                                                    abort_registration
+                                                ).await
+                                            },
+                                            clone!(@weak obj => move |result| match result {
+                                                Ok(_) => {
+                                                    obj.insert_text(&gettext("Finished"));
+                                                    obj.set_state(State::Finished);
+                                                }
+                                                Err(e) => {
+                                                    obj.insert_text(&e.to_string());
+                                                    obj.set_state(State::Failed);
+                                                }
+                                            }),
+                                        );
+                                    }
+                                    Err(e) => {
+                                        obj.insert_text(&e.to_string());
+                                        obj.set_state(State::Failed);
+                                    }
+                                }
+                            })
+                        );
+                    }
+                    Err(e) => {
+                        obj.insert_text(&e.to_string());
+                        obj.set_state(State::Failed);
+                    }
+                }
+            }),
+        );
+
+        obj
+    }
+
+    pub(crate) fn copy_files_from_container(
+        num: u32,
+        container: &model::Container,
+        container_path: impl AsRef<Path> + fmt::Display + Send + Sync + 'static,
+        host_path: impl AsRef<Path> + fmt::Display + Clone + Send + Sync + 'static,
+    ) -> Self {
+        let obj = Self::new(
+            num,
+            Type::CopyFiles,
+            &gettext!(
+                "Files: <b>{}</b> ({}) → {}",
+                container.name(),
+                container_path,
+                host_path
+            ),
+        );
+
+        let abort_registration = obj.setup_abort_handle();
+
+        obj.insert_text(&gettext("Copying bytes into memory…"));
+
+        let buf = Arc::new(Mutex::new(Vec::new()));
+        obj.insert_text(&gettext!("Size: {}", glib::format_size(0)));
+
+        utils::run_stream_with_finish_handler(
+            container.api().unwrap(),
+            |container| {
+                stream::Abortable::new(container.copy_from(container_path), abort_registration)
+                    .boxed()
+            },
+            clone!(
+                @weak obj,
+                @strong buf
+                => @default-return glib::Continue(false), move |result: podman::Result<Vec<u8>>|
+            {
+                glib::Continue(match result {
+                    Ok(chunk) => {
+                        let mut buf = buf.lock().unwrap();
+                        buf.extend(chunk);
+                        obj.replace_last_line(&gettext!("Size: {}", glib::format_size(buf.len() as u64)));
+                        true
+                    }
+                    Err(e) => {
+                        obj.insert_text(&e.to_string());
+                        obj.set_state(State::Failed);
+                        false
+                    }
+                })
+            }),
+            clone!(@weak obj => move || {
+                let mut buf_ = Vec::<u8>::new();
+                mem::swap(&mut *buf.lock().unwrap(), &mut buf_);
+
+                utils::do_async({
+                        let path = host_path.clone();
+                        async move { tokio::fs::write(path, buf_).await }
+                    },
+                    clone!(@weak obj => move |result| match result {
+                        Ok(_) => {
+                            obj.insert_text(&gettext("Finished"));
+                            obj.set_state(State::Finished);
+                        }
+                        Err(e) => {
+                            obj.insert_text(&e.to_string());
+                            obj.set_state(State::Failed);
+                        }
+                    })
+                );
+            }),
+        );
+
+        obj
+    }
+
     pub(crate) fn create_pod(
         num: u32,
         pod: &str,
@@ -548,7 +731,7 @@ impl Action {
             return;
         }
 
-        self.insert_text(&gettext("Finished\n"));
+        self.insert_text(&gettext("Finished"));
 
         self.imp().artifact.set(Some(value));
         self.notify("artifact");
@@ -609,6 +792,17 @@ impl Action {
         let output = self.output();
         let mut iter = output.start_iter();
 
-        output.insert(&mut iter, text);
+        output.insert(&mut iter, &format!("{}\n", text));
+    }
+
+    fn replace_last_line(&self, text: &str) {
+        let output = self.output();
+
+        let mut start_iter = output.start_iter();
+        let mut end_iter = output.start_iter();
+        end_iter.forward_line();
+
+        output.delete(&mut start_iter, &mut end_iter);
+        output.insert(&mut start_iter, &format!("{}\n", text));
     }
 }
