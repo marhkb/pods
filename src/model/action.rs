@@ -548,7 +548,7 @@ impl Action {
             return;
         }
 
-        self.insert_text(&gettext("Finished\n"));
+        self.insert_text(&gettext("Finished"));
 
         self.imp().artifact.set(Some(value));
         self.notify("artifact");
@@ -609,6 +609,6 @@ impl Action {
         let output = self.output();
         let mut iter = output.start_iter();
 
-        output.insert(&mut iter, text);
+        output.insert(&mut iter, &format!("{}\n", text));
     }
 }
