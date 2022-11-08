@@ -99,6 +99,7 @@ mod imp {
                         BuildImage => "build-configure-symbolic",
                         Commit => "merge-symbolic",
                         Container | Pod => "list-add-symbolic",
+                        CopyFiles => "edit-copy-symbolic",
                         _ => unreachable!(),
                     }
                 }))
