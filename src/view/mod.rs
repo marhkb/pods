@@ -44,6 +44,7 @@ pub(crate) use connection::SwitcherWidget as ConnectionSwitcherWidget;
 pub(crate) use container::CommitPage as ContainerCommitPage;
 pub(crate) use container::CreationPage as ContainerCreationPage;
 pub(crate) use container::DetailsPage as ContainerDetailsPage;
+pub(crate) use container::FilesGetPage as ContainerFilesGetPage;
 pub(crate) use container::HealthCheckPage as ContainerHealthCheckPage;
 pub(crate) use container::LogPage as ContainerLogPage;
 pub(crate) use container::MenuButton as ContainerMenuButton;

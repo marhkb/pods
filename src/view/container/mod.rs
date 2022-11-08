@@ -1,6 +1,7 @@
 mod commit_page;
 mod creation_page;
 mod details_page;
+mod files_get_page;
 mod health_check_page;
 mod log_page;
 mod menu_button;
@@ -12,6 +13,7 @@ mod row;
 pub(crate) use commit_page::CommitPage;
 pub(crate) use creation_page::CreationPage;
 pub(crate) use details_page::DetailsPage;
+pub(crate) use files_get_page::FilesGetPage;
 pub(crate) use health_check_page::HealthCheckPage;
 pub(crate) use log_page::LogPage;
 pub(crate) use menu_button::MenuButton;
