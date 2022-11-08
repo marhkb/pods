@@ -611,4 +611,15 @@ impl Action {
 
         output.insert(&mut iter, &format!("{}\n", text));
     }
+
+    fn replace_last_line(&self, text: &str) {
+        let output = self.output();
+
+        let mut start_iter = output.start_iter();
+        let mut end_iter = output.start_iter();
+        end_iter.forward_line();
+
+        output.delete(&mut start_iter, &mut end_iter);
+        output.insert(&mut start_iter, &format!("{}\n", text));
+    }
 }
