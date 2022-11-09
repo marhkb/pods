@@ -144,6 +144,9 @@
 
                 <child>
                   <object class="PdsCircularProgressBar" id="cpu_bar">
+                    <style>
+                      <class name="dim-icon"/>
+                    </style>
                     <property name="width-request">36</property>
                     <property name="icon-name">computer-chip-symbolic</property>
                   </object>
@@ -151,6 +154,9 @@
 
                 <child>
                   <object class="PdsCircularProgressBar" id="mem_bar">
+                    <style>
+                      <class name="dim-icon"/>
+                    </style>
                     <property name="width-request">36</property>
                     <property name="icon-name">memory-symbolic</property>
                   </object>
