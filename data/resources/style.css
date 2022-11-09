@@ -1,3 +1,7 @@
+.dim-icon {
+  color: alpha(@window_fg_color, .85);
+}
+
 entry button {
   margin: 0;
   padding: 0 3px;

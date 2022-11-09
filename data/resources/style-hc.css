@@ -1,3 +1,7 @@
+.dim-icon {
+  color: @window_fg_color;
+}
+
 .tag-label {
   font-weight: bold;
 }
