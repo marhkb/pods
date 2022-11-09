@@ -16,7 +16,7 @@ pub(crate) use row::Row;
 use crate::model;
 use crate::utils;
 
-fn pod_status_css_class(status: model::PodStatus) -> &'static str {
+pub(crate) fn pod_status_css_class(status: model::PodStatus) -> &'static str {
     use model::PodStatus::*;
 
     match status {
