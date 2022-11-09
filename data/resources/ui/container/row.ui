@@ -115,6 +115,30 @@
             </child>
 
             <child>
+              <object class="GtkBox" id="pod_box">
+                <style>
+                  <class name="status-badge"/>
+                </style>
+                <property name="spacing">4</property>
+                <property name="valign">center</property>
+
+                <child>
+                  <object class="GtkImage">
+                    <property name="icon-name">pods-symbolic</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkLabel" id="pod_label">
+                    <property name="ellipsize">end</property>
+                    <property name="max-width-chars">10</property>
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+            <child>
               <object class="GtkBox" id="stats_box">
                 <property name="spacing">2</property>
 
