@@ -39,13 +39,17 @@ mod imp {
         #[template_child]
         pub(super) repo_label: TemplateChild<gtk::Label>,
         #[template_child]
+        pub(super) health_status_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub(super) pod_box: TemplateChild<gtk::Box>,
+        #[template_child]
+        pub(super) pod_label: TemplateChild<gtk::Label>,
+        #[template_child]
         pub(super) stats_box: TemplateChild<gtk::Box>,
         #[template_child]
         pub(super) cpu_bar: TemplateChild<view::CircularProgressBar>,
         #[template_child]
         pub(super) mem_bar: TemplateChild<view::CircularProgressBar>,
-        #[template_child]
-        pub(super) health_status_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) end_box_revealer: TemplateChild<gtk::Revealer>,
     }
@@ -113,11 +117,12 @@ mod imp {
                 }))
                 .bind(&*self.end_box_revealer, "reveal-child", Some(obj));
 
+            let status_expr = container_expr.chain_property::<model::Container>("status");
             let port_expr = container_expr.chain_property::<model::Container>("port");
-            let stats_expr = container_expr.chain_property::<model::Container>("stats");
             let health_status_expr =
                 container_expr.chain_property::<model::Container>("health-status");
-            let status_expr = container_expr.chain_property::<model::Container>("status");
+            let pod_expr = container_expr.chain_property::<model::Container>("pod");
+            let stats_expr = container_expr.chain_property::<model::Container>("stats");
 
             status_expr
                 .chain_closure::<String>(closure!(
@@ -190,22 +195,6 @@ mod imp {
                 }))
                 .bind(&*self.repo_label, "label", Some(obj));
 
-            status_expr
-                .chain_closure::<bool>(closure!(
-                    |_: Self::Type, status: model::ContainerStatus| matches!(
-                        status,
-                        model::ContainerStatus::Running
-                    )
-                ))
-                .bind(&*self.stats_box, "visible", Some(obj));
-
-            obj.bind_stats_percentage(stats_expr.upcast_ref(), |stats| stats.cpu, &self.cpu_bar);
-            obj.bind_stats_percentage(
-                stats_expr.upcast_ref(),
-                |stats| stats.mem_perc,
-                &self.mem_bar,
-            );
-
             health_status_expr
                 .chain_closure::<String>(closure!(
                     |_: Self::Type, status: model::ContainerHealthStatus| status.to_string()
@@ -237,6 +226,49 @@ mod imp {
                     }
                 ))
                 .bind(&*self.health_status_label, "css-classes", Some(obj));
+
+            let css_classes = self.pod_box.css_classes();
+            pod_expr
+                .chain_property::<model::Pod>("status")
+                .chain_closure::<Vec<String>>(closure!(
+                    |_: Self::Type, status: model::PodStatus| {
+                        css_classes
+                            .iter()
+                            .cloned()
+                            .chain(Some(glib::GString::from(view::pod_status_css_class(
+                                status,
+                            ))))
+                            .collect::<Vec<_>>()
+                    }
+                ))
+                .bind(&*self.pod_box, "css-classes", Some(obj));
+            pod_expr
+                .chain_closure::<bool>(closure!(
+                    |_: Self::Type, pod: Option<model::Pod>| pod.is_some()
+                ))
+                .bind(&*self.pod_box, "visible", Some(obj));
+
+            pod_expr.chain_property::<model::Pod>("name").bind(
+                &*self.pod_label,
+                "label",
+                Some(obj),
+            );
+
+            status_expr
+                .chain_closure::<bool>(closure!(
+                    |_: Self::Type, status: model::ContainerStatus| matches!(
+                        status,
+                        model::ContainerStatus::Running
+                    )
+                ))
+                .bind(&*self.stats_box, "visible", Some(obj));
+
+            obj.bind_stats_percentage(stats_expr.upcast_ref(), |stats| stats.cpu, &self.cpu_bar);
+            obj.bind_stats_percentage(
+                stats_expr.upcast_ref(),
+                |stats| stats.mem_perc,
+                &self.mem_bar,
+            );
         }
     }
 

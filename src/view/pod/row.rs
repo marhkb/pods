@@ -116,9 +116,9 @@ mod imp {
                         css_classes
                             .iter()
                             .cloned()
-                            .chain(Some(glib::GString::from(
-                                super::super::pod_status_css_class(status),
-                            )))
+                            .chain(Some(glib::GString::from(view::pod_status_css_class(
+                                status,
+                            ))))
                             .collect::<Vec<_>>()
                     }
                 ))

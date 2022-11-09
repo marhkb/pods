@@ -71,6 +71,7 @@ pub(crate) use images::Panel as ImagesPanel;
 pub(crate) use images::PrunePage as ImagesPrunePage;
 pub(crate) use info_dialog::InfoDialog;
 pub(crate) use key_val::Row as KeyValRow;
+pub(crate) use pod::pod_status_css_class;
 pub(crate) use pod::CreationPage as PodCreationPage;
 pub(crate) use pod::DetailsPage as PodDetailsPage;
 pub(crate) use pod::MenuButton as PodMenuButton;
