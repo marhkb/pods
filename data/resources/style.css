@@ -186,6 +186,21 @@ connectionchooserpage connectionswitchermenu row {
   background-color: alpha(@green_3, .25);
 }
 
+.pod-badge {
+  font-size: 0.85em;
+  font-weight: bold;
+  min-width: 1.7em;
+  border-radius: 9999px;
+  padding: 2px 12px 2px 2px;
+}
+
+.pod-badge-icon {
+  background-color: @dialog_bg_color;
+  border-radius: 9999px;
+  border: solid @borders 1px;
+  padding: 5px;
+}
+
 .progressbar-warning progress {
   background-color: @warning_bg_color;
 }
