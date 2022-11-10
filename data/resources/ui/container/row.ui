@@ -117,13 +117,17 @@
             <child>
               <object class="GtkBox" id="pod_box">
                 <style>
-                  <class name="status-badge"/>
+                  <class name="pod-badge"/>
                 </style>
                 <property name="spacing">4</property>
                 <property name="valign">center</property>
 
                 <child>
                   <object class="GtkImage">
+                    <style>
+                      <class name="pod-badge-icon"/>
+                      <class name="dim-icon"/>
+                    </style>
                     <property name="icon-name">pods-symbolic</property>
                   </object>
                 </child>
@@ -144,6 +148,9 @@
 
                 <child>
                   <object class="PdsCircularProgressBar" id="cpu_bar">
+                    <style>
+                      <class name="dim-icon"/>
+                    </style>
                     <property name="width-request">36</property>
                     <property name="icon-name">computer-chip-symbolic</property>
                   </object>
@@ -151,6 +158,9 @@
 
                 <child>
                   <object class="PdsCircularProgressBar" id="mem_bar">
+                    <style>
+                      <class name="dim-icon"/>
+                    </style>
                     <property name="width-request">36</property>
                     <property name="icon-name">memory-symbolic</property>
                   </object>
