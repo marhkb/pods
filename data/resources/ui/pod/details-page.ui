@@ -310,6 +310,7 @@
                     </binding>
                     <property name="title" translatable="yes">Containers</property>
                     <property name="no-containers-label" translatable="yes">There are no containers in this pod.</property>
+                    <property name="play-kube-action-enabled">False</property>
                   </object>
                 </child>
 

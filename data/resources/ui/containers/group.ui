@@ -1,5 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
+
+  <menu id="menu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Play _Kubernetes YAML…</attribute>
+        <attribute name="action">win.play-kubernetes</attribute>
+      </item>
+    </section>
+  </menu>
+
+  <object class="AdwSplitButton" id="create_container_split_button">
+    <style>
+      <class name="flat"/>
+    </style>
+    <property name="action-name">containers-group.create-container</property>
+    <property name="icon-name">list-add-symbolic</property>
+    <property name="menu-model">menu</property>
+  </object>
+
   <object class="GtkListBoxRow" id="create_container_row">
     <property name="action-name">containers-group.create-container</property>
     <property name="selectable">False</property>
@@ -15,7 +34,6 @@
   </object>
 
   <template class="PdsContainersGroup" parent="AdwPreferencesGroup">
-
     <property name="header-suffix">
       <object class="GtkBox" id="header_suffix_box">
         <property name="spacing">9</property>
@@ -35,12 +53,18 @@
         </child>
 
         <child>
-          <object class="GtkButton" id="create_container_button">
-            <style>
-              <class name="flat"/>
-            </style>
-            <property name="action-name">containers-group.create-container</property>
-            <property name="icon-name">list-add-symbolic</property>
+          <object class="GtkBox" id="create_container_box">
+
+            <child>
+              <object class="GtkButton" id="create_container_button">
+                <style>
+                  <class name="flat"/>
+                </style>
+                <property name="action-name">containers-group.create-container</property>
+                <property name="icon-name">list-add-symbolic</property>
+              </object>
+            </child>
+
           </object>
         </child>
 

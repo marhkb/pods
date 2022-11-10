@@ -1,3 +1,4 @@
+use std::cell::Cell;
 use std::cell::RefCell;
 
 use adw::subclass::prelude::PreferencesGroupImpl;
@@ -27,16 +28,21 @@ mod imp {
         pub(super) container_list: glib::WeakRef<model::AbstractContainerList>,
         pub(super) no_containers_label: RefCell<Option<String>>,
         pub(super) show_running_settings_key: RefCell<String>,
+        pub(super) play_kube_action_enabled: Cell<bool>,
         pub(super) properties_filter: OnceCell<gtk::Filter>,
         pub(super) sorter: OnceCell<gtk::Sorter>,
+        #[template_child]
+        pub(super) create_container_split_button: TemplateChild<adw::SplitButton>,
+        #[template_child]
+        pub(super) create_container_button: TemplateChild<gtk::Button>,
         #[template_child]
         pub(super) create_container_row: TemplateChild<gtk::ListBoxRow>,
         #[template_child]
         pub(super) header_suffix_box: TemplateChild<gtk::Box>,
         #[template_child]
-        pub(super) show_only_running_switch: TemplateChild<gtk::Switch>,
+        pub(super) create_container_box: TemplateChild<gtk::Box>,
         #[template_child]
-        pub(super) create_container_button: TemplateChild<gtk::Button>,
+        pub(super) show_only_running_switch: TemplateChild<gtk::Switch>,
         #[template_child]
         pub(super) list_box: TemplateChild<gtk::ListBox>,
     }
@@ -66,6 +72,9 @@ mod imp {
                     glib::ParamSpecString::builder("show-running-settings-key")
                         .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
                         .build(),
+                    glib::ParamSpecBoolean::builder("play-kube-action-enabled")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .build(),
                     glib::ParamSpecObject::builder::<model::AbstractContainerList>(
                         "container-list",
                     )
@@ -83,6 +92,9 @@ mod imp {
                 "show-running-settings-key" => {
                     obj.set_show_running_settings_key(value.get().unwrap_or_default());
                 }
+                "play-kube-action-enabled" => {
+                    obj.set_play_kube_button_enabled(value.get().unwrap())
+                }
                 "container-list" => obj.set_container_list(value.get().unwrap()),
                 _ => unimplemented!(),
             }
@@ -93,6 +105,7 @@ mod imp {
             match pspec.name() {
                 "no-containers-label" => obj.no_containers_label().to_value(),
                 "show-running-settings-key" => obj.show_running_settings_key().to_value(),
+                "play-kube-action-enabled" => obj.is_play_kube_button_enabled().to_value(),
                 "container-list" => obj.container_list().to_value(),
                 _ => unimplemented!(),
             }
@@ -116,7 +129,7 @@ mod imp {
                 .chain_closure::<bool>(closure!(|_: Self::Type, len: u32| len > 0))
                 .bind(&*self.header_suffix_box, "visible", Some(obj));
 
-            is_selection_mode_expr.bind(&*self.create_container_button, "visible", Some(obj));
+            is_selection_mode_expr.bind(&*self.create_container_box, "visible", Some(obj));
             is_selection_mode_expr.bind(&*self.create_container_row, "visible", Some(obj));
 
             gtk::ClosureExpression::new::<Option<String>>(
@@ -224,6 +237,31 @@ impl Group {
 
         imp.show_running_settings_key.replace(value);
         self.notify("show-running-settings-key");
+    }
+
+    pub(crate) fn is_play_kube_button_enabled(&self) -> bool {
+        self.imp().play_kube_action_enabled.get()
+    }
+
+    pub(crate) fn set_play_kube_button_enabled(&self, value: bool) {
+        if self.is_play_kube_button_enabled() == value {
+            return;
+        }
+
+        let imp = self.imp();
+
+        if value {
+            imp.create_container_button.unparent();
+            imp.create_container_box
+                .append(&*imp.create_container_split_button);
+        } else {
+            imp.create_container_split_button.unparent();
+            imp.create_container_box
+                .append(&*imp.create_container_button);
+        }
+
+        imp.play_kube_action_enabled.set(value);
+        self.notify("play-kube-action-enabled")
     }
 
     pub(crate) fn container_list(&self) -> Option<model::AbstractContainerList> {

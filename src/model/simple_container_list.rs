@@ -15,9 +15,10 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default)]
-    pub(crate) struct SimpleContainerList(
-        pub(super) RefCell<IndexMap<String, glib::WeakRef<model::Container>>>,
-    );
+    pub(crate) struct SimpleContainerList {
+        pub(super) client: glib::WeakRef<model::Client>,
+        pub(super) list: RefCell<IndexMap<String, glib::WeakRef<model::Container>>>,
+    }
 
     #[glib::object_subclass]
     impl ObjectSubclass for SimpleContainerList {
@@ -30,6 +31,9 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
+                    glib::ParamSpecObject::builder::<model::Client>("client")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
                     glib::ParamSpecUInt::builder("len")
                         .flags(glib::ParamFlags::READABLE)
                         .build(),
@@ -62,9 +66,17 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            match pspec.name() {
+                "client" => self.client.set(value.get().unwrap()),
+                _ => unimplemented!(),
+            }
+        }
+
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             let obj = &*self.obj();
             match pspec.name() {
+                "client" => obj.client().to_value(),
                 "len" => obj.len().to_value(),
                 "created" => obj.created().to_value(),
                 "dead" => obj.dead().to_value(),
@@ -90,11 +102,11 @@ mod imp {
         }
 
         fn n_items(&self) -> u32 {
-            self.0.borrow().len() as u32
+            self.list.borrow().len() as u32
         }
 
         fn item(&self, position: u32) -> Option<glib::Object> {
-            self.0
+            self.list
                 .borrow()
                 .get_index(position as usize)
                 .and_then(|(_, obj)| obj.upgrade().map(|c| c.upcast()))
@@ -107,16 +119,22 @@ glib::wrapper! {
         @implements gio::ListModel, model::AbstractContainerList;
 }
 
-impl Default for SimpleContainerList {
-    fn default() -> Self {
-        glib::Object::builder::<Self>().build()
+impl From<Option<&model::Client>> for SimpleContainerList {
+    fn from(client: Option<&model::Client>) -> Self {
+        glib::Object::builder::<Self>()
+            .property("client", &client)
+            .build()
     }
 }
 
 impl SimpleContainerList {
+    pub(crate) fn client(&self) -> Option<model::Client> {
+        self.imp().client.upgrade()
+    }
+
     pub(crate) fn get(&self, index: usize) -> Option<model::Container> {
         self.imp()
-            .0
+            .list
             .borrow()
             .get_index(index)
             .map(|(_, c)| c)
@@ -126,7 +144,7 @@ impl SimpleContainerList {
     pub(crate) fn add_container(&self, container: &model::Container) {
         let (index, _) = self
             .imp()
-            .0
+            .list
             .borrow_mut()
             .insert_full(container.id().to_owned(), {
                 let weak_ref = glib::WeakRef::new();
@@ -139,7 +157,7 @@ impl SimpleContainerList {
     }
 
     pub(crate) fn remove_container<Q: Borrow<str> + ?Sized>(&self, id: &Q) {
-        let mut list = self.imp().0.borrow_mut();
+        let mut list = self.imp().list.borrow_mut();
         if let Some((idx, _, container)) = list.shift_remove_full(id.borrow()) {
             drop(list);
             self.items_changed(idx as u32, 1, 0);
@@ -187,7 +205,7 @@ impl SimpleContainerList {
 
     pub(crate) fn num_containers_of_status(&self, status: model::ContainerStatus) -> u32 {
         self.imp()
-            .0
+            .list
             .borrow()
             .values()
             .filter_map(glib::WeakRef::upgrade)

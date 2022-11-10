@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="PdsPlayKubeFilePage" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBinLayout"/>
+    </property>
+
+    <child>
+      <object class="AdwLeaflet">
+        <property name="can-navigate-back">True</property>
+        <property name="can-unfold">False</property>
+
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+
+            <child>
+              <object class="AdwHeaderBar">
+
+                <child type="start">
+                  <object class="PdsBackNavigationControls"/>
+                </child>
+
+                <child type="title">
+                  <object class="AdwWindowTitle">
+                    <property name="title" translatable="yes">Play Kube File</property>
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwPreferencesPage">
+
+                <child>
+                  <object class="AdwPreferencesGroup">
+
+                    <child>
+                      <object class="AdwActionRow" id="kube_file_row">
+                        <property name="activatable">True</property>
+                        <property name="activatable-widget">kube_file_select_button</property>
+                        <property name="title" translatable="yes">Kube File</property>
+
+                        <child type="suffix">
+                          <object class="GtkButton" id="kube_file_select_button">
+                            <property name="action-name">play-kube-file-page.select-file</property>
+                            <property name="label" translatable="yes">_Select…</property>
+                            <property name="use-underline">True</property>
+                            <property name="valign">center</property>
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwPreferencesGroup">
+
+                    <child>
+                      <object class="AdwEntryRow" id="log_driver_entry_row">
+                        <property name="activates-default">True</property>
+                        <property name="title" translatable="yes">Logging driver for the containers in the pod</property>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="AdwActionRow">
+                        <property name="activatable_widget">start_switch</property>
+                        <property name="title" translatable="yes">Start</property>
+                        <property name="subtitle" translatable="yes">Start the pod after creating it.</property>
+                        <child>
+                          <object class="GtkSwitch" id="start_switch">
+                            <property name="valign">center</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="AdwActionRow">
+                        <property name="activatable_widget">tls_verify_switch</property>
+                        <property name="title" translatable="yes">TLS Verify</property>
+                        <property name="subtitle" translatable="yes">Require HTTPS and verify signatures when contacting registries.</property>
+                        <child>
+                          <object class="GtkSwitch" id="tls_verify_switch">
+                            <property name="valign">center</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwPreferencesGroup">
+                    <property name="title" translatable="yes">Static IPs</property>
+                    <property name="description" translatable="yes">Specify static IPs used for the pods.</property>
+
+                    <child>
+                      <object class="GtkListBox" id="static_ips_list_box">
+                        <style>
+                          <class name="boxed-list"/>
+                        </style>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwPreferencesGroup">
+                    <property name="title" translatable="yes">Static MACs</property>
+                    <property name="description" translatable="yes">Specify static MACs used for the pods.</property>
+
+                    <child>
+                      <object class="GtkListBox" id="static_macs_list_box">
+                        <style>
+                          <class name="boxed-list"/>
+                        </style>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwPreferencesGroup">
+
+                    <child>
+                      <object class="GtkButton" id="play_button">
+                        <style>
+                          <class name="pill"/>
+                          <class name="suggested-action"/>
+                        </style>
+                        <property name="action-name">play-kube-file-page.play-kube</property>
+                        <property name="label" translatable="yes">_Play</property>
+                        <property name="use-underline">True</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwLeafletPage">
+            <property name="name">overlay</property>
+
+            <property name="child">
+              <object class="PdsLeafletOverlay" id="leaflet_overlay"/>
+            </property>
+
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>

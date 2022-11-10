@@ -39,6 +39,9 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
+                    glib::ParamSpecObject::builder::<model::Client>("client")
+                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .build(),
                     glib::ParamSpecUInt::builder("len")
                         .flags(glib::ParamFlags::READABLE)
                         .build(),
@@ -119,6 +122,10 @@ impl AbstractContainerList {
 }
 
 pub(crate) trait AbstractContainerListExt: IsA<AbstractContainerList> {
+    fn client(&self) -> Option<model::Client> {
+        self.property("client")
+    }
+
     fn container_added(&self, container: &model::Container) {
         self.emit_by_name::<()>("container-added", &[container]);
     }

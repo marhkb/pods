@@ -304,6 +304,20 @@ impl ActionList {
         ))
     }
 
+    pub(crate) fn play_kubernetes_yaml(
+        &self,
+        kube_file_path: impl AsRef<Path> + Into<String> + Send + 'static,
+        podman: podman::Podman,
+        opts: podman::opts::PlayKubernetesYamlOpts,
+    ) -> model::Action {
+        self.insert_action(model::Action::play_kubernetes_yaml(
+            self.imp().action_counter.get(),
+            kube_file_path,
+            podman,
+            opts,
+        ))
+    }
+
     pub(crate) fn create_pod(&self, pod: &str, opts: podman::opts::PodCreateOpts) -> model::Action {
         self.insert_action(model::Action::create_pod(
             self.imp().action_counter.get(),

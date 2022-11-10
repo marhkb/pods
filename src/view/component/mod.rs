@@ -1,6 +1,7 @@
 mod back_navigation_controls;
 mod circular_progress_bar;
 mod leaflet_overlay;
+mod play_kube_file_page;
 mod property_row;
 mod property_widget_row;
 mod random_name_entry_row;
@@ -12,6 +13,7 @@ mod top_page;
 pub(crate) use self::back_navigation_controls::BackNavigationControls;
 pub(crate) use self::circular_progress_bar::CircularProgressBar;
 pub(crate) use self::leaflet_overlay::LeafletOverlay;
+pub(crate) use self::play_kube_file_page::PlayKubeFilePage;
 pub(crate) use self::property_row::PropertyRow;
 pub(crate) use self::property_widget_row::PropertyWidgetRow;
 pub(crate) use self::random_name_entry_row::RandomNameEntryRow;

@@ -27,6 +27,7 @@ pub(crate) use self::component::BackNavigationControls;
 pub(crate) use self::component::CircularProgressBar;
 pub(crate) use self::component::Entity;
 pub(crate) use self::component::LeafletOverlay;
+pub(crate) use self::component::PlayKubeFilePage;
 pub(crate) use self::component::PropertyRow;
 pub(crate) use self::component::PropertyWidgetRow;
 pub(crate) use self::component::RandomNameEntryRow;

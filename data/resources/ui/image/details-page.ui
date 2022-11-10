@@ -199,6 +199,7 @@
                     </binding>
                     <property name="title" translatable="yes">Associated Containers</property>
                     <property name="no-containers-label" translatable="yes">There are no containers associated with this image.</property>
+                    <property name="play-kube-action-enabled">False</property>
                   </object>
                 </child>
 

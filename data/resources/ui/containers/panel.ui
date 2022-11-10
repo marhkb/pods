@@ -47,6 +47,7 @@
                         <property name="title" translatable="yes">Summary</property>
                         <property name="show-running-settings-key">show-only-running-containers</property>
                         <property name="no-containers-label" translatable="yes">No containers found</property>
+                        <property name="play-kube-action-enabled">True</property>
                       </object>
                     </child>
 

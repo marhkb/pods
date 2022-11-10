@@ -115,12 +115,14 @@ mod imp {
             view::ImageMenuButton::static_type();
             view::ImageSearchResponseRow::static_type();
             view::ImagesPanel::static_type();
+            view::PlayKubeFilePage::static_type();
             view::PodMenuButton::static_type();
             view::PodRow::static_type();
             view::PodsPanel::static_type();
             view::PropertyRow::static_type();
             view::PropertyWidgetRow::static_type();
             view::RandomNameEntryRow::static_type();
+            view::SourceViewPage::static_type();
             view::SourceViewPage::static_type();
             view::SourceViewSearchWidget::static_type();
             view::Statusbar::static_type();
@@ -176,6 +178,10 @@ mod imp {
             );
             klass.install_action("entity.create", None, move |widget, _, _| {
                 widget.create_entity();
+            });
+
+            klass.install_action("win.play-kubernetes", None, move |widget, _, _| {
+                widget.play_kubernetes();
             });
 
             klass.install_action("win.remove-connection", Some("s"), |widget, _, data| {
@@ -802,6 +808,19 @@ impl Window {
                     "pods" => imp.pods_panel.activate_action("pods.create", None),
                     _ => unreachable!(),
                 });
+        }
+    }
+
+    fn play_kubernetes(&self) {
+        let imp = self.imp();
+        let leaflet_overlay = &*imp.leaflet_overlay;
+
+        if leaflet_overlay.child().is_some() {
+            return;
+        }
+
+        if let Some(client) = self.connection_manager().client() {
+            leaflet_overlay.show_details(&view::PlayKubeFilePage::from(&client));
         }
     }
 

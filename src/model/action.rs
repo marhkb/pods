@@ -539,6 +539,53 @@ impl Action {
         obj
     }
 
+    pub(crate) fn play_kubernetes_yaml(
+        num: u32,
+        kube_file_path: impl AsRef<Path> + Into<String> + Send + 'static,
+        podman: podman::Podman,
+        opts: podman::opts::PlayKubernetesYamlOpts,
+    ) -> Self {
+        let obj = Self::new(
+            num,
+            Type::Commit,
+            &gettext!(
+                "Kube: Play <b>{}</b>",
+                kube_file_path
+                    .as_ref()
+                    .file_name()
+                    .unwrap()
+                    .to_str()
+                    .unwrap()
+            ),
+        );
+        let abort_registration = obj.setup_abort_handle();
+
+        utils::do_async(
+            async move {
+                stream::Abortable::new(
+                    podman.play_kubernetes_yaml(&opts, kube_file_path),
+                    abort_registration,
+                )
+                .await
+            },
+            clone!(@weak obj => move |result| if let Ok(result) = result {
+                match result.as_ref() {
+                    Ok(report) => {
+                        //TODO: write report
+                        obj.insert_line(&gettext("Finished"));
+                        obj.set_state(State::Finished);
+                    },
+                    Err(e) => {
+                        obj.insert_line(&e.to_string());
+                        obj.set_state(State::Failed);
+                    }
+                }
+            }),
+        );
+
+        obj
+    }
+
     pub(crate) fn create_pod(
         num: u32,
         pod: &str,

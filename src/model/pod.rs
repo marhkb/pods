@@ -253,7 +253,14 @@ impl Pod {
     }
 
     pub(crate) fn container_list(&self) -> &model::SimpleContainerList {
-        self.imp().container_list.get_or_init(Default::default)
+        self.imp().container_list.get_or_init(|| {
+            model::SimpleContainerList::from(
+                self.pod_list()
+                    .as_ref()
+                    .and_then(model::PodList::client)
+                    .as_ref(),
+            )
+        })
     }
 
     pub(crate) fn action_ongoing(&self) -> bool {
