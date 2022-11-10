@@ -381,7 +381,7 @@ impl Action {
             ),
         );
 
-        obj.insert_text(&gettext("Creating tar archive…"));
+        obj.insert_text(&gettext("Creating tar archive …"));
 
         let abort_registration = obj.setup_abort_handle();
 
@@ -414,7 +414,7 @@ impl Action {
                 match result {
                     Ok(ar) => {
                         obj.insert_text(&gettext("Tar archive created"));
-                        obj.insert_text(&gettext("Unwrapping tar archive…"));
+                        obj.insert_text(&gettext("Unwrapping tar archive …"));
 
                         let abort_registration = obj.setup_abort_handle();
                         utils::do_async(
@@ -423,7 +423,7 @@ impl Action {
                                 match result {
                                     Ok(data) => {
                                         obj.insert_text(&gettext("Tar archive unwrapped"));
-                                        obj.insert_text(&gettext("Copying files into container…"));
+                                        obj.insert_text(&gettext("Copying files into container …"));
 
                                         let abort_registration = obj.setup_abort_handle();
                                         let api = container.api().unwrap();
@@ -484,7 +484,7 @@ impl Action {
 
         let abort_registration = obj.setup_abort_handle();
 
-        obj.insert_text(&gettext("Copying bytes into memory…"));
+        obj.insert_text(&gettext("Copying bytes into memory …"));
 
         let buf = Arc::new(Mutex::new(Vec::new()));
         obj.insert_text(&gettext!("Size: {}", glib::format_size(0)));

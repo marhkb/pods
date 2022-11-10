@@ -4,7 +4,7 @@
   <menu id="menu">
     <section>
       <item>
-        <attribute name="label" translatable="yes">Select _Directory…</attribute>
+        <attribute name="label" translatable="yes">Select _Directory …</attribute>
         <attribute name="action">container-files-put-page.select-host-directory</attribute>
       </item>
     </section>
@@ -55,7 +55,7 @@
                         <child type="suffix">
                           <object class="AdwSplitButton">
                             <property name="action-name">container-files-put-page.select-host-file</property>
-                            <property name="label" translatable="yes">Select _File…</property>
+                            <property name="label" translatable="yes">Select _File …</property>
                             <property name="use-underline">True</property>
                             <property name="valign">center</property>
                             <property name="menu-model">menu</property>

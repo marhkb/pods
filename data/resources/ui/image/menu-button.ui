@@ -4,7 +4,7 @@
   <menu id="menu">
     <section>
       <item>
-        <attribute name="label" translatable="yes">Inspect…</attribute>
+        <attribute name="label" translatable="yes">Inspect …</attribute>
         <attribute name="action">image-menu-button.inspect-image</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
@@ -16,7 +16,7 @@
     </section>
     <section>
       <item>
-        <attribute name="label" translatable="yes">_Create Container…</attribute>
+        <attribute name="label" translatable="yes">_Create Container …</attribute>
         <attribute name="action">image-menu-button.create-container</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>

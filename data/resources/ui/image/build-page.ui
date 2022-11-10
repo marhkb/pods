@@ -99,7 +99,7 @@
                                         <child type="suffix">
                                           <object class="GtkButton" id="open_context_dir_button">
                                             <property name="action-name">image-build-page.select-context-dir</property>
-                                            <property name="label" translatable="yes">Select…</property>
+                                            <property name="label" translatable="yes">Select …</property>
                                             <property name="valign">center</property>
                                           </object>
                                         </child>

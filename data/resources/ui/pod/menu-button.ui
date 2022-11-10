@@ -3,7 +3,7 @@
   <menu id="menu">
     <section>
       <item>
-        <attribute name="label" translatable="yes">_Create Container…</attribute>
+        <attribute name="label" translatable="yes">_Create Container …</attribute>
         <attribute name="action">pod-menu-button.create-container</attribute>
       </item>
     </section>

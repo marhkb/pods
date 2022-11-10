@@ -26,17 +26,17 @@
   <menu id="menu">
     <section>
       <item>
-        <attribute name="label" translatable="yes">_Download…</attribute>
+        <attribute name="label" translatable="yes">_Download …</attribute>
         <attribute name="action">images-panel.pull-image</attribute>
       </item>
       <item>
-        <attribute name="label" translatable="yes">_Build…</attribute>
+        <attribute name="label" translatable="yes">_Build …</attribute>
         <attribute name="action">images-panel.build-image</attribute>
       </item>
     </section>
     <section>
       <item>
-        <attribute name="label" translatable="yes">_Prune…</attribute>
+        <attribute name="label" translatable="yes">_Prune …</attribute>
         <attribute name="action">images-panel.prune-unused-images</attribute>
       </item>
     </section>

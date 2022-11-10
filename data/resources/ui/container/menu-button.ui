@@ -30,14 +30,14 @@
     </section>
     <section>
       <item>
-        <attribute name="label" translatable="yes">Re_name…</attribute>
+        <attribute name="label" translatable="yes">Re_name …</attribute>
         <attribute name="action">container-menu-button.rename</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
     </section>
     <section>
       <item>
-        <attribute name="label" translatable="yes">_Commit…</attribute>
+        <attribute name="label" translatable="yes">_Commit …</attribute>
         <attribute name="action">container-menu-button.commit</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>

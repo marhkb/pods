@@ -53,7 +53,7 @@
                         <child type="suffix">
                           <object class="GtkButton">
                             <property name="action-name">container-files-get-page.select-host-path</property>
-                            <property name="label" translatable="yes">Select _Path…</property>
+                            <property name="label" translatable="yes">Select _Path …</property>
                             <property name="use-underline">True</property>
                             <property name="valign">center</property>
                           </object>

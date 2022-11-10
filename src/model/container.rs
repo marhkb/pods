@@ -573,7 +573,7 @@ impl Container {
             // This will be either set back to `false` in `Self::update` or in case of an error.
             self.set_action_ongoing(true);
 
-            log::info!("Container <{}>: {name}…'", self.id());
+            log::info!("Container <{}>: {name} …'", self.id());
 
             utils::do_async(
                 async move { fut_op(container).await },
