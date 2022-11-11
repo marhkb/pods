@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-
   <object class="GtkListBoxRow" id="create_container_row">
     <property name="action-name">containers-group.create-container</property>
     <property name="selectable">False</property>
@@ -58,5 +57,4 @@
     </child>
 
   </template>
-
 </interface>
