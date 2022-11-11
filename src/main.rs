@@ -33,6 +33,7 @@ fn main() {
     glib::log_set_writer_func(glib::log_writer_journald);
 
     adw::init().expect("Failed to init GTK/libadwaita");
+    sourceview5::init();
 
     // Prepare i18n
     gettextrs::setlocale(LocaleCategory::LcAll, "");

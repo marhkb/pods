@@ -128,7 +128,6 @@ mod imp {
             view::SourceViewSearchWidget::static_type();
             view::TextSearchEntry::static_type();
             view::WelcomePage::static_type();
-            sourceview5::View::static_type();
 
             klass.add_binding_action(
                 gdk::Key::Home,
