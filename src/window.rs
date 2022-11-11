@@ -118,13 +118,13 @@ mod imp {
             view::ImageMenuButton::static_type();
             view::ImageSearchResponseRow::static_type();
             view::ImagesPanel::static_type();
-            view::SourceViewPage::static_type();
             view::PodMenuButton::static_type();
             view::PodRow::static_type();
             view::PodsPanel::static_type();
             view::PropertyRow::static_type();
             view::PropertyWidgetRow::static_type();
             view::RandomNameEntryRow::static_type();
+            view::SourceViewPage::static_type();
             view::SourceViewSearchWidget::static_type();
             view::TextSearchEntry::static_type();
             view::WelcomePage::static_type();
