@@ -6,46 +6,65 @@
     </property>
 
     <child>
-      <object class="GtkOverlay">
-
-        <child type="overlay">
-          <object class="AdwHeaderBar">
-            <style>
-              <class name="flat"/>
-            </style>
-            <property name="valign">start</property>
-            <property name="title-widget">
-              <object class="AdwWindowTitle">
-                <property name="visible">False</property>
-              </object>
-            </property>
-          </object>
-        </child>
+      <object class="AdwLeaflet">
+        <property name="can-navigate-back">True</property>
+        <property name="can-unfold">False</property>
 
         <child>
-          <object class="GtkWindowHandle">
-            <property name="vexpand">True</property>
+          <object class="GtkOverlay">
+
+            <child type="overlay">
+              <object class="AdwHeaderBar">
+                <style>
+                  <class name="flat"/>
+                </style>
+                <property name="valign">start</property>
+                <property name="title-widget">
+                  <object class="AdwWindowTitle">
+                    <property name="visible">False</property>
+                  </object>
+                </property>
+              </object>
+            </child>
 
             <child>
-              <object class="AdwStatusPage">
-                <property name="title" translatable="yes">Welcome to Pods</property>
-                <property name="description" translatable="yes">No connections have been detected. Use the button below to create a new one.</property>
+              <object class="GtkWindowHandle">
+                <property name="vexpand">True</property>
 
                 <child>
-                  <object class="GtkButton">
-                    <style>
-                      <class name="pill"/>
-                      <class name="suggested-action"/>
-                    </style>
-                    <property name="action-name">win.add-connection</property>
-                    <property name="halign">center</property>
-                    <property name="label" translatable="yes">_Add Connection</property>
-                    <property name="use-underline">True</property>
+                  <object class="AdwStatusPage">
+                    <property name="title" translatable="yes">Welcome to Pods</property>
+                    <property name="description" translatable="yes">No connections have been detected. Use the button below to create a new one.</property>
+
+                    <child>
+                      <object class="GtkButton">
+                        <style>
+                          <class name="pill"/>
+                          <class name="suggested-action"/>
+                        </style>
+                        <property name="action-name">welcome-page.add-connection</property>
+                        <property name="halign">center</property>
+                        <property name="label" translatable="yes">_Add Connection</property>
+                        <property name="use-underline">True</property>
+                      </object>
+                    </child>
+
                   </object>
                 </child>
 
               </object>
             </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwLeafletPage">
+            <property name="name">overlay</property>
+
+            <property name="child">
+              <object class="PdsLeafletOverlay" id="leaflet_overlay"/>
+            </property>
 
           </object>
         </child>
