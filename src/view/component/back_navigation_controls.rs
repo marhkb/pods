@@ -14,10 +14,10 @@ mod imp {
 
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/component/back-navigation-controls.ui")]
-    pub(crate) struct PdsBackNavigationControls;
+    pub(crate) struct BackNavigationControls;
 
     #[glib::object_subclass]
-    impl ObjectSubclass for PdsBackNavigationControls {
+    impl ObjectSubclass for BackNavigationControls {
         const NAME: &'static str = "PdsBackNavigationControls";
         type Type = super::BackNavigationControls;
         type ParentType = gtk::Widget;
@@ -38,13 +38,13 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for PdsBackNavigationControls {
+    impl ObjectImpl for BackNavigationControls {
         fn dispose(&self) {
             utils::ChildIter::from(&*self.obj()).for_each(|child| child.unparent());
         }
     }
 
-    impl WidgetImpl for PdsBackNavigationControls {
+    impl WidgetImpl for BackNavigationControls {
         fn root(&self) {
             self.parent_root();
 
@@ -59,7 +59,7 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub(crate) struct BackNavigationControls(ObjectSubclass<imp::PdsBackNavigationControls>)
+    pub(crate) struct BackNavigationControls(ObjectSubclass<imp::BackNavigationControls>)
         @extends gtk::Widget,
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
