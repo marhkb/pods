@@ -72,15 +72,15 @@ actionsoverview #type {
   border-radius: 9999px;
 }
 
-#main-menu connectionswitchermenu row #selection-indicator #background,
-#main-menu connectionswitchermenu row #delete-button,
+popover connectionswitchermenu row #selection-indicator #background,
+popover connectionswitchermenu row #delete-button,
 actionsoverview #action,
 actionsoverview #type {
   min-height: 34px;
   min-width: 34px;
 }
 
-#main-menu connectionswitchermenu row #delete-button,
+popover connectionswitchermenu row #delete-button,
 actionsoverview #action {
   margin-left: 12px;
 }
@@ -108,7 +108,7 @@ actionsoverview #type {
   border: 1px solid @borders;
 }
 
-#main-menu connectionswitchermenu row,
+popover connectionswitchermenu row,
 actionsoverview row {
   border-radius: 9px;
   padding: 6px;
