@@ -226,9 +226,9 @@ impl ResourcesQuickReferenceGroup {
                         fraction_op(stats).and_then(|perc| {
                             if perc >= 80. {
                                 Some(glib::GString::from(if perc < 95. {
-                                    "progressbar-warning"
+                                    "warning"
                                 } else {
-                                    "progressbar-error"
+                                    "error"
                                 }))
                             } else {
                                 None
