@@ -22,7 +22,6 @@ mod welcome_page;
 
 pub(crate) use self::action::Page as ActionPage;
 pub(crate) use self::action::Row as ActionRow;
-pub(crate) use self::actions::MenuButton as ActionsMenuButton;
 pub(crate) use self::actions::Overview as ActionsOverview;
 pub(crate) use self::component::BackNavigationControls;
 pub(crate) use self::component::CircularProgressBar;
