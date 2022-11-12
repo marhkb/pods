@@ -117,6 +117,12 @@ glib::wrapper! {
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
+impl Default for SwitcherWidget {
+    fn default() -> Self {
+        glib::Object::builder::<Self>().build()
+    }
+}
+
 impl From<&model::ConnectionManager> for SwitcherWidget {
     fn from(connection_manager: &model::ConnectionManager) -> Self {
         glib::Object::builder::<Self>()
