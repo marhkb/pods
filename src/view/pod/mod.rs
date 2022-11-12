@@ -5,14 +5,14 @@ mod row;
 
 use adw::prelude::MessageDialogExtManual;
 use adw::traits::MessageDialogExt;
-pub(crate) use creation_page::CreationPage;
-pub(crate) use details_page::DetailsPage;
 use gettextrs::gettext;
 use glib::clone;
 use gtk::glib;
-pub(crate) use menu_button::MenuButton;
-pub(crate) use row::Row;
 
+pub(crate) use self::creation_page::CreationPage;
+pub(crate) use self::details_page::DetailsPage;
+pub(crate) use self::menu_button::MenuButton;
+pub(crate) use self::row::Row;
 use crate::model;
 use crate::utils;
 

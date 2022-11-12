@@ -1,3 +1,3 @@
 mod panel;
 
-pub(crate) use panel::Panel;
+pub(crate) use self::panel::Panel;

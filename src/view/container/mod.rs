@@ -11,19 +11,18 @@ mod rename_dialog;
 mod resources_quick_reference_group;
 mod row;
 
-pub(crate) use commit_page::CommitPage;
-pub(crate) use creation_page::CreationPage;
-pub(crate) use details_page::DetailsPage;
-pub(crate) use files_get_page::FilesGetPage;
-pub(crate) use files_put_page::FilesPutPage;
-pub(crate) use health_check_page::HealthCheckPage;
-pub(crate) use log_page::LogPage;
-pub(crate) use menu_button::MenuButton;
-pub(crate) use properties_group::PropertiesGroup;
-pub(crate) use rename_dialog::RenameDialog;
-pub(crate) use resources_quick_reference_group::ResourcesQuickReferenceGroup;
-pub(crate) use row::Row;
-
+pub(crate) use self::commit_page::CommitPage;
+pub(crate) use self::creation_page::CreationPage;
+pub(crate) use self::details_page::DetailsPage;
+pub(crate) use self::files_get_page::FilesGetPage;
+pub(crate) use self::files_put_page::FilesPutPage;
+pub(crate) use self::health_check_page::HealthCheckPage;
+pub(crate) use self::log_page::LogPage;
+pub(crate) use self::menu_button::MenuButton;
+pub(crate) use self::properties_group::PropertiesGroup;
+pub(crate) use self::rename_dialog::RenameDialog;
+pub(crate) use self::resources_quick_reference_group::ResourcesQuickReferenceGroup;
+pub(crate) use self::row::Row;
 use crate::model;
 
 fn container_status_css_class(status: model::ContainerStatus) -> &'static str {

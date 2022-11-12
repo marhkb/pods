@@ -1,3 +1,3 @@
 mod row;
 
-pub(crate) use row::Row;
+pub(crate) use self::row::Row;
