@@ -1,5 +1,5 @@
 mod page;
 mod row;
 
-pub(crate) use page::Page;
-pub(crate) use row::Row;
+pub(crate) use self::page::Page;
+pub(crate) use self::row::Row;

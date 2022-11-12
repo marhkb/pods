@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-
   <template class="PdsTopPage" parent="GtkWidget">
     <property name="layout-manager">
       <object class="GtkBoxLayout">
@@ -35,5 +34,4 @@
     </child>
 
   </template>
-
 </interface>

@@ -26,12 +26,12 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/container/commit-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container/creation-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container/details-page.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/container/files-get-page.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/container/files-put-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container/health-check-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container/log-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container/menu-button.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container/properties-group.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">ui/container/files-get-page.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">ui/container/files-put-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container/rename-dialog.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container/resources-quick-reference-group.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container/row.ui</file>

@@ -8,17 +8,17 @@ mod selection_page;
 
 use adw::prelude::MessageDialogExtManual;
 use adw::traits::MessageDialogExt;
-pub(crate) use build_page::BuildPage;
-pub(crate) use details_page::DetailsPage;
 use gettextrs::gettext;
 use gtk::glib;
 use gtk::glib::clone;
-pub(crate) use menu_button::MenuButton;
-pub(crate) use pull_page::PullPage;
-pub(crate) use row::Row;
-pub(crate) use selection_page::SelectionPage;
 
+pub(crate) use self::build_page::BuildPage;
+pub(crate) use self::details_page::DetailsPage;
 pub(crate) use self::local_combo_row::LocalComboRow;
+pub(crate) use self::menu_button::MenuButton;
+pub(crate) use self::pull_page::PullPage;
+pub(crate) use self::row::Row;
+pub(crate) use self::selection_page::SelectionPage;
 use crate::model;
 use crate::podman;
 use crate::utils;

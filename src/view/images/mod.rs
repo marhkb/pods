@@ -1,5 +1,5 @@
 mod panel;
 mod prune_page;
 
-pub(crate) use panel::Panel;
-pub(crate) use prune_page::PrunePage;
+pub(crate) use self::panel::Panel;
+pub(crate) use self::prune_page::PrunePage;

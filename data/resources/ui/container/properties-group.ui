@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-
   <template class="PdsContainerPropertiesGroup" parent="AdwPreferencesGroup">
     <property name="title" translatable="yes">Properties</property>
 
