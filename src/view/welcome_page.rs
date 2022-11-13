@@ -21,7 +21,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for WelcomePage {
-        const NAME: &'static str = "WelcomePage";
+        const NAME: &'static str = "PdsWelcomePage";
         type Type = super::WelcomePage;
         type ParentType = gtk::Widget;
 

@@ -63,7 +63,7 @@
               <object class="GtkStackPage">
                 <property name="name">welcome</property>
                 <property name="child">
-                  <object class="WelcomePage">
+                  <object class="PdsWelcomePage">
                     <binding name="connection-manager">
                       <lookup name="connection-manager">PdsWindow</lookup>
                     </binding>
