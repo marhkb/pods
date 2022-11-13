@@ -194,14 +194,29 @@ pub(crate) fn leaflet_overlay(leaflet: &adw::Leaflet) -> view::LeafletOverlay {
         .unwrap()
 }
 
-pub(crate) fn find_parent_leaflet_overlay<W: glib::IsA<gtk::Widget>>(
+pub(crate) fn parent_leaflet_overlay<W: glib::IsA<gtk::Widget>>(
     widget: &W,
-) -> view::LeafletOverlay {
+) -> Option<view::LeafletOverlay> {
     widget
         .ancestor(view::LeafletOverlay::static_type())
-        .unwrap()
-        .downcast::<view::LeafletOverlay>()
-        .unwrap()
+        .and_then(|ancestor| ancestor.downcast::<view::LeafletOverlay>().ok())
+}
+
+pub(crate) fn topmost_leaflet_overlay<W: glib::IsA<gtk::Widget>>(
+    widget: &W,
+) -> Option<view::LeafletOverlay> {
+    let mut topmost_leaflet_overlay = None;
+    let mut current_widget = widget.to_owned().upcast();
+
+    while let Some(leaflet_overlay) = parent_leaflet_overlay(&current_widget) {
+        topmost_leaflet_overlay = Some(leaflet_overlay.clone());
+        current_widget = match leaflet_overlay.parent() {
+            Some(parent) => parent,
+            None => break,
+        };
+    }
+
+    topmost_leaflet_overlay
 }
 
 pub(crate) fn escape(text: &str) -> String {
