@@ -117,17 +117,13 @@
             <child>
               <object class="GtkBox" id="pod_box">
                 <style>
-                  <class name="pod-badge"/>
+                  <class name="status-badge"/>
                 </style>
                 <property name="spacing">4</property>
                 <property name="valign">center</property>
 
                 <child>
                   <object class="GtkImage">
-                    <style>
-                      <class name="pod-badge-icon"/>
-                      <class name="dim-icon"/>
-                    </style>
                     <property name="icon-name">pods-symbolic</property>
                   </object>
                 </child>
