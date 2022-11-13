@@ -230,7 +230,7 @@ impl Action {
         let obj = Self::new(num, Type::BuildImage, &gettext!("Image: <b>{}</b>", image));
         let abort_registration = obj.setup_abort_handle();
 
-        obj.insert_text(&gettext("Generating tarball of context directory..."));
+        obj.insert_line(&gettext("Generating tarball of context directory..."));
 
         utils::run_stream_with_finish_handler(
             client.podman().images(),
@@ -247,12 +247,12 @@ impl Action {
             {
                 glib::Continue(match result {
                     Ok(stream) => {
-                        obj.insert_text(&stream.stream);
+                        obj.insert(&stream.stream);
                         true
                     }
                     Err(e) => {
                         log::error!("Error on building image: {e}");
-                        obj.insert_text(&e.to_string());
+                        obj.insert_line(&e.to_string());
                         obj.set_state(State::Failed);
                         false
                     },
@@ -330,11 +330,11 @@ impl Action {
             clone!(@weak obj => move |result| if let Ok(result) = result {
                 match result.as_ref() {
                     Ok(_) => {
-                        obj.insert_text(&gettext("Finished"));
+                        obj.insert_line(&gettext("Finished"));
                         obj.set_state(State::Finished);
                     },
                     Err(e) => {
-                        obj.insert_text(&e.to_string());
+                        obj.insert_line(&e.to_string());
                         obj.set_state(State::Failed);
                     }
                 }
@@ -381,7 +381,7 @@ impl Action {
             ),
         );
 
-        obj.insert_text(&gettext("Creating tar archive…"));
+        obj.insert_line(&gettext("Creating tar archive…"));
 
         let abort_registration = obj.setup_abort_handle();
 
@@ -413,8 +413,8 @@ impl Action {
             clone!(@weak obj, @weak container => move |result| if let Ok(result) = result {
                 match result {
                     Ok(ar) => {
-                        obj.insert_text(&gettext("Tar archive created"));
-                        obj.insert_text(&gettext("Unwrapping tar archive…"));
+                        obj.insert_line(&gettext("Tar archive created"));
+                        obj.insert_line(&gettext("Unwrapping tar archive…"));
 
                         let abort_registration = obj.setup_abort_handle();
                         utils::do_async(
@@ -422,8 +422,8 @@ impl Action {
                             clone!(@weak obj, @weak container => move |result| if let Ok(result) = result {
                                 match result {
                                     Ok(data) => {
-                                        obj.insert_text(&gettext("Tar archive unwrapped"));
-                                        obj.insert_text(&gettext("Copying files into container…"));
+                                        obj.insert_line(&gettext("Tar archive unwrapped"));
+                                        obj.insert_line(&gettext("Copying files into container…"));
 
                                         let abort_registration = obj.setup_abort_handle();
                                         let api = container.api().unwrap();
@@ -436,18 +436,18 @@ impl Action {
                                             },
                                             clone!(@weak obj => move |result| match result {
                                                 Ok(_) => {
-                                                    obj.insert_text(&gettext("Finished"));
+                                                    obj.insert_line(&gettext("Finished"));
                                                     obj.set_state(State::Finished);
                                                 }
                                                 Err(e) => {
-                                                    obj.insert_text(&e.to_string());
+                                                    obj.insert_line(&e.to_string());
                                                     obj.set_state(State::Failed);
                                                 }
                                             }),
                                         );
                                     }
                                     Err(e) => {
-                                        obj.insert_text(&e.to_string());
+                                        obj.insert_line(&e.to_string());
                                         obj.set_state(State::Failed);
                                     }
                                 }
@@ -455,7 +455,7 @@ impl Action {
                         );
                     }
                     Err(e) => {
-                        obj.insert_text(&e.to_string());
+                        obj.insert_line(&e.to_string());
                         obj.set_state(State::Failed);
                     }
                 }
@@ -484,10 +484,10 @@ impl Action {
 
         let abort_registration = obj.setup_abort_handle();
 
-        obj.insert_text(&gettext("Copying bytes into memory…"));
+        obj.insert_line(&gettext("Copying bytes into memory…"));
 
         let buf = Arc::new(Mutex::new(Vec::new()));
-        obj.insert_text(&gettext!("Size: {}", glib::format_size(0)));
+        obj.insert_line(&gettext!("Size: {}", glib::format_size(0)));
 
         utils::run_stream_with_finish_handler(
             container.api().unwrap(),
@@ -508,7 +508,7 @@ impl Action {
                         true
                     }
                     Err(e) => {
-                        obj.insert_text(&e.to_string());
+                        obj.insert_line(&e.to_string());
                         obj.set_state(State::Failed);
                         false
                     }
@@ -524,11 +524,11 @@ impl Action {
                     },
                     clone!(@weak obj => move |result| match result {
                         Ok(_) => {
-                            obj.insert_text(&gettext("Finished"));
+                            obj.insert_line(&gettext("Finished"));
                             obj.set_state(State::Finished);
                         }
                         Err(e) => {
-                            obj.insert_text(&e.to_string());
+                            obj.insert_line(&e.to_string());
                             obj.set_state(State::Failed);
                         }
                     })
@@ -589,13 +589,13 @@ impl Action {
                     Ok(report) => match report.error {
                         Some(error) => {
                             log::error!("Error on downloading image: {error}");
-                            obj.insert_text(&error);
+                            obj.insert_line(&error);
                             obj.set_state(State::Failed);
                             false
                         }
                         None => match report.stream {
                             Some(stream) => {
-                                obj.insert_text(&stream);
+                                obj.insert(&stream);
                                 true
                             }
                             None => {
@@ -606,7 +606,7 @@ impl Action {
                     }
                     Err(e) => {
                         log::error!("Error on downloading image: {e}");
-                        obj.insert_text(&e.to_string());
+                        obj.insert_line(&e.to_string());
                         obj.set_state(State::Failed);
                         false
                     },
@@ -668,7 +668,7 @@ impl Action {
                     }
                     Err(e) => {
                         log::error!("Error on creating container: {e}");
-                        obj.insert_text(&e.to_string());
+                        obj.insert_line(&e.to_string());
                         obj.set_state(State::Failed);
                     }
                 }
@@ -710,7 +710,7 @@ impl Action {
                     }
                     Err(e) => {
                         log::error!("Error on creating pod: {e}");
-                        obj.insert_text(&e.to_string());
+                        obj.insert(&e.to_string());
                         obj.set_state(State::Failed);
                     }
                 }
@@ -731,7 +731,7 @@ impl Action {
             return;
         }
 
-        self.insert_text(&gettext("Finished"));
+        self.insert_line(&gettext("Finished"));
 
         self.imp().artifact.set(Some(value));
         self.notify("artifact");
@@ -788,11 +788,15 @@ impl Action {
         self.imp().output.clone()
     }
 
-    fn insert_text(&self, text: &str) {
+    fn insert(&self, text: &str) {
         let output = self.output();
         let mut iter = output.start_iter();
 
-        output.insert(&mut iter, &format!("{}\n", text));
+        output.insert(&mut iter, text);
+    }
+
+    fn insert_line(&self, text: &str) {
+        self.insert(&format!("{}\n", text));
     }
 
     fn replace_last_line(&self, text: &str) {

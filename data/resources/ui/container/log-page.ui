@@ -17,7 +17,7 @@
 
         <child type="title">
           <object class="AdwWindowTitle">
-            <property name="title" translatable="yes">Container Log</property>
+            <property name="title" translatable="yes">Container Logs</property>
           </object>
         </child>
 

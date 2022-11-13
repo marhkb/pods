@@ -16,7 +16,7 @@
 
         <child type="title">
           <object class="AdwWindowTitle">
-            <property name="title" translatable="yes">Add New Connection</property>
+            <property name="title" translatable="yes">New Connection</property>
           </object>
         </child>
 

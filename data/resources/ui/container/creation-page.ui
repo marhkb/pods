@@ -23,7 +23,7 @@
 
                 <child type="title">
                   <object class="AdwWindowTitle">
-                    <property name="title" translatable="yes">Specify Container Settings</property>
+                    <property name="title" translatable="yes">Container Settings</property>
                   </object>
                 </child>
 

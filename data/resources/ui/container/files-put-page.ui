@@ -33,7 +33,7 @@
 
                 <child type="title">
                   <object class="AdwWindowTitle">
-                    <property name="title" translatable="yes">Upload Files to Container</property>
+                    <property name="title" translatable="yes">Container File Upload</property>
                   </object>
                 </child>
 

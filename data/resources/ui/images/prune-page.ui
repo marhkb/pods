@@ -23,7 +23,7 @@
 
                 <child type="title">
                   <object class="AdwWindowTitle">
-                    <property name="title" translatable="yes">Specify Pruning Settings</property>
+                    <property name="title" translatable="yes">Prune Settings</property>
                   </object>
                 </child>
 
