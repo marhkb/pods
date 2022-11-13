@@ -1,5 +1,6 @@
 mod build_page;
 mod details_page;
+mod history_page;
 mod local_combo_row;
 mod menu_button;
 mod pull_page;
@@ -14,6 +15,7 @@ use gtk::glib::clone;
 
 pub(crate) use self::build_page::BuildPage;
 pub(crate) use self::details_page::DetailsPage;
+pub(crate) use self::history_page::HistoryPage;
 pub(crate) use self::local_combo_row::LocalComboRow;
 pub(crate) use self::menu_button::MenuButton;
 pub(crate) use self::pull_page::PullPage;

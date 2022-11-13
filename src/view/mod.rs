@@ -59,6 +59,7 @@ pub(crate) use self::device::Row as DeviceRow;
 pub(crate) use self::health_check_log::Row as HealthCheckLogRow;
 pub(crate) use self::image::BuildPage as ImageBuildPage;
 pub(crate) use self::image::DetailsPage as ImageDetailsPage;
+pub(crate) use self::image::HistoryPage as ImageHistoryPage;
 pub(crate) use self::image::LocalComboRow as ImageLocalComboRow;
 pub(crate) use self::image::MenuButton as ImageMenuButton;
 pub(crate) use self::image::PullPage as ImagePullPage;
