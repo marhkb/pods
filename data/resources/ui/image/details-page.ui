@@ -155,6 +155,23 @@
 
                     <child>
                       <object class="AdwActionRow">
+                        <property name="title" translatable="yes">History</property>
+                        <property name="subtitle" translatable="yes">View parent layers of this image.</property>
+                        <property name="activatable">True</property>
+                        <property name="action-name">image-details-page.show-history</property>
+                        <property name="icon-name">stacked-plates-symbolic</property>
+
+                        <child>
+                          <object class="GtkImage">
+                            <property name="icon_name">go-next-symbolic</property>
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="AdwActionRow">
                         <property name="title" translatable="yes">Update</property>
                         <property name="subtitle" translatable="yes">Pull the latest image from the corresponding repository.</property>
                         <property name="activatable">True</property>
