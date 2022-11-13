@@ -110,6 +110,7 @@ mod imp {
             view::ContainersPanel::static_type();
             view::HealthCheckLogRow::static_type();
             view::ImageBuildPage::static_type();
+            view::ImageHistoryPage::static_type();
             view::ImageLocalComboRow::static_type();
             view::ImageMenuButton::static_type();
             view::ImageSearchResponseRow::static_type();

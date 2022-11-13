@@ -1,0 +1,199 @@
+use adw::subclass::prelude::*;
+use adw::traits::ExpanderRowExt;
+use adw::traits::PreferencesGroupExt;
+use gettextrs::gettext;
+use gettextrs::ngettext;
+use gtk::glib;
+use gtk::glib::clone;
+use gtk::pango;
+use gtk::prelude::*;
+use gtk::CompositeTemplate;
+
+use crate::model;
+use crate::utils;
+use crate::view;
+
+mod imp {
+    use super::*;
+
+    #[derive(Debug, Default, CompositeTemplate)]
+    #[template(resource = "/com/github/marhkb/Pods/ui/image/history-page.ui")]
+    pub(crate) struct HistoryPage {
+        #[template_child]
+        pub(super) stack: TemplateChild<gtk::Stack>,
+        #[template_child]
+        pub(super) spinner: TemplateChild<gtk::Spinner>,
+        #[template_child]
+        pub(super) preferences_group: TemplateChild<adw::PreferencesGroup>,
+    }
+
+    #[glib::object_subclass]
+    impl ObjectSubclass for HistoryPage {
+        const NAME: &'static str = "PdsImageHistoryPage";
+        type Type = super::HistoryPage;
+        type ParentType = gtk::Widget;
+
+        fn class_init(klass: &mut Self::Class) {
+            Self::bind_template(klass);
+        }
+
+        fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
+            obj.init_template();
+        }
+    }
+
+    impl ObjectImpl for HistoryPage {
+        fn dispose(&self) {
+            utils::ChildIter::from(&*self.obj()).for_each(|child| child.unparent());
+        }
+    }
+
+    impl WidgetImpl for HistoryPage {}
+}
+
+glib::wrapper! {
+    pub(crate) struct HistoryPage(ObjectSubclass<imp::HistoryPage>)
+        @extends gtk::Widget,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
+}
+
+impl From<&model::Image> for HistoryPage {
+    fn from(image: &model::Image) -> Self {
+        let obj = glib::Object::builder::<Self>().build();
+
+        utils::do_async(
+            {
+                let api = image.api().unwrap();
+                async move { api.history().await }
+            },
+            clone!(@weak obj => move |result| {
+                let imp = obj.imp();
+
+                match result {
+                    Ok(entries) => {
+                        let len = entries.len() as u32;
+
+                        imp.preferences_group.set_description(Some(&format!(
+                            "{}, {}",
+                            ngettext!("{} entry", "{} entries", len, len,),
+                            gettext!(
+                                "{} in total",
+                                glib::format_size(
+                                    entries
+                                        .iter()
+                                        .filter_map(|item| item.size)
+                                        .map(|size| size as u64)
+                                        .sum()
+                                ),
+                            )
+                        )));
+
+                        entries.into_iter().for_each(|entry| {
+                            let row = adw::ExpanderRow::builder()
+                                .title(
+                                    &entry
+                                        .id
+                                        .map(|id| id.chars().take(12).collect::<String>())
+                                        .unwrap_or_else(|| gettext("<None>")),
+                                )
+                                .subtitle(
+                                    &entry
+                                        .created
+                                        .map(|created| {
+                                            glib::DateTime::from_unix_local(created)
+                                                .unwrap()
+                                                .format(
+                                                    // Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
+                                                    &gettext("%x %X"),
+                                                )
+                                                .unwrap()
+                                                .to_string()
+                                        })
+                                        .unwrap_or_else(|| gettext("Unknown Date")),
+                                )
+                                .use_markup(false)
+                                .build();
+
+                            row.add_action(
+                                &gtk::Label::builder()
+                                    .label(
+                                        &entry
+                                            .size
+                                            .map(|size| String::from(glib::format_size(size as u64)))
+                                            .unwrap_or_else(|| gettext("Unknown size")),
+                                    )
+                                    .css_classes(vec!["dim-label".to_string()])
+                                    .build(),
+                            );
+
+                            if let Some(created_by) = entry.created_by {
+                                let box_ = gtk::Box::builder()
+                                    .orientation(gtk::Orientation::Vertical)
+                                    .spacing(9)
+                                    .margin_top(9)
+                                    .margin_end(12)
+                                    .margin_bottom(9)
+                                    .margin_start(12)
+                                    .build();
+                                box_.append(
+                                    &gtk::Label::builder()
+                                        .label(&gettext("Created by"))
+                                        .xalign(0.0)
+                                        .css_classes(vec!["heading".to_string()])
+                                        .build(),
+                                );
+                                box_.append(
+                                    &gtk::Label::builder()
+                                        .label(&created_by)
+                                        .single_line_mode(false)
+                                        .xalign(0.0)
+                                        .wrap(true)
+                                        .wrap_mode(pango::WrapMode::WordChar)
+                                        .selectable(true)
+                                        .build(),
+                                );
+
+                                row.add_row(
+                                    &adw::PreferencesRow::builder()
+                                        .activatable(false)
+                                        .child(&box_)
+                                        .build(),
+                                );
+                            }
+                            if let Some(comment) = entry.comment {
+                                if !comment.is_empty() {
+                                    row.add_row(&property_row(&gettext("Comment"), &comment));
+                                }
+                            }
+                            if let Some(tags) = entry.tags {
+                                row.add_row(&property_row(&gettext("Tags"), &tags.join(", ")));
+                            }
+
+                            imp.preferences_group.add(&row);
+                        });
+
+                        imp.stack.set_visible_child_name("loaded");
+                    }
+                    Err(e) => {
+                        log::error!("Error on retrieving history: {e}");
+
+                        imp.spinner.set_spinning(false);
+                        utils::show_error_toast(
+                            &obj,
+                            &gettext("Error on retrieving history"),
+                            &e.to_string()
+                        );
+                    }
+                }
+            }),
+        );
+
+        obj
+    }
+}
+
+fn property_row(key: &str, value: &str) -> view::PropertyRow {
+    let row = view::PropertyRow::new(key, value);
+    row.set_activatable(false);
+    row
+}

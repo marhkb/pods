@@ -15,6 +15,7 @@ use crate::utils;
 use crate::view;
 
 const ACTION_INSPECT_IMAGE: &str = "image-details-page.inspect-image";
+const ACTION_SHOW_HISTORY: &str = "image-details-page.show-history";
 const ACTION_PULL_LATEST: &str = "image-details-page.pull-latest";
 const ACTION_DELETE_IMAGE: &str = "image-details-page.delete-image";
 
@@ -59,6 +60,10 @@ mod imp {
 
             klass.install_action(ACTION_INSPECT_IMAGE, None, move |widget, _, _| {
                 widget.show_inspection();
+            });
+
+            klass.install_action(ACTION_SHOW_HISTORY, None, move |widget, _, _| {
+                widget.show_history();
             });
 
             klass.install_action(ACTION_PULL_LATEST, None, move |widget, _, _| {
@@ -328,6 +333,14 @@ impl DetailsPage {
 
     fn show_inspection(&self) {
         super::show_inspection(&self.imp().leaflet_overlay, self.image());
+    }
+
+    fn show_history(&self) {
+        if let Some(image) = self.image() {
+            self.imp()
+                .leaflet_overlay
+                .show_details(&view::ImageHistoryPage::from(&image));
+        }
     }
 
     fn pull_latest(&self) {
