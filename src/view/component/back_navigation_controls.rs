@@ -1,3 +1,4 @@
+use gettextrs::gettext;
 use gtk::glib;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
@@ -14,7 +15,10 @@ mod imp {
 
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/component/back-navigation-controls.ui")]
-    pub(crate) struct BackNavigationControls;
+    pub(crate) struct BackNavigationControls {
+        #[template_child]
+        pub(super) box_: TemplateChild<gtk::Box>,
+    }
 
     #[glib::object_subclass]
     impl ObjectSubclass for BackNavigationControls {
@@ -50,10 +54,25 @@ mod imp {
 
             let widget = &*self.obj();
 
-            widget.action_set_enabled(
-                ACTION_GO_FIRST,
-                widget.previous_leaflet_overlay() != widget.root_leaflet_overlay(),
-            );
+            if let Some(leaflet_overlay) = widget.previous_leaflet_overlay() {
+                self.box_.append(
+                    &gtk::Button::builder()
+                        .icon_name("go-previous-symbolic")
+                        .action_name("back-navigation-controls.back")
+                        .tooltip_text(&gettext("Return to previous page"))
+                        .build(),
+                );
+
+                if leaflet_overlay != widget.root_leaflet_overlay() {
+                    self.box_.append(
+                        &gtk::Button::builder()
+                            .icon_name("user-home-symbolic")
+                            .action_name("back-navigation-controls.go-first")
+                            .tooltip_text(&gettext("Return to main page"))
+                            .build(),
+                    );
+                }
+            }
         }
     }
 }
@@ -70,14 +89,16 @@ impl BackNavigationControls {
     }
 
     pub(crate) fn navigate_back(&self) {
-        self.previous_leaflet_overlay().hide_details();
+        if let Some(leaflet_overlay) = self.previous_leaflet_overlay() {
+            leaflet_overlay.hide_details();
+        }
     }
 
-    fn previous_leaflet_overlay(&self) -> view::LeafletOverlay {
-        utils::find_parent_leaflet_overlay(self)
+    fn previous_leaflet_overlay(&self) -> Option<view::LeafletOverlay> {
+        utils::parent_leaflet_overlay(self)
     }
 
     fn root_leaflet_overlay(&self) -> view::LeafletOverlay {
-        utils::root(self).leaflet_overlay().clone()
+        utils::topmost_leaflet_overlay(self).unwrap()
     }
 }

@@ -6,11 +6,9 @@
 
     <file compressed="true" preprocess="xml-stripblanks">ui/action/page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/action/row.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">ui/actions/menu-button.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/actions/overview.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/component/back-navigation-controls.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/component/circular-progress-bar.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">ui/component/count-badge.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/component/leaflet-overlay.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/component/property-row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/component/property-widget-row.ui</file>
@@ -59,6 +57,7 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/pods/panel.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/port-mapping/row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/search-panel.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/statusbar.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/value/row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/volume/row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/welcome-page.ui</file>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+
+  <menu id="connections_menu">
+    <section>
+      <item>
+        <attribute name="custom">items</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">_New…</attribute>
+        <attribute name="action">win.add-connection</attribute>
+      </item>
+    </section>
+  </menu>
+
+  <menu id="notifications_menu">
+    <section>
+      <item>
+        <attribute name="custom">items</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Clean up</attribute>
+        <attribute name="action">statusbar.clean-up-actions</attribute>
+        <attribute name="hidden-when">action-disabled</attribute>
+      </item>
+    </section>
+  </menu>
+
+  <template class="PdsStatusbar" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBinLayout"/>
+    </property>
+
+    <child>
+      <object class="PanelStatusbar">
+
+        <child>
+          <object class="GtkMenuButton" id="connections_menu_button">
+            <property name="direction">up</property>
+            <property name="focus-on-click">False</property>
+            <property name="menu-model">connections_menu</property>
+            <property name="tooltip-text" translatable="yes">Connection manager</property>
+
+            <child>
+              <object class="GtkBox">
+                <property name="spacing">6</property>
+
+                <child>
+                  <object class="GtkImage" id="active_connection_image">
+                    <property name="pixel-size">12</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkLabel" id="active_connection_label">
+                    <property name="ellipsize">end</property>
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child type="suffix">
+          <object class="GtkMenuButton" id="notifications_menu_button">
+            <property name="direction">up</property>
+            <property name="focus-on-click">False</property>
+            <property name="menu-model">notifications_menu</property>
+            <property name="tooltip-text" translatable="yes">Actions overview</property>
+
+            <child>
+              <object class="GtkBox">
+
+                <child>
+                  <object class="GtkImage">
+                    <property name="icon-name">preferences-system-notifications-symbolic</property>
+                    <property name="pixel-size">12</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkRevealer" id="notifications_progress_bar_revealer">
+                    <property name="transition-type">slide-left</property>
+
+                    <child>
+                      <object class="GtkProgressBar" id="notifications_progress_bar">
+                        <property name="margin-start">6</property>
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>

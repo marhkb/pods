@@ -1,6 +1,5 @@
 mod back_navigation_controls;
 mod circular_progress_bar;
-mod count_badge;
 mod leaflet_overlay;
 mod property_row;
 mod property_widget_row;
@@ -12,7 +11,6 @@ mod top_page;
 
 pub(crate) use self::back_navigation_controls::BackNavigationControls;
 pub(crate) use self::circular_progress_bar::CircularProgressBar;
-pub(crate) use self::count_badge::CountBadge;
 pub(crate) use self::leaflet_overlay::LeafletOverlay;
 pub(crate) use self::property_row::PropertyRow;
 pub(crate) use self::property_widget_row::PropertyWidgetRow;

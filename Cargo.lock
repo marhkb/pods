@@ -1278,6 +1278,38 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fc7fcc620a3bff7cdd7a365be3376c97191aeaccc2a603e600951e452615bf89"
 
 [[package]]
+name = "libpanel"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ea4be979b1e4d49d48ba36005a721c83f51606c1d58e2cb66c134cbb4622f0cb"
+dependencies = [
+ "futures-core",
+ "gdk4",
+ "gio",
+ "glib",
+ "gtk4",
+ "libadwaita",
+ "libpanel-sys",
+ "once_cell",
+]
+
+[[package]]
+name = "libpanel-sys"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "605a226d06dc0616dcc6cf80a12d86f19ebe47e4f4cd8e50d0cb7332defaf6b1"
+dependencies = [
+ "gdk4-sys",
+ "gio-sys",
+ "glib-sys",
+ "gobject-sys",
+ "gtk4-sys",
+ "libadwaita-sys",
+ "libc",
+ "system-deps",
+]
+
+[[package]]
 name = "link-cplusplus"
 version = "1.0.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1659,6 +1691,7 @@ dependencies = [
  "gtk4",
  "indexmap",
  "libadwaita",
+ "libpanel",
  "log",
  "names",
  "once_cell",

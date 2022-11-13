@@ -19,68 +19,21 @@ button.large {
   color: @destructive_color;
 }
 
-actionsmenubutton .action-count-mask {
-  background-color: @headerbar_bg_color;
-  border-radius: 9999px;
-  margin-left: 8px;
-  padding: 8px;
-}
-
-actionsmenubutton .action-count-badge {
-  border-radius: 9999px;
-  font-feature-settings: "tnum";
-  font-size: x-small;
-  font-weight: bold;
-  margin-left: 9px;
-  padding: 6px;
-}
-
-actionsmenubutton #progressbar {
-  background-color: @headerbar_shade_color;
-  border-radius: 9999px;
-  margin-bottom: 8px;
-}
-
-actionsmenubutton #progressbar .through {
-  border-radius: 9999px;
-  min-height: 3px;
-}
-
-actionsmenubutton.good .action-count-badge, actionsmenubutton.good #progressbar .through {
-  background-color: @accent_bg_color;
-  color: @accent_fg_color;
-}
-
-actionsmenubutton.finished .action-count-badge, actionsmenubutton.finished #progressbar .through {
-  background-color: @success_bg_color;
-  color: @success_fg_color;
-}
-
-actionsmenubutton.cancelled .action-count-badge, actionsmenubutton.cancelled #progressbar .through {
-  background-color: @warning_bg_color;
-  color: @warning_fg_color;
-}
-
-actionsmenubutton.failed .action-count-badge, actionsmenubutton.failed #progressbar .through {
-  background-color: @error_bg_color;
-  color: @error_fg_color;
-}
-
 connectionswitchermenu row #selection-indicator #background,
 actionsoverview #type {
   background-color: @shade_color;
   border-radius: 9999px;
 }
 
-#main-menu connectionswitchermenu row #selection-indicator #background,
-#main-menu connectionswitchermenu row #delete-button,
+popover connectionswitchermenu row #selection-indicator #background,
+popover connectionswitchermenu row #delete-button,
 actionsoverview #action,
 actionsoverview #type {
   min-height: 34px;
   min-width: 34px;
 }
 
-#main-menu connectionswitchermenu row #delete-button,
+popover connectionswitchermenu row #delete-button,
 actionsoverview #action {
   margin-left: 12px;
 }
@@ -108,7 +61,7 @@ actionsoverview #type {
   border: 1px solid @borders;
 }
 
-#main-menu connectionswitchermenu row,
+popover connectionswitchermenu row,
 actionsoverview row {
   border-radius: 9px;
   padding: 6px;
@@ -201,11 +154,15 @@ connectionchooserpage connectionswitchermenu row {
   padding: 5px;
 }
 
-.progressbar-warning progress {
+progressbar.success progress {
+  background-color: @success_bg_color;
+}
+
+progressbar.warning progress {
   background-color: @warning_bg_color;
 }
 
-.progressbar-error progress {
+progressbar.error progress {
   background-color: @error_bg_color;
 }
 

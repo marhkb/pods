@@ -46,8 +46,6 @@ mod imp {
         #[template_child]
         pub(super) menu_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
-        pub(super) actions_menu_button_revealer: TemplateChild<gtk::Revealer>,
-        #[template_child]
         pub(super) selection_mode_button: TemplateChild<gtk::Button>,
         #[template_child]
         pub(super) selected_items_stack: TemplateChild<gtk::Stack>,
@@ -93,7 +91,6 @@ mod imp {
             // Initialize all classes here
             view::ActionPage::static_type();
             view::ActionRow::static_type();
-            view::ActionsMenuButton::static_type();
             view::ActionsOverview::static_type();
             view::BackNavigationControls::static_type();
             view::CircularProgressBar::static_type();
@@ -111,7 +108,6 @@ mod imp {
             view::ContainersCountBar::static_type();
             view::ContainersGroup::static_type();
             view::ContainersPanel::static_type();
-            view::CountBadge::static_type();
             view::HealthCheckLogRow::static_type();
             view::ImageBuildPage::static_type();
             view::ImageLocalComboRow::static_type();
@@ -126,6 +122,7 @@ mod imp {
             view::RandomNameEntryRow::static_type();
             view::SourceViewPage::static_type();
             view::SourceViewSearchWidget::static_type();
+            view::Statusbar::static_type();
             view::TextSearchEntry::static_type();
             view::WelcomePage::static_type();
 
@@ -260,27 +257,8 @@ mod imp {
                 .chain_closure::<bool>(closure!(|_: Self::Type, visible_child_name: &str| {
                     visible_child_name == "title"
                 }));
-            let has_actions_expr = client_expr
-                .chain_property::<model::Client>("action-list")
-                .chain_property::<model::ActionList>("len")
-                .chain_closure::<bool>(closure!(|_: Self::Type, actions: u32| actions > 0));
 
             title_visible_expr.bind(&*self.menu_button, "visible", Some(obj));
-
-            gtk::ClosureExpression::new::<bool>(
-                [&title_visible_expr, &has_actions_expr],
-                closure!(
-                    |_: Self::Type, title_visible: bool, has_actions: bool| title_visible
-                        && has_actions
-                ),
-            )
-            .bind(&*self.actions_menu_button_revealer, "visible", Some(obj));
-
-            has_actions_expr.bind(
-                &*self.actions_menu_button_revealer,
-                "reveal-child",
-                Some(obj),
-            );
 
             let panel_stack_visible_child_name_expr =
                 Self::Type::this_expression("panel-stack")
@@ -335,72 +313,74 @@ mod imp {
 
             self.connection_manager.connect_notify_local(
                 Some("client"),
-                clone!(@weak obj => move |manager, _| match manager.client() {
-                    Some(client) => client.check_service(
-                        clone!(@weak obj, @weak client => move || {
-                            let imp = obj.imp();
-                            imp.search_button.set_active(false);
-                            imp.main_stack.set_visible_child_full("client", gtk::StackTransitionType::None);
-                            obj.exit_selection_mode();
+                clone!(@weak obj => move |manager, _| {
+                    let imp = obj.imp();
+                    imp.leaflet_overlay.hide_details();
 
-                            imp.images_view_stack_page.set_needs_attention(false);
-                            client.image_list().connect_notify_local(
-                                Some("len"),
-                                clone!(@weak obj => move |list, _|
-                            {
+                    match manager.client() {
+                        Some(client) => client.check_service(
+                            clone!(@weak obj, @weak client => move || {
                                 let imp = obj.imp();
-                                if imp.panel_stack.visible_child_name().as_deref() != Some("images")
-                                    && list.is_initialized()
+                                imp.search_button.set_active(false);
+                                imp.main_stack.set_visible_child_full("client", gtk::StackTransitionType::None);
+                                obj.exit_selection_mode();
+
+                                imp.images_view_stack_page.set_needs_attention(false);
+                                client.image_list().connect_notify_local(
+                                    Some("len"),
+                                    clone!(@weak obj => move |list, _|
                                 {
-                                    imp.images_view_stack_page.set_needs_attention(true);
-                                }
-                            }));
+                                    let imp = obj.imp();
+                                    if imp.panel_stack.visible_child_name().as_deref() != Some("images")
+                                        && list.is_initialized()
+                                    {
+                                        imp.images_view_stack_page.set_needs_attention(true);
+                                    }
+                                }));
 
-                            imp.containers_view_stack_page.set_needs_attention(false);
-                            client.container_list().connect_notify_local(
-                                Some("len"),
-                                clone!(@weak obj => move |list, _|
-                            {
-                                let imp = obj.imp();
-                                if imp.panel_stack.visible_child_name().as_deref() != Some("containers")
-                                    && list.is_initialized()
+                                imp.containers_view_stack_page.set_needs_attention(false);
+                                client.container_list().connect_notify_local(
+                                    Some("len"),
+                                    clone!(@weak obj => move |list, _|
                                 {
-                                    imp.containers_view_stack_page.set_needs_attention(true);
-                                }
-                            }));
+                                    let imp = obj.imp();
+                                    if imp.panel_stack.visible_child_name().as_deref() != Some("containers")
+                                        && list.is_initialized()
+                                    {
+                                        imp.containers_view_stack_page.set_needs_attention(true);
+                                    }
+                                }));
 
-                            imp.pods_view_stack_page.set_needs_attention(false);
-                            client.pod_list().connect_notify_local(
-                                Some("len"),
-                                clone!(@weak obj => move |list, _|
-                            {
-                                let imp = obj.imp();
-                                if imp.panel_stack.visible_child_name().as_deref() != Some("pods")
-                                    && list.is_initialized()
+                                imp.pods_view_stack_page.set_needs_attention(false);
+                                client.pod_list().connect_notify_local(
+                                    Some("len"),
+                                    clone!(@weak obj => move |list, _|
                                 {
-                                    imp.pods_view_stack_page.set_needs_attention(true);
-                                }
-                            }));
+                                    let imp = obj.imp();
+                                    if imp.panel_stack.visible_child_name().as_deref() != Some("pods")
+                                        && list.is_initialized()
+                                    {
+                                        imp.pods_view_stack_page.set_needs_attention(true);
+                                    }
+                                }));
 
-                        }),
-                        clone!(@weak obj => move |e| obj.client_err_op(e)),
-                        clone!(@weak obj, @weak manager => move |e| {
-                            utils::show_error_toast(&obj, "Connection lost", &e.to_string());
-                            manager.unset_client();
-                        }),
-                    ),
-                    None => {
-                        let imp = obj.imp();
-
-                        imp.leaflet_overlay.hide_details();
-                        imp.main_stack.set_visible_child_full(
-                            if manager.n_items() > 0 {
-                                "connection-chooser"
-                            } else {
-                                "welcome"
-                            },
-                            gtk::StackTransitionType::Crossfade
-                        );
+                            }),
+                            clone!(@weak obj => move |e| obj.client_err_op(e)),
+                            clone!(@weak obj, @weak manager => move |e| {
+                                utils::show_error_toast(&obj, "Connection lost", &e.to_string());
+                                manager.unset_client();
+                            }),
+                        ),
+                        None => {
+                            imp.main_stack.set_visible_child_full(
+                                if manager.n_items() > 0 {
+                                    "connection-chooser"
+                                } else {
+                                    "welcome"
+                                },
+                                gtk::StackTransitionType::Crossfade
+                            );
+                        }
                     }
                 }),
             );
@@ -499,8 +479,6 @@ impl Window {
             .unwrap()
             .downcast::<gtk::PopoverMenu>()
             .unwrap();
-
-        popover_menu.set_widget_name("main-menu");
 
         popover_menu.add_child(
             &view::ConnectionSwitcherWidget::from(&imp.connection_manager),
@@ -782,13 +760,11 @@ impl Window {
     }
 
     fn add_connection(&self) {
-        let leaflet_overlay = &self.imp().leaflet_overlay;
-
-        if leaflet_overlay.child().is_none() {
-            leaflet_overlay.show_details(&view::ConnectionCreationPage::from(
+        self.imp()
+            .leaflet_overlay
+            .show_details(&view::ConnectionCreationPage::from(
                 &self.connection_manager(),
             ));
-        }
     }
 
     fn cancel_or_delete_action(&self, data: Option<&glib::Variant>) {
