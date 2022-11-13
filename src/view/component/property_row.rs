@@ -114,6 +114,13 @@ impl Default for PropertyRow {
 }
 
 impl PropertyRow {
+    pub(crate) fn new(key: &str, value: &str) -> Self {
+        glib::Object::builder::<Self>()
+            .property("key", key)
+            .property("value", value)
+            .build()
+    }
+
     pub(crate) fn key(&self) -> glib::GString {
         self.title()
     }
