@@ -23,7 +23,7 @@
 
                 <child type="title">
                   <object class="AdwWindowTitle">
-                    <property name="title" translatable="yes">Download Files From Container</property>
+                    <property name="title" translatable="yes">Container File Download</property>
                   </object>
                 </child>
 

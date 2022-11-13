@@ -23,7 +23,7 @@
 
                 <child type="title">
                   <object class="AdwWindowTitle">
-                    <property name="title" translatable="yes">Specify Pod Settings</property>
+                    <property name="title" translatable="yes">Pod Settings</property>
                   </object>
                 </child>
 

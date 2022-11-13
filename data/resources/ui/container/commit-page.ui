@@ -23,7 +23,7 @@
 
                 <child type="title">
                   <object class="AdwWindowTitle">
-                    <property name="title" translatable="yes">Specify Commit Options</property>
+                    <property name="title" translatable="yes">Commit Options</property>
                   </object>
                 </child>
 

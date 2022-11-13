@@ -16,7 +16,7 @@
 
         <child type="title">
           <object class="AdwWindowTitle">
-            <property name="title" translatable="yes">Search For an Image</property>
+            <property name="title" translatable="yes">Image Search</property>
           </object>
         </child>
 
