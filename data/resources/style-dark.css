@@ -47,7 +47,3 @@
 	color: @green_1;
 	background-color: alpha(@green_4, .25);
 }
-
-.pod-badge-icon {
-	border: solid @window_bg_color 1px;
-}	padding: 5px;
