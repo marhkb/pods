@@ -26,6 +26,7 @@ pub(crate) enum Status {
     Created,
     Dead,
     Exited,
+    Initialized,
     Paused,
     Removing,
     Restarting,
@@ -44,6 +45,7 @@ impl FromStr for Status {
             "created" => Self::Created,
             "dead" => Self::Dead,
             "exited" => Self::Exited,
+            "initialized" => Self::Initialized,
             "paused" => Self::Paused,
             "removing" => Self::Removing,
             "restarting" => Self::Restarting,
@@ -64,6 +66,7 @@ impl fmt::Display for Status {
                 Self::Created => gettext("Created"),
                 Self::Dead => gettext("Dead"),
                 Self::Exited => gettext("Exited"),
+                Self::Initialized => gettext("Initialized"),
                 Self::Paused => gettext("Paused"),
                 Self::Removing => gettext("Removing"),
                 Self::Restarting => gettext("Restarting"),
@@ -725,7 +728,7 @@ impl Container {
     pub(crate) fn can_start(&self) -> bool {
         matches!(
             self.status(),
-            Status::Created | Status::Exited | Status::Stopped
+            Status::Created | Status::Exited | Status::Initialized | Status::Stopped
         )
     }
 

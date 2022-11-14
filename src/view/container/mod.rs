@@ -32,6 +32,7 @@ fn container_status_css_class(status: model::ContainerStatus) -> &'static str {
         Created => "container-status-created",
         Dead => "container-status-dead",
         Exited => "container-status-exited",
+        Initialized => "container-status-initialized",
         Paused => "container-status-paused",
         Removing => "container-status-removing",
         Restarting => "container-status-restarting",
