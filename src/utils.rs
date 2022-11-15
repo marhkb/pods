@@ -1,6 +1,9 @@
 use std::ops::Deref;
 use std::path::PathBuf;
 
+use ashpd::desktop::file_chooser::OpenFileRequest;
+use ashpd::desktop::file_chooser::SaveFileRequest;
+use ashpd::desktop::file_chooser::SelectedFiles;
 use futures::stream::BoxStream;
 use futures::Future;
 use futures::StreamExt;
@@ -329,5 +332,36 @@ impl Iterator for ChildIter {
         let r = self.0.take();
         self.0 = r.as_ref().and_then(|widget| widget.next_sibling());
         r
+    }
+}
+
+pub(crate) async fn show_open_file_dialog<W, F>(request: OpenFileRequest, widget: &W, op: F)
+where
+    W: glib::IsA<gtk::Widget>,
+    F: Fn(&W, SelectedFiles),
+{
+    show_file_dialog(request.build().await, widget, op);
+}
+
+pub(crate) async fn show_save_file_dialog<W, F>(request: SaveFileRequest, widget: &W, op: F)
+where
+    W: glib::IsA<gtk::Widget>,
+    F: Fn(&W, SelectedFiles),
+{
+    show_file_dialog(request.build().await, widget, op);
+}
+
+fn show_file_dialog<W, F>(files: Result<SelectedFiles, ashpd::Error>, widget: &W, op: F)
+where
+    W: glib::IsA<gtk::Widget>,
+    F: Fn(&W, SelectedFiles),
+{
+    match files {
+        Ok(files) => op(widget, files),
+        Err(e) => {
+            if let ashpd::Error::Portal(ashpd::PortalError::Cancelled(_)) = e {
+                show_error_toast(widget, "Error on open file dialog", &e.to_string());
+            }
+        }
     }
 }
