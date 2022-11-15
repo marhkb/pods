@@ -161,15 +161,14 @@ impl FilesGetPage {
             .filter(FileFilter::new("Tar Archive").mimetype("application/x-tar"))
             .modal(true);
 
-        if let Ok(files) = request.build().await {
+        utils::show_save_file_dialog(request, self, |obj, files| {
             let file = gio::File::for_uri(files.uris()[0].as_str());
 
             if let Some(path) = file.path() {
-                self.imp()
-                    .host_path_row
-                    .set_subtitle(path.to_str().unwrap());
+                obj.imp().host_path_row.set_subtitle(path.to_str().unwrap());
             }
-        }
+        })
+        .await;
     }
 
     async fn get(&self) {
