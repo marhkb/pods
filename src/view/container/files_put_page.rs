@@ -176,16 +176,17 @@ impl FilesPutPage {
             .directory(directory)
             .modal(true);
 
-        if let Ok(files) = request.build().await {
+        utils::show_open_file_dialog(request, self, |obj, files| {
             let file = gio::File::for_uri(files.uris()[0].as_str());
 
             if let Some(path) = file.path() {
-                let imp = self.imp();
+                let imp = obj.imp();
 
                 imp.host_path_row.set_subtitle(path.to_str().unwrap());
                 imp.directory.set(directory);
             }
-        }
+        })
+        .await;
     }
 
     async fn put(&self) {

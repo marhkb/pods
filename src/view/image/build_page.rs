@@ -196,33 +196,22 @@ impl BuildPage {
     }
 
     async fn choose_context_dir(&self) {
-        self.open_file_chooser_dialog(
-            &gettext("Select Build Context Directory"),
-            true,
-            clone!(@weak self as obj => move |file| {
-                obj.imp().context_dir_row.set_subtitle(file);
-            }),
-        )
-        .await;
-    }
-
-    async fn open_file_chooser_dialog<F>(&self, title: &str, directory: bool, op: F)
-    where
-        F: FnOnce(&str) + 'static,
-    {
         let request = OpenFileRequest::default()
             .identifier(WindowIdentifier::from_native(&self.native().unwrap()).await)
-            .title(title)
-            .directory(directory)
+            .title(&gettext("Select Build Context Directory"))
+            .directory(true)
             .modal(true);
 
-        if let Ok(files) = request.build().await {
+        utils::show_open_file_dialog(request, self, |obj, files| {
             let file = gio::File::for_uri(files.uris()[0].as_str());
 
             if let Some(path) = file.path() {
-                op(path.to_str().unwrap());
+                obj.imp()
+                    .context_dir_row
+                    .set_subtitle(path.to_str().unwrap());
             }
-        }
+        })
+        .await;
     }
 
     fn add_label(&self) {

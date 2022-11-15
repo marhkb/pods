@@ -289,7 +289,7 @@ impl SourceViewPage {
             .current_name(&imp.entity.get().unwrap().filename())
             .modal(true);
 
-        if let Ok(files) = request.build().await {
+        utils::show_save_file_dialog(request, self, |obj, files| {
             let file = gio::File::for_uri(files.uris()[0].as_str());
 
             if let Some(path) = file.path() {
@@ -300,17 +300,20 @@ impl SourceViewPage {
                     .open(path)
                     .unwrap();
 
-                let buffer = &*self.imp().source_buffer;
+                let buffer = &*obj.imp().source_buffer;
                 let text = buffer.text(&buffer.start_iter(), &buffer.end_iter(), false);
 
-                if let Err((msg, _)) = gio::WriteOutputStream::new(file)
-                    .write_all_future(text, glib::Priority::default())
-                    .await
-                {
-                    utils::show_error_toast(self, "Error", &msg);
-                }
+                glib::MainContext::default().spawn_local(clone!(@weak obj => async move {
+                    if let Err((msg, _)) = gio::WriteOutputStream::new(file)
+                        .write_all_future(text, glib::Priority::default())
+                        .await
+                    {
+                        utils::show_error_toast(&obj, "Error", &msg);
+                    }
+                }));
             }
-        }
+        })
+        .await;
     }
 
     pub(crate) fn toggle_search(&self) {

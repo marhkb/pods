@@ -526,8 +526,8 @@ impl LogPage {
                 ))
                 .modal(true);
 
-            if let Ok(files) = request.build().await {
-                self.imp().save_stack.set_visible_child_name("spinner");
+            utils::show_save_file_dialog(request, self, |obj, files| {
+                obj.imp().save_stack.set_visible_child_name("spinner");
 
                 let file = gio::File::for_uri(files.uris()[0].as_str());
 
@@ -596,7 +596,8 @@ impl LogPage {
                         }),
                     );
                 }
-            }
+            })
+            .await;
         }
     }
 
