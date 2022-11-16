@@ -38,11 +38,11 @@ mod imp {
         pub(super) client: glib::WeakRef<model::Client>,
         pub(super) image: glib::WeakRef<model::Image>,
         pub(super) pod: glib::WeakRef<model::Pod>,
-        pub(super) port_mappings: RefCell<gio::ListStore>,
-        pub(super) volumes: RefCell<gio::ListStore>,
-        pub(super) env_vars: RefCell<gio::ListStore>,
-        pub(super) cmd_args: RefCell<gio::ListStore>,
-        pub(super) labels: RefCell<gio::ListStore>,
+        pub(super) cmd_args: gio::ListStore,
+        pub(super) port_mappings: gio::ListStore,
+        pub(super) volumes: gio::ListStore,
+        pub(super) env_vars: gio::ListStore,
+        pub(super) labels: gio::ListStore,
         pub(super) command_row_handler:
             RefCell<Option<(glib::SignalHandlerId, glib::WeakRef<model::Image>)>>,
         #[template_child]
@@ -305,95 +305,51 @@ mod imp {
                 self.pod_combo_row
                     .set_model(Some(&gtk::FlattenListModel::new(Some(&pod_list_mode))));
             }
-            self.command_arg_list_box
-                .bind_model(Some(&*self.cmd_args.borrow()), |item| {
+
+            bind_model(
+                &self.command_arg_list_box,
+                &self.cmd_args,
+                |item| {
                     view::ValueRow::new(item.downcast_ref().unwrap(), gettext("Argument")).upcast()
-                });
-            self.command_arg_list_box.append(
-                &gtk::ListBoxRow::builder()
-                    .action_name(ACTION_ADD_CMD_ARG)
-                    .selectable(false)
-                    .child(
-                        &gtk::Image::builder()
-                            .icon_name("list-add-symbolic")
-                            .margin_top(12)
-                            .margin_bottom(12)
-                            .build(),
-                    )
-                    .build(),
+                },
+                ACTION_ADD_CMD_ARG,
             );
 
-            self.port_mapping_list_box
-                .bind_model(Some(&*self.port_mappings.borrow()), |item| {
+            bind_model(
+                &self.port_mapping_list_box,
+                &self.port_mappings,
+                |item| {
                     view::PortMappingRow::from(item.downcast_ref::<model::PortMapping>().unwrap())
                         .upcast()
-                });
-            self.port_mapping_list_box.append(
-                &gtk::ListBoxRow::builder()
-                    .action_name(ACTION_ADD_PORT_MAPPING)
-                    .selectable(false)
-                    .child(
-                        &gtk::Image::builder()
-                            .icon_name("list-add-symbolic")
-                            .margin_top(12)
-                            .margin_bottom(12)
-                            .build(),
-                    )
-                    .build(),
+                },
+                ACTION_ADD_PORT_MAPPING,
             );
 
-            self.volume_list_box
-                .bind_model(Some(&*self.volumes.borrow()), |item| {
+            bind_model(
+                &self.volume_list_box,
+                &self.volumes,
+                |item| {
                     view::VolumeRow::from(item.downcast_ref::<model::Volume>().unwrap()).upcast()
-                });
-            self.volume_list_box.append(
-                &gtk::ListBoxRow::builder()
-                    .action_name(ACTION_ADD_VOLUME)
-                    .selectable(false)
-                    .child(
-                        &gtk::Image::builder()
-                            .icon_name("list-add-symbolic")
-                            .margin_top(12)
-                            .margin_bottom(12)
-                            .build(),
-                    )
-                    .build(),
+                },
+                ACTION_ADD_VOLUME,
             );
 
-            self.env_var_list_box
-                .bind_model(Some(&*self.env_vars.borrow()), |item| {
+            bind_model(
+                &self.env_var_list_box,
+                &self.env_vars,
+                |item| {
                     view::KeyValRow::from(item.downcast_ref::<model::KeyVal>().unwrap()).upcast()
-                });
-            self.env_var_list_box.append(
-                &gtk::ListBoxRow::builder()
-                    .action_name(ACTION_ADD_ENV_VAR)
-                    .selectable(false)
-                    .child(
-                        &gtk::Image::builder()
-                            .icon_name("list-add-symbolic")
-                            .margin_top(12)
-                            .margin_bottom(12)
-                            .build(),
-                    )
-                    .build(),
+                },
+                ACTION_ADD_ENV_VAR,
             );
 
-            self.labels_list_box
-                .bind_model(Some(&*self.labels.borrow()), |item| {
+            bind_model(
+                &self.labels_list_box,
+                &self.labels,
+                |item| {
                     view::KeyValRow::from(item.downcast_ref::<model::KeyVal>().unwrap()).upcast()
-                });
-            self.labels_list_box.append(
-                &gtk::ListBoxRow::builder()
-                    .action_name(ACTION_ADD_LABEL)
-                    .selectable(false)
-                    .child(
-                        &gtk::Image::builder()
-                            .icon_name("list-add-symbolic")
-                            .margin_top(12)
-                            .margin_bottom(12)
-                            .build(),
-                    )
-                    .build(),
+                },
+                ACTION_ADD_LABEL,
             );
         }
 
@@ -504,9 +460,7 @@ impl CreationPage {
         for i in 0..exposed_ports.n_items() {
             let exposed = exposed_ports.string(i).unwrap();
 
-            let port_mapping = model::PortMapping::default();
-            self.connect_port_mapping(&port_mapping);
-            imp.port_mappings.borrow().append(&port_mapping);
+            let port_mapping = add_port_mapping(&imp.port_mappings);
             imp.port_mapping_list_box.set_visible(true);
 
             let mut split = exposed.split_terminator('/');
@@ -595,94 +549,24 @@ impl CreationPage {
             .show_details(&image_selection_page);
     }
 
-    fn add_port_mapping(&self) {
-        let port_mapping = model::PortMapping::default();
-        self.connect_port_mapping(&port_mapping);
-
-        self.imp().port_mappings.borrow().append(&port_mapping);
+    fn add_cmd_arg(&self) {
+        add_value(&self.imp().cmd_args);
     }
 
-    fn connect_port_mapping(&self, port_mapping: &model::PortMapping) {
-        port_mapping.connect_remove_request(clone!(@weak self as obj => move |port_mapping| {
-            let imp = obj.imp();
-
-            let port_mappings = imp.port_mappings.borrow();
-            if let Some(pos) = port_mappings.find(port_mapping) {
-                port_mappings.remove(pos);
-            }
-        }));
+    fn add_port_mapping(&self) {
+        add_port_mapping(&self.imp().port_mappings);
     }
 
     fn add_volume(&self) {
-        let volume = model::Volume::default();
-        self.connect_volume(&volume);
-
-        self.imp().volumes.borrow().append(&volume);
-    }
-
-    fn connect_volume(&self, volume: &model::Volume) {
-        volume.connect_remove_request(clone!(@weak self as obj => move |volume| {
-            let imp = obj.imp();
-
-            let volumes = imp.volumes.borrow();
-            if let Some(pos) = volumes.find(volume) {
-                volumes.remove(pos);
-            }
-        }));
-    }
-
-    fn add_cmd_arg(&self) {
-        let arg = model::Value::default();
-        self.connect_cmd_arg(&arg);
-
-        self.imp().cmd_args.borrow().append(&arg);
-    }
-
-    fn connect_cmd_arg(&self, cmd_arg: &model::Value) {
-        cmd_arg.connect_remove_request(clone!(@weak self as obj => move |cmd_arg| {
-            let imp = obj.imp();
-
-            let cmd_args = imp.cmd_args.borrow();
-            if let Some(pos) = cmd_args.find(cmd_arg) {
-                cmd_args.remove(pos);
-            }
-        }));
+        add_volume(&self.imp().volumes);
     }
 
     fn add_env_var(&self) {
-        let env_var = model::KeyVal::default();
-        self.connect_env_var(&env_var);
-
-        self.imp().env_vars.borrow().append(&env_var);
-    }
-
-    fn connect_env_var(&self, env_var: &model::KeyVal) {
-        env_var.connect_remove_request(clone!(@weak self as obj => move |env_var| {
-            let imp = obj.imp();
-
-            let env_vars = imp.env_vars.borrow();
-            if let Some(pos) = env_vars.find(env_var) {
-                env_vars.remove(pos);
-            }
-        }));
+        add_key_val(&self.imp().env_vars);
     }
 
     fn add_label(&self) {
-        let label = model::KeyVal::default();
-        self.connect_label(&label);
-
-        self.imp().labels.borrow().append(&label);
-    }
-
-    fn connect_label(&self, label: &model::KeyVal) {
-        label.connect_remove_request(clone!(@weak self as obj => move |label| {
-            let imp = obj.imp();
-
-            let labels = imp.labels.borrow();
-            if let Some(pos) = labels.find(label) {
-                labels.remove(pos);
-            }
-        }));
+        add_key_val(&self.imp().labels);
     }
 
     fn finish(&self, run: bool) {
@@ -762,7 +646,6 @@ impl CreationPage {
             .terminal(imp.terminal_switch.is_active())
             .portmappings(
                 imp.port_mappings
-                    .borrow()
                     .iter::<glib::Object>()
                     .unwrap()
                     .map(|mapping| mapping.unwrap().downcast::<model::PortMapping>().unwrap())
@@ -776,7 +659,6 @@ impl CreationPage {
             )
             .mounts(
                 imp.volumes
-                    .borrow()
                     .iter::<glib::Object>()
                     .unwrap()
                     .map(|volume| volume.unwrap().downcast::<model::Volume>().unwrap())
@@ -801,7 +683,6 @@ impl CreationPage {
             )
             .env(
                 imp.env_vars
-                    .borrow()
                     .iter::<glib::Object>()
                     .unwrap()
                     .map(|entry| entry.unwrap().downcast::<model::KeyVal>().unwrap())
@@ -809,7 +690,6 @@ impl CreationPage {
             )
             .labels(
                 imp.labels
-                    .borrow()
                     .iter::<glib::Object>()
                     .unwrap()
                     .map(|entry| entry.unwrap().downcast::<model::KeyVal>().unwrap())
@@ -848,8 +728,8 @@ impl CreationPage {
         let create_opts = if cmd.is_empty() {
             create_opts
         } else {
-            let args = imp.cmd_args.borrow();
-            let args = args
+            let args = imp
+                .cmd_args
                 .iter::<glib::Object>()
                 .unwrap()
                 .map(|value| value.unwrap().downcast::<model::Value>().unwrap())
@@ -880,4 +760,74 @@ impl CreationPage {
             })
         }
     }
+}
+
+fn bind_model<F>(list_box: &gtk::ListBox, model: &gio::ListStore, widget_func: F, action_name: &str)
+where
+    F: Fn(&glib::Object) -> gtk::Widget + 'static,
+{
+    list_box.bind_model(Some(model), widget_func);
+    list_box.append(
+        &gtk::ListBoxRow::builder()
+            .action_name(action_name)
+            .selectable(false)
+            .child(
+                &gtk::Image::builder()
+                    .icon_name("list-add-symbolic")
+                    .margin_top(12)
+                    .margin_bottom(12)
+                    .build(),
+            )
+            .build(),
+    );
+}
+
+fn add_port_mapping(model: &gio::ListStore) -> model::PortMapping {
+    let port_mapping = model::PortMapping::default();
+
+    port_mapping.connect_remove_request(clone!(@weak model => move |port_mapping| {
+        if let Some(pos) = model.find(port_mapping) {
+            model.remove(pos);
+        }
+    }));
+
+    model.append(&port_mapping);
+
+    port_mapping
+}
+
+fn add_volume(model: &gio::ListStore) {
+    let volume = model::Volume::default();
+
+    volume.connect_remove_request(clone!(@weak model => move |volume| {
+        if let Some(pos) = model.find(volume) {
+            model.remove(pos);
+        }
+    }));
+
+    model.append(&volume);
+}
+
+fn add_value(model: &gio::ListStore) {
+    let value = model::Value::default();
+
+    value.connect_remove_request(clone!(@weak model => move |value| {
+        if let Some(pos) = model.find(value) {
+            model.remove(pos);
+        }
+    }));
+
+    model.append(&value);
+}
+
+fn add_key_val(model: &gio::ListStore) {
+    let entry = model::KeyVal::default();
+
+    entry.connect_remove_request(clone!(@weak model => move |entry| {
+        if let Some(pos) = model.find(entry) {
+            model.remove(pos);
+        }
+    }));
+
+    model.append(&entry);
 }
