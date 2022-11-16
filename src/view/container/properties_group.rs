@@ -190,7 +190,12 @@ mod imp {
                                     "{}:{}",
                                     if host_ip.is_empty() {
                                         if connection.is_remote() {
-                                            connection.url()
+                                            let host_with_port =
+                                                connection.url().split_once("://").unwrap().1;
+                                            host_with_port
+                                                .split_once(':')
+                                                .map(|(host, _)| host)
+                                                .unwrap_or(host_with_port)
                                         } else {
                                             "127.0.0.1"
                                         }
