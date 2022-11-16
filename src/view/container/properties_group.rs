@@ -161,6 +161,7 @@ mod imp {
 
                     imp.port_bindings_label.set_label("");
                     utils::ChildIter::from(&*imp.port_bindings_row)
+                        .filter(|child| child.is::<gtk::ListBoxRow>())
                         .for_each(|child| imp.port_bindings_row.remove(&child));
 
                     let port_bindings: Option<model::BoxedPortBindings> =
