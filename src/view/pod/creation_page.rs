@@ -36,11 +36,11 @@ mod imp {
     pub(crate) struct CreationPage {
         pub(super) client: glib::WeakRef<model::Client>,
         pub(super) infra_image: glib::WeakRef<model::Image>,
-        pub(super) labels: RefCell<gio::ListStore>,
-        pub(super) hosts: RefCell<gio::ListStore>,
-        pub(super) devices: RefCell<gio::ListStore>,
-        pub(super) pod_create_cmd_args: RefCell<gio::ListStore>,
-        pub(super) infra_cmd_args: RefCell<gio::ListStore>,
+        pub(super) labels: gio::ListStore,
+        pub(super) hosts: gio::ListStore,
+        pub(super) devices: gio::ListStore,
+        pub(super) pod_create_cmd_args: gio::ListStore,
+        pub(super) infra_cmd_args: gio::ListStore,
         pub(super) command_row_handler:
             RefCell<Option<(glib::SignalHandlerId, glib::WeakRef<model::Image>)>>,
         #[template_child]
@@ -180,103 +180,54 @@ mod imp {
             self.name_entry_row
                 .connect_text_notify(clone!(@weak obj => move |_| obj.on_name_changed()));
 
-            self.labels_list_box
-                .bind_model(Some(&*self.labels.borrow()), |item| {
+            bind_model(
+                &self.labels_list_box,
+                &self.labels,
+                |item| {
                     view::KeyValRow::from(item.downcast_ref::<model::KeyVal>().unwrap()).upcast()
-                });
-            self.labels_list_box.append(
-                &gtk::ListBoxRow::builder()
-                    .action_name(ACTION_ADD_LABEL)
-                    .selectable(false)
-                    .child(
-                        &gtk::Image::builder()
-                            .icon_name("list-add-symbolic")
-                            .margin_top(12)
-                            .margin_bottom(12)
-                            .build(),
-                    )
-                    .build(),
+                },
+                ACTION_ADD_LABEL,
             );
 
-            self.hosts_list_box
-                .bind_model(Some(&*self.hosts.borrow()), |item| {
+            bind_model(
+                &self.hosts_list_box,
+                &self.hosts,
+                |item| {
                     view::KeyValRow::new(
                         gettext("Hostname"),
                         gettext("IP"),
                         item.downcast_ref::<model::KeyVal>().unwrap(),
                     )
                     .upcast()
-                });
-            self.hosts_list_box.append(
-                &gtk::ListBoxRow::builder()
-                    .action_name(ACTION_ADD_HOST)
-                    .selectable(false)
-                    .child(
-                        &gtk::Image::builder()
-                            .icon_name("list-add-symbolic")
-                            .margin_top(12)
-                            .margin_bottom(12)
-                            .build(),
-                    )
-                    .build(),
+                },
+                ACTION_ADD_HOST,
             );
 
-            self.devices_list_box
-                .bind_model(Some(&*self.devices.borrow()), |item| {
+            bind_model(
+                &self.devices_list_box,
+                &self.devices,
+                |item| {
                     view::DeviceRow::from(item.downcast_ref::<model::Device>().unwrap()).upcast()
-                });
-            self.devices_list_box.append(
-                &gtk::ListBoxRow::builder()
-                    .action_name(ACTION_ADD_DEVICE)
-                    .selectable(false)
-                    .child(
-                        &gtk::Image::builder()
-                            .icon_name("list-add-symbolic")
-                            .margin_top(12)
-                            .margin_bottom(12)
-                            .build(),
-                    )
-                    .build(),
+                },
+                ACTION_ADD_DEVICE,
             );
 
-            self.pod_create_command_arg_list_box.bind_model(
-                Some(&*self.pod_create_cmd_args.borrow()),
+            bind_model(
+                &self.pod_create_command_arg_list_box,
+                &self.pod_create_cmd_args,
                 |item| {
                     view::ValueRow::new(item.downcast_ref().unwrap(), gettext("Argument")).upcast()
                 },
-            );
-            self.pod_create_command_arg_list_box.append(
-                &gtk::ListBoxRow::builder()
-                    .action_name(ACTION_ADD_POD_CREATE_CMD_ARGS)
-                    .selectable(false)
-                    .child(
-                        &gtk::Image::builder()
-                            .icon_name("list-add-symbolic")
-                            .margin_top(12)
-                            .margin_bottom(12)
-                            .build(),
-                    )
-                    .build(),
+                ACTION_ADD_POD_CREATE_CMD_ARGS,
             );
 
-            self.infra_command_arg_list_box.bind_model(
-                Some(&*self.infra_cmd_args.borrow()),
+            bind_model(
+                &self.infra_command_arg_list_box,
+                &self.infra_cmd_args,
                 |item| {
                     view::ValueRow::new(item.downcast_ref().unwrap(), gettext("Argument")).upcast()
                 },
-            );
-            self.infra_command_arg_list_box.append(
-                &gtk::ListBoxRow::builder()
-                    .action_name(ACTION_ADD_INFRA_CMD_ARGS)
-                    .selectable(false)
-                    .child(
-                        &gtk::Image::builder()
-                            .icon_name("list-add-symbolic")
-                            .margin_top(12)
-                            .margin_bottom(12)
-                            .build(),
-                    )
-                    .build(),
+                ACTION_ADD_INFRA_CMD_ARGS,
             );
 
             self.infra_local_image_combo_row
@@ -343,93 +294,23 @@ impl CreationPage {
     }
 
     fn add_label(&self) {
-        let label = model::KeyVal::default();
-        self.connect_label(&label);
-
-        self.imp().labels.borrow().append(&label);
-    }
-
-    fn connect_label(&self, label: &model::KeyVal) {
-        label.connect_remove_request(clone!(@weak self as obj => move |label| {
-            let imp = obj.imp();
-
-            let labels = imp.labels.borrow();
-            if let Some(pos) = labels.find(label) {
-                labels.remove(pos);
-            }
-        }));
+        add_key_val(&self.imp().labels);
     }
 
     fn add_host(&self) {
-        let host = model::KeyVal::default();
-        self.connect_host(&host);
-
-        self.imp().hosts.borrow().append(&host);
-    }
-
-    fn connect_host(&self, host: &model::KeyVal) {
-        host.connect_remove_request(clone!(@weak self as obj => move |host| {
-            let imp = obj.imp();
-
-            let hosts = imp.hosts.borrow();
-            if let Some(pos) = hosts.find(host) {
-                hosts.remove(pos);
-            }
-        }));
+        add_key_val(&self.imp().hosts);
     }
 
     fn add_device(&self) {
-        let device = model::Device::default();
-        self.connect_device(&device);
-
-        self.imp().devices.borrow().append(&device);
-    }
-
-    fn connect_device(&self, device: &model::Device) {
-        device.connect_remove_request(clone!(@weak self as obj => move |device| {
-            let imp = obj.imp();
-
-            let devices = imp.devices.borrow();
-            if let Some(pos) = devices.find(device) {
-                devices.remove(pos);
-            }
-        }));
+        add_device(&self.imp().devices);
     }
 
     fn add_pod_create_cmd_arg(&self) {
-        let arg = model::Value::default();
-        self.connect_pod_create_cmd_arg(&arg);
-
-        self.imp().pod_create_cmd_args.borrow().append(&arg);
-    }
-
-    fn connect_pod_create_cmd_arg(&self, cmd_arg: &model::Value) {
-        cmd_arg.connect_remove_request(clone!(@weak self as obj => move |cmd_arg| {
-            let imp = obj.imp();
-
-            let cmd_args = imp.pod_create_cmd_args.borrow();
-            if let Some(pos) = cmd_args.find(cmd_arg) {
-                cmd_args.remove(pos);
-            }
-        }));
+        add_value(&self.imp().pod_create_cmd_args);
     }
 
     fn add_infra_cmd_arg(&self) {
-        let arg = model::Value::default();
-        self.connect_infra_cmd_arg(&arg);
-
-        self.imp().infra_cmd_args.borrow().append(&arg);
-    }
-
-    fn connect_infra_cmd_arg(&self, cmd_arg: &model::Value) {
-        cmd_arg.connect_remove_request(clone!(@weak self as obj => move |cmd_arg| {
-            let imp = obj.imp();
-
-            let cmd_args = imp.infra_cmd_args.borrow();
-            if let Some(pos) = cmd_args.find(cmd_arg) {
-                cmd_args.remove(pos);
-            }
-        }));
+        add_value(&self.imp().infra_cmd_args);
     }
 
     fn finish(&self) {
@@ -495,7 +376,6 @@ impl CreationPage {
             .hostname(imp.hostname_entry_row.text().as_str())
             .labels(
                 imp.labels
-                    .borrow()
                     .iter::<glib::Object>()
                     .unwrap()
                     .map(|entry| entry.unwrap().downcast::<model::KeyVal>().unwrap())
@@ -516,8 +396,8 @@ impl CreationPage {
 
             let infra_command = imp.infra_command_entry_row.text();
             if !infra_command.is_empty() {
-                let args = imp.infra_cmd_args.borrow();
-                let args = args
+                let args = imp
+                    .infra_cmd_args
                     .iter::<glib::Object>()
                     .unwrap()
                     .map(|value| value.unwrap().downcast::<model::Value>().unwrap())
@@ -535,7 +415,6 @@ impl CreationPage {
         if imp.enable_hosts_switch.is_active() {
             opts = opts.add_hosts(
                 imp.hosts
-                    .borrow()
                     .iter::<glib::Object>()
                     .unwrap()
                     .map(|entry| entry.unwrap().downcast::<model::KeyVal>().unwrap())
@@ -547,8 +426,8 @@ impl CreationPage {
 
         let create_cmd = imp.pod_create_command_entry_row.text();
         if !create_cmd.is_empty() {
-            let args = imp.pod_create_cmd_args.borrow();
-            let args = args
+            let args = imp
+                .pod_create_cmd_args
                 .iter::<glib::Object>()
                 .unwrap()
                 .map(|value| value.unwrap().downcast::<model::Value>().unwrap())
@@ -560,7 +439,6 @@ impl CreationPage {
 
         let devices: Vec<_> = imp
             .devices
-            .borrow()
             .iter::<glib::Object>()
             .unwrap()
             .map(|device| device.unwrap().downcast::<model::Device>().unwrap())
@@ -673,4 +551,60 @@ impl CreationPage {
             None => imp.infra_command_entry_row.set_text(""),
         }
     }
+}
+
+fn bind_model<F>(list_box: &gtk::ListBox, model: &gio::ListStore, widget_func: F, action_name: &str)
+where
+    F: Fn(&glib::Object) -> gtk::Widget + 'static,
+{
+    list_box.bind_model(Some(model), widget_func);
+    list_box.append(
+        &gtk::ListBoxRow::builder()
+            .action_name(action_name)
+            .selectable(false)
+            .child(
+                &gtk::Image::builder()
+                    .icon_name("list-add-symbolic")
+                    .margin_top(12)
+                    .margin_bottom(12)
+                    .build(),
+            )
+            .build(),
+    );
+}
+
+fn add_key_val(model: &gio::ListStore) {
+    let entry = model::KeyVal::default();
+
+    entry.connect_remove_request(clone!(@weak model => move |entry| {
+        if let Some(pos) = model.find(entry) {
+            model.remove(pos);
+        }
+    }));
+
+    model.append(&entry);
+}
+
+fn add_value(model: &gio::ListStore) {
+    let value = model::Value::default();
+
+    value.connect_remove_request(clone!(@weak model => move |value| {
+        if let Some(pos) = model.find(value) {
+            model.remove(pos);
+        }
+    }));
+
+    model.append(&value);
+}
+
+fn add_device(model: &gio::ListStore) {
+    let device = model::Device::default();
+
+    device.connect_remove_request(clone!(@weak model => move |device| {
+        if let Some(pos) = model.find(device) {
+            model.remove(pos);
+        }
+    }));
+
+    model.append(&device);
 }

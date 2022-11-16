@@ -211,7 +211,7 @@ impl From<Entity> for SourceViewPage {
                                 serde_json::to_string_pretty(&data).map_err(anyhow::Error::from)
                             })
                     },
-                    clone!(@weak obj => move |result| obj.init(result)),
+                    clone!(@weak obj => move |result| obj.init(result, Mode::Inspect)),
                 );
             }
             Entity::Container { container, mode } => {
@@ -233,7 +233,7 @@ impl From<Entity> for SourceViewPage {
                                 .map_err(anyhow::Error::from),
                         }
                     },
-                    clone!(@weak obj => move |result| obj.init(result)),
+                    clone!(@weak obj => move |result| obj.init(result, mode)),
                 );
             }
             Entity::Pod { pod, mode } => {
@@ -255,7 +255,7 @@ impl From<Entity> for SourceViewPage {
                                 .map_err(anyhow::Error::from),
                         }
                     },
-                    clone!(@weak obj => move |result| obj.init(result)),
+                    clone!(@weak obj => move |result| obj.init(result, mode)),
                 );
             }
         };
@@ -267,7 +267,7 @@ impl From<Entity> for SourceViewPage {
 }
 
 impl SourceViewPage {
-    fn init(&self, result: anyhow::Result<String>) {
+    fn init(&self, result: anyhow::Result<String>, mode: Mode) {
         let imp = self.imp();
         match result {
             Ok(text) => {
@@ -276,7 +276,14 @@ impl SourceViewPage {
             }
             Err(e) => {
                 imp.spinner.set_spinning(false);
-                utils::show_error_toast(self, &gettext("Inspection error"), &e.to_string());
+                utils::show_error_toast(
+                    self,
+                    &match mode {
+                        Mode::Inspect => gettext("Inspection error"),
+                        Mode::Kube => gettext("Kube generation error"),
+                    },
+                    &e.to_string(),
+                );
             }
         }
     }

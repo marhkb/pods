@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <template class="PdsWelcomePage" parent="GtkWidget">
+    <style>
+      <class name="flat-headerbar-content"/>
+    </style>
     <property name="layout-manager">
       <object class="GtkBinLayout"/>
     </property>

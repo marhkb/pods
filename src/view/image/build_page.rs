@@ -1,5 +1,3 @@
-use std::cell::RefCell;
-
 use adw::traits::ActionRowExt;
 use ashpd::desktop::file_chooser::OpenFileRequest;
 use ashpd::WindowIdentifier;
@@ -30,7 +28,7 @@ mod imp {
     pub(crate) struct BuildPage {
         pub(super) settings: utils::PodsSettings,
         pub(super) client: glib::WeakRef<model::Client>,
-        pub(super) labels: RefCell<gio::ListStore>,
+        pub(super) labels: gio::ListStore,
         #[template_child]
         pub(super) tag_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
@@ -117,10 +115,9 @@ mod imp {
             self.context_dir_row
                 .connect_subtitle_notify(clone!(@weak obj => move |_| obj.on_opts_changed()));
 
-            self.labels_list_box
-                .bind_model(Some(&*self.labels.borrow()), |item| {
-                    view::KeyValRow::from(item.downcast_ref::<model::KeyVal>().unwrap()).upcast()
-                });
+            self.labels_list_box.bind_model(Some(&self.labels), |item| {
+                view::KeyValRow::from(item.downcast_ref::<model::KeyVal>().unwrap()).upcast()
+            });
             self.labels_list_box.append(
                 &gtk::ListBoxRow::builder()
                     .action_name(ACTION_ADD_LABEL)
@@ -216,20 +213,15 @@ impl BuildPage {
 
     fn add_label(&self) {
         let label = model::KeyVal::default();
-        self.connect_label(&label);
 
-        self.imp().labels.borrow().append(&label);
-    }
-
-    fn connect_label(&self, label: &model::KeyVal) {
         label.connect_remove_request(clone!(@weak self as obj => move |label| {
-            let imp = obj.imp();
-
-            let labels = imp.labels.borrow();
+            let labels = &obj.imp().labels;
             if let Some(pos) = labels.find(label) {
                 labels.remove(pos);
             }
         }));
+
+        self.imp().labels.append(&label);
     }
 
     fn build(&self) {
@@ -250,7 +242,6 @@ impl BuildPage {
                     .tag(imp.tag_entry_row.text())
                     .labels(
                         imp.labels
-                            .borrow()
                             .iter::<glib::Object>()
                             .unwrap()
                             .map(|entry| entry.unwrap().downcast::<model::KeyVal>().unwrap())

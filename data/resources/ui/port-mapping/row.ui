@@ -70,7 +70,7 @@
             <child>
               <object class="GtkEntry" id="ip_address_entry">
                 <property name="hexpand">True</property>
-                <property name="placeholder-text" translatable="yes">0.0.0.0</property>
+                <property name="placeholder-text">0.0.0.0</property>
               </object>
             </child>
 

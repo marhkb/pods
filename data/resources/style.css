@@ -1,3 +1,12 @@
+.flat-headerbar-content scrollbar.vertical {
+  /* The size a typical headerbar takes: 46px + 1px for the bottom border. */
+  margin-top: 47px;
+
+  /* Relevant for scrollbars without .overlay-indicator. */
+  background: none;
+  box-shadow: none;
+}
+
 .dim-icon {
   color: alpha(@window_fg_color, .85);
 }

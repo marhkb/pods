@@ -1,5 +1,3 @@
-use std::cell::RefCell;
-
 use adw::subclass::prelude::*;
 use adw::traits::ComboRowExt;
 use ashpd::desktop::account::UserInformationRequest;
@@ -29,7 +27,7 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/container/commit-page.ui")]
     pub(crate) struct CommitPage {
         pub(super) container: WeakRef<model::Container>,
-        pub(super) changes: RefCell<gio::ListStore>,
+        pub(super) changes: gio::ListStore,
         #[template_child]
         pub(super) author_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
@@ -111,7 +109,7 @@ mod imp {
             self.parent_constructed();
 
             self.changes_list_box
-                .bind_model(Some(&*self.changes.borrow()), |item| {
+                .bind_model(Some(&self.changes), |item| {
                     view::ValueRow::new(item.downcast_ref().unwrap(), gettext("Change")).upcast()
                 });
             self.changes_list_box.append(
@@ -206,15 +204,13 @@ impl CommitPage {
         let change = model::Value::default();
 
         change.connect_remove_request(clone!(@weak self as obj => move |change| {
-            let imp = obj.imp();
-
-            let port_mappings = imp.changes.borrow();
-            if let Some(pos) = port_mappings.find(change) {
-                port_mappings.remove(pos);
+            let changes = &obj.imp().changes;
+            if let Some(pos) = changes.find(change) {
+                changes.remove(pos);
             }
         }));
 
-        self.imp().changes.borrow().append(&change);
+        self.imp().changes.append(&change);
     }
 
     fn commit(&self) {
