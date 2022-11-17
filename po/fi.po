@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-10-22 00:06+0200\n"
-"PO-Revision-Date: 2022-11-16 09:48+0000\n"
+"PO-Revision-Date: 2022-11-18 15:48+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/pods/pods/fi/>\n"
 "Language: fi\n"
@@ -74,12 +74,16 @@ msgstr "Viimeksi käytetyn konttitiedoston polku"
 #: data/com.github.marhkb.Pods.gschema.xml.in:51
 msgid "Remove all images not in use by containers, not just dangling ones"
 msgstr ""
+"Poista kaikki levykuvat, jotka eivät ole konttien käytössä, ei pelkästään "
+"repsottavia (dangling) levykuvia"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:56
 msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)"
 msgstr ""
+"Poista levykuvat vaikka ne ovat erillisten konttien (esim. koostamiskonttien)"
+" käytössä"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:61
 msgid "Whether to show only running containers"
@@ -292,7 +296,7 @@ msgstr "Mukautettu"
 
 #: data/resources/ui/connection/creation-page.ui:75
 msgid "Connection String"
-msgstr ""
+msgstr "Yhteyden merkkijono"
 
 #: data/resources/ui/connection/creation-page.ui:91
 msgid "Color"
@@ -951,7 +955,9 @@ msgstr "Poista kaikki käyttämättömät"
 
 #: data/resources/ui/images/prune-page.ui:45
 msgid "Remove all images not in use by containers, not just dangling ones."
-msgstr "Poista kaikki levykuvat, jotka eivät ole konttien käytössä."
+msgstr ""
+"Poista kaikki levykuvat, jotka eivät ole konttien käytössä, ei pelkästään "
+"repsottavia (dangling)."
 
 #: data/resources/ui/images/prune-page.ui:57
 msgid "Prune External"
@@ -969,7 +975,7 @@ msgstr ""
 
 #: data/resources/ui/images/prune-page.ui:70
 msgid "Prune images created before this timestamp."
-msgstr ""
+msgstr "Poista levykuvat, jotka on luotu ennen tätä aikaleimaa."
 
 #: data/resources/ui/images/prune-page.ui:153
 msgid "AM"
@@ -1021,7 +1027,7 @@ msgstr "Määritystiedosto"
 
 #: data/resources/ui/info-dialog.ui:68
 msgid "Container Store"
-msgstr ""
+msgstr "Konttien varasto"
 
 #: data/resources/ui/info-dialog.ui:69
 msgid "Describes the quantity of containers in the store by status."
@@ -1060,11 +1066,12 @@ msgstr "Graph-tila"
 
 #: data/resources/ui/info-dialog.ui:159
 msgid "Image Store"
-msgstr ""
+msgstr "Levykuvien varasto"
 
 #: data/resources/ui/info-dialog.ui:160
 msgid "Describes the image store. Right now only the number of images present."
 msgstr ""
+"Kuvaa levykuvien varaston. Tällä hetkellä pelkästään levykuvien lukumäärän."
 
 #: data/resources/ui/info-dialog.ui:166
 msgid "Run Root"
