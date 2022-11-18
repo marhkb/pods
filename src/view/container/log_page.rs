@@ -5,6 +5,8 @@ use std::collections::VecDeque;
 use std::io::BufWriter;
 use std::io::Write;
 use std::mem;
+use std::sync::atomic::AtomicUsize;
+use std::sync::atomic::Ordering;
 
 use ashpd::desktop::file_chooser::Choice;
 use ashpd::desktop::file_chooser::SaveFileRequest;
@@ -253,13 +255,13 @@ mod imp {
                     Some("status"),
                     clone!(@weak obj => move |container, _| {
                         if container.status() == model::ContainerStatus::Running {
-                            obj.follow_log_again();
+                            obj.follow_log();
                         }
                     }),
                 );
             }
 
-            obj.follow_log();
+            obj.init_log();
         }
 
         fn dispose(&self) {
@@ -326,46 +328,60 @@ impl LogPage {
         imp.prev_adj.replace(adj.value());
     }
 
-    fn follow_log(&self) {
+    fn init_log(&self) {
         if let Some(container) = self.container().as_ref().and_then(model::Container::api) {
             let mut perform = MarkupPerform::default();
 
-            utils::run_stream(
+            utils::run_stream_with_finish_handler(
                 container,
                 move |container| {
                     container
-                        .logs(&basic_opts_builder(true, true).tail("512").build())
+                        .logs(&basic_opts_builder(false, true).tail("512").build())
                         .boxed()
                 },
                 clone!(@weak self as obj => @default-return glib::Continue(false), move |result| {
                     obj.imp().stack.set_visible_child_name("loaded");
                     obj.append_line(result, &mut perform)
                 }),
+                clone!(@weak self as obj => move || {
+                    obj.imp().stack.set_visible_child_name("loaded");
+                    obj.follow_log();
+                }),
             );
         }
     }
 
-    fn follow_log_again(&self) {
+    fn follow_log(&self) {
         if let Some(container) = self.container().as_ref().and_then(model::Container::api) {
-            let mut perform = MarkupPerform::default();
+            let timestamps = self.imp().log_timestamps.borrow();
+            let mut iter = timestamps.iter().rev();
 
-            let log_timestamps = self.imp().log_timestamps.borrow();
-            let opts = if !log_timestamps.is_empty() {
-                let since =
-                    glib::DateTime::from_iso8601(&log_timestamps[log_timestamps.len() - 1], None)
-                        .unwrap()
-                        .to_unix()
-                        + 1;
-                basic_opts_builder(true, true).since(since.to_string())
-            } else {
-                basic_opts_builder(true, true)
+            let opts = basic_opts_builder(true, true);
+            let (opts, skip) = match iter.next() {
+                Some(last) => (
+                    opts.since(
+                        glib::DateTime::from_iso8601(last, None)
+                            .unwrap()
+                            .to_unix()
+                            .to_string(),
+                    ),
+                    AtomicUsize::new(iter.take_while(|t| *t == last).count() + 1),
+                ),
+                None => (opts, AtomicUsize::new(0)),
             };
+
+            let mut perform = MarkupPerform::default();
 
             utils::run_stream(
                 container,
                 move |container| container.logs(&opts.build()).boxed(),
-                clone!(@weak self as obj => @default-return glib::Continue(false), move |result| {
-                    obj.append_line(result, &mut perform)
+                clone!(@weak self as obj => @default-return glib::Continue(false), move |result: podman::Result<podman::conn::TtyChunk>| {
+                    if skip.load(Ordering::Relaxed) == 0 {
+                        obj.append_line(result, &mut perform)
+                    } else {
+                        skip.fetch_sub(1, Ordering::Relaxed);
+                        glib::Continue(true)
+                    }
                 }),
             );
         }
@@ -397,30 +413,31 @@ impl LogPage {
         let imp = self.imp();
 
         let line_buffer = perform.decode(&line);
+        let (timestamp, log_message) = line_buffer.split_once(' ').unwrap();
 
-        if let Some((timestamp, log_message)) = line_buffer.split_once(' ') {
-            imp.fetch_until.get_or_init(|| timestamp.to_owned());
+        imp.fetch_until.get_or_init(|| timestamp.to_owned());
 
-            let source_buffer = &*imp.source_buffer;
-            source_buffer.insert_markup(
-                &mut if at_end {
-                    imp.source_buffer.end_iter()
-                } else {
-                    imp.source_buffer.start_iter()
-                },
-                &if source_buffer.start_iter() == source_buffer.end_iter() {
-                    Cow::Borrowed(log_message)
-                } else {
-                    Cow::Owned(format!("\n{log_message}"))
-                },
-            );
-
-            let mut timestamps = imp.log_timestamps.borrow_mut();
-            if at_end {
-                timestamps.push_back(timestamp.to_owned());
+        let source_buffer = &*imp.source_buffer;
+        source_buffer.insert_markup(
+            &mut if at_end {
+                imp.source_buffer.end_iter()
             } else {
-                timestamps.push_front(timestamp.to_owned());
-            }
+                imp.source_buffer.start_iter()
+            },
+            &if source_buffer.start_iter() == source_buffer.end_iter() {
+                Cow::Borrowed(log_message)
+            } else if at_end {
+                Cow::Owned(format!("\n{log_message}"))
+            } else {
+                Cow::Owned(format!("{log_message}\n"))
+            },
+        );
+
+        let mut timestamps = imp.log_timestamps.borrow_mut();
+        if at_end {
+            timestamps.push_back(timestamp.to_owned());
+        } else {
+            timestamps.push_front(timestamp.to_owned());
         }
     }
 
