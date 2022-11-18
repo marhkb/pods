@@ -1,16 +1,21 @@
-// Inspired by https://github.com/phastmike/vala-circular-progress-bar/blob/1528d42a6045734038bf0022a88b846edf582b3a/circular-progress-bar.vala.
-
 use std::cell::Cell;
 use std::f64;
 
 use gtk::gdk;
 use gtk::glib;
 use gtk::glib::clone;
+use gtk::graphene;
+use gtk::gsk;
 use gtk::prelude::ParamSpecBuilderExt;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
+
+use crate::utils;
+
+const SIZE: i32 = 36;
+const BORDER_WITH: f32 = 4.0;
 
 mod imp {
     use super::*;
@@ -20,11 +25,7 @@ mod imp {
     pub(crate) struct CircularProgressBar {
         pub(super) percentage: Cell<f64>,
         #[template_child]
-        pub(super) overlay: TemplateChild<gtk::Overlay>,
-        #[template_child]
         pub(super) icon: TemplateChild<gtk::Image>,
-        #[template_child]
-        pub(super) drawing_area: TemplateChild<gtk::DrawingArea>,
     }
 
     #[glib::object_subclass]
@@ -85,119 +86,88 @@ mod imp {
                 Some("icon-name"),
                 clone!(@weak obj => move |_, _| obj.notify("icon-name")),
             );
-
-            self.drawing_area
-                .set_draw_func(clone!(@weak obj => move |_, cr, w, h| {
-                    let style_manager = adw::StyleManager::default();
-
-                    let alpha = if style_manager.is_high_contrast() {
-                        (0.33, 1.0)
-                    } else {
-                        (0.15, 0.75)
-                    };
-
-                    let colors = if style_manager.is_dark() {
-                        [
-                            // background: @view_bg_color
-                            (0.188, 0.188, 0.188, 1.0),
-                            // @borders
-                            (1.0, 1.0, 1.0, alpha.0),
-                            // @accent_color
-                            (0.470, 0.682, 0.929, alpha.1),
-                            // @warning_color
-                            (0.972, 0.894, 0.360, alpha.1),
-                            // @error_color
-                            (1.0, 0.482, 0.388, alpha.1),
-                        ]
-                    } else {
-                        [
-                            // background: @window_bg_color
-                            (0.98, 0.98, 0.98, 1.0),
-                            // @borders
-                            (0.0, 0.0, 0.0, alpha.0),
-                            // @accent_color
-                            (0.109, 0.443, 0.847, alpha.1),
-                            // @warning_color
-                            (0.682, 0.482, 0.011, alpha.1),
-                            // @error_color
-                            (0.752, 0.109, 0.156, alpha.1),
-                        ]
-                    };
-
-                    let pi = f64::consts::PI;
-
-                    cr.save().unwrap();
-
-                    let center_x = w as f64 / 2.0;
-                    let center_y = h as f64 / 2.0;
-                    let radius = f64::min(center_x, center_y);
-
-                    cr.set_line_cap(gdk::cairo::LineCap::Butt);
-
-                    // Radius Fill
-                    let line_width_fill = 1.0;
-                    let delta_fill = radius - (line_width_fill / 2.0) - 1.0;
-
-                    cr.arc(center_x, center_y, delta_fill, 0.0, 2. * pi);
-                    cr.set_source_rgba(colors[0].0, colors[0].1, colors[0].2, colors[0].3);
-                    cr.fill().unwrap();
-
-                    cr.set_line_width(line_width_fill);
-                    cr.arc(center_x, center_y, delta_fill, 0.0, 2. * pi);
-                    cr.set_source_rgba(colors[1].0, colors[1].1, colors[1].2, colors[1].3);
-                    cr.stroke().unwrap();
-
-                    // Percentage
-                    let line_width_percentage = 3.0;
-                    let delta_percentage = radius - (line_width_percentage / 2.0);
-
-                    let percentage = obj.percentage();
-                    if percentage < 0.8 {
-                        cr.set_source_rgba(colors[2].0, colors[2].1, colors[2].2, colors[2].3);
-                    } else if percentage < 0.95 {
-                        cr.set_source_rgba(colors[3].0, colors[3].1, colors[3].2, colors[3].3);
-                    } else {
-                        cr.set_source_rgba(colors[4].0, colors[4].1, colors[4].2, colors[4].3);
-                    }
-
-                    cr.set_line_width(line_width_percentage);
-                    cr.arc(
-                        center_x,
-                        center_y,
-                        delta_percentage,
-                        1.5 * pi,
-                        (1.5 + percentage * 2.0) * pi,
-                    );
-                    cr.stroke().unwrap();
-
-                    cr.arc(
-                        center_x,
-                        center_y,
-                        delta_percentage,
-                        1.5 * pi,
-                        (1.5 + percentage * 2.0) * pi,
-                    );
-
-                    cr.restore().unwrap();
-                }));
-
-            adw::StyleManager::default().connect_dark_notify(clone!(@weak obj => move |_| {
-                obj.imp().drawing_area.queue_draw();
-            }));
-            adw::StyleManager::default().connect_high_contrast_notify(
-                clone!(@weak obj => move |_| {
-                    obj.imp().drawing_area.queue_draw();
-                }),
-            );
         }
 
         fn dispose(&self) {
-            self.overlay.unparent();
+            utils::ChildIter::from(&*self.obj()).for_each(|child| child.unparent());
         }
     }
 
-    impl WidgetImpl for CircularProgressBar {}
-    impl DrawingAreaImpl for CircularProgressBar {}
+    impl WidgetImpl for CircularProgressBar {
+        fn snapshot(&self, snapshot: &gtk::Snapshot) {
+            let widget = &*self.obj();
+
+            let style_manager = adw::StyleManager::default();
+            let style_context = widget.style_context();
+
+            let percentage = widget.percentage() as f32;
+            let fg_color = if percentage < 0.8 {
+                style_context
+                    .lookup_color("accent_color")
+                    .unwrap_or_else(|| {
+                        if style_manager.is_dark() {
+                            gdk::RGBA::new(0.470, 0.682, 0.929, 1.0)
+                        } else {
+                            gdk::RGBA::new(0.109, 0.443, 0.847, 1.0)
+                        }
+                    })
+            } else if percentage < 0.95 {
+                style_context
+                    .lookup_color("warning_color")
+                    .unwrap_or_else(|| {
+                        if style_manager.is_dark() {
+                            gdk::RGBA::new(0.972, 0.894, 0.360, 1.0)
+                        } else {
+                            gdk::RGBA::new(0.682, 0.482, 0.011, 1.0)
+                        }
+                    })
+            } else {
+                style_context
+                    .lookup_color("error_color")
+                    .unwrap_or_else(|| {
+                        if style_manager.is_dark() {
+                            gdk::RGBA::new(1.0, 0.482, 0.388, 1.0)
+                        } else {
+                            gdk::RGBA::new(0.752, 0.109, 0.156, 1.0)
+                        }
+                    })
+            };
+            let bg_color = style_context
+                .lookup_color("headerbar_bg_color")
+                .unwrap_or_else(|| {
+                    if style_manager.is_dark() {
+                        gdk::RGBA::new(0.188, 0.188, 0.188, 1.0)
+                    } else {
+                        gdk::RGBA::new(0.922, 0.922, 0.055, 1.0)
+                    }
+                });
+
+            let size = SIZE as f32;
+            let rect = graphene::Rect::new(0.0, 0.0, size, size);
+            snapshot.push_rounded_clip(&gsk::RoundedRect::from_rect(rect, size / 2.0));
+            snapshot.append_conic_gradient(
+                &rect,
+                &graphene::Point::new(size / 2.0, size / 2.0),
+                0.0,
+                &[
+                    gsk::ColorStop::new(percentage, fg_color),
+                    gsk::ColorStop::new(
+                        percentage,
+                        gdk::RGBA::new(fg_color.red(), fg_color.green(), fg_color.blue(), 0.3),
+                    ),
+                ],
+            );
+            snapshot.pop();
+
+            let size = size - BORDER_WITH;
+            let rect = graphene::Rect::new(BORDER_WITH / 2.0, BORDER_WITH / 2.0, size, size);
+            snapshot.push_rounded_clip(&gsk::RoundedRect::from_rect(rect, size / 2.0));
+            snapshot.append_color(&bg_color, &rect);
+            snapshot.pop();
+
+            widget.snapshot_child(&*self.icon, snapshot);
+        }
+    }
 }
 
 glib::wrapper! {
@@ -222,10 +192,8 @@ impl CircularProgressBar {
             return;
         }
 
-        let imp = self.imp();
-
-        imp.percentage.set(value);
-        imp.drawing_area.queue_draw();
+        self.imp().percentage.set(value.clamp(0.0, 1.0));
+        self.queue_draw();
         self.notify("percentage");
     }
 

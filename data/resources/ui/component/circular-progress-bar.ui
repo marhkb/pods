@@ -5,22 +5,14 @@
     <property name="layout-manager">
       <object class="GtkBinLayout"/>
     </property>
+    <property name="valign">center</property>
+    <property name="width-request">36</property>
+    <property name="height-request">36</property>
 
     <child>
-      <object class="GtkOverlay" id="overlay">
-
-        <child type="overlay">
-          <object class="GtkImage" id="icon">
-            <property name="icon-name">computer-chip-symbolic</property>
-            <property name="valign">center</property>
-            <property name="halign">center</property>
-          </object>
-        </child>
-
-        <child>
-          <object class="GtkDrawingArea" id="drawing_area"/>
-        </child>
-
+      <object class="GtkImage" id="icon">
+        <property name="valign">center</property>
+        <property name="halign">center</property>
       </object>
     </child>
 
