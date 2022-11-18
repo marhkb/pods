@@ -166,7 +166,7 @@ mod imp {
                 .margin_end(6)
                 .build();
             renderer_timestamps.connect_query_data(clone!(@weak obj => move |renderer, _, line| {
-                let log_timestamps = obj.imp().log_timestamps.borrow_mut();
+                let log_timestamps = obj.imp().log_timestamps.borrow();
                 if let Some(timestamp) = log_timestamps.get(line as usize) {
                     let date_time = format!(
                         "<span foreground=\"#865e3c\">{timestamp}</span>",
