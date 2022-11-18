@@ -14,8 +14,8 @@ use once_cell::sync::Lazy;
 
 use crate::utils;
 
-const SIZE: i32 = 36;
-const BORDER_WITH: f32 = 4.0;
+const SIZE: i32 = 32;
+const BORDER_WITH: f32 = 6.0;
 
 mod imp {
     use super::*;
@@ -100,7 +100,11 @@ mod imp {
             let style_manager = adw::StyleManager::default();
             let style_context = widget.style_context();
 
-            let percentage = widget.percentage() as f32;
+            let mut percentage = widget.percentage() as f32;
+            if percentage < 0.005 {
+                percentage = 0.0;
+            }
+
             let fg_color = if percentage < 0.8 {
                 style_context
                     .lookup_color("accent_color")
@@ -132,18 +136,18 @@ mod imp {
                         }
                     })
             };
-            let bg_color = style_context
-                .lookup_color("headerbar_bg_color")
-                .unwrap_or_else(|| {
-                    if style_manager.is_dark() {
-                        gdk::RGBA::new(0.188, 0.188, 0.188, 1.0)
-                    } else {
-                        gdk::RGBA::new(0.922, 0.922, 0.055, 1.0)
-                    }
-                });
+            let bg_color = if style_manager.is_dark() {
+                style_context
+                    .lookup_color("dark_2")
+                    .unwrap_or_else(|| gdk::RGBA::new(0.369, 0.361, 0.392, 1.0))
+            } else {
+                style_context
+                    .lookup_color("light_3")
+                    .unwrap_or_else(|| gdk::RGBA::new(0.753, 0.749, 0.737, 1.0))
+            };
 
             let size = SIZE as f32;
-            let rect = graphene::Rect::new(0.0, 0.0, size, size);
+            let rect = graphene::Rect::new(2.0, 2.0, size, size);
             snapshot.push_rounded_clip(&gsk::RoundedRect::from_rect(rect, size / 2.0));
             snapshot.append_conic_gradient(
                 &rect,
@@ -151,16 +155,14 @@ mod imp {
                 0.0,
                 &[
                     gsk::ColorStop::new(percentage, fg_color),
-                    gsk::ColorStop::new(
-                        percentage,
-                        gdk::RGBA::new(fg_color.red(), fg_color.green(), fg_color.blue(), 0.3),
-                    ),
+                    gsk::ColorStop::new(percentage, bg_color),
                 ],
             );
             snapshot.pop();
 
             let size = size - BORDER_WITH;
-            let rect = graphene::Rect::new(BORDER_WITH / 2.0, BORDER_WITH / 2.0, size, size);
+            let rect =
+                graphene::Rect::new(BORDER_WITH / 2.0 + 2.0, BORDER_WITH / 2.0 + 2.0, size, size);
             snapshot.push_rounded_clip(&gsk::RoundedRect::from_rect(rect, size / 2.0));
             snapshot.append_color(&bg_color, &rect);
             snapshot.pop();
