@@ -13,6 +13,8 @@ use crate::model;
 use crate::utils;
 use crate::view;
 
+const ACTION_COPY_SOCKET_ACTIVATION_COMMAND: &str =
+    "connection-creator-page.copy-socket-activation-command";
 const ACTION_TRY_CONNECT: &str = "connection-creator-page.try-connect";
 
 mod imp {
@@ -28,6 +30,10 @@ mod imp {
         pub(super) name_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
         pub(super) unix_socket_url_row: TemplateChild<adw::ActionRow>,
+        #[template_child]
+        pub(super) socket_activation_command_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub(super) socket_url_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) custom_url_radio_button: TemplateChild<gtk::CheckButton>,
         #[template_child]
@@ -49,6 +55,13 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
+            klass.install_action(
+                ACTION_COPY_SOCKET_ACTIVATION_COMMAND,
+                None,
+                move |widget, _, _| {
+                    widget.copy_socket_acivation_command();
+                },
+            );
             klass.install_action(ACTION_TRY_CONNECT, None, move |widget, _, _| {
                 widget.try_connect();
             });
@@ -98,6 +111,15 @@ mod imp {
 
             self.unix_socket_url_row
                 .set_subtitle(&utils::unix_socket_url());
+
+            self.socket_url_label.set_markup(&gettext!(
+                // Translators: The placeholder '{}' is replaced by 'official documentation'.
+                "Visit the {} for more information.",
+                format!(
+                    "<a href=\"https://github.com/containers/podman/blob/cea9340242f3f6cf41f20fb0b6239aa3db5decd6/docs/tutorials/socket_activation.md\">{}</a>",
+                    gettext("official documentation")
+                )
+            ));
 
             self.custom_url_radio_button
                 .set_active(obj.connection_manager().contains_local_connection());
@@ -150,6 +172,12 @@ impl From<&model::ConnectionManager> for CreationPage {
 impl CreationPage {
     pub(crate) fn connection_manager(&self) -> &model::ConnectionManager {
         self.imp().connection_manager.get().unwrap()
+    }
+
+    fn copy_socket_acivation_command(&self) {
+        let label = &*self.imp().socket_activation_command_label;
+        label.select_region(0, -1);
+        label.emit_copy_clipboard();
     }
 
     fn try_connect(&self) {

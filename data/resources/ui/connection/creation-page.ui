@@ -48,6 +48,7 @@
             <child>
               <object class="AdwActionRow" id="unix_socket_url_row">
                 <property name="title" translatable="yes">Unix Socket</property>
+
                 <child type="prefix">
                   <object class="GtkCheckButton">
                     <property name="active">True</property>
@@ -55,6 +56,111 @@
                     <property name="valign">center</property>
                   </object>
                 </child>
+
+                <child type="suffix">
+                  <object class="GtkMenuButton">
+                    <style>
+                      <class name="flat"/>
+                    </style>
+                    <property name="icon-name">dialog-information-symbolic</property>
+                    <property name="valign">center</property>
+
+                    <property name="popover">
+                      <object class="GtkPopover">
+
+                        <child>
+                          <object class="GtkBox">
+                            <property name="orientation">vertical</property>
+                            <property name="spacing">12</property>
+                            <property name="margin-top">12</property>
+                            <property name="margin-end">9</property>
+                            <property name="margin-bottom">30</property>
+                            <property name="margin-start">9</property>
+
+                            <child>
+                              <object class="GtkLabel">
+                                <style>
+                                  <class name="title-3"/>
+                                </style>
+                                <property name="label" translatable="yes">Podman Socket Activation</property>
+                                <property name="margin-bottom">3</property>
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="label" translatable="yes">To connect to the local Podman instance, the systemd socket must be enabled. You can enable it permanently by issuing the following command:</property>
+                                <property name="max-width-chars">1</property>
+                                <property name="wrap">True</property>
+                                <property name="wrap-mode">word-char</property>
+                                <property name="xalign">0</property>
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="GtkBox">
+                                <style>
+                                  <class name="card"/>
+                                  <class name="frame"/>
+                                  <class name="linked"/>
+                                  <class name="view"/>
+                                </style>
+                                <property name="spacing">12</property>
+                                <property name="overflow">hidden</property>
+
+                                <child>
+                                  <object class="GtkLabel">
+                                    <style>
+                                      <class name="monospace"/>
+                                    </style>
+                                    <property name="label">$</property>
+                                    <property name="xalign">0</property>
+                                    <property name="margin-start">9</property>
+                                  </object>
+                                </child>
+
+                                <child>
+                                  <object class="GtkLabel" id="socket_activation_command_label">
+                                    <style>
+                                      <class name="monospace"/>
+                                    </style>
+                                    <property name="label">systemctl --user enable --now podman.socket</property>
+                                    <property name="selectable">True</property>
+                                    <property name="hexpand">True</property>
+                                    <property name="xalign">0</property>
+                                  </object>
+                                </child>
+
+                                <child>
+                                  <object class="GtkButton">
+                                    <style>
+                                      <class name="flat"/>
+                                    </style>
+                                    <property name="action-name">connection-creator-page.copy-socket-activation-command</property>
+                                    <property name="icon-name">edit-copy-symbolic</property>
+                                    <property name="tooltip-text" translatable="yes">Copy command to clipboard</property>
+                                  </object>
+                                </child>
+
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="GtkLabel" id="socket_url_label">
+                                <property name="margin-top">3</property>
+                                <property name="xalign">0</property>
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
+                      </object>
+                    </property>
+
+                  </object>
+                </child>
+
               </object>
             </child>
 
