@@ -8,7 +8,6 @@ use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
 use once_cell::unsync::OnceCell;
-use sourceview5::traits::BufferExt;
 
 use crate::model;
 use crate::utils;
@@ -16,13 +15,7 @@ use crate::view;
 
 const ACTION_COPY_SOCKET_ACTIVATION_COMMAND: &str =
     "connection-creator-page.copy-socket-activation-command";
-const ACTION_COPY_ROOT_SYSTEMD_UNIT_PATH: &str =
-    "connection-creator-page.copy-root-systemd-unit-path";
-const ACTION_COPY_ROOT_SYSTEMD_UNIT_CONTENT: &str =
-    "connection-creator-page.copy-root-systemd-unit-content";
-const ACTION_COPY_ROOT_SOCKET_ACTIVATION_COMMAND: &str =
-    "connection-creator-page.copy-root-socket-activation-command";
-const ACTION_COPY_ROOT_URL: &str = "connection-creator-page.copy-root-url";
+const ACTION_SHOW_CUSTOM_INFO_DIALOG: &str = "connection-creation-page.show-custom-info-dialog";
 const ACTION_TRY_CONNECT: &str = "connection-creator-page.try-connect";
 
 mod imp {
@@ -47,14 +40,6 @@ mod imp {
         #[template_child]
         pub(super) url_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
-        pub(super) root_systemd_unit_path_label: TemplateChild<gtk::Label>,
-        #[template_child]
-        pub(super) root_systemd_unit_content_buffer: TemplateChild<sourceview5::Buffer>,
-        #[template_child]
-        pub(super) root_socket_activation_command_label: TemplateChild<gtk::Label>,
-        #[template_child]
-        pub(super) root_url_label: TemplateChild<gtk::Label>,
-        #[template_child]
         pub(super) color_button: TemplateChild<gtk::ColorButton>,
         #[template_child]
         pub(super) color_switch: TemplateChild<gtk::Switch>,
@@ -78,29 +63,8 @@ mod imp {
                     widget.copy_socket_acivation_command();
                 },
             );
-            klass.install_action(
-                ACTION_COPY_ROOT_SYSTEMD_UNIT_PATH,
-                None,
-                move |widget, _, _| {
-                    widget.copy_root_systemd_unit_path();
-                },
-            );
-            klass.install_action(
-                ACTION_COPY_ROOT_SYSTEMD_UNIT_CONTENT,
-                None,
-                move |widget, _, _| {
-                    widget.copy_root_systemd_unit_content();
-                },
-            );
-            klass.install_action(
-                ACTION_COPY_ROOT_SOCKET_ACTIVATION_COMMAND,
-                None,
-                move |widget, _, _| {
-                    widget.copy_root_socket_acivation_command();
-                },
-            );
-            klass.install_action(ACTION_COPY_ROOT_URL, None, move |widget, _, _| {
-                widget.copy_root_url();
+            klass.install_action(ACTION_SHOW_CUSTOM_INFO_DIALOG, None, move |widget, _, _| {
+                widget.show_custom_info_dialog();
             });
             klass.install_action(ACTION_TRY_CONNECT, None, move |widget, _, _| {
                 widget.try_connect();
@@ -164,17 +128,6 @@ mod imp {
             self.custom_url_radio_button
                 .set_active(obj.connection_manager().contains_local_connection());
 
-            let adw_style_manager = adw::StyleManager::default();
-            obj.on_notify_dark(&adw_style_manager);
-            adw_style_manager.connect_dark_notify(clone!(@weak obj => move |style_manager| {
-                obj.on_notify_dark(style_manager);
-            }));
-            self.root_systemd_unit_content_buffer.set_language(
-                sourceview5::LanguageManager::default()
-                    .language("ini")
-                    .as_ref(),
-            );
-
             self.color_button
                 .set_rgba(&gdk::RGBA::new(0.207, 0.517, 0.894, 1.0));
         }
@@ -231,28 +184,10 @@ impl CreationPage {
         label.emit_copy_clipboard();
     }
 
-    fn copy_root_systemd_unit_path(&self) {
-        let label = &*self.imp().root_systemd_unit_path_label;
-        label.select_region(0, -1);
-        label.emit_copy_clipboard();
-    }
-
-    fn copy_root_systemd_unit_content(&self) {
-        let buffer = &*self.imp().root_systemd_unit_content_buffer;
-        buffer.select_range(&buffer.start_iter(), &buffer.end_iter());
-        buffer.copy_clipboard(&gdk::Display::default().unwrap().clipboard());
-    }
-
-    fn copy_root_socket_acivation_command(&self) {
-        let label = &*self.imp().root_socket_activation_command_label;
-        label.select_region(0, -1);
-        label.emit_copy_clipboard();
-    }
-
-    fn copy_root_url(&self) {
-        let label = &*self.imp().root_url_label;
-        label.select_region(0, -1);
-        label.emit_copy_clipboard();
+    fn show_custom_info_dialog(&self) {
+        let dialog = view::ConnectionCustomInfoDialog::default();
+        dialog.set_transient_for(Some(&utils::root(self)));
+        dialog.present();
     }
 
     fn try_connect(&self) {
@@ -284,20 +219,6 @@ impl CreationPage {
                 self.on_error(e);
             }
         }
-    }
-
-    fn on_notify_dark(&self, style_manager: &adw::StyleManager) {
-        self.imp()
-            .root_systemd_unit_content_buffer
-            .set_style_scheme(
-                sourceview5::StyleSchemeManager::default()
-                    .scheme(if style_manager.is_dark() {
-                        "Adwaita-dark"
-                    } else {
-                        "Adwaita"
-                    })
-                    .as_ref(),
-            );
     }
 
     fn on_error(&self, e: impl ToString) {

@@ -95,6 +95,7 @@ mod imp {
             view::BackNavigationControls::static_type();
             view::CircularProgressBar::static_type();
             view::ConnectionChooserPage::static_type();
+            view::ConnectionCustomInfoDialog::static_type();
             view::ConnectionRow::static_type();
             view::ConnectionSwitcherWidget::static_type();
             view::ContainerCommitPage::static_type();
