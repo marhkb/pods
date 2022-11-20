@@ -38,6 +38,7 @@ pub(crate) use self::component::TopPage;
 pub(crate) use self::connection::show_ongoing_actions_warning_dialog;
 pub(crate) use self::connection::ChooserPage as ConnectionChooserPage;
 pub(crate) use self::connection::CreationPage as ConnectionCreationPage;
+pub(crate) use self::connection::CustomInfoDialog as ConnectionCustomInfoDialog;
 pub(crate) use self::connection::Row as ConnectionRow;
 pub(crate) use self::connection::SwitcherWidget as ConnectionSwitcherWidget;
 pub(crate) use self::container::CommitPage as ContainerCommitPage;

@@ -1,5 +1,6 @@
 mod chooser_page;
 mod creation_page;
+mod custom_info_dialog;
 mod row;
 mod switcher_widget;
 
@@ -10,6 +11,7 @@ use gtk::glib;
 
 pub(crate) use self::chooser_page::ChooserPage;
 pub(crate) use self::creation_page::CreationPage;
+pub(crate) use self::custom_info_dialog::CustomInfoDialog;
 pub(crate) use self::row::Row;
 pub(crate) use self::switcher_widget::SwitcherWidget;
 use crate::model;
