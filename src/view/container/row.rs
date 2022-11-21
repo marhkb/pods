@@ -25,7 +25,7 @@ mod imp {
         pub(super) container: glib::WeakRef<model::Container>,
         pub(super) bindings: RefCell<Vec<glib::Binding>>,
         #[template_child]
-        pub(super) status_image: TemplateChild<gtk::Image>,
+        pub(super) spinner: TemplateChild<view::Spinner>,
         #[template_child]
         pub(super) check_button_revealer: TemplateChild<gtk::Revealer>,
         #[template_child]
@@ -124,6 +124,10 @@ mod imp {
             let pod_expr = container_expr.chain_property::<model::Container>("pod");
             let stats_expr = container_expr.chain_property::<model::Container>("stats");
 
+            container_expr
+                .chain_property::<model::Container>("action-ongoing")
+                .bind(&*self.spinner, "spinning", Some(obj));
+
             status_expr
                 .chain_closure::<String>(closure!(
                     |_: Self::Type, status: model::ContainerStatus| {
@@ -134,9 +138,9 @@ mod imp {
                         }
                     }
                 ))
-                .bind(&*self.status_image, "icon-name", Some(obj));
+                .bind(&*self.spinner, "icon-name", Some(obj));
 
-            let css_classes = self.status_image.css_classes();
+            let css_classes = self.spinner.css_classes();
             status_expr
                 .chain_closure::<Vec<String>>(closure!(
                     |_: Self::Type, status: model::ContainerStatus| {
@@ -149,7 +153,7 @@ mod imp {
                             .collect::<Vec<_>>()
                     }
                 ))
-                .bind(&*self.status_image, "css-classes", Some(obj));
+                .bind(&*self.spinner, "css-classes", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
                 &[
