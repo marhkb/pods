@@ -8,7 +8,7 @@
         <property name="margin-top">7</property>
         <property name="margin-end">12</property>
         <property name="margin-bottom">7</property>
-        <property name="margin-start">12</property>
+        <property name="margin-start">10</property>
 
         <child>
           <object class="GtkRevealer" id="check_button_revealer">
@@ -19,7 +19,8 @@
                 <style>
                   <class name="selection-mode"/>
                 </style>
-                <property name="margin-end">12</property>
+                <property name="margin-start">2</property>
+                <property name="margin-end">10</property>
               </object>
             </child>
 
@@ -31,13 +32,10 @@
             <property name="spacing">6</property>
 
             <child>
-              <object class="GtkImage" id="status_image">
-                <style>
-                  <class name="status-circle"/>
-                </style>
+              <object class="PdsSpinner" id="spinner">
                 <property name="halign">center</property>
                 <property name="valign">center</property>
-                <property name="margin-end">6</property>
+                <property name="margin-end">4</property>
               </object>
             </child>
 
