@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Inspired by https://github.com/phastmike/vala-circular-progress-bar/blob/1528d42a6045734038bf0022a88b846edf582b3a/circular-progress-bar.vala. -->
 <interface>
   <template class="PdsCircularProgressBar" parent="GtkWidget">
-    <property name="layout-manager">
-      <object class="GtkBinLayout"/>
-    </property>
     <property name="valign">center</property>
-    <property name="width-request">36</property>
-    <property name="height-request">36</property>
 
     <child>
       <object class="GtkImage" id="icon">
+        <style>
+          <class name="dim-icon"></class>
+        </style>
         <property name="valign">center</property>
-        <property name="halign">center</property>
       </object>
     </child>
 

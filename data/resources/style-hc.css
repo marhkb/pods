@@ -1,5 +1,5 @@
 .dim-icon {
-  color: @window_fg_color;
+  color: #ffffff;
 }
 
 .tag-label {
@@ -18,7 +18,6 @@
 .container-health-status-unconfigured {
   background-color: @dark_1;
   color: #ffffff;
-
 }
 
 .container-status-paused, .pod-status-paused {
