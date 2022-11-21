@@ -33,6 +33,7 @@ pub(crate) use self::component::RandomNameEntryRow;
 pub(crate) use self::component::SourceViewMode;
 pub(crate) use self::component::SourceViewPage;
 pub(crate) use self::component::SourceViewSearchWidget;
+pub(crate) use self::component::Spinner;
 pub(crate) use self::component::TextSearchEntry;
 pub(crate) use self::component::TopPage;
 pub(crate) use self::connection::show_ongoing_actions_warning_dialog;

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="PdsSpinner" parent="GtkWidget">
+    <style>
+      <class name="circle"/>
+    </style>
+
+    <child>
+      <object class="GtkImage" id="image"/>
+    </child>
+
+  </template>
+</interface>

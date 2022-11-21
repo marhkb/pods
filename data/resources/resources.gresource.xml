@@ -15,6 +15,7 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/component/random-name-entry-row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/component/source-view-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/component/source-view-search-widget.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/component/spinner.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/component/text-search-entry.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/component/top-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/connection/chooser-page.ui</file>

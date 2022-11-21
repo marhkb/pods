@@ -6,6 +6,7 @@ mod property_widget_row;
 mod random_name_entry_row;
 mod source_view_page;
 mod source_view_search_widget;
+mod spinner;
 mod text_search_entry;
 mod top_page;
 
@@ -19,5 +20,6 @@ pub(crate) use self::source_view_page::Entity;
 pub(crate) use self::source_view_page::Mode as SourceViewMode;
 pub(crate) use self::source_view_page::SourceViewPage;
 pub(crate) use self::source_view_search_widget::SourceViewSearchWidget;
+pub(crate) use self::spinner::Spinner;
 pub(crate) use self::text_search_entry::TextSearchEntry;
 pub(crate) use self::top_page::TopPage;

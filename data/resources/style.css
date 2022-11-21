@@ -7,6 +7,10 @@
   box-shadow: none;
 }
 
+.circle {
+  border-radius: 9999px;
+}
+
 .dim-icon {
   color: alpha(@window_fg_color, .75);
 }
