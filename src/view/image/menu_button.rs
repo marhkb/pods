@@ -22,8 +22,6 @@ mod imp {
     pub(crate) struct MenuButton {
         pub(super) image: glib::WeakRef<model::Image>,
         #[template_child]
-        pub(super) stack: TemplateChild<gtk::Stack>,
-        #[template_child]
         pub(super) menu_button: TemplateChild<gtk::MenuButton>,
     }
 
@@ -108,14 +106,10 @@ mod imp {
                 .chain_property::<model::Image>("to-be-deleted");
 
             to_be_deleted_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, to_be_deleted: bool| {
-                    if to_be_deleted {
-                        "ongoing"
-                    } else {
-                        "menu"
-                    }
+                .chain_closure::<bool>(closure!(|_: Self::Type, to_be_deleted: bool| {
+                    !to_be_deleted
                 }))
-                .bind(&*self.stack, "visible-child-name", Some(obj));
+                .bind(&*self.menu_button, "sensitive", Some(obj));
 
             to_be_deleted_expr.watch(
                 Some(obj),

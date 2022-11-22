@@ -22,7 +22,7 @@ mod imp {
         pub(super) pod: glib::WeakRef<model::Pod>,
         pub(super) bindings: RefCell<Vec<glib::Binding>>,
         #[template_child]
-        pub(super) status_image: TemplateChild<gtk::Image>,
+        pub(super) spinner: TemplateChild<view::Spinner>,
         #[template_child]
         pub(super) check_button_revealer: TemplateChild<gtk::Revealer>,
         #[template_child]
@@ -98,6 +98,10 @@ mod imp {
 
             let status_expr = pod_expr.chain_property::<model::Pod>("status");
 
+            pod_expr
+                .chain_property::<model::Pod>("action-ongoing")
+                .bind(&*self.spinner, "spinning", Some(obj));
+
             status_expr
                 .chain_closure::<String>(closure!(|_: Self::Type, status: model::PodStatus| {
                     match status {
@@ -107,9 +111,9 @@ mod imp {
                         _ => "media-playback-stop-symbolic",
                     }
                 }))
-                .bind(&*self.status_image, "icon-name", Some(obj));
+                .bind(&*self.spinner, "icon-name", Some(obj));
 
-            let css_classes = self.status_image.css_classes();
+            let css_classes = self.spinner.css_classes();
             status_expr
                 .chain_closure::<Vec<String>>(closure!(
                     |_: Self::Type, status: model::PodStatus| {
@@ -122,7 +126,7 @@ mod imp {
                             .collect::<Vec<_>>()
                     }
                 ))
-                .bind(&*self.status_image, "css-classes", Some(obj));
+                .bind(&*self.spinner, "css-classes", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
                 &[

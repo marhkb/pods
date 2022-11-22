@@ -7,6 +7,10 @@
   box-shadow: none;
 }
 
+.circle {
+  border-radius: 9999px;
+}
+
 .dim-icon {
   color: alpha(@window_fg_color, .75);
 }
@@ -82,11 +86,6 @@ connectionchooserpage connectionswitchermenu row {
 
 .circular-progress-bar {
   font-size: 0.65em;
-}
-
-.status-circle {
-  border-radius: 9999px;
-  padding: 8px;
 }
 
 .status-badge {

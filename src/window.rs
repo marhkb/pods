@@ -124,6 +124,7 @@ mod imp {
             view::RandomNameEntryRow::static_type();
             view::SourceViewPage::static_type();
             view::SourceViewSearchWidget::static_type();
+            view::Spinner::static_type();
             view::Statusbar::static_type();
             view::TextSearchEntry::static_type();
             view::WelcomePage::static_type();

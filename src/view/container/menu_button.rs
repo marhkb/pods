@@ -28,8 +28,6 @@ mod imp {
     pub(crate) struct MenuButton {
         pub(super) container: glib::WeakRef<model::Container>,
         #[template_child]
-        pub(super) stack: TemplateChild<gtk::Stack>,
-        #[template_child]
         pub(super) menu_button: TemplateChild<gtk::MenuButton>,
     }
 
@@ -132,14 +130,10 @@ mod imp {
 
             container_expr
                 .chain_property::<model::Container>("action-ongoing")
-                .chain_closure::<String>(closure!(|_: Self::Type, action_ongoing: bool| {
-                    if action_ongoing {
-                        "ongoing"
-                    } else {
-                        "menu"
-                    }
+                .chain_closure::<bool>(closure!(|_: Self::Type, action_ongoing: bool| {
+                    !action_ongoing
                 }))
-                .bind(&*self.stack, "visible-child-name", Some(obj));
+                .bind(&*self.menu_button, "sensitive", Some(obj));
 
             container_expr
                 .chain_property::<model::Container>("status")
