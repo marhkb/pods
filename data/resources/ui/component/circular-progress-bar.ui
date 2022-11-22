@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <template class="PdsCircularProgressBar" parent="GtkWidget">
+    <property name="halign">center</property>
     <property name="valign">center</property>
 
     <child>
-      <object class="GtkImage" id="icon">
+      <object class="GtkImage" id="image">
         <style>
-          <class name="dim-icon"></class>
+          <class name="dim-icon"/>
         </style>
-        <property name="valign">center</property>
       </object>
     </child>
 

@@ -16,7 +16,7 @@ use once_cell::unsync::OnceCell;
 use crate::utils;
 
 const SIZE: i32 = 32;
-const BORDER_WIDTH: f32 = 6.0;
+const BORDER_WIDTH: i32 = 6;
 
 mod imp {
     use super::*;
@@ -27,7 +27,7 @@ mod imp {
         pub(super) percentage: Cell<f64>,
         pub(super) mask_shader: OnceCell<Option<gsk::GLShader>>,
         #[template_child]
-        pub(super) icon: TemplateChild<gtk::Image>,
+        pub(super) image: TemplateChild<gtk::Image>,
     }
 
     #[glib::object_subclass]
@@ -84,7 +84,7 @@ mod imp {
 
             let obj = &*self.obj();
 
-            self.icon.connect_notify_local(
+            self.image.connect_notify_local(
                 Some("icon-name"),
                 clone!(@weak obj => move |_, _| obj.notify("icon-name")),
             );
@@ -107,8 +107,15 @@ mod imp {
 
         fn size_allocate(&self, width: i32, height: i32, baseline: i32) {
             self.parent_size_allocate(width, height, baseline);
-            self.icon
-                .size_allocate(&gtk::Allocation::new(-2, 0, width, height), baseline);
+            self.image.size_allocate(
+                &gtk::Allocation::new(
+                    BORDER_WIDTH,
+                    BORDER_WIDTH,
+                    width - (BORDER_WIDTH * 2),
+                    height - (BORDER_WIDTH * 2),
+                ),
+                baseline,
+            );
         }
 
         fn snapshot(&self, snapshot: &gtk::Snapshot) {
@@ -198,10 +205,11 @@ mod imp {
 
             snapshot.append_node(&child_snapshot.to_node().unwrap());
 
-            let size_inner = size_outer - BORDER_WIDTH;
+            let border_width = BORDER_WIDTH as f32;
+            let size_inner = size_outer - border_width;
             let rect_inner = graphene::Rect::new(
-                BORDER_WIDTH / 2.0,
-                BORDER_WIDTH / 2.0,
+                border_width / 2.0,
+                border_width / 2.0,
                 size_inner,
                 size_inner,
             );
@@ -223,7 +231,7 @@ mod imp {
                 snapshot.pop();
             }
 
-            widget.snapshot_child(&*self.icon, snapshot);
+            widget.snapshot_child(&*self.image, snapshot);
         }
     }
 }
@@ -256,11 +264,11 @@ impl CircularProgressBar {
     }
 
     pub(crate) fn icon_name(&self) -> Option<glib::GString> {
-        self.imp().icon.icon_name()
+        self.imp().image.icon_name()
     }
 
     pub(crate) fn set_icon_name(&self, value: Option<&str>) {
-        self.imp().icon.set_icon_name(value);
+        self.imp().image.set_icon_name(value);
     }
 
     fn ensure_mask_shader(&self) -> Option<&gsk::GLShader> {
