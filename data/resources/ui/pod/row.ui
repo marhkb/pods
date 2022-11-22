@@ -33,8 +33,6 @@
 
             <child>
               <object class="PdsSpinner" id="spinner">
-                <property name="halign">center</property>
-                <property name="valign">center</property>
                 <property name="margin-end">4</property>
               </object>
             </child>
@@ -62,7 +60,6 @@
                       <class name="subtitle"/>
                     </style>
                     <property name="use-markup">True</property>
-                    <property name="label">FOOFOFOFOFOF</property>
                     <property name="wrap">True</property>
                     <property name="wrap-mode">word</property>
                     <property name="xalign">0</property>

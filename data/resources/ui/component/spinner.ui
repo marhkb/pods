@@ -4,6 +4,8 @@
     <style>
       <class name="circle"/>
     </style>
+    <property name="halign">center</property>
+    <property name="valign">center</property>
 
     <child>
       <object class="GtkImage" id="image"/>

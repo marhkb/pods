@@ -33,8 +33,6 @@
 
             <child>
               <object class="PdsSpinner" id="spinner">
-                <property name="halign">center</property>
-                <property name="valign">center</property>
                 <property name="margin-end">4</property>
               </object>
             </child>
@@ -138,18 +136,16 @@
 
             <child>
               <object class="GtkBox" id="stats_box">
-                <property name="spacing">2</property>
+                <property name="spacing">5</property>
 
                 <child>
                   <object class="PdsCircularProgressBar" id="cpu_bar">
-                    <property name="width-request">36</property>
                     <property name="icon-name">computer-chip-symbolic</property>
                   </object>
                 </child>
 
                 <child>
                   <object class="PdsCircularProgressBar" id="mem_bar">
-                    <property name="width-request">36</property>
                     <property name="icon-name">memory-symbolic</property>
                   </object>
                 </child>
