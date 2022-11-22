@@ -228,7 +228,7 @@
         <child type="action">
           <object class="GtkButton">
             <property name="action-name">container-log-page.start-container</property>
-            <property name="label">Start/Resume Container</property>
+            <property name="label" translatable="yes">Start/Resume Container</property>
           </object>
         </child>
 

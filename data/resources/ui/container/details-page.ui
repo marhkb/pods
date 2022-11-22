@@ -299,7 +299,7 @@
                         <child>
                           <object class="GtkButton" id="files_download_button">
                             <property name="action-name">container-details-page.get-files</property>
-                            <property name="label">Download</property>
+                            <property name="label" translatable="yes">Download</property>
                             <property name="tooltip-text">Get a tar archive of files from a container</property>
                             <property name="valign">center</property>
                           </object>
@@ -308,7 +308,7 @@
                         <child>
                           <object class="GtkButton" id="files_upload_button">
                             <property name="action-name">container-details-page.put-files</property>
-                            <property name="label">Upload</property>
+                            <property name="label" translatable="yes">Upload</property>
                             <property name="tooltip-text">Put a tar archive of files into a container</property>
                             <property name="valign">center</property>
                           </object>
