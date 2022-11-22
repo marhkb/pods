@@ -58,6 +58,26 @@
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="1.0.0-beta.8" date="2022-11-22">
+      <description>
+        <p>The eight beta release of Pods 1.0.0 includes the following changes:</p>
+        <ul>
+          <li>Pods now uses the <strong>libpanel</strong> library to display a status bar. Thus, notifications and the name of the Podman connection are always visible.</li>
+          <li>When creating a new connection, there is now a hint on how to enable the Podman UNIX socket and a small example on how to use the Podman root instance.</li>
+          <li>The history of an image can now be inspected.</li>
+          <li>The design of the port bindings in the container details page has been revised.</li>
+          <li>Kubernetes YAML files can now be generated for containers and pods.</li>
+          <li>Files can now be downloaded from a container as well as uploaded to a container.</li>
+          <li>The design of the circular progress bar for displaying container resources has been adjusted to be more consistent with the rest of the application.</li>
+          <li>There is now a rotating animation when a container or pod is in a state transition (start, stop, pause).</li>
+          <li>If a container is in a pod, it will now get a badge with the pod name in the container list.</li>
+          <li>Logs, the result of the inspection of images, containers, and pods, and the result Kubernetes YAML generation can now be saved directly as a file.</li>
+          <li>Headerbar titles were adjusted to be shorter and more concise</li>
+          <li>Many minor internal code improvements habe landed</li>
+          <li>Dependencies and translations have been updated.</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.0.0-beta.7" date="2022-10-30">
       <description>
         <p>The seventh beta release of Pods 1.0.0 includes the following changes:</p>
