@@ -2,20 +2,11 @@
 <interface>
 
   <menu id="menu">
-    <submenu>
-      <attribute name="label" translatable="yes">_Connections</attribute>
-      <section>
-        <item>
-          <attribute name="custom">connections</attribute>
-        </item>
-      </section>
-      <section>
-        <item>
-          <attribute name="label" translatable="yes">_New…</attribute>
-          <attribute name="action">win.add-connection</attribute>
-        </item>
-      </section>
-    </submenu>
+    <section>
+      <item>
+        <attribute name="custom">theme</attribute>
+      </item>
+    </section>
     <section>
       <item>
         <attribute name="label" translatable="yes">About _Podman</attribute>
