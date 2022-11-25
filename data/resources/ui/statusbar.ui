@@ -3,6 +3,7 @@
 
   <menu id="connections_menu">
     <section>
+      <attribute name="label" translatable="yes">Connections</attribute>
       <item>
         <attribute name="custom">items</attribute>
       </item>
