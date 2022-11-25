@@ -242,14 +242,12 @@ mod imp {
 
             let obj = &*self.obj();
 
-            // Devel Profile
             if config::PROFILE == "Devel" {
                 obj.add_css_class("devel");
             }
 
-            // Load settings.
             obj.load_settings();
-            obj.setup_menu();
+            obj.setup_theme_selector();
             obj.setup_search();
             obj.setup_panels();
 
@@ -473,8 +471,35 @@ impl Window {
             .build();
     }
 
-    fn setup_menu(&self) {
+    fn setup_theme_selector(&self) {
         let imp = self.imp();
+
+        let style_manager = adw::StyleManager::default();
+
+        imp.settings
+            .bind("color-scheme", &style_manager, "color-scheme")
+            .get()
+            .set_mapping(|value, _| Some(color_scheme_to_str(value.get().unwrap()).to_variant()))
+            .set()
+            .mapping(|variant, _| Some(str_to_color_scheme(variant.str().unwrap()).to_value()))
+            .build();
+
+        let action = gio::SimpleAction::new_stateful(
+            "theme",
+            Some(glib::VariantTy::STRING),
+            &color_scheme_to_str(style_manager.color_scheme()).to_variant(),
+        );
+        action.connect_activate(clone!(@weak self as obj => move |_, param| {
+            adw::StyleManager::default()
+                .set_color_scheme(str_to_color_scheme(param.unwrap().str().unwrap()));
+        }));
+        self.add_action(&action);
+
+        adw::StyleManager::default().connect_color_scheme_notify(
+            clone!(@weak action => move |style_manager| {
+                action.set_state(&color_scheme_to_str(style_manager.color_scheme()).to_variant());
+            }),
+        );
 
         let popover_menu = imp
             .menu_button
@@ -484,8 +509,10 @@ impl Window {
             .unwrap();
 
         popover_menu.add_child(
-            &view::ConnectionSwitcherWidget::from(&imp.connection_manager),
-            "connections",
+            &panel::ThemeSelector::builder()
+                .action_name("win.theme")
+                .build(),
+            "theme",
         );
     }
 
@@ -845,5 +872,21 @@ impl Window {
 
     pub(crate) fn leaflet_overlay(&self) -> &view::LeafletOverlay {
         &self.imp().leaflet_overlay
+    }
+}
+
+fn str_to_color_scheme(scheme: &str) -> adw::ColorScheme {
+    match scheme {
+        "light" => adw::ColorScheme::ForceLight,
+        "dark" => adw::ColorScheme::ForceDark,
+        _ => adw::ColorScheme::Default,
+    }
+}
+
+fn color_scheme_to_str(scheme: adw::ColorScheme) -> &'static str {
+    match scheme {
+        adw::ColorScheme::ForceDark | adw::ColorScheme::PreferDark => "dark",
+        adw::ColorScheme::ForceLight | adw::ColorScheme::PreferLight => "light",
+        _ => "default",
     }
 }

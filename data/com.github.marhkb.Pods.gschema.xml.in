@@ -16,14 +16,14 @@
       <summary>Default window maximized behaviour</summary>
       <description></description>
     </key>
-    <key name="style-variant" type="s">
+    <key name="color-scheme" type="s">
       <choices>
-        <choice value="follow"/>
+        <choice value="default"/>
         <choice value="light"/>
         <choice value="dark"/>
       </choices>
-      <default>'follow'</default>
-      <summary>Style Variant</summary>
+      <default>'default'</default>
+      <summary>Color Scheme</summary>
       <description>Use the light or dark variant of the GTK theme</description>
     </key>
     <key name="last-used-connection" type="s">

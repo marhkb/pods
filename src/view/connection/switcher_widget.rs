@@ -123,14 +123,6 @@ impl Default for SwitcherWidget {
     }
 }
 
-impl From<&model::ConnectionManager> for SwitcherWidget {
-    fn from(connection_manager: &model::ConnectionManager) -> Self {
-        glib::Object::builder::<Self>()
-            .property("connection-manager", &connection_manager)
-            .build()
-    }
-}
-
 impl SwitcherWidget {
     fn on_error(&self, e: impl ToString) {
         utils::show_error_toast(
