@@ -12,7 +12,7 @@
 
         <child>
           <object class="GtkRevealer" id="check_button_revealer">
-            <property name="transition-type">swing-right</property>
+            <property name="transition-type">slide-right</property>
 
             <child>
               <object class="GtkCheckButton" id="check_button">
@@ -84,7 +84,7 @@
 
         <child>
           <object class="GtkRevealer" id="end_box_revealer">
-            <property name="transition-type">swing-left</property>
+            <property name="transition-type">slide-left</property>
 
             <child>
               <object class="GtkBox">
