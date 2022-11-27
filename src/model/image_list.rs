@@ -62,6 +62,9 @@ mod imp {
                     glib::ParamSpecBoolean::builder("initialized")
                         .flags(glib::ParamFlags::READABLE)
                         .build(),
+                    glib::ParamSpecUInt::builder("intermediates")
+                        .read_only()
+                        .build(),
                     glib::ParamSpecBoolean::builder("selection-mode").build(),
                     glib::ParamSpecUInt::builder("num-selected")
                         .flags(glib::ParamFlags::READABLE)
@@ -86,6 +89,7 @@ mod imp {
                 "len" => obj.len().to_value(),
                 "listing" => obj.listing().to_value(),
                 "initialized" => obj.is_initialized().to_value(),
+                "intermediates" => obj.intermediates().to_value(),
                 "selection-mode" => self.selection_mode.get().to_value(),
                 "num-selected" => obj.num_selected().to_value(),
                 _ => unimplemented!(),
@@ -164,6 +168,15 @@ impl ImageList {
         self.notify("initialized");
     }
 
+    pub(crate) fn intermediates(&self) -> u32 {
+        self.imp()
+            .list
+            .borrow()
+            .values()
+            .filter(|image| image.repo_tags().n_items() == 0)
+            .count() as u32
+    }
+
     pub(crate) fn total_size(&self) -> u64 {
         self.imp()
             .list
@@ -171,15 +184,6 @@ impl ImageList {
             .values()
             .map(model::Image::size)
             .sum()
-    }
-
-    pub(crate) fn num_unused_images(&self) -> usize {
-        self.imp()
-            .list
-            .borrow()
-            .values()
-            .filter(|image| image.repo_tags().n_items() == 0)
-            .count()
     }
 
     pub(crate) fn unused_size(&self) -> u64 {
@@ -239,27 +243,28 @@ impl ImageList {
                             obj.remove_image(id);
                         });
 
-                        let index = obj.len();
-                        let mut added = 0;
+                        summaries.iter().for_each(|summary| {
+                            let index = obj.len();
 
-                        let mut list = obj.imp().list.borrow_mut();
-                        summaries.into_iter().for_each(|summary| {
-                            if let Entry::Vacant(e) =
-                                list.entry(summary.id.as_ref().unwrap().to_owned())
-                            {
-                                let image = model::Image::new(&obj, summary);
+                            let mut list = obj.imp().list.borrow_mut();
 
-                                e.insert(image.clone());
-                                obj.image_added(&image);
+                            match list.entry(summary.id.as_ref().unwrap().to_owned()) {
+                                Entry::Vacant(e) => {
+                                    let image = model::Image::new(&obj, summary);
+                                    e.insert(image.clone());
 
-                                added += 1;
+                                    drop(list);
+
+                                    obj.items_changed(index, 0, 1);
+                                    obj.image_added(&image);
+                                }
+                                Entry::Occupied(e) => {
+                                    let image = e.get().to_owned();
+                                    drop(list);
+                                    image.update(summary);
+                                }
                             }
                         });
-
-                        if added > 0 {
-                            drop(list);
-                            obj.items_changed(index, 0, added as u32);
-                        }
                     }
                     Err(e) => {
                         log::error!("Error on retrieving images: {}", e);
@@ -284,6 +289,10 @@ impl ImageList {
     }
 
     fn image_added(&self, image: &model::Image) {
+        image.connect_notify_local(
+            Some("repo-tags"),
+            clone!(@weak self as obj => move |_, _| obj.notify("intermediates")),
+        );
         self.emit_by_name::<()>("image-added", &[image]);
     }
 

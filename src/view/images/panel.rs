@@ -197,15 +197,13 @@ mod imp {
 
             gtk::ClosureExpression::new::<String>(
                 [image_list_expr, image_list_len_expr],
-                closure!(|_: Self::Type, list: Option<model::ImageList>, _: u32| {
+                closure!(|_: Self::Type, list: Option<model::ImageList>, len: u32| {
                     match list {
                         Some(list) => {
-                            let len = list.n_items();
-
                             if len == 0 {
                                 gettext("No images found")
                             } else if len == 1 {
-                                if list.num_unused_images() == 0 {
+                                if list.intermediates() == 0 {
                                     gettext("1 image, used")
                                 } else {
                                     gettext("1 image, unused")
@@ -218,7 +216,7 @@ mod imp {
                                     len,
                                     len,
                                     glib::format_size(list.total_size()),
-                                    list.num_unused_images(),
+                                    list.intermediates(),
                                     glib::format_size(list.unused_size()),
                                 )
                             }
@@ -304,6 +302,11 @@ impl Panel {
 
         // TODO: For multi-client: Figure out whether signal handlers need to be disconnected.
         let imp = self.imp();
+
+        value.connect_notify_local(
+            Some("intermediates"),
+            clone!(@weak self as obj => move |_ ,_| obj.update_properties_filter()),
+        );
 
         let model = gtk::SortListModel::new(
             Some(&gtk::FilterListModel::new(
