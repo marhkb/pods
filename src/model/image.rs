@@ -1,5 +1,6 @@
 use std::borrow::Borrow;
 use std::cell::Cell;
+use std::cell::RefCell;
 use std::ops::Deref;
 
 use gtk::glib::clone;
@@ -28,17 +29,11 @@ mod imp {
         pub(super) containers: Cell<u64>,
         pub(super) created: OnceCell<i64>,
         pub(super) dangling: Cell<bool>,
-        pub(super) digest: OnceCell<String>,
-        pub(super) history: OnceCell<gtk::StringList>,
         pub(super) id: OnceCell<String>,
-        pub(super) parent_id: OnceCell<Option<String>>,
-        pub(super) read_only: OnceCell<bool>,
-        pub(super) repo_digests: OnceCell<gtk::StringList>,
-        pub(super) repo_tags: OnceCell<gtk::StringList>,
+        pub(super) repo_tags: RefCell<gtk::StringList>,
         pub(super) size: OnceCell<u64>,
-        pub(super) shared_size: OnceCell<u64>,
-        pub(super) user: OnceCell<String>,
-        pub(super) virtual_size: OnceCell<u64>,
+        pub(super) shared_size: Cell<u64>,
+        pub(super) virtual_size: Cell<u64>,
 
         pub(super) data: OnceCell<model::ImageData>,
         pub(super) can_inspect: Cell<bool>,
@@ -69,52 +64,34 @@ mod imp {
                         .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
                         .build(),
                     glib::ParamSpecObject::builder::<model::SimpleContainerList>("container-list")
-                        .flags(glib::ParamFlags::READABLE)
+                        .read_only()
                         .build(),
                     glib::ParamSpecUInt64::builder("containers")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT)
+                        .read_only()
                         .build(),
                     glib::ParamSpecInt64::builder("created")
                         .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
                         .build(),
                     glib::ParamSpecBoolean::builder("dangling")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT)
-                        .build(),
-                    glib::ParamSpecString::builder("digest")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
-                        .build(),
-                    glib::ParamSpecObject::builder::<gtk::StringList>("history")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .read_only()
                         .build(),
                     glib::ParamSpecString::builder("id")
                         .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
                         .build(),
-                    glib::ParamSpecString::builder("parent-id")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
-                        .build(),
-                    glib::ParamSpecBoolean::builder("read-only")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
-                        .build(),
-                    glib::ParamSpecObject::builder::<gtk::StringList>("repo-digests")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
-                        .build(),
                     glib::ParamSpecObject::builder::<gtk::StringList>("repo-tags")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .read_only()
                         .build(),
                     glib::ParamSpecUInt64::builder("size")
                         .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
                         .build(),
                     glib::ParamSpecUInt64::builder("shared-size")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
-                        .build(),
-                    glib::ParamSpecString::builder("user")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .read_only()
                         .build(),
                     glib::ParamSpecUInt64::builder("virtual-size")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .read_only()
                         .build(),
                     glib::ParamSpecObject::builder::<model::ImageData>("data")
-                        .flags(glib::ParamFlags::READABLE)
+                        .read_only()
                         .build(),
                     glib::ParamSpecBoolean::builder("to-be-deleted")
                         .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
@@ -128,20 +105,9 @@ mod imp {
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
                 "image-list" => self.image_list.set(value.get().unwrap()),
-                "containers" => self.containers.set(value.get().unwrap()),
                 "created" => self.created.set(value.get().unwrap()).unwrap(),
-                "dangling" => self.dangling.set(value.get().unwrap()),
-                "digest" => self.digest.set(value.get().unwrap()).unwrap(),
-                "history" => self.history.set(value.get().unwrap()).unwrap(),
                 "id" => self.id.set(value.get().unwrap()).unwrap(),
-                "parent-id" => self.parent_id.set(value.get().unwrap()).unwrap(),
-                "read-only" => self.read_only.set(value.get().unwrap()).unwrap(),
-                "repo-digests" => self.repo_digests.set(value.get().unwrap()).unwrap(),
-                "repo-tags" => self.repo_tags.set(value.get().unwrap()).unwrap(),
                 "size" => self.size.set(value.get().unwrap()).unwrap(),
-                "shared-size" => self.shared_size.set(value.get().unwrap()).unwrap(),
-                "user" => self.user.set(value.get().unwrap()).unwrap(),
-                "virtual-size" => self.virtual_size.set(value.get().unwrap()).unwrap(),
                 "to-be-deleted" => self.obj().set_to_be_deleted(value.get().unwrap()),
                 "selected" => self.selected.set(value.get().unwrap()),
                 _ => unimplemented!(),
@@ -156,16 +122,10 @@ mod imp {
                 "containers" => obj.containers().to_value(),
                 "created" => obj.created().to_value(),
                 "dangling" => obj.dangling().to_value(),
-                "digest" => obj.digest().to_value(),
-                "history" => obj.history().to_value(),
                 "id" => obj.id().to_value(),
-                "parent-id" => obj.parent_id().to_value(),
-                "read-only" => obj.read_only().to_value(),
-                "repo-digests" => obj.repo_digests().to_value(),
                 "repo-tags" => obj.repo_tags().to_value(),
                 "size" => obj.size().to_value(),
                 "shared-size" => obj.shared_size().to_value(),
-                "user" => obj.user().to_value(),
                 "virtual-size" => obj.virtual_size().to_value(),
                 "data" => obj.data().to_value(),
                 "to-be-deleted" => obj.to_be_deleted().to_value(),
@@ -188,72 +148,34 @@ glib::wrapper! {
 impl Image {
     pub(crate) fn new(
         image_list: &model::ImageList,
-        summary: podman::models::LibpodImageSummary,
+        summary: &podman::models::LibpodImageSummary,
     ) -> Self {
         glib::Object::builder::<Self>()
             .property("image-list", image_list)
-            .property(
-                "containers",
-                &(summary.containers.unwrap_or_default() as u64),
-            )
             .property("created", &summary.created.unwrap_or(0))
-            .property("dangling", &summary.dangling.unwrap_or_default())
-            .property("digest", summary.digest.as_ref().unwrap())
-            .property(
-                "history",
-                &gtk::StringList::new(
-                    &summary
-                        .history
-                        .unwrap_or_default()
-                        .iter()
-                        .map(String::as_str)
-                        .collect::<Vec<_>>(),
-                ),
-            )
             .property("id", &summary.id)
-            .property(
-                "parent-id",
-                &summary
-                    .parent_id
-                    .as_ref()
-                    .map(|id| if id.is_empty() { None } else { Some(id) })
-                    .unwrap_or_default(),
-            )
-            .property("read-only", &summary.read_only.unwrap_or_default())
-            .property(
-                "repo-digests",
-                &gtk::StringList::new(
-                    &summary
-                        .repo_digests
-                        .unwrap_or_default()
-                        .iter()
-                        .map(String::as_str)
-                        .collect::<Vec<_>>(),
-                ),
-            )
-            .property(
-                "repo-tags",
-                &gtk::StringList::new(
-                    &summary
-                        .repo_tags
-                        .unwrap_or_default()
-                        .iter()
-                        .map(String::as_str)
-                        .collect::<Vec<_>>(),
-                ),
-            )
             .property("size", &(summary.size.unwrap_or_default() as u64))
-            .property(
-                "shared-size",
-                &(summary.shared_size.unwrap_or_default() as u64),
-            )
-            // FIXME: Find the right user in the response data.
-            .property("user", &glib::user_name().to_str().unwrap_or_default())
-            .property(
-                "virtual-size",
-                &(summary.virtual_size.unwrap_or_default() as u64),
-            )
             .build()
+            .update(summary)
+            .to_owned()
+    }
+
+    pub(crate) fn update(&self, summary: &podman::models::LibpodImageSummary) -> &Self {
+        self.set_containers(summary.containers.unwrap_or_default() as u64);
+        self.set_dangling(summary.dangling.unwrap_or_default());
+        self.set_repo_tags(gtk::StringList::new(
+            &summary
+                .repo_tags
+                .as_deref()
+                .unwrap_or_default()
+                .iter()
+                .map(String::as_str)
+                .collect::<Vec<_>>(),
+        ));
+        self.set_shared_size(summary.shared_size.unwrap_or_default() as u64);
+        self.set_virtual_size(summary.virtual_size.unwrap_or_default() as u64);
+
+        self
     }
 
     pub(crate) fn image_list(&self) -> Option<model::ImageList> {
@@ -268,6 +190,14 @@ impl Image {
         self.imp().containers.get()
     }
 
+    fn set_containers(&self, value: u64) {
+        if self.containers() == value {
+            return;
+        }
+        self.imp().containers.set(value);
+        self.notify("containers");
+    }
+
     pub(crate) fn created(&self) -> i64 {
         *self.imp().created.get().unwrap()
     }
@@ -276,32 +206,28 @@ impl Image {
         self.imp().dangling.get()
     }
 
-    pub(crate) fn digest(&self) -> &str {
-        self.imp().digest.get().unwrap()
-    }
-
-    pub(crate) fn history(&self) -> &gtk::StringList {
-        self.imp().history.get().unwrap()
+    fn set_dangling(&self, value: bool) {
+        if self.dangling() == value {
+            return;
+        }
+        self.imp().dangling.set(value);
+        self.notify("dangling");
     }
 
     pub(crate) fn id(&self) -> &str {
         self.imp().id.get().unwrap()
     }
 
-    pub(crate) fn parent_id(&self) -> Option<&str> {
-        self.imp().parent_id.get().unwrap().as_deref()
+    pub(crate) fn repo_tags(&self) -> gtk::StringList {
+        self.imp().repo_tags.borrow().to_owned()
     }
 
-    pub(crate) fn read_only(&self) -> bool {
-        *self.imp().read_only.get().unwrap()
-    }
-
-    pub(crate) fn repo_digests(&self) -> &gtk::StringList {
-        self.imp().repo_digests.get().unwrap()
-    }
-
-    pub(crate) fn repo_tags(&self) -> &gtk::StringList {
-        self.imp().repo_tags.get().unwrap()
+    fn set_repo_tags(&self, value: gtk::StringList) {
+        if self.repo_tags() == value {
+            return;
+        }
+        self.imp().repo_tags.replace(value);
+        self.notify("repo-tags");
     }
 
     pub(crate) fn size(&self) -> u64 {
@@ -309,15 +235,27 @@ impl Image {
     }
 
     pub(crate) fn shared_size(&self) -> u64 {
-        *self.imp().shared_size.get().unwrap()
+        self.imp().shared_size.get()
     }
 
-    pub(crate) fn user(&self) -> &str {
-        self.imp().user.get().unwrap()
+    fn set_shared_size(&self, value: u64) {
+        if self.shared_size() == value {
+            return;
+        }
+        self.imp().shared_size.set(value);
+        self.notify("shared-size");
     }
 
     pub(crate) fn virtual_size(&self) -> u64 {
-        *self.imp().virtual_size.get().unwrap()
+        self.imp().virtual_size.get()
+    }
+
+    fn set_virtual_size(&self, value: u64) {
+        if self.virtual_size() == value {
+            return;
+        }
+        self.imp().virtual_size.set(value);
+        self.notify("virtual-size");
     }
 
     pub(crate) fn data(&self) -> Option<&model::ImageData> {

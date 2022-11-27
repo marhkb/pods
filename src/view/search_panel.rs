@@ -148,7 +148,7 @@ mod imp {
                     } else if image2.repo_tags().n_items() == 0 {
                         gtk::Ordering::Smaller
                     } else {
-                        image1.repo_tags().cmp(image2.repo_tags()).into()
+                        image1.repo_tags().cmp(&image2.repo_tags()).into()
                     }
                 } else if let Some(container1) = obj1.downcast_ref::<model::Container>() {
                     let container2 = obj2.downcast_ref::<model::Container>().unwrap();
