@@ -61,7 +61,7 @@ mod imp {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
                     glib::ParamSpecObject::builder::<model::ImageList>("image-list")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .construct_only()
                         .build(),
                     glib::ParamSpecObject::builder::<model::SimpleContainerList>("container-list")
                         .read_only()
@@ -70,19 +70,19 @@ mod imp {
                         .read_only()
                         .build(),
                     glib::ParamSpecInt64::builder("created")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .construct_only()
                         .build(),
                     glib::ParamSpecBoolean::builder("dangling")
                         .read_only()
                         .build(),
                     glib::ParamSpecString::builder("id")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .construct_only()
                         .build(),
                     glib::ParamSpecObject::builder::<gtk::StringList>("repo-tags")
                         .read_only()
                         .build(),
                     glib::ParamSpecUInt64::builder("size")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .construct_only()
                         .build(),
                     glib::ParamSpecUInt64::builder("shared-size")
                         .read_only()

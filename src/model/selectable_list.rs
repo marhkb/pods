@@ -24,7 +24,7 @@ mod imp {
                 vec![
                     glib::ParamSpecBoolean::builder("selection-mode").build(),
                     glib::ParamSpecUInt::builder("num-selected")
-                        .flags(glib::ParamFlags::READABLE)
+                        .read_only()
                         .build(),
                 ]
             });

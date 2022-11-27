@@ -67,14 +67,14 @@ mod imp {
                         .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
                         .build(),
                     glib::ParamSpecObject::builder::<model::ImageSearchResponse>("selected-image")
-                        .flags(glib::ParamFlags::READABLE)
+                        .read_only()
                         .build(),
                     glib::ParamSpecString::builder("tag")
                         .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
                         .build(),
                     glib::ParamSpecString::builder("default-tag")
                         .default_value(Some("latest"))
-                        .flags(glib::ParamFlags::READABLE)
+                        .read_only()
                         .build(),
                     glib::ParamSpecString::builder("button-label")
                         .default_value(Some("latest"))
