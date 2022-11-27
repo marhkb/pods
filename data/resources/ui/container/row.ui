@@ -46,7 +46,7 @@
 
                 <child>
                   <object class="GtkBox">
-                    <property name="spacing">9</property>
+                    <property name="spacing">6</property>
 
                     <child>
                       <object class="GtkLabel" id="name_label">
@@ -58,28 +58,11 @@
                     </child>
 
                     <child>
-                      <object class="GtkBox" id="port_box">
-                        <property name="spacing">3</property>
-
-                        <child>
-                          <object class="GtkLabel">
-                            <style>
-                              <class name="caption-heading"/>
-                            </style>
-                            <property name="label" translatable="yes">Port:</property>
-                            <property name="yalign">1</property>
-                          </object>
-                        </child>
-
-                        <child>
-                          <object class="GtkLabel" id="port_label">
-                            <style>
-                              <class name="caption-heading"/>
-                            </style>
-                            <property name="yalign">1</property>
-                          </object>
-                        </child>
-
+                      <object class="GtkLabel" id="port_label">
+                        <style>
+                          <class name="numeric"/>
+                        </style>
+                        <property name="xalign">0</property>
                       </object>
                     </child>
 
@@ -111,23 +94,19 @@
             </child>
 
             <child>
-              <object class="GtkBox" id="pod_box">
+              <object class="AdwBin" id="pod_bin">
                 <style>
-                  <class name="status-badge"/>
+                  <class name="circle"/>
                 </style>
-                <property name="spacing">4</property>
                 <property name="valign">center</property>
 
                 <child>
                   <object class="GtkImage">
                     <property name="icon-name">pods-symbolic</property>
-                  </object>
-                </child>
-
-                <child>
-                  <object class="GtkLabel" id="pod_label">
-                    <property name="ellipsize">end</property>
-                    <property name="max-width-chars">10</property>
+                    <property name="margin-top">8</property>
+                    <property name="margin-end">8</property>
+                    <property name="margin-bottom">8</property>
+                    <property name="margin-start">8</property>
                   </object>
                 </child>
 
@@ -136,7 +115,7 @@
 
             <child>
               <object class="GtkBox" id="stats_box">
-                <property name="spacing">5</property>
+                <property name="spacing">6</property>
 
                 <child>
                   <object class="PdsCircularProgressBar" id="cpu_bar">

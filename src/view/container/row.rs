@@ -33,17 +33,13 @@ mod imp {
         #[template_child]
         pub(super) name_label: TemplateChild<gtk::Label>,
         #[template_child]
-        pub(super) port_box: TemplateChild<gtk::Box>,
-        #[template_child]
         pub(super) port_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) repo_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) health_status_label: TemplateChild<gtk::Label>,
         #[template_child]
-        pub(super) pod_box: TemplateChild<gtk::Box>,
-        #[template_child]
-        pub(super) pod_label: TemplateChild<gtk::Label>,
+        pub(super) pod_bin: TemplateChild<adw::Bin>,
         #[template_child]
         pub(super) stats_box: TemplateChild<gtk::Box>,
         #[template_child]
@@ -173,8 +169,10 @@ mod imp {
 
             port_expr.bind(&*self.port_label, "label", Some(obj));
             port_expr
-                .chain_closure::<bool>(closure!(|_: Self::Type, port: i32| !port.is_negative()))
-                .bind(&*self.port_box, "visible", Some(obj));
+                .chain_closure::<bool>(closure!(
+                    |_: Self::Type, port: Option<String>| port.is_some()
+                ))
+                .bind(&*self.port_label, "visible", Some(obj));
 
             let css_classes = self.port_label.css_classes();
             status_expr
@@ -190,7 +188,7 @@ mod imp {
                             .collect::<Vec<_>>()
                     }
                 ))
-                .bind(&*self.port_box, "css-classes", Some(obj));
+                .bind(&*self.port_label, "css-classes", Some(obj));
 
             container_expr
                 .chain_property::<model::Container>("image-name")
@@ -231,7 +229,7 @@ mod imp {
                 ))
                 .bind(&*self.health_status_label, "css-classes", Some(obj));
 
-            let css_classes = self.pod_box.css_classes();
+            let css_classes = self.pod_bin.css_classes();
             pod_expr
                 .chain_property::<model::Pod>("status")
                 .chain_closure::<Vec<String>>(closure!(
@@ -245,18 +243,12 @@ mod imp {
                             .collect::<Vec<_>>()
                     }
                 ))
-                .bind(&*self.pod_box, "css-classes", Some(obj));
+                .bind(&*self.pod_bin, "css-classes", Some(obj));
             pod_expr
                 .chain_closure::<bool>(closure!(
                     |_: Self::Type, pod: Option<model::Pod>| pod.is_some()
                 ))
-                .bind(&*self.pod_box, "visible", Some(obj));
-
-            pod_expr.chain_property::<model::Pod>("name").bind(
-                &*self.pod_label,
-                "label",
-                Some(obj),
-            );
+                .bind(&*self.pod_bin, "visible", Some(obj));
 
             status_expr
                 .chain_closure::<bool>(closure!(
