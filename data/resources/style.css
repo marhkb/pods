@@ -129,7 +129,7 @@ connectionchooserpage connectionswitchermenu row {
 
 .pod-status-degraded {
   color: #ae7b03;
-  background: alpha(@yellow_5, .25);
+  background: alpha(@yellow_5, .3);
 }
 
 .container-status-dead,
