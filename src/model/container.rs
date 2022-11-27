@@ -142,7 +142,7 @@ mod imp {
         pub(super) name: RefCell<String>,
         pub(super) pod: glib::WeakRef<model::Pod>,
         pub(super) pod_id: OnceCell<Option<String>>,
-        pub(super) port: OnceCell<i32>,
+        pub(super) port: OnceCell<Option<String>>,
         pub(super) stats: RefCell<Option<BoxedContainerStats>>,
         pub(super) status: Cell<Status>,
         pub(super) up_since: Cell<i64>,
@@ -223,9 +223,7 @@ mod imp {
                     glib::ParamSpecString::builder("pod-id")
                         .construct_only()
                         .build(),
-                    glib::ParamSpecInt::builder("port")
-                        .minimum(-1)
-                        .maximum(u16::MAX as i32)
+                    glib::ParamSpecString::builder("port")
                         .construct_only()
                         .build(),
                     glib::ParamSpecBoxed::builder::<BoxedContainerStats>("stats")
@@ -343,8 +341,13 @@ impl Container {
                     .ports
                     .unwrap_or_default()
                     .first()
-                    .map(|mapping| mapping.host_port.unwrap() as i32)
-                    .unwrap_or(-1),
+                    .map(|mapping| {
+                        format!(
+                            "{}/{}",
+                            mapping.host_port.unwrap(),
+                            mapping.protocol.as_deref().unwrap_or("tcp")
+                        )
+                    }),
             )
             .property("status", &status(list_container.state.as_deref()))
             .property("up-since", &list_container.started_at.unwrap())
@@ -460,8 +463,8 @@ impl Container {
             .map(String::as_str)
     }
 
-    pub(crate) fn port(&self) -> i32 {
-        *self.imp().port.get().unwrap()
+    pub(crate) fn port(&self) -> Option<&str> {
+        self.imp().port.get().unwrap().as_deref()
     }
 
     pub(crate) fn stats(&self) -> Option<BoxedContainerStats> {
