@@ -51,23 +51,21 @@ mod imp {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
                     glib::ParamSpecObject::builder::<model::Client>("client")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .construct_only()
                         .build(),
-                    glib::ParamSpecUInt::builder("len")
-                        .flags(glib::ParamFlags::READABLE)
-                        .build(),
+                    glib::ParamSpecUInt::builder("len").read_only().build(),
                     glib::ParamSpecBoolean::builder("listing")
-                        .flags(glib::ParamFlags::READABLE)
+                        .read_only()
                         .build(),
                     glib::ParamSpecBoolean::builder("initialized")
-                        .flags(glib::ParamFlags::READABLE)
+                        .read_only()
                         .build(),
                     glib::ParamSpecUInt::builder("intermediates")
                         .read_only()
                         .build(),
                     glib::ParamSpecBoolean::builder("selection-mode").build(),
                     glib::ParamSpecUInt::builder("num-selected")
-                        .flags(glib::ParamFlags::READABLE)
+                        .read_only()
                         .build(),
                 ]
             });

@@ -36,23 +36,15 @@ mod imp {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
                     glib::ParamSpecObject::builder::<model::Client>("client")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .construct_only()
                         .build(),
-                    glib::ParamSpecUInt::builder("len")
-                        .flags(glib::ParamFlags::READABLE)
-                        .build(),
-                    glib::ParamSpecUInt::builder("ongoing")
-                        .flags(glib::ParamFlags::READABLE)
-                        .build(),
-                    glib::ParamSpecUInt::builder("finished")
-                        .flags(glib::ParamFlags::READABLE)
-                        .build(),
+                    glib::ParamSpecUInt::builder("len").read_only().build(),
+                    glib::ParamSpecUInt::builder("ongoing").read_only().build(),
+                    glib::ParamSpecUInt::builder("finished").read_only().build(),
                     glib::ParamSpecUInt::builder("cancelled")
-                        .flags(glib::ParamFlags::READABLE)
+                        .read_only()
                         .build(),
-                    glib::ParamSpecUInt::builder("failed")
-                        .flags(glib::ParamFlags::READABLE)
-                        .build(),
+                    glib::ParamSpecUInt::builder("failed").read_only().build(),
                 ]
             });
             PROPERTIES.as_ref()

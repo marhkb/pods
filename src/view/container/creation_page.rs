@@ -147,10 +147,10 @@ mod imp {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
                     glib::ParamSpecObject::builder::<model::Client>("client")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .construct_only()
                         .build(),
                     glib::ParamSpecObject::builder::<model::Image>("image")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .construct_only()
                         .build(),
                     glib::ParamSpecObject::builder::<model::Pod>("pod")
                         .flags(

@@ -74,28 +74,26 @@ mod imp {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
                     glib::ParamSpecObject::builder::<glib::Object>("artifact")
-                        .flags(glib::ParamFlags::READABLE)
+                        .read_only()
                         .build(),
-                    glib::ParamSpecUInt::builder("num")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
-                        .build(),
+                    glib::ParamSpecUInt::builder("num").construct_only().build(),
                     glib::ParamSpecEnum::builder::<Type>("type", Type::default())
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .construct_only()
                         .build(),
                     glib::ParamSpecString::builder("description")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .construct_only()
                         .build(),
                     glib::ParamSpecEnum::builder::<State>("state", State::default())
-                        .flags(glib::ParamFlags::READABLE)
+                        .read_only()
                         .build(),
                     glib::ParamSpecInt64::builder("start-timestamp")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .construct_only()
                         .build(),
                     glib::ParamSpecInt64::builder("end-timestamp")
-                        .flags(glib::ParamFlags::READABLE)
+                        .read_only()
                         .build(),
                     glib::ParamSpecObject::builder::<gtk::TextBuffer>("output")
-                        .flags(glib::ParamFlags::READABLE)
+                        .read_only()
                         .build(),
                 ]
             });

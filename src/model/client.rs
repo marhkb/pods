@@ -50,25 +50,25 @@ mod imp {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
                     glib::ParamSpecObject::builder::<model::Connection>("connection")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .construct_only()
                         .build(),
                     glib::ParamSpecBoxed::builder::<BoxedPodman>("podman")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .construct_only()
                         .build(),
                     glib::ParamSpecObject::builder::<model::ImageList>("image-list")
-                        .flags(glib::ParamFlags::READABLE)
+                        .read_only()
                         .build(),
                     glib::ParamSpecObject::builder::<model::ContainerList>("container-list")
-                        .flags(glib::ParamFlags::READABLE)
+                        .read_only()
                         .build(),
                     glib::ParamSpecObject::builder::<model::PodList>("pod-list")
-                        .flags(glib::ParamFlags::READABLE)
+                        .read_only()
                         .build(),
                     glib::ParamSpecObject::builder::<model::ActionList>("action-list")
-                        .flags(glib::ParamFlags::READABLE)
+                        .read_only()
                         .build(),
                     glib::ParamSpecBoolean::builder("pruning")
-                        .flags(glib::ParamFlags::READABLE)
+                        .read_only()
                         .build(),
                 ]
             });

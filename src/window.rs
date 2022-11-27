@@ -217,10 +217,10 @@ mod imp {
                     .flags(glib::ParamFlags::READABLE | glib::ParamFlags::EXPLICIT_NOTIFY)
                     .build(),
                     glib::ParamSpecObject::builder::<gtk::Stack>("title-stack")
-                        .flags(glib::ParamFlags::READABLE)
+                        .read_only()
                         .build(),
                     glib::ParamSpecObject::builder::<adw::ViewStack>("panel-stack")
-                        .flags(glib::ParamFlags::READABLE)
+                        .read_only()
                         .build(),
                 ]
             });

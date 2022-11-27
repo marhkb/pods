@@ -45,16 +45,16 @@ mod imp {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
                     glib::ParamSpecObject::builder::<model::ConnectionManager>("manager")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .construct_only()
                         .build(),
                     glib::ParamSpecString::builder("uuid")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .construct_only()
                         .build(),
                     glib::ParamSpecString::builder("name")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .construct_only()
                         .build(),
                     glib::ParamSpecString::builder("url")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .construct_only()
                         .build(),
                     glib::ParamSpecBoxed::builder::<gdk::RGBA>("rgb")
                         .flags(
@@ -64,7 +64,7 @@ mod imp {
                         )
                         .build(),
                     glib::ParamSpecBoolean::builder("is-remote")
-                        .flags(glib::ParamFlags::READABLE)
+                        .read_only()
                         .build(),
                 ]
             });

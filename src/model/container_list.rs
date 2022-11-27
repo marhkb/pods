@@ -47,44 +47,26 @@ mod imp {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
                     glib::ParamSpecObject::builder::<model::Client>("client")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY)
+                        .construct_only()
                         .build(),
-                    glib::ParamSpecUInt::builder("len")
-                        .flags(glib::ParamFlags::READABLE)
-                        .build(),
+                    glib::ParamSpecUInt::builder("len").read_only().build(),
                     glib::ParamSpecBoolean::builder("listing")
-                        .flags(glib::ParamFlags::READABLE)
+                        .read_only()
                         .build(),
                     glib::ParamSpecBoolean::builder("initialized")
-                        .flags(glib::ParamFlags::READABLE)
+                        .read_only()
                         .build(),
-                    glib::ParamSpecUInt::builder("created")
-                        .flags(glib::ParamFlags::READABLE)
-                        .build(),
-                    glib::ParamSpecUInt::builder("dead")
-                        .flags(glib::ParamFlags::READABLE)
-                        .build(),
-                    glib::ParamSpecUInt::builder("exited")
-                        .flags(glib::ParamFlags::READABLE)
-                        .build(),
-                    glib::ParamSpecUInt::builder("paused")
-                        .flags(glib::ParamFlags::READABLE)
-                        .build(),
-                    glib::ParamSpecUInt::builder("removing")
-                        .flags(glib::ParamFlags::READABLE)
-                        .build(),
-                    glib::ParamSpecUInt::builder("running")
-                        .flags(glib::ParamFlags::READABLE)
-                        .build(),
-                    glib::ParamSpecUInt::builder("stopped")
-                        .flags(glib::ParamFlags::READABLE)
-                        .build(),
-                    glib::ParamSpecUInt::builder("stopping")
-                        .flags(glib::ParamFlags::READABLE)
-                        .build(),
+                    glib::ParamSpecUInt::builder("created").read_only().build(),
+                    glib::ParamSpecUInt::builder("dead").read_only().build(),
+                    glib::ParamSpecUInt::builder("exited").read_only().build(),
+                    glib::ParamSpecUInt::builder("paused").read_only().build(),
+                    glib::ParamSpecUInt::builder("removing").read_only().build(),
+                    glib::ParamSpecUInt::builder("running").read_only().build(),
+                    glib::ParamSpecUInt::builder("stopped").read_only().build(),
+                    glib::ParamSpecUInt::builder("stopping").read_only().build(),
                     glib::ParamSpecBoolean::builder("selection-mode").build(),
                     glib::ParamSpecUInt::builder("num-selected")
-                        .flags(glib::ParamFlags::READABLE)
+                        .read_only()
                         .build(),
                 ]
             });
