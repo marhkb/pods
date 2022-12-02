@@ -54,6 +54,7 @@ pub(crate) use self::container::PropertiesGroup as ContainerPropertiesGroup;
 pub(crate) use self::container::RenameDialog as ContainerRenameDialog;
 pub(crate) use self::container::ResourcesQuickReferenceGroup as ContainerResourcesQuickReferenceGroup;
 pub(crate) use self::container::Row as ContainerRow;
+pub(crate) use self::container::Tty as ContainerTty;
 pub(crate) use self::containers::CountBar as ContainersCountBar;
 pub(crate) use self::containers::Group as ContainersGroup;
 pub(crate) use self::containers::Panel as ContainersPanel;

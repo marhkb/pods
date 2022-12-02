@@ -10,6 +10,7 @@ mod properties_group;
 mod rename_dialog;
 mod resources_quick_reference_group;
 mod row;
+mod tty;
 
 pub(crate) use self::commit_page::CommitPage;
 pub(crate) use self::creation_page::CreationPage;
@@ -23,6 +24,7 @@ pub(crate) use self::properties_group::PropertiesGroup;
 pub(crate) use self::rename_dialog::RenameDialog;
 pub(crate) use self::resources_quick_reference_group::ResourcesQuickReferenceGroup;
 pub(crate) use self::row::Row;
+pub(crate) use self::tty::Tty;
 use crate::model;
 
 fn container_status_css_class(status: model::ContainerStatus) -> &'static str {
