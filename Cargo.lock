@@ -1763,6 +1763,7 @@ dependencies = [
  "tokio",
  "tokio-tar",
  "vte",
+ "vte4",
 ]
 
 [[package]]
@@ -2435,6 +2436,37 @@ dependencies = [
  "arrayvec",
  "utf8parse",
  "vte_generate_state_changes",
+]
+
+[[package]]
+name = "vte4"
+version = "0.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4520ffebab5e51521768dd986c52079cec892ab92818f9c99dcad85816bd4fb8"
+dependencies = [
+ "bitflags",
+ "gdk4",
+ "gio",
+ "glib",
+ "gtk4",
+ "libc",
+ "pango",
+ "vte4-sys",
+]
+
+[[package]]
+name = "vte4-sys"
+version = "0.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0f6cafdaaf6768a31d96fbd80f1e29506c21ab53d1eae1c6d803d2c48f788b63"
+dependencies = [
+ "gdk4-sys",
+ "gio-sys",
+ "glib-sys",
+ "gtk4-sys",
+ "libc",
+ "pango-sys",
+ "system-deps",
 ]
 
 [[package]]
