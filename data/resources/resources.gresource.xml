@@ -35,6 +35,7 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/container/rename-dialog.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container/resources-quick-reference-group.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container/row.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/container/tty-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/container/tty.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/containers/count-bar.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/containers/group.ui</file>
