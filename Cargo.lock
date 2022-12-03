@@ -370,8 +370,7 @@ dependencies = [
 [[package]]
 name = "containers-api"
 version = "0.7.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "56082e32f18a6d60f06c736b49e234deffb93b13cb87091a39e0dec053d03819"
+source = "git+https://github.com/vv9k/containers-api#def35c7c95b8a79766bea96d7afe3e8c97792c2d"
 dependencies = [
  "chrono",
  "flate2",
@@ -1708,7 +1707,7 @@ checksum = "6ac9a59f73473f1b8d852421e59e64809f025994837ef743615c6d0c5b305160"
 [[package]]
 name = "podman-api"
 version = "0.8.0"
-source = "git+https://github.com/vv9k/podman-api-rs.git#d6165b9473f6855f4f813bdbe3e31e95b2afd879"
+source = "git+https://github.com/vv9k/podman-api-rs.git#c8d2b4eb575a341c4f2c184e62fe41ba24bc1591"
 dependencies = [
  "base64",
  "byteorder",
