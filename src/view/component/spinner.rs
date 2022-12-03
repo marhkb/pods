@@ -14,7 +14,7 @@ use once_cell::unsync::OnceCell;
 
 use crate::utils;
 
-const SIZE: i32 = 36;
+const SIZE: i32 = 34;
 const BORDER_WIDTH: i32 = 4;
 
 mod imp {
