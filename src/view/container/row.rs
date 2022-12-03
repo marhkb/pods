@@ -33,13 +33,13 @@ mod imp {
         #[template_child]
         pub(super) name_label: TemplateChild<gtk::Label>,
         #[template_child]
+        pub(super) pod_image: TemplateChild<gtk::Image>,
+        #[template_child]
         pub(super) port_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) repo_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) health_status_label: TemplateChild<gtk::Label>,
-        #[template_child]
-        pub(super) pod_bin: TemplateChild<adw::Bin>,
         #[template_child]
         pub(super) stats_box: TemplateChild<gtk::Box>,
         #[template_child]
@@ -167,6 +167,12 @@ mod imp {
             )
             .bind(&*self.name_label, "label", Some(obj));
 
+            pod_expr
+                .chain_closure::<bool>(closure!(
+                    |_: Self::Type, pod: Option<model::Pod>| pod.is_some()
+                ))
+                .bind(&*self.pod_image, "visible", Some(obj));
+
             port_expr.bind(&*self.port_label, "label", Some(obj));
             port_expr
                 .chain_closure::<bool>(closure!(
@@ -228,27 +234,6 @@ mod imp {
                     }
                 ))
                 .bind(&*self.health_status_label, "css-classes", Some(obj));
-
-            let css_classes = self.pod_bin.css_classes();
-            pod_expr
-                .chain_property::<model::Pod>("status")
-                .chain_closure::<Vec<String>>(closure!(
-                    |_: Self::Type, status: model::PodStatus| {
-                        css_classes
-                            .iter()
-                            .cloned()
-                            .chain(Some(glib::GString::from(view::pod_status_css_class(
-                                status,
-                            ))))
-                            .collect::<Vec<_>>()
-                    }
-                ))
-                .bind(&*self.pod_bin, "css-classes", Some(obj));
-            pod_expr
-                .chain_closure::<bool>(closure!(
-                    |_: Self::Type, pod: Option<model::Pod>| pod.is_some()
-                ))
-                .bind(&*self.pod_bin, "visible", Some(obj));
 
             status_expr
                 .chain_closure::<bool>(closure!(

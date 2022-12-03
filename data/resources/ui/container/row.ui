@@ -58,6 +58,15 @@
                     </child>
 
                     <child>
+                      <object class="GtkImage" id="pod_image">
+                        <style>
+                          <class name="dim-icon"/>
+                        </style>
+                        <property name="icon-name">pod-circle-symbolic</property>
+                      </object>
+                    </child>
+
+                    <child>
                       <object class="GtkLabel" id="port_label">
                         <style>
                           <class name="numeric"/>
@@ -90,26 +99,6 @@
                   <class name="status-badge"/>
                 </style>
                 <property name="valign">center</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="AdwBin" id="pod_bin">
-                <style>
-                  <class name="circle"/>
-                </style>
-                <property name="valign">center</property>
-
-                <child>
-                  <object class="GtkImage">
-                    <property name="icon-name">pods-symbolic</property>
-                    <property name="margin-top">8</property>
-                    <property name="margin-end">8</property>
-                    <property name="margin-bottom">8</property>
-                    <property name="margin-start">8</property>
-                  </object>
-                </child>
-
               </object>
             </child>
 
