@@ -22,6 +22,7 @@ serde = "1"
 serde_json = "1"
 sourceview5 = "0.5"
 syslog = "6"
-tokio = { version = "1", features = ["fs", "io-util", "process", "rt-multi-thread"] }
+tokio = { version = "1", features = ["fs", "io-util", "process", "rt-multi-thread", "sync"] }
 tokio-tar = "0.3"
 vte = "0.11"
+vte4 = "0.5"

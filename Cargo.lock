@@ -369,14 +369,12 @@ dependencies = [
 
 [[package]]
 name = "containers-api"
-version = "0.5.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f27d5f3aeaa134ce3074008ed3a8fbc2e7a427bbdb7cfd4c3da9416be912c540"
+version = "0.7.0"
+source = "git+https://github.com/vv9k/containers-api#def35c7c95b8a79766bea96d7afe3e8c97792c2d"
 dependencies = [
  "chrono",
  "flate2",
  "futures-util",
- "futures_codec",
  "http",
  "hyper",
  "hyperlocal",
@@ -1708,8 +1706,8 @@ checksum = "6ac9a59f73473f1b8d852421e59e64809f025994837ef743615c6d0c5b305160"
 
 [[package]]
 name = "podman-api"
-version = "0.8.0-dev"
-source = "git+https://github.com/vv9k/podman-api-rs.git#f1c8d444c6e1aa612447852c00359ac28a86fede"
+version = "0.8.0"
+source = "git+https://github.com/vv9k/podman-api-rs.git#c8d2b4eb575a341c4f2c184e62fe41ba24bc1591"
 dependencies = [
  "base64",
  "byteorder",
@@ -1731,8 +1729,9 @@ dependencies = [
 
 [[package]]
 name = "podman-api-stubs"
-version = "0.7.0"
-source = "git+https://github.com/vv9k/podman-api-rs.git#f1c8d444c6e1aa612447852c00359ac28a86fede"
+version = "0.8.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "cd9a63943c0c6e69efcd252ad61f4914270b7e3fec170e6a04ffdb2fc8dcd6a9"
 dependencies = [
  "chrono",
  "serde",
@@ -1763,6 +1762,7 @@ dependencies = [
  "tokio",
  "tokio-tar",
  "vte",
+ "vte4",
 ]
 
 [[package]]
@@ -2435,6 +2435,37 @@ dependencies = [
  "arrayvec",
  "utf8parse",
  "vte_generate_state_changes",
+]
+
+[[package]]
+name = "vte4"
+version = "0.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4520ffebab5e51521768dd986c52079cec892ab92818f9c99dcad85816bd4fb8"
+dependencies = [
+ "bitflags",
+ "gdk4",
+ "gio",
+ "glib",
+ "gtk4",
+ "libc",
+ "pango",
+ "vte4-sys",
+]
+
+[[package]]
+name = "vte4-sys"
+version = "0.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0f6cafdaaf6768a31d96fbd80f1e29506c21ab53d1eae1c6d803d2c48f788b63"
+dependencies = [
+ "gdk4-sys",
+ "gio-sys",
+ "glib-sys",
+ "gtk4-sys",
+ "libc",
+ "pango-sys",
+ "system-deps",
 ]
 
 [[package]]

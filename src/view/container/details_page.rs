@@ -110,6 +110,10 @@ mod imp {
             klass.install_action(ACTION_DELETE, None, move |widget, _, _| {
                 super::super::delete(widget.upcast_ref());
             });
+
+            klass.install_action("container.tty", None, move |widget, _, _| {
+                widget.show_tty();
+            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -306,6 +310,14 @@ impl DetailsPage {
             self.imp()
                 .leaflet_overlay
                 .show_details(&view::ContainerFilesPutPage::from(&container));
+        }
+    }
+
+    fn show_tty(&self) {
+        if let Some(container) = self.container() {
+            self.imp()
+                .leaflet_overlay
+                .show_details(&view::ContainerTtyPage::from(&container));
         }
     }
 }

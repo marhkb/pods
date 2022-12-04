@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="PdsContainerTtyPage" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBoxLayout">
+        <property name="orientation">vertical</property>
+      </object>
+    </property>
+
+    <child>
+      <object class="AdwHeaderBar">
+
+        <child type="start">
+          <object class="PdsBackNavigationControls" id="back_navigation_controls"/>
+        </child>
+
+        <child type="title">
+          <object class="AdwWindowTitle">
+            <property name="title" translatable="yes">Container TTY</property>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <child>
+      <object class="PdsContainerTty" id="tty">
+        <property name="vexpand">True</property>
+        <property name="container" bind-source="PdsContainerTtyPage" bind-property="container" bind-flags="sync-create"/>
+      </object>
+    </child>
+
+  </template>
+</interface>
