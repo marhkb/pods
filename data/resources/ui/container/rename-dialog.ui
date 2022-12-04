@@ -1,42 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="PdsContainerRenameDialog" parent="AdwWindow">
-    <property name="default-widget">button_rename</property>
-    <property name="deletable">False</property>
-    <property name="modal">True</property>
-    <property name="resizable">False</property>
-    <property name="width-request">400</property>
+  <template class="PdsContainerRenameDialog" parent="AdwMessageDialog">
+    <property name="default-response">rename</property>
+    <property name="close-response">close</property>
 
-    <property name="content">
+    <responses>
+      <response id="close" translatable="yes">_Cancel</response>
+      <response id="rename" translatable="yes" appearance="destructive">_Rename</response>
+    </responses>
+
+    <property name="extra-child">
       <object class="GtkBox">
         <property name="orientation">vertical</property>
+        <property name="margin-top">12</property>
+        <property name="width-request">500</property>
 
-        <!-- Headerbar -->
         <child>
-          <object class="AdwHeaderBar">
+          <object class="AdwPreferencesGroup">
 
-            <child type="start">
-              <object class="GtkButton" id="button_cancel">
-                <property name="action-name">container-rename-dialog.cancel</property>
-                <property name="label" translatable="yes">_Cancel</property>
-                <property name="use-underline">True</property>
-              </object>
-            </child>
-
-            <child type="title">
-              <object class="AdwWindowTitle">
-                <property name="title"/>
-              </object>
-            </child>
-
-            <child type="end">
-              <object class="GtkButton" id="button_rename">
-                <style>
-                  <class name="suggested-action"/>
-                </style>
-                <property name="action-name">container-rename-dialog.rename</property>
-                <property name="label" translatable="yes">_Rename</property>
-                <property name="use-underline">True</property>
+            <child>
+              <object class="PdsRandomNameEntryRow" id="entry_row">
+                <property name="activates-default">True</property>
+                <property name="title" translatable="yes">Name</property>
               </object>
             </child>
 
@@ -44,70 +29,20 @@
         </child>
 
         <child>
-          <object class="AdwPreferencesPage">
+          <object class="GtkRevealer" id="error_label_revealer">
+            <property name="visible">False</property>
 
             <child>
-              <object class="AdwPreferencesGroup">
-
-                <child>
-                  <object class="PdsRandomNameEntryRow" id="entry_row">
-                    <property name="activates-default">True</property>
-                    <property name="title" translatable="yes">Name</property>
-                  </object>
-                </child>
-
-                <child>
-                  <object class="AdwPreferencesRow" id="error_label_row">
-                    <property name="activatable">False</property>
-                    <property name="visible">False</property>
-
-                    <child>
-                      <object class="GtkRevealer" id="error_label_revealer">
-
-                        <child>
-                          <object class="GtkLabel" id="error_label">
-                            <style>
-                              <class name="error"/>
-                            </style>
-                            <property name="justify">center</property>
-                            <property name="margin-bottom">12</property>
-                            <property name="margin-end">12</property>
-                            <property name="margin-start">12</property>
-                            <property name="margin-top">12</property>
-                            <property name="wrap">True</property>
-                            <property name="wrap-mode">word-char</property>
-                          </object>
-                        </child>
-
-                      </object>
-                    </child>
-
-                  </object>
-                </child>
-
-              </object>
-            </child>
-
-            <child>
-              <object class="AdwPreferencesGroup">
-
-                <child>
-                  <object class="PdsPropertyRow" id="id_row">
-                    <property name="key" translatable="yes">Id</property>
-                  </object>
-                </child>
-
-                <child>
-                  <object class="PdsPropertyRow">
-                    <property name="key" translatable="yes">Current Name</property>
-                    <binding name="value">
-                      <lookup name="name" type="Container">
-                        <lookup name="container">PdsContainerRenameDialog</lookup>
-                      </lookup>
-                    </binding>
-                  </object>
-                </child>
-
+              <object class="GtkLabel" id="error_label">
+                <style>
+                  <class name="error"/>
+                </style>
+                <property name="justify">center</property>
+                <property name="margin-end">6</property>
+                <property name="margin-start">6</property>
+                <property name="margin-top">24</property>
+                <property name="wrap">True</property>
+                <property name="wrap-mode">word-char</property>
               </object>
             </child>
 
