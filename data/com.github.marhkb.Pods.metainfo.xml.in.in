@@ -58,6 +58,19 @@
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="1.0.0-beta.9" date="2022-12-05">
+      <description>
+        <p>The ninth beta of Pods in an important step towards the stable first version. It contains the following changes:</p>
+        <ul>
+          <li>It is now possible to have a terminal in a container.</li>
+          <li>As one works with the terminal and views text in the form of logs or inspection data, the theme selector has been reintroduced. This is provided by <strong>libpanel</strong>, which should simplify maintenance.</li>
+          <li>The dialog for renaming a container is now based on <strong>AdwMessageDialog</strong>.</li>
+          <li>The style of the container series was tweaked in many ways.</li>
+          <li>Some minor internal code improvements have landed.</li>
+          <li>Dependencies and translations have been updated.</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.0.0-beta.8" date="2022-11-22">
       <description>
         <p>The eight beta release of Pods 1.0.0 includes the following changes:</p>
