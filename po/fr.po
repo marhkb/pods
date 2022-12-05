@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-10-22 00:06+0200\n"
-"PO-Revision-Date: 2022-10-31 07:05+0000\n"
+"PO-Revision-Date: 2022-11-30 02:47+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/pods/pods/fr/>\n"
 "Language: fr\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.14.2-dev\n"
+"X-Generator: Weblate 4.15-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
@@ -1990,7 +1990,7 @@ msgstr "Erreur : {}"
 
 #: src/view/pod/creation_page.rs:207
 msgid "IP"
-msgstr ""
+msgstr "IP"
 
 #: src/view/pod/creation_page.rs:481
 msgid "Failed to create pod"
