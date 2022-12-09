@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="PdsRepoTagSimpleRow" parent="GtkListBoxRow">
+    <property name="selectable">False</property>
+    <property name="activatable">False</property>
+
+    <child>
+      <object class="GtkLabel" id="label">
+        <style>
+          <class name="caption"/>
+        </style>
+        <property name="xalign">0</property>
+        <property name="wrap">True</property>
+        <property name="wrap-mode">word-char</property>
+      </object>
+    </child>
+
+  </template>
+</interface>
