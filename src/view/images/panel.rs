@@ -246,20 +246,16 @@ mod imp {
                 let image1 = obj1.downcast_ref::<model::Image>().unwrap();
                 let image2 = obj2.downcast_ref::<model::Image>().unwrap();
 
-                if image1.repo_tags().n_items() == 0 {
-                    if image2.repo_tags().n_items() == 0 {
+                if image1.repo_tags().len() == 0 {
+                    if image2.repo_tags().len() == 0 {
                         image1.id().cmp(image2.id()).into()
                     } else {
                         gtk::Ordering::Larger
                     }
-                } else if image2.repo_tags().n_items() == 0 {
+                } else if image2.repo_tags().len() == 0 {
                     gtk::Ordering::Smaller
                 } else {
-                    image1
-                        .repo_tags()
-                        .string(0)
-                        .cmp(&image2.repo_tags().string(0))
-                        .into()
+                    image1.id().cmp(image2.id()).into()
                 }
             });
 
@@ -305,7 +301,10 @@ impl Panel {
 
         value.connect_notify_local(
             Some("intermediates"),
-            clone!(@weak self as obj => move |_ ,_| obj.update_properties_filter()),
+            clone!(@weak self as obj => move |_ ,_| {
+                obj.update_properties_filter();
+                obj.update_sorter();
+            }),
         );
 
         let model = gtk::SortListModel::new(
@@ -428,6 +427,14 @@ impl Panel {
         self.image_list()
             .as_ref()
             .and_then(model::ImageList::client)
+    }
+
+    fn update_sorter(&self) {
+        self.imp()
+            .sorter
+            .get()
+            .unwrap()
+            .changed(gtk::SorterChange::Different);
     }
 
     pub(crate) fn connect_exit_selection_mode<F: Fn(&Self) + 'static>(

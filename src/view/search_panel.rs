@@ -103,18 +103,7 @@ mod imp {
                         false
                     } else if let Some(image) = item.downcast_ref::<model::Image>() {
                         image.id().contains(&term)
-                        || image
-                            .repo_tags()
-                            .iter::<glib::Object>()
-                            .unwrap()
-                            .map(|host_port| {
-                                host_port
-                                    .unwrap()
-                                    .downcast::<gtk::StringObject>()
-                                    .unwrap()
-                                    .string()
-                            })
-                            .any(|s| s.to_uppercase().contains(&term))
+                        || image.repo_tags().contains(&term)
                     } else if let Some(container) = item.downcast_ref::<model::Container>() {
                         container
                             .name().to_uppercase().contains(&term)
@@ -148,7 +137,7 @@ mod imp {
                     } else if image2.repo_tags().n_items() == 0 {
                         gtk::Ordering::Smaller
                     } else {
-                        image1.repo_tags().cmp(&image2.repo_tags()).into()
+                        image1.repo_tags().cmp(image2.repo_tags()).into()
                     }
                 } else if let Some(container1) = obj1.downcast_ref::<model::Container>() {
                     let container2 = obj2.downcast_ref::<model::Container>().unwrap();

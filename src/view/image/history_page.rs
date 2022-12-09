@@ -93,7 +93,8 @@ impl From<&model::Image> for HistoryPage {
                                 .title(
                                     &entry
                                         .id
-                                        .map(|id| id.chars().take(12).collect::<String>())
+                                        .as_deref()
+                                        .map(utils::format_id)
                                         .unwrap_or_else(|| gettext("<None>")),
                                 )
                                 .subtitle(

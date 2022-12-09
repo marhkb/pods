@@ -76,8 +76,13 @@ mod imp {
 
             let image_tag_expr = model::Image::this_expression("repo-tags")
                 .chain_closure::<String>(closure!(
-                    |_: model::Image, repo_tags: gtk::StringList| {
-                        utils::escape(&utils::format_option(repo_tags.string(0)))
+                    |image: model::Image, repo_tags: model::RepoTagList| {
+                        repo_tags
+                            .get(0)
+                            .as_ref()
+                            .map(model::RepoTag::full)
+                            .map(str::to_owned)
+                            .unwrap_or_else(|| utils::format_id(image.id()))
                     }
                 ));
             obj.set_expression(Some(&image_tag_expr));
