@@ -242,6 +242,7 @@ impl DetailsPage {
 
             self.action_set_enabled(ACTION_START_OR_RESUME, can_start_or_resume);
             self.action_set_enabled(ACTION_STOP, can_stop);
+            self.action_set_enabled(ACTION_KILL, container.can_kill());
             self.action_set_enabled(ACTION_RESTART, container.can_restart());
             self.action_set_enabled(ACTION_PAUSE, container.can_pause());
             self.action_set_enabled(ACTION_DELETE, container.can_delete());
