@@ -288,6 +288,7 @@ impl DetailsPage {
 
             self.action_set_enabled(ACTION_START_OR_RESUME, can_start_or_resume);
             self.action_set_enabled(ACTION_STOP, can_stop);
+            self.action_set_enabled(ACTION_KILL, pod.can_kill());
             self.action_set_enabled(ACTION_RESTART, pod.can_restart());
             self.action_set_enabled(ACTION_PAUSE, pod.can_pause());
             self.action_set_enabled(ACTION_DELETE, pod.can_delete());
