@@ -524,6 +524,10 @@ impl Pod {
         matches!(self.status(), Status::Running)
     }
 
+    pub(crate) fn can_kill(&self) -> bool {
+        !self.can_start()
+    }
+
     pub(crate) fn can_restart(&self) -> bool {
         matches!(self.status(), Status::Running)
     }
