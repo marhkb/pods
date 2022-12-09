@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="PdsRepoTagAddDialog" parent="AdwMessageDialog">
+    <property name="default-response">add</property>
+    <property name="close-response">close</property>
+    <property name="heading" translatable="yes">Add Tag</property>
+
+    <responses>
+      <response id="close" translatable="yes">_Cancel</response>
+      <response id="add" translatable="yes" appearance="suggested">_Add</response>
+    </responses>
+
+    <property name="extra-child">
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
+        <property name="margin-top">12</property>
+        <property name="width-request">500</property>
+
+        <child>
+          <object class="AdwPreferencesGroup">
+
+            <child>
+              <object class="AdwEntryRow" id="entry_row">
+                <property name="activates-default">True</property>
+                <property name="title" translatable="yes">Repo Tag</property>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkRevealer" id="error_label_revealer">
+            <property name="visible">False</property>
+
+            <child>
+              <object class="GtkLabel" id="error_label">
+                <style>
+                  <class name="error"/>
+                </style>
+                <property name="justify">center</property>
+                <property name="margin-end">6</property>
+                <property name="margin-start">6</property>
+                <property name="margin-top">24</property>
+                <property name="wrap">True</property>
+                <property name="wrap-mode">word-char</property>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+      </object>
+    </property>
+
+  </template>
+</interface>
