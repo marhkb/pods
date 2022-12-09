@@ -3,7 +3,7 @@
   <template class="PdsRepoTagAddDialog" parent="AdwMessageDialog">
     <property name="default-response">add</property>
     <property name="close-response">close</property>
-    <property name="heading" translatable="yes">Add Tag</property>
+    <property name="heading" translatable="yes">Add Repository Tag</property>
 
     <responses>
       <response id="close" translatable="yes">_Cancel</response>
@@ -22,7 +22,7 @@
             <child>
               <object class="AdwEntryRow" id="entry_row">
                 <property name="activates-default">True</property>
-                <property name="title" translatable="yes">Repo Tag</property>
+                <property name="title" translatable="yes">Repository Tag</property>
               </object>
             </child>
 
