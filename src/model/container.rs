@@ -10,6 +10,7 @@ use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::subclass::Signal;
 use gtk::prelude::ObjectExt;
+use gtk::prelude::ParamSpecBuilderExt;
 use gtk::prelude::ToValue;
 use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
@@ -123,8 +124,6 @@ impl fmt::Display for HealthStatus {
 monad_boxed_type!(pub(crate) BoxedContainerStats(podman::models::ContainerStats) impls Debug, PartialEq is nullable);
 
 mod imp {
-    use gtk::prelude::ParamSpecBuilderExt;
-
     use super::*;
 
     #[derive(Debug, Default)]

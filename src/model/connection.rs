@@ -3,6 +3,7 @@ use std::cell::Cell;
 use gtk::gdk;
 use gtk::glib;
 use gtk::prelude::ObjectExt;
+use gtk::prelude::ParamSpecBuilderExt;
 use gtk::prelude::ToValue;
 use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
@@ -21,8 +22,6 @@ pub(crate) struct ConnectionInfo {
 }
 
 mod imp {
-    use gtk::prelude::ParamSpecBuilderExt;
-
     use super::*;
 
     #[derive(Debug, Default)]
