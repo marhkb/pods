@@ -3,6 +3,7 @@ use std::cell::RefCell;
 use futures::future;
 use futures::AsyncWriteExt;
 use futures::StreamExt;
+use gettextrs::gettext;
 use gtk::gdk;
 use gtk::glib;
 use gtk::glib::clone;
@@ -19,7 +20,6 @@ use vte4::TerminalExtManual;
 use crate::model;
 use crate::podman;
 use crate::utils;
-use crate::RUNTIME;
 
 const ACTION_START_OR_RESUME: &str = "container-tty.start-or-resume";
 
@@ -27,12 +27,6 @@ const ACTION_START_OR_RESUME: &str = "container-tty.start-or-resume";
 enum ExecInput {
     Data(Vec<u8>),
     Resize { columns: usize, rows: usize },
-}
-
-#[derive(Debug)]
-enum ExecOutput {
-    Data(Vec<u8>),
-    Terminated,
 }
 
 mod imp {
@@ -224,22 +218,13 @@ impl Tty {
 
         let container = container.api().unwrap();
 
-        let (tx_glib, rx_glib) =
-            glib::MainContext::sync_channel::<ExecOutput>(Default::default(), 5);
+        let (tx_glib, rx_glib) = glib::MainContext::sync_channel::<Vec<u8>>(Default::default(), 5);
 
         rx_glib.attach(
             None,
-            clone!(@weak self as obj => @default-return glib::Continue(false), move |output| {
-                glib::Continue(match output {
-                    ExecOutput::Data(buf) => {
-                        obj.imp().terminal.feed(&buf);
-                        true
-                    }
-                    ExecOutput::Terminated => {
-                        obj.emit_by_name::<()>("terminated", &[]);
-                        false
-                    }
-                })
+            clone!(@weak self as obj => @default-return glib::Continue(false), move |buf| {
+                obj.imp().terminal.feed(&buf);
+                glib::Continue(true)
             }),
         );
 
@@ -254,64 +239,73 @@ impl Tty {
 
         self.grab_focus();
 
-        RUNTIME.spawn(async move {
-            let opts = podman::opts::ExecCreateOpts::builder()
-                .attach_stderr(true)
-                .attach_stdout(true)
-                .attach_stdin(true)
-                .tty(true)
-                .command(["/bin/sh"])
-                .build();
-            let exec = container.create_exec(&opts).await.unwrap();
+        utils::do_async(
+            async move {
+                let opts = podman::opts::ExecCreateOpts::builder()
+                    .attach_stderr(true)
+                    .attach_stdout(true)
+                    .attach_stdin(true)
+                    .tty(true)
+                    .command(["/bin/sh"])
+                    .build();
+                let exec = container.create_exec(&opts).await.unwrap();
 
-            let opts = podman::opts::ExecStartOpts::builder().tty(true).build();
-            let (mut reader, mut writer) = exec.start(&opts).await.unwrap().split();
+                let opts = podman::opts::ExecStartOpts::builder().tty(true).build();
+                let (mut reader, mut writer) = exec.start(&opts).await.unwrap().split();
 
-            container
-                .resize(width as usize, height as usize)
-                .await
-                .unwrap();
+                exec.resize(width as usize, height as usize).await?;
 
-            _ = exec.resize(width as usize, height as usize).await;
-
-            loop {
-                match future::select(Box::pin(rx_tokio.recv()), reader.next()).await {
-                    future::Either::Left((buf, _)) => match buf {
-                        Some(buf) => match buf {
-                            ExecInput::Data(buf) => {
-                                if let Err(e) = writer.write_all(&buf).await {
-                                    log::error!("Error on writing to terminal: {e}");
+                loop {
+                    match future::select(Box::pin(rx_tokio.recv()), reader.next()).await {
+                        future::Either::Left((buf, _)) => match buf {
+                            Some(buf) => match buf {
+                                ExecInput::Data(buf) => {
+                                    if let Err(e) = writer.write_all(&buf).await {
+                                        log::error!("Error on writing to terminal: {e}");
+                                        break;
+                                    }
+                                }
+                                ExecInput::Resize { columns, rows } => {
+                                    if let Err(e) = exec.resize(columns, rows).await {
+                                        log::error!("Error on resizing terminal: {e}");
+                                        break;
+                                    }
+                                }
+                            },
+                            None => break,
+                        },
+                        future::Either::Right((chunk, _)) => match chunk {
+                            Some(chunk) => match chunk {
+                                Ok(chunk) => {
+                                    tx_glib.send(Vec::from(chunk)).unwrap();
+                                }
+                                Err(e) => {
+                                    log::error!("Error on reading from terminal: {e}");
                                     break;
                                 }
-                            }
-                            ExecInput::Resize { columns, rows } => {
-                                if let Err(e) = exec.resize(columns, rows).await {
-                                    log::error!("Error on resizing terminal: {e}");
-                                    break;
-                                }
-                            }
+                            },
+                            None => break,
                         },
-                        None => break,
-                    },
-                    future::Either::Right((chunk, _)) => match chunk {
-                        Some(chunk) => match chunk {
-                            Ok(chunk) => {
-                                tx_glib.send(ExecOutput::Data(Vec::from(chunk))).unwrap();
-                            }
-                            Err(e) => {
-                                log::error!("Error on reading from terminal: {e}");
-                                break;
-                            }
-                        },
-                        None => break,
-                    },
+                    }
                 }
-            }
 
-            // Close all processes.
-            while writer.write_all(&[3]).await.is_ok() && writer.write_all(&[4]).await.is_ok() {}
-            tx_glib.send(ExecOutput::Terminated).unwrap();
-        });
+                // Close all processes.
+                while writer.write_all(&[3]).await.is_ok() && writer.write_all(&[4]).await.is_ok() {
+                }
+
+                Ok(())
+            },
+            clone!(@weak self as obj => move |result: podman::Result<_>| {
+                obj.emit_by_name::<()>("terminated", &[]);
+                if result.is_err() {
+                    utils::show_error_toast(
+                        &obj,
+                        &gettext("Terminal error"),
+                        &gettext("'/bin/sh' not found")
+                    );
+                }
+            }),
+        );
     }
 
     pub(crate) fn connect_terminated<F: Fn(&Self) + 'static>(&self, f: F) -> glib::SignalHandlerId {
@@ -332,5 +326,5 @@ impl Tty {
 }
 
 fn rgba_from_hex(r: i32, g: i32, b: i32) -> gdk::RGBA {
-    gdk::RGBA::new(r as f32 / 256.0, g as f32 / 256.0, b as f32 / 256.0, 0.0)
+    gdk::RGBA::new(r as f32 / 255.0, g as f32 / 255.0, b as f32 / 255.0, 0.0)
 }
