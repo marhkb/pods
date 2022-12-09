@@ -94,7 +94,7 @@ mod imp {
                         .read_only()
                         .build(),
                     glib::ParamSpecBoolean::builder("to-be-deleted")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .explicit_notify()
                         .build(),
                     glib::ParamSpecBoolean::builder("selected").build(),
                 ]

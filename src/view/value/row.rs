@@ -45,11 +45,8 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![glib::ParamSpecObject::builder::<model::Value>("value")
-                    .flags(
-                        glib::ParamFlags::READWRITE
-                            | glib::ParamFlags::CONSTRUCT
-                            | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    )
+                    .construct()
+                    .explicit_notify()
                     .build()]
             });
             PROPERTIES.as_ref()

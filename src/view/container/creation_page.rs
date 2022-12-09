@@ -153,11 +153,8 @@ mod imp {
                         .construct_only()
                         .build(),
                     glib::ParamSpecObject::builder::<model::Pod>("pod")
-                        .flags(
-                            glib::ParamFlags::READWRITE
-                                | glib::ParamFlags::CONSTRUCT
-                                | glib::ParamFlags::EXPLICIT_NOTIFY,
-                        )
+                        .construct()
+                        .explicit_notify()
                         .build(),
                 ]
             });

@@ -47,11 +47,8 @@ mod imp {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
                     glib::ParamSpecObject::builder::<model::HealthCheckLog>("log")
-                        .flags(
-                            glib::ParamFlags::READWRITE
-                                | glib::ParamFlags::CONSTRUCT
-                                | glib::ParamFlags::EXPLICIT_NOTIFY,
-                        )
+                        .construct()
+                        .explicit_notify()
                         .build(),
                 ]
             });

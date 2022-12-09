@@ -126,10 +126,10 @@ mod imp {
                         .read_only()
                         .build(),
                     glib::ParamSpecBoolean::builder("action-ongoing")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .explicit_notify()
                         .build(),
                     glib::ParamSpecBoolean::builder("deleted")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .explicit_notify()
                         .build(),
                     glib::ParamSpecInt64::builder("created")
                         .construct_only()
@@ -138,31 +138,22 @@ mod imp {
                         .construct_only()
                         .build(),
                     glib::ParamSpecString::builder("name")
-                        .flags(
-                            glib::ParamFlags::READWRITE
-                                | glib::ParamFlags::CONSTRUCT
-                                | glib::ParamFlags::EXPLICIT_NOTIFY,
-                        )
+                        .construct()
+                        .explicit_notify()
                         .build(),
                     glib::ParamSpecUInt64::builder("num-containers")
-                        .flags(
-                            glib::ParamFlags::READWRITE
-                                | glib::ParamFlags::CONSTRUCT
-                                | glib::ParamFlags::EXPLICIT_NOTIFY,
-                        )
+                        .construct()
+                        .explicit_notify()
                         .build(),
                     glib::ParamSpecEnum::builder::<Status>("status", Status::default())
-                        .flags(
-                            glib::ParamFlags::READWRITE
-                                | glib::ParamFlags::CONSTRUCT
-                                | glib::ParamFlags::EXPLICIT_NOTIFY,
-                        )
+                        .construct()
+                        .explicit_notify()
                         .build(),
                     glib::ParamSpecObject::builder::<model::PodData>("data")
                         .read_only()
                         .build(),
                     glib::ParamSpecBoolean::builder("to-be-deleted")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .explicit_notify()
                         .build(),
                     glib::ParamSpecBoolean::builder("selected").build(),
                 ]

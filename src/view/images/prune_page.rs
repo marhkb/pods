@@ -86,7 +86,7 @@ mod imp {
                         .construct_only()
                         .build(),
                     glib::ParamSpecInt64::builder("prune-until-timestamp")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .explicit_notify()
                         .build(),
                 ]
             });

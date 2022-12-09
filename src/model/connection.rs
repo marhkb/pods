@@ -57,11 +57,8 @@ mod imp {
                         .construct_only()
                         .build(),
                     glib::ParamSpecBoxed::builder::<gdk::RGBA>("rgb")
-                        .flags(
-                            glib::ParamFlags::READWRITE
-                                | glib::ParamFlags::CONSTRUCT
-                                | glib::ParamFlags::EXPLICIT_NOTIFY,
-                        )
+                        .construct()
+                        .explicit_notify()
                         .build(),
                     glib::ParamSpecBoolean::builder("is-remote")
                         .read_only()

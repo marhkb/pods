@@ -176,10 +176,10 @@ mod imp {
                         .construct_only()
                         .build(),
                     glib::ParamSpecBoolean::builder("action-ongoing")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .explicit_notify()
                         .build(),
                     glib::ParamSpecBoolean::builder("deleted")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .explicit_notify()
                         .build(),
                     glib::ParamSpecInt64::builder("created")
                         .construct_only()
@@ -188,37 +188,28 @@ mod imp {
                         "health-status",
                         HealthStatus::default(),
                     )
-                    .flags(
-                        glib::ParamFlags::READWRITE
-                            | glib::ParamFlags::CONSTRUCT
-                            | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    )
+                    .construct()
+                    .explicit_notify()
                     .build(),
                     glib::ParamSpecString::builder("id")
                         .construct_only()
                         .build(),
                     glib::ParamSpecObject::builder::<model::Image>("image")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .explicit_notify()
                         .build(),
                     glib::ParamSpecString::builder("image-id")
                         .construct_only()
                         .build(),
                     glib::ParamSpecString::builder("image-name")
-                        .flags(
-                            glib::ParamFlags::READWRITE
-                                | glib::ParamFlags::CONSTRUCT
-                                | glib::ParamFlags::EXPLICIT_NOTIFY,
-                        )
+                        .construct()
+                        .explicit_notify()
                         .build(),
                     glib::ParamSpecString::builder("name")
-                        .flags(
-                            glib::ParamFlags::READWRITE
-                                | glib::ParamFlags::CONSTRUCT
-                                | glib::ParamFlags::EXPLICIT_NOTIFY,
-                        )
+                        .construct()
+                        .explicit_notify()
                         .build(),
                     glib::ParamSpecObject::builder::<model::Pod>("pod")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .explicit_notify()
                         .build(),
                     glib::ParamSpecString::builder("pod-id")
                         .construct_only()
@@ -227,27 +218,21 @@ mod imp {
                         .construct_only()
                         .build(),
                     glib::ParamSpecBoxed::builder::<BoxedContainerStats>("stats")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .explicit_notify()
                         .build(),
                     glib::ParamSpecEnum::builder::<Status>("status", Status::default())
-                        .flags(
-                            glib::ParamFlags::READWRITE
-                                | glib::ParamFlags::CONSTRUCT
-                                | glib::ParamFlags::EXPLICIT_NOTIFY,
-                        )
+                        .construct()
+                        .explicit_notify()
                         .build(),
                     glib::ParamSpecInt64::builder("up-since")
-                        .flags(
-                            glib::ParamFlags::READWRITE
-                                | glib::ParamFlags::CONSTRUCT
-                                | glib::ParamFlags::EXPLICIT_NOTIFY,
-                        )
+                        .construct()
+                        .explicit_notify()
                         .build(),
                     glib::ParamSpecObject::builder::<model::ContainerData>("data")
                         .read_only()
                         .build(),
                     glib::ParamSpecBoolean::builder("to-be-deleted")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .explicit_notify()
                         .build(),
                     glib::ParamSpecBoolean::builder("selected").build(),
                 ]
