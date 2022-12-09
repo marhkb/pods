@@ -155,6 +155,10 @@ pub(crate) fn format_ago(timespan: glib::TimeSpan) -> String {
     gettext!("{} ago", human_friendly_timespan(timespan))
 }
 
+pub(crate) fn format_id(id: &str) -> String {
+    id.chars().take(12).collect::<String>()
+}
+
 pub(crate) fn root<W: glib::IsA<gtk::Widget>>(widget: &W) -> Window {
     widget.root().unwrap().downcast::<Window>().unwrap()
 }
