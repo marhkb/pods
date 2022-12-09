@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-10-22 00:06+0200\n"
-"PO-Revision-Date: 2022-11-30 02:47+0000\n"
+"PO-Revision-Date: 2022-12-10 21:49+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/pods/pods/fr/>\n"
 "Language: fr\n"
@@ -313,7 +313,6 @@ msgid "_Connect"
 msgstr "Se _connecter"
 
 #: data/resources/ui/container/commit-page.ui:27
-#, fuzzy
 msgid "Specify Commit Options"
 msgstr "Spécifier les paramètres du conteneur"
 
