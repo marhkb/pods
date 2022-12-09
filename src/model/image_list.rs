@@ -275,11 +275,39 @@ impl ImageList {
         );
     }
 
+    fn tag(&self, id: &str, tag: &str) {
+        if let Some(image) = self.imp().list.borrow().get(id) {
+            let repo_tags = image.repo_tags();
+            let repo_tags_len = repo_tags.len();
+            repo_tags.add(model::RepoTag::new(repo_tags, tag));
+
+            if repo_tags_len == 0 {
+                self.notify("intermediates");
+            }
+        }
+    }
+
+    fn untag(&self, id: &str, tag: &str) {
+        if let Some(image) = self.imp().list.borrow().get(id) {
+            let repo_tags = image.repo_tags();
+            repo_tags.remove(tag);
+
+            if repo_tags.len() == 0 {
+                self.notify("intermediates");
+            }
+        }
+    }
+
     pub(crate) fn handle_event<F>(&self, event: podman::models::Event, err_op: F)
     where
         F: FnOnce(super::RefreshError) + Clone + 'static,
     {
         match event.action.as_str() {
+            "tag" => self.tag(
+                &event.actor.id,
+                &format!("localhost/{}", event.actor.attributes.get("name").unwrap()),
+            ),
+            "untag" => self.untag(&event.actor.id, event.actor.attributes.get("name").unwrap()),
             "remove" => self.remove_image(&event.actor.id),
             "build" | "pull" => self.refresh(err_op),
             other => log::warn!("Unknown action: {other}"),

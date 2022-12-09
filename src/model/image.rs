@@ -1,6 +1,6 @@
 use std::borrow::Borrow;
 use std::cell::Cell;
-use std::cell::RefCell;
+use std::collections::HashSet;
 use std::ops::Deref;
 
 use gtk::glib::clone;
@@ -30,7 +30,7 @@ mod imp {
         pub(super) created: OnceCell<i64>,
         pub(super) dangling: Cell<bool>,
         pub(super) id: OnceCell<String>,
-        pub(super) repo_tags: RefCell<gtk::StringList>,
+        pub(super) repo_tags: OnceCell<model::RepoTagList>,
         pub(super) size: OnceCell<u64>,
         pub(super) shared_size: Cell<u64>,
         pub(super) virtual_size: Cell<u64>,
@@ -156,26 +156,33 @@ impl Image {
             .property("id", &summary.id)
             .property("size", &(summary.size.unwrap_or_default() as u64))
             .build()
-            .update(summary)
+            .update_internal(summary, false)
             .to_owned()
     }
 
-    pub(crate) fn update(&self, summary: &podman::models::LibpodImageSummary) -> &Self {
+    fn update_internal(
+        &self,
+        summary: &podman::models::LibpodImageSummary,
+        notify_repo_tags: bool,
+    ) -> &Self {
         self.set_containers(summary.containers.unwrap_or_default() as u64);
         self.set_dangling(summary.dangling.unwrap_or_default());
-        self.set_repo_tags(gtk::StringList::new(
-            &summary
-                .repo_tags
-                .as_deref()
-                .unwrap_or_default()
-                .iter()
-                .map(String::as_str)
-                .collect::<Vec<_>>(),
-        ));
+        if self.repo_tags().update(HashSet::from_iter(
+            summary.repo_tags.as_deref().unwrap_or_default().iter(),
+        )) && notify_repo_tags
+        {
+            if let Some(list) = self.image_list() {
+                list.notify("intermediates");
+            }
+        }
         self.set_shared_size(summary.shared_size.unwrap_or_default() as u64);
         self.set_virtual_size(summary.virtual_size.unwrap_or_default() as u64);
 
         self
+    }
+
+    pub(crate) fn update(&self, summary: &podman::models::LibpodImageSummary) -> &Self {
+        self.update_internal(summary, true)
     }
 
     pub(crate) fn image_list(&self) -> Option<model::ImageList> {
@@ -218,16 +225,10 @@ impl Image {
         self.imp().id.get().unwrap()
     }
 
-    pub(crate) fn repo_tags(&self) -> gtk::StringList {
-        self.imp().repo_tags.borrow().to_owned()
-    }
-
-    fn set_repo_tags(&self, value: gtk::StringList) {
-        if self.repo_tags() == value {
-            return;
-        }
-        self.imp().repo_tags.replace(value);
-        self.notify("repo-tags");
+    pub(crate) fn repo_tags(&self) -> &model::RepoTagList {
+        self.imp()
+            .repo_tags
+            .get_or_init(|| model::RepoTagList::from(self))
     }
 
     pub(crate) fn size(&self) -> u64 {

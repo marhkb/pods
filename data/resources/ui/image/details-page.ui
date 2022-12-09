@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
+
+  <object class="GtkListBoxRow" id="create_tag_row">
+    <property name="action-name">image-details-page.tag</property>
+    <property name="selectable">False</property>
+
+    <child>
+      <object class="GtkImage">
+        <property name="icon-name">list-add-symbolic</property>
+        <property name="margin-top">15</property>
+        <property name="margin-bottom">15</property>
+      </object>
+    </child>
+
+  </object>
+
   <template class="PdsImageDetailsPage" parent="GtkWidget">
     <property name="layout-manager">
       <object class="GtkBinLayout"/>
@@ -44,12 +59,6 @@
                         <property name="width-request">18</property>
                       </object>
                     </property>
-
-                    <child>
-                      <object class="PdsPropertyRow" id="repo_tags_row">
-                        <property name="key" translatable="True">Tags</property>
-                      </object>
-                    </child>
 
                     <child>
                       <object class="PdsPropertyRow" id="id_row">
@@ -126,6 +135,21 @@
                           </object>
                         </child>
 
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwPreferencesGroup">
+                    <property name="title" translatable="yes">Repository Tags</property>
+
+                    <child>
+                      <object class="GtkListBox" id="repo_tags_list_box">
+                        <style>
+                          <class name="boxed-list"/>
+                        </style>
                       </object>
                     </child>
 

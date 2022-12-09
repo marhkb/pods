@@ -169,9 +169,7 @@ mod imp {
 
             pod_expr
                 .chain_property::<model::Pod>("id")
-                .chain_closure::<String>(closure!(|_: Self::Type, id: &str| {
-                    id.chars().take(12).collect::<String>()
-                }))
+                .chain_closure::<String>(closure!(|_: Self::Type, id: &str| utils::format_id(id)))
                 .bind(&*self.id_row, "value", Some(obj));
 
             gtk::ClosureExpression::new::<String>(

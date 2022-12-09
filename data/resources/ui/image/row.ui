@@ -7,7 +7,7 @@
       <object class="GtkBox">
         <property name="margin-top">7</property>
         <property name="margin-end">12</property>
-        <property name="margin-bottom">7</property>
+        <property name="margin-bottom">9</property>
         <property name="margin-start">12</property>
 
         <child>
@@ -35,42 +35,24 @@
                 <property name="hexpand">True</property>
                 <property name="valign">center</property>
                 <property name="orientation">vertical</property>
-                <property name="spacing">3</property>
+                <property name="spacing">1</property>
 
                 <child>
-                  <object class="GtkLabel" id="repo_label">
-                    <property name="use-markup">True</property>
-                    <property name="wrap">True</property>
-                    <property name="wrap-mode">word</property>
+                  <object class="GtkLabel" id="id_label">
+                    <style>
+                      <class name="numeric"/>
+                    </style>
                     <property name="xalign">0</property>
+                    <property name="yalign">0</property>
                   </object>
                 </child>
 
                 <child>
-                  <object class="GtkBox">
-                    <property name="spacing">3</property>
-
-                    <child>
-                      <object class="GtkLabel" id="id_label">
-                        <style>
-                          <class name="numeric"/>
-                          <class name="subtitle"/>
-                        </style>
-                        <property name="xalign">0</property>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="GtkLabel" id="tag_label">
-                        <style>
-                          <class name="accent"/>
-                          <class name="caption"/>
-                          <class name="tag-label"/>
-                        </style>
-                        <property name="xalign">0</property>
-                      </object>
-                    </child>
-
+                  <object class="GtkListBox" id="repo_tags_list_box">
+                    <style>
+                      <class name="repo-tags-small"/>
+                    </style>
+                    <property name="selection-mode">none</property>
                   </object>
                 </child>
 

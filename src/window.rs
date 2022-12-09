@@ -124,6 +124,9 @@ mod imp {
             view::PropertyRow::static_type();
             view::PropertyWidgetRow::static_type();
             view::RandomNameEntryRow::static_type();
+            view::RepoTagAddDialog::static_type();
+            view::RepoTagRow::static_type();
+            view::RepoTagSimpleRow::static_type();
             view::SourceViewPage::static_type();
             view::SourceViewSearchWidget::static_type();
             view::Spinner::static_type();

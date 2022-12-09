@@ -96,6 +96,11 @@ connectionchooserpage connectionswitchermenu row {
   padding: 5px 7px;
 }
 
+.repo-tags-small {
+  background-color: transparent;
+  margin: 0 0 -4px -2px;
+}
+
 .container-status-created,
 .container-status-exited,
 .container-status-initialized,

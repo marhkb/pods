@@ -14,6 +14,7 @@ use crate::model;
 use crate::utils;
 use crate::view;
 
+const ACTION_TAG: &str = "image-details-page.tag";
 const ACTION_INSPECT_IMAGE: &str = "image-details-page.inspect-image";
 const ACTION_SHOW_HISTORY: &str = "image-details-page.show-history";
 const ACTION_PULL_LATEST: &str = "image-details-page.pull-latest";
@@ -28,11 +29,11 @@ mod imp {
         pub(super) image: glib::WeakRef<model::Image>,
         pub(super) handler_id: RefCell<Option<glib::SignalHandlerId>>,
         #[template_child]
+        pub(super) create_tag_row: TemplateChild<gtk::ListBoxRow>,
+        #[template_child]
         pub(super) back_navigation_controls: TemplateChild<view::BackNavigationControls>,
         #[template_child]
         pub(super) inspection_spinner: TemplateChild<gtk::Spinner>,
-        #[template_child]
-        pub(super) repo_tags_row: TemplateChild<view::PropertyRow>,
         #[template_child]
         pub(super) id_row: TemplateChild<view::PropertyRow>,
         #[template_child]
@@ -46,6 +47,8 @@ mod imp {
         #[template_child]
         pub(super) ports_row: TemplateChild<view::PropertyRow>,
         #[template_child]
+        pub(super) repo_tags_list_box: TemplateChild<gtk::ListBox>,
+        #[template_child]
         pub(super) leaflet_overlay: TemplateChild<view::LeafletOverlay>,
     }
 
@@ -57,6 +60,10 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
+
+            klass.install_action(ACTION_TAG, None, move |widget, _, _| {
+                widget.tag();
+            });
 
             klass.install_action(ACTION_INSPECT_IMAGE, None, move |widget, _, _| {
                 widget.show_inspection();
@@ -130,7 +137,6 @@ mod imp {
 
             let image_expr = Self::Type::this_expression("image");
             let data_expr = image_expr.chain_property::<model::Image>("data");
-            let repo_tags_expr = image_expr.chain_property::<model::Image>("repo-tags");
             let image_config_expr = data_expr.chain_property::<model::ImageData>("config");
             let cmd_expr = image_config_expr.chain_property::<model::ImageConfig>("cmd");
             let entrypoint_expr =
@@ -156,23 +162,9 @@ mod imp {
                 }))
                 .bind(&*self.inspection_spinner, "visible", Some(obj));
 
-            repo_tags_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, repo_tags: gtk::StringList| {
-                    utils::format_option(repo_tags.string(0))
-                }))
-                .bind(&*self.repo_tags_row, "value", Some(obj));
-
-            repo_tags_expr
-                .chain_closure::<bool>(closure!(|_: Self::Type, repo_tags: gtk::StringList| {
-                    repo_tags.n_items() > 0
-                }))
-                .bind(&*self.repo_tags_row, "visible", Some(obj));
-
             image_expr
                 .chain_property::<model::Image>("id")
-                .chain_closure::<String>(closure!(|_: Self::Type, id: &str| {
-                    id.chars().take(12).collect::<String>()
-                }))
+                .chain_closure::<String>(closure!(|_: Self::Type, id: &str| utils::format_id(id)))
                 .bind(&*self.id_row, "value", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
@@ -314,6 +306,7 @@ impl DetailsPage {
         if let Some(image) = self.image() {
             image.disconnect(imp.handler_id.take().unwrap());
         }
+        imp.repo_tags_list_box.unbind_model();
 
         if let Some(image) = value {
             image.inspect(clone!(@weak self as obj => move |e| {
@@ -325,10 +318,30 @@ impl DetailsPage {
                 obj.imp().back_navigation_controls.navigate_back();
             }));
             imp.handler_id.replace(Some(handler_id));
+
+            let model = gtk::SortListModel::new(
+                Some(image.repo_tags()),
+                Some(&gtk::StringSorter::new(Some(
+                    model::RepoTag::this_expression("full"),
+                ))),
+            );
+            imp.repo_tags_list_box.bind_model(Some(&model), |tag| {
+                let repo_tag = tag.downcast_ref::<model::RepoTag>().unwrap();
+                view::RepoTagRow::from(repo_tag).upcast()
+            });
+            imp.repo_tags_list_box.append(&*imp.create_tag_row);
         }
 
         imp.image.set(value);
         self.notify("image");
+    }
+
+    fn tag(&self) {
+        if let Some(image) = self.image() {
+            let dialog = view::RepoTagAddDialog::from(&image);
+            dialog.set_transient_for(Some(&utils::root(self)));
+            dialog.present();
+        }
     }
 
     fn show_inspection(&self) {

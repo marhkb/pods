@@ -27,11 +27,9 @@ mod imp {
         #[template_child]
         pub(super) check_button: TemplateChild<gtk::CheckButton>,
         #[template_child]
-        pub(super) repo_label: TemplateChild<gtk::Label>,
-        #[template_child]
         pub(super) id_label: TemplateChild<gtk::Label>,
         #[template_child]
-        pub(super) tag_label: TemplateChild<gtk::Label>,
+        pub(super) repo_tags_list_box: TemplateChild<gtk::ListBox>,
         #[template_child]
         pub(super) end_box_revealer: TemplateChild<gtk::Revealer>,
     }
@@ -97,64 +95,44 @@ mod imp {
                 }))
                 .bind(&*self.end_box_revealer, "reveal-child", Some(obj));
 
-            let repo_tags_expr = image_expr.chain_property::<model::Image>("repo-tags");
-
             gtk::ClosureExpression::new::<String>(
                 [
-                    repo_tags_expr.upcast_ref(),
+                    image_expr
+                        .chain_property::<model::Image>("id")
+                        .chain_closure::<String>(closure!(|_: Self::Type, id: &str| {
+                            utils::format_id(id)
+                        }))
+                        .upcast_ref(),
                     image_expr
                         .chain_property::<model::Image>("to-be-deleted")
                         .upcast_ref(),
                 ],
-                closure!(
-                    |_: Self::Type, repo_tags: gtk::StringList, to_be_deleted: bool| {
-                        let repo = repo_tags.string(0).and_then(|repo_tag| {
-                            repo_tag.split_once(':').map(|(name, _)| name.to_string())
-                        });
-                        let repo = utils::escape(&utils::format_option(repo));
-
-                        if to_be_deleted {
-                            format!("<s>{repo}</s>")
-                        } else {
-                            repo
-                        }
+                closure!(|_: Self::Type, id: String, to_be_deleted: bool| {
+                    if to_be_deleted {
+                        format!("<s>{id}</s>")
+                    } else {
+                        id
                     }
-                ),
+                }),
             )
-            .bind(&*self.repo_label, "label", Some(obj));
+            .bind(&*self.id_label, "label", Some(obj));
 
-            let css_classes = self.repo_label.css_classes();
-            repo_tags_expr
-                .chain_closure::<Vec<String>>(closure!(
-                    |_: Self::Type, repo_tags: gtk::StringList| {
-                        repo_tags
-                            .string(0)
-                            .map(|_| None)
-                            .unwrap_or_else(|| Some(glib::GString::from("dim-label")))
-                            .into_iter()
-                            .chain(css_classes.iter().cloned())
-                            .collect::<Vec<_>>()
-                    }
-                ))
-                .bind(&*self.repo_label, "css-classes", Some(obj));
-
+            let css_classes = self.id_label.css_classes();
             image_expr
-                .chain_property::<model::Image>("id")
-                .chain_closure::<String>(closure!(|_: Self::Type, id: &str| {
-                    id.chars().take(12).collect::<String>()
-                }))
-                .bind(&*self.id_label, "label", Some(obj));
-
-            repo_tags_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, repo_tags: gtk::StringList| {
-                    repo_tags
-                        .string(0)
-                        .and_then(|repo_tag| {
-                            repo_tag.split_once(':').map(|(_, tag)| tag.to_string())
+                .chain_property::<model::Image>("repo-tags")
+                .chain_property::<model::RepoTagList>("len")
+                .chain_closure::<Vec<String>>(closure!(|_: Self::Type, len: u32| {
+                    css_classes
+                        .iter()
+                        .cloned()
+                        .chain(if len == 0 {
+                            Some(glib::GString::from("dim-label"))
+                        } else {
+                            None
                         })
-                        .unwrap_or_default()
+                        .collect::<Vec<_>>()
                 }))
-                .bind(&*self.tag_label, "label", Some(obj));
+                .bind(&*self.id_label, "css-classes", Some(obj));
 
             if let Some(image) = obj.image() {
                 obj.action_set_enabled("image.show-details", !image.to_be_deleted());
@@ -203,6 +181,7 @@ impl Row {
         while let Some(binding) = bindings.pop() {
             binding.unbind();
         }
+        imp.repo_tags_list_box.unbind_model();
 
         if let Some(image) = value {
             let binding = image
@@ -211,6 +190,17 @@ impl Row {
                 .build();
 
             bindings.push(binding);
+
+            let model = gtk::SortListModel::new(
+                Some(image.repo_tags()),
+                Some(&gtk::StringSorter::new(Some(
+                    model::RepoTag::this_expression("full"),
+                ))),
+            );
+            imp.repo_tags_list_box.bind_model(Some(&model), |tag| {
+                let repo_tag = tag.downcast_ref::<model::RepoTag>().unwrap();
+                view::RepoTagSimpleRow::from(repo_tag).upcast()
+            });
         }
 
         imp.image.set(value);

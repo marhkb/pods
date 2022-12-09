@@ -138,9 +138,7 @@ mod imp {
 
             container_expr
                 .chain_property::<model::Container>("id")
-                .chain_closure::<String>(closure!(|_: Self::Type, id: &str| {
-                    id.chars().take(12).collect::<String>()
-                }))
+                .chain_closure::<String>(closure!(|_: Self::Type, id: &str| utils::format_id(id)))
                 .bind(&*self.id_row, "value", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
@@ -345,11 +343,13 @@ mod imp {
                     image_expr.chain_property::<model::Image>("repo-tags"),
                     image_expr.chain_property::<model::Image>("id"),
                 ],
-                closure!(|_: Self::Type, repo_tags: gtk::StringList, id: &str| {
+                closure!(|_: Self::Type, repo_tags: model::RepoTagList, id: &str| {
                     repo_tags
-                        .string(0)
-                        .map(String::from)
-                        .unwrap_or_else(|| id.chars().take(12).collect())
+                        .get(0)
+                        .as_ref()
+                        .map(model::RepoTag::full)
+                        .map(str::to_owned)
+                        .unwrap_or_else(|| utils::format_id(id))
                 }),
             )
             .bind(&*self.image_label, "label", Some(obj));
