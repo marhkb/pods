@@ -104,6 +104,21 @@
 
                 <child>
                   <object class="AdwPreferencesGroup">
+                    <property name="title" translatable="yes">Repository Tags</property>
+
+                    <child>
+                      <object class="GtkListBox" id="repo_tags_list_box">
+                        <style>
+                          <class name="boxed-list"/>
+                        </style>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwPreferencesGroup">
 
                     <child>
                       <object class="GtkButton" id="delete_button">
@@ -135,21 +150,6 @@
                           </object>
                         </child>
 
-                      </object>
-                    </child>
-
-                  </object>
-                </child>
-
-                <child>
-                  <object class="AdwPreferencesGroup">
-                    <property name="title" translatable="yes">Repository Tags</property>
-
-                    <child>
-                      <object class="GtkListBox" id="repo_tags_list_box">
-                        <style>
-                          <class name="boxed-list"/>
-                        </style>
                       </object>
                     </child>
 
