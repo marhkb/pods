@@ -127,7 +127,7 @@
 
                             <child>
                               <object class="GtkLabel">
-                                <property name="label" translatable="yes">_Delete</property>
+                                <property name="label" translatable="yes">_Delete This Image</property>
                                 <property name="use-underline">True</property>
                               </object>
                             </child>
