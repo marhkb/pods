@@ -32,25 +32,25 @@ mod imp {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
                     glib::ParamSpecString::builder("automated")
-                        .flags(glib::ParamFlags::CONSTRUCT_ONLY | glib::ParamFlags::READWRITE)
+                        .construct_only()
                         .build(),
                     glib::ParamSpecString::builder("description")
-                        .flags(glib::ParamFlags::CONSTRUCT_ONLY | glib::ParamFlags::READWRITE)
+                        .construct_only()
                         .build(),
                     glib::ParamSpecString::builder("index")
-                        .flags(glib::ParamFlags::CONSTRUCT_ONLY | glib::ParamFlags::READWRITE)
+                        .construct_only()
                         .build(),
                     glib::ParamSpecString::builder("name")
-                        .flags(glib::ParamFlags::CONSTRUCT_ONLY | glib::ParamFlags::READWRITE)
+                        .construct_only()
                         .build(),
                     glib::ParamSpecString::builder("official")
-                        .flags(glib::ParamFlags::CONSTRUCT_ONLY | glib::ParamFlags::READWRITE)
+                        .construct_only()
                         .build(),
                     glib::ParamSpecInt64::builder("stars")
-                        .flags(glib::ParamFlags::CONSTRUCT_ONLY | glib::ParamFlags::READWRITE)
+                        .construct_only()
                         .build(),
                     glib::ParamSpecString::builder("tag")
-                        .flags(glib::ParamFlags::CONSTRUCT_ONLY | glib::ParamFlags::READWRITE)
+                        .construct_only()
                         .build(),
                 ]
             });

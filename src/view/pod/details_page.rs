@@ -127,11 +127,8 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![glib::ParamSpecObject::builder::<model::Pod>("pod")
-                    .flags(
-                        glib::ParamFlags::READWRITE
-                            | glib::ParamFlags::CONSTRUCT
-                            | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    )
+                    .construct()
+                    .explicit_notify()
                     .build()]
             });
             PROPERTIES.as_ref()
@@ -291,6 +288,7 @@ impl DetailsPage {
 
             self.action_set_enabled(ACTION_START_OR_RESUME, can_start_or_resume);
             self.action_set_enabled(ACTION_STOP, can_stop);
+            self.action_set_enabled(ACTION_KILL, pod.can_kill());
             self.action_set_enabled(ACTION_RESTART, pod.can_restart());
             self.action_set_enabled(ACTION_PAUSE, pod.can_pause());
             self.action_set_enabled(ACTION_DELETE, pod.can_delete());

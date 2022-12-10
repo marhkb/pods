@@ -219,7 +219,7 @@ mod imp {
                     glib::ParamSpecObject::builder::<model::ConnectionManager>(
                         "connection-manager",
                     )
-                    .flags(glib::ParamFlags::READABLE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                    .read_only()
                     .build(),
                     glib::ParamSpecObject::builder::<gtk::Stack>("title-stack")
                         .read_only()

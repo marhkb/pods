@@ -78,11 +78,8 @@ mod imp {
                 vec![glib::ParamSpecObject::builder::<model::ConnectionManager>(
                     "connection-manager",
                 )
-                .flags(
-                    glib::ParamFlags::READWRITE
-                        | glib::ParamFlags::CONSTRUCT
-                        | glib::ParamFlags::EXPLICIT_NOTIFY,
-                )
+                .construct()
+                .explicit_notify()
                 .build()]
             });
 

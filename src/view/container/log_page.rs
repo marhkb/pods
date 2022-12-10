@@ -127,7 +127,7 @@ mod imp {
                         .construct_only()
                         .build(),
                     glib::ParamSpecBoolean::builder("sticky")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .explicit_notify()
                         .build(),
                 ]
             });

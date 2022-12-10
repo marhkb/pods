@@ -10,6 +10,7 @@ use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::subclass::Signal;
 use gtk::prelude::ObjectExt;
+use gtk::prelude::ParamSpecBuilderExt;
 use gtk::prelude::ToValue;
 use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
@@ -123,8 +124,6 @@ impl fmt::Display for HealthStatus {
 monad_boxed_type!(pub(crate) BoxedContainerStats(podman::models::ContainerStats) impls Debug, PartialEq is nullable);
 
 mod imp {
-    use gtk::prelude::ParamSpecBuilderExt;
-
     use super::*;
 
     #[derive(Debug, Default)]
@@ -176,10 +175,10 @@ mod imp {
                         .construct_only()
                         .build(),
                     glib::ParamSpecBoolean::builder("action-ongoing")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .explicit_notify()
                         .build(),
                     glib::ParamSpecBoolean::builder("deleted")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .explicit_notify()
                         .build(),
                     glib::ParamSpecInt64::builder("created")
                         .construct_only()
@@ -188,37 +187,28 @@ mod imp {
                         "health-status",
                         HealthStatus::default(),
                     )
-                    .flags(
-                        glib::ParamFlags::READWRITE
-                            | glib::ParamFlags::CONSTRUCT
-                            | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    )
+                    .construct()
+                    .explicit_notify()
                     .build(),
                     glib::ParamSpecString::builder("id")
                         .construct_only()
                         .build(),
                     glib::ParamSpecObject::builder::<model::Image>("image")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .explicit_notify()
                         .build(),
                     glib::ParamSpecString::builder("image-id")
                         .construct_only()
                         .build(),
                     glib::ParamSpecString::builder("image-name")
-                        .flags(
-                            glib::ParamFlags::READWRITE
-                                | glib::ParamFlags::CONSTRUCT
-                                | glib::ParamFlags::EXPLICIT_NOTIFY,
-                        )
+                        .construct()
+                        .explicit_notify()
                         .build(),
                     glib::ParamSpecString::builder("name")
-                        .flags(
-                            glib::ParamFlags::READWRITE
-                                | glib::ParamFlags::CONSTRUCT
-                                | glib::ParamFlags::EXPLICIT_NOTIFY,
-                        )
+                        .construct()
+                        .explicit_notify()
                         .build(),
                     glib::ParamSpecObject::builder::<model::Pod>("pod")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .explicit_notify()
                         .build(),
                     glib::ParamSpecString::builder("pod-id")
                         .construct_only()
@@ -227,27 +217,21 @@ mod imp {
                         .construct_only()
                         .build(),
                     glib::ParamSpecBoxed::builder::<BoxedContainerStats>("stats")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .explicit_notify()
                         .build(),
                     glib::ParamSpecEnum::builder::<Status>("status", Status::default())
-                        .flags(
-                            glib::ParamFlags::READWRITE
-                                | glib::ParamFlags::CONSTRUCT
-                                | glib::ParamFlags::EXPLICIT_NOTIFY,
-                        )
+                        .construct()
+                        .explicit_notify()
                         .build(),
                     glib::ParamSpecInt64::builder("up-since")
-                        .flags(
-                            glib::ParamFlags::READWRITE
-                                | glib::ParamFlags::CONSTRUCT
-                                | glib::ParamFlags::EXPLICIT_NOTIFY,
-                        )
+                        .construct()
+                        .explicit_notify()
                         .build(),
                     glib::ParamSpecObject::builder::<model::ContainerData>("data")
                         .read_only()
                         .build(),
                     glib::ParamSpecBoolean::builder("to-be-deleted")
-                        .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
+                        .explicit_notify()
                         .build(),
                     glib::ParamSpecBoolean::builder("selected").build(),
                 ]
@@ -737,6 +721,10 @@ impl Container {
 
     pub(crate) fn can_stop(&self) -> bool {
         matches!(self.status(), Status::Running)
+    }
+
+    pub(crate) fn can_kill(&self) -> bool {
+        !self.can_start()
     }
 
     pub(crate) fn can_restart(&self) -> bool {

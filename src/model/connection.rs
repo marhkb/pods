@@ -3,6 +3,7 @@ use std::cell::Cell;
 use gtk::gdk;
 use gtk::glib;
 use gtk::prelude::ObjectExt;
+use gtk::prelude::ParamSpecBuilderExt;
 use gtk::prelude::ToValue;
 use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
@@ -21,8 +22,6 @@ pub(crate) struct ConnectionInfo {
 }
 
 mod imp {
-    use gtk::prelude::ParamSpecBuilderExt;
-
     use super::*;
 
     #[derive(Debug, Default)]
@@ -57,11 +56,8 @@ mod imp {
                         .construct_only()
                         .build(),
                     glib::ParamSpecBoxed::builder::<gdk::RGBA>("rgb")
-                        .flags(
-                            glib::ParamFlags::READWRITE
-                                | glib::ParamFlags::CONSTRUCT
-                                | glib::ParamFlags::EXPLICIT_NOTIFY,
-                        )
+                        .construct()
+                        .explicit_notify()
                         .build(),
                     glib::ParamSpecBoolean::builder("is-remote")
                         .read_only()

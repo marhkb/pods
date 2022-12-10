@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <template class="PdsRepoTagSimpleRow" parent="GtkListBoxRow">
-    <property name="selectable">False</property>
     <property name="activatable">False</property>
+    <property name="focusable">False</property>
+    <property name="selectable">False</property>
 
     <child>
       <object class="GtkLabel" id="label">

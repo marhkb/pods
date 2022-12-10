@@ -10,6 +10,7 @@ use gtk::glib::clone;
 use gtk::prelude::Cast;
 use gtk::prelude::ListModelExt;
 use gtk::prelude::ObjectExt;
+use gtk::prelude::ParamSpecBuilderExt;
 use gtk::prelude::SettingsExt;
 use gtk::prelude::StaticType;
 use gtk::prelude::ToValue;
@@ -25,8 +26,6 @@ use crate::utils::config_dir;
 use crate::RUNTIME;
 
 mod imp {
-    use gtk::prelude::ParamSpecBuilderExt;
-
     use super::*;
 
     #[derive(Debug, Default)]

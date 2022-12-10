@@ -54,7 +54,7 @@ mod imp {
                     glib::ParamSpecObject::builder::<model::AbstractContainerList>(
                         "container-list",
                     )
-                    .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT)
+                    .construct()
                     .build(),
                 ]
             });

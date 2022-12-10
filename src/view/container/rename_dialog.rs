@@ -2,6 +2,7 @@ use std::cell::RefCell;
 
 use adw::subclass::prelude::*;
 use adw::traits::MessageDialogExt;
+use gettextrs::gettext;
 use gtk::gdk;
 use gtk::glib;
 use gtk::glib::clone;
@@ -15,8 +16,6 @@ use crate::model;
 use crate::view;
 
 mod imp {
-    use gettextrs::gettext;
-
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
