@@ -183,7 +183,7 @@
                           <class name="pill"/>
                         </style>
                         <property name="action-name">images-prune-page.prune</property>
-                        <property name="label" translatable="yes">_Prune</property>
+                        <property name="label" translatable="yes">_Prune Images</property>
                         <property name="use-underline">True</property>
                       </object>
                     </child>
