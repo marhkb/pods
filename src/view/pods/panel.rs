@@ -241,7 +241,7 @@ mod imp {
                 let pod1 = obj1.downcast_ref::<model::Pod>().unwrap();
                 let pod2 = obj2.downcast_ref::<model::Pod>().unwrap();
 
-                pod1.name().cmp(&pod2.name()).into()
+                pod1.name().cmp(pod2.name()).into()
             });
 
             self.properties_filter

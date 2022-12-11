@@ -144,7 +144,7 @@ mod imp {
                     container1.name().cmp(&container2.name()).into()
                 } else if let Some(pod1) = obj1.downcast_ref::<model::Pod>() {
                     let pod2 = obj2.downcast_ref::<model::Pod>().unwrap();
-                    pod1.name().cmp(&pod2.name()).into()
+                    pod1.name().cmp(pod2.name()).into()
                 } else {
                     unreachable!();
                 }

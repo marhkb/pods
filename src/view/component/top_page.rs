@@ -4,7 +4,6 @@ use futures::TryStreamExt;
 use gettextrs::gettext;
 use gtk::glib;
 use gtk::glib::clone;
-use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
@@ -74,23 +73,19 @@ mod imp {
 
             let obj = &*self.obj();
 
-            Self::Type::this_expression("top-source")
-                .chain_closure::<String>(closure!(
-                    |_: Self::Type, top_source: Option<glib::Object>| {
-                        top_source
-                            .and_then(|top_source| {
-                                if top_source.downcast_ref::<model::Container>().is_some() {
-                                    Some(gettext("Container Processes"))
-                                } else if top_source.downcast_ref::<model::Pod>().is_some() {
-                                    Some(gettext("Pod Processes"))
-                                } else {
-                                    None
-                                }
-                            })
-                            .unwrap_or_default()
-                    }
-                ))
-                .bind(&*self.window_title, "title", Some(obj));
+            if let Some(top_source) = obj.top_source() {
+                if let Some(container) = top_source.downcast_ref::<model::Container>() {
+                    self.window_title.set_title(&gettext("Container Processes"));
+                    container.property_expression_weak("name").bind(
+                        &*self.window_title,
+                        "subtitle",
+                        glib::Object::NONE,
+                    );
+                } else if let Some(pod) = top_source.downcast_ref::<model::Pod>() {
+                    self.window_title.set_title(&gettext("Pod Processes"));
+                    self.window_title.set_subtitle(pod.name());
+                }
+            }
 
             obj.connect_top_stream();
         }

@@ -24,6 +24,11 @@
                 <child type="title">
                   <object class="AdwWindowTitle">
                     <property name="title" translatable="yes">Container File Download</property>
+                    <binding name="subtitle">
+                      <lookup name="name" type="Container">
+                        <lookup name="container">PdsContainerFilesGetPage</lookup>
+                      </lookup>
+                    </binding>
                   </object>
                 </child>
 

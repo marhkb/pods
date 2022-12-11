@@ -34,6 +34,11 @@
                 <child type="title">
                   <object class="AdwWindowTitle">
                     <property name="title" translatable="yes">Container Details</property>
+                    <binding name="subtitle">
+                      <lookup name="name" type="Container">
+                        <lookup name="container">PdsContainerDetailsPage</lookup>
+                      </lookup>
+                    </binding>
                   </object>
                 </child>
 

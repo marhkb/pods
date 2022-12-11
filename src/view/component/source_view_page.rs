@@ -166,17 +166,34 @@ impl From<Entity> for SourceViewPage {
         let obj: Self = glib::Object::builder::<Self>().build();
         let imp = obj.imp();
 
-        imp.window_title.set_title(&match &entity {
-            Entity::Image(_) => gettext("Image Inspection"),
-            Entity::Container { mode, .. } => match mode {
-                Mode::Inspect => gettext("Container Inspection"),
-                Mode::Kube => gettext("Container Kube Generation"),
-            },
-            Entity::Pod { mode, .. } => match mode {
-                Mode::Inspect => gettext("Pod Inspection"),
-                Mode::Kube => gettext("Pod Kube Generation"),
-            },
-        });
+        match &entity {
+            Entity::Image(image) => {
+                imp.window_title.set_title(&gettext("Image Inspection"));
+                if let Some(image) = image.upgrade() {
+                    imp.window_title.set_subtitle(&utils::format_id(image.id()));
+                }
+            }
+            Entity::Container { mode, container } => {
+                imp.window_title.set_title(&match mode {
+                    Mode::Inspect => gettext("Container Inspection"),
+                    Mode::Kube => gettext("Container Kube Generation"),
+                });
+                model::Container::this_expression("name").bind(
+                    &*imp.window_title,
+                    "subtitle",
+                    container.upgrade().as_ref(),
+                );
+            }
+            Entity::Pod { mode, pod } => {
+                imp.window_title.set_title(&match mode {
+                    Mode::Inspect => gettext("Pod Inspection"),
+                    Mode::Kube => gettext("Pod Kube Generation"),
+                });
+                if let Some(pod) = pod.upgrade() {
+                    imp.window_title.set_subtitle(pod.name());
+                }
+            }
+        }
 
         let language = match &entity {
             Entity::Image(_) => "json",
