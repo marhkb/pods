@@ -15,7 +15,7 @@
         </child>
 
         <child type="title">
-          <object class="AdwWindowTitle">
+          <object class="AdwWindowTitle" id="window_title">
             <property name="title" translatable="yes">Image History</property>
           </object>
         </child>

@@ -20,6 +20,8 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/image/history-page.ui")]
     pub(crate) struct HistoryPage {
         #[template_child]
+        pub(super) window_title: TemplateChild<adw::WindowTitle>,
+        #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) spinner: TemplateChild<gtk::Spinner>,
@@ -60,6 +62,9 @@ glib::wrapper! {
 impl From<&model::Image> for HistoryPage {
     fn from(image: &model::Image) -> Self {
         let obj = glib::Object::builder::<Self>().build();
+        obj.imp()
+            .window_title
+            .set_subtitle(&utils::format_id(image.id()));
 
         utils::do_async(
             {
