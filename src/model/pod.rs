@@ -1,5 +1,4 @@
 use std::cell::Cell;
-use std::cell::RefCell;
 use std::fmt;
 use std::ops::Deref;
 use std::str::FromStr;
@@ -90,7 +89,7 @@ mod imp {
         pub(super) created: OnceCell<i64>,
         pub(super) hostname: OnceCell<String>,
         pub(super) id: OnceCell<String>,
-        pub(super) name: RefCell<String>,
+        pub(super) name: OnceCell<String>,
         pub(super) num_containers: Cell<u64>,
         pub(super) status: Cell<Status>,
 
@@ -138,8 +137,7 @@ mod imp {
                         .construct_only()
                         .build(),
                     glib::ParamSpecString::builder("name")
-                        .construct()
-                        .explicit_notify()
+                        .construct_only()
                         .build(),
                     glib::ParamSpecUInt64::builder("num-containers")
                         .construct()
@@ -169,7 +167,7 @@ mod imp {
                 "created" => self.created.set(value.get().unwrap()).unwrap(),
                 "hostname" => self.hostname.set(value.get().unwrap()).unwrap(),
                 "id" => self.id.set(value.get().unwrap()).unwrap(),
-                "name" => obj.set_name(value.get().unwrap()),
+                "name" => self.name.set(value.get().unwrap()).unwrap(),
                 "num-containers" => obj.set_num_containers(value.get().unwrap()),
                 "status" => obj.set_status(value.get().unwrap()),
                 "to-be-deleted" => obj.set_to_be_deleted(value.get().unwrap()),
@@ -228,7 +226,6 @@ impl Pod {
 
     pub(crate) fn update(&self, report: podman::models::ListPodsReport) {
         self.set_action_ongoing(false);
-        self.set_name(report.name.unwrap_or_default());
         self.set_num_containers(report.containers.map(|c| c.len() as u64).unwrap_or(0));
         self.set_status(status(report.status.as_deref()));
     }
@@ -271,16 +268,8 @@ impl Pod {
         self.imp().id.get().unwrap()
     }
 
-    pub(crate) fn name(&self) -> String {
-        self.imp().name.borrow().clone()
-    }
-
-    pub(crate) fn set_name(&self, value: String) {
-        if self.name() == value {
-            return;
-        }
-        self.imp().name.replace(value);
-        self.notify("name");
+    pub(crate) fn name(&self) -> &str {
+        self.imp().name.get().unwrap()
     }
 
     pub(crate) fn num_containers(&self) -> u64 {

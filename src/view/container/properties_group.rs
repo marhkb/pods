@@ -378,7 +378,10 @@ mod imp {
 
             pod_expr
                 .chain_closure::<String>(closure!(|_: Self::Type, pod: Option<model::Pod>| {
-                    pod.as_ref().map(model::Pod::name).unwrap_or_default()
+                    pod.as_ref()
+                        .map(model::Pod::name)
+                        .map(str::to_owned)
+                        .unwrap_or_default()
                 }))
                 .bind(&*self.pod_label, "label", Some(obj));
         }
