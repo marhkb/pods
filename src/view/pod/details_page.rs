@@ -36,6 +36,8 @@ mod imp {
         #[template_child]
         pub(super) back_navigation_controls: TemplateChild<view::BackNavigationControls>,
         #[template_child]
+        pub(super) window_title: TemplateChild<adw::WindowTitle>,
+        #[template_child]
         pub(super) inspection_spinner: TemplateChild<gtk::Spinner>,
         #[template_child]
         pub(super) action_row: TemplateChild<adw::PreferencesRow>,
@@ -248,11 +250,13 @@ impl DetailsPage {
 
         let imp = self.imp();
 
+        imp.window_title.set_subtitle("");
         if let Some(pod) = self.pod() {
             pod.disconnect(imp.handler_id.take().unwrap());
         }
 
         if let Some(pod) = value {
+            imp.window_title.set_subtitle(pod.name());
             pod.inspect(clone!(@weak self as obj => move |e| {
                 utils::show_error_toast(&obj, &gettext("Error on loading pod data"), &e.to_string());
             }));
