@@ -23,7 +23,12 @@
 
                 <child type="title">
                   <object class="AdwWindowTitle">
-                    <property name="title" translatable="yes">Commit Options</property>
+                    <property name="title" translatable="yes">Container Commit Options</property>
+                    <binding name="subtitle">
+                      <lookup name="name" type="Container">
+                        <lookup name="container">PdsContainerCommitPage</lookup>
+                      </lookup>
+                    </binding>
                   </object>
                 </child>
 
