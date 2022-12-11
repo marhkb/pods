@@ -33,6 +33,8 @@ mod imp {
         #[template_child]
         pub(super) back_navigation_controls: TemplateChild<view::BackNavigationControls>,
         #[template_child]
+        pub(super) window_title: TemplateChild<adw::WindowTitle>,
+        #[template_child]
         pub(super) inspection_spinner: TemplateChild<gtk::Spinner>,
         #[template_child]
         pub(super) id_row: TemplateChild<view::PropertyRow>,
@@ -300,12 +302,14 @@ impl DetailsPage {
 
         let imp = self.imp();
 
+        imp.window_title.set_subtitle("");
         if let Some(image) = self.image() {
             image.disconnect(imp.handler_id.take().unwrap());
         }
         imp.repo_tags_list_box.unbind_model();
 
         if let Some(image) = value {
+            imp.window_title.set_subtitle(&utils::format_id(image.id()));
             image.inspect(clone!(@weak self as obj => move |e| {
                 utils::show_error_toast(&obj, &gettext("Error on loading image details"), &e.to_string());
             }));
