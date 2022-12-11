@@ -34,6 +34,11 @@
                 <child type="title">
                   <object class="AdwWindowTitle">
                     <property name="title" translatable="yes">Container File Upload</property>
+                    <binding name="subtitle">
+                      <lookup name="name" type="Container">
+                        <lookup name="container">PdsContainerFilesPutPage</lookup>
+                      </lookup>
+                    </binding>
                   </object>
                 </child>
 
