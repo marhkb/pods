@@ -164,23 +164,22 @@ pub(crate) fn root<W: glib::IsA<gtk::Widget>>(widget: &W) -> Window {
 }
 
 pub(crate) fn show_toast<W: glib::IsA<gtk::Widget>>(widget: &W, title: &str) {
-    root(widget).show_toast(
-        &adw::Toast::builder()
-            .title(title)
-            .timeout(3)
-            .priority(adw::ToastPriority::High)
-            .build(),
-    );
+    widget
+        .ancestor(adw::ToastOverlay::static_type())
+        .unwrap()
+        .downcast::<adw::ToastOverlay>()
+        .unwrap()
+        .add_toast(
+            &adw::Toast::builder()
+                .title(title)
+                .timeout(3)
+                .priority(adw::ToastPriority::High)
+                .build(),
+        );
 }
 
 pub(crate) fn show_error_toast<W: glib::IsA<gtk::Widget>>(widget: &W, title: &str, msg: &str) {
-    root(widget).show_toast(
-        &adw::Toast::builder()
-            .title(&format!("{title}: {msg}"))
-            .timeout(3)
-            .priority(adw::ToastPriority::High)
-            .build(),
-    );
+    show_toast(widget, &format!("{title}: {msg}"));
 }
 
 pub(crate) fn find_leaflet_overlay<W: glib::IsA<gtk::Widget>>(widget: &W) -> view::LeafletOverlay {
