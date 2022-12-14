@@ -9,10 +9,14 @@ use futures::Future;
 use futures::StreamExt;
 use gettextrs::gettext;
 use gettextrs::ngettext;
+use gtk::gdk;
 use gtk::gio;
+use gtk::gio::traits::ActionMapExt;
 use gtk::glib;
+use gtk::glib::clone;
 use gtk::prelude::Cast;
 use gtk::prelude::StaticType;
+use gtk::traits::GtkWindowExt;
 use gtk::traits::WidgetExt;
 
 use crate::config;
@@ -161,6 +165,41 @@ pub(crate) fn format_id(id: &str) -> String {
 
 pub(crate) fn root<W: glib::IsA<gtk::Widget>>(widget: &W) -> Window {
     widget.root().unwrap().downcast::<Window>().unwrap()
+}
+
+pub(crate) fn show_dialog<W, C>(widget: &W, content: &C)
+where
+    W: glib::IsA<gtk::Widget>,
+    C: glib::IsA<gtk::Widget>,
+{
+    let toast_overlay = adw::ToastOverlay::new();
+    toast_overlay.set_child(Some(content));
+
+    let dialog = adw::Window::builder()
+        .modal(true)
+        .transient_for(&root(widget))
+        .default_width(640)
+        .content(&toast_overlay)
+        .build();
+
+    let action = gio::SimpleAction::new("cancel", None);
+    action.connect_activate(clone!(@weak dialog => move |_, _| dialog.close()));
+
+    let action_group = gio::SimpleActionGroup::new();
+    action_group.add_action(&action);
+    dialog.insert_action_group("action", Some(&action_group));
+
+    let controller = gtk::EventControllerKey::new();
+    controller.connect_key_pressed(
+        clone!(@weak dialog => @default-return glib::signal::Inhibit(false), move |_, key, _, _| {
+            if key == gdk::Key::Escape {
+                dialog.close();
+            }
+            glib::signal::Inhibit(true)
+        }),
+    );
+    dialog.add_controller(&controller);
+    dialog.present();
 }
 
 pub(crate) fn show_toast<W: glib::IsA<gtk::Widget>>(widget: &W, title: &str) {
