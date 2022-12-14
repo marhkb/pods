@@ -9,10 +9,8 @@ use once_cell::sync::Lazy;
 use crate::model;
 use crate::utils;
 
-const ACTION_DELETE_IMAGE: &str = "image-menu-button.delete-image";
-const ACTION_INSPECT_IMAGE: &str = "image-menu-button.inspect-image";
-const ACTION_PULL_LATEST: &str = "image-menu-button.pull-latest";
 const ACTION_CREATE_CONTAINER: &str = "image-menu-button.create-container";
+const ACTION_DELETE_IMAGE: &str = "image-menu-button.delete-image";
 
 mod imp {
     use super::*;
@@ -34,17 +32,11 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
-            klass.install_action(ACTION_DELETE_IMAGE, None, move |widget, _, _| {
-                widget.delete_image();
-            });
-            klass.install_action(ACTION_INSPECT_IMAGE, None, move |widget, _, _| {
-                widget.show_inspection();
-            });
-            klass.install_action(ACTION_PULL_LATEST, None, move |widget, _, _| {
-                widget.pull_latest();
-            });
             klass.install_action(ACTION_CREATE_CONTAINER, None, move |widget, _, _| {
                 widget.create_container();
+            });
+            klass.install_action(ACTION_DELETE_IMAGE, None, move |widget, _, _| {
+                widget.delete_image();
             });
         }
 
@@ -162,14 +154,6 @@ impl MenuButton {
 
     fn delete_image(&self) {
         super::delete_image_show_confirmation(self.upcast_ref(), self.image());
-    }
-
-    fn show_inspection(&self) {
-        super::show_inspection(&utils::find_leaflet_overlay(self), self.image());
-    }
-
-    fn pull_latest(&self) {
-        super::pull_latest(None, self.image());
     }
 
     fn create_container(&self) {
