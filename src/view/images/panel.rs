@@ -1,5 +1,4 @@
 use adw::prelude::MessageDialogExtManual;
-use adw::traits::BinExt;
 use adw::traits::MessageDialogExt;
 use gettextrs::gettext;
 use gettextrs::ngettext;
@@ -341,26 +340,20 @@ impl Panel {
     }
 
     fn show_download_page(&self) {
-        let leaflet_overlay = utils::find_leaflet_overlay(self);
-
-        if leaflet_overlay.child().is_none() {
-            leaflet_overlay.show_details(&view::ImagePullPage::from(self.client().as_ref()));
+        if let Some(client) = self.client() {
+            utils::show_dialog(self, &view::ImagePullPage::from(&client));
         }
     }
 
     fn show_build_page(&self) {
-        let leaflet_overlay = utils::find_leaflet_overlay(self);
-
-        if leaflet_overlay.child().is_none() {
-            leaflet_overlay.show_details(&view::ImageBuildPage::from(self.client().as_ref()));
+        if let Some(client) = self.client() {
+            utils::show_dialog(self, &view::ImageBuildPage::from(&client));
         }
     }
 
     fn show_prune_page(&self) {
-        let leaflet_overlay = utils::find_leaflet_overlay(self);
-
-        if leaflet_overlay.child().is_none() {
-            leaflet_overlay.show_details(&view::ImagesPrunePage::from(self.client().as_ref()));
+        if let Some(client) = self.client() {
+            utils::show_dialog(self, &view::ImagesPrunePage::from(&client));
         }
     }
 

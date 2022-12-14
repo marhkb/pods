@@ -6,18 +6,13 @@ use once_cell::sync::Lazy;
 
 use crate::model;
 use crate::utils;
-use crate::view;
 
 mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/welcome-page.ui")]
-    pub(crate) struct WelcomePage {
-        pub(super) connection_manager: glib::WeakRef<model::ConnectionManager>,
-        #[template_child]
-        pub(super) leaflet_overlay: TemplateChild<view::LeafletOverlay>,
-    }
+    pub(crate) struct WelcomePage(pub(super) glib::WeakRef<model::ConnectionManager>);
 
     #[glib::object_subclass]
     impl ObjectSubclass for WelcomePage {
@@ -27,10 +22,6 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
-
-            klass.install_action("welcome-page.add-connection", None, |widget, _, _| {
-                widget.add_connection_creation_page();
-            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -69,12 +60,7 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for WelcomePage {
-        fn unmap(&self) {
-            self.parent_unmap();
-            self.leaflet_overlay.hide_details();
-        }
-    }
+    impl WidgetImpl for WelcomePage {}
 }
 
 glib::wrapper! {
@@ -85,22 +71,14 @@ glib::wrapper! {
 
 impl WelcomePage {
     pub(crate) fn connection_manager(&self) -> Option<model::ConnectionManager> {
-        self.imp().connection_manager.upgrade()
+        self.imp().0.upgrade()
     }
 
     pub(crate) fn set_connection_manager(&self, value: Option<&model::ConnectionManager>) {
         if self.connection_manager().as_ref() == value {
             return;
         }
-        self.imp().connection_manager.set(value);
+        self.imp().0.set(value);
         self.notify("connection-manager");
-    }
-
-    fn add_connection_creation_page(&self) {
-        if let Some(connection_manager) = self.connection_manager() {
-            self.imp()
-                .leaflet_overlay
-                .show_details(&view::ConnectionCreationPage::from(&connection_manager));
-        }
     }
 }

@@ -8,7 +8,6 @@ use once_cell::sync::Lazy;
 
 use crate::model;
 use crate::utils;
-use crate::view;
 
 const ACTION_CREATE_CONTAINER: &str = "pod-menu-button.create-container";
 const ACTION_START: &str = "pod-menu-button.start";
@@ -171,9 +170,7 @@ impl MenuButton {
     }
 
     pub(crate) fn create_container(&self) {
-        if let Some(pod) = self.pod().as_ref() {
-            utils::find_leaflet_overlay(self).show_details(&view::ContainerCreationPage::from(pod));
-        }
+        super::create_container(self, self.pod());
     }
 
     fn update_actions(&self) {

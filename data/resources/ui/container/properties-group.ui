@@ -51,14 +51,115 @@
     </child>
 
     <child>
-      <object class="PdsPropertyRow" id="id_row">
+      <object class="PdsPropertyWidgetRow">
         <property name="key" translatable="yes">Id</property>
+
+        <property name="widget">
+          <object class="GtkBox">
+            <property name="spacing">6</property>
+
+            <child>
+              <object class="GtkLabel" id="id_label">
+                <style>
+                  <class name="dim-label"/>
+                </style>
+                <property name="selectable">True</property>
+                <binding name="label">
+                  <lookup name="name" type="Container">
+                    <lookup name="container">PdsContainerPropertiesGroup</lookup>
+                  </lookup>
+                </binding>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkButton">
+                <style>
+                  <class name="flat"/>
+                </style>
+                <property name="action-name">container-properties-group.show-commit-page</property>
+                <property name="icon-name">merge-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Commit</property>
+                <property name="valign">center</property>
+              </object>
+            </child>
+
+          </object>
+        </property>
+
       </object>
     </child>
 
     <child>
       <object class="PdsPropertyRow" id="created_row">
         <property name="key" translatable="yes">Created</property>
+      </object>
+    </child>
+
+    <child>
+      <object class="AdwActionRow">
+        <property name="title" translatable="yes">Size</property>
+        <property name="activatable">False</property>
+
+        <child>
+          <object class="GtkStack" id="size_stack">
+
+            <child>
+              <object class="GtkStackPage">
+                <property name="name">waiting</property>
+                <property name="child">
+                  <object class="GtkSpinner">
+                    <property name="halign">end</property>
+                    <property name="spinning">True</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkStackPage">
+                <property name="name">ready</property>
+                <property name="child">
+                  <object class="GtkLabel" id="size_label">
+                    <style>
+                      <class name="dim-label"/>
+                    </style>
+                    <property name="hexpand">True</property>
+                    <property name="margin-end">3</property>
+                    <property name="wrap">True</property>
+                    <property name="xalign">1.0</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkButton">
+            <style>
+              <class name="flat"/>
+            </style>
+            <property name="action-name">container-properties-group.get-files</property>
+            <property name="icon-name">get-symbolic</property>
+            <property name="tooltip-text">Download Files</property>
+            <property name="valign">center</property>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkButton">
+            <style>
+              <class name="flat"/>
+            </style>
+            <property name="action-name">container-properties-group.put-files</property>
+            <property name="icon-name">put-symbolic</property>
+            <property name="tooltip-text">Upload Files</property>
+            <property name="valign">center</property>
+          </object>
+        </child>
+
       </object>
     </child>
 

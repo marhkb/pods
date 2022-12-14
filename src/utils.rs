@@ -21,7 +21,6 @@ use gtk::traits::WidgetExt;
 
 use crate::config;
 use crate::view;
-use crate::window::Window;
 use crate::APPLICATION_OPTS;
 use crate::RUNTIME;
 
@@ -163,8 +162,8 @@ pub(crate) fn format_id(id: &str) -> String {
     id.chars().take(12).collect::<String>()
 }
 
-pub(crate) fn root<W: glib::IsA<gtk::Widget>>(widget: &W) -> Window {
-    widget.root().unwrap().downcast::<Window>().unwrap()
+pub(crate) fn root<W: glib::IsA<gtk::Widget>>(widget: &W) -> gtk::Window {
+    widget.root().unwrap().downcast::<gtk::Window>().unwrap()
 }
 
 pub(crate) fn show_dialog<W, C>(widget: &W, content: &C)

@@ -1,6 +1,6 @@
 use adw::subclass::prelude::*;
-use adw::traits::BinExt;
 use gettextrs::gettext;
+use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::prelude::*;
@@ -22,11 +22,7 @@ mod imp {
     pub(crate) struct Page {
         pub(super) action: glib::WeakRef<model::Action>,
         #[template_child]
-        pub(super) main_stack: TemplateChild<gtk::Stack>,
-        #[template_child]
         pub(super) status_page: TemplateChild<adw::StatusPage>,
-        #[template_child]
-        pub(super) artifact_page_bin: TemplateChild<adw::Bin>,
     }
 
     #[glib::object_subclass]
@@ -233,11 +229,7 @@ impl Page {
     fn view_artifact(&self) {
         match self.action().as_ref().and_then(model::Action::artifact) {
             Some(artifact) => {
-                let imp = self.imp();
-
-                imp.artifact_page_bin.set_child(Some(&if let Some(image) =
-                    artifact.downcast_ref::<model::Image>()
-                {
+                let page = if let Some(image) = artifact.downcast_ref::<model::Image>() {
                     view::ImageDetailsPage::from(image).upcast::<gtk::Widget>()
                 } else if let Some(container) = artifact.downcast_ref::<model::Container>() {
                     view::ContainerDetailsPage::from(container).upcast()
@@ -245,9 +237,17 @@ impl Page {
                     view::PodDetailsPage::from(pod).upcast()
                 } else {
                     unreachable!();
-                }));
+                };
 
-                imp.main_stack.set_visible_child(&*imp.artifact_page_bin);
+                gio::Application::default()
+                    .unwrap()
+                    .downcast::<crate::Application>()
+                    .unwrap()
+                    .main_window()
+                    .leaflet_overlay()
+                    .show_details(&page);
+
+                self.activate_action("action.cancel", None).unwrap();
             }
             None => utils::show_error_toast(
                 self,

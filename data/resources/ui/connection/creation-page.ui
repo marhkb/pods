@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
+
+  <object class="GtkSizeGroup">
+    <property name="mode">horizontal</property>
+    <widgets>
+      <widget name="cancel_button"/>
+      <widget name="connect_button"/>
+    </widgets>
+  </object>
+
   <template class="PdsConnectionCreationPage" parent="GtkWidget">
     <property name="layout-manager">
       <object class="GtkBoxLayout">
@@ -9,14 +18,31 @@
 
     <child>
       <object class="AdwHeaderBar">
+        <property name="show-end-title-buttons">False</property>
+        <property name="show-start-title-buttons">False</property>
 
         <child type="start">
-          <object class="PdsBackNavigationControls" id="back_navigation_controls"/>
+          <object class="GtkButton" id="cancel_button">
+            <property name="action-name">action.cancel</property>
+            <property name="label" translatable="yes">_Cancel</property>
+            <property name="use-underline">True</property>
+          </object>
         </child>
 
         <child type="title">
           <object class="AdwWindowTitle">
             <property name="title" translatable="yes">New Connection</property>
+          </object>
+        </child>
+
+        <child type="end">
+          <object class="GtkButton" id="connect_button">
+            <style>
+              <class name="suggested-action"/>
+            </style>
+            <property name="action-name">connection-creator-page.try-connect</property>
+            <property name="label" translatable="yes">_Connect</property>
+            <property name="use-underline">True</property>
           </object>
         </child>
 
@@ -239,24 +265,6 @@
 
                   </object>
                 </child>
-              </object>
-            </child>
-
-          </object>
-        </child>
-
-        <child>
-          <object class="AdwPreferencesGroup">
-
-            <child>
-              <object class="GtkButton" id="connect_button">
-                <style>
-                  <class name="suggested-action"/>
-                  <class name="pill"/>
-                </style>
-                <property name="action-name">connection-creator-page.try-connect</property>
-                <property name="label" translatable="yes">_Connect</property>
-                <property name="use-underline">True</property>
               </object>
             </child>
 

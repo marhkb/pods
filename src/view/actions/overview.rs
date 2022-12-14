@@ -53,14 +53,11 @@ mod imp {
                 .downcast::<model::Action>()
                 .unwrap();
 
-            let instance = self.obj();
+            let obj = &*self.obj();
 
-            utils::root(&*instance)
-                .leaflet_overlay()
-                .show_details(&view::ActionPage::from(&action));
+            utils::show_dialog(obj, &view::ActionPage::from(&action));
 
-            instance
-                .ancestor(gtk::PopoverMenu::static_type())
+            obj.ancestor(gtk::PopoverMenu::static_type())
                 .unwrap()
                 .downcast::<gtk::PopoverMenu>()
                 .unwrap()

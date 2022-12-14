@@ -1,6 +1,7 @@
 use std::cell::Cell;
 
 use adw::subclass::prelude::*;
+use adw::traits::BinExt;
 use adw::traits::ExpanderRowExt;
 use gettextrs::gettext;
 use gtk::glib;
@@ -36,6 +37,8 @@ mod imp {
         pub(super) prune_until_timestamp: Cell<i64>,
         pub(super) client: glib::WeakRef<model::Client>,
         #[template_child]
+        pub(super) stack: TemplateChild<gtk::Stack>,
+        #[template_child]
         pub(super) prune_all_switch: TemplateChild<gtk::Switch>,
         #[template_child]
         pub(super) prune_external_switch: TemplateChild<gtk::Switch>,
@@ -54,9 +57,7 @@ mod imp {
         #[template_child]
         pub(super) period_drop_down: TemplateChild<gtk::DropDown>,
         #[template_child]
-        pub(super) button_prune: TemplateChild<gtk::Button>,
-        #[template_child]
-        pub(super) leaflet_overlay: TemplateChild<view::LeafletOverlay>,
+        pub(super) action_page_bin: TemplateChild<adw::Bin>,
     }
 
     #[glib::object_subclass]
@@ -213,10 +214,10 @@ glib::wrapper! {
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
-impl From<Option<&model::Client>> for PrunePage {
-    fn from(client: Option<&model::Client>) -> Self {
+impl From<&model::Client> for PrunePage {
+    fn from(client: &model::Client) -> Self {
         glib::Object::builder::<Self>()
-            .property("client", &client)
+            .property("client", client)
             .build()
     }
 }
@@ -279,8 +280,9 @@ impl PrunePage {
                 .build(),
         );
 
-        imp.leaflet_overlay
-            .show_details(&view::ActionPage::from(&action));
+        imp.action_page_bin
+            .set_child(Some(&view::ActionPage::from(&action)));
+        imp.stack.set_visible_child(&*imp.action_page_bin);
     }
 }
 

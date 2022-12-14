@@ -1,5 +1,4 @@
 use adw::prelude::MessageDialogExtManual;
-use adw::traits::BinExt;
 use adw::traits::MessageDialogExt;
 use gettextrs::gettext;
 use gettextrs::ngettext;
@@ -328,15 +327,8 @@ impl Panel {
     }
 
     fn create_pod(&self) {
-        let leaflet_overlay = utils::find_leaflet_overlay(self);
-
-        if leaflet_overlay.child().is_none() {
-            leaflet_overlay.show_details(&view::PodCreationPage::from(
-                self.pod_list()
-                    .as_ref()
-                    .and_then(model::PodList::client)
-                    .as_ref(),
-            ));
+        if let Some(client) = self.pod_list().as_ref().and_then(model::PodList::client) {
+            utils::show_dialog(self, &view::PodCreationPage::from(&client));
         }
     }
 

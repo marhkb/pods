@@ -26,7 +26,7 @@ mod imp {
     pub(crate) struct CreationPage {
         pub(super) connection_manager: OnceCell<model::ConnectionManager>,
         #[template_child]
-        pub(super) back_navigation_controls: TemplateChild<view::BackNavigationControls>,
+        pub(super) connect_button: TemplateChild<gtk::Button>,
         #[template_child]
         pub(super) name_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
@@ -43,8 +43,6 @@ mod imp {
         pub(super) color_button: TemplateChild<gtk::ColorButton>,
         #[template_child]
         pub(super) color_switch: TemplateChild<gtk::Switch>,
-        #[template_child]
-        pub(super) connect_button: TemplateChild<gtk::Button>,
     }
 
     #[glib::object_subclass]
@@ -212,7 +210,7 @@ impl CreationPage {
                     None
                 },
                 clone!(@weak self as obj => move |result| match result {
-                    Ok(_) => obj.imp().back_navigation_controls.navigate_to_first(),
+                    Ok(_) => obj.activate_action("action.cancel", None).unwrap(),
                     Err(e) => obj.on_error(e),
                 }),
             ) {

@@ -2,6 +2,7 @@ use std::cell::RefCell;
 
 use adw::subclass::prelude::*;
 use adw::traits::ActionRowExt;
+use adw::traits::BinExt;
 use adw::traits::ComboRowExt;
 use gettextrs::gettext;
 use gtk::gio;
@@ -43,6 +44,12 @@ mod imp {
         pub(super) infra_cmd_args: gio::ListStore,
         pub(super) command_row_handler:
             RefCell<Option<(glib::SignalHandlerId, glib::WeakRef<model::Image>)>>,
+        #[template_child]
+        pub(super) stack: TemplateChild<gtk::Stack>,
+        #[template_child]
+        pub(super) leaflet_overlay: TemplateChild<view::LeafletOverlay>,
+        #[template_child]
+        pub(super) create_button: TemplateChild<gtk::Button>,
         #[template_child]
         pub(super) name_entry_row: TemplateChild<view::RandomNameEntryRow>,
         #[template_child]
@@ -86,9 +93,7 @@ mod imp {
         #[template_child]
         pub(super) infra_command_arg_list_box: TemplateChild<gtk::ListBox>,
         #[template_child]
-        pub(super) create_button: TemplateChild<gtk::Button>,
-        #[template_child]
-        pub(super) leaflet_overlay: TemplateChild<view::LeafletOverlay>,
+        pub(super) action_page_bin: TemplateChild<adw::Bin>,
     }
 
     #[glib::object_subclass]
@@ -272,10 +277,10 @@ glib::wrapper! {
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
-impl From<Option<&model::Client>> for CreationPage {
-    fn from(client: Option<&model::Client>) -> Self {
+impl From<&model::Client> for CreationPage {
+    fn from(client: &model::Client) -> Self {
         glib::Object::builder::<Self>()
-            .property("client", &client)
+            .property("client", client)
             .build()
     }
 }
@@ -332,7 +337,8 @@ impl CreationPage {
                         self.create().infra_image(image.id()).build(),
                     ));
 
-                imp.leaflet_overlay.show_details(&page);
+                imp.action_page_bin.set_child(Some(&page));
+                imp.stack.set_visible_child(&*imp.action_page_bin);
             }
         } else {
             log::error!("Error while starting pod: no image selected");
@@ -365,7 +371,8 @@ impl CreationPage {
                 ),
         );
 
-        imp.leaflet_overlay.show_details(&page);
+        imp.action_page_bin.set_child(Some(&page));
+        imp.stack.set_visible_child(&*imp.action_page_bin);
     }
 
     fn create(&self) -> podman::opts::PodCreateOptsBuilder {

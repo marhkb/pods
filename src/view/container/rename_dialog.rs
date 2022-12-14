@@ -70,7 +70,7 @@ mod imp {
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "container" => self.container.upgrade().to_value(),
+                "container" => self.obj().container().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -79,6 +79,16 @@ mod imp {
             self.parent_constructed();
 
             let obj = &*self.obj();
+
+            if let Some(container) = obj.container() {
+                container.connect_deleted(clone!(@weak obj => move |_| {
+                    obj.imp().rename_finished.set(()).unwrap();
+                    obj.close();
+                }));
+
+                self.entry_row.set_text(&container.name());
+                self.entry_row.grab_focus();
+            }
 
             obj.connect_response(None, |obj, response| {
                 obj.imp().response.replace(Some(response.to_owned()));
@@ -97,7 +107,7 @@ mod imp {
                             return gtk::Inhibit(false);
                         }
 
-                        if let Some(container) = imp.container.upgrade() {
+                        if let Some(container) = obj.container() {
                             let new_name = imp.entry_row.text().to_string();
                             container.rename(
                                 new_name,
@@ -146,11 +156,6 @@ mod imp {
                 }),
             );
 
-            if let Some(name) = self.container.upgrade().map(|container| container.name()) {
-                self.entry_row.set_text(&name);
-                self.entry_row.grab_focus();
-            }
-
             self.entry_row
                 .connect_changed(clone!(@weak obj => move |entry| {
                     let imp = obj.imp();
@@ -197,5 +202,11 @@ impl From<Option<model::Container>> for RenameDialog {
         glib::Object::builder::<Self>()
             .property("container", &container)
             .build()
+    }
+}
+
+impl RenameDialog {
+    pub(crate) fn container(&self) -> Option<model::Container> {
+        self.imp().container.upgrade()
     }
 }

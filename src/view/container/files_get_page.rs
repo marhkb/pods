@@ -1,5 +1,6 @@
 use adw::subclass::prelude::*;
 use adw::traits::ActionRowExt;
+use adw::traits::BinExt;
 use ashpd::desktop::file_chooser::FileFilter;
 use ashpd::desktop::file_chooser::SaveFileRequest;
 use ashpd::WindowIdentifier;
@@ -27,13 +28,15 @@ mod imp {
     pub(crate) struct FilesGetPage {
         pub(super) container: WeakRef<model::Container>,
         #[template_child]
+        pub(super) stack: TemplateChild<gtk::Stack>,
+        #[template_child]
+        pub(super) get_button: TemplateChild<gtk::Button>,
+        #[template_child]
         pub(super) container_path_row: TemplateChild<adw::EntryRow>,
         #[template_child]
         pub(super) host_path_row: TemplateChild<adw::ActionRow>,
         #[template_child]
-        pub(super) get_button: TemplateChild<gtk::Button>,
-        #[template_child]
-        pub(super) leaflet_overlay: TemplateChild<view::LeafletOverlay>,
+        pub(super) action_page_bin: TemplateChild<adw::Bin>,
     }
 
     #[glib::object_subclass]
@@ -147,6 +150,13 @@ impl FilesGetPage {
         if self.container().as_ref() == value {
             return;
         }
+
+        if let Some(container) = value {
+            container.connect_deleted(clone!(@weak self as obj => move |_| {
+                obj.activate_action("action.cancel", None).unwrap();
+            }));
+        }
+
         self.imp().container.set(value);
         self.notify("container");
     }
@@ -178,7 +188,7 @@ impl FilesGetPage {
                 .unwrap_or_else(|| glib::GString::from("/"));
             let container_path = imp.container_path_row.text();
 
-            imp.leaflet_overlay.show_details(&view::ActionPage::from(
+            let page = view::ActionPage::from(
                 &container
                     .container_list()
                     .unwrap()
@@ -194,7 +204,10 @@ impl FilesGetPage {
                         },
                         host_path,
                     ),
-            ))
+            );
+
+            imp.action_page_bin.set_child(Some(&page));
+            imp.stack.set_visible_child(&*imp.action_page_bin);
         }
     }
 }

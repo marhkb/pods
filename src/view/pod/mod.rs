@@ -15,6 +15,7 @@ pub(crate) use self::menu_button::MenuButton;
 pub(crate) use self::row::Row;
 use crate::model;
 use crate::utils;
+use crate::view;
 
 pub(crate) fn pod_status_css_class(status: model::PodStatus) -> &'static str {
     use model::PodStatus::*;
@@ -107,5 +108,11 @@ fn show_delete_confirmation_dialog(widget: &gtk::Widget) {
         } else {
             delete(widget);
         }
+    }
+}
+
+pub(crate) fn create_container<W: glib::IsA<gtk::Widget>>(widget: &W, pod: Option<model::Pod>) {
+    if let Some(pod) = pod {
+        utils::show_dialog(widget, &view::ContainerCreationPage::from(&pod));
     }
 }
