@@ -27,31 +27,15 @@
   <screenshots>
     <screenshot type="default">
       <image>https://github.com/marhkb/pods/raw/main/data/resources/screenshots/screenshot1.png</image>
-      <caption>Main window</caption>
-    </screenshot>
-    <screenshot>
-      <image>https://github.com/marhkb/pods/raw/main/data/resources/screenshots/screenshot2.png</image>
       <caption>Images Overview</caption>
     </screenshot>
     <screenshot>
-      <image>https://github.com/marhkb/pods/raw/main/data/resources/screenshots/screenshot3.png</image>
-      <caption>Image Details</caption>
-    </screenshot>
-    <screenshot>
-      <image>https://github.com/marhkb/pods/raw/main/data/resources/screenshots/screenshot4.png</image>
+      <image>https://github.com/marhkb/pods/raw/main/data/resources/screenshots/screenshot2.png</image>
       <caption>Containers Overview</caption>
     </screenshot>
     <screenshot>
-      <image>https://github.com/marhkb/pods/raw/main/data/resources/screenshots/screenshot5.png</image>
-      <caption>Container Details</caption>
-    </screenshot>
-    <screenshot>
-      <image>https://github.com/marhkb/pods/raw/main/data/resources/screenshots/screenshot6.png</image>
+      <image>https://github.com/marhkb/pods/raw/main/data/resources/screenshots/screenshot3.png</image>
       <caption>Pods Overview</caption>
-    </screenshot>
-    <screenshot>
-      <image>https://github.com/marhkb/pods/raw/main/data/resources/screenshots/screenshot7.png</image>
-      <caption>Pod Details</caption>
     </screenshot>
   </screenshots>
   <url type="homepage">https://github.com/marhkb/pods</url>
