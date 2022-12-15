@@ -39,7 +39,7 @@
         <child>
           <object class="GtkToggleButton" id="regex_button">
             <property name="icon-name">regex-symbolic</property>
-            <property name="tooltip-text" translatable="yes">Regular expression</property>
+            <property name="tooltip-text" translatable="yes">Regular Expression</property>
             <property name="valign">center</property>
           </object>
         </child>
@@ -47,7 +47,7 @@
         <child>
           <object class="GtkToggleButton" id="case_button">
             <property name="icon-name">uppercase-symbolic</property>
-            <property name="tooltip-text" translatable="yes">Case sensitive</property>
+            <property name="tooltip-text" translatable="yes">Case Sensitive</property>
             <property name="valign">center</property>
           </object>
         </child>
@@ -55,7 +55,7 @@
         <child>
           <object class="GtkToggleButton" id="word_button">
             <property name="icon-name">whole-word-symbolic</property>
-            <property name="tooltip-text" translatable="yes">Whole word only</property>
+            <property name="tooltip-text" translatable="yes">Whole Word</property>
             <property name="valign">center</property>
           </object>
         </child>

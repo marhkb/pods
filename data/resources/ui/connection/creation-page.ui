@@ -164,7 +164,7 @@
                                     </style>
                                     <property name="action-name">connection-creator-page.copy-socket-activation-command</property>
                                     <property name="icon-name">edit-copy-symbolic</property>
-                                    <property name="tooltip-text" translatable="yes">Copy command to clipboard</property>
+                                    <property name="tooltip-text" translatable="yes">Copy to Clipboard</property>
                                   </object>
                                 </child>
 

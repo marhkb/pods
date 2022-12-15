@@ -19,15 +19,15 @@
         <child>
           <object class="GtkButton">
             <property name="action-name">source-view-search-widget.search-backward</property>
-            <property name="tooltip-text" translatable="yes">Move to previous match (Ctrl+Shift+G)</property>
             <property name="icon-name">go-up-symbolic</property>
+            <property name="tooltip-text" translatable="yes">Previous (Ctrl+Shift+G)</property>
           </object>
         </child>
 
         <child>
           <object class="GtkButton">
             <property name="action-name">source-view-search-widget.search-forward</property>
-            <property name="tooltip-text" translatable="yes">Move to next match (Ctrl+G)</property>
+            <property name="tooltip-text" translatable="yes">Next (Ctrl+G)</property>
             <property name="icon-name">go-down-symbolic</property>
           </object>
         </child>

@@ -29,14 +29,14 @@
         <child type="end">
           <object class="GtkToggleButton" id="show_timestamps_button">
             <property name="icon-name">preferences-system-time-symbolic</property>
-            <property name="tooltip-text" translatable="yes">Toggle timestamps</property>
+            <property name="tooltip-text" translatable="yes">Timestamps</property>
           </object>
         </child>
 
         <child type="end">
           <object class="GtkToggleButton" id="search_button">
             <property name="icon-name">system-search-symbolic</property>
-            <property name="tooltip-text" translatable="yes">Search within this log</property>
+            <property name="tooltip-text" translatable="yes">Search</property>
           </object>
         </child>
 
@@ -52,7 +52,7 @@
                   <object class="GtkButton">
                     <property name="action-name">container-log-page.save-to-file</property>
                     <property name="icon-name">document-save-symbolic</property>
-                    <property name="tooltip-text" translatable="yes">Save the log to a file</property>
+                    <property name="tooltip-text" translatable="yes">Save as File</property>
                   </object>
                 </property>
 
@@ -70,7 +70,7 @@
                     <property name="margin-start">6</property>
                     <property name="margin-top">6</property>
                     <property name="spinning">True</property>
-                    <property name="tooltip-text" translatable="yes">Log is currently being saved to a file</property>
+                    <property name="tooltip-text" translatable="yes">Saving Log</property>
                   </object>
                 </property>
 

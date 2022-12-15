@@ -44,7 +44,7 @@
             <property name="direction">up</property>
             <property name="focus-on-click">False</property>
             <property name="menu-model">connections_menu</property>
-            <property name="tooltip-text" translatable="yes">Connection Manager</property>
+            <property name="tooltip-text" translatable="yes">Connections</property>
 
             <child>
               <object class="GtkBox">
