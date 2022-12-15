@@ -38,13 +38,6 @@
     </section>
     <section>
       <item>
-        <attribute name="label" translatable="yes">_Commit…</attribute>
-        <attribute name="action">container-menu-button.commit</attribute>
-        <attribute name="hidden-when">action-disabled</attribute>
-      </item>
-    </section>
-    <section>
-      <item>
         <attribute name="label" translatable="yes">_Delete</attribute>
         <attribute name="action">container-menu-button.delete</attribute>
         <attribute name="hidden-when">action-disabled</attribute>

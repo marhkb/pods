@@ -14,14 +14,6 @@ use crate::model;
 use crate::utils;
 use crate::view;
 
-const ACTION_RENAME: &str = "container-properties-group.rename";
-const ACTION_SHOW_COMMIT_PAGE: &str = "container-properties-group.show-commit-page";
-const ACTION_GET_FILES: &str = "container-properties-group.get-files";
-const ACTION_PUT_FILES: &str = "container-properties-group.put-files";
-const ACTION_SHOW_HEALTH_DETAILS: &str = "container-properties-group.show-health-details";
-const ACTION_SHOW_IMAGE_DETAILS: &str = "container-properties-group.show-image-details";
-const ACTION_SHOW_POD_DETAILS: &str = "container-properties-group.show-pod-details";
-
 mod imp {
     use super::*;
 
@@ -69,28 +61,6 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
-
-            klass.install_action(ACTION_RENAME, None, move |widget, _, _| {
-                widget.rename();
-            });
-            klass.install_action(ACTION_SHOW_COMMIT_PAGE, None, move |widget, _, _| {
-                widget.commit();
-            });
-            klass.install_action(ACTION_GET_FILES, None, move |widget, _, _| {
-                widget.get_files();
-            });
-            klass.install_action(ACTION_PUT_FILES, None, move |widget, _, _| {
-                widget.put_files();
-            });
-            klass.install_action(ACTION_SHOW_HEALTH_DETAILS, None, move |widget, _, _| {
-                widget.show_health_details();
-            });
-            klass.install_action(ACTION_SHOW_IMAGE_DETAILS, None, move |widget, _, _| {
-                widget.show_image_details();
-            });
-            klass.install_action(ACTION_SHOW_POD_DETAILS, None, move |widget, _, _| {
-                widget.show_pod_details();
-            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -331,20 +301,6 @@ mod imp {
                 ))
                 .bind(&*self.status_label, "css-classes", Some(obj));
 
-            health_status_expr.watch(
-                Some(obj),
-                clone!(@weak obj => move || {
-                    obj.action_set_enabled(
-                        ACTION_SHOW_HEALTH_DETAILS,
-                        obj.container()
-                            .as_ref()
-                            .map(model::Container::health_status)
-                            .map(|status| status != model::ContainerHealthStatus::Unconfigured)
-                            .unwrap_or(false),
-                    );
-                }),
-            );
-
             health_status_expr
                 .chain_closure::<String>(closure!(
                     |_: Self::Type, status: model::ContainerHealthStatus| status.to_string()
@@ -381,16 +337,6 @@ mod imp {
                 }),
             )
             .bind(&*self.image_label, "label", Some(obj));
-
-            image_expr.watch(
-                Some(obj),
-                clone!(@weak obj => move || {
-                    obj.action_set_enabled(
-                        ACTION_SHOW_IMAGE_DETAILS,
-                        obj.container().as_ref().and_then(model::Container::image).is_some()
-                    );
-                }),
-            );
 
             image_expr
                 .chain_closure::<String>(closure!(|_: Self::Type, image: Option<model::Image>| {
@@ -439,51 +385,5 @@ impl PropertiesGroup {
         }
         self.imp().container.set(value);
         self.notify("container");
-    }
-
-    fn rename(&self) {
-        let dialog = view::ContainerRenameDialog::from(self.container());
-        dialog.set_transient_for(Some(&utils::root(self)));
-        dialog.present();
-    }
-
-    fn commit(&self) {
-        if let Some(container) = self.container() {
-            utils::show_dialog(self, &view::ContainerCommitPage::from(&container));
-        }
-    }
-
-    fn get_files(&self) {
-        if let Some(container) = self.container() {
-            utils::show_dialog(self, &view::ContainerFilesGetPage::from(&container));
-        }
-    }
-
-    fn put_files(&self) {
-        if let Some(container) = self.container() {
-            utils::show_dialog(self, &view::ContainerFilesPutPage::from(&container));
-        }
-    }
-
-    fn show_health_details(&self) {
-        if let Some(ref container) = self.container() {
-            self.show_details(&view::ContainerHealthCheckPage::from(container));
-        }
-    }
-
-    fn show_image_details(&self) {
-        self.show_details(&view::ImageDetailsPage::from(
-            &self.container().unwrap().image().unwrap(),
-        ));
-    }
-
-    fn show_pod_details(&self) {
-        if let Some(pod) = self.container().as_ref().and_then(model::Container::pod) {
-            self.show_details(&view::PodDetailsPage::from(&pod));
-        }
-    }
-
-    fn show_details<W: glib::IsA<gtk::Widget>>(&self, widget: &W) {
-        utils::find_leaflet_overlay(self).show_details(widget);
     }
 }

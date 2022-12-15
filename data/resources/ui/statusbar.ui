@@ -10,7 +10,7 @@
     </section>
     <section>
       <item>
-        <attribute name="label" translatable="yes">_New…</attribute>
+        <attribute name="label" translatable="yes">_Add Connection…</attribute>
         <attribute name="action">win.add-connection</attribute>
       </item>
     </section>
@@ -44,7 +44,7 @@
             <property name="direction">up</property>
             <property name="focus-on-click">False</property>
             <property name="menu-model">connections_menu</property>
-            <property name="tooltip-text" translatable="yes">Connection manager</property>
+            <property name="tooltip-text" translatable="yes">Connection Manager</property>
 
             <child>
               <object class="GtkBox">
@@ -73,7 +73,7 @@
             <property name="direction">up</property>
             <property name="focus-on-click">False</property>
             <property name="menu-model">notifications_menu</property>
-            <property name="tooltip-text" translatable="yes">Actions overview</property>
+            <property name="tooltip-text" translatable="yes">Operations</property>
 
             <child>
               <object class="GtkBox">

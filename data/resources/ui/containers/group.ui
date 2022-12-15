@@ -9,6 +9,7 @@
         <property name="icon-name">list-add-symbolic</property>
         <property name="margin-top">15</property>
         <property name="margin-bottom">15</property>
+        <property name="tooltip-text" translatable="yes">Create Container</property>
       </object>
     </child>
 
@@ -41,6 +42,7 @@
             </style>
             <property name="action-name">containers-group.create-container</property>
             <property name="icon-name">list-add-symbolic</property>
+            <property name="tooltip-text" translatable="yes">Create Container</property>
           </object>
         </child>
 

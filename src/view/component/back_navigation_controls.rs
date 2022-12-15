@@ -59,16 +59,16 @@ mod imp {
                     &gtk::Button::builder()
                         .icon_name("go-previous-symbolic")
                         .action_name("back-navigation-controls.back")
-                        .tooltip_text(&gettext("Return to previous page"))
+                        .tooltip_text(&gettext("Go Back"))
                         .build(),
                 );
 
                 if leaflet_overlay != widget.root_leaflet_overlay() {
                     self.box_.append(
                         &gtk::Button::builder()
-                            .icon_name("user-home-symbolic")
+                            .icon_name("go-home-symbolic")
                             .action_name("back-navigation-controls.go-first")
-                            .tooltip_text(&gettext("Return to main page"))
+                            .tooltip_text(&gettext("Main View"))
                             .build(),
                     );
                 }

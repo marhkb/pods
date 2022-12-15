@@ -35,7 +35,7 @@
                     <style>
                       <class name="heading"/>
                     </style>
-                    <property name="label" translatable="yes">No Actions in This Session</property>
+                    <property name="label" translatable="yes">No Operations</property>
                   </object>
                 </child>
 

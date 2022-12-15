@@ -110,7 +110,7 @@
                                         <child type="start">
                                           <object class="GtkToggleButton" id="search_button">
                                             <property name="icon-name">system-search-symbolic</property>
-                                            <property name="tooltip-text">Search for images, containers and pods</property>
+                                            <property name="tooltip-text">Search</property>
                                           </object>
                                         </child>
 
@@ -154,6 +154,7 @@
                                           <object class="GtkButton" id="selection_mode_button">
                                             <property name="action-name">win.enter-selection-mode</property>
                                             <property name="icon-name">selection-mode-symbolic</property>
+                                            <property name="tooltip-text">Multi-Selection</property>
                                           </object>
                                         </child>
 

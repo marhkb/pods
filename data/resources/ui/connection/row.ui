@@ -78,6 +78,7 @@
         <property name="action-name">win.remove-connection</property>
         <property name="action-target">''</property>
         <property name="icon-name">user-trash-symbolic</property>
+        <property name="tooltip-text" translatable="yes">Delete</property>
         <property name="valign">center</property>
         <property name="visible" bind-source="delete_button" bind-property="sensitive" bind-flags="sync-create"/>
       </object>

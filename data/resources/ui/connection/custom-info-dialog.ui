@@ -2,7 +2,7 @@
 <interface>
   <template class="PdsConnectionCustomInfoDialog" parent="AdwWindow">
     <property name="modal">True</property>
-    <property name="default-height">800</property>
+    <property name="default-width">640</property>
 
     <property name="content">
       <object class="GtkBox">
@@ -24,140 +24,136 @@
           <object class="AdwToastOverlay" id="toast_overlay">
 
             <child>
-              <object class="GtkScrolledWindow">
-                <property name="hscrollbar-policy">never</property>
+              <object class="AdwClamp">
+                <property name="vexpand">True</property>
+                <property name="margin-top">24</property>
+                <property name="margin-end">24</property>
+                <property name="margin-bottom">36</property>
+                <property name="margin-start">24</property>
 
                 <child>
-                  <object class="AdwClamp">
-                    <property name="vexpand">True</property>
-                    <property name="margin-top">24</property>
-                    <property name="margin-end">24</property>
-                    <property name="margin-bottom">24</property>
-                    <property name="margin-start">24</property>
+                  <object class="GtkBox">
+                    <property name="orientation">vertical</property>
+                    <property name="spacing">12</property>
 
                     <child>
-                      <object class="GtkBox">
-                        <property name="orientation">vertical</property>
-                        <property name="spacing">12</property>
+                      <object class="GtkLabel">
+                        <property name="label" translatable="yes">You can connect to a Podman instance using &lt;span weight=&quot;bold&quot;&gt;HTTP&lt;/span&gt;, &lt;span weight=&quot;bold&quot;&gt;TCP&lt;/span&gt;, and &lt;span weight=&quot;bold&quot;&gt;UNIX&lt;/span&gt; protocols. For example, the connection string might look like this:</property>
+                        <property name="use-markup">True</property>
+                        <property name="wrap">True</property>
+                        <property name="wrap-mode">word-char</property>
+                        <property name="xalign">0</property>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="AdwBin">
+                        <style>
+                          <class name="card"/>
+                          <class name="frame"/>
+                          <class name="linked"/>
+                          <class name="view"/>
+                        </style>
 
                         <child>
                           <object class="GtkLabel">
-                            <property name="label" translatable="yes">You can connect to a Podman instance using &lt;span weight=&quot;bold&quot;&gt;HTTP&lt;/span&gt;, &lt;span weight=&quot;bold&quot;&gt;TCP&lt;/span&gt;, and &lt;span weight=&quot;bold&quot;&gt;UNIX&lt;/span&gt; protocols. For example, the connection string might look like this:</property>
-                            <property name="use-markup">True</property>
-                            <property name="wrap">True</property>
-                            <property name="wrap-mode">word-char</property>
+                            <style>
+                              <class name="monospace"/>
+                            </style>
+                            <property name="label">http://somewhere:8081</property>
+                            <property name="selectable">True</property>
+                            <property name="margin-top">6</property>
+                            <property name="margin-end">9</property>
+                            <property name="margin-bottom">6</property>
+                            <property name="margin-start">9</property>
+                            <property name="hexpand">True</property>
                             <property name="xalign">0</property>
                           </object>
                         </child>
 
-                        <child>
-                          <object class="AdwBin">
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkLabel">
+                        <style>
+                          <class name="title-4"/>
+                        </style>
+                        <property name="label" translatable="yes">Podman Root Connection</property>
+                        <property name="margin-top">15</property>
+                        <property name="margin-bottom"></property>
+                        <property name="xalign">0.5</property>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label" translatable="yes">Unfortunately, it is currently not possible to connect to the Podman root instance directly, as &lt;span weight=&quot;bold&quot;&gt;/run/podman/podman.sock&lt;/span&gt; is not readable for normal users. However, there is a workaround using a systemd unit. Save the following snippet:</property>
+                        <property name="use-markup">True</property>
+                        <property name="wrap">True</property>
+                        <property name="wrap-mode">word-char</property>
+                        <property name="xalign">0</property>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkOverlay">
+
+                        <child type="overlay">
+                          <object class="GtkBox">
                             <style>
                               <class name="card"/>
                               <class name="frame"/>
                               <class name="linked"/>
                               <class name="view"/>
                             </style>
+                            <property name="hexpand">True</property>
+                            <property name="valign">start</property>
+                            <property name="spacing">12</property>
+                            <property name="margin-top">6</property>
+                            <property name="margin-end">6</property>
+                            <property name="margin-start">6</property>
+                            <property name="overflow">hidden</property>
 
                             <child>
-                              <object class="GtkLabel">
+                              <object class="GtkLabel" id="root_systemd_unit_path_label">
                                 <style>
                                   <class name="monospace"/>
                                 </style>
-                                <property name="label">http://somewhere:8081</property>
+                                <property name="label">/etc/systemd/system/podman-tcp.service</property>
                                 <property name="selectable">True</property>
-                                <property name="margin-top">6</property>
-                                <property name="margin-end">9</property>
-                                <property name="margin-bottom">6</property>
                                 <property name="margin-start">9</property>
                                 <property name="hexpand">True</property>
                                 <property name="xalign">0</property>
                               </object>
                             </child>
 
-                          </object>
-                        </child>
-
-                        <child>
-                          <object class="GtkLabel">
-                            <style>
-                              <class name="title-4"/>
-                            </style>
-                            <property name="label" translatable="yes">Podman Root Connection</property>
-                            <property name="margin-top">15</property>
-                            <property name="margin-bottom"></property>
-                            <property name="xalign">0.5</property>
-                          </object>
-                        </child>
-
-                        <child>
-                          <object class="GtkLabel">
-                            <property name="label" translatable="yes">Unfortunately, it is currently not possible to connect to the Podman root instance directly, as &lt;span weight=&quot;bold&quot;&gt;/run/podman/podman.sock&lt;/span&gt; is not readable for normal users. However, there is a workaround using a systemd unit. Save the following snippet:</property>
-                            <property name="use-markup">True</property>
-                            <property name="wrap">True</property>
-                            <property name="wrap-mode">word-char</property>
-                            <property name="xalign">0</property>
-                          </object>
-                        </child>
-
-                        <child>
-                          <object class="GtkOverlay">
-
-                            <child type="overlay">
-                              <object class="GtkBox">
+                            <child>
+                              <object class="GtkButton">
                                 <style>
-                                  <class name="card"/>
-                                  <class name="frame"/>
-                                  <class name="linked"/>
-                                  <class name="view"/>
+                                  <class name="flat"/>
                                 </style>
-                                <property name="hexpand">True</property>
-                                <property name="valign">start</property>
-                                <property name="spacing">12</property>
-                                <property name="margin-top">6</property>
-                                <property name="margin-end">6</property>
-                                <property name="margin-start">6</property>
-                                <property name="overflow">hidden</property>
-
-                                <child>
-                                  <object class="GtkLabel" id="root_systemd_unit_path_label">
-                                    <style>
-                                      <class name="monospace"/>
-                                    </style>
-                                    <property name="label">/etc/systemd/system/podman-tcp.service</property>
-                                    <property name="selectable">True</property>
-                                    <property name="margin-start">9</property>
-                                    <property name="hexpand">True</property>
-                                    <property name="xalign">0</property>
-                                  </object>
-                                </child>
-
-                                <child>
-                                  <object class="GtkButton">
-                                    <style>
-                                      <class name="flat"/>
-                                    </style>
-                                    <property name="action-name">connection-custom-info-dialog.copy-root-systemd-unit-path</property>
-                                    <property name="icon-name">edit-copy-symbolic</property>
-                                    <property name="tooltip-text" translatable="yes">Copy path to clipboard</property>
-                                  </object>
-                                </child>
-
+                                <property name="action-name">connection-custom-info-dialog.copy-root-systemd-unit-path</property>
+                                <property name="icon-name">edit-copy-symbolic</property>
+                                <property name="tooltip-text" translatable="yes">Copy path to clipboard</property>
                               </object>
                             </child>
 
-                            <child>
-                              <object class="GtkSourceView">
-                                <style>
-                                  <class name="card"/>
-                                  <class name="frame"/>
-                                  <class name="text-view"/>
-                                  <class name="view"/>
-                                </style>
-                                <property name="buffer">
-                                  <object class="GtkSourceBuffer" id="root_systemd_unit_content_buffer">
-                                    <property name="highlight-matching-brackets">False</property>
-                                    <property name="text">[Unit]
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="GtkSourceView">
+                            <style>
+                              <class name="card"/>
+                              <class name="frame"/>
+                              <class name="text-view"/>
+                              <class name="view"/>
+                            </style>
+                            <property name="buffer">
+                              <object class="GtkSourceBuffer" id="root_systemd_unit_content_buffer">
+                                <property name="highlight-matching-brackets">False</property>
+                                <property name="text">[Unit]
 Description=Podman TCP socket
 After=network.target
 StartLimitIntervalSec=0
@@ -170,141 +166,138 @@ ExecStart=/usr/bin/podman system service --time=0 tcp://0.0.0.0:37017
 
 [Install]
 WantedBy=multi-user.target</property>
-                                  </object>
-                                </property>
-                                <property name="background-pattern">grid</property>
-                                <property name="top-margin">52</property>
-                                <property name="right-margin">9</property>
-                                <property name="bottom-margin">9</property>
-                                <property name="left-margin">9</property>
-                                <property name="editable">False</property>
-                                <property name="monospace">True</property>
-                                <property name="wrap-mode">word-char</property>
                               </object>
-                            </child>
+                            </property>
+                            <property name="background-pattern">grid</property>
+                            <property name="top-margin">52</property>
+                            <property name="right-margin">9</property>
+                            <property name="bottom-margin">9</property>
+                            <property name="left-margin">9</property>
+                            <property name="editable">False</property>
+                            <property name="monospace">True</property>
+                            <property name="wrap-mode">word-char</property>
+                          </object>
+                        </child>
 
-                            <child type="overlay">
-                              <object class="GtkButton">
-                                <style>
-                                  <class name="circular"/>
-                                  <class name="osd"/>
-                                </style>
-                                <property name="halign">end</property>
-                                <property name="valign">end</property>
-                                <property name="margin-bottom">6</property>
-                                <property name="margin-end">6</property>
-                                <property name="action-name">connection-custom-info-dialog.copy-root-systemd-unit-content</property>
-                                <property name="icon-name">edit-copy-symbolic</property>
-                                <property name="tooltip-text" translatable="yes">Copy content to clipboard</property>
-                              </object>
-                            </child>
+                        <child type="overlay">
+                          <object class="GtkButton">
+                            <style>
+                              <class name="circular"/>
+                              <class name="osd"/>
+                            </style>
+                            <property name="halign">end</property>
+                            <property name="valign">end</property>
+                            <property name="margin-bottom">6</property>
+                            <property name="margin-end">6</property>
+                            <property name="action-name">connection-custom-info-dialog.copy-root-systemd-unit-content</property>
+                            <property name="icon-name">edit-copy-symbolic</property>
+                            <property name="tooltip-text" translatable="yes">Copy content to clipboard</property>
+                          </object>
+                        </child>
 
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label" translatable="yes">Enable the service by issuing the command:</property>
+                        <property name="use-markup">True</property>
+                        <property name="wrap">True</property>
+                        <property name="wrap-mode">word-char</property>
+                        <property name="xalign">0</property>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkBox">
+                        <style>
+                          <class name="card"/>
+                          <class name="frame"/>
+                          <class name="linked"/>
+                          <class name="view"/>
+                        </style>
+                        <property name="spacing">12</property>
+                        <property name="overflow">hidden</property>
+
+                        <child>
+                          <object class="GtkLabel">
+                            <style>
+                              <class name="monospace"/>
+                            </style>
+                            <property name="label">$</property>
+                            <property name="xalign">0</property>
+                            <property name="margin-start">9</property>
                           </object>
                         </child>
 
                         <child>
-                          <object class="GtkLabel">
-                            <property name="label" translatable="yes">Enable the service by issuing the command:</property>
-                            <property name="use-markup">True</property>
-                            <property name="wrap">True</property>
-                            <property name="wrap-mode">word-char</property>
+                          <object class="GtkLabel" id="root_socket_activation_command_label">
+                            <style>
+                              <class name="monospace"/>
+                            </style>
+                            <property name="label">sudo systemctl enable --now podman-tcp.service</property>
+                            <property name="selectable">True</property>
+                            <property name="hexpand">True</property>
                             <property name="xalign">0</property>
                           </object>
                         </child>
 
                         <child>
-                          <object class="GtkBox">
+                          <object class="GtkButton">
                             <style>
-                              <class name="card"/>
-                              <class name="frame"/>
-                              <class name="linked"/>
-                              <class name="view"/>
+                              <class name="flat"/>
                             </style>
-                            <property name="spacing">12</property>
-                            <property name="overflow">hidden</property>
-
-                            <child>
-                              <object class="GtkLabel">
-                                <style>
-                                  <class name="monospace"/>
-                                </style>
-                                <property name="label">$</property>
-                                <property name="xalign">0</property>
-                                <property name="margin-start">9</property>
-                              </object>
-                            </child>
-
-                            <child>
-                              <object class="GtkLabel" id="root_socket_activation_command_label">
-                                <style>
-                                  <class name="monospace"/>
-                                </style>
-                                <property name="label">sudo systemctl enable --now podman-tcp.service</property>
-                                <property name="selectable">True</property>
-                                <property name="hexpand">True</property>
-                                <property name="xalign">0</property>
-                              </object>
-                            </child>
-
-                            <child>
-                              <object class="GtkButton">
-                                <style>
-                                  <class name="flat"/>
-                                </style>
-                                <property name="action-name">connection-custom-info-dialog.copy-root-socket-activation-command</property>
-                                <property name="icon-name">edit-copy-symbolic</property>
-                                <property name="tooltip-text" translatable="yes">Copy command to clipboard</property>
-                              </object>
-                            </child>
-
+                            <property name="action-name">connection-custom-info-dialog.copy-root-socket-activation-command</property>
+                            <property name="icon-name">edit-copy-symbolic</property>
+                            <property name="tooltip-text" translatable="yes">Copy command to clipboard</property>
                           </object>
                         </child>
 
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label" translatable="yes">Enter the following URL here into the text field and create the connection:</property>
+                        <property name="use-markup">True</property>
+                        <property name="wrap">True</property>
+                        <property name="wrap-mode">word-char</property>
+                        <property name="xalign">0</property>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkBox">
+                        <style>
+                          <class name="card"/>
+                          <class name="frame"/>
+                          <class name="linked"/>
+                          <class name="view"/>
+                        </style>
+                        <property name="spacing">12</property>
+                        <property name="overflow">hidden</property>
+
                         <child>
-                          <object class="GtkLabel">
-                            <property name="label" translatable="yes">Enter the following URL here into the text field and create the connection:</property>
-                            <property name="use-markup">True</property>
-                            <property name="wrap">True</property>
-                            <property name="wrap-mode">word-char</property>
+                          <object class="GtkLabel" id="root_url_label">
+                            <style>
+                              <class name="monospace"/>
+                            </style>
+                            <property name="label">tcp://127.0.0.1:37017</property>
+                            <property name="selectable">True</property>
+                            <property name="margin-start">9</property>
+                            <property name="hexpand">True</property>
                             <property name="xalign">0</property>
                           </object>
                         </child>
 
                         <child>
-                          <object class="GtkBox">
+                          <object class="GtkButton">
                             <style>
-                              <class name="card"/>
-                              <class name="frame"/>
-                              <class name="linked"/>
-                              <class name="view"/>
+                              <class name="flat"/>
                             </style>
-                            <property name="spacing">12</property>
-                            <property name="overflow">hidden</property>
-
-                            <child>
-                              <object class="GtkLabel" id="root_url_label">
-                                <style>
-                                  <class name="monospace"/>
-                                </style>
-                                <property name="label">tcp://127.0.0.1:37017</property>
-                                <property name="selectable">True</property>
-                                <property name="margin-start">9</property>
-                                <property name="hexpand">True</property>
-                                <property name="xalign">0</property>
-                              </object>
-                            </child>
-
-                            <child>
-                              <object class="GtkButton">
-                                <style>
-                                  <class name="flat"/>
-                                </style>
-                                <property name="action-name">connection-custom-info-dialog.copy-root-url</property>
-                                <property name="icon-name">edit-copy-symbolic</property>
-                                <property name="tooltip-text" translatable="yes">Copy URL to clipboard</property>
-                              </object>
-                            </child>
-
+                            <property name="action-name">connection-custom-info-dialog.copy-root-url</property>
+                            <property name="icon-name">edit-copy-symbolic</property>
+                            <property name="tooltip-text" translatable="yes">Copy URL to clipboard</property>
                           </object>
                         </child>
 
