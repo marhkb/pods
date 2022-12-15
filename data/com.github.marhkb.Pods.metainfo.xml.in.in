@@ -42,6 +42,22 @@
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="1.0.0-rc.1" date="2022-12-15">
+      <description>
+        <p>All features for version 1.0 are now implemented and Pods is thus in the release candidate phase. Among the changes since the last release are:</p>
+        <ul>
+          <li>Actions such as downloading an image or creating a container now take place in dialogs instead of in the main window.</li>
+          <li>Image Rows have been revised to better reflect the presence of multiple repo tags.</li>
+          <li>Repo tags can now be removed and added within the image details page.</li>
+          <li>The subtitle property of the header bars is now used to display the image id, or the name of the container or pod.</li>
+          <li>The style of the container details page has been adjusted. Thus, some action rows have been moved to the properties.</li>
+          <li>Shortcuts have been added to the container details page.</li>
+          <li>Small improvements in the spirit of the GNOME HIG took place.</li>
+          <li>The usual changes such as improving the source code and updating the dependencies.</li>
+          <li>Translations have been updated and all translatable strings are now considered frozen.</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.0.0-beta.9" date="2022-12-05">
       <description>
         <p>The ninth beta of Pods in an important step towards the stable first version. It contains the following changes:</p>
