@@ -1,4 +1,6 @@
 <h1 align="center">
+  <img src="data/icons/com.github.marhkb.Pods.svg" alt="Pods" width="192" height="192"/>
+  <br>
   Pods
 </h1>
 
