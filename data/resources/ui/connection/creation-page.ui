@@ -68,7 +68,7 @@
 
         <child>
           <object class="AdwPreferencesGroup">
-            <property name="title" translatable="yes">Url</property>
+            <property name="title" translatable="yes">URL</property>
             <property name="description" translatable="yes">Choose how you want to connect to Podman.</property>
 
             <child>

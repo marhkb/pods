@@ -66,6 +66,41 @@
 
         <child>
           <object class="GtkShortcutsGroup">
+            <property name="title" translatable="yes" context="shortcut window">Container</property>
+
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="title" translatable="yes" context="shortcut window">Rename</property>
+                <property name="accelerator">F2</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="title" translatable="yes" context="shortcut window">Commit</property>
+                <property name="accelerator">&lt;ctrl&gt;K</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="title" translatable="yes" context="shortcut window">Download files</property>
+                <property name="accelerator">&lt;ctrl&gt;D</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="title" translatable="yes" context="shortcut window">Upload files</property>
+                <property name="accelerator">&lt;ctrl&gt;U</property>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkShortcutsGroup">
             <property name="title" translatable="yes" context="shortcut window">Podman</property>
 
             <child>

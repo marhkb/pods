@@ -37,9 +37,9 @@
                 <style>
                   <class name="flat"/>
                 </style>
-                <property name="action-name">container-properties-group.rename</property>
+                <property name="action-name">container-details-page.rename</property>
                 <property name="icon-name">document-edit-symbolic</property>
-                <property name="tooltip-text" translatable="yes">Rename</property>
+                <property name="tooltip-text" translatable="yes">Rename (F2)</property>
                 <property name="valign">center</property>
               </object>
             </child>
@@ -77,9 +77,9 @@
                 <style>
                   <class name="flat"/>
                 </style>
-                <property name="action-name">container-properties-group.show-commit-page</property>
+                <property name="action-name">container-details-page.commit</property>
                 <property name="icon-name">merge-symbolic</property>
-                <property name="tooltip-text" translatable="yes">Commit</property>
+                <property name="tooltip-text" translatable="yes">Commit (Ctrl+K)</property>
                 <property name="valign">center</property>
               </object>
             </child>
@@ -141,9 +141,9 @@
             <style>
               <class name="flat"/>
             </style>
-            <property name="action-name">container-properties-group.get-files</property>
+            <property name="action-name">container-details-page.get-files</property>
             <property name="icon-name">get-symbolic</property>
-            <property name="tooltip-text">Download Files</property>
+            <property name="tooltip-text">Download Files (Ctrl+D)</property>
             <property name="valign">center</property>
           </object>
         </child>
@@ -153,9 +153,9 @@
             <style>
               <class name="flat"/>
             </style>
-            <property name="action-name">container-properties-group.put-files</property>
+            <property name="action-name">container-details-page.put-files</property>
             <property name="icon-name">put-symbolic</property>
-            <property name="tooltip-text">Upload Files</property>
+            <property name="tooltip-text">Upload Files (Ctrl+U)</property>
             <property name="valign">center</property>
           </object>
         </child>
@@ -223,7 +223,7 @@
     <child>
       <object class="AdwActionRow" id="health_row">
         <property name="title" translatable="yes">Health Check</property>
-        <property name="action-name">container-properties-group.show-health-details</property>
+        <property name="action-name">container-details-page.show-health-details</property>
         <property name="activatable">True</property>
         <property name="visible" bind-source="health_row" bind-property="sensitive" bind-flags="sync-create"/>
 
@@ -249,7 +249,7 @@
     <child>
       <object class="AdwActionRow">
         <property name="title" translatable="yes">Image</property>
-        <property name="action-name">container-properties-group.show-image-details</property>
+        <property name="action-name">container-details-page.show-image-details</property>
         <property name="activatable">True</property>
 
         <child>
@@ -298,7 +298,7 @@
     <child>
       <object class="AdwActionRow" id="pod_row">
         <property name="title" translatable="yes">Pod</property>
-        <property name="action-name">container-properties-group.show-pod-details</property>
+        <property name="action-name">container-details-page.show-pod-details</property>
         <property name="activatable">True</property>
 
         <child>

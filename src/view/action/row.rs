@@ -137,6 +137,16 @@ mod imp {
                 }))
                 .bind(&*self.action_button, "icon-name", Some(obj));
 
+            state_expr
+                .chain_closure::<String>(closure!(|_: Self::Type, state: model::ActionState| {
+                    if state == model::ActionState::Ongoing {
+                        gettext("Abort")
+                    } else {
+                        gettext("Remove")
+                    }
+                }))
+                .bind(&*self.action_button, "tooltip-text", Some(obj));
+
             action_expr
                 .chain_property::<model::Action>("num")
                 .chain_closure::<Option<glib::Variant>>(closure!(|_: Self::Type, num: u32| {

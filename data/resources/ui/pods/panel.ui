@@ -10,6 +10,7 @@
         <property name="icon-name">list-add-symbolic</property>
         <property name="margin-top">15</property>
         <property name="margin-bottom">15</property>
+        <property name="tooltip-text" translatable="yes">Create Pod</property>
       </object>
     </child>
 
@@ -82,6 +83,7 @@
                                 </style>
                                 <property name="action-name">pods-panel.create-pod</property>
                                 <property name="icon-name">list-add-symbolic</property>
+                                <property name="tooltip-text" translatable="yes">Create Pod</property>
                               </object>
                             </child>
 

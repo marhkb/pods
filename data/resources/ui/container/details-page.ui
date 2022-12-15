@@ -239,7 +239,7 @@
                         <property name="title" translatable="yes">Terminal</property>
                         <property name="subtitle" translatable="yes">Connect to the container's terminal.</property>
                         <property name="activatable">True</property>
-                        <property name="action-name">container.tty</property>
+                        <property name="action-name">container-details-page.show-tty</property>
                         <property name="icon-name">utilities-terminal-symbolic</property>
 
                         <child>

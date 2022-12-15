@@ -1,6 +1,7 @@
 use std::cell::RefCell;
 
 use gettextrs::gettext;
+use gtk::gdk;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
@@ -13,6 +14,13 @@ use crate::model;
 use crate::utils;
 use crate::view;
 
+const ACTION_RENAME: &str = "container-details-page.rename";
+const ACTION_COMMIT: &str = "container-details-page.commit";
+const ACTION_GET_FILES: &str = "container-details-page.get-files";
+const ACTION_PUT_FILES: &str = "container-details-page.put-files";
+const ACTION_SHOW_HEALTH_DETAILS: &str = "container-details-page.show-health-details";
+const ACTION_SHOW_IMAGE_DETAILS: &str = "container-details-page.show-image-details";
+const ACTION_SHOW_POD_DETAILS: &str = "container-details-page.show-pod-details";
 const ACTION_START_OR_RESUME: &str = "container-details-page.start";
 const ACTION_STOP: &str = "container-details-page.stop";
 const ACTION_KILL: &str = "container-details-page.kill";
@@ -23,6 +31,7 @@ const ACTION_DELETE: &str = "container-details-page.delete";
 
 const ACTION_INSPECT: &str = "container-details-page.inspect";
 const ACTION_GENERATE_KUBE: &str = "container-details-page.generate-kube";
+const ACTION_SHOW_TTY: &str = "container-details-page.show-tty";
 const ACTION_SHOW_LOG: &str = "container-details-page.show-log";
 const ACTION_SHOW_PROCESSES: &str = "container-details-page.show-processes";
 
@@ -60,17 +69,26 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
-            klass.install_action(ACTION_INSPECT, None, move |widget, _, _| {
-                widget.show_inspection();
+            klass.install_action(ACTION_RENAME, None, move |widget, _, _| {
+                widget.rename();
             });
-            klass.install_action(ACTION_GENERATE_KUBE, None, move |widget, _, _| {
-                widget.show_kube();
+            klass.install_action(ACTION_COMMIT, None, move |widget, _, _| {
+                widget.commit();
             });
-            klass.install_action(ACTION_SHOW_LOG, None, move |widget, _, _| {
-                widget.show_log();
+            klass.install_action(ACTION_GET_FILES, None, move |widget, _, _| {
+                widget.get_files();
             });
-            klass.install_action(ACTION_SHOW_PROCESSES, None, move |widget, _, _| {
-                widget.show_processes();
+            klass.install_action(ACTION_PUT_FILES, None, move |widget, _, _| {
+                widget.put_files();
+            });
+            klass.install_action(ACTION_SHOW_HEALTH_DETAILS, None, move |widget, _, _| {
+                widget.show_health_details();
+            });
+            klass.install_action(ACTION_SHOW_IMAGE_DETAILS, None, move |widget, _, _| {
+                widget.show_image_details();
+            });
+            klass.install_action(ACTION_SHOW_POD_DETAILS, None, move |widget, _, _| {
+                widget.show_pod_details();
             });
             klass.install_action(ACTION_START_OR_RESUME, None, move |widget, _, _| {
                 if widget.container().map(|c| c.can_start()).unwrap_or(false) {
@@ -97,10 +115,46 @@ mod imp {
             klass.install_action(ACTION_DELETE, None, move |widget, _, _| {
                 super::super::delete(widget.upcast_ref());
             });
-
-            klass.install_action("container.tty", None, move |widget, _, _| {
+            klass.install_action(ACTION_INSPECT, None, move |widget, _, _| {
+                widget.show_inspection();
+            });
+            klass.install_action(ACTION_GENERATE_KUBE, None, move |widget, _, _| {
+                widget.show_kube();
+            });
+            klass.install_action(ACTION_SHOW_TTY, None, move |widget, _, _| {
                 widget.show_tty();
             });
+            klass.install_action(ACTION_SHOW_LOG, None, move |widget, _, _| {
+                widget.show_log();
+            });
+            klass.install_action(ACTION_SHOW_PROCESSES, None, move |widget, _, _| {
+                widget.show_processes();
+            });
+
+            klass.add_binding_action(
+                gdk::Key::F2,
+                gdk::ModifierType::empty(),
+                ACTION_RENAME,
+                None,
+            );
+            klass.add_binding_action(
+                gdk::Key::K,
+                gdk::ModifierType::CONTROL_MASK,
+                ACTION_COMMIT,
+                None,
+            );
+            klass.add_binding_action(
+                gdk::Key::D,
+                gdk::ModifierType::CONTROL_MASK,
+                ACTION_GET_FILES,
+                None,
+            );
+            klass.add_binding_action(
+                gdk::Key::U,
+                gdk::ModifierType::CONTROL_MASK,
+                ACTION_PUT_FILES,
+                None,
+            );
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -153,6 +207,34 @@ mod imp {
             container_expr
                 .chain_property::<model::Container>("action-ongoing")
                 .watch(Some(obj), clone!(@weak obj => move || obj.update_actions()));
+
+            container_expr
+                .chain_property::<model::Container>("health_status")
+                .watch(
+                    Some(obj),
+                    clone!(@weak obj => move || {
+                        obj.action_set_enabled(
+                            ACTION_SHOW_HEALTH_DETAILS,
+                            obj.container()
+                                .as_ref()
+                                .map(model::Container::health_status)
+                                .map(|status| status != model::ContainerHealthStatus::Unconfigured)
+                                .unwrap_or(false),
+                        );
+                    }),
+                );
+
+            container_expr
+                .chain_property::<model::Container>("image")
+                .watch(
+                    Some(obj),
+                    clone!(@weak obj => move || {
+                        obj.action_set_enabled(
+                            ACTION_SHOW_IMAGE_DETAILS,
+                            obj.container().as_ref().and_then(model::Container::image).is_some()
+                        );
+                    }),
+                );
         }
 
         fn dispose(&self) {
@@ -233,6 +315,54 @@ impl DetailsPage {
             self.action_set_enabled(ACTION_RESTART, container.can_restart());
             self.action_set_enabled(ACTION_PAUSE, container.can_pause());
             self.action_set_enabled(ACTION_DELETE, container.can_delete());
+        }
+    }
+
+    fn rename(&self) {
+        let dialog = view::ContainerRenameDialog::from(self.container());
+        dialog.set_transient_for(Some(&utils::root(self)));
+        dialog.present();
+    }
+
+    fn commit(&self) {
+        if let Some(container) = self.container() {
+            utils::show_dialog(self, &view::ContainerCommitPage::from(&container));
+        }
+    }
+
+    fn get_files(&self) {
+        if let Some(container) = self.container() {
+            utils::show_dialog(self, &view::ContainerFilesGetPage::from(&container));
+        }
+    }
+
+    fn put_files(&self) {
+        if let Some(container) = self.container() {
+            utils::show_dialog(self, &view::ContainerFilesPutPage::from(&container));
+        }
+    }
+
+    fn show_health_details(&self) {
+        if let Some(ref container) = self.container() {
+            self.imp()
+                .leaflet_overlay
+                .show_details(&view::ContainerHealthCheckPage::from(container));
+        }
+    }
+
+    fn show_image_details(&self) {
+        if let Some(image) = self.container().as_ref().and_then(model::Container::image) {
+            self.imp()
+                .leaflet_overlay
+                .show_details(&view::ImageDetailsPage::from(&image));
+        }
+    }
+
+    fn show_pod_details(&self) {
+        if let Some(pod) = self.container().as_ref().and_then(model::Container::pod) {
+            self.imp()
+                .leaflet_overlay
+                .show_details(&view::PodDetailsPage::from(&pod));
         }
     }
 

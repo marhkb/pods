@@ -17,7 +17,6 @@ const ACTION_RESTART: &str = "container-menu-button.restart";
 const ACTION_PAUSE: &str = "container-menu-button.pause";
 const ACTION_RESUME: &str = "container-menu-button.resume";
 const ACTION_RENAME: &str = "container-menu-button.rename";
-const ACTION_COMMIT: &str = "container-menu-button.commit";
 const ACTION_DELETE: &str = "container-menu-button.delete";
 
 mod imp {
@@ -61,10 +60,6 @@ mod imp {
 
             klass.install_action(ACTION_RENAME, None, move |widget, _, _| {
                 widget.rename();
-            });
-
-            klass.install_action(ACTION_COMMIT, None, move |widget, _, _| {
-                widget.commit();
             });
 
             klass.install_action(ACTION_DELETE, None, move |widget, _, _| {
@@ -193,12 +188,5 @@ impl MenuButton {
         let dialog = view::ContainerRenameDialog::from(self.container());
         dialog.set_transient_for(Some(&utils::root(self)));
         dialog.present();
-    }
-
-    fn commit(&self) {
-        if let Some(container) = self.container() {
-            utils::find_leaflet_overlay(self)
-                .show_details(&view::ContainerCommitPage::from(&container));
-        }
     }
 }
