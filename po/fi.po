@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-15 22:02+0100\n"
+"POT-Creation-Date: 2022-12-15 23:12+0100\n"
 "PO-Revision-Date: 2022-11-18 15:48+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/pods/pods/fi/>\n"
@@ -176,37 +176,18 @@ msgid "Rename containers."
 msgstr "Nimeä kontteja uudelleen."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:30
-msgid "Main window"
-msgstr "Pääikkuna"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:34
 msgid "Images Overview"
 msgstr "Levykuvien yleisnäkymä"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:38
-#: data/resources/ui/image/details-page.ui:41
-msgid "Image Details"
-msgstr "Levykuvan tiedot"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:42
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:34
 msgid "Containers Overview"
 msgstr "Konttien yleisnäkymä"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:46
-#: data/resources/ui/container/details-page.ui:27
-msgid "Container Details"
-msgstr "Konttien tiedot"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:50
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:38
 msgid "Pods Overview"
 msgstr "Podien yleisnäkymä"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:54
-#: data/resources/ui/pod/details-page.ui:27
-msgid "Pod Details"
-msgstr "Podien tiedot"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:204
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:188
 msgid "Marcus Behrendt"
 msgstr "Marcus Behrendt"
 
@@ -224,36 +205,42 @@ msgid "No Operations"
 msgstr "Valinnat"
 
 #: data/resources/ui/component/source-view-page.ui:25
+#: data/resources/ui/container/creation-page.ui:184
+#: data/resources/ui/container/log-page.ui:39
+#: data/resources/ui/pod/creation-page.ui:350
 #, fuzzy
 msgid "Search"
 msgstr "Etsi"
 
 #: data/resources/ui/component/source-view-page.ui:33
+#: data/resources/ui/container/log-page.ui:55
 #, fuzzy
 msgid "Save as File"
 msgstr "Älä valitse mitään"
 
-#: data/resources/ui/component/source-view-search-widget.ui:22
-msgid "Move to previous match (Ctrl+Shift+G)"
+#: data/resources/ui/component/source-view-search-widget.ui:23
+#, fuzzy
+msgid "Previous (Ctrl+Shift+G)"
 msgstr "Siirry edelliseen osumaan (Ctrl+Shift+G)"
 
 #: data/resources/ui/component/source-view-search-widget.ui:30
-msgid "Move to next match (Ctrl+G)"
+#, fuzzy
+msgid "Next (Ctrl+G)"
 msgstr "Siirry seuraavaan osumaan (Ctrl+G)"
 
 #: data/resources/ui/component/text-search-entry.ui:42
 #, fuzzy
-msgid "Regular expression"
+msgid "Regular Expression"
 msgstr "_Säännölliset lausekkeet"
 
 #: data/resources/ui/component/text-search-entry.ui:50
 #, fuzzy
-msgid "Case sensitive"
+msgid "Case Sensitive"
 msgstr "_Huomioi kirjainkoko"
 
 #: data/resources/ui/component/text-search-entry.ui:58
 #, fuzzy
-msgid "Whole word only"
+msgid "Whole Word"
 msgstr "_Kokonaiset sanat"
 
 #: data/resources/ui/connection/chooser-page.ui:34
@@ -328,8 +315,11 @@ msgid ""
 msgstr ""
 
 #: data/resources/ui/connection/creation-page.ui:167
+#: data/resources/ui/connection/custom-info-dialog.ui:138
+#: data/resources/ui/connection/custom-info-dialog.ui:194
 #: data/resources/ui/connection/custom-info-dialog.ui:252
-msgid "Copy command to clipboard"
+#: data/resources/ui/connection/custom-info-dialog.ui:300
+msgid "Copy to Clipboard"
 msgstr ""
 
 #: data/resources/ui/connection/creation-page.ui:183
@@ -379,14 +369,6 @@ msgid ""
 "systemd unit. Save the following snippet:"
 msgstr ""
 
-#: data/resources/ui/connection/custom-info-dialog.ui:138
-msgid "Copy path to clipboard"
-msgstr ""
-
-#: data/resources/ui/connection/custom-info-dialog.ui:194
-msgid "Copy content to clipboard"
-msgstr ""
-
 #: data/resources/ui/connection/custom-info-dialog.ui:203
 msgid "Enable the service by issuing the command:"
 msgstr ""
@@ -394,10 +376,6 @@ msgstr ""
 #: data/resources/ui/connection/custom-info-dialog.ui:261
 msgid ""
 "Enter the following URL here into the text field and create the connection:"
-msgstr ""
-
-#: data/resources/ui/connection/custom-info-dialog.ui:300
-msgid "Copy URL to clipboard"
 msgstr ""
 
 #: data/resources/ui/connection/row.ui:81
@@ -429,7 +407,8 @@ msgid "Author"
 msgstr "Tekijä"
 
 #: data/resources/ui/container/commit-page.ui:77
-msgid "Fetch username"
+#, fuzzy
+msgid "Fetch Username"
 msgstr "Nouda käyttäjänimi"
 
 #: data/resources/ui/container/commit-page.ui:88
@@ -502,8 +481,9 @@ msgstr "Paikallinen levykuva"
 
 #: data/resources/ui/container/creation-page.ui:152
 #: data/resources/ui/pod/creation-page.ui:318
-msgid "Use a remote image instead"
-msgstr ""
+#, fuzzy
+msgid "Remote Image"
+msgstr "Etälevykuva"
 
 #: data/resources/ui/container/creation-page.ui:161
 #: data/resources/ui/pod/creation-page.ui:327
@@ -512,15 +492,8 @@ msgstr "Etälevykuva"
 
 #: data/resources/ui/container/creation-page.ui:172
 #: data/resources/ui/pod/creation-page.ui:338
-#, fuzzy
-msgid "Discard remote image"
-msgstr "Etälevykuva"
-
-#: data/resources/ui/container/creation-page.ui:184
-#: data/resources/ui/pod/creation-page.ui:350
-#, fuzzy
-msgid "Search for another remote image"
-msgstr "Etsi levykuvaa"
+msgid "Discard"
+msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:193
 #: data/resources/ui/container/creation-page.ui:199
@@ -640,6 +613,10 @@ msgid ""
 "The number of retries allowed before a healthcheck is considered to be "
 "unhealthy."
 msgstr ""
+
+#: data/resources/ui/container/details-page.ui:27
+msgid "Container Details"
+msgstr "Konttien tiedot"
 
 #: data/resources/ui/container/details-page.ui:75
 #: data/resources/ui/pod/details-page.ui:123
@@ -808,21 +785,13 @@ msgid "Container Logs"
 msgstr "Kontin loki"
 
 #: data/resources/ui/container/log-page.ui:32
-msgid "Toggle timestamps"
+#, fuzzy
+msgid "Timestamps"
 msgstr "Näytä/piilota aikaleimat"
 
-#: data/resources/ui/container/log-page.ui:39
-msgid "Search within this log"
-msgstr "Etsi tästä lokista"
-
-#: data/resources/ui/container/log-page.ui:55
-msgid "Save the log to a file"
-msgstr ""
-
 #: data/resources/ui/container/log-page.ui:73
-#, fuzzy
-msgid "Log is currently being saved to a file"
-msgstr "Podia luodaan parhaillaan"
+msgid "Saving Log"
+msgstr ""
 
 #: data/resources/ui/container/log-page.ui:138
 msgid "Loading previous lines"
@@ -1068,6 +1037,10 @@ msgstr "Valitse…"
 #: data/resources/ui/image/build-page.ui:138
 msgid "Containerfile Path Relative to Build Context Directory"
 msgstr ""
+
+#: data/resources/ui/image/details-page.ui:41
+msgid "Image Details"
+msgstr "Levykuvan tiedot"
 
 #: data/resources/ui/image/details-page.ui:107
 msgid "Repository Tags"
@@ -1354,6 +1327,10 @@ msgstr "Poista Infra käytöstä"
 msgid "Common PID File"
 msgstr "Yleinen PID-tiedosto"
 
+#: data/resources/ui/pod/details-page.ui:27
+msgid "Pod Details"
+msgstr "Podien tiedot"
+
 #: data/resources/ui/pod/details-page.ui:252
 msgid "View all pod properties in a structured text form."
 msgstr "Näytä kaikki podin ominaisuudet rakenteellisessa tekstimuodossa."
@@ -1513,7 +1490,7 @@ msgctxt "shortcut window"
 msgid "Create a new entity"
 msgstr "Luo uusi entiteetti"
 
-#: data/resources/ui/statusbar.ui:6
+#: data/resources/ui/statusbar.ui:6 data/resources/ui/statusbar.ui:47
 #, fuzzy
 msgid "Connections"
 msgstr "_Yhteydet"
@@ -1526,11 +1503,6 @@ msgstr "_Lisää yhteys"
 #: data/resources/ui/statusbar.ui:27
 msgid "Clean up"
 msgstr "Siivoa"
-
-#: data/resources/ui/statusbar.ui:47
-#, fuzzy
-msgid "Connection Manager"
-msgstr "Yhteyden merkkijono"
 
 #: data/resources/ui/statusbar.ui:76
 #, fuzzy
@@ -2581,6 +2553,28 @@ msgstr "podit"
 #: src/window.rs:860
 msgid "Error on loading {}"
 msgstr "Virhe ladatessa {}"
+
+#~ msgid "Main window"
+#~ msgstr "Pääikkuna"
+
+#, fuzzy
+#~ msgid "Discard remote image"
+#~ msgstr "Etälevykuva"
+
+#, fuzzy
+#~ msgid "Search for another remote image"
+#~ msgstr "Etsi levykuvaa"
+
+#~ msgid "Search within this log"
+#~ msgstr "Etsi tästä lokista"
+
+#, fuzzy
+#~ msgid "Log is currently being saved to a file"
+#~ msgstr "Podia luodaan parhaillaan"
+
+#, fuzzy
+#~ msgid "Connection Manager"
+#~ msgstr "Yhteyden merkkijono"
 
 #~ msgid "No Actions in This Session"
 #~ msgstr "Ei toimintoja tässä istunnossa"

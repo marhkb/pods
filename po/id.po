@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-15 22:02+0100\n"
+"POT-Creation-Date: 2022-12-15 23:12+0100\n"
 "PO-Revision-Date: 2022-06-12 11:19+0000\n"
 "Last-Translator: ᅟ <rmnscnce@ya.ru>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/pods/pods/id/"
@@ -181,41 +181,20 @@ msgid "Rename containers."
 msgstr "Ubah nama container «{}»"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:30
-msgid "Main window"
-msgstr "Jendela utama"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:34
 #, fuzzy
 msgid "Images Overview"
 msgstr "Penyimpanan Citra"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:38
-#: data/resources/ui/image/details-page.ui:41
-msgid "Image Details"
-msgstr "Rincian Citra"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:42
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:34
 #, fuzzy
 msgid "Containers Overview"
 msgstr "Penyimpanan Container"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:46
-#: data/resources/ui/container/details-page.ui:27
-#, fuzzy
-msgid "Container Details"
-msgstr "Container"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:50
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:38
 msgid "Pods Overview"
 msgstr ""
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:54
-#: data/resources/ui/pod/details-page.ui:27
-#, fuzzy
-msgid "Pod Details"
-msgstr "Rincian"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:204
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:188
 msgid "Marcus Behrendt"
 msgstr "Marcus Behrendt"
 
@@ -234,35 +213,41 @@ msgid "No Operations"
 msgstr "Opsi"
 
 #: data/resources/ui/component/source-view-page.ui:25
+#: data/resources/ui/container/creation-page.ui:184
+#: data/resources/ui/container/log-page.ui:39
+#: data/resources/ui/pod/creation-page.ui:350
 #, fuzzy
 msgid "Search"
 msgstr "Cari"
 
 #: data/resources/ui/component/source-view-page.ui:33
+#: data/resources/ui/container/log-page.ui:55
 msgid "Save as File"
 msgstr ""
 
-#: data/resources/ui/component/source-view-search-widget.ui:22
-msgid "Move to previous match (Ctrl+Shift+G)"
+#: data/resources/ui/component/source-view-search-widget.ui:23
+#, fuzzy
+msgid "Previous (Ctrl+Shift+G)"
 msgstr "Pindah ke entri yang cocok sebelumnya (Ctrl+Shift+G)"
 
 #: data/resources/ui/component/source-view-search-widget.ui:30
-msgid "Move to next match (Ctrl+G)"
+#, fuzzy
+msgid "Next (Ctrl+G)"
 msgstr "Pindah ke entri berikutnya yang cocok (Ctrl+G)"
 
 #: data/resources/ui/component/text-search-entry.ui:42
 #, fuzzy
-msgid "Regular expression"
+msgid "Regular Expression"
 msgstr "Ekspresi re_guler"
 
 #: data/resources/ui/component/text-search-entry.ui:50
 #, fuzzy
-msgid "Case sensitive"
+msgid "Case Sensitive"
 msgstr "Peka huruf besar/kecil (_C)"
 
 #: data/resources/ui/component/text-search-entry.ui:58
 #, fuzzy
-msgid "Whole word only"
+msgid "Whole Word"
 msgstr "Hanya cocokkan dengan kata yang utuh (_W)"
 
 #: data/resources/ui/connection/chooser-page.ui:34
@@ -339,8 +324,11 @@ msgid ""
 msgstr ""
 
 #: data/resources/ui/connection/creation-page.ui:167
+#: data/resources/ui/connection/custom-info-dialog.ui:138
+#: data/resources/ui/connection/custom-info-dialog.ui:194
 #: data/resources/ui/connection/custom-info-dialog.ui:252
-msgid "Copy command to clipboard"
+#: data/resources/ui/connection/custom-info-dialog.ui:300
+msgid "Copy to Clipboard"
 msgstr ""
 
 #: data/resources/ui/connection/creation-page.ui:183
@@ -391,14 +379,6 @@ msgid ""
 "systemd unit. Save the following snippet:"
 msgstr ""
 
-#: data/resources/ui/connection/custom-info-dialog.ui:138
-msgid "Copy path to clipboard"
-msgstr ""
-
-#: data/resources/ui/connection/custom-info-dialog.ui:194
-msgid "Copy content to clipboard"
-msgstr ""
-
 #: data/resources/ui/connection/custom-info-dialog.ui:203
 msgid "Enable the service by issuing the command:"
 msgstr ""
@@ -406,10 +386,6 @@ msgstr ""
 #: data/resources/ui/connection/custom-info-dialog.ui:261
 msgid ""
 "Enter the following URL here into the text field and create the connection:"
-msgstr ""
-
-#: data/resources/ui/connection/custom-info-dialog.ui:300
-msgid "Copy URL to clipboard"
 msgstr ""
 
 #: data/resources/ui/connection/row.ui:81
@@ -443,7 +419,7 @@ msgid "Author"
 msgstr ""
 
 #: data/resources/ui/container/commit-page.ui:77
-msgid "Fetch username"
+msgid "Fetch Username"
 msgstr ""
 
 #: data/resources/ui/container/commit-page.ui:88
@@ -516,8 +492,9 @@ msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:152
 #: data/resources/ui/pod/creation-page.ui:318
-msgid "Use a remote image instead"
-msgstr ""
+#, fuzzy
+msgid "Remote Image"
+msgstr "_Hapus"
 
 #: data/resources/ui/container/creation-page.ui:161
 #: data/resources/ui/pod/creation-page.ui:327
@@ -527,13 +504,7 @@ msgstr "_Hapus"
 
 #: data/resources/ui/container/creation-page.ui:172
 #: data/resources/ui/pod/creation-page.ui:338
-#, fuzzy
-msgid "Discard remote image"
-msgstr "_Hapus"
-
-#: data/resources/ui/container/creation-page.ui:184
-#: data/resources/ui/pod/creation-page.ui:350
-msgid "Search for another remote image"
+msgid "Discard"
 msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:193
@@ -655,6 +626,11 @@ msgid ""
 "The number of retries allowed before a healthcheck is considered to be "
 "unhealthy."
 msgstr ""
+
+#: data/resources/ui/container/details-page.ui:27
+#, fuzzy
+msgid "Container Details"
+msgstr "Container"
 
 #: data/resources/ui/container/details-page.ui:75
 #: data/resources/ui/pod/details-page.ui:123
@@ -825,19 +801,12 @@ msgid "Container Logs"
 msgstr "Port container"
 
 #: data/resources/ui/container/log-page.ui:32
-msgid "Toggle timestamps"
+#, fuzzy
+msgid "Timestamps"
 msgstr "Alihkan tanda waktu"
 
-#: data/resources/ui/container/log-page.ui:39
-msgid "Search within this log"
-msgstr ""
-
-#: data/resources/ui/container/log-page.ui:55
-msgid "Save the log to a file"
-msgstr ""
-
 #: data/resources/ui/container/log-page.ui:73
-msgid "Log is currently being saved to a file"
+msgid "Saving Log"
 msgstr ""
 
 #: data/resources/ui/container/log-page.ui:138
@@ -1090,6 +1059,10 @@ msgstr ""
 #: data/resources/ui/image/build-page.ui:138
 msgid "Containerfile Path Relative to Build Context Directory"
 msgstr ""
+
+#: data/resources/ui/image/details-page.ui:41
+msgid "Image Details"
+msgstr "Rincian Citra"
 
 #: data/resources/ui/image/details-page.ui:107
 msgid "Repository Tags"
@@ -1383,6 +1356,11 @@ msgstr ""
 msgid "Common PID File"
 msgstr "Berkas Pengaturan"
 
+#: data/resources/ui/pod/details-page.ui:27
+#, fuzzy
+msgid "Pod Details"
+msgstr "Rincian"
+
 #: data/resources/ui/pod/details-page.ui:252
 msgid "View all pod properties in a structured text form."
 msgstr ""
@@ -1547,7 +1525,7 @@ msgctxt "shortcut window"
 msgid "Create a new entity"
 msgstr "Buat dan jalankan"
 
-#: data/resources/ui/statusbar.ui:6
+#: data/resources/ui/statusbar.ui:6 data/resources/ui/statusbar.ui:47
 #, fuzzy
 msgid "Connections"
 msgstr "Kehilangan sambungan ke Podman"
@@ -1560,11 +1538,6 @@ msgstr "Kehilangan sambungan ke Podman"
 #: data/resources/ui/statusbar.ui:27
 msgid "Clean up"
 msgstr ""
-
-#: data/resources/ui/statusbar.ui:47
-#, fuzzy
-msgid "Connection Manager"
-msgstr "Kehilangan sambungan ke Podman"
 
 #: data/resources/ui/statusbar.ui:76
 #, fuzzy
@@ -2650,6 +2623,17 @@ msgstr ""
 #, fuzzy
 msgid "Error on loading {}"
 msgstr "Galat dalam pemuatan image"
+
+#~ msgid "Main window"
+#~ msgstr "Jendela utama"
+
+#, fuzzy
+#~ msgid "Discard remote image"
+#~ msgstr "_Hapus"
+
+#, fuzzy
+#~ msgid "Connection Manager"
+#~ msgstr "Kehilangan sambungan ke Podman"
 
 #, fuzzy
 #~ msgid "Action Overview"
