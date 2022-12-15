@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-15 22:02+0100\n"
+"POT-Creation-Date: 2022-12-15 23:12+0100\n"
 "PO-Revision-Date: 2022-10-23 21:08+0000\n"
 "Last-Translator: Andrea Brandi <git@andreabrandi.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/pods/pods/it/>\n"
@@ -176,37 +176,18 @@ msgid "Rename containers."
 msgstr "Rinomina contenitori."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:30
-msgid "Main window"
-msgstr "Finestra principale"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:34
 msgid "Images Overview"
 msgstr "Panoramica delle immagini"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:38
-#: data/resources/ui/image/details-page.ui:41
-msgid "Image Details"
-msgstr "Dettagli immagine"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:42
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:34
 msgid "Containers Overview"
 msgstr "Panoramica dei contenitori"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:46
-#: data/resources/ui/container/details-page.ui:27
-msgid "Container Details"
-msgstr "Dettagli contenitore"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:50
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:38
 msgid "Pods Overview"
 msgstr "Panoramica Pod"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:54
-#: data/resources/ui/pod/details-page.ui:27
-msgid "Pod Details"
-msgstr "Dettagli pod"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:204
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:188
 msgid "Marcus Behrendt"
 msgstr "Marcus Behrendt"
 
@@ -224,36 +205,42 @@ msgid "No Operations"
 msgstr "Opzioni"
 
 #: data/resources/ui/component/source-view-page.ui:25
+#: data/resources/ui/container/creation-page.ui:184
+#: data/resources/ui/container/log-page.ui:39
+#: data/resources/ui/pod/creation-page.ui:350
 #, fuzzy
 msgid "Search"
 msgstr "Ricerca"
 
 #: data/resources/ui/component/source-view-page.ui:33
+#: data/resources/ui/container/log-page.ui:55
 #, fuzzy
 msgid "Save as File"
 msgstr "Seleziona file"
 
-#: data/resources/ui/component/source-view-search-widget.ui:22
-msgid "Move to previous match (Ctrl+Shift+G)"
+#: data/resources/ui/component/source-view-search-widget.ui:23
+#, fuzzy
+msgid "Previous (Ctrl+Shift+G)"
 msgstr "Passa alla corrispondenza precedente (Ctrl+Shift+G)"
 
 #: data/resources/ui/component/source-view-search-widget.ui:30
-msgid "Move to next match (Ctrl+G)"
+#, fuzzy
+msgid "Next (Ctrl+G)"
 msgstr "Passa alla corrispondenza successiva (Ctrl+G)"
 
 #: data/resources/ui/component/text-search-entry.ui:42
 #, fuzzy
-msgid "Regular expression"
+msgid "Regular Expression"
 msgstr "Espressioni re_golari"
 
 #: data/resources/ui/component/text-search-entry.ui:50
 #, fuzzy
-msgid "Case sensitive"
+msgid "Case Sensitive"
 msgstr "_Maiuscole/minuscole"
 
 #: data/resources/ui/component/text-search-entry.ui:58
 #, fuzzy
-msgid "Whole word only"
+msgid "Whole Word"
 msgstr "Solo paro_la intera"
 
 #: data/resources/ui/connection/chooser-page.ui:34
@@ -328,8 +315,11 @@ msgid ""
 msgstr ""
 
 #: data/resources/ui/connection/creation-page.ui:167
+#: data/resources/ui/connection/custom-info-dialog.ui:138
+#: data/resources/ui/connection/custom-info-dialog.ui:194
 #: data/resources/ui/connection/custom-info-dialog.ui:252
-msgid "Copy command to clipboard"
+#: data/resources/ui/connection/custom-info-dialog.ui:300
+msgid "Copy to Clipboard"
 msgstr ""
 
 #: data/resources/ui/connection/creation-page.ui:183
@@ -379,14 +369,6 @@ msgid ""
 "systemd unit. Save the following snippet:"
 msgstr ""
 
-#: data/resources/ui/connection/custom-info-dialog.ui:138
-msgid "Copy path to clipboard"
-msgstr ""
-
-#: data/resources/ui/connection/custom-info-dialog.ui:194
-msgid "Copy content to clipboard"
-msgstr ""
-
 #: data/resources/ui/connection/custom-info-dialog.ui:203
 msgid "Enable the service by issuing the command:"
 msgstr ""
@@ -394,10 +376,6 @@ msgstr ""
 #: data/resources/ui/connection/custom-info-dialog.ui:261
 msgid ""
 "Enter the following URL here into the text field and create the connection:"
-msgstr ""
-
-#: data/resources/ui/connection/custom-info-dialog.ui:300
-msgid "Copy URL to clipboard"
 msgstr ""
 
 #: data/resources/ui/connection/row.ui:81
@@ -429,7 +407,8 @@ msgid "Author"
 msgstr "Autore"
 
 #: data/resources/ui/container/commit-page.ui:77
-msgid "Fetch username"
+#, fuzzy
+msgid "Fetch Username"
 msgstr "Recupera nome utente"
 
 #: data/resources/ui/container/commit-page.ui:88
@@ -502,8 +481,9 @@ msgstr "Immagine locale"
 
 #: data/resources/ui/container/creation-page.ui:152
 #: data/resources/ui/pod/creation-page.ui:318
-msgid "Use a remote image instead"
-msgstr ""
+#, fuzzy
+msgid "Remote Image"
+msgstr "Immagine remota"
 
 #: data/resources/ui/container/creation-page.ui:161
 #: data/resources/ui/pod/creation-page.ui:327
@@ -512,15 +492,8 @@ msgstr "Immagine remota"
 
 #: data/resources/ui/container/creation-page.ui:172
 #: data/resources/ui/pod/creation-page.ui:338
-#, fuzzy
-msgid "Discard remote image"
-msgstr "Immagine remota"
-
-#: data/resources/ui/container/creation-page.ui:184
-#: data/resources/ui/pod/creation-page.ui:350
-#, fuzzy
-msgid "Search for another remote image"
-msgstr "Cerca un'immagine"
+msgid "Discard"
+msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:193
 #: data/resources/ui/container/creation-page.ui:199
@@ -644,6 +617,10 @@ msgid ""
 msgstr ""
 "Numero di tentativi consentiti prima di considerare un controllo d'integrità "
 "fallito."
+
+#: data/resources/ui/container/details-page.ui:27
+msgid "Container Details"
+msgstr "Dettagli contenitore"
 
 #: data/resources/ui/container/details-page.ui:75
 #: data/resources/ui/pod/details-page.ui:123
@@ -814,21 +791,13 @@ msgid "Container Logs"
 msgstr "Registro contenitore"
 
 #: data/resources/ui/container/log-page.ui:32
-msgid "Toggle timestamps"
+#, fuzzy
+msgid "Timestamps"
 msgstr "Attiva/disattiva timestamp"
 
-#: data/resources/ui/container/log-page.ui:39
-msgid "Search within this log"
-msgstr "Cerca all'interno di questo registro"
-
-#: data/resources/ui/container/log-page.ui:55
-msgid "Save the log to a file"
-msgstr ""
-
 #: data/resources/ui/container/log-page.ui:73
-#, fuzzy
-msgid "Log is currently being saved to a file"
-msgstr "Creazione del pod in corso"
+msgid "Saving Log"
+msgstr ""
 
 #: data/resources/ui/container/log-page.ui:138
 msgid "Loading previous lines"
@@ -1076,6 +1045,10 @@ msgstr "Seleziona…"
 #: data/resources/ui/image/build-page.ui:138
 msgid "Containerfile Path Relative to Build Context Directory"
 msgstr "Percorso file contenitore relativo alla directory di compilazione"
+
+#: data/resources/ui/image/details-page.ui:41
+msgid "Image Details"
+msgstr "Dettagli immagine"
 
 #: data/resources/ui/image/details-page.ui:107
 msgid "Repository Tags"
@@ -1363,6 +1336,10 @@ msgstr "Disabilita infra"
 msgid "Common PID File"
 msgstr "File PID comune"
 
+#: data/resources/ui/pod/details-page.ui:27
+msgid "Pod Details"
+msgstr "Dettagli pod"
+
 #: data/resources/ui/pod/details-page.ui:252
 msgid "View all pod properties in a structured text form."
 msgstr "Visualizza tutte le proprietà del pod come testo strutturato."
@@ -1522,7 +1499,7 @@ msgctxt "shortcut window"
 msgid "Create a new entity"
 msgstr "Crea nuova entità"
 
-#: data/resources/ui/statusbar.ui:6
+#: data/resources/ui/statusbar.ui:6 data/resources/ui/statusbar.ui:47
 #, fuzzy
 msgid "Connections"
 msgstr "_Connessioni"
@@ -1535,11 +1512,6 @@ msgstr "_Aggiungi connessione"
 #: data/resources/ui/statusbar.ui:27
 msgid "Clean up"
 msgstr "Pulisci"
-
-#: data/resources/ui/statusbar.ui:47
-#, fuzzy
-msgid "Connection Manager"
-msgstr "Stringa di connessione"
 
 #: data/resources/ui/statusbar.ui:76
 #, fuzzy
@@ -2597,6 +2569,28 @@ msgstr "pod"
 #: src/window.rs:860
 msgid "Error on loading {}"
 msgstr "Errore durante il caricamento di {}"
+
+#~ msgid "Main window"
+#~ msgstr "Finestra principale"
+
+#, fuzzy
+#~ msgid "Discard remote image"
+#~ msgstr "Immagine remota"
+
+#, fuzzy
+#~ msgid "Search for another remote image"
+#~ msgstr "Cerca un'immagine"
+
+#~ msgid "Search within this log"
+#~ msgstr "Cerca all'interno di questo registro"
+
+#, fuzzy
+#~ msgid "Log is currently being saved to a file"
+#~ msgstr "Creazione del pod in corso"
+
+#, fuzzy
+#~ msgid "Connection Manager"
+#~ msgstr "Stringa di connessione"
 
 #~ msgid "Action Overview"
 #~ msgstr "Panoramica azione"

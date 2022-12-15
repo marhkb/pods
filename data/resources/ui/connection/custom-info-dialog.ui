@@ -135,7 +135,7 @@
                                 </style>
                                 <property name="action-name">connection-custom-info-dialog.copy-root-systemd-unit-path</property>
                                 <property name="icon-name">edit-copy-symbolic</property>
-                                <property name="tooltip-text" translatable="yes">Copy path to clipboard</property>
+                                <property name="tooltip-text" translatable="yes">Copy to Clipboard</property>
                               </object>
                             </child>
 
@@ -191,7 +191,7 @@ WantedBy=multi-user.target</property>
                             <property name="margin-end">6</property>
                             <property name="action-name">connection-custom-info-dialog.copy-root-systemd-unit-content</property>
                             <property name="icon-name">edit-copy-symbolic</property>
-                            <property name="tooltip-text" translatable="yes">Copy content to clipboard</property>
+                            <property name="tooltip-text" translatable="yes">Copy to Clipboard</property>
                           </object>
                         </child>
 
@@ -249,7 +249,7 @@ WantedBy=multi-user.target</property>
                             </style>
                             <property name="action-name">connection-custom-info-dialog.copy-root-socket-activation-command</property>
                             <property name="icon-name">edit-copy-symbolic</property>
-                            <property name="tooltip-text" translatable="yes">Copy command to clipboard</property>
+                            <property name="tooltip-text" translatable="yes">Copy to Clipboard</property>
                           </object>
                         </child>
 
@@ -297,7 +297,7 @@ WantedBy=multi-user.target</property>
                             </style>
                             <property name="action-name">connection-custom-info-dialog.copy-root-url</property>
                             <property name="icon-name">edit-copy-symbolic</property>
-                            <property name="tooltip-text" translatable="yes">Copy URL to clipboard</property>
+                            <property name="tooltip-text" translatable="yes">Copy to Clipboard</property>
                           </object>
                         </child>
 

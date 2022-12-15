@@ -149,7 +149,7 @@
                                                 <property name="icon-name">network-server-symbolic</property>
                                                 <property name="margin-start">9</property>
                                                 <property name="valign">center</property>
-                                                <property name="tooltip-text" translatable="yes">Use a remote image instead</property>
+                                                <property name="tooltip-text" translatable="yes">Remote Image</property>
                                               </object>
                                             </child>
 
@@ -169,7 +169,7 @@
                                                 <property name="action-name">container-creation-page.remove-remote-image</property>
                                                 <property name="icon-name">edit-delete-symbolic</property>
                                                 <property name="valign">center</property>
-                                                <property name="tooltip-text" translatable="yes">Discard remote image</property>
+                                                <property name="tooltip-text" translatable="yes">Discard</property>
                                               </object>
                                             </child>
 
@@ -181,7 +181,7 @@
                                                 <property name="action-name">container-creation-page.search-image</property>
                                                 <property name="icon-name">system-search-symbolic</property>
                                                 <property name="valign">center</property>
-                                                <property name="tooltip-text" translatable="yes">Search for another remote image</property>
+                                                <property name="tooltip-text" translatable="yes">Search</property>
                                               </object>
                                             </child>
 

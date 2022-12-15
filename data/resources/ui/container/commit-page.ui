@@ -74,7 +74,7 @@
                             </style>
                             <property name="action-name">container-commit-page.fetch-username</property>
                             <property name="icon-name">user-info-symbolic</property>
-                            <property name="tooltip-text" translatable="yes">Fetch username</property>
+                            <property name="tooltip-text" translatable="yes">Fetch Username</property>
                             <property name="valign">center</property>
                           </object>
                         </child>
