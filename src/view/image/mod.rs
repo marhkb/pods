@@ -22,7 +22,6 @@ pub(crate) use self::pull_page::PullPage;
 pub(crate) use self::row::Row;
 pub(crate) use self::selection_page::SelectionPage;
 use crate::model;
-use crate::podman;
 use crate::utils;
 use crate::view;
 
@@ -83,44 +82,8 @@ fn delete_image(widget: &gtk::Widget, image: &model::Image) {
     }));
 }
 
-fn show_inspection(overlay: &view::LeafletOverlay, image: Option<model::Image>) {
+pub(crate) fn create_container<W: glib::IsA<gtk::Widget>>(widget: &W, image: Option<model::Image>) {
     if let Some(image) = image {
-        let weak_ref = glib::WeakRef::new();
-        weak_ref.set(Some(&image));
-
-        overlay.show_details(&view::SourceViewPage::from(view::Entity::Image(weak_ref)));
-    }
-}
-
-fn pull_latest(overlay: Option<&view::LeafletOverlay>, image: Option<model::Image>) {
-    if let Some(image) = image {
-        if let Some(action_list) = image
-            .image_list()
-            .as_ref()
-            .and_then(model::ImageList::client)
-            .as_ref()
-            .map(model::Client::action_list)
-        {
-            let reference = image.repo_tags().get(0).unwrap();
-            let reference = reference.full();
-
-            let action = action_list.download_image(
-                reference,
-                podman::opts::PullOpts::builder()
-                    .reference(reference)
-                    .policy(podman::opts::PullPolicy::Newer)
-                    .build(),
-            );
-
-            if let Some(overlay) = overlay {
-                overlay.show_details(&view::ActionPage::from(&action));
-            }
-        }
-    }
-}
-
-pub(crate) fn create_container(overlay: &view::LeafletOverlay, image: Option<model::Image>) {
-    if let Some(ref image) = image {
-        overlay.show_details(&view::ContainerCreationPage::from(image));
+        utils::show_dialog(widget, &view::ContainerCreationPage::from(&image));
     }
 }

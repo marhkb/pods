@@ -1,4 +1,5 @@
 use adw::subclass::prelude::*;
+use adw::traits::BinExt;
 use adw::traits::ComboRowExt;
 use ashpd::desktop::account::UserInformationRequest;
 use ashpd::WindowIdentifier;
@@ -29,6 +30,10 @@ mod imp {
         pub(super) container: WeakRef<model::Container>,
         pub(super) changes: gio::ListStore,
         #[template_child]
+        pub(super) stack: TemplateChild<gtk::Stack>,
+        #[template_child]
+        pub(super) commit_button: TemplateChild<gtk::Button>,
+        #[template_child]
         pub(super) author_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
         pub(super) comment_entry_row: TemplateChild<adw::EntryRow>,
@@ -45,9 +50,7 @@ mod imp {
         #[template_child]
         pub(super) changes_list_box: TemplateChild<gtk::ListBox>,
         #[template_child]
-        pub(super) commit_button: TemplateChild<gtk::Button>,
-        #[template_child]
-        pub(super) leaflet_overlay: TemplateChild<view::LeafletOverlay>,
+        pub(super) action_page_bin: TemplateChild<adw::Bin>,
     }
 
     #[glib::object_subclass]
@@ -174,6 +177,13 @@ impl CommitPage {
         if self.container().as_ref() == value {
             return;
         }
+
+        if let Some(container) = value {
+            container.connect_deleted(clone!(@weak self as obj => move |_| {
+                obj.activate_action("action.cancel", None).unwrap();
+            }));
+        }
+
         self.imp().container.set(value);
         self.notify("container");
     }
@@ -267,7 +277,8 @@ impl CommitPage {
                         ),
                     );
 
-                    imp.leaflet_overlay.show_details(&page);
+                    imp.action_page_bin.set_child(Some(&page));
+                    imp.stack.set_visible_child(&*imp.action_page_bin);
                 }
             }
         }

@@ -1,14 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-
-  <object class="GtkSizeGroup">
-    <property name="mode">horizontal</property>
-    <widgets>
-      <widget name="files_download_button"/>
-      <widget name="files_upload_button"/>
-    </widgets>
-  </object>
-
   <template class="PdsContainerDetailsPage" parent="GtkWidget">
     <property name="layout-manager">
       <object class="GtkBinLayout"/>
@@ -288,51 +279,6 @@
                         <child>
                           <object class="GtkImage">
                             <property name="icon_name">go-next-symbolic</property>
-                          </object>
-                        </child>
-
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="AdwActionRow">
-                        <property name="title" translatable="yes">Commit</property>
-                        <property name="subtitle" translatable="yes">Create a new image from this container.</property>
-                        <property name="activatable">True</property>
-                        <property name="action-name">container-details-page.show-commit-page</property>
-                        <property name="icon-name">merge-symbolic</property>
-
-                        <child>
-                          <object class="GtkImage">
-                            <property name="icon_name">go-next-symbolic</property>
-                          </object>
-                        </child>
-
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="AdwActionRow">
-                        <property name="title" translatable="yes">Files</property>
-                        <property name="subtitle" translatable="yes">Exchange files with this container.</property>
-                        <property name="activatable">False</property>
-                        <property name="icon-name">system-file-manager-symbolic</property>
-
-                        <child>
-                          <object class="GtkButton" id="files_download_button">
-                            <property name="action-name">container-details-page.get-files</property>
-                            <property name="label" translatable="yes">Download</property>
-                            <property name="tooltip-text">Get a tar archive of files from a container</property>
-                            <property name="valign">center</property>
-                          </object>
-                        </child>
-
-                        <child>
-                          <object class="GtkButton" id="files_upload_button">
-                            <property name="action-name">container-details-page.put-files</property>
-                            <property name="label" translatable="yes">Upload</property>
-                            <property name="tooltip-text">Put a tar archive of files into a container</property>
-                            <property name="valign">center</property>
                           </object>
                         </child>
 

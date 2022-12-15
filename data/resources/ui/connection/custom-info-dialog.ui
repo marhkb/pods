@@ -2,7 +2,7 @@
 <interface>
   <template class="PdsConnectionCustomInfoDialog" parent="AdwWindow">
     <property name="modal">True</property>
-    <property name="default-height">750</property>
+    <property name="default-height">800</property>
 
     <property name="content">
       <object class="GtkBox">

@@ -1,5 +1,4 @@
 use adw::prelude::MessageDialogExtManual;
-use adw::traits::BinExt;
 use adw::traits::MessageDialogExt;
 use gettextrs::gettext;
 use gtk::gdk;
@@ -219,15 +218,12 @@ impl Panel {
     }
 
     fn create_container(&self) {
-        let leaflet_overlay = utils::find_leaflet_overlay(self);
-
-        if leaflet_overlay.child().is_none() {
-            leaflet_overlay.show_details(&view::ContainerCreationPage::from(
-                self.container_list()
-                    .as_ref()
-                    .and_then(model::ContainerList::client)
-                    .as_ref(),
-            ));
+        if let Some(client) = self
+            .container_list()
+            .as_ref()
+            .and_then(model::ContainerList::client)
+        {
+            utils::show_dialog(self, &view::ContainerCreationPage::from(&client));
         }
     }
 

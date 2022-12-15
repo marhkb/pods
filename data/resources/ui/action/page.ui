@@ -10,40 +10,45 @@
   </object>
 
   <template class="PdsActionPage" parent="GtkWidget">
+    <style>
+      <class name="flat-headerbar-content"/>
+    </style>
     <property name="layout-manager">
       <object class="GtkBinLayout"/>
     </property>
 
     <child>
-      <object class="GtkStack" id="main_stack">
-        <property name="transition-type">crossfade</property>
+      <object class="GtkOverlay">
 
-        <child>
-          <object class="GtkBox">
-            <property name="orientation">vertical</property>
+        <child type="overlay">
+          <object class="AdwHeaderBar">
+            <style>
+              <class name="flat"/>
+            </style>
+            <property name="valign">start</property>
 
-            <child>
-              <object class="AdwHeaderBar">
+            <child type="start">
+              <object class="PdsBackNavigationControls"/>
+            </child>
 
-                <child type="start">
-                  <object class="PdsBackNavigationControls"/>
-                </child>
-
-                <child type="title">
-                  <object class="AdwWindowTitle">
-                    <property name="title" translatable="yes">Action Overview</property>
-                  </object>
-                </child>
-
+            <child type="title">
+              <object class="AdwWindowTitle">
+                <property name="title" translatable="yes"></property>
               </object>
             </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkWindowHandle">
 
             <child>
               <object class="AdwStatusPage" id="status_page">
                 <style>
                   <class name="compact"/>
                 </style>
-                <property name="vexpand">True</property>
+                <property name="margin-top">12</property>
 
                 <property name="child">
                   <object class="GtkBox">
@@ -52,7 +57,6 @@
 
                     <child>
                       <object class="AdwClamp">
-                        <property name="maximum-size">850</property>
                         <property name="margin-bottom">9</property>
 
                         <child>
@@ -143,10 +147,6 @@
             </child>
 
           </object>
-        </child>
-
-        <child>
-          <object class="AdwBin" id="artifact_page_bin"/>
         </child>
 
       </object>

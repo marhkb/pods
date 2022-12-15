@@ -1,4 +1,5 @@
 use adw::subclass::prelude::*;
+use adw::traits::BinExt;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::prelude::*;
@@ -10,6 +11,8 @@ use crate::podman;
 use crate::utils;
 use crate::view;
 
+const ACTION_PULL: &str = "image-pull-page.pull";
+
 mod imp {
     use super::*;
 
@@ -18,9 +21,13 @@ mod imp {
     pub(crate) struct PullPage {
         pub(super) client: glib::WeakRef<model::Client>,
         #[template_child]
+        pub(super) stack: TemplateChild<gtk::Stack>,
+        #[template_child]
+        pub(super) pull_button: TemplateChild<gtk::Button>,
+        #[template_child]
         pub(super) image_search_widget: TemplateChild<view::ImageSearchWidget>,
         #[template_child]
-        pub(super) leaflet_overlay: TemplateChild<view::LeafletOverlay>,
+        pub(super) action_page_bin: TemplateChild<adw::Bin>,
     }
 
     #[glib::object_subclass]
@@ -32,13 +39,9 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
-            klass.install_action(
-                view::ImageSearchWidget::action_select(),
-                None,
-                |widget, _, _| {
-                    widget.pull();
-                },
-            );
+            klass.install_action(ACTION_PULL, None, |widget, _, _| {
+                widget.pull();
+            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -89,7 +92,17 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for PullPage {}
+    impl WidgetImpl for PullPage {
+        fn root(&self) {
+            self.parent_root();
+            utils::root(&*self.obj()).set_default_widget(Some(&*self.pull_button));
+        }
+
+        fn unroot(&self) {
+            utils::root(&*self.obj()).set_default_widget(gtk::Widget::NONE);
+            self.parent_unroot()
+        }
+    }
 }
 
 glib::wrapper! {
@@ -98,10 +111,10 @@ glib::wrapper! {
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
-impl From<Option<&model::Client>> for PullPage {
-    fn from(client: Option<&model::Client>) -> Self {
+impl From<&model::Client> for PullPage {
+    fn from(client: &model::Client) -> Self {
         glib::Object::builder::<Self>()
-            .property("client", &client)
+            .property("client", client)
             .build()
     }
 }
@@ -133,7 +146,8 @@ impl PullPage {
                     .download_image(&reference, opts),
             );
 
-            imp.leaflet_overlay.show_details(&page);
+            imp.action_page_bin.set_child(Some(&page));
+            imp.stack.set_visible_child(&*imp.action_page_bin);
         }
     }
 }

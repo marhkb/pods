@@ -2,6 +2,7 @@ use std::cell::RefCell;
 
 use adw::subclass::prelude::*;
 use adw::traits::ActionRowExt;
+use adw::traits::BinExt;
 use adw::traits::ComboRowExt;
 use gettextrs::gettext;
 use gtk::gio;
@@ -45,6 +46,12 @@ mod imp {
         pub(super) labels: gio::ListStore,
         pub(super) command_row_handler:
             RefCell<Option<(glib::SignalHandlerId, glib::WeakRef<model::Image>)>>,
+        #[template_child]
+        pub(super) stack: TemplateChild<gtk::Stack>,
+        #[template_child]
+        pub(super) leaflet_overlay: TemplateChild<view::LeafletOverlay>,
+        #[template_child]
+        pub(super) create_button: TemplateChild<adw::SplitButton>,
         #[template_child]
         pub(super) name_entry_row: TemplateChild<view::RandomNameEntryRow>,
         #[template_child]
@@ -92,9 +99,7 @@ mod imp {
         #[template_child]
         pub(super) health_check_retries_value: TemplateChild<gtk::Adjustment>,
         #[template_child]
-        pub(super) crate_and_run_button: TemplateChild<gtk::Button>,
-        #[template_child]
-        pub(super) leaflet_overlay: TemplateChild<view::LeafletOverlay>,
+        pub(super) action_page_bin: TemplateChild<adw::Bin>,
     }
 
     #[glib::object_subclass]
@@ -202,6 +207,10 @@ mod imp {
             let pod_name_expr = model::Pod::this_expression("name");
 
             if let Some(image) = obj.image() {
+                image.connect_deleted(
+                    clone!(@weak obj => move |_| obj.activate_action("action.cancel", None).unwrap())
+                );
+
                 self.local_image_combo_row.set_visible(false);
 
                 image_tag_expr.bind(&*self.local_image_property_row, "value", Some(&image));
@@ -233,6 +242,9 @@ mod imp {
             }
 
             if let Some(pod) = obj.pod() {
+                pod.connect_deleted(
+                    clone!(@weak obj => move |_| obj.activate_action("action.cancel", None).unwrap())
+                );
                 self.pod_combo_row.set_visible(false);
                 pod_name_expr.bind(&*self.pod_property_row, "value", Some(&pod));
             } else {
@@ -372,7 +384,7 @@ mod imp {
                     glib::Continue(false)
                 }),
             );
-            utils::root(widget).set_default_widget(Some(&*self.crate_and_run_button));
+            utils::root(widget).set_default_widget(Some(&*self.create_button));
         }
 
         fn unroot(&self) {
@@ -404,10 +416,10 @@ impl From<&model::Pod> for CreationPage {
     }
 }
 
-impl From<Option<&model::Client>> for CreationPage {
-    fn from(client: Option<&model::Client>) -> Self {
+impl From<&model::Client> for CreationPage {
+    fn from(client: &model::Client) -> Self {
         glib::Object::builder::<Self>()
-            .property("client", &client)
+            .property("client", client)
             .build()
     }
 }
@@ -599,7 +611,8 @@ impl CreationPage {
                     ),
                 );
 
-                imp.leaflet_overlay.show_details(&page);
+                imp.action_page_bin.set_child(Some(&page));
+                imp.stack.set_visible_child(&*imp.action_page_bin);
             }
         } else {
             log::error!("Error while starting container: no image selected");
@@ -637,7 +650,8 @@ impl CreationPage {
                 ),
         );
 
-        imp.leaflet_overlay.show_details(&page);
+        imp.action_page_bin.set_child(Some(&page));
+        imp.stack.set_visible_child(&*imp.action_page_bin);
     }
 
     fn create(&self) -> podman::opts::ContainerCreateOptsBuilder {

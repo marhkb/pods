@@ -15,6 +15,9 @@ use crate::utils;
 use crate::view;
 
 const ACTION_RENAME: &str = "container-properties-group.rename";
+const ACTION_SHOW_COMMIT_PAGE: &str = "container-properties-group.show-commit-page";
+const ACTION_GET_FILES: &str = "container-properties-group.get-files";
+const ACTION_PUT_FILES: &str = "container-properties-group.put-files";
 const ACTION_SHOW_HEALTH_DETAILS: &str = "container-properties-group.show-health-details";
 const ACTION_SHOW_IMAGE_DETAILS: &str = "container-properties-group.show-image-details";
 const ACTION_SHOW_POD_DETAILS: &str = "container-properties-group.show-pod-details";
@@ -29,9 +32,13 @@ mod imp {
         #[template_child]
         pub(super) inspection_spinner: TemplateChild<gtk::Spinner>,
         #[template_child]
-        pub(super) id_row: TemplateChild<view::PropertyRow>,
+        pub(super) id_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) created_row: TemplateChild<view::PropertyRow>,
+        #[template_child]
+        pub(super) size_stack: TemplateChild<gtk::Stack>,
+        #[template_child]
+        pub(super) size_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) state_since_label: TemplateChild<gtk::Label>,
         #[template_child]
@@ -65,6 +72,15 @@ mod imp {
 
             klass.install_action(ACTION_RENAME, None, move |widget, _, _| {
                 widget.rename();
+            });
+            klass.install_action(ACTION_SHOW_COMMIT_PAGE, None, move |widget, _, _| {
+                widget.commit();
+            });
+            klass.install_action(ACTION_GET_FILES, None, move |widget, _, _| {
+                widget.get_files();
+            });
+            klass.install_action(ACTION_PUT_FILES, None, move |widget, _, _| {
+                widget.put_files();
             });
             klass.install_action(ACTION_SHOW_HEALTH_DETAILS, None, move |widget, _, _| {
                 widget.show_health_details();
@@ -136,7 +152,7 @@ mod imp {
             container_expr
                 .chain_property::<model::Container>("id")
                 .chain_closure::<String>(closure!(|_: Self::Type, id: &str| utils::format_id(id)))
-                .bind(&*self.id_row, "value", Some(obj));
+                .bind(&*self.id_label, "label", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
                 [
@@ -148,6 +164,21 @@ mod imp {
                 }),
             )
             .bind(&*self.created_row, "value", Some(obj));
+
+            data_expr
+                .chain_closure::<String>(closure!(
+                    |_: Self::Type, data: Option<model::ContainerData>| match data {
+                        None => "waiting",
+                        Some(_) => "ready",
+                    }
+                ))
+                .bind(&*self.size_stack, "visible-child-name", Some(obj));
+            data_expr
+                .chain_property::<model::ContainerData>("size")
+                .chain_closure::<String>(closure!(|_: Self::Type, size: i64| glib::format_size(
+                    size as u64
+                )))
+                .bind(&*self.size_label, "label", Some(obj));
 
             port_bindings_expr.watch(
                 Some(obj),
@@ -414,6 +445,24 @@ impl PropertiesGroup {
         let dialog = view::ContainerRenameDialog::from(self.container());
         dialog.set_transient_for(Some(&utils::root(self)));
         dialog.present();
+    }
+
+    fn commit(&self) {
+        if let Some(container) = self.container() {
+            utils::show_dialog(self, &view::ContainerCommitPage::from(&container));
+        }
+    }
+
+    fn get_files(&self) {
+        if let Some(container) = self.container() {
+            utils::show_dialog(self, &view::ContainerFilesGetPage::from(&container));
+        }
+    }
+
+    fn put_files(&self) {
+        if let Some(container) = self.container() {
+            utils::show_dialog(self, &view::ContainerFilesPutPage::from(&container));
+        }
     }
 
     fn show_health_details(&self) {

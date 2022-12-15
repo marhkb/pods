@@ -2,32 +2,16 @@
 <interface>
 
   <menu id="menu">
-    <section>
-      <item>
-        <attribute name="label" translatable="yes">Inspect…</attribute>
-        <attribute name="action">image-menu-button.inspect-image</attribute>
-        <attribute name="hidden-when">action-disabled</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">Update</attribute>
-        <attribute name="action">image-menu-button.pull-latest</attribute>
-        <attribute name="hidden-when">action-disabled</attribute>
-      </item>
-    </section>
-    <section>
-      <item>
-        <attribute name="label" translatable="yes">_Create Container…</attribute>
-        <attribute name="action">image-menu-button.create-container</attribute>
-        <attribute name="hidden-when">action-disabled</attribute>
-      </item>
-    </section>
-    <section>
-      <item>
-        <attribute name="label" translatable="yes">Delete</attribute>
-        <attribute name="action">image-menu-button.delete-image</attribute>
-        <attribute name="hidden-when">action-disabled</attribute>
-      </item>
-    </section>
+    <item>
+      <attribute name="label" translatable="yes">_Create Container…</attribute>
+      <attribute name="action">image-menu-button.create-container</attribute>
+      <attribute name="hidden-when">action-disabled</attribute>
+    </item>
+    <item>
+      <attribute name="label" translatable="yes">Delete</attribute>
+      <attribute name="action">image-menu-button.delete-image</attribute>
+      <attribute name="hidden-when">action-disabled</attribute>
+    </item>
   </menu>
 
   <template class="PdsImageMenuButton" parent="GtkWidget">

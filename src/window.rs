@@ -795,11 +795,10 @@ impl Window {
     }
 
     fn add_connection(&self) {
-        self.imp()
-            .leaflet_overlay
-            .show_details(&view::ConnectionCreationPage::from(
-                &self.connection_manager(),
-            ));
+        utils::show_dialog(
+            self,
+            &view::ConnectionCreationPage::from(&self.connection_manager()),
+        );
     }
 
     fn cancel_or_delete_action(&self, data: Option<&glib::Variant>) {

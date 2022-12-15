@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
+
+  <object class="GtkSizeGroup">
+    <property name="mode">horizontal</property>
+    <widgets>
+      <widget name="cancel_button"/>
+      <widget name="pull_button"/>
+    </widgets>
+  </object>
+
   <template class="PdsImagePullPage" parent="GtkWidget">
     <property name="layout-manager">
       <object class="GtkBinLayout"/>
     </property>
 
     <child>
-      <object class="AdwLeaflet">
-        <property name="can-navigate-back">True</property>
-        <property name="can-unfold">False</property>
+      <object class="GtkStack" id="stack">
+        <property name="transition-type">crossfade</property>
 
         <child>
           <object class="GtkBox">
@@ -16,14 +24,31 @@
 
             <child>
               <object class="AdwHeaderBar">
+                <property name="show-end-title-buttons">False</property>
+                <property name="show-start-title-buttons">False</property>
 
                 <child type="start">
-                  <object class="PdsBackNavigationControls"/>
+                  <object class="GtkButton" id="cancel_button">
+                    <property name="action-name">action.cancel</property>
+                    <property name="label" translatable="yes">_Cancel</property>
+                    <property name="use-underline">True</property>
+                  </object>
                 </child>
 
                 <child type="title">
                   <object class="AdwWindowTitle">
-                    <property name="title" translatable="yes">Image Download</property>
+                    <property name="title" translatable="yes">Download Image</property>
+                  </object>
+                </child>
+
+                <child type="end">
+                  <object class="GtkButton" id="pull_button">
+                    <style>
+                      <class name="suggested-action"/>
+                    </style>
+                    <property name="action-name">image-pull-page.pull</property>
+                    <property name="label" translatable="yes">_Download</property>
+                    <property name="use-underline">True</property>
                   </object>
                 </child>
 
@@ -32,7 +57,6 @@
 
             <child>
               <object class="PdsImageSearchWidget" id="image_search_widget">
-                <property name="button-label">_Download</property>
                 <binding name="client">
                   <lookup name="client">PdsImagePullPage</lookup>
                 </binding>
@@ -43,14 +67,7 @@
         </child>
 
         <child>
-          <object class="AdwLeafletPage">
-            <property name="name">overlay</property>
-
-            <property name="child">
-              <object class="PdsLeafletOverlay" id="leaflet_overlay"/>
-            </property>
-
-          </object>
+          <object class="AdwBin" id="action_page_bin"/>
         </child>
 
       </object>

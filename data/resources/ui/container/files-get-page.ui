@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
+
+  <object class="GtkSizeGroup">
+    <property name="mode">horizontal</property>
+    <widgets>
+      <widget name="cancel_button"/>
+      <widget name="get_button"/>
+    </widgets>
+  </object>
+
   <template class="PdsContainerFilesGetPage" parent="GtkWidget">
     <property name="layout-manager">
       <object class="GtkBinLayout"/>
     </property>
 
     <child>
-      <object class="AdwLeaflet">
-        <property name="can-navigate-back">True</property>
-        <property name="can-unfold">False</property>
+      <object class="GtkStack" id="stack">
+        <property name="transition-type">crossfade</property>
 
         <child>
           <object class="GtkBox">
@@ -16,19 +24,31 @@
 
             <child>
               <object class="AdwHeaderBar">
+                <property name="show-end-title-buttons">False</property>
+                <property name="show-start-title-buttons">False</property>
 
                 <child type="start">
-                  <object class="PdsBackNavigationControls"/>
+                  <object class="GtkButton" id="cancel_button">
+                    <property name="action-name">action.cancel</property>
+                    <property name="label" translatable="yes">_Cancel</property>
+                    <property name="use-underline">True</property>
+                  </object>
                 </child>
 
                 <child type="title">
                   <object class="AdwWindowTitle">
-                    <property name="title" translatable="yes">Container File Download</property>
-                    <binding name="subtitle">
-                      <lookup name="name" type="Container">
-                        <lookup name="container">PdsContainerFilesGetPage</lookup>
-                      </lookup>
-                    </binding>
+                    <property name="title" translatable="yes">Download Files</property>
+                  </object>
+                </child>
+
+                <child type="end">
+                  <object class="GtkButton" id="get_button">
+                    <style>
+                      <class name="suggested-action"/>
+                    </style>
+                    <property name="action-name">container-files-get-page.get</property>
+                    <property name="label" translatable="yes">_Download</property>
+                    <property name="use-underline">True</property>
                   </object>
                 </child>
 
@@ -37,6 +57,7 @@
 
             <child>
               <object class="AdwPreferencesPage">
+                <property name="vexpand">True</property>
 
                 <child>
                   <object class="AdwPreferencesGroup">
@@ -69,24 +90,6 @@
                   </object>
                 </child>
 
-                <child>
-                  <object class="AdwPreferencesGroup">
-
-                    <child>
-                      <object class="GtkButton" id="get_button">
-                        <style>
-                          <class name="pill"/>
-                          <class name="suggested-action"/>
-                        </style>
-                        <property name="action-name">container-files-get-page.get</property>
-                        <property name="label" translatable="yes">_Download</property>
-                        <property name="use-underline">True</property>
-                      </object>
-                    </child>
-
-                  </object>
-                </child>
-
               </object>
             </child>
 
@@ -94,14 +97,7 @@
         </child>
 
         <child>
-          <object class="AdwLeafletPage">
-            <property name="name">overlay</property>
-
-            <property name="child">
-              <object class="PdsLeafletOverlay" id="leaflet_overlay"/>
-            </property>
-
-          </object>
+          <object class="AdwBin" id="action_page_bin"/>
         </child>
 
       </object>

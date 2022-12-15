@@ -10,6 +10,7 @@ use crate::model;
 use crate::podman;
 use crate::utils;
 
+const ACTION_UPDATE: &str = "repo-tag-row.update";
 const ACTION_UNTAG: &str = "repo-tag-row.untag";
 
 mod imp {
@@ -32,6 +33,9 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
+            klass.install_action(ACTION_UPDATE, None, move |widget, _, _| {
+                widget.update();
+            });
             klass.install_action(ACTION_UNTAG, None, move |widget, _, _| {
                 widget.untag();
             });
@@ -129,6 +133,32 @@ impl Row {
             } else {
                 format!("{repo} {tag}")
             });
+        }
+    }
+
+    fn update(&self) {
+        if let Some(repo_tag) = self.repo_tag() {
+            if let Some(action_list) = repo_tag
+                .repo_tag_list()
+                .as_ref()
+                .and_then(model::RepoTagList::image)
+                .as_ref()
+                .and_then(model::Image::image_list)
+                .as_ref()
+                .and_then(model::ImageList::client)
+                .as_ref()
+                .map(model::Client::action_list)
+            {
+                let reference = repo_tag.full();
+
+                action_list.download_image(
+                    reference,
+                    podman::opts::PullOpts::builder()
+                        .reference(reference)
+                        .policy(podman::opts::PullPolicy::Newer)
+                        .build(),
+                );
+            }
         }
     }
 

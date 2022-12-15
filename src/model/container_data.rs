@@ -25,6 +25,7 @@ mod imp {
         pub(super) health_failing_streak: Cell<u32>,
         pub(super) health_check_log_list: model::HealthCheckLogList,
         pub(super) port_bindings: OnceCell<Option<BoxedPortBindings>>,
+        pub(super) size: OnceCell<i64>,
     }
 
     #[glib::object_subclass]
@@ -46,6 +47,9 @@ mod imp {
                     glib::ParamSpecBoxed::builder::<BoxedPortBindings>("port-bindings")
                         .construct_only()
                         .build(),
+                    glib::ParamSpecInt64::builder("size")
+                        .construct_only()
+                        .build(),
                 ]
             });
             PROPERTIES.as_ref()
@@ -58,6 +62,7 @@ mod imp {
                     self.obj().set_health_failing_streak(value.get().unwrap())
                 }
                 "port-bindings" => self.port_bindings.set(value.get().unwrap()).unwrap(),
+                "size" => self.size.set(value.get().unwrap()).unwrap(),
                 _ => unimplemented!(),
             }
         }
@@ -68,6 +73,7 @@ mod imp {
                 "health-config" => obj.health_config().to_value(),
                 "health-failing-streak" => obj.health_failing_streak().to_value(),
                 "port-bindings" => obj.port_bindings().to_value(),
+                "size" => obj.size().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -103,6 +109,7 @@ impl From<podman::models::InspectContainerData> for ContainerData {
                     .and_then(|config| config.port_bindings)
                     .map(BoxedPortBindings::from),
             )
+            .property("size", data.size_root_fs.unwrap_or(0))
             .build();
 
         if let Some(logs) = data
@@ -151,6 +158,10 @@ impl ContainerData {
 
     pub(crate) fn port_bindings(&self) -> Option<&BoxedPortBindings> {
         self.imp().port_bindings.get().unwrap().as_ref()
+    }
+
+    pub(crate) fn size(&self) -> i64 {
+        *self.imp().size.get().unwrap()
     }
 }
 

@@ -17,7 +17,6 @@ use crate::view;
 const ACTION_TAG: &str = "image-details-page.tag";
 const ACTION_INSPECT_IMAGE: &str = "image-details-page.inspect-image";
 const ACTION_SHOW_HISTORY: &str = "image-details-page.show-history";
-const ACTION_PULL_LATEST: &str = "image-details-page.pull-latest";
 const ACTION_DELETE_IMAGE: &str = "image-details-page.delete-image";
 
 mod imp {
@@ -73,10 +72,6 @@ mod imp {
 
             klass.install_action(ACTION_SHOW_HISTORY, None, move |widget, _, _| {
                 widget.show_history();
-            });
-
-            klass.install_action(ACTION_PULL_LATEST, None, move |widget, _, _| {
-                widget.pull_latest();
             });
 
             klass.install_action(ACTION_DELETE_IMAGE, None, move |widget, _, _| {
@@ -346,7 +341,14 @@ impl DetailsPage {
     }
 
     fn show_inspection(&self) {
-        super::show_inspection(&self.imp().leaflet_overlay, self.image());
+        if let Some(image) = self.image() {
+            let weak_ref = glib::WeakRef::new();
+            weak_ref.set(Some(&image));
+
+            self.imp()
+                .leaflet_overlay
+                .show_details(&view::SourceViewPage::from(view::Entity::Image(weak_ref)));
+        }
     }
 
     fn show_history(&self) {
@@ -357,15 +359,11 @@ impl DetailsPage {
         }
     }
 
-    fn pull_latest(&self) {
-        super::pull_latest(Some(&*self.imp().leaflet_overlay), self.image());
-    }
-
     fn delete_image(&self) {
         super::delete_image_show_confirmation(self.upcast_ref(), self.image());
     }
 
     fn create_container(&self) {
-        super::create_container(&self.imp().leaflet_overlay, self.image());
+        super::create_container(self, self.image());
     }
 }

@@ -1,46 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
+
+  <object class="GtkSizeGroup">
+    <property name="mode">horizontal</property>
+    <widgets>
+      <widget name="cancel_button"/>
+      <widget name="create_button"/>
+    </widgets>
+  </object>
+
   <template class="PdsPodCreationPage" parent="GtkWidget">
     <property name="layout-manager">
       <object class="GtkBinLayout"/>
     </property>
 
     <child>
-      <object class="AdwLeaflet">
-        <property name="can-navigate-back">True</property>
-        <property name="can-unfold">False</property>
+      <object class="GtkStack" id="stack">
+        <property name="transition-type">crossfade</property>
 
         <child>
-          <object class="GtkBox">
-            <property name="orientation">vertical</property>
+          <object class="AdwLeaflet">
+            <property name="can-navigate-back">True</property>
+            <property name="can-unfold">False</property>
 
             <child>
-              <object class="AdwHeaderBar">
-
-                <child type="start">
-                  <object class="PdsBackNavigationControls"/>
-                </child>
-
-                <child type="title">
-                  <object class="AdwWindowTitle">
-                    <property name="title" translatable="yes">Pod Settings</property>
-                  </object>
-                </child>
-
-              </object>
-            </child>
-
-            <child>
-              <object class="AdwPreferencesPage">
-                <property name="vexpand">True</property>
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
 
                 <child>
-                  <object class="AdwPreferencesGroup">
+                  <object class="AdwHeaderBar">
+                    <property name="show-end-title-buttons">False</property>
+                    <property name="show-start-title-buttons">False</property>
 
-                    <child>
-                      <object class="PdsRandomNameEntryRow" id="name_entry_row">
-                        <property name="activates-default">True</property>
-                        <property name="title" translatable="yes">Name</property>
+                    <child type="start">
+                      <object class="GtkButton" id="cancel_button">
+                        <property name="action-name">action.cancel</property>
+                        <property name="label" translatable="yes">_Cancel</property>
+                        <property name="use-underline">True</property>
+                      </object>
+                    </child>
+
+                    <child type="title">
+                      <object class="AdwWindowTitle">
+                        <property name="title" translatable="yes">Create Pod</property>
+                      </object>
+                    </child>
+
+                    <child type="end">
+                      <object class="GtkButton" id="create_button">
+                        <style>
+                          <class name="suggested-action"/>
+                        </style>
+                        <property name="action-name">pod-creation-page.create</property>
+                        <property name="label" translatable="yes">_Create</property>
+                        <property name="use-underline">True</property>
                       </object>
                     </child>
 
@@ -48,218 +61,60 @@
                 </child>
 
                 <child>
-                  <object class="AdwPreferencesGroup">
+                  <object class="AdwPreferencesPage">
+                    <property name="vexpand">True</property>
 
                     <child>
-                      <object class="AdwPreferencesRow">
-                        <property name="activatable">False</property>
+                      <object class="AdwPreferencesGroup">
 
                         <child>
-                          <object class="AdwViewSwitcher">
-                            <property name="margin-top">6</property>
-                            <property name="margin-bottom">6</property>
-                            <property name="stack">view_stack</property>
-                            <property name="policy">wide</property>
-                            <property name="halign">center</property>
-                            <property name="height-request">36</property>
+                          <object class="PdsRandomNameEntryRow" id="name_entry_row">
+                            <property name="activates-default">True</property>
+                            <property name="title" translatable="yes">Name</property>
                           </object>
                         </child>
 
                       </object>
                     </child>
 
-                  </object>
-                </child>
+                    <child>
+                      <object class="AdwPreferencesGroup">
 
-                <child>
-                  <object class="AdwPreferencesGroup">
+                        <child>
+                          <object class="AdwPreferencesRow">
+                            <property name="activatable">False</property>
+
+                            <child>
+                              <object class="AdwViewSwitcher">
+                                <property name="margin-top">6</property>
+                                <property name="margin-bottom">6</property>
+                                <property name="stack">view_stack</property>
+                                <property name="policy">wide</property>
+                                <property name="halign">center</property>
+                                <property name="height-request">36</property>
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
 
                     <child>
-                      <object class="AdwViewStack" id="view_stack">
-                        <property name="vhomogeneous">False</property>
+                      <object class="AdwPreferencesGroup">
 
                         <child>
-                          <object class="AdwViewStackPage">
-                            <property name="title" translatable="yes">Details</property>
-                            <property name="icon-name">preferences-system-symbolic</property>
+                          <object class="AdwViewStack" id="view_stack">
+                            <property name="vhomogeneous">False</property>
 
-                            <property name="child">
-                              <object class="GtkBox">
-                                <property name="orientation">vertical</property>
-                                <property name="spacing">18</property>
+                            <child>
+                              <object class="AdwViewStackPage">
+                                <property name="title" translatable="yes">Details</property>
+                                <property name="icon-name">preferences-system-symbolic</property>
 
-                                <child>
-                                  <object class="AdwPreferencesGroup">
-
-                                    <child>
-                                      <object class="AdwEntryRow" id="hostname_entry_row">
-                                        <property name="activates-default">True</property>
-                                        <property name="title" translatable="yes">Hostname</property>
-                                      </object>
-                                    </child>
-
-                                    <child>
-                                      <object class="AdwActionRow" id="disable_resolv_row">
-                                        <property name="activatable_widget">disable_resolv_switch</property>
-                                        <property name="title" translatable="yes">Disable /etc/resolv.conf management</property>
-                                        <child>
-                                          <object class="GtkSwitch" id="disable_resolv_switch">
-                                            <property name="valign">center</property>
-                                            <property name="action-name">pod-creation-page.toggle-resolv</property>
-                                          </object>
-                                        </child>
-                                      </object>
-                                    </child>
-
-                                  </object>
-                                </child>
-
-                                <child>
-                                  <object class="AdwPreferencesGroup">
-
-                                    <child>
-                                      <object class="AdwEntryRow" id="pod_create_command_entry_row">
-                                        <property name="activates-default">True</property>
-                                        <property name="title" translatable="yes">Pod Create Command</property>
-                                      </object>
-                                    </child>
-
-                                  </object>
-                                </child>
-
-                                <child>
-                                  <object class="AdwPreferencesGroup">
-                                    <property name="title" translatable="yes">Arguments</property>
-
-                                    <child>
-                                      <object class="GtkListBox" id="pod_create_command_arg_list_box">
-                                        <style>
-                                          <class name="boxed-list"/>
-                                        </style>
-                                      </object>
-                                    </child>
-
-                                  </object>
-                                </child>
-
-                              </object>
-                            </property>
-
-                          </object>
-                        </child>
-
-                        <child>
-                          <object class="AdwViewStackPage">
-                            <property name="title" translatable="yes">Integration</property>
-                            <property name="icon-name">application-x-addon-symbolic</property>
-
-                            <property name="child">
-                              <object class="GtkBox">
-                                <property name="orientation">vertical</property>
-                                <property name="spacing">18</property>
-
-                                <child>
-                                  <object class="AdwPreferencesGroup">
-                                    <property name="title" translatable="yes">Devices</property>
-
-                                    <child>
-                                      <object class="GtkListBox" id="devices_list_box">
-                                        <style>
-                                          <class name="boxed-list"/>
-                                        </style>
-                                      </object>
-                                    </child>
-
-                                  </object>
-                                </child>
-
-                                <child>
-                                  <object class="AdwPreferencesGroup">
-                                    <property name="title" translatable="yes">Hosts</property>
-                                    <property name="header-suffix">
-                                      <object class="GtkBox">
-                                        <property name="spacing">6</property>
-
-                                        <child>
-                                          <object class="GtkLabel">
-                                            <property name="label" translatable="yes">Enabled</property>
-                                          </object>
-                                        </child>
-
-                                        <child>
-                                          <object class="GtkSwitch" id="enable_hosts_switch">
-                                            <property name="valign">center</property>
-                                            <property name="action-name">pod-creation-page.toggle-hosts</property>
-                                            <property name="active">true</property>
-                                          </object>
-                                        </child>
-
-                                      </object>
-                                    </property>
-
-                                    <child>
-                                      <object class="GtkListBox" id="hosts_list_box">
-                                        <style>
-                                          <class name="boxed-list"/>
-                                        </style>
-                                      </object>
-                                    </child>
-
-                                  </object>
-                                </child>
-
-                                <child>
-                                  <object class="AdwPreferencesGroup">
-                                    <property name="title" translatable="yes">Labels</property>
-
-                                    <child>
-                                      <object class="GtkListBox" id="labels_list_box">
-                                        <style>
-                                          <class name="boxed-list"/>
-                                        </style>
-                                      </object>
-                                    </child>
-
-                                  </object>
-                                </child>
-
-                              </object>
-                            </property>
-
-                          </object>
-                        </child>
-
-                        <child>
-                          <object class="AdwViewStackPage">
-                            <property name="title" translatable="yes">Infra</property>
-                            <property name="icon-name">build-configure-symbolic</property>
-
-                            <property name="child">
-                              <object class="GtkBox">
-                                <property name="orientation">vertical</property>
-                                <property name="spacing">18</property>
-
-                                <child>
-                                  <object class="AdwPreferencesGroup">
-
-                                    <child>
-                                      <object class="AdwActionRow" id="disable_infra_row">
-                                        <property name="activatable_widget">disable_infra_switch</property>
-                                        <property name="title" translatable="yes">Disable Infra</property>
-                                        <child>
-                                          <object class="GtkSwitch" id="disable_infra_switch">
-                                            <property name="valign">center</property>
-                                            <property name="action-name">pod-creation-page.toggle-infra</property>
-                                          </object>
-                                        </child>
-                                      </object>
-                                    </child>
-
-                                  </object>
-                                </child>
-
-                                <child>
-                                  <object class="GtkBox" id="infra_settings_box">
+                                <property name="child">
+                                  <object class="GtkBox">
                                     <property name="orientation">vertical</property>
                                     <property name="spacing">18</property>
 
@@ -267,79 +122,22 @@
                                       <object class="AdwPreferencesGroup">
 
                                         <child>
-                                          <object class="AdwEntryRow" id="infra_name_entry_row">
+                                          <object class="AdwEntryRow" id="hostname_entry_row">
                                             <property name="activates-default">True</property>
-                                            <property name="title" translatable="yes">Name</property>
+                                            <property name="title" translatable="yes">Hostname</property>
                                           </object>
                                         </child>
 
                                         <child>
-                                          <object class="PdsImageLocalComboRow" id="infra_local_image_combo_row">
-
-                                            <child type="suffix">
-                                              <object class="GtkButton">
-                                                <style>
-                                                  <class name="flat"/>
-                                                </style>
-                                                <property name="action-name">pod-creation-page.infra-search</property>
-                                                <property name="icon-name">network-server-symbolic</property>
-                                                <property name="margin-start">9</property>
-                                                <property name="valign">center</property>
-                                                <property name="tooltip-text" translatable="yes">Use a remote image instead</property>
-                                              </object>
-                                            </child>
-
-                                          </object>
-                                        </child>
-
-                                        <child>
-                                          <object class="AdwActionRow" id="infra_remote_image_row">
-                                            <property name="title" translatable="yes">Remote image</property>
-                                            <property name="visible">False</property>
-
-                                            <child type="suffix">
-                                              <object class="GtkButton">
-                                                <style>
-                                                  <class name="flat"/>
-                                                </style>
-                                                <property name="action-name">pod-creation-page.infra-remove-remote</property>
-                                                <property name="icon-name">edit-delete-symbolic</property>
-                                                <property name="valign">center</property>
-                                                <property name="tooltip-text" translatable="yes">Discard remote image</property>
-                                              </object>
-                                            </child>
-
-                                            <child type="suffix">
-                                              <object class="GtkButton">
-                                                <style>
-                                                  <class name="flat"/>
-                                                </style>
-                                                <property name="action-name">pod-creation-page.infra-search</property>
-                                                <property name="icon-name">system-search-symbolic</property>
-                                                <property name="valign">center</property>
-                                                <property name="tooltip-text" translatable="yes">Search for another remote image</property>
-                                              </object>
-                                            </child>
-
-                                          </object>
-                                        </child>
-
-                                        <child>
-                                          <object class="AdwActionRow" id="infra_pull_latest_image_row">
-                                            <property name="activatable_widget">infra_pull_latest_image_switch</property>
-                                            <property name="title" translatable="yes">Pull latest image</property>
+                                          <object class="AdwActionRow" id="disable_resolv_row">
+                                            <property name="activatable_widget">disable_resolv_switch</property>
+                                            <property name="title" translatable="yes">Disable /etc/resolv.conf management</property>
                                             <child>
-                                              <object class="GtkSwitch" id="infra_pull_latest_image_switch">
+                                              <object class="GtkSwitch" id="disable_resolv_switch">
                                                 <property name="valign">center</property>
+                                                <property name="action-name">pod-creation-page.toggle-resolv</property>
                                               </object>
                                             </child>
-                                          </object>
-                                        </child>
-
-                                        <child>
-                                          <object class="AdwEntryRow" id="infra_common_pid_file_entry_row">
-                                            <property name="activates-default">True</property>
-                                            <property name="title" translatable="yes">Common PID File</property>
                                           </object>
                                         </child>
 
@@ -350,9 +148,9 @@
                                       <object class="AdwPreferencesGroup">
 
                                         <child>
-                                          <object class="AdwEntryRow" id="infra_command_entry_row">
+                                          <object class="AdwEntryRow" id="pod_create_command_entry_row">
                                             <property name="activates-default">True</property>
-                                            <property name="title" translatable="yes">Command</property>
+                                            <property name="title" translatable="yes">Pod Create Command</property>
                                           </object>
                                         </child>
 
@@ -364,7 +162,7 @@
                                         <property name="title" translatable="yes">Arguments</property>
 
                                         <child>
-                                          <object class="GtkListBox" id="infra_command_arg_list_box">
+                                          <object class="GtkListBox" id="pod_create_command_arg_list_box">
                                             <style>
                                               <class name="boxed-list"/>
                                             </style>
@@ -375,10 +173,245 @@
                                     </child>
 
                                   </object>
-                                </child>
+                                </property>
 
                               </object>
-                            </property>
+                            </child>
+
+                            <child>
+                              <object class="AdwViewStackPage">
+                                <property name="title" translatable="yes">Integration</property>
+                                <property name="icon-name">application-x-addon-symbolic</property>
+
+                                <property name="child">
+                                  <object class="GtkBox">
+                                    <property name="orientation">vertical</property>
+                                    <property name="spacing">18</property>
+
+                                    <child>
+                                      <object class="AdwPreferencesGroup">
+                                        <property name="title" translatable="yes">Devices</property>
+
+                                        <child>
+                                          <object class="GtkListBox" id="devices_list_box">
+                                            <style>
+                                              <class name="boxed-list"/>
+                                            </style>
+                                          </object>
+                                        </child>
+
+                                      </object>
+                                    </child>
+
+                                    <child>
+                                      <object class="AdwPreferencesGroup">
+                                        <property name="title" translatable="yes">Hosts</property>
+                                        <property name="header-suffix">
+                                          <object class="GtkBox">
+                                            <property name="spacing">6</property>
+
+                                            <child>
+                                              <object class="GtkLabel">
+                                                <property name="label" translatable="yes">Enabled</property>
+                                              </object>
+                                            </child>
+
+                                            <child>
+                                              <object class="GtkSwitch" id="enable_hosts_switch">
+                                                <property name="valign">center</property>
+                                                <property name="action-name">pod-creation-page.toggle-hosts</property>
+                                                <property name="active">true</property>
+                                              </object>
+                                            </child>
+
+                                          </object>
+                                        </property>
+
+                                        <child>
+                                          <object class="GtkListBox" id="hosts_list_box">
+                                            <style>
+                                              <class name="boxed-list"/>
+                                            </style>
+                                          </object>
+                                        </child>
+
+                                      </object>
+                                    </child>
+
+                                    <child>
+                                      <object class="AdwPreferencesGroup">
+                                        <property name="title" translatable="yes">Labels</property>
+
+                                        <child>
+                                          <object class="GtkListBox" id="labels_list_box">
+                                            <style>
+                                              <class name="boxed-list"/>
+                                            </style>
+                                          </object>
+                                        </child>
+
+                                      </object>
+                                    </child>
+
+                                  </object>
+                                </property>
+
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="AdwViewStackPage">
+                                <property name="title" translatable="yes">Infra</property>
+                                <property name="icon-name">build-configure-symbolic</property>
+
+                                <property name="child">
+                                  <object class="GtkBox">
+                                    <property name="orientation">vertical</property>
+                                    <property name="spacing">18</property>
+
+                                    <child>
+                                      <object class="AdwPreferencesGroup">
+
+                                        <child>
+                                          <object class="AdwActionRow" id="disable_infra_row">
+                                            <property name="activatable_widget">disable_infra_switch</property>
+                                            <property name="title" translatable="yes">Disable Infra</property>
+                                            <child>
+                                              <object class="GtkSwitch" id="disable_infra_switch">
+                                                <property name="valign">center</property>
+                                                <property name="action-name">pod-creation-page.toggle-infra</property>
+                                              </object>
+                                            </child>
+                                          </object>
+                                        </child>
+
+                                      </object>
+                                    </child>
+
+                                    <child>
+                                      <object class="GtkBox" id="infra_settings_box">
+                                        <property name="orientation">vertical</property>
+                                        <property name="spacing">18</property>
+
+                                        <child>
+                                          <object class="AdwPreferencesGroup">
+
+                                            <child>
+                                              <object class="AdwEntryRow" id="infra_name_entry_row">
+                                                <property name="activates-default">True</property>
+                                                <property name="title" translatable="yes">Name</property>
+                                              </object>
+                                            </child>
+
+                                            <child>
+                                              <object class="PdsImageLocalComboRow" id="infra_local_image_combo_row">
+
+                                                <child type="suffix">
+                                                  <object class="GtkButton">
+                                                    <style>
+                                                      <class name="flat"/>
+                                                    </style>
+                                                    <property name="action-name">pod-creation-page.infra-search</property>
+                                                    <property name="icon-name">network-server-symbolic</property>
+                                                    <property name="margin-start">9</property>
+                                                    <property name="valign">center</property>
+                                                    <property name="tooltip-text" translatable="yes">Use a remote image instead</property>
+                                                  </object>
+                                                </child>
+
+                                              </object>
+                                            </child>
+
+                                            <child>
+                                              <object class="AdwActionRow" id="infra_remote_image_row">
+                                                <property name="title" translatable="yes">Remote image</property>
+                                                <property name="visible">False</property>
+
+                                                <child type="suffix">
+                                                  <object class="GtkButton">
+                                                    <style>
+                                                      <class name="flat"/>
+                                                    </style>
+                                                    <property name="action-name">pod-creation-page.infra-remove-remote</property>
+                                                    <property name="icon-name">edit-delete-symbolic</property>
+                                                    <property name="valign">center</property>
+                                                    <property name="tooltip-text" translatable="yes">Discard remote image</property>
+                                                  </object>
+                                                </child>
+
+                                                <child type="suffix">
+                                                  <object class="GtkButton">
+                                                    <style>
+                                                      <class name="flat"/>
+                                                    </style>
+                                                    <property name="action-name">pod-creation-page.infra-search</property>
+                                                    <property name="icon-name">system-search-symbolic</property>
+                                                    <property name="valign">center</property>
+                                                    <property name="tooltip-text" translatable="yes">Search for another remote image</property>
+                                                  </object>
+                                                </child>
+
+                                              </object>
+                                            </child>
+
+                                            <child>
+                                              <object class="AdwActionRow" id="infra_pull_latest_image_row">
+                                                <property name="activatable_widget">infra_pull_latest_image_switch</property>
+                                                <property name="title" translatable="yes">Pull latest image</property>
+                                                <child>
+                                                  <object class="GtkSwitch" id="infra_pull_latest_image_switch">
+                                                    <property name="valign">center</property>
+                                                  </object>
+                                                </child>
+                                              </object>
+                                            </child>
+
+                                            <child>
+                                              <object class="AdwEntryRow" id="infra_common_pid_file_entry_row">
+                                                <property name="activates-default">True</property>
+                                                <property name="title" translatable="yes">Common PID File</property>
+                                              </object>
+                                            </child>
+
+                                          </object>
+                                        </child>
+
+                                        <child>
+                                          <object class="AdwPreferencesGroup">
+
+                                            <child>
+                                              <object class="AdwEntryRow" id="infra_command_entry_row">
+                                                <property name="activates-default">True</property>
+                                                <property name="title" translatable="yes">Command</property>
+                                              </object>
+                                            </child>
+
+                                          </object>
+                                        </child>
+
+                                        <child>
+                                          <object class="AdwPreferencesGroup">
+                                            <property name="title" translatable="yes">Arguments</property>
+
+                                            <child>
+                                              <object class="GtkListBox" id="infra_command_arg_list_box">
+                                                <style>
+                                                  <class name="boxed-list"/>
+                                                </style>
+                                              </object>
+                                            </child>
+
+                                          </object>
+                                        </child>
+
+                                      </object>
+                                    </child>
+
+                                  </object>
+                                </property>
+
+                              </object>
+                            </child>
 
                           </object>
                         </child>
@@ -389,23 +422,16 @@
                   </object>
                 </child>
 
-                <child>
-                  <object class="AdwPreferencesGroup">
+              </object>
+            </child>
 
-                    <child>
-                      <object class="GtkButton" id="create_button">
-                        <style>
-                          <class name="suggested-action"/>
-                          <class name="pill"/>
-                        </style>
-                        <property name="action-name">pod-creation-page.create</property>
-                        <property name="label" translatable="yes">_Create</property>
-                        <property name="use-underline">True</property>
-                      </object>
-                    </child>
+            <child>
+              <object class="AdwLeafletPage">
+                <property name="name">overlay</property>
 
-                  </object>
-                </child>
+                <property name="child">
+                  <object class="PdsLeafletOverlay" id="leaflet_overlay"/>
+                </property>
 
               </object>
             </child>
@@ -414,14 +440,7 @@
         </child>
 
         <child>
-          <object class="AdwLeafletPage">
-            <property name="name">overlay</property>
-
-            <property name="child">
-              <object class="PdsLeafletOverlay" id="leaflet_overlay"/>
-            </property>
-
-          </object>
+          <object class="AdwBin" id="action_page_bin"/>
         </child>
 
       </object>

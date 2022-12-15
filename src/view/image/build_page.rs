@@ -1,4 +1,5 @@
 use adw::traits::ActionRowExt;
+use adw::traits::BinExt;
 use ashpd::desktop::file_chooser::OpenFileRequest;
 use ashpd::WindowIdentifier;
 use gettextrs::gettext;
@@ -30,6 +31,10 @@ mod imp {
         pub(super) client: glib::WeakRef<model::Client>,
         pub(super) labels: gio::ListStore,
         #[template_child]
+        pub(super) stack: TemplateChild<gtk::Stack>,
+        #[template_child]
+        pub(super) build_button: TemplateChild<gtk::Button>,
+        #[template_child]
         pub(super) tag_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
         pub(super) context_dir_row: TemplateChild<adw::ActionRow>,
@@ -38,9 +43,7 @@ mod imp {
         #[template_child]
         pub(super) labels_list_box: TemplateChild<gtk::ListBox>,
         #[template_child]
-        pub(super) build_button: TemplateChild<gtk::Button>,
-        #[template_child]
-        pub(super) leaflet_overlay: TemplateChild<view::LeafletOverlay>,
+        pub(super) action_page_bin: TemplateChild<adw::Bin>,
     }
 
     #[glib::object_subclass]
@@ -166,10 +169,10 @@ glib::wrapper! {
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
-impl From<Option<&model::Client>> for BuildPage {
-    fn from(client: Option<&model::Client>) -> Self {
+impl From<&model::Client> for BuildPage {
+    fn from(client: &model::Client) -> Self {
         glib::Object::builder::<Self>()
-            .property("client", &client)
+            .property("client", client)
             .build()
     }
 }
@@ -257,7 +260,8 @@ impl BuildPage {
                         .build_image(imp.tag_entry_row.text().as_str(), opts),
                 );
 
-                imp.leaflet_overlay.show_details(&page);
+                imp.action_page_bin.set_child(Some(&page));
+                imp.stack.set_visible_child(&*imp.action_page_bin);
 
                 if let Err(e) = imp.settings.set_string(
                     GSETTINGS_KEY_LAST_USED_CONTAINER_FILE_PATH,

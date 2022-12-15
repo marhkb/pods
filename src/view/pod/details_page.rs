@@ -330,10 +330,6 @@ impl DetailsPage {
     }
 
     fn create_container(&self) {
-        if let Some(pod) = self.pod().as_ref() {
-            self.imp()
-                .leaflet_overlay
-                .show_details(&view::ContainerCreationPage::from(pod));
-        }
+        super::create_container(self, self.pod());
     }
 }

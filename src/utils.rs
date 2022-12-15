@@ -9,15 +9,18 @@ use futures::Future;
 use futures::StreamExt;
 use gettextrs::gettext;
 use gettextrs::ngettext;
+use gtk::gdk;
 use gtk::gio;
+use gtk::gio::traits::ActionMapExt;
 use gtk::glib;
+use gtk::glib::clone;
 use gtk::prelude::Cast;
 use gtk::prelude::StaticType;
+use gtk::traits::GtkWindowExt;
 use gtk::traits::WidgetExt;
 
 use crate::config;
 use crate::view;
-use crate::window::Window;
 use crate::APPLICATION_OPTS;
 use crate::RUNTIME;
 
@@ -159,28 +162,62 @@ pub(crate) fn format_id(id: &str) -> String {
     id.chars().take(12).collect::<String>()
 }
 
-pub(crate) fn root<W: glib::IsA<gtk::Widget>>(widget: &W) -> Window {
-    widget.root().unwrap().downcast::<Window>().unwrap()
+pub(crate) fn root<W: glib::IsA<gtk::Widget>>(widget: &W) -> gtk::Window {
+    widget.root().unwrap().downcast::<gtk::Window>().unwrap()
+}
+
+pub(crate) fn show_dialog<W, C>(widget: &W, content: &C)
+where
+    W: glib::IsA<gtk::Widget>,
+    C: glib::IsA<gtk::Widget>,
+{
+    let toast_overlay = adw::ToastOverlay::new();
+    toast_overlay.set_child(Some(content));
+
+    let dialog = adw::Window::builder()
+        .modal(true)
+        .transient_for(&root(widget))
+        .default_width(640)
+        .content(&toast_overlay)
+        .build();
+
+    let action = gio::SimpleAction::new("cancel", None);
+    action.connect_activate(clone!(@weak dialog => move |_, _| dialog.close()));
+
+    let action_group = gio::SimpleActionGroup::new();
+    action_group.add_action(&action);
+    dialog.insert_action_group("action", Some(&action_group));
+
+    let controller = gtk::EventControllerKey::new();
+    controller.connect_key_pressed(
+        clone!(@weak dialog => @default-return glib::signal::Inhibit(false), move |_, key, _, _| {
+            if key == gdk::Key::Escape {
+                dialog.close();
+            }
+            glib::signal::Inhibit(true)
+        }),
+    );
+    dialog.add_controller(&controller);
+    dialog.present();
 }
 
 pub(crate) fn show_toast<W: glib::IsA<gtk::Widget>>(widget: &W, title: &str) {
-    root(widget).show_toast(
-        &adw::Toast::builder()
-            .title(title)
-            .timeout(3)
-            .priority(adw::ToastPriority::High)
-            .build(),
-    );
+    widget
+        .ancestor(adw::ToastOverlay::static_type())
+        .unwrap()
+        .downcast::<adw::ToastOverlay>()
+        .unwrap()
+        .add_toast(
+            &adw::Toast::builder()
+                .title(title)
+                .timeout(3)
+                .priority(adw::ToastPriority::High)
+                .build(),
+        );
 }
 
 pub(crate) fn show_error_toast<W: glib::IsA<gtk::Widget>>(widget: &W, title: &str, msg: &str) {
-    root(widget).show_toast(
-        &adw::Toast::builder()
-            .title(&format!("{title}: {msg}"))
-            .timeout(3)
-            .priority(adw::ToastPriority::High)
-            .build(),
-    );
+    show_toast(widget, &format!("{title}: {msg}"));
 }
 
 pub(crate) fn find_leaflet_overlay<W: glib::IsA<gtk::Widget>>(widget: &W) -> view::LeafletOverlay {
