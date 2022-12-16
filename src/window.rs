@@ -373,7 +373,10 @@ mod imp {
                             }),
                             clone!(@weak obj => move |e| obj.client_err_op(e)),
                             clone!(@weak obj, @weak manager => move |e| {
-                                utils::show_error_toast(&obj, "Connection lost", &e.to_string());
+                                utils::show_error_toast(
+                                    &*obj.imp().toast_overlay, "Connection lost",
+                                    &e.to_string()
+                                );
                                 manager.unset_client();
                             }),
                         ),
@@ -676,7 +679,7 @@ impl Window {
                 "welcome"
             });
 
-        utils::show_error_toast(self, "Connection error", &e.to_string());
+        utils::show_error_toast(&*imp.toast_overlay, "Connection lost", &e.to_string());
     }
 
     fn is_showing_overlay(&self) -> bool {
