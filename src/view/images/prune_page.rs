@@ -196,8 +196,7 @@ mod imp {
 
             self.hour_spin_button.set_value(hour as f64);
             self.minute_spin_button.set_value(minute as f64);
-            self.period_drop_down
-                .set_selected(if hour < 12 { 0 } else { 1 });
+            self.period_drop_down.set_selected(u32::from(hour >= 12));
         }
 
         fn dispose(&self) {

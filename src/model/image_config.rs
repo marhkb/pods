@@ -72,15 +72,12 @@ impl ImageConfig {
         glib::Object::builder::<Self>()
             .property(
                 "cmd",
-                &utils::format_iter_or_none(
-                    &mut config.cmd.as_deref().unwrap_or_default().iter(),
-                    " ",
-                ),
+                &utils::format_iter_or_none(config.cmd.as_deref().unwrap_or_default().iter(), " "),
             )
             .property(
                 "entrypoint",
                 &utils::format_iter_or_none(
-                    &mut config.entrypoint.as_deref().unwrap_or_default().iter(),
+                    config.entrypoint.as_deref().unwrap_or_default().iter(),
                     " ",
                 ),
             )

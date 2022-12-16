@@ -616,7 +616,7 @@ impl Window {
             .chain_closure::<String>(closure!(|_: view::ImagesPanel, selected: u32| ngettext!(
                 "{} Selected Image",
                 "{} Selected Images",
-                selected as u32,
+                selected,
                 selected
             )))
             .bind(
@@ -630,7 +630,7 @@ impl Window {
                 |_: view::ContainersPanel, selected: u32| ngettext!(
                     "{} Selected Container",
                     "{} Selected Containers",
-                    selected as u32,
+                    selected,
                     selected
                 )
             ))
@@ -644,7 +644,7 @@ impl Window {
             .chain_closure::<String>(closure!(|_: view::PodsPanel, selected: u32| ngettext!(
                 "{} Selected Pod",
                 "{} Selected Pods",
-                selected as u32,
+                selected,
                 selected
             )))
             .bind(&*imp.selected_pods_button, "label", Some(&*imp.pods_panel));

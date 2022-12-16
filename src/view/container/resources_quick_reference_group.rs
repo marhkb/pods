@@ -120,11 +120,13 @@ mod imp {
                                     "{} / {} ({} %)",
                                     stats
                                         .mem_usage
-                                        .map(|usage| String::from(glib::format_size(usage as u64)))
+                                        .map(glib::format_size)
+                                        .map(String::from)
                                         .unwrap_or_else(|| gettext("?")),
                                     stats
                                         .mem_limit
-                                        .map(|limit| String::from(glib::format_size(limit as u64)))
+                                        .map(glib::format_size)
+                                        .map(String::from)
                                         .unwrap_or_else(|| gettext("?")),
                                     stats
                                         .mem_perc
@@ -194,7 +196,7 @@ impl ResourcesQuickReferenceGroup {
             model::BoxedContainerStats,
         >| {
             stats
-                .and_then(|stats| fraction_op_clone(stats).map(|perc| perc as f64 * 0.01))
+                .and_then(|stats| fraction_op_clone(stats).map(|perc| perc * 0.01))
                 .unwrap_or_default()
         }));
 

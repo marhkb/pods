@@ -68,7 +68,7 @@ mod imp {
         }
 
         fn n_items(&self) -> u32 {
-            self.obj().len() as u32
+            self.obj().len()
         }
 
         fn item(&self, position: u32) -> Option<glib::Object> {
