@@ -313,7 +313,7 @@ impl Row {
         let perc_expr = stats_expr.chain_closure::<f64>(
             closure_local!(|_: Self, stats: Option<model::BoxedContainerStats>| {
                 stats
-                    .and_then(|stats| fraction_op(stats).map(|perc| perc as f64 * 0.01))
+                    .and_then(|stats| fraction_op(stats).map(|perc| perc * 0.01))
                     .unwrap_or_default()
             })
         );

@@ -116,7 +116,7 @@ glib::wrapper! {
 
 impl From<&model::KeyVal> for Row {
     fn from(key_val: &model::KeyVal) -> Self {
-        Row::new(&gettext("Key"), &gettext("Value"), key_val)
+        Row::new(gettext("Key"), gettext("Value"), key_val)
     }
 }
 
