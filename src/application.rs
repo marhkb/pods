@@ -183,6 +183,7 @@ impl Application {
             .artists(vec![
                 "Marcus Behrendt https://github.com/marhkb".into(),
                 "Allaeddine Boulefaat https://github.com/allaeddineomc".into(),
+                "David Lapshin https://github.com/daudix-UFO".into(),
             ])
             .translator_credits(gettext("translator-credits").as_str())
             .build();
