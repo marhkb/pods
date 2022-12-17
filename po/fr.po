@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-15 23:12+0100\n"
 "PO-Revision-Date: 2022-12-19 17:51+0000\n"
-"Last-Translator: rene-coty <irenee.thirion@e.email>\n"
+"Last-Translator: SoftExpert <softexpert@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/pods/pods/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -214,9 +214,8 @@ msgstr "Rechercher"
 
 #: data/resources/ui/component/source-view-page.ui:33
 #: data/resources/ui/container/log-page.ui:55
-#, fuzzy
 msgid "Save as File"
-msgstr "Sélectionnez Fichier"
+msgstr "Enregistrer sous"
 
 #: data/resources/ui/component/source-view-search-widget.ui:23
 msgid "Previous (Ctrl+Shift+G)"
