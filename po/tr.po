@@ -8,59 +8,60 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-15 23:12+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2022-12-19 17:51+0000\n"
+"Last-Translator: Can ESER <mail@cankutayeser.com>\n"
+"Language-Team: Turkish <https://hosted.weblate.org/projects/pods/pods/tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.15.1-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
 #: data/resources/ui/window.ui:126 src/main.rs:44
 msgid "Pods"
-msgstr ""
+msgstr "Podlar"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:4
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
 msgid "A Podman desktop application"
-msgstr ""
+msgstr "Bir Podman masaüstü uygulaması"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:9
 msgid "Gnome;GTK;"
-msgstr ""
+msgstr "Gnome;GTK;"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:6
 #: data/com.github.marhkb.Pods.gschema.xml.in:7
 msgid "Default window width"
-msgstr ""
+msgstr "Varsayılan pencere genişliği"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:11
 #: data/com.github.marhkb.Pods.gschema.xml.in:12
 msgid "Default window height"
-msgstr ""
+msgstr "Varsayılan pencere boyu"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:16
 msgid "Default window maximized behaviour"
-msgstr ""
+msgstr "Varsayılan pencere büyütme davranışı"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:26
 msgid "Color Scheme"
-msgstr ""
+msgstr "Renk düzeni"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:27
 msgid "Use the light or dark variant of the GTK theme"
-msgstr ""
+msgstr "Koyu yada açık renk düzenini kullan"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:31
 msgid "The uuid of the connection that was used the last time"
-msgstr ""
+msgstr "Son bağlantıiçin kullanılan uuid"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:36
 msgid "The last used view"
-msgstr ""
+msgstr "En son görünüm"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:41
 msgid "Whether to show intermediate images"
@@ -68,94 +69,107 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:46
 msgid "The last used container file path"
-msgstr ""
+msgstr "Son kullanılan konteyner dosya yolu"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:51
 msgid "Remove all images not in use by containers, not just dangling ones"
 msgstr ""
+"Askıdakiler de dahil, konteynerler tarafından kullanılmayan tüm imajları "
+"kaldır"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:56
 msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)"
 msgstr ""
+"İmajları, harici konteynerler(örn: derlenen imajlar) tarafından kullanılsa "
+"bile kaldır"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:61
+#, fuzzy
 msgid "Whether to show only running containers"
-msgstr ""
+msgstr "Sadece çalışan konteynerlerin gösterilip gösterilmeyeceğini belirler"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:66
+#, fuzzy
 msgid "Whether to show only running pods"
-msgstr ""
+msgstr "Sadece çalışan podların gösterilip gösterilmeyeceğini belirler"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:71
 msgid "Whether to show a timestamp for each log line"
 msgstr ""
+"Herbir log satırında tarih bilgisi gösterilip gösterilmeyeceğini belirler"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:76
 #: data/com.github.marhkb.Pods.gschema.xml.in:81
 msgid "Whether to use a regex for search"
 msgstr ""
+"Aramada kurallı ifadeler(regex) kullanılabilir kullanılamayacağını belirler"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:86
+#, fuzzy
 msgid "Whether search should be case-sensitive"
-msgstr ""
+msgstr "Aramada küçük-büyük harf hassasiyeti olup olmadığını belirler"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:91
 msgid "Whether to match whole words when searching"
-msgstr ""
+msgstr "Aramda bütün kelime ile eşleşme olup olmadığını belirler"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
 msgid ""
 "Pods is a frontend for podman. It uses libadwaita for its user interface and "
 "strives to meet the design principles of GNOME."
 msgstr ""
+"Podlar podman uygulaması için bir önyüzdür. Arayüzünde libadwaita kullanır "
+"ve GNOME dizayn ilkelerini takip etmeye çalışır."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:11
 msgid "With Pods you can, among other things:"
-msgstr ""
+msgstr "Birçok özelliğin yanısıra, podlar :"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:13
 msgid "Connect to local and remote Podman instances."
-msgstr ""
+msgstr "Yerel yada uzak Podman uygulamasına bağlan."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:14
 msgid "Easily overview images, containers and pods."
-msgstr ""
+msgstr "Kolayca imaj,konteyner ve podlara gözat."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:15
 msgid "View prepared information about images, containers, and pods."
-msgstr ""
+msgstr "İmajlar, konteynerler ve podlar hakkında özet bilgileri gör."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:16
 msgid "Inspect images, containers and pods."
-msgstr ""
+msgstr "İmaj, konteyner ve podları incele."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:17
 msgid "View and search container logs."
-msgstr ""
+msgstr "Konteyner günlüklerini ara ve görüntüle."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:18
 msgid "Monitor processes of containers and pods."
-msgstr ""
+msgstr "Konteyner ve podların işlemleri gözlemle."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:19
 msgid "Download images and build them using Dockerfiles."
-msgstr ""
+msgstr "İmajlara indir ve Dockerfile kullanarak derle."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:20
 msgid "Create pods and containers."
-msgstr ""
+msgstr "Pod ve konteynerler yarat."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:21
 msgid ""
 "Control the lifecycle of containers and pods (in bulk) (start, stop, pause, "
 "etc.)."
 msgstr ""
+"Konteyner ve podların (topluca) kontrollerini sağla.(başlatma, "
+"durdurma,duraklatma vs.)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:22
 msgid "Delete images, containers, and pods (in bulk)."
-msgstr ""
+msgstr "İmaj, konteyner ve podları sil (topluca)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:23
 msgid "Prune images."
@@ -163,79 +177,79 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:24
 msgid "Rename containers."
-msgstr ""
+msgstr "Konteynerler yeniden adlandır."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:30
 msgid "Images Overview"
-msgstr ""
+msgstr "İmajlara genel bakış"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:34
 msgid "Containers Overview"
-msgstr ""
+msgstr "Konteynerlere genel bakış"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:38
 msgid "Pods Overview"
-msgstr ""
+msgstr "Podlara genel bakış"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:188
 msgid "Marcus Behrendt"
-msgstr ""
+msgstr "Marcus Behrendt"
 
 #: data/resources/ui/action/page.ui:122
 msgid "_Abort"
-msgstr ""
+msgstr "_Durdur"
 
 #: data/resources/ui/action/page.ui:137
 msgid "_View"
-msgstr ""
+msgstr "_Görüntüle"
 
 #: data/resources/ui/actions/overview.ui:38
 msgid "No Operations"
-msgstr ""
+msgstr "İşlem yok"
 
 #: data/resources/ui/component/source-view-page.ui:25
 #: data/resources/ui/container/creation-page.ui:184
 #: data/resources/ui/container/log-page.ui:39
 #: data/resources/ui/pod/creation-page.ui:350
 msgid "Search"
-msgstr ""
+msgstr "Ara"
 
 #: data/resources/ui/component/source-view-page.ui:33
 #: data/resources/ui/container/log-page.ui:55
 msgid "Save as File"
-msgstr ""
+msgstr "Dosyaya kaydet"
 
 #: data/resources/ui/component/source-view-search-widget.ui:23
 msgid "Previous (Ctrl+Shift+G)"
-msgstr ""
+msgstr "Önceki (Ctrl+Shift+G)"
 
 #: data/resources/ui/component/source-view-search-widget.ui:30
 msgid "Next (Ctrl+G)"
-msgstr ""
+msgstr "Sonraki (Ctrl+G)"
 
 #: data/resources/ui/component/text-search-entry.ui:42
 msgid "Regular Expression"
-msgstr ""
+msgstr "Kurallı ifade"
 
 #: data/resources/ui/component/text-search-entry.ui:50
 msgid "Case Sensitive"
-msgstr ""
+msgstr "Büyük küçuk harfe duyarlı"
 
 #: data/resources/ui/component/text-search-entry.ui:58
 msgid "Whole Word"
-msgstr ""
+msgstr "Bütün kelime"
 
 #: data/resources/ui/connection/chooser-page.ui:34
 msgid "Connect to Podman"
-msgstr ""
+msgstr "Podman'e bağlan"
 
 #: data/resources/ui/connection/chooser-page.ui:35
 msgid "Either choose an existing connection or create a new one."
-msgstr ""
+msgstr "Bir bağlantı yarat yada varolanı kullan."
 
 #: data/resources/ui/connection/chooser-page.ui:80
 msgid "_Add New Connection"
-msgstr ""
+msgstr "_Bir Bağlantı Ekle"
 
 #: data/resources/ui/connection/creation-page.ui:27
 #: data/resources/ui/container/commit-page.ui:33
@@ -252,15 +266,15 @@ msgstr ""
 #: src/view/images/panel.rs:384 src/view/pod/mod.rs:94
 #: src/view/pods/panel.rs:458
 msgid "_Cancel"
-msgstr ""
+msgstr "_İptal"
 
 #: data/resources/ui/connection/creation-page.ui:34
 msgid "New Connection"
-msgstr ""
+msgstr "Yeni Bağlantı"
 
 #: data/resources/ui/connection/creation-page.ui:44
 msgid "_Connect"
-msgstr ""
+msgstr "_Bağlan"
 
 #: data/resources/ui/connection/creation-page.ui:62
 #: data/resources/ui/container/creation-page.ui:83
@@ -270,7 +284,7 @@ msgstr ""
 #: data/resources/ui/pod/creation-page.ui:302
 #: data/resources/ui/pod/details-page.ui:52
 msgid "Name"
-msgstr ""
+msgstr "Ad"
 
 #: data/resources/ui/connection/creation-page.ui:71
 msgid "URL"
@@ -278,21 +292,24 @@ msgstr ""
 
 #: data/resources/ui/connection/creation-page.ui:72
 msgid "Choose how you want to connect to Podman."
-msgstr ""
+msgstr "Podman'e nasıl bağlanacağını seç."
 
 #: data/resources/ui/connection/creation-page.ui:76
 msgid "Unix Socket"
-msgstr ""
+msgstr "Unix Soket"
 
 #: data/resources/ui/connection/creation-page.ui:111
 msgid "Podman Socket Activation"
-msgstr ""
+msgstr "Podman Soket Aktivasyonu"
 
 #: data/resources/ui/connection/creation-page.ui:118
+#, fuzzy
 msgid ""
 "To connect to the local Podman instance, the systemd socket must be enabled. "
 "You can enable it permanently by issuing the following command:"
 msgstr ""
+"Yerel bir Podman'e bağlanmak için systemd soketi etkinleştirilmeli. "
+"Aşağıdaki kodu çalıştırarak daimi olarak etkinleştirebilirsin:"
 
 #: data/resources/ui/connection/creation-page.ui:167
 #: data/resources/ui/connection/custom-info-dialog.ui:138
@@ -300,7 +317,7 @@ msgstr ""
 #: data/resources/ui/connection/custom-info-dialog.ui:252
 #: data/resources/ui/connection/custom-info-dialog.ui:300
 msgid "Copy to Clipboard"
-msgstr ""
+msgstr "Panoya kopyala"
 
 #: data/resources/ui/connection/creation-page.ui:183
 msgid ""
@@ -309,31 +326,38 @@ msgid ""
 msgstr ""
 
 #: data/resources/ui/connection/creation-page.ui:208
+#, fuzzy
 msgid "Custom"
-msgstr ""
+msgstr "Özel"
 
 #: data/resources/ui/connection/creation-page.ui:218
+#, fuzzy
 msgid "Connection String"
-msgstr ""
+msgstr "Bağlantı Metni"
 
 #: data/resources/ui/connection/creation-page.ui:246
 msgid "Color"
-msgstr ""
+msgstr "Renk"
 
 #: data/resources/ui/connection/creation-page.ui:247
+#, fuzzy
 msgid "Define how to colorize the header bar (disabled)."
-msgstr ""
+msgstr "Başlık çubuğunu nasıl renklendirileceğini seç(Devredışı)."
 
 #: data/resources/ui/connection/custom-info-dialog.ui:16
 msgid "Custom Connection"
-msgstr ""
+msgstr "Özel Bağlantı"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:41
+#, fuzzy
 msgid ""
 "You can connect to a Podman instance using <span weight=\"bold\">HTTP</"
 "span>, <span weight=\"bold\">TCP</span>, and <span weight=\"bold\">UNIX</"
 "span> protocols. For example, the connection string might look like this:"
 msgstr ""
+"Podman'e <span weight=\"bold\">HTTP</span>, <span weight=\"bold\">TCP</"
+"span>, and <span weight=\"bold\">UNIX</span> protokollerini kullanarak "
+"bağlanabilirsin. Örneğin, şu şekilde bir bağlantı metni olabilir:"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:82
 msgid "Podman Root Connection"
@@ -884,11 +908,11 @@ msgstr ""
 #: data/resources/ui/containers/panel.ui:47
 #: data/resources/ui/images/panel.ui:87 data/resources/ui/pods/panel.ui:59
 msgid "Summary"
-msgstr ""
+msgstr "Genel bakış"
 
 #: data/resources/ui/containers/panel.ui:49
 msgid "No containers found"
-msgstr ""
+msgstr "Hiç konteyler bulunamadı"
 
 #: data/resources/ui/containers/panel.ui:306
 msgid "No Containers Found"
@@ -2347,11 +2371,12 @@ msgstr ""
 
 #: src/view/pods/panel.rs:211
 msgid "No pods found"
-msgstr ""
+msgstr "Hiçbir pod bulunamadı"
 
 #: src/view/pods/panel.rs:214
+#, fuzzy
 msgid "1 pod, running"
-msgstr ""
+msgstr "1 pod,çalışıyor"
 
 #: src/view/pods/panel.rs:216
 msgid "1 pod, stopped"
@@ -2429,16 +2454,16 @@ msgstr[1] ""
 
 #: src/window.rs:862
 msgid "images"
-msgstr ""
+msgstr "imajlar"
 
 #: src/window.rs:863
 msgid "containers"
-msgstr ""
+msgstr "konteynerler"
 
 #: src/window.rs:864
 msgid "pods"
-msgstr ""
+msgstr "podlar"
 
 #: src/window.rs:860
 msgid "Error on loading {}"
-msgstr ""
+msgstr "{} yüklenirken hata"
