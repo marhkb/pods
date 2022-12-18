@@ -13,6 +13,7 @@ use crate::view;
 
 const ACTION_CANCEL: &str = "action-page.cancel";
 const ACTION_VIEW_ARTIFACT: &str = "action-page.view-artifact";
+const ACTION_RETRY: &str = "action-page.retry";
 
 mod imp {
     use super::*;
@@ -37,6 +38,7 @@ mod imp {
             klass.install_action(ACTION_VIEW_ARTIFACT, None, move |widget, _, _| {
                 widget.view_artifact();
             });
+            klass.install_action(ACTION_RETRY, None, |widget, _, _| widget.retry());
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -194,6 +196,11 @@ impl Page {
             action.state() == Finished
                 && !matches!(action.type_(), PruneImages | Commit | CopyFiles),
         );
+        self.action_set_enabled(
+            ACTION_RETRY,
+            matches!(action.state(), Cancelled | Failed)
+                && self.ancestor(gtk::Stack::static_type()).is_some(),
+        );
     }
 
     fn set_description(&self, action: &model::Action) -> bool {
@@ -254,6 +261,15 @@ impl Page {
                 &gettext("Error on opening artifact"),
                 &gettext("Artifact has been deleted"),
             ),
+        }
+    }
+
+    fn retry(&self) {
+        if let Some(stack) = self
+            .ancestor(gtk::Stack::static_type())
+            .and_then(|ancestor| ancestor.downcast::<gtk::Stack>().ok())
+        {
+            stack.set_visible_child(&stack.first_child().unwrap());
         }
     }
 }

@@ -137,6 +137,21 @@
                       </object>
                     </child>
 
+                    <child>
+                      <object class="GtkButton" id="retry_button">
+                        <style>
+                          <class name="pill"/>
+                          <class name="suggested-action"/>
+                        </style>
+                        <property name="action-name">action-page.retry</property>
+                        <property name="halign">center</property>
+                        <property name="label" translatable="yes">_Retry</property>
+                        <property name="use-underline">True</property>
+                        <property name="visible" bind-source="retry_button" bind-property="sensitive" bind-flags="sync-create"/>
+                        <property name="width-request">200</property>
+                      </object>
+                    </child>
+
                   </object>
                 </property>
 
