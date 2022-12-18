@@ -75,13 +75,13 @@ glib::wrapper! {
 
 impl From<podman::models::ImageData> for ImageData {
     fn from(data: podman::models::ImageData) -> Self {
-        glib::Object::builder::<Self>()
-            .property("architecture", &data.architecture)
-            .property("author", &data.author)
-            .property("comment", &data.comment)
+        glib::Object::builder()
+            .property("architecture", data.architecture)
+            .property("author", data.author)
+            .property("comment", data.comment)
             .property(
                 "config",
-                &model::ImageConfig::from_libpod(data.config.unwrap()),
+                model::ImageConfig::from_libpod(data.config.unwrap()),
             )
             .build()
     }

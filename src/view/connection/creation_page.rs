@@ -165,7 +165,7 @@ glib::wrapper! {
 
 impl From<&model::ConnectionManager> for CreationPage {
     fn from(connection_manager: &model::ConnectionManager) -> Self {
-        glib::Object::builder::<Self>()
+        glib::Object::builder()
             .property("connection-manager", connection_manager)
             .build()
     }

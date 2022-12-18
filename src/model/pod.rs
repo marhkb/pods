@@ -208,19 +208,19 @@ glib::wrapper! {
 
 impl Pod {
     pub(crate) fn new(pod_list: &model::PodList, report: podman::models::ListPodsReport) -> Self {
-        glib::Object::builder::<Self>()
+        glib::Object::builder()
             .property("pod-list", pod_list)
             .property(
                 "created",
-                &report.created.map(|dt| dt.timestamp()).unwrap_or(0),
+                report.created.map(|dt| dt.timestamp()).unwrap_or(0),
             )
-            .property("id", &report.id.unwrap())
-            .property("name", &report.name.unwrap())
+            .property("id", report.id.unwrap())
+            .property("name", report.name.unwrap())
             .property(
                 "num-containers",
                 &report.containers.map(|c| c.len() as u64).unwrap_or(0),
             )
-            .property("status", &status(report.status.as_deref()))
+            .property("status", status(report.status.as_deref()))
             .build()
     }
 

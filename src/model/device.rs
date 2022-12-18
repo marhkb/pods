@@ -89,10 +89,10 @@ glib::wrapper! {
 
 impl Default for Device {
     fn default() -> Self {
-        glib::Object::builder::<Self>()
-            .property("readable", &true)
-            .property("writable", &false)
-            .property("mknod", &false)
+        glib::Object::builder()
+            .property("readable", true)
+            .property("writable", false)
+            .property("mknod", false)
             .build()
     }
 }

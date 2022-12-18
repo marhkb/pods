@@ -265,7 +265,7 @@ glib::wrapper! {
 
 impl From<&model::Container> for Row {
     fn from(container: &model::Container) -> Self {
-        glib::Object::builder::<Self>()
+        glib::Object::builder()
             .property("container", container)
             .build()
     }

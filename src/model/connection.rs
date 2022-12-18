@@ -133,12 +133,12 @@ impl Connection {
         rgb: Option<gdk::RGBA>,
         manager: &model::ConnectionManager,
     ) -> Self {
-        glib::Object::builder::<Self>()
+        glib::Object::builder()
             .property("manager", manager)
-            .property("uuid", &uuid)
-            .property("name", &name)
-            .property("url", &url)
-            .property("rgb", &rgb)
+            .property("uuid", uuid)
+            .property("name", name)
+            .property("url", url)
+            .property("rgb", rgb)
             .build()
     }
 

@@ -75,7 +75,7 @@ glib::wrapper! {
 
 impl RepoTag {
     pub(crate) fn new(repo_tag_list: &model::RepoTagList, full: &str) -> Self {
-        glib::Object::builder::<Self>()
+        glib::Object::builder()
             .property("repo-tag-list", repo_tag_list)
             .property("full", full)
             .build()

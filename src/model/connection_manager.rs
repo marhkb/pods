@@ -86,7 +86,7 @@ glib::wrapper! {
 
 impl Default for ConnectionManager {
     fn default() -> Self {
-        glib::Object::builder::<Self>().build()
+        glib::Object::builder().build()
     }
 }
 

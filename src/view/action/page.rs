@@ -120,9 +120,7 @@ glib::wrapper! {
 
 impl From<&model::Action> for Page {
     fn from(action: &model::Action) -> Self {
-        glib::Object::builder::<Self>()
-            .property("action", &action)
-            .build()
+        glib::Object::builder().property("action", action).build()
     }
 }
 

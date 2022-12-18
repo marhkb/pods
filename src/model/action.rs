@@ -142,13 +142,13 @@ impl Action {
 
 impl Action {
     fn new(num: u32, type_: Type, description: &str) -> Self {
-        glib::Object::builder::<Self>()
-            .property("num", &num)
-            .property("type", &type_)
-            .property("description", &description)
+        glib::Object::builder()
+            .property("num", num)
+            .property("type", type_)
+            .property("description", description)
             .property(
                 "start-timestamp",
-                &glib::DateTime::now_local().unwrap().to_unix(),
+                glib::DateTime::now_local().unwrap().to_unix(),
             )
             .build()
     }

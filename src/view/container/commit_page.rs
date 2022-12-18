@@ -162,8 +162,8 @@ glib::wrapper! {
 
 impl From<&model::Container> for CommitPage {
     fn from(container: &model::Container) -> Self {
-        glib::Object::builder::<Self>()
-            .property("container", &container)
+        glib::Object::builder()
+            .property("container", container)
             .build()
     }
 }

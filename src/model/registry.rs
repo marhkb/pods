@@ -52,9 +52,7 @@ glib::wrapper! {
 
 impl From<&str> for Registry {
     fn from(name: &str) -> Self {
-        glib::Object::builder::<Self>()
-            .property("name", &name)
-            .build()
+        glib::Object::builder().property("name", name).build()
     }
 }
 

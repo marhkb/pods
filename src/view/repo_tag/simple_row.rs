@@ -88,7 +88,7 @@ glib::wrapper! {
 
 impl From<&model::RepoTag> for SimpleRow {
     fn from(repo_tag: &model::RepoTag) -> Self {
-        glib::Object::builder::<Self>()
+        glib::Object::builder()
             .property("repo-tag", repo_tag)
             .build()
     }

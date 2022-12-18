@@ -167,9 +167,9 @@ impl TryFrom<&model::Connection> for Client {
 
     fn try_from(connection: &model::Connection) -> Result<Self, Self::Error> {
         podman::Podman::new(connection.url()).map(|podman| {
-            glib::Object::builder::<Self>()
+            glib::Object::builder()
                 .property("connection", connection)
-                .property("podman", &BoxedPodman::from(podman))
+                .property("podman", BoxedPodman::from(podman))
                 .build()
         })
     }
@@ -187,25 +187,25 @@ impl Client {
     pub(crate) fn image_list(&self) -> &model::ImageList {
         self.imp()
             .image_list
-            .get_or_init(|| model::ImageList::from(Some(self)))
+            .get_or_init(|| model::ImageList::from(self))
     }
 
     pub(crate) fn container_list(&self) -> &model::ContainerList {
         self.imp()
             .container_list
-            .get_or_init(|| model::ContainerList::from(Some(self)))
+            .get_or_init(|| model::ContainerList::from(self))
     }
 
     pub(crate) fn pod_list(&self) -> &model::PodList {
         self.imp()
             .pod_list
-            .get_or_init(|| model::PodList::from(Some(self)))
+            .get_or_init(|| model::PodList::from(self))
     }
 
     pub(crate) fn action_list(&self) -> &model::ActionList {
         self.imp()
             .action_list
-            .get_or_init(|| model::ActionList::from(Some(self)))
+            .get_or_init(|| model::ActionList::from(self))
     }
 
     pub(crate) fn check_service<T, E, F>(&self, op: T, err_op: E, finish_op: F)

@@ -171,9 +171,7 @@ glib::wrapper! {
 
 impl From<&model::Client> for BuildPage {
     fn from(client: &model::Client) -> Self {
-        glib::Object::builder::<Self>()
-            .property("client", client)
-            .build()
+        glib::Object::builder().property("client", client).build()
     }
 }
 

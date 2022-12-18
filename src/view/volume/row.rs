@@ -84,9 +84,7 @@ glib::wrapper! {
 
 impl From<&model::Volume> for Row {
     fn from(volume: &model::Volume) -> Self {
-        glib::Object::builder::<Self>()
-            .property("volume", &volume)
-            .build()
+        glib::Object::builder().property("volume", volume).build()
     }
 }
 

@@ -252,9 +252,9 @@ glib::wrapper! {
 }
 
 impl From<&model::Container> for DetailsPage {
-    fn from(image: &model::Container) -> Self {
-        glib::Object::builder::<Self>()
-            .property("container", image)
+    fn from(container: &model::Container) -> Self {
+        glib::Object::builder()
+            .property("container", container)
             .build()
     }
 }
@@ -319,9 +319,11 @@ impl DetailsPage {
     }
 
     fn rename(&self) {
-        let dialog = view::ContainerRenameDialog::from(self.container());
-        dialog.set_transient_for(Some(&utils::root(self)));
-        dialog.present();
+        if let Some(container) = self.container() {
+            let dialog = view::ContainerRenameDialog::from(&container);
+            dialog.set_transient_for(Some(&utils::root(self)));
+            dialog.present();
+        }
     }
 
     fn commit(&self) {

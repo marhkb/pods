@@ -87,9 +87,9 @@ impl From<&model::Value> for Row {
 
 impl Row {
     pub fn new(value: &model::Value, title: impl Into<String>) -> Self {
-        glib::Object::builder::<Self>()
-            .property("value", &value)
-            .property("title", &title.into())
+        glib::Object::builder()
+            .property("value", value)
+            .property("title", title.into())
             .build()
     }
 

@@ -84,9 +84,7 @@ glib::wrapper! {
 
 impl From<&model::Image> for RepoTagList {
     fn from(image: &model::Image) -> Self {
-        glib::Object::builder::<Self>()
-            .property("image", image)
-            .build()
+        glib::Object::builder().property("image", image).build()
     }
 }
 

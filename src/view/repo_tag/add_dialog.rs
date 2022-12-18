@@ -163,7 +163,7 @@ glib::wrapper! {
 
 impl From<&model::Image> for AddDialog {
     fn from(image: &model::Image) -> Self {
-        let obj = glib::Object::builder::<Self>().build();
+        let obj: Self = glib::Object::builder().build();
         obj.imp().image.set(Some(image));
         obj
     }
