@@ -28,10 +28,6 @@
             </style>
             <property name="valign">start</property>
 
-            <child type="start">
-              <object class="PdsBackNavigationControls"/>
-            </child>
-
             <child type="title">
               <object class="AdwWindowTitle">
                 <property name="title" translatable="yes"></property>
