@@ -28,10 +28,6 @@
             </style>
             <property name="valign">start</property>
 
-            <child type="start">
-              <object class="PdsBackNavigationControls"/>
-            </child>
-
             <child type="title">
               <object class="AdwWindowTitle">
                 <property name="title" translatable="yes"></property>
@@ -137,6 +133,21 @@
                         <property name="label" translatable="yes">_View</property>
                         <property name="use-underline">True</property>
                         <property name="visible" bind-source="view_artifact_button" bind-property="sensitive" bind-flags="sync-create"/>
+                        <property name="width-request">200</property>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkButton" id="retry_button">
+                        <style>
+                          <class name="pill"/>
+                          <class name="suggested-action"/>
+                        </style>
+                        <property name="action-name">action-page.retry</property>
+                        <property name="halign">center</property>
+                        <property name="label" translatable="yes">_Retry</property>
+                        <property name="use-underline">True</property>
+                        <property name="visible" bind-source="retry_button" bind-property="sensitive" bind-flags="sync-create"/>
                         <property name="width-request">200</property>
                       </object>
                     </child>
