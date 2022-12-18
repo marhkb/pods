@@ -109,11 +109,9 @@ glib::wrapper! {
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
-impl From<Option<&model::Client>> for SelectionPage {
-    fn from(client: Option<&model::Client>) -> Self {
-        glib::Object::builder::<Self>()
-            .property("client", &client)
-            .build()
+impl From<&model::Client> for SelectionPage {
+    fn from(client: &model::Client) -> Self {
+        glib::Object::builder().property("client", client).build()
     }
 }
 

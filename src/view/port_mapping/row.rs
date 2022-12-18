@@ -86,8 +86,8 @@ glib::wrapper! {
 
 impl From<&model::PortMapping> for Row {
     fn from(port_mapping: &model::PortMapping) -> Self {
-        glib::Object::builder::<Self>()
-            .property("port-mapping", &port_mapping)
+        glib::Object::builder()
+            .property("port-mapping", port_mapping)
             .build()
     }
 }

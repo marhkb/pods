@@ -52,7 +52,7 @@ glib::wrapper! {
 
 impl Default for HealthCheckLogList {
     fn default() -> Self {
-        glib::Object::builder::<Self>().build()
+        glib::Object::builder().build()
     }
 }
 

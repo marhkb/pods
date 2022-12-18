@@ -185,8 +185,10 @@ impl MenuButton {
     }
 
     fn rename(&self) {
-        let dialog = view::ContainerRenameDialog::from(self.container());
-        dialog.set_transient_for(Some(&utils::root(self)));
-        dialog.present();
+        if let Some(container) = self.container() {
+            let dialog = view::ContainerRenameDialog::from(&container);
+            dialog.set_transient_for(Some(&utils::root(self)));
+            dialog.present();
+        }
     }
 }

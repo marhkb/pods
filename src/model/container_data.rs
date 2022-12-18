@@ -93,15 +93,14 @@ impl From<podman::models::InspectContainerData> for ContainerData {
         let obj: Self = glib::Object::builder()
             .property(
                 "health-config",
-                &data
-                    .config
+                data.config
                     .unwrap()
                     .healthcheck
                     .map(BoxedSchema2HealthConfig),
             )
             .property(
                 "health-failing-streak",
-                &health_failing_streak(data.state.as_ref()),
+                health_failing_streak(data.state.as_ref()),
             )
             .property(
                 "port-bindings",

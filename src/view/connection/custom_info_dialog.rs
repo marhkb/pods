@@ -106,7 +106,7 @@ glib::wrapper! {
 
 impl Default for CustomInfoDialog {
     fn default() -> Self {
-        glib::Object::builder::<Self>().build()
+        glib::Object::builder().build()
     }
 }
 

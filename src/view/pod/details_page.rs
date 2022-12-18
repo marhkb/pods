@@ -234,7 +234,7 @@ glib::wrapper! {
 
 impl From<&model::Pod> for DetailsPage {
     fn from(pod: &model::Pod) -> Self {
-        glib::Object::builder::<Self>().property("pod", pod).build()
+        glib::Object::builder().property("pod", pod).build()
     }
 }
 

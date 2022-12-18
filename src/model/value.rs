@@ -58,7 +58,7 @@ glib::wrapper! {
 
 impl Default for Value {
     fn default() -> Self {
-        glib::Object::builder::<Self>().build()
+        glib::Object::builder().build()
     }
 }
 

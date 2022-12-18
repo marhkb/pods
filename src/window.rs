@@ -440,9 +440,7 @@ glib::wrapper! {
 
 impl Window {
     pub(crate) fn new(app: &Application) -> Self {
-        glib::Object::builder::<Self>()
-            .property("application", app)
-            .build()
+        glib::Object::builder().property("application", app).build()
     }
 
     fn save_window_size(&self) -> Result<(), glib::BoolError> {
@@ -846,9 +844,11 @@ impl Window {
     }
 
     fn show_podman_info_dialog(&self) {
-        let dialog = view::InfoDialog::from(self.connection_manager().client().as_ref());
-        dialog.set_transient_for(Some(self));
-        dialog.present();
+        if let Some(client) = self.connection_manager().client() {
+            let dialog = view::InfoDialog::from(&client);
+            dialog.set_transient_for(Some(self));
+            dialog.present();
+        }
     }
 
     fn toggle_search(&self) {

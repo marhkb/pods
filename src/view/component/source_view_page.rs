@@ -163,7 +163,7 @@ glib::wrapper! {
 
 impl From<Entity> for SourceViewPage {
     fn from(entity: Entity) -> Self {
-        let obj: Self = glib::Object::builder::<Self>().build();
+        let obj: Self = glib::Object::builder().build();
         let imp = obj.imp();
 
         match &entity {

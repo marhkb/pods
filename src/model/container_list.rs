@@ -184,11 +184,9 @@ glib::wrapper! {
         @implements gio::ListModel, model::AbstractContainerList, model::SelectableList;
 }
 
-impl From<Option<&model::Client>> for ContainerList {
-    fn from(client: Option<&model::Client>) -> Self {
-        glib::Object::builder::<Self>()
-            .property("client", &client)
-            .build()
+impl From<&model::Client> for ContainerList {
+    fn from(client: &model::Client) -> Self {
+        glib::Object::builder().property("client", client).build()
     }
 }
 

@@ -61,7 +61,7 @@ glib::wrapper! {
 
 impl Default for LeafletOverlay {
     fn default() -> Self {
-        glib::Object::builder::<Self>().build()
+        glib::Object::builder().build()
     }
 }
 

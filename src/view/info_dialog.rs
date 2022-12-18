@@ -126,11 +126,9 @@ glib::wrapper! {
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget, gtk::Native, gtk::Root, gtk::ShortcutManager;
 }
 
-impl From<Option<&model::Client>> for InfoDialog {
-    fn from(client: Option<&model::Client>) -> Self {
-        glib::Object::builder::<Self>()
-            .property("client", &client)
-            .build()
+impl From<&model::Client> for InfoDialog {
+    fn from(client: &model::Client) -> Self {
+        glib::Object::builder().property("client", client).build()
     }
 }
 

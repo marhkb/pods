@@ -152,9 +152,9 @@ impl Image {
     ) -> Self {
         glib::Object::builder::<Self>()
             .property("image-list", image_list)
-            .property("created", &summary.created.unwrap_or(0))
+            .property("created", summary.created.unwrap_or(0))
             .property("id", &summary.id)
-            .property("size", &(summary.size.unwrap_or_default() as u64))
+            .property("size", summary.size.unwrap_or_default() as u64)
             .build()
             .update_internal(summary, false)
             .to_owned()

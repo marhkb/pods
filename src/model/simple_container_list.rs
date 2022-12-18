@@ -91,7 +91,7 @@ glib::wrapper! {
 
 impl Default for SimpleContainerList {
     fn default() -> Self {
-        glib::Object::builder::<Self>().build()
+        glib::Object::builder().build()
     }
 }
 

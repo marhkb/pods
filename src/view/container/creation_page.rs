@@ -402,25 +402,19 @@ glib::wrapper! {
 
 impl From<&model::Image> for CreationPage {
     fn from(image: &model::Image) -> Self {
-        glib::Object::builder::<Self>()
-            .property("image", &image)
-            .build()
+        glib::Object::builder().property("image", image).build()
     }
 }
 
 impl From<&model::Pod> for CreationPage {
     fn from(pod: &model::Pod) -> Self {
-        glib::Object::builder::<Self>()
-            .property("pod", &pod)
-            .build()
+        glib::Object::builder().property("pod", pod).build()
     }
 }
 
 impl From<&model::Client> for CreationPage {
     fn from(client: &model::Client) -> Self {
-        glib::Object::builder::<Self>()
-            .property("client", client)
-            .build()
+        glib::Object::builder().property("client", client).build()
     }
 }
 
@@ -547,20 +541,24 @@ impl CreationPage {
     }
 
     fn search_image(&self) {
-        let image_selection_page = view::ImageSelectionPage::from(self.client().as_ref());
-        image_selection_page.connect_image_selected(clone!(@weak self as obj => move |_, image| {
-            let imp = obj.imp();
+        if let Some(client) = self.client() {
+            let image_selection_page = view::ImageSelectionPage::from(&client);
+            image_selection_page.connect_image_selected(
+                clone!(@weak self as obj => move |_, image| {
+                    let imp = obj.imp();
 
-            imp.local_image_combo_row.set_visible(false);
-            imp.remote_image_row.set_visible(true);
-            imp.remote_image_row.set_subtitle(&image);
-            imp.pull_latest_image_row.set_visible(false);
+                    imp.local_image_combo_row.set_visible(false);
+                    imp.remote_image_row.set_visible(true);
+                    imp.remote_image_row.set_subtitle(&image);
+                    imp.pull_latest_image_row.set_visible(false);
 
-            imp.command_entry_row.set_text("");
-        }));
-        self.imp()
-            .leaflet_overlay
-            .show_details(&image_selection_page);
+                    imp.command_entry_row.set_text("");
+                }),
+            );
+            self.imp()
+                .leaflet_overlay
+                .show_details(&image_selection_page);
+        }
     }
 
     fn add_cmd_arg(&self) {

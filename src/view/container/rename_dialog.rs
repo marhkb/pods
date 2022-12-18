@@ -26,8 +26,6 @@ mod imp {
         pub(super) rename_finished: OnceCell<()>,
         #[template_child]
         pub(super) entry_row: TemplateChild<view::RandomNameEntryRow>,
-        // #[template_child]
-        // pub(super) error_label_row: TemplateChild<adw::PreferencesRow>,
         #[template_child]
         pub(super) error_label_revealer: TemplateChild<gtk::Revealer>,
         #[template_child]
@@ -197,10 +195,10 @@ glib::wrapper! {
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget, gtk::Native, gtk::Root, gtk::ShortcutManager;
 }
 
-impl From<Option<model::Container>> for RenameDialog {
-    fn from(container: Option<model::Container>) -> Self {
-        glib::Object::builder::<Self>()
-            .property("container", &container)
+impl From<&model::Container> for RenameDialog {
+    fn from(container: &model::Container) -> Self {
+        glib::Object::builder()
+            .property("container", container)
             .build()
     }
 }

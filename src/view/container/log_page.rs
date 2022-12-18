@@ -278,9 +278,9 @@ glib::wrapper! {
 }
 
 impl From<&model::Container> for LogPage {
-    fn from(image: &model::Container) -> Self {
-        glib::Object::builder::<Self>()
-            .property("container", image)
+    fn from(container: &model::Container) -> Self {
+        glib::Object::builder()
+            .property("container", container)
             .build()
     }
 }

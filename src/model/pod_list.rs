@@ -123,11 +123,9 @@ glib::wrapper! {
         @implements gio::ListModel, model::SelectableList;
 }
 
-impl From<Option<&model::Client>> for PodList {
-    fn from(client: Option<&model::Client>) -> Self {
-        glib::Object::builder::<Self>()
-            .property("client", &client)
-            .build()
+impl From<&model::Client> for PodList {
+    fn from(client: &model::Client) -> Self {
+        glib::Object::builder().property("client", client).build()
     }
 }
 

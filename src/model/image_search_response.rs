@@ -92,14 +92,14 @@ glib::wrapper! {
 
 impl From<podman::models::RegistrySearchResponse> for ImageSearchResponse {
     fn from(response: podman::models::RegistrySearchResponse) -> Self {
-        glib::Object::builder::<Self>()
-            .property("automated", &response.automated)
-            .property("description", &response.description)
-            .property("index", &response.index)
-            .property("name", &response.name)
-            .property("official", &response.official)
-            .property("stars", &response.stars.unwrap_or(-1))
-            .property("tag", &response.tag)
+        glib::Object::builder()
+            .property("automated", response.automated)
+            .property("description", response.description)
+            .property("index", response.index)
+            .property("name", response.name)
+            .property("official", response.official)
+            .property("stars", response.stars.unwrap_or(-1))
+            .property("tag", response.tag)
             .build()
     }
 }

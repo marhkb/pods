@@ -69,21 +69,21 @@ glib::wrapper! {
 
 impl ImageConfig {
     pub(crate) fn from_libpod(config: podman::models::ImageConfig) -> Self {
-        glib::Object::builder::<Self>()
+        glib::Object::builder()
             .property(
                 "cmd",
-                &utils::format_iter_or_none(config.cmd.as_deref().unwrap_or_default().iter(), " "),
+                utils::format_iter_or_none(config.cmd.as_deref().unwrap_or_default().iter(), " "),
             )
             .property(
                 "entrypoint",
-                &utils::format_iter_or_none(
+                utils::format_iter_or_none(
                     config.entrypoint.as_deref().unwrap_or_default().iter(),
                     " ",
                 ),
             )
             .property(
                 "exposed-ports",
-                &gtk::StringList::new(
+                gtk::StringList::new(
                     &config
                         .exposed_ports
                         .unwrap_or_default()

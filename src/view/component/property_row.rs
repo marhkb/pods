@@ -109,13 +109,13 @@ glib::wrapper! {
 
 impl Default for PropertyRow {
     fn default() -> Self {
-        glib::Object::builder::<Self>().build()
+        glib::Object::builder().build()
     }
 }
 
 impl PropertyRow {
     pub(crate) fn new(key: &str, value: &str) -> Self {
-        glib::Object::builder::<Self>()
+        glib::Object::builder()
             .property("key", key)
             .property("value", value)
             .build()
