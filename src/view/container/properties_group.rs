@@ -178,7 +178,11 @@ mod imp {
                         port_bindings
                             .iter()
                             .flat_map(|(container_port, hosts)| {
-                                hosts.iter().map(move |host| (container_port, host))
+                                hosts
+                                    .as_deref()
+                                    .unwrap_or_default()
+                                    .iter()
+                                    .map(move |host| (container_port, host))
                             })
                             .map(|(container_port, host)| {
                                 let host_ip = host.host_ip.as_deref().unwrap_or("");

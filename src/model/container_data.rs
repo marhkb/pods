@@ -14,7 +14,7 @@ use crate::monad_boxed_type;
 use crate::podman;
 
 monad_boxed_type!(pub(crate) BoxedSchema2HealthConfig(podman::models::Schema2HealthConfig) impls Debug is nullable);
-monad_boxed_type!(pub(crate) BoxedPortBindings(HashMap<String, Vec<podman::models::InspectHostPort>>) impls Debug is nullable);
+monad_boxed_type!(pub(crate) BoxedPortBindings(HashMap<String, Option<Vec<podman::models::InspectHostPort>>>) impls Debug is nullable);
 
 mod imp {
     use super::*;
