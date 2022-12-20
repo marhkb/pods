@@ -224,12 +224,13 @@ impl InfoDialog {
                     imp.store_graph_options_label
                         .set_label(&utils::format_option(
                             graph_options.as_ref().map(|o| {
+                                let len = o.as_object().unwrap().len();
                                 // Translators: "{}" is a placeholder for a cardinal number.
-                                ngettext!("{} Option", "{} Options", o.len() as u32, o.len())
+                                ngettext!("{} Option", "{} Options", len as u32, len)
                             })
                         ));
                     if let Some(graph_options) = store.and_then(|s| s.graph_options.as_ref()) {
-                        graph_options.iter().for_each(|(k, v)| {
+                        graph_options.as_object().unwrap().iter().for_each(|(k, v)| {
                             imp.store_graph_options_row.add_row(&{
                                 let row = view::PropertyRow::default();
                                 row.set_key(k);
