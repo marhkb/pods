@@ -14,6 +14,7 @@ use once_cell::unsync::OnceCell;
 
 use crate::model;
 use crate::utils;
+use crate::RUNTIME;
 
 mod imp {
     use super::*;
@@ -166,7 +167,7 @@ mod imp {
 
             let id = self.notification_id.get().unwrap().to_owned();
 
-            glib::MainContext::default().spawn(async move {
+            RUNTIME.spawn(async move {
                 let _ = ashpd::notification::NotificationProxy::new()
                     .await
                     .unwrap()
@@ -228,7 +229,7 @@ impl Row {
                     .body(action.description())
                     .default_action("");
 
-                    glib::MainContext::default().spawn_local(async move {
+                    RUNTIME.spawn(async move {
                         let _ = ashpd::notification::NotificationProxy::new().await.unwrap()
                             .add_notification(&id, notification)
                             .await;

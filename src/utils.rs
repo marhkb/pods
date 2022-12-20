@@ -370,16 +370,22 @@ impl Iterator for ChildIter {
 
 pub(crate) async fn show_open_file_dialog<F>(request: OpenFileRequest, widget: &gtk::Widget, op: F)
 where
-    F: Fn(SelectedFiles),
+    F: Fn(SelectedFiles) + 'static,
 {
-    show_file_dialog(request.build().await, widget, op);
+    do_async(
+        request.build(),
+        clone!(@weak widget => move |files| show_file_dialog(files, &widget, op)),
+    );
 }
 
 pub(crate) async fn show_save_file_dialog<F>(request: SaveFileRequest, widget: &gtk::Widget, op: F)
 where
-    F: Fn(SelectedFiles),
+    F: Fn(SelectedFiles) + 'static,
 {
-    show_file_dialog(request.build().await, widget, op);
+    do_async(
+        request.build(),
+        clone!(@weak widget => move |files| show_file_dialog(files, &widget, op)),
+    );
 }
 
 fn show_file_dialog<F>(files: Result<SelectedFiles, ashpd::Error>, widget: &gtk::Widget, op: F)

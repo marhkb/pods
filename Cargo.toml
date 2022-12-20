@@ -7,7 +7,7 @@ edition = "2021"
 [dependencies]
 adw = { version = "0.2", package = "libadwaita", features = ["v1_2"] }
 anyhow = "1"
-ashpd = { version = "0.4.0-alpha.1", features = ["gtk4"] }
+ashpd = { version = "0.4.0-alpha.1", default-features = false, features = ["gtk4", "tokio"] }
 futures = { version = "0.3", default-features = false }
 gettext-rs = { version = "0.7", features = ["gettext-system"] }
 gtk = { version = "0.5", package = "gtk4", features = ["gnome_43"] }
