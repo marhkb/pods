@@ -238,7 +238,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::ChildIter::from(&*self.obj()).for_each(|child| child.unparent());
+            utils::ChildIter::from(self.obj().upcast_ref()).for_each(|child| child.unparent());
         }
     }
 
@@ -277,11 +277,11 @@ impl DetailsPage {
 
         if let Some(container) = value {
             container.inspect(clone!(@weak self as obj => move |e| {
-                utils::show_error_toast(&obj, &gettext("Error on loading container details"), &e.to_string());
+                utils::show_error_toast(obj.upcast_ref(), &gettext("Error on loading container details"), &e.to_string());
             }));
 
             let handler_id = container.connect_deleted(clone!(@weak self as obj => move |container| {
-                utils::show_toast(&obj, &gettext!("Container '{}' has been deleted", container.name()));
+                utils::show_toast(obj.upcast_ref(), &gettext!("Container '{}' has been deleted", container.name()));
                 obj.imp().back_navigation_controls.navigate_back();
             }));
             imp.handler_id.replace(Some(handler_id));
@@ -321,26 +321,35 @@ impl DetailsPage {
     fn rename(&self) {
         if let Some(container) = self.container() {
             let dialog = view::ContainerRenameDialog::from(&container);
-            dialog.set_transient_for(Some(&utils::root(self)));
+            dialog.set_transient_for(Some(&utils::root(self.upcast_ref())));
             dialog.present();
         }
     }
 
     fn commit(&self) {
         if let Some(container) = self.container() {
-            utils::show_dialog(self, &view::ContainerCommitPage::from(&container));
+            utils::show_dialog(
+                self.upcast_ref(),
+                view::ContainerCommitPage::from(&container).upcast_ref(),
+            );
         }
     }
 
     fn get_files(&self) {
         if let Some(container) = self.container() {
-            utils::show_dialog(self, &view::ContainerFilesGetPage::from(&container));
+            utils::show_dialog(
+                self.upcast_ref(),
+                view::ContainerFilesGetPage::from(&container).upcast_ref(),
+            );
         }
     }
 
     fn put_files(&self) {
         if let Some(container) = self.container() {
-            utils::show_dialog(self, &view::ContainerFilesPutPage::from(&container));
+            utils::show_dialog(
+                self.upcast_ref(),
+                view::ContainerFilesPutPage::from(&container).upcast_ref(),
+            );
         }
     }
 
@@ -348,7 +357,7 @@ impl DetailsPage {
         if let Some(ref container) = self.container() {
             self.imp()
                 .leaflet_overlay
-                .show_details(&view::ContainerHealthCheckPage::from(container));
+                .show_details(view::ContainerHealthCheckPage::from(container).upcast_ref());
         }
     }
 
@@ -356,7 +365,7 @@ impl DetailsPage {
         if let Some(image) = self.container().as_ref().and_then(model::Container::image) {
             self.imp()
                 .leaflet_overlay
-                .show_details(&view::ImageDetailsPage::from(&image));
+                .show_details(view::ImageDetailsPage::from(&image).upcast_ref());
         }
     }
 
@@ -364,7 +373,7 @@ impl DetailsPage {
         if let Some(pod) = self.container().as_ref().and_then(model::Container::pod) {
             self.imp()
                 .leaflet_overlay
-                .show_details(&view::PodDetailsPage::from(&pod));
+                .show_details(view::PodDetailsPage::from(&pod).upcast_ref());
         }
     }
 
@@ -381,12 +390,13 @@ impl DetailsPage {
             let weak_ref = glib::WeakRef::new();
             weak_ref.set(Some(&container));
 
-            self.imp()
-                .leaflet_overlay
-                .show_details(&view::SourceViewPage::from(view::Entity::Container {
+            self.imp().leaflet_overlay.show_details(
+                view::SourceViewPage::from(view::Entity::Container {
                     container: weak_ref,
                     mode,
-                }));
+                })
+                .upcast_ref(),
+            );
         }
     }
 
@@ -394,7 +404,7 @@ impl DetailsPage {
         if let Some(container) = self.container() {
             self.imp()
                 .leaflet_overlay
-                .show_details(&view::ContainerLogPage::from(&container));
+                .show_details(view::ContainerLogPage::from(&container).upcast_ref());
         }
     }
 
@@ -402,7 +412,7 @@ impl DetailsPage {
         if let Some(container) = self.container() {
             self.imp()
                 .leaflet_overlay
-                .show_details(&view::TopPage::from(&container));
+                .show_details(view::TopPage::from(&container).upcast_ref());
         }
     }
 
@@ -410,7 +420,7 @@ impl DetailsPage {
         if let Some(container) = self.container() {
             self.imp()
                 .leaflet_overlay
-                .show_details(&view::ContainerTtyPage::from(&container));
+                .show_details(view::ContainerTtyPage::from(&container).upcast_ref());
         }
     }
 }

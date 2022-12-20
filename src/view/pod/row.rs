@@ -206,7 +206,8 @@ impl Row {
             {
                 pod.select();
             } else {
-                utils::find_leaflet_overlay(self).show_details(&view::PodDetailsPage::from(pod));
+                utils::find_leaflet_overlay(self.upcast_ref())
+                    .show_details(view::PodDetailsPage::from(pod).upcast_ref());
             }
         }
     }

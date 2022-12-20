@@ -137,7 +137,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::ChildIter::from(&*self.obj()).for_each(|child| child.unparent());
+            utils::ChildIter::from(self.obj().upcast_ref()).for_each(|child| child.unparent());
         }
     }
 
@@ -153,11 +153,11 @@ mod imp {
                     glib::Continue(false)
                 }),
             );
-            utils::root(widget).set_default_widget(Some(&*self.build_button));
+            utils::root(widget.upcast_ref()).set_default_widget(Some(&*self.build_button));
         }
 
         fn unroot(&self) {
-            utils::root(&*self.obj()).set_default_widget(gtk::Widget::NONE);
+            utils::root(self.obj().upcast_ref()).set_default_widget(gtk::Widget::NONE);
             self.parent_unroot()
         }
     }
@@ -200,15 +200,19 @@ impl BuildPage {
             .directory(true)
             .modal(true);
 
-        utils::show_open_file_dialog(request, self, |obj, files| {
-            let file = gio::File::for_uri(files.uris()[0].as_str());
+        utils::show_open_file_dialog(
+            request,
+            self.upcast_ref(),
+            clone!(@weak self as obj => move |files| {
+                let file = gio::File::for_uri(files.uris()[0].as_str());
 
-            if let Some(path) = file.path() {
-                obj.imp()
-                    .context_dir_row
-                    .set_subtitle(path.to_str().unwrap());
-            }
-        })
+                if let Some(path) = file.path() {
+                    obj.imp()
+                        .context_dir_row
+                        .set_subtitle(path.to_str().unwrap());
+                }
+            }),
+        )
         .await;
     }
 
@@ -230,7 +234,7 @@ impl BuildPage {
 
         if imp.tag_entry_row.text().contains(char::is_uppercase) {
             utils::show_toast(
-                self,
+                self.upcast_ref(),
                 &gettext("Image name should not contain uppercase characters."),
             );
             return;

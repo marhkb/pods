@@ -230,7 +230,7 @@ impl Widget {
                     Err(e) => {
                         log::error!("Failed to retrieve podman info: {e}");
                         utils::show_error_toast(
-                            &obj,
+                            obj.upcast_ref(),
                             &gettext("Failed to retrieve podman info"),
                             &e.to_string()
                         );
@@ -320,7 +320,7 @@ impl Widget {
                     Err(e) => {
                         log::error!("Failed to search for images: {}", e);
                         utils::show_error_toast(
-                            &obj,
+                            obj.upcast_ref(),
                             &gettext("Failed to search for images"),
                             &e.to_string());
                     }

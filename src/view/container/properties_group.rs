@@ -156,7 +156,7 @@ mod imp {
                     let imp = obj.imp();
 
                     imp.port_bindings_label.set_label("");
-                    utils::ChildIter::from(&*imp.port_bindings_row)
+                    utils::ChildIter::from(imp.port_bindings_row.upcast_ref())
                         .filter(|child| child.is::<gtk::ListBoxRow>())
                         .for_each(|child| imp.port_bindings_row.remove(&child));
 

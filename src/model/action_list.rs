@@ -1,7 +1,5 @@
 use std::cell::Cell;
 use std::cell::RefCell;
-use std::fmt;
-use std::path::Path;
 
 use gtk::gio;
 use gtk::glib;
@@ -266,8 +264,8 @@ impl ActionList {
 
     pub(crate) fn copy_files_into_container(
         &self,
-        host_path: impl AsRef<Path> + fmt::Display + Send + Sync + 'static,
-        container_path: impl AsRef<Path> + fmt::Display + Send + Sync + 'static,
+        host_path: String,
+        container_path: String,
         directory: bool,
         container: &model::Container,
     ) -> model::Action {
@@ -283,8 +281,8 @@ impl ActionList {
     pub(crate) fn copy_files_from_container(
         &self,
         container: &model::Container,
-        container_path: impl AsRef<Path> + fmt::Display + Send + Sync + 'static,
-        host_path: impl AsRef<Path> + fmt::Display + Clone + Send + Sync + 'static,
+        container_path: String,
+        host_path: String,
     ) -> model::Action {
         self.insert_action(model::Action::copy_files_from_container(
             self.imp().action_counter.get(),

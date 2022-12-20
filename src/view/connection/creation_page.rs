@@ -131,7 +131,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::ChildIter::from(&*self.obj()).for_each(|child| child.unparent());
+            utils::ChildIter::from(self.obj().upcast_ref()).for_each(|child| child.unparent());
         }
     }
 
@@ -147,11 +147,11 @@ mod imp {
                     glib::Continue(false)
                 }),
             );
-            utils::root(widget).set_default_widget(Some(&*self.connect_button));
+            utils::root(widget.upcast_ref()).set_default_widget(Some(&*self.connect_button));
         }
 
         fn unroot(&self) {
-            utils::root(&*self.obj()).set_default_widget(gtk::Widget::NONE);
+            utils::root(self.obj().upcast_ref()).set_default_widget(gtk::Widget::NONE);
             self.parent_unroot()
         }
     }
@@ -184,13 +184,13 @@ impl CreationPage {
 
     fn show_custom_info_dialog(&self) {
         let dialog = view::ConnectionCustomInfoDialog::default();
-        dialog.set_transient_for(Some(&utils::root(self)));
+        dialog.set_transient_for(Some(&utils::root(self.upcast_ref())));
         dialog.present();
     }
 
     fn try_connect(&self) {
         if view::show_ongoing_actions_warning_dialog(
-            self,
+            self.upcast_ref(),
             self.connection_manager(),
             &gettext("Confirm Connecting to New Instance"),
         ) {
@@ -211,15 +211,15 @@ impl CreationPage {
                 },
                 clone!(@weak self as obj => move |result| match result {
                     Ok(_) => obj.activate_action("action.cancel", None).unwrap(),
-                    Err(e) => obj.on_error(e),
+                    Err(e) => obj.on_error(&e.to_string()),
                 }),
             ) {
-                self.on_error(e);
+                self.on_error(&e.to_string());
             }
         }
     }
 
-    fn on_error(&self, e: impl ToString) {
-        utils::show_error_toast(self, &gettext("Error"), &e.to_string());
+    fn on_error(&self, msg: &str) {
+        utils::show_error_toast(self.upcast_ref(), &gettext("Error"), msg);
     }
 }

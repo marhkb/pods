@@ -61,12 +61,7 @@ glib::wrapper! {
 }
 
 impl AbstractContainerList {
-    pub(super) fn bootstrap<L: IsA<Self> + IsA<gio::ListModel>>(list: &L)
-    where
-        L: glib::clone::Downgrade,
-        <L as glib::clone::Downgrade>::Weak: glib::clone::Upgrade,
-        <<L as glib::clone::Downgrade>::Weak as glib::clone::Upgrade>::Strong: glib::IsA<Self>,
-    {
+    pub(super) fn bootstrap(list: &Self) {
         list.connect_items_changed(|self_, _, _, _| self_.notify("len"));
 
         list.connect_container_added(|list, container| {
@@ -88,7 +83,7 @@ impl AbstractContainerList {
         list.connect_container_removed(|list, _| Self::notify_num_containers(list));
     }
 
-    fn notify_num_containers(list: &impl IsA<Self>) {
+    fn notify_num_containers(list: &Self) {
         list.notify("created");
         list.notify("dead");
         list.notify("exited");

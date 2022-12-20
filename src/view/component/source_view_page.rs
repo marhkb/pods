@@ -148,7 +148,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::ChildIter::from(&*self.obj()).for_each(|child| child.unparent());
+            utils::ChildIter::from(self.obj().upcast_ref()).for_each(|child| child.unparent());
         }
     }
 
@@ -211,7 +211,10 @@ impl From<Entity> for SourceViewPage {
             Some(lang) => imp.source_buffer.set_language(Some(&lang)),
             None => {
                 log::warn!("Could not set language to '{language}'");
-                utils::show_toast(&obj, &gettext!("Could not set language to '{}'", language));
+                utils::show_toast(
+                    obj.upcast_ref(),
+                    &gettext!("Could not set language to '{}'", language),
+                );
             }
         }
 
@@ -294,7 +297,7 @@ impl SourceViewPage {
             Err(e) => {
                 imp.spinner.set_spinning(false);
                 utils::show_error_toast(
-                    self,
+                    self.upcast_ref(),
                     &match mode {
                         Mode::Inspect => gettext("Inspection error"),
                         Mode::Kube => gettext("Kube generation error"),
@@ -313,30 +316,34 @@ impl SourceViewPage {
             .current_name(&imp.entity.get().unwrap().filename())
             .modal(true);
 
-        utils::show_save_file_dialog(request, self, |obj, files| {
-            let file = gio::File::for_uri(files.uris()[0].as_str());
+        utils::show_save_file_dialog(
+            request,
+            self.upcast_ref(),
+            clone!(@weak self as obj => move |files| {
+                let file = gio::File::for_uri(files.uris()[0].as_str());
 
-            if let Some(path) = file.path() {
-                let file = std::fs::OpenOptions::new()
-                    .write(true)
-                    .create(true)
-                    .truncate(true)
-                    .open(path)
-                    .unwrap();
+                if let Some(path) = file.path() {
+                    let file = std::fs::OpenOptions::new()
+                        .write(true)
+                        .create(true)
+                        .truncate(true)
+                        .open(path)
+                        .unwrap();
 
-                let buffer = &*obj.imp().source_buffer;
-                let text = buffer.text(&buffer.start_iter(), &buffer.end_iter(), false);
+                    let buffer = &*obj.imp().source_buffer;
+                    let text = buffer.text(&buffer.start_iter(), &buffer.end_iter(), false);
 
-                glib::MainContext::default().spawn_local(clone!(@weak obj => async move {
-                    if let Err((msg, _)) = gio::WriteOutputStream::new(file)
-                        .write_all_future(text, glib::Priority::default())
-                        .await
-                    {
-                        utils::show_error_toast(&obj, "Error", &msg);
-                    }
-                }));
-            }
-        })
+                    glib::MainContext::default().spawn_local(clone!(@weak obj => async move {
+                        if let Err((msg, _)) = gio::WriteOutputStream::new(file)
+                            .write_all_future(text, glib::Priority::default())
+                            .await
+                        {
+                            utils::show_error_toast(obj.upcast_ref(), "Error", &msg);
+                        }
+                    }));
+                }
+            }),
+        )
         .await;
     }
 

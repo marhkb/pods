@@ -135,7 +135,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::ChildIter::from(&*self.obj()).for_each(|child| child.unparent());
+            utils::ChildIter::from(self.obj().upcast_ref()).for_each(|child| child.unparent());
         }
     }
 
@@ -170,7 +170,7 @@ impl MenuButton {
     }
 
     pub(crate) fn create_container(&self) {
-        super::create_container(self, self.pod());
+        super::create_container(self.upcast_ref(), self.pod());
     }
 
     fn update_actions(&self) {

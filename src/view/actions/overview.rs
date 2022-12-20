@@ -55,7 +55,10 @@ mod imp {
 
             let obj = &*self.obj();
 
-            utils::show_dialog(obj, &view::ActionPage::from(&action));
+            utils::show_dialog(
+                obj.upcast_ref(),
+                view::ActionPage::from(&action).upcast_ref(),
+            );
 
             obj.ancestor(gtk::PopoverMenu::static_type())
                 .unwrap()

@@ -46,7 +46,7 @@ mod imp {
 
     impl ObjectImpl for HistoryPage {
         fn dispose(&self) {
-            utils::ChildIter::from(&*self.obj()).for_each(|child| child.unparent());
+            utils::ChildIter::from(self.obj().upcast_ref()).for_each(|child| child.unparent());
         }
     }
 
@@ -185,7 +185,7 @@ impl From<&model::Image> for HistoryPage {
 
                         imp.spinner.set_spinning(false);
                         utils::show_error_toast(
-                            &obj,
+                            obj.upcast_ref(),
                             &gettext("Error on retrieving history"),
                             &e.to_string()
                         );

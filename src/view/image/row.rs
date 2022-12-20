@@ -214,8 +214,8 @@ impl Row {
             {
                 image.select();
             } else {
-                utils::find_leaflet_overlay(self)
-                    .show_details(&view::ImageDetailsPage::from(image));
+                utils::find_leaflet_overlay(self.upcast_ref())
+                    .show_details(view::ImageDetailsPage::from(image).upcast_ref());
             }
         }
     }

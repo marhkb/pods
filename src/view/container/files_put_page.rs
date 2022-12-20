@@ -112,7 +112,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::ChildIter::from(&*self.obj()).for_each(|child| child.unparent());
+            utils::ChildIter::from(self.obj().upcast_ref()).for_each(|child| child.unparent());
         }
     }
 
@@ -128,11 +128,11 @@ mod imp {
                     glib::Continue(false)
                 }),
             );
-            utils::root(widget).set_default_widget(Some(&*self.put_button));
+            utils::root(widget.upcast_ref()).set_default_widget(Some(&*self.put_button));
         }
 
         fn unroot(&self) {
-            utils::root(&*self.obj()).set_default_widget(gtk::Widget::NONE);
+            utils::root(self.obj().upcast_ref()).set_default_widget(gtk::Widget::NONE);
             self.parent_unroot()
         }
     }
@@ -183,16 +183,20 @@ impl FilesPutPage {
             .directory(directory)
             .modal(true);
 
-        utils::show_open_file_dialog(request, self, |obj, files| {
-            let file = gio::File::for_uri(files.uris()[0].as_str());
+        utils::show_open_file_dialog(
+            request,
+            self.upcast_ref(),
+            clone!(@weak self as obj => move |files| {
+                let file = gio::File::for_uri(files.uris()[0].as_str());
 
-            if let Some(path) = file.path() {
-                let imp = obj.imp();
+                if let Some(path) = file.path() {
+                    let imp = obj.imp();
 
-                imp.host_path_row.set_subtitle(path.to_str().unwrap());
-                imp.directory.set(directory);
-            }
-        })
+                    imp.host_path_row.set_subtitle(path.to_str().unwrap());
+                    imp.directory.set(directory);
+                }
+            }),
+        )
         .await;
     }
 
@@ -214,7 +218,7 @@ impl FilesPutPage {
                     .unwrap()
                     .action_list()
                     .copy_files_into_container(
-                        host_path,
+                        String::from(host_path),
                         if container_path.is_empty() {
                             String::from("/")
                         } else {

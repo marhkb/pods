@@ -73,7 +73,7 @@ impl LeafletOverlay {
             .unwrap()
     }
 
-    pub(crate) fn show_details<W: glib::IsA<gtk::Widget>>(&self, widget: &W) {
+    pub(crate) fn show_details(&self, widget: &gtk::Widget) {
         self.set_child(Some(widget));
         self.leaflet().navigate(adw::NavigationDirection::Forward);
     }

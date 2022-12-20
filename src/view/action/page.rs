@@ -105,7 +105,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::ChildIter::from(&*self.obj()).for_each(|child| child.unparent());
+            utils::ChildIter::from(self.obj().upcast_ref()).for_each(|child| child.unparent());
         }
     }
 
@@ -255,7 +255,7 @@ impl Page {
                 self.activate_action("action.cancel", None).unwrap();
             }
             None => utils::show_error_toast(
-                self,
+                self.upcast_ref(),
                 &gettext("Error on opening artifact"),
                 &gettext("Artifact has been deleted"),
             ),

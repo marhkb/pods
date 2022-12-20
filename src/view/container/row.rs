@@ -344,8 +344,8 @@ impl Row {
             {
                 container.select();
             } else {
-                utils::find_leaflet_overlay(self)
-                    .show_details(&view::ContainerDetailsPage::from(container));
+                utils::find_leaflet_overlay(self.upcast_ref())
+                    .show_details(view::ContainerDetailsPage::from(container).upcast_ref());
             }
         }
     }

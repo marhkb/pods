@@ -63,7 +63,7 @@ mod imp {
             }
 
             if view::show_ongoing_actions_warning_dialog(
-                obj,
+                obj.upcast_ref(),
                 &connection_manager,
                 &gettext("Confirm Switching Connection"),
             ) {
@@ -123,7 +123,7 @@ impl Default for SwitcherWidget {
 impl SwitcherWidget {
     fn on_error(&self, e: impl ToString) {
         utils::show_error_toast(
-            self,
+            self.upcast_ref(),
             &gettext("Error on switching connection"),
             &e.to_string(),
         );

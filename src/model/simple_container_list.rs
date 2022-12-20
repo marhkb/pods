@@ -62,7 +62,7 @@ mod imp {
 
         fn constructed(&self) {
             self.parent_constructed();
-            model::AbstractContainerList::bootstrap(&*self.obj());
+            model::AbstractContainerList::bootstrap(self.obj().upcast_ref());
         }
     }
 

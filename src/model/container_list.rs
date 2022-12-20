@@ -106,8 +106,8 @@ mod imp {
 
             let obj = &*self.obj();
 
-            model::AbstractContainerList::bootstrap(obj);
-            model::SelectableList::bootstrap(obj);
+            model::AbstractContainerList::bootstrap(obj.upcast_ref());
+            model::SelectableList::bootstrap(obj.upcast_ref());
 
             utils::run_stream(
                 obj.client().unwrap().podman().containers(),

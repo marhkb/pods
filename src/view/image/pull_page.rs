@@ -88,18 +88,18 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::ChildIter::from(&*self.obj()).for_each(|child| child.unparent());
+            utils::ChildIter::from(self.obj().upcast_ref()).for_each(|child| child.unparent());
         }
     }
 
     impl WidgetImpl for PullPage {
         fn root(&self) {
             self.parent_root();
-            utils::root(&*self.obj()).set_default_widget(Some(&*self.pull_button));
+            utils::root(self.obj().upcast_ref()).set_default_widget(Some(&*self.pull_button));
         }
 
         fn unroot(&self) {
-            utils::root(&*self.obj()).set_default_widget(gtk::Widget::NONE);
+            utils::root(self.obj().upcast_ref()).set_default_widget(gtk::Widget::NONE);
             self.parent_unroot()
         }
     }

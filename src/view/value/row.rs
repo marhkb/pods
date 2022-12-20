@@ -81,15 +81,15 @@ glib::wrapper! {
 
 impl From<&model::Value> for Row {
     fn from(value: &model::Value) -> Self {
-        Self::new(value, gettext("Value"))
+        Self::new(value, &gettext("Value"))
     }
 }
 
 impl Row {
-    pub fn new(value: &model::Value, title: impl Into<String>) -> Self {
+    pub fn new(value: &model::Value, title: &str) -> Self {
         glib::Object::builder()
             .property("value", value)
-            .property("title", title.into())
+            .property("title", title)
             .build()
     }
 

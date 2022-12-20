@@ -264,7 +264,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::ChildIter::from(&*self.obj()).for_each(|child| child.unparent());
+            utils::ChildIter::from(self.obj().upcast_ref()).for_each(|child| child.unparent());
         }
     }
 
@@ -385,7 +385,7 @@ impl LogPage {
             Err(e) => {
                 log::warn!("Stopping container log stream due to error: {e}");
                 utils::show_error_toast(
-                    self,
+                    self.upcast_ref(),
                     &gettext("Error while following log"),
                     &e.to_string(),
                 );
@@ -526,77 +526,81 @@ impl LogPage {
                 ))
                 .modal(true);
 
-            utils::show_save_file_dialog(request, self, |obj, files| {
-                obj.imp().save_stack.set_visible_child_name("spinner");
+            utils::show_save_file_dialog(
+                request,
+                self.upcast_ref(),
+                clone!(@weak self as obj => move |files| {
+                    obj.imp().save_stack.set_visible_child_name("spinner");
 
-                let file = gio::File::for_uri(files.uris()[0].as_str());
+                    let file = gio::File::for_uri(files.uris()[0].as_str());
 
-                if let Some(path) = file.path() {
-                    let file = std::fs::OpenOptions::new()
-                        .write(true)
-                        .create(true)
-                        .truncate(true)
-                        .open(path)
-                        .unwrap();
+                    if let Some(path) = file.path() {
+                        let file = std::fs::OpenOptions::new()
+                            .write(true)
+                            .create(true)
+                            .truncate(true)
+                            .open(path)
+                            .unwrap();
 
-                    let mut writer = BufWriter::new(file);
-                    let mut perform = PlainTextPerform::default();
+                        let mut writer = BufWriter::new(file);
+                        let mut perform = PlainTextPerform::default();
 
-                    let timestamps = files.choices()[0].1 == "true";
+                        let timestamps = files.choices()[0].1 == "true";
 
-                    utils::run_stream_with_finish_handler(
-                        container.api().unwrap(),
-                        move |container| {
-                            container
-                                .logs(&basic_opts_builder(false, timestamps).build())
-                                .boxed()
-                        },
-                        clone!(
-                            @weak self as obj => @default-return glib::Continue(false),
-                            move |result: podman::Result<podman::conn::TtyChunk>|
-                        {
-                            glib::Continue(match result.map(Vec::from) {
-                                Ok(line) => {
-                                    perform.decode(&line);
+                        utils::run_stream_with_finish_handler(
+                            container.api().unwrap(),
+                            move |container| {
+                                container
+                                    .logs(&basic_opts_builder(false, timestamps).build())
+                                    .boxed()
+                            },
+                            clone!(
+                                @weak obj => @default-return glib::Continue(false),
+                                move |result: podman::Result<podman::conn::TtyChunk>|
+                            {
+                                glib::Continue(match result.map(Vec::from) {
+                                    Ok(line) => {
+                                        perform.decode(&line);
 
-                                    let line = perform.move_out_buffer();
-                                    if !line.is_empty() {
-                                        match writer
-                                            .write_all(line.as_bytes())
-                                            .and_then(|_| writer.write_all(b"\n"))
-                                        {
-                                            Ok(_) => true,
-                                            Err(e) => {
-                                                log::warn!("Error on saving logs: {e}");
-                                                utils::show_error_toast(
-                                                    &obj,
-                                                    &gettext("Error on saving logs"),
-                                                    &e.to_string(),
-                                                );
-                                                false
+                                        let line = perform.move_out_buffer();
+                                        if !line.is_empty() {
+                                            match writer
+                                                .write_all(line.as_bytes())
+                                                .and_then(|_| writer.write_all(b"\n"))
+                                            {
+                                                Ok(_) => true,
+                                                Err(e) => {
+                                                    log::warn!("Error on saving logs: {e}");
+                                                    utils::show_error_toast(
+                                                        obj.upcast_ref(),
+                                                        &gettext("Error on saving logs"),
+                                                        &e.to_string(),
+                                                    );
+                                                    false
+                                                }
                                             }
+                                        } else {
+                                            true
                                         }
-                                    } else {
-                                        true
                                     }
-                                }
-                                Err(e) => {
-                                    log::warn!("Error on retrieving logs: {e}");
-                                    utils::show_error_toast(
-                                        &obj,
-                                        &gettext("Error on retrieving logs"),
-                                        &e.to_string(),
-                                    );
-                                    false
-                                }
-                            })
-                        }),
-                        clone!(@weak self as obj => move || {
-                            obj.imp().save_stack.set_visible_child_name("button");
-                        }),
-                    );
-                }
-            })
+                                    Err(e) => {
+                                        log::warn!("Error on retrieving logs: {e}");
+                                        utils::show_error_toast(
+                                            obj.upcast_ref(),
+                                            &gettext("Error on retrieving logs"),
+                                            &e.to_string(),
+                                        );
+                                        false
+                                    }
+                                })
+                            }),
+                            clone!(@weak obj => move || {
+                                obj.imp().save_stack.set_visible_child_name("button");
+                            }),
+                        );
+                    }
+                }),
+            )
             .await;
         }
     }
@@ -612,13 +616,13 @@ impl LogPage {
             if container.can_start() {
                 container.start(clone!(@weak self as obj => move |result| {
                     if let Err(e) = result {
-                        utils::show_error_toast(&obj, &gettext("Error starting container"), &e.to_string());
+                        utils::show_error_toast(obj.upcast_ref(), &gettext("Error starting container"), &e.to_string());
                     }
                 }));
             } else if container.can_resume() {
                 container.resume(clone!(@weak self as obj => move |result| {
                     if let Err(e) = result {
-                        utils::show_error_toast(&obj, &gettext("Error resuming container"), &e.to_string());
+                        utils::show_error_toast(obj.upcast_ref(), &gettext("Error resuming container"), &e.to_string());
                     }
                 }));
             }

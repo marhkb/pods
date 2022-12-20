@@ -105,7 +105,7 @@ impl Default for ApplicationOptions {
     }
 }
 
-fn setup_cli<A: glib::IsA<gio::Application>>(app: A) -> A {
+fn setup_cli(app: Application) -> Application {
     app.add_main_option(
         "version",
         b'v'.into(),

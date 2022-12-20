@@ -187,21 +187,21 @@ impl SearchPanel {
 
         if let Some(client) = value {
             self.setup_model(
-                client.image_list(),
+                client.image_list().upcast_ref(),
                 &imp.images_list_box,
                 |item| view::ImageRow::from(item.downcast_ref().unwrap()).upcast(),
                 &imp.images_model,
             );
 
             self.setup_model(
-                client.container_list(),
+                client.container_list().upcast_ref(),
                 &imp.containers_list_box,
                 |item| view::ContainerRow::from(item.downcast_ref().unwrap()).upcast(),
                 &imp.containers_model,
             );
 
             self.setup_model(
-                client.pod_list(),
+                client.pod_list().upcast_ref(),
                 &imp.pods_list_box,
                 |item| view::PodRow::from(item.downcast_ref().unwrap()).upcast(),
                 &imp.pods_model,
@@ -226,7 +226,7 @@ impl SearchPanel {
 
     fn setup_model<P: Fn(&glib::Object) -> gtk::Widget + 'static>(
         &self,
-        model: &impl IsA<gio::ListModel>,
+        model: &gio::ListModel,
         list_box: &gtk::ListBox,
         create_widget_func: P,
         this_model: &RefCell<Option<gio::ListModel>>,

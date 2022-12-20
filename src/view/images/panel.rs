@@ -341,19 +341,28 @@ impl Panel {
 
     fn show_download_page(&self) {
         if let Some(client) = self.client() {
-            utils::show_dialog(self, &view::ImagePullPage::from(&client));
+            utils::show_dialog(
+                self.upcast_ref(),
+                view::ImagePullPage::from(&client).upcast_ref(),
+            );
         }
     }
 
     fn show_build_page(&self) {
         if let Some(client) = self.client() {
-            utils::show_dialog(self, &view::ImageBuildPage::from(&client));
+            utils::show_dialog(
+                self.upcast_ref(),
+                view::ImageBuildPage::from(&client).upcast_ref(),
+            );
         }
     }
 
     fn show_prune_page(&self) {
         if let Some(client) = self.client() {
-            utils::show_dialog(self, &view::ImagesPrunePage::from(&client));
+            utils::show_dialog(
+                self.upcast_ref(),
+                view::ImagesPrunePage::from(&client).upcast_ref(),
+            );
         }
     }
 
@@ -377,7 +386,7 @@ impl Panel {
                 "There may be containers associated with those images, which will also be removed!",
             ))
             .modal(true)
-            .transient_for(&utils::root(self))
+            .transient_for(&utils::root(self.upcast_ref()))
             .build();
 
         dialog.add_responses(&[
@@ -399,7 +408,7 @@ impl Panel {
                         image.delete(clone!(@weak obj => move |image, result| {
                             if let Err(e) = result {
                                 utils::show_error_toast(
-                                    &obj,
+                                    obj.upcast_ref(),
                                     // Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
                                     &gettext!("Error on deleting image '{}'", image.id()),
                                     &e.to_string()
