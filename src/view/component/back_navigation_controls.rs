@@ -44,7 +44,7 @@ mod imp {
 
     impl ObjectImpl for BackNavigationControls {
         fn dispose(&self) {
-            utils::ChildIter::from(&*self.obj()).for_each(|child| child.unparent());
+            utils::ChildIter::from(self.obj().upcast_ref()).for_each(|child| child.unparent());
         }
     }
 
@@ -95,10 +95,10 @@ impl BackNavigationControls {
     }
 
     fn previous_leaflet_overlay(&self) -> Option<view::LeafletOverlay> {
-        utils::parent_leaflet_overlay(self)
+        utils::parent_leaflet_overlay(self.upcast_ref())
     }
 
     fn root_leaflet_overlay(&self) -> view::LeafletOverlay {
-        utils::topmost_leaflet_overlay(self).unwrap()
+        utils::topmost_leaflet_overlay(self.upcast_ref()).unwrap()
     }
 }

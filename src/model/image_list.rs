@@ -96,7 +96,7 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
             let obj = &*self.obj();
-            model::SelectableList::bootstrap(obj);
+            model::SelectableList::bootstrap(obj.upcast_ref());
             obj.connect_items_changed(|self_, _, _, _| self_.notify("len"));
         }
     }

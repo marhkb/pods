@@ -17,14 +17,11 @@ pub(crate) use self::switcher_widget::SwitcherWidget;
 use crate::model;
 use crate::utils;
 
-pub(crate) fn show_ongoing_actions_warning_dialog<W>(
-    widget: &W,
+pub(crate) fn show_ongoing_actions_warning_dialog(
+    widget: &gtk::Widget,
     connection_manager: &model::ConnectionManager,
     heading: &str,
-) -> bool
-where
-    W: glib::IsA<gtk::Widget>,
-{
+) -> bool {
     if connection_manager
         .client()
         .map(|client| client.action_list().ongoing() > 0)

@@ -157,7 +157,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::ChildIter::from(&*self.obj()).for_each(|child| child.unparent());
+            utils::ChildIter::from(self.obj().upcast_ref()).for_each(|child| child.unparent());
         }
     }
 
@@ -242,7 +242,7 @@ impl HealthCheckPage {
                 async move { container.healthcheck().await },
                 clone!(@weak self as obj => move |result| if let Err(e) = result {
                     utils::show_error_toast(
-                        &obj,
+                        obj.upcast_ref(),
                         &gettext("Error on running health check"),
                         &e.to_string()
                     );

@@ -10,8 +10,9 @@ mod selection_page;
 use adw::prelude::MessageDialogExtManual;
 use adw::traits::MessageDialogExt;
 use gettextrs::gettext;
+use glib::clone;
+use glib::Cast;
 use gtk::glib;
-use gtk::glib::clone;
 
 pub(crate) use self::build_page::BuildPage;
 pub(crate) use self::details_page::DetailsPage;
@@ -82,8 +83,11 @@ fn delete_image(widget: &gtk::Widget, image: &model::Image) {
     }));
 }
 
-pub(crate) fn create_container<W: glib::IsA<gtk::Widget>>(widget: &W, image: Option<model::Image>) {
+pub(crate) fn create_container(widget: &gtk::Widget, image: Option<model::Image>) {
     if let Some(image) = image {
-        utils::show_dialog(widget, &view::ContainerCreationPage::from(&image));
+        utils::show_dialog(
+            widget,
+            view::ContainerCreationPage::from(&image).upcast_ref(),
+        );
     }
 }

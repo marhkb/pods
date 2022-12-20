@@ -38,12 +38,7 @@ glib::wrapper! {
 }
 
 impl SelectableList {
-    pub(super) fn bootstrap<L: IsA<Self> + IsA<gio::ListModel>>(list: &L)
-    where
-        L: glib::clone::Downgrade,
-        <L as glib::clone::Downgrade>::Weak: glib::clone::Upgrade,
-        <<L as glib::clone::Downgrade>::Weak as glib::clone::Upgrade>::Strong: glib::IsA<Self>,
-    {
+    pub(super) fn bootstrap(list: &Self) {
         list.connect_items_changed(|self_, position, _, added| {
             self_.notify("num-selected");
             (position..position + added)

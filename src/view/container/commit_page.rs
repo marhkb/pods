@@ -110,7 +110,7 @@ mod imp {
 
             self.changes_list_box
                 .bind_model(Some(&self.changes), |item| {
-                    view::ValueRow::new(item.downcast_ref().unwrap(), gettext("Change")).upcast()
+                    view::ValueRow::new(item.downcast_ref().unwrap(), &gettext("Change")).upcast()
                 });
             self.changes_list_box.append(
                 &gtk::ListBoxRow::builder()
@@ -128,7 +128,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::ChildIter::from(&*self.obj()).for_each(|child| child.unparent());
+            utils::ChildIter::from(self.obj().upcast_ref()).for_each(|child| child.unparent());
         }
     }
 
@@ -144,11 +144,11 @@ mod imp {
                     glib::Continue(false)
                 }),
             );
-            utils::root(widget).set_default_widget(Some(&*self.commit_button));
+            utils::root(widget.upcast_ref()).set_default_widget(Some(&*self.commit_button));
         }
 
         fn unroot(&self) {
-            utils::root(&*self.obj()).set_default_widget(gtk::Widget::NONE);
+            utils::root(self.obj().upcast_ref()).set_default_widget(gtk::Widget::NONE);
             self.parent_unroot()
         }
     }
@@ -198,7 +198,7 @@ impl CommitPage {
             Err(e) => {
                 if let ashpd::Error::Portal(ashpd::PortalError::Cancelled(_)) = e {
                     utils::show_error_toast(
-                        self,
+                        self.upcast_ref(),
                         &gettext("Error on fetching user name"),
                         &e.to_string(),
                     );

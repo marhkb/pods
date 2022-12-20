@@ -264,7 +264,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::ChildIter::from(&*self.obj()).for_each(|child| child.unparent());
+            utils::ChildIter::from(self.obj().upcast_ref()).for_each(|child| child.unparent());
         }
     }
 
@@ -304,11 +304,11 @@ impl DetailsPage {
         if let Some(image) = value {
             imp.window_title.set_subtitle(&utils::format_id(image.id()));
             image.inspect(clone!(@weak self as obj => move |e| {
-                utils::show_error_toast(&obj, &gettext("Error on loading image details"), &e.to_string());
+                utils::show_error_toast(obj.upcast_ref(), &gettext("Error on loading image details"), &e.to_string());
             }));
 
             let handler_id = image.connect_deleted(clone!(@weak self as obj => move |image| {
-                utils::show_toast(&obj, &gettext!("Image '{}' has been deleted", image.id()));
+                utils::show_toast(obj.upcast_ref(), &gettext!("Image '{}' has been deleted", image.id()));
                 obj.imp().back_navigation_controls.navigate_back();
             }));
             imp.handler_id.replace(Some(handler_id));
@@ -333,7 +333,7 @@ impl DetailsPage {
     fn tag(&self) {
         if let Some(image) = self.image() {
             let dialog = view::RepoTagAddDialog::from(&image);
-            dialog.set_transient_for(Some(&utils::root(self)));
+            dialog.set_transient_for(Some(&utils::root(self.upcast_ref())));
             dialog.present();
         }
     }
@@ -343,9 +343,9 @@ impl DetailsPage {
             let weak_ref = glib::WeakRef::new();
             weak_ref.set(Some(&image));
 
-            self.imp()
-                .leaflet_overlay
-                .show_details(&view::SourceViewPage::from(view::Entity::Image(weak_ref)));
+            self.imp().leaflet_overlay.show_details(
+                view::SourceViewPage::from(view::Entity::Image(weak_ref)).upcast_ref(),
+            );
         }
     }
 
@@ -353,7 +353,7 @@ impl DetailsPage {
         if let Some(image) = self.image() {
             self.imp()
                 .leaflet_overlay
-                .show_details(&view::ImageHistoryPage::from(&image));
+                .show_details(view::ImageHistoryPage::from(&image).upcast_ref());
         }
     }
 
@@ -362,6 +362,6 @@ impl DetailsPage {
     }
 
     fn create_container(&self) {
-        super::create_container(self, self.image());
+        super::create_container(self.upcast_ref(), self.image());
     }
 }

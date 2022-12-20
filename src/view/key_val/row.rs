@@ -116,20 +116,20 @@ glib::wrapper! {
 
 impl From<&model::KeyVal> for Row {
     fn from(key_val: &model::KeyVal) -> Self {
-        Row::new(gettext("Key"), gettext("Value"), key_val)
+        Row::new(&gettext("Key"), &gettext("Value"), key_val)
     }
 }
 
 impl Row {
     pub fn new(
-        key_placeholder_text: impl Into<String>,
-        value_placeholder_text: impl Into<String>,
+        key_placeholder_text: &str,
+        value_placeholder_text: &str,
         entry: &model::KeyVal,
     ) -> Self {
         glib::Object::builder()
             .property("key-val", entry)
-            .property("key-placeholder-text", key_placeholder_text.into())
-            .property("value-placeholder-text", value_placeholder_text.into())
+            .property("key-placeholder-text", key_placeholder_text)
+            .property("value-placeholder-text", value_placeholder_text)
             .build()
     }
     pub(crate) fn key_val(&self) -> Option<model::KeyVal> {

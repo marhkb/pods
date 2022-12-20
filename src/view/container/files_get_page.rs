@@ -101,7 +101,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::ChildIter::from(&*self.obj()).for_each(|child| child.unparent());
+            utils::ChildIter::from(self.obj().upcast_ref()).for_each(|child| child.unparent());
         }
     }
 
@@ -117,11 +117,11 @@ mod imp {
                     glib::Continue(false)
                 }),
             );
-            utils::root(widget).set_default_widget(Some(&*self.get_button));
+            utils::root(widget.upcast_ref()).set_default_widget(Some(&*self.get_button));
         }
 
         fn unroot(&self) {
-            utils::root(&*self.obj()).set_default_widget(gtk::Widget::NONE);
+            utils::root(self.obj().upcast_ref()).set_default_widget(gtk::Widget::NONE);
             self.parent_unroot()
         }
     }
@@ -168,13 +168,17 @@ impl FilesGetPage {
             .filter(FileFilter::new("Tar Archive").mimetype("application/x-tar"))
             .modal(true);
 
-        utils::show_save_file_dialog(request, self, |obj, files| {
-            let file = gio::File::for_uri(files.uris()[0].as_str());
+        utils::show_save_file_dialog(
+            request,
+            self.upcast_ref(),
+            clone!(@weak self as obj => move |files| {
+                let file = gio::File::for_uri(files.uris()[0].as_str());
 
-            if let Some(path) = file.path() {
-                obj.imp().host_path_row.set_subtitle(path.to_str().unwrap());
-            }
-        })
+                if let Some(path) = file.path() {
+                    obj.imp().host_path_row.set_subtitle(path.to_str().unwrap());
+                }
+            }),
+        )
         .await;
     }
 
@@ -202,7 +206,7 @@ impl FilesGetPage {
                         } else {
                             String::from(container_path)
                         },
-                        host_path,
+                        String::from(host_path),
                     ),
             );
 

@@ -7,6 +7,7 @@ use adw::prelude::MessageDialogExtManual;
 use adw::traits::MessageDialogExt;
 use gettextrs::gettext;
 use glib::clone;
+use glib::Cast;
 use gtk::glib;
 
 pub(crate) use self::creation_page::CreationPage;
@@ -111,8 +112,8 @@ fn show_delete_confirmation_dialog(widget: &gtk::Widget) {
     }
 }
 
-pub(crate) fn create_container<W: glib::IsA<gtk::Widget>>(widget: &W, pod: Option<model::Pod>) {
+pub(crate) fn create_container(widget: &gtk::Widget, pod: Option<model::Pod>) {
     if let Some(pod) = pod {
-        utils::show_dialog(widget, &view::ContainerCreationPage::from(&pod));
+        utils::show_dialog(widget, view::ContainerCreationPage::from(&pod).upcast_ref());
     }
 }

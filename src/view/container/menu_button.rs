@@ -136,7 +136,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::ChildIter::from(&*self.obj()).for_each(|child| child.unparent());
+            utils::ChildIter::from(self.obj().upcast_ref()).for_each(|child| child.unparent());
         }
     }
 
@@ -187,7 +187,7 @@ impl MenuButton {
     fn rename(&self) {
         if let Some(container) = self.container() {
             let dialog = view::ContainerRenameDialog::from(&container);
-            dialog.set_transient_for(Some(&utils::root(self)));
+            dialog.set_transient_for(Some(&utils::root(self.upcast_ref())));
             dialog.present();
         }
     }

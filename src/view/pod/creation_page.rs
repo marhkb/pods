@@ -199,8 +199,8 @@ mod imp {
                 &self.hosts,
                 |item| {
                     view::KeyValRow::new(
-                        gettext("Hostname"),
-                        gettext("IP"),
+                        &gettext("Hostname"),
+                        &gettext("IP"),
                         item.downcast_ref::<model::KeyVal>().unwrap(),
                     )
                     .upcast()
@@ -221,7 +221,7 @@ mod imp {
                 &self.pod_create_command_arg_list_box,
                 &self.pod_create_cmd_args,
                 |item| {
-                    view::ValueRow::new(item.downcast_ref().unwrap(), gettext("Argument")).upcast()
+                    view::ValueRow::new(item.downcast_ref().unwrap(), &gettext("Argument")).upcast()
                 },
                 ACTION_ADD_POD_CREATE_CMD_ARGS,
             );
@@ -230,7 +230,7 @@ mod imp {
                 &self.infra_command_arg_list_box,
                 &self.infra_cmd_args,
                 |item| {
-                    view::ValueRow::new(item.downcast_ref().unwrap(), gettext("Argument")).upcast()
+                    view::ValueRow::new(item.downcast_ref().unwrap(), &gettext("Argument")).upcast()
                 },
                 ACTION_ADD_INFRA_CMD_ARGS,
             );
@@ -245,7 +245,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::ChildIter::from(&*self.obj()).for_each(|child| child.unparent());
+            utils::ChildIter::from(self.obj().upcast_ref()).for_each(|child| child.unparent());
         }
     }
 
@@ -261,11 +261,11 @@ mod imp {
                     glib::Continue(false)
                 }),
             );
-            utils::root(widget).set_default_widget(Some(&*self.create_button));
+            utils::root(widget.upcast_ref()).set_default_widget(Some(&*self.create_button));
         }
 
         fn unroot(&self) {
-            utils::root(&*self.obj()).set_default_widget(gtk::Widget::NONE);
+            utils::root(self.obj().upcast_ref()).set_default_widget(gtk::Widget::NONE);
             self.parent_unroot()
         }
     }
@@ -341,7 +341,7 @@ impl CreationPage {
         } else {
             log::error!("Error while starting pod: no image selected");
             utils::show_error_toast(
-                self,
+                self.upcast_ref(),
                 &gettext("Failed to create pod"),
                 &gettext("no image selected"),
             )
@@ -519,7 +519,7 @@ impl CreationPage {
             );
             self.imp()
                 .leaflet_overlay
-                .show_details(&image_selection_page);
+                .show_details(image_selection_page.upcast_ref());
         }
     }
 

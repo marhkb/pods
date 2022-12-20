@@ -328,7 +328,10 @@ impl Panel {
 
     fn create_pod(&self) {
         if let Some(client) = self.pod_list().as_ref().and_then(model::PodList::client) {
-            utils::show_dialog(self, &view::PodCreationPage::from(&client));
+            utils::show_dialog(
+                self.upcast_ref(),
+                view::PodCreationPage::from(&client).upcast_ref(),
+            );
         }
     }
 
@@ -343,7 +346,7 @@ impl Panel {
                             pod.resume(clone!(@weak  self as obj => move |result| {
                                 if let Err(e) = result {
                                     utils::show_toast(
-                                        &obj,
+                                        obj.upcast_ref(),
                                         // Translators: The "{}" is a placeholder for an error message.
                                         &gettext!("Error on resuming pod: {}", e)
                                     );
@@ -354,7 +357,7 @@ impl Panel {
                             pod.start(clone!(@weak  self as obj => move |result| {
                                 if let Err(e) = result {
                                     utils::show_toast(
-                                        &obj,
+                                        obj.upcast_ref(),
                                         // Translators: The "{}" is a placeholder for an error message.
                                         &gettext!("Error on starting pod: {}", e)
                                     );
@@ -381,7 +384,7 @@ impl Panel {
                         clone!(@weak self as obj => move |result| {
                             if let Err(e) = result {
                                 utils::show_toast(
-                                    &obj,
+                                    obj.upcast_ref(),
                                     // Translators: The "{}" is a placeholder for an error message.
                                     &gettext!("Error on stopping pod: {}", e)
                                 );
@@ -404,7 +407,7 @@ impl Panel {
                     pod.pause(clone!(@weak self as obj => move |result| {
                         if let Err(e) = result {
                             utils::show_toast(
-                                &obj,
+                                obj.upcast_ref(),
                                 // Translators: The "{}" is a placeholder for an error message.
                                 &gettext!("Error on stopping pod: {}", e)
                             );
@@ -428,7 +431,7 @@ impl Panel {
                         clone!(@weak self as obj => move |result| {
                             if let Err(e) = result {
                                 utils::show_toast(
-                                    &obj,
+                                    obj.upcast_ref(),
                                     // Translators: The "{}" is a placeholder for an error message.
                                     &gettext!("Error on restarting pod: {}", e)
                                 );
@@ -451,7 +454,7 @@ impl Panel {
             .body_use_markup(true)
             .body(&gettext("All associated containers will also be removed!"))
             .modal(true)
-            .transient_for(&utils::root(self))
+            .transient_for(&utils::root(self.upcast_ref()))
             .build();
 
         dialog.add_responses(&[
@@ -473,7 +476,7 @@ impl Panel {
                         pod.delete(true, clone!(@weak obj => move |result| {
                             if let Err(e) = result {
                                 utils::show_toast(
-                                    &obj,
+                                    obj.upcast_ref(),
                                     // Translators: The "{}" is a placeholder for an error message.
                                     &gettext!("Error on deleting pod: {}", e)
                                 );

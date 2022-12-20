@@ -374,7 +374,8 @@ mod imp {
                             clone!(@weak obj => move |e| obj.client_err_op(e)),
                             clone!(@weak obj, @weak manager => move |e| {
                                 utils::show_error_toast(
-                                    &*obj.imp().toast_overlay, "Connection lost",
+                                    obj.imp().toast_overlay.upcast_ref(),
+                                    "Connection lost",
                                     &e.to_string()
                                 );
                                 manager.unset_client();
@@ -417,7 +418,7 @@ mod imp {
             }
 
             if view::show_ongoing_actions_warning_dialog(
-                window,
+                window.upcast_ref(),
                 &self.connection_manager,
                 &gettext("Confirm Exiting The Application"),
             ) {
@@ -677,7 +678,11 @@ impl Window {
                 "welcome"
             });
 
-        utils::show_error_toast(&*imp.toast_overlay, "Connection lost", &e.to_string());
+        utils::show_error_toast(
+            imp.toast_overlay.upcast_ref(),
+            "Connection lost",
+            &e.to_string(),
+        );
     }
 
     fn is_showing_overlay(&self) -> bool {
@@ -797,8 +802,8 @@ impl Window {
 
     fn add_connection(&self) {
         utils::show_dialog(
-            self,
-            &view::ConnectionCreationPage::from(&self.connection_manager()),
+            self.upcast_ref(),
+            view::ConnectionCreationPage::from(&self.connection_manager()).upcast_ref(),
         );
     }
 

@@ -219,7 +219,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::ChildIter::from(&*self.obj()).for_each(|child| child.unparent());
+            utils::ChildIter::from(self.obj().upcast_ref()).for_each(|child| child.unparent());
         }
     }
 
@@ -258,11 +258,11 @@ impl DetailsPage {
         if let Some(pod) = value {
             imp.window_title.set_subtitle(pod.name());
             pod.inspect(clone!(@weak self as obj => move |e| {
-                utils::show_error_toast(&obj, &gettext("Error on loading pod data"), &e.to_string());
+                utils::show_error_toast(obj.upcast_ref(), &gettext("Error on loading pod data"), &e.to_string());
             }));
 
             let handler_id = pod.connect_deleted(clone!(@weak self as obj => move |pod| {
-                utils::show_toast(&obj, &gettext!("Pod '{}' has been deleted", pod.name()));
+                utils::show_toast(obj.upcast_ref(), &gettext!("Pod '{}' has been deleted", pod.name()));
                 obj.imp().back_navigation_controls.navigate_back();
             }));
             imp.handler_id.replace(Some(handler_id));
@@ -312,12 +312,13 @@ impl DetailsPage {
             let weak_ref = glib::WeakRef::new();
             weak_ref.set(Some(&pod));
 
-            self.imp()
-                .leaflet_overlay
-                .show_details(&view::SourceViewPage::from(view::Entity::Pod {
+            self.imp().leaflet_overlay.show_details(
+                view::SourceViewPage::from(view::Entity::Pod {
                     pod: weak_ref,
                     mode,
-                }));
+                })
+                .upcast_ref(),
+            );
         }
     }
 
@@ -325,11 +326,11 @@ impl DetailsPage {
         if let Some(pod) = self.pod() {
             self.imp()
                 .leaflet_overlay
-                .show_details(&view::TopPage::from(&pod));
+                .show_details(view::TopPage::from(&pod).upcast_ref());
         }
     }
 
     fn create_container(&self) {
-        super::create_container(self, self.pod());
+        super::create_container(self.upcast_ref(), self.pod());
     }
 }

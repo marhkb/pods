@@ -2,9 +2,8 @@ use std::borrow::Cow;
 use std::cell::Cell;
 use std::cell::RefCell;
 use std::ffi::OsStr;
-use std::fmt;
 use std::mem;
-use std::path::Path;
+use std::path::PathBuf;
 use std::sync::Arc;
 use std::sync::Mutex;
 
@@ -363,8 +362,8 @@ impl Action {
 
     pub(crate) fn copy_files_into_container(
         num: u32,
-        host_path: impl AsRef<Path> + fmt::Display + Send + Sync + 'static,
-        container_path: impl AsRef<Path> + fmt::Display + Send + Sync + 'static,
+        host_path: String,
+        container_path: String,
         directory: bool,
         container: &model::Container,
     ) -> Self {
@@ -389,15 +388,16 @@ impl Action {
 
                 stream::Abortable::new(
                     async move {
-                        let file_name = host_path.as_ref().file_name();
+                        let host_path = PathBuf::from(host_path);
+                        let file_name = host_path.file_name();
                         if directory {
                             ar.append_dir_all(
                                 file_name.unwrap_or_else(|| OsStr::new(".")),
-                                host_path.as_ref(),
+                                &host_path,
                             )
                             .await
                         } else {
-                            match tokio::fs::File::open(host_path.as_ref()).await {
+                            match tokio::fs::File::open(&host_path).await {
                                 Ok(mut file) => ar.append_file(file_name.unwrap(), &mut file).await,
                                 Err(e) => Err(e),
                             }
@@ -466,8 +466,8 @@ impl Action {
     pub(crate) fn copy_files_from_container(
         num: u32,
         container: &model::Container,
-        container_path: impl AsRef<Path> + fmt::Display + Send + Sync + 'static,
-        host_path: impl AsRef<Path> + fmt::Display + Clone + Send + Sync + 'static,
+        container_path: String,
+        host_path: String,
     ) -> Self {
         let obj = Self::new(
             num,

@@ -173,7 +173,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::ChildIter::from(&*self.obj()).for_each(|child| child.unparent());
+            utils::ChildIter::from(self.obj().upcast_ref()).for_each(|child| child.unparent());
         }
     }
 
@@ -299,7 +299,7 @@ impl Tty {
                 obj.emit_by_name::<()>("terminated", &[]);
                 if result.is_err() {
                     utils::show_error_toast(
-                        &obj,
+                        obj.upcast_ref(),
                         &gettext("Terminal error"),
                         &gettext("'/bin/sh' not found")
                     );

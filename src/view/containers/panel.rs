@@ -223,7 +223,10 @@ impl Panel {
             .as_ref()
             .and_then(model::ContainerList::client)
         {
-            utils::show_dialog(self, &view::ContainerCreationPage::from(&client));
+            utils::show_dialog(
+                self.upcast_ref(),
+                view::ContainerCreationPage::from(&client).upcast_ref(),
+            );
         }
     }
 
@@ -238,7 +241,7 @@ impl Panel {
                             container.resume(clone!(@weak  self as obj => move |result| {
                                 if let Err(e) = result {
                                     utils::show_toast(
-                                        &obj,
+                                        obj.upcast_ref(),
                                         // Translators: The "{}" is a placeholder for an error message.
                                         &gettext!("Error on resuming container: {}", e)
                                     );
@@ -249,7 +252,7 @@ impl Panel {
                             container.start(clone!(@weak  self as obj => move |result| {
                                 if let Err(e) = result {
                                     utils::show_toast(
-                                        &obj,
+                                        obj.upcast_ref(),
                                         // Translators: The "{}" is a placeholder for an error message.
                                         &gettext!("Error on starting container: {}", e)
                                     );
@@ -276,7 +279,7 @@ impl Panel {
                         clone!(@weak self as obj => move |result| {
                             if let Err(e) = result {
                                 utils::show_toast(
-                                    &obj,
+                                    obj.upcast_ref(),
                                     // Translators: The "{}" is a placeholder for an error message.
                                     &gettext!("Error on stopping container: {}", e)
                                 );
@@ -299,7 +302,7 @@ impl Panel {
                     container.pause(clone!(@weak self as obj => move |result| {
                         if let Err(e) = result {
                             utils::show_toast(
-                                &obj,
+                                obj.upcast_ref(),
                                 // Translators: The "{}" is a placeholder for an error message.
                                 &gettext!("Error on stopping container: {}", e)
                             );
@@ -323,7 +326,7 @@ impl Panel {
                         clone!(@weak self as obj => move |result| {
                             if let Err(e) = result {
                                 utils::show_toast(
-                                    &obj,
+                                    obj.upcast_ref(),
                                     // Translators: The "{}" is a placeholder for an error message.
                                     &gettext!("Error on restarting container: {}", e)
                                 );
@@ -353,7 +356,7 @@ impl Panel {
                 "All the data created inside the containers will be lost and running containers will be stopped!",
             ))
             .modal(true)
-            .transient_for(&utils::root(self))
+            .transient_for(&utils::root(self.upcast_ref()))
             .build();
 
         dialog.add_responses(&[
@@ -376,7 +379,7 @@ impl Panel {
                         container.delete(true, clone!(@weak obj => move |result| {
                             if let Err(e) = result {
                                 utils::show_toast(
-                                    &obj,
+                                    obj.upcast_ref(),
                                     // Translators: The "{}" is a placeholder for an error message.
                                     &gettext!("Error on deleting container: {}", e)
                                 );

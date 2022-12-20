@@ -192,7 +192,7 @@ impl Row {
                         }
                         log::warn!("Error on untagging image: {e}");
                         utils::show_error_toast(
-                            &obj,
+                            obj.upcast_ref(),
                             &gettext("Error on untagging image"),
                             &e.to_string()
                         );

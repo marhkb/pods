@@ -162,15 +162,11 @@ pub(crate) fn format_id(id: &str) -> String {
     id.chars().take(12).collect::<String>()
 }
 
-pub(crate) fn root<W: glib::IsA<gtk::Widget>>(widget: &W) -> gtk::Window {
+pub(crate) fn root(widget: &gtk::Widget) -> gtk::Window {
     widget.root().unwrap().downcast::<gtk::Window>().unwrap()
 }
 
-pub(crate) fn show_dialog<W, C>(widget: &W, content: &C)
-where
-    W: glib::IsA<gtk::Widget>,
-    C: glib::IsA<gtk::Widget>,
-{
+pub(crate) fn show_dialog(widget: &gtk::Widget, content: &gtk::Widget) {
     let toast_overlay = adw::ToastOverlay::new();
     toast_overlay.set_child(Some(content));
 
@@ -201,7 +197,7 @@ where
     dialog.present();
 }
 
-pub(crate) fn show_toast<W: glib::IsA<gtk::Widget>>(widget: &W, title: &str) {
+pub(crate) fn show_toast(widget: &gtk::Widget, title: &str) {
     widget
         .ancestor(adw::ToastOverlay::static_type())
         .unwrap()
@@ -216,11 +212,11 @@ pub(crate) fn show_toast<W: glib::IsA<gtk::Widget>>(widget: &W, title: &str) {
         );
 }
 
-pub(crate) fn show_error_toast<W: glib::IsA<gtk::Widget>>(widget: &W, title: &str, msg: &str) {
+pub(crate) fn show_error_toast(widget: &gtk::Widget, title: &str, msg: &str) {
     show_toast(widget, &format!("{title}: {msg}"));
 }
 
-pub(crate) fn find_leaflet_overlay<W: glib::IsA<gtk::Widget>>(widget: &W) -> view::LeafletOverlay {
+pub(crate) fn find_leaflet_overlay(widget: &gtk::Widget) -> view::LeafletOverlay {
     leaflet_overlay(
         &widget
             .ancestor(adw::Leaflet::static_type())
@@ -238,17 +234,13 @@ pub(crate) fn leaflet_overlay(leaflet: &adw::Leaflet) -> view::LeafletOverlay {
         .unwrap()
 }
 
-pub(crate) fn parent_leaflet_overlay<W: glib::IsA<gtk::Widget>>(
-    widget: &W,
-) -> Option<view::LeafletOverlay> {
+pub(crate) fn parent_leaflet_overlay(widget: &gtk::Widget) -> Option<view::LeafletOverlay> {
     widget
         .ancestor(view::LeafletOverlay::static_type())
         .and_then(|ancestor| ancestor.downcast::<view::LeafletOverlay>().ok())
 }
 
-pub(crate) fn topmost_leaflet_overlay<W: glib::IsA<gtk::Widget>>(
-    widget: &W,
-) -> Option<view::LeafletOverlay> {
+pub(crate) fn topmost_leaflet_overlay(widget: &gtk::Widget) -> Option<view::LeafletOverlay> {
     let mut topmost_leaflet_overlay = None;
     let mut current_widget = widget.to_owned().upcast();
 
@@ -361,8 +353,8 @@ pub(crate) fn run_stream_with_finish_handler<A, P, I, F, X>(
 }
 
 pub(crate) struct ChildIter(Option<gtk::Widget>);
-impl<W: glib::IsA<gtk::Widget>> From<&W> for ChildIter {
-    fn from(widget: &W) -> Self {
+impl From<&gtk::Widget> for ChildIter {
+    fn from(widget: &gtk::Widget) -> Self {
         Self(widget.first_child())
     }
 }
@@ -376,29 +368,26 @@ impl Iterator for ChildIter {
     }
 }
 
-pub(crate) async fn show_open_file_dialog<W, F>(request: OpenFileRequest, widget: &W, op: F)
+pub(crate) async fn show_open_file_dialog<F>(request: OpenFileRequest, widget: &gtk::Widget, op: F)
 where
-    W: glib::IsA<gtk::Widget>,
-    F: Fn(&W, SelectedFiles),
+    F: Fn(SelectedFiles),
 {
     show_file_dialog(request.build().await, widget, op);
 }
 
-pub(crate) async fn show_save_file_dialog<W, F>(request: SaveFileRequest, widget: &W, op: F)
+pub(crate) async fn show_save_file_dialog<F>(request: SaveFileRequest, widget: &gtk::Widget, op: F)
 where
-    W: glib::IsA<gtk::Widget>,
-    F: Fn(&W, SelectedFiles),
+    F: Fn(SelectedFiles),
 {
     show_file_dialog(request.build().await, widget, op);
 }
 
-fn show_file_dialog<W, F>(files: Result<SelectedFiles, ashpd::Error>, widget: &W, op: F)
+fn show_file_dialog<F>(files: Result<SelectedFiles, ashpd::Error>, widget: &gtk::Widget, op: F)
 where
-    W: glib::IsA<gtk::Widget>,
-    F: Fn(&W, SelectedFiles),
+    F: Fn(SelectedFiles),
 {
     match files {
-        Ok(files) => op(widget, files),
+        Ok(files) => op(files),
         Err(e) => {
             if let ashpd::Error::Portal(ashpd::PortalError::Cancelled(_)) = e {
                 show_error_toast(widget, "Error on open file dialog", &e.to_string());
