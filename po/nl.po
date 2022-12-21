@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-15 23:12+0100\n"
+"POT-Creation-Date: 2022-12-21 21:15+0100\n"
 "PO-Revision-Date: 2022-12-19 17:51+0000\n"
 "Last-Translator: Philip Goto <philip.goto@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/pods/pods/nl/>\n"
@@ -110,7 +110,8 @@ msgstr "Of zoeken hoofdlettergevoelig moet zijn"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:91
 msgid "Whether to match whole words when searching"
-msgstr "Of zoektermen met een volledig woord moeten overeenkomen bij het zoeken"
+msgstr ""
+"Of zoektermen met een volledig woord moeten overeenkomen bij het zoeken"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
 msgid ""
@@ -191,17 +192,22 @@ msgstr "Overzicht van containers"
 msgid "Pods Overview"
 msgstr "Overzicht van pods"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:188
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:209
 msgid "Marcus Behrendt"
 msgstr "Marcus Behrendt"
 
-#: data/resources/ui/action/page.ui:122
+#: data/resources/ui/action/page.ui:118
 msgid "_Abort"
 msgstr "_Afbreken"
 
-#: data/resources/ui/action/page.ui:137
+#: data/resources/ui/action/page.ui:133
 msgid "_View"
 msgstr "_Bekijken"
+
+#: data/resources/ui/action/page.ui:148
+#, fuzzy
+msgid "_Retry"
+msgstr "Herkansingen"
 
 #: data/resources/ui/actions/overview.ui:38
 msgid "No Operations"
@@ -261,10 +267,10 @@ msgstr "_Nieuwe verbinding toevoegen"
 #: data/resources/ui/image/pull-page.ui:33
 #: data/resources/ui/images/prune-page.ui:33
 #: data/resources/ui/pod/creation-page.ui:38
-#: data/resources/ui/repo-tag/add-dialog.ui:9 src/view/connection/mod.rs:43
-#: src/view/containers/panel.rs:360 src/view/image/mod.rs:53
-#: src/view/images/panel.rs:384 src/view/pod/mod.rs:94
-#: src/view/pods/panel.rs:458
+#: data/resources/ui/repo-tag/add-dialog.ui:9 src/view/connection/mod.rs:40
+#: src/view/containers/panel.rs:361 src/view/image/mod.rs:54
+#: src/view/images/panel.rs:393 src/view/pod/mod.rs:91
+#: src/view/pods/panel.rs:459
 msgid "_Cancel"
 msgstr "_Annuleren"
 
@@ -353,10 +359,10 @@ msgid ""
 "span>, <span weight=\"bold\">TCP</span>, and <span weight=\"bold\">UNIX</"
 "span> protocols. For example, the connection string might look like this:"
 msgstr ""
-"U kunt verbinden met een Podman-instantie via de protocollen <span weight="
-"\"bold\">HTTP</span>, <span weight=\"bold\">TCP</span> en <span weight=\"bold"
-"\">UNIX</span>. De verbindingstekenreeks kan er bijvoorbeeld als volgt "
-"uitzien:"
+"U kunt verbinden met een Podman-instantie via de protocollen <span "
+"weight=\"bold\">HTTP</span>, <span weight=\"bold\">TCP</span> en <span "
+"weight=\"bold\">UNIX</span>. De verbindingstekenreeks kan er bijvoorbeeld "
+"als volgt uitzien:"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:82
 msgid "Podman Root Connection"
@@ -833,8 +839,8 @@ msgid "Re_name…"
 msgstr "_Hernoemen…"
 
 #: data/resources/ui/container/menu-button.ui:41
-#: data/resources/ui/pod/menu-button.ui:40 src/view/containers/panel.rs:361
-#: src/view/images/panel.rs:385 src/view/pods/panel.rs:459
+#: data/resources/ui/pod/menu-button.ui:40 src/view/containers/panel.rs:362
+#: src/view/images/panel.rs:394 src/view/pods/panel.rs:460
 msgid "_Delete"
 msgstr "_Verwijderen"
 
@@ -1376,11 +1382,11 @@ msgstr "_Toevoegen"
 msgid "Repository Tag"
 msgstr "Repository-label"
 
-#: data/resources/ui/repo-tag/row.ui:31
+#: data/resources/ui/repo-tag/row.ui:32
 msgid "Pull Latest"
 msgstr "Nieuwste binnenhalen"
 
-#: data/resources/ui/repo-tag/row.ui:42
+#: data/resources/ui/repo-tag/row.ui:43
 msgid "Untag"
 msgstr "Label verwijderen"
 
@@ -1545,13 +1551,13 @@ msgstr "Alle _selecteren"
 msgid "Select None"
 msgstr "Geen selecteren"
 
-#: src/application.rs:187
+#: src/application.rs:188
 msgid "translator-credits"
 msgstr ""
 "Gert-dev\n"
 "Philip Goto <philip.goto@gmail.com>"
 
-#: src/application.rs:191
+#: src/application.rs:192
 msgid "Translators"
 msgstr "Vertaald door"
 
@@ -1563,40 +1569,40 @@ msgstr "Applicatieversie tonen"
 msgid "Specify the minimum log level"
 msgstr "Minimumniveau logging instellen"
 
-#: src/model/action.rs:161
+#: src/model/action.rs:160
 msgid "Images: <b>Prune</b>"
 msgstr "Schijfkopiebestanden: <b>Opruimen</b>"
 
-#: src/model/action.rs:199 src/model/action.rs:228
+#: src/model/action.rs:198 src/model/action.rs:227
 msgid "Image: <b>{}</b>"
 msgstr "Schijfkopiebestand: <b>{}</b>"
 
-#: src/model/action.rs:231
+#: src/model/action.rs:230
 msgid "Generating tarball of context directory..."
 msgstr "Tarball van contextmap genereren…"
 
-#: src/model/action.rs:301 src/model/action.rs:357
+#: src/model/action.rs:300 src/model/action.rs:356
 msgid "Container: <b>{}</b> ← {}"
 msgstr "Container: <b>{}</b> ← {}"
 
-#: src/model/action.rs:320
+#: src/model/action.rs:319
 msgid "none"
 msgstr "geen"
 
-#: src/model/action.rs:317
+#: src/model/action.rs:316
 msgid "Image: <b>{}</b> ← {}"
 msgstr "Schijfkopiebestand: <b>{}</b> ← {}"
 
-#: src/model/action.rs:331 src/model/action.rs:437 src/model/action.rs:525
+#: src/model/action.rs:330 src/model/action.rs:437 src/model/action.rs:525
 #: src/model/action.rs:732
 msgid "Finished"
 msgstr "Klaar"
 
-#: src/model/action.rs:375
+#: src/model/action.rs:374
 msgid "Files: <b>{}</b> ({}) ← {}"
 msgstr "Bestanden: <b>{}</b> ({}) ← {}"
 
-#: src/model/action.rs:382
+#: src/model/action.rs:381
 msgid "Creating tar archive…"
 msgstr "Tar-archief aanmaken…"
 
@@ -1688,7 +1694,8 @@ msgstr "Niet geconfigureerd"
 msgid "Degraded"
 msgstr "Gedegradeerd"
 
-#: src/model/pod.rs:67 src/view/connection/creation_page.rs:223
+#: src/model/pod.rs:67 src/view/component/source_view_page.rs:341
+#: src/view/connection/creation_page.rs:223
 msgid "Error"
 msgstr "Fout"
 
@@ -1740,9 +1747,14 @@ msgid "{} ago"
 msgstr "{} geleden"
 
 #. Translators: This string will be shown when a property of an entity like an image is null.
-#: src/utils.rs:280
+#: src/utils.rs:272
 msgid "<none>"
 msgstr "<geen>"
+
+#: src/utils.rs:401
+#, fuzzy
+msgid "Error on open file dialog"
+msgstr "Fout bij openen van artefact"
 
 #: src/view/action/page.rs:141
 msgid "Images Are Currently Being Pruned"
@@ -1856,47 +1868,47 @@ msgstr "Kopiëren van bestanden is mislukt"
 msgid "Pod Creation Has Failed"
 msgstr "Aanmaken van pod is mislukt"
 
-#: src/view/action/page.rs:212
+#: src/view/action/page.rs:217
 msgid "After {}"
 msgstr "Na {}"
 
-#: src/view/action/page.rs:254
+#: src/view/action/page.rs:259
 msgid "Error on opening artifact"
 msgstr "Fout bij openen van artefact"
 
-#: src/view/action/page.rs:255
+#: src/view/action/page.rs:260
 msgid "Artifact has been deleted"
 msgstr "Artefact is verwijderd"
 
-#: src/view/action/row.rs:143
+#: src/view/action/row.rs:144
 msgid "Abort"
 msgstr "Afbreken"
 
-#: src/view/action/row.rs:145
+#: src/view/action/row.rs:146
 msgid "Remove"
 msgstr "Verwijderen"
 
-#: src/view/action/row.rs:220
+#: src/view/action/row.rs:221
 msgid "Failed Pods Action"
 msgstr "Pods-actie mislukt"
 
-#: src/view/action/row.rs:224
+#: src/view/action/row.rs:225
 msgid "Finished Pods Action"
 msgstr "Pods-actie voltooid"
 
-#: src/view/action/row.rs:265
+#: src/view/action/row.rs:266
 msgid "Ongoing ({})"
 msgstr "Lopend ({})"
 
-#: src/view/action/row.rs:279
+#: src/view/action/row.rs:280
 msgid "Finished after {}"
 msgstr "Voltooid na {}"
 
-#: src/view/action/row.rs:280
+#: src/view/action/row.rs:281
 msgid "Cancelled after {}"
 msgstr "Geannuleerd na {}"
 
-#: src/view/action/row.rs:281
+#: src/view/action/row.rs:282
 msgid "Failed after {}"
 msgstr "Mislukt na {}"
 
@@ -1928,15 +1940,15 @@ msgstr "Pod-inspectie"
 msgid "Pod Kube Generation"
 msgstr "Pod-Kube-generatie"
 
-#: src/view/component/source_view_page.rs:214
+#: src/view/component/source_view_page.rs:216
 msgid "Could not set language to '{}'"
 msgstr "Kon taal niet instellen op ‘{}’"
 
-#: src/view/component/source_view_page.rs:299
+#: src/view/component/source_view_page.rs:302
 msgid "Inspection error"
 msgstr "Inspectiefout"
 
-#: src/view/component/source_view_page.rs:300
+#: src/view/component/source_view_page.rs:303
 msgid "Kube generation error"
 msgstr "Kube-generatiefout"
 
@@ -1985,12 +1997,12 @@ msgstr "socket-activatieopdracht gekopieerd"
 msgid "URL copied"
 msgstr "URL gekopieerd"
 
-#: src/view/connection/mod.rs:37
+#: src/view/connection/mod.rs:34
 msgid "There are ongoing actions whose progress will be irretrievably lost."
 msgstr ""
 "Er zijn lopende acties waarvan de voortgang onherroepelijk verloren zal gaan."
 
-#: src/view/connection/mod.rs:44
+#: src/view/connection/mod.rs:41
 msgid "_Confirm"
 msgstr "_Bevestigen"
 
@@ -2010,7 +2022,7 @@ msgstr "Fout bij wisselen van verbinding"
 msgid "Change"
 msgstr "Aanpassen"
 
-#: src/view/container/commit_page.rs:202
+#: src/view/container/commit_page.rs:204
 msgid "Error on fetching user name"
 msgstr "Fout bij verkrijgen van gebruikersnaam"
 
@@ -2018,11 +2030,11 @@ msgstr "Fout bij verkrijgen van gebruikersnaam"
 msgid "disabled"
 msgstr "uitgeschakeld"
 
-#: src/view/container/creation_page.rs:621
+#: src/view/container/creation_page.rs:619
 msgid "Failed to create container"
 msgstr "Container aanmaken mislukt"
 
-#: src/view/container/creation_page.rs:622 src/view/pod/creation_page.rs:348
+#: src/view/container/creation_page.rs:620 src/view/pod/creation_page.rs:346
 msgid "no image selected"
 msgstr "geen schijfkopiebestand geselecteerd"
 
@@ -2065,36 +2077,71 @@ msgstr "Fout bij volgen logboek"
 msgid "Include timestamps"
 msgstr "Tijdstempels toevoegen"
 
-#: src/view/container/log_page.rs:573
+#: src/view/container/log_page.rs:576
 msgid "Error on saving logs"
 msgstr "Fout bij opslaan logboek"
 
-#: src/view/container/log_page.rs:587
+#: src/view/container/log_page.rs:590
 msgid "Error on retrieving logs"
 msgstr "Fout bij ophalen logboek"
 
-#: src/view/container/log_page.rs:615
+#: src/view/container/log_page.rs:619
 msgid "Error starting container"
 msgstr "Fout bij starten container"
 
-#: src/view/container/log_page.rs:621
+#: src/view/container/log_page.rs:625
 msgid "Error resuming container"
 msgstr "Fout bij hervatten container"
 
-#: src/view/container/properties_group.rs:273
+#: src/view/container/mod.rs:82 src/view/containers/panel.rs:255
+#, fuzzy
+msgid "Error on starting container"
+msgstr "Fout bij starten container"
+
+#: src/view/container/mod.rs:83 src/view/containers/panel.rs:281
+#, fuzzy
+msgid "Error on stopping container"
+msgstr "Fout bij stoppen container: {}"
+
+#: src/view/container/mod.rs:84
+#, fuzzy
+msgid "Error on killing container"
+msgstr "Fout bij inspecteren container"
+
+#: src/view/container/mod.rs:85 src/view/containers/panel.rs:328
+#, fuzzy
+msgid "Error on restarting container"
+msgstr "Fout bij herstarten container: {}"
+
+#: src/view/container/mod.rs:86 src/view/containers/panel.rs:304
+#, fuzzy
+msgid "Error on pausing container"
+msgstr "Fout bij inspecteren container"
+
+#: src/view/container/mod.rs:87 src/view/containers/panel.rs:244
+#, fuzzy
+msgid "Error on resuming container"
+msgstr "Fout bij hervatten container"
+
+#: src/view/container/mod.rs:88 src/view/containers/panel.rs:381
+#, fuzzy
+msgid "Error on deleting container"
+msgstr "Fout bij verwijderen container: {}"
+
+#: src/view/container/properties_group.rs:277
 msgid "since {}"
 msgstr "sinds {}"
 
-#: src/view/container/rename_dialog.rs:181
+#: src/view/container/rename_dialog.rs:179
 msgid "Rename Container"
 msgstr "Container hernoemen"
 
 #: src/view/container/resources_quick_reference_group.rs:102
-#: src/view/container/resources_quick_reference_group.rs:124
-#: src/view/container/resources_quick_reference_group.rs:128
-#: src/view/container/resources_quick_reference_group.rs:132
-#: src/view/container/resources_quick_reference_group.rs:135
-#: src/view/container/resources_quick_reference_group.rs:277
+#: src/view/container/resources_quick_reference_group.rs:125
+#: src/view/container/resources_quick_reference_group.rs:130
+#: src/view/container/resources_quick_reference_group.rs:134
+#: src/view/container/resources_quick_reference_group.rs:137
+#: src/view/container/resources_quick_reference_group.rs:279
 msgid "?"
 msgstr "?"
 
@@ -2107,7 +2154,7 @@ msgid "{} / {} ({} %)"
 msgstr "{} / {} ({}%)"
 
 #. Translators: For example 5 MB / s.
-#: src/view/container/resources_quick_reference_group.rs:264
+#: src/view/container/resources_quick_reference_group.rs:266
 msgid "{} / s"
 msgstr "{}/s"
 
@@ -2134,31 +2181,11 @@ msgid_plural "{} containers total, {} running"
 msgstr[0] "{} container in totaal, {} draaiend"
 msgstr[1] "{} containers in totaal, {} draaiend"
 
-#. Translators: The "{}" is a placeholder for an error message.
-#: src/view/containers/panel.rs:243
-msgid "Error on resuming container: {}"
-msgstr "Fout bij hervatten container: {}"
-
-#. Translators: The "{}" is a placeholder for an error message.
-#: src/view/containers/panel.rs:254
-msgid "Error on starting container: {}"
-msgstr "Fout bij starten container: {}"
-
-#. Translators: The "{}" is a placeholder for an error message.
-#: src/view/containers/panel.rs:281 src/view/containers/panel.rs:304
-msgid "Error on stopping container: {}"
-msgstr "Fout bij stoppen container: {}"
-
-#. Translators: The "{}" is a placeholder for an error message.
-#: src/view/containers/panel.rs:328
-msgid "Error on restarting container: {}"
-msgstr "Fout bij herstarten container: {}"
-
-#: src/view/containers/panel.rs:350
+#: src/view/containers/panel.rs:351
 msgid "Confirm Forced Deletion of Multiple Containers"
 msgstr "Geforceerde verwijdering van meerdere containers bevestigen"
 
-#: src/view/containers/panel.rs:353
+#: src/view/containers/panel.rs:354
 msgid ""
 "All the data created inside the containers will be lost and running "
 "containers will be stopped!"
@@ -2166,31 +2193,26 @@ msgstr ""
 "Alle aangemaakte data in de containers zullen verloren gaan en draaiende "
 "containers zullen worden gestopt!"
 
-#. Translators: The "{}" is a placeholder for an error message.
-#: src/view/containers/panel.rs:381
-msgid "Error on deleting container: {}"
-msgstr "Fout bij verwijderen container: {}"
-
-#: src/view/health_check_log/row.rs:115
+#: src/view/health_check_log/row.rs:113
 msgid "Passed Health Run"
 msgstr "Gezondheidscheck geslaagd"
 
-#: src/view/health_check_log/row.rs:119
+#: src/view/health_check_log/row.rs:117
 msgid "Failed Health Run: {}"
 msgstr "Gezondheidscheck mislukt: {}"
 
 #. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
-#: src/view/health_check_log/row.rs:126 src/view/image/history_page.rs:113
-#: src/view/info_dialog.rs:166
+#: src/view/health_check_log/row.rs:124 src/view/image/history_page.rs:113
+#: src/view/info_dialog.rs:164
 #, c-format
 msgid "%x %X"
 msgstr "%x %X"
 
-#: src/view/image/build_page.rs:201
+#: src/view/image/build_page.rs:199
 msgid "Select Build Context Directory"
 msgstr "Contextmap voor bouwen selecteren"
 
-#: src/view/image/build_page.rs:236
+#: src/view/image/build_page.rs:238
 msgid "Image name should not contain uppercase characters."
 msgstr "Naam van schijfkopiebestand mag geen hoofdletters bevatten."
 
@@ -2209,11 +2231,11 @@ msgstr "{} (gedeeld: {})"
 msgid "{} (Shared: {}, Virtual: {})"
 msgstr "{} (gedeeld: {}, virtueel: {})"
 
-#: src/view/image/details_page.rs:309
+#: src/view/image/details_page.rs:307
 msgid "Error on loading image details"
 msgstr "Fout bij laden details van schijfkopiebestand"
 
-#: src/view/image/details_page.rs:313
+#: src/view/image/details_page.rs:311
 msgid "Image '{}' has been deleted"
 msgstr "Schijfkopiebestand ‘{}’ is verwijderd"
 
@@ -2251,12 +2273,12 @@ msgstr "Labels"
 msgid "Error on retrieving history"
 msgstr "Fout bij ophalen geschiedenis"
 
-#: src/view/image/mod.rs:34
+#: src/view/image/mod.rs:35
 msgid "Confirm Forced Image Deletion"
 msgstr "Geforceerde verwijdering van schijfkopiebestand bevestigen"
 
 #. Translators: The "{}" is a placeholder for the container name.
-#: src/view/image/mod.rs:40
+#: src/view/image/mod.rs:41
 msgid ""
 "Image is used by container <b>{}</b>. Deleting the image will also delete "
 "all its associated containers."
@@ -2264,7 +2286,7 @@ msgstr ""
 "Schijfkopiebestand wordt gebruikt door container ‘{}’. Door deze te "
 "verwijderen worden ook alle bijbehorende containers verwijderd."
 
-#: src/view/image/mod.rs:44
+#: src/view/image/mod.rs:45
 msgid ""
 "Image is used by a container. Deleting the image will also delete all its "
 "associated containers."
@@ -2272,14 +2294,15 @@ msgstr ""
 "Schijfkopiebestand wordt gebruikt door een container. Door deze te "
 "verwijderen worden ook alle bijbehorende containers verwijderd."
 
-#: src/view/image/mod.rs:54 src/view/pod/mod.rs:95
+#: src/view/image/mod.rs:55 src/view/pod/mod.rs:92
 msgid "_Force Delete"
 msgstr "_Geforceerd verwijderen"
 
+#. Translators: The "{}" is a placeholder for the image id.
 #. Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
-#: src/view/image/mod.rs:79
-msgid "Error on deleting image '{}': {}"
-msgstr "Fout bij verwijderen schijfkopiebestand ‘{}’: {}"
+#: src/view/image/mod.rs:80 src/view/images/panel.rs:413
+msgid "Error on deleting image '{}'"
+msgstr "Fout bij verwijderen schijfkopiebestand ‘{}’"
 
 #: src/view/image_search/widget.rs:215
 msgid "All registries"
@@ -2318,22 +2341,17 @@ msgstr[0] ""
 msgstr[1] ""
 "{} schijfkopiebestanden in totaal, {} {} ongebruikte schijfkopiebestanden, {}"
 
-#: src/view/images/panel.rs:375
+#: src/view/images/panel.rs:384
 msgid "Confirm Forced Deletion of Multiple Images"
 msgstr "Geforceerde verwijdering van meerdere schijfkopiebestanden bevestigen"
 
-#: src/view/images/panel.rs:377
+#: src/view/images/panel.rs:386
 msgid ""
 "There may be containers associated with those images, which will also be "
 "removed!"
 msgstr ""
 "Er zijn mogelijk containers geassocieerd met deze schijfkopiebestanden, "
 "welke ook zullen worden verwijderd!"
-
-#. Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
-#: src/view/images/panel.rs:404
-msgid "Error on deleting image '{}'"
-msgstr "Fout bij verwijderen schijfkopiebestand ‘{}’"
 
 #. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
 #: src/view/images/prune_page.rs:175
@@ -2345,35 +2363,35 @@ msgid "Invalid date format"
 msgstr "Ongeldig datumformaat"
 
 #. Translators: "{}" is a placeholder for a cardinal numbers.
-#: src/view/info_dialog.rs:199
+#: src/view/info_dialog.rs:197
 msgid "{} Container"
 msgid_plural "{} Containers"
 msgstr[0] "{} container"
 msgstr[1] "{} containers"
 
 #. Translators: "{}" is a placeholder for a cardinal number.
-#: src/view/info_dialog.rs:230
+#: src/view/info_dialog.rs:229
 msgid "{} Option"
 msgid_plural "{} Options"
 msgstr[0] "{} optie"
 msgstr[1] "{} opties"
 
 #. Translators: "{}" is placeholders for a cardinal number.
-#: src/view/info_dialog.rs:251
+#: src/view/info_dialog.rs:250
 msgid "{} State"
 msgid_plural "{} States"
 msgstr[0] "{} staat"
 msgstr[1] "{} staten"
 
 #. Translators: "{}" is placeholders for a cardinal number.
-#: src/view/info_dialog.rs:269
+#: src/view/info_dialog.rs:268
 msgid "{} Image"
 msgid_plural "{} Images"
 msgstr[0] "{} schijfkopiebestand"
 msgstr[1] "{} schijfkopiebestanden"
 
 #. Translators: The placeholder "{}" is for the error message.
-#: src/view/info_dialog.rs:285
+#: src/view/info_dialog.rs:284
 msgid "Error: {}"
 msgstr "Fout: {}"
 
@@ -2381,7 +2399,7 @@ msgstr "Fout: {}"
 msgid "IP"
 msgstr "IP-adres"
 
-#: src/view/pod/creation_page.rs:347
+#: src/view/pod/creation_page.rs:345
 msgid "Failed to create pod"
 msgstr "Pod aanmaken mislukt"
 
@@ -2393,12 +2411,47 @@ msgstr "Fout bij laden pod-data"
 msgid "Pod '{}' has been deleted"
 msgstr "Pod ‘{}’ is verwijderd"
 
-#: src/view/pod/mod.rs:74
+#: src/view/pod/mod.rs:55 src/view/pods/panel.rs:360
+#, fuzzy
+msgid "Error on starting pod"
+msgstr "Fout bij starten pod: {}"
+
+#: src/view/pod/mod.rs:56 src/view/pods/panel.rs:386 src/view/pods/panel.rs:409
+#, fuzzy
+msgid "Error on stopping pod"
+msgstr "Fout bij stoppen pod: {}"
+
+#: src/view/pod/mod.rs:57
+#, fuzzy
+msgid "Error on killing pod"
+msgstr "Fout bij inspecteren pod"
+
+#: src/view/pod/mod.rs:58 src/view/pods/panel.rs:433
+#, fuzzy
+msgid "Error on restarting pod"
+msgstr "Fout bij herstarten pod: {}"
+
+#: src/view/pod/mod.rs:59
+#, fuzzy
+msgid "Error on pausing pod"
+msgstr "Fout bij inspecteren pod"
+
+#: src/view/pod/mod.rs:60 src/view/pods/panel.rs:349
+#, fuzzy
+msgid "Error on resuming pod"
+msgstr "Fout bij hervatten pod: {}"
+
+#: src/view/pod/mod.rs:61 src/view/pods/panel.rs:478
+#, fuzzy
+msgid "Error on deleting pod"
+msgstr "Fout bij verwijderen pod: {}"
+
+#: src/view/pod/mod.rs:71
 msgid "Confirm Forced Pod Deletion"
 msgstr "Geforceerde pod-verwijdering bevestigen"
 
 #. Translators: The "{}" is a placeholder for the pod name.
-#: src/view/pod/mod.rs:80
+#: src/view/pod/mod.rs:77
 msgid ""
 "Pod contains container <b>{}</b>. Deleting the pod will also delete all its "
 "containers."
@@ -2406,7 +2459,7 @@ msgstr ""
 "Pod bevat container ‘{}’. Door deze pod te verwijderen zullen ook alle "
 "onderliggende containers verwijderd worden."
 
-#: src/view/pod/mod.rs:84
+#: src/view/pod/mod.rs:81
 msgid ""
 "Pod contains a container. Deleting the pod will also delete all its "
 "containers."
@@ -2433,38 +2486,13 @@ msgid_plural "{} pods total, {} running"
 msgstr[0] "{} pod, {} draaiend"
 msgstr[1] "{} pods, {} draaiend"
 
-#. Translators: The "{}" is a placeholder for an error message.
-#: src/view/pods/panel.rs:348
-msgid "Error on resuming pod: {}"
-msgstr "Fout bij hervatten pod: {}"
-
-#. Translators: The "{}" is a placeholder for an error message.
-#: src/view/pods/panel.rs:359
-msgid "Error on starting pod: {}"
-msgstr "Fout bij starten pod: {}"
-
-#. Translators: The "{}" is a placeholder for an error message.
-#: src/view/pods/panel.rs:386 src/view/pods/panel.rs:409
-msgid "Error on stopping pod: {}"
-msgstr "Fout bij stoppen pod: {}"
-
-#. Translators: The "{}" is a placeholder for an error message.
-#: src/view/pods/panel.rs:433
-msgid "Error on restarting pod: {}"
-msgstr "Fout bij herstarten pod: {}"
-
-#: src/view/pods/panel.rs:450
+#: src/view/pods/panel.rs:451
 msgid "Confirm Forced Deletion of Multiple Pods"
 msgstr "Geforceerde verwijdering van meerdere pods bevestigen"
 
-#: src/view/pods/panel.rs:452
+#: src/view/pods/panel.rs:453
 msgid "All associated containers will also be removed!"
 msgstr "Alle bijbehorende containers zullen ook worden verwijderd!"
-
-#. Translators: The "{}" is a placeholder for an error message.
-#: src/view/pods/panel.rs:478
-msgid "Error on deleting pod: {}"
-msgstr "Fout bij verwijderen pod: {}"
 
 #: src/view/repo_tag/add_dialog.rs:103
 msgid "Repo tag must contain a colon “:”"
@@ -2474,43 +2502,52 @@ msgstr "Repo-label dient een dubbele punt te bevatten"
 msgid "Error on untagging image"
 msgstr "Fout bij verwijderen label van schijfkopiebestand"
 
-#: src/window.rs:419
+#: src/window.rs:423
 msgid "Confirm Exiting The Application"
 msgstr "Bevestig het afsluiten van de app"
 
-#: src/window.rs:617
+#: src/window.rs:619
 msgid "{} Selected Image"
 msgid_plural "{} Selected Images"
 msgstr[0] "{} geselecteerd schijfkopiebestand"
 msgstr[1] "{} geselecteerde schijfkopiebestanden"
 
-#: src/window.rs:631
+#: src/window.rs:633
 msgid "{} Selected Container"
 msgid_plural "{} Selected Containers"
 msgstr[0] "{} geselecteerde container"
 msgstr[1] "{} geselecteerde containers"
 
-#: src/window.rs:645
+#: src/window.rs:647
 msgid "{} Selected Pod"
 msgid_plural "{} Selected Pods"
 msgstr[0] "{} geselecteerde pod"
 msgstr[1] "{} geselecteerde pods"
 
-#: src/window.rs:862
+#: src/window.rs:870
 msgid "images"
 msgstr "schijfkopiebestanden"
 
-#: src/window.rs:863
+#: src/window.rs:871
 msgid "containers"
 msgstr "containers"
 
-#: src/window.rs:864
+#: src/window.rs:872
 msgid "pods"
 msgstr "pods"
 
-#: src/window.rs:860
+#: src/window.rs:868
 msgid "Error on loading {}"
 msgstr "Fout bij laden van {}"
+
+#~ msgid "Error on resuming container: {}"
+#~ msgstr "Fout bij hervatten container: {}"
+
+#~ msgid "Error on starting container: {}"
+#~ msgstr "Fout bij starten container: {}"
+
+#~ msgid "Error on deleting image '{}': {}"
+#~ msgstr "Fout bij verwijderen schijfkopiebestand ‘{}’: {}"
 
 #~ msgid "Main window"
 #~ msgstr "Hoofdvenster"
@@ -2652,12 +2689,6 @@ msgstr "Fout bij laden van {}"
 #, fuzzy
 #~ msgid "Create {}"
 #~ msgstr "Aanmaken"
-
-#~ msgid "Error on inspecting container"
-#~ msgstr "Fout bij inspecteren container"
-
-#~ msgid "Error on inspecting pod"
-#~ msgstr "Fout bij inspecteren pod"
 
 #~ msgid "Please Wait a Moment"
 #~ msgstr "Een moment geduld"

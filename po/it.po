@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-15 23:12+0100\n"
+"POT-Creation-Date: 2022-12-21 21:15+0100\n"
 "PO-Revision-Date: 2022-10-23 21:08+0000\n"
 "Last-Translator: Andrea Brandi <git@andreabrandi.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/pods/pods/it/>\n"
@@ -187,17 +187,22 @@ msgstr "Panoramica dei contenitori"
 msgid "Pods Overview"
 msgstr "Panoramica Pod"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:188
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:209
 msgid "Marcus Behrendt"
 msgstr "Marcus Behrendt"
 
-#: data/resources/ui/action/page.ui:122
+#: data/resources/ui/action/page.ui:118
 msgid "_Abort"
 msgstr "_Interrompi"
 
-#: data/resources/ui/action/page.ui:137
+#: data/resources/ui/action/page.ui:133
 msgid "_View"
 msgstr "_Visualizza"
+
+#: data/resources/ui/action/page.ui:148
+#, fuzzy
+msgid "_Retry"
+msgstr "Tentativi"
 
 #: data/resources/ui/actions/overview.ui:38
 #, fuzzy
@@ -265,10 +270,10 @@ msgstr "_Aggiungi nuova connessione"
 #: data/resources/ui/image/pull-page.ui:33
 #: data/resources/ui/images/prune-page.ui:33
 #: data/resources/ui/pod/creation-page.ui:38
-#: data/resources/ui/repo-tag/add-dialog.ui:9 src/view/connection/mod.rs:43
-#: src/view/containers/panel.rs:360 src/view/image/mod.rs:53
-#: src/view/images/panel.rs:384 src/view/pod/mod.rs:94
-#: src/view/pods/panel.rs:458
+#: data/resources/ui/repo-tag/add-dialog.ui:9 src/view/connection/mod.rs:40
+#: src/view/containers/panel.rs:361 src/view/image/mod.rs:54
+#: src/view/images/panel.rs:393 src/view/pod/mod.rs:91
+#: src/view/pods/panel.rs:459
 msgid "_Cancel"
 msgstr "_Annulla"
 
@@ -847,8 +852,8 @@ msgid "Re_name…"
 msgstr "Ri_nomina…"
 
 #: data/resources/ui/container/menu-button.ui:41
-#: data/resources/ui/pod/menu-button.ui:40 src/view/containers/panel.rs:361
-#: src/view/images/panel.rs:385 src/view/pods/panel.rs:459
+#: data/resources/ui/pod/menu-button.ui:40 src/view/containers/panel.rs:362
+#: src/view/images/panel.rs:394 src/view/pods/panel.rs:460
 msgid "_Delete"
 msgstr "_Cancella"
 
@@ -1397,12 +1402,12 @@ msgstr ""
 msgid "Repository Tag"
 msgstr ""
 
-#: data/resources/ui/repo-tag/row.ui:31
+#: data/resources/ui/repo-tag/row.ui:32
 #, fuzzy
 msgid "Pull Latest"
 msgstr "Recupera immagine più recente"
 
-#: data/resources/ui/repo-tag/row.ui:42
+#: data/resources/ui/repo-tag/row.ui:43
 msgid "Untag"
 msgstr ""
 
@@ -1574,11 +1579,11 @@ msgstr "_Seleziona tutto"
 msgid "Select None"
 msgstr "Deseleziona tutto"
 
-#: src/application.rs:187
+#: src/application.rs:188
 msgid "translator-credits"
 msgstr "Andrea Brandi <git@andreabrandi.com>"
 
-#: src/application.rs:191
+#: src/application.rs:192
 msgid "Translators"
 msgstr "Andrea Brandi <me@andreabrandi.com>"
 
@@ -1590,41 +1595,41 @@ msgstr "Mostra versione dell'applicazione"
 msgid "Specify the minimum log level"
 msgstr "Specifica livello minimo dei registri"
 
-#: src/model/action.rs:161
+#: src/model/action.rs:160
 msgid "Images: <b>Prune</b>"
 msgstr "Immagini: <b>Elimina</b>"
 
-#: src/model/action.rs:199 src/model/action.rs:228
+#: src/model/action.rs:198 src/model/action.rs:227
 msgid "Image: <b>{}</b>"
 msgstr "Immagine: <b>{}</b>"
 
-#: src/model/action.rs:231
+#: src/model/action.rs:230
 msgid "Generating tarball of context directory..."
 msgstr "Generazione archivio tar della directory di compilazione..."
 
-#: src/model/action.rs:301 src/model/action.rs:357
+#: src/model/action.rs:300 src/model/action.rs:356
 msgid "Container: <b>{}</b> ← {}"
 msgstr "Contenitore: <b>{}</b> ← {}"
 
-#: src/model/action.rs:320
+#: src/model/action.rs:319
 msgid "none"
 msgstr "nessuno"
 
-#: src/model/action.rs:317
+#: src/model/action.rs:316
 msgid "Image: <b>{}</b> ← {}"
 msgstr "Immagine: <b>{}</b> ← {}"
 
-#: src/model/action.rs:331 src/model/action.rs:437 src/model/action.rs:525
+#: src/model/action.rs:330 src/model/action.rs:437 src/model/action.rs:525
 #: src/model/action.rs:732
 msgid "Finished"
 msgstr "Completato"
 
-#: src/model/action.rs:375
+#: src/model/action.rs:374
 #, fuzzy
 msgid "Files: <b>{}</b> ({}) ← {}"
 msgstr "Immagine: <b>{}</b> ← {}"
 
-#: src/model/action.rs:382
+#: src/model/action.rs:381
 #, fuzzy
 msgid "Creating tar archive…"
 msgstr "_Crea contenitore…"
@@ -1719,7 +1724,8 @@ msgstr "Non configurato"
 msgid "Degraded"
 msgstr "Danneggiato"
 
-#: src/model/pod.rs:67 src/view/connection/creation_page.rs:223
+#: src/model/pod.rs:67 src/view/component/source_view_page.rs:341
+#: src/view/connection/creation_page.rs:223
 msgid "Error"
 msgstr "Errore"
 
@@ -1771,9 +1777,14 @@ msgid "{} ago"
 msgstr "{} fa"
 
 #. Translators: This string will be shown when a property of an entity like an image is null.
-#: src/utils.rs:280
+#: src/utils.rs:272
 msgid "<none>"
 msgstr "<nessuno>"
+
+#: src/utils.rs:401
+#, fuzzy
+msgid "Error on open file dialog"
+msgstr "Impossibile aprire l'artefatto"
 
 #: src/view/action/page.rs:141
 msgid "Images Are Currently Being Pruned"
@@ -1893,50 +1904,50 @@ msgstr "Impossibile eliminare le immagini"
 msgid "Pod Creation Has Failed"
 msgstr "Impossibile creare il pod"
 
-#: src/view/action/page.rs:212
+#: src/view/action/page.rs:217
 msgid "After {}"
 msgstr "Dopo {}"
 
-#: src/view/action/page.rs:254
+#: src/view/action/page.rs:259
 msgid "Error on opening artifact"
 msgstr "Impossibile aprire l'artefatto"
 
-#: src/view/action/page.rs:255
+#: src/view/action/page.rs:260
 msgid "Artifact has been deleted"
 msgstr "L'artefatto {} è stato eliminato"
 
-#: src/view/action/row.rs:143
+#: src/view/action/row.rs:144
 #, fuzzy
 msgid "Abort"
 msgstr "_Interrompi"
 
-#: src/view/action/row.rs:145
+#: src/view/action/row.rs:146
 #, fuzzy
 msgid "Remove"
 msgstr "Rimozione"
 
-#: src/view/action/row.rs:220
+#: src/view/action/row.rs:221
 #, fuzzy
 msgid "Failed Pods Action"
 msgstr "Impossibile creare il pod"
 
-#: src/view/action/row.rs:224
+#: src/view/action/row.rs:225
 msgid "Finished Pods Action"
 msgstr ""
 
-#: src/view/action/row.rs:265
+#: src/view/action/row.rs:266
 msgid "Ongoing ({})"
 msgstr "In corso ({})"
 
-#: src/view/action/row.rs:279
+#: src/view/action/row.rs:280
 msgid "Finished after {}"
 msgstr "Completato dopo {}"
 
-#: src/view/action/row.rs:280
+#: src/view/action/row.rs:281
 msgid "Cancelled after {}"
 msgstr "Annullato dopo {}"
 
-#: src/view/action/row.rs:281
+#: src/view/action/row.rs:282
 msgid "Failed after {}"
 msgstr "Fallito dopo {}"
 
@@ -1971,16 +1982,16 @@ msgstr "Ispezione pod"
 msgid "Pod Kube Generation"
 msgstr "Ispezione pod"
 
-#: src/view/component/source_view_page.rs:214
+#: src/view/component/source_view_page.rs:216
 #, fuzzy
 msgid "Could not set language to '{}'"
 msgstr "Impossibile impostare linguaggio 'json'"
 
-#: src/view/component/source_view_page.rs:299
+#: src/view/component/source_view_page.rs:302
 msgid "Inspection error"
 msgstr "Errore ispezione"
 
-#: src/view/component/source_view_page.rs:300
+#: src/view/component/source_view_page.rs:303
 #, fuzzy
 msgid "Kube generation error"
 msgstr "Errore ispezione"
@@ -2030,13 +2041,13 @@ msgstr ""
 msgid "URL copied"
 msgstr ""
 
-#: src/view/connection/mod.rs:37
+#: src/view/connection/mod.rs:34
 msgid "There are ongoing actions whose progress will be irretrievably lost."
 msgstr ""
 "Tutti i progressi delle azioni in corso verranno perduti e non saranno "
 "recuperabili."
 
-#: src/view/connection/mod.rs:44
+#: src/view/connection/mod.rs:41
 msgid "_Confirm"
 msgstr "_Conferma"
 
@@ -2056,7 +2067,7 @@ msgstr "Errore nel cambio di connessione"
 msgid "Change"
 msgstr "Cambia"
 
-#: src/view/container/commit_page.rs:202
+#: src/view/container/commit_page.rs:204
 msgid "Error on fetching user name"
 msgstr "Errore durante il recupero del nome utente"
 
@@ -2065,11 +2076,11 @@ msgstr "Errore durante il recupero del nome utente"
 msgid "disabled"
 msgstr "Abilitato"
 
-#: src/view/container/creation_page.rs:621
+#: src/view/container/creation_page.rs:619
 msgid "Failed to create container"
 msgstr "Impossibile creare il contenitore"
 
-#: src/view/container/creation_page.rs:622 src/view/pod/creation_page.rs:348
+#: src/view/container/creation_page.rs:620 src/view/pod/creation_page.rs:346
 msgid "no image selected"
 msgstr "nessuna immagine selezionata"
 
@@ -2115,39 +2126,74 @@ msgstr "Errore nell'esecuzione del registro"
 msgid "Include timestamps"
 msgstr "Attiva/disattiva timestamp"
 
-#: src/view/container/log_page.rs:573
+#: src/view/container/log_page.rs:576
 #, fuzzy
 msgid "Error on saving logs"
 msgstr "Errore durante il caricamento di {}"
 
-#: src/view/container/log_page.rs:587
+#: src/view/container/log_page.rs:590
 #, fuzzy
 msgid "Error on retrieving logs"
 msgstr "Errore durante il riavvio del pod: {}"
 
-#: src/view/container/log_page.rs:615
+#: src/view/container/log_page.rs:619
 msgid "Error starting container"
 msgstr "Errore nell'avvio del contenitore"
 
-#: src/view/container/log_page.rs:621
+#: src/view/container/log_page.rs:625
 msgid "Error resuming container"
 msgstr "Errore nella ripresa del contenitore"
 
-#: src/view/container/properties_group.rs:273
+#: src/view/container/mod.rs:82 src/view/containers/panel.rs:255
+#, fuzzy
+msgid "Error on starting container"
+msgstr "Errore nell'avvio del contenitore"
+
+#: src/view/container/mod.rs:83 src/view/containers/panel.rs:281
+#, fuzzy
+msgid "Error on stopping container"
+msgstr "Errore durante l'arresto del contenitore: {}"
+
+#: src/view/container/mod.rs:84
+#, fuzzy
+msgid "Error on killing container"
+msgstr "Errore durante il controllo del contenitore"
+
+#: src/view/container/mod.rs:85 src/view/containers/panel.rs:328
+#, fuzzy
+msgid "Error on restarting container"
+msgstr "Errore durante il riavvio del contenitore: {}"
+
+#: src/view/container/mod.rs:86 src/view/containers/panel.rs:304
+#, fuzzy
+msgid "Error on pausing container"
+msgstr "Errore durante il controllo del contenitore"
+
+#: src/view/container/mod.rs:87 src/view/containers/panel.rs:244
+#, fuzzy
+msgid "Error on resuming container"
+msgstr "Errore nella ripresa del contenitore"
+
+#: src/view/container/mod.rs:88 src/view/containers/panel.rs:381
+#, fuzzy
+msgid "Error on deleting container"
+msgstr "Errore durante l'eliminazione del contenitore: {}"
+
+#: src/view/container/properties_group.rs:277
 msgid "since {}"
 msgstr "da {}"
 
-#: src/view/container/rename_dialog.rs:181
+#: src/view/container/rename_dialog.rs:179
 #, fuzzy
 msgid "Rename Container"
 msgstr "Rinomina contenitori."
 
 #: src/view/container/resources_quick_reference_group.rs:102
-#: src/view/container/resources_quick_reference_group.rs:124
-#: src/view/container/resources_quick_reference_group.rs:128
-#: src/view/container/resources_quick_reference_group.rs:132
-#: src/view/container/resources_quick_reference_group.rs:135
-#: src/view/container/resources_quick_reference_group.rs:277
+#: src/view/container/resources_quick_reference_group.rs:125
+#: src/view/container/resources_quick_reference_group.rs:130
+#: src/view/container/resources_quick_reference_group.rs:134
+#: src/view/container/resources_quick_reference_group.rs:137
+#: src/view/container/resources_quick_reference_group.rs:279
 msgid "?"
 msgstr "?"
 
@@ -2160,7 +2206,7 @@ msgid "{} / {} ({} %)"
 msgstr "{} / {} ({} %)"
 
 #. Translators: For example 5 MB / s.
-#: src/view/container/resources_quick_reference_group.rs:264
+#: src/view/container/resources_quick_reference_group.rs:266
 msgid "{} / s"
 msgstr "{} / s"
 
@@ -2188,31 +2234,11 @@ msgid_plural "{} containers total, {} running"
 msgstr[0] "{} contenitore totale, {} in esecuzione"
 msgstr[1] "{} contenitori totali, {} in esecuzione"
 
-#. Translators: The "{}" is a placeholder for an error message.
-#: src/view/containers/panel.rs:243
-msgid "Error on resuming container: {}"
-msgstr "Errore durante la ripresa del contenitore: {}"
-
-#. Translators: The "{}" is a placeholder for an error message.
-#: src/view/containers/panel.rs:254
-msgid "Error on starting container: {}"
-msgstr "Errore durante l'avvio del contenitore: {}"
-
-#. Translators: The "{}" is a placeholder for an error message.
-#: src/view/containers/panel.rs:281 src/view/containers/panel.rs:304
-msgid "Error on stopping container: {}"
-msgstr "Errore durante l'arresto del contenitore: {}"
-
-#. Translators: The "{}" is a placeholder for an error message.
-#: src/view/containers/panel.rs:328
-msgid "Error on restarting container: {}"
-msgstr "Errore durante il riavvio del contenitore: {}"
-
-#: src/view/containers/panel.rs:350
+#: src/view/containers/panel.rs:351
 msgid "Confirm Forced Deletion of Multiple Containers"
 msgstr "Conferma l'eliminazione forzata di più contenitori"
 
-#: src/view/containers/panel.rs:353
+#: src/view/containers/panel.rs:354
 msgid ""
 "All the data created inside the containers will be lost and running "
 "containers will be stopped!"
@@ -2220,31 +2246,26 @@ msgstr ""
 "Tutti i dati creati all'interno dei contenitori andranno persi e i "
 "contenitori in esecuzione verranno interrotti!"
 
-#. Translators: The "{}" is a placeholder for an error message.
-#: src/view/containers/panel.rs:381
-msgid "Error on deleting container: {}"
-msgstr "Errore durante l'eliminazione del contenitore: {}"
-
-#: src/view/health_check_log/row.rs:115
+#: src/view/health_check_log/row.rs:113
 msgid "Passed Health Run"
 msgstr "Controllo integrità superato"
 
-#: src/view/health_check_log/row.rs:119
+#: src/view/health_check_log/row.rs:117
 msgid "Failed Health Run: {}"
 msgstr "Controllo integrità fallito: {}"
 
 #. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
-#: src/view/health_check_log/row.rs:126 src/view/image/history_page.rs:113
-#: src/view/info_dialog.rs:166
+#: src/view/health_check_log/row.rs:124 src/view/image/history_page.rs:113
+#: src/view/info_dialog.rs:164
 #, c-format
 msgid "%x %X"
 msgstr "%x %X"
 
-#: src/view/image/build_page.rs:201
+#: src/view/image/build_page.rs:199
 msgid "Select Build Context Directory"
 msgstr "Seleziona directory di compilazione"
 
-#: src/view/image/build_page.rs:236
+#: src/view/image/build_page.rs:238
 msgid "Image name should not contain uppercase characters."
 msgstr "Il nome dell'immagine non deve contenere caratteri maiuscoli."
 
@@ -2263,11 +2284,11 @@ msgstr "{} (condivisi: {})"
 msgid "{} (Shared: {}, Virtual: {})"
 msgstr "{} (condivisi: {}, virtuali: {})"
 
-#: src/view/image/details_page.rs:309
+#: src/view/image/details_page.rs:307
 msgid "Error on loading image details"
 msgstr "Errore nel caricamento dei dettagli delle immagini"
 
-#: src/view/image/details_page.rs:313
+#: src/view/image/details_page.rs:311
 msgid "Image '{}' has been deleted"
 msgstr "L'immagine {} è stata eliminata"
 
@@ -2310,12 +2331,12 @@ msgstr ""
 msgid "Error on retrieving history"
 msgstr "Errore durante il riavvio del pod: {}"
 
-#: src/view/image/mod.rs:34
+#: src/view/image/mod.rs:35
 msgid "Confirm Forced Image Deletion"
 msgstr "Conferma l'eliminazione forzata dell'immagine"
 
 #. Translators: The "{}" is a placeholder for the container name.
-#: src/view/image/mod.rs:40
+#: src/view/image/mod.rs:41
 msgid ""
 "Image is used by container <b>{}</b>. Deleting the image will also delete "
 "all its associated containers."
@@ -2323,7 +2344,7 @@ msgstr ""
 "L'immagine è utilizzata dal contenitore <b>{}</b>. Tutti i contenitori "
 "associati all'immagine verranno eliminati."
 
-#: src/view/image/mod.rs:44
+#: src/view/image/mod.rs:45
 msgid ""
 "Image is used by a container. Deleting the image will also delete all its "
 "associated containers."
@@ -2331,14 +2352,15 @@ msgstr ""
 "L'immagine è utilizzata da un contenitore. Tutti i contenitori associati "
 "all'immagine verranno eliminati."
 
-#: src/view/image/mod.rs:54 src/view/pod/mod.rs:95
+#: src/view/image/mod.rs:55 src/view/pod/mod.rs:92
 msgid "_Force Delete"
 msgstr "_Forza eliminazione"
 
+#. Translators: The "{}" is a placeholder for the image id.
 #. Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
-#: src/view/image/mod.rs:79
-msgid "Error on deleting image '{}': {}"
-msgstr "Errore durante l'eliminazione dell'immagine '{}': {}"
+#: src/view/image/mod.rs:80 src/view/images/panel.rs:413
+msgid "Error on deleting image '{}'"
+msgstr "Errore nell'eliminazione dell'immagine '{}'"
 
 #: src/view/image_search/widget.rs:215
 msgid "All registries"
@@ -2375,22 +2397,17 @@ msgid_plural "{} images total, {} {} unused, {}"
 msgstr[0] "{} immagine totale, {} {} inutilizzate, {}"
 msgstr[1] "{} immagini totali, {} {} inutilizzate, {}"
 
-#: src/view/images/panel.rs:375
+#: src/view/images/panel.rs:384
 msgid "Confirm Forced Deletion of Multiple Images"
 msgstr "Conferma l'eliminazione forzata di più immagini"
 
-#: src/view/images/panel.rs:377
+#: src/view/images/panel.rs:386
 msgid ""
 "There may be containers associated with those images, which will also be "
 "removed!"
 msgstr ""
 "Potrebbero esserci contenitori associati a tali immagini e verranno "
 "anch'essi rimossi!"
-
-#. Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
-#: src/view/images/panel.rs:404
-msgid "Error on deleting image '{}'"
-msgstr "Errore nell'eliminazione dell'immagine '{}'"
 
 #. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
 #: src/view/images/prune_page.rs:175
@@ -2402,35 +2419,35 @@ msgid "Invalid date format"
 msgstr "Formato data non valido"
 
 #. Translators: "{}" is a placeholder for a cardinal numbers.
-#: src/view/info_dialog.rs:199
+#: src/view/info_dialog.rs:197
 msgid "{} Container"
 msgid_plural "{} Containers"
 msgstr[0] "{} contenitore"
 msgstr[1] "{} contenitori"
 
 #. Translators: "{}" is a placeholder for a cardinal number.
-#: src/view/info_dialog.rs:230
+#: src/view/info_dialog.rs:229
 msgid "{} Option"
 msgid_plural "{} Options"
 msgstr[0] "{} opzione"
 msgstr[1] "{} opzioni"
 
 #. Translators: "{}" is placeholders for a cardinal number.
-#: src/view/info_dialog.rs:251
+#: src/view/info_dialog.rs:250
 msgid "{} State"
 msgid_plural "{} States"
 msgstr[0] "{} stato"
 msgstr[1] "{} stati"
 
 #. Translators: "{}" is placeholders for a cardinal number.
-#: src/view/info_dialog.rs:269
+#: src/view/info_dialog.rs:268
 msgid "{} Image"
 msgid_plural "{} Images"
 msgstr[0] "{} immagine"
 msgstr[1] "{} immagini"
 
 #. Translators: The placeholder "{}" is for the error message.
-#: src/view/info_dialog.rs:285
+#: src/view/info_dialog.rs:284
 msgid "Error: {}"
 msgstr "Errori: {}"
 
@@ -2438,7 +2455,7 @@ msgstr "Errori: {}"
 msgid "IP"
 msgstr "IP"
 
-#: src/view/pod/creation_page.rs:347
+#: src/view/pod/creation_page.rs:345
 msgid "Failed to create pod"
 msgstr "Impossibile creare il pod"
 
@@ -2450,12 +2467,47 @@ msgstr "Errore durante il caricamento dei dati del pod"
 msgid "Pod '{}' has been deleted"
 msgstr "Il pod '{}' è stato eliminato"
 
-#: src/view/pod/mod.rs:74
+#: src/view/pod/mod.rs:55 src/view/pods/panel.rs:360
+#, fuzzy
+msgid "Error on starting pod"
+msgstr "Errore durante l'avvio del pod: {}"
+
+#: src/view/pod/mod.rs:56 src/view/pods/panel.rs:386 src/view/pods/panel.rs:409
+#, fuzzy
+msgid "Error on stopping pod"
+msgstr "Errore durante l'arresto del pod: {}"
+
+#: src/view/pod/mod.rs:57
+#, fuzzy
+msgid "Error on killing pod"
+msgstr "Errore durante il controllo del pod"
+
+#: src/view/pod/mod.rs:58 src/view/pods/panel.rs:433
+#, fuzzy
+msgid "Error on restarting pod"
+msgstr "Errore durante il riavvio del pod: {}"
+
+#: src/view/pod/mod.rs:59
+#, fuzzy
+msgid "Error on pausing pod"
+msgstr "Errore durante il controllo del pod"
+
+#: src/view/pod/mod.rs:60 src/view/pods/panel.rs:349
+#, fuzzy
+msgid "Error on resuming pod"
+msgstr "Errore durante la ripresa del contenitore: {}"
+
+#: src/view/pod/mod.rs:61 src/view/pods/panel.rs:478
+#, fuzzy
+msgid "Error on deleting pod"
+msgstr "Errore durante l'eliminazione del pod: {}"
+
+#: src/view/pod/mod.rs:71
 msgid "Confirm Forced Pod Deletion"
 msgstr "Conferma l'eliminazione forzata del pod"
 
 #. Translators: The "{}" is a placeholder for the pod name.
-#: src/view/pod/mod.rs:80
+#: src/view/pod/mod.rs:77
 msgid ""
 "Pod contains container <b>{}</b>. Deleting the pod will also delete all its "
 "containers."
@@ -2463,7 +2515,7 @@ msgstr ""
 "Il pod contiene i contenitori <b>{}</b>. Tutti i contenitori associati al "
 "pod verranno eliminati."
 
-#: src/view/pod/mod.rs:84
+#: src/view/pod/mod.rs:81
 msgid ""
 "Pod contains a container. Deleting the pod will also delete all its "
 "containers."
@@ -2490,38 +2542,13 @@ msgid_plural "{} pods total, {} running"
 msgstr[0] "{} pod totale, {} in esecuzione"
 msgstr[1] "{} pod totali, {} in esecuzione"
 
-#. Translators: The "{}" is a placeholder for an error message.
-#: src/view/pods/panel.rs:348
-msgid "Error on resuming pod: {}"
-msgstr "Errore durante la ripresa del contenitore: {}"
-
-#. Translators: The "{}" is a placeholder for an error message.
-#: src/view/pods/panel.rs:359
-msgid "Error on starting pod: {}"
-msgstr "Errore durante l'avvio del pod: {}"
-
-#. Translators: The "{}" is a placeholder for an error message.
-#: src/view/pods/panel.rs:386 src/view/pods/panel.rs:409
-msgid "Error on stopping pod: {}"
-msgstr "Errore durante l'arresto del pod: {}"
-
-#. Translators: The "{}" is a placeholder for an error message.
-#: src/view/pods/panel.rs:433
-msgid "Error on restarting pod: {}"
-msgstr "Errore durante il riavvio del pod: {}"
-
-#: src/view/pods/panel.rs:450
+#: src/view/pods/panel.rs:451
 msgid "Confirm Forced Deletion of Multiple Pods"
 msgstr "Conferma l'eliminazione forzata di più pod"
 
-#: src/view/pods/panel.rs:452
+#: src/view/pods/panel.rs:453
 msgid "All associated containers will also be removed!"
 msgstr "Tutti i contenitori associati verranno eliminati!"
-
-#. Translators: The "{}" is a placeholder for an error message.
-#: src/view/pods/panel.rs:478
-msgid "Error on deleting pod: {}"
-msgstr "Errore durante l'eliminazione del pod: {}"
 
 #: src/view/repo_tag/add_dialog.rs:103
 msgid "Repo tag must contain a colon “:”"
@@ -2532,43 +2559,52 @@ msgstr ""
 msgid "Error on untagging image"
 msgstr "Errore nell'eliminazione dell'immagine '{}'"
 
-#: src/window.rs:419
+#: src/window.rs:423
 msgid "Confirm Exiting The Application"
 msgstr "Conferma uscita dall'applicazione"
 
-#: src/window.rs:617
+#: src/window.rs:619
 msgid "{} Selected Image"
 msgid_plural "{} Selected Images"
 msgstr[0] "{} immagine selezionata"
 msgstr[1] "{} immagini selezionate"
 
-#: src/window.rs:631
+#: src/window.rs:633
 msgid "{} Selected Container"
 msgid_plural "{} Selected Containers"
 msgstr[0] "{} contenitore selezionato"
 msgstr[1] "{} contenitori selezionati"
 
-#: src/window.rs:645
+#: src/window.rs:647
 msgid "{} Selected Pod"
 msgid_plural "{} Selected Pods"
 msgstr[0] "{} pod selezionato"
 msgstr[1] "{} pod selezionati"
 
-#: src/window.rs:862
+#: src/window.rs:870
 msgid "images"
 msgstr "immagini"
 
-#: src/window.rs:863
+#: src/window.rs:871
 msgid "containers"
 msgstr "contenitori"
 
-#: src/window.rs:864
+#: src/window.rs:872
 msgid "pods"
 msgstr "pod"
 
-#: src/window.rs:860
+#: src/window.rs:868
 msgid "Error on loading {}"
 msgstr "Errore durante il caricamento di {}"
+
+#~ msgid "Error on resuming container: {}"
+#~ msgstr "Errore durante la ripresa del contenitore: {}"
+
+#~ msgid "Error on starting container: {}"
+#~ msgstr "Errore durante l'avvio del contenitore: {}"
+
+#~ msgid "Error on deleting image '{}': {}"
+#~ msgstr "Errore durante l'eliminazione dell'immagine '{}': {}"
 
 #~ msgid "Main window"
 #~ msgstr "Finestra principale"
@@ -2709,12 +2745,6 @@ msgstr "Errore durante il caricamento di {}"
 #, fuzzy
 #~ msgid "Create {}"
 #~ msgstr "_Crea"
-
-#~ msgid "Error on inspecting container"
-#~ msgstr "Errore durante il controllo del contenitore"
-
-#~ msgid "Error on inspecting pod"
-#~ msgstr "Errore durante il controllo del pod"
 
 #~ msgid "Please Wait a Moment"
 #~ msgstr "Attendere qualche istante"
