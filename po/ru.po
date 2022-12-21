@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-15 23:12+0100\n"
-"PO-Revision-Date: 2022-10-02 10:27+0000\n"
-"Last-Translator: lenemter <lenemter@gmail.com>\n"
+"PO-Revision-Date: 2022-12-19 17:51+0000\n"
+"Last-Translator: Daudix UFO <ddaudix@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/pods/pods/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.14.1\n"
+"X-Generator: Weblate 4.15.1-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
@@ -50,7 +50,7 @@ msgstr "Поведение развернутого окна по умолчан
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:26
 msgid "Color Scheme"
-msgstr ""
+msgstr "Цветовая схема"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:27
 msgid "Use the light or dark variant of the GTK theme"
@@ -71,7 +71,7 @@ msgstr "Показывать промежуточные образы"
 #: data/com.github.marhkb.Pods.gschema.xml.in:46
 #, fuzzy
 msgid "The last used container file path"
-msgstr "Последний использованный вид"
+msgstr "Последний использованный путь к файлу контейнера"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:51
 msgid "Remove all images not in use by containers, not just dangling ones"
@@ -100,17 +100,17 @@ msgstr "Нужно ли показывать временную метку дл�
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:76
 #: data/com.github.marhkb.Pods.gschema.xml.in:81
-#, fuzzy
 msgid "Whether to use a regex for search"
-msgstr "Нужно ли показывать временную метку для каждой строки журнала"
+msgstr "Следует ли использовать регулярное выражение для поиска"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:86
 msgid "Whether search should be case-sensitive"
-msgstr ""
+msgstr "Должен ли поиск учитывать регистр"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:91
+#, fuzzy
 msgid "Whether to match whole words when searching"
-msgstr ""
+msgstr "Следует ли сопоставлять целые слова при поиске"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
 msgid ""
@@ -187,7 +187,7 @@ msgstr "Обзор контейнеров"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:38
 msgid "Pods Overview"
-msgstr ""
+msgstr "Обзор подов"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:188
 msgid "Marcus Behrendt"
@@ -195,60 +195,59 @@ msgstr "Marcus Behrendt"
 
 #: data/resources/ui/action/page.ui:122
 msgid "_Abort"
-msgstr ""
+msgstr "_Прервать"
 
 #: data/resources/ui/action/page.ui:137
 msgid "_View"
-msgstr ""
+msgstr "_Вид"
 
 #: data/resources/ui/actions/overview.ui:38
 msgid "No Operations"
-msgstr ""
+msgstr "Нет операций"
 
 #: data/resources/ui/component/source-view-page.ui:25
 #: data/resources/ui/container/creation-page.ui:184
 #: data/resources/ui/container/log-page.ui:39
 #: data/resources/ui/pod/creation-page.ui:350
-#, fuzzy
 msgid "Search"
 msgstr "Поиск"
 
 #: data/resources/ui/component/source-view-page.ui:33
 #: data/resources/ui/container/log-page.ui:55
 msgid "Save as File"
-msgstr ""
+msgstr "Сохранить как файл"
 
 #: data/resources/ui/component/source-view-search-widget.ui:23
 msgid "Previous (Ctrl+Shift+G)"
-msgstr ""
+msgstr "Предыдущее (Ctrl+Shift+G)"
 
 #: data/resources/ui/component/source-view-search-widget.ui:30
 msgid "Next (Ctrl+G)"
-msgstr ""
+msgstr "Следующее (Ctrl+G)"
 
 #: data/resources/ui/component/text-search-entry.ui:42
 msgid "Regular Expression"
-msgstr ""
+msgstr "Регулярное выражение"
 
 #: data/resources/ui/component/text-search-entry.ui:50
 msgid "Case Sensitive"
-msgstr ""
+msgstr "Чувствительный к регистру"
 
 #: data/resources/ui/component/text-search-entry.ui:58
 msgid "Whole Word"
-msgstr ""
+msgstr "Целое слово"
 
 #: data/resources/ui/connection/chooser-page.ui:34
 msgid "Connect to Podman"
-msgstr ""
+msgstr "Подключиться к Podman"
 
 #: data/resources/ui/connection/chooser-page.ui:35
 msgid "Either choose an existing connection or create a new one."
-msgstr ""
+msgstr "Либо выберите существующее соединение, либо создайте новое."
 
 #: data/resources/ui/connection/chooser-page.ui:80
 msgid "_Add New Connection"
-msgstr ""
+msgstr "_Добавить новое соединение"
 
 #: data/resources/ui/connection/creation-page.ui:27
 #: data/resources/ui/container/commit-page.ui:33
@@ -265,15 +264,15 @@ msgstr ""
 #: src/view/images/panel.rs:384 src/view/pod/mod.rs:94
 #: src/view/pods/panel.rs:458
 msgid "_Cancel"
-msgstr ""
+msgstr "_Отмена"
 
 #: data/resources/ui/connection/creation-page.ui:34
 msgid "New Connection"
-msgstr ""
+msgstr "Новое соединение"
 
 #: data/resources/ui/connection/creation-page.ui:44
 msgid "_Connect"
-msgstr ""
+msgstr "_Соединить"
 
 #: data/resources/ui/connection/creation-page.ui:62
 #: data/resources/ui/container/creation-page.ui:83
@@ -283,30 +282,31 @@ msgstr ""
 #: data/resources/ui/pod/creation-page.ui:302
 #: data/resources/ui/pod/details-page.ui:52
 msgid "Name"
-msgstr ""
+msgstr "Имя"
 
 #: data/resources/ui/connection/creation-page.ui:71
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: data/resources/ui/connection/creation-page.ui:72
 msgid "Choose how you want to connect to Podman."
-msgstr ""
+msgstr "Выберите, как вы хотите подключиться к Podman."
 
 #: data/resources/ui/connection/creation-page.ui:76
 msgid "Unix Socket"
-msgstr ""
+msgstr "Сокет Unix"
 
 #: data/resources/ui/connection/creation-page.ui:111
-#, fuzzy
 msgid "Podman Socket Activation"
-msgstr "Настольное приложение Podman"
+msgstr "Активация сокета Podman"
 
 #: data/resources/ui/connection/creation-page.ui:118
 msgid ""
 "To connect to the local Podman instance, the systemd socket must be enabled. "
 "You can enable it permanently by issuing the following command:"
 msgstr ""
+"Чтобы подключиться к локальному экземпляру Podman, необходимо включить сокет "
+"systemd. Вы можете включить его навсегда, выполнив следующую команду:"
 
 #: data/resources/ui/connection/creation-page.ui:167
 #: data/resources/ui/connection/custom-info-dialog.ui:138
@@ -314,33 +314,36 @@ msgstr ""
 #: data/resources/ui/connection/custom-info-dialog.ui:252
 #: data/resources/ui/connection/custom-info-dialog.ui:300
 msgid "Copy to Clipboard"
-msgstr ""
+msgstr "Скопировать в буфер обмена"
 
 #: data/resources/ui/connection/creation-page.ui:183
 msgid ""
 "To connect to the local root Podman instance, create a custom connection "
 "(read the hints there)."
 msgstr ""
+"Чтобы подключиться к локальному root экземпляру Podman, создайте собственное "
+"подключение (прочитайте подсказки там)."
 
 #: data/resources/ui/connection/creation-page.ui:208
 msgid "Custom"
-msgstr ""
+msgstr "Пользовательский"
 
 #: data/resources/ui/connection/creation-page.ui:218
 msgid "Connection String"
-msgstr ""
+msgstr "Строка подключения"
 
 #: data/resources/ui/connection/creation-page.ui:246
 msgid "Color"
-msgstr ""
+msgstr "Цвет"
 
 #: data/resources/ui/connection/creation-page.ui:247
 msgid "Define how to colorize the header bar (disabled)."
-msgstr ""
+msgstr "Определите, как раскрасить панель заголовка (отключено)."
 
 #: data/resources/ui/connection/custom-info-dialog.ui:16
+#, fuzzy
 msgid "Custom Connection"
-msgstr ""
+msgstr "Пользовательское соединение"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:41
 msgid ""
@@ -348,10 +351,13 @@ msgid ""
 "span>, <span weight=\"bold\">TCP</span>, and <span weight=\"bold\">UNIX</"
 "span> protocols. For example, the connection string might look like this:"
 msgstr ""
+"Вы можете подключиться к экземпляру Podman используя протоколы <span weight="
+"\"bold\">HTTP</span>, <span weight=\"bold\">TCP</span> и <span weight=\"bold"
+"\">UNIX</span>. Например, строка подключения может выглядеть так:"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:82
 msgid "Podman Root Connection"
-msgstr ""
+msgstr "Root подключение Podman"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:91
 msgid ""
@@ -360,15 +366,19 @@ msgid ""
 "is not readable for normal users. However, there is a workaround using a "
 "systemd unit. Save the following snippet:"
 msgstr ""
+"К сожалению, в настоящее время невозможно напрямую подключиться к root "
+"экземпляру Podman, так как <span weight=\"bold\">/run/podman/podman.sock</"
+"span> не читается обычными пользователями. Однако есть обходной путь с "
+"использованием модуля systemd. Сохраните следующий фрагмент:"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:203
 msgid "Enable the service by issuing the command:"
-msgstr ""
+msgstr "Включите службу исполнив команду:"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:261
 msgid ""
 "Enter the following URL here into the text field and create the connection:"
-msgstr ""
+msgstr "Введите следующий URL в текстовое поле и создайте соединение:"
 
 #: data/resources/ui/connection/row.ui:81
 #: data/resources/ui/container/details-page.ui:184
@@ -379,45 +389,44 @@ msgstr ""
 #: data/resources/ui/pod/details-page.ui:231
 #: data/resources/ui/pods/panel.ui:262 data/resources/ui/pods/panel.ui:333
 msgid "Delete"
-msgstr ""
+msgstr "Удалить"
 
 #: data/resources/ui/container/commit-page.ui:40
-#, fuzzy
 msgid "Commit Container"
-msgstr "Контейнеры"
+msgstr "Сделать коммит контейнера"
 
 #: data/resources/ui/container/commit-page.ui:50
 msgid "_Commit"
-msgstr ""
+msgstr "_Коммит"
 
 #: data/resources/ui/container/commit-page.ui:63
 msgid "General Commit Options"
-msgstr ""
+msgstr "Общие параметры коммита"
 
 #: data/resources/ui/container/commit-page.ui:68
 msgid "Author"
-msgstr ""
+msgstr "Автор"
 
 #: data/resources/ui/container/commit-page.ui:77
 msgid "Fetch Username"
-msgstr ""
+msgstr "Получить имя пользователя"
 
 #: data/resources/ui/container/commit-page.ui:88
 #: src/view/image/history_page.rs:171
 msgid "Comment"
-msgstr ""
+msgstr "Комментарий"
 
 #: data/resources/ui/container/commit-page.ui:95
 msgid "Repo"
-msgstr ""
+msgstr "Репо"
 
 #: data/resources/ui/container/commit-page.ui:102
 msgid "Tag"
-msgstr ""
+msgstr "Ярлык"
 
 #: data/resources/ui/container/commit-page.ui:108
 msgid "Format"
-msgstr ""
+msgstr "Формат"
 
 #: data/resources/ui/container/commit-page.ui:123
 #: data/resources/ui/container/details-page.ui:167
@@ -426,181 +435,186 @@ msgstr ""
 #: data/resources/ui/pod/details-page.ui:214
 #: data/resources/ui/pods/panel.ui:204 data/resources/ui/pods/panel.ui:311
 msgid "Pause"
-msgstr ""
+msgstr "Пауза"
 
 #: data/resources/ui/container/commit-page.ui:124
 msgid "Pause the container before committing it."
-msgstr ""
+msgstr "Приостановите контейнер перед его коммитом."
 
 #: data/resources/ui/container/commit-page.ui:138
 msgid "Changes"
-msgstr ""
+msgstr "Изменения"
 
 #: data/resources/ui/container/commit-page.ui:139
 msgid ""
 "Instructions to apply while committing in Dockerfile format (i.e. \"CMD=/bin/"
 "foo\")."
 msgstr ""
+"Инструкции для применения при коммите в формате Dockerfile (например \"CMD=/"
+"bin/foo\")."
 
 #: data/resources/ui/container/creation-page.ui:15
 #, fuzzy
 msgid "_Create Only"
-msgstr "Создано"
+msgstr "_Только создать"
 
 #: data/resources/ui/container/creation-page.ui:54
 #: data/resources/ui/containers/group.ui:12
 #: data/resources/ui/containers/group.ui:45
-#, fuzzy
 msgid "Create Container"
-msgstr "Создавайте капсулы и контейнеры."
+msgstr "Создать контейнер"
 
 #: data/resources/ui/container/creation-page.ui:64
 msgid "_Run"
-msgstr ""
+msgstr "_Запустить"
 
 #: data/resources/ui/container/creation-page.ui:123
 #: data/resources/ui/image/build-page.ui:108
 #: data/resources/ui/pod/creation-page.ui:113
 msgid "Details"
-msgstr ""
+msgstr "Подробности"
 
 #: data/resources/ui/container/creation-page.ui:136
 msgid "Local image"
-msgstr ""
+msgstr "Локальный образ"
 
 #: data/resources/ui/container/creation-page.ui:152
 #: data/resources/ui/pod/creation-page.ui:318
 msgid "Remote Image"
-msgstr ""
+msgstr "Удаленный образ"
 
 #: data/resources/ui/container/creation-page.ui:161
 #: data/resources/ui/pod/creation-page.ui:327
 msgid "Remote image"
-msgstr ""
+msgstr "Удаленный образ"
 
 #: data/resources/ui/container/creation-page.ui:172
 #: data/resources/ui/pod/creation-page.ui:338
 msgid "Discard"
-msgstr ""
+msgstr "Отклонить"
 
 #: data/resources/ui/container/creation-page.ui:193
 #: data/resources/ui/container/creation-page.ui:199
 #: data/resources/ui/container/properties-group.ui:300
 msgid "Pod"
-msgstr ""
+msgstr "Pod"
 
 #: data/resources/ui/container/creation-page.ui:207
 #: data/resources/ui/pod/creation-page.ui:360
 msgid "Pull latest image"
-msgstr ""
+msgstr "Получить последний образ"
 
 #: data/resources/ui/container/creation-page.ui:219
 #: data/resources/ui/container/details-page.ui:239
 msgid "Terminal"
-msgstr ""
+msgstr "Терминал"
 
 #: data/resources/ui/container/creation-page.ui:232
 msgid "Memory limit"
-msgstr ""
+msgstr "Лимит памяти"
 
 #: data/resources/ui/container/creation-page.ui:276
 msgid "KB"
-msgstr ""
+msgstr "КБ"
 
 #: data/resources/ui/container/creation-page.ui:277
 msgid "MB"
-msgstr ""
+msgstr "МБ"
 
 #: data/resources/ui/container/creation-page.ui:278
 msgid "GB"
-msgstr ""
+msgstr "ГБ"
 
 #: data/resources/ui/container/creation-page.ui:307
 #: data/resources/ui/container/creation-page.ui:420
 #: data/resources/ui/container/health-check-page.ui:53
 #: data/resources/ui/pod/creation-page.ui:385
 msgid "Command"
-msgstr ""
+msgstr "Команда"
 
 #: data/resources/ui/container/creation-page.ui:315
 #: data/resources/ui/pod/creation-page.ui:162
 #: data/resources/ui/pod/creation-page.ui:394
 msgid "Arguments"
-msgstr ""
+msgstr "Аргументы"
 
 #: data/resources/ui/container/creation-page.ui:334
 #: data/resources/ui/image/build-page.ui:153
 #: data/resources/ui/pod/creation-page.ui:183
 msgid "Integration"
-msgstr ""
+msgstr "Интеграция"
 
 #: data/resources/ui/container/creation-page.ui:344
 msgid "Port Mappings"
-msgstr ""
+msgstr "Сопоставление портов"
 
 #: data/resources/ui/container/creation-page.ui:359
 msgid "Volumes"
-msgstr ""
+msgstr "Хранилища"
 
 #: data/resources/ui/container/creation-page.ui:374
 msgid "Environment Variables"
-msgstr ""
+msgstr "Переменные среды"
 
 #: data/resources/ui/container/creation-page.ui:389
 #: data/resources/ui/image/build-page.ui:163
 #: data/resources/ui/pod/creation-page.ui:243
 msgid "Labels"
-msgstr ""
+msgstr "Метки"
 
 #: data/resources/ui/container/creation-page.ui:410
 #: data/resources/ui/container/properties-group.ui:225
 msgid "Health Check"
-msgstr ""
+msgstr "Проверка работоспособности"
 
 #: data/resources/ui/container/creation-page.ui:426
 #: data/resources/ui/container/health-check-page.ui:59
 msgid "Interval"
-msgstr ""
+msgstr "Интервал"
 
 #: data/resources/ui/container/creation-page.ui:427
 msgid "Interval how often health check is run."
-msgstr ""
+msgstr "Интервал, как часто выполняется проверка работоспособности."
 
 #: data/resources/ui/container/creation-page.ui:450
 #: data/resources/ui/container/creation-page.ui:486
 #: data/resources/ui/container/creation-page.ui:522
 msgid "seconds"
-msgstr ""
+msgstr "секунды"
 
 #: data/resources/ui/container/creation-page.ui:462
 #: data/resources/ui/container/health-check-page.ui:71
 msgid "Timeout"
-msgstr ""
+msgstr "Тайм-аут"
 
 #: data/resources/ui/container/creation-page.ui:463
 msgid ""
 "The maximum time allowed to complete the health check before an interval is "
 "considered failed."
 msgstr ""
+"Максимальное время разрешенное для завершения проверки работоспособности, "
+"прежде чем интервал будет считаться неудачным."
 
 #: data/resources/ui/container/creation-page.ui:498
 msgid "Start period"
-msgstr ""
+msgstr "Начальный период"
 
 #: data/resources/ui/container/creation-page.ui:499
 msgid "The initialization time needed for a container to bootstrap."
-msgstr ""
+msgstr "Время инициализации, необходимое для начальной загрузки контейнера."
 
 #: data/resources/ui/container/creation-page.ui:534
 #: data/resources/ui/container/health-check-page.ui:65
 msgid "Retries"
-msgstr ""
+msgstr "Попытки"
 
 #: data/resources/ui/container/creation-page.ui:535
 msgid ""
 "The number of retries allowed before a healthcheck is considered to be "
 "unhealthy."
 msgstr ""
+"Количество повторных попыток, разрешенных до проверки работоспособности "
+"перед тем как считаеть неработоспособным."
 
 #: data/resources/ui/container/details-page.ui:27
 msgid "Container Details"
@@ -609,7 +623,7 @@ msgstr "Детали контейнера"
 #: data/resources/ui/container/details-page.ui:75
 #: data/resources/ui/pod/details-page.ui:123
 msgid "Kill"
-msgstr ""
+msgstr "Убить"
 
 #: data/resources/ui/container/details-page.ui:95
 #: data/resources/ui/containers/panel.ui:181
@@ -617,7 +631,7 @@ msgstr ""
 #: data/resources/ui/pod/details-page.ui:142
 #: data/resources/ui/pods/panel.ui:233 data/resources/ui/pods/panel.ui:322
 msgid "Restart"
-msgstr ""
+msgstr "Перезапустить"
 
 #: data/resources/ui/container/details-page.ui:108
 #: data/resources/ui/containers/panel.ui:94
@@ -625,7 +639,7 @@ msgstr ""
 #: data/resources/ui/pod/details-page.ui:155
 #: data/resources/ui/pods/panel.ui:146 data/resources/ui/pods/panel.ui:289
 msgid "Start/Resume"
-msgstr ""
+msgstr "Начать/Возобновить"
 
 #: data/resources/ui/container/details-page.ui:128
 #: data/resources/ui/containers/panel.ui:123
@@ -633,28 +647,29 @@ msgstr ""
 #: data/resources/ui/pod/details-page.ui:175
 #: data/resources/ui/pods/panel.ui:175 data/resources/ui/pods/panel.ui:300
 msgid "Stop"
-msgstr ""
+msgstr "Стоп"
 
 #: data/resources/ui/container/details-page.ui:201
 #: data/resources/ui/image/details-page.ui:161
 #: data/resources/ui/pod/details-page.ui:247
 msgid "Utilities"
-msgstr ""
+msgstr "Утилиты"
 
 #: data/resources/ui/container/details-page.ui:205
 #: data/resources/ui/image/details-page.ui:165
 #: data/resources/ui/pod/details-page.ui:251
 msgid "Inspect"
-msgstr ""
+msgstr "Осмотреть"
 
 #: data/resources/ui/container/details-page.ui:206
 msgid "View all container properties in a structured text form."
-msgstr ""
+msgstr "Просмотр всех свойств контейнера в структурированной текстовой форме."
 
 #: data/resources/ui/container/details-page.ui:222
 #: data/resources/ui/pod/details-page.ui:268
+#, fuzzy
 msgid "Kube"
-msgstr ""
+msgstr "Kube"
 
 #: data/resources/ui/container/details-page.ui:223
 #, fuzzy

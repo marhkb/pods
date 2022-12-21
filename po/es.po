@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-15 23:12+0100\n"
-"PO-Revision-Date: 2022-10-21 19:22+0000\n"
+"PO-Revision-Date: 2022-12-19 17:51+0000\n"
 "Last-Translator: Óscar Fernández Díaz <oscfdezdz@tuta.io>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/pods/pods/es/>\n"
 "Language: es\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.14.2-dev\n"
+"X-Generator: Weblate 4.15.1-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
@@ -49,7 +49,7 @@ msgstr "Comportamiento de la ventana maximizada predeterminado"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:26
 msgid "Color Scheme"
-msgstr ""
+msgstr "Esquema de colores"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:27
 msgid "Use the light or dark variant of the GTK theme"
@@ -99,17 +99,16 @@ msgstr "Si se muestra una marca de tiempo para cada línea de registro"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:76
 #: data/com.github.marhkb.Pods.gschema.xml.in:81
-#, fuzzy
 msgid "Whether to use a regex for search"
-msgstr "Si se muestra una marca de tiempo para cada línea de registro"
+msgstr "Si se usará expresiones regulares en la búsqueda"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:86
 msgid "Whether search should be case-sensitive"
-msgstr ""
+msgstr "Si la búsqueda será sensible a las mayúsculas"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:91
 msgid "Whether to match whole words when searching"
-msgstr ""
+msgstr "Si deberá coincidir con palabras completas cuando esté buscando"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
 msgid ""
@@ -200,48 +199,40 @@ msgid "_View"
 msgstr "_Ver"
 
 #: data/resources/ui/actions/overview.ui:38
-#, fuzzy
 msgid "No Operations"
-msgstr "Opciones"
+msgstr "Sin operaciones"
 
 #: data/resources/ui/component/source-view-page.ui:25
 #: data/resources/ui/container/creation-page.ui:184
 #: data/resources/ui/container/log-page.ui:39
 #: data/resources/ui/pod/creation-page.ui:350
-#, fuzzy
 msgid "Search"
 msgstr "Buscar"
 
 #: data/resources/ui/component/source-view-page.ui:33
 #: data/resources/ui/container/log-page.ui:55
-#, fuzzy
 msgid "Save as File"
-msgstr "_Seleccionar"
+msgstr "Guardar como archivo"
 
 #: data/resources/ui/component/source-view-search-widget.ui:23
-#, fuzzy
 msgid "Previous (Ctrl+Shift+G)"
-msgstr "Ir a la coincidencia anterior (Ctrl+Shift+G)"
+msgstr "Anterior (Ctrl+Shift+G)"
 
 #: data/resources/ui/component/source-view-search-widget.ui:30
-#, fuzzy
 msgid "Next (Ctrl+G)"
-msgstr "Ir a la coincidencia siguiente (Ctrl+G)"
+msgstr "Siguiente (Ctrl+G)"
 
 #: data/resources/ui/component/text-search-entry.ui:42
-#, fuzzy
 msgid "Regular Expression"
-msgstr "Expresiones re_gulares"
+msgstr "Expresión regular"
 
 #: data/resources/ui/component/text-search-entry.ui:50
-#, fuzzy
 msgid "Case Sensitive"
-msgstr "Sensible a las _mayúsculas y minúsculas"
+msgstr "Sensible a las mayúsculas"
 
 #: data/resources/ui/component/text-search-entry.ui:58
-#, fuzzy
 msgid "Whole Word"
-msgstr "Coincidir sólo con la _palabra completa"
+msgstr "Palabra completa"
 
 #: data/resources/ui/connection/chooser-page.ui:34
 msgid "Connect to Podman"
@@ -273,9 +264,8 @@ msgid "_Cancel"
 msgstr "_Cancelar"
 
 #: data/resources/ui/connection/creation-page.ui:34
-#, fuzzy
 msgid "New Connection"
-msgstr "Añadir conexión nueva"
+msgstr "Conexión nueva"
 
 #: data/resources/ui/connection/creation-page.ui:44
 msgid "_Connect"
@@ -293,7 +283,7 @@ msgstr "Nombre"
 
 #: data/resources/ui/connection/creation-page.ui:71
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: data/resources/ui/connection/creation-page.ui:72
 msgid "Choose how you want to connect to Podman."
@@ -304,15 +294,16 @@ msgid "Unix Socket"
 msgstr "Socket Unix"
 
 #: data/resources/ui/connection/creation-page.ui:111
-#, fuzzy
 msgid "Podman Socket Activation"
-msgstr "Una aplicación de escritorio Podman"
+msgstr "Activación del zócalo Podman"
 
 #: data/resources/ui/connection/creation-page.ui:118
 msgid ""
 "To connect to the local Podman instance, the systemd socket must be enabled. "
 "You can enable it permanently by issuing the following command:"
 msgstr ""
+"Para conectar a la instancia local de Podman, el socket de systemd debe "
+"estar habilitado. Puede habilitarlo permanentemente con el siguiente comando:"
 
 #: data/resources/ui/connection/creation-page.ui:167
 #: data/resources/ui/connection/custom-info-dialog.ui:138
@@ -320,13 +311,15 @@ msgstr ""
 #: data/resources/ui/connection/custom-info-dialog.ui:252
 #: data/resources/ui/connection/custom-info-dialog.ui:300
 msgid "Copy to Clipboard"
-msgstr ""
+msgstr "Copiar al portapapeles"
 
 #: data/resources/ui/connection/creation-page.ui:183
 msgid ""
 "To connect to the local root Podman instance, create a custom connection "
 "(read the hints there)."
 msgstr ""
+"Para conectarse a la instancia raíz local de Podman, cree una conexión "
+"personalizada (lea las sugerencias al respecto)."
 
 #: data/resources/ui/connection/creation-page.ui:208
 msgid "Custom"
@@ -341,14 +334,12 @@ msgid "Color"
 msgstr "Color"
 
 #: data/resources/ui/connection/creation-page.ui:247
-#, fuzzy
 msgid "Define how to colorize the header bar (disabled)."
-msgstr "Definir cómo colorear la barra de encabezado."
+msgstr "Definir cómo colorear la barra de cabecera (desactivado)."
 
 #: data/resources/ui/connection/custom-info-dialog.ui:16
-#, fuzzy
 msgid "Custom Connection"
-msgstr "_Añadir conexión"
+msgstr "Conexión personalizada"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:41
 msgid ""

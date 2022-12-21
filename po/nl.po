@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-15 23:12+0100\n"
-"PO-Revision-Date: 2022-11-05 14:06+0000\n"
+"PO-Revision-Date: 2022-12-19 17:51+0000\n"
 "Last-Translator: Philip Goto <philip.goto@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/pods/pods/nl/>\n"
 "Language: nl\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.14.2\n"
+"X-Generator: Weblate 4.15.1-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
@@ -50,7 +50,7 @@ msgstr "Standaardgedrag bij maximaliseren"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:26
 msgid "Color Scheme"
-msgstr ""
+msgstr "Kleurenschema"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:27
 msgid "Use the light or dark variant of the GTK theme"
@@ -101,18 +101,16 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:76
 #: data/com.github.marhkb.Pods.gschema.xml.in:81
-#, fuzzy
 msgid "Whether to use a regex for search"
-msgstr ""
-"Of er een tijdstempel getoond moet worden voor elke lijn in het logboek"
+msgstr "Of reguliere expressies worden gebruikt bij zoeken"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:86
 msgid "Whether search should be case-sensitive"
-msgstr ""
+msgstr "Of zoeken hoofdlettergevoelig moet zijn"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:91
 msgid "Whether to match whole words when searching"
-msgstr ""
+msgstr "Of zoektermen met een volledig woord moeten overeenkomen bij het zoeken"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
 msgid ""
@@ -206,48 +204,40 @@ msgid "_View"
 msgstr "_Bekijken"
 
 #: data/resources/ui/actions/overview.ui:38
-#, fuzzy
 msgid "No Operations"
-msgstr "Opties"
+msgstr "Geen handelingen"
 
 #: data/resources/ui/component/source-view-page.ui:25
 #: data/resources/ui/container/creation-page.ui:184
 #: data/resources/ui/container/log-page.ui:39
 #: data/resources/ui/pod/creation-page.ui:350
-#, fuzzy
 msgid "Search"
 msgstr "Zoeken"
 
 #: data/resources/ui/component/source-view-page.ui:33
 #: data/resources/ui/container/log-page.ui:55
-#, fuzzy
 msgid "Save as File"
-msgstr "Bestand selecteren"
+msgstr "Opslaan als bestand"
 
 #: data/resources/ui/component/source-view-search-widget.ui:23
-#, fuzzy
 msgid "Previous (Ctrl+Shift+G)"
-msgstr "Naar vorige overeenkomst springen (Ctrl+Shift+G)"
+msgstr "Vorige (Ctrl+Shift+G)"
 
 #: data/resources/ui/component/source-view-search-widget.ui:30
-#, fuzzy
 msgid "Next (Ctrl+G)"
-msgstr "Naar volgende overeenkomst springen (Ctrl+G)"
+msgstr "Volgende (Ctrl+G)"
 
 #: data/resources/ui/component/text-search-entry.ui:42
-#, fuzzy
 msgid "Regular Expression"
-msgstr "Re_guliere expressies"
+msgstr "Reguliere expressie"
 
 #: data/resources/ui/component/text-search-entry.ui:50
-#, fuzzy
 msgid "Case Sensitive"
-msgstr "_Hoofdlettergevoelig"
+msgstr "Hoofdlettergevoelig"
 
 #: data/resources/ui/component/text-search-entry.ui:58
-#, fuzzy
 msgid "Whole Word"
-msgstr "Enkel volledige _woorden zoeken"
+msgstr "Volledig woord"
 
 #: data/resources/ui/connection/chooser-page.ui:34
 msgid "Connect to Podman"
@@ -279,9 +269,8 @@ msgid "_Cancel"
 msgstr "_Annuleren"
 
 #: data/resources/ui/connection/creation-page.ui:34
-#, fuzzy
 msgid "New Connection"
-msgstr "Nieuwe verbinding toevoegen"
+msgstr "Nieuwe verbinding"
 
 #: data/resources/ui/connection/creation-page.ui:44
 msgid "_Connect"
@@ -299,7 +288,7 @@ msgstr "Naam"
 
 #: data/resources/ui/connection/creation-page.ui:71
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: data/resources/ui/connection/creation-page.ui:72
 msgid "Choose how you want to connect to Podman."
@@ -310,15 +299,17 @@ msgid "Unix Socket"
 msgstr "Unix-socket"
 
 #: data/resources/ui/connection/creation-page.ui:111
-#, fuzzy
 msgid "Podman Socket Activation"
-msgstr "Een desktop-applicatie voor Podman"
+msgstr "Podman-socket-activatie"
 
 #: data/resources/ui/connection/creation-page.ui:118
 msgid ""
 "To connect to the local Podman instance, the systemd socket must be enabled. "
 "You can enable it permanently by issuing the following command:"
 msgstr ""
+"Om met de lokale Podman-instantie te verbinden, moet de systemd-socket "
+"worden ingeschakeld. U kunt deze permanent inschakelen door de volgende "
+"opdracht uit te voeren:"
 
 #: data/resources/ui/connection/creation-page.ui:167
 #: data/resources/ui/connection/custom-info-dialog.ui:138
@@ -326,13 +317,15 @@ msgstr ""
 #: data/resources/ui/connection/custom-info-dialog.ui:252
 #: data/resources/ui/connection/custom-info-dialog.ui:300
 msgid "Copy to Clipboard"
-msgstr ""
+msgstr "Naar klembord kopiëren"
 
 #: data/resources/ui/connection/creation-page.ui:183
 msgid ""
 "To connect to the local root Podman instance, create a custom connection "
 "(read the hints there)."
 msgstr ""
+"Om met de lokale root-Podman-instantie te verbinden moet u een lokale "
+"verbinding aanmaken (zie bijbehorende uitleg)."
 
 #: data/resources/ui/connection/creation-page.ui:208
 msgid "Custom"
@@ -351,9 +344,8 @@ msgid "Define how to colorize the header bar (disabled)."
 msgstr "Hoe de titelbalk moet worden gekleurd (uitgeschakeld)."
 
 #: data/resources/ui/connection/custom-info-dialog.ui:16
-#, fuzzy
 msgid "Custom Connection"
-msgstr "_Verbindingen"
+msgstr "Aangepaste verbinding"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:41
 msgid ""
@@ -361,11 +353,14 @@ msgid ""
 "span>, <span weight=\"bold\">TCP</span>, and <span weight=\"bold\">UNIX</"
 "span> protocols. For example, the connection string might look like this:"
 msgstr ""
+"U kunt verbinden met een Podman-instantie via de protocollen <span weight="
+"\"bold\">HTTP</span>, <span weight=\"bold\">TCP</span> en <span weight=\"bold"
+"\">UNIX</span>. De verbindingstekenreeks kan er bijvoorbeeld als volgt "
+"uitzien:"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:82
-#, fuzzy
 msgid "Podman Root Connection"
-msgstr "Nieuwe verbinding toevoegen"
+msgstr "Podman-root-verbinding"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:91
 msgid ""
@@ -374,15 +369,19 @@ msgid ""
 "is not readable for normal users. However, there is a workaround using a "
 "systemd unit. Save the following snippet:"
 msgstr ""
+"Het is helaas niet mogelijk om direct met de Podman-root-instantie omdat "
+"normale gebruikers geen leesrechten hebben voor <span weight=\"bold\">/run/"
+"podman/podman.sock</span>. Er is echter een workaround met behulp van een "
+"systemd-unit. Sla het volgende fragment op:"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:203
 msgid "Enable the service by issuing the command:"
-msgstr ""
+msgstr "Schakel de service in door de volgende opdracht uit te voeren:"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:261
 msgid ""
 "Enter the following URL here into the text field and create the connection:"
-msgstr ""
+msgstr "Voer de volgende URL in in het tekstveld en maak de verbinding aan:"
 
 #: data/resources/ui/connection/row.ui:81
 #: data/resources/ui/container/details-page.ui:184
@@ -396,9 +395,8 @@ msgid "Delete"
 msgstr "Verwijderen"
 
 #: data/resources/ui/container/commit-page.ui:40
-#, fuzzy
 msgid "Commit Container"
-msgstr "{} container"
+msgstr "Container committen"
 
 #: data/resources/ui/container/commit-page.ui:50
 msgid "_Commit"
@@ -413,7 +411,6 @@ msgid "Author"
 msgstr "Auteur"
 
 #: data/resources/ui/container/commit-page.ui:77
-#, fuzzy
 msgid "Fetch Username"
 msgstr "Gebruikersnaam opvragen"
 
@@ -460,20 +457,18 @@ msgstr ""
 "(bijv. ‘CMD=/bin/foo’)."
 
 #: data/resources/ui/container/creation-page.ui:15
-#, fuzzy
 msgid "_Create Only"
-msgstr "_Aanmaken"
+msgstr "Alleen _aanmaken"
 
 #: data/resources/ui/container/creation-page.ui:54
 #: data/resources/ui/containers/group.ui:12
 #: data/resources/ui/containers/group.ui:45
-#, fuzzy
 msgid "Create Container"
-msgstr "Een container _aanmaken"
+msgstr "Container aanmaken"
 
 #: data/resources/ui/container/creation-page.ui:64
 msgid "_Run"
-msgstr ""
+msgstr "_Uitvoeren"
 
 #: data/resources/ui/container/creation-page.ui:123
 #: data/resources/ui/image/build-page.ui:108
@@ -487,7 +482,6 @@ msgstr "Lokaal schijfkopiebestand"
 
 #: data/resources/ui/container/creation-page.ui:152
 #: data/resources/ui/pod/creation-page.ui:318
-#, fuzzy
 msgid "Remote Image"
 msgstr "Extern schijfkopiebestand"
 
@@ -499,7 +493,7 @@ msgstr "Extern schijfkopiebestand"
 #: data/resources/ui/container/creation-page.ui:172
 #: data/resources/ui/pod/creation-page.ui:338
 msgid "Discard"
-msgstr ""
+msgstr "Verwerpen"
 
 #: data/resources/ui/container/creation-page.ui:193
 #: data/resources/ui/container/creation-page.ui:199
@@ -676,16 +670,15 @@ msgstr "Bekijk alle containereigenschappen in een gestructureerd tekstformaat."
 #: data/resources/ui/container/details-page.ui:222
 #: data/resources/ui/pod/details-page.ui:268
 msgid "Kube"
-msgstr ""
+msgstr "Kube"
 
 #: data/resources/ui/container/details-page.ui:223
-#, fuzzy
 msgid "Generate Kubernetes YAML based on this container."
-msgstr "Maak een nieuw schijfkopiebestand van deze container aan."
+msgstr "Genereert Kubernetes-YAML gebaseerd op deze container."
 
 #: data/resources/ui/container/details-page.ui:240
 msgid "Connect to the container's terminal."
-msgstr ""
+msgstr "Verbindt met de terminal van de container."
 
 #: data/resources/ui/container/details-page.ui:256
 msgid "Logs"
@@ -705,58 +698,51 @@ msgid "View processes that are currently running inside the container."
 msgstr "Bekijk processen welke momenteel binnen de container draaien."
 
 #: data/resources/ui/container/files-get-page.ui:40
-#, fuzzy
 msgid "Download Files"
-msgstr "_Downloaden…"
+msgstr "Bestanden downloaden"
 
 #: data/resources/ui/container/files-get-page.ui:50
 #: data/resources/ui/image/pull-page.ui:50
-#, fuzzy
 msgid "_Download"
-msgstr "_Downloaden…"
+msgstr "_Downloaden"
 
 #: data/resources/ui/container/files-get-page.ui:68
 #: data/resources/ui/container/files-put-page.ui:96
-#, fuzzy
 msgid "Container Path ('/' if empty)"
-msgstr "Containerpad"
+msgstr "Containerpad (‘/’ indien leeg)"
 
 #: data/resources/ui/container/files-get-page.ui:75
 #: data/resources/ui/container/files-put-page.ui:77
-#, fuzzy
 msgid "Host Path"
 msgstr "Host-pad"
 
 #: data/resources/ui/container/files-get-page.ui:76
 msgid "Select a destination tar archive on the host."
-msgstr ""
+msgstr "Selecteer een pad voor het tar-archief op de host."
 
 #: data/resources/ui/container/files-get-page.ui:81
-#, fuzzy
 msgid "Select _Path…"
-msgstr "Selecteren…"
+msgstr "_Pad selecteren…"
 
 #: data/resources/ui/container/files-put-page.ui:15
-#, fuzzy
 msgid "Select _Directory…"
-msgstr "Contextmap voor bouwen selecteren"
+msgstr "_Map selecteren…"
 
 #: data/resources/ui/container/files-put-page.ui:49
 msgid "Upload Files"
-msgstr ""
+msgstr "Bestanden uploaden"
 
 #: data/resources/ui/container/files-put-page.ui:59
 msgid "_Upload"
-msgstr ""
+msgstr "_Uploaden"
 
 #: data/resources/ui/container/files-put-page.ui:78
 msgid "Either select a file or a directory from the host to upload."
-msgstr ""
+msgstr "Selecteer een bestand of een map van de host om te uploaden."
 
 #: data/resources/ui/container/files-put-page.ui:83
-#, fuzzy
 msgid "Select _File…"
-msgstr "Bestand selecteren"
+msgstr "_Bestand selecteren…"
 
 #: data/resources/ui/container/health-check-page.ui:21
 msgid "Container Health Check"
@@ -790,18 +776,16 @@ msgid "_Run Health Check"
 msgstr "Gezondheidscheck _uitvoeren"
 
 #: data/resources/ui/container/log-page.ui:20
-#, fuzzy
 msgid "Container Logs"
 msgstr "Container-logboek"
 
 #: data/resources/ui/container/log-page.ui:32
-#, fuzzy
 msgid "Timestamps"
-msgstr "Tijdstempels omschakelen"
+msgstr "Tijdstempels"
 
 #: data/resources/ui/container/log-page.ui:73
 msgid "Saving Log"
-msgstr ""
+msgstr "Logboek opslaan"
 
 #: data/resources/ui/container/log-page.ui:138
 msgid "Loading previous lines"
@@ -813,12 +797,11 @@ msgstr "Naar beneden scrollen"
 
 #: data/resources/ui/container/log-page.ui:226
 msgid "Streaming is disconnected because container isn't running."
-msgstr ""
+msgstr "Stream is niet verbonden omdat de container is uitgeschakeld."
 
 #: data/resources/ui/container/log-page.ui:236
-#, fuzzy
 msgid "Start/Resume Container"
-msgstr "Starten/hervatten"
+msgstr "Container starten/hervatten"
 
 #: data/resources/ui/container/menu-button.ui:7
 #: data/resources/ui/pod/menu-button.ui:13
@@ -862,9 +845,8 @@ msgid "Properties"
 msgstr "Eigenschappen"
 
 #: data/resources/ui/container/properties-group.ui:42
-#, fuzzy
 msgid "Rename (F2)"
-msgstr "Hernoemen"
+msgstr "Hernoemen (F2)"
 
 #: data/resources/ui/container/properties-group.ui:55
 #: data/resources/ui/pod/details-page.ui:63
@@ -873,7 +855,7 @@ msgstr "Id"
 
 #: data/resources/ui/container/properties-group.ui:82
 msgid "Commit (Ctrl+K)"
-msgstr ""
+msgstr "Committen (Ctrl+K)"
 
 #: data/resources/ui/container/properties-group.ui:95
 #: data/resources/ui/pod/details-page.ui:69 src/model/container.rs:67
@@ -883,7 +865,7 @@ msgstr "Aangemaakt"
 
 #: data/resources/ui/container/properties-group.ui:101
 msgid "Size"
-msgstr ""
+msgstr "Grootte"
 
 #: data/resources/ui/container/properties-group.ui:206
 msgid "Port bindings"
@@ -918,19 +900,16 @@ msgid "Disk"
 msgstr "Schijf"
 
 #: data/resources/ui/container/tty-page.ui:19
-#, fuzzy
 msgid "Container TTY"
-msgstr "Container"
+msgstr "Container-TTY"
 
 #: data/resources/ui/container/tty.ui:15
-#, fuzzy
 msgid "No Terminal"
-msgstr "Terminal"
+msgstr "Geen terminal"
 
 #: data/resources/ui/container/tty.ui:16
-#, fuzzy
 msgid "The container must be running to use the terminal."
-msgstr "De container wordt aangemaakt. U kunt deze pagina verlaten."
+msgstr "De container moet ingeschakeld zijn om de terminal te gebruiken."
 
 #: data/resources/ui/containers/group.ui:28 data/resources/ui/pods/panel.ui:69
 msgid "Only running"
@@ -1026,9 +1005,8 @@ msgid "Tag ('latest' if empty)"
 msgstr "Tag (‘latest’ indien leeg)"
 
 #: data/resources/ui/image/build-page.ui:41
-#, fuzzy
 msgid "Build Image"
-msgstr "Een lokaal schijfkopiebestand _bouwen"
+msgstr "Schijfkopiebestand bouwen"
 
 #: data/resources/ui/image/build-page.ui:51
 msgid "_Build"
@@ -1056,12 +1034,11 @@ msgstr "Details van schijfkopiebestand"
 
 #: data/resources/ui/image/details-page.ui:107
 msgid "Repository Tags"
-msgstr ""
+msgstr "Repository-labels"
 
 #: data/resources/ui/image/details-page.ui:145
-#, fuzzy
 msgid "_Delete This Image"
-msgstr "{} geselecteerd schijfkopiebestand"
+msgstr "Dit schijfkopiebestand _verwijderen"
 
 #: data/resources/ui/image/details-page.ui:166
 msgid "View all image properties in a structured text form."
@@ -1071,11 +1048,11 @@ msgstr ""
 
 #: data/resources/ui/image/details-page.ui:182
 msgid "History"
-msgstr ""
+msgstr "Geschiedenis"
 
 #: data/resources/ui/image/details-page.ui:183
 msgid "View parent layers of this image."
-msgstr ""
+msgstr "Bekijk bovenliggende lagen van dit schijfkopiebestand."
 
 #: data/resources/ui/image/details-page.ui:207
 msgid "Associated Containers"
@@ -1086,13 +1063,12 @@ msgid "There are no containers associated with this image."
 msgstr "Er zijn geen containers geassocieerd met dit schijfkopiebestand."
 
 #: data/resources/ui/image/history-page.ui:19
-#, fuzzy
 msgid "Image History"
-msgstr "Opslag voor schijfkopiebestanden"
+msgstr "Schijfkopiebestandgeschiedenis"
 
 #: data/resources/ui/image/history-page.ui:49
 msgid "History List"
-msgstr ""
+msgstr "Geschiedenislijst"
 
 #: data/resources/ui/image/menu-button.ui:6
 #: data/resources/ui/pod/menu-button.ui:7
@@ -1100,19 +1076,16 @@ msgid "_Create Container…"
 msgstr "_Container aanmaken…"
 
 #: data/resources/ui/image/pull-page.ui:40
-#, fuzzy
 msgid "Download Image"
-msgstr "Een schijfkopiebestand downloaden"
+msgstr "Schijfkopiebestand downloaden"
 
 #: data/resources/ui/image/selection-page.ui:21
-#, fuzzy
 msgid "Image Search"
-msgstr "Opslag voor schijfkopiebestanden"
+msgstr "Schijfkopiebestanden doorzoeken"
 
 #: data/resources/ui/image/selection-page.ui:31
-#, fuzzy
 msgid "_Select"
-msgstr "Alle _selecteren"
+msgstr "_Selecteren"
 
 #: data/resources/ui/images/panel.ui:29
 msgid "_Download…"
@@ -1145,18 +1118,16 @@ msgid "_Build a Local Image"
 msgstr "Een lokaal schijfkopiebestand _bouwen"
 
 #: data/resources/ui/images/prune-page.ui:40
-#, fuzzy
 msgid "Prune Images"
-msgstr "Schijfkopiebestanden opschonen."
+msgstr "Schijfkopiebestanden opschonen"
 
 #: data/resources/ui/images/prune-page.ui:50
 msgid "_Prune"
 msgstr "_Opschonen"
 
 #: data/resources/ui/images/prune-page.ui:64
-#, fuzzy
 msgid "Prune Options"
-msgstr "Opschoningsinstellingen beheren"
+msgstr "Opschoningsinstellingen"
 
 #: data/resources/ui/images/prune-page.ui:69
 msgid "Prune All"
@@ -1300,9 +1271,8 @@ msgstr "Waarde"
 
 #: data/resources/ui/pod/creation-page.ui:45 data/resources/ui/pods/panel.ui:13
 #: data/resources/ui/pods/panel.ui:86
-#, fuzzy
 msgid "Create Pod"
-msgstr "Een pod _aanmaken"
+msgstr "Pod aanmaken"
 
 #: data/resources/ui/pod/creation-page.ui:55
 msgid "_Create"
@@ -1355,7 +1325,7 @@ msgstr "Bekijk alle pod-eigenschappen in een gestructureerd tekstformaat."
 
 #: data/resources/ui/pod/details-page.ui:269
 msgid "Generate Kubernetes YAML based on this pod."
-msgstr ""
+msgstr "Genereert Kubernetes-YAML gebaseerd op deze pod."
 
 #: data/resources/ui/pod/details-page.ui:286
 msgid "View processes that are currently running inside the pod."
@@ -1396,24 +1366,23 @@ msgstr "UDP"
 
 #: data/resources/ui/repo-tag/add-dialog.ui:6
 msgid "Add Repository Tag"
-msgstr ""
+msgstr "Repository-label toevoegen"
 
 #: data/resources/ui/repo-tag/add-dialog.ui:10
 msgid "_Add"
-msgstr ""
+msgstr "_Toevoegen"
 
 #: data/resources/ui/repo-tag/add-dialog.ui:25
 msgid "Repository Tag"
-msgstr ""
+msgstr "Repository-label"
 
 #: data/resources/ui/repo-tag/row.ui:31
-#, fuzzy
 msgid "Pull Latest"
-msgstr "Nieuwste schijfkopiebestand binnenhalen"
+msgstr "Nieuwste binnenhalen"
 
 #: data/resources/ui/repo-tag/row.ui:42
 msgid "Untag"
-msgstr ""
+msgstr "Label verwijderen"
 
 #: data/resources/ui/search-panel.ui:51 data/resources/ui/window.ui:273
 msgid "Images"
@@ -1465,33 +1434,29 @@ msgid "Return to main view"
 msgstr "Terug naar hoofdscherm"
 
 #: data/resources/ui/shortcuts.ui:69
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Container"
-msgstr "Containers"
+msgstr "Container"
 
 #: data/resources/ui/shortcuts.ui:73
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Rename"
 msgstr "Hernoemen"
 
 #: data/resources/ui/shortcuts.ui:80
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Commit"
 msgstr "Committen"
 
 #: data/resources/ui/shortcuts.ui:87
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Download files"
-msgstr "_Downloaden…"
+msgstr "Bestanden downloaden"
 
 #: data/resources/ui/shortcuts.ui:94
 msgctxt "shortcut window"
 msgid "Upload files"
-msgstr ""
+msgstr "Bestanden uploaden"
 
 #: data/resources/ui/shortcuts.ui:104
 msgctxt "shortcut window"
@@ -1509,12 +1474,10 @@ msgid "Create a new entity"
 msgstr "Nieuwe entiteit aanmaken"
 
 #: data/resources/ui/statusbar.ui:6 data/resources/ui/statusbar.ui:47
-#, fuzzy
 msgid "Connections"
-msgstr "_Verbindingen"
+msgstr "Verbindingen"
 
 #: data/resources/ui/statusbar.ui:13
-#, fuzzy
 msgid "_Add Connection…"
 msgstr "Verbinding _toevoegen…"
 
@@ -1523,9 +1486,8 @@ msgid "Clean up"
 msgstr "Opschonen"
 
 #: data/resources/ui/statusbar.ui:76
-#, fuzzy
 msgid "Operations"
-msgstr "Opties"
+msgstr "Handelingen"
 
 #: data/resources/ui/value/row.ui:4 src/view/container/creation_page.rs:327
 #: src/view/pod/creation_page.rs:224 src/view/pod/creation_page.rs:233
@@ -1631,44 +1593,40 @@ msgid "Finished"
 msgstr "Klaar"
 
 #: src/model/action.rs:375
-#, fuzzy
 msgid "Files: <b>{}</b> ({}) ← {}"
-msgstr "Schijfkopiebestand: <b>{}</b> ← {}"
+msgstr "Bestanden: <b>{}</b> ({}) ← {}"
 
 #: src/model/action.rs:382
-#, fuzzy
 msgid "Creating tar archive…"
-msgstr "_Container aanmaken…"
+msgstr "Tar-archief aanmaken…"
 
 #: src/model/action.rs:414
 msgid "Tar archive created"
-msgstr ""
+msgstr "Tar-archief aangemaakt"
 
 #: src/model/action.rs:415
 msgid "Unwrapping tar archive…"
-msgstr ""
+msgstr "Tar-archief uitpakken…"
 
 #: src/model/action.rs:423
 msgid "Tar archive unwrapped"
-msgstr ""
+msgstr "Tar-archief uitgepakt"
 
 #: src/model/action.rs:424
-#, fuzzy
 msgid "Copying files into container…"
-msgstr "_Container aanmaken…"
+msgstr "Bestanden kopiëren naar container…"
 
 #: src/model/action.rs:476
-#, fuzzy
 msgid "Files: <b>{}</b> ({}) → {}"
-msgstr "Schijfkopiebestand: <b>{}</b> ← {}"
+msgstr "Bestanden: <b>{}</b> ({}) → {}"
 
 #: src/model/action.rs:485
 msgid "Copying bytes into memory…"
-msgstr ""
+msgstr "Bytes kopiëren naar geheugen…"
 
 #: src/model/action.rs:488 src/model/action.rs:505
 msgid "Size: {}"
-msgstr ""
+msgstr "Grootte: {}"
 
 #: src/model/action.rs:546
 msgid "Pod: <b>{}</b>"
@@ -1692,7 +1650,7 @@ msgstr "Geëindigd"
 
 #: src/model/container.rs:70
 msgid "Initialized"
-msgstr ""
+msgstr "Geïnitialiseerd"
 
 #: src/model/container.rs:72
 msgid "Removing"
@@ -1803,14 +1761,12 @@ msgid "Container Is Currently Being Created"
 msgstr "Container wordt momenteel aangemaakt"
 
 #: src/view/action/page.rs:145
-#, fuzzy
 msgid "New Image Is Currently Being Committed"
-msgstr "Schijfkopiebestand wordt momenteel gebouwd"
+msgstr "Nieuw schijfkopiebestand wordt momenteel gecommit"
 
 #: src/view/action/page.rs:146
-#, fuzzy
 msgid "Files Are Currently Being Copied"
-msgstr "Schijfkopiebestanden worden momenteel opgeschoond"
+msgstr "Bestanden worden momenteel gekopieerd"
 
 #: src/view/action/page.rs:147
 msgid "Pod Is Currently Being Created"
@@ -1833,14 +1789,12 @@ msgid "Container Has Been Created"
 msgstr "Container is aangemaakt"
 
 #: src/view/action/page.rs:157
-#, fuzzy
 msgid "New Image Has Been Committed"
-msgstr "Schijfkopiebestand ‘{}’ is verwijderd"
+msgstr "Nieuw schijfkopiebestand is gecommit"
 
 #: src/view/action/page.rs:158
-#, fuzzy
 msgid "Files Have Beeng Copied"
-msgstr "Schijfkopiebestanden zijn opgeschoond"
+msgstr "Bestanden zijn gekopieerd"
 
 #: src/view/action/page.rs:159
 msgid "Pod Has Been Created"
@@ -1867,9 +1821,8 @@ msgid "Image Commitment Has Been Aborted"
 msgstr "Committen van schijfkopiebestand is afgebroken"
 
 #: src/view/action/page.rs:170
-#, fuzzy
 msgid "Copying Files Has Been Aborted"
-msgstr "Bouwen van schijfkopiebestand is afgebroken"
+msgstr "Kopiëren van bestanden is afgebroken"
 
 #: src/view/action/page.rs:171
 msgid "Pod Creation Has Been Aborted"
@@ -1896,9 +1849,8 @@ msgid "Image Commitment Has Failed"
 msgstr "Committen van schijfkopiebestand is mislukt"
 
 #: src/view/action/page.rs:182
-#, fuzzy
 msgid "Copying Files Has Failed"
-msgstr "Opschonen van schijfkopiebestanden is mislukt"
+msgstr "Kopiëren van bestanden is mislukt"
 
 #: src/view/action/page.rs:183
 msgid "Pod Creation Has Failed"
@@ -1917,23 +1869,20 @@ msgid "Artifact has been deleted"
 msgstr "Artefact is verwijderd"
 
 #: src/view/action/row.rs:143
-#, fuzzy
 msgid "Abort"
-msgstr "_Afbreken"
+msgstr "Afbreken"
 
 #: src/view/action/row.rs:145
-#, fuzzy
 msgid "Remove"
-msgstr "Aan het verwijderen"
+msgstr "Verwijderen"
 
 #: src/view/action/row.rs:220
-#, fuzzy
 msgid "Failed Pods Action"
-msgstr "Pod aanmaken mislukt"
+msgstr "Pods-actie mislukt"
 
 #: src/view/action/row.rs:224
 msgid "Finished Pods Action"
-msgstr ""
+msgstr "Pods-actie voltooid"
 
 #: src/view/action/row.rs:265
 msgid "Ongoing ({})"
@@ -1953,12 +1902,11 @@ msgstr "Mislukt na {}"
 
 #: src/view/component/back_navigation_controls.rs:62
 msgid "Go Back"
-msgstr ""
+msgstr "Teruggaan"
 
 #: src/view/component/back_navigation_controls.rs:71
-#, fuzzy
 msgid "Main View"
-msgstr "Hoofdvenster"
+msgstr "Hoofdweergave"
 
 #: src/view/component/source_view_page.rs:171
 msgid "Image Inspection"
@@ -1969,32 +1917,28 @@ msgid "Container Inspection"
 msgstr "Container-inspectie"
 
 #: src/view/component/source_view_page.rs:179
-#, fuzzy
 msgid "Container Kube Generation"
-msgstr "Container-inspectie"
+msgstr "Container-Kube-generatie"
 
 #: src/view/component/source_view_page.rs:189
 msgid "Pod Inspection"
 msgstr "Pod-inspectie"
 
 #: src/view/component/source_view_page.rs:190
-#, fuzzy
 msgid "Pod Kube Generation"
-msgstr "Pod-inspectie"
+msgstr "Pod-Kube-generatie"
 
 #: src/view/component/source_view_page.rs:214
-#, fuzzy
 msgid "Could not set language to '{}'"
-msgstr "Kon taal niet instellen op ‘JSON’"
+msgstr "Kon taal niet instellen op ‘{}’"
 
 #: src/view/component/source_view_page.rs:299
 msgid "Inspection error"
 msgstr "Inspectiefout"
 
 #: src/view/component/source_view_page.rs:300
-#, fuzzy
 msgid "Kube generation error"
-msgstr "Inspectiefout"
+msgstr "Kube-generatiefout"
 
 #: src/view/component/source_view_search_widget.rs:171
 msgid "0 of {}"
@@ -2014,12 +1958,12 @@ msgstr "Pod-processen"
 
 #: src/view/connection/creation_page.rs:122
 msgid "official documentation"
-msgstr ""
+msgstr "officiële documentatie"
 
 #. Translators: The placeholder '{}' is replaced by 'official documentation'.
 #: src/view/connection/creation_page.rs:119
 msgid "Visit the {} for more information."
-msgstr ""
+msgstr "Bezoek de {} voor meer informatie."
 
 #: src/view/connection/creation_page.rs:195
 msgid "Confirm Connecting to New Instance"
@@ -2027,19 +1971,19 @@ msgstr "Bevestig verbinden met nieuwe instantie"
 
 #: src/view/connection/custom_info_dialog.rs:119
 msgid "systemd unit path copied"
-msgstr ""
+msgstr "systemd-unit-pad gekopieerd"
 
 #: src/view/connection/custom_info_dialog.rs:127
 msgid "systemd unit content copied"
-msgstr ""
+msgstr "systemd-unit-inhoud gekopieerd"
 
 #: src/view/connection/custom_info_dialog.rs:135
 msgid "socket activation command copied"
-msgstr ""
+msgstr "socket-activatieopdracht gekopieerd"
 
 #: src/view/connection/custom_info_dialog.rs:143
 msgid "URL copied"
-msgstr ""
+msgstr "URL gekopieerd"
 
 #: src/view/connection/mod.rs:37
 msgid "There are ongoing actions whose progress will be irretrievably lost."
@@ -2071,9 +2015,8 @@ msgid "Error on fetching user name"
 msgstr "Fout bij verkrijgen van gebruikersnaam"
 
 #: src/view/container/creation_page.rs:279
-#, fuzzy
 msgid "disabled"
-msgstr "Ingeschakeld"
+msgstr "uitgeschakeld"
 
 #: src/view/container/creation_page.rs:621
 msgid "Failed to create container"
@@ -2093,17 +2036,15 @@ msgstr "Container ‘{}’ is verwijderd"
 
 #: src/view/container/files_get_page.rs:167
 msgid "Select Host Destination Path"
-msgstr ""
+msgstr "Host-bestemmingspad selecteren"
 
 #: src/view/container/files_put_page.rs:179
-#, fuzzy
 msgid "Select Host Directory"
-msgstr "Contextmap voor bouwen selecteren"
+msgstr "Host-map selecteren"
 
 #: src/view/container/files_put_page.rs:181
-#, fuzzy
 msgid "Select Host File"
-msgstr "Bestand selecteren"
+msgstr "Host-bestand selecteren"
 
 #: src/view/container/health_check_page.rs:209
 #: src/view/container/health_check_page.rs:225
@@ -2121,19 +2062,16 @@ msgid "Error while following log"
 msgstr "Fout bij volgen logboek"
 
 #: src/view/container/log_page.rs:524
-#, fuzzy
 msgid "Include timestamps"
-msgstr "Tijdstempels omschakelen"
+msgstr "Tijdstempels toevoegen"
 
 #: src/view/container/log_page.rs:573
-#, fuzzy
 msgid "Error on saving logs"
-msgstr "Fout bij laden van {}"
+msgstr "Fout bij opslaan logboek"
 
 #: src/view/container/log_page.rs:587
-#, fuzzy
 msgid "Error on retrieving logs"
-msgstr "Fout bij herstarten pod: {}"
+msgstr "Fout bij ophalen logboek"
 
 #: src/view/container/log_page.rs:615
 msgid "Error starting container"
@@ -2148,9 +2086,8 @@ msgid "since {}"
 msgstr "sinds {}"
 
 #: src/view/container/rename_dialog.rs:181
-#, fuzzy
 msgid "Rename Container"
-msgstr "Containers hernoemen."
+msgstr "Container hernoemen"
 
 #: src/view/container/resources_quick_reference_group.rs:102
 #: src/view/container/resources_quick_reference_group.rs:124
@@ -2175,13 +2112,12 @@ msgid "{} / s"
 msgstr "{}/s"
 
 #: src/view/container/tty.rs:303
-#, fuzzy
 msgid "Terminal error"
-msgstr "Terminal"
+msgstr "Terminal-fout"
 
 #: src/view/container/tty.rs:304
 msgid "'/bin/sh' not found"
-msgstr ""
+msgstr "‘/bin/sh’ niet gevonden"
 
 #: src/view/containers/group.rs:133
 msgid "1 container, running"
@@ -2284,41 +2220,36 @@ msgstr "Schijfkopiebestand ‘{}’ is verwijderd"
 #: src/view/image/history_page.rs:83
 msgid "{} entry"
 msgid_plural "{} entries"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} item"
+msgstr[1] "{} items"
 
 #: src/view/image/history_page.rs:85
 msgid "{} in total"
-msgstr ""
+msgstr "{} in totaal"
 
 #: src/view/image/history_page.rs:103
-#, fuzzy
 msgid "<None>"
 msgstr "<geen>"
 
 #: src/view/image/history_page.rs:118
-#, fuzzy
 msgid "Unknown Date"
-msgstr "Onbekend"
+msgstr "Onbekende datum"
 
 #: src/view/image/history_page.rs:129
-#, fuzzy
 msgid "Unknown size"
-msgstr "Onbekend"
+msgstr "Onbekende grootte"
 
 #: src/view/image/history_page.rs:146
-#, fuzzy
 msgid "Created by"
-msgstr "Aangemaakt"
+msgstr "Gemaakt door"
 
 #: src/view/image/history_page.rs:175
 msgid "Tags"
-msgstr ""
+msgstr "Labels"
 
 #: src/view/image/history_page.rs:189
-#, fuzzy
 msgid "Error on retrieving history"
-msgstr "Fout bij herstarten pod: {}"
+msgstr "Fout bij ophalen geschiedenis"
 
 #: src/view/image/mod.rs:34
 msgid "Confirm Forced Image Deletion"
@@ -2537,12 +2468,11 @@ msgstr "Fout bij verwijderen pod: {}"
 
 #: src/view/repo_tag/add_dialog.rs:103
 msgid "Repo tag must contain a colon “:”"
-msgstr ""
+msgstr "Repo-label dient een dubbele punt te bevatten"
 
 #: src/view/repo_tag/row.rs:196
-#, fuzzy
 msgid "Error on untagging image"
-msgstr "Fout bij verwijderen schijfkopiebestand ‘{}’"
+msgstr "Fout bij verwijderen label van schijfkopiebestand"
 
 #: src/window.rs:419
 msgid "Confirm Exiting The Application"

@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-15 23:12+0100\n"
-"PO-Revision-Date: 2022-06-12 11:19+0000\n"
-"Last-Translator: ᅟ <rmnscnce@ya.ru>\n"
-"Language-Team: Indonesian <https://hosted.weblate.org/projects/pods/pods/id/"
-">\n"
+"PO-Revision-Date: 2022-12-19 17:51+0000\n"
+"Last-Translator: yukidream <ahawaribagus@gmail.com>\n"
+"Language-Team: Indonesian <https://hosted.weblate.org/projects/pods/pods/id/>"
+"\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.13-dev\n"
+"X-Generator: Weblate 4.15.1-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
@@ -50,7 +50,7 @@ msgstr "Perilaku jendela penuh default"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:26
 msgid "Color Scheme"
-msgstr ""
+msgstr "Skema Warna"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:27
 msgid "Use the light or dark variant of the GTK theme"
@@ -119,10 +119,13 @@ msgid ""
 "Pods is a frontend for podman. It uses libadwaita for its user interface and "
 "strives to meet the design principles of GNOME."
 msgstr ""
+"Pods adalah antarmuka untuk podman. Menggunakan libadwaita untuk antarmuka "
+"dan bertujuan mengikuti prinsip desain GNOME."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:11
+#, fuzzy
 msgid "With Pods you can, among other things:"
-msgstr ""
+msgstr "Dengan Pods anda bisa melakukan,dan hal yang lain:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:13
 msgid "Connect to local and remote Podman instances."
@@ -192,7 +195,7 @@ msgstr "Penyimpanan Container"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:38
 msgid "Pods Overview"
-msgstr ""
+msgstr "Tinjauan Pods"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:188
 msgid "Marcus Behrendt"
