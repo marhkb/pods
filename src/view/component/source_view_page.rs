@@ -338,7 +338,7 @@ impl SourceViewPage {
                             .write_all_future(text, glib::Priority::default())
                             .await
                         {
-                            utils::show_error_toast(obj.upcast_ref(), "Error", &msg);
+                            utils::show_error_toast(obj.upcast_ref(), &gettext("Error"), &msg);
                         }
                     }));
                 }

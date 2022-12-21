@@ -396,7 +396,11 @@ where
         Ok(files) => op(files),
         Err(e) => {
             if let ashpd::Error::Portal(ashpd::PortalError::Cancelled(_)) = e {
-                show_error_toast(widget, "Error on open file dialog", &e.to_string());
+                show_error_toast(
+                    widget,
+                    &gettext("Error on open file dialog"),
+                    &e.to_string(),
+                );
             }
         }
     }
