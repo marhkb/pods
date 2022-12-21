@@ -74,10 +74,11 @@ fn delete_image_show_confirmation(widget: &gtk::Widget, image: Option<model::Ima
 fn delete_image(widget: &gtk::Widget, image: &model::Image) {
     image.delete(clone!(@weak widget => move |image, result| {
         if let Err(e) = result {
-            utils::show_toast(
+            utils::show_error_toast(
                 &widget,
-                // Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
-                &gettext!("Error on deleting image '{}': {}", image.id(), e)
+                // Translators: The "{}" is a placeholder for the image id.
+                &gettext!("Error on deleting image '{}'", image.id()),
+                &e.to_string(),
             );
         }
     }));

@@ -44,11 +44,7 @@ macro_rules! pod_action {
                 pod.$action(
                     $($param,)*
                     glib::clone!(@weak widget => move |result| if let Err(e) = result {
-                        crate::utils::show_error_toast(
-                            &widget,
-                            &gettextrs::gettext($error),
-                            &e.to_string()
-                        );
+                        crate::utils::show_error_toast(&widget, &$error, &e.to_string());
                     }),
                 );
             }
@@ -56,13 +52,13 @@ macro_rules! pod_action {
     };
 }
 
-pod_action!(fn start => start() => "Error on starting pod");
-pod_action!(fn stop => stop(false) => "Error on stopping pod");
-pod_action!(fn kill => stop(true) => "Error on killing pod");
-pod_action!(fn restart => restart(false) => "Error on restarting pod");
-pod_action!(fn pause => pause() => "Error on pausing pod");
-pod_action!(fn resume => resume() => "Error on resuming pod");
-pod_action!(fn delete => delete(false) => "Error on deleting pod");
+pod_action!(fn start => start() => { gettextrs::gettext("Error on starting pod") });
+pod_action!(fn stop => stop(false) => { gettextrs::gettext("Error on stopping pod") });
+pod_action!(fn kill => stop(true) => { gettextrs::gettext("Error on killing pod") });
+pod_action!(fn restart => restart(false) => { gettextrs::gettext("Error on restarting pod") });
+pod_action!(fn pause => pause() => { gettextrs::gettext("Error on pausing pod") });
+pod_action!(fn resume => resume() => { gettextrs::gettext("Error on resuming pod") });
+pod_action!(fn delete => delete(false) => { gettextrs::gettext("Error on deleting pod") });
 
 fn show_delete_confirmation_dialog(widget: &gtk::Widget) {
     if let Some(pod) =

@@ -69,7 +69,7 @@ macro_rules! container_action {
                     glib::clone!(@weak widget => move |result| if let Err(e) = result {
                         crate::utils::show_error_toast(
                             &widget,
-                            &gettextrs::gettext($error),
+                            &$error,
                             &e.to_string()
                         );
                     }),
@@ -79,10 +79,10 @@ macro_rules! container_action {
     };
 }
 
-container_action!(fn start => start() => "Error on starting container");
-container_action!(fn stop => stop(false) => "Error on stopping container");
-container_action!(fn kill => stop(true) => "Error on killing container");
-container_action!(fn restart => restart(false) => "Error on restarting container");
-container_action!(fn pause => pause() => "Error on pausing container");
-container_action!(fn resume => resume() => "Error on resuming container");
-container_action!(fn delete => delete(false) => "Error on deleting container");
+container_action!(fn start => start() => { gettextrs::gettext("Error on starting container") });
+container_action!(fn stop => stop(false) => { gettextrs::gettext("Error on stopping container") });
+container_action!(fn kill => stop(true) => { gettextrs::gettext("Error on killing container") });
+container_action!(fn restart => restart(false) => { gettextrs::gettext("Error on restarting container") });
+container_action!(fn pause => pause() => { gettextrs::gettext("Error on pausing container") });
+container_action!(fn resume => resume() => { gettextrs::gettext("Error on resuming container") });
+container_action!(fn delete => delete(false) => { gettextrs::gettext("Error on deleting container") });

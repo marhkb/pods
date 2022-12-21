@@ -340,32 +340,30 @@ impl Panel {
             list.selected_items()
                 .iter()
                 .map(|obj| obj.downcast_ref::<model::Pod>().unwrap())
-                .for_each(|pod| {
-                    match pod.status() {
-                        model::PodStatus::Paused => {
-                            pod.resume(clone!(@weak  self as obj => move |result| {
-                                if let Err(e) = result {
-                                    utils::show_toast(
-                                        obj.upcast_ref(),
-                                        // Translators: The "{}" is a placeholder for an error message.
-                                        &gettext!("Error on resuming pod: {}", e)
-                                    );
-                                }
-                            }));
-                        }
-                        other if other != model::PodStatus::Running => {
-                            pod.start(clone!(@weak  self as obj => move |result| {
-                                if let Err(e) = result {
-                                    utils::show_toast(
-                                        obj.upcast_ref(),
-                                        // Translators: The "{}" is a placeholder for an error message.
-                                        &gettext!("Error on starting pod: {}", e)
-                                    );
-                                }
-                            }));
-                        }
-                        _ => (),
+                .for_each(|pod| match pod.status() {
+                    model::PodStatus::Paused => {
+                        pod.resume(clone!(@weak  self as obj => move |result| {
+                            if let Err(e) = result {
+                                utils::show_error_toast(
+                                    obj.upcast_ref(),
+                                    &gettext("Error on resuming pod"),
+                                    &e.to_string(),
+                                );
+                            }
+                        }));
                     }
+                    other if other != model::PodStatus::Running => {
+                        pod.start(clone!(@weak  self as obj => move |result| {
+                            if let Err(e) = result {
+                                utils::show_error_toast(
+                                    obj.upcast_ref(),
+                                    &gettext("Error on starting pod"),
+                                    &e.to_string(),
+                                );
+                            }
+                        }));
+                    }
+                    _ => (),
                 });
             list.set_selection_mode(false);
             self.emit_by_name::<()>("exit-selection-mode", &[]);
@@ -383,10 +381,10 @@ impl Panel {
                         false,
                         clone!(@weak self as obj => move |result| {
                             if let Err(e) = result {
-                                utils::show_toast(
+                                utils::show_error_toast(
                                     obj.upcast_ref(),
-                                    // Translators: The "{}" is a placeholder for an error message.
-                                    &gettext!("Error on stopping pod: {}", e)
+                                    &gettext("Error on stopping pod"),
+                                    &e.to_string(),
                                 );
                             }
                         }),
@@ -406,10 +404,10 @@ impl Panel {
                 .for_each(|pod| {
                     pod.pause(clone!(@weak self as obj => move |result| {
                         if let Err(e) = result {
-                            utils::show_toast(
+                            utils::show_error_toast(
                                 obj.upcast_ref(),
-                                // Translators: The "{}" is a placeholder for an error message.
-                                &gettext!("Error on stopping pod: {}", e)
+                                &gettext("Error on stopping pod"),
+                                &e.to_string(),
                             );
                         }
                     }));
@@ -430,10 +428,10 @@ impl Panel {
                         false,
                         clone!(@weak self as obj => move |result| {
                             if let Err(e) = result {
-                                utils::show_toast(
+                                utils::show_error_toast(
                                     obj.upcast_ref(),
-                                    // Translators: The "{}" is a placeholder for an error message.
-                                    &gettext!("Error on restarting pod: {}", e)
+                                    &gettext("Error on restarting pod"),
+                                    &e.to_string(),
                                 );
                             }
                         }),
@@ -475,10 +473,10 @@ impl Panel {
                     {
                         pod.delete(true, clone!(@weak obj => move |result| {
                             if let Err(e) = result {
-                                utils::show_toast(
+                                utils::show_error_toast(
                                     obj.upcast_ref(),
-                                    // Translators: The "{}" is a placeholder for an error message.
-                                    &gettext!("Error on deleting pod: {}", e)
+                                    &gettext("Error on deleting pod"),
+                                    &e.to_string(),
                                 );
                             }
                         }));

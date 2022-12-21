@@ -235,32 +235,30 @@ impl Panel {
             list.selected_items()
                 .iter()
                 .map(|obj| obj.downcast_ref::<model::Container>().unwrap())
-                .for_each(|container| {
-                    match container.status() {
-                        model::ContainerStatus::Paused => {
-                            container.resume(clone!(@weak  self as obj => move |result| {
-                                if let Err(e) = result {
-                                    utils::show_toast(
-                                        obj.upcast_ref(),
-                                        // Translators: The "{}" is a placeholder for an error message.
-                                        &gettext!("Error on resuming container: {}", e)
-                                    );
-                                }
-                            }));
-                        }
-                        other if other != model::ContainerStatus::Running => {
-                            container.start(clone!(@weak  self as obj => move |result| {
-                                if let Err(e) = result {
-                                    utils::show_toast(
-                                        obj.upcast_ref(),
-                                        // Translators: The "{}" is a placeholder for an error message.
-                                        &gettext!("Error on starting container: {}", e)
-                                    );
-                                }
-                            }));
-                        }
-                        _ => (),
+                .for_each(|container| match container.status() {
+                    model::ContainerStatus::Paused => {
+                        container.resume(clone!(@weak  self as obj => move |result| {
+                            if let Err(e) = result {
+                                utils::show_error_toast(
+                                    obj.upcast_ref(),
+                                    &gettext("Error on resuming container"),
+                                    &e.to_string(),
+                                );
+                            }
+                        }));
                     }
+                    other if other != model::ContainerStatus::Running => {
+                        container.start(clone!(@weak  self as obj => move |result| {
+                            if let Err(e) = result {
+                                utils::show_error_toast(
+                                    obj.upcast_ref(),
+                                    &gettext("Error on starting container"),
+                                    &e.to_string(),
+                                );
+                            }
+                        }));
+                    }
+                    _ => (),
                 });
             list.set_selection_mode(false);
             self.emit_by_name::<()>("exit-selection-mode", &[]);
@@ -278,10 +276,10 @@ impl Panel {
                         false,
                         clone!(@weak self as obj => move |result| {
                             if let Err(e) = result {
-                                utils::show_toast(
+                                utils::show_error_toast(
                                     obj.upcast_ref(),
-                                    // Translators: The "{}" is a placeholder for an error message.
-                                    &gettext!("Error on stopping container: {}", e)
+                                    &gettext("Error on stopping container"),
+                                    &e.to_string(),
                                 );
                             }
                         }),
@@ -301,10 +299,10 @@ impl Panel {
                 .for_each(|container| {
                     container.pause(clone!(@weak self as obj => move |result| {
                         if let Err(e) = result {
-                            utils::show_toast(
+                            utils::show_error_toast(
                                 obj.upcast_ref(),
-                                // Translators: The "{}" is a placeholder for an error message.
-                                &gettext!("Error on stopping container: {}", e)
+                                &gettext("Error on pausing container"),
+                                &e.to_string(),
                             );
                         }
                     }));
@@ -325,10 +323,10 @@ impl Panel {
                         false,
                         clone!(@weak self as obj => move |result| {
                             if let Err(e) = result {
-                                utils::show_toast(
+                                utils::show_error_toast(
                                     obj.upcast_ref(),
-                                    // Translators: The "{}" is a placeholder for an error message.
-                                    &gettext!("Error on restarting container: {}", e)
+                                    &gettext("Error on restarting container"),
+                                    &e.to_string(),
                                 );
                             }
                         }),
@@ -378,10 +376,10 @@ impl Panel {
                     {
                         container.delete(true, clone!(@weak obj => move |result| {
                             if let Err(e) = result {
-                                utils::show_toast(
+                                utils::show_error_toast(
                                     obj.upcast_ref(),
-                                    // Translators: The "{}" is a placeholder for an error message.
-                                    &gettext!("Error on deleting container: {}", e)
+                                    &gettext("Error on deleting container"),
+                                    &e.to_string(),
                                 );
                             }
                         }));
