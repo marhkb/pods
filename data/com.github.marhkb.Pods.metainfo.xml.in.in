@@ -42,6 +42,20 @@
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="1.0.0-rc.3" date="2022-12-21">
+      <description>
+        <p>The third 1.0 release candidate of Pods contains the following changes:<p/>
+        <ul>
+          <li>The application icon and symbolic icons have been improved, thanks to @daudix-UFO</li>
+          <li>Actions, such as creating a container, can now be repeated initially if they fail.</li>
+          <li>Fixed a bug that prevented the label displaying the id of an image from being striked through if the image was being deleted.</li>
+          <li>Repository tags are now selectable within the image details page.</li>
+          <li>Translations have been updated. Thanks to all who contributed.</li>
+          <li>Internal code improvements have been made, such as reducing dependencies and enabling LTO for release builds.</li>
+        </ul>
+        </p>
+      </description>
+    </release>
     <release version="1.0.0-rc.2" date="2022-12-16">
       <description>
         <p>This is a hotfix release that prevents the application from crashing when disconnected from Podman.</p>
