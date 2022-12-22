@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
   <gresource prefix="/com/github/marhkb/Pods/">
-    <!-- see https://gtk-rs.org/gtk4-rs/git/docs/gtk4/struct.Application.html#automatic-resources -->
+    <file preprocess="xml-stripblanks">assets/welcome.svg</file>
+
     <file compressed="true" preprocess="xml-stripblanks" alias="gtk/help-overlay.ui">ui/shortcuts.ui</file>
 
     <file compressed="true" preprocess="xml-stripblanks">ui/action/page.ui</file>
