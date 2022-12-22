@@ -47,6 +47,7 @@ actionsoverview #type {
 }
 
 popover connectionswitchermenu row #delete-button,
+popover connectionswitchermenu row #connecting-spinner,
 actionsoverview #action {
   margin-left: 12px;
 }
