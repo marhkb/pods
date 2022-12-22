@@ -51,8 +51,36 @@
                 <property name="spacing">6</property>
 
                 <child>
-                  <object class="GtkImage" id="active_connection_image">
-                    <property name="pixel-size">12</property>
+                  <object class="GtkStack" id="connection_image_stack">
+
+                    <child>
+                      <object class="GtkStackPage">
+                        <property name="name">image</property>
+
+                        <property name="child">
+                          <object class="GtkImage" id="active_connection_image">
+                            <property name="pixel-size">12</property>
+                          </object>
+                        </property>
+
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkStackPage">
+                        <property name="name">connecting</property>
+
+                        <property name="child">
+                          <object class="GtkSpinner">
+                            <property name="halign">center</property>
+                            <property name="valign">center</property>
+                            <property name="spinning">True</property>
+                          </object>
+                        </property>
+
+                      </object>
+                    </child>
+
                   </object>
                 </child>
 
