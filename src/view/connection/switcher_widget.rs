@@ -1,6 +1,7 @@
 use gettextrs::gettext;
 use glib::subclass::InitializingObject;
-use gtk::glib::{self};
+use gtk::glib;
+use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
@@ -150,8 +151,9 @@ impl SwitcherWidget {
     }
 
     fn switch_connection(&self, connection_manager: &model::ConnectionManager, uuid: &str) {
-        if let Err(e) = connection_manager.set_client_from(uuid) {
-            self.on_error(e);
-        }
+        connection_manager.set_client_from(
+            uuid,
+            clone!(@weak self as obj => move |result| if let Err(e) = result { obj.on_error(e); }),
+        );
     }
 }

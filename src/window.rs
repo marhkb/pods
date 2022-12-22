@@ -395,14 +395,13 @@ mod imp {
                 }),
             );
 
-            match self.connection_manager.setup() {
-                Ok(_) => {
-                    if self.connection_manager.n_items() == 0 {
-                        self.main_stack.set_visible_child_name("welcome");
+            self.connection_manager
+                .setup(clone!(@weak obj => move |result| match result {
+                    Ok(_) => if obj.connection_manager().n_items() == 0 {
+                        obj.imp().main_stack.set_visible_child_name("welcome");
                     }
-                }
-                Err(e) => obj.on_connection_manager_setup_error(e),
-            }
+                    Err(e) => obj.on_connection_manager_setup_error(e),
+                }));
         }
     }
 

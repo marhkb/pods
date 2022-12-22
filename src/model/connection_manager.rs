@@ -2,6 +2,7 @@ use std::cell::RefCell;
 use std::io::Read;
 use std::path::PathBuf;
 
+use futures::future;
 use gettextrs::gettext;
 use gtk::gdk;
 use gtk::gio;
@@ -23,7 +24,6 @@ use crate::model;
 use crate::podman;
 use crate::utils;
 use crate::utils::config_dir;
-use crate::RUNTIME;
 
 mod imp {
     use super::*;
@@ -33,6 +33,7 @@ mod imp {
         pub(super) settings: utils::PodsSettings,
         pub(super) connections: RefCell<IndexMap<String, model::Connection>>,
         pub(super) client: RefCell<Option<model::Client>>,
+        pub(super) connect_abort_handle: RefCell<Option<future::AbortHandle>>,
     }
 
     #[glib::object_subclass]
@@ -98,8 +99,17 @@ impl Default for ConnectionManager {
 }
 
 impl ConnectionManager {
-    pub(crate) fn setup(&self) -> anyhow::Result<()> {
-        let connections = self.load_from_disk()?;
+    pub(crate) fn setup<F>(&self, op: F)
+    where
+        F: Fn(anyhow::Result<()>) + 'static,
+    {
+        let connections = match self.load_from_disk().map_err(anyhow::Error::from) {
+            Ok(connections) => connections,
+            Err(e) => {
+                op(Err(e));
+                return;
+            }
+        };
         let connections_len = connections.len();
 
         let imp = self.imp();
@@ -118,10 +128,10 @@ impl ConnectionManager {
 
         if self.n_items() > 0 {
             let last_used_connection = imp.settings.string("last-used-connection");
-            self.set_client_from(last_used_connection.as_str())?;
+            self.set_client_from(last_used_connection.as_str(), op);
+        } else {
+            op(Ok(()));
         }
-
-        Ok(())
     }
 
     fn load_from_disk(&self) -> anyhow::Result<IndexMap<String, model::ConnectionInfo>> {
@@ -260,26 +270,63 @@ impl ConnectionManager {
         self.imp().client.borrow().clone()
     }
 
-    pub(crate) fn set_client_from(&self, connection_uuid: &str) -> anyhow::Result<()> {
+    pub(crate) fn set_client_from<F>(&self, connection_uuid: &str, op: F)
+    where
+        F: Fn(anyhow::Result<()>) + 'static,
+    {
         if self
             .client()
             .map(|c| c.connection().uuid() == connection_uuid)
             .unwrap_or(false)
         {
-            return Ok(());
+            return;
         }
 
-        let connection = self
+        let connection = match self
             .connection_by_uuid(connection_uuid)
-            .ok_or_else(|| anyhow::anyhow!("connection not found"))?;
+            .ok_or_else(|| anyhow::anyhow!("connection not found"))
+        {
+            Ok(connection) => connection,
+            Err(e) => {
+                op(Err(e));
+                return;
+            }
+        };
 
-        let client = model::Client::try_from(&connection)?;
+        if connection.is_connecting() {
+            return;
+        }
+        connection.set_connecting(true);
 
-        RUNTIME.block_on(client.podman().ping())?;
+        let client = match model::Client::try_from(&connection).map_err(anyhow::Error::from) {
+            Ok(client) => client,
+            Err(e) => {
+                op(Err(e));
+                return;
+            }
+        };
 
-        self.set_client(Some(client));
-
-        Ok(())
+        utils::do_async(
+            {
+                let podman = client.podman().to_owned();
+                let abort_registration = self.abort_registration();
+                async move { future::Abortable::new(podman.ping(), abort_registration).await }
+            },
+            clone!(@weak self as obj => move |result| {
+                if let Ok(result) = result {
+                    match result {
+                        Ok(_) => {
+                            obj.set_client(Some(client));
+                        }
+                        Err(ref e) => {
+                            log::error!("Failed to search for images: {}", e);
+                        }
+                    }
+                    op(result.map(|_| ()).map_err(anyhow::Error::from));
+                }
+                connection.set_connecting(false);
+            }),
+        );
     }
 
     fn set_client(&self, value: Option<model::Client>) {
@@ -308,6 +355,22 @@ impl ConnectionManager {
             .borrow()
             .values()
             .any(model::Connection::is_connecting)
+    }
+
+
+    fn abort_registration(&self) -> future::AbortRegistration {
+        self.abort();
+
+        let (abort_handle, abort_registration) = future::AbortHandle::new_pair();
+        self.imp().connect_abort_handle.replace(Some(abort_handle));
+
+        abort_registration
+    }
+
+    pub(crate) fn abort(&self) {
+        if let Some(abort_handle) = self.imp().connect_abort_handle.take() {
+            abort_handle.abort();
+        }
     }
 
     pub(crate) fn connection_by_uuid(&self, uuid: &str) -> Option<model::Connection> {
