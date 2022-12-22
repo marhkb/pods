@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-21 21:15+0100\n"
-"PO-Revision-Date: 2022-12-19 17:51+0000\n"
+"PO-Revision-Date: 2022-12-23 21:50+0000\n"
 "Last-Translator: Daudix UFO <ddaudix@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/pods/pods/ru/>\n"
 "Language: ru\n"
@@ -1093,124 +1093,123 @@ msgstr ""
 
 #: data/resources/ui/images/panel.ui:29
 msgid "_Download…"
-msgstr ""
+msgstr "_Загрузить…"
 
 #: data/resources/ui/images/panel.ui:33
 msgid "_Build…"
-msgstr ""
+msgstr "_Собрать…"
 
 #: data/resources/ui/images/panel.ui:39
 msgid "_Prune…"
-msgstr ""
+msgstr "_Очистить…"
 
 #: data/resources/ui/images/panel.ui:97
 msgid "Intermediates"
-msgstr ""
+msgstr "Посредники"
 
 #: data/resources/ui/images/panel.ui:197
 msgid "You can use the buttons below to add an initial image."
-msgstr ""
+msgstr "Вы можете использовать кнопки ниже, чтобы добавить исходный образ."
 
 #: data/resources/ui/images/panel.ui:212
 msgid "_Download an Image"
-msgstr ""
+msgstr "_Загрузить образ"
 
 #: data/resources/ui/images/panel.ui:224
 msgid "_Build a Local Image"
-msgstr ""
+msgstr "_Собрать локальный образ"
 
 #: data/resources/ui/images/prune-page.ui:40
-#, fuzzy
 msgid "Prune Images"
-msgstr "Обрезка изображений."
+msgstr "Очистить образы"
 
 #: data/resources/ui/images/prune-page.ui:50
-#, fuzzy
 msgid "_Prune"
-msgstr "Обрезка изображений."
+msgstr "_Очистить"
 
 #: data/resources/ui/images/prune-page.ui:64
-#, fuzzy
 msgid "Prune Options"
-msgstr "Обрезка изображений."
+msgstr "Параметры очистки"
 
 #: data/resources/ui/images/prune-page.ui:69
 msgid "Prune All"
-msgstr ""
+msgstr "Очистить всё"
 
 #: data/resources/ui/images/prune-page.ui:70
 msgid "Remove all images not in use by containers, not just dangling ones."
-msgstr ""
+msgstr "Удалить все неиспользуемые образы из контейнеров, а не только висящие."
 
 #: data/resources/ui/images/prune-page.ui:82
 msgid "Prune External"
-msgstr ""
+msgstr "Очистить внешнее"
 
 #: data/resources/ui/images/prune-page.ui:83
 msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)."
 msgstr ""
+"Удалить образы, даже если они используются внешними контейнерами (например, "
+"контейнерами сборки)."
 
 #: data/resources/ui/images/prune-page.ui:94
 msgid "Prune Until"
-msgstr ""
+msgstr "Очистить до"
 
 #: data/resources/ui/images/prune-page.ui:95
 msgid "Prune images created before this timestamp."
-msgstr ""
+msgstr "Очистить образы которые были созданы до этой временной метки."
 
 #: data/resources/ui/images/prune-page.ui:178
 msgid "AM"
-msgstr ""
+msgstr "АМ"
 
 #: data/resources/ui/images/prune-page.ui:179
 msgid "PM"
-msgstr ""
+msgstr "ПМ"
 
 #: data/resources/ui/info-dialog.ui:5
 msgid "About Podman"
-msgstr ""
+msgstr "О Podman"
 
 #: data/resources/ui/info-dialog.ui:13 data/resources/ui/info-dialog.ui:47
 msgid "Version"
-msgstr ""
+msgstr "Версия"
 
 #: data/resources/ui/info-dialog.ui:17
 msgid "API Version"
-msgstr ""
+msgstr "Версия API"
 
 #: data/resources/ui/info-dialog.ui:23
 msgid "Built Time"
-msgstr ""
+msgstr "Время сборки"
 
 #: data/resources/ui/info-dialog.ui:29
 msgid "Git Commit"
-msgstr ""
+msgstr "Git Коммит"
 
 #: data/resources/ui/info-dialog.ui:35
 msgid "Go Version"
-msgstr ""
+msgstr "Версия Go"
 
 #: data/resources/ui/info-dialog.ui:41
 msgid "Os Arch"
-msgstr ""
+msgstr "Архитектура ОС"
 
 #: data/resources/ui/info-dialog.ui:57
 msgid "Describes the container storage and its attributes."
-msgstr ""
+msgstr "Описывает хранилище контейнера и его атрибуты."
 
 #: data/resources/ui/info-dialog.ui:61
 msgid "Config File"
-msgstr ""
+msgstr "Конфигурационный файл"
 
 #: data/resources/ui/info-dialog.ui:67
 msgid "Container Store"
-msgstr ""
+msgstr "Магазин контейнеров"
 
 #: data/resources/ui/info-dialog.ui:68
 msgid "Describes the quantity of containers in the store by status."
-msgstr ""
+msgstr "Описывает количество контейнеров в магазине по статусу."
 
 #: data/resources/ui/info-dialog.ui:85 src/model/container.rs:71
 #: src/model/pod.rs:69
@@ -1229,59 +1228,60 @@ msgstr "Остановлен"
 
 #: data/resources/ui/info-dialog.ui:106
 msgid "Graph Driver Name"
-msgstr ""
+msgstr "Имя графического драйвера"
 
 #: data/resources/ui/info-dialog.ui:112
 msgid "Graph Options"
-msgstr ""
+msgstr "Параметры графики"
 
 #: data/resources/ui/info-dialog.ui:132
 msgid "Graph Root"
-msgstr ""
+msgstr "Графический корень"
 
 #: data/resources/ui/info-dialog.ui:138
 msgid "Graph Status"
-msgstr ""
+msgstr "Статус графики"
 
 #: data/resources/ui/info-dialog.ui:158
 msgid "Image Store"
-msgstr ""
+msgstr "Магазин образов"
 
 #: data/resources/ui/info-dialog.ui:159
 msgid "Describes the image store. Right now only the number of images present."
 msgstr ""
+"Описывает хранилище образов. В настоящее время только количество "
+"присутствующих образов."
 
 #: data/resources/ui/info-dialog.ui:165
 msgid "Run Root"
-msgstr ""
+msgstr "Запуск Root"
 
 #: data/resources/ui/info-dialog.ui:171
 msgid "Volume Path"
-msgstr ""
+msgstr "Путь к хранилищу"
 
 #: data/resources/ui/key-val/row.ui:23 src/view/key_val/row.rs:119
 msgid "Key"
-msgstr ""
+msgstr "Ключ"
 
 #: data/resources/ui/key-val/row.ui:30 src/view/key_val/row.rs:119
 #: src/view/value/row.rs:84
 msgid "Value"
-msgstr ""
+msgstr "Значение"
 
 #: data/resources/ui/pod/creation-page.ui:45 data/resources/ui/pods/panel.ui:13
 #: data/resources/ui/pods/panel.ui:86
-#, fuzzy
 msgid "Create Pod"
-msgstr "Создано"
+msgstr "Создать Pod"
 
 #: data/resources/ui/pod/creation-page.ui:55
 msgid "_Create"
-msgstr ""
+msgstr "_Создать"
 
 #: data/resources/ui/pod/creation-page.ui:127
 #: data/resources/ui/pod/details-page.ui:93 src/view/pod/creation_page.rs:202
 msgid "Hostname"
-msgstr ""
+msgstr "Имя хоста"
 
 #: data/resources/ui/pod/creation-page.ui:134
 msgid "Disable /etc/resolv.conf management"
