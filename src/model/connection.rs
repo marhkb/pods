@@ -162,6 +162,10 @@ impl Connection {
         }
         self.imp().connecting.set(value);
         self.notify("connecting");
+
+        if let Some(manager) = self.manager() {
+            manager.notify("connecting");
+        }
     }
 
     pub(crate) fn uuid(&self) -> &str {

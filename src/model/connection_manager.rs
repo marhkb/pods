@@ -45,16 +45,23 @@ mod imp {
     impl ObjectImpl for ConnectionManager {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecObject::builder::<model::Client>("client")
-                    .read_only()
-                    .build()]
+                vec![
+                    glib::ParamSpecObject::builder::<model::Client>("client")
+                        .read_only()
+                        .build(),
+                    glib::ParamSpecBoolean::builder("connecting")
+                        .read_only()
+                        .build(),
+                ]
             });
             PROPERTIES.as_ref()
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            let obj = &*self.obj();
             match pspec.name() {
-                "client" => self.obj().client().to_value(),
+                "client" => obj.client().to_value(),
+                "connecting" => obj.is_connecting().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -293,6 +300,14 @@ impl ConnectionManager {
 
     pub(crate) fn unset_client(&self) {
         self.set_client(None);
+    }
+
+    pub(crate) fn is_connecting(&self) -> bool {
+        self.imp()
+            .connections
+            .borrow()
+            .values()
+            .any(model::Connection::is_connecting)
     }
 
     pub(crate) fn connection_by_uuid(&self, uuid: &str) -> Option<model::Connection> {
