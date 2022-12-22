@@ -311,7 +311,7 @@ impl ConnectionManager {
     }
 
     pub(crate) fn connection_by_uuid(&self, uuid: &str) -> Option<model::Connection> {
-        self.imp().connections.borrow_mut().get(uuid).cloned()
+        self.imp().connections.borrow().get(uuid).cloned()
     }
 }
 
