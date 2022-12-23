@@ -1,3 +1,4 @@
+use std::cell::Cell;
 use std::cell::RefCell;
 use std::io::Read;
 use std::path::PathBuf;
@@ -33,6 +34,7 @@ mod imp {
         pub(super) settings: utils::PodsSettings,
         pub(super) connections: RefCell<IndexMap<String, model::Connection>>,
         pub(super) client: RefCell<Option<model::Client>>,
+        pub(super) creating_new_connection: Cell<bool>,
         pub(super) connect_abort_handle: RefCell<Option<future::AbortHandle>>,
     }
 
@@ -212,28 +214,34 @@ impl ConnectionManager {
 
         let client = model::Client::try_from(&connection)?;
 
+        self.set_creating_new_connection(true);
+
         utils::do_async(
             {
                 let podman = client.podman().clone();
-                async move { podman.ping().await }
+                let abort_registration = self.abort_registration();
+                async move { future::Abortable::new(podman.ping(), abort_registration).await }
             },
             clone!(@weak self as obj => move |result| {
-                match &result {
-                    Ok(_) => {
-                        obj.set_client(Some(client));
+                if let Ok(result) = result {
+                    match &result {
+                        Ok(_) => {
+                            obj.set_client(Some(client));
 
-                        let (position, _) = obj.imp()
-                            .connections
-                            .borrow_mut()
-                            .insert_full(connection.uuid().to_owned(), connection.clone());
+                            let (position, _) = obj.imp()
+                                .connections
+                                .borrow_mut()
+                                .insert_full(connection.uuid().to_owned(), connection.clone());
 
-                        obj.items_changed(position as u32, 0, 1);
+                            obj.items_changed(position as u32, 0, 1);
 
-                        obj.sync_to_disk(|_| {});
+                            obj.sync_to_disk(|_| {});
+                        }
+                        Err(e) => log::error!("Error on pinging connection: {e}"),
                     }
-                    Err(e) => log::error!("Error on pinging connection: {e}"),
+                    op(result);
                 }
-                op(result);
+                obj.set_creating_new_connection(false);
             }),
         );
 
@@ -350,13 +358,23 @@ impl ConnectionManager {
     }
 
     pub(crate) fn is_connecting(&self) -> bool {
-        self.imp()
-            .connections
-            .borrow()
-            .values()
-            .any(model::Connection::is_connecting)
+        let imp = self.imp();
+        imp.creating_new_connection.get()
+            || imp
+                .connections
+                .borrow()
+                .values()
+                .any(model::Connection::is_connecting)
     }
 
+    fn set_creating_new_connection(&self, value: bool) {
+        let imp = self.imp();
+        if imp.creating_new_connection.get() == value {
+            return;
+        }
+        imp.creating_new_connection.set(value);
+        self.notify("connecting");
+    }
 
     fn abort_registration(&self) -> future::AbortRegistration {
         self.abort();
