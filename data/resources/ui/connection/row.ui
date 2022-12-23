@@ -70,17 +70,51 @@
     </child>
 
     <child>
-      <object class="GtkButton" id="delete_button">
-        <style>
-          <class name="circular"/>
-        </style>
-        <property name="name">delete-button</property>
-        <property name="action-name">win.remove-connection</property>
-        <property name="action-target">''</property>
-        <property name="icon-name">user-trash-symbolic</property>
-        <property name="tooltip-text" translatable="yes">Delete</property>
+      <object class="GtkStack" id="end_stack">
+        <property name="halign">end</property>
         <property name="valign">center</property>
-        <property name="visible" bind-source="delete_button" bind-property="sensitive" bind-flags="sync-create"/>
+
+        <child>
+          <object class="GtkStackPage">
+            <property name="name">delete</property>
+
+            <property name="child">
+              <object class="GtkButton" id="delete_button">
+                <style>
+                  <class name="circular"/>
+                </style>
+                <property name="name">delete-button</property>
+                <property name="action-name">win.remove-connection</property>
+                <property name="action-target">''</property>
+                <property name="icon-name">user-trash-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Delete</property>
+                <property name="valign">center</property>
+                <property name="halign">center</property>
+                <property name="visible" bind-source="delete_button" bind-property="sensitive" bind-flags="sync-create"/>
+              </object>
+            </property>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkStackPage">
+            <property name="name">connecting</property>
+
+            <property name="child">
+              <object class="GtkSpinner">
+                <property name="name">connecting-spinner</property>
+                <property name="margin-top">6</property>
+                <property name="margin-end">6</property>
+                <property name="margin-bottom">6</property>
+                <property name="margin-start">6</property>
+                <property name="spinning">True</property>
+              </object>
+            </property>
+
+          </object>
+        </child>
+
       </object>
     </child>
 

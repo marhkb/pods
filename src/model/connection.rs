@@ -27,6 +27,7 @@ mod imp {
     #[derive(Debug, Default)]
     pub(crate) struct Connection {
         pub(super) manager: glib::WeakRef<model::ConnectionManager>,
+        pub(super) connecting: Cell<bool>,
         pub(super) uuid: OnceCell<String>,
         pub(super) name: OnceCell<String>,
         pub(super) url: OnceCell<String>,
@@ -44,7 +45,10 @@ mod imp {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
                     glib::ParamSpecObject::builder::<model::ConnectionManager>("manager")
-                        .construct_only()
+                        .explicit_notify()
+                        .build(),
+                    glib::ParamSpecBoolean::builder("connecting")
+                        .read_only()
                         .build(),
                     glib::ParamSpecString::builder("uuid")
                         .construct_only()
@@ -70,6 +74,7 @@ mod imp {
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
                 "manager" => self.manager.set(value.get().unwrap()),
+                "connecting" => self.obj().set_connecting(value.get().unwrap()),
                 "uuid" => self.uuid.set(value.get().unwrap()).unwrap(),
                 "name" => self.name.set(value.get().unwrap()).unwrap(),
                 "url" => self.url.set(value.get().unwrap()).unwrap(),
@@ -82,6 +87,7 @@ mod imp {
             let obj = &*self.obj();
             match pspec.name() {
                 "manager" => obj.manager().to_value(),
+                "connecting" => obj.is_connecting().to_value(),
                 "uuid" => obj.uuid().to_value(),
                 "name" => obj.name().to_value(),
                 "url" => obj.url().to_value(),
@@ -144,6 +150,22 @@ impl Connection {
 
     pub(crate) fn manager(&self) -> Option<model::ConnectionManager> {
         self.imp().manager.upgrade()
+    }
+
+    pub(crate) fn is_connecting(&self) -> bool {
+        self.imp().connecting.get()
+    }
+
+    pub(crate) fn set_connecting(&self, value: bool) {
+        if self.is_connecting() == value {
+            return;
+        }
+        self.imp().connecting.set(value);
+        self.notify("connecting");
+
+        if let Some(manager) = self.manager() {
+            manager.notify("connecting");
+        }
     }
 
     pub(crate) fn uuid(&self) -> &str {

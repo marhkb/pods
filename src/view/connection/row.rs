@@ -27,6 +27,8 @@ mod imp {
         #[template_child]
         pub(super) url_label: TemplateChild<gtk::Label>,
         #[template_child]
+        pub(super) end_stack: TemplateChild<gtk::Stack>,
+        #[template_child]
         pub(super) delete_button: TemplateChild<gtk::Button>,
     }
 
@@ -144,6 +146,17 @@ mod imp {
                 .bind(&*self.image, "css-classes", Some(obj));
 
             is_active_expr.bind(&*self.checkmark, "visible", Some(obj));
+
+            connection_expr
+                .chain_property::<model::Connection>("connecting")
+                .chain_closure::<String>(closure!(
+                    |_: Self::Type, connecting: bool| if connecting {
+                        "connecting"
+                    } else {
+                        "delete"
+                    }
+                ))
+                .bind(&*self.end_stack, "visible-child-name", Some(obj));
 
             connection_expr
                 .chain_property::<model::Connection>("uuid")

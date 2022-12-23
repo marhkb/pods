@@ -24,6 +24,8 @@ mod imp {
         #[template_child]
         pub(super) connections_menu_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
+        pub(super) connection_image_stack: TemplateChild<gtk::Stack>,
+        #[template_child]
         pub(super) active_connection_image: TemplateChild<gtk::Image>,
         #[template_child]
         pub(super) active_connection_label: TemplateChild<gtk::Label>,
@@ -109,6 +111,22 @@ mod imp {
                 "connection-manager",
                 Some(obj),
             );
+
+            connection_manager_expr
+                .chain_property::<model::ConnectionManager>("connecting")
+                .chain_closure::<String>(closure!(
+                    |_: Self::Type, connecting: bool| if connecting {
+                        "connecting"
+                    } else {
+                        "image"
+                    }
+                ))
+                .bind(
+                    &*self.connection_image_stack,
+                    "visible-child-name",
+                    Some(obj),
+                );
+
             connection_expr
                 .chain_property::<model::Connection>("is-remote")
                 .chain_closure::<String>(closure!(|_: Self::Type, is_remote: bool| {

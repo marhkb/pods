@@ -5,7 +5,7 @@
     <property name="mode">horizontal</property>
     <widgets>
       <widget name="cancel_button"/>
-      <widget name="connect_button"/>
+      <widget name="stack"/>
     </widgets>
   </object>
 
@@ -36,13 +36,63 @@
         </child>
 
         <child type="end">
-          <object class="GtkButton" id="connect_button">
-            <style>
-              <class name="suggested-action"/>
-            </style>
-            <property name="action-name">connection-creator-page.try-connect</property>
-            <property name="label" translatable="yes">_Connect</property>
-            <property name="use-underline">True</property>
+          <object class="GtkStack" id="stack">
+
+            <child>
+              <object class="GtkStackPage">
+                <property name="name">connect</property>
+
+                <property name="child">
+                  <object class="GtkButton" id="connect_button">
+                    <style>
+                      <class name="suggested-action"/>
+                    </style>
+                    <property name="action-name">connection-creation-page.try-connect</property>
+                    <property name="label" translatable="yes">_Connect</property>
+                    <property name="use-underline">True</property>
+                  </object>
+                </property>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkStackPage">
+                <property name="name">abort</property>
+
+                <property name="child">
+                  <object class="GtkButton">
+                    <style>
+                      <class name="destructive-action"/>
+                    </style>
+                    <property name="action-name">connection-creation-page.abort</property>
+
+                    <child>
+                      <object class="GtkBox">
+                        <property name="spacing">6</property>
+
+                        <child>
+                          <object class="GtkSpinner">
+                            <property name="spinning">True</property>
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="label" translatable="yes">_Abort</property>
+                            <property name="use-underline">True</property>
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                  </object>
+                </property>
+
+              </object>
+            </child>
+
           </object>
         </child>
 
@@ -50,7 +100,7 @@
     </child>
 
     <child>
-      <object class="AdwPreferencesPage">
+      <object class="AdwPreferencesPage" id="preferences_page">
         <property name="vexpand">True</property>
 
         <child>
