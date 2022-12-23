@@ -30,22 +30,75 @@
             <property name="vexpand">True</property>
 
             <child>
-              <object class="AdwStatusPage">
-                <property name="title" translatable="yes">Welcome to Pods</property>
-                <property name="description" translatable="yes">No connections have been detected. Use the button below to create a new one.</property>
+              <object class="GtkScrolledWindow">
+                <property name="hscrollbar-policy">never</property>
+                <property name="propagate-natural-height">True</property>
+                <property name="vexpand">true</property>
 
-                <child>
-                  <object class="GtkButton">
-                    <style>
-                      <class name="pill"/>
-                      <class name="suggested-action"/>
-                    </style>
-                    <property name="action-name">win.add-connection</property>
-                    <property name="halign">center</property>
-                    <property name="label" translatable="yes">_Add Connection</property>
-                    <property name="use-underline">True</property>
+                <property name="child">
+                  <object class="GtkBox">
+                    <property name="vexpand">true</property>
+                    <property name="orientation">vertical</property>
+                    <property name="valign">center</property>
+                    <property name="spacing">12</property>
+                    <property name="margin-bottom">24</property>
+                    <property name="margin-start">24</property>
+                    <property name="margin-end">24</property>
+
+                    <child>
+                      <object class="AdwClamp">
+                        <property name="orientation">horizontal</property>
+                        <property name="maximum-size">450</property>
+                        <property name="tightening-threshold">450</property>
+                        <property name="margin-bottom">18</property>
+
+                        <property name="child">
+                          <object class="GtkPicture">
+                            <property name="file">resource:///com/github/marhkb/Pods/assets/welcome.svg</property>
+                            <property name="height-request">150</property>
+                          </object>
+                        </property>
+
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkLabel">
+                        <style>
+                          <class name="title-1"/>
+                        </style>
+                        <property name="label" translatable="yes">Welcome to Pods</property>
+                        <property name="justify">center</property>
+                        <property name="wrap">True</property>
+                        <property name="wrap-mode">word-char</property>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label" translatable="yes">Use the button below to create a new connection to Podman.</property>
+                        <property name="justify">center</property>
+                        <property name="wrap">True</property>
+                        <property name="wrap-mode">word-char</property>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkButton">
+                        <style>
+                          <class name="pill"/>
+                          <class name="suggested-action"/>
+                        </style>
+                        <property name="action-name">win.add-connection</property>
+                        <property name="label" translatable="yes">_Add Connection</property>
+                        <property name="halign">center</property>
+                        <property name="margin-top">24</property>
+                        <property name="use-underline">True</property>
+                      </object>
+                    </child>
+
                   </object>
-                </child>
+                </property>
 
               </object>
             </child>
