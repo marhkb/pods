@@ -3,6 +3,7 @@ use gettextrs::gettext;
 use gtk::gdk;
 use gtk::glib;
 use gtk::glib::clone;
+use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
@@ -16,7 +17,9 @@ use crate::view;
 const ACTION_COPY_SOCKET_ACTIVATION_COMMAND: &str =
     "connection-creator-page.copy-socket-activation-command";
 const ACTION_SHOW_CUSTOM_INFO_DIALOG: &str = "connection-creation-page.show-custom-info-dialog";
-const ACTION_TRY_CONNECT: &str = "connection-creator-page.try-connect";
+const ACTION_TRY_CONNECT: &str = "connection-creation-page.try-connect";
+
+const ACTION_ABORT: &str = "connection-creation-page.abort";
 
 mod imp {
     use super::*;
@@ -26,7 +29,11 @@ mod imp {
     pub(crate) struct CreationPage {
         pub(super) connection_manager: OnceCell<model::ConnectionManager>,
         #[template_child]
+        pub(super) stack: TemplateChild<gtk::Stack>,
+        #[template_child]
         pub(super) connect_button: TemplateChild<gtk::Button>,
+        #[template_child]
+        pub(super) preferences_page: TemplateChild<adw::PreferencesPage>,
         #[template_child]
         pub(super) name_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
@@ -67,6 +74,9 @@ mod imp {
             klass.install_action(ACTION_TRY_CONNECT, None, move |widget, _, _| {
                 widget.try_connect();
             });
+            klass.install_action(ACTION_ABORT, None, move |widget, _, _| {
+                widget.abort();
+            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -105,11 +115,30 @@ mod imp {
 
             let obj = &*self.obj();
 
-            obj.action_set_enabled(ACTION_TRY_CONNECT, !self.name_entry_row.text().is_empty());
+            let connecting_expr = Self::Type::this_expression("connection-manager")
+                .chain_property::<model::ConnectionManager>("connecting");
+
+            connecting_expr
+                .chain_closure::<String>(closure!(|_: Self::Type, connecting: bool| {
+                    if connecting {
+                        "abort"
+                    } else {
+                        "connect"
+                    }
+                }))
+                .bind(&*self.stack, "visible-child-name", Some(obj));
+            connecting_expr
+                .chain_closure::<bool>(closure!(|_: Self::Type, connecting: bool| !connecting))
+                .bind(&*self.preferences_page, "sensitive", Some(obj));
+
+            obj.update_actions();
             self.name_entry_row
-                .connect_changed(clone!(@weak obj => move |entry| {
-                    obj.action_set_enabled(ACTION_TRY_CONNECT, !entry.text().is_empty())
-                }));
+                .connect_changed(clone!(@weak obj => move |_| obj.update_actions()));
+
+            obj.connection_manager().connect_notify_local(
+                Some("connecting"),
+                clone!(@weak obj => move|_ ,_|  obj.update_actions()),
+            );
 
             self.unix_socket_url_row
                 .set_subtitle(&utils::unix_socket_url());
@@ -131,7 +160,10 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::ChildIter::from(self.obj().upcast_ref()).for_each(|child| child.unparent());
+            let obj = &*self.obj();
+
+            obj.abort();
+            utils::ChildIter::from(obj.upcast_ref()).for_each(|child| child.unparent());
         }
     }
 
@@ -217,6 +249,20 @@ impl CreationPage {
                 self.on_error(&e.to_string());
             }
         }
+    }
+
+    fn abort(&self) {
+        self.connection_manager().abort();
+    }
+
+    fn update_actions(&self) {
+        let is_connecting = self.connection_manager().is_connecting();
+
+        self.action_set_enabled(
+            ACTION_TRY_CONNECT,
+            !is_connecting && !self.imp().name_entry_row.text().is_empty(),
+        );
+        self.action_set_enabled(ACTION_ABORT, is_connecting);
     }
 
     fn on_error(&self, msg: &str) {
