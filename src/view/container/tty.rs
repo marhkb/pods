@@ -5,6 +5,7 @@ use futures::AsyncWriteExt;
 use futures::StreamExt;
 use gettextrs::gettext;
 use gtk::gdk;
+use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
@@ -22,6 +23,9 @@ use crate::podman;
 use crate::utils;
 
 const ACTION_START_OR_RESUME: &str = "container-tty.start-or-resume";
+const ACTION_COPY: &str = "container-tty.copy";
+const ACTION_COPY_HTML: &str = "container-tty.copy-html";
+const ACTION_PASTE: &str = "container-tty.paste";
 
 #[derive(Debug)]
 enum ExecInput {
@@ -37,6 +41,8 @@ mod imp {
     pub(crate) struct Tty {
         pub(super) container: WeakRef<model::Container>,
         pub(super) tx_tokio: RefCell<Option<tokio::sync::mpsc::UnboundedSender<ExecInput>>>,
+        #[template_child]
+        pub(super) popover_menu: TemplateChild<gtk::PopoverMenu>,
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -63,6 +69,23 @@ mod imp {
                     }
                 }
             });
+
+            klass.install_action(ACTION_COPY, None, |widget, _, _| widget.copy_plain());
+            klass.install_action(ACTION_COPY_HTML, None, |widget, _, _| widget.copy_html());
+            klass.install_action(ACTION_PASTE, None, |widget, _, _| widget.paste());
+
+            klass.add_binding_action(
+                gdk::Key::C,
+                gdk::ModifierType::CONTROL_MASK | gdk::ModifierType::SHIFT_MASK,
+                ACTION_COPY,
+                None,
+            );
+            klass.add_binding_action(
+                gdk::Key::V,
+                gdk::ModifierType::CONTROL_MASK | gdk::ModifierType::SHIFT_MASK,
+                ACTION_PASTE,
+                None,
+            );
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -106,6 +129,43 @@ mod imp {
             self.parent_constructed();
 
             let obj = &*self.obj();
+
+            self.popover_menu.set_parent(obj);
+
+            obj.update_copy_actions();
+            self.terminal
+                .connect_selection_changed(clone!(@weak obj => move |_| {
+                    obj.update_copy_actions();
+                }));
+
+            let key_events = gtk::EventControllerKey::new();
+            key_events.connect_key_pressed(clone!(
+                @weak obj => @default-return glib::signal::Inhibit(false), move |_, key, _, m| {
+                    glib::signal::Inhibit(
+                        if m == gdk::ModifierType::CONTROL_MASK
+                            | gdk::ModifierType::SHIFT_MASK
+                        {
+                            if key == gdk::Key::C {
+                                obj.copy_plain();
+                            } else if key == gdk::Key::V {
+                                obj.paste();
+                            }
+                            true
+                        } else {
+                            false
+                        },
+                    )
+                }
+            ));
+            self.terminal.add_controller(&key_events);
+
+            let click_events = gtk::GestureClick::builder().button(3).build();
+            click_events.connect_pressed(clone!(@weak obj => move |_, _, x, y| {
+                let popover_menu = &*obj.imp().popover_menu;
+                popover_menu.set_pointing_to(Some(&gdk::Rectangle::new(x as i32, y as i32, 0, 0)));
+                popover_menu.popup();
+            }));
+            self.terminal.add_controller(&click_events);
 
             self.terminal.set_bold_is_bright(true);
             self.terminal.set_colors(
@@ -322,6 +382,41 @@ impl Tty {
         let terminal = &*self.imp().terminal;
         terminal.set_color_background(&style_context.lookup_color("view_bg_color").unwrap());
         terminal.set_color_foreground(&style_context.lookup_color("view_fg_color").unwrap());
+    }
+
+    fn copy(&self, format: vte4::Format) {
+        let terminal = &*self.imp().terminal;
+        if terminal.has_selection() {
+            terminal.copy_clipboard_format(format);
+        }
+    }
+
+    fn copy_plain(&self) {
+        self.copy(vte4::Format::Text);
+    }
+
+    fn copy_html(&self) {
+        self.copy(vte4::Format::Html);
+    }
+
+    fn paste(&self) {
+        if let Some(display) = gdk::Display::default() {
+            display.clipboard().read_text_async(
+                gio::Cancellable::NONE,
+                clone!(@weak self as obj => move |result| if let Some(text) = result
+                    .ok()
+                    .flatten()
+                {
+                    obj.imp().terminal.paste_text(text.as_str());
+                }),
+            );
+        }
+    }
+
+    fn update_copy_actions(&self) {
+        let has_selection = self.imp().terminal.has_selection();
+        self.action_set_enabled(ACTION_COPY, has_selection);
+        self.action_set_enabled(ACTION_COPY_HTML, has_selection);
     }
 }
 

@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
+
+  <menu id="menu_model">
+    <item>
+      <attribute name="label" translatable="yes">_Copy</attribute>
+      <attribute name="action">container-tty.copy</attribute>
+    </item>
+    <item>
+      <attribute name="label" translatable="yes">Copy as _HTML</attribute>
+      <attribute name="action">container-tty.copy-html</attribute>
+    </item>
+    <item>
+      <attribute name="label" translatable="yes">_Paste</attribute>
+      <attribute name="action">container-tty.paste</attribute>
+    </item>
+  </menu>
+
+  <object class="GtkPopoverMenu" id="popover_menu">
+    <property name="menu-model">menu_model</property>
+  </object>
+
   <template class="PdsContainerTty" parent="GtkWidget">
 
     <child>
