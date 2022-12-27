@@ -4,7 +4,7 @@
   Pods
 </h1>
 
-<p align="center"><strong>A Podman desktop application</strong></p>
+<p align="center"><strong>Keep track of your podman containers</strong></p>
 
 <p align="center">
   <a href="https://hosted.weblate.org/engage/pods/">
