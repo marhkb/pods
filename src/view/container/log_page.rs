@@ -99,10 +99,10 @@ mod imp {
             klass.install_action(ACTION_TOGGLE_SEARCH, None, |widget, _, _| {
                 widget.toggle_search();
             });
-            klass.install_action(ACTION_SCROLL_DOWN, None, move |widget, _, _| {
+            klass.install_action(ACTION_SCROLL_DOWN, None, |widget, _, _| {
                 widget.scroll_down();
             });
-            klass.install_action(ACTION_START_CONTAINER, None, move |widget, _, _| {
+            klass.install_action(ACTION_START_CONTAINER, None, |widget, _, _| {
                 widget.start_or_resume_container();
             });
 

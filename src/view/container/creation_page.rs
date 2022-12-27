@@ -111,10 +111,10 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
-            klass.install_action(ACTION_SEARCH_IMAGE, None, move |widget, _, _| {
+            klass.install_action(ACTION_SEARCH_IMAGE, None, |widget, _, _| {
                 widget.search_image();
             });
-            klass.install_action(ACTION_REMOVE_REMOTE_IMAGE, None, move |widget, _, _| {
+            klass.install_action(ACTION_REMOVE_REMOTE_IMAGE, None, |widget, _, _| {
                 widget.remove_remote();
             });
             klass.install_action(ACTION_ADD_CMD_ARG, None, |widget, _, _| {

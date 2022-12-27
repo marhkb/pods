@@ -29,10 +29,10 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
-            klass.install_action(ACTION_GO_FIRST, None, move |widget, _, _| {
+            klass.install_action(ACTION_GO_FIRST, None, |widget, _, _| {
                 widget.navigate_to_first();
             });
-            klass.install_action(ACTION_BACK, None, move |widget, _, _| {
+            klass.install_action(ACTION_BACK, None, |widget, _, _| {
                 widget.navigate_back();
             });
         }

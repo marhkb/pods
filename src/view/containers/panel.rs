@@ -73,16 +73,16 @@ mod imp {
                     widget.start_or_resume_selection();
                 },
             );
-            klass.install_action(ACTION_STOP_SELECTION, None, move |widget, _, _| {
+            klass.install_action(ACTION_STOP_SELECTION, None, |widget, _, _| {
                 widget.stop_selection();
             });
-            klass.install_action(ACTION_PAUSE_SELECTION, None, move |widget, _, _| {
+            klass.install_action(ACTION_PAUSE_SELECTION, None, |widget, _, _| {
                 widget.pause_selection();
             });
-            klass.install_action(ACTION_RESTART_SELECTION, None, move |widget, _, _| {
+            klass.install_action(ACTION_RESTART_SELECTION, None, |widget, _, _| {
                 widget.restart_selection();
             });
-            klass.install_action(ACTION_DELETE_SELECTION, None, move |widget, _, _| {
+            klass.install_action(ACTION_DELETE_SELECTION, None, |widget, _, _| {
                 widget.delete_selection();
             });
         }

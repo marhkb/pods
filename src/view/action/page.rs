@@ -35,7 +35,7 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
             klass.install_action(ACTION_CANCEL, None, |widget, _, _| widget.cancel());
-            klass.install_action(ACTION_VIEW_ARTIFACT, None, move |widget, _, _| {
+            klass.install_action(ACTION_VIEW_ARTIFACT, None, |widget, _, _| {
                 widget.view_artifact();
             });
             klass.install_action(ACTION_RETRY, None, |widget, _, _| widget.retry());

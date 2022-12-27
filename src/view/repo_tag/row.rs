@@ -33,10 +33,10 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
-            klass.install_action(ACTION_UPDATE, None, move |widget, _, _| {
+            klass.install_action(ACTION_UPDATE, None, |widget, _, _| {
                 widget.update();
             });
-            klass.install_action(ACTION_UNTAG, None, move |widget, _, _| {
+            klass.install_action(ACTION_UNTAG, None, |widget, _, _| {
                 widget.untag();
             });
         }

@@ -68,39 +68,39 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
-            klass.install_action(ACTION_START_OR_RESUME, None, move |widget, _, _| {
+            klass.install_action(ACTION_START_OR_RESUME, None, |widget, _, _| {
                 if widget.pod().map(|pod| pod.can_start()).unwrap_or(false) {
                     super::super::start(widget.upcast_ref());
                 } else {
                     super::super::resume(widget.upcast_ref());
                 }
             });
-            klass.install_action(ACTION_STOP, None, move |widget, _, _| {
+            klass.install_action(ACTION_STOP, None, |widget, _, _| {
                 super::super::stop(widget.upcast_ref());
             });
-            klass.install_action(ACTION_KILL, None, move |widget, _, _| {
+            klass.install_action(ACTION_KILL, None, |widget, _, _| {
                 super::super::kill(widget.upcast_ref());
             });
-            klass.install_action(ACTION_RESTART, None, move |widget, _, _| {
+            klass.install_action(ACTION_RESTART, None, |widget, _, _| {
                 super::super::restart(widget.upcast_ref());
             });
-            klass.install_action(ACTION_PAUSE, None, move |widget, _, _| {
+            klass.install_action(ACTION_PAUSE, None, |widget, _, _| {
                 super::super::pause(widget.upcast_ref());
             });
-            klass.install_action(ACTION_RESUME, None, move |widget, _, _| {
+            klass.install_action(ACTION_RESUME, None, |widget, _, _| {
                 super::super::resume(widget.upcast_ref());
             });
-            klass.install_action(ACTION_DELETE, None, move |widget, _, _| {
+            klass.install_action(ACTION_DELETE, None, |widget, _, _| {
                 super::super::delete(widget.upcast_ref());
             });
 
-            klass.install_action(ACTION_INSPECT_POD, None, move |widget, _, _| {
+            klass.install_action(ACTION_INSPECT_POD, None, |widget, _, _| {
                 widget.show_inspection();
             });
-            klass.install_action(ACTION_GENERATE_KUBE, None, move |widget, _, _| {
+            klass.install_action(ACTION_GENERATE_KUBE, None, |widget, _, _| {
                 widget.show_kube();
             });
-            klass.install_action(ACTION_SHOW_PROCESSES, None, move |widget, _, _| {
+            klass.install_action(ACTION_SHOW_PROCESSES, None, |widget, _, _| {
                 widget.show_processes();
             });
 

@@ -150,10 +150,10 @@ mod imp {
             klass.install_action("win.exit-selection-mode", None, |widget, _, _| {
                 widget.exit_selection_mode();
             });
-            klass.install_action("win.select-all", None, move |widget, _, _| {
+            klass.install_action("win.select-all", None, |widget, _, _| {
                 widget.select_all();
             });
-            klass.install_action("win.select-none", None, move |widget, _, _| {
+            klass.install_action("win.select-none", None, |widget, _, _| {
                 widget.select_none();
             });
 
@@ -181,7 +181,7 @@ mod imp {
                 "entity.create",
                 None,
             );
-            klass.install_action("entity.create", None, move |widget, _, _| {
+            klass.install_action("entity.create", None, |widget, _, _| {
                 widget.create_entity();
             });
 

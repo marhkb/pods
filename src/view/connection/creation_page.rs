@@ -68,13 +68,13 @@ mod imp {
                     widget.copy_socket_acivation_command();
                 },
             );
-            klass.install_action(ACTION_SHOW_CUSTOM_INFO_DIALOG, None, move |widget, _, _| {
+            klass.install_action(ACTION_SHOW_CUSTOM_INFO_DIALOG, None, |widget, _, _| {
                 widget.show_custom_info_dialog();
             });
-            klass.install_action(ACTION_TRY_CONNECT, None, move |widget, _, _| {
+            klass.install_action(ACTION_TRY_CONNECT, None, |widget, _, _| {
                 widget.try_connect();
             });
-            klass.install_action(ACTION_ABORT, None, move |widget, _, _| {
+            klass.install_action(ACTION_ABORT, None, |widget, _, _| {
                 widget.abort();
             });
         }
