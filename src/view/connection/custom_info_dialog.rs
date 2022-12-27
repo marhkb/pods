@@ -64,7 +64,7 @@ mod imp {
                     widget.copy_root_socket_acivation_command();
                 },
             );
-            klass.install_action(ACTION_COPY_ROOT_URL, None, move |widget, _, _| {
+            klass.install_action(ACTION_COPY_ROOT_URL, None, |widget, _, _| {
                 widget.copy_root_url();
             });
         }

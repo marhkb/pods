@@ -62,19 +62,19 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
-            klass.install_action(ACTION_TAG, None, move |widget, _, _| {
+            klass.install_action(ACTION_TAG, None, |widget, _, _| {
                 widget.tag();
             });
 
-            klass.install_action(ACTION_INSPECT_IMAGE, None, move |widget, _, _| {
+            klass.install_action(ACTION_INSPECT_IMAGE, None, |widget, _, _| {
                 widget.show_inspection();
             });
 
-            klass.install_action(ACTION_SHOW_HISTORY, None, move |widget, _, _| {
+            klass.install_action(ACTION_SHOW_HISTORY, None, |widget, _, _| {
                 widget.show_history();
             });
 
-            klass.install_action(ACTION_DELETE_IMAGE, None, move |widget, _, _| {
+            klass.install_action(ACTION_DELETE_IMAGE, None, |widget, _, _| {
                 widget.delete_image();
             });
 

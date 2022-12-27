@@ -67,23 +67,23 @@ mod imp {
                 ACTION_PULL_IMAGE,
                 None,
             );
-            klass.install_action(ACTION_PULL_IMAGE, None, move |widget, _, _| {
+            klass.install_action(ACTION_PULL_IMAGE, None, |widget, _, _| {
                 widget.show_download_page();
             });
 
-            klass.install_action(ACTION_BUILD_IMAGE, None, move |widget, _, _| {
+            klass.install_action(ACTION_BUILD_IMAGE, None, |widget, _, _| {
                 widget.show_build_page();
             });
 
-            klass.install_action(ACTION_PRUNE_UNUSED_IMAGES, None, move |widget, _, _| {
+            klass.install_action(ACTION_PRUNE_UNUSED_IMAGES, None, |widget, _, _| {
                 widget.show_prune_page();
             });
 
-            klass.install_action(ACTION_SHOW_ADD_IMAGE_MENU, None, move |widget, _, _| {
+            klass.install_action(ACTION_SHOW_ADD_IMAGE_MENU, None, |widget, _, _| {
                 widget.show_add_image_menu();
             });
 
-            klass.install_action(ACTION_DELETE_SELECTION, None, move |widget, _, _| {
+            klass.install_action(ACTION_DELETE_SELECTION, None, |widget, _, _| {
                 widget.delete_selection();
             });
         }

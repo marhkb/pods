@@ -74,7 +74,7 @@ mod imp {
                 ACTION_CREATE_POD,
                 None,
             );
-            klass.install_action(ACTION_CREATE_POD, None, move |widget, _, _| {
+            klass.install_action(ACTION_CREATE_POD, None, |widget, _, _| {
                 widget.create_pod();
             });
 
@@ -85,16 +85,16 @@ mod imp {
                     widget.start_selection();
                 },
             );
-            klass.install_action(ACTION_STOP_SELECTION, None, move |widget, _, _| {
+            klass.install_action(ACTION_STOP_SELECTION, None, |widget, _, _| {
                 widget.stop_selection();
             });
-            klass.install_action(ACTION_PAUSE_SELECTION, None, move |widget, _, _| {
+            klass.install_action(ACTION_PAUSE_SELECTION, None, |widget, _, _| {
                 widget.pause_selection();
             });
-            klass.install_action(ACTION_RESTART_SELECTION, None, move |widget, _, _| {
+            klass.install_action(ACTION_RESTART_SELECTION, None, |widget, _, _| {
                 widget.restart_selection();
             });
-            klass.install_action(ACTION_DELETE_SELECTION, None, move |widget, _, _| {
+            klass.install_action(ACTION_DELETE_SELECTION, None, |widget, _, _| {
                 widget.delete_selection();
             });
         }

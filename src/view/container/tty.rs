@@ -58,7 +58,7 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
-            klass.install_action(ACTION_START_OR_RESUME, None, move |widget, _, _| {
+            klass.install_action(ACTION_START_OR_RESUME, None, |widget, _, _| {
                 if let Some(container) = widget.container() {
                     if container.can_start() {
                         super::super::start(widget.upcast_ref());

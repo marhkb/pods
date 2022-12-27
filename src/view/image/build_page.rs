@@ -55,7 +55,7 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
-            klass.install_action(ACTION_BUILD, None, move |widget, _, _| {
+            klass.install_action(ACTION_BUILD, None, |widget, _, _| {
                 widget.build();
             });
 

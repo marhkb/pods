@@ -46,7 +46,7 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
-            klass.install_action(ACTION_CLEAN_UP_ACTIONS, None, move |widget, _, _| {
+            klass.install_action(ACTION_CLEAN_UP_ACTIONS, None, |widget, _, _| {
                 widget.clean_up_actions();
             });
         }

@@ -32,10 +32,10 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
-            klass.install_action(ACTION_CREATE_CONTAINER, None, move |widget, _, _| {
+            klass.install_action(ACTION_CREATE_CONTAINER, None, |widget, _, _| {
                 widget.create_container();
             });
-            klass.install_action(ACTION_DELETE_IMAGE, None, move |widget, _, _| {
+            klass.install_action(ACTION_DELETE_IMAGE, None, |widget, _, _| {
                 widget.delete_image();
             });
         }

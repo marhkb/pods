@@ -44,7 +44,7 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
-            klass.install_action("pod-row.activate", None, move |widget, _, _| {
+            klass.install_action("pod-row.activate", None, |widget, _, _| {
                 widget.activate();
             });
         }

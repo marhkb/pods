@@ -69,65 +69,65 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
-            klass.install_action(ACTION_RENAME, None, move |widget, _, _| {
+            klass.install_action(ACTION_RENAME, None, |widget, _, _| {
                 widget.rename();
             });
-            klass.install_action(ACTION_COMMIT, None, move |widget, _, _| {
+            klass.install_action(ACTION_COMMIT, None, |widget, _, _| {
                 widget.commit();
             });
-            klass.install_action(ACTION_GET_FILES, None, move |widget, _, _| {
+            klass.install_action(ACTION_GET_FILES, None, |widget, _, _| {
                 widget.get_files();
             });
-            klass.install_action(ACTION_PUT_FILES, None, move |widget, _, _| {
+            klass.install_action(ACTION_PUT_FILES, None, |widget, _, _| {
                 widget.put_files();
             });
-            klass.install_action(ACTION_SHOW_HEALTH_DETAILS, None, move |widget, _, _| {
+            klass.install_action(ACTION_SHOW_HEALTH_DETAILS, None, |widget, _, _| {
                 widget.show_health_details();
             });
-            klass.install_action(ACTION_SHOW_IMAGE_DETAILS, None, move |widget, _, _| {
+            klass.install_action(ACTION_SHOW_IMAGE_DETAILS, None, |widget, _, _| {
                 widget.show_image_details();
             });
-            klass.install_action(ACTION_SHOW_POD_DETAILS, None, move |widget, _, _| {
+            klass.install_action(ACTION_SHOW_POD_DETAILS, None, |widget, _, _| {
                 widget.show_pod_details();
             });
-            klass.install_action(ACTION_START_OR_RESUME, None, move |widget, _, _| {
+            klass.install_action(ACTION_START_OR_RESUME, None, |widget, _, _| {
                 if widget.container().map(|c| c.can_start()).unwrap_or(false) {
                     super::super::start(widget.upcast_ref());
                 } else {
                     super::super::resume(widget.upcast_ref());
                 }
             });
-            klass.install_action(ACTION_STOP, None, move |widget, _, _| {
+            klass.install_action(ACTION_STOP, None, |widget, _, _| {
                 super::super::stop(widget.upcast_ref());
             });
-            klass.install_action(ACTION_KILL, None, move |widget, _, _| {
+            klass.install_action(ACTION_KILL, None, |widget, _, _| {
                 super::super::kill(widget.upcast_ref());
             });
-            klass.install_action(ACTION_RESTART, None, move |widget, _, _| {
+            klass.install_action(ACTION_RESTART, None, |widget, _, _| {
                 super::super::restart(widget.upcast_ref());
             });
-            klass.install_action(ACTION_PAUSE, None, move |widget, _, _| {
+            klass.install_action(ACTION_PAUSE, None, |widget, _, _| {
                 super::super::pause(widget.upcast_ref());
             });
-            klass.install_action(ACTION_RESUME, None, move |widget, _, _| {
+            klass.install_action(ACTION_RESUME, None, |widget, _, _| {
                 super::super::resume(widget.upcast_ref());
             });
-            klass.install_action(ACTION_DELETE, None, move |widget, _, _| {
+            klass.install_action(ACTION_DELETE, None, |widget, _, _| {
                 super::super::delete(widget.upcast_ref());
             });
-            klass.install_action(ACTION_INSPECT, None, move |widget, _, _| {
+            klass.install_action(ACTION_INSPECT, None, |widget, _, _| {
                 widget.show_inspection();
             });
-            klass.install_action(ACTION_GENERATE_KUBE, None, move |widget, _, _| {
+            klass.install_action(ACTION_GENERATE_KUBE, None, |widget, _, _| {
                 widget.show_kube();
             });
-            klass.install_action(ACTION_SHOW_TTY, None, move |widget, _, _| {
+            klass.install_action(ACTION_SHOW_TTY, None, |widget, _, _| {
                 widget.show_tty();
             });
-            klass.install_action(ACTION_SHOW_LOG, None, move |widget, _, _| {
+            klass.install_action(ACTION_SHOW_LOG, None, |widget, _, _| {
                 widget.show_log();
             });
-            klass.install_action(ACTION_SHOW_PROCESSES, None, move |widget, _, _| {
+            klass.install_action(ACTION_SHOW_PROCESSES, None, |widget, _, _| {
                 widget.show_processes();
             });
 

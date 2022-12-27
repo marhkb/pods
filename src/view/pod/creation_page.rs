@@ -132,10 +132,10 @@ mod imp {
             klass.install_action(ACTION_TOGGLE_RESOLV, None, |widget, _, _| {
                 widget.toggle_resolv();
             });
-            klass.install_action(ACTION_REMOVE_REMOTE_INFRA, None, move |widget, _, _| {
+            klass.install_action(ACTION_REMOVE_REMOTE_INFRA, None, |widget, _, _| {
                 widget.remove_remote();
             });
-            klass.install_action(ACTION_SEARCH_INFRA, None, move |widget, _, _| {
+            klass.install_action(ACTION_SEARCH_INFRA, None, |widget, _, _| {
                 widget.search_image();
             });
         }
