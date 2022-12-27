@@ -526,17 +526,11 @@ impl Window {
         let imp = self.imp();
 
         imp.search_button
-            .connect_clicked(clone!(@weak self as obj => move |button| {
-                if button.is_active() {
-                    obj.imp().search_entry.set_text("");
-                }
-            }));
-
-        imp.search_button
             .connect_active_notify(clone!(@weak self as obj => move |button| {
                 let imp = obj.imp();
 
                 if button.is_active() {
+                    imp.search_entry.set_text("");
                     imp.title_stack.set_visible_child(&*imp.search_entry);
                     imp.search_entry.grab_focus();
                     imp.search_stack.set_visible_child(&*imp.search_panel);
@@ -556,34 +550,6 @@ impl Window {
                     }
                 }
             }));
-
-        let search_entry_key_ctrl = gtk::EventControllerKey::new();
-        search_entry_key_ctrl.connect_key_pressed(
-            clone!(@weak self as obj => @default-return gtk::Inhibit(false), move |_, key, _, _| {
-                if key == gdk::Key::Escape {
-                    obj.imp().search_button.set_active(false);
-                    gtk::Inhibit(true)
-                } else {
-                    gtk::Inhibit(false)
-                }
-            }),
-        );
-        imp.search_entry.add_controller(&search_entry_key_ctrl);
-
-        imp.search_entry.set_key_capture_widget(Some(self));
-
-        let search_key_capture_ctrl = gtk::EventControllerKey::new();
-        search_key_capture_ctrl.connect_key_pressed(
-            clone!(@weak self as obj => @default-return gtk::Inhibit(false), move |_, _, _, _| {
-                let imp = obj.imp();
-                if obj.is_search_activatable() && !imp.search_button.is_active() {
-                    imp.search_entry.set_text("");
-                }
-
-                gtk::Inhibit(false)
-            }),
-        );
-        self.add_controller(&search_key_capture_ctrl);
 
         imp.leaflet
             .connect_visible_child_notify(clone!(@weak self as obj => move |_| {
