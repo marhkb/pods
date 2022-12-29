@@ -184,7 +184,7 @@ mod imp {
                     } else {
                         (2.0 - percentage) * 60.0 + (1.0 - percentage) * 360.0
                     } + 120.0 * (animation_value / 2.0).floor()
-                        + (percentage - percentage_clamped) * 240.0,
+                        + (percentage - percentage_clamped) * 180.0,
                     &[
                         gsk::ColorStop::new(percentage_clamped, style_context.color()),
                         gsk::ColorStop::new(percentage_clamped, color_transparent),
