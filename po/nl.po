@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-21 21:15+0100\n"
-"PO-Revision-Date: 2022-12-19 17:51+0000\n"
+"PO-Revision-Date: 2022-12-29 12:27+0000\n"
 "Last-Translator: Philip Goto <philip.goto@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/pods/pods/nl/>\n"
 "Language: nl\n"
@@ -205,9 +205,8 @@ msgid "_View"
 msgstr "_Bekijken"
 
 #: data/resources/ui/action/page.ui:148
-#, fuzzy
 msgid "_Retry"
-msgstr "Herkansingen"
+msgstr "_Opnieuw proberen"
 
 #: data/resources/ui/actions/overview.ui:38
 msgid "No Operations"
@@ -1752,9 +1751,8 @@ msgid "<none>"
 msgstr "<geen>"
 
 #: src/utils.rs:401
-#, fuzzy
 msgid "Error on open file dialog"
-msgstr "Fout bij openen van artefact"
+msgstr "Fout bij bestandsselectiedialoog"
 
 #: src/view/action/page.rs:141
 msgid "Images Are Currently Being Pruned"
@@ -2094,39 +2092,32 @@ msgid "Error resuming container"
 msgstr "Fout bij hervatten container"
 
 #: src/view/container/mod.rs:82 src/view/containers/panel.rs:255
-#, fuzzy
 msgid "Error on starting container"
 msgstr "Fout bij starten container"
 
 #: src/view/container/mod.rs:83 src/view/containers/panel.rs:281
-#, fuzzy
 msgid "Error on stopping container"
-msgstr "Fout bij stoppen container: {}"
+msgstr "Fout bij stoppen container"
 
 #: src/view/container/mod.rs:84
-#, fuzzy
 msgid "Error on killing container"
-msgstr "Fout bij inspecteren container"
+msgstr "Fout bij geforceerd stoppen container"
 
 #: src/view/container/mod.rs:85 src/view/containers/panel.rs:328
-#, fuzzy
 msgid "Error on restarting container"
-msgstr "Fout bij herstarten container: {}"
+msgstr "Fout bij herstarten container"
 
 #: src/view/container/mod.rs:86 src/view/containers/panel.rs:304
-#, fuzzy
 msgid "Error on pausing container"
-msgstr "Fout bij inspecteren container"
+msgstr "Fout bij pauzeren container"
 
 #: src/view/container/mod.rs:87 src/view/containers/panel.rs:244
-#, fuzzy
 msgid "Error on resuming container"
 msgstr "Fout bij hervatten container"
 
 #: src/view/container/mod.rs:88 src/view/containers/panel.rs:381
-#, fuzzy
 msgid "Error on deleting container"
-msgstr "Fout bij verwijderen container: {}"
+msgstr "Fout bij verwijderen container"
 
 #: src/view/container/properties_group.rs:277
 msgid "since {}"
@@ -2412,39 +2403,32 @@ msgid "Pod '{}' has been deleted"
 msgstr "Pod ‘{}’ is verwijderd"
 
 #: src/view/pod/mod.rs:55 src/view/pods/panel.rs:360
-#, fuzzy
 msgid "Error on starting pod"
-msgstr "Fout bij starten pod: {}"
+msgstr "Fout bij starten pod"
 
 #: src/view/pod/mod.rs:56 src/view/pods/panel.rs:386 src/view/pods/panel.rs:409
-#, fuzzy
 msgid "Error on stopping pod"
-msgstr "Fout bij stoppen pod: {}"
+msgstr "Fout bij stoppen pod"
 
 #: src/view/pod/mod.rs:57
-#, fuzzy
 msgid "Error on killing pod"
-msgstr "Fout bij inspecteren pod"
+msgstr "Fout bij geforceerd stoppen pod"
 
 #: src/view/pod/mod.rs:58 src/view/pods/panel.rs:433
-#, fuzzy
 msgid "Error on restarting pod"
-msgstr "Fout bij herstarten pod: {}"
+msgstr "Fout bij herstarten pod"
 
 #: src/view/pod/mod.rs:59
-#, fuzzy
 msgid "Error on pausing pod"
-msgstr "Fout bij inspecteren pod"
+msgstr "Fout bij pauzeren pod"
 
 #: src/view/pod/mod.rs:60 src/view/pods/panel.rs:349
-#, fuzzy
 msgid "Error on resuming pod"
-msgstr "Fout bij hervatten pod: {}"
+msgstr "Fout bij hervatten pod"
 
 #: src/view/pod/mod.rs:61 src/view/pods/panel.rs:478
-#, fuzzy
 msgid "Error on deleting pod"
-msgstr "Fout bij verwijderen pod: {}"
+msgstr "Fout bij verwijderen pod"
 
 #: src/view/pod/mod.rs:71
 msgid "Confirm Forced Pod Deletion"
