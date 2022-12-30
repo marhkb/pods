@@ -42,6 +42,22 @@
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="1.0.1" date="2022-12-30">
+      <description>
+        <p>The stable 1.0 release of Pods includes the following changes since the last RC:<p/>
+        <ul>
+          <li>The welcome page now has a very attractive, colorful illustration, thanks to @daudix-UFO.</li>
+          <li>Switching the Podman connection now no longer blocks the GUI.</li>
+          <li>Creating new Podman connections can now be canceled during the connection attempt.</li>
+          <li>Copying and pasting text from/to the container terminal now works with <em>Ctrl+Shift+C</em> and <em>Ctrl+Shift+V</em>, respectively.</li>
+          <li>The container terminal now has a simple context menu.</li>
+          <li>The animation of the internal spinner widget has been beautified.</li>
+          <li>Translations have been updated.</li>
+          <li>Dependencies have been updated.</li>
+        </ul>
+        </p>
+      </description>
+    </release>
     <release version="1.0.0-rc.3" date="2022-12-21">
       <description>
         <p>The third 1.0 release candidate of Pods contains the following changes:<p/>
