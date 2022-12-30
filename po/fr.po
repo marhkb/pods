@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-21 21:15+0100\n"
+"POT-Creation-Date: 2022-12-30 21:22+0100\n"
 "PO-Revision-Date: 2022-12-19 17:51+0000\n"
 "Last-Translator: SoftExpert <softexpert@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/pods/pods/fr/>\n"
@@ -25,7 +25,6 @@ msgid "Pods"
 msgstr "Pods"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:4
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
 msgid "A Podman desktop application"
 msgstr "Une application de bureau Podman"
 
@@ -111,6 +110,11 @@ msgstr "Indique si la recherche doit tenir compte de la casse"
 msgid "Whether to match whole words when searching"
 msgstr "Indique s’il faut rechercher les mots entiers"
 
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
+#, fuzzy
+msgid "Keep track of your podman containers"
+msgstr "Créer des pods et des conteneurs."
+
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
 msgid ""
 "Pods is a frontend for podman. It uses libadwaita for its user interface and "
@@ -189,11 +193,12 @@ msgstr "Vue d’ensemble des conteneurs"
 msgid "Pods Overview"
 msgstr "Vue d’ensemble des pods"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:209
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:223
 msgid "Marcus Behrendt"
 msgstr "Marcus Behrendt"
 
 #: data/resources/ui/action/page.ui:118
+#: data/resources/ui/connection/creation-page.ui:82
 msgid "_Abort"
 msgstr "_Annuler"
 
@@ -275,11 +280,11 @@ msgstr "_Annuler"
 msgid "New Connection"
 msgstr "Nouvelle connexion"
 
-#: data/resources/ui/connection/creation-page.ui:44
+#: data/resources/ui/connection/creation-page.ui:51
 msgid "_Connect"
 msgstr "Se _connecter"
 
-#: data/resources/ui/connection/creation-page.ui:62
+#: data/resources/ui/connection/creation-page.ui:112
 #: data/resources/ui/container/creation-page.ui:83
 #: data/resources/ui/container/properties-group.ui:15
 #: data/resources/ui/container/rename-dialog.ui:24
@@ -289,30 +294,30 @@ msgstr "Se _connecter"
 msgid "Name"
 msgstr "Nom"
 
-#: data/resources/ui/connection/creation-page.ui:71
+#: data/resources/ui/connection/creation-page.ui:121
 msgid "URL"
 msgstr "URL"
 
-#: data/resources/ui/connection/creation-page.ui:72
+#: data/resources/ui/connection/creation-page.ui:122
 msgid "Choose how you want to connect to Podman."
 msgstr "Choisissez comment vous voulez vous connecter à Podman."
 
-#: data/resources/ui/connection/creation-page.ui:76
+#: data/resources/ui/connection/creation-page.ui:126
 msgid "Unix Socket"
 msgstr "Socket Unix"
 
-#: data/resources/ui/connection/creation-page.ui:111
+#: data/resources/ui/connection/creation-page.ui:161
 #, fuzzy
 msgid "Podman Socket Activation"
 msgstr "Une application de bureau Podman"
 
-#: data/resources/ui/connection/creation-page.ui:118
+#: data/resources/ui/connection/creation-page.ui:168
 msgid ""
 "To connect to the local Podman instance, the systemd socket must be enabled. "
 "You can enable it permanently by issuing the following command:"
 msgstr ""
 
-#: data/resources/ui/connection/creation-page.ui:167
+#: data/resources/ui/connection/creation-page.ui:217
 #: data/resources/ui/connection/custom-info-dialog.ui:138
 #: data/resources/ui/connection/custom-info-dialog.ui:194
 #: data/resources/ui/connection/custom-info-dialog.ui:252
@@ -320,25 +325,25 @@ msgstr ""
 msgid "Copy to Clipboard"
 msgstr "Copier dans le presse-papiers"
 
-#: data/resources/ui/connection/creation-page.ui:183
+#: data/resources/ui/connection/creation-page.ui:233
 msgid ""
 "To connect to the local root Podman instance, create a custom connection "
 "(read the hints there)."
 msgstr ""
 
-#: data/resources/ui/connection/creation-page.ui:208
+#: data/resources/ui/connection/creation-page.ui:258
 msgid "Custom"
 msgstr "Personnalisé"
 
-#: data/resources/ui/connection/creation-page.ui:218
+#: data/resources/ui/connection/creation-page.ui:268
 msgid "Connection String"
 msgstr "Chaîne de connexion"
 
-#: data/resources/ui/connection/creation-page.ui:246
+#: data/resources/ui/connection/creation-page.ui:296
 msgid "Color"
 msgstr "Couleur"
 
-#: data/resources/ui/connection/creation-page.ui:247
+#: data/resources/ui/connection/creation-page.ui:297
 msgid "Define how to colorize the header bar (disabled)."
 msgstr "Définissez la coloration de la barre d'en-tête (désactivé)."
 
@@ -376,7 +381,7 @@ msgid ""
 msgstr ""
 "Saisissez l’URL suivante dans le champ de texte et créez la connexion :"
 
-#: data/resources/ui/connection/row.ui:81
+#: data/resources/ui/connection/row.ui:90
 #: data/resources/ui/container/details-page.ui:184
 #: data/resources/ui/containers/panel.ui:210
 #: data/resources/ui/containers/panel.ui:281
@@ -902,11 +907,23 @@ msgstr "Disque"
 msgid "Container TTY"
 msgstr "Conteneur"
 
-#: data/resources/ui/container/tty.ui:15
+#: data/resources/ui/container/tty.ui:6
+msgid "_Copy"
+msgstr ""
+
+#: data/resources/ui/container/tty.ui:10
+msgid "Copy as _HTML"
+msgstr ""
+
+#: data/resources/ui/container/tty.ui:14
+msgid "_Paste"
+msgstr ""
+
+#: data/resources/ui/container/tty.ui:35
 msgid "No Terminal"
 msgstr "Aucun terminal"
 
-#: data/resources/ui/container/tty.ui:16
+#: data/resources/ui/container/tty.ui:36
 msgid "The container must be running to use the terminal."
 msgstr "Le conteneur doit être en cours d’exécution pour utiliser le terminal."
 
@@ -1468,16 +1485,33 @@ msgid "Upload files"
 msgstr ""
 
 #: data/resources/ui/shortcuts.ui:104
+#, fuzzy
+msgctxt "shortcut window"
+msgid "Terminal"
+msgstr "Terminal"
+
+#: data/resources/ui/shortcuts.ui:108
+#, fuzzy
+msgctxt "shortcut window"
+msgid "Copy selection to clipboard"
+msgstr "Copier dans le presse-papiers"
+
+#: data/resources/ui/shortcuts.ui:115
+msgctxt "shortcut window"
+msgid "Paste from clipboard"
+msgstr ""
+
+#: data/resources/ui/shortcuts.ui:125
 msgctxt "shortcut window"
 msgid "Podman"
 msgstr "Podman"
 
-#: data/resources/ui/shortcuts.ui:108
+#: data/resources/ui/shortcuts.ui:129
 msgctxt "shortcut window"
 msgid "Add a new connection"
 msgstr "Ajouter une nouvelle connexion"
 
-#: data/resources/ui/shortcuts.ui:115
+#: data/resources/ui/shortcuts.ui:136
 msgctxt "shortcut window"
 msgid "Create a new entity"
 msgstr "Créer une nouvelle entité"
@@ -1494,7 +1528,7 @@ msgstr "_Ajouter une connexion…"
 msgid "Clean up"
 msgstr "Nettoyer"
 
-#: data/resources/ui/statusbar.ui:76
+#: data/resources/ui/statusbar.ui:104
 msgid "Operations"
 msgstr "Opérations"
 
@@ -1519,18 +1553,17 @@ msgstr "Partagé"
 msgid "Private"
 msgstr "Privé"
 
-#: data/resources/ui/welcome-page.ui:34
+#: data/resources/ui/welcome-page.ui:70
 msgid "Welcome to Pods"
 msgstr "Bienvenue sur Pods"
 
-#: data/resources/ui/welcome-page.ui:35
-msgid ""
-"No connections have been detected. Use the button below to create a new one."
+#: data/resources/ui/welcome-page.ui:79
+#, fuzzy
+msgid "Use the button below to create a new connection to Podman."
 msgstr ""
-"Aucune connexion n’a été détectée. Utilisez le bouton ci-dessous pour en "
-"créer une nouvelle."
+"Vous Pouvez utiliser le bouton ci-dessous pour en créer un pod initiale."
 
-#: data/resources/ui/welcome-page.ui:45
+#: data/resources/ui/welcome-page.ui:93
 msgid "_Add Connection"
 msgstr "_Ajouter une connexion"
 
@@ -1643,7 +1676,7 @@ msgstr "Pod : <b>{}</b>"
 msgid "Pod: <b>{}</b> ← {}"
 msgstr "Pod : <b>{}</b> ← {}"
 
-#: src/model/connection_manager.rs:188
+#: src/model/connection_manager.rs:207
 msgid "Connection '{}' already exists."
 msgstr "La connexion '{}' existe déjà."
 
@@ -1696,7 +1729,7 @@ msgid "Degraded"
 msgstr "Dégradé"
 
 #: src/model/pod.rs:67 src/view/component/source_view_page.rs:341
-#: src/view/connection/creation_page.rs:223
+#: src/view/connection/creation_page.rs:269
 msgid "Error"
 msgstr "Erreur"
 
@@ -1974,16 +2007,16 @@ msgstr "Processus du conteneur"
 msgid "Pod Processes"
 msgstr "Processus du pod"
 
-#: src/view/connection/creation_page.rs:122
+#: src/view/connection/creation_page.rs:151
 msgid "official documentation"
 msgstr "documentation officielle"
 
 #. Translators: The placeholder '{}' is replaced by 'official documentation'.
-#: src/view/connection/creation_page.rs:119
+#: src/view/connection/creation_page.rs:148
 msgid "Visit the {} for more information."
 msgstr "Visitez la {} pour plus d’informations."
 
-#: src/view/connection/creation_page.rs:195
+#: src/view/connection/creation_page.rs:227
 msgid "Confirm Connecting to New Instance"
 msgstr "Confirmer la connexion à une nouvelle instance"
 
@@ -2012,15 +2045,15 @@ msgstr ""
 msgid "_Confirm"
 msgstr "_Confirmer"
 
-#: src/view/connection/row.rs:109
+#: src/view/connection/row.rs:111
 msgid "Local connection"
 msgstr "Connexion locale"
 
-#: src/view/connection/switcher_widget.rs:68
+#: src/view/connection/switcher_widget.rs:69
 msgid "Confirm Switching Connection"
 msgstr "Confirmer le changement de Connexion"
 
-#: src/view/connection/switcher_widget.rs:127
+#: src/view/connection/switcher_widget.rs:128
 msgid "Error on switching connection"
 msgstr "Erreur lors du changement de connexion"
 
@@ -2165,11 +2198,11 @@ msgstr "{} / {} ({} %)"
 msgid "{} / s"
 msgstr "{} / s"
 
-#: src/view/container/tty.rs:303
+#: src/view/container/tty.rs:363
 msgid "Terminal error"
 msgstr "erreur du Terminal"
 
-#: src/view/container/tty.rs:304
+#: src/view/container/tty.rs:364
 msgid "'/bin/sh' not found"
 msgstr "'/bin/sh' non trouvé"
 
@@ -2512,43 +2545,50 @@ msgstr ""
 msgid "Error on untagging image"
 msgstr "Erreur lors de l'inspection de l'image"
 
-#: src/window.rs:423
+#: src/window.rs:422
 msgid "Confirm Exiting The Application"
 msgstr "Confirmer que vous voulez quitter de l’application"
 
-#: src/window.rs:619
+#: src/window.rs:584
 msgid "{} Selected Image"
 msgid_plural "{} Selected Images"
 msgstr[0] "{} Image sélectionnée"
 msgstr[1] "{} Images sélectionnées"
 
-#: src/window.rs:633
+#: src/window.rs:598
 msgid "{} Selected Container"
 msgid_plural "{} Selected Containers"
 msgstr[0] "{} Conteneur sélectionné"
 msgstr[1] "{} Conteneurs sélectionnés"
 
-#: src/window.rs:647
+#: src/window.rs:612
 msgid "{} Selected Pod"
 msgid_plural "{} Selected Pods"
 msgstr[0] "{} Pod Sélectionné"
 msgstr[1] "{} Pods Sélectionnées"
 
-#: src/window.rs:870
+#: src/window.rs:835
 msgid "images"
 msgstr "Images"
 
-#: src/window.rs:871
+#: src/window.rs:836
 msgid "containers"
 msgstr "Conteneurs"
 
-#: src/window.rs:872
+#: src/window.rs:837
 msgid "pods"
 msgstr "pods"
 
-#: src/window.rs:868
+#: src/window.rs:833
 msgid "Error on loading {}"
 msgstr "Erreur lors du chargement {}"
+
+#~ msgid ""
+#~ "No connections have been detected. Use the button below to create a new "
+#~ "one."
+#~ msgstr ""
+#~ "Aucune connexion n’a été détectée. Utilisez le bouton ci-dessous pour en "
+#~ "créer une nouvelle."
 
 #~ msgid "Error on resuming container: {}"
 #~ msgstr "Erreur lors de la reprise du conteneur : {}"
