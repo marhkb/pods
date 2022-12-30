@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-21 21:15+0100\n"
+"POT-Creation-Date: 2022-12-30 21:22+0100\n"
 "PO-Revision-Date: 2022-12-29 12:27+0000\n"
 "Last-Translator: Philip Goto <philip.goto@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/pods/pods/nl/>\n"
@@ -26,7 +26,6 @@ msgid "Pods"
 msgstr "Pods"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:4
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
 msgid "A Podman desktop application"
 msgstr "Een desktop-applicatie voor Podman"
 
@@ -113,6 +112,11 @@ msgid "Whether to match whole words when searching"
 msgstr ""
 "Of zoektermen met een volledig woord moeten overeenkomen bij het zoeken"
 
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
+#, fuzzy
+msgid "Keep track of your podman containers"
+msgstr "Pods en containers aanmaken."
+
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
 msgid ""
 "Pods is a frontend for podman. It uses libadwaita for its user interface and "
@@ -192,11 +196,12 @@ msgstr "Overzicht van containers"
 msgid "Pods Overview"
 msgstr "Overzicht van pods"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:209
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:223
 msgid "Marcus Behrendt"
 msgstr "Marcus Behrendt"
 
 #: data/resources/ui/action/page.ui:118
+#: data/resources/ui/connection/creation-page.ui:82
 msgid "_Abort"
 msgstr "_Afbreken"
 
@@ -277,11 +282,11 @@ msgstr "_Annuleren"
 msgid "New Connection"
 msgstr "Nieuwe verbinding"
 
-#: data/resources/ui/connection/creation-page.ui:44
+#: data/resources/ui/connection/creation-page.ui:51
 msgid "_Connect"
 msgstr "_Verbinden"
 
-#: data/resources/ui/connection/creation-page.ui:62
+#: data/resources/ui/connection/creation-page.ui:112
 #: data/resources/ui/container/creation-page.ui:83
 #: data/resources/ui/container/properties-group.ui:15
 #: data/resources/ui/container/rename-dialog.ui:24
@@ -291,23 +296,23 @@ msgstr "_Verbinden"
 msgid "Name"
 msgstr "Naam"
 
-#: data/resources/ui/connection/creation-page.ui:71
+#: data/resources/ui/connection/creation-page.ui:121
 msgid "URL"
 msgstr "URL"
 
-#: data/resources/ui/connection/creation-page.ui:72
+#: data/resources/ui/connection/creation-page.ui:122
 msgid "Choose how you want to connect to Podman."
 msgstr "Kies hoe u met podman wilt verbinden."
 
-#: data/resources/ui/connection/creation-page.ui:76
+#: data/resources/ui/connection/creation-page.ui:126
 msgid "Unix Socket"
 msgstr "Unix-socket"
 
-#: data/resources/ui/connection/creation-page.ui:111
+#: data/resources/ui/connection/creation-page.ui:161
 msgid "Podman Socket Activation"
 msgstr "Podman-socket-activatie"
 
-#: data/resources/ui/connection/creation-page.ui:118
+#: data/resources/ui/connection/creation-page.ui:168
 msgid ""
 "To connect to the local Podman instance, the systemd socket must be enabled. "
 "You can enable it permanently by issuing the following command:"
@@ -316,7 +321,7 @@ msgstr ""
 "worden ingeschakeld. U kunt deze permanent inschakelen door de volgende "
 "opdracht uit te voeren:"
 
-#: data/resources/ui/connection/creation-page.ui:167
+#: data/resources/ui/connection/creation-page.ui:217
 #: data/resources/ui/connection/custom-info-dialog.ui:138
 #: data/resources/ui/connection/custom-info-dialog.ui:194
 #: data/resources/ui/connection/custom-info-dialog.ui:252
@@ -324,7 +329,7 @@ msgstr ""
 msgid "Copy to Clipboard"
 msgstr "Naar klembord kopiëren"
 
-#: data/resources/ui/connection/creation-page.ui:183
+#: data/resources/ui/connection/creation-page.ui:233
 msgid ""
 "To connect to the local root Podman instance, create a custom connection "
 "(read the hints there)."
@@ -332,19 +337,19 @@ msgstr ""
 "Om met de lokale root-Podman-instantie te verbinden moet u een lokale "
 "verbinding aanmaken (zie bijbehorende uitleg)."
 
-#: data/resources/ui/connection/creation-page.ui:208
+#: data/resources/ui/connection/creation-page.ui:258
 msgid "Custom"
 msgstr "Aangepast"
 
-#: data/resources/ui/connection/creation-page.ui:218
+#: data/resources/ui/connection/creation-page.ui:268
 msgid "Connection String"
 msgstr "Verbindingstekenreeks"
 
-#: data/resources/ui/connection/creation-page.ui:246
+#: data/resources/ui/connection/creation-page.ui:296
 msgid "Color"
 msgstr "Kleur"
 
-#: data/resources/ui/connection/creation-page.ui:247
+#: data/resources/ui/connection/creation-page.ui:297
 msgid "Define how to colorize the header bar (disabled)."
 msgstr "Hoe de titelbalk moet worden gekleurd (uitgeschakeld)."
 
@@ -388,7 +393,7 @@ msgid ""
 "Enter the following URL here into the text field and create the connection:"
 msgstr "Voer de volgende URL in in het tekstveld en maak de verbinding aan:"
 
-#: data/resources/ui/connection/row.ui:81
+#: data/resources/ui/connection/row.ui:90
 #: data/resources/ui/container/details-page.ui:184
 #: data/resources/ui/containers/panel.ui:210
 #: data/resources/ui/containers/panel.ui:281
@@ -908,11 +913,23 @@ msgstr "Schijf"
 msgid "Container TTY"
 msgstr "Container-TTY"
 
-#: data/resources/ui/container/tty.ui:15
+#: data/resources/ui/container/tty.ui:6
+msgid "_Copy"
+msgstr ""
+
+#: data/resources/ui/container/tty.ui:10
+msgid "Copy as _HTML"
+msgstr ""
+
+#: data/resources/ui/container/tty.ui:14
+msgid "_Paste"
+msgstr ""
+
+#: data/resources/ui/container/tty.ui:35
 msgid "No Terminal"
 msgstr "Geen terminal"
 
-#: data/resources/ui/container/tty.ui:16
+#: data/resources/ui/container/tty.ui:36
 msgid "The container must be running to use the terminal."
 msgstr "De container moet ingeschakeld zijn om de terminal te gebruiken."
 
@@ -1464,16 +1481,33 @@ msgid "Upload files"
 msgstr "Bestanden uploaden"
 
 #: data/resources/ui/shortcuts.ui:104
+#, fuzzy
+msgctxt "shortcut window"
+msgid "Terminal"
+msgstr "Terminal"
+
+#: data/resources/ui/shortcuts.ui:108
+#, fuzzy
+msgctxt "shortcut window"
+msgid "Copy selection to clipboard"
+msgstr "Naar klembord kopiëren"
+
+#: data/resources/ui/shortcuts.ui:115
+msgctxt "shortcut window"
+msgid "Paste from clipboard"
+msgstr ""
+
+#: data/resources/ui/shortcuts.ui:125
 msgctxt "shortcut window"
 msgid "Podman"
 msgstr "Podman"
 
-#: data/resources/ui/shortcuts.ui:108
+#: data/resources/ui/shortcuts.ui:129
 msgctxt "shortcut window"
 msgid "Add a new connection"
 msgstr "Nieuwe verbinding toevoegen"
 
-#: data/resources/ui/shortcuts.ui:115
+#: data/resources/ui/shortcuts.ui:136
 msgctxt "shortcut window"
 msgid "Create a new entity"
 msgstr "Nieuwe entiteit aanmaken"
@@ -1490,7 +1524,7 @@ msgstr "Verbinding _toevoegen…"
 msgid "Clean up"
 msgstr "Opschonen"
 
-#: data/resources/ui/statusbar.ui:76
+#: data/resources/ui/statusbar.ui:104
 msgid "Operations"
 msgstr "Handelingen"
 
@@ -1515,18 +1549,16 @@ msgstr "Gedeeld"
 msgid "Private"
 msgstr "Privaat"
 
-#: data/resources/ui/welcome-page.ui:34
+#: data/resources/ui/welcome-page.ui:70
 msgid "Welcome to Pods"
 msgstr "Welkom bij Pods"
 
-#: data/resources/ui/welcome-page.ui:35
-msgid ""
-"No connections have been detected. Use the button below to create a new one."
-msgstr ""
-"Er zijn geen verbindingen gedetecteerd. Gebruik de knop hieronder om een "
-"nieuwe aan te maken."
+#: data/resources/ui/welcome-page.ui:79
+#, fuzzy
+msgid "Use the button below to create a new connection to Podman."
+msgstr "U kunt de knop hieronder gebruiken om een initiële pod aan te maken."
 
-#: data/resources/ui/welcome-page.ui:45
+#: data/resources/ui/welcome-page.ui:93
 msgid "_Add Connection"
 msgstr "Verbinding _toevoegen"
 
@@ -1641,7 +1673,7 @@ msgstr "Pod: <b>{}</b>"
 msgid "Pod: <b>{}</b> ← {}"
 msgstr "Pod: <b>{}</b> ← {}"
 
-#: src/model/connection_manager.rs:188
+#: src/model/connection_manager.rs:207
 msgid "Connection '{}' already exists."
 msgstr "Verbinding ‘{}’ bestaat al."
 
@@ -1694,7 +1726,7 @@ msgid "Degraded"
 msgstr "Gedegradeerd"
 
 #: src/model/pod.rs:67 src/view/component/source_view_page.rs:341
-#: src/view/connection/creation_page.rs:223
+#: src/view/connection/creation_page.rs:269
 msgid "Error"
 msgstr "Fout"
 
@@ -1966,16 +1998,16 @@ msgstr "Containerprocessen"
 msgid "Pod Processes"
 msgstr "Pod-processen"
 
-#: src/view/connection/creation_page.rs:122
+#: src/view/connection/creation_page.rs:151
 msgid "official documentation"
 msgstr "officiële documentatie"
 
 #. Translators: The placeholder '{}' is replaced by 'official documentation'.
-#: src/view/connection/creation_page.rs:119
+#: src/view/connection/creation_page.rs:148
 msgid "Visit the {} for more information."
 msgstr "Bezoek de {} voor meer informatie."
 
-#: src/view/connection/creation_page.rs:195
+#: src/view/connection/creation_page.rs:227
 msgid "Confirm Connecting to New Instance"
 msgstr "Bevestig verbinden met nieuwe instantie"
 
@@ -2004,15 +2036,15 @@ msgstr ""
 msgid "_Confirm"
 msgstr "_Bevestigen"
 
-#: src/view/connection/row.rs:109
+#: src/view/connection/row.rs:111
 msgid "Local connection"
 msgstr "Lokale verbinding"
 
-#: src/view/connection/switcher_widget.rs:68
+#: src/view/connection/switcher_widget.rs:69
 msgid "Confirm Switching Connection"
 msgstr "Bevestig wisselen van verbinding"
 
-#: src/view/connection/switcher_widget.rs:127
+#: src/view/connection/switcher_widget.rs:128
 msgid "Error on switching connection"
 msgstr "Fout bij wisselen van verbinding"
 
@@ -2149,11 +2181,11 @@ msgstr "{} / {} ({}%)"
 msgid "{} / s"
 msgstr "{}/s"
 
-#: src/view/container/tty.rs:303
+#: src/view/container/tty.rs:363
 msgid "Terminal error"
 msgstr "Terminal-fout"
 
-#: src/view/container/tty.rs:304
+#: src/view/container/tty.rs:364
 msgid "'/bin/sh' not found"
 msgstr "‘/bin/sh’ niet gevonden"
 
@@ -2486,43 +2518,50 @@ msgstr "Repo-label dient een dubbele punt te bevatten"
 msgid "Error on untagging image"
 msgstr "Fout bij verwijderen label van schijfkopiebestand"
 
-#: src/window.rs:423
+#: src/window.rs:422
 msgid "Confirm Exiting The Application"
 msgstr "Bevestig het afsluiten van de app"
 
-#: src/window.rs:619
+#: src/window.rs:584
 msgid "{} Selected Image"
 msgid_plural "{} Selected Images"
 msgstr[0] "{} geselecteerd schijfkopiebestand"
 msgstr[1] "{} geselecteerde schijfkopiebestanden"
 
-#: src/window.rs:633
+#: src/window.rs:598
 msgid "{} Selected Container"
 msgid_plural "{} Selected Containers"
 msgstr[0] "{} geselecteerde container"
 msgstr[1] "{} geselecteerde containers"
 
-#: src/window.rs:647
+#: src/window.rs:612
 msgid "{} Selected Pod"
 msgid_plural "{} Selected Pods"
 msgstr[0] "{} geselecteerde pod"
 msgstr[1] "{} geselecteerde pods"
 
-#: src/window.rs:870
+#: src/window.rs:835
 msgid "images"
 msgstr "schijfkopiebestanden"
 
-#: src/window.rs:871
+#: src/window.rs:836
 msgid "containers"
 msgstr "containers"
 
-#: src/window.rs:872
+#: src/window.rs:837
 msgid "pods"
 msgstr "pods"
 
-#: src/window.rs:868
+#: src/window.rs:833
 msgid "Error on loading {}"
 msgstr "Fout bij laden van {}"
+
+#~ msgid ""
+#~ "No connections have been detected. Use the button below to create a new "
+#~ "one."
+#~ msgstr ""
+#~ "Er zijn geen verbindingen gedetecteerd. Gebruik de knop hieronder om een "
+#~ "nieuwe aan te maken."
 
 #~ msgid "Error on resuming container: {}"
 #~ msgstr "Fout bij hervatten container: {}"
