@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-30 21:22+0100\n"
-"PO-Revision-Date: 2022-10-23 21:08+0000\n"
-"Last-Translator: Andrea Brandi <git@andreabrandi.com>\n"
+"PO-Revision-Date: 2023-01-01 13:42+0000\n"
+"Last-Translator: albanobattistella <albano_battistella@hotmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/pods/pods/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.14.2-dev\n"
+"X-Generator: Weblate 4.15.1-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
@@ -48,7 +48,7 @@ msgstr "Comportamento predefinito della finestra massimizzata"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:26
 msgid "Color Scheme"
-msgstr ""
+msgstr "Schema Colore"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:27
 msgid "Use the light or dark variant of the GTK theme"
@@ -104,11 +104,11 @@ msgstr "Mostra un timestamp per ogni riga del registro"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:86
 msgid "Whether search should be case-sensitive"
-msgstr ""
+msgstr "Indica se la ricerca deve distinguere tra maiuscole e minuscole"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:91
 msgid "Whether to match whole words when searching"
-msgstr ""
+msgstr "Indica se abbinare parole intere durante la ricerca"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
 #, fuzzy
@@ -303,7 +303,7 @@ msgstr "Nome"
 
 #: data/resources/ui/connection/creation-page.ui:121
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: data/resources/ui/connection/creation-page.ui:122
 msgid "Choose how you want to connect to Podman."
@@ -323,6 +323,8 @@ msgid ""
 "To connect to the local Podman instance, the systemd socket must be enabled. "
 "You can enable it permanently by issuing the following command:"
 msgstr ""
+"Per connettersi all'istanza Podman locale, il socket systemd deve essere "
+"abilitato. Puoi abilitarlo in modo permanente emettendo il seguente comando:"
 
 #: data/resources/ui/connection/creation-page.ui:217
 #: data/resources/ui/connection/custom-info-dialog.ui:138
@@ -330,13 +332,15 @@ msgstr ""
 #: data/resources/ui/connection/custom-info-dialog.ui:252
 #: data/resources/ui/connection/custom-info-dialog.ui:300
 msgid "Copy to Clipboard"
-msgstr ""
+msgstr "Copia negli appunti"
 
 #: data/resources/ui/connection/creation-page.ui:233
 msgid ""
 "To connect to the local root Podman instance, create a custom connection "
 "(read the hints there)."
 msgstr ""
+"Per connetterti all'istanza Podman root locale, crea una connessione "
+"personalizzata (leggi i suggerimenti qui)."
 
 #: data/resources/ui/connection/creation-page.ui:258
 msgid "Custom"
@@ -365,6 +369,10 @@ msgid ""
 "span>, <span weight=\"bold\">TCP</span>, and <span weight=\"bold\">UNIX</"
 "span> protocols. For example, the connection string might look like this:"
 msgstr ""
+"Puoi connetterti a un'istanza Podman utilizzando <span weight=\"bold\">HTTP</"
+"span>, <span weight=\"bold\">TCP</span> e <span weight=\"bold\">UNIX</span> "
+"protocolli. Ad esempio, la stringa di connessione potrebbe essere simile a "
+"questa:"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:82
 #, fuzzy
@@ -378,15 +386,20 @@ msgid ""
 "is not readable for normal users. However, there is a workaround using a "
 "systemd unit. Save the following snippet:"
 msgstr ""
+"Sfortunatamente, al momento non è possibile connettersi direttamente "
+"all'istanza root di Podman, poiché <span weight=\"bold\">/run/podman/podman."
+"sock</span> non è leggibile per gli utenti normali. Tuttavia, esiste una "
+"soluzione alternativa utilizzando un'unità systemd. Salva il seguente "
+"frammento:"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:203
 msgid "Enable the service by issuing the command:"
-msgstr ""
+msgstr "Abilita il servizio eseguendo il comando:"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:261
 msgid ""
 "Enter the following URL here into the text field and create the connection:"
-msgstr ""
+msgstr "Inserisci qui il seguente URL nel campo di testo e crea la connessione:"
 
 #: data/resources/ui/connection/row.ui:90
 #: data/resources/ui/container/details-page.ui:184
@@ -477,7 +490,7 @@ msgstr "_Crea contenitore"
 
 #: data/resources/ui/container/creation-page.ui:64
 msgid "_Run"
-msgstr ""
+msgstr "_Avvia"
 
 #: data/resources/ui/container/creation-page.ui:123
 #: data/resources/ui/image/build-page.ui:108
@@ -503,7 +516,7 @@ msgstr "Immagine remota"
 #: data/resources/ui/container/creation-page.ui:172
 #: data/resources/ui/pod/creation-page.ui:338
 msgid "Discard"
-msgstr ""
+msgstr "Abbandona"
 
 #: data/resources/ui/container/creation-page.ui:193
 #: data/resources/ui/container/creation-page.ui:199
@@ -680,7 +693,7 @@ msgstr "Visualizza tutte le proprietà del contenitore come testo strutturato."
 #: data/resources/ui/container/details-page.ui:222
 #: data/resources/ui/pod/details-page.ui:268
 msgid "Kube"
-msgstr ""
+msgstr "Kube"
 
 #: data/resources/ui/container/details-page.ui:223
 #, fuzzy
@@ -689,7 +702,7 @@ msgstr "Crea una nuova immagine da questo contenitore."
 
 #: data/resources/ui/container/details-page.ui:240
 msgid "Connect to the container's terminal."
-msgstr ""
+msgstr "Connettiti al terminale del container."
 
 #: data/resources/ui/container/details-page.ui:256
 msgid "Logs"
@@ -734,7 +747,7 @@ msgstr "Percorso host"
 
 #: data/resources/ui/container/files-get-page.ui:76
 msgid "Select a destination tar archive on the host."
-msgstr ""
+msgstr "Selezionare un archivio tar di destinazione sull'host."
 
 #: data/resources/ui/container/files-get-page.ui:81
 #, fuzzy
@@ -748,15 +761,15 @@ msgstr "Seleziona directory di compilazione"
 
 #: data/resources/ui/container/files-put-page.ui:49
 msgid "Upload Files"
-msgstr ""
+msgstr "Carica file"
 
 #: data/resources/ui/container/files-put-page.ui:59
 msgid "_Upload"
-msgstr ""
+msgstr "_Caricamento"
 
 #: data/resources/ui/container/files-put-page.ui:78
 msgid "Either select a file or a directory from the host to upload."
-msgstr ""
+msgstr "Selezionare un file o una directory dall'host da caricare."
 
 #: data/resources/ui/container/files-put-page.ui:83
 #, fuzzy
@@ -807,7 +820,7 @@ msgstr "Attiva/disattiva timestamp"
 
 #: data/resources/ui/container/log-page.ui:73
 msgid "Saving Log"
-msgstr ""
+msgstr "Registro di salvataggio"
 
 #: data/resources/ui/container/log-page.ui:138
 msgid "Loading previous lines"
@@ -880,7 +893,7 @@ msgstr "ID"
 
 #: data/resources/ui/container/properties-group.ui:82
 msgid "Commit (Ctrl+K)"
-msgstr ""
+msgstr "Conferma (Ctrl+K)"
 
 #: data/resources/ui/container/properties-group.ui:95
 #: data/resources/ui/pod/details-page.ui:69 src/model/container.rs:67
@@ -890,7 +903,7 @@ msgstr "Creato"
 
 #: data/resources/ui/container/properties-group.ui:101
 msgid "Size"
-msgstr ""
+msgstr "Dimensione"
 
 #: data/resources/ui/container/properties-group.ui:206
 msgid "Port bindings"
@@ -931,15 +944,15 @@ msgstr "Contenitore"
 
 #: data/resources/ui/container/tty.ui:6
 msgid "_Copy"
-msgstr ""
+msgstr "_Copia"
 
 #: data/resources/ui/container/tty.ui:10
 msgid "Copy as _HTML"
-msgstr ""
+msgstr "Copia come _HTML"
 
 #: data/resources/ui/container/tty.ui:14
 msgid "_Paste"
-msgstr ""
+msgstr "_Incolla"
 
 #: data/resources/ui/container/tty.ui:35
 #, fuzzy
@@ -1074,7 +1087,7 @@ msgstr "Dettagli immagine"
 
 #: data/resources/ui/image/details-page.ui:107
 msgid "Repository Tags"
-msgstr ""
+msgstr "Tag del repository"
 
 #: data/resources/ui/image/details-page.ui:145
 #, fuzzy
@@ -1087,11 +1100,11 @@ msgstr "Visualizza tutte le proprietà dell'immagine come testo strutturato."
 
 #: data/resources/ui/image/details-page.ui:182
 msgid "History"
-msgstr ""
+msgstr "Cronologia"
 
 #: data/resources/ui/image/details-page.ui:183
 msgid "View parent layers of this image."
-msgstr ""
+msgstr "Visualizza i livelli principali di questa immagine."
 
 #: data/resources/ui/image/details-page.ui:207
 msgid "Associated Containers"
@@ -1108,7 +1121,7 @@ msgstr "Archivio immagini"
 
 #: data/resources/ui/image/history-page.ui:49
 msgid "History List"
-msgstr ""
+msgstr "Elenco cronologia"
 
 #: data/resources/ui/image/menu-button.ui:6
 #: data/resources/ui/pod/menu-button.ui:7
@@ -1368,7 +1381,7 @@ msgstr "Visualizza tutte le proprietà del pod come testo strutturato."
 
 #: data/resources/ui/pod/details-page.ui:269
 msgid "Generate Kubernetes YAML based on this pod."
-msgstr ""
+msgstr "Genera Kubernetes YAML in base a questo pod."
 
 #: data/resources/ui/pod/details-page.ui:286
 msgid "View processes that are currently running inside the pod."
@@ -1409,15 +1422,15 @@ msgstr "UDP"
 
 #: data/resources/ui/repo-tag/add-dialog.ui:6
 msgid "Add Repository Tag"
-msgstr ""
+msgstr "Aggiungi tag repository"
 
 #: data/resources/ui/repo-tag/add-dialog.ui:10
 msgid "_Add"
-msgstr ""
+msgstr "_Aggiungi"
 
 #: data/resources/ui/repo-tag/add-dialog.ui:25
 msgid "Repository Tag"
-msgstr ""
+msgstr "Tag Repository"
 
 #: data/resources/ui/repo-tag/row.ui:32
 #, fuzzy
@@ -1426,7 +1439,7 @@ msgstr "Recupera immagine più recente"
 
 #: data/resources/ui/repo-tag/row.ui:43
 msgid "Untag"
-msgstr ""
+msgstr "Annulla tag"
 
 #: data/resources/ui/search-panel.ui:51 data/resources/ui/window.ui:273
 msgid "Images"
@@ -1504,7 +1517,7 @@ msgstr "_Scaricamento…"
 #: data/resources/ui/shortcuts.ui:94
 msgctxt "shortcut window"
 msgid "Upload files"
-msgstr ""
+msgstr "Carica file"
 
 #: data/resources/ui/shortcuts.ui:104
 #, fuzzy
@@ -1515,12 +1528,12 @@ msgstr "Terminale"
 #: data/resources/ui/shortcuts.ui:108
 msgctxt "shortcut window"
 msgid "Copy selection to clipboard"
-msgstr ""
+msgstr "Copia selezione negli appunti"
 
 #: data/resources/ui/shortcuts.ui:115
 msgctxt "shortcut window"
 msgid "Paste from clipboard"
-msgstr ""
+msgstr "Incolla dagli appunti"
 
 #: data/resources/ui/shortcuts.ui:125
 msgctxt "shortcut window"
@@ -1667,15 +1680,15 @@ msgstr "_Crea contenitore…"
 
 #: src/model/action.rs:414
 msgid "Tar archive created"
-msgstr ""
+msgstr "Archivio tar creato"
 
 #: src/model/action.rs:415
 msgid "Unwrapping tar archive…"
-msgstr ""
+msgstr "Scartare l'archivio tar…"
 
 #: src/model/action.rs:423
 msgid "Tar archive unwrapped"
-msgstr ""
+msgstr "Archivio tar da scartare"
 
 #: src/model/action.rs:424
 #, fuzzy
@@ -1689,11 +1702,11 @@ msgstr "Immagine: <b>{}</b> ← {}"
 
 #: src/model/action.rs:485
 msgid "Copying bytes into memory…"
-msgstr ""
+msgstr "Copia di byte in memoria…"
 
 #: src/model/action.rs:488 src/model/action.rs:505
 msgid "Size: {}"
-msgstr ""
+msgstr "Dimensione: {}"
 
 #: src/model/action.rs:546
 msgid "Pod: <b>{}</b>"
@@ -1717,7 +1730,7 @@ msgstr "Terminato"
 
 #: src/model/container.rs:70
 msgid "Initialized"
-msgstr ""
+msgstr "Inizializzato"
 
 #: src/model/container.rs:72
 msgid "Removing"
@@ -1964,7 +1977,7 @@ msgstr "Impossibile creare il pod"
 
 #: src/view/action/row.rs:225
 msgid "Finished Pods Action"
-msgstr ""
+msgstr "Azione pod terminata"
 
 #: src/view/action/row.rs:266
 msgid "Ongoing ({})"
@@ -1984,7 +1997,7 @@ msgstr "Fallito dopo {}"
 
 #: src/view/component/back_navigation_controls.rs:62
 msgid "Go Back"
-msgstr ""
+msgstr "Indietro"
 
 #: src/view/component/back_navigation_controls.rs:71
 #, fuzzy
@@ -2045,12 +2058,12 @@ msgstr "Processi del pod"
 
 #: src/view/connection/creation_page.rs:151
 msgid "official documentation"
-msgstr ""
+msgstr "documentazione ufficiale"
 
 #. Translators: The placeholder '{}' is replaced by 'official documentation'.
 #: src/view/connection/creation_page.rs:148
 msgid "Visit the {} for more information."
-msgstr ""
+msgstr "Visita {} per ulteriori informazioni."
 
 #: src/view/connection/creation_page.rs:227
 msgid "Confirm Connecting to New Instance"
@@ -2058,19 +2071,19 @@ msgstr "Conferma connessione a nuova istanza"
 
 #: src/view/connection/custom_info_dialog.rs:119
 msgid "systemd unit path copied"
-msgstr ""
+msgstr "percorso dell'unità systemd copiato"
 
 #: src/view/connection/custom_info_dialog.rs:127
 msgid "systemd unit content copied"
-msgstr ""
+msgstr "contenuto dell'unità systemd copiato"
 
 #: src/view/connection/custom_info_dialog.rs:135
 msgid "socket activation command copied"
-msgstr ""
+msgstr "comando di attivazione socket copiato"
 
 #: src/view/connection/custom_info_dialog.rs:143
 msgid "URL copied"
-msgstr ""
+msgstr "URL copiato"
 
 #: src/view/connection/mod.rs:34
 msgid "There are ongoing actions whose progress will be irretrievably lost."
@@ -2125,7 +2138,7 @@ msgstr "Il contenitore '{}' è stato eliminato"
 
 #: src/view/container/files_get_page.rs:167
 msgid "Select Host Destination Path"
-msgstr ""
+msgstr "Selezionare percorso di destinazione dell'host"
 
 #: src/view/container/files_put_page.rs:179
 #, fuzzy
@@ -2248,7 +2261,7 @@ msgstr "Terminale"
 
 #: src/view/container/tty.rs:364
 msgid "'/bin/sh' not found"
-msgstr ""
+msgstr "'/bin/sh' non trovato"
 
 #: src/view/containers/group.rs:133
 msgid "1 container, running"
@@ -2326,12 +2339,12 @@ msgstr "L'immagine {} è stata eliminata"
 #: src/view/image/history_page.rs:83
 msgid "{} entry"
 msgid_plural "{} entries"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} voce"
+msgstr[1] "{} voci"
 
 #: src/view/image/history_page.rs:85
 msgid "{} in total"
-msgstr ""
+msgstr "{} in totale"
 
 #: src/view/image/history_page.rs:103
 #, fuzzy
@@ -2355,7 +2368,7 @@ msgstr "Creato"
 
 #: src/view/image/history_page.rs:175
 msgid "Tags"
-msgstr ""
+msgstr "Tag"
 
 #: src/view/image/history_page.rs:189
 #, fuzzy
@@ -2583,7 +2596,7 @@ msgstr "Tutti i contenitori associati verranno eliminati!"
 
 #: src/view/repo_tag/add_dialog.rs:103
 msgid "Repo tag must contain a colon “:”"
-msgstr ""
+msgstr "Il tag repo deve contenere i due punti \":\""
 
 #: src/view/repo_tag/row.rs:196
 #, fuzzy
