@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-30 21:22+0100\n"
-"PO-Revision-Date: 2022-12-29 12:27+0000\n"
+"PO-Revision-Date: 2023-01-01 13:42+0000\n"
 "Last-Translator: Philip Goto <philip.goto@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/pods/pods/nl/>\n"
 "Language: nl\n"
@@ -113,16 +113,15 @@ msgstr ""
 "Of zoektermen met een volledig woord moeten overeenkomen bij het zoeken"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
-#, fuzzy
 msgid "Keep track of your podman containers"
-msgstr "Pods en containers aanmaken."
+msgstr "Houd uw Podman-containers bij"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
 msgid ""
 "Pods is a frontend for podman. It uses libadwaita for its user interface and "
 "strives to meet the design principles of GNOME."
 msgstr ""
-"Pods is een frontend voor podman. Het maakt gebruik van libadwaita voor de "
+"Pods is een frontend voor Podman. Het maakt gebruik van LibAdwaita voor de "
 "gebruikersinterface en streeft aan de ontwerprichtlijnen van GNOME te "
 "voldoen."
 
@@ -132,7 +131,7 @@ msgstr "Met Pods kunt u onder andere:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:13
 msgid "Connect to local and remote Podman instances."
-msgstr "Verbinden met lokale en externe podman-instanties."
+msgstr "Verbinden met lokale en externe Podman-instanties."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:14
 msgid "Easily overview images, containers and pods."
@@ -302,7 +301,7 @@ msgstr "URL"
 
 #: data/resources/ui/connection/creation-page.ui:122
 msgid "Choose how you want to connect to Podman."
-msgstr "Kies hoe u met podman wilt verbinden."
+msgstr "Kies hoe u met Podman wilt verbinden."
 
 #: data/resources/ui/connection/creation-page.ui:126
 msgid "Unix Socket"
@@ -915,15 +914,15 @@ msgstr "Container-TTY"
 
 #: data/resources/ui/container/tty.ui:6
 msgid "_Copy"
-msgstr ""
+msgstr "_Kopiëren"
 
 #: data/resources/ui/container/tty.ui:10
 msgid "Copy as _HTML"
-msgstr ""
+msgstr "Kopiëren als _HTML"
 
 #: data/resources/ui/container/tty.ui:14
 msgid "_Paste"
-msgstr ""
+msgstr "_Plakken"
 
 #: data/resources/ui/container/tty.ui:35
 msgid "No Terminal"
@@ -1481,21 +1480,19 @@ msgid "Upload files"
 msgstr "Bestanden uploaden"
 
 #: data/resources/ui/shortcuts.ui:104
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Terminal"
 msgstr "Terminal"
 
 #: data/resources/ui/shortcuts.ui:108
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Copy selection to clipboard"
-msgstr "Naar klembord kopiëren"
+msgstr "Selectie naar klembord kopiëren"
 
 #: data/resources/ui/shortcuts.ui:115
 msgctxt "shortcut window"
 msgid "Paste from clipboard"
-msgstr ""
+msgstr "Plakken van klembord"
 
 #: data/resources/ui/shortcuts.ui:125
 msgctxt "shortcut window"
@@ -1554,9 +1551,8 @@ msgid "Welcome to Pods"
 msgstr "Welkom bij Pods"
 
 #: data/resources/ui/welcome-page.ui:79
-#, fuzzy
 msgid "Use the button below to create a new connection to Podman."
-msgstr "U kunt de knop hieronder gebruiken om een initiële pod aan te maken."
+msgstr "Gebruik de knop hieronder om een nieuwe verbinding met Podman te maken."
 
 #: data/resources/ui/welcome-page.ui:93
 msgid "_Add Connection"
@@ -2333,7 +2329,7 @@ msgstr "Alle registers"
 
 #: src/view/image_search/widget.rs:234
 msgid "Failed to retrieve podman info"
-msgstr "Verkrijgen van podman-info mislukt"
+msgstr "Verkrijgen van Podman-info mislukt"
 
 #: src/view/image_search/widget.rs:312
 msgid "No Results For {}"
