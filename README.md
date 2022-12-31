@@ -4,6 +4,13 @@
   Pods
 </h1>
 
+<p align="center">
+  <a href="https://flathub.org/apps/details/com.github.marhkb.Pods">
+    <img width="200" alt="Download on Flathub" src="https://flathub.org/assets/badges/flathub-badge-i-en.svg"/>
+  </a>
+  <br>
+</p>
+
 <p align="center"><strong>Keep track of your podman containers</strong></p>
 
 <p align="center">
@@ -38,20 +45,10 @@ With Pods you can, among other things:
 - Prune images.
 - Rename containers.
 
-## ⚡ Disclaimer
-
-Pods is currently under heavy development. So be prepared for missing features and a lot of bugs.
-
-
 ## 🔌 Installation
-
-The application is available ob Flathub Beta. First, add the the Flathub Beta remote
+Install Pods from flathub by issuing
 ```shell
-$ flatpak remote-add --if-not-exists flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
-```
-Then you can install the application by issuing
-```shell
-$ flatpak install flathub-beta com.github.marhkb.Pods
+$ flatpak install com.github.marhkb.Pods
 ```
 Pods can be kept up to date by issuing flatpak's update command like
 ```shell
