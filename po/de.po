@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-30 21:22+0100\n"
 "PO-Revision-Date: 2023-01-01 13:42+0000\n"
-"Last-Translator: Marcus Behrendt <marcus.behrendt.86@gmail.com>\n"
+"Last-Translator: Nils Tonnätt <nils.tonnaett@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/pods/pods/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +26,7 @@ msgstr "Pods"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:4
 msgid "A Podman desktop application"
-msgstr ""
+msgstr "Eine Desktop-Anwendung für Podman"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:9
 msgid "Gnome;GTK;"
@@ -48,143 +48,146 @@ msgstr "Standardverhalten bei maximiertem Fenster"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:26
 msgid "Color Scheme"
-msgstr ""
+msgstr "Farbschema"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:27
 msgid "Use the light or dark variant of the GTK theme"
-msgstr ""
+msgstr "Benutze die helle oder dunkle Variante des GTK Themes"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:31
 msgid "The uuid of the connection that was used the last time"
-msgstr ""
+msgstr "Die UUID der beim letzten Mal verwendeten Verbindung"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:36
 msgid "The last used view"
-msgstr ""
+msgstr "Die zuletzt verwendete Ansicht"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:41
 msgid "Whether to show intermediate images"
-msgstr ""
+msgstr "Ob Zwischenbilder angezeigt werden sollen"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:46
 msgid "The last used container file path"
-msgstr ""
+msgstr "Der Dateipfad des zuletzt verwendeten Containers"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:51
 msgid "Remove all images not in use by containers, not just dangling ones"
 msgstr ""
+"Entferne alle nicht von Containern verwendeten Abbilder, nicht nur hängende"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:56
 msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)"
 msgstr ""
+"Entferne selbst Abbilder, die noch von externen Containern verwendet werden ("
+"z. B. von Build-Containern)"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:61
 msgid "Whether to show only running containers"
-msgstr ""
+msgstr "Ob nur laufende Container angezeigt werden sollen"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:66
-#, fuzzy
 msgid "Whether to show only running pods"
-msgstr "Fehler beim Pausieren des Containers"
+msgstr "Ob nur laufende Pods angezeigt werden sollen"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:71
 msgid "Whether to show a timestamp for each log line"
-msgstr ""
+msgstr "Ob Zeitstempel für jede Zeile des Protokolls angezeigt werden sollen"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:76
 #: data/com.github.marhkb.Pods.gschema.xml.in:81
 msgid "Whether to use a regex for search"
-msgstr ""
+msgstr "Ob ein Regex für die Suche verwendet werden soll"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:86
 msgid "Whether search should be case-sensitive"
-msgstr ""
+msgstr "Ob die Suche Groß-/Kleinschreibung beachten soll"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:91
 msgid "Whether to match whole words when searching"
-msgstr ""
+msgstr "Ob die Suche nur ganze Wörter finden soll"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
-#, fuzzy
 msgid "Keep track of your podman containers"
-msgstr "Container"
+msgstr "Behalte den Überblick über deine Podman-Container"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
 msgid ""
 "Pods is a frontend for podman. It uses libadwaita for its user interface and "
 "strives to meet the design principles of GNOME."
 msgstr ""
+"Pods ist ein Frontend für Podman. Es benutzt Libadwaita für seine "
+"Benutzeroberfläche und bemüht sich den Designprinzipien von GNOME zu folgen."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:11
 msgid "With Pods you can, among other things:"
-msgstr ""
+msgstr "Mit Pods kannst du unter anderem:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:13
 msgid "Connect to local and remote Podman instances."
-msgstr ""
+msgstr "Zu lokalen und entfernten Podman-Instanzen verbinden."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:14
 msgid "Easily overview images, containers and pods."
-msgstr ""
+msgstr "Einfach Abbilder, Container und Pods überblicken."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:15
 msgid "View prepared information about images, containers, and pods."
 msgstr ""
+"Vorbereitete Informationen von Abbildern, Containern und Pods betrachten."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:16
 msgid "Inspect images, containers and pods."
-msgstr ""
+msgstr "Abbilder, Container und Pods inspizieren."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:17
 msgid "View and search container logs."
-msgstr ""
+msgstr "Container-Protokolle betrachten und durchsuchen."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:18
 msgid "Monitor processes of containers and pods."
-msgstr ""
+msgstr "Prozesse von Containern und Pods überwachen."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:19
 msgid "Download images and build them using Dockerfiles."
-msgstr ""
+msgstr "Abbilder herunterladen und mittels Dockerfiles bauen."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:20
-#, fuzzy
 msgid "Create pods and containers."
-msgstr "Container"
+msgstr "Pods und Container erstellen."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:21
 msgid ""
 "Control the lifecycle of containers and pods (in bulk) (start, stop, pause, "
 "etc.)."
 msgstr ""
+"Die Laufzeit von Containern und Pods kontrollieren (Start, Stop, Pause, "
+"etc.)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:22
 msgid "Delete images, containers, and pods (in bulk)."
-msgstr ""
+msgstr "Abbilder, Container und Pods entfernen."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:23
 msgid "Prune images."
-msgstr ""
+msgstr "Nicht benutzte Abbilder entfernen."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:24
-#, fuzzy
 msgid "Rename containers."
-msgstr "Container"
+msgstr "Container umbenennen."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:30
 msgid "Images Overview"
-msgstr ""
+msgstr "Abbilder-Übersicht"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:34
-#, fuzzy
 msgid "Containers Overview"
-msgstr "Container"
+msgstr "Container-Übersicht"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:38
 msgid "Pods Overview"
-msgstr ""
+msgstr "Pods-Übersicht"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:223
 msgid "Marcus Behrendt"
@@ -193,63 +196,64 @@ msgstr ""
 #: data/resources/ui/action/page.ui:118
 #: data/resources/ui/connection/creation-page.ui:82
 msgid "_Abort"
-msgstr ""
+msgstr "_Abbrechen"
 
 #: data/resources/ui/action/page.ui:133
 msgid "_View"
-msgstr ""
+msgstr "_Betrachten"
 
 #: data/resources/ui/action/page.ui:148
 msgid "_Retry"
-msgstr ""
+msgstr "_Wiederholen"
 
 #: data/resources/ui/actions/overview.ui:38
 msgid "No Operations"
-msgstr ""
+msgstr "Keine Tätigkeiten"
 
 #: data/resources/ui/component/source-view-page.ui:25
 #: data/resources/ui/container/creation-page.ui:184
 #: data/resources/ui/container/log-page.ui:39
 #: data/resources/ui/pod/creation-page.ui:350
 msgid "Search"
-msgstr ""
+msgstr "Suchen"
 
 #: data/resources/ui/component/source-view-page.ui:33
 #: data/resources/ui/container/log-page.ui:55
 msgid "Save as File"
-msgstr ""
+msgstr "Als Datei speichern"
 
 #: data/resources/ui/component/source-view-search-widget.ui:23
 msgid "Previous (Ctrl+Shift+G)"
-msgstr ""
+msgstr "Zurück (Strg+Umschalt+G)"
 
 #: data/resources/ui/component/source-view-search-widget.ui:30
 msgid "Next (Ctrl+G)"
-msgstr ""
+msgstr "Weiter (Strg+G)"
 
 #: data/resources/ui/component/text-search-entry.ui:42
 msgid "Regular Expression"
-msgstr ""
+msgstr "Regulärer Ausdruck"
 
 #: data/resources/ui/component/text-search-entry.ui:50
 msgid "Case Sensitive"
-msgstr ""
+msgstr "Groß-/Kleinschreibung beachten"
 
 #: data/resources/ui/component/text-search-entry.ui:58
 msgid "Whole Word"
-msgstr ""
+msgstr "Ganzes Wort"
 
 #: data/resources/ui/connection/chooser-page.ui:34
 msgid "Connect to Podman"
-msgstr ""
+msgstr "Mit Podman verbinden"
 
 #: data/resources/ui/connection/chooser-page.ui:35
 msgid "Either choose an existing connection or create a new one."
 msgstr ""
+"Wählen Sie entweder eine bestehende Verbindung oder erstellen Sie eine neue."
 
 #: data/resources/ui/connection/chooser-page.ui:80
 msgid "_Add New Connection"
-msgstr ""
+msgstr "_Neue Verbindung hinzufügen"
 
 #: data/resources/ui/connection/creation-page.ui:27
 #: data/resources/ui/container/commit-page.ui:33
@@ -266,15 +270,15 @@ msgstr ""
 #: src/view/images/panel.rs:393 src/view/pod/mod.rs:91
 #: src/view/pods/panel.rs:459
 msgid "_Cancel"
-msgstr ""
+msgstr "_Abbrechen"
 
 #: data/resources/ui/connection/creation-page.ui:34
 msgid "New Connection"
-msgstr ""
+msgstr "Neue Verbindung"
 
 #: data/resources/ui/connection/creation-page.ui:51
 msgid "_Connect"
-msgstr ""
+msgstr "_Verbinden"
 
 #: data/resources/ui/connection/creation-page.ui:112
 #: data/resources/ui/container/creation-page.ui:83
@@ -284,23 +288,23 @@ msgstr ""
 #: data/resources/ui/pod/creation-page.ui:302
 #: data/resources/ui/pod/details-page.ui:52
 msgid "Name"
-msgstr ""
+msgstr "Name"
 
 #: data/resources/ui/connection/creation-page.ui:121
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: data/resources/ui/connection/creation-page.ui:122
 msgid "Choose how you want to connect to Podman."
-msgstr ""
+msgstr "Wählen Sie, wie Sie sich mit Podman verbinden möchten."
 
 #: data/resources/ui/connection/creation-page.ui:126
 msgid "Unix Socket"
-msgstr ""
+msgstr "Unix-Socket"
 
 #: data/resources/ui/connection/creation-page.ui:161
 msgid "Podman Socket Activation"
-msgstr ""
+msgstr "Podman-Socket-Aktivierung"
 
 #: data/resources/ui/connection/creation-page.ui:168
 msgid ""
