@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-30 21:22+0100\n"
-"PO-Revision-Date: 2023-01-01 13:42+0000\n"
+"PO-Revision-Date: 2023-01-01 13:48+0000\n"
 "Last-Translator: Andrea Brandi <git@andreabrandi.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/pods/pods/it/>\n"
 "Language: it\n"
@@ -2118,7 +2118,7 @@ msgstr "Errore durante l'arresto del contenitore"
 
 #: src/view/container/mod.rs:84
 msgid "Error on killing container"
-msgstr "Errore durante l'arresto del contenitore"
+msgstr "Errore durante l'arresto forzato del contenitore"
 
 #: src/view/container/mod.rs:85 src/view/containers/panel.rs:328
 msgid "Error on restarting container"
@@ -2278,9 +2278,8 @@ msgid "Tags"
 msgstr "Tag"
 
 #: src/view/image/history_page.rs:189
-#, fuzzy
 msgid "Error on retrieving history"
-msgstr "Errore durante il riavvio del pod: {}"
+msgstr "Errore durante il riavvio del pod"
 
 #: src/view/image/mod.rs:35
 msgid "Confirm Forced Image Deletion"
@@ -2419,39 +2418,32 @@ msgid "Pod '{}' has been deleted"
 msgstr "Il pod '{}' è stato eliminato"
 
 #: src/view/pod/mod.rs:55 src/view/pods/panel.rs:360
-#, fuzzy
 msgid "Error on starting pod"
-msgstr "Errore durante l'avvio del pod: {}"
+msgstr "Errore durante l'avvio del pod"
 
 #: src/view/pod/mod.rs:56 src/view/pods/panel.rs:386 src/view/pods/panel.rs:409
-#, fuzzy
 msgid "Error on stopping pod"
-msgstr "Errore durante l'arresto del pod: {}"
+msgstr "Errore durante l'arresto del pod"
 
 #: src/view/pod/mod.rs:57
-#, fuzzy
 msgid "Error on killing pod"
-msgstr "Errore durante il controllo del pod"
+msgstr "Errore durante l'arresto forzato del pod"
 
 #: src/view/pod/mod.rs:58 src/view/pods/panel.rs:433
-#, fuzzy
 msgid "Error on restarting pod"
-msgstr "Errore durante il riavvio del pod: {}"
+msgstr "Errore durante il riavvio del pod"
 
 #: src/view/pod/mod.rs:59
-#, fuzzy
 msgid "Error on pausing pod"
-msgstr "Errore durante il controllo del pod"
+msgstr "Errore durante la sospensione del pod"
 
 #: src/view/pod/mod.rs:60 src/view/pods/panel.rs:349
-#, fuzzy
 msgid "Error on resuming pod"
-msgstr "Errore durante la ripresa del contenitore: {}"
+msgstr "Errore durante la ripresa del pod"
 
 #: src/view/pod/mod.rs:61 src/view/pods/panel.rs:478
-#, fuzzy
 msgid "Error on deleting pod"
-msgstr "Errore durante l'eliminazione del pod: {}"
+msgstr "Errore durante l'eliminazione del pod"
 
 #: src/view/pod/mod.rs:71
 msgid "Confirm Forced Pod Deletion"
@@ -2506,9 +2498,8 @@ msgid "Repo tag must contain a colon “:”"
 msgstr "Il tag repo deve contenere i due punti \":\""
 
 #: src/view/repo_tag/row.rs:196
-#, fuzzy
 msgid "Error on untagging image"
-msgstr "Errore nell'eliminazione dell'immagine '{}'"
+msgstr "Errore nell'annullamento tag dell'immagine"
 
 #: src/window.rs:422
 msgid "Confirm Exiting The Application"
