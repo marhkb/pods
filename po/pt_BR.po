@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-30 21:22+0100\n"
-"PO-Revision-Date: 2023-01-01 13:42+0000\n"
+"PO-Revision-Date: 2023-01-01 15:54+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/pods/"
 "pods/pt_BR/>\n"
@@ -1535,9 +1535,8 @@ msgid "Connections"
 msgstr "Perda de conexão com o Podman"
 
 #: data/resources/ui/statusbar.ui:13
-#, fuzzy
 msgid "_Add Connection…"
-msgstr "Perda de conexão com o Podman"
+msgstr "_Adicionar conexão…"
 
 #: data/resources/ui/statusbar.ui:27
 msgid "Clean up"
@@ -1574,13 +1573,12 @@ msgid "Welcome to Pods"
 msgstr "Boas-vindas ao Pods"
 
 #: data/resources/ui/welcome-page.ui:79
-#, fuzzy
 msgid "Use the button below to create a new connection to Podman."
-msgstr "Perda de conexão com o Podman"
+msgstr "Use o botão abaixo para criar uma nova conexão ao Podman."
 
 #: data/resources/ui/welcome-page.ui:93
 msgid "_Add Connection"
-msgstr ""
+msgstr "_Adicionar conexão"
 
 #: data/resources/ui/window.ui:12
 #, fuzzy
