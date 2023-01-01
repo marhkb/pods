@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-30 21:22+0100\n"
-"PO-Revision-Date: 2023-01-01 16:07+0000\n"
+"PO-Revision-Date: 2023-01-03 15:51+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/pods/"
 "pods/pt_BR/>\n"
@@ -344,7 +344,7 @@ msgstr "Cor"
 
 #: data/resources/ui/connection/creation-page.ui:297
 msgid "Define how to colorize the header bar (disabled)."
-msgstr "Define como colorir a barra de cabeçalho (desabilitada)."
+msgstr "Define como colorir a barra de cabeçalho (desabilitado)."
 
 #: data/resources/ui/connection/custom-info-dialog.ui:16
 msgid "Custom Connection"
@@ -1071,21 +1071,19 @@ msgstr "Histórico"
 
 #: data/resources/ui/image/details-page.ui:183
 msgid "View parent layers of this image."
-msgstr ""
+msgstr "Veja as camadas pais desta imagem."
 
 #: data/resources/ui/image/details-page.ui:207
-#, fuzzy
 msgid "Associated Containers"
-msgstr "{} contêineres"
+msgstr "Contêineres associados"
 
 #: data/resources/ui/image/details-page.ui:208
 msgid "There are no containers associated with this image."
-msgstr ""
+msgstr "Não há contêineres associados a esta imagem."
 
 #: data/resources/ui/image/history-page.ui:19
-#, fuzzy
 msgid "Image History"
-msgstr "Imagens"
+msgstr "História da imagem"
 
 #: data/resources/ui/image/history-page.ui:49
 msgid "History List"
@@ -1093,67 +1091,60 @@ msgstr ""
 
 #: data/resources/ui/image/menu-button.ui:6
 #: data/resources/ui/pod/menu-button.ui:7
-#, fuzzy
 msgid "_Create Container…"
-msgstr "{} contêineres"
+msgstr "_Criar contêiner…"
 
 #: data/resources/ui/image/pull-page.ui:40
-#, fuzzy
 msgid "Download Image"
-msgstr "Erro ao carregar imagens"
+msgstr "Baixar imagem"
 
 #: data/resources/ui/image/selection-page.ui:21
-#, fuzzy
 msgid "Image Search"
-msgstr "Imagens"
+msgstr "Pesquisa de imagens"
 
 #: data/resources/ui/image/selection-page.ui:31
 msgid "_Select"
-msgstr ""
+msgstr "_Selecionar"
 
 #: data/resources/ui/images/panel.ui:29
 msgid "_Download…"
-msgstr ""
+msgstr "_Baixar…"
 
 #: data/resources/ui/images/panel.ui:33
 msgid "_Build…"
-msgstr ""
+msgstr "_Construir…"
 
 #: data/resources/ui/images/panel.ui:39
 msgid "_Prune…"
-msgstr ""
+msgstr "_Eliminar…"
 
 #: data/resources/ui/images/panel.ui:97
-#, fuzzy
 msgid "Intermediates"
-msgstr "Mostrar imagens intermediárias"
+msgstr "Intermediárias"
 
 #: data/resources/ui/images/panel.ui:197
 msgid "You can use the buttons below to add an initial image."
-msgstr ""
+msgstr "Você pode usar os botões abaixo para adicionar uma imagem inicial."
 
 #: data/resources/ui/images/panel.ui:212
 msgid "_Download an Image"
-msgstr ""
+msgstr "_Baixar uma imagem"
 
 #: data/resources/ui/images/panel.ui:224
 msgid "_Build a Local Image"
-msgstr ""
+msgstr "_Baixar uma imagem local"
 
 #: data/resources/ui/images/prune-page.ui:40
-#, fuzzy
 msgid "Prune Images"
-msgstr "Imagens"
+msgstr "Eliminar imagens"
 
 #: data/resources/ui/images/prune-page.ui:50
-#, fuzzy
 msgid "_Prune"
-msgstr "Imagens"
+msgstr "_Eliminar"
 
 #: data/resources/ui/images/prune-page.ui:64
-#, fuzzy
 msgid "Prune Options"
-msgstr "Imagens"
+msgstr "Opções de eliminar"
 
 #: data/resources/ui/images/prune-page.ui:69
 msgid "Prune All"
@@ -1216,7 +1207,7 @@ msgstr "Versão do Go"
 
 #: data/resources/ui/info-dialog.ui:41
 msgid "Os Arch"
-msgstr ""
+msgstr "Arquitetura do SO"
 
 #: data/resources/ui/info-dialog.ui:57
 msgid "Describes the container storage and its attributes."
