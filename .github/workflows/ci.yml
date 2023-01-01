@@ -89,15 +89,12 @@ jobs:
         uses: docker/setup-qemu-action@v2
         with:
           platforms: arm64
-      - uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v4
+      - uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v5
         with:
           bundle: pods.flatpak
           manifest-path: build-aux/com.github.marhkb.Pods.Devel.json
           run-tests: true
           arch: ${{ matrix.arch }}
-          # TODO: Currently there is bug where, roughly speaking, there is an error in the creation of the cache.
-          #       Consider this for removal as soon as flatpak-builder@v5 is released, which is supposed to fix it.
-          cache-key: flatpak-builder-${{ github.sha }}
 
   release:
     if: startsWith(github.ref, 'refs/tags/')
