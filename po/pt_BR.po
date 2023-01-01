@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-30 21:22+0100\n"
-"PO-Revision-Date: 2023-01-01 15:54+0000\n"
+"PO-Revision-Date: 2023-01-01 16:07+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/pods/"
 "pods/pt_BR/>\n"
@@ -163,7 +163,7 @@ msgid ""
 "Control the lifecycle of containers and pods (in bulk) (start, stop, pause, "
 "etc.)."
 msgstr ""
-"Controlar o ciclo de vida de containers e pods (em massa) (iniciar, parar, "
+"Controlar o ciclo de vida de contêineres e pods (em massa) (iniciar, parar, "
 "pausar, etc.)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:22
@@ -946,44 +946,40 @@ msgid "No containers found"
 msgstr "Nenhum contêiner encontrado"
 
 #: data/resources/ui/containers/panel.ui:306
-#, fuzzy
 msgid "No Containers Found"
 msgstr "Nenhum contêiner encontrado"
 
 #: data/resources/ui/containers/panel.ui:307
 msgid "You can use the button below to create an initial container."
-msgstr ""
+msgstr "Você pode usar o botão abaixo para criar um contêiner inicial."
 
 #: data/resources/ui/containers/panel.ui:317
-#, fuzzy
 msgid "_Create a Container"
-msgstr "{} contêineres"
+msgstr "_Criar um contêiner"
 
 #: data/resources/ui/device/row.ui:33
 msgid "Readable"
-msgstr ""
+msgstr "Legível"
 
 #: data/resources/ui/device/row.ui:52 data/resources/ui/volume/row.ui:50
 msgid "Writable"
-msgstr ""
+msgstr "Gravável"
 
 #: data/resources/ui/device/row.ui:71
 msgid "mknod"
-msgstr ""
+msgstr "mknod"
 
 #: data/resources/ui/device/row.ui:97 data/resources/ui/volume/row.ui:107
 msgid "Host path"
-msgstr ""
+msgstr "Caminho do host"
 
 #: data/resources/ui/device/row.ui:104 data/resources/ui/volume/row.ui:114
-#, fuzzy
 msgid "Container path"
-msgstr "Contêineres"
+msgstr "Caminho do contêiner"
 
 #: data/resources/ui/image-search/widget.ui:30
-#, fuzzy
 msgid "No Registries Found"
-msgstr "Nenhuma imagem encontrada"
+msgstr "Nenhum registro encontrado"
 
 #: data/resources/ui/image-search/widget.ui:31
 msgid ""
@@ -993,64 +989,65 @@ msgid ""
 "b80addc01c0dab40c5d8945a1df61f3c72a3e40d/docs/containers-registries.conf.5."
 "md\">website</a> in order to add registries.\n"
 msgstr ""
+"\n"
+"Você não pode procurar imagens sem registros. Siga as instruções neste <a "
+"href=\"https://github.com/containers/image/blob/"
+"b80addc01c0dab40c5d8945a1df61f3c72a3e40d/docs/containers-registries.conf.5."
+"md\">site</a> para adicionar registros.\n"
 
 #: data/resources/ui/image-search/widget.ui:53
-#, fuzzy
 msgid "Search for"
-msgstr "Pesquisar"
+msgstr "Pesquisar por"
 
 #: data/resources/ui/image-search/widget.ui:60
 msgid "Registry"
-msgstr ""
+msgstr "Registro"
 
 #: data/resources/ui/image-search/widget.ui:82
 #: data/resources/ui/images/panel.ui:196
-#, fuzzy
 msgid "No Images Found"
 msgstr "Nenhuma imagem encontrada"
 
 #: data/resources/ui/image-search/widget.ui:83
 msgid "Please start typing to look for images."
-msgstr ""
+msgstr "Comece a digitar para procurar imagens."
 
 #: data/resources/ui/image-search/widget.ui:98
-#, fuzzy
 msgid "Searching…"
-msgstr "Pesquisar"
+msgstr "Pesquisando…"
 
 #: data/resources/ui/image-search/widget.ui:124
 msgid "Please retry another term."
-msgstr ""
+msgstr "Tente novamente outro termo."
 
 #: data/resources/ui/image-search/widget.ui:186
 msgid "Tag ('latest' if empty)"
-msgstr ""
+msgstr "Etiqueta (\"latest\" se vazia)"
 
 #: data/resources/ui/image/build-page.ui:41
-#, fuzzy
 msgid "Build Image"
-msgstr "{} imagens"
+msgstr "Construir imagem"
 
 #: data/resources/ui/image/build-page.ui:51
 msgid "_Build"
-msgstr ""
+msgstr "_Construir"
 
 #: data/resources/ui/image/build-page.ui:68
-#, fuzzy
 msgid "Image Name"
-msgstr "Imagens"
+msgstr "Nome da imagem"
 
 #: data/resources/ui/image/build-page.ui:122
 msgid "Build Context Directory"
-msgstr ""
+msgstr "Construir diretório de contexto"
 
 #: data/resources/ui/image/build-page.ui:127
 msgid "Select…"
-msgstr ""
+msgstr "Selecionar…"
 
 #: data/resources/ui/image/build-page.ui:138
 msgid "Containerfile Path Relative to Build Context Directory"
 msgstr ""
+"Caminho do Containerfile relativo para construir o diretório de contexto"
 
 #: data/resources/ui/image/details-page.ui:41
 msgid "Image Details"
@@ -1058,20 +1055,19 @@ msgstr "Detalhes da imagem"
 
 #: data/resources/ui/image/details-page.ui:107
 msgid "Repository Tags"
-msgstr ""
+msgstr "Etiquetas do repositório"
 
 #: data/resources/ui/image/details-page.ui:145
-#, fuzzy
 msgid "_Delete This Image"
-msgstr "{} imagens"
+msgstr "_Excluir esta imagem"
 
 #: data/resources/ui/image/details-page.ui:166
 msgid "View all image properties in a structured text form."
-msgstr ""
+msgstr "Veja todas as propriedades da imagem em uma forma de texto estruturada."
 
 #: data/resources/ui/image/details-page.ui:182
 msgid "History"
-msgstr ""
+msgstr "Histórico"
 
 #: data/resources/ui/image/details-page.ui:183
 msgid "View parent layers of this image."
