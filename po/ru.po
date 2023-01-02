@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-30 21:22+0100\n"
-"PO-Revision-Date: 2023-01-01 13:42+0000\n"
-"Last-Translator: Filippe LeMarchand <gasinvein@gmail.com>\n"
+"PO-Revision-Date: 2023-01-03 15:51+0000\n"
+"Last-Translator: Daudix UFO <ddaudix@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/pods/pods/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -31,7 +31,7 @@ msgstr "Приложение Podman для настольных компьюте
 
 #: data/com.github.marhkb.Pods.desktop.in.in:9
 msgid "Gnome;GTK;"
-msgstr ""
+msgstr "Gnome;GTK;"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:6
 #: data/com.github.marhkb.Pods.gschema.xml.in:7
@@ -124,7 +124,7 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:11
 msgid "With Pods you can, among other things:"
-msgstr "С помощью приложения Капсулы вы можете, помимо прочего:"
+msgstr "С помощью приложения \"Капсулы\" вы можете, помимо прочего:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:13
 msgid "Connect to local and remote Podman instances."
@@ -193,7 +193,7 @@ msgstr "Обзор капсул"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:223
 msgid "Marcus Behrendt"
-msgstr ""
+msgstr "Marcus Behrendt"
 
 #: data/resources/ui/action/page.ui:118
 #: data/resources/ui/connection/creation-page.ui:82
@@ -674,7 +674,7 @@ msgstr "Просмотр всех свойств контейнера в стр�
 #: data/resources/ui/container/details-page.ui:222
 #: data/resources/ui/pod/details-page.ui:268
 msgid "Kube"
-msgstr ""
+msgstr "Kube"
 
 #: data/resources/ui/container/details-page.ui:223
 msgid "Generate Kubernetes YAML based on this container."
@@ -961,7 +961,7 @@ msgstr "Запись"
 
 #: data/resources/ui/device/row.ui:71
 msgid "mknod"
-msgstr ""
+msgstr "mknod"
 
 #: data/resources/ui/device/row.ui:97 data/resources/ui/volume/row.ui:107
 msgid "Host path"
@@ -1366,11 +1366,11 @@ msgstr "будет отображён на порт контейнера"
 
 #: data/resources/ui/port-mapping/row.ui:62
 msgid "TCP"
-msgstr ""
+msgstr "TCP"
 
 #: data/resources/ui/port-mapping/row.ui:63
 msgid "UDP"
-msgstr ""
+msgstr "UDP"
 
 #: data/resources/ui/repo-tag/add-dialog.ui:6
 msgid "Add Repository Tag"
@@ -1484,7 +1484,7 @@ msgstr "Вставить из буфера обмена"
 #: data/resources/ui/shortcuts.ui:125
 msgctxt "shortcut window"
 msgid "Podman"
-msgstr ""
+msgstr "Podman"
 
 #: data/resources/ui/shortcuts.ui:129
 msgctxt "shortcut window"
@@ -1519,7 +1519,7 @@ msgstr "Аргумент"
 
 #: data/resources/ui/volume/row.ui:71
 msgid "SELinux"
-msgstr ""
+msgstr "SELinux"
 
 #: data/resources/ui/volume/row.ui:80
 msgid "No label"
@@ -1555,7 +1555,7 @@ msgstr "Сочетания _клавиш"
 
 #: data/resources/ui/window.ui:22
 msgid "_About Pods"
-msgstr "О _Капсулах"
+msgstr "_О Капсулах"
 
 #: data/resources/ui/window.ui:30
 msgid "_Select All"
@@ -1567,7 +1567,7 @@ msgstr "Очистить выбор"
 
 #: src/application.rs:188
 msgid "translator-credits"
-msgstr ""
+msgstr "Давид Лапшин <ddaudix@gmail.com>"
 
 #: src/application.rs:192
 msgid "Translators"
@@ -1680,7 +1680,7 @@ msgstr "Перезапускается"
 
 #: src/model/container.rs:76
 msgid "Stopping"
-msgstr "Остановлено"
+msgstr "Остановка"
 
 #: src/model/container.rs:77 src/model/container.rs:118 src/model/pod.rs:73
 msgid "Unknown"
@@ -2150,15 +2150,15 @@ msgstr "Переименовать контейнер"
 #: src/view/container/resources_quick_reference_group.rs:137
 #: src/view/container/resources_quick_reference_group.rs:279
 msgid "?"
-msgstr ""
+msgstr "?"
 
 #: src/view/container/resources_quick_reference_group.rs:99
 msgid "{} %"
-msgstr ""
+msgstr "{} %"
 
 #: src/view/container/resources_quick_reference_group.rs:120
 msgid "{} / {} ({} %)"
-msgstr ""
+msgstr "{} / {} ({} %)"
 
 #. Translators: For example 5 MB / s.
 #: src/view/container/resources_quick_reference_group.rs:266
@@ -2214,7 +2214,7 @@ msgstr "Не удался запуск проверки работоспособ
 #: src/view/info_dialog.rs:164
 #, c-format
 msgid "%x %X"
-msgstr ""
+msgstr "%x %X"
 
 #: src/view/image/build_page.rs:199
 msgid "Select Build Context Directory"
@@ -2260,7 +2260,7 @@ msgstr "{} всего"
 
 #: src/view/image/history_page.rs:103
 msgid "<None>"
-msgstr ""
+msgstr "<Нет>"
 
 #: src/view/image/history_page.rs:118
 msgid "Unknown Date"
@@ -2363,7 +2363,7 @@ msgstr ""
 #. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
 #: src/view/images/prune_page.rs:175
 msgid "%x %H:%M %p"
-msgstr ""
+msgstr "%x %H:%M %p"
 
 #: src/view/images/prune_page.rs:177
 msgid "Invalid date format"
@@ -2408,7 +2408,7 @@ msgstr "Ошибка: {}"
 
 #: src/view/pod/creation_page.rs:203
 msgid "IP"
-msgstr ""
+msgstr "IP"
 
 #: src/view/pod/creation_page.rs:345
 msgid "Failed to create pod"
