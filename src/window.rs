@@ -197,12 +197,23 @@ mod imp {
             klass.add_binding_action(
                 gdk::Key::F,
                 gdk::ModifierType::CONTROL_MASK,
-                "win.toggle-search",
+                "win.enter-search",
                 None,
             );
 
-            klass.install_action("win.toggle-search", None, |widget, _, _| {
-                widget.toggle_search();
+            klass.install_action("win.enter-search", None, |widget, _, _| {
+                widget.enter_search();
+            });
+
+            klass.add_binding_action(
+                gdk::Key::Escape,
+                gdk::ModifierType::empty(),
+                "win.exit-search",
+                None,
+            );
+
+            klass.install_action("win.exit-search", None, |widget, _, _| {
+                widget.exit_search();
             });
         }
 
@@ -551,15 +562,18 @@ impl Window {
                 }
             }));
 
-        imp.leaflet
-            .connect_visible_child_notify(clone!(@weak self as obj => move |_| {
-                obj.check_search_action();
-            }));
-
-        imp.header_stack
-            .connect_visible_child_notify(clone!(@weak self as obj => move |_| {
-                obj.check_search_action();
-            }));
+        let key_controller = gtk::EventControllerKey::new();
+        key_controller.connect_key_pressed(clone!(
+            @weak self as obj => @default-return glib::signal::Inhibit(false), move |_, key, _, _| {
+                glib::signal::Inhibit(if key == gdk::Key::Escape {
+                    obj.exit_search();
+                    true
+                } else {
+                    false
+                })
+            }
+        ));
+        imp.search_entry.add_controller(&key_controller);
     }
 
     fn setup_panels(&self) {
@@ -752,10 +766,6 @@ impl Window {
         }
     }
 
-    fn check_search_action(&self) {
-        self.action_set_enabled("win.toggle-search", self.is_search_activatable())
-    }
-
     fn is_search_activatable(&self) -> bool {
         !self.is_showing_overlay()
             && self.imp().header_stack.visible_child_name().as_deref() == Some("main")
@@ -821,9 +831,19 @@ impl Window {
         }
     }
 
-    fn toggle_search(&self) {
+    fn enter_search(&self) {
         let imp = self.imp();
-        imp.search_button.set_active(!imp.search_button.is_active());
+        if self.is_search_activatable() {
+            imp.search_button.set_active(true);
+            imp.search_entry.delete_text(0, -1);
+            imp.search_entry.grab_focus();
+        }
+    }
+
+    fn exit_search(&self) {
+        if self.is_search_activatable() {
+            self.imp().search_button.set_active(false);
+        }
     }
 
     fn client_err_op(&self, e: model::ClientError) {

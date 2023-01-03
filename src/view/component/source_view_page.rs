@@ -16,7 +16,8 @@ use crate::utils;
 use crate::view;
 
 const ACTION_SAVE_TO_FILE: &str = "source-view-page.save-to-file";
-const ACTION_TOGGLE_SEARCH: &str = "source-view-page.toggle-search";
+const ACTION_ENTER_SEARCH: &str = "source-view-page.enter-search";
+const ACTION_EXIT_SEARCH: &str = "source-view-page.exit-search";
 
 #[derive(Clone, Debug)]
 pub(crate) enum Entity {
@@ -99,14 +100,24 @@ mod imp {
             klass.install_action_async(ACTION_SAVE_TO_FILE, None, |widget, _, _| async move {
                 widget.save_to_file().await;
             });
-            klass.install_action(ACTION_TOGGLE_SEARCH, None, |widget, _, _| {
-                widget.toggle_search();
-            });
 
+            klass.install_action(ACTION_ENTER_SEARCH, None, |widget, _, _| {
+                widget.enter_search();
+            });
             klass.add_binding_action(
                 gdk::Key::F,
                 gdk::ModifierType::CONTROL_MASK,
-                ACTION_TOGGLE_SEARCH,
+                ACTION_ENTER_SEARCH,
+                None,
+            );
+
+            klass.install_action(ACTION_EXIT_SEARCH, None, |widget, _, _| {
+                widget.exit_search();
+            });
+            klass.add_binding_action(
+                gdk::Key::Escape,
+                gdk::ModifierType::empty(),
+                ACTION_EXIT_SEARCH,
                 None,
             );
         }
@@ -347,10 +358,15 @@ impl SourceViewPage {
         .await;
     }
 
-    pub(crate) fn toggle_search(&self) {
+    fn enter_search(&self) {
         let imp = self.imp();
-        imp.search_bar
-            .set_search_mode(!imp.search_bar.is_search_mode());
+        imp.search_button.set_active(true);
+        imp.search_widget.delete_text(0, -1);
+        imp.search_widget.grab_focus();
+    }
+
+    fn exit_search(&self) {
+        self.imp().search_button.set_active(false);
     }
 
     fn on_notify_dark(&self, style_manager: &adw::StyleManager) {
