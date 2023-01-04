@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-30 21:22+0100\n"
-"PO-Revision-Date: 2023-01-01 15:54+0000\n"
+"PO-Revision-Date: 2023-01-05 19:48+0000\n"
 "Last-Translator: Marcus Behrendt <marcus.behrendt.86@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/pods/pods/de/>\n"
 "Language: de\n"
@@ -1121,7 +1121,7 @@ msgstr ""
 
 #: data/resources/ui/images/panel.ui:97
 msgid "Intermediates"
-msgstr ""
+msgstr "Zwischenabbilder"
 
 #: data/resources/ui/images/panel.ui:197
 msgid "You can use the buttons below to add an initial image."
@@ -1139,7 +1139,7 @@ msgstr "Ein Lokales Image _Bauen"
 
 #: data/resources/ui/images/prune-page.ui:40
 msgid "Prune Images"
-msgstr ""
+msgstr "Images Beschneiden"
 
 #: data/resources/ui/images/prune-page.ui:50
 msgid "_Prune"
@@ -1178,11 +1178,11 @@ msgstr ""
 
 #: data/resources/ui/images/prune-page.ui:178
 msgid "AM"
-msgstr ""
+msgstr "AM"
 
 #: data/resources/ui/images/prune-page.ui:179
 msgid "PM"
-msgstr ""
+msgstr "PM"
 
 #: data/resources/ui/info-dialog.ui:5
 msgid "About Podman"
@@ -1202,19 +1202,19 @@ msgstr ""
 
 #: data/resources/ui/info-dialog.ui:29
 msgid "Git Commit"
-msgstr ""
+msgstr "Git-Commit"
 
 #: data/resources/ui/info-dialog.ui:35
 msgid "Go Version"
-msgstr ""
+msgstr "Go-Version"
 
 #: data/resources/ui/info-dialog.ui:41
 msgid "Os Arch"
-msgstr ""
+msgstr "Os Arch"
 
 #: data/resources/ui/info-dialog.ui:57
 msgid "Describes the container storage and its attributes."
-msgstr ""
+msgstr "Beschreibt den Containerspeicher und seine Attribute."
 
 #: data/resources/ui/info-dialog.ui:61
 #, fuzzy
@@ -1228,7 +1228,7 @@ msgstr "Container"
 
 #: data/resources/ui/info-dialog.ui:68
 msgid "Describes the quantity of containers in the store by status."
-msgstr ""
+msgstr "Beschreibt die Menge der Container im Speicher nach Status."
 
 #: data/resources/ui/info-dialog.ui:85 src/model/container.rs:71
 #: src/model/pod.rs:69
@@ -1247,19 +1247,19 @@ msgstr ""
 
 #: data/resources/ui/info-dialog.ui:106
 msgid "Graph Driver Name"
-msgstr ""
+msgstr "Name des Graphtreibers"
 
 #: data/resources/ui/info-dialog.ui:112
 msgid "Graph Options"
-msgstr ""
+msgstr "Graphoptionen"
 
 #: data/resources/ui/info-dialog.ui:132
 msgid "Graph Root"
-msgstr ""
+msgstr "Graphwurzel"
 
 #: data/resources/ui/info-dialog.ui:138
 msgid "Graph Status"
-msgstr ""
+msgstr "Graphstatus"
 
 #: data/resources/ui/info-dialog.ui:158
 msgid "Image Store"
@@ -1268,14 +1268,16 @@ msgstr ""
 #: data/resources/ui/info-dialog.ui:159
 msgid "Describes the image store. Right now only the number of images present."
 msgstr ""
+"Beschreibt den Speicher für Images. Im Moment nur die Anzahl der vorhandenen "
+"Images."
 
 #: data/resources/ui/info-dialog.ui:165
 msgid "Run Root"
-msgstr ""
+msgstr "Run-Wurzelverzeichnis"
 
 #: data/resources/ui/info-dialog.ui:171
 msgid "Volume Path"
-msgstr ""
+msgstr "Volume-Pfad"
 
 #: data/resources/ui/key-val/row.ui:23 src/view/key_val/row.rs:119
 msgid "Key"
@@ -1300,23 +1302,23 @@ msgstr "Erstellt"
 #: data/resources/ui/pod/creation-page.ui:127
 #: data/resources/ui/pod/details-page.ui:93 src/view/pod/creation_page.rs:202
 msgid "Hostname"
-msgstr ""
+msgstr "Hostname"
 
 #: data/resources/ui/pod/creation-page.ui:134
 msgid "Disable /etc/resolv.conf management"
-msgstr ""
+msgstr "Deaktiviere die Verwaltung von /etc/resolv.conf"
 
 #: data/resources/ui/pod/creation-page.ui:153
 msgid "Pod Create Command"
-msgstr ""
+msgstr "Pod-Erstellungsbefehl"
 
 #: data/resources/ui/pod/creation-page.ui:193
 msgid "Devices"
-msgstr ""
+msgstr "Geräte"
 
 #: data/resources/ui/pod/creation-page.ui:208
 msgid "Hosts"
-msgstr ""
+msgstr "Hosts"
 
 #: data/resources/ui/pod/creation-page.ui:215
 msgid "Enabled"
@@ -1328,25 +1330,23 @@ msgstr ""
 
 #: data/resources/ui/pod/creation-page.ui:278
 msgid "Disable Infra"
-msgstr ""
+msgstr "Infra deaktivieren"
 
 #: data/resources/ui/pod/creation-page.ui:372
-#, fuzzy
 msgid "Common PID File"
-msgstr "Konfiguriert"
+msgstr "Gemeinsame PID-Datei"
 
 #: data/resources/ui/pod/details-page.ui:27
-#, fuzzy
 msgid "Pod Details"
-msgstr "Container"
+msgstr "Pod-Details"
 
 #: data/resources/ui/pod/details-page.ui:252
 msgid "View all pod properties in a structured text form."
-msgstr ""
+msgstr "Anzeige aller Pod-Eigenschaften in strukturierter Textform."
 
 #: data/resources/ui/pod/details-page.ui:269
 msgid "Generate Kubernetes YAML based on this pod."
-msgstr ""
+msgstr "Erzeugen Sie Kubernetes-YAML auf der Grundlage dieses Pods."
 
 #: data/resources/ui/pod/details-page.ui:286
 msgid "View processes that are currently running inside the pod."
@@ -1368,27 +1368,28 @@ msgstr ""
 #: data/resources/ui/pods/panel.ui:359
 msgid "You can use the button below to create an initial pod."
 msgstr ""
+"Sie können die Schaltfläche unten verwenden, um einen ersten Pod zu "
+"erstellen."
 
 #: data/resources/ui/pods/panel.ui:369
-#, fuzzy
 msgid "_Create a Pod"
-msgstr "Erstellt"
+msgstr "Einen Pod _erstellen"
 
 #: data/resources/ui/port-mapping/row.ui:29
 msgid "will be mapped to container port"
-msgstr ""
+msgstr "wird auf den Containerhafen abgebildet"
 
 #: data/resources/ui/port-mapping/row.ui:62
 msgid "TCP"
-msgstr ""
+msgstr "TCP"
 
 #: data/resources/ui/port-mapping/row.ui:63
 msgid "UDP"
-msgstr ""
+msgstr "UDP"
 
 #: data/resources/ui/repo-tag/add-dialog.ui:6
 msgid "Add Repository Tag"
-msgstr ""
+msgstr "Repository-Tag hinzufügen"
 
 #: data/resources/ui/repo-tag/add-dialog.ui:10
 msgid "_Add"
@@ -1396,19 +1397,19 @@ msgstr ""
 
 #: data/resources/ui/repo-tag/add-dialog.ui:25
 msgid "Repository Tag"
-msgstr ""
+msgstr "Repository-Tag"
 
 #: data/resources/ui/repo-tag/row.ui:32
 msgid "Pull Latest"
-msgstr ""
+msgstr "Neustes Holen"
 
 #: data/resources/ui/repo-tag/row.ui:43
 msgid "Untag"
-msgstr ""
+msgstr "Markierung aufheben"
 
 #: data/resources/ui/search-panel.ui:51 data/resources/ui/window.ui:273
 msgid "Images"
-msgstr ""
+msgstr "Bilder"
 
 #: data/resources/ui/search-panel.ui:83 data/resources/ui/window.ui:313
 #, fuzzy
@@ -1419,45 +1420,44 @@ msgstr "Pods"
 #: data/resources/ui/shortcuts.ui:13
 msgctxt "shortcut window"
 msgid "General"
-msgstr ""
+msgstr "Allgemein"
 
 #: data/resources/ui/shortcuts.ui:17
 msgctxt "shortcut window"
 msgid "Show Shortcuts"
-msgstr ""
+msgstr "Shortcuts anzeigen"
 
 #: data/resources/ui/shortcuts.ui:24
 msgctxt "shortcut window"
 msgid "Show menu"
-msgstr ""
+msgstr "Menü anzeigen"
 
 #: data/resources/ui/shortcuts.ui:31
 msgctxt "shortcut window"
 msgid "Quit"
-msgstr ""
+msgstr "Beenden"
 
 #: data/resources/ui/shortcuts.ui:38
 msgctxt "shortcut window"
 msgid "Search"
-msgstr ""
+msgstr "Suchen"
 
 #: data/resources/ui/shortcuts.ui:48
 msgctxt "shortcut window"
 msgid "Navigation"
-msgstr ""
+msgstr "Navigation"
 
 #: data/resources/ui/shortcuts.ui:52
 msgctxt "shortcut window"
 msgid "Go back"
-msgstr ""
+msgstr "Zurückgehen"
 
 #: data/resources/ui/shortcuts.ui:59
 msgctxt "shortcut window"
 msgid "Return to main view"
-msgstr ""
+msgstr "Zurück zur Hauptansicht"
 
 #: data/resources/ui/shortcuts.ui:69
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Container"
 msgstr "Container"
@@ -1465,219 +1465,216 @@ msgstr "Container"
 #: data/resources/ui/shortcuts.ui:73
 msgctxt "shortcut window"
 msgid "Rename"
-msgstr ""
+msgstr "Umbenennen"
 
 #: data/resources/ui/shortcuts.ui:80
 msgctxt "shortcut window"
 msgid "Commit"
-msgstr ""
+msgstr "Committen"
 
 #: data/resources/ui/shortcuts.ui:87
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Download files"
-msgstr "Fehler beim Laden der Images"
+msgstr "Dateien herunterladen"
 
 #: data/resources/ui/shortcuts.ui:94
 msgctxt "shortcut window"
 msgid "Upload files"
-msgstr ""
+msgstr "Dateien hochladen"
 
 #: data/resources/ui/shortcuts.ui:104
 msgctxt "shortcut window"
 msgid "Terminal"
-msgstr ""
+msgstr "Terminal"
 
 #: data/resources/ui/shortcuts.ui:108
 msgctxt "shortcut window"
 msgid "Copy selection to clipboard"
-msgstr ""
+msgstr "Auswahl in die Zwischenablage kopieren"
 
 #: data/resources/ui/shortcuts.ui:115
 msgctxt "shortcut window"
 msgid "Paste from clipboard"
-msgstr ""
+msgstr "Aus Zwischenablage einfügen"
 
 #: data/resources/ui/shortcuts.ui:125
 msgctxt "shortcut window"
 msgid "Podman"
-msgstr ""
+msgstr "Podman"
 
 #: data/resources/ui/shortcuts.ui:129
 msgctxt "shortcut window"
 msgid "Add a new connection"
-msgstr ""
+msgstr "Neue Verbindung hinzufügen"
 
 #: data/resources/ui/shortcuts.ui:136
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Create a new entity"
-msgstr "Erstellt"
+msgstr "Eine neue Entität erstellen"
 
 #: data/resources/ui/statusbar.ui:6 data/resources/ui/statusbar.ui:47
-#, fuzzy
 msgid "Connections"
-msgstr "Container"
+msgstr "Verbindungen"
 
 #: data/resources/ui/statusbar.ui:13
-#, fuzzy
 msgid "_Add Connection…"
-msgstr "Container"
+msgstr "_Verbindung hinzufügen…"
 
 #: data/resources/ui/statusbar.ui:27
 msgid "Clean up"
-msgstr ""
+msgstr "Aufräumen"
 
 #: data/resources/ui/statusbar.ui:104
 msgid "Operations"
-msgstr ""
+msgstr "Operationen"
 
 #: data/resources/ui/value/row.ui:4 src/view/container/creation_page.rs:327
 #: src/view/pod/creation_page.rs:224 src/view/pod/creation_page.rs:233
 msgid "Argument"
-msgstr ""
+msgstr "Argument"
 
 #: data/resources/ui/volume/row.ui:71
 msgid "SELinux"
-msgstr ""
+msgstr "SELinux"
 
 #: data/resources/ui/volume/row.ui:80
 msgid "No label"
-msgstr ""
+msgstr "Kein Label"
 
 #: data/resources/ui/volume/row.ui:81
 msgid "Shared"
-msgstr ""
+msgstr "Geteilt"
 
 #: data/resources/ui/volume/row.ui:82
 msgid "Private"
-msgstr ""
+msgstr "Privat"
 
 #: data/resources/ui/welcome-page.ui:70
 msgid "Welcome to Pods"
-msgstr ""
+msgstr "Willkommen bei Pods"
 
 #: data/resources/ui/welcome-page.ui:79
 msgid "Use the button below to create a new connection to Podman."
 msgstr ""
+"Verwenden Sie die Schaltfläche unten, um eine neue Verbindung zu Podman "
+"herzustellen."
 
 #: data/resources/ui/welcome-page.ui:93
 msgid "_Add Connection"
-msgstr ""
+msgstr "_Verbindung hinzufügen"
 
 #: data/resources/ui/window.ui:12
 msgid "About _Podman"
-msgstr ""
+msgstr "Über _Podman"
 
 #: data/resources/ui/window.ui:18
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "_Tastaturkürzel"
 
 #: data/resources/ui/window.ui:22
 msgid "_About Pods"
-msgstr ""
+msgstr "_Über Pods"
 
 #: data/resources/ui/window.ui:30
 msgid "_Select All"
-msgstr ""
+msgstr "_Alle Auswählen"
 
 #: data/resources/ui/window.ui:34
 msgid "Select None"
-msgstr ""
+msgstr "Nicht Auswählen"
 
 #: src/application.rs:188
 msgid "translator-credits"
-msgstr ""
+msgstr "Übersetzer-Credits"
 
 #: src/application.rs:192
 msgid "Translators"
-msgstr ""
+msgstr "Übersetzer"
 
 #: src/main.rs:114
 msgid "Prints application version"
-msgstr ""
+msgstr "Druckt die Anwendungsversion"
 
 #: src/main.rs:123
 msgid "Specify the minimum log level"
-msgstr ""
+msgstr "Geben Sie den minimalen Log-Level an"
 
 #: src/model/action.rs:160
 msgid "Images: <b>Prune</b>"
-msgstr ""
+msgstr "Images: <b>Beschneiden</b>"
 
 #: src/model/action.rs:198 src/model/action.rs:227
 msgid "Image: <b>{}</b>"
-msgstr ""
+msgstr "Image: <b>{}</b>"
 
 #: src/model/action.rs:230
 msgid "Generating tarball of context directory..."
-msgstr ""
+msgstr "Erzeugen eines Tarballs des Kontextverzeichnisses..."
 
 #: src/model/action.rs:300 src/model/action.rs:356
 msgid "Container: <b>{}</b> ← {}"
-msgstr ""
+msgstr "Container: <b>{}</b> ← {}"
 
 #: src/model/action.rs:319
 msgid "none"
-msgstr ""
+msgstr "nichts"
 
 #: src/model/action.rs:316
 msgid "Image: <b>{}</b> ← {}"
-msgstr ""
+msgstr "Image: <b>{}</b> ← {}"
 
 #: src/model/action.rs:330 src/model/action.rs:437 src/model/action.rs:525
 #: src/model/action.rs:732
 msgid "Finished"
-msgstr ""
+msgstr "Fertig"
 
 #: src/model/action.rs:374
 msgid "Files: <b>{}</b> ({}) ← {}"
-msgstr ""
+msgstr "Files: <b>{}</b> ({}) ← {}"
 
 #: src/model/action.rs:381
-#, fuzzy
 msgid "Creating tar archive…"
-msgstr "Container"
+msgstr "Tar-Archiv erstellen…"
 
 #: src/model/action.rs:414
 msgid "Tar archive created"
-msgstr ""
+msgstr "Tar-Archiv erstellt"
 
 #: src/model/action.rs:415
 msgid "Unwrapping tar archive…"
-msgstr ""
+msgstr "Entpacken des tar-Archivs…"
 
 #: src/model/action.rs:423
 msgid "Tar archive unwrapped"
-msgstr ""
+msgstr "Tar-Archiv entpackt"
 
 #: src/model/action.rs:424
 msgid "Copying files into container…"
-msgstr ""
+msgstr "Dateien werden in Container kopiert…"
 
 #: src/model/action.rs:476
 msgid "Files: <b>{}</b> ({}) → {}"
-msgstr ""
+msgstr "Files: <b>{}</b> ({}) → {}"
 
 #: src/model/action.rs:485
 msgid "Copying bytes into memory…"
-msgstr ""
+msgstr "Bytes werden in den Speicher kopiert…"
 
 #: src/model/action.rs:488 src/model/action.rs:505
 msgid "Size: {}"
-msgstr ""
+msgstr "Größe: {}"
 
 #: src/model/action.rs:546
 msgid "Pod: <b>{}</b>"
-msgstr ""
+msgstr "Pod: <b>{}</b>"
 
 #: src/model/action.rs:557
 msgid "Pod: <b>{}</b> ← {}"
-msgstr ""
+msgstr "Pod: <b>{}</b> ← {}"
 
 #: src/model/connection_manager.rs:207
 msgid "Connection '{}' already exists."
-msgstr ""
+msgstr "Die Verbindung '{}' existiert bereits."
 
 #: src/model/container.rs:68 src/model/pod.rs:65
 msgid "Dead"
@@ -1685,39 +1682,39 @@ msgstr "Tot"
 
 #: src/model/container.rs:69 src/model/pod.rs:68
 msgid "Exited"
-msgstr ""
+msgstr "Beendet"
 
 #: src/model/container.rs:70
 msgid "Initialized"
-msgstr ""
+msgstr "Initialisiert"
 
 #: src/model/container.rs:72
 msgid "Removing"
-msgstr ""
+msgstr "Entfernen"
 
 #: src/model/container.rs:73 src/model/pod.rs:70
 msgid "Restarting"
-msgstr ""
+msgstr "Neustart"
 
 #: src/model/container.rs:76
 msgid "Stopping"
-msgstr ""
+msgstr "Anhaltend"
 
 #: src/model/container.rs:77 src/model/container.rs:118 src/model/pod.rs:73
 msgid "Unknown"
-msgstr ""
+msgstr "Unbekannt"
 
 #: src/model/container.rs:114
 msgid "Checking"
-msgstr ""
+msgstr "Überprüfung"
 
 #: src/model/container.rs:115
 msgid "Healthy"
-msgstr ""
+msgstr "Gesund"
 
 #: src/model/container.rs:116
 msgid "Unhealthy"
-msgstr ""
+msgstr "Ungesund"
 
 #: src/model/container.rs:117
 #, fuzzy
@@ -1726,149 +1723,140 @@ msgstr "Konfiguriert"
 
 #: src/model/pod.rs:66
 msgid "Degraded"
-msgstr ""
+msgstr "Degradiert"
 
 #: src/model/pod.rs:67 src/view/component/source_view_page.rs:341
 #: src/view/connection/creation_page.rs:269
 msgid "Error"
-msgstr ""
+msgstr "Fehler"
 
 #: src/utils.rs:115
 msgid "{} h {} min {} s"
-msgstr ""
+msgstr "{} h {} min {} s"
 
 #: src/utils.rs:117
 msgid "{} h {} s"
-msgstr ""
+msgstr "{} h {} s"
 
 #: src/utils.rs:124
 msgid "{} min {} s"
-msgstr ""
+msgstr "{} min {} s"
 
 #: src/utils.rs:126
 msgid "{} min"
-msgstr ""
+msgstr "{} min"
 
 #: src/utils.rs:129
 msgid "{} s"
-msgstr ""
+msgstr "{} s"
 
 #: src/utils.rs:145
 msgid "a few seconds"
-msgstr ""
+msgstr "ein paar Sekunden"
 
 #: src/utils.rs:147
 msgid "{} minute"
 msgid_plural "{} minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} Minute"
+msgstr[1] "{} Minuten"
 
 #: src/utils.rs:149
 msgid "{} hour"
 msgid_plural "{} hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} Stunde"
+msgstr[1] "{} Stunden"
 
 #: src/utils.rs:152
 msgid "{} day"
 msgid_plural "{} days"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} Tag"
+msgstr[1] "{} Tage"
 
 #. Translators: Example: {3 hours} ago, {a few seconds} ago
 #: src/utils.rs:158
 msgid "{} ago"
-msgstr ""
+msgstr "{} früher"
 
 #. Translators: This string will be shown when a property of an entity like an image is null.
 #: src/utils.rs:272
 msgid "<none>"
-msgstr ""
+msgstr "<nichts>"
 
 #: src/utils.rs:401
-#, fuzzy
 msgid "Error on open file dialog"
-msgstr "Fehler beim Beschneiden des Images '{}'"
+msgstr "Fehler beim Öffnen des Dateidialogs"
 
 #: src/view/action/page.rs:141
 msgid "Images Are Currently Being Pruned"
-msgstr ""
+msgstr "Die Images Werden Derzeit Beschnitten"
 
 #: src/view/action/page.rs:142
 msgid "Image Is Currently Being Downloaded"
-msgstr ""
+msgstr "Das Image Wird Gerade Heruntergeladen"
 
 #: src/view/action/page.rs:143
 msgid "Image Is Currently Being Built"
-msgstr ""
+msgstr "Das Image Wird Gerade Erstellt"
 
 #: src/view/action/page.rs:144
 msgid "Container Is Currently Being Created"
-msgstr ""
+msgstr "Der Container Wird Gerade Erstellt"
 
 #: src/view/action/page.rs:145
-#, fuzzy
 msgid "New Image Is Currently Being Committed"
-msgstr "Container"
+msgstr "Neues Image Wird Gerade Committet"
 
 #: src/view/action/page.rs:146
 msgid "Files Are Currently Being Copied"
-msgstr ""
+msgstr "Die Dateien Werden Gerade Kopiert"
 
 #: src/view/action/page.rs:147
 msgid "Pod Is Currently Being Created"
-msgstr ""
+msgstr "Der Pod Wird Gerade Erstellt"
 
 #: src/view/action/page.rs:153
 msgid "Images Have Been Pruned"
-msgstr ""
+msgstr "Die Images Wurden Beschnitten"
 
 #: src/view/action/page.rs:154
-#, fuzzy
 msgid "Image Has Been Downloaded"
-msgstr "Container"
+msgstr "Das Image Wurde Heruntergeladen"
 
 #: src/view/action/page.rs:155
-#, fuzzy
 msgid "Image Has Been Built"
-msgstr "Container"
+msgstr "Das Image Wurde Erstellt"
 
 #: src/view/action/page.rs:156
-#, fuzzy
 msgid "Container Has Been Created"
-msgstr "Container"
+msgstr "Der Container Wurde Erstellt"
 
 #: src/view/action/page.rs:157
-#, fuzzy
 msgid "New Image Has Been Committed"
-msgstr "Container"
+msgstr "Neues Image Wurde Committet"
 
 #: src/view/action/page.rs:158
-#, fuzzy
 msgid "Files Have Beeng Copied"
-msgstr "Container"
+msgstr "Dateien Wurden Kopiert"
 
 #: src/view/action/page.rs:159
 msgid "Pod Has Been Created"
-msgstr ""
+msgstr "Der Pod Wurde Erstellt"
 
 #: src/view/action/page.rs:165
 msgid "Pruning of Images Has Been Aborted"
-msgstr ""
+msgstr "Das Beschneiden der Images Wurde Abgebrochen"
 
 #: src/view/action/page.rs:166
 msgid "Image Download Has Been Aborted"
-msgstr ""
+msgstr "Der Download des Images Wurde Abgebrochen"
 
 #: src/view/action/page.rs:167
-#, fuzzy
 msgid "Image Built Has Been Aborted"
-msgstr "Container"
+msgstr "Die Erstellung des Images Wurde Abgebrochen"
 
 #: src/view/action/page.rs:168
-#, fuzzy
 msgid "Container Creation Has Been Aborted"
-msgstr "Container"
+msgstr "Die Erstellung des Containers Wurde Abgebrochen"
 
 #: src/view/action/page.rs:169
 #, fuzzy
