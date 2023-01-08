@@ -324,7 +324,7 @@ impl SourceViewPage {
 
         let request = SaveFileRequest::default()
             .identifier(WindowIdentifier::from_native(&self.native().unwrap()).await)
-            .current_name(&imp.entity.get().unwrap().filename())
+            .current_name(imp.entity.get().unwrap().filename().as_str())
             .modal(true);
 
         utils::show_save_file_dialog(

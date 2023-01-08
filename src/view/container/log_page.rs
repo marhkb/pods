@@ -518,7 +518,7 @@ impl LogPage {
         if let Some(container) = self.container() {
             let request = SaveFileRequest::default()
                 .identifier(WindowIdentifier::from_native(&self.native().unwrap()).await)
-                .current_name(&format!("{}.log", container.name()))
+                .current_name(format!("{}.log", container.name()).as_str())
                 .choice(Choice::boolean(
                     "timestamps",
                     &gettext("Include timestamps"),

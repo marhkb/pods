@@ -164,7 +164,7 @@ impl FilesGetPage {
     async fn select_path(&self) {
         let request = SaveFileRequest::default()
             .identifier(WindowIdentifier::from_native(&self.native().unwrap()).await)
-            .title(&gettext("Select Host Destination Path"))
+            .title(gettext("Select Host Destination Path").as_str())
             .filter(FileFilter::new("Tar Archive").mimetype("application/x-tar"))
             .modal(true);
 
