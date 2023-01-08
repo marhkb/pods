@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-30 21:22+0100\n"
-"PO-Revision-Date: 2022-12-23 21:50+0000\n"
+"PO-Revision-Date: 2023-01-03 15:51+0000\n"
 "Last-Translator: Daudix UFO <ddaudix@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/pods/pods/ru/>\n"
 "Language: ru\n"
@@ -23,11 +23,11 @@ msgstr ""
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
 #: data/resources/ui/window.ui:126 src/main.rs:44
 msgid "Pods"
-msgstr "Pods"
+msgstr "Капсулы"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:4
 msgid "A Podman desktop application"
-msgstr "Настольное приложение Podman"
+msgstr "Приложение Podman для настольных компьютеров"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:9
 msgid "Gnome;GTK;"
@@ -36,12 +36,12 @@ msgstr "Gnome;GTK;"
 #: data/com.github.marhkb.Pods.gschema.xml.in:6
 #: data/com.github.marhkb.Pods.gschema.xml.in:7
 msgid "Default window width"
-msgstr "Стандартная ширина окна"
+msgstr "Ширина окна по умолчанию"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:11
 #: data/com.github.marhkb.Pods.gschema.xml.in:12
 msgid "Default window height"
-msgstr "Стандартная высота окна"
+msgstr "Высота окна по умолчанию"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:16
 msgid "Default window maximized behaviour"
@@ -65,17 +65,16 @@ msgstr "Последний использованный вид"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:41
 msgid "Whether to show intermediate images"
-msgstr "Показывать промежуточные образы"
+msgstr "Показывать ли промежуточные образы"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:46
-#, fuzzy
 msgid "The last used container file path"
-msgstr "Последний использованный путь к файлу контейнера"
+msgstr "Последний использованный путь файла контейнера"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:51
 msgid "Remove all images not in use by containers, not just dangling ones"
 msgstr ""
-"Удалите все неиспользуемые изображения из контейнеров, а не только висящие."
+"Удалить все образы, не используемые контейнерами, а не только болтающиеся"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:56
 msgid ""
@@ -95,95 +94,94 @@ msgstr "Показывать ли только запущенные капсул
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:71
 msgid "Whether to show a timestamp for each log line"
-msgstr "Нужно ли показывать временную метку для каждой строки журнала"
+msgstr "Показывать ли временную метку для каждой строки журнала"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:76
 #: data/com.github.marhkb.Pods.gschema.xml.in:81
 msgid "Whether to use a regex for search"
-msgstr "Следует ли использовать регулярное выражение для поиска"
+msgstr "Использовать ли регулярное выражение для поиска"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:86
 msgid "Whether search should be case-sensitive"
 msgstr "Должен ли поиск учитывать регистр"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:91
-#, fuzzy
 msgid "Whether to match whole words when searching"
-msgstr "Следует ли сопоставлять целые слова при поиске"
+msgstr "Сопоставлять ли целые слова при поиске"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
-#, fuzzy
 msgid "Keep track of your podman containers"
-msgstr "Создавайте капсулы и контейнеры."
+msgstr "Отслеживайте ваши контейнеры podman"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
 msgid ""
 "Pods is a frontend for podman. It uses libadwaita for its user interface and "
 "strives to meet the design principles of GNOME."
 msgstr ""
-"Pods - это фронтенд для podman. Он использует libadwaita для своего "
+"Капсулы - это фронтенд для podman. Он использует libadwaita для своего "
 "пользовательского интерфейса и стремится соответствовать принципам дизайна "
 "GNOME."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:11
 msgid "With Pods you can, among other things:"
-msgstr "С помощью Pods вы можете, помимо прочего:"
+msgstr "С помощью приложения \"Капсулы\" вы можете, помимо прочего:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:13
 msgid "Connect to local and remote Podman instances."
-msgstr "Подключайтесь к локальным и удаленным экземплярам Podman."
+msgstr "Подключаться к локальным и удаленным экземплярам Podman."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:14
 msgid "Easily overview images, containers and pods."
-msgstr "Удобный обзор образов, контейнеров и капсул."
+msgstr "С легкостью просматривать образы, контейнеры и капсулы."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:15
 msgid "View prepared information about images, containers, and pods."
-msgstr "Просмотр подготовленной информации об образах, контейнерах и капсулах."
+msgstr ""
+"Просматривать подготовленную информацию об образах, контейнерах и капсулах."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:16
 msgid "Inspect images, containers and pods."
-msgstr "Осмотрите изображения, контейнеры и капсулы."
+msgstr "Инспектировать образы, контейнеры и капсулы."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:17
 msgid "View and search container logs."
-msgstr "Просмотр и поиск журналов контейнеров."
+msgstr "Просматривать и искать в журналах контейнеров."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:18
 msgid "Monitor processes of containers and pods."
-msgstr "Контролируйте процессы контейнеров и капсул."
+msgstr "Отслеживать процессы в контейнерах и капсулах."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:19
 msgid "Download images and build them using Dockerfiles."
-msgstr "Загружайте образы и собирайте их с помощью Dockerfiles."
+msgstr "Загружать образы и собирать их с помощью Dockerfiles."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:20
 msgid "Create pods and containers."
-msgstr "Создавайте капсулы и контейнеры."
+msgstr "Создавать капсулы и контейнеры."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:21
 msgid ""
 "Control the lifecycle of containers and pods (in bulk) (start, stop, pause, "
 "etc.)."
 msgstr ""
-"Управление жизненным циклом контейнеров и капсул (в массовом порядке) "
-"(запуск, остановка, пауза и т.д.)."
+"Управлять жизненным циклом контейнеров и капсул (в массовом порядке) ("
+"запуск, остановка, пауза и т.д.)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:22
 msgid "Delete images, containers, and pods (in bulk)."
-msgstr "Удаление образов, контейнеров и капсул (в массовом порядке)."
+msgstr "Удалять образы, контейнеры и капсулы (в массовом порядке)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:23
 msgid "Prune images."
-msgstr "Обрезка изображений."
+msgstr "Очищать образы."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:24
 msgid "Rename containers."
-msgstr "Переименовать контейнеры."
+msgstr "Переименовывать контейнеры."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:30
 msgid "Images Overview"
-msgstr "Обзор изображений"
+msgstr "Просмотр образов"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:34
 msgid "Containers Overview"
@@ -191,7 +189,7 @@ msgstr "Обзор контейнеров"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:38
 msgid "Pods Overview"
-msgstr "Обзор подов"
+msgstr "Обзор капсул"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:223
 msgid "Marcus Behrendt"
@@ -207,9 +205,8 @@ msgid "_View"
 msgstr "_Вид"
 
 #: data/resources/ui/action/page.ui:148
-#, fuzzy
 msgid "_Retry"
-msgstr "Попытки"
+msgstr "Повторить"
 
 #: data/resources/ui/actions/overview.ui:38
 msgid "No Operations"
@@ -282,7 +279,7 @@ msgstr "Новое соединение"
 
 #: data/resources/ui/connection/creation-page.ui:51
 msgid "_Connect"
-msgstr "_Соединить"
+msgstr "_Соединиться"
 
 #: data/resources/ui/connection/creation-page.ui:112
 #: data/resources/ui/container/creation-page.ui:83
@@ -308,15 +305,15 @@ msgstr "Сокет Unix"
 
 #: data/resources/ui/connection/creation-page.ui:161
 msgid "Podman Socket Activation"
-msgstr "Активация сокета Podman"
+msgstr "Активация Podman с помощью сокета"
 
 #: data/resources/ui/connection/creation-page.ui:168
 msgid ""
 "To connect to the local Podman instance, the systemd socket must be enabled. "
 "You can enable it permanently by issuing the following command:"
 msgstr ""
-"Чтобы подключиться к локальному экземпляру Podman, необходимо включить сокет "
-"systemd. Вы можете включить его навсегда, выполнив следующую команду:"
+"Чтобы подключиться к локальному экземпляру Podman, сокет systemd должен быть "
+"включен. Вы можете включить его перманентно, выполнив следующую команду:"
 
 #: data/resources/ui/connection/creation-page.ui:217
 #: data/resources/ui/connection/custom-info-dialog.ui:138
@@ -332,7 +329,7 @@ msgid ""
 "(read the hints there)."
 msgstr ""
 "Чтобы подключиться к локальному root экземпляру Podman, создайте собственное "
-"подключение (прочитайте подсказки там)."
+"подключение (прочитайте там подсказки)."
 
 #: data/resources/ui/connection/creation-page.ui:258
 msgid "Custom"
@@ -348,10 +345,9 @@ msgstr "Цвет"
 
 #: data/resources/ui/connection/creation-page.ui:297
 msgid "Define how to colorize the header bar (disabled)."
-msgstr "Определите, как раскрасить панель заголовка (отключено)."
+msgstr "Определите, как окрасить панель заголовка (отключено)."
 
 #: data/resources/ui/connection/custom-info-dialog.ui:16
-#, fuzzy
 msgid "Custom Connection"
 msgstr "Пользовательское соединение"
 
@@ -384,7 +380,7 @@ msgstr ""
 
 #: data/resources/ui/connection/custom-info-dialog.ui:203
 msgid "Enable the service by issuing the command:"
-msgstr "Включите службу исполнив команду:"
+msgstr "Включите службу выполнив команду:"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:261
 msgid ""
@@ -429,7 +425,7 @@ msgstr "Комментарий"
 
 #: data/resources/ui/container/commit-page.ui:95
 msgid "Repo"
-msgstr "Репо"
+msgstr "Репозиторий"
 
 #: data/resources/ui/container/commit-page.ui:102
 msgid "Tag"
@@ -450,7 +446,7 @@ msgstr "Пауза"
 
 #: data/resources/ui/container/commit-page.ui:124
 msgid "Pause the container before committing it."
-msgstr "Приостановите контейнер перед его коммитом."
+msgstr "Приостановить контейнер перед его коммитом."
 
 #: data/resources/ui/container/commit-page.ui:138
 msgid "Changes"
@@ -465,9 +461,8 @@ msgstr ""
 "bin/foo\")."
 
 #: data/resources/ui/container/creation-page.ui:15
-#, fuzzy
 msgid "_Create Only"
-msgstr "_Только создать"
+msgstr "Только _создать"
 
 #: data/resources/ui/container/creation-page.ui:54
 #: data/resources/ui/containers/group.ui:12
@@ -508,12 +503,12 @@ msgstr "Отклонить"
 #: data/resources/ui/container/creation-page.ui:199
 #: data/resources/ui/container/properties-group.ui:300
 msgid "Pod"
-msgstr "Pod"
+msgstr "Капсула"
 
 #: data/resources/ui/container/creation-page.ui:207
 #: data/resources/ui/pod/creation-page.ui:360
 msgid "Pull latest image"
-msgstr "Получить последний образ"
+msgstr "Скачать новейший образ"
 
 #: data/resources/ui/container/creation-page.ui:219
 #: data/resources/ui/container/details-page.ui:239
@@ -624,8 +619,8 @@ msgid ""
 "The number of retries allowed before a healthcheck is considered to be "
 "unhealthy."
 msgstr ""
-"Количество повторных попыток, разрешенных до проверки работоспособности "
-"перед тем как считаеть неработоспособным."
+"Количество попыток, разрешенных до того, как проверка работоспособности "
+"будет считаться неудачной."
 
 #: data/resources/ui/container/details-page.ui:27
 msgid "Container Details"
@@ -634,7 +629,7 @@ msgstr "Детали контейнера"
 #: data/resources/ui/container/details-page.ui:75
 #: data/resources/ui/pod/details-page.ui:123
 msgid "Kill"
-msgstr "Убить"
+msgstr "Принудительно остановить"
 
 #: data/resources/ui/container/details-page.ui:95
 #: data/resources/ui/containers/panel.ui:181
@@ -650,7 +645,7 @@ msgstr "Перезапустить"
 #: data/resources/ui/pod/details-page.ui:155
 #: data/resources/ui/pods/panel.ui:146 data/resources/ui/pods/panel.ui:289
 msgid "Start/Resume"
-msgstr "Начать/Возобновить"
+msgstr "Запустить/Возобновить"
 
 #: data/resources/ui/container/details-page.ui:128
 #: data/resources/ui/containers/panel.ui:123
@@ -658,7 +653,7 @@ msgstr "Начать/Возобновить"
 #: data/resources/ui/pod/details-page.ui:175
 #: data/resources/ui/pods/panel.ui:175 data/resources/ui/pods/panel.ui:300
 msgid "Stop"
-msgstr "Стоп"
+msgstr "Остановить"
 
 #: data/resources/ui/container/details-page.ui:201
 #: data/resources/ui/image/details-page.ui:161
@@ -670,7 +665,7 @@ msgstr "Утилиты"
 #: data/resources/ui/image/details-page.ui:165
 #: data/resources/ui/pod/details-page.ui:251
 msgid "Inspect"
-msgstr "Осмотреть"
+msgstr "Инспектировать"
 
 #: data/resources/ui/container/details-page.ui:206
 msgid "View all container properties in a structured text form."
@@ -678,142 +673,138 @@ msgstr "Просмотр всех свойств контейнера в стр�
 
 #: data/resources/ui/container/details-page.ui:222
 #: data/resources/ui/pod/details-page.ui:268
-#, fuzzy
 msgid "Kube"
 msgstr "Kube"
 
 #: data/resources/ui/container/details-page.ui:223
-#, fuzzy
 msgid "Generate Kubernetes YAML based on this container."
-msgstr "Создавайте капсулы и контейнеры."
+msgstr "Создать YAML Kubernetes на основе этого контейнера."
 
 #: data/resources/ui/container/details-page.ui:240
 msgid "Connect to the container's terminal."
-msgstr ""
+msgstr "Подключиться к терминалу контейнера."
 
 #: data/resources/ui/container/details-page.ui:256
 msgid "Logs"
-msgstr ""
+msgstr "Журналы"
 
 #: data/resources/ui/container/details-page.ui:257
 msgid "View and search through container logs."
-msgstr ""
+msgstr "Просмотр и поиск в журналах контейнера."
 
 #: data/resources/ui/container/details-page.ui:273
 #: data/resources/ui/pod/details-page.ui:285
 msgid "Processes"
-msgstr ""
+msgstr "Процессы"
 
 #: data/resources/ui/container/details-page.ui:274
 msgid "View processes that are currently running inside the container."
-msgstr ""
+msgstr "Просмотр процессов, работающих в контейнере."
 
 #: data/resources/ui/container/files-get-page.ui:40
 msgid "Download Files"
-msgstr ""
+msgstr "Загрузить файлы"
 
 #: data/resources/ui/container/files-get-page.ui:50
 #: data/resources/ui/image/pull-page.ui:50
 msgid "_Download"
-msgstr ""
+msgstr "_Загрузить"
 
 #: data/resources/ui/container/files-get-page.ui:68
 #: data/resources/ui/container/files-put-page.ui:96
 msgid "Container Path ('/' if empty)"
-msgstr ""
+msgstr "Путь контейнера ('/' если пустой)"
 
 #: data/resources/ui/container/files-get-page.ui:75
 #: data/resources/ui/container/files-put-page.ui:77
 msgid "Host Path"
-msgstr ""
+msgstr "Путь хоста"
 
 #: data/resources/ui/container/files-get-page.ui:76
 msgid "Select a destination tar archive on the host."
-msgstr ""
+msgstr "Выберите местоположение архива tar на хосте."
 
 #: data/resources/ui/container/files-get-page.ui:81
 msgid "Select _Path…"
-msgstr ""
+msgstr "Выбрать _Путь…"
 
 #: data/resources/ui/container/files-put-page.ui:15
 msgid "Select _Directory…"
-msgstr ""
+msgstr "Выбрать _Каталог…"
 
 #: data/resources/ui/container/files-put-page.ui:49
 msgid "Upload Files"
-msgstr ""
+msgstr "Выгрузить файлы"
 
 #: data/resources/ui/container/files-put-page.ui:59
 msgid "_Upload"
-msgstr ""
+msgstr "_Выгрузить"
 
 #: data/resources/ui/container/files-put-page.ui:78
 msgid "Either select a file or a directory from the host to upload."
-msgstr ""
+msgstr "Выберите либо файл, либо каталог хоста для выгрузки."
 
 #: data/resources/ui/container/files-put-page.ui:83
 msgid "Select _File…"
-msgstr ""
+msgstr "Выбрать _Файл…"
 
 #: data/resources/ui/container/health-check-page.ui:21
 msgid "Container Health Check"
-msgstr ""
+msgstr "Проверка работоспособности контейнера"
 
 #: data/resources/ui/container/health-check-page.ui:33
 msgid "Configuration"
-msgstr ""
+msgstr "Конфигурация"
 
 #: data/resources/ui/container/health-check-page.ui:37
 #: data/resources/ui/container/properties-group.ui:168
 #: data/resources/ui/pod/details-page.ui:75
 msgid "Status"
-msgstr ""
+msgstr "Состояние"
 
 #: data/resources/ui/container/health-check-page.ui:77
 msgid "Failing Streak"
-msgstr ""
+msgstr "Серия неудач"
 
 #: data/resources/ui/container/health-check-page.ui:93
 msgid "Log"
-msgstr ""
+msgstr "Журнал"
 
 #: data/resources/ui/container/health-check-page.ui:94
 msgid "Rows describe the last 5 health check attempts and results."
-msgstr ""
+msgstr "Строки описывают последние 5 проверок работоспособности и результаты."
 
 #: data/resources/ui/container/health-check-page.ui:99
 msgid "_Run Health Check"
-msgstr ""
+msgstr "_Запустить проверку работоспособности"
 
 #: data/resources/ui/container/log-page.ui:20
-#, fuzzy
 msgid "Container Logs"
-msgstr "Контейнеры"
+msgstr "Журналы контейнера"
 
 #: data/resources/ui/container/log-page.ui:32
 msgid "Timestamps"
-msgstr ""
+msgstr "Отметки времени"
 
 #: data/resources/ui/container/log-page.ui:73
 msgid "Saving Log"
-msgstr ""
+msgstr "Сохранение журнала"
 
 #: data/resources/ui/container/log-page.ui:138
 msgid "Loading previous lines"
-msgstr ""
+msgstr "Загрузка предыдущих строк"
 
 #: data/resources/ui/container/log-page.ui:167
 msgid "Scroll to bottom"
-msgstr ""
+msgstr "Прокрутить в конец"
 
 #: data/resources/ui/container/log-page.ui:226
 msgid "Streaming is disconnected because container isn't running."
-msgstr ""
+msgstr "Потоковая передача отключена, поскольку контейнер не запущен."
 
 #: data/resources/ui/container/log-page.ui:236
-#, fuzzy
 msgid "Start/Resume Container"
-msgstr "Переименовать контейнеры."
+msgstr "Запустить/Возобновить контейнер"
 
 #: data/resources/ui/container/menu-button.ui:7
 #: data/resources/ui/pod/menu-button.ui:13
@@ -823,26 +814,26 @@ msgstr "_Запустить"
 #: data/resources/ui/container/menu-button.ui:12
 #: data/resources/ui/pod/menu-button.ui:18
 msgid "S_top"
-msgstr ""
+msgstr "_Остановить"
 
 #: data/resources/ui/container/menu-button.ui:17
 #: data/resources/ui/pod/menu-button.ui:23
 msgid "R_estart"
-msgstr ""
+msgstr "П_ерезапустить"
 
 #: data/resources/ui/container/menu-button.ui:22
 #: data/resources/ui/pod/menu-button.ui:28
 msgid "_Resume"
-msgstr "_Продолжить"
+msgstr "_Возобновить"
 
 #: data/resources/ui/container/menu-button.ui:27
 #: data/resources/ui/pod/menu-button.ui:33
 msgid "_Pause"
-msgstr "_Приостановить"
+msgstr "П_риостановить"
 
 #: data/resources/ui/container/menu-button.ui:34
 msgid "Re_name…"
-msgstr ""
+msgstr "Пере_именовать…"
 
 #: data/resources/ui/container/menu-button.ui:41
 #: data/resources/ui/pod/menu-button.ui:40 src/view/containers/panel.rs:362
@@ -854,20 +845,20 @@ msgstr "_Удалить"
 #: data/resources/ui/image/details-page.ui:54
 #: data/resources/ui/pod/details-page.ui:41
 msgid "Properties"
-msgstr ""
+msgstr "Свойства"
 
 #: data/resources/ui/container/properties-group.ui:42
 msgid "Rename (F2)"
-msgstr ""
+msgstr "Переименовать (F2)"
 
 #: data/resources/ui/container/properties-group.ui:55
 #: data/resources/ui/pod/details-page.ui:63
 msgid "Id"
-msgstr ""
+msgstr "Идентификатор"
 
 #: data/resources/ui/container/properties-group.ui:82
 msgid "Commit (Ctrl+K)"
-msgstr ""
+msgstr "Коммит (Ctrl+K)"
 
 #: data/resources/ui/container/properties-group.ui:95
 #: data/resources/ui/pod/details-page.ui:69 src/model/container.rs:67
@@ -877,115 +868,112 @@ msgstr "Создано"
 
 #: data/resources/ui/container/properties-group.ui:101
 msgid "Size"
-msgstr ""
+msgstr "Размер"
 
 #: data/resources/ui/container/properties-group.ui:206
 msgid "Port bindings"
-msgstr ""
+msgstr "Привязки портов"
 
 #: data/resources/ui/container/properties-group.ui:251
 msgid "Image"
-msgstr ""
+msgstr "Образ"
 
 #: data/resources/ui/container/rename-dialog.ui:9
 msgid "_Rename"
-msgstr ""
+msgstr "Пере_именовать"
 
 #: data/resources/ui/container/resources-quick-reference-group.ui:13
 msgid "Resources Quick Reference"
-msgstr ""
+msgstr "Краткое описание ресурсов"
 
 #: data/resources/ui/container/resources-quick-reference-group.ui:51
 msgid "CPU"
-msgstr ""
+msgstr "ЦП"
 
 #: data/resources/ui/container/resources-quick-reference-group.ui:112
 msgid "Memory"
-msgstr ""
+msgstr "Память"
 
 #: data/resources/ui/container/resources-quick-reference-group.ui:168
 msgid "Network"
-msgstr ""
+msgstr "Сеть"
 
 #: data/resources/ui/container/resources-quick-reference-group.ui:286
 msgid "Disk"
-msgstr ""
+msgstr "Диск"
 
 #: data/resources/ui/container/tty-page.ui:19
-#, fuzzy
 msgid "Container TTY"
-msgstr "Контейнеры"
+msgstr "TTY контейнера"
 
 #: data/resources/ui/container/tty.ui:6
 msgid "_Copy"
-msgstr ""
+msgstr "_Копировать"
 
 #: data/resources/ui/container/tty.ui:10
 msgid "Copy as _HTML"
-msgstr ""
+msgstr "Копировать как _HTML"
 
 #: data/resources/ui/container/tty.ui:14
 msgid "_Paste"
-msgstr ""
+msgstr "_Вставить"
 
 #: data/resources/ui/container/tty.ui:35
 msgid "No Terminal"
-msgstr ""
+msgstr "Нет терминала"
 
 #: data/resources/ui/container/tty.ui:36
 msgid "The container must be running to use the terminal."
-msgstr ""
+msgstr "Контейнер должен быть запущен, чтобы использовать терминал."
 
 #: data/resources/ui/containers/group.ui:28 data/resources/ui/pods/panel.ui:69
 msgid "Only running"
-msgstr ""
+msgstr "Только запущенные"
 
 #: data/resources/ui/containers/panel.ui:47
 #: data/resources/ui/images/panel.ui:87 data/resources/ui/pods/panel.ui:59
 msgid "Summary"
-msgstr ""
+msgstr "Сводка"
 
 #: data/resources/ui/containers/panel.ui:49
 msgid "No containers found"
 msgstr "Контейнеров не найдено"
 
 #: data/resources/ui/containers/panel.ui:306
-#, fuzzy
 msgid "No Containers Found"
 msgstr "Контейнеров не найдено"
 
 #: data/resources/ui/containers/panel.ui:307
 msgid "You can use the button below to create an initial container."
-msgstr ""
+msgstr "Вы можете использовать кнопку ниже, чтобы создать начальный контейнер."
 
 #: data/resources/ui/containers/panel.ui:317
-#, fuzzy
 msgid "_Create a Container"
-msgstr "Создавайте капсулы и контейнеры."
+msgstr "_Создать контейнер"
 
 #: data/resources/ui/device/row.ui:33
 msgid "Readable"
-msgstr ""
+msgstr "Чтение"
 
 #: data/resources/ui/device/row.ui:52 data/resources/ui/volume/row.ui:50
 msgid "Writable"
-msgstr ""
+msgstr "Запись"
 
 #: data/resources/ui/device/row.ui:71
 msgid "mknod"
-msgstr ""
+msgstr "mknod"
 
 #: data/resources/ui/device/row.ui:97 data/resources/ui/volume/row.ui:107
 msgid "Host path"
-msgstr ""
+msgstr "Путь хоста"
 
 #: data/resources/ui/device/row.ui:104 data/resources/ui/volume/row.ui:114
 msgid "Container path"
-msgstr ""
+msgstr "Путь контейнера"
 
 #: data/resources/ui/image-search/widget.ui:30
 msgid "No Registries Found"
-msgstr ""
+msgstr "Не найдено реестров"
 
 #: data/resources/ui/image-search/widget.ui:31
 msgid ""
@@ -995,118 +983,121 @@ msgid ""
 "b80addc01c0dab40c5d8945a1df61f3c72a3e40d/docs/containers-registries.conf.5."
 "md\">website</a> in order to add registries.\n"
 msgstr ""
+"\n"
+"Вы не можете искать образы без реестров. Пожалуйста, следуйте инструкциям на "
+"этом <a href=\"https://github.com/containers/image/blob/"
+"b80addc01c0dab40c5d8945a1df61f3c72a3e40d/docs/containers-registries.conf.5."
+"md\">веб-сайте</a>, чтобы добавить реестры.\n"
 
 #: data/resources/ui/image-search/widget.ui:53
 msgid "Search for"
-msgstr ""
+msgstr "Что искать"
 
 #: data/resources/ui/image-search/widget.ui:60
 msgid "Registry"
-msgstr ""
+msgstr "Реестр"
 
 #: data/resources/ui/image-search/widget.ui:82
 #: data/resources/ui/images/panel.ui:196
 msgid "No Images Found"
-msgstr ""
+msgstr "Не найдено образов"
 
 #: data/resources/ui/image-search/widget.ui:83
 msgid "Please start typing to look for images."
-msgstr ""
+msgstr "Пожалуйста, начните набирать текст для поиска образов."
 
 #: data/resources/ui/image-search/widget.ui:98
 msgid "Searching…"
-msgstr ""
+msgstr "Поиск…"
 
 #: data/resources/ui/image-search/widget.ui:124
 msgid "Please retry another term."
-msgstr ""
+msgstr "Пожалуйста, попробуйте другой запрос."
 
 #: data/resources/ui/image-search/widget.ui:186
 msgid "Tag ('latest' if empty)"
-msgstr ""
+msgstr "Ярлык ('latest' если пустой)"
 
 #: data/resources/ui/image/build-page.ui:41
 msgid "Build Image"
-msgstr ""
+msgstr "Сборка образа"
 
 #: data/resources/ui/image/build-page.ui:51
 msgid "_Build"
-msgstr ""
+msgstr "_Сборка"
 
 #: data/resources/ui/image/build-page.ui:68
 msgid "Image Name"
-msgstr ""
+msgstr "Имя образа"
 
 #: data/resources/ui/image/build-page.ui:122
 msgid "Build Context Directory"
-msgstr ""
+msgstr "Каталог контекста сборки"
 
 #: data/resources/ui/image/build-page.ui:127
 msgid "Select…"
-msgstr ""
+msgstr "Выбор…"
 
 #: data/resources/ui/image/build-page.ui:138
 msgid "Containerfile Path Relative to Build Context Directory"
-msgstr ""
+msgstr "Путь к Containerfile относительно к каталога контекста сборки"
 
 #: data/resources/ui/image/details-page.ui:41
 msgid "Image Details"
-msgstr "Детали изображения"
+msgstr "Детали образа"
 
 #: data/resources/ui/image/details-page.ui:107
 msgid "Repository Tags"
-msgstr ""
+msgstr "Ярлыки репозитория"
 
 #: data/resources/ui/image/details-page.ui:145
 msgid "_Delete This Image"
-msgstr ""
+msgstr "_Удалить этот образ"
 
 #: data/resources/ui/image/details-page.ui:166
 msgid "View all image properties in a structured text form."
-msgstr ""
+msgstr "Просмотреть все свойства образа в форме структурированного текста."
 
 #: data/resources/ui/image/details-page.ui:182
 msgid "History"
-msgstr ""
+msgstr "История"
 
 #: data/resources/ui/image/details-page.ui:183
 msgid "View parent layers of this image."
-msgstr ""
+msgstr "Посмотреть родительские слои этого образа."
 
 #: data/resources/ui/image/details-page.ui:207
 msgid "Associated Containers"
-msgstr ""
+msgstr "Связанные контейнеры"
 
 #: data/resources/ui/image/details-page.ui:208
 msgid "There are no containers associated with this image."
-msgstr ""
+msgstr "С этим образом не связано ни одного контейнера."
 
 #: data/resources/ui/image/history-page.ui:19
-#, fuzzy
 msgid "Image History"
-msgstr "Образы"
+msgstr "История образа"
 
 #: data/resources/ui/image/history-page.ui:49
 msgid "History List"
-msgstr ""
+msgstr "Список истории"
 
 #: data/resources/ui/image/menu-button.ui:6
 #: data/resources/ui/pod/menu-button.ui:7
 msgid "_Create Container…"
-msgstr ""
+msgstr "_Создать контейнер…"
 
 #: data/resources/ui/image/pull-page.ui:40
 msgid "Download Image"
-msgstr ""
+msgstr "Загрузить образ"
 
 #: data/resources/ui/image/selection-page.ui:21
-#, fuzzy
 msgid "Image Search"
-msgstr "Поиск"
+msgstr "Поиск образов"
 
 #: data/resources/ui/image/selection-page.ui:31
 msgid "_Select"
-msgstr ""
+msgstr "_Выбор"
 
 #: data/resources/ui/images/panel.ui:29
 msgid "_Download…"
@@ -1122,7 +1113,7 @@ msgstr "_Очистить…"
 
 #: data/resources/ui/images/panel.ui:97
 msgid "Intermediates"
-msgstr "Посредники"
+msgstr "Промежуточные"
 
 #: data/resources/ui/images/panel.ui:197
 msgid "You can use the buttons below to add an initial image."
@@ -1178,11 +1169,11 @@ msgstr "Очистить образы которые были созданы д�
 
 #: data/resources/ui/images/prune-page.ui:178
 msgid "AM"
-msgstr "АМ"
+msgstr "ДП"
 
 #: data/resources/ui/images/prune-page.ui:179
 msgid "PM"
-msgstr "ПМ"
+msgstr "ПП"
 
 #: data/resources/ui/info-dialog.ui:5
 msgid "About Podman"
@@ -1222,11 +1213,11 @@ msgstr "Конфигурационный файл"
 
 #: data/resources/ui/info-dialog.ui:67
 msgid "Container Store"
-msgstr "Магазин контейнеров"
+msgstr "Хранилище контейнеров"
 
 #: data/resources/ui/info-dialog.ui:68
 msgid "Describes the quantity of containers in the store by status."
-msgstr "Описывает количество контейнеров в магазине по статусу."
+msgstr "Описывает количество контейнеров в хранилище по состоянию."
 
 #: data/resources/ui/info-dialog.ui:85 src/model/container.rs:71
 #: src/model/pod.rs:69
@@ -1245,23 +1236,23 @@ msgstr "Остановлен"
 
 #: data/resources/ui/info-dialog.ui:106
 msgid "Graph Driver Name"
-msgstr "Имя графического драйвера"
+msgstr "Имя драйвера графа"
 
 #: data/resources/ui/info-dialog.ui:112
 msgid "Graph Options"
-msgstr "Параметры графики"
+msgstr "Параметры графа"
 
 #: data/resources/ui/info-dialog.ui:132
 msgid "Graph Root"
-msgstr "Графический корень"
+msgstr "Корень графа"
 
 #: data/resources/ui/info-dialog.ui:138
 msgid "Graph Status"
-msgstr "Статус графики"
+msgstr "Статус графа"
 
 #: data/resources/ui/info-dialog.ui:158
 msgid "Image Store"
-msgstr "Магазин образов"
+msgstr "Хранилище образов"
 
 #: data/resources/ui/info-dialog.ui:159
 msgid "Describes the image store. Right now only the number of images present."
@@ -1275,7 +1266,7 @@ msgstr "Запуск Root"
 
 #: data/resources/ui/info-dialog.ui:171
 msgid "Volume Path"
-msgstr "Путь к хранилищу"
+msgstr "Путь к тому"
 
 #: data/resources/ui/key-val/row.ui:23 src/view/key_val/row.rs:119
 msgid "Key"
@@ -1289,7 +1280,7 @@ msgstr "Значение"
 #: data/resources/ui/pod/creation-page.ui:45 data/resources/ui/pods/panel.ui:13
 #: data/resources/ui/pods/panel.ui:86
 msgid "Create Pod"
-msgstr "Создать Pod"
+msgstr "Создать капсулу"
 
 #: data/resources/ui/pod/creation-page.ui:55
 msgid "_Create"
@@ -1298,55 +1289,55 @@ msgstr "_Создать"
 #: data/resources/ui/pod/creation-page.ui:127
 #: data/resources/ui/pod/details-page.ui:93 src/view/pod/creation_page.rs:202
 msgid "Hostname"
-msgstr "Имя хоста"
+msgstr "Имя узла"
 
 #: data/resources/ui/pod/creation-page.ui:134
 msgid "Disable /etc/resolv.conf management"
-msgstr ""
+msgstr "Отключить управление /etc/resolv.conf"
 
 #: data/resources/ui/pod/creation-page.ui:153
 msgid "Pod Create Command"
-msgstr ""
+msgstr "Команда создания капсулы"
 
 #: data/resources/ui/pod/creation-page.ui:193
 msgid "Devices"
-msgstr ""
+msgstr "Устройства"
 
 #: data/resources/ui/pod/creation-page.ui:208
 msgid "Hosts"
-msgstr ""
+msgstr "Узлы"
 
 #: data/resources/ui/pod/creation-page.ui:215
 msgid "Enabled"
-msgstr ""
+msgstr "Включено"
 
 #: data/resources/ui/pod/creation-page.ui:264
 msgid "Infra"
-msgstr ""
+msgstr "Инфраструктура"
 
 #: data/resources/ui/pod/creation-page.ui:278
 msgid "Disable Infra"
-msgstr ""
+msgstr "Отключить инфраструктуру"
 
 #: data/resources/ui/pod/creation-page.ui:372
 msgid "Common PID File"
-msgstr ""
+msgstr "Общий файл PID"
 
 #: data/resources/ui/pod/details-page.ui:27
 msgid "Pod Details"
-msgstr ""
+msgstr "Детали капсулы"
 
 #: data/resources/ui/pod/details-page.ui:252
 msgid "View all pod properties in a structured text form."
-msgstr ""
+msgstr "Посмотреть все свойства капсулы в виде структурированного теста."
 
 #: data/resources/ui/pod/details-page.ui:269
 msgid "Generate Kubernetes YAML based on this pod."
-msgstr ""
+msgstr "Создать YAML Kubernetes на основе этой капсулы."
 
 #: data/resources/ui/pod/details-page.ui:286
 msgid "View processes that are currently running inside the pod."
-msgstr ""
+msgstr "Посмотреть процессы, работающие в этой капсуле."
 
 #: data/resources/ui/pod/details-page.ui:311
 #: data/resources/ui/search-panel.ui:67 data/resources/ui/window.ui:293
@@ -1355,53 +1346,51 @@ msgstr "Контейнеры"
 
 #: data/resources/ui/pod/details-page.ui:312
 msgid "There are no containers in this pod."
-msgstr ""
+msgstr "Нет контейнеров в этой капсуле."
 
 #: data/resources/ui/pods/panel.ui:358
-#, fuzzy
 msgid "No Pods Found"
-msgstr "Контейнеров не найдено"
+msgstr "Капсул не найдено"
 
 #: data/resources/ui/pods/panel.ui:359
 msgid "You can use the button below to create an initial pod."
-msgstr ""
+msgstr "Вы можете использовать кнопку ниже, чтобы создать начальную капсулу."
 
 #: data/resources/ui/pods/panel.ui:369
-#, fuzzy
 msgid "_Create a Pod"
-msgstr "Создано"
+msgstr "_Создать капсулу"
 
 #: data/resources/ui/port-mapping/row.ui:29
 msgid "will be mapped to container port"
-msgstr ""
+msgstr "будет отображён на порт контейнера"
 
 #: data/resources/ui/port-mapping/row.ui:62
 msgid "TCP"
-msgstr ""
+msgstr "TCP"
 
 #: data/resources/ui/port-mapping/row.ui:63
 msgid "UDP"
-msgstr ""
+msgstr "UDP"
 
 #: data/resources/ui/repo-tag/add-dialog.ui:6
 msgid "Add Repository Tag"
-msgstr ""
+msgstr "Добавить ярлык репозитория"
 
 #: data/resources/ui/repo-tag/add-dialog.ui:10
 msgid "_Add"
-msgstr ""
+msgstr "_Добавить"
 
 #: data/resources/ui/repo-tag/add-dialog.ui:25
 msgid "Repository Tag"
-msgstr ""
+msgstr "Ярлык репозитория"
 
 #: data/resources/ui/repo-tag/row.ui:32
 msgid "Pull Latest"
-msgstr ""
+msgstr "Скачать новейший"
 
 #: data/resources/ui/repo-tag/row.ui:43
 msgid "Untag"
-msgstr ""
+msgstr "Снять ярлык"
 
 #: data/resources/ui/search-panel.ui:51 data/resources/ui/window.ui:273
 msgid "Images"
@@ -1410,12 +1399,12 @@ msgstr "Образы"
 #: data/resources/ui/search-panel.ui:83 data/resources/ui/window.ui:313
 msgctxt "podman feature"
 msgid "Pods"
-msgstr ""
+msgstr "Капсулы"
 
 #: data/resources/ui/shortcuts.ui:13
 msgctxt "shortcut window"
 msgid "General"
-msgstr ""
+msgstr "Основное"
 
 #: data/resources/ui/shortcuts.ui:17
 msgctxt "shortcut window"
@@ -1425,7 +1414,7 @@ msgstr "Показать ярлыки"
 #: data/resources/ui/shortcuts.ui:24
 msgctxt "shortcut window"
 msgid "Show menu"
-msgstr ""
+msgstr "Показать меню"
 
 #: data/resources/ui/shortcuts.ui:31
 msgctxt "shortcut window"
@@ -1435,243 +1424,239 @@ msgstr "Выйти"
 #: data/resources/ui/shortcuts.ui:38
 msgctxt "shortcut window"
 msgid "Search"
-msgstr "Поиск"
+msgstr "Найти"
 
 #: data/resources/ui/shortcuts.ui:48
 msgctxt "shortcut window"
 msgid "Navigation"
-msgstr ""
+msgstr "Навигация"
 
 #: data/resources/ui/shortcuts.ui:52
 msgctxt "shortcut window"
 msgid "Go back"
-msgstr ""
+msgstr "Назад"
 
 #: data/resources/ui/shortcuts.ui:59
 msgctxt "shortcut window"
 msgid "Return to main view"
-msgstr ""
+msgstr "Вернуться в главное меню"
 
 #: data/resources/ui/shortcuts.ui:69
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Container"
-msgstr "Контейнеры"
+msgstr "Контейнер"
 
 #: data/resources/ui/shortcuts.ui:73
 msgctxt "shortcut window"
 msgid "Rename"
-msgstr ""
+msgstr "Переименовать"
 
 #: data/resources/ui/shortcuts.ui:80
 msgctxt "shortcut window"
 msgid "Commit"
-msgstr ""
+msgstr "Коммит"
 
 #: data/resources/ui/shortcuts.ui:87
 msgctxt "shortcut window"
 msgid "Download files"
-msgstr ""
+msgstr "Загрузить файлы"
 
 #: data/resources/ui/shortcuts.ui:94
 msgctxt "shortcut window"
 msgid "Upload files"
-msgstr ""
+msgstr "Выгрузить файлы"
 
 #: data/resources/ui/shortcuts.ui:104
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Terminal"
 msgstr "Терминал"
 
 #: data/resources/ui/shortcuts.ui:108
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Copy selection to clipboard"
-msgstr "Скопировать в буфер обмена"
+msgstr "Скопировать выделенное в буфер обмена"
 
 #: data/resources/ui/shortcuts.ui:115
 msgctxt "shortcut window"
 msgid "Paste from clipboard"
-msgstr ""
+msgstr "Вставить из буфера обмена"
 
 #: data/resources/ui/shortcuts.ui:125
 msgctxt "shortcut window"
 msgid "Podman"
-msgstr ""
+msgstr "Podman"
 
 #: data/resources/ui/shortcuts.ui:129
 msgctxt "shortcut window"
 msgid "Add a new connection"
-msgstr ""
+msgstr "Добавить новое подключение"
 
 #: data/resources/ui/shortcuts.ui:136
 msgctxt "shortcut window"
 msgid "Create a new entity"
-msgstr ""
+msgstr "Создать новый объект"
 
 #: data/resources/ui/statusbar.ui:6 data/resources/ui/statusbar.ui:47
 msgid "Connections"
-msgstr ""
+msgstr "Подключения"
 
 #: data/resources/ui/statusbar.ui:13
 msgid "_Add Connection…"
-msgstr ""
+msgstr "_Добавить подключение…"
 
 #: data/resources/ui/statusbar.ui:27
 msgid "Clean up"
-msgstr ""
+msgstr "Очистить"
 
 #: data/resources/ui/statusbar.ui:104
 msgid "Operations"
-msgstr ""
+msgstr "Операции"
 
 #: data/resources/ui/value/row.ui:4 src/view/container/creation_page.rs:327
 #: src/view/pod/creation_page.rs:224 src/view/pod/creation_page.rs:233
 msgid "Argument"
-msgstr ""
+msgstr "Аргумент"
 
 #: data/resources/ui/volume/row.ui:71
 msgid "SELinux"
-msgstr ""
+msgstr "SELinux"
 
 #: data/resources/ui/volume/row.ui:80
 msgid "No label"
-msgstr ""
+msgstr "Нет метки"
 
 #: data/resources/ui/volume/row.ui:81
 msgid "Shared"
-msgstr ""
+msgstr "Общее"
 
 #: data/resources/ui/volume/row.ui:82
 msgid "Private"
-msgstr ""
+msgstr "Приватное"
 
 #: data/resources/ui/welcome-page.ui:70
 msgid "Welcome to Pods"
-msgstr ""
+msgstr "Добро пожаловать в Капсулы"
 
 #: data/resources/ui/welcome-page.ui:79
-#, fuzzy
 msgid "Use the button below to create a new connection to Podman."
-msgstr "Выберите, как вы хотите подключиться к Podman."
+msgstr "Используйте кнопку ниже, чтобы создать новое подключение к Podman."
 
 #: data/resources/ui/welcome-page.ui:93
 msgid "_Add Connection"
-msgstr ""
+msgstr "_Добавить подключение"
 
 #: data/resources/ui/window.ui:12
 msgid "About _Podman"
-msgstr ""
+msgstr "_О Podman"
 
 #: data/resources/ui/window.ui:18
 msgid "_Keyboard Shortcuts"
-msgstr "_Сочетания клавиш"
+msgstr "Сочетания _клавиш"
 
 #: data/resources/ui/window.ui:22
 msgid "_About Pods"
-msgstr ""
+msgstr "_О Капсулах"
 
 #: data/resources/ui/window.ui:30
 msgid "_Select All"
-msgstr ""
+msgstr "_Выбрать всё"
 
 #: data/resources/ui/window.ui:34
 msgid "Select None"
-msgstr ""
+msgstr "Очистить выбор"
 
 #: src/application.rs:188
 msgid "translator-credits"
-msgstr ""
+msgstr "Давид Лапшин <ddaudix@gmail.com>"
 
 #: src/application.rs:192
 msgid "Translators"
-msgstr ""
+msgstr "Переводчики"
 
 #: src/main.rs:114
 msgid "Prints application version"
-msgstr ""
+msgstr "Выводит версию приложения"
 
 #: src/main.rs:123
 msgid "Specify the minimum log level"
-msgstr ""
+msgstr "Указать минимальный уровень журналирования"
 
 #: src/model/action.rs:160
 msgid "Images: <b>Prune</b>"
-msgstr ""
+msgstr "Образы: <b>Очистить</b>"
 
 #: src/model/action.rs:198 src/model/action.rs:227
 msgid "Image: <b>{}</b>"
-msgstr ""
+msgstr "Образ: <b>{}</b>"
 
 #: src/model/action.rs:230
 msgid "Generating tarball of context directory..."
-msgstr ""
+msgstr "Создание архива tar из каталога контекста..."
 
 #: src/model/action.rs:300 src/model/action.rs:356
 msgid "Container: <b>{}</b> ← {}"
-msgstr ""
+msgstr "Контейнер: <b>{}</b> ← {}"
 
 #: src/model/action.rs:319
 msgid "none"
-msgstr ""
+msgstr "ничего"
 
 #: src/model/action.rs:316
 msgid "Image: <b>{}</b> ← {}"
-msgstr ""
+msgstr "Образ: <b>{}</b> ← {}"
 
 #: src/model/action.rs:330 src/model/action.rs:437 src/model/action.rs:525
 #: src/model/action.rs:732
 msgid "Finished"
-msgstr ""
+msgstr "Завершено"
 
 #: src/model/action.rs:374
 msgid "Files: <b>{}</b> ({}) ← {}"
-msgstr ""
+msgstr "Файлы: <b>{}</b> ({}) ← {}"
 
 #: src/model/action.rs:381
 msgid "Creating tar archive…"
-msgstr ""
+msgstr "Создание архива tar…"
 
 #: src/model/action.rs:414
 msgid "Tar archive created"
-msgstr ""
+msgstr "Архив tar создан"
 
 #: src/model/action.rs:415
 msgid "Unwrapping tar archive…"
-msgstr ""
+msgstr "Разворачивание архива tar…"
 
 #: src/model/action.rs:423
 msgid "Tar archive unwrapped"
-msgstr ""
+msgstr "Архив tar развёрнут"
 
 #: src/model/action.rs:424
 msgid "Copying files into container…"
-msgstr ""
+msgstr "Копирование файлов в контейнер…"
 
 #: src/model/action.rs:476
 msgid "Files: <b>{}</b> ({}) → {}"
-msgstr ""
+msgstr "Файлы: <b>{}</b> ({}) → {}"
 
 #: src/model/action.rs:485
 msgid "Copying bytes into memory…"
-msgstr ""
+msgstr "Копирование байтов в память…"
 
 #: src/model/action.rs:488 src/model/action.rs:505
 msgid "Size: {}"
-msgstr ""
+msgstr "Размер: {}"
 
 #: src/model/action.rs:546
 msgid "Pod: <b>{}</b>"
-msgstr ""
+msgstr "Капсула: <b>{}</b>"
 
 #: src/model/action.rs:557
 msgid "Pod: <b>{}</b> ← {}"
-msgstr ""
+msgstr "Капсула: <b>{}</b> ← {}"
 
 #: src/model/connection_manager.rs:207
 msgid "Connection '{}' already exists."
-msgstr ""
+msgstr "Подключение '{}' уже существует."
 
 #: src/model/container.rs:68 src/model/pod.rs:65
 msgid "Dead"
@@ -1683,15 +1668,15 @@ msgstr "Вышел"
 
 #: src/model/container.rs:70
 msgid "Initialized"
-msgstr ""
+msgstr "Инициализирован"
 
 #: src/model/container.rs:72
 msgid "Removing"
-msgstr "Удаление"
+msgstr "Удаляется"
 
 #: src/model/container.rs:73 src/model/pod.rs:70
 msgid "Restarting"
-msgstr "Перезапуск"
+msgstr "Перезапускается"
 
 #: src/model/container.rs:76
 msgid "Stopping"
@@ -1703,478 +1688,460 @@ msgstr "Неизвестно"
 
 #: src/model/container.rs:114
 msgid "Checking"
-msgstr ""
+msgstr "Проверяется"
 
 #: src/model/container.rs:115
 msgid "Healthy"
-msgstr ""
+msgstr "Работоспособен"
 
 #: src/model/container.rs:116
 msgid "Unhealthy"
-msgstr ""
+msgstr "Неработоспособен"
 
 #: src/model/container.rs:117
 msgid "Unconfigured"
-msgstr ""
+msgstr "Не сконфигурировано"
 
 #: src/model/pod.rs:66
 msgid "Degraded"
-msgstr ""
+msgstr "Деградированное"
 
 #: src/model/pod.rs:67 src/view/component/source_view_page.rs:341
 #: src/view/connection/creation_page.rs:269
 msgid "Error"
-msgstr ""
+msgstr "Ошибка"
 
 #: src/utils.rs:115
 msgid "{} h {} min {} s"
-msgstr ""
+msgstr "{} ч {} м {} с"
 
 #: src/utils.rs:117
 msgid "{} h {} s"
-msgstr ""
+msgstr "{} ч {} с"
 
 #: src/utils.rs:124
 msgid "{} min {} s"
-msgstr ""
+msgstr "{} м {} с"
 
 #: src/utils.rs:126
 msgid "{} min"
-msgstr ""
+msgstr "{} м"
 
 #: src/utils.rs:129
 msgid "{} s"
-msgstr ""
+msgstr "{} с"
 
 #: src/utils.rs:145
 msgid "a few seconds"
-msgstr ""
+msgstr "несколько секунд"
 
 #: src/utils.rs:147
 msgid "{} minute"
 msgid_plural "{} minutes"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "{} минута"
+msgstr[1] "{} минуты"
+msgstr[2] "{} минут"
 
 #: src/utils.rs:149
 msgid "{} hour"
 msgid_plural "{} hours"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "{} час"
+msgstr[1] "{} часа"
+msgstr[2] "{} часов"
 
 #: src/utils.rs:152
 msgid "{} day"
 msgid_plural "{} days"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "{} день"
+msgstr[1] "{} дня"
+msgstr[2] "{} дней"
 
 #. Translators: Example: {3 hours} ago, {a few seconds} ago
 #: src/utils.rs:158
 msgid "{} ago"
-msgstr ""
+msgstr "{} назад"
 
 #. Translators: This string will be shown when a property of an entity like an image is null.
 #: src/utils.rs:272
 msgid "<none>"
-msgstr ""
+msgstr "<ничего>"
 
 #: src/utils.rs:401
 msgid "Error on open file dialog"
-msgstr ""
+msgstr "Ошибка открытия файлового диалога"
 
 #: src/view/action/page.rs:141
 msgid "Images Are Currently Being Pruned"
-msgstr ""
+msgstr "Образы в данный момент очищаются"
 
 #: src/view/action/page.rs:142
 msgid "Image Is Currently Being Downloaded"
-msgstr ""
+msgstr "Образ в данный момент загружается"
 
 #: src/view/action/page.rs:143
 msgid "Image Is Currently Being Built"
-msgstr ""
+msgstr "Образ в данный момент собирается"
 
 #: src/view/action/page.rs:144
 msgid "Container Is Currently Being Created"
-msgstr ""
+msgstr "Контейнер в данный момент создаётся"
 
 #: src/view/action/page.rs:145
-#, fuzzy
 msgid "New Image Is Currently Being Committed"
-msgstr "Обзор контейнеров"
+msgstr "В данный момент создаётся коммит нового образа"
 
 #: src/view/action/page.rs:146
 msgid "Files Are Currently Being Copied"
-msgstr ""
+msgstr "Файлы в данный момент копируются"
 
 #: src/view/action/page.rs:147
 msgid "Pod Is Currently Being Created"
-msgstr ""
+msgstr "Капсула в данный момент создаётся"
 
 #: src/view/action/page.rs:153
 msgid "Images Have Been Pruned"
-msgstr ""
+msgstr "Образы были очищены"
 
 #: src/view/action/page.rs:154
 msgid "Image Has Been Downloaded"
-msgstr ""
+msgstr "Образ был загружен"
 
 #: src/view/action/page.rs:155
 msgid "Image Has Been Built"
-msgstr ""
+msgstr "Образ был собран"
 
 #: src/view/action/page.rs:156
-#, fuzzy
 msgid "Container Has Been Created"
-msgstr "Обзор контейнеров"
+msgstr "Контейнер был создан"
 
 #: src/view/action/page.rs:157
-#, fuzzy
 msgid "New Image Has Been Committed"
-msgstr "Обзор контейнеров"
+msgstr "Коммит новго образа был создан"
 
 #: src/view/action/page.rs:158
-#, fuzzy
 msgid "Files Have Beeng Copied"
-msgstr "Обзор контейнеров"
+msgstr "Файлы были скопированы"
 
 #: src/view/action/page.rs:159
 msgid "Pod Has Been Created"
-msgstr ""
+msgstr "Капсула была создана"
 
 #: src/view/action/page.rs:165
 msgid "Pruning of Images Has Been Aborted"
-msgstr ""
+msgstr "Очистка образов была прервана"
 
 #: src/view/action/page.rs:166
 msgid "Image Download Has Been Aborted"
-msgstr ""
+msgstr "Загрузка образа была прервана"
 
 #: src/view/action/page.rs:167
 msgid "Image Built Has Been Aborted"
-msgstr ""
+msgstr "Сборка образа была прервана"
 
 #: src/view/action/page.rs:168
 msgid "Container Creation Has Been Aborted"
-msgstr ""
+msgstr "Создание контейнера было прервано"
 
 #: src/view/action/page.rs:169
-#, fuzzy
 msgid "Image Commitment Has Been Aborted"
-msgstr "Обзор контейнеров"
+msgstr "Создание коммита образа было прервано"
 
 #: src/view/action/page.rs:170
-#, fuzzy
 msgid "Copying Files Has Been Aborted"
-msgstr "Обзор контейнеров"
+msgstr "Копирование файлов было прервано"
 
 #: src/view/action/page.rs:171
 msgid "Pod Creation Has Been Aborted"
-msgstr ""
+msgstr "Создание капсулы было прервано"
 
 #: src/view/action/page.rs:177
 msgid "Pruning of Images Has Failed"
-msgstr ""
+msgstr "Очистка образов не удалась"
 
 #: src/view/action/page.rs:178
 msgid "Image Download Has Failed"
-msgstr ""
+msgstr "Загрузка образа не удалась"
 
 #: src/view/action/page.rs:179
 msgid "Image Built Has Failed"
-msgstr ""
+msgstr "Сборка образа не удалась"
 
 #: src/view/action/page.rs:180
-#, fuzzy
 msgid "Container Creation Has Failed"
-msgstr "Детали контейнера"
+msgstr "Создание контейнера не удалось"
 
 #: src/view/action/page.rs:181
-#, fuzzy
 msgid "Image Commitment Has Failed"
-msgstr "Детали контейнера"
+msgstr "Создание коммита образа не удалось"
 
 #: src/view/action/page.rs:182
-#, fuzzy
 msgid "Copying Files Has Failed"
-msgstr "Детали контейнера"
+msgstr "Копирование файлов не удалось"
 
 #: src/view/action/page.rs:183
 msgid "Pod Creation Has Failed"
-msgstr ""
+msgstr "Создание капсулы не удалось"
 
 #: src/view/action/page.rs:217
 msgid "After {}"
-msgstr ""
+msgstr "После {}"
 
 #: src/view/action/page.rs:259
 msgid "Error on opening artifact"
-msgstr ""
+msgstr "Ошибка открытия артефакта"
 
 #: src/view/action/page.rs:260
 msgid "Artifact has been deleted"
-msgstr ""
+msgstr "Артефакт был удалён"
 
 #: src/view/action/row.rs:144
 msgid "Abort"
-msgstr ""
+msgstr "Прервать"
 
 #: src/view/action/row.rs:146
-#, fuzzy
 msgid "Remove"
-msgstr "Удаление"
+msgstr "Удалить"
 
 #: src/view/action/row.rs:221
 msgid "Failed Pods Action"
-msgstr ""
+msgstr "Неудачное действие с капсулой"
 
 #: src/view/action/row.rs:225
 msgid "Finished Pods Action"
-msgstr ""
+msgstr "Завершенное действие с капсулой"
 
 #: src/view/action/row.rs:266
 msgid "Ongoing ({})"
-msgstr ""
+msgstr "Текущие ({})"
 
 #: src/view/action/row.rs:280
 msgid "Finished after {}"
-msgstr ""
+msgstr "Завершено после {}"
 
 #: src/view/action/row.rs:281
 msgid "Cancelled after {}"
-msgstr ""
+msgstr "Отменено после {}"
 
 #: src/view/action/row.rs:282
 msgid "Failed after {}"
-msgstr ""
+msgstr "Неудача после {}"
 
 #: src/view/component/back_navigation_controls.rs:62
 msgid "Go Back"
-msgstr ""
+msgstr "Назад"
 
 #: src/view/component/back_navigation_controls.rs:71
-#, fuzzy
 msgid "Main View"
-msgstr "Главное окно"
+msgstr "Главный вид"
 
 #: src/view/component/source_view_page.rs:171
 msgid "Image Inspection"
-msgstr ""
+msgstr "Инспектирование образа"
 
 #: src/view/component/source_view_page.rs:178
 msgid "Container Inspection"
-msgstr ""
+msgstr "Инспектирование контейнера"
 
 #: src/view/component/source_view_page.rs:179
-#, fuzzy
 msgid "Container Kube Generation"
-msgstr "Обзор контейнеров"
+msgstr "Генерация Kube контейнера"
 
 #: src/view/component/source_view_page.rs:189
 msgid "Pod Inspection"
-msgstr ""
+msgstr "Инспектирование капсулы"
 
 #: src/view/component/source_view_page.rs:190
 msgid "Pod Kube Generation"
-msgstr ""
+msgstr "Генерация Kube капсулы"
 
 #: src/view/component/source_view_page.rs:216
 msgid "Could not set language to '{}'"
-msgstr ""
+msgstr "Не удалось изменить язык на '{}'"
 
 #: src/view/component/source_view_page.rs:302
 msgid "Inspection error"
-msgstr ""
+msgstr "Ошибка инспектирования"
 
 #: src/view/component/source_view_page.rs:303
 msgid "Kube generation error"
-msgstr ""
+msgstr "Ошибка генерации Kube"
 
 #: src/view/component/source_view_search_widget.rs:171
 msgid "0 of {}"
-msgstr ""
+msgstr "0 из {}"
 
 #: src/view/component/source_view_search_widget.rs:190
 msgid "{} of {}"
-msgstr ""
+msgstr "{} из {}"
 
 #: src/view/component/top_page.rs:78
 msgid "Container Processes"
-msgstr ""
+msgstr "Процессы контейнера"
 
 #: src/view/component/top_page.rs:85
 msgid "Pod Processes"
-msgstr ""
+msgstr "Процессы капсулы"
 
 #: src/view/connection/creation_page.rs:151
 msgid "official documentation"
-msgstr ""
+msgstr "официальная документация"
 
 #. Translators: The placeholder '{}' is replaced by 'official documentation'.
 #: src/view/connection/creation_page.rs:148
 msgid "Visit the {} for more information."
-msgstr ""
+msgstr "Посетите {}, чтобы получить больше информации."
 
 #: src/view/connection/creation_page.rs:227
 msgid "Confirm Connecting to New Instance"
-msgstr ""
+msgstr "Подтверждение подключения к новому экземпляру"
 
 #: src/view/connection/custom_info_dialog.rs:119
 msgid "systemd unit path copied"
-msgstr ""
+msgstr "путь юнита systemd скопирован"
 
 #: src/view/connection/custom_info_dialog.rs:127
 msgid "systemd unit content copied"
-msgstr ""
+msgstr "содержимое юнита systemd скопировано"
 
 #: src/view/connection/custom_info_dialog.rs:135
 msgid "socket activation command copied"
-msgstr ""
+msgstr "команда активации с помощью сокета скопирована"
 
 #: src/view/connection/custom_info_dialog.rs:143
 msgid "URL copied"
-msgstr ""
+msgstr "URL скопирован"
 
 #: src/view/connection/mod.rs:34
 msgid "There are ongoing actions whose progress will be irretrievably lost."
-msgstr ""
+msgstr "Выполняются действия, чей прогресс будет необратимо утрачен."
 
 #: src/view/connection/mod.rs:41
 msgid "_Confirm"
-msgstr ""
+msgstr "_Подтвердить"
 
 #: src/view/connection/row.rs:111
 msgid "Local connection"
-msgstr ""
+msgstr "Локальное подключение"
 
 #: src/view/connection/switcher_widget.rs:69
 msgid "Confirm Switching Connection"
-msgstr ""
+msgstr "Подтвердить смену подключения"
 
 #: src/view/connection/switcher_widget.rs:128
 msgid "Error on switching connection"
-msgstr ""
+msgstr "Ошибка смены подключения"
 
 #: src/view/container/commit_page.rs:113
 msgid "Change"
-msgstr ""
+msgstr "Изменить"
 
 #: src/view/container/commit_page.rs:204
 msgid "Error on fetching user name"
-msgstr ""
+msgstr "Ошибка получения имени пользователя"
 
 #: src/view/container/creation_page.rs:279
 msgid "disabled"
-msgstr ""
+msgstr "отключено"
 
 #: src/view/container/creation_page.rs:619
-#, fuzzy
 msgid "Failed to create container"
-msgstr "Создавайте капсулы и контейнеры."
+msgstr "Не удалось создать контейнер"
 
 #: src/view/container/creation_page.rs:620 src/view/pod/creation_page.rs:346
 msgid "no image selected"
-msgstr ""
+msgstr "не выбран образ"
 
 #: src/view/container/details_page.rs:280
 msgid "Error on loading container details"
-msgstr ""
+msgstr "Ошибка загрузки деталей контейнера"
 
 #: src/view/container/details_page.rs:284
 msgid "Container '{}' has been deleted"
-msgstr ""
+msgstr "Контейнер '{}' был удалён"
 
 #: src/view/container/files_get_page.rs:167
 msgid "Select Host Destination Path"
-msgstr ""
+msgstr "Выбрать целевой путь хоста"
 
 #: src/view/container/files_put_page.rs:179
 msgid "Select Host Directory"
-msgstr ""
+msgstr "Выбрать каталог хоста"
 
 #: src/view/container/files_put_page.rs:181
 msgid "Select Host File"
-msgstr ""
+msgstr "Выбрать файл хоста"
 
 #: src/view/container/health_check_page.rs:209
 #: src/view/container/health_check_page.rs:225
 msgid "{} second"
 msgid_plural "{} seconds"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "{} секунда"
+msgstr[1] "{} секунды"
+msgstr[2] "{} секунд"
 
 #: src/view/container/health_check_page.rs:246
 msgid "Error on running health check"
-msgstr ""
+msgstr "Ошибка запуска проверки работоспособности"
 
 #: src/view/container/log_page.rs:389
 msgid "Error while following log"
-msgstr ""
+msgstr "Ошибка следования за журналом"
 
 #: src/view/container/log_page.rs:524
 msgid "Include timestamps"
-msgstr ""
+msgstr "Включать отметки времени"
 
 #: src/view/container/log_page.rs:576
 msgid "Error on saving logs"
-msgstr ""
+msgstr "Ошибка сохранения журналов"
 
 #: src/view/container/log_page.rs:590
 msgid "Error on retrieving logs"
-msgstr ""
+msgstr "Ошибка получения журналов"
 
 #: src/view/container/log_page.rs:619
 msgid "Error starting container"
-msgstr ""
+msgstr "Ошибка запуска контейнера"
 
 #: src/view/container/log_page.rs:625
 msgid "Error resuming container"
-msgstr ""
+msgstr "Ошибка возобновления работы контейнера"
 
 #: src/view/container/mod.rs:82 src/view/containers/panel.rs:255
-#, fuzzy
 msgid "Error on starting container"
-msgstr "Показывать только запущенные контейнеры"
+msgstr "Ошибка запуска контейнера"
 
 #: src/view/container/mod.rs:83 src/view/containers/panel.rs:281
 msgid "Error on stopping container"
-msgstr ""
+msgstr "Ошибка остановки контейнера"
 
 #: src/view/container/mod.rs:84
 msgid "Error on killing container"
-msgstr ""
+msgstr "Ошибка принудительной остановки контейнера"
 
 #: src/view/container/mod.rs:85 src/view/containers/panel.rs:328
-#, fuzzy
 msgid "Error on restarting container"
-msgstr "Создавайте капсулы и контейнеры."
+msgstr "Ошибка перезапуска контейнера"
 
 #: src/view/container/mod.rs:86 src/view/containers/panel.rs:304
-#, fuzzy
 msgid "Error on pausing container"
-msgstr "Показывать только запущенные контейнеры"
+msgstr "Ошибка приостановки контейнера"
 
 #: src/view/container/mod.rs:87 src/view/containers/panel.rs:244
-#, fuzzy
 msgid "Error on resuming container"
-msgstr "Показывать только запущенные контейнеры"
+msgstr "Ошибка возобновления работы контейнера"
 
 #: src/view/container/mod.rs:88 src/view/containers/panel.rs:381
 msgid "Error on deleting container"
-msgstr ""
+msgstr "Ошибка удаления контейнера"
 
 #: src/view/container/properties_group.rs:277
 msgid "since {}"
-msgstr ""
+msgstr "начиная с {}"
 
 #: src/view/container/rename_dialog.rs:179
-#, fuzzy
 msgid "Rename Container"
-msgstr "Переименовать контейнеры."
+msgstr "Переименовать контейнер"
 
 #: src/view/container/resources_quick_reference_group.rs:102
 #: src/view/container/resources_quick_reference_group.rs:125
@@ -2183,142 +2150,141 @@ msgstr "Переименовать контейнеры."
 #: src/view/container/resources_quick_reference_group.rs:137
 #: src/view/container/resources_quick_reference_group.rs:279
 msgid "?"
-msgstr ""
+msgstr "?"
 
 #: src/view/container/resources_quick_reference_group.rs:99
 msgid "{} %"
-msgstr ""
+msgstr "{} %"
 
 #: src/view/container/resources_quick_reference_group.rs:120
 msgid "{} / {} ({} %)"
-msgstr ""
+msgstr "{} / {} ({} %)"
 
 #. Translators: For example 5 MB / s.
 #: src/view/container/resources_quick_reference_group.rs:266
 msgid "{} / s"
-msgstr ""
+msgstr "{} / с"
 
 #: src/view/container/tty.rs:363
 msgid "Terminal error"
-msgstr ""
+msgstr "Ошибка терминала"
 
 #: src/view/container/tty.rs:364
 msgid "'/bin/sh' not found"
-msgstr ""
+msgstr "'/bin/sh' не найден"
 
 #: src/view/containers/group.rs:133
 msgid "1 container, running"
-msgstr ""
+msgstr "1 контейнер, запущено"
 
 #: src/view/containers/group.rs:135
 msgid "1 container, stopped"
-msgstr ""
+msgstr "1 контейнер, остановлено"
 
 #. Translators: There's a wide space (U+2002) between ", {}".
 #: src/view/containers/group.rs:140
 msgid "{} container total, {} running"
 msgid_plural "{} containers total, {} running"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "{} контейнер всего, {} запущено"
+msgstr[1] "{} контейнера всего, {} запущено"
+msgstr[2] "{} контейнеров всего, {} запущено"
 
 #: src/view/containers/panel.rs:351
 msgid "Confirm Forced Deletion of Multiple Containers"
-msgstr ""
+msgstr "Подтвердите принудительное удаление нескольких контейнеров"
 
 #: src/view/containers/panel.rs:354
 msgid ""
 "All the data created inside the containers will be lost and running "
 "containers will be stopped!"
 msgstr ""
+"Все данные, созданные внутри контейнеров, будут утеряны, а запущенные "
+"контейнеры будут остановлены!"
 
 #: src/view/health_check_log/row.rs:113
 msgid "Passed Health Run"
-msgstr ""
+msgstr "Пройдена проверка работоспособности"
 
 #: src/view/health_check_log/row.rs:117
 msgid "Failed Health Run: {}"
-msgstr ""
+msgstr "Не удался запуск проверки работоспособности: {}"
 
 #. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
 #: src/view/health_check_log/row.rs:124 src/view/image/history_page.rs:113
 #: src/view/info_dialog.rs:164
 #, c-format
 msgid "%x %X"
-msgstr ""
+msgstr "%x %X"
 
 #: src/view/image/build_page.rs:199
 msgid "Select Build Context Directory"
-msgstr ""
+msgstr "Выберите каталог контекста сборки"
 
 #: src/view/image/build_page.rs:238
 msgid "Image name should not contain uppercase characters."
-msgstr ""
+msgstr "Имя образа не должно содержать символов в верхнем регистре."
 
 #. Translators: "{}" are placeholders for storage space.
 #: src/view/image/details_page.rs:196
 msgid "{} (Virtual: {})"
-msgstr ""
+msgstr "{} (Виртуально: {})"
 
 #. Translators: "{}" are placeholders for storage space.
 #: src/view/image/details_page.rs:205
 msgid "{} (Shared: {})"
-msgstr ""
+msgstr "{} (Общее: {})"
 
 #. Translators: "{}" are placeholders for storage space.
 #: src/view/image/details_page.rs:215
 msgid "{} (Shared: {}, Virtual: {})"
-msgstr ""
+msgstr "{} (Общее: {}, Виртуально: {})"
 
 #: src/view/image/details_page.rs:307
 msgid "Error on loading image details"
-msgstr ""
+msgstr "Ошибка загрузки деталей образа"
 
 #: src/view/image/details_page.rs:311
 msgid "Image '{}' has been deleted"
-msgstr ""
+msgstr "Образ '{}' был удалён"
 
 #: src/view/image/history_page.rs:83
 msgid "{} entry"
 msgid_plural "{} entries"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "{} запись"
+msgstr[1] "{} записи"
+msgstr[2] "{} записей"
 
 #: src/view/image/history_page.rs:85
 msgid "{} in total"
-msgstr ""
+msgstr "{} всего"
 
 #: src/view/image/history_page.rs:103
 msgid "<None>"
-msgstr ""
+msgstr "<Нет>"
 
 #: src/view/image/history_page.rs:118
-#, fuzzy
 msgid "Unknown Date"
-msgstr "Неизвестно"
+msgstr "Неизвестная дата"
 
 #: src/view/image/history_page.rs:129
-#, fuzzy
 msgid "Unknown size"
-msgstr "Неизвестно"
+msgstr "Неизвестный размер"
 
 #: src/view/image/history_page.rs:146
-#, fuzzy
 msgid "Created by"
 msgstr "Создано"
 
 #: src/view/image/history_page.rs:175
 msgid "Tags"
-msgstr ""
+msgstr "Ярлыки"
 
 #: src/view/image/history_page.rs:189
 msgid "Error on retrieving history"
-msgstr ""
+msgstr "Ошибка получения истории"
 
 #: src/view/image/mod.rs:35
 msgid "Confirm Forced Image Deletion"
-msgstr ""
+msgstr "Подтвердите принудительное удаление образа"
 
 #. Translators: The "{}" is a placeholder for the container name.
 #: src/view/image/mod.rs:41
@@ -2326,162 +2292,167 @@ msgid ""
 "Image is used by container <b>{}</b>. Deleting the image will also delete "
 "all its associated containers."
 msgstr ""
+"Образ используется контейнером <b>{}</b>. Удаление образа также удалит все "
+"связанные с ним контейнеры."
 
 #: src/view/image/mod.rs:45
 msgid ""
 "Image is used by a container. Deleting the image will also delete all its "
 "associated containers."
 msgstr ""
+"Образ используется контейнером. Удаление образа также удалит все связанные с "
+"ним контейнеры."
 
 #: src/view/image/mod.rs:55 src/view/pod/mod.rs:92
 msgid "_Force Delete"
-msgstr ""
+msgstr "_Принудительно удалить"
 
 #. Translators: The "{}" is a placeholder for the image id.
 #. Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
 #: src/view/image/mod.rs:80 src/view/images/panel.rs:413
 msgid "Error on deleting image '{}'"
-msgstr ""
+msgstr "Ошибка удаления образа '{}'"
 
 #: src/view/image_search/widget.rs:215
 msgid "All registries"
-msgstr ""
+msgstr "Все реестры"
 
 #: src/view/image_search/widget.rs:234
 msgid "Failed to retrieve podman info"
-msgstr ""
+msgstr "Не удалось получить информацию от podman"
 
 #: src/view/image_search/widget.rs:312
 msgid "No Results For {}"
-msgstr ""
+msgstr "Нет результатов для {}"
 
 #: src/view/image_search/widget.rs:324
 msgid "Failed to search for images"
-msgstr ""
+msgstr "Не удалось выполнить поиск образов"
 
 #: src/view/images/panel.rs:203 src/view/images/panel.rs:223
 msgid "No images found"
-msgstr ""
+msgstr "Не найдено образов"
 
 #: src/view/images/panel.rs:206
 msgid "1 image, used"
-msgstr ""
+msgstr "1 образ, используется"
 
 #: src/view/images/panel.rs:208
 msgid "1 image, unused"
-msgstr ""
+msgstr "1 образ, не используется"
 
 #. Translators: There's a wide space (U+2002) between ", {}".
 #: src/view/images/panel.rs:213
 msgid "{} image total, {} {} unused, {}"
 msgid_plural "{} images total, {} {} unused, {}"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "{} образ всего, {} {} не используется, {}"
+msgstr[1] "{} образа всего, {} {} не используется, {}"
+msgstr[2] "{} образов всего, {} {} не используется, {}"
 
 #: src/view/images/panel.rs:384
 msgid "Confirm Forced Deletion of Multiple Images"
-msgstr ""
+msgstr "Подтвердите принудительное удаление нескольких образов"
 
 #: src/view/images/panel.rs:386
 msgid ""
 "There may be containers associated with those images, which will also be "
 "removed!"
 msgstr ""
+"С этими образами могут быть связаны контейнеры, которые также будут удалены!"
 
 #. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
 #: src/view/images/prune_page.rs:175
 msgid "%x %H:%M %p"
-msgstr ""
+msgstr "%x %H:%M %p"
 
 #: src/view/images/prune_page.rs:177
 msgid "Invalid date format"
-msgstr ""
+msgstr "Неверный формат даты"
 
 #. Translators: "{}" is a placeholder for a cardinal numbers.
 #: src/view/info_dialog.rs:197
 msgid "{} Container"
 msgid_plural "{} Containers"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "{} контейнер"
+msgstr[1] "{} контейнера"
+msgstr[2] "{} контейнеров"
 
 #. Translators: "{}" is a placeholder for a cardinal number.
 #: src/view/info_dialog.rs:229
 msgid "{} Option"
 msgid_plural "{} Options"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "{} опция"
+msgstr[1] "{} опции"
+msgstr[2] "{} опций"
 
 #. Translators: "{}" is placeholders for a cardinal number.
 #: src/view/info_dialog.rs:250
 msgid "{} State"
 msgid_plural "{} States"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "{} состояние"
+msgstr[1] "{} состояния"
+msgstr[2] "{} состояний"
 
 #. Translators: "{}" is placeholders for a cardinal number.
 #: src/view/info_dialog.rs:268
 msgid "{} Image"
 msgid_plural "{} Images"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "{} образ"
+msgstr[1] "{} образа"
+msgstr[2] "{} образов"
 
 #. Translators: The placeholder "{}" is for the error message.
 #: src/view/info_dialog.rs:284
 msgid "Error: {}"
-msgstr ""
+msgstr "Ошибка: {}"
 
 #: src/view/pod/creation_page.rs:203
 msgid "IP"
-msgstr ""
+msgstr "IP"
 
 #: src/view/pod/creation_page.rs:345
 msgid "Failed to create pod"
-msgstr ""
+msgstr "Не удалось создать капсулу"
 
 #: src/view/pod/details_page.rs:261
 msgid "Error on loading pod data"
-msgstr ""
+msgstr "Ошибка загрузки данных капсулы"
 
 #: src/view/pod/details_page.rs:265
 msgid "Pod '{}' has been deleted"
-msgstr ""
+msgstr "Капсула '{}' была удалена"
 
 #: src/view/pod/mod.rs:55 src/view/pods/panel.rs:360
 msgid "Error on starting pod"
-msgstr ""
+msgstr "Ошибка запуска капсулы"
 
 #: src/view/pod/mod.rs:56 src/view/pods/panel.rs:386 src/view/pods/panel.rs:409
 msgid "Error on stopping pod"
-msgstr ""
+msgstr "Ошибка остановки капсулы"
 
 #: src/view/pod/mod.rs:57
 msgid "Error on killing pod"
-msgstr ""
+msgstr "Ошибка принудительной остановки капсулы"
 
 #: src/view/pod/mod.rs:58 src/view/pods/panel.rs:433
 msgid "Error on restarting pod"
-msgstr ""
+msgstr "Ошибка перезапуска капсулы"
 
 #: src/view/pod/mod.rs:59
 msgid "Error on pausing pod"
-msgstr ""
+msgstr "Ошибка приостановки капсулы"
 
 #: src/view/pod/mod.rs:60 src/view/pods/panel.rs:349
 msgid "Error on resuming pod"
-msgstr ""
+msgstr "Ошибка возобновления работы капсулы"
 
 #: src/view/pod/mod.rs:61 src/view/pods/panel.rs:478
 msgid "Error on deleting pod"
-msgstr ""
+msgstr "Ошибка удаления капсулы"
 
 #: src/view/pod/mod.rs:71
 msgid "Confirm Forced Pod Deletion"
-msgstr ""
+msgstr "Подтвердите принудительное удаление капсулы"
 
 #. Translators: The "{}" is a placeholder for the pod name.
 #: src/view/pod/mod.rs:77
@@ -2489,89 +2460,92 @@ msgid ""
 "Pod contains container <b>{}</b>. Deleting the pod will also delete all its "
 "containers."
 msgstr ""
+"Капсула содержит контейнер <b>{}</b>. Удаление капсулы также удалит все её "
+"контейнеры."
 
 #: src/view/pod/mod.rs:81
 msgid ""
 "Pod contains a container. Deleting the pod will also delete all its "
 "containers."
 msgstr ""
+"Капсула содержит контейнер. Удаление капсулы также удалит все её контейнеры."
 
 #: src/view/pods/panel.rs:211
 msgid "No pods found"
-msgstr ""
+msgstr "Не найдено капсул"
 
 #: src/view/pods/panel.rs:214
 msgid "1 pod, running"
-msgstr ""
+msgstr "1 капсула, запущено"
 
 #: src/view/pods/panel.rs:216
 msgid "1 pod, stopped"
-msgstr ""
+msgstr "1 капсула, остановлено"
 
 #. Translators: There's a wide space (U+2002) between ", {}".
 #: src/view/pods/panel.rs:221
 msgid "{} pod total, {} running"
 msgid_plural "{} pods total, {} running"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "{} капсула всего, {} запущено"
+msgstr[1] "{} капсулы всего, {} запущено"
+msgstr[2] "{} капсул всего, {} запущено"
 
 #: src/view/pods/panel.rs:451
 msgid "Confirm Forced Deletion of Multiple Pods"
-msgstr ""
+msgstr "Подтвердите принудительное удаление нескольких капсул"
 
 #: src/view/pods/panel.rs:453
 msgid "All associated containers will also be removed!"
-msgstr ""
+msgstr "Все связанные контейнеры также будут удалены!"
 
 #: src/view/repo_tag/add_dialog.rs:103
 msgid "Repo tag must contain a colon “:”"
-msgstr ""
+msgstr "Ярлык репозитория должен содержать двоеточие “:”"
 
 #: src/view/repo_tag/row.rs:196
 msgid "Error on untagging image"
-msgstr ""
+msgstr "Ошибка снятия ярлыка с образа"
 
 #: src/window.rs:422
 msgid "Confirm Exiting The Application"
-msgstr ""
+msgstr "Подтвердите выход из приложения"
 
 #: src/window.rs:584
 msgid "{} Selected Image"
 msgid_plural "{} Selected Images"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Выбран {} образ"
+msgstr[1] "Выбрано {} образа"
+msgstr[2] "Выбрано {} образов"
 
 #: src/window.rs:598
 msgid "{} Selected Container"
 msgid_plural "{} Selected Containers"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Выбран {} контейнер"
+msgstr[1] "Выбрано {} контейнера"
+msgstr[2] "Выбрано {} контейнеров"
 
 #: src/window.rs:612
 msgid "{} Selected Pod"
 msgid_plural "{} Selected Pods"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Выбрана {} капсула"
+msgstr[1] "Выбрано {} капсулы"
+msgstr[2] "Выбрано {} капсул"
 
 #: src/window.rs:835
 msgid "images"
-msgstr ""
+msgstr "образы"
 
 #: src/window.rs:836
 msgid "containers"
-msgstr ""
+msgstr "контейнеры"
 
 #: src/window.rs:837
 msgid "pods"
-msgstr ""
+msgstr "капсулы"
 
 #: src/window.rs:833
 msgid "Error on loading {}"
-msgstr ""
+msgstr "Ошибка загрузки {}"
 
 #~ msgid "Main window"
 #~ msgstr "Главное окно"

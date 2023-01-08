@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-30 21:22+0100\n"
-"PO-Revision-Date: 2022-12-19 17:51+0000\n"
-"Last-Translator: Óscar Fernández Díaz <oscfdezdz@tuta.io>\n"
+"PO-Revision-Date: 2023-01-03 15:51+0000\n"
+"Last-Translator: Sergio Varela <sergitroll9@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/pods/pods/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -110,9 +110,8 @@ msgid "Whether to match whole words when searching"
 msgstr "Si deberá coincidir con palabras completas cuando esté buscando"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
-#, fuzzy
 msgid "Keep track of your podman containers"
-msgstr "Crear cápsulas y contenedores."
+msgstr "Crea cápsulas y contenedores"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
 msgid ""
@@ -204,9 +203,8 @@ msgid "_View"
 msgstr "_Ver"
 
 #: data/resources/ui/action/page.ui:148
-#, fuzzy
 msgid "_Retry"
-msgstr "Reintentos"
+msgstr "_Reintentar"
 
 #: data/resources/ui/actions/overview.ui:38
 msgid "No Operations"
