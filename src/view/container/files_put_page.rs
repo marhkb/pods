@@ -175,11 +175,14 @@ impl FilesPutPage {
     async fn select_file(&self, directory: bool) {
         let request = OpenFileRequest::default()
             .identifier(WindowIdentifier::from_native(&self.native().unwrap()).await)
-            .title(&if directory {
-                gettext("Select Host Directory")
-            } else {
-                gettext("Select Host File")
-            })
+            .title(
+                if directory {
+                    gettext("Select Host Directory")
+                } else {
+                    gettext("Select Host File")
+                }
+                .as_str(),
+            )
             .directory(directory)
             .modal(true);
 

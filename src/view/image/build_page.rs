@@ -196,7 +196,7 @@ impl BuildPage {
     async fn choose_context_dir(&self) {
         let request = OpenFileRequest::default()
             .identifier(WindowIdentifier::from_native(&self.native().unwrap()).await)
-            .title(&gettext("Select Build Context Directory"))
+            .title(gettext("Select Build Context Directory").as_str())
             .directory(true)
             .modal(true);
 
