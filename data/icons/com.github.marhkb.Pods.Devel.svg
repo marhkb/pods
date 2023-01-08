@@ -9,12 +9,12 @@
             <stop offset="0.954545" stop-color="#c0bfbc"/>
             <stop offset="1" stop-color="#77767b"/>
         </linearGradient>
-        <linearGradient id="b" gradientUnits="userSpaceOnUse" x1="82" x2="98" y1="96" y2="96">
+        <linearGradient id="b" gradientUnits="userSpaceOnUse" x1="32" x2="64" y1="104" y2="104">
             <stop offset="0" stop-color="#865e3c"/>
-            <stop offset="0.125" stop-color="#b5835a"/>
-            <stop offset="0.25" stop-color="#986a44"/>
-            <stop offset="0.75" stop-color="#986a44"/>
-            <stop offset="0.875" stop-color="#b5835a"/>
+            <stop offset="0.0625" stop-color="#b5835a"/>
+            <stop offset="0.125" stop-color="#986a44"/>
+            <stop offset="0.875" stop-color="#986a44"/>
+            <stop offset="0.9375" stop-color="#b5835a"/>
             <stop offset="1" stop-color="#865e3c"/>
         </linearGradient>
         <filter id="c" height="100%" width="100%" x="0%" y="0%">
@@ -25,290 +25,224 @@
                 <rect fill-opacity="0.2" height="128" width="128"/>
             </g>
         </mask>
-        <mask id="e">
-            <g filter="url(#c)">
-                <rect fill-opacity="0.2" height="128" width="128"/>
-            </g>
-        </mask>
-        <linearGradient id="f" gradientUnits="userSpaceOnUse">
+        <linearGradient id="e" gradientUnits="userSpaceOnUse" x1="68" x2="96" y1="108" y2="108">
             <stop offset="0" stop-color="#865e3c"/>
-            <stop offset="0.0833333" stop-color="#b5835a"/>
-            <stop offset="0.166667" stop-color="#986a44"/>
-            <stop offset="0.833333" stop-color="#986a44"/>
-            <stop offset="0.916667" stop-color="#b5835a"/>
+            <stop offset="0.0714286" stop-color="#b5835a"/>
+            <stop offset="0.142857" stop-color="#986a44"/>
+            <stop offset="0.857143" stop-color="#986a44"/>
+            <stop offset="0.928571" stop-color="#b5835a"/>
             <stop offset="1" stop-color="#865e3c"/>
         </linearGradient>
-        <linearGradient id="g" x1="56" x2="80" xlink:href="#f" y1="104" y2="104"/>
-        <mask id="h">
+        <mask id="f">
             <g filter="url(#c)">
                 <rect fill-opacity="0.2" height="128" width="128"/>
             </g>
         </mask>
-        <linearGradient id="i" x1="30" x2="54" xlink:href="#f" y1="100" y2="100"/>
-        <mask id="j">
-            <g filter="url(#c)">
-                <rect fill-opacity="0.2" height="128" width="128"/>
-            </g>
-        </mask>
+        <clipPath id="g">
+            <path d="m 28 52 h 72 v 2 h -72 z m 0 0"/>
+        </clipPath>
+        <clipPath id="h">
+            <path d="m 32 52 h 64 c 2.210938 0 4 1.789062 4 4 v 16 c 0 2.210938 -1.789062 4 -4 4 h -64 c -2.210938 0 -4 -1.789062 -4 -4 v -16 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0"/>
+        </clipPath>
+        <clipPath id="i">
+            <path d="m 28 58 h 72 v 2 h -72 z m 0 0"/>
+        </clipPath>
+        <clipPath id="j">
+            <path d="m 32 52 h 64 c 2.210938 0 4 1.789062 4 4 v 16 c 0 2.210938 -1.789062 4 -4 4 h -64 c -2.210938 0 -4 -1.789062 -4 -4 v -16 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0"/>
+        </clipPath>
         <clipPath id="k">
-            <path d="m 28 52 h 72 v 1 h -72 z m 0 0"/>
+            <path d="m 28 64 h 72 v 2 h -72 z m 0 0"/>
         </clipPath>
         <clipPath id="l">
             <path d="m 32 52 h 64 c 2.210938 0 4 1.789062 4 4 v 16 c 0 2.210938 -1.789062 4 -4 4 h -64 c -2.210938 0 -4 -1.789062 -4 -4 v -16 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0"/>
         </clipPath>
         <clipPath id="m">
-            <path d="m 28 56 h 72 v 1 h -72 z m 0 0"/>
+            <path d="m 28 70 h 72 v 2 h -72 z m 0 0"/>
         </clipPath>
         <clipPath id="n">
             <path d="m 32 52 h 64 c 2.210938 0 4 1.789062 4 4 v 16 c 0 2.210938 -1.789062 4 -4 4 h -64 c -2.210938 0 -4 -1.789062 -4 -4 v -16 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0"/>
         </clipPath>
         <clipPath id="o">
-            <path d="m 28 60 h 72 v 1 h -72 z m 0 0"/>
+            <path d="m 48 78 h 4 v 2 h -4 z m 0 2 h 32 v 6 h -32 z m 0 0"/>
         </clipPath>
         <clipPath id="p">
-            <path d="m 32 52 h 64 c 2.210938 0 4 1.789062 4 4 v 16 c 0 2.210938 -1.789062 4 -4 4 h -64 c -2.210938 0 -4 -1.789062 -4 -4 v -16 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0"/>
+            <path d="m 48 76 h 4 v 2 h -4 z m 0 2 h 32 v 6 h -32 z m 0 0"/>
         </clipPath>
-        <clipPath id="q">
-            <path d="m 28 64 h 72 v 1 h -72 z m 0 0"/>
-        </clipPath>
-        <clipPath id="r">
-            <path d="m 32 52 h 64 c 2.210938 0 4 1.789062 4 4 v 16 c 0 2.210938 -1.789062 4 -4 4 h -64 c -2.210938 0 -4 -1.789062 -4 -4 v -16 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0"/>
-        </clipPath>
-        <clipPath id="s">
-            <path d="m 28 68 h 72 v 1 h -72 z m 0 0"/>
-        </clipPath>
-        <clipPath id="t">
-            <path d="m 32 52 h 64 c 2.210938 0 4 1.789062 4 4 v 16 c 0 2.210938 -1.789062 4 -4 4 h -64 c -2.210938 0 -4 -1.789062 -4 -4 v -16 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0"/>
-        </clipPath>
-        <linearGradient id="u" gradientTransform="matrix(1 0 0 -1 1.999701 300)" gradientUnits="userSpaceOnUse" x1="50" x2="74" y1="226" y2="226">
+        <linearGradient id="q" gradientUnits="userSpaceOnUse" x1="47.999865" x2="87.999865" y1="84" y2="84">
             <stop offset="0" stop-color="#deddda"/>
-            <stop offset="0.0416667" stop-color="#eeeeec"/>
-            <stop offset="0.0833333" stop-color="#deddda"/>
-            <stop offset="0.916667" stop-color="#deddda"/>
-            <stop offset="0.958333" stop-color="#eeeeec"/>
+            <stop offset="0.025" stop-color="#eeeeec"/>
+            <stop offset="0.05" stop-color="#deddda"/>
+            <stop offset="0.95" stop-color="#deddda"/>
+            <stop offset="0.975" stop-color="#eeeeec"/>
             <stop offset="1" stop-color="#c0bfbc"/>
         </linearGradient>
-        <linearGradient id="v" gradientTransform="matrix(1 0 0 -1 -0.000299 278)" gradientUnits="userSpaceOnUse" x1="64.000298" x2="64.000298" y1="204" y2="200">
+        <linearGradient id="r" gradientUnits="userSpaceOnUse" x1="64.000134" x2="64.000134" y1="76" y2="80">
             <stop offset="0" stop-color="#9a9996"/>
             <stop offset="1" stop-color="#c0bfbc"/>
         </linearGradient>
-        <mask id="w">
+        <mask id="s">
             <g filter="url(#c)">
                 <rect fill-opacity="0.2" height="128" width="128"/>
             </g>
         </mask>
-        <clipPath id="x">
+        <clipPath id="t">
             <rect height="152" width="192"/>
         </clipPath>
-        <g id="y" clip-path="url(#x)">
-            <path d="m 100 88 v 24 h -4 v -24 z m 0 0" fill="#ffffff"/>
+        <g id="u" clip-path="url(#t)">
+            <path d="m 40 102 h 32 v 4 h -32 z m 0 0" fill="#ffffff"/>
         </g>
-        <mask id="z">
+        <mask id="v">
             <g filter="url(#c)">
                 <rect fill-opacity="0.2" height="128" width="128"/>
             </g>
         </mask>
+        <clipPath id="w">
+            <rect height="152" width="192"/>
+        </clipPath>
+        <g id="x" clip-path="url(#w)">
+            <path d="m 92 96 v 28 h -4 v -28 z m 0 0" fill="#ffffff"/>
+        </g>
+        <clipPath id="y">
+            <path d="m 28 52 h 72 v 2 h -72 z m 0 0"/>
+        </clipPath>
+        <clipPath id="z">
+            <path d="m 32 52 h 64 c 2.210938 0 4 1.789062 4 4 v 16 c 0 2.210938 -1.789062 4 -4 4 h -64 c -2.210938 0 -4 -1.789062 -4 -4 v -16 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0"/>
+        </clipPath>
         <clipPath id="A">
-            <rect height="152" width="192"/>
+            <path d="m 28 58 h 72 v 2 h -72 z m 0 0"/>
         </clipPath>
-        <g id="B" clip-path="url(#A)">
-            <path d="m 90 94 h 16 v 4 h -16 z m 0 0" fill="#ffffff"/>
-        </g>
-        <mask id="C">
-            <g filter="url(#c)">
-                <rect fill-opacity="0.2" height="128" width="128"/>
-            </g>
-        </mask>
+        <clipPath id="B">
+            <path d="m 32 52 h 64 c 2.210938 0 4 1.789062 4 4 v 16 c 0 2.210938 -1.789062 4 -4 4 h -64 c -2.210938 0 -4 -1.789062 -4 -4 v -16 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0"/>
+        </clipPath>
+        <clipPath id="C">
+            <path d="m 28 64 h 72 v 2 h -72 z m 0 0"/>
+        </clipPath>
         <clipPath id="D">
-            <rect height="152" width="192"/>
+            <path d="m 32 52 h 64 c 2.210938 0 4 1.789062 4 4 v 16 c 0 2.210938 -1.789062 4 -4 4 h -64 c -2.210938 0 -4 -1.789062 -4 -4 v -16 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0"/>
         </clipPath>
-        <g id="E" clip-path="url(#D)">
-            <path d="m 78 96 v 24 h -4 v -24 z m 0 0" fill="#ffffff"/>
-        </g>
-        <mask id="F">
-            <g filter="url(#c)">
-                <rect fill-opacity="0.2" height="128" width="128"/>
-            </g>
-        </mask>
+        <clipPath id="E">
+            <path d="m 28 70 h 72 v 2 h -72 z m 0 0"/>
+        </clipPath>
+        <clipPath id="F">
+            <path d="m 32 52 h 64 c 2.210938 0 4 1.789062 4 4 v 16 c 0 2.210938 -1.789062 4 -4 4 h -64 c -2.210938 0 -4 -1.789062 -4 -4 v -16 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0"/>
+        </clipPath>
         <clipPath id="G">
-            <rect height="152" width="192"/>
+            <path d="m 48 78 h 4 v 2 h -4 z m 0 2 h 32 v 6 h -32 z m 0 0"/>
         </clipPath>
-        <g id="H" clip-path="url(#G)">
-            <path d="m 38 98 h 24 v 4 h -24 z m 0 0" fill="#ffffff"/>
-        </g>
+        <clipPath id="H">
+            <path d="m 48 76 h 4 v 2 h -4 z m 0 2 h 32 v 6 h -32 z m 0 0"/>
+        </clipPath>
         <clipPath id="I">
-            <path d="m 28 52 h 72 v 1 h -72 z m 0 0"/>
+            <rect height="128" width="128"/>
         </clipPath>
         <clipPath id="J">
-            <path d="m 32 52 h 64 c 2.210938 0 4 1.789062 4 4 v 16 c 0 2.210938 -1.789062 4 -4 4 h -64 c -2.210938 0 -4 -1.789062 -4 -4 v -16 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0"/>
-        </clipPath>
-        <clipPath id="K">
-            <path d="m 28 56 h 72 v 1 h -72 z m 0 0"/>
-        </clipPath>
-        <clipPath id="L">
-            <path d="m 32 52 h 64 c 2.210938 0 4 1.789062 4 4 v 16 c 0 2.210938 -1.789062 4 -4 4 h -64 c -2.210938 0 -4 -1.789062 -4 -4 v -16 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0"/>
-        </clipPath>
-        <clipPath id="M">
-            <path d="m 28 60 h 72 v 1 h -72 z m 0 0"/>
-        </clipPath>
-        <clipPath id="N">
-            <path d="m 32 52 h 64 c 2.210938 0 4 1.789062 4 4 v 16 c 0 2.210938 -1.789062 4 -4 4 h -64 c -2.210938 0 -4 -1.789062 -4 -4 v -16 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0"/>
-        </clipPath>
-        <clipPath id="O">
-            <path d="m 28 64 h 72 v 1 h -72 z m 0 0"/>
-        </clipPath>
-        <clipPath id="P">
-            <path d="m 32 52 h 64 c 2.210938 0 4 1.789062 4 4 v 16 c 0 2.210938 -1.789062 4 -4 4 h -64 c -2.210938 0 -4 -1.789062 -4 -4 v -16 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0"/>
-        </clipPath>
-        <clipPath id="Q">
-            <path d="m 28 68 h 72 v 1 h -72 z m 0 0"/>
-        </clipPath>
-        <clipPath id="R">
-            <path d="m 32 52 h 64 c 2.210938 0 4 1.789062 4 4 v 16 c 0 2.210938 -1.789062 4 -4 4 h -64 c -2.210938 0 -4 -1.789062 -4 -4 v -16 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0"/>
-        </clipPath>
-        <clipPath id="S">
             <rect height="128" width="128"/>
         </clipPath>
-        <clipPath id="T">
-            <rect height="128" width="128"/>
-        </clipPath>
-        <mask id="U">
-            <g clip-path="url(#T)" filter="url(#c)">
-                <g clip-path="url(#S)">
+        <mask id="K">
+            <g clip-path="url(#J)" filter="url(#c)">
+                <g clip-path="url(#I)">
                     <path d="m 28 16 h 72 c 4.417969 0 8 3.582031 8 8 v 88 c 0 4.417969 -3.582031 8 -8 8 h -72 c -4.417969 0 -8 -3.582031 -8 -8 v -88 c 0 -4.417969 3.582031 -8 8 -8 z m 0 0" fill="url(#a)"/>
                     <path d="m 28 8 h 72 c 4.417969 0 8 3.582031 8 8 v 20 c 0 4.417969 -3.582031 8 -8 8 h -72 c -4.417969 0 -8 -3.582031 -8 -8 v -20 c 0 -4.417969 3.582031 -8 8 -8 z m 0 0" fill="#deddda"/>
-                    <path d="m 32 64 h 64 c 2.210938 0 4 1.789062 4 4 v 40 c 0 2.210938 -1.789062 4 -4 4 h -64 c -2.210938 0 -4 -1.789062 -4 -4 v -40 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0" fill="#5e5c64"/>
-                    <path d="m 86 74 h 8 c 2.210938 0 4 1.789062 4 4 v 16 c 0 2.210938 -1.789062 4 -4 4 h -8 c -2.210938 0 -4 -1.789062 -4 -4 v -16 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0" fill-opacity="0.2"/>
-                    <path d="m 34 78 h 16 c 2.210938 0 4 1.789062 4 4 v 16 c 0 2.210938 -1.789062 4 -4 4 h -16 c -2.210938 0 -4 -1.789062 -4 -4 v -16 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0" fill-opacity="0.2"/>
-                    <path d="m 60 82 h 16 c 2.210938 0 4 1.789062 4 4 v 16 c 0 2.210938 -1.789062 4 -4 4 h -16 c -2.210938 0 -4 -1.789062 -4 -4 v -16 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0" fill-opacity="0.2"/>
-                    <path d="m 86 72 h 8 c 2.210938 0 4 1.789062 4 4 v 16 c 0 2.210938 -1.789062 4 -4 4 h -8 c -2.210938 0 -4 -1.789062 -4 -4 v -16 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0" fill="url(#b)"/>
-                    <path d="m 86 72 h 8 c 2.210938 0 4 1.789062 4 4 v 8 c 0 2.210938 -1.789062 4 -4 4 h -8 c -2.210938 0 -4 -1.789062 -4 -4 v -8 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0" fill="#b5835a"/>
-                    <use mask="url(#w)" transform="matrix(1 0 0 1 -8 -16)" xlink:href="#y"/>
-                    <use mask="url(#z)" transform="matrix(1 0 0 1 -8 -16)" xlink:href="#B"/>
-                    <path d="m 60 80 h 16 c 2.210938 0 4 1.789062 4 4 v 16 c 0 2.210938 -1.789062 4 -4 4 h -16 c -2.210938 0 -4 -1.789062 -4 -4 v -16 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0" fill="url(#g)"/>
-                    <path d="m 60 80 h 16 c 2.210938 0 4 1.789062 4 4 v 4 c 0 2.210938 -1.789062 4 -4 4 h -16 c -2.210938 0 -4 -1.789062 -4 -4 v -4 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0" fill="#b5835a"/>
-                    <path d="m 60 94 v 2.855469 h 2.855469 v -2.855469 z m 4 0 v 0.570312 h 0.570312 v -0.570312 z m 0 0.570312 h -0.570312 v 0.574219 h 0.570312 z m 0 0.574219 v 0.570313 h -0.570312 v 1.140625 h 1.140624 v -1.710938 z m 1.144531 -1.144531 v 2.855469 h 2.855469 v -2.855469 z m -4 1.144531 h 0.570313 v 0.570313 h -0.570313 z m 5.140625 0 h 0.570313 v 0.570313 h -0.570313 z m -6.285156 2.285157 v 0.570312 h 0.570312 v -0.570312 z m 0.570312 0.570312 v 0.570312 h 0.574219 v -0.570312 z m 0.574219 0 h 0.570313 v 0.570312 h 1.140625 v -1.140624 h -1.710938 z m 2.285157 -0.570312 v 2.285156 h 0.570312 v -0.570313 h 1.144531 v -1.714843 z m 1.714843 1.714843 v 0.570313 h 0.570313 v -0.570313 z m 0.570313 0 h 0.570312 v -0.574219 h -0.570312 z m 0.570312 -0.574219 h 0.570313 v 0.574219 h 0.574219 v -1.144531 h 0.570312 v -0.570312 h -1.714844 z m 0.570313 0.574219 h -0.570313 v 0.570313 h 0.570313 z m -1.710938 0.570313 h -0.574219 v 0.570312 h 0.574219 z m 0 0.570312 v 0.570313 h 0.570313 v -0.570313 z m -0.574219 0 h -1.140624 v 1.714844 h 0.570312 v -0.570312 h 0.570312 z m 0 1.144532 v 0.570312 h 0.574219 v -0.570312 z m -0.570312 -3.429688 h 0.570312 v 0.570312 h -0.570312 z m -4 1.144531 v 2.855469 h 2.855469 v -2.855469 z m 7.429688 0.570313 v 0.570312 h -1.144532 v 1.714844 h 0.570313 v -0.570312 h 0.574219 v -0.574219 h 0.570312 v -1.140625 z m 0 1.714844 v 0.570312 h 0.570312 v -0.570312 z m -6.285157 -1.144532 h 0.570313 v 0.570313 h -0.570313 z m 0 0" fill="#63452c"/>
-                    <use mask="url(#C)" transform="matrix(1 0 0 1 -8 -16)" xlink:href="#E"/>
-                    <path d="m 34 76 h 16 c 2.210938 0 4 1.789062 4 4 v 16 c 0 2.210938 -1.789062 4 -4 4 h -16 c -2.210938 0 -4 -1.789062 -4 -4 v -16 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0" fill="url(#i)"/>
-                    <path d="m 34 76 h 16 c 2.210938 0 4 1.789062 4 4 v 8 c 0 2.210938 -1.789062 4 -4 4 h -16 c -2.210938 0 -4 -1.789062 -4 -4 v -8 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0" fill="#b5835a"/>
-                    <use mask="url(#F)" transform="matrix(1 0 0 1 -8 -16)" xlink:href="#H"/>
+                    <path d="m 32 64 h 64 c 2.210938 0 4 1.789062 4 4 v 40 c 0 2.210938 -1.789062 4 -4 4 h -64 c -2.210938 0 -4 -1.789062 -4 -4 v -40 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0" fill="#3d3846"/>
+                    <path d="m 36 80 h 24 c 2.210938 0 4 1.789062 4 4 v 16 c 0 2.210938 -1.789062 4 -4 4 h -24 c -2.210938 0 -4 -1.789062 -4 -4 v -16 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0" fill="url(#b)"/>
+                    <path d="m 36 80 h 24 c 2.210938 0 4 1.789062 4 4 v 8 c 0 2.210938 -1.789062 4 -4 4 h -24 c -2.210938 0 -4 -1.789062 -4 -4 v -8 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0" fill="#b5835a"/>
+                    <use mask="url(#s)" transform="matrix(1 0 0 1 -8 -16)" xlink:href="#u"/>
+                    <path d="m 72 80 h 20 c 2.210938 0 4 1.789062 4 4 v 20 c 0 2.210938 -1.789062 4 -4 4 h -20 c -2.210938 0 -4 -1.789062 -4 -4 v -20 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0" fill="url(#e)"/>
+                    <path d="m 72 80 h 20 c 2.210938 0 4 1.789062 4 4 v 8 c 0 2.210938 -1.789062 4 -4 4 h -20 c -2.210938 0 -4 -1.789062 -4 -4 v -8 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0" fill="#b5835a"/>
+                    <use mask="url(#v)" transform="matrix(1 0 0 1 -8 -16)" xlink:href="#x"/>
                     <path d="m 32 52 h 64 c 2.210938 0 4 1.789062 4 4 v 16 c 0 2.210938 -1.789062 4 -4 4 h -64 c -2.210938 0 -4 -1.789062 -4 -4 v -16 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0" fill="#62a0ea"/>
+                    <g clip-path="url(#y)">
+                        <g clip-path="url(#z)">
+                            <path d="m 28 52 h 72 v 2 h -72 z m 0 0" fill="#3584e4"/>
+                        </g>
+                    </g>
+                    <g clip-path="url(#A)">
+                        <g clip-path="url(#B)">
+                            <path d="m 28 58 h 72 v 2 h -72 z m 0 0" fill="#3584e4"/>
+                        </g>
+                    </g>
+                    <g clip-path="url(#C)">
+                        <g clip-path="url(#D)">
+                            <path d="m 28 64 h 72 v 2 h -72 z m 0 0" fill="#3584e4"/>
+                        </g>
+                    </g>
+                    <g clip-path="url(#E)">
+                        <g clip-path="url(#F)">
+                            <path d="m 28 70 h 72 v 2 h -72 z m 0 0" fill="#3584e4"/>
+                        </g>
+                    </g>
                     <path d="m 28 76 h 72 v 8 h -72 z m 0 0" fill-opacity="0.2"/>
-                    <path d="m 28 72 h 72 v 8 h -72 z m 0 0" fill="#deddda"/>
-                    <g clip-path="url(#I)">
-                        <g clip-path="url(#J)">
-                            <path d="m 28 52 h 72 v 1 h -72 z m 0 0" fill="#3584e4"/>
-                        </g>
+                    <path d="m 28 74 h 72 v 8 h -72 z m 0 0" fill="#deddda"/>
+                    <path d="m 28 72 h 72 v 2 h -72 z m 0 0" fill="#c0bfbc"/>
+                    <g clip-path="url(#G)">
+                        <path d="m 50 78 h 28 c 1.109375 0 2 0.890625 2 2 v 4 c 0 1.109375 -0.890625 2 -2 2 h -28 c -1.109375 0 -2 -0.890625 -2 -2 v -4 c 0 -1.109375 0.890625 -2 2 -2 z m 0 0" fill-opacity="0.2"/>
                     </g>
-                    <g clip-path="url(#K)">
-                        <g clip-path="url(#L)">
-                            <path d="m 28 56 h 72 v 1 h -72 z m 0 0" fill="#3584e4"/>
-                        </g>
+                    <g clip-path="url(#H)">
+                        <path d="m 50 76 h 28 c 1.109375 0 2 0.890625 2 2 v 4 c 0 1.109375 -0.890625 2 -2 2 h -28 c -1.109375 0 -2 -0.890625 -2 -2 v -4 c 0 -1.109375 0.890625 -2 2 -2 z m 0 0" fill="url(#q)"/>
                     </g>
-                    <g clip-path="url(#M)">
-                        <g clip-path="url(#N)">
-                            <path d="m 28 60 h 72 v 1 h -72 z m 0 0" fill="#3584e4"/>
-                        </g>
-                    </g>
-                    <g clip-path="url(#O)">
-                        <g clip-path="url(#P)">
-                            <path d="m 28 64 h 72 v 1 h -72 z m 0 0" fill="#3584e4"/>
-                        </g>
-                    </g>
-                    <g clip-path="url(#Q)">
-                        <g clip-path="url(#R)">
-                            <path d="m 28 68 h 72 v 1 h -72 z m 0 0" fill="#3584e4"/>
-                        </g>
-                    </g>
-                    <path d="m 55 84 h 18 c 1.660156 0 3 -1 3 -3 v -5 h -3.96875 l -0.03125 4 h -16 l 0.03125 -4 h -4.03125 v 5 c 0 1.660156 1.335938 3 3 3 z m 0 0" fill-opacity="0.2"/>
-                    <path d="m 55 82 h 18 c 1.660156 0 3 -1 3 -3 v -5 h -3.96875 l -0.03125 4 h -16 l 0.03125 -4 h -4.03125 v 5 c 0 1.660156 1.335938 3 3 3 z m 0 0" fill="url(#u)"/>
-                    <path d="m 55 78 c -1.664062 0 -3 -1.339844 -3 -3 v -1 h 4 v 2 h 16 v -2 h 4 v 1 c 0 1.660156 -1.339844 3 -3 3 z m 0 0" fill="url(#v)"/>
-                    <path d="m 34 94 h 1 v 3 h -1 z m 0 0" fill="#63452c"/>
-                    <path d="m 35.5 94 h 0.5 v 3 h -0.5 z m 0 0" fill="#63452c"/>
-                    <path d="m 36.5 94 h 0.5 v 3 h -0.5 z m 0 0" fill="#63452c"/>
-                    <path d="m 37.5 94 h 1 v 3 h -1 z m 0 0" fill="#63452c"/>
-                    <path d="m 39 94 h 1 v 3 h -1 z m 0 0" fill="#63452c"/>
-                    <path d="m 34 97.5 h 6 v 0.5 h -6 z m 0 0" fill="#63452c"/>
-                    <path d="m 28 70 h 72 v 2 h -72 z m 0 0" fill="#c0bfbc"/>
+                    <path d="m 48 76 v 2 c 0 1.109375 0.890625 2 2 2 h 28 c 1.109375 0 2 -0.890625 2 -2 v -2 h -4 v 2 h -24 v -2 z m 0 0" fill="url(#r)"/>
                 </g>
             </g>
         </mask>
-        <mask id="V">
+        <mask id="L">
             <g filter="url(#c)">
                 <rect fill-opacity="0.8" height="128" width="128"/>
             </g>
         </mask>
-        <linearGradient id="W" gradientTransform="matrix(0 0.37 -0.98462 0 295.38501 -30.360001)" gradientUnits="userSpaceOnUse" x1="300" x2="428" y1="235" y2="235">
+        <linearGradient id="M" gradientTransform="matrix(0 0.37 -0.98462 0 295.38501 -30.360001)" gradientUnits="userSpaceOnUse" x1="300" x2="428" y1="235" y2="235">
             <stop offset="0" stop-color="#f9f06b"/>
             <stop offset="1" stop-color="#f5c211"/>
         </linearGradient>
-        <clipPath id="X">
+        <clipPath id="N">
             <rect height="128" width="128"/>
         </clipPath>
-        <clipPath id="Y">
+        <clipPath id="O">
             <rect height="128" width="128"/>
         </clipPath>
     </defs>
     <path d="m 28 16 h 72 c 4.417969 0 8 3.582031 8 8 v 88 c 0 4.417969 -3.582031 8 -8 8 h -72 c -4.417969 0 -8 -3.582031 -8 -8 v -88 c 0 -4.417969 3.582031 -8 8 -8 z m 0 0" fill="url(#a)"/>
     <path d="m 28 8 h 72 c 4.417969 0 8 3.582031 8 8 v 20 c 0 4.417969 -3.582031 8 -8 8 h -72 c -4.417969 0 -8 -3.582031 -8 -8 v -20 c 0 -4.417969 3.582031 -8 8 -8 z m 0 0" fill="#deddda"/>
-    <path d="m 32 64 h 64 c 2.210938 0 4 1.789062 4 4 v 40 c 0 2.210938 -1.789062 4 -4 4 h -64 c -2.210938 0 -4 -1.789062 -4 -4 v -40 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0" fill="#5e5c64"/>
-    <path d="m 86 74 h 8 c 2.210938 0 4 1.789062 4 4 v 16 c 0 2.210938 -1.789062 4 -4 4 h -8 c -2.210938 0 -4 -1.789062 -4 -4 v -16 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0" fill-opacity="0.2"/>
-    <path d="m 34 78 h 16 c 2.210938 0 4 1.789062 4 4 v 16 c 0 2.210938 -1.789062 4 -4 4 h -16 c -2.210938 0 -4 -1.789062 -4 -4 v -16 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0" fill-opacity="0.2"/>
-    <path d="m 60 82 h 16 c 2.210938 0 4 1.789062 4 4 v 16 c 0 2.210938 -1.789062 4 -4 4 h -16 c -2.210938 0 -4 -1.789062 -4 -4 v -16 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0" fill-opacity="0.2"/>
-    <path d="m 86 72 h 8 c 2.210938 0 4 1.789062 4 4 v 16 c 0 2.210938 -1.789062 4 -4 4 h -8 c -2.210938 0 -4 -1.789062 -4 -4 v -16 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0" fill="url(#b)"/>
-    <path d="m 86 72 h 8 c 2.210938 0 4 1.789062 4 4 v 8 c 0 2.210938 -1.789062 4 -4 4 h -8 c -2.210938 0 -4 -1.789062 -4 -4 v -8 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0" fill="#b5835a"/>
-    <use mask="url(#d)" transform="matrix(1 0 0 1 -8 -16)" xlink:href="#y"/>
-    <use mask="url(#e)" transform="matrix(1 0 0 1 -8 -16)" xlink:href="#B"/>
-    <path d="m 60 80 h 16 c 2.210938 0 4 1.789062 4 4 v 16 c 0 2.210938 -1.789062 4 -4 4 h -16 c -2.210938 0 -4 -1.789062 -4 -4 v -16 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0" fill="url(#g)"/>
-    <path d="m 60 80 h 16 c 2.210938 0 4 1.789062 4 4 v 4 c 0 2.210938 -1.789062 4 -4 4 h -16 c -2.210938 0 -4 -1.789062 -4 -4 v -4 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0" fill="#b5835a"/>
-    <path d="m 60 94 v 2.855469 h 2.855469 v -2.855469 z m 4 0 v 0.570312 h 0.570312 v -0.570312 z m 0 0.570312 h -0.570312 v 0.574219 h 0.570312 z m 0 0.574219 v 0.570313 h -0.570312 v 1.140625 h 1.140624 v -1.710938 z m 1.144531 -1.144531 v 2.855469 h 2.855469 v -2.855469 z m -4 1.144531 h 0.570313 v 0.570313 h -0.570313 z m 5.140625 0 h 0.570313 v 0.570313 h -0.570313 z m -6.285156 2.285157 v 0.570312 h 0.570312 v -0.570312 z m 0.570312 0.570312 v 0.570312 h 0.574219 v -0.570312 z m 0.574219 0 h 0.570313 v 0.570312 h 1.140625 v -1.140624 h -1.710938 z m 2.285157 -0.570312 v 2.285156 h 0.570312 v -0.570313 h 1.144531 v -1.714843 z m 1.714843 1.714843 v 0.570313 h 0.570313 v -0.570313 z m 0.570313 0 h 0.570312 v -0.574219 h -0.570312 z m 0.570312 -0.574219 h 0.570313 v 0.574219 h 0.574219 v -1.144531 h 0.570312 v -0.570312 h -1.714844 z m 0.570313 0.574219 h -0.570313 v 0.570313 h 0.570313 z m -1.710938 0.570313 h -0.574219 v 0.570312 h 0.574219 z m 0 0.570312 v 0.570313 h 0.570313 v -0.570313 z m -0.574219 0 h -1.140624 v 1.714844 h 0.570312 v -0.570312 h 0.570312 z m 0 1.144532 v 0.570312 h 0.574219 v -0.570312 z m -0.570312 -3.429688 h 0.570312 v 0.570312 h -0.570312 z m -4 1.144531 v 2.855469 h 2.855469 v -2.855469 z m 7.429688 0.570313 v 0.570312 h -1.144532 v 1.714844 h 0.570313 v -0.570312 h 0.574219 v -0.574219 h 0.570312 v -1.140625 z m 0 1.714844 v 0.570312 h 0.570312 v -0.570312 z m -6.285157 -1.144532 h 0.570313 v 0.570313 h -0.570313 z m 0 0" fill="#63452c"/>
-    <use mask="url(#h)" transform="matrix(1 0 0 1 -8 -16)" xlink:href="#E"/>
-    <path d="m 34 76 h 16 c 2.210938 0 4 1.789062 4 4 v 16 c 0 2.210938 -1.789062 4 -4 4 h -16 c -2.210938 0 -4 -1.789062 -4 -4 v -16 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0" fill="url(#i)"/>
-    <path d="m 34 76 h 16 c 2.210938 0 4 1.789062 4 4 v 8 c 0 2.210938 -1.789062 4 -4 4 h -16 c -2.210938 0 -4 -1.789062 -4 -4 v -8 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0" fill="#b5835a"/>
-    <use mask="url(#j)" transform="matrix(1 0 0 1 -8 -16)" xlink:href="#H"/>
+    <path d="m 32 64 h 64 c 2.210938 0 4 1.789062 4 4 v 40 c 0 2.210938 -1.789062 4 -4 4 h -64 c -2.210938 0 -4 -1.789062 -4 -4 v -40 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0" fill="#3d3846"/>
+    <path d="m 36 80 h 24 c 2.210938 0 4 1.789062 4 4 v 16 c 0 2.210938 -1.789062 4 -4 4 h -24 c -2.210938 0 -4 -1.789062 -4 -4 v -16 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0" fill="url(#b)"/>
+    <path d="m 36 80 h 24 c 2.210938 0 4 1.789062 4 4 v 8 c 0 2.210938 -1.789062 4 -4 4 h -24 c -2.210938 0 -4 -1.789062 -4 -4 v -8 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0" fill="#b5835a"/>
+    <use mask="url(#d)" transform="matrix(1 0 0 1 -8 -16)" xlink:href="#u"/>
+    <path d="m 72 80 h 20 c 2.210938 0 4 1.789062 4 4 v 20 c 0 2.210938 -1.789062 4 -4 4 h -20 c -2.210938 0 -4 -1.789062 -4 -4 v -20 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0" fill="url(#e)"/>
+    <path d="m 72 80 h 20 c 2.210938 0 4 1.789062 4 4 v 8 c 0 2.210938 -1.789062 4 -4 4 h -20 c -2.210938 0 -4 -1.789062 -4 -4 v -8 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0" fill="#b5835a"/>
+    <use mask="url(#f)" transform="matrix(1 0 0 1 -8 -16)" xlink:href="#x"/>
     <path d="m 32 52 h 64 c 2.210938 0 4 1.789062 4 4 v 16 c 0 2.210938 -1.789062 4 -4 4 h -64 c -2.210938 0 -4 -1.789062 -4 -4 v -16 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0" fill="#62a0ea"/>
-    <path d="m 28 76 h 72 v 8 h -72 z m 0 0" fill-opacity="0.2"/>
-    <path d="m 28 72 h 72 v 8 h -72 z m 0 0" fill="#deddda"/>
+    <g clip-path="url(#g)">
+        <g clip-path="url(#h)">
+            <path d="m 28 52 h 72 v 2 h -72 z m 0 0" fill="#3584e4"/>
+        </g>
+    </g>
+    <g clip-path="url(#i)">
+        <g clip-path="url(#j)">
+            <path d="m 28 58 h 72 v 2 h -72 z m 0 0" fill="#3584e4"/>
+        </g>
+    </g>
     <g clip-path="url(#k)">
         <g clip-path="url(#l)">
-            <path d="m 28 52 h 72 v 1 h -72 z m 0 0" fill="#3584e4"/>
+            <path d="m 28 64 h 72 v 2 h -72 z m 0 0" fill="#3584e4"/>
         </g>
     </g>
     <g clip-path="url(#m)">
         <g clip-path="url(#n)">
-            <path d="m 28 56 h 72 v 1 h -72 z m 0 0" fill="#3584e4"/>
+            <path d="m 28 70 h 72 v 2 h -72 z m 0 0" fill="#3584e4"/>
         </g>
     </g>
+    <path d="m 28 76 h 72 v 8 h -72 z m 0 0" fill-opacity="0.2"/>
+    <path d="m 28 74 h 72 v 8 h -72 z m 0 0" fill="#deddda"/>
+    <path d="m 28 72 h 72 v 2 h -72 z m 0 0" fill="#c0bfbc"/>
     <g clip-path="url(#o)">
-        <g clip-path="url(#p)">
-            <path d="m 28 60 h 72 v 1 h -72 z m 0 0" fill="#3584e4"/>
-        </g>
+        <path d="m 50 78 h 28 c 1.109375 0 2 0.890625 2 2 v 4 c 0 1.109375 -0.890625 2 -2 2 h -28 c -1.109375 0 -2 -0.890625 -2 -2 v -4 c 0 -1.109375 0.890625 -2 2 -2 z m 0 0" fill-opacity="0.2"/>
     </g>
-    <g clip-path="url(#q)">
-        <g clip-path="url(#r)">
-            <path d="m 28 64 h 72 v 1 h -72 z m 0 0" fill="#3584e4"/>
-        </g>
+    <g clip-path="url(#p)">
+        <path d="m 50 76 h 28 c 1.109375 0 2 0.890625 2 2 v 4 c 0 1.109375 -0.890625 2 -2 2 h -28 c -1.109375 0 -2 -0.890625 -2 -2 v -4 c 0 -1.109375 0.890625 -2 2 -2 z m 0 0" fill="url(#q)"/>
     </g>
-    <g clip-path="url(#s)">
-        <g clip-path="url(#t)">
-            <path d="m 28 68 h 72 v 1 h -72 z m 0 0" fill="#3584e4"/>
-        </g>
-    </g>
-    <path d="m 55 84 h 18 c 1.660156 0 3 -1 3 -3 v -5 h -3.96875 l -0.03125 4 h -16 l 0.03125 -4 h -4.03125 v 5 c 0 1.660156 1.335938 3 3 3 z m 0 0" fill-opacity="0.2"/>
-    <path d="m 55 82 h 18 c 1.660156 0 3 -1 3 -3 v -5 h -3.96875 l -0.03125 4 h -16 l 0.03125 -4 h -4.03125 v 5 c 0 1.660156 1.335938 3 3 3 z m 0 0" fill="url(#u)"/>
-    <path d="m 55 78 c -1.664062 0 -3 -1.339844 -3 -3 v -1 h 4 v 2 h 16 v -2 h 4 v 1 c 0 1.660156 -1.339844 3 -3 3 z m 0 0" fill="url(#v)"/>
-    <g fill="#63452c">
-        <path d="m 34 94 h 1 v 3 h -1 z m 0 0"/>
-        <path d="m 35.5 94 h 0.5 v 3 h -0.5 z m 0 0"/>
-        <path d="m 36.5 94 h 0.5 v 3 h -0.5 z m 0 0"/>
-        <path d="m 37.5 94 h 1 v 3 h -1 z m 0 0"/>
-        <path d="m 39 94 h 1 v 3 h -1 z m 0 0"/>
-        <path d="m 34 97.5 h 6 v 0.5 h -6 z m 0 0"/>
-    </g>
-    <path d="m 28 70 h 72 v 2 h -72 z m 0 0" fill="#c0bfbc"/>
-    <g clip-path="url(#Y)" mask="url(#U)">
-        <g clip-path="url(#X)" mask="url(#V)">
-            <path d="m 128 80.640625 v 47.359375 h -128 v -47.359375 z m 0 0" fill="url(#W)"/>
+    <path d="m 48 76 v 2 c 0 1.109375 0.890625 2 2 2 h 28 c 1.109375 0 2 -0.890625 2 -2 v -2 h -4 v 2 h -24 v -2 z m 0 0" fill="url(#r)"/>
+    <g clip-path="url(#O)" mask="url(#K)">
+        <g clip-path="url(#N)" mask="url(#L)">
+            <path d="m 128 80.640625 v 47.359375 h -128 v -47.359375 z m 0 0" fill="url(#M)"/>
             <path d="m 13.308594 80.640625 l 47.355468 47.359375 h 21.214844 l -47.359375 -47.359375 z m 42.421875 0 l 47.363281 47.359375 h 21.214844 l -47.363282 -47.359375 z m 42.429687 0 l 29.839844 29.839844 v -21.210938 l -8.628906 -8.628906 z m -98.160156 7.90625 v 21.214844 l 18.238281 18.238281 h 21.214844 z m 0 0"/>
         </g>
     </g>
