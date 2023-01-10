@@ -4,21 +4,24 @@
   Pods
 </h1>
 
+<p align="center"><strong>Keep track of your podman containers</strong></p>
+
 <p align="center">
   <a href="https://flathub.org/apps/details/com.github.marhkb.Pods">
-    <img width="200" alt="Download on Flathub" src="https://flathub.org/assets/badges/flathub-badge-i-en.svg"/>
+    <img width="200" alt="Download on Flathub" src="https://flathub.org/assets/badges/flathub-badge-en.svg"/>
   </a>
   <br>
 </p>
 
-<p align="center"><strong>Keep track of your podman containers</strong></p>
-
 <p align="center">
   <a href="https://hosted.weblate.org/engage/pods/">
-    <img src="https://hosted.weblate.org/widgets/pods/-/pods/svg-badge.svg" alt="Translation status" />
+    <img src="https://hosted.weblate.org/widgets/pods/-/pods-1-0/svg-badge.svg" alt="Translation status" />
   </a>
   <a href="https://github.com/marhkb/pods/actions/workflows/ci.yml">
     <img src="https://github.com/marhkb/pods/actions/workflows/ci.yml/badge.svg" alt="CI status"/>
+  </a>
+  <a href="https://flathub.org/apps/details/com.github.marhkb.Pods">
+    <img alt="Flathub downloads" src="https://img.shields.io/badge/dynamic/json?color=informational&label=downloads&logo=flathub&logoColor=white&query=%24.installs_total&url=https%3A%2F%2Fflathub.org%2Fapi%2Fv2%2Fstats%2Fcom.github.marhkb.Pods"/>
   </a>
 </p>
 
