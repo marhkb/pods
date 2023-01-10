@@ -20,6 +20,9 @@
   <a href="https://github.com/marhkb/pods/actions/workflows/ci.yml">
     <img src="https://github.com/marhkb/pods/actions/workflows/ci.yml/badge.svg" alt="CI status"/>
   </a>
+  <a href="https://flathub.org/apps/details/com.github.marhkb.Pods">
+    <img alt="Flathub downloads" src="https://img.shields.io/badge/dynamic/json?color=informational&label=downloads&logo=flathub&logoColor=white&query=%24.installs_total&url=https%3A%2F%2Fflathub.org%2Fapi%2Fv2%2Fstats%2Fcom.github.marhkb.Pods"/>
+  </a>
 </p>
 
 <br>
