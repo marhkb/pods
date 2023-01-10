@@ -4,14 +4,14 @@
   Pods
 </h1>
 
+<p align="center"><strong>Keep track of your podman containers</strong></p>
+
 <p align="center">
   <a href="https://flathub.org/apps/details/com.github.marhkb.Pods">
     <img width="200" alt="Download on Flathub" src="https://flathub.org/assets/badges/flathub-badge-en.svg"/>
   </a>
   <br>
 </p>
-
-<p align="center"><strong>Keep track of your podman containers</strong></p>
 
 <p align="center">
   <a href="https://hosted.weblate.org/engage/pods/">
