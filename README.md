@@ -15,7 +15,7 @@
 
 <p align="center">
   <a href="https://hosted.weblate.org/engage/pods/">
-    <img src="https://hosted.weblate.org/widgets/pods/-/pods-1-0/svg-badge.svg" alt="Translation status" />
+    <img src="https://hosted.weblate.org/widgets/pods/-/1-0/svg-badge.svg" alt="Translation status" />
   </a>
   <a href="https://github.com/marhkb/pods/actions/workflows/ci.yml">
     <img src="https://github.com/marhkb/pods/actions/workflows/ci.yml/badge.svg" alt="CI status"/>
