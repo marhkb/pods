@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-30 21:22+0100\n"
-"PO-Revision-Date: 2023-01-05 19:48+0000\n"
-"Last-Translator: shoodle <ppf.vim@mailbox.org>\n"
-"Language-Team: German <https://hosted.weblate.org/projects/pods/pods/de/>\n"
+"PO-Revision-Date: 2023-01-14 19:50+0000\n"
+"Last-Translator: Marcus Behrendt <marcus.behrendt.86@gmail.com>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/pods/main/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1868,19 +1868,19 @@ msgstr "Container"
 
 #: src/view/action/page.rs:171
 msgid "Pod Creation Has Been Aborted"
-msgstr ""
+msgstr "Die Pod-Erstellung Wurde Abgebrochen"
 
 #: src/view/action/page.rs:177
 msgid "Pruning of Images Has Failed"
-msgstr ""
+msgstr "Das Beschneiden der Images ist Fehlgeschlagen"
 
 #: src/view/action/page.rs:178
 msgid "Image Download Has Failed"
-msgstr ""
+msgstr "Der Download des Images ist Fehlgeschlagen"
 
 #: src/view/action/page.rs:179
 msgid "Image Built Has Failed"
-msgstr ""
+msgstr "Das Bauen des Images ist Fehlgeschlagen"
 
 #: src/view/action/page.rs:180
 #, fuzzy
@@ -1899,11 +1899,11 @@ msgstr "Container"
 
 #: src/view/action/page.rs:183
 msgid "Pod Creation Has Failed"
-msgstr ""
+msgstr "Die Erstellung des Pods ist Fehlgeschlagen"
 
 #: src/view/action/page.rs:217
 msgid "After {}"
-msgstr ""
+msgstr "Nach {}"
 
 #: src/view/action/page.rs:259
 #, fuzzy
@@ -1917,47 +1917,47 @@ msgstr "Container"
 
 #: src/view/action/row.rs:144
 msgid "Abort"
-msgstr ""
+msgstr "Abbrechen"
 
 #: src/view/action/row.rs:146
 msgid "Remove"
-msgstr ""
+msgstr "Entfernen"
 
 #: src/view/action/row.rs:221
 msgid "Failed Pods Action"
-msgstr ""
+msgstr "Gescheiterte Pod-Aktion"
 
 #: src/view/action/row.rs:225
 msgid "Finished Pods Action"
-msgstr ""
+msgstr "Beendete Pod-Aktion"
 
 #: src/view/action/row.rs:266
 msgid "Ongoing ({})"
-msgstr ""
+msgstr "Laufend ({})"
 
 #: src/view/action/row.rs:280
 msgid "Finished after {}"
-msgstr ""
+msgstr "Beendet nach {}"
 
 #: src/view/action/row.rs:281
 msgid "Cancelled after {}"
-msgstr ""
+msgstr "Abgebrochen nach {}"
 
 #: src/view/action/row.rs:282
 msgid "Failed after {}"
-msgstr ""
+msgstr "Gescheitert nach {}"
 
 #: src/view/component/back_navigation_controls.rs:62
 msgid "Go Back"
-msgstr ""
+msgstr "Zurück"
 
 #: src/view/component/back_navigation_controls.rs:71
 msgid "Main View"
-msgstr ""
+msgstr "Hauptansicht"
 
 #: src/view/component/source_view_page.rs:171
 msgid "Image Inspection"
-msgstr ""
+msgstr "Image Inspizierung"
 
 #: src/view/component/source_view_page.rs:178
 #, fuzzy
@@ -1971,31 +1971,31 @@ msgstr "Container"
 
 #: src/view/component/source_view_page.rs:189
 msgid "Pod Inspection"
-msgstr ""
+msgstr "Pod-Inspektion"
 
 #: src/view/component/source_view_page.rs:190
 msgid "Pod Kube Generation"
-msgstr ""
+msgstr "Pod-Kube-Generierung"
 
 #: src/view/component/source_view_page.rs:216
 msgid "Could not set language to '{}'"
-msgstr ""
+msgstr "Sprache konnte nicht auf '{}' gesetzt werden"
 
 #: src/view/component/source_view_page.rs:302
 msgid "Inspection error"
-msgstr ""
+msgstr "Inspektionsfehler"
 
 #: src/view/component/source_view_page.rs:303
 msgid "Kube generation error"
-msgstr ""
+msgstr "Kube-Generierungsfehler"
 
 #: src/view/component/source_view_search_widget.rs:171
 msgid "0 of {}"
-msgstr ""
+msgstr "0 von {}"
 
 #: src/view/component/source_view_search_widget.rs:190
 msgid "{} of {}"
-msgstr ""
+msgstr "{} von {}"
 
 #: src/view/component/top_page.rs:78
 #, fuzzy
@@ -2009,12 +2009,12 @@ msgstr "Container"
 
 #: src/view/connection/creation_page.rs:151
 msgid "official documentation"
-msgstr ""
+msgstr "offizielle Dokumentation"
 
 #. Translators: The placeholder '{}' is replaced by 'official documentation'.
 #: src/view/connection/creation_page.rs:148
 msgid "Visit the {} for more information."
-msgstr ""
+msgstr "Besuchen Sie die {} für weitere Informationen."
 
 #: src/view/connection/creation_page.rs:227
 #, fuzzy
@@ -2023,7 +2023,7 @@ msgstr "Fehler beim Inspizieren des Containers '{}'"
 
 #: src/view/connection/custom_info_dialog.rs:119
 msgid "systemd unit path copied"
-msgstr ""
+msgstr "Pfad der systemd-Unit kopiert"
 
 #: src/view/connection/custom_info_dialog.rs:127
 msgid "systemd unit content copied"
@@ -2588,9 +2588,8 @@ msgid "pods"
 msgstr ""
 
 #: src/window.rs:833
-#, fuzzy
 msgid "Error on loading {}"
-msgstr "Fehler beim Laden der Images"
+msgstr "Fehler beim Laden {}"
 
 #, fuzzy
 #~ msgid "Error on resuming container: {}"
