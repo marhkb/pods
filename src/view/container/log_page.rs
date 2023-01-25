@@ -698,6 +698,7 @@ impl vte::Perform for MarkupPerform {
 fn ansi_escape_to_markup_tags(item: u16) -> Option<(&'static str, &'static str)> {
     Some(match item {
         1 => ("<b>", "</b>"),
+
         30 => ("<span foreground=\"#000000\">", "</span>"),
         31 => ("<span foreground=\"#e01b24\">", "</span>"),
         32 => ("<span foreground=\"#33d17a\">", "</span>"),
@@ -706,6 +707,35 @@ fn ansi_escape_to_markup_tags(item: u16) -> Option<(&'static str, &'static str)>
         35 => ("<span foreground=\"#d4267e\">", "</span>"),
         36 => ("<span foreground=\"#00f7f7\">", "</span>"),
         37 => ("<span foreground=\"#ffffff\">", "</span>"),
+        39 => ("<span foreground=\"#ffffff\">", "</span>"),
+
+        40 => ("<span background=\"#000000\">", "</span>"),
+        41 => ("<span background=\"#e01b24\">", "</span>"),
+        42 => ("<span background=\"#33d17a\">", "</span>"),
+        43 => ("<span background=\"#f6d32d\">", "</span>"),
+        44 => ("<span background=\"#3584e4\">", "</span>"),
+        45 => ("<span background=\"#d4267e\">", "</span>"),
+        46 => ("<span background=\"#00f7f7\">", "</span>"),
+        47 => ("<span background=\"#ffffff\">", "</span>"),
+        49 => ("<span background=\"#000000\">", "</span>"),
+
+        90 => ("<span foreground=\"#3d3846\">", "</span>"),
+        91 => ("<span foreground=\"#f66151\">", "</span>"),
+        92 => ("<span foreground=\"#8ff0a4\">", "</span>"),
+        93 => ("<span foreground=\"#f9f06b\">", "</span>"),
+        94 => ("<span foreground=\"#99c1f1\">", "</span>"),
+        95 => ("<span foreground=\"#c061cb\">", "</span>"),
+        96 => ("<span foreground=\"#33c7de\">", "</span>"),
+        97 => ("<span foreground=\"#f66151\">", "</span>"),
+
+        100 => ("<span background=\"#3d3846\">", "</span>"),
+        101 => ("<span background=\"#f66151\">", "</span>"),
+        102 => ("<span background=\"#8ff0a4\">", "</span>"),
+        103 => ("<span background=\"#f9f06b\">", "</span>"),
+        104 => ("<span background=\"#99c1f1\">", "</span>"),
+        105 => ("<span background=\"#c061cb\">", "</span>"),
+        106 => ("<span background=\"#33c7de\">", "</span>"),
+        109 => ("<span background=\"#f66151\">", "</span>"),
         _ => return None,
     })
 }
