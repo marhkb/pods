@@ -396,32 +396,31 @@ impl LogPage {
 
     fn insert(&self, line: Vec<u8>, perform: &mut MarkupPerform, at_end: bool) {
         let imp = self.imp();
-        if perform.decode(&line) {
-            let line_buffer = perform.move_out_buffer();
 
-            if let Some((timestamp, log_message)) = line_buffer.split_once(' ') {
-                imp.fetch_until.get_or_init(|| timestamp.to_owned());
+        let line_buffer = perform.decode(&line);
 
-                let source_buffer = &*imp.source_buffer;
-                source_buffer.insert_markup(
-                    &mut if at_end {
-                        imp.source_buffer.end_iter()
-                    } else {
-                        imp.source_buffer.start_iter()
-                    },
-                    &if source_buffer.start_iter() == source_buffer.end_iter() {
-                        Cow::Borrowed(log_message)
-                    } else {
-                        Cow::Owned(format!("\n{}", log_message))
-                    },
-                );
+        if let Some((timestamp, log_message)) = line_buffer.split_once(' ') {
+            imp.fetch_until.get_or_init(|| timestamp.to_owned());
 
-                let mut timestamps = imp.log_timestamps.borrow_mut();
-                if at_end {
-                    timestamps.push_back(timestamp.to_owned());
+            let source_buffer = &*imp.source_buffer;
+            source_buffer.insert_markup(
+                &mut if at_end {
+                    imp.source_buffer.end_iter()
                 } else {
-                    timestamps.push_front(timestamp.to_owned());
-                }
+                    imp.source_buffer.start_iter()
+                },
+                &if source_buffer.start_iter() == source_buffer.end_iter() {
+                    Cow::Borrowed(log_message)
+                } else {
+                    Cow::Owned(format!("\n{}", log_message))
+                },
+            );
+
+            let mut timestamps = imp.log_timestamps.borrow_mut();
+            if at_end {
+                timestamps.push_back(timestamp.to_owned());
+            } else {
+                timestamps.push_front(timestamp.to_owned());
             }
         }
     }
@@ -651,15 +650,22 @@ impl MarkupPerform {
         buffer
     }
 
+    fn reset(&mut self) {
+        while let Some(close_tag) = self.close_tags.pop() {
+            self.buffer.push_str(close_tag);
+        }
+    }
+
     /// Decode the specified bytes. Return true if finished.
-    fn decode(&mut self, ansi_encoded_bytes: &[u8]) -> bool {
+    fn decode(&mut self, ansi_encoded_bytes: &[u8]) -> String {
         let mut parser = vte::Parser::new();
 
         String::from_utf8_lossy(ansi_encoded_bytes)
             .bytes()
             .for_each(|byte| parser.advance(self, byte));
 
-        self.close_tags.is_empty()
+        self.reset();
+        self.move_out_buffer()
     }
 }
 
@@ -678,9 +684,7 @@ impl vte::Perform for MarkupPerform {
         for param in params.iter() {
             match param {
                 [0] => {
-                    while let Some(close_tag) = self.close_tags.pop() {
-                        self.buffer.push_str(close_tag);
-                    }
+                    self.reset();
                 }
                 items => items
                     .iter()
@@ -698,6 +702,7 @@ impl vte::Perform for MarkupPerform {
 fn ansi_escape_to_markup_tags(item: u16) -> Option<(&'static str, &'static str)> {
     Some(match item {
         1 => ("<b>", "</b>"),
+
         30 => ("<span foreground=\"#000000\">", "</span>"),
         31 => ("<span foreground=\"#e01b24\">", "</span>"),
         32 => ("<span foreground=\"#33d17a\">", "</span>"),
@@ -706,6 +711,35 @@ fn ansi_escape_to_markup_tags(item: u16) -> Option<(&'static str, &'static str)>
         35 => ("<span foreground=\"#d4267e\">", "</span>"),
         36 => ("<span foreground=\"#00f7f7\">", "</span>"),
         37 => ("<span foreground=\"#ffffff\">", "</span>"),
+        39 => ("<span foreground=\"#ffffff\">", "</span>"),
+
+        40 => ("<span background=\"#000000\">", "</span>"),
+        41 => ("<span background=\"#e01b24\">", "</span>"),
+        42 => ("<span background=\"#33d17a\">", "</span>"),
+        43 => ("<span background=\"#f6d32d\">", "</span>"),
+        44 => ("<span background=\"#3584e4\">", "</span>"),
+        45 => ("<span background=\"#d4267e\">", "</span>"),
+        46 => ("<span background=\"#00f7f7\">", "</span>"),
+        47 => ("<span background=\"#ffffff\">", "</span>"),
+        49 => ("<span background=\"#000000\">", "</span>"),
+
+        90 => ("<span foreground=\"#3d3846\">", "</span>"),
+        91 => ("<span foreground=\"#f66151\">", "</span>"),
+        92 => ("<span foreground=\"#8ff0a4\">", "</span>"),
+        93 => ("<span foreground=\"#f9f06b\">", "</span>"),
+        94 => ("<span foreground=\"#99c1f1\">", "</span>"),
+        95 => ("<span foreground=\"#c061cb\">", "</span>"),
+        96 => ("<span foreground=\"#33c7de\">", "</span>"),
+        97 => ("<span foreground=\"#f66151\">", "</span>"),
+
+        100 => ("<span background=\"#3d3846\">", "</span>"),
+        101 => ("<span background=\"#f66151\">", "</span>"),
+        102 => ("<span background=\"#8ff0a4\">", "</span>"),
+        103 => ("<span background=\"#f9f06b\">", "</span>"),
+        104 => ("<span background=\"#99c1f1\">", "</span>"),
+        105 => ("<span background=\"#c061cb\">", "</span>"),
+        106 => ("<span background=\"#33c7de\">", "</span>"),
+        109 => ("<span background=\"#f66151\">", "</span>"),
         _ => return None,
     })
 }
