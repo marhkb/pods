@@ -31,6 +31,7 @@ pub(crate) use self::component::LeafletOverlay;
 pub(crate) use self::component::PropertyRow;
 pub(crate) use self::component::PropertyWidgetRow;
 pub(crate) use self::component::RandomNameEntryRow;
+pub(crate) use self::component::ScalableTextView;
 pub(crate) use self::component::SourceViewMode;
 pub(crate) use self::component::SourceViewPage;
 pub(crate) use self::component::SourceViewSearchWidget;
