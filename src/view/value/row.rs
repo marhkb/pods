@@ -28,7 +28,7 @@ mod imp {
         type ParentType = adw::EntryRow;
 
         fn class_init(klass: &mut Self::Class) {
-            Self::bind_template(klass);
+            klass.bind_template();
             klass.install_action(ACTION_REMOVE, None, |widget, _, _| {
                 if let Some(value) = widget.value() {
                     value.remove_request();

@@ -95,7 +95,7 @@ mod imp {
         type ParentType = gtk::Widget;
 
         fn class_init(klass: &mut Self::Class) {
-            Self::bind_template(klass);
+            klass.bind_template();
 
             klass.install_action_async(ACTION_SAVE_TO_FILE, None, |widget, _, _| async move {
                 widget.save_to_file().await;

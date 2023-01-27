@@ -44,7 +44,7 @@ mod imp {
         type ParentType = gtk::Widget;
 
         fn class_init(klass: &mut Self::Class) {
-            Self::bind_template(klass);
+            klass.bind_template();
 
             klass.install_action(ACTION_CLEAN_UP_ACTIONS, None, |widget, _, _| {
                 widget.clean_up_actions();

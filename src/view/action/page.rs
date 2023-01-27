@@ -33,7 +33,7 @@ mod imp {
         type ParentType = gtk::Widget;
 
         fn class_init(klass: &mut Self::Class) {
-            Self::bind_template(klass);
+            klass.bind_template();
             klass.install_action(ACTION_CANCEL, None, |widget, _, _| widget.cancel());
             klass.install_action(ACTION_VIEW_ARTIFACT, None, |widget, _, _| {
                 widget.view_artifact();

@@ -33,7 +33,7 @@ mod imp {
         type Interfaces = (gtk::Editable,);
 
         fn class_init(klass: &mut Self::Class) {
-            Self::bind_template(klass);
+            klass.bind_template();
 
             klass.set_css_name("entry");
             klass.set_accessible_role(gtk::AccessibleRole::TextBox);
