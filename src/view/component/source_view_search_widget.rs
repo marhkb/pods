@@ -38,7 +38,7 @@ mod imp {
         type Interfaces = (gtk::Editable,);
 
         fn class_init(klass: &mut Self::Class) {
-            Self::bind_template(klass);
+            klass.bind_template();
 
             klass.add_binding_action(
                 gdk::Key::G,

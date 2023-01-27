@@ -27,7 +27,7 @@ mod imp {
         type Interfaces = (gtk::Editable,);
 
         fn class_init(klass: &mut Self::Class) {
-            Self::bind_template(klass);
+            klass.bind_template();
 
             klass.install_action(
                 "random-name-entry-row.generate",

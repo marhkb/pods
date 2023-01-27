@@ -41,7 +41,7 @@ mod imp {
         type ParentType = adw::Window;
 
         fn class_init(klass: &mut Self::Class) {
-            Self::bind_template(klass);
+            klass.bind_template();
 
             klass.install_action(
                 ACTION_COPY_ROOT_SYSTEMD_UNIT_PATH,

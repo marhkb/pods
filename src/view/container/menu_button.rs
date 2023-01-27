@@ -37,7 +37,7 @@ mod imp {
         type ParentType = gtk::Widget;
 
         fn class_init(klass: &mut Self::Class) {
-            Self::bind_template(klass);
+            klass.bind_template();
 
             klass.install_action(ACTION_START, None, |widget, _, _| {
                 super::super::start(widget.upcast_ref());

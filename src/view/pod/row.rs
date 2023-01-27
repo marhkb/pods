@@ -42,7 +42,7 @@ mod imp {
         type ParentType = gtk::ListBoxRow;
 
         fn class_init(klass: &mut Self::Class) {
-            Self::bind_template(klass);
+            klass.bind_template();
 
             klass.install_action("pod-row.activate", None, |widget, _, _| {
                 widget.activate();
