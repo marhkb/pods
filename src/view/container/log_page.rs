@@ -169,8 +169,7 @@ mod imp {
                 let log_timestamps = obj.imp().log_timestamps.borrow_mut();
                 if let Some(timestamp) = log_timestamps.get(line as usize) {
                     let date_time = format!(
-                        "<span foreground=\"#865e3c\">{}</span>",
-                        timestamp
+                        "<span foreground=\"#865e3c\">{timestamp}</span>",
                     );
                     renderer.set_markup(&date_time);
 
@@ -412,7 +411,7 @@ impl LogPage {
                 &if source_buffer.start_iter() == source_buffer.end_iter() {
                     Cow::Borrowed(log_message)
                 } else {
-                    Cow::Owned(format!("\n{}", log_message))
+                    Cow::Owned(format!("\n{log_message}"))
                 },
             );
 

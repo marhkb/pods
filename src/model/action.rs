@@ -794,7 +794,7 @@ impl Action {
     }
 
     fn insert_line(&self, text: &str) {
-        self.insert(&format!("{}\n", text));
+        self.insert(&format!("{text}\n"));
     }
 
     fn replace_last_line(&self, text: &str) {
@@ -805,6 +805,6 @@ impl Action {
         end_iter.forward_line();
 
         output.delete(&mut start_iter, &mut end_iter);
-        output.insert(&mut start_iter, &format!("{}\n", text));
+        output.insert(&mut start_iter, &format!("{text}\n"));
     }
 }
