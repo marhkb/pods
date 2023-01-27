@@ -1,5 +1,6 @@
 use std::cell::RefCell;
 
+use adw::traits::BinExt;
 use gettextrs::gettext;
 use gtk::gdk;
 use gtk::glib;
@@ -308,29 +309,41 @@ impl DetailsPage {
     }
 
     fn show_kube_inspection_or_kube(&self, mode: view::SourceViewMode) {
-        if let Some(pod) = self.pod() {
-            let weak_ref = glib::WeakRef::new();
-            weak_ref.set(Some(&pod));
+        self.exec_action(|| {
+            if let Some(pod) = self.pod() {
+                let weak_ref = glib::WeakRef::new();
+                weak_ref.set(Some(&pod));
 
-            self.imp().leaflet_overlay.show_details(
-                view::SourceViewPage::from(view::Entity::Pod {
-                    pod: weak_ref,
-                    mode,
-                })
-                .upcast_ref(),
-            );
-        }
+                self.imp().leaflet_overlay.show_details(
+                    view::SourceViewPage::from(view::Entity::Pod {
+                        pod: weak_ref,
+                        mode,
+                    })
+                    .upcast_ref(),
+                );
+            }
+        });
     }
 
     fn show_processes(&self) {
-        if let Some(pod) = self.pod() {
-            self.imp()
-                .leaflet_overlay
-                .show_details(view::TopPage::from(&pod).upcast_ref());
-        }
+        self.exec_action(|| {
+            if let Some(pod) = self.pod() {
+                self.imp()
+                    .leaflet_overlay
+                    .show_details(view::TopPage::from(&pod).upcast_ref());
+            }
+        });
     }
 
     fn create_container(&self) {
-        super::create_container(self.upcast_ref(), self.pod());
+        self.exec_action(|| {
+            super::create_container(self.upcast_ref(), self.pod());
+        });
+    }
+
+    fn exec_action<F: Fn()>(&self, op: F) {
+        if self.imp().leaflet_overlay.child().is_none() {
+            op();
+        }
     }
 }
