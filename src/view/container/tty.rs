@@ -57,6 +57,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+            klass.bind_template_callbacks();
 
             klass.install_action(ACTION_START_OR_RESUME, None, |widget, _, _| {
                 if let Some(container) = widget.container() {
@@ -90,6 +91,38 @@ mod imp {
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
             obj.init_template();
+        }
+    }
+
+    #[gtk::template_callbacks]
+    impl Tty {
+        #[template_callback]
+        fn on_key_pressed(
+            &self,
+            key: gdk::Key,
+            _: u32,
+            modifier: gdk::ModifierType,
+            _: &gtk::EventControllerKey,
+        ) -> gtk::Inhibit {
+            glib::signal::Inhibit(
+                if modifier == gdk::ModifierType::CONTROL_MASK | gdk::ModifierType::SHIFT_MASK {
+                    if key == gdk::Key::C {
+                        self.obj().copy_plain();
+                    } else if key == gdk::Key::V {
+                        self.obj().paste();
+                    }
+                    true
+                } else {
+                    false
+                },
+            )
+        }
+
+        #[template_callback]
+        fn on_mouse_pressed(&self, _: i32, x: f64, y: f64) {
+            let popover_menu = &*self.popover_menu;
+            popover_menu.set_pointing_to(Some(&gdk::Rectangle::new(x as i32, y as i32, 0, 0)));
+            popover_menu.popup();
         }
     }
 
@@ -137,35 +170,6 @@ mod imp {
                 .connect_selection_changed(clone!(@weak obj => move |_| {
                     obj.update_copy_actions();
                 }));
-
-            let key_events = gtk::EventControllerKey::new();
-            key_events.connect_key_pressed(clone!(
-                @weak obj => @default-return glib::signal::Inhibit(false), move |_, key, _, m| {
-                    glib::signal::Inhibit(
-                        if m == gdk::ModifierType::CONTROL_MASK
-                            | gdk::ModifierType::SHIFT_MASK
-                        {
-                            if key == gdk::Key::C {
-                                obj.copy_plain();
-                            } else if key == gdk::Key::V {
-                                obj.paste();
-                            }
-                            true
-                        } else {
-                            false
-                        },
-                    )
-                }
-            ));
-            self.terminal.add_controller(&key_events);
-
-            let click_events = gtk::GestureClick::builder().button(3).build();
-            click_events.connect_pressed(clone!(@weak obj => move |_, _, x, y| {
-                let popover_menu = &*obj.imp().popover_menu;
-                popover_menu.set_pointing_to(Some(&gdk::Rectangle::new(x as i32, y as i32, 0, 0)));
-                popover_menu.popup();
-            }));
-            self.terminal.add_controller(&click_events);
 
             self.terminal.set_bold_is_bright(true);
             self.terminal.set_colors(
