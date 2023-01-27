@@ -300,20 +300,20 @@ impl DetailsPage {
     }
 
     fn show_inspection(&self) {
-        self.show_kube_inspection_or_kube(view::SourceViewMode::Inspect);
+        self.show_kube_inspection_or_kube(view::ScalableTextViewMode::Inspect);
     }
 
     fn show_kube(&self) {
-        self.show_kube_inspection_or_kube(view::SourceViewMode::Kube);
+        self.show_kube_inspection_or_kube(view::ScalableTextViewMode::Kube);
     }
 
-    fn show_kube_inspection_or_kube(&self, mode: view::SourceViewMode) {
+    fn show_kube_inspection_or_kube(&self, mode: view::ScalableTextViewMode) {
         if let Some(pod) = self.pod() {
             let weak_ref = glib::WeakRef::new();
             weak_ref.set(Some(&pod));
 
             self.imp().leaflet_overlay.show_details(
-                view::SourceViewPage::from(view::Entity::Pod {
+                view::ScalableTextViewPage::from(view::Entity::Pod {
                     pod: weak_ref,
                     mode,
                 })

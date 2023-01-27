@@ -18,6 +18,9 @@ use crate::view;
 const ACTION_SAVE_TO_FILE: &str = "source-view-page.save-to-file";
 const ACTION_ENTER_SEARCH: &str = "source-view-page.enter-search";
 const ACTION_EXIT_SEARCH: &str = "source-view-page.exit-search";
+const ACTION_ZOOM_IN: &str = "source-view-page.zoom-in";
+const ACTION_ZOOM_OUT: &str = "source-view-page.zoom-out";
+const ACTION_ZOOM_NORMAL: &str = "source-view-page.zoom-normal";
 
 #[derive(Clone, Debug)]
 pub(crate) enum Entity {
@@ -67,8 +70,8 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(resource = "/com/github/marhkb/Pods/ui/component/source-view-page.ui")]
-    pub(crate) struct SourceViewPage {
+    #[template(resource = "/com/github/marhkb/Pods/ui/component/scalable-text-view-page.ui")]
+    pub(crate) struct ScalableTextViewPage {
         pub(super) entity: OnceCell<Entity>,
         #[template_child]
         pub(super) window_title: TemplateChild<adw::WindowTitle>,
@@ -83,19 +86,20 @@ mod imp {
         #[template_child]
         pub(super) spinner: TemplateChild<gtk::Spinner>,
         #[template_child]
-        pub(super) source_view: TemplateChild<sourceview5::View>,
+        pub(super) source_view: TemplateChild<view::ScalableTextView>,
         #[template_child]
         pub(super) source_buffer: TemplateChild<sourceview5::Buffer>,
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for SourceViewPage {
-        const NAME: &'static str = "PdsSourceViewPage";
-        type Type = super::SourceViewPage;
+    impl ObjectSubclass for ScalableTextViewPage {
+        const NAME: &'static str = "PdsScalableTextViewPage";
+        type Type = super::ScalableTextViewPage;
         type ParentType = gtk::Widget;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+            klass.bind_template_callbacks();
 
             klass.install_action_async(ACTION_SAVE_TO_FILE, None, |widget, _, _| async move {
                 widget.save_to_file().await;
@@ -114,10 +118,60 @@ mod imp {
             klass.install_action(ACTION_EXIT_SEARCH, None, |widget, _, _| {
                 widget.exit_search();
             });
+
             klass.add_binding_action(
                 gdk::Key::Escape,
                 gdk::ModifierType::empty(),
                 ACTION_EXIT_SEARCH,
+                None,
+            );
+
+            klass.install_action(ACTION_ZOOM_IN, None, |widget, _, _| {
+                widget.imp().source_view.zoom_in();
+            });
+            klass.install_action(ACTION_ZOOM_OUT, None, |widget, _, _| {
+                widget.imp().source_view.zoom_out();
+            });
+            klass.install_action(ACTION_ZOOM_NORMAL, None, |widget, _, _| {
+                widget.imp().source_view.zoom_normal();
+            });
+
+            klass.add_binding_action(
+                gdk::Key::plus,
+                gdk::ModifierType::CONTROL_MASK,
+                ACTION_ZOOM_IN,
+                None,
+            );
+            klass.add_binding_action(
+                gdk::Key::KP_Add,
+                gdk::ModifierType::CONTROL_MASK,
+                ACTION_ZOOM_IN,
+                None,
+            );
+            klass.add_binding_action(
+                gdk::Key::equal,
+                gdk::ModifierType::CONTROL_MASK,
+                ACTION_ZOOM_IN,
+                None,
+            );
+
+            klass.add_binding_action(
+                gdk::Key::minus,
+                gdk::ModifierType::CONTROL_MASK,
+                ACTION_ZOOM_OUT,
+                None,
+            );
+            klass.add_binding_action(
+                gdk::Key::KP_Subtract,
+                gdk::ModifierType::CONTROL_MASK,
+                ACTION_ZOOM_OUT,
+                None,
+            );
+
+            klass.add_binding_action(
+                gdk::Key::_0,
+                gdk::ModifierType::CONTROL_MASK,
+                ACTION_ZOOM_NORMAL,
                 None,
             );
         }
@@ -127,7 +181,27 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for SourceViewPage {
+    #[gtk::template_callbacks]
+    impl ScalableTextViewPage {
+        #[template_callback]
+        fn on_scroll(&self, _dx: f64, dy: f64, scroll: gtk::EventControllerScroll) -> gtk::Inhibit {
+            gtk::Inhibit(
+                if scroll.current_event_state() == gdk::ModifierType::CONTROL_MASK {
+                    let view = &*self.source_view;
+                    if dy.is_sign_negative() {
+                        view.zoom_in();
+                    } else {
+                        view.zoom_out();
+                    }
+                    true
+                } else {
+                    false
+                },
+            )
+        }
+    }
+
+    impl ObjectImpl for ScalableTextViewPage {
         fn constructed(&self) {
             self.parent_constructed();
 
@@ -149,7 +223,8 @@ mod imp {
                 .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
                 .build();
 
-            self.search_widget.set_source_view(Some(&*self.source_view));
+            self.search_widget
+                .set_source_view(Some(self.source_view.upcast_ref()));
 
             let adw_style_manager = adw::StyleManager::default();
             obj.on_notify_dark(&adw_style_manager);
@@ -163,16 +238,16 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for SourceViewPage {}
+    impl WidgetImpl for ScalableTextViewPage {}
 }
 
 glib::wrapper! {
-    pub(crate) struct SourceViewPage(ObjectSubclass<imp::SourceViewPage>)
+    pub(crate) struct ScalableTextViewPage(ObjectSubclass<imp::ScalableTextViewPage>)
         @extends gtk::Widget,
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
-impl From<Entity> for SourceViewPage {
+impl From<Entity> for ScalableTextViewPage {
     fn from(entity: Entity) -> Self {
         let obj: Self = glib::Object::builder().build();
         let imp = obj.imp();
@@ -297,7 +372,7 @@ impl From<Entity> for SourceViewPage {
     }
 }
 
-impl SourceViewPage {
+impl ScalableTextViewPage {
     fn init(&self, result: anyhow::Result<String>, mode: Mode) {
         let imp = self.imp();
         match result {

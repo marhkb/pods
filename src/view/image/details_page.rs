@@ -344,7 +344,7 @@ impl DetailsPage {
             weak_ref.set(Some(&image));
 
             self.imp().leaflet_overlay.show_details(
-                view::SourceViewPage::from(view::Entity::Image(weak_ref)).upcast_ref(),
+                view::ScalableTextViewPage::from(view::Entity::Image(weak_ref)).upcast_ref(),
             );
         }
     }

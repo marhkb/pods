@@ -128,6 +128,7 @@ mod imp {
             view::RepoTagRow::static_type();
             view::RepoTagSimpleRow::static_type();
             view::ScalableTextView::static_type();
+            view::ScalableTextViewPage::static_type();
             view::SourceViewSearchWidget::static_type();
             view::Spinner::static_type();
             view::Statusbar::static_type();
