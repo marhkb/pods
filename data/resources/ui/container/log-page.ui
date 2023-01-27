@@ -7,6 +7,14 @@
       </object>
     </property>
 
+    <child>
+      <object class="GtkEventControllerScroll">
+        <property name="flags">vertical</property>
+        <property name="propagation-phase">capture</property>
+        <signal name="scroll" handler="on_scroll" swapped="true"/>
+      </object>
+    </child>
+
     <!-- Headerbar -->
     <child>
       <object class="AdwHeaderBar">
@@ -182,7 +190,7 @@
                         <property name="vexpand">True</property>
 
                         <child>
-                          <object class="GtkSourceView" id="source_view">
+                          <object class="PdsScalableTextView" id="scalable_text_view">
                             <style>
                               <class name="text-view"/>
                             </style>
