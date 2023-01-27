@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-30 21:22+0100\n"
-"PO-Revision-Date: 2023-01-14 19:50+0000\n"
+"PO-Revision-Date: 2023-01-27 22:35+0000\n"
 "Last-Translator: Marcus Behrendt <marcus.behrendt.86@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/pods/main/de/>\n"
 "Language: de\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.15.1-dev\n"
+"X-Generator: Weblate 4.16-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
@@ -64,7 +64,7 @@ msgstr "Die zuletzt verwendete Ansicht"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:41
 msgid "Whether to show intermediate images"
-msgstr "Ob Zwischenbilder angezeigt werden sollen"
+msgstr "Ob Zwischenabbilder angezeigt werden sollen"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:46
 msgid "The last used container file path"
@@ -484,17 +484,17 @@ msgstr "Details"
 
 #: data/resources/ui/container/creation-page.ui:136
 msgid "Local image"
-msgstr "Lokales Image"
+msgstr "Lokales Abbild"
 
 #: data/resources/ui/container/creation-page.ui:152
 #: data/resources/ui/pod/creation-page.ui:318
 msgid "Remote Image"
-msgstr "Entferntes Image"
+msgstr "Entferntes Abbild"
 
 #: data/resources/ui/container/creation-page.ui:161
 #: data/resources/ui/pod/creation-page.ui:327
 msgid "Remote image"
-msgstr "Entferntes Image"
+msgstr "Entferntes Abbild"
 
 #: data/resources/ui/container/creation-page.ui:172
 #: data/resources/ui/pod/creation-page.ui:338
@@ -510,7 +510,7 @@ msgstr "Pod"
 #: data/resources/ui/container/creation-page.ui:207
 #: data/resources/ui/pod/creation-page.ui:360
 msgid "Pull latest image"
-msgstr "Neuestes Image herunterladen"
+msgstr "Neuestes Abbild herunterladen"
 
 #: data/resources/ui/container/creation-page.ui:219
 #: data/resources/ui/container/details-page.ui:239
@@ -883,7 +883,7 @@ msgstr "Portbindungen"
 
 #: data/resources/ui/container/properties-group.ui:251
 msgid "Image"
-msgstr "Image"
+msgstr "Abbild"
 
 #: data/resources/ui/container/rename-dialog.ui:9
 msgid "_Rename"
@@ -992,8 +992,8 @@ msgid ""
 "md\">website</a> in order to add registries.\n"
 msgstr ""
 "\n"
-"Ohne Registries können Sie nicht nach Images suchen. Bitte befolgen Sie die "
-"Anweisungen unter <a href=\"https://github.com/containers/image/blob/"
+"Ohne Registries können Sie nicht nach Abbildern suchen. Bitte befolgen Sie "
+"die Anweisungen unter <a href=\"https://github.com/containers/image/blob/"
 "b80addc01c0dab40c5d8945a1df61f3c72a3e40d/docs/containers-registries.conf.5."
 "md\">Website</a>, um Registries hinzuzufügen.\n"
 
@@ -1008,11 +1008,11 @@ msgstr "Register"
 #: data/resources/ui/image-search/widget.ui:82
 #: data/resources/ui/images/panel.ui:196
 msgid "No Images Found"
-msgstr "Keine Images Gefunden"
+msgstr "Keine Abbilder Gefunden"
 
 #: data/resources/ui/image-search/widget.ui:83
 msgid "Please start typing to look for images."
-msgstr "Bitte beginnen Sie mit der Eingabe, um nach Images zu suchen."
+msgstr "Bitte beginnen Sie mit der Eingabe, um nach Abbildern zu suchen."
 
 #: data/resources/ui/image-search/widget.ui:98
 msgid "Searching…"
@@ -1028,7 +1028,7 @@ msgstr "Tag ('latest' falls leer)"
 
 #: data/resources/ui/image/build-page.ui:41
 msgid "Build Image"
-msgstr "Image erstellen"
+msgstr "Abbild Erstellen"
 
 #: data/resources/ui/image/build-page.ui:51
 msgid "_Build"
@@ -1036,7 +1036,7 @@ msgstr "_Erstellen"
 
 #: data/resources/ui/image/build-page.ui:68
 msgid "Image Name"
-msgstr "Name des Images"
+msgstr "Name des Abbildes"
 
 #: data/resources/ui/image/build-page.ui:122
 msgid "Build Context Directory"
@@ -1052,7 +1052,7 @@ msgstr "Pfad der Containerdatei relativ zum Build-Kontextverzeichnis"
 
 #: data/resources/ui/image/details-page.ui:41
 msgid "Image Details"
-msgstr "Image-Details"
+msgstr "Abbild-Details"
 
 #: data/resources/ui/image/details-page.ui:107
 msgid "Repository Tags"
@@ -1060,11 +1060,11 @@ msgstr "Repository-Tags"
 
 #: data/resources/ui/image/details-page.ui:145
 msgid "_Delete This Image"
-msgstr "Dieses Image _Löschen"
+msgstr "Dieses Abbild _Löschen"
 
 #: data/resources/ui/image/details-page.ui:166
 msgid "View all image properties in a structured text form."
-msgstr "Anzeige aller Image-Eigenschaften in strukturierter Textform."
+msgstr "Anzeige aller Eigenschaften des Abbildes in strukturierter Textform."
 
 #: data/resources/ui/image/details-page.ui:182
 msgid "History"
@@ -1072,7 +1072,7 @@ msgstr "Historie"
 
 #: data/resources/ui/image/details-page.ui:183
 msgid "View parent layers of this image."
-msgstr "Übergeordnete Ebenen dieses Images anzeigen."
+msgstr "Übergeordnete Ebenen dieses Abbildes anzeigen."
 
 #: data/resources/ui/image/details-page.ui:207
 msgid "Associated Containers"
@@ -1080,11 +1080,11 @@ msgstr "Assoziierte Container"
 
 #: data/resources/ui/image/details-page.ui:208
 msgid "There are no containers associated with this image."
-msgstr "Es gibt keine Container, die mit diesem Image zugeordnet sind."
+msgstr "Es gibt keine Container, die mit diesem Abbild zugeordnet sind."
 
 #: data/resources/ui/image/history-page.ui:19
 msgid "Image History"
-msgstr "Historie des Images"
+msgstr "Historie des Abbildes"
 
 #: data/resources/ui/image/history-page.ui:49
 msgid "History List"
@@ -1097,11 +1097,11 @@ msgstr "Container _Erstellen…"
 
 #: data/resources/ui/image/pull-page.ui:40
 msgid "Download Image"
-msgstr "Image Herunterladen"
+msgstr "Abbild Herunterladen"
 
 #: data/resources/ui/image/selection-page.ui:21
 msgid "Image Search"
-msgstr "Suche nach Images"
+msgstr "Suche nach Abbildern"
 
 #: data/resources/ui/image/selection-page.ui:31
 msgid "_Select"
@@ -1126,20 +1126,20 @@ msgstr "Zwischenabbilder"
 #: data/resources/ui/images/panel.ui:197
 msgid "You can use the buttons below to add an initial image."
 msgstr ""
-"Sie können die nachstehenden Schaltflächen verwenden, um ein erstes Image "
+"Sie können die nachstehenden Schaltflächen verwenden, um ein erstes Abbild "
 "hinzuzufügen."
 
 #: data/resources/ui/images/panel.ui:212
 msgid "_Download an Image"
-msgstr "Ein Image _Herunterladen"
+msgstr "Ein Abbild _Herunterladen"
 
 #: data/resources/ui/images/panel.ui:224
 msgid "_Build a Local Image"
-msgstr "Ein Lokales Image _Bauen"
+msgstr "Ein Lokales Abbild _Bauen"
 
 #: data/resources/ui/images/prune-page.ui:40
 msgid "Prune Images"
-msgstr "Images Beschneiden"
+msgstr "Abbilder Beschneiden"
 
 #: data/resources/ui/images/prune-page.ui:50
 msgid "_Prune"
@@ -1156,7 +1156,7 @@ msgstr "Alles reduzieren"
 #: data/resources/ui/images/prune-page.ui:70
 msgid "Remove all images not in use by containers, not just dangling ones."
 msgstr ""
-"Entferne alle nicht von Containern verwendeten Images, nicht nur hängende."
+"Entferne alle nicht von Containern verwendeten Abbilder, nicht nur hängende."
 
 #: data/resources/ui/images/prune-page.ui:82
 msgid "Prune External"
@@ -1167,7 +1167,7 @@ msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)."
 msgstr ""
-"Images entfernen, auch wenn sie von externen Containern genutzt werden (z. "
+"Abbilder entfernen, auch wenn sie von externen Containern genutzt werden (z. "
 "B. von Bau-Containern)."
 
 #: data/resources/ui/images/prune-page.ui:94
@@ -1176,7 +1176,7 @@ msgstr "Reduzieren bis"
 
 #: data/resources/ui/images/prune-page.ui:95
 msgid "Prune images created before this timestamp."
-msgstr "Images reduzieren, die vor diesem Zeitpunkt erzeugt wurden."
+msgstr "Abbilder beschneiden, die vor diesem Zeitpunkt erzeugt wurden."
 
 #: data/resources/ui/images/prune-page.ui:178
 msgid "AM"
@@ -1263,13 +1263,13 @@ msgstr "Graphstatus"
 
 #: data/resources/ui/info-dialog.ui:158
 msgid "Image Store"
-msgstr "Imagespeicher"
+msgstr "Abbildspeicher"
 
 #: data/resources/ui/info-dialog.ui:159
 msgid "Describes the image store. Right now only the number of images present."
 msgstr ""
-"Beschreibt den Speicher für Images. Im Moment nur die Anzahl der vorhandenen "
-"Images."
+"Beschreibt den Speicher für Abbilder. Im Moment nur die Anzahl der "
+"vorhandenen Abbilder."
 
 #: data/resources/ui/info-dialog.ui:165
 msgid "Run Root"
@@ -1407,7 +1407,7 @@ msgstr "Markierung aufheben"
 
 #: data/resources/ui/search-panel.ui:51 data/resources/ui/window.ui:273
 msgid "Images"
-msgstr "Bilder"
+msgstr "Abbilder"
 
 #: data/resources/ui/search-panel.ui:83 data/resources/ui/window.ui:313
 #, fuzzy
@@ -1599,11 +1599,11 @@ msgstr "Geben Sie den minimalen Log-Level an"
 
 #: src/model/action.rs:160
 msgid "Images: <b>Prune</b>"
-msgstr "Images: <b>Beschneiden</b>"
+msgstr "Abbilder: <b>Beschneiden</b>"
 
 #: src/model/action.rs:198 src/model/action.rs:227
 msgid "Image: <b>{}</b>"
-msgstr "Image: <b>{}</b>"
+msgstr "Abbild: <b>{}</b>"
 
 #: src/model/action.rs:230
 msgid "Generating tarball of context directory..."
@@ -1619,7 +1619,7 @@ msgstr "nichts"
 
 #: src/model/action.rs:316
 msgid "Image: <b>{}</b> ← {}"
-msgstr "Image: <b>{}</b> ← {}"
+msgstr "Abbild: <b>{}</b> ← {}"
 
 #: src/model/action.rs:330 src/model/action.rs:437 src/model/action.rs:525
 #: src/model/action.rs:732
@@ -1786,15 +1786,15 @@ msgstr "Fehler beim Öffnen des Dateidialogs"
 
 #: src/view/action/page.rs:141
 msgid "Images Are Currently Being Pruned"
-msgstr "Die Images Werden Derzeit Beschnitten"
+msgstr "Die Abbilder Werden Derzeit Beschnitten"
 
 #: src/view/action/page.rs:142
 msgid "Image Is Currently Being Downloaded"
-msgstr "Das Image Wird Gerade Heruntergeladen"
+msgstr "Das Abbild Wird Gerade Heruntergeladen"
 
 #: src/view/action/page.rs:143
 msgid "Image Is Currently Being Built"
-msgstr "Das Image Wird Gerade Erstellt"
+msgstr "Das Abbild Wird Gerade Erstellt"
 
 #: src/view/action/page.rs:144
 msgid "Container Is Currently Being Created"
@@ -1802,7 +1802,7 @@ msgstr "Der Container Wird Gerade Erstellt"
 
 #: src/view/action/page.rs:145
 msgid "New Image Is Currently Being Committed"
-msgstr "Neues Image Wird Gerade Committet"
+msgstr "Neues Abbild Wird Gerade Committet"
 
 #: src/view/action/page.rs:146
 msgid "Files Are Currently Being Copied"
@@ -1814,15 +1814,15 @@ msgstr "Der Pod Wird Gerade Erstellt"
 
 #: src/view/action/page.rs:153
 msgid "Images Have Been Pruned"
-msgstr "Die Images Wurden Beschnitten"
+msgstr "Die Abbilder Wurden Beschnitten"
 
 #: src/view/action/page.rs:154
 msgid "Image Has Been Downloaded"
-msgstr "Das Image Wurde Heruntergeladen"
+msgstr "Das Abbild Wurde Heruntergeladen"
 
 #: src/view/action/page.rs:155
 msgid "Image Has Been Built"
-msgstr "Das Image Wurde Erstellt"
+msgstr "Das Abbild Wurde Erstellt"
 
 #: src/view/action/page.rs:156
 msgid "Container Has Been Created"
@@ -1830,7 +1830,7 @@ msgstr "Der Container Wurde Erstellt"
 
 #: src/view/action/page.rs:157
 msgid "New Image Has Been Committed"
-msgstr "Neues Image Wurde Committet"
+msgstr "Neues Abbild Wurde Committet"
 
 #: src/view/action/page.rs:158
 msgid "Files Have Beeng Copied"
@@ -1842,24 +1842,23 @@ msgstr "Der Pod Wurde Erstellt"
 
 #: src/view/action/page.rs:165
 msgid "Pruning of Images Has Been Aborted"
-msgstr "Das Beschneiden der Images Wurde Abgebrochen"
+msgstr "Das Beschneiden der Abbilder Wurde Abgebrochen"
 
 #: src/view/action/page.rs:166
 msgid "Image Download Has Been Aborted"
-msgstr "Der Download des Images Wurde Abgebrochen"
+msgstr "Der Download des Abbildes Wurde Abgebrochen"
 
 #: src/view/action/page.rs:167
 msgid "Image Built Has Been Aborted"
-msgstr "Die Erstellung des Images Wurde Abgebrochen"
+msgstr "Die Erstellung des Abbildes Wurde Abgebrochen"
 
 #: src/view/action/page.rs:168
 msgid "Container Creation Has Been Aborted"
 msgstr "Die Erstellung des Containers Wurde Abgebrochen"
 
 #: src/view/action/page.rs:169
-#, fuzzy
 msgid "Image Commitment Has Been Aborted"
-msgstr "Container"
+msgstr "Das Committen des Abbildes Wurde Abgebrochen"
 
 #: src/view/action/page.rs:170
 #, fuzzy
@@ -1872,15 +1871,15 @@ msgstr "Die Pod-Erstellung Wurde Abgebrochen"
 
 #: src/view/action/page.rs:177
 msgid "Pruning of Images Has Failed"
-msgstr "Das Beschneiden der Images ist Fehlgeschlagen"
+msgstr "Das Beschneiden der Abbilder ist Fehlgeschlagen"
 
 #: src/view/action/page.rs:178
 msgid "Image Download Has Failed"
-msgstr "Der Download des Images ist Fehlgeschlagen"
+msgstr "Der Download des Abbildes ist Fehlgeschlagen"
 
 #: src/view/action/page.rs:179
 msgid "Image Built Has Failed"
-msgstr "Das Bauen des Images ist Fehlgeschlagen"
+msgstr "Das Bauen des Abbildes ist Fehlgeschlagen"
 
 #: src/view/action/page.rs:180
 #, fuzzy
@@ -1888,9 +1887,8 @@ msgid "Container Creation Has Failed"
 msgstr "Container"
 
 #: src/view/action/page.rs:181
-#, fuzzy
 msgid "Image Commitment Has Failed"
-msgstr "Container"
+msgstr "Das Committen des Abbildes ist Fehlgeschlagen"
 
 #: src/view/action/page.rs:182
 #, fuzzy
@@ -1906,9 +1904,8 @@ msgid "After {}"
 msgstr "Nach {}"
 
 #: src/view/action/page.rs:259
-#, fuzzy
 msgid "Error on opening artifact"
-msgstr "Fehler beim Beschneiden des Images '{}'"
+msgstr "Fehler beim Öffnen des Artefakts"
 
 #: src/view/action/page.rs:260
 #, fuzzy
@@ -1957,7 +1954,7 @@ msgstr "Hauptansicht"
 
 #: src/view/component/source_view_page.rs:171
 msgid "Image Inspection"
-msgstr "Image Inspizierung"
+msgstr "Abbild-Inspizierung"
 
 #: src/view/component/source_view_page.rs:178
 #, fuzzy
@@ -2064,9 +2061,8 @@ msgid "Change"
 msgstr ""
 
 #: src/view/container/commit_page.rs:204
-#, fuzzy
 msgid "Error on fetching user name"
-msgstr "Fehler beim Beschneiden des Images '{}'"
+msgstr "Fehler beim Ermitteln des Nutzernamens"
 
 #: src/view/container/creation_page.rs:279
 msgid "disabled"
@@ -2079,7 +2075,7 @@ msgstr "Container"
 
 #: src/view/container/creation_page.rs:620 src/view/pod/creation_page.rs:346
 msgid "no image selected"
-msgstr ""
+msgstr "kein Abbild ausgewählt"
 
 #: src/view/container/details_page.rs:280
 #, fuzzy
@@ -2111,9 +2107,8 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/view/container/health_check_page.rs:246
-#, fuzzy
 msgid "Error on running health check"
-msgstr "Fehler beim Beschneiden des Images '{}'"
+msgstr "Fehler bei der Durchführung der Gesundheitsprüfung"
 
 #: src/view/container/log_page.rs:389
 msgid "Error while following log"
@@ -2124,14 +2119,12 @@ msgid "Include timestamps"
 msgstr ""
 
 #: src/view/container/log_page.rs:576
-#, fuzzy
 msgid "Error on saving logs"
-msgstr "Fehler beim Laden der Images"
+msgstr "Fehler beim Speichern des Protokolls"
 
 #: src/view/container/log_page.rs:590
-#, fuzzy
 msgid "Error on retrieving logs"
-msgstr "Fehler beim Laden der Images"
+msgstr "Fehler beim Abrufen des Protokolls"
 
 #: src/view/container/log_page.rs:619
 #, fuzzy
@@ -2266,7 +2259,7 @@ msgstr ""
 
 #: src/view/image/build_page.rs:238
 msgid "Image name should not contain uppercase characters."
-msgstr ""
+msgstr "Der Name des Abbildes sollte keine Großbuchstaben enthalten."
 
 #. Translators: "{}" are placeholders for storage space.
 #: src/view/image/details_page.rs:196
@@ -2284,14 +2277,12 @@ msgid "{} (Shared: {}, Virtual: {})"
 msgstr ""
 
 #: src/view/image/details_page.rs:307
-#, fuzzy
 msgid "Error on loading image details"
-msgstr "Fehler beim Laden der Container"
+msgstr "Fehler beim Laden der Details über das Abbild"
 
 #: src/view/image/details_page.rs:311
-#, fuzzy
 msgid "Image '{}' has been deleted"
-msgstr "Container"
+msgstr "Abbild '{}' wurde gelöscht"
 
 #: src/view/image/history_page.rs:83
 msgid "{} entry"
@@ -2325,13 +2316,12 @@ msgid "Tags"
 msgstr ""
 
 #: src/view/image/history_page.rs:189
-#, fuzzy
 msgid "Error on retrieving history"
-msgstr "Fehler beim Laden der Images"
+msgstr "Fehler beim Abrufen der Historie"
 
 #: src/view/image/mod.rs:35
 msgid "Confirm Forced Image Deletion"
-msgstr ""
+msgstr "Bestätigen Sie die erzwungene Löschung des Abbildes"
 
 #. Translators: The "{}" is a placeholder for the container name.
 #: src/view/image/mod.rs:41
@@ -2339,12 +2329,16 @@ msgid ""
 "Image is used by container <b>{}</b>. Deleting the image will also delete "
 "all its associated containers."
 msgstr ""
+"Das Abbild wird vom Container <b>{}</b> verwendet. Beim Löschen des Abbildes "
+"werden auch alle zugehörigen Container gelöscht."
 
 #: src/view/image/mod.rs:45
 msgid ""
 "Image is used by a container. Deleting the image will also delete all its "
 "associated containers."
 msgstr ""
+"Das Abbild wird von einem Container verwendet. Beim Löschen des Abbildes "
+"werden auch alle zugehörigen Container gelöscht."
 
 #: src/view/image/mod.rs:55 src/view/pod/mod.rs:92
 #, fuzzy
@@ -2354,9 +2348,8 @@ msgstr "_Löschen"
 #. Translators: The "{}" is a placeholder for the image id.
 #. Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
 #: src/view/image/mod.rs:80 src/view/images/panel.rs:413
-#, fuzzy
 msgid "Error on deleting image '{}'"
-msgstr "Fehler beim Löschen des Images"
+msgstr "Fehler beim Löschen des Abbildes '{} '"
 
 #: src/view/image_search/widget.rs:215
 msgid "All registries"
@@ -2372,36 +2365,38 @@ msgstr ""
 
 #: src/view/image_search/widget.rs:324
 msgid "Failed to search for images"
-msgstr ""
+msgstr "Fehler bei der Suche nach Abbildern"
 
 #: src/view/images/panel.rs:203 src/view/images/panel.rs:223
 msgid "No images found"
-msgstr ""
+msgstr "Keine Abbilder gefunden"
 
 #: src/view/images/panel.rs:206
 msgid "1 image, used"
-msgstr ""
+msgstr "1 Abbild, verwendet"
 
 #: src/view/images/panel.rs:208
 msgid "1 image, unused"
-msgstr ""
+msgstr "1 Abbild, unbenutzt"
 
 #. Translators: There's a wide space (U+2002) between ", {}".
 #: src/view/images/panel.rs:213
 msgid "{} image total, {} {} unused, {}"
 msgid_plural "{} images total, {} {} unused, {}"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} Abbild gesamt, {}{} unbenutzt, {}"
+msgstr[1] "{} Abbilder gesamt, {}{} unbenutzt, {}"
 
 #: src/view/images/panel.rs:384
 msgid "Confirm Forced Deletion of Multiple Images"
-msgstr ""
+msgstr "Erzwungene Löschung Mehrerer Abbilder Bestätigen"
 
 #: src/view/images/panel.rs:386
 msgid ""
 "There may be containers associated with those images, which will also be "
 "removed!"
 msgstr ""
+"Möglicherweise sind mit diesen Abbildern auch Container verbunden, die "
+"ebenfalls entfernt werden!"
 
 #. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
 #: src/view/images/prune_page.rs:175
@@ -2438,8 +2433,8 @@ msgstr[1] ""
 #: src/view/info_dialog.rs:268
 msgid "{} Image"
 msgid_plural "{} Images"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} Abbild"
+msgstr[1] "{} Abbilder"
 
 #. Translators: The placeholder "{}" is for the error message.
 #: src/view/info_dialog.rs:284
@@ -2455,48 +2450,41 @@ msgid "Failed to create pod"
 msgstr ""
 
 #: src/view/pod/details_page.rs:261
-#, fuzzy
 msgid "Error on loading pod data"
-msgstr "Fehler beim Laden der Images"
+msgstr "Fehler beim Laden von Pod-Daten"
 
 #: src/view/pod/details_page.rs:265
 msgid "Pod '{}' has been deleted"
 msgstr ""
 
 #: src/view/pod/mod.rs:55 src/view/pods/panel.rs:360
-#, fuzzy
 msgid "Error on starting pod"
-msgstr "Fehler beim Laden der Images"
+msgstr "Fehler beim Starten des Pods"
 
 #: src/view/pod/mod.rs:56 src/view/pods/panel.rs:386 src/view/pods/panel.rs:409
-#, fuzzy
 msgid "Error on stopping pod"
-msgstr "Fehler beim Laden der Images"
+msgstr "Fehler beim Stoppen des Pods"
 
 #: src/view/pod/mod.rs:57
-#, fuzzy
 msgid "Error on killing pod"
-msgstr "Fehler beim Inspizieren des Images '{}'"
+msgstr "Fehler beim Abwürgen des Pods"
 
 #: src/view/pod/mod.rs:58 src/view/pods/panel.rs:433
 #, fuzzy
 msgid "Error on restarting pod"
-msgstr "Fehler beim Laden der Images"
+msgstr "Fehler beim Neustart des Pods"
 
 #: src/view/pod/mod.rs:59
-#, fuzzy
 msgid "Error on pausing pod"
-msgstr "Fehler beim Inspizieren des Images '{}'"
+msgstr "Fehler beim Pausieren des Pods"
 
 #: src/view/pod/mod.rs:60 src/view/pods/panel.rs:349
-#, fuzzy
 msgid "Error on resuming pod"
-msgstr "Fehler beim Laden der Images"
+msgstr "Fehler beim Fortsetzen des Pods"
 
 #: src/view/pod/mod.rs:61 src/view/pods/panel.rs:478
-#, fuzzy
 msgid "Error on deleting pod"
-msgstr "Fehler beim Löschen des Images"
+msgstr "Fehler beim Löschen des Pods"
 
 #: src/view/pod/mod.rs:71
 msgid "Confirm Forced Pod Deletion"
@@ -2547,9 +2535,8 @@ msgid "Repo tag must contain a colon “:”"
 msgstr ""
 
 #: src/view/repo_tag/row.rs:196
-#, fuzzy
 msgid "Error on untagging image"
-msgstr "Fehler beim Löschen des Images"
+msgstr "Fehler beim Aufheben der Kennzeichnung des Abbildes"
 
 #: src/window.rs:422
 msgid "Confirm Exiting The Application"
@@ -2558,8 +2545,8 @@ msgstr ""
 #: src/window.rs:584
 msgid "{} Selected Image"
 msgid_plural "{} Selected Images"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} Ausgewähltes Abbild"
+msgstr[1] "{} Ausgewählte Abbilder"
 
 #: src/window.rs:598
 #, fuzzy
@@ -2576,7 +2563,7 @@ msgstr[1] ""
 
 #: src/window.rs:835
 msgid "images"
-msgstr ""
+msgstr "Abbilder"
 
 #: src/window.rs:836
 #, fuzzy
