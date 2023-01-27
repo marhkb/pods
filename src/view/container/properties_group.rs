@@ -214,7 +214,7 @@ mod imp {
 
                                 box_.set_start_widget(Some(
                                     &gtk::Label::builder()
-                                        .label(&format!("<a href='http://{}'>{}</a>", host, host))
+                                        .label(&format!("<a href='http://{host}'>{host}</a>"))
                                         .hexpand(true)
                                         .selectable(true)
                                         .use_markup(true)
