@@ -1,5 +1,6 @@
 use std::cell::RefCell;
 
+use adw::traits::BinExt;
 use gettextrs::gettext;
 use gtk::gdk;
 use gtk::glib;
@@ -319,62 +320,76 @@ impl DetailsPage {
     }
 
     fn rename(&self) {
-        if let Some(container) = self.container() {
-            let dialog = view::ContainerRenameDialog::from(&container);
-            dialog.set_transient_for(Some(&utils::root(self.upcast_ref())));
-            dialog.present();
-        }
+        self.exec_action(|| {
+            if let Some(container) = self.container() {
+                let dialog = view::ContainerRenameDialog::from(&container);
+                dialog.set_transient_for(Some(&utils::root(self.upcast_ref())));
+                dialog.present();
+            }
+        });
     }
 
     fn commit(&self) {
-        if let Some(container) = self.container() {
-            utils::show_dialog(
-                self.upcast_ref(),
-                view::ContainerCommitPage::from(&container).upcast_ref(),
-            );
-        }
+        self.exec_action(|| {
+            if let Some(container) = self.container() {
+                utils::show_dialog(
+                    self.upcast_ref(),
+                    view::ContainerCommitPage::from(&container).upcast_ref(),
+                );
+            }
+        });
     }
 
     fn get_files(&self) {
-        if let Some(container) = self.container() {
-            utils::show_dialog(
-                self.upcast_ref(),
-                view::ContainerFilesGetPage::from(&container).upcast_ref(),
-            );
-        }
+        self.exec_action(|| {
+            if let Some(container) = self.container() {
+                utils::show_dialog(
+                    self.upcast_ref(),
+                    view::ContainerFilesGetPage::from(&container).upcast_ref(),
+                );
+            }
+        });
     }
 
     fn put_files(&self) {
-        if let Some(container) = self.container() {
-            utils::show_dialog(
-                self.upcast_ref(),
-                view::ContainerFilesPutPage::from(&container).upcast_ref(),
-            );
-        }
+        self.exec_action(|| {
+            if let Some(container) = self.container() {
+                utils::show_dialog(
+                    self.upcast_ref(),
+                    view::ContainerFilesPutPage::from(&container).upcast_ref(),
+                );
+            }
+        });
     }
 
     fn show_health_details(&self) {
-        if let Some(ref container) = self.container() {
-            self.imp()
-                .leaflet_overlay
-                .show_details(view::ContainerHealthCheckPage::from(container).upcast_ref());
-        }
+        self.exec_action(|| {
+            if let Some(ref container) = self.container() {
+                self.imp()
+                    .leaflet_overlay
+                    .show_details(view::ContainerHealthCheckPage::from(container).upcast_ref());
+            }
+        });
     }
 
     fn show_image_details(&self) {
-        if let Some(image) = self.container().as_ref().and_then(model::Container::image) {
-            self.imp()
-                .leaflet_overlay
-                .show_details(view::ImageDetailsPage::from(&image).upcast_ref());
-        }
+        self.exec_action(|| {
+            if let Some(image) = self.container().as_ref().and_then(model::Container::image) {
+                self.imp()
+                    .leaflet_overlay
+                    .show_details(view::ImageDetailsPage::from(&image).upcast_ref());
+            }
+        });
     }
 
     fn show_pod_details(&self) {
-        if let Some(pod) = self.container().as_ref().and_then(model::Container::pod) {
-            self.imp()
-                .leaflet_overlay
-                .show_details(view::PodDetailsPage::from(&pod).upcast_ref());
-        }
+        self.exec_action(|| {
+            if let Some(pod) = self.container().as_ref().and_then(model::Container::pod) {
+                self.imp()
+                    .leaflet_overlay
+                    .show_details(view::PodDetailsPage::from(&pod).upcast_ref());
+            }
+        });
     }
 
     fn show_inspection(&self) {
@@ -386,41 +401,55 @@ impl DetailsPage {
     }
 
     fn show_kube_inspection_or_kube(&self, mode: view::SourceViewMode) {
-        if let Some(container) = self.container() {
-            let weak_ref = glib::WeakRef::new();
-            weak_ref.set(Some(&container));
+        self.exec_action(|| {
+            if let Some(container) = self.container() {
+                let weak_ref = glib::WeakRef::new();
+                weak_ref.set(Some(&container));
 
-            self.imp().leaflet_overlay.show_details(
-                view::SourceViewPage::from(view::Entity::Container {
-                    container: weak_ref,
-                    mode,
-                })
-                .upcast_ref(),
-            );
-        }
+                self.imp().leaflet_overlay.show_details(
+                    view::SourceViewPage::from(view::Entity::Container {
+                        container: weak_ref,
+                        mode,
+                    })
+                    .upcast_ref(),
+                );
+            }
+        });
     }
 
     fn show_log(&self) {
-        if let Some(container) = self.container() {
-            self.imp()
-                .leaflet_overlay
-                .show_details(view::ContainerLogPage::from(&container).upcast_ref());
-        }
+        self.exec_action(|| {
+            if let Some(container) = self.container() {
+                self.imp()
+                    .leaflet_overlay
+                    .show_details(view::ContainerLogPage::from(&container).upcast_ref());
+            }
+        });
     }
 
     fn show_processes(&self) {
-        if let Some(container) = self.container() {
-            self.imp()
-                .leaflet_overlay
-                .show_details(view::TopPage::from(&container).upcast_ref());
-        }
+        self.exec_action(|| {
+            if let Some(container) = self.container() {
+                self.imp()
+                    .leaflet_overlay
+                    .show_details(view::TopPage::from(&container).upcast_ref());
+            }
+        });
     }
 
     fn show_tty(&self) {
-        if let Some(container) = self.container() {
-            self.imp()
-                .leaflet_overlay
-                .show_details(view::ContainerTtyPage::from(&container).upcast_ref());
+        self.exec_action(|| {
+            if let Some(container) = self.container() {
+                self.imp()
+                    .leaflet_overlay
+                    .show_details(view::ContainerTtyPage::from(&container).upcast_ref());
+            }
+        });
+    }
+
+    fn exec_action<F: Fn()>(&self, op: F) {
+        if self.imp().leaflet_overlay.child().is_none() {
+            op();
         }
     }
 }
