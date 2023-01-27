@@ -28,11 +28,7 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for LeafletOverlay {
-        fn constructed(&self) {
-            self.parent_constructed();
-        }
-    }
+    impl ObjectImpl for LeafletOverlay {}
 
     impl WidgetImpl for LeafletOverlay {
         fn realize(&self) {
