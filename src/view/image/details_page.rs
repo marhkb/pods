@@ -1,5 +1,6 @@
 use std::cell::RefCell;
 
+use adw::traits::BinExt;
 use gettextrs::gettext;
 use gtk::gdk;
 use gtk::glib;
@@ -331,37 +332,53 @@ impl DetailsPage {
     }
 
     fn tag(&self) {
-        if let Some(image) = self.image() {
-            let dialog = view::RepoTagAddDialog::from(&image);
-            dialog.set_transient_for(Some(&utils::root(self.upcast_ref())));
-            dialog.present();
-        }
+        self.exec_action(|| {
+            if let Some(image) = self.image() {
+                let dialog = view::RepoTagAddDialog::from(&image);
+                dialog.set_transient_for(Some(&utils::root(self.upcast_ref())));
+                dialog.present();
+            }
+        });
     }
 
     fn show_inspection(&self) {
-        if let Some(image) = self.image() {
-            let weak_ref = glib::WeakRef::new();
-            weak_ref.set(Some(&image));
+        self.exec_action(|| {
+            if let Some(image) = self.image() {
+                let weak_ref = glib::WeakRef::new();
+                weak_ref.set(Some(&image));
 
-            self.imp().leaflet_overlay.show_details(
-                view::ScalableTextViewPage::from(view::Entity::Image(weak_ref)).upcast_ref(),
-            );
-        }
+                self.imp().leaflet_overlay.show_details(
+                    view::ScalableTextViewPage::from(view::Entity::Image(weak_ref)).upcast_ref(),
+                );
+            }
+        });
     }
 
     fn show_history(&self) {
-        if let Some(image) = self.image() {
-            self.imp()
-                .leaflet_overlay
-                .show_details(view::ImageHistoryPage::from(&image).upcast_ref());
-        }
+        self.exec_action(|| {
+            if let Some(image) = self.image() {
+                self.imp()
+                    .leaflet_overlay
+                    .show_details(view::ImageHistoryPage::from(&image).upcast_ref());
+            }
+        });
     }
 
     fn delete_image(&self) {
-        super::delete_image_show_confirmation(self.upcast_ref(), self.image());
+        self.exec_action(|| {
+            super::delete_image_show_confirmation(self.upcast_ref(), self.image());
+        });
     }
 
     fn create_container(&self) {
-        super::create_container(self.upcast_ref(), self.image());
+        self.exec_action(|| {
+            super::create_container(self.upcast_ref(), self.image());
+        });
+    }
+
+    fn exec_action<F: Fn()>(&self, op: F) {
+        if self.imp().leaflet_overlay.child().is_none() {
+            op();
+        }
     }
 }
