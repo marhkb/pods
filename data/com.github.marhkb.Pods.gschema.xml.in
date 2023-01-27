@@ -91,5 +91,10 @@
       <summary>Whether to match whole words when searching</summary>
       <description></description>
     </key>
+    <key name="text-view-font-scale" type="d">
+      <default>1</default>
+      <summary>The font scale of all text views</summary>
+      <description></description>
+    </key>
   </schema>
 </schemalist>

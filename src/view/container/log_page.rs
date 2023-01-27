@@ -35,6 +35,9 @@ const ACTION_SAVE_TO_FILE: &str = "container-log-page.save-to-file";
 const ACTION_TOGGLE_SEARCH: &str = "container-log-page.toggle-search";
 const ACTION_SCROLL_DOWN: &str = "container-log-page.scroll-down";
 const ACTION_START_CONTAINER: &str = "container-log-page.start-container";
+const ACTION_ZOOM_IN: &str = "container-log-page.zoom-in";
+const ACTION_ZOOM_OUT: &str = "container-log-page.zoom-out";
+const ACTION_ZOOM_NORMAL: &str = "container-log-page.zoom-normal";
 
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 enum FetchLinesState {
@@ -77,7 +80,7 @@ mod imp {
         #[template_child]
         pub(super) scrolled_window: TemplateChild<gtk::ScrolledWindow>,
         #[template_child]
-        pub(super) source_view: TemplateChild<sourceview5::View>,
+        pub(super) scalable_text_view: TemplateChild<view::ScalableTextView>,
         #[template_child]
         pub(super) source_buffer: TemplateChild<sourceview5::Buffer>,
         #[template_child]
@@ -92,6 +95,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+            klass.bind_template_callbacks();
 
             klass.install_action_async(ACTION_SAVE_TO_FILE, None, |widget, _, _| async move {
                 widget.save_to_file().await;
@@ -106,16 +110,85 @@ mod imp {
                 widget.start_or_resume_container();
             });
 
+            klass.install_action(ACTION_ZOOM_IN, None, |widget, _, _| {
+                widget.imp().scalable_text_view.zoom_in();
+            });
+            klass.install_action(ACTION_ZOOM_OUT, None, |widget, _, _| {
+                widget.imp().scalable_text_view.zoom_out();
+            });
+            klass.install_action(ACTION_ZOOM_NORMAL, None, |widget, _, _| {
+                widget.imp().scalable_text_view.zoom_normal();
+            });
+
             klass.add_binding_action(
                 gdk::Key::F,
                 gdk::ModifierType::CONTROL_MASK,
                 ACTION_TOGGLE_SEARCH,
                 None,
             );
+
+            klass.add_binding_action(
+                gdk::Key::plus,
+                gdk::ModifierType::CONTROL_MASK,
+                ACTION_ZOOM_IN,
+                None,
+            );
+            klass.add_binding_action(
+                gdk::Key::KP_Add,
+                gdk::ModifierType::CONTROL_MASK,
+                ACTION_ZOOM_IN,
+                None,
+            );
+            klass.add_binding_action(
+                gdk::Key::equal,
+                gdk::ModifierType::CONTROL_MASK,
+                ACTION_ZOOM_IN,
+                None,
+            );
+
+            klass.add_binding_action(
+                gdk::Key::minus,
+                gdk::ModifierType::CONTROL_MASK,
+                ACTION_ZOOM_OUT,
+                None,
+            );
+            klass.add_binding_action(
+                gdk::Key::KP_Subtract,
+                gdk::ModifierType::CONTROL_MASK,
+                ACTION_ZOOM_OUT,
+                None,
+            );
+
+            klass.add_binding_action(
+                gdk::Key::_0,
+                gdk::ModifierType::CONTROL_MASK,
+                ACTION_ZOOM_NORMAL,
+                None,
+            );
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
             obj.init_template();
+        }
+    }
+
+    #[gtk::template_callbacks]
+    impl LogPage {
+        #[template_callback]
+        fn on_scroll(&self, _dx: f64, dy: f64, scroll: gtk::EventControllerScroll) -> gtk::Inhibit {
+            gtk::Inhibit(
+                if scroll.current_event_state() == gdk::ModifierType::CONTROL_MASK {
+                    let text_view = &*self.scalable_text_view;
+                    if dy.is_sign_negative() {
+                        text_view.zoom_in();
+                    } else {
+                        text_view.zoom_out();
+                    }
+                    true
+                } else {
+                    false
+                },
+            )
         }
     }
 
@@ -180,12 +253,15 @@ mod imp {
             self.source_buffer.connect_cursor_moved(
                 clone!(@weak renderer_timestamps => move |_| renderer_timestamps.queue_draw()),
             );
-            <sourceview5::View as ViewExt>::gutter(&*self.source_view, gtk::TextWindowType::Left)
-                .insert(&renderer_timestamps, 0);
+            <view::ScalableTextView as ViewExt>::gutter(
+                &*self.scalable_text_view,
+                gtk::TextWindowType::Left,
+            )
+            .insert(&renderer_timestamps, 0);
             self.renderer_timestamps.set(renderer_timestamps).unwrap();
 
-            let mut maybe_gutter_child = <sourceview5::View as ViewExt>::gutter(
-                &*self.source_view,
+            let mut maybe_gutter_child = <view::ScalableTextView as ViewExt>::gutter(
+                &*self.scalable_text_view,
                 gtk::TextWindowType::Left,
             )
             .first_child();
@@ -227,7 +303,8 @@ mod imp {
                 .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
                 .build();
 
-            self.search_widget.set_source_view(Some(&*self.source_view));
+            self.search_widget
+                .set_source_view(Some(self.scalable_text_view.upcast_ref()));
 
             let adj = self.scrolled_window.vadjustment();
             obj.on_adjustment_changed(&adj);
