@@ -61,6 +61,20 @@
             <property name="child">
               <object class="VteTerminal" id="terminal">
                 <property name="vexpand">True</property>
+
+                <child>
+                  <object class="GtkEventControllerKey">
+                    <signal name="key-pressed" handler="on_key_pressed" swapped="true"/>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkGestureClick">
+                    <property name="button">3</property>
+                    <signal name="pressed" handler="on_mouse_pressed" swapped="true"/>
+                  </object>
+                </child>
+
               </object>
             </property>
 

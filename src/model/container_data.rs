@@ -77,10 +77,6 @@ mod imp {
                 _ => unimplemented!(),
             }
         }
-
-        fn constructed(&self) {
-            self.parent_constructed();
-        }
     }
 }
 

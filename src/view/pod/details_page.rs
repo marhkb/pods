@@ -66,7 +66,7 @@ mod imp {
         type ParentType = gtk::Widget;
 
         fn class_init(klass: &mut Self::Class) {
-            Self::bind_template(klass);
+            klass.bind_template();
 
             klass.install_action(ACTION_START_OR_RESUME, None, |widget, _, _| {
                 if widget.pod().map(|pod| pod.can_start()).unwrap_or(false) {
