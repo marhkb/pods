@@ -42,6 +42,22 @@
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="1.1.0-beta.1" date="2023-01-28">
+      <description>
+        <p>Pods 1.1.0-beta contains the following features, bug fixes and improvements:</p>
+        <ul>
+          <li>The fonts in all text views, such as those in the inspection pages, are now scalable using typical shortcuts.</li>
+          <li>It is now prevented that actions in subpages like the container inspection subpage can be triggered via shortcuts (e.g. the action to download files).</li>
+          <li>More ANSI escape sequences like background colors and bright colors has been added to the container log page.</li>
+          <li>Fixed a bug that caused some containers to not display most log lines.</li>
+          <li>The name of the container is now also displayed as a subtitle in the health check page.</li>
+          <li>The README file has been updated and improved.</li>
+          <li>There were a lot of internal improvements to the code.</li>
+          <li>Translations have been updated.</li>
+          <li>Dependencies have been updated.</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.0.2" date="2023-01-08">
       <description>
         <p>Pods 1.0.2 contains the following changes:</p>
