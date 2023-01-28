@@ -20,7 +20,7 @@ mod imp {
         type ParentType = adw::Bin;
 
         fn class_init(klass: &mut Self::Class) {
-            Self::bind_template(klass);
+            klass.bind_template();
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -28,11 +28,7 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for LeafletOverlay {
-        fn constructed(&self) {
-            self.parent_constructed();
-        }
-    }
+    impl ObjectImpl for LeafletOverlay {}
 
     impl WidgetImpl for LeafletOverlay {
         fn realize(&self) {

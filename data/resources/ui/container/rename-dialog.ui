@@ -9,6 +9,12 @@
       <response id="rename" translatable="yes" appearance="destructive">_Rename</response>
     </responses>
 
+    <child>
+      <object class="GtkEventControllerKey">
+        <signal name="key-pressed" handler="on_key_pressed" swapped="true"/>
+      </object>
+    </child>
+
     <property name="extra-child">
       <object class="GtkBox">
         <property name="orientation">vertical</property>

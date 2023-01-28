@@ -19,6 +19,11 @@
         <child type="title">
           <object class="AdwWindowTitle">
             <property name="title" translatable="yes">Container Health Check</property>
+            <binding name="subtitle">
+              <lookup name="name" type="Container">
+                <lookup name="container">PdsContainerHealthCheckPage</lookup>
+              </lookup>
+            </binding>
           </object>
         </child>
 

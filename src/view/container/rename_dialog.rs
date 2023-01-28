@@ -39,11 +39,32 @@ mod imp {
         type ParentType = adw::MessageDialog;
 
         fn class_init(klass: &mut Self::Class) {
-            Self::bind_template(klass);
+            klass.bind_template();
+            klass.bind_template_callbacks();
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
             obj.init_template();
+        }
+    }
+
+    #[gtk::template_callbacks]
+    impl RenameDialog {
+        #[template_callback]
+        fn on_key_pressed(
+            &self,
+            key: gdk::Key,
+            _: u32,
+            _: gdk::ModifierType,
+            _: &gtk::EventControllerKey,
+        ) -> gtk::Inhibit {
+            gtk::Inhibit(if key == gdk::Key::Escape {
+                self.response.replace(Some("close".to_string()));
+                self.obj().close();
+                true
+            } else {
+                false
+            })
         }
     }
 
@@ -137,22 +158,6 @@ mod imp {
                     }
                 }
             });
-
-            let key_events = gtk::EventControllerKey::new();
-            obj.add_controller(&key_events);
-            key_events.connect_key_pressed(
-                clone!(@weak obj => @default-return gtk::Inhibit(false), move |_, key, _, _| {
-                    gtk::Inhibit(
-                        if key == gdk::Key::Escape {
-                            obj.imp().response.replace(Some("close".to_string()));
-                            obj.close();
-                            true
-                        } else {
-                            false
-                        }
-                    )
-                }),
-            );
 
             self.entry_row
                 .connect_changed(clone!(@weak obj => move |entry| {

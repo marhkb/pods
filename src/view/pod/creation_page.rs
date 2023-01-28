@@ -103,7 +103,7 @@ mod imp {
         type ParentType = gtk::Widget;
 
         fn class_init(klass: &mut Self::Class) {
-            Self::bind_template(klass);
+            klass.bind_template();
 
             klass.install_action(ACTION_CREATE, None, |widget, _, _| {
                 widget.finish();

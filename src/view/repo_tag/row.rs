@@ -31,7 +31,7 @@ mod imp {
         type ParentType = gtk::ListBoxRow;
 
         fn class_init(klass: &mut Self::Class) {
-            Self::bind_template(klass);
+            klass.bind_template();
 
             klass.install_action(ACTION_UPDATE, None, |widget, _, _| {
                 widget.update();
