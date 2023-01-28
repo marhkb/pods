@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-30 21:22+0100\n"
-"PO-Revision-Date: 2022-12-19 17:51+0000\n"
-"Last-Translator: SoftExpert <softexpert@gmail.com>\n"
-"Language-Team: French <https://hosted.weblate.org/projects/pods/pods/fr/>\n"
+"PO-Revision-Date: 2023-01-18 14:49+0000\n"
+"Last-Translator: rene-coty <irenee.thirion@e.email>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/pods/main/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -111,9 +111,8 @@ msgid "Whether to match whole words when searching"
 msgstr "Indique s’il faut rechercher les mots entiers"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
-#, fuzzy
 msgid "Keep track of your podman containers"
-msgstr "Créer des pods et des conteneurs."
+msgstr "Contrôlez et suivez vos conteneurs podman"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
 msgid ""
@@ -207,9 +206,8 @@ msgid "_View"
 msgstr "_Vue"
 
 #: data/resources/ui/action/page.ui:148
-#, fuzzy
 msgid "_Retry"
-msgstr "Réessais"
+msgstr "_Réessayer"
 
 #: data/resources/ui/actions/overview.ui:38
 msgid "No Operations"
@@ -722,14 +720,12 @@ msgid "Select a destination tar archive on the host."
 msgstr ""
 
 #: data/resources/ui/container/files-get-page.ui:81
-#, fuzzy
 msgid "Select _Path…"
-msgstr "Sélectionnez…"
+msgstr "Sélectionner un _chemin…"
 
 #: data/resources/ui/container/files-put-page.ui:15
-#, fuzzy
 msgid "Select _Directory…"
-msgstr "Créer le répertoire de contexte"
+msgstr "Sélectionner un _répertoire…"
 
 #: data/resources/ui/container/files-put-page.ui:49
 msgid "Upload Files"
@@ -744,9 +740,8 @@ msgid "Either select a file or a directory from the host to upload."
 msgstr "Sélectionnez un fichier ou un répertoire de l’hôte à téléverser."
 
 #: data/resources/ui/container/files-put-page.ui:83
-#, fuzzy
 msgid "Select _File…"
-msgstr "Sélectionnez Fichier"
+msgstr "Sélectionner un _fichier…"
 
 #: data/resources/ui/container/health-check-page.ui:21
 msgid "Container Health Check"
@@ -1095,9 +1090,8 @@ msgid "_Create Container…"
 msgstr "_Créer un conteneur…"
 
 #: data/resources/ui/image/pull-page.ui:40
-#, fuzzy
 msgid "Download Image"
-msgstr "Télécharger une image"
+msgstr "Télécharger l’image"
 
 #: data/resources/ui/image/selection-page.ui:21
 msgid "Image Search"
@@ -1474,7 +1468,6 @@ msgid "Commit"
 msgstr "Commit"
 
 #: data/resources/ui/shortcuts.ui:87
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Download files"
 msgstr "Télécharger les fichiers"
@@ -1485,16 +1478,14 @@ msgid "Upload files"
 msgstr ""
 
 #: data/resources/ui/shortcuts.ui:104
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Terminal"
 msgstr "Terminal"
 
 #: data/resources/ui/shortcuts.ui:108
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Copy selection to clipboard"
-msgstr "Copier dans le presse-papiers"
+msgstr "Copier la sélection dans le presse-papiers"
 
 #: data/resources/ui/shortcuts.ui:115
 msgctxt "shortcut window"
@@ -1558,10 +1549,9 @@ msgid "Welcome to Pods"
 msgstr "Bienvenue sur Pods"
 
 #: data/resources/ui/welcome-page.ui:79
-#, fuzzy
 msgid "Use the button below to create a new connection to Podman."
 msgstr ""
-"Vous Pouvez utiliser le bouton ci-dessous pour en créer un pod initiale."
+"Utilisez le bouton ci-dessous pour créer une nouvelle connexion à Podman."
 
 #: data/resources/ui/welcome-page.ui:93
 msgid "_Add Connection"
@@ -1978,9 +1968,8 @@ msgid "Pod Kube Generation"
 msgstr "Inspection du pod"
 
 #: src/view/component/source_view_page.rs:216
-#, fuzzy
 msgid "Could not set language to '{}'"
-msgstr "Impossible de définir la langue comme étant 'json'."
+msgstr "Impossible de définir '{}' comme langue"
 
 #: src/view/component/source_view_page.rs:302
 msgid "Inspection error"
@@ -2135,7 +2124,6 @@ msgid "Error resuming container"
 msgstr "Erreur lors de la reprise du conteneur"
 
 #: src/view/container/mod.rs:82 src/view/containers/panel.rs:255
-#, fuzzy
 msgid "Error on starting container"
 msgstr "Erreur lors du démarrage du conteneur"
 
@@ -2144,29 +2132,24 @@ msgid "Error on stopping container"
 msgstr "Erreur lors de l'arrêt du conteneur"
 
 #: src/view/container/mod.rs:84
-#, fuzzy
 msgid "Error on killing container"
-msgstr "Erreur lors du chargement des conteneurs"
+msgstr "Erreur lors de l’interruption du conteneur"
 
 #: src/view/container/mod.rs:85 src/view/containers/panel.rs:328
-#, fuzzy
 msgid "Error on restarting container"
-msgstr "Erreur lors du redémarrage du conteneur : {}"
+msgstr "Erreur lors du redémarrage du conteneur"
 
 #: src/view/container/mod.rs:86 src/view/containers/panel.rs:304
-#, fuzzy
 msgid "Error on pausing container"
-msgstr "Erreur lors de l'arrêt du conteneur"
+msgstr "Erreur lors de la suspension du conteneur"
 
 #: src/view/container/mod.rs:87 src/view/containers/panel.rs:244
-#, fuzzy
 msgid "Error on resuming container"
 msgstr "Erreur lors de la reprise du conteneur"
 
 #: src/view/container/mod.rs:88 src/view/containers/panel.rs:381
-#, fuzzy
 msgid "Error on deleting container"
-msgstr "Erreur lors de la suppression d'un conteneur : {}"
+msgstr "Erreur lors de la suppression du conteneur"
 
 #: src/view/container/properties_group.rs:277
 msgid "since {}"
@@ -2454,39 +2437,32 @@ msgid "Pod '{}' has been deleted"
 msgstr "Le pod \"{}\" a été supprimé"
 
 #: src/view/pod/mod.rs:55 src/view/pods/panel.rs:360
-#, fuzzy
 msgid "Error on starting pod"
-msgstr "Erreur lors du démarrage du pod : {}"
+msgstr "Erreur lors du démarrage du pod"
 
 #: src/view/pod/mod.rs:56 src/view/pods/panel.rs:386 src/view/pods/panel.rs:409
-#, fuzzy
 msgid "Error on stopping pod"
-msgstr "Erreur lors de l'arrêt du pod : {}"
+msgstr "Erreur lors de l'arrêt du pod"
 
 #: src/view/pod/mod.rs:57
-#, fuzzy
 msgid "Error on killing pod"
-msgstr "Erreur lors de l'inspection du pod"
+msgstr "Erreur lors de l’interruption du pod"
 
 #: src/view/pod/mod.rs:58 src/view/pods/panel.rs:433
-#, fuzzy
 msgid "Error on restarting pod"
-msgstr "Erreur lors du redémarrage du pod : {}"
+msgstr "Erreur lors du redémarrage du pod"
 
 #: src/view/pod/mod.rs:59
-#, fuzzy
 msgid "Error on pausing pod"
-msgstr "Erreur lors de l'inspection du pod"
+msgstr "Erreur lors de la suspension du pod"
 
 #: src/view/pod/mod.rs:60 src/view/pods/panel.rs:349
-#, fuzzy
 msgid "Error on resuming pod"
-msgstr "Erreur lors de la reprise du conteneur : {}"
+msgstr "Erreur lors de la reprise du pod"
 
 #: src/view/pod/mod.rs:61 src/view/pods/panel.rs:478
-#, fuzzy
 msgid "Error on deleting pod"
-msgstr "Erreur lors de la suppression du pod : {}"
+msgstr "Erreur lors de la suppression du pod"
 
 #: src/view/pod/mod.rs:71
 msgid "Confirm Forced Pod Deletion"
