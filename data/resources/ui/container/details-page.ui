@@ -24,7 +24,7 @@
 
                 <child type="title">
                   <object class="AdwWindowTitle">
-                    <property name="title" translatable="yes">Container Details</property>
+                    <property name="title" translatable="yes">Container</property>
                     <binding name="subtitle">
                       <lookup name="name" type="Container">
                         <lookup name="container">PdsContainerDetailsPage</lookup>
@@ -202,7 +202,7 @@
 
                     <child>
                       <object class="AdwActionRow">
-                        <property name="title" translatable="yes">Inspect</property>
+                        <property name="title" translatable="yes">Inspection</property>
                         <property name="subtitle" translatable="yes">View all container properties in a structured text form.</property>
                         <property name="activatable">True</property>
                         <property name="action-name">container-details-page.inspect</property>

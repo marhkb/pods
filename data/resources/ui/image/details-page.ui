@@ -38,7 +38,7 @@
 
                 <child type="title">
                   <object class="AdwWindowTitle" id="window_title">
-                    <property name="title" translatable="yes">Image Details</property>
+                    <property name="title" translatable="yes">Image</property>
                   </object>
                 </child>
 
@@ -162,7 +162,7 @@
 
                     <child>
                       <object class="AdwActionRow">
-                        <property name="title" translatable="yes">Inspect</property>
+                        <property name="title" translatable="yes">Inspection</property>
                         <property name="subtitle" translatable="yes">View all image properties in a structured text form.</property>
                         <property name="activatable">True</property>
                         <property name="action-name">image-details-page.inspect-image</property>
