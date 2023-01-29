@@ -716,7 +716,7 @@ fn basic_opts_builder(follow: bool, timestamps: bool) -> podman::opts::Container
 #[derive(Debug, Default)]
 pub struct MarkupPerform {
     buffer: String,
-    close_tags: Vec<&'static str>,
+    tags: Vec<(&'static str, &'static str)>,
 }
 
 impl MarkupPerform {
@@ -726,22 +726,32 @@ impl MarkupPerform {
         buffer
     }
 
-    fn reset(&mut self) {
-        while let Some(close_tag) = self.close_tags.pop() {
+    fn begin_line(&mut self) {
+        self.tags.iter().for_each(|(open_tag, _)| {
+            self.buffer.push_str(open_tag);
+        });
+    }
+
+    fn end_line(&mut self) {
+        self.tags.iter().rev().for_each(|(_, close_tag)| {
             self.buffer.push_str(close_tag);
-        }
+        });
     }
 
     /// Decode the specified bytes. Return true if finished.
     fn decode(&mut self, ansi_encoded_bytes: &[u8]) -> String {
         let mut parser = vte::Parser::new();
 
-        String::from_utf8_lossy(ansi_encoded_bytes)
-            .bytes()
-            .for_each(|byte| parser.advance(self, byte));
+        self.begin_line();
 
-        self.reset();
-        self.move_out_buffer()
+        let line = String::from_utf8_lossy(ansi_encoded_bytes);
+        let (timestamp, message) = line.split_once(' ').unwrap();
+
+        message.bytes().for_each(|byte| parser.advance(self, byte));
+
+        self.end_line();
+
+        format!("{timestamp} {}", self.move_out_buffer())
     }
 }
 
@@ -760,15 +770,17 @@ impl vte::Perform for MarkupPerform {
         for param in params.iter() {
             match param {
                 [0] => {
-                    self.reset();
+                    while let Some((_, close_tag)) = self.tags.pop() {
+                        self.buffer.push_str(close_tag);
+                    }
                 }
                 items => items
                     .iter()
                     .copied()
                     .filter_map(ansi_escape_to_markup_tags)
-                    .for_each(|(start_tag, close_tag)| {
-                        self.buffer.push_str(start_tag);
-                        self.close_tags.push(close_tag);
+                    .for_each(|tags| {
+                        self.buffer.push_str(tags.0);
+                        self.tags.push(tags);
                     }),
             }
         }
