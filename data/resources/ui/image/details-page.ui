@@ -62,39 +62,39 @@
 
                     <child>
                       <object class="PdsPropertyRow" id="id_row">
-                        <property name="key" translatable="True">Id</property>
+                        <property name="key" translatable="yes">Id</property>
                       </object>
                     </child>
 
                     <child>
                       <object class="PdsPropertyRow" id="created_row">
-                        <property name="key" translatable="True">Created</property>
+                        <property name="key" translatable="yes">Created</property>
                       </object>
                     </child>
 
                     <child>
                       <object class="PdsPropertyRow" id="size_row">
-                        <property name="key" translatable="True">Disk space</property>
+                        <property name="key" translatable="yes">Disk space</property>
                       </object>
                     </child>
 
                     <child>
                       <object class="PdsPropertyRow" id="command_row">
-                        <property name="key" translatable="True">Command</property>
+                        <property name="key" translatable="yes">Command</property>
                         <property name="visible">False</property>
                       </object>
                     </child>
 
                     <child>
                       <object class="PdsPropertyRow" id="entrypoint_row">
-                        <property name="key" translatable="True">Entry Point</property>
+                        <property name="key" translatable="yes">Entry Point</property>
                         <property name="visible">False</property>
                       </object>
                     </child>
 
                     <child>
                       <object class="PdsPropertyRow" id="ports_row">
-                        <property name="key" translatable="True">Ports</property>
+                        <property name="key" translatable="yes">Ports</property>
                         <property name="visible">False</property>
                       </object>
                     </child>
