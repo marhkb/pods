@@ -53,7 +53,7 @@
 
         <child>
           <object class="AdwPreferencesGroup">
-            <property name="title">Storage</property>
+            <property name="title" translatable="yes">Storage</property>
             <property name="description" translatable="yes">Describes the container storage and its attributes.</property>
 
             <child>
