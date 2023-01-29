@@ -11,7 +11,7 @@ data/resources/ui/component/leaflet-overlay.ui
 data/resources/ui/component/property-row.ui
 data/resources/ui/component/property-widget-row.ui
 data/resources/ui/component/random-name-entry-row.ui
-data/resources/ui/component/source-view-page.ui
+data/resources/ui/component/scalable-text-view-page.ui
 data/resources/ui/component/source-view-search-widget.ui
 data/resources/ui/component/spinner.ui
 data/resources/ui/component/text-search-entry.ui
@@ -118,7 +118,8 @@ src/view/component/mod.rs
 src/view/component/property_row.rs
 src/view/component/property_widget_row.rs
 src/view/component/random_name_entry_row.rs
-src/view/component/source_view_page.rs
+src/view/component/scalable_text_view.rs
+src/view/component/scalable_text_view_page.rs
 src/view/component/source_view_search_widget.rs
 src/view/component/spinner.rs
 src/view/component/text_search_entry.rs
