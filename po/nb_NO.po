@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-30 21:22+0100\n"
+"POT-Creation-Date: 2023-01-29 19:39+0100\n"
 "PO-Revision-Date: 2022-09-20 18:24+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/pods/"
@@ -198,7 +198,7 @@ msgstr "Beholdere"
 msgid "Pods Overview"
 msgstr ""
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:223
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:262
 msgid "Marcus Behrendt"
 msgstr "Marcus Behrendt"
 
@@ -225,6 +225,7 @@ msgstr "Alternativer"
 #: data/resources/ui/container/creation-page.ui:184
 #: data/resources/ui/container/log-page.ui:39
 #: data/resources/ui/pod/creation-page.ui:350
+#: data/resources/ui/search-panel.ui:18 data/resources/ui/window.ui:113
 #, fuzzy
 msgid "Search"
 msgstr "Søk"
@@ -299,7 +300,7 @@ msgstr "_Koble til"
 #: data/resources/ui/connection/creation-page.ui:112
 #: data/resources/ui/container/creation-page.ui:83
 #: data/resources/ui/container/properties-group.ui:15
-#: data/resources/ui/container/rename-dialog.ui:24
+#: data/resources/ui/container/rename-dialog.ui:30
 #: data/resources/ui/pod/creation-page.ui:73
 #: data/resources/ui/pod/creation-page.ui:302
 #: data/resources/ui/pod/details-page.ui:52
@@ -371,6 +372,10 @@ msgid ""
 "You can connect to a Podman instance using <span weight=\"bold\">HTTP</"
 "span>, <span weight=\"bold\">TCP</span>, and <span weight=\"bold\">UNIX</"
 "span> protocols. For example, the connection string might look like this:"
+msgstr ""
+
+#: data/resources/ui/connection/custom-info-dialog.ui:63
+msgid "http://somewhere:8081"
 msgstr ""
 
 #: data/resources/ui/connection/custom-info-dialog.ui:82
@@ -549,7 +554,8 @@ msgstr "GB"
 
 #: data/resources/ui/container/creation-page.ui:307
 #: data/resources/ui/container/creation-page.ui:420
-#: data/resources/ui/container/health-check-page.ui:53
+#: data/resources/ui/container/health-check-page.ui:58
+#: data/resources/ui/image/details-page.ui:83
 #: data/resources/ui/pod/creation-page.ui:385
 msgid "Command"
 msgstr "Kommando"
@@ -590,7 +596,7 @@ msgid "Health Check"
 msgstr "Helsesjekk"
 
 #: data/resources/ui/container/creation-page.ui:426
-#: data/resources/ui/container/health-check-page.ui:59
+#: data/resources/ui/container/health-check-page.ui:64
 msgid "Interval"
 msgstr "Intervall"
 
@@ -605,7 +611,7 @@ msgid "seconds"
 msgstr "sekunder"
 
 #: data/resources/ui/container/creation-page.ui:462
-#: data/resources/ui/container/health-check-page.ui:71
+#: data/resources/ui/container/health-check-page.ui:76
 msgid "Timeout"
 msgstr "Tidsavbrudd"
 
@@ -625,7 +631,7 @@ msgid "The initialization time needed for a container to bootstrap."
 msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:534
-#: data/resources/ui/container/health-check-page.ui:65
+#: data/resources/ui/container/health-check-page.ui:70
 msgid "Retries"
 msgstr ""
 
@@ -780,31 +786,31 @@ msgstr "Velg fil"
 msgid "Container Health Check"
 msgstr "Beholdere"
 
-#: data/resources/ui/container/health-check-page.ui:33
+#: data/resources/ui/container/health-check-page.ui:38
 #, fuzzy
 msgid "Configuration"
 msgstr "Oppsatt"
 
-#: data/resources/ui/container/health-check-page.ui:37
+#: data/resources/ui/container/health-check-page.ui:42
 #: data/resources/ui/container/properties-group.ui:168
 #: data/resources/ui/pod/details-page.ui:75
 msgid "Status"
 msgstr "Status"
 
-#: data/resources/ui/container/health-check-page.ui:77
+#: data/resources/ui/container/health-check-page.ui:82
 msgid "Failing Streak"
 msgstr ""
 
-#: data/resources/ui/container/health-check-page.ui:93
+#: data/resources/ui/container/health-check-page.ui:98
 #, fuzzy
 msgid "Log"
 msgstr "Logger"
 
-#: data/resources/ui/container/health-check-page.ui:94
+#: data/resources/ui/container/health-check-page.ui:99
 msgid "Rows describe the last 5 health check attempts and results."
 msgstr ""
 
-#: data/resources/ui/container/health-check-page.ui:99
+#: data/resources/ui/container/health-check-page.ui:104
 msgid "_Run Health Check"
 msgstr "_Kjør helsesjekk"
 
@@ -886,6 +892,7 @@ msgid "Rename (F2)"
 msgstr "Gi nytt navn"
 
 #: data/resources/ui/container/properties-group.ui:55
+#: data/resources/ui/image/details-page.ui:65
 #: data/resources/ui/pod/details-page.ui:63
 #, fuzzy
 msgid "Id"
@@ -896,6 +903,7 @@ msgid "Commit (Ctrl+K)"
 msgstr ""
 
 #: data/resources/ui/container/properties-group.ui:95
+#: data/resources/ui/image/details-page.ui:71
 #: data/resources/ui/pod/details-page.ui:69 src/model/container.rs:67
 #: src/model/pod.rs:64
 msgid "Created"
@@ -903,6 +911,15 @@ msgstr "Opprettet"
 
 #: data/resources/ui/container/properties-group.ui:101
 msgid "Size"
+msgstr ""
+
+#: data/resources/ui/container/properties-group.ui:146
+#, fuzzy
+msgid "Download Files (Ctrl+D)"
+msgstr "Beskjær ubrukte avtrykk"
+
+#: data/resources/ui/container/properties-group.ui:158
+msgid "Upload Files (Ctrl+U)"
 msgstr ""
 
 #: data/resources/ui/container/properties-group.ui:206
@@ -963,6 +980,11 @@ msgstr "Terminal"
 #: data/resources/ui/container/tty.ui:36
 msgid "The container must be running to use the terminal."
 msgstr ""
+
+#: data/resources/ui/container/tty.ui:46
+#, fuzzy
+msgid "Start"
+msgstr "_Start"
 
 #: data/resources/ui/containers/group.ui:28 data/resources/ui/pods/panel.ui:69
 #, fuzzy
@@ -1052,6 +1074,7 @@ msgid "Searching…"
 msgstr "Søk"
 
 #: data/resources/ui/image-search/widget.ui:124
+#: data/resources/ui/search-panel.ui:34
 msgid "Please retry another term."
 msgstr ""
 
@@ -1089,6 +1112,18 @@ msgstr ""
 #, fuzzy
 msgid "Image Details"
 msgstr "Avtrykk"
+
+#: data/resources/ui/image/details-page.ui:77
+msgid "Disk space"
+msgstr ""
+
+#: data/resources/ui/image/details-page.ui:90
+msgid "Entry Point"
+msgstr ""
+
+#: data/resources/ui/image/details-page.ui:97
+msgid "Ports"
+msgstr ""
 
 #: data/resources/ui/image/details-page.ui:107
 msgid "Repository Tags"
@@ -1258,6 +1293,10 @@ msgstr "Go-versjon"
 
 #: data/resources/ui/info-dialog.ui:41
 msgid "Os Arch"
+msgstr ""
+
+#: data/resources/ui/info-dialog.ui:56
+msgid "Storage"
 msgstr ""
 
 #: data/resources/ui/info-dialog.ui:57
@@ -1446,7 +1485,7 @@ msgstr ""
 msgid "_Add"
 msgstr ""
 
-#: data/resources/ui/repo-tag/add-dialog.ui:25
+#: data/resources/ui/repo-tag/add-dialog.ui:31
 msgid "Repository Tag"
 msgstr ""
 
@@ -1457,6 +1496,15 @@ msgstr ""
 #: data/resources/ui/repo-tag/row.ui:43
 msgid "Untag"
 msgstr ""
+
+#: data/resources/ui/search-panel.ui:19
+msgid "Please start typing to look for results."
+msgstr ""
+
+#: data/resources/ui/search-panel.ui:33
+#, fuzzy
+msgid "No Results Found"
+msgstr "Fant ingen avtrykk"
 
 #: data/resources/ui/search-panel.ui:51 data/resources/ui/window.ui:273
 msgid "Images"
@@ -1644,6 +1692,16 @@ msgstr "_Velg alle"
 msgid "Select None"
 msgstr "Fravelg alle"
 
+#: data/resources/ui/window.ui:157
+#, fuzzy
+msgid "Multi-Selection"
+msgstr "Fravelg alle"
+
+#: data/resources/ui/window.ui:180
+#, fuzzy
+msgid "Cancel"
+msgstr "_Avbryt"
+
 #: src/application.rs:188
 msgid "translator-credits"
 msgstr "Allan Nordhøy, <epost@anotheragency.no>"
@@ -1789,7 +1847,7 @@ msgstr "Oppsatt"
 msgid "Degraded"
 msgstr ""
 
-#: src/model/pod.rs:67 src/view/component/source_view_page.rs:341
+#: src/model/pod.rs:67 src/view/component/source_view_page.rs:352
 #: src/view/connection/creation_page.rs:269
 msgid "Error"
 msgstr "Feil"
@@ -2037,39 +2095,39 @@ msgstr ""
 msgid "Main View"
 msgstr "Hovedvindu"
 
-#: src/view/component/source_view_page.rs:171
+#: src/view/component/source_view_page.rs:182
 #, fuzzy
 msgid "Image Inspection"
 msgstr "Avtrykk"
 
-#: src/view/component/source_view_page.rs:178
+#: src/view/component/source_view_page.rs:189
 #, fuzzy
 msgid "Container Inspection"
 msgstr "Beholdere"
 
-#: src/view/component/source_view_page.rs:179
+#: src/view/component/source_view_page.rs:190
 #, fuzzy
 msgid "Container Kube Generation"
 msgstr "Beholdere"
 
-#: src/view/component/source_view_page.rs:189
+#: src/view/component/source_view_page.rs:200
 msgid "Pod Inspection"
 msgstr ""
 
-#: src/view/component/source_view_page.rs:190
+#: src/view/component/source_view_page.rs:201
 msgid "Pod Kube Generation"
 msgstr ""
 
-#: src/view/component/source_view_page.rs:216
+#: src/view/component/source_view_page.rs:227
 msgid "Could not set language to '{}'"
 msgstr ""
 
-#: src/view/component/source_view_page.rs:302
+#: src/view/component/source_view_page.rs:313
 #, fuzzy
 msgid "Inspection error"
 msgstr "Avtrykk"
 
-#: src/view/component/source_view_page.rs:303
+#: src/view/component/source_view_page.rs:314
 #, fuzzy
 msgid "Kube generation error"
 msgstr "Avtrykk"
@@ -2167,12 +2225,12 @@ msgstr "Beholdere"
 msgid "no image selected"
 msgstr "Fant ingen avtrykk"
 
-#: src/view/container/details_page.rs:280
+#: src/view/container/details_page.rs:281
 #, fuzzy
 msgid "Error on loading container details"
 msgstr "Kunne ikke laste inn beholdere"
 
-#: src/view/container/details_page.rs:284
+#: src/view/container/details_page.rs:285
 #, fuzzy
 msgid "Container '{}' has been deleted"
 msgstr "Beholdere"
@@ -2181,11 +2239,11 @@ msgstr "Beholdere"
 msgid "Select Host Destination Path"
 msgstr ""
 
-#: src/view/container/files_put_page.rs:179
+#: src/view/container/files_put_page.rs:180
 msgid "Select Host Directory"
 msgstr ""
 
-#: src/view/container/files_put_page.rs:181
+#: src/view/container/files_put_page.rs:182
 #, fuzzy
 msgid "Select Host File"
 msgstr "Velg fil"
@@ -2202,30 +2260,30 @@ msgstr[1] "{} sekunder"
 msgid "Error on running health check"
 msgstr "Kunne ikke beskjære «{}»-avtrykket"
 
-#: src/view/container/log_page.rs:389
+#: src/view/container/log_page.rs:388
 msgid "Error while following log"
 msgstr ""
 
-#: src/view/container/log_page.rs:524
+#: src/view/container/log_page.rs:522
 msgid "Include timestamps"
 msgstr ""
 
-#: src/view/container/log_page.rs:576
+#: src/view/container/log_page.rs:574
 #, fuzzy
 msgid "Error on saving logs"
 msgstr "Kunne ikke laste inn avtrykk"
 
-#: src/view/container/log_page.rs:590
+#: src/view/container/log_page.rs:588
 #, fuzzy
 msgid "Error on retrieving logs"
 msgstr "Kunne ikke starte beholder på ny"
 
-#: src/view/container/log_page.rs:619
+#: src/view/container/log_page.rs:617
 #, fuzzy
 msgid "Error starting container"
 msgstr "Kunne ikke starte beholder på ny"
 
-#: src/view/container/log_page.rs:625
+#: src/view/container/log_page.rs:623
 #, fuzzy
 msgid "Error resuming container"
 msgstr "Kunne ikke gjenoppta beholder"
@@ -2269,7 +2327,7 @@ msgstr "Kunne ikke slette beholder"
 msgid "since {}"
 msgstr ""
 
-#: src/view/container/rename_dialog.rs:179
+#: src/view/container/rename_dialog.rs:184
 #, fuzzy
 msgid "Rename Container"
 msgstr "Beholdere"
@@ -2296,12 +2354,12 @@ msgstr ""
 msgid "{} / s"
 msgstr ""
 
-#: src/view/container/tty.rs:363
+#: src/view/container/tty.rs:367
 #, fuzzy
 msgid "Terminal error"
 msgstr "Terminal"
 
-#: src/view/container/tty.rs:364
+#: src/view/container/tty.rs:368
 msgid "'/bin/sh' not found"
 msgstr ""
 
@@ -2357,27 +2415,27 @@ msgid "Image name should not contain uppercase characters."
 msgstr ""
 
 #. Translators: "{}" are placeholders for storage space.
-#: src/view/image/details_page.rs:196
+#: src/view/image/details_page.rs:197
 msgid "{} (Virtual: {})"
 msgstr "{} (Virtuelt: {})"
 
 #. Translators: "{}" are placeholders for storage space.
-#: src/view/image/details_page.rs:205
+#: src/view/image/details_page.rs:206
 msgid "{} (Shared: {})"
 msgstr "{} (Delt: {})"
 
 #. Translators: "{}" are placeholders for storage space.
-#: src/view/image/details_page.rs:215
+#: src/view/image/details_page.rs:216
 #, fuzzy
 msgid "{} (Shared: {}, Virtual: {})"
 msgstr "{} (delt: {}, virtuelt: {})"
 
-#: src/view/image/details_page.rs:307
+#: src/view/image/details_page.rs:308
 #, fuzzy
 msgid "Error on loading image details"
 msgstr "Kunne ikke laste inn beholdere"
 
-#: src/view/image/details_page.rs:311
+#: src/view/image/details_page.rs:312
 #, fuzzy
 msgid "Image '{}' has been deleted"
 msgstr "Beholdere"
@@ -2550,12 +2608,12 @@ msgstr ""
 msgid "Failed to create pod"
 msgstr ""
 
-#: src/view/pod/details_page.rs:261
+#: src/view/pod/details_page.rs:262
 #, fuzzy
 msgid "Error on loading pod data"
 msgstr "Kunne ikke laste inn avtrykk"
 
-#: src/view/pod/details_page.rs:265
+#: src/view/pod/details_page.rs:266
 msgid "Pod '{}' has been deleted"
 msgstr ""
 
@@ -2641,7 +2699,7 @@ msgstr ""
 msgid "All associated containers will also be removed!"
 msgstr "Alle tilknyttede beholdere vil også bli slettet!"
 
-#: src/view/repo_tag/add_dialog.rs:103
+#: src/view/repo_tag/add_dialog.rs:124
 msgid "Repo tag must contain a colon “:”"
 msgstr ""
 
@@ -2650,45 +2708,45 @@ msgstr ""
 msgid "Error on untagging image"
 msgstr "Kunne ikke slette avtrykk"
 
-#: src/window.rs:422
+#: src/window.rs:433
 msgid "Confirm Exiting The Application"
 msgstr ""
 
-#: src/window.rs:584
+#: src/window.rs:598
 #, fuzzy
 msgid "{} Selected Image"
 msgid_plural "{} Selected Images"
 msgstr[0] "Avtrykk"
 msgstr[1] "Avtrykk"
 
-#: src/window.rs:598
+#: src/window.rs:612
 #, fuzzy
 msgid "{} Selected Container"
 msgid_plural "{} Selected Containers"
 msgstr[0] "Beholdere"
 msgstr[1] "Beholdere"
 
-#: src/window.rs:612
+#: src/window.rs:626
 msgid "{} Selected Pod"
 msgid_plural "{} Selected Pods"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/window.rs:835
+#: src/window.rs:855
 #, fuzzy
 msgid "images"
 msgstr "Avtrykk"
 
-#: src/window.rs:836
+#: src/window.rs:856
 #, fuzzy
 msgid "containers"
 msgstr "Beholdere"
 
-#: src/window.rs:837
+#: src/window.rs:857
 msgid "pods"
 msgstr ""
 
-#: src/window.rs:833
+#: src/window.rs:853
 #, fuzzy
 msgid "Error on loading {}"
 msgstr "Kunne ikke laste inn avtrykk"
@@ -2799,11 +2857,6 @@ msgstr "Kunne ikke laste inn avtrykk"
 #, fuzzy
 #~ msgid "F_orce Restart"
 #~ msgstr "T_ving omstart"
-
-#, fuzzy
-#~ msgctxt "shortcut window"
-#~ msgid "Start"
-#~ msgstr "_Start"
 
 #, fuzzy
 #~ msgctxt "shortcut window"
