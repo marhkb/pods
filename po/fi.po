@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-30 21:22+0100\n"
+"POT-Creation-Date: 2023-01-29 19:55+0100\n"
 "PO-Revision-Date: 2023-01-03 15:51+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/pods/pods/fi/>\n"
@@ -110,6 +110,10 @@ msgstr ""
 msgid "Whether to match whole words when searching"
 msgstr ""
 
+#: data/com.github.marhkb.Pods.gschema.xml.in:96
+msgid "The font scale of all text views"
+msgstr ""
+
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
 msgid "Keep track of your podman containers"
 msgstr "Pidä Podman-kontit hallinnassasi"
@@ -190,7 +194,7 @@ msgstr "Konttien yleisnäkymä"
 msgid "Pods Overview"
 msgstr "Podien yleisnäkymä"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:223
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:263
 msgid "Marcus Behrendt"
 msgstr "Marcus Behrendt"
 
@@ -211,15 +215,16 @@ msgstr "_Yritä uudelleen"
 msgid "No Operations"
 msgstr "Ei toimenpiteitä"
 
-#: data/resources/ui/component/source-view-page.ui:25
+#: data/resources/ui/component/scalable-text-view-page.ui:33
 #: data/resources/ui/container/creation-page.ui:184
-#: data/resources/ui/container/log-page.ui:39
+#: data/resources/ui/container/log-page.ui:47
 #: data/resources/ui/pod/creation-page.ui:350
+#: data/resources/ui/search-panel.ui:18 data/resources/ui/window.ui:113
 msgid "Search"
 msgstr "Etsi"
 
-#: data/resources/ui/component/source-view-page.ui:33
-#: data/resources/ui/container/log-page.ui:55
+#: data/resources/ui/component/scalable-text-view-page.ui:41
+#: data/resources/ui/container/log-page.ui:63
 msgid "Save as File"
 msgstr "Tallenna tiedostona"
 
@@ -283,7 +288,7 @@ msgstr "_Yhdistä"
 #: data/resources/ui/connection/creation-page.ui:112
 #: data/resources/ui/container/creation-page.ui:83
 #: data/resources/ui/container/properties-group.ui:15
-#: data/resources/ui/container/rename-dialog.ui:24
+#: data/resources/ui/container/rename-dialog.ui:30
 #: data/resources/ui/pod/creation-page.ui:73
 #: data/resources/ui/pod/creation-page.ui:302
 #: data/resources/ui/pod/details-page.ui:52
@@ -354,9 +359,13 @@ msgid ""
 "span>, <span weight=\"bold\">TCP</span>, and <span weight=\"bold\">UNIX</"
 "span> protocols. For example, the connection string might look like this:"
 msgstr ""
-"Voit yhdistää Podman-instanssiin käyttäen <span weight=\"bold\">HTTP</span>-"
-", <span weight=\"bold\">TCP</span>- ja <span weight=\"bold\">UNIX</span>-"
-"protokollia. Yhteyden merkkijono voi näyttää esimerkiksi tältä:"
+"Voit yhdistää Podman-instanssiin käyttäen <span weight=\"bold\">HTTP</"
+"span>-, <span weight=\"bold\">TCP</span>- ja <span weight=\"bold\">UNIX</"
+"span>-protokollia. Yhteyden merkkijono voi näyttää esimerkiksi tältä:"
+
+#: data/resources/ui/connection/custom-info-dialog.ui:63
+msgid "http://somewhere:8081"
+msgstr ""
 
 #: data/resources/ui/connection/custom-info-dialog.ui:82
 msgid "Podman Root Connection"
@@ -496,6 +505,7 @@ msgstr "Hylkää"
 #: data/resources/ui/container/creation-page.ui:193
 #: data/resources/ui/container/creation-page.ui:199
 #: data/resources/ui/container/properties-group.ui:300
+#: data/resources/ui/pod/details-page.ui:27
 msgid "Pod"
 msgstr "Podi"
 
@@ -527,7 +537,8 @@ msgstr "Gt"
 
 #: data/resources/ui/container/creation-page.ui:307
 #: data/resources/ui/container/creation-page.ui:420
-#: data/resources/ui/container/health-check-page.ui:53
+#: data/resources/ui/container/health-check-page.ui:58
+#: data/resources/ui/image/details-page.ui:83
 #: data/resources/ui/pod/creation-page.ui:385
 msgid "Command"
 msgstr "Komento"
@@ -568,7 +579,7 @@ msgid "Health Check"
 msgstr "Terveystarkastus"
 
 #: data/resources/ui/container/creation-page.ui:426
-#: data/resources/ui/container/health-check-page.ui:59
+#: data/resources/ui/container/health-check-page.ui:64
 msgid "Interval"
 msgstr "Väli"
 
@@ -583,7 +594,7 @@ msgid "seconds"
 msgstr "sekuntia"
 
 #: data/resources/ui/container/creation-page.ui:462
-#: data/resources/ui/container/health-check-page.ui:71
+#: data/resources/ui/container/health-check-page.ui:76
 msgid "Timeout"
 msgstr "Aikakatkaisu"
 
@@ -602,7 +613,7 @@ msgid "The initialization time needed for a container to bootstrap."
 msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:534
-#: data/resources/ui/container/health-check-page.ui:65
+#: data/resources/ui/container/health-check-page.ui:70
 msgid "Retries"
 msgstr "Uudelleenyritykset"
 
@@ -613,8 +624,9 @@ msgid ""
 msgstr ""
 
 #: data/resources/ui/container/details-page.ui:27
-msgid "Container Details"
-msgstr "Konttien tiedot"
+#, fuzzy
+msgid "Container"
+msgstr "Kontit"
 
 #: data/resources/ui/container/details-page.ui:75
 #: data/resources/ui/pod/details-page.ui:123
@@ -654,8 +666,9 @@ msgstr "Apuohjelmat"
 #: data/resources/ui/container/details-page.ui:205
 #: data/resources/ui/image/details-page.ui:165
 #: data/resources/ui/pod/details-page.ui:251
-msgid "Inspect"
-msgstr "Tutki"
+#, fuzzy
+msgid "Inspection"
+msgstr "Podin tutkinta"
 
 #: data/resources/ui/container/details-page.ui:206
 msgid "View all container properties in a structured text form."
@@ -742,58 +755,58 @@ msgstr "Valitse _tiedosto…"
 msgid "Container Health Check"
 msgstr "Kontin terveystarkastus"
 
-#: data/resources/ui/container/health-check-page.ui:33
+#: data/resources/ui/container/health-check-page.ui:38
 msgid "Configuration"
 msgstr "Määritys"
 
-#: data/resources/ui/container/health-check-page.ui:37
+#: data/resources/ui/container/health-check-page.ui:42
 #: data/resources/ui/container/properties-group.ui:168
 #: data/resources/ui/pod/details-page.ui:75
 msgid "Status"
 msgstr "Tila"
 
-#: data/resources/ui/container/health-check-page.ui:77
+#: data/resources/ui/container/health-check-page.ui:82
 msgid "Failing Streak"
 msgstr ""
 
-#: data/resources/ui/container/health-check-page.ui:93
+#: data/resources/ui/container/health-check-page.ui:98
 msgid "Log"
 msgstr "Loki"
 
-#: data/resources/ui/container/health-check-page.ui:94
+#: data/resources/ui/container/health-check-page.ui:99
 msgid "Rows describe the last 5 health check attempts and results."
 msgstr ""
 "Rivit kuvaavat viisi viimeisintä terveystarkastusyritystä ja niiden tulokset."
 
-#: data/resources/ui/container/health-check-page.ui:99
+#: data/resources/ui/container/health-check-page.ui:104
 msgid "_Run Health Check"
 msgstr "_Suorita terveystarkastus"
 
-#: data/resources/ui/container/log-page.ui:20
+#: data/resources/ui/container/log-page.ui:28
 msgid "Container Logs"
 msgstr "Konttilokit"
 
-#: data/resources/ui/container/log-page.ui:32
+#: data/resources/ui/container/log-page.ui:40
 msgid "Timestamps"
 msgstr "Aikaleimat"
 
-#: data/resources/ui/container/log-page.ui:73
+#: data/resources/ui/container/log-page.ui:81
 msgid "Saving Log"
 msgstr ""
 
-#: data/resources/ui/container/log-page.ui:138
+#: data/resources/ui/container/log-page.ui:146
 msgid "Loading previous lines"
 msgstr "Ladataan aiemmat rivit"
 
-#: data/resources/ui/container/log-page.ui:167
+#: data/resources/ui/container/log-page.ui:175
 msgid "Scroll to bottom"
 msgstr "Vieritä alas"
 
-#: data/resources/ui/container/log-page.ui:226
+#: data/resources/ui/container/log-page.ui:234
 msgid "Streaming is disconnected because container isn't running."
 msgstr ""
 
-#: data/resources/ui/container/log-page.ui:236
+#: data/resources/ui/container/log-page.ui:244
 msgid "Start/Resume Container"
 msgstr "Käynnistä/palauta kontti"
 
@@ -843,6 +856,7 @@ msgid "Rename (F2)"
 msgstr "Nimeä uudelleen (F2)"
 
 #: data/resources/ui/container/properties-group.ui:55
+#: data/resources/ui/image/details-page.ui:65
 #: data/resources/ui/pod/details-page.ui:63
 msgid "Id"
 msgstr "ID"
@@ -852,6 +866,7 @@ msgid "Commit (Ctrl+K)"
 msgstr "Kommitoi (Ctrl+K)"
 
 #: data/resources/ui/container/properties-group.ui:95
+#: data/resources/ui/image/details-page.ui:71
 #: data/resources/ui/pod/details-page.ui:69 src/model/container.rs:67
 #: src/model/pod.rs:64
 msgid "Created"
@@ -861,11 +876,22 @@ msgstr "Luotu"
 msgid "Size"
 msgstr "Koko"
 
+#: data/resources/ui/container/properties-group.ui:146
+#, fuzzy
+msgid "Download Files (Ctrl+D)"
+msgstr "Lataa tiedostot"
+
+#: data/resources/ui/container/properties-group.ui:158
+#, fuzzy
+msgid "Upload Files (Ctrl+U)"
+msgstr "Lähetä tiedostot"
+
 #: data/resources/ui/container/properties-group.ui:206
 msgid "Port bindings"
 msgstr "Porttisidokset"
 
 #: data/resources/ui/container/properties-group.ui:251
+#: data/resources/ui/image/details-page.ui:41
 msgid "Image"
 msgstr "Levykuva"
 
@@ -916,6 +942,11 @@ msgstr "Ei päätettä"
 #: data/resources/ui/container/tty.ui:36
 msgid "The container must be running to use the terminal."
 msgstr "Kontin tulee olla käynnissä, jotta päätettä voi käyttää."
+
+#: data/resources/ui/container/tty.ui:46
+#, fuzzy
+msgid "Start"
+msgstr "_Käynnistä"
 
 #: data/resources/ui/containers/group.ui:28 data/resources/ui/pods/panel.ui:69
 msgid "Only running"
@@ -1002,6 +1033,7 @@ msgid "Searching…"
 msgstr "Etsitään…"
 
 #: data/resources/ui/image-search/widget.ui:124
+#: data/resources/ui/search-panel.ui:34
 msgid "Please retry another term."
 msgstr "Yritä uudelleen eri hakuehdolla."
 
@@ -1034,9 +1066,17 @@ msgstr "Valitse…"
 msgid "Containerfile Path Relative to Build Context Directory"
 msgstr ""
 
-#: data/resources/ui/image/details-page.ui:41
-msgid "Image Details"
-msgstr "Levykuvan tiedot"
+#: data/resources/ui/image/details-page.ui:77
+msgid "Disk space"
+msgstr ""
+
+#: data/resources/ui/image/details-page.ui:90
+msgid "Entry Point"
+msgstr ""
+
+#: data/resources/ui/image/details-page.ui:97
+msgid "Ports"
+msgstr ""
 
 #: data/resources/ui/image/details-page.ui:107
 msgid "Repository Tags"
@@ -1198,6 +1238,10 @@ msgstr "Go-versio"
 msgid "Os Arch"
 msgstr "OS-arkkitehtuuri"
 
+#: data/resources/ui/info-dialog.ui:56
+msgid "Storage"
+msgstr ""
+
 #: data/resources/ui/info-dialog.ui:57
 msgid "Describes the container storage and its attributes."
 msgstr "Kuvaa kontin tallennustilan ja sen attribuutit."
@@ -1317,10 +1361,6 @@ msgstr "Poista Infra käytöstä"
 msgid "Common PID File"
 msgstr "Yleinen PID-tiedosto"
 
-#: data/resources/ui/pod/details-page.ui:27
-msgid "Pod Details"
-msgstr "Podien tiedot"
-
 #: data/resources/ui/pod/details-page.ui:252
 msgid "View all pod properties in a structured text form."
 msgstr "Näytä kaikki podin ominaisuudet rakenteellisessa tekstimuodossa."
@@ -1374,7 +1414,7 @@ msgstr ""
 msgid "_Add"
 msgstr "_Lisää"
 
-#: data/resources/ui/repo-tag/add-dialog.ui:25
+#: data/resources/ui/repo-tag/add-dialog.ui:31
 msgid "Repository Tag"
 msgstr ""
 
@@ -1386,6 +1426,16 @@ msgstr "Vedä viimeisin levykuva"
 #: data/resources/ui/repo-tag/row.ui:43
 msgid "Untag"
 msgstr ""
+
+#: data/resources/ui/search-panel.ui:19
+#, fuzzy
+msgid "Please start typing to look for results."
+msgstr "Aloita kirjoittaminen etsiäksesi levykuvia."
+
+#: data/resources/ui/search-panel.ui:33
+#, fuzzy
+msgid "No Results Found"
+msgstr "Rekisterejä ei löytynyt"
 
 #: data/resources/ui/search-panel.ui:51 data/resources/ui/window.ui:273
 msgid "Images"
@@ -1465,30 +1515,50 @@ msgstr "Lähetä tiedostot"
 
 #: data/resources/ui/shortcuts.ui:104
 msgctxt "shortcut window"
+msgid "Text view"
+msgstr ""
+
+#: data/resources/ui/shortcuts.ui:108
+msgctxt "shortcut window"
+msgid "Zoom in"
+msgstr ""
+
+#: data/resources/ui/shortcuts.ui:115
+msgctxt "shortcut window"
+msgid "Zoom out"
+msgstr ""
+
+#: data/resources/ui/shortcuts.ui:122
+msgctxt "shortcut window"
+msgid "Reset zoom"
+msgstr ""
+
+#: data/resources/ui/shortcuts.ui:132
+msgctxt "shortcut window"
 msgid "Terminal"
 msgstr "Pääte"
 
-#: data/resources/ui/shortcuts.ui:108
+#: data/resources/ui/shortcuts.ui:136
 msgctxt "shortcut window"
 msgid "Copy selection to clipboard"
 msgstr "Kopioi valinta leikepöydälle"
 
-#: data/resources/ui/shortcuts.ui:115
+#: data/resources/ui/shortcuts.ui:143
 msgctxt "shortcut window"
 msgid "Paste from clipboard"
 msgstr "Liitä leikepöydältä"
 
-#: data/resources/ui/shortcuts.ui:125
+#: data/resources/ui/shortcuts.ui:153
 msgctxt "shortcut window"
 msgid "Podman"
 msgstr "Podman"
 
-#: data/resources/ui/shortcuts.ui:129
+#: data/resources/ui/shortcuts.ui:157
 msgctxt "shortcut window"
 msgid "Add a new connection"
 msgstr "Luo uusi yhteys"
 
-#: data/resources/ui/shortcuts.ui:136
+#: data/resources/ui/shortcuts.ui:164
 msgctxt "shortcut window"
 msgid "Create a new entity"
 msgstr "Luo uusi entiteetti"
@@ -1562,6 +1632,16 @@ msgstr "_Valitse kaikki"
 #: data/resources/ui/window.ui:34
 msgid "Select None"
 msgstr "Älä valitse mitään"
+
+#: data/resources/ui/window.ui:157
+#, fuzzy
+msgid "Multi-Selection"
+msgstr "Älä valitse mitään"
+
+#: data/resources/ui/window.ui:180
+#, fuzzy
+msgid "Cancel"
+msgstr "_Peru"
 
 #: src/application.rs:188
 msgid "translator-credits"
@@ -1704,7 +1784,7 @@ msgstr "Määrittämätön"
 msgid "Degraded"
 msgstr "Heikentynyt"
 
-#: src/model/pod.rs:67 src/view/component/source_view_page.rs:341
+#: src/model/pod.rs:67 src/view/component/scalable_text_view_page.rs:427
 #: src/view/connection/creation_page.rs:269
 msgid "Error"
 msgstr "Virhe"
@@ -1931,37 +2011,37 @@ msgstr "Takaisin"
 msgid "Main View"
 msgstr "Päänäkymä"
 
-#: src/view/component/source_view_page.rs:171
+#: src/view/component/scalable_text_view_page.rs:257
 msgid "Image Inspection"
 msgstr "Levykuvan tutkinta"
 
-#: src/view/component/source_view_page.rs:178
+#: src/view/component/scalable_text_view_page.rs:264
 msgid "Container Inspection"
 msgstr "Kontin tutkinta"
 
-#: src/view/component/source_view_page.rs:179
+#: src/view/component/scalable_text_view_page.rs:265
 #, fuzzy
 msgid "Container Kube Generation"
 msgstr "Kontin tutkinta"
 
-#: src/view/component/source_view_page.rs:189
+#: src/view/component/scalable_text_view_page.rs:275
 msgid "Pod Inspection"
 msgstr "Podin tutkinta"
 
-#: src/view/component/source_view_page.rs:190
+#: src/view/component/scalable_text_view_page.rs:276
 #, fuzzy
 msgid "Pod Kube Generation"
 msgstr "Podin tutkinta"
 
-#: src/view/component/source_view_page.rs:216
+#: src/view/component/scalable_text_view_page.rs:302
 msgid "Could not set language to '{}'"
 msgstr "Kieltä '{}' ei voitu asettaa"
 
-#: src/view/component/source_view_page.rs:302
+#: src/view/component/scalable_text_view_page.rs:388
 msgid "Inspection error"
 msgstr "Tutkintavirhe"
 
-#: src/view/component/source_view_page.rs:303
+#: src/view/component/scalable_text_view_page.rs:389
 #, fuzzy
 msgid "Kube generation error"
 msgstr "Tutkintavirhe"
@@ -2051,11 +2131,11 @@ msgstr "Kontin luonti epäonnistui"
 msgid "no image selected"
 msgstr "levykuvaa ei ole valittu"
 
-#: src/view/container/details_page.rs:280
+#: src/view/container/details_page.rs:281
 msgid "Error on loading container details"
 msgstr "Virhe ladatessa kontin tietoja"
 
-#: src/view/container/details_page.rs:284
+#: src/view/container/details_page.rs:285
 msgid "Container '{}' has been deleted"
 msgstr "Kontti '{}' on poistettu"
 
@@ -2063,12 +2143,12 @@ msgstr "Kontti '{}' on poistettu"
 msgid "Select Host Destination Path"
 msgstr ""
 
-#: src/view/container/files_put_page.rs:179
+#: src/view/container/files_put_page.rs:180
 #, fuzzy
 msgid "Select Host Directory"
 msgstr "Valitse koostamisen kontekstihakemisto"
 
-#: src/view/container/files_put_page.rs:181
+#: src/view/container/files_put_page.rs:182
 #, fuzzy
 msgid "Select Host File"
 msgstr "Älä valitse mitään"
@@ -2084,29 +2164,29 @@ msgstr[1] "{} sekuntia"
 msgid "Error on running health check"
 msgstr "Virhe terveystarkastusta suorittaessa"
 
-#: src/view/container/log_page.rs:389
+#: src/view/container/log_page.rs:465
 msgid "Error while following log"
 msgstr "Virhe lokia seuratessa"
 
-#: src/view/container/log_page.rs:524
+#: src/view/container/log_page.rs:599
 msgid "Include timestamps"
 msgstr "Sisällytä aikaleimat"
 
-#: src/view/container/log_page.rs:576
+#: src/view/container/log_page.rs:651
 #, fuzzy
 msgid "Error on saving logs"
 msgstr "Virhe ladatessa {}"
 
-#: src/view/container/log_page.rs:590
+#: src/view/container/log_page.rs:665
 #, fuzzy
 msgid "Error on retrieving logs"
 msgstr "Virhe käynnistäessä uudelleen podia: {}"
 
-#: src/view/container/log_page.rs:619
+#: src/view/container/log_page.rs:694
 msgid "Error starting container"
 msgstr "Virhe konttia käynnistäessä"
 
-#: src/view/container/log_page.rs:625
+#: src/view/container/log_page.rs:700
 msgid "Error resuming container"
 msgstr "Virhe konttia palauttaessa"
 
@@ -2142,7 +2222,7 @@ msgstr "Virhe poistaessa konttia"
 msgid "since {}"
 msgstr "lähtien {}"
 
-#: src/view/container/rename_dialog.rs:179
+#: src/view/container/rename_dialog.rs:184
 msgid "Rename Container"
 msgstr "Nimeä kontti uudelleen"
 
@@ -2168,11 +2248,11 @@ msgstr "{} / {} ({} %)"
 msgid "{} / s"
 msgstr "{} / s"
 
-#: src/view/container/tty.rs:363
+#: src/view/container/tty.rs:367
 msgid "Terminal error"
 msgstr "Päätevirhe"
 
-#: src/view/container/tty.rs:364
+#: src/view/container/tty.rs:368
 msgid "'/bin/sh' not found"
 msgstr "'/bin/sh' ei löytynyt"
 
@@ -2227,25 +2307,25 @@ msgid "Image name should not contain uppercase characters."
 msgstr "Levykuvan nimen ei tule sisältää isoja kirjaimia."
 
 #. Translators: "{}" are placeholders for storage space.
-#: src/view/image/details_page.rs:196
+#: src/view/image/details_page.rs:197
 msgid "{} (Virtual: {})"
 msgstr "{} (Virtuaalinen: {})"
 
 #. Translators: "{}" are placeholders for storage space.
-#: src/view/image/details_page.rs:205
+#: src/view/image/details_page.rs:206
 msgid "{} (Shared: {})"
 msgstr "{} (Jaettu: {})"
 
 #. Translators: "{}" are placeholders for storage space.
-#: src/view/image/details_page.rs:215
+#: src/view/image/details_page.rs:216
 msgid "{} (Shared: {}, Virtual: {})"
 msgstr "{} (Jaettu: {}, Virtuaalinen: {})"
 
-#: src/view/image/details_page.rs:307
+#: src/view/image/details_page.rs:308
 msgid "Error on loading image details"
 msgstr "Virhe ladatessa levykuvan tietoja"
 
-#: src/view/image/details_page.rs:311
+#: src/view/image/details_page.rs:312
 msgid "Image '{}' has been deleted"
 msgstr "Levykuva '{}' on poistettu"
 
@@ -2411,11 +2491,11 @@ msgstr "IP"
 msgid "Failed to create pod"
 msgstr "Podin luonti epäonnistui"
 
-#: src/view/pod/details_page.rs:261
+#: src/view/pod/details_page.rs:262
 msgid "Error on loading pod data"
 msgstr "Virhe ladatessa podin dataa"
 
-#: src/view/pod/details_page.rs:265
+#: src/view/pod/details_page.rs:266
 msgid "Pod '{}' has been deleted"
 msgstr "Podi '{}' on poistettu"
 
@@ -2495,7 +2575,7 @@ msgstr "Vahvista useiden podien pakotettu poisto"
 msgid "All associated containers will also be removed!"
 msgstr "Kaikki liittyvät kontit poistetaan myös!"
 
-#: src/view/repo_tag/add_dialog.rs:103
+#: src/view/repo_tag/add_dialog.rs:124
 msgid "Repo tag must contain a colon “:”"
 msgstr "Tietovaraston tagin tulee sisältää kaksoispiste “:”"
 
@@ -2504,43 +2584,55 @@ msgstr "Tietovaraston tagin tulee sisältää kaksoispiste “:”"
 msgid "Error on untagging image"
 msgstr "Virhe levykuvaa '{}' poistaessa"
 
-#: src/window.rs:422
+#: src/window.rs:434
 msgid "Confirm Exiting The Application"
 msgstr "Vahvista sovelluksesta poistuminen"
 
-#: src/window.rs:584
+#: src/window.rs:599
 msgid "{} Selected Image"
 msgid_plural "{} Selected Images"
 msgstr[0] "{} valittu levykuva"
 msgstr[1] "{} valittua levykuvaa"
 
-#: src/window.rs:598
+#: src/window.rs:613
 msgid "{} Selected Container"
 msgid_plural "{} Selected Containers"
 msgstr[0] "{} valittu kontti"
 msgstr[1] "{} valittua konttia"
 
-#: src/window.rs:612
+#: src/window.rs:627
 msgid "{} Selected Pod"
 msgid_plural "{} Selected Pods"
 msgstr[0] "{} valittu podi"
 msgstr[1] "{} valittua podia"
 
-#: src/window.rs:835
+#: src/window.rs:856
 msgid "images"
 msgstr "levykuvaa"
 
-#: src/window.rs:836
+#: src/window.rs:857
 msgid "containers"
 msgstr "kontit"
 
-#: src/window.rs:837
+#: src/window.rs:858
 msgid "pods"
 msgstr "podit"
 
-#: src/window.rs:833
+#: src/window.rs:854
 msgid "Error on loading {}"
 msgstr "Virhe ladatessa {}"
+
+#~ msgid "Container Details"
+#~ msgstr "Konttien tiedot"
+
+#~ msgid "Inspect"
+#~ msgstr "Tutki"
+
+#~ msgid "Image Details"
+#~ msgstr "Levykuvan tiedot"
+
+#~ msgid "Pod Details"
+#~ msgstr "Podien tiedot"
 
 #~ msgid ""
 #~ "No connections have been detected. Use the button below to create a new "
