@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-29 19:55+0100\n"
-"PO-Revision-Date: 2023-01-28 18:35+0000\n"
+"PO-Revision-Date: 2023-01-30 20:54+0000\n"
 "Last-Translator: Marcus Behrendt <marcus.behrendt.86@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/pods/main/de/>\n"
 "Language: de\n"
@@ -110,7 +110,7 @@ msgstr "Ob die Suche nur ganze Wörter finden soll"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:96
 msgid "The font scale of all text views"
-msgstr ""
+msgstr "Der Schriftgrad aller Textansichten"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
 msgid "Keep track of your podman containers"
@@ -376,7 +376,7 @@ msgstr ""
 
 #: data/resources/ui/connection/custom-info-dialog.ui:63
 msgid "http://somewhere:8081"
-msgstr ""
+msgstr "http://irgendwo:8081"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:82
 msgid "Podman Root Connection"
@@ -689,9 +689,8 @@ msgstr "Werkzeuge"
 #: data/resources/ui/container/details-page.ui:205
 #: data/resources/ui/image/details-page.ui:165
 #: data/resources/ui/pod/details-page.ui:251
-#, fuzzy
 msgid "Inspection"
-msgstr "Pod-Inspektion"
+msgstr "Inspektion"
 
 #: data/resources/ui/container/details-page.ui:206
 msgid "View all container properties in a structured text form."
@@ -916,14 +915,12 @@ msgid "Size"
 msgstr "Größe"
 
 #: data/resources/ui/container/properties-group.ui:146
-#, fuzzy
 msgid "Download Files (Ctrl+D)"
-msgstr "Dateien Herunterladen"
+msgstr "Dateien Herunterladen (Strg+D)"
 
 #: data/resources/ui/container/properties-group.ui:158
-#, fuzzy
 msgid "Upload Files (Ctrl+U)"
-msgstr "Daten Hochladen"
+msgstr "Daten Hochladen (Strg+U)"
 
 #: data/resources/ui/container/properties-group.ui:206
 msgid "Port bindings"
@@ -1108,15 +1105,15 @@ msgstr "Pfad der Containerdatei relativ zum Build-Kontextverzeichnis"
 
 #: data/resources/ui/image/details-page.ui:77
 msgid "Disk space"
-msgstr ""
+msgstr "Festplattenplatz"
 
 #: data/resources/ui/image/details-page.ui:90
 msgid "Entry Point"
-msgstr ""
+msgstr "Einstiegspunkt"
 
 #: data/resources/ui/image/details-page.ui:97
 msgid "Ports"
-msgstr ""
+msgstr "Ports"
 
 #: data/resources/ui/image/details-page.ui:107
 msgid "Repository Tags"
@@ -1280,7 +1277,7 @@ msgstr "Betriebssystemarchitektur"
 
 #: data/resources/ui/info-dialog.ui:56
 msgid "Storage"
-msgstr ""
+msgstr "Speicher"
 
 #: data/resources/ui/info-dialog.ui:57
 msgid "Describes the container storage and its attributes."
@@ -1471,14 +1468,12 @@ msgid "Untag"
 msgstr "Markierung aufheben"
 
 #: data/resources/ui/search-panel.ui:19
-#, fuzzy
 msgid "Please start typing to look for results."
-msgstr "Bitte beginnen Sie mit der Eingabe, um nach Abbildern zu suchen."
+msgstr "Bitte beginnen Sie mit der Eingabe, um nach Ergebnisse zu suchen."
 
 #: data/resources/ui/search-panel.ui:33
-#, fuzzy
 msgid "No Results Found"
-msgstr "Keine Registrierungen Gefunden"
+msgstr "Keine Ergebnisse Gefunden"
 
 #: data/resources/ui/search-panel.ui:51 data/resources/ui/window.ui:273
 msgid "Images"
@@ -1557,22 +1552,22 @@ msgstr "Dateien hochladen"
 #: data/resources/ui/shortcuts.ui:104
 msgctxt "shortcut window"
 msgid "Text view"
-msgstr ""
+msgstr "Textansicht"
 
 #: data/resources/ui/shortcuts.ui:108
 msgctxt "shortcut window"
 msgid "Zoom in"
-msgstr ""
+msgstr "Vergrößern"
 
 #: data/resources/ui/shortcuts.ui:115
 msgctxt "shortcut window"
 msgid "Zoom out"
-msgstr ""
+msgstr "Verkleinern"
 
 #: data/resources/ui/shortcuts.ui:122
 msgctxt "shortcut window"
 msgid "Reset zoom"
-msgstr ""
+msgstr "Vergrößerung zurücksetzen"
 
 #: data/resources/ui/shortcuts.ui:132 data/resources/ui/shortcuts.ui:104
 msgctxt "shortcut window"
@@ -1676,14 +1671,12 @@ msgid "Select None"
 msgstr "Nicht Auswählen"
 
 #: data/resources/ui/window.ui:157
-#, fuzzy
 msgid "Multi-Selection"
-msgstr "Nicht Auswählen"
+msgstr "Mehrfachauswahl"
 
 #: data/resources/ui/window.ui:180
-#, fuzzy
 msgid "Cancel"
-msgstr "_Abbrechen"
+msgstr "Abbrechen"
 
 #: src/application.rs:188
 msgid "translator-credits"
