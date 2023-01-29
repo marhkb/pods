@@ -143,7 +143,7 @@
             </style>
             <property name="action-name">container-details-page.get-files</property>
             <property name="icon-name">get-symbolic</property>
-            <property name="tooltip-text">Download Files (Ctrl+D)</property>
+            <property name="tooltip-text" translatable="yes">Download Files (Ctrl+D)</property>
             <property name="valign">center</property>
           </object>
         </child>
@@ -155,7 +155,7 @@
             </style>
             <property name="action-name">container-details-page.put-files</property>
             <property name="icon-name">put-symbolic</property>
-            <property name="tooltip-text">Upload Files (Ctrl+U)</property>
+            <property name="tooltip-text" translatable="yes">Upload Files (Ctrl+U)</property>
             <property name="valign">center</property>
           </object>
         </child>

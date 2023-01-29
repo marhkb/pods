@@ -43,7 +43,7 @@
                     </style>
                     <property name="action-name">container-tty.start-or-resume</property>
                     <property name="halign">center</property>
-                    <property name="label">Start</property>
+                    <property name="label" translatable="yes">Start</property>
                     <property name="width-request">200</property>
                   </object>
                 </child>

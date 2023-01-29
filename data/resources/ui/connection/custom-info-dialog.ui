@@ -60,7 +60,7 @@
                             <style>
                               <class name="monospace"/>
                             </style>
-                            <property name="label">http://somewhere:8081</property>
+                            <property name="label" translatable="yes">http://somewhere:8081</property>
                             <property name="selectable">True</property>
                             <property name="margin-top">6</property>
                             <property name="margin-end">9</property>
