@@ -177,7 +177,7 @@
                                         <child type="start">
                                           <object class="GtkButton">
                                             <property name="action-name">win.exit-selection-mode</property>
-                                            <property name="label">Cancel</property>
+                                            <property name="label" translatable="yes">Cancel</property>
                                           </object>
                                         </child>
 
