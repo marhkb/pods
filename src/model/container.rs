@@ -325,12 +325,13 @@ impl Container {
                     .ports
                     .unwrap_or_default()
                     .first()
-                    .map(|mapping| {
-                        format!(
-                            "{}/{}",
-                            mapping.host_port.unwrap(),
-                            mapping.protocol.as_deref().unwrap_or("tcp")
-                        )
+                    .and_then(|mapping| {
+                        mapping.host_port.map(|host_port| {
+                            format!(
+                                "{host_port}/{}",
+                                mapping.protocol.as_deref().unwrap_or("tcp")
+                            )
+                        })
                     }),
             )
             .property("status", status(list_container.state.as_deref()))
