@@ -1,5 +1,6 @@
 use gettextrs::gettext;
 use glib::subclass::InitializingObject;
+use gtk::gdk;
 use gtk::glib;
 use gtk::glib::closure;
 use gtk::prelude::*;
@@ -16,8 +17,11 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/connection/row.ui")]
     pub(crate) struct Row {
+        pub(super) css_provider: gtk::CssProvider,
         pub(super) client: glib::WeakRef<model::Client>,
         pub(super) connection: glib::WeakRef<model::Connection>,
+        #[template_child]
+        pub(super) color_indicator_bin: TemplateChild<adw::Bin>,
         #[template_child]
         pub(super) image: TemplateChild<gtk::Image>,
         #[template_child]
@@ -40,6 +44,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+            klass.set_css_name("connectionrow");
         }
 
         fn instance_init(obj: &InitializingObject<Self>) {
@@ -85,6 +90,10 @@ mod imp {
             self.parent_constructed();
 
             let obj = &*self.obj();
+
+            self.color_indicator_bin
+                .style_context()
+                .add_provider(&self.css_provider, gtk::STYLE_PROVIDER_PRIORITY_APPLICATION);
 
             let connection_expr = Self::Type::this_expression("connection");
             let is_remote_expr = connection_expr.chain_property::<model::Connection>("is-remote");
@@ -201,7 +210,21 @@ impl Row {
         if self.connection().as_ref() == value {
             return;
         }
-        self.imp().connection.set(value);
+
+        let imp = self.imp();
+
+        imp.css_provider.load_from_data(
+            format!(
+                "widget {{ background: shade({}, 1.2); border: 1px solid {}; border-radius: 9px; padding: 0 2px; }}",
+                value
+                    .and_then(model::Connection::rgb)
+                    .unwrap_or_else(|| gdk::RGBA::new(0.0, 0.0, 0.0, 0.0)),
+                "@borders"
+            )
+            .as_bytes(),
+        );
+
+        imp.connection.set(value);
         self.notify("connection");
     }
 }
