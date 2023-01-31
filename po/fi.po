@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-29 19:55+0100\n"
-"PO-Revision-Date: 2023-01-30 20:54+0000\n"
+"PO-Revision-Date: 2023-02-01 07:49+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/pods/main/fi/>\n"
 "Language: fi\n"
@@ -630,9 +630,8 @@ msgid ""
 msgstr ""
 
 #: data/resources/ui/container/details-page.ui:27
-#, fuzzy
 msgid "Container"
-msgstr "Kontit"
+msgstr "Kontti"
 
 #: data/resources/ui/container/details-page.ui:75
 #: data/resources/ui/pod/details-page.ui:123
@@ -672,9 +671,8 @@ msgstr "Apuohjelmat"
 #: data/resources/ui/container/details-page.ui:205
 #: data/resources/ui/image/details-page.ui:165
 #: data/resources/ui/pod/details-page.ui:251
-#, fuzzy
 msgid "Inspection"
-msgstr "Podin tutkinta"
+msgstr "Tutkinta"
 
 #: data/resources/ui/container/details-page.ui:206
 msgid "View all container properties in a structured text form."
@@ -883,14 +881,12 @@ msgid "Size"
 msgstr "Koko"
 
 #: data/resources/ui/container/properties-group.ui:146
-#, fuzzy
 msgid "Download Files (Ctrl+D)"
-msgstr "Lataa tiedostot"
+msgstr "Lataa tiedostot (Ctrl+D)"
 
 #: data/resources/ui/container/properties-group.ui:158
-#, fuzzy
 msgid "Upload Files (Ctrl+U)"
-msgstr "Lähetä tiedostot"
+msgstr "Lähetä tiedostot (Ctrl+U)"
 
 #: data/resources/ui/container/properties-group.ui:206
 msgid "Port bindings"
@@ -950,9 +946,8 @@ msgid "The container must be running to use the terminal."
 msgstr "Kontin tulee olla käynnissä, jotta päätettä voi käyttää."
 
 #: data/resources/ui/container/tty.ui:46
-#, fuzzy
 msgid "Start"
-msgstr "_Käynnistä"
+msgstr "Käynnistä"
 
 #: data/resources/ui/containers/group.ui:28 data/resources/ui/pods/panel.ui:69
 msgid "Only running"
@@ -1048,9 +1043,8 @@ msgid "Tag ('latest' if empty)"
 msgstr "Tagi ('latest' jos tyhjä)"
 
 #: data/resources/ui/image/build-page.ui:41
-#, fuzzy
 msgid "Build Image"
-msgstr "_Koosta paikallinen levykuva"
+msgstr "Koosta levykuva"
 
 #: data/resources/ui/image/build-page.ui:51
 msgid "_Build"
@@ -1074,7 +1068,7 @@ msgstr ""
 
 #: data/resources/ui/image/details-page.ui:77
 msgid "Disk space"
-msgstr ""
+msgstr "Levytila"
 
 #: data/resources/ui/image/details-page.ui:90
 msgid "Entry Point"
@@ -1082,11 +1076,11 @@ msgstr ""
 
 #: data/resources/ui/image/details-page.ui:97
 msgid "Ports"
-msgstr ""
+msgstr "Portit"
 
 #: data/resources/ui/image/details-page.ui:107
 msgid "Repository Tags"
-msgstr ""
+msgstr "Tietovaraston tagit"
 
 #: data/resources/ui/image/details-page.ui:145
 msgid "_Delete This Image"
@@ -1118,7 +1112,7 @@ msgstr "Levykuvan historia"
 
 #: data/resources/ui/image/history-page.ui:49
 msgid "History List"
-msgstr ""
+msgstr "Historialuettelo"
 
 #: data/resources/ui/image/menu-button.ui:6
 #: data/resources/ui/pod/menu-button.ui:7
@@ -1171,14 +1165,12 @@ msgid "Prune Images"
 msgstr "Poista käyttämättömät levykuvat."
 
 #: data/resources/ui/images/prune-page.ui:50
-#, fuzzy
 msgid "_Prune"
-msgstr "_Poista käyttämättömät…"
+msgstr "_Poista käyttämättömät"
 
 #: data/resources/ui/images/prune-page.ui:64
-#, fuzzy
 msgid "Prune Options"
-msgstr "Määritä käyttämättömien poistamisen asetukset"
+msgstr "Käyttämättömien poistamisen asetukset"
 
 #: data/resources/ui/images/prune-page.ui:69
 msgid "Prune All"
@@ -1246,7 +1238,7 @@ msgstr "OS-arkkitehtuuri"
 
 #: data/resources/ui/info-dialog.ui:56
 msgid "Storage"
-msgstr ""
+msgstr "Tallennustila"
 
 #: data/resources/ui/info-dialog.ui:57
 msgid "Describes the container storage and its attributes."
@@ -1414,7 +1406,7 @@ msgstr "UDP"
 
 #: data/resources/ui/repo-tag/add-dialog.ui:6
 msgid "Add Repository Tag"
-msgstr ""
+msgstr "Lisää tietovaraston tagi"
 
 #: data/resources/ui/repo-tag/add-dialog.ui:10
 msgid "_Add"
@@ -1422,26 +1414,23 @@ msgstr "_Lisää"
 
 #: data/resources/ui/repo-tag/add-dialog.ui:31
 msgid "Repository Tag"
-msgstr ""
+msgstr "Tietovaraston tagi"
 
 #: data/resources/ui/repo-tag/row.ui:32
-#, fuzzy
 msgid "Pull Latest"
-msgstr "Vedä viimeisin levykuva"
+msgstr "Vedä viimeisin"
 
 #: data/resources/ui/repo-tag/row.ui:43
 msgid "Untag"
 msgstr ""
 
 #: data/resources/ui/search-panel.ui:19
-#, fuzzy
 msgid "Please start typing to look for results."
-msgstr "Aloita kirjoittaminen etsiäksesi levykuvia."
+msgstr "Aloita kirjoittaminen etsiäksesi tuloksia."
 
 #: data/resources/ui/search-panel.ui:33
-#, fuzzy
 msgid "No Results Found"
-msgstr "Rekisterejä ei löytynyt"
+msgstr "Tuloksia ei löytynyt"
 
 #: data/resources/ui/search-panel.ui:51 data/resources/ui/window.ui:273
 msgid "Images"
@@ -1493,10 +1482,9 @@ msgid "Return to main view"
 msgstr "Palaa päänäkymään"
 
 #: data/resources/ui/shortcuts.ui:69
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Container"
-msgstr "Kontit"
+msgstr "Kontti"
 
 #: data/resources/ui/shortcuts.ui:73
 msgctxt "shortcut window"
@@ -1522,22 +1510,22 @@ msgstr "Lähetä tiedostot"
 #: data/resources/ui/shortcuts.ui:104
 msgctxt "shortcut window"
 msgid "Text view"
-msgstr ""
+msgstr "Tekstinäkymä"
 
 #: data/resources/ui/shortcuts.ui:108
 msgctxt "shortcut window"
 msgid "Zoom in"
-msgstr ""
+msgstr "Lähennä"
 
 #: data/resources/ui/shortcuts.ui:115
 msgctxt "shortcut window"
 msgid "Zoom out"
-msgstr ""
+msgstr "Loitonna"
 
 #: data/resources/ui/shortcuts.ui:122
 msgctxt "shortcut window"
 msgid "Reset zoom"
-msgstr ""
+msgstr "Palauta mittakaava"
 
 #: data/resources/ui/shortcuts.ui:132
 msgctxt "shortcut window"
@@ -1645,9 +1633,8 @@ msgid "Multi-Selection"
 msgstr "Älä valitse mitään"
 
 #: data/resources/ui/window.ui:180
-#, fuzzy
 msgid "Cancel"
-msgstr "_Peru"
+msgstr "Peru"
 
 #: src/application.rs:188
 msgid "translator-credits"
@@ -1797,15 +1784,15 @@ msgstr "Virhe"
 
 #: src/utils.rs:115
 msgid "{} h {} min {} s"
-msgstr ""
+msgstr "{} t {} min {} s"
 
 #: src/utils.rs:117
 msgid "{} h {} s"
-msgstr ""
+msgstr "{} t {} s"
 
 #: src/utils.rs:124
 msgid "{} min {} s"
-msgstr ""
+msgstr "{} min {} s"
 
 #: src/utils.rs:126
 msgid "{} min"
@@ -2083,15 +2070,15 @@ msgstr "Vahvista yhdistäminen uuteen instanssiin"
 
 #: src/view/connection/custom_info_dialog.rs:119
 msgid "systemd unit path copied"
-msgstr ""
+msgstr "systemd:n unit-yksikön polku kopioitu"
 
 #: src/view/connection/custom_info_dialog.rs:127
 msgid "systemd unit content copied"
-msgstr ""
+msgstr "systemd:n unit-yksikön sisältö kopioitu"
 
 #: src/view/connection/custom_info_dialog.rs:135
 msgid "socket activation command copied"
-msgstr ""
+msgstr "pistokkeen aktivointikomento kopioitu"
 
 #: src/view/connection/custom_info_dialog.rs:143
 msgid "URL copied"
