@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-29 19:39+0100\n"
-"PO-Revision-Date: 2023-01-03 15:51+0000\n"
+"PO-Revision-Date: 2023-02-01 07:47+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
-"Language-Team: Finnish <https://hosted.weblate.org/projects/pods/pods/fi/>\n"
+"Language-Team: Finnish <https://hosted.weblate.org/projects/pods/1-0/fi/>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.15.1-dev\n"
+"X-Generator: Weblate 4.16-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
@@ -328,6 +328,8 @@ msgid ""
 "To connect to the local root Podman instance, create a custom connection "
 "(read the hints there)."
 msgstr ""
+"Yhdistääksesi paikalliseen Podmanin root-instanssiin, luo mukautettu yhteys ("
+"lue vinkit tästä)."
 
 #: data/resources/ui/connection/creation-page.ui:258
 msgid "Custom"
@@ -374,6 +376,10 @@ msgid ""
 "is not readable for normal users. However, there is a workaround using a "
 "systemd unit. Save the following snippet:"
 msgstr ""
+"Valitettavasti Podmanin root-instanssiin ei ole tällä hetkellä mahdollista "
+"yhdistää suoraan, koska <span weight=\"bold\">/run/podman/podman.sock</span> "
+"ei ole tavallisten käyttäjien luettavissa. Tähän on kuitenkin olemassa "
+"kiertotie käyttäen systemd:n unit-yksikkö. Tallenna seuraava teksti:"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:203
 msgid "Enable the service by issuing the command:"
@@ -870,14 +876,12 @@ msgid "Size"
 msgstr "Koko"
 
 #: data/resources/ui/container/properties-group.ui:146
-#, fuzzy
 msgid "Download Files (Ctrl+D)"
-msgstr "Lataa tiedostot"
+msgstr "Lataa tiedostot (Ctrl+D)"
 
 #: data/resources/ui/container/properties-group.ui:158
-#, fuzzy
 msgid "Upload Files (Ctrl+U)"
-msgstr "Lähetä tiedostot"
+msgstr "Lähetä tiedostot (Ctrl+U)"
 
 #: data/resources/ui/container/properties-group.ui:206
 msgid "Port bindings"
@@ -936,9 +940,8 @@ msgid "The container must be running to use the terminal."
 msgstr "Kontin tulee olla käynnissä, jotta päätettä voi käyttää."
 
 #: data/resources/ui/container/tty.ui:46
-#, fuzzy
 msgid "Start"
-msgstr "_Käynnistä"
+msgstr "Käynnistä"
 
 #: data/resources/ui/containers/group.ui:28 data/resources/ui/pods/panel.ui:69
 msgid "Only running"
@@ -1034,9 +1037,8 @@ msgid "Tag ('latest' if empty)"
 msgstr "Tagi ('latest' jos tyhjä)"
 
 #: data/resources/ui/image/build-page.ui:41
-#, fuzzy
 msgid "Build Image"
-msgstr "_Koosta paikallinen levykuva"
+msgstr "Koosta levykuva"
 
 #: data/resources/ui/image/build-page.ui:51
 msgid "_Build"
@@ -1064,7 +1066,7 @@ msgstr "Levykuvan tiedot"
 
 #: data/resources/ui/image/details-page.ui:77
 msgid "Disk space"
-msgstr ""
+msgstr "Levytila"
 
 #: data/resources/ui/image/details-page.ui:90
 msgid "Entry Point"
@@ -1072,11 +1074,11 @@ msgstr ""
 
 #: data/resources/ui/image/details-page.ui:97
 msgid "Ports"
-msgstr ""
+msgstr "Portit"
 
 #: data/resources/ui/image/details-page.ui:107
 msgid "Repository Tags"
-msgstr ""
+msgstr "Tietovaraston tagit"
 
 #: data/resources/ui/image/details-page.ui:145
 msgid "_Delete This Image"
@@ -1108,7 +1110,7 @@ msgstr "Levykuvan historia"
 
 #: data/resources/ui/image/history-page.ui:49
 msgid "History List"
-msgstr ""
+msgstr "Historialuettelo"
 
 #: data/resources/ui/image/menu-button.ui:6
 #: data/resources/ui/pod/menu-button.ui:7
@@ -1161,14 +1163,12 @@ msgid "Prune Images"
 msgstr "Poista käyttämättömät levykuvat."
 
 #: data/resources/ui/images/prune-page.ui:50
-#, fuzzy
 msgid "_Prune"
-msgstr "_Poista käyttämättömät…"
+msgstr "_Poista käyttämättömät"
 
 #: data/resources/ui/images/prune-page.ui:64
-#, fuzzy
 msgid "Prune Options"
-msgstr "Määritä käyttämättömien poistamisen asetukset"
+msgstr "Käyttämättömien poistamisen asetukset"
 
 #: data/resources/ui/images/prune-page.ui:69
 msgid "Prune All"
@@ -1236,7 +1236,7 @@ msgstr "OS-arkkitehtuuri"
 
 #: data/resources/ui/info-dialog.ui:56
 msgid "Storage"
-msgstr ""
+msgstr "Tallennustila"
 
 #: data/resources/ui/info-dialog.ui:57
 msgid "Describes the container storage and its attributes."
@@ -1408,7 +1408,7 @@ msgstr "UDP"
 
 #: data/resources/ui/repo-tag/add-dialog.ui:6
 msgid "Add Repository Tag"
-msgstr ""
+msgstr "Lisää tietovaraston tagi"
 
 #: data/resources/ui/repo-tag/add-dialog.ui:10
 msgid "_Add"
@@ -1416,26 +1416,23 @@ msgstr "_Lisää"
 
 #: data/resources/ui/repo-tag/add-dialog.ui:31
 msgid "Repository Tag"
-msgstr ""
+msgstr "Tietovaraston tagi"
 
 #: data/resources/ui/repo-tag/row.ui:32
-#, fuzzy
 msgid "Pull Latest"
-msgstr "Vedä viimeisin levykuva"
+msgstr "Vedä viimeisin"
 
 #: data/resources/ui/repo-tag/row.ui:43
 msgid "Untag"
 msgstr ""
 
 #: data/resources/ui/search-panel.ui:19
-#, fuzzy
 msgid "Please start typing to look for results."
-msgstr "Aloita kirjoittaminen etsiäksesi levykuvia."
+msgstr "Aloita kirjoittaminen etsiäksesi tuloksia."
 
 #: data/resources/ui/search-panel.ui:33
-#, fuzzy
 msgid "No Results Found"
-msgstr "Rekisterejä ei löytynyt"
+msgstr "Tuloksia ei löytynyt"
 
 #: data/resources/ui/search-panel.ui:51 data/resources/ui/window.ui:273
 msgid "Images"
@@ -1487,10 +1484,9 @@ msgid "Return to main view"
 msgstr "Palaa päänäkymään"
 
 #: data/resources/ui/shortcuts.ui:69
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Container"
-msgstr "Kontit"
+msgstr "Kontti"
 
 #: data/resources/ui/shortcuts.ui:73
 msgctxt "shortcut window"
@@ -1619,9 +1615,8 @@ msgid "Multi-Selection"
 msgstr "Älä valitse mitään"
 
 #: data/resources/ui/window.ui:180
-#, fuzzy
 msgid "Cancel"
-msgstr "_Peru"
+msgstr "Peru"
 
 #: src/application.rs:188
 msgid "translator-credits"
@@ -1771,15 +1766,15 @@ msgstr "Virhe"
 
 #: src/utils.rs:115
 msgid "{} h {} min {} s"
-msgstr ""
+msgstr "{} t {} min {} s"
 
 #: src/utils.rs:117
 msgid "{} h {} s"
-msgstr ""
+msgstr "{} t {} s"
 
 #: src/utils.rs:124
 msgid "{} min {} s"
-msgstr ""
+msgstr "{} min {} s"
 
 #: src/utils.rs:126
 msgid "{} min"
@@ -2057,15 +2052,15 @@ msgstr "Vahvista yhdistäminen uuteen instanssiin"
 
 #: src/view/connection/custom_info_dialog.rs:119
 msgid "systemd unit path copied"
-msgstr ""
+msgstr "systemd:n unit-yksikön polku kopioitu"
 
 #: src/view/connection/custom_info_dialog.rs:127
 msgid "systemd unit content copied"
-msgstr ""
+msgstr "systemd:n unit-yksikön sisältö kopioitu"
 
 #: src/view/connection/custom_info_dialog.rs:135
 msgid "socket activation command copied"
-msgstr ""
+msgstr "pistokkeen aktivointikomento kopioitu"
 
 #: src/view/connection/custom_info_dialog.rs:143
 msgid "URL copied"
