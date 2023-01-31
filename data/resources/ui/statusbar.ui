@@ -37,7 +37,7 @@
     </property>
 
     <child>
-      <object class="PanelStatusbar">
+      <object class="PanelStatusbar" id="statusbar">
 
         <child>
           <object class="GtkMenuButton" id="connections_menu_button">
