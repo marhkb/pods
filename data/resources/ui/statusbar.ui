@@ -107,18 +107,21 @@
               <object class="GtkBox">
 
                 <child>
-                  <object class="GtkImage">
+                  <object class="GtkImage" id="notifications_image">
                     <property name="icon-name">preferences-system-notifications-symbolic</property>
                     <property name="pixel-size">12</property>
                   </object>
                 </child>
 
                 <child>
-                  <object class="GtkRevealer" id="notifications_progress_bar_revealer">
+                  <object class="GtkRevealer" id="notifications_label_revealer">
                     <property name="transition-type">slide-left</property>
 
                     <child>
-                      <object class="GtkProgressBar" id="notifications_progress_bar">
+                      <object class="GtkLabel" id="notifications_label">
+                        <style>
+                          <class name="numeric"/>
+                        </style>
                         <property name="margin-start">6</property>
                         <property name="valign">center</property>
                       </object>
