@@ -77,6 +77,8 @@ mod imp {
         pub(super) search_panel: TemplateChild<view::SearchPanel>,
         #[template_child]
         pub(super) leaflet_overlay: TemplateChild<view::LeafletOverlay>,
+        #[template_child]
+        pub(super) statusbar: TemplateChild<view::Statusbar>,
     }
 
     #[glib::object_subclass]
@@ -339,6 +341,9 @@ mod imp {
                         Some(client) => client.check_service(
                             clone!(@weak obj, @weak client => move || {
                                 let imp = obj.imp();
+
+                                imp.statusbar.set_background(client.connection().rgb());
+
                                 imp.search_button.set_active(false);
                                 imp.main_stack.set_visible_child_full("client", gtk::StackTransitionType::None);
                                 obj.exit_selection_mode();
@@ -394,6 +399,7 @@ mod imp {
                             }),
                         ),
                         None => {
+                            imp.statusbar.set_background(None);
                             imp.main_stack.set_visible_child_full(
                                 if manager.n_items() > 0 {
                                     "connection-chooser"

@@ -372,7 +372,7 @@
                     </child>
 
                     <child>
-                      <object class="PdsStatusbar">
+                      <object class="PdsStatusbar" id="statusbar">
                         <binding name="connection-manager">
                           <lookup name="connection-manager">PdsWindow</lookup>
                         </binding>
