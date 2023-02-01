@@ -8,22 +8,37 @@
     </property>
 
     <child>
-      <object class="GtkOverlay">
-        <property name="name">selection-indicator</property>
+      <object class="GtkBox">
+        <property name="spacing">6</property>
 
         <child>
-          <object class="GtkImage" id="image">
-            <property name="name">background</property>
-            <property name="valign">center</property>
+          <object class="AdwBin" id="color_indicator_bin">
+            <property name="margin-top">3</property>
+            <property name="margin-bottom">3</property>
+            <property name="vexpand">True</property>
           </object>
         </child>
 
-        <child type="overlay">
-          <object class="GtkImage" id="checkmark">
-            <property name="name">checkmark</property>
-            <property name="halign">end</property>
-            <property name="valign">end</property>
-            <property name="icon-name">emblem-ok-symbolic</property>
+        <child>
+          <object class="GtkOverlay">
+            <property name="name">selection-indicator</property>
+
+            <child>
+              <object class="GtkImage" id="image">
+                <property name="name">background</property>
+                <property name="valign">center</property>
+              </object>
+            </child>
+
+            <child type="overlay">
+              <object class="GtkImage" id="checkmark">
+                <property name="name">checkmark</property>
+                <property name="halign">end</property>
+                <property name="valign">end</property>
+                <property name="icon-name">emblem-ok-symbolic</property>
+              </object>
+            </child>
+
           </object>
         </child>
 

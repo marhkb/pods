@@ -1,3 +1,6 @@
+use std::borrow::Cow;
+
+use gtk::gdk;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::closure;
@@ -18,9 +21,12 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/statusbar.ui")]
     pub(crate) struct Statusbar {
+        pub(super) css_provider: gtk::CssProvider,
         pub(super) connection_manager: glib::WeakRef<model::ConnectionManager>,
         pub(super) connection_switcher_widget: view::ConnectionSwitcherWidget,
         pub(super) actions_overview: view::ActionsOverview,
+        #[template_child]
+        pub(super) statusbar: TemplateChild<panel::Statusbar>,
         #[template_child]
         pub(super) connections_menu_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
@@ -32,9 +38,11 @@ mod imp {
         #[template_child]
         pub(super) notifications_menu_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
-        pub(super) notifications_progress_bar_revealer: TemplateChild<gtk::Revealer>,
+        pub(super) notifications_image: TemplateChild<gtk::Image>,
         #[template_child]
-        pub(super) notifications_progress_bar: TemplateChild<gtk::ProgressBar>,
+        pub(super) notifications_label_revealer: TemplateChild<gtk::Revealer>,
+        #[template_child]
+        pub(super) notifications_label: TemplateChild<gtk::Label>,
     }
 
     #[glib::object_subclass]
@@ -86,6 +94,10 @@ mod imp {
             self.parent_constructed();
 
             let obj = &*self.obj();
+
+            self.statusbar
+                .style_context()
+                .add_provider(&self.css_provider, gtk::STYLE_PROVIDER_PRIORITY_APPLICATION);
 
             add_menu_items(
                 &self.connections_menu_button,
@@ -141,44 +153,43 @@ mod imp {
                 .chain_property::<model::Connection>("name")
                 .bind(&*self.active_connection_label, "label", Some(obj));
 
-            let css_classes = self.notifications_progress_bar.css_classes();
-            gtk::ClosureExpression::new::<Vec<String>>(
-                &[
-                    action_list_expr.chain_property::<model::ActionList>("failed"),
-                    action_list_expr.chain_property::<model::ActionList>("cancelled"),
-                    action_list_expr.chain_property::<model::ActionList>("ongoing"),
+            gtk::ClosureExpression::new::<String>(
+                [
+                    &action_list_expr.chain_property::<model::ActionList>("failed"),
+                    &action_list_expr.chain_property::<model::ActionList>("cancelled"),
+                    &action_list_ongoing_expr,
+                    &action_list_len_expr,
                 ],
-                closure!(|_: Self::Type, failed: u32, cancelled: u32, ongoing: u32| {
-                    css_classes
-                        .iter()
-                        .cloned()
-                        .chain(
-                            if failed > 0 {
-                                Some("error")
-                            } else if cancelled > 0 {
-                                Some("warning")
-                            } else if ongoing == 0 {
-                                Some("success")
-                            } else {
-                                None
-                            }
-                            .map(glib::GString::from),
-                        )
-                        .collect::<Vec<_>>()
-                }),
+                closure!(
+                    |_: Self::Type, failed: u32, cancelled: u32, ongoing: u32, len: u32| {
+                        if failed > 0 {
+                            "error"
+                        } else if cancelled > 0 {
+                            "dialog-warning-symbolic"
+                        } else if ongoing == 0 && len > 0 {
+                            "success"
+                        } else {
+                            "preferences-system-notifications-symbolic"
+                        }
+                    }
+                ),
             )
-            .bind(&*self.notifications_progress_bar, "css-classes", Some(obj));
+            .bind(&*self.notifications_image, "icon-name", Some(obj));
 
             action_list_expr.bind(&self.actions_overview, "action-list", Some(obj));
-            action_list_ongoing_expr
-                .chain_closure::<f64>(closure!(|_: Self::Type, ongoing: u32| {
-                    1.0 / (ongoing + 1) as f64
-                }))
-                .bind(&*self.notifications_progress_bar, "fraction", Some(obj));
+
+            gtk::ClosureExpression::new::<String>(
+                [&action_list_ongoing_expr, &action_list_len_expr],
+                closure!(|_: Self::Type, ongoing: u32, len: u32| {
+                    format!("{}/{len}", len - ongoing)
+                }),
+            )
+            .bind(&*self.notifications_label, "label", Some(obj));
+
             action_list_len_expr
                 .chain_closure::<bool>(closure!(|_: Self::Type, len: u32| len > 0))
                 .bind(
-                    &*self.notifications_progress_bar_revealer,
+                    &*self.notifications_label_revealer,
                     "reveal-child",
                     Some(obj),
                 );
@@ -234,6 +245,26 @@ impl Statusbar {
             action_list.clean_up();
         }
     }
+
+    pub(crate) fn set_background(&self, bg_color: Option<gdk::RGBA>) {
+        let (bg_color, fg_color) = bg_color
+            .map(|color| {
+                (
+                    Cow::Owned(color.to_string()),
+                    if luminance(&color) > 0.2 {
+                        "rgba(0, 0, 0, 0.8)"
+                    } else {
+                        "#ffffff"
+                    },
+                )
+            })
+            .unwrap_or_else(|| (Cow::Borrowed("@headerbar_bg_color"), "@headerbar_fg_color"));
+
+        self.imp().css_provider.load_from_data(
+            format!("panelstatusbar {{ background: shade({bg_color}, 1.2); color: {fg_color}; }}")
+                .as_bytes(),
+        );
+    }
 }
 
 fn add_menu_items(menu_button: &gtk::MenuButton, widget: &gtk::Widget) {
@@ -244,4 +275,19 @@ fn add_menu_items(menu_button: &gtk::MenuButton, widget: &gtk::Widget) {
         .unwrap();
 
     popover_menu.add_child(widget, "items");
+}
+
+fn srgb(c: f32) -> f32 {
+    if c <= 0.03928 {
+        c / 12.92
+    } else {
+        ((c + 0.055) / 1.055).powf(2.4)
+    }
+}
+
+fn luminance(color: &gdk::RGBA) -> f32 {
+    let red = srgb(color.red());
+    let blue = srgb(color.blue());
+    let green = srgb(color.green());
+    red * 0.2126 + blue * 0.0722 + green * 0.7152
 }

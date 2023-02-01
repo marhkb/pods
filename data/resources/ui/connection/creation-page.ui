@@ -294,7 +294,7 @@
               <object class="AdwActionRow">
                 <property name="activatable-widget">color_button</property>
                 <property name="title" translatable="yes">Color</property>
-                <property name="subtitle" translatable="yes">Define how to colorize the header bar (disabled).</property>
+                <property name="subtitle" translatable="yes">Set the color of the status bar when this connection is active.</property>
                 <child>
                   <object class="GtkBox">
                     <property name="spacing">6</property>
