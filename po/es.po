@@ -190,6 +190,7 @@ msgid "Pods Overview"
 msgstr "Vista general de las cápsulas"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:262
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:223
 msgid "Marcus Behrendt"
 msgstr "Marcus Behrendt"
 
@@ -287,6 +288,7 @@ msgstr "_Conectar"
 #: data/resources/ui/pod/creation-page.ui:73
 #: data/resources/ui/pod/creation-page.ui:302
 #: data/resources/ui/pod/details-page.ui:52
+#: data/resources/ui/container/rename-dialog.ui:24
 msgid "Name"
 msgstr "Nombre"
 
@@ -356,6 +358,9 @@ msgid ""
 "span>, <span weight=\"bold\">TCP</span>, and <span weight=\"bold\">UNIX</"
 "span> protocols. For example, the connection string might look like this:"
 msgstr ""
+"Puede conectarse a una instancia de Podman usando los protocolos <span "
+"weight=\"bold\">HTTP</span>, <span weight=\"bold\">TCP</span>, y <span "
+"weight=\"bold\">UNIX</span>"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:63
 msgid "http://somewhere:8081"
@@ -537,6 +542,7 @@ msgstr "GB"
 #: data/resources/ui/container/health-check-page.ui:58
 #: data/resources/ui/image/details-page.ui:83
 #: data/resources/ui/pod/creation-page.ui:385
+#: data/resources/ui/container/health-check-page.ui:53
 msgid "Command"
 msgstr "Comando"
 
@@ -577,6 +583,7 @@ msgstr "Análisis de salud"
 
 #: data/resources/ui/container/creation-page.ui:426
 #: data/resources/ui/container/health-check-page.ui:64
+#: data/resources/ui/container/health-check-page.ui:59
 msgid "Interval"
 msgstr "Intervalo"
 
@@ -592,6 +599,7 @@ msgstr "segundos"
 
 #: data/resources/ui/container/creation-page.ui:462
 #: data/resources/ui/container/health-check-page.ui:76
+#: data/resources/ui/container/health-check-page.ui:71
 msgid "Timeout"
 msgstr "Tiempo límite"
 
@@ -613,6 +621,7 @@ msgstr "El tiempo de inicio que necesita un contenedor para arrancar."
 
 #: data/resources/ui/container/creation-page.ui:534
 #: data/resources/ui/container/health-check-page.ui:70
+#: data/resources/ui/container/health-check-page.ui:65
 msgid "Retries"
 msgstr "Reintentos"
 
@@ -770,6 +779,7 @@ msgid "Container Health Check"
 msgstr "Ruta del contenedor"
 
 #: data/resources/ui/container/health-check-page.ui:38
+#: data/resources/ui/container/health-check-page.ui:33
 #, fuzzy
 msgid "Configuration"
 msgstr "Configurado"
@@ -777,23 +787,28 @@ msgstr "Configurado"
 #: data/resources/ui/container/health-check-page.ui:42
 #: data/resources/ui/container/properties-group.ui:168
 #: data/resources/ui/pod/details-page.ui:75
+#: data/resources/ui/container/health-check-page.ui:37
 msgid "Status"
 msgstr "Estado"
 
 #: data/resources/ui/container/health-check-page.ui:82
+#: data/resources/ui/container/health-check-page.ui:77
 msgid "Failing Streak"
 msgstr ""
 
 #: data/resources/ui/container/health-check-page.ui:98
+#: data/resources/ui/container/health-check-page.ui:93
 #, fuzzy
 msgid "Log"
 msgstr "Registros"
 
 #: data/resources/ui/container/health-check-page.ui:99
+#: data/resources/ui/container/health-check-page.ui:94
 msgid "Rows describe the last 5 health check attempts and results."
 msgstr ""
 
 #: data/resources/ui/container/health-check-page.ui:104
+#: data/resources/ui/container/health-check-page.ui:99
 #, fuzzy
 msgid "_Run Health Check"
 msgstr "Análisis de salud"
@@ -1029,14 +1044,14 @@ msgid ""
 "\n"
 "You cannot search for images without registries. Please follow the "
 "instructions on this <a href=\"https://github.com/containers/image/blob/"
-"b80addc01c0dab40c5d8945a1df61f3c72a3e40d/docs/containers-registries.conf.5."
-"md\">website</a> in order to add registries.\n"
+"b80addc01c0dab40c5d8945a1df61f3c72a3e40d/docs/containers-registries.conf.5.md"
+"\">website</a> in order to add registries.\n"
 msgstr ""
 "\n"
 "No puede buscar imágenes sin registros. Siga las instrucciones de este <a "
 "href=\"https://github.com/containers/image/blob/"
-"b80addc01c0dab40c5d8945a1df61f3c72a3e40d/docs/containers-registries.conf.5."
-"md\">sitio web</a> para añadir registros.\n"
+"b80addc01c0dab40c5d8945a1df61f3c72a3e40d/docs/containers-registries.conf.5.md"
+"\">sitio web</a> para añadir registros.\n"
 "                "
 
 #: data/resources/ui/image-search/widget.ui:53
@@ -1471,6 +1486,7 @@ msgid "_Add"
 msgstr ""
 
 #: data/resources/ui/repo-tag/add-dialog.ui:31
+#: data/resources/ui/repo-tag/add-dialog.ui:25
 msgid "Repository Tag"
 msgstr ""
 
@@ -1836,6 +1852,7 @@ msgstr "Degradado"
 
 #: src/model/pod.rs:67 src/view/component/source_view_page.rs:352
 #: src/view/connection/creation_page.rs:269
+#: src/view/component/source_view_page.rs:341
 msgid "Error"
 msgstr "Error"
 
@@ -2089,40 +2106,48 @@ msgid "Main View"
 msgstr "Ventana principal"
 
 #: src/view/component/source_view_page.rs:182
+#: src/view/component/source_view_page.rs:171
 #, fuzzy
 msgid "Image Inspection"
 msgstr "Detalles de la imagen"
 
 #: src/view/component/source_view_page.rs:189
+#: src/view/component/source_view_page.rs:178
 #, fuzzy
 msgid "Container Inspection"
 msgstr "Puerto del contenedor"
 
 #: src/view/component/source_view_page.rs:190
+#: src/view/component/source_view_page.rs:179
 #, fuzzy
 msgid "Container Kube Generation"
 msgstr "Puerto del contenedor"
 
 #: src/view/component/source_view_page.rs:200
+#: src/view/component/source_view_page.rs:189
 #, fuzzy
 msgid "Pod Inspection"
 msgstr "_Añadir conexión"
 
 #: src/view/component/source_view_page.rs:201
+#: src/view/component/source_view_page.rs:190
 #, fuzzy
 msgid "Pod Kube Generation"
 msgstr "_Añadir conexión"
 
 #: src/view/component/source_view_page.rs:227
+#: src/view/component/source_view_page.rs:216
 msgid "Could not set language to '{}'"
 msgstr ""
 
 #: src/view/component/source_view_page.rs:313
+#: src/view/component/source_view_page.rs:302
 #, fuzzy
 msgid "Inspection error"
 msgstr "_Añadir conexión"
 
 #: src/view/component/source_view_page.rs:314
+#: src/view/component/source_view_page.rs:303
 #, fuzzy
 msgid "Kube generation error"
 msgstr "_Añadir conexión"
@@ -2220,11 +2245,13 @@ msgid "no image selected"
 msgstr "1 imagen, usada"
 
 #: src/view/container/details_page.rs:281
+#: src/view/container/details_page.rs:280
 #, fuzzy
 msgid "Error on loading container details"
 msgstr "Error al cargar contenedores"
 
 #: src/view/container/details_page.rs:285
+#: src/view/container/details_page.rs:284
 msgid "Container '{}' has been deleted"
 msgstr "El contenedor '{}' ha sido eliminado"
 
@@ -2233,10 +2260,12 @@ msgid "Select Host Destination Path"
 msgstr ""
 
 #: src/view/container/files_put_page.rs:180
+#: src/view/container/files_put_page.rs:179
 msgid "Select Host Directory"
 msgstr ""
 
 #: src/view/container/files_put_page.rs:182
+#: src/view/container/files_put_page.rs:181
 #, fuzzy
 msgid "Select Host File"
 msgstr "_Seleccionar"
@@ -2254,31 +2283,31 @@ msgstr[1] "segundos"
 msgid "Error on running health check"
 msgstr "Error al eliminar las imágenes"
 
-#: src/view/container/log_page.rs:388
+#: src/view/container/log_page.rs:388 src/view/container/log_page.rs:389
 msgid "Error while following log"
 msgstr ""
 
-#: src/view/container/log_page.rs:522
+#: src/view/container/log_page.rs:522 src/view/container/log_page.rs:524
 #, fuzzy
 msgid "Include timestamps"
 msgstr "Conmutar las marcas de tiempo"
 
-#: src/view/container/log_page.rs:574
+#: src/view/container/log_page.rs:574 src/view/container/log_page.rs:576
 #, fuzzy
 msgid "Error on saving logs"
 msgstr "Error al cargar {}"
 
-#: src/view/container/log_page.rs:588
+#: src/view/container/log_page.rs:588 src/view/container/log_page.rs:590
 #, fuzzy
 msgid "Error on retrieving logs"
 msgstr "Error al reiniciar el contenedor"
 
-#: src/view/container/log_page.rs:617
+#: src/view/container/log_page.rs:617 src/view/container/log_page.rs:619
 #, fuzzy
 msgid "Error starting container"
 msgstr "Error al reiniciar el contenedor"
 
-#: src/view/container/log_page.rs:623
+#: src/view/container/log_page.rs:623 src/view/container/log_page.rs:625
 #, fuzzy
 msgid "Error resuming container"
 msgstr "Error al reanudar el contenedor"
@@ -2324,6 +2353,7 @@ msgid "since {}"
 msgstr "Activo desde {}"
 
 #: src/view/container/rename_dialog.rs:184
+#: src/view/container/rename_dialog.rs:179
 #, fuzzy
 msgid "Rename Container"
 msgstr "Renombrar contenedores."
@@ -2350,12 +2380,12 @@ msgstr "{} / {} ({} %)"
 msgid "{} / s"
 msgstr "{} / s"
 
-#: src/view/container/tty.rs:367
+#: src/view/container/tty.rs:367 src/view/container/tty.rs:363
 #, fuzzy
 msgid "Terminal error"
 msgstr "Terminal"
 
-#: src/view/container/tty.rs:368
+#: src/view/container/tty.rs:368 src/view/container/tty.rs:364
 msgid "'/bin/sh' not found"
 msgstr ""
 
@@ -2409,26 +2439,26 @@ msgid "Image name should not contain uppercase characters."
 msgstr ""
 
 #. Translators: "{}" are placeholders for storage space.
-#: src/view/image/details_page.rs:197
+#: src/view/image/details_page.rs:197 src/view/image/details_page.rs:196
 msgid "{} (Virtual: {})"
 msgstr "{} (Virtual: {})"
 
 #. Translators: "{}" are placeholders for storage space.
-#: src/view/image/details_page.rs:206
+#: src/view/image/details_page.rs:206 src/view/image/details_page.rs:205
 msgid "{} (Shared: {})"
 msgstr "{} (Compartida: {})"
 
 #. Translators: "{}" are placeholders for storage space.
-#: src/view/image/details_page.rs:216
+#: src/view/image/details_page.rs:216 src/view/image/details_page.rs:215
 msgid "{} (Shared: {}, Virtual: {})"
 msgstr "{} (Compartida: {}, Virtual: {})"
 
-#: src/view/image/details_page.rs:308
+#: src/view/image/details_page.rs:308 src/view/image/details_page.rs:307
 #, fuzzy
 msgid "Error on loading image details"
 msgstr "Error al cargar contenedores"
 
-#: src/view/image/details_page.rs:312
+#: src/view/image/details_page.rs:312 src/view/image/details_page.rs:311
 msgid "Image '{}' has been deleted"
 msgstr "La imagen '{}' ha sido eliminada"
 
@@ -2601,12 +2631,12 @@ msgstr ""
 msgid "Failed to create pod"
 msgstr "No se ha podido recuperar la información de Podman"
 
-#: src/view/pod/details_page.rs:262
+#: src/view/pod/details_page.rs:262 src/view/pod/details_page.rs:261
 #, fuzzy
 msgid "Error on loading pod data"
 msgstr "Error al cargar {}"
 
-#: src/view/pod/details_page.rs:266
+#: src/view/pod/details_page.rs:266 src/view/pod/details_page.rs:265
 msgid "Pod '{}' has been deleted"
 msgstr "La cápsula '{}' ha sido eliminada"
 
@@ -2695,7 +2725,7 @@ msgstr "Confirmar eliminado forzoso de la cápsula"
 msgid "All associated containers will also be removed!"
 msgstr ""
 
-#: src/view/repo_tag/add_dialog.rs:124
+#: src/view/repo_tag/add_dialog.rs:124 src/view/repo_tag/add_dialog.rs:103
 msgid "Repo tag must contain a colon “:”"
 msgstr ""
 
@@ -2704,43 +2734,43 @@ msgstr ""
 msgid "Error on untagging image"
 msgstr "Error al eliminar la imagen '{}': {}"
 
-#: src/window.rs:433
+#: src/window.rs:433 src/window.rs:422
 msgid "Confirm Exiting The Application"
 msgstr ""
 
-#: src/window.rs:598
+#: src/window.rs:598 src/window.rs:584
 #, fuzzy
 msgid "{} Selected Image"
 msgid_plural "{} Selected Images"
 msgstr[0] "{} Imagen"
 msgstr[1] "{} Imágenes"
 
-#: src/window.rs:612
+#: src/window.rs:612 src/window.rs:598
 #, fuzzy
 msgid "{} Selected Container"
 msgid_plural "{} Selected Containers"
 msgstr[0] "{} Contenedor"
 msgstr[1] "{} Contenedores"
 
-#: src/window.rs:626
+#: src/window.rs:626 src/window.rs:612
 msgid "{} Selected Pod"
 msgid_plural "{} Selected Pods"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/window.rs:855
+#: src/window.rs:855 src/window.rs:835
 msgid "images"
 msgstr "imágenes"
 
-#: src/window.rs:856
+#: src/window.rs:856 src/window.rs:836
 msgid "containers"
 msgstr "contenedores"
 
-#: src/window.rs:857
+#: src/window.rs:857 src/window.rs:837
 msgid "pods"
 msgstr "cápsulas"
 
-#: src/window.rs:853
+#: src/window.rs:853 src/window.rs:833
 msgid "Error on loading {}"
 msgstr "Error al cargar {}"
 
@@ -3006,3 +3036,7 @@ msgstr "Error al cargar {}"
 
 #~ msgid "By {} containers"
 #~ msgstr "Por {} contenedores"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Start"
+#~ msgstr "Iniciar"
