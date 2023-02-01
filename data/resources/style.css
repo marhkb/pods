@@ -7,6 +7,10 @@
   box-shadow: none;
 }
 
+.flat-headerbar-normal-scrollbar scrollbar.vertical {
+  margin-top: 0;
+}
+
 .circle {
   border-radius: 9999px;
 }
