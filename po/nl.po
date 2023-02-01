@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-29 19:55+0100\n"
-"PO-Revision-Date: 2023-01-01 13:42+0000\n"
+"PO-Revision-Date: 2023-02-01 18:13+0000\n"
 "Last-Translator: Philip Goto <philip.goto@gmail.com>\n"
-"Language-Team: Dutch <https://hosted.weblate.org/projects/pods/pods/nl/>\n"
+"Language-Team: Dutch <https://hosted.weblate.org/projects/pods/main/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.15.1-dev\n"
+"X-Generator: Weblate 4.16-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
@@ -114,7 +114,7 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:96
 msgid "The font scale of all text views"
-msgstr ""
+msgstr "De lettertypegrootte van alle tekstelementen"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
 msgid "Keep track of your podman containers"
@@ -374,7 +374,7 @@ msgstr ""
 
 #: data/resources/ui/connection/custom-info-dialog.ui:63
 msgid "http://somewhere:8081"
-msgstr ""
+msgstr "http://voorbeeld:8081"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:82
 msgid "Podman Root Connection"
@@ -639,7 +639,6 @@ msgstr ""
 "wordt beschouwd."
 
 #: data/resources/ui/container/details-page.ui:27
-#, fuzzy
 msgid "Container"
 msgstr "Container"
 
@@ -681,9 +680,8 @@ msgstr "Gereedschap"
 #: data/resources/ui/container/details-page.ui:205
 #: data/resources/ui/image/details-page.ui:165
 #: data/resources/ui/pod/details-page.ui:251
-#, fuzzy
 msgid "Inspection"
-msgstr "Pod-inspectie"
+msgstr "Inspectie"
 
 #: data/resources/ui/container/details-page.ui:206
 msgid "View all container properties in a structured text form."
@@ -892,14 +890,12 @@ msgid "Size"
 msgstr "Grootte"
 
 #: data/resources/ui/container/properties-group.ui:146
-#, fuzzy
 msgid "Download Files (Ctrl+D)"
-msgstr "Bestanden downloaden"
+msgstr "Bestanden downloaden (Ctrl+D)"
 
 #: data/resources/ui/container/properties-group.ui:158
-#, fuzzy
 msgid "Upload Files (Ctrl+U)"
-msgstr "Bestanden uploaden"
+msgstr "Bestanden uploaden (Ctrl+U)"
 
 #: data/resources/ui/container/properties-group.ui:206
 msgid "Port bindings"
@@ -959,7 +955,6 @@ msgid "The container must be running to use the terminal."
 msgstr "De container moet ingeschakeld zijn om de terminal te gebruiken."
 
 #: data/resources/ui/container/tty.ui:46
-#, fuzzy
 msgid "Start"
 msgstr "Starten"
 
@@ -1083,15 +1078,15 @@ msgstr "Containerfile-pad relatief aan de bouw-contextmap"
 
 #: data/resources/ui/image/details-page.ui:77
 msgid "Disk space"
-msgstr ""
+msgstr "Schijfruimte"
 
 #: data/resources/ui/image/details-page.ui:90
 msgid "Entry Point"
-msgstr ""
+msgstr "Toegangspunt"
 
 #: data/resources/ui/image/details-page.ui:97
 msgid "Ports"
-msgstr ""
+msgstr "Poorten"
 
 #: data/resources/ui/image/details-page.ui:107
 msgid "Repository Tags"
@@ -1258,7 +1253,7 @@ msgstr "OS-architectuur"
 
 #: data/resources/ui/info-dialog.ui:56
 msgid "Storage"
-msgstr ""
+msgstr "Opslag"
 
 #: data/resources/ui/info-dialog.ui:57
 msgid "Describes the container storage and its attributes."
@@ -1446,14 +1441,12 @@ msgid "Untag"
 msgstr "Label verwijderen"
 
 #: data/resources/ui/search-panel.ui:19
-#, fuzzy
 msgid "Please start typing to look for results."
-msgstr "Begin met typen om naar schijfkopiebestanden te zoeken."
+msgstr "Begin met typen om te zoeken."
 
 #: data/resources/ui/search-panel.ui:33
-#, fuzzy
 msgid "No Results Found"
-msgstr "Geen registers gevonden"
+msgstr "Geen resultaten gevonden"
 
 #: data/resources/ui/search-panel.ui:51 data/resources/ui/window.ui:273
 msgid "Images"
@@ -1532,22 +1525,22 @@ msgstr "Bestanden uploaden"
 #: data/resources/ui/shortcuts.ui:104
 msgctxt "shortcut window"
 msgid "Text view"
-msgstr ""
+msgstr "Tekstweergave"
 
 #: data/resources/ui/shortcuts.ui:108
 msgctxt "shortcut window"
 msgid "Zoom in"
-msgstr ""
+msgstr "Inzoomen"
 
 #: data/resources/ui/shortcuts.ui:115
 msgctxt "shortcut window"
 msgid "Zoom out"
-msgstr ""
+msgstr "Uitzoomen"
 
 #: data/resources/ui/shortcuts.ui:122
 msgctxt "shortcut window"
 msgid "Reset zoom"
-msgstr ""
+msgstr "Zoomniveau resetten"
 
 #: data/resources/ui/shortcuts.ui:132
 msgctxt "shortcut window"
@@ -1650,14 +1643,12 @@ msgid "Select None"
 msgstr "Geen selecteren"
 
 #: data/resources/ui/window.ui:157
-#, fuzzy
 msgid "Multi-Selection"
-msgstr "Geen selecteren"
+msgstr "Multiselectie"
 
 #: data/resources/ui/window.ui:180
-#, fuzzy
 msgid "Cancel"
-msgstr "_Annuleren"
+msgstr "Annuleren"
 
 #: src/application.rs:188
 msgid "translator-credits"
