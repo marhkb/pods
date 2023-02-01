@@ -42,9 +42,25 @@
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="1.1.0-beta.2" date="2023-02-01">
+      <description>
+        <p>Pods 1.1.0-beta.2 contains the following features, bug fixes and improvements:</p>
+        <ul>
+          <li>It is now possible to assign colors to connections. Then, when the connection is active, the status bar is colored accordingly.</li>
+          <li>The progress bar in the status bar has been replaced by a label.</li>
+          <li>The formatting of the container log is now correctly kept across lines.</li>
+          <li>Some strings has been marked as translatable that where previously forgotten.</li>
+          <li>Some strings has been changed to be more accurate.</li>
+          <li>A workaround and a fix have been implemented specifically for crashes that led to crashes when using podman 3.0.</li>
+          <li>Fixed a style bug that caused the inner scrollbar on the connection selection page to have an offset.</li>
+          <li>Translations have been updated.</li>
+          <li>Dependencies have been updated.</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.1.0-beta.1" date="2023-01-28">
       <description>
-        <p>Pods 1.1.0-beta contains the following features, bug fixes and improvements:</p>
+        <p>Pods 1.1.0-beta.1 contains the following features, bug fixes and improvements:</p>
         <ul>
           <li>The fonts in all text views, such as those in the inspection pages, are now scalable using typical shortcuts.</li>
           <li>It is now prevented that actions in subpages like the container inspection subpage can be triggered via shortcuts (e.g. the action to download files).</li>
