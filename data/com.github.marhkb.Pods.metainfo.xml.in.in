@@ -42,6 +42,19 @@
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="1.0.4" date="2023-02-01">
+      <description>
+        <p>Pods 1.0.4 contains the following bug fixes and improvements:</p>
+        <ul>
+          <li>The formatting of the container log is now correctly kept across lines.</li>
+          <li>Some strings has been marked as translatable that where previously forgotten.</li>
+          <li>A workaround and a fix have been implemented specifically for crashes that led to crashes when using podman 3.0.</li>
+          <li>Fixed a style bug that caused the inner scrollbar on the connection selection page to have an offset.</li>
+          <li>Translations have been updated.</li>
+          <li>Dependencies have been updated.</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.0.3" date="2023-01-28">
       <description>
         <p>Pods 1.0.3 contains the following bug fixes and improvements:</p>
