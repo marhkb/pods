@@ -1,6 +1,6 @@
 [package]
 name = "pods"
-version = "1.0.3"
+version = "1.0.4"
 authors = ["Marcus Behrendt <marcus.behrendt.86@gmail.com>"]
 edition = "2021"
 
