@@ -54,7 +54,7 @@
                                 <style>
                                   <class name="flat-headerbar-normal-scrollbar"/>
                                 </style>
-                                <property name="height-request">300</property>
+                                <property name="height-request">350</property>
                                 <property name="hexpand">True</property>
                                 <property name="vexpand">True</property>
                                 <property name="hscrollbar-policy">never</property>
