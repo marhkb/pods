@@ -198,7 +198,7 @@ impl Action {
             &gettext!("Image: <b>{}</b>", image),
         )
         .download_image_(client, opts, |obj, client, report| {
-            let image_id = report.id.unwrap();
+            let image_id = report.images.unwrap().swap_remove(0);
             match client.image_list().get_image(&image_id) {
                 Some(image) => {
                     obj.set_artifact(image.upcast_ref());
