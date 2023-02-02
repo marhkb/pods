@@ -10,6 +10,12 @@
     </section>
     <section>
       <item>
+        <attribute name="label" translatable="yes">_Disconnect</attribute>
+        <attribute name="action">win.disconnect</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
         <attribute name="label" translatable="yes">_Add Connection…</attribute>
         <attribute name="action">win.add-connection</attribute>
       </item>
