@@ -169,6 +169,9 @@ mod imp {
             klass.install_action("win.add-connection", None, |widget, _, _| {
                 widget.add_connection();
             });
+            klass.install_action("win.disconnect", None, |widget, _, _| {
+                widget.disconnect();
+            });
 
             klass.install_action(
                 "win.cancel-or-delete-action",
@@ -787,6 +790,10 @@ impl Window {
             self.upcast_ref(),
             view::ConnectionCreationPage::from(&self.connection_manager()).upcast_ref(),
         );
+    }
+
+    fn disconnect(&self) {
+        self.connection_manager().disconnect();
     }
 
     fn cancel_or_delete_action(&self, data: Option<&glib::Variant>) {
