@@ -36,6 +36,8 @@ mod imp {
         #[template_child]
         pub(super) active_connection_label: TemplateChild<gtk::Label>,
         #[template_child]
+        pub(super) podman_version_label: TemplateChild<gtk::Label>,
+        #[template_child]
         pub(super) notifications_menu_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
         pub(super) notifications_image: TemplateChild<gtk::Image>,
@@ -175,6 +177,13 @@ mod imp {
                 ),
             )
             .bind(&*self.notifications_image, "icon-name", Some(obj));
+
+            client_expr
+                .chain_property::<model::Client>("version")
+                .chain_closure::<String>(closure!(
+                    |_: Self::Type, version: Option<String>| version.unwrap_or_default()
+                ))
+                .bind(&*self.podman_version_label, "label", Some(obj));
 
             action_list_expr.bind(&self.actions_overview, "action-list", Some(obj));
 

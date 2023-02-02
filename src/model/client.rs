@@ -1,4 +1,5 @@
 use futures::StreamExt;
+use glib::prelude::ObjectExt;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::prelude::ListModelExtManual;
@@ -31,8 +32,9 @@ mod imp {
 
     #[derive(Debug, Default)]
     pub(crate) struct Client {
-        pub(super) podman: OnceCell<BoxedPodman>,
         pub(super) connection: OnceCell<model::Connection>,
+        pub(super) podman: OnceCell<BoxedPodman>,
+        pub(super) version: OnceCell<Option<String>>,
         pub(super) image_list: OnceCell<model::ImageList>,
         pub(super) container_list: OnceCell<model::ContainerList>,
         pub(super) pod_list: OnceCell<model::PodList>,
@@ -54,6 +56,9 @@ mod imp {
                         .build(),
                     glib::ParamSpecBoxed::builder::<BoxedPodman>("podman")
                         .construct_only()
+                        .build(),
+                    glib::ParamSpecBoxed::builder::<BoxedPodman>("version")
+                        .read_only()
                         .build(),
                     glib::ParamSpecObject::builder::<model::ImageList>("image-list")
                         .read_only()
@@ -88,6 +93,7 @@ mod imp {
             match pspec.name() {
                 "connection" => obj.connection().to_value(),
                 "podman" => obj.podman().to_value(),
+                "version" => obj.version().to_value(),
                 "image-list" => obj.image_list().to_value(),
                 "container-list" => obj.container_list().to_value(),
                 "pod-list" => obj.pod_list().to_value(),
@@ -167,21 +173,45 @@ impl TryFrom<&model::Connection> for Client {
 
     fn try_from(connection: &model::Connection) -> Result<Self, Self::Error> {
         podman::Podman::new(connection.url()).map(|podman| {
-            glib::Object::builder()
+            let obj: Self = glib::Object::builder()
                 .property("connection", connection)
-                .property("podman", BoxedPodman::from(podman))
-                .build()
+                .property("podman", BoxedPodman::from(podman.clone()))
+                .build();
+
+            utils::do_async(
+                async move {
+                    podman
+                        .version()
+                        .await
+                        .ok()
+                        .and_then(|version| version.version)
+                },
+                clone!(@weak obj => move |version| {
+                    obj.set_version(version);
+                }),
+            );
+
+            obj
         })
     }
 }
 
 impl Client {
+    pub(crate) fn connection(&self) -> &model::Connection {
+        self.imp().connection.get().unwrap()
+    }
+
     pub(crate) fn podman(&self) -> &BoxedPodman {
         self.imp().podman.get().unwrap()
     }
 
-    pub(crate) fn connection(&self) -> &model::Connection {
-        self.imp().connection.get().unwrap()
+    pub(crate) fn version(&self) -> Option<&str> {
+        self.imp().version.get().and_then(Option::as_deref)
+    }
+
+    pub(crate) fn set_version(&self, value: Option<String>) {
+        self.imp().version.set(value).unwrap();
+        self.notify("version");
     }
 
     pub(crate) fn image_list(&self) -> &model::ImageList {

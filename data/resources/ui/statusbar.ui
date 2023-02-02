@@ -10,8 +10,24 @@
     </section>
     <section>
       <item>
+        <attribute name="label" translatable="yes">_Disconnect</attribute>
+        <attribute name="action">win.disconnect</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
         <attribute name="label" translatable="yes">_Add Connection…</attribute>
         <attribute name="action">win.add-connection</attribute>
+      </item>
+    </section>
+  </menu>
+
+  <menu id="podman_menu">
+    <section>
+      <attribute name="label" translatable="yes">Podman</attribute>
+      <item>
+        <attribute name="label" translatable="yes">_Show Information</attribute>
+        <attribute name="action">win.show-podman-info</attribute>
       </item>
     </section>
   </menu>
@@ -59,7 +75,9 @@
 
                         <property name="child">
                           <object class="GtkImage" id="active_connection_image">
-                            <property name="pixel-size">12</property>
+                            <style>
+                              <class name="panel-image"/>
+                            </style>
                           </object>
                         </property>
 
@@ -96,6 +114,36 @@
           </object>
         </child>
 
+        <child>
+          <object class="GtkMenuButton">
+            <property name="direction">up</property>
+            <property name="focus-on-click">False</property>
+            <property name="menu-model">podman_menu</property>
+            <property name="tooltip-text" translatable="yes">Podman</property>
+
+            <child>
+              <object class="GtkBox">
+                <property name="spacing">6</property>
+
+                <child>
+                  <object class="GtkImage">
+                    <style>
+                      <class name="panel-image"/>
+                    </style>
+                    <property name="icon-name">podman-symbolic</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkLabel" id="podman_version_label"/>
+                </child>
+
+              </object>
+            </child>
+
+          </object>
+        </child>
+
         <child type="suffix">
           <object class="GtkMenuButton" id="notifications_menu_button">
             <property name="direction">up</property>
@@ -108,8 +156,10 @@
 
                 <child>
                   <object class="GtkImage" id="notifications_image">
+                    <style>
+                      <class name="panel-image"/>
+                    </style>
                     <property name="icon-name">preferences-system-notifications-symbolic</property>
-                    <property name="pixel-size">12</property>
                   </object>
                 </child>
 
