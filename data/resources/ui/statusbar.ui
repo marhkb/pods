@@ -22,6 +22,16 @@
     </section>
   </menu>
 
+  <menu id="podman_menu">
+    <section>
+      <attribute name="label" translatable="yes">Podman</attribute>
+      <item>
+        <attribute name="label" translatable="yes">_Show Information</attribute>
+        <attribute name="action">win.show-podman-info</attribute>
+      </item>
+    </section>
+  </menu>
+
   <menu id="notifications_menu">
     <section>
       <item>
@@ -96,6 +106,36 @@
                   <object class="GtkLabel" id="active_connection_label">
                     <property name="ellipsize">end</property>
                   </object>
+                </child>
+
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkMenuButton">
+            <property name="direction">up</property>
+            <property name="focus-on-click">False</property>
+            <property name="menu-model">podman_menu</property>
+            <property name="tooltip-text" translatable="yes">Podman</property>
+
+            <child>
+              <object class="GtkBox">
+                <property name="spacing">6</property>
+
+                <child>
+                  <object class="GtkImage">
+                    <style>
+                      <class name="panel-image"/>
+                    </style>
+                    <property name="icon-name">podman-symbolic</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkLabel" id="podman_version_label"/>
                 </child>
 
               </object>
