@@ -104,18 +104,33 @@ mod imp {
             modifier: gdk::ModifierType,
             _: &gtk::EventControllerKey,
         ) -> gtk::Inhibit {
-            glib::signal::Inhibit(
-                if modifier == gdk::ModifierType::CONTROL_MASK | gdk::ModifierType::SHIFT_MASK {
-                    if key == gdk::Key::C {
-                        self.obj().copy_plain();
-                    } else if key == gdk::Key::V {
-                        self.obj().paste();
-                    }
+            glib::signal::Inhibit(if modifier == gdk::ModifierType::CONTROL_MASK {
+                if key == gdk::Key::minus || key == gdk::Key::KP_Subtract {
+                    self.obj().zoom_out();
+                    true
+                } else if key == gdk::Key::plus || key == gdk::Key::KP_Add || key == gdk::Key::equal
+                {
+                    self.obj().zoom_in();
+                    true
+                } else if key == gdk::Key::_0 {
+                    self.obj().zoom_normal();
                     true
                 } else {
                     false
-                },
-            )
+                }
+            } else if modifier == gdk::ModifierType::CONTROL_MASK | gdk::ModifierType::SHIFT_MASK {
+                if key == gdk::Key::C {
+                    self.obj().copy_plain();
+                    true
+                } else if key == gdk::Key::V {
+                    self.obj().paste();
+                    true
+                } else {
+                    false
+                }
+            } else {
+                false
+            })
         }
 
         #[template_callback]
