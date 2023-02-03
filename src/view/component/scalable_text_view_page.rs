@@ -18,8 +18,8 @@ use crate::view;
 const ACTION_SAVE_TO_FILE: &str = "source-view-page.save-to-file";
 const ACTION_ENTER_SEARCH: &str = "source-view-page.enter-search";
 const ACTION_EXIT_SEARCH: &str = "source-view-page.exit-search";
-const ACTION_ZOOM_IN: &str = "source-view-page.zoom-in";
 const ACTION_ZOOM_OUT: &str = "source-view-page.zoom-out";
+const ACTION_ZOOM_IN: &str = "source-view-page.zoom-in";
 const ACTION_ZOOM_NORMAL: &str = "source-view-page.zoom-normal";
 
 #[derive(Clone, Debug)]
@@ -126,15 +126,28 @@ mod imp {
                 None,
             );
 
-            klass.install_action(ACTION_ZOOM_IN, None, |widget, _, _| {
-                widget.imp().source_view.zoom_in();
-            });
             klass.install_action(ACTION_ZOOM_OUT, None, |widget, _, _| {
                 widget.imp().source_view.zoom_out();
+            });
+            klass.install_action(ACTION_ZOOM_IN, None, |widget, _, _| {
+                widget.imp().source_view.zoom_in();
             });
             klass.install_action(ACTION_ZOOM_NORMAL, None, |widget, _, _| {
                 widget.imp().source_view.zoom_normal();
             });
+
+            klass.add_binding_action(
+                gdk::Key::minus,
+                gdk::ModifierType::CONTROL_MASK,
+                ACTION_ZOOM_OUT,
+                None,
+            );
+            klass.add_binding_action(
+                gdk::Key::KP_Subtract,
+                gdk::ModifierType::CONTROL_MASK,
+                ACTION_ZOOM_OUT,
+                None,
+            );
 
             klass.add_binding_action(
                 gdk::Key::plus,
@@ -152,19 +165,6 @@ mod imp {
                 gdk::Key::equal,
                 gdk::ModifierType::CONTROL_MASK,
                 ACTION_ZOOM_IN,
-                None,
-            );
-
-            klass.add_binding_action(
-                gdk::Key::minus,
-                gdk::ModifierType::CONTROL_MASK,
-                ACTION_ZOOM_OUT,
-                None,
-            );
-            klass.add_binding_action(
-                gdk::Key::KP_Subtract,
-                gdk::ModifierType::CONTROL_MASK,
-                ACTION_ZOOM_OUT,
                 None,
             );
 
