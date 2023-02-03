@@ -32,6 +32,7 @@ use crate::utils;
 use crate::view;
 
 const ACTION_SAVE_TO_FILE: &str = "container-log-page.save-to-file";
+const ACTION_SHOW_TIMESTAMPS: &str = "container-log-page.show-timestamps";
 const ACTION_TOGGLE_SEARCH: &str = "container-log-page.toggle-search";
 const ACTION_SCROLL_DOWN: &str = "container-log-page.scroll-down";
 const ACTION_START_CONTAINER: &str = "container-log-page.start-container";
@@ -64,11 +65,11 @@ mod imp {
         pub(super) is_auto_scrolling: Cell<bool>,
         pub(super) sticky: Cell<bool>,
         #[template_child]
-        pub(super) show_timestamps_button: TemplateChild<gtk::ToggleButton>,
+        pub(super) zoom_control: TemplateChild<view::ZoomControl>,
+        #[template_child]
+        pub(super) menu_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
         pub(super) search_button: TemplateChild<gtk::ToggleButton>,
-        #[template_child]
-        pub(super) save_stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) search_bar: TemplateChild<gtk::SearchBar>,
         #[template_child]
@@ -100,6 +101,7 @@ mod imp {
             klass.install_action_async(ACTION_SAVE_TO_FILE, None, |widget, _, _| async move {
                 widget.save_to_file().await;
             });
+            klass.install_property_action(ACTION_SHOW_TIMESTAMPS, "show-timestamps");
             klass.install_action(ACTION_TOGGLE_SEARCH, None, |widget, _, _| {
                 widget.toggle_search();
             });
@@ -199,6 +201,9 @@ mod imp {
                     glib::ParamSpecObject::builder::<model::Container>("container")
                         .construct_only()
                         .build(),
+                    glib::ParamSpecBoolean::builder("show-timestamps")
+                        .explicit_notify()
+                        .build(),
                     glib::ParamSpecBoolean::builder("sticky")
                         .explicit_notify()
                         .build(),
@@ -210,6 +215,7 @@ mod imp {
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
                 "container" => self.container.set(value.get().unwrap()),
+                "show-timestamps" => self.obj().set_show_timestamps(value.get().unwrap()),
                 "sticky" => self.obj().set_sticky(value.get().unwrap()),
                 _ => unimplemented!(),
             }
@@ -219,6 +225,7 @@ mod imp {
             let obj = &*self.obj();
             match pspec.name() {
                 "container" => obj.container().to_value(),
+                "show-timestamps" => obj.show_timestamps().to_value(),
                 "sticky" => obj.sticky().to_value(),
                 _ => unimplemented!(),
             }
@@ -228,6 +235,13 @@ mod imp {
             self.parent_constructed();
 
             let obj = &*self.obj();
+
+            self.menu_button
+                .popover()
+                .unwrap()
+                .downcast::<gtk::PopoverMenu>()
+                .unwrap()
+                .add_child(&*self.zoom_control, "zoom-control");
 
             let adw_style_manager = adw::StyleManager::default();
             obj.on_notify_dark(&adw_style_manager);
@@ -285,10 +299,15 @@ mod imp {
                 }),
             );
 
-            self.show_timestamps_button
-                .bind_property("active", self.renderer_timestamps.get().unwrap(), "visible")
-                .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
-                .build();
+            self.renderer_timestamps
+                .get()
+                .unwrap()
+                .connect_notify_local(
+                    Some("visible"),
+                    clone!(@weak obj => move |_, _| {
+                        obj.notify("show-timestamps");
+                    }),
+                );
 
             self.settings
                 .bind(
@@ -364,6 +383,26 @@ impl From<&model::Container> for LogPage {
 impl LogPage {
     fn container(&self) -> Option<model::Container> {
         self.imp().container.upgrade()
+    }
+
+    fn show_timestamps(&self) -> bool {
+        self.imp()
+            .renderer_timestamps
+            .get()
+            .map(sourceview5::GutterRendererText::is_visible)
+            .unwrap_or(false)
+    }
+
+    fn set_show_timestamps(&self, value: bool) {
+        if self.show_timestamps() == value {
+            return;
+        }
+
+        self.imp()
+            .renderer_timestamps
+            .get()
+            .unwrap()
+            .set_visible(value);
     }
 
     fn sticky(&self) -> bool {
@@ -605,7 +644,7 @@ impl LogPage {
                 request,
                 self.upcast_ref(),
                 clone!(@weak self as obj => move |files| {
-                    obj.imp().save_stack.set_visible_child_name("spinner");
+                    obj.action_set_enabled(ACTION_SAVE_TO_FILE, false);
 
                     let file = gio::File::for_uri(files.uris()[0].as_str());
 
@@ -670,7 +709,8 @@ impl LogPage {
                                 })
                             }),
                             clone!(@weak obj => move || {
-                                obj.imp().save_stack.set_visible_child_name("button");
+                                obj.action_set_enabled(ACTION_SAVE_TO_FILE, true);
+                                utils::show_toast(obj.upcast_ref(), &gettext("Log has been saved."));
                             }),
                         );
                     }
