@@ -39,6 +39,7 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/container/tty.ui")]
     pub(crate) struct Tty {
+        pub(super) settings: utils::PodsSettings,
         pub(super) container: WeakRef<model::Container>,
         pub(super) tx_tokio: RefCell<Option<tokio::sync::mpsc::UnboundedSender<ExecInput>>>,
         #[template_child]
@@ -104,18 +105,33 @@ mod imp {
             modifier: gdk::ModifierType,
             _: &gtk::EventControllerKey,
         ) -> gtk::Inhibit {
-            glib::signal::Inhibit(
-                if modifier == gdk::ModifierType::CONTROL_MASK | gdk::ModifierType::SHIFT_MASK {
-                    if key == gdk::Key::C {
-                        self.obj().copy_plain();
-                    } else if key == gdk::Key::V {
-                        self.obj().paste();
-                    }
+            glib::signal::Inhibit(if modifier == gdk::ModifierType::CONTROL_MASK {
+                if key == gdk::Key::minus || key == gdk::Key::KP_Subtract {
+                    self.obj().zoom_out();
+                    true
+                } else if key == gdk::Key::plus || key == gdk::Key::KP_Add || key == gdk::Key::equal
+                {
+                    self.obj().zoom_in();
+                    true
+                } else if key == gdk::Key::_0 {
+                    self.obj().zoom_normal();
                     true
                 } else {
                     false
-                },
-            )
+                }
+            } else if modifier == gdk::ModifierType::CONTROL_MASK | gdk::ModifierType::SHIFT_MASK {
+                if key == gdk::Key::C {
+                    self.obj().copy_plain();
+                    true
+                } else if key == gdk::Key::V {
+                    self.obj().paste();
+                    true
+                } else {
+                    false
+                }
+            } else {
+                false
+            })
         }
 
         #[template_callback]
@@ -123,6 +139,22 @@ mod imp {
             let popover_menu = &*self.popover_menu;
             popover_menu.set_pointing_to(Some(&gdk::Rectangle::new(x as i32, y as i32, 0, 0)));
             popover_menu.popup();
+        }
+
+        #[template_callback]
+        fn on_scroll(&self, _dx: f64, dy: f64, scroll: gtk::EventControllerScroll) -> gtk::Inhibit {
+            gtk::Inhibit(
+                if scroll.current_event_state() == gdk::ModifierType::CONTROL_MASK {
+                    if dy.is_sign_negative() {
+                        self.obj().zoom_in();
+                    } else {
+                        self.obj().zoom_out();
+                    }
+                    true
+                } else {
+                    false
+                },
+            )
         }
     }
 
@@ -139,6 +171,9 @@ mod imp {
                     glib::ParamSpecObject::builder::<model::Container>("container")
                         .explicit_notify()
                         .build(),
+                    glib::ParamSpecDouble::builder("font-scale")
+                        .explicit_notify()
+                        .build(),
                 ]
             });
             PROPERTIES.as_ref()
@@ -147,6 +182,7 @@ mod imp {
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
                 "container" => self.obj().set_container(value.get().unwrap()),
+                "font-scale" => self.obj().set_font_scale(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
@@ -154,6 +190,7 @@ mod imp {
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
                 "container" => self.obj().container().to_value(),
+                "font-scale" => self.obj().font_scale().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -162,6 +199,15 @@ mod imp {
             self.parent_constructed();
 
             let obj = &*self.obj();
+
+            self.terminal.connect_notify_local(
+                Some("font-scale"),
+                clone!(@weak obj => move |_, _| obj.notify("font-scale")),
+            );
+
+            self.settings
+                .bind("terminal-font-scale", obj, "font-scale")
+                .build();
 
             self.popover_menu.set_parent(obj);
 
@@ -277,6 +323,17 @@ impl Tty {
         self.notify("container");
     }
 
+    pub(crate) fn font_scale(&self) -> f64 {
+        self.imp().terminal.font_scale()
+    }
+
+    pub(crate) fn set_font_scale(&self, value: f64) {
+        if self.font_scale() == value {
+            return;
+        }
+        self.imp().terminal.set_font_scale(value);
+    }
+
     fn setup_tty_connection(&self, container: &model::Container) {
         let imp = self.imp();
 
@@ -386,6 +443,18 @@ impl Tty {
         let terminal = &*self.imp().terminal;
         terminal.set_color_background(&style_context.lookup_color("view_bg_color").unwrap());
         terminal.set_color_foreground(&style_context.lookup_color("view_fg_color").unwrap());
+    }
+
+    pub(crate) fn zoom_out(&self) {
+        self.set_font_scale(self.font_scale() - 0.1);
+    }
+
+    pub(crate) fn zoom_in(&self) {
+        self.set_font_scale(self.font_scale() + 0.1);
+    }
+
+    pub(crate) fn zoom_normal(&self) {
+        self.set_font_scale(1.0);
     }
 
     fn copy(&self, format: vte4::Format) {

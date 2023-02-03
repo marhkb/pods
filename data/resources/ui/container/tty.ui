@@ -75,6 +75,14 @@
                   </object>
                 </child>
 
+                <child>
+                  <object class="GtkEventControllerScroll">
+                    <property name="flags">vertical</property>
+                    <property name="propagation-phase">capture</property>
+                    <signal name="scroll" handler="on_scroll" swapped="true"/>
+                  </object>
+                </child>
+
               </object>
             </property>
 

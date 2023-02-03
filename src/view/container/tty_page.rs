@@ -1,3 +1,4 @@
+use gtk::gdk;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::WeakRef;
@@ -10,6 +11,10 @@ use crate::model;
 use crate::utils;
 use crate::view;
 
+const ACTION_ZOOM_OUT: &str = "container-tty-page.zoom-out";
+const ACTION_ZOOM_IN: &str = "container-tty-page.zoom-in";
+const ACTION_ZOOM_NORMAL: &str = "container-tty-page.zoom-normal";
+
 mod imp {
     use super::*;
 
@@ -18,7 +23,11 @@ mod imp {
     pub(crate) struct TtyPage {
         pub(super) container: WeakRef<model::Container>,
         #[template_child]
+        pub(super) zoom_control: TemplateChild<view::ZoomControl>,
+        #[template_child]
         pub(super) back_navigation_controls: TemplateChild<view::BackNavigationControls>,
+        #[template_child]
+        pub(super) menu_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
         pub(super) tty: TemplateChild<view::ContainerTty>,
     }
@@ -31,6 +40,55 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+
+            klass.install_action(ACTION_ZOOM_OUT, None, |widget, _, _| {
+                widget.imp().tty.zoom_out();
+            });
+            klass.install_action(ACTION_ZOOM_IN, None, |widget, _, _| {
+                widget.imp().tty.zoom_in();
+            });
+            klass.install_action(ACTION_ZOOM_NORMAL, None, |widget, _, _| {
+                widget.imp().tty.zoom_normal();
+            });
+
+            klass.add_binding_action(
+                gdk::Key::minus,
+                gdk::ModifierType::CONTROL_MASK,
+                ACTION_ZOOM_OUT,
+                None,
+            );
+            klass.add_binding_action(
+                gdk::Key::KP_Subtract,
+                gdk::ModifierType::CONTROL_MASK,
+                ACTION_ZOOM_OUT,
+                None,
+            );
+
+            klass.add_binding_action(
+                gdk::Key::plus,
+                gdk::ModifierType::CONTROL_MASK,
+                ACTION_ZOOM_IN,
+                None,
+            );
+            klass.add_binding_action(
+                gdk::Key::KP_Add,
+                gdk::ModifierType::CONTROL_MASK,
+                ACTION_ZOOM_IN,
+                None,
+            );
+            klass.add_binding_action(
+                gdk::Key::equal,
+                gdk::ModifierType::CONTROL_MASK,
+                ACTION_ZOOM_IN,
+                None,
+            );
+
+            klass.add_binding_action(
+                gdk::Key::_0,
+                gdk::ModifierType::CONTROL_MASK,
+                ACTION_ZOOM_NORMAL,
+                None,
+            );
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -69,6 +127,13 @@ mod imp {
             self.parent_constructed();
 
             let obj = &*self.obj();
+
+            self.menu_button
+                .popover()
+                .unwrap()
+                .downcast::<gtk::PopoverMenu>()
+                .unwrap()
+                .add_child(&*self.zoom_control, "zoom-control");
 
             self.tty.connect_terminated(clone!(@weak obj => move |_| {
                 obj.imp().back_navigation_controls.navigate_back();

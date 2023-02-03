@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
+
+  <menu id="menu">
+    <section>
+      <item>
+        <attribute name="custom">zoom-control</attribute>
+      </item>
+    </section>
+  </menu>
+
+  <object class="PdsZoomControl" id="zoom_control">
+    <property name="zoom-out-action-name">container-tty-page.zoom-out</property>
+    <property name="zoom-normal-action-name">container-tty-page.zoom-normal</property>
+    <property name="zoom-in-action-name">container-tty-page.zoom-in</property>
+    <property name="zoom-factor" bind-source="tty" bind-property="font-scale" bind-flags="sync-create"/>
+  </object>
+
   <template class="PdsContainerTtyPage" parent="GtkWidget">
     <property name="layout-manager">
       <object class="GtkBoxLayout">
@@ -22,6 +38,13 @@
                 <lookup name="container">PdsContainerTtyPage</lookup>
               </lookup>
             </binding>
+          </object>
+        </child>
+
+        <child type="end">
+          <object class="GtkMenuButton" id="menu_button">
+            <property name="icon-name">view-more-symbolic</property>
+            <property name="menu-model">menu</property>
           </object>
         </child>
 

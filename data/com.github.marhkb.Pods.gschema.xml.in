@@ -96,5 +96,10 @@
       <summary>The font scale of all text views</summary>
       <description></description>
     </key>
+    <key name="terminal-font-scale" type="d">
+      <default>1</default>
+      <summary>The font scale for terminals</summary>
+      <description></description>
+    </key>
   </schema>
 </schemalist>
