@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-29 19:55+0100\n"
-"PO-Revision-Date: 2023-02-02 22:08+0000\n"
+"PO-Revision-Date: 2023-02-03 22:27+0000\n"
 "Last-Translator: Lars Nielsen <lnc13.lars@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/pods/main/da/>\n"
 "Language: da\n"
@@ -29,7 +29,6 @@ msgid "A Podman desktop application"
 msgstr ""
 
 #: data/com.github.marhkb.Pods.desktop.in.in:9
-#, fuzzy
 msgid "Gnome;GTK;"
 msgstr "Gnome;GTK;"
 
@@ -57,7 +56,7 @@ msgstr "Benyt den lyse eller mørke variant af GTK temaet"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:31
 msgid "The uuid of the connection that was used the last time"
-msgstr ""
+msgstr "UUIDen for forbindelsen der blev benyttet sidst"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:36
 msgid "The last used view"
@@ -69,92 +68,98 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:46
 msgid "The last used container file path"
-msgstr ""
+msgstr "Filestien for den sidst benyttet kontainer"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:51
 msgid "Remove all images not in use by containers, not just dangling ones"
 msgstr ""
+"Fjern alle images som ikke er i brug af nogle containere, ikke kun dem uden "
+"referencer"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:56
 msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)"
 msgstr ""
+"Fjern billeder selv hvis de benyttes af eksterne kontainer (e.g, af "
+"byggekontainer)"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:61
 msgid "Whether to show only running containers"
-msgstr ""
+msgstr "Skal kun kørende kontainer vises"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:66
 msgid "Whether to show only running pods"
-msgstr ""
+msgstr "Skal kun kørende pods vises"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:71
 msgid "Whether to show a timestamp for each log line"
-msgstr ""
+msgstr "Skal der vises tidsstemple for hver loglinje"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:76
 #: data/com.github.marhkb.Pods.gschema.xml.in:81
 msgid "Whether to use a regex for search"
-msgstr ""
+msgstr "Skal regex brugers ved søgning"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:86
 msgid "Whether search should be case-sensitive"
-msgstr ""
+msgstr "Skal søgning være case-sensitive"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:91
 msgid "Whether to match whole words when searching"
-msgstr ""
+msgstr "Skal hele ord matches ved søgning"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:96
 msgid "The font scale of all text views"
-msgstr ""
+msgstr "Tekstskalering for alle tekstvisninger"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
 msgid "Keep track of your podman containers"
-msgstr ""
+msgstr "Hold styr på din podman kontainer"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
 msgid ""
 "Pods is a frontend for podman. It uses libadwaita for its user interface and "
 "strives to meet the design principles of GNOME."
 msgstr ""
+"Pods er en frontend for pod. Pods benytter libadwaita til dens "
+"brugergrænseflade og stræber efter at følge designprincipperne for Gnome."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:11
 msgid "With Pods you can, among other things:"
-msgstr ""
+msgstr "Med Pods kan du bland andet:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:13
 msgid "Connect to local and remote Podman instances."
-msgstr ""
+msgstr "Forbind til lokale og fjern Podman instanser."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:14
 msgid "Easily overview images, containers and pods."
-msgstr ""
+msgstr "Nem oversigt over billeder, kontainer, og pods."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:15
 msgid "View prepared information about images, containers, and pods."
-msgstr ""
+msgstr "Se forberedt information of billeder, kontainer, og pods."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:16
 msgid "Inspect images, containers and pods."
-msgstr ""
+msgstr "Inspicer billeder, kontainer, og pods."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:17
 msgid "View and search container logs."
-msgstr ""
+msgstr "Vis og søg i kontainerlogs."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:18
 msgid "Monitor processes of containers and pods."
-msgstr ""
+msgstr "Monitorer processer for kontainere og pods."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:19
 msgid "Download images and build them using Dockerfiles."
-msgstr ""
+msgstr "Hent billeder og byg dem ved brug af Dockerfiler."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:20
 msgid "Create pods and containers."
-msgstr ""
+msgstr "Opret pods og kontainer."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:21
 msgid ""
@@ -164,7 +169,7 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:22
 msgid "Delete images, containers, and pods (in bulk)."
-msgstr ""
+msgstr "Slet billeder, kontainer, og pods (i bulk)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:23
 msgid "Prune images."
@@ -172,23 +177,23 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:24
 msgid "Rename containers."
-msgstr ""
+msgstr "Omnavndøb kontainere."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:30
 msgid "Images Overview"
-msgstr ""
+msgstr "Billede Oversigt"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:34
 msgid "Containers Overview"
-msgstr ""
+msgstr "Kontainer Oversigt"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:38
 msgid "Pods Overview"
-msgstr ""
+msgstr "Pods Oversigt"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:263
 msgid "Marcus Behrendt"
-msgstr ""
+msgstr "Marcus Behrendt"
 
 #: data/resources/ui/action/page.ui:118
 #: data/resources/ui/connection/creation-page.ui:82
@@ -213,40 +218,40 @@ msgstr ""
 #: data/resources/ui/pod/creation-page.ui:350
 #: data/resources/ui/search-panel.ui:18 data/resources/ui/window.ui:113
 msgid "Search"
-msgstr ""
+msgstr "Søg"
 
 #: data/resources/ui/component/scalable-text-view-page.ui:41
 #: data/resources/ui/container/log-page.ui:63
 msgid "Save as File"
-msgstr ""
+msgstr "Gem som Fil"
 
 #: data/resources/ui/component/source-view-search-widget.ui:23
 msgid "Previous (Ctrl+Shift+G)"
-msgstr ""
+msgstr "Forrige (Ctrl+Shift+G)"
 
 #: data/resources/ui/component/source-view-search-widget.ui:30
 msgid "Next (Ctrl+G)"
-msgstr ""
+msgstr "Næste (Ctrl+G)"
 
 #: data/resources/ui/component/text-search-entry.ui:42
 msgid "Regular Expression"
-msgstr ""
+msgstr "Regulært Udtryk"
 
 #: data/resources/ui/component/text-search-entry.ui:50
 msgid "Case Sensitive"
-msgstr ""
+msgstr "Case-Sensitive"
 
 #: data/resources/ui/component/text-search-entry.ui:58
 msgid "Whole Word"
-msgstr ""
+msgstr "Fulde ord"
 
 #: data/resources/ui/connection/chooser-page.ui:34
 msgid "Connect to Podman"
-msgstr ""
+msgstr "Forbind til Podman"
 
 #: data/resources/ui/connection/chooser-page.ui:35
 msgid "Either choose an existing connection or create a new one."
-msgstr ""
+msgstr "Enten vælg en eksiterende forbindelse eller opret en ny."
 
 #: data/resources/ui/connection/chooser-page.ui:80
 msgid "_Add New Connection"
@@ -271,7 +276,7 @@ msgstr ""
 
 #: data/resources/ui/connection/creation-page.ui:34
 msgid "New Connection"
-msgstr ""
+msgstr "Ny Forbindelse"
 
 #: data/resources/ui/connection/creation-page.ui:51
 msgid "_Connect"
@@ -285,29 +290,32 @@ msgstr ""
 #: data/resources/ui/pod/creation-page.ui:302
 #: data/resources/ui/pod/details-page.ui:52
 msgid "Name"
-msgstr ""
+msgstr "Navn"
 
 #: data/resources/ui/connection/creation-page.ui:121
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: data/resources/ui/connection/creation-page.ui:122
 msgid "Choose how you want to connect to Podman."
-msgstr ""
+msgstr "Vælge hvordan du vil forbinde til Podman."
 
 #: data/resources/ui/connection/creation-page.ui:126
 msgid "Unix Socket"
-msgstr ""
+msgstr "Unix Socket"
 
 #: data/resources/ui/connection/creation-page.ui:161
 msgid "Podman Socket Activation"
-msgstr ""
+msgstr "Podman Socket Aktivering"
 
 #: data/resources/ui/connection/creation-page.ui:168
 msgid ""
 "To connect to the local Podman instance, the systemd socket must be enabled. "
 "You can enable it permanently by issuing the following command:"
 msgstr ""
+"For at forbinde til den lokale Podman instans, skal systemd socketen være "
+"slået til. Du kan permanent slå den til ved eksekvering af den følgende "
+"kommando:"
 
 #: data/resources/ui/connection/creation-page.ui:217
 #: data/resources/ui/connection/custom-info-dialog.ui:138
@@ -329,11 +337,11 @@ msgstr ""
 
 #: data/resources/ui/connection/creation-page.ui:268
 msgid "Connection String"
-msgstr ""
+msgstr "Forbindelses streng"
 
 #: data/resources/ui/connection/creation-page.ui:296
 msgid "Color"
-msgstr ""
+msgstr "Farve"
 
 #: data/resources/ui/connection/creation-page.ui:297
 msgid "Define how to colorize the header bar (disabled)."
