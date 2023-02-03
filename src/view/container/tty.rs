@@ -409,6 +409,18 @@ impl Tty {
         terminal.set_color_foreground(&style_context.lookup_color("view_fg_color").unwrap());
     }
 
+    pub(crate) fn zoom_out(&self) {
+        self.set_font_scale(self.font_scale() - 0.1);
+    }
+
+    pub(crate) fn zoom_in(&self) {
+        self.set_font_scale(self.font_scale() + 0.1);
+    }
+
+    pub(crate) fn zoom_normal(&self) {
+        self.set_font_scale(1.0);
+    }
+
     fn copy(&self, format: vte4::Format) {
         let terminal = &*self.imp().terminal;
         if terminal.has_selection() {
