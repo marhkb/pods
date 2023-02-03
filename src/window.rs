@@ -136,6 +136,7 @@ mod imp {
             view::Statusbar::static_type();
             view::TextSearchEntry::static_type();
             view::WelcomePage::static_type();
+            view::ZoomControl::static_type();
 
             klass.add_binding_action(
                 gdk::Key::Home,
