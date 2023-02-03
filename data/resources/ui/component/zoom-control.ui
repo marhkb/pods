@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="PdsZoomControl" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBoxLayout">
+        <property name="spacing">3</property>
+      </object>
+    </property>
+    <property name="margin-start">6</property>
+    <property name="margin-end">6</property>
+
+    <child>
+      <object class="GtkButton" id="zoom_out_button">
+        <style>
+          <class name="circular"/>
+          <class name="flat"/>
+        </style>
+
+        <property name="icon-name">zoom-out-symbolic</property>
+      </object>
+    </child>
+
+    <child>
+      <object class="GtkButton" id="zoom_normal_button">
+        <style>
+          <class name="flat"/>
+        </style>
+
+        <property name="icon-name">zoom-original-symbolic</property>
+        <property name="width-request">80</property>
+      </object>
+    </child>
+
+    <child>
+      <object class="GtkButton" id="zoom_in_button">
+        <style>
+          <class name="circular"/>
+          <class name="flat"/>
+        </style>
+
+        <property name="icon-name">zoom-in-symbolic</property>
+      </object>
+    </child>
+
+  </template>
+</interface>

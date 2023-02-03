@@ -1,5 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
+
+  <menu id="menu">
+    <section>
+      <item>
+        <attribute name="custom">zoom-control</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">_Save as File</attribute>
+        <attribute name="action">container-log-page.save-to-file</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Show _Timestamps</attribute>
+        <attribute name="action">container-log-page.show-timestamps</attribute>
+      </item>
+    </section>
+  </menu>
+
+  <object class="PdsZoomControl" id="zoom_control">
+    <property name="zoom-out-action-name">container-log-page.zoom-out</property>
+    <property name="zoom-normal-action-name">container-log-page.zoom-normal</property>
+    <property name="zoom-in-action-name">container-log-page.zoom-in</property>
+    <property name="zoom-factor" bind-source="scalable_text_view" bind-property="font-scale" bind-flags="sync-create"/>
+  </object>
+
   <template class="PdsContainerLogPage" parent="GtkWidget">
     <property name="layout-manager">
       <object class="GtkBoxLayout">
@@ -35,9 +63,9 @@
         </child>
 
         <child type="end">
-          <object class="GtkToggleButton" id="show_timestamps_button">
-            <property name="icon-name">preferences-system-time-symbolic</property>
-            <property name="tooltip-text" translatable="yes">Timestamps</property>
+          <object class="GtkMenuButton" id="menu_button">
+            <property name="icon-name">view-more-symbolic</property>
+            <property name="menu-model">menu</property>
           </object>
         </child>
 
@@ -45,46 +73,6 @@
           <object class="GtkToggleButton" id="search_button">
             <property name="icon-name">system-search-symbolic</property>
             <property name="tooltip-text" translatable="yes">Search</property>
-          </object>
-        </child>
-
-        <child type="end">
-          <object class="GtkStack" id="save_stack">
-            <property name="transition-type">crossfade</property>
-
-            <child>
-              <object class="GtkStackPage">
-                <property name="name">button</property>
-
-                <property name="child">
-                  <object class="GtkButton">
-                    <property name="action-name">container-log-page.save-to-file</property>
-                    <property name="icon-name">document-save-symbolic</property>
-                    <property name="tooltip-text" translatable="yes">Save as File</property>
-                  </object>
-                </property>
-
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkStackPage">
-                <property name="name">spinner</property>
-
-                <property name="child">
-                  <object class="GtkSpinner">
-                    <property name="margin-bottom">6</property>
-                    <property name="margin-end">6</property>
-                    <property name="margin-start">6</property>
-                    <property name="margin-top">6</property>
-                    <property name="spinning">True</property>
-                    <property name="tooltip-text" translatable="yes">Saving Log</property>
-                  </object>
-                </property>
-
-              </object>
-            </child>
-
           </object>
         </child>
 

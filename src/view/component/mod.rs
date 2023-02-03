@@ -10,6 +10,7 @@ mod source_view_search_widget;
 mod spinner;
 mod text_search_entry;
 mod top_page;
+mod zoom_control;
 
 pub(crate) use self::back_navigation_controls::BackNavigationControls;
 pub(crate) use self::circular_progress_bar::CircularProgressBar;
@@ -25,3 +26,4 @@ pub(crate) use self::source_view_search_widget::SourceViewSearchWidget;
 pub(crate) use self::spinner::Spinner;
 pub(crate) use self::text_search_entry::TextSearchEntry;
 pub(crate) use self::top_page::TopPage;
+pub(crate) use self::zoom_control::ZoomControl;

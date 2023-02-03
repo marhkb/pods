@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
+
+  <menu id="menu">
+    <section>
+      <item>
+        <attribute name="custom">zoom-control</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">_Save as File</attribute>
+        <attribute name="action">source-view-page.save-to-file</attribute>
+      </item>
+    </section>
+  </menu>
+
+  <object class="PdsZoomControl" id="zoom_control">
+    <property name="zoom-out-action-name">source-view-page.zoom-out</property>
+    <property name="zoom-normal-action-name">source-view-page.zoom-normal</property>
+    <property name="zoom-in-action-name">source-view-page.zoom-in</property>
+    <property name="zoom-factor" bind-source="source_view" bind-property="font-scale" bind-flags="sync-create"/>
+  </object>
+
   <template class="PdsScalableTextViewPage" parent="GtkWidget">
     <property name="layout-manager">
       <object class="GtkBoxLayout">
@@ -28,17 +50,16 @@
         </child>
 
         <child type="end">
-          <object class="GtkToggleButton" id="search_button">
-            <property name="icon-name">system-search-symbolic</property>
-            <property name="tooltip-text" translatable="yes">Search</property>
+          <object class="GtkMenuButton" id="menu_button">
+            <property name="icon-name">view-more-symbolic</property>
+            <property name="menu-model">menu</property>
           </object>
         </child>
 
         <child type="end">
-          <object class="GtkButton">
-            <property name="action-name">source-view-page.save-to-file</property>
-            <property name="icon-name">document-save-symbolic</property>
-            <property name="tooltip-text" translatable="yes">Save as File</property>
+          <object class="GtkToggleButton" id="search_button">
+            <property name="icon-name">system-search-symbolic</property>
+            <property name="tooltip-text" translatable="yes">Search</property>
           </object>
         </child>
 

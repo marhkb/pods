@@ -18,8 +18,8 @@ use crate::view;
 const ACTION_SAVE_TO_FILE: &str = "source-view-page.save-to-file";
 const ACTION_ENTER_SEARCH: &str = "source-view-page.enter-search";
 const ACTION_EXIT_SEARCH: &str = "source-view-page.exit-search";
-const ACTION_ZOOM_IN: &str = "source-view-page.zoom-in";
 const ACTION_ZOOM_OUT: &str = "source-view-page.zoom-out";
+const ACTION_ZOOM_IN: &str = "source-view-page.zoom-in";
 const ACTION_ZOOM_NORMAL: &str = "source-view-page.zoom-normal";
 
 #[derive(Clone, Debug)]
@@ -74,7 +74,11 @@ mod imp {
     pub(crate) struct ScalableTextViewPage {
         pub(super) entity: OnceCell<Entity>,
         #[template_child]
+        pub(super) zoom_control: TemplateChild<view::ZoomControl>,
+        #[template_child]
         pub(super) window_title: TemplateChild<adw::WindowTitle>,
+        #[template_child]
+        pub(super) menu_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
         pub(super) search_button: TemplateChild<gtk::ToggleButton>,
         #[template_child]
@@ -126,15 +130,28 @@ mod imp {
                 None,
             );
 
-            klass.install_action(ACTION_ZOOM_IN, None, |widget, _, _| {
-                widget.imp().source_view.zoom_in();
-            });
             klass.install_action(ACTION_ZOOM_OUT, None, |widget, _, _| {
                 widget.imp().source_view.zoom_out();
+            });
+            klass.install_action(ACTION_ZOOM_IN, None, |widget, _, _| {
+                widget.imp().source_view.zoom_in();
             });
             klass.install_action(ACTION_ZOOM_NORMAL, None, |widget, _, _| {
                 widget.imp().source_view.zoom_normal();
             });
+
+            klass.add_binding_action(
+                gdk::Key::minus,
+                gdk::ModifierType::CONTROL_MASK,
+                ACTION_ZOOM_OUT,
+                None,
+            );
+            klass.add_binding_action(
+                gdk::Key::KP_Subtract,
+                gdk::ModifierType::CONTROL_MASK,
+                ACTION_ZOOM_OUT,
+                None,
+            );
 
             klass.add_binding_action(
                 gdk::Key::plus,
@@ -152,19 +169,6 @@ mod imp {
                 gdk::Key::equal,
                 gdk::ModifierType::CONTROL_MASK,
                 ACTION_ZOOM_IN,
-                None,
-            );
-
-            klass.add_binding_action(
-                gdk::Key::minus,
-                gdk::ModifierType::CONTROL_MASK,
-                ACTION_ZOOM_OUT,
-                None,
-            );
-            klass.add_binding_action(
-                gdk::Key::KP_Subtract,
-                gdk::ModifierType::CONTROL_MASK,
-                ACTION_ZOOM_OUT,
                 None,
             );
 
@@ -206,6 +210,13 @@ mod imp {
             self.parent_constructed();
 
             let obj = &*self.obj();
+
+            self.menu_button
+                .popover()
+                .unwrap()
+                .downcast::<gtk::PopoverMenu>()
+                .unwrap()
+                .add_child(&*self.zoom_control, "zoom-control");
 
             self.search_bar.connect_search_mode_enabled_notify(
                 clone!(@weak obj => move |search_bar| {

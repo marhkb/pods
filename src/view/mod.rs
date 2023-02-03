@@ -38,6 +38,7 @@ pub(crate) use self::component::SourceViewSearchWidget;
 pub(crate) use self::component::Spinner;
 pub(crate) use self::component::TextSearchEntry;
 pub(crate) use self::component::TopPage;
+pub(crate) use self::component::ZoomControl;
 pub(crate) use self::connection::show_ongoing_actions_warning_dialog;
 pub(crate) use self::connection::ChooserPage as ConnectionChooserPage;
 pub(crate) use self::connection::CreationPage as ConnectionCreationPage;
