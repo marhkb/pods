@@ -139,6 +139,22 @@ mod imp {
             popover_menu.set_pointing_to(Some(&gdk::Rectangle::new(x as i32, y as i32, 0, 0)));
             popover_menu.popup();
         }
+
+        #[template_callback]
+        fn on_scroll(&self, _dx: f64, dy: f64, scroll: gtk::EventControllerScroll) -> gtk::Inhibit {
+            gtk::Inhibit(
+                if scroll.current_event_state() == gdk::ModifierType::CONTROL_MASK {
+                    if dy.is_sign_negative() {
+                        self.obj().zoom_in();
+                    } else {
+                        self.obj().zoom_out();
+                    }
+                    true
+                } else {
+                    false
+                },
+            )
+        }
     }
 
     impl ObjectImpl for Tty {
