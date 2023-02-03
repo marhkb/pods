@@ -74,7 +74,11 @@ mod imp {
     pub(crate) struct ScalableTextViewPage {
         pub(super) entity: OnceCell<Entity>,
         #[template_child]
+        pub(super) zoom_control: TemplateChild<view::ZoomControl>,
+        #[template_child]
         pub(super) window_title: TemplateChild<adw::WindowTitle>,
+        #[template_child]
+        pub(super) menu_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
         pub(super) search_button: TemplateChild<gtk::ToggleButton>,
         #[template_child]
@@ -206,6 +210,13 @@ mod imp {
             self.parent_constructed();
 
             let obj = &*self.obj();
+
+            self.menu_button
+                .popover()
+                .unwrap()
+                .downcast::<gtk::PopoverMenu>()
+                .unwrap()
+                .add_child(&*self.zoom_control, "zoom-control");
 
             self.search_bar.connect_search_mode_enabled_notify(
                 clone!(@weak obj => move |search_bar| {
