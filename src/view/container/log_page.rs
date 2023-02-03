@@ -35,8 +35,8 @@ const ACTION_SAVE_TO_FILE: &str = "container-log-page.save-to-file";
 const ACTION_TOGGLE_SEARCH: &str = "container-log-page.toggle-search";
 const ACTION_SCROLL_DOWN: &str = "container-log-page.scroll-down";
 const ACTION_START_CONTAINER: &str = "container-log-page.start-container";
-const ACTION_ZOOM_IN: &str = "container-log-page.zoom-in";
 const ACTION_ZOOM_OUT: &str = "container-log-page.zoom-out";
+const ACTION_ZOOM_IN: &str = "container-log-page.zoom-in";
 const ACTION_ZOOM_NORMAL: &str = "container-log-page.zoom-normal";
 
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
@@ -110,11 +110,11 @@ mod imp {
                 widget.start_or_resume_container();
             });
 
-            klass.install_action(ACTION_ZOOM_IN, None, |widget, _, _| {
-                widget.imp().scalable_text_view.zoom_in();
-            });
             klass.install_action(ACTION_ZOOM_OUT, None, |widget, _, _| {
                 widget.imp().scalable_text_view.zoom_out();
+            });
+            klass.install_action(ACTION_ZOOM_IN, None, |widget, _, _| {
+                widget.imp().scalable_text_view.zoom_in();
             });
             klass.install_action(ACTION_ZOOM_NORMAL, None, |widget, _, _| {
                 widget.imp().scalable_text_view.zoom_normal();
@@ -124,6 +124,19 @@ mod imp {
                 gdk::Key::F,
                 gdk::ModifierType::CONTROL_MASK,
                 ACTION_TOGGLE_SEARCH,
+                None,
+            );
+
+            klass.add_binding_action(
+                gdk::Key::minus,
+                gdk::ModifierType::CONTROL_MASK,
+                ACTION_ZOOM_OUT,
+                None,
+            );
+            klass.add_binding_action(
+                gdk::Key::KP_Subtract,
+                gdk::ModifierType::CONTROL_MASK,
+                ACTION_ZOOM_OUT,
                 None,
             );
 
@@ -143,19 +156,6 @@ mod imp {
                 gdk::Key::equal,
                 gdk::ModifierType::CONTROL_MASK,
                 ACTION_ZOOM_IN,
-                None,
-            );
-
-            klass.add_binding_action(
-                gdk::Key::minus,
-                gdk::ModifierType::CONTROL_MASK,
-                ACTION_ZOOM_OUT,
-                None,
-            );
-            klass.add_binding_action(
-                gdk::Key::KP_Subtract,
-                gdk::ModifierType::CONTROL_MASK,
-                ACTION_ZOOM_OUT,
                 None,
             );
 
