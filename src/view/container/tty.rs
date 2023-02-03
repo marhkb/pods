@@ -139,6 +139,9 @@ mod imp {
                     glib::ParamSpecObject::builder::<model::Container>("container")
                         .explicit_notify()
                         .build(),
+                    glib::ParamSpecDouble::builder("font-scale")
+                        .explicit_notify()
+                        .build(),
                 ]
             });
             PROPERTIES.as_ref()
@@ -147,6 +150,7 @@ mod imp {
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
                 "container" => self.obj().set_container(value.get().unwrap()),
+                "font-scale" => self.obj().set_font_scale(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
@@ -154,6 +158,7 @@ mod imp {
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
                 "container" => self.obj().container().to_value(),
+                "font-scale" => self.obj().font_scale().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -162,6 +167,11 @@ mod imp {
             self.parent_constructed();
 
             let obj = &*self.obj();
+
+            self.terminal.connect_notify_local(
+                Some("font-scale"),
+                clone!(@weak obj => move |_, _| obj.notify("font-scale")),
+            );
 
             self.popover_menu.set_parent(obj);
 
@@ -275,6 +285,17 @@ impl Tty {
         }
         self.imp().container.set(value);
         self.notify("container");
+    }
+
+    pub(crate) fn font_scale(&self) -> f64 {
+        self.imp().terminal.font_scale()
+    }
+
+    pub(crate) fn set_font_scale(&self, value: f64) {
+        if self.font_scale() == value {
+            return;
+        }
+        self.imp().terminal.set_font_scale(value);
     }
 
     fn setup_tty_connection(&self, container: &model::Container) {
