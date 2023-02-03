@@ -39,6 +39,7 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/container/tty.ui")]
     pub(crate) struct Tty {
+        pub(super) settings: utils::PodsSettings,
         pub(super) container: WeakRef<model::Container>,
         pub(super) tx_tokio: RefCell<Option<tokio::sync::mpsc::UnboundedSender<ExecInput>>>,
         #[template_child]
@@ -203,6 +204,10 @@ mod imp {
                 Some("font-scale"),
                 clone!(@weak obj => move |_, _| obj.notify("font-scale")),
             );
+
+            self.settings
+                .bind("terminal-font-scale", obj, "font-scale")
+                .build();
 
             self.popover_menu.set_parent(obj);
 
