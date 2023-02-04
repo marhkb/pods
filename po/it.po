@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-29 19:55+0100\n"
-"PO-Revision-Date: 2023-01-01 13:48+0000\n"
-"Last-Translator: Andrea Brandi <git@andreabrandi.com>\n"
-"Language-Team: Italian <https://hosted.weblate.org/projects/pods/pods/it/>\n"
+"PO-Revision-Date: 2023-02-05 09:21+0000\n"
+"Last-Translator: albanobattistella <albano_battistella@hotmail.com>\n"
+"Language-Team: Italian <https://hosted.weblate.org/projects/pods/main/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.15.1-dev\n"
+"X-Generator: Weblate 4.16-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
@@ -367,7 +367,7 @@ msgstr ""
 
 #: data/resources/ui/connection/custom-info-dialog.ui:63
 msgid "http://somewhere:8081"
-msgstr ""
+msgstr "http://somewhere:8081"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:82
 msgid "Podman Root Connection"
@@ -889,14 +889,12 @@ msgid "Size"
 msgstr "Dimensione"
 
 #: data/resources/ui/container/properties-group.ui:146
-#, fuzzy
 msgid "Download Files (Ctrl+D)"
-msgstr "Scaricamento file"
+msgstr "Scarica file (Ctrl+D)"
 
 #: data/resources/ui/container/properties-group.ui:158
-#, fuzzy
 msgid "Upload Files (Ctrl+U)"
-msgstr "Carica file"
+msgstr "Carica file (Ctrl+U)"
 
 #: data/resources/ui/container/properties-group.ui:206
 msgid "Port bindings"
@@ -956,9 +954,8 @@ msgid "The container must be running to use the terminal."
 msgstr "Il contenitore dev'essere in esecuzione per usare il terminale."
 
 #: data/resources/ui/container/tty.ui:46
-#, fuzzy
 msgid "Start"
-msgstr "Avvio"
+msgstr "Avvia"
 
 #: data/resources/ui/containers/group.ui:28 data/resources/ui/pods/panel.ui:69
 msgid "Only running"
@@ -1079,15 +1076,15 @@ msgstr "Percorso file contenitore relativo alla directory di compilazione"
 
 #: data/resources/ui/image/details-page.ui:77
 msgid "Disk space"
-msgstr ""
+msgstr "Spazio sul disco"
 
 #: data/resources/ui/image/details-page.ui:90
 msgid "Entry Point"
-msgstr ""
+msgstr "Punto di ingresso"
 
 #: data/resources/ui/image/details-page.ui:97
 msgid "Ports"
-msgstr ""
+msgstr "Porte"
 
 #: data/resources/ui/image/details-page.ui:107
 msgid "Repository Tags"
@@ -1437,14 +1434,12 @@ msgid "Untag"
 msgstr "Annulla tag"
 
 #: data/resources/ui/search-panel.ui:19
-#, fuzzy
 msgid "Please start typing to look for results."
-msgstr "Inizia a digitare per cercare le immagini."
+msgstr "Inizia a digitare per cercare i risultati."
 
 #: data/resources/ui/search-panel.ui:33
-#, fuzzy
 msgid "No Results Found"
-msgstr "Nessun registro trovato"
+msgstr "Nessun risultato trovato"
 
 #: data/resources/ui/search-panel.ui:51 data/resources/ui/window.ui:273
 msgid "Images"
@@ -1640,14 +1635,12 @@ msgid "Select None"
 msgstr "Deseleziona tutto"
 
 #: data/resources/ui/window.ui:157
-#, fuzzy
 msgid "Multi-Selection"
-msgstr "Deseleziona tutto"
+msgstr "Selezione multipla"
 
 #: data/resources/ui/window.ui:180
-#, fuzzy
 msgid "Cancel"
-msgstr "_Annulla"
+msgstr "Cancella"
 
 #: src/application.rs:188
 msgid "translator-credits"
