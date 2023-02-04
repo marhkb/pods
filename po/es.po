@@ -8,15 +8,16 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-29 19:39+0100\n"
-"PO-Revision-Date: 2023-01-03 15:51+0000\n"
-"Last-Translator: Sergio Varela <sergitroll9@gmail.com>\n"
-"Language-Team: Spanish <https://hosted.weblate.org/projects/pods/pods/es/>\n"
+"PO-Revision-Date: 2023-02-04 10:39+0000\n"
+"Last-Translator: Óscar Fernández Díaz <oscfdezdz@users.noreply.hosted.weblate"
+".org>\n"
+"Language-Team: Spanish <https://hosted.weblate.org/projects/pods/1-0/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.15.1-dev\n"
+"X-Generator: Weblate 4.16-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
@@ -364,12 +365,11 @@ msgstr ""
 
 #: data/resources/ui/connection/custom-info-dialog.ui:63
 msgid "http://somewhere:8081"
-msgstr ""
+msgstr "http://algunlugar:8081"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:82
-#, fuzzy
 msgid "Podman Root Connection"
-msgstr "Añadir conexión nueva"
+msgstr "Conexión raíz Podman"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:91
 msgid ""
@@ -378,15 +378,20 @@ msgid ""
 "is not readable for normal users. However, there is a workaround using a "
 "systemd unit. Save the following snippet:"
 msgstr ""
+"Por desgracia, de momento no es posible conectarse a la instancia raíz de "
+"Podman directamente, ya que <span weight=\"bold\">/run/podman/podman.sock</"
+"span> no es legible para usuarios normales. Sin embargo, existe una solución "
+"alternativa usando una unidad systemd. Guarde el siguiente fragmento:"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:203
 msgid "Enable the service by issuing the command:"
-msgstr ""
+msgstr "Activar el servicio emitiendo el comando:"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:261
 msgid ""
 "Enter the following URL here into the text field and create the connection:"
 msgstr ""
+"Introduzca aquí la siguiente URL en el campo de texto y cree la conexión:"
 
 #: data/resources/ui/connection/row.ui:90
 #: data/resources/ui/container/details-page.ui:184
@@ -400,36 +405,33 @@ msgid "Delete"
 msgstr "Eliminar"
 
 #: data/resources/ui/container/commit-page.ui:40
-#, fuzzy
 msgid "Commit Container"
-msgstr "{} Contenedor"
+msgstr "Contenedor de confirmación"
 
 #: data/resources/ui/container/commit-page.ui:50
 msgid "_Commit"
 msgstr "_Confirmar"
 
 #: data/resources/ui/container/commit-page.ui:63
-#, fuzzy
 msgid "General Commit Options"
-msgstr "Opciones de gráfica"
+msgstr "Opciones generales de confirmación"
 
 #: data/resources/ui/container/commit-page.ui:68
 msgid "Author"
-msgstr ""
+msgstr "Autor"
 
 #: data/resources/ui/container/commit-page.ui:77
 msgid "Fetch Username"
-msgstr ""
+msgstr "Obtener nombre de usuario"
 
 #: data/resources/ui/container/commit-page.ui:88
 #: src/view/image/history_page.rs:171
-#, fuzzy
 msgid "Comment"
-msgstr "Comando"
+msgstr "Comentario"
 
 #: data/resources/ui/container/commit-page.ui:95
 msgid "Repo"
-msgstr ""
+msgstr "Repositorio"
 
 #: data/resources/ui/container/commit-page.ui:102
 msgid "Tag"
