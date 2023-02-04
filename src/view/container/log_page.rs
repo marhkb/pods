@@ -753,10 +753,34 @@ fn basic_opts_builder(follow: bool, timestamps: bool) -> podman::opts::Container
         .timestamps(timestamps)
 }
 
+#[derive(Debug)]
+enum MarkupAttribute {
+    Bold,
+    Foreground(&'static str),
+    Background(&'static str),
+}
+
+impl MarkupAttribute {
+    fn open_tag(&self) -> Cow<str> {
+        match self {
+            Self::Bold => Cow::Borrowed("<b>"),
+            Self::Foreground(value) => Cow::Owned(format!("<span foreground=\"{value}\">")),
+            Self::Background(value) => Cow::Owned(format!("<span background=\"{value}\">")),
+        }
+    }
+
+    fn close_tag(&self) -> &'static str {
+        match self {
+            Self::Bold => "</b>",
+            Self::Foreground(_) | Self::Background(_) => "</span>",
+        }
+    }
+}
+
 #[derive(Debug, Default)]
 pub struct MarkupPerform {
     buffer: String,
-    tags: Vec<(&'static str, &'static str)>,
+    attributes: Vec<MarkupAttribute>,
 }
 
 impl MarkupPerform {
@@ -767,15 +791,35 @@ impl MarkupPerform {
     }
 
     fn begin_line(&mut self) {
-        self.tags.iter().for_each(|(open_tag, _)| {
-            self.buffer.push_str(open_tag);
+        self.attributes.iter().for_each(|attr| {
+            self.buffer.push_str(attr.open_tag().as_ref());
         });
     }
 
     fn end_line(&mut self) {
-        self.tags.iter().rev().for_each(|(_, close_tag)| {
-            self.buffer.push_str(close_tag);
+        self.attributes.iter().rev().for_each(|attr| {
+            self.buffer.push_str(attr.close_tag());
         });
+    }
+
+    fn reset_all(&mut self) {
+        while let Some(attr) = self.attributes.pop() {
+            self.buffer.push_str(attr.close_tag());
+        }
+    }
+
+    fn reset<F: Fn(&MarkupAttribute) -> bool>(&mut self, op: F) {
+        let mut t = Vec::new();
+        while let Some(attr) = self.attributes.pop() {
+            self.buffer.push_str(attr.close_tag());
+            if op(&attr) {
+                t.insert(0, attr);
+            }
+        }
+
+        mem::swap(&mut t, &mut self.attributes);
+
+        self.begin_line();
     }
 
     /// Decode the specified bytes. Return true if finished.
@@ -808,66 +852,69 @@ impl vte::Perform for MarkupPerform {
         _action: char,
     ) {
         for param in params.iter() {
-            match param {
-                [0] => {
-                    while let Some((_, close_tag)) = self.tags.pop() {
-                        self.buffer.push_str(close_tag);
+            param.iter().copied().for_each(|param| {
+                match param {
+                    0 => self.reset_all(),
+                    39 => {
+                        // Reset foreground
+                        self.reset(|attr| !matches!(attr, MarkupAttribute::Foreground(_)));
+                    }
+                    49 => {
+                        // Reset background
+                        self.reset(|attr| !matches!(attr, MarkupAttribute::Background(_)));
+                    }
+                    _ => {
+                        if let Some(attr) = ansi_escape_to_markup_attribute(param) {
+                            self.buffer.push_str(attr.open_tag().as_ref());
+                            self.attributes.push(attr);
+                        }
                     }
                 }
-                items => items
-                    .iter()
-                    .copied()
-                    .filter_map(ansi_escape_to_markup_tags)
-                    .for_each(|tags| {
-                        self.buffer.push_str(tags.0);
-                        self.tags.push(tags);
-                    }),
-            }
+            });
         }
     }
 }
 
-fn ansi_escape_to_markup_tags(item: u16) -> Option<(&'static str, &'static str)> {
+fn ansi_escape_to_markup_attribute(item: u16) -> Option<MarkupAttribute> {
     Some(match item {
-        1 => ("<b>", "</b>"),
+        1 => MarkupAttribute::Bold,
 
-        30 => ("<span foreground=\"#000000\">", "</span>"),
-        31 => ("<span foreground=\"#e01b24\">", "</span>"),
-        32 => ("<span foreground=\"#33d17a\">", "</span>"),
-        33 => ("<span foreground=\"#f6d32d\">", "</span>"),
-        34 => ("<span foreground=\"#3584e4\">", "</span>"),
-        35 => ("<span foreground=\"#d4267e\">", "</span>"),
-        36 => ("<span foreground=\"#00f7f7\">", "</span>"),
-        37 => ("<span foreground=\"#ffffff\">", "</span>"),
-        39 => ("<span foreground=\"#ffffff\">", "</span>"),
+        30 => MarkupAttribute::Foreground("#000000"),
+        31 => MarkupAttribute::Foreground("#e01b24"),
+        32 => MarkupAttribute::Foreground("#33d17a"),
+        33 => MarkupAttribute::Foreground("#f6d32d"),
+        34 => MarkupAttribute::Foreground("#3584e4"),
+        35 => MarkupAttribute::Foreground("#d4267e"),
+        36 => MarkupAttribute::Foreground("#00f7f7"),
+        37 => MarkupAttribute::Foreground("#ffffff"),
 
-        40 => ("<span background=\"#000000\">", "</span>"),
-        41 => ("<span background=\"#e01b24\">", "</span>"),
-        42 => ("<span background=\"#33d17a\">", "</span>"),
-        43 => ("<span background=\"#f6d32d\">", "</span>"),
-        44 => ("<span background=\"#3584e4\">", "</span>"),
-        45 => ("<span background=\"#d4267e\">", "</span>"),
-        46 => ("<span background=\"#00f7f7\">", "</span>"),
-        47 => ("<span background=\"#ffffff\">", "</span>"),
-        49 => ("<span background=\"#000000\">", "</span>"),
+        40 => MarkupAttribute::Background("#000000"),
+        41 => MarkupAttribute::Background("#e01b24"),
+        42 => MarkupAttribute::Background("#33d17a"),
+        43 => MarkupAttribute::Background("#f6d32d"),
+        44 => MarkupAttribute::Background("#3584e4"),
+        45 => MarkupAttribute::Background("#d4267e"),
+        46 => MarkupAttribute::Background("#00f7f7"),
+        47 => MarkupAttribute::Background("#ffffff"),
 
-        90 => ("<span foreground=\"#3d3846\">", "</span>"),
-        91 => ("<span foreground=\"#f66151\">", "</span>"),
-        92 => ("<span foreground=\"#8ff0a4\">", "</span>"),
-        93 => ("<span foreground=\"#f9f06b\">", "</span>"),
-        94 => ("<span foreground=\"#99c1f1\">", "</span>"),
-        95 => ("<span foreground=\"#c061cb\">", "</span>"),
-        96 => ("<span foreground=\"#33c7de\">", "</span>"),
-        97 => ("<span foreground=\"#f66151\">", "</span>"),
+        90 => MarkupAttribute::Foreground("#3d3846"),
+        91 => MarkupAttribute::Foreground("#f66151"),
+        92 => MarkupAttribute::Foreground("#8ff0a4"),
+        93 => MarkupAttribute::Foreground("#f9f06b"),
+        94 => MarkupAttribute::Foreground("#99c1f1"),
+        95 => MarkupAttribute::Foreground("#c061cb"),
+        96 => MarkupAttribute::Foreground("#33c7de"),
+        97 => MarkupAttribute::Foreground("#f66151"),
 
-        100 => ("<span background=\"#3d3846\">", "</span>"),
-        101 => ("<span background=\"#f66151\">", "</span>"),
-        102 => ("<span background=\"#8ff0a4\">", "</span>"),
-        103 => ("<span background=\"#f9f06b\">", "</span>"),
-        104 => ("<span background=\"#99c1f1\">", "</span>"),
-        105 => ("<span background=\"#c061cb\">", "</span>"),
-        106 => ("<span background=\"#33c7de\">", "</span>"),
-        109 => ("<span background=\"#f66151\">", "</span>"),
+        100 => MarkupAttribute::Background("#3d3846"),
+        101 => MarkupAttribute::Background("#f66151"),
+        102 => MarkupAttribute::Background("#8ff0a4"),
+        103 => MarkupAttribute::Background("#f9f06b"),
+        104 => MarkupAttribute::Background("#99c1f1"),
+        105 => MarkupAttribute::Background("#c061cb"),
+        106 => MarkupAttribute::Background("#33c7de"),
+        109 => MarkupAttribute::Background("#f66151"),
+
         _ => return None,
     })
 }
