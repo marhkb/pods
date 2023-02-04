@@ -1,14 +1,15 @@
 use std::cell::Cell;
 
 use gtk::glib;
+use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
 
-mod imp {
-    use gtk::glib::closure;
+use crate::utils;
 
+mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
@@ -90,6 +91,10 @@ mod imp {
                     format!("{:.0}%", 100.0 * factor)
                 }))
                 .bind(&*self.zoom_normal_button, "label", Some(&*self.obj()));
+        }
+
+        fn dispose(&self) {
+            utils::ChildIter::from(self.obj().upcast_ref()).for_each(|child| child.unparent());
         }
     }
 
