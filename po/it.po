@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-29 19:55+0100\n"
-"PO-Revision-Date: 2023-02-05 09:21+0000\n"
+"PO-Revision-Date: 2023-02-05 18:51+0000\n"
 "Last-Translator: albanobattistella <albano_battistella@hotmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/pods/main/it/>\n"
 "Language: it\n"
@@ -111,7 +111,7 @@ msgstr "Indica se abbinare parole intere durante la ricerca"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:96
 msgid "The font scale of all text views"
-msgstr ""
+msgstr "La scala dei caratteri di tutte le visualizzazioni di testo"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
 msgid "Keep track of your podman containers"
@@ -634,9 +634,8 @@ msgstr ""
 "fallito."
 
 #: data/resources/ui/container/details-page.ui:27
-#, fuzzy
 msgid "Container"
-msgstr "Contenitore"
+msgstr "Container"
 
 #: data/resources/ui/container/details-page.ui:75
 #: data/resources/ui/pod/details-page.ui:123
@@ -676,9 +675,8 @@ msgstr "Utilità"
 #: data/resources/ui/container/details-page.ui:205
 #: data/resources/ui/image/details-page.ui:165
 #: data/resources/ui/pod/details-page.ui:251
-#, fuzzy
 msgid "Inspection"
-msgstr "Ispezione pod"
+msgstr "Ispezione"
 
 #: data/resources/ui/container/details-page.ui:206
 msgid "View all container properties in a structured text form."
@@ -1247,7 +1245,7 @@ msgstr "Architettura SO"
 
 #: data/resources/ui/info-dialog.ui:56
 msgid "Storage"
-msgstr ""
+msgstr "Archivio"
 
 #: data/resources/ui/info-dialog.ui:57
 msgid "Describes the container storage and its attributes."
@@ -1518,22 +1516,22 @@ msgstr "Carica file"
 #: data/resources/ui/shortcuts.ui:104
 msgctxt "shortcut window"
 msgid "Text view"
-msgstr ""
+msgstr "Vista testo"
 
 #: data/resources/ui/shortcuts.ui:108
 msgctxt "shortcut window"
 msgid "Zoom in"
-msgstr ""
+msgstr "Ingrandisci"
 
 #: data/resources/ui/shortcuts.ui:115
 msgctxt "shortcut window"
 msgid "Zoom out"
-msgstr ""
+msgstr "Rimpicciolisci"
 
 #: data/resources/ui/shortcuts.ui:122
 msgctxt "shortcut window"
 msgid "Reset zoom"
-msgstr ""
+msgstr "Remposta zoom"
 
 #: data/resources/ui/shortcuts.ui:132
 msgctxt "shortcut window"
