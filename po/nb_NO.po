@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-29 19:39+0100\n"
-"PO-Revision-Date: 2022-09-20 18:24+0000\n"
+"PO-Revision-Date: 2023-02-03 04:53+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/pods/"
-"pods/nb_NO/>\n"
+"1-0/nb_NO/>\n"
 "Language: nb_NO\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.14.1\n"
+"X-Generator: Weblate 4.16-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
@@ -50,7 +50,7 @@ msgstr "Forvalg adferd for maksimert vindu"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:26
 msgid "Color Scheme"
-msgstr ""
+msgstr "Fargedrakt"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:27
 msgid "Use the light or dark variant of the GTK theme"
@@ -76,8 +76,11 @@ msgid "The last used container file path"
 msgstr "Sist brukte visning"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:51
+#, fuzzy
 msgid "Remove all images not in use by containers, not just dangling ones"
 msgstr ""
+"Fjerner alle avtrykk som ikke er i bruk av beholderen, ikke bare de som er "
+"overflødige"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:56
 msgid ""
@@ -309,7 +312,7 @@ msgstr "Navn"
 
 #: data/resources/ui/connection/creation-page.ui:121
 msgid "URL"
-msgstr ""
+msgstr "Nettadresse"
 
 #: data/resources/ui/connection/creation-page.ui:122
 #, fuzzy
@@ -318,7 +321,7 @@ msgstr "Mistet tilkoblingen til Podman"
 
 #: data/resources/ui/connection/creation-page.ui:126
 msgid "Unix Socket"
-msgstr ""
+msgstr "Unix-Socket"
 
 #: data/resources/ui/connection/creation-page.ui:161
 #, fuzzy
@@ -337,7 +340,7 @@ msgstr ""
 #: data/resources/ui/connection/custom-info-dialog.ui:252
 #: data/resources/ui/connection/custom-info-dialog.ui:300
 msgid "Copy to Clipboard"
-msgstr ""
+msgstr "Kopier til utklippstavlen"
 
 #: data/resources/ui/connection/creation-page.ui:233
 msgid ""
@@ -427,11 +430,11 @@ msgstr ""
 
 #: data/resources/ui/container/commit-page.ui:68
 msgid "Author"
-msgstr ""
+msgstr "Utvikler"
 
 #: data/resources/ui/container/commit-page.ui:77
 msgid "Fetch Username"
-msgstr ""
+msgstr "Hent brukernavn"
 
 #: data/resources/ui/container/commit-page.ui:88
 #: src/view/image/history_page.rs:171
@@ -441,15 +444,15 @@ msgstr "Kommando"
 
 #: data/resources/ui/container/commit-page.ui:95
 msgid "Repo"
-msgstr ""
+msgstr "Kodelager"
 
 #: data/resources/ui/container/commit-page.ui:102
 msgid "Tag"
-msgstr ""
+msgstr "Etikett"
 
 #: data/resources/ui/container/commit-page.ui:108
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 #: data/resources/ui/container/commit-page.ui:123
 #: data/resources/ui/container/details-page.ui:167
@@ -467,7 +470,7 @@ msgstr ""
 
 #: data/resources/ui/container/commit-page.ui:138
 msgid "Changes"
-msgstr ""
+msgstr "Endringer"
 
 #: data/resources/ui/container/commit-page.ui:139
 msgid ""
@@ -489,7 +492,7 @@ msgstr "Beholdere"
 
 #: data/resources/ui/container/creation-page.ui:64
 msgid "_Run"
-msgstr ""
+msgstr "_Kjør"
 
 #: data/resources/ui/container/creation-page.ui:123
 #: data/resources/ui/image/build-page.ui:108
@@ -500,7 +503,7 @@ msgstr "Avtrykk"
 
 #: data/resources/ui/container/creation-page.ui:136
 msgid "Local image"
-msgstr ""
+msgstr "Lokalt avtrykk"
 
 #: data/resources/ui/container/creation-page.ui:152
 #: data/resources/ui/pod/creation-page.ui:318
@@ -564,7 +567,7 @@ msgstr "Kommando"
 #: data/resources/ui/pod/creation-page.ui:162
 #: data/resources/ui/pod/creation-page.ui:394
 msgid "Arguments"
-msgstr ""
+msgstr "Argumenter"
 
 #: data/resources/ui/container/creation-page.ui:334
 #: data/resources/ui/image/build-page.ui:153
@@ -588,7 +591,7 @@ msgstr "Miljøvariabler"
 #: data/resources/ui/image/build-page.ui:163
 #: data/resources/ui/pod/creation-page.ui:243
 msgid "Labels"
-msgstr ""
+msgstr "Etiketter"
 
 #: data/resources/ui/container/creation-page.ui:410
 #: data/resources/ui/container/properties-group.ui:225
@@ -705,8 +708,9 @@ msgid "Generate Kubernetes YAML based on this container."
 msgstr "Beholdere"
 
 #: data/resources/ui/container/details-page.ui:240
+#, fuzzy
 msgid "Connect to the container's terminal."
-msgstr ""
+msgstr "Koble til beholderens terminal."
 
 #: data/resources/ui/container/details-page.ui:256
 #, fuzzy
@@ -770,7 +774,7 @@ msgstr ""
 
 #: data/resources/ui/container/files-put-page.ui:59
 msgid "_Upload"
-msgstr ""
+msgstr "_Last opp"
 
 #: data/resources/ui/container/files-put-page.ui:78
 msgid "Either select a file or a directory from the host to upload."
@@ -821,7 +825,7 @@ msgstr "Beholdere"
 
 #: data/resources/ui/container/log-page.ui:32
 msgid "Timestamps"
-msgstr ""
+msgstr "Tidsstempler"
 
 #: data/resources/ui/container/log-page.ui:73
 msgid "Saving Log"
@@ -900,7 +904,7 @@ msgstr "ID"
 
 #: data/resources/ui/container/properties-group.ui:82
 msgid "Commit (Ctrl+K)"
-msgstr ""
+msgstr "Send inn (Ctrl+K)"
 
 #: data/resources/ui/container/properties-group.ui:95
 #: data/resources/ui/image/details-page.ui:71
@@ -911,7 +915,7 @@ msgstr "Opprettet"
 
 #: data/resources/ui/container/properties-group.ui:101
 msgid "Size"
-msgstr ""
+msgstr "Størrelse"
 
 #: data/resources/ui/container/properties-group.ui:146
 #, fuzzy
@@ -920,7 +924,7 @@ msgstr "Beskjær ubrukte avtrykk"
 
 #: data/resources/ui/container/properties-group.ui:158
 msgid "Upload Files (Ctrl+U)"
-msgstr ""
+msgstr "Last opp filer (Ctrl+U)"
 
 #: data/resources/ui/container/properties-group.ui:206
 msgid "Port bindings"
@@ -962,7 +966,7 @@ msgstr "Beholdere"
 
 #: data/resources/ui/container/tty.ui:6
 msgid "_Copy"
-msgstr ""
+msgstr "_Kopier"
 
 #: data/resources/ui/container/tty.ui:10
 msgid "Copy as _HTML"
@@ -970,7 +974,7 @@ msgstr ""
 
 #: data/resources/ui/container/tty.ui:14
 msgid "_Paste"
-msgstr ""
+msgstr "_Lim inn"
 
 #: data/resources/ui/container/tty.ui:35
 #, fuzzy
@@ -1016,15 +1020,15 @@ msgstr "Beholdere"
 
 #: data/resources/ui/device/row.ui:33
 msgid "Readable"
-msgstr ""
+msgstr "Lesbar"
 
 #: data/resources/ui/device/row.ui:52 data/resources/ui/volume/row.ui:50
 msgid "Writable"
-msgstr ""
+msgstr "Skrivbar"
 
 #: data/resources/ui/device/row.ui:71
 msgid "mknod"
-msgstr ""
+msgstr "mknod"
 
 #: data/resources/ui/device/row.ui:97 data/resources/ui/volume/row.ui:107
 msgid "Host path"
@@ -1123,7 +1127,7 @@ msgstr ""
 
 #: data/resources/ui/image/details-page.ui:97
 msgid "Ports"
-msgstr ""
+msgstr "Porter"
 
 #: data/resources/ui/image/details-page.ui:107
 msgid "Repository Tags"
@@ -1140,7 +1144,7 @@ msgstr ""
 
 #: data/resources/ui/image/details-page.ui:182
 msgid "History"
-msgstr ""
+msgstr "Historikk"
 
 #: data/resources/ui/image/details-page.ui:183
 msgid "View parent layers of this image."
@@ -1162,7 +1166,7 @@ msgstr "Avtrykk"
 
 #: data/resources/ui/image/history-page.ui:49
 msgid "History List"
-msgstr ""
+msgstr "Historikkliste"
 
 #: data/resources/ui/image/menu-button.ui:6
 #: data/resources/ui/pod/menu-button.ui:7
