@@ -59,7 +59,9 @@
 
                         <property name="child">
                           <object class="GtkImage" id="active_connection_image">
-                            <property name="pixel-size">12</property>
+                            <style>
+                              <class name="panel-image"/>
+                            </style>
                           </object>
                         </property>
 
@@ -108,8 +110,10 @@
 
                 <child>
                   <object class="GtkImage">
+                    <style>
+                      <class name="panel-image"/>
+                    </style>
                     <property name="icon-name">preferences-system-notifications-symbolic</property>
-                    <property name="pixel-size">12</property>
                   </object>
                 </child>
 

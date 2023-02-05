@@ -11,6 +11,10 @@
   margin-top: 0;
 }
 
+panelstatusbar .panel-image {
+  -gtk-icon-size: 9pt;
+}
+
 .circle {
   border-radius: 9999px;
 }
