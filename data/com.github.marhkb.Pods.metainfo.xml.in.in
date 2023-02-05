@@ -42,6 +42,24 @@
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="1.1.0-beta.3" date="2023-02-05">
+      <description>
+        <p>Pods 1.1.0-beta.3 contains the following features, bug fixes and improvements:</p>
+        <ul>
+          <li>The connection menu has received an entry for disconnecting the current Podman connection.</li>
+          <li>The status bar now has a menu button that shows the current Podman version.</li>
+          <li>The menu item to open the Podman information window has been moved from the main menu to the Podman menu in the status bar.</li>
+          <li>A new widget has been implemented that allows you to control the zoom level of text.</li>
+          <li>On all pages with text, such as the inspection page, the download button has been moved to a menu in the header bar together with the zoom control widget.</li>
+          <li>On the container log page some buttons together with zoom control widget are moved to a menu in the header bar.</li>
+          <li>The text in the container terminal can now be zoomed.</li>
+          <li>Fixed a bug in the container log page where an explicit color was set for the default ANSI escape sequence. This resulted in text not being readable in the light theme under certain circumstances.</li>
+          <li>The text views, like the Inspection page, are now closed immediately if there is an error. For example, this would be the case if the cube YAML could not be generated.</li>
+          <li>Translations have been updated.</li>
+          <li>Dependencies have been updated.</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.1.0-beta.2" date="2023-02-01">
       <description>
         <p>Pods 1.1.0-beta.2 contains the following features, bug fixes and improvements:</p>
