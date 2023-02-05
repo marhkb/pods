@@ -401,6 +401,9 @@ impl ScalableTextViewPage {
                     },
                     &e.to_string(),
                 );
+                utils::parent_leaflet_overlay(self.upcast_ref())
+                    .unwrap()
+                    .hide_details();
             }
         }
     }
