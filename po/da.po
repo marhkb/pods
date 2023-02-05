@@ -1,18 +1,17 @@
-# Norwegian Bokmal translations for pods package.
-# Copyright (C) 2022 THE pods'S COPYRIGHT HOLDER
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the pods package.
-# Automatically generated, 2022.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-29 19:55+0100\n"
-"PO-Revision-Date: 2023-02-02 22:08+0000\n"
-"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
-"Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/pods/"
-"main/nb_NO/>\n"
-"Language: nb_NO\n"
+"PO-Revision-Date: 2023-02-05 09:21+0000\n"
+"Last-Translator: Lars Nielsen <lnc13.lars@gmail.com>\n"
+"Language-Team: Danish <https://hosted.weblate.org/projects/pods/main/da/>\n"
+"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -27,149 +26,140 @@ msgstr "Pods"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:4
 msgid "A Podman desktop application"
-msgstr "Et Podman-skrivebordsprogram"
+msgstr ""
 
 #: data/com.github.marhkb.Pods.desktop.in.in:9
-#, fuzzy
 msgid "Gnome;GTK;"
-msgstr "GNOME;GTK;"
+msgstr "Gnome;GTK;"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:6
 #: data/com.github.marhkb.Pods.gschema.xml.in:7
 msgid "Default window width"
-msgstr "Forvalgt vindusbredde"
+msgstr "Standard vinduesbredde"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:11
 #: data/com.github.marhkb.Pods.gschema.xml.in:12
 msgid "Default window height"
-msgstr "Forvalgt vindushøyde"
+msgstr "Standard vindueshøjde"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:16
 msgid "Default window maximized behaviour"
-msgstr "Forvalg adferd for maksimert vindu"
+msgstr ""
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:26
 msgid "Color Scheme"
-msgstr "Fargedrakt"
+msgstr "Farveskema"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:27
 msgid "Use the light or dark variant of the GTK theme"
-msgstr "Bruk lys eller mørk variant av GTK-drakt"
+msgstr "Benyt den lyse eller mørke variant af GTK temaet"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:31
-#, fuzzy
 msgid "The uuid of the connection that was used the last time"
-msgstr "UUID for tilkoblingen som ble brukt forrige gang"
+msgstr "UUIDet for forbindelsens brugt sidste gang"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:36
 msgid "The last used view"
-msgstr "Sist brukte visning"
+msgstr ""
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:41
-#, fuzzy
 msgid "Whether to show intermediate images"
-msgstr "Hvorvidt kun mellomliggende avtrykk skal vises"
+msgstr ""
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:46
-#, fuzzy
 msgid "The last used container file path"
-msgstr "Sist brukte visning"
+msgstr "Filestien for den sidst benyttet kontainer"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:51
-#, fuzzy
 msgid "Remove all images not in use by containers, not just dangling ones"
 msgstr ""
-"Fjerner alle avtrykk som ikke er i bruk av beholderen, ikke bare de som er "
-"overflødige"
+"Fjern alle images som ikke er i brug af nogle containere, ikke kun dem uden "
+"referencer"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:56
 msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)"
 msgstr ""
+"Fjern billeder selv hvis de benyttes af eksterne kontainer (e.g, af "
+"byggekontainer)"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:61
 msgid "Whether to show only running containers"
-msgstr "Hvorvidt kun kjørende beholdere skal vises"
+msgstr "Skal kun kørende kontainer vises"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:66
-#, fuzzy
 msgid "Whether to show only running pods"
-msgstr "Hvorvidt kun kjørende beholdere skal vises"
+msgstr "Skal kun kørende pods vises"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:71
-#, fuzzy
 msgid "Whether to show a timestamp for each log line"
-msgstr "Hvorvidt kun mellomliggende avtrykk skal vises"
+msgstr "Skal der vises tidsstemple for hver loglinje"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:76
 #: data/com.github.marhkb.Pods.gschema.xml.in:81
-#, fuzzy
 msgid "Whether to use a regex for search"
-msgstr "Hvorvidt kun mellomliggende avtrykk skal vises"
+msgstr "Skal regex brugers ved søgning"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:86
 msgid "Whether search should be case-sensitive"
-msgstr ""
+msgstr "Skal søgning være case-sensitive"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:91
 msgid "Whether to match whole words when searching"
-msgstr ""
+msgstr "Skal hele ord matches ved søgning"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:96
 msgid "The font scale of all text views"
-msgstr ""
+msgstr "Tekstskalering for alle tekstvisninger"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
-#, fuzzy
 msgid "Keep track of your podman containers"
-msgstr "Beholdere"
+msgstr "Hold styr på din podman kontainer"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
 msgid ""
 "Pods is a frontend for podman. It uses libadwaita for its user interface and "
 "strives to meet the design principles of GNOME."
 msgstr ""
+"Pods er en frontend for pod. Pods benytter libadwaita til dens "
+"brugergrænseflade og stræber efter at følge designprincipperne for Gnome."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:11
 msgid "With Pods you can, among other things:"
-msgstr ""
+msgstr "Med Pods kan du bland andet:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:13
 msgid "Connect to local and remote Podman instances."
-msgstr ""
+msgstr "Forbind til lokale og fjern Podman instanser."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:14
-#, fuzzy
 msgid "Easily overview images, containers and pods."
-msgstr "Ingen avtrykk å beskjære"
+msgstr "Nem oversigt over billeder, kontainer, og pods."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:15
 msgid "View prepared information about images, containers, and pods."
-msgstr ""
+msgstr "Se forberedt information of billeder, kontainer, og pods."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:16
-#, fuzzy
 msgid "Inspect images, containers and pods."
-msgstr "Ingen avtrykk å beskjære"
+msgstr "Inspicer billeder, kontainer, og pods."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:17
 msgid "View and search container logs."
-msgstr "Vis og søk i beholderloggføring."
+msgstr "Vis og søg i kontainerlogs."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:18
-#, fuzzy
 msgid "Monitor processes of containers and pods."
-msgstr "Ingen avtrykk å beskjære"
+msgstr "Monitorer processer for kontainere og pods."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:19
 msgid "Download images and build them using Dockerfiles."
-msgstr ""
+msgstr "Hent billeder og byg dem ved brug af Dockerfiler."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:20
-#, fuzzy
 msgid "Create pods and containers."
-msgstr "Beholdere"
+msgstr "Opret pods og kontainer."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:21
 msgid ""
@@ -179,31 +169,27 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:22
 msgid "Delete images, containers, and pods (in bulk)."
-msgstr ""
+msgstr "Slet billeder, kontainer, og pods (i bulk)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:23
-#, fuzzy
 msgid "Prune images."
-msgstr "Beskjær ubrukte avtrykk"
+msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:24
-#, fuzzy
 msgid "Rename containers."
-msgstr "Beholdere"
+msgstr "Omnavndøb kontainere."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:30
-#, fuzzy
 msgid "Images Overview"
-msgstr "Avtrykk"
+msgstr "Billede Oversigt"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:34
-#, fuzzy
 msgid "Containers Overview"
-msgstr "Beholdere"
+msgstr "Kontainer Oversigt"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:38
 msgid "Pods Overview"
-msgstr ""
+msgstr "Pods Oversigt"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:263
 msgid "Marcus Behrendt"
@@ -215,68 +201,61 @@ msgid "_Abort"
 msgstr ""
 
 #: data/resources/ui/action/page.ui:133
-#, fuzzy
 msgid "_View"
-msgstr "Avtrykk"
+msgstr ""
 
 #: data/resources/ui/action/page.ui:148
 msgid "_Retry"
 msgstr ""
 
 #: data/resources/ui/actions/overview.ui:38
-#, fuzzy
 msgid "No Operations"
-msgstr "Alternativer"
+msgstr ""
 
 #: data/resources/ui/component/scalable-text-view-page.ui:33
 #: data/resources/ui/container/creation-page.ui:184
 #: data/resources/ui/container/log-page.ui:47
 #: data/resources/ui/pod/creation-page.ui:350
 #: data/resources/ui/search-panel.ui:18 data/resources/ui/window.ui:113
-#, fuzzy
 msgid "Search"
-msgstr "Søk"
+msgstr "Søg"
 
 #: data/resources/ui/component/scalable-text-view-page.ui:41
 #: data/resources/ui/container/log-page.ui:63
-#, fuzzy
 msgid "Save as File"
-msgstr "Velg fil"
+msgstr "Gem som Fil"
 
 #: data/resources/ui/component/source-view-search-widget.ui:23
 msgid "Previous (Ctrl+Shift+G)"
-msgstr ""
+msgstr "Forrige (Ctrl+Shift+G)"
 
 #: data/resources/ui/component/source-view-search-widget.ui:30
-#, fuzzy
 msgid "Next (Ctrl+G)"
-msgstr "Flytt til neste treff (Ctrl+G)"
+msgstr "Næste (Ctrl+G)"
 
 #: data/resources/ui/component/text-search-entry.ui:42
-#, fuzzy
 msgid "Regular Expression"
-msgstr "_Regulære uttrykk"
+msgstr "Regulært Udtryk"
 
 #: data/resources/ui/component/text-search-entry.ui:50
 msgid "Case Sensitive"
-msgstr ""
+msgstr "Case-Sensitive"
 
 #: data/resources/ui/component/text-search-entry.ui:58
 msgid "Whole Word"
-msgstr ""
+msgstr "Fulde ord"
 
 #: data/resources/ui/connection/chooser-page.ui:34
-#, fuzzy
 msgid "Connect to Podman"
-msgstr "Mistet tilkoblingen til Podman"
+msgstr "Forbind til Podman"
 
 #: data/resources/ui/connection/chooser-page.ui:35
 msgid "Either choose an existing connection or create a new one."
-msgstr ""
+msgstr "Enten vælg en eksiterende forbindelse eller opret en ny."
 
 #: data/resources/ui/connection/chooser-page.ui:80
 msgid "_Add New Connection"
-msgstr "_Legg til ny tilkobling"
+msgstr ""
 
 #: data/resources/ui/connection/creation-page.ui:27
 #: data/resources/ui/container/commit-page.ui:33
@@ -293,16 +272,15 @@ msgstr "_Legg til ny tilkobling"
 #: src/view/images/panel.rs:393 src/view/pod/mod.rs:91
 #: src/view/pods/panel.rs:459
 msgid "_Cancel"
-msgstr "_Avbryt"
+msgstr ""
 
 #: data/resources/ui/connection/creation-page.ui:34
-#, fuzzy
 msgid "New Connection"
-msgstr "Legg til ny tilkobling"
+msgstr "Ny Forbindelse"
 
 #: data/resources/ui/connection/creation-page.ui:51
 msgid "_Connect"
-msgstr "_Koble til"
+msgstr ""
 
 #: data/resources/ui/connection/creation-page.ui:112
 #: data/resources/ui/container/creation-page.ui:83
@@ -316,27 +294,28 @@ msgstr "Navn"
 
 #: data/resources/ui/connection/creation-page.ui:121
 msgid "URL"
-msgstr "Nettadresse"
+msgstr "URL"
 
 #: data/resources/ui/connection/creation-page.ui:122
-#, fuzzy
 msgid "Choose how you want to connect to Podman."
-msgstr "Mistet tilkoblingen til Podman"
+msgstr "Vælge hvordan du vil forbinde til Podman."
 
 #: data/resources/ui/connection/creation-page.ui:126
 msgid "Unix Socket"
-msgstr "Unix-Socket"
+msgstr "Unix Socket"
 
 #: data/resources/ui/connection/creation-page.ui:161
-#, fuzzy
 msgid "Podman Socket Activation"
-msgstr "Et Podman-skrivebordsprogram"
+msgstr "Podman Socket Aktivering"
 
 #: data/resources/ui/connection/creation-page.ui:168
 msgid ""
 "To connect to the local Podman instance, the systemd socket must be enabled. "
 "You can enable it permanently by issuing the following command:"
 msgstr ""
+"For at forbinde til den lokale Podman instans, skal systemd socketen være "
+"slået til. Du kan permanent slå den til ved eksekvering af den følgende "
+"kommando:"
 
 #: data/resources/ui/connection/creation-page.ui:217
 #: data/resources/ui/connection/custom-info-dialog.ui:138
@@ -344,7 +323,7 @@ msgstr ""
 #: data/resources/ui/connection/custom-info-dialog.ui:252
 #: data/resources/ui/connection/custom-info-dialog.ui:300
 msgid "Copy to Clipboard"
-msgstr "Kopier til utklippstavlen"
+msgstr ""
 
 #: data/resources/ui/connection/creation-page.ui:233
 msgid ""
@@ -354,25 +333,23 @@ msgstr ""
 
 #: data/resources/ui/connection/creation-page.ui:258
 msgid "Custom"
-msgstr "Egendefinert"
+msgstr ""
 
 #: data/resources/ui/connection/creation-page.ui:268
-#, fuzzy
 msgid "Connection String"
-msgstr "Mistet tilkoblingen til Podman"
+msgstr "Forbindelses streng"
 
 #: data/resources/ui/connection/creation-page.ui:296
 msgid "Color"
-msgstr "Farge"
+msgstr "Farve"
 
 #: data/resources/ui/connection/creation-page.ui:297
 msgid "Define how to colorize the header bar (disabled)."
 msgstr ""
 
 #: data/resources/ui/connection/custom-info-dialog.ui:16
-#, fuzzy
 msgid "Custom Connection"
-msgstr "Mistet tilkoblingen til Podman"
+msgstr ""
 
 #: data/resources/ui/connection/custom-info-dialog.ui:41
 msgid ""
@@ -386,9 +363,8 @@ msgid "http://somewhere:8081"
 msgstr ""
 
 #: data/resources/ui/connection/custom-info-dialog.ui:82
-#, fuzzy
 msgid "Podman Root Connection"
-msgstr "Legg til ny tilkobling"
+msgstr ""
 
 #: data/resources/ui/connection/custom-info-dialog.ui:91
 msgid ""
@@ -415,18 +391,16 @@ msgstr ""
 #: data/resources/ui/images/panel.ui:168
 #: data/resources/ui/pod/details-page.ui:231
 #: data/resources/ui/pods/panel.ui:262 data/resources/ui/pods/panel.ui:333
-#, fuzzy
 msgid "Delete"
-msgstr "_Slett"
+msgstr ""
 
 #: data/resources/ui/container/commit-page.ui:40
-#, fuzzy
 msgid "Commit Container"
-msgstr "Beholdere"
+msgstr ""
 
 #: data/resources/ui/container/commit-page.ui:50
 msgid "_Commit"
-msgstr "_Send inn"
+msgstr ""
 
 #: data/resources/ui/container/commit-page.ui:63
 msgid "General Commit Options"
@@ -434,29 +408,28 @@ msgstr ""
 
 #: data/resources/ui/container/commit-page.ui:68
 msgid "Author"
-msgstr "Utvikler"
+msgstr ""
 
 #: data/resources/ui/container/commit-page.ui:77
 msgid "Fetch Username"
-msgstr "Hent brukernavn"
+msgstr ""
 
 #: data/resources/ui/container/commit-page.ui:88
 #: src/view/image/history_page.rs:171
-#, fuzzy
 msgid "Comment"
-msgstr "Kommando"
+msgstr ""
 
 #: data/resources/ui/container/commit-page.ui:95
 msgid "Repo"
-msgstr "Kodelager"
+msgstr ""
 
 #: data/resources/ui/container/commit-page.ui:102
 msgid "Tag"
-msgstr "Etikett"
+msgstr ""
 
 #: data/resources/ui/container/commit-page.ui:108
 msgid "Format"
-msgstr "Format"
+msgstr ""
 
 #: data/resources/ui/container/commit-page.ui:123
 #: data/resources/ui/container/details-page.ui:167
@@ -464,9 +437,8 @@ msgstr "Format"
 #: data/resources/ui/containers/panel.ui:259
 #: data/resources/ui/pod/details-page.ui:214
 #: data/resources/ui/pods/panel.ui:204 data/resources/ui/pods/panel.ui:311
-#, fuzzy
 msgid "Pause"
-msgstr "_Pause"
+msgstr ""
 
 #: data/resources/ui/container/commit-page.ui:124
 msgid "Pause the container before committing it."
@@ -474,7 +446,7 @@ msgstr ""
 
 #: data/resources/ui/container/commit-page.ui:138
 msgid "Changes"
-msgstr "Endringer"
+msgstr ""
 
 #: data/resources/ui/container/commit-page.ui:139
 msgid ""
@@ -483,43 +455,38 @@ msgid ""
 msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:15
-#, fuzzy
 msgid "_Create Only"
-msgstr "Opprettet"
+msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:54
 #: data/resources/ui/containers/group.ui:12
 #: data/resources/ui/containers/group.ui:45
-#, fuzzy
 msgid "Create Container"
-msgstr "Beholdere"
+msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:64
 msgid "_Run"
-msgstr "_Kjør"
+msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:123
 #: data/resources/ui/image/build-page.ui:108
 #: data/resources/ui/pod/creation-page.ui:113
-#, fuzzy
 msgid "Details"
-msgstr "Avtrykk"
+msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:136
 msgid "Local image"
-msgstr "Lokalt avtrykk"
+msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:152
 #: data/resources/ui/pod/creation-page.ui:318
-#, fuzzy
 msgid "Remote Image"
-msgstr "_Slett"
+msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:161
 #: data/resources/ui/pod/creation-page.ui:327
-#, fuzzy
 msgid "Remote image"
-msgstr "_Slett"
+msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:172
 #: data/resources/ui/pod/creation-page.ui:338
@@ -530,9 +497,8 @@ msgstr ""
 #: data/resources/ui/container/creation-page.ui:199
 #: data/resources/ui/container/properties-group.ui:300
 #: data/resources/ui/pod/details-page.ui:27
-#, fuzzy
 msgid "Pod"
-msgstr "Pods"
+msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:207
 #: data/resources/ui/pod/creation-page.ui:360
@@ -542,23 +508,23 @@ msgstr ""
 #: data/resources/ui/container/creation-page.ui:219
 #: data/resources/ui/container/details-page.ui:239
 msgid "Terminal"
-msgstr "Terminal"
+msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:232
 msgid "Memory limit"
-msgstr "Minnegrense"
+msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:276
 msgid "KB"
-msgstr "KB"
+msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:277
 msgid "MB"
-msgstr "MB"
+msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:278
 msgid "GB"
-msgstr "GB"
+msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:307
 #: data/resources/ui/container/creation-page.ui:420
@@ -566,19 +532,19 @@ msgstr "GB"
 #: data/resources/ui/image/details-page.ui:83
 #: data/resources/ui/pod/creation-page.ui:385
 msgid "Command"
-msgstr "Kommando"
+msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:315
 #: data/resources/ui/pod/creation-page.ui:162
 #: data/resources/ui/pod/creation-page.ui:394
 msgid "Arguments"
-msgstr "Argumenter"
+msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:334
 #: data/resources/ui/image/build-page.ui:153
 #: data/resources/ui/pod/creation-page.ui:183
 msgid "Integration"
-msgstr "Integrasjon"
+msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:344
 msgid "Port Mappings"
@@ -590,23 +556,23 @@ msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:374
 msgid "Environment Variables"
-msgstr "Miljøvariabler"
+msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:389
 #: data/resources/ui/image/build-page.ui:163
 #: data/resources/ui/pod/creation-page.ui:243
 msgid "Labels"
-msgstr "Etiketter"
+msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:410
 #: data/resources/ui/container/properties-group.ui:225
 msgid "Health Check"
-msgstr "Helsesjekk"
+msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:426
 #: data/resources/ui/container/health-check-page.ui:64
 msgid "Interval"
-msgstr "Intervall"
+msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:427
 msgid "Interval how often health check is run."
@@ -616,12 +582,12 @@ msgstr ""
 #: data/resources/ui/container/creation-page.ui:486
 #: data/resources/ui/container/creation-page.ui:522
 msgid "seconds"
-msgstr "sekunder"
+msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:462
 #: data/resources/ui/container/health-check-page.ui:76
 msgid "Timeout"
-msgstr "Tidsavbrudd"
+msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:463
 msgid ""
@@ -630,9 +596,8 @@ msgid ""
 msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:498
-#, fuzzy
 msgid "Start period"
-msgstr "Startperiode"
+msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:499
 msgid "The initialization time needed for a container to bootstrap."
@@ -650,9 +615,8 @@ msgid ""
 msgstr ""
 
 #: data/resources/ui/container/details-page.ui:27
-#, fuzzy
 msgid "Container"
-msgstr "Beholdere"
+msgstr ""
 
 #: data/resources/ui/container/details-page.ui:75
 #: data/resources/ui/pod/details-page.ui:123
@@ -664,40 +628,36 @@ msgstr ""
 #: data/resources/ui/containers/panel.ui:270
 #: data/resources/ui/pod/details-page.ui:142
 #: data/resources/ui/pods/panel.ui:233 data/resources/ui/pods/panel.ui:322
-#, fuzzy
 msgid "Restart"
-msgstr "_Omstart"
+msgstr ""
 
 #: data/resources/ui/container/details-page.ui:108
 #: data/resources/ui/containers/panel.ui:94
 #: data/resources/ui/containers/panel.ui:237
 #: data/resources/ui/pod/details-page.ui:155
 #: data/resources/ui/pods/panel.ui:146 data/resources/ui/pods/panel.ui:289
-#, fuzzy
 msgid "Start/Resume"
-msgstr "_Fortsett"
+msgstr ""
 
 #: data/resources/ui/container/details-page.ui:128
 #: data/resources/ui/containers/panel.ui:123
 #: data/resources/ui/containers/panel.ui:248
 #: data/resources/ui/pod/details-page.ui:175
 #: data/resources/ui/pods/panel.ui:175 data/resources/ui/pods/panel.ui:300
-#, fuzzy
 msgid "Stop"
-msgstr "_Stopp"
+msgstr ""
 
 #: data/resources/ui/container/details-page.ui:201
 #: data/resources/ui/image/details-page.ui:161
 #: data/resources/ui/pod/details-page.ui:247
 msgid "Utilities"
-msgstr "Verktøy"
+msgstr ""
 
 #: data/resources/ui/container/details-page.ui:205
 #: data/resources/ui/image/details-page.ui:165
 #: data/resources/ui/pod/details-page.ui:251
-#, fuzzy
 msgid "Inspection"
-msgstr "Avtrykk"
+msgstr ""
 
 #: data/resources/ui/container/details-page.ui:206
 msgid "View all container properties in a structured text form."
@@ -709,70 +669,60 @@ msgid "Kube"
 msgstr ""
 
 #: data/resources/ui/container/details-page.ui:223
-#, fuzzy
 msgid "Generate Kubernetes YAML based on this container."
-msgstr "Beholdere"
+msgstr ""
 
 #: data/resources/ui/container/details-page.ui:240
-#, fuzzy
 msgid "Connect to the container's terminal."
-msgstr "Koble til beholderens terminal."
+msgstr ""
 
 #: data/resources/ui/container/details-page.ui:256
-#, fuzzy
 msgid "Logs"
-msgstr "Logger"
+msgstr ""
 
 #: data/resources/ui/container/details-page.ui:257
-#, fuzzy
 msgid "View and search through container logs."
-msgstr "Vis og søk gjennom beholderlogger."
+msgstr ""
 
 #: data/resources/ui/container/details-page.ui:273
 #: data/resources/ui/pod/details-page.ui:285
 msgid "Processes"
-msgstr "Prosesser"
+msgstr ""
 
 #: data/resources/ui/container/details-page.ui:274
 msgid "View processes that are currently running inside the container."
 msgstr ""
 
 #: data/resources/ui/container/files-get-page.ui:40
-#, fuzzy
 msgid "Download Files"
-msgstr "Beskjær ubrukte avtrykk"
+msgstr ""
 
 #: data/resources/ui/container/files-get-page.ui:50
 #: data/resources/ui/image/pull-page.ui:50
-#, fuzzy
 msgid "_Download"
-msgstr "Beskjær ubrukte avtrykk"
+msgstr ""
 
 #: data/resources/ui/container/files-get-page.ui:68
 #: data/resources/ui/container/files-put-page.ui:96
-#, fuzzy
 msgid "Container Path ('/' if empty)"
-msgstr "Beholdere"
+msgstr ""
 
 #: data/resources/ui/container/files-get-page.ui:75
 #: data/resources/ui/container/files-put-page.ui:77
-#, fuzzy
 msgid "Host Path"
-msgstr "Vertssti"
+msgstr ""
 
 #: data/resources/ui/container/files-get-page.ui:76
 msgid "Select a destination tar archive on the host."
 msgstr ""
 
 #: data/resources/ui/container/files-get-page.ui:81
-#, fuzzy
 msgid "Select _Path…"
-msgstr "Velg …"
+msgstr ""
 
 #: data/resources/ui/container/files-put-page.ui:15
-#, fuzzy
 msgid "Select _Directory…"
-msgstr "Velg …"
+msgstr ""
 
 #: data/resources/ui/container/files-put-page.ui:49
 msgid "Upload Files"
@@ -780,41 +730,37 @@ msgstr ""
 
 #: data/resources/ui/container/files-put-page.ui:59
 msgid "_Upload"
-msgstr "_Last opp"
+msgstr ""
 
 #: data/resources/ui/container/files-put-page.ui:78
 msgid "Either select a file or a directory from the host to upload."
 msgstr ""
 
 #: data/resources/ui/container/files-put-page.ui:83
-#, fuzzy
 msgid "Select _File…"
-msgstr "Velg fil"
+msgstr ""
 
 #: data/resources/ui/container/health-check-page.ui:21
-#, fuzzy
 msgid "Container Health Check"
-msgstr "Beholdere"
+msgstr ""
 
 #: data/resources/ui/container/health-check-page.ui:38
-#, fuzzy
 msgid "Configuration"
-msgstr "Oppsatt"
+msgstr ""
 
 #: data/resources/ui/container/health-check-page.ui:42
 #: data/resources/ui/container/properties-group.ui:168
 #: data/resources/ui/pod/details-page.ui:75
 msgid "Status"
-msgstr "Status"
+msgstr ""
 
 #: data/resources/ui/container/health-check-page.ui:82
 msgid "Failing Streak"
 msgstr ""
 
 #: data/resources/ui/container/health-check-page.ui:98
-#, fuzzy
 msgid "Log"
-msgstr "Logger"
+msgstr ""
 
 #: data/resources/ui/container/health-check-page.ui:99
 msgid "Rows describe the last 5 health check attempts and results."
@@ -822,16 +768,15 @@ msgstr ""
 
 #: data/resources/ui/container/health-check-page.ui:104
 msgid "_Run Health Check"
-msgstr "_Kjør helsesjekk"
+msgstr ""
 
 #: data/resources/ui/container/log-page.ui:28
-#, fuzzy
 msgid "Container Logs"
-msgstr "Beholdere"
+msgstr ""
 
 #: data/resources/ui/container/log-page.ui:40
 msgid "Timestamps"
-msgstr "Tidsstempler"
+msgstr ""
 
 #: data/resources/ui/container/log-page.ui:81
 msgid "Saving Log"
@@ -839,98 +784,93 @@ msgstr ""
 
 #: data/resources/ui/container/log-page.ui:146
 msgid "Loading previous lines"
-msgstr "Last inn tidligere linjer"
+msgstr ""
 
 #: data/resources/ui/container/log-page.ui:175
 msgid "Scroll to bottom"
-msgstr "Rull til bunnen"
+msgstr ""
 
 #: data/resources/ui/container/log-page.ui:234
 msgid "Streaming is disconnected because container isn't running."
 msgstr ""
 
 #: data/resources/ui/container/log-page.ui:244
-#, fuzzy
 msgid "Start/Resume Container"
-msgstr "_Fortsett"
+msgstr ""
 
 #: data/resources/ui/container/menu-button.ui:7
 #: data/resources/ui/pod/menu-button.ui:13
 msgid "_Start"
-msgstr "_Start"
+msgstr ""
 
 #: data/resources/ui/container/menu-button.ui:12
 #: data/resources/ui/pod/menu-button.ui:18
 msgid "S_top"
-msgstr "S_topp"
+msgstr ""
 
 #: data/resources/ui/container/menu-button.ui:17
 #: data/resources/ui/pod/menu-button.ui:23
-#, fuzzy
 msgid "R_estart"
-msgstr "_Omstart"
+msgstr ""
 
 #: data/resources/ui/container/menu-button.ui:22
 #: data/resources/ui/pod/menu-button.ui:28
 msgid "_Resume"
-msgstr "_Fortsett"
+msgstr ""
 
 #: data/resources/ui/container/menu-button.ui:27
 #: data/resources/ui/pod/menu-button.ui:33
 msgid "_Pause"
-msgstr "_Pause"
+msgstr ""
 
 #: data/resources/ui/container/menu-button.ui:34
 msgid "Re_name…"
-msgstr "_Gi nytt navn …"
+msgstr ""
 
 #: data/resources/ui/container/menu-button.ui:41
 #: data/resources/ui/pod/menu-button.ui:40 src/view/containers/panel.rs:362
 #: src/view/images/panel.rs:394 src/view/pods/panel.rs:460
 msgid "_Delete"
-msgstr "_Slett"
+msgstr ""
 
 #: data/resources/ui/container/properties-group.ui:4
 #: data/resources/ui/image/details-page.ui:54
 #: data/resources/ui/pod/details-page.ui:41
 msgid "Properties"
-msgstr "Egenskaper"
+msgstr ""
 
 #: data/resources/ui/container/properties-group.ui:42
-#, fuzzy
 msgid "Rename (F2)"
-msgstr "Gi nytt navn"
+msgstr ""
 
 #: data/resources/ui/container/properties-group.ui:55
 #: data/resources/ui/image/details-page.ui:65
 #: data/resources/ui/pod/details-page.ui:63
-#, fuzzy
 msgid "Id"
-msgstr "ID"
+msgstr ""
 
 #: data/resources/ui/container/properties-group.ui:82
 msgid "Commit (Ctrl+K)"
-msgstr "Send inn (Ctrl+K)"
+msgstr ""
 
 #: data/resources/ui/container/properties-group.ui:95
 #: data/resources/ui/image/details-page.ui:71
 #: data/resources/ui/pod/details-page.ui:69 src/model/container.rs:67
 #: src/model/pod.rs:64
 msgid "Created"
-msgstr "Opprettet"
+msgstr ""
 
 #: data/resources/ui/container/properties-group.ui:101
 msgid "Size"
-msgstr "Størrelse"
+msgstr ""
 
 #: data/resources/ui/container/properties-group.ui:146
-#, fuzzy
 msgid "Download Files (Ctrl+D)"
-msgstr "Beskjær ubrukte avtrykk"
+msgstr ""
 
 #: data/resources/ui/container/properties-group.ui:158
 msgid "Upload Files (Ctrl+U)"
-msgstr "Last opp filer (Ctrl+U)"
+msgstr ""
 
 #: data/resources/ui/container/properties-group.ui:206
 msgid "Port bindings"
@@ -938,13 +878,12 @@ msgstr ""
 
 #: data/resources/ui/container/properties-group.ui:251
 #: data/resources/ui/image/details-page.ui:41
-#, fuzzy
 msgid "Image"
-msgstr "Avtrykk"
+msgstr ""
 
 #: data/resources/ui/container/rename-dialog.ui:9
 msgid "_Rename"
-msgstr "_Gi nytt navn"
+msgstr ""
 
 #: data/resources/ui/container/resources-quick-reference-group.ui:13
 msgid "Resources Quick Reference"
@@ -952,28 +891,27 @@ msgstr ""
 
 #: data/resources/ui/container/resources-quick-reference-group.ui:51
 msgid "CPU"
-msgstr "Prosessor"
+msgstr ""
 
 #: data/resources/ui/container/resources-quick-reference-group.ui:112
 msgid "Memory"
-msgstr "Minne"
+msgstr ""
 
 #: data/resources/ui/container/resources-quick-reference-group.ui:168
 msgid "Network"
-msgstr "Nettverk"
+msgstr ""
 
 #: data/resources/ui/container/resources-quick-reference-group.ui:286
 msgid "Disk"
-msgstr "Disk"
+msgstr ""
 
 #: data/resources/ui/container/tty-page.ui:19
-#, fuzzy
 msgid "Container TTY"
-msgstr "Beholdere"
+msgstr ""
 
 #: data/resources/ui/container/tty.ui:6
 msgid "_Copy"
-msgstr "_Kopier"
+msgstr ""
 
 #: data/resources/ui/container/tty.ui:10
 msgid "Copy as _HTML"
@@ -981,75 +919,68 @@ msgstr ""
 
 #: data/resources/ui/container/tty.ui:14
 msgid "_Paste"
-msgstr "_Lim inn"
+msgstr ""
 
 #: data/resources/ui/container/tty.ui:35
-#, fuzzy
 msgid "No Terminal"
-msgstr "Terminal"
+msgstr ""
 
 #: data/resources/ui/container/tty.ui:36
 msgid "The container must be running to use the terminal."
 msgstr ""
 
 #: data/resources/ui/container/tty.ui:46
-#, fuzzy
 msgid "Start"
-msgstr "_Start"
+msgstr ""
 
 #: data/resources/ui/containers/group.ui:28 data/resources/ui/pods/panel.ui:69
-#, fuzzy
 msgid "Only running"
-msgstr "Kjører"
+msgstr ""
 
 #: data/resources/ui/containers/panel.ui:47
 #: data/resources/ui/images/panel.ui:87 data/resources/ui/pods/panel.ui:59
 msgid "Summary"
-msgstr "Sammendrag"
+msgstr ""
 
 #: data/resources/ui/containers/panel.ui:49
 msgid "No containers found"
-msgstr "Fant ingen beholdere"
+msgstr ""
 
 #: data/resources/ui/containers/panel.ui:306
-#, fuzzy
 msgid "No Containers Found"
-msgstr "Fant ingen beholdere"
+msgstr ""
 
 #: data/resources/ui/containers/panel.ui:307
 msgid "You can use the button below to create an initial container."
 msgstr ""
 
 #: data/resources/ui/containers/panel.ui:317
-#, fuzzy
 msgid "_Create a Container"
-msgstr "Beholdere"
+msgstr ""
 
 #: data/resources/ui/device/row.ui:33
 msgid "Readable"
-msgstr "Lesbar"
+msgstr ""
 
 #: data/resources/ui/device/row.ui:52 data/resources/ui/volume/row.ui:50
 msgid "Writable"
-msgstr "Skrivbar"
+msgstr ""
 
 #: data/resources/ui/device/row.ui:71
 msgid "mknod"
-msgstr "mknod"
+msgstr ""
 
 #: data/resources/ui/device/row.ui:97 data/resources/ui/volume/row.ui:107
 msgid "Host path"
-msgstr "Vertssti"
+msgstr ""
 
 #: data/resources/ui/device/row.ui:104 data/resources/ui/volume/row.ui:114
-#, fuzzy
 msgid "Container path"
-msgstr "Beholdere"
+msgstr ""
 
 #: data/resources/ui/image-search/widget.ui:30
-#, fuzzy
 msgid "No Registries Found"
-msgstr "Fant ingen avtrykk"
+msgstr ""
 
 #: data/resources/ui/image-search/widget.ui:31
 msgid ""
@@ -1061,28 +992,25 @@ msgid ""
 msgstr ""
 
 #: data/resources/ui/image-search/widget.ui:53
-#, fuzzy
 msgid "Search for"
-msgstr "Søk"
+msgstr ""
 
 #: data/resources/ui/image-search/widget.ui:60
 msgid "Registry"
-msgstr "Register"
+msgstr ""
 
 #: data/resources/ui/image-search/widget.ui:82
 #: data/resources/ui/images/panel.ui:196
-#, fuzzy
 msgid "No Images Found"
-msgstr "Fant ingen avtrykk"
+msgstr ""
 
 #: data/resources/ui/image-search/widget.ui:83
 msgid "Please start typing to look for images."
 msgstr ""
 
 #: data/resources/ui/image-search/widget.ui:98
-#, fuzzy
 msgid "Searching…"
-msgstr "Søk"
+msgstr ""
 
 #: data/resources/ui/image-search/widget.ui:124
 #: data/resources/ui/search-panel.ui:34
@@ -1094,18 +1022,16 @@ msgid "Tag ('latest' if empty)"
 msgstr ""
 
 #: data/resources/ui/image/build-page.ui:41
-#, fuzzy
 msgid "Build Image"
-msgstr "Avtrykk"
+msgstr ""
 
 #: data/resources/ui/image/build-page.ui:51
 msgid "_Build"
-msgstr "_Bygg"
+msgstr ""
 
 #: data/resources/ui/image/build-page.ui:68
-#, fuzzy
 msgid "Image Name"
-msgstr "Avtrykk"
+msgstr ""
 
 #: data/resources/ui/image/build-page.ui:122
 msgid "Build Context Directory"
@@ -1113,7 +1039,7 @@ msgstr ""
 
 #: data/resources/ui/image/build-page.ui:127
 msgid "Select…"
-msgstr "Velg …"
+msgstr ""
 
 #: data/resources/ui/image/build-page.ui:138
 msgid "Containerfile Path Relative to Build Context Directory"
@@ -1129,16 +1055,15 @@ msgstr ""
 
 #: data/resources/ui/image/details-page.ui:97
 msgid "Ports"
-msgstr "Porter"
+msgstr ""
 
 #: data/resources/ui/image/details-page.ui:107
 msgid "Repository Tags"
 msgstr ""
 
 #: data/resources/ui/image/details-page.ui:145
-#, fuzzy
 msgid "_Delete This Image"
-msgstr "Avtrykk"
+msgstr ""
 
 #: data/resources/ui/image/details-page.ui:166
 msgid "View all image properties in a structured text form."
@@ -1146,96 +1071,84 @@ msgstr ""
 
 #: data/resources/ui/image/details-page.ui:182
 msgid "History"
-msgstr "Historikk"
+msgstr ""
 
 #: data/resources/ui/image/details-page.ui:183
 msgid "View parent layers of this image."
 msgstr ""
 
 #: data/resources/ui/image/details-page.ui:207
-#, fuzzy
 msgid "Associated Containers"
-msgstr "Beholdere"
+msgstr ""
 
 #: data/resources/ui/image/details-page.ui:208
 msgid "There are no containers associated with this image."
 msgstr ""
 
 #: data/resources/ui/image/history-page.ui:19
-#, fuzzy
 msgid "Image History"
-msgstr "Avtrykk"
+msgstr ""
 
 #: data/resources/ui/image/history-page.ui:49
 msgid "History List"
-msgstr "Historikkliste"
+msgstr ""
 
 #: data/resources/ui/image/menu-button.ui:6
 #: data/resources/ui/pod/menu-button.ui:7
-#, fuzzy
 msgid "_Create Container…"
-msgstr "Beholdere"
+msgstr ""
 
 #: data/resources/ui/image/pull-page.ui:40
-#, fuzzy
 msgid "Download Image"
-msgstr "Beskjær ubrukte avtrykk"
+msgstr ""
 
 #: data/resources/ui/image/selection-page.ui:21
-#, fuzzy
 msgid "Image Search"
-msgstr "Avtrykk"
+msgstr ""
 
 #: data/resources/ui/image/selection-page.ui:31
-#, fuzzy
 msgid "_Select"
-msgstr "_Velg alle"
+msgstr ""
 
 #: data/resources/ui/images/panel.ui:29
-#, fuzzy
 msgid "_Download…"
-msgstr "Beskjær ubrukte avtrykk"
+msgstr ""
 
 #: data/resources/ui/images/panel.ui:33
 msgid "_Build…"
-msgstr "_Bygg …"
+msgstr ""
 
 #: data/resources/ui/images/panel.ui:39
 msgid "_Prune…"
 msgstr ""
 
 #: data/resources/ui/images/panel.ui:97
-#, fuzzy
 msgid "Intermediates"
-msgstr "Vis mellomliggende avtrykk"
+msgstr ""
 
 #: data/resources/ui/images/panel.ui:197
 msgid "You can use the buttons below to add an initial image."
 msgstr ""
 
 #: data/resources/ui/images/panel.ui:212
-#, fuzzy
 msgid "_Download an Image"
-msgstr "Beskjær ubrukte avtrykk"
+msgstr ""
 
 #: data/resources/ui/images/panel.ui:224
 msgid "_Build a Local Image"
 msgstr ""
 
 #: data/resources/ui/images/prune-page.ui:40
-#, fuzzy
 msgid "Prune Images"
-msgstr "Beskjær ubrukte avtrykk"
+msgstr ""
 
 #: data/resources/ui/images/prune-page.ui:50
-#, fuzzy
 msgid "_Prune"
-msgstr "Beskjær ubrukte avtrykk"
+msgstr ""
 
 #: data/resources/ui/images/prune-page.ui:64
-#, fuzzy
 msgid "Prune Options"
-msgstr "Beskjær ubrukte avtrykk"
+msgstr ""
 
 #: data/resources/ui/images/prune-page.ui:69
 msgid "Prune All"
@@ -1272,30 +1185,28 @@ msgid "PM"
 msgstr ""
 
 #: data/resources/ui/info-dialog.ui:5
-#, fuzzy
 msgid "About Podman"
-msgstr "_Om Pods"
+msgstr ""
 
 #: data/resources/ui/info-dialog.ui:13 data/resources/ui/info-dialog.ui:47
 msgid "Version"
-msgstr "Versjon"
+msgstr ""
 
 #: data/resources/ui/info-dialog.ui:17
 msgid "API Version"
-msgstr "API-versjon"
+msgstr ""
 
 #: data/resources/ui/info-dialog.ui:23
 msgid "Built Time"
 msgstr ""
 
 #: data/resources/ui/info-dialog.ui:29
-#, fuzzy
 msgid "Git Commit"
-msgstr "_Send inn"
+msgstr ""
 
 #: data/resources/ui/info-dialog.ui:35
 msgid "Go Version"
-msgstr "Go-versjon"
+msgstr ""
 
 #: data/resources/ui/info-dialog.ui:41
 msgid "Os Arch"
@@ -1310,14 +1221,12 @@ msgid "Describes the container storage and its attributes."
 msgstr ""
 
 #: data/resources/ui/info-dialog.ui:61
-#, fuzzy
 msgid "Config File"
-msgstr "Oppsatt"
+msgstr ""
 
 #: data/resources/ui/info-dialog.ui:67
-#, fuzzy
 msgid "Container Store"
-msgstr "Beholdere"
+msgstr ""
 
 #: data/resources/ui/info-dialog.ui:68
 msgid "Describes the quantity of containers in the store by status."
@@ -1326,17 +1235,17 @@ msgstr ""
 #: data/resources/ui/info-dialog.ui:85 src/model/container.rs:71
 #: src/model/pod.rs:69
 msgid "Paused"
-msgstr "Pauset"
+msgstr ""
 
 #: data/resources/ui/info-dialog.ui:91 src/model/container.rs:74
 #: src/model/pod.rs:71
 msgid "Running"
-msgstr "Kjører"
+msgstr ""
 
 #: data/resources/ui/info-dialog.ui:97 src/model/container.rs:75
 #: src/model/pod.rs:72
 msgid "Stopped"
-msgstr "Stoppet"
+msgstr ""
 
 #: data/resources/ui/info-dialog.ui:106
 msgid "Graph Driver Name"
@@ -1355,9 +1264,8 @@ msgid "Graph Status"
 msgstr ""
 
 #: data/resources/ui/info-dialog.ui:158
-#, fuzzy
 msgid "Image Store"
-msgstr "Avtrykk"
+msgstr ""
 
 #: data/resources/ui/info-dialog.ui:159
 msgid "Describes the image store. Right now only the number of images present."
@@ -1373,28 +1281,26 @@ msgstr ""
 
 #: data/resources/ui/key-val/row.ui:23 src/view/key_val/row.rs:119
 msgid "Key"
-msgstr "Nøkkel"
+msgstr ""
 
 #: data/resources/ui/key-val/row.ui:30 src/view/key_val/row.rs:119
 #: src/view/value/row.rs:84
 msgid "Value"
-msgstr "Verdi"
+msgstr ""
 
 #: data/resources/ui/pod/creation-page.ui:45 data/resources/ui/pods/panel.ui:13
 #: data/resources/ui/pods/panel.ui:86
-#, fuzzy
 msgid "Create Pod"
-msgstr "Opprettet"
+msgstr ""
 
 #: data/resources/ui/pod/creation-page.ui:55
-#, fuzzy
 msgid "_Create"
-msgstr "Opprettet"
+msgstr ""
 
 #: data/resources/ui/pod/creation-page.ui:127
 #: data/resources/ui/pod/details-page.ui:93 src/view/pod/creation_page.rs:202
 msgid "Hostname"
-msgstr "Vertsnavn"
+msgstr ""
 
 #: data/resources/ui/pod/creation-page.ui:134
 msgid "Disable /etc/resolv.conf management"
@@ -1409,9 +1315,8 @@ msgid "Devices"
 msgstr ""
 
 #: data/resources/ui/pod/creation-page.ui:208
-#, fuzzy
 msgid "Hosts"
-msgstr "Vertsnavn"
+msgstr ""
 
 #: data/resources/ui/pod/creation-page.ui:215
 msgid "Enabled"
@@ -1426,9 +1331,8 @@ msgid "Disable Infra"
 msgstr ""
 
 #: data/resources/ui/pod/creation-page.ui:372
-#, fuzzy
 msgid "Common PID File"
-msgstr "Oppsatt"
+msgstr ""
 
 #: data/resources/ui/pod/details-page.ui:252
 msgid "View all pod properties in a structured text form."
@@ -1445,26 +1349,23 @@ msgstr ""
 #: data/resources/ui/pod/details-page.ui:311
 #: data/resources/ui/search-panel.ui:67 data/resources/ui/window.ui:293
 msgid "Containers"
-msgstr "Beholdere"
+msgstr ""
 
 #: data/resources/ui/pod/details-page.ui:312
-#, fuzzy
 msgid "There are no containers in this pod."
-msgstr "Ingen avtrykk å beskjære"
+msgstr ""
 
 #: data/resources/ui/pods/panel.ui:358
-#, fuzzy
 msgid "No Pods Found"
-msgstr "Fant ingen avtrykk"
+msgstr ""
 
 #: data/resources/ui/pods/panel.ui:359
 msgid "You can use the button below to create an initial pod."
 msgstr ""
 
 #: data/resources/ui/pods/panel.ui:369
-#, fuzzy
 msgid "_Create a Pod"
-msgstr "Opprettet"
+msgstr ""
 
 #: data/resources/ui/port-mapping/row.ui:29
 msgid "will be mapped to container port"
@@ -1472,11 +1373,11 @@ msgstr ""
 
 #: data/resources/ui/port-mapping/row.ui:62
 msgid "TCP"
-msgstr "TCP"
+msgstr ""
 
 #: data/resources/ui/port-mapping/row.ui:63
 msgid "UDP"
-msgstr "UDP"
+msgstr ""
 
 #: data/resources/ui/repo-tag/add-dialog.ui:6
 msgid "Add Repository Tag"
@@ -1503,83 +1404,77 @@ msgid "Please start typing to look for results."
 msgstr ""
 
 #: data/resources/ui/search-panel.ui:33
-#, fuzzy
 msgid "No Results Found"
-msgstr "Fant ingen avtrykk"
+msgstr ""
 
 #: data/resources/ui/search-panel.ui:51 data/resources/ui/window.ui:273
 msgid "Images"
-msgstr "Avtrykk"
+msgstr ""
 
 #: data/resources/ui/search-panel.ui:83 data/resources/ui/window.ui:313
-#, fuzzy
 msgctxt "podman feature"
 msgid "Pods"
-msgstr "Pods"
+msgstr ""
 
 #: data/resources/ui/shortcuts.ui:13
 msgctxt "shortcut window"
 msgid "General"
-msgstr "Generelt"
+msgstr ""
 
 #: data/resources/ui/shortcuts.ui:17
 msgctxt "shortcut window"
 msgid "Show Shortcuts"
-msgstr "Vis snarveier"
+msgstr ""
 
 #: data/resources/ui/shortcuts.ui:24
 msgctxt "shortcut window"
 msgid "Show menu"
-msgstr "Vis meny"
+msgstr ""
 
 #: data/resources/ui/shortcuts.ui:31
 msgctxt "shortcut window"
 msgid "Quit"
-msgstr "Avslutt"
+msgstr ""
 
 #: data/resources/ui/shortcuts.ui:38
 msgctxt "shortcut window"
 msgid "Search"
-msgstr "Søk"
+msgstr ""
 
 #: data/resources/ui/shortcuts.ui:48
 msgctxt "shortcut window"
 msgid "Navigation"
-msgstr "Navigasjon"
+msgstr ""
 
 #: data/resources/ui/shortcuts.ui:52
 msgctxt "shortcut window"
 msgid "Go back"
-msgstr "Gå tilbake"
+msgstr ""
 
 #: data/resources/ui/shortcuts.ui:59
 msgctxt "shortcut window"
 msgid "Return to main view"
-msgstr "Gå tilbake til hovedvisning"
+msgstr ""
 
 #: data/resources/ui/shortcuts.ui:69
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Container"
-msgstr "Beholdere"
+msgstr ""
 
 #: data/resources/ui/shortcuts.ui:73
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Rename"
-msgstr "Gi nytt navn"
+msgstr ""
 
 #: data/resources/ui/shortcuts.ui:80
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Commit"
-msgstr "_Send inn"
+msgstr ""
 
 #: data/resources/ui/shortcuts.ui:87
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Download files"
-msgstr "Beskjær ubrukte avtrykk"
+msgstr ""
 
 #: data/resources/ui/shortcuts.ui:94
 msgctxt "shortcut window"
@@ -1607,10 +1502,9 @@ msgid "Reset zoom"
 msgstr ""
 
 #: data/resources/ui/shortcuts.ui:132
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Terminal"
-msgstr "Terminal"
+msgstr ""
 
 #: data/resources/ui/shortcuts.ui:136
 msgctxt "shortcut window"
@@ -1623,40 +1517,35 @@ msgid "Paste from clipboard"
 msgstr ""
 
 #: data/resources/ui/shortcuts.ui:153
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Podman"
-msgstr "_Om Pods"
+msgstr ""
 
 #: data/resources/ui/shortcuts.ui:157
 msgctxt "shortcut window"
 msgid "Add a new connection"
-msgstr "Legg til ny tilkobling"
+msgstr ""
 
 #: data/resources/ui/shortcuts.ui:164
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Create a new entity"
-msgstr "Opprettet"
+msgstr ""
 
 #: data/resources/ui/statusbar.ui:6 data/resources/ui/statusbar.ui:47
-#, fuzzy
 msgid "Connections"
-msgstr "Mistet tilkoblingen til Podman"
+msgstr ""
 
 #: data/resources/ui/statusbar.ui:13
-#, fuzzy
 msgid "_Add Connection…"
-msgstr "_Legg til tilkobling"
+msgstr ""
 
 #: data/resources/ui/statusbar.ui:27
 msgid "Clean up"
 msgstr ""
 
 #: data/resources/ui/statusbar.ui:104
-#, fuzzy
 msgid "Operations"
-msgstr "Alternativer"
+msgstr ""
 
 #: data/resources/ui/value/row.ui:4 src/view/container/creation_page.rs:327
 #: src/view/pod/creation_page.rs:224 src/view/pod/creation_page.rs:233
@@ -1665,7 +1554,7 @@ msgstr ""
 
 #: data/resources/ui/volume/row.ui:71
 msgid "SELinux"
-msgstr "SELinux"
+msgstr ""
 
 #: data/resources/ui/volume/row.ui:80
 msgid "No label"
@@ -1673,72 +1562,67 @@ msgstr ""
 
 #: data/resources/ui/volume/row.ui:81
 msgid "Shared"
-msgstr "Delt"
+msgstr ""
 
 #: data/resources/ui/volume/row.ui:82
 msgid "Private"
-msgstr "Privat"
+msgstr ""
 
 #: data/resources/ui/welcome-page.ui:70
 msgid "Welcome to Pods"
-msgstr "Velkommen"
+msgstr ""
 
 #: data/resources/ui/welcome-page.ui:79
-#, fuzzy
 msgid "Use the button below to create a new connection to Podman."
-msgstr "Mistet tilkoblingen til Podman"
+msgstr ""
 
 #: data/resources/ui/welcome-page.ui:93
 msgid "_Add Connection"
-msgstr "_Legg til tilkobling"
+msgstr ""
 
 #: data/resources/ui/window.ui:12
-#, fuzzy
 msgid "About _Podman"
-msgstr "_Om Pods"
+msgstr ""
 
 #: data/resources/ui/window.ui:18
 msgid "_Keyboard Shortcuts"
-msgstr "_Tastatursnarveier"
+msgstr ""
 
 #: data/resources/ui/window.ui:22
 msgid "_About Pods"
-msgstr "_Om Pods"
+msgstr ""
 
 #: data/resources/ui/window.ui:30
 msgid "_Select All"
-msgstr "_Velg alle"
+msgstr ""
 
 #: data/resources/ui/window.ui:34
 msgid "Select None"
-msgstr "Fravelg alle"
+msgstr ""
 
 #: data/resources/ui/window.ui:157
-#, fuzzy
 msgid "Multi-Selection"
-msgstr "Fravelg alle"
+msgstr ""
 
 #: data/resources/ui/window.ui:180
-#, fuzzy
 msgid "Cancel"
-msgstr "_Avbryt"
+msgstr ""
 
 #: src/application.rs:188
 msgid "translator-credits"
-msgstr "Allan Nordhøy, <epost@anotheragency.no>"
+msgstr ""
 
 #: src/application.rs:192
-#, fuzzy
 msgid "Translators"
-msgstr "Allan Nordhøy, <epost@anotheragency.no>"
+msgstr ""
 
 #: src/main.rs:114
 msgid "Prints application version"
-msgstr "Skriver ut programversjonen"
+msgstr ""
 
 #: src/main.rs:123
 msgid "Specify the minimum log level"
-msgstr "Angi minste loggføringsnivå"
+msgstr ""
 
 #: src/model/action.rs:160
 msgid "Images: <b>Prune</b>"
@@ -1757,9 +1641,8 @@ msgid "Container: <b>{}</b> ← {}"
 msgstr ""
 
 #: src/model/action.rs:319
-#, fuzzy
 msgid "none"
-msgstr "<ingen>"
+msgstr ""
 
 #: src/model/action.rs:316
 msgid "Image: <b>{}</b> ← {}"
@@ -1775,9 +1658,8 @@ msgid "Files: <b>{}</b> ({}) ← {}"
 msgstr ""
 
 #: src/model/action.rs:381
-#, fuzzy
 msgid "Creating tar archive…"
-msgstr "Beholdere"
+msgstr ""
 
 #: src/model/action.rs:414
 msgid "Tar archive created"
@@ -1817,15 +1699,15 @@ msgstr ""
 
 #: src/model/connection_manager.rs:207
 msgid "Connection '{}' already exists."
-msgstr "Tilkoblingen «{}» finnes allerede."
+msgstr ""
 
 #: src/model/container.rs:68 src/model/pod.rs:65
 msgid "Dead"
-msgstr "Død"
+msgstr ""
 
 #: src/model/container.rs:69 src/model/pod.rs:68
 msgid "Exited"
-msgstr "Avsluttet"
+msgstr ""
 
 #: src/model/container.rs:70
 msgid "Initialized"
@@ -1833,19 +1715,19 @@ msgstr ""
 
 #: src/model/container.rs:72
 msgid "Removing"
-msgstr "Fjerner"
+msgstr ""
 
 #: src/model/container.rs:73 src/model/pod.rs:70
 msgid "Restarting"
-msgstr "Starter på ny"
+msgstr ""
 
 #: src/model/container.rs:76
 msgid "Stopping"
-msgstr "Stopper"
+msgstr ""
 
 #: src/model/container.rs:77 src/model/container.rs:118 src/model/pod.rs:73
 msgid "Unknown"
-msgstr "Ukjent"
+msgstr ""
 
 #: src/model/container.rs:114
 msgid "Checking"
@@ -1853,16 +1735,15 @@ msgstr ""
 
 #: src/model/container.rs:115
 msgid "Healthy"
-msgstr "Sunn"
+msgstr ""
 
 #: src/model/container.rs:116
 msgid "Unhealthy"
-msgstr "Usunn"
+msgstr ""
 
 #: src/model/container.rs:117
-#, fuzzy
 msgid "Unconfigured"
-msgstr "Oppsatt"
+msgstr ""
 
 #: src/model/pod.rs:66
 msgid "Degraded"
@@ -1871,7 +1752,7 @@ msgstr ""
 #: src/model/pod.rs:67 src/view/component/scalable_text_view_page.rs:427
 #: src/view/connection/creation_page.rs:269
 msgid "Error"
-msgstr "Feil"
+msgstr ""
 
 #: src/utils.rs:115
 msgid "{} h {} min {} s"
@@ -1890,14 +1771,12 @@ msgid "{} min"
 msgstr ""
 
 #: src/utils.rs:129
-#, fuzzy
 msgid "{} s"
-msgstr "{} sekund"
+msgstr ""
 
 #: src/utils.rs:145
-#, fuzzy
 msgid "a few seconds"
-msgstr "sekunder"
+msgstr ""
 
 #: src/utils.rs:147
 msgid "{} minute"
@@ -1924,14 +1803,12 @@ msgstr ""
 
 #. Translators: This string will be shown when a property of an entity like an image is null.
 #: src/utils.rs:272
-#, fuzzy
 msgid "<none>"
-msgstr "<ingen>"
+msgstr ""
 
 #: src/utils.rs:401
-#, fuzzy
 msgid "Error on open file dialog"
-msgstr "Kunne ikke beskjære «{}»-avtrykket"
+msgstr ""
 
 #: src/view/action/page.rs:141
 msgid "Images Are Currently Being Pruned"
@@ -1950,9 +1827,8 @@ msgid "Container Is Currently Being Created"
 msgstr ""
 
 #: src/view/action/page.rs:145
-#, fuzzy
 msgid "New Image Is Currently Being Committed"
-msgstr "Beholdere"
+msgstr ""
 
 #: src/view/action/page.rs:146
 msgid "Files Are Currently Being Copied"
@@ -1963,34 +1839,28 @@ msgid "Pod Is Currently Being Created"
 msgstr ""
 
 #: src/view/action/page.rs:153
-#, fuzzy
 msgid "Images Have Been Pruned"
-msgstr "Ingen avtrykk å beskjære"
+msgstr ""
 
 #: src/view/action/page.rs:154
-#, fuzzy
 msgid "Image Has Been Downloaded"
-msgstr "Beholdere"
+msgstr ""
 
 #: src/view/action/page.rs:155
-#, fuzzy
 msgid "Image Has Been Built"
-msgstr "Beholdere"
+msgstr ""
 
 #: src/view/action/page.rs:156
-#, fuzzy
 msgid "Container Has Been Created"
-msgstr "Beholdere"
+msgstr ""
 
 #: src/view/action/page.rs:157
-#, fuzzy
 msgid "New Image Has Been Committed"
-msgstr "Beholdere"
+msgstr ""
 
 #: src/view/action/page.rs:158
-#, fuzzy
 msgid "Files Have Beeng Copied"
-msgstr "Ingen avtrykk å beskjære"
+msgstr ""
 
 #: src/view/action/page.rs:159
 msgid "Pod Has Been Created"
@@ -2005,24 +1875,20 @@ msgid "Image Download Has Been Aborted"
 msgstr ""
 
 #: src/view/action/page.rs:167
-#, fuzzy
 msgid "Image Built Has Been Aborted"
-msgstr "Beholdere"
+msgstr ""
 
 #: src/view/action/page.rs:168
-#, fuzzy
 msgid "Container Creation Has Been Aborted"
-msgstr "Beholdere"
+msgstr ""
 
 #: src/view/action/page.rs:169
-#, fuzzy
 msgid "Image Commitment Has Been Aborted"
-msgstr "Beholdere"
+msgstr ""
 
 #: src/view/action/page.rs:170
-#, fuzzy
 msgid "Copying Files Has Been Aborted"
-msgstr "Beholdere"
+msgstr ""
 
 #: src/view/action/page.rs:171
 msgid "Pod Creation Has Been Aborted"
@@ -2041,19 +1907,16 @@ msgid "Image Built Has Failed"
 msgstr ""
 
 #: src/view/action/page.rs:180
-#, fuzzy
 msgid "Container Creation Has Failed"
-msgstr "Beholdere"
+msgstr ""
 
 #: src/view/action/page.rs:181
-#, fuzzy
 msgid "Image Commitment Has Failed"
-msgstr "Beholdere"
+msgstr ""
 
 #: src/view/action/page.rs:182
-#, fuzzy
 msgid "Copying Files Has Failed"
-msgstr "Beholdere"
+msgstr ""
 
 #: src/view/action/page.rs:183
 msgid "Pod Creation Has Failed"
@@ -2064,23 +1927,20 @@ msgid "After {}"
 msgstr ""
 
 #: src/view/action/page.rs:259
-#, fuzzy
 msgid "Error on opening artifact"
-msgstr "Kunne ikke beskjære «{}»-avtrykket"
+msgstr ""
 
 #: src/view/action/page.rs:260
-#, fuzzy
 msgid "Artifact has been deleted"
-msgstr "Beholdere"
+msgstr ""
 
 #: src/view/action/row.rs:144
 msgid "Abort"
 msgstr ""
 
 #: src/view/action/row.rs:146
-#, fuzzy
 msgid "Remove"
-msgstr "Fjerner"
+msgstr ""
 
 #: src/view/action/row.rs:221
 msgid "Failed Pods Action"
@@ -2099,9 +1959,8 @@ msgid "Finished after {}"
 msgstr ""
 
 #: src/view/action/row.rs:281
-#, fuzzy
 msgid "Cancelled after {}"
-msgstr "_Avbryt"
+msgstr ""
 
 #: src/view/action/row.rs:282
 msgid "Failed after {}"
@@ -2112,24 +1971,20 @@ msgid "Go Back"
 msgstr ""
 
 #: src/view/component/back_navigation_controls.rs:71
-#, fuzzy
 msgid "Main View"
-msgstr "Hovedvindu"
+msgstr ""
 
 #: src/view/component/scalable_text_view_page.rs:257
-#, fuzzy
 msgid "Image Inspection"
-msgstr "Avtrykk"
+msgstr ""
 
 #: src/view/component/scalable_text_view_page.rs:264
-#, fuzzy
 msgid "Container Inspection"
-msgstr "Beholdere"
+msgstr ""
 
 #: src/view/component/scalable_text_view_page.rs:265
-#, fuzzy
 msgid "Container Kube Generation"
-msgstr "Beholdere"
+msgstr ""
 
 #: src/view/component/scalable_text_view_page.rs:275
 msgid "Pod Inspection"
@@ -2144,32 +1999,28 @@ msgid "Could not set language to '{}'"
 msgstr ""
 
 #: src/view/component/scalable_text_view_page.rs:388
-#, fuzzy
 msgid "Inspection error"
-msgstr "Avtrykk"
+msgstr ""
 
 #: src/view/component/scalable_text_view_page.rs:389
-#, fuzzy
 msgid "Kube generation error"
-msgstr "Avtrykk"
+msgstr ""
 
 #: src/view/component/source_view_search_widget.rs:171
 msgid "0 of {}"
-msgstr "0 av {}"
+msgstr ""
 
 #: src/view/component/source_view_search_widget.rs:190
 msgid "{} of {}"
-msgstr "{} av {}"
+msgstr ""
 
 #: src/view/component/top_page.rs:78
-#, fuzzy
 msgid "Container Processes"
-msgstr "Beholdere"
+msgstr ""
 
 #: src/view/component/top_page.rs:85
-#, fuzzy
 msgid "Pod Processes"
-msgstr "Beholdere"
+msgstr ""
 
 #: src/view/connection/creation_page.rs:151
 msgid "official documentation"
@@ -2181,9 +2032,8 @@ msgid "Visit the {} for more information."
 msgstr ""
 
 #: src/view/connection/creation_page.rs:227
-#, fuzzy
 msgid "Confirm Connecting to New Instance"
-msgstr "Kunne ikke inspisere «{}»-beholderen"
+msgstr ""
 
 #: src/view/connection/custom_info_dialog.rs:119
 msgid "systemd unit path copied"
@@ -2211,50 +2061,43 @@ msgstr ""
 
 #: src/view/connection/row.rs:111
 msgid "Local connection"
-msgstr "Lokal tilkobling"
+msgstr ""
 
 #: src/view/connection/switcher_widget.rs:69
-#, fuzzy
 msgid "Confirm Switching Connection"
-msgstr "Kunne ikke starte beholder"
+msgstr ""
 
 #: src/view/connection/switcher_widget.rs:128
-#, fuzzy
 msgid "Error on switching connection"
-msgstr "Kunne ikke starte beholder"
+msgstr ""
 
 #: src/view/container/commit_page.rs:113
 msgid "Change"
 msgstr ""
 
 #: src/view/container/commit_page.rs:204
-#, fuzzy
 msgid "Error on fetching user name"
-msgstr "Kunne ikke beskjære «{}»-avtrykket"
+msgstr ""
 
 #: src/view/container/creation_page.rs:279
 msgid "disabled"
 msgstr ""
 
 #: src/view/container/creation_page.rs:619
-#, fuzzy
 msgid "Failed to create container"
-msgstr "Beholdere"
+msgstr ""
 
 #: src/view/container/creation_page.rs:620 src/view/pod/creation_page.rs:346
-#, fuzzy
 msgid "no image selected"
-msgstr "Fant ingen avtrykk"
+msgstr ""
 
 #: src/view/container/details_page.rs:281
-#, fuzzy
 msgid "Error on loading container details"
-msgstr "Kunne ikke laste inn beholdere"
+msgstr ""
 
 #: src/view/container/details_page.rs:285
-#, fuzzy
 msgid "Container '{}' has been deleted"
-msgstr "Beholdere"
+msgstr ""
 
 #: src/view/container/files_get_page.rs:167
 msgid "Select Host Destination Path"
@@ -2265,21 +2108,19 @@ msgid "Select Host Directory"
 msgstr ""
 
 #: src/view/container/files_put_page.rs:182
-#, fuzzy
 msgid "Select Host File"
-msgstr "Velg fil"
+msgstr ""
 
 #: src/view/container/health_check_page.rs:209
 #: src/view/container/health_check_page.rs:225
 msgid "{} second"
 msgid_plural "{} seconds"
-msgstr[0] "{} sekund"
-msgstr[1] "{} sekunder"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/view/container/health_check_page.rs:246
-#, fuzzy
 msgid "Error on running health check"
-msgstr "Kunne ikke beskjære «{}»-avtrykket"
+msgstr ""
 
 #: src/view/container/log_page.rs:465
 msgid "Error while following log"
@@ -2290,68 +2131,56 @@ msgid "Include timestamps"
 msgstr ""
 
 #: src/view/container/log_page.rs:651
-#, fuzzy
 msgid "Error on saving logs"
-msgstr "Kunne ikke laste inn avtrykk"
+msgstr ""
 
 #: src/view/container/log_page.rs:665
-#, fuzzy
 msgid "Error on retrieving logs"
-msgstr "Kunne ikke starte beholder på ny"
+msgstr ""
 
 #: src/view/container/log_page.rs:694
-#, fuzzy
 msgid "Error starting container"
-msgstr "Kunne ikke starte beholder på ny"
+msgstr ""
 
 #: src/view/container/log_page.rs:700
-#, fuzzy
 msgid "Error resuming container"
-msgstr "Kunne ikke gjenoppta beholder"
+msgstr ""
 
 #: src/view/container/mod.rs:82 src/view/containers/panel.rs:255
-#, fuzzy
 msgid "Error on starting container"
-msgstr "Kunne ikke starte beholder på ny"
+msgstr ""
 
 #: src/view/container/mod.rs:83 src/view/containers/panel.rs:281
-#, fuzzy
 msgid "Error on stopping container"
-msgstr "Kunne ikke stoppe beholder"
+msgstr ""
 
 #: src/view/container/mod.rs:84
-#, fuzzy
 msgid "Error on killing container"
-msgstr "Kunne ikke inspisere «{}»-beholderen"
+msgstr ""
 
 #: src/view/container/mod.rs:85 src/view/containers/panel.rs:328
-#, fuzzy
 msgid "Error on restarting container"
-msgstr "Kunne ikke starte beholder på ny"
+msgstr ""
 
 #: src/view/container/mod.rs:86 src/view/containers/panel.rs:304
-#, fuzzy
 msgid "Error on pausing container"
-msgstr "Kunne ikke inspisere «{}»-beholderen"
+msgstr ""
 
 #: src/view/container/mod.rs:87 src/view/containers/panel.rs:244
-#, fuzzy
 msgid "Error on resuming container"
-msgstr "Kunne ikke gjenoppta beholder"
+msgstr ""
 
 #: src/view/container/mod.rs:88 src/view/containers/panel.rs:381
-#, fuzzy
 msgid "Error on deleting container"
-msgstr "Kunne ikke slette beholder"
+msgstr ""
 
 #: src/view/container/properties_group.rs:277
 msgid "since {}"
 msgstr ""
 
 #: src/view/container/rename_dialog.rs:184
-#, fuzzy
 msgid "Rename Container"
-msgstr "Beholdere"
+msgstr ""
 
 #: src/view/container/resources_quick_reference_group.rs:102
 #: src/view/container/resources_quick_reference_group.rs:125
@@ -2360,11 +2189,11 @@ msgstr "Beholdere"
 #: src/view/container/resources_quick_reference_group.rs:137
 #: src/view/container/resources_quick_reference_group.rs:279
 msgid "?"
-msgstr "?"
+msgstr ""
 
 #: src/view/container/resources_quick_reference_group.rs:99
 msgid "{} %"
-msgstr "{} %"
+msgstr ""
 
 #: src/view/container/resources_quick_reference_group.rs:120
 msgid "{} / {} ({} %)"
@@ -2376,31 +2205,27 @@ msgid "{} / s"
 msgstr ""
 
 #: src/view/container/tty.rs:367
-#, fuzzy
 msgid "Terminal error"
-msgstr "Terminal"
+msgstr ""
 
 #: src/view/container/tty.rs:368
 msgid "'/bin/sh' not found"
 msgstr ""
 
 #: src/view/containers/group.rs:133
-#, fuzzy
 msgid "1 container, running"
-msgstr "{} beholdere totalt, {} kjører"
+msgstr ""
 
 #: src/view/containers/group.rs:135
-#, fuzzy
 msgid "1 container, stopped"
-msgstr "Beholdere"
+msgstr ""
 
 #. Translators: There's a wide space (U+2002) between ", {}".
 #: src/view/containers/group.rs:140
-#, fuzzy
 msgid "{} container total, {} running"
 msgid_plural "{} containers total, {} running"
-msgstr[0] "{} beholdere totalt, {} kjører"
-msgstr[1] "{} beholdere totalt, {} kjører"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/view/containers/panel.rs:351
 msgid "Confirm Forced Deletion of Multiple Containers"
@@ -2438,28 +2263,25 @@ msgstr ""
 #. Translators: "{}" are placeholders for storage space.
 #: src/view/image/details_page.rs:197
 msgid "{} (Virtual: {})"
-msgstr "{} (Virtuelt: {})"
+msgstr ""
 
 #. Translators: "{}" are placeholders for storage space.
 #: src/view/image/details_page.rs:206
 msgid "{} (Shared: {})"
-msgstr "{} (Delt: {})"
+msgstr ""
 
 #. Translators: "{}" are placeholders for storage space.
 #: src/view/image/details_page.rs:216
-#, fuzzy
 msgid "{} (Shared: {}, Virtual: {})"
-msgstr "{} (delt: {}, virtuelt: {})"
+msgstr ""
 
 #: src/view/image/details_page.rs:308
-#, fuzzy
 msgid "Error on loading image details"
-msgstr "Kunne ikke laste inn beholdere"
+msgstr ""
 
 #: src/view/image/details_page.rs:312
-#, fuzzy
 msgid "Image '{}' has been deleted"
-msgstr "Beholdere"
+msgstr ""
 
 #: src/view/image/history_page.rs:83
 msgid "{} entry"
@@ -2472,33 +2294,28 @@ msgid "{} in total"
 msgstr ""
 
 #: src/view/image/history_page.rs:103
-#, fuzzy
 msgid "<None>"
-msgstr "<ingen>"
+msgstr ""
 
 #: src/view/image/history_page.rs:118
-#, fuzzy
 msgid "Unknown Date"
-msgstr "Ukjent"
+msgstr ""
 
 #: src/view/image/history_page.rs:129
-#, fuzzy
 msgid "Unknown size"
-msgstr "Ukjent"
+msgstr ""
 
 #: src/view/image/history_page.rs:146
-#, fuzzy
 msgid "Created by"
-msgstr "Opprettet"
+msgstr ""
 
 #: src/view/image/history_page.rs:175
 msgid "Tags"
 msgstr ""
 
 #: src/view/image/history_page.rs:189
-#, fuzzy
 msgid "Error on retrieving history"
-msgstr "Kunne ikke starte beholder på ny"
+msgstr ""
 
 #: src/view/image/mod.rs:35
 msgid "Confirm Forced Image Deletion"
@@ -2518,16 +2335,14 @@ msgid ""
 msgstr ""
 
 #: src/view/image/mod.rs:55 src/view/pod/mod.rs:92
-#, fuzzy
 msgid "_Force Delete"
-msgstr "_Slett"
+msgstr ""
 
 #. Translators: The "{}" is a placeholder for the image id.
 #. Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
 #: src/view/image/mod.rs:80 src/view/images/panel.rs:413
-#, fuzzy
 msgid "Error on deleting image '{}'"
-msgstr "Kunne ikke slette avtrykk"
+msgstr ""
 
 #: src/view/image_search/widget.rs:215
 msgid "All registries"
@@ -2547,25 +2362,22 @@ msgstr ""
 
 #: src/view/images/panel.rs:203 src/view/images/panel.rs:223
 msgid "No images found"
-msgstr "Fant ingen avtrykk"
+msgstr ""
 
 #: src/view/images/panel.rs:206
-#, fuzzy
 msgid "1 image, used"
-msgstr "Fant ingen avtrykk"
+msgstr ""
 
 #: src/view/images/panel.rs:208
-#, fuzzy
 msgid "1 image, unused"
-msgstr "Fant ingen avtrykk"
+msgstr ""
 
 #. Translators: There's a wide space (U+2002) between ", {}".
 #: src/view/images/panel.rs:213
-#, fuzzy
 msgid "{} image total, {} {} unused, {}"
 msgid_plural "{} images total, {} {} unused, {}"
-msgstr[0] "{} avtrykk totalt, {} {} ubrukte avtrykk, {}"
-msgstr[1] "{} avtrykk totalt, {} {} ubrukte avtrykk, {}"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/view/images/panel.rs:384
 msgid "Confirm Forced Deletion of Multiple Images"
@@ -2588,11 +2400,10 @@ msgstr ""
 
 #. Translators: "{}" is a placeholder for a cardinal numbers.
 #: src/view/info_dialog.rs:197
-#, fuzzy
 msgid "{} Container"
 msgid_plural "{} Containers"
-msgstr[0] "Beholdere"
-msgstr[1] "Beholdere"
+msgstr[0] ""
+msgstr[1] ""
 
 #. Translators: "{}" is a placeholder for a cardinal number.
 #: src/view/info_dialog.rs:229
@@ -2605,21 +2416,20 @@ msgstr[1] ""
 #: src/view/info_dialog.rs:250
 msgid "{} State"
 msgid_plural "{} States"
-msgstr[0] "{} tilstand"
-msgstr[1] "{} tilstander"
+msgstr[0] ""
+msgstr[1] ""
 
 #. Translators: "{}" is placeholders for a cardinal number.
 #: src/view/info_dialog.rs:268
-#, fuzzy
 msgid "{} Image"
 msgid_plural "{} Images"
-msgstr[0] "Avtrykk"
-msgstr[1] "Avtrykk"
+msgstr[0] ""
+msgstr[1] ""
 
 #. Translators: The placeholder "{}" is for the error message.
 #: src/view/info_dialog.rs:284
 msgid "Error: {}"
-msgstr "Feil: {}"
+msgstr ""
 
 #: src/view/pod/creation_page.rs:203
 msgid "IP"
@@ -2630,48 +2440,40 @@ msgid "Failed to create pod"
 msgstr ""
 
 #: src/view/pod/details_page.rs:262
-#, fuzzy
 msgid "Error on loading pod data"
-msgstr "Kunne ikke laste inn avtrykk"
+msgstr ""
 
 #: src/view/pod/details_page.rs:266
 msgid "Pod '{}' has been deleted"
 msgstr ""
 
 #: src/view/pod/mod.rs:55 src/view/pods/panel.rs:360
-#, fuzzy
 msgid "Error on starting pod"
-msgstr "Kunne ikke laste inn avtrykk"
+msgstr ""
 
 #: src/view/pod/mod.rs:56 src/view/pods/panel.rs:386 src/view/pods/panel.rs:409
-#, fuzzy
 msgid "Error on stopping pod"
-msgstr "Kunne ikke stoppe beholder"
+msgstr ""
 
 #: src/view/pod/mod.rs:57
-#, fuzzy
 msgid "Error on killing pod"
-msgstr "Kunne ikke inspisere «{}»-avtrykket"
+msgstr ""
 
 #: src/view/pod/mod.rs:58 src/view/pods/panel.rs:433
-#, fuzzy
 msgid "Error on restarting pod"
-msgstr "Kunne ikke starte beholder på ny"
+msgstr ""
 
 #: src/view/pod/mod.rs:59
-#, fuzzy
 msgid "Error on pausing pod"
-msgstr "Kunne ikke inspisere «{}»-avtrykket"
+msgstr ""
 
 #: src/view/pod/mod.rs:60 src/view/pods/panel.rs:349
-#, fuzzy
 msgid "Error on resuming pod"
-msgstr "Kunne ikke gjenoppta beholder"
+msgstr ""
 
 #: src/view/pod/mod.rs:61 src/view/pods/panel.rs:478
-#, fuzzy
 msgid "Error on deleting pod"
-msgstr "Kunne ikke slette avtrykk"
+msgstr ""
 
 #: src/view/pod/mod.rs:71
 msgid "Confirm Forced Pod Deletion"
@@ -2691,14 +2493,12 @@ msgid ""
 msgstr ""
 
 #: src/view/pods/panel.rs:211
-#, fuzzy
 msgid "No pods found"
-msgstr "Fant ingen avtrykk"
+msgstr ""
 
 #: src/view/pods/panel.rs:214
-#, fuzzy
 msgid "1 pod, running"
-msgstr "Kjører"
+msgstr ""
 
 #: src/view/pods/panel.rs:216
 msgid "1 pod, stopped"
@@ -2706,11 +2506,10 @@ msgstr ""
 
 #. Translators: There's a wide space (U+2002) between ", {}".
 #: src/view/pods/panel.rs:221
-#, fuzzy
 msgid "{} pod total, {} running"
 msgid_plural "{} pods total, {} running"
-msgstr[0] "{} beholdere totalt, {} kjører"
-msgstr[1] "{} beholdere totalt, {} kjører"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/view/pods/panel.rs:451
 msgid "Confirm Forced Deletion of Multiple Pods"
@@ -2718,34 +2517,31 @@ msgstr ""
 
 #: src/view/pods/panel.rs:453
 msgid "All associated containers will also be removed!"
-msgstr "Alle tilknyttede beholdere vil også bli slettet!"
+msgstr ""
 
 #: src/view/repo_tag/add_dialog.rs:124
 msgid "Repo tag must contain a colon “:”"
 msgstr ""
 
 #: src/view/repo_tag/row.rs:196
-#, fuzzy
 msgid "Error on untagging image"
-msgstr "Kunne ikke slette avtrykk"
+msgstr ""
 
 #: src/window.rs:434
 msgid "Confirm Exiting The Application"
 msgstr ""
 
 #: src/window.rs:599
-#, fuzzy
 msgid "{} Selected Image"
 msgid_plural "{} Selected Images"
-msgstr[0] "Avtrykk"
-msgstr[1] "Avtrykk"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/window.rs:613
-#, fuzzy
 msgid "{} Selected Container"
 msgid_plural "{} Selected Containers"
-msgstr[0] "Beholdere"
-msgstr[1] "Beholdere"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/window.rs:627
 msgid "{} Selected Pod"
@@ -2754,254 +2550,17 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/window.rs:856
-#, fuzzy
 msgid "images"
-msgstr "Avtrykk"
+msgstr ""
 
 #: src/window.rs:857
-#, fuzzy
 msgid "containers"
-msgstr "Beholdere"
+msgstr ""
 
 #: src/window.rs:858
 msgid "pods"
 msgstr ""
 
 #: src/window.rs:854
-#, fuzzy
 msgid "Error on loading {}"
-msgstr "Kunne ikke laste inn avtrykk"
-
-#, fuzzy
-#~ msgid "Container Details"
-#~ msgstr "Beholdere"
-
-#, fuzzy
-#~ msgid "Image Details"
-#~ msgstr "Avtrykk"
-
-#, fuzzy
-#~ msgid "Pod Details"
-#~ msgstr "Avtrykk"
-
-#, fuzzy
-#~ msgid "Error on resuming container: {}"
-#~ msgstr "Kunne ikke gjenoppta beholder"
-
-#, fuzzy
-#~ msgid "Error on starting container: {}"
-#~ msgstr "Kunne ikke starte beholder på ny"
-
-#, fuzzy
-#~ msgid "Error on deleting image '{}': {}"
-#~ msgstr "Kunne ikke slette avtrykk"
-
-#~ msgid "Main window"
-#~ msgstr "Hovedvindu"
-
-#, fuzzy
-#~ msgid "Discard remote image"
-#~ msgstr "_Slett"
-
-#~ msgid "Search within this log"
-#~ msgstr "Søk i denne loggen"
-
-#, fuzzy
-#~ msgid "Connection Manager"
-#~ msgstr "Mistet tilkoblingen til Podman"
-
-#, fuzzy
-#~ msgid "Action Overview"
-#~ msgstr "Beholdere"
-
-#, fuzzy
-#~ msgid "Url"
-#~ msgstr "Nettadresse"
-
-#, fuzzy
-#~ msgid "Commit Options"
-#~ msgstr "Alternativer"
-
-#, fuzzy
-#~ msgid "Container Settings"
-#~ msgstr "Beholdere"
-
-#, fuzzy
-#~ msgid "Create And _Run"
-#~ msgstr "Opprettet"
-
-#, fuzzy
-#~ msgid "Create a new image from this container."
-#~ msgstr "Beholdere"
-
-#, fuzzy
-#~ msgid "Exchange files with this container."
-#~ msgstr "Beholdere"
-
-#, fuzzy
-#~ msgid "Container File Download"
-#~ msgstr "Fant ingen beholdere"
-
-#, fuzzy
-#~ msgid "Container File Upload"
-#~ msgstr "Beholdere"
-
-#, fuzzy
-#~ msgid "_Commit…"
-#~ msgstr "_Send inn"
-
-#, fuzzy
-#~ msgid "Inspect…"
-#~ msgstr "Velg …"
-
-#, fuzzy
-#~ msgid "Image Download"
-#~ msgstr "Beholdere"
-
-#, fuzzy
-#~ msgid "Pod Settings"
-#~ msgstr "Avtrykk"
-
-#~ msgid "_New…"
-#~ msgstr "_Ny …"
-
-#, fuzzy
-#~ msgid "Actions overview"
-#~ msgstr "Beholdere"
-
-#~ msgid "Return to previous page"
-#~ msgstr "Gå til forrige side"
-
-#~ msgid "Return to main page"
-#~ msgstr "Tilbake til hovedsiden"
-
-#~ msgid "Style Variant"
-#~ msgstr "Stilvariant"
-
-#~ msgid "Current Name"
-#~ msgstr "Nåværende navn"
-
-#~ msgid "Last 5 Runs"
-#~ msgstr "Siste fem kjøringer"
-
-#~ msgid "_Force Stop"
-#~ msgstr "_Tving stopp"
-
-#, fuzzy
-#~ msgid "F_orce Restart"
-#~ msgstr "T_ving omstart"
-
-#, fuzzy
-#~ msgctxt "shortcut window"
-#~ msgid "Stop"
-#~ msgstr "_Stopp"
-
-#, fuzzy
-#~ msgctxt "shortcut window"
-#~ msgid "Restart"
-#~ msgstr "_Omstart"
-
-#, fuzzy
-#~ msgid "Build {}"
-#~ msgstr "_Bygg"
-
-#, fuzzy
-#~ msgid "Create {}"
-#~ msgstr "Opprettet"
-
-#~ msgid "IP address"
-#~ msgstr "IP-adresse"
-
-#~ msgid "Host port"
-#~ msgstr "Vertsport"
-
-#, fuzzy
-#~ msgid "Container port"
-#~ msgstr "Beholdere"
-
-#~ msgid "Protocol"
-#~ msgstr "Protokoll"
-
-#~ msgid "Mode"
-#~ msgstr "Modus"
-
-#, fuzzy
-#~ msgid "Error on choosing connection"
-#~ msgstr "Kunne ikke sette beholder på pause"
-
-#, fuzzy
-#~ msgid "{} container"
-#~ msgid_plural "{} containers"
-#~ msgstr[0] "Beholdere"
-#~ msgstr[1] "Beholdere"
-
-#, fuzzy
-#~ msgid "No containers"
-#~ msgstr "Beholdere"
-
-#, fuzzy
-#~ msgid "image"
-#~ msgstr "Avtrykk"
-
-#, fuzzy
-#~ msgid "container"
-#~ msgstr "Beholdere"
-
-#, fuzzy
-#~ msgid "_Prune unused images…"
-#~ msgstr "Beskjær ubrukte avtrykk"
-
-#~ msgid "Checking Connection to Podman Service"
-#~ msgstr "Sjekker tilkobling til Podman-tjenesten"
-
-#, fuzzy
-#~ msgid ""
-#~ "An unexpected error has occurred and Pods has lost connection to Podman "
-#~ "Unix. If the connection has been disconnected unintentionally, you can "
-#~ "try to re-establish it."
-#~ msgstr ""
-#~ "En uventet feil gjorde at Pods mistet tilkoblingen til Podman Unix. "
-#~ "Tilkoblingen har blitt koblet fra uforvarende. Du kan prøve å re-etablere "
-#~ "den."
-
-#~ msgid "_Restart Podman Service"
-#~ msgstr "_Start Podmantjenesten på ny"
-
-#, fuzzy
-#~ msgid "The Podman service is currently not running."
-#~ msgstr "Podman-tjenesten kjører ikke"
-
-#~ msgid "_Start Podman Service"
-#~ msgstr "_Start Podman-tjenesten"
-
-#~ msgid "_Preferences"
-#~ msgstr "_Innstillinger"
-
-#, fuzzy
-#~ msgid "_Show only running containers"
-#~ msgstr "Kun vis kjørende beholdere"
-
-#~ msgid "Error on force stopping container"
-#~ msgstr "Kunne ikke tvinge gjennom stopp av beholder"
-
-#~ msgid "Error on force restarting container"
-#~ msgstr "Kunne ikke tvinge gjennom omstart av beholder"
-
-#~ msgid "Error on committing container"
-#~ msgstr "Kunne ikke sende inn beholder"
-
-#~ msgid "Error on force deleting container"
-#~ msgstr "Kunne ikke tving gjennom sletting av beholder"
-
-#~ msgid "Failed to execute command to start Podman"
-#~ msgstr "Klarte ikke å kjøre kommando for start av Podman"
-
-#~ msgid "Command to start Podman returned exit code: {}"
-#~ msgstr "Kommando for start av Podman returnerte avslutningskode: {}"
-
-#, fuzzy
-#~ msgid "unused"
-#~ msgstr "Pauset"
-
-#~ msgid "By {} containers"
-#~ msgstr "Av {} beholdere"
+msgstr ""
