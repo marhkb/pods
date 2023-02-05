@@ -42,6 +42,17 @@
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="1.0.5" date="2023-02-05">
+      <description>
+        <p>Pods 1.0.5 contains the following bug fixes and improvements:</p>
+        <ul>
+          <li>Fixed a bug in the container log page where an explicit color was set for the default ANSI escape sequence. This resulted in text not being readable in the light theme under certain circumstances.</li>
+          <li>The text views, like the Inspection page, are now closed immediately if there is an error. For example, this would be the case if the cube YAML could not be generated.</li>
+          <li>Translations have been updated.</li>
+          <li>Dependencies have been updated.</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.0.4" date="2023-02-01">
       <description>
         <p>Pods 1.0.4 contains the following bug fixes and improvements:</p>
