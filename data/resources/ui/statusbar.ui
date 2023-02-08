@@ -159,7 +159,6 @@
                     <style>
                       <class name="panel-image"/>
                     </style>
-                    <property name="icon-name">preferences-system-notifications-symbolic</property>
                   </object>
                 </child>
 
