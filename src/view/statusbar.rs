@@ -171,7 +171,7 @@ mod imp {
                         } else if ongoing == 0 && len > 0 {
                             "success"
                         } else {
-                            "preferences-system-notifications-symbolic"
+                            "bell-symbolic"
                         }
                     }
                 ),
