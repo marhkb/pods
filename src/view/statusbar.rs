@@ -36,6 +36,8 @@ mod imp {
         #[template_child]
         pub(super) active_connection_label: TemplateChild<gtk::Label>,
         #[template_child]
+        pub(super) podman_stack: TemplateChild<gtk::Stack>,
+        #[template_child]
         pub(super) podman_version_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) notifications_menu_button: TemplateChild<gtk::MenuButton>,
@@ -115,6 +117,8 @@ mod imp {
                 connection_manager_expr.chain_property::<model::ConnectionManager>("client");
             let connection_expr = client_expr.chain_property::<model::Client>("connection");
 
+            let podman_version_expr = client_expr.chain_property::<model::Client>("version");
+
             let action_list_expr = client_expr.chain_property::<model::Client>("action-list");
             let action_list_ongoing_expr =
                 action_list_expr.chain_property::<model::ActionList>("ongoing");
@@ -178,11 +182,13 @@ mod imp {
             )
             .bind(&*self.notifications_image, "icon-name", Some(obj));
 
-            client_expr
-                .chain_property::<model::Client>("version")
-                .chain_closure::<String>(closure!(
-                    |_: Self::Type, version: Option<String>| version.unwrap_or_default()
-                ))
+            podman_version_expr
+                .chain_closure::<String>(closure!(|_: Self::Type, version: Option<String>| version
+                    .map(|_| "version")
+                    .unwrap_or("loading")))
+                .bind(&*self.podman_stack, "visible-child-name", Some(obj));
+            podman_version_expr
+                // .chain_closure::<String>(closure!(|_: Self::Type, version: Option<String>| version))
                 .bind(&*self.podman_version_label, "label", Some(obj));
 
             action_list_expr.bind(&self.actions_overview, "action-list", Some(obj));
