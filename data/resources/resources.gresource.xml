@@ -83,7 +83,6 @@
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/memory-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/merge-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/pod-circle-symbolic.svg</file>
-    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/podman-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/pods-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/put-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/regex-symbolic.svg</file>
@@ -91,8 +90,10 @@
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/stacked-plates-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/uppercase-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/whole-word-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/status/bell-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/status/degraded-pod-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/status/error-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/status/local-connection-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/status/success-symbolic.svg</file>
 
     <file compressed="true">style.css</file>

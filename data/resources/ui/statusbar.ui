@@ -122,20 +122,30 @@
             <property name="tooltip-text" translatable="yes">Podman</property>
 
             <child>
-              <object class="GtkBox">
-                <property name="spacing">6</property>
+              <object class="GtkStack" id="podman_stack">
 
                 <child>
-                  <object class="GtkImage">
-                    <style>
-                      <class name="panel-image"/>
-                    </style>
-                    <property name="icon-name">podman-symbolic</property>
+                  <object class="GtkStackPage">
+                    <property name="name">loading</property>
+
+                    <property name="child">
+                      <object class="GtkImage">
+                        <property name="icon-name">image-loading-symbolic</property>
+                      </object>
+                    </property>
+
                   </object>
                 </child>
 
                 <child>
-                  <object class="GtkLabel" id="podman_version_label"/>
+                  <object class="GtkStackPage">
+                    <property name="name">version</property>
+
+                    <property name="child">
+                      <object class="GtkLabel" id="podman_version_label"/>
+                    </property>
+
+                  </object>
                 </child>
 
               </object>
@@ -159,7 +169,6 @@
                     <style>
                       <class name="panel-image"/>
                     </style>
-                    <property name="icon-name">preferences-system-notifications-symbolic</property>
                   </object>
                 </child>
 
