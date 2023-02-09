@@ -64,11 +64,6 @@
                   <class name="dim-label"/>
                 </style>
                 <property name="selectable">True</property>
-                <binding name="label">
-                  <lookup name="name" type="Container">
-                    <lookup name="container">PdsContainerPropertiesGroup</lookup>
-                  </lookup>
-                </binding>
               </object>
             </child>
 
