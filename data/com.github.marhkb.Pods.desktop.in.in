@@ -4,7 +4,7 @@ Comment=Keep track of your podman containers
 Type=Application
 Exec=pods
 Terminal=false
-Categories=GNOME;GTK;
+Categories=GNOME;GTK;Development;System;Office;Network;Monitor;TerminalEmulator;RemoteAccess;
 Keywords=Gnome;GTK;
 # Translators: Do NOT translate or transliterate this text (this is an icon file name)!
 Icon=@icon@
