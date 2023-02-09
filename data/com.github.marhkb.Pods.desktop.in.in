@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Pods
-Comment=A Podman desktop application
+Comment=Keep track of your podman containers
 Type=Application
 Exec=pods
 Terminal=false
