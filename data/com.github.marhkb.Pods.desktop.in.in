@@ -5,7 +5,7 @@ Type=Application
 Exec=pods
 Terminal=false
 Categories=GNOME;GTK;Development;System;Office;Network;Monitor;TerminalEmulator;RemoteAccess;
-Keywords=Gnome;GTK;
+Keywords=Gnome;GTK;libadwaita;Podman;Containerization;
 # Translators: Do NOT translate or transliterate this text (this is an icon file name)!
 Icon=@icon@
 StartupNotify=true
