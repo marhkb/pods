@@ -142,7 +142,11 @@
                     <property name="name">version</property>
 
                     <property name="child">
-                      <object class="GtkLabel" id="podman_version_label"/>
+                      <object class="GtkLabel" id="podman_version_label">
+                        <style>
+                          <class name="numeric"/>
+                        </style>
+                      </object>
                     </property>
 
                   </object>
