@@ -89,10 +89,6 @@ connectionchooserpage connectionswitchermenu row {
   padding: 9px 18px;
 }
 
-.circular-progress-bar {
-  font-size: 0.65em;
-}
-
 .status-badge {
   font-size: 0.8em;
   font-weight: bold;
