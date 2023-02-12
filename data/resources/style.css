@@ -42,6 +42,12 @@ actionsoverview #type {
   border-radius: 9999px;
 }
 
+connectionswitchermenu row #color {
+  border-radius: 9999px;
+  margin: 2px 0 0 0;
+  padding: 6px;
+}
+
 popover connectionswitchermenu row #selection-indicator #background,
 popover connectionswitchermenu row #delete-button,
 actionsoverview #action,

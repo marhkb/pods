@@ -1,6 +1,5 @@
 use gettextrs::gettext;
 use glib::subclass::InitializingObject;
-use gtk::gdk;
 use gtk::glib;
 use gtk::glib::closure;
 use gtk::prelude::*;
@@ -21,11 +20,11 @@ mod imp {
         pub(super) client: glib::WeakRef<model::Client>,
         pub(super) connection: glib::WeakRef<model::Connection>,
         #[template_child]
-        pub(super) color_indicator_bin: TemplateChild<adw::Bin>,
-        #[template_child]
         pub(super) image: TemplateChild<gtk::Image>,
         #[template_child]
         pub(super) checkmark: TemplateChild<gtk::Image>,
+        #[template_child]
+        pub(super) color_bin: TemplateChild<adw::Bin>,
         #[template_child]
         pub(super) name_label: TemplateChild<gtk::Label>,
         #[template_child]
@@ -91,7 +90,7 @@ mod imp {
 
             let obj = &*self.obj();
 
-            self.color_indicator_bin
+            self.color_bin
                 .style_context()
                 .add_provider(&self.css_provider, gtk::STYLE_PROVIDER_PRIORITY_APPLICATION);
 
@@ -213,16 +212,16 @@ impl Row {
 
         let imp = self.imp();
 
-        imp.css_provider.load_from_data(
-            format!(
-                "widget {{ background: shade({}, 1.2); border: 1px solid {}; border-radius: 9px; padding: 0 2px; }}",
-                value
-                    .and_then(model::Connection::rgb)
-                    .unwrap_or_else(|| gdk::RGBA::new(0.0, 0.0, 0.0, 0.0)),
-                "@borders"
-            )
-            .as_bytes(),
-        );
+        imp.color_bin
+            .set_visible(match value.and_then(model::Connection::rgb) {
+                Some(rgb) => {
+                    imp.css_provider.load_from_data(
+                        format!("widget {{ background: shade({rgb}, 1.2); }}").as_bytes(),
+                    );
+                    true
+                }
+                None => false,
+            });
 
         imp.connection.set(value);
         self.notify("connection");
