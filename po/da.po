@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-29 19:55+0100\n"
-"PO-Revision-Date: 2023-02-08 09:37+0000\n"
+"PO-Revision-Date: 2023-02-15 07:39+0000\n"
 "Last-Translator: Lars Nielsen <lnc13.lars@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/pods/main/da/>\n"
 "Language: da\n"
@@ -255,7 +255,7 @@ msgstr "Enten vælg en eksiterende forbindelse eller opret en ny."
 
 #: data/resources/ui/connection/chooser-page.ui:80
 msgid "_Add New Connection"
-msgstr ""
+msgstr "_Tilføj Ny Forbindelse"
 
 #: data/resources/ui/connection/creation-page.ui:27
 #: data/resources/ui/container/commit-page.ui:33
@@ -272,7 +272,7 @@ msgstr ""
 #: src/view/images/panel.rs:393 src/view/pod/mod.rs:91
 #: src/view/pods/panel.rs:459
 msgid "_Cancel"
-msgstr ""
+msgstr "_Annuller"
 
 #: data/resources/ui/connection/creation-page.ui:34
 msgid "New Connection"
@@ -280,7 +280,7 @@ msgstr "Ny Forbindelse"
 
 #: data/resources/ui/connection/creation-page.ui:51
 msgid "_Connect"
-msgstr ""
+msgstr "_Forbind"
 
 #: data/resources/ui/connection/creation-page.ui:112
 #: data/resources/ui/container/creation-page.ui:83
@@ -347,11 +347,11 @@ msgstr "Farve"
 
 #: data/resources/ui/connection/creation-page.ui:297
 msgid "Define how to colorize the header bar (disabled)."
-msgstr ""
+msgstr "Definer hvordan hovedbjælken skal farves (deaktiveret)."
 
 #: data/resources/ui/connection/custom-info-dialog.ui:16
 msgid "Custom Connection"
-msgstr ""
+msgstr "Brugerdefineret Forbindelse"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:41
 msgid ""
@@ -359,10 +359,14 @@ msgid ""
 "span>, <span weight=\"bold\">TCP</span>, and <span weight=\"bold\">UNIX</"
 "span> protocols. For example, the connection string might look like this:"
 msgstr ""
+"Du kan forbinde til en Podman instans ved brug af <span weight=\"bold\""
+">HTTP</span>, <span weight=\"bold\">TCP</span>, og <span weight=\"bold\""
+">UNIX</span> protokoller. For eksempel, kan forbindelses strenge måske se "
+"sådan her ud:"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:63
 msgid "http://somewhere:8081"
-msgstr ""
+msgstr "http://etellerandetsted:8081"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:82
 msgid "Podman Root Connection"
