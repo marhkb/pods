@@ -3,42 +3,27 @@
   <template class="PdsConnectionRow" parent="GtkWidget">
     <property name="layout-manager">
       <object class="GtkBoxLayout">
-        <property name="spacing">10</property>
+        <property name="spacing">9</property>
       </object>
     </property>
 
     <child>
-      <object class="GtkBox">
-        <property name="spacing">6</property>
+      <object class="GtkOverlay" id="overlay">
+        <property name="name">selection-indicator</property>
 
         <child>
-          <object class="AdwBin" id="color_indicator_bin">
-            <property name="margin-top">3</property>
-            <property name="margin-bottom">3</property>
-            <property name="vexpand">True</property>
+          <object class="GtkImage" id="image">
+            <property name="name">background</property>
+            <property name="valign">center</property>
           </object>
         </child>
 
-        <child>
-          <object class="GtkOverlay">
-            <property name="name">selection-indicator</property>
-
-            <child>
-              <object class="GtkImage" id="image">
-                <property name="name">background</property>
-                <property name="valign">center</property>
-              </object>
-            </child>
-
-            <child type="overlay">
-              <object class="GtkImage" id="checkmark">
-                <property name="name">checkmark</property>
-                <property name="halign">end</property>
-                <property name="valign">end</property>
-                <property name="icon-name">emblem-ok-symbolic</property>
-              </object>
-            </child>
-
+        <child type="overlay">
+          <object class="GtkImage" id="checkmark">
+            <property name="name">checkmark</property>
+            <property name="halign">end</property>
+            <property name="valign">end</property>
+            <property name="icon-name">emblem-ok-symbolic</property>
           </object>
         </child>
 
@@ -51,18 +36,32 @@
         <property name="valign">center</property>
 
         <child>
-          <object class="GtkLabel" id="name_label">
-            <binding name="label">
-              <lookup name="name" type="Connection">
-                <lookup name="connection">PdsConnectionRow</lookup>
-              </lookup>
-            </binding>
-            <property name="ellipsize">end</property>
-            <property name="hexpand">True</property>
-            <property name="max-width-chars">16</property>
-            <property name="single-line-mode">True</property>
-            <property name="vexpand">True</property>
-            <property name="xalign">0.0</property>
+          <object class="GtkBox">
+            <property name="spacing">5</property>
+
+            <child>
+              <object class="AdwBin" id="color_bin">
+                <property name="name">color</property>
+                <property name="valign">center</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkLabel" id="name_label">
+                <binding name="label">
+                  <lookup name="name" type="Connection">
+                    <lookup name="connection">PdsConnectionRow</lookup>
+                  </lookup>
+                </binding>
+                <property name="ellipsize">end</property>
+                <property name="hexpand">True</property>
+                <property name="max-width-chars">16</property>
+                <property name="single-line-mode">True</property>
+                <property name="vexpand">True</property>
+                <property name="xalign">0.0</property>
+              </object>
+            </child>
+
           </object>
         </child>
 
