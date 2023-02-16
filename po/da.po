@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-29 19:55+0100\n"
-"PO-Revision-Date: 2023-02-15 07:39+0000\n"
+"PO-Revision-Date: 2023-02-16 21:11+0000\n"
 "Last-Translator: Lars Nielsen <lnc13.lars@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/pods/main/da/>\n"
 "Language: da\n"
@@ -398,7 +398,7 @@ msgstr ""
 #: data/resources/ui/pod/details-page.ui:231
 #: data/resources/ui/pods/panel.ui:262 data/resources/ui/pods/panel.ui:333
 msgid "Delete"
-msgstr ""
+msgstr "Slet"
 
 #: data/resources/ui/container/commit-page.ui:40
 msgid "Commit Container"
