@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-29 19:55+0100\n"
-"PO-Revision-Date: 2023-02-16 21:11+0000\n"
+"PO-Revision-Date: 2023-02-20 11:39+0000\n"
 "Last-Translator: Lars Nielsen <lnc13.lars@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/pods/main/da/>\n"
 "Language: da\n"
@@ -198,11 +198,11 @@ msgstr "Marcus Behrendt"
 #: data/resources/ui/action/page.ui:118
 #: data/resources/ui/connection/creation-page.ui:82
 msgid "_Abort"
-msgstr ""
+msgstr "_Afbryd"
 
 #: data/resources/ui/action/page.ui:133
 msgid "_View"
-msgstr ""
+msgstr "_Se"
 
 #: data/resources/ui/action/page.ui:148
 msgid "_Retry"
@@ -414,7 +414,7 @@ msgstr ""
 
 #: data/resources/ui/container/commit-page.ui:68
 msgid "Author"
-msgstr ""
+msgstr "Forfatter"
 
 #: data/resources/ui/container/commit-page.ui:77
 msgid "Fetch Username"
@@ -423,19 +423,19 @@ msgstr ""
 #: data/resources/ui/container/commit-page.ui:88
 #: src/view/image/history_page.rs:171
 msgid "Comment"
-msgstr ""
+msgstr "Kommentar"
 
 #: data/resources/ui/container/commit-page.ui:95
 msgid "Repo"
-msgstr ""
+msgstr "Repo"
 
 #: data/resources/ui/container/commit-page.ui:102
 msgid "Tag"
-msgstr ""
+msgstr "Tag"
 
 #: data/resources/ui/container/commit-page.ui:108
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 #: data/resources/ui/container/commit-page.ui:123
 #: data/resources/ui/container/details-page.ui:167
