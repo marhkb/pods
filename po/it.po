@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-29 19:39+0100\n"
-"PO-Revision-Date: 2023-02-05 18:52+0000\n"
-"Last-Translator: albanobattistella <albano_battistella@hotmail.com>\n"
+"PO-Revision-Date: 2023-02-28 22:36+0000\n"
+"Last-Translator: Andrea Brandi <git@andreabrandi.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/pods/1-0/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.16-dev\n"
+"X-Generator: Weblate 4.16-rc\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
@@ -296,7 +296,7 @@ msgstr "URL"
 
 #: data/resources/ui/connection/creation-page.ui:122
 msgid "Choose how you want to connect to Podman."
-msgstr "Scegliere come connettersi a Podman."
+msgstr "Metodo di connessione a Podman."
 
 #: data/resources/ui/connection/creation-page.ui:126
 msgid "Unix Socket"
@@ -311,8 +311,9 @@ msgid ""
 "To connect to the local Podman instance, the systemd socket must be enabled. "
 "You can enable it permanently by issuing the following command:"
 msgstr ""
-"Per connettersi all'istanza Podman locale, il socket systemd deve essere "
-"abilitato. Puoi abilitarlo in modo permanente emettendo il seguente comando:"
+"Per connettersi all'istanza Podman locale, il socket systemd dev'essere "
+"abilitato. È possibile abilitarlo in modo permanente usando il seguente "
+"comando:"
 
 #: data/resources/ui/connection/creation-page.ui:217
 #: data/resources/ui/connection/custom-info-dialog.ui:138
@@ -363,7 +364,7 @@ msgstr ""
 
 #: data/resources/ui/connection/custom-info-dialog.ui:63
 msgid "http://somewhere:8081"
-msgstr "http://somewhere:8081"
+msgstr "http://posizione:8081"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:82
 msgid "Podman Root Connection"
@@ -376,11 +377,10 @@ msgid ""
 "is not readable for normal users. However, there is a workaround using a "
 "systemd unit. Save the following snippet:"
 msgstr ""
-"Sfortunatamente, al momento non è possibile connettersi direttamente "
-"all'istanza root di Podman, poiché <span weight=\"bold\">/run/podman/podman."
-"sock</span> non è leggibile per gli utenti normali. Tuttavia, esiste una "
-"soluzione alternativa utilizzando un'unità systemd. Salva il seguente "
-"frammento:"
+"Al momento non è possibile connettersi direttamente all'istanza root di "
+"Podman, poiché <span weight=\"bold\">/run/podman/podman.sock</span> non è "
+"leggibile per gli utenti normali. Tuttavia, esiste una soluzione alternativa "
+"utilizzando un'unità systemd. Salva il seguente frammento:"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:203
 msgid "Enable the service by issuing the command:"
