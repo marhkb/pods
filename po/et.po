@@ -8,21 +8,20 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-29 19:55+0100\n"
-"PO-Revision-Date: 2023-02-21 12:39+0000\n"
-"Last-Translator: Lars Nielsen <lnc13.lars@gmail.com>\n"
-"Language-Team: Danish <https://hosted.weblate.org/projects/pods/main/da/>\n"
-"Language: da\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: et\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.16-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
 #: data/resources/ui/window.ui:126 src/main.rs:44
 msgid "Pods"
-msgstr "Pods"
+msgstr ""
 
 #: data/com.github.marhkb.Pods.desktop.in.in:4
 msgid "A Podman desktop application"
@@ -30,17 +29,17 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.desktop.in.in:9
 msgid "Gnome;GTK;"
-msgstr "Gnome;GTK;"
+msgstr ""
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:6
 #: data/com.github.marhkb.Pods.gschema.xml.in:7
 msgid "Default window width"
-msgstr "Standard vinduesbredde"
+msgstr ""
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:11
 #: data/com.github.marhkb.Pods.gschema.xml.in:12
 msgid "Default window height"
-msgstr "Standard vindueshøjde"
+msgstr ""
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:16
 msgid "Default window maximized behaviour"
@@ -48,15 +47,15 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:26
 msgid "Color Scheme"
-msgstr "Farveskema"
+msgstr ""
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:27
 msgid "Use the light or dark variant of the GTK theme"
-msgstr "Benyt den lyse eller mørke variant af GTK temaet"
+msgstr ""
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:31
 msgid "The uuid of the connection that was used the last time"
-msgstr "UUIDet for forbindelsens brugt sidste gang"
+msgstr ""
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:36
 msgid "The last used view"
@@ -68,98 +67,92 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:46
 msgid "The last used container file path"
-msgstr "Filestien for den sidst benyttet kontainer"
+msgstr ""
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:51
 msgid "Remove all images not in use by containers, not just dangling ones"
 msgstr ""
-"Fjern alle images som ikke er i brug af nogle containere, ikke kun dem uden "
-"referencer"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:56
 msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)"
 msgstr ""
-"Fjern billeder selv hvis de benyttes af eksterne kontainer (e.g, af "
-"byggekontainer)"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:61
 msgid "Whether to show only running containers"
-msgstr "Skal kun kørende kontainer vises"
+msgstr ""
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:66
 msgid "Whether to show only running pods"
-msgstr "Skal kun kørende pods vises"
+msgstr ""
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:71
 msgid "Whether to show a timestamp for each log line"
-msgstr "Skal der vises tidsstemple for hver loglinje"
+msgstr ""
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:76
 #: data/com.github.marhkb.Pods.gschema.xml.in:81
 msgid "Whether to use a regex for search"
-msgstr "Skal regex brugers ved søgning"
+msgstr ""
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:86
 msgid "Whether search should be case-sensitive"
-msgstr "Skal søgning være case-sensitive"
+msgstr ""
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:91
 msgid "Whether to match whole words when searching"
-msgstr "Skal hele ord matches ved søgning"
+msgstr ""
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:96
 msgid "The font scale of all text views"
-msgstr "Tekstskalering for alle tekstvisninger"
+msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
 msgid "Keep track of your podman containers"
-msgstr "Hold styr på din podman kontainer"
+msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
 msgid ""
 "Pods is a frontend for podman. It uses libadwaita for its user interface and "
 "strives to meet the design principles of GNOME."
 msgstr ""
-"Pods er en frontend for pod. Pods benytter libadwaita til dens "
-"brugergrænseflade og stræber efter at følge designprincipperne for Gnome."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:11
 msgid "With Pods you can, among other things:"
-msgstr "Med Pods kan du bland andet:"
+msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:13
 msgid "Connect to local and remote Podman instances."
-msgstr "Forbind til lokale og fjern Podman instanser."
+msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:14
 msgid "Easily overview images, containers and pods."
-msgstr "Nem oversigt over billeder, kontainer, og pods."
+msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:15
 msgid "View prepared information about images, containers, and pods."
-msgstr "Se forberedt information of billeder, kontainer, og pods."
+msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:16
 msgid "Inspect images, containers and pods."
-msgstr "Inspicer billeder, kontainer, og pods."
+msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:17
 msgid "View and search container logs."
-msgstr "Vis og søg i kontainerlogs."
+msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:18
 msgid "Monitor processes of containers and pods."
-msgstr "Monitorer processer for kontainere og pods."
+msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:19
 msgid "Download images and build them using Dockerfiles."
-msgstr "Hent billeder og byg dem ved brug af Dockerfiler."
+msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:20
 msgid "Create pods and containers."
-msgstr "Opret pods og kontainer."
+msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:21
 msgid ""
@@ -169,7 +162,7 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:22
 msgid "Delete images, containers, and pods (in bulk)."
-msgstr "Slet billeder, kontainer, og pods (i bulk)."
+msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:23
 msgid "Prune images."
@@ -177,32 +170,32 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:24
 msgid "Rename containers."
-msgstr "Omnavndøb kontainere."
+msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:30
 msgid "Images Overview"
-msgstr "Billede Oversigt"
+msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:34
 msgid "Containers Overview"
-msgstr "Kontainer Oversigt"
+msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:38
 msgid "Pods Overview"
-msgstr "Pods Oversigt"
+msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:263
 msgid "Marcus Behrendt"
-msgstr "Marcus Behrendt"
+msgstr ""
 
 #: data/resources/ui/action/page.ui:118
 #: data/resources/ui/connection/creation-page.ui:82
 msgid "_Abort"
-msgstr "_Afbryd"
+msgstr ""
 
 #: data/resources/ui/action/page.ui:133
 msgid "_View"
-msgstr "_Se"
+msgstr ""
 
 #: data/resources/ui/action/page.ui:148
 msgid "_Retry"
@@ -210,7 +203,7 @@ msgstr ""
 
 #: data/resources/ui/actions/overview.ui:38
 msgid "No Operations"
-msgstr "Ingen Operationer"
+msgstr ""
 
 #: data/resources/ui/component/scalable-text-view-page.ui:33
 #: data/resources/ui/container/creation-page.ui:184
@@ -218,44 +211,44 @@ msgstr "Ingen Operationer"
 #: data/resources/ui/pod/creation-page.ui:350
 #: data/resources/ui/search-panel.ui:18 data/resources/ui/window.ui:113
 msgid "Search"
-msgstr "Søg"
+msgstr ""
 
 #: data/resources/ui/component/scalable-text-view-page.ui:41
 #: data/resources/ui/container/log-page.ui:63
 msgid "Save as File"
-msgstr "Gem som Fil"
+msgstr ""
 
 #: data/resources/ui/component/source-view-search-widget.ui:23
 msgid "Previous (Ctrl+Shift+G)"
-msgstr "Forrige (Ctrl+Shift+G)"
+msgstr ""
 
 #: data/resources/ui/component/source-view-search-widget.ui:30
 msgid "Next (Ctrl+G)"
-msgstr "Næste (Ctrl+G)"
+msgstr ""
 
 #: data/resources/ui/component/text-search-entry.ui:42
 msgid "Regular Expression"
-msgstr "Regulært Udtryk"
+msgstr ""
 
 #: data/resources/ui/component/text-search-entry.ui:50
 msgid "Case Sensitive"
-msgstr "Case-Sensitive"
+msgstr ""
 
 #: data/resources/ui/component/text-search-entry.ui:58
 msgid "Whole Word"
-msgstr "Fulde ord"
+msgstr ""
 
 #: data/resources/ui/connection/chooser-page.ui:34
 msgid "Connect to Podman"
-msgstr "Forbind til Podman"
+msgstr ""
 
 #: data/resources/ui/connection/chooser-page.ui:35
 msgid "Either choose an existing connection or create a new one."
-msgstr "Enten vælg en eksiterende forbindelse eller opret en ny."
+msgstr ""
 
 #: data/resources/ui/connection/chooser-page.ui:80
 msgid "_Add New Connection"
-msgstr "_Tilføj Ny Forbindelse"
+msgstr ""
 
 #: data/resources/ui/connection/creation-page.ui:27
 #: data/resources/ui/container/commit-page.ui:33
@@ -272,15 +265,15 @@ msgstr "_Tilføj Ny Forbindelse"
 #: src/view/images/panel.rs:393 src/view/pod/mod.rs:91
 #: src/view/pods/panel.rs:459
 msgid "_Cancel"
-msgstr "_Annuller"
+msgstr ""
 
 #: data/resources/ui/connection/creation-page.ui:34
 msgid "New Connection"
-msgstr "Ny Forbindelse"
+msgstr ""
 
 #: data/resources/ui/connection/creation-page.ui:51
 msgid "_Connect"
-msgstr "_Forbind"
+msgstr ""
 
 #: data/resources/ui/connection/creation-page.ui:112
 #: data/resources/ui/container/creation-page.ui:83
@@ -290,32 +283,29 @@ msgstr "_Forbind"
 #: data/resources/ui/pod/creation-page.ui:302
 #: data/resources/ui/pod/details-page.ui:52
 msgid "Name"
-msgstr "Navn"
+msgstr ""
 
 #: data/resources/ui/connection/creation-page.ui:121
 msgid "URL"
-msgstr "URL"
+msgstr ""
 
 #: data/resources/ui/connection/creation-page.ui:122
 msgid "Choose how you want to connect to Podman."
-msgstr "Vælge hvordan du vil forbinde til Podman."
+msgstr ""
 
 #: data/resources/ui/connection/creation-page.ui:126
 msgid "Unix Socket"
-msgstr "Unix Socket"
+msgstr ""
 
 #: data/resources/ui/connection/creation-page.ui:161
 msgid "Podman Socket Activation"
-msgstr "Podman Socket Aktivering"
+msgstr ""
 
 #: data/resources/ui/connection/creation-page.ui:168
 msgid ""
 "To connect to the local Podman instance, the systemd socket must be enabled. "
 "You can enable it permanently by issuing the following command:"
 msgstr ""
-"For at forbinde til den lokale Podman instans, skal systemd socketen være "
-"slået til. Du kan permanent slå den til ved eksekvering af den følgende "
-"kommando:"
 
 #: data/resources/ui/connection/creation-page.ui:217
 #: data/resources/ui/connection/custom-info-dialog.ui:138
@@ -323,35 +313,33 @@ msgstr ""
 #: data/resources/ui/connection/custom-info-dialog.ui:252
 #: data/resources/ui/connection/custom-info-dialog.ui:300
 msgid "Copy to Clipboard"
-msgstr "Kopier til Udklipsholderen"
+msgstr ""
 
 #: data/resources/ui/connection/creation-page.ui:233
 msgid ""
 "To connect to the local root Podman instance, create a custom connection "
 "(read the hints there)."
 msgstr ""
-"For at forbinde til den lokale root Podman instans, lave en brugerdefinerede "
-"forbindelse (læs hints her)."
 
 #: data/resources/ui/connection/creation-page.ui:258
 msgid "Custom"
-msgstr "Brugerdefinerede"
+msgstr ""
 
 #: data/resources/ui/connection/creation-page.ui:268
 msgid "Connection String"
-msgstr "Forbindelses streng"
+msgstr ""
 
 #: data/resources/ui/connection/creation-page.ui:296
 msgid "Color"
-msgstr "Farve"
+msgstr ""
 
 #: data/resources/ui/connection/creation-page.ui:297
 msgid "Define how to colorize the header bar (disabled)."
-msgstr "Definer hvordan hovedbjælken skal farves (deaktiveret)."
+msgstr ""
 
 #: data/resources/ui/connection/custom-info-dialog.ui:16
 msgid "Custom Connection"
-msgstr "Brugerdefineret Forbindelse"
+msgstr ""
 
 #: data/resources/ui/connection/custom-info-dialog.ui:41
 msgid ""
@@ -359,14 +347,10 @@ msgid ""
 "span>, <span weight=\"bold\">TCP</span>, and <span weight=\"bold\">UNIX</"
 "span> protocols. For example, the connection string might look like this:"
 msgstr ""
-"Du kan forbinde til en Podman instans ved brug af <span weight=\"bold\""
-">HTTP</span>, <span weight=\"bold\">TCP</span>, og <span weight=\"bold\""
-">UNIX</span> protokoller. For eksempel, kan forbindelses strenge måske se "
-"sådan her ud:"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:63
 msgid "http://somewhere:8081"
-msgstr "http://etellerandetsted:8081"
+msgstr ""
 
 #: data/resources/ui/connection/custom-info-dialog.ui:82
 msgid "Podman Root Connection"
@@ -398,7 +382,7 @@ msgstr ""
 #: data/resources/ui/pod/details-page.ui:231
 #: data/resources/ui/pods/panel.ui:262 data/resources/ui/pods/panel.ui:333
 msgid "Delete"
-msgstr "Slet"
+msgstr ""
 
 #: data/resources/ui/container/commit-page.ui:40
 msgid "Commit Container"
@@ -414,7 +398,7 @@ msgstr ""
 
 #: data/resources/ui/container/commit-page.ui:68
 msgid "Author"
-msgstr "Forfatter"
+msgstr ""
 
 #: data/resources/ui/container/commit-page.ui:77
 msgid "Fetch Username"
@@ -423,19 +407,19 @@ msgstr ""
 #: data/resources/ui/container/commit-page.ui:88
 #: src/view/image/history_page.rs:171
 msgid "Comment"
-msgstr "Kommentar"
+msgstr ""
 
 #: data/resources/ui/container/commit-page.ui:95
 msgid "Repo"
-msgstr "Repo"
+msgstr ""
 
 #: data/resources/ui/container/commit-page.ui:102
 msgid "Tag"
-msgstr "Tag"
+msgstr ""
 
 #: data/resources/ui/container/commit-page.ui:108
 msgid "Format"
-msgstr "Format"
+msgstr ""
 
 #: data/resources/ui/container/commit-page.ui:123
 #: data/resources/ui/container/details-page.ui:167
@@ -443,9 +427,8 @@ msgstr "Format"
 #: data/resources/ui/containers/panel.ui:259
 #: data/resources/ui/pod/details-page.ui:214
 #: data/resources/ui/pods/panel.ui:204 data/resources/ui/pods/panel.ui:311
-#, fuzzy
 msgid "Pause"
-msgstr "Pause"
+msgstr ""
 
 #: data/resources/ui/container/commit-page.ui:124
 msgid "Pause the container before committing it."
@@ -453,7 +436,7 @@ msgstr ""
 
 #: data/resources/ui/container/commit-page.ui:138
 msgid "Changes"
-msgstr "Ændringer"
+msgstr ""
 
 #: data/resources/ui/container/commit-page.ui:139
 msgid ""
