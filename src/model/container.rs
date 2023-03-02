@@ -24,6 +24,7 @@ use crate::utils;
 #[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
 #[enum_type(name = "ContainerStatus")]
 pub(crate) enum Status {
+    Configured,
     Created,
     Dead,
     Exited,
@@ -43,6 +44,7 @@ impl FromStr for Status {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         Ok(match s {
+            "configured" => Self::Configured,
             "created" => Self::Created,
             "dead" => Self::Dead,
             "exited" => Self::Exited,
@@ -64,6 +66,7 @@ impl fmt::Display for Status {
             f,
             "{}",
             match self {
+                Self::Configured => gettext("Configured"),
                 Self::Created => gettext("Created"),
                 Self::Dead => gettext("Dead"),
                 Self::Exited => gettext("Exited"),
@@ -716,7 +719,11 @@ impl Container {
     pub(crate) fn can_start(&self) -> bool {
         matches!(
             self.status(),
-            Status::Created | Status::Exited | Status::Initialized | Status::Stopped
+            Status::Configured
+                | Status::Created
+                | Status::Exited
+                | Status::Initialized
+                | Status::Stopped
         )
     }
 
