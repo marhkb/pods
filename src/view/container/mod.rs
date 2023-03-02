@@ -33,6 +33,7 @@ fn container_status_css_class(status: model::ContainerStatus) -> &'static str {
     use model::ContainerStatus::*;
 
     match status {
+        Configured => "container-status-configured",
         Created => "container-status-created",
         Dead => "container-status-dead",
         Exited => "container-status-exited",

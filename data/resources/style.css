@@ -108,6 +108,7 @@ connectionchooserpage connectionswitchermenu row {
   margin: 0 0 -4px -2px;
 }
 
+.container-status-configured,
 .container-status-created,
 .container-status-exited,
 .container-status-initialized,
