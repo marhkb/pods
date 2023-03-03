@@ -42,6 +42,22 @@
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="1.0.6" date="2023-03-03">
+      <description>
+        <p>Pods 1.0.5 contains the following bug fixes and improvements:</p>
+        <ul>
+          <li>To eliminate the blur, the icons in the status bar now all have a size of 16 pixels instead of 12 pixels.</li>
+          <li>The desktop entry now uses the updated short description as comment.</li>
+          <li>Some appropriate categories have been added to the desktop entry.</li>
+          <li>Fixed a bug where the Id of a container was replaced by the name once the name of the container was changed.</li>
+          <li>The container status <em>configured</em> was not handled before. This is now fixed.</li>
+          <li>The spinner within the container log page did not disappear earlier if the log was empty. This is fixed now.</li>
+          <li>The code has been improved in some places.</li>
+          <li>Translations have been updated.</li>
+          <li>Dependencies have been updated.</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.0.5" date="2023-02-05">
       <description>
         <p>Pods 1.0.5 contains the following bug fixes and improvements:</p>
