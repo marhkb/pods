@@ -94,7 +94,7 @@ mod imp {
                     if is_remote {
                         "network-server-symbolic"
                     } else {
-                        "computer-symbolic"
+                        "local-connection-symbolic"
                     }
                 }))
                 .bind(&*self.image, "icon-name", Some(obj));

@@ -113,7 +113,7 @@
                     <style>
                       <class name="panel-image"/>
                     </style>
-                    <property name="icon-name">preferences-system-notifications-symbolic</property>
+                    <property name="icon-name">bell-symbolic</property>
                   </object>
                 </child>
 
