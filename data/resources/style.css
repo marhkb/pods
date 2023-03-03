@@ -93,10 +93,6 @@ connectionchooserpage connectionswitchermenu row {
   padding: 9px 18px;
 }
 
-.circular-progress-bar {
-  font-size: 0.65em;
-}
-
 .status-badge {
   font-size: 0.8em;
   font-weight: bold;
@@ -110,6 +106,7 @@ connectionchooserpage connectionswitchermenu row {
   margin: 0 0 -4px -2px;
 }
 
+.container-status-configured,
 .container-status-created,
 .container-status-exited,
 .container-status-initialized,
