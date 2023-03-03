@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-29 19:39+0100\n"
-"PO-Revision-Date: 2023-01-18 14:47+0000\n"
-"Last-Translator: rene-coty <irenee.thirion@e.email>\n"
+"PO-Revision-Date: 2023-03-02 21:36+0000\n"
+"Last-Translator: SoftExpert <softexpert@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/pods/1-0/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.15.1-dev\n"
+"X-Generator: Weblate 4.16.2-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
@@ -306,15 +306,17 @@ msgid "Unix Socket"
 msgstr "Socket Unix"
 
 #: data/resources/ui/connection/creation-page.ui:161
-#, fuzzy
 msgid "Podman Socket Activation"
-msgstr "Une application de bureau Podman"
+msgstr "Activation du socket Podman"
 
 #: data/resources/ui/connection/creation-page.ui:168
 msgid ""
 "To connect to the local Podman instance, the systemd socket must be enabled. "
 "You can enable it permanently by issuing the following command:"
 msgstr ""
+"Pour se connecter à l'instance locale de Podman, le socket systemd doit être "
+"activé. Vous pouvez l'activer de façon permanente en lançant la commande "
+"suivante :"
 
 #: data/resources/ui/connection/creation-page.ui:217
 #: data/resources/ui/connection/custom-info-dialog.ui:138
@@ -329,6 +331,8 @@ msgid ""
 "To connect to the local root Podman instance, create a custom connection "
 "(read the hints there)."
 msgstr ""
+"Pour se connecter à l’instance locale de Podman root, créez une connexion "
+"personnalisée (lisez les indices)."
 
 #: data/resources/ui/connection/creation-page.ui:258
 msgid "Custom"
@@ -356,15 +360,18 @@ msgid ""
 "span>, <span weight=\"bold\">TCP</span>, and <span weight=\"bold\">UNIX</"
 "span> protocols. For example, the connection string might look like this:"
 msgstr ""
+"Vous pouvez vous connecter à une instance de Podman en utilisant les "
+"protocoles <span weight=\"bold\">HTTP</span>, <span weight=\"bold\">TCP</"
+"span> et <span weight=\"bold\">UNIX</span>. Par exemple, la chaîne de "
+"connexion pourrait ressembler à ceci :"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:63
 msgid "http://somewhere:8081"
-msgstr ""
+msgstr "http://somewhere:8081"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:82
-#, fuzzy
 msgid "Podman Root Connection"
-msgstr "Ajouter une nouvelle connexion"
+msgstr "Connexion Podman root"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:91
 msgid ""
@@ -373,6 +380,11 @@ msgid ""
 "is not readable for normal users. However, there is a workaround using a "
 "systemd unit. Save the following snippet:"
 msgstr ""
+"Malheureusement, il n'est actuellement pas possible de se connecter "
+"directement à l'instance racine de Podman, car <span weight=\"bold\">/run/"
+"podman/podman.sock</span> n'est pas lisible pour les utilisateurs normaux. "
+"Cependant, il existe une solution de contournement en utilisant une unité "
+"systemd. Enregistrez l'extrait suivant :"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:203
 msgid "Enable the service by issuing the command:"
@@ -396,9 +408,8 @@ msgid "Delete"
 msgstr "Supprimer"
 
 #: data/resources/ui/container/commit-page.ui:40
-#, fuzzy
 msgid "Commit Container"
-msgstr "{} Conteneur"
+msgstr "Enregistrer le Conteneur"
 
 #: data/resources/ui/container/commit-page.ui:50
 msgid "_Commit"
@@ -444,7 +455,7 @@ msgstr "Pause"
 
 #: data/resources/ui/container/commit-page.ui:124
 msgid "Pause the container before committing it."
-msgstr ""
+msgstr "Mettez le conteneur en pause avant de le valider."
 
 #: data/resources/ui/container/commit-page.ui:138
 msgid "Changes"
@@ -455,6 +466,8 @@ msgid ""
 "Instructions to apply while committing in Dockerfile format (i.e. \"CMD=/bin/"
 "foo\")."
 msgstr ""
+"Instructions à appliquer lors de la validation du fichier Dockerfile (par "
+"exemple, \"CMD=/bin/foo\")."
 
 #: data/resources/ui/container/creation-page.ui:15
 msgid "_Create Only"
@@ -672,16 +685,15 @@ msgstr ""
 #: data/resources/ui/container/details-page.ui:222
 #: data/resources/ui/pod/details-page.ui:268
 msgid "Kube"
-msgstr ""
+msgstr "Kube"
 
 #: data/resources/ui/container/details-page.ui:223
-#, fuzzy
 msgid "Generate Kubernetes YAML based on this container."
-msgstr "Créer des pods et des conteneurs."
+msgstr "Générer un YAML Kubernetes basé sur ce conteneur."
 
 #: data/resources/ui/container/details-page.ui:240
 msgid "Connect to the container's terminal."
-msgstr ""
+msgstr "Se connecter au terminal du conteneur."
 
 #: data/resources/ui/container/details-page.ui:256
 msgid "Logs"
@@ -723,7 +735,7 @@ msgstr "Chemin de l’hôte"
 
 #: data/resources/ui/container/files-get-page.ui:76
 msgid "Select a destination tar archive on the host."
-msgstr ""
+msgstr "Sélectionnez une archive tar de destination sur l'hôte."
 
 #: data/resources/ui/container/files-get-page.ui:81
 msgid "Select _Path…"
@@ -735,7 +747,7 @@ msgstr "Sélectionner un _répertoire…"
 
 #: data/resources/ui/container/files-put-page.ui:49
 msgid "Upload Files"
-msgstr ""
+msgstr "Télécharger des fichiers"
 
 #: data/resources/ui/container/files-put-page.ui:59
 msgid "_Upload"
@@ -774,6 +786,8 @@ msgstr "Journal"
 #: data/resources/ui/container/health-check-page.ui:99
 msgid "Rows describe the last 5 health check attempts and results."
 msgstr ""
+"Les lignes décrivent les 5 dernières tentatives et résultats du bilan de "
+"santé."
 
 #: data/resources/ui/container/health-check-page.ui:104
 msgid "_Run Health Check"
@@ -802,6 +816,7 @@ msgstr "Défiler vers le bas"
 #: data/resources/ui/container/log-page.ui:226
 msgid "Streaming is disconnected because container isn't running."
 msgstr ""
+"Le streaming est déconnecté, car le conteneur n'est pas en cours d'exécution."
 
 #: data/resources/ui/container/log-page.ui:236
 msgid "Start/Resume Container"
@@ -874,13 +889,12 @@ msgid "Size"
 msgstr "Taille"
 
 #: data/resources/ui/container/properties-group.ui:146
-#, fuzzy
 msgid "Download Files (Ctrl+D)"
-msgstr "Télécharger les fichiers"
+msgstr "Télécharger les fichiers (Ctrl+D)"
 
 #: data/resources/ui/container/properties-group.ui:158
 msgid "Upload Files (Ctrl+U)"
-msgstr ""
+msgstr "Télécharger des fichiers (Ctrl+U)"
 
 #: data/resources/ui/container/properties-group.ui:206
 msgid "Port bindings"
@@ -915,21 +929,20 @@ msgid "Disk"
 msgstr "Disque"
 
 #: data/resources/ui/container/tty-page.ui:19
-#, fuzzy
 msgid "Container TTY"
-msgstr "Conteneur"
+msgstr "Conteneur TTY"
 
 #: data/resources/ui/container/tty.ui:6
 msgid "_Copy"
-msgstr ""
+msgstr "_Copier"
 
 #: data/resources/ui/container/tty.ui:10
 msgid "Copy as _HTML"
-msgstr ""
+msgstr "Copier au format _HTML"
 
 #: data/resources/ui/container/tty.ui:14
 msgid "_Paste"
-msgstr ""
+msgstr "_Coller"
 
 #: data/resources/ui/container/tty.ui:35
 msgid "No Terminal"
@@ -940,7 +953,6 @@ msgid "The container must be running to use the terminal."
 msgstr "Le conteneur doit être en cours d’exécution pour utiliser le terminal."
 
 #: data/resources/ui/container/tty.ui:46
-#, fuzzy
 msgid "Start"
 msgstr "Démarrer"
 
@@ -980,7 +992,7 @@ msgstr "Inscriptible"
 
 #: data/resources/ui/device/row.ui:71
 msgid "mknod"
-msgstr ""
+msgstr "mknod"
 
 #: data/resources/ui/device/row.ui:97 data/resources/ui/volume/row.ui:107
 msgid "Host path"
@@ -1039,9 +1051,8 @@ msgid "Tag ('latest' if empty)"
 msgstr "Tag ('latest' si vide)"
 
 #: data/resources/ui/image/build-page.ui:41
-#, fuzzy
 msgid "Build Image"
-msgstr "_Construire une Image locale"
+msgstr "Construire une Image"
 
 #: data/resources/ui/image/build-page.ui:51
 msgid "_Build"
@@ -1071,19 +1082,19 @@ msgstr "Détails de l'image"
 
 #: data/resources/ui/image/details-page.ui:77
 msgid "Disk space"
-msgstr ""
+msgstr "Espace disque"
 
 #: data/resources/ui/image/details-page.ui:90
 msgid "Entry Point"
-msgstr ""
+msgstr "Point d'entrée"
 
 #: data/resources/ui/image/details-page.ui:97
 msgid "Ports"
-msgstr ""
+msgstr "Ports"
 
 #: data/resources/ui/image/details-page.ui:107
 msgid "Repository Tags"
-msgstr ""
+msgstr "Balises du référentiel"
 
 #: data/resources/ui/image/details-page.ui:145
 msgid "_Delete This Image"
@@ -1096,11 +1107,11 @@ msgstr ""
 
 #: data/resources/ui/image/details-page.ui:182
 msgid "History"
-msgstr ""
+msgstr "Histoire"
 
 #: data/resources/ui/image/details-page.ui:183
 msgid "View parent layers of this image."
-msgstr ""
+msgstr "Affichez les calques parents de cette image."
 
 #: data/resources/ui/image/details-page.ui:207
 msgid "Associated Containers"
@@ -1111,13 +1122,12 @@ msgid "There are no containers associated with this image."
 msgstr "Il n'y a pas de conteneurs associés à cette image."
 
 #: data/resources/ui/image/history-page.ui:19
-#, fuzzy
 msgid "Image History"
-msgstr "Images"
+msgstr "Historique des images"
 
 #: data/resources/ui/image/history-page.ui:49
 msgid "History List"
-msgstr ""
+msgstr "Liste d'historique"
 
 #: data/resources/ui/image/menu-button.ui:6
 #: data/resources/ui/pod/menu-button.ui:7
@@ -1166,18 +1176,16 @@ msgid "_Build a Local Image"
 msgstr "_Construire une Image locale"
 
 #: data/resources/ui/images/prune-page.ui:40
-#, fuzzy
 msgid "Prune Images"
-msgstr "Supprimez les images superflues (élaguer-prune)"
+msgstr "Supprimez les images"
 
 #: data/resources/ui/images/prune-page.ui:50
 msgid "_Prune"
 msgstr "_Élaguer"
 
 #: data/resources/ui/images/prune-page.ui:64
-#, fuzzy
 msgid "Prune Options"
-msgstr "Spécifier les paramètres d’élagage"
+msgstr "Paramètres de nettoyage"
 
 #: data/resources/ui/images/prune-page.ui:69
 msgid "Prune All"
@@ -1247,7 +1255,7 @@ msgstr "Architecture Systéme"
 
 #: data/resources/ui/info-dialog.ui:56
 msgid "Storage"
-msgstr ""
+msgstr "Stockage"
 
 #: data/resources/ui/info-dialog.ui:57
 msgid "Describes the container storage and its attributes."
@@ -1325,9 +1333,8 @@ msgstr "Valeur"
 
 #: data/resources/ui/pod/creation-page.ui:45 data/resources/ui/pods/panel.ui:13
 #: data/resources/ui/pods/panel.ui:86
-#, fuzzy
 msgid "Create Pod"
-msgstr "_Créer un Pod"
+msgstr "Créer un pod"
 
 #: data/resources/ui/pod/creation-page.ui:55
 msgid "_Create"
@@ -1340,12 +1347,11 @@ msgstr "Nom d’hôte"
 
 #: data/resources/ui/pod/creation-page.ui:134
 msgid "Disable /etc/resolv.conf management"
-msgstr ""
+msgstr "Désactiver la gestion /etc/resolv.conf"
 
 #: data/resources/ui/pod/creation-page.ui:153
-#, fuzzy
 msgid "Pod Create Command"
-msgstr "Créer et lancer"
+msgstr "Commande de création de Pod"
 
 #: data/resources/ui/pod/creation-page.ui:193
 msgid "Devices"
@@ -1381,7 +1387,7 @@ msgstr "Affichez toutes les propriétés des pods sous forme de texte structuré
 
 #: data/resources/ui/pod/details-page.ui:269
 msgid "Generate Kubernetes YAML based on this pod."
-msgstr ""
+msgstr "Générer un YAML Kubernetes basé sur ce conteneur."
 
 #: data/resources/ui/pod/details-page.ui:286
 msgid "View processes that are currently running inside the pod."
@@ -1423,34 +1429,31 @@ msgstr "UDP"
 
 #: data/resources/ui/repo-tag/add-dialog.ui:6
 msgid "Add Repository Tag"
-msgstr ""
+msgstr "Ajouter une balise de référentiel"
 
 #: data/resources/ui/repo-tag/add-dialog.ui:10
 msgid "_Add"
-msgstr ""
+msgstr "_Ajouter"
 
 #: data/resources/ui/repo-tag/add-dialog.ui:31
 msgid "Repository Tag"
-msgstr ""
+msgstr "Balise de référentiel"
 
 #: data/resources/ui/repo-tag/row.ui:32
-#, fuzzy
 msgid "Pull Latest"
-msgstr "Télécharger la dernière image"
+msgstr "Télécharger l'image la plus récente"
 
 #: data/resources/ui/repo-tag/row.ui:43
 msgid "Untag"
-msgstr ""
+msgstr "Démarquer"
 
 #: data/resources/ui/search-panel.ui:19
-#, fuzzy
 msgid "Please start typing to look for results."
-msgstr "Commencez à écrire pour rechercher des images."
+msgstr "Veuillez commencer à taper pour chercher des résultats."
 
 #: data/resources/ui/search-panel.ui:33
-#, fuzzy
 msgid "No Results Found"
-msgstr "Aucun registre trouvé"
+msgstr "Aucun résultat trouvé"
 
 #: data/resources/ui/search-panel.ui:51 data/resources/ui/window.ui:273
 msgid "Images"
@@ -1524,7 +1527,7 @@ msgstr "Télécharger les fichiers"
 #: data/resources/ui/shortcuts.ui:94
 msgctxt "shortcut window"
 msgid "Upload files"
-msgstr ""
+msgstr "Télécharger des fichiers"
 
 #: data/resources/ui/shortcuts.ui:104
 msgctxt "shortcut window"
@@ -1539,7 +1542,7 @@ msgstr "Copier la sélection dans le presse-papiers"
 #: data/resources/ui/shortcuts.ui:115
 msgctxt "shortcut window"
 msgid "Paste from clipboard"
-msgstr ""
+msgstr "Coller depuis le presse-papiers"
 
 #: data/resources/ui/shortcuts.ui:125
 msgctxt "shortcut window"
@@ -1627,14 +1630,12 @@ msgid "Select None"
 msgstr "Sélectionnez Aucun"
 
 #: data/resources/ui/window.ui:157
-#, fuzzy
 msgid "Multi-Selection"
-msgstr "Sélectionnez Aucun"
+msgstr "Sélection multiple"
 
 #: data/resources/ui/window.ui:180
-#, fuzzy
 msgid "Cancel"
-msgstr "_Annuler"
+msgstr "Annuler"
 
 #: src/application.rs:188
 msgid "translator-credits"
@@ -1654,7 +1655,7 @@ msgstr "Spécifier le niveau minimal de journalisation"
 
 #: src/model/action.rs:160
 msgid "Images: <b>Prune</b>"
-msgstr ""
+msgstr "Images : <b>Nettoyage</b>"
 
 #: src/model/action.rs:198 src/model/action.rs:227
 msgid "Image: <b>{}</b>"
@@ -1835,9 +1836,8 @@ msgid "<none>"
 msgstr "<aucune>"
 
 #: src/utils.rs:401
-#, fuzzy
 msgid "Error on open file dialog"
-msgstr "Erreur lors de l’ouverture de l’artefact"
+msgstr "Erreur dans la boîte de dialogue d'ouverture de fichier"
 
 #: src/view/action/page.rs:141
 msgid "Images Are Currently Being Pruned"
@@ -1972,13 +1972,12 @@ msgid "Remove"
 msgstr "Supprimer"
 
 #: src/view/action/row.rs:221
-#, fuzzy
 msgid "Failed Pods Action"
-msgstr "Échec de la création d'un pod"
+msgstr "Action des pods ayant échoué"
 
 #: src/view/action/row.rs:225
 msgid "Finished Pods Action"
-msgstr ""
+msgstr "Action des pods terminés"
 
 #: src/view/action/row.rs:266
 msgid "Ongoing ({})"
@@ -2013,18 +2012,16 @@ msgid "Container Inspection"
 msgstr "Inspection des conteneurs"
 
 #: src/view/component/source_view_page.rs:190
-#, fuzzy
 msgid "Container Kube Generation"
-msgstr "Inspection des conteneurs"
+msgstr "Génération de conteneurs Kube"
 
 #: src/view/component/source_view_page.rs:200
 msgid "Pod Inspection"
 msgstr "Inspection du pod"
 
 #: src/view/component/source_view_page.rs:201
-#, fuzzy
 msgid "Pod Kube Generation"
-msgstr "Inspection du pod"
+msgstr "Génération de Pod Kube"
 
 #: src/view/component/source_view_page.rs:227
 msgid "Could not set language to '{}'"
@@ -2035,9 +2032,8 @@ msgid "Inspection error"
 msgstr "Erreur d’inspection"
 
 #: src/view/component/source_view_page.rs:314
-#, fuzzy
 msgid "Kube generation error"
-msgstr "Inspection du pod"
+msgstr "Erreur de génération de Kube"
 
 #: src/view/component/source_view_search_widget.rs:171
 msgid "0 of {}"
@@ -2070,15 +2066,15 @@ msgstr "Confirmer la connexion à une nouvelle instance"
 
 #: src/view/connection/custom_info_dialog.rs:119
 msgid "systemd unit path copied"
-msgstr ""
+msgstr "chemin de l'unité systemd copié"
 
 #: src/view/connection/custom_info_dialog.rs:127
 msgid "systemd unit content copied"
-msgstr ""
+msgstr "contenu de l'unité systemd copié"
 
 #: src/view/connection/custom_info_dialog.rs:135
 msgid "socket activation command copied"
-msgstr ""
+msgstr "commande d'activation de socket copiée"
 
 #: src/view/connection/custom_info_dialog.rs:143
 msgid "URL copied"
@@ -2107,7 +2103,7 @@ msgstr "Erreur lors du changement de connexion"
 
 #: src/view/container/commit_page.rs:113
 msgid "Change"
-msgstr ""
+msgstr "Changement"
 
 #: src/view/container/commit_page.rs:204
 msgid "Error on fetching user name"
@@ -2135,17 +2131,15 @@ msgstr "Le conteneur '{}' a été supprimé"
 
 #: src/view/container/files_get_page.rs:167
 msgid "Select Host Destination Path"
-msgstr ""
+msgstr "Sélectionnez le chemin de destination de l’hôte"
 
 #: src/view/container/files_put_page.rs:180
-#, fuzzy
 msgid "Select Host Directory"
-msgstr "Créer le répertoire de contexte"
+msgstr "Sélectionnez le répertoire de l'hôte"
 
 #: src/view/container/files_put_page.rs:182
-#, fuzzy
 msgid "Select Host File"
-msgstr "Sélectionnez Fichier"
+msgstr "Sélectionnez le fichier hôte"
 
 #: src/view/container/health_check_page.rs:209
 #: src/view/container/health_check_page.rs:225
@@ -2160,7 +2154,7 @@ msgstr "Erreur lors de l'exécution de la vérification de l'état de santé"
 
 #: src/view/container/log_page.rs:388
 msgid "Error while following log"
-msgstr ""
+msgstr "Erreur lors du suivi du journal"
 
 #: src/view/container/log_page.rs:522
 msgid "Include timestamps"
@@ -2291,9 +2285,8 @@ msgid "%x %X"
 msgstr "%x %X"
 
 #: src/view/image/build_page.rs:199
-#, fuzzy
 msgid "Select Build Context Directory"
-msgstr "Créer le répertoire de contexte"
+msgstr "Sélectionnez un répertoire de contexte"
 
 #: src/view/image/build_page.rs:238
 msgid "Image name should not contain uppercase characters."
@@ -2333,9 +2326,8 @@ msgid "{} in total"
 msgstr "{} au total"
 
 #: src/view/image/history_page.rs:103
-#, fuzzy
 msgid "<None>"
-msgstr "<aucun>"
+msgstr "<Aucun>"
 
 #: src/view/image/history_page.rs:118
 msgid "Unknown Date"
@@ -2346,13 +2338,12 @@ msgid "Unknown size"
 msgstr "Taille inconnue"
 
 #: src/view/image/history_page.rs:146
-#, fuzzy
 msgid "Created by"
-msgstr "Créé"
+msgstr "Créé par"
 
 #: src/view/image/history_page.rs:175
 msgid "Tags"
-msgstr ""
+msgstr "Étiquettes"
 
 #: src/view/image/history_page.rs:189
 msgid "Error on retrieving history"
@@ -2573,12 +2564,11 @@ msgstr "Tous les conteneurs associés seront également supprimés !"
 
 #: src/view/repo_tag/add_dialog.rs:124
 msgid "Repo tag must contain a colon “:”"
-msgstr ""
+msgstr "La balise Repo doit contenir deux-points \":\""
 
 #: src/view/repo_tag/row.rs:196
-#, fuzzy
 msgid "Error on untagging image"
-msgstr "Erreur lors de l'inspection de l'image"
+msgstr "Erreur lors du détagage d'une image"
 
 #: src/window.rs:433
 msgid "Confirm Exiting The Application"
