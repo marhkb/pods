@@ -138,6 +138,16 @@ mod imp {
             view::WelcomePage::static_type();
             view::ZoomControl::static_type();
 
+            klass.install_action("win.close", None, |widget, _, _| {
+                widget.close();
+            });
+            klass.add_binding_action(
+                gdk::Key::W,
+                gdk::ModifierType::CONTROL_MASK,
+                "win.close",
+                None,
+            );
+
             klass.add_binding_action(
                 gdk::Key::Home,
                 gdk::ModifierType::ALT_MASK,
