@@ -3,6 +3,7 @@ use std::cell::Cell;
 use adw::subclass::prelude::AdwApplicationImpl;
 use gettextrs::gettext;
 use glib::clone;
+use gtk::gdk;
 use gtk::gio;
 use gtk::glib;
 use gtk::prelude::*;
@@ -165,7 +166,7 @@ impl Application {
     }
 
     fn show_about_dialog(&self) {
-        let about = adw::AboutWindow::builder()
+        let dialog = adw::AboutWindow::builder()
             .transient_for(&self.main_window())
             .application_name("Pods")
             .application_icon(config::APP_ID)
@@ -188,7 +189,7 @@ impl Application {
             .translator_credits(gettext("translator-credits").as_str())
             .build();
 
-        about.add_credit_section(
+        dialog.add_credit_section(
             Some(&gettext("Translators")),
             &[
                 "Andrea Brandi https://github.com/starise",
@@ -205,7 +206,18 @@ impl Application {
             ],
         );
 
-        about.present();
+        let controller = gtk::EventControllerKey::new();
+        controller.connect_key_pressed(clone!(
+            @weak dialog => @default-return glib::signal::Inhibit(true), move |_, key, _, modifier| {
+                if key == gdk::Key::w && modifier == gdk::ModifierType::CONTROL_MASK{
+                    dialog.close();
+                }
+                glib::signal::Inhibit(false)
+            }
+        ));
+        dialog.add_controller(&controller);
+
+        dialog.present();
     }
 
     pub(crate) fn run(&self) {
