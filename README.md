@@ -107,6 +107,9 @@ ninja -C _build install
 You can help Pods translate into your native language. If you found any typos
 or think you can improve a translation, you can use the [Weblate](https://hosted.weblate.org/engage/pods/) platform.
 
+## 👨‍💻️ Code of Conduct
+
+We adhere to the [GNOME Code of Conduct](/CODE_OF_CONDUCT.md) and expect all communications within this project to comply with it.
 
 ## 💝 Acknowledgment
 
