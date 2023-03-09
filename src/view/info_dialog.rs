@@ -4,6 +4,7 @@ use adw::traits::ExpanderRowExt;
 use adw::traits::PreferencesWindowExt;
 use gettextrs::gettext;
 use gettextrs::ngettext;
+use gtk::gdk;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::prelude::*;
@@ -77,6 +78,16 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+
+            klass.install_action("win.close", None, |widget, _, _| {
+                widget.close();
+            });
+            klass.add_binding_action(
+                gdk::Key::W,
+                gdk::ModifierType::CONTROL_MASK,
+                "win.close",
+                None,
+            );
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
