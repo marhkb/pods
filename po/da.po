@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-29 19:55+0100\n"
-"PO-Revision-Date: 2023-02-21 12:39+0000\n"
+"PO-Revision-Date: 2023-03-18 18:37+0000\n"
 "Last-Translator: Lars Nielsen <lnc13.lars@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/pods/main/da/>\n"
 "Language: da\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.16-dev\n"
+"X-Generator: Weblate 4.16.2-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
@@ -418,7 +418,7 @@ msgstr "Forfatter"
 
 #: data/resources/ui/container/commit-page.ui:77
 msgid "Fetch Username"
-msgstr ""
+msgstr "Hent Brugernavn"
 
 #: data/resources/ui/container/commit-page.ui:88
 #: src/view/image/history_page.rs:171
@@ -473,27 +473,27 @@ msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:64
 msgid "_Run"
-msgstr ""
+msgstr "_Kør"
 
 #: data/resources/ui/container/creation-page.ui:123
 #: data/resources/ui/image/build-page.ui:108
 #: data/resources/ui/pod/creation-page.ui:113
 msgid "Details"
-msgstr ""
+msgstr "Detaljer"
 
 #: data/resources/ui/container/creation-page.ui:136
 msgid "Local image"
-msgstr ""
+msgstr "Lokalt Billede"
 
 #: data/resources/ui/container/creation-page.ui:152
 #: data/resources/ui/pod/creation-page.ui:318
 msgid "Remote Image"
-msgstr ""
+msgstr "Fjern billede"
 
 #: data/resources/ui/container/creation-page.ui:161
 #: data/resources/ui/pod/creation-page.ui:327
 msgid "Remote image"
-msgstr ""
+msgstr "Fjern billede"
 
 #: data/resources/ui/container/creation-page.ui:172
 #: data/resources/ui/pod/creation-page.ui:338
@@ -505,33 +505,33 @@ msgstr ""
 #: data/resources/ui/container/properties-group.ui:300
 #: data/resources/ui/pod/details-page.ui:27
 msgid "Pod"
-msgstr ""
+msgstr "Pod"
 
 #: data/resources/ui/container/creation-page.ui:207
 #: data/resources/ui/pod/creation-page.ui:360
 msgid "Pull latest image"
-msgstr ""
+msgstr "Hent seneste billede"
 
 #: data/resources/ui/container/creation-page.ui:219
 #: data/resources/ui/container/details-page.ui:239
 msgid "Terminal"
-msgstr ""
+msgstr "Terminal"
 
 #: data/resources/ui/container/creation-page.ui:232
 msgid "Memory limit"
-msgstr ""
+msgstr "Hukommelsesgrænse"
 
 #: data/resources/ui/container/creation-page.ui:276
 msgid "KB"
-msgstr ""
+msgstr "KB"
 
 #: data/resources/ui/container/creation-page.ui:277
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 #: data/resources/ui/container/creation-page.ui:278
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #: data/resources/ui/container/creation-page.ui:307
 #: data/resources/ui/container/creation-page.ui:420
@@ -539,19 +539,19 @@ msgstr ""
 #: data/resources/ui/image/details-page.ui:83
 #: data/resources/ui/pod/creation-page.ui:385
 msgid "Command"
-msgstr ""
+msgstr "Kommando"
 
 #: data/resources/ui/container/creation-page.ui:315
 #: data/resources/ui/pod/creation-page.ui:162
 #: data/resources/ui/pod/creation-page.ui:394
 msgid "Arguments"
-msgstr ""
+msgstr "Argumenter"
 
 #: data/resources/ui/container/creation-page.ui:334
 #: data/resources/ui/image/build-page.ui:153
 #: data/resources/ui/pod/creation-page.ui:183
 msgid "Integration"
-msgstr ""
+msgstr "Integration"
 
 #: data/resources/ui/container/creation-page.ui:344
 msgid "Port Mappings"
@@ -563,7 +563,7 @@ msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:374
 msgid "Environment Variables"
-msgstr ""
+msgstr "Miljøvariabler"
 
 #: data/resources/ui/container/creation-page.ui:389
 #: data/resources/ui/image/build-page.ui:163
@@ -574,27 +574,27 @@ msgstr ""
 #: data/resources/ui/container/creation-page.ui:410
 #: data/resources/ui/container/properties-group.ui:225
 msgid "Health Check"
-msgstr ""
+msgstr "Sundhedstjek"
 
 #: data/resources/ui/container/creation-page.ui:426
 #: data/resources/ui/container/health-check-page.ui:64
 msgid "Interval"
-msgstr ""
+msgstr "Interval"
 
 #: data/resources/ui/container/creation-page.ui:427
 msgid "Interval how often health check is run."
-msgstr ""
+msgstr "Interval for hvor ofte sundhedstjekket bliver kørt."
 
 #: data/resources/ui/container/creation-page.ui:450
 #: data/resources/ui/container/creation-page.ui:486
 #: data/resources/ui/container/creation-page.ui:522
 msgid "seconds"
-msgstr ""
+msgstr "sekunder"
 
 #: data/resources/ui/container/creation-page.ui:462
 #: data/resources/ui/container/health-check-page.ui:76
 msgid "Timeout"
-msgstr ""
+msgstr "Timeout"
 
 #: data/resources/ui/container/creation-page.ui:463
 msgid ""
@@ -604,7 +604,7 @@ msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:498
 msgid "Start period"
-msgstr ""
+msgstr "Start periode"
 
 #: data/resources/ui/container/creation-page.ui:499
 msgid "The initialization time needed for a container to bootstrap."
@@ -628,7 +628,7 @@ msgstr ""
 #: data/resources/ui/container/details-page.ui:75
 #: data/resources/ui/pod/details-page.ui:123
 msgid "Kill"
-msgstr ""
+msgstr "Dræb"
 
 #: data/resources/ui/container/details-page.ui:95
 #: data/resources/ui/containers/panel.ui:181
@@ -636,7 +636,7 @@ msgstr ""
 #: data/resources/ui/pod/details-page.ui:142
 #: data/resources/ui/pods/panel.ui:233 data/resources/ui/pods/panel.ui:322
 msgid "Restart"
-msgstr ""
+msgstr "Genstart"
 
 #: data/resources/ui/container/details-page.ui:108
 #: data/resources/ui/containers/panel.ui:94
@@ -652,19 +652,19 @@ msgstr ""
 #: data/resources/ui/pod/details-page.ui:175
 #: data/resources/ui/pods/panel.ui:175 data/resources/ui/pods/panel.ui:300
 msgid "Stop"
-msgstr ""
+msgstr "Stop"
 
 #: data/resources/ui/container/details-page.ui:201
 #: data/resources/ui/image/details-page.ui:161
 #: data/resources/ui/pod/details-page.ui:247
 msgid "Utilities"
-msgstr ""
+msgstr "Værktøjer"
 
 #: data/resources/ui/container/details-page.ui:205
 #: data/resources/ui/image/details-page.ui:165
 #: data/resources/ui/pod/details-page.ui:251
 msgid "Inspection"
-msgstr ""
+msgstr "Inspektion"
 
 #: data/resources/ui/container/details-page.ui:206
 msgid "View all container properties in a structured text form."
@@ -685,7 +685,7 @@ msgstr ""
 
 #: data/resources/ui/container/details-page.ui:256
 msgid "Logs"
-msgstr ""
+msgstr "Logs"
 
 #: data/resources/ui/container/details-page.ui:257
 msgid "View and search through container logs."
