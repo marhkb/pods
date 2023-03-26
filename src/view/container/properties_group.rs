@@ -1,3 +1,5 @@
+use std::borrow::Cow;
+
 use adw::subclass::prelude::PreferencesGroupImpl;
 use adw::traits::ExpanderRowExt;
 use gettextrs::gettext;
@@ -190,17 +192,21 @@ mod imp {
                                     "{}:{}",
                                     if host_ip.is_empty() {
                                         if connection.is_remote() {
-                                            let host_with_port =
-                                                connection.url().split_once("://").unwrap().1;
-                                            host_with_port
-                                                .split_once(':')
-                                                .map(|(host, _)| host)
-                                                .unwrap_or(host_with_port)
+                                            let url = connection.url();
+                                            let host_with_port = url.split_once("://").unwrap().1;
+
+                                            Cow::Owned(
+                                                host_with_port
+                                                    .split_once(':')
+                                                    .map(|(host, _)| host)
+                                                    .unwrap_or(host_with_port)
+                                                    .to_string()
+                                            )
                                         } else {
-                                            "127.0.0.1"
+                                            Cow::Borrowed("127.0.0.1")
                                         }
                                     } else {
-                                        host_ip
+                                        Cow::Borrowed(host_ip)
                                     },
                                     host.host_port.as_deref().unwrap_or("0")
                                 );
@@ -336,7 +342,6 @@ mod imp {
                         .get(0)
                         .as_ref()
                         .map(model::RepoTag::full)
-                        .map(str::to_owned)
                         .unwrap_or_else(|| utils::format_id(id))
                 }),
             )
@@ -359,10 +364,7 @@ mod imp {
 
             pod_expr
                 .chain_closure::<String>(closure!(|_: Self::Type, pod: Option<model::Pod>| {
-                    pod.as_ref()
-                        .map(model::Pod::name)
-                        .map(str::to_owned)
-                        .unwrap_or_default()
+                    pod.as_ref().map(model::Pod::name).unwrap_or_default()
                 }))
                 .bind(&*self.pod_label, "label", Some(obj));
         }

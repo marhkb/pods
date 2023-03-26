@@ -1,18 +1,20 @@
-use gtk::glib::{self};
-use gtk::prelude::ParamSpecBuilderExt;
-use gtk::prelude::ToValue;
-use gtk::subclass::prelude::*;
-use once_cell::sync::Lazy;
-use once_cell::unsync::OnceCell;
+use glib::prelude::ParamSpecBuilderExt;
+use glib::subclass::prelude::*;
+use glib::ObjectExt;
+use glib::Properties;
+use gtk::glib;
+use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::podman;
 
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default)]
+    #[derive(Debug, Default, Properties)]
+    #[properties(wrapper_type = super::PodData)]
     pub(crate) struct PodData {
-        pub(super) hostname: OnceCell<String>,
+        #[property(get, set, construct_only)]
+        pub(super) hostname: UnsyncOnceCell<String>,
     }
 
     #[glib::object_subclass]
@@ -23,26 +25,15 @@ mod imp {
 
     impl ObjectImpl for PodData {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecString::builder("hostname")
-                    .construct_only()
-                    .build()]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "hostname" => self.hostname.set(value.get().unwrap()).unwrap(),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "hostname" => self.obj().hostname().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
     }
 }
@@ -56,11 +47,5 @@ impl From<podman::models::InspectPodData> for PodData {
         glib::Object::builder()
             .property("hostname", data.hostname.unwrap_or_default())
             .build()
-    }
-}
-
-impl PodData {
-    pub(crate) fn hostname(&self) -> &str {
-        self.imp().hostname.get().unwrap()
     }
 }

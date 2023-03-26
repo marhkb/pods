@@ -252,7 +252,6 @@ impl Statusbar {
             .and_then(model::ConnectionManager::client)
             .as_ref()
             .map(model::Client::action_list)
-            .cloned()
     }
 
     fn clean_up_actions(&self) {

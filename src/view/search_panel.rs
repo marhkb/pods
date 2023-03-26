@@ -113,10 +113,7 @@ mod imp {
                                 .image_name()
                                 .map(|image_name| image_name.to_uppercase().contains(&term))
                                 .unwrap_or(false)
-                            || container
-                                .image_id()
-                                .map(|image_id| image_id.contains(&term))
-                                .unwrap_or(false)
+                            || container.image_id().contains(&term)
                     } else if let Some(pod) = item.downcast_ref::<model::Pod>() {
                         pod.name().to_uppercase().contains(&term)
                     } else {
@@ -130,21 +127,21 @@ mod imp {
 
                     if image1.repo_tags().n_items() == 0 {
                         if image2.repo_tags().n_items() == 0 {
-                            image1.id().cmp(image2.id()).into()
+                            image1.id().cmp(&image2.id()).into()
                         } else {
                             gtk::Ordering::Larger
                         }
                     } else if image2.repo_tags().n_items() == 0 {
                         gtk::Ordering::Smaller
                     } else {
-                        image1.repo_tags().cmp(image2.repo_tags()).into()
+                        image1.repo_tags().cmp(&image2.repo_tags()).into()
                     }
                 } else if let Some(container1) = obj1.downcast_ref::<model::Container>() {
                     let container2 = obj2.downcast_ref::<model::Container>().unwrap();
                     container1.name().cmp(&container2.name()).into()
                 } else if let Some(pod1) = obj1.downcast_ref::<model::Pod>() {
                     let pod2 = obj2.downcast_ref::<model::Pod>().unwrap();
-                    pod1.name().cmp(pod2.name()).into()
+                    pod1.name().cmp(&pod2.name()).into()
                 } else {
                     unreachable!();
                 }
@@ -187,21 +184,21 @@ impl SearchPanel {
 
         if let Some(client) = value {
             self.setup_model(
-                client.image_list().to_owned().upcast(),
+                client.image_list().upcast(),
                 imp.images_list_box.get(),
                 |item| view::ImageRow::from(item.downcast_ref().unwrap()).upcast(),
                 &imp.images_model,
             );
 
             self.setup_model(
-                client.container_list().to_owned().upcast(),
+                client.container_list().upcast(),
                 imp.containers_list_box.get(),
                 |item| view::ContainerRow::from(item.downcast_ref().unwrap()).upcast(),
                 &imp.containers_model,
             );
 
             self.setup_model(
-                client.pod_list().to_owned().upcast(),
+                client.pod_list().upcast(),
                 imp.pods_list_box.get(),
                 |item| view::PodRow::from(item.downcast_ref().unwrap()).upcast(),
                 &imp.pods_model,

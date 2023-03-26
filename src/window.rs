@@ -369,7 +369,7 @@ mod imp {
                                 {
                                     let imp = obj.imp();
                                     if imp.panel_stack.visible_child_name().as_deref() != Some("images")
-                                        && list.is_initialized()
+                                        && list.initialized()
                                     {
                                         imp.images_view_stack_page.set_needs_attention(true);
                                     }
@@ -382,7 +382,7 @@ mod imp {
                                 {
                                     let imp = obj.imp();
                                     if imp.panel_stack.visible_child_name().as_deref() != Some("containers")
-                                        && list.is_initialized()
+                                        && list.initialized()
                                     {
                                         imp.containers_view_stack_page.set_needs_attention(true);
                                     }
@@ -395,7 +395,7 @@ mod imp {
                                 {
                                     let imp = obj.imp();
                                     if imp.panel_stack.visible_child_name().as_deref() != Some("pods")
-                                        && list.is_initialized()
+                                        && list.initialized()
                                     {
                                         imp.pods_view_stack_page.set_needs_attention(true);
                                     }

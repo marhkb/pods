@@ -200,8 +200,7 @@ mod imp {
                             .get(0)
                             .as_ref()
                             .map(model::RepoTag::full)
-                            .map(str::to_owned)
-                            .unwrap_or_else(|| utils::format_id(image.id()))
+                            .unwrap_or_else(|| utils::format_id(&image.id()))
                     }
                 ));
             let pod_name_expr = model::Pod::this_expression("name");
@@ -215,18 +214,19 @@ mod imp {
 
                 image_tag_expr.bind(&*self.local_image_property_row, "value", Some(&image));
 
-                match image.data().map(model::ImageData::config) {
+                match image.data().as_ref().map(model::ImageData::config) {
                     Some(config) => {
-                        self.command_entry_row.set_text(config.cmd().unwrap_or(""));
-                        obj.set_exposed_ports(config);
+                        self.command_entry_row
+                            .set_text(&config.cmd().unwrap_or_default());
+                        obj.set_exposed_ports(&config);
                     }
                     None => {
                         image.connect_notify_local(
                             Some("details"),
                             clone!(@weak obj => move |image, _| {
                                 let config = image.data().unwrap().config();
-                                obj.imp().command_entry_row.set_text(config.cmd().unwrap_or(""));
-                                obj.set_exposed_ports(config);
+                                obj.imp().command_entry_row.set_text(&config.cmd().unwrap_or_default());
+                                obj.set_exposed_ports(&config);
                             }),
                         );
                     }
@@ -310,7 +310,7 @@ mod imp {
                 let pod_list_model = gio::ListStore::new(gio::ListModel::static_type());
                 pod_list_model.append(&gtk::StringList::new(&[""]));
                 pod_list_model.append(&gtk::SortListModel::new(
-                    Some(obj.client().unwrap().pod_list().to_owned()),
+                    Some(obj.client().unwrap().pod_list()),
                     Some(gtk::StringSorter::new(Some(model::Pod::this_expression(
                         "name",
                     )))),
@@ -473,7 +473,7 @@ impl CreationPage {
 
             let mut split = exposed.split_terminator('/');
             if let Some(port) = split.next() {
-                match port.parse() {
+                match port.parse::<i32>() {
                     Ok(port) => {
                         port_mapping.set_host_port(port);
                         port_mapping.set_container_port(port);
@@ -514,7 +514,7 @@ impl CreationPage {
             Some(image) => match image.data() {
                 Some(details) => imp
                     .command_entry_row
-                    .set_text(details.config().cmd().unwrap_or("")),
+                    .set_text(&details.config().cmd().unwrap_or_default()),
                 None => {
                     if let Some((handler, image)) = imp.command_row_handler.take() {
                         if let Some(image) = image.upgrade() {
@@ -525,7 +525,7 @@ impl CreationPage {
                         Some("details"),
                         clone!(@weak self as obj => move |image, _| {
                             obj.imp().command_entry_row.set_text(
-                                image.data().unwrap().config().cmd().unwrap_or("")
+                                &image.data().unwrap().config().cmd().unwrap_or_default()
                             );
                         }),
                     );
@@ -592,7 +592,7 @@ impl CreationPage {
                 .map(|item| item.downcast().unwrap())
         }) {
             if imp.pull_latest_image_switch.is_active() {
-                self.pull_and_create(image.repo_tags().get(0).unwrap().full(), false, run);
+                self.pull_and_create(&image.repo_tags().get(0).unwrap().full(), false, run);
             } else {
                 let page = view::ActionPage::from(
                     &self.client().unwrap().action_list().create_container(
@@ -602,8 +602,7 @@ impl CreationPage {
                             .get(0)
                             .as_ref()
                             .map(model::RepoTag::full)
-                            .map(str::to_owned)
-                            .unwrap_or_else(|| utils::format_id(image.id())),
+                            .unwrap_or_else(|| utils::format_id(&image.id())),
                         self.create().image(image.id()).build(),
                         run,
                     ),

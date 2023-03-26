@@ -1,9 +1,9 @@
+use glib::ObjectExt;
+use glib::Properties;
 use gtk::glib;
 use gtk::prelude::ParamSpecBuilderExt;
-use gtk::prelude::ToValue;
 use gtk::subclass::prelude::*;
-use once_cell::sync::Lazy;
-use once_cell::unsync::OnceCell;
+use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::podman;
 use crate::utils;
@@ -11,11 +11,15 @@ use crate::utils;
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default)]
+    #[derive(Debug, Default, Properties)]
+    #[properties(wrapper_type = super::ImageConfig)]
     pub(crate) struct ImageConfig {
-        pub(super) cmd: OnceCell<Option<String>>,
-        pub(super) entrypoint: OnceCell<Option<String>>,
-        pub(super) exposed_ports: OnceCell<gtk::StringList>,
+        #[property(get, set, construct_only, nullable)]
+        pub(super) cmd: UnsyncOnceCell<Option<String>>,
+        #[property(get, set, construct_only, nullable)]
+        pub(super) entrypoint: UnsyncOnceCell<Option<String>>,
+        #[property(get, set, construct_only)]
+        pub(super) exposed_ports: UnsyncOnceCell<gtk::StringList>,
     }
 
     #[glib::object_subclass]
@@ -26,39 +30,15 @@ mod imp {
 
     impl ObjectImpl for ImageConfig {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecString::builder("cmd")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecString::builder("entrypoint")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecObject::builder::<gtk::StringList>("exposed-ports")
-                        .construct_only()
-                        .build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "cmd" => self.cmd.set(value.get().unwrap()).unwrap(),
-                "entrypoint" => self.entrypoint.set(value.get().unwrap()).unwrap(),
-                "exposed-ports" => self.exposed_ports.set(value.get().unwrap()).unwrap(),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "cmd" => obj.cmd().to_value(),
-                "entrypoint" => obj.entrypoint().to_value(),
-                "exposed-ports" => obj.exposed_ports().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
     }
 }
@@ -93,17 +73,5 @@ impl ImageConfig {
                 ),
             )
             .build()
-    }
-
-    pub(crate) fn cmd(&self) -> Option<&str> {
-        self.imp().cmd.get().unwrap().as_deref()
-    }
-
-    pub(crate) fn entrypoint(&self) -> Option<&str> {
-        self.imp().entrypoint.get().unwrap().as_deref()
-    }
-
-    pub(crate) fn exposed_ports(&self) -> &gtk::StringList {
-        self.imp().exposed_ports.get().unwrap()
     }
 }

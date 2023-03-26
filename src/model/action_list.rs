@@ -1,13 +1,14 @@
 use std::cell::Cell;
 use std::cell::RefCell;
 
+use gio::prelude::*;
+use gio::subclass::prelude::*;
+use glib::clone;
+use glib::Properties;
 use gtk::gio;
 use gtk::glib;
-use gtk::glib::clone;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
 use indexmap::IndexMap;
-use once_cell::sync::Lazy;
+use once_cell::sync::OnceCell as SyncOnceCell;
 
 use crate::model;
 use crate::podman;
@@ -15,11 +16,13 @@ use crate::podman;
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default)]
+    #[derive(Debug, Default, Properties)]
+    #[properties(wrapper_type = super::ActionList)]
     pub(crate) struct ActionList {
-        pub(super) client: glib::WeakRef<model::Client>,
         pub(super) list: RefCell<IndexMap<u32, model::Action>>,
         pub(super) action_counter: Cell<u32>,
+        #[property(get, set, construct_only)]
+        pub(super) client: glib::WeakRef<model::Client>,
     }
 
     #[glib::object_subclass]
@@ -31,40 +34,36 @@ mod imp {
 
     impl ObjectImpl for ActionList {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecObject::builder::<model::Client>("client")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecUInt::builder("len").read_only().build(),
-                    glib::ParamSpecUInt::builder("ongoing").read_only().build(),
-                    glib::ParamSpecUInt::builder("finished").read_only().build(),
-                    glib::ParamSpecUInt::builder("cancelled")
-                        .read_only()
-                        .build(),
-                    glib::ParamSpecUInt::builder("failed").read_only().build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            static PROPERTIES: SyncOnceCell<Vec<glib::ParamSpec>> = SyncOnceCell::new();
+            PROPERTIES.get_or_init(|| {
+                Self::derived_properties()
+                    .iter()
+                    .cloned()
+                    .chain(vec![
+                        glib::ParamSpecUInt::builder("len").read_only().build(),
+                        glib::ParamSpecUInt::builder("ongoing").read_only().build(),
+                        glib::ParamSpecUInt::builder("finished").read_only().build(),
+                        glib::ParamSpecUInt::builder("cancelled")
+                            .read_only()
+                            .build(),
+                        glib::ParamSpecUInt::builder("failed").read_only().build(),
+                    ])
+                    .collect::<Vec<_>>()
+            })
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "client" => self.client.set(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.obj();
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "client" => obj.client().to_value(),
-                "len" => obj.len().to_value(),
-                "ongoing" => obj.ongoing().to_value(),
-                "finished" => obj.finished().to_value(),
-                "cancelled" => obj.cancelled().to_value(),
-                "failed" => obj.failed().to_value(),
-                _ => unimplemented!(),
+                "len" => self.obj().len().to_value(),
+                "ongoing" => self.obj().ongoing().to_value(),
+                "finished" => self.obj().finished().to_value(),
+                "cancelled" => self.obj().cancelled().to_value(),
+                "failed" => self.obj().failed().to_value(),
+                _ => self.derived_property(id, pspec),
             }
         }
 
@@ -108,10 +107,6 @@ impl From<&model::Client> for ActionList {
 }
 
 impl ActionList {
-    pub(crate) fn client(&self) -> Option<model::Client> {
-        self.imp().client.upgrade()
-    }
-
     pub(crate) fn len(&self) -> u32 {
         self.n_items()
     }

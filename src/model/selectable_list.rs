@@ -3,7 +3,7 @@ use gtk::glib;
 use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
-use once_cell::sync::Lazy;
+use once_cell::sync::Lazy as SyncLazy;
 
 use crate::model;
 use crate::model::SelectableExt;
@@ -20,7 +20,7 @@ mod imp {
         type Prerequisites = (gio::ListModel,);
 
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
+            static PROPERTIES: SyncLazy<Vec<glib::ParamSpec>> = SyncLazy::new(|| {
                 vec![
                     glib::ParamSpecBoolean::builder("selection-mode").build(),
                     glib::ParamSpecUInt::builder("num-selected")

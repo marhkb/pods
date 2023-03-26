@@ -1,9 +1,9 @@
+use glib::ObjectExt;
+use glib::Properties;
 use gtk::glib;
 use gtk::prelude::ParamSpecBuilderExt;
-use gtk::prelude::ToValue;
 use gtk::subclass::prelude::*;
-use once_cell::sync::Lazy;
-use once_cell::unsync::OnceCell;
+use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::podman;
@@ -11,12 +11,17 @@ use crate::podman;
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default)]
+    #[derive(Debug, Default, Properties)]
+    #[properties(wrapper_type = super::ImageData)]
     pub(crate) struct ImageData {
-        pub(super) architecture: OnceCell<Option<String>>,
-        pub(super) author: OnceCell<Option<String>>,
-        pub(super) comment: OnceCell<Option<String>>,
-        pub(super) config: OnceCell<model::ImageConfig>,
+        #[property(get, set, construct_only, nullable)]
+        pub(super) architecture: UnsyncOnceCell<Option<String>>,
+        #[property(get, set, construct_only, nullable)]
+        pub(super) author: UnsyncOnceCell<Option<String>>,
+        #[property(get, set, construct_only, nullable)]
+        pub(super) comment: UnsyncOnceCell<Option<String>>,
+        #[property(get, set, construct_only)]
+        pub(super) config: UnsyncOnceCell<model::ImageConfig>,
     }
 
     #[glib::object_subclass]
@@ -27,44 +32,15 @@ mod imp {
 
     impl ObjectImpl for ImageData {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecString::builder("architecture")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecString::builder("author")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecString::builder("comment")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecObject::builder::<model::ImageConfig>("config")
-                        .construct_only()
-                        .build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "architecture" => self.architecture.set(value.get().unwrap()).unwrap(),
-                "author" => self.author.set(value.get().unwrap()).unwrap(),
-                "comment" => self.comment.set(value.get().unwrap()).unwrap(),
-                "config" => self.config.set(value.get().unwrap()).unwrap(),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "architecture" => obj.architecture().to_value(),
-                "author" => obj.author().to_value(),
-                "comment" => obj.comment().to_value(),
-                "config" => obj.config().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
     }
 }
@@ -84,23 +60,5 @@ impl From<podman::models::ImageData> for ImageData {
                 model::ImageConfig::from_libpod(data.config.unwrap()),
             )
             .build()
-    }
-}
-
-impl ImageData {
-    pub(crate) fn architecture(&self) -> Option<&str> {
-        self.imp().architecture.get().unwrap().as_deref()
-    }
-
-    pub(crate) fn author(&self) -> Option<&str> {
-        self.imp().author.get().unwrap().as_deref()
-    }
-
-    pub(crate) fn comment(&self) -> Option<&str> {
-        self.imp().comment.get().unwrap().as_deref()
-    }
-
-    pub(crate) fn config(&self) -> &model::ImageConfig {
-        self.imp().config.get().unwrap()
     }
 }

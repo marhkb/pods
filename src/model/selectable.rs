@@ -1,7 +1,7 @@
 use gtk::glib;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
-use once_cell::sync::Lazy;
+use once_cell::sync::Lazy as SyncLazy;
 
 mod imp {
     use super::*;
@@ -14,7 +14,7 @@ mod imp {
         const NAME: &'static str = "Selectable";
 
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
+            static PROPERTIES: SyncLazy<Vec<glib::ParamSpec>> = SyncLazy::new(|| {
                 vec![glib::ParamSpecBoolean::builder("selected")
                     .explicit_notify()
                     .build()]

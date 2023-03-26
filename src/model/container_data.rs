@@ -1,13 +1,12 @@
 use std::cell::Cell;
 use std::collections::HashMap;
 
+use glib::Properties;
 use gtk::glib;
 use gtk::prelude::ObjectExt;
 use gtk::prelude::ParamSpecBuilderExt;
-use gtk::prelude::ToValue;
 use gtk::subclass::prelude::*;
-use once_cell::sync::Lazy;
-use once_cell::unsync::OnceCell;
+use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::monad_boxed_type;
@@ -19,13 +18,18 @@ monad_boxed_type!(pub(crate) BoxedPortBindings(HashMap<String, Option<Vec<podman
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default)]
+    #[derive(Debug, Default, Properties)]
+    #[properties(wrapper_type = super::ContainerData)]
     pub(crate) struct ContainerData {
-        pub(super) health_config: OnceCell<Option<BoxedSchema2HealthConfig>>,
-        pub(super) health_failing_streak: Cell<u32>,
         pub(super) health_check_log_list: model::HealthCheckLogList,
-        pub(super) port_bindings: OnceCell<Option<BoxedPortBindings>>,
-        pub(super) size: OnceCell<i64>,
+        #[property(get, set, construct_only)]
+        pub(super) health_config: UnsyncOnceCell<Option<BoxedSchema2HealthConfig>>,
+        #[property(get, set, construct_only)]
+        pub(super) health_failing_streak: Cell<u32>,
+        #[property(get, set, construct_only)]
+        pub(super) port_bindings: UnsyncOnceCell<Option<BoxedPortBindings>>,
+        #[property(get, set, construct_only)]
+        pub(super) size: UnsyncOnceCell<i64>,
     }
 
     #[glib::object_subclass]
@@ -36,46 +40,15 @@ mod imp {
 
     impl ObjectImpl for ContainerData {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecBoxed::builder::<BoxedSchema2HealthConfig>("health-config")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecUInt::builder("health-failing-streak")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecBoxed::builder::<BoxedPortBindings>("port-bindings")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecInt64::builder("size")
-                        .construct_only()
-                        .build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "health-config" => self.health_config.set(value.get().unwrap()).unwrap(),
-                "health-failing-streak" => {
-                    self.obj().set_health_failing_streak(value.get().unwrap())
-                }
-                "port-bindings" => self.port_bindings.set(value.get().unwrap()).unwrap(),
-                "size" => self.size.set(value.get().unwrap()).unwrap(),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "health-config" => obj.health_config().to_value(),
-                "health-failing-streak" => obj.health_failing_streak().to_value(),
-                "port-bindings" => obj.port_bindings().to_value(),
-                "size" => obj.size().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
     }
 }
@@ -131,32 +104,16 @@ impl ContainerData {
         }
     }
 
-    pub(crate) fn health_config(&self) -> Option<&BoxedSchema2HealthConfig> {
-        self.imp().health_config.get().unwrap().as_ref()
+    pub(crate) fn health_check_log_list(&self) -> model::HealthCheckLogList {
+        self.imp().health_check_log_list.clone()
     }
 
-    pub(crate) fn health_failing_streak(&self) -> u32 {
-        self.imp().health_failing_streak.get()
-    }
-
-    pub(crate) fn set_health_failing_streak(&self, value: u32) {
+    fn set_health_failing_streak(&self, value: u32) {
         if self.health_failing_streak() == value {
             return;
         }
         self.imp().health_failing_streak.set(value);
         self.notify("health-failing-streak");
-    }
-
-    pub(crate) fn health_check_log_list(&self) -> model::HealthCheckLogList {
-        self.imp().health_check_log_list.clone()
-    }
-
-    pub(crate) fn port_bindings(&self) -> Option<&BoxedPortBindings> {
-        self.imp().port_bindings.get().unwrap().as_ref()
-    }
-
-    pub(crate) fn size(&self) -> i64 {
-        *self.imp().size.get().unwrap()
     }
 }
 

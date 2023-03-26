@@ -6,12 +6,12 @@ use std::str::FromStr;
 use futures::Future;
 use futures::TryFutureExt;
 use gettextrs::gettext;
-use gtk::glib::clone;
-use gtk::glib::subclass::Signal;
-use gtk::glib::{self};
-use gtk::prelude::ObjectExt;
-use gtk::prelude::ParamSpecBuilderExt;
-use gtk::prelude::ToValue;
+use glib::clone;
+use glib::subclass::Signal;
+use glib::ObjectExt;
+use glib::ParamSpecBuilderExt;
+use glib::Properties;
+use gtk::glib;
 use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
 use once_cell::unsync::OnceCell;
@@ -79,25 +79,31 @@ impl fmt::Display for Status {
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default)]
+    #[derive(Debug, Default, Properties)]
+    #[properties(wrapper_type = super::Pod)]
     pub(crate) struct Pod {
-        pub(super) pod_list: glib::WeakRef<model::PodList>,
-        pub(super) container_list: OnceCell<model::SimpleContainerList>,
-
-        pub(super) action_ongoing: Cell<bool>,
-
-        pub(super) created: OnceCell<i64>,
-        pub(super) hostname: OnceCell<String>,
-        pub(super) id: OnceCell<String>,
-        pub(super) name: OnceCell<String>,
-        pub(super) num_containers: Cell<u64>,
-        pub(super) status: Cell<Status>,
-
-        pub(super) data: OnceCell<model::PodData>,
         pub(super) can_inspect: Cell<bool>,
-
+        #[property(get, set, construct_only)]
+        pub(super) pod_list: glib::WeakRef<model::PodList>,
+        #[property(get = Self::container_list)]
+        pub(super) container_list: OnceCell<model::SimpleContainerList>,
+        #[property(get, set)]
+        pub(super) action_ongoing: Cell<bool>,
+        #[property(get, set, construct_only)]
+        pub(super) created: OnceCell<i64>,
+        #[property(get = Self::data, nullable)]
+        pub(super) data: OnceCell<Option<model::PodData>>,
+        #[property(get, set, construct_only)]
+        pub(super) id: OnceCell<String>,
+        #[property(get, set, construct_only)]
+        pub(super) name: OnceCell<String>,
+        #[property(get, set)]
+        pub(super) num_containers: Cell<u64>,
+        #[property(get, set, construct, builder(Status::default()))]
+        pub(super) status: Cell<Status>,
+        #[property(get)]
         pub(super) to_be_deleted: Cell<bool>,
-
+        #[property(get, set)]
         pub(super) selected: Cell<bool>,
     }
 
@@ -116,88 +122,47 @@ mod imp {
         }
 
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecObject::builder::<model::PodList>("pod-list")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecObject::builder::<model::SimpleContainerList>("container-list")
-                        .read_only()
-                        .build(),
-                    glib::ParamSpecBoolean::builder("action-ongoing")
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecBoolean::builder("deleted")
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecInt64::builder("created")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecString::builder("id")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecString::builder("name")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecUInt64::builder("num-containers")
-                        .construct()
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecEnum::builder::<Status>("status")
-                        .construct()
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecObject::builder::<model::PodData>("data")
-                        .read_only()
-                        .build(),
-                    glib::ParamSpecBoolean::builder("to-be-deleted")
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecBoolean::builder("selected").build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "pod-list" => self.pod_list.set(value.get().unwrap()),
-                "action-ongoing" => obj.set_action_ongoing(value.get().unwrap()),
-                "created" => self.created.set(value.get().unwrap()).unwrap(),
-                "hostname" => self.hostname.set(value.get().unwrap()).unwrap(),
-                "id" => self.id.set(value.get().unwrap()).unwrap(),
-                "name" => self.name.set(value.get().unwrap()).unwrap(),
-                "num-containers" => obj.set_num_containers(value.get().unwrap()),
-                "status" => obj.set_status(value.get().unwrap()),
-                "to-be-deleted" => obj.set_to_be_deleted(value.get().unwrap()),
-                "selected" => self.selected.set(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "pod-list" => obj.pod_list().to_value(),
-                "container-list" => obj.container_list().to_value(),
-                "action-ongoing" => obj.action_ongoing().to_value(),
-                "created" => obj.created().to_value(),
-                "hostname" => obj.hostname().to_value(),
-                "id" => obj.id().to_value(),
-                "name" => obj.name().to_value(),
-                "num-containers" => obj.num_containers().to_value(),
-                "status" => obj.status().to_value(),
-                "data" => obj.data().to_value(),
-                "to-be-deleted" => obj.to_be_deleted().to_value(),
-                "selected" => self.selected.get().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
             self.parent_constructed();
             self.can_inspect.set(true);
+        }
+    }
+
+    impl Pod {
+        pub(super) fn container_list(&self) -> model::SimpleContainerList {
+            self.container_list.get_or_init(Default::default).to_owned()
+        }
+
+        pub(super) fn data(&self) -> Option<model::PodData> {
+            self.data.get().cloned().flatten()
+        }
+
+        pub(super) fn set_data(&self, value: model::PodData) {
+            if self.data().is_some() {
+                return;
+            }
+            self.data.set(Some(value)).unwrap();
+            self.obj().notify("data");
+        }
+
+        pub(super) fn set_to_be_deleted(&self, value: bool) {
+            let obj = &*self.obj();
+            if obj.to_be_deleted() == value {
+                return;
+            }
+            self.to_be_deleted.set(value);
+            obj.notify("to-be-deleted");
         }
     }
 }
@@ -232,80 +197,8 @@ impl Pod {
 
     pub(crate) fn inspect_and_update(&self) {
         if let Some(pod_list) = self.pod_list() {
-            pod_list.refresh(Some(self.id().to_owned()), |_| {});
+            pod_list.refresh(Some(self.id()), |_| {});
         }
-    }
-
-    pub(crate) fn pod_list(&self) -> Option<model::PodList> {
-        self.imp().pod_list.upgrade()
-    }
-
-    pub(crate) fn container_list(&self) -> &model::SimpleContainerList {
-        self.imp().container_list.get_or_init(Default::default)
-    }
-
-    pub(crate) fn action_ongoing(&self) -> bool {
-        self.imp().action_ongoing.get()
-    }
-
-    pub(crate) fn set_action_ongoing(&self, value: bool) {
-        if self.action_ongoing() == value {
-            return;
-        }
-        self.imp().action_ongoing.replace(value);
-        self.notify("action-ongoing");
-    }
-
-    pub(crate) fn created(&self) -> i64 {
-        *self.imp().created.get().unwrap()
-    }
-
-    pub(crate) fn hostname(&self) -> &str {
-        self.imp().hostname.get().unwrap()
-    }
-
-    pub(crate) fn id(&self) -> &str {
-        self.imp().id.get().unwrap()
-    }
-
-    pub(crate) fn name(&self) -> &str {
-        self.imp().name.get().unwrap()
-    }
-
-    pub(crate) fn num_containers(&self) -> u64 {
-        self.imp().num_containers.get()
-    }
-
-    fn set_num_containers(&self, value: u64) {
-        if self.num_containers() == value {
-            return;
-        }
-        self.imp().num_containers.replace(value);
-        self.notify("num-containers");
-    }
-
-    pub(crate) fn status(&self) -> Status {
-        self.imp().status.get()
-    }
-
-    pub(crate) fn set_status(&self, value: Status) {
-        if self.status() == value {
-            return;
-        }
-        self.imp().status.set(value);
-        self.notify("status");
-    }
-
-    pub(crate) fn data(&self) -> Option<&model::PodData> {
-        self.imp().data.get()
-    }
-
-    fn set_data(&self, value: model::PodData) {
-        if self.data().is_some() {
-            return;
-        }
-        self.imp().data.set(value).unwrap();
-        self.notify("data");
     }
 
     pub(crate) fn inspect<F>(&self, op: F)
@@ -326,7 +219,7 @@ impl Pod {
             },
             clone!(@weak self as obj => move |result| {
                 match result {
-                    Ok(data) => obj.set_data(model::PodData::from(
+                    Ok(data) => obj.imp().set_data(model::PodData::from(
                         data
                     )),
                     Err(e) => {
@@ -337,18 +230,6 @@ impl Pod {
                 obj.imp().can_inspect.set(true);
             }),
         );
-    }
-
-    pub(crate) fn to_be_deleted(&self) -> bool {
-        self.imp().to_be_deleted.get()
-    }
-
-    fn set_to_be_deleted(&self, value: bool) {
-        if self.to_be_deleted() == value {
-            return;
-        }
-        self.imp().to_be_deleted.set(value);
-        self.notify("to-be-deleted");
     }
 
     pub(super) fn emit_deleted(&self) {
@@ -481,7 +362,7 @@ impl Pod {
         F: FnOnce(podman::Result<()>) + 'static,
     {
         if !self.action_ongoing() {
-            self.set_to_be_deleted(true);
+            self.imp().set_to_be_deleted(true);
         }
         self.action(
             if force { "force deleting" } else { "deleting" },
@@ -495,7 +376,7 @@ impl Pod {
             },
             clone!(@weak self as obj => move |result| {
                 if result.is_err() {
-                    obj.set_to_be_deleted(false);
+                    obj.imp().set_to_be_deleted(false);
                 }
                 op(result)
             }),

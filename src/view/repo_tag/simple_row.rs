@@ -1,5 +1,3 @@
-use std::borrow::Cow;
-
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::prelude::*;
@@ -103,9 +101,9 @@ impl SimpleRow {
         if let Some(repo_tag) = self.repo_tag() {
             let repo = repo_tag.repo();
             let repo = if is_hc {
-                Cow::Borrowed(repo)
+                repo
             } else {
-                Cow::Owned(format!("<span alpha=\"55%\">{repo}</span>"))
+                format!("<span alpha=\"55%\">{repo}</span>")
             };
 
             let tag = format!(

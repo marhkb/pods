@@ -64,7 +64,7 @@ impl From<&model::Image> for HistoryPage {
         let obj = glib::Object::builder::<Self>().build();
         obj.imp()
             .window_title
-            .set_subtitle(&utils::format_id(image.id()));
+            .set_subtitle(&utils::format_id(&image.id()));
 
         utils::do_async(
             {

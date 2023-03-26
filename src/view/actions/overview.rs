@@ -1,10 +1,10 @@
 use glib::subclass::InitializingObject;
+use glib::Properties;
+use gtk::glib;
 use gtk::glib::closure;
-use gtk::glib::{self};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
 
 use crate::model;
 use crate::utils;
@@ -13,9 +13,11 @@ use crate::view;
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::Overview)]
     #[template(resource = "/com/github/marhkb/Pods/ui/actions/overview.ui")]
     pub(crate) struct Overview {
+        #[property(get, set = Self::set_action_list)]
         pub(super) action_list: glib::WeakRef<model::ActionList>,
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
@@ -70,29 +72,15 @@ mod imp {
 
     impl ObjectImpl for Overview {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecObject::builder::<model::ActionList>("action-list")
-                        .explicit_notify()
-                        .build(),
-                ]
-            });
-
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "action-list" => self.obj().set_action_list(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "action-list" => self.obj().action_list().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -118,6 +106,29 @@ mod imp {
     }
 
     impl WidgetImpl for Overview {}
+
+    impl Overview {
+        pub(super) fn set_action_list(&self, value: Option<&model::ActionList>) {
+            let obj = self.obj();
+            if obj.action_list().as_ref() == value {
+                return;
+            }
+
+            if let Some(action_list) = value {
+                let sorter = gtk::NumericSorter::builder()
+                    .expression(model::Action::this_expression("start-timestamp"))
+                    .sort_order(gtk::SortType::Descending)
+                    .build();
+                let model = gtk::SortListModel::new(Some(action_list.to_owned()), Some(sorter));
+
+                self.action_list_view
+                    .set_model(Some(&gtk::NoSelection::new(Some(model))));
+            }
+
+            self.action_list.set(value);
+            obj.notify("action-list");
+        }
+    }
 }
 
 glib::wrapper! {
@@ -129,33 +140,5 @@ glib::wrapper! {
 impl Default for Overview {
     fn default() -> Self {
         glib::Object::builder().build()
-    }
-}
-
-impl Overview {
-    pub(crate) fn action_list(&self) -> Option<model::ActionList> {
-        self.imp().action_list.upgrade()
-    }
-
-    pub(crate) fn set_action_list(&self, value: Option<&model::ActionList>) {
-        if self.action_list().as_ref() == value {
-            return;
-        }
-
-        let imp = self.imp();
-
-        if let Some(action_list) = value {
-            let sorter = gtk::NumericSorter::builder()
-                .expression(model::Action::this_expression("start-timestamp"))
-                .sort_order(gtk::SortType::Descending)
-                .build();
-            let model = gtk::SortListModel::new(Some(action_list.to_owned()), Some(sorter));
-
-            imp.action_list_view
-                .set_model(Some(&gtk::NoSelection::new(Some(model))));
-        }
-
-        imp.action_list.set(value);
-        self.notify("action-list");
     }
 }

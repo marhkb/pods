@@ -327,7 +327,7 @@ impl CreationPage {
                 .map(|item| item.downcast().unwrap())
         }) {
             if imp.infra_pull_latest_image_switch.is_active() {
-                self.pull_and_create(image.repo_tags().get(0).unwrap().full());
+                self.pull_and_create(&image.repo_tags().get(0).unwrap().full());
             } else {
                 let page =
                     view::ActionPage::from(&self.client().unwrap().action_list().create_pod(
@@ -530,7 +530,7 @@ impl CreationPage {
             Some(image) => match image.data() {
                 Some(details) => imp
                     .infra_command_entry_row
-                    .set_text(details.config().cmd().unwrap_or("")),
+                    .set_text(&details.config().cmd().unwrap_or_default()),
                 None => {
                     if let Some((handler, image)) = imp.command_row_handler.take() {
                         if let Some(image) = image.upgrade() {
@@ -541,7 +541,7 @@ impl CreationPage {
                         Some("details"),
                         clone!(@weak self as obj => move |image, _| {
                             obj.imp().infra_command_entry_row.set_text(
-                                image.data().unwrap().config().cmd().unwrap_or("")
+                                &image.data().unwrap().config().cmd().unwrap_or_default()
                             );
                         }),
                     );

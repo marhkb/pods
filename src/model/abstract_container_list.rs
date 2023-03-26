@@ -1,10 +1,11 @@
+use gio::traits::ListModelExt;
+use glib::clone;
+use glib::prelude::*;
+use glib::subclass::prelude::*;
+use glib::subclass::Signal;
 use gtk::gio;
 use gtk::glib;
-use gtk::glib::clone;
-use gtk::glib::subclass::Signal;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
-use once_cell::sync::Lazy;
+use once_cell::sync::Lazy as SyncLazy;
 
 use crate::model;
 
@@ -20,7 +21,7 @@ mod imp {
         type Prerequisites = (gio::ListModel,);
 
         fn signals() -> &'static [Signal] {
-            static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
+            static SIGNALS: SyncLazy<Vec<Signal>> = SyncLazy::new(|| {
                 vec![
                     Signal::builder("container-added")
                         .param_types([model::Container::static_type()])
@@ -37,7 +38,7 @@ mod imp {
         }
 
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
+            static PROPERTIES: SyncLazy<Vec<glib::ParamSpec>> = SyncLazy::new(|| {
                 vec![
                     glib::ParamSpecUInt::builder("len").read_only().build(),
                     glib::ParamSpecUInt::builder("created").read_only().build(),

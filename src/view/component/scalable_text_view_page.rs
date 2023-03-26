@@ -267,7 +267,8 @@ impl From<Entity> for ScalableTextViewPage {
             Entity::Image(image) => {
                 imp.window_title.set_title(&gettext("Image Inspection"));
                 if let Some(image) = image.upgrade() {
-                    imp.window_title.set_subtitle(&utils::format_id(image.id()));
+                    imp.window_title
+                        .set_subtitle(&utils::format_id(&image.id()));
                 }
             }
             Entity::Container { mode, container } => {
@@ -287,7 +288,7 @@ impl From<Entity> for ScalableTextViewPage {
                     Mode::Kube => gettext("Pod Kube Generation"),
                 });
                 if let Some(pod) = pod.upgrade() {
-                    imp.window_title.set_subtitle(pod.name());
+                    imp.window_title.set_subtitle(&pod.name());
                 }
             }
         }
