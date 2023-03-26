@@ -282,7 +282,7 @@ impl DetailsPage {
             }));
 
             let handler_id = container.connect_deleted(clone!(@weak self as obj => move |container| {
-                utils::show_toast(obj.upcast_ref(), &gettext!("Container '{}' has been deleted", container.name()));
+                utils::show_toast(obj.upcast_ref(), gettext!("Container '{}' has been deleted", container.name()));
                 obj.imp().back_navigation_controls.navigate_back();
             }));
             imp.handler_id.replace(Some(handler_id));

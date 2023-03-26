@@ -307,17 +307,17 @@ mod imp {
                 });
                 self.pod_combo_row.set_list_factory(Some(&list_factory));
 
-                let pod_list_mode = gio::ListStore::new(gio::ListModel::static_type());
-                pod_list_mode.append(&gtk::StringList::new(&[""]));
-                pod_list_mode.append(&gtk::SortListModel::new(
-                    Some(obj.client().unwrap().pod_list()),
-                    Some(&gtk::StringSorter::new(Some(model::Pod::this_expression(
+                let pod_list_model = gio::ListStore::new(gio::ListModel::static_type());
+                pod_list_model.append(&gtk::StringList::new(&[""]));
+                pod_list_model.append(&gtk::SortListModel::new(
+                    Some(obj.client().unwrap().pod_list().to_owned()),
+                    Some(gtk::StringSorter::new(Some(model::Pod::this_expression(
                         "name",
                     )))),
                 ));
 
                 self.pod_combo_row
-                    .set_model(Some(&gtk::FlattenListModel::new(Some(&pod_list_mode))));
+                    .set_model(Some(&gtk::FlattenListModel::new(Some(pod_list_model))));
             }
 
             bind_model(
@@ -662,7 +662,6 @@ impl CreationPage {
             .portmappings(
                 imp.port_mappings
                     .iter::<glib::Object>()
-                    .unwrap()
                     .map(|mapping| mapping.unwrap().downcast::<model::PortMapping>().unwrap())
                     .map(|port_mapping| podman::models::PortMapping {
                         container_port: Some(port_mapping.container_port() as u16),
@@ -675,7 +674,6 @@ impl CreationPage {
             .mounts(
                 imp.volumes
                     .iter::<glib::Object>()
-                    .unwrap()
                     .map(|volume| volume.unwrap().downcast::<model::Volume>().unwrap())
                     .map(|volume| podman::models::ContainerMount {
                         destination: Some(volume.container_path()),
@@ -699,14 +697,12 @@ impl CreationPage {
             .env(
                 imp.env_vars
                     .iter::<glib::Object>()
-                    .unwrap()
                     .map(|entry| entry.unwrap().downcast::<model::KeyVal>().unwrap())
                     .map(|entry| (entry.key(), entry.value())),
             )
             .labels(
                 imp.labels
                     .iter::<glib::Object>()
-                    .unwrap()
                     .map(|entry| entry.unwrap().downcast::<model::KeyVal>().unwrap())
                     .map(|entry| (entry.key(), entry.value())),
             );
@@ -746,7 +742,6 @@ impl CreationPage {
             let args = imp
                 .cmd_args
                 .iter::<glib::Object>()
-                .unwrap()
                 .map(|value| value.unwrap().downcast::<model::Value>().unwrap())
                 .map(|value| value.value());
             let mut cmd = vec![cmd.to_string()];

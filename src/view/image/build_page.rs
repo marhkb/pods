@@ -235,7 +235,7 @@ impl BuildPage {
         if imp.tag_entry_row.text().contains(char::is_uppercase) {
             utils::show_toast(
                 self.upcast_ref(),
-                &gettext("Image name should not contain uppercase characters."),
+                gettext("Image name should not contain uppercase characters."),
             );
             return;
         }
@@ -248,7 +248,6 @@ impl BuildPage {
                     .labels(
                         imp.labels
                             .iter::<glib::Object>()
-                            .unwrap()
                             .map(|entry| entry.unwrap().downcast::<model::KeyVal>().unwrap())
                             .map(|entry| (entry.key(), entry.value())),
                     )

@@ -119,14 +119,14 @@ mod imp {
                 ))
                 .bind(&*self.status_label, "label", Some(obj));
 
-            let css_classes = self.status_label.css_classes();
+            let css_classes = utils::css_classes(self.status_label.upcast_ref());
             health_status_expr
                 .chain_closure::<Vec<String>>(closure!(
                     |_: Self::Type, status: model::ContainerHealthStatus| {
                         css_classes
                             .iter()
                             .cloned()
-                            .chain(Some(glib::GString::from(
+                            .chain(Some(String::from(
                                 super::super::container_health_status_css_class(status),
                             )))
                             .collect::<Vec<_>>()
@@ -144,7 +144,7 @@ mod imp {
                     }));
                 }
 
-                let sort_model = gtk::SortListModel::new(model.as_ref(), Some(&gtk::CustomSorter::new(|item1, item2| {
+                let sort_model = gtk::SortListModel::new(model, Some(gtk::CustomSorter::new(|item1, item2| {
                     let log1 = item1.downcast_ref::<model::HealthCheckLog>().unwrap();
                     let log2 = item2.downcast_ref::<model::HealthCheckLog>().unwrap();
                     log2.start().cmp(log1.start()).into()

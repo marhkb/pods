@@ -69,7 +69,7 @@ mod imp {
                     glib::ParamSpecBoolean::builder("writable")
                         .explicit_notify()
                         .build(),
-                    glib::ParamSpecEnum::builder::<SELinux>("selinux", SELinux::default()).build(),
+                    glib::ParamSpecEnum::builder::<SELinux>("selinux").build(),
                 ]
             });
             PROPERTIES.as_ref()

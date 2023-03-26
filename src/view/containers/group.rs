@@ -252,11 +252,11 @@ impl Group {
             }));
 
             let model = gtk::SortListModel::new(
-                Some(&gtk::FilterListModel::new(
-                    Some(value),
-                    imp.properties_filter.get(),
+                Some(gtk::FilterListModel::new(
+                    Some(value.to_owned()),
+                    imp.properties_filter.get().cloned(),
                 )),
-                imp.sorter.get(),
+                imp.sorter.get().cloned(),
             );
 
             imp.list_box.bind_model(Some(&model), |item| {

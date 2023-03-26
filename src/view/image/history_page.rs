@@ -96,14 +96,14 @@ impl From<&model::Image> for HistoryPage {
                         entries.into_iter().for_each(|entry| {
                             let row = adw::ExpanderRow::builder()
                                 .title(
-                                    &entry
+                                    entry
                                         .id
                                         .as_deref()
                                         .map(utils::format_id)
                                         .unwrap_or_else(|| gettext("<None>")),
                                 )
                                 .subtitle(
-                                    &entry
+                                    entry
                                         .created
                                         .map(|created| {
                                             glib::DateTime::from_unix_local(created)
@@ -123,7 +123,7 @@ impl From<&model::Image> for HistoryPage {
                             row.add_action(
                                 &gtk::Label::builder()
                                     .label(
-                                        &entry
+                                        entry
                                             .size
                                             .map(|size| String::from(glib::format_size(size as u64)))
                                             .unwrap_or_else(|| gettext("Unknown size")),
@@ -143,14 +143,14 @@ impl From<&model::Image> for HistoryPage {
                                     .build();
                                 box_.append(
                                     &gtk::Label::builder()
-                                        .label(&gettext("Created by"))
+                                        .label(gettext("Created by"))
                                         .xalign(0.0)
                                         .css_classes(vec!["heading".to_string()])
                                         .build(),
                                 );
                                 box_.append(
                                     &gtk::Label::builder()
-                                        .label(&created_by)
+                                        .label(created_by)
                                         .single_line_mode(false)
                                         .xalign(0.0)
                                         .wrap(true)

@@ -450,7 +450,7 @@ mod imp {
                     glib::signal::Inhibit(false)
                 }
             ));
-            dialog.add_controller(&controller);
+            dialog.add_controller(controller);
 
             self.parent_realize();
         }
@@ -542,7 +542,7 @@ impl Window {
         let action = gio::SimpleAction::new_stateful(
             "theme",
             Some(glib::VariantTy::STRING),
-            &color_scheme_to_str(style_manager.color_scheme()).to_variant(),
+            color_scheme_to_str(style_manager.color_scheme()).to_variant(),
         );
         action.connect_activate(clone!(@weak self as obj => move |_, param| {
             adw::StyleManager::default()
@@ -552,7 +552,7 @@ impl Window {
 
         adw::StyleManager::default().connect_color_scheme_notify(
             clone!(@weak action => move |style_manager| {
-                action.set_state(&color_scheme_to_str(style_manager.color_scheme()).to_variant());
+                action.set_state(color_scheme_to_str(style_manager.color_scheme()).to_variant());
             }),
         );
 
@@ -611,7 +611,7 @@ impl Window {
                 })
             }
         ));
-        imp.search_entry.add_controller(&key_controller);
+        imp.search_entry.add_controller(key_controller);
     }
 
     fn setup_panels(&self) {
@@ -890,8 +890,8 @@ impl Window {
 
     fn client_err_op(&self, e: model::ClientError) {
         self.show_toast(
-            &adw::Toast::builder()
-                .title(&gettext!(
+            adw::Toast::builder()
+                .title(gettext!(
                     "Error on loading {}",
                     match e {
                         model::ClientError::Images => gettext("images"),
@@ -905,7 +905,7 @@ impl Window {
         );
     }
 
-    pub(crate) fn show_toast(&self, toast: &adw::Toast) {
+    pub(crate) fn show_toast(&self, toast: adw::Toast) {
         self.imp().toast_overlay.add_toast(toast);
     }
 

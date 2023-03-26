@@ -149,10 +149,10 @@ impl Overview {
                 .expression(model::Action::this_expression("start-timestamp"))
                 .sort_order(gtk::SortType::Descending)
                 .build();
-            let model = gtk::SortListModel::new(Some(action_list), Some(&sorter));
+            let model = gtk::SortListModel::new(Some(action_list.to_owned()), Some(sorter));
 
             imp.action_list_view
-                .set_model(Some(&gtk::NoSelection::new(Some(&model))));
+                .set_model(Some(&gtk::NoSelection::new(Some(model))));
         }
 
         imp.action_list.set(value);

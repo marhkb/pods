@@ -190,20 +190,26 @@ impl CommitPage {
 
     async fn fetch_user_information(&self) {
         let request = UserInformationRequest::default()
-            .identifier(WindowIdentifier::from_native(&self.native().unwrap()).await)
-            .build();
+            .identifier(WindowIdentifier::from_native(&self.native().unwrap()).await);
 
         utils::do_async(
-            request,
-            clone!(@weak self as obj => move |user_info| match user_info {
-                Ok(user_info) => obj.imp().author_entry_row.set_text(user_info.name()),
-                Err(e) => {
-                    if let ashpd::Error::Portal(ashpd::PortalError::Cancelled(_)) = e {
-                        utils::show_error_toast(
-                            obj.upcast_ref(),
-                            &gettext("Error on fetching user name"),
-                            &e.to_string(),
-                        );
+            async move {
+                request
+                    .send()
+                    .await
+                    .and_then(|user_info| user_info.response())
+            },
+            clone!(@weak self as obj => move |user_info| {
+                match user_info {
+                    Ok(user_info) => obj.imp().author_entry_row.set_text(user_info.name()),
+                    Err(e) => {
+                        if let ashpd::Error::Portal(ashpd::PortalError::Cancelled(_)) = e {
+                            utils::show_error_toast(
+                                obj.upcast_ref(),
+                                &gettext("Error on fetching user name"),
+                                &e.to_string(),
+                            );
+                        }
                     }
                 }
             }),

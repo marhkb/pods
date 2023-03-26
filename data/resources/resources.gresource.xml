@@ -99,5 +99,7 @@
     <file compressed="true">style.css</file>
     <file compressed="true">style-dark.css</file>
     <file compressed="true">style-hc.css</file>
+
+    <file>glsl/mask.glsl</file>
   </gresource>
 </gresources>

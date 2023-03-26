@@ -155,9 +155,9 @@ impl LocalComboRow {
 
         if let Some(client) = value {
             let model = gtk::SortListModel::new(
-                Some(&gtk::FilterListModel::new(
-                    Some(client.image_list()),
-                    Some(&gtk::CustomFilter::new(|obj| {
+                Some(gtk::FilterListModel::new(
+                    Some(client.image_list().to_owned()),
+                    Some(gtk::CustomFilter::new(|obj| {
                         obj.downcast_ref::<model::Image>()
                             .unwrap()
                             .repo_tags()
@@ -165,7 +165,7 @@ impl LocalComboRow {
                             > 0
                     })),
                 )),
-                Some(&gtk::StringSorter::new(self.expression())),
+                Some(gtk::StringSorter::new(self.expression())),
             );
 
             self.set_model(Some(&model));

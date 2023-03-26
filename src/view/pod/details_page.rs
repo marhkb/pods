@@ -191,16 +191,16 @@ mod imp {
                 }))
                 .bind(&*self.status_label, "label", Some(obj));
 
-            let css_classes = self.status_label.css_classes();
+            let css_classes = utils::css_classes(self.status_label.upcast_ref());
             status_expr
                 .chain_closure::<Vec<String>>(closure!(
                     |_: Self::Type, status: model::PodStatus| {
                         css_classes
                             .iter()
                             .cloned()
-                            .chain(Some(glib::GString::from(
-                                super::super::pod_status_css_class(status),
-                            )))
+                            .chain(Some(String::from(super::super::pod_status_css_class(
+                                status,
+                            ))))
                             .collect::<Vec<_>>()
                     }
                 ))
@@ -263,7 +263,7 @@ impl DetailsPage {
             }));
 
             let handler_id = pod.connect_deleted(clone!(@weak self as obj => move |pod| {
-                utils::show_toast(obj.upcast_ref(), &gettext!("Pod '{}' has been deleted", pod.name()));
+                utils::show_toast(obj.upcast_ref(), gettext!("Pod '{}' has been deleted", pod.name()));
                 obj.imp().back_navigation_controls.navigate_back();
             }));
             imp.handler_id.replace(Some(handler_id));

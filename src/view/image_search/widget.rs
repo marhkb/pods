@@ -133,9 +133,9 @@ mod imp {
                 clone!(@weak filter => move |_| filter.changed(gtk::FilterChange::Different)),
             );
 
-            let selection = gtk::SingleSelection::new(Some(&gtk::FilterListModel::new(
-                Some(&self.search_results),
-                Some(&filter),
+            let selection = gtk::SingleSelection::new(Some(gtk::FilterListModel::new(
+                Some(self.search_results.clone()),
+                Some(filter),
             )));
 
             selection.connect_selected_item_notify(clone!(@weak obj => move |_| {

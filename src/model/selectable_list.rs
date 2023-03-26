@@ -88,7 +88,6 @@ impl<T: IsA<SelectableList> + IsA<gio::ListModel>> SelectableListExt for T {
     fn select(&self, value: bool) {
         self.to_owned()
             .iter::<model::Selectable>()
-            .unwrap()
             .map(|selectable| selectable.unwrap())
             .for_each(|selectable| selectable.set_selected(value));
     }
@@ -96,7 +95,6 @@ impl<T: IsA<SelectableList> + IsA<gio::ListModel>> SelectableListExt for T {
     fn num_selected(&self) -> u32 {
         self.to_owned()
             .iter::<model::Selectable>()
-            .unwrap()
             .map(|selectable| selectable.unwrap())
             .filter(|obj| obj.is_selected())
             .count() as u32
@@ -105,7 +103,6 @@ impl<T: IsA<SelectableList> + IsA<gio::ListModel>> SelectableListExt for T {
     fn selected_items(&self) -> Vec<model::Selectable> {
         self.to_owned()
             .iter::<model::Selectable>()
-            .unwrap()
             .map(|selectable| selectable.unwrap())
             .filter(|obj| obj.is_selected())
             .collect()

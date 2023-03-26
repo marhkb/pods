@@ -138,13 +138,13 @@ mod imp {
                 }),
             );
 
-            let classes = self.image.css_classes();
+            let classes = utils::css_classes(self.image.upcast_ref());
             is_active_expr
                 .chain_closure::<Vec<String>>(closure!(|_: Self::Type, is_active: bool| {
                     classes
                         .iter()
                         .cloned()
-                        .chain(Some(glib::GString::from(if is_active {
+                        .chain(Some(String::from(if is_active {
                             "selected-connection"
                         } else {
                             "unselected-connection"
@@ -215,9 +215,8 @@ impl Row {
         imp.color_bin
             .set_visible(match value.and_then(model::Connection::rgb) {
                 Some(rgb) => {
-                    imp.css_provider.load_from_data(
-                        format!("widget {{ background: shade({rgb}, 1.2); }}").as_bytes(),
-                    );
+                    imp.css_provider
+                        .load_from_data(&format!("widget {{ background: shade({rgb}, 1.2); }}"));
                     true
                 }
                 None => false,

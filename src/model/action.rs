@@ -76,13 +76,13 @@ mod imp {
                         .read_only()
                         .build(),
                     glib::ParamSpecUInt::builder("num").construct_only().build(),
-                    glib::ParamSpecEnum::builder::<Type>("type", Type::default())
+                    glib::ParamSpecEnum::builder::<Type>("type")
                         .construct_only()
                         .build(),
                     glib::ParamSpecString::builder("description")
                         .construct_only()
                         .build(),
-                    glib::ParamSpecEnum::builder::<State>("state", State::default())
+                    glib::ParamSpecEnum::builder::<State>("state")
                         .read_only()
                         .build(),
                     glib::ParamSpecInt64::builder("start-timestamp")

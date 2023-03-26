@@ -113,16 +113,14 @@ mod imp {
                 }))
                 .bind(&*self.spinner, "icon-name", Some(obj));
 
-            let css_classes = self.spinner.css_classes();
+            let css_classes = utils::css_classes(self.spinner.upcast_ref());
             status_expr
                 .chain_closure::<Vec<String>>(closure!(
                     |_: Self::Type, status: model::PodStatus| {
                         css_classes
                             .iter()
                             .cloned()
-                            .chain(Some(glib::GString::from(view::pod_status_css_class(
-                                status,
-                            ))))
+                            .chain(Some(String::from(view::pod_status_css_class(status))))
                             .collect::<Vec<_>>()
                     }
                 ))

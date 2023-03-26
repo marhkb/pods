@@ -3,7 +3,6 @@ use std::cell::RefCell;
 use adw::subclass::prelude::EntryRowImpl;
 use adw::subclass::prelude::PreferencesRowImpl;
 use gtk::glib;
-use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::traits::EditableExt;
 use gtk::CompositeTemplate;

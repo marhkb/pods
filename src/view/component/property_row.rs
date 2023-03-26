@@ -44,7 +44,7 @@ mod imp {
                     glib::ParamSpecString::builder("value")
                         .explicit_notify()
                         .build(),
-                    glib::ParamSpecEnum::builder::<pango::WrapMode>(
+                    glib::ParamSpecEnum::builder_with_default::<pango::WrapMode>(
                         "value-wrap-mode",
                         pango::WrapMode::Word,
                     )

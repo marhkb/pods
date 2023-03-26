@@ -348,9 +348,9 @@ impl Panel {
         }
 
         let dialog = adw::MessageDialog::builder()
-            .heading(&gettext("Confirm Forced Deletion of Multiple Containers"))
+            .heading(gettext("Confirm Forced Deletion of Multiple Containers"))
             .body_use_markup(true)
-            .body(&gettext(
+            .body(gettext(
                 "All the data created inside the containers will be lost and running containers will be stopped!",
             ))
             .modal(true)

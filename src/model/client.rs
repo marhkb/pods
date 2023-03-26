@@ -111,7 +111,6 @@ mod imp {
                 .connect_image_added(clone!(@weak obj => move |_, image| {
                     obj.container_list()
                         .iter::<model::Container>()
-                        .unwrap()
                         .map(|container| container.unwrap())
                         .filter(|container| container.image_id() == Some(image.id()))
                         .for_each(|container| {
@@ -152,7 +151,6 @@ mod imp {
                 .connect_pod_added(clone!(@weak obj => move |_, pod| {
                     obj.container_list()
                         .iter::<model::Container>()
-                        .unwrap()
                         .map(|container| container.unwrap())
                         .filter(|container| container.pod_id() == Some(pod.id()))
                         .for_each(|container| {

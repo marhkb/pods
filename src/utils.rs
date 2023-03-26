@@ -195,18 +195,18 @@ pub(crate) fn show_dialog(widget: &gtk::Widget, content: &gtk::Widget) {
             glib::signal::Inhibit(false)
         }
     ));
-    dialog.add_controller(&controller);
+    dialog.add_controller(controller);
     dialog.present();
 }
 
-pub(crate) fn show_toast(widget: &gtk::Widget, title: &str) {
+pub(crate) fn show_toast(widget: &gtk::Widget, title: impl Into<glib::GString>) {
     widget
         .ancestor(adw::ToastOverlay::static_type())
         .unwrap()
         .downcast::<adw::ToastOverlay>()
         .unwrap()
         .add_toast(
-            &adw::Toast::builder()
+            adw::Toast::builder()
                 .title(title)
                 .timeout(3)
                 .priority(adw::ToastPriority::High)
@@ -215,7 +215,7 @@ pub(crate) fn show_toast(widget: &gtk::Widget, title: &str) {
 }
 
 pub(crate) fn show_error_toast(widget: &gtk::Widget, title: &str, msg: &str) {
-    show_toast(widget, &format!("{title}: {msg}"));
+    show_toast(widget, format!("{title}: {msg}"));
 }
 
 pub(crate) fn find_leaflet_overlay(widget: &gtk::Widget) -> view::LeafletOverlay {
@@ -354,6 +354,14 @@ pub(crate) fn run_stream_with_finish_handler<A, P, I, F, X>(
     });
 }
 
+pub(crate) fn css_classes(widget: &gtk::Widget) -> Vec<String> {
+    widget
+        .css_classes()
+        .iter()
+        .map(glib::GString::to_string)
+        .collect::<Vec<_>>()
+}
+
 pub(crate) struct ChildIter(Option<gtk::Widget>);
 impl From<&gtk::Widget> for ChildIter {
     fn from(widget: &gtk::Widget) -> Self {
@@ -375,7 +383,7 @@ where
     F: Fn(SelectedFiles) + 'static,
 {
     do_async(
-        request.build(),
+        async move { request.send().await.and_then(|files| files.response()) },
         clone!(@weak widget => move |files| show_file_dialog(files, &widget, op)),
     );
 }
@@ -385,7 +393,7 @@ where
     F: Fn(SelectedFiles) + 'static,
 {
     do_async(
-        request.build(),
+        async move { request.send().await.and_then(|files| files.response()) },
         clone!(@weak widget => move |files| show_file_dialog(files, &widget, op)),
     );
 }

@@ -59,7 +59,7 @@ mod imp {
                     &gtk::Button::builder()
                         .icon_name("go-previous-symbolic")
                         .action_name("back-navigation-controls.back")
-                        .tooltip_text(&gettext("Go Back"))
+                        .tooltip_text(gettext("Go Back"))
                         .build(),
                 );
 
@@ -68,7 +68,7 @@ mod imp {
                         &gtk::Button::builder()
                             .icon_name("go-home-symbolic")
                             .action_name("back-navigation-controls.go-first")
-                            .tooltip_text(&gettext("Main View"))
+                            .tooltip_text(gettext("Main View"))
                             .build(),
                     );
                 }
