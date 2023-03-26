@@ -1,4 +1,5 @@
 #![allow(clippy::format_push_string)]
+#![allow(deprecated)]
 
 mod application;
 mod podman;

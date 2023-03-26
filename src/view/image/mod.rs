@@ -12,6 +12,7 @@ use adw::traits::MessageDialogExt;
 use gettextrs::gettext;
 use glib::clone;
 use glib::Cast;
+use gtk::gio;
 use gtk::glib;
 
 pub(crate) use self::build_page::BuildPage;
@@ -32,10 +33,10 @@ fn delete_image_show_confirmation(widget: &gtk::Widget, image: Option<model::Ima
 
         if image.containers() > 0 || first_container.is_some() {
             let dialog = adw::MessageDialog::builder()
-                .heading(&gettext("Confirm Forced Image Deletion"))
+                .heading(gettext("Confirm Forced Image Deletion"))
                 .body_use_markup(true)
                 .body(
-                    &match first_container.as_ref().map(|c| c.name()) {
+                    match first_container.as_ref().map(|c| c.name()) {
                         Some(id) => gettext!(
                             // Translators: The "{}" is a placeholder for the container name.
                             "Image is used by container <b>{}</b>. Deleting the image will also delete all its associated containers.",
@@ -57,9 +58,9 @@ fn delete_image_show_confirmation(widget: &gtk::Widget, image: Option<model::Ima
             dialog.set_default_response(Some("cancel"));
             dialog.set_response_appearance("delete", adw::ResponseAppearance::Destructive);
 
-            dialog.run_async(
-                None,
-                clone!(@weak widget, @weak image => move |_, response| {
+            dialog.choose(
+                gio::Cancellable::NONE,
+                clone!(@weak widget, @weak image => move |response| {
                     if response == "delete" {
                         delete_image(&widget, &image);
                     }

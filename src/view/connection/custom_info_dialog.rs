@@ -161,7 +161,7 @@ impl CustomInfoDialog {
 
     fn show_toast(&self, title: &str) {
         self.imp().toast_overlay.add_toast(
-            &adw::Toast::builder()
+            adw::Toast::builder()
                 .timeout(2)
                 .priority(adw::ToastPriority::High)
                 .title(title)

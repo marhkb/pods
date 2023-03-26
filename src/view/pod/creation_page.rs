@@ -382,7 +382,6 @@ impl CreationPage {
             .labels(
                 imp.labels
                     .iter::<glib::Object>()
-                    .unwrap()
                     .map(|entry| entry.unwrap().downcast::<model::KeyVal>().unwrap())
                     .map(|entry| (entry.key(), entry.value())),
             );
@@ -404,7 +403,6 @@ impl CreationPage {
                 let args = imp
                     .infra_cmd_args
                     .iter::<glib::Object>()
-                    .unwrap()
                     .map(|value| value.unwrap().downcast::<model::Value>().unwrap())
                     .map(|value| value.value());
                 let mut cmd = vec![infra_command.to_string()];
@@ -421,7 +419,6 @@ impl CreationPage {
             opts = opts.add_hosts(
                 imp.hosts
                     .iter::<glib::Object>()
-                    .unwrap()
                     .map(|entry| entry.unwrap().downcast::<model::KeyVal>().unwrap())
                     .map(|entry| format!("{}:{}", entry.key(), entry.value())),
             )
@@ -434,7 +431,6 @@ impl CreationPage {
             let args = imp
                 .pod_create_cmd_args
                 .iter::<glib::Object>()
-                .unwrap()
                 .map(|value| value.unwrap().downcast::<model::Value>().unwrap())
                 .map(|value| value.value());
             let mut cmd = vec![create_cmd.to_string()];
@@ -445,7 +441,6 @@ impl CreationPage {
         let devices: Vec<_> = imp
             .devices
             .iter::<glib::Object>()
-            .unwrap()
             .map(|device| device.unwrap().downcast::<model::Device>().unwrap())
             .map(|device| {
                 format!(

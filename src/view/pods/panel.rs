@@ -288,11 +288,11 @@ impl Panel {
         );
 
         let model = gtk::SortListModel::new(
-            Some(&gtk::FilterListModel::new(
-                Some(value),
-                imp.properties_filter.get(),
+            Some(gtk::FilterListModel::new(
+                Some(value.to_owned()),
+                imp.properties_filter.get().cloned(),
             )),
-            imp.sorter.get(),
+            imp.sorter.get().cloned(),
         );
 
         imp.list_box.bind_model(Some(&model), |item| {
@@ -448,9 +448,9 @@ impl Panel {
         }
 
         let dialog = adw::MessageDialog::builder()
-            .heading(&gettext("Confirm Forced Deletion of Multiple Pods"))
+            .heading(gettext("Confirm Forced Deletion of Multiple Pods"))
             .body_use_markup(true)
-            .body(&gettext("All associated containers will also be removed!"))
+            .body(gettext("All associated containers will also be removed!"))
             .modal(true)
             .transient_for(&utils::root(self.upcast_ref()))
             .build();

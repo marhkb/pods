@@ -1,11 +1,11 @@
 {
     "id": "com.github.marhkb.Pods.Devel",
     "runtime": "org.gnome.Platform",
-    "runtime-version": "43",
+    "runtime-version": "44",
     "sdk": "org.gnome.Sdk",
     "sdk-extensions": [
         "org.freedesktop.Sdk.Extension.rust-stable",
-        "org.freedesktop.Sdk.Extension.llvm14"
+        "org.freedesktop.Sdk.Extension.llvm15"
     ],
     "command": "pods",
     "finish-args": [
@@ -21,7 +21,7 @@
         "--filesystem=xdg-run/podman:ro"
     ],
     "build-options": {
-        "append-path": "/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/llvm14/bin",
+        "append-path": "/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/llvm15/bin",
         "env": {
             "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER": "clang",
             "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUSTFLAGS": "-C link-arg=-fuse-ld=/usr/lib/sdk/rust-stable/bin/mold",
@@ -61,7 +61,7 @@
                 {
                     "type": "git",
                     "url": "https://gitlab.gnome.org/GNOME/libpanel.git",
-                    "tag": "1.0.2"
+                    "tag": "1.2.0"
                 }
             ]
         },
@@ -80,7 +80,7 @@
                 {
                     "type": "git",
                     "url": "https://gitlab.gnome.org/GNOME/vte.git",
-                    "tag": "0.70.3"
+                    "tag": "0.70.4"
                 }
             ]
         },

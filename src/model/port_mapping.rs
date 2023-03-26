@@ -69,7 +69,7 @@ mod imp {
                         .default_value(1)
                         .explicit_notify()
                         .build(),
-                    glib::ParamSpecEnum::builder::<Protocol>("protocol", Protocol::default())
+                    glib::ParamSpecEnum::builder::<Protocol>("protocol")
                         .explicit_notify()
                         .build(),
                 ]

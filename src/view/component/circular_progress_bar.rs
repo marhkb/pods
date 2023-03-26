@@ -199,7 +199,7 @@ mod imp {
                 snapshot.push_gl_shader(
                     compiled_mask_shader,
                     &rect_outer,
-                    &gsk::ShaderArgsBuilder::new(compiled_mask_shader, None).to_args(),
+                    gsk::ShaderArgsBuilder::new(compiled_mask_shader, None).to_args(),
                 );
             }
 
@@ -275,7 +275,7 @@ impl CircularProgressBar {
         self.imp()
             .mask_shader
             .get_or_init(|| {
-                let shader = gsk::GLShader::from_resource("/org/gnome/Adwaita/glsl/mask.glsl");
+                let shader = gsk::GLShader::from_resource("/com/github/marhkb/Pods/glsl/mask.glsl");
                 let renderer = self.native().unwrap().renderer();
 
                 match shader.compile(&renderer) {

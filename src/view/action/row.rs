@@ -108,7 +108,7 @@ mod imp {
 
             description_expr.bind(&*self.description_label, "label", Some(obj));
 
-            let classes = self.state_label.css_classes();
+            let classes = utils::css_classes(self.state_label.upcast_ref());
             state_expr
                 .chain_closure::<Vec<String>>(closure!(
                     |_: Self::Type, state: model::ActionState| {
@@ -117,7 +117,7 @@ mod imp {
                         classes
                             .iter()
                             .cloned()
-                            .chain(Some(glib::GString::from(match state {
+                            .chain(Some(String::from(match state {
                                 Ongoing => "accent",
                                 Finished => "success",
                                 Cancelled => "warning",

@@ -243,7 +243,6 @@ mod imp {
                     |_: Self::Type, exposed_ports: gtk::StringList| {
                         let exposed_ports = exposed_ports
                             .iter::<glib::Object>()
-                            .unwrap()
                             .map(|obj| {
                                 obj.unwrap()
                                     .downcast::<gtk::StringObject>()
@@ -309,14 +308,14 @@ impl DetailsPage {
             }));
 
             let handler_id = image.connect_deleted(clone!(@weak self as obj => move |image| {
-                utils::show_toast(obj.upcast_ref(), &gettext!("Image '{}' has been deleted", image.id()));
+                utils::show_toast(obj.upcast_ref(), gettext!("Image '{}' has been deleted", image.id()));
                 obj.imp().back_navigation_controls.navigate_back();
             }));
             imp.handler_id.replace(Some(handler_id));
 
             let model = gtk::SortListModel::new(
-                Some(image.repo_tags()),
-                Some(&gtk::StringSorter::new(Some(
+                Some(image.repo_tags().to_owned()),
+                Some(gtk::StringSorter::new(Some(
                     model::RepoTag::this_expression("full"),
                 ))),
             );

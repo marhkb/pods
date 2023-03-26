@@ -142,7 +142,7 @@ impl SwitcherWidget {
         let imp = self.imp();
 
         if let Some(manager) = value {
-            let model = gtk::NoSelection::new(Some(manager));
+            let model = gtk::NoSelection::new(Some(manager.to_owned()));
             imp.connection_list_view.set_model(Some(&model));
         }
 

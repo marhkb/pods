@@ -136,14 +136,14 @@ mod imp {
                 ))
                 .bind(&*self.spinner, "icon-name", Some(obj));
 
-            let css_classes = self.spinner.css_classes();
+            let css_classes = utils::css_classes(self.spinner.upcast_ref());
             status_expr
                 .chain_closure::<Vec<String>>(closure!(
                     |_: Self::Type, status: model::ContainerStatus| {
                         css_classes
                             .iter()
                             .cloned()
-                            .chain(Some(glib::GString::from(
+                            .chain(Some(String::from(
                                 super::super::container_status_css_class(status),
                             )))
                             .collect::<Vec<_>>()
@@ -180,14 +180,14 @@ mod imp {
                 ))
                 .bind(&*self.port_label, "visible", Some(obj));
 
-            let css_classes = self.port_label.css_classes();
+            let css_classes = utils::css_classes(self.port_label.upcast_ref());
             status_expr
                 .chain_closure::<Vec<String>>(closure!(
                     |_: Self::Type, status: model::ContainerStatus| {
                         css_classes
                             .iter()
                             .cloned()
-                            .chain(Some(glib::GString::from(match status {
+                            .chain(Some(String::from(match status {
                                 model::ContainerStatus::Running => "accent",
                                 _ => "dim-label",
                             })))
@@ -220,14 +220,14 @@ mod imp {
             )
             .bind(&*self.health_status_label, "visible", Some(obj));
 
-            let css_classes = self.health_status_label.css_classes();
+            let css_classes = utils::css_classes(self.health_status_label.upcast_ref());
             health_status_expr
                 .chain_closure::<Vec<String>>(closure!(
                     |_: Self::Type, status: model::ContainerHealthStatus| {
                         css_classes
                             .iter()
                             .cloned()
-                            .chain(Some(glib::GString::from(
+                            .chain(Some(String::from(
                                 super::super::container_health_status_css_class(status),
                             )))
                             .collect::<Vec<_>>()

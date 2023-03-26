@@ -186,13 +186,10 @@ mod imp {
                     glib::ParamSpecInt64::builder("created")
                         .construct_only()
                         .build(),
-                    glib::ParamSpecEnum::builder::<HealthStatus>(
-                        "health-status",
-                        HealthStatus::default(),
-                    )
-                    .construct()
-                    .explicit_notify()
-                    .build(),
+                    glib::ParamSpecEnum::builder::<HealthStatus>("health-status")
+                        .construct()
+                        .explicit_notify()
+                        .build(),
                     glib::ParamSpecString::builder("id")
                         .construct_only()
                         .build(),
@@ -222,7 +219,7 @@ mod imp {
                     glib::ParamSpecBoxed::builder::<BoxedContainerStats>("stats")
                         .explicit_notify()
                         .build(),
-                    glib::ParamSpecEnum::builder::<Status>("status", Status::default())
+                    glib::ParamSpecEnum::builder::<Status>("status")
                         .construct()
                         .explicit_notify()
                         .build(),

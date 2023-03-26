@@ -214,7 +214,7 @@ mod imp {
 
                                 box_.set_start_widget(Some(
                                     &gtk::Label::builder()
-                                        .label(&format!("<a href='http://{host}'>{host}</a>"))
+                                        .label(format!("<a href='http://{host}'>{host}</a>"))
                                         .hexpand(true)
                                         .selectable(true)
                                         .use_markup(true)
@@ -290,14 +290,14 @@ mod imp {
                 ))
                 .bind(&*self.status_label, "label", Some(obj));
 
-            let css_classes = self.status_label.css_classes();
+            let css_classes = utils::css_classes(self.status_label.upcast_ref());
             status_expr
                 .chain_closure::<Vec<String>>(closure!(
                     |_: Self::Type, status: model::ContainerStatus| {
                         css_classes
                             .iter()
                             .cloned()
-                            .chain(Some(glib::GString::from(
+                            .chain(Some(String::from(
                                 super::super::container_status_css_class(status),
                             )))
                             .collect::<Vec<_>>()
@@ -311,14 +311,14 @@ mod imp {
                 ))
                 .bind(&*self.health_status_label, "label", Some(obj));
 
-            let css_classes = self.status_label.css_classes();
+            let css_classes = utils::css_classes(self.status_label.upcast_ref());
             health_status_expr
                 .chain_closure::<Vec<String>>(closure!(
                     |_: Self::Type, status: model::ContainerHealthStatus| {
                         css_classes
                             .iter()
                             .cloned()
-                            .chain(Some(glib::GString::from(
+                            .chain(Some(String::from(
                                 super::super::container_health_status_css_class(status),
                             )))
                             .collect::<Vec<_>>()

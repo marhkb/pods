@@ -156,8 +156,7 @@ impl Application {
                     app.show_about_dialog();
                 })
                 .build(),
-        ])
-        .unwrap();
+        ]);
     }
 
     // Sets up keyboard shortcuts
@@ -177,14 +176,14 @@ impl Application {
             .copyright("© 2022 Marcus Behrendt")
             .license_type(gtk::License::Gpl30)
             .developers(vec![
-                "Marcus Behrendt https://github.com/marhkb".into(),
-                "Wojciech Kępka https://github.com/vv9k".into(),
+                "Marcus Behrendt https://github.com/marhkb",
+                "Wojciech Kępka https://github.com/vv9k",
             ])
-            .designers(vec!["Marcus Behrendt https://github.com/marhkb".into()])
+            .designers(vec!["Marcus Behrendt https://github.com/marhkb"])
             .artists(vec![
-                "Marcus Behrendt https://github.com/marhkb".into(),
-                "Allaeddine Boulefaat https://github.com/allaeddineomc".into(),
-                "David Lapshin https://github.com/daudix-UFO".into(),
+                "Marcus Behrendt https://github.com/marhkb",
+                "Allaeddine Boulefaat https://github.com/allaeddineomc",
+                "David Lapshin https://github.com/daudix-UFO",
             ])
             .translator_credits(gettext("translator-credits").as_str())
             .build();
@@ -215,7 +214,7 @@ impl Application {
                 glib::signal::Inhibit(false)
             }
         ));
-        dialog.add_controller(&controller);
+        dialog.add_controller(controller);
 
         dialog.present();
     }

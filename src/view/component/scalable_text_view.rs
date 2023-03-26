@@ -118,8 +118,9 @@ impl ScalableTextView {
     }
 
     fn update_css(&self) {
-        self.imp().css_provider.load_from_data(
-            format!("textview {{ font-size: {}em; }}", self.font_scale()).as_bytes(),
-        );
+        self.imp().css_provider.load_from_data(&format!(
+            "textview {{ font-size: {}em; }}",
+            self.font_scale()
+        ));
     }
 }

@@ -307,11 +307,11 @@ impl Panel {
         );
 
         let model = gtk::SortListModel::new(
-            Some(&gtk::FilterListModel::new(
-                Some(value),
-                imp.properties_filter.get(),
+            Some(gtk::FilterListModel::new(
+                Some(value.to_owned()),
+                imp.properties_filter.get().cloned(),
             )),
-            imp.sorter.get(),
+            imp.sorter.get().cloned(),
         );
 
         imp.list_box.bind_model(Some(&model), |item| {
@@ -381,8 +381,8 @@ impl Panel {
         }
 
         let dialog = adw::MessageDialog::builder()
-            .heading(&gettext("Confirm Forced Deletion of Multiple Images"))
-            .body(&gettext(
+            .heading(gettext("Confirm Forced Deletion of Multiple Images"))
+            .body(gettext(
                 "There may be containers associated with those images, which will also be removed!",
             ))
             .modal(true)

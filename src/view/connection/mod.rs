@@ -30,7 +30,7 @@ pub(crate) fn show_ongoing_actions_warning_dialog(
         let dialog = adw::MessageDialog::builder()
             .heading(heading)
             .body_use_markup(true)
-            .body(&gettext(
+            .body(gettext(
                 "There are ongoing actions whose progress will be irretrievably lost.",
             ))
             .transient_for(&utils::root(widget))
@@ -43,7 +43,7 @@ pub(crate) fn show_ongoing_actions_warning_dialog(
         dialog.set_default_response(Some("cancel"));
         dialog.set_response_appearance("confirm", adw::ResponseAppearance::Destructive);
 
-        glib::MainContext::default().block_on(dialog.run_future()) == "confirm"
+        glib::MainContext::default().block_on(dialog.choose_future()) == "confirm"
     } else {
         true
     }

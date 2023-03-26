@@ -275,10 +275,9 @@ impl Statusbar {
             })
             .unwrap_or_else(|| (Cow::Borrowed("@headerbar_bg_color"), "@headerbar_fg_color"));
 
-        self.imp().css_provider.load_from_data(
-            format!("panelstatusbar {{ background: shade({bg_color}, 1.2); color: {fg_color}; }}")
-                .as_bytes(),
-        );
+        self.imp().css_provider.load_from_data(&format!(
+            "panelstatusbar {{ background: shade({bg_color}, 1.2); color: {fg_color}; }}"
+        ));
     }
 }
 

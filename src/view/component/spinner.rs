@@ -119,7 +119,7 @@ mod imp {
         fn realize(&self) {
             self.parent_realize();
 
-            let shader = gsk::GLShader::from_resource("/org/gnome/Adwaita/glsl/mask.glsl");
+            let shader = gsk::GLShader::from_resource("/com/github/marhkb/Pods/glsl/mask.glsl");
             let renderer = self.obj().native().unwrap().renderer();
             let compiled_shader = match shader.compile(&renderer) {
                 Err(e) => {
@@ -201,7 +201,7 @@ mod imp {
                 snapshot.push_gl_shader(
                     compiled_mask_shader,
                     &rect,
-                    &gsk::ShaderArgsBuilder::new(compiled_mask_shader, None).to_args(),
+                    gsk::ShaderArgsBuilder::new(compiled_mask_shader, None).to_args(),
                 );
             }
 

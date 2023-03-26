@@ -143,7 +143,7 @@ mod imp {
                         .construct()
                         .explicit_notify()
                         .build(),
-                    glib::ParamSpecEnum::builder::<Status>("status", Status::default())
+                    glib::ParamSpecEnum::builder::<Status>("status")
                         .construct()
                         .explicit_notify()
                         .build(),

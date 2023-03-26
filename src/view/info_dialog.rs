@@ -289,10 +289,10 @@ impl InfoDialog {
                 Err(e) => {
                     log::error!("Failed to retrieve host info: {e}");
                     obj.add_toast(
-                        &adw::Toast::builder()
+                        adw::Toast::builder()
                             .title(
                                 // Translators: The placeholder "{}" is for the error message.
-                                &gettext!("Error: {}", e)
+                                gettext!("Error: {}", e)
                             )
                             .priority(adw::ToastPriority::High)
                             .build(),

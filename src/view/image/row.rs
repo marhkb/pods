@@ -117,7 +117,7 @@ mod imp {
             )
             .bind(&*self.id_label, "label", Some(obj));
 
-            let css_classes = self.id_label.css_classes();
+            let css_classes = utils::css_classes(self.id_label.upcast_ref());
             image_expr
                 .chain_property::<model::Image>("repo-tags")
                 .chain_property::<model::RepoTagList>("len")
@@ -126,7 +126,7 @@ mod imp {
                         .iter()
                         .cloned()
                         .chain(if len == 0 {
-                            Some(glib::GString::from("dim-label"))
+                            Some(String::from("dim-label"))
                         } else {
                             None
                         })
@@ -190,8 +190,8 @@ impl Row {
             bindings.push(binding);
 
             let model = gtk::SortListModel::new(
-                Some(image.repo_tags()),
-                Some(&gtk::StringSorter::new(Some(
+                Some(image.repo_tags().to_owned()),
+                Some(gtk::StringSorter::new(Some(
                     model::RepoTag::this_expression("full"),
                 ))),
             );

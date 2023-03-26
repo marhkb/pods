@@ -13,6 +13,7 @@ use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
 
 use crate::model;
+use crate::utils;
 
 mod imp {
     use super::*;
@@ -216,7 +217,7 @@ impl ResourcesQuickReferenceGroup {
             }),
         );
 
-        let classes = progress_bar.css_classes();
+        let classes = utils::css_classes(progress_bar.upcast_ref());
 
         #[rustfmt::skip]
         stats_expr.chain_closure::<Vec<String>>(
@@ -227,7 +228,7 @@ impl ResourcesQuickReferenceGroup {
                     .chain(stats.and_then(|stats| {
                         fraction_op(stats).and_then(|perc| {
                             if perc >= 80. {
-                                Some(glib::GString::from(if perc < 95. {
+                                Some(String::from(if perc < 95. {
                                     "warning"
                                 } else {
                                     "error"
