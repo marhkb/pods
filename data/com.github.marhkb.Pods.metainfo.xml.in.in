@@ -42,9 +42,20 @@
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="1.0.7" date="2023-03-28">
+      <description>
+        <p>Pods 1.0.7 (EOL) contains the following improvements:</p>
+        <ul>
+          <li>The GNOME Coc is acknowledged in the README.md.</li>
+          <li>The main window and all dialogs can now be closed with Ctrl+W.</li>
+          <li>Translations have been updated.</li>
+          <li>Dependencies have been updated.</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.0.6" date="2023-03-03">
       <description>
-        <p>Pods 1.0.5 contains the following bug fixes and improvements:</p>
+        <p>Pods 1.0.6 contains the following bug fixes and improvements:</p>
         <ul>
           <li>To eliminate the blur, the icons in the status bar now all have a size of 16 pixels instead of 12 pixels.</li>
           <li>The desktop entry now uses the updated short description as comment.</li>
