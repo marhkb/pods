@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-29 19:55+0100\n"
-"PO-Revision-Date: 2023-01-03 15:51+0000\n"
+"PO-Revision-Date: 2023-03-08 01:51+0000\n"
 "Last-Translator: Daudix UFO <ddaudix@gmail.com>\n"
-"Language-Team: Russian <https://hosted.weblate.org/projects/pods/pods/ru/>\n"
+"Language-Team: Russian <https://hosted.weblate.org/projects/pods/main/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.15.1-dev\n"
+"X-Generator: Weblate 4.16.2-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
@@ -111,7 +111,7 @@ msgstr "Сопоставлять ли целые слова при поиске"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:96
 msgid "The font scale of all text views"
-msgstr ""
+msgstr "Масштаб шрифта для всех текстовых представлений"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
 msgid "Keep track of your podman containers"
@@ -197,7 +197,7 @@ msgstr "Обзор капсул"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:263
 msgid "Marcus Behrendt"
-msgstr "Marcus Behrendt"
+msgstr "Маркус Берендт"
 
 #: data/resources/ui/action/page.ui:118
 #: data/resources/ui/connection/creation-page.ui:82
@@ -369,7 +369,7 @@ msgstr ""
 
 #: data/resources/ui/connection/custom-info-dialog.ui:63
 msgid "http://somewhere:8081"
-msgstr ""
+msgstr "http://somewhere:8081"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:82
 msgid "Podman Root Connection"
@@ -634,7 +634,6 @@ msgstr ""
 "будет считаться неудачной."
 
 #: data/resources/ui/container/details-page.ui:27
-#, fuzzy
 msgid "Container"
 msgstr "Контейнер"
 
@@ -676,9 +675,8 @@ msgstr "Утилиты"
 #: data/resources/ui/container/details-page.ui:205
 #: data/resources/ui/image/details-page.ui:165
 #: data/resources/ui/pod/details-page.ui:251
-#, fuzzy
 msgid "Inspection"
-msgstr "Инспектирование капсулы"
+msgstr "Инспекция"
 
 #: data/resources/ui/container/details-page.ui:206
 msgid "View all container properties in a structured text form."
@@ -886,14 +884,12 @@ msgid "Size"
 msgstr "Размер"
 
 #: data/resources/ui/container/properties-group.ui:146
-#, fuzzy
 msgid "Download Files (Ctrl+D)"
-msgstr "Загрузить файлы"
+msgstr "Загрузить файлы (Ctrl+D)"
 
 #: data/resources/ui/container/properties-group.ui:158
-#, fuzzy
 msgid "Upload Files (Ctrl+U)"
-msgstr "Выгрузить файлы"
+msgstr "Выгрузить файлы (Ctrl+U)"
 
 #: data/resources/ui/container/properties-group.ui:206
 msgid "Port bindings"
@@ -953,9 +949,8 @@ msgid "The container must be running to use the terminal."
 msgstr "Контейнер должен быть запущен, чтобы использовать терминал."
 
 #: data/resources/ui/container/tty.ui:46
-#, fuzzy
 msgid "Start"
-msgstr "_Запустить"
+msgstr "Запустить"
 
 #: data/resources/ui/containers/group.ui:28 data/resources/ui/pods/panel.ui:69
 msgid "Only running"
@@ -1076,15 +1071,15 @@ msgstr "Путь к Containerfile относительно к каталога �
 
 #: data/resources/ui/image/details-page.ui:77
 msgid "Disk space"
-msgstr ""
+msgstr "Дисковое пространство"
 
 #: data/resources/ui/image/details-page.ui:90
 msgid "Entry Point"
-msgstr ""
+msgstr "Входная точка"
 
 #: data/resources/ui/image/details-page.ui:97
 msgid "Ports"
-msgstr ""
+msgstr "Порты"
 
 #: data/resources/ui/image/details-page.ui:107
 msgid "Repository Tags"
@@ -1245,7 +1240,7 @@ msgstr "Архитектура ОС"
 
 #: data/resources/ui/info-dialog.ui:56
 msgid "Storage"
-msgstr ""
+msgstr "Хранилище"
 
 #: data/resources/ui/info-dialog.ui:57
 msgid "Describes the container storage and its attributes."
@@ -1433,14 +1428,12 @@ msgid "Untag"
 msgstr "Снять ярлык"
 
 #: data/resources/ui/search-panel.ui:19
-#, fuzzy
 msgid "Please start typing to look for results."
-msgstr "Пожалуйста, начните набирать текст для поиска образов."
+msgstr "Пожалуйста, начните набирать текст, чтобы посмотреть результаты."
 
 #: data/resources/ui/search-panel.ui:33
-#, fuzzy
 msgid "No Results Found"
-msgstr "Не найдено реестров"
+msgstr "Результатов не найдено"
 
 #: data/resources/ui/search-panel.ui:51 data/resources/ui/window.ui:273
 msgid "Images"
@@ -1519,22 +1512,22 @@ msgstr "Выгрузить файлы"
 #: data/resources/ui/shortcuts.ui:104
 msgctxt "shortcut window"
 msgid "Text view"
-msgstr ""
+msgstr "Текстовое представление"
 
 #: data/resources/ui/shortcuts.ui:108
 msgctxt "shortcut window"
 msgid "Zoom in"
-msgstr ""
+msgstr "Увеличить"
 
 #: data/resources/ui/shortcuts.ui:115
 msgctxt "shortcut window"
 msgid "Zoom out"
-msgstr ""
+msgstr "Уменьшить"
 
 #: data/resources/ui/shortcuts.ui:122
 msgctxt "shortcut window"
 msgid "Reset zoom"
-msgstr ""
+msgstr "Сбросить масштаб"
 
 #: data/resources/ui/shortcuts.ui:132
 msgctxt "shortcut window"
@@ -1621,7 +1614,7 @@ msgstr "_О Podman"
 
 #: data/resources/ui/window.ui:18
 msgid "_Keyboard Shortcuts"
-msgstr "Сочетания _клавиш"
+msgstr "Комбинации _клавиш"
 
 #: data/resources/ui/window.ui:22
 msgid "_About Pods"
@@ -1636,14 +1629,12 @@ msgid "Select None"
 msgstr "Очистить выбор"
 
 #: data/resources/ui/window.ui:157
-#, fuzzy
 msgid "Multi-Selection"
-msgstr "Очистить выбор"
+msgstr "Множественный выбор"
 
 #: data/resources/ui/window.ui:180
-#, fuzzy
 msgid "Cancel"
-msgstr "_Отмена"
+msgstr "Отменить"
 
 #: src/application.rs:188
 msgid "translator-credits"
