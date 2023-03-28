@@ -315,7 +315,7 @@ impl Tty {
                 let exec = container.create_exec(&opts).await.unwrap();
 
                 let opts = podman::opts::ExecStartOpts::builder().tty(true).build();
-                let (mut reader, mut writer) = exec.start(&opts).await.unwrap().split();
+                let (mut reader, mut writer) = exec.start(&opts).await.unwrap().unwrap().split();
 
                 exec.resize(width as usize, height as usize).await?;
 

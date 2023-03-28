@@ -185,14 +185,16 @@ pub(crate) fn show_dialog(widget: &gtk::Widget, content: &gtk::Widget) {
     dialog.insert_action_group("action", Some(&action_group));
 
     let controller = gtk::EventControllerKey::new();
-    controller.connect_key_pressed(
-        clone!(@weak dialog => @default-return glib::signal::Inhibit(false), move |_, key, _, _| {
-            if key == gdk::Key::Escape {
+    controller.connect_key_pressed(clone!(
+        @weak dialog => @default-return glib::signal::Inhibit(true), move |_, key, _, modifier| {
+            if key == gdk::Key::Escape
+                || (key == gdk::Key::w && modifier == gdk::ModifierType::CONTROL_MASK)
+            {
                 dialog.close();
             }
-            glib::signal::Inhibit(true)
-        }),
-    );
+            glib::signal::Inhibit(false)
+        }
+    ));
     dialog.add_controller(&controller);
     dialog.present();
 }

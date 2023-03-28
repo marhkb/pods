@@ -134,6 +134,16 @@ mod imp {
             view::TextSearchEntry::static_type();
             view::WelcomePage::static_type();
 
+            klass.install_action("win.close", None, |widget, _, _| {
+                widget.close();
+            });
+            klass.add_binding_action(
+                gdk::Key::W,
+                gdk::ModifierType::CONTROL_MASK,
+                "win.close",
+                None,
+            );
+
             klass.add_binding_action(
                 gdk::Key::Home,
                 gdk::ModifierType::ALT_MASK,
@@ -416,7 +426,24 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for Window {}
+    impl WidgetImpl for Window {
+        fn realize(&self) {
+            let dialog = self.obj().help_overlay().unwrap();
+
+            let controller = gtk::EventControllerKey::new();
+            controller.connect_key_pressed(clone!(
+                @weak dialog => @default-return glib::signal::Inhibit(true), move |_, key, _, modifier| {
+                    if key == gdk::Key::w && modifier == gdk::ModifierType::CONTROL_MASK {
+                        dialog.close();
+                    }
+                    glib::signal::Inhibit(false)
+                }
+            ));
+            dialog.add_controller(&controller);
+
+            self.parent_realize();
+        }
+    }
 
     impl WindowImpl for Window {
         // Save window state on delete event
