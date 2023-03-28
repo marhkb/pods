@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-29 19:39+0100\n"
-"PO-Revision-Date: 2022-12-19 17:51+0000\n"
-"Last-Translator: Dawid Niedźwiedzki <weblate@niedzwiedzki.tech>\n"
-"Language-Team: Polish <https://hosted.weblate.org/projects/pods/pods/pl/>\n"
+"PO-Revision-Date: 2023-03-16 12:40+0000\n"
+"Last-Translator: Krzysztof Krzyżaniak <eloy@kofeina.net>\n"
+"Language-Team: Polish <https://hosted.weblate.org/projects/pods/1-0/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.15.1-dev\n"
+"X-Generator: Weblate 4.16.2-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
@@ -27,7 +27,7 @@ msgstr "Pody"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:4
 msgid "A Podman desktop application"
-msgstr "Interfejs graficzny dla Podman'a"
+msgstr "Interfejs graficzny dla Podmana"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:9
 msgid "Gnome;GTK;"
@@ -109,17 +109,17 @@ msgid "Whether to match whole words when searching"
 msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
-#, fuzzy
 msgid "Keep track of your podman containers"
-msgstr "Stwórz pody i kontenery."
+msgstr "Śledź swoje kontenery"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
 msgid ""
 "Pods is a frontend for podman. It uses libadwaita for its user interface and "
 "strives to meet the design principles of GNOME."
 msgstr ""
-"Pody jest interfejsem graficznym dla podman'a. Wykorzystuje bibliotekę "
-"libadwaita dla interfejsu użytkownika i dąży do spójności z wizją GNOME."
+"Aplikacja Pods jest interfejsem graficznym dla podmana. Wykorzystuje "
+"bibliotekę libadwaita dla interfejsu użytkownika i dąży do spójności z wizją "
+"GNOME."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:11
 msgid "With Pods you can, among other things:"
@@ -127,7 +127,7 @@ msgstr "Z Pods możesz między innymi:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:13
 msgid "Connect to local and remote Podman instances."
-msgstr "Podłącz się z lokalnymi i zdalnymi instancjami Podman'a."
+msgstr "Podłącz się z lokalnymi i zdalnymi instancjami Podmana."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:14
 msgid "Easily overview images, containers and pods."
@@ -979,7 +979,7 @@ msgstr "_Stwórz kontener"
 
 #: data/resources/ui/device/row.ui:33
 msgid "Readable"
-msgstr ""
+msgstr "Do odczytu"
 
 #: data/resources/ui/device/row.ui:52 data/resources/ui/volume/row.ui:50
 msgid "Writable"
@@ -1026,7 +1026,7 @@ msgstr "Rejestr"
 #: data/resources/ui/image-search/widget.ui:82
 #: data/resources/ui/images/panel.ui:196
 msgid "No Images Found"
-msgstr "Nie Znaleziono Obrazów"
+msgstr "Nie znaleziono obrazów"
 
 #: data/resources/ui/image-search/widget.ui:83
 msgid "Please start typing to look for images."
@@ -1075,11 +1075,11 @@ msgstr "Szczegóły Obrazów"
 
 #: data/resources/ui/image/details-page.ui:77
 msgid "Disk space"
-msgstr ""
+msgstr "Przestrzeń dyskowa"
 
 #: data/resources/ui/image/details-page.ui:90
 msgid "Entry Point"
-msgstr ""
+msgstr "Punkt wejścia"
 
 #: data/resources/ui/image/details-page.ui:97
 msgid "Ports"
@@ -1119,7 +1119,7 @@ msgstr "Historia obrazu"
 
 #: data/resources/ui/image/history-page.ui:49
 msgid "History List"
-msgstr ""
+msgstr "Historia"
 
 #: data/resources/ui/image/menu-button.ui:6
 #: data/resources/ui/pod/menu-button.ui:7

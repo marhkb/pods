@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-29 19:39+0100\n"
-"PO-Revision-Date: 2023-02-03 04:53+0000\n"
+"PO-Revision-Date: 2023-03-18 18:37+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/pods/1-0/fi/>\n"
 "Language: fi\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.16-dev\n"
+"X-Generator: Weblate 4.16.2-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
@@ -104,11 +104,11 @@ msgstr "Näytetäänkö aikaleima jokaisella lokirivillä"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:86
 msgid "Whether search should be case-sensitive"
-msgstr ""
+msgstr "Merkitseekö kirjainkoko hakuehdoissa"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:91
 msgid "Whether to match whole words when searching"
-msgstr ""
+msgstr "Etsitäänkö vain kokonaisia sanoja"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
 msgid "Keep track of your podman containers"
@@ -402,9 +402,8 @@ msgid "Delete"
 msgstr "Poista"
 
 #: data/resources/ui/container/commit-page.ui:40
-#, fuzzy
 msgid "Commit Container"
-msgstr "{} kontti"
+msgstr "Kommitoi kontti"
 
 #: data/resources/ui/container/commit-page.ui:50
 msgid "_Commit"
@@ -465,9 +464,8 @@ msgstr ""
 "foo\")."
 
 #: data/resources/ui/container/creation-page.ui:15
-#, fuzzy
 msgid "_Create Only"
-msgstr "_Luo"
+msgstr "_Luo pelkästään"
 
 #: data/resources/ui/container/creation-page.ui:54
 #: data/resources/ui/containers/group.ui:12
@@ -607,11 +605,11 @@ msgstr ""
 
 #: data/resources/ui/container/creation-page.ui:498
 msgid "Start period"
-msgstr ""
+msgstr "Aloituksen aika"
 
 #: data/resources/ui/container/creation-page.ui:499
 msgid "The initialization time needed for a container to bootstrap."
-msgstr ""
+msgstr "Kontin käynnistämiseen tarvittava alustusaika."
 
 #: data/resources/ui/container/creation-page.ui:534
 #: data/resources/ui/container/health-check-page.ui:70
@@ -623,6 +621,7 @@ msgid ""
 "The number of retries allowed before a healthcheck is considered to be "
 "unhealthy."
 msgstr ""
+"Uudelleenyritysten määrä, ennen kuin terveystarkastuksen tulos on epäterve."
 
 #: data/resources/ui/container/details-page.ui:27
 msgid "Container Details"
@@ -803,7 +802,7 @@ msgstr "Vieritä alas"
 
 #: data/resources/ui/container/log-page.ui:226
 msgid "Streaming is disconnected because container isn't running."
-msgstr ""
+msgstr "Lokin suoratoisto on katkaistu, koska kontti ei ole käynnissä."
 
 #: data/resources/ui/container/log-page.ui:236
 msgid "Start/Resume Container"
@@ -897,7 +896,7 @@ msgstr "_Nimeä uudelleen"
 
 #: data/resources/ui/container/resources-quick-reference-group.ui:13
 msgid "Resources Quick Reference"
-msgstr "Resurssien pikaviittaukset"
+msgstr "Resurssien viitearvot"
 
 #: data/resources/ui/container/resources-quick-reference-group.ui:51
 msgid "CPU"
@@ -1070,7 +1069,7 @@ msgstr "Levytila"
 
 #: data/resources/ui/image/details-page.ui:90
 msgid "Entry Point"
-msgstr ""
+msgstr "Alkupiste"
 
 #: data/resources/ui/image/details-page.ui:97
 msgid "Ports"
@@ -1094,7 +1093,7 @@ msgstr "Historia"
 
 #: data/resources/ui/image/details-page.ui:183
 msgid "View parent layers of this image."
-msgstr ""
+msgstr "Näytä tämän levykuvan ylätasot."
 
 #: data/resources/ui/image/details-page.ui:207
 msgid "Associated Containers"
@@ -1296,7 +1295,7 @@ msgstr ""
 
 #: data/resources/ui/info-dialog.ui:165
 msgid "Run Root"
-msgstr ""
+msgstr "Suorituksen juuri"
 
 #: data/resources/ui/info-dialog.ui:171
 msgid "Volume Path"
@@ -1494,7 +1493,6 @@ msgid "Rename"
 msgstr "Nimeä uudelleen"
 
 #: data/resources/ui/shortcuts.ui:80
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Commit"
 msgstr "Kommitoi"
@@ -1552,9 +1550,8 @@ msgid "Clean up"
 msgstr "Siivoa"
 
 #: data/resources/ui/statusbar.ui:104
-#, fuzzy
 msgid "Operations"
-msgstr "Valinnat"
+msgstr "Toimenpiteet"
 
 #: data/resources/ui/value/row.ui:4 src/view/container/creation_page.rs:327
 #: src/view/pod/creation_page.rs:224 src/view/pod/creation_page.rs:233
@@ -1610,9 +1607,8 @@ msgid "Select None"
 msgstr "Älä valitse mitään"
 
 #: data/resources/ui/window.ui:157
-#, fuzzy
 msgid "Multi-Selection"
-msgstr "Älä valitse mitään"
+msgstr "Monivalinta"
 
 #: data/resources/ui/window.ui:180
 msgid "Cancel"
@@ -1968,7 +1964,7 @@ msgstr "Meneillään ({})"
 
 #: src/view/action/row.rs:280
 msgid "Finished after {}"
-msgstr "Valmistunut jälkeen {}"
+msgstr "Valmistumisessa kesti {}"
 
 #: src/view/action/row.rs:281
 msgid "Cancelled after {}"
@@ -2148,14 +2144,12 @@ msgid "Include timestamps"
 msgstr "Sisällytä aikaleimat"
 
 #: src/view/container/log_page.rs:574
-#, fuzzy
 msgid "Error on saving logs"
-msgstr "Virhe ladatessa {}"
+msgstr "Virhe lokeja tallentaessa"
 
 #: src/view/container/log_page.rs:588
-#, fuzzy
 msgid "Error on retrieving logs"
-msgstr "Virhe käynnistäessä uudelleen podia: {}"
+msgstr "Virhe lokeja noutaessa"
 
 #: src/view/container/log_page.rs:617
 msgid "Error starting container"
@@ -2195,7 +2189,7 @@ msgstr "Virhe poistaessa konttia"
 
 #: src/view/container/properties_group.rs:277
 msgid "since {}"
-msgstr "lähtien {}"
+msgstr "{} sitten"
 
 #: src/view/container/rename_dialog.rs:184
 msgid "Rename Container"
@@ -2335,9 +2329,8 @@ msgid "Tags"
 msgstr "Tagit"
 
 #: src/view/image/history_page.rs:189
-#, fuzzy
 msgid "Error on retrieving history"
-msgstr "Virhe käynnistäessä uudelleen podia: {}"
+msgstr "Virhe historiaa noutaessa"
 
 #: src/view/image/mod.rs:35
 msgid "Confirm Forced Image Deletion"
@@ -2403,7 +2396,7 @@ msgstr "1 levykuva, käyttämätön"
 msgid "{} image total, {} {} unused, {}"
 msgid_plural "{} images total, {} {} unused, {}"
 msgstr[0] "{} levykuva yhteensä, {} {} käyttämätön, {}"
-msgstr[1] "{} levykuvaa yhteensä, {} {} käyttämätön, {}"
+msgstr[1] "{} levykuvaa yhteensä, {} {} käyttämättä, {}"
 
 #: src/view/images/panel.rs:384
 msgid "Confirm Forced Deletion of Multiple Images"
