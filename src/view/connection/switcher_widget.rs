@@ -68,7 +68,7 @@ mod imp {
                 &connection_manager,
                 &gettext("Confirm Switching Connection"),
             ) {
-                obj.switch_connection(&connection_manager, connection.uuid());
+                obj.switch_connection(&connection_manager, &connection.uuid());
             }
         }
     }

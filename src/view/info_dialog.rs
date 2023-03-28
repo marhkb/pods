@@ -151,7 +151,7 @@ impl InfoDialog {
     pub(crate) fn setup(&self) {
         utils::do_async(
             {
-                let podman = self.client().unwrap().podman().clone();
+                let podman = self.client().unwrap().podman();
                 async move { podman.info().await }
             },
             clone!(@weak self as obj => move |result| match result {

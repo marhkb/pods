@@ -3,15 +3,15 @@ use std::cell::Cell;
 use std::collections::HashSet;
 use std::ops::Deref;
 
+use glib::Properties;
 use gtk::glib::clone;
 use gtk::glib::subclass::Signal;
 use gtk::glib::{self};
 use gtk::prelude::ObjectExt;
 use gtk::prelude::ParamSpecBuilderExt;
-use gtk::prelude::ToValue;
 use gtk::subclass::prelude::*;
-use once_cell::sync::Lazy;
-use once_cell::unsync::OnceCell;
+use once_cell::sync::Lazy as SyncLazy;
+use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::podman;
@@ -20,26 +20,35 @@ use crate::utils;
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default)]
+    #[derive(Debug, Default, Properties)]
+    #[properties(wrapper_type = super::Image)]
     pub(crate) struct Image {
-        pub(super) image_list: glib::WeakRef<model::ImageList>,
-
-        pub(super) container_list: OnceCell<model::SimpleContainerList>,
-
-        pub(super) containers: Cell<u64>,
-        pub(super) created: OnceCell<i64>,
-        pub(super) dangling: Cell<bool>,
-        pub(super) id: OnceCell<String>,
-        pub(super) repo_tags: OnceCell<model::RepoTagList>,
-        pub(super) size: OnceCell<u64>,
-        pub(super) shared_size: Cell<u64>,
-        pub(super) virtual_size: Cell<u64>,
-
-        pub(super) data: OnceCell<model::ImageData>,
         pub(super) can_inspect: Cell<bool>,
-
+        #[property(get, set, construct_only)]
+        pub(super) image_list: glib::WeakRef<model::ImageList>,
+        #[property(get = Self::container_list)]
+        pub(super) container_list: UnsyncOnceCell<model::SimpleContainerList>,
+        #[property(get)]
+        pub(super) containers: Cell<u64>,
+        #[property(get, set, construct_only)]
+        pub(super) created: UnsyncOnceCell<i64>,
+        #[property(get)]
+        pub(super) dangling: Cell<bool>,
+        #[property(get = Self::data, nullable)]
+        pub(super) data: UnsyncOnceCell<Option<model::ImageData>>,
+        #[property(get, set, construct_only)]
+        pub(super) id: UnsyncOnceCell<String>,
+        #[property(get = Self::repo_tags)]
+        pub(super) repo_tags: UnsyncOnceCell<model::RepoTagList>,
+        #[property(get, set, construct_only)]
+        pub(super) size: UnsyncOnceCell<u64>,
+        #[property(get)]
+        pub(super) shared_size: Cell<u64>,
+        #[property(get)]
+        pub(super) virtual_size: Cell<u64>,
+        #[property(get)]
         pub(super) to_be_deleted: Cell<bool>,
-
+        #[property(get, set)]
         pub(super) selected: Cell<bool>,
     }
 
@@ -52,91 +61,95 @@ mod imp {
 
     impl ObjectImpl for Image {
         fn signals() -> &'static [Signal] {
-            static SIGNALS: Lazy<Vec<Signal>> =
-                Lazy::new(|| vec![Signal::builder("deleted").build()]);
+            static SIGNALS: SyncLazy<Vec<Signal>> =
+                SyncLazy::new(|| vec![Signal::builder("deleted").build()]);
             SIGNALS.as_ref()
         }
 
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecObject::builder::<model::ImageList>("image-list")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecObject::builder::<model::SimpleContainerList>("container-list")
-                        .read_only()
-                        .build(),
-                    glib::ParamSpecUInt64::builder("containers")
-                        .read_only()
-                        .build(),
-                    glib::ParamSpecInt64::builder("created")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecBoolean::builder("dangling")
-                        .read_only()
-                        .build(),
-                    glib::ParamSpecString::builder("id")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecObject::builder::<gtk::StringList>("repo-tags")
-                        .read_only()
-                        .build(),
-                    glib::ParamSpecUInt64::builder("size")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecUInt64::builder("shared-size")
-                        .read_only()
-                        .build(),
-                    glib::ParamSpecUInt64::builder("virtual-size")
-                        .read_only()
-                        .build(),
-                    glib::ParamSpecObject::builder::<model::ImageData>("data")
-                        .read_only()
-                        .build(),
-                    glib::ParamSpecBoolean::builder("to-be-deleted")
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecBoolean::builder("selected").build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "image-list" => self.image_list.set(value.get().unwrap()),
-                "created" => self.created.set(value.get().unwrap()).unwrap(),
-                "id" => self.id.set(value.get().unwrap()).unwrap(),
-                "size" => self.size.set(value.get().unwrap()).unwrap(),
-                "to-be-deleted" => self.obj().set_to_be_deleted(value.get().unwrap()),
-                "selected" => self.selected.set(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "image-list" => obj.image_list().to_value(),
-                "container-list" => obj.container_list().to_value(),
-                "containers" => obj.containers().to_value(),
-                "created" => obj.created().to_value(),
-                "dangling" => obj.dangling().to_value(),
-                "id" => obj.id().to_value(),
-                "repo-tags" => obj.repo_tags().to_value(),
-                "size" => obj.size().to_value(),
-                "shared-size" => obj.shared_size().to_value(),
-                "virtual-size" => obj.virtual_size().to_value(),
-                "data" => obj.data().to_value(),
-                "to-be-deleted" => obj.to_be_deleted().to_value(),
-                "selected" => self.selected.get().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
             self.parent_constructed();
             self.can_inspect.set(true);
+        }
+    }
+
+    impl Image {
+        pub(super) fn container_list(&self) -> model::SimpleContainerList {
+            self.container_list.get_or_init(Default::default).to_owned()
+        }
+
+        pub(super) fn data(&self) -> Option<model::ImageData> {
+            self.data.get().cloned().flatten()
+        }
+
+        pub(super) fn set_data(&self, value: model::ImageData) {
+            if self.data().is_some() {
+                return;
+            }
+            self.data.set(Some(value)).unwrap();
+            self.obj().notify("data");
+        }
+
+        pub(super) fn set_containers(&self, value: u64) {
+            let obj = &*self.obj();
+            if obj.containers() == value {
+                return;
+            }
+            self.containers.set(value);
+            obj.notify("containers");
+        }
+
+        pub(super) fn set_dangling(&self, value: bool) {
+            let obj = &*self.obj();
+            if obj.dangling() == value {
+                return;
+            }
+            self.dangling.set(value);
+            obj.notify("dangling");
+        }
+
+        pub(super) fn repo_tags(&self) -> model::RepoTagList {
+            self.repo_tags
+                .get_or_init(|| model::RepoTagList::from(&*self.obj()))
+                .to_owned()
+        }
+
+        pub(super) fn set_shared_size(&self, value: u64) {
+            let obj = &*self.obj();
+            if obj.shared_size() == value {
+                return;
+            }
+            self.shared_size.set(value);
+            obj.notify("shared-size");
+        }
+
+        pub(super) fn set_virtual_size(&self, value: u64) {
+            let obj = &*self.obj();
+            if obj.virtual_size() == value {
+                return;
+            }
+            self.virtual_size.set(value);
+            obj.notify("virtual-size");
+        }
+
+        pub(super) fn set_to_be_deleted(&self, value: bool) {
+            let obj = &*self.obj();
+            if obj.to_be_deleted() == value {
+                return;
+            }
+            self.to_be_deleted.set(value);
+            obj.notify("to-be-deleted");
         }
     }
 }
@@ -165,8 +178,10 @@ impl Image {
         summary: &podman::models::LibpodImageSummary,
         notify_repo_tags: bool,
     ) -> &Self {
-        self.set_containers(summary.containers.unwrap_or_default() as u64);
-        self.set_dangling(summary.dangling.unwrap_or_default());
+        let imp = self.imp();
+
+        imp.set_containers(summary.containers.unwrap_or_default() as u64);
+        imp.set_dangling(summary.dangling.unwrap_or_default());
         if self.repo_tags().update(HashSet::from_iter(
             summary.repo_tags.as_deref().unwrap_or_default().iter(),
         )) && notify_repo_tags
@@ -175,100 +190,14 @@ impl Image {
                 list.notify("intermediates");
             }
         }
-        self.set_shared_size(summary.shared_size.unwrap_or_default() as u64);
-        self.set_virtual_size(summary.virtual_size.unwrap_or_default() as u64);
+        imp.set_shared_size(summary.shared_size.unwrap_or_default() as u64);
+        imp.set_virtual_size(summary.virtual_size.unwrap_or_default() as u64);
 
         self
     }
 
     pub(crate) fn update(&self, summary: &podman::models::LibpodImageSummary) -> &Self {
         self.update_internal(summary, true)
-    }
-
-    pub(crate) fn image_list(&self) -> Option<model::ImageList> {
-        self.imp().image_list.upgrade()
-    }
-
-    pub(crate) fn container_list(&self) -> &model::SimpleContainerList {
-        self.imp().container_list.get_or_init(Default::default)
-    }
-
-    pub(crate) fn containers(&self) -> u64 {
-        self.imp().containers.get()
-    }
-
-    fn set_containers(&self, value: u64) {
-        if self.containers() == value {
-            return;
-        }
-        self.imp().containers.set(value);
-        self.notify("containers");
-    }
-
-    pub(crate) fn created(&self) -> i64 {
-        *self.imp().created.get().unwrap()
-    }
-
-    pub(crate) fn dangling(&self) -> bool {
-        self.imp().dangling.get()
-    }
-
-    fn set_dangling(&self, value: bool) {
-        if self.dangling() == value {
-            return;
-        }
-        self.imp().dangling.set(value);
-        self.notify("dangling");
-    }
-
-    pub(crate) fn id(&self) -> &str {
-        self.imp().id.get().unwrap()
-    }
-
-    pub(crate) fn repo_tags(&self) -> &model::RepoTagList {
-        self.imp()
-            .repo_tags
-            .get_or_init(|| model::RepoTagList::from(self))
-    }
-
-    pub(crate) fn size(&self) -> u64 {
-        *self.imp().size.get().unwrap()
-    }
-
-    pub(crate) fn shared_size(&self) -> u64 {
-        self.imp().shared_size.get()
-    }
-
-    fn set_shared_size(&self, value: u64) {
-        if self.shared_size() == value {
-            return;
-        }
-        self.imp().shared_size.set(value);
-        self.notify("shared-size");
-    }
-
-    pub(crate) fn virtual_size(&self) -> u64 {
-        self.imp().virtual_size.get()
-    }
-
-    fn set_virtual_size(&self, value: u64) {
-        if self.virtual_size() == value {
-            return;
-        }
-        self.imp().virtual_size.set(value);
-        self.notify("virtual-size");
-    }
-
-    pub(crate) fn data(&self) -> Option<&model::ImageData> {
-        self.imp().data.get()
-    }
-
-    fn set_data(&self, value: model::ImageData) {
-        if self.data().is_some() {
-            return;
-        }
-        self.imp().data.set(value).unwrap();
-        self.notify("data");
     }
 
     pub(crate) fn inspect<F>(&self, op: F)
@@ -289,7 +218,7 @@ impl Image {
             },
             clone!(@weak self as obj => move |result| {
                 match result {
-                    Ok(data) => obj.set_data(model::ImageData::from(data)),
+                    Ok(data) => obj.imp().set_data(model::ImageData::from(data)),
                     Err(e) => {
                         log::error!("Error on inspecting image '{}': {e}", obj.id());
                         op(e);
@@ -298,18 +227,6 @@ impl Image {
                 obj.imp().can_inspect.set(true);
             }),
         );
-    }
-
-    pub(crate) fn to_be_deleted(&self) -> bool {
-        self.imp().to_be_deleted.get()
-    }
-
-    fn set_to_be_deleted(&self, value: bool) {
-        if self.to_be_deleted() == value {
-            return;
-        }
-        self.imp().to_be_deleted.set(value);
-        self.notify("to-be-deleted");
     }
 }
 
@@ -327,13 +244,13 @@ impl Image {
         F: FnOnce(&Self, podman::Result<()>) + 'static,
     {
         if let Some(image) = self.api() {
-            self.set_to_be_deleted(true);
+            self.imp().set_to_be_deleted(true);
 
             utils::do_async(
                 async move { image.remove().await },
                 clone!(@weak self as obj => move |result| {
                     if let Err(ref e) = result {
-                        obj.set_to_be_deleted(false);
+                        obj.imp().set_to_be_deleted(false);
                         log::error!("Error on removing image: {}", e);
                     }
                     op(&obj, result);

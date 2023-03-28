@@ -63,7 +63,7 @@ impl HealthCheckLogList {
         let len_old = list.len();
 
         let first = logs.first().and_then(|log| log.start.as_deref());
-        while list.front().is_some() && list.front().map(|log| log.start()) != first {
+        while list.front().is_some() && list.front().map(|log| log.start()).as_deref() != first {
             list.pop_front();
         }
 

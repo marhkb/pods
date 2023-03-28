@@ -117,7 +117,7 @@ impl Row {
                     self.set_title(&gettext!("Failed Health Run: {}", log.exit_code()));
                 }
                 imp.start_label.set_label(
-                    &glib::DateTime::from_iso8601(log.start(), None)
+                    &glib::DateTime::from_iso8601(&log.start(), None)
                         .unwrap()
                         .format(
                             // Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
@@ -125,7 +125,7 @@ impl Row {
                         )
                         .unwrap(),
                 );
-                imp.output_text_buffer.set_text(log.output());
+                imp.output_text_buffer.set_text(&log.output());
             }
             None => {
                 imp.exit_code_image.set_icon_name(None);

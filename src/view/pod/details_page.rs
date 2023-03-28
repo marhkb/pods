@@ -257,7 +257,7 @@ impl DetailsPage {
         }
 
         if let Some(pod) = value {
-            imp.window_title.set_subtitle(pod.name());
+            imp.window_title.set_subtitle(&pod.name());
             pod.inspect(clone!(@weak self as obj => move |e| {
                 utils::show_error_toast(obj.upcast_ref(), &gettext("Error on loading pod data"), &e.to_string());
             }));

@@ -1,17 +1,18 @@
-use std::cell::RefCell;
-
+use glib::prelude::*;
+use glib::subclass::prelude::*;
+use glib::Properties;
 use gtk::glib;
-use gtk::prelude::ObjectExt;
-use gtk::prelude::ParamSpecBuilderExt;
-use gtk::prelude::ToValue;
-use gtk::subclass::prelude::*;
-use once_cell::sync::Lazy;
+use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default)]
-    pub(crate) struct Registry(pub(super) RefCell<String>);
+    #[derive(Debug, Default, Properties)]
+    #[properties(wrapper_type = super::Registry)]
+    pub(crate) struct Registry {
+        #[property(get, set, construct_only)]
+        pub(super) name: UnsyncOnceCell<String>,
+    }
 
     #[glib::object_subclass]
     impl ObjectSubclass for Registry {
@@ -21,27 +22,15 @@ mod imp {
 
     impl ObjectImpl for Registry {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecString::builder("name")
-                    .construct()
-                    .explicit_notify()
-                    .build()]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "name" => self.obj().set_name(value.get().unwrap_or_default()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "name" => self.obj().name().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
     }
 }
@@ -53,19 +42,5 @@ glib::wrapper! {
 impl From<&str> for Registry {
     fn from(name: &str) -> Self {
         glib::Object::builder().property("name", name).build()
-    }
-}
-
-impl Registry {
-    pub(crate) fn name(&self) -> String {
-        self.imp().0.borrow().to_owned()
-    }
-
-    pub(crate) fn set_name(&self, value: String) {
-        if self.name() == value {
-            return;
-        }
-        self.imp().0.replace(value);
-        self.notify("name");
     }
 }

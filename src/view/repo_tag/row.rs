@@ -152,9 +152,9 @@ impl Row {
                 let reference = repo_tag.full();
 
                 action_list.download_image(
-                    reference,
+                    &reference,
                     podman::opts::PullOpts::builder()
-                        .reference(reference)
+                        .reference(&reference)
                         .policy(podman::opts::PullPolicy::Newer)
                         .build(),
                 );
@@ -173,8 +173,8 @@ impl Row {
             {
                 repo_tag.set_to_be_deleted(true);
 
-                let repo = repo_tag.repo().to_owned();
-                let tag = repo_tag.tag().to_owned();
+                let repo = repo_tag.repo();
+                let tag = repo_tag.tag();
                 utils::do_async(
                     async move {
                         image

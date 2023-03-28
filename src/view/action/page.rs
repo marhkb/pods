@@ -1,11 +1,11 @@
 use adw::subclass::prelude::*;
 use gettextrs::gettext;
+use glib::clone;
+use glib::Properties;
 use gtk::gio;
 use gtk::glib;
-use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
 
 use crate::model;
 use crate::utils;
@@ -18,9 +18,11 @@ const ACTION_RETRY: &str = "action-page.retry";
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::Page)]
     #[template(resource = "/com/github/marhkb/Pods/ui/action/page.ui")]
     pub(crate) struct Page {
+        #[property(get, set, construct_only)]
         pub(super) action: glib::WeakRef<model::Action>,
         #[template_child]
         pub(super) status_page: TemplateChild<adw::StatusPage>,
@@ -48,26 +50,15 @@ mod imp {
 
     impl ObjectImpl for Page {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecObject::builder::<model::Action>("action")
-                    .construct_only()
-                    .build()]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "action" => self.action.set(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "action" => self.obj().action().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -85,15 +76,16 @@ mod imp {
                 clone!(@weak obj => move |action, _| obj.update_state(action)),
             );
 
-            self.status_page.set_icon_name(Some(match action.type_() {
-                PruneImages => "larger-brush-symbolic",
-                DownloadImage | BuildImage => "image-x-generic-symbolic",
-                Commit => "merge-symbolic",
-                Container => "package-x-generic-symbolic",
-                CopyFiles => "edit-copy-symbolic",
-                Pod => "pods-symbolic",
-                _ => unimplemented!(),
-            }));
+            self.status_page
+                .set_icon_name(Some(match action.action_type() {
+                    PruneImages => "larger-brush-symbolic",
+                    DownloadImage | BuildImage => "image-x-generic-symbolic",
+                    Commit => "merge-symbolic",
+                    Container => "package-x-generic-symbolic",
+                    CopyFiles => "edit-copy-symbolic",
+                    Pod => "pods-symbolic",
+                    _ => unimplemented!(),
+                }));
 
             obj.set_description(&action);
             glib::timeout_add_seconds_local(
@@ -125,10 +117,6 @@ impl From<&model::Action> for Page {
 }
 
 impl Page {
-    fn action(&self) -> Option<model::Action> {
-        self.imp().action.upgrade()
-    }
-
     fn update_state(&self, action: &model::Action) {
         use model::ActionState::*;
         use model::ActionType::*;
@@ -137,7 +125,7 @@ impl Page {
 
         match action.state() {
             model::ActionState::Ongoing => {
-                imp.status_page.set_title(&match action.type_() {
+                imp.status_page.set_title(&match action.action_type() {
                     PruneImages => gettext("Images Are Currently Being Pruned"),
                     DownloadImage => gettext("Image Is Currently Being Downloaded"),
                     BuildImage => gettext("Image Is Currently Being Built"),
@@ -149,7 +137,7 @@ impl Page {
                 });
             }
             Finished => {
-                imp.status_page.set_title(&match action.type_() {
+                imp.status_page.set_title(&match action.action_type() {
                     PruneImages => gettext("Images Have Been Pruned"),
                     DownloadImage => gettext("Image Has Been Downloaded"),
                     BuildImage => gettext("Image Has Been Built"),
@@ -161,7 +149,7 @@ impl Page {
                 });
             }
             Cancelled => {
-                imp.status_page.set_title(&match action.type_() {
+                imp.status_page.set_title(&match action.action_type() {
                     PruneImages => gettext("Pruning of Images Has Been Aborted"),
                     DownloadImage => gettext("Image Download Has Been Aborted"),
                     BuildImage => gettext("Image Built Has Been Aborted"),
@@ -173,7 +161,7 @@ impl Page {
                 });
             }
             Failed => {
-                imp.status_page.set_title(&match action.type_() {
+                imp.status_page.set_title(&match action.action_type() {
                     PruneImages => gettext("Pruning of Images Has Failed"),
                     DownloadImage => gettext("Image Download Has Failed"),
                     BuildImage => gettext("Image Built Has Failed"),
@@ -192,7 +180,7 @@ impl Page {
         self.action_set_enabled(
             ACTION_VIEW_ARTIFACT,
             action.state() == Finished
-                && !matches!(action.type_(), PruneImages | Commit | CopyFiles),
+                && !matches!(action.action_type(), PruneImages | Commit | CopyFiles),
         );
         self.action_set_enabled(
             ACTION_RETRY,

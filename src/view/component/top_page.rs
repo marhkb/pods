@@ -83,7 +83,7 @@ mod imp {
                     );
                 } else if let Some(pod) = top_source.downcast_ref::<model::Pod>() {
                     self.window_title.set_title(&gettext("Pod Processes"));
-                    self.window_title.set_subtitle(pod.name());
+                    self.window_title.set_subtitle(&pod.name());
                 }
             }
 

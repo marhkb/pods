@@ -302,7 +302,8 @@ impl DetailsPage {
         imp.repo_tags_list_box.unbind_model();
 
         if let Some(image) = value {
-            imp.window_title.set_subtitle(&utils::format_id(image.id()));
+            imp.window_title
+                .set_subtitle(&utils::format_id(&image.id()));
             image.inspect(clone!(@weak self as obj => move |e| {
                 utils::show_error_toast(obj.upcast_ref(), &gettext("Error on loading image details"), &e.to_string());
             }));
@@ -314,7 +315,7 @@ impl DetailsPage {
             imp.handler_id.replace(Some(handler_id));
 
             let model = gtk::SortListModel::new(
-                Some(image.repo_tags().to_owned()),
+                Some(image.repo_tags()),
                 Some(gtk::StringSorter::new(Some(
                     model::RepoTag::this_expression("full"),
                 ))),

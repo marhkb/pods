@@ -247,14 +247,14 @@ mod imp {
 
                 if image1.repo_tags().len() == 0 {
                     if image2.repo_tags().len() == 0 {
-                        image1.id().cmp(image2.id()).into()
+                        image1.id().cmp(&image2.id()).into()
                     } else {
                         gtk::Ordering::Larger
                     }
                 } else if image2.repo_tags().len() == 0 {
                     gtk::Ordering::Smaller
                 } else {
-                    image1.id().cmp(image2.id()).into()
+                    image1.id().cmp(&image2.id()).into()
                 }
             });
 

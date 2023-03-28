@@ -81,8 +81,7 @@ mod imp {
                             .get(0)
                             .as_ref()
                             .map(model::RepoTag::full)
-                            .map(str::to_owned)
-                            .unwrap_or_else(|| utils::format_id(image.id()))
+                            .unwrap_or_else(|| utils::format_id(&image.id()))
                     }
                 ));
             obj.set_expression(Some(&image_tag_expr));
@@ -156,7 +155,7 @@ impl LocalComboRow {
         if let Some(client) = value {
             let model = gtk::SortListModel::new(
                 Some(gtk::FilterListModel::new(
-                    Some(client.image_list().to_owned()),
+                    Some(client.image_list()),
                     Some(gtk::CustomFilter::new(|obj| {
                         obj.downcast_ref::<model::Image>()
                             .unwrap()

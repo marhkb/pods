@@ -5,6 +5,7 @@ use std::path::PathBuf;
 
 use futures::future;
 use gettextrs::gettext;
+use glib::Properties;
 use gtk::gdk;
 use gtk::gio;
 use gtk::glib;
@@ -15,10 +16,9 @@ use gtk::prelude::ObjectExt;
 use gtk::prelude::ParamSpecBuilderExt;
 use gtk::prelude::SettingsExt;
 use gtk::prelude::StaticType;
-use gtk::prelude::ToValue;
 use gtk::subclass::prelude::*;
 use indexmap::IndexMap;
-use once_cell::sync::Lazy;
+use once_cell::sync::OnceCell as SyncOnceCell;
 use tokio::io::AsyncWriteExt;
 
 use crate::model;
@@ -29,10 +29,12 @@ use crate::utils::config_dir;
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default)]
+    #[derive(Debug, Default, Properties)]
+    #[properties(wrapper_type = super::ConnectionManager)]
     pub(crate) struct ConnectionManager {
         pub(super) settings: utils::PodsSettings,
         pub(super) connections: RefCell<IndexMap<String, model::Connection>>,
+        #[property(get)]
         pub(super) client: RefCell<Option<model::Client>>,
         pub(super) creating_new_connection: Cell<bool>,
         pub(super) connect_abort_handle: RefCell<Option<future::AbortHandle>>,
@@ -47,25 +49,24 @@ mod imp {
 
     impl ObjectImpl for ConnectionManager {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecObject::builder::<model::Client>("client")
-                        .read_only()
-                        .build(),
-                    glib::ParamSpecBoolean::builder("connecting")
-                        .read_only()
-                        .build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            static PROPERTIES: SyncOnceCell<Vec<glib::ParamSpec>> = SyncOnceCell::new();
+            PROPERTIES.get_or_init(|| {
+                Self::derived_properties()
+                    .iter()
+                    .cloned()
+                    .chain(Some(
+                        glib::ParamSpecBoolean::builder("connecting")
+                            .read_only()
+                            .build(),
+                    ))
+                    .collect::<Vec<_>>()
+            })
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.obj();
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "client" => obj.client().to_value(),
-                "connecting" => obj.is_connecting().to_value(),
-                _ => unimplemented!(),
+                "connecting" => self.obj().is_connecting().to_value(),
+                _ => self.derived_property(id, pspec),
             }
         }
     }
@@ -218,7 +219,7 @@ impl ConnectionManager {
 
         utils::do_async(
             {
-                let podman = client.podman().clone();
+                let podman = client.podman();
                 let abort_registration = self.abort_registration();
                 async move { future::Abortable::new(podman.ping(), abort_registration).await }
             },
@@ -231,7 +232,7 @@ impl ConnectionManager {
                             let (position, _) = obj.imp()
                                 .connections
                                 .borrow_mut()
-                                .insert_full(connection.uuid().to_owned(), connection.clone());
+                                .insert_full(connection.uuid(), connection.clone());
 
                             obj.items_changed(position as u32, 0, 1);
 
@@ -274,10 +275,6 @@ impl ConnectionManager {
             .any(model::Connection::is_local)
     }
 
-    pub(crate) fn client(&self) -> Option<model::Client> {
-        self.imp().client.borrow().clone()
-    }
-
     pub(crate) fn set_client_from<F>(&self, connection_uuid: &str, op: F)
     where
         F: Fn(anyhow::Result<()>) + 'static,
@@ -301,7 +298,7 @@ impl ConnectionManager {
             }
         };
 
-        if connection.is_connecting() {
+        if connection.connecting() {
             return;
         }
         connection.set_connecting(true);
@@ -316,7 +313,7 @@ impl ConnectionManager {
 
         utils::do_async(
             {
-                let podman = client.podman().to_owned();
+                let podman = client.podman();
                 let abort_registration = self.abort_registration();
                 async move { future::Abortable::new(podman.ping(), abort_registration).await }
             },
@@ -347,7 +344,7 @@ impl ConnectionManager {
         if let Some(ref client) = value {
             if let Err(e) = imp
                 .settings
-                .set_string("last-used-connection", client.connection().uuid())
+                .set_string("last-used-connection", &client.connection().uuid())
             {
                 log::error!("Could not write last used connection {e}");
             }
@@ -368,7 +365,7 @@ impl ConnectionManager {
                 .connections
                 .borrow()
                 .values()
-                .any(model::Connection::is_connecting)
+                .any(model::Connection::connecting)
     }
 
     fn set_creating_new_connection(&self, value: bool) {

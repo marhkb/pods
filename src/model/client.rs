@@ -1,13 +1,12 @@
 use futures::StreamExt;
 use glib::prelude::ObjectExt;
+use glib::Properties;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::prelude::ListModelExtManual;
 use gtk::prelude::ParamSpecBuilderExt;
-use gtk::prelude::ToValue;
 use gtk::subclass::prelude::*;
-use once_cell::sync::Lazy;
-use once_cell::unsync::OnceCell;
+use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::model::AbstractContainerListExt;
@@ -30,15 +29,23 @@ pub(crate) enum ClientError {
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default)]
+    #[derive(Debug, Default, Properties)]
+    #[properties(wrapper_type = super::Client)]
     pub(crate) struct Client {
-        pub(super) connection: OnceCell<model::Connection>,
-        pub(super) podman: OnceCell<BoxedPodman>,
-        pub(super) version: OnceCell<Option<String>>,
-        pub(super) image_list: OnceCell<model::ImageList>,
-        pub(super) container_list: OnceCell<model::ContainerList>,
-        pub(super) pod_list: OnceCell<model::PodList>,
-        pub(super) action_list: OnceCell<model::ActionList>,
+        #[property(get, set, construct_only)]
+        pub(super) connection: UnsyncOnceCell<model::Connection>,
+        #[property(get, set, construct_only)]
+        pub(super) podman: UnsyncOnceCell<BoxedPodman>,
+        #[property(get = Self::version, nullable)]
+        pub(super) version: UnsyncOnceCell<Option<String>>,
+        #[property(get = Self::image_list)]
+        pub(super) image_list: UnsyncOnceCell<model::ImageList>,
+        #[property(get = Self::container_list)]
+        pub(super) container_list: UnsyncOnceCell<model::ContainerList>,
+        #[property(get = Self::pod_list)]
+        pub(super) pod_list: UnsyncOnceCell<model::PodList>,
+        #[property(get = Self::action_list)]
+        pub(super) action_list: UnsyncOnceCell<model::ActionList>,
     }
 
     #[glib::object_subclass]
@@ -49,57 +56,15 @@ mod imp {
 
     impl ObjectImpl for Client {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecObject::builder::<model::Connection>("connection")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecBoxed::builder::<BoxedPodman>("podman")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecBoxed::builder::<BoxedPodman>("version")
-                        .read_only()
-                        .build(),
-                    glib::ParamSpecObject::builder::<model::ImageList>("image-list")
-                        .read_only()
-                        .build(),
-                    glib::ParamSpecObject::builder::<model::ContainerList>("container-list")
-                        .read_only()
-                        .build(),
-                    glib::ParamSpecObject::builder::<model::PodList>("pod-list")
-                        .read_only()
-                        .build(),
-                    glib::ParamSpecObject::builder::<model::ActionList>("action-list")
-                        .read_only()
-                        .build(),
-                    glib::ParamSpecBoolean::builder("pruning")
-                        .read_only()
-                        .build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "connection" => self.connection.set(value.get().unwrap()).unwrap(),
-                "podman" => self.podman.set(value.get().unwrap()).unwrap(),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "connection" => obj.connection().to_value(),
-                "podman" => obj.podman().to_value(),
-                "version" => obj.version().to_value(),
-                "image-list" => obj.image_list().to_value(),
-                "container-list" => obj.container_list().to_value(),
-                "pod-list" => obj.pod_list().to_value(),
-                "action-list" => obj.action_list().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -112,37 +77,35 @@ mod imp {
                     obj.container_list()
                         .iter::<model::Container>()
                         .map(|container| container.unwrap())
-                        .filter(|container| container.image_id() == Some(image.id()))
+                        .filter(|container| container.image_id() == image.id())
                         .for_each(|container| {
-                            container.set_image(Some(image));
+                            container.set_image(image);
                             image.add_container(&container);
                         });
                 }));
 
             obj.container_list()
                 .connect_container_added(clone!(@weak obj => move |_, container| {
-                    let image = obj.image_list().get_image(container.image_id().unwrap());
-                    container.set_image(image.as_ref());
-                    if let Some(image) = image {
+                    let image = obj.image_list().get_image(container.image_id().as_str());
+                    if let Some(ref image) = image {
+                        container.set_image(image);
                         image.add_container(container);
                     }
 
-                    if let Some(pod) = container.pod_id().and_then(|id| obj.pod_list().get_pod(id)) {
-                        container.set_pod(Some(&pod));
+                    if let Some(pod) = container.pod_id().and_then(|id| obj.pod_list().get_pod(&id))
+                    {
+                        container.set_pod(&pod);
                         pod.container_list().add_container(container);
                     }
                 }));
             obj.container_list().connect_container_removed(
                 clone!(@weak obj => move |_, container| {
-                    if let Some(image) = container
-                        .image_id()
-                        .and_then(|id| obj.image_list().get_image(id))
-                    {
-                        image.remove_container(container.id());
+                    if let Some(image) = obj.image_list().get_image(container.image_id().as_str()) {
+                        image.remove_container(container.id().as_str());
                     }
 
                     if let Some(pod) = container.pod() {
-                        pod.container_list().remove_container(container.id());
+                        pod.container_list().remove_container(container.id().as_str());
                     }
                 }),
             );
@@ -152,12 +115,42 @@ mod imp {
                     obj.container_list()
                         .iter::<model::Container>()
                         .map(|container| container.unwrap())
-                        .filter(|container| container.pod_id() == Some(pod.id()))
+                        .filter(|container| container.pod_id().as_deref() == Some(&pod.id()))
                         .for_each(|container| {
-                            container.set_pod(Some(pod));
+                            container.set_pod(pod);
                             pod.container_list().add_container(&container);
                         });
                 }));
+        }
+    }
+
+    impl Client {
+        fn version(&self) -> Option<String> {
+            self.version.get().cloned().flatten()
+        }
+
+        fn image_list(&self) -> model::ImageList {
+            self.image_list
+                .get_or_init(|| model::ImageList::from(&*self.obj()))
+                .to_owned()
+        }
+
+        fn container_list(&self) -> model::ContainerList {
+            self.container_list
+                .get_or_init(|| model::ContainerList::from(&*self.obj()))
+                .to_owned()
+        }
+
+        fn pod_list(&self) -> model::PodList {
+            self.pod_list
+                .get_or_init(|| model::PodList::from(&*self.obj()))
+                .to_owned()
+        }
+
+        fn action_list(&self) -> model::ActionList {
+            self.action_list
+                .get_or_init(|| model::ActionList::from(&*self.obj()))
+                .to_owned()
         }
     }
 }
@@ -195,45 +188,9 @@ impl TryFrom<&model::Connection> for Client {
 }
 
 impl Client {
-    pub(crate) fn connection(&self) -> &model::Connection {
-        self.imp().connection.get().unwrap()
-    }
-
-    pub(crate) fn podman(&self) -> &BoxedPodman {
-        self.imp().podman.get().unwrap()
-    }
-
-    pub(crate) fn version(&self) -> Option<&str> {
-        self.imp().version.get().and_then(Option::as_deref)
-    }
-
-    pub(crate) fn set_version(&self, value: Option<String>) {
+    fn set_version(&self, value: Option<String>) {
         self.imp().version.set(value).unwrap();
         self.notify("version");
-    }
-
-    pub(crate) fn image_list(&self) -> &model::ImageList {
-        self.imp()
-            .image_list
-            .get_or_init(|| model::ImageList::from(self))
-    }
-
-    pub(crate) fn container_list(&self) -> &model::ContainerList {
-        self.imp()
-            .container_list
-            .get_or_init(|| model::ContainerList::from(self))
-    }
-
-    pub(crate) fn pod_list(&self) -> &model::PodList {
-        self.imp()
-            .pod_list
-            .get_or_init(|| model::PodList::from(self))
-    }
-
-    pub(crate) fn action_list(&self) -> &model::ActionList {
-        self.imp()
-            .action_list
-            .get_or_init(|| model::ActionList::from(self))
     }
 
     pub(crate) fn check_service<T, E, F>(&self, op: T, err_op: E, finish_op: F)
@@ -244,7 +201,7 @@ impl Client {
     {
         utils::do_async(
             {
-                let podman = self.podman().clone();
+                let podman = self.podman();
                 async move { podman.ping().await }
             },
             clone!(@weak self as obj => move |result| match result {
@@ -286,7 +243,7 @@ impl Client {
         F: FnOnce(podman::Error) + Clone + 'static,
     {
         utils::run_stream(
-            self.podman().clone(),
+            self.podman(),
             |podman| {
                 podman
                     .events(&podman::opts::EventsOpts::builder().build())

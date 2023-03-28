@@ -1,6 +1,7 @@
 use std::cell::Cell;
 use std::cell::RefCell;
 
+use glib::Properties;
 use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
@@ -10,8 +11,9 @@ use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use indexmap::map::Entry;
 use indexmap::map::IndexMap;
-use once_cell::sync::Lazy;
-use once_cell::unsync::OnceCell;
+use once_cell::sync::Lazy as SyncLazy;
+use once_cell::sync::OnceCell as SyncOnceCell;
+use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::model::SelectableListExt;
@@ -21,12 +23,17 @@ use crate::utils;
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default)]
+    #[derive(Debug, Default, Properties)]
+    #[properties(wrapper_type = super::PodList)]
     pub(crate) struct PodList {
-        pub(super) client: glib::WeakRef<model::Client>,
         pub(super) list: RefCell<IndexMap<String, model::Pod>>,
+        #[property(get, set, construct_only)]
+        pub(super) client: glib::WeakRef<model::Client>,
+        #[property(get)]
         pub(super) listing: Cell<bool>,
-        pub(super) initialized: OnceCell<()>,
+        #[property(get = Self::is_initialized, type = bool)]
+        pub(super) initialized: UnsyncOnceCell<()>,
+        #[property(get, set)]
         pub(super) selection_mode: Cell<bool>,
     }
 
@@ -39,7 +46,7 @@ mod imp {
 
     impl ObjectImpl for PodList {
         fn signals() -> &'static [Signal] {
-            static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
+            static SIGNALS: SyncLazy<Vec<Signal>> = SyncLazy::new(|| {
                 vec![Signal::builder("pod-added")
                     .param_types([model::Pod::static_type()])
                     .build()]
@@ -48,47 +55,32 @@ mod imp {
         }
 
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecObject::builder::<model::Client>("client")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecUInt::builder("len").read_only().build(),
-                    glib::ParamSpecBoolean::builder("listing")
-                        .read_only()
-                        .build(),
-                    glib::ParamSpecBoolean::builder("initialized")
-                        .read_only()
-                        .build(),
-                    glib::ParamSpecUInt::builder("running").read_only().build(),
-                    glib::ParamSpecBoolean::builder("selection-mode").build(),
-                    glib::ParamSpecUInt::builder("num-selected")
-                        .read_only()
-                        .build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            static PROPERTIES: SyncOnceCell<Vec<glib::ParamSpec>> = SyncOnceCell::new();
+            PROPERTIES.get_or_init(|| {
+                Self::derived_properties()
+                    .iter()
+                    .cloned()
+                    .chain(vec![
+                        glib::ParamSpecUInt::builder("len").read_only().build(),
+                        glib::ParamSpecUInt::builder("running").read_only().build(),
+                        glib::ParamSpecUInt::builder("num-selected")
+                            .read_only()
+                            .build(),
+                    ])
+                    .collect::<Vec<_>>()
+            })
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "client" => self.client.set(value.get().unwrap()),
-                "selection-mode" => self.selection_mode.set(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.obj();
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "client" => obj.client().to_value(),
-                "len" => obj.len().to_value(),
-                "listing" => obj.listing().to_value(),
-                "initialized" => obj.is_initialized().to_value(),
-                "running" => obj.running().to_value(),
-                "selection-mode" => self.selection_mode.get().to_value(),
-                "num-selected" => obj.num_selected().to_value(),
-                _ => unimplemented!(),
+                "len" => self.obj().len().to_value(),
+                "running" => self.obj().running().to_value(),
+                "num-selected" => self.obj().num_selected().to_value(),
+                _ => self.derived_property(id, pspec),
             }
         }
         fn constructed(&self) {
@@ -116,6 +108,29 @@ mod imp {
                 .cloned()
         }
     }
+
+    impl PodList {
+        pub(super) fn is_initialized(&self) -> bool {
+            self.initialized.get().is_some()
+        }
+
+        pub(super) fn set_as_initialized(&self) {
+            if self.is_initialized() {
+                return;
+            }
+            self.initialized.set(()).unwrap();
+            self.obj().notify("initialized");
+        }
+
+        pub(super) fn set_listing(&self, value: bool) {
+            let obj = &*self.obj();
+            if obj.listing() == value {
+                return;
+            }
+            self.listing.set(value);
+            obj.notify("listing");
+        }
+    }
 }
 
 glib::wrapper! {
@@ -130,36 +145,8 @@ impl From<&model::Client> for PodList {
 }
 
 impl PodList {
-    pub(crate) fn client(&self) -> Option<model::Client> {
-        self.imp().client.upgrade()
-    }
-
     pub(crate) fn len(&self) -> u32 {
         self.n_items()
-    }
-
-    pub(crate) fn listing(&self) -> bool {
-        self.imp().listing.get()
-    }
-
-    fn set_listing(&self, value: bool) {
-        if self.listing() == value {
-            return;
-        }
-        self.imp().listing.set(value);
-        self.notify("listing");
-    }
-
-    pub(crate) fn is_initialized(&self) -> bool {
-        self.imp().initialized.get().is_some()
-    }
-
-    fn set_as_initialized(&self) {
-        if self.is_initialized() {
-            return;
-        }
-        self.imp().initialized.set(()).unwrap();
-        self.notify("initialized");
     }
 
     pub(crate) fn running(&self) -> u32 {
@@ -188,10 +175,10 @@ impl PodList {
     where
         F: FnOnce(super::RefreshError) + Clone + 'static,
     {
-        self.set_listing(true);
+        self.imp().set_listing(true);
         utils::do_async(
             {
-                let podman = self.client().unwrap().podman().clone();
+                let podman = self.client().unwrap().podman();
                 let id = id.clone();
                 async move {
                     podman
@@ -254,12 +241,13 @@ impl PodList {
                             });
                     }
                     Err(e) => {
-                        log::error!("Error on retrieving containers: {}", e);
+                        log::error!("Error on retrieving pods: {}", e);
                         err_op(super::RefreshError);
                     }
                 }
-                obj.set_listing(false);
-                obj.set_as_initialized();
+                let imp = obj.imp();
+                imp.set_listing(false);
+                imp.set_as_initialized();
             }),
         );
     }

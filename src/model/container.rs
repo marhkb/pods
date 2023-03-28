@@ -6,15 +6,15 @@ use std::str::FromStr;
 
 use futures::Future;
 use gettextrs::gettext;
+use glib::Properties;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::subclass::Signal;
 use gtk::prelude::ObjectExt;
 use gtk::prelude::ParamSpecBuilderExt;
-use gtk::prelude::ToValue;
 use gtk::subclass::prelude::*;
-use once_cell::sync::Lazy;
-use once_cell::unsync::OnceCell;
+use once_cell::sync::Lazy as SyncLazy;
+use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::monad_boxed_type;
@@ -129,31 +129,45 @@ monad_boxed_type!(pub(crate) BoxedContainerStats(podman::models::ContainerStats)
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default)]
+    #[derive(Debug, Default, Properties)]
+    #[properties(wrapper_type = super::Container)]
     pub(crate) struct Container {
-        pub(super) container_list: glib::WeakRef<model::ContainerList>,
-
-        pub(super) action_ongoing: Cell<bool>,
-
-        pub(super) created: OnceCell<i64>,
-        pub(super) health_status: Cell<HealthStatus>,
-        pub(super) id: OnceCell<String>,
-        pub(super) image: glib::WeakRef<model::Image>,
-        pub(super) image_id: OnceCell<String>,
-        pub(super) image_name: RefCell<Option<String>>,
-        pub(super) name: RefCell<String>,
-        pub(super) pod: glib::WeakRef<model::Pod>,
-        pub(super) pod_id: OnceCell<Option<String>>,
-        pub(super) port: OnceCell<Option<String>>,
-        pub(super) stats: RefCell<Option<BoxedContainerStats>>,
-        pub(super) status: Cell<Status>,
-        pub(super) up_since: Cell<i64>,
-
-        pub(super) data: OnceCell<model::ContainerData>,
         pub(super) can_inspect: Cell<bool>,
-
+        #[property(get, set, construct_only)]
+        pub(super) container_list: glib::WeakRef<model::ContainerList>,
+        #[property(get, set)]
+        pub(super) action_ongoing: Cell<bool>,
+        #[property(get, set, construct_only)]
+        pub(super) created: UnsyncOnceCell<i64>,
+        #[property(get = Self::data, nullable)]
+        pub(super) data: UnsyncOnceCell<Option<model::ContainerData>>,
+        #[property(get, set, construct, builder(HealthStatus::default()))]
+        pub(super) health_status: Cell<HealthStatus>,
+        #[property(get, set, construct_only)]
+        pub(super) id: UnsyncOnceCell<String>,
+        #[property(get, set)]
+        pub(super) image: glib::WeakRef<model::Image>,
+        #[property(get, set, construct_only)]
+        pub(super) image_id: UnsyncOnceCell<String>,
+        #[property(get, set, construct, nullable)]
+        pub(super) image_name: RefCell<Option<String>>,
+        #[property(get, set, construct)]
+        pub(super) name: RefCell<String>,
+        #[property(get, set = Self::set_pod, explicit_notify)]
+        pub(super) pod: glib::WeakRef<model::Pod>,
+        #[property(get = Self::pod_id, set, construct_only, nullable)]
+        pub(super) pod_id: UnsyncOnceCell<Option<String>>,
+        #[property(get = Self::port, set, construct_only, nullable)]
+        pub(super) port: UnsyncOnceCell<Option<String>>,
+        #[property(get, set, nullable)]
+        pub(super) stats: RefCell<Option<BoxedContainerStats>>,
+        #[property(get, set = Self::set_status, construct, explicit_notify, builder(Status::default()))]
+        pub(super) status: Cell<Status>,
+        #[property(get, set, construct)]
+        pub(super) up_since: Cell<i64>,
+        #[property(get)]
         pub(super) to_be_deleted: Cell<bool>,
-
+        #[property(get, set)]
         pub(super) selected: Cell<bool>,
     }
 
@@ -166,131 +180,85 @@ mod imp {
 
     impl ObjectImpl for Container {
         fn signals() -> &'static [Signal] {
-            static SIGNALS: Lazy<Vec<Signal>> =
-                Lazy::new(|| vec![Signal::builder("deleted").build()]);
+            static SIGNALS: SyncLazy<Vec<Signal>> =
+                SyncLazy::new(|| vec![Signal::builder("deleted").build()]);
             SIGNALS.as_ref()
         }
 
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecObject::builder::<model::ContainerList>("container-list")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecBoolean::builder("action-ongoing")
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecBoolean::builder("deleted")
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecInt64::builder("created")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecEnum::builder::<HealthStatus>("health-status")
-                        .construct()
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecString::builder("id")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecObject::builder::<model::Image>("image")
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecString::builder("image-id")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecString::builder("image-name")
-                        .construct()
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecString::builder("name")
-                        .construct()
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecObject::builder::<model::Pod>("pod")
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecString::builder("pod-id")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecString::builder("port")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecBoxed::builder::<BoxedContainerStats>("stats")
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecEnum::builder::<Status>("status")
-                        .construct()
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecInt64::builder("up-since")
-                        .construct()
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecObject::builder::<model::ContainerData>("data")
-                        .read_only()
-                        .build(),
-                    glib::ParamSpecBoolean::builder("to-be-deleted")
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecBoolean::builder("selected").build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "container-list" => self.container_list.set(value.get().unwrap()),
-                "action-ongoing" => obj.set_action_ongoing(value.get().unwrap()),
-                "created" => self.created.set(value.get().unwrap()).unwrap(),
-                "health-status" => obj.set_health_status(value.get().unwrap()),
-                "id" => self.id.set(value.get().unwrap()).unwrap(),
-                "image" => obj.set_image(value.get().unwrap()),
-                "image-id" => self.image_id.set(value.get().unwrap()).unwrap(),
-                "image-name" => obj.set_image_name(value.get().unwrap()),
-                "pod" => obj.set_pod(value.get().unwrap()),
-                "pod-id" => self.pod_id.set(value.get().unwrap()).unwrap(),
-                "name" => obj.set_name(value.get().unwrap()),
-                "port" => self.port.set(value.get().unwrap()).unwrap(),
-                "stats" => obj.set_stats(value.get().unwrap()),
-                "status" => obj.set_status(value.get().unwrap()),
-                "up-since" => obj.set_up_since(value.get().unwrap()),
-                "to-be-deleted" => obj.set_to_be_deleted(value.get().unwrap()),
-                "selected" => self.selected.set(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "container-list" => obj.container_list().to_value(),
-                "action-ongoing" => obj.action_ongoing().to_value(),
-                "created" => obj.created().to_value(),
-                "health-status" => obj.health_status().to_value(),
-                "id" => obj.id().to_value(),
-                "image" => obj.image().to_value(),
-                "image-id" => obj.image_id().to_value(),
-                "image-name" => obj.image_name().to_value(),
-                "name" => obj.name().to_value(),
-                "pod" => obj.pod().to_value(),
-                "pod-id" => obj.pod_id().to_value(),
-                "port" => obj.port().to_value(),
-                "stats" => obj.stats().to_value(),
-                "status" => obj.status().to_value(),
-                "up-since" => obj.up_since().to_value(),
-                "data" => obj.data().to_value(),
-                "to-be-deleted" => obj.to_be_deleted().to_value(),
-                "selected" => self.selected.get().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
             self.parent_constructed();
             self.can_inspect.set(true);
+        }
+    }
+
+    impl Container {
+        pub(super) fn data(&self) -> Option<model::ContainerData> {
+            self.data.get().cloned().flatten()
+        }
+
+        pub(super) fn set_data(&self, data: podman::models::InspectContainerData) {
+            let obj = &*self.obj();
+            if let Some(old) = self.data() {
+                old.update(data);
+                return;
+            }
+            self.data
+                .set(Some(model::ContainerData::from(data)))
+                .unwrap();
+            obj.notify("data");
+        }
+
+        pub(super) fn set_pod(&self, value: Option<&model::Pod>) {
+            let obj = &*self.obj();
+            if obj.pod().as_ref() == value {
+                return;
+            }
+            if let Some(pod) = value {
+                pod.inspect_and_update();
+            }
+            self.pod.set(value);
+            obj.notify("pod");
+        }
+
+        pub(super) fn pod_id(&self) -> Option<String> {
+            self.pod_id.get().cloned().flatten()
+        }
+
+        pub(super) fn port(&self) -> Option<String> {
+            self.port.get().cloned().flatten()
+        }
+
+        pub(super) fn set_status(&self, value: Status) {
+            let obj = &*self.obj();
+            if obj.status() == value {
+                return;
+            }
+            if let Some(pod) = obj.pod() {
+                pod.inspect_and_update();
+            }
+            self.status.set(value);
+            obj.notify("status");
+        }
+
+        pub(super) fn set_to_be_deleted(&self, value: bool) {
+            let obj = &*self.obj();
+            if obj.to_be_deleted() == value {
+                return;
+            }
+            self.to_be_deleted.set(value);
+            obj.notify("to-be-deleted");
         }
     }
 }
@@ -348,165 +316,6 @@ impl Container {
         self.set_up_since(list_container.started_at.unwrap());
     }
 
-    pub(crate) fn container_list(&self) -> Option<model::ContainerList> {
-        self.imp().container_list.upgrade()
-    }
-
-    pub(crate) fn action_ongoing(&self) -> bool {
-        self.imp().action_ongoing.get()
-    }
-
-    pub(crate) fn set_action_ongoing(&self, value: bool) {
-        if self.action_ongoing() == value {
-            return;
-        }
-        self.imp().action_ongoing.replace(value);
-        self.notify("action-ongoing");
-    }
-
-    pub(crate) fn created(&self) -> i64 {
-        *self.imp().created.get().unwrap()
-    }
-
-    pub(crate) fn health_status(&self) -> HealthStatus {
-        self.imp().health_status.get()
-    }
-
-    pub(crate) fn set_health_status(&self, value: HealthStatus) {
-        if self.health_status() == value {
-            return;
-        }
-        self.imp().health_status.set(value);
-        self.notify("health-status");
-    }
-
-    pub(crate) fn id(&self) -> &str {
-        self.imp().id.get().unwrap()
-    }
-
-    pub(crate) fn image(&self) -> Option<model::Image> {
-        self.imp().image.upgrade()
-    }
-
-    pub(crate) fn set_image(&self, value: Option<&model::Image>) {
-        if self.image().as_ref() == value {
-            return;
-        }
-        self.imp().image.set(value);
-        self.notify("image");
-    }
-
-    pub(crate) fn image_id(&self) -> Option<&str> {
-        self.imp().image_id.get().map(String::as_str)
-    }
-
-    pub(crate) fn image_name(&self) -> Option<String> {
-        self.imp().image_name.borrow().clone()
-    }
-
-    pub(crate) fn set_image_name(&self, value: Option<String>) {
-        if self.image_name() == value {
-            return;
-        }
-        self.imp().image_name.replace(value);
-        self.notify("image-name");
-    }
-
-    pub(crate) fn name(&self) -> String {
-        self.imp().name.borrow().clone()
-    }
-
-    pub(crate) fn set_name(&self, value: String) {
-        if self.name() == value {
-            return;
-        }
-        self.imp().name.replace(value);
-        self.notify("name");
-    }
-
-    pub(crate) fn pod(&self) -> Option<model::Pod> {
-        self.imp().pod.upgrade()
-    }
-
-    pub(crate) fn set_pod(&self, value: Option<&model::Pod>) {
-        if self.pod().as_ref() == value {
-            return;
-        }
-        if let Some(pod) = value {
-            pod.inspect_and_update();
-        }
-        self.imp().pod.set(value);
-        self.notify("pod");
-    }
-
-    pub(crate) fn pod_id(&self) -> Option<&str> {
-        self.imp()
-            .pod_id
-            .get()
-            .unwrap()
-            .as_ref()
-            .map(String::as_str)
-    }
-
-    pub(crate) fn port(&self) -> Option<&str> {
-        self.imp().port.get().unwrap().as_deref()
-    }
-
-    pub(crate) fn stats(&self) -> Option<BoxedContainerStats> {
-        self.imp().stats.borrow().clone()
-    }
-
-    pub fn set_stats(&self, value: Option<BoxedContainerStats>) {
-        if self.stats() == value {
-            return;
-        }
-        self.imp().stats.replace(value);
-        self.notify("stats");
-    }
-
-    pub(crate) fn status(&self) -> Status {
-        self.imp().status.get()
-    }
-
-    pub(crate) fn set_status(&self, value: Status) {
-        if self.status() == value {
-            return;
-        }
-        if let Some(pod) = self.pod() {
-            pod.inspect_and_update();
-        }
-        self.imp().status.set(value);
-        self.notify("status");
-    }
-
-    pub(crate) fn up_since(&self) -> i64 {
-        self.imp().up_since.get()
-    }
-
-    pub(crate) fn set_up_since(&self, value: i64) {
-        if self.up_since() == value {
-            return;
-        }
-        self.imp().up_since.set(value);
-        self.notify("up-since");
-    }
-
-    pub(crate) fn data(&self) -> Option<&model::ContainerData> {
-        self.imp().data.get()
-    }
-
-    fn set_data(&self, data: podman::models::InspectContainerData) {
-        if let Some(old) = self.data() {
-            old.update(data);
-            return;
-        }
-        self.imp()
-            .data
-            .set(model::ContainerData::from(data))
-            .unwrap();
-        self.notify("data");
-    }
-
     pub(crate) fn inspect<F>(&self, op: F)
     where
         F: FnOnce(podman::Error) + 'static,
@@ -525,7 +334,7 @@ impl Container {
             },
             clone!(@weak self as obj => move |result| {
                 match result {
-                    Ok(data) => obj.set_data(data),
+                    Ok(data) => obj.imp().set_data(data),
                     Err(e) => {
                         log::error!("Error on inspecting container '{}': {e}", obj.id());
                         op(e);
@@ -536,20 +345,6 @@ impl Container {
         );
     }
 
-    pub(crate) fn to_be_deleted(&self) -> bool {
-        self.imp().to_be_deleted.get()
-    }
-
-    fn set_to_be_deleted(&self, value: bool) {
-        if self.to_be_deleted() == value {
-            return;
-        }
-        self.imp().to_be_deleted.set(value);
-        self.notify("to-be-deleted");
-    }
-}
-
-impl Container {
     fn action<Fut, FutOp, ResOp>(&self, name: &'static str, fut_op: FutOp, res_op: ResOp)
     where
         Fut: Future<Output = podman::Result<()>> + Send,
@@ -677,7 +472,7 @@ impl Container {
         F: FnOnce(podman::Result<()>) + 'static,
     {
         if !self.action_ongoing() {
-            self.set_to_be_deleted(true);
+            self.imp().set_to_be_deleted(true);
         }
         self.action(
             if force { "force deleting" } else { "deleting" },
@@ -692,7 +487,7 @@ impl Container {
             },
             clone!(@weak self as obj => move |result| {
                 if result.is_err() {
-                    obj.set_to_be_deleted(false);
+                    obj.imp().set_to_be_deleted(false);
                 }
                 op(result)
             }),

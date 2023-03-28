@@ -121,8 +121,7 @@ mod imp {
                                 .unwrap()
                                 .downcast::<model::Registry>()
                                 .unwrap()
-                                .name()
-                                .as_str(),
+                                .name(),
                         ) == item
                             .downcast_ref::<model::ImageSearchResponse>()
                             .unwrap()
@@ -203,7 +202,7 @@ impl Widget {
         if let Some(client) = client {
             utils::do_async(
                 {
-                    let podman = client.podman().clone();
+                    let podman = client.podman();
                     async move { podman.info().await }
                 },
                 clone!(@weak self as obj => move |result| match result {
@@ -295,7 +294,7 @@ impl Widget {
             .build();
         utils::do_async(
             {
-                let podman = self.client().unwrap().podman().clone();
+                let podman = self.client().unwrap().podman();
                 async move {
                     future::Abortable::new(podman.images().search(&opts), abort_registration).await
                 }

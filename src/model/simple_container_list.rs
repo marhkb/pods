@@ -1,12 +1,12 @@
 use std::borrow::Borrow;
 use std::cell::RefCell;
 
+use gio::prelude::*;
+use gio::subclass::prelude::*;
 use gtk::gio;
 use gtk::glib;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
 use indexmap::map::IndexMap;
-use once_cell::sync::Lazy;
+use once_cell::sync::Lazy as SyncLazy;
 
 use super::AbstractContainerListExt;
 use crate::model;
@@ -28,7 +28,7 @@ mod imp {
 
     impl ObjectImpl for SimpleContainerList {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
+            static PROPERTIES: SyncLazy<Vec<glib::ParamSpec>> = SyncLazy::new(|| {
                 vec![
                     glib::ParamSpecUInt::builder("len").read_only().build(),
                     glib::ParamSpecUInt::builder("created").read_only().build(),
@@ -106,15 +106,11 @@ impl SimpleContainerList {
     }
 
     pub(crate) fn add_container(&self, container: &model::Container) {
-        let (index, _) = self
-            .imp()
-            .0
-            .borrow_mut()
-            .insert_full(container.id().to_owned(), {
-                let weak_ref = glib::WeakRef::new();
-                weak_ref.set(Some(container));
-                weak_ref
-            });
+        let (index, _) = self.imp().0.borrow_mut().insert_full(container.id(), {
+            let weak_ref = glib::WeakRef::new();
+            weak_ref.set(Some(container));
+            weak_ref
+        });
 
         self.items_changed(index as u32, 0, 1);
         self.container_added(container);

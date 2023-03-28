@@ -1,22 +1,25 @@
 use std::cell::RefCell;
 use std::collections::HashSet;
 
+use gio::prelude::*;
+use gio::subclass::prelude::*;
+use glib::Properties;
 use gtk::gio;
 use gtk::glib;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
 use indexmap::map::IndexMap;
-use once_cell::sync::Lazy;
+use once_cell::sync::OnceCell as SyncOnceCell;
 
 use crate::model;
 
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default)]
+    #[derive(Debug, Default, Properties)]
+    #[properties(wrapper_type = super::RepoTagList)]
     pub(crate) struct RepoTagList {
-        pub(crate) image: glib::WeakRef<model::Image>,
         pub(super) list: RefCell<IndexMap<String, model::RepoTag>>,
+        #[property(get, set, construct_only)]
+        pub(crate) image: glib::WeakRef<model::Image>,
     }
 
     #[glib::object_subclass]
@@ -28,30 +31,26 @@ mod imp {
 
     impl ObjectImpl for RepoTagList {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecObject::builder::<model::Image>("image")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecUInt::builder("len").read_only().build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            static PROPERTIES: SyncOnceCell<Vec<glib::ParamSpec>> = SyncOnceCell::new();
+            PROPERTIES.get_or_init(|| {
+                Self::derived_properties()
+                    .iter()
+                    .cloned()
+                    .chain(Some(
+                        glib::ParamSpecUInt::builder("len").read_only().build(),
+                    ))
+                    .collect::<Vec<_>>()
+            })
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "image" => self.image.set(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.obj();
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "image" => obj.image().to_value(),
-                "len" => obj.len().to_value(),
-                _ => unimplemented!(),
+                "len" => self.obj().len().to_value(),
+                _ => self.derived_property(id, pspec),
             }
         }
 
@@ -89,10 +88,6 @@ impl From<&model::Image> for RepoTagList {
 }
 
 impl RepoTagList {
-    pub(crate) fn image(&self) -> Option<model::Image> {
-        self.imp().image.upgrade()
-    }
-
     pub(crate) fn get(&self, index: usize) -> Option<model::RepoTag> {
         self.imp()
             .list
@@ -114,7 +109,7 @@ impl RepoTagList {
             .imp()
             .list
             .borrow_mut()
-            .insert_full(repo_tag.full().to_owned(), repo_tag);
+            .insert_full(repo_tag.full(), repo_tag);
 
         self.items_changed(index as u32, 0, 1);
     }

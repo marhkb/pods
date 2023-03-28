@@ -1,19 +1,23 @@
 use std::cell::RefCell;
 
+use glib::prelude::ObjectExt;
+use glib::prelude::ParamSpecBuilderExt;
+use glib::subclass::prelude::*;
+use glib::subclass::Signal;
+use glib::Properties;
 use gtk::glib;
-use gtk::glib::subclass::Signal;
-use gtk::prelude::ObjectExt;
-use gtk::prelude::ParamSpecBuilderExt;
-use gtk::prelude::ToValue;
-use gtk::subclass::prelude::*;
-use once_cell::sync::Lazy;
+use once_cell::sync::Lazy as SyncLazy;
 
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default)]
+    #[derive(Debug, Default, Properties)]
+    #[properties(wrapper_type = super::KeyVal)]
+
     pub(crate) struct KeyVal {
+        #[property(get, set)]
         pub(super) key: RefCell<String>,
+        #[property(get, set)]
         pub(super) value: RefCell<String>,
     }
 
@@ -25,41 +29,21 @@ mod imp {
 
     impl ObjectImpl for KeyVal {
         fn signals() -> &'static [Signal] {
-            static SIGNALS: Lazy<Vec<Signal>> =
-                Lazy::new(|| vec![Signal::builder("remove-request").build()]);
+            static SIGNALS: SyncLazy<Vec<Signal>> =
+                SyncLazy::new(|| vec![Signal::builder("remove-request").build()]);
             SIGNALS.as_ref()
         }
 
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecString::builder("key")
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecString::builder("value")
-                        .explicit_notify()
-                        .build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "key" => obj.set_key(value.get().unwrap_or_default()),
-                "value" => obj.set_value(value.get().unwrap_or_default()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "key" => obj.key().to_value(),
-                "value" => obj.value().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
     }
 }
@@ -75,30 +59,6 @@ impl Default for KeyVal {
 }
 
 impl KeyVal {
-    pub(crate) fn key(&self) -> String {
-        self.imp().key.borrow().to_owned()
-    }
-
-    pub(crate) fn set_key(&self, value: String) {
-        if self.key() == value {
-            return;
-        }
-        self.imp().key.replace(value);
-        self.notify("key");
-    }
-
-    pub(crate) fn value(&self) -> String {
-        self.imp().value.borrow().to_owned()
-    }
-
-    pub(crate) fn set_value(&self, value: String) {
-        if self.value() == value {
-            return;
-        }
-        self.imp().value.replace(value);
-        self.notify("value");
-    }
-
     pub(crate) fn remove_request(&self) {
         self.emit_by_name::<()>("remove-request", &[]);
     }

@@ -190,7 +190,7 @@ impl Row {
             bindings.push(binding);
 
             let model = gtk::SortListModel::new(
-                Some(image.repo_tags().to_owned()),
+                Some(image.repo_tags()),
                 Some(gtk::StringSorter::new(Some(
                     model::RepoTag::this_expression("full"),
                 ))),

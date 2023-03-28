@@ -10,12 +10,14 @@ use std::sync::Mutex;
 use futures::stream;
 use futures::StreamExt;
 use gettextrs::gettext;
+use gio::prelude::*;
+use gio::subclass::prelude::*;
+use glib::clone;
+use glib::Properties;
+use gtk::gio;
 use gtk::glib;
-use gtk::glib::clone;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
-use once_cell::sync::Lazy;
-use once_cell::unsync::OnceCell;
+use gtk::traits::TextBufferExt;
+use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::model::AbstractContainerListExt;
@@ -49,16 +51,25 @@ pub(crate) enum Type {
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default)]
+    #[derive(Debug, Default, Properties)]
+    #[properties(wrapper_type = super::Action)]
     pub(crate) struct Action {
         pub(super) abort_handle: RefCell<Option<stream::AbortHandle>>,
+        #[property(get)]
         pub(super) artifact: glib::WeakRef<glib::Object>,
-        pub(super) num: OnceCell<u32>,
-        pub(super) type_: OnceCell<Type>,
-        pub(super) description: OnceCell<String>,
+        #[property(get, set, construct_only)]
+        pub(super) num: UnsyncOnceCell<u32>,
+        #[property(get, set, construct_only, builder(Type::default()))]
+        pub(super) action_type: UnsyncOnceCell<Type>,
+        #[property(get, set, construct_only)]
+        pub(super) description: UnsyncOnceCell<String>,
+        #[property(get, builder(State::default()))]
         pub(super) state: Cell<State>,
-        pub(super) start_timestamp: OnceCell<i64>,
-        pub(super) end_timestamp: OnceCell<i64>,
+        #[property(get, set, construct_only)]
+        pub(super) start_timestamp: UnsyncOnceCell<i64>,
+        #[property(get)]
+        pub(super) end_timestamp: UnsyncOnceCell<i64>,
+        #[property(get)]
         pub(super) output: gtk::TextBuffer,
     }
 
@@ -70,58 +81,15 @@ mod imp {
 
     impl ObjectImpl for Action {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecObject::builder::<glib::Object>("artifact")
-                        .read_only()
-                        .build(),
-                    glib::ParamSpecUInt::builder("num").construct_only().build(),
-                    glib::ParamSpecEnum::builder::<Type>("type")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecString::builder("description")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecEnum::builder::<State>("state")
-                        .read_only()
-                        .build(),
-                    glib::ParamSpecInt64::builder("start-timestamp")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecInt64::builder("end-timestamp")
-                        .read_only()
-                        .build(),
-                    glib::ParamSpecObject::builder::<gtk::TextBuffer>("output")
-                        .read_only()
-                        .build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "num" => self.num.set(value.get().unwrap()).unwrap(),
-                "type" => self.type_.set(value.get().unwrap()).unwrap(),
-                "description" => self.description.set(value.get().unwrap()).unwrap(),
-                "start-timestamp" => self.start_timestamp.set(value.get().unwrap()).unwrap(),
-                "end-timestamp" => self.end_timestamp.set(value.get().unwrap()).unwrap(),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "num" => obj.num().to_value(),
-                "type" => obj.type_().to_value(),
-                "description" => obj.description().to_value(),
-                "state" => obj.state().to_value(),
-                "start-timestamp" => obj.start_timestamp().to_value(),
-                "end-timestamp" => obj.end_timestamp().to_value(),
-                "output" => obj.output().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
     }
 }
@@ -143,7 +111,7 @@ impl Action {
     fn new(num: u32, type_: Type, description: &str) -> Self {
         glib::Object::builder()
             .property("num", num)
-            .property("type", type_)
+            .property("action-type", type_)
             .property("description", description)
             .property(
                 "start-timestamp",
@@ -162,7 +130,7 @@ impl Action {
 
         utils::do_async(
             {
-                let podman = client.podman().clone();
+                let podman = client.podman();
                 async move {
                     stream::Abortable::new(podman.images().prune(&opts), abort_registration).await
                 }
@@ -625,7 +593,7 @@ impl Action {
 
         utils::do_async(
             {
-                let podman = client.podman().clone();
+                let podman = client.podman();
                 async move {
                     stream::Abortable::new(podman.containers().create(&opts), abort_registration)
                         .await
@@ -653,7 +621,7 @@ impl Action {
 
                         if run {
                             crate::RUNTIME.spawn({
-                                let podman = client.podman().clone();
+                                let podman = client.podman();
                                 async move {
                                     podman
                                         .containers()
@@ -681,7 +649,7 @@ impl Action {
 
         utils::do_async(
             {
-                let podman = client.podman().clone();
+                let podman = client.podman();
                 async move {
                     stream::Abortable::new(podman.pods().create(&opts), abort_registration).await
                 }
@@ -720,10 +688,6 @@ impl Action {
 }
 
 impl Action {
-    pub(crate) fn artifact(&self) -> Option<glib::Object> {
-        self.imp().artifact.upgrade()
-    }
-
     fn set_artifact(&self, value: &glib::Object) {
         if self.artifact().is_some() {
             return;
@@ -733,22 +697,6 @@ impl Action {
 
         self.imp().artifact.set(Some(value));
         self.notify("artifact");
-    }
-
-    pub(crate) fn num(&self) -> u32 {
-        *self.imp().num.get().unwrap()
-    }
-
-    pub(crate) fn type_(&self) -> Type {
-        *self.imp().type_.get().unwrap()
-    }
-
-    pub(crate) fn description(&self) -> &str {
-        self.imp().description.get().unwrap()
-    }
-
-    pub(crate) fn state(&self) -> State {
-        self.imp().state.get()
     }
 
     fn set_state(&self, value: State) {
@@ -764,14 +712,6 @@ impl Action {
         self.notify("state");
     }
 
-    pub(crate) fn start_timestamp(&self) -> i64 {
-        *self.imp().start_timestamp.get().unwrap()
-    }
-
-    pub(crate) fn end_timestamp(&self) -> i64 {
-        *self.imp().end_timestamp.get().unwrap_or(&0)
-    }
-
     fn set_end_timesamp(&self, value: i64) {
         let imp = self.imp();
 
@@ -780,10 +720,6 @@ impl Action {
         }
         imp.end_timestamp.set(value).unwrap();
         self.notify("end-timestamp");
-    }
-
-    pub(crate) fn output(&self) -> gtk::TextBuffer {
-        self.imp().output.clone()
     }
 
     fn insert(&self, text: &str) {

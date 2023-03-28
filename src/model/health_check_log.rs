@@ -1,9 +1,9 @@
+use glib::Properties;
 use gtk::gio;
 use gtk::glib;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
-use once_cell::sync::Lazy;
-use once_cell::unsync::OnceCell;
+use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::podman;
@@ -11,12 +11,17 @@ use crate::podman;
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default)]
+    #[derive(Debug, Default, Properties)]
+    #[properties(wrapper_type = super::HealthCheckLog)]
     pub(crate) struct HealthCheckLog {
-        pub(super) end: OnceCell<String>,
-        pub(super) exit_code: OnceCell<i64>,
-        pub(super) output: OnceCell<String>,
-        pub(super) start: OnceCell<String>,
+        #[property(get, set, construct_only)]
+        pub(super) end: UnsyncOnceCell<String>,
+        #[property(get, set, construct_only)]
+        pub(super) exit_code: UnsyncOnceCell<i64>,
+        #[property(get, set, construct_only)]
+        pub(super) output: UnsyncOnceCell<String>,
+        #[property(get, set, construct_only)]
+        pub(super) start: UnsyncOnceCell<String>,
     }
 
     #[glib::object_subclass]
@@ -27,44 +32,15 @@ mod imp {
 
     impl ObjectImpl for HealthCheckLog {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecString::builder("end")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecInt64::builder("exit-code")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecString::builder("output")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecString::builder("start")
-                        .construct_only()
-                        .build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "end" => self.end.set(value.get().unwrap()).unwrap(),
-                "exit-code" => self.exit_code.set(value.get().unwrap()).unwrap(),
-                "output" => self.output.set(value.get().unwrap()).unwrap(),
-                "start" => self.start.set(value.get().unwrap()).unwrap(),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "end" => obj.end().to_value(),
-                "exit-code" => obj.exit_code().to_value(),
-                "output" => obj.output().to_value(),
-                "start" => obj.start().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
     }
 }
@@ -82,22 +58,5 @@ impl From<&podman::models::HealthCheckLog> for HealthCheckLog {
             .property("output", data.output.as_ref().unwrap())
             .property("start", data.start.as_ref().unwrap())
             .build()
-    }
-}
-
-impl HealthCheckLog {
-    pub(crate) fn end(&self) -> &str {
-        self.imp().end.get().unwrap()
-    }
-    pub(crate) fn exit_code(&self) -> i64 {
-        *self.imp().exit_code.get().unwrap()
-    }
-
-    pub(crate) fn output(&self) -> &str {
-        self.imp().output.get().unwrap()
-    }
-
-    pub(crate) fn start(&self) -> &str {
-        self.imp().start.get().unwrap()
     }
 }
