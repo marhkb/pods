@@ -1,9 +1,9 @@
+use glib::closure;
+use glib::Properties;
 use gtk::glib;
-use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
 
 use crate::model;
 use crate::utils;
@@ -11,9 +11,11 @@ use crate::utils;
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::ResponseRow)]
     #[template(resource = "/com/github/marhkb/Pods/ui/image-search/response-row.ui")]
     pub(crate) struct ResponseRow {
+        #[property(get, set, nullable)]
         pub(super) image_search_response: glib::WeakRef<model::ImageSearchResponse>,
         #[template_child]
         pub(super) description_label: TemplateChild<gtk::Label>,
@@ -36,31 +38,15 @@ mod imp {
 
     impl ObjectImpl for ResponseRow {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecObject::builder::<model::ImageSearchResponse>(
-                        "image-search-response",
-                    )
-                    .build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "image-search-response" => {
-                    self.image_search_response.set(value.get().unwrap());
-                }
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "image-search-response" => self.obj().image_search_response().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -88,10 +74,4 @@ glib::wrapper! {
     pub(crate) struct ResponseRow(ObjectSubclass<imp::ResponseRow>)
         @extends gtk::Widget,
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
-}
-
-impl ResponseRow {
-    pub(crate) fn image_search_response(&self) -> Option<model::ImageSearchResponse> {
-        self.imp().image_search_response.upgrade()
-    }
 }

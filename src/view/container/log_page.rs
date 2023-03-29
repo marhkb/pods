@@ -13,16 +13,17 @@ use ashpd::desktop::file_chooser::SaveFileRequest;
 use ashpd::WindowIdentifier;
 use futures::StreamExt;
 use gettextrs::gettext;
+use glib::clone;
+use glib::closure;
+use glib::Properties;
 use gtk::gdk;
 use gtk::gio;
 use gtk::glib;
-use gtk::glib::clone;
-use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
-use once_cell::unsync::OnceCell;
+use once_cell::sync::OnceCell as SyncOnceCell;
+use once_cell::unsync::OnceCell as UnsyncOnceCell;
 use sourceview5::traits::BufferExt;
 use sourceview5::traits::GutterRendererExt;
 use sourceview5::traits::GutterRendererTextExt;
@@ -53,18 +54,21 @@ enum FetchLinesState {
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::LogPage)]
     #[template(resource = "/com/github/marhkb/Pods/ui/container/log-page.ui")]
     pub(crate) struct LogPage {
         pub(super) settings: utils::PodsSettings,
-        pub(super) container: glib::WeakRef<model::Container>,
-        pub(super) renderer_timestamps: OnceCell<sourceview5::GutterRendererText>,
+        pub(super) renderer_timestamps: UnsyncOnceCell<sourceview5::GutterRendererText>,
         pub(super) log_timestamps: RefCell<VecDeque<String>>,
-        pub(super) fetch_until: OnceCell<String>,
+        pub(super) fetch_until: UnsyncOnceCell<String>,
         pub(super) fetch_lines_state: Cell<FetchLinesState>,
         pub(super) fetched_lines: RefCell<VecDeque<Vec<u8>>>,
         pub(super) prev_adj: Cell<f64>,
         pub(super) is_auto_scrolling: Cell<bool>,
+        #[property(get, set, construct, nullable)]
+        pub(super) container: glib::WeakRef<model::Container>,
+        #[property(get, set)]
         pub(super) sticky: Cell<bool>,
         #[template_child]
         pub(super) zoom_control: TemplateChild<view::ZoomControl>,
@@ -198,38 +202,31 @@ mod imp {
 
     impl ObjectImpl for LogPage {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecObject::builder::<model::Container>("container")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecBoolean::builder("show-timestamps")
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecBoolean::builder("sticky")
-                        .explicit_notify()
-                        .build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            static PROPERTIES: SyncOnceCell<Vec<glib::ParamSpec>> = SyncOnceCell::new();
+            PROPERTIES.get_or_init(|| {
+                Self::derived_properties()
+                    .iter()
+                    .cloned()
+                    .chain(Some(
+                        glib::ParamSpecBoolean::builder("show-timestamps")
+                            .explicit_notify()
+                            .build(),
+                    ))
+                    .collect::<Vec<_>>()
+            })
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "container" => self.container.set(value.get().unwrap()),
                 "show-timestamps" => self.obj().set_show_timestamps(value.get().unwrap()),
-                "sticky" => self.obj().set_sticky(value.get().unwrap()),
-                _ => unimplemented!(),
+                _ => self.derived_set_property(id, value, pspec),
             }
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.obj();
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "container" => obj.container().to_value(),
-                "show-timestamps" => obj.show_timestamps().to_value(),
-                "sticky" => obj.sticky().to_value(),
-                _ => unimplemented!(),
+                "show-timestamps" => self.obj().show_timestamps().to_value(),
+                _ => self.derived_property(id, pspec),
             }
         }
 
@@ -383,11 +380,7 @@ impl From<&model::Container> for LogPage {
 }
 
 impl LogPage {
-    fn container(&self) -> Option<model::Container> {
-        self.imp().container.upgrade()
-    }
-
-    fn show_timestamps(&self) -> bool {
+    pub(crate) fn show_timestamps(&self) -> bool {
         self.imp()
             .renderer_timestamps
             .get()
@@ -395,7 +388,7 @@ impl LogPage {
             .unwrap_or(false)
     }
 
-    fn set_show_timestamps(&self, value: bool) {
+    pub(crate) fn set_show_timestamps(&self, value: bool) {
         if self.show_timestamps() == value {
             return;
         }
@@ -405,19 +398,6 @@ impl LogPage {
             .get()
             .unwrap()
             .set_visible(value);
-    }
-
-    fn sticky(&self) -> bool {
-        self.imp().sticky.get()
-    }
-
-    fn set_sticky(&self, sticky: bool) {
-        if self.sticky() == sticky {
-            return;
-        }
-
-        self.imp().sticky.set(sticky);
-        self.notify("sticky");
     }
 
     fn scroll_down(&self) {

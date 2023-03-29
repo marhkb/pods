@@ -1,10 +1,10 @@
 use adw::subclass::prelude::*;
 use adw::traits::BinExt;
+use glib::clone;
+use glib::Properties;
 use gtk::glib;
-use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
 
 use crate::model;
 use crate::podman;
@@ -16,9 +16,11 @@ const ACTION_PULL: &str = "image-pull-page.pull";
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::PullPage)]
     #[template(resource = "/com/github/marhkb/Pods/ui/image/pull-page.ui")]
     pub(crate) struct PullPage {
+        #[property(get, set, construct_only, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
@@ -51,26 +53,15 @@ mod imp {
 
     impl ObjectImpl for PullPage {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecObject::builder::<model::Client>("client")
-                    .construct_only()
-                    .build()]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "client" => self.client.set(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "client" => self.obj().client().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -118,11 +109,7 @@ impl From<&model::Client> for PullPage {
 }
 
 impl PullPage {
-    fn client(&self) -> Option<model::Client> {
-        self.imp().client.upgrade()
-    }
-
-    fn pull(&self) {
+    pub(crate) fn pull(&self) {
         let imp = self.imp();
 
         if let Some(search_response) = imp.image_search_widget.selected_image() {

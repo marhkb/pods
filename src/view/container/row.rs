@@ -1,14 +1,14 @@
 use std::cell::RefCell;
 
 use adw::traits::AnimationExt;
+use glib::clone;
+use glib::closure;
+use glib::closure_local;
+use glib::Properties;
 use gtk::glib;
-use gtk::glib::clone;
-use gtk::glib::closure;
-use gtk::glib::closure_local;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
 
 use crate::model;
 use crate::model::SelectableExt;
@@ -19,11 +19,13 @@ use crate::view;
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::Row)]
     #[template(resource = "/com/github/marhkb/Pods/ui/container/row.ui")]
     pub(crate) struct Row {
-        pub(super) container: glib::WeakRef<model::Container>,
         pub(super) bindings: RefCell<Vec<glib::Binding>>,
+        #[property(get, set = Self::set_container, construct, explicit_notify, nullable)]
+        pub(super) container: glib::WeakRef<model::Container>,
         #[template_child]
         pub(super) spinner: TemplateChild<view::Spinner>,
         #[template_child]
@@ -71,28 +73,15 @@ mod imp {
 
     impl ObjectImpl for Row {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecObject::builder::<model::Container>("container")
-                        .explicit_notify()
-                        .build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "container" => self.obj().set_container(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "container" => self.obj().container().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -255,6 +244,32 @@ mod imp {
 
     impl WidgetImpl for Row {}
     impl ListBoxRowImpl for Row {}
+
+    impl Row {
+        pub(super) fn set_container(&self, value: Option<&model::Container>) {
+            let obj = &*self.obj();
+            if obj.container().as_ref() == value {
+                return;
+            }
+
+            let mut bindings = self.bindings.borrow_mut();
+            while let Some(binding) = bindings.pop() {
+                binding.unbind();
+            }
+
+            if let Some(container) = value {
+                let binding = container
+                    .bind_property("selected", &*self.check_button, "active")
+                    .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
+                    .build();
+
+                bindings.push(binding);
+            }
+
+            self.container.set(value);
+            obj.notify("container");
+        }
+    }
 }
 
 glib::wrapper! {
@@ -272,35 +287,6 @@ impl From<&model::Container> for Row {
 }
 
 impl Row {
-    pub(crate) fn container(&self) -> Option<model::Container> {
-        self.imp().container.upgrade()
-    }
-
-    fn set_container(&self, value: Option<&model::Container>) {
-        if self.container().as_ref() == value {
-            return;
-        }
-
-        let imp = self.imp();
-
-        let mut bindings = imp.bindings.borrow_mut();
-        while let Some(binding) = bindings.pop() {
-            binding.unbind();
-        }
-
-        if let Some(container) = value {
-            let binding = container
-                .bind_property("selected", &*imp.check_button, "active")
-                .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
-                .build();
-
-            bindings.push(binding);
-        }
-
-        imp.container.set(value);
-        self.notify("container");
-    }
-
     fn bind_stats_percentage<F>(
         &self,
         stats_expr: &gtk::Expression,

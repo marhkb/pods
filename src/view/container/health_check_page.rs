@@ -1,13 +1,13 @@
 use gettextrs::gettext;
 use gettextrs::ngettext;
+use glib::clone;
+use glib::closure;
+use glib::Properties;
 use gtk::gio;
 use gtk::glib;
-use gtk::glib::clone;
-use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
 
 use crate::model;
 use crate::utils;
@@ -18,9 +18,11 @@ const ACTION_RUN_HEALTH_COMMAND: &str = "container-health-check-page.run-health-
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::HealthCheckPage)]
     #[template(resource = "/com/github/marhkb/Pods/ui/container/health-check-page.ui")]
     pub(crate) struct HealthCheckPage {
+        #[property(get, set = Self::set_container, construct, explicit_notify, nullable)]
         pub(super) container: glib::WeakRef<model::Container>,
         #[template_child]
         pub(super) status_label: TemplateChild<gtk::Label>,
@@ -59,29 +61,15 @@ mod imp {
 
     impl ObjectImpl for HealthCheckPage {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecObject::builder::<model::Container>("container")
-                        .construct()
-                        .explicit_notify()
-                        .build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "container" => self.obj().set_container(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "container" => self.obj().container().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -167,6 +155,57 @@ mod imp {
     }
 
     impl WidgetImpl for HealthCheckPage {}
+
+    impl HealthCheckPage {
+        pub(crate) fn set_container(&self, value: Option<&model::Container>) {
+            let obj = &*self.obj();
+            if obj.container().as_ref() == value {
+                return;
+            }
+
+            if let Some(config) = value
+                .and_then(model::Container::data)
+                .as_ref()
+                .and_then(model::ContainerData::health_config)
+            {
+                self.command_row.set_value(
+                    &config
+                        .test
+                        .as_ref()
+                        .map(|s| s.join(" "))
+                        .unwrap_or_default(),
+                );
+                self.interval_row.set_value(
+                    &config
+                        .interval
+                        .map(|nanos| {
+                            let secs = nanos / 1000000000;
+                            ngettext!("{} second", "{} seconds", secs as u32, secs)
+                        })
+                        .unwrap_or_default(),
+                );
+                self.retries_row.set_value(
+                    &config
+                        .retries
+                        .as_ref()
+                        .map(ToString::to_string)
+                        .unwrap_or_default(),
+                );
+                self.timeout_row.set_value(
+                    &config
+                        .timeout
+                        .map(|nanos| {
+                            let secs = nanos / 1000000000;
+                            ngettext!("{} second", "{} seconds", secs as u32, secs)
+                        })
+                        .unwrap_or_default(),
+                );
+            }
+
+            self.container.set(value);
+            obj.notify("container");
+        }
+    }
 }
 
 glib::wrapper! {
@@ -184,65 +223,11 @@ impl From<&model::Container> for HealthCheckPage {
 }
 
 impl HealthCheckPage {
-    fn container(&self) -> Option<model::Container> {
-        self.imp().container.upgrade()
-    }
-
-    fn set_container(&self, value: Option<&model::Container>) {
-        if self.container().as_ref() == value {
-            return;
-        }
-
-        let imp = self.imp();
-
-        if let Some(config) = value
-            .and_then(model::Container::data)
-            .as_ref()
-            .and_then(model::ContainerData::health_config)
-        {
-            imp.command_row.set_value(
-                &config
-                    .test
-                    .as_ref()
-                    .map(|s| s.join(" "))
-                    .unwrap_or_default(),
-            );
-            imp.interval_row.set_value(
-                &config
-                    .interval
-                    .map(|nanos| {
-                        let secs = nanos / 1000000000;
-                        ngettext!("{} second", "{} seconds", secs as u32, secs)
-                    })
-                    .unwrap_or_default(),
-            );
-            imp.retries_row.set_value(
-                &config
-                    .retries
-                    .as_ref()
-                    .map(ToString::to_string)
-                    .unwrap_or_default(),
-            );
-            imp.timeout_row.set_value(
-                &config
-                    .timeout
-                    .map(|nanos| {
-                        let secs = nanos / 1000000000;
-                        ngettext!("{} second", "{} seconds", secs as u32, secs)
-                    })
-                    .unwrap_or_default(),
-            );
-        }
-
-        imp.container.set(value);
-        self.notify("container");
-    }
-
     fn set_list_box_visibility(&self, model: &gio::ListModel) {
         self.imp().log_list_box.set_visible(model.n_items() > 0);
     }
 
-    fn run_health_check(&self) {
+    pub(crate) fn run_health_check(&self) {
         if let Some(container) = self.container().as_ref().and_then(model::Container::api) {
             utils::do_async(
                 async move { container.healthcheck().await },

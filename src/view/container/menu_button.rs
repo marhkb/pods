@@ -1,10 +1,10 @@
+use glib::clone;
+use glib::closure;
+use glib::Properties;
 use gtk::glib;
-use gtk::glib::clone;
-use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
 
 use crate::model;
 use crate::utils;
@@ -22,9 +22,11 @@ const ACTION_DELETE: &str = "container-menu-button.delete";
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::MenuButton)]
     #[template(resource = "/com/github/marhkb/Pods/ui/container/menu-button.ui")]
     pub(crate) struct MenuButton {
+        #[property(get, set, nullable)]
         pub(super) container: glib::WeakRef<model::Container>,
         #[template_child]
         pub(super) menu_button: TemplateChild<gtk::MenuButton>,
@@ -74,46 +76,21 @@ mod imp {
 
     impl ObjectImpl for MenuButton {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecObject::builder::<model::Container>("container")
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecBoolean::builder("primary")
-                        .explicit_notify()
-                        .build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "container" => obj.set_container(value.get().unwrap_or_default()),
-                "primary" => obj.set_primary(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "container" => obj.container().to_value(),
-                "primary" => obj.is_primary().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
             self.parent_constructed();
 
             let obj = &*self.obj();
-
-            self.menu_button
-                .connect_primary_notify(clone!(@weak obj => move |_| {
-                    obj.notify("primary")
-                }));
 
             Self::Type::this_expression("css-classes").bind(
                 &*self.menu_button,
@@ -150,24 +127,12 @@ glib::wrapper! {
 }
 
 impl MenuButton {
-    pub(crate) fn container(&self) -> Option<model::Container> {
-        self.imp().container.upgrade()
-    }
-
-    pub(crate) fn set_container(&self, value: Option<&model::Container>) {
-        if self.container().as_ref() == value {
-            return;
+    pub(crate) fn rename(&self) {
+        if let Some(container) = self.container() {
+            let dialog = view::ContainerRenameDialog::from(&container);
+            dialog.set_transient_for(Some(&utils::root(self.upcast_ref())));
+            dialog.present();
         }
-        self.imp().container.set(value);
-        self.notify("container");
-    }
-
-    pub(crate) fn is_primary(&self) -> bool {
-        self.imp().menu_button.is_primary()
-    }
-
-    pub(crate) fn set_primary(&self, value: bool) {
-        self.imp().menu_button.set_primary(value);
     }
 
     fn update_actions(&self) {
@@ -181,14 +146,6 @@ impl MenuButton {
             self.action_set_enabled(ACTION_RESUME, container.can_resume());
             self.action_set_enabled(ACTION_PAUSE, container.can_pause());
             self.action_set_enabled(ACTION_DELETE, container.can_delete());
-        }
-    }
-
-    fn rename(&self) {
-        if let Some(container) = self.container() {
-            let dialog = view::ContainerRenameDialog::from(&container);
-            dialog.set_transient_for(Some(&utils::root(self.upcast_ref())));
-            dialog.present();
         }
     }
 }

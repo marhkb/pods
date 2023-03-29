@@ -3,14 +3,14 @@ use std::cell::Cell;
 use adw::subclass::prelude::PreferencesGroupImpl;
 use adw::traits::AnimationExt;
 use gettextrs::gettext;
+use glib::clone;
+use glib::closure;
+use glib::closure_local;
+use glib::Properties;
 use gtk::glib;
-use gtk::glib::clone;
-use gtk::glib::closure;
-use gtk::glib::closure_local;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
 
 use crate::model;
 use crate::utils;
@@ -18,11 +18,13 @@ use crate::utils;
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::ResourcesQuickReferenceGroup)]
     #[template(
         resource = "/com/github/marhkb/Pods/ui/container/resources-quick-reference-group.ui"
     )]
     pub(crate) struct ResourcesQuickReferenceGroup {
+        #[property(get, set, construct, nullable)]
         pub(super) container: glib::WeakRef<model::Container>,
         #[template_child]
         pub(super) cpu_label: TemplateChild<gtk::Label>,
@@ -59,30 +61,15 @@ mod imp {
 
     impl ObjectImpl for ResourcesQuickReferenceGroup {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecObject::builder::<model::Container>("container")
-                        .construct()
-                        .build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "container" => {
-                    self.container.set(value.get().unwrap());
-                }
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "container" => self.obj().container().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -280,9 +267,5 @@ impl ResourcesQuickReferenceGroup {
                     .unwrap_or_else(|| gettext("?"))
             }))
             .bind(label, "label", Some(self));
-    }
-
-    pub(crate) fn container(&self) -> Option<model::Container> {
-        self.imp().container.upgrade()
     }
 }

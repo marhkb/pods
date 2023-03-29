@@ -4,13 +4,14 @@ use adw::subclass::prelude::*;
 use adw::traits::ComboRowExt;
 use futures::future;
 use gettextrs::gettext;
+use glib::clone;
+use glib::Properties;
 use gtk::gio;
 use gtk::glib;
-use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
-use once_cell::unsync::OnceCell;
+use once_cell::sync::OnceCell as SyncOnceCell;
+use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::podman;
@@ -19,13 +20,15 @@ use crate::utils;
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::Widget)]
     #[template(resource = "/com/github/marhkb/Pods/ui/image-search/widget.ui")]
     pub(crate) struct Widget {
-        pub(super) client: glib::WeakRef<model::Client>,
         pub(super) search_results: gio::ListStore,
-        pub(super) selection: OnceCell<gtk::SingleSelection>,
         pub(super) search_abort_handle: RefCell<Option<future::AbortHandle>>,
+        pub(super) selection: UnsyncOnceCell<gtk::SingleSelection>,
+        #[property(get, set = Self::set_client, explicit_notify, nullable)]
+        pub(super) client: glib::WeakRef<model::Client>,
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -59,43 +62,42 @@ mod imp {
 
     impl ObjectImpl for Widget {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecObject::builder::<model::Client>("client")
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecObject::builder::<model::ImageSearchResponse>("selected-image")
+            static PROPERTIES: SyncOnceCell<Vec<glib::ParamSpec>> = SyncOnceCell::new();
+            PROPERTIES.get_or_init(|| {
+                Self::derived_properties()
+                    .iter()
+                    .cloned()
+                    .chain(vec![
+                        glib::ParamSpecObject::builder::<model::ImageSearchResponse>(
+                            "selected-image",
+                        )
                         .read_only()
                         .build(),
-                    glib::ParamSpecString::builder("tag")
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecString::builder("default-tag")
-                        .default_value(Some("latest"))
-                        .read_only()
-                        .build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+                        glib::ParamSpecString::builder("tag")
+                            .explicit_notify()
+                            .build(),
+                        glib::ParamSpecString::builder("default-tag")
+                            .default_value(Some("latest"))
+                            .read_only()
+                            .build(),
+                    ])
+                    .collect::<Vec<_>>()
+            })
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            let obj = &*self.obj();
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "client" => obj.set_client(value.get().unwrap()),
-                "tag" => obj.set_tag(value.get().unwrap()),
-                _ => unimplemented!(),
+                "tag" => self.obj().set_tag(value.get().unwrap()),
+                _ => self.derived_set_property(id, value, pspec),
             }
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.obj();
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "client" => obj.client().to_value(),
-                "selected-image" => obj.selected_image().to_value(),
-                "tag" => obj.tag().to_value(),
-                "default-tag" => obj.default_tag().to_value(),
-                _ => unimplemented!(),
+                "selected-image" => self.obj().selected_image().to_value(),
+                "tag" => self.obj().tag().to_value(),
+                "default-tag" => self.obj().default_tag().to_value(),
+                _ => self.derived_property(id, pspec),
             }
         }
 
@@ -177,6 +179,57 @@ mod imp {
     }
 
     impl PreferencesGroupImpl for Widget {}
+
+    impl Widget {
+        pub(super) fn set_client(&self, client: Option<&model::Client>) {
+            let obj = &*self.obj();
+            if obj.client().as_ref() == client {
+                return;
+            }
+
+            if let Some(client) = client {
+                utils::do_async(
+                    {
+                        let podman = client.podman();
+                        async move { podman.info().await }
+                    },
+                    clone!(@weak obj => move |result| match result {
+                        Ok(info) => {
+                            let imp = obj.imp();
+                            match info.registries.unwrap().get("search") {
+                                Some(search) => {
+                                    let model = gio::ListStore::new(model::Registry::static_type());
+                                    model.append(&model::Registry::from(gettext("All registries").as_str()));
+                                    search
+                                        .as_array()
+                                        .unwrap()
+                                        .iter()
+                                        .for_each(|name| {
+                                            model.append(&model::Registry::from(name.as_str().unwrap()))
+                                        });
+
+                                    imp.registries_combo_row.set_model(Some(&model));
+                                    imp.stack.set_visible_child_name("search");
+                                }
+                                None => imp.stack.set_visible_child_name("no-registries"),
+                            }
+                        },
+                        Err(e) => {
+                            log::error!("Failed to retrieve podman info: {e}");
+                            utils::show_error_toast(
+                                obj.upcast_ref(),
+                                &gettext("Failed to retrieve podman info"),
+                                &e.to_string()
+                            );
+                        }
+                    }),
+                );
+            }
+
+            self.client.set(client);
+            obj.notify("client");
+        }
+    }
 }
 
 glib::wrapper! {
@@ -188,58 +241,6 @@ glib::wrapper! {
 impl Widget {
     pub(crate) fn action_select() -> &'static str {
         "image-search-widget.select"
-    }
-
-    pub(crate) fn client(&self) -> Option<model::Client> {
-        self.imp().client.upgrade()
-    }
-
-    pub(crate) fn set_client(&self, client: Option<&model::Client>) {
-        if self.client().as_ref() == client {
-            return;
-        }
-
-        if let Some(client) = client {
-            utils::do_async(
-                {
-                    let podman = client.podman();
-                    async move { podman.info().await }
-                },
-                clone!(@weak self as obj => move |result| match result {
-                    Ok(info) => {
-                        let imp = obj.imp();
-                        match info.registries.unwrap().get("search") {
-                            Some(search) => {
-                                let model = gio::ListStore::new(model::Registry::static_type());
-                                model.append(&model::Registry::from(gettext("All registries").as_str()));
-                                search
-                                    .as_array()
-                                    .unwrap()
-                                    .iter()
-                                    .for_each(|name| {
-                                        model.append(&model::Registry::from(name.as_str().unwrap()))
-                                    });
-
-                                imp.registries_combo_row.set_model(Some(&model));
-                                imp.stack.set_visible_child_name("search");
-                            }
-                            None => imp.stack.set_visible_child_name("no-registries"),
-                        }
-                    },
-                    Err(e) => {
-                        log::error!("Failed to retrieve podman info: {e}");
-                        utils::show_error_toast(
-                            obj.upcast_ref(),
-                            &gettext("Failed to retrieve podman info"),
-                            &e.to_string()
-                        );
-                    }
-                }),
-            );
-        }
-
-        self.imp().client.set(client);
-        self.notify("client");
     }
 
     pub(crate) fn selected_image(&self) -> Option<model::ImageSearchResponse> {

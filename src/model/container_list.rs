@@ -27,7 +27,7 @@ mod imp {
     #[properties(wrapper_type = super::ContainerList)]
     pub(crate) struct ContainerList {
         pub(super) list: RefCell<IndexMap<String, model::Container>>,
-        #[property(get, set, construct_only)]
+        #[property(get, set, construct_only, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
         #[property(get)]
         pub(super) listing: Cell<bool>,

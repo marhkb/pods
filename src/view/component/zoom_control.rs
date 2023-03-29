@@ -15,13 +15,13 @@ mod imp {
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/component/zoom-control.ui")]
     pub(crate) struct ZoomControl {
+        pub(super) zoom_factor: Cell<f64>,
         #[template_child]
         pub(super) zoom_out_button: TemplateChild<gtk::Button>,
         #[template_child]
         pub(super) zoom_normal_button: TemplateChild<gtk::Button>,
         #[template_child]
         pub(super) zoom_in_button: TemplateChild<gtk::Button>,
-        pub(super) zoom_factor: Cell<f64>,
     }
 
     #[glib::object_subclass]
@@ -63,22 +63,22 @@ mod imp {
 
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
+                "zoom-factor" => self.obj().set_zoom_factor(value.get().unwrap()),
                 "zoom-out-action-name" => self.obj().set_zoom_out_action_name(value.get().unwrap()),
                 "zoom-normal-action-name" => {
                     self.obj().set_zoom_normal_action_name(value.get().unwrap())
                 }
                 "zoom-in-action-name" => self.obj().set_zoom_in_action_name(value.get().unwrap()),
-                "zoom-factor" => self.obj().set_zoom_factor(value.get().unwrap()),
                 _ => unimplemented!(),
             }
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
+                "zoom-factor" => self.obj().zoom_factor().to_value(),
                 "zoom-out-action-name" => self.obj().zoom_out_action_name().to_value(),
                 "zoom-normal-action-name" => self.obj().zoom_normal_action_name().to_value(),
                 "zoom-in-action-name" => self.obj().zoom_in_action_name().to_value(),
-                "zoom-factor" => self.obj().zoom_factor().to_value(),
                 _ => unimplemented!(),
             }
         }

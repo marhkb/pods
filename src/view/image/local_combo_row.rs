@@ -2,14 +2,14 @@ use std::borrow::Borrow;
 
 use adw::prelude::ComboRowExt;
 use adw::subclass::prelude::*;
+use glib::clone;
+use glib::closure;
+use glib::closure_local;
+use glib::Properties;
 use gtk::glib;
-use gtk::glib::clone;
-use gtk::glib::closure;
-use gtk::glib::closure_local;
 use gtk::pango;
 use gtk::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
 
 use crate::model;
 use crate::utils;
@@ -17,7 +17,8 @@ use crate::utils;
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::LocalComboRow)]
     #[template(string = r#"
     <interface>
       <template class="PdsImageLocalComboRow" parent="AdwComboRow">
@@ -27,6 +28,7 @@ mod imp {
     </interface>
     "#)]
     pub(crate) struct LocalComboRow {
+        #[property(get, set = Self::set_client, explicit_notify, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
     }
 
@@ -47,26 +49,15 @@ mod imp {
 
     impl ObjectImpl for LocalComboRow {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecObject::builder::<model::Client>("client")
-                    .explicit_notify()
-                    .build()]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "client" => self.obj().set_client(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "client" => self.obj().client().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -134,46 +125,43 @@ mod imp {
     impl PreferencesRowImpl for LocalComboRow {}
     impl ActionRowImpl for LocalComboRow {}
     impl ComboRowImpl for LocalComboRow {}
+
+    impl LocalComboRow {
+        pub(super) fn set_client(&self, value: Option<&model::Client>) {
+            let obj = &*self.obj();
+            if obj.client().as_ref() == value {
+                return;
+            }
+
+            if let Some(client) = value {
+                let model = gtk::SortListModel::new(
+                    Some(gtk::FilterListModel::new(
+                        Some(client.image_list()),
+                        Some(gtk::CustomFilter::new(|obj| {
+                            obj.downcast_ref::<model::Image>()
+                                .unwrap()
+                                .repo_tags()
+                                .n_items()
+                                > 0
+                        })),
+                    )),
+                    Some(gtk::StringSorter::new(obj.expression())),
+                );
+
+                obj.set_model(Some(&model));
+                obj.set_sensitive(true);
+            }
+
+            self.client.set(value);
+            obj.notify("client");
+        }
+    }
 }
 
 glib::wrapper! {
     pub(crate) struct LocalComboRow(ObjectSubclass<imp::LocalComboRow>)
         @extends adw::ActionRow, adw::PreferencesRow, gtk::ListBoxRow, gtk::Widget,
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget, gtk::Actionable;
-}
-
-impl LocalComboRow {
-    pub(crate) fn client(&self) -> Option<model::Client> {
-        self.imp().client.upgrade()
-    }
-
-    pub(crate) fn set_client(&self, value: Option<&model::Client>) {
-        if self.client().as_ref() == value {
-            return;
-        }
-
-        if let Some(client) = value {
-            let model = gtk::SortListModel::new(
-                Some(gtk::FilterListModel::new(
-                    Some(client.image_list()),
-                    Some(gtk::CustomFilter::new(|obj| {
-                        obj.downcast_ref::<model::Image>()
-                            .unwrap()
-                            .repo_tags()
-                            .n_items()
-                            > 0
-                    })),
-                )),
-                Some(gtk::StringSorter::new(self.expression())),
-            );
-
-            self.set_model(Some(&model));
-            self.set_sensitive(true);
-        }
-
-        self.imp().client.set(value);
-        self.notify("client");
-    }
 }
 
 impl Borrow<adw::ComboRow> for LocalComboRow {

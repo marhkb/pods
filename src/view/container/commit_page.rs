@@ -4,13 +4,12 @@ use adw::traits::ComboRowExt;
 use ashpd::desktop::account::UserInformationRequest;
 use ashpd::WindowIdentifier;
 use gettextrs::gettext;
+use glib::clone;
+use glib::Properties;
 use gtk::gio;
 use gtk::glib;
-use gtk::glib::clone;
-use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
 
 use crate::model;
 use crate::podman;
@@ -24,11 +23,13 @@ const ACTION_COMMIT: &str = "container-commit-page.commit";
 mod imp {
     use super::*;
 
-    #[derive(Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::CommitPage)]
     #[template(resource = "/com/github/marhkb/Pods/ui/container/commit-page.ui")]
     pub(crate) struct CommitPage {
-        pub(super) container: WeakRef<model::Container>,
         pub(super) changes: gio::ListStore,
+        #[property(get, set = Self::set_container, construct, explicit_notify, nullable)]
+        pub(super) container: glib::WeakRef<model::Container>,
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -80,29 +81,15 @@ mod imp {
 
     impl ObjectImpl for CommitPage {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecObject::builder::<model::Container>("container")
-                        .construct()
-                        .explicit_notify()
-                        .build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "container" => self.obj().set_container(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "container" => self.obj().container().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -152,6 +139,24 @@ mod imp {
             self.parent_unroot()
         }
     }
+
+    impl CommitPage {
+        pub(super) fn set_container(&self, value: Option<&model::Container>) {
+            let obj = &*self.obj();
+            if obj.container().as_ref() == value {
+                return;
+            }
+
+            if let Some(container) = value {
+                container.connect_deleted(clone!(@weak obj => move |_| {
+                    obj.activate_action("action.cancel", None).unwrap();
+                }));
+            }
+
+            self.container.set(value);
+            obj.notify("container");
+        }
+    }
 }
 
 glib::wrapper! {
@@ -169,26 +174,7 @@ impl From<&model::Container> for CommitPage {
 }
 
 impl CommitPage {
-    fn container(&self) -> Option<model::Container> {
-        self.imp().container.upgrade()
-    }
-
-    fn set_container(&self, value: Option<&model::Container>) {
-        if self.container().as_ref() == value {
-            return;
-        }
-
-        if let Some(container) = value {
-            container.connect_deleted(clone!(@weak self as obj => move |_| {
-                obj.activate_action("action.cancel", None).unwrap();
-            }));
-        }
-
-        self.imp().container.set(value);
-        self.notify("container");
-    }
-
-    async fn fetch_user_information(&self) {
+    pub(crate) async fn fetch_user_information(&self) {
         let request = UserInformationRequest::default()
             .identifier(WindowIdentifier::from_native(&self.native().unwrap()).await);
 
@@ -216,7 +202,7 @@ impl CommitPage {
         );
     }
 
-    fn add_change(&self) {
+    pub(crate) fn add_change(&self) {
         let change = model::Value::default();
 
         change.connect_remove_request(clone!(@weak self as obj => move |change| {
@@ -229,7 +215,7 @@ impl CommitPage {
         self.imp().changes.append(&change);
     }
 
-    fn commit(&self) {
+    pub(crate) fn commit(&self) {
         if let Some(container) = self.container() {
             if let Some(api) = container.api() {
                 if let Some(client) = container

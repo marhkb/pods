@@ -1,14 +1,14 @@
 use adw::traits::ActionRowExt;
 use gettextrs::gettext;
+use glib::clone;
+use glib::closure;
+use glib::Properties;
 use gtk::gdk;
 use gtk::glib;
-use gtk::glib::clone;
-use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
-use once_cell::unsync::OnceCell;
+use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::utils;
@@ -24,10 +24,12 @@ const ACTION_ABORT: &str = "connection-creation-page.abort";
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::CreationPage)]
     #[template(resource = "/com/github/marhkb/Pods/ui/connection/creation-page.ui")]
     pub(crate) struct CreationPage {
-        pub(super) connection_manager: OnceCell<model::ConnectionManager>,
+        #[property(get, set, construct_only)]
+        pub(super) connection_manager: UnsyncOnceCell<model::ConnectionManager>,
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -86,28 +88,15 @@ mod imp {
 
     impl ObjectImpl for CreationPage {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecObject::builder::<model::ConnectionManager>(
-                    "connection-manager",
-                )
-                .construct_only()
-                .build()]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "connection-manager" => self.connection_manager.set(value.get().unwrap()).unwrap(),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "connection-manager" => self.obj().connection_manager().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -204,26 +193,22 @@ impl From<&model::ConnectionManager> for CreationPage {
 }
 
 impl CreationPage {
-    pub(crate) fn connection_manager(&self) -> &model::ConnectionManager {
-        self.imp().connection_manager.get().unwrap()
-    }
-
-    fn copy_socket_acivation_command(&self) {
+    pub(crate) fn copy_socket_acivation_command(&self) {
         let label = &*self.imp().socket_activation_command_label;
         label.select_region(0, -1);
         label.emit_copy_clipboard();
     }
 
-    fn show_custom_info_dialog(&self) {
+    pub(crate) fn show_custom_info_dialog(&self) {
         let dialog = view::ConnectionCustomInfoDialog::default();
         dialog.set_transient_for(Some(&utils::root(self.upcast_ref())));
         dialog.present();
     }
 
-    fn try_connect(&self) {
+    pub(crate) fn try_connect(&self) {
         if view::show_ongoing_actions_warning_dialog(
             self.upcast_ref(),
-            self.connection_manager(),
+            &self.connection_manager(),
             &gettext("Confirm Connecting to New Instance"),
         ) {
             let imp = self.imp();
@@ -251,7 +236,7 @@ impl CreationPage {
         }
     }
 
-    fn abort(&self) {
+    pub(crate) fn abort(&self) {
         self.connection_manager().abort();
     }
 

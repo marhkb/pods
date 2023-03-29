@@ -1,10 +1,10 @@
+use glib::clone;
+use glib::closure;
+use glib::Properties;
 use gtk::glib;
-use gtk::glib::clone;
-use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
 
 use crate::model;
 use crate::utils;
@@ -15,9 +15,11 @@ const ACTION_DELETE_IMAGE: &str = "image-menu-button.delete-image";
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::MenuButton)]
     #[template(resource = "/com/github/marhkb/Pods/ui/image/menu-button.ui")]
     pub(crate) struct MenuButton {
+        #[property(get, set, nullable)]
         pub(super) image: glib::WeakRef<model::Image>,
         #[template_child]
         pub(super) menu_button: TemplateChild<gtk::MenuButton>,
@@ -47,46 +49,21 @@ mod imp {
 
     impl ObjectImpl for MenuButton {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecObject::builder::<model::Image>("image")
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecBoolean::builder("primary")
-                        .explicit_notify()
-                        .build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "image" => obj.set_image(value.get().unwrap_or_default()),
-                "primary" => obj.set_primary(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "image" => obj.image().to_value(),
-                "primary" => obj.is_primary().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
             self.parent_constructed();
 
             let obj = &*self.obj();
-
-            self.menu_button
-                .connect_primary_notify(clone!(@weak obj => move |_| {
-                    obj.notify("primary")
-                }));
 
             Self::Type::this_expression("css-classes").bind(
                 &*self.menu_button,
@@ -129,34 +106,11 @@ glib::wrapper! {
 }
 
 impl MenuButton {
-    pub(crate) fn image(&self) -> Option<model::Image> {
-        self.imp().image.upgrade()
-    }
-
-    pub(crate) fn set_image(&self, value: Option<&model::Image>) {
-        if self.image().as_ref() == value {
-            return;
-        }
-
-        let imp = self.imp();
-
-        imp.image.set(value);
-        self.notify("image");
-    }
-
-    pub(crate) fn is_primary(&self) -> bool {
-        self.imp().menu_button.is_primary()
-    }
-
-    pub(crate) fn set_primary(&self, value: bool) {
-        self.imp().menu_button.set_primary(value);
-    }
-
-    fn delete_image(&self) {
+    pub(crate) fn delete_image(&self) {
         super::delete_image_show_confirmation(self.upcast_ref(), self.image());
     }
 
-    fn create_container(&self) {
+    pub(crate) fn create_container(&self) {
         super::create_container(self.upcast_ref(), self.image());
     }
 }

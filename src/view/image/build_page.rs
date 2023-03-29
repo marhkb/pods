@@ -3,13 +3,13 @@ use adw::traits::BinExt;
 use ashpd::desktop::file_chooser::OpenFileRequest;
 use ashpd::WindowIdentifier;
 use gettextrs::gettext;
+use glib::clone;
+use glib::Properties;
 use gtk::gio;
 use gtk::glib;
-use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
 
 use crate::model;
 use crate::podman;
@@ -24,12 +24,14 @@ const GSETTINGS_KEY_LAST_USED_CONTAINER_FILE_PATH: &str = "last-used-container-f
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::BuildPage)]
     #[template(resource = "/com/github/marhkb/Pods/ui/image/build-page.ui")]
     pub(crate) struct BuildPage {
         pub(super) settings: utils::PodsSettings,
-        pub(super) client: glib::WeakRef<model::Client>,
         pub(super) labels: gio::ListStore,
+        #[property(get, set, construct_only, nullable)]
+        pub(super) client: glib::WeakRef<model::Client>,
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -79,26 +81,15 @@ mod imp {
 
     impl ObjectImpl for BuildPage {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecObject::builder::<model::Client>("client")
-                    .construct_only()
-                    .build()]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "client" => self.client.set(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "client" => self.obj().client().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -176,10 +167,6 @@ impl From<&model::Client> for BuildPage {
 }
 
 impl BuildPage {
-    fn client(&self) -> Option<model::Client> {
-        self.imp().client.upgrade()
-    }
-
     fn on_opts_changed(&self) {
         let imp = self.imp();
 

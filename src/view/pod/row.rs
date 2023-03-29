@@ -1,11 +1,11 @@
 use std::cell::RefCell;
 
+use glib::closure;
+use glib::Properties;
 use gtk::glib;
-use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
 
 use crate::model;
 use crate::model::SelectableExt;
@@ -16,11 +16,13 @@ use crate::view;
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::Row)]
     #[template(resource = "/com/github/marhkb/Pods/ui/pod/row.ui")]
     pub(crate) struct Row {
-        pub(super) pod: glib::WeakRef<model::Pod>,
         pub(super) bindings: RefCell<Vec<glib::Binding>>,
+        #[property(get, set = Self::set_pod, construct, explicit_notify, nullable)]
+        pub(super) pod: glib::WeakRef<model::Pod>,
         #[template_child]
         pub(super) spinner: TemplateChild<view::Spinner>,
         #[template_child]
@@ -56,26 +58,15 @@ mod imp {
 
     impl ObjectImpl for Row {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecObject::builder::<model::Pod>("pod")
-                    .explicit_notify()
-                    .build()]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "pod" => self.obj().set_pod(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "pod" => self.obj().pod().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -151,6 +142,32 @@ mod imp {
 
     impl WidgetImpl for Row {}
     impl ListBoxRowImpl for Row {}
+
+    impl Row {
+        pub(super) fn set_pod(&self, value: Option<&model::Pod>) {
+            let obj = &*self.obj();
+            if obj.pod().as_ref() == value {
+                return;
+            }
+
+            let mut bindings = self.bindings.borrow_mut();
+            while let Some(binding) = bindings.pop() {
+                binding.unbind();
+            }
+
+            if let Some(pod) = value {
+                let binding = pod
+                    .bind_property("selected", &*self.check_button, "active")
+                    .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
+                    .build();
+
+                bindings.push(binding);
+            }
+
+            self.pod.set(value);
+            obj.notify("pod");
+        }
+    }
 }
 
 glib::wrapper! {
@@ -166,36 +183,7 @@ impl From<&model::Pod> for Row {
 }
 
 impl Row {
-    pub(crate) fn pod(&self) -> Option<model::Pod> {
-        self.imp().pod.upgrade()
-    }
-
-    fn set_pod(&self, value: Option<&model::Pod>) {
-        if self.pod().as_ref() == value {
-            return;
-        }
-
-        let imp = self.imp();
-
-        let mut bindings = imp.bindings.borrow_mut();
-        while let Some(binding) = bindings.pop() {
-            binding.unbind();
-        }
-
-        if let Some(pod) = value {
-            let binding = pod
-                .bind_property("selected", &*imp.check_button, "active")
-                .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
-                .build();
-
-            bindings.push(binding);
-        }
-
-        imp.pod.set(value);
-        self.notify("pod");
-    }
-
-    fn activate(&self) {
+    pub(crate) fn activate(&self) {
         if let Some(pod) = self.pod().as_ref() {
             if pod
                 .pod_list()

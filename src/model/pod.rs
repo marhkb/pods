@@ -83,7 +83,7 @@ mod imp {
     #[properties(wrapper_type = super::Pod)]
     pub(crate) struct Pod {
         pub(super) can_inspect: Cell<bool>,
-        #[property(get, set, construct_only)]
+        #[property(get, set, construct_only, nullable)]
         pub(super) pod_list: glib::WeakRef<model::PodList>,
         #[property(get = Self::container_list)]
         pub(super) container_list: OnceCell<model::SimpleContainerList>,

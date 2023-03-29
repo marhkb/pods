@@ -27,7 +27,7 @@ mod imp {
     #[derive(Debug, Default, Properties)]
     #[properties(wrapper_type = super::Connection)]
     pub(crate) struct Connection {
-        #[property(get, set, construct_only)]
+        #[property(get, set, construct_only, nullable)]
         pub(super) manager: glib::WeakRef<model::ConnectionManager>,
         #[property(get)]
         pub(super) connecting: Cell<bool>,

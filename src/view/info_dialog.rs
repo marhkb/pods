@@ -4,13 +4,13 @@ use adw::traits::ExpanderRowExt;
 use adw::traits::PreferencesWindowExt;
 use gettextrs::gettext;
 use gettextrs::ngettext;
+use glib::clone;
+use glib::Properties;
 use gtk::gdk;
 use gtk::glib;
-use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
 
 use crate::model;
 use crate::utils;
@@ -19,14 +19,14 @@ use crate::view;
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::InfoDialog)]
     #[template(resource = "/com/github/marhkb/Pods/ui/info-dialog.ui")]
     pub(crate) struct InfoDialog {
+        #[property(get, set, construct_only, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
-
         #[template_child]
         pub(super) preferences_page: TemplateChild<adw::PreferencesPage>,
-
         #[template_child]
         pub(super) version_api_version_row: TemplateChild<view::PropertyRow>,
         #[template_child]
@@ -39,7 +39,6 @@ mod imp {
         pub(super) version_os_arch_row: TemplateChild<view::PropertyRow>,
         #[template_child]
         pub(super) version_version_row: TemplateChild<view::PropertyRow>,
-
         #[template_child]
         pub(super) store_config_file_row: TemplateChild<view::PropertyRow>,
         #[template_child]
@@ -97,26 +96,15 @@ mod imp {
 
     impl ObjectImpl for InfoDialog {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecObject::builder::<model::Client>("client")
-                    .construct_only()
-                    .build()]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "client" => self.client.set(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "client" => self.obj().client().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -144,10 +132,6 @@ impl From<&model::Client> for InfoDialog {
 }
 
 impl InfoDialog {
-    pub(crate) fn client(&self) -> Option<model::Client> {
-        self.imp().client.upgrade()
-    }
-
     pub(crate) fn setup(&self) {
         utils::do_async(
             {

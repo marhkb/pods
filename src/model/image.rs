@@ -24,7 +24,7 @@ mod imp {
     #[properties(wrapper_type = super::Image)]
     pub(crate) struct Image {
         pub(super) can_inspect: Cell<bool>,
-        #[property(get, set, construct_only)]
+        #[property(get, set, construct_only, nullable)]
         pub(super) image_list: glib::WeakRef<model::ImageList>,
         #[property(get = Self::container_list)]
         pub(super) container_list: UnsyncOnceCell<model::SimpleContainerList>,

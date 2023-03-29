@@ -6,13 +6,12 @@ use adw::traits::BinExt;
 use ashpd::desktop::file_chooser::OpenFileRequest;
 use ashpd::WindowIdentifier;
 use gettextrs::gettext;
+use glib::clone;
+use glib::Properties;
 use gtk::gio;
 use gtk::glib;
-use gtk::glib::clone;
-use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
 
 use crate::model;
 use crate::utils;
@@ -26,11 +25,13 @@ const ACTION_PUT: &str = "container-files-put-page.put";
 mod imp {
     use super::*;
 
-    #[derive(Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::FilesPutPage)]
     #[template(resource = "/com/github/marhkb/Pods/ui/container/files-put-page.ui")]
     pub(crate) struct FilesPutPage {
-        pub(super) container: WeakRef<model::Container>,
         pub(super) directory: Cell<bool>,
+        #[property(get, set = Self::set_container, construct, explicit_notify, nullable)]
+        pub(super) container: glib::WeakRef<model::Container>,
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -74,29 +75,15 @@ mod imp {
 
     impl ObjectImpl for FilesPutPage {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecObject::builder::<model::Container>("container")
-                        .construct()
-                        .explicit_notify()
-                        .build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "container" => self.obj().set_container(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "container" => self.obj().container().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -136,6 +123,24 @@ mod imp {
             self.parent_unroot()
         }
     }
+
+    impl FilesPutPage {
+        pub(super) fn set_container(&self, value: Option<&model::Container>) {
+            let obj = &*self.obj();
+            if obj.container().as_ref() == value {
+                return;
+            }
+
+            if let Some(container) = value {
+                container.connect_deleted(clone!(@weak obj => move |_| {
+                    obj.activate_action("action.cancel", None).unwrap();
+                }));
+            }
+
+            self.container.set(value);
+            obj.notify("container");
+        }
+    }
 }
 
 glib::wrapper! {
@@ -153,25 +158,6 @@ impl From<&model::Container> for FilesPutPage {
 }
 
 impl FilesPutPage {
-    fn container(&self) -> Option<model::Container> {
-        self.imp().container.upgrade()
-    }
-
-    fn set_container(&self, value: Option<&model::Container>) {
-        if self.container().as_ref() == value {
-            return;
-        }
-
-        if let Some(container) = value {
-            container.connect_deleted(clone!(@weak self as obj => move |_| {
-                obj.activate_action("action.cancel", None).unwrap();
-            }));
-        }
-
-        self.imp().container.set(value);
-        self.notify("container");
-    }
-
     async fn select_file(&self, directory: bool) {
         let request = OpenFileRequest::default()
             .identifier(WindowIdentifier::from_native(&self.native().unwrap()).await)

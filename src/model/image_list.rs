@@ -27,7 +27,7 @@ mod imp {
     #[properties(wrapper_type = super::ImageList)]
     pub(crate) struct ImageList {
         pub(super) list: RefCell<IndexMap<String, model::Image>>,
-        #[property(get, set, construct_only)]
+        #[property(get, set, construct_only, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
         #[property(get)]
         pub(super) listing: Cell<bool>,

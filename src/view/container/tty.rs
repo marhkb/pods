@@ -4,17 +4,18 @@ use futures::future;
 use futures::AsyncWriteExt;
 use futures::StreamExt;
 use gettextrs::gettext;
+use glib::clone;
+use glib::closure;
+use glib::subclass::Signal;
+use glib::Properties;
 use gtk::gdk;
 use gtk::gio;
 use gtk::glib;
-use gtk::glib::clone;
-use gtk::glib::closure;
-use gtk::glib::subclass::Signal;
-use gtk::glib::WeakRef;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
+use once_cell::sync::Lazy as SyncLazy;
+use once_cell::sync::OnceCell as SyncOnceCell;
 use vte4::TerminalExt;
 use vte4::TerminalExtManual;
 
@@ -36,12 +37,14 @@ enum ExecInput {
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::Tty)]
     #[template(resource = "/com/github/marhkb/Pods/ui/container/tty.ui")]
     pub(crate) struct Tty {
         pub(super) settings: utils::PodsSettings,
-        pub(super) container: WeakRef<model::Container>,
         pub(super) tx_tokio: RefCell<Option<tokio::sync::mpsc::UnboundedSender<ExecInput>>>,
+        #[property(get, set, nullable)]
+        pub(super) container: glib::WeakRef<model::Container>,
         #[template_child]
         pub(super) popover_menu: TemplateChild<gtk::PopoverMenu>,
         #[template_child]
@@ -160,38 +163,37 @@ mod imp {
 
     impl ObjectImpl for Tty {
         fn signals() -> &'static [Signal] {
-            static SIGNALS: Lazy<Vec<Signal>> =
-                Lazy::new(|| vec![Signal::builder("terminated").build()]);
+            static SIGNALS: SyncLazy<Vec<Signal>> =
+                SyncLazy::new(|| vec![Signal::builder("terminated").build()]);
             SIGNALS.as_ref()
         }
 
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecObject::builder::<model::Container>("container")
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecDouble::builder("font-scale")
-                        .explicit_notify()
-                        .build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            static PROPERTIES: SyncOnceCell<Vec<glib::ParamSpec>> = SyncOnceCell::new();
+            PROPERTIES.get_or_init(|| {
+                Self::derived_properties()
+                    .iter()
+                    .cloned()
+                    .chain(Some(
+                        glib::ParamSpecDouble::builder("font-scale")
+                            .explicit_notify()
+                            .build(),
+                    ))
+                    .collect::<Vec<_>>()
+            })
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "container" => self.obj().set_container(value.get().unwrap()),
                 "font-scale" => self.obj().set_font_scale(value.get().unwrap()),
-                _ => unimplemented!(),
+                _ => self.derived_set_property(id, value, pspec),
             }
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "container" => self.obj().container().to_value(),
                 "font-scale" => self.obj().font_scale().to_value(),
-                _ => unimplemented!(),
+                _ => self.derived_property(id, pspec),
             }
         }
 
@@ -311,18 +313,6 @@ glib::wrapper! {
 }
 
 impl Tty {
-    fn container(&self) -> Option<model::Container> {
-        self.imp().container.upgrade()
-    }
-
-    fn set_container(&self, value: Option<&model::Container>) {
-        if self.container().as_ref() == value {
-            return;
-        }
-        self.imp().container.set(value);
-        self.notify("container");
-    }
-
     pub(crate) fn font_scale(&self) -> f64 {
         self.imp().terminal.font_scale()
     }

@@ -2,20 +2,22 @@ use adw::subclass::prelude::ExpanderRowImpl;
 use adw::subclass::prelude::PreferencesRowImpl;
 use adw::traits::PreferencesRowExt;
 use gettextrs::gettext;
+use glib::Properties;
 use gtk::glib;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
 
 use crate::model;
 
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::Row)]
     #[template(resource = "/com/github/marhkb/Pods/ui/health-check-log/row.ui")]
     pub(crate) struct Row {
+        #[property(get, set = Self::set_log, explicit_notify, nullable)]
         pub(super) log: glib::WeakRef<model::HealthCheckLog>,
         #[template_child]
         pub(super) exit_code_image: TemplateChild<gtk::Image>,
@@ -44,29 +46,15 @@ mod imp {
 
     impl ObjectImpl for Row {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecObject::builder::<model::HealthCheckLog>("log")
-                        .construct()
-                        .explicit_notify()
-                        .build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "log" => self.obj().set_log(value.get().unwrap_or_default()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "log" => self.obj().log().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -79,6 +67,49 @@ mod imp {
     impl ListBoxRowImpl for Row {}
     impl PreferencesRowImpl for Row {}
     impl ExpanderRowImpl for Row {}
+
+    impl Row {
+        pub(super) fn set_log(&self, value: Option<&model::HealthCheckLog>) {
+            let obj = &*self.obj();
+            if obj.log().as_ref() == value {
+                return;
+            }
+
+            match value {
+                Some(log) => {
+                    if log.exit_code() == 0 {
+                        self.exit_code_image.set_icon_name(Some("success-symbolic"));
+                        self.exit_code_image.add_css_class("success");
+                        obj.set_title(&gettext("Passed Health Run"));
+                    } else {
+                        self.exit_code_image.set_icon_name(Some("error-symbolic"));
+                        self.exit_code_image.add_css_class("error");
+                        obj.set_title(&gettext!("Failed Health Run: {}", log.exit_code()));
+                    }
+                    self.start_label.set_label(
+                        &glib::DateTime::from_iso8601(&log.start(), None)
+                            .unwrap()
+                            .format(
+                                // Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
+                                &gettext("%x %X"),
+                            )
+                            .unwrap(),
+                    );
+                    self.output_text_buffer.set_text(&log.output());
+                }
+                None => {
+                    self.exit_code_image.set_icon_name(None);
+                    self.exit_code_image.remove_css_class("success");
+                    self.exit_code_image.remove_css_class("error");
+                    self.start_label.set_label("");
+                    self.output_text_buffer.set_text("");
+                }
+            }
+
+            self.log.set(value);
+            obj.notify("env-var");
+        }
+    }
 }
 
 glib::wrapper! {
@@ -90,53 +121,5 @@ glib::wrapper! {
 impl From<&model::HealthCheckLog> for Row {
     fn from(log: &model::HealthCheckLog) -> Self {
         glib::Object::builder().property("log", log).build()
-    }
-}
-
-impl Row {
-    pub(crate) fn log(&self) -> Option<model::HealthCheckLog> {
-        self.imp().log.upgrade()
-    }
-
-    pub(crate) fn set_log(&self, value: Option<&model::HealthCheckLog>) {
-        if self.log().as_ref() == value {
-            return;
-        }
-
-        let imp = self.imp();
-
-        match value {
-            Some(log) => {
-                if log.exit_code() == 0 {
-                    imp.exit_code_image.set_icon_name(Some("success-symbolic"));
-                    imp.exit_code_image.add_css_class("success");
-                    self.set_title(&gettext("Passed Health Run"));
-                } else {
-                    imp.exit_code_image.set_icon_name(Some("error-symbolic"));
-                    imp.exit_code_image.add_css_class("error");
-                    self.set_title(&gettext!("Failed Health Run: {}", log.exit_code()));
-                }
-                imp.start_label.set_label(
-                    &glib::DateTime::from_iso8601(&log.start(), None)
-                        .unwrap()
-                        .format(
-                            // Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
-                            &gettext("%x %X"),
-                        )
-                        .unwrap(),
-                );
-                imp.output_text_buffer.set_text(&log.output());
-            }
-            None => {
-                imp.exit_code_image.set_icon_name(None);
-                imp.exit_code_image.remove_css_class("success");
-                imp.exit_code_image.remove_css_class("error");
-                imp.start_label.set_label("");
-                imp.output_text_buffer.set_text("");
-            }
-        }
-
-        imp.log.set(value);
-        self.notify("env-var");
     }
 }

@@ -2,16 +2,17 @@ use adw::prelude::MessageDialogExtManual;
 use adw::traits::MessageDialogExt;
 use gettextrs::gettext;
 use gettextrs::ngettext;
+use glib::clone;
+use glib::closure;
+use glib::subclass::Signal;
+use glib::Properties;
 use gtk::gdk;
 use gtk::glib;
-use gtk::glib::clone;
-use gtk::glib::closure;
-use gtk::glib::subclass::Signal;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
-use once_cell::sync::OnceCell;
+use once_cell::sync::Lazy as SyncLazy;
+use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::model::SelectableListExt;
@@ -36,13 +37,15 @@ const ACTIONS_SELECTION: &[&str] = &[
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::Panel)]
     #[template(resource = "/com/github/marhkb/Pods/ui/pods/panel.ui")]
     pub(crate) struct Panel {
         pub(super) settings: utils::PodsSettings,
+        pub(super) properties_filter: UnsyncOnceCell<gtk::Filter>,
+        pub(super) sorter: UnsyncOnceCell<gtk::Sorter>,
+        #[property(get, set = Self::set_pod_list, explicit_notify, nullable)]
         pub(super) pod_list: glib::WeakRef<model::PodList>,
-        pub(super) properties_filter: OnceCell<gtk::Filter>,
-        pub(super) sorter: OnceCell<gtk::Sorter>,
         #[template_child]
         pub(super) create_pod_row: TemplateChild<gtk::ListBoxRow>,
         #[template_child]
@@ -106,32 +109,21 @@ mod imp {
 
     impl ObjectImpl for Panel {
         fn signals() -> &'static [Signal] {
-            static SIGNALS: Lazy<Vec<Signal>> =
-                Lazy::new(|| vec![Signal::builder("exit-selection-mode").build()]);
+            static SIGNALS: SyncLazy<Vec<Signal>> =
+                SyncLazy::new(|| vec![Signal::builder("exit-selection-mode").build()]);
             SIGNALS.as_ref()
         }
 
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecObject::builder::<model::PodList>("pod-list")
-                    .explicit_notify()
-                    .build()]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "pod-list" => self.obj().set_pod_list(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "pod-list" => self.obj().pod_list().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -255,6 +247,50 @@ mod imp {
     }
 
     impl WidgetImpl for Panel {}
+
+    impl Panel {
+        pub(crate) fn set_pod_list(&self, value: &model::PodList) {
+            let obj = &*self.obj();
+            if obj.pod_list().as_ref() == Some(value) {
+                return;
+            }
+
+            value.connect_notify_local(
+                Some("running"),
+                clone!(@weak obj => move |_ ,_| obj.update_properties_filter()),
+            );
+
+            let model = gtk::SortListModel::new(
+                Some(gtk::FilterListModel::new(
+                    Some(value.to_owned()),
+                    self.properties_filter.get().cloned(),
+                )),
+                self.sorter.get().cloned(),
+            );
+
+            self.list_box.bind_model(Some(&model), |item| {
+                view::PodRow::from(item.downcast_ref().unwrap()).upcast()
+            });
+            self.list_box.append(&*self.create_pod_row);
+
+            ACTIONS_SELECTION
+                .iter()
+                .for_each(|action_name| obj.action_set_enabled(action_name, false));
+            value.connect_notify_local(
+                Some("num-selected"),
+                clone!(@weak obj => move |list, _| {
+                    ACTIONS_SELECTION
+                        .iter()
+                        .for_each(|action_name| {
+                            obj.action_set_enabled(action_name, list.num_selected() > 0);
+                    });
+                }),
+            );
+
+            self.pod_list.set(Some(value));
+            obj.notify("pod-list");
+        }
+    }
 }
 
 glib::wrapper! {
@@ -270,54 +306,6 @@ impl Default for Panel {
 }
 
 impl Panel {
-    pub(crate) fn pod_list(&self) -> Option<model::PodList> {
-        self.imp().pod_list.upgrade()
-    }
-
-    pub(crate) fn set_pod_list(&self, value: &model::PodList) {
-        if self.pod_list().as_ref() == Some(value) {
-            return;
-        }
-
-        // TODO: For multi-client: Figure out whether signal handlers need to be disconnected.
-        let imp = self.imp();
-
-        value.connect_notify_local(
-            Some("running"),
-            clone!(@weak self as obj => move |_ ,_| obj.update_properties_filter()),
-        );
-
-        let model = gtk::SortListModel::new(
-            Some(gtk::FilterListModel::new(
-                Some(value.to_owned()),
-                imp.properties_filter.get().cloned(),
-            )),
-            imp.sorter.get().cloned(),
-        );
-
-        imp.list_box.bind_model(Some(&model), |item| {
-            view::PodRow::from(item.downcast_ref().unwrap()).upcast()
-        });
-        imp.list_box.append(&*imp.create_pod_row);
-
-        ACTIONS_SELECTION
-            .iter()
-            .for_each(|action_name| self.action_set_enabled(action_name, false));
-        value.connect_notify_local(
-            Some("num-selected"),
-            clone!(@weak self as obj => move |list, _| {
-                ACTIONS_SELECTION
-                    .iter()
-                    .for_each(|action_name| {
-                        obj.action_set_enabled(action_name, list.num_selected() > 0);
-                });
-            }),
-        );
-
-        imp.pod_list.set(Some(value));
-        self.notify("pod-list");
-    }
-
     pub(crate) fn update_properties_filter(&self) {
         self.imp()
             .properties_filter

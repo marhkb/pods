@@ -1,8 +1,8 @@
+use glib::Properties;
 use gtk::glib;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
 
 use crate::model;
 use crate::utils;
@@ -10,9 +10,13 @@ use crate::utils;
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::ChooserPage)]
     #[template(resource = "/com/github/marhkb/Pods/ui/connection/chooser-page.ui")]
-    pub(crate) struct ChooserPage(pub(crate) glib::WeakRef<model::ConnectionManager>);
+    pub(crate) struct ChooserPage {
+        #[property(get, set, nullable)]
+        pub(crate) connection_manager: glib::WeakRef<model::ConnectionManager>,
+    }
 
     #[glib::object_subclass]
     impl ObjectSubclass for ChooserPage {
@@ -32,29 +36,15 @@ mod imp {
 
     impl ObjectImpl for ChooserPage {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecObject::builder::<model::ConnectionManager>(
-                    "connection-manager",
-                )
-                .explicit_notify()
-                .build()]
-            });
-
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "connection-manager" => self.obj().set_connection_manager(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "connection-manager" => self.obj().connection_manager().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn dispose(&self) {
@@ -69,19 +59,4 @@ glib::wrapper! {
     pub(crate) struct ChooserPage(ObjectSubclass<imp::ChooserPage>)
         @extends gtk::Widget,
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
-}
-
-impl ChooserPage {
-    pub(crate) fn connection_manager(&self) -> Option<model::ConnectionManager> {
-        self.imp().0.upgrade()
-    }
-
-    pub(crate) fn set_connection_manager(&self, value: Option<&model::ConnectionManager>) {
-        if self.connection_manager().as_ref() == value {
-            return;
-        }
-
-        self.imp().0.set(value);
-        self.notify("connection-manager");
-    }
 }

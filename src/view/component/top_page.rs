@@ -2,13 +2,13 @@ use futures::stream;
 use futures::StreamExt;
 use futures::TryStreamExt;
 use gettextrs::gettext;
+use glib::clone;
+use glib::Properties;
 use gtk::glib;
-use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
-use once_cell::unsync::OnceCell;
+use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::podman;
@@ -17,12 +17,14 @@ use crate::utils;
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::TopPage)]
     #[template(resource = "/com/github/marhkb/Pods/ui/component/top-page.ui")]
     pub(crate) struct TopPage {
         /// A `Container` or a `Pod`
+        pub(super) tree_store: UnsyncOnceCell<gtk::TreeStore>,
+        #[property(get, set, construct_only, nullable)]
         pub(super) top_source: glib::WeakRef<glib::Object>,
-        pub(super) tree_store: OnceCell<gtk::TreeStore>,
         #[template_child]
         pub(super) window_title: TemplateChild<adw::WindowTitle>,
         #[template_child]
@@ -46,26 +48,15 @@ mod imp {
 
     impl ObjectImpl for TopPage {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecObject::builder::<glib::Object>("top-source")
-                    .construct_only()
-                    .build()]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "top-source" => self.top_source.set(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "top-source" => self.obj().top_source().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -119,10 +110,6 @@ impl From<&model::Pod> for TopPage {
 }
 
 impl TopPage {
-    fn top_source(&self) -> Option<glib::Object> {
-        self.imp().top_source.upgrade()
-    }
-
     fn connect_top_stream(&self) {
         if let Some(processes_source) = self.top_source().as_ref().and_then(|obj| {
             if let Some(container) = obj.downcast_ref::<model::Container>() {

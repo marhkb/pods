@@ -1,12 +1,12 @@
 use std::cell::RefCell;
 
+use glib::clone;
+use glib::closure;
+use glib::Properties;
 use gtk::glib;
-use gtk::glib::clone;
-use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
 
 use crate::model;
 use crate::model::SelectableExt;
@@ -17,11 +17,13 @@ use crate::view;
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::Row)]
     #[template(resource = "/com/github/marhkb/Pods/ui/image/row.ui")]
     pub(crate) struct Row {
-        pub(super) image: glib::WeakRef<model::Image>,
         pub(super) bindings: RefCell<Vec<glib::Binding>>,
+        #[property(get, set = Self::set_image, construct, explicit_notify, nullable)]
+        pub(super) image: glib::WeakRef<model::Image>,
         #[template_child]
         pub(super) check_button_revealer: TemplateChild<gtk::Revealer>,
         #[template_child]
@@ -55,26 +57,15 @@ mod imp {
 
     impl ObjectImpl for Row {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecObject::builder::<model::Image>("image")
-                    .construct()
-                    .build()]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "image" => self.obj().set_image(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "image" => self.obj().image().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -148,6 +139,44 @@ mod imp {
 
     impl WidgetImpl for Row {}
     impl ListBoxRowImpl for Row {}
+
+    impl Row {
+        pub(super) fn set_image(&self, value: Option<&model::Image>) {
+            let obj = &*self.obj();
+            if obj.image().as_ref() == value {
+                return;
+            }
+
+            let mut bindings = self.bindings.borrow_mut();
+            while let Some(binding) = bindings.pop() {
+                binding.unbind();
+            }
+            self.repo_tags_list_box.unbind_model();
+
+            if let Some(image) = value {
+                let binding = image
+                    .bind_property("selected", &*self.check_button, "active")
+                    .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
+                    .build();
+
+                bindings.push(binding);
+
+                let model = gtk::SortListModel::new(
+                    Some(image.repo_tags()),
+                    Some(gtk::StringSorter::new(Some(
+                        model::RepoTag::this_expression("full"),
+                    ))),
+                );
+                self.repo_tags_list_box.bind_model(Some(&model), |tag| {
+                    let repo_tag = tag.downcast_ref::<model::RepoTag>().unwrap();
+                    view::RepoTagSimpleRow::from(repo_tag).upcast()
+                });
+            }
+
+            self.image.set(value);
+            obj.notify("image")
+        }
+    }
 }
 
 glib::wrapper! {
@@ -164,48 +193,7 @@ impl From<&model::Image> for Row {
 }
 
 impl Row {
-    pub(crate) fn image(&self) -> Option<model::Image> {
-        self.imp().image.upgrade()
-    }
-
-    pub(crate) fn set_image(&self, value: Option<&model::Image>) {
-        if self.image().as_ref() == value {
-            return;
-        }
-
-        let imp = self.imp();
-
-        let mut bindings = imp.bindings.borrow_mut();
-        while let Some(binding) = bindings.pop() {
-            binding.unbind();
-        }
-        imp.repo_tags_list_box.unbind_model();
-
-        if let Some(image) = value {
-            let binding = image
-                .bind_property("selected", &*imp.check_button, "active")
-                .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
-                .build();
-
-            bindings.push(binding);
-
-            let model = gtk::SortListModel::new(
-                Some(image.repo_tags()),
-                Some(gtk::StringSorter::new(Some(
-                    model::RepoTag::this_expression("full"),
-                ))),
-            );
-            imp.repo_tags_list_box.bind_model(Some(&model), |tag| {
-                let repo_tag = tag.downcast_ref::<model::RepoTag>().unwrap();
-                view::RepoTagSimpleRow::from(repo_tag).upcast()
-            });
-        }
-
-        imp.image.set(value);
-        self.notify("image")
-    }
-
-    fn activate(&self) {
+    pub(crate) fn activate(&self) {
         if let Some(image) = self.image().as_ref() {
             if image
                 .image_list()

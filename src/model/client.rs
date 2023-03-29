@@ -79,7 +79,7 @@ mod imp {
                         .map(|container| container.unwrap())
                         .filter(|container| container.image_id() == image.id())
                         .for_each(|container| {
-                            container.set_image(image);
+                            container.set_image(Some(image));
                             image.add_container(&container);
                         });
                 }));
@@ -88,13 +88,13 @@ mod imp {
                 .connect_container_added(clone!(@weak obj => move |_, container| {
                     let image = obj.image_list().get_image(container.image_id().as_str());
                     if let Some(ref image) = image {
-                        container.set_image(image);
+                        container.set_image(Some(image));
                         image.add_container(container);
                     }
 
                     if let Some(pod) = container.pod_id().and_then(|id| obj.pod_list().get_pod(&id))
                     {
-                        container.set_pod(&pod);
+                        container.set_pod(Some(&pod));
                         pod.container_list().add_container(container);
                     }
                 }));
@@ -117,7 +117,7 @@ mod imp {
                         .map(|container| container.unwrap())
                         .filter(|container| container.pod_id().as_deref() == Some(&pod.id()))
                         .for_each(|container| {
-                            container.set_pod(pod);
+                            container.set_pod(Some(pod));
                             pod.container_list().add_container(&container);
                         });
                 }));

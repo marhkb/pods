@@ -21,7 +21,7 @@ mod imp {
     pub(crate) struct ActionList {
         pub(super) list: RefCell<IndexMap<u32, model::Action>>,
         pub(super) action_counter: Cell<u32>,
-        #[property(get, set, construct_only)]
+        #[property(get, set, construct_only, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
     }
 

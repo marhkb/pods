@@ -2,14 +2,14 @@ use std::cell::RefCell;
 
 use adw::traits::BinExt;
 use gettextrs::gettext;
+use glib::clone;
+use glib::closure;
+use glib::Properties;
 use gtk::gdk;
 use gtk::glib;
-use gtk::glib::clone;
-use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
 
 use crate::model;
 use crate::utils;
@@ -29,11 +29,13 @@ const ACTION_SHOW_PROCESSES: &str = "pod-details-page.show-processes";
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::DetailsPage)]
     #[template(resource = "/com/github/marhkb/Pods/ui/pod/details-page.ui")]
     pub(crate) struct DetailsPage {
-        pub(super) pod: glib::WeakRef<model::Pod>,
         pub(super) handler_id: RefCell<Option<glib::SignalHandlerId>>,
+        #[property(get, set = Self::set_pod, construct, explicit_notify, nullable)]
+        pub(super) pod: glib::WeakRef<model::Pod>,
         #[template_child]
         pub(super) back_navigation_controls: TemplateChild<view::BackNavigationControls>,
         #[template_child]
@@ -128,27 +130,15 @@ mod imp {
 
     impl ObjectImpl for DetailsPage {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecObject::builder::<model::Pod>("pod")
-                    .construct()
-                    .explicit_notify()
-                    .build()]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "pod" => self.obj().set_pod(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "pod" => self.obj().pod().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -225,6 +215,36 @@ mod imp {
     }
 
     impl WidgetImpl for DetailsPage {}
+
+    impl DetailsPage {
+        pub(super) fn set_pod(&self, value: Option<&model::Pod>) {
+            let obj = &*self.obj();
+            if obj.pod().as_ref() == value {
+                return;
+            }
+
+            self.window_title.set_subtitle("");
+            if let Some(pod) = obj.pod() {
+                pod.disconnect(self.handler_id.take().unwrap());
+            }
+
+            if let Some(pod) = value {
+                self.window_title.set_subtitle(&pod.name());
+                pod.inspect(clone!(@weak obj => move |e| {
+                    utils::show_error_toast(obj.upcast_ref(), &gettext("Error on loading pod data"), &e.to_string());
+                }));
+
+                let handler_id = pod.connect_deleted(clone!(@weak obj => move |pod| {
+                    utils::show_toast(obj.upcast_ref(), gettext!("Pod '{}' has been deleted", pod.name()));
+                    obj.imp().back_navigation_controls.navigate_back();
+                }));
+                self.handler_id.replace(Some(handler_id));
+            }
+
+            self.pod.set(value);
+            obj.notify("pod");
+        }
+    }
 }
 
 glib::wrapper! {
@@ -240,39 +260,6 @@ impl From<&model::Pod> for DetailsPage {
 }
 
 impl DetailsPage {
-    fn pod(&self) -> Option<model::Pod> {
-        self.imp().pod.upgrade()
-    }
-
-    fn set_pod(&self, value: Option<&model::Pod>) {
-        if self.pod().as_ref() == value {
-            return;
-        }
-
-        let imp = self.imp();
-
-        imp.window_title.set_subtitle("");
-        if let Some(pod) = self.pod() {
-            pod.disconnect(imp.handler_id.take().unwrap());
-        }
-
-        if let Some(pod) = value {
-            imp.window_title.set_subtitle(&pod.name());
-            pod.inspect(clone!(@weak self as obj => move |e| {
-                utils::show_error_toast(obj.upcast_ref(), &gettext("Error on loading pod data"), &e.to_string());
-            }));
-
-            let handler_id = pod.connect_deleted(clone!(@weak self as obj => move |pod| {
-                utils::show_toast(obj.upcast_ref(), gettext!("Pod '{}' has been deleted", pod.name()));
-                obj.imp().back_navigation_controls.navigate_back();
-            }));
-            imp.handler_id.replace(Some(handler_id));
-        }
-
-        imp.pod.set(value);
-        self.notify("pod");
-    }
-
     fn update_actions(&self) {
         if let Some(pod) = self.pod() {
             let imp = self.imp();
