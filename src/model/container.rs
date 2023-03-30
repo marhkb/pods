@@ -133,7 +133,7 @@ mod imp {
     #[properties(wrapper_type = super::Container)]
     pub(crate) struct Container {
         pub(super) can_inspect: Cell<bool>,
-        #[property(get, set, construct_only)]
+        #[property(get, set, construct_only, nullable)]
         pub(super) container_list: glib::WeakRef<model::ContainerList>,
         #[property(get, set)]
         pub(super) action_ongoing: Cell<bool>,
@@ -145,7 +145,7 @@ mod imp {
         pub(super) health_status: Cell<HealthStatus>,
         #[property(get, set, construct_only)]
         pub(super) id: UnsyncOnceCell<String>,
-        #[property(get, set)]
+        #[property(get, set, nullable)]
         pub(super) image: glib::WeakRef<model::Image>,
         #[property(get, set, construct_only)]
         pub(super) image_id: UnsyncOnceCell<String>,
@@ -153,7 +153,7 @@ mod imp {
         pub(super) image_name: RefCell<Option<String>>,
         #[property(get, set, construct)]
         pub(super) name: RefCell<String>,
-        #[property(get, set = Self::set_pod, explicit_notify)]
+        #[property(get, set = Self::set_pod, explicit_notify, nullable)]
         pub(super) pod: glib::WeakRef<model::Pod>,
         #[property(get = Self::pod_id, set, construct_only, nullable)]
         pub(super) pod_id: UnsyncOnceCell<Option<String>>,

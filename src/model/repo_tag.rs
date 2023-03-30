@@ -14,7 +14,7 @@ mod imp {
     #[derive(Debug, Default, Properties)]
     #[properties(wrapper_type = super::RepoTag)]
     pub(crate) struct RepoTag {
-        #[property(get, set, construct_only)]
+        #[property(get, set, construct_only, nullable)]
         pub(super) repo_tag_list: glib::WeakRef<model::RepoTagList>,
         #[property(get, set, construct_only)]
         pub(super) full: OnceCell<String>,

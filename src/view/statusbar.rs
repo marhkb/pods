@@ -1,13 +1,13 @@
 use std::borrow::Cow;
 
+use glib::clone;
+use glib::closure;
+use glib::Properties;
 use gtk::gdk;
 use gtk::glib;
-use gtk::glib::clone;
-use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
 
 use crate::model;
 use crate::utils;
@@ -18,13 +18,15 @@ const ACTION_CLEAN_UP_ACTIONS: &str = "statusbar.clean-up-actions";
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::Statusbar)]
     #[template(resource = "/com/github/marhkb/Pods/ui/statusbar.ui")]
     pub(crate) struct Statusbar {
         pub(super) css_provider: gtk::CssProvider,
-        pub(super) connection_manager: glib::WeakRef<model::ConnectionManager>,
         pub(super) connection_switcher_widget: view::ConnectionSwitcherWidget,
         pub(super) actions_overview: view::ActionsOverview,
+        #[property(get, set, nullable)]
+        pub(super) connection_manager: glib::WeakRef<model::ConnectionManager>,
         #[template_child]
         pub(super) statusbar: TemplateChild<panel::Statusbar>,
         #[template_child]
@@ -70,28 +72,15 @@ mod imp {
 
     impl ObjectImpl for Statusbar {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecObject::builder::<model::ConnectionManager>(
-                    "connection-manager",
-                )
-                .explicit_notify()
-                .build()]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "connection-manager" => self.obj().set_connection_manager(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "connection-manager" => self.obj().connection_manager().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -234,18 +223,6 @@ glib::wrapper! {
 }
 
 impl Statusbar {
-    pub(crate) fn connection_manager(&self) -> Option<model::ConnectionManager> {
-        self.imp().connection_manager.upgrade()
-    }
-
-    pub(crate) fn set_connection_manager(&self, value: Option<&model::ConnectionManager>) {
-        if self.connection_manager().as_ref() == value {
-            return;
-        }
-        self.imp().connection_manager.set(value);
-        self.notify("connection-manager");
-    }
-
     pub(crate) fn action_list(&self) -> Option<model::ActionList> {
         self.connection_manager()
             .as_ref()

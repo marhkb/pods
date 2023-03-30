@@ -2,14 +2,14 @@ use std::cell::RefCell;
 
 use adw::traits::BinExt;
 use gettextrs::gettext;
+use glib::clone;
+use glib::closure;
+use glib::Properties;
 use gtk::gdk;
 use gtk::glib;
-use gtk::glib::clone;
-use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
 
 use crate::model;
 use crate::utils;
@@ -23,11 +23,13 @@ const ACTION_DELETE_IMAGE: &str = "image-details-page.delete-image";
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::DetailsPage)]
     #[template(resource = "/com/github/marhkb/Pods/ui/image/details-page.ui")]
     pub(crate) struct DetailsPage {
-        pub(super) image: glib::WeakRef<model::Image>,
         pub(super) handler_id: RefCell<Option<glib::SignalHandlerId>>,
+        #[property(get, set = Self::set_image, construct, explicit_notify, nullable)]
+        pub(super) image: glib::WeakRef<model::Image>,
         #[template_child]
         pub(super) create_tag_row: TemplateChild<gtk::ListBoxRow>,
         #[template_child]
@@ -102,27 +104,15 @@ mod imp {
 
     impl ObjectImpl for DetailsPage {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecObject::builder::<model::Image>("image")
-                    .construct()
-                    .explicit_notify()
-                    .build()]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "image" => self.obj().set_image(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "image" => self.obj().image().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -269,6 +259,50 @@ mod imp {
     }
 
     impl WidgetImpl for DetailsPage {}
+
+    impl DetailsPage {
+        pub(super) fn set_image(&self, value: Option<&model::Image>) {
+            let obj = &*self.obj();
+            if obj.image().as_ref() == value {
+                return;
+            }
+
+            self.window_title.set_subtitle("");
+            if let Some(image) = obj.image() {
+                image.disconnect(self.handler_id.take().unwrap());
+            }
+            self.repo_tags_list_box.unbind_model();
+
+            if let Some(image) = value {
+                self.window_title
+                    .set_subtitle(&utils::format_id(&image.id()));
+                image.inspect(clone!(@weak obj => move |e| {
+                    utils::show_error_toast(obj.upcast_ref(), &gettext("Error on loading image details"), &e.to_string());
+                }));
+
+                let handler_id = image.connect_deleted(clone!(@weak obj => move |image| {
+                    utils::show_toast(obj.upcast_ref(), gettext!("Image '{}' has been deleted", image.id()));
+                    obj.imp().back_navigation_controls.navigate_back();
+                }));
+                self.handler_id.replace(Some(handler_id));
+
+                let model = gtk::SortListModel::new(
+                    Some(image.repo_tags()),
+                    Some(gtk::StringSorter::new(Some(
+                        model::RepoTag::this_expression("full"),
+                    ))),
+                );
+                self.repo_tags_list_box.bind_model(Some(&model), |tag| {
+                    let repo_tag = tag.downcast_ref::<model::RepoTag>().unwrap();
+                    view::RepoTagRow::from(repo_tag).upcast()
+                });
+                self.repo_tags_list_box.append(&*self.create_tag_row);
+            }
+
+            self.image.set(value);
+            obj.notify("image");
+        }
+    }
 }
 
 glib::wrapper! {
@@ -284,53 +318,6 @@ impl From<&model::Image> for DetailsPage {
 }
 
 impl DetailsPage {
-    pub(crate) fn image(&self) -> Option<model::Image> {
-        self.imp().image.upgrade()
-    }
-
-    pub(crate) fn set_image(&self, value: Option<&model::Image>) {
-        if self.image().as_ref() == value {
-            return;
-        }
-
-        let imp = self.imp();
-
-        imp.window_title.set_subtitle("");
-        if let Some(image) = self.image() {
-            image.disconnect(imp.handler_id.take().unwrap());
-        }
-        imp.repo_tags_list_box.unbind_model();
-
-        if let Some(image) = value {
-            imp.window_title
-                .set_subtitle(&utils::format_id(&image.id()));
-            image.inspect(clone!(@weak self as obj => move |e| {
-                utils::show_error_toast(obj.upcast_ref(), &gettext("Error on loading image details"), &e.to_string());
-            }));
-
-            let handler_id = image.connect_deleted(clone!(@weak self as obj => move |image| {
-                utils::show_toast(obj.upcast_ref(), gettext!("Image '{}' has been deleted", image.id()));
-                obj.imp().back_navigation_controls.navigate_back();
-            }));
-            imp.handler_id.replace(Some(handler_id));
-
-            let model = gtk::SortListModel::new(
-                Some(image.repo_tags()),
-                Some(gtk::StringSorter::new(Some(
-                    model::RepoTag::this_expression("full"),
-                ))),
-            );
-            imp.repo_tags_list_box.bind_model(Some(&model), |tag| {
-                let repo_tag = tag.downcast_ref::<model::RepoTag>().unwrap();
-                view::RepoTagRow::from(repo_tag).upcast()
-            });
-            imp.repo_tags_list_box.append(&*imp.create_tag_row);
-        }
-
-        imp.image.set(value);
-        self.notify("image");
-    }
-
     fn tag(&self) {
         self.exec_action(|| {
             if let Some(image) = self.image() {

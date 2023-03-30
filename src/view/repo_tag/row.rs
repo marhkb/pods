@@ -1,10 +1,10 @@
 use gettextrs::gettext;
+use glib::clone;
+use glib::Properties;
 use gtk::glib;
-use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
 
 use crate::model;
 use crate::podman;
@@ -16,9 +16,11 @@ const ACTION_UNTAG: &str = "repo-tag-row.untag";
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::Row)]
     #[template(resource = "/com/github/marhkb/Pods/ui/repo-tag/row.ui")]
     pub(crate) struct Row {
+        #[property(get, set, construct_only, nullable)]
         pub(super) repo_tag: glib::WeakRef<model::RepoTag>,
         #[template_child]
         pub(super) label: TemplateChild<gtk::Label>,
@@ -48,26 +50,15 @@ mod imp {
 
     impl ObjectImpl for Row {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecObject::builder::<model::RepoTag>("repo-tag")
-                    .construct_only()
-                    .build()]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "repo-tag" => self.repo_tag.set(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "repo-tag" => self.obj().repo_tag().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -114,10 +105,6 @@ impl From<&model::RepoTag> for Row {
 }
 
 impl Row {
-    pub(crate) fn repo_tag(&self) -> Option<model::RepoTag> {
-        self.imp().repo_tag.upgrade()
-    }
-
     fn set_label(&self, is_dark: bool, is_hc: bool) {
         if let Some(repo_tag) = self.repo_tag() {
             let repo = repo_tag.repo();

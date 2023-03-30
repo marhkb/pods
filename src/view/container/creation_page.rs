@@ -5,15 +5,15 @@ use adw::traits::ActionRowExt;
 use adw::traits::BinExt;
 use adw::traits::ComboRowExt;
 use gettextrs::gettext;
+use glib::clone;
+use glib::closure;
+use glib::closure_local;
+use glib::Properties;
 use gtk::gio;
 use gtk::glib;
-use gtk::glib::clone;
-use gtk::glib::closure;
-use gtk::glib::closure_local;
 use gtk::pango;
 use gtk::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
 
 use crate::model;
 use crate::podman;
@@ -33,12 +33,10 @@ const ACTION_CREATE: &str = "container-creation-page.create";
 mod imp {
     use super::*;
 
-    #[derive(Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::CreationPage)]
     #[template(resource = "/com/github/marhkb/Pods/ui/container/creation-page.ui")]
     pub(crate) struct CreationPage {
-        pub(super) client: glib::WeakRef<model::Client>,
-        pub(super) image: glib::WeakRef<model::Image>,
-        pub(super) pod: glib::WeakRef<model::Pod>,
         pub(super) cmd_args: gio::ListStore,
         pub(super) port_mappings: gio::ListStore,
         pub(super) volumes: gio::ListStore,
@@ -46,6 +44,12 @@ mod imp {
         pub(super) labels: gio::ListStore,
         pub(super) command_row_handler:
             RefCell<Option<(glib::SignalHandlerId, glib::WeakRef<model::Image>)>>,
+        #[property(get = Self::client, set, construct, nullable)]
+        pub(super) client: glib::WeakRef<model::Client>,
+        #[property(get, set, construct, nullable)]
+        pub(super) image: glib::WeakRef<model::Image>,
+        #[property(get, set, construct, nullable)]
+        pub(super) pod: glib::WeakRef<model::Pod>,
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -149,40 +153,15 @@ mod imp {
 
     impl ObjectImpl for CreationPage {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecObject::builder::<model::Client>("client")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecObject::builder::<model::Image>("image")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecObject::builder::<model::Pod>("pod")
-                        .construct()
-                        .explicit_notify()
-                        .build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "client" => self.client.set(value.get().unwrap()),
-                "image" => self.image.set(value.get().unwrap()),
-                "pod" => self.obj().set_pod(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "client" => obj.client().to_value(),
-                "image" => obj.image().to_value(),
-                "pod" => obj.pod().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -392,6 +371,29 @@ mod imp {
             self.parent_unroot()
         }
     }
+
+    impl CreationPage {
+        pub(super) fn client(&self) -> Option<model::Client> {
+            self.client
+                .upgrade()
+                .or_else(|| {
+                    self.obj()
+                        .image()
+                        .as_ref()
+                        .and_then(model::Image::image_list)
+                        .as_ref()
+                        .and_then(model::ImageList::client)
+                })
+                .or_else(|| {
+                    self.obj()
+                        .pod()
+                        .as_ref()
+                        .and_then(model::Pod::pod_list)
+                        .as_ref()
+                        .and_then(model::PodList::client)
+                })
+        }
+    }
 }
 
 glib::wrapper! {
@@ -419,42 +421,6 @@ impl From<&model::Client> for CreationPage {
 }
 
 impl CreationPage {
-    fn client(&self) -> Option<model::Client> {
-        self.imp()
-            .client
-            .upgrade()
-            .or_else(|| {
-                self.image()
-                    .as_ref()
-                    .and_then(model::Image::image_list)
-                    .as_ref()
-                    .and_then(model::ImageList::client)
-            })
-            .or_else(|| {
-                self.pod()
-                    .as_ref()
-                    .and_then(model::Pod::pod_list)
-                    .as_ref()
-                    .and_then(model::PodList::client)
-            })
-    }
-
-    fn image(&self) -> Option<model::Image> {
-        self.imp().image.upgrade()
-    }
-
-    fn pod(&self) -> Option<model::Pod> {
-        self.imp().pod.upgrade()
-    }
-
-    fn set_pod(&self, value: Option<&model::Pod>) {
-        if self.pod().as_ref() == value {
-            return;
-        }
-        self.imp().pod.set(value);
-        self.notify("pod");
-    }
-
     fn on_name_changed(&self) {
         let enabled = self.imp().name_entry_row.text().len() > 0;
         self.action_set_enabled(ACTION_CREATE_AND_RUN, enabled);

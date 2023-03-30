@@ -1,10 +1,11 @@
 use adw::subclass::prelude::*;
+use glib::clone;
+use glib::subclass::Signal;
+use glib::Properties;
 use gtk::glib;
-use gtk::glib::clone;
-use gtk::glib::subclass::Signal;
 use gtk::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
+use once_cell::sync::Lazy as SyncLazy;
 
 use crate::model;
 use crate::view;
@@ -12,9 +13,11 @@ use crate::view;
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::SelectionPage)]
     #[template(resource = "/com/github/marhkb/Pods/ui/image/selection-page.ui")]
     pub(crate) struct SelectionPage {
+        #[property(get, set, construct_only, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
         #[template_child]
         pub(super) header_bar: TemplateChild<adw::HeaderBar>,
@@ -49,7 +52,7 @@ mod imp {
 
     impl ObjectImpl for SelectionPage {
         fn signals() -> &'static [Signal] {
-            static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
+            static SIGNALS: SyncLazy<Vec<Signal>> = SyncLazy::new(|| {
                 vec![Signal::builder("image-selected")
                     .param_types([String::static_type()])
                     .build()]
@@ -58,26 +61,15 @@ mod imp {
         }
 
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecObject::builder::<model::Client>("client")
-                    .construct_only()
-                    .build()]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "client" => self.client.set(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "client" => self.obj().client().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -116,10 +108,6 @@ impl From<&model::Client> for SelectionPage {
 }
 
 impl SelectionPage {
-    fn client(&self) -> Option<model::Client> {
-        self.imp().client.upgrade()
-    }
-
     fn select(&self) {
         let imp = self.imp();
 

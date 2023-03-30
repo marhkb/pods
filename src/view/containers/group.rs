@@ -3,14 +3,14 @@ use std::cell::RefCell;
 use adw::subclass::prelude::PreferencesGroupImpl;
 use gettextrs::gettext;
 use gettextrs::ngettext;
+use glib::clone;
+use glib::closure;
+use glib::Properties;
 use gtk::glib;
-use gtk::glib::clone;
-use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
-use once_cell::unsync::OnceCell;
+use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::model::AbstractContainerListExt;
@@ -20,15 +20,19 @@ use crate::view;
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::Group)]
     #[template(resource = "/com/github/marhkb/Pods/ui/containers/group.ui")]
     pub(crate) struct Group {
         pub(super) settings: utils::PodsSettings,
-        pub(super) container_list: glib::WeakRef<model::AbstractContainerList>,
+        pub(super) properties_filter: UnsyncOnceCell<gtk::Filter>,
+        pub(super) sorter: UnsyncOnceCell<gtk::Sorter>,
+        #[property(get, set, nullable)]
         pub(super) no_containers_label: RefCell<Option<String>>,
+        #[property(get, set = Self::set_show_running_settings_key, explicit_notify)]
         pub(super) show_running_settings_key: RefCell<String>,
-        pub(super) properties_filter: OnceCell<gtk::Filter>,
-        pub(super) sorter: OnceCell<gtk::Sorter>,
+        #[property(get, set = Self::set_container_list, explicit_notify, nullable)]
+        pub(super) container_list: glib::WeakRef<model::AbstractContainerList>,
         #[template_child]
         pub(super) create_container_row: TemplateChild<gtk::ListBoxRow>,
         #[template_child]
@@ -58,44 +62,15 @@ mod imp {
 
     impl ObjectImpl for Group {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecString::builder("no-containers-label")
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecString::builder("show-running-settings-key")
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecObject::builder::<model::AbstractContainerList>(
-                        "container-list",
-                    )
-                    .explicit_notify()
-                    .build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "no-containers-label" => obj.set_no_containers_label(value.get().unwrap()),
-                "show-running-settings-key" => {
-                    obj.set_show_running_settings_key(value.get().unwrap_or_default());
-                }
-                "container-list" => obj.set_container_list(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "no-containers-label" => obj.no_containers_label().to_value(),
-                "show-running-settings-key" => obj.show_running_settings_key().to_value(),
-                "container-list" => obj.container_list().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -176,6 +151,60 @@ mod imp {
 
     impl WidgetImpl for Group {}
     impl PreferencesGroupImpl for Group {}
+
+    impl Group {
+        pub(super) fn set_show_running_settings_key(&self, value: String) {
+            let obj = &*self.obj();
+            if obj.show_running_settings_key() == value {
+                return;
+            }
+
+            self.settings
+                .bind(&value, &*self.show_only_running_switch, "active")
+                .build();
+
+            self.show_running_settings_key.replace(value);
+            obj.notify("show-running-settings-key");
+        }
+
+        pub(super) fn set_container_list(&self, value: Option<&model::AbstractContainerList>) {
+            let obj = &*self.obj();
+            if obj.container_list().as_ref() == value {
+                return;
+            }
+
+            if let Some(value) = value {
+                // TODO: For multi-client: Figure out whether signal handlers need to be disconnected.
+                value.connect_notify_local(
+                    Some("running"),
+                    clone!(@weak obj => move |_, _| obj.update_properties_filter()),
+                );
+
+                value.connect_container_name_changed(clone!(@weak obj => move |_, _| {
+                    glib::timeout_add_seconds_local_once(
+                        1,
+                        clone!(@weak obj => move || obj.update_sorter()),
+                    );
+                }));
+
+                let model = gtk::SortListModel::new(
+                    Some(gtk::FilterListModel::new(
+                        Some(value.to_owned()),
+                        self.properties_filter.get().cloned(),
+                    )),
+                    self.sorter.get().cloned(),
+                );
+
+                self.list_box.bind_model(Some(&model), |item| {
+                    view::ContainerRow::from(item.downcast_ref().unwrap()).upcast()
+                });
+                self.list_box.append(&*self.create_container_row);
+            }
+
+            self.container_list.set(value);
+            obj.notify("container-list");
+        }
+    }
 }
 
 glib::wrapper! {
@@ -193,80 +222,6 @@ impl Default for Group {
 impl Group {
     pub(crate) fn action_create_container() -> &'static str {
         "containers-group.create-container"
-    }
-
-    pub(crate) fn no_containers_label(&self) -> Option<String> {
-        self.imp().no_containers_label.borrow().to_owned()
-    }
-
-    pub(crate) fn set_no_containers_label(&self, value: Option<String>) {
-        if self.no_containers_label() == value {
-            return;
-        }
-        self.imp().no_containers_label.replace(value);
-        self.notify("no-containers-label");
-    }
-
-    pub(crate) fn show_running_settings_key(&self) -> String {
-        self.imp().show_running_settings_key.borrow().to_owned()
-    }
-
-    pub(crate) fn set_show_running_settings_key(&self, value: String) {
-        if self.show_running_settings_key() == value {
-            return;
-        }
-
-        let imp = self.imp();
-
-        imp.settings
-            .bind(&value, &*imp.show_only_running_switch, "active")
-            .build();
-
-        imp.show_running_settings_key.replace(value);
-        self.notify("show-running-settings-key");
-    }
-
-    pub(crate) fn container_list(&self) -> Option<model::AbstractContainerList> {
-        self.imp().container_list.upgrade()
-    }
-
-    pub(crate) fn set_container_list(&self, value: Option<&model::AbstractContainerList>) {
-        if self.container_list().as_ref() == value {
-            return;
-        }
-
-        let imp = self.imp();
-
-        if let Some(value) = value {
-            // TODO: For multi-client: Figure out whether signal handlers need to be disconnected.
-            value.connect_notify_local(
-                Some("running"),
-                clone!(@weak self as obj => move |_, _| obj.update_properties_filter()),
-            );
-
-            value.connect_container_name_changed(clone!(@weak self as obj => move |_, _| {
-                glib::timeout_add_seconds_local_once(
-                    1,
-                    clone!(@weak obj => move || obj.update_sorter()),
-                );
-            }));
-
-            let model = gtk::SortListModel::new(
-                Some(gtk::FilterListModel::new(
-                    Some(value.to_owned()),
-                    imp.properties_filter.get().cloned(),
-                )),
-                imp.sorter.get().cloned(),
-            );
-
-            imp.list_box.bind_model(Some(&model), |item| {
-                view::ContainerRow::from(item.downcast_ref().unwrap()).upcast()
-            });
-            imp.list_box.append(&*imp.create_container_row);
-        }
-
-        imp.container_list.set(value);
-        self.notify("container-list");
     }
 
     fn update_properties_filter(&self) {

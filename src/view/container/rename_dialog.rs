@@ -3,14 +3,14 @@ use std::cell::RefCell;
 use adw::subclass::prelude::*;
 use adw::traits::MessageDialogExt;
 use gettextrs::gettext;
+use glib::clone;
+use glib::closure;
+use glib::Properties;
 use gtk::gdk;
 use gtk::glib;
-use gtk::glib::clone;
-use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
-use once_cell::unsync::OnceCell;
+use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::view;
@@ -18,12 +18,14 @@ use crate::view;
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::RenameDialog)]
     #[template(resource = "/com/github/marhkb/Pods/ui/container/rename-dialog.ui")]
     pub(crate) struct RenameDialog {
-        pub(super) container: glib::WeakRef<model::Container>,
         pub(super) response: RefCell<Option<String>>,
-        pub(super) rename_finished: OnceCell<()>,
+        pub(super) rename_finished: UnsyncOnceCell<()>,
+        #[property(get, set, construct_only, nullable)]
+        pub(super) container: glib::WeakRef<model::Container>,
         #[template_child]
         pub(super) entry_row: TemplateChild<view::RandomNameEntryRow>,
         #[template_child]
@@ -70,28 +72,15 @@ mod imp {
 
     impl ObjectImpl for RenameDialog {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecObject::builder::<model::Container>("container")
-                        .construct_only()
-                        .build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "container" => self.container.set(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "container" => self.obj().container().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -205,11 +194,5 @@ impl From<&model::Container> for RenameDialog {
         glib::Object::builder()
             .property("container", container)
             .build()
-    }
-}
-
-impl RenameDialog {
-    pub(crate) fn container(&self) -> Option<model::Container> {
-        self.imp().container.upgrade()
     }
 }

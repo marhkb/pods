@@ -1,18 +1,20 @@
+use glib::closure;
+use glib::Properties;
 use gtk::glib;
-use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
 
 use crate::model;
 
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::CountBar)]
     #[template(resource = "/com/github/marhkb/Pods/ui/containers/count-bar.ui")]
     pub(crate) struct CountBar {
+        #[property(get, set, construct, nullable)]
         pub(super) container_list: glib::WeakRef<model::AbstractContainerList>,
         #[template_child]
         pub(super) dead_box: TemplateChild<gtk::Box>,
@@ -49,32 +51,15 @@ mod imp {
 
     impl ObjectImpl for CountBar {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecObject::builder::<model::AbstractContainerList>(
-                        "container-list",
-                    )
-                    .construct()
-                    .build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "container-list" => {
-                    self.container_list.set(value.get().unwrap());
-                }
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "container-list" => self.obj().container_list().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -144,11 +129,5 @@ impl From<&model::AbstractContainerList> for CountBar {
         glib::Object::builder()
             .property("container-list", container_list)
             .build()
-    }
-}
-
-impl CountBar {
-    pub(crate) fn container_list(&self) -> Option<model::AbstractContainerList> {
-        self.imp().container_list.upgrade()
     }
 }

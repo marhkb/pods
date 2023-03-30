@@ -26,7 +26,7 @@ mod imp {
         pub(super) notification_id: OnceCell<glib::GString>,
         pub(super) handler: RefCell<Option<glib::SignalHandlerId>>,
         pub(super) timer: RefCell<Option<glib::SourceId>>,
-        #[property(get, set = Self::set_action, explicit_notify)]
+        #[property(get, set = Self::set_action, explicit_notify, nullable)]
         pub(super) action: glib::WeakRef<model::Action>,
         #[template_child]
         pub(super) type_image: TemplateChild<gtk::Image>,

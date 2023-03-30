@@ -1,15 +1,16 @@
 use adw::prelude::MessageDialogExtManual;
 use adw::traits::MessageDialogExt;
 use gettextrs::gettext;
+use glib::clone;
+use glib::closure;
+use glib::subclass::Signal;
+use glib::Properties;
 use gtk::gdk;
 use gtk::glib;
-use gtk::glib::clone;
-use gtk::glib::closure;
-use gtk::glib::subclass::Signal;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
+use once_cell::sync::Lazy as SyncLazy;
 
 use crate::model;
 use crate::model::SelectableListExt;
@@ -33,9 +34,11 @@ const ACTIONS_SELECTION: &[&str] = &[
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::Panel)]
     #[template(resource = "/com/github/marhkb/Pods/ui/containers/panel.ui")]
     pub(crate) struct Panel {
+        #[property(get, set = Self::set_container_list, explicit_notify, nullable)]
         pub(super) container_list: glib::WeakRef<model::ContainerList>,
         #[template_child]
         pub(super) main_stack: TemplateChild<gtk::Stack>,
@@ -94,34 +97,21 @@ mod imp {
 
     impl ObjectImpl for Panel {
         fn signals() -> &'static [Signal] {
-            static SIGNALS: Lazy<Vec<Signal>> =
-                Lazy::new(|| vec![Signal::builder("exit-selection-mode").build()]);
+            static SIGNALS: SyncLazy<Vec<Signal>> =
+                SyncLazy::new(|| vec![Signal::builder("exit-selection-mode").build()]);
             SIGNALS.as_ref()
         }
 
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecObject::builder::<model::ContainerList>("container-list")
-                        .explicit_notify()
-                        .build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "container-list" => self.obj().set_container_list(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "container-list" => self.obj().container_list().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -175,6 +165,35 @@ mod imp {
     }
 
     impl WidgetImpl for Panel {}
+
+    impl Panel {
+        pub(super) fn set_container_list(&self, value: Option<&model::ContainerList>) {
+            let obj = &*self.obj();
+            if obj.container_list().as_ref() == value {
+                return;
+            }
+
+            ACTIONS_SELECTION
+                .iter()
+                .for_each(|action_name| obj.action_set_enabled(action_name, false));
+
+            if let Some(container_list) = value {
+                container_list.connect_notify_local(
+                    Some("num-selected"),
+                    clone!(@weak obj => move |list, _| {
+                        ACTIONS_SELECTION
+                            .iter()
+                            .for_each(|action_name| {
+                                obj.action_set_enabled(action_name, list.num_selected() > 0);
+                        });
+                    }),
+                );
+            }
+
+            self.container_list.set(value);
+            obj.notify("container-list");
+        }
+    }
 }
 
 glib::wrapper! {
@@ -190,34 +209,7 @@ impl Default for Panel {
 }
 
 impl Panel {
-    pub(crate) fn container_list(&self) -> Option<model::ContainerList> {
-        self.imp().container_list.upgrade()
-    }
-
-    pub(crate) fn set_container_list(&self, value: &model::ContainerList) {
-        if self.container_list().as_ref() == Some(value) {
-            return;
-        }
-
-        ACTIONS_SELECTION
-            .iter()
-            .for_each(|action_name| self.action_set_enabled(action_name, false));
-        value.connect_notify_local(
-            Some("num-selected"),
-            clone!(@weak self as obj => move |list, _| {
-                ACTIONS_SELECTION
-                    .iter()
-                    .for_each(|action_name| {
-                        obj.action_set_enabled(action_name, list.num_selected() > 0);
-                });
-            }),
-        );
-
-        self.imp().container_list.set(Some(value));
-        self.notify("container-list");
-    }
-
-    fn create_container(&self) {
+    pub(crate) fn create_container(&self) {
         if let Some(client) = self
             .container_list()
             .as_ref()
@@ -230,7 +222,7 @@ impl Panel {
         }
     }
 
-    fn start_or_resume_selection(&self) {
+    pub(crate) fn start_or_resume_selection(&self) {
         if let Some(list) = self.container_list() {
             list.selected_items()
                 .iter()
@@ -265,7 +257,7 @@ impl Panel {
         }
     }
 
-    fn stop_selection(&self) {
+    pub(crate) fn stop_selection(&self) {
         if let Some(list) = self.container_list() {
             list.selected_items()
                 .iter()
@@ -290,7 +282,7 @@ impl Panel {
         }
     }
 
-    fn pause_selection(&self) {
+    pub(crate) fn pause_selection(&self) {
         if let Some(list) = self.container_list() {
             list.selected_items()
                 .iter()
@@ -312,7 +304,7 @@ impl Panel {
         }
     }
 
-    fn restart_selection(&self) {
+    pub(crate) fn restart_selection(&self) {
         if let Some(list) = self.container_list() {
             list.selected_items()
                 .iter()
@@ -337,7 +329,7 @@ impl Panel {
         }
     }
 
-    fn delete_selection(&self) {
+    pub(crate) fn delete_selection(&self) {
         if self
             .container_list()
             .map(|list| list.num_selected())

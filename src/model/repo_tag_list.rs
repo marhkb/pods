@@ -18,7 +18,7 @@ mod imp {
     #[properties(wrapper_type = super::RepoTagList)]
     pub(crate) struct RepoTagList {
         pub(super) list: RefCell<IndexMap<String, model::RepoTag>>,
-        #[property(get, set, construct_only)]
+        #[property(get, set, construct_only, nullable)]
         pub(crate) image: glib::WeakRef<model::Image>,
     }
 

@@ -2,14 +2,14 @@ use std::cell::RefCell;
 
 use adw::traits::BinExt;
 use gettextrs::gettext;
+use glib::clone;
+use glib::closure;
+use glib::Properties;
 use gtk::gdk;
 use gtk::glib;
-use gtk::glib::clone;
-use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
 
 use crate::model;
 use crate::utils;
@@ -39,11 +39,13 @@ const ACTION_SHOW_PROCESSES: &str = "container-details-page.show-processes";
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::DetailsPage)]
     #[template(resource = "/com/github/marhkb/Pods/ui/container/details-page.ui")]
     pub(crate) struct DetailsPage {
-        pub(super) container: glib::WeakRef<model::Container>,
         pub(super) handler_id: RefCell<Option<glib::SignalHandlerId>>,
+        #[property(get, set = Self::set_container, construct, explicit_notify, nullable)]
+        pub(super) container: glib::WeakRef<model::Container>,
         #[template_child]
         pub(super) back_navigation_controls: TemplateChild<view::BackNavigationControls>,
         #[template_child]
@@ -165,29 +167,15 @@ mod imp {
 
     impl ObjectImpl for DetailsPage {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecObject::builder::<model::Container>("container")
-                        .construct()
-                        .explicit_notify()
-                        .build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "container" => self.obj().set_container(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "container" => self.obj().container().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -244,6 +232,34 @@ mod imp {
     }
 
     impl WidgetImpl for DetailsPage {}
+
+    impl DetailsPage {
+        pub(crate) fn set_container(&self, value: Option<&model::Container>) {
+            let obj = &*self.obj();
+            if obj.container().as_ref() == value {
+                return;
+            }
+
+            if let Some(container) = obj.container() {
+                container.disconnect(self.handler_id.take().unwrap());
+            }
+
+            if let Some(container) = value {
+                container.inspect(clone!(@weak obj => move |e| {
+                    utils::show_error_toast(obj.upcast_ref(), &gettext("Error on loading container details"), &e.to_string());
+                }));
+
+                let handler_id = container.connect_deleted(clone!(@weak obj => move |container| {
+                    utils::show_toast(obj.upcast_ref(), gettext!("Container '{}' has been deleted", container.name()));
+                    obj.imp().back_navigation_controls.navigate_back();
+                }));
+                self.handler_id.replace(Some(handler_id));
+            }
+
+            self.container.set(value);
+            obj.notify("container");
+        }
+    }
 }
 
 glib::wrapper! {
@@ -261,37 +277,6 @@ impl From<&model::Container> for DetailsPage {
 }
 
 impl DetailsPage {
-    fn container(&self) -> Option<model::Container> {
-        self.imp().container.upgrade()
-    }
-
-    fn set_container(&self, value: Option<&model::Container>) {
-        if self.container().as_ref() == value {
-            return;
-        }
-
-        let imp = self.imp();
-
-        if let Some(container) = self.container() {
-            container.disconnect(imp.handler_id.take().unwrap());
-        }
-
-        if let Some(container) = value {
-            container.inspect(clone!(@weak self as obj => move |e| {
-                utils::show_error_toast(obj.upcast_ref(), &gettext("Error on loading container details"), &e.to_string());
-            }));
-
-            let handler_id = container.connect_deleted(clone!(@weak self as obj => move |container| {
-                utils::show_toast(obj.upcast_ref(), gettext!("Container '{}' has been deleted", container.name()));
-                obj.imp().back_navigation_controls.navigate_back();
-            }));
-            imp.handler_id.replace(Some(handler_id));
-        }
-
-        imp.container.set(value);
-        self.notify("container");
-    }
-
     fn update_actions(&self) {
         if let Some(container) = self.container() {
             let imp = self.imp();
@@ -319,7 +304,7 @@ impl DetailsPage {
         }
     }
 
-    fn rename(&self) {
+    pub(crate) fn rename(&self) {
         self.exec_action(|| {
             if let Some(container) = self.container() {
                 let dialog = view::ContainerRenameDialog::from(&container);
@@ -329,7 +314,7 @@ impl DetailsPage {
         });
     }
 
-    fn commit(&self) {
+    pub(crate) fn commit(&self) {
         self.exec_action(|| {
             if let Some(container) = self.container() {
                 utils::show_dialog(
@@ -340,7 +325,7 @@ impl DetailsPage {
         });
     }
 
-    fn get_files(&self) {
+    pub(crate) fn get_files(&self) {
         self.exec_action(|| {
             if let Some(container) = self.container() {
                 utils::show_dialog(
@@ -351,7 +336,7 @@ impl DetailsPage {
         });
     }
 
-    fn put_files(&self) {
+    pub(crate) fn put_files(&self) {
         self.exec_action(|| {
             if let Some(container) = self.container() {
                 utils::show_dialog(
@@ -362,7 +347,7 @@ impl DetailsPage {
         });
     }
 
-    fn show_health_details(&self) {
+    pub(crate) fn show_health_details(&self) {
         self.exec_action(|| {
             if let Some(ref container) = self.container() {
                 self.imp()
@@ -372,7 +357,7 @@ impl DetailsPage {
         });
     }
 
-    fn show_image_details(&self) {
+    pub(crate) fn show_image_details(&self) {
         self.exec_action(|| {
             if let Some(image) = self.container().as_ref().and_then(model::Container::image) {
                 self.imp()
@@ -382,7 +367,7 @@ impl DetailsPage {
         });
     }
 
-    fn show_pod_details(&self) {
+    pub(crate) fn show_pod_details(&self) {
         self.exec_action(|| {
             if let Some(pod) = self.container().as_ref().and_then(model::Container::pod) {
                 self.imp()
@@ -392,15 +377,15 @@ impl DetailsPage {
         });
     }
 
-    fn show_inspection(&self) {
+    pub(crate) fn show_inspection(&self) {
         self.show_kube_inspection_or_kube(view::ScalableTextViewMode::Inspect);
     }
 
-    fn show_kube(&self) {
+    pub(crate) fn show_kube(&self) {
         self.show_kube_inspection_or_kube(view::ScalableTextViewMode::Kube);
     }
 
-    fn show_kube_inspection_or_kube(&self, mode: view::ScalableTextViewMode) {
+    pub(crate) fn show_kube_inspection_or_kube(&self, mode: view::ScalableTextViewMode) {
         self.exec_action(|| {
             if let Some(container) = self.container() {
                 let weak_ref = glib::WeakRef::new();
@@ -417,7 +402,7 @@ impl DetailsPage {
         });
     }
 
-    fn show_log(&self) {
+    pub(crate) fn show_log(&self) {
         self.exec_action(|| {
             if let Some(container) = self.container() {
                 self.imp()
@@ -427,7 +412,7 @@ impl DetailsPage {
         });
     }
 
-    fn show_processes(&self) {
+    pub(crate) fn show_processes(&self) {
         self.exec_action(|| {
             if let Some(container) = self.container() {
                 self.imp()
@@ -437,7 +422,7 @@ impl DetailsPage {
         });
     }
 
-    fn show_tty(&self) {
+    pub(crate) fn show_tty(&self) {
         self.exec_action(|| {
             if let Some(container) = self.container() {
                 self.imp()

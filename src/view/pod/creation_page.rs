@@ -5,12 +5,12 @@ use adw::traits::ActionRowExt;
 use adw::traits::BinExt;
 use adw::traits::ComboRowExt;
 use gettextrs::gettext;
+use glib::clone;
+use glib::Properties;
 use gtk::gio;
 use gtk::glib;
-use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
 
 use crate::model;
 use crate::podman;
@@ -32,11 +32,10 @@ const ACTION_SEARCH_INFRA: &str = "pod-creation-page.infra-search";
 mod imp {
     use super::*;
 
-    #[derive(Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::CreationPage)]
     #[template(resource = "/com/github/marhkb/Pods/ui/pod/creation-page.ui")]
     pub(crate) struct CreationPage {
-        pub(super) client: glib::WeakRef<model::Client>,
-        pub(super) infra_image: glib::WeakRef<model::Image>,
         pub(super) labels: gio::ListStore,
         pub(super) hosts: gio::ListStore,
         pub(super) devices: gio::ListStore,
@@ -44,6 +43,10 @@ mod imp {
         pub(super) infra_cmd_args: gio::ListStore,
         pub(super) command_row_handler:
             RefCell<Option<(glib::SignalHandlerId, glib::WeakRef<model::Image>)>>,
+        #[property(get, set, construct_only, nullable)]
+        pub(super) client: glib::WeakRef<model::Client>,
+        #[property(get, set, construct_only, nullable)]
+        pub(super) infra_image: glib::WeakRef<model::Image>,
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -147,34 +150,15 @@ mod imp {
 
     impl ObjectImpl for CreationPage {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecObject::builder::<model::Client>("client")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecObject::builder::<model::Image>("infra-image")
-                        .construct_only()
-                        .build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "client" => self.client.set(value.get().unwrap()),
-                "infra-image" => self.infra_image.set(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "client" => obj.client().to_value(),
-                "infra-image" => obj.image().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -235,8 +219,7 @@ mod imp {
                 ACTION_ADD_INFRA_CMD_ARGS,
             );
 
-            self.infra_local_image_combo_row
-                .set_client(obj.client().as_ref());
+            self.infra_local_image_combo_row.set_client(obj.client());
             self.infra_local_image_combo_row
                 .connect_selected_item_notify(
                     clone!(@weak obj => move |_| obj.update_infra_command_row()),
@@ -284,16 +267,8 @@ impl From<&model::Client> for CreationPage {
 }
 
 impl CreationPage {
-    fn client(&self) -> Option<model::Client> {
-        self.imp().client.upgrade()
-    }
-
     fn on_name_changed(&self) {
         self.action_set_enabled(ACTION_CREATE, self.imp().name_entry_row.text().len() > 0);
-    }
-
-    fn image(&self) -> Option<model::Image> {
-        self.imp().infra_image.upgrade()
     }
 
     fn add_label(&self) {
@@ -321,7 +296,7 @@ impl CreationPage {
 
         if imp.infra_remote_image_row.is_visible() {
             self.pull_and_create(imp.infra_remote_image_row.subtitle().unwrap().as_str());
-        } else if let Some(image) = self.image().or_else(|| {
+        } else if let Some(image) = self.infra_image().or_else(|| {
             imp.infra_local_image_combo_row
                 .selected_item()
                 .map(|item| item.downcast().unwrap())

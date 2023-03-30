@@ -1,11 +1,10 @@
 use gettextrs::gettext;
-use glib::subclass::InitializingObject;
+use glib::clone;
+use glib::Properties;
 use gtk::glib;
-use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
 
 use crate::model;
 use crate::utils;
@@ -14,9 +13,11 @@ use crate::view;
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::SwitcherWidget)]
     #[template(resource = "/com/github/marhkb/Pods/ui/connection/switcher-widget.ui")]
     pub(crate) struct SwitcherWidget {
+        #[property(get, set = Self::set_connection_manager, construct, explicit_notify, nullable)]
         pub(super) connection_manager: glib::WeakRef<model::ConnectionManager>,
         #[template_child]
         pub(super) connection_list_view: TemplateChild<gtk::ListView>,
@@ -34,7 +35,7 @@ mod imp {
             klass.set_css_name("connectionswitchermenu");
         }
 
-        fn instance_init(obj: &InitializingObject<Self>) {
+        fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
             obj.init_template();
         }
     }
@@ -75,30 +76,15 @@ mod imp {
 
     impl ObjectImpl for SwitcherWidget {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecObject::builder::<model::ConnectionManager>(
-                    "connection-manager",
-                )
-                .construct()
-                .explicit_notify()
-                .build()]
-            });
-
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "connection-manager" => self.obj().set_connection_manager(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "connection-manager" => self.obj().connection_manager().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn dispose(&self) {
@@ -107,6 +93,23 @@ mod imp {
     }
 
     impl WidgetImpl for SwitcherWidget {}
+
+    impl SwitcherWidget {
+        pub(super) fn set_connection_manager(&self, value: Option<&model::ConnectionManager>) {
+            let obj = &*self.obj();
+            if obj.connection_manager().as_ref() == value {
+                return;
+            }
+
+            if let Some(manager) = value {
+                let model = gtk::NoSelection::new(Some(manager.to_owned()));
+                self.connection_list_view.set_model(Some(&model));
+            }
+
+            self.connection_manager.set(value);
+            obj.notify("connection-manager");
+        }
+    }
 }
 
 glib::wrapper! {
@@ -128,26 +131,6 @@ impl SwitcherWidget {
             &gettext("Error on switching connection"),
             &e.to_string(),
         );
-    }
-
-    pub(crate) fn connection_manager(&self) -> Option<model::ConnectionManager> {
-        self.imp().connection_manager.upgrade()
-    }
-
-    pub(crate) fn set_connection_manager(&self, value: Option<&model::ConnectionManager>) {
-        if self.connection_manager().as_ref() == value {
-            return;
-        }
-
-        let imp = self.imp();
-
-        if let Some(manager) = value {
-            let model = gtk::NoSelection::new(Some(manager.to_owned()));
-            imp.connection_list_view.set_model(Some(&model));
-        }
-
-        imp.connection_manager.set(value);
-        self.notify("connection-manager");
     }
 
     fn switch_connection(&self, connection_manager: &model::ConnectionManager, uuid: &str) {

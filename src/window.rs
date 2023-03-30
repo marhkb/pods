@@ -593,7 +593,7 @@ impl Window {
             .connect_text_notify(clone!(@weak self as obj => move |entry| {
                 if obj.is_search_activatable() {
                     let imp = obj.imp();
-                    imp.search_panel.set_term(entry.text().into());
+                    imp.search_panel.set_term(entry.text());
                     if !entry.text().is_empty() {
                         imp.search_button.set_active(true);
                     }

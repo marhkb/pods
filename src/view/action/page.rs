@@ -22,7 +22,7 @@ mod imp {
     #[properties(wrapper_type = super::Page)]
     #[template(resource = "/com/github/marhkb/Pods/ui/action/page.ui")]
     pub(crate) struct Page {
-        #[property(get, set, construct_only)]
+        #[property(get, set, construct_only, nullable)]
         pub(super) action: glib::WeakRef<model::Action>,
         #[template_child]
         pub(super) status_page: TemplateChild<adw::StatusPage>,

@@ -1,22 +1,22 @@
 use std::cell::Cell;
 
+use glib::Properties;
 use gtk::glib;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
-use once_cell::sync::Lazy;
 use sourceview5::subclass::view::ViewImpl;
 
 use crate::utils::PodsSettings;
 
-const MIN_FONT_SCALE: f64 = 0.1;
-
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default)]
+    #[derive(Debug, Default, Properties)]
+    #[properties(wrapper_type = super::ScalableTextView)]
     pub(crate) struct ScalableTextView {
         pub(super) settings: PodsSettings,
         pub(super) css_provider: gtk::CssProvider,
+        #[property(get, set, minimum = 0.1, lax_validation, default = 1.0)]
         pub(super) font_scale: Cell<f64>,
     }
 
@@ -29,28 +29,15 @@ mod imp {
 
     impl ObjectImpl for ScalableTextView {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecDouble::builder("font-scale")
-                    .explicit_notify()
-                    .minimum(MIN_FONT_SCALE)
-                    .default_value(1.0)
-                    .build()]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "font-scale" => self.obj().set_font_scale(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "font-scale" => self.obj().font_scale().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -93,18 +80,6 @@ impl Default for ScalableTextView {
 }
 
 impl ScalableTextView {
-    pub(crate) fn font_scale(&self) -> f64 {
-        self.imp().font_scale.get()
-    }
-
-    pub(crate) fn set_font_scale(&self, value: f64) {
-        if self.font_scale() == value || value < MIN_FONT_SCALE {
-            return;
-        }
-        self.imp().font_scale.set(value);
-        self.notify("font-scale");
-    }
-
     pub(crate) fn zoom_in(&self) {
         self.set_font_scale(self.font_scale() + 0.1);
     }

@@ -2,10 +2,10 @@ use std::cell::RefCell;
 
 use adw::subclass::prelude::*;
 use gettextrs::gettext;
+use glib::Properties;
 use gtk::glib;
 use gtk::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
 
 use crate::model;
 
@@ -14,9 +14,11 @@ const ACTION_REMOVE: &str = "value-row.remove";
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::Row)]
     #[template(resource = "/com/github/marhkb/Pods/ui/value/row.ui")]
     pub(crate) struct Row {
+        #[property(get, set = Self::set_value, construct)]
         pub(super) value: RefCell<Option<model::Value>>,
         pub(super) bindings: RefCell<Vec<glib::Binding>>,
     }
@@ -43,27 +45,15 @@ mod imp {
 
     impl ObjectImpl for Row {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![glib::ParamSpecObject::builder::<model::Value>("value")
-                    .construct()
-                    .explicit_notify()
-                    .build()]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "value" => self.obj().set_value(value.get().unwrap_or_default()),
-                other => unimplemented!("{other}"),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "value" => self.obj().value().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
     }
 
@@ -71,6 +61,32 @@ mod imp {
     impl ListBoxRowImpl for Row {}
     impl PreferencesRowImpl for Row {}
     impl EntryRowImpl for Row {}
+
+    impl Row {
+        pub(super) fn set_value(&self, value: Option<model::Value>) {
+            let obj = &*self.obj();
+            if obj.value() == value {
+                return;
+            }
+
+            let mut bindings = self.bindings.borrow_mut();
+
+            while let Some(binding) = bindings.pop() {
+                binding.unbind();
+            }
+
+            if let Some(ref value) = value {
+                let binding = value
+                    .bind_property("value", obj, "text")
+                    .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
+                    .build();
+                bindings.push(binding);
+            }
+
+            self.value.replace(value);
+            obj.notify("value");
+        }
+    }
 }
 
 glib::wrapper! {
@@ -91,33 +107,5 @@ impl Row {
             .property("value", value)
             .property("title", title)
             .build()
-    }
-
-    pub(crate) fn value(&self) -> Option<model::Value> {
-        self.imp().value.borrow().to_owned()
-    }
-
-    pub(crate) fn set_value(&self, value: Option<model::Value>) {
-        if self.value() == value {
-            return;
-        }
-
-        let imp = self.imp();
-        let mut bindings = imp.bindings.borrow_mut();
-
-        while let Some(binding) = bindings.pop() {
-            binding.unbind();
-        }
-
-        if let Some(ref value) = value {
-            let binding = value
-                .bind_property("value", self, "text")
-                .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
-                .build();
-            bindings.push(binding);
-        }
-
-        imp.value.replace(value);
-        self.notify("value");
     }
 }

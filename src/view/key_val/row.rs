@@ -1,23 +1,26 @@
 use std::cell::RefCell;
 
 use gettextrs::gettext;
+use glib::clone;
+use glib::Properties;
 use gtk::glib;
-use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
+use once_cell::sync::OnceCell as SyncOnceCell;
 
 use crate::model;
 
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::Row)]
     #[template(resource = "/com/github/marhkb/Pods/ui/key-val/row.ui")]
     pub(crate) struct Row {
-        pub(super) key_val: RefCell<Option<model::KeyVal>>,
         pub(super) bindings: RefCell<Vec<glib::Binding>>,
+        #[property(get, set = Self::set_key_val, construct, explicit_notify)]
+        pub(super) key_val: RefCell<Option<model::KeyVal>>,
         #[template_child]
         pub(super) key_entry: TemplateChild<gtk::Entry>,
         #[template_child]
@@ -46,46 +49,44 @@ mod imp {
 
     impl ObjectImpl for Row {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecObject::builder::<model::KeyVal>("key-val")
-                        .construct()
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecString::builder("key-placeholder-text")
-                        .construct()
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecString::builder("value-placeholder-text")
-                        .construct()
-                        .explicit_notify()
-                        .build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            static PROPERTIES: SyncOnceCell<Vec<glib::ParamSpec>> = SyncOnceCell::new();
+            PROPERTIES.get_or_init(|| {
+                Self::derived_properties()
+                    .iter()
+                    .cloned()
+                    .chain(vec![
+                        glib::ParamSpecString::builder("key-placeholder-text")
+                            .construct()
+                            .explicit_notify()
+                            .build(),
+                        glib::ParamSpecString::builder("value-placeholder-text")
+                            .construct()
+                            .explicit_notify()
+                            .build(),
+                    ])
+                    .collect::<Vec<_>>()
+            })
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            let obj = &*self.obj();
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "key-val" => obj.set_key_val(value.get().unwrap_or_default()),
                 "key-placeholder-text" => {
-                    obj.set_key_placeholder_text(value.get().unwrap_or_default());
+                    self.obj()
+                        .set_key_placeholder_text(value.get().unwrap_or_default());
                 }
                 "value-placeholder-text" => {
-                    obj.set_value_placeholder_text(value.get().unwrap_or_default());
+                    self.obj()
+                        .set_value_placeholder_text(value.get().unwrap_or_default());
                 }
-                _ => unimplemented!(),
+                _ => self.derived_set_property(id, value, pspec),
             }
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.obj();
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "key-val" => obj.key_val().to_value(),
-                "key-placeholder-text" => obj.key_placeholder_text().to_value(),
-                "value-placeholder-text" => obj.value_placeholder_text().to_value(),
-                _ => unimplemented!(),
+                "key-placeholder-text" => self.obj().key_placeholder_text().to_value(),
+                "value-placeholder-text" => self.obj().value_placeholder_text().to_value(),
+                _ => self.derived_property(id, pspec),
             }
         }
 
@@ -106,6 +107,38 @@ mod imp {
 
     impl WidgetImpl for Row {}
     impl ListBoxRowImpl for Row {}
+
+    impl Row {
+        pub(super) fn set_key_val(&self, value: Option<model::KeyVal>) {
+            let obj = &*self.obj();
+            if obj.key_val() == value {
+                return;
+            }
+
+            let mut bindings = self.bindings.borrow_mut();
+
+            while let Some(binding) = bindings.pop() {
+                binding.unbind();
+            }
+
+            if let Some(ref key_val) = value {
+                let binding = key_val
+                    .bind_property("key", &*self.key_entry, "text")
+                    .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
+                    .build();
+                bindings.push(binding);
+
+                let binding = key_val
+                    .bind_property("value", &*self.value_entry, "text")
+                    .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
+                    .build();
+                bindings.push(binding);
+            }
+
+            self.key_val.replace(value);
+            obj.notify("key-val");
+        }
+    }
 }
 
 glib::wrapper! {
@@ -131,39 +164,6 @@ impl Row {
             .property("key-placeholder-text", key_placeholder_text)
             .property("value-placeholder-text", value_placeholder_text)
             .build()
-    }
-    pub(crate) fn key_val(&self) -> Option<model::KeyVal> {
-        self.imp().key_val.borrow().to_owned()
-    }
-
-    pub(crate) fn set_key_val(&self, value: Option<model::KeyVal>) {
-        if self.key_val() == value {
-            return;
-        }
-
-        let imp = self.imp();
-        let mut bindings = imp.bindings.borrow_mut();
-
-        while let Some(binding) = bindings.pop() {
-            binding.unbind();
-        }
-
-        if let Some(ref key_val) = value {
-            let binding = key_val
-                .bind_property("key", &*imp.key_entry, "text")
-                .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
-                .build();
-            bindings.push(binding);
-
-            let binding = key_val
-                .bind_property("value", &*imp.value_entry, "text")
-                .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
-                .build();
-            bindings.push(binding);
-        }
-
-        imp.key_val.replace(value);
-        self.notify("key-val");
     }
 
     pub(crate) fn key_placeholder_text(&self) -> Option<glib::GString> {

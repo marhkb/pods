@@ -4,12 +4,12 @@ use adw::subclass::prelude::*;
 use adw::traits::BinExt;
 use adw::traits::ExpanderRowExt;
 use gettextrs::gettext;
+use glib::clone;
+use glib::closure;
+use glib::Properties;
 use gtk::glib;
-use gtk::glib::clone;
-use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
 
 use crate::model;
 use crate::podman;
@@ -28,14 +28,17 @@ enum TimeFormat {
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::PrunePage)]
     #[template(resource = "/com/github/marhkb/Pods/ui/images/prune-page.ui")]
     pub(crate) struct PrunePage {
         pub(super) desktop_settings: utils::DesktopSettings,
         pub(super) pods_settings: utils::PodsSettings,
         pub(super) time_format: Cell<TimeFormat>,
-        pub(super) prune_until_timestamp: Cell<i64>,
+        #[property(get, set, construct_only, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
+        #[property(get, set)]
+        pub(super) prune_until_timestamp: Cell<i64>,
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -81,36 +84,15 @@ mod imp {
 
     impl ObjectImpl for PrunePage {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecObject::builder::<model::Client>("client")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecInt64::builder("prune-until-timestamp")
-                        .explicit_notify()
-                        .build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "client" => self.client.set(value.get().unwrap()),
-                "prune-until-timestamp" => {
-                    self.obj().set_prune_until_timestamp(value.get().unwrap())
-                }
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "client" => obj.client().to_value(),
-                "prune-until-timestamp" => obj.prune_until_timestamp().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -220,24 +202,8 @@ impl From<&model::Client> for PrunePage {
 }
 
 impl PrunePage {
-    pub(crate) fn client(&self) -> Option<model::Client> {
-        self.imp().client.upgrade()
-    }
-
     pub(crate) fn has_prune_until_filter(&self) -> bool {
         self.imp().prune_until_expander_row.enables_expansion()
-    }
-
-    pub(crate) fn prune_until_timestamp(&self) -> i64 {
-        self.imp().prune_until_timestamp.get()
-    }
-
-    fn set_prune_until_timestamp(&self, value: i64) {
-        if self.prune_until_timestamp() == value {
-            return;
-        }
-        self.imp().prune_until_timestamp.set(value);
-        self.notify("prune-until-timestamp");
     }
 
     fn load_time_format(&self) {

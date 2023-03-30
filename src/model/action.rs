@@ -55,7 +55,7 @@ mod imp {
     #[properties(wrapper_type = super::Action)]
     pub(crate) struct Action {
         pub(super) abort_handle: RefCell<Option<stream::AbortHandle>>,
-        #[property(get)]
+        #[property(get, nullable)]
         pub(super) artifact: glib::WeakRef<glib::Object>,
         #[property(get, set, construct_only)]
         pub(super) num: UnsyncOnceCell<u32>,

@@ -17,7 +17,7 @@ mod imp {
     #[properties(wrapper_type = super::Overview)]
     #[template(resource = "/com/github/marhkb/Pods/ui/actions/overview.ui")]
     pub(crate) struct Overview {
-        #[property(get, set = Self::set_action_list)]
+        #[property(get, set = Self::set_action_list, nullable)]
         pub(super) action_list: glib::WeakRef<model::ActionList>,
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,

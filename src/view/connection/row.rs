@@ -1,11 +1,11 @@
 use gettextrs::gettext;
+use glib::closure;
 use glib::subclass::InitializingObject;
+use glib::Properties;
 use gtk::glib;
-use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
 
 use crate::model;
 use crate::utils;
@@ -13,11 +13,14 @@ use crate::utils;
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::Row)]
     #[template(resource = "/com/github/marhkb/Pods/ui/connection/row.ui")]
     pub(crate) struct Row {
         pub(super) css_provider: gtk::CssProvider,
+        #[property(get, set, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
+        #[property(get, set = Self::set_connection, explicit_notify, nullable)]
         pub(super) connection: glib::WeakRef<model::Connection>,
         #[template_child]
         pub(super) image: TemplateChild<gtk::Image>,
@@ -53,36 +56,15 @@ mod imp {
 
     impl ObjectImpl for Row {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecObject::builder::<model::Client>("client")
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecObject::builder::<model::Connection>("connection")
-                        .explicit_notify()
-                        .build(),
-                ]
-            });
-
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "client" => obj.set_client(value.get().unwrap()),
-                "connection" => obj.set_connection(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "client" => obj.client().to_value(),
-                "connection" => obj.connection().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -180,49 +162,33 @@ mod imp {
     }
 
     impl WidgetImpl for Row {}
+
+    impl Row {
+        pub(super) fn set_connection(&self, value: Option<&model::Connection>) {
+            let obj = &*self.obj();
+            if obj.connection().as_ref() == value {
+                return;
+            }
+
+            self.color_bin
+                .set_visible(match value.and_then(model::Connection::rgb) {
+                    Some(rgb) => {
+                        self.css_provider.load_from_data(&format!(
+                            "widget {{ background: shade({rgb}, 1.2); }}"
+                        ));
+                        true
+                    }
+                    None => false,
+                });
+
+            self.connection.set(value);
+            obj.notify("connection");
+        }
+    }
 }
 
 glib::wrapper! {
     pub(crate) struct Row(ObjectSubclass<imp::Row>)
         @extends gtk::Widget,
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
-}
-
-impl Row {
-    pub(crate) fn client(&self) -> Option<model::Client> {
-        self.imp().client.upgrade()
-    }
-
-    pub(crate) fn set_client(&self, value: Option<&model::Client>) {
-        if self.client().as_ref() == value {
-            return;
-        }
-        self.imp().client.set(value);
-        self.notify("client");
-    }
-
-    pub(crate) fn connection(&self) -> Option<model::Connection> {
-        self.imp().connection.upgrade()
-    }
-
-    pub(crate) fn set_connection(&self, value: Option<&model::Connection>) {
-        if self.connection().as_ref() == value {
-            return;
-        }
-
-        let imp = self.imp();
-
-        imp.color_bin
-            .set_visible(match value.and_then(model::Connection::rgb) {
-                Some(rgb) => {
-                    imp.css_provider
-                        .load_from_data(&format!("widget {{ background: shade({rgb}, 1.2); }}"));
-                    true
-                }
-                None => false,
-            });
-
-        imp.connection.set(value);
-        self.notify("connection");
-    }
 }

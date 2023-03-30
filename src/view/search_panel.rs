@@ -1,12 +1,12 @@
 use std::cell::RefCell;
 
+use glib::clone;
+use glib::Properties;
 use gtk::gio;
 use gtk::glib;
-use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
 use once_cell::unsync::OnceCell;
 
 use crate::model;
@@ -16,16 +16,19 @@ use crate::view;
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::SearchPanel)]
     #[template(resource = "/com/github/marhkb/Pods/ui/search-panel.ui")]
     pub(crate) struct SearchPanel {
-        pub(super) client: glib::WeakRef<model::Client>,
-        pub(super) term: RefCell<String>,
         pub(super) filter: OnceCell<gtk::Filter>,
         pub(super) sorter: OnceCell<gtk::Sorter>,
         pub(super) images_model: RefCell<Option<gio::ListModel>>,
         pub(super) containers_model: RefCell<Option<gio::ListModel>>,
         pub(super) pods_model: RefCell<Option<gio::ListModel>>,
+        #[property(get, set = Self::set_client, explicit_notify, nullable)]
+        pub(super) client: glib::WeakRef<model::Client>,
+        #[property(get, set)]
+        pub(super) term: RefCell<String>,
         #[template_child]
         pub(super) main_stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -59,35 +62,15 @@ mod imp {
 
     impl ObjectImpl for SearchPanel {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecObject::builder::<model::Client>("client")
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecString::builder("term")
-                        .explicit_notify()
-                        .build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "client" => obj.set_client(value.get().unwrap()),
-                "term" => obj.set_term(value.get().unwrap_or_default()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "client" => obj.client().to_value(),
-                "term" => obj.term().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -162,6 +145,53 @@ mod imp {
     }
 
     impl WidgetImpl for SearchPanel {}
+
+    impl SearchPanel {
+        pub(super) fn set_client(&self, value: Option<&model::Client>) {
+            let obj = &*self.obj();
+            if obj.client().as_ref() == value {
+                return;
+            }
+
+            if let Some(client) = value {
+                obj.setup_model(
+                    client.image_list().upcast(),
+                    self.images_list_box.get(),
+                    |item| view::ImageRow::from(item.downcast_ref().unwrap()).upcast(),
+                    &self.images_model,
+                );
+
+                obj.setup_model(
+                    client.container_list().upcast(),
+                    self.containers_list_box.get(),
+                    |item| view::ContainerRow::from(item.downcast_ref().unwrap()).upcast(),
+                    &self.containers_model,
+                );
+
+                obj.setup_model(
+                    client.pod_list().upcast(),
+                    self.pods_list_box.get(),
+                    |item| view::PodRow::from(item.downcast_ref().unwrap()).upcast(),
+                    &self.pods_model,
+                );
+
+                client.container_list().connect_container_name_changed(
+                    clone!(@weak obj => move |_, _| {
+                        glib::timeout_add_seconds_local_once(
+                            1,
+                            clone!(@weak obj => move || {
+                                obj.update_filter();
+                                obj.update_sorter();
+                            }),
+                        );
+                    }),
+                );
+            }
+
+            self.client.set(value);
+            obj.notify("client");
+        }
+    }
 }
 
 glib::wrapper! {
@@ -171,56 +201,6 @@ glib::wrapper! {
 }
 
 impl SearchPanel {
-    pub(crate) fn client(&self) -> Option<model::Client> {
-        self.imp().client.upgrade()
-    }
-
-    pub(crate) fn set_client(&self, value: Option<&model::Client>) {
-        if self.client().as_ref() == value {
-            return;
-        }
-
-        let imp = self.imp();
-
-        if let Some(client) = value {
-            self.setup_model(
-                client.image_list().upcast(),
-                imp.images_list_box.get(),
-                |item| view::ImageRow::from(item.downcast_ref().unwrap()).upcast(),
-                &imp.images_model,
-            );
-
-            self.setup_model(
-                client.container_list().upcast(),
-                imp.containers_list_box.get(),
-                |item| view::ContainerRow::from(item.downcast_ref().unwrap()).upcast(),
-                &imp.containers_model,
-            );
-
-            self.setup_model(
-                client.pod_list().upcast(),
-                imp.pods_list_box.get(),
-                |item| view::PodRow::from(item.downcast_ref().unwrap()).upcast(),
-                &imp.pods_model,
-            );
-
-            client.container_list().connect_container_name_changed(
-                clone!(@weak self as obj => move |_, _| {
-                    glib::timeout_add_seconds_local_once(
-                        1,
-                        clone!(@weak obj => move || {
-                            obj.update_filter();
-                            obj.update_sorter();
-                        }),
-                    );
-                }),
-            );
-        }
-
-        imp.client.set(value);
-        self.notify("client");
-    }
-
     fn setup_model<P: Fn(&glib::Object) -> gtk::Widget + 'static>(
         &self,
         model: gio::ListModel,
@@ -248,18 +228,6 @@ impl SearchPanel {
             create_widget_func(item.downcast_ref().unwrap())
         });
         this_model.replace(Some(model.upcast()));
-    }
-
-    pub(crate) fn term(&self) -> String {
-        self.imp().term.borrow().clone()
-    }
-
-    pub(crate) fn set_term(&self, value: String) {
-        if self.term() == value {
-            return;
-        }
-        self.imp().term.replace(value);
-        self.notify("term");
     }
 
     fn update_view(&self) {
