@@ -42,6 +42,20 @@
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="1.1.0" date="2023-03-28">
+      <description>
+        <p>Pods 1.1.0 contains the following features, bug fixes and improvements:</p>
+        <ul>
+          <li>Dependencies have been updated. This includes the update to GNOME 44 libraries.</li>
+          <li>AdwBanner is now used in the container log page instead of GtkInfoBar.</li>
+          <li>The GNOME Coc is acknowledged in the README.md.</li>
+          <li>The main window and all dialogs can now be closed with Ctrl+W.</li>
+          <li>The memory icon has been improved, thanks to @daudix-UFO.</li>
+          <li>Internal code improvements have landed, like the port to glib-rs' new properties proc macro.</li>
+          <li>Translations have been updated.</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.1.0~beta.4" date="2023-03-03">
       <description>
         <p>Pods 1.1.0-beta.4 contains the following features, bug fixes and improvements:</p>
