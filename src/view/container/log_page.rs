@@ -87,7 +87,7 @@ mod imp {
         #[template_child]
         pub(super) source_buffer: TemplateChild<sourceview5::Buffer>,
         #[template_child]
-        pub(super) info_bar: TemplateChild<gtk::InfoBar>,
+        pub(super) banner: TemplateChild<adw::Banner>,
     }
 
     #[glib::object_subclass]
@@ -344,7 +344,7 @@ mod imp {
                 .chain_closure::<bool>(closure!(|_: Self::Type, status: model::ContainerStatus| {
                     status != model::ContainerStatus::Running
                 }))
-                .bind(&*self.info_bar, "revealed", Some(obj));
+                .bind(&*self.banner, "revealed", Some(obj));
 
             if let Some(container) = obj.container() {
                 container.connect_notify_local(
