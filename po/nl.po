@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-29 19:39+0100\n"
-"PO-Revision-Date: 2023-02-01 09:05+0000\n"
+"PO-Revision-Date: 2023-04-05 19:47+0000\n"
 "Last-Translator: Philip Goto <philip.goto@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/pods/1-0/nl/>\n"
 "Language: nl\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.16-dev\n"
+"X-Generator: Weblate 4.17-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
@@ -1636,7 +1636,7 @@ msgstr "Annuleren"
 msgid "translator-credits"
 msgstr ""
 "Gert-dev\n"
-"Philip Goto <philip.goto@gmail.com>"
+"Philip Goto https://flipflop97.github.io/"
 
 #: src/application.rs:192
 msgid "Translators"
