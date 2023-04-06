@@ -46,6 +46,16 @@
           </object>
         </child>
 
+        <child>
+          <object class="GtkToggleButton" id="search_button">
+            <style>
+              <class name="flat"/>
+            </style>
+            <property name="icon-name">system-search-symbolic</property>
+            <property name="tooltip-text" translatable="yes">Search</property>
+          </object>
+        </child>
+
       </object>
     </property>
 

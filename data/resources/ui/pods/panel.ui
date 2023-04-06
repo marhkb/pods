@@ -61,8 +61,7 @@
                         <property name="header-suffix">
                           <object class="GtkBox" id="header_suffix_box">
                             <property name="spacing">9</property>
-                            <property name="halign">center</property>
-                            <property name="valign">center</property>
+                            <property name="valign">end</property>
 
                             <child>
                               <object class="GtkLabel">
@@ -73,6 +72,16 @@
                             <child>
                               <object class="GtkSwitch" id="show_only_running_switch">
                                 <property name="valign">center</property>
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="GtkToggleButton" id="search_button">
+                                <style>
+                                  <class name="flat"/>
+                                </style>
+                                <property name="icon-name">system-search-symbolic</property>
+                                <property name="tooltip-text" translatable="yes">Search</property>
                               </object>
                             </child>
 
@@ -91,11 +100,31 @@
                         </property>
 
                         <child>
-                          <object class="GtkListBox" id="list_box">
-                            <style>
-                              <class name="boxed-list"/>
-                            </style>
-                            <property name="selection-mode">none</property>
+                          <object class="GtkBox">
+                            <property name="orientation">vertical</property>
+
+                            <child>
+                              <object class="GtkRevealer" id="search_bar">
+                                <property name="reveal-child" bind-source="search_button" bind-property="active" bind-flags="sync-create"/>
+
+                                <property name="child">
+                                  <object class="GtkSearchEntry" id="search_entry">
+                                    <property name="margin-bottom">9</property>
+                                  </object>
+                                </property>
+
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="GtkListBox" id="list_box">
+                                <style>
+                                  <class name="boxed-list"/>
+                                </style>
+                                <property name="selection-mode">none</property>
+                              </object>
+                            </child>
+
                           </object>
                         </child>
 
@@ -216,7 +245,8 @@
                                 <style>
                                   <class name="flat"/>
                                 </style>
-                                <property name="action-name">pods-panel.restart-selection</property>
+                                <property
+                                  name="action-name">pods-panel.restart-selection</property>
 
                                 <child>
                                   <object class="GtkBox">
@@ -236,8 +266,7 @@
 
                                   </object>
                                 </child>
-                                ^
-                              </object>
+                                ^ </object>
                             </child>
 
                             <child>
@@ -356,7 +385,8 @@
             <property name="child">
               <object class="AdwStatusPage">
                 <property name="title" translatable="yes">No Pods Found</property>
-                <property name="description" translatable="yes">You can use the button below to create an initial pod.</property>
+                <property name="description" translatable="yes">You can use the button below to
+                  create an initial pod.</property>
 
                 <child>
                   <object class="GtkButton">
