@@ -101,6 +101,10 @@ meson _build --prefix=/usr/local
 ninja -C _build install
 ```
 
+## Link to the guide to enable the podman socket
+
+[Podman socket activation](https://github.com/containers/podman/blob/cea9340242f3f6cf41f20fb0b6239aa3db5decd6/docs/tutorials/socket_activation.md)
+
 
 ## 🙌 Help translate Pods
 
