@@ -259,26 +259,6 @@
                                           <object class="AdwViewStack" id="panel_stack">
                                             <property name="vexpand">True</property>
 
-                                            <!-- Images Panel -->
-                                            <child>
-                                              <object class="AdwViewStackPage" id="images_view_stack_page">
-                                                <property name="icon-name">image-x-generic-symbolic</property>
-                                                <property name="name">images</property>
-                                                <property name="title" translatable="yes">Images</property>
-                                                <property name="child">
-                                                  <object class="PdsImagesPanel" id="images_panel">
-                                                    <binding name="image-list">
-                                                      <lookup name="image-list" type="Client">
-                                                        <lookup name="client" type="ConnectionManager">
-                                                          <lookup name="connection-manager">PdsWindow</lookup>
-                                                        </lookup>
-                                                      </lookup>
-                                                    </binding>
-                                                  </object>
-                                                </property>
-                                              </object>
-                                            </child>
-
                                             <!-- Containers Panel -->
                                             <child>
                                               <object class="AdwViewStackPage" id="containers_view_stack_page">
@@ -309,6 +289,26 @@
                                                   <object class="PdsPodsPanel" id="pods_panel">
                                                     <binding name="pod-list">
                                                       <lookup name="pod-list" type="Client">
+                                                        <lookup name="client" type="ConnectionManager">
+                                                          <lookup name="connection-manager">PdsWindow</lookup>
+                                                        </lookup>
+                                                      </lookup>
+                                                    </binding>
+                                                  </object>
+                                                </property>
+                                              </object>
+                                            </child>
+
+                                            <!-- Images Panel -->
+                                            <child>
+                                              <object class="AdwViewStackPage" id="images_view_stack_page">
+                                                <property name="icon-name">image-x-generic-symbolic</property>
+                                                <property name="name">images</property>
+                                                <property name="title" translatable="yes">Images</property>
+                                                <property name="child">
+                                                  <object class="PdsImagesPanel" id="images_panel">
+                                                    <binding name="image-list">
+                                                      <lookup name="image-list" type="Client">
                                                         <lookup name="client" type="ConnectionManager">
                                                           <lookup name="connection-manager">PdsWindow</lookup>
                                                         </lookup>

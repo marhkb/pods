@@ -60,10 +60,6 @@ mod imp {
         #[template_child]
         pub(super) panel_stack: TemplateChild<adw::ViewStack>,
         #[template_child]
-        pub(super) images_view_stack_page: TemplateChild<adw::ViewStackPage>,
-        #[template_child]
-        pub(super) images_panel: TemplateChild<view::ImagesPanel>,
-        #[template_child]
         pub(super) containers_view_stack_page: TemplateChild<adw::ViewStackPage>,
         #[template_child]
         pub(super) containers_panel: TemplateChild<view::ContainersPanel>,
@@ -71,6 +67,10 @@ mod imp {
         pub(super) pods_view_stack_page: TemplateChild<adw::ViewStackPage>,
         #[template_child]
         pub(super) pods_panel: TemplateChild<view::PodsPanel>,
+        #[template_child]
+        pub(super) images_view_stack_page: TemplateChild<adw::ViewStackPage>,
+        #[template_child]
+        pub(super) images_panel: TemplateChild<view::ImagesPanel>,
         #[template_child]
         pub(super) switcher_bar: TemplateChild<adw::ViewSwitcherBar>,
         #[template_child]
@@ -303,9 +303,9 @@ mod imp {
                 clone!(@weak obj => move || {
                     let imp = obj.imp();
                     match imp.panel_stack.visible_child_name().as_deref() {
-                        Some("images") => imp.images_view_stack_page.set_needs_attention(false),
                         Some("containers") => imp.containers_view_stack_page.set_needs_attention(false),
                         Some("pods") => imp.pods_view_stack_page.set_needs_attention(false),
+                        Some("images") => imp.images_view_stack_page.set_needs_attention(false),
                         _ => {}
                     }
                 }),
@@ -362,19 +362,6 @@ mod imp {
                                 imp.main_stack.set_visible_child_full("client", gtk::StackTransitionType::None);
                                 obj.exit_selection_mode();
 
-                                imp.images_view_stack_page.set_needs_attention(false);
-                                client.image_list().connect_notify_local(
-                                    Some("len"),
-                                    clone!(@weak obj => move |list, _|
-                                {
-                                    let imp = obj.imp();
-                                    if imp.panel_stack.visible_child_name().as_deref() != Some("images")
-                                        && list.initialized()
-                                    {
-                                        imp.images_view_stack_page.set_needs_attention(true);
-                                    }
-                                }));
-
                                 imp.containers_view_stack_page.set_needs_attention(false);
                                 client.container_list().connect_notify_local(
                                     Some("len"),
@@ -401,6 +388,18 @@ mod imp {
                                     }
                                 }));
 
+                                imp.images_view_stack_page.set_needs_attention(false);
+                                client.image_list().connect_notify_local(
+                                    Some("len"),
+                                    clone!(@weak obj => move |list, _|
+                                {
+                                    let imp = obj.imp();
+                                    if imp.panel_stack.visible_child_name().as_deref() != Some("images")
+                                        && list.initialized()
+                                    {
+                                        imp.images_view_stack_page.set_needs_attention(true);
+                                    }
+                                }));
                             }),
                             clone!(@weak obj => move |e| obj.client_err_op(e)),
                             clone!(@weak obj, @weak manager => move |e| {
@@ -630,19 +629,6 @@ impl Window {
         )
         .bind(&*imp.switcher_bar, "reveal", glib::Object::NONE);
 
-        view::ImagesPanel::this_expression("image-list")
-            .chain_property::<model::ImageList>("num-selected")
-            .chain_closure::<String>(closure!(|_: view::ImagesPanel, selected: u32| ngettext!(
-                "{} Selected Image",
-                "{} Selected Images",
-                selected,
-                selected
-            )))
-            .bind(
-                &*imp.selected_images_button,
-                "label",
-                Some(&*imp.images_panel),
-            );
         view::ContainersPanel::this_expression("container-list")
             .chain_property::<model::ContainerList>("num-selected")
             .chain_closure::<String>(closure!(
@@ -658,6 +644,7 @@ impl Window {
                 "label",
                 Some(&*imp.containers_panel),
             );
+
         view::PodsPanel::this_expression("pod-list")
             .chain_property::<model::PodList>("num-selected")
             .chain_closure::<String>(closure!(|_: view::PodsPanel, selected: u32| ngettext!(
@@ -668,15 +655,29 @@ impl Window {
             )))
             .bind(&*imp.selected_pods_button, "label", Some(&*imp.pods_panel));
 
-        imp.images_panel
-            .connect_exit_selection_mode(clone!(@weak self as obj => move |_| {
-                obj.imp().header_stack.set_visible_child_name("main");
-            }));
+        view::ImagesPanel::this_expression("image-list")
+            .chain_property::<model::ImageList>("num-selected")
+            .chain_closure::<String>(closure!(|_: view::ImagesPanel, selected: u32| ngettext!(
+                "{} Selected Image",
+                "{} Selected Images",
+                selected,
+                selected
+            )))
+            .bind(
+                &*imp.selected_images_button,
+                "label",
+                Some(&*imp.images_panel),
+            );
+
         imp.containers_panel
             .connect_exit_selection_mode(clone!(@weak self as obj => move |_| {
                 obj.imp().header_stack.set_visible_child_name("main");
             }));
         imp.pods_panel
+            .connect_exit_selection_mode(clone!(@weak self as obj => move |_| {
+                obj.imp().header_stack.set_visible_child_name("main");
+            }));
+        imp.images_panel
             .connect_exit_selection_mode(clone!(@weak self as obj => move |_| {
                 obj.imp().header_stack.set_visible_child_name("main");
             }));
@@ -714,13 +715,6 @@ impl Window {
 
         if let Some(name) = imp.panel_stack.visible_child_name() {
             match name.as_str() {
-                "images" => {
-                    let list = imp.images_panel.image_list().unwrap();
-                    if list.len() > 0 {
-                        imp.header_stack.set_visible_child_name("selection");
-                        list.set_selection_mode(true);
-                    }
-                }
                 "containers" => {
                     let list = imp.containers_panel.container_list().unwrap();
                     if list.len() > 0 {
@@ -730,6 +724,13 @@ impl Window {
                 }
                 "pods" => {
                     let list = imp.pods_panel.pod_list().unwrap();
+                    if list.len() > 0 {
+                        imp.header_stack.set_visible_child_name("selection");
+                        list.set_selection_mode(true);
+                    }
+                }
+                "images" => {
+                    let list = imp.images_panel.image_list().unwrap();
                     if list.len() > 0 {
                         imp.header_stack.set_visible_child_name("selection");
                         list.set_selection_mode(true);
@@ -745,13 +746,13 @@ impl Window {
 
         imp.header_stack.set_visible_child_name("main");
 
-        if let Some(list) = imp.images_panel.image_list() {
-            list.set_selection_mode(false);
-        }
         if let Some(list) = imp.containers_panel.container_list() {
             list.set_selection_mode(false);
         }
         if let Some(list) = imp.pods_panel.pod_list() {
+            list.set_selection_mode(false);
+        }
+        if let Some(list) = imp.images_panel.image_list() {
             list.set_selection_mode(false);
         }
     }
@@ -760,12 +761,6 @@ impl Window {
         let imp = self.imp();
 
         if let Some(list) = imp
-            .images_panel
-            .image_list()
-            .filter(|list| list.is_selection_mode())
-        {
-            list.select_all()
-        } else if let Some(list) = imp
             .containers_panel
             .container_list()
             .filter(|list| list.is_selection_mode())
@@ -774,6 +769,12 @@ impl Window {
         } else if let Some(list) = imp
             .pods_panel
             .pod_list()
+            .filter(|list| list.is_selection_mode())
+        {
+            list.select_all()
+        } else if let Some(list) = imp
+            .images_panel
+            .image_list()
             .filter(|list| list.is_selection_mode())
         {
             list.select_all()
@@ -784,12 +785,6 @@ impl Window {
         let imp = self.imp();
 
         if let Some(list) = imp
-            .images_panel
-            .image_list()
-            .filter(|list| list.is_selection_mode())
-        {
-            list.select_none()
-        } else if let Some(list) = imp
             .containers_panel
             .container_list()
             .filter(|list| list.is_selection_mode())
@@ -798,6 +793,12 @@ impl Window {
         } else if let Some(list) = imp
             .pods_panel
             .pod_list()
+            .filter(|list| list.is_selection_mode())
+        {
+            list.select_none()
+        } else if let Some(list) = imp
+            .images_panel
+            .image_list()
             .filter(|list| list.is_selection_mode())
         {
             list.select_none()
@@ -851,11 +852,11 @@ impl Window {
             imp.panel_stack
                 .visible_child_name()
                 .map(|name| match name.as_str() {
-                    "images" => imp.images_panel.activate_action("images.pull", None),
                     "containers" => imp
                         .containers_panel
                         .activate_action("containers.create", None),
                     "pods" => imp.pods_panel.activate_action("pods.create", None),
+                    "images" => imp.images_panel.activate_action("images.pull", None),
                     _ => unreachable!(),
                 });
         }
