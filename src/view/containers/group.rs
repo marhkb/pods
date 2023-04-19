@@ -124,12 +124,18 @@ mod imp {
             )
             .bind(obj, "description", Some(obj));
 
-            let properties_filter =
-                gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
-                    !obj.imp().show_only_running_switch.is_active() ||
-                        item.downcast_ref::<model::Container>().unwrap().status()
-                            == model::ContainerStatus::Running
-                }));
+            let properties_filter = gtk::AnyFilter::new();
+            properties_filter.append(gtk::CustomFilter::new(
+                clone!(@weak obj => @default-return false, move |_| {
+                    !obj.imp().show_only_running_switch.is_active()
+                }),
+            ));
+            properties_filter.append(gtk::BoolFilter::new(Some(
+                model::Container::this_expression("status").chain_closure::<bool>(closure!(
+                    |_: model::Container, status: model::ContainerStatus| status
+                        == model::ContainerStatus::Running
+                )),
+            )));
 
             let sorter = gtk::CustomSorter::new(|obj1, obj2| {
                 let container1 = obj1.downcast_ref::<model::Container>().unwrap();
