@@ -150,7 +150,15 @@ mod imp {
             self.sorter.set(sorter.upcast()).unwrap();
 
             self.show_only_running_switch.connect_active_notify(
-                clone!(@weak obj => move |_| obj.update_properties_filter()),
+                clone!(@weak obj => move |switch| {
+                    obj.update_properties_filter(
+                        if switch.is_active() {
+                            gtk::FilterChange::MoreStrict
+                        } else {
+                            gtk::FilterChange::LessStrict
+                        }
+                    );
+                }),
             );
         }
     }
@@ -182,7 +190,9 @@ mod imp {
             if let Some(value) = value {
                 value.connect_notify_local(
                     Some("running"),
-                    clone!(@weak obj => move |_, _| obj.update_properties_filter()),
+                    clone!(@weak obj => move |_, _| {
+                        obj.update_properties_filter(gtk::FilterChange::Different)
+                    }),
                 );
 
                 value.connect_container_name_changed(clone!(@weak obj => move |_, _| {
@@ -229,12 +239,12 @@ impl Group {
         "containers-group.create-container"
     }
 
-    fn update_properties_filter(&self) {
+    fn update_properties_filter(&self, filter_change: gtk::FilterChange) {
         self.imp()
             .properties_filter
             .get()
             .unwrap()
-            .changed(gtk::FilterChange::Different);
+            .changed(filter_change);
     }
 
     fn update_sorter(&self) {
