@@ -180,7 +180,6 @@ mod imp {
             }
 
             if let Some(value) = value {
-                // TODO: For multi-client: Figure out whether signal handlers need to be disconnected.
                 value.connect_notify_local(
                     Some("running"),
                     clone!(@weak obj => move |_, _| obj.update_properties_filter()),
