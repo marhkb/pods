@@ -131,10 +131,6 @@ mod imp {
 
             let obj = &*self.obj();
 
-            self.settings.connect_changed(
-                Some("show-only-running-pods"),
-                clone!(@weak obj => move |_, _| obj.update_properties_filter()),
-            );
             self.settings
                 .bind(
                     "show-only-running-pods",
@@ -239,6 +235,18 @@ mod imp {
                 .set(properties_filter.upcast())
                 .unwrap();
             self.sorter.set(sorter.upcast()).unwrap();
+
+            self.show_only_running_switch.connect_active_notify(
+                clone!(@weak obj => move |switch| {
+                    obj.update_properties_filter(
+                        if switch.is_active() {
+                            gtk::FilterChange::MoreStrict
+                        } else {
+                            gtk::FilterChange::LessStrict
+                        }
+                    );
+                }),
+            );
         }
 
         fn dispose(&self) {
@@ -257,7 +265,9 @@ mod imp {
 
             value.connect_notify_local(
                 Some("running"),
-                clone!(@weak obj => move |_ ,_| obj.update_properties_filter()),
+                clone!(@weak obj => move |_ ,_| {
+                    obj.update_properties_filter(gtk::FilterChange::Different);
+                }),
             );
 
             let model = gtk::SortListModel::new(
@@ -306,12 +316,12 @@ impl Default for Panel {
 }
 
 impl Panel {
-    pub(crate) fn update_properties_filter(&self) {
+    pub(crate) fn update_properties_filter(&self, filter_change: gtk::FilterChange) {
         self.imp()
             .properties_filter
             .get()
             .unwrap()
-            .changed(gtk::FilterChange::Different);
+            .changed(filter_change);
     }
 
     fn create_pod(&self) {

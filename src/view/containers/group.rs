@@ -124,12 +124,18 @@ mod imp {
             )
             .bind(obj, "description", Some(obj));
 
-            let properties_filter =
-                gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
-                    !obj.imp().show_only_running_switch.is_active() ||
-                        item.downcast_ref::<model::Container>().unwrap().status()
-                            == model::ContainerStatus::Running
-                }));
+            let properties_filter = gtk::AnyFilter::new();
+            properties_filter.append(gtk::CustomFilter::new(
+                clone!(@weak obj => @default-return false, move |_| {
+                    !obj.imp().show_only_running_switch.is_active()
+                }),
+            ));
+            properties_filter.append(gtk::BoolFilter::new(Some(
+                model::Container::this_expression("status").chain_closure::<bool>(closure!(
+                    |_: model::Container, status: model::ContainerStatus| status
+                        == model::ContainerStatus::Running
+                )),
+            )));
 
             let sorter = gtk::CustomSorter::new(|obj1, obj2| {
                 let container1 = obj1.downcast_ref::<model::Container>().unwrap();
@@ -144,7 +150,15 @@ mod imp {
             self.sorter.set(sorter.upcast()).unwrap();
 
             self.show_only_running_switch.connect_active_notify(
-                clone!(@weak obj => move |_| obj.update_properties_filter()),
+                clone!(@weak obj => move |switch| {
+                    obj.update_properties_filter(
+                        if switch.is_active() {
+                            gtk::FilterChange::MoreStrict
+                        } else {
+                            gtk::FilterChange::LessStrict
+                        }
+                    );
+                }),
             );
         }
     }
@@ -174,10 +188,11 @@ mod imp {
             }
 
             if let Some(value) = value {
-                // TODO: For multi-client: Figure out whether signal handlers need to be disconnected.
                 value.connect_notify_local(
                     Some("running"),
-                    clone!(@weak obj => move |_, _| obj.update_properties_filter()),
+                    clone!(@weak obj => move |_, _| {
+                        obj.update_properties_filter(gtk::FilterChange::Different)
+                    }),
                 );
 
                 value.connect_container_name_changed(clone!(@weak obj => move |_, _| {
@@ -224,12 +239,12 @@ impl Group {
         "containers-group.create-container"
     }
 
-    fn update_properties_filter(&self) {
+    fn update_properties_filter(&self, filter_change: gtk::FilterChange) {
         self.imp()
             .properties_filter
             .get()
             .unwrap()
-            .changed(gtk::FilterChange::Different);
+            .changed(filter_change);
     }
 
     fn update_sorter(&self) {
