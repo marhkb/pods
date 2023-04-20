@@ -183,7 +183,7 @@ impl Pod {
             .property("name", report.name.unwrap())
             .property(
                 "num-containers",
-                &report.containers.map(|c| c.len() as u64).unwrap_or(0),
+                report.containers.map(|c| c.len() as u64).unwrap_or(0),
             )
             .property("status", status(report.status.as_deref()))
             .build()
