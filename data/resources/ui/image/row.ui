@@ -5,9 +5,9 @@
 
     <child>
       <object class="GtkBox">
-        <property name="margin-top">7</property>
+        <property name="margin-top">8</property>
         <property name="margin-end">12</property>
-        <property name="margin-bottom">9</property>
+        <property name="margin-bottom">8</property>
         <property name="margin-start">12</property>
 
         <child>
