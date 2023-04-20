@@ -280,7 +280,7 @@ impl Container {
             )
             .property(
                 "health-status",
-                &health_status(list_container.status.as_deref()),
+                health_status(list_container.status.as_deref()),
             )
             .property("id", list_container.id)
             .property("image-id", list_container.image_id)
