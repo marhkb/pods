@@ -96,12 +96,12 @@ impl RepoTagList {
             .map(|(_, c)| c.clone())
     }
 
-    pub(crate) fn contains(&self, uppercase_term: &str) -> bool {
+    pub(crate) fn contains(&self, lowercase_term: &str) -> bool {
         self.imp()
             .list
             .borrow()
             .keys()
-            .any(|full| full.to_uppercase().contains(uppercase_term))
+            .any(|full| full.contains(lowercase_term))
     }
 
     pub(crate) fn add(&self, repo_tag: model::RepoTag) {
