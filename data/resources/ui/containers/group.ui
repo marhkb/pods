@@ -19,26 +19,32 @@
 
     <property name="header-suffix">
       <object class="GtkBox" id="header_suffix_box">
-        <property name="spacing">9</property>
-        <property name="halign">center</property>
-        <property name="valign">center</property>
+        <property name="spacing">15</property>
+        <property name="valign">end</property>
 
         <child>
-          <object class="GtkLabel">
-            <property name="label" translatable="yes">Only running</property>
-          </object>
-        </child>
+          <object class="GtkBox">
+            <property name="spacing">6</property>
 
-        <child>
-          <object class="GtkSwitch" id="show_only_running_switch">
-            <property name="valign">center</property>
+            <child>
+              <object class="GtkLabel">
+                <property name="label" translatable="yes">Only running</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkSwitch" id="show_only_running_switch">
+                <property name="valign">center</property>
+              </object>
+            </child>
+
           </object>
         </child>
 
         <child>
           <object class="GtkButton" id="create_container_button">
             <style>
-              <class name="flat"/>
+              <class name="circular"/>
             </style>
             <property name="action-name">containers-group.create-container</property>
             <property name="icon-name">list-add-symbolic</property>
