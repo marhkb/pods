@@ -19,7 +19,7 @@ use crate::model::SelectableListExt;
 use crate::utils;
 use crate::view;
 
-const ACTION_PULL_IMAGE: &str = "images-panel.pull-image";
+pub(crate) const ACTION_PULL_IMAGE: &str = "images-panel.pull-image";
 const ACTION_BUILD_IMAGE: &str = "images-panel.build-image";
 const ACTION_PRUNE_UNUSED_IMAGES: &str = "images-panel.prune-unused-images";
 const ACTION_SHOW_ADD_IMAGE_MENU: &str = "images-panel.show-add-image-menu";
@@ -320,6 +320,10 @@ impl Default for Panel {
 }
 
 impl Panel {
+    pub(crate) fn action_pull_image() -> &'static str {
+        ACTION_PULL_IMAGE
+    }
+
     pub(crate) fn update_properties_filter(&self, filter_change: gtk::FilterChange) {
         self.imp()
             .properties_filter
