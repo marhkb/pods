@@ -316,6 +316,10 @@ impl Default for Panel {
 }
 
 impl Panel {
+    pub(crate) fn action_create_pod() -> &'static str {
+        ACTION_CREATE_POD
+    }
+
     pub(crate) fn update_properties_filter(&self, filter_change: gtk::FilterChange) {
         self.imp()
             .properties_filter

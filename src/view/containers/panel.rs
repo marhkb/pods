@@ -209,6 +209,10 @@ impl Default for Panel {
 }
 
 impl Panel {
+    pub(crate) fn action_create_container() -> &'static str {
+        view::ContainersGroup::action_create_container()
+    }
+
     pub(crate) fn create_container(&self) {
         if let Some(client) = self
             .container_list()

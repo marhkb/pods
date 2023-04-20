@@ -851,11 +851,15 @@ impl Window {
             imp.panel_stack
                 .visible_child_name()
                 .map(|name| match name.as_str() {
-                    "images" => imp.images_panel.activate_action("images.pull", None),
+                    "images" => imp
+                        .images_panel
+                        .activate_action(view::ImagesPanel::action_pull_image(), None),
                     "containers" => imp
                         .containers_panel
-                        .activate_action("containers.create", None),
-                    "pods" => imp.pods_panel.activate_action("pods.create", None),
+                        .activate_action(view::ContainersPanel::action_create_container(), None),
+                    "pods" => imp
+                        .pods_panel
+                        .activate_action(view::PodsPanel::action_create_pod(), None),
                     _ => unreachable!(),
                 });
         }
