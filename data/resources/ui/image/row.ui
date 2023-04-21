@@ -5,9 +5,9 @@
 
     <child>
       <object class="GtkBox">
-        <property name="margin-top">8</property>
+        <property name="margin-top">7</property>
         <property name="margin-end">12</property>
-        <property name="margin-bottom">8</property>
+        <property name="margin-bottom">7</property>
         <property name="margin-start">12</property>
 
         <child>
@@ -36,6 +36,7 @@
                 <property name="valign">center</property>
                 <property name="orientation">vertical</property>
                 <property name="spacing">1</property>
+                <property name="margin-bottom">2</property>
 
                 <child>
                   <object class="GtkLabel" id="id_label">
