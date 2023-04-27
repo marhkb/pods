@@ -1,5 +1,6 @@
 use std::borrow::Borrow;
 use std::cell::Cell;
+use std::cell::RefCell;
 use std::collections::HashSet;
 use std::ops::Deref;
 
@@ -20,10 +21,14 @@ use crate::utils;
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, Properties)]
+    #[derive(Default, Properties)]
     #[properties(wrapper_type = super::Image)]
     pub(crate) struct Image {
-        pub(super) can_inspect: Cell<bool>,
+        pub(super) inspection_observers: RefCell<
+            Option<
+                utils::AsyncObservers<podman::Result<podman::models::InspectImageResponseLibpod>>,
+            >,
+        >,
         #[property(get, set, construct_only, nullable)]
         pub(super) image_list: glib::WeakRef<model::ImageList>,
         #[property(get = Self::container_list)]
@@ -76,11 +81,6 @@ mod imp {
 
         fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             self.derived_property(id, pspec)
-        }
-
-        fn constructed(&self) {
-            self.parent_constructed();
-            self.can_inspect.set(true);
         }
     }
 
@@ -202,31 +202,44 @@ impl Image {
 
     pub(crate) fn inspect<F>(&self, op: F)
     where
-        F: FnOnce(podman::Error) + 'static,
+        F: Fn(Result<model::Image, podman::Error>) + 'static,
     {
-        let imp = self.imp();
-        if !imp.can_inspect.get() {
+        if let Some(observers) = self.imp().inspection_observers.borrow().as_ref() {
+            observers.add(clone!(@weak self as obj => move |result| match result {
+                Ok(_) => op(Ok(obj)),
+                Err(e) => {
+                    log::error!("Error on inspecting image '{}': {e}", obj.id());
+                    op(Err(e));
+                }
+            }));
+
             return;
         }
 
-        imp.can_inspect.set(false);
-
-        utils::do_async(
+        let observers = utils::do_async_with_observers(
             {
                 let image = self.api().unwrap();
                 async move { image.inspect().await }
             },
             clone!(@weak self as obj => move |result| {
+                let imp = obj.imp();
+
+                imp.inspection_observers.replace(None);
+
                 match result {
-                    Ok(data) => obj.imp().set_data(model::ImageData::from(data)),
+                    Ok(data) => {
+                        imp.set_data(model::ImageData::from(data));
+                        op(Ok(obj));
+                    },
                     Err(e) => {
                         log::error!("Error on inspecting image '{}': {e}", obj.id());
-                        op(e);
-                    },
+                        op(Err(e));
+                    }
                 }
-                obj.imp().can_inspect.set(true);
             }),
         );
+
+        self.imp().inspection_observers.replace(Some(observers));
     }
 }
 
