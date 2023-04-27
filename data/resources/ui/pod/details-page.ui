@@ -31,71 +31,10 @@
               </object>
             </child>
 
+            <!-- Pod Controls -->
             <child>
               <object class="AdwPreferencesPage" id="preferences_page">
                 <property name="vexpand">True</property>
-
-                <!-- Details Panel -->
-                <child>
-                  <object class="AdwPreferencesGroup">
-                    <property name="title" translatable="yes">Properties</property>
-
-                    <property name="header-suffix">
-                      <object class="GtkSpinner" id="inspection_spinner">
-                        <property name="spinning">True</property>
-                        <property name="width-request">18</property>
-                      </object>
-                    </property>
-
-                    <child>
-                      <object class="PdsPropertyRow">
-                        <property name="key" translatable="yes">Name</property>
-                        <binding name="value">
-                          <lookup name="name" type="Pod">
-                            <lookup name="pod">PdsPodDetailsPage</lookup>
-                          </lookup>
-                        </binding>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="PdsPropertyRow" id="id_row">
-                        <property name="key" translatable="yes">Id</property>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="PdsPropertyRow" id="created_row">
-                        <property name="key" translatable="yes">Created</property>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="PdsPropertyWidgetRow">
-                        <property name="key" translatable="yes">Status</property>
-
-                        <property name="widget">
-                          <object class="GtkLabel" id="status_label">
-                            <style>
-                              <class name="status-badge"/>
-                            </style>
-                            <property name="halign">end</property>
-                            <property name="hexpand">True</property>
-                            <property name="valign">center</property>
-                          </object>
-                        </property>
-
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="PdsPropertyRow" id="hostname_row">
-                        <property name="key" translatable="yes">Hostname</property>
-                      </object>
-                    </child>
-
-                  </object>
-                </child>
 
                 <child>
                   <object class="AdwPreferencesGroup">
@@ -236,6 +175,68 @@
                           </object>
                         </child>
 
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+                <!-- Details Panel -->
+                <child>
+                  <object class="AdwPreferencesGroup">
+                    <property name="title" translatable="yes">Properties</property>
+
+                    <property name="header-suffix">
+                      <object class="GtkSpinner" id="inspection_spinner">
+                        <property name="spinning">True</property>
+                        <property name="width-request">18</property>
+                      </object>
+                    </property>
+
+                    <child>
+                      <object class="PdsPropertyRow">
+                        <property name="key" translatable="yes">Name</property>
+                        <binding name="value">
+                          <lookup name="name" type="Pod">
+                            <lookup name="pod">PdsPodDetailsPage</lookup>
+                          </lookup>
+                        </binding>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="PdsPropertyRow" id="id_row">
+                        <property name="key" translatable="yes">Id</property>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="PdsPropertyRow" id="created_row">
+                        <property name="key" translatable="yes">Created</property>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="PdsPropertyWidgetRow">
+                        <property name="key" translatable="yes">Status</property>
+
+                        <property name="widget">
+                          <object class="GtkLabel" id="status_label">
+                            <style>
+                              <class name="status-badge"/>
+                            </style>
+                            <property name="halign">end</property>
+                            <property name="hexpand">True</property>
+                            <property name="valign">center</property>
+                          </object>
+                        </property>
+
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="PdsPropertyRow" id="hostname_row">
+                        <property name="key" translatable="yes">Hostname</property>
                       </object>
                     </child>
 
