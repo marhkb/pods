@@ -276,7 +276,7 @@ mod imp {
             if let Some(image) = value {
                 self.window_title
                     .set_subtitle(&utils::format_id(&image.id()));
-                image.inspect(clone!(@weak obj => move |e| {
+                image.inspect(clone!(@weak obj => move |result| if let Err(e) = result {
                     utils::show_error_toast(obj.upcast_ref(), &gettext("Error on loading image details"), &e.to_string());
                 }));
 
