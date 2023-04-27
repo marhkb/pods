@@ -245,7 +245,7 @@ mod imp {
             }
 
             if let Some(container) = value {
-                container.inspect(clone!(@weak obj => move |e| {
+                container.inspect(clone!(@weak obj => move |result| if let Err(e) = result {
                     utils::show_error_toast(obj.upcast_ref(), &gettext("Error on loading container details"), &e.to_string());
                 }));
 

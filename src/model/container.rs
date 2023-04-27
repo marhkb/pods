@@ -129,10 +129,16 @@ monad_boxed_type!(pub(crate) BoxedContainerStats(podman::models::ContainerStats)
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, Properties)]
+    #[derive(Default, Properties)]
     #[properties(wrapper_type = super::Container)]
     pub(crate) struct Container {
-        pub(super) can_inspect: Cell<bool>,
+        pub(super) inspection_observers: RefCell<
+            Option<
+                utils::AsyncObservers<
+                    podman::Result<podman::models::ContainerInspectResponseLibpod>,
+                >,
+            >,
+        >,
         #[property(get, set, construct_only, nullable)]
         pub(super) container_list: glib::WeakRef<model::ContainerList>,
         #[property(get, set)]
@@ -195,11 +201,6 @@ mod imp {
 
         fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             self.derived_property(id, pspec)
-        }
-
-        fn constructed(&self) {
-            self.parent_constructed();
-            self.can_inspect.set(true);
         }
     }
 
@@ -318,31 +319,44 @@ impl Container {
 
     pub(crate) fn inspect<F>(&self, op: F)
     where
-        F: FnOnce(podman::Error) + 'static,
+        F: Fn(Result<model::Container, podman::Error>) + 'static,
     {
-        let imp = self.imp();
-        if !imp.can_inspect.get() {
+        if let Some(observers) = self.imp().inspection_observers.borrow().as_ref() {
+            observers.add(clone!(@weak self as obj => move |result| match result {
+                Ok(_) => op(Ok(obj)),
+                Err(e) => {
+                    log::error!("Error on inspecting container '{}': {e}", obj.id());
+                    op(Err(e));
+                }
+            }));
+
             return;
         }
 
-        imp.can_inspect.set(false);
-
-        utils::do_async(
+        let observers = utils::do_async_with_observers(
             {
                 let container = self.api().unwrap();
                 async move { container.inspect().await }
             },
             clone!(@weak self as obj => move |result| {
+                let imp = obj.imp();
+
+                imp.inspection_observers.replace(None);
+
                 match result {
-                    Ok(data) => obj.imp().set_data(data),
+                    Ok(data) => {
+                        imp.set_data(data);
+                        op(Ok(obj));
+                    },
                     Err(e) => {
                         log::error!("Error on inspecting container '{}': {e}", obj.id());
-                        op(e);
-                    },
+                        op(Err(e));
+                    }
                 }
-                obj.imp().can_inspect.set(true);
             }),
         );
+
+        self.imp().inspection_observers.replace(Some(observers));
     }
 
     fn action<Fut, FutOp, ResOp>(&self, name: &'static str, fut_op: FutOp, res_op: ResOp)
