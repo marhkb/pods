@@ -40,15 +40,7 @@
               <object class="AdwPreferencesPage">
                 <property name="vexpand">True</property>
 
-                <!-- Details Panel -->
-                <child>
-                  <object class="PdsContainerPropertiesGroup">
-                    <binding name="container">
-                      <lookup name="container">PdsContainerDetailsPage</lookup>
-                    </binding>
-                  </object>
-                </child>
-
+                <!-- Container Controls -->
                 <child>
                   <object class="AdwPreferencesGroup">
 
@@ -193,6 +185,15 @@
                       </object>
                     </child>
 
+                  </object>
+                </child>
+
+                <!-- Details Panel -->
+                <child>
+                  <object class="PdsContainerPropertiesGroup">
+                    <binding name="container">
+                      <lookup name="container">PdsContainerDetailsPage</lookup>
+                    </binding>
                   </object>
                 </child>
 
