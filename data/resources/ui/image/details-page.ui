@@ -54,9 +54,30 @@
                     <property name="title" translatable="yes">Properties</property>
 
                     <property name="header-suffix">
-                      <object class="GtkSpinner" id="inspection_spinner">
-                        <property name="spinning">True</property>
-                        <property name="width-request">18</property>
+                      <object class="GtkBox">
+                        <property name="margin-bottom">6</property>
+                        <property name="spacing">6</property>
+
+                        <child>
+                          <object class="GtkSpinner" id="inspection_spinner">
+                            <property name="spinning">True</property>
+                            <property name="width-request">18</property>
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="GtkButton">
+                            <style>
+                              <class name="circular"/>
+                              <class name="destructive-button"/>
+                            </style>
+
+                            <property name="action-name">image-details-page.delete-image</property>
+                            <property name="icon-name">user-trash-symbolic</property>
+                            <property name="tooltip-text" translatable="yes">Delete Image</property>
+                          </object>
+                        </child>
+
                       </object>
                     </property>
 
@@ -111,45 +132,6 @@
                         <style>
                           <class name="boxed-list"/>
                         </style>
-                      </object>
-                    </child>
-
-                  </object>
-                </child>
-
-                <child>
-                  <object class="AdwPreferencesGroup">
-
-                    <child>
-                      <object class="GtkButton" id="delete_button">
-                        <style>
-                          <class name="destructive-button"/>
-                          <class name="pill"/>
-                        </style>
-                        <property name="action-name">image-details-page.delete-image</property>
-
-                        <child>
-                          <object class="GtkBox">
-                            <property name="halign">center</property>
-                            <property name="spacing">6</property>
-
-                            <child>
-                              <object class="GtkSpinner">
-                                <property name="spinning">True</property>
-                                <property name="visible" bind-source="delete_button" bind-property="sensitive" bind-flags="sync-create|invert-boolean"/>
-                              </object>
-                            </child>
-
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="label" translatable="yes">_Delete This Image</property>
-                                <property name="use-underline">True</property>
-                              </object>
-                            </child>
-
-                          </object>
-                        </child>
-
                       </object>
                     </child>
 
