@@ -1,4 +1,5 @@
 use std::cell::Cell;
+use std::cell::RefCell;
 use std::fmt;
 use std::ops::Deref;
 use std::str::FromStr;
@@ -79,10 +80,11 @@ impl fmt::Display for Status {
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, Properties)]
+    #[derive(Default, Properties)]
     #[properties(wrapper_type = super::Pod)]
     pub(crate) struct Pod {
-        pub(super) can_inspect: Cell<bool>,
+        pub(super) inspection_observers:
+            RefCell<Option<utils::AsyncObservers<podman::Result<podman::models::InspectPodData>>>>,
         #[property(get, set, construct_only, nullable)]
         pub(super) pod_list: glib::WeakRef<model::PodList>,
         #[property(get = Self::container_list)]
@@ -131,11 +133,6 @@ mod imp {
 
         fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             self.derived_property(id, pspec)
-        }
-
-        fn constructed(&self) {
-            self.parent_constructed();
-            self.can_inspect.set(true);
         }
     }
 
@@ -203,33 +200,44 @@ impl Pod {
 
     pub(crate) fn inspect<F>(&self, op: F)
     where
-        F: FnOnce(podman::Error) + 'static,
+        F: Fn(Result<model::Pod, podman::Error>) + 'static,
     {
-        let imp = self.imp();
-        if !imp.can_inspect.get() {
+        if let Some(observers) = self.imp().inspection_observers.borrow().as_ref() {
+            observers.add(clone!(@weak self as obj => move |result| match result {
+                Ok(_) => op(Ok(obj)),
+                Err(e) => {
+                    log::error!("Error on inspecting pod '{}': {e}", obj.id());
+                    op(Err(e));
+                }
+            }));
+
             return;
         }
 
-        imp.can_inspect.set(false);
-
-        utils::do_async(
+        let observers = utils::do_async_with_observers(
             {
                 let pod = self.api().unwrap();
                 async move { pod.inspect().await }
             },
             clone!(@weak self as obj => move |result| {
+                let imp = obj.imp();
+
+                imp.inspection_observers.replace(None);
+
                 match result {
-                    Ok(data) => obj.imp().set_data(model::PodData::from(
-                        data
-                    )),
+                    Ok(data) => {
+                        imp.set_data(model::PodData::from(data));
+                        op(Ok(obj));
+                    },
                     Err(e) => {
                         log::error!("Error on inspecting pod '{}': {e}", obj.id());
-                        op(e);
-                    },
+                        op(Err(e));
+                    }
                 }
-                obj.imp().can_inspect.set(true);
             }),
         );
+
+        self.imp().inspection_observers.replace(Some(observers));
     }
 
     pub(super) fn emit_deleted(&self) {
