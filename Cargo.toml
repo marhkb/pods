@@ -25,7 +25,7 @@ syslog = "6"
 tokio = "1"
 tokio-tar = "0.3"
 vte = { version = "0.11", default-features = false }
-vte4 = { git = "https://gitlab.gnome.org/World/Rust/vte4-rs.git" }
+vte4 = "0.6"
 
 [profile.release]
 lto = true
