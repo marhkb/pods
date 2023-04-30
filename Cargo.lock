@@ -2235,8 +2235,9 @@ dependencies = [
 
 [[package]]
 name = "vte4"
-version = "0.5.0"
-source = "git+https://gitlab.gnome.org/World/Rust/vte4-rs.git#b8d3b182e9c28235961741e1d3d311d9689f07ff"
+version = "0.6.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "58204be19a32d0925cb4faf05339c769ba699f66471f1f53af1fdecd7125a64b"
 dependencies = [
  "bitflags",
  "gdk4",
@@ -2251,8 +2252,9 @@ dependencies = [
 
 [[package]]
 name = "vte4-sys"
-version = "0.5.0"
-source = "git+https://gitlab.gnome.org/World/Rust/vte4-rs.git#b8d3b182e9c28235961741e1d3d311d9689f07ff"
+version = "0.6.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e64b85a2b09ffbb8acf8147b39ceeb88b0fec74dfad26880004b5f6cb8ffce47"
 dependencies = [
  "gdk4-sys",
  "gio-sys",
