@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-29 19:55+0100\n"
-"PO-Revision-Date: 2023-01-03 15:51+0000\n"
-"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
+"PO-Revision-Date: 2023-04-01 12:40+0000\n"
+"Last-Translator: Mateus Franco Rodrigues <mateusfrancofs3@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/pods/"
-"pods/pt_BR/>\n"
+"main/pt_BR/>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.15.1-dev\n"
+"X-Generator: Weblate 4.17-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
@@ -1083,15 +1083,15 @@ msgstr ""
 
 #: data/resources/ui/image/details-page.ui:77
 msgid "Disk space"
-msgstr ""
+msgstr "espaço do disco"
 
 #: data/resources/ui/image/details-page.ui:90
 msgid "Entry Point"
-msgstr ""
+msgstr "ponto de entrada"
 
 #: data/resources/ui/image/details-page.ui:97
 msgid "Ports"
-msgstr ""
+msgstr "portas"
 
 #: data/resources/ui/image/details-page.ui:107
 msgid "Repository Tags"
@@ -1128,7 +1128,7 @@ msgstr "História da imagem"
 
 #: data/resources/ui/image/history-page.ui:49
 msgid "History List"
-msgstr ""
+msgstr "histórico"
 
 #: data/resources/ui/image/menu-button.ui:6
 #: data/resources/ui/pod/menu-button.ui:7
@@ -1189,11 +1189,13 @@ msgstr "Opções de eliminar"
 
 #: data/resources/ui/images/prune-page.ui:69
 msgid "Prune All"
-msgstr ""
+msgstr "delete todos"
 
 #: data/resources/ui/images/prune-page.ui:70
 msgid "Remove all images not in use by containers, not just dangling ones."
 msgstr ""
+"Romova todas as imagens não usadas por um container, não somente as "
+"pendentes."
 
 #: data/resources/ui/images/prune-page.ui:82
 msgid "Prune External"
@@ -1204,6 +1206,8 @@ msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)."
 msgstr ""
+"Remova as imagens mesmo quando elas são usadas por containers externos (ex: "
+"na construção de containers)."
 
 #: data/resources/ui/images/prune-page.ui:94
 msgid "Prune Until"
@@ -1211,15 +1215,15 @@ msgstr ""
 
 #: data/resources/ui/images/prune-page.ui:95
 msgid "Prune images created before this timestamp."
-msgstr ""
+msgstr "Delete todas as imagens criadas antes dessa data."
 
 #: data/resources/ui/images/prune-page.ui:178
 msgid "AM"
-msgstr ""
+msgstr "manhã"
 
 #: data/resources/ui/images/prune-page.ui:179
 msgid "PM"
-msgstr ""
+msgstr "Noite"
 
 #: data/resources/ui/info-dialog.ui:5
 #, fuzzy
@@ -1236,7 +1240,7 @@ msgstr "Versão da API"
 
 #: data/resources/ui/info-dialog.ui:23
 msgid "Built Time"
-msgstr ""
+msgstr "tempo de construção"
 
 #: data/resources/ui/info-dialog.ui:29
 msgid "Git Commit"
@@ -1252,7 +1256,7 @@ msgstr "Arquitetura do SO"
 
 #: data/resources/ui/info-dialog.ui:56
 msgid "Storage"
-msgstr ""
+msgstr "armazenamento"
 
 #: data/resources/ui/info-dialog.ui:57
 msgid "Describes the container storage and its attributes."
@@ -1269,7 +1273,7 @@ msgstr "Contêineres"
 
 #: data/resources/ui/info-dialog.ui:68
 msgid "Describes the quantity of containers in the store by status."
-msgstr ""
+msgstr "Conta a quantidade de containers no armazenamento pelo status."
 
 #: data/resources/ui/info-dialog.ui:85 src/model/container.rs:71
 #: src/model/pod.rs:69
@@ -1313,7 +1317,7 @@ msgstr ""
 
 #: data/resources/ui/info-dialog.ui:165
 msgid "Run Root"
-msgstr ""
+msgstr "executar como root"
 
 #: data/resources/ui/info-dialog.ui:171
 msgid "Volume Path"
@@ -1321,12 +1325,12 @@ msgstr "Caminho do volume"
 
 #: data/resources/ui/key-val/row.ui:23 src/view/key_val/row.rs:119
 msgid "Key"
-msgstr ""
+msgstr "chave"
 
 #: data/resources/ui/key-val/row.ui:30 src/view/key_val/row.rs:119
 #: src/view/value/row.rs:84
 msgid "Value"
-msgstr ""
+msgstr "valor"
 
 #: data/resources/ui/pod/creation-page.ui:45 data/resources/ui/pods/panel.ui:13
 #: data/resources/ui/pods/panel.ui:86
@@ -1346,15 +1350,15 @@ msgstr ""
 
 #: data/resources/ui/pod/creation-page.ui:134
 msgid "Disable /etc/resolv.conf management"
-msgstr ""
+msgstr "Disabilita gerenciamento e configurações em /etc/resolv.conf"
 
 #: data/resources/ui/pod/creation-page.ui:153
 msgid "Pod Create Command"
-msgstr ""
+msgstr "Comando para criar Pod"
 
 #: data/resources/ui/pod/creation-page.ui:193
 msgid "Devices"
-msgstr ""
+msgstr "dispositivos"
 
 #: data/resources/ui/pod/creation-page.ui:208
 msgid "Hosts"
@@ -1362,15 +1366,15 @@ msgstr ""
 
 #: data/resources/ui/pod/creation-page.ui:215
 msgid "Enabled"
-msgstr ""
+msgstr "abilitado"
 
 #: data/resources/ui/pod/creation-page.ui:264
 msgid "Infra"
-msgstr ""
+msgstr "infraestrutura"
 
 #: data/resources/ui/pod/creation-page.ui:278
 msgid "Disable Infra"
-msgstr ""
+msgstr "desabilitar infraestrutura"
 
 #: data/resources/ui/pod/creation-page.ui:372
 #, fuzzy
@@ -1379,15 +1383,15 @@ msgstr "Arquivo de configuração"
 
 #: data/resources/ui/pod/details-page.ui:252
 msgid "View all pod properties in a structured text form."
-msgstr ""
+msgstr "Ver todos as propriedades dos pod em texto estruturado."
 
 #: data/resources/ui/pod/details-page.ui:269
 msgid "Generate Kubernetes YAML based on this pod."
-msgstr ""
+msgstr "Gerar arquivo de configuração Kubernets YAML baseado neste pod."
 
 #: data/resources/ui/pod/details-page.ui:286
 msgid "View processes that are currently running inside the pod."
-msgstr ""
+msgstr "Ver todos os processos que estão executando dentro deste pod."
 
 #: data/resources/ui/pod/details-page.ui:311
 #: data/resources/ui/search-panel.ui:67 data/resources/ui/window.ui:293
@@ -1396,7 +1400,7 @@ msgstr "Contêineres"
 
 #: data/resources/ui/pod/details-page.ui:312
 msgid "There are no containers in this pod."
-msgstr ""
+msgstr "Não existem containers neste pod."
 
 #: data/resources/ui/pods/panel.ui:358
 #, fuzzy
@@ -1405,7 +1409,7 @@ msgstr "Nenhuma imagem encontrada"
 
 #: data/resources/ui/pods/panel.ui:359
 msgid "You can use the button below to create an initial pod."
-msgstr ""
+msgstr "Você pode usar este botão abaixo para criar um pod inicial."
 
 #: data/resources/ui/pods/panel.ui:369
 #, fuzzy
@@ -1414,19 +1418,19 @@ msgstr "Criado"
 
 #: data/resources/ui/port-mapping/row.ui:29
 msgid "will be mapped to container port"
-msgstr ""
+msgstr "ira ser mapeado para uma porta do container"
 
 #: data/resources/ui/port-mapping/row.ui:62
 msgid "TCP"
-msgstr ""
+msgstr "TCP"
 
 #: data/resources/ui/port-mapping/row.ui:63
 msgid "UDP"
-msgstr ""
+msgstr "UDP"
 
 #: data/resources/ui/repo-tag/add-dialog.ui:6
 msgid "Add Repository Tag"
-msgstr ""
+msgstr "Adiciona marcador do repositorio"
 
 #: data/resources/ui/repo-tag/add-dialog.ui:10
 msgid "_Add"
@@ -1434,7 +1438,7 @@ msgstr ""
 
 #: data/resources/ui/repo-tag/add-dialog.ui:31
 msgid "Repository Tag"
-msgstr ""
+msgstr "Marcador do repositorio"
 
 #: data/resources/ui/repo-tag/row.ui:32
 msgid "Pull Latest"
