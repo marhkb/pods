@@ -1,7 +1,6 @@
 use std::cell::RefCell;
 
 use glib::prelude::ObjectExt;
-use glib::prelude::ParamSpecBuilderExt;
 use glib::subclass::prelude::*;
 use glib::subclass::Signal;
 use glib::Properties;
