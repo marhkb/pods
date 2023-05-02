@@ -11,7 +11,6 @@ use gtk::glib;
 use gtk::glib::clone;
 use gtk::glib::subclass::Signal;
 use gtk::prelude::ObjectExt;
-use gtk::prelude::ParamSpecBuilderExt;
 use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy as SyncLazy;
 use once_cell::unsync::OnceCell as UnsyncOnceCell;

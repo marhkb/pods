@@ -4,7 +4,6 @@ use glib::Properties;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::prelude::ListModelExtManual;
-use gtk::prelude::ParamSpecBuilderExt;
 use gtk::subclass::prelude::*;
 use once_cell::unsync::OnceCell as UnsyncOnceCell;
 

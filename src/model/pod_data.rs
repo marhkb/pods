@@ -1,4 +1,3 @@
-use glib::prelude::ParamSpecBuilderExt;
 use glib::subclass::prelude::*;
 use glib::ObjectExt;
 use glib::Properties;

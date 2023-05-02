@@ -10,7 +10,6 @@ use gettextrs::gettext;
 use glib::clone;
 use glib::subclass::Signal;
 use glib::ObjectExt;
-use glib::ParamSpecBuilderExt;
 use glib::Properties;
 use gtk::glib;
 use gtk::subclass::prelude::*;
