@@ -19,7 +19,7 @@ use crate::model::SelectableListExt;
 use crate::utils;
 use crate::view;
 
-const ACTION_PULL_IMAGE: &str = "images-panel.pull-image";
+pub(crate) const ACTION_PULL_IMAGE: &str = "images-panel.pull-image";
 const ACTION_BUILD_IMAGE: &str = "images-panel.build-image";
 const ACTION_PRUNE_UNUSED_IMAGES: &str = "images-panel.prune-unused-images";
 const ACTION_SHOW_ADD_IMAGE_MENU: &str = "images-panel.show-add-image-menu";
@@ -122,10 +122,6 @@ mod imp {
 
             self.popover_menu.set_parent(&*self.add_image_row);
 
-            self.settings.connect_changed(
-                Some("show-intermediate-images"),
-                clone!(@weak obj => move |_, _| obj.update_properties_filter()),
-            );
             self.settings
                 .bind(
                     "show-intermediate-images",
@@ -226,11 +222,6 @@ mod imp {
                         .n_items() > 0
                 }));
 
-            obj.connect_notify_local(
-                Some("show-intermediates"),
-                clone!(@weak obj => move |_ ,_| obj.update_properties_filter()),
-            );
-
             let sorter = gtk::CustomSorter::new(|obj1, obj2| {
                 let image1 = obj1.downcast_ref::<model::Image>().unwrap();
                 let image2 = obj2.downcast_ref::<model::Image>().unwrap();
@@ -252,6 +243,18 @@ mod imp {
                 .set(properties_filter.upcast())
                 .unwrap();
             self.sorter.set(sorter.upcast()).unwrap();
+
+            self.show_intermediates_switch.connect_active_notify(
+                clone!(@weak obj => move |switch| {
+                    obj.update_properties_filter(
+                        if switch.is_active() {
+                            gtk::FilterChange::LessStrict
+                        } else {
+                            gtk::FilterChange::MoreStrict
+                        }
+                    );
+                }),
+            );
         }
 
         fn dispose(&self) {
@@ -272,7 +275,7 @@ mod imp {
             value.connect_notify_local(
                 Some("intermediates"),
                 clone!(@weak obj => move |_ ,_| {
-                    obj.update_properties_filter();
+                    obj.update_properties_filter(gtk::FilterChange::Different);
                     obj.update_sorter();
                 }),
             );
@@ -317,12 +320,16 @@ impl Default for Panel {
 }
 
 impl Panel {
-    pub(crate) fn update_properties_filter(&self) {
+    pub(crate) fn action_pull_image() -> &'static str {
+        ACTION_PULL_IMAGE
+    }
+
+    pub(crate) fn update_properties_filter(&self, filter_change: gtk::FilterChange) {
         self.imp()
             .properties_filter
             .get()
             .unwrap()
-            .changed(gtk::FilterChange::Different);
+            .changed(filter_change);
     }
 
     fn show_download_page(&self) {

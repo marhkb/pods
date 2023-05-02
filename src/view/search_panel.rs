@@ -80,25 +80,23 @@ mod imp {
 
             let filter =
                 gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
-                    let term = obj.term().to_uppercase();
+                    let term = obj.term().to_lowercase();
 
                     if term.is_empty() {
                         false
                     } else if let Some(image) = item.downcast_ref::<model::Image>() {
-                        image.id().contains(&term)
-                        || image.repo_tags().contains(&term)
+                        image.id().contains(&term) || image.repo_tags().contains(&term)
                     } else if let Some(container) = item.downcast_ref::<model::Container>() {
                         container
-                            .name().to_uppercase().contains(&term)
-                            || container
-                                .id().contains(&term)
+                            .name().to_lowercase().contains(&term)
+                            || container.id().contains(&term)
                             || container
                                 .image_name()
-                                .map(|image_name| image_name.to_uppercase().contains(&term))
+                                .map(|image_name| image_name.to_lowercase().contains(&term))
                                 .unwrap_or(false)
                             || container.image_id().contains(&term)
                     } else if let Some(pod) = item.downcast_ref::<model::Pod>() {
-                        pod.name().to_uppercase().contains(&term)
+                        pod.name().to_lowercase().contains(&term)
                     } else {
                         unreachable!();
                     }
@@ -258,9 +256,9 @@ impl SearchPanel {
         );
 
         imp.main_stack.set_visible_child_name(
-            if imp.images_group.is_visible()
-                || imp.containers_group.is_visible()
+            if imp.containers_group.is_visible()
                 || imp.pods_group.is_visible()
+                || imp.images_group.is_visible()
             {
                 "results"
             } else if self.term().is_empty() {

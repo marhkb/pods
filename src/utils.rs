@@ -1,5 +1,7 @@
+use std::cell::RefCell;
 use std::ops::Deref;
 use std::path::PathBuf;
+use std::rc::Rc;
 
 use ashpd::desktop::file_chooser::OpenFileRequest;
 use ashpd::desktop::file_chooser::SaveFileRequest;
@@ -312,6 +314,52 @@ where
     });
 }
 
+#[derive(Clone)]
+#[allow(clippy::type_complexity)]
+pub(crate) struct AsyncObservers<R: Clone>(Rc<RefCell<Vec<Box<dyn Fn(R) + 'static>>>>);
+impl<R: Clone> AsyncObservers<R> {
+    fn new<F: Fn(R) + 'static>(glib_closure: F) -> Self {
+        Self(Rc::new(RefCell::new(vec![Box::new(glib_closure)])))
+    }
+
+    pub(crate) fn add<F: Fn(R) + 'static>(&self, f: F) {
+        self.0.borrow_mut().push(Box::new(f));
+    }
+}
+
+pub(crate) fn do_async_with_observers<R, Fut, F>(
+    tokio_fut: Fut,
+    glib_closure: F,
+) -> AsyncObservers<R>
+where
+    R: Clone + Send + 'static,
+    Fut: Future<Output = R> + Send + 'static,
+    F: Fn(R) + 'static,
+{
+    let observers = AsyncObservers::new(glib_closure);
+
+    let handle = RUNTIME.spawn(tokio_fut);
+    let (tx, rx) = glib::MainContext::channel(glib::Priority::default());
+
+    rx.attach(None, {
+        let observers = observers.clone();
+        move |r: R| {
+            observers
+                .0
+                .borrow_mut()
+                .iter()
+                .for_each(|fun| (*fun)(r.clone()));
+            glib::Continue(false)
+        }
+    });
+
+    glib::MainContext::default().spawn_local_with_priority(Default::default(), async move {
+        tx.send(handle.await.unwrap()).unwrap();
+    });
+
+    observers
+}
+
 pub(crate) fn run_stream<A, P, I, F>(api_entity: A, stream_producer: P, glib_closure: F)
 where
     A: Send + 'static,
@@ -376,6 +424,10 @@ impl Iterator for ChildIter {
         self.0 = r.as_ref().and_then(|widget| widget.next_sibling());
         r
     }
+}
+
+pub(crate) fn unparent_children(widget: &gtk::Widget) {
+    ChildIter::from(widget).for_each(|child| child.unparent());
 }
 
 pub(crate) async fn show_open_file_dialog<F>(request: OpenFileRequest, widget: &gtk::Widget, op: F)

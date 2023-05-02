@@ -101,7 +101,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            self.stack.unparent();
+            utils::unparent_children(self.obj().upcast_ref());
         }
     }
 
