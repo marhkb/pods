@@ -426,6 +426,10 @@ impl Iterator for ChildIter {
     }
 }
 
+pub(crate) fn unparent_children(widget: &gtk::Widget) {
+    ChildIter::from(widget).for_each(|child| child.unparent());
+}
+
 pub(crate) async fn show_open_file_dialog<F>(request: OpenFileRequest, widget: &gtk::Widget, op: F)
 where
     F: Fn(SelectedFiles) + 'static,
