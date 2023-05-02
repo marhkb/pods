@@ -42,6 +42,24 @@
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="1.1.1" date="2023-05-02">
+      <description>
+        <p>Pods 1.1.1 contains the following fixes, improvements and chores:</p>
+        <ul>
+          <li>Searching for image ids does now work correctly.</li>
+          <li>Creating images, containers and pods with Ctrl+N should work again if the header bar has focus.</li>
+          <li>Filtering images through toggling the switch "Intermediates" is now more performant by utilizing gtk::FilterChange::{MoreStrict,LessStrict}.</li>
+          <li>In the same way, filtering containers and pods by toggling the switch "Only running" is now also more performant.</li>
+          <li>The margins and label positions of the image rows have been tweaked to match those of the containers and pods.</li>
+          <li>A new async helper function has been implemented to register multiple observers. This functions ensures that there is only one inspection at a time.</li>
+          <li>A new helper function is now used to unparent children of a widget.</li>
+          <li>Unused features have been removed from the tokio dependency</li>
+          <li>vte4 version has been set to 0.6 in Cargo.toml.</li>
+          <li>Dependencies have been updated.</li>
+          <li>Portuguese (Brazil) and Dutch translation have been updated.</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.1.0" date="2023-03-28">
       <description>
         <p>Pods 1.1.0 contains the following features, bug fixes and improvements:</p>
