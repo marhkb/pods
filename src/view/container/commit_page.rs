@@ -115,7 +115,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::ChildIter::from(self.obj().upcast_ref()).for_each(|child| child.unparent());
+            utils::unparent_children(self.obj().upcast_ref());
         }
     }
 

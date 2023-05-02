@@ -152,7 +152,7 @@ mod imp {
             let obj = &*self.obj();
 
             obj.abort();
-            utils::ChildIter::from(obj.upcast_ref()).for_each(|child| child.unparent());
+            utils::unparent_children(obj.upcast_ref());
         }
     }
 
