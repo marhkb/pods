@@ -4,7 +4,6 @@ use std::collections::HashMap;
 use glib::Properties;
 use gtk::glib;
 use gtk::prelude::ObjectExt;
-use gtk::prelude::ParamSpecBuilderExt;
 use gtk::subclass::prelude::*;
 use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
