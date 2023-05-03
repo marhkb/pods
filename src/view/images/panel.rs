@@ -50,7 +50,7 @@ mod imp {
         #[template_child]
         pub(super) show_intermediates_switch: TemplateChild<gtk::Switch>,
         #[template_child]
-        pub(super) menu_button: TemplateChild<gtk::MenuButton>,
+        pub(super) header_suffix_button_box: TemplateChild<gtk::Box>,
         #[template_child]
         pub(super) list_box: TemplateChild<gtk::ListBox>,
     }
@@ -142,7 +142,7 @@ mod imp {
                 .chain_closure::<bool>(closure!(|_: Self::Type, len: u32| len > 0))
                 .bind(&*self.header_suffix_box, "visible", Some(obj));
 
-            is_selection_mode_expr.bind(&*self.menu_button, "visible", Some(obj));
+            is_selection_mode_expr.bind(&*self.header_suffix_button_box, "visible", Some(obj));
             is_selection_mode_expr.bind(&*self.add_image_row, "visible", Some(obj));
 
             image_list_len_expr.watch(
