@@ -15,7 +15,7 @@
 
     <child>
       <object class="GtkImage">
-        <property name="icon-name">view-more-symbolic</property>
+        <property name="icon-name">list-add-symbolic</property>
         <property name="margin-top">15</property>
         <property name="margin-bottom">15</property>
       </object>
@@ -32,12 +32,6 @@
       <item>
         <attribute name="label" translatable="yes">_Build…</attribute>
         <attribute name="action">images-panel.build-image</attribute>
-      </item>
-    </section>
-    <section>
-      <item>
-        <attribute name="label" translatable="yes">_Prune…</attribute>
-        <attribute name="action">images-panel.prune-unused-images</attribute>
       </item>
     </section>
   </menu>
@@ -111,12 +105,31 @@
                             </child>
 
                             <child>
-                              <object class="GtkMenuButton" id="menu_button">
-                                <style>
-                                  <class name="circular"/>
-                                </style>
-                                <property name="icon-name">view-more-symbolic</property>
-                                <property name="menu-model">menu</property>
+                              <object class="GtkBox" id="header_suffix_button_box">
+                                <property name="spacing">9</property>
+
+                                <child>
+                                  <object class="GtkButton">
+                                    <style>
+                                      <class name="circular"/>
+                                    </style>
+                                    <property name="action-name">images-panel.prune-unused-images</property>
+                                    <property name="icon-name">eraser5-symbolic</property>
+                                    <property name="tooltip-text" translatable="yes">Prune Images</property>
+                                  </object>
+                                </child>
+
+                                <child>
+                                  <object class="GtkMenuButton" id="create_image_button">
+                                    <style>
+                                      <class name="circular"/>
+                                    </style>
+                                    <property name="icon-name">list-add-symbolic</property>
+                                    <property name="tooltip-text" translatable="yes">Create Image</property>
+                                    <property name="menu-model">menu</property>
+                                  </object>
+                                </child>
+
                               </object>
                             </child>
 
