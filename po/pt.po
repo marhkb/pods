@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-29 19:55+0100\n"
-"PO-Revision-Date: 2023-05-04 18:37+0000\n"
+"PO-Revision-Date: 2023-05-05 19:46+0000\n"
 "Last-Translator: William Gabriel Karvat <linkwgk@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/pods/main/pt/>"
 "\n"
@@ -1058,7 +1058,7 @@ msgstr "Tente novamente outro termo."
 
 #: data/resources/ui/image-search/widget.ui:186
 msgid "Tag ('latest' if empty)"
-msgstr ""
+msgstr "Etiqueta ('último' se vazio)"
 
 #: data/resources/ui/image/build-page.ui:41
 msgid "Build Image"
@@ -1083,6 +1083,8 @@ msgstr "Selecione…"
 #: data/resources/ui/image/build-page.ui:138
 msgid "Containerfile Path Relative to Build Context Directory"
 msgstr ""
+"Caminho do arquivo de contêiner relativo ao diretório de contexto de "
+"construção"
 
 #: data/resources/ui/image/details-page.ui:77
 msgid "Disk space"
@@ -1157,97 +1159,103 @@ msgstr "_Baixar…"
 
 #: data/resources/ui/images/panel.ui:33
 msgid "_Build…"
-msgstr ""
+msgstr "_Construir…"
 
 #: data/resources/ui/images/panel.ui:39
 msgid "_Prune…"
-msgstr ""
+msgstr "_Limpar…"
 
 #: data/resources/ui/images/panel.ui:97
 msgid "Intermediates"
-msgstr ""
+msgstr "Intermediários"
 
 #: data/resources/ui/images/panel.ui:197
 msgid "You can use the buttons below to add an initial image."
-msgstr ""
+msgstr "Você pode usar os botões abaixo para adicionar uma imagem inicial."
 
 #: data/resources/ui/images/panel.ui:212
 msgid "_Download an Image"
-msgstr ""
+msgstr "_Baixe uma imagem"
 
 #: data/resources/ui/images/panel.ui:224
 msgid "_Build a Local Image"
-msgstr ""
+msgstr "_Construir uma imagem local"
 
 #: data/resources/ui/images/prune-page.ui:40
 msgid "Prune Images"
-msgstr ""
+msgstr "Limpar Imagens"
 
 #: data/resources/ui/images/prune-page.ui:50
 msgid "_Prune"
-msgstr ""
+msgstr "_Limpar"
 
 #: data/resources/ui/images/prune-page.ui:64
 msgid "Prune Options"
-msgstr ""
+msgstr "Opções de Limpeza"
 
 #: data/resources/ui/images/prune-page.ui:69
 msgid "Prune All"
-msgstr ""
+msgstr "Limpar Tudo"
 
 #: data/resources/ui/images/prune-page.ui:70
 msgid "Remove all images not in use by containers, not just dangling ones."
 msgstr ""
+"Remova todas as imagens que não estão sendo usadas pelos contêineres, não "
+"apenas as que estão pendentes."
 
 #: data/resources/ui/images/prune-page.ui:82
+#, fuzzy
 msgid "Prune External"
-msgstr ""
+msgstr "Limpeza Externa"
 
 #: data/resources/ui/images/prune-page.ui:83
 msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)."
 msgstr ""
+"Remova imagens mesmo quando forem usadas por contêineres externos (por "
+"exemplo, por contêineres de construção)."
 
 #: data/resources/ui/images/prune-page.ui:94
+#, fuzzy
 msgid "Prune Until"
-msgstr ""
+msgstr "Limpar Até"
 
 #: data/resources/ui/images/prune-page.ui:95
 msgid "Prune images created before this timestamp."
-msgstr ""
+msgstr "Limpe as imagens criadas antes desse registro de data e hora."
 
 #: data/resources/ui/images/prune-page.ui:178
 msgid "AM"
-msgstr ""
+msgstr "AM"
 
 #: data/resources/ui/images/prune-page.ui:179
 msgid "PM"
-msgstr ""
+msgstr "PM"
 
 #: data/resources/ui/info-dialog.ui:5
 msgid "About Podman"
-msgstr ""
+msgstr "Sobre o Podman"
 
 #: data/resources/ui/info-dialog.ui:13 data/resources/ui/info-dialog.ui:47
 msgid "Version"
-msgstr ""
+msgstr "Versão"
 
 #: data/resources/ui/info-dialog.ui:17
 msgid "API Version"
-msgstr ""
+msgstr "Versão da API"
 
 #: data/resources/ui/info-dialog.ui:23
 msgid "Built Time"
-msgstr ""
+msgstr "Tempo de construção"
 
 #: data/resources/ui/info-dialog.ui:29
 msgid "Git Commit"
-msgstr ""
+msgstr "Git Commit"
 
 #: data/resources/ui/info-dialog.ui:35
 msgid "Go Version"
-msgstr ""
+msgstr "Versão do Go"
 
 #: data/resources/ui/info-dialog.ui:41
 msgid "Os Arch"
@@ -1255,170 +1263,174 @@ msgstr ""
 
 #: data/resources/ui/info-dialog.ui:56
 msgid "Storage"
-msgstr ""
+msgstr "Armazenamento"
 
 #: data/resources/ui/info-dialog.ui:57
 msgid "Describes the container storage and its attributes."
-msgstr ""
+msgstr "Descreve o armazenamento do contêiner e seus atributos."
 
 #: data/resources/ui/info-dialog.ui:61
 msgid "Config File"
-msgstr ""
+msgstr "Arquivo de Configuração"
 
 #: data/resources/ui/info-dialog.ui:67
 msgid "Container Store"
-msgstr ""
+msgstr "Loja de Contêineres"
 
 #: data/resources/ui/info-dialog.ui:68
 msgid "Describes the quantity of containers in the store by status."
-msgstr ""
+msgstr "Descreve a quantidade de contêineres na loja por status."
 
 #: data/resources/ui/info-dialog.ui:85 src/model/container.rs:71
 #: src/model/pod.rs:69
 msgid "Paused"
-msgstr ""
+msgstr "Pausado"
 
 #: data/resources/ui/info-dialog.ui:91 src/model/container.rs:74
 #: src/model/pod.rs:71
 msgid "Running"
-msgstr ""
+msgstr "Executando"
 
 #: data/resources/ui/info-dialog.ui:97 src/model/container.rs:75
 #: src/model/pod.rs:72
 msgid "Stopped"
-msgstr ""
+msgstr "Parado"
 
 #: data/resources/ui/info-dialog.ui:106
 msgid "Graph Driver Name"
-msgstr ""
+msgstr "Nome do driver gráfico"
 
 #: data/resources/ui/info-dialog.ui:112
 msgid "Graph Options"
-msgstr ""
+msgstr "Opções de gráfico"
 
 #: data/resources/ui/info-dialog.ui:132
 msgid "Graph Root"
-msgstr ""
+msgstr "Raiz Gráfica"
 
 #: data/resources/ui/info-dialog.ui:138
 msgid "Graph Status"
-msgstr ""
+msgstr "Status do gráfico"
 
 #: data/resources/ui/info-dialog.ui:158
 msgid "Image Store"
-msgstr ""
+msgstr "Loja de Imagens"
 
 #: data/resources/ui/info-dialog.ui:159
+#, fuzzy
 msgid "Describes the image store. Right now only the number of images present."
 msgstr ""
+"Descreve o repositório de imagens. Neste momento apenas o número de imagens "
+"presentes."
 
 #: data/resources/ui/info-dialog.ui:165
 msgid "Run Root"
-msgstr ""
+msgstr "Executar como root"
 
 #: data/resources/ui/info-dialog.ui:171
 msgid "Volume Path"
-msgstr ""
+msgstr "Caminho do volume"
 
 #: data/resources/ui/key-val/row.ui:23 src/view/key_val/row.rs:119
 msgid "Key"
-msgstr ""
+msgstr "Chave"
 
 #: data/resources/ui/key-val/row.ui:30 src/view/key_val/row.rs:119
 #: src/view/value/row.rs:84
 msgid "Value"
-msgstr ""
+msgstr "Valor"
 
 #: data/resources/ui/pod/creation-page.ui:45 data/resources/ui/pods/panel.ui:13
 #: data/resources/ui/pods/panel.ui:86
 msgid "Create Pod"
-msgstr ""
+msgstr "Criar Pod"
 
 #: data/resources/ui/pod/creation-page.ui:55
 msgid "_Create"
-msgstr ""
+msgstr "_Criar"
 
 #: data/resources/ui/pod/creation-page.ui:127
 #: data/resources/ui/pod/details-page.ui:93 src/view/pod/creation_page.rs:202
 msgid "Hostname"
-msgstr ""
+msgstr "Nome do Host"
 
 #: data/resources/ui/pod/creation-page.ui:134
 msgid "Disable /etc/resolv.conf management"
-msgstr ""
+msgstr "Desative o gerenciamento de /etc/resolv.conf"
 
 #: data/resources/ui/pod/creation-page.ui:153
 msgid "Pod Create Command"
-msgstr ""
+msgstr "Comando de criação de pod"
 
 #: data/resources/ui/pod/creation-page.ui:193
 msgid "Devices"
-msgstr ""
+msgstr "Dispositivos"
 
 #: data/resources/ui/pod/creation-page.ui:208
 msgid "Hosts"
-msgstr ""
+msgstr "Hosts"
 
 #: data/resources/ui/pod/creation-page.ui:215
 msgid "Enabled"
-msgstr ""
+msgstr "Ativar"
 
 #: data/resources/ui/pod/creation-page.ui:264
 msgid "Infra"
-msgstr ""
+msgstr "Infra"
 
 #: data/resources/ui/pod/creation-page.ui:278
 msgid "Disable Infra"
-msgstr ""
+msgstr "Desativar infra"
 
 #: data/resources/ui/pod/creation-page.ui:372
 msgid "Common PID File"
-msgstr ""
+msgstr "Arquivo PID comum"
 
 #: data/resources/ui/pod/details-page.ui:252
 msgid "View all pod properties in a structured text form."
 msgstr ""
+"Visualize todas as propriedades do pod em um formulário de texto estruturado."
 
 #: data/resources/ui/pod/details-page.ui:269
 msgid "Generate Kubernetes YAML based on this pod."
-msgstr ""
+msgstr "Gere Kubernetes YAML com base neste pod."
 
 #: data/resources/ui/pod/details-page.ui:286
 msgid "View processes that are currently running inside the pod."
-msgstr ""
+msgstr "Visualize os processos que estão em execução no pod."
 
 #: data/resources/ui/pod/details-page.ui:311
 #: data/resources/ui/search-panel.ui:67 data/resources/ui/window.ui:293
 msgid "Containers"
-msgstr ""
+msgstr "Contêiner"
 
 #: data/resources/ui/pod/details-page.ui:312
 msgid "There are no containers in this pod."
-msgstr ""
+msgstr "Não há contêineres neste pod."
 
 #: data/resources/ui/pods/panel.ui:358
 msgid "No Pods Found"
-msgstr ""
+msgstr "Nenhum pod encontrado"
 
 #: data/resources/ui/pods/panel.ui:359
 msgid "You can use the button below to create an initial pod."
-msgstr ""
+msgstr "Você pode usar o botão abaixo para criar um pod inicial."
 
 #: data/resources/ui/pods/panel.ui:369
 msgid "_Create a Pod"
-msgstr ""
+msgstr "_Criar um Pod"
 
 #: data/resources/ui/port-mapping/row.ui:29
 msgid "will be mapped to container port"
-msgstr ""
+msgstr "será mapeado para a porta do contêiner"
 
 #: data/resources/ui/port-mapping/row.ui:62
 msgid "TCP"
-msgstr ""
+msgstr "TCP"
 
 #: data/resources/ui/port-mapping/row.ui:63
 msgid "UDP"
-msgstr ""
+msgstr "UDP"
 
 #: data/resources/ui/repo-tag/add-dialog.ui:6
 msgid "Add Repository Tag"
@@ -1426,7 +1438,7 @@ msgstr ""
 
 #: data/resources/ui/repo-tag/add-dialog.ui:10
 msgid "_Add"
-msgstr ""
+msgstr "_Adicionar"
 
 #: data/resources/ui/repo-tag/add-dialog.ui:31
 msgid "Repository Tag"
@@ -1434,7 +1446,7 @@ msgstr ""
 
 #: data/resources/ui/repo-tag/row.ui:32
 msgid "Pull Latest"
-msgstr ""
+msgstr "Puxar mais recente"
 
 #: data/resources/ui/repo-tag/row.ui:43
 msgid "Untag"
@@ -1442,212 +1454,212 @@ msgstr ""
 
 #: data/resources/ui/search-panel.ui:19
 msgid "Please start typing to look for results."
-msgstr ""
+msgstr "Por favor, comece a digitar para procurar resultados."
 
 #: data/resources/ui/search-panel.ui:33
 msgid "No Results Found"
-msgstr ""
+msgstr "Nenhum resultado encontrado"
 
 #: data/resources/ui/search-panel.ui:51 data/resources/ui/window.ui:273
 msgid "Images"
-msgstr ""
+msgstr "Iamgens"
 
 #: data/resources/ui/search-panel.ui:83 data/resources/ui/window.ui:313
 msgctxt "podman feature"
 msgid "Pods"
-msgstr ""
+msgstr "Pods"
 
 #: data/resources/ui/shortcuts.ui:13
 msgctxt "shortcut window"
 msgid "General"
-msgstr ""
+msgstr "Geral"
 
 #: data/resources/ui/shortcuts.ui:17
 msgctxt "shortcut window"
 msgid "Show Shortcuts"
-msgstr ""
+msgstr "Mostrar atalhos"
 
 #: data/resources/ui/shortcuts.ui:24
 msgctxt "shortcut window"
 msgid "Show menu"
-msgstr ""
+msgstr "Mostrar menu"
 
 #: data/resources/ui/shortcuts.ui:31
 msgctxt "shortcut window"
 msgid "Quit"
-msgstr ""
+msgstr "Sair"
 
 #: data/resources/ui/shortcuts.ui:38
 msgctxt "shortcut window"
 msgid "Search"
-msgstr ""
+msgstr "Procurar"
 
 #: data/resources/ui/shortcuts.ui:48
 msgctxt "shortcut window"
 msgid "Navigation"
-msgstr ""
+msgstr "Navegação"
 
 #: data/resources/ui/shortcuts.ui:52
 msgctxt "shortcut window"
 msgid "Go back"
-msgstr ""
+msgstr "Voltar"
 
 #: data/resources/ui/shortcuts.ui:59
 msgctxt "shortcut window"
 msgid "Return to main view"
-msgstr ""
+msgstr "Retornar para a visualização principal"
 
 #: data/resources/ui/shortcuts.ui:69
 msgctxt "shortcut window"
 msgid "Container"
-msgstr ""
+msgstr "Contêiner"
 
 #: data/resources/ui/shortcuts.ui:73
 msgctxt "shortcut window"
 msgid "Rename"
-msgstr ""
+msgstr "Renomear"
 
 #: data/resources/ui/shortcuts.ui:80
 msgctxt "shortcut window"
 msgid "Commit"
-msgstr ""
+msgstr "Confirmar"
 
 #: data/resources/ui/shortcuts.ui:87
 msgctxt "shortcut window"
 msgid "Download files"
-msgstr ""
+msgstr "Baixar arquivos"
 
 #: data/resources/ui/shortcuts.ui:94
 msgctxt "shortcut window"
 msgid "Upload files"
-msgstr ""
+msgstr "Enviar arquivos"
 
 #: data/resources/ui/shortcuts.ui:104
 msgctxt "shortcut window"
 msgid "Text view"
-msgstr ""
+msgstr "Ver texto"
 
 #: data/resources/ui/shortcuts.ui:108
 msgctxt "shortcut window"
 msgid "Zoom in"
-msgstr ""
+msgstr "Ampliar"
 
 #: data/resources/ui/shortcuts.ui:115
 msgctxt "shortcut window"
 msgid "Zoom out"
-msgstr ""
+msgstr "Reduzir"
 
 #: data/resources/ui/shortcuts.ui:122
 msgctxt "shortcut window"
 msgid "Reset zoom"
-msgstr ""
+msgstr "Redefinir zoom"
 
 #: data/resources/ui/shortcuts.ui:132
 msgctxt "shortcut window"
 msgid "Terminal"
-msgstr ""
+msgstr "Terminal"
 
 #: data/resources/ui/shortcuts.ui:136
 msgctxt "shortcut window"
 msgid "Copy selection to clipboard"
-msgstr ""
+msgstr "Copiar seleção para a área de transferência"
 
 #: data/resources/ui/shortcuts.ui:143
 msgctxt "shortcut window"
 msgid "Paste from clipboard"
-msgstr ""
+msgstr "Colar da área de transferência"
 
 #: data/resources/ui/shortcuts.ui:153
 msgctxt "shortcut window"
 msgid "Podman"
-msgstr ""
+msgstr "Podman"
 
 #: data/resources/ui/shortcuts.ui:157
 msgctxt "shortcut window"
 msgid "Add a new connection"
-msgstr ""
+msgstr "Adicionar uma nova conexão"
 
 #: data/resources/ui/shortcuts.ui:164
 msgctxt "shortcut window"
 msgid "Create a new entity"
-msgstr ""
+msgstr "Criar uma nova entidade"
 
 #: data/resources/ui/statusbar.ui:6 data/resources/ui/statusbar.ui:47
 msgid "Connections"
-msgstr ""
+msgstr "Conexões"
 
 #: data/resources/ui/statusbar.ui:13
 msgid "_Add Connection…"
-msgstr ""
+msgstr "_Adicionar conexão…"
 
 #: data/resources/ui/statusbar.ui:27
 msgid "Clean up"
-msgstr ""
+msgstr "Limpar"
 
 #: data/resources/ui/statusbar.ui:104
 msgid "Operations"
-msgstr ""
+msgstr "Operações"
 
 #: data/resources/ui/value/row.ui:4 src/view/container/creation_page.rs:327
 #: src/view/pod/creation_page.rs:224 src/view/pod/creation_page.rs:233
 msgid "Argument"
-msgstr ""
+msgstr "Argumento"
 
 #: data/resources/ui/volume/row.ui:71
 msgid "SELinux"
-msgstr ""
+msgstr "SELinux"
 
 #: data/resources/ui/volume/row.ui:80
 msgid "No label"
-msgstr ""
+msgstr "Sem rótulo"
 
 #: data/resources/ui/volume/row.ui:81
 msgid "Shared"
-msgstr ""
+msgstr "Compartilhar"
 
 #: data/resources/ui/volume/row.ui:82
 msgid "Private"
-msgstr ""
+msgstr "Privado"
 
 #: data/resources/ui/welcome-page.ui:70
 msgid "Welcome to Pods"
-msgstr ""
+msgstr "Bem-vindo aos Pods"
 
 #: data/resources/ui/welcome-page.ui:79
 msgid "Use the button below to create a new connection to Podman."
-msgstr ""
+msgstr "Use o botão abaixo para criar uma nova conexão com o Podman."
 
 #: data/resources/ui/welcome-page.ui:93
 msgid "_Add Connection"
-msgstr ""
+msgstr "_Adicionar conexão"
 
 #: data/resources/ui/window.ui:12
 msgid "About _Podman"
-msgstr ""
+msgstr "Sobre_Podman"
 
 #: data/resources/ui/window.ui:18
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "_Teclas de Atalho"
 
 #: data/resources/ui/window.ui:22
 msgid "_About Pods"
-msgstr ""
+msgstr "_Sobre Pods"
 
 #: data/resources/ui/window.ui:30
 msgid "_Select All"
-msgstr ""
+msgstr "_Selecione Tudo"
 
 #: data/resources/ui/window.ui:34
 msgid "Select None"
-msgstr ""
+msgstr "Selecione nenhum"
 
 #: data/resources/ui/window.ui:157
 msgid "Multi-Selection"
-msgstr ""
+msgstr "Multi-seleção"
 
 #: data/resources/ui/window.ui:180
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: src/application.rs:188
 msgid "translator-credits"
