@@ -254,13 +254,13 @@ impl CircularProgressBar {
     }
 
     pub(crate) fn set_percentage(&self, value: f64) {
-        if self.percentage() == value {
-            return;
-        }
+        let value = (value.clamp(0.0, 1.0) * 100.0).round() / 100.0;
 
-        self.imp().percentage.set(value.clamp(0.0, 1.0));
-        self.queue_draw();
-        self.notify("percentage");
+        if self.percentage() != value {
+            self.imp().percentage.set(value);
+            self.queue_draw();
+            self.notify("percentage");
+        }
     }
 
     pub(crate) fn icon_name(&self) -> Option<glib::GString> {
