@@ -208,14 +208,12 @@ impl ActionList {
     pub(crate) fn create_container(
         &self,
         container: &str,
-        image: &str,
         opts: podman::opts::ContainerCreateOpts,
         run: bool,
     ) -> model::Action {
         self.insert_action(model::Action::create_container(
             self.imp().action_counter.get(),
             container,
-            image,
             self.client().unwrap(),
             opts,
             run,
@@ -241,7 +239,6 @@ impl ActionList {
     pub(crate) fn create_container_download_image(
         &self,
         container: &str,
-        image: &str,
         pull_opts: podman::opts::PullOpts,
         create_opts_builder: podman::opts::ContainerCreateOptsBuilder,
         run: bool,
@@ -249,7 +246,6 @@ impl ActionList {
         self.insert_action(model::Action::create_container_download_image(
             self.imp().action_counter.get(),
             container,
-            image,
             self.client().unwrap(),
             pull_opts,
             create_opts_builder,
@@ -299,14 +295,12 @@ impl ActionList {
     pub(crate) fn create_pod_download_infra(
         &self,
         pod: &str,
-        image: &str,
         pull_opts: podman::opts::PullOpts,
         create_opts_builder: podman::opts::PodCreateOptsBuilder,
     ) -> model::Action {
         self.insert_action(model::Action::create_pod_download_infra(
             self.imp().action_counter.get(),
             pod,
-            image,
             self.client().unwrap(),
             pull_opts,
             create_opts_builder,

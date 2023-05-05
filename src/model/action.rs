@@ -41,7 +41,8 @@ pub(crate) enum Type {
     DownloadImage,
     BuildImage,
     Commit,
-    Container,
+    CreateContainer,
+    CreateAndRunContainer,
     CopyFiles,
     Pod,
     #[default]
@@ -125,7 +126,7 @@ impl Action {
         client: model::Client,
         opts: podman::opts::ImagePruneOpts,
     ) -> Self {
-        let obj = Self::new(num, Type::PruneImages, &gettext("Images: <b>Prune</b>"));
+        let obj = Self::new(num, Type::PruneImages, &gettext("Prune unused images"));
         let abort_registration = obj.setup_abort_handle();
 
         utils::do_async(
@@ -163,7 +164,7 @@ impl Action {
         Self::new(
             num,
             Type::DownloadImage,
-            &gettext!("Image: <b>{}</b>", image),
+            &gettext!("Pull image <b>{}</b>", image),
         )
         .download_image_(client, opts, |obj, client, report| {
             let image_id = report.images.unwrap().swap_remove(0);
@@ -192,7 +193,11 @@ impl Action {
         client: model::Client,
         opts: podman::opts::ImageBuildOpts,
     ) -> Self {
-        let obj = Self::new(num, Type::BuildImage, &gettext!("Image: <b>{}</b>", image));
+        let obj = Self::new(
+            num,
+            Type::BuildImage,
+            &gettext!("Build image <b>{}</b>", image),
+        );
         let abort_registration = obj.setup_abort_handle();
 
         obj.insert_line(&gettext("Generating tarball of context directory..."));
@@ -254,20 +259,30 @@ impl Action {
         obj
     }
 
+    fn container(num: u32, container: &str, run: bool) -> Self {
+        Self::new(
+            num,
+            if run {
+                Type::CreateAndRunContainer
+            } else {
+                Type::CreateContainer
+            },
+            &if run {
+                gettext!("Start new container <b>{}</b>", container)
+            } else {
+                gettext!("Create container <b>{}</b>", container)
+            },
+        )
+    }
+
     pub(crate) fn create_container(
         num: u32,
         container: &str,
-        image: &str,
         client: model::Client,
         opts: podman::opts::ContainerCreateOpts,
         run: bool,
     ) -> Self {
-        Self::new(
-            num,
-            Type::Container,
-            &gettext!("Container: <b>{}</b> ← {}", container, image),
-        )
-        .create_container_(client, opts, run)
+        Self::container(num, container, run).create_container_(client, opts, run)
     }
 
     pub(crate) fn commit_container(
@@ -281,11 +296,11 @@ impl Action {
             num,
             Type::Commit,
             &gettext!(
-                "Image: <b>{}</b> ← {}",
+                "Commit image <b>{}</b> ({})",
+                container,
                 image
                     .map(Cow::Borrowed)
                     .unwrap_or_else(|| Cow::Owned(format!("<i>&lt;{}&gt;</i>", gettext("none")))),
-                container
             ),
         );
         let abort_registration = obj.setup_abort_handle();
@@ -312,20 +327,18 @@ impl Action {
     pub(crate) fn create_container_download_image(
         num: u32,
         container: &str,
-        image: &str,
         client: model::Client,
         pull_opts: podman::opts::PullOpts,
         create_opts_builder: podman::opts::ContainerCreateOptsBuilder,
         run: bool,
     ) -> Self {
-        Self::new(
-            num,
-            Type::Container,
-            &gettext!("Container: <b>{}</b> ← {}", container, image),
+        Self::container(num, container, run).download_image_(
+            client,
+            pull_opts,
+            move |obj, client, report| {
+                obj.create_container_(client, create_opts_builder.image(report.id).build(), run);
+            },
         )
-        .download_image_(client, pull_opts, move |obj, client, report| {
-            obj.create_container_(client, create_opts_builder.image(report.id).build(), run);
-        })
     }
 
     pub(crate) fn copy_files_into_container(
@@ -339,10 +352,10 @@ impl Action {
             num,
             Type::CopyFiles,
             &gettext!(
-                "Files: <b>{}</b> ({}) ← {}",
+                "Upload <b>{}</b> to <b>{}:{}</b>",
+                host_path,
                 container.name(),
                 container_path,
-                host_path
             ),
         );
 
@@ -441,7 +454,7 @@ impl Action {
             num,
             Type::CopyFiles,
             &gettext!(
-                "Files: <b>{}</b> ({}) → {}",
+                "Download <b>{}:{}</b> to <b>{}</b>",
                 container.name(),
                 container_path,
                 host_path
@@ -505,30 +518,29 @@ impl Action {
         obj
     }
 
+    pub(crate) fn pod(num: u32, pod: &str) -> Self {
+        Self::new(num, Type::Pod, &gettext!("Create pod <b>{}</b>", pod))
+    }
+
     pub(crate) fn create_pod(
         num: u32,
         pod: &str,
         client: model::Client,
         opts: podman::opts::PodCreateOpts,
     ) -> Self {
-        Self::new(num, Type::Pod, &gettext!("Pod: <b>{}</b>", pod)).create_pod_(client, opts)
+        Self::pod(num, pod).create_pod_(client, opts)
     }
 
     pub(crate) fn create_pod_download_infra(
         num: u32,
         pod: &str,
-        image: &str,
         client: model::Client,
         pull_opts: podman::opts::PullOpts,
         create_opts_builder: podman::opts::PodCreateOptsBuilder,
     ) -> Self {
-        Self::new(num, Type::Pod, &gettext!("Pod: <b>{}</b> ← {}", pod, image)).download_image_(
-            client,
-            pull_opts,
-            move |obj, client, report| {
-                obj.create_pod_(client, create_opts_builder.infra_image(report.id).build());
-            },
-        )
+        Self::pod(num, pod).download_image_(client, pull_opts, move |obj, client, report| {
+            obj.create_pod_(client, create_opts_builder.infra_image(report.id).build());
+        })
     }
 
     fn setup_abort_handle(&self) -> stream::AbortRegistration {
