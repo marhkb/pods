@@ -78,7 +78,7 @@ mod imp {
 
             self.status_page
                 .set_icon_name(Some(match action.action_type() {
-                    PruneImages => "larger-brush-symbolic",
+                    PruneImages => "eraser5-symbolic",
                     DownloadImage | BuildImage => "image-x-generic-symbolic",
                     Commit => "merge-symbolic",
                     Container => "package-x-generic-symbolic",
