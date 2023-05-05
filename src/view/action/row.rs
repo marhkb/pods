@@ -97,6 +97,7 @@ mod imp {
                 }))
                 .bind(&*self.type_image, "icon-name", Some(obj));
 
+            description_expr.bind(obj, "tooltip-markup", Some(obj));
             description_expr.bind(&*self.description_label, "label", Some(obj));
 
             let classes = utils::css_classes(self.state_label.upcast_ref());

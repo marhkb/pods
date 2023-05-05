@@ -32,21 +32,6 @@
     </section>
   </menu>
 
-  <menu id="notifications_menu">
-    <section>
-      <item>
-        <attribute name="custom">items</attribute>
-      </item>
-    </section>
-    <section>
-      <item>
-        <attribute name="label" translatable="yes">Clean up</attribute>
-        <attribute name="action">statusbar.clean-up-actions</attribute>
-        <attribute name="hidden-when">action-disabled</attribute>
-      </item>
-    </section>
-  </menu>
-
   <template class="PdsStatusbar" parent="GtkWidget">
     <property name="layout-manager">
       <object class="GtkBinLayout"/>
@@ -159,17 +144,14 @@
         </child>
 
         <child type="suffix">
-          <object class="GtkMenuButton" id="notifications_menu_button">
-            <property name="direction">up</property>
-            <property name="focus-on-click">False</property>
-            <property name="menu-model">notifications_menu</property>
-            <property name="tooltip-text" translatable="yes">Operations</property>
+          <object class="GtkToggleButton" id="actions_toggle_button">
+            <property name="tooltip-text" translatable="yes">Actions</property>
 
             <child>
               <object class="GtkBox">
 
                 <child>
-                  <object class="GtkImage" id="notifications_image">
+                  <object class="GtkImage" id="actions_image">
                     <style>
                       <class name="panel-image"/>
                     </style>
@@ -177,11 +159,11 @@
                 </child>
 
                 <child>
-                  <object class="GtkRevealer" id="notifications_label_revealer">
+                  <object class="GtkRevealer" id="actions_label_revealer">
                     <property name="transition-type">slide-left</property>
 
                     <child>
-                      <object class="GtkLabel" id="notifications_label">
+                      <object class="GtkLabel" id="actions_label">
                         <style>
                           <class name="numeric"/>
                         </style>

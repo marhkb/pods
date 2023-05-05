@@ -147,7 +147,7 @@ impl ActionList {
             self.items_changed(idx as u32, 1, 0);
         }
     }
-    pub(crate) fn clean_up(&self) {
+    pub(crate) fn clear(&self) {
         let indexes = {
             let mut list = self.imp().list.borrow_mut();
 
