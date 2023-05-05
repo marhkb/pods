@@ -85,11 +85,12 @@ mod imp {
                     use model::ActionType::*;
 
                     match type_ {
-                        PruneImages => "larger-brush-symbolic",
+                        PruneImages => "eraser5-symbolic",
                         DownloadImage => "folder-download-symbolic",
                         BuildImage => "build-configure-symbolic",
                         Commit => "merge-symbolic",
-                        Container | Pod => "list-add-symbolic",
+                        CreateAndRunContainer => "media-playback-start-symbolic",
+                        CreateContainer | Pod => "list-add-symbolic",
                         CopyFiles => "edit-copy-symbolic",
                         _ => unreachable!(),
                     }

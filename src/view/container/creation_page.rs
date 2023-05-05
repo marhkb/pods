@@ -560,19 +560,12 @@ impl CreationPage {
             if imp.pull_latest_image_switch.is_active() {
                 self.pull_and_create(&image.repo_tags().get(0).unwrap().full(), false, run);
             } else {
-                let page = view::ActionPage::from(
-                    &self.client().unwrap().action_list().create_container(
+                let page =
+                    view::ActionPage::from(&self.client().unwrap().action_list().create_container(
                         imp.name_entry_row.text().as_str(),
-                        &image
-                            .repo_tags()
-                            .get(0)
-                            .as_ref()
-                            .map(model::RepoTag::full)
-                            .unwrap_or_else(|| utils::format_id(&image.id())),
                         self.create().image(image.id()).build(),
                         run,
-                    ),
-                );
+                    ));
 
                 imp.action_page_bin.set_child(Some(&page));
                 imp.stack.set_visible_child(&*imp.action_page_bin);
@@ -606,7 +599,6 @@ impl CreationPage {
                 .action_list()
                 .create_container_download_image(
                     imp.name_entry_row.text().as_str(),
-                    reference,
                     pull_opts,
                     self.create(),
                     run,
