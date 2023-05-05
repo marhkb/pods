@@ -3,7 +3,7 @@
   <template class="PdsActionRow" parent="GtkWidget">
     <property name="layout-manager">
       <object class="GtkBoxLayout">
-        <property name="spacing">10</property>
+        <property name="spacing">6</property>
       </object>
     </property>
 

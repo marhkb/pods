@@ -32,6 +32,8 @@ mod imp {
         #[template_child]
         pub(super) main_stack: TemplateChild<gtk::Stack>,
         #[template_child]
+        pub(super) flap: TemplateChild<adw::Flap>,
+        #[template_child]
         pub(super) header_stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) leaflet: TemplateChild<adw::Leaflet>,
@@ -231,6 +233,10 @@ mod imp {
 
             klass.install_action("win.exit-search", None, |widget, _, _| {
                 widget.exit_search();
+            });
+
+            klass.install_action("win.exit-actions-overview", None, |widget, _, _| {
+                widget.exit_actions_overview();
             });
         }
 
@@ -891,6 +897,10 @@ impl Window {
         if self.is_search_activatable() {
             self.imp().search_button.set_active(false);
         }
+    }
+
+    fn exit_actions_overview(&self) {
+        self.imp().flap.set_reveal_flap(false);
     }
 
     fn client_err_op(&self, e: model::ClientError) {

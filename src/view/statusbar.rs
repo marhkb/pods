@@ -8,12 +8,11 @@ use gtk::glib;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
+use once_cell::sync::OnceCell as SyncOnceCell;
 
 use crate::model;
 use crate::utils;
 use crate::view;
-
-const ACTION_CLEAN_UP_ACTIONS: &str = "statusbar.clean-up-actions";
 
 mod imp {
     use super::*;
@@ -42,13 +41,13 @@ mod imp {
         #[template_child]
         pub(super) podman_version_label: TemplateChild<gtk::Label>,
         #[template_child]
-        pub(super) notifications_menu_button: TemplateChild<gtk::MenuButton>,
+        pub(super) actions_toggle_button: TemplateChild<gtk::ToggleButton>,
         #[template_child]
-        pub(super) notifications_image: TemplateChild<gtk::Image>,
+        pub(super) actions_image: TemplateChild<gtk::Image>,
         #[template_child]
-        pub(super) notifications_label_revealer: TemplateChild<gtk::Revealer>,
+        pub(super) actions_label_revealer: TemplateChild<gtk::Revealer>,
         #[template_child]
-        pub(super) notifications_label: TemplateChild<gtk::Label>,
+        pub(super) actions_label: TemplateChild<gtk::Label>,
     }
 
     #[glib::object_subclass]
@@ -59,10 +58,6 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
-
-            klass.install_action(ACTION_CLEAN_UP_ACTIONS, None, |widget, _, _| {
-                widget.clean_up_actions();
-            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -72,15 +67,35 @@ mod imp {
 
     impl ObjectImpl for Statusbar {
         fn properties() -> &'static [glib::ParamSpec] {
-            Self::derived_properties()
+            static PROPERTIES: SyncOnceCell<Vec<glib::ParamSpec>> = SyncOnceCell::new();
+            PROPERTIES.get_or_init(|| {
+                Self::derived_properties()
+                    .iter()
+                    .cloned()
+                    .chain(Some(
+                        glib::ParamSpecBoolean::builder("show-actions-overview")
+                            .explicit_notify()
+                            .build(),
+                    ))
+                    .collect::<Vec<_>>()
+            })
         }
 
         fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            self.derived_set_property(id, value, pspec);
+            match pspec.name() {
+                "show-actions-overview" => {
+                    self.obj()
+                        .set_show_actions_overview(value.get().unwrap_or_default());
+                }
+                _ => self.derived_set_property(id, value, pspec),
+            }
         }
 
         fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            self.derived_property(id, pspec)
+            match pspec.name() {
+                "show-actions-overview" => self.obj().is_show_actions_overview().to_value(),
+                _ => self.derived_property(id, pspec),
+            }
         }
 
         fn constructed(&self) {
@@ -88,18 +103,24 @@ mod imp {
 
             let obj = &*self.obj();
 
+            self.actions_toggle_button.connect_notify_local(
+                Some("active"),
+                clone!(@weak obj => move |_, _| {
+                    obj.notify("show-actions-overview");
+                }),
+            );
+
             self.statusbar
                 .style_context()
                 .add_provider(&self.css_provider, gtk::STYLE_PROVIDER_PRIORITY_APPLICATION);
 
-            add_menu_items(
-                &self.connections_menu_button,
-                self.connection_switcher_widget.upcast_ref(),
-            );
-            add_menu_items(
-                &self.notifications_menu_button,
-                self.actions_overview.upcast_ref(),
-            );
+            let popover_menu = self
+                .connections_menu_button
+                .popover()
+                .unwrap()
+                .downcast::<gtk::PopoverMenu>()
+                .unwrap();
+            popover_menu.add_child(&self.connection_switcher_widget, "items");
 
             let connection_manager_expr = Self::Type::this_expression("connection-manager");
             let client_expr =
@@ -169,7 +190,7 @@ mod imp {
                     }
                 ),
             )
-            .bind(&*self.notifications_image, "icon-name", Some(obj));
+            .bind(&*self.actions_image, "icon-name", Some(obj));
 
             podman_version_expr
                 .chain_closure::<String>(closure!(|_: Self::Type, version: Option<String>| version
@@ -188,24 +209,11 @@ mod imp {
                     format!("{}/{len}", len - ongoing)
                 }),
             )
-            .bind(&*self.notifications_label, "label", Some(obj));
+            .bind(&*self.actions_label, "label", Some(obj));
 
             action_list_len_expr
                 .chain_closure::<bool>(closure!(|_: Self::Type, len: u32| len > 0))
-                .bind(
-                    &*self.notifications_label_revealer,
-                    "reveal-child",
-                    Some(obj),
-                );
-            action_list_len_expr.watch(
-                Some(obj),
-                clone!(@weak obj => move || {
-                    obj.action_set_enabled(
-                        ACTION_CLEAN_UP_ACTIONS,
-                        obj.action_list().map(|list| list.len() > 0).unwrap_or(false)
-                    );
-                }),
-            );
+                .bind(&*self.actions_label_revealer, "reveal-child", Some(obj));
         }
 
         fn dispose(&self) {
@@ -223,18 +231,12 @@ glib::wrapper! {
 }
 
 impl Statusbar {
-    pub(crate) fn action_list(&self) -> Option<model::ActionList> {
-        self.connection_manager()
-            .as_ref()
-            .and_then(model::ConnectionManager::client)
-            .as_ref()
-            .map(model::Client::action_list)
+    pub(crate) fn is_show_actions_overview(&self) -> bool {
+        self.imp().actions_toggle_button.is_active()
     }
 
-    fn clean_up_actions(&self) {
-        if let Some(action_list) = self.action_list() {
-            action_list.clean_up();
-        }
+    pub(crate) fn set_show_actions_overview(&self, value: bool) {
+        self.imp().actions_toggle_button.set_active(value);
     }
 
     pub(crate) fn set_background(&self, bg_color: Option<gdk::RGBA>) {
@@ -255,16 +257,6 @@ impl Statusbar {
             "panelstatusbar {{ background: shade({bg_color}, 1.2); color: {fg_color}; }}"
         ));
     }
-}
-
-fn add_menu_items(menu_button: &gtk::MenuButton, widget: &gtk::Widget) {
-    let popover_menu = menu_button
-        .popover()
-        .unwrap()
-        .downcast::<gtk::PopoverMenu>()
-        .unwrap();
-
-    popover_menu.add_child(widget, "items");
 }
 
 fn srgb(c: f32) -> f32 {

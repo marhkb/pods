@@ -1,3 +1,4 @@
+use glib::clone;
 use glib::subclass::InitializingObject;
 use glib::Properties;
 use gtk::glib;
@@ -9,6 +10,8 @@ use gtk::CompositeTemplate;
 use crate::model;
 use crate::utils;
 use crate::view;
+
+const ACTIONS_OVERVIEW_ACTION_CLEAR_ACTIONS: &str = "actions-overview.clear-actions";
 
 mod imp {
     use super::*;
@@ -33,8 +36,16 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
-            klass.bind_template_callbacks();
             klass.set_css_name("actionsoverview");
+            klass.bind_template_callbacks();
+
+            klass.install_action(
+                ACTIONS_OVERVIEW_ACTION_CLEAR_ACTIONS,
+                None,
+                |widget, _, _| {
+                    widget.clear_actions();
+                },
+            );
         }
 
         fn instance_init(obj: &InitializingObject<Self>) {
@@ -55,18 +66,10 @@ mod imp {
                 .downcast::<model::Action>()
                 .unwrap();
 
-            let obj = &*self.obj();
-
             utils::show_dialog(
-                obj.upcast_ref(),
+                self.obj().upcast_ref(),
                 view::ActionPage::from(&action).upcast_ref(),
             );
-
-            obj.ancestor(gtk::PopoverMenu::static_type())
-                .unwrap()
-                .downcast::<gtk::PopoverMenu>()
-                .unwrap()
-                .popdown();
         }
     }
 
@@ -98,6 +101,25 @@ mod imp {
                     }
                 }))
                 .bind(&*self.stack, "visible-child-name", Some(obj));
+
+            let action_list_expr = Self::Type::this_expression("action-list");
+            let action_list_can_clear_expr = gtk::ClosureExpression::new::<bool>(
+                [
+                    action_list_expr.chain_property::<model::ActionList>("len"),
+                    action_list_expr.chain_property::<model::ActionList>("ongoing"),
+                ],
+                closure!(|_: Self::Type, len: u32, ongoing: u32| len - ongoing > 0),
+            );
+
+            action_list_can_clear_expr.clone().watch(
+                Some(obj),
+                clone!(@weak obj => move || {
+                    obj.action_set_enabled(
+                        ACTIONS_OVERVIEW_ACTION_CLEAR_ACTIONS,
+                        action_list_can_clear_expr.evaluate_as(Some(&obj)).unwrap()
+                    );
+                }),
+            );
         }
 
         fn dispose(&self) {
@@ -140,5 +162,13 @@ glib::wrapper! {
 impl Default for Overview {
     fn default() -> Self {
         glib::Object::builder().build()
+    }
+}
+
+impl Overview {
+    pub(crate) fn clear_actions(&self) {
+        if let Some(action_list) = self.action_list() {
+            action_list.clear();
+        }
     }
 }
