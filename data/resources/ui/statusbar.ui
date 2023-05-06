@@ -1,27 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
 
-  <menu id="connections_menu">
-    <section>
-      <attribute name="label" translatable="yes">Connections</attribute>
-      <item>
-        <attribute name="custom">items</attribute>
-      </item>
-    </section>
-    <section>
-      <item>
-        <attribute name="label" translatable="yes">_Disconnect</attribute>
-        <attribute name="action">win.disconnect</attribute>
-      </item>
-    </section>
-    <section>
-      <item>
-        <attribute name="label" translatable="yes">_Add Connection…</attribute>
-        <attribute name="action">win.add-connection</attribute>
-      </item>
-    </section>
-  </menu>
-
   <menu id="podman_menu">
     <section>
       <attribute name="label" translatable="yes">Podman</attribute>
