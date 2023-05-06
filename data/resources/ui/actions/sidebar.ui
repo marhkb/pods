@@ -18,7 +18,7 @@
 
         <child type="start">
           <object class="GtkButton">
-            <property name="action-name">win.exit-actions-overview</property>
+            <property name="action-name">win.exit-actions-sidebar</property>
             <property name="icon-name">go-previous-symbolic</property>
             <property name="tooltip-text" translatable="yes">Go Back</property>
           </object>
