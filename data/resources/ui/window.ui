@@ -103,7 +103,7 @@
                           <object class="AdwFlap" id="actions_flap">
                             <property name="flap-position">end</property>
                             <property name="fold-policy">always</property>
-                            <property name="reveal-flap" bind-source="statusbar" bind-property="show-actions-overview" bind-flags="sync-create|bidirectional"/>
+                            <property name="reveal-flap" bind-source="statusbar" bind-property="show-actions-sidebar" bind-flags="sync-create|bidirectional"/>
 
                             <child type="content">
                               <object class="AdwLeaflet" id="leaflet">

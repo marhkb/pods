@@ -76,7 +76,7 @@ mod imp {
                         glib::ParamSpecBoolean::builder("show-connections-sidebar")
                             .explicit_notify()
                             .build(),
-                        glib::ParamSpecBoolean::builder("show-actions-overview")
+                        glib::ParamSpecBoolean::builder("show-actions-sidebar")
                             .explicit_notify()
                             .build(),
                     ])
@@ -90,9 +90,9 @@ mod imp {
                     self.obj()
                         .set_show_connections_sidebar(value.get().unwrap_or_default());
                 }
-                "show-actions-overview" => {
+                "show-actions-sidebar" => {
                     self.obj()
-                        .set_show_actions_overview(value.get().unwrap_or_default());
+                        .set_show_actions_sidebar(value.get().unwrap_or_default());
                 }
                 _ => self.derived_set_property(id, value, pspec),
             }
@@ -101,7 +101,7 @@ mod imp {
         fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
                 "show-connections-sidebar" => self.obj().is_show_connections_sidebar().to_value(),
-                "show-actions-overview" => self.obj().is_show_actions_overview().to_value(),
+                "show-actions-sidebar" => self.obj().is_show_actions_sidebar().to_value(),
                 _ => self.derived_property(id, pspec),
             }
         }
@@ -124,10 +124,10 @@ mod imp {
             self.actions_toggle_button.connect_notify_local(
                 Some("active"),
                 clone!(@weak obj => move |_, _| {
-                    if obj.is_show_actions_overview() {
-                        obj.set_show_connection_switcher(false);
+                    if obj.is_show_actions_sidebar() {
+                        obj.set_show_connections_sidebar(false);
                     }
-                    obj.notify("show-actions-overview");
+                    obj.notify("show-actions-sidebar");
                 }),
             );
 
@@ -252,11 +252,11 @@ impl Statusbar {
         self.imp().connections_toggle_button.set_active(value);
     }
 
-    pub(crate) fn is_show_actions_overview(&self) -> bool {
+    pub(crate) fn is_show_actions_sidebar(&self) -> bool {
         self.imp().actions_toggle_button.is_active()
     }
 
-    pub(crate) fn set_show_actions_overview(&self, value: bool) {
+    pub(crate) fn set_show_actions_sidebar(&self, value: bool) {
         self.imp().actions_toggle_button.set_active(value);
     }
 
