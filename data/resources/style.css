@@ -36,62 +36,62 @@ button.large {
   color: @destructive_color;
 }
 
-connectionswitchermenu row #selection-indicator #background,
-actionsoverview #type {
+connectionswitcher row #selection-indicator #background,
+actionssidebar #type {
   background-color: @shade_color;
   border-radius: 9999px;
 }
 
-connectionswitchermenu row #color {
+connectionswitcher row #color {
   border-radius: 9999px;
   margin: 2px 0 0 0;
   padding: 6px;
 }
 
-popover connectionswitchermenu row #selection-indicator #background,
-popover connectionswitchermenu row #delete-button,
-actionsoverview #action,
-actionsoverview #type {
+connectionssidebar connectionswitcher row #selection-indicator #background,
+connectionssidebar connectionswitcher row #delete-button,
+actionssidebar #action,
+actionssidebar #type {
   min-height: 34px;
   min-width: 34px;
 }
 
-popover connectionswitchermenu row #delete-button,
-popover connectionswitchermenu row #connecting-spinner,
-actionsoverview #action {
+connectionssidebar connectionswitcher row #delete-button,
+connectionssidebar connectionswitcher row #connecting-spinner,
+actionssidebar #action {
   margin-left: 12px;
 }
 
-connectionchooserpage connectionswitchermenu row #selection-indicator #background,
-connectionchooserpage connectionswitchermenu row #delete-button {
+connectionchooserpage connectionswitcher row #selection-indicator #background,
+connectionchooserpage connectionswitcher row #delete-button {
   min-height: 44px;
   min-width: 44px;
 }
 
-connectionswitchermenu row #selection-indicator #checkmark {
+connectionswitcher row #selection-indicator #checkmark {
   color: @light_1;
   border-radius: 9999px;
   border: solid @accent_bg_color 2px;
   background-color: @accent_bg_color;
 }
 
-connectionswitchermenu row #selection-indicator .selected-connection {
+connectionswitcher row #selection-indicator .selected-connection {
   border: 2px solid @accent_bg_color;
 }
 
-connectionswitchermenu row #selection-indicator .unselected-connection,
-actionsoverview #type {
+connectionswitcher row #selection-indicator .unselected-connection,
+actionssidebar #type {
   padding: 1px;
   border: 1px solid @borders;
 }
 
-popover connectionswitchermenu row,
-actionsoverview row {
+connectionssidebar connectionswitcher row,
+actionssidebar row {
   border-radius: 9px;
   padding: 6px;
 }
 
-connectionchooserpage connectionswitchermenu row {
+connectionchooserpage connectionswitcher row {
   padding: 9px 18px;
 }
 

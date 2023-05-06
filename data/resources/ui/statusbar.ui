@@ -41,10 +41,7 @@
       <object class="PanelStatusbar" id="statusbar">
 
         <child>
-          <object class="GtkMenuButton" id="connections_menu_button">
-            <property name="direction">up</property>
-            <property name="focus-on-click">False</property>
-            <property name="menu-model">connections_menu</property>
+          <object class="GtkToggleButton" id="connections_toggle_button">
             <property name="tooltip-text" translatable="yes">Connections</property>
 
             <child>

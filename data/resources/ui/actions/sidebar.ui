@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="PdsActionsOverview" parent="GtkWidget">
-    <style>
-      <class name="background"/>
-    </style>
-
+  <template class="PdsActionsSidebar" parent="GtkWidget">
     <property name="layout-manager">
       <object class="GtkBoxLayout">
         <property name="orientation">vertical</property>
@@ -73,7 +69,7 @@
             <property name="name">actions</property>
 
             <property name="child">
-              <object class="GtkScrolledWindow" id="scrolled_window">
+              <object class="GtkScrolledWindow">
 
                 <child>
                   <object class="GtkListView" id="action_list_view">

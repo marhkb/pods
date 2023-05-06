@@ -60,7 +60,7 @@
                                 <property name="hscrollbar-policy">never</property>
 
                                 <child>
-                                  <object class="PdsConnectionSwitcherWidget">
+                                  <object class="PdsConnectionSwitcher">
                                     <binding name="connection-manager">
                                       <lookup name="connection-manager">PdsConnectionChooserPage</lookup>
                                     </binding>
