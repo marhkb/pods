@@ -239,8 +239,8 @@ mod imp {
                 widget.exit_connections_sidebar();
             });
 
-            klass.install_action("win.exit-actions-overview", None, |widget, _, _| {
-                widget.exit_actions_overview();
+            klass.install_action("win.exit-actions-sidebar", None, |widget, _, _| {
+                widget.exit_actions_sidebar();
             });
         }
 
@@ -903,7 +903,7 @@ impl Window {
         self.imp().connections_flap.set_reveal_flap(false);
     }
 
-    pub(crate) fn exit_actions_overview(&self) {
+    pub(crate) fn exit_actions_sidebar(&self) {
         self.imp().actions_flap.set_reveal_flap(false);
     }
 
