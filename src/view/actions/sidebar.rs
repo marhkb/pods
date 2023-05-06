@@ -17,9 +17,9 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
-    #[properties(wrapper_type = super::Overview)]
-    #[template(resource = "/com/github/marhkb/Pods/ui/actions/overview.ui")]
-    pub(crate) struct Overview {
+    #[properties(wrapper_type = super::Sidebar)]
+    #[template(resource = "/com/github/marhkb/Pods/ui/actions/sidebar.ui")]
+    pub(crate) struct Sidebar {
         #[property(get, set = Self::set_action_list, nullable)]
         pub(super) action_list: glib::WeakRef<model::ActionList>,
         #[template_child]
@@ -29,14 +29,14 @@ mod imp {
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for Overview {
-        const NAME: &'static str = "PdsActionsOverview";
-        type Type = super::Overview;
+    impl ObjectSubclass for Sidebar {
+        const NAME: &'static str = "PdsActionsSidebar";
+        type Type = super::Sidebar;
         type ParentType = gtk::Widget;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
-            klass.set_css_name("actionsoverview");
+            klass.set_css_name("actionssidebar");
             klass.bind_template_callbacks();
 
             klass.install_action(
@@ -54,7 +54,7 @@ mod imp {
     }
 
     #[gtk::template_callbacks]
-    impl Overview {
+    impl Sidebar {
         #[template_callback]
         fn activated(&self, pos: u32) {
             let action = self
@@ -73,7 +73,7 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for Overview {
+    impl ObjectImpl for Sidebar {
         fn properties() -> &'static [glib::ParamSpec] {
             Self::derived_properties()
         }
@@ -127,9 +127,9 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for Overview {}
+    impl WidgetImpl for Sidebar {}
 
-    impl Overview {
+    impl Sidebar {
         pub(super) fn set_action_list(&self, value: Option<&model::ActionList>) {
             let obj = self.obj();
             if obj.action_list().as_ref() == value {
@@ -154,18 +154,18 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub(crate) struct Overview(ObjectSubclass<imp::Overview>)
+    pub(crate) struct Sidebar(ObjectSubclass<imp::Sidebar>)
         @extends gtk::Widget,
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
-impl Default for Overview {
+impl Default for Sidebar {
     fn default() -> Self {
         glib::Object::builder().build()
     }
 }
 
-impl Overview {
+impl Sidebar {
     pub(crate) fn clear_actions(&self) {
         if let Some(action_list) = self.action_list() {
             action_list.clear();

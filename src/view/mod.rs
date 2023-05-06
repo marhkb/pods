@@ -23,7 +23,7 @@ mod welcome_page;
 
 pub(crate) use self::action::Page as ActionPage;
 pub(crate) use self::action::Row as ActionRow;
-pub(crate) use self::actions::Overview as ActionsOverview;
+pub(crate) use self::actions::Sidebar as ActionsSidebar;
 pub(crate) use self::component::BackNavigationControls;
 pub(crate) use self::component::CircularProgressBar;
 pub(crate) use self::component::Entity;
@@ -44,7 +44,8 @@ pub(crate) use self::connection::ChooserPage as ConnectionChooserPage;
 pub(crate) use self::connection::CreationPage as ConnectionCreationPage;
 pub(crate) use self::connection::CustomInfoDialog as ConnectionCustomInfoDialog;
 pub(crate) use self::connection::Row as ConnectionRow;
-pub(crate) use self::connection::SwitcherWidget as ConnectionSwitcherWidget;
+pub(crate) use self::connection::Sidebar as ConnectionsSidebar;
+pub(crate) use self::connection::Switcher as ConnectionSwitcher;
 pub(crate) use self::container::CommitPage as ContainerCommitPage;
 pub(crate) use self::container::CreationPage as ContainerCreationPage;
 pub(crate) use self::container::DetailsPage as ContainerDetailsPage;

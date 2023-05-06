@@ -32,7 +32,9 @@ mod imp {
         #[template_child]
         pub(super) main_stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub(super) flap: TemplateChild<adw::Flap>,
+        pub(super) connections_flap: TemplateChild<adw::Flap>,
+        #[template_child]
+        pub(super) actions_flap: TemplateChild<adw::Flap>,
         #[template_child]
         pub(super) header_stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -95,13 +97,14 @@ mod imp {
             // Initialize all classes here
             view::ActionPage::static_type();
             view::ActionRow::static_type();
-            view::ActionsOverview::static_type();
+            view::ActionsSidebar::static_type();
             view::BackNavigationControls::static_type();
             view::CircularProgressBar::static_type();
             view::ConnectionChooserPage::static_type();
             view::ConnectionCustomInfoDialog::static_type();
             view::ConnectionRow::static_type();
-            view::ConnectionSwitcherWidget::static_type();
+            view::ConnectionSwitcher::static_type();
+            view::ConnectionsSidebar::static_type();
             view::ContainerCommitPage::static_type();
             view::ContainerFilesGetPage::static_type();
             view::ContainerFilesPutPage::static_type();
@@ -182,9 +185,6 @@ mod imp {
             klass.install_action("win.add-connection", None, |widget, _, _| {
                 widget.add_connection();
             });
-            klass.install_action("win.disconnect", None, |widget, _, _| {
-                widget.disconnect();
-            });
 
             klass.install_action(
                 "win.cancel-or-delete-action",
@@ -233,6 +233,10 @@ mod imp {
 
             klass.install_action("win.exit-search", None, |widget, _, _| {
                 widget.exit_search();
+            });
+
+            klass.install_action("win.exit-connections-sidebar", None, |widget, _, _| {
+                widget.exit_connections_sidebar();
             });
 
             klass.install_action("win.exit-actions-overview", None, |widget, _, _| {
@@ -827,10 +831,6 @@ impl Window {
         );
     }
 
-    fn disconnect(&self) {
-        self.connection_manager().disconnect();
-    }
-
     fn cancel_or_delete_action(&self, data: Option<&glib::Variant>) {
         if let Some(action_list) = self
             .connection_manager()
@@ -899,8 +899,12 @@ impl Window {
         }
     }
 
-    fn exit_actions_overview(&self) {
-        self.imp().flap.set_reveal_flap(false);
+    pub(crate) fn exit_connections_sidebar(&self) {
+        self.imp().connections_flap.set_reveal_flap(false);
+    }
+
+    pub(crate) fn exit_actions_overview(&self) {
+        self.imp().actions_flap.set_reveal_flap(false);
     }
 
     fn client_err_op(&self, e: model::ClientError) {

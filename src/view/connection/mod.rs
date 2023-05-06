@@ -2,7 +2,8 @@ mod chooser_page;
 mod creation_page;
 mod custom_info_dialog;
 mod row;
-mod switcher_widget;
+mod sidebar;
+mod switcher;
 
 use adw::prelude::MessageDialogExtManual;
 use adw::traits::MessageDialogExt;
@@ -13,7 +14,8 @@ pub(crate) use self::chooser_page::ChooserPage;
 pub(crate) use self::creation_page::CreationPage;
 pub(crate) use self::custom_info_dialog::CustomInfoDialog;
 pub(crate) use self::row::Row;
-pub(crate) use self::switcher_widget::SwitcherWidget;
+pub(crate) use self::sidebar::Sidebar;
+pub(crate) use self::switcher::Switcher;
 use crate::model;
 use crate::utils;
 

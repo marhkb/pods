@@ -334,10 +334,6 @@ impl ConnectionManager {
         );
     }
 
-    pub(crate) fn disconnect(&self) {
-        self.set_client(None);
-    }
-
     fn set_client(&self, value: Option<model::Client>) {
         let imp = self.imp();
 

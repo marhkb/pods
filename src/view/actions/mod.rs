@@ -1,3 +1,3 @@
-mod overview;
+mod sidebar;
 
-pub(crate) use self::overview::Overview;
+pub(crate) use self::sidebar::Sidebar;
