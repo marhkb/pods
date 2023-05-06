@@ -73,7 +73,7 @@ mod imp {
                     .iter()
                     .cloned()
                     .chain(vec![
-                        glib::ParamSpecBoolean::builder("show-connection-switcher")
+                        glib::ParamSpecBoolean::builder("show-connections-sidebar")
                             .explicit_notify()
                             .build(),
                         glib::ParamSpecBoolean::builder("show-actions-overview")
@@ -86,9 +86,9 @@ mod imp {
 
         fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "show-connection-switcher" => {
+                "show-connections-sidebar" => {
                     self.obj()
-                        .set_show_connection_switcher(value.get().unwrap_or_default());
+                        .set_show_connections_sidebar(value.get().unwrap_or_default());
                 }
                 "show-actions-overview" => {
                     self.obj()
@@ -100,7 +100,7 @@ mod imp {
 
         fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "show-connection-switcher" => self.obj().is_show_connection_switcher().to_value(),
+                "show-connections-sidebar" => self.obj().is_show_connections_sidebar().to_value(),
                 "show-actions-overview" => self.obj().is_show_actions_overview().to_value(),
                 _ => self.derived_property(id, pspec),
             }
@@ -114,10 +114,10 @@ mod imp {
             self.connections_toggle_button.connect_notify_local(
                 Some("active"),
                 clone!(@weak obj => move |_, _| {
-                    if obj.is_show_connection_switcher() {
-                        obj.set_show_actions_overview(false);
+                    if obj.is_show_connections_sidebar() {
+                        obj.set_show_actions_sidebar(false);
                     }
-                    obj.notify("show-connection-switcher");
+                    obj.notify("show-connections-sidebar");
                 }),
             );
 
@@ -244,11 +244,11 @@ glib::wrapper! {
 }
 
 impl Statusbar {
-    pub(crate) fn is_show_connection_switcher(&self) -> bool {
+    pub(crate) fn is_show_connections_sidebar(&self) -> bool {
         self.imp().connections_toggle_button.is_active()
     }
 
-    pub(crate) fn set_show_connection_switcher(&self, value: bool) {
+    pub(crate) fn set_show_connections_sidebar(&self, value: bool) {
         self.imp().connections_toggle_button.set_active(value);
     }
 

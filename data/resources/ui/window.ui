@@ -84,7 +84,7 @@
                       <object class="AdwFlap" id="connections_flap">
                         <property name="flap-position">start</property>
                         <property name="fold-policy">always</property>
-                        <property name="reveal-flap" bind-source="statusbar" bind-property="show-connection-switcher" bind-flags="sync-create|bidirectional"/>
+                        <property name="reveal-flap" bind-source="statusbar" bind-property="show-connections-sidebar" bind-flags="sync-create|bidirectional"/>
 
                         <child type="flap">
                           <object class="PdsConnectionsSidebar">
