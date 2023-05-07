@@ -19,6 +19,7 @@ use crate::model::SelectableListExt;
 use crate::utils;
 use crate::view;
 
+const ACTION_PRUNE_PODS: &str = "pods-panel.prune-pods";
 const ACTION_CREATE_POD: &str = "pods-panel.create-pod";
 const ACTION_START_OR_RESUME_SELECTION: &str = "pods-panel.start-or-resume-selection";
 const ACTION_STOP_SELECTION: &str = "pods-panel.stop-selection";
@@ -57,7 +58,7 @@ mod imp {
         #[template_child]
         pub(super) show_only_running_switch: TemplateChild<gtk::Switch>,
         #[template_child]
-        pub(super) create_pod_button: TemplateChild<gtk::Button>,
+        pub(super) header_suffix_button_box: TemplateChild<gtk::Box>,
         #[template_child]
         pub(super) list_box: TemplateChild<gtk::ListBox>,
     }
@@ -70,6 +71,10 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+
+            klass.install_action(ACTION_PRUNE_PODS, None, |widget, _, _| {
+                widget.prune_pods();
+            });
 
             klass.add_binding_action(
                 gdk::Key::N,
@@ -151,7 +156,7 @@ mod imp {
                 .chain_closure::<bool>(closure!(|_: Self::Type, len: u32| len > 0))
                 .bind(&*self.header_suffix_box, "visible", Some(obj));
 
-            is_selection_mode_expr.bind(&*self.create_pod_button, "visible", Some(obj));
+            is_selection_mode_expr.bind(&*self.header_suffix_button_box, "visible", Some(obj));
             is_selection_mode_expr.bind(&*self.create_pod_row, "visible", Some(obj));
 
             pod_list_len_expr.watch(
@@ -326,6 +331,15 @@ impl Panel {
             .get()
             .unwrap()
             .changed(filter_change);
+    }
+
+    pub(crate) fn prune_pods(&self) {
+        if let Some(client) = self.pod_list().and_then(|pod_list| pod_list.client()) {
+            utils::show_dialog(
+                self.upcast_ref(),
+                view::PodsPrunePage::from(&client).upcast_ref(),
+            );
+        }
     }
 
     fn create_pod(&self) {
