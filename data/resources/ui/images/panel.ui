@@ -120,7 +120,7 @@
                                 </child>
 
                                 <child>
-                                  <object class="GtkMenuButton" id="create_image_button">
+                                  <object class="GtkMenuButton">
                                     <style>
                                       <class name="circular"/>
                                     </style>

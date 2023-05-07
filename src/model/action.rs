@@ -44,6 +44,7 @@ pub(crate) enum Type {
     CreateContainer,
     CreateAndRunContainer,
     CopyFiles,
+    PrunePods,
     Pod,
     #[default]
     Undefined,
@@ -541,6 +542,34 @@ impl Action {
         Self::pod(num, pod).download_image_(client, pull_opts, move |obj, client, report| {
             obj.create_pod_(client, create_opts_builder.infra_image(report.id).build());
         })
+    }
+
+    pub(crate) fn prune_pods(num: u32, client: model::Client) -> Self {
+        let obj = Self::new(num, Type::PrunePods, &gettext("Prune unused pods"));
+        let abort_registration = obj.setup_abort_handle();
+
+        utils::do_async(
+            {
+                let podman = client.podman();
+                async move { stream::Abortable::new(podman.pods().prune(), abort_registration).await }
+            },
+            clone!(@weak obj => move |result| if let Ok(result) = result {
+                let output = obj.output();
+                let mut start_iter = output.start_iter();
+                match result.as_ref() {
+                    Ok(report) => {
+                        output.insert(&mut start_iter, &serde_json::to_string_pretty(&report).unwrap());
+                        obj.set_state(State::Finished);
+                    },
+                    Err(e) => {
+                        output.insert(&mut start_iter, &e.to_string());
+                        obj.set_state(State::Failed);
+                    }
+                }
+            }),
+        );
+
+        obj
     }
 
     fn setup_abort_handle(&self) -> stream::AbortRegistration {

@@ -283,6 +283,13 @@ impl ActionList {
         ))
     }
 
+    pub(crate) fn prune_pods(&self) -> model::Action {
+        self.insert_action(model::Action::prune_pods(
+            self.imp().action_counter.get(),
+            self.client().unwrap(),
+        ))
+    }
+
     pub(crate) fn create_pod(&self, pod: &str, opts: podman::opts::PodCreateOpts) -> model::Action {
         self.insert_action(model::Action::create_pod(
             self.imp().action_counter.get(),

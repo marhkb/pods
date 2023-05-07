@@ -83,13 +83,31 @@
                             </child>
 
                             <child>
-                              <object class="GtkButton" id="create_pod_button">
-                                <style>
-                                  <class name="circular"/>
-                                </style>
-                                <property name="action-name">pods-panel.create-pod</property>
-                                <property name="icon-name">list-add-symbolic</property>
-                                <property name="tooltip-text" translatable="yes">Create Pod</property>
+                              <object class="GtkBox" id="header_suffix_button_box">
+                                <property name="spacing">9</property>
+
+                                <child>
+                                  <object class="GtkButton">
+                                    <style>
+                                      <class name="circular"/>
+                                    </style>
+                                    <property name="action-name">pods-panel.prune-pods</property>
+                                    <property name="icon-name">eraser5-symbolic</property>
+                                    <property name="tooltip-text" translatable="yes">Prune Images</property>
+                                  </object>
+                                </child>
+
+                                <child>
+                                  <object class="GtkButton">
+                                    <style>
+                                      <class name="circular"/>
+                                    </style>
+                                    <property name="action-name">pods-panel.create-pod</property>
+                                    <property name="icon-name">list-add-symbolic</property>
+                                    <property name="tooltip-text" translatable="yes">Create Pod</property>
+                                  </object>
+                                </child>
+
                               </object>
                             </child>
 
