@@ -63,6 +63,7 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/pod/menu-button.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/pod/row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/pods/panel.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/pods/prune-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/port-mapping/row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/repo-tag/add-dialog.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/repo-tag/row.ui</file>

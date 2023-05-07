@@ -128,6 +128,7 @@ mod imp {
             view::PodMenuButton::static_type();
             view::PodRow::static_type();
             view::PodsPanel::static_type();
+            view::PodsPrunePage::static_type();
             view::PropertyRow::static_type();
             view::PropertyWidgetRow::static_type();
             view::RandomNameEntryRow::static_type();
