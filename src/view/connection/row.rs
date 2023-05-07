@@ -27,11 +27,11 @@ mod imp {
         #[template_child]
         pub(super) checkmark: TemplateChild<gtk::Image>,
         #[template_child]
-        pub(super) color_bin: TemplateChild<adw::Bin>,
-        #[template_child]
         pub(super) name_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) url_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub(super) color_bin: TemplateChild<adw::Bin>,
         #[template_child]
         pub(super) end_stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -71,10 +71,6 @@ mod imp {
             self.parent_constructed();
 
             let obj = &*self.obj();
-
-            self.color_bin
-                .style_context()
-                .add_provider(&self.css_provider, gtk::STYLE_PROVIDER_PRIORITY_APPLICATION);
 
             let connection_expr = Self::Type::this_expression("connection");
             let is_remote_expr = connection_expr.chain_property::<model::Connection>("is-remote");
@@ -154,6 +150,10 @@ mod imp {
                     Some(uuid.to_variant())
                 }))
                 .bind(&*self.delete_button, "action-target", Some(obj));
+
+            self.color_bin
+                .style_context()
+                .add_provider(&self.css_provider, gtk::STYLE_PROVIDER_PRIORITY_APPLICATION);
         }
 
         fn dispose(&self) {

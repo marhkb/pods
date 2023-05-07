@@ -42,10 +42,16 @@ actionssidebar #type {
   border-radius: 9999px;
 }
 
-connectionswitcher row #color {
+connectionchooserpage connectionswitcher row #color {
   border-radius: 9999px;
-  margin: 2px 0 0 0;
-  padding: 6px;
+  margin: 0 9px 0 0;
+  padding: 9px;
+}
+
+connectionssidebar connectionswitcher row #color {
+  border-radius: 9999px;
+  margin: 0 6px 0 0;
+  padding: 7px;
 }
 
 connectionssidebar connectionswitcher row #selection-indicator #background,
@@ -54,12 +60,6 @@ actionssidebar #action,
 actionssidebar #type {
   min-height: 34px;
   min-width: 34px;
-}
-
-connectionssidebar connectionswitcher row #delete-button,
-connectionssidebar connectionswitcher row #connecting-spinner,
-actionssidebar #action {
-  margin-left: 12px;
 }
 
 connectionchooserpage connectionswitcher row #selection-indicator #background,
@@ -92,7 +92,7 @@ actionssidebar row {
 }
 
 connectionchooserpage connectionswitcher row {
-  padding: 9px 18px;
+  padding: 9px 12px;
 }
 
 .status-badge {

@@ -179,10 +179,10 @@ mod imp {
             klass.add_binding_action(
                 gdk::Key::N,
                 gdk::ModifierType::CONTROL_MASK | gdk::ModifierType::SHIFT_MASK,
-                "win.add-connection",
+                "win.new-connection",
                 None,
             );
-            klass.install_action("win.add-connection", None, |widget, _, _| {
+            klass.install_action("win.new-connection", None, |widget, _, _| {
                 widget.add_connection();
             });
 
