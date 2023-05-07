@@ -89,7 +89,7 @@
                           <class name="pill"/>
                           <class name="suggested-action"/>
                         </style>
-                        <property name="action-name">win.add-connection</property>
+                        <property name="action-name">win.new-connection</property>
                         <property name="label" translatable="yes">_Add Connection</property>
                         <property name="halign">center</property>
                         <property name="margin-top">24</property>
