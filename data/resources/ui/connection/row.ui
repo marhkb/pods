@@ -36,32 +36,17 @@
         <property name="valign">center</property>
 
         <child>
-          <object class="GtkBox">
-            <property name="spacing">5</property>
-
-            <child>
-              <object class="AdwBin" id="color_bin">
-                <property name="name">color</property>
-                <property name="valign">center</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkLabel" id="name_label">
-                <binding name="label">
-                  <lookup name="name" type="Connection">
-                    <lookup name="connection">PdsConnectionRow</lookup>
-                  </lookup>
-                </binding>
-                <property name="ellipsize">end</property>
-                <property name="hexpand">True</property>
-                <property name="max-width-chars">16</property>
-                <property name="single-line-mode">True</property>
-                <property name="vexpand">True</property>
-                <property name="xalign">0.0</property>
-              </object>
-            </child>
-
+          <object class="GtkLabel" id="name_label">
+            <binding name="label">
+              <lookup name="name" type="Connection">
+                <lookup name="connection">PdsConnectionRow</lookup>
+              </lookup>
+            </binding>
+            <property name="ellipsize">end</property>
+            <property name="hexpand">True</property>
+            <property name="single-line-mode">True</property>
+            <property name="vexpand">True</property>
+            <property name="xalign">0.0</property>
           </object>
         </child>
 
@@ -73,13 +58,19 @@
             </style>
             <property name="ellipsize">end</property>
             <property name="hexpand">True</property>
-            <property name="max-width-chars">16</property>
             <property name="single-line-mode">True</property>
             <property name="vexpand">True</property>
             <property name="xalign">0.0</property>
           </object>
         </child>
 
+      </object>
+    </child>
+
+    <child>
+      <object class="AdwBin" id="color_bin">
+        <property name="name">color</property>
+        <property name="valign">center</property>
       </object>
     </child>
 
