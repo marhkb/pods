@@ -78,7 +78,7 @@ mod imp {
 
             self.status_page
                 .set_icon_name(Some(match action.action_type() {
-                    PruneImages => "eraser5-symbolic",
+                    PruneImages | PrunePods => "eraser5-symbolic",
                     DownloadImage | BuildImage => "image-x-generic-symbolic",
                     Commit => "merge-symbolic",
                     CreateContainer => "package-x-generic-symbolic",
@@ -134,6 +134,7 @@ impl Page {
                     CreateAndRunContainer => gettext("Container Is Currently Being Started"),
                     Commit => gettext("New Image Is Currently Being Committed"),
                     CopyFiles => gettext("Files Are Currently Being Copied"),
+                    PrunePods => gettext("Pods Are Currently Being Pruned"),
                     Pod => gettext("Pod Is Currently Being Created"),
                     _ => unreachable!(),
                 });
@@ -147,6 +148,7 @@ impl Page {
                     CreateAndRunContainer => gettext("Container Has Been Started"),
                     Commit => gettext("New Image Has Been Committed"),
                     CopyFiles => gettext("Files Have Beeng Copied"),
+                    PrunePods => gettext("Pods Have Been Pruned"),
                     Pod => gettext("Pod Has Been Created"),
                     _ => unreachable!(),
                 });
@@ -160,6 +162,7 @@ impl Page {
                     CreateAndRunContainer => gettext("Container Start Has Been Aborted"),
                     Commit => gettext("Image Commitment Has Been Aborted"),
                     CopyFiles => gettext("Copying Files Has Been Aborted"),
+                    PrunePods => gettext("Pruning of Pods Has Been Aborted"),
                     Pod => gettext("Pod Creation Has Been Aborted"),
                     _ => unreachable!(),
                 });
@@ -173,6 +176,7 @@ impl Page {
                     CreateAndRunContainer => gettext("Container Start Has Failed"),
                     Commit => gettext("Image Commitment Has Failed"),
                     CopyFiles => gettext("Copying Files Has Failed"),
+                    PrunePods => gettext("Pruning of Pods Has Failed"),
                     Pod => gettext("Pod Creation Has Failed"),
                     _ => unreachable!(),
                 });
@@ -185,7 +189,10 @@ impl Page {
         self.action_set_enabled(
             ACTION_VIEW_ARTIFACT,
             action.state() == Finished
-                && !matches!(action.action_type(), PruneImages | Commit | CopyFiles),
+                && !matches!(
+                    action.action_type(),
+                    PruneImages | PrunePods | Commit | CopyFiles
+                ),
         );
         self.action_set_enabled(
             ACTION_RETRY,
