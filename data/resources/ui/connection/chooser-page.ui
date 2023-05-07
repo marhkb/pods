@@ -32,7 +32,8 @@
             <child>
               <object class="AdwStatusPage" id="status_page">
                 <property name="title" translatable="yes">Connect to Podman</property>
-                <property name="description" translatable="yes">Either choose an existing connection or create a new one.</property>
+                <property name="description" translatable="yes">Either choose an existing connection
+                  or create a new one.</property>
                 <property name="vexpand">True</property>
 
                 <child>
@@ -78,7 +79,7 @@
                             <style>
                               <class name="pill"/>
                             </style>
-                            <property name="action-name">win.add-connection</property>
+                            <property name="action-name">win.new-connection</property>
                             <property name="halign">center</property>
                             <property name="label" translatable="yes">_New Connection</property>
                             <property name="use-underline">True</property>

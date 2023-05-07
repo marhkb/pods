@@ -90,7 +90,7 @@
                           <class name="suggested-action"/>
                         </style>
                         <property name="action-name">win.new-connection</property>
-                        <property name="label" translatable="yes">_Add Connection</property>
+                        <property name="label" translatable="yes">_New Connection</property>
                         <property name="halign">center</property>
                         <property name="margin-top">24</property>
                         <property name="use-underline">True</property>

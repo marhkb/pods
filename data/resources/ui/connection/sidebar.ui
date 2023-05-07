@@ -32,7 +32,7 @@
 
         <child type="end">
           <object class="GtkButton">
-            <property name="action-name">win.add-connection</property>
+            <property name="action-name">win.new-connection</property>
             <property name="icon-name">list-add-symbolic</property>
             <property name="tooltip-text" translatable="yes">New Connection (Ctrl+Shift+N)</property>
           </object>
