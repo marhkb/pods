@@ -371,6 +371,8 @@ mod imp {
 
                                 imp.search_button.set_active(false);
                                 imp.main_stack.set_visible_child_full("client", gtk::StackTransitionType::None);
+
+                                obj.exit_connections_sidebar();
                                 obj.exit_selection_mode();
 
                                 imp.containers_view_stack_page.set_needs_attention(false);
