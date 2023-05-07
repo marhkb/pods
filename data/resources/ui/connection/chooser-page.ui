@@ -80,7 +80,7 @@
                             </style>
                             <property name="action-name">win.add-connection</property>
                             <property name="halign">center</property>
-                            <property name="label" translatable="yes">_Add New Connection</property>
+                            <property name="label" translatable="yes">_New Connection</property>
                             <property name="use-underline">True</property>
                           </object>
                         </child>
