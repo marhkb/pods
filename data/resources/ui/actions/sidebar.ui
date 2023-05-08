@@ -17,10 +17,11 @@
         <property name="show-start-title-buttons">False</property>
 
         <child type="start">
-          <object class="GtkButton">
-            <property name="action-name">win.exit-actions-sidebar</property>
-            <property name="icon-name">go-previous-symbolic</property>
-            <property name="tooltip-text" translatable="yes">Go Back</property>
+          <object class="GtkButton" id="clear_all_button">
+            <property name="action-name">actions-overview.clear-actions</property>
+            <property name="icon-name">edit-clear-all-symbolic</property>
+            <property name="tooltip-text" translatable="yes">Clear Finished Actions</property>
+            <property name="visible" bind-source="clear_all_button" bind-property="sensitive" bind-flags="sync-create"/>
           </object>
         </child>
 
@@ -31,13 +32,13 @@
         </property>
 
         <child type="end">
-          <object class="GtkButton" id="clear_all_button">
-            <property name="action-name">actions-overview.clear-actions</property>
-            <property name="icon-name">edit-clear-all-symbolic</property>
-            <property name="tooltip-text" translatable="yes">Clear Finished Actions</property>
-            <property name="visible" bind-source="clear_all_button" bind-property="sensitive" bind-flags="sync-create"/>
+          <object class="GtkButton">
+            <property name="action-name">win.exit-actions-sidebar</property>
+            <property name="icon-name">go-next-symbolic</property>
+            <property name="tooltip-text" translatable="yes">Fold</property>
           </object>
         </child>
+
 
       </object>
     </child>
