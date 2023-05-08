@@ -93,9 +93,13 @@ impl BackNavigationControls {
         self.root_leaflet_overlay().hide_details();
     }
 
-    pub(crate) fn navigate_back(&self) {
-        if let Some(leaflet_overlay) = self.previous_leaflet_overlay() {
-            leaflet_overlay.hide_details();
+    pub(crate) fn navigate_back(&self) -> bool {
+        match self.previous_leaflet_overlay() {
+            Some(leaflet_overlay) => {
+                leaflet_overlay.hide_details();
+                true
+            }
+            None => false,
         }
     }
 
