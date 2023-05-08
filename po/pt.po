@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-29 19:55+0100\n"
-"PO-Revision-Date: 2023-05-05 19:46+0000\n"
+"PO-Revision-Date: 2023-05-08 18:08+0000\n"
 "Last-Translator: William Gabriel Karvat <linkwgk@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/pods/main/pt/>"
 "\n"
@@ -839,12 +839,12 @@ msgstr "_Começar"
 #: data/resources/ui/container/menu-button.ui:12
 #: data/resources/ui/pod/menu-button.ui:18
 msgid "S_top"
-msgstr ""
+msgstr "P_arar"
 
 #: data/resources/ui/container/menu-button.ui:17
 #: data/resources/ui/pod/menu-button.ui:23
 msgid "R_estart"
-msgstr ""
+msgstr "R_einiciar"
 
 #: data/resources/ui/container/menu-button.ui:22
 #: data/resources/ui/pod/menu-button.ui:28
@@ -858,7 +858,7 @@ msgstr "_Pausar"
 
 #: data/resources/ui/container/menu-button.ui:34
 msgid "Re_name…"
-msgstr ""
+msgstr "Re_nomear…"
 
 #: data/resources/ui/container/menu-button.ui:41
 #: data/resources/ui/pod/menu-button.ui:40 src/view/containers/panel.rs:362
@@ -1001,7 +1001,7 @@ msgstr "Gravável"
 
 #: data/resources/ui/device/row.ui:71
 msgid "mknod"
-msgstr ""
+msgstr "mknod"
 
 #: data/resources/ui/device/row.ui:97 data/resources/ui/volume/row.ui:107
 msgid "Host path"
@@ -1450,7 +1450,7 @@ msgstr "Puxar mais recente"
 
 #: data/resources/ui/repo-tag/row.ui:43
 msgid "Untag"
-msgstr ""
+msgstr "Desmarcar"
 
 #: data/resources/ui/search-panel.ui:19
 msgid "Please start typing to look for results."
@@ -1663,253 +1663,253 @@ msgstr "Cancelar"
 
 #: src/application.rs:188
 msgid "translator-credits"
-msgstr ""
+msgstr "créditos de tradução"
 
 #: src/application.rs:192
 msgid "Translators"
-msgstr ""
+msgstr "Tradutores"
 
 #: src/main.rs:114
 msgid "Prints application version"
-msgstr ""
+msgstr "Imprime a versão do aplicativo"
 
 #: src/main.rs:123
 msgid "Specify the minimum log level"
-msgstr ""
+msgstr "Especifique o nível mínimo do log"
 
 #: src/model/action.rs:160
 msgid "Images: <b>Prune</b>"
-msgstr ""
+msgstr "Iamgens:<b>Limpar</b>"
 
 #: src/model/action.rs:198 src/model/action.rs:227
 msgid "Image: <b>{}</b>"
-msgstr ""
+msgstr "Imagem:<b>{}</b>"
 
 #: src/model/action.rs:230
 msgid "Generating tarball of context directory..."
-msgstr ""
+msgstr "Gerando tarball do diretório de contexto..."
 
 #: src/model/action.rs:300 src/model/action.rs:356
 msgid "Container: <b>{}</b> ← {}"
-msgstr ""
+msgstr "Contêiner:<b>{}</b> ← {}"
 
 #: src/model/action.rs:319
 msgid "none"
-msgstr ""
+msgstr "Nenhum"
 
 #: src/model/action.rs:316
 msgid "Image: <b>{}</b> ← {}"
-msgstr ""
+msgstr "Imagens:<b>{}</b> ← {}"
 
 #: src/model/action.rs:330 src/model/action.rs:437 src/model/action.rs:525
 #: src/model/action.rs:732
 msgid "Finished"
-msgstr ""
+msgstr "Finalizado"
 
 #: src/model/action.rs:374
 msgid "Files: <b>{}</b> ({}) ← {}"
-msgstr ""
+msgstr "Arquivos:<b>{}</b>({}) ← {}"
 
 #: src/model/action.rs:381
 msgid "Creating tar archive…"
-msgstr ""
+msgstr "Criando um arquivo tar…"
 
 #: src/model/action.rs:414
 msgid "Tar archive created"
-msgstr ""
+msgstr "Arquivo tar criado"
 
 #: src/model/action.rs:415
 msgid "Unwrapping tar archive…"
-msgstr ""
+msgstr "Descompactando arquivo tar…"
 
 #: src/model/action.rs:423
 msgid "Tar archive unwrapped"
-msgstr ""
+msgstr "Arquivo tar descompactado"
 
 #: src/model/action.rs:424
 msgid "Copying files into container…"
-msgstr ""
+msgstr "Copiando arquivo para dentro do contêiner…"
 
 #: src/model/action.rs:476
 msgid "Files: <b>{}</b> ({}) → {}"
-msgstr ""
+msgstr "Arquivos:<b>{}</b>({})→ {}"
 
 #: src/model/action.rs:485
 msgid "Copying bytes into memory…"
-msgstr ""
+msgstr "Copiando bytes para a memória…"
 
 #: src/model/action.rs:488 src/model/action.rs:505
 msgid "Size: {}"
-msgstr ""
+msgstr "Tamanho: {}"
 
 #: src/model/action.rs:546
 msgid "Pod: <b>{}</b>"
-msgstr ""
+msgstr "Pod: <b>{}</b>"
 
 #: src/model/action.rs:557
 msgid "Pod: <b>{}</b> ← {}"
-msgstr ""
+msgstr "Pod: <b>{}</b> ← {}"
 
 #: src/model/connection_manager.rs:207
 msgid "Connection '{}' already exists."
-msgstr ""
+msgstr "A conexão '{}' já existe."
 
 #: src/model/container.rs:68 src/model/pod.rs:65
 msgid "Dead"
-msgstr ""
+msgstr "Morto"
 
 #: src/model/container.rs:69 src/model/pod.rs:68
 msgid "Exited"
-msgstr ""
+msgstr "Saiu"
 
 #: src/model/container.rs:70
 msgid "Initialized"
-msgstr ""
+msgstr "Inicializado"
 
 #: src/model/container.rs:72
 msgid "Removing"
-msgstr ""
+msgstr "Removendo"
 
 #: src/model/container.rs:73 src/model/pod.rs:70
 msgid "Restarting"
-msgstr ""
+msgstr "Reiniciando"
 
 #: src/model/container.rs:76
 msgid "Stopping"
-msgstr ""
+msgstr "Parando"
 
 #: src/model/container.rs:77 src/model/container.rs:118 src/model/pod.rs:73
 msgid "Unknown"
-msgstr ""
+msgstr "Desconhecido"
 
 #: src/model/container.rs:114
 msgid "Checking"
-msgstr ""
+msgstr "Checando"
 
 #: src/model/container.rs:115
 msgid "Healthy"
-msgstr ""
+msgstr "Íntegro"
 
 #: src/model/container.rs:116
 msgid "Unhealthy"
-msgstr ""
+msgstr "Não íntegro"
 
 #: src/model/container.rs:117
 msgid "Unconfigured"
-msgstr ""
+msgstr "Desconfigurado"
 
 #: src/model/pod.rs:66
 msgid "Degraded"
-msgstr ""
+msgstr "Degradado"
 
 #: src/model/pod.rs:67 src/view/component/scalable_text_view_page.rs:427
 #: src/view/connection/creation_page.rs:269
 msgid "Error"
-msgstr ""
+msgstr "Erro"
 
 #: src/utils.rs:115
 msgid "{} h {} min {} s"
-msgstr ""
+msgstr "{} h {} min {} s"
 
 #: src/utils.rs:117
 msgid "{} h {} s"
-msgstr ""
+msgstr "{} h {} s"
 
 #: src/utils.rs:124
 msgid "{} min {} s"
-msgstr ""
+msgstr "{} min {} s"
 
 #: src/utils.rs:126
 msgid "{} min"
-msgstr ""
+msgstr "{} min"
 
 #: src/utils.rs:129
 msgid "{} s"
-msgstr ""
+msgstr "{} s"
 
 #: src/utils.rs:145
 msgid "a few seconds"
-msgstr ""
+msgstr "alguns segundos"
 
 #: src/utils.rs:147
 msgid "{} minute"
 msgid_plural "{} minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} minuto"
+msgstr[1] "{} minutos"
 
 #: src/utils.rs:149
 msgid "{} hour"
 msgid_plural "{} hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} hora"
+msgstr[1] "{} horas"
 
 #: src/utils.rs:152
 msgid "{} day"
 msgid_plural "{} days"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} dia"
+msgstr[1] "{} dias"
 
 #. Translators: Example: {3 hours} ago, {a few seconds} ago
 #: src/utils.rs:158
 msgid "{} ago"
-msgstr ""
+msgstr "{} atrás"
 
 #. Translators: This string will be shown when a property of an entity like an image is null.
 #: src/utils.rs:272
 msgid "<none>"
-msgstr ""
+msgstr "<nenhum>"
 
 #: src/utils.rs:401
 msgid "Error on open file dialog"
-msgstr ""
+msgstr "Erro ao abrir a caixa de diálogo do arquivo"
 
 #: src/view/action/page.rs:141
 msgid "Images Are Currently Being Pruned"
-msgstr ""
+msgstr "As imagens estão sendo removidas no momento"
 
 #: src/view/action/page.rs:142
 msgid "Image Is Currently Being Downloaded"
-msgstr ""
+msgstr "As imagens estão sendo baixadas no momento"
 
 #: src/view/action/page.rs:143
 msgid "Image Is Currently Being Built"
-msgstr ""
+msgstr "As imagens estão sendo construídas no momento"
 
 #: src/view/action/page.rs:144
 msgid "Container Is Currently Being Created"
-msgstr ""
+msgstr "O contêiner está sendo criado no momento"
 
 #: src/view/action/page.rs:145
 msgid "New Image Is Currently Being Committed"
-msgstr ""
+msgstr "Nova imagem está sendo confirmada no momento"
 
 #: src/view/action/page.rs:146
 msgid "Files Are Currently Being Copied"
-msgstr ""
+msgstr "Os arquivos estão sendo copiados no momento"
 
 #: src/view/action/page.rs:147
 msgid "Pod Is Currently Being Created"
-msgstr ""
+msgstr "O pod está sendo criado no momento"
 
 #: src/view/action/page.rs:153
 msgid "Images Have Been Pruned"
-msgstr ""
+msgstr "As imagens foram limpas"
 
 #: src/view/action/page.rs:154
 msgid "Image Has Been Downloaded"
-msgstr ""
+msgstr "A imagem foi baixada"
 
 #: src/view/action/page.rs:155
 msgid "Image Has Been Built"
-msgstr ""
+msgstr "A imagem foi criada"
 
 #: src/view/action/page.rs:156
 msgid "Container Has Been Created"
-msgstr ""
+msgstr "O contêiner foi criado"
 
 #: src/view/action/page.rs:157
 msgid "New Image Has Been Committed"
-msgstr ""
+msgstr "Nova imagem foi confirmada"
 
 #: src/view/action/page.rs:158
 msgid "Files Have Beeng Copied"
