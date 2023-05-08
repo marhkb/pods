@@ -74,6 +74,11 @@ mod imp {
                 }
             }
         }
+
+        fn unroot(&self) {
+            self.parent_unroot();
+            utils::unparent_children(self.box_.upcast_ref());
+        }
     }
 }
 
