@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-29 19:55+0100\n"
-"PO-Revision-Date: 2023-03-30 12:40+0000\n"
+"PO-Revision-Date: 2023-05-08 18:08+0000\n"
 "Last-Translator: Lars Nielsen <lnc13.lars@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/pods/main/da/>\n"
 "Language: da\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.17-dev\n"
+"X-Generator: Weblate 4.18-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
@@ -443,7 +443,6 @@ msgstr "Format"
 #: data/resources/ui/containers/panel.ui:259
 #: data/resources/ui/pod/details-page.ui:214
 #: data/resources/ui/pods/panel.ui:204 data/resources/ui/pods/panel.ui:311
-#, fuzzy
 msgid "Pause"
 msgstr "Pause"
 
@@ -469,7 +468,7 @@ msgstr ""
 #: data/resources/ui/containers/group.ui:12
 #: data/resources/ui/containers/group.ui:45
 msgid "Create Container"
-msgstr ""
+msgstr "Opret kontainer"
 
 #: data/resources/ui/container/creation-page.ui:64
 msgid "_Run"
@@ -498,7 +497,7 @@ msgstr "Fjern billede"
 #: data/resources/ui/container/creation-page.ui:172
 #: data/resources/ui/pod/creation-page.ui:338
 msgid "Discard"
-msgstr ""
+msgstr "Kassere"
 
 #: data/resources/ui/container/creation-page.ui:193
 #: data/resources/ui/container/creation-page.ui:199
@@ -623,7 +622,7 @@ msgstr ""
 
 #: data/resources/ui/container/details-page.ui:27
 msgid "Container"
-msgstr ""
+msgstr "Kontainer"
 
 #: data/resources/ui/container/details-page.ui:75
 #: data/resources/ui/pod/details-page.ui:123
@@ -689,35 +688,35 @@ msgstr "Logs"
 
 #: data/resources/ui/container/details-page.ui:257
 msgid "View and search through container logs."
-msgstr ""
+msgstr "Vis og søg gennem kontainer logs."
 
 #: data/resources/ui/container/details-page.ui:273
 #: data/resources/ui/pod/details-page.ui:285
 msgid "Processes"
-msgstr ""
+msgstr "Processer"
 
 #: data/resources/ui/container/details-page.ui:274
 msgid "View processes that are currently running inside the container."
-msgstr ""
+msgstr "Vis processer der aktivt køre i kontaineren."
 
 #: data/resources/ui/container/files-get-page.ui:40
 msgid "Download Files"
-msgstr ""
+msgstr "Hent Filer"
 
 #: data/resources/ui/container/files-get-page.ui:50
 #: data/resources/ui/image/pull-page.ui:50
 msgid "_Download"
-msgstr ""
+msgstr "_Hent"
 
 #: data/resources/ui/container/files-get-page.ui:68
 #: data/resources/ui/container/files-put-page.ui:96
 msgid "Container Path ('/' if empty)"
-msgstr ""
+msgstr "Kontainer Sti ('/' hvis tom)"
 
 #: data/resources/ui/container/files-get-page.ui:75
 #: data/resources/ui/container/files-put-page.ui:77
 msgid "Host Path"
-msgstr ""
+msgstr "Host Sti"
 
 #: data/resources/ui/container/files-get-page.ui:76
 msgid "Select a destination tar archive on the host."
