@@ -4,7 +4,7 @@ data/com.github.marhkb.Pods.metainfo.xml.in.in
 
 data/resources/ui/action/page.ui
 data/resources/ui/action/row.ui
-data/resources/ui/actions/overview.ui
+data/resources/ui/actions/sidebar.ui
 data/resources/ui/component/back-navigation-controls.ui
 data/resources/ui/component/circular-progress-bar.ui
 data/resources/ui/component/leaflet-overlay.ui
@@ -16,11 +16,13 @@ data/resources/ui/component/source-view-search-widget.ui
 data/resources/ui/component/spinner.ui
 data/resources/ui/component/text-search-entry.ui
 data/resources/ui/component/top-page.ui
+data/resources/ui/component/zoom-control.ui
 data/resources/ui/connection/chooser-page.ui
 data/resources/ui/connection/creation-page.ui
 data/resources/ui/connection/custom-info-dialog.ui
 data/resources/ui/connection/row.ui
-data/resources/ui/connection/switcher-widget.ui
+data/resources/ui/connection/sidebar.ui
+data/resources/ui/connection/switcher.ui
 data/resources/ui/container/commit-page.ui
 data/resources/ui/container/creation-page.ui
 data/resources/ui/container/details-page.ui
@@ -58,6 +60,7 @@ data/resources/ui/pod/details-page.ui
 data/resources/ui/pod/menu-button.ui
 data/resources/ui/pod/row.ui
 data/resources/ui/pods/panel.ui
+data/resources/ui/pods/prune-page.ui
 data/resources/ui/port-mapping/row.ui
 data/resources/ui/repo-tag/add-dialog.ui
 data/resources/ui/repo-tag/row.ui
@@ -110,7 +113,7 @@ src/view/action/mod.rs
 src/view/action/page.rs
 src/view/action/row.rs
 src/view/actions/mod.rs
-src/view/actions/overview.rs
+src/view/actions/sidebar.rs
 src/view/component/back_navigation_controls.rs
 src/view/component/circular_progress_bar.rs
 src/view/component/leaflet_overlay.rs
@@ -124,12 +127,14 @@ src/view/component/source_view_search_widget.rs
 src/view/component/spinner.rs
 src/view/component/text_search_entry.rs
 src/view/component/top_page.rs
+src/view/component/zoom_control.rs
 src/view/connection/chooser_page.rs
 src/view/connection/creation_page.rs
 src/view/connection/custom_info_dialog.rs
 src/view/connection/mod.rs
 src/view/connection/row.rs
-src/view/connection/switcher_widget.rs
+src/view/connection/sidebar.rs
+src/view/connection/switcher.rs
 src/view/container/commit_page.rs
 src/view/container/creation_page.rs
 src/view/container/details_page.rs
@@ -179,6 +184,7 @@ src/view/pod/mod.rs
 src/view/pod/row.rs
 src/view/pods/mod.rs
 src/view/pods/panel.rs
+src/view/pods/prune_page.rs
 src/view/port_mapping/mod.rs
 src/view/port_mapping/row.rs
 src/view/repo_tag/add_dialog.rs
