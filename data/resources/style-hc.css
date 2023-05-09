@@ -6,7 +6,7 @@
   font-weight: bold;
 }
 
-.container-status-configured
+.container-status-configured,
 .container-status-created,
 .container-status-exited,
 .container-status-removing,
