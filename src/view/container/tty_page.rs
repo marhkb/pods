@@ -1,3 +1,4 @@
+use adw::traits::BinExt;
 use glib::clone;
 use glib::Properties;
 use gtk::gdk;
@@ -10,6 +11,7 @@ use crate::model;
 use crate::utils;
 use crate::view;
 
+const ACTION_PIP_OUT: &str = "container-tty-page.pip-out";
 const ACTION_ZOOM_OUT: &str = "container-tty-page.zoom-out";
 const ACTION_ZOOM_IN: &str = "container-tty-page.zoom-in";
 const ACTION_ZOOM_NORMAL: &str = "container-tty-page.zoom-normal";
@@ -30,6 +32,8 @@ mod imp {
         #[template_child]
         pub(super) menu_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
+        pub(super) detach_button: TemplateChild<gtk::Button>,
+        #[template_child]
         pub(super) tty: TemplateChild<view::ContainerTty>,
     }
 
@@ -41,6 +45,10 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+
+            klass.install_action(ACTION_PIP_OUT, None, |widget, _, _| {
+                widget.pip_out();
+            });
 
             klass.install_action(ACTION_ZOOM_OUT, None, |widget, _, _| {
                 widget.imp().tty.zoom_out();
@@ -123,7 +131,9 @@ mod imp {
                 .add_child(&*self.zoom_control, "zoom-control");
 
             self.tty.connect_terminated(clone!(@weak obj => move |_| {
-                obj.imp().back_navigation_controls.navigate_back();
+                if !obj.imp().back_navigation_controls.navigate_back() {
+                    utils::root(obj.upcast_ref()).close();
+                }
             }));
         }
 
@@ -138,12 +148,34 @@ mod imp {
 
             let widget = &*self.obj();
 
+            self.zoom_control
+                .set_zoom_in_action_name(Some("container-tty-page.zoom-in"));
+            self.zoom_control
+                .set_zoom_normal_action_name(Some("container-tty-page.zoom-normal"));
+            self.zoom_control
+                .set_zoom_out_action_name(Some("container-tty-page.zoom-out"));
+
+            self.detach_button
+                .set_action_name(Some("container-tty-page.pip-out"));
+
             glib::idle_add_local(
                 clone!(@weak widget => @default-return glib::Continue(false), move || {
                     widget.imp().tty.grab_focus();
                     glib::Continue(false)
                 }),
             );
+        }
+
+        fn unroot(&self) {
+            self.parent_unroot();
+
+            // We have to unset the action while when unrooting and set them again when rooting.
+            // Otherwise, the widgets would be insensitive.
+            self.zoom_control.set_zoom_in_action_name(None);
+            self.zoom_control.set_zoom_normal_action_name(None);
+            self.zoom_control.set_zoom_out_action_name(None);
+
+            self.detach_button.set_action_name(None);
         }
     }
 }
@@ -157,5 +189,27 @@ glib::wrapper! {
 impl From<&model::Container> for TtyPage {
     fn from(image: &model::Container) -> Self {
         glib::Object::builder().property("container", image).build()
+    }
+}
+
+impl TtyPage {
+    pub(crate) fn pip_out(&self) {
+        if let Some(leaflet_overlay) = utils::parent_leaflet_overlay(self.upcast_ref()) {
+            self.action_set_enabled(ACTION_PIP_OUT, false);
+
+            leaflet_overlay.set_child(gtk::Widget::NONE);
+            leaflet_overlay.hide_details();
+
+            let toast_overlay = adw::ToastOverlay::new();
+            toast_overlay.set_child(Some(self));
+
+            let window = adw::Window::builder()
+                .content(&toast_overlay)
+                .default_height(500)
+                .default_width(700)
+                .build();
+
+            window.present();
+        }
     }
 }

@@ -10,9 +10,6 @@
   </menu>
 
   <object class="PdsZoomControl" id="zoom_control">
-    <property name="zoom-out-action-name">container-tty-page.zoom-out</property>
-    <property name="zoom-normal-action-name">container-tty-page.zoom-normal</property>
-    <property name="zoom-in-action-name">container-tty-page.zoom-in</property>
     <property name="zoom-factor" bind-source="tty" bind-property="font-scale" bind-flags="sync-create"/>
   </object>
 
@@ -45,6 +42,14 @@
           <object class="GtkMenuButton" id="menu_button">
             <property name="icon-name">view-more-symbolic</property>
             <property name="menu-model">menu</property>
+          </object>
+        </child>
+
+        <child type="end">
+          <object class="GtkButton" id="detach_button">
+            <property name="icon-name">pip-out-symbolic</property>
+            <property name="tooltip-text" translatable="yes">Detach Terminal</property>
+            <property name="visible" bind-source="detach_button" bind-property="sensitive" bind-flags="sync-create"/>
           </object>
         </child>
 
