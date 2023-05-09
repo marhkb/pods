@@ -32,8 +32,7 @@
             <child>
               <object class="AdwStatusPage" id="status_page">
                 <property name="title" translatable="yes">Connect to Podman</property>
-                <property name="description" translatable="yes">Either choose an existing connection
-                  or create a new one.</property>
+                <property name="description" translatable="yes">Either choose an existing connection or create a new one.</property>
                 <property name="vexpand">True</property>
 
                 <child>
