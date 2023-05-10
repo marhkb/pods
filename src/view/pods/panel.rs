@@ -229,12 +229,7 @@ mod imp {
                             == model::PodStatus::Running
                 }));
 
-            let sorter = gtk::CustomSorter::new(|obj1, obj2| {
-                let pod1 = obj1.downcast_ref::<model::Pod>().unwrap();
-                let pod2 = obj2.downcast_ref::<model::Pod>().unwrap();
-
-                pod1.name().cmp(&pod2.name()).into()
-            });
+            let sorter = gtk::StringSorter::new(Some(model::Pod::this_expression("name")));
 
             self.properties_filter
                 .set(properties_filter.upcast())
