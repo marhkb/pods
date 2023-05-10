@@ -120,6 +120,7 @@ impl SimpleContainerList {
         let mut list = self.imp().0.borrow_mut();
         if let Some((idx, _, container)) = list.shift_remove_full(id.borrow()) {
             drop(list);
+
             self.items_changed(idx as u32, 1, 0);
             if let Some(container) = container.upgrade() {
                 self.container_removed(&container);
