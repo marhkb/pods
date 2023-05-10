@@ -228,7 +228,7 @@
                         </style>
                         <property name="action-name">images-panel.pull-image</property>
                         <property name="halign">center</property>
-                        <property name="label" translatable="yes">_Download an Image</property>
+                        <property name="label" translatable="yes">_Download Image</property>
                         <property name="use-underline">True</property>
                       </object>
                     </child>
@@ -240,7 +240,7 @@
                         </style>
                         <property name="action-name">images-panel.build-image</property>
                         <property name="halign">center</property>
-                        <property name="label" translatable="yes">_Build a Local Image</property>
+                        <property name="label" translatable="yes">_Build Image</property>
                         <property name="use-underline">True</property>
                       </object>
                     </child>
