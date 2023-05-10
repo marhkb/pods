@@ -165,9 +165,10 @@ impl PodList {
     pub(crate) fn remove_pod(&self, id: &str) {
         let mut list = self.imp().list.borrow_mut();
         if let Some((idx, _, pod)) = list.shift_remove_full(id) {
-            pod.emit_deleted();
             drop(list);
+
             self.items_changed(idx as u32, 1, 0);
+            pod.emit_deleted();
         }
     }
 
