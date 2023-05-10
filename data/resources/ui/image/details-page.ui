@@ -4,6 +4,7 @@
   <object class="GtkListBoxRow" id="create_tag_row">
     <property name="action-name">image-details-page.tag</property>
     <property name="selectable">False</property>
+    <property name="tooltip-text" translatable="yes">Create Repository Tag</property>
 
     <child>
       <object class="GtkImage">
