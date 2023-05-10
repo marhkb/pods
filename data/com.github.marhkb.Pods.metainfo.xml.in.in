@@ -42,6 +42,18 @@
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="1.1.2" date="2023-05-10">
+      <description>
+        <p>Pods 1.1.2 contains the following fixes and performance improvements and chores:</p>
+        <ul>
+          <li>Fixed a bug that caused status colors of a container in high contrast mode not to be adjusted adequately.</li>
+          <li>Fixed a bug where container overview entries were filtered incorrectly after a container was removed.</li>
+          <li>The button for creating a repository tag has now got a tooltip.</li>
+          <li>The circular progress bar for the CPU and memory usage of a container is now updated more efficiently.</li>
+          <li>Dependencies have been updated.</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.1.1" date="2023-05-02">
       <description>
         <p>Pods 1.1.1 contains the following fixes, improvements and chores:</p>
