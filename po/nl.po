@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-09 22:08+0200\n"
-"PO-Revision-Date: 2023-04-05 19:51+0000\n"
+"PO-Revision-Date: 2023-05-12 07:50+0000\n"
 "Last-Translator: Philip Goto <philip.goto@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/pods/main/nl/>\n"
 "Language: nl\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.17-dev\n"
+"X-Generator: Weblate 4.18-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
@@ -32,7 +32,7 @@ msgstr "Houd uw Podman-containers bij"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:9
 msgid "Gnome;GTK;libadwaita;Podman;Containerization;"
-msgstr ""
+msgstr "Gnome;GTK;libadwaita;Podman;Containerization;Containerisatie;"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:6
 #: data/com.github.marhkb.Pods.gschema.xml.in:7
@@ -118,9 +118,8 @@ msgid "The font scale of all text views"
 msgstr "De lettertypegrootte van alle tekstelementen"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:101
-#, fuzzy
 msgid "The font scale for terminals"
-msgstr "De lettertypegrootte van alle tekstelementen"
+msgstr "De lettertypegrootte voor terminals"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
 msgid ""
@@ -219,30 +218,26 @@ msgid "_Retry"
 msgstr "_Opnieuw proberen"
 
 #: data/resources/ui/actions/sidebar.ui:23
-#, fuzzy
 msgid "Clear Finished Actions"
-msgstr "Pods-actie voltooid"
+msgstr "Voltooide acties wissen"
 
 #: data/resources/ui/actions/sidebar.ui:30 data/resources/ui/statusbar.ui:124
-#, fuzzy
 msgid "Actions"
-msgstr "Verbindingen"
+msgstr "Acties"
 
 #: data/resources/ui/actions/sidebar.ui:38
 #: data/resources/ui/connection/sidebar.ui:23
 msgid "Fold"
-msgstr ""
+msgstr "Vouwen"
 
 #: data/resources/ui/actions/sidebar.ui:61
-#, fuzzy
 msgid "No Actions"
-msgstr "Geen handelingen"
+msgstr "Geen acties"
 
 #: data/resources/ui/component/scalable-text-view-page.ui:12
 #: data/resources/ui/container/log-page.ui:12
-#, fuzzy
 msgid "_Save as File"
-msgstr "Opslaan als bestand"
+msgstr "_Opslaan als bestand"
 
 #: data/resources/ui/component/scalable-text-view-page.ui:62
 #: data/resources/ui/container/creation-page.ui:184
@@ -282,9 +277,8 @@ msgstr "Kies een bestaande verbinding of maak een nieuwe aan."
 
 #: data/resources/ui/connection/chooser-page.ui:83
 #: data/resources/ui/welcome-page.ui:93
-#, fuzzy
 msgid "_New Connection"
-msgstr "Nieuwe verbinding"
+msgstr "_Nieuwe verbinding"
 
 #: data/resources/ui/connection/creation-page.ui:27
 #: data/resources/ui/container/commit-page.ui:33
@@ -377,7 +371,7 @@ msgstr "Kleur"
 
 #: data/resources/ui/connection/creation-page.ui:297
 msgid "Set the color of the status bar when this connection is active."
-msgstr ""
+msgstr "Stelt de kleur in van de statusbalk wanneer deze verbinding actief is."
 
 #: data/resources/ui/connection/custom-info-dialog.ui:16
 msgid "Custom Connection"
@@ -439,9 +433,8 @@ msgid "Connections"
 msgstr "Verbindingen"
 
 #: data/resources/ui/connection/sidebar.ui:37
-#, fuzzy
 msgid "New Connection (Ctrl+Shift+N)"
-msgstr "Vorige (Ctrl+Shift+G)"
+msgstr "Nieuwe verbinding (Ctrl+Shift+N)"
 
 #: data/resources/ui/container/commit-page.ui:40
 msgid "Commit Container"
@@ -827,9 +820,8 @@ msgid "_Run Health Check"
 msgstr "Gezondheidscheck _uitvoeren"
 
 #: data/resources/ui/container/log-page.ui:18
-#, fuzzy
 msgid "Show _Timestamps"
-msgstr "Tijdstempels"
+msgstr "_Tijdstempels tonen"
 
 #: data/resources/ui/container/log-page.ui:56
 msgid "Container Logs"
@@ -844,7 +836,6 @@ msgid "Scroll to bottom"
 msgstr "Naar beneden scrollen"
 
 #: data/resources/ui/container/log-page.ui:220
-#, fuzzy
 msgid "Start/Resume Container."
 msgstr "Container starten/hervatten"
 
@@ -964,9 +955,8 @@ msgid "Container TTY"
 msgstr "Container-TTY"
 
 #: data/resources/ui/container/tty-page.ui:51
-#, fuzzy
 msgid "Detach Terminal"
-msgstr "Terminal"
+msgstr "Terminal loskoppelen"
 
 #: data/resources/ui/container/tty.ui:6
 msgid "_Copy"
@@ -1111,9 +1101,8 @@ msgid "Containerfile Path Relative to Build Context Directory"
 msgstr "Containerfile-pad relatief aan de bouw-contextmap"
 
 #: data/resources/ui/image/details-page.ui:77
-#, fuzzy
 msgid "Delete Image"
-msgstr "Dit schijfkopiebestand _verwijderen"
+msgstr "Schijfkopiebestand verwijderen"
 
 #: data/resources/ui/image/details-page.ui:98
 msgid "Disk space"
@@ -1198,9 +1187,8 @@ msgid "Prune Images"
 msgstr "Schijfkopiebestanden opschonen"
 
 #: data/resources/ui/images/panel.ui:128
-#, fuzzy
 msgid "Create Image"
-msgstr "Extern schijfkopiebestand"
+msgstr "Schijfkopiebestand aanmaken"
 
 #: data/resources/ui/images/panel.ui:216
 msgid "You can use the buttons below to add an initial image."
@@ -1444,9 +1432,8 @@ msgid "_Create a Pod"
 msgstr "Een pod _aanmaken"
 
 #: data/resources/ui/pods/prune-page.ui:40
-#, fuzzy
 msgid "Prune Pods"
-msgstr "Opschoningsinstellingen"
+msgstr "Pods opschonen"
 
 #: data/resources/ui/port-mapping/row.ui:29
 msgid "will be mapped to container port"
@@ -1518,15 +1505,14 @@ msgid "Quit"
 msgstr "Afsluiten"
 
 #: data/resources/ui/shortcuts.ui:38
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Close window"
-msgstr "Hoofdvenster"
+msgstr "Venster sluiten"
 
 #: data/resources/ui/shortcuts.ui:45
 msgctxt "shortcut window"
 msgid "Close dialog"
-msgstr ""
+msgstr "Dialoog sluiten"
 
 #: data/resources/ui/shortcuts.ui:52
 msgctxt "shortcut window"
@@ -1624,14 +1610,12 @@ msgid "Create a new entity"
 msgstr "Nieuwe entiteit aanmaken"
 
 #: data/resources/ui/statusbar.ui:6 data/resources/ui/statusbar.ui:83
-#, fuzzy
 msgid "Podman"
 msgstr "Podman"
 
 #: data/resources/ui/statusbar.ui:8
-#, fuzzy
 msgid "_Show Information"
-msgstr "Configuratie"
+msgstr "_Informatie tonen"
 
 #: data/resources/ui/value/row.ui:4 src/view/container/creation_page.rs:306
 #: src/view/pod/creation_page.rs:208 src/view/pod/creation_page.rs:217
@@ -1706,42 +1690,36 @@ msgid "Specify the minimum log level"
 msgstr "Minimumniveau logging instellen"
 
 #: src/model/action.rs:130
-#, fuzzy
 msgid "Prune unused images"
-msgstr "_Ongebruikte afbeeldingen opschonen…"
+msgstr "Ongebruikte schijfkopie­bestanden opschonen"
 
 #: src/model/action.rs:168
-#, fuzzy
 msgid "Pull image <b>{}</b>"
-msgstr "Schijfkopiebestand: <b>{}</b>"
+msgstr "Schijfkopiebestand <b>{}</b> binnenhalen"
 
 #: src/model/action.rs:200
-#, fuzzy
 msgid "Build image <b>{}</b>"
-msgstr "Schijfkopiebestand: <b>{}</b>"
+msgstr "Schijfkopiebestand <b>{}</b> bouwen"
 
 #: src/model/action.rs:204
 msgid "Generating tarball of context directory..."
 msgstr "Tarball van contextmap genereren…"
 
 #: src/model/action.rs:272
-#, fuzzy
 msgid "Start new container <b>{}</b>"
-msgstr "Container: <b>{}</b> ← {}"
+msgstr "Nieuwe container <b>{}</b> starten"
 
 #: src/model/action.rs:274
-#, fuzzy
 msgid "Create container <b>{}</b>"
-msgstr "Container: <b>{}</b> ← {}"
+msgstr "Container <b>{}</b> aanmaken"
 
 #: src/model/action.rs:304
 msgid "none"
 msgstr "geen"
 
 #: src/model/action.rs:300
-#, fuzzy
 msgid "Commit image <b>{}</b> ({})"
-msgstr "Schijfkopiebestand: <b>{}</b> ← {}"
+msgstr "Schijfkopiebestand <b>{}</b> committen ({})"
 
 #: src/model/action.rs:314 src/model/action.rs:419 src/model/action.rs:507
 #: src/model/action.rs:737
@@ -1749,9 +1727,8 @@ msgid "Finished"
 msgstr "Klaar"
 
 #: src/model/action.rs:356
-#, fuzzy
 msgid "Upload <b>{}</b> to <b>{}:{}</b>"
-msgstr "Pod: <b>{}</b> ← {}"
+msgstr "<b>{}</b> uploaden naar <b>{}:{}</b>"
 
 #: src/model/action.rs:363
 msgid "Creating tar archive…"
@@ -1775,7 +1752,7 @@ msgstr "Bestanden kopiëren naar container…"
 
 #: src/model/action.rs:458
 msgid "Download <b>{}:{}</b> to <b>{}</b>"
-msgstr ""
+msgstr "<b>{}:{}</b> downloaden naar <b>{}</b>"
 
 #: src/model/action.rs:467
 msgid "Copying bytes into memory…"
@@ -1786,23 +1763,20 @@ msgid "Size: {}"
 msgstr "Grootte: {}"
 
 #: src/model/action.rs:523
-#, fuzzy
 msgid "Create pod <b>{}</b>"
-msgstr "Pod: <b>{}</b>"
+msgstr "Pod <b>{}</b> aanmaken"
 
 #: src/model/action.rs:548
-#, fuzzy
 msgid "Prune unused pods"
-msgstr "_Ongebruikte afbeeldingen opschonen…"
+msgstr "Ongebruikte pods opschonen"
 
 #: src/model/connection_manager.rs:208
 msgid "Connection '{}' already exists."
 msgstr "Verbinding ‘{}’ bestaat al."
 
 #: src/model/container.rs:68
-#, fuzzy
 msgid "Configured"
-msgstr "Niet geconfigureerd"
+msgstr "Geconfigureerd"
 
 #: src/model/container.rs:70 src/model/pod.rs:65
 msgid "Dead"
@@ -1930,9 +1904,8 @@ msgid "Container Is Currently Being Created"
 msgstr "Container wordt momenteel aangemaakt"
 
 #: src/view/action/page.rs:134
-#, fuzzy
 msgid "Container Is Currently Being Started"
-msgstr "Container wordt momenteel aangemaakt"
+msgstr "Container wordt momenteel gestart"
 
 #: src/view/action/page.rs:135
 msgid "New Image Is Currently Being Committed"
@@ -1943,9 +1916,8 @@ msgid "Files Are Currently Being Copied"
 msgstr "Bestanden worden momenteel gekopieerd"
 
 #: src/view/action/page.rs:137
-#, fuzzy
 msgid "Pods Are Currently Being Pruned"
-msgstr "Schijfkopiebestanden worden momenteel opgeschoond"
+msgstr "Pods worden momenteel opgeschoond"
 
 #: src/view/action/page.rs:138
 msgid "Pod Is Currently Being Created"
@@ -1968,9 +1940,8 @@ msgid "Container Has Been Created"
 msgstr "Container is aangemaakt"
 
 #: src/view/action/page.rs:148
-#, fuzzy
 msgid "Container Has Been Started"
-msgstr "Container is aangemaakt"
+msgstr "Container is gestart"
 
 #: src/view/action/page.rs:149
 msgid "New Image Has Been Committed"
@@ -1981,9 +1952,8 @@ msgid "Files Have Beeng Copied"
 msgstr "Bestanden zijn gekopieerd"
 
 #: src/view/action/page.rs:151
-#, fuzzy
 msgid "Pods Have Been Pruned"
-msgstr "Schijfkopiebestanden zijn opgeschoond"
+msgstr "Pods zijn opgeschoond"
 
 #: src/view/action/page.rs:152
 msgid "Pod Has Been Created"
@@ -2006,9 +1976,8 @@ msgid "Container Creation Has Been Aborted"
 msgstr "Aanmaken van container is afgebroken"
 
 #: src/view/action/page.rs:162
-#, fuzzy
 msgid "Container Start Has Been Aborted"
-msgstr "Aanmaken van container is afgebroken"
+msgstr "Starten van container is afgebroken"
 
 #: src/view/action/page.rs:163
 msgid "Image Commitment Has Been Aborted"
@@ -2019,9 +1988,8 @@ msgid "Copying Files Has Been Aborted"
 msgstr "Kopiëren van bestanden is afgebroken"
 
 #: src/view/action/page.rs:165
-#, fuzzy
 msgid "Pruning of Pods Has Been Aborted"
-msgstr "Opschonen van schijfkopiebestanden is afgebroken"
+msgstr "Opschonen van pods is afgebroken"
 
 #: src/view/action/page.rs:166
 msgid "Pod Creation Has Been Aborted"
@@ -2044,9 +2012,8 @@ msgid "Container Creation Has Failed"
 msgstr "Aanmaken van container is mislukt"
 
 #: src/view/action/page.rs:176
-#, fuzzy
 msgid "Container Start Has Failed"
-msgstr "Aanmaken van container is mislukt"
+msgstr "Starten van container is mislukt"
 
 #: src/view/action/page.rs:177
 msgid "Image Commitment Has Failed"
@@ -2057,9 +2024,8 @@ msgid "Copying Files Has Failed"
 msgstr "Kopiëren van bestanden is mislukt"
 
 #: src/view/action/page.rs:179
-#, fuzzy
 msgid "Pruning of Pods Has Failed"
-msgstr "Opschonen van schijfkopiebestanden is mislukt"
+msgstr "Opschonen van pods is mislukt"
 
 #: src/view/action/page.rs:180
 msgid "Pod Creation Has Failed"
@@ -2283,9 +2249,8 @@ msgid "Error on retrieving logs"
 msgstr "Fout bij ophalen logboek"
 
 #: src/view/container/log_page.rs:710
-#, fuzzy
 msgid "Log has been saved."
-msgstr "Pod is aangemaakt"
+msgstr "Logboek is opgeslagen"
 
 #: src/view/container/log_page.rs:731
 msgid "Error starting container"
