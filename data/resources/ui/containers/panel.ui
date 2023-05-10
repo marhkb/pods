@@ -314,7 +314,7 @@
                     </style>
                     <property name="action-name">containers-group.create-container</property>
                     <property name="halign">center</property>
-                    <property name="label" translatable="yes">_Create a Container</property>
+                    <property name="label" translatable="yes">_Create Container</property>
                     <property name="use-underline">True</property>
                   </object>
                 </child>
