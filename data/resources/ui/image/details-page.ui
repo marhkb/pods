@@ -4,6 +4,7 @@
   <object class="GtkListBoxRow" id="create_tag_row">
     <property name="action-name">image-details-page.tag</property>
     <property name="selectable">False</property>
+    <property name="tooltip-text" translatable="yes">Create Repository Tag</property>
 
     <child>
       <object class="GtkImage">
@@ -125,21 +126,6 @@
 
                 <child>
                   <object class="AdwPreferencesGroup">
-                    <property name="title" translatable="yes">Repository Tags</property>
-
-                    <child>
-                      <object class="GtkListBox" id="repo_tags_list_box">
-                        <style>
-                          <class name="boxed-list"/>
-                        </style>
-                      </object>
-                    </child>
-
-                  </object>
-                </child>
-
-                <child>
-                  <object class="AdwPreferencesGroup">
                     <property name="title" translatable="yes">Utilities</property>
 
                     <child>
@@ -173,6 +159,21 @@
                           </object>
                         </child>
 
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwPreferencesGroup">
+                    <property name="title" translatable="yes">Repository Tags</property>
+
+                    <child>
+                      <object class="GtkListBox" id="repo_tags_list_box">
+                        <style>
+                          <class name="boxed-list"/>
+                        </style>
                       </object>
                     </child>
 

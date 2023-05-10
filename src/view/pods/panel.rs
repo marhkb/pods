@@ -222,19 +222,19 @@ mod imp {
             )
             .bind(&*self.pods_group, "description", Some(obj));
 
-            let properties_filter =
-                gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
-                    !obj.imp().show_only_running_switch.is_active() ||
-                        item.downcast_ref::<model::Pod>().unwrap().status()
-                            == model::PodStatus::Running
-                }));
+            let properties_filter = gtk::AnyFilter::new();
+            properties_filter.append(gtk::CustomFilter::new(
+                clone!(@weak obj => @default-return false, move |_| {
+                    !obj.imp().show_only_running_switch.is_active()
+                }),
+            ));
+            properties_filter.append(gtk::BoolFilter::new(Some(
+                model::Pod::this_expression("status").chain_closure::<bool>(closure!(
+                    |_: model::Pod, status: model::PodStatus| status == model::PodStatus::Running
+                )),
+            )));
 
-            let sorter = gtk::CustomSorter::new(|obj1, obj2| {
-                let pod1 = obj1.downcast_ref::<model::Pod>().unwrap();
-                let pod2 = obj2.downcast_ref::<model::Pod>().unwrap();
-
-                pod1.name().cmp(&pod2.name()).into()
-            });
+            let sorter = gtk::StringSorter::new(Some(model::Pod::this_expression("name")));
 
             self.properties_filter
                 .set(properties_filter.upcast())
