@@ -258,10 +258,11 @@ impl ContainerList {
     pub(crate) fn remove_container(&self, id: &str) {
         let mut list = self.imp().list.borrow_mut();
         if let Some((idx, _, container)) = list.shift_remove_full(id) {
-            container.on_deleted();
             drop(list);
-            self.container_removed(&container);
+
             self.items_changed(idx as u32, 1, 0);
+            self.container_removed(&container);
+            container.on_deleted();
         }
     }
 
