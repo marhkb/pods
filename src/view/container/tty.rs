@@ -431,8 +431,24 @@ impl Tty {
         let style_context = self.style_context();
 
         let terminal = &*self.imp().terminal;
-        terminal.set_color_background(&style_context.lookup_color("view_bg_color").unwrap());
-        terminal.set_color_foreground(&style_context.lookup_color("view_fg_color").unwrap());
+        terminal.set_color_background(&style_context.lookup_color("view_bg_color").unwrap_or_else(
+            || {
+                if adw::StyleManager::default().is_dark() {
+                    gdk::RGBA::new(0.118, 0.118, 0.118, 1.0)
+                } else {
+                    gdk::RGBA::new(1.0, 1.0, 1.0, 1.0)
+                }
+            },
+        ));
+        terminal.set_color_foreground(&style_context.lookup_color("view_fg_color").unwrap_or_else(
+            || {
+                if adw::StyleManager::default().is_dark() {
+                    gdk::RGBA::new(1.0, 1.0, 1.0, 1.0)
+                } else {
+                    gdk::RGBA::new(0.0, 0.0, 0.0, 0.8)
+                }
+            },
+        ));
     }
 
     pub(crate) fn zoom_out(&self) {
