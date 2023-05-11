@@ -129,18 +129,45 @@ mod imp {
                 percentage = 0.0;
             }
 
-            let fg_color = style_context
-                .lookup_color(if percentage < 0.8 {
-                    "accent_color"
-                } else if percentage < 0.95 {
-                    "warning_color"
-                } else {
-                    "error_color"
-                })
-                .unwrap();
+            let fg_color = if percentage < 0.8 {
+                style_context
+                    .lookup_color("accent_color")
+                    .unwrap_or_else(|| {
+                        if style_manager.is_dark() {
+                            gdk::RGBA::new(0.471, 0.682, 0.929, 1.0)
+                        } else {
+                            gdk::RGBA::new(0.11, 0.443, 0.847, 1.0)
+                        }
+                    })
+            } else if percentage < 0.95 {
+                style_context
+                    .lookup_color("warning_color")
+                    .unwrap_or_else(|| {
+                        if style_manager.is_dark() {
+                            gdk::RGBA::new(0.973, 0.894, 0.361, 1.0)
+                        } else {
+                            gdk::RGBA::new(0.612, 0.431, 0.012, 1.0)
+                        }
+                    })
+            } else {
+                style_context
+                    .lookup_color("error_color")
+                    .unwrap_or_else(|| {
+                        if style_manager.is_dark() {
+                            gdk::RGBA::new(1.0, 0.482, 0.388, 1.0)
+                        } else {
+                            gdk::RGBA::new(0.753, 0.11, 0.157, 1.0)
+                        }
+                    })
+            };
 
             let (bg_color, maybe_compiled_masked_shader) = if style_manager.is_high_contrast() {
-                (style_context.lookup_color("dark_1").unwrap(), None)
+                (
+                    style_context
+                        .lookup_color("dark_1")
+                        .unwrap_or_else(|| gdk::RGBA::new(0.467, 0.463, 0.482, 1.0)),
+                    None,
+                )
             } else {
                 let maybe_compiled_masked_shader = widget.ensure_mask_shader();
 
@@ -161,11 +188,21 @@ mod imp {
                                 },
                             )
                         })
-                        .unwrap()
+                        .unwrap_or_else(|| {
+                            if style_manager.is_dark() {
+                                gdk::RGBA::new(1.0, 1.0, 1.0, 0.15)
+                            } else {
+                                gdk::RGBA::new(0.0, 0.0, 0.0, 0.12)
+                            }
+                        })
                 } else if style_manager.is_dark() {
-                    style_context.lookup_color("dark_2").unwrap()
+                    style_context
+                        .lookup_color("dark_2")
+                        .unwrap_or_else(|| gdk::RGBA::new(0.369, 0.361, 0.392, 1.0))
                 } else {
-                    style_context.lookup_color("light_3").unwrap()
+                    style_context
+                        .lookup_color("light_3")
+                        .unwrap_or_else(|| gdk::RGBA::new(0.871, 0.867, 0.855, 1.0))
                 };
 
                 (color, maybe_compiled_masked_shader)
