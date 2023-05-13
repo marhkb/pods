@@ -148,7 +148,7 @@ mod imp {
             }
 
             self.action_list.set(value);
-            obj.notify("action-list");
+            obj.notify_action_list();
         }
     }
 }

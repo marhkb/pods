@@ -29,9 +29,9 @@ mod imp {
         pub(super) sorter: UnsyncOnceCell<gtk::Sorter>,
         #[property(get, set, nullable)]
         pub(super) no_containers_label: RefCell<Option<String>>,
-        #[property(get, set = Self::set_show_running_settings_key, explicit_notify)]
+        #[property(get, set = Self::set_show_running_settings_key)]
         pub(super) show_running_settings_key: RefCell<String>,
-        #[property(get, set = Self::set_container_list, explicit_notify, nullable)]
+        #[property(get, set = Self::set_container_list, nullable)]
         pub(super) container_list: glib::WeakRef<model::AbstractContainerList>,
         #[template_child]
         pub(super) create_container_row: TemplateChild<gtk::ListBoxRow>,
@@ -173,7 +173,6 @@ mod imp {
                 .build();
 
             self.show_running_settings_key.replace(value);
-            obj.notify("show-running-settings-key");
         }
 
         pub(super) fn set_container_list(&self, value: Option<&model::AbstractContainerList>) {
@@ -212,7 +211,6 @@ mod imp {
             }
 
             self.container_list.set(value);
-            obj.notify("container-list");
         }
     }
 }

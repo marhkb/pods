@@ -17,7 +17,7 @@ mod imp {
     #[properties(wrapper_type = super::Row)]
     #[template(resource = "/com/github/marhkb/Pods/ui/health-check-log/row.ui")]
     pub(crate) struct Row {
-        #[property(get, set = Self::set_log, explicit_notify, nullable)]
+        #[property(get, set = Self::set_log, nullable)]
         pub(super) log: glib::WeakRef<model::HealthCheckLog>,
         #[template_child]
         pub(super) exit_code_image: TemplateChild<gtk::Image>,
@@ -107,7 +107,6 @@ mod imp {
             }
 
             self.log.set(value);
-            obj.notify("env-var");
         }
     }
 }

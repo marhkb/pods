@@ -1,20 +1,23 @@
 use std::cell::Cell;
 
+use glib::Properties;
 use gtk::glib;
 use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
+use once_cell::sync::OnceCell as SyncOnceCell;
 
 use crate::utils;
 
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::ZoomControl)]
     #[template(resource = "/com/github/marhkb/Pods/ui/component/zoom-control.ui")]
     pub(crate) struct ZoomControl {
+        #[property(get, set, minimum = 0.0)]
         pub(super) zoom_factor: Cell<f64>,
         #[template_child]
         pub(super) zoom_out_button: TemplateChild<gtk::Button>,
@@ -41,45 +44,43 @@ mod imp {
 
     impl ObjectImpl for ZoomControl {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecString::builder("zoom-out-action-name")
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecString::builder("zoom-normal-action-name")
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecString::builder("zoom-in-action-name")
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecDouble::builder("zoom-factor")
-                        .minimum(0.0)
-                        .explicit_notify()
-                        .build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            static PROPERTIES: SyncOnceCell<Vec<glib::ParamSpec>> = SyncOnceCell::new();
+            PROPERTIES.get_or_init(|| {
+                Self::derived_properties()
+                    .iter()
+                    .cloned()
+                    .chain(vec![
+                        glib::ParamSpecString::builder("zoom-out-action-name")
+                            .explicit_notify()
+                            .build(),
+                        glib::ParamSpecString::builder("zoom-normal-action-name")
+                            .explicit_notify()
+                            .build(),
+                        glib::ParamSpecString::builder("zoom-in-action-name")
+                            .explicit_notify()
+                            .build(),
+                    ])
+                    .collect::<Vec<_>>()
+            })
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
-                "zoom-factor" => self.obj().set_zoom_factor(value.get().unwrap()),
                 "zoom-out-action-name" => self.obj().set_zoom_out_action_name(value.get().unwrap()),
                 "zoom-normal-action-name" => {
                     self.obj().set_zoom_normal_action_name(value.get().unwrap())
                 }
                 "zoom-in-action-name" => self.obj().set_zoom_in_action_name(value.get().unwrap()),
-                _ => unimplemented!(),
+                _ => self.derived_set_property(id, value, pspec),
             }
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
-                "zoom-factor" => self.obj().zoom_factor().to_value(),
                 "zoom-out-action-name" => self.obj().zoom_out_action_name().to_value(),
                 "zoom-normal-action-name" => self.obj().zoom_normal_action_name().to_value(),
                 "zoom-in-action-name" => self.obj().zoom_in_action_name().to_value(),
-                _ => unimplemented!(),
+                _ => self.derived_property(id, pspec),
             }
         }
 
@@ -142,17 +143,5 @@ impl ZoomControl {
         }
         self.imp().zoom_in_button.set_action_name(value);
         self.notify("zoom-in-action-name");
-    }
-
-    pub(crate) fn zoom_factor(&self) -> f64 {
-        self.imp().zoom_factor.get()
-    }
-
-    pub(crate) fn set_zoom_factor(&self, value: f64) {
-        if self.zoom_factor() == value {
-            return;
-        }
-        self.imp().zoom_factor.set(value);
-        self.notify("zoom-factor");
     }
 }

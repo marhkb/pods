@@ -347,7 +347,7 @@ impl ConnectionManager {
         }
 
         imp.client.replace(value);
-        self.notify("client");
+        self.notify_client();
     }
 
     pub(crate) fn unset_client(&self) {

@@ -26,7 +26,7 @@ mod imp {
     #[properties(wrapper_type = super::FilesGetPage)]
     #[template(resource = "/com/github/marhkb/Pods/ui/container/files-get-page.ui")]
     pub(crate) struct FilesGetPage {
-        #[property(get, set = Self::set_container, construct, explicit_notify, nullable)]
+        #[property(get, set = Self::set_container, construct, nullable)]
         pub(super) container: glib::WeakRef<model::Container>,
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
@@ -127,7 +127,6 @@ mod imp {
             }
 
             self.container.set(value);
-            obj.notify("container");
         }
     }
 }

@@ -130,7 +130,7 @@ impl Connection {
             return;
         }
         self.imp().connecting.set(value);
-        self.notify("connecting");
+        self.notify_connecting();
 
         if let Some(manager) = self.manager() {
             manager.notify("connecting");

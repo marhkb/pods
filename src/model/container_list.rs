@@ -180,7 +180,7 @@ mod imp {
                 return;
             }
             self.initialized.set(()).unwrap();
-            self.obj().notify("initialized");
+            self.obj().notify_initialized();
         }
 
         pub(super) fn set_listing(&self, value: bool) {
@@ -189,7 +189,7 @@ mod imp {
                 return;
             }
             self.listing.set(value);
-            obj.notify("listing");
+            obj.notify_listing();
         }
     }
 }

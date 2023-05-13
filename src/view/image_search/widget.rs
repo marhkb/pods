@@ -27,7 +27,7 @@ mod imp {
         pub(super) search_results: gio::ListStore,
         pub(super) search_abort_handle: RefCell<Option<future::AbortHandle>>,
         pub(super) selection: UnsyncOnceCell<gtk::SingleSelection>,
-        #[property(get, set = Self::set_client, explicit_notify, nullable)]
+        #[property(get, set = Self::set_client, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
@@ -227,7 +227,6 @@ mod imp {
             }
 
             self.client.set(client);
-            obj.notify("client");
         }
     }
 }

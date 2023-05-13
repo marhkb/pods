@@ -112,7 +112,7 @@ impl ContainerData {
             return;
         }
         self.imp().health_failing_streak.set(value);
-        self.notify("health-failing-streak");
+        self.notify_health_failing_streak();
     }
 }
 

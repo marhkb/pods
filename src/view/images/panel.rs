@@ -35,7 +35,7 @@ mod imp {
         pub(super) settings: utils::PodsSettings,
         pub(super) properties_filter: UnsyncOnceCell<gtk::Filter>,
         pub(super) sorter: UnsyncOnceCell<gtk::Sorter>,
-        #[property(get, set = Self::set_image_list, explicit_notify, nullable)]
+        #[property(get, set = Self::set_image_list, nullable)]
         pub(super) image_list: glib::WeakRef<model::ImageList>,
         #[template_child]
         pub(super) add_image_row: TemplateChild<gtk::ListBoxRow>,
@@ -302,7 +302,6 @@ mod imp {
             );
 
             self.image_list.set(Some(value));
-            obj.notify("image-list");
         }
     }
 }

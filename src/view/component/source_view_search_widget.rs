@@ -1,13 +1,13 @@
 use std::cell::RefCell;
 
 use gettextrs::gettext;
+use glib::Properties;
 use gtk::gdk;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
 use sourceview5::traits::SearchSettingsExt;
 
 use crate::utils;
@@ -19,12 +19,14 @@ const ACTION_SEARCH_FORWARD: &str = "source-view-search-widget.search-forward";
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::SourceViewSearchWidget)]
     #[template(resource = "/com/github/marhkb/Pods/ui/component/source-view-search-widget.ui")]
     pub(crate) struct SourceViewSearchWidget {
         pub(super) search_settings: sourceview5::SearchSettings,
         pub(super) search_context: RefCell<Option<sourceview5::SearchContext>>,
         pub(super) search_iters: RefCell<Option<(gtk::TextIter, gtk::TextIter)>>,
+        #[property(get, set = Self::set_source_view, nullable)]
         pub(super) source_view: glib::WeakRef<sourceview5::View>,
         #[template_child]
         pub(super) search_entry: TemplateChild<view::TextSearchEntry>,
@@ -68,27 +70,24 @@ mod imp {
 
     impl ObjectImpl for SourceViewSearchWidget {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
-                vec![
-                    glib::ParamSpecObject::builder::<sourceview5::View>("source-view")
-                        .explicit_notify()
-                        .build(),
-                ]
-            });
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "source-view" => self.obj().set_source_view(value.get().unwrap()),
-                _ => unimplemented!(),
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            let name = pspec.name();
+            if self.search_entry.has_property(name, None) {
+                self.search_entry.set_property(name, value);
+            } else {
+                self.derived_set_property(id, value, pspec);
             }
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "source-view" => self.obj().source_view().to_value(),
-                other => self.search_entry.property(other),
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            let name = pspec.name();
+            if self.search_entry.has_property(name, None) {
+                self.search_entry.property(name)
+            } else {
+                self.derived_property(id, pspec)
             }
         }
 
@@ -134,6 +133,38 @@ mod imp {
             Some(self.search_entry.clone().upcast())
         }
     }
+
+    impl SourceViewSearchWidget {
+        pub(super) fn set_source_view(&self, value: Option<&sourceview5::View>) {
+            let obj = &*self.obj();
+
+            if obj.source_view().as_ref() == value {
+                return;
+            }
+
+            if let Some(source_view) = value {
+                let search_context = sourceview5::SearchContext::new(
+                    source_view
+                        .buffer()
+                        .downcast_ref::<sourceview5::Buffer>()
+                        .unwrap(),
+                    Some(&self.search_settings),
+                );
+
+                search_context.connect_occurrences_count_notify(clone!(@weak obj => move |ctx| {
+                    obj.imp().search_entry.set_info(&
+                        gettext!(
+                            "0 of {}",
+                            ctx.occurrences_count(),
+                        ));
+                }));
+
+                self.search_context.replace(Some(search_context));
+            }
+
+            self.source_view.set(value);
+        }
+    }
 }
 
 glib::wrapper! {
@@ -143,43 +174,6 @@ glib::wrapper! {
 }
 
 impl SourceViewSearchWidget {
-    pub(crate) fn source_view(&self) -> Option<sourceview5::View> {
-        self.imp().source_view.upgrade()
-    }
-
-    pub(crate) fn set_source_view(&self, value: Option<&sourceview5::View>) {
-        if self.source_view().as_ref() == value {
-            return;
-        }
-
-        let imp = self.imp();
-        imp.source_view.set(value);
-
-        if let Some(source_view) = value {
-            let search_context = sourceview5::SearchContext::new(
-                source_view
-                    .buffer()
-                    .downcast_ref::<sourceview5::Buffer>()
-                    .unwrap(),
-                Some(&imp.search_settings),
-            );
-
-            search_context.connect_occurrences_count_notify(
-                clone!(@weak self as obj => move |ctx| {
-                    obj.imp().search_entry.set_info(&
-                        gettext!(
-                            "0 of {}",
-                            ctx.occurrences_count(),
-                        ));
-                }),
-            );
-
-            imp.search_context.replace(Some(search_context));
-        }
-
-        self.notify("source-view");
-    }
-
     fn update_search_occurrences(&self) {
         let imp = self.imp();
 

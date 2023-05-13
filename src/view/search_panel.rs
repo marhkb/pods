@@ -187,7 +187,7 @@ mod imp {
             }
 
             self.client.set(value);
-            obj.notify("client");
+            obj.notify_client();
         }
     }
 }

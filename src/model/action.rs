@@ -737,7 +737,7 @@ impl Action {
         self.insert_line(&gettext("Finished"));
 
         self.imp().artifact.set(Some(value));
-        self.notify("artifact");
+        self.notify_artifact();
     }
 
     fn set_state(&self, value: State) {
@@ -750,7 +750,7 @@ impl Action {
         }
 
         self.imp().state.set(value);
-        self.notify("state");
+        self.notify_state();
     }
 
     fn set_end_timesamp(&self, value: i64) {
@@ -760,7 +760,7 @@ impl Action {
             return;
         }
         imp.end_timestamp.set(value).unwrap();
-        self.notify("end-timestamp");
+        self.notify_end_timestamp();
     }
 
     fn insert(&self, text: &str) {

@@ -149,7 +149,7 @@ mod imp {
                 return;
             }
             self.data.set(Some(value)).unwrap();
-            self.obj().notify("data");
+            self.obj().notify_data();
         }
 
         pub(super) fn set_to_be_deleted(&self, value: bool) {
@@ -158,7 +158,7 @@ mod imp {
                 return;
             }
             self.to_be_deleted.set(value);
-            obj.notify("to-be-deleted");
+            obj.notify_to_be_deleted();
         }
     }
 }

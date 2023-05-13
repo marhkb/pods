@@ -22,7 +22,7 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/image/row.ui")]
     pub(crate) struct Row {
         pub(super) bindings: RefCell<Vec<glib::Binding>>,
-        #[property(get, set = Self::set_image, construct, explicit_notify, nullable)]
+        #[property(get, set = Self::set_image, construct, nullable)]
         pub(super) image: glib::WeakRef<model::Image>,
         #[template_child]
         pub(super) check_button_revealer: TemplateChild<gtk::Revealer>,
@@ -174,7 +174,6 @@ mod imp {
             }
 
             self.image.set(value);
-            obj.notify("image")
         }
     }
 }

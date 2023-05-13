@@ -18,7 +18,7 @@ mod imp {
     #[properties(wrapper_type = super::Switcher)]
     #[template(resource = "/com/github/marhkb/Pods/ui/connection/switcher.ui")]
     pub(crate) struct Switcher {
-        #[property(get, set = Self::set_connection_manager, construct, explicit_notify, nullable)]
+        #[property(get, set = Self::set_connection_manager, construct, nullable)]
         pub(super) connection_manager: glib::WeakRef<model::ConnectionManager>,
         #[template_child]
         pub(super) connection_list_view: TemplateChild<gtk::ListView>,
@@ -125,7 +125,6 @@ mod imp {
             }
 
             self.connection_manager.set(value);
-            obj.notify("connection-manager");
         }
     }
 }
