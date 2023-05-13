@@ -107,7 +107,7 @@ mod imp {
             }
 
             self.log.set(value);
-            obj.notify("env-var");
+            obj.notify("log");
         }
     }
 }

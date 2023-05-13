@@ -81,7 +81,7 @@ mod imp {
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
                 "source-view" => self.obj().set_source_view(value.get().unwrap()),
-                _ => unimplemented!(),
+                other => self.search_entry.set_property(other, value),
             }
         }
 

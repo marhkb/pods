@@ -223,7 +223,15 @@ mod imp {
             } else {
                 snapshot.push_rounded_clip(&gsk::RoundedRect::from_rect(rect, size / 2.0));
                 snapshot.append_color(
-                    &style_context.lookup_color("dialog_bg_color").unwrap(),
+                    &style_context
+                        .lookup_color("dialog_bg_color")
+                        .unwrap_or_else(|| {
+                            if adw::StyleManager::default().is_dark() {
+                                gdk::RGBA::new(0.22, 0.22, 0.22, 1.0)
+                            } else {
+                                gdk::RGBA::new(0.98, 0.98, 0.98, 1.0)
+                            }
+                        }),
                     &rect,
                 );
                 snapshot.pop();
