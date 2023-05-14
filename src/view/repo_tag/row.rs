@@ -9,8 +9,10 @@ use gtk::CompositeTemplate;
 use crate::model;
 use crate::podman;
 use crate::utils;
+use crate::view;
 
 const ACTION_UPDATE: &str = "repo-tag-row.update";
+const ACTION_PUSH: &str = "repo-tag-row.push";
 const ACTION_UNTAG: &str = "repo-tag-row.untag";
 
 mod imp {
@@ -37,6 +39,9 @@ mod imp {
 
             klass.install_action(ACTION_UPDATE, None, |widget, _, _| {
                 widget.update();
+            });
+            klass.install_action(ACTION_PUSH, None, |widget, _, _| {
+                widget.push();
             });
             klass.install_action(ACTION_UNTAG, None, |widget, _, _| {
                 widget.untag();
@@ -146,6 +151,15 @@ impl Row {
                         .build(),
                 );
             }
+        }
+    }
+
+    fn push(&self) {
+        if let Some(repo_tag) = self.repo_tag() {
+            utils::show_dialog(
+                self.upcast_ref(),
+                view::RepoTagPushPage::from(&repo_tag).upcast_ref(),
+            );
         }
     }
 
