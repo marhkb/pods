@@ -133,6 +133,7 @@ mod imp {
             view::PropertyWidgetRow::static_type();
             view::RandomNameEntryRow::static_type();
             view::RepoTagAddDialog::static_type();
+            view::RepoTagPushPage::static_type();
             view::RepoTagRow::static_type();
             view::RepoTagSimpleRow::static_type();
             view::ScalableTextView::static_type();
