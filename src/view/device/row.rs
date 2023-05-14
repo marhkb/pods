@@ -16,7 +16,7 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/device/row.ui")]
     pub(crate) struct Row {
         pub(super) bindings: RefCell<Vec<glib::Binding>>,
-        #[property(get, set = Self::set_device, explicit_notify, nullable)]
+        #[property(get, set = Self::set_device, nullable)]
         pub(super) device: RefCell<Option<model::Device>>,
         #[template_child]
         pub(super) writable_switch: TemplateChild<gtk::Switch>,
@@ -111,7 +111,6 @@ mod imp {
             }
 
             self.device.replace(value);
-            obj.notify("device");
         }
     }
 }

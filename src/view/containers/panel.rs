@@ -38,7 +38,7 @@ mod imp {
     #[properties(wrapper_type = super::Panel)]
     #[template(resource = "/com/github/marhkb/Pods/ui/containers/panel.ui")]
     pub(crate) struct Panel {
-        #[property(get, set = Self::set_container_list, explicit_notify, nullable)]
+        #[property(get, set = Self::set_container_list, nullable)]
         pub(super) container_list: glib::WeakRef<model::ContainerList>,
         #[template_child]
         pub(super) main_stack: TemplateChild<gtk::Stack>,
@@ -191,7 +191,6 @@ mod imp {
             }
 
             self.container_list.set(value);
-            obj.notify("container-list");
         }
     }
 }

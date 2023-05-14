@@ -234,7 +234,7 @@ mod imp {
             }
 
             self.action.set(value);
-            obj.notify("action");
+            obj.notify_action();
         }
     }
 }

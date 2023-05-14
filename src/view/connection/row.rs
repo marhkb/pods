@@ -20,7 +20,7 @@ mod imp {
         pub(super) css_provider: gtk::CssProvider,
         #[property(get, set, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
-        #[property(get, set = Self::set_connection, explicit_notify, nullable)]
+        #[property(get, set = Self::set_connection, nullable)]
         pub(super) connection: glib::WeakRef<model::Connection>,
         #[template_child]
         pub(super) image: TemplateChild<gtk::Image>,
@@ -182,7 +182,6 @@ mod imp {
                 });
 
             self.connection.set(value);
-            obj.notify("connection");
         }
     }
 }

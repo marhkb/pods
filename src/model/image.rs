@@ -97,7 +97,7 @@ mod imp {
                 return;
             }
             self.data.set(Some(value)).unwrap();
-            self.obj().notify("data");
+            self.obj().notify_data();
         }
 
         pub(super) fn set_containers(&self, value: u64) {
@@ -106,7 +106,7 @@ mod imp {
                 return;
             }
             self.containers.set(value);
-            obj.notify("containers");
+            obj.notify_containers();
         }
 
         pub(super) fn set_dangling(&self, value: bool) {
@@ -115,7 +115,7 @@ mod imp {
                 return;
             }
             self.dangling.set(value);
-            obj.notify("dangling");
+            obj.notify_dangling();
         }
 
         pub(super) fn repo_tags(&self) -> model::RepoTagList {
@@ -130,7 +130,7 @@ mod imp {
                 return;
             }
             self.shared_size.set(value);
-            obj.notify("shared-size");
+            obj.notify_shared_size();
         }
 
         pub(super) fn set_virtual_size(&self, value: u64) {
@@ -139,7 +139,7 @@ mod imp {
                 return;
             }
             self.virtual_size.set(value);
-            obj.notify("virtual-size");
+            obj.notify_virtual_size();
         }
 
         pub(super) fn set_to_be_deleted(&self, value: bool) {
@@ -148,7 +148,7 @@ mod imp {
                 return;
             }
             self.to_be_deleted.set(value);
-            obj.notify("to-be-deleted");
+            obj.notify_to_be_deleted();
         }
     }
 }

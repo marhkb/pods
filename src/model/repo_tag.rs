@@ -18,7 +18,7 @@ mod imp {
         pub(super) repo_tag_list: glib::WeakRef<model::RepoTagList>,
         #[property(get, set, construct_only)]
         pub(super) full: OnceCell<String>,
-        #[property(get, set, explicit_notify)]
+        #[property(get, set)]
         pub(super) to_be_deleted: Cell<bool>,
     }
 

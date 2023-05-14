@@ -217,7 +217,7 @@ mod imp {
             self.data
                 .set(Some(model::ContainerData::from(data)))
                 .unwrap();
-            obj.notify("data");
+            obj.notify_data();
         }
 
         pub(super) fn set_pod(&self, value: Option<&model::Pod>) {
@@ -229,7 +229,7 @@ mod imp {
                 pod.inspect_and_update();
             }
             self.pod.set(value);
-            obj.notify("pod");
+            obj.notify_pod();
         }
 
         pub(super) fn pod_id(&self) -> Option<String> {
@@ -249,7 +249,7 @@ mod imp {
                 pod.inspect_and_update();
             }
             self.status.set(value);
-            obj.notify("status");
+            obj.notify_status();
         }
 
         pub(super) fn set_to_be_deleted(&self, value: bool) {
@@ -258,7 +258,7 @@ mod imp {
                 return;
             }
             self.to_be_deleted.set(value);
-            obj.notify("to-be-deleted");
+            obj.notify_to_be_deleted();
         }
     }
 }

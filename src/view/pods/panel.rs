@@ -45,7 +45,7 @@ mod imp {
         pub(super) settings: utils::PodsSettings,
         pub(super) properties_filter: UnsyncOnceCell<gtk::Filter>,
         pub(super) sorter: UnsyncOnceCell<gtk::Sorter>,
-        #[property(get, set = Self::set_pod_list, explicit_notify, nullable)]
+        #[property(get, set = Self::set_pod_list, nullable)]
         pub(super) pod_list: glib::WeakRef<model::PodList>,
         #[template_child]
         pub(super) create_pod_row: TemplateChild<gtk::ListBoxRow>,
@@ -303,7 +303,6 @@ mod imp {
             );
 
             self.pod_list.set(Some(value));
-            obj.notify("pod-list");
         }
     }
 }

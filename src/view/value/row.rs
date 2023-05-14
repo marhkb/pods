@@ -84,7 +84,7 @@ mod imp {
             }
 
             self.value.replace(value);
-            obj.notify("value");
+            obj.notify_value();
         }
     }
 }

@@ -19,7 +19,7 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/key-val/row.ui")]
     pub(crate) struct Row {
         pub(super) bindings: RefCell<Vec<glib::Binding>>,
-        #[property(get, set = Self::set_key_val, construct, explicit_notify)]
+        #[property(get, set = Self::set_key_val, construct)]
         pub(super) key_val: RefCell<Option<model::KeyVal>>,
         #[template_child]
         pub(super) key_entry: TemplateChild<gtk::Entry>,
@@ -136,7 +136,6 @@ mod imp {
             }
 
             self.key_val.replace(value);
-            obj.notify("key-val");
         }
     }
 }

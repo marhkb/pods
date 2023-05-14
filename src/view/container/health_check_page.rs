@@ -22,7 +22,7 @@ mod imp {
     #[properties(wrapper_type = super::HealthCheckPage)]
     #[template(resource = "/com/github/marhkb/Pods/ui/container/health-check-page.ui")]
     pub(crate) struct HealthCheckPage {
-        #[property(get, set = Self::set_container, construct, explicit_notify, nullable)]
+        #[property(get, set = Self::set_container, construct, nullable)]
         pub(super) container: glib::WeakRef<model::Container>,
         #[template_child]
         pub(super) status_label: TemplateChild<gtk::Label>,
@@ -203,7 +203,6 @@ mod imp {
             }
 
             self.container.set(value);
-            obj.notify("container");
         }
     }
 }

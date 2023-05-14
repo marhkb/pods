@@ -28,7 +28,7 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/image/details-page.ui")]
     pub(crate) struct DetailsPage {
         pub(super) handler_id: RefCell<Option<glib::SignalHandlerId>>,
-        #[property(get, set = Self::set_image, construct, explicit_notify, nullable)]
+        #[property(get, set = Self::set_image, construct, nullable)]
         pub(super) image: glib::WeakRef<model::Image>,
         #[template_child]
         pub(super) create_tag_row: TemplateChild<gtk::ListBoxRow>,
@@ -300,7 +300,6 @@ mod imp {
             }
 
             self.image.set(value);
-            obj.notify("image");
         }
     }
 }

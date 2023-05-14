@@ -21,7 +21,7 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/pod/row.ui")]
     pub(crate) struct Row {
         pub(super) bindings: RefCell<Vec<glib::Binding>>,
-        #[property(get, set = Self::set_pod, construct, explicit_notify, nullable)]
+        #[property(get, set = Self::set_pod, construct, nullable)]
         pub(super) pod: glib::WeakRef<model::Pod>,
         #[template_child]
         pub(super) spinner: TemplateChild<view::Spinner>,
@@ -165,7 +165,6 @@ mod imp {
             }
 
             self.pod.set(value);
-            obj.notify("pod");
         }
     }
 }

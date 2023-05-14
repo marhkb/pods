@@ -28,7 +28,7 @@ mod imp {
     </interface>
     "#)]
     pub(crate) struct LocalComboRow {
-        #[property(get, set = Self::set_client, explicit_notify, nullable)]
+        #[property(get, set = Self::set_client, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
     }
 
@@ -153,7 +153,6 @@ mod imp {
             }
 
             self.client.set(value);
-            obj.notify("client");
         }
     }
 }

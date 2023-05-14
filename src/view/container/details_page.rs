@@ -44,7 +44,7 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/container/details-page.ui")]
     pub(crate) struct DetailsPage {
         pub(super) handler_id: RefCell<Option<glib::SignalHandlerId>>,
-        #[property(get, set = Self::set_container, construct, explicit_notify, nullable)]
+        #[property(get, set = Self::set_container, construct, nullable)]
         pub(super) container: glib::WeakRef<model::Container>,
         #[template_child]
         pub(super) back_navigation_controls: TemplateChild<view::BackNavigationControls>,
@@ -257,7 +257,6 @@ mod imp {
             }
 
             self.container.set(value);
-            obj.notify("container");
         }
     }
 }

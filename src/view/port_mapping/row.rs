@@ -16,7 +16,7 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/port-mapping/row.ui")]
     pub(crate) struct Row {
         pub(super) bindings: RefCell<Vec<glib::Binding>>,
-        #[property(get, set = Self::set_port_mapping, construct, explicit_notify)]
+        #[property(get, set = Self::set_port_mapping, construct)]
         pub(super) port_mapping: RefCell<Option<model::PortMapping>>,
         #[template_child]
         pub(super) container_port_adjustment: TemplateChild<gtk::Adjustment>,
@@ -124,7 +124,6 @@ mod imp {
             }
 
             self.port_mapping.replace(value);
-            obj.notify("port-mapping");
         }
     }
 }

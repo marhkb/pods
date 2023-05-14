@@ -189,7 +189,7 @@ impl TryFrom<&model::Connection> for Client {
 impl Client {
     fn set_version(&self, value: Option<String>) {
         self.imp().version.set(value).unwrap();
-        self.notify("version");
+        self.notify_version();
     }
 
     pub(crate) fn check_service<T, E, F>(&self, op: T, err_op: E, finish_op: F)
