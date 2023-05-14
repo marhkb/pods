@@ -88,6 +88,7 @@ mod imp {
                         PruneImages | PrunePods => "eraser5-symbolic",
                         DownloadImage => "folder-download-symbolic",
                         BuildImage => "build-configure-symbolic",
+                        PushImage => "put-symbolic",
                         Commit => "merge-symbolic",
                         CreateAndRunContainer => "media-playback-start-symbolic",
                         CreateContainer | Pod => "list-add-symbolic",

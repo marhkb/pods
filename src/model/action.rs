@@ -40,6 +40,7 @@ pub(crate) enum Type {
     PruneImages,
     DownloadImage,
     BuildImage,
+    PushImage,
     Commit,
     CreateContainer,
     CreateAndRunContainer,
