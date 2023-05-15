@@ -192,6 +192,20 @@ impl ActionList {
         ))
     }
 
+    pub(crate) fn push_image(
+        &self,
+        destination: &str,
+        image: podman::api::Image,
+        opts: podman::opts::ImagePushOpts,
+    ) -> model::Action {
+        self.insert_action(model::Action::push_image(
+            self.imp().action_counter.get(),
+            destination,
+            image,
+            opts,
+        ))
+    }
+
     pub(crate) fn build_image(
         &self,
         image: &str,

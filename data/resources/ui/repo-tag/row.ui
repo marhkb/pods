@@ -38,6 +38,17 @@
             <style>
               <class name="flat"/>
             </style>
+            <property name="action-name">repo-tag-row.push</property>
+            <property name="icon-name">put-symbolic</property>
+            <property name="tooltip-text" translatable="yes">Push to Registry</property>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkButton">
+            <style>
+              <class name="flat"/>
+            </style>
             <property name="action-name">repo-tag-row.untag</property>
             <property name="icon-name">edit-delete-symbolic</property>
             <property name="tooltip-text" translatable="yes">Untag</property>

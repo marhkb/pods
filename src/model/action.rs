@@ -18,6 +18,7 @@ use gtk::gio;
 use gtk::glib;
 use gtk::traits::TextBufferExt;
 use once_cell::unsync::OnceCell as UnsyncOnceCell;
+use serde::Deserialize;
 
 use crate::model;
 use crate::model::AbstractContainerListExt;
@@ -40,6 +41,7 @@ pub(crate) enum Type {
     PruneImages,
     DownloadImage,
     BuildImage,
+    PushImage,
     Commit,
     CreateContainer,
     CreateAndRunContainer,
@@ -186,6 +188,69 @@ impl Action {
                 }
             }
         })
+    }
+
+    pub(crate) fn push_image(
+        num: u32,
+        destination: &str,
+        image: podman::api::Image,
+        opts: podman::opts::ImagePushOpts,
+    ) -> Self {
+        #[derive(Deserialize)]
+        struct Report {
+            stream: Option<String>,
+            error: Option<String>,
+        }
+
+        let obj = Self::new(
+            num,
+            Type::PushImage,
+            &gettext!("Push image <b>{}</b>", destination),
+        );
+        let abort_registration = obj.setup_abort_handle();
+
+        utils::run_stream_with_finish_handler(
+            image,
+            move |image| stream::Abortable::new(image.push(&opts), abort_registration).boxed(),
+            clone!(
+                @weak obj => @default-return glib::Continue(false),
+                move |result: podman::Result<String>|
+            {
+                glib::Continue(
+                    match result.map_err(anyhow::Error::from).and_then(|line| {
+                        serde_json::from_str::<Report>(&line).map_err(anyhow::Error::from)
+                    }) {
+                        Ok(report) => match report.stream {
+                            Some(line) => {
+                                obj.insert(&line);
+                                true
+                            }
+                            None => {
+                                if let Some(line) = report.error {
+                                    log::error!("Error on pushing image: {line}");
+                                    obj.insert(&line);
+                                }
+                                obj.set_state(State::Failed);
+                                false
+                            }
+                        },
+                        Err(e) => {
+                            log::error!("Error on pushing image: {e}");
+                            obj.insert_line(&e.to_string());
+                            obj.set_state(State::Failed);
+                            false
+                        }
+                    },
+                )
+            }),
+            clone!(@weak obj => move || {
+                if obj.state() != State::Failed {
+                    obj.set_state(State::Finished);
+                }
+            }),
+        );
+
+        obj
     }
 
     pub(crate) fn build_image(

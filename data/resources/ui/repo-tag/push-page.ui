@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+
+  <object class="GtkSizeGroup">
+    <property name="mode">horizontal</property>
+    <widgets>
+      <widget name="cancel_button"/>
+      <widget name="push_button"/>
+    </widgets>
+  </object>
+
+    <object class="GtkSizeGroup">
+    <property name="mode">horizontal</property>
+    <widgets>
+      <widget name="password_toggle_button"/>
+      <widget name="token_toggle_button"/>
+    </widgets>
+  </object>
+
+  <template class="PdsRepoTagPushPage" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBinLayout"/>
+    </property>
+
+    <child>
+      <object class="AdwToastOverlay" id="toast_overlay">
+
+        <child>
+          <object class="GtkStack" id="stack">
+            <property name="transition-type">crossfade</property>
+
+            <child>
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
+
+                <child>
+                  <object class="AdwHeaderBar">
+                    <property name="show-end-title-buttons">False</property>
+                    <property name="show-start-title-buttons">False</property>
+
+                    <child type="start">
+                      <object class="GtkButton" id="cancel_button">
+                        <property name="action-name">action.cancel</property>
+                        <property name="label" translatable="yes">_Cancel</property>
+                        <property name="use-underline">True</property>
+                      </object>
+                    </child>
+
+                    <child type="title">
+                      <object class="AdwWindowTitle" id="window_title">
+                        <property name="title" translatable="yes">Push Image</property>
+                      </object>
+                    </child>
+
+                    <child type="end">
+                      <object class="GtkButton" id="push_button">
+                        <style>
+                          <class name="suggested-action"/>
+                        </style>
+                        <property name="action-name">repo-tag-push-page.push</property>
+                        <property name="label" translatable="yes">_Push</property>
+                        <property name="use-underline">True</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwPreferencesPage">
+
+                    <child>
+                      <object class="AdwPreferencesGroup">
+                        <property name="title" translatable="yes">Options</property>
+
+                        <child>
+                          <object class="AdwActionRow" id="tls_verify_row">
+                            <property name="activatable_widget">tls_verify_row_switch</property>
+                            <property name="title" translatable="yes">TLS Verify</property>
+                            <property name="subtitle">Require TLS verification.</property>
+
+                            <child>
+                              <object class="GtkSwitch" id="tls_verify_row_switch">
+                                <property name="valign">center</property>
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+
+                    <child>
+                      <object class="AdwPreferencesGroup" id="login_group">
+                        <property name="title" translatable="yes">Login</property>
+                        <property name="description" translatable="yes">Some registries require authentication.</property>
+                        <property name="sensitive" translatable="yes">False</property>
+
+                        <property name="header-suffix">
+                          <object class="GtkSwitch" id="login_switch">
+                            <property name="active">False</property>
+                            <property name="valign">center</property>
+                          </object>
+                        </property>
+
+                        <child>
+                          <object class="PdsPropertyWidgetRow">
+                            <property name="sensitive" bind-source="login_switch" bind-property="active" bind-flags="sync-create"/>
+                            <property name="key" translatable="yes">Authentication</property>
+
+                            <property name="widget">
+                              <object class="GtkBox">
+                                <style>
+                                  <class name="linked"/>
+                                </style>
+                                <property name="valign">center</property>
+
+                                <child>
+                                  <object class="GtkToggleButton" id="password_toggle_button">
+                                    <property name="active">True</property>
+                                    <property name="label" translatable="yes">Password</property>
+                                  </object>
+                                </child>
+
+                                <child>
+                                  <object class="GtkToggleButton" id="token_toggle_button">
+                                    <property name="label" translatable="yes">Token</property>
+                                    <property name="group">password_toggle_button</property>
+                                  </object>
+                                </child>
+
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="AdwEntryRow" id="username_entry_row">
+                            <property name="activates-default">True</property>
+                            <property name="title" translatable="yes">Username</property>
+                            <property name="sensitive" bind-source="login_switch" bind-property="active" bind-flags="sync-create"/>
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="AdwPasswordEntryRow" id="password_entry_row">
+                            <property name="activates-default">True</property>
+                            <property name="title" translatable="yes">Password</property>
+                            <property name="sensitive" bind-source="login_switch" bind-property="active" bind-flags="sync-create"/>
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="AdwPasswordEntryRow" id="token_entry_row">
+                            <property name="activates-default">True</property>
+                            <property name="title" translatable="yes">Token</property>
+                            <property name="visible">False</property>
+                            <property name="sensitive" bind-source="login_switch" bind-property="active" bind-flags="sync-create"/>
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="AdwActionRow" id="save_credentials_row">
+                            <property name="activatable_widget">save_credentials_switch</property>
+                            <property name="title" translatable="yes">Save Credentials</property>
+                            <property name="sensitive" bind-source="login_switch" bind-property="active" bind-flags="sync-create"/>
+                            <child>
+                              <object class="GtkSwitch" id="save_credentials_switch">
+                                <property name="valign">center</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwBin" id="action_page_bin"/>
+            </child>
+
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>

@@ -29,6 +29,7 @@ use self::config::RESOURCES_FILE;
 pub(crate) static APPLICATION_OPTS: OnceCell<ApplicationOptions> = OnceCell::new();
 pub(crate) static RUNTIME: Lazy<tokio::runtime::Runtime> =
     Lazy::new(|| tokio::runtime::Runtime::new().unwrap());
+pub(crate) static KEYRING: OnceCell<oo7::Keyring> = OnceCell::new();
 
 fn main() {
     glib::log_set_writer_func(glib::log_writer_journald);
@@ -86,6 +87,13 @@ fn main() {
 
             -1
         }
+    });
+
+    RUNTIME.block_on(async {
+        let keyring = oo7::Keyring::new()
+            .await
+            .expect("Failed to start Secret Service");
+        KEYRING.set(keyring).unwrap();
     });
 
     app.run();

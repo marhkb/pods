@@ -88,6 +88,7 @@ pub(crate) use self::pods::Panel as PodsPanel;
 pub(crate) use self::pods::PrunePage as PodsPrunePage;
 pub(crate) use self::port_mapping::Row as PortMappingRow;
 pub(crate) use self::repo_tag::AddDialog as RepoTagAddDialog;
+pub(crate) use self::repo_tag::PushPage as RepoTagPushPage;
 pub(crate) use self::repo_tag::Row as RepoTagRow;
 pub(crate) use self::repo_tag::SimpleRow as RepoTagSimpleRow;
 pub(crate) use self::search_panel::SearchPanel;

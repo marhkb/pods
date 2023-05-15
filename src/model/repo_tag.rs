@@ -55,6 +55,14 @@ impl RepoTag {
             .build()
     }
 
+    pub(crate) fn host(&self) -> String {
+        self.full().split_once('/').unwrap().0.to_owned()
+    }
+
+    pub(crate) fn namespace(&self) -> String {
+        self.full().split_once('/').unwrap().1.to_owned()
+    }
+
     pub(crate) fn repo(&self) -> String {
         self.full().split_once(':').unwrap().0.to_owned()
     }
