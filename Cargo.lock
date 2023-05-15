@@ -1484,7 +1484,7 @@ checksum = "26072860ba924cbfa98ea39c8c19b4dd6a4a25423dbdf219c1eca91aa0cf6964"
 [[package]]
 name = "podman-api"
 version = "0.10.0"
-source = "git+https://github.com/vv9k/podman-api-rs.git#5605ecfbe49178974647e0fd6f1ccce7911fb0a6"
+source = "git+https://github.com/vv9k/podman-api-rs.git#363d945b9b9905c50dfa0bfe0f9331f9fdeef079"
 dependencies = [
  "base64",
  "byteorder",
