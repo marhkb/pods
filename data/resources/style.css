@@ -11,6 +11,10 @@
   margin-top: 0;
 }
 
+.text-box textview {
+  background: none;
+}
+
 .circle {
   border-radius: 9999px;
 }

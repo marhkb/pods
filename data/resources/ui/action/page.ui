@@ -64,7 +64,7 @@
                               <object class="AdwBin">
                                 <style>
                                   <class name="card"/>
-                                  <class name="view"/>
+                                  <class name="text-box"/>
                                 </style>
                                 <property name="overflow">hidden</property>
 
