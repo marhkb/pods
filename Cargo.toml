@@ -19,6 +19,7 @@ oo7 = { version = "0.1", default-features = false, features = ["native_crypto", 
 panel = { version = "0.2", package = "libpanel" }
 paste = "1"
 podman-api = { git = "https://github.com/vv9k/podman-api-rs.git", commit = "363d945b9b9905c50dfa0bfe0f9331f9fdeef079", default-features = false }
+regex = "1"
 serde = "1"
 serde_json = "1"
 sourceview5 = "0.6"
