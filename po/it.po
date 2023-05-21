@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-09 22:08+0200\n"
-"PO-Revision-Date: 2023-02-28 22:37+0000\n"
-"Last-Translator: Andrea Brandi <git@andreabrandi.com>\n"
+"PO-Revision-Date: 2023-05-21 20:43+0000\n"
+"Last-Translator: albanobattistella <albano_battistella@hotmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/pods/main/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.16-rc\n"
+"X-Generator: Weblate 4.18-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
@@ -31,7 +31,7 @@ msgstr "Tieni traccia dei contenitori podman"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:9
 msgid "Gnome;GTK;libadwaita;Podman;Containerization;"
-msgstr ""
+msgstr "Gnome;GTK;libadwaita;Podman;Containerizzazione;"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:6
 #: data/com.github.marhkb.Pods.gschema.xml.in:7
@@ -115,9 +115,8 @@ msgid "The font scale of all text views"
 msgstr "La scala dei caratteri di tutte le visualizzazioni di testo"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:101
-#, fuzzy
 msgid "The font scale for terminals"
-msgstr "La scala dei caratteri di tutte le visualizzazioni di testo"
+msgstr "La scala dei caratteri per i terminali"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
 msgid ""
@@ -213,30 +212,26 @@ msgid "_Retry"
 msgstr "_Riprova"
 
 #: data/resources/ui/actions/sidebar.ui:23
-#, fuzzy
 msgid "Clear Finished Actions"
-msgstr "Azione pod terminata"
+msgstr "Cancella le azioni concluse"
 
 #: data/resources/ui/actions/sidebar.ui:30 data/resources/ui/statusbar.ui:124
-#, fuzzy
 msgid "Actions"
-msgstr "Connessioni"
+msgstr "Azioni"
 
 #: data/resources/ui/actions/sidebar.ui:38
 #: data/resources/ui/connection/sidebar.ui:23
 msgid "Fold"
-msgstr ""
+msgstr "Piega"
 
 #: data/resources/ui/actions/sidebar.ui:61
-#, fuzzy
 msgid "No Actions"
-msgstr "Nessuna operazione"
+msgstr "Nessuna azione"
 
 #: data/resources/ui/component/scalable-text-view-page.ui:12
 #: data/resources/ui/container/log-page.ui:12
-#, fuzzy
 msgid "_Save as File"
-msgstr "Salva come file"
+msgstr "_Salva come file"
 
 #: data/resources/ui/component/scalable-text-view-page.ui:62
 #: data/resources/ui/container/creation-page.ui:184
@@ -276,9 +271,8 @@ msgstr "Scegli una connessione esistente o creane una nuova."
 
 #: data/resources/ui/connection/chooser-page.ui:83
 #: data/resources/ui/welcome-page.ui:93
-#, fuzzy
 msgid "_New Connection"
-msgstr "Nuova connessione"
+msgstr "_Nuova connessione"
 
 #: data/resources/ui/connection/creation-page.ui:27
 #: data/resources/ui/container/commit-page.ui:33
@@ -372,6 +366,7 @@ msgstr "Colore"
 #: data/resources/ui/connection/creation-page.ui:297
 msgid "Set the color of the status bar when this connection is active."
 msgstr ""
+"Imposta il colore della barra di stato quando questa connessione è attiva."
 
 #: data/resources/ui/connection/custom-info-dialog.ui:16
 msgid "Custom Connection"
@@ -434,9 +429,8 @@ msgid "Connections"
 msgstr "Connessioni"
 
 #: data/resources/ui/connection/sidebar.ui:37
-#, fuzzy
 msgid "New Connection (Ctrl+Shift+N)"
-msgstr "Precedente (Ctrl+Shift+G)"
+msgstr "Nuova connessione (Ctrl+Maiusc+N)"
 
 #: data/resources/ui/container/commit-page.ui:40
 msgid "Commit Container"
@@ -824,9 +818,8 @@ msgid "_Run Health Check"
 msgstr "_Esegui controllo integrità"
 
 #: data/resources/ui/container/log-page.ui:18
-#, fuzzy
 msgid "Show _Timestamps"
-msgstr "Timestamp"
+msgstr "Mostra _Timestamp"
 
 #: data/resources/ui/container/log-page.ui:56
 msgid "Container Logs"
@@ -841,9 +834,8 @@ msgid "Scroll to bottom"
 msgstr "Scorri alla fine"
 
 #: data/resources/ui/container/log-page.ui:220
-#, fuzzy
 msgid "Start/Resume Container."
-msgstr "Avvia/Riprendi contenitore"
+msgstr "Avvia/ripristina Container."
 
 #: data/resources/ui/container/log-page.ui:221
 msgid "Streaming is disconnected because container isn't running."
@@ -961,9 +953,8 @@ msgid "Container TTY"
 msgstr "Contenitore TTY"
 
 #: data/resources/ui/container/tty-page.ui:51
-#, fuzzy
 msgid "Detach Terminal"
-msgstr "Terminale"
+msgstr "Stacca terminale"
 
 #: data/resources/ui/container/tty.ui:6
 msgid "_Copy"
@@ -1107,9 +1098,8 @@ msgid "Containerfile Path Relative to Build Context Directory"
 msgstr "Percorso file contenitore relativo alla directory di compilazione"
 
 #: data/resources/ui/image/details-page.ui:77
-#, fuzzy
 msgid "Delete Image"
-msgstr "_Elimina questa immagine"
+msgstr "Elimina immagine"
 
 #: data/resources/ui/image/details-page.ui:98
 msgid "Disk space"
@@ -1192,9 +1182,8 @@ msgid "Prune Images"
 msgstr "Elimina immagini"
 
 #: data/resources/ui/images/panel.ui:128
-#, fuzzy
 msgid "Create Image"
-msgstr "Immagine remota"
+msgstr "Crea immagine"
 
 #: data/resources/ui/images/panel.ui:216
 msgid "You can use the buttons below to add an initial image."
@@ -1509,15 +1498,14 @@ msgid "Quit"
 msgstr "Esci"
 
 #: data/resources/ui/shortcuts.ui:38
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Close window"
-msgstr "Finestra principale"
+msgstr "Chiudi finestra"
 
 #: data/resources/ui/shortcuts.ui:45
 msgctxt "shortcut window"
 msgid "Close dialog"
-msgstr ""
+msgstr "Chiudi dialogo"
 
 #: data/resources/ui/shortcuts.ui:52
 msgctxt "shortcut window"
@@ -1615,14 +1603,12 @@ msgid "Create a new entity"
 msgstr "Crea nuova entità"
 
 #: data/resources/ui/statusbar.ui:6 data/resources/ui/statusbar.ui:83
-#, fuzzy
 msgid "Podman"
 msgstr "Podman"
 
 #: data/resources/ui/statusbar.ui:8
-#, fuzzy
 msgid "_Show Information"
-msgstr "Configurazione"
+msgstr "_Mostra informazioni"
 
 #: data/resources/ui/value/row.ui:4 src/view/container/creation_page.rs:306
 #: src/view/pod/creation_page.rs:208 src/view/pod/creation_page.rs:217
@@ -1694,33 +1680,28 @@ msgid "Specify the minimum log level"
 msgstr "Specifica livello minimo dei registri"
 
 #: src/model/action.rs:130
-#, fuzzy
 msgid "Prune unused images"
-msgstr "_Elimina immagini inutilizzate…"
+msgstr "Elimina le immagini inutilizzate"
 
 #: src/model/action.rs:168
-#, fuzzy
 msgid "Pull image <b>{}</b>"
-msgstr "Immagine: <b>{}</b>"
+msgstr "Tira immagine <b>{}</b>"
 
 #: src/model/action.rs:200
-#, fuzzy
 msgid "Build image <b>{}</b>"
-msgstr "Immagine: <b>{}</b>"
+msgstr "Costruisci immagine <b>{}</b>"
 
 #: src/model/action.rs:204
 msgid "Generating tarball of context directory..."
 msgstr "Generazione archivio tar della directory di compilazione..."
 
 #: src/model/action.rs:272
-#, fuzzy
 msgid "Start new container <b>{}</b>"
-msgstr "Contenitore: <b>{}</b> ← {}"
+msgstr "Avvia nuovo container <b>{}</b>"
 
 #: src/model/action.rs:274
-#, fuzzy
 msgid "Create container <b>{}</b>"
-msgstr "Contenitore: <b>{}</b> ← {}"
+msgstr "Crea container <b>{}</b>"
 
 #: src/model/action.rs:304
 msgid "none"
@@ -1737,9 +1718,8 @@ msgid "Finished"
 msgstr "Completato"
 
 #: src/model/action.rs:356
-#, fuzzy
 msgid "Upload <b>{}</b> to <b>{}:{}</b>"
-msgstr "Pod: <b>{}</b> ← {}"
+msgstr "Caricamento <b>{}</b> to <b>{}:{}</b>"
 
 #: src/model/action.rs:363
 msgid "Creating tar archive…"
@@ -1763,7 +1743,7 @@ msgstr "Copia dei file nel contenitore…"
 
 #: src/model/action.rs:458
 msgid "Download <b>{}:{}</b> to <b>{}</b>"
-msgstr ""
+msgstr "Download <b>{}:{}</b> to <b>{}</b>"
 
 #: src/model/action.rs:467
 msgid "Copying bytes into memory…"
@@ -1774,23 +1754,20 @@ msgid "Size: {}"
 msgstr "Dimensione: {}"
 
 #: src/model/action.rs:523
-#, fuzzy
 msgid "Create pod <b>{}</b>"
-msgstr "Pod: <b>{}</b>"
+msgstr "Crea pod <b>{}</b>"
 
 #: src/model/action.rs:548
-#, fuzzy
 msgid "Prune unused pods"
-msgstr "_Elimina immagini inutilizzate…"
+msgstr "Elimina i pods inutilizzati"
 
 #: src/model/connection_manager.rs:208
 msgid "Connection '{}' already exists."
 msgstr "La connessione '{}' esiste già."
 
 #: src/model/container.rs:68
-#, fuzzy
 msgid "Configured"
-msgstr "Non configurato"
+msgstr "Configurato"
 
 #: src/model/container.rs:70 src/model/pod.rs:65
 msgid "Dead"
@@ -1918,9 +1895,8 @@ msgid "Container Is Currently Being Created"
 msgstr "Creazione del contenitore in corso"
 
 #: src/view/action/page.rs:134
-#, fuzzy
 msgid "Container Is Currently Being Started"
-msgstr "Creazione del contenitore in corso"
+msgstr "Il container è attualmente in fase di avvio"
 
 #: src/view/action/page.rs:135
 msgid "New Image Is Currently Being Committed"
@@ -1956,9 +1932,8 @@ msgid "Container Has Been Created"
 msgstr "Il contenitore è stato creato"
 
 #: src/view/action/page.rs:148
-#, fuzzy
 msgid "Container Has Been Started"
-msgstr "Il contenitore è stato creato"
+msgstr "Il container è stato avviato"
 
 #: src/view/action/page.rs:149
 msgid "New Image Has Been Committed"
@@ -1994,9 +1969,8 @@ msgid "Container Creation Has Been Aborted"
 msgstr "La creazione del contenitore è stata annullata"
 
 #: src/view/action/page.rs:162
-#, fuzzy
 msgid "Container Start Has Been Aborted"
-msgstr "La creazione del contenitore è stata annullata"
+msgstr "L'avvio del container è stato interrotto"
 
 #: src/view/action/page.rs:163
 msgid "Image Commitment Has Been Aborted"
@@ -2032,9 +2006,8 @@ msgid "Container Creation Has Failed"
 msgstr "Impossibile creare il contenitore"
 
 #: src/view/action/page.rs:176
-#, fuzzy
 msgid "Container Start Has Failed"
-msgstr "Impossibile creare il contenitore"
+msgstr "L'avvio del container non è riuscito"
 
 #: src/view/action/page.rs:177
 msgid "Image Commitment Has Failed"
@@ -2272,9 +2245,8 @@ msgid "Error on retrieving logs"
 msgstr "Errore durante il recupero dei registri"
 
 #: src/view/container/log_page.rs:710
-#, fuzzy
 msgid "Log has been saved."
-msgstr "Il pod è stato creato"
+msgstr "Il log è stato salvato."
 
 #: src/view/container/log_page.rs:731
 msgid "Error starting container"
