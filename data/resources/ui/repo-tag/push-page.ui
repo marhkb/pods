@@ -9,14 +9,6 @@
     </widgets>
   </object>
 
-    <object class="GtkSizeGroup">
-    <property name="mode">horizontal</property>
-    <widgets>
-      <widget name="password_toggle_button"/>
-      <widget name="token_toggle_button"/>
-    </widgets>
-  </object>
-
   <template class="PdsRepoTagPushPage" parent="GtkWidget">
     <property name="layout-manager">
       <object class="GtkBinLayout"/>
@@ -91,7 +83,6 @@
                       </object>
                     </child>
 
-
                     <child>
                       <object class="AdwPreferencesGroup" id="login_group">
                         <property name="title" translatable="yes">Login</property>
@@ -115,6 +106,7 @@
                                 <style>
                                   <class name="linked"/>
                                 </style>
+                                <property name="homogeneous">True</property>
                                 <property name="valign">center</property>
 
                                 <child>
