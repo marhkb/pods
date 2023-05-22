@@ -219,6 +219,14 @@ impl ActionList {
         ))
     }
 
+    pub(crate) fn prune_containers(&self, opts: podman::opts::ContainerPruneOpts) -> model::Action {
+        self.insert_action(model::Action::prune_containers(
+            self.imp().action_counter.get(),
+            self.client().unwrap(),
+            opts,
+        ))
+    }
+
     pub(crate) fn create_container(
         &self,
         container: &str,

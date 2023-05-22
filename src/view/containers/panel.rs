@@ -17,6 +17,7 @@ use crate::model::SelectableListExt;
 use crate::utils;
 use crate::view;
 
+const ACTION_PRUNE_UNUSED_CONTAINERS: &str = "containers-panel.prune-unused-containers";
 const ACTION_START_OR_RESUME_SELECTION: &str = "containers-panel.start-or-resume-selection";
 const ACTION_STOP_SELECTION: &str = "containers-panel.stop-selection";
 const ACTION_PAUSE_SELECTION: &str = "containers-panel.pause-selection";
@@ -54,6 +55,10 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+
+            klass.install_action(ACTION_PRUNE_UNUSED_CONTAINERS, None, |widget, _, _| {
+                widget.show_prune_page();
+            });
 
             klass.add_binding_action(
                 gdk::Key::N,
@@ -210,6 +215,21 @@ impl Default for Panel {
 impl Panel {
     pub(crate) fn action_create_container() -> &'static str {
         view::ContainersGroup::action_create_container()
+    }
+
+    fn client(&self) -> Option<model::Client> {
+        self.container_list()
+            .as_ref()
+            .and_then(model::ContainerList::client)
+    }
+
+    fn show_prune_page(&self) {
+        if let Some(client) = self.client() {
+            utils::show_dialog(
+                self.upcast_ref(),
+                view::ContainersPrunePage::from(&client).upcast_ref(),
+            );
+        }
     }
 
     pub(crate) fn create_container(&self) {

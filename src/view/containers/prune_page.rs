@@ -11,24 +11,19 @@ use crate::podman;
 use crate::utils;
 use crate::view;
 
-const ACTION_PRUNE: &str = "images-prune-page.prune";
+const ACTION_PRUNE: &str = "containers-prune-page.prune";
 
 mod imp {
     use super::*;
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::PrunePage)]
-    #[template(resource = "/com/github/marhkb/Pods/ui/images/prune-page.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/containers/prune-page.ui")]
     pub(crate) struct PrunePage {
-        pub(super) pods_settings: utils::PodsSettings,
         #[property(get, set, construct_only, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
-        #[template_child]
-        pub(super) prune_all_switch: TemplateChild<gtk::Switch>,
-        #[template_child]
-        pub(super) prune_external_switch: TemplateChild<gtk::Switch>,
         #[template_child]
         pub(super) prune_until_expander_row: TemplateChild<view::PruneUntilRow>,
         #[template_child]
@@ -37,7 +32,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for PrunePage {
-        const NAME: &'static str = "PdsImagesPrunePage";
+        const NAME: &'static str = "PdsContainersPrunePage";
         type Type = super::PrunePage;
         type ParentType = gtk::Widget;
 
@@ -67,22 +62,6 @@ mod imp {
             self.derived_property(id, pspec)
         }
 
-        fn constructed(&self) {
-            self.parent_constructed();
-
-            self.pods_settings
-                .bind("prune-all-images", &*self.prune_all_switch, "active")
-                .build();
-
-            self.pods_settings
-                .bind(
-                    "prune-external-images",
-                    &*self.prune_external_switch,
-                    "active",
-                )
-                .build();
-        }
-
         fn dispose(&self) {
             utils::unparent_children(self.obj().upcast_ref());
         }
@@ -107,12 +86,10 @@ impl PrunePage {
     fn prune(&self) {
         let imp = self.imp();
 
-        let action = self.client().unwrap().action_list().prune_images(
-            podman::opts::ImagePruneOpts::builder()
-                .all(imp.pods_settings.get("prune-all-images"))
-                .external(imp.pods_settings.get("prune-external-images"))
+        let action = self.client().unwrap().action_list().prune_containers(
+            podman::opts::ContainerPruneOpts::builder()
                 .filter(if imp.prune_until_expander_row.enables_expansion() {
-                    Some(podman::opts::ImagePruneFilter::Until(
+                    Some(podman::opts::ContainerPruneFilter::Until(
                         imp.prune_until_expander_row
                             .prune_until_timestamp()
                             .to_string(),

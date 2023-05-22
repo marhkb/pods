@@ -42,6 +42,7 @@ pub(crate) enum Type {
     DownloadImage,
     BuildImage,
     PushImage,
+    PruneContainers,
     Commit,
     CreateContainer,
     CreateAndRunContainer,
@@ -317,6 +318,45 @@ impl Action {
                                     obj.set_state(State::Finished);
                                 }
                             }));
+                    }
+                }
+            }),
+        );
+
+        obj
+    }
+
+    pub(crate) fn prune_containers(
+        num: u32,
+        client: model::Client,
+        opts: podman::opts::ContainerPruneOpts,
+    ) -> Self {
+        let obj = Self::new(
+            num,
+            Type::PruneContainers,
+            &gettext("Prune stopped containers"),
+        );
+        let abort_registration = obj.setup_abort_handle();
+
+        utils::do_async(
+            {
+                let podman = client.podman();
+                async move {
+                    stream::Abortable::new(podman.containers().prune(&opts), abort_registration)
+                        .await
+                }
+            },
+            clone!(@weak obj => move |result| if let Ok(result) = result {
+                let output = obj.output();
+                let mut start_iter = output.start_iter();
+                match result.as_ref() {
+                    Ok(report) => {
+                        output.insert(&mut start_iter, &serde_json::to_string_pretty(&report).unwrap());
+                        obj.set_state(State::Finished);
+                    },
+                    Err(e) => {
+                        output.insert(&mut start_iter, &e.to_string());
+                        obj.set_state(State::Failed);
                     }
                 }
             }),

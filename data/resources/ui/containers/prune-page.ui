@@ -9,7 +9,7 @@
     </widgets>
   </object>
 
-  <template class="PdsImagesPrunePage" parent="GtkWidget">
+  <template class="PdsContainersPrunePage" parent="GtkWidget">
     <property name="layout-manager">
       <object class="GtkBinLayout"/>
     </property>
@@ -37,7 +37,7 @@
 
                 <child type="title">
                   <object class="AdwWindowTitle">
-                    <property name="title" translatable="yes">Prune Images</property>
+                    <property name="title" translatable="yes">Prune Stopped Containers</property>
                   </object>
                 </child>
 
@@ -46,7 +46,7 @@
                     <style>
                       <class name="destructive-action"/>
                     </style>
-                    <property name="action-name">images-prune-page.prune</property>
+                    <property name="action-name">containers-prune-page.prune</property>
                     <property name="label" translatable="yes">_Prune</property>
                     <property name="use-underline">True</property>
                   </object>
@@ -64,34 +64,8 @@
                     <property name="title" translatable="yes">Prune Options</property>
 
                     <child>
-                      <object class="AdwActionRow">
-                        <property name="activatable_widget">prune_all_switch</property>
-                        <property name="title" translatable="yes">Prune All</property>
-                        <property name="subtitle" translatable="yes">Remove all images not in use by containers, not just dangling ones.</property>
-                        <child>
-                          <object class="GtkSwitch" id="prune_all_switch">
-                            <property name="valign">center</property>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="AdwActionRow">
-                        <property name="activatable_widget">prune_external_switch</property>
-                        <property name="title" translatable="yes">Prune External</property>
-                        <property name="subtitle" translatable="yes">Remove images even when they are used by external containers (e.g, by build containers).</property>
-                        <child>
-                          <object class="GtkSwitch" id="prune_external_switch">
-                            <property name="valign">center</property>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-
-                    <child>
                       <object class="PdsPruneUntilRow" id="prune_until_expander_row">
-                        <property name="subtitle" translatable="yes">Prune images created before this timestamp.</property>
+                        <property name="subtitle" translatable="yes">Prune containers created before this timestamp.</property>
                       </object>
                     </child>
 

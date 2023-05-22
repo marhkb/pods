@@ -85,7 +85,7 @@ mod imp {
                     use model::ActionType::*;
 
                     match type_ {
-                        PruneImages | PrunePods => "eraser5-symbolic",
+                        PruneContainers | PruneImages | PrunePods => "eraser5-symbolic",
                         DownloadImage => "folder-download-symbolic",
                         BuildImage => "build-configure-symbolic",
                         PushImage => "put-symbolic",

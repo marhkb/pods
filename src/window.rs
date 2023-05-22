@@ -118,6 +118,7 @@ mod imp {
             view::ContainersCountBar::static_type();
             view::ContainersGroup::static_type();
             view::ContainersPanel::static_type();
+            view::ContainersPrunePage::static_type();
             view::HealthCheckLogRow::static_type();
             view::ImageBuildPage::static_type();
             view::ImageHistoryPage::static_type();
@@ -131,6 +132,7 @@ mod imp {
             view::PodsPrunePage::static_type();
             view::PropertyRow::static_type();
             view::PropertyWidgetRow::static_type();
+            view::PruneUntilRow::static_type();
             view::RandomNameEntryRow::static_type();
             view::RepoTagAddDialog::static_type();
             view::RepoTagPushPage::static_type();

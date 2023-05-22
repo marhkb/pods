@@ -13,6 +13,7 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/component/leaflet-overlay.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/component/property-row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/component/property-widget-row.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/component/prune-until-row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/component/random-name-entry-row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/component/scalable-text-view-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/component/source-view-search-widget.ui</file>
@@ -43,6 +44,7 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/containers/count-bar.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/containers/group.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/containers/panel.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/containers/prune-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/device/row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/health-check-log/row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/image-search/response-row.ui</file>
