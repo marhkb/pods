@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="PdsPruneUntilRow" parent="AdwExpanderRow">
+    <property name="title" translatable="yes">Prune Until</property>
+    <property name="enable-expansion">False</property>
+    <property name="show-enable-switch">True</property>
+
+    <child type="action">
+      <object class="GtkLabel" id="prune_until_label">
+        <style>
+          <class name="caption"/>
+          <class name="dim-label"/>
+        </style>
+        <property name="valign">center</property>
+        <property name="visible" bind-source="PdsPruneUntilRow" bind-property="enable-expansion" bind-flags="sync-create"/>
+      </object>
+    </child>
+
+    <child>
+      <object class="AdwPreferencesRow">
+        <property name="activatable">False</property>
+
+        <child>
+          <object class="GtkBox">
+            <property name="halign">center</property>
+            <property name="margin-bottom">18</property>
+            <property name="margin-end">12</property>
+            <property name="margin-start">12</property>
+            <property name="margin-top">18</property>
+            <property name="spacing">36</property>
+
+            <child>
+              <object class="GtkCalendar" id="calendar">
+                <style>
+                  <class name="card"/>
+                </style>
+                <property name="overflow">hidden</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkBox">
+                <property name="spacing">6</property>
+                <property name="valign">center</property>
+
+                <child>
+                  <object class="GtkSpinButton" id="hour_spin_button">
+                    <property name="adjustment">
+                      <object class="GtkAdjustment" id="hour_adjustment">
+                        <property name="lower">0</property>
+                        <property name="page_increment">4</property>
+                        <property name="step-increment">1</property>
+                      </object>
+                    </property>
+                    <property name="orientation">vertical</property>
+                    <property name="wrap">True</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkLabel">
+                    <property name="label">:</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkSpinButton" id="minute_spin_button">
+                    <property name="adjustment">
+                      <object class="GtkAdjustment">
+                        <property name="lower">0</property>
+                        <property name="page_increment">10</property>
+                        <property name="step-increment">1</property>
+                        <property name="upper">59</property>
+                      </object>
+                    </property>
+                    <property name="orientation">vertical</property>
+                    <property name="wrap">True</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkDropDown" id="period_drop_down">
+                    <property name="valign">center</property>
+                    <property name="model">
+                      <object class="GtkStringList">
+                        <items>
+                          <item translatable="yes">AM</item>
+                          <item translatable="yes">PM</item>
+                        </items>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>

@@ -131,6 +131,7 @@ mod imp {
             view::PodsPrunePage::static_type();
             view::PropertyRow::static_type();
             view::PropertyWidgetRow::static_type();
+            view::PruneUntilRow::static_type();
             view::RandomNameEntryRow::static_type();
             view::RepoTagAddDialog::static_type();
             view::RepoTagPushPage::static_type();
