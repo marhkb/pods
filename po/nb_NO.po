@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-09 22:08+0200\n"
+"POT-Creation-Date: 2023-05-22 22:20+0200\n"
 "PO-Revision-Date: 2023-02-02 22:08+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/pods/"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
-#: data/resources/ui/window.ui:145 src/main.rs:45
+#: data/resources/ui/window.ui:145 src/main.rs:46
 msgid "Pods"
 msgstr "Pods"
 
@@ -242,6 +242,18 @@ msgstr ""
 msgid "No Actions"
 msgstr "Alternativer"
 
+#: data/resources/ui/component/prune-until-row.ui:4
+msgid "Prune Until"
+msgstr ""
+
+#: data/resources/ui/component/prune-until-row.ui:87
+msgid "AM"
+msgstr ""
+
+#: data/resources/ui/component/prune-until-row.ui:88
+msgid "PM"
+msgstr ""
+
 #: data/resources/ui/component/scalable-text-view-page.ui:12
 #: data/resources/ui/container/log-page.ui:12
 #, fuzzy
@@ -300,15 +312,17 @@ msgstr "Legg til ny tilkobling"
 #: data/resources/ui/container/files-get-page.ui:33
 #: data/resources/ui/container/files-put-page.ui:42
 #: data/resources/ui/container/rename-dialog.ui:8
+#: data/resources/ui/containers/prune-page.ui:33
 #: data/resources/ui/image/build-page.ui:34
 #: data/resources/ui/image/pull-page.ui:33
 #: data/resources/ui/images/prune-page.ui:33
 #: data/resources/ui/pod/creation-page.ui:38
 #: data/resources/ui/pods/prune-page.ui:33
-#: data/resources/ui/repo-tag/add-dialog.ui:9 src/view/connection/mod.rs:42
-#: src/view/containers/panel.rs:357 src/view/image/mod.rs:55
-#: src/view/images/panel.rs:386 src/view/pod/mod.rs:92
-#: src/view/pods/panel.rs:475
+#: data/resources/ui/repo-tag/add-dialog.ui:9
+#: data/resources/ui/repo-tag/push-page.ui:36 src/view/connection/mod.rs:42
+#: src/view/containers/panel.rs:376 src/view/image/mod.rs:55
+#: src/view/images/panel.rs:385 src/view/pod/mod.rs:92
+#: src/view/pods/panel.rs:474
 msgid "_Cancel"
 msgstr "_Avbryt"
 
@@ -516,7 +530,7 @@ msgstr "Opprettet"
 
 #: data/resources/ui/container/creation-page.ui:54
 #: data/resources/ui/containers/group.ui:12
-#: data/resources/ui/containers/group.ui:51
+#: data/resources/ui/containers/group.ui:67
 #, fuzzy
 msgid "Create Container"
 msgstr "Beholdere"
@@ -590,7 +604,7 @@ msgstr "GB"
 #: data/resources/ui/container/creation-page.ui:307
 #: data/resources/ui/container/creation-page.ui:420
 #: data/resources/ui/container/health-check-page.ui:58
-#: data/resources/ui/image/details-page.ui:104
+#: data/resources/ui/image/details-page.ui:105
 #: data/resources/ui/pod/creation-page.ui:385
 msgid "Command"
 msgstr "Kommando"
@@ -714,13 +728,13 @@ msgid "Stop"
 msgstr "_Stopp"
 
 #: data/resources/ui/container/details-page.ui:202
-#: data/resources/ui/image/details-page.ui:143
+#: data/resources/ui/image/details-page.ui:129
 #: data/resources/ui/pod/details-page.ui:248
 msgid "Utilities"
 msgstr "Verktøy"
 
 #: data/resources/ui/container/details-page.ui:206
-#: data/resources/ui/image/details-page.ui:147
+#: data/resources/ui/image/details-page.ui:133
 #: data/resources/ui/pod/details-page.ui:252
 #, fuzzy
 msgid "Inspection"
@@ -909,13 +923,13 @@ msgid "Re_name…"
 msgstr "_Gi nytt navn …"
 
 #: data/resources/ui/container/menu-button.ui:41
-#: data/resources/ui/pod/menu-button.ui:40 src/view/containers/panel.rs:358
-#: src/view/images/panel.rs:387 src/view/pods/panel.rs:476
+#: data/resources/ui/pod/menu-button.ui:40 src/view/containers/panel.rs:377
+#: src/view/images/panel.rs:386 src/view/pods/panel.rs:475
 msgid "_Delete"
 msgstr "_Slett"
 
 #: data/resources/ui/container/properties-group.ui:4
-#: data/resources/ui/image/details-page.ui:54
+#: data/resources/ui/image/details-page.ui:55
 #: data/resources/ui/pod/details-page.ui:187
 msgid "Properties"
 msgstr "Egenskaper"
@@ -926,7 +940,7 @@ msgid "Rename (F2)"
 msgstr "Gi nytt navn"
 
 #: data/resources/ui/container/properties-group.ui:55
-#: data/resources/ui/image/details-page.ui:86
+#: data/resources/ui/image/details-page.ui:87
 #: data/resources/ui/pod/details-page.ui:209
 #, fuzzy
 msgid "Id"
@@ -937,7 +951,7 @@ msgid "Commit (Ctrl+K)"
 msgstr "Send inn (Ctrl+K)"
 
 #: data/resources/ui/container/properties-group.ui:90
-#: data/resources/ui/image/details-page.ui:92
+#: data/resources/ui/image/details-page.ui:93
 #: data/resources/ui/pod/details-page.ui:215 src/model/container.rs:69
 #: src/model/pod.rs:64
 msgid "Created"
@@ -961,7 +975,7 @@ msgid "Port bindings"
 msgstr ""
 
 #: data/resources/ui/container/properties-group.ui:246
-#: data/resources/ui/image/details-page.ui:41
+#: data/resources/ui/image/details-page.ui:42
 #, fuzzy
 msgid "Image"
 msgstr "Avtrykk"
@@ -1031,6 +1045,12 @@ msgstr "_Start"
 msgid "Only running"
 msgstr "Kjører"
 
+#: data/resources/ui/containers/group.ui:55
+#: data/resources/ui/containers/prune-page.ui:40
+#, fuzzy
+msgid "Prune Stopped Containers"
+msgstr "Beholdere"
+
 #: data/resources/ui/containers/panel.ui:47
 #: data/resources/ui/images/panel.ui:81 data/resources/ui/pods/panel.ui:59
 msgid "Summary"
@@ -1051,8 +1071,25 @@ msgstr ""
 
 #: data/resources/ui/containers/panel.ui:317
 #, fuzzy
-msgid "_Create a Container"
+msgid "_Create Container"
 msgstr "Beholdere"
+
+#: data/resources/ui/containers/prune-page.ui:50
+#: data/resources/ui/images/prune-page.ui:50
+#: data/resources/ui/pods/prune-page.ui:50
+#, fuzzy
+msgid "_Prune"
+msgstr "Beskjær ubrukte avtrykk"
+
+#: data/resources/ui/containers/prune-page.ui:64
+#: data/resources/ui/images/prune-page.ui:64
+#, fuzzy
+msgid "Prune Options"
+msgstr "Beskjær ubrukte avtrykk"
+
+#: data/resources/ui/containers/prune-page.ui:68
+msgid "Prune containers created before this timestamp."
+msgstr ""
 
 #: data/resources/ui/device/row.ui:33
 msgid "Readable"
@@ -1148,46 +1185,50 @@ msgstr "Velg …"
 msgid "Containerfile Path Relative to Build Context Directory"
 msgstr ""
 
-#: data/resources/ui/image/details-page.ui:77
+#: data/resources/ui/image/details-page.ui:7
+msgid "Create Repository Tag"
+msgstr ""
+
+#: data/resources/ui/image/details-page.ui:78
 #, fuzzy
 msgid "Delete Image"
 msgstr "Avtrykk"
 
-#: data/resources/ui/image/details-page.ui:98
+#: data/resources/ui/image/details-page.ui:99
 msgid "Disk space"
 msgstr ""
 
-#: data/resources/ui/image/details-page.ui:111
+#: data/resources/ui/image/details-page.ui:112
 msgid "Entry Point"
 msgstr ""
 
-#: data/resources/ui/image/details-page.ui:118
+#: data/resources/ui/image/details-page.ui:119
 msgid "Ports"
 msgstr "Porter"
 
-#: data/resources/ui/image/details-page.ui:128
-msgid "Repository Tags"
-msgstr ""
-
-#: data/resources/ui/image/details-page.ui:148
+#: data/resources/ui/image/details-page.ui:134
 msgid "View all image properties in a structured text form."
 msgstr ""
 
-#: data/resources/ui/image/details-page.ui:164
+#: data/resources/ui/image/details-page.ui:150
 msgid "History"
 msgstr "Historikk"
 
-#: data/resources/ui/image/details-page.ui:165
+#: data/resources/ui/image/details-page.ui:151
 msgid "View parent layers of this image."
 msgstr ""
 
-#: data/resources/ui/image/details-page.ui:189
+#: data/resources/ui/image/details-page.ui:170
+msgid "Repository Tags"
+msgstr ""
+
+#: data/resources/ui/image/details-page.ui:190
 #: data/resources/ui/pod/details-page.ui:312
 #: data/resources/ui/search-panel.ui:51 data/resources/ui/window.ui:292
 msgid "Containers"
 msgstr "Beholdere"
 
-#: data/resources/ui/image/details-page.ui:190
+#: data/resources/ui/image/details-page.ui:191
 msgid "There are no containers associated with this image."
 msgstr ""
 
@@ -1236,7 +1277,7 @@ msgid "Intermediates"
 msgstr "Vis mellomliggende avtrykk"
 
 #: data/resources/ui/images/panel.ui:118
-#: data/resources/ui/images/prune-page.ui:40 data/resources/ui/pods/panel.ui:96
+#: data/resources/ui/images/prune-page.ui:40
 #, fuzzy
 msgid "Prune Images"
 msgstr "Beskjær ubrukte avtrykk"
@@ -1252,23 +1293,13 @@ msgstr ""
 
 #: data/resources/ui/images/panel.ui:231
 #, fuzzy
-msgid "_Download an Image"
+msgid "_Download Image"
 msgstr "Beskjær ubrukte avtrykk"
 
 #: data/resources/ui/images/panel.ui:243
-msgid "_Build a Local Image"
-msgstr ""
-
-#: data/resources/ui/images/prune-page.ui:50
-#: data/resources/ui/pods/prune-page.ui:50
 #, fuzzy
-msgid "_Prune"
-msgstr "Beskjær ubrukte avtrykk"
-
-#: data/resources/ui/images/prune-page.ui:64
-#, fuzzy
-msgid "Prune Options"
-msgstr "Beskjær ubrukte avtrykk"
+msgid "_Build Image"
+msgstr "Avtrykk"
 
 #: data/resources/ui/images/prune-page.ui:69
 msgid "Prune All"
@@ -1289,19 +1320,7 @@ msgid ""
 msgstr ""
 
 #: data/resources/ui/images/prune-page.ui:94
-msgid "Prune Until"
-msgstr ""
-
-#: data/resources/ui/images/prune-page.ui:95
 msgid "Prune images created before this timestamp."
-msgstr ""
-
-#: data/resources/ui/images/prune-page.ui:178
-msgid "AM"
-msgstr ""
-
-#: data/resources/ui/images/prune-page.ui:179
-msgid "PM"
 msgstr ""
 
 #: data/resources/ui/info-dialog.ui:5
@@ -1404,11 +1423,11 @@ msgstr ""
 msgid "Volume Path"
 msgstr ""
 
-#: data/resources/ui/key-val/row.ui:23 src/view/key_val/row.rs:152
+#: data/resources/ui/key-val/row.ui:23 src/view/key_val/row.rs:151
 msgid "Key"
 msgstr "Nøkkel"
 
-#: data/resources/ui/key-val/row.ui:30 src/view/key_val/row.rs:152
+#: data/resources/ui/key-val/row.ui:30 src/view/key_val/row.rs:151
 #: src/view/value/row.rs:100
 msgid "Value"
 msgstr "Verdi"
@@ -1480,6 +1499,11 @@ msgstr ""
 msgid "There are no containers in this pod."
 msgstr "Ingen avtrykk å beskjære"
 
+#: data/resources/ui/pods/panel.ui:96 data/resources/ui/pods/prune-page.ui:40
+#, fuzzy
+msgid "Prune Stopped Pods"
+msgstr "Beskjær ubrukte avtrykk"
+
 #: data/resources/ui/pods/panel.ui:382
 #, fuzzy
 msgid "No Pods Found"
@@ -1491,13 +1515,8 @@ msgstr ""
 
 #: data/resources/ui/pods/panel.ui:393
 #, fuzzy
-msgid "_Create a Pod"
+msgid "_Create Pod"
 msgstr "Opprettet"
-
-#: data/resources/ui/pods/prune-page.ui:40
-#, fuzzy
-msgid "Prune Pods"
-msgstr "Beskjær ubrukte avtrykk"
 
 #: data/resources/ui/port-mapping/row.ui:29
 msgid "will be mapped to container port"
@@ -1523,11 +1542,69 @@ msgstr ""
 msgid "Repository Tag"
 msgstr ""
 
+#: data/resources/ui/repo-tag/push-page.ui:43
+#, fuzzy
+msgid "Push Image"
+msgstr "Beskjær ubrukte avtrykk"
+
+#: data/resources/ui/repo-tag/push-page.ui:53
+msgid "_Push"
+msgstr ""
+
+#: data/resources/ui/repo-tag/push-page.ui:66
+#, fuzzy
+msgid "Options"
+msgstr "Alternativer"
+
+#: data/resources/ui/repo-tag/push-page.ui:71
+msgid "TLS Verify"
+msgstr ""
+
+#: data/resources/ui/repo-tag/push-page.ui:88
+msgid "Login"
+msgstr ""
+
+#: data/resources/ui/repo-tag/push-page.ui:89
+msgid "Some registries require authentication."
+msgstr ""
+
+#: data/resources/ui/repo-tag/push-page.ui:90
+msgid "False"
+msgstr ""
+
+#: data/resources/ui/repo-tag/push-page.ui:102
+msgid "Authentication"
+msgstr ""
+
+#: data/resources/ui/repo-tag/push-page.ui:115
+#: data/resources/ui/repo-tag/push-page.ui:142
+msgid "Password"
+msgstr ""
+
+#: data/resources/ui/repo-tag/push-page.ui:121
+#: data/resources/ui/repo-tag/push-page.ui:150
+msgid "Token"
+msgstr ""
+
+#: data/resources/ui/repo-tag/push-page.ui:134
+#, fuzzy
+msgid "Username"
+msgstr "Hent brukernavn"
+
+#: data/resources/ui/repo-tag/push-page.ui:159
+msgid "Save Credentials"
+msgstr ""
+
 #: data/resources/ui/repo-tag/row.ui:32
 msgid "Pull Latest"
 msgstr ""
 
 #: data/resources/ui/repo-tag/row.ui:43
+#, fuzzy
+msgid "Push to Registry"
+msgstr "Register"
+
+#: data/resources/ui/repo-tag/row.ui:54
 msgid "Untag"
 msgstr ""
 
@@ -1758,101 +1835,111 @@ msgstr "Allan Nordhøy, <epost@anotheragency.no>"
 msgid "Translators"
 msgstr "Allan Nordhøy, <epost@anotheragency.no>"
 
-#: src/main.rs:115
+#: src/main.rs:123
 msgid "Prints application version"
 msgstr "Skriver ut programversjonen"
 
-#: src/main.rs:124
+#: src/main.rs:132
 msgid "Specify the minimum log level"
 msgstr "Angi minste loggføringsnivå"
 
-#: src/model/action.rs:130
+#: src/model/action.rs:133
 #, fuzzy
 msgid "Prune unused images"
 msgstr "Beskjær ubrukte avtrykk"
 
-#: src/model/action.rs:168
+#: src/model/action.rs:171
 msgid "Pull image <b>{}</b>"
 msgstr ""
 
-#: src/model/action.rs:200
+#: src/model/action.rs:209
+#, fuzzy
+msgid "Push image <b>{}</b>"
+msgstr "Avtrykk"
+
+#: src/model/action.rs:266
 #, fuzzy
 msgid "Build image <b>{}</b>"
 msgstr "Avtrykk"
 
-#: src/model/action.rs:204
+#: src/model/action.rs:270
 msgid "Generating tarball of context directory..."
 msgstr ""
 
-#: src/model/action.rs:272
+#: src/model/action.rs:337
+#, fuzzy
+msgid "Prune stopped containers"
+msgstr "Kunne ikke stoppe beholder"
+
+#: src/model/action.rs:377
 #, fuzzy
 msgid "Start new container <b>{}</b>"
 msgstr "Kunne ikke starte beholder på ny"
 
-#: src/model/action.rs:274
+#: src/model/action.rs:379
 #, fuzzy
 msgid "Create container <b>{}</b>"
 msgstr "Beholdere"
 
-#: src/model/action.rs:304
+#: src/model/action.rs:409
 #, fuzzy
 msgid "none"
 msgstr "<ingen>"
 
-#: src/model/action.rs:300
+#: src/model/action.rs:405
 msgid "Commit image <b>{}</b> ({})"
 msgstr ""
 
-#: src/model/action.rs:314 src/model/action.rs:419 src/model/action.rs:507
-#: src/model/action.rs:737
+#: src/model/action.rs:419 src/model/action.rs:524 src/model/action.rs:612
+#: src/model/action.rs:842
 msgid "Finished"
 msgstr ""
 
-#: src/model/action.rs:356
+#: src/model/action.rs:461
 msgid "Upload <b>{}</b> to <b>{}:{}</b>"
 msgstr ""
 
-#: src/model/action.rs:363
+#: src/model/action.rs:468
 #, fuzzy
 msgid "Creating tar archive…"
 msgstr "Beholdere"
 
-#: src/model/action.rs:396
+#: src/model/action.rs:501
 msgid "Tar archive created"
 msgstr ""
 
-#: src/model/action.rs:397
+#: src/model/action.rs:502
 msgid "Unwrapping tar archive…"
 msgstr ""
 
-#: src/model/action.rs:405
+#: src/model/action.rs:510
 msgid "Tar archive unwrapped"
 msgstr ""
 
-#: src/model/action.rs:406
+#: src/model/action.rs:511
 msgid "Copying files into container…"
 msgstr ""
 
-#: src/model/action.rs:458
+#: src/model/action.rs:563
 msgid "Download <b>{}:{}</b> to <b>{}</b>"
 msgstr ""
 
-#: src/model/action.rs:467
+#: src/model/action.rs:572
 msgid "Copying bytes into memory…"
 msgstr ""
 
-#: src/model/action.rs:470 src/model/action.rs:487
+#: src/model/action.rs:575 src/model/action.rs:592
 msgid "Size: {}"
 msgstr ""
 
-#: src/model/action.rs:523
+#: src/model/action.rs:628
 #, fuzzy
 msgid "Create pod <b>{}</b>"
 msgstr "Opprettet"
 
-#: src/model/action.rs:548
+#: src/model/action.rs:653
 #, fuzzy
-msgid "Prune unused pods"
+msgid "Prune stopped pods"
 msgstr "Beskjær ubrukte avtrykk"
 
 #: src/model/connection_manager.rs:208
@@ -1978,217 +2065,252 @@ msgstr "<ingen>"
 msgid "Error on open file dialog"
 msgstr "Kunne ikke beskjære «{}»-avtrykket"
 
-#: src/view/action/page.rs:130
+#: src/view/action/page.rs:131
 msgid "Images Are Currently Being Pruned"
 msgstr ""
 
-#: src/view/action/page.rs:131
+#: src/view/action/page.rs:132
 msgid "Image Is Currently Being Downloaded"
 msgstr ""
 
-#: src/view/action/page.rs:132
-msgid "Image Is Currently Being Built"
-msgstr ""
-
 #: src/view/action/page.rs:133
-msgid "Container Is Currently Being Created"
+msgid "Image Is Currently Being Built"
 msgstr ""
 
 #: src/view/action/page.rs:134
 #, fuzzy
-msgid "Container Is Currently Being Started"
+msgid "Image Is Currently Being Pushed"
 msgstr "Beholdere"
 
-#: src/view/action/page.rs:135
+#: src/view/action/page.rs:135 src/view/action/page.rs:151
 #, fuzzy
-msgid "New Image Is Currently Being Committed"
+msgid "Containers Are Currently Being Pruned"
 msgstr "Beholdere"
 
 #: src/view/action/page.rs:136
-msgid "Files Are Currently Being Copied"
+msgid "Container Is Currently Being Created"
 msgstr ""
 
 #: src/view/action/page.rs:137
 #, fuzzy
-msgid "Pods Are Currently Being Pruned"
+msgid "Container Is Currently Being Started"
 msgstr "Beholdere"
 
 #: src/view/action/page.rs:138
+#, fuzzy
+msgid "New Image Is Currently Being Committed"
+msgstr "Beholdere"
+
+#: src/view/action/page.rs:139
+msgid "Files Are Currently Being Copied"
+msgstr ""
+
+#: src/view/action/page.rs:140
+#, fuzzy
+msgid "Pods Are Currently Being Pruned"
+msgstr "Beholdere"
+
+#: src/view/action/page.rs:141
 msgid "Pod Is Currently Being Created"
 msgstr ""
 
-#: src/view/action/page.rs:144
+#: src/view/action/page.rs:147
 #, fuzzy
 msgid "Images Have Been Pruned"
 msgstr "Ingen avtrykk å beskjære"
 
-#: src/view/action/page.rs:145
+#: src/view/action/page.rs:148
 #, fuzzy
 msgid "Image Has Been Downloaded"
 msgstr "Beholdere"
 
-#: src/view/action/page.rs:146
+#: src/view/action/page.rs:149
 #, fuzzy
 msgid "Image Has Been Built"
 msgstr "Beholdere"
 
-#: src/view/action/page.rs:147
+#: src/view/action/page.rs:150
+#, fuzzy
+msgid "Image Has Been Pushed"
+msgstr "Ingen avtrykk å beskjære"
+
+#: src/view/action/page.rs:152
 #, fuzzy
 msgid "Container Has Been Created"
 msgstr "Beholdere"
 
-#: src/view/action/page.rs:148
+#: src/view/action/page.rs:153
 #, fuzzy
 msgid "Container Has Been Started"
 msgstr "Beholdere"
 
-#: src/view/action/page.rs:149
+#: src/view/action/page.rs:154
 #, fuzzy
 msgid "New Image Has Been Committed"
 msgstr "Beholdere"
 
-#: src/view/action/page.rs:150
+#: src/view/action/page.rs:155
 #, fuzzy
 msgid "Files Have Beeng Copied"
 msgstr "Ingen avtrykk å beskjære"
 
-#: src/view/action/page.rs:151
+#: src/view/action/page.rs:156
 #, fuzzy
 msgid "Pods Have Been Pruned"
 msgstr "Ingen avtrykk å beskjære"
 
-#: src/view/action/page.rs:152
+#: src/view/action/page.rs:157
 msgid "Pod Has Been Created"
 msgstr ""
 
-#: src/view/action/page.rs:158
+#: src/view/action/page.rs:163
 msgid "Pruning of Images Has Been Aborted"
 msgstr ""
 
-#: src/view/action/page.rs:159
+#: src/view/action/page.rs:164
 msgid "Image Download Has Been Aborted"
 msgstr ""
 
-#: src/view/action/page.rs:160
+#: src/view/action/page.rs:165
 #, fuzzy
 msgid "Image Built Has Been Aborted"
 msgstr "Beholdere"
 
-#: src/view/action/page.rs:161
+#: src/view/action/page.rs:166
+#, fuzzy
+msgid "Image Push Has Been Aborted"
+msgstr "Beholdere"
+
+#: src/view/action/page.rs:167
+#, fuzzy
+msgid "Pruning of Containers Has Been Aborted"
+msgstr "Beholdere"
+
+#: src/view/action/page.rs:168
 #, fuzzy
 msgid "Container Creation Has Been Aborted"
 msgstr "Beholdere"
 
-#: src/view/action/page.rs:162
+#: src/view/action/page.rs:169
 #, fuzzy
 msgid "Container Start Has Been Aborted"
 msgstr "Beholdere"
 
-#: src/view/action/page.rs:163
+#: src/view/action/page.rs:170
 #, fuzzy
 msgid "Image Commitment Has Been Aborted"
 msgstr "Beholdere"
 
-#: src/view/action/page.rs:164
+#: src/view/action/page.rs:171
 #, fuzzy
 msgid "Copying Files Has Been Aborted"
 msgstr "Beholdere"
 
-#: src/view/action/page.rs:165
+#: src/view/action/page.rs:172
 #, fuzzy
 msgid "Pruning of Pods Has Been Aborted"
 msgstr "Beholdere"
 
-#: src/view/action/page.rs:166
+#: src/view/action/page.rs:173
 msgid "Pod Creation Has Been Aborted"
 msgstr ""
 
-#: src/view/action/page.rs:172
+#: src/view/action/page.rs:179
 msgid "Pruning of Images Has Failed"
 msgstr ""
 
-#: src/view/action/page.rs:173
+#: src/view/action/page.rs:180
 msgid "Image Download Has Failed"
 msgstr ""
 
-#: src/view/action/page.rs:174
+#: src/view/action/page.rs:181
 msgid "Image Built Has Failed"
 msgstr ""
 
-#: src/view/action/page.rs:175
+#: src/view/action/page.rs:182
+#, fuzzy
+msgid "Image Push Has Failed"
+msgstr "Beholdere"
+
+#: src/view/action/page.rs:183
+#, fuzzy
+msgid "Pruning of Containers Has Failed"
+msgstr "Beholdere"
+
+#: src/view/action/page.rs:184
 #, fuzzy
 msgid "Container Creation Has Failed"
 msgstr "Beholdere"
 
-#: src/view/action/page.rs:176
+#: src/view/action/page.rs:185
 #, fuzzy
 msgid "Container Start Has Failed"
 msgstr "Beholdere"
 
-#: src/view/action/page.rs:177
+#: src/view/action/page.rs:186
 #, fuzzy
 msgid "Image Commitment Has Failed"
 msgstr "Beholdere"
 
-#: src/view/action/page.rs:178
+#: src/view/action/page.rs:187
 #, fuzzy
 msgid "Copying Files Has Failed"
 msgstr "Beholdere"
 
-#: src/view/action/page.rs:179
+#: src/view/action/page.rs:188
 #, fuzzy
 msgid "Pruning of Pods Has Failed"
 msgstr "Beholdere"
 
-#: src/view/action/page.rs:180
+#: src/view/action/page.rs:189
 msgid "Pod Creation Has Failed"
 msgstr ""
 
-#: src/view/action/page.rs:217
+#: src/view/action/page.rs:226
 msgid "After {}"
 msgstr ""
 
-#: src/view/action/page.rs:259
+#: src/view/action/page.rs:268
 #, fuzzy
 msgid "Error on opening artifact"
 msgstr "Kunne ikke beskjære «{}»-avtrykket"
 
-#: src/view/action/page.rs:260
+#: src/view/action/page.rs:269
 #, fuzzy
 msgid "Artifact has been deleted"
 msgstr "Beholdere"
 
-#: src/view/action/row.rs:136
+#: src/view/action/row.rs:137
 msgid "Abort"
 msgstr ""
 
-#: src/view/action/row.rs:138
+#: src/view/action/row.rs:139
 #, fuzzy
 msgid "Remove"
 msgstr "Fjerner"
 
-#: src/view/action/row.rs:201
+#: src/view/action/row.rs:202
 msgid "Failed Pods Action"
 msgstr ""
 
-#: src/view/action/row.rs:205
+#: src/view/action/row.rs:206
 msgid "Finished Pods Action"
 msgstr ""
 
-#: src/view/action/row.rs:255
+#: src/view/action/row.rs:256
 msgid "Ongoing ({})"
 msgstr ""
 
-#: src/view/action/row.rs:269
+#: src/view/action/row.rs:270
 msgid "Finished after {}"
 msgstr ""
 
-#: src/view/action/row.rs:270
+#: src/view/action/row.rs:271
 #, fuzzy
 msgid "Cancelled after {}"
 msgstr "_Avbryt"
 
-#: src/view/action/row.rs:271
+#: src/view/action/row.rs:272
 msgid "Failed after {}"
 msgstr ""
 
@@ -2200,6 +2322,15 @@ msgstr ""
 #, fuzzy
 msgid "Main View"
 msgstr "Hovedvindu"
+
+#. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
+#: src/view/component/prune_until_row.rs:133
+msgid "%x %H:%M %p"
+msgstr ""
+
+#: src/view/component/prune_until_row.rs:135
+msgid "Invalid date format"
+msgstr ""
 
 #: src/view/component/scalable_text_view_page.rs:268
 #, fuzzy
@@ -2238,11 +2369,11 @@ msgstr "Avtrykk"
 msgid "Kube generation error"
 msgstr "Avtrykk"
 
-#: src/view/component/source_view_search_widget.rs:171
+#: src/view/component/source_view_search_widget.rs:157
 msgid "0 of {}"
 msgstr "0 av {}"
 
-#: src/view/component/source_view_search_widget.rs:190
+#: src/view/component/source_view_search_widget.rs:184
 msgid "{} of {}"
 msgstr "{} av {}"
 
@@ -2303,7 +2434,7 @@ msgstr "Lokal tilkobling"
 msgid "Confirm Switching Connection"
 msgstr "Kunne ikke starte beholder"
 
-#: src/view/connection/switcher.rs:166
+#: src/view/connection/switcher.rs:165
 #, fuzzy
 msgid "Error on switching connection"
 msgstr "Kunne ikke starte beholder"
@@ -2312,7 +2443,7 @@ msgstr "Kunne ikke starte beholder"
 msgid "Change"
 msgstr ""
 
-#: src/view/container/commit_page.rs:195
+#: src/view/container/commit_page.rs:194
 #, fuzzy
 msgid "Error on fetching user name"
 msgstr "Kunne ikke beskjære «{}»-avtrykket"
@@ -2341,15 +2472,15 @@ msgstr "Kunne ikke laste inn beholdere"
 msgid "Container '{}' has been deleted"
 msgstr "Beholdere"
 
-#: src/view/container/files_get_page.rs:153
+#: src/view/container/files_get_page.rs:152
 msgid "Select Host Destination Path"
 msgstr ""
 
-#: src/view/container/files_put_page.rs:166
+#: src/view/container/files_put_page.rs:165
 msgid "Select Host Directory"
 msgstr ""
 
-#: src/view/container/files_put_page.rs:168
+#: src/view/container/files_put_page.rs:167
 #, fuzzy
 msgid "Select Host File"
 msgstr "Velg fil"
@@ -2361,7 +2492,7 @@ msgid_plural "{} seconds"
 msgstr[0] "{} sekund"
 msgstr[1] "{} sekunder"
 
-#: src/view/container/health_check_page.rs:237
+#: src/view/container/health_check_page.rs:236
 #, fuzzy
 msgid "Error on running health check"
 msgstr "Kunne ikke beskjære «{}»-avtrykket"
@@ -2398,12 +2529,12 @@ msgstr "Kunne ikke starte beholder på ny"
 msgid "Error resuming container"
 msgstr "Kunne ikke gjenoppta beholder"
 
-#: src/view/container/mod.rs:83 src/view/containers/panel.rs:251
+#: src/view/container/mod.rs:83 src/view/containers/panel.rs:270
 #, fuzzy
 msgid "Error on starting container"
 msgstr "Kunne ikke starte beholder på ny"
 
-#: src/view/container/mod.rs:84 src/view/containers/panel.rs:277
+#: src/view/container/mod.rs:84 src/view/containers/panel.rs:296
 #, fuzzy
 msgid "Error on stopping container"
 msgstr "Kunne ikke stoppe beholder"
@@ -2413,22 +2544,22 @@ msgstr "Kunne ikke stoppe beholder"
 msgid "Error on killing container"
 msgstr "Kunne ikke inspisere «{}»-beholderen"
 
-#: src/view/container/mod.rs:86 src/view/containers/panel.rs:324
+#: src/view/container/mod.rs:86 src/view/containers/panel.rs:343
 #, fuzzy
 msgid "Error on restarting container"
 msgstr "Kunne ikke starte beholder på ny"
 
-#: src/view/container/mod.rs:87 src/view/containers/panel.rs:300
+#: src/view/container/mod.rs:87 src/view/containers/panel.rs:319
 #, fuzzy
 msgid "Error on pausing container"
 msgstr "Kunne ikke inspisere «{}»-beholderen"
 
-#: src/view/container/mod.rs:88 src/view/containers/panel.rs:240
+#: src/view/container/mod.rs:88 src/view/containers/panel.rs:259
 #, fuzzy
 msgid "Error on resuming container"
 msgstr "Kunne ikke gjenoppta beholder"
 
-#: src/view/container/mod.rs:89 src/view/containers/panel.rs:377
+#: src/view/container/mod.rs:89 src/view/containers/panel.rs:396
 #, fuzzy
 msgid "Error on deleting container"
 msgstr "Kunne ikke slette beholder"
@@ -2491,11 +2622,11 @@ msgid_plural "{} containers total, {} running"
 msgstr[0] "{} beholdere totalt, {} kjører"
 msgstr[1] "{} beholdere totalt, {} kjører"
 
-#: src/view/containers/panel.rs:347
+#: src/view/containers/panel.rs:366
 msgid "Confirm Forced Deletion of Multiple Containers"
 msgstr ""
 
-#: src/view/containers/panel.rs:350
+#: src/view/containers/panel.rs:369
 msgid ""
 "All the data created inside the containers will be lost and running "
 "containers will be stopped!"
@@ -2613,7 +2744,7 @@ msgstr "_Slett"
 
 #. Translators: The "{}" is a placeholder for the image id.
 #. Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
-#: src/view/image/mod.rs:81 src/view/images/panel.rs:406
+#: src/view/image/mod.rs:81 src/view/images/panel.rs:405
 #, fuzzy
 msgid "Error on deleting image '{}'"
 msgstr "Kunne ikke slette avtrykk"
@@ -2626,11 +2757,11 @@ msgstr ""
 msgid "Failed to retrieve podman info"
 msgstr ""
 
-#: src/view/image_search/widget.rs:312
+#: src/view/image_search/widget.rs:311
 msgid "No Results For {}"
 msgstr ""
 
-#: src/view/image_search/widget.rs:324
+#: src/view/image_search/widget.rs:323
 msgid "Failed to search for images"
 msgstr ""
 
@@ -2656,23 +2787,14 @@ msgid_plural "{} images total, {} {} unused, {}"
 msgstr[0] "{} avtrykk totalt, {} {} ubrukte avtrykk, {}"
 msgstr[1] "{} avtrykk totalt, {} {} ubrukte avtrykk, {}"
 
-#: src/view/images/panel.rs:377
+#: src/view/images/panel.rs:376
 msgid "Confirm Forced Deletion of Multiple Images"
 msgstr ""
 
-#: src/view/images/panel.rs:379
+#: src/view/images/panel.rs:378
 msgid ""
 "There may be containers associated with those images, which will also be "
 "removed!"
-msgstr ""
-
-#. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
-#: src/view/images/prune_page.rs:157
-msgid "%x %H:%M %p"
-msgstr ""
-
-#: src/view/images/prune_page.rs:159
-msgid "Invalid date format"
 msgstr ""
 
 #. Translators: "{}" is a placeholder for a cardinal numbers.
@@ -2727,12 +2849,12 @@ msgstr "Kunne ikke laste inn avtrykk"
 msgid "Pod '{}' has been deleted"
 msgstr ""
 
-#: src/view/pod/mod.rs:56 src/view/pods/panel.rs:376
+#: src/view/pod/mod.rs:56 src/view/pods/panel.rs:375
 #, fuzzy
 msgid "Error on starting pod"
 msgstr "Kunne ikke laste inn avtrykk"
 
-#: src/view/pod/mod.rs:57 src/view/pods/panel.rs:402 src/view/pods/panel.rs:425
+#: src/view/pod/mod.rs:57 src/view/pods/panel.rs:401 src/view/pods/panel.rs:424
 #, fuzzy
 msgid "Error on stopping pod"
 msgstr "Kunne ikke stoppe beholder"
@@ -2742,7 +2864,7 @@ msgstr "Kunne ikke stoppe beholder"
 msgid "Error on killing pod"
 msgstr "Kunne ikke inspisere «{}»-avtrykket"
 
-#: src/view/pod/mod.rs:59 src/view/pods/panel.rs:449
+#: src/view/pod/mod.rs:59 src/view/pods/panel.rs:448
 #, fuzzy
 msgid "Error on restarting pod"
 msgstr "Kunne ikke starte beholder på ny"
@@ -2752,12 +2874,12 @@ msgstr "Kunne ikke starte beholder på ny"
 msgid "Error on pausing pod"
 msgstr "Kunne ikke inspisere «{}»-avtrykket"
 
-#: src/view/pod/mod.rs:61 src/view/pods/panel.rs:365
+#: src/view/pod/mod.rs:61 src/view/pods/panel.rs:364
 #, fuzzy
 msgid "Error on resuming pod"
 msgstr "Kunne ikke gjenoppta beholder"
 
-#: src/view/pod/mod.rs:62 src/view/pods/panel.rs:494
+#: src/view/pod/mod.rs:62 src/view/pods/panel.rs:493
 #, fuzzy
 msgid "Error on deleting pod"
 msgstr "Kunne ikke slette avtrykk"
@@ -2801,11 +2923,11 @@ msgid_plural "{} pods total, {} running"
 msgstr[0] "{} beholdere totalt, {} kjører"
 msgstr[1] "{} beholdere totalt, {} kjører"
 
-#: src/view/pods/panel.rs:467
+#: src/view/pods/panel.rs:466
 msgid "Confirm Forced Deletion of Multiple Pods"
 msgstr ""
 
-#: src/view/pods/panel.rs:469
+#: src/view/pods/panel.rs:468
 msgid "All associated containers will also be removed!"
 msgstr "Alle tilknyttede beholdere vil også bli slettet!"
 
@@ -2813,53 +2935,70 @@ msgstr "Alle tilknyttede beholdere vil også bli slettet!"
 msgid "Repo tag must contain a colon “:”"
 msgstr ""
 
-#: src/view/repo_tag/row.rs:183
+#: src/view/repo_tag/push_page.rs:169
+#, fuzzy
+msgid "Error on accessing keyring"
+msgstr "Kunne ikke sette beholder på pause"
+
+#: src/view/repo_tag/row.rs:197
 #, fuzzy
 msgid "Error on untagging image"
 msgstr "Kunne ikke slette avtrykk"
 
-#: src/window.rs:481
+#: src/window.rs:484
 msgid "Confirm Exiting The Application"
 msgstr ""
 
-#: src/window.rs:647
+#: src/window.rs:650
 #, fuzzy
 msgid "{} Selected Container"
 msgid_plural "{} Selected Containers"
 msgstr[0] "Beholdere"
 msgstr[1] "Beholdere"
 
-#: src/window.rs:662
+#: src/window.rs:665
 msgid "{} Selected Pod"
 msgid_plural "{} Selected Pods"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/window.rs:672
+#: src/window.rs:675
 #, fuzzy
 msgid "{} Selected Image"
 msgid_plural "{} Selected Images"
 msgstr[0] "Avtrykk"
 msgstr[1] "Avtrykk"
 
-#: src/window.rs:917
+#: src/window.rs:920
 #, fuzzy
 msgid "images"
 msgstr "Avtrykk"
 
-#: src/window.rs:918
+#: src/window.rs:921
 #, fuzzy
 msgid "containers"
 msgstr "Beholdere"
 
-#: src/window.rs:919
+#: src/window.rs:922
 msgid "pods"
 msgstr ""
 
-#: src/window.rs:915
+#: src/window.rs:918
 #, fuzzy
 msgid "Error on loading {}"
 msgstr "Kunne ikke laste inn avtrykk"
+
+#, fuzzy
+#~ msgid "_Create a Container"
+#~ msgstr "Beholdere"
+
+#, fuzzy
+#~ msgid "_Download an Image"
+#~ msgstr "Beskjær ubrukte avtrykk"
+
+#, fuzzy
+#~ msgid "_Create a Pod"
+#~ msgstr "Opprettet"
 
 #~ msgid "A Podman desktop application"
 #~ msgstr "Et Podman-skrivebordsprogram"
@@ -2878,10 +3017,6 @@ msgstr "Kunne ikke laste inn avtrykk"
 #, fuzzy
 #~ msgid "_Add Connection…"
 #~ msgstr "_Legg til tilkobling"
-
-#, fuzzy
-#~ msgid "Operations"
-#~ msgstr "Alternativer"
 
 #~ msgid "_Add Connection"
 #~ msgstr "_Legg til tilkobling"
@@ -3031,10 +3166,6 @@ msgstr "Kunne ikke laste inn avtrykk"
 
 #~ msgid "Mode"
 #~ msgstr "Modus"
-
-#, fuzzy
-#~ msgid "Error on choosing connection"
-#~ msgstr "Kunne ikke sette beholder på pause"
 
 #, fuzzy
 #~ msgid "{} container"
