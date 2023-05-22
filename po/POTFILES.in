@@ -10,6 +10,7 @@ data/resources/ui/component/circular-progress-bar.ui
 data/resources/ui/component/leaflet-overlay.ui
 data/resources/ui/component/property-row.ui
 data/resources/ui/component/property-widget-row.ui
+data/resources/ui/component/prune-until-row.ui
 data/resources/ui/component/random-name-entry-row.ui
 data/resources/ui/component/scalable-text-view-page.ui
 data/resources/ui/component/source-view-search-widget.ui
@@ -40,6 +41,7 @@ data/resources/ui/container/tty.ui
 data/resources/ui/containers/count-bar.ui
 data/resources/ui/containers/group.ui
 data/resources/ui/containers/panel.ui
+data/resources/ui/containers/prune-page.ui
 data/resources/ui/device/row.ui
 data/resources/ui/health-check-log/row.ui
 data/resources/ui/image-search/response-row.ui
@@ -63,6 +65,7 @@ data/resources/ui/pods/panel.ui
 data/resources/ui/pods/prune-page.ui
 data/resources/ui/port-mapping/row.ui
 data/resources/ui/repo-tag/add-dialog.ui
+data/resources/ui/repo-tag/push-page.ui
 data/resources/ui/repo-tag/row.ui
 data/resources/ui/repo-tag/simple-row.ui
 data/resources/ui/search-panel.ui
@@ -120,6 +123,7 @@ src/view/component/leaflet_overlay.rs
 src/view/component/mod.rs
 src/view/component/property_row.rs
 src/view/component/property_widget_row.rs
+src/view/component/prune_until_row.rs
 src/view/component/random_name_entry_row.rs
 src/view/component/scalable_text_view.rs
 src/view/component/scalable_text_view_page.rs
@@ -154,6 +158,7 @@ src/view/containers/count_bar.rs
 src/view/containers/group.rs
 src/view/containers/mod.rs
 src/view/containers/panel.rs
+src/view/containers/prune_page.rs
 src/view/device/mod.rs
 src/view/device/row.rs
 src/view/health_check_log/mod.rs
@@ -189,6 +194,7 @@ src/view/port_mapping/mod.rs
 src/view/port_mapping/row.rs
 src/view/repo_tag/add_dialog.rs
 src/view/repo_tag/mod.rs
+src/view/repo_tag/push_page.rs
 src/view/repo_tag/row.rs
 src/view/repo_tag/simple_row.rs
 src/view/search_panel.rs
