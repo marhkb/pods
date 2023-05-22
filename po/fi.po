@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-09 22:08+0200\n"
-"PO-Revision-Date: 2023-03-18 18:37+0000\n"
+"PO-Revision-Date: 2023-05-21 20:42+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/pods/main/fi/>\n"
 "Language: fi\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.16.2-dev\n"
+"X-Generator: Weblate 4.18-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
@@ -31,7 +31,7 @@ msgstr "Pidä Podman-kontit hallinnassasi"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:9
 msgid "Gnome;GTK;libadwaita;Podman;Containerization;"
-msgstr ""
+msgstr "Gnome;GTK;libadwaita;Podman;Containerization;kontitus;kontit;"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:6
 #: data/com.github.marhkb.Pods.gschema.xml.in:7
@@ -215,12 +215,11 @@ msgstr "_Yritä uudelleen"
 
 #: data/resources/ui/actions/sidebar.ui:23
 msgid "Clear Finished Actions"
-msgstr ""
+msgstr "Tyhjennä valmistuneet toimenpiteet"
 
 #: data/resources/ui/actions/sidebar.ui:30 data/resources/ui/statusbar.ui:124
-#, fuzzy
 msgid "Actions"
-msgstr "Yhteydet"
+msgstr "Toimenpiteet"
 
 #: data/resources/ui/actions/sidebar.ui:38
 #: data/resources/ui/connection/sidebar.ui:23
@@ -228,15 +227,13 @@ msgid "Fold"
 msgstr ""
 
 #: data/resources/ui/actions/sidebar.ui:61
-#, fuzzy
 msgid "No Actions"
 msgstr "Ei toimenpiteitä"
 
 #: data/resources/ui/component/scalable-text-view-page.ui:12
 #: data/resources/ui/container/log-page.ui:12
-#, fuzzy
 msgid "_Save as File"
-msgstr "Tallenna tiedostona"
+msgstr "_Tallenna tiedostona"
 
 #: data/resources/ui/component/scalable-text-view-page.ui:62
 #: data/resources/ui/container/creation-page.ui:184
@@ -276,9 +273,8 @@ msgstr "Valitse olemassa oleva yhteys tai luo uusi yhteys."
 
 #: data/resources/ui/connection/chooser-page.ui:83
 #: data/resources/ui/welcome-page.ui:93
-#, fuzzy
 msgid "_New Connection"
-msgstr "Uusi yhteys"
+msgstr "_Uusi yhteys"
 
 #: data/resources/ui/connection/creation-page.ui:27
 #: data/resources/ui/container/commit-page.ui:33
@@ -370,7 +366,7 @@ msgstr "Väri"
 
 #: data/resources/ui/connection/creation-page.ui:297
 msgid "Set the color of the status bar when this connection is active."
-msgstr ""
+msgstr "Aseta tilapalkin väri tämän yhteyden ollessa aktiivisena."
 
 #: data/resources/ui/connection/custom-info-dialog.ui:16
 msgid "Custom Connection"
@@ -431,9 +427,8 @@ msgid "Connections"
 msgstr "Yhteydet"
 
 #: data/resources/ui/connection/sidebar.ui:37
-#, fuzzy
 msgid "New Connection (Ctrl+Shift+N)"
-msgstr "Edellinen (Ctrl+Shift+G)"
+msgstr "Uusi yhteys (Ctrl+Shift+N)"
 
 #: data/resources/ui/container/commit-page.ui:40
 msgid "Commit Container"
@@ -816,9 +811,8 @@ msgid "_Run Health Check"
 msgstr "_Suorita terveystarkastus"
 
 #: data/resources/ui/container/log-page.ui:18
-#, fuzzy
 msgid "Show _Timestamps"
-msgstr "Aikaleimat"
+msgstr "Näytä _aikaleimat"
 
 #: data/resources/ui/container/log-page.ui:56
 msgid "Container Logs"
@@ -833,9 +827,8 @@ msgid "Scroll to bottom"
 msgstr "Vieritä alas"
 
 #: data/resources/ui/container/log-page.ui:220
-#, fuzzy
 msgid "Start/Resume Container."
-msgstr "Käynnistä/palauta kontti"
+msgstr "Käynnistä/palauta kontti."
 
 #: data/resources/ui/container/log-page.ui:221
 msgid "Streaming is disconnected because container isn't running."
@@ -953,9 +946,8 @@ msgid "Container TTY"
 msgstr "Kontin TTY"
 
 #: data/resources/ui/container/tty-page.ui:51
-#, fuzzy
 msgid "Detach Terminal"
-msgstr "Pääte"
+msgstr "Irrota pääte"
 
 #: data/resources/ui/container/tty.ui:6
 msgid "_Copy"
@@ -1099,9 +1091,8 @@ msgid "Containerfile Path Relative to Build Context Directory"
 msgstr ""
 
 #: data/resources/ui/image/details-page.ui:77
-#, fuzzy
 msgid "Delete Image"
-msgstr "_Poista tämä levykuva"
+msgstr "Poista levykuva"
 
 #: data/resources/ui/image/details-page.ui:98
 msgid "Disk space"
@@ -1180,14 +1171,12 @@ msgstr "Välikappaleet"
 
 #: data/resources/ui/images/panel.ui:118
 #: data/resources/ui/images/prune-page.ui:40 data/resources/ui/pods/panel.ui:96
-#, fuzzy
 msgid "Prune Images"
-msgstr "Poista käyttämättömät levykuvat."
+msgstr "Poista käyttämättömät levykuvat"
 
 #: data/resources/ui/images/panel.ui:128
-#, fuzzy
 msgid "Create Image"
-msgstr "Etälevykuva"
+msgstr "Luo levykuva"
 
 #: data/resources/ui/images/panel.ui:216
 msgid "You can use the buttons below to add an initial image."
@@ -1500,10 +1489,9 @@ msgid "Quit"
 msgstr "Lopeta"
 
 #: data/resources/ui/shortcuts.ui:38
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Close window"
-msgstr "Pääikkuna"
+msgstr "Sulje ikkuna"
 
 #: data/resources/ui/shortcuts.ui:45
 msgctxt "shortcut window"
@@ -1606,14 +1594,12 @@ msgid "Create a new entity"
 msgstr "Luo uusi entiteetti"
 
 #: data/resources/ui/statusbar.ui:6 data/resources/ui/statusbar.ui:83
-#, fuzzy
 msgid "Podman"
 msgstr "Podman"
 
 #: data/resources/ui/statusbar.ui:8
-#, fuzzy
 msgid "_Show Information"
-msgstr "Määritys"
+msgstr "_Näytä tiedot"
 
 #: data/resources/ui/value/row.ui:4 src/view/container/creation_page.rs:306
 #: src/view/pod/creation_page.rs:208 src/view/pod/creation_page.rs:217
@@ -1685,42 +1671,36 @@ msgid "Specify the minimum log level"
 msgstr "Määritä lokin vähimmäistaso"
 
 #: src/model/action.rs:130
-#, fuzzy
 msgid "Prune unused images"
-msgstr "Poista käyttämättömät levykuvat."
+msgstr "Poista käyttämättömät levykuvat"
 
 #: src/model/action.rs:168
-#, fuzzy
 msgid "Pull image <b>{}</b>"
-msgstr "Levykuva: <b>{}</b>"
+msgstr "Nouda levykuva: <b>{}</b>"
 
 #: src/model/action.rs:200
-#, fuzzy
 msgid "Build image <b>{}</b>"
-msgstr "Levykuva: <b>{}</b>"
+msgstr "Koosta levykuva <b>{}</b>"
 
 #: src/model/action.rs:204
 msgid "Generating tarball of context directory..."
 msgstr "Luodaan tarball kontekstihakemistosta..."
 
 #: src/model/action.rs:272
-#, fuzzy
 msgid "Start new container <b>{}</b>"
-msgstr "Kontti: <b>{}</b> ← {}"
+msgstr "Käynnistä uusi kontti <b>{}</b>"
 
 #: src/model/action.rs:274
-#, fuzzy
 msgid "Create container <b>{}</b>"
-msgstr "Kontti: <b>{}</b> ← {}"
+msgstr "Luo kontti <b>{}</b>"
 
 #: src/model/action.rs:304
 msgid "none"
 msgstr "ei mitään"
 
 #: src/model/action.rs:300
-#, fuzzy
 msgid "Commit image <b>{}</b> ({})"
-msgstr "Levykuva: <b>{}</b> ← {}"
+msgstr "Kommitoi levykuva <b>{}</b>"
 
 #: src/model/action.rs:314 src/model/action.rs:419 src/model/action.rs:507
 #: src/model/action.rs:737
@@ -1765,9 +1745,8 @@ msgid "Size: {}"
 msgstr "Koko: {}"
 
 #: src/model/action.rs:523
-#, fuzzy
 msgid "Create pod <b>{}</b>"
-msgstr "Podi: <b>{}</b>"
+msgstr "Luo podi <b>{}</b>"
 
 #: src/model/action.rs:548
 #, fuzzy
@@ -1779,9 +1758,8 @@ msgid "Connection '{}' already exists."
 msgstr "Yhteys '{}' on jo olemassa."
 
 #: src/model/container.rs:68
-#, fuzzy
 msgid "Configured"
-msgstr "Määrittämätön"
+msgstr "Määritetty"
 
 #: src/model/container.rs:70 src/model/pod.rs:65
 msgid "Dead"
@@ -1793,7 +1771,7 @@ msgstr "Poistuttu"
 
 #: src/model/container.rs:72
 msgid "Initialized"
-msgstr ""
+msgstr "Alustettu"
 
 #: src/model/container.rs:74
 msgid "Removing"
@@ -1910,9 +1888,8 @@ msgid "Container Is Currently Being Created"
 msgstr "Konttia luodaan parhaillaan"
 
 #: src/view/action/page.rs:134
-#, fuzzy
 msgid "Container Is Currently Being Started"
-msgstr "Konttia luodaan parhaillaan"
+msgstr "Konttia käynnistetään parhaillaan"
 
 #: src/view/action/page.rs:135
 msgid "New Image Is Currently Being Committed"
@@ -1948,9 +1925,8 @@ msgid "Container Has Been Created"
 msgstr "Kontti on luotu"
 
 #: src/view/action/page.rs:148
-#, fuzzy
 msgid "Container Has Been Started"
-msgstr "Kontti on luotu"
+msgstr "Kontti on käynnistetty"
 
 #: src/view/action/page.rs:149
 msgid "New Image Has Been Committed"
@@ -2024,9 +2000,8 @@ msgid "Container Creation Has Failed"
 msgstr "Kontin luonti epäonnistui"
 
 #: src/view/action/page.rs:176
-#, fuzzy
 msgid "Container Start Has Failed"
-msgstr "Kontin luonti epäonnistui"
+msgstr "Kontin käynnistäminen epäonnistui"
 
 #: src/view/action/page.rs:177
 msgid "Image Commitment Has Failed"
@@ -2268,9 +2243,8 @@ msgid "Error on retrieving logs"
 msgstr "Virhe lokeja noutaessa"
 
 #: src/view/container/log_page.rs:710
-#, fuzzy
 msgid "Log has been saved."
-msgstr "Podi on luotu"
+msgstr "Loki on tallennettu."
 
 #: src/view/container/log_page.rs:731
 msgid "Error starting container"
