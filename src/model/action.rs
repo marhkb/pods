@@ -610,7 +610,7 @@ impl Action {
     }
 
     pub(crate) fn prune_pods(num: u32, client: model::Client) -> Self {
-        let obj = Self::new(num, Type::PrunePods, &gettext("Prune unused pods"));
+        let obj = Self::new(num, Type::PrunePods, &gettext("Prune stopped pods"));
         let abort_registration = obj.setup_abort_handle();
 
         utils::do_async(
