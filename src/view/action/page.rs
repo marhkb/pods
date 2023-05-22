@@ -78,7 +78,7 @@ mod imp {
 
             self.status_page
                 .set_icon_name(Some(match action.action_type() {
-                    PruneImages | PrunePods => "eraser5-symbolic",
+                    PruneContainers | PruneImages | PrunePods => "eraser5-symbolic",
                     DownloadImage | BuildImage => "image-x-generic-symbolic",
                     PushImage => "put-symbolic",
                     Commit => "merge-symbolic",
@@ -132,6 +132,7 @@ impl Page {
                     DownloadImage => gettext("Image Is Currently Being Downloaded"),
                     BuildImage => gettext("Image Is Currently Being Built"),
                     PushImage => gettext("Image Is Currently Being Pushed"),
+                    PruneContainers => gettext("Containers Are Currently Being Pruned"),
                     CreateContainer => gettext("Container Is Currently Being Created"),
                     CreateAndRunContainer => gettext("Container Is Currently Being Started"),
                     Commit => gettext("New Image Is Currently Being Committed"),
@@ -147,6 +148,7 @@ impl Page {
                     DownloadImage => gettext("Image Has Been Downloaded"),
                     BuildImage => gettext("Image Has Been Built"),
                     PushImage => gettext("Image Has Been Pushed"),
+                    PruneContainers => gettext("Containers Are Currently Being Pruned"),
                     CreateContainer => gettext("Container Has Been Created"),
                     CreateAndRunContainer => gettext("Container Has Been Started"),
                     Commit => gettext("New Image Has Been Committed"),
@@ -162,6 +164,7 @@ impl Page {
                     DownloadImage => gettext("Image Download Has Been Aborted"),
                     BuildImage => gettext("Image Built Has Been Aborted"),
                     PushImage => gettext("Image Push Has Been Aborted"),
+                    PruneContainers => gettext("Pruning of Containers Has Been Aborted"),
                     CreateContainer => gettext("Container Creation Has Been Aborted"),
                     CreateAndRunContainer => gettext("Container Start Has Been Aborted"),
                     Commit => gettext("Image Commitment Has Been Aborted"),
@@ -177,6 +180,7 @@ impl Page {
                     DownloadImage => gettext("Image Download Has Failed"),
                     BuildImage => gettext("Image Built Has Failed"),
                     PushImage => gettext("Image Push Has Failed"),
+                    PruneContainers => gettext("Pruning of Containers Has Failed"),
                     CreateContainer => gettext("Container Creation Has Failed"),
                     CreateAndRunContainer => gettext("Container Start Has Failed"),
                     Commit => gettext("Image Commitment Has Failed"),
@@ -196,7 +200,7 @@ impl Page {
             action.state() == Finished
                 && !matches!(
                     action.action_type(),
-                    PruneImages | PrunePods | Commit | CopyFiles | PushImage
+                    PruneContainers | PruneImages | PrunePods | Commit | CopyFiles | PushImage
                 ),
         );
         self.action_set_enabled(
