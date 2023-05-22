@@ -44,6 +44,7 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/containers/count-bar.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/containers/group.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/containers/panel.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/containers/prune-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/device/row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/health-check-log/row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/image-search/response-row.ui</file>

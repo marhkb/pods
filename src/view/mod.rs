@@ -64,6 +64,7 @@ pub(crate) use self::container::TtyPage as ContainerTtyPage;
 pub(crate) use self::containers::CountBar as ContainersCountBar;
 pub(crate) use self::containers::Group as ContainersGroup;
 pub(crate) use self::containers::Panel as ContainersPanel;
+pub(crate) use self::containers::PrunePage as ContainersPrunePage;
 pub(crate) use self::device::Row as DeviceRow;
 pub(crate) use self::health_check_log::Row as HealthCheckLogRow;
 pub(crate) use self::image::BuildPage as ImageBuildPage;
