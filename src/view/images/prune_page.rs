@@ -1,11 +1,6 @@
-use std::cell::Cell;
-
 use adw::subclass::prelude::*;
 use adw::traits::BinExt;
 use adw::traits::ExpanderRowExt;
-use gettextrs::gettext;
-use glib::clone;
-use glib::closure;
 use glib::Properties;
 use gtk::glib;
 use gtk::prelude::*;
@@ -18,13 +13,6 @@ use crate::view;
 
 const ACTION_PRUNE: &str = "images-prune-page.prune";
 
-#[derive(Clone, Copy, Debug, Default)]
-enum TimeFormat {
-    Hours12,
-    #[default]
-    Hours24,
-}
-
 mod imp {
     use super::*;
 
@@ -32,13 +20,9 @@ mod imp {
     #[properties(wrapper_type = super::PrunePage)]
     #[template(resource = "/com/github/marhkb/Pods/ui/images/prune-page.ui")]
     pub(crate) struct PrunePage {
-        pub(super) desktop_settings: utils::DesktopSettings,
         pub(super) pods_settings: utils::PodsSettings,
-        pub(super) time_format: Cell<TimeFormat>,
         #[property(get, set, construct_only, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
-        #[property(get, set)]
-        pub(super) prune_until_timestamp: Cell<i64>,
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -46,19 +30,7 @@ mod imp {
         #[template_child]
         pub(super) prune_external_switch: TemplateChild<gtk::Switch>,
         #[template_child]
-        pub(super) prune_until_expander_row: TemplateChild<adw::ExpanderRow>,
-        #[template_child]
-        pub(super) prune_until_label: TemplateChild<gtk::Label>,
-        #[template_child]
-        pub(super) calendar: TemplateChild<gtk::Calendar>,
-        #[template_child]
-        pub(super) hour_spin_button: TemplateChild<gtk::SpinButton>,
-        #[template_child]
-        pub(super) hour_adjustment: TemplateChild<gtk::Adjustment>,
-        #[template_child]
-        pub(super) minute_spin_button: TemplateChild<gtk::SpinButton>,
-        #[template_child]
-        pub(super) period_drop_down: TemplateChild<gtk::DropDown>,
+        pub(super) prune_until_expander_row: TemplateChild<view::PruneUntilRow>,
         #[template_child]
         pub(super) action_page_bin: TemplateChild<adw::Bin>,
     }
@@ -98,68 +70,6 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let obj = &*self.obj();
-
-            obj.load_time_format();
-            self.desktop_settings.connect_changed(
-                Some("clock-format"),
-                clone!(@weak obj => move |_, _| {
-                    obj.load_time_format();
-                }),
-            );
-
-            setup_time_spin_button(&self.hour_spin_button);
-            setup_time_spin_button(&self.minute_spin_button);
-
-            gtk::ClosureExpression::new::<i64>(
-                [
-                    self.calendar.property_expression("year"),
-                    self.calendar.property_expression("month"),
-                    self.calendar.property_expression("day"),
-                    self.hour_spin_button.property_expression("value"),
-                    self.minute_spin_button.property_expression("value"),
-                    self.period_drop_down.property_expression("selected"),
-                ],
-                closure!(|obj: Self::Type,
-                          year: i32,
-                          month: i32,
-                          day: i32,
-                          hour: f64,
-                          minute: f64,
-                          period: u32| {
-                    glib::DateTime::from_local(
-                        year,
-                        month + 1,
-                        day,
-                        if matches!(obj.imp().time_format.get(), TimeFormat::Hours12)
-                            && period == 1
-                            && hour < 12.0
-                        {
-                            hour as i32 + 12
-                        } else {
-                            hour as i32
-                        },
-                        minute as i32,
-                        0.0,
-                    )
-                    .unwrap()
-                    .to_unix()
-                }),
-            )
-            .bind(obj, "prune-until-timestamp", Some(obj));
-
-            Self::Type::this_expression("prune-until-timestamp")
-                .chain_closure::<String>(closure!(|_: Self::Type, unix: i64| {
-                    glib::DateTime::from_unix_local(unix)
-                        .unwrap()
-                        .format(
-                            // Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
-                            &gettext("%x %H:%M %p"),
-                        )
-                        .unwrap_or_else(|_| gettext("Invalid date format").into())
-                }))
-                .bind(&*self.prune_until_label, "label", Some(obj));
-
             self.pods_settings
                 .bind("prune-all-images", &*self.prune_all_switch, "active")
                 .build();
@@ -171,14 +81,6 @@ mod imp {
                     "active",
                 )
                 .build();
-
-            let (hour, minute) = glib::DateTime::now_local()
-                .map(|now| (now.hour(), now.minute()))
-                .unwrap_or((0, 0));
-
-            self.hour_spin_button.set_value(hour as f64);
-            self.minute_spin_button.set_value(minute as f64);
-            self.period_drop_down.set_selected(u32::from(hour >= 12));
         }
 
         fn dispose(&self) {
@@ -202,30 +104,6 @@ impl From<&model::Client> for PrunePage {
 }
 
 impl PrunePage {
-    pub(crate) fn has_prune_until_filter(&self) -> bool {
-        self.imp().prune_until_expander_row.enables_expansion()
-    }
-
-    fn load_time_format(&self) {
-        let imp = self.imp();
-
-        match imp.desktop_settings.get::<String>("clock-format").as_str() {
-            "12h" => {
-                imp.hour_adjustment.set_upper(11.0);
-                imp.period_drop_down.set_visible(true);
-                imp.time_format.set(TimeFormat::Hours12);
-            }
-            other => {
-                if other != "24h" {
-                    log::warn!("Unknown time format '{other}'. Falling back to '24h'.");
-                }
-                imp.hour_adjustment.set_upper(23.0);
-                imp.period_drop_down.set_visible(false);
-                imp.time_format.set(TimeFormat::Hours24);
-            }
-        }
-    }
-
     fn prune(&self) {
         let imp = self.imp();
 
@@ -233,9 +111,11 @@ impl PrunePage {
             podman::opts::ImagePruneOpts::builder()
                 .all(imp.pods_settings.get("prune-all-images"))
                 .external(imp.pods_settings.get("prune-external-images"))
-                .filter(if self.has_prune_until_filter() {
+                .filter(if imp.prune_until_expander_row.enables_expansion() {
                     Some(podman::opts::ImagePruneFilter::Until(
-                        self.prune_until_timestamp().to_string(),
+                        imp.prune_until_expander_row
+                            .prune_until_timestamp()
+                            .to_string(),
                     ))
                 } else {
                     None
@@ -247,12 +127,4 @@ impl PrunePage {
             .set_child(Some(&view::ActionPage::from(&action)));
         imp.stack.set_visible_child(&*imp.action_page_bin);
     }
-}
-
-fn setup_time_spin_button(spin_button: &gtk::SpinButton) {
-    spin_button.set_text(&format!("{:02}", spin_button.value()));
-    spin_button.connect_output(|spin_button| {
-        spin_button.set_text(&format!("{:02}", spin_button.value()));
-        gtk::Inhibit(true)
-    });
 }
