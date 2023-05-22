@@ -93,7 +93,7 @@
                                     </style>
                                     <property name="action-name">pods-panel.prune-pods</property>
                                     <property name="icon-name">eraser5-symbolic</property>
-                                    <property name="tooltip-text" translatable="yes">Prune Images</property>
+                                    <property name="tooltip-text" translatable="yes">Prune Stopped Pods</property>
                                   </object>
                                 </child>
 

@@ -37,7 +37,7 @@
 
                 <child type="title">
                   <object class="AdwWindowTitle">
-                    <property name="title" translatable="yes">Prune Pods</property>
+                    <property name="title" translatable="yes">Prune Stopped Pods</property>
                   </object>
                 </child>
 
