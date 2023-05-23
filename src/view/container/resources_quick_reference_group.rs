@@ -3,6 +3,7 @@ use std::cell::Cell;
 use adw::subclass::prelude::PreferencesGroupImpl;
 use adw::traits::AnimationExt;
 use gettextrs::gettext;
+use gettextrs::ngettext;
 use glib::clone;
 use glib::closure;
 use glib::closure_local;
@@ -27,7 +28,9 @@ mod imp {
         #[property(get, set, construct, nullable)]
         pub(super) container: glib::WeakRef<model::Container>,
         #[template_child]
-        pub(super) cpu_label: TemplateChild<gtk::Label>,
+        pub(super) cpu_name_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub(super) cpu_percent_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) cpu_progress_bar: TemplateChild<gtk::ProgressBar>,
         #[template_child]
@@ -77,8 +80,27 @@ mod imp {
 
             let obj = &*self.obj();
 
-            let stats_expr = Self::Type::this_expression("container")
-                .chain_property::<model::Container>("stats");
+            let container_expr = Self::Type::this_expression("container");
+            let cpus_expr = container_expr
+                .chain_property::<model::Container>("container-list")
+                .chain_property::<model::ContainerList>("client")
+                .chain_property::<model::Client>("cpus");
+            let stats_expr = container_expr.chain_property::<model::Container>("stats");
+
+            cpus_expr
+                .chain_closure::<String>(closure!(|_: Self::Type, cpus: i64| {
+                    if cpus > 0 {
+                        ngettext!(
+                            "Processor ({} CPU)",
+                            "Processor ({} CPUs)",
+                            cpus as u32,
+                            cpus
+                        )
+                    } else {
+                        gettext("CPU (? units)")
+                    }
+                }))
+                .bind(&*self.cpu_name_label, "label", Some(obj));
 
             stats_expr
                 .chain_closure::<String>(closure!(
@@ -91,11 +113,23 @@ mod imp {
                         )
                     }
                 ))
-                .bind(&*self.cpu_label, "label", Some(obj));
+                .bind(&*self.cpu_percent_label, "label", Some(obj));
 
+            #[rustfmt::skip]
             obj.bind_stats_fraction(
-                stats_expr.upcast_ref(),
-                |stats| stats.cpu,
+                gtk::ClosureExpression::new::<f64>(
+                    [cpus_expr.upcast_ref(), stats_expr.upcast_ref()],
+                    closure!(|_: Self::Type, cpus: i64, stats: Option<model::BoxedContainerStats>| {
+                        if cpus > 0 {
+                            stats
+                                .and_then(|stats| stats.cpu.map(|cpu| cpu / cpus as f64))
+                                .unwrap_or_default()
+                        } else {
+                            0.0
+                        }
+                    }),
+                )
+                .upcast_ref(),
                 &self.cpu_progress_bar,
             );
 
@@ -128,32 +162,57 @@ mod imp {
                 .bind(&*self.memory_label, "label", Some(obj));
 
             obj.bind_stats_fraction(
-                stats_expr.upcast_ref(),
-                |stats| stats.mem_perc,
+                stats_expr
+                    .chain_closure::<f64>(closure!(
+                        |_: Self::Type, stats: Option<model::BoxedContainerStats>| stats
+                            .and_then(|stats| stats.mem_perc)
+                            .unwrap_or(0.0)
+                    ))
+                    .upcast_ref(),
                 &self.memory_progress_bar,
             );
 
             obj.bind_stats_throughput(
-                stats_expr.upcast_ref(),
-                |stats| stats.net_input,
+                stats_expr
+                    .chain_closure::<u64>(closure!(
+                        |_: Self::Type, stats: Option<model::BoxedContainerStats>| {
+                            stats.and_then(|stats| stats.net_input).unwrap_or(0)
+                        }
+                    ))
+                    .upcast_ref(),
                 &self.network_down_label,
             );
 
             obj.bind_stats_throughput(
-                stats_expr.upcast_ref(),
-                |stats| stats.net_output,
+                stats_expr
+                    .chain_closure::<u64>(closure!(
+                        |_: Self::Type, stats: Option<model::BoxedContainerStats>| {
+                            stats.and_then(|stats| stats.net_output).unwrap_or(0)
+                        }
+                    ))
+                    .upcast_ref(),
                 &self.network_up_label,
             );
 
             obj.bind_stats_throughput(
-                stats_expr.upcast_ref(),
-                |stats| stats.block_input,
+                stats_expr
+                    .chain_closure::<u64>(closure!(
+                        |_: Self::Type, stats: Option<model::BoxedContainerStats>| {
+                            stats.and_then(|stats| stats.block_input).unwrap_or(0)
+                        }
+                    ))
+                    .upcast_ref(),
                 &self.block_down_label,
             );
 
             obj.bind_stats_throughput(
-                stats_expr.upcast_ref(),
-                |stats| stats.block_output,
+                stats_expr
+                    .chain_closure::<u64>(closure!(
+                        |_: Self::Type, stats: Option<model::BoxedContainerStats>| {
+                            stats.and_then(|stats| stats.block_output).unwrap_or(0)
+                        }
+                    ))
+                    .upcast_ref(),
                 &self.block_up_label,
             );
         }
@@ -170,23 +229,9 @@ glib::wrapper! {
 }
 
 impl ResourcesQuickReferenceGroup {
-    fn bind_stats_fraction<F>(
-        &self,
-        stats_expr: &gtk::Expression,
-        fraction_op: F,
-        progress_bar: &gtk::ProgressBar,
-    ) where
-        F: Fn(model::BoxedContainerStats) -> Option<f64> + Clone + 'static,
-    {
-        let fraction_op_clone = fraction_op.clone();
-        let percent_expr = stats_expr.chain_closure::<f64>(closure_local!(|_: Self,
-                                                                           stats: Option<
-            model::BoxedContainerStats,
-        >| {
-            stats
-                .and_then(|stats| fraction_op_clone(stats).map(|perc| perc * 0.01))
-                .unwrap_or_default()
-        }));
+    fn bind_stats_fraction(&self, stats_expr: &gtk::Expression, progress_bar: &gtk::ProgressBar) {
+        let percent_expr =
+            stats_expr.chain_closure::<f64>(closure!(|_: Self, value: f64| value * 0.01));
 
         let target = adw::PropertyAnimationTarget::new(progress_bar, "fraction");
         let animation = adw::TimedAnimation::builder()
@@ -195,9 +240,9 @@ impl ResourcesQuickReferenceGroup {
             .target(&target)
             .build();
 
-        stats_expr.clone().watch(
+        percent_expr.watch(
             Some(self),
-            clone!(@weak self as obj, @weak progress_bar => move || {
+            clone!(@weak self as obj, @weak progress_bar, @strong percent_expr => move || {
                 animation.set_value_from(progress_bar.fraction());
                 animation.set_value_to(percent_expr.evaluate_as(Some(&obj)).unwrap_or(0.0));
                 animation.play();
@@ -207,64 +252,42 @@ impl ResourcesQuickReferenceGroup {
         let classes = utils::css_classes(progress_bar.upcast_ref());
 
         #[rustfmt::skip]
-        stats_expr.chain_closure::<Vec<String>>(
-            closure_local!(|_: Self, stats: Option<model::BoxedContainerStats>| {
-                classes
-                    .iter()
-                    .cloned()
-                    .chain(stats.and_then(|stats| {
-                        fraction_op(stats).and_then(|perc| {
-                            if perc >= 80. {
-                                Some(String::from(if perc < 95. {
-                                    "warning"
-                                } else {
-                                    "error"
-                                }))
-                            } else {
-                                None
-                            }
-                        })
+        percent_expr.chain_closure::<Vec<String>>(closure!(|_: Self, value: f64| {
+            classes
+                .iter()
+                .cloned()
+                .chain(if value >= 0.8 {
+                    Some(String::from(if value < 0.95 {
+                        "warning"
+                    } else {
+                        "error"
                     }))
-                    .collect::<Vec<_>>()
-            })
-        )
+                } else {
+                    None
+                })
+                .collect::<Vec<_>>()
+        }))
         .bind(progress_bar, "css-classes", Some(self));
     }
 
-    fn bind_stats_throughput<F>(
-        &self,
-        stats_expr: &gtk::Expression,
-        throughput_op: F,
-        label: &gtk::Label,
-    ) where
-        F: Fn(model::BoxedContainerStats) -> Option<u64> + 'static,
-    {
+    fn bind_stats_throughput(&self, stats_expr: &gtk::Expression, label: &gtk::Label) {
         let prev_value = Cell::new(u64::MAX);
 
         stats_expr
-            .chain_closure::<String>(closure_local!(move |_: Self,
-                                                          stats: Option<
-                model::BoxedContainerStats,
-            >| {
-                stats
-                    .and_then(|stats| {
-                        throughput_op(stats).map(|value| {
-                            let s = gettext!(
-                                // Translators: For example 5 MB / s.
-                                "{} / s",
-                                glib::format_size(if prev_value.get() >= value {
-                                    0
-                                } else {
-                                    value - prev_value.get()
-                                })
-                            );
-
-                            prev_value.set(value);
-
-                            s
-                        })
+            .chain_closure::<String>(closure_local!(move |_: Self, value: u64| {
+                let s = gettext!(
+                    // Translators: For example 5 MB / s.
+                    "{} / s",
+                    glib::format_size(if prev_value.get() >= value {
+                        0
+                    } else {
+                        value - prev_value.get()
                     })
-                    .unwrap_or_else(|| gettext("?"))
+                );
+
+                prev_value.set(value);
+
+                s
             }))
             .bind(label, "label", Some(self));
     }
