@@ -54,6 +54,9 @@
 
                         <child>
                           <object class="GtkLabel" id="cpu_percent_label">
+                            <style>
+                              <class name="numeric"/>
+                            </style>
                             <property name="hexpand">True</property>
                             <property name="xalign">1.0</property>
                           </object>
@@ -115,6 +118,9 @@
 
                         <child>
                           <object class="GtkLabel" id="memory_label">
+                            <style>
+                              <class name="numeric"/>
+                            </style>
                             <property name="hexpand">True</property>
                             <property name="xalign">1.0</property>
                           </object>
