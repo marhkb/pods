@@ -74,7 +74,7 @@ pub(crate) use self::image::LocalComboRow as ImageLocalComboRow;
 pub(crate) use self::image::MenuButton as ImageMenuButton;
 pub(crate) use self::image::PullPage as ImagePullPage;
 pub(crate) use self::image::Row as ImageRow;
-pub(crate) use self::image::SelectionPage as ImageSelectionPage;
+pub(crate) use self::image::SearchPage as ImageSearchPage;
 pub(crate) use self::image_search::ResponseRow as ImageSearchResponseRow;
 pub(crate) use self::image_search::Widget as ImageSearchWidget;
 pub(crate) use self::images::Panel as ImagesPanel;

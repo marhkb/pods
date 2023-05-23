@@ -5,7 +5,7 @@ mod local_combo_row;
 mod menu_button;
 mod pull_page;
 mod row;
-mod selection_page;
+mod search_page;
 
 use adw::prelude::MessageDialogExtManual;
 use adw::traits::MessageDialogExt;
@@ -22,7 +22,7 @@ pub(crate) use self::local_combo_row::LocalComboRow;
 pub(crate) use self::menu_button::MenuButton;
 pub(crate) use self::pull_page::PullPage;
 pub(crate) use self::row::Row;
-pub(crate) use self::selection_page::SelectionPage;
+pub(crate) use self::search_page::SearchPage;
 use crate::model;
 use crate::utils;
 use crate::view;

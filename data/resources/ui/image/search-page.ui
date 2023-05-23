@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="PdsImageSelectionPage" parent="GtkWidget">
+  <template class="PdsImageSearchPage" parent="GtkWidget">
     <property name="layout-manager">
       <object class="GtkBoxLayout">
         <property name="orientation">vertical</property>
@@ -39,7 +39,7 @@
     <child>
       <object class="PdsImageSearchWidget" id="image_search_widget">
         <binding name="client">
-          <lookup name="client">PdsImageSelectionPage</lookup>
+          <lookup name="client">PdsImageSearchPage</lookup>
         </binding>
       </object>
     </child>

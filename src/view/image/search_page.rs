@@ -14,9 +14,9 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
-    #[properties(wrapper_type = super::SelectionPage)]
-    #[template(resource = "/com/github/marhkb/Pods/ui/image/selection-page.ui")]
-    pub(crate) struct SelectionPage {
+    #[properties(wrapper_type = super::SearchPage)]
+    #[template(resource = "/com/github/marhkb/Pods/ui/image/search-page.ui")]
+    pub(crate) struct SearchPage {
         #[property(get, set, construct_only, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
         #[template_child]
@@ -28,9 +28,9 @@ mod imp {
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for SelectionPage {
-        const NAME: &'static str = "PdsImageSelectionPage";
-        type Type = super::SelectionPage;
+    impl ObjectSubclass for SearchPage {
+        const NAME: &'static str = "PdsImageSearchPage";
+        type Type = super::SearchPage;
         type ParentType = gtk::Widget;
 
         fn class_init(klass: &mut Self::Class) {
@@ -50,7 +50,7 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for SelectionPage {
+    impl ObjectImpl for SearchPage {
         fn signals() -> &'static [Signal] {
             static SIGNALS: SyncLazy<Vec<Signal>> = SyncLazy::new(|| {
                 vec![Signal::builder("image-selected")
@@ -92,22 +92,22 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for SelectionPage {}
+    impl WidgetImpl for SearchPage {}
 }
 
 glib::wrapper! {
-    pub(crate) struct SelectionPage(ObjectSubclass<imp::SelectionPage>)
+    pub(crate) struct SearchPage(ObjectSubclass<imp::SearchPage>)
         @extends gtk::Widget,
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
-impl From<&model::Client> for SelectionPage {
+impl From<&model::Client> for SearchPage {
     fn from(client: &model::Client) -> Self {
         glib::Object::builder().property("client", client).build()
     }
 }
 
-impl SelectionPage {
+impl SearchPage {
     fn select(&self) {
         let imp = self.imp();
 

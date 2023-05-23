@@ -473,22 +473,20 @@ impl CreationPage {
 
     fn search_image(&self) {
         if let Some(client) = self.client() {
-            let image_selection_page = view::ImageSelectionPage::from(&client);
-            image_selection_page.connect_image_selected(
-                clone!(@weak self as obj => move |_, image| {
-                    let imp = obj.imp();
+            let image_search_page = view::ImageSearchPage::from(&client);
+            image_search_page.connect_image_selected(clone!(@weak self as obj => move |_, image| {
+                let imp = obj.imp();
 
-                    imp.infra_local_image_combo_row.set_visible(false);
-                    imp.infra_remote_image_row.set_visible(true);
-                    imp.infra_remote_image_row.set_subtitle(&image);
-                    imp.infra_pull_latest_image_row.set_visible(false);
+                imp.infra_local_image_combo_row.set_visible(false);
+                imp.infra_remote_image_row.set_visible(true);
+                imp.infra_remote_image_row.set_subtitle(&image);
+                imp.infra_pull_latest_image_row.set_visible(false);
 
-                    imp.infra_command_entry_row.set_text("");
-                }),
-            );
+                imp.infra_command_entry_row.set_text("");
+            }));
             self.imp()
                 .leaflet_overlay
-                .show_details(image_selection_page.upcast_ref());
+                .show_details(image_search_page.upcast_ref());
         }
     }
 
