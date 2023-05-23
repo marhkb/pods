@@ -37,6 +37,8 @@ mod imp {
         pub(super) podman: UnsyncOnceCell<BoxedPodman>,
         #[property(get = Self::version, nullable)]
         pub(super) version: UnsyncOnceCell<Option<String>>,
+        #[property(get = Self::cpus, nullable)]
+        pub(super) cpus: UnsyncOnceCell<i64>,
         #[property(get = Self::image_list)]
         pub(super) image_list: UnsyncOnceCell<model::ImageList>,
         #[property(get = Self::container_list)]
@@ -128,6 +130,10 @@ mod imp {
             self.version.get().cloned().flatten()
         }
 
+        fn cpus(&self) -> i64 {
+            self.cpus.get().cloned().unwrap_or(-1)
+        }
+
         fn image_list(&self) -> model::ImageList {
             self.image_list
                 .get_or_init(|| model::ImageList::from(&*self.obj()))
@@ -169,15 +175,18 @@ impl TryFrom<&model::Connection> for Client {
                 .build();
 
             utils::do_async(
-                async move {
-                    podman
-                        .version()
-                        .await
-                        .ok()
-                        .and_then(|version| version.version)
-                },
-                clone!(@weak obj => move |version| {
-                    obj.set_version(version);
+                async move { podman.info().await },
+                clone!(@weak obj => move |info| match info {
+                    Ok(info) => {
+                        obj.set_version(info.version.unwrap().version);
+                        obj.set_cpus(info.host.unwrap().cpus);
+                    }
+                    Err(e) => {
+                        log::error!("Error on retrieving podmnan info: {e}");
+
+                        obj.set_version(None);
+                        obj.set_cpus(None);
+                    }
                 }),
             );
 
@@ -190,6 +199,11 @@ impl Client {
     fn set_version(&self, value: Option<String>) {
         self.imp().version.set(value).unwrap();
         self.notify_version();
+    }
+
+    fn set_cpus(&self, value: Option<i64>) {
+        self.imp().cpus.set(value.unwrap_or(-1)).unwrap();
+        self.notify_cpus();
     }
 
     pub(crate) fn check_service<T, E, F>(&self, op: T, err_op: E, finish_op: F)

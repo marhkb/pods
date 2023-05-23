@@ -3,7 +3,6 @@ use std::cell::RefCell;
 use adw::traits::AnimationExt;
 use glib::clone;
 use glib::closure;
-use glib::closure_local;
 use glib::Properties;
 use gtk::glib;
 use gtk::prelude::*;
@@ -90,10 +89,11 @@ mod imp {
             let obj = &*self.obj();
 
             let container_expr = Self::Type::this_expression("container");
+            let container_list_expr =
+                container_expr.chain_property::<model::Container>("container-list");
 
-            let selection_mode_expr = container_expr
-                .chain_property::<model::Container>("container-list")
-                .chain_property::<model::ContainerList>("selection-mode");
+            let selection_mode_expr =
+                container_list_expr.chain_property::<model::ContainerList>("selection-mode");
 
             selection_mode_expr.bind(&*self.check_button_revealer, "reveal-child", Some(obj));
             selection_mode_expr
@@ -233,10 +233,38 @@ mod imp {
                 ))
                 .bind(&*self.stats_box, "visible", Some(obj));
 
-            obj.bind_stats_percentage(stats_expr.upcast_ref(), |stats| stats.cpu, &self.cpu_bar);
             obj.bind_stats_percentage(
-                stats_expr.upcast_ref(),
-                |stats| stats.mem_perc,
+                gtk::ClosureExpression::new::<f64>(
+                    [
+                        container_list_expr
+                            .chain_property::<model::ContainerList>("client")
+                            .chain_property::<model::Client>("cpus")
+                            .upcast_ref(),
+                        stats_expr.upcast_ref(),
+                    ],
+                    closure!(
+                        |_: Self::Type, cpus: i64, stats: Option<model::BoxedContainerStats>| {
+                            if cpus > 0 {
+                                stats
+                                    .and_then(|stats| stats.cpu.map(|cpu| cpu / cpus as f64))
+                                    .unwrap_or_default()
+                            } else {
+                                0.0
+                            }
+                        }
+                    ),
+                )
+                .upcast_ref(),
+                &self.cpu_bar,
+            );
+            obj.bind_stats_percentage(
+                stats_expr
+                    .chain_closure::<f64>(closure!(
+                        |_: Self::Type, stats: Option<model::BoxedContainerStats>| stats
+                            .and_then(|stats| stats.mem_perc)
+                            .unwrap_or(0.0)
+                    ))
+                    .upcast_ref(),
                 &self.mem_bar,
             );
         }
@@ -286,22 +314,13 @@ impl From<&model::Container> for Row {
 }
 
 impl Row {
-    fn bind_stats_percentage<F>(
+    fn bind_stats_percentage(
         &self,
         stats_expr: &gtk::Expression,
-        fraction_op: F,
         progress_bar: &view::CircularProgressBar,
-    ) where
-        F: Fn(model::BoxedContainerStats) -> Option<f64> + Clone + 'static,
-    {
-        #[rustfmt::skip]
-        let perc_expr = stats_expr.chain_closure::<f64>(
-            closure_local!(|_: Self, stats: Option<model::BoxedContainerStats>| {
-                stats
-                    .and_then(|stats| fraction_op(stats).map(|perc| perc * 0.01))
-                    .unwrap_or_default()
-            })
-        );
+    ) {
+        let perc_expr =
+            stats_expr.chain_closure::<f64>(closure!(|_: Self, value: f64| value * 0.01));
 
         let target = adw::PropertyAnimationTarget::new(progress_bar, "percentage");
         let animation = adw::TimedAnimation::builder()
@@ -310,9 +329,9 @@ impl Row {
             .target(&target)
             .build();
 
-        stats_expr.watch(
+        perc_expr.watch(
             Some(self),
-            clone!(@weak self as obj, @weak progress_bar => move || {
+            clone!(@weak self as obj, @weak progress_bar, @strong perc_expr => move || {
                 animation.set_value_from(progress_bar.percentage());
                 animation.set_value_to(perc_expr.evaluate_as(Some(&obj)).unwrap_or(0.0));
                 animation.play();
