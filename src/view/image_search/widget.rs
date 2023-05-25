@@ -11,11 +11,11 @@ use gtk::glib;
 use gtk::prelude::*;
 use gtk::CompositeTemplate;
 use once_cell::sync::OnceCell as SyncOnceCell;
-use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::podman;
 use crate::utils;
+use crate::view;
 
 mod imp {
     use super::*;
@@ -26,7 +26,6 @@ mod imp {
     pub(crate) struct Widget {
         pub(super) search_results: gio::ListStore,
         pub(super) search_abort_handle: RefCell<Option<future::AbortHandle>>,
-        pub(super) selection: UnsyncOnceCell<gtk::SingleSelection>,
         #[property(get, set = Self::set_client, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
         #[template_child]
@@ -40,7 +39,9 @@ mod imp {
         #[template_child]
         pub(super) no_results_status_page: TemplateChild<adw::StatusPage>,
         #[template_child]
-        pub(super) search_result_list_view: TemplateChild<gtk::ListView>,
+        pub(super) list_view: TemplateChild<gtk::ListView>,
+        #[template_child]
+        pub(super) selection: TemplateChild<gtk::SingleSelection>,
         #[template_child]
         pub(super) tag_entry_row: TemplateChild<adw::EntryRow>,
     }
@@ -53,6 +54,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+            klass.bind_template_callbacks();
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -134,18 +136,29 @@ mod imp {
                 clone!(@weak filter => move |_| filter.changed(gtk::FilterChange::Different)),
             );
 
-            let selection = gtk::SingleSelection::new(Some(gtk::FilterListModel::new(
+            self.selection.set_model(Some(&gtk::FilterListModel::new(
                 Some(self.search_results.clone()),
                 Some(filter),
             )));
 
-            selection.connect_selected_item_notify(clone!(@weak obj => move |_| {
-                obj.notify("selected-image");
+            let list_factory = gtk::SignalListItemFactory::new();
+            list_factory.connect_bind(clone!(@weak obj => move |_, list_item| {
+                let list_item = list_item.downcast_ref::<gtk::ListItem>().unwrap();
+
+                if let Some(item) = list_item.item() {
+                    let response = item.downcast::<model::ImageSearchResponse>().unwrap();
+                    let row = view::ImageSearchResponseRow::from(&response);
+
+                    list_item.set_child(Some(&row));
+                }
             }));
-
-            self.search_result_list_view.set_model(Some(&selection));
-
-            self.selection.set(selection).unwrap();
+            list_factory.connect_unbind(|_, list_item| {
+                list_item
+                    .downcast_ref::<gtk::ListItem>()
+                    .unwrap()
+                    .set_child(gtk::Widget::NONE);
+            });
+            self.list_view.set_factory(Some(&list_factory));
 
             self.tag_entry_row.connect_notify_local(
                 None,
@@ -180,7 +193,20 @@ mod imp {
 
     impl PreferencesGroupImpl for Widget {}
 
+    #[gtk::template_callbacks]
     impl Widget {
+        #[template_callback]
+        fn on_image_selected(&self) {
+            self.obj().notify("selected-image");
+        }
+
+        #[template_callback]
+        fn on_image_activated(&self, _: u32) {
+            self.obj()
+                .activate_action(<Self as ObjectSubclass>::Type::action_select(), None)
+                .unwrap();
+        }
+
         pub(super) fn set_client(&self, client: Option<&model::Client>) {
             let obj = &*self.obj();
             if obj.client().as_ref() == client {
@@ -245,8 +271,6 @@ impl Widget {
     pub(crate) fn selected_image(&self) -> Option<model::ImageSearchResponse> {
         self.imp()
             .selection
-            .get()
-            .unwrap()
             .selected_item()
             .and_then(|item| item.downcast().ok())
     }
@@ -278,6 +302,9 @@ impl Widget {
             abort_handle.abort();
         }
 
+        imp.search_results.remove_all();
+        self.notify("selected-image");
+
         let term = imp.search_entry_row.text();
         if term.is_empty() {
             imp.search_stack.set_visible_child_name("initial");
@@ -304,16 +331,16 @@ impl Widget {
                     Ok(responses) => {
                         let imp = obj.imp();
 
-                        imp.search_results.remove_all();
-
                         if responses.is_empty() {
                             imp.search_stack.set_visible_child_name("nothing");
                             imp.no_results_status_page.set_title(&gettext!("No Results For {}", term));
                         } else {
                             responses.into_iter().for_each(|response| {
-                                obj.imp().search_results.append(&model::ImageSearchResponse::from(response));
+                                imp.search_results.append(&model::ImageSearchResponse::from(response));
                             });
                             imp.search_stack.set_visible_child_name("results");
+
+                            obj.notify("selected-image");
                         }
                     }
                     Err(e) => {
