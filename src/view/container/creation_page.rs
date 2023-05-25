@@ -6,7 +6,6 @@ use adw::traits::BinExt;
 use adw::traits::ComboRowExt;
 use gettextrs::gettext;
 use glib::clone;
-use glib::closure;
 use glib::closure_local;
 use glib::Properties;
 use gtk::gio;
@@ -20,8 +19,6 @@ use crate::podman;
 use crate::utils;
 use crate::view;
 
-const ACTION_SEARCH_IMAGE: &str = "container-creation-page.search-image";
-const ACTION_REMOVE_REMOTE_IMAGE: &str = "container-creation-page.remove-remote-image";
 const ACTION_ADD_CMD_ARG: &str = "container-creation-page.add-cmd-arg";
 const ACTION_ADD_PORT_MAPPING: &str = "container-creation-page.add-port-mapping";
 const ACTION_ADD_VOLUME: &str = "container-creation-page.add-volume";
@@ -59,11 +56,7 @@ mod imp {
         #[template_child]
         pub(super) name_entry_row: TemplateChild<view::RandomNameEntryRow>,
         #[template_child]
-        pub(super) local_image_property_row: TemplateChild<view::PropertyRow>,
-        #[template_child]
-        pub(super) local_image_combo_row: TemplateChild<view::ImageLocalComboRow>,
-        #[template_child]
-        pub(super) remote_image_row: TemplateChild<adw::ActionRow>,
+        pub(super) image_selection_combo_row: TemplateChild<view::ImageSelectionComboRow>,
         #[template_child]
         pub(super) pod_property_row: TemplateChild<view::PropertyRow>,
         #[template_child]
@@ -115,12 +108,6 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
 
-            klass.install_action(ACTION_SEARCH_IMAGE, None, |widget, _, _| {
-                widget.search_image();
-            });
-            klass.install_action(ACTION_REMOVE_REMOTE_IMAGE, None, |widget, _, _| {
-                widget.remove_remote();
-            });
             klass.install_action(ACTION_ADD_CMD_ARG, None, |widget, _, _| {
                 widget.add_cmd_arg();
             });
@@ -172,52 +159,16 @@ mod imp {
             self.name_entry_row
                 .connect_text_notify(clone!(@weak obj => move |_| obj.on_name_changed()));
 
-            let image_tag_expr = model::Image::this_expression("repo-tags")
-                .chain_closure::<String>(closure!(
-                    |image: model::Image, repo_tags: model::RepoTagList| {
-                        repo_tags
-                            .get(0)
-                            .as_ref()
-                            .map(model::RepoTag::full)
-                            .unwrap_or_else(|| utils::format_id(&image.id()))
-                    }
-                ));
             let pod_name_expr = model::Pod::this_expression("name");
 
+            self.image_selection_combo_row
+                .set_client(obj.client().as_ref());
+            self.image_selection_combo_row
+                .connect_subtitle_notify(clone!(@weak obj => move |_| obj.update_data()));
+
             if let Some(image) = obj.image() {
-                image.connect_deleted(
-                    clone!(@weak obj => move |_| obj.activate_action("action.cancel", None).unwrap())
-                );
-
-                self.local_image_combo_row.set_visible(false);
-
-                image_tag_expr.bind(&*self.local_image_property_row, "value", Some(&image));
-
-                match image.data().as_ref().map(model::ImageData::config) {
-                    Some(config) => {
-                        self.command_entry_row
-                            .set_text(&config.cmd().unwrap_or_default());
-                        obj.set_exposed_ports(&config);
-                    }
-                    None => {
-                        image.connect_notify_local(
-                            Some("details"),
-                            clone!(@weak obj => move |image, _| {
-                                let config = image.data().unwrap().config();
-                                obj.imp().command_entry_row.set_text(&config.cmd().unwrap_or_default());
-                                obj.set_exposed_ports(&config);
-                            }),
-                        );
-                    }
-                }
-            } else {
-                self.local_image_property_row.set_visible(false);
-
-                self.local_image_combo_row.set_client(obj.client().as_ref());
-                self.local_image_combo_row.connect_selected_item_notify(
-                    clone!(@weak obj => move |_| obj.update_command_row()),
-                );
-                obj.update_command_row();
+                self.image_selection_combo_row.set_image(Some(image));
+                obj.update_data();
             }
 
             if let Some(pod) = obj.pod() {
@@ -427,8 +378,13 @@ impl CreationPage {
         self.action_set_enabled(ACTION_CREATE, enabled);
     }
 
-    fn set_exposed_ports(&self, config: &model::ImageConfig) {
+    fn update_local_data(&self, config: &model::ImageConfig) {
         let imp = self.imp();
+
+        imp.command_entry_row
+            .set_text(&config.cmd().unwrap_or_default());
+
+        imp.port_mappings.remove_all();
 
         let exposed_ports = config.exposed_ports();
         for i in 0..exposed_ports.n_items() {
@@ -458,72 +414,33 @@ impl CreationPage {
         }
     }
 
-    fn remove_remote(&self) {
-        let imp = self.imp();
-        imp.remote_image_row.set_subtitle("");
-        imp.remote_image_row.set_visible(false);
-        imp.local_image_combo_row.set_visible(true);
-        imp.pull_latest_image_row.set_visible(true);
-
-        self.update_command_row();
-    }
-
-    fn update_command_row(&self) {
+    fn update_data(&self) {
         let imp = self.imp();
 
-        match imp
-            .local_image_combo_row
-            .selected_item()
-            .as_ref()
-            .map(|item| item.downcast_ref::<model::Image>().unwrap())
-        {
+        match imp.image_selection_combo_row.image() {
             Some(image) => match image.data() {
-                Some(details) => imp
-                    .command_entry_row
-                    .set_text(&details.config().cmd().unwrap_or_default()),
+                Some(data) => self.update_local_data(&data.config()),
                 None => {
                     if let Some((handler, image)) = imp.command_row_handler.take() {
                         if let Some(image) = image.upgrade() {
                             image.disconnect(handler);
                         }
                     }
-                    let handler = image.connect_notify_local(
-                        Some("details"),
-                        clone!(@weak self as obj => move |image, _| {
-                            obj.imp().command_entry_row.set_text(
-                                &image.data().unwrap().config().cmd().unwrap_or_default()
-                            );
-                        }),
-                    );
+                    let handler =
+                        image.connect_data_notify(clone!(@weak self as obj => move |image| {
+                            obj.update_local_data(&image.data().unwrap().config());
+                        }));
                     let image_weak = glib::WeakRef::new();
-                    image_weak.set(Some(image));
+                    image_weak.set(Some(&image));
                     imp.command_row_handler.replace(Some((handler, image_weak)));
 
                     image.inspect(|_| {});
                 }
             },
-            None => imp.command_entry_row.set_text(""),
-        }
-    }
-
-    fn search_image(&self) {
-        if let Some(client) = self.client() {
-            let image_selection_page = view::ImageSelectionPage::from(&client);
-            image_selection_page.connect_image_selected(
-                clone!(@weak self as obj => move |_, image| {
-                    let imp = obj.imp();
-
-                    imp.local_image_combo_row.set_visible(false);
-                    imp.remote_image_row.set_visible(true);
-                    imp.remote_image_row.set_subtitle(&image);
-                    imp.pull_latest_image_row.set_visible(false);
-
-                    imp.command_entry_row.set_text("");
-                }),
-            );
-            self.imp()
-                .leaflet_overlay
-                .show_details(image_selection_page.upcast_ref());
+            None => {
+                imp.command_entry_row.set_text("");
+                imp.port_mappings.remove_all();
+            }
         }
     }
 
@@ -550,33 +467,39 @@ impl CreationPage {
     fn finish(&self, run: bool) {
         let imp = self.imp();
 
-        if imp.remote_image_row.is_visible() {
-            self.pull_and_create(imp.remote_image_row.subtitle().unwrap().as_str(), true, run);
-        } else if let Some(image) = self.image().or_else(|| {
-            imp.local_image_combo_row
-                .selected_item()
-                .map(|item| item.downcast().unwrap())
-        }) {
-            if imp.pull_latest_image_switch.is_active() {
-                self.pull_and_create(&image.repo_tags().get(0).unwrap().full(), false, run);
-            } else {
-                let page =
-                    view::ActionPage::from(&self.client().unwrap().action_list().create_container(
-                        imp.name_entry_row.text().as_str(),
-                        self.create().image(image.id()).build(),
-                        run,
-                    ));
+        match imp.image_selection_combo_row.mode() {
+            view::ImageSelectionComboRowMode::Local => {
+                let image = imp.image_selection_combo_row.subtitle().unwrap();
+                if imp.pull_latest_image_switch.is_active() {
+                    self.pull_and_create(image.as_str(), false, run);
+                } else {
+                    let page = view::ActionPage::from(
+                        &self.client().unwrap().action_list().create_container(
+                            imp.name_entry_row.text().as_str(),
+                            self.create().image(image.as_str()).build(),
+                            run,
+                        ),
+                    );
 
-                imp.action_page_bin.set_child(Some(&page));
-                imp.stack.set_visible_child(&*imp.action_page_bin);
+                    imp.action_page_bin.set_child(Some(&page));
+                    imp.stack.set_visible_child(&*imp.action_page_bin);
+                }
             }
-        } else {
-            log::error!("Error while starting container: no image selected");
-            utils::show_error_toast(
-                self.upcast_ref(),
-                &gettext("Failed to create container"),
-                &gettext("no image selected"),
-            )
+            view::ImageSelectionComboRowMode::Remote => {
+                self.pull_and_create(
+                    imp.image_selection_combo_row.subtitle().unwrap().as_str(),
+                    true,
+                    run,
+                );
+            }
+            view::ImageSelectionComboRowMode::Unset => {
+                log::error!("Error while starting container: no image selected");
+                utils::show_error_toast(
+                    self.upcast_ref(),
+                    &gettext("Failed to create container"),
+                    &gettext("no image selected"),
+                )
+            }
         }
     }
 

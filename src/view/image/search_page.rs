@@ -2,21 +2,25 @@ use adw::subclass::prelude::*;
 use glib::clone;
 use glib::subclass::Signal;
 use glib::Properties;
+use gtk::gdk;
 use gtk::glib;
 use gtk::prelude::*;
 use gtk::CompositeTemplate;
 use once_cell::sync::Lazy as SyncLazy;
 
 use crate::model;
+use crate::utils;
 use crate::view;
+
+const ACTION_EXIT: &str = "image-search-page.exit";
 
 mod imp {
     use super::*;
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
-    #[properties(wrapper_type = super::SelectionPage)]
-    #[template(resource = "/com/github/marhkb/Pods/ui/image/selection-page.ui")]
-    pub(crate) struct SelectionPage {
+    #[properties(wrapper_type = super::SearchPage)]
+    #[template(resource = "/com/github/marhkb/Pods/ui/image/search-page.ui")]
+    pub(crate) struct SearchPage {
         #[property(get, set, construct_only, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
         #[template_child]
@@ -28,13 +32,26 @@ mod imp {
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for SelectionPage {
-        const NAME: &'static str = "PdsImageSelectionPage";
-        type Type = super::SelectionPage;
+    impl ObjectSubclass for SearchPage {
+        const NAME: &'static str = "PdsImageSearchPage";
+        type Type = super::SearchPage;
         type ParentType = gtk::Widget;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+
+            klass.install_action(ACTION_EXIT, None, |widget, _, _| {
+                if !widget.imp().back_navigation_controls.navigate_back() {
+                    utils::root(widget.upcast_ref()).close();
+                }
+            });
+
+            klass.add_binding_action(
+                gdk::Key::Escape,
+                gdk::ModifierType::empty(),
+                ACTION_EXIT,
+                None,
+            );
 
             klass.install_action(
                 view::ImageSearchWidget::action_select(),
@@ -50,7 +67,7 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for SelectionPage {
+    impl ObjectImpl for SearchPage {
         fn signals() -> &'static [Signal] {
             static SIGNALS: SyncLazy<Vec<Signal>> = SyncLazy::new(|| {
                 vec![Signal::builder("image-selected")
@@ -92,22 +109,22 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for SelectionPage {}
+    impl WidgetImpl for SearchPage {}
 }
 
 glib::wrapper! {
-    pub(crate) struct SelectionPage(ObjectSubclass<imp::SelectionPage>)
+    pub(crate) struct SearchPage(ObjectSubclass<imp::SearchPage>)
         @extends gtk::Widget,
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
-impl From<&model::Client> for SelectionPage {
+impl From<&model::Client> for SearchPage {
     fn from(client: &model::Client) -> Self {
         glib::Object::builder().property("client", client).build()
     }
 }
 
-impl SelectionPage {
+impl SearchPage {
     fn select(&self) {
         let imp = self.imp();
 

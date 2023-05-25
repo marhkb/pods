@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="PdsImageSelectionComboRow" parent="AdwActionRow">
+    <property name="title" translatable="yes">Local Image</property>
+
+    <child type="suffix">
+      <object class="GtkButton">
+        <style>
+          <class name="flat"/>
+        </style>
+
+        <property name="action-name">container-creation-page.select-image</property>
+        <property name="icon-name">computer-symbolic</property>
+        <property name="valign">center</property>
+        <property name="tooltip-text" translatable="yes">Local Image</property>
+      </object>
+    </child>
+
+    <child type="suffix">
+      <object class="GtkButton">
+        <style>
+          <class name="flat"/>
+        </style>
+
+        <property name="action-name">container-creation-page.search-image</property>
+        <property name="icon-name">network-server-symbolic</property>
+        <property name="valign">center</property>
+        <property name="tooltip-text" translatable="yes">Remote Image</property>
+      </object>
+    </child>
+
+  </template>
+</interface>

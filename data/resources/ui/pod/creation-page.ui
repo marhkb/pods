@@ -304,54 +304,7 @@
                                             </child>
 
                                             <child>
-                                              <object class="PdsImageLocalComboRow" id="infra_local_image_combo_row">
-
-                                                <child type="suffix">
-                                                  <object class="GtkButton">
-                                                    <style>
-                                                      <class name="flat"/>
-                                                    </style>
-                                                    <property name="action-name">pod-creation-page.infra-search</property>
-                                                    <property name="icon-name">network-server-symbolic</property>
-                                                    <property name="margin-start">9</property>
-                                                    <property name="valign">center</property>
-                                                    <property name="tooltip-text" translatable="yes">Remote Image</property>
-                                                  </object>
-                                                </child>
-
-                                              </object>
-                                            </child>
-
-                                            <child>
-                                              <object class="AdwActionRow" id="infra_remote_image_row">
-                                                <property name="title" translatable="yes">Remote image</property>
-                                                <property name="visible">False</property>
-
-                                                <child type="suffix">
-                                                  <object class="GtkButton">
-                                                    <style>
-                                                      <class name="flat"/>
-                                                    </style>
-                                                    <property name="action-name">pod-creation-page.infra-remove-remote</property>
-                                                    <property name="icon-name">edit-delete-symbolic</property>
-                                                    <property name="valign">center</property>
-                                                    <property name="tooltip-text" translatable="yes">Discard</property>
-                                                  </object>
-                                                </child>
-
-                                                <child type="suffix">
-                                                  <object class="GtkButton">
-                                                    <style>
-                                                      <class name="flat"/>
-                                                    </style>
-                                                    <property name="action-name">pod-creation-page.infra-search</property>
-                                                    <property name="icon-name">system-search-symbolic</property>
-                                                    <property name="valign">center</property>
-                                                    <property name="tooltip-text" translatable="yes">Search</property>
-                                                  </object>
-                                                </child>
-
-                                              </object>
+                                              <object class="PdsImageSelectionComboRow" id="infra_image_selection_combo_row"/>
                                             </child>
 
                                             <child>

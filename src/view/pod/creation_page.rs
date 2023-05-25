@@ -3,7 +3,6 @@ use std::cell::RefCell;
 use adw::subclass::prelude::*;
 use adw::traits::ActionRowExt;
 use adw::traits::BinExt;
-use adw::traits::ComboRowExt;
 use gettextrs::gettext;
 use glib::clone;
 use glib::Properties;
@@ -26,8 +25,6 @@ const ACTION_ADD_POD_CREATE_CMD_ARGS: &str = "pod-creation-page.add-pod-create-c
 const ACTION_TOGGLE_INFRA: &str = "pod-creation-page.toggle-infra";
 const ACTION_TOGGLE_HOSTS: &str = "pod-creation-page.toggle-hosts";
 const ACTION_TOGGLE_RESOLV: &str = "pod-creation-page.toggle-resolv";
-const ACTION_REMOVE_REMOTE_INFRA: &str = "pod-creation-page.infra-remove-remote";
-const ACTION_SEARCH_INFRA: &str = "pod-creation-page.infra-search";
 
 mod imp {
     use super::*;
@@ -86,9 +83,7 @@ mod imp {
         #[template_child]
         pub(super) infra_pull_latest_image_switch: TemplateChild<gtk::Switch>,
         #[template_child]
-        pub(super) infra_local_image_combo_row: TemplateChild<view::ImageLocalComboRow>,
-        #[template_child]
-        pub(super) infra_remote_image_row: TemplateChild<adw::ActionRow>,
+        pub(super) infra_image_selection_combo_row: TemplateChild<view::ImageSelectionComboRow>,
         #[template_child]
         pub(super) infra_common_pid_file_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
@@ -134,12 +129,6 @@ mod imp {
             });
             klass.install_action(ACTION_TOGGLE_RESOLV, None, |widget, _, _| {
                 widget.toggle_resolv();
-            });
-            klass.install_action(ACTION_REMOVE_REMOTE_INFRA, None, |widget, _, _| {
-                widget.remove_remote();
-            });
-            klass.install_action(ACTION_SEARCH_INFRA, None, |widget, _, _| {
-                widget.search_image();
             });
         }
 
@@ -219,9 +208,10 @@ mod imp {
                 ACTION_ADD_INFRA_CMD_ARGS,
             );
 
-            self.infra_local_image_combo_row.set_client(obj.client());
-            self.infra_local_image_combo_row
-                .connect_selected_item_notify(
+            self.infra_image_selection_combo_row
+                .set_client(obj.client());
+            self.infra_image_selection_combo_row
+                .connect_subtitle_notify(
                     clone!(@weak obj => move |_| obj.update_infra_command_row()),
                 );
             obj.update_infra_command_row();
@@ -294,33 +284,51 @@ impl CreationPage {
     fn finish(&self) {
         let imp = self.imp();
 
-        if imp.infra_remote_image_row.is_visible() {
-            self.pull_and_create(imp.infra_remote_image_row.subtitle().unwrap().as_str());
-        } else if let Some(image) = self.infra_image().or_else(|| {
-            imp.infra_local_image_combo_row
-                .selected_item()
-                .map(|item| item.downcast().unwrap())
-        }) {
-            if imp.infra_pull_latest_image_switch.is_active() {
-                self.pull_and_create(&image.repo_tags().get(0).unwrap().full());
-            } else {
-                let page =
-                    view::ActionPage::from(&self.client().unwrap().action_list().create_pod(
-                        imp.name_entry_row.text().as_str(),
-                        self.create().infra_image(image.id()).build(),
-                    ));
-
-                imp.action_page_bin.set_child(Some(&page));
-                imp.stack.set_visible_child(&*imp.action_page_bin);
+        if !imp.disable_infra_switch.is_active() {
+            match imp.infra_image_selection_combo_row.mode() {
+                view::ImageSelectionComboRowMode::Local => {
+                    let image = imp.infra_image_selection_combo_row.subtitle().unwrap();
+                    if imp.infra_pull_latest_image_switch.is_active() {
+                        self.pull_and_create(image.as_str());
+                    } else {
+                        self.create(Some(image.as_str()));
+                    }
+                }
+                view::ImageSelectionComboRowMode::Remote => {
+                    self.pull_and_create(
+                        imp.infra_image_selection_combo_row
+                            .subtitle()
+                            .unwrap()
+                            .as_str(),
+                    );
+                }
+                view::ImageSelectionComboRowMode::Unset => self.create(None),
             }
         } else {
-            log::error!("Error while starting pod: no image selected");
-            utils::show_error_toast(
-                self.upcast_ref(),
-                &gettext("Failed to create pod"),
-                &gettext("no image selected"),
-            )
+            self.create(None)
         }
+    }
+
+    fn create(&self, infra_image: Option<&str>) {
+        let imp = self.imp();
+
+        let opts = self.opts();
+        let opts = if let Some(infra_image) = infra_image {
+            opts.infra_image(infra_image)
+        } else {
+            opts
+        };
+
+        let page = view::ActionPage::from(
+            &self
+                .client()
+                .unwrap()
+                .action_list()
+                .create_pod(imp.name_entry_row.text().as_str(), opts.build()),
+        );
+
+        imp.action_page_bin.set_child(Some(&page));
+        imp.stack.set_visible_child(&*imp.action_page_bin);
     }
 
     fn pull_and_create(&self, reference: &str) {
@@ -339,7 +347,7 @@ impl CreationPage {
                 .create_pod_download_infra(
                     imp.name_entry_row.text().as_str(),
                     pull_opts,
-                    self.create(),
+                    self.opts(),
                 ),
         );
 
@@ -347,7 +355,7 @@ impl CreationPage {
         imp.stack.set_visible_child(&*imp.action_page_bin);
     }
 
-    fn create(&self) -> podman::opts::PodCreateOptsBuilder {
+    fn opts(&self) -> podman::opts::PodCreateOptsBuilder {
         let imp = self.imp();
 
         let mut opts = podman::opts::PodCreateOpts::builder()
@@ -463,44 +471,10 @@ impl CreationPage {
         }
     }
 
-    fn remove_remote(&self) {
-        let imp = self.imp();
-        imp.infra_remote_image_row.set_subtitle("");
-        imp.infra_remote_image_row.set_visible(false);
-        imp.infra_local_image_combo_row.set_visible(true);
-        imp.infra_pull_latest_image_row.set_visible(true);
-    }
-
-    fn search_image(&self) {
-        if let Some(client) = self.client() {
-            let image_selection_page = view::ImageSelectionPage::from(&client);
-            image_selection_page.connect_image_selected(
-                clone!(@weak self as obj => move |_, image| {
-                    let imp = obj.imp();
-
-                    imp.infra_local_image_combo_row.set_visible(false);
-                    imp.infra_remote_image_row.set_visible(true);
-                    imp.infra_remote_image_row.set_subtitle(&image);
-                    imp.infra_pull_latest_image_row.set_visible(false);
-
-                    imp.infra_command_entry_row.set_text("");
-                }),
-            );
-            self.imp()
-                .leaflet_overlay
-                .show_details(image_selection_page.upcast_ref());
-        }
-    }
-
     fn update_infra_command_row(&self) {
         let imp = self.imp();
 
-        match imp
-            .infra_local_image_combo_row
-            .selected_item()
-            .as_ref()
-            .map(|item| item.downcast_ref::<model::Image>().unwrap())
-        {
+        match imp.infra_image_selection_combo_row.image() {
             Some(image) => match image.data() {
                 Some(details) => imp
                     .infra_command_entry_row
@@ -511,16 +485,14 @@ impl CreationPage {
                             image.disconnect(handler);
                         }
                     }
-                    let handler = image.connect_notify_local(
-                        Some("details"),
-                        clone!(@weak self as obj => move |image, _| {
+                    let handler =
+                        image.connect_data_notify(clone!(@weak self as obj => move |image| {
                             obj.imp().infra_command_entry_row.set_text(
                                 &image.data().unwrap().config().cmd().unwrap_or_default()
                             );
-                        }),
-                    );
+                        }));
                     let image_weak = glib::WeakRef::new();
-                    image_weak.set(Some(image));
+                    image_weak.set(Some(&image));
                     imp.command_row_handler.replace(Some((handler, image_weak)));
 
                     image.inspect(|_| {});
