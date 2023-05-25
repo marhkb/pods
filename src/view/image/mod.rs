@@ -1,11 +1,11 @@
 mod build_page;
 mod details_page;
 mod history_page;
-mod local_combo_row;
 mod menu_button;
 mod pull_page;
 mod row;
 mod search_page;
+mod selection_combo_row;
 
 use adw::prelude::MessageDialogExtManual;
 use adw::traits::MessageDialogExt;
@@ -18,11 +18,12 @@ use gtk::glib;
 pub(crate) use self::build_page::BuildPage;
 pub(crate) use self::details_page::DetailsPage;
 pub(crate) use self::history_page::HistoryPage;
-pub(crate) use self::local_combo_row::LocalComboRow;
 pub(crate) use self::menu_button::MenuButton;
 pub(crate) use self::pull_page::PullPage;
 pub(crate) use self::row::Row;
 pub(crate) use self::search_page::SearchPage;
+pub(crate) use self::selection_combo_row::Mode as ImageSelectionComboRowMode;
+pub(crate) use self::selection_combo_row::SelectionComboRow;
 use crate::model;
 use crate::utils;
 use crate::view;

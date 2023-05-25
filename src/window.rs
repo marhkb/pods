@@ -122,9 +122,9 @@ mod imp {
             view::HealthCheckLogRow::static_type();
             view::ImageBuildPage::static_type();
             view::ImageHistoryPage::static_type();
-            view::ImageLocalComboRow::static_type();
             view::ImageMenuButton::static_type();
             view::ImageSearchResponseRow::static_type();
+            view::ImageSelectionComboRow::static_type();
             view::ImagesPanel::static_type();
             view::ImagesSelectionPage::static_type();
             view::PodMenuButton::static_type();
