@@ -18,7 +18,11 @@ mod imp {
         #[property(get, set, nullable)]
         pub(super) image_search_response: glib::WeakRef<model::ImageSearchResponse>,
         #[template_child]
+        pub(super) name_label: TemplateChild<gtk::Label>,
+        #[template_child]
         pub(super) description_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub(super) stars_label: TemplateChild<gtk::Label>,
     }
 
     #[glib::object_subclass]
@@ -54,12 +58,25 @@ mod imp {
 
             let obj = &*self.obj();
 
-            Self::Type::this_expression("image-search-response")
-                .chain_property::<model::ImageSearchResponse>("description")
+            let response_expr = Self::Type::this_expression("image-search-response");
+            let description_expr =
+                response_expr.chain_property::<model::ImageSearchResponse>("description");
+
+            response_expr
+                .chain_property::<model::ImageSearchResponse>("name")
+                .bind(&self.name_label.get(), "label", Some(obj));
+
+            description_expr.bind(&self.description_label.get(), "label", Some(obj));
+
+            description_expr
                 .chain_closure::<bool>(closure!(|_: Self::Type, description: Option<&str>| {
                     !description.map(str::is_empty).unwrap_or(true)
                 }))
                 .bind(&*self.description_label, "visible", Some(obj));
+
+            response_expr
+                .chain_property::<model::ImageSearchResponse>("stars")
+                .bind(&self.stars_label.get(), "label", Some(obj));
         }
 
         fn dispose(&self) {

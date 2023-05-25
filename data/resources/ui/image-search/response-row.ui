@@ -15,15 +15,10 @@
         <property name="hexpand">true</property>
 
         <child>
-          <object class="GtkLabel">
+          <object class="GtkLabel" id="name_label">
             <property name="wrap">True</property>
             <property name="wrap-mode">word</property>
             <property name="xalign">0</property>
-            <binding name="label">
-              <lookup name="name" type="ImageSearchResponse">
-                <lookup name="image-search-response">PdsImageSearchResponseRow</lookup>
-              </lookup>
-            </binding>
           </object>
         </child>
 
@@ -37,11 +32,6 @@
             <property name="wrap">True</property>
             <property name="wrap-mode">word</property>
             <property name="xalign">0</property>
-            <binding name="label">
-              <lookup name="description" type="ImageSearchResponse">
-                <lookup name="image-search-response">PdsImageSearchResponseRow</lookup>
-              </lookup>
-            </binding>
           </object>
         </child>
 
@@ -58,14 +48,9 @@
         <property name="valign">center</property>
 
         <child>
-          <object class="GtkLabel">
+          <object class="GtkLabel" id="stars_label">
             <property name="css-name">count</property>
             <property name="valign">end</property>
-            <binding name="label">
-              <lookup name="stars" type="ImageSearchResponse">
-                <lookup name="image-search-response">PdsImageSearchResponseRow</lookup>
-              </lookup>
-            </binding>
           </object>
         </child>
 
