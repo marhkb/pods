@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-22 22:20+0200\n"
-"PO-Revision-Date: 2023-05-12 07:50+0000\n"
+"PO-Revision-Date: 2023-05-24 06:49+0000\n"
 "Last-Translator: Philip Goto <philip.goto@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/pods/main/nl/>\n"
 "Language: nl\n"
@@ -1002,9 +1002,8 @@ msgstr "Alleen draaiend"
 
 #: data/resources/ui/containers/group.ui:55
 #: data/resources/ui/containers/prune-page.ui:40
-#, fuzzy
 msgid "Prune Stopped Containers"
-msgstr "Container aanmaken"
+msgstr "Gestopte containers opschonen"
 
 #: data/resources/ui/containers/panel.ui:47
 #: data/resources/ui/images/panel.ui:81 data/resources/ui/pods/panel.ui:59
@@ -1025,9 +1024,8 @@ msgstr ""
 "U kunt de knop hieronder gebruiken om een initiële container aan te maken."
 
 #: data/resources/ui/containers/panel.ui:317
-#, fuzzy
 msgid "_Create Container"
-msgstr "Container aanmaken"
+msgstr "Container _aanmaken"
 
 #: data/resources/ui/containers/prune-page.ui:50
 #: data/resources/ui/images/prune-page.ui:50
