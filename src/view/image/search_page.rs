@@ -2,13 +2,17 @@ use adw::subclass::prelude::*;
 use glib::clone;
 use glib::subclass::Signal;
 use glib::Properties;
+use gtk::gdk;
 use gtk::glib;
 use gtk::prelude::*;
 use gtk::CompositeTemplate;
 use once_cell::sync::Lazy as SyncLazy;
 
 use crate::model;
+use crate::utils;
 use crate::view;
+
+const ACTION_EXIT: &str = "image-search-page.exit";
 
 mod imp {
     use super::*;
@@ -35,6 +39,19 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+
+            klass.install_action(ACTION_EXIT, None, |widget, _, _| {
+                if !widget.imp().back_navigation_controls.navigate_back() {
+                    utils::root(widget.upcast_ref()).close();
+                }
+            });
+
+            klass.add_binding_action(
+                gdk::Key::Escape,
+                gdk::ModifierType::empty(),
+                ACTION_EXIT,
+                None,
+            );
 
             klass.install_action(
                 view::ImageSearchWidget::action_select(),
