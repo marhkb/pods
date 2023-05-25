@@ -15,7 +15,7 @@ mod imp {
     #[properties(wrapper_type = super::ResponseRow)]
     #[template(resource = "/com/github/marhkb/Pods/ui/image-search/response-row.ui")]
     pub(crate) struct ResponseRow {
-        #[property(get, set, nullable)]
+        #[property(get, set, construct, nullable)]
         pub(super) image_search_response: glib::WeakRef<model::ImageSearchResponse>,
         #[template_child]
         pub(super) name_label: TemplateChild<gtk::Label>,
@@ -91,4 +91,12 @@ glib::wrapper! {
     pub(crate) struct ResponseRow(ObjectSubclass<imp::ResponseRow>)
         @extends gtk::Widget,
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
+}
+
+impl From<&model::ImageSearchResponse> for ResponseRow {
+    fn from(response: &model::ImageSearchResponse) -> Self {
+        glib::Object::builder()
+            .property("image-search-response", response)
+            .build()
+    }
 }
