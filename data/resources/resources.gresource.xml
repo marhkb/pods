@@ -58,6 +58,7 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/image/search-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/images/panel.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/images/prune-page.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/images/selection-page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/info-dialog.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/key-val/row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/pod/creation-page.ui</file>

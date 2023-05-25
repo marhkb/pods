@@ -79,6 +79,7 @@ pub(crate) use self::image_search::ResponseRow as ImageSearchResponseRow;
 pub(crate) use self::image_search::Widget as ImageSearchWidget;
 pub(crate) use self::images::Panel as ImagesPanel;
 pub(crate) use self::images::PrunePage as ImagesPrunePage;
+pub(crate) use self::images::SelectionPage as ImagesSelectionPage;
 pub(crate) use self::info_dialog::InfoDialog;
 pub(crate) use self::key_val::Row as KeyValRow;
 pub(crate) use self::pod::pod_status_css_class;
