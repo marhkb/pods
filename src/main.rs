@@ -90,10 +90,10 @@ fn main() {
     });
 
     RUNTIME.block_on(async {
-        let keyring = oo7::Keyring::new()
-            .await
-            .expect("Failed to start Secret Service");
-        KEYRING.set(keyring).unwrap();
+        match oo7::Keyring::new().await {
+            Ok(keyring) => KEYRING.set(keyring).unwrap(),
+            Err(e) => log::error!("Failed to start Secret Service: {e}"),
+        }
     });
 
     app.run();

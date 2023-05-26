@@ -18,10 +18,12 @@ mod imp {
     #[properties(wrapper_type = super::Switcher)]
     #[template(resource = "/com/github/marhkb/Pods/ui/connection/switcher.ui")]
     pub(crate) struct Switcher {
-        #[property(get, set = Self::set_connection_manager, construct, nullable)]
+        #[property(get, set, construct, nullable)]
         pub(super) connection_manager: glib::WeakRef<model::ConnectionManager>,
         #[template_child]
         pub(super) connection_list_view: TemplateChild<gtk::ListView>,
+        #[template_child]
+        pub(super) selection: TemplateChild<gtk::NoSelection>,
     }
 
     #[glib::object_subclass]
@@ -46,9 +48,7 @@ mod imp {
         #[template_callback]
         fn activated(&self, pos: u32) {
             let connection = self
-                .connection_list_view
-                .model()
-                .unwrap()
+                .selection
                 .item(pos)
                 .unwrap()
                 .downcast::<model::Connection>()
@@ -106,27 +106,11 @@ mod imp {
         }
 
         fn dispose(&self) {
-            self.connection_list_view.unparent();
+            utils::unparent_children(self.obj().upcast_ref());
         }
     }
 
     impl WidgetImpl for Switcher {}
-
-    impl Switcher {
-        pub(super) fn set_connection_manager(&self, value: Option<&model::ConnectionManager>) {
-            let obj = &*self.obj();
-            if obj.connection_manager().as_ref() == value {
-                return;
-            }
-
-            if let Some(manager) = value {
-                let model = gtk::NoSelection::new(Some(manager.to_owned()));
-                self.connection_list_view.set_model(Some(&model));
-            }
-
-            self.connection_manager.set(value);
-        }
-    }
 }
 
 glib::wrapper! {
