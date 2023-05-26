@@ -137,7 +137,21 @@ mod imp {
                 )),
             )));
 
-            let sorter = gtk::StringSorter::new(Some(model::Container::this_expression("name")));
+            let sorter = gtk::CustomSorter::new(|item1, item2| {
+                item1
+                    .downcast_ref::<model::Container>()
+                    .unwrap()
+                    .name()
+                    .to_lowercase()
+                    .cmp(
+                        &item2
+                            .downcast_ref::<model::Container>()
+                            .unwrap()
+                            .name()
+                            .to_lowercase(),
+                    )
+                    .into()
+            });
 
             self.properties_filter
                 .set(properties_filter.upcast())
