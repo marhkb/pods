@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-29 19:55+0100\n"
-"PO-Revision-Date: 2023-02-02 22:08+0000\n"
+"PO-Revision-Date: 2023-05-27 11:53+0000\n"
 "Last-Translator: SoftExpert <softexpert@gmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/pods/main/ro/>\n"
 "Language: ro\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
-"X-Generator: Weblate 4.16-dev\n"
+"X-Generator: Weblate 4.18-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
@@ -433,7 +433,7 @@ msgstr "Comentariu"
 
 #: data/resources/ui/container/commit-page.ui:95
 msgid "Repo"
-msgstr "Repo"
+msgstr "Depozit"
 
 #: data/resources/ui/container/commit-page.ui:102
 msgid "Tag"
@@ -833,7 +833,7 @@ msgstr "S_top"
 #: data/resources/ui/container/menu-button.ui:17
 #: data/resources/ui/pod/menu-button.ui:23
 msgid "R_estart"
-msgstr "R_estart"
+msgstr "R_epornire"
 
 #: data/resources/ui/container/menu-button.ui:22
 #: data/resources/ui/pod/menu-button.ui:28
@@ -929,7 +929,7 @@ msgstr "Disc"
 
 #: data/resources/ui/container/tty-page.ui:19
 msgid "Container TTY"
-msgstr "Container TTY"
+msgstr "TTY în Container"
 
 #: data/resources/ui/container/tty.ui:6
 msgid "_Copy"
