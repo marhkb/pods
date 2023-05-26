@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-25 22:25+0200\n"
-"PO-Revision-Date: 2023-01-30 20:54+0000\n"
+"PO-Revision-Date: 2023-05-27 11:53+0000\n"
 "Last-Translator: Marcus Behrendt <marcus.behrendt.86@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/pods/main/de/>\n"
 "Language: de\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.16-dev\n"
+"X-Generator: Weblate 4.18-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
@@ -2679,8 +2679,8 @@ msgstr "1 Abbild, unbenutzt"
 #: src/view/images/panel.rs:199
 msgid "{} image total, {} {} unused, {}"
 msgid_plural "{} images total, {} {} unused, {}"
-msgstr[0] "{} Abbild gesamt, {}{} unbenutzt, {}"
-msgstr[1] "{} Abbilder gesamt, {}{} unbenutzt, {}"
+msgstr[0] "{} Abbild gesamt, {} {} unbenutzt, {}"
+msgstr[1] "{} Abbilder gesamt, {} {} unbenutzt, {}"
 
 #: src/view/images/panel.rs:376
 msgid "Confirm Forced Deletion of Multiple Images"
