@@ -42,6 +42,17 @@
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="1.2.1" date="2023-05-26">
+        <description>
+          <p>Pods 1.2.1 contains the following bugfixes and improvements:</p>
+          <ul>
+            <li>Fixed a bug that caused the application to crash when the keyring could not be accessed.</li>
+            <li>Some languages like Romanian were not correctly included. This should be fixed now.</li>
+            <li>Fixed a regression where the container list was not re-sorted once a container was renamed.</li>
+            <li>Minor cleanup work has been done in the code.</li>
+          </ul>
+        </description>
+      </release>
     <release version="1.2.0" date="2023-05-25">
       <description>
         <p>Pods 1.2.0 contains the following new features:</p>
