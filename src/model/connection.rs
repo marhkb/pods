@@ -29,8 +29,10 @@ mod imp {
     pub(crate) struct Connection {
         #[property(get, set, construct_only, nullable)]
         pub(super) manager: glib::WeakRef<model::ConnectionManager>,
-        #[property(get)]
+        #[property(get, set)]
         pub(super) connecting: Cell<bool>,
+        #[property(get, set)]
+        pub(super) active: Cell<bool>,
         #[property(get, set, construct_only)]
         pub(super) uuid: UnsyncOnceCell<String>,
         #[property(get, set, construct_only)]
@@ -72,6 +74,16 @@ mod imp {
                 "is-remote" => self.obj().is_remote().to_value(),
                 _ => self.derived_property(id, pspec),
             }
+        }
+
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            self.obj().connect_connecting_notify(|obj| {
+                if let Some(manager) = obj.manager() {
+                    manager.notify("connecting");
+                }
+            });
         }
     }
 }
@@ -125,18 +137,6 @@ impl Connection {
             .build()
     }
 
-    pub(crate) fn set_connecting(&self, value: bool) {
-        if self.connecting() == value {
-            return;
-        }
-        self.imp().connecting.set(value);
-        self.notify_connecting();
-
-        if let Some(manager) = self.manager() {
-            manager.notify("connecting");
-        }
-    }
-
     pub(crate) fn is_local(&self) -> bool {
         self.url().starts_with("unix")
     }
@@ -151,5 +151,11 @@ impl Connection {
             .and_then(model::ConnectionManager::client)
             .map(|client| &client.connection() == self)
             .unwrap_or(false)
+    }
+
+    pub(crate) fn position(&self) -> u32 {
+        self.manager()
+            .map(|manager| manager.position_by_uuid(&self.uuid()))
+            .unwrap_or(gtk::INVALID_LIST_POSITION)
     }
 }

@@ -74,6 +74,7 @@ mod imp {
 
             let connection_expr = Self::Type::this_expression("connection");
             let is_remote_expr = connection_expr.chain_property::<model::Connection>("is-remote");
+            let is_active_expr = connection_expr.chain_property::<model::Connection>("active");
 
             is_remote_expr
                 .chain_closure::<String>(closure!(|_: Self::Type, is_remote: bool| {
@@ -99,22 +100,6 @@ mod imp {
                 }),
             )
             .bind(&*self.url_label, "label", Some(obj));
-
-            let is_active_expr = gtk::ClosureExpression::new::<bool>(
-                [
-                    &connection_expr,
-                    &connection_expr
-                        .chain_property::<model::Connection>("manager")
-                        .chain_property::<model::ConnectionManager>("client"),
-                ],
-                closure!(|_: Self::Type,
-                          connection: Option<model::Connection>,
-                          _: Option<model::Client>| {
-                    connection
-                        .map(|connection| connection.is_active())
-                        .unwrap_or(false)
-                }),
-            );
 
             let classes = utils::css_classes(self.image.upcast_ref());
             is_active_expr

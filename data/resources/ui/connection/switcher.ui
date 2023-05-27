@@ -10,7 +10,7 @@
         <signal name="activate" handler="activated" swapped="true"/>
         <property name="single-click-activate">true</property>
         <property name="model">
-          <object class="GtkNoSelection" id="selection">
+          <object class="GtkSingleSelection" id="selection">
             <property name="model" bind-source="PdsConnectionSwitcher" bind-property="connection-manager" bind-flags="sync-create"/>
           </object>
         </property>
@@ -21,6 +21,7 @@
   <?xml version="1.0" encoding="UTF-8"?>
   <interface>
     <template class="GtkListItem">
+      <property name="selectable">False</property>
       <property name="child">
         <object class="PdsConnectionRow">
           <binding name="connection">
