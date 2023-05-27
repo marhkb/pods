@@ -29,7 +29,7 @@ mod imp {
     pub(crate) struct Connection {
         #[property(get, set, construct_only, nullable)]
         pub(super) manager: glib::WeakRef<model::ConnectionManager>,
-        #[property(get)]
+        #[property(get, set)]
         pub(super) connecting: Cell<bool>,
         #[property(get, set, construct_only)]
         pub(super) uuid: UnsyncOnceCell<String>,
@@ -72,6 +72,16 @@ mod imp {
                 "is-remote" => self.obj().is_remote().to_value(),
                 _ => self.derived_property(id, pspec),
             }
+        }
+
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            self.obj().connect_connecting_notify(|obj| {
+                if let Some(manager) = obj.manager() {
+                    manager.notify("connecting");
+                }
+            });
         }
     }
 }
@@ -123,18 +133,6 @@ impl Connection {
             .property("url", url)
             .property("rgb", rgb)
             .build()
-    }
-
-    pub(crate) fn set_connecting(&self, value: bool) {
-        if self.connecting() == value {
-            return;
-        }
-        self.imp().connecting.set(value);
-        self.notify_connecting();
-
-        if let Some(manager) = self.manager() {
-            manager.notify("connecting");
-        }
     }
 
     pub(crate) fn is_local(&self) -> bool {
