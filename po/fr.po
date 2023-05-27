@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-25 22:25+0200\n"
-"PO-Revision-Date: 2023-03-02 21:36+0000\n"
+"PO-Revision-Date: 2023-05-27 11:53+0000\n"
 "Last-Translator: SoftExpert <softexpert@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/pods/main/fr/>\n"
 "Language: fr\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.16.2-dev\n"
+"X-Generator: Weblate 4.18-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
@@ -31,7 +31,7 @@ msgstr "Contrôlez et suivez vos conteneurs podman"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:9
 msgid "Gnome;GTK;libadwaita;Podman;Containerization;"
-msgstr ""
+msgstr "Gnome;GTK;libadwaita;Podman;Containerization;"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:6
 #: data/com.github.marhkb.Pods.gschema.xml.in:7
@@ -228,7 +228,7 @@ msgstr "Connexions"
 #: data/resources/ui/actions/sidebar.ui:38
 #: data/resources/ui/connection/sidebar.ui:23
 msgid "Fold"
-msgstr ""
+msgstr "Plier"
 
 #: data/resources/ui/actions/sidebar.ui:61
 #, fuzzy
@@ -386,7 +386,7 @@ msgstr "Couleur"
 
 #: data/resources/ui/connection/creation-page.ui:297
 msgid "Set the color of the status bar when this connection is active."
-msgstr ""
+msgstr "Attribuer une couleur à la barre d'état quand la connexion est active"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:16
 msgid "Custom Connection"
@@ -1280,7 +1280,7 @@ msgstr "Élaguer les images crées avant cet instant."
 
 #: data/resources/ui/images/selection-page.ui:22
 msgid "Filter"
-msgstr ""
+msgstr "Filtres"
 
 #: data/resources/ui/images/selection-page.ui:38
 #, fuzzy
@@ -1505,7 +1505,7 @@ msgstr "Supprimez les images"
 
 #: data/resources/ui/repo-tag/push-page.ui:53
 msgid "_Push"
-msgstr ""
+msgstr "_Pousser"
 
 #: data/resources/ui/repo-tag/push-page.ui:66
 #, fuzzy
@@ -1514,33 +1514,33 @@ msgstr "Opérations"
 
 #: data/resources/ui/repo-tag/push-page.ui:71
 msgid "TLS Verify"
-msgstr ""
+msgstr "Vérification TLS"
 
 #: data/resources/ui/repo-tag/push-page.ui:88
 msgid "Login"
-msgstr ""
+msgstr "Connexion"
 
 #: data/resources/ui/repo-tag/push-page.ui:89
 msgid "Some registries require authentication."
-msgstr ""
+msgstr "Certains registres demandent une authentification"
 
 #: data/resources/ui/repo-tag/push-page.ui:90
 msgid "False"
-msgstr ""
+msgstr "Faux"
 
 #: data/resources/ui/repo-tag/push-page.ui:102
 msgid "Authentication"
-msgstr ""
+msgstr "Authentification"
 
 #: data/resources/ui/repo-tag/push-page.ui:115
 #: data/resources/ui/repo-tag/push-page.ui:142
 msgid "Password"
-msgstr ""
+msgstr "Mot de passe"
 
 #: data/resources/ui/repo-tag/push-page.ui:121
 #: data/resources/ui/repo-tag/push-page.ui:150
 msgid "Token"
-msgstr ""
+msgstr "Jeton"
 
 #: data/resources/ui/repo-tag/push-page.ui:134
 #, fuzzy
@@ -1549,7 +1549,7 @@ msgstr "Récupérer le nom d’utilisateur"
 
 #: data/resources/ui/repo-tag/push-page.ui:159
 msgid "Save Credentials"
-msgstr ""
+msgstr "Enregistrer les données d'identification"
 
 #: data/resources/ui/repo-tag/row.ui:32
 msgid "Pull Latest"
@@ -1610,7 +1610,7 @@ msgstr "Fenêtre principale"
 #: data/resources/ui/shortcuts.ui:45
 msgctxt "shortcut window"
 msgid "Close dialog"
-msgstr ""
+msgstr "Fermer la boîte de dialogue"
 
 #: data/resources/ui/shortcuts.ui:52
 msgctxt "shortcut window"
@@ -1817,23 +1817,20 @@ msgid "Prune stopped containers"
 msgstr "Erreur lors de l'arrêt du conteneur"
 
 #: src/model/action.rs:377
-#, fuzzy
 msgid "Start new container <b>{}</b>"
-msgstr "Conteneur : <b>{}</b> ← {}"
+msgstr "Démarrer un Conteneur <b>{}</b>"
 
 #: src/model/action.rs:379
-#, fuzzy
 msgid "Create container <b>{}</b>"
-msgstr "Conteneur : <b>{}</b> ← {}"
+msgstr "Créer un Conteneur <b>{}</b>"
 
 #: src/model/action.rs:409
 msgid "none"
 msgstr "aucun"
 
 #: src/model/action.rs:405
-#, fuzzy
 msgid "Commit image <b>{}</b> ({})"
-msgstr "Image : <b>{}</b> ← {}"
+msgstr "Enregistrer l'image <b>{}</b>"
 
 #: src/model/action.rs:419 src/model/action.rs:524 src/model/action.rs:612
 #: src/model/action.rs:842
@@ -1841,9 +1838,8 @@ msgid "Finished"
 msgstr "Fini"
 
 #: src/model/action.rs:461
-#, fuzzy
 msgid "Upload <b>{}</b> to <b>{}:{}</b>"
-msgstr "Pod : <b>{}</b> ← {}"
+msgstr "Télécharger <b>{}</b> vers <b>{}:{}</b>"
 
 #: src/model/action.rs:468
 msgid "Creating tar archive…"
@@ -1867,7 +1863,7 @@ msgstr "Copie des fichiers dans le conteneur…"
 
 #: src/model/action.rs:563
 msgid "Download <b>{}:{}</b> to <b>{}</b>"
-msgstr ""
+msgstr "Télécharger <b>{}:{}</b> vers <b>{}</b>"
 
 #: src/model/action.rs:572
 msgid "Copying bytes into memory…"
@@ -1878,23 +1874,20 @@ msgid "Size: {}"
 msgstr "Taille : {}"
 
 #: src/model/action.rs:628
-#, fuzzy
 msgid "Create pod <b>{}</b>"
-msgstr "Pod : <b>{}</b>"
+msgstr "Créer un conteneur <b>{}</b>"
 
 #: src/model/action.rs:653
-#, fuzzy
 msgid "Prune stopped pods"
-msgstr "Éliminé les images inutilisées"
+msgstr "Élaguer les conteneurs arrêtés"
 
 #: src/model/connection_manager.rs:208
 msgid "Connection '{}' already exists."
 msgstr "La connexion '{}' existe déjà."
 
 #: src/model/container.rs:68
-#, fuzzy
 msgid "Configured"
-msgstr "Non configuré"
+msgstr "Configuré"
 
 #: src/model/container.rs:70 src/model/pod.rs:65
 msgid "Dead"
@@ -2018,23 +2011,20 @@ msgid "Image Is Currently Being Built"
 msgstr "L'image est en cours de construction"
 
 #: src/view/action/page.rs:134
-#, fuzzy
 msgid "Image Is Currently Being Pushed"
 msgstr "L'image est en cours de construction"
 
 #: src/view/action/page.rs:135 src/view/action/page.rs:151
-#, fuzzy
 msgid "Containers Are Currently Being Pruned"
-msgstr "Les images sont actuellement en train d'être supprimés"
+msgstr "Les conteneurs sont actuellement en cours d'élagage"
 
 #: src/view/action/page.rs:136
 msgid "Container Is Currently Being Created"
 msgstr "Le conteneur est en cours de création"
 
 #: src/view/action/page.rs:137
-#, fuzzy
 msgid "Container Is Currently Being Started"
-msgstr "Le conteneur est en cours de création"
+msgstr "Le conteneur est en cours de démarrage"
 
 #: src/view/action/page.rs:138
 msgid "New Image Is Currently Being Committed"
@@ -2045,9 +2035,8 @@ msgid "Files Are Currently Being Copied"
 msgstr "Les fichiers sont en train d’être copiés"
 
 #: src/view/action/page.rs:140
-#, fuzzy
 msgid "Pods Are Currently Being Pruned"
-msgstr "Les images sont actuellement en train d'être supprimés"
+msgstr "Les conteneurs sont actuellement en cours d'élagage"
 
 #: src/view/action/page.rs:141
 msgid "Pod Is Currently Being Created"
@@ -2066,18 +2055,16 @@ msgid "Image Has Been Built"
 msgstr "L’image a été construite"
 
 #: src/view/action/page.rs:150
-#, fuzzy
 msgid "Image Has Been Pushed"
-msgstr "Les images ont été Supprimé"
+msgstr "L'image a été poussée"
 
 #: src/view/action/page.rs:152
 msgid "Container Has Been Created"
 msgstr "Le conteneur a été créé"
 
 #: src/view/action/page.rs:153
-#, fuzzy
 msgid "Container Has Been Started"
-msgstr "Le conteneur a été créé"
+msgstr "Le conteneur a été démarré"
 
 #: src/view/action/page.rs:154
 msgid "New Image Has Been Committed"
@@ -2088,9 +2075,8 @@ msgid "Files Have Beeng Copied"
 msgstr "Les fichiers ont été copiés"
 
 #: src/view/action/page.rs:156
-#, fuzzy
 msgid "Pods Have Been Pruned"
-msgstr "Les images ont été Supprimé"
+msgstr "Les conteneurs ont été nettoyés"
 
 #: src/view/action/page.rs:157
 msgid "Pod Has Been Created"
@@ -2109,23 +2095,20 @@ msgid "Image Built Has Been Aborted"
 msgstr "L'image construite a été annulée"
 
 #: src/view/action/page.rs:166
-#, fuzzy
 msgid "Image Push Has Been Aborted"
-msgstr "L'image construite a été annulée"
+msgstr "La construction de l'image a été annulée"
 
 #: src/view/action/page.rs:167
-#, fuzzy
 msgid "Pruning of Containers Has Been Aborted"
-msgstr "La suppression des images a été annulée"
+msgstr "La suppression des conteneurs a été annulée"
 
 #: src/view/action/page.rs:168
 msgid "Container Creation Has Been Aborted"
 msgstr "La création du conteneur a été annulée"
 
 #: src/view/action/page.rs:169
-#, fuzzy
 msgid "Container Start Has Been Aborted"
-msgstr "La création du conteneur a été annulée"
+msgstr "Le démarrage du conteneur a été annulé"
 
 #: src/view/action/page.rs:170
 msgid "Image Commitment Has Been Aborted"
@@ -2136,9 +2119,8 @@ msgid "Copying Files Has Been Aborted"
 msgstr "Copie des fichiers arrêtée"
 
 #: src/view/action/page.rs:172
-#, fuzzy
 msgid "Pruning of Pods Has Been Aborted"
-msgstr "La suppression des images a été annulée"
+msgstr "La suppression des conteneurs a été annulée"
 
 #: src/view/action/page.rs:173
 msgid "Pod Creation Has Been Aborted"
@@ -2157,12 +2139,10 @@ msgid "Image Built Has Failed"
 msgstr "La construction de l’image a échoué"
 
 #: src/view/action/page.rs:182
-#, fuzzy
 msgid "Image Push Has Failed"
 msgstr "La construction de l’image a échoué"
 
 #: src/view/action/page.rs:183
-#, fuzzy
 msgid "Pruning of Containers Has Failed"
 msgstr "La suppression des images a échoué"
 
@@ -2171,9 +2151,8 @@ msgid "Container Creation Has Failed"
 msgstr "La création du conteneur a échoué"
 
 #: src/view/action/page.rs:185
-#, fuzzy
 msgid "Container Start Has Failed"
-msgstr "La création du conteneur a échoué"
+msgstr "Le démarrage du conteneur a échoué"
 
 #: src/view/action/page.rs:186
 msgid "Image Commitment Has Failed"
@@ -2184,9 +2163,8 @@ msgid "Copying Files Has Failed"
 msgstr "La copie des fichiers a échoué"
 
 #: src/view/action/page.rs:188
-#, fuzzy
 msgid "Pruning of Pods Has Failed"
-msgstr "La suppression des images a échoué"
+msgstr "La suppression des conteneurs a échoué"
 
 #: src/view/action/page.rs:189
 msgid "Pod Creation Has Failed"
@@ -2419,9 +2397,8 @@ msgid "Error on retrieving logs"
 msgstr "Erreur lors de l’analyse des journaux"
 
 #: src/view/container/log_page.rs:710
-#, fuzzy
 msgid "Log has been saved."
-msgstr "Le pod a été créé"
+msgstr "Les traces ont été enregistrées"
 
 #: src/view/container/log_page.rs:731
 msgid "Error starting container"
@@ -2470,12 +2447,12 @@ msgstr "Renommer le conteneur"
 #: src/view/container/resources_quick_reference_group.rs:94
 msgid "Processor ({} CPU)"
 msgid_plural "Processor ({} CPUs)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Processeur ({} CPU)"
+msgstr[1] "Processeurs ({} CPUs)"
 
 #: src/view/container/resources_quick_reference_group.rs:100
 msgid "CPU (? units)"
-msgstr ""
+msgstr "CPU ( ? unités)"
 
 #: src/view/container/resources_quick_reference_group.rs:112
 #: src/view/container/resources_quick_reference_group.rs:147
@@ -2646,9 +2623,8 @@ msgid "Error on deleting image '{}'"
 msgstr "Erreur lors de la suppression de l'image '{}'"
 
 #: src/view/image/selection_combo_row.rs:88
-#, fuzzy
 msgid "Select Image"
-msgstr "_Supprimer cette image"
+msgstr "_Sélectionner cette image"
 
 #: src/view/image_search/widget.rs:228
 msgid "All registries"
@@ -2823,9 +2799,8 @@ msgid "Repo tag must contain a colon “:”"
 msgstr "La balise Repo doit contenir deux-points \":\""
 
 #: src/view/repo_tag/push_page.rs:169
-#, fuzzy
 msgid "Error on accessing keyring"
-msgstr "Erreur du choix de la connexion"
+msgstr "Erreur d'accès au trousseau de clés"
 
 #: src/view/repo_tag/row.rs:197
 msgid "Error on untagging image"
