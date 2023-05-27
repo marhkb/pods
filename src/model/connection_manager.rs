@@ -335,6 +335,10 @@ impl ConnectionManager {
     }
 
     fn set_client(&self, value: Option<model::Client>) {
+        if self.client() == value {
+            return;
+        }
+
         if let Some(client) = self.client() {
             client.connection().set_active(false);
         }
