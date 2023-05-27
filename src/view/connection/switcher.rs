@@ -1,5 +1,6 @@
 use gettextrs::gettext;
 use glib::clone;
+use glib::closure;
 use glib::Properties;
 use gtk::glib;
 use gtk::prelude::*;
@@ -23,7 +24,7 @@ mod imp {
         #[template_child]
         pub(super) connection_list_view: TemplateChild<gtk::ListView>,
         #[template_child]
-        pub(super) selection: TemplateChild<gtk::NoSelection>,
+        pub(super) selection: TemplateChild<gtk::SingleSelection>,
     }
 
     #[glib::object_subclass]
@@ -103,6 +104,19 @@ mod imp {
                 "sidebar" => self.obj().is_sidebar().to_value(),
                 _ => self.derived_property(id, pspec),
             }
+        }
+
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            Self::Type::this_expression("connection-manager")
+                .chain_property::<model::ConnectionManager>("client")
+                .chain_closure::<u32>(closure!(|_: Self::Type, client: Option<model::Client>| {
+                    client
+                        .map(|client| client.connection().position())
+                        .unwrap_or(gtk::INVALID_LIST_POSITION)
+                }))
+                .bind(&self.selection.get(), "selected", Some(&*self.obj()));
         }
 
         fn dispose(&self) {
