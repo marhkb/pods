@@ -87,7 +87,7 @@
                       <object class="AdwPreferencesGroup" id="login_group">
                         <property name="title" translatable="yes">Login</property>
                         <property name="description" translatable="yes">Some registries require authentication.</property>
-                        <property name="sensitive" translatable="yes">False</property>
+                        <property name="sensitive">False</property>
 
                         <property name="header-suffix">
                           <object class="GtkSwitch" id="login_switch">
