@@ -227,14 +227,14 @@ impl ConnectionManager {
                 if let Ok(result) = result {
                     match &result {
                         Ok(_) => {
-                            obj.set_client(Some(client));
-
                             let (position, _) = obj.imp()
                                 .connections
                                 .borrow_mut()
                                 .insert_full(connection.uuid(), connection.clone());
 
                             obj.items_changed(position as u32, 0, 1);
+
+                            obj.set_client(Some(client));
 
                             obj.sync_to_disk(|_| {});
                         }
@@ -254,6 +254,8 @@ impl ConnectionManager {
         if let Some((position, _, _)) = connections.shift_remove_full(uuid) {
             drop(connections);
 
+            self.items_changed(position as u32, 1, 0);
+
             if self
                 .client()
                 .map(|client| client.connection().uuid() == uuid)
@@ -262,7 +264,6 @@ impl ConnectionManager {
                 self.set_client(None);
             }
 
-            self.items_changed(position as u32, 1, 0);
             self.sync_to_disk(|_| {});
         }
     }
