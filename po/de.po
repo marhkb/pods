@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-25 22:25+0200\n"
+"POT-Creation-Date: 2023-05-27 21:49+0200\n"
 "PO-Revision-Date: 2023-05-27 19:45+0000\n"
 "Last-Translator: Marcus Behrendt <marcus.behrendt.86@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/pods/main/de/>\n"
@@ -194,7 +194,7 @@ msgstr "Container-Übersicht"
 msgid "Pods Overview"
 msgstr "Pods-Übersicht"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:331
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:354
 msgid "Marcus Behrendt"
 msgstr "Marcus Behrendt"
 
@@ -1500,10 +1500,6 @@ msgstr "Anmeldung"
 msgid "Some registries require authentication."
 msgstr "Einige Register erfordern eine Authentifizierung."
 
-#: data/resources/ui/repo-tag/push-page.ui:90
-msgid "False"
-msgstr ""
-
 #: data/resources/ui/repo-tag/push-page.ui:102
 msgid "Authentication"
 msgstr "Authentifizierung"
@@ -2285,15 +2281,15 @@ msgstr ""
 msgid "_Confirm"
 msgstr "_Bestätigen"
 
-#: src/view/connection/row.rs:97
+#: src/view/connection/row.rs:98
 msgid "Local connection"
 msgstr "Lokale Verbindung"
 
-#: src/view/connection/switcher.rs:71
+#: src/view/connection/switcher.rs:72
 msgid "Confirm Switching Connection"
 msgstr "Bestätigen Sie den Verbindungswechsel"
 
-#: src/view/connection/switcher.rs:165
+#: src/view/connection/switcher.rs:163
 msgid "Error on switching connection"
 msgstr "Fehler beim Verbindungswechsel"
 
@@ -2420,8 +2416,8 @@ msgstr[1] "Prozessor ({} CPUs)"
 
 #: src/view/container/resources_quick_reference_group.rs:100
 #, fuzzy
-msgid "CPU (? units)"
-msgstr "CPU (? Einheiten)"
+msgid "Processor (? CPUs)"
+msgstr "Prozessor ({} CPU)"
 
 #: src/view/container/resources_quick_reference_group.rs:112
 #: src/view/container/resources_quick_reference_group.rs:147
@@ -2766,10 +2762,19 @@ msgstr "Alle zugehörigen Container werden ebenfalls entfernt!"
 msgid "Repo tag must contain a colon “:”"
 msgstr "Das Repo-Tag muss einen Doppelpunkt „:“ enthalten"
 
-#: src/view/repo_tag/push_page.rs:169
+#: src/view/repo_tag/push_page.rs:173
 #, fuzzy
 msgid "Error on accessing keyring"
 msgstr "Fehler beim Zugriff auf den Schlüsselbund"
+
+#: src/view/repo_tag/push_page.rs:266
+#, fuzzy
+msgid "Error saving credentials"
+msgstr "Fehler beim Speichern des Protokolls"
+
+#: src/view/repo_tag/push_page.rs:267
+msgid "Secret Service is not available"
+msgstr ""
 
 #: src/view/repo_tag/row.rs:197
 msgid "Error on untagging image"
@@ -2812,6 +2817,10 @@ msgstr "Pods"
 #: src/window.rs:919
 msgid "Error on loading {}"
 msgstr "Fehler beim Laden {}"
+
+#, fuzzy
+#~ msgid "CPU (? units)"
+#~ msgstr "CPU (? Einheiten)"
 
 #~ msgid "Remote image"
 #~ msgstr "Entferntes Abbild"

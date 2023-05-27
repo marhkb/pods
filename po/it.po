@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-25 22:25+0200\n"
+"POT-Creation-Date: 2023-05-27 21:49+0200\n"
 "PO-Revision-Date: 2023-05-21 20:43+0000\n"
 "Last-Translator: albanobattistella <albano_battistella@hotmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/pods/main/it/>\n"
@@ -194,7 +194,7 @@ msgstr "Panoramica dei contenitori"
 msgid "Pods Overview"
 msgstr "Panoramica Pod"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:331
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:354
 msgid "Marcus Behrendt"
 msgstr "Marcus Behrendt"
 
@@ -1499,10 +1499,6 @@ msgstr ""
 msgid "Some registries require authentication."
 msgstr ""
 
-#: data/resources/ui/repo-tag/push-page.ui:90
-msgid "False"
-msgstr ""
-
 #: data/resources/ui/repo-tag/push-page.ui:102
 msgid "Authentication"
 msgstr ""
@@ -2299,15 +2295,15 @@ msgstr ""
 msgid "_Confirm"
 msgstr "_Conferma"
 
-#: src/view/connection/row.rs:97
+#: src/view/connection/row.rs:98
 msgid "Local connection"
 msgstr "Connessione locale"
 
-#: src/view/connection/switcher.rs:71
+#: src/view/connection/switcher.rs:72
 msgid "Confirm Switching Connection"
 msgstr "Conferma cambio di connessione"
 
-#: src/view/connection/switcher.rs:165
+#: src/view/connection/switcher.rs:163
 msgid "Error on switching connection"
 msgstr "Errore nel cambio di connessione"
 
@@ -2433,7 +2429,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/view/container/resources_quick_reference_group.rs:100
-msgid "CPU (? units)"
+msgid "Processor (? CPUs)"
 msgstr ""
 
 #: src/view/container/resources_quick_reference_group.rs:112
@@ -2780,10 +2776,19 @@ msgstr "Tutti i contenitori associati verranno eliminati!"
 msgid "Repo tag must contain a colon “:”"
 msgstr "Il tag repo deve contenere i due punti \":\""
 
-#: src/view/repo_tag/push_page.rs:169
+#: src/view/repo_tag/push_page.rs:173
 #, fuzzy
 msgid "Error on accessing keyring"
 msgstr "Errore durante la sospensione del contenitore"
+
+#: src/view/repo_tag/push_page.rs:266
+#, fuzzy
+msgid "Error saving credentials"
+msgstr "Errore durante il salvataggio dei registri"
+
+#: src/view/repo_tag/push_page.rs:267
+msgid "Secret Service is not available"
+msgstr ""
 
 #: src/view/repo_tag/row.rs:197
 msgid "Error on untagging image"

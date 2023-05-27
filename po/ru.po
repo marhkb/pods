@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-25 22:25+0200\n"
+"POT-Creation-Date: 2023-05-27 21:49+0200\n"
 "PO-Revision-Date: 2023-03-08 01:51+0000\n"
 "Last-Translator: Daudix UFO <ddaudix@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/pods/main/ru/>\n"
@@ -197,7 +197,7 @@ msgstr "Обзор контейнеров"
 msgid "Pods Overview"
 msgstr "Обзор капсул"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:331
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:354
 msgid "Marcus Behrendt"
 msgstr "Маркус Берендт"
 
@@ -1506,10 +1506,6 @@ msgstr ""
 msgid "Some registries require authentication."
 msgstr ""
 
-#: data/resources/ui/repo-tag/push-page.ui:90
-msgid "False"
-msgstr ""
-
 #: data/resources/ui/repo-tag/push-page.ui:102
 msgid "Authentication"
 msgstr ""
@@ -2322,15 +2318,15 @@ msgstr "Выполняются действия, чей прогресс буд�
 msgid "_Confirm"
 msgstr "_Подтвердить"
 
-#: src/view/connection/row.rs:97
+#: src/view/connection/row.rs:98
 msgid "Local connection"
 msgstr "Локальное подключение"
 
-#: src/view/connection/switcher.rs:71
+#: src/view/connection/switcher.rs:72
 msgid "Confirm Switching Connection"
 msgstr "Подтвердить смену подключения"
 
-#: src/view/connection/switcher.rs:165
+#: src/view/connection/switcher.rs:163
 msgid "Error on switching connection"
 msgstr "Ошибка смены подключения"
 
@@ -2459,7 +2455,7 @@ msgstr[1] ""
 msgstr[2] ""
 
 #: src/view/container/resources_quick_reference_group.rs:100
-msgid "CPU (? units)"
+msgid "Processor (? CPUs)"
 msgstr ""
 
 #: src/view/container/resources_quick_reference_group.rs:112
@@ -2812,10 +2808,19 @@ msgstr "Все связанные контейнеры также будут у�
 msgid "Repo tag must contain a colon “:”"
 msgstr "Ярлык репозитория должен содержать двоеточие “:”"
 
-#: src/view/repo_tag/push_page.rs:169
+#: src/view/repo_tag/push_page.rs:173
 #, fuzzy
 msgid "Error on accessing keyring"
 msgstr "Ошибка приостановки контейнера"
+
+#: src/view/repo_tag/push_page.rs:266
+#, fuzzy
+msgid "Error saving credentials"
+msgstr "Ошибка сохранения журналов"
+
+#: src/view/repo_tag/push_page.rs:267
+msgid "Secret Service is not available"
+msgstr ""
 
 #: src/view/repo_tag/row.rs:197
 msgid "Error on untagging image"

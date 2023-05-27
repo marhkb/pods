@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-25 22:25+0200\n"
+"POT-Creation-Date: 2023-05-27 21:49+0200\n"
 "PO-Revision-Date: 2023-02-02 22:08+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/pods/"
@@ -205,7 +205,7 @@ msgstr "Beholdere"
 msgid "Pods Overview"
 msgstr ""
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:331
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:354
 msgid "Marcus Behrendt"
 msgstr "Marcus Behrendt"
 
@@ -1564,10 +1564,6 @@ msgstr ""
 msgid "Some registries require authentication."
 msgstr ""
 
-#: data/resources/ui/repo-tag/push-page.ui:90
-msgid "False"
-msgstr ""
-
 #: data/resources/ui/repo-tag/push-page.ui:102
 msgid "Authentication"
 msgstr ""
@@ -2421,16 +2417,16 @@ msgstr ""
 msgid "_Confirm"
 msgstr ""
 
-#: src/view/connection/row.rs:97
+#: src/view/connection/row.rs:98
 msgid "Local connection"
 msgstr "Lokal tilkobling"
 
-#: src/view/connection/switcher.rs:71
+#: src/view/connection/switcher.rs:72
 #, fuzzy
 msgid "Confirm Switching Connection"
 msgstr "Kunne ikke starte beholder"
 
-#: src/view/connection/switcher.rs:165
+#: src/view/connection/switcher.rs:163
 #, fuzzy
 msgid "Error on switching connection"
 msgstr "Kunne ikke starte beholder"
@@ -2576,7 +2572,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/view/container/resources_quick_reference_group.rs:100
-msgid "CPU (? units)"
+msgid "Processor (? CPUs)"
 msgstr ""
 
 #: src/view/container/resources_quick_reference_group.rs:112
@@ -2941,10 +2937,19 @@ msgstr "Alle tilknyttede beholdere vil også bli slettet!"
 msgid "Repo tag must contain a colon “:”"
 msgstr ""
 
-#: src/view/repo_tag/push_page.rs:169
+#: src/view/repo_tag/push_page.rs:173
 #, fuzzy
 msgid "Error on accessing keyring"
 msgstr "Kunne ikke sette beholder på pause"
+
+#: src/view/repo_tag/push_page.rs:266
+#, fuzzy
+msgid "Error saving credentials"
+msgstr "Kunne ikke laste inn avtrykk"
+
+#: src/view/repo_tag/push_page.rs:267
+msgid "Secret Service is not available"
+msgstr ""
 
 #: src/view/repo_tag/row.rs:197
 #, fuzzy

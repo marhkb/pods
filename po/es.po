@@ -7,10 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-25 22:25+0200\n"
+"POT-Creation-Date: 2023-05-27 21:49+0200\n"
 "PO-Revision-Date: 2023-05-27 11:53+0000\n"
-"Last-Translator: Óscar Fernández Díaz <oscfdezdz@users.noreply.hosted.weblate"
-".org>\n"
+"Last-Translator: Óscar Fernández Díaz <oscfdezdz@users.noreply.hosted."
+"weblate.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/pods/main/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -195,7 +195,7 @@ msgstr "Vista general de los contenedores"
 msgid "Pods Overview"
 msgstr "Vista general de las cápsulas"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:331
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:354
 msgid "Marcus Behrendt"
 msgstr "Marcus Behrendt"
 
@@ -377,7 +377,8 @@ msgstr "Color"
 
 #: data/resources/ui/connection/creation-page.ui:297
 msgid "Set the color of the status bar when this connection is active."
-msgstr "Define el color de la barra de estado cuando esta conexión está activa."
+msgstr ""
+"Define el color de la barra de estado cuando esta conexión está activa."
 
 #: data/resources/ui/connection/custom-info-dialog.ui:16
 msgid "Custom Connection"
@@ -1492,10 +1493,6 @@ msgstr "Iniciar sesión"
 msgid "Some registries require authentication."
 msgstr "Algunos registros requieren autenticación."
 
-#: data/resources/ui/repo-tag/push-page.ui:90
-msgid "False"
-msgstr "Falso"
-
 #: data/resources/ui/repo-tag/push-page.ui:102
 msgid "Authentication"
 msgstr "Autenticación"
@@ -2282,15 +2279,15 @@ msgstr "Hay acciones en curso cuyo progreso se perderá irremediablemente."
 msgid "_Confirm"
 msgstr "_Confirmar"
 
-#: src/view/connection/row.rs:97
+#: src/view/connection/row.rs:98
 msgid "Local connection"
 msgstr "Conexión local"
 
-#: src/view/connection/switcher.rs:71
+#: src/view/connection/switcher.rs:72
 msgid "Confirm Switching Connection"
 msgstr "Confirmar conexión de conmutación"
 
-#: src/view/connection/switcher.rs:165
+#: src/view/connection/switcher.rs:163
 msgid "Error on switching connection"
 msgstr "Error en la conexión de conmutación"
 
@@ -2417,7 +2414,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/view/container/resources_quick_reference_group.rs:100
-msgid "CPU (? units)"
+msgid "Processor (? CPUs)"
 msgstr ""
 
 #: src/view/container/resources_quick_reference_group.rs:112
@@ -2764,10 +2761,19 @@ msgstr "¡Todos los contenedores asociados también serán eliminados!"
 msgid "Repo tag must contain a colon “:”"
 msgstr "La etiqueta Repo debe contener dos puntos \":\""
 
-#: src/view/repo_tag/push_page.rs:169
+#: src/view/repo_tag/push_page.rs:173
 #, fuzzy
 msgid "Error on accessing keyring"
 msgstr "Error al elegir la conexión"
+
+#: src/view/repo_tag/push_page.rs:266
+#, fuzzy
+msgid "Error saving credentials"
+msgstr "Error al guardar los registros"
+
+#: src/view/repo_tag/push_page.rs:267
+msgid "Secret Service is not available"
+msgstr ""
 
 #: src/view/repo_tag/row.rs:197
 msgid "Error on untagging image"
@@ -2810,6 +2816,9 @@ msgstr "cápsulas"
 #: src/window.rs:919
 msgid "Error on loading {}"
 msgstr "Error al cargar {}"
+
+#~ msgid "False"
+#~ msgstr "Falso"
 
 #~ msgid "Remote image"
 #~ msgstr "Imagen remota"
