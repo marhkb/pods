@@ -97,7 +97,7 @@ mod imp {
                             cpus
                         )
                     } else {
-                        gettext("CPU (? units)")
+                        gettext("Processor (? CPUs)")
                     }
                 }))
                 .bind(&*self.cpu_name_label, "label", Some(obj));
