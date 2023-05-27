@@ -31,7 +31,7 @@ msgstr "Behalte den Überblick über deine Podman-Container"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:9
 msgid "Gnome;GTK;libadwaita;Podman;Containerization;"
-msgstr ""
+msgstr "Gnome;GTK;libadwaita;Podman;Containerisierung;"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:6
 #: data/com.github.marhkb.Pods.gschema.xml.in:7
@@ -195,6 +195,7 @@ msgid "Pods Overview"
 msgstr "Pods-Übersicht"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:354
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:331
 msgid "Marcus Behrendt"
 msgstr "Marcus Behrendt"
 
@@ -392,10 +393,10 @@ msgid ""
 "span>, <span weight=\"bold\">TCP</span>, and <span weight=\"bold\">UNIX</"
 "span> protocols. For example, the connection string might look like this:"
 msgstr ""
-"Sie können sich zu einer Podman-Instanz mittels den Protokollen <span "
-"weight=\"bold\">HTTP</span>, <span weight=\"bold\">TCP</span> und <span "
-"weight=\"bold\">UNIX</span> verbinden. Der Verbindungsstring könnte zum "
-"Beispiel so aussehen:"
+"Sie können sich zu einer Podman-Instanz mittels den Protokollen <span weight="
+"\"bold\">HTTP</span>, <span weight=\"bold\">TCP</span> und <span weight="
+"\"bold\">UNIX</span> verbinden. Der Verbindungsstring könnte zum Beispiel so "
+"aussehen:"
 
 #: data/resources/ui/connection/custom-info-dialog.ui:63
 msgid "http://somewhere:8081"
@@ -1051,14 +1052,14 @@ msgid ""
 "\n"
 "You cannot search for images without registries. Please follow the "
 "instructions on this <a href=\"https://github.com/containers/image/blob/"
-"b80addc01c0dab40c5d8945a1df61f3c72a3e40d/docs/containers-registries.conf.5."
-"md\">website</a> in order to add registries.\n"
+"b80addc01c0dab40c5d8945a1df61f3c72a3e40d/docs/containers-registries.conf.5.md"
+"\">website</a> in order to add registries.\n"
 msgstr ""
 "\n"
 "Ohne Registries können Sie nicht nach Abbildern suchen. Bitte befolgen Sie "
 "die Anweisungen unter <a href=\"https://github.com/containers/image/blob/"
-"b80addc01c0dab40c5d8945a1df61f3c72a3e40d/docs/containers-registries.conf.5."
-"md\">Website</a>, um Registries hinzuzufügen.\n"
+"b80addc01c0dab40c5d8945a1df61f3c72a3e40d/docs/containers-registries.conf.5.md"
+"\">Website</a>, um Registries hinzuzufügen.\n"
 
 #: data/resources/ui/image-search/widget.ui:53
 msgid "Search for"
@@ -2281,15 +2282,15 @@ msgstr ""
 msgid "_Confirm"
 msgstr "_Bestätigen"
 
-#: src/view/connection/row.rs:98
+#: src/view/connection/row.rs:98 src/view/connection/row.rs:97
 msgid "Local connection"
 msgstr "Lokale Verbindung"
 
-#: src/view/connection/switcher.rs:72
+#: src/view/connection/switcher.rs:72 src/view/connection/switcher.rs:71
 msgid "Confirm Switching Connection"
 msgstr "Bestätigen Sie den Verbindungswechsel"
 
-#: src/view/connection/switcher.rs:163
+#: src/view/connection/switcher.rs:163 src/view/connection/switcher.rs:165
 msgid "Error on switching connection"
 msgstr "Fehler beim Verbindungswechsel"
 
@@ -2762,7 +2763,7 @@ msgstr "Alle zugehörigen Container werden ebenfalls entfernt!"
 msgid "Repo tag must contain a colon “:”"
 msgstr "Das Repo-Tag muss einen Doppelpunkt „:“ enthalten"
 
-#: src/view/repo_tag/push_page.rs:173
+#: src/view/repo_tag/push_page.rs:173 src/view/repo_tag/push_page.rs:169
 #, fuzzy
 msgid "Error on accessing keyring"
 msgstr "Fehler beim Zugriff auf den Schlüsselbund"
@@ -2818,9 +2819,14 @@ msgstr "Pods"
 msgid "Error on loading {}"
 msgstr "Fehler beim Laden {}"
 
+#: src/view/container/resources_quick_reference_group.rs:100
 #, fuzzy
-#~ msgid "CPU (? units)"
-#~ msgstr "CPU (? Einheiten)"
+msgid "CPU (? units)"
+msgstr "CPU (? Einheiten)"
+
+#: data/resources/ui/repo-tag/push-page.ui:90
+msgid "False"
+msgstr ""
 
 #~ msgid "Remote image"
 #~ msgstr "Entferntes Abbild"
