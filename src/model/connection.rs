@@ -152,4 +152,10 @@ impl Connection {
             .map(|client| &client.connection() == self)
             .unwrap_or(false)
     }
+
+    pub(crate) fn position(&self) -> u32 {
+        self.manager()
+            .map(|manager| manager.position_by_uuid(&self.uuid()))
+            .unwrap_or(gtk::INVALID_LIST_POSITION)
+    }
 }
