@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-25 22:25+0200\n"
+"POT-Creation-Date: 2023-05-27 21:49+0200\n"
 "PO-Revision-Date: 2023-05-27 11:53+0000\n"
 "Last-Translator: SoftExpert <softexpert@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/pods/main/fr/>\n"
@@ -198,7 +198,7 @@ msgstr "Vue d’ensemble des conteneurs"
 msgid "Pods Overview"
 msgstr "Vue d’ensemble des pods"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:331
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:354
 msgid "Marcus Behrendt"
 msgstr "Marcus Behrendt"
 
@@ -1524,10 +1524,6 @@ msgstr "Connexion"
 msgid "Some registries require authentication."
 msgstr "Certains registres demandent une authentification"
 
-#: data/resources/ui/repo-tag/push-page.ui:90
-msgid "False"
-msgstr "Faux"
-
 #: data/resources/ui/repo-tag/push-page.ui:102
 msgid "Authentication"
 msgstr "Authentification"
@@ -2317,15 +2313,15 @@ msgstr ""
 msgid "_Confirm"
 msgstr "_Confirmer"
 
-#: src/view/connection/row.rs:97
+#: src/view/connection/row.rs:98
 msgid "Local connection"
 msgstr "Connexion locale"
 
-#: src/view/connection/switcher.rs:71
+#: src/view/connection/switcher.rs:72
 msgid "Confirm Switching Connection"
 msgstr "Confirmer le changement de Connexion"
 
-#: src/view/connection/switcher.rs:165
+#: src/view/connection/switcher.rs:163
 msgid "Error on switching connection"
 msgstr "Erreur lors du changement de connexion"
 
@@ -2451,8 +2447,9 @@ msgstr[0] "Processeur ({} CPU)"
 msgstr[1] "Processeurs ({} CPUs)"
 
 #: src/view/container/resources_quick_reference_group.rs:100
-msgid "CPU (? units)"
-msgstr "CPU ( ? unités)"
+#, fuzzy
+msgid "Processor (? CPUs)"
+msgstr "Processeur ({} CPU)"
 
 #: src/view/container/resources_quick_reference_group.rs:112
 #: src/view/container/resources_quick_reference_group.rs:147
@@ -2798,9 +2795,18 @@ msgstr "Tous les conteneurs associés seront également supprimés !"
 msgid "Repo tag must contain a colon “:”"
 msgstr "La balise Repo doit contenir deux-points \":\""
 
-#: src/view/repo_tag/push_page.rs:169
+#: src/view/repo_tag/push_page.rs:173
 msgid "Error on accessing keyring"
 msgstr "Erreur d'accès au trousseau de clés"
+
+#: src/view/repo_tag/push_page.rs:266
+#, fuzzy
+msgid "Error saving credentials"
+msgstr "Erreur lors de la sauvegarde des journaux"
+
+#: src/view/repo_tag/push_page.rs:267
+msgid "Secret Service is not available"
+msgstr ""
 
 #: src/view/repo_tag/row.rs:197
 msgid "Error on untagging image"
@@ -2843,6 +2849,12 @@ msgstr "pods"
 #: src/window.rs:919
 msgid "Error on loading {}"
 msgstr "Erreur lors du chargement {}"
+
+#~ msgid "False"
+#~ msgstr "Faux"
+
+#~ msgid "CPU (? units)"
+#~ msgstr "CPU ( ? unités)"
 
 #~ msgid "Remote image"
 #~ msgstr "Image distante"

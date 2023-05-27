@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-25 22:25+0200\n"
+"POT-Creation-Date: 2023-05-27 21:49+0200\n"
 "PO-Revision-Date: 2023-05-21 20:42+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/pods/main/fi/>\n"
@@ -196,7 +196,7 @@ msgstr "Konttien yleisnäkymä"
 msgid "Pods Overview"
 msgstr "Podien yleisnäkymä"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:331
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:354
 msgid "Marcus Behrendt"
 msgstr "Marcus Behrendt"
 
@@ -1490,10 +1490,6 @@ msgstr ""
 msgid "Some registries require authentication."
 msgstr ""
 
-#: data/resources/ui/repo-tag/push-page.ui:90
-msgid "False"
-msgstr ""
-
 #: data/resources/ui/repo-tag/push-page.ui:102
 msgid "Authentication"
 msgstr ""
@@ -2294,15 +2290,15 @@ msgstr "Käynnissä on toimintoja, joiden eteneminen häviää pysyvästi."
 msgid "_Confirm"
 msgstr "_Vahvista"
 
-#: src/view/connection/row.rs:97
+#: src/view/connection/row.rs:98
 msgid "Local connection"
 msgstr "Paikallinen yhteys"
 
-#: src/view/connection/switcher.rs:71
+#: src/view/connection/switcher.rs:72
 msgid "Confirm Switching Connection"
 msgstr "Vahvista yhteyden vaihtaminen"
 
-#: src/view/connection/switcher.rs:165
+#: src/view/connection/switcher.rs:163
 msgid "Error on switching connection"
 msgstr "Virhe yhteyttä vaihtaessa"
 
@@ -2430,7 +2426,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/view/container/resources_quick_reference_group.rs:100
-msgid "CPU (? units)"
+msgid "Processor (? CPUs)"
 msgstr ""
 
 #: src/view/container/resources_quick_reference_group.rs:112
@@ -2776,10 +2772,19 @@ msgstr "Kaikki liittyvät kontit poistetaan myös!"
 msgid "Repo tag must contain a colon “:”"
 msgstr "Tietovaraston tagin tulee sisältää kaksoispiste “:”"
 
-#: src/view/repo_tag/push_page.rs:169
+#: src/view/repo_tag/push_page.rs:173
 #, fuzzy
 msgid "Error on accessing keyring"
 msgstr "Virhe konttia keskeyttäessä"
+
+#: src/view/repo_tag/push_page.rs:266
+#, fuzzy
+msgid "Error saving credentials"
+msgstr "Virhe lokeja tallentaessa"
+
+#: src/view/repo_tag/push_page.rs:267
+msgid "Secret Service is not available"
+msgstr ""
 
 #: src/view/repo_tag/row.rs:197
 #, fuzzy
