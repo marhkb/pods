@@ -31,6 +31,8 @@ mod imp {
         pub(super) manager: glib::WeakRef<model::ConnectionManager>,
         #[property(get, set)]
         pub(super) connecting: Cell<bool>,
+        #[property(get, set)]
+        pub(super) active: Cell<bool>,
         #[property(get, set, construct_only)]
         pub(super) uuid: UnsyncOnceCell<String>,
         #[property(get, set, construct_only)]

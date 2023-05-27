@@ -335,9 +335,15 @@ impl ConnectionManager {
     }
 
     fn set_client(&self, value: Option<model::Client>) {
+        if let Some(client) = self.client() {
+            client.connection().set_active(false);
+        }
+
         let imp = self.imp();
 
         if let Some(ref client) = value {
+            client.connection().set_active(true);
+
             if let Err(e) = imp
                 .settings
                 .set_string("last-used-connection", &client.connection().uuid())
