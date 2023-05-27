@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-27 21:49+0200\n"
-"PO-Revision-Date: 2023-05-27 19:45+0000\n"
+"PO-Revision-Date: 2023-05-28 20:50+0000\n"
 "Last-Translator: Marcus Behrendt <marcus.behrendt.86@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/pods/main/de/>\n"
 "Language: de\n"
@@ -217,7 +217,6 @@ msgid "Clear Finished Actions"
 msgstr "Beendete Aktionen Löschen"
 
 #: data/resources/ui/actions/sidebar.ui:30 data/resources/ui/statusbar.ui:124
-#, fuzzy
 msgid "Actions"
 msgstr "Aktionen"
 
@@ -445,7 +444,6 @@ msgid "Connections"
 msgstr "Verbindungen"
 
 #: data/resources/ui/connection/sidebar.ui:37
-#, fuzzy
 msgid "New Connection (Ctrl+Shift+N)"
 msgstr "Neue Verbindung (Strg+Shift+N)"
 
@@ -657,7 +655,6 @@ msgstr ""
 "Gesundheitsprüfung als ungesund angesehen wird."
 
 #: data/resources/ui/container/details-page.ui:27
-#, fuzzy
 msgid "Container"
 msgstr "Container"
 
@@ -1190,7 +1187,6 @@ msgstr "_Auswählen"
 #: data/resources/ui/image/selection-combo-row.ui:4
 #: data/resources/ui/image/selection-combo-row.ui:15
 #: src/view/image/selection_combo_row.rs:89
-#, fuzzy
 msgid "Local Image"
 msgstr "Lokales Abbild"
 
@@ -2416,9 +2412,8 @@ msgstr[0] "Prozessor ({} CPU)"
 msgstr[1] "Prozessor ({} CPUs)"
 
 #: src/view/container/resources_quick_reference_group.rs:100
-#, fuzzy
 msgid "Processor (? CPUs)"
-msgstr "Prozessor ({} CPU)"
+msgstr "Prozessor (? CPUs)"
 
 #: src/view/container/resources_quick_reference_group.rs:112
 #: src/view/container/resources_quick_reference_group.rs:147
@@ -2764,14 +2759,13 @@ msgid "Repo tag must contain a colon “:”"
 msgstr "Das Repo-Tag muss einen Doppelpunkt „:“ enthalten"
 
 #: src/view/repo_tag/push_page.rs:173 src/view/repo_tag/push_page.rs:169
-#, fuzzy
 msgid "Error on accessing keyring"
 msgstr "Fehler beim Zugriff auf den Schlüsselbund"
 
 #: src/view/repo_tag/push_page.rs:266
 #, fuzzy
 msgid "Error saving credentials"
-msgstr "Fehler beim Speichern des Protokolls"
+msgstr "Fehler beim Speichern der Anmeldeinformationen"
 
 #: src/view/repo_tag/push_page.rs:267
 msgid "Secret Service is not available"
