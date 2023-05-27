@@ -401,6 +401,15 @@ impl ConnectionManager {
     pub(crate) fn connection_by_uuid(&self, uuid: &str) -> Option<model::Connection> {
         self.imp().connections.borrow().get(uuid).cloned()
     }
+
+    pub(crate) fn position_by_uuid(&self, uuid: &str) -> u32 {
+        self.imp()
+            .connections
+            .borrow()
+            .get_index_of(uuid)
+            .map(|position| position as u32)
+            .unwrap_or(gtk::INVALID_LIST_POSITION)
+    }
 }
 
 fn path() -> PathBuf {
