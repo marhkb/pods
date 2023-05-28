@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-27 21:49+0200\n"
-"PO-Revision-Date: 2023-05-24 06:49+0000\n"
+"PO-Revision-Date: 2023-05-28 20:50+0000\n"
 "Last-Translator: Philip Goto <philip.goto@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/pods/main/nl/>\n"
 "Language: nl\n"
@@ -1014,9 +1014,8 @@ msgid "Prune Options"
 msgstr "Opschoningsinstellingen"
 
 #: data/resources/ui/containers/prune-page.ui:68
-#, fuzzy
 msgid "Prune containers created before this timestamp."
-msgstr "Verwijder schijfkopiebestanden aangemaakt vóór dit tijdstip."
+msgstr "Schoont containers op die zijn aangemaakt vóór dit tijdstip."
 
 #: data/resources/ui/device/row.ui:33
 msgid "Readable"
@@ -1111,9 +1110,8 @@ msgid "Containerfile Path Relative to Build Context Directory"
 msgstr "Containerfile-pad relatief aan de bouw-contextmap"
 
 #: data/resources/ui/image/details-page.ui:7
-#, fuzzy
 msgid "Create Repository Tag"
-msgstr "Repository-label"
+msgstr "Repository-tag aanmaken"
 
 #: data/resources/ui/image/details-page.ui:78
 msgid "Delete Image"
@@ -1188,7 +1186,6 @@ msgstr "_Selecteren"
 #: data/resources/ui/image/selection-combo-row.ui:4
 #: data/resources/ui/image/selection-combo-row.ui:15
 #: src/view/image/selection_combo_row.rs:89
-#, fuzzy
 msgid "Local Image"
 msgstr "Lokaal schijfkopiebestand"
 
@@ -1225,14 +1222,12 @@ msgstr ""
 "te voegen."
 
 #: data/resources/ui/images/panel.ui:231
-#, fuzzy
 msgid "_Download Image"
-msgstr "Schijfkopiebestand downloaden"
+msgstr "Schijfkopiebestand _downloaden"
 
 #: data/resources/ui/images/panel.ui:243
-#, fuzzy
 msgid "_Build Image"
-msgstr "Schijfkopiebestand bouwen"
+msgstr "Schijfkopiebestand _bouwen"
 
 #: data/resources/ui/images/prune-page.ui:69
 msgid "Prune All"
@@ -1262,12 +1257,11 @@ msgstr "Verwijder schijfkopiebestanden aangemaakt vóór dit tijdstip."
 
 #: data/resources/ui/images/selection-page.ui:22
 msgid "Filter"
-msgstr ""
+msgstr "Filteren"
 
 #: data/resources/ui/images/selection-page.ui:38
-#, fuzzy
 msgid "Select Local Image"
-msgstr "Lokaal schijfkopiebestand"
+msgstr "Lokaal schijfkopiebestand selecteren"
 
 #: data/resources/ui/info-dialog.ui:5
 msgid "About Podman"
@@ -1438,9 +1432,8 @@ msgid "There are no containers in this pod."
 msgstr "Deze pod bevat geen containers."
 
 #: data/resources/ui/pods/panel.ui:96 data/resources/ui/pods/prune-page.ui:40
-#, fuzzy
 msgid "Prune Stopped Pods"
-msgstr "Pods opschonen"
+msgstr "Gestopte pods opschonen"
 
 #: data/resources/ui/pods/panel.ui:382
 msgid "No Pods Found"
@@ -1451,9 +1444,8 @@ msgid "You can use the button below to create an initial pod."
 msgstr "U kunt de knop hieronder gebruiken om een initiële pod aan te maken."
 
 #: data/resources/ui/pods/panel.ui:393
-#, fuzzy
 msgid "_Create Pod"
-msgstr "Pod aanmaken"
+msgstr "Pod _aanmaken"
 
 #: data/resources/ui/port-mapping/row.ui:29
 msgid "will be mapped to container port"
@@ -1480,62 +1472,58 @@ msgid "Repository Tag"
 msgstr "Repository-label"
 
 #: data/resources/ui/repo-tag/push-page.ui:43
-#, fuzzy
 msgid "Push Image"
-msgstr "Schijfkopiebestanden opschonen"
+msgstr "Schijfkopiebestand pushen"
 
 #: data/resources/ui/repo-tag/push-page.ui:53
 msgid "_Push"
-msgstr ""
+msgstr "_Pushen"
 
 #: data/resources/ui/repo-tag/push-page.ui:66
-#, fuzzy
 msgid "Options"
-msgstr "Handelingen"
+msgstr "Opties"
 
 #: data/resources/ui/repo-tag/push-page.ui:71
 msgid "TLS Verify"
-msgstr ""
+msgstr "TLS-verificatie"
 
 #: data/resources/ui/repo-tag/push-page.ui:88
 msgid "Login"
-msgstr ""
+msgstr "Inloggen"
 
 #: data/resources/ui/repo-tag/push-page.ui:89
 msgid "Some registries require authentication."
-msgstr ""
+msgstr "Sommige registers vereisen authenticatie."
 
 #: data/resources/ui/repo-tag/push-page.ui:102
 msgid "Authentication"
-msgstr ""
+msgstr "Authenticatie"
 
 #: data/resources/ui/repo-tag/push-page.ui:115
 #: data/resources/ui/repo-tag/push-page.ui:142
 msgid "Password"
-msgstr ""
+msgstr "Wachtwoord"
 
 #: data/resources/ui/repo-tag/push-page.ui:121
 #: data/resources/ui/repo-tag/push-page.ui:150
 msgid "Token"
-msgstr ""
+msgstr "Token"
 
 #: data/resources/ui/repo-tag/push-page.ui:134
-#, fuzzy
 msgid "Username"
-msgstr "Gebruikersnaam opvragen"
+msgstr "Gebruikersnaam"
 
 #: data/resources/ui/repo-tag/push-page.ui:159
 msgid "Save Credentials"
-msgstr ""
+msgstr "Inloggegevens opslaan"
 
 #: data/resources/ui/repo-tag/row.ui:32
 msgid "Pull Latest"
 msgstr "Nieuwste binnenhalen"
 
 #: data/resources/ui/repo-tag/row.ui:43
-#, fuzzy
 msgid "Push to Registry"
-msgstr "Register"
+msgstr "Pushen naar register"
 
 #: data/resources/ui/repo-tag/row.ui:54
 msgid "Untag"
@@ -1772,9 +1760,8 @@ msgid "Pull image <b>{}</b>"
 msgstr "Schijfkopiebestand <b>{}</b> binnenhalen"
 
 #: src/model/action.rs:209
-#, fuzzy
 msgid "Push image <b>{}</b>"
-msgstr "Schijfkopiebestand <b>{}</b> binnenhalen"
+msgstr "Schijfkopiebestand <b>{}</b> pushen"
 
 #: src/model/action.rs:266
 msgid "Build image <b>{}</b>"
@@ -1785,9 +1772,8 @@ msgid "Generating tarball of context directory..."
 msgstr "Tarball van contextmap genereren…"
 
 #: src/model/action.rs:337
-#, fuzzy
 msgid "Prune stopped containers"
-msgstr "Fout bij stoppen container"
+msgstr "Gestopte containers opschonen"
 
 #: src/model/action.rs:377
 msgid "Start new container <b>{}</b>"
@@ -1851,9 +1837,8 @@ msgid "Create pod <b>{}</b>"
 msgstr "Pod <b>{}</b> aanmaken"
 
 #: src/model/action.rs:653
-#, fuzzy
 msgid "Prune stopped pods"
-msgstr "Ongebruikte pods opschonen"
+msgstr "Gestopte pods opschonen"
 
 #: src/model/connection_manager.rs:208
 msgid "Connection '{}' already exists."
@@ -1985,14 +1970,12 @@ msgid "Image Is Currently Being Built"
 msgstr "Schijfkopiebestand wordt momenteel gebouwd"
 
 #: src/view/action/page.rs:134
-#, fuzzy
 msgid "Image Is Currently Being Pushed"
-msgstr "Schijfkopiebestand wordt momenteel gebouwd"
+msgstr "Schijfkopiebestand wordt momenteel gepusht"
 
 #: src/view/action/page.rs:135 src/view/action/page.rs:151
-#, fuzzy
 msgid "Containers Are Currently Being Pruned"
-msgstr "Schijfkopiebestanden worden momenteel opgeschoond"
+msgstr "Containers worden momenteel opgeschoond"
 
 #: src/view/action/page.rs:136
 msgid "Container Is Currently Being Created"
@@ -2031,9 +2014,8 @@ msgid "Image Has Been Built"
 msgstr "Schijfkopiebestand is gebouwd"
 
 #: src/view/action/page.rs:150
-#, fuzzy
 msgid "Image Has Been Pushed"
-msgstr "Schijfkopiebestanden zijn opgeschoond"
+msgstr "Schijfkopiebestand is gepusht"
 
 #: src/view/action/page.rs:152
 msgid "Container Has Been Created"
@@ -2072,14 +2054,12 @@ msgid "Image Built Has Been Aborted"
 msgstr "Bouwen van schijfkopiebestand is afgebroken"
 
 #: src/view/action/page.rs:166
-#, fuzzy
 msgid "Image Push Has Been Aborted"
-msgstr "Bouwen van schijfkopiebestand is afgebroken"
+msgstr "Pushen van schijfkopiebestand is afgebroken"
 
 #: src/view/action/page.rs:167
-#, fuzzy
 msgid "Pruning of Containers Has Been Aborted"
-msgstr "Opschonen van schijfkopiebestanden is afgebroken"
+msgstr "Opschonen van containers is afgebroken"
 
 #: src/view/action/page.rs:168
 msgid "Container Creation Has Been Aborted"
@@ -2118,14 +2098,12 @@ msgid "Image Built Has Failed"
 msgstr "Bouwen van schijfkopiebestand is mislukt"
 
 #: src/view/action/page.rs:182
-#, fuzzy
 msgid "Image Push Has Failed"
-msgstr "Bouwen van schijfkopiebestand is mislukt"
+msgstr "Pishen van schijfkopiebestand is mislukt"
 
 #: src/view/action/page.rs:183
-#, fuzzy
 msgid "Pruning of Containers Has Failed"
-msgstr "Opschonen van schijfkopiebestanden is mislukt"
+msgstr "Opschonen van containers is mislukt"
 
 #: src/view/action/page.rs:184
 msgid "Container Creation Has Failed"
@@ -2428,12 +2406,12 @@ msgstr "Container hernoemen"
 #: src/view/container/resources_quick_reference_group.rs:94
 msgid "Processor ({} CPU)"
 msgid_plural "Processor ({} CPUs)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Processor ({} CPU)"
+msgstr[1] "Processor ({} CPU's)"
 
 #: src/view/container/resources_quick_reference_group.rs:100
 msgid "Processor (? CPUs)"
-msgstr ""
+msgstr "Processor (? CPU's)"
 
 #: src/view/container/resources_quick_reference_group.rs:112
 #: src/view/container/resources_quick_reference_group.rs:147
@@ -2603,9 +2581,8 @@ msgid "Error on deleting image '{}'"
 msgstr "Fout bij verwijderen schijfkopiebestand ‘{}’"
 
 #: src/view/image/selection_combo_row.rs:88
-#, fuzzy
 msgid "Select Image"
-msgstr "Schijfkopiebestand verwijderen"
+msgstr "Schijfkopiebestand selecteren"
 
 #: src/view/image_search/widget.rs:228
 msgid "All registries"
@@ -2782,18 +2759,16 @@ msgid "Repo tag must contain a colon “:”"
 msgstr "Repo-label dient een dubbele punt te bevatten"
 
 #: src/view/repo_tag/push_page.rs:173
-#, fuzzy
 msgid "Error on accessing keyring"
-msgstr "Fout bij kiezen van verbinding"
+msgstr "Fout bij toegang tot sleutelbos"
 
 #: src/view/repo_tag/push_page.rs:266
-#, fuzzy
 msgid "Error saving credentials"
-msgstr "Fout bij opslaan logboek"
+msgstr "Fout bij opslaan van inloggegevens"
 
 #: src/view/repo_tag/push_page.rs:267
 msgid "Secret Service is not available"
-msgstr ""
+msgstr "Secret Service is niet beschikbaar"
 
 #: src/view/repo_tag/row.rs:197
 msgid "Error on untagging image"
