@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-27 21:49+0200\n"
-"PO-Revision-Date: 2023-05-21 20:42+0000\n"
+"PO-Revision-Date: 2023-05-30 16:52+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/pods/main/fi/>\n"
 "Language: fi\n"
@@ -990,9 +990,8 @@ msgid "You can use the button below to create an initial container."
 msgstr "Voit luoda ensimmäisen kontin alla olevalla painikkeella."
 
 #: data/resources/ui/containers/panel.ui:317
-#, fuzzy
 msgid "_Create Container"
-msgstr "Luo kontti"
+msgstr "_Luo kontti"
 
 #: data/resources/ui/containers/prune-page.ui:50
 #: data/resources/ui/images/prune-page.ui:50
@@ -1178,7 +1177,6 @@ msgstr "_Valitse"
 #: data/resources/ui/image/selection-combo-row.ui:4
 #: data/resources/ui/image/selection-combo-row.ui:15
 #: src/view/image/selection_combo_row.rs:89
-#, fuzzy
 msgid "Local Image"
 msgstr "Paikallinen levykuva"
 
@@ -1213,14 +1211,12 @@ msgid "You can use the buttons below to add an initial image."
 msgstr "Voit käyttää alla olevaa painiketta lisätäksesi levykuvan lähtökohdan."
 
 #: data/resources/ui/images/panel.ui:231
-#, fuzzy
 msgid "_Download Image"
-msgstr "Lataa levykuva"
+msgstr "_Lataa levykuva"
 
 #: data/resources/ui/images/panel.ui:243
-#, fuzzy
 msgid "_Build Image"
-msgstr "Koosta levykuva"
+msgstr "_Koosta levykuva"
 
 #: data/resources/ui/images/prune-page.ui:69
 msgid "Prune All"
@@ -1251,9 +1247,8 @@ msgid "Filter"
 msgstr ""
 
 #: data/resources/ui/images/selection-page.ui:38
-#, fuzzy
 msgid "Select Local Image"
-msgstr "Paikallinen levykuva"
+msgstr "Valitse paikallinen levykuva"
 
 #: data/resources/ui/info-dialog.ui:5
 msgid "About Podman"
@@ -1436,9 +1431,8 @@ msgid "You can use the button below to create an initial pod."
 msgstr "Voit luoda ensimmäisen podin alla olevalla painikkeella."
 
 #: data/resources/ui/pods/panel.ui:393
-#, fuzzy
 msgid "_Create Pod"
-msgstr "Luo podi"
+msgstr "_Luo podi"
 
 #: data/resources/ui/port-mapping/row.ui:29
 msgid "will be mapped to container port"
@@ -1474,9 +1468,8 @@ msgid "_Push"
 msgstr ""
 
 #: data/resources/ui/repo-tag/push-page.ui:66
-#, fuzzy
 msgid "Options"
-msgstr "Toimenpiteet"
+msgstr "Valinnat"
 
 #: data/resources/ui/repo-tag/push-page.ui:71
 msgid "TLS Verify"
@@ -1484,43 +1477,41 @@ msgstr ""
 
 #: data/resources/ui/repo-tag/push-page.ui:88
 msgid "Login"
-msgstr ""
+msgstr "Kirjaudu"
 
 #: data/resources/ui/repo-tag/push-page.ui:89
 msgid "Some registries require authentication."
-msgstr ""
+msgstr "Jotkin rekisterit vaativat tunnistautumisen."
 
 #: data/resources/ui/repo-tag/push-page.ui:102
 msgid "Authentication"
-msgstr ""
+msgstr "Tunnistautuminen"
 
 #: data/resources/ui/repo-tag/push-page.ui:115
 #: data/resources/ui/repo-tag/push-page.ui:142
 msgid "Password"
-msgstr ""
+msgstr "Salasana"
 
 #: data/resources/ui/repo-tag/push-page.ui:121
 #: data/resources/ui/repo-tag/push-page.ui:150
 msgid "Token"
-msgstr ""
+msgstr "Poletti"
 
 #: data/resources/ui/repo-tag/push-page.ui:134
-#, fuzzy
 msgid "Username"
-msgstr "Nouda käyttäjänimi"
+msgstr "Käyttäjätunnus"
 
 #: data/resources/ui/repo-tag/push-page.ui:159
 msgid "Save Credentials"
-msgstr ""
+msgstr "Tallenna kirjautumistiedot"
 
 #: data/resources/ui/repo-tag/row.ui:32
 msgid "Pull Latest"
 msgstr "Vedä viimeisin"
 
 #: data/resources/ui/repo-tag/row.ui:43
-#, fuzzy
 msgid "Push to Registry"
-msgstr "Rekisteri"
+msgstr "Työnnä rekisteriin"
 
 #: data/resources/ui/repo-tag/row.ui:54
 msgid "Untag"
@@ -1571,7 +1562,7 @@ msgstr "Sulje ikkuna"
 #: data/resources/ui/shortcuts.ui:45
 msgctxt "shortcut window"
 msgid "Close dialog"
-msgstr ""
+msgstr "Sulje ikkuna"
 
 #: data/resources/ui/shortcuts.ui:52
 msgctxt "shortcut window"
@@ -1754,9 +1745,8 @@ msgid "Pull image <b>{}</b>"
 msgstr "Nouda levykuva: <b>{}</b>"
 
 #: src/model/action.rs:209
-#, fuzzy
 msgid "Push image <b>{}</b>"
-msgstr "Nouda levykuva: <b>{}</b>"
+msgstr "Työnnä levykuva <b>{}</b>"
 
 #: src/model/action.rs:266
 msgid "Build image <b>{}</b>"
@@ -2422,12 +2412,12 @@ msgstr "Nimeä kontti uudelleen"
 #: src/view/container/resources_quick_reference_group.rs:94
 msgid "Processor ({} CPU)"
 msgid_plural "Processor ({} CPUs)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Suoritin ({} CPU)"
+msgstr[1] "Suoritin ({} CPU:ta)"
 
 #: src/view/container/resources_quick_reference_group.rs:100
 msgid "Processor (? CPUs)"
-msgstr ""
+msgstr "Suoritin (? CPU:ta)"
 
 #: src/view/container/resources_quick_reference_group.rs:112
 #: src/view/container/resources_quick_reference_group.rs:147
@@ -2597,9 +2587,8 @@ msgid "Error on deleting image '{}'"
 msgstr "Virhe levykuvaa '{}' poistaessa"
 
 #: src/view/image/selection_combo_row.rs:88
-#, fuzzy
 msgid "Select Image"
-msgstr "Poista levykuva"
+msgstr "Valitse levykuva"
 
 #: src/view/image_search/widget.rs:228
 msgid "All registries"
@@ -2778,9 +2767,8 @@ msgid "Error on accessing keyring"
 msgstr "Virhe konttia keskeyttäessä"
 
 #: src/view/repo_tag/push_page.rs:266
-#, fuzzy
 msgid "Error saving credentials"
-msgstr "Virhe lokeja tallentaessa"
+msgstr "Virhe kirjautumistietoja tallentaessa"
 
 #: src/view/repo_tag/push_page.rs:267
 msgid "Secret Service is not available"
