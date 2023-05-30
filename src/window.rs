@@ -18,12 +18,13 @@ use crate::model;
 use crate::model::SelectableListExt;
 use crate::utils;
 use crate::view;
+use crate::widget;
 
 mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(resource = "/com/github/marhkb/Pods/ui/window.ui")]
+    #[template(file = "window.ui")]
     pub(crate) struct Window {
         pub(super) settings: utils::PodsSettings,
         pub(super) connection_manager: model::ConnectionManager,
@@ -80,7 +81,7 @@ mod imp {
         #[template_child]
         pub(super) search_panel: TemplateChild<view::SearchPanel>,
         #[template_child]
-        pub(super) leaflet_overlay: TemplateChild<view::LeafletOverlay>,
+        pub(super) leaflet_overlay: TemplateChild<widget::LeafletOverlay>,
         #[template_child]
         pub(super) statusbar: TemplateChild<view::Statusbar>,
     }
@@ -98,8 +99,6 @@ mod imp {
             view::ActionPage::static_type();
             view::ActionRow::static_type();
             view::ActionsSidebar::static_type();
-            view::BackNavigationControls::static_type();
-            view::CircularProgressBar::static_type();
             view::ConnectionChooserPage::static_type();
             view::ConnectionCustomInfoDialog::static_type();
             view::ConnectionRow::static_type();
@@ -108,45 +107,48 @@ mod imp {
             view::ContainerCommitPage::static_type();
             view::ContainerFilesGetPage::static_type();
             view::ContainerFilesPutPage::static_type();
+            view::ContainerHealthCheckLogRow::static_type();
             view::ContainerHealthCheckPage::static_type();
             view::ContainerLogPage::static_type();
             view::ContainerMenuButton::static_type();
             view::ContainerPropertiesGroup::static_type();
-            view::ContainerResourcesQuickReferenceGroup::static_type();
-            view::ContainerTty::static_type();
-            view::ContainerTtyPage::static_type();
+            view::ContainerResources::static_type();
+            view::ContainerTerminal::static_type();
+            view::ContainerTerminalPage::static_type();
             view::ContainersCountBar::static_type();
             view::ContainersGroup::static_type();
             view::ContainersPanel::static_type();
             view::ContainersPrunePage::static_type();
-            view::HealthCheckLogRow::static_type();
             view::ImageBuildPage::static_type();
             view::ImageHistoryPage::static_type();
             view::ImageMenuButton::static_type();
             view::ImageSearchResponseRow::static_type();
             view::ImageSelectionComboRow::static_type();
+            view::ImageSelectionPage::static_type();
             view::ImagesPanel::static_type();
-            view::ImagesSelectionPage::static_type();
             view::PodMenuButton::static_type();
             view::PodRow::static_type();
             view::PodsPanel::static_type();
             view::PodsPrunePage::static_type();
-            view::PropertyRow::static_type();
-            view::PropertyWidgetRow::static_type();
-            view::PruneUntilRow::static_type();
-            view::RandomNameEntryRow::static_type();
             view::RepoTagAddDialog::static_type();
             view::RepoTagPushPage::static_type();
             view::RepoTagRow::static_type();
             view::RepoTagSimpleRow::static_type();
-            view::ScalableTextView::static_type();
             view::ScalableTextViewPage::static_type();
-            view::SourceViewSearchWidget::static_type();
-            view::Spinner::static_type();
             view::Statusbar::static_type();
-            view::TextSearchEntry::static_type();
             view::WelcomePage::static_type();
-            view::ZoomControl::static_type();
+
+            widget::BackNavigationControls::static_type();
+            widget::CircularProgressBar::static_type();
+            widget::DateTimeRow::static_type();
+            widget::PropertyRow::static_type();
+            widget::PropertyWidgetRow::static_type();
+            widget::RandomNameEntryRow::static_type();
+            widget::ScalableTextView::static_type();
+            widget::SourceViewSearchWidget::static_type();
+            widget::Spinner::static_type();
+            widget::TextSearchEntry::static_type();
+            widget::ZoomControl::static_type();
 
             klass.install_action("win.close", None, |widget, _, _| {
                 widget.close();
@@ -933,7 +935,7 @@ impl Window {
         self.imp().toast_overlay.add_toast(toast);
     }
 
-    pub(crate) fn leaflet_overlay(&self) -> &view::LeafletOverlay {
+    pub(crate) fn leaflet_overlay(&self) -> &widget::LeafletOverlay {
         &self.imp().leaflet_overlay
     }
 }

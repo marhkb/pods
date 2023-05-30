@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+
+  <menu id="menu_model">
+    <item>
+      <attribute name="label" translatable="yes">_Copy</attribute>
+      <attribute name="action">container-terminal.copy</attribute>
+    </item>
+    <item>
+      <attribute name="label" translatable="yes">Copy as _HTML</attribute>
+      <attribute name="action">container-terminal.copy-html</attribute>
+    </item>
+    <item>
+      <attribute name="label" translatable="yes">_Paste</attribute>
+      <attribute name="action">container-terminal.paste</attribute>
+    </item>
+  </menu>
+
+  <object class="GtkPopoverMenu" id="popover_menu">
+    <property name="menu-model">menu_model</property>
+  </object>
+
+  <template class="PdsContainerTerminal" parent="GtkWidget">
+
+    <child>
+      <object class="GtkStack" id="stack">
+
+        <child>
+          <object class="GtkStackPage">
+            <property name="name">not-running</property>
+
+            <property name="child">
+              <object class="AdwStatusPage">
+                <property name="icon-name">utilities-terminal-symbolic</property>
+                <property name="title" translatable="yes">No Terminal</property>
+                <property name="description" translatable="yes">The container must be running to use the terminal.</property>
+
+                <child>
+                  <object class="GtkButton">
+                    <style>
+                      <class name="pill"/>
+                      <class name="suggested-action"/>
+                    </style>
+                    <property name="action-name">container-terminal.start-or-resume</property>
+                    <property name="halign">center</property>
+                    <property name="label" translatable="yes">Start</property>
+                    <property name="width-request">200</property>
+                  </object>
+                </child>
+
+              </object>
+            </property>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkStackPage">
+            <property name="name">running</property>
+
+            <property name="child">
+              <object class="VteTerminal" id="terminal">
+                <property name="vexpand">True</property>
+
+                <child>
+                  <object class="GtkEventControllerKey">
+                    <signal name="key-pressed" handler="on_key_pressed" swapped="true"/>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkGestureClick">
+                    <property name="button">3</property>
+                    <signal name="pressed" handler="on_mouse_pressed" swapped="true"/>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkEventControllerScroll">
+                    <property name="flags">vertical</property>
+                    <property name="propagation-phase">capture</property>
+                    <signal name="scroll" handler="on_scroll" swapped="true"/>
+                  </object>
+                </child>
+
+              </object>
+            </property>
+
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>

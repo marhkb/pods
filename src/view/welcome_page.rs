@@ -12,7 +12,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::WelcomePage)]
-    #[template(resource = "/com/github/marhkb/Pods/ui/welcome-page.ui")]
+    #[template(file = "welcome_page.ui")]
     pub(crate) struct WelcomePage {
         #[property(get, set, nullable)]
         pub(super) connection_manager: glib::WeakRef<model::ConnectionManager>,

@@ -14,59 +14,59 @@ use gtk::CompositeTemplate;
 
 use crate::model;
 use crate::utils;
-use crate::view;
+use crate::widget;
 
 mod imp {
     use super::*;
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::InfoDialog)]
-    #[template(resource = "/com/github/marhkb/Pods/ui/info-dialog.ui")]
+    #[template(file = "info_dialog.ui")]
     pub(crate) struct InfoDialog {
         #[property(get, set, construct_only, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
         #[template_child]
         pub(super) preferences_page: TemplateChild<adw::PreferencesPage>,
         #[template_child]
-        pub(super) version_api_version_row: TemplateChild<view::PropertyRow>,
+        pub(super) version_api_version_row: TemplateChild<widget::PropertyRow>,
         #[template_child]
-        pub(super) version_built_time_row: TemplateChild<view::PropertyRow>,
+        pub(super) version_built_time_row: TemplateChild<widget::PropertyRow>,
         #[template_child]
-        pub(super) version_git_commit_row: TemplateChild<view::PropertyRow>,
+        pub(super) version_git_commit_row: TemplateChild<widget::PropertyRow>,
         #[template_child]
-        pub(super) version_go_version_row: TemplateChild<view::PropertyRow>,
+        pub(super) version_go_version_row: TemplateChild<widget::PropertyRow>,
         #[template_child]
-        pub(super) version_os_arch_row: TemplateChild<view::PropertyRow>,
+        pub(super) version_os_arch_row: TemplateChild<widget::PropertyRow>,
         #[template_child]
-        pub(super) version_version_row: TemplateChild<view::PropertyRow>,
+        pub(super) version_version_row: TemplateChild<widget::PropertyRow>,
         #[template_child]
-        pub(super) store_config_file_row: TemplateChild<view::PropertyRow>,
+        pub(super) store_config_file_row: TemplateChild<widget::PropertyRow>,
         #[template_child]
         pub(super) store_container_store_label: TemplateChild<gtk::Label>,
         #[template_child]
-        pub(super) store_container_store_paused_row: TemplateChild<view::PropertyRow>,
+        pub(super) store_container_store_paused_row: TemplateChild<widget::PropertyRow>,
         #[template_child]
-        pub(super) store_container_store_running_row: TemplateChild<view::PropertyRow>,
+        pub(super) store_container_store_running_row: TemplateChild<widget::PropertyRow>,
         #[template_child]
-        pub(super) store_container_store_stopped_row: TemplateChild<view::PropertyRow>,
+        pub(super) store_container_store_stopped_row: TemplateChild<widget::PropertyRow>,
         #[template_child]
-        pub(super) store_graph_driver_name_row: TemplateChild<view::PropertyRow>,
+        pub(super) store_graph_driver_name_row: TemplateChild<widget::PropertyRow>,
         #[template_child]
         pub(super) store_graph_options_row: TemplateChild<adw::ExpanderRow>,
         #[template_child]
         pub(super) store_graph_options_label: TemplateChild<gtk::Label>,
         #[template_child]
-        pub(super) store_graph_root_row: TemplateChild<view::PropertyRow>,
+        pub(super) store_graph_root_row: TemplateChild<widget::PropertyRow>,
         #[template_child]
         pub(super) store_graph_status_row: TemplateChild<adw::ExpanderRow>,
         #[template_child]
         pub(super) store_graph_status_label: TemplateChild<gtk::Label>,
         #[template_child]
-        pub(super) store_image_store_row: TemplateChild<view::PropertyRow>,
+        pub(super) store_image_store_row: TemplateChild<widget::PropertyRow>,
         #[template_child]
-        pub(super) store_run_root_row: TemplateChild<view::PropertyRow>,
+        pub(super) store_run_root_row: TemplateChild<widget::PropertyRow>,
         #[template_child]
-        pub(super) store_volume_path_row: TemplateChild<view::PropertyRow>,
+        pub(super) store_volume_path_row: TemplateChild<widget::PropertyRow>,
     }
 
     #[glib::object_subclass]
@@ -227,7 +227,7 @@ impl InfoDialog {
                     if let Some(graph_options) = store.and_then(|s| s.graph_options.as_ref()) {
                         graph_options.as_object().unwrap().iter().for_each(|(k, v)| {
                             imp.store_graph_options_row.add_row(&{
-                                let row = view::PropertyRow::default();
+                                let row = widget::PropertyRow::default();
                                 row.set_key(k);
                                 row.set_value(&v.to_string());
                                 row
@@ -249,7 +249,7 @@ impl InfoDialog {
                     {
                         graph_status.iter().for_each(|(k, v)| {
                             imp.store_graph_status_row.add_row(&{
-                                let row = view::PropertyRow::default();
+                                let row = widget::PropertyRow::default();
                                 row.set_key(k);
                                 row.set_value(v);
                                 row

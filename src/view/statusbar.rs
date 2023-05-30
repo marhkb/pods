@@ -19,7 +19,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::Statusbar)]
-    #[template(resource = "/com/github/marhkb/Pods/ui/statusbar.ui")]
+    #[template(file = "statusbar.ui")]
     pub(crate) struct Statusbar {
         pub(super) css_provider: gtk::CssProvider,
         pub(super) connection_switcher: view::ConnectionSwitcher,
