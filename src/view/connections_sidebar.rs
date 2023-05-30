@@ -11,21 +11,22 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
-    #[properties(wrapper_type = super::WelcomePage)]
-    #[template(file = "welcome_page.ui")]
-    pub(crate) struct WelcomePage {
+    #[properties(wrapper_type = super::ConnectionsSidebar)]
+    #[template(file = "connections_sidebar.ui")]
+    pub(crate) struct ConnectionsSidebar {
         #[property(get, set, nullable)]
         pub(super) connection_manager: glib::WeakRef<model::ConnectionManager>,
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for WelcomePage {
-        const NAME: &'static str = "PdsWelcomePage";
-        type Type = super::WelcomePage;
+    impl ObjectSubclass for ConnectionsSidebar {
+        const NAME: &'static str = "PdsConnectionsSidebar";
+        type Type = super::ConnectionsSidebar;
         type ParentType = gtk::Widget;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+            klass.set_css_name("connectionssidebar");
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -33,7 +34,7 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for WelcomePage {
+    impl ObjectImpl for ConnectionsSidebar {
         fn properties() -> &'static [glib::ParamSpec] {
             Self::derived_properties()
         }
@@ -51,11 +52,11 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for WelcomePage {}
+    impl WidgetImpl for ConnectionsSidebar {}
 }
 
 glib::wrapper! {
-    pub(crate) struct WelcomePage(ObjectSubclass<imp::WelcomePage>)
+    pub(crate) struct ConnectionsSidebar(ObjectSubclass<imp::ConnectionsSidebar>)
         @extends gtk::Widget,
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }

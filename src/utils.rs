@@ -22,7 +22,7 @@ use gtk::traits::GtkWindowExt;
 use gtk::traits::WidgetExt;
 
 use crate::config;
-use crate::view;
+use crate::widget;
 use crate::APPLICATION_OPTS;
 use crate::RUNTIME;
 
@@ -220,7 +220,7 @@ pub(crate) fn show_error_toast(widget: &gtk::Widget, title: &str, msg: &str) {
     show_toast(widget, format!("{title}: {msg}"));
 }
 
-pub(crate) fn find_leaflet_overlay(widget: &gtk::Widget) -> view::LeafletOverlay {
+pub(crate) fn find_leaflet_overlay(widget: &gtk::Widget) -> widget::LeafletOverlay {
     leaflet_overlay(
         &widget
             .ancestor(adw::Leaflet::static_type())
@@ -230,21 +230,21 @@ pub(crate) fn find_leaflet_overlay(widget: &gtk::Widget) -> view::LeafletOverlay
     )
 }
 
-pub(crate) fn leaflet_overlay(leaflet: &adw::Leaflet) -> view::LeafletOverlay {
+pub(crate) fn leaflet_overlay(leaflet: &adw::Leaflet) -> widget::LeafletOverlay {
     leaflet
         .child_by_name("overlay")
         .unwrap()
-        .downcast::<view::LeafletOverlay>()
+        .downcast::<widget::LeafletOverlay>()
         .unwrap()
 }
 
-pub(crate) fn parent_leaflet_overlay(widget: &gtk::Widget) -> Option<view::LeafletOverlay> {
+pub(crate) fn parent_leaflet_overlay(widget: &gtk::Widget) -> Option<widget::LeafletOverlay> {
     widget
-        .ancestor(view::LeafletOverlay::static_type())
-        .and_then(|ancestor| ancestor.downcast::<view::LeafletOverlay>().ok())
+        .ancestor(widget::LeafletOverlay::static_type())
+        .and_then(|ancestor| ancestor.downcast::<widget::LeafletOverlay>().ok())
 }
 
-pub(crate) fn topmost_leaflet_overlay(widget: &gtk::Widget) -> Option<view::LeafletOverlay> {
+pub(crate) fn topmost_leaflet_overlay(widget: &gtk::Widget) -> Option<widget::LeafletOverlay> {
     let mut topmost_leaflet_overlay = None;
     let mut current_widget = widget.to_owned().upcast();
 

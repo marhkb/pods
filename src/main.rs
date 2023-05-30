@@ -8,6 +8,7 @@ mod config;
 mod model;
 mod utils;
 mod view;
+mod widget;
 mod window;
 
 use std::path::PathBuf;
