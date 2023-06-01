@@ -72,9 +72,7 @@
                         <property name="spacing">6</property>
 
                         <child>
-                          <object class="GtkSpinner">
-                            <property name="spinning">True</property>
-                          </object>
+                          <object class="PdsEfficientSpinner"/>
                         </child>
 
                         <child>

@@ -24,7 +24,7 @@ mod imp {
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub(super) spinner: TemplateChild<gtk::Spinner>,
+        pub(super) spinner: TemplateChild<view::EfficientSpinner>,
         #[template_child]
         pub(super) preferences_group: TemplateChild<adw::PreferencesGroup>,
     }
@@ -183,7 +183,7 @@ impl From<&model::Image> for HistoryPage {
                     Err(e) => {
                         log::error!("Error on retrieving history: {e}");
 
-                        imp.spinner.set_spinning(false);
+                        imp.spinner.set_visible(false);
                         utils::show_error_toast(
                             obj.upcast_ref(),
                             &gettext("Error on retrieving history"),

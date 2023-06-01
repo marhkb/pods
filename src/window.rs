@@ -119,6 +119,7 @@ mod imp {
             view::ContainersGroup::static_type();
             view::ContainersPanel::static_type();
             view::ContainersPrunePage::static_type();
+            view::EfficientSpinner::static_type();
             view::HealthCheckLogRow::static_type();
             view::ImageBuildPage::static_type();
             view::ImageHistoryPage::static_type();

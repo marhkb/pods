@@ -107,13 +107,12 @@
             <property name="name">connecting</property>
 
             <property name="child">
-              <object class="GtkSpinner">
+              <object class="PdsEfficientSpinner">
                 <property name="name">connecting-spinner</property>
                 <property name="margin-top">6</property>
                 <property name="margin-end">6</property>
                 <property name="margin-bottom">6</property>
                 <property name="margin-start">6</property>
-                <property name="spinning">True</property>
               </object>
             </property>
 

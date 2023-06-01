@@ -134,9 +134,7 @@
                                     <property name="valign">center</property>
 
                                     <child>
-                                      <object class="GtkSpinner">
-                                        <property name="spinning">True</property>
-                                      </object>
+                                      <object class="PdsEfficientSpinner"/>
                                     </child>
 
                                   </object>
@@ -187,8 +185,7 @@
                     <property name="title" translatable="yes">Properties</property>
 
                     <property name="header-suffix">
-                      <object class="GtkSpinner" id="inspection_spinner">
-                        <property name="spinning">True</property>
+                      <object class="PdsEfficientSpinner" id="inspection_spinner">
                         <property name="width-request">18</property>
                       </object>
                     </property>
