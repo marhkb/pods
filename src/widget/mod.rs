@@ -1,6 +1,7 @@
 mod back_navigation_controls;
 mod circular_progress_bar;
 mod date_time_row;
+mod efficient_spinner;
 mod leaflet_overlay;
 mod property_row;
 mod property_widget_row;
@@ -14,6 +15,7 @@ mod zoom_control;
 pub(crate) use self::back_navigation_controls::BackNavigationControls;
 pub(crate) use self::circular_progress_bar::CircularProgressBar;
 pub(crate) use self::date_time_row::DateTimeRow;
+pub(crate) use self::efficient_spinner::EfficientSpinner;
 pub(crate) use self::leaflet_overlay::LeafletOverlay;
 pub(crate) use self::property_row::PropertyRow;
 pub(crate) use self::property_widget_row::PropertyWidgetRow;
