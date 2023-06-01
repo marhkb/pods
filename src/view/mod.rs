@@ -26,6 +26,7 @@ pub(crate) use self::action::Row as ActionRow;
 pub(crate) use self::actions::Sidebar as ActionsSidebar;
 pub(crate) use self::component::BackNavigationControls;
 pub(crate) use self::component::CircularProgressBar;
+pub(crate) use self::component::EfficientSpinner;
 pub(crate) use self::component::Entity;
 pub(crate) use self::component::LeafletOverlay;
 pub(crate) use self::component::PropertyRow;
