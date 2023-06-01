@@ -28,12 +28,11 @@
         <property name="vexpand">True</property>
 
         <child>
-          <object class="GtkSpinner" id="spinner">
+          <object class="PdsEfficientSpinner" id="spinner">
             <property name="halign">center</property>
             <property name="valign">center</property>
             <property name="height-request">30</property>
             <property name="width-request">30</property>
-            <property name="spinning">True</property>
           </object>
         </child>
 

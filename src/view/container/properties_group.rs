@@ -26,7 +26,7 @@ mod imp {
         #[property(get, set, construct, nullable)]
         pub(super) container: glib::WeakRef<model::Container>,
         #[template_child]
-        pub(super) inspection_spinner: TemplateChild<gtk::Spinner>,
+        pub(super) inspection_spinner: TemplateChild<view::EfficientSpinner>,
         #[template_child]
         pub(super) id_label: TemplateChild<gtk::Label>,
         #[template_child]

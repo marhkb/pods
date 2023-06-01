@@ -88,7 +88,7 @@ mod imp {
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub(super) spinner: TemplateChild<gtk::Spinner>,
+        pub(super) spinner: TemplateChild<view::EfficientSpinner>,
         #[template_child]
         pub(super) source_view: TemplateChild<view::ScalableTextView>,
         #[template_child]
@@ -393,7 +393,7 @@ impl ScalableTextViewPage {
                 imp.stack.set_visible_child_name("loaded");
             }
             Err(e) => {
-                imp.spinner.set_spinning(false);
+                imp.spinner.set_visible(false);
                 utils::show_error_toast(
                     self.upcast_ref(),
                     &match mode {

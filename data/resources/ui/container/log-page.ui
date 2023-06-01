@@ -93,12 +93,11 @@
       <object class="GtkStack" id="stack">
 
         <child>
-          <object class="GtkSpinner">
+          <object class="PdsEfficientSpinner">
             <property name="halign">center</property>
             <property name="valign">center</property>
             <property name="height-request">30</property>
             <property name="width-request">30</property>
-            <property name="spinning">True</property>
           </object>
         </child>
 
@@ -124,9 +123,7 @@
                         <property name="spacing">6</property>
 
                         <child>
-                          <object class="GtkSpinner">
-                            <property name="spinning">True</property>
-                          </object>
+                          <object class="PdsEfficientSpinner"/>
                         </child>
 
                         <child>
