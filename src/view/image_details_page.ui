@@ -60,8 +60,7 @@
                         <property name="spacing">6</property>
 
                         <child>
-                          <object class="GtkSpinner" id="inspection_spinner">
-                            <property name="spinning">True</property>
+                          <object class="PdsEfficientSpinner" id="inspection_spinner">
                             <property name="width-request">18</property>
                           </object>
                         </child>

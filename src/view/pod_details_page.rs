@@ -42,7 +42,7 @@ mod imp {
         #[template_child]
         pub(super) window_title: TemplateChild<adw::WindowTitle>,
         #[template_child]
-        pub(super) inspection_spinner: TemplateChild<gtk::Spinner>,
+        pub(super) inspection_spinner: TemplateChild<widget::EfficientSpinner>,
         #[template_child]
         pub(super) action_row: TemplateChild<adw::PreferencesRow>,
         #[template_child]
