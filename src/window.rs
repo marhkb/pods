@@ -141,6 +141,7 @@ mod imp {
             widget::BackNavigationControls::static_type();
             widget::CircularProgressBar::static_type();
             widget::DateTimeRow::static_type();
+            widget::EfficientSpinner::static_type();
             widget::PropertyRow::static_type();
             widget::PropertyWidgetRow::static_type();
             widget::RandomNameEntryRow::static_type();

@@ -50,10 +50,9 @@
                         <property name="name">connecting</property>
 
                         <property name="child">
-                          <object class="GtkSpinner">
+                          <object class="PdsEfficientSpinner">
                             <property name="halign">center</property>
                             <property name="valign">center</property>
-                            <property name="spinning">True</property>
                           </object>
                         </property>
 

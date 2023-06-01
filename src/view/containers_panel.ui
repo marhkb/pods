@@ -13,12 +13,11 @@
             <property name="name">spinner</property>
 
             <property name="child">
-              <object class="GtkSpinner">
+              <object class="PdsEfficientSpinner">
                 <property name="halign">center</property>
                 <property name="valign">center</property>
                 <property name="height-request">30</property>
                 <property name="width-request">30</property>
-                <property name="spinning">True</property>
               </object>
             </property>
 
