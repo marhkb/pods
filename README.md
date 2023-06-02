@@ -101,6 +101,19 @@ meson _build --prefix=/usr/local
 ninja -C _build install
 ```
 
+## :electric_plug: Podman Socket Activation
+
+To connect to the local Podman instance, the systemd socket must be enabled. You can enable it permanently by issuing the following commands:
+
+```shell
+$ systemctl --user enable --now podman.socket
+$ ls $XDG_RUNTIME_DIR/podman/podman.sock
+/run/user/1000/podman/podman.sock
+$ export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
+```
+
+Visit the [official documentation](https://github.com/containers/podman/blob/cea9340242f3f6cf41f20fb0b6239aa3db5decd6/docs/tutorials/socket_activation.md) for more information.
+
 
 ## 🙌 Help translate Pods
 
