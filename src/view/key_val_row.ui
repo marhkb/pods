@@ -11,33 +11,29 @@
         <property name="margin-end">12</property>
         <property name="margin-start">12</property>
         <property name="margin-top">18</property>
-        <property name="spacing">12</property>
+        <property name="spacing">9</property>
 
         <child>
-          <object class="GtkBox">
-            <property name="spacing">9</property>
+          <object class="GtkEntry" id="key_entry">
+            <property name="hexpand">True</property>
+            <property name="placeholder-text" translatable="yes">Key</property>
+          </object>
+        </child>
 
-            <child>
-              <object class="GtkEntry" id="key_entry">
-                <property name="hexpand">True</property>
-                <property name="placeholder-text" translatable="yes">Key</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkEntry" id="value_entry">
-                <property name="hexpand">True</property>
-                <property name="placeholder-text" translatable="yes">Value</property>
-              </object>
-            </child>
-
+        <child>
+          <object class="GtkEntry" id="value_entry">
+            <property name="hexpand">True</property>
+            <property name="placeholder-text" translatable="yes">Value</property>
           </object>
         </child>
 
         <child>
           <object class="GtkButton">
+            <style>
+              <class name="flat"/>
+            </style>
             <property name="action-name">key-val-row.remove</property>
-            <property name="icon-name">list-remove-symbolic</property>
+            <property name="icon-name">edit-delete-symbolic</property>
           </object>
         </child>
 
