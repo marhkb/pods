@@ -16,7 +16,8 @@
 .pod-status-exited,
 .pod-status-stopped,
 .container-health-status-checking,
-.container-health-status-unconfigured {
+.container-health-status-unconfigured,
+.rich-expander-row-header #badge {
   background-color: @dark_1;
   color: #ffffff;
 }

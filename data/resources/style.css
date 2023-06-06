@@ -123,7 +123,8 @@ connectionchooserpage connectionswitcher row {
 .pod-status-exited,
 .pod-status-stopped,
 .container-health-status-checking,
-.container-health-status-unconfigured {
+.container-health-status-unconfigured,
+.rich-expander-row-header #badge {
   color: alpha(@window_fg_color, .75);
   background-color: alpha(@window_fg_color, .15);
 }
@@ -165,6 +166,16 @@ connectionchooserpage connectionswitcher row {
 .container-health-status-healthy {
   color: @green_5;
   background-color: alpha(@green_3, .25);
+}
+
+.rich-expander-row-header {
+  color: alpha(@window_fg_color, .75);
+}
+
+.rich-expander-row-header #badge {
+  border-radius: 6px;
+  padding: 1px 4px;
+  font-weight: bold;
 }
 
 progressbar.success progress {
