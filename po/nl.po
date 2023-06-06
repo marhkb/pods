@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-30 22:11+0200\n"
-"PO-Revision-Date: 2023-05-28 20:50+0000\n"
+"PO-Revision-Date: 2023-06-07 13:48+0000\n"
 "Last-Translator: Philip Goto <philip.goto@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/pods/main/nl/>\n"
 "Language: nl\n"
@@ -1557,9 +1557,8 @@ msgid "Start"
 msgstr "Starten"
 
 #: src/view/container_terminal_page.ui:32
-#, fuzzy
 msgid "Container Terminal"
-msgstr "Container-details"
+msgstr "Container-terminal"
 
 #: src/view/container_terminal_page.ui:51
 msgid "Detach Terminal"
