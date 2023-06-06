@@ -1,4 +1,5 @@
-.container-status-paused, .pod-status-paused {
+.container-status-paused,
+.pod-status-paused {
 	color: @brown_1;
 	background: alpha(@brown_3, .35);
 }
@@ -9,7 +10,8 @@
 	background: alpha(@purple_2, .35);
 }
 
-.container-status-running, .pod-status-running {
+.container-status-running,
+.pod-status-running {
 	color: @blue_1;
 	background-color: alpha(@blue_2, .35);
 }

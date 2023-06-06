@@ -128,7 +128,8 @@ connectionchooserpage connectionswitcher row {
   background-color: alpha(@window_fg_color, .15);
 }
 
-.container-status-paused, .pod-status-paused {
+.container-status-paused,
+.pod-status-paused {
   color: @brown_4;
   background: alpha(@brown_3, .25);
 }
@@ -139,7 +140,8 @@ connectionchooserpage connectionswitcher row {
   background: alpha(@purple_2, .25);
 }
 
-.container-status-running, .pod-status-running {
+.container-status-running,
+.pod-status-running {
   color: @blue_4;
   background-color: alpha(@blue_3, .25);
 }
