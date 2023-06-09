@@ -44,10 +44,27 @@ jobs:
     name: Clippy
     runs-on: ubuntu-latest
     container:
-      image: bilelmoussaoui/flatpak-github-actions:gnome-43
+      image: bilelmoussaoui/flatpak-github-actions:gnome-44
       options: --privileged
     steps:
       - uses: actions/checkout@v3
+
+      - name: Cache flatpak
+        id: cache-flatpak
+        uses: actions/cache@v3
+        with:
+          path: .flatpak-builder
+          key: ${{ runner.os }}-flatpak-${{ hashFiles('build-aux/com.github.marhkb.Pods.Devel.json') }}
+          restore-keys: ${{ runner.os }}-flatpak-
+
+      - name: Cache cargo
+        id: cache-cargo
+        uses: actions/cache@v3
+        with:
+          path: /github/home/.cargo
+          key: ${{ runner.os }}-cargo-${{ hashFiles('Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-cargo-
+
       - name: Create dummy versions of configured file
         run: |
           sed \
@@ -65,6 +82,19 @@ jobs:
           --stop-at=pods \
           flatpak_app build-aux/com.github.marhkb.Pods.Devel.json
 
+      - name: Retrieve rustc version
+        id: rustc-version
+        run: |
+          echo "RUSTC_VERSION=$(flatpak-builder --run flatpak_app build-aux/com.github.marhkb.Pods.Devel.json rustc -V)" >> $GITHUB_OUTPUT
+
+      - name: Cache target
+        id: cache-target
+        uses: actions/cache@v3
+        with:
+          path: target
+          key: ${{ runner.os }}-target-${{ steps.rustc-version.outputs.RUSTC_VERSION }}-${{ hashFiles('Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-target-${{ steps.rustc-version.outputs.RUSTC_VERSION }}
+
       - name: Run clippy
         run: |
           flatpak-builder \
@@ -76,7 +106,7 @@ jobs:
     name: Flatpak
     runs-on: ubuntu-latest
     container:
-      image: bilelmoussaoui/flatpak-github-actions:gnome-43
+      image: bilelmoussaoui/flatpak-github-actions:gnome-44
       options: --privileged
     strategy:
       matrix:
@@ -96,7 +126,7 @@ jobs:
         uses: docker/setup-qemu-action@v2
         with:
           platforms: arm64
-      - uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v5
+      - uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v6
         with:
           bundle: pods.flatpak
           manifest-path: build-aux/com.github.marhkb.Pods.Devel.json
