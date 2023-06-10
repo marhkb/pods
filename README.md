@@ -49,19 +49,22 @@ With Pods you can, among other things:
 - Rename containers.
 
 ## 🔌 Installation
+
 Install Pods from flathub by issuing
+
 ```shell
-$ flatpak install com.github.marhkb.Pods
+flatpak install com.github.marhkb.Pods
 ```
+
 Pods can be kept up to date by issuing flatpak's update command like
+
 ```shell
-$ flatpak update
+flatpak update
 ```
 
 You can also grab the latest CI build from [here](https://nightly.link/marhkb/pods/workflows/ci/main).
 Then you need to unzip the archive's content and install the application with the command `flatpak install pods.flatpak`.
 Keep in mind that you have to manually repeat this procedure to update the application
-
 
 ## 🏗️ Building from source
 
@@ -81,16 +84,16 @@ environment cross-distro. Thus, it is highly recommended you use it.
 
 The following packages are required to build Pods:
 
-* meson >= 0.59
-* ninja
-* appstream-glib (for checks)
-* cargo
-* glib2 >= 2.66
-* gtk4 >= 4.10
-* libadwaita >= 1.3
-* libpanel >= 1.2
-* gtksourceview > 4.90
-* vte-2.91-gtk4 >= 0.70
+- meson >= 0.59
+- ninja
+- appstream-glib (for checks)
+- cargo
+- glib2 >= 2.66
+- gtk4 >= 4.10
+- libadwaita >= 1.3
+- libpanel >= 1.2
+- gtksourceview > 4.90
+- vte-2.91-gtk4 >= 0.70
 
 #### Build Instruction
 
@@ -100,7 +103,6 @@ cd pods
 meson _build --prefix=/usr/local
 ninja -C _build install
 ```
-
 
 ## 🙌 Help translate Pods
 
