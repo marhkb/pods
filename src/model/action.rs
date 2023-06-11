@@ -851,14 +851,14 @@ impl Action {
         }
 
         if value != State::Ongoing {
-            self.set_end_timesamp(glib::DateTime::now_local().unwrap().to_unix());
+            self.set_end_timestamp(glib::DateTime::now_local().unwrap().to_unix());
         }
 
         self.imp().state.set(value);
         self.notify_state();
     }
 
-    fn set_end_timesamp(&self, value: i64) {
+    fn set_end_timestamp(&self, value: i64) {
         let imp = self.imp();
 
         if imp.end_timestamp.get().is_some() {
