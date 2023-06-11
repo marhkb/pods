@@ -8,8 +8,8 @@ on:
 name: CI
 
 jobs:
-  check-commits:
-    name: Check Conventional Commits
+  check-commit-style:
+    name: Check Commit Style
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -83,7 +83,7 @@ jobs:
         arch: [x86_64]
       # Don't fail the whole workflow if one architecture fails
       fail-fast: false
-    needs: [typos, rustfmt, clippy]
+    needs: [check-commit-style, typos, rustfmt, clippy]
     steps:
       - uses: actions/checkout@v3
       # Docker is required by the docker/setup-qemu-action which enables emulation
