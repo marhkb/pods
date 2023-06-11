@@ -8,6 +8,13 @@ on:
 name: CI
 
 jobs:
+  check-commits:
+    name: Check Conventional Commits
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: webiny/action-conventional-commits@v1.1.0
+
   typos:
     name: Typos
     runs-on: ubuntu-latest
