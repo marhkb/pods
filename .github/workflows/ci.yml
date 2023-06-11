@@ -8,8 +8,8 @@ on:
 name: CI
 
 jobs:
-  check-commits:
-    name: Check Conventional Commits
+  check-commit-style:
+    name: Check Commit Style
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
