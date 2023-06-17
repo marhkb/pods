@@ -1,6 +1,9 @@
+use glib::Cast;
 use gtk::glib;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
+
+use crate::utils;
 
 mod imp {
     use super::*;
@@ -27,7 +30,11 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for EfficientSpinner {}
+    impl ObjectImpl for EfficientSpinner {
+        fn dispose(&self) {
+            utils::unparent_children(self.obj().upcast_ref());
+        }
+    }
     impl WidgetImpl for EfficientSpinner {
         fn map(&self) {
             self.parent_map();
