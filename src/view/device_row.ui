@@ -1,120 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="PdsDeviceRow" parent="GtkListBoxRow">
+  <template class="PdsDeviceRow" parent="AdwExpanderRow">
     <property name="activatable">False</property>
     <property name="selectable">False</property>
 
-    <child>
+    <child type="prefix">
       <object class="GtkBox">
-        <property name="orientation">vertical</property>
-        <property name="hexpand">True</property>
-        <property name="margin-bottom">18</property>
-        <property name="margin-end">12</property>
-        <property name="margin-start">12</property>
-        <property name="margin-top">18</property>
-        <property name="spacing">12</property>
+        <style>
+          <class name="rich-expander-row-header"/>
+          <class name="title-4"/>
+        </style>
+        <property name="spacing">1</property>
+        <property name="valign">center</property>
 
         <child>
-          <object class="GtkBox" id="mode_box">
-            <property name="hexpand">True</property>
-            <property name="margin-start">3</property>
-            <property name="spacing">9</property>
-
-            <child>
-              <object class="GtkBox">
-                <property name="spacing">18</property>
-
-                <child>
-                  <object class="GtkBox">
-                    <property name="spacing">6</property>
-
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="label" translatable="yes">Readable</property>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="GtkSwitch" id="readable_switch">
-                        <property name="valign">center</property>
-                      </object>
-                    </child>
-
-                  </object>
-                </child>
-
-                <child>
-                  <object class="GtkBox">
-                    <property name="spacing">6</property>
-
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="label" translatable="yes">Writable</property>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="GtkSwitch" id="writable_switch">
-                        <property name="valign">center</property>
-                      </object>
-                    </child>
-
-                  </object>
-                </child>
-
-                <child>
-                  <object class="GtkBox">
-                    <property name="spacing">6</property>
-
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="label" translatable="yes">mknod</property>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="GtkSwitch" id="mknod_switch">
-                        <property name="valign">center</property>
-                      </object>
-                    </child>
-
-                  </object>
-                </child>
-
-              </object>
-            </child>
-
+          <object class="GtkLabel" id="host_path_label">
+            <property name="name">badge</property>
           </object>
         </child>
 
         <child>
-          <object class="GtkBox">
-            <property name="spacing">9</property>
-
-            <child>
-              <object class="GtkEntry" id="host_path_entry">
-                <property name="hexpand">True</property>
-                <property name="placeholder-text" translatable="yes">Host path</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkEntry" id="container_path_entry">
-                <property name="hexpand">True</property>
-                <property name="placeholder-text" translatable="yes">Container path</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkButton">
-                <property name="action-name">device-row.remove</property>
-                <property name="icon-name">list-remove-symbolic</property>
-              </object>
-            </child>
-
+          <object class="GtkLabel">
+            <property name="label">:</property>
           </object>
         </child>
 
+        <child>
+          <object class="GtkLabel" id="container_path_label">
+            <property name="name">badge</property>
+          </object>
+        </child>
+
+        <child></child>
+        <child>
+          <object class="GtkLabel" id="last_colon_label">
+            <property name="label">:</property>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkLabel" id="options_label">
+            <property name="name">badge</property>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <child type="action">
+      <object class="GtkButton">
+        <style>
+          <class name="flat"/>
+        </style>
+        <property name="action-name">device-row.remove</property>
+        <property name="icon-name">edit-delete-symbolic</property>
+        <property name="valign">center</property>
+      </object>
+    </child>
+
+    <child>
+      <object class="AdwEntryRow" id="host_path_entry_row">
+        <property name="title" translatable="yes">Host Path</property>
+      </object>
+    </child>
+
+    <child>
+      <object class="AdwEntryRow" id="container_path_entry_row">
+        <property name="title" translatable="yes">Container Path</property>
+      </object>
+    </child>
+
+    <child>
+      <object class="AdwActionRow">
+        <property name="activatable_widget">readable_switch</property>
+        <property name="title" translatable="yes">Readable</property>
+        <child>
+          <object class="GtkSwitch" id="readable_switch">
+            <property name="valign">center</property>
+          </object>
+        </child>
+      </object>
+    </child>
+
+    <child>
+      <object class="AdwActionRow">
+        <property name="activatable_widget">writable_switch</property>
+        <property name="title" translatable="yes">Writable</property>
+        <child>
+          <object class="GtkSwitch" id="writable_switch">
+            <property name="valign">center</property>
+          </object>
+        </child>
+      </object>
+    </child>
+
+    <child>
+      <object class="AdwActionRow">
+        <property name="activatable_widget">mknod_switch</property>
+        <property name="title" translatable="yes">mknod</property>
+        <child>
+          <object class="GtkSwitch" id="mknod_switch">
+            <property name="valign">center</property>
+          </object>
+        </child>
       </object>
     </child>
 

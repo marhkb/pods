@@ -16,12 +16,14 @@
 .pod-status-exited,
 .pod-status-stopped,
 .container-health-status-checking,
-.container-health-status-unconfigured {
+.container-health-status-unconfigured,
+.rich-expander-row-header #badge {
   background-color: @dark_1;
   color: #ffffff;
 }
 
-.container-status-paused, .pod-status-paused {
+.container-status-paused,
+.pod-status-paused {
   background-color: @brown_3;
   color: #ffffff;
 }
@@ -32,7 +34,8 @@
   color: #ffffff;
 }
 
-.container-status-running, .pod-status-running {
+.container-status-running,
+.pod-status-running {
   background-color: @accent_bg_color;
   color: @accent_fg_color;
 }

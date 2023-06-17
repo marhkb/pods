@@ -18,17 +18,19 @@ pub(crate) enum SELinux {
     Private,
 }
 
+impl AsRef<str> for SELinux {
+    fn as_ref(&self) -> &str {
+        match self {
+            Self::NoLabel => "",
+            Self::Shared => "z",
+            Self::Private => "Z",
+        }
+    }
+}
+
 impl fmt::Display for SELinux {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "{}",
-            match self {
-                Self::NoLabel => "",
-                Self::Shared => "z",
-                Self::Private => "Z",
-            }
-        )
+        write!(f, "{}", self.as_ref())
     }
 }
 

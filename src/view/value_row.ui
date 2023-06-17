@@ -9,9 +9,8 @@
           <class name="flat"/>
         </style>
         <property name="action-name">value-row.remove</property>
-        <property name="halign">end</property>
+        <property name="icon-name">edit-delete-symbolic</property>
         <property name="valign">center</property>
-        <property name="icon-name">list-remove-symbolic</property>
       </object>
     </child>
 

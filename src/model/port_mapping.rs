@@ -15,6 +15,7 @@ pub(crate) enum Protocol {
     #[default]
     Tcp,
     Udp,
+    Sctp,
 }
 
 impl fmt::Display for Protocol {
@@ -23,8 +24,9 @@ impl fmt::Display for Protocol {
             f,
             "{}",
             match self {
-                Self::Tcp => "TCP",
-                Self::Udp => "UDP",
+                Self::Tcp => "tcp",
+                Self::Udp => "udp",
+                Self::Sctp => "sctp",
             }
         )
     }
@@ -79,7 +81,9 @@ glib::wrapper! {
 
 impl Default for PortMapping {
     fn default() -> Self {
-        glib::Object::builder().build()
+        glib::Object::builder()
+            .property("container-port", 1)
+            .build()
     }
 }
 

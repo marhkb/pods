@@ -1,5 +1,8 @@
 use std::cell::RefCell;
 
+use adw::subclass::prelude::ExpanderRowImpl;
+use adw::subclass::prelude::PreferencesRowImpl;
+use glib::closure;
 use glib::Properties;
 use gtk::glib;
 use gtk::prelude::*;
@@ -19,22 +22,30 @@ mod imp {
         #[property(get, set = Self::set_device, nullable)]
         pub(super) device: RefCell<Option<model::Device>>,
         #[template_child]
-        pub(super) writable_switch: TemplateChild<gtk::Switch>,
+        pub(super) host_path_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub(super) container_path_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub(super) last_colon_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub(super) options_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub(super) host_path_entry_row: TemplateChild<adw::EntryRow>,
+        #[template_child]
+        pub(super) container_path_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
         pub(super) readable_switch: TemplateChild<gtk::Switch>,
         #[template_child]
+        pub(super) writable_switch: TemplateChild<gtk::Switch>,
+        #[template_child]
         pub(super) mknod_switch: TemplateChild<gtk::Switch>,
-        #[template_child]
-        pub(super) host_path_entry: TemplateChild<gtk::Entry>,
-        #[template_child]
-        pub(super) container_path_entry: TemplateChild<gtk::Entry>,
     }
 
     #[glib::object_subclass]
     impl ObjectSubclass for DeviceRow {
         const NAME: &'static str = "PdsDeviceRow";
         type Type = super::DeviceRow;
-        type ParentType = gtk::ListBoxRow;
+        type ParentType = adw::ExpanderRow;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -62,10 +73,67 @@ mod imp {
         fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             self.derived_property(id, pspec)
         }
+
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            let obj = &*self.obj();
+
+            let device_expr = Self::Type::this_expression("device");
+            let options_expr_arr = &[
+                device_expr.chain_property::<model::Device>("readable"),
+                device_expr.chain_property::<model::Device>("writable"),
+                device_expr.chain_property::<model::Device>("mknod"),
+            ];
+            let option_active_expr = gtk::ClosureExpression::new::<bool>(
+                options_expr_arr,
+                closure!(
+                    |_: Self::Type, readable: bool, writable: bool, mknod: bool| {
+                        readable | writable | mknod
+                    }
+                ),
+            );
+
+            device_expr
+                .chain_property::<model::Device>("host-path")
+                .chain_closure::<String>(closure!(|_: Self::Type, path: &str| {
+                    let path = path.trim();
+                    if path.is_empty() { "?" } else { path }.to_string()
+                }))
+                .bind(&self.host_path_label.get(), "label", Some(obj));
+
+            device_expr
+                .chain_property::<model::Device>("container-path")
+                .chain_closure::<String>(closure!(|_: Self::Type, path: &str| {
+                    let path = path.trim();
+                    if path.is_empty() { "?" } else { path }.to_string()
+                }))
+                .bind(&self.container_path_label.get(), "label", Some(obj));
+
+            option_active_expr.bind(&self.last_colon_label.get(), "visible", Some(obj));
+            option_active_expr.bind(&self.options_label.get(), "visible", Some(obj));
+
+            gtk::ClosureExpression::new::<String>(
+                options_expr_arr,
+                closure!(
+                    |_: Self::Type, readable: bool, writable: bool, mknod: bool| {
+                        format!(
+                            "{}{}{}",
+                            if readable { "r" } else { "" },
+                            if writable { "w" } else { "" },
+                            if mknod { "m" } else { "" },
+                        )
+                    }
+                ),
+            )
+            .bind(&self.options_label.get(), "label", Some(obj));
+        }
     }
 
     impl WidgetImpl for DeviceRow {}
     impl ListBoxRowImpl for DeviceRow {}
+    impl PreferencesRowImpl for DeviceRow {}
+    impl ExpanderRowImpl for DeviceRow {}
 
     impl DeviceRow {
         pub(super) fn set_device(&self, value: Option<model::Device>) {
@@ -98,13 +166,13 @@ mod imp {
                 bindings.push(binding);
 
                 let binding = device
-                    .bind_property("host-path", &*self.host_path_entry, "text")
+                    .bind_property("host-path", &*self.host_path_entry_row, "text")
                     .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
                     .build();
                 bindings.push(binding);
 
                 let binding = device
-                    .bind_property("container-path", &*self.container_path_entry, "text")
+                    .bind_property("container-path", &*self.container_path_entry_row, "text")
                     .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
                     .build();
                 bindings.push(binding);
@@ -117,7 +185,7 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct DeviceRow(ObjectSubclass<imp::DeviceRow>)
-        @extends gtk::Widget, gtk::ListBoxRow,
+        @extends gtk::Widget, gtk::ListBoxRow, adw::PreferencesRow, adw::ExpanderRow,
         @implements gtk::Accessible, gtk::Actionable, gtk::Buildable, gtk::ConstraintTarget;
 }
 
