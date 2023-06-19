@@ -60,6 +60,7 @@
 
             <property name="child">
               <object class="VteTerminal" id="terminal">
+                <property name="backspace-binding">ascii-delete</property>
                 <property name="vexpand">True</property>
 
                 <child>
