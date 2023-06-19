@@ -60,6 +60,7 @@
 
             <property name="child">
               <object class="VteTerminal" id="terminal">
+                <property name="bold-is-bright">True</property>
                 <property name="vexpand">True</property>
 
                 <child>

@@ -220,7 +220,6 @@ mod imp {
                     obj.update_copy_actions();
                 }));
 
-            self.terminal.set_bold_is_bright(true);
             self.terminal.set_colors(
                 None,
                 None,
