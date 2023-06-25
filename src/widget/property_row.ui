@@ -9,6 +9,10 @@
           <class name="dim-label"/>
         </style>
         <property name="hexpand">True</property>
+        <property name="justify">right</property>
+        <property name="margin-top">3</property>
+        <property name="margin-bottom">3</property>
+        <property name="margin-start">9</property>
         <property name="selectable">True</property>
         <property name="wrap">True</property>
         <property name="wrap-mode">word-char</property>
