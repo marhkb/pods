@@ -1,3 +1,7 @@
+use std::rc::Rc;
+use std::sync::atomic::AtomicUsize;
+use std::sync::atomic::Ordering;
+
 use futures::StreamExt;
 use glib::prelude::ObjectExt;
 use glib::Properties;
@@ -23,6 +27,7 @@ pub(crate) enum ClientError {
     Images,
     Containers,
     Pods,
+    Volumes,
 }
 
 mod imp {
@@ -45,6 +50,8 @@ mod imp {
         pub(super) container_list: UnsyncOnceCell<model::ContainerList>,
         #[property(get = Self::pod_list)]
         pub(super) pod_list: UnsyncOnceCell<model::PodList>,
+        #[property(get = Self::volume_list)]
+        pub(super) volume_list: UnsyncOnceCell<model::VolumeList>,
         #[property(get = Self::action_list)]
         pub(super) action_list: UnsyncOnceCell<model::ActionList>,
     }
@@ -81,7 +88,7 @@ mod imp {
                         .filter(|container| container.image_id() == image.id())
                         .for_each(|container| {
                             container.set_image(Some(image));
-                            image.add_container(&container);
+                            image.container_list().add_container(&container);
                         });
                 }));
 
@@ -90,7 +97,7 @@ mod imp {
                     let image = obj.image_list().get_image(container.image_id().as_str());
                     if let Some(ref image) = image {
                         container.set_image(Some(image));
-                        image.add_container(container);
+                        image.container_list().add_container(container);
                     }
 
                     if let Some(pod) = container.pod_id().and_then(|id| obj.pod_list().get_pod(&id))
@@ -98,16 +105,54 @@ mod imp {
                         container.set_pod(Some(&pod));
                         pod.container_list().add_container(container);
                     }
+
+                    if !container.mounts().is_empty() {
+                        container.inspect(clone!(@weak obj => move |result| {
+                            if let Ok(container) = result {
+                                container.data().unwrap().mounts().values().filter_map(
+                                    |mount| {
+                                        obj.volume_list()
+                                            .get_volume(mount.name.as_ref().unwrap())
+                                            .map(|volume| (volume, mount))
+                                    },
+                                )
+                                .for_each(|(volume, mount)| {
+                                    volume.container_list().add_container(&container);
+
+                                    let container_volume_list = container.volume_list();
+                                    container_volume_list.add_volume(
+                                        model::ContainerVolume::new(
+                                            &container_volume_list,
+                                            &volume,
+                                            mount.clone(),
+                                        ),
+                                    );
+                                });
+                            }
+                        }));
+                    }
                 }));
             obj.container_list().connect_container_removed(
                 clone!(@weak obj => move |_, container| {
                     if let Some(image) = obj.image_list().get_image(container.image_id().as_str()) {
-                        image.remove_container(container.id().as_str());
+                        image.container_list().remove_container(container.id().as_str());
                     }
 
                     if let Some(pod) = container.pod() {
                         pod.container_list().remove_container(container.id().as_str());
                     }
+
+                    container
+                        .volume_list()
+                        .iter::<model::ContainerVolume>()
+                        .map(|result| result.unwrap())
+                        .for_each(|container_volume| {
+                            if let Some(volume) = container_volume.volume() {
+                                volume
+                                    .container_list()
+                                    .remove_container(container.id().as_str());
+                            }
+                        });
                 }),
             );
 
@@ -120,6 +165,54 @@ mod imp {
                         .for_each(|container| {
                             container.set_pod(Some(pod));
                             pod.container_list().add_container(&container);
+                        });
+                }));
+
+            obj.volume_list()
+                .connect_volume_added(clone!(@weak obj => move |_, volume| {
+                    let container_list: Vec<_> = obj.container_list().iter::<model::Container>()
+                        .map(|container| container.unwrap())
+                        .filter(|container| !container.mounts().is_empty())
+                        .collect();
+
+                    if container_list.is_empty() {
+                        return;
+                    }
+
+                    volume.set_searching_containers(true);
+                    let containers_left = Rc::new(AtomicUsize::new(container_list.len()));
+
+                    container_list
+                        .iter()
+                        .for_each(|container| {
+                            container.inspect(clone!(
+                                @weak volume,
+                                @strong containers_left
+                                => move |result|
+                            {
+                                if let Ok(container) = result {
+                                    if let Some(mount) =
+                                        container.data().unwrap().mounts().values().find(|mount| {
+                                            mount.name.as_ref() == Some(&volume.inner().name)
+                                        })
+                                    {
+                                        volume.container_list().add_container(&container);
+
+                                        let container_volume_list = container.volume_list();
+                                        container_volume_list.add_volume(
+                                            model::ContainerVolume::new(
+                                                &container_volume_list,
+                                                &volume,
+                                                mount.clone(),
+                                            ),
+                                        );
+                                    }
+                                }
+
+                                if containers_left.fetch_sub(1, Ordering::Relaxed) == 1 {
+                                    volume.set_searching_containers(false);
+                                }
+                            }));
                         });
                 }));
         }
@@ -149,6 +242,12 @@ mod imp {
         fn pod_list(&self) -> model::PodList {
             self.pod_list
                 .get_or_init(|| model::PodList::from(&*self.obj()))
+                .to_owned()
+        }
+
+        fn volume_list(&self) -> model::VolumeList {
+            self.volume_list
+                .get_or_init(|| model::VolumeList::from(&*self.obj()))
                 .to_owned()
         }
 
@@ -237,6 +336,10 @@ impl Client {
                             |_| err_op(ClientError::Pods)
                         }
                     );
+                    obj.volume_list().refresh({
+                        let err_op = err_op.clone();
+                        |_| err_op(ClientError::Volumes)
+                    });
 
                     op();
                     obj.start_event_listener(err_op, finish_op);
@@ -281,6 +384,10 @@ impl Client {
                             "pod" => obj.pod_list().handle_event(event, {
                                 let err_op = err_op.clone();
                                 |_| err_op(ClientError::Pods)
+                            }),
+                            "volume" => obj.volume_list().handle_event(event, {
+                                let err_op = err_op.clone();
+                                |_| err_op(ClientError::Volumes)
                             }),
                             other => log::warn!("Unhandled event type: {other}"),
                         }

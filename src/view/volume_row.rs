@@ -1,7 +1,7 @@
 use std::cell::RefCell;
 
-use adw::subclass::prelude::ExpanderRowImpl;
-use adw::subclass::prelude::PreferencesRowImpl;
+use gettextrs::gettext;
+use glib::clone;
 use glib::closure;
 use glib::Properties;
 use gtk::glib;
@@ -10,6 +10,13 @@ use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
 
 use crate::model;
+use crate::model::SelectableExt;
+use crate::model::SelectableListExt;
+use crate::utils;
+use crate::view;
+use crate::widget;
+
+const ACTION_DELETE_VOLUME: &str = "volume-row.delete-volume";
 
 mod imp {
     use super::*;
@@ -22,33 +29,36 @@ mod imp {
         pub(super) volume: RefCell<Option<model::Volume>>,
         pub(super) bindings: RefCell<Vec<glib::Binding>>,
         #[template_child]
-        pub(super) host_path_label: TemplateChild<gtk::Label>,
+        pub(super) check_button_revealer: TemplateChild<gtk::Revealer>,
         #[template_child]
-        pub(super) container_path_label: TemplateChild<gtk::Label>,
+        pub(super) check_button: TemplateChild<gtk::CheckButton>,
         #[template_child]
-        pub(super) options_label: TemplateChild<gtk::Label>,
+        pub(super) name_label: TemplateChild<gtk::Label>,
         #[template_child]
-        pub(super) writable_switch: TemplateChild<gtk::Switch>,
+        pub(super) age_label: TemplateChild<gtk::Label>,
         #[template_child]
-        pub(super) selinux_combo_row: TemplateChild<adw::ComboRow>,
+        pub(super) spinner: TemplateChild<widget::EfficientSpinner>,
         #[template_child]
-        pub(super) host_path_entry_row: TemplateChild<adw::EntryRow>,
+        pub(super) containers_count_bar: TemplateChild<view::ContainersCountBar>,
         #[template_child]
-        pub(super) container_path_entry_row: TemplateChild<adw::EntryRow>,
+        pub(super) end_box_revealer: TemplateChild<gtk::Revealer>,
     }
 
     #[glib::object_subclass]
     impl ObjectSubclass for VolumeRow {
         const NAME: &'static str = "PdsVolumeRow";
         type Type = super::VolumeRow;
-        type ParentType = adw::ExpanderRow;
+        type ParentType = gtk::ListBoxRow;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
-            klass.install_action("volume-row.remove", None, |widget, _, _| {
-                if let Some(volume) = widget.volume() {
-                    volume.remove_request();
-                }
+
+            klass.install_action("volume-row.activate", None, |widget, _, _| {
+                widget.activate();
+            });
+
+            klass.install_action(ACTION_DELETE_VOLUME, None, |widget, _, _| {
+                widget.delete_volume();
             });
         }
 
@@ -75,123 +85,193 @@ mod imp {
 
             let obj = &*self.obj();
 
+            let ticks_expr = Self::Type::this_expression("root")
+                .chain_property::<gtk::Window>("application")
+                .chain_property::<crate::Application>("ticks");
+
             let volume_expr = Self::Type::this_expression("volume");
+            let volume_inner_expr = volume_expr.chain_property::<model::Volume>("inner");
+            let volume_name_is_id_expr = volume_inner_expr.chain_closure::<bool>(closure!(
+                |_: Self::Type, inner: model::BoxedVolume| utils::is_podman_id(&inner.name)
+            ));
+            let volume_to_be_deleted_expr =
+                volume_expr.chain_property::<model::Volume>("to-be-deleted");
+            let container_list_expr = volume_expr.chain_property::<model::Volume>("container-list");
 
-            volume_expr
-                .chain_property::<model::Volume>("host-path")
-                .chain_closure::<String>(closure!(|_: Self::Type, path: &str| {
-                    let path = path.trim();
-                    if path.is_empty() { "?" } else { path }.to_string()
-                }))
-                .bind(&self.host_path_label.get(), "label", Some(obj));
+            let selection_mode_expr = volume_expr
+                .chain_property::<model::Volume>("volume-list")
+                .chain_property::<model::VolumeList>("selection-mode");
 
-            volume_expr
-                .chain_property::<model::Volume>("container-path")
-                .chain_closure::<String>(closure!(|_: Self::Type, path: &str| {
-                    let path = path.trim();
-                    if path.is_empty() { "?" } else { path }.to_string()
+            selection_mode_expr.bind(&*self.check_button_revealer, "reveal-child", Some(obj));
+            selection_mode_expr
+                .chain_closure::<bool>(closure!(|_: Self::Type, is_selection_mode: bool| {
+                    !is_selection_mode
                 }))
-                .bind(&self.container_path_label.get(), "label", Some(obj));
+                .bind(&*self.end_box_revealer, "reveal-child", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
                 [
-                    volume_expr.chain_property::<model::Volume>("writable"),
-                    volume_expr.chain_property::<model::Volume>("selinux"),
+                    gtk::ClosureExpression::new::<String>(
+                        [
+                            volume_name_is_id_expr.upcast_ref(),
+                            volume_inner_expr.upcast_ref(),
+                        ],
+                        closure!(
+                            |_: Self::Type, name_is_id: bool, inner: &model::BoxedVolume| {
+                                if name_is_id {
+                                    utils::format_id(&inner.name)
+                                } else {
+                                    inner.name.clone()
+                                }
+                            }
+                        ),
+                    )
+                    .upcast_ref(),
+                    volume_to_be_deleted_expr.upcast_ref(),
                 ],
-                closure!(
-                    |_: Self::Type, writable: bool, selinux: model::VolumeSELinux| {
-                        let mut writable = if writable { "rw" } else { "ro" }.to_string();
-                        let selinux: &str = selinux.as_ref();
-                        if !selinux.is_empty() {
-                            writable.push_str(", ");
-                            writable.push_str(selinux);
-                        }
-                        writable
+                closure!(|_: Self::Type, name: String, to_be_deleted: bool| {
+                    if to_be_deleted {
+                        format!("<s>{name}</s>")
+                    } else {
+                        name
                     }
-                ),
+                }),
             )
-            .bind(&self.options_label.get(), "label", Some(obj));
+            .bind(&*self.name_label, "label", Some(obj));
+
+            let css_classes = utils::css_classes(self.name_label.upcast_ref());
+            gtk::ClosureExpression::new::<Vec<String>>(
+                [
+                    container_list_expr
+                        .chain_property::<model::SimpleContainerList>("len")
+                        .upcast_ref(),
+                    volume_name_is_id_expr.upcast_ref(),
+                ],
+                closure!(|_: Self::Type, len: u32, name_is_id: bool| {
+                    css_classes
+                        .iter()
+                        .cloned()
+                        .chain(if len == 0 {
+                            Some(String::from("dim-label"))
+                        } else {
+                            None
+                        })
+                        .chain(if name_is_id {
+                            Some(String::from("numeric"))
+                        } else {
+                            None
+                        })
+                        .collect::<Vec<_>>()
+                }),
+            )
+            .bind(&*self.name_label, "css-classes", Some(obj));
+
+            gtk::ClosureExpression::new::<String>(
+                [&ticks_expr, &volume_inner_expr],
+                closure!(|_: Self::Type, _ticks: u64, inner: model::BoxedVolume| {
+                    // Translators: This will resolve to sth. like "{a few minutes} old" or "{15 days} old".
+                    gettext!(
+                        "{} old",
+                        utils::human_friendly_timespan(utils::timespan_now(
+                            glib::DateTime::from_iso8601(
+                                inner.created_at.as_deref().unwrap(),
+                                None
+                            )
+                            .unwrap()
+                            .to_unix(),
+                        ))
+                    )
+                }),
+            )
+            .bind(&*self.age_label, "label", Some(obj));
+
+            volume_expr
+                .chain_property::<model::Volume>("searching-containers")
+                .bind(&self.spinner.get(), "visible", Some(obj));
+
+            container_list_expr.bind(&*self.containers_count_bar, "container-list", Some(obj));
+
+            volume_to_be_deleted_expr.watch(
+                Some(obj),
+                clone!(@weak obj, @strong volume_to_be_deleted_expr => move || {
+                    obj.action_set_enabled(
+                        ACTION_DELETE_VOLUME,
+                        !volume_to_be_deleted_expr.evaluate_as::<bool, _>(Some(&obj)).unwrap()
+                    );
+                }),
+            );
+
+            if let Some(volume) = obj.volume() {
+                obj.action_set_enabled("volume.show-details", !volume.to_be_deleted());
+                volume.connect_notify_local(
+                    Some("to-be-deleted"),
+                    clone!(@weak obj => move|volume, _| {
+                        obj.action_set_enabled("volume.show-details", !volume.to_be_deleted());
+                    }),
+                );
+            }
         }
     }
 
     impl WidgetImpl for VolumeRow {}
     impl ListBoxRowImpl for VolumeRow {}
-    impl PreferencesRowImpl for VolumeRow {}
-    impl ExpanderRowImpl for VolumeRow {}
 
     impl VolumeRow {
         pub(super) fn set_volume(&self, value: Option<model::Volume>) {
             let obj = &*self.obj();
-
             if obj.volume() == value {
                 return;
             }
 
             let mut bindings = self.bindings.borrow_mut();
-
             while let Some(binding) = bindings.pop() {
                 binding.unbind();
             }
 
             if let Some(ref volume) = value {
                 let binding = volume
-                    .bind_property("host-path", &*self.host_path_entry_row, "text")
+                    .bind_property("selected", &*self.check_button, "active")
                     .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
                     .build();
-                bindings.push(binding);
 
-                let binding = volume
-                    .bind_property("container-path", &*self.container_path_entry_row, "text")
-                    .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
-                    .build();
-                bindings.push(binding);
-
-                let binding = volume
-                    .bind_property("writable", &*self.writable_switch, "active")
-                    .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
-                    .build();
-                bindings.push(binding);
-
-                let binding = volume
-                    .bind_property("selinux", &*self.selinux_combo_row, "selected")
-                    .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
-                    .transform_to(|_, selinux: model::VolumeSELinux| {
-                        Some(
-                            match selinux {
-                                model::VolumeSELinux::NoLabel => 0_u32,
-                                model::VolumeSELinux::Shared => 1_u32,
-                                model::VolumeSELinux::Private => 2_u32,
-                            }
-                            .to_value(),
-                        )
-                    })
-                    .transform_from(|_, position: u32| {
-                        Some(
-                            match position {
-                                0 => model::VolumeSELinux::NoLabel,
-                                1 => model::VolumeSELinux::Shared,
-                                _ => model::VolumeSELinux::Private,
-                            }
-                            .to_value(),
-                        )
-                    })
-                    .build();
                 bindings.push(binding);
             }
 
-            self.volume.replace(value);
+            self.volume.set(value);
+            obj.notify("volume")
         }
     }
 }
 
 glib::wrapper! {
     pub(crate) struct VolumeRow(ObjectSubclass<imp::VolumeRow>)
-        @extends gtk::Widget, gtk::ListBoxRow, adw::PreferencesRow, adw::ExpanderRow,
-        @implements gtk::Accessible, gtk::Actionable, gtk::Buildable, gtk::ConstraintTarget;
+        @extends gtk::Widget, gtk::ListBoxRow,
+        @implements gtk::Accessible, gtk::Buildable, gtk::Actionable, gtk::ConstraintTarget;
 }
 
 impl From<&model::Volume> for VolumeRow {
     fn from(volume: &model::Volume) -> Self {
         glib::Object::builder().property("volume", volume).build()
+    }
+}
+
+impl VolumeRow {
+    pub(crate) fn activate(&self) {
+        if let Some(volume) = self.volume().as_ref() {
+            if volume
+                .volume_list()
+                .map(|list| list.is_selection_mode())
+                .unwrap_or(false)
+            {
+                volume.select();
+            } else {
+                utils::find_leaflet_overlay(self.upcast_ref())
+                    .show_details(view::VolumeDetailsPage::from(volume).upcast_ref());
+            }
+        }
+    }
+
+    pub(crate) fn delete_volume(&self) {
+        view::volume::delete_volume_show_confirmation(self.upcast_ref(), self.volume());
     }
 }

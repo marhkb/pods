@@ -336,6 +336,27 @@ impl ActionList {
         ))
     }
 
+    pub(crate) fn create_volume(
+        &self,
+        name: &str,
+        opts: podman::opts::VolumeCreateOpts,
+    ) -> model::Action {
+        self.insert_action(model::Action::create_volume(
+            self.imp().action_counter.get(),
+            name,
+            self.client().unwrap(),
+            opts,
+        ))
+    }
+
+    pub(crate) fn prune_volumes(&self, opts: podman::opts::VolumePruneOpts) -> model::Action {
+        self.insert_action(model::Action::prune_volumes(
+            self.imp().action_counter.get(),
+            self.client().unwrap(),
+            opts,
+        ))
+    }
+
     fn insert_action(&self, action: model::Action) -> model::Action {
         let imp = self.imp();
 

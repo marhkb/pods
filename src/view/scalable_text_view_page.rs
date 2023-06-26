@@ -33,6 +33,7 @@ pub(crate) enum Entity {
         pod: glib::WeakRef<model::Pod>,
         mode: Mode,
     },
+    Volume(glib::WeakRef<model::Volume>),
 }
 impl Entity {
     fn filename(&self) -> String {
@@ -47,6 +48,9 @@ impl Entity {
             }
             Self::Pod { pod, mode } => {
                 format!("{}.{}", pod.upgrade().unwrap().name(), mode.file_ext())
+            }
+            Self::Volume(volume) => {
+                format!("{}.json", volume.upgrade().unwrap().inner().name)
             }
         }
     }
@@ -291,10 +295,17 @@ impl From<Entity> for ScalableTextViewPage {
                     imp.window_title.set_subtitle(&pod.name());
                 }
             }
+            Entity::Volume(volume) => {
+                imp.window_title.set_title(&gettext("Volume Inspection"));
+                if let Some(volume) = volume.upgrade() {
+                    imp.window_title
+                        .set_subtitle(&utils::format_volume_name(&volume.inner().name));
+                }
+            }
         }
 
         let language = match &entity {
-            Entity::Image(_) => "json",
+            Entity::Image(_) | Entity::Volume(_) => "json",
             Entity::Container { mode, .. } => match mode {
                 Mode::Inspect => "json",
                 Mode::Kube => "yaml",
@@ -374,6 +385,13 @@ impl From<Entity> for ScalableTextViewPage {
                         }
                     },
                     clone!(@weak obj => move |result| obj.init(result, mode)),
+                );
+            }
+            Entity::Volume(volume) => {
+                obj.init(
+                    serde_json::to_string_pretty(&*volume.upgrade().unwrap().inner())
+                        .map_err(anyhow::Error::from),
+                    Mode::Inspect,
                 );
             }
         };

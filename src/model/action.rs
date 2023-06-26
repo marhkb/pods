@@ -49,6 +49,8 @@ pub(crate) enum Type {
     CopyFiles,
     PrunePods,
     Pod,
+    Volume,
+    PruneVolumes,
     #[default]
     Undefined,
 }
@@ -830,6 +832,92 @@ impl Action {
         );
 
         self
+    }
+
+    pub(crate) fn create_volume(
+        num: u32,
+        name: &str,
+        client: model::Client,
+        opts: podman::opts::VolumeCreateOpts,
+    ) -> Self {
+        let obj = Self::new(
+            num,
+            Type::CreateContainer,
+            &gettext!("Create volume <b>{}</b>", name),
+        );
+
+        let abort_registration = obj.setup_abort_handle();
+        utils::do_async(
+            {
+                let podman = client.podman();
+                async move {
+                    stream::Abortable::new(podman.volumes().create(&opts), abort_registration).await
+                }
+            },
+            clone!(@weak obj, @weak client => move |result| if let Ok(result) = result {
+                match result.map(|response| response.name.unwrap_or_default()) {
+                    Ok(name) => {
+                        match client.volume_list().get_volume(&name) {
+                            Some(volume) => {
+                                obj.set_artifact(volume.upcast_ref());
+                                obj.set_state(State::Finished);
+                            }
+                            None => {
+                                client.volume_list().connect_volume_added(
+                                    clone!(@weak obj, @strong name => move |_, volume| {
+                                        if volume.inner().name == name {
+                                            obj.set_artifact(volume.upcast_ref());
+                                            obj.set_state(State::Finished);
+                                        }
+                                    }),
+                                );
+                            }
+                        }
+                    }
+                    Err(e) => {
+                        log::error!("Error on creating volume: {e}");
+                        obj.insert_line(&e.to_string());
+                        obj.set_state(State::Failed);
+                    }
+                }
+            }),
+        );
+
+        obj
+    }
+
+    pub(crate) fn prune_volumes(
+        num: u32,
+        client: model::Client,
+        opts: podman::opts::VolumePruneOpts,
+    ) -> Self {
+        let obj = Self::new(num, Type::PruneVolumes, &gettext("Prune unused volumes"));
+        let abort_registration = obj.setup_abort_handle();
+
+        utils::do_async(
+            {
+                let podman = client.podman();
+                async move {
+                    stream::Abortable::new(podman.volumes().prune(&opts), abort_registration).await
+                }
+            },
+            clone!(@weak obj => move |result| if let Ok(result) = result {
+                let output = obj.output();
+                let mut start_iter = output.start_iter();
+                match result.as_ref() {
+                    Ok(report) => {
+                        output.insert(&mut start_iter, &serde_json::to_string_pretty(&report).unwrap());
+                        obj.set_state(State::Finished);
+                    },
+                    Err(e) => {
+                        output.insert(&mut start_iter, &e.to_string());
+                        obj.set_state(State::Failed);
+                    }
+                }
+            }),
+        );
+
+        obj
     }
 }
 

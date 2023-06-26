@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="PdsVolumesPanel" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBinLayout"/>
+    </property>
+
+    <child>
+      <object class="GtkStack" id="main_stack">
+
+        <child>
+          <object class="GtkStackPage">
+            <property name="name">spinner</property>
+            <property name="child">
+              <object class="PdsEfficientSpinner">
+                <property name="halign">center</property>
+                <property name="valign">center</property>
+                <property name="height-request">30</property>
+                <property name="width-request">30</property>
+              </object>
+            </property>
+          </object>
+        </child>
+
+        <!-- List of volumes -->
+        <child>
+          <object class="GtkStackPage">
+            <property name="name">volumes</property>
+
+            <property name="child">
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
+
+                <child>
+                  <object class="AdwPreferencesPage">
+                    <property name="vexpand">True</property>
+
+                    <child>
+                      <object class="PdsVolumesGroup" id="volumes_group">
+                        <binding name="volume-list">
+                          <lookup name="volume-list">PdsVolumesPanel</lookup>
+                        </binding>
+                        <property name="title" translatable="yes">Summary</property>
+                        <property name="show-used-settings-key">show-only-used-volumes</property>
+                        <property name="no-volumes-label" translatable="yes">No volumes found</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkActionBar">
+                    <binding name="revealed">
+                      <lookup name="selection-mode" type="VolumeList">
+                        <lookup name="volume-list">PdsVolumesPanel</lookup>
+                      </lookup>
+                    </binding>
+
+                    <child type="center">
+                      <object class="AdwBin">
+                        <style>
+                          <class name="toolbar"/>
+                        </style>
+
+                        <child>
+                          <object class="GtkButton">
+                            <style>
+                              <class name="flat"/>
+                            </style>
+                            <property name="action-name">volumes-panel.delete-selection</property>
+
+                            <child>
+                              <object class="GtkBox">
+                                <property name="spacing">6</property>
+
+                                <child>
+                                  <object class="GtkImage">
+                                    <property name="icon-name">user-trash-symbolic</property>
+                                  </object>
+                                </child>
+
+                                <child>
+                                  <object class="GtkLabel">
+                                    <property name="label" translatable="yes">Delete</property>
+                                  </object>
+                                </child>
+
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+              </object>
+            </property>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkStackPage">
+            <property name="name">empty</property>
+
+            <property name="child">
+              <object class="AdwStatusPage">
+                <property name="title" translatable="yes">No Volumes Found</property>
+                <property name="description" translatable="yes">You can use the buttons below to add an initial volume.</property>
+
+                <child>
+                  <object class="GtkButton">
+                    <style>
+                      <class name="pill"/>
+                      <class name="suggested-action"/>
+                    </style>
+                    <property name="action-name">volumes-group.create-volume</property>
+                    <property name="halign">center</property>
+                    <property name="label" translatable="yes">_Create Volume</property>
+                    <property name="use-underline">True</property>
+                  </object>
+                </child>
+
+              </object>
+            </property>
+
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>

@@ -1,98 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="PdsVolumeRow" parent="AdwExpanderRow">
-    <property name="activatable">False</property>
-    <property name="selectable">False</property>
+  <template class="PdsVolumeRow" parent="GtkListBoxRow">
+    <property name="action-name">volume-row.activate</property>
 
-    <child type="prefix">
+    <child>
       <object class="GtkBox">
-        <style>
-          <class name="rich-expander-row-header"/>
-          <class name="title-4"/>
-        </style>
-        <property name="spacing">1</property>
-        <property name="valign">center</property>
+        <property name="margin-top">7</property>
+        <property name="margin-end">12</property>
+        <property name="margin-bottom">7</property>
+        <property name="margin-start">12</property>
 
         <child>
-          <object class="GtkLabel" id="host_path_label">
-            <property name="name">badge</property>
+          <object class="GtkRevealer" id="check_button_revealer">
+            <property name="transition-type">slide-right</property>
+
+            <child>
+              <object class="GtkCheckButton" id="check_button">
+                <style>
+                  <class name="selection-mode"/>
+                </style>
+                <property name="margin-end">12</property>
+              </object>
+            </child>
+
           </object>
         </child>
 
         <child>
-          <object class="GtkLabel">
-            <property name="label">:</property>
+          <object class="GtkBox">
+            <property name="spacing">6</property>
+
+            <child>
+              <object class="GtkBox">
+                <property name="hexpand">True</property>
+                <property name="valign">center</property>
+                <property name="orientation">vertical</property>
+                <property name="spacing">3</property>
+
+                <child>
+                  <object class="GtkLabel" id="name_label">
+                    <property name="use-markup">True</property>
+                    <property name="xalign">0</property>
+                    <property name="yalign">0</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkLabel" id="age_label">
+                    <style>
+                      <class name="subtitle"/>
+                    </style>
+                    <property name="wrap">True</property>
+                    <property name="wrap-mode">word</property>
+                    <property name="xalign">0</property>
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="PdsEfficientSpinner" id="spinner"/>
+            </child>
+
+            <child>
+              <object class="PdsContainersCountBar" id="containers_count_bar"/>
+            </child>
+
           </object>
         </child>
 
         <child>
-          <object class="GtkLabel" id="container_path_label">
-            <property name="name">badge</property>
+          <object class="GtkRevealer" id="end_box_revealer">
+            <property name="transition-type">slide-left</property>
+
+            <child>
+              <object class="GtkBox">
+                <property name="margin-start">6</property>
+                <property name="spacing">3</property>
+
+                <child>
+                  <object class="GtkButton">
+                    <style>
+                      <class name="flat"/>
+                    </style>
+
+                    <property name="action-name">volume-row.delete-volume</property>
+                    <property name="icon-name">user-trash-symbolic</property>
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkImage">
+                    <property name="icon_name">go-next-symbolic</property>
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
           </object>
         </child>
 
-        <child>
-          <object class="GtkLabel">
-            <property name="label">:</property>
-          </object>
-        </child>
-
-        <child>
-          <object class="GtkLabel" id="options_label">
-            <property name="name">badge</property>
-          </object>
-        </child>
-
-      </object>
-    </child>
-
-    <child type="action">
-      <object class="GtkButton">
-        <style>
-          <class name="flat"/>
-        </style>
-        <property name="action-name">volume-row.remove</property>
-        <property name="icon-name">edit-delete-symbolic</property>
-        <property name="valign">center</property>
-      </object>
-    </child>
-
-    <child>
-      <object class="AdwEntryRow" id="host_path_entry_row">
-        <property name="title" translatable="yes">Host Path</property>
-      </object>
-    </child>
-
-    <child>
-      <object class="AdwEntryRow" id="container_path_entry_row">
-        <property name="title" translatable="yes">Container Path</property>
-      </object>
-    </child>
-
-    <child>
-      <object class="AdwActionRow">
-        <property name="activatable_widget">writable_switch</property>
-        <property name="title" translatable="yes">Writable</property>
-        <child>
-          <object class="GtkSwitch" id="writable_switch">
-            <property name="valign">center</property>
-          </object>
-        </child>
-      </object>
-    </child>
-
-    <child>
-      <object class="AdwComboRow" id="selinux_combo_row">
-        <property name="title" translatable="yes">SELinux</property>
-        <property name="model">
-          <object class="GtkStringList">
-            <items>
-              <item translatable="yes">No label</item>
-              <item translatable="yes">Shared</item>
-              <item translatable="yes">Private</item>
-            </items>
-          </object>
-        </property>
       </object>
     </child>
 

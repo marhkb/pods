@@ -255,6 +255,23 @@
                                                       </object>
                                                     </child>
 
+                                                    <child>
+                                                      <object class="GtkStackPage">
+                                                        <property name="name">volumes</property>
+
+                                                        <property name="child">
+                                                          <object class="GtkMenuButton" id="selected_volumes_button">
+                                                            <style>
+                                                              <class name="flat"/>
+                                                            </style>
+                                                            <property name="direction">none</property>
+                                                            <property name="menu-model">selection-menu</property>
+                                                          </object>
+                                                        </property>
+
+                                                      </object>
+                                                    </child>
+
                                                   </object>
                                                 </child>
 
@@ -334,6 +351,26 @@
                                                           <object class="PdsImagesPanel" id="images_panel">
                                                             <binding name="image-list">
                                                               <lookup name="image-list" type="Client">
+                                                                <lookup name="client" type="ConnectionManager">
+                                                                  <lookup name="connection-manager">PdsWindow</lookup>
+                                                                </lookup>
+                                                              </lookup>
+                                                            </binding>
+                                                          </object>
+                                                        </property>
+                                                      </object>
+                                                    </child>
+
+                                                    <!-- Volumes Panel -->
+                                                    <child>
+                                                      <object class="AdwViewStackPage" id="volumes_view_stack_page">
+                                                        <property name="icon-name">drive-harddisk-symbolic</property>
+                                                        <property name="name">volumes</property>
+                                                        <property name="title" translatable="yes">Volumes</property>
+                                                        <property name="child">
+                                                          <object class="PdsVolumesPanel" id="volumes_panel">
+                                                            <binding name="volume-list">
+                                                              <lookup name="volume-list" type="Client">
                                                                 <lookup name="client" type="ConnectionManager">
                                                                   <lookup name="connection-manager">PdsWindow</lookup>
                                                                 </lookup>

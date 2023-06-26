@@ -25,6 +25,7 @@ mod imp {
         pub(super) containers_model: RefCell<Option<gio::ListModel>>,
         pub(super) pods_model: RefCell<Option<gio::ListModel>>,
         pub(super) images_model: RefCell<Option<gio::ListModel>>,
+        pub(super) volumes_model: RefCell<Option<gio::ListModel>>,
         #[property(get, set = Self::set_client, explicit_notify, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
         #[property(get, set)]
@@ -43,6 +44,10 @@ mod imp {
         pub(super) images_group: TemplateChild<adw::PreferencesGroup>,
         #[template_child]
         pub(super) images_list_box: TemplateChild<gtk::ListBox>,
+        #[template_child]
+        pub(super) volumes_group: TemplateChild<adw::PreferencesGroup>,
+        #[template_child]
+        pub(super) volumes_list_box: TemplateChild<gtk::ListBox>,
     }
 
     #[glib::object_subclass]
@@ -97,6 +102,8 @@ mod imp {
                         pod.name().to_lowercase().contains(&term)
                     } else if let Some(image) = item.downcast_ref::<model::Image>() {
                         image.id().contains(&term) || image.repo_tags().contains(&term)
+                    } else if let Some(volume) = item.downcast_ref::<model::Volume>() {
+                        volume.inner().name.contains(&term)
                     } else {
                         unreachable!();
                     }
@@ -123,6 +130,9 @@ mod imp {
                     } else {
                         image1.repo_tags().cmp(&image2.repo_tags()).into()
                     }
+                } else if let Some(volume1) = obj1.downcast_ref::<model::Volume>() {
+                    let volume2 = obj2.downcast_ref::<model::Volume>().unwrap();
+                    volume1.inner().name.cmp(&volume2.inner().name).into()
                 } else {
                     unreachable!();
                 }
@@ -173,6 +183,13 @@ mod imp {
                     &self.images_model,
                 );
 
+                obj.setup_model(
+                    client.volume_list().upcast(),
+                    self.volumes_list_box.get(),
+                    |item| view::VolumeRow::from(item.downcast_ref().unwrap()).upcast(),
+                    &self.volumes_model,
+                );
+
                 client.container_list().connect_container_name_changed(
                     clone!(@weak obj => move |_, _| {
                         glib::timeout_add_seconds_local_once(
@@ -217,7 +234,7 @@ impl SearchPanel {
                 imp.sorter.get().cloned(),
             )),
             0,
-            8,
+            6,
         );
         model.connect_items_changed(
             clone!(@weak self as obj => move |_, _, _, _| obj.update_view()),
@@ -255,10 +272,19 @@ impl SearchPanel {
                 .unwrap_or(false),
         );
 
+        imp.volumes_group.set_visible(
+            imp.volumes_model
+                .borrow()
+                .as_ref()
+                .map(|model| model.n_items() > 0)
+                .unwrap_or(false),
+        );
+
         imp.main_stack.set_visible_child_name(
             if imp.containers_group.is_visible()
                 || imp.pods_group.is_visible()
                 || imp.images_group.is_visible()
+                || imp.volumes_group.is_visible()
             {
                 "results"
             } else if self.term().is_empty() {

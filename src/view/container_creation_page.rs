@@ -48,6 +48,8 @@ mod imp {
         pub(super) image: glib::WeakRef<model::Image>,
         #[property(get, set, construct, nullable)]
         pub(super) pod: glib::WeakRef<model::Pod>,
+        #[property(get, set, construct, nullable)]
+        pub(super) volume: glib::WeakRef<model::Volume>,
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -117,7 +119,7 @@ mod imp {
                 widget.add_port_mapping();
             });
             klass.install_action(ACTION_ADD_VOLUME, None, |widget, _, _| {
-                widget.add_volume();
+                widget.add_mount();
             });
             klass.install_action(ACTION_ADD_ENV_VAR, None, |widget, _, _| {
                 widget.add_env_var();
@@ -170,85 +172,21 @@ mod imp {
             if let Some(image) = obj.image() {
                 self.image_selection_combo_row.set_image(Some(image));
                 obj.update_data();
-            }
-
-            if let Some(pod) = obj.pod() {
+                obj.setup_pod_combo_row();
+            } else if let Some(pod) = obj.pod() {
                 pod.connect_deleted(
                     clone!(@weak obj => move |_| obj.activate_action("action.cancel", None).unwrap())
                 );
                 self.pod_combo_row.set_visible(false);
                 pod_name_expr.bind(&*self.pod_property_row, "value", Some(&pod));
+            } else if let Some(volume) = obj.volume() {
+                obj.setup_pod_combo_row();
+                if let Some(mount) = obj.add_mount() {
+                    mount.set_mount_type(model::MountType::Volume);
+                    mount.set_volume(Some(volume));
+                }
             } else {
-                self.pod_property_row.set_visible(false);
-
-                self.pod_combo_row.connect_selected_item_notify(
-                    clone!(@weak obj => move |combo_row| {
-                        obj.set_pod(
-                            combo_row.selected_item().and_then(|o| o.downcast().ok()).as_ref(),
-                        );
-                    }),
-                );
-
-                let pod_name_expr = model::Pod::this_expression("name");
-
-                self.pod_combo_row.set_expression(Some(&pod_name_expr));
-
-                let list_factory = gtk::SignalListItemFactory::new();
-                list_factory.connect_bind(clone!(@weak obj => move |_, list_item| {
-                    let list_item = list_item.downcast_ref::<gtk::ListItem>().unwrap();
-
-                    if let Some(item) = list_item.item() {
-                        let box_ = gtk::Box::builder().spacing(3).build();
-                        let label = gtk::Label::builder().xalign(0.0).build();
-
-                        if let Some(pod) = item.downcast_ref::<model::Pod>() {
-                            pod_name_expr.bind(&label, "label", Some(pod));
-                            label.set_max_width_chars(48);
-                            label.set_wrap(true);
-                            label.set_wrap_mode(pango::WrapMode::WordChar);
-                        } else {
-                            label.set_label(&format!("<i>{}</i>", gettext("disabled")));
-                            label.set_use_markup(true);
-                            label.add_css_class("dim-label");
-                        };
-
-                        let selected_icon = gtk::Image::builder()
-                            .icon_name("object-select-symbolic")
-                            .build();
-
-                        adw::ComboRow::this_expression("selected-item")
-                            .chain_closure::<bool>(closure_local!(
-                                |_: adw::ComboRow, selected: Option<&glib::Object>| {
-                                    selected == Some(&item)
-                                }
-                            ))
-                            .bind(&selected_icon, "visible", Some(&*obj.imp().pod_combo_row));
-
-                        box_.append(&label);
-                        box_.append(&selected_icon);
-
-                        list_item.set_child(Some(&box_));
-                    }
-                }));
-                list_factory.connect_unbind(|_, list_item| {
-                    list_item
-                        .downcast_ref::<gtk::ListItem>()
-                        .unwrap()
-                        .set_child(gtk::Widget::NONE);
-                });
-                self.pod_combo_row.set_list_factory(Some(&list_factory));
-
-                let pod_list_model = gio::ListStore::new(gio::ListModel::static_type());
-                pod_list_model.append(&gtk::StringList::new(&[""]));
-                pod_list_model.append(&gtk::SortListModel::new(
-                    Some(obj.client().unwrap().pod_list()),
-                    Some(gtk::StringSorter::new(Some(model::Pod::this_expression(
-                        "name",
-                    )))),
-                ));
-
-                self.pod_combo_row
-                    .set_model(Some(&gtk::FlattenListModel::new(Some(pod_list_model))));
+                obj.setup_pod_combo_row();
             }
 
             bind_model(
@@ -273,9 +211,7 @@ mod imp {
             bind_model(
                 &self.volume_list_box,
                 &self.volumes,
-                |item| {
-                    view::VolumeRow::from(item.downcast_ref::<model::Volume>().unwrap()).upcast()
-                },
+                |item| view::MountRow::from(item.downcast_ref::<model::Mount>().unwrap()).upcast(),
                 ACTION_ADD_VOLUME,
             );
 
@@ -344,6 +280,12 @@ mod imp {
                         .as_ref()
                         .and_then(model::PodList::client)
                 })
+                .or_else(|| {
+                    self.obj()
+                        .volume()
+                        .and_then(|volume| volume.volume_list())
+                        .and_then(|list| list.client())
+                })
         }
     }
 }
@@ -366,6 +308,12 @@ impl From<&model::Pod> for ContainerCreationPage {
     }
 }
 
+impl From<&model::Volume> for ContainerCreationPage {
+    fn from(volume: &model::Volume) -> Self {
+        glib::Object::builder().property("volume", volume).build()
+    }
+}
+
 impl From<&model::Client> for ContainerCreationPage {
     fn from(client: &model::Client) -> Self {
         glib::Object::builder().property("client", client).build()
@@ -373,6 +321,81 @@ impl From<&model::Client> for ContainerCreationPage {
 }
 
 impl ContainerCreationPage {
+    fn setup_pod_combo_row(&self) {
+        let imp = self.imp();
+
+        imp.pod_property_row.set_visible(false);
+
+        imp.pod_combo_row.connect_selected_item_notify(
+            clone!(@weak self as obj => move |combo_row| {
+                obj.set_pod(
+                    combo_row.selected_item().and_then(|o| o.downcast().ok()).as_ref(),
+                );
+            }),
+        );
+
+        let pod_name_expr = model::Pod::this_expression("name");
+
+        imp.pod_combo_row.set_expression(Some(&pod_name_expr));
+
+        let list_factory = gtk::SignalListItemFactory::new();
+        list_factory.connect_bind(clone!(@weak self as obj => move |_, list_item| {
+            let list_item = list_item.downcast_ref::<gtk::ListItem>().unwrap();
+
+            if let Some(item) = list_item.item() {
+                let box_ = gtk::Box::builder().spacing(3).build();
+                let label = gtk::Label::builder().xalign(0.0).build();
+
+                if let Some(pod) = item.downcast_ref::<model::Pod>() {
+                    pod_name_expr.bind(&label, "label", Some(pod));
+                    label.set_max_width_chars(48);
+                    label.set_wrap(true);
+                    label.set_wrap_mode(pango::WrapMode::WordChar);
+                } else {
+                    label.set_label(&format!("<i>{}</i>", gettext("disabled")));
+                    label.set_use_markup(true);
+                    label.add_css_class("dim-label");
+                };
+
+                let selected_icon = gtk::Image::builder()
+                    .icon_name("object-select-symbolic")
+                    .build();
+
+                adw::ComboRow::this_expression("selected-item")
+                    .chain_closure::<bool>(closure_local!(
+                        |_: adw::ComboRow, selected: Option<&glib::Object>| {
+                            selected == Some(&item)
+                        }
+                    ))
+                    .bind(&selected_icon, "visible", Some(&*obj.imp().pod_combo_row));
+
+                box_.append(&label);
+                box_.append(&selected_icon);
+
+                list_item.set_child(Some(&box_));
+            }
+        }));
+        list_factory.connect_unbind(|_, list_item| {
+            list_item
+                .downcast_ref::<gtk::ListItem>()
+                .unwrap()
+                .set_child(gtk::Widget::NONE);
+        });
+        imp.pod_combo_row.set_list_factory(Some(&list_factory));
+
+        let pod_list_model = gio::ListStore::new(gio::ListModel::static_type());
+        pod_list_model.append(&gtk::StringList::new(&[""]));
+        pod_list_model.append(&gtk::SortListModel::new(
+            Some(self.client().unwrap().pod_list()),
+            Some(gtk::StringSorter::new(Some(model::Pod::this_expression(
+                "name",
+            )))),
+        ));
+
+        imp.pod_combo_row
+            .set_model(Some(&gtk::FlattenListModel::new(Some(pod_list_model))));
+    }
+
     fn on_name_changed(&self) {
         let enabled = self.imp().name_entry_row.text().len() > 0;
         self.action_set_enabled(ACTION_CREATE_AND_RUN, enabled);
@@ -453,8 +476,9 @@ impl ContainerCreationPage {
         add_port_mapping(&self.imp().port_mappings);
     }
 
-    fn add_volume(&self) {
-        add_volume(&self.imp().volumes);
+    fn add_mount(&self) -> Option<model::Mount> {
+        self.client()
+            .map(|ref client| add_mount(&self.imp().volumes, client))
     }
 
     fn add_env_var(&self) {
@@ -555,24 +579,27 @@ impl ContainerCreationPage {
             .mounts(
                 imp.volumes
                     .iter::<glib::Object>()
-                    .map(|volume| volume.unwrap().downcast::<model::Volume>().unwrap())
-                    .map(|volume| podman::models::ContainerMount {
-                        destination: Some(volume.container_path()),
-                        source: Some(volume.host_path()),
+                    .map(|mount| mount.unwrap().downcast::<model::Mount>().unwrap())
+                    .filter(|mount| mount.mount_type() == model::MountType::Bind)
+                    .map(|mount| podman::models::ContainerMount {
+                        destination: Some(mount.container_path()),
+                        source: Some(mount.host_path()),
                         _type: Some("bind".to_owned()),
-                        options: Some({
-                            let mut options =
-                                vec![if volume.writable() { "rw" } else { "ro" }.to_owned()];
-
-                            let selinux = volume.selinux().to_string();
-                            if !selinux.is_empty() {
-                                options.push(selinux)
-                            }
-
-                            options
-                        }),
+                        options: mount_options(&mount),
                         uid_mappings: None,
                         gid_mappings: None,
+                    }),
+            )
+            .volumes(
+                imp.volumes
+                    .iter::<glib::Object>()
+                    .map(|mount| mount.unwrap().downcast::<model::Mount>().unwrap())
+                    .filter(|mount| mount.mount_type() == model::MountType::Volume)
+                    .map(|mount| podman::models::NamedVolume {
+                        dest: Some(mount.container_path()),
+                        is_anonymous: None,
+                        name: mount.volume().map(|volume| volume.inner().name.clone()),
+                        options: mount_options(&mount),
                     }),
             )
             .env(
@@ -687,16 +714,17 @@ fn add_port_mapping(model: &gio::ListStore) -> model::PortMapping {
     port_mapping
 }
 
-fn add_volume(model: &gio::ListStore) {
-    let volume = model::Volume::default();
+fn add_mount(model: &gio::ListStore, client: &model::Client) -> model::Mount {
+    let mount = model::Mount::from(client);
 
-    volume.connect_remove_request(clone!(@weak model => move |volume| {
-        if let Some(pos) = model.find(volume) {
+    mount.connect_remove_request(clone!(@weak model => move |mount| {
+        if let Some(pos) = model.find(mount) {
             model.remove(pos);
         }
     }));
 
-    model.append(&volume);
+    model.append(&mount);
+    mount
 }
 
 fn add_value(model: &gio::ListStore) {
@@ -721,4 +749,17 @@ fn add_key_val(model: &gio::ListStore) {
     }));
 
     model.append(&entry);
+}
+
+fn mount_options(mount: &model::Mount) -> Option<Vec<String>> {
+    Some({
+        let mut options = vec![if mount.writable() { "rw" } else { "ro" }.to_owned()];
+
+        let selinux = mount.selinux().to_string();
+        if !selinux.is_empty() {
+            options.push(selinux)
+        }
+
+        options
+    })
 }
