@@ -18,53 +18,64 @@
   <template class="PdsContainersGroup" parent="AdwPreferencesGroup">
 
     <property name="header-suffix">
-      <object class="GtkBox" id="header_suffix_box">
+      <object class="GtkBox">
         <property name="spacing">15</property>
         <property name="valign">center</property>
 
         <child>
-          <object class="GtkBox">
-            <property name="spacing">6</property>
-
-            <child>
-              <object class="GtkLabel">
-                <property name="label" translatable="yes">Only running</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkSwitch" id="show_only_running_switch">
-                <property name="valign">center</property>
-              </object>
-            </child>
-
-          </object>
+          <object class="AdwBin" id="header_suffix_prefix_bin"/>
         </child>
 
         <child>
-          <object class="GtkBox" id="header_suffix_button_box">
-            <property name="spacing">9</property>
+          <object class="GtkBox" id="header_suffix_box">
+            <property name="spacing">15</property>
 
             <child>
-              <object class="GtkButton" id="prune_containers_button">
-                <style>
-                  <class name="circular"/>
-                </style>
-                <property name="action-name">containers-panel.prune-unused-containers</property>
-                <property name="icon-name">eraser5-symbolic</property>
-                <property name="tooltip-text" translatable="yes">Prune Stopped Containers</property>
-                <property name="visible" bind-source="prune_containers_button" bind-property="sensitive" bind-flags="sync-create"/>
+              <object class="GtkBox">
+                <property name="spacing">6</property>
+
+                <child>
+                  <object class="GtkLabel">
+                    <property name="label" translatable="yes">Only running</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkSwitch" id="show_only_running_switch">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+
               </object>
             </child>
 
             <child>
-              <object class="GtkButton" id="create_container_button">
-                <style>
-                  <class name="circular"/>
-                </style>
-                <property name="action-name">containers-group.create-container</property>
-                <property name="icon-name">list-add-symbolic</property>
-                <property name="tooltip-text" translatable="yes">Create Container</property>
+              <object class="GtkBox" id="header_suffix_button_box">
+                <property name="spacing">9</property>
+
+                <child>
+                  <object class="GtkButton" id="prune_containers_button">
+                    <style>
+                      <class name="circular"/>
+                    </style>
+                    <property name="action-name">containers-panel.prune-unused-containers</property>
+                    <property name="icon-name">eraser5-symbolic</property>
+                    <property name="tooltip-text" translatable="yes">Prune Stopped Containers</property>
+                    <property name="visible" bind-source="prune_containers_button" bind-property="sensitive" bind-flags="sync-create"/>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkButton" id="create_container_button">
+                    <style>
+                      <class name="circular"/>
+                    </style>
+                    <property name="action-name">containers-group.create-container</property>
+                    <property name="icon-name">list-add-symbolic</property>
+                    <property name="tooltip-text" translatable="yes">Create Container</property>
+                  </object>
+                </child>
+
               </object>
             </child>
 
