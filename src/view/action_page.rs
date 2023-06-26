@@ -78,7 +78,7 @@ mod imp {
 
             self.status_page
                 .set_icon_name(Some(match action.action_type() {
-                    PruneContainers | PruneImages | PrunePods => "eraser5-symbolic",
+                    PruneContainers | PruneImages | PrunePods | PruneVolumes => "eraser5-symbolic",
                     DownloadImage | BuildImage => "image-x-generic-symbolic",
                     PushImage => "put-symbolic",
                     Commit => "merge-symbolic",
@@ -86,6 +86,7 @@ mod imp {
                     CreateAndRunContainer => "media-playback-start-symbolic",
                     CopyFiles => "edit-copy-symbolic",
                     Pod => "pods-symbolic",
+                    Volume => "drive-harddisk-symbolic",
                     _ => unimplemented!(),
                 }));
 
@@ -139,6 +140,8 @@ impl ActionPage {
                     CopyFiles => gettext("Files Are Currently Being Copied"),
                     PrunePods => gettext("Pods Are Currently Being Pruned"),
                     Pod => gettext("Pod Is Currently Being Created"),
+                    Volume => gettext("Volume Is Currently Being Created"),
+                    PruneVolumes => gettext("Volumes Are Currently Being Pruned"),
                     _ => unreachable!(),
                 });
             }
@@ -155,6 +158,8 @@ impl ActionPage {
                     CopyFiles => gettext("Files Have Beeng Copied"),
                     PrunePods => gettext("Pods Have Been Pruned"),
                     Pod => gettext("Pod Has Been Created"),
+                    Volume => gettext("Volume Has Been Created"),
+                    PruneVolumes => gettext("Volumes Have Been Pruned"),
                     _ => unreachable!(),
                 });
             }
@@ -171,6 +176,8 @@ impl ActionPage {
                     CopyFiles => gettext("Copying Files Has Been Aborted"),
                     PrunePods => gettext("Pruning of Pods Has Been Aborted"),
                     Pod => gettext("Pod Creation Has Been Aborted"),
+                    Volume => gettext("Volume Creation Has Been Aborted"),
+                    PruneVolumes => gettext("Pruning of Volumes Has Been Aborted"),
                     _ => unreachable!(),
                 });
             }
@@ -187,6 +194,8 @@ impl ActionPage {
                     CopyFiles => gettext("Copying Files Has Failed"),
                     PrunePods => gettext("Pruning of Pods Has Failed"),
                     Pod => gettext("Pod Creation Has Failed"),
+                    Volume => gettext("Volume Creation Has Failed"),
+                    PruneVolumes => gettext("Pruning of Volumes Has Failed"),
                     _ => unreachable!(),
                 });
             }
@@ -200,7 +209,13 @@ impl ActionPage {
             action.state() == Finished
                 && !matches!(
                     action.action_type(),
-                    PruneContainers | PruneImages | PrunePods | Commit | CopyFiles | PushImage
+                    PruneContainers
+                        | PruneImages
+                        | PrunePods
+                        | PruneVolumes
+                        | Commit
+                        | CopyFiles
+                        | PushImage
                 ),
         );
         self.action_set_enabled(
@@ -249,6 +264,8 @@ impl ActionPage {
                     view::ContainerDetailsPage::from(container).upcast()
                 } else if let Some(pod) = artifact.downcast_ref::<model::Pod>() {
                     view::PodDetailsPage::from(pod).upcast()
+                } else if let Some(volume) = artifact.downcast_ref::<model::Volume>() {
+                    view::VolumeDetailsPage::from(volume).upcast()
                 } else {
                     unreachable!();
                 };

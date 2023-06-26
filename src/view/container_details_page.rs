@@ -58,6 +58,10 @@ mod imp {
         #[template_child]
         pub(super) spinning_button: TemplateChild<gtk::Button>,
         #[template_child]
+        pub(super) volumes_group: TemplateChild<adw::PreferencesGroup>,
+        #[template_child]
+        pub(super) volumes_list_box: TemplateChild<gtk::ListBox>,
+        #[template_child]
         pub(super) resources: TemplateChild<view::ContainerResources>,
         #[template_child]
         pub(super) leaflet_overlay: TemplateChild<widget::LeafletOverlay>,
@@ -254,6 +258,26 @@ mod imp {
                     obj.imp().back_navigation_controls.navigate_back();
                 }));
                 self.handler_id.replace(Some(handler_id));
+
+                let sorter = gtk::StringSorter::new(Some(
+                    model::ContainerVolume::this_expression("volume")
+                        .chain_property::<model::Volume>("inner")
+                        .chain_closure::<String>(closure!(
+                            |_: model::ContainerVolume, inner: model::BoxedVolume| {
+                                inner.name.clone()
+                            }
+                        )),
+                ));
+                let model = gtk::SortListModel::new(Some(container.volume_list()), Some(sorter));
+
+                self.volumes_list_box.bind_model(Some(&model), |item| {
+                    view::ContainerVolumeRow::from(item.downcast_ref().unwrap()).upcast()
+                });
+
+                obj.update_volumes_visibility();
+                container.volume_list().connect_items_changed(
+                    clone!(@weak obj => move |_, _, _, _| obj.update_volumes_visibility()),
+                );
             }
 
             self.container.set(value);
@@ -276,6 +300,12 @@ impl From<&model::Container> for ContainerDetailsPage {
 }
 
 impl ContainerDetailsPage {
+    fn update_volumes_visibility(&self) {
+        let imp = self.imp();
+        imp.volumes_group
+            .set_visible(imp.volumes_list_box.row_at_index(0).is_some());
+    }
+
     fn update_actions(&self) {
         if let Some(container) = self.container() {
             let imp = self.imp();

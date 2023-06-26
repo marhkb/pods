@@ -1,6 +1,7 @@
 use std::cell::RefCell;
 
 use adw::subclass::prelude::PreferencesGroupImpl;
+use adw::traits::BinExt;
 use gettextrs::gettext;
 use gettextrs::ngettext;
 use glib::clone;
@@ -10,6 +11,7 @@ use gtk::glib;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
+use once_cell::sync::OnceCell as SyncOnceCell;
 use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
@@ -35,6 +37,8 @@ mod imp {
         pub(super) container_list: glib::WeakRef<model::AbstractContainerList>,
         #[template_child]
         pub(super) create_container_row: TemplateChild<gtk::ListBoxRow>,
+        #[template_child]
+        pub(super) header_suffix_prefix_bin: TemplateChild<adw::Bin>,
         #[template_child]
         pub(super) header_suffix_box: TemplateChild<gtk::Box>,
         #[template_child]
@@ -62,15 +66,32 @@ mod imp {
 
     impl ObjectImpl for ContainersGroup {
         fn properties() -> &'static [glib::ParamSpec] {
-            Self::derived_properties()
+            static PROPERTIES: SyncOnceCell<Vec<glib::ParamSpec>> = SyncOnceCell::new();
+            PROPERTIES.get_or_init(|| {
+                Self::derived_properties()
+                    .iter()
+                    .cloned()
+                    .chain(vec![glib::ParamSpecObject::builder::<gtk::Widget>(
+                        "header-suffix-prefix",
+                    )
+                    .explicit_notify()
+                    .build()])
+                    .collect::<Vec<_>>()
+            })
         }
 
         fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            self.derived_set_property(id, value, pspec);
+            match pspec.name() {
+                "header-suffix-prefix" => self.obj().set_header_suffix_prefix(value.get().unwrap()),
+                _ => self.derived_set_property(id, value, pspec),
+            }
         }
 
         fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            self.derived_property(id, pspec)
+            match pspec.name() {
+                "header-suffix-prefix" => self.obj().header_suffix_prefix().to_value(),
+                _ => self.derived_property(id, pspec),
+            }
         }
 
         fn constructed(&self) {
@@ -244,6 +265,18 @@ impl Default for ContainersGroup {
 impl ContainersGroup {
     pub(crate) fn action_create_container() -> &'static str {
         "containers-group.create-container"
+    }
+
+    pub(crate) fn header_suffix_prefix(&self) -> Option<gtk::Widget> {
+        self.imp().header_suffix_prefix_bin.child()
+    }
+
+    pub(crate) fn set_header_suffix_prefix(&self, value: Option<&gtk::Widget>) {
+        if self.header_suffix_prefix().as_ref() == value {
+            return;
+        }
+        self.imp().header_suffix_prefix_bin.set_child(value);
+        self.notify("header-suffix-prefix");
     }
 
     fn update_properties_filter(&self, filter_change: gtk::FilterChange) {

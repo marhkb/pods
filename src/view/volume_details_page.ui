@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="PdsVolumeDetailsPage" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBinLayout"/>
+    </property>
+
+    <child>
+      <object class="AdwLeaflet">
+        <property name="can-navigate-back">True</property>
+        <property name="can-unfold">False</property>
+
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+
+            <child>
+              <object class="AdwHeaderBar">
+
+                <child type="start">
+                  <object class="PdsBackNavigationControls" id="back_navigation_controls"/>
+                </child>
+
+                <child type="title">
+                  <object class="AdwWindowTitle" id="window_title">
+                    <property name="title" translatable="yes">Volume</property>
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwPreferencesPage">
+                <property name="vexpand">True</property>
+
+                <child>
+                  <object class="AdwPreferencesGroup">
+                    <property name="title" translatable="yes">Properties</property>
+
+                    <property name="header-suffix">
+                      <object class="GtkButton">
+                        <style>
+                          <class name="circular"/>
+                          <class name="destructive-button"/>
+                        </style>
+
+                        <property name="action-name">volume-details-page.delete-volume</property>
+                        <property name="icon-name">user-trash-symbolic</property>
+                        <property name="margin-bottom">6</property>
+                        <property name="tooltip-text" translatable="yes">Delete Volume</property>
+                      </object>
+                    </property>
+
+                    <child>
+                      <object class="PdsPropertyRow" id="name_row">
+                        <property name="key" translatable="yes">Name</property>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="PdsPropertyRow" id="driver_row">
+                        <property name="key" translatable="yes">Driver</property>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="PdsPropertyRow" id="created_row">
+                        <property name="key" translatable="yes">Created</property>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="PdsPropertyRow" id="mountpoint_row">
+                        <property name="key" translatable="yes">Mount Path</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwPreferencesGroup">
+                    <property name="title" translatable="yes">Utilities</property>
+
+                    <child>
+                      <object class="AdwActionRow">
+                        <property name="title" translatable="yes">Inspection</property>
+                        <property name="subtitle" translatable="yes">View all volume properties in a structured text form.</property>
+                        <property name="activatable">True</property>
+                        <property name="action-name">volume-details-page.inspect-volume</property>
+                        <property name="icon-name">system-search-symbolic</property>
+
+                        <child>
+                          <object class="GtkImage">
+                            <property name="icon_name">go-next-symbolic</property>
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+                <child>
+                  <object class="PdsContainersGroup">
+                    <binding name="container-list">
+                      <lookup name="container-list" type="Volume">
+                        <lookup name="volume">PdsVolumeDetailsPage</lookup>
+                      </lookup>
+                    </binding>
+                    <property name="title" translatable="yes">Containers</property>
+                    <property name="no-containers-label" translatable="yes">There are no containers using this volume.</property>
+
+                    <property name="header-suffix-prefix">
+                      <object class="PdsEfficientSpinner">
+                        <property name="height-request">21</property>
+                        <property name="width-request">21</property>
+                        <binding name="visible">
+                          <lookup name="searching-containers" type="Volume">
+                            <lookup name="volume">PdsVolumeDetailsPage</lookup>
+                          </lookup>
+                        </binding>
+                      </object>
+                    </property>
+
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwLeafletPage">
+            <property name="name">overlay</property>
+
+            <property name="child">
+              <object class="PdsLeafletOverlay" id="leaflet_overlay"/>
+            </property>
+
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>

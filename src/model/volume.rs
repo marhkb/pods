@@ -1,38 +1,23 @@
 use std::cell::Cell;
-use std::cell::RefCell;
-use std::fmt;
+use std::ops::Deref;
 
+use gio::prelude::ListModelExt;
+use glib::clone;
 use glib::prelude::*;
 use glib::subclass::prelude::*;
 use glib::subclass::Signal;
 use glib::Properties;
+use gtk::gio;
 use gtk::glib;
 use once_cell::sync::Lazy as SyncLazy;
+use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
-#[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
-#[enum_type(name = "VolumeSELinux")]
-pub(crate) enum SELinux {
-    #[default]
-    NoLabel,
-    Shared,
-    Private,
-}
+use crate::model;
+use crate::monad_boxed_type;
+use crate::podman;
+use crate::utils;
 
-impl AsRef<str> for SELinux {
-    fn as_ref(&self) -> &str {
-        match self {
-            Self::NoLabel => "",
-            Self::Shared => "z",
-            Self::Private => "Z",
-        }
-    }
-}
-
-impl fmt::Display for SELinux {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{}", self.as_ref())
-    }
-}
+monad_boxed_type!(pub(crate) BoxedVolume(podman::models::Volume) impls Debug);
 
 mod imp {
     use super::*;
@@ -40,26 +25,33 @@ mod imp {
     #[derive(Debug, Default, Properties)]
     #[properties(wrapper_type = super::Volume)]
     pub(crate) struct Volume {
+        #[property(get, set, construct_only, nullable)]
+        pub(super) volume_list: glib::WeakRef<model::VolumeList>,
+        #[property(get, set, construct_only)]
+        pub(super) inner: UnsyncOnceCell<BoxedVolume>,
         #[property(get, set)]
-        pub(super) host_path: RefCell<String>,
+        pub(super) searching_containers: Cell<bool>,
         #[property(get, set)]
-        pub(super) container_path: RefCell<String>,
-        #[property(get, set, construct)]
-        pub(super) writable: Cell<bool>,
-        #[property(get, set, builder(SELinux::default()))]
-        pub(super) selinux: Cell<SELinux>,
+        pub(super) action_ongoing: Cell<bool>,
+        #[property(get = Self::container_list)]
+        pub(super) container_list: UnsyncOnceCell<model::SimpleContainerList>,
+        #[property(get)]
+        pub(super) to_be_deleted: Cell<bool>,
+        #[property(get, set)]
+        pub(super) selected: Cell<bool>,
     }
 
     #[glib::object_subclass]
     impl ObjectSubclass for Volume {
         const NAME: &'static str = "Volume";
         type Type = super::Volume;
+        type Interfaces = (model::Selectable,);
     }
 
     impl ObjectImpl for Volume {
         fn signals() -> &'static [Signal] {
             static SIGNALS: SyncLazy<Vec<Signal>> =
-                SyncLazy::new(|| vec![Signal::builder("remove-request").build()]);
+                SyncLazy::new(|| vec![Signal::builder("deleted").build()]);
             SIGNALS.as_ref()
         }
 
@@ -74,31 +66,85 @@ mod imp {
         fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             self.derived_property(id, pspec)
         }
+
+        fn constructed(&self) {
+            self.parent_constructed();
+            let obj = &*self.obj();
+            obj.container_list().connect_items_changed(
+                clone!(@weak obj => move |_, _, _, _| if let Some(volume_list) = obj.volume_list() {
+                    volume_list.notify("used");
+                }),
+            );
+        }
+    }
+
+    impl Volume {
+        pub(super) fn container_list(&self) -> model::SimpleContainerList {
+            self.container_list.get_or_init(Default::default).to_owned()
+        }
+
+        pub(super) fn set_to_be_deleted(&self, value: bool) {
+            let obj = &*self.obj();
+            if obj.to_be_deleted() == value {
+                return;
+            }
+            self.to_be_deleted.set(value);
+            obj.notify("to-be-deleted");
+        }
     }
 }
 
 glib::wrapper! {
-    pub(crate) struct Volume(ObjectSubclass<imp::Volume>);
-}
-
-impl Default for Volume {
-    fn default() -> Self {
-        glib::Object::builder().property("writable", true).build()
-    }
+    pub(crate) struct Volume(ObjectSubclass<imp::Volume>) @implements model::Selectable;
 }
 
 impl Volume {
-    pub(crate) fn remove_request(&self) {
-        self.emit_by_name::<()>("remove-request", &[]);
+    pub(crate) fn new(volume_list: &model::VolumeList, inner: podman::models::Volume) -> Self {
+        glib::Object::builder()
+            .property("volume-list", volume_list)
+            .property("inner", BoxedVolume::from(inner))
+            .build()
     }
 
-    pub(crate) fn connect_remove_request<F: Fn(&Self) + 'static>(
-        &self,
-        f: F,
-    ) -> glib::SignalHandlerId {
-        self.connect_local("remove-request", true, move |values| {
-            let obj = values[0].get::<Self>().unwrap();
-            f(&obj);
+    pub(crate) fn delete<F>(&self, force: bool, op: F)
+    where
+        F: FnOnce(&Self, podman::Result<()>) + 'static,
+    {
+        if let Some(volume) = self.api() {
+            self.imp().set_to_be_deleted(true);
+
+            utils::do_async(
+                async move {
+                    if force {
+                        volume.remove().await
+                    } else {
+                        volume.delete().await
+                    }
+                },
+                clone!(@weak self as obj => move |result| {
+                    if let Err(ref e) = result {
+                        obj.imp().set_to_be_deleted(false);
+                        log::error!("Error on removing volume: {}", e);
+                    }
+                    op(&obj, result);
+                }),
+            );
+        }
+    }
+
+    pub(crate) fn api(&self) -> Option<podman::api::Volume> {
+        self.volume_list().unwrap().client().map(|client| {
+            podman::api::Volume::new(client.podman().deref().clone(), &self.inner().name)
+        })
+    }
+
+    pub(super) fn emit_deleted(&self) {
+        self.emit_by_name::<()>("deleted", &[]);
+    }
+
+    pub(crate) fn connect_deleted<F: Fn(&Self) + 'static>(&self, f: F) -> glib::SignalHandlerId {
+        self.connect_local("deleted", true, move |values| {
+            f(&values[0].get::<Self>().unwrap());
 
             None
         })

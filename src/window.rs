@@ -61,6 +61,8 @@ mod imp {
         #[template_child]
         pub(super) selected_pods_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
+        pub(super) selected_volumes_button: TemplateChild<gtk::MenuButton>,
+        #[template_child]
         pub(super) search_stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) panel_stack: TemplateChild<adw::ViewStack>,
@@ -76,6 +78,10 @@ mod imp {
         pub(super) images_view_stack_page: TemplateChild<adw::ViewStackPage>,
         #[template_child]
         pub(super) images_panel: TemplateChild<view::ImagesPanel>,
+        #[template_child]
+        pub(super) volumes_view_stack_page: TemplateChild<adw::ViewStackPage>,
+        #[template_child]
+        pub(super) volumes_panel: TemplateChild<view::VolumesPanel>,
         #[template_child]
         pub(super) switcher_bar: TemplateChild<adw::ViewSwitcherBar>,
         #[template_child]
@@ -115,6 +121,7 @@ mod imp {
             view::ContainerResources::static_type();
             view::ContainerTerminal::static_type();
             view::ContainerTerminalPage::static_type();
+            view::ContainerVolumeRow::static_type();
             view::ContainersCountBar::static_type();
             view::ContainersGroup::static_type();
             view::ContainersPanel::static_type();
@@ -136,6 +143,10 @@ mod imp {
             view::RepoTagSimpleRow::static_type();
             view::ScalableTextViewPage::static_type();
             view::Statusbar::static_type();
+            view::VolumeRow::static_type();
+            view::VolumesGroup::static_type();
+            view::VolumesPanel::static_type();
+            view::VolumesPrunePage::static_type();
             view::WelcomePage::static_type();
 
             widget::BackNavigationControls::static_type();
@@ -324,6 +335,7 @@ mod imp {
                         Some("containers") => imp.containers_view_stack_page.set_needs_attention(false),
                         Some("pods") => imp.pods_view_stack_page.set_needs_attention(false),
                         Some("images") => imp.images_view_stack_page.set_needs_attention(false),
+                        Some("volumes") => imp.pods_view_stack_page.set_needs_attention(false),
                         _ => {}
                     }
                 }),
@@ -345,18 +357,24 @@ mod imp {
                         .chain_property::<model::Client>("pod-list")
                         .chain_property::<model::PodList>("len")
                         .upcast(),
+                    &client_expr
+                        .chain_property::<model::Client>("volume-list")
+                        .chain_property::<model::VolumeList>("len")
+                        .upcast(),
                 ],
                 closure!(|_: Self::Type,
                           title_visible: bool,
                           visible_panel: &str,
                           images: u32,
                           containers: u32,
-                          pods: u32| {
+                          pods: u32,
+                          volumes: u32| {
                     title_visible
                         && match visible_panel {
                             "images" => images > 0,
                             "containers" => containers > 0,
                             "pods" => pods > 0,
+                            "volumes" => volumes > 0,
                             _ => unreachable!(),
                         }
                 }),
@@ -416,6 +434,19 @@ mod imp {
                                         && list.initialized()
                                     {
                                         imp.images_view_stack_page.set_needs_attention(true);
+                                    }
+                                }));
+
+                                imp.volumes_view_stack_page.set_needs_attention(false);
+                                client.volume_list().connect_notify_local(
+                                    Some("len"),
+                                    clone!(@weak obj => move |list, _|
+                                {
+                                    let imp = obj.imp();
+                                    if imp.panel_stack.visible_child_name().as_deref() != Some("volumes")
+                                        && list.initialized()
+                                    {
+                                        imp.volumes_view_stack_page.set_needs_attention(true);
                                     }
                                 }));
                             }),
@@ -687,6 +718,20 @@ impl Window {
                 Some(&*imp.images_panel),
             );
 
+        view::VolumesPanel::this_expression("volume-list")
+            .chain_property::<model::VolumeList>("num-selected")
+            .chain_closure::<String>(closure!(|_: view::VolumesPanel, selected: u32| ngettext!(
+                "{} Selected Volume",
+                "{} Selected Volumes",
+                selected,
+                selected
+            )))
+            .bind(
+                &*imp.selected_volumes_button,
+                "label",
+                Some(&*imp.volumes_panel),
+            );
+
         imp.containers_panel
             .connect_exit_selection_mode(clone!(@weak self as obj => move |_| {
                 obj.imp().header_stack.set_visible_child_name("main");
@@ -696,6 +741,10 @@ impl Window {
                 obj.imp().header_stack.set_visible_child_name("main");
             }));
         imp.images_panel
+            .connect_exit_selection_mode(clone!(@weak self as obj => move |_| {
+                obj.imp().header_stack.set_visible_child_name("main");
+            }));
+        imp.volumes_panel
             .connect_exit_selection_mode(clone!(@weak self as obj => move |_| {
                 obj.imp().header_stack.set_visible_child_name("main");
             }));
@@ -732,18 +781,17 @@ impl Window {
         let imp = self.imp();
 
         if let Some(name) = imp.panel_stack.visible_child_name() {
+            imp.header_stack.set_visible_child_name("selection");
             match name.as_str() {
                 "containers" => {
                     let list = imp.containers_panel.container_list().unwrap();
                     if list.len() > 0 {
-                        imp.header_stack.set_visible_child_name("selection");
                         list.set_selection_mode(true);
                     }
                 }
                 "pods" => {
                     let list = imp.pods_panel.pod_list().unwrap();
                     if list.len() > 0 {
-                        imp.header_stack.set_visible_child_name("selection");
                         list.set_selection_mode(true);
                     }
                 }
@@ -751,6 +799,12 @@ impl Window {
                     let list = imp.images_panel.image_list().unwrap();
                     if list.len() > 0 {
                         imp.header_stack.set_visible_child_name("selection");
+                        list.set_selection_mode(true);
+                    }
+                }
+                "volumes" => {
+                    let list = imp.volumes_panel.volume_list().unwrap();
+                    if list.len() > 0 {
                         list.set_selection_mode(true);
                     }
                 }
@@ -773,6 +827,9 @@ impl Window {
         if let Some(list) = imp.images_panel.image_list() {
             list.set_selection_mode(false);
         }
+        if let Some(list) = imp.volumes_panel.volume_list() {
+            list.set_selection_mode(false);
+        }
     }
 
     fn select_all(&self) {
@@ -783,19 +840,25 @@ impl Window {
             .container_list()
             .filter(|list| list.is_selection_mode())
         {
-            list.select_all()
+            list.select_all();
         } else if let Some(list) = imp
             .pods_panel
             .pod_list()
             .filter(|list| list.is_selection_mode())
         {
-            list.select_all()
+            list.select_all();
         } else if let Some(list) = imp
             .images_panel
             .image_list()
             .filter(|list| list.is_selection_mode())
         {
-            list.select_all()
+            list.select_all();
+        } else if let Some(list) = imp
+            .volumes_panel
+            .volume_list()
+            .filter(|list| list.is_selection_mode())
+        {
+            list.select_all();
         }
     }
 
@@ -817,6 +880,12 @@ impl Window {
         } else if let Some(list) = imp
             .images_panel
             .image_list()
+            .filter(|list| list.is_selection_mode())
+        {
+            list.select_none()
+        } else if let Some(list) = imp
+            .volumes_panel
+            .volume_list()
             .filter(|list| list.is_selection_mode())
         {
             list.select_none()
@@ -875,6 +944,9 @@ impl Window {
                     "images" => imp
                         .images_panel
                         .activate_action(view::ImagesPanel::action_pull_image(), None),
+                    "volumes" => imp
+                        .volumes_panel
+                        .activate_action(view::VolumesPanel::action_create_volume(), None),
                     _ => unreachable!(),
                 });
         }
@@ -918,14 +990,12 @@ impl Window {
     fn client_err_op(&self, e: model::ClientError) {
         self.show_toast(
             adw::Toast::builder()
-                .title(gettext!(
-                    "Error on loading {}",
-                    match e {
-                        model::ClientError::Images => gettext("images"),
-                        model::ClientError::Containers => gettext("containers"),
-                        model::ClientError::Pods => gettext("pods"),
-                    }
-                ))
+                .title(match e {
+                    model::ClientError::Images => gettext("Error on loading images"),
+                    model::ClientError::Containers => gettext("Error on loading containers"),
+                    model::ClientError::Pods => gettext("Error on loading pods"),
+                    model::ClientError::Volumes => gettext("Error on loading volumes"),
+                })
                 .timeout(3)
                 .priority(adw::ToastPriority::High)
                 .build(),

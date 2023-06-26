@@ -20,11 +20,15 @@ use gtk::prelude::Cast;
 use gtk::prelude::StaticType;
 use gtk::traits::GtkWindowExt;
 use gtk::traits::WidgetExt;
+use once_cell::sync::Lazy as SyncLazy;
 
 use crate::config;
 use crate::widget;
 use crate::APPLICATION_OPTS;
 use crate::RUNTIME;
+
+pub(crate) static VOLUME_NAME_REGEX: SyncLazy<regex::Regex> =
+    SyncLazy::new(|| regex::Regex::new("^[0-9a-f]{64}$").unwrap());
 
 #[macro_export]
 macro_rules! monad_boxed_type {
@@ -465,5 +469,17 @@ where
                 );
             }
         }
+    }
+}
+
+pub(crate) fn is_podman_id(name: &str) -> bool {
+    VOLUME_NAME_REGEX.is_match(name)
+}
+
+pub(crate) fn format_volume_name(name: &str) -> String {
+    if VOLUME_NAME_REGEX.is_match(name) {
+        format_id(name)
+    } else {
+        name.to_owned()
     }
 }

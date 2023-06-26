@@ -1688,6 +1688,7 @@ dependencies = [
  "oo7",
  "paste",
  "podman-api",
+ "regex",
  "serde",
  "serde_json",
  "sourceview5",

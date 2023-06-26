@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+
+  <object class="GtkSizeGroup">
+    <property name="mode">horizontal</property>
+    <widgets>
+      <widget name="cancel_button"/>
+      <widget name="create_button"/>
+    </widgets>
+  </object>
+
+  <template class="PdsVolumeCreationPage" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBinLayout"/>
+    </property>
+
+    <child>
+      <object class="GtkStack" id="stack">
+        <property name="transition-type">crossfade</property>
+
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+
+            <child>
+              <object class="AdwHeaderBar">
+                <property name="show-end-title-buttons">False</property>
+                <property name="show-start-title-buttons">False</property>
+
+                <child type="start">
+                  <object class="GtkButton" id="cancel_button">
+                    <property name="action-name">action.cancel</property>
+                    <property name="label" translatable="yes">_Cancel</property>
+                    <property name="use-underline">True</property>
+                  </object>
+                </child>
+
+                <child type="title">
+                  <object class="AdwWindowTitle">
+                    <property name="title" translatable="yes">Create Volume</property>
+                  </object>
+                </child>
+
+                <child type="end">
+                  <object class="GtkButton" id="create_button">
+                    <style>
+                      <class name="suggested-action"/>
+                    </style>
+                    <property name="action-name">volume-creation-page.create-volume</property>
+                    <property name="label" translatable="yes">_Create</property>
+                    <property name="use-underline">True</property>
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwPreferencesPage">
+                <property name="vexpand">True</property>
+
+                <child>
+                  <object class="AdwPreferencesGroup">
+
+                    <child>
+                      <object class="PdsRandomNameEntryRow" id="name_entry_row">
+                        <property name="activates-default">True</property>
+                        <property name="title" translatable="yes">Name</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwBin" id="action_page_bin"/>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>

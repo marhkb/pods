@@ -66,6 +66,11 @@
       <summary>Whether to show only running pods</summary>
       <description></description>
     </key>
+    <key name="show-only-used-volumes" type="b">
+      <default>true</default>
+      <summary>Whether to show only used volumes</summary>
+      <description></description>
+    </key>
     <key name="show-log-timestamps" type="b">
       <default>false</default>
       <summary>Whether to show a timestamp for each log line</summary>

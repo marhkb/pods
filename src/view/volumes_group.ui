@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="GtkListBoxRow" id="create_volume_row">
+    <property name="action-name">volumes-group.create-volume</property>
+    <property name="selectable">False</property>
+
+    <child>
+      <object class="GtkImage">
+        <property name="icon-name">list-add-symbolic</property>
+        <property name="margin-top">15</property>
+        <property name="margin-bottom">15</property>
+        <property name="tooltip-text" translatable="yes">Create Volume</property>
+      </object>
+    </child>
+
+  </object>
+
+  <template class="PdsVolumesGroup" parent="AdwPreferencesGroup">
+
+    <property name="header-suffix">
+      <object class="GtkBox" id="header_suffix_box">
+        <property name="spacing">15</property>
+        <property name="valign">center</property>
+
+        <child>
+          <object class="GtkBox">
+            <property name="spacing">6</property>
+
+            <child>
+              <object class="GtkLabel">
+                <property name="label" translatable="yes">Only used</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkSwitch" id="show_only_used_switch">
+                <property name="valign">center</property>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkBox">
+            <property name="spacing">9</property>
+
+            <child>
+              <object class="GtkButton" id="prune_volumes_button">
+                <style>
+                  <class name="circular"/>
+                </style>
+                <property name="action-name">volumes-group.prune-volumes</property>
+                <property name="icon-name">eraser5-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Prune Volumes</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkButton" id="create_volume_button">
+                <style>
+                  <class name="circular"/>
+                </style>
+                <property name="action-name">volumes-group.create-volume</property>
+                <property name="icon-name">list-add-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Create Volume</property>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+      </object>
+    </property>
+
+    <child>
+      <object class="GtkListBox" id="list_box">
+        <style>
+          <class name="boxed-list"/>
+        </style>
+        <property name="selection-mode">none</property>
+      </object>
+    </child>
+
+  </template>
+</interface>
