@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-30 22:11+0200\n"
-"PO-Revision-Date: 2023-03-08 01:51+0000\n"
-"Last-Translator: Daudix UFO <ddaudix@gmail.com>\n"
+"PO-Revision-Date: 2023-06-28 23:50+0000\n"
+"Last-Translator: lenemter <lenemter@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/pods/main/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.16.2-dev\n"
+"X-Generator: Weblate 4.18.1\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:47
@@ -32,7 +32,7 @@ msgstr "Отслеживайте ваши контейнеры podman"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:9
 msgid "Gnome;GTK;libadwaita;Podman;Containerization;"
-msgstr ""
+msgstr "Gnome;GTK;libadwaita;Podman;Containerization; Контейнеры;"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:6
 #: data/com.github.marhkb.Pods.gschema.xml.in:7
@@ -115,9 +115,8 @@ msgid "The font scale of all text views"
 msgstr "Масштаб шрифта для всех текстовых представлений"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:101
-#, fuzzy
 msgid "The font scale for terminals"
-msgstr "Масштаб шрифта для всех текстовых представлений"
+msgstr "Масштаб шрифта для всех терминалов"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
 msgid ""
@@ -218,9 +217,8 @@ msgid "Specify the minimum log level"
 msgstr "Указать минимальный уровень журналирования"
 
 #: src/model/action.rs:133
-#, fuzzy
 msgid "Prune unused images"
-msgstr "Очищать образы."
+msgstr "Очищать неиспользуемые образы"
 
 #: src/model/action.rs:171
 #, fuzzy
