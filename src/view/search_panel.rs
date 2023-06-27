@@ -103,7 +103,7 @@ mod imp {
                     } else if let Some(image) = item.downcast_ref::<model::Image>() {
                         image.id().contains(&term) || image.repo_tags().contains(&term)
                     } else if let Some(volume) = item.downcast_ref::<model::Volume>() {
-                        volume.inner().name.contains(&term)
+                        volume.inner().name.to_lowercase().contains(&term)
                     } else {
                         unreachable!();
                     }
