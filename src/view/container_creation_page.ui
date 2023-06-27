@@ -136,15 +136,29 @@
                                         </child>
 
                                         <child>
-                                          <object class="PdsPropertyRow" id="pod_property_row">
-                                            <property name="key" translatable="yes">Pod</property>
-                                          </object>
-                                        </child>
-
-                                        <child>
-                                          <object class="AdwComboRow" id="pod_combo_row">
+                                          <object class="AdwActionRow" id="pod_row">
                                             <property name="title" translatable="yes">Pod</property>
-                                            <property name="use-subtitle">True</property>
+                                            <property name="action-name">container-creation-page.select-pod</property>
+                                            <property name="activatable">True</property>
+
+                                            <child type="suffix">
+                                              <object class="GtkButton" id="clear_pod_button">
+                                                <style>
+                                                  <class name="flat"/>
+                                                </style>
+                                                <property name="action-name">container-creation-page.clear-pod</property>
+                                                <property name="icon-name">edit-delete-symbolic</property>
+                                                <property name="valign">center</property>
+                                                <property name="visible" bind-source="clear_pod_button" bind-property="sensitive" bind-flags="sync-create"/>
+                                              </object>
+                                            </child>
+
+                                            <child type="suffix">
+                                              <object class="GtkImage">
+                                                <property name="icon-name">go-next-symbolic</property>
+                                              </object>
+                                            </child>
+
                                           </object>
                                         </child>
 

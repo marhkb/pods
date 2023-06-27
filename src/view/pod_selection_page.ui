@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="PdsPodSelectionPage" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBoxLayout">
+        <property name="orientation">vertical</property>
+      </object>
+    </property>
+
+    <child>
+      <object class="AdwHeaderBar" id="header_bar">
+        <property name="show-end-title-buttons">False</property>
+        <property name="show-start-title-buttons">False</property>
+
+        <child type="start">
+          <object class="PdsBackNavigationControls" id="back_navigation_controls"/>
+        </child>
+
+        <child type="start">
+          <object class="GtkToggleButton" id="filter_button">
+            <property name="icon-name">system-search-symbolic</property>
+            <property name="tooltip-text" translatable="yes">Filter</property>
+            <signal name="toggled" handler="on_filter_button_toggled" swapped="true"/>
+          </object>
+        </child>
+
+        <child type="title">
+          <object class="GtkStack" id="title_stack">
+            <property name="hexpand">True</property>
+            <property name="transition-type">crossfade</property>
+
+            <child>
+              <object class="GtkStackPage">
+                <property name="name">title</property>
+
+                <property name="child">
+                  <object class="AdwWindowTitle">
+                    <property name="title" translatable="yes">Select Pod</property>
+                  </object>
+                </property>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkSearchEntry" id="filter_entry">
+                <property name="hexpand">True</property>
+                <property name="margin-start">36</property>
+                <property name="margin-end">36</property>
+                <signal name="search-started" handler="on_filter_started" swapped="true"/>
+                <signal name="search-changed" handler="on_filter_changed" swapped="true"/>
+
+                <child>
+                  <object class="GtkEventControllerKey">
+                    <signal name="key-pressed" handler="on_filter_key_pressed" swapped="true"/>
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child type="end">
+          <object class="GtkButton" id="select_button">
+            <style>
+              <class name="suggested-action"/>
+            </style>
+            <property name="action-name">pod-selection-page.select</property>
+            <property name="label" translatable="yes">_Select</property>
+            <property name="use-underline">True</property>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <child>
+      <object class="GtkScrolledWindow">
+        <property name="hexpand">True</property>
+        <property name="vexpand">True</property>
+        <property name="hscrollbar-policy">never</property>
+
+        <child>
+          <object class="GtkListView" id="list_view">
+            <property name="show-separators">True</property>
+            <property name="model">
+              <object class="GtkSingleSelection" id="selection">
+                <signal name="selection-changed" handler="on_pod_selected" swapped="true"/>
+              </object>
+            </property>
+            <signal name="activate" handler="on_pod_activated" swapped="true"/>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>
