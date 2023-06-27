@@ -3,14 +3,12 @@ use std::cell::RefCell;
 use adw::subclass::prelude::*;
 use adw::traits::ActionRowExt;
 use adw::traits::BinExt;
-use adw::traits::ComboRowExt;
 use gettextrs::gettext;
 use glib::clone;
-use glib::closure_local;
 use glib::Properties;
 use gtk::gio;
 use gtk::glib;
-use gtk::pango;
+use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::CompositeTemplate;
 
@@ -21,6 +19,8 @@ use crate::view;
 use crate::widget;
 
 const ACTION_ADD_CMD_ARG: &str = "container-creation-page.add-cmd-arg";
+const ACTION_SELECT_POD: &str = "container-creation-page.select-pod";
+const ACTION_CLEAR_POD: &str = "container-creation-page.clear-pod";
 const ACTION_ADD_PORT_MAPPING: &str = "container-creation-page.add-port-mapping";
 const ACTION_ADD_VOLUME: &str = "container-creation-page.add-volume";
 const ACTION_ADD_ENV_VAR: &str = "container-creation-page.add-env-var";
@@ -46,7 +46,7 @@ mod imp {
         pub(super) client: glib::WeakRef<model::Client>,
         #[property(get, set, construct, nullable)]
         pub(super) image: glib::WeakRef<model::Image>,
-        #[property(get, set, construct, nullable)]
+        #[property(get, set = Self::set_pod, construct, nullable, explicit_notify)]
         pub(super) pod: glib::WeakRef<model::Pod>,
         #[property(get, set, construct, nullable)]
         pub(super) volume: glib::WeakRef<model::Volume>,
@@ -61,9 +61,7 @@ mod imp {
         #[template_child]
         pub(super) image_selection_combo_row: TemplateChild<view::ImageSelectionComboRow>,
         #[template_child]
-        pub(super) pod_property_row: TemplateChild<widget::PropertyRow>,
-        #[template_child]
-        pub(super) pod_combo_row: TemplateChild<adw::ComboRow>,
+        pub(super) pod_row: TemplateChild<adw::ActionRow>,
         #[template_child]
         pub(super) pull_latest_image_row: TemplateChild<adw::ActionRow>,
         #[template_child]
@@ -114,7 +112,12 @@ mod imp {
             klass.install_action(ACTION_ADD_CMD_ARG, None, |widget, _, _| {
                 widget.add_cmd_arg();
             });
-
+            klass.install_action(ACTION_SELECT_POD, None, |widget, _, _| {
+                widget.select_pod();
+            });
+            klass.install_action(ACTION_CLEAR_POD, None, |widget, _, _| {
+                widget.clear_pod();
+            });
             klass.install_action(ACTION_ADD_PORT_MAPPING, None, |widget, _, _| {
                 widget.add_port_mapping();
             });
@@ -124,7 +127,6 @@ mod imp {
             klass.install_action(ACTION_ADD_ENV_VAR, None, |widget, _, _| {
                 widget.add_env_var();
             });
-
             klass.install_action(ACTION_ADD_LABEL, None, |widget, _, _| {
                 widget.add_label();
             });
@@ -162,31 +164,25 @@ mod imp {
             self.name_entry_row
                 .connect_text_notify(clone!(@weak obj => move |_| obj.on_name_changed()));
 
-            let pod_name_expr = model::Pod::this_expression("name");
-
             self.image_selection_combo_row
                 .set_client(obj.client().as_ref());
             self.image_selection_combo_row
                 .connect_subtitle_notify(clone!(@weak obj => move |_| obj.update_data()));
 
+            Self::Type::this_expression("pod")
+                .chain_closure::<String>(closure!(|_: Self::Type, pod: Option<&model::Pod>| pod
+                    .map(model::Pod::name)
+                    .unwrap_or_default()))
+                .bind(&self.pod_row.get(), "subtitle", Some(obj));
+
             if let Some(image) = obj.image() {
                 self.image_selection_combo_row.set_image(Some(image));
                 obj.update_data();
-                obj.setup_pod_combo_row();
-            } else if let Some(pod) = obj.pod() {
-                pod.connect_deleted(
-                    clone!(@weak obj => move |_| obj.activate_action("action.cancel", None).unwrap())
-                );
-                self.pod_combo_row.set_visible(false);
-                pod_name_expr.bind(&*self.pod_property_row, "value", Some(&pod));
             } else if let Some(volume) = obj.volume() {
-                obj.setup_pod_combo_row();
                 if let Some(mount) = obj.add_mount() {
                     mount.set_mount_type(model::MountType::Volume);
                     mount.set_volume(Some(volume));
                 }
-            } else {
-                obj.setup_pod_combo_row();
             }
 
             bind_model(
@@ -287,6 +283,19 @@ mod imp {
                         .and_then(|list| list.client())
                 })
         }
+
+        pub(super) fn set_pod(&self, value: Option<&model::Pod>) {
+            let obj = &*self.obj();
+
+            obj.action_set_enabled(ACTION_CLEAR_POD, value.is_some());
+
+            if obj.pod().as_ref() == value {
+                return;
+            }
+
+            self.pod.set(value);
+            obj.notify_pod();
+        }
     }
 }
 
@@ -294,6 +303,12 @@ glib::wrapper! {
     pub(crate) struct ContainerCreationPage(ObjectSubclass<imp::ContainerCreationPage>)
         @extends gtk::Widget,
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
+}
+
+impl From<&model::Client> for ContainerCreationPage {
+    fn from(client: &model::Client) -> Self {
+        glib::Object::builder().property("client", client).build()
+    }
 }
 
 impl From<&model::Image> for ContainerCreationPage {
@@ -314,88 +329,7 @@ impl From<&model::Volume> for ContainerCreationPage {
     }
 }
 
-impl From<&model::Client> for ContainerCreationPage {
-    fn from(client: &model::Client) -> Self {
-        glib::Object::builder().property("client", client).build()
-    }
-}
-
 impl ContainerCreationPage {
-    fn setup_pod_combo_row(&self) {
-        let imp = self.imp();
-
-        imp.pod_property_row.set_visible(false);
-
-        imp.pod_combo_row.connect_selected_item_notify(
-            clone!(@weak self as obj => move |combo_row| {
-                obj.set_pod(
-                    combo_row.selected_item().and_then(|o| o.downcast().ok()).as_ref(),
-                );
-            }),
-        );
-
-        let pod_name_expr = model::Pod::this_expression("name");
-
-        imp.pod_combo_row.set_expression(Some(&pod_name_expr));
-
-        let list_factory = gtk::SignalListItemFactory::new();
-        list_factory.connect_bind(clone!(@weak self as obj => move |_, list_item| {
-            let list_item = list_item.downcast_ref::<gtk::ListItem>().unwrap();
-
-            if let Some(item) = list_item.item() {
-                let box_ = gtk::Box::builder().spacing(3).build();
-                let label = gtk::Label::builder().xalign(0.0).build();
-
-                if let Some(pod) = item.downcast_ref::<model::Pod>() {
-                    pod_name_expr.bind(&label, "label", Some(pod));
-                    label.set_max_width_chars(48);
-                    label.set_wrap(true);
-                    label.set_wrap_mode(pango::WrapMode::WordChar);
-                } else {
-                    label.set_label(&format!("<i>{}</i>", gettext("disabled")));
-                    label.set_use_markup(true);
-                    label.add_css_class("dim-label");
-                };
-
-                let selected_icon = gtk::Image::builder()
-                    .icon_name("object-select-symbolic")
-                    .build();
-
-                adw::ComboRow::this_expression("selected-item")
-                    .chain_closure::<bool>(closure_local!(
-                        |_: adw::ComboRow, selected: Option<&glib::Object>| {
-                            selected == Some(&item)
-                        }
-                    ))
-                    .bind(&selected_icon, "visible", Some(&*obj.imp().pod_combo_row));
-
-                box_.append(&label);
-                box_.append(&selected_icon);
-
-                list_item.set_child(Some(&box_));
-            }
-        }));
-        list_factory.connect_unbind(|_, list_item| {
-            list_item
-                .downcast_ref::<gtk::ListItem>()
-                .unwrap()
-                .set_child(gtk::Widget::NONE);
-        });
-        imp.pod_combo_row.set_list_factory(Some(&list_factory));
-
-        let pod_list_model = gio::ListStore::new(gio::ListModel::static_type());
-        pod_list_model.append(&gtk::StringList::new(&[""]));
-        pod_list_model.append(&gtk::SortListModel::new(
-            Some(self.client().unwrap().pod_list()),
-            Some(gtk::StringSorter::new(Some(model::Pod::this_expression(
-                "name",
-            )))),
-        ));
-
-        imp.pod_combo_row
-            .set_model(Some(&gtk::FlattenListModel::new(Some(pod_list_model))));
-    }
-
     fn on_name_changed(&self) {
         let enabled = self.imp().name_entry_row.text().len() > 0;
         self.action_set_enabled(ACTION_CREATE_AND_RUN, enabled);
@@ -466,6 +400,22 @@ impl ContainerCreationPage {
                 imp.port_mappings.remove_all();
             }
         }
+    }
+
+    pub(crate) fn select_pod(&self) {
+        if let Some(client) = self.client() {
+            let pod_selection_page = view::PodSelectionPage::from(&client.pod_list());
+            pod_selection_page.connect_pod_selected(clone!(@weak self as obj => move |_, pod| {
+                obj.set_pod(Some(&pod));
+            }));
+            self.imp()
+                .leaflet_overlay
+                .show_details(pod_selection_page.upcast_ref());
+        }
+    }
+
+    pub(crate) fn clear_pod(&self) {
+        self.set_pod(Option::<model::Pod>::None);
     }
 
     fn add_cmd_arg(&self) {
