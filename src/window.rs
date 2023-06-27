@@ -135,6 +135,7 @@ mod imp {
             view::ImagesPanel::static_type();
             view::PodMenuButton::static_type();
             view::PodRow::static_type();
+            view::PodSelectionPage::static_type();
             view::PodsPanel::static_type();
             view::PodsPrunePage::static_type();
             view::RepoTagAddDialog::static_type();
