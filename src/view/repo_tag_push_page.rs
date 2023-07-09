@@ -226,6 +226,7 @@ impl RepoTagPushPage {
                     let destination = repo_tag.full();
 
                     let opts = podman::opts::ImagePushOpts::builder()
+                        .tls_verify(imp.tls_verify_row_switch.is_active())
                         .destination(&destination)
                         .quiet(false);
 
