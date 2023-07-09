@@ -1,12 +1,12 @@
 use std::cell::Cell;
+use std::sync::OnceLock;
 
+use adw::prelude::*;
+use adw::subclass::prelude::*;
 use glib::Properties;
 use gtk::glib;
 use gtk::glib::closure;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::OnceCell as SyncOnceCell;
 
 use crate::utils;
 
@@ -15,7 +15,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ZoomControl)]
-    #[template(file = "zoom_control.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/widget/zoom_control.ui")]
     pub(crate) struct ZoomControl {
         #[property(get, set, minimum = 0.0)]
         pub(super) zoom_factor: Cell<f64>,
@@ -44,7 +44,7 @@ mod imp {
 
     impl ObjectImpl for ZoomControl {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: SyncOnceCell<Vec<glib::ParamSpec>> = SyncOnceCell::new();
+            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
             PROPERTIES.get_or_init(|| {
                 Self::derived_properties()
                     .iter()

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="PdsPodsRow" parent="GtkWidget">
+    <style>
+      <class name="sidebar-row"/>
+    </style>
+    <property name="layout-manager">
+      <object class="GtkBoxLayout">
+        <property name="spacing">12</property>
+      </object>
+    </property>
+
+    <child>
+      <object class="GtkImage">
+        <property name="icon-name">pods-symbolic</property>
+      </object>
+    </child>
+
+    <child>
+      <object class="GtkLabel">
+        <property name="ellipsize">end</property>
+        <property name="label" translatable="yes">Pods</property>
+        <property name="hexpand">True</property>
+        <property name="xalign">0</property>
+      </object>
+    </child>
+
+    <child>
+      <object class="GtkBox">
+        <property name="spacing">6</property>
+
+        <child>
+          <object class="GtkLabel">
+            <style>
+              <class name="status-badge-small"/>
+              <class name="pod-status-running"/>
+            </style>
+            <binding name="label">
+              <lookup name="running" type="PodList">
+                <lookup name="pod-list">PdsPodsRow</lookup>
+              </lookup>
+            </binding>
+            <binding name="visible">
+              <lookup name="running" type="PodList">
+                <lookup name="pod-list">PdsPodsRow</lookup>
+              </lookup>
+            </binding>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkLabel">
+            <style>
+              <class name="status-badge-small"/>
+              <class name="pod-status-paused"/>
+            </style>
+            <binding name="label">
+              <lookup name="paused" type="PodList">
+                <lookup name="pod-list">PdsPodsRow</lookup>
+              </lookup>
+            </binding>
+            <binding name="visible">
+              <lookup name="paused" type="PodList">
+                <lookup name="pod-list">PdsPodsRow</lookup>
+              </lookup>
+            </binding>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkLabel">
+            <style>
+              <class name="status-badge-small"/>
+              <class name="pod-status-stopped"/>
+            </style>
+            <binding name="label">
+              <lookup name="not-running" type="PodList">
+                <lookup name="pod-list">PdsPodsRow</lookup>
+              </lookup>
+            </binding>
+            <binding name="visible">
+              <lookup name="not-running" type="PodList">
+                <lookup name="pod-list">PdsPodsRow</lookup>
+              </lookup>
+            </binding>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkLabel">
+            <style>
+              <class name="status-badge-small"/>
+              <class name="pod-status-degraded"/>
+            </style>
+            <binding name="label">
+              <lookup name="degraded" type="PodList">
+                <lookup name="pod-list">PdsPodsRow</lookup>
+              </lookup>
+            </binding>
+            <binding name="visible">
+              <lookup name="degraded" type="PodList">
+                <lookup name="pod-list">PdsPodsRow</lookup>
+              </lookup>
+            </binding>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>

@@ -1,20 +1,20 @@
 use std::cell::Cell;
+use std::cell::OnceCell;
 use std::cell::RefCell;
 use std::fmt;
 use std::ops::Deref;
 use std::str::FromStr;
 
+use futures::prelude::*;
 use futures::Future;
-use futures::TryFutureExt;
 use gettextrs::gettext;
 use glib::clone;
+use glib::once_cell::sync::Lazy;
+use glib::prelude::*;
+use glib::subclass::prelude::*;
 use glib::subclass::Signal;
-use glib::ObjectExt;
 use glib::Properties;
 use gtk::glib;
-use gtk::subclass::prelude::*;
-use once_cell::sync::Lazy;
-use once_cell::unsync::OnceCell;
 
 use crate::model;
 use crate::podman;

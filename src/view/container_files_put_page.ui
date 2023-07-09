@@ -24,76 +24,80 @@
     </property>
 
     <child>
-      <object class="GtkStack" id="stack">
-        <property name="transition-type">crossfade</property>
+      <object class="AdwNavigationView" id="navigation_view">
 
         <child>
-          <object class="GtkBox">
-            <property name="orientation">vertical</property>
+          <object class="AdwNavigationPage">
+            <property name="title" translatable="yes">Preferences</property>
 
             <child>
-              <object class="AdwHeaderBar">
-                <property name="show-end-title-buttons">False</property>
-                <property name="show-start-title-buttons">False</property>
+            <object class="AdwToolbarView">
 
-                <child type="start">
-                  <object class="GtkButton" id="cancel_button">
-                    <property name="action-name">action.cancel</property>
-                    <property name="label" translatable="yes">_Cancel</property>
-                    <property name="use-underline">True</property>
-                  </object>
-                </child>
+                <child type="top">
+                  <object class="AdwHeaderBar">
+                    <property name="show-end-title-buttons">False</property>
+                    <property name="show-start-title-buttons">False</property>
 
-                <child type="title">
-                  <object class="AdwWindowTitle">
-                    <property name="title" translatable="yes">Upload Files</property>
-                  </object>
-                </child>
-
-                <child type="end">
-                  <object class="GtkButton" id="put_button">
-                    <style>
-                      <class name="suggested-action"/>
-                    </style>
-                    <property name="action-name">container-files-put-page.put</property>
-                    <property name="label" translatable="yes">_Upload</property>
-                    <property name="use-underline">True</property>
-                  </object>
-                </child>
-
-              </object>
-            </child>
-
-            <child>
-              <object class="AdwPreferencesPage">
-                <property name="vexpand">True</property>
-
-                <child>
-                  <object class="AdwPreferencesGroup">
-
-                    <child>
-                      <object class="AdwActionRow" id="host_path_row">
-                        <property name="activatable">False</property>
-                        <property name="title" translatable="yes">Host Path</property>
-                        <property name="subtitle" translatable="yes">Either select a file or a directory from the host to upload.</property>
-
-                        <child type="suffix">
-                          <object class="AdwSplitButton">
-                            <property name="action-name">container-files-put-page.select-host-file</property>
-                            <property name="label" translatable="yes">Select _File…</property>
-                            <property name="use-underline">True</property>
-                            <property name="valign">center</property>
-                            <property name="menu-model">menu</property>
-                          </object>
-                        </child>
-
+                    <child type="start">
+                      <object class="GtkButton" id="cancel_button">
+                        <property name="action-name">action.cancel</property>
+                        <property name="label" translatable="yes">_Cancel</property>
+                        <property name="use-underline">True</property>
                       </object>
                     </child>
 
+                    <child type="title">
+                      <object class="AdwWindowTitle">
+                        <property name="title" translatable="yes">Upload Files</property>
+                      </object>
+                    </child>
+
+                    <child type="end">
+                      <object class="GtkButton" id="put_button">
+                        <style>
+                          <class name="suggested-action"/>
+                        </style>
+                        <property name="action-name">container-files-put-page.put</property>
+                        <property name="label" translatable="yes">_Upload</property>
+                        <property name="use-underline">True</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwPreferencesPage">
+
                     <child>
-                      <object class="AdwEntryRow" id="container_path_row">
-                        <property name="activates-default">True</property>
-                        <property name="title" translatable="yes">Container Path ('/' if empty)</property>
+                      <object class="AdwPreferencesGroup">
+
+                        <child>
+                          <object class="AdwActionRow" id="host_path_row">
+                            <property name="activatable">False</property>
+                            <property name="title" translatable="yes">Host Path</property>
+                            <property name="subtitle" translatable="yes">Either select a file or a directory from the host to upload.</property>
+
+                            <child type="suffix">
+                              <object class="AdwSplitButton">
+                                <property name="action-name">container-files-put-page.select-host-file</property>
+                                <property name="label" translatable="yes">Select _File…</property>
+                                <property name="use-underline">True</property>
+                                <property name="valign">center</property>
+                                <property name="menu-model">menu</property>
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="AdwEntryRow" id="container_path_row">
+                            <property name="activates-default">True</property>
+                            <property name="title" translatable="yes">Container Path ('/' if empty)</property>
+                          </object>
+                        </child>
+
                       </object>
                     </child>
 
@@ -104,10 +108,6 @@
             </child>
 
           </object>
-        </child>
-
-        <child>
-          <object class="AdwBin" id="action_page_bin"/>
         </child>
 
       </object>

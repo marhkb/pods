@@ -1,15 +1,13 @@
 use std::borrow::Cow;
 
-use adw::subclass::prelude::PreferencesGroupImpl;
-use adw::traits::ExpanderRowExt;
+use adw::prelude::*;
+use adw::subclass::prelude::*;
 use gettextrs::gettext;
 use glib::clone;
 use glib::closure;
 use glib::Properties;
 use gtk::glib;
 use gtk::pango;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
 
 use crate::model;
@@ -22,7 +20,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ContainerPropertiesGroup)]
-    #[template(file = "container_properties_group.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/container_properties_group.ui")]
     pub(crate) struct ContainerPropertiesGroup {
         #[property(get, set, construct, nullable)]
         pub(super) container: glib::WeakRef<model::Container>,

@@ -4,6 +4,7 @@
     <property name="layout-manager">
       <object class="GtkBinLayout"/>
     </property>
+    <property name="vexpand">True</property>
 
     <child>
       <object class="GtkListView" id="connection_list_view">
@@ -11,6 +12,7 @@
         <property name="single-click-activate">true</property>
         <property name="model">
           <object class="GtkSingleSelection" id="selection">
+            <property name="autoselect">False</property>
             <property name="model" bind-source="PdsConnectionSwitcher" bind-property="connection-manager" bind-flags="sync-create"/>
           </object>
         </property>

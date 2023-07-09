@@ -1,18 +1,18 @@
+use std::cell::OnceCell;
+
+use adw::prelude::*;
 use adw::subclass::prelude::*;
 use glib::clone;
+use glib::once_cell::sync::Lazy as SyncLazy;
 use glib::Properties;
 use gtk::gdk;
 use gtk::glib;
 use gtk::glib::subclass::Signal;
 use gtk::pango;
-use gtk::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy as SyncLazy;
-use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::utils;
-use crate::widget;
 
 const ACTION_FILTER: &str = "pod-selection-page.filter";
 const ACTION_SELECT: &str = "pod-selection-page.select";
@@ -22,13 +22,11 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::PodSelectionPage)]
-    #[template(file = "pod_selection_page.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/pod_selection_page.ui")]
     pub(crate) struct PodSelectionPage {
-        pub(super) filter: UnsyncOnceCell<gtk::Filter>,
+        pub(super) filter: OnceCell<gtk::Filter>,
         #[property(get, set = Self::set_pod_list, nullable)]
         pub(super) pod_list: glib::WeakRef<model::PodList>,
-        #[template_child]
-        pub(super) back_navigation_controls: TemplateChild<widget::BackNavigationControls>,
         #[template_child]
         pub(super) filter_button: TemplateChild<gtk::ToggleButton>,
         #[template_child]
@@ -38,7 +36,7 @@ mod imp {
         #[template_child]
         pub(super) select_button: TemplateChild<gtk::Button>,
         #[template_child]
-        pub(super) list_view: TemplateChild<gtk::ListView>,
+        pub(super) signal_list_item_factory: TemplateChild<gtk::SignalListItemFactory>,
         #[template_child]
         pub(super) selection: TemplateChild<gtk::SingleSelection>,
     }
@@ -116,35 +114,6 @@ mod imp {
                     pod.name().to_lowercase().contains(&term)
                 }));
             self.filter.set(filter.upcast()).unwrap();
-
-            let list_factory = gtk::SignalListItemFactory::new();
-            list_factory.connect_bind(clone!(@weak obj => move |_, list_item| {
-                let list_item = list_item.downcast_ref::<gtk::ListItem>().unwrap();
-
-                if let Some(item) = list_item.item() {
-                    let pod = item.downcast::<model::Pod>().unwrap();
-
-                    let label = gtk::Label::builder()
-                        .label(pod.name())
-                        .margin_top(9)
-                        .margin_end(12)
-                        .margin_bottom(9)
-                        .margin_start(12)
-                        .xalign(0.0)
-                        .wrap(true)
-                        .wrap_mode(pango::WrapMode::WordChar)
-                        .build();
-
-                    list_item.set_child(Some(&label));
-                }
-            }));
-            list_factory.connect_unbind(|_, list_item| {
-                list_item
-                    .downcast_ref::<gtk::ListItem>()
-                    .unwrap()
-                    .set_child(gtk::Widget::NONE);
-            });
-            self.list_view.set_factory(Some(&list_factory));
         }
 
         fn dispose(&self) {
@@ -184,16 +153,44 @@ mod imp {
             _: u32,
             _: gdk::ModifierType,
             _: &gtk::EventControllerKey,
-        ) -> gtk::Inhibit {
-            glib::signal::Inhibit(if key == gdk::Key::Escape {
+        ) -> glib::Propagation {
+            if key == gdk::Key::Escape {
                 self.obj().enable_search_mode(false);
-                true
             } else if key == gdk::Key::KP_Enter {
                 self.obj().activate_action(ACTION_SELECT, None).unwrap();
-                true
-            } else {
-                false
-            })
+            }
+
+            glib::Propagation::Proceed
+        }
+
+        #[template_callback]
+        fn on_signal_list_item_factory_bind(&self, list_item: &glib::Object) {
+            let list_item = list_item.downcast_ref::<gtk::ListItem>().unwrap();
+
+            if let Some(item) = list_item.item() {
+                let pod = item.downcast::<model::Pod>().unwrap();
+
+                let label = gtk::Label::builder()
+                    .label(pod.name())
+                    .margin_top(9)
+                    .margin_end(12)
+                    .margin_bottom(9)
+                    .margin_start(12)
+                    .xalign(0.0)
+                    .wrap(true)
+                    .wrap_mode(pango::WrapMode::WordChar)
+                    .build();
+
+                list_item.set_child(Some(&label));
+            }
+        }
+
+        #[template_callback]
+        fn on_signal_list_item_factory_unbind(&self, list_item: &glib::Object) {
+            list_item
+                .downcast_ref::<gtk::ListItem>()
+                .unwrap()
+                .set_child(gtk::Widget::NONE);
         }
 
         #[template_callback]
@@ -265,7 +262,7 @@ impl PodSelectionPage {
         let imp = self.imp();
 
         if !enable && !imp.filter_button.is_active() {
-            imp.back_navigation_controls.navigate_back();
+            utils::navigation_view(self.upcast_ref()).pop();
         } else {
             imp.filter_button.set_active(enable);
             if !enable {
@@ -282,12 +279,10 @@ impl PodSelectionPage {
     }
 
     pub(crate) fn select(&self) {
-        let imp = self.imp();
-
         if let Some(pod) = self.selected_pod() {
             self.emit_by_name::<()>("pod-selected", &[&pod]);
 
-            imp.back_navigation_controls.navigate_back();
+            utils::navigation_view(self.upcast_ref()).pop();
         }
     }
 

@@ -1,9 +1,9 @@
 use std::cell::Cell;
 
+use adw::prelude::*;
+use adw::subclass::prelude::*;
 use glib::Properties;
 use gtk::glib;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
 use sourceview5::subclass::view::ViewImpl;
 
 use crate::utils::PodsSettings;
@@ -57,12 +57,7 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for ScalableTextView {
-        fn realize(&self) {
-            self.parent_realize();
-        }
-    }
-
+    impl WidgetImpl for ScalableTextView {}
     impl TextViewImpl for ScalableTextView {}
     impl ViewImpl for ScalableTextView {}
 }

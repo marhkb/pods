@@ -1,14 +1,13 @@
+use std::cell::OnceCell;
 use std::cell::RefCell;
 
+use adw::prelude::*;
 use adw::subclass::prelude::*;
-use adw::traits::ActionRowExt;
-use adw::traits::BinExt;
 use gettextrs::gettext;
 use glib::clone;
 use glib::Properties;
 use gtk::gio;
 use gtk::glib;
-use gtk::prelude::*;
 use gtk::CompositeTemplate;
 
 use crate::model;
@@ -23,22 +22,19 @@ const ACTION_ADD_HOST: &str = "pod-creation-page.add-host";
 const ACTION_ADD_DEVICE: &str = "pod-creation-page.add-device";
 const ACTION_ADD_INFRA_CMD_ARGS: &str = "pod-creation-page.add-infra-cmd-arg";
 const ACTION_ADD_POD_CREATE_CMD_ARGS: &str = "pod-creation-page.add-pod-create-cmd-arg";
-const ACTION_TOGGLE_INFRA: &str = "pod-creation-page.toggle-infra";
-const ACTION_TOGGLE_HOSTS: &str = "pod-creation-page.toggle-hosts";
-const ACTION_TOGGLE_RESOLV: &str = "pod-creation-page.toggle-resolv";
 
 mod imp {
     use super::*;
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::PodCreationPage)]
-    #[template(file = "pod_creation_page.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/pod_creation_page.ui")]
     pub(crate) struct PodCreationPage {
-        pub(super) labels: gio::ListStore,
-        pub(super) hosts: gio::ListStore,
-        pub(super) devices: gio::ListStore,
-        pub(super) pod_create_cmd_args: gio::ListStore,
-        pub(super) infra_cmd_args: gio::ListStore,
+        pub(super) labels: OnceCell<gio::ListStore>,
+        pub(super) hosts: OnceCell<gio::ListStore>,
+        pub(super) devices: OnceCell<gio::ListStore>,
+        pub(super) pod_create_cmd_args: OnceCell<gio::ListStore>,
+        pub(super) infra_cmd_args: OnceCell<gio::ListStore>,
         pub(super) command_row_handler:
             RefCell<Option<(glib::SignalHandlerId, glib::WeakRef<model::Image>)>>,
         #[property(get, set, construct_only, nullable)]
@@ -46,9 +42,7 @@ mod imp {
         #[property(get, set, construct_only, nullable)]
         pub(super) infra_image: glib::WeakRef<model::Image>,
         #[template_child]
-        pub(super) stack: TemplateChild<gtk::Stack>,
-        #[template_child]
-        pub(super) leaflet_overlay: TemplateChild<widget::LeafletOverlay>,
+        pub(super) navigation_view: TemplateChild<adw::NavigationView>,
         #[template_child]
         pub(super) create_button: TemplateChild<gtk::Button>,
         #[template_child]
@@ -68,21 +62,15 @@ mod imp {
         #[template_child]
         pub(super) enable_hosts_switch: TemplateChild<gtk::Switch>,
         #[template_child]
-        pub(super) disable_resolv_switch: TemplateChild<gtk::Switch>,
+        pub(super) disable_resolv_switch_row: TemplateChild<adw::SwitchRow>,
         #[template_child]
-        pub(super) disable_resolv_row: TemplateChild<adw::ActionRow>,
-        #[template_child]
-        pub(super) disable_infra_switch: TemplateChild<gtk::Switch>,
-        #[template_child]
-        pub(super) disable_infra_row: TemplateChild<adw::ActionRow>,
+        pub(super) disable_infra_switch_row: TemplateChild<adw::SwitchRow>,
         #[template_child]
         pub(super) infra_settings_box: TemplateChild<gtk::Box>,
         #[template_child]
         pub(super) infra_name_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
-        pub(super) infra_pull_latest_image_row: TemplateChild<adw::ActionRow>,
-        #[template_child]
-        pub(super) infra_pull_latest_image_switch: TemplateChild<gtk::Switch>,
+        pub(super) infra_pull_latest_image_switch_row: TemplateChild<adw::SwitchRow>,
         #[template_child]
         pub(super) infra_image_selection_combo_row: TemplateChild<view::ImageSelectionComboRow>,
         #[template_child]
@@ -91,8 +79,6 @@ mod imp {
         pub(super) infra_command_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
         pub(super) infra_command_arg_list_box: TemplateChild<gtk::ListBox>,
-        #[template_child]
-        pub(super) action_page_bin: TemplateChild<adw::Bin>,
     }
 
     #[glib::object_subclass]
@@ -103,6 +89,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+            klass.bind_template_callbacks();
 
             klass.install_action(ACTION_CREATE, None, |widget, _, _| {
                 widget.finish();
@@ -121,15 +108,6 @@ mod imp {
             });
             klass.install_action(ACTION_ADD_INFRA_CMD_ARGS, None, |widget, _, _| {
                 widget.add_infra_cmd_arg();
-            });
-            klass.install_action(ACTION_TOGGLE_INFRA, None, |widget, _, _| {
-                widget.toggle_infra();
-            });
-            klass.install_action(ACTION_TOGGLE_HOSTS, None, |widget, _, _| {
-                widget.toggle_hosts();
-            });
-            klass.install_action(ACTION_TOGGLE_RESOLV, None, |widget, _, _| {
-                widget.toggle_resolv();
             });
         }
 
@@ -156,12 +134,9 @@ mod imp {
 
             let obj = &*self.obj();
 
-            self.name_entry_row
-                .connect_text_notify(clone!(@weak obj => move |_| obj.on_name_changed()));
-
             bind_model(
                 &self.labels_list_box,
-                &self.labels,
+                self.labels(),
                 |item| {
                     view::KeyValRow::from(item.downcast_ref::<model::KeyVal>().unwrap()).upcast()
                 },
@@ -170,7 +145,7 @@ mod imp {
 
             bind_model(
                 &self.hosts_list_box,
-                &self.hosts,
+                self.hosts(),
                 |item| {
                     view::KeyValRow::new(
                         &gettext("Hostname"),
@@ -184,7 +159,7 @@ mod imp {
 
             bind_model(
                 &self.devices_list_box,
-                &self.devices,
+                self.devices(),
                 |item| {
                     view::DeviceRow::from(item.downcast_ref::<model::Device>().unwrap()).upcast()
                 },
@@ -193,7 +168,7 @@ mod imp {
 
             bind_model(
                 &self.pod_create_command_arg_list_box,
-                &self.pod_create_cmd_args,
+                self.pod_create_cmd_args(),
                 |item| {
                     view::ValueRow::new(item.downcast_ref().unwrap(), &gettext("Argument")).upcast()
                 },
@@ -202,7 +177,7 @@ mod imp {
 
             bind_model(
                 &self.infra_command_arg_list_box,
-                &self.infra_cmd_args,
+                self.infra_cmd_args(),
                 |item| {
                     view::ValueRow::new(item.downcast_ref().unwrap(), &gettext("Argument")).upcast()
                 },
@@ -211,10 +186,7 @@ mod imp {
 
             self.infra_image_selection_combo_row
                 .set_client(obj.client());
-            self.infra_image_selection_combo_row
-                .connect_subtitle_notify(
-                    clone!(@weak obj => move |_| obj.update_infra_command_row()),
-                );
+
             obj.update_infra_command_row();
         }
 
@@ -230,9 +202,9 @@ mod imp {
             let widget = &*self.obj();
 
             glib::idle_add_local(
-                clone!(@weak widget => @default-return glib::Continue(false), move || {
+                clone!(@weak widget => @default-return glib::ControlFlow::Break, move || {
                     widget.imp().name_entry_row.grab_focus();
-                    glib::Continue(false)
+                    glib::ControlFlow::Break
                 }),
             );
             utils::root(widget.upcast_ref()).set_default_widget(Some(&*self.create_button));
@@ -241,6 +213,72 @@ mod imp {
         fn unroot(&self) {
             utils::root(self.obj().upcast_ref()).set_default_widget(gtk::Widget::NONE);
             self.parent_unroot()
+        }
+    }
+
+    #[gtk::template_callbacks]
+    impl PodCreationPage {
+        #[template_callback]
+        fn on_name_entry_row_changed(&self) {
+            self.obj().on_name_changed();
+        }
+
+        #[template_callback]
+        fn on_disable_resolv_switch_row_active_changed(&self) {
+            if self.disable_resolv_switch_row.is_active() {
+                self.disable_infra_switch_row.set_active(false);
+                self.infra_settings_box.set_visible(true);
+            } else {
+                self.hosts_list_box.set_visible(true);
+            }
+        }
+
+        #[template_callback]
+        fn on_enable_hosts_switch_active_changed(&self) {
+            if self.enable_hosts_switch.is_active() {
+                self.hosts_list_box.set_visible(true);
+            } else {
+                self.hosts_list_box.set_visible(false);
+            }
+        }
+
+        #[template_callback]
+        fn on_disable_infra_switch_row_active_changed(&self) {
+            if self.disable_infra_switch_row.is_active() {
+                self.infra_settings_box.set_visible(false);
+                self.disable_resolv_switch_row.set_active(false);
+            } else {
+                self.infra_settings_box.set_visible(true);
+            }
+        }
+
+        #[template_callback]
+        fn on_infra_image_selection_combo_row_notify_subtitle(&self) {
+            self.obj().update_infra_command_row();
+        }
+
+        pub(super) fn labels(&self) -> &gio::ListStore {
+            self.labels
+                .get_or_init(gio::ListStore::new::<model::KeyVal>)
+        }
+
+        pub(super) fn hosts(&self) -> &gio::ListStore {
+            self.hosts.get_or_init(gio::ListStore::new::<model::KeyVal>)
+        }
+
+        pub(super) fn devices(&self) -> &gio::ListStore {
+            self.devices
+                .get_or_init(gio::ListStore::new::<model::Device>)
+        }
+
+        pub(super) fn pod_create_cmd_args(&self) -> &gio::ListStore {
+            self.pod_create_cmd_args
+                .get_or_init(gio::ListStore::new::<model::Value>)
+        }
+
+        pub(super) fn infra_cmd_args(&self) -> &gio::ListStore {
+            self.infra_cmd_args
+                .get_or_init(gio::ListStore::new::<model::Value>)
         }
     }
 }
@@ -263,33 +301,33 @@ impl PodCreationPage {
     }
 
     fn add_label(&self) {
-        add_key_val(&self.imp().labels);
+        add_key_val(self.imp().labels());
     }
 
     fn add_host(&self) {
-        add_key_val(&self.imp().hosts);
+        add_key_val(self.imp().hosts());
     }
 
     fn add_device(&self) {
-        add_device(&self.imp().devices);
+        add_device(self.imp().devices());
     }
 
     fn add_pod_create_cmd_arg(&self) {
-        add_value(&self.imp().pod_create_cmd_args);
+        add_value(self.imp().pod_create_cmd_args());
     }
 
     fn add_infra_cmd_arg(&self) {
-        add_value(&self.imp().infra_cmd_args);
+        add_value(self.imp().infra_cmd_args());
     }
 
     fn finish(&self) {
         let imp = self.imp();
 
-        if !imp.disable_infra_switch.is_active() {
+        if !imp.disable_infra_switch_row.is_active() {
             match imp.infra_image_selection_combo_row.mode() {
                 view::ImageSelectionMode::Local => {
                     let image = imp.infra_image_selection_combo_row.subtitle().unwrap();
-                    if imp.infra_pull_latest_image_switch.is_active() {
+                    if imp.infra_pull_latest_image_switch_row.is_active() {
                         self.pull_and_create(image.as_str());
                     } else {
                         self.create(Some(image.as_str()));
@@ -328,8 +366,12 @@ impl PodCreationPage {
                 .create_pod(imp.name_entry_row.text().as_str(), opts.build()),
         );
 
-        imp.action_page_bin.set_child(Some(&page));
-        imp.stack.set_visible_child(&*imp.action_page_bin);
+        imp.navigation_view.push(
+            &adw::NavigationPage::builder()
+                .can_pop(false)
+                .child(&page)
+                .build(),
+        );
     }
 
     fn pull_and_create(&self, reference: &str) {
@@ -352,8 +394,12 @@ impl PodCreationPage {
                 ),
         );
 
-        imp.action_page_bin.set_child(Some(&page));
-        imp.stack.set_visible_child(&*imp.action_page_bin);
+        imp.navigation_view.push(
+            &adw::NavigationPage::builder()
+                .can_pop(false)
+                .child(&page)
+                .build(),
+        );
     }
 
     fn opts(&self) -> podman::opts::PodCreateOptsBuilder {
@@ -363,13 +409,13 @@ impl PodCreationPage {
             .name(imp.name_entry_row.text().as_str())
             .hostname(imp.hostname_entry_row.text().as_str())
             .labels(
-                imp.labels
-                    .iter::<glib::Object>()
-                    .map(|entry| entry.unwrap().downcast::<model::KeyVal>().unwrap())
+                imp.labels()
+                    .iter::<model::KeyVal>()
+                    .map(Result::unwrap)
                     .map(|entry| (entry.key(), entry.value())),
             );
 
-        if imp.disable_infra_switch.is_active() {
+        if imp.disable_infra_switch_row.is_active() {
             opts = opts.no_infra(true);
         } else {
             let infra_name = imp.infra_name_entry_row.text();
@@ -377,16 +423,16 @@ impl PodCreationPage {
                 opts = opts.infra_name(infra_name.as_str());
             }
 
-            if imp.disable_resolv_switch.is_active() {
+            if imp.disable_resolv_switch_row.is_active() {
                 opts = opts.no_manage_resolv_conf(true);
             }
 
             let infra_command = imp.infra_command_entry_row.text();
             if !infra_command.is_empty() {
                 let args = imp
-                    .infra_cmd_args
-                    .iter::<glib::Object>()
-                    .map(|value| value.unwrap().downcast::<model::Value>().unwrap())
+                    .infra_cmd_args()
+                    .iter::<model::Value>()
+                    .map(Result::unwrap)
                     .map(|value| value.value());
                 let mut cmd = vec![infra_command.to_string()];
                 cmd.extend(args);
@@ -400,9 +446,9 @@ impl PodCreationPage {
 
         if imp.enable_hosts_switch.is_active() {
             opts = opts.add_hosts(
-                imp.hosts
-                    .iter::<glib::Object>()
-                    .map(|entry| entry.unwrap().downcast::<model::KeyVal>().unwrap())
+                imp.hosts()
+                    .iter::<model::KeyVal>()
+                    .map(Result::unwrap)
                     .map(|entry| format!("{}:{}", entry.key(), entry.value())),
             )
         } else {
@@ -412,9 +458,9 @@ impl PodCreationPage {
         let create_cmd = imp.pod_create_command_entry_row.text();
         if !create_cmd.is_empty() {
             let args = imp
-                .pod_create_cmd_args
-                .iter::<glib::Object>()
-                .map(|value| value.unwrap().downcast::<model::Value>().unwrap())
+                .pod_create_cmd_args()
+                .iter::<model::Value>()
+                .map(Result::unwrap)
                 .map(|value| value.value());
             let mut cmd = vec![create_cmd.to_string()];
             cmd.extend(args);
@@ -422,9 +468,9 @@ impl PodCreationPage {
         }
 
         let devices: Vec<_> = imp
-            .devices
-            .iter::<glib::Object>()
-            .map(|device| device.unwrap().downcast::<model::Device>().unwrap())
+            .devices()
+            .iter::<model::Device>()
+            .map(Result::unwrap)
             .map(|device| {
                 format!(
                     "{}:{}:{}{}{}",
@@ -441,35 +487,6 @@ impl PodCreationPage {
         }
 
         opts
-    }
-
-    fn toggle_infra(&self) {
-        let imp = self.imp();
-        if imp.disable_infra_switch.is_active() {
-            imp.infra_settings_box.set_visible(false);
-            imp.disable_resolv_switch.set_active(false);
-        } else {
-            imp.infra_settings_box.set_visible(true);
-        }
-    }
-
-    fn toggle_hosts(&self) {
-        let imp = self.imp();
-        if imp.enable_hosts_switch.is_active() {
-            imp.hosts_list_box.set_visible(true);
-        } else {
-            imp.hosts_list_box.set_visible(false);
-        }
-    }
-
-    fn toggle_resolv(&self) {
-        let imp = self.imp();
-        if imp.disable_resolv_switch.is_active() {
-            imp.disable_infra_switch.set_active(false);
-            imp.infra_settings_box.set_visible(true);
-        } else {
-            imp.hosts_list_box.set_visible(true);
-        }
     }
 
     fn update_infra_command_row(&self) {

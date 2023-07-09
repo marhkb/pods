@@ -1,10 +1,10 @@
+use adw::prelude::*;
+use adw::subclass::prelude::*;
 use gettextrs::gettext;
 use glib::closure;
 use glib::subclass::InitializingObject;
 use glib::Properties;
 use gtk::glib;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
 
 use crate::model;
@@ -15,7 +15,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ConnectionRow)]
-    #[template(file = "connection_row.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/connection_row.ui")]
     pub(crate) struct ConnectionRow {
         pub(super) css_provider: gtk::CssProvider,
         #[property(get, set, nullable)]

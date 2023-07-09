@@ -10,153 +10,135 @@
   </object>
 
   <template class="PdsActionPage" parent="GtkWidget">
-    <style>
-      <class name="flat-headerbar-content"/>
-    </style>
     <property name="layout-manager">
       <object class="GtkBinLayout"/>
     </property>
     <property name="height-request">450</property>
 
     <child>
-      <object class="GtkOverlay">
+      <object class="AdwToolbarView">
 
-        <child type="overlay">
+        <child type="top">
           <object class="AdwHeaderBar">
-            <style>
-              <class name="flat"/>
-            </style>
             <property name="valign">start</property>
-
-            <child type="title">
-              <object class="AdwWindowTitle">
-                <property name="title" translatable="yes"></property>
-              </object>
-            </child>
-
+            <property name="show-title">False</property>
           </object>
         </child>
 
         <child>
-          <object class="GtkWindowHandle">
+          <object class="AdwStatusPage" id="status_page">
+            <style>
+              <class name="compact"/>
+            </style>
+            <property name="margin-top">12</property>
 
-            <child>
-              <object class="AdwStatusPage" id="status_page">
-                <style>
-                  <class name="compact"/>
-                </style>
-                <property name="margin-top">12</property>
+            <property name="child">
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <property name="spacing">18</property>
 
-                <property name="child">
-                  <object class="GtkBox">
-                    <property name="orientation">vertical</property>
-                    <property name="spacing">18</property>
+                <child>
+                  <object class="AdwClamp">
+                    <property name="margin-bottom">9</property>
 
                     <child>
                       <object class="AdwClamp">
-                        <property name="margin-bottom">9</property>
+                        <property name="orientation">vertical</property>
 
-                        <child>
-                          <object class="AdwClamp">
-                            <property name="orientation">vertical</property>
+                        <property name="child">
+                          <object class="AdwBin">
+                            <style>
+                              <class name="card"/>
+                              <class name="text-box"/>
+                            </style>
+                            <property name="overflow">hidden</property>
 
                             <property name="child">
-                              <object class="AdwBin">
-                                <style>
-                                  <class name="card"/>
-                                  <class name="text-box"/>
-                                </style>
-                                <property name="overflow">hidden</property>
+                              <object class="GtkScrolledWindow">
+                                <property name="hscrollbar-policy">never</property>
+                                <property name="hexpand">True</property>
+                                <property name="vexpand">True</property>
 
-                                <property name="child">
-                                  <object class="GtkScrolledWindow">
-                                    <property name="hscrollbar-policy">never</property>
-                                    <property name="hexpand">True</property>
-                                    <property name="vexpand">True</property>
-
-                                    <child>
-                                      <object class="GtkTextView">
-                                        <style>
-                                          <class name="text-view"/>
-                                        </style>
-                                        <binding name="buffer">
-                                          <lookup name="output" type="Action">
-                                            <lookup name="action">PdsActionPage</lookup>
-                                          </lookup>
-                                        </binding>
-                                        <property name="top-margin">12</property>
-                                        <property name="bottom-margin">12</property>
-                                        <property name="left-margin">12</property>
-                                        <property name="right-margin">12</property>
-                                        <property name="cursor-visible">False</property>
-                                        <property name="editable">False</property>
-                                        <property name="monospace">True</property>
-                                        <property name="wrap-mode">char</property>
-                                      </object>
-                                    </child>
-
+                                <child>
+                                  <object class="GtkTextView">
+                                    <style>
+                                      <class name="text-view"/>
+                                    </style>
+                                    <binding name="buffer">
+                                      <lookup name="output" type="Action">
+                                        <lookup name="action">PdsActionPage</lookup>
+                                      </lookup>
+                                    </binding>
+                                    <property name="top-margin">12</property>
+                                    <property name="bottom-margin">12</property>
+                                    <property name="left-margin">12</property>
+                                    <property name="right-margin">12</property>
+                                    <property name="cursor-visible">False</property>
+                                    <property name="editable">False</property>
+                                    <property name="monospace">True</property>
+                                    <property name="wrap-mode">char</property>
                                   </object>
-                                </property>
+                                </child>
 
                               </object>
                             </property>
 
                           </object>
-                        </child>
+                        </property>
 
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="GtkButton" id="abort_button">
-                        <style>
-                          <class name="pill"/>
-                          <class name="destructive-action"/>
-                        </style>
-                        <property name="action-name">action-page.cancel</property>
-                        <property name="halign">center</property>
-                        <property name="label" translatable="yes">_Abort</property>
-                        <property name="use-underline">True</property>
-                        <property name="visible" bind-source="abort_button" bind-property="sensitive" bind-flags="sync-create"/>
-                        <property name="width-request">200</property>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="GtkButton" id="view_artifact_button">
-                        <style>
-                          <class name="pill"/>
-                          <class name="suggested-action"/>
-                        </style>
-                        <property name="action-name">action-page.view-artifact</property>
-                        <property name="halign">center</property>
-                        <property name="label" translatable="yes">_View</property>
-                        <property name="use-underline">True</property>
-                        <property name="visible" bind-source="view_artifact_button" bind-property="sensitive" bind-flags="sync-create"/>
-                        <property name="width-request">200</property>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="GtkButton" id="retry_button">
-                        <style>
-                          <class name="pill"/>
-                          <class name="suggested-action"/>
-                        </style>
-                        <property name="action-name">action-page.retry</property>
-                        <property name="halign">center</property>
-                        <property name="label" translatable="yes">_Retry</property>
-                        <property name="use-underline">True</property>
-                        <property name="visible" bind-source="retry_button" bind-property="sensitive" bind-flags="sync-create"/>
-                        <property name="width-request">200</property>
                       </object>
                     </child>
 
                   </object>
-                </property>
+                </child>
+
+                <child>
+                  <object class="GtkButton" id="abort_button">
+                    <style>
+                      <class name="pill"/>
+                      <class name="destructive-action"/>
+                    </style>
+                    <property name="action-name">action-page.cancel</property>
+                    <property name="halign">center</property>
+                    <property name="label" translatable="yes">_Abort</property>
+                    <property name="use-underline">True</property>
+                    <property name="visible" bind-source="abort_button" bind-property="sensitive" bind-flags="sync-create"/>
+                    <property name="width-request">200</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkButton" id="view_artifact_button">
+                    <style>
+                      <class name="pill"/>
+                      <class name="suggested-action"/>
+                    </style>
+                    <property name="action-name">action-page.view-artifact</property>
+                    <property name="halign">center</property>
+                    <property name="label" translatable="yes">_View</property>
+                    <property name="use-underline">True</property>
+                    <property name="visible" bind-source="view_artifact_button" bind-property="sensitive" bind-flags="sync-create"/>
+                    <property name="width-request">200</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkButton" id="retry_button">
+                    <style>
+                      <class name="pill"/>
+                      <class name="suggested-action"/>
+                    </style>
+                    <property name="action-name">action-page.retry</property>
+                    <property name="halign">center</property>
+                    <property name="label" translatable="yes">_Retry</property>
+                    <property name="use-underline">True</property>
+                    <property name="visible" bind-source="retry_button" bind-property="sensitive" bind-flags="sync-create"/>
+                    <property name="width-request">200</property>
+                  </object>
+                </child>
 
               </object>
-            </child>
+            </property>
 
           </object>
         </child>

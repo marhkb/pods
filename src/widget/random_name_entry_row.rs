@@ -1,17 +1,15 @@
 use std::cell::RefCell;
 
-use adw::subclass::prelude::EntryRowImpl;
-use adw::subclass::prelude::PreferencesRowImpl;
+use adw::prelude::*;
+use adw::subclass::prelude::*;
 use gtk::glib;
-use gtk::subclass::prelude::*;
-use gtk::traits::EditableExt;
 use gtk::CompositeTemplate;
 
 mod imp {
     use super::*;
 
     #[derive(Default, CompositeTemplate)]
-    #[template(file = "random_name_entry_row.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/widget/random_name_entry_row.ui")]
     pub(crate) struct RandomNameEntryRow {
         pub(super) names: RefCell<names::Generator<'static>>,
         #[template_child]

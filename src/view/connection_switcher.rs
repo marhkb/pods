@@ -1,12 +1,13 @@
+use std::sync::OnceLock;
+
+use adw::prelude::*;
+use adw::subclass::prelude::*;
 use gettextrs::gettext;
 use glib::clone;
 use glib::closure;
 use glib::Properties;
 use gtk::glib;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::OnceCell as SyncOnceCell;
 
 use crate::model;
 use crate::utils;
@@ -17,7 +18,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ConnectionSwitcher)]
-    #[template(file = "connection_switcher.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/connection_switcher.ui")]
     pub(crate) struct ConnectionSwitcher {
         #[property(get, set, construct, nullable)]
         pub(super) connection_manager: glib::WeakRef<model::ConnectionManager>,
@@ -44,41 +45,9 @@ mod imp {
         }
     }
 
-    #[gtk::template_callbacks]
-    impl ConnectionSwitcher {
-        #[template_callback]
-        fn activated(&self, pos: u32) {
-            let connection = self
-                .selection
-                .item(pos)
-                .unwrap()
-                .downcast::<model::Connection>()
-                .unwrap();
-
-            if connection.is_active() {
-                return;
-            }
-
-            let obj = &*self.obj();
-            let connection_manager = obj.connection_manager().unwrap();
-
-            if let Some(widget) = obj.ancestor(gtk::PopoverMenu::static_type()) {
-                widget.downcast::<gtk::PopoverMenu>().unwrap().popdown();
-            }
-
-            if view::show_ongoing_actions_warning_dialog(
-                obj.upcast_ref(),
-                &connection_manager,
-                &gettext("Confirm Switching Connection"),
-            ) {
-                obj.switch_connection(&connection_manager, &connection.uuid());
-            }
-        }
-    }
-
     impl ObjectImpl for ConnectionSwitcher {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: SyncOnceCell<Vec<glib::ParamSpec>> = SyncOnceCell::new();
+            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
             PROPERTIES.get_or_init(|| {
                 Self::derived_properties()
                     .iter()
@@ -125,6 +94,38 @@ mod imp {
     }
 
     impl WidgetImpl for ConnectionSwitcher {}
+
+    #[gtk::template_callbacks]
+    impl ConnectionSwitcher {
+        #[template_callback]
+        fn activated(&self, pos: u32) {
+            let connection = self
+                .selection
+                .item(pos)
+                .unwrap()
+                .downcast::<model::Connection>()
+                .unwrap();
+
+            if connection.is_active() {
+                return;
+            }
+
+            let obj = &*self.obj();
+            let connection_manager = obj.connection_manager().unwrap();
+
+            if let Some(widget) = obj.ancestor(gtk::PopoverMenu::static_type()) {
+                widget.downcast::<gtk::PopoverMenu>().unwrap().popdown();
+            }
+
+            if view::show_ongoing_actions_warning_dialog(
+                obj.upcast_ref(),
+                &connection_manager,
+                &gettext("Confirm Switching Connection"),
+            ) {
+                obj.switch_connection(&connection_manager, &connection.uuid());
+            }
+        }
+    }
 }
 
 glib::wrapper! {

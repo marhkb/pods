@@ -1,9 +1,9 @@
+use adw::prelude::*;
+use adw::subclass::prelude::*;
 use glib::clone;
 use glib::closure;
 use glib::Properties;
 use gtk::glib;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
 
 use crate::model;
@@ -15,7 +15,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ContainerVolumeRow)]
-    #[template(file = "container_volume_row.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/container_volume_row.ui")]
     pub(crate) struct ContainerVolumeRow {
         #[property(get, set, construct, nullable)]
         pub(super) container_volume: glib::WeakRef<model::ContainerVolume>,
@@ -120,41 +120,64 @@ mod imp {
                 }))
                 .bind(&*self.name_label, "css-classes", Some(obj));
 
-            let style_manager = adw::StyleManager::default();
-            style_manager.connect_dark_notify(clone!(@weak obj => move |manager| {
-                obj.set_path_label(manager.is_dark(), manager.is_high_contrast());
-            }));
-            style_manager.connect_high_contrast_notify(clone!(@weak obj => move |manager| {
-                obj.set_path_label(manager.is_dark(), manager.is_high_contrast());
-            }));
-
-            obj.set_path_label(style_manager.is_dark(), style_manager.is_high_contrast());
-
-            // inner_expr
-            //     .chain_closure::<String>(closure!(
-            //         |_: Self::Type, inner: model::BoxedInspectMount| {
-            //             let mut s = inner.destination.clone().unwrap();
-            //             s.push(':');
-            //             s.push_str(if inner.rw.unwrap_or_default() {
-            //                 "rw"
-            //             } else {
-            //                 "ro"
-            //             });
-            //             if let Some(mode) = inner.mode.as_ref().filter(|mode| !mode.is_empty()) {
-            //                 s.push(',');
-            //                 s.push_str(mode);
-            //             }
-            //             s
-            //         }
-            //     ))
-            //     .bind(&*self.path_label, "label", Some(obj));
-
             container_list_expr.bind(&*self.containers_count_bar, "container-list", Some(obj));
+
+            let style_manager = adw::StyleManager::default();
+            style_manager.connect_dark_notify(clone!(@weak obj => move |style_manager| {
+                obj.imp().set_path_label(style_manager);
+            }));
+            style_manager.connect_high_contrast_notify(clone!(@weak obj => move |style_manager| {
+                obj.imp().set_path_label(style_manager);
+            }));
+            self.set_path_label(&style_manager);
         }
     }
 
     impl WidgetImpl for ContainerVolumeRow {}
     impl ListBoxRowImpl for ContainerVolumeRow {}
+
+    impl ContainerVolumeRow {
+        fn set_path_label(&self, style_manager: &adw::StyleManager) {
+            if let Some(inner) = self
+                .obj()
+                .container_volume()
+                .map(|container_volume| container_volume.inner())
+            {
+                let path = inner.destination.clone().unwrap();
+                let mut label = if style_manager.is_high_contrast() {
+                    path
+                } else {
+                    format!("<span alpha=\"55%\">{path}</span>")
+                };
+                label.push(' ');
+                label.push_str(&format!(
+                    "<span foreground=\"{}\"{}>",
+                    if style_manager.is_dark() {
+                        "#78aeed"
+                    } else {
+                        "#1c71d8"
+                    },
+                    if style_manager.is_high_contrast() {
+                        " weight=\"bold\""
+                    } else {
+                        ""
+                    },
+                ));
+                label.push_str(if inner.rw.unwrap_or_default() {
+                    "rw"
+                } else {
+                    "ro"
+                });
+                if let Some(mode) = inner.mode.as_ref().filter(|mode| !mode.is_empty()) {
+                    label.push(',');
+                    label.push_str(mode);
+                }
+                label.push_str("</span>");
+
+                self.path_label.set_markup(&label);
+            }
+        }
+    }
 }
 
 glib::wrapper! {
@@ -173,48 +196,17 @@ impl From<&model::ContainerVolume> for ContainerVolumeRow {
 }
 
 impl ContainerVolumeRow {
-    fn set_path_label(&self, is_dark: bool, is_hc: bool) {
-        let imp = self.imp();
-
-        if let Some(inner) = self
-            .container_volume()
-            .map(|container_volume| container_volume.inner())
-        {
-            let path = inner.destination.clone().unwrap();
-            let mut label = if is_hc {
-                path
-            } else {
-                format!("<span alpha=\"55%\">{path}</span>")
-            };
-            label.push(' ');
-            label.push_str(&format!(
-                "<span foreground=\"{}\"{}>",
-                if is_dark { "#78aeed" } else { "#1c71d8" },
-                if is_hc { " weight=\"bold\"" } else { "" },
-            ));
-            label.push_str(if inner.rw.unwrap_or_default() {
-                "rw"
-            } else {
-                "ro"
-            });
-            if let Some(mode) = inner.mode.as_ref().filter(|mode| !mode.is_empty()) {
-                label.push(',');
-                label.push_str(mode);
-            }
-            label.push_str("</span>");
-
-            imp.path_label.set_markup(&label);
-        }
-    }
-
     pub(crate) fn show_details(&self) {
         if let Some(ref volume) = self
             .container_volume()
             .as_ref()
             .and_then(model::ContainerVolume::volume)
         {
-            utils::find_leaflet_overlay(self.upcast_ref())
-                .show_details(view::VolumeDetailsPage::from(volume).upcast_ref());
+            utils::navigation_view(self.upcast_ref()).push(
+                &adw::NavigationPage::builder()
+                    .child(&view::VolumeDetailsPage::from(volume))
+                    .build(),
+            );
         }
     }
 }

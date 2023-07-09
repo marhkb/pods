@@ -1,16 +1,15 @@
+use std::cell::OnceCell;
 use std::cell::RefCell;
 
+use adw::prelude::*;
+use adw::subclass::prelude::*;
 use ashpd::desktop as ashpd;
 use gettextrs::gettext;
-use glib::subclass::InitializingObject;
+use glib::clone;
+use glib::closure;
 use glib::Properties;
 use gtk::glib;
-use gtk::glib::clone;
-use gtk::glib::closure;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::unsync::OnceCell;
 
 use crate::model;
 use crate::utils;
@@ -21,7 +20,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ActionRow)]
-    #[template(file = "action_row.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/action_row.ui")]
     pub(crate) struct ActionRow {
         pub(super) notification_id: OnceCell<glib::GString>,
         pub(super) handler: RefCell<Option<glib::SignalHandlerId>>,
@@ -48,7 +47,7 @@ mod imp {
             klass.bind_template();
         }
 
-        fn instance_init(obj: &InitializingObject<Self>) {
+        fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
             obj.init_template();
         }
     }
@@ -128,7 +127,7 @@ mod imp {
                     if state == model::ActionState::Ongoing {
                         "window-close-symbolic"
                     } else {
-                        "user-trash-symbolic"
+                        "cross-symbolic"
                     }
                 }))
                 .bind(&*self.action_button, "icon-name", Some(obj));
@@ -223,14 +222,14 @@ mod imp {
 
                 let timer = glib::timeout_add_seconds_local(
                     1,
-                    clone!(@weak obj, @weak action => @default-return glib::Continue(false), move || {
-                        let is_ongoing = obj.set_state_label(&action);
-                        if !is_ongoing {
+                    clone!(@weak obj, @weak action => @default-return glib::ControlFlow::Break, move || {
+                        let control_flow = obj.set_state_label(&action);
+                        if control_flow.is_break() {
                             if let Some(timer) = obj.imp().timer.take() {
                                 timer.remove();
                             }
                         }
-                        glib::Continue(is_ongoing)
+                        control_flow
                     }),
                 );
                 self.timer.replace(Some(timer));
@@ -249,7 +248,7 @@ glib::wrapper! {
 }
 
 impl ActionRow {
-    fn set_state_label(&self, action: &model::Action) -> bool {
+    fn set_state_label(&self, action: &model::Action) -> glib::ControlFlow {
         let state_label = &*self.imp().state_label;
 
         match action.state() {
@@ -261,7 +260,7 @@ impl ActionRow {
                     )
                 ));
 
-                true
+                glib::ControlFlow::Continue
             }
             _ => {
                 let duration = utils::human_friendly_duration(
@@ -275,7 +274,7 @@ impl ActionRow {
                     _ => unreachable!(),
                 });
 
-                false
+                glib::ControlFlow::Break
             }
         }
     }

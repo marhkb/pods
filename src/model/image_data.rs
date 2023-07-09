@@ -1,8 +1,9 @@
-use glib::ObjectExt;
+use std::cell::OnceCell;
+
+use glib::prelude::*;
+use glib::subclass::prelude::*;
 use glib::Properties;
 use gtk::glib;
-use gtk::subclass::prelude::*;
-use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::podman;
@@ -14,13 +15,13 @@ mod imp {
     #[properties(wrapper_type = super::ImageData)]
     pub(crate) struct ImageData {
         #[property(get, set, construct_only, nullable)]
-        pub(super) architecture: UnsyncOnceCell<Option<String>>,
+        pub(super) architecture: OnceCell<Option<String>>,
         #[property(get, set, construct_only, nullable)]
-        pub(super) author: UnsyncOnceCell<Option<String>>,
+        pub(super) author: OnceCell<Option<String>>,
         #[property(get, set, construct_only, nullable)]
-        pub(super) comment: UnsyncOnceCell<Option<String>>,
+        pub(super) comment: OnceCell<Option<String>>,
         #[property(get, set, construct_only)]
-        pub(super) config: UnsyncOnceCell<model::ImageConfig>,
+        pub(super) config: OnceCell<model::ImageConfig>,
     }
 
     #[glib::object_subclass]

@@ -1,16 +1,16 @@
 use std::cell::Cell;
+use std::cell::OnceCell;
 use std::cell::RefCell;
 use std::collections::HashSet;
 use std::ops::Deref;
 
+use glib::clone;
+use glib::once_cell::sync::Lazy as SyncLazy;
+use glib::prelude::*;
+use glib::subclass::prelude::*;
+use glib::subclass::Signal;
 use glib::Properties;
-use gtk::glib::clone;
-use gtk::glib::subclass::Signal;
-use gtk::glib::{self};
-use gtk::prelude::ObjectExt;
-use gtk::subclass::prelude::*;
-use once_cell::sync::Lazy as SyncLazy;
-use once_cell::unsync::OnceCell as UnsyncOnceCell;
+use gtk::glib;
 
 use crate::model;
 use crate::podman;
@@ -30,21 +30,21 @@ mod imp {
         #[property(get, set, construct_only, nullable)]
         pub(super) image_list: glib::WeakRef<model::ImageList>,
         #[property(get = Self::container_list)]
-        pub(super) container_list: UnsyncOnceCell<model::SimpleContainerList>,
+        pub(super) container_list: OnceCell<model::SimpleContainerList>,
         #[property(get)]
         pub(super) containers: Cell<u64>,
         #[property(get, set, construct_only)]
-        pub(super) created: UnsyncOnceCell<i64>,
+        pub(super) created: OnceCell<i64>,
         #[property(get)]
         pub(super) dangling: Cell<bool>,
         #[property(get = Self::data, nullable)]
-        pub(super) data: UnsyncOnceCell<Option<model::ImageData>>,
+        pub(super) data: OnceCell<Option<model::ImageData>>,
         #[property(get, set, construct_only)]
-        pub(super) id: UnsyncOnceCell<String>,
+        pub(super) id: OnceCell<String>,
         #[property(get = Self::repo_tags)]
-        pub(super) repo_tags: UnsyncOnceCell<model::RepoTagList>,
+        pub(super) repo_tags: OnceCell<model::RepoTagList>,
         #[property(get, set, construct_only)]
-        pub(super) size: UnsyncOnceCell<u64>,
+        pub(super) size: OnceCell<u64>,
         #[property(get)]
         pub(super) shared_size: Cell<u64>,
         #[property(get)]

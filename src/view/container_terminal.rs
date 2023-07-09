@@ -1,21 +1,21 @@
 use std::cell::RefCell;
+use std::sync::OnceLock;
 
+use adw::prelude::*;
+use adw::subclass::prelude::*;
 use futures::future;
 use futures::AsyncWriteExt;
 use futures::StreamExt;
 use gettextrs::gettext;
 use glib::clone;
 use glib::closure;
+use glib::once_cell::sync::Lazy as SyncLazy;
 use glib::subclass::Signal;
 use glib::Properties;
 use gtk::gdk;
 use gtk::gio;
 use gtk::glib;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy as SyncLazy;
-use once_cell::sync::OnceCell as SyncOnceCell;
 use vte4::TerminalExt;
 use vte4::TerminalExtManual;
 
@@ -36,11 +36,13 @@ enum ExecInput {
 }
 
 mod imp {
+    use adw::StyleManager;
+
     use super::*;
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ContainerTerminal)]
-    #[template(file = "container_terminal.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/container_terminal.ui")]
     pub(crate) struct ContainerTerminal {
         pub(super) settings: utils::PodsSettings,
         pub(super) tx_tokio: RefCell<Option<tokio::sync::mpsc::UnboundedSender<ExecInput>>>,
@@ -99,69 +101,6 @@ mod imp {
         }
     }
 
-    #[gtk::template_callbacks]
-    impl ContainerTerminal {
-        #[template_callback]
-        fn on_key_pressed(
-            &self,
-            key: gdk::Key,
-            _: u32,
-            modifier: gdk::ModifierType,
-            _: &gtk::EventControllerKey,
-        ) -> gtk::Inhibit {
-            glib::signal::Inhibit(if modifier == gdk::ModifierType::CONTROL_MASK {
-                if key == gdk::Key::minus || key == gdk::Key::KP_Subtract {
-                    self.obj().zoom_out();
-                    true
-                } else if key == gdk::Key::plus || key == gdk::Key::KP_Add || key == gdk::Key::equal
-                {
-                    self.obj().zoom_in();
-                    true
-                } else if key == gdk::Key::_0 {
-                    self.obj().zoom_normal();
-                    true
-                } else {
-                    false
-                }
-            } else if modifier == gdk::ModifierType::CONTROL_MASK | gdk::ModifierType::SHIFT_MASK {
-                if key == gdk::Key::C {
-                    self.obj().copy_plain();
-                    true
-                } else if key == gdk::Key::V {
-                    self.obj().paste();
-                    true
-                } else {
-                    false
-                }
-            } else {
-                false
-            })
-        }
-
-        #[template_callback]
-        fn on_mouse_pressed(&self, _: i32, x: f64, y: f64) {
-            let popover_menu = &*self.popover_menu;
-            popover_menu.set_pointing_to(Some(&gdk::Rectangle::new(x as i32, y as i32, 0, 0)));
-            popover_menu.popup();
-        }
-
-        #[template_callback]
-        fn on_scroll(&self, _dx: f64, dy: f64, scroll: gtk::EventControllerScroll) -> gtk::Inhibit {
-            gtk::Inhibit(
-                if scroll.current_event_state() == gdk::ModifierType::CONTROL_MASK {
-                    if dy.is_sign_negative() {
-                        self.obj().zoom_in();
-                    } else {
-                        self.obj().zoom_out();
-                    }
-                    true
-                } else {
-                    false
-                },
-            )
-        }
-    }
-
     impl ObjectImpl for ContainerTerminal {
         fn signals() -> &'static [Signal] {
             static SIGNALS: SyncLazy<Vec<Signal>> =
@@ -170,7 +109,7 @@ mod imp {
         }
 
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: SyncOnceCell<Vec<glib::ParamSpec>> = SyncOnceCell::new();
+            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
             PROPERTIES.get_or_init(|| {
                 Self::derived_properties()
                     .iter()
@@ -203,22 +142,11 @@ mod imp {
 
             let obj = &*self.obj();
 
-            self.terminal.connect_notify_local(
-                Some("font-scale"),
-                clone!(@weak obj => move |_, _| obj.notify("font-scale")),
-            );
-
             self.settings
                 .bind("terminal-font-scale", obj, "font-scale")
                 .build();
 
             self.popover_menu.set_parent(obj);
-
-            obj.update_copy_actions();
-            self.terminal
-                .connect_selection_changed(clone!(@weak obj => move |_| {
-                    obj.update_copy_actions();
-                }));
 
             self.terminal.set_colors(
                 None,
@@ -243,13 +171,6 @@ mod imp {
                 ],
             );
 
-            obj.on_notify_dark();
-            adw::StyleManager::default().connect_dark_notify(clone!(@weak obj => move |_| {
-                glib::idle_add_local_once(clone!(@weak obj => move || {
-                    obj.on_notify_dark();
-                }));
-            }));
-
             let status_expr = Self::Type::this_expression("container")
                 .chain_property::<model::Container>("status");
 
@@ -271,7 +192,7 @@ mod imp {
                         ACTION_START_OR_RESUME,
                         match obj
                             .container()
-                            .filter(|c| c.status() == model::ContainerStatus::Running)
+                            .filter(|container| container.status() == model::ContainerStatus::Running)
                         {
                             Some(container) => {
                                 obj.setup_tty_connection(&container);
@@ -282,6 +203,15 @@ mod imp {
                     );
                 }),
             );
+
+            self.on_terminal_selection_changed();
+
+            StyleManager::default().connect_dark_notify(clone!(@weak obj => move |_| {
+                glib::idle_add_local_once(clone!(@weak obj => move || {
+                    obj.imp().on_notify_dark();
+                }));
+            }));
+            self.on_notify_dark();
         }
 
         fn dispose(&self) {
@@ -294,6 +224,11 @@ mod imp {
             self.terminal.grab_focus()
         }
 
+        fn measure(&self, orientation: gtk::Orientation, for_size: i32) -> (i32, i32, i32, i32) {
+            self.stack.measure(orientation, for_size);
+            self.parent_measure(orientation, for_size)
+        }
+
         fn size_allocate(&self, width: i32, height: i32, baseline: i32) {
             self.stack.allocate(width, height, baseline, None);
             if let Some(tx_tokio) = &*self.tx_tokio.borrow() {
@@ -302,6 +237,112 @@ mod imp {
                     rows: self.terminal.row_count() as usize,
                 });
             }
+        }
+    }
+
+    #[gtk::template_callbacks]
+    impl ContainerTerminal {
+        #[template_callback]
+        fn on_terminal_notify_font_scale(&self) {
+            self.obj().notify("font-scale");
+        }
+
+        #[template_callback]
+        fn on_terminal_selection_changed(&self) {
+            let has_selection = self.terminal.has_selection();
+
+            let obj = &*self.obj();
+            obj.action_set_enabled(ACTION_COPY, has_selection);
+            obj.action_set_enabled(ACTION_COPY_HTML, has_selection);
+        }
+
+        #[template_callback]
+        fn on_terminal_key_pressed(
+            &self,
+            key: gdk::Key,
+            _: u32,
+            modifier: gdk::ModifierType,
+            _: &gtk::EventControllerKey,
+        ) -> glib::ControlFlow {
+            glib::ControlFlow::from(if modifier == gdk::ModifierType::CONTROL_MASK {
+                if key == gdk::Key::minus || key == gdk::Key::KP_Subtract {
+                    self.obj().zoom_out();
+                    true
+                } else if key == gdk::Key::plus || key == gdk::Key::KP_Add || key == gdk::Key::equal
+                {
+                    self.obj().zoom_in();
+                    true
+                } else if key == gdk::Key::_0 {
+                    self.obj().zoom_normal();
+                    true
+                } else {
+                    false
+                }
+            } else if modifier == gdk::ModifierType::CONTROL_MASK | gdk::ModifierType::SHIFT_MASK {
+                if key == gdk::Key::C {
+                    self.obj().copy_plain();
+                    true
+                } else if key == gdk::Key::V {
+                    self.obj().paste();
+                    true
+                } else {
+                    false
+                }
+            } else {
+                false
+            })
+        }
+
+        #[template_callback]
+        fn on_mouse_3_pressed(&self, _: i32, x: f64, y: f64) {
+            let popover_menu = &*self.popover_menu;
+            popover_menu.set_pointing_to(Some(&gdk::Rectangle::new(x as i32, y as i32, 0, 0)));
+            popover_menu.popup();
+        }
+
+        #[template_callback]
+        fn on_scroll(
+            &self,
+            _dx: f64,
+            dy: f64,
+            scroll: gtk::EventControllerScroll,
+        ) -> glib::Propagation {
+            if scroll.current_event_state() == gdk::ModifierType::CONTROL_MASK {
+                if dy.is_sign_negative() {
+                    self.obj().zoom_in();
+                } else {
+                    self.obj().zoom_out();
+                }
+            }
+
+            glib::Propagation::Proceed
+        }
+
+        fn on_notify_dark(&self) {
+            let style_context = self.obj().style_context();
+
+            self.terminal.set_color_background(
+                &style_context
+                    .lookup_color("view_bg_color")
+                    .unwrap_or_else(|| {
+                        if StyleManager::default().is_dark() {
+                            gdk::RGBA::new(0.118, 0.118, 0.118, 1.0)
+                        } else {
+                            gdk::RGBA::new(1.0, 1.0, 1.0, 1.0)
+                        }
+                    }),
+            );
+            self.terminal.set_color_foreground(
+                &style_context
+                    .lookup_color("view_fg_color")
+                    .unwrap_or_else(|| {
+                        if StyleManager::default().is_dark() {
+                            gdk::RGBA::new(1.0, 1.0, 1.0, 1.0)
+                        } else {
+                            gdk::RGBA::new(0.0, 0.0, 0.0, 0.8)
+                        }
+                    }),
+            );
         }
     }
 }
@@ -333,9 +374,9 @@ impl ContainerTerminal {
 
         rx_glib.attach(
             None,
-            clone!(@weak self as obj => @default-return glib::Continue(false), move |buf| {
+            clone!(@weak self as obj => @default-return glib::ControlFlow::Break, move |buf| {
                 obj.imp().terminal.feed(&buf);
-                glib::Continue(true)
+                glib::ControlFlow::Continue
             }),
         );
 
@@ -407,48 +448,22 @@ impl ContainerTerminal {
                 Ok(())
             },
             clone!(@weak self as obj => move |result: podman::Result<_>| {
-                obj.emit_by_name::<()>("terminated", &[]);
                 if result.is_err() {
                     utils::show_error_toast(
-                        obj.upcast_ref(),
+                        gio::Application::default()
+                            .unwrap()
+                            .downcast::<crate::Application>()
+                            .unwrap()
+                            .main_window()
+                            .toast_overlay()
+                            .upcast_ref(),
                         &gettext("Terminal error"),
-                        &gettext("'/bin/sh' not found")
+                        &gettext("'/bin/sh' not found"),
                     );
                 }
+                obj.emit_by_name::<()>("terminated", &[]);
             }),
         );
-    }
-
-    pub(crate) fn connect_terminated<F: Fn(&Self) + 'static>(&self, f: F) -> glib::SignalHandlerId {
-        self.connect_local("terminated", true, move |values| {
-            f(&values[0].get::<Self>().unwrap());
-
-            None
-        })
-    }
-
-    fn on_notify_dark(&self) {
-        let style_context = self.style_context();
-
-        let terminal = &*self.imp().terminal;
-        terminal.set_color_background(&style_context.lookup_color("view_bg_color").unwrap_or_else(
-            || {
-                if adw::StyleManager::default().is_dark() {
-                    gdk::RGBA::new(0.118, 0.118, 0.118, 1.0)
-                } else {
-                    gdk::RGBA::new(1.0, 1.0, 1.0, 1.0)
-                }
-            },
-        ));
-        terminal.set_color_foreground(&style_context.lookup_color("view_fg_color").unwrap_or_else(
-            || {
-                if adw::StyleManager::default().is_dark() {
-                    gdk::RGBA::new(1.0, 1.0, 1.0, 1.0)
-                } else {
-                    gdk::RGBA::new(0.0, 0.0, 0.0, 0.8)
-                }
-            },
-        ));
     }
 
     pub(crate) fn zoom_out(&self) {
@@ -490,12 +505,6 @@ impl ContainerTerminal {
                 }),
             );
         }
-    }
-
-    fn update_copy_actions(&self) {
-        let has_selection = self.imp().terminal.has_selection();
-        self.action_set_enabled(ACTION_COPY, has_selection);
-        self.action_set_enabled(ACTION_COPY_HTML, has_selection);
     }
 }
 

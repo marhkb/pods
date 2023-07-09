@@ -1,22 +1,22 @@
 use std::borrow::Borrow;
 use std::cell::Cell;
+use std::cell::OnceCell;
 use std::cell::RefCell;
+use std::sync::OnceLock;
 
+use gio::prelude::*;
+use gio::subclass::prelude::*;
+use glib::clone;
+use glib::once_cell::sync::Lazy as SyncLazy;
+use glib::subclass::Signal;
 use glib::Properties;
 use gtk::gio;
 use gtk::glib;
-use gtk::glib::clone;
-use gtk::glib::subclass::Signal;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
 use indexmap::map::Entry;
 use indexmap::IndexMap;
-use once_cell::sync::Lazy as SyncLazy;
-use once_cell::sync::OnceCell as SyncOnceCell;
-use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
-use crate::model::SelectableListExt;
+use crate::model::prelude::*;
 use crate::podman;
 use crate::utils;
 
@@ -34,7 +34,7 @@ mod imp {
         #[property(get)]
         pub(super) listing: Cell<bool>,
         #[property(get = Self::is_initialized, type = bool)]
-        pub(super) initialized: UnsyncOnceCell<()>,
+        pub(super) initialized: OnceCell<()>,
         #[property(get, set)]
         pub(super) selection_mode: Cell<bool>,
     }
@@ -49,20 +49,26 @@ mod imp {
     impl ObjectImpl for VolumeList {
         fn signals() -> &'static [Signal] {
             static SIGNALS: SyncLazy<Vec<Signal>> = SyncLazy::new(|| {
-                vec![Signal::builder("volume-added")
-                    .param_types([model::Volume::static_type()])
-                    .build()]
+                vec![
+                    Signal::builder("volume-added")
+                        .param_types([model::Volume::static_type()])
+                        .build(),
+                    Signal::builder("volume-removed")
+                        .param_types([model::Volume::static_type()])
+                        .build(),
+                ]
             });
             SIGNALS.as_ref()
         }
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: SyncOnceCell<Vec<glib::ParamSpec>> = SyncOnceCell::new();
+            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
             PROPERTIES.get_or_init(|| {
                 Self::derived_properties()
                     .iter()
                     .cloned()
                     .chain(vec![
                         glib::ParamSpecUInt::builder("len").read_only().build(),
+                        glib::ParamSpecUInt::builder("unused").read_only().build(),
                         glib::ParamSpecUInt::builder("used").read_only().build(),
                         glib::ParamSpecUInt::builder("num-selected")
                             .read_only()
@@ -79,6 +85,7 @@ mod imp {
         fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
                 "len" => self.obj().len().to_value(),
+                "unused" => self.obj().unused().to_value(),
                 "used" => self.obj().used().to_value(),
                 "num-selected" => self.obj().num_selected().to_value(),
                 _ => self.derived_property(id, pspec),
@@ -87,8 +94,13 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
             let obj = &*self.obj();
+
             model::SelectableList::bootstrap(obj.upcast_ref());
+
             obj.connect_items_changed(|self_, _, _, _| self_.notify("len"));
+
+            obj.connect_volume_added(|list, _| list.notify_num_volumes());
+            obj.connect_volume_removed(|list, _| list.notify_num_volumes());
         }
     }
 
@@ -146,8 +158,17 @@ impl From<&model::Client> for VolumeList {
 }
 
 impl VolumeList {
+    pub(crate) fn notify_num_volumes(&self) {
+        self.notify("unused");
+        self.notify("used");
+    }
+
     pub(crate) fn len(&self) -> u32 {
         self.n_items()
+    }
+
+    pub(crate) fn unused(&self) -> u32 {
+        self.len() - self.used()
     }
 
     pub(crate) fn used(&self) -> u32 {
@@ -166,9 +187,11 @@ impl VolumeList {
     pub(crate) fn remove_volume(&self, id: &str) {
         let mut list = self.imp().list.borrow_mut();
         if let Some((idx, _, volume)) = list.shift_remove_full(id) {
-            volume.emit_deleted();
             drop(list);
+
             self.items_changed(idx as u32, 1, 0);
+            self.volume_removed(&volume);
+            volume.emit_deleted();
         }
     }
 
@@ -254,6 +277,23 @@ impl VolumeList {
         f: F,
     ) -> glib::SignalHandlerId {
         self.connect_local("volume-added", true, move |values| {
+            let obj = values[0].get::<Self>().unwrap();
+            let volume = values[1].get::<model::Volume>().unwrap();
+            f(&obj, &volume);
+
+            None
+        })
+    }
+
+    fn volume_removed(&self, volume: &model::Volume) {
+        self.emit_by_name::<()>("volume-removed", &[volume]);
+    }
+
+    pub(crate) fn connect_volume_removed<F: Fn(&Self, &model::Volume) + 'static>(
+        &self,
+        f: F,
+    ) -> glib::SignalHandlerId {
+        self.connect_local("volume-removed", true, move |values| {
             let obj = values[0].get::<Self>().unwrap();
             let volume = values[1].get::<model::Volume>().unwrap();
             f(&obj, &volume);

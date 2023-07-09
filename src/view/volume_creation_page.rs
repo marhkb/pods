@@ -1,9 +1,8 @@
+use adw::prelude::*;
 use adw::subclass::prelude::*;
-use adw::traits::BinExt;
 use glib::clone;
 use glib::Properties;
 use gtk::glib;
-use gtk::prelude::*;
 use gtk::CompositeTemplate;
 
 use crate::model;
@@ -19,18 +18,16 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::VolumeCreationPage)]
-    #[template(file = "volume_creation_page.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/volume_creation_page.ui")]
     pub(crate) struct VolumeCreationPage {
         #[property(get, set, construct_only)]
         pub(super) client: glib::WeakRef<model::Client>,
         #[template_child]
-        pub(super) stack: TemplateChild<gtk::Stack>,
+        pub(super) navigation_view: TemplateChild<adw::NavigationView>,
         #[template_child]
         pub(super) create_button: TemplateChild<gtk::Button>,
         #[template_child]
         pub(super) name_entry_row: TemplateChild<widget::RandomNameEntryRow>,
-        #[template_child]
-        pub(super) action_page_bin: TemplateChild<adw::Bin>,
     }
 
     #[glib::object_subclass]
@@ -77,9 +74,9 @@ mod imp {
             let widget = &*self.obj();
 
             glib::idle_add_local(
-                clone!(@weak widget => @default-return glib::Continue(false), move || {
+                clone!(@weak widget => @default-return glib::ControlFlow::Break, move || {
                     widget.imp().name_entry_row.grab_focus();
-                    glib::Continue(false)
+                    glib::ControlFlow::Break
                 }),
             );
             utils::root(widget.upcast_ref()).set_default_widget(Some(&*self.create_button));
@@ -120,8 +117,12 @@ impl VolumeCreationPage {
                 ),
             );
 
-            imp.action_page_bin.set_child(Some(&page));
-            imp.stack.set_visible_child(&*imp.action_page_bin);
+            imp.navigation_view.push(
+                &adw::NavigationPage::builder()
+                    .can_pop(false)
+                    .child(&page)
+                    .build(),
+            );
         }
     }
 }

@@ -1,8 +1,9 @@
-use glib::ObjectExt;
+use std::cell::OnceCell;
+
+use glib::prelude::*;
+use glib::subclass::prelude::*;
 use glib::Properties;
 use gtk::glib;
-use gtk::subclass::prelude::*;
-use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::podman;
 
@@ -13,19 +14,19 @@ mod imp {
     #[properties(wrapper_type = super::ImageSearchResponse)]
     pub(crate) struct ImageSearchResponse {
         #[property(get, set, construct_only, nullable)]
-        pub(super) automated: UnsyncOnceCell<Option<String>>,
+        pub(super) automated: OnceCell<Option<String>>,
         #[property(get, set, construct_only, nullable)]
-        pub(super) description: UnsyncOnceCell<Option<String>>,
+        pub(super) description: OnceCell<Option<String>>,
         #[property(get, set, construct_only, nullable)]
-        pub(super) index: UnsyncOnceCell<Option<String>>,
+        pub(super) index: OnceCell<Option<String>>,
         #[property(get, set, construct_only, nullable)]
-        pub(super) name: UnsyncOnceCell<Option<String>>,
+        pub(super) name: OnceCell<Option<String>>,
         #[property(get, set, construct_only, nullable)]
-        pub(super) official: UnsyncOnceCell<Option<String>>,
+        pub(super) official: OnceCell<Option<String>>,
         #[property(get, set, construct_only)]
-        pub(super) stars: UnsyncOnceCell<i64>,
+        pub(super) stars: OnceCell<i64>,
         #[property(get, set, construct_only, nullable)]
-        pub(super) tag: UnsyncOnceCell<Option<String>>,
+        pub(super) tag: OnceCell<Option<String>>,
     }
 
     #[glib::object_subclass]

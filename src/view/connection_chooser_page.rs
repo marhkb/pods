@@ -1,7 +1,7 @@
+use adw::prelude::*;
+use adw::subclass::prelude::*;
 use glib::Properties;
 use gtk::glib;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
 
 use crate::model;
@@ -12,7 +12,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ConnectionChooserPage)]
-    #[template(file = "connection_chooser_page.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/connection_chooser_page.ui")]
     pub(crate) struct ConnectionChooserPage {
         #[property(get, set, nullable)]
         pub(crate) connection_manager: glib::WeakRef<model::ConnectionManager>,

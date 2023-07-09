@@ -1,20 +1,19 @@
+use std::cell::OnceCell;
 use std::cmp::Ordering;
 
+use adw::prelude::*;
 use adw::subclass::prelude::*;
 use glib::clone;
+use glib::once_cell::sync::Lazy as SyncLazy;
 use glib::Properties;
 use gtk::gdk;
 use gtk::glib;
 use gtk::glib::subclass::Signal;
 use gtk::pango;
-use gtk::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy as SyncLazy;
-use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::utils;
-use crate::widget;
 
 const ACTION_FILTER: &str = "image-selection-page.filter";
 const ACTION_SELECT: &str = "image-selection-page.select";
@@ -24,13 +23,11 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ImageSelectionPage)]
-    #[template(file = "image_selection_page.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/image_selection_page.ui")]
     pub(crate) struct ImageSelectionPage {
-        pub(super) filter: UnsyncOnceCell<gtk::Filter>,
+        pub(super) filter: OnceCell<gtk::Filter>,
         #[property(get, set = Self::set_image_list, nullable)]
         pub(super) image_list: glib::WeakRef<model::ImageList>,
-        #[template_child]
-        pub(super) back_navigation_controls: TemplateChild<widget::BackNavigationControls>,
         #[template_child]
         pub(super) filter_button: TemplateChild<gtk::ToggleButton>,
         #[template_child]
@@ -40,7 +37,7 @@ mod imp {
         #[template_child]
         pub(super) select_button: TemplateChild<gtk::Button>,
         #[template_child]
-        pub(super) list_view: TemplateChild<gtk::ListView>,
+        pub(super) signal_list_item_factory: TemplateChild<gtk::SignalListItemFactory>,
         #[template_child]
         pub(super) selection: TemplateChild<gtk::SingleSelection>,
     }
@@ -122,46 +119,6 @@ mod imp {
                         .unwrap_or_else(|| image.id().contains(&term))
                 }));
             self.filter.set(filter.upcast()).unwrap();
-
-            let list_factory = gtk::SignalListItemFactory::new();
-            list_factory.connect_bind(clone!(@weak obj => move |_, list_item| {
-                let list_item = list_item.downcast_ref::<gtk::ListItem>().unwrap();
-
-                if let Some(item) = list_item.item() {
-                    let image = item.downcast::<model::Image>().unwrap();
-                    let repo_tag = image.repo_tags().get(0);
-
-                    let label = gtk::Label::builder()
-                        .label(
-                            repo_tag
-                                .as_ref()
-                                .map(|repo_tag| repo_tag.full())
-                                .unwrap_or_else(|| image.id()),
-                        )
-                        .margin_top(9)
-                        .margin_end(12)
-                        .margin_bottom(9)
-                        .margin_start(12)
-                        .xalign(0.0)
-                        .wrap(true)
-                        .wrap_mode(pango::WrapMode::WordChar)
-                        .build();
-
-                    if repo_tag.is_none() {
-                        label.add_css_class("dim-label");
-                        label.add_css_class("numeric");
-                    }
-
-                    list_item.set_child(Some(&label));
-                }
-            }));
-            list_factory.connect_unbind(|_, list_item| {
-                list_item
-                    .downcast_ref::<gtk::ListItem>()
-                    .unwrap()
-                    .set_child(gtk::Widget::NONE);
-            });
-            self.list_view.set_factory(Some(&list_factory));
         }
 
         fn dispose(&self) {
@@ -201,16 +158,55 @@ mod imp {
             _: u32,
             _: gdk::ModifierType,
             _: &gtk::EventControllerKey,
-        ) -> gtk::Inhibit {
-            glib::signal::Inhibit(if key == gdk::Key::Escape {
+        ) -> glib::Propagation {
+            if key == gdk::Key::Escape {
                 self.obj().enable_search_mode(false);
-                true
             } else if key == gdk::Key::KP_Enter {
                 self.obj().activate_action(ACTION_SELECT, None).unwrap();
-                true
-            } else {
-                false
-            })
+            }
+
+            glib::Propagation::Proceed
+        }
+
+        #[template_callback]
+        fn on_signal_list_item_factory_bind(&self, list_item: &glib::Object) {
+            let list_item = list_item.downcast_ref::<gtk::ListItem>().unwrap();
+
+            if let Some(item) = list_item.item() {
+                let image = item.downcast::<model::Image>().unwrap();
+                let repo_tag = image.repo_tags().get(0);
+
+                let label = gtk::Label::builder()
+                    .label(
+                        repo_tag
+                            .as_ref()
+                            .map(|repo_tag| repo_tag.full())
+                            .unwrap_or_else(|| image.id()),
+                    )
+                    .margin_top(9)
+                    .margin_end(12)
+                    .margin_bottom(9)
+                    .margin_start(12)
+                    .xalign(0.0)
+                    .wrap(true)
+                    .wrap_mode(pango::WrapMode::WordChar)
+                    .build();
+
+                if repo_tag.is_none() {
+                    label.add_css_class("dim-label");
+                    label.add_css_class("numeric");
+                }
+
+                list_item.set_child(Some(&label));
+            }
+        }
+
+        #[template_callback]
+        fn on_signal_list_item_factory_unbind(&self, list_item: &glib::Object) {
+            list_item
+                .downcast_ref::<gtk::ListItem>()
+                .unwrap()
+                .set_child(gtk::Widget::NONE);
         }
 
         #[template_callback]
@@ -293,7 +289,7 @@ impl ImageSelectionPage {
         let imp = self.imp();
 
         if !enable && !imp.filter_button.is_active() {
-            imp.back_navigation_controls.navigate_back();
+            utils::navigation_view(self.upcast_ref()).pop();
         } else {
             imp.filter_button.set_active(enable);
             if !enable {
@@ -310,12 +306,10 @@ impl ImageSelectionPage {
     }
 
     pub(crate) fn select(&self) {
-        let imp = self.imp();
-
         if let Some(image) = self.selected_image() {
             self.emit_by_name::<()>("image-selected", &[&image]);
 
-            imp.back_navigation_controls.navigate_back();
+            utils::navigation_view(self.upcast_ref()).pop();
         }
     }
 

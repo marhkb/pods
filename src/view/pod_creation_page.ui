@@ -15,19 +15,16 @@
     </property>
 
     <child>
-      <object class="GtkStack" id="stack">
-        <property name="transition-type">crossfade</property>
+      <object class="AdwNavigationView" id="navigation_view">
 
         <child>
-          <object class="AdwLeaflet">
-            <property name="can-navigate-back">True</property>
-            <property name="can-unfold">False</property>
+          <object class="AdwNavigationPage">
+            <property name="title" translatable="yes">Preferences</property>
 
             <child>
-              <object class="GtkBox">
-                <property name="orientation">vertical</property>
+              <object class="AdwToolbarView">
 
-                <child>
+                <child type="top">
                   <object class="AdwHeaderBar">
                     <property name="show-end-title-buttons">False</property>
                     <property name="show-start-title-buttons">False</property>
@@ -62,13 +59,13 @@
 
                 <child>
                   <object class="AdwPreferencesPage">
-                    <property name="vexpand">True</property>
 
                     <child>
                       <object class="AdwPreferencesGroup">
 
                         <child>
                           <object class="PdsRandomNameEntryRow" id="name_entry_row">
+                            <signal name="changed" handler="on_name_entry_row_changed" swapped="true"/>
                             <property name="activates-default">True</property>
                             <property name="title" translatable="yes">Name</property>
                           </object>
@@ -129,15 +126,9 @@
                                         </child>
 
                                         <child>
-                                          <object class="AdwActionRow" id="disable_resolv_row">
-                                            <property name="activatable_widget">disable_resolv_switch</property>
+                                          <object class="AdwSwitchRow" id="disable_resolv_switch_row">
                                             <property name="title" translatable="yes">Disable /etc/resolv.conf management</property>
-                                            <child>
-                                              <object class="GtkSwitch" id="disable_resolv_switch">
-                                                <property name="valign">center</property>
-                                                <property name="action-name">pod-creation-page.toggle-resolv</property>
-                                              </object>
-                                            </child>
+                                            <signal name="notify::active" handler="on_disable_resolv_switch_row_active_changed" swapped="true"/>
                                           </object>
                                         </child>
 
@@ -207,23 +198,10 @@
                                       <object class="AdwPreferencesGroup">
                                         <property name="title" translatable="yes">Hosts</property>
                                         <property name="header-suffix">
-                                          <object class="GtkBox">
-                                            <property name="spacing">6</property>
-
-                                            <child>
-                                              <object class="GtkLabel">
-                                                <property name="label" translatable="yes">Enabled</property>
-                                              </object>
-                                            </child>
-
-                                            <child>
-                                              <object class="GtkSwitch" id="enable_hosts_switch">
-                                                <property name="valign">center</property>
-                                                <property name="action-name">pod-creation-page.toggle-hosts</property>
-                                                <property name="active">true</property>
-                                              </object>
-                                            </child>
-
+                                          <object class="GtkSwitch" id="enable_hosts_switch">
+                                            <signal name="notify::active" handler="on_enable_hosts_switch_active_changed" swapped="true"/>
+                                            <property name="valign">center</property>
+                                            <property name="active">true</property>
                                           </object>
                                         </property>
 
@@ -273,15 +251,9 @@
                                       <object class="AdwPreferencesGroup">
 
                                         <child>
-                                          <object class="AdwActionRow" id="disable_infra_row">
-                                            <property name="activatable_widget">disable_infra_switch</property>
+                                          <object class="AdwSwitchRow" id="disable_infra_switch_row">
+                                            <signal name="notify::active" handler="on_disable_infra_switch_row_active_changed" swapped="true"/>
                                             <property name="title" translatable="yes">Disable Infra</property>
-                                            <child>
-                                              <object class="GtkSwitch" id="disable_infra_switch">
-                                                <property name="valign">center</property>
-                                                <property name="action-name">pod-creation-page.toggle-infra</property>
-                                              </object>
-                                            </child>
                                           </object>
                                         </child>
 
@@ -304,18 +276,14 @@
                                             </child>
 
                                             <child>
-                                              <object class="PdsImageSelectionComboRow" id="infra_image_selection_combo_row"/>
+                                              <object class="PdsImageSelectionComboRow" id="infra_image_selection_combo_row">
+                                                <signal name="notify::subtitle" handler="on_infra_image_selection_combo_row_notify_subtitle" swapped="true"/>
+                                              </object>
                                             </child>
 
                                             <child>
-                                              <object class="AdwActionRow" id="infra_pull_latest_image_row">
-                                                <property name="activatable_widget">infra_pull_latest_image_switch</property>
+                                              <object class="AdwSwitchRow" id="infra_pull_latest_image_switch_row">
                                                 <property name="title" translatable="yes">Pull latest image</property>
-                                                <child>
-                                                  <object class="GtkSwitch" id="infra_pull_latest_image_switch">
-                                                    <property name="valign">center</property>
-                                                  </object>
-                                                </child>
                                               </object>
                                             </child>
 
@@ -378,22 +346,7 @@
               </object>
             </child>
 
-            <child>
-              <object class="AdwLeafletPage">
-                <property name="name">overlay</property>
-
-                <property name="child">
-                  <object class="PdsLeafletOverlay" id="leaflet_overlay"/>
-                </property>
-
-              </object>
-            </child>
-
           </object>
-        </child>
-
-        <child>
-          <object class="AdwBin" id="action_page_bin"/>
         </child>
 
       </object>

@@ -1,7 +1,7 @@
+use glib::once_cell::sync::Lazy as SyncLazy;
+use glib::prelude::*;
+use glib::subclass::prelude::*;
 use gtk::glib;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
-use once_cell::sync::Lazy as SyncLazy;
 
 mod imp {
     use super::*;

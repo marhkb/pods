@@ -1,13 +1,12 @@
 use std::cell::Cell;
+use std::cell::OnceCell;
+use std::sync::OnceLock;
 
+use glib::prelude::*;
+use glib::subclass::prelude::*;
 use glib::Properties;
 use gtk::gdk;
 use gtk::glib;
-use gtk::prelude::ObjectExt;
-use gtk::prelude::ParamSpecBuilderExt;
-use gtk::subclass::prelude::*;
-use once_cell::sync::OnceCell as SyncOnceCell;
-use once_cell::unsync::OnceCell as UnsyncOnceCell;
 use serde::Deserialize;
 use serde::Serialize;
 
@@ -34,11 +33,11 @@ mod imp {
         #[property(get, set)]
         pub(super) active: Cell<bool>,
         #[property(get, set, construct_only)]
-        pub(super) uuid: UnsyncOnceCell<String>,
+        pub(super) uuid: OnceCell<String>,
         #[property(get, set, construct_only)]
-        pub(super) name: UnsyncOnceCell<String>,
+        pub(super) name: OnceCell<String>,
         #[property(get, set, construct_only)]
-        pub(super) url: UnsyncOnceCell<String>,
+        pub(super) url: OnceCell<String>,
         #[property(get, set, construct_only, nullable)]
         pub(super) rgb: Cell<Option<gdk::RGBA>>,
     }
@@ -51,7 +50,7 @@ mod imp {
 
     impl ObjectImpl for Connection {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: SyncOnceCell<Vec<glib::ParamSpec>> = SyncOnceCell::new();
+            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
             PROPERTIES.get_or_init(|| {
                 Self::derived_properties()
                     .iter()

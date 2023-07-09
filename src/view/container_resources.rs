@@ -1,7 +1,7 @@
 use std::cell::Cell;
 
-use adw::subclass::prelude::PreferencesGroupImpl;
-use adw::traits::AnimationExt;
+use adw::prelude::*;
+use adw::subclass::prelude::*;
 use gettextrs::gettext;
 use gettextrs::ngettext;
 use glib::clone;
@@ -9,8 +9,6 @@ use glib::closure;
 use glib::closure_local;
 use glib::Properties;
 use gtk::glib;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
 
 use crate::model;
@@ -21,7 +19,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ContainerResources)]
-    #[template(file = "container_resources.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/container_resources.ui")]
     pub(crate) struct ContainerResources {
         #[property(get, set, construct, nullable)]
         pub(super) container: glib::WeakRef<model::Container>,

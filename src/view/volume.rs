@@ -1,5 +1,4 @@
-use adw::prelude::MessageDialogExtManual;
-use adw::traits::MessageDialogExt;
+use adw::prelude::*;
 use gettextrs::gettext;
 use glib::clone;
 use glib::Cast;

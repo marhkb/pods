@@ -1,5 +1,6 @@
 use std::borrow::Cow;
 use std::cell::Cell;
+use std::cell::OnceCell;
 use std::cell::RefCell;
 use std::collections::VecDeque;
 use std::io::BufWriter;
@@ -7,11 +8,14 @@ use std::io::Write;
 use std::mem;
 use std::sync::atomic::AtomicUsize;
 use std::sync::atomic::Ordering;
+use std::sync::OnceLock;
 
+use adw::prelude::*;
+use adw::subclass::prelude::*;
 use ashpd::desktop::file_chooser::Choice;
 use ashpd::desktop::file_chooser::SaveFileRequest;
 use ashpd::WindowIdentifier;
-use futures::StreamExt;
+use futures::prelude::*;
 use gettextrs::gettext;
 use glib::clone;
 use glib::closure;
@@ -19,24 +23,18 @@ use glib::Properties;
 use gtk::gdk;
 use gtk::gio;
 use gtk::glib;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::OnceCell as SyncOnceCell;
-use once_cell::unsync::OnceCell as UnsyncOnceCell;
-use sourceview5::traits::BufferExt;
-use sourceview5::traits::GutterRendererExt;
-use sourceview5::traits::GutterRendererTextExt;
-use sourceview5::traits::ViewExt;
+use sourceview5::prelude::*;
 
 use crate::model;
 use crate::podman;
 use crate::utils;
 use crate::widget;
 
+const ACTION_TOGGLE_SEARCH: &str = "container-log-page.toggle-search";
+const ACTION_EXIT_SEARCH: &str = "container-log-page.exit-search";
 const ACTION_SAVE_TO_FILE: &str = "container-log-page.save-to-file";
 const ACTION_SHOW_TIMESTAMPS: &str = "container-log-page.show-timestamps";
-const ACTION_TOGGLE_SEARCH: &str = "container-log-page.toggle-search";
 const ACTION_SCROLL_DOWN: &str = "container-log-page.scroll-down";
 const ACTION_START_CONTAINER: &str = "container-log-page.start-container";
 const ACTION_ZOOM_OUT: &str = "container-log-page.zoom-out";
@@ -56,12 +54,11 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ContainerLogPage)]
-    #[template(file = "container_log_page.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/container_log_page.ui")]
     pub(crate) struct ContainerLogPage {
         pub(super) settings: utils::PodsSettings,
-        pub(super) renderer_timestamps: UnsyncOnceCell<sourceview5::GutterRendererText>,
         pub(super) log_timestamps: RefCell<VecDeque<String>>,
-        pub(super) fetch_until: UnsyncOnceCell<String>,
+        pub(super) fetch_until: OnceCell<String>,
         pub(super) fetch_lines_state: Cell<FetchLinesState>,
         pub(super) fetched_lines: RefCell<VecDeque<Vec<u8>>>,
         pub(super) prev_adj: Cell<f64>,
@@ -72,6 +69,8 @@ mod imp {
         pub(super) sticky: Cell<bool>,
         #[template_child]
         pub(super) zoom_control: TemplateChild<widget::ZoomControl>,
+        #[template_child]
+        pub(super) timestamps_renderer: TemplateChild<sourceview5::GutterRendererText>,
         #[template_child]
         pub(super) menu_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
@@ -104,13 +103,31 @@ mod imp {
             klass.bind_template();
             klass.bind_template_callbacks();
 
+            klass.add_binding_action(
+                gdk::Key::F,
+                gdk::ModifierType::CONTROL_MASK,
+                ACTION_TOGGLE_SEARCH,
+                None,
+            );
+            klass.install_action(ACTION_TOGGLE_SEARCH, None, |widget, _, _| {
+                widget.toggle_search_mode();
+            });
+
+            klass.add_binding_action(
+                gdk::Key::Escape,
+                gdk::ModifierType::empty(),
+                ACTION_EXIT_SEARCH,
+                None,
+            );
+            klass.install_action(ACTION_EXIT_SEARCH, None, |widget, _, _| {
+                widget.set_search_mode(false);
+            });
+
             klass.install_action_async(ACTION_SAVE_TO_FILE, None, |widget, _, _| async move {
                 widget.save_to_file().await;
             });
             klass.install_property_action(ACTION_SHOW_TIMESTAMPS, "show-timestamps");
-            klass.install_action(ACTION_TOGGLE_SEARCH, None, |widget, _, _| {
-                widget.toggle_search();
-            });
+
             klass.install_action(ACTION_SCROLL_DOWN, None, |widget, _, _| {
                 widget.scroll_down();
             });
@@ -127,13 +144,6 @@ mod imp {
             klass.install_action(ACTION_ZOOM_NORMAL, None, |widget, _, _| {
                 widget.imp().scalable_text_view.zoom_normal();
             });
-
-            klass.add_binding_action(
-                gdk::Key::F,
-                gdk::ModifierType::CONTROL_MASK,
-                ACTION_TOGGLE_SEARCH,
-                None,
-            );
 
             klass.add_binding_action(
                 gdk::Key::minus,
@@ -180,29 +190,9 @@ mod imp {
         }
     }
 
-    #[gtk::template_callbacks]
-    impl ContainerLogPage {
-        #[template_callback]
-        fn on_scroll(&self, _dx: f64, dy: f64, scroll: gtk::EventControllerScroll) -> gtk::Inhibit {
-            gtk::Inhibit(
-                if scroll.current_event_state() == gdk::ModifierType::CONTROL_MASK {
-                    let text_view = &*self.scalable_text_view;
-                    if dy.is_sign_negative() {
-                        text_view.zoom_in();
-                    } else {
-                        text_view.zoom_out();
-                    }
-                    true
-                } else {
-                    false
-                },
-            )
-        }
-    }
-
     impl ObjectImpl for ContainerLogPage {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: SyncOnceCell<Vec<glib::ParamSpec>> = SyncOnceCell::new();
+            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
             PROPERTIES.get_or_init(|| {
                 Self::derived_properties()
                     .iter()
@@ -235,6 +225,14 @@ mod imp {
 
             let obj = &*self.obj();
 
+            self.settings
+                .bind(
+                    "show-log-timestamps",
+                    &self.timestamps_renderer.get(),
+                    "visible",
+                )
+                .build();
+
             self.menu_button
                 .popover()
                 .unwrap()
@@ -248,30 +246,11 @@ mod imp {
                 obj.on_notify_dark(style_manager);
             }));
 
-            let renderer_timestamps = sourceview5::GutterRendererText::builder()
-                .margin_end(6)
-                .build();
-            renderer_timestamps.connect_query_data(clone!(@weak obj => move |renderer, _, line| {
-                let log_timestamps = obj.imp().log_timestamps.borrow();
-                if let Some(timestamp) = log_timestamps.get(line as usize) {
-                    let date_time = format!(
-                        "<span foreground=\"#865e3c\">{timestamp}</span>",
-                    );
-                    renderer.set_markup(&date_time);
-
-                    let (width, _) = renderer.measure_markup(&date_time);
-                    renderer.set_width_request(width.max(renderer.width_request()));
-                }
-            }));
-            self.source_buffer.connect_cursor_moved(
-                clone!(@weak renderer_timestamps => move |_| renderer_timestamps.queue_draw()),
-            );
             <widget::ScalableTextView as ViewExt>::gutter(
                 &*self.scalable_text_view,
                 gtk::TextWindowType::Left,
             )
-            .insert(&renderer_timestamps, 0);
-            self.renderer_timestamps.set(renderer_timestamps).unwrap();
+            .insert(&self.timestamps_renderer.get(), 0);
 
             let mut maybe_gutter_child = <widget::ScalableTextView as ViewExt>::gutter(
                 &*self.scalable_text_view,
@@ -286,43 +265,6 @@ mod imp {
 
                 maybe_gutter_child = child.next_sibling()
             }
-
-            self.search_bar.connect_search_mode_enabled_notify(
-                clone!(@weak obj => move |search_bar| {
-                    let search_entry = &*obj.imp().search_widget;
-                    if search_bar.is_search_mode() {
-                        search_entry.grab_focus();
-                    } else {
-                        search_entry.set_text("");
-                    }
-                }),
-            );
-
-            self.renderer_timestamps
-                .get()
-                .unwrap()
-                .connect_notify_local(
-                    Some("visible"),
-                    clone!(@weak obj => move |_, _| {
-                        obj.notify("show-timestamps");
-                    }),
-                );
-
-            self.settings
-                .bind(
-                    "show-log-timestamps",
-                    self.renderer_timestamps.get().unwrap(),
-                    "visible",
-                )
-                .build();
-
-            self.search_button
-                .bind_property("active", &*self.search_bar, "search-mode-enabled")
-                .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
-                .build();
-
-            self.search_widget
-                .set_source_view(Some(self.scalable_text_view.upcast_ref()));
 
             let adj = self.scrolled_window.vadjustment();
             obj.on_adjustment_changed(&adj);
@@ -363,6 +305,59 @@ mod imp {
     }
 
     impl WidgetImpl for ContainerLogPage {}
+
+    #[gtk::template_callbacks]
+    impl ContainerLogPage {
+        #[template_callback]
+        fn on_timestamps_renderer_query_data(&self, _: &glib::Object, line: u32) {
+            if let Some(timestamp) = self.log_timestamps.borrow().get(line as usize) {
+                let date_time = format!("<span foreground=\"#865e3c\">{timestamp}</span>",);
+                self.timestamps_renderer.set_markup(&date_time);
+
+                let (width, _) = self.timestamps_renderer.measure_markup(&date_time);
+                self.timestamps_renderer
+                    .set_width_request(width.max(self.timestamps_renderer.width_request()));
+            }
+        }
+
+        #[template_callback]
+        fn on_timestamps_renderer_notify_visible(&self) {
+            self.obj().notify("show-timestamps");
+        }
+
+        #[template_callback]
+        fn on_scroll(
+            &self,
+            _dx: f64,
+            dy: f64,
+            scroll: gtk::EventControllerScroll,
+        ) -> glib::Propagation {
+            if scroll.current_event_state() == gdk::ModifierType::CONTROL_MASK {
+                let text_view = &*self.scalable_text_view;
+                if dy.is_sign_negative() {
+                    text_view.zoom_in();
+                } else {
+                    text_view.zoom_out();
+                }
+            }
+
+            glib::Propagation::Proceed
+        }
+
+        #[template_callback]
+        fn on_source_buffer_cursor_moved(&self) {
+            self.timestamps_renderer.queue_draw();
+        }
+
+        #[template_callback]
+        fn on_search_bar_search_mode_enabled(&self) {
+            if self.search_bar.is_search_mode() {
+                self.search_widget.grab_focus();
+            } else {
+                self.search_widget.set_text("");
+            }
+        }
+    }
 }
 
 glib::wrapper! {
@@ -381,11 +376,7 @@ impl From<&model::Container> for ContainerLogPage {
 
 impl ContainerLogPage {
     pub(crate) fn show_timestamps(&self) -> bool {
-        self.imp()
-            .renderer_timestamps
-            .get()
-            .map(sourceview5::GutterRendererText::is_visible)
-            .unwrap_or(false)
+        self.imp().timestamps_renderer.is_visible()
     }
 
     pub(crate) fn set_show_timestamps(&self, value: bool) {
@@ -393,11 +384,7 @@ impl ContainerLogPage {
             return;
         }
 
-        self.imp()
-            .renderer_timestamps
-            .get()
-            .unwrap()
-            .set_visible(value);
+        self.imp().timestamps_renderer.set_visible(value);
     }
 
     fn scroll_down(&self) {
@@ -435,7 +422,7 @@ impl ContainerLogPage {
                         .logs(&basic_opts_builder(false, true).tail("512").build())
                         .boxed()
                 },
-                clone!(@weak self as obj => @default-return glib::Continue(false), move |result| {
+                clone!(@weak self as obj => @default-return glib::ControlFlow::Break, move |result| {
                     obj.imp().stack.set_visible_child_name("loaded");
                     obj.append_line(result, &mut perform)
                 }),
@@ -471,12 +458,12 @@ impl ContainerLogPage {
             utils::run_stream(
                 container,
                 move |container| container.logs(&opts.build()).boxed(),
-                clone!(@weak self as obj => @default-return glib::Continue(false), move |result: podman::Result<podman::conn::TtyChunk>| {
+                clone!(@weak self as obj => @default-return glib::ControlFlow::Break, move |result: podman::Result<podman::conn::TtyChunk>| {
                     if skip.load(Ordering::Relaxed) == 0 {
                         obj.append_line(result, &mut perform)
                     } else {
                         skip.fetch_sub(1, Ordering::Relaxed);
-                        glib::Continue(true)
+                        glib::ControlFlow::Continue
                     }
                 }),
             );
@@ -487,11 +474,11 @@ impl ContainerLogPage {
         &self,
         result: podman::Result<podman::conn::TtyChunk>,
         perform: &mut MarkupPerform,
-    ) -> glib::Continue {
-        glib::Continue(match result {
+    ) -> glib::ControlFlow {
+        match result {
             Ok(line) => {
                 self.insert(Vec::from(line), perform, true);
-                true
+                glib::ControlFlow::Continue
             }
             Err(e) => {
                 log::warn!("Stopping container log stream due to error: {e}");
@@ -500,9 +487,9 @@ impl ContainerLogPage {
                     &gettext("Error while following log"),
                     &e.to_string(),
                 );
-                false
+                glib::ControlFlow::Break
             }
-        })
+        }
     }
 
     fn insert(&self, line: Vec<u8>, perform: &mut MarkupPerform, at_end: bool) {
@@ -559,20 +546,20 @@ impl ContainerLogPage {
                                     .logs(&basic_opts_builder(false, true).until(until).build())
                                     .boxed()
                             },
-                            clone!(@weak self as obj => @default-return glib::Continue(false), move |result| {
+                            clone!(@weak self as obj => @default-return glib::ControlFlow::Break, move |result| {
                                 let imp = obj.imp();
                                 imp.fetch_lines_state.set(FetchLinesState::Fetching);
 
-                                glib::Continue(match result {
+                                match result {
                                     Ok(line) => {
                                         imp.fetched_lines.borrow_mut().push_back(Vec::from(line));
-                                        true
+                                        glib::ControlFlow::Continue
                                     }
                                     Err(e) => {
                                         log::warn!("Stopping container log stream due to error: {e}");
-                                        false
+                                        glib::ControlFlow::Break
                                     }
-                                })
+                                }
                             }),
                             clone!(@weak self as obj => move || {
                                 let imp = obj.imp();
@@ -666,10 +653,10 @@ impl ContainerLogPage {
                                     .boxed()
                             },
                             clone!(
-                                @weak obj => @default-return glib::Continue(false),
+                                @weak obj => @default-return glib::ControlFlow::Break,
                                 move |result: podman::Result<podman::conn::TtyChunk>|
                             {
-                                glib::Continue(match result.map(Vec::from) {
+                                match result.map(Vec::from) {
                                     Ok(line) => {
                                         perform.decode(&line);
 
@@ -679,7 +666,7 @@ impl ContainerLogPage {
                                                 .write_all(line.as_bytes())
                                                 .and_then(|_| writer.write_all(b"\n"))
                                             {
-                                                Ok(_) => true,
+                                                Ok(_) => glib::ControlFlow::Continue,
                                                 Err(e) => {
                                                     log::warn!("Error on saving logs: {e}");
                                                     utils::show_error_toast(
@@ -687,11 +674,11 @@ impl ContainerLogPage {
                                                         &gettext("Error on saving logs"),
                                                         &e.to_string(),
                                                     );
-                                                    false
+                                                    glib::ControlFlow::Break
                                                 }
                                             }
                                         } else {
-                                            true
+                                            glib::ControlFlow::Continue
                                         }
                                     }
                                     Err(e) => {
@@ -701,9 +688,9 @@ impl ContainerLogPage {
                                             &gettext("Error on retrieving logs"),
                                             &e.to_string(),
                                         );
-                                        false
+                                        glib::ControlFlow::Break
                                     }
-                                })
+                                }
                             }),
                             clone!(@weak obj => move || {
                                 obj.action_set_enabled(ACTION_SAVE_TO_FILE, true);
@@ -717,13 +704,15 @@ impl ContainerLogPage {
         }
     }
 
-    fn toggle_search(&self) {
-        let imp = self.imp();
-        imp.search_bar
-            .set_search_mode(!imp.search_bar.is_search_mode());
+    pub(crate) fn set_search_mode(&self, value: bool) {
+        self.imp().search_bar.set_search_mode(value);
     }
 
-    fn start_or_resume_container(&self) {
+    pub(crate) fn toggle_search_mode(&self) {
+        self.set_search_mode(!self.imp().search_bar.is_search_mode());
+    }
+
+    pub(crate) fn start_or_resume_container(&self) {
         if let Some(container) = self.container() {
             if container.can_start() {
                 container.start(clone!(@weak self as obj => move |result| {

@@ -1,7 +1,7 @@
+use adw::prelude::*;
+use adw::subclass::prelude::*;
 use glib::Properties;
 use gtk::glib;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
 
 use crate::model;
@@ -12,7 +12,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ConnectionsSidebar)]
-    #[template(file = "connections_sidebar.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/connections_sidebar.ui")]
     pub(crate) struct ConnectionsSidebar {
         #[property(get, set, nullable)]
         pub(super) connection_manager: glib::WeakRef<model::ConnectionManager>,

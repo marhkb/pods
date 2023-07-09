@@ -1,12 +1,12 @@
 use std::cell::RefCell;
 
+use glib::once_cell::sync::Lazy as SyncLazy;
 // use gtk::glib::subclass::Signal;
 use glib::prelude::*;
 use glib::subclass::prelude::*;
 use glib::subclass::Signal;
 use glib::Properties;
 use gtk::glib;
-use once_cell::sync::Lazy as SyncLazy;
 
 mod imp {
     use super::*;

@@ -1,9 +1,7 @@
+use adw::prelude::*;
 use adw::subclass::prelude::*;
-use adw::traits::BinExt;
-use adw::traits::ExpanderRowExt;
 use glib::Properties;
 use gtk::glib;
-use gtk::prelude::*;
 use gtk::CompositeTemplate;
 
 use crate::model;
@@ -19,21 +17,19 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ImagesPrunePage)]
-    #[template(file = "images_prune_page.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/images_prune_page.ui")]
     pub(crate) struct ImagesPrunePage {
         pub(super) pods_settings: utils::PodsSettings,
         #[property(get, set, construct_only, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
         #[template_child]
-        pub(super) stack: TemplateChild<gtk::Stack>,
+        pub(super) navigation_view: TemplateChild<adw::NavigationView>,
         #[template_child]
-        pub(super) prune_all_switch: TemplateChild<gtk::Switch>,
+        pub(super) prune_all_switch_row: TemplateChild<adw::SwitchRow>,
         #[template_child]
-        pub(super) prune_external_switch: TemplateChild<gtk::Switch>,
+        pub(super) prune_external_switch_row: TemplateChild<adw::SwitchRow>,
         #[template_child]
         pub(super) prune_until_row: TemplateChild<widget::DateTimeRow>,
-        #[template_child]
-        pub(super) action_page_bin: TemplateChild<adw::Bin>,
     }
 
     #[glib::object_subclass]
@@ -72,13 +68,13 @@ mod imp {
             self.parent_constructed();
 
             self.pods_settings
-                .bind("prune-all-images", &*self.prune_all_switch, "active")
+                .bind("prune-all-images", &*self.prune_all_switch_row, "active")
                 .build();
 
             self.pods_settings
                 .bind(
                     "prune-external-images",
-                    &*self.prune_external_switch,
+                    &*self.prune_external_switch_row,
                     "active",
                 )
                 .build();
@@ -122,8 +118,13 @@ impl ImagesPrunePage {
                 .build(),
         );
 
-        imp.action_page_bin
-            .set_child(Some(&view::ActionPage::from(&action)));
-        imp.stack.set_visible_child(&*imp.action_page_bin);
+        let page = view::ActionPage::from(&action);
+
+        imp.navigation_view.push(
+            &adw::NavigationPage::builder()
+                .can_pop(false)
+                .child(&page)
+                .build(),
+        );
     }
 }

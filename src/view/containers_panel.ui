@@ -1,283 +1,341 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
+
+  <menu id="overhang-menu">
+    <item>
+      <attribute name="label" translatable="yes">_Create Container</attribute>
+      <attribute name="action">containers-panel.create-container</attribute>
+    </item>
+    <item>
+      <attribute name="label" translatable="yes">_Prune Stopped Containers</attribute>
+      <attribute name="action">containers-panel.prune-unused-containers</attribute>
+    </item>
+  </menu>
+
+  <menu id="selection-menu">
+    <item>
+      <attribute name="label" translatable="yes">_Select Visible</attribute>
+      <attribute name="action">containers-panel.select-visible</attribute>
+    </item>
+    <item>
+      <attribute name="label" translatable="yes">Select None</attribute>
+      <attribute name="action">containers-panel.select-none</attribute>
+    </item>
+  </menu>
+
   <template class="PdsContainersPanel" parent="GtkWidget">
     <property name="layout-manager">
       <object class="GtkBinLayout"/>
     </property>
 
     <child>
-      <object class="GtkStack" id="main_stack">
+      <object class="AdwBreakpointBin">
+        <property name="height-request">180</property>
+        <property name="width-request">360</property>
 
         <child>
-          <object class="GtkStackPage">
-            <property name="name">spinner</property>
-
-            <property name="child">
-              <object class="PdsEfficientSpinner">
-                <property name="halign">center</property>
-                <property name="valign">center</property>
-                <property name="height-request">30</property>
-                <property name="width-request">30</property>
-              </object>
-            </property>
-
+          <object class="AdwBreakpoint">
+            <condition>max-width: 400sp</condition>
+            <setter object="create_button" property="visible">False</setter>
+            <setter object="prune_button" property="visible">False</setter>
           </object>
         </child>
 
-        <!-- List of containers -->
         <child>
-          <object class="GtkStackPage">
-            <property name="name">containers</property>
+          <object class="AdwBreakpoint">
+            <condition>min-width: 400sp</condition>
+            <setter object="overhang_menu_button" property="visible">False</setter>
+          </object>
+        </child>
 
-            <property name="child">
+        <child>
+          <object class="GtkStack" id="main_stack">
 
-              <object class="GtkBox">
-                <property name="orientation">vertical</property>
+            <child>
+              <object class="GtkStackPage">
+                <property name="name">spinner</property>
 
-                <child>
-                  <object class="AdwPreferencesPage">
-                    <property name="vexpand">True</property>
+                <property name="child">
+                  <object class="AdwToolbarView">
+
+                    <child type="top">
+                      <object class="AdwHeaderBar">
+                        <property name="title-widget">
+                          <object class="AdwWindowTitle">
+                            <property name="title" translatable="yes">Containers</property>
+                          </object>
+                        </property>
+                      </object>
+                    </child>
 
                     <child>
-                      <object class="PdsContainersGroup" id="containers_group">
-                        <binding name="container-list">
-                          <lookup name="container-list">PdsContainersPanel</lookup>
+                      <object class="PdsEfficientSpinner">
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <property name="height-request">30</property>
+                        <property name="width-request">30</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </property>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkStackPage">
+                <property name="name">containers</property>
+
+                <property name="child">
+                  <object class="AdwToolbarView">
+
+                    <child type="top">
+                      <object class="AdwHeaderBar" id="main_header_bar">
+
+                        <child type="start">
+                          <object class="GtkToggleButton">
+                            <property name="active" bind-source="search_bar" bind-property="search-mode-enabled" bind-flags="sync-create|bidirectional"/>
+                            <property name="icon-name">system-search-symbolic</property>
+                            <property name="tooltip-text" translatable="yes">Search</property>
+                          </object>
+                        </child>
+
+                        <child type="start">
+                          <object class="GtkButton" id="create_button">
+                            <property name="action-name">containers-panel.create-container</property>
+                            <property name="icon-name">list-add-symbolic</property>
+                            <property name="tooltip-text" translatable="yes">Create Container</property>
+                          </object>
+                        </child>
+
+                        <child type="start">
+                          <object class="GtkButton" id="prune_button">
+                            <property name="action-name">containers-panel.prune-unused-containers</property>
+                            <property name="icon-name">eraser5-symbolic</property>
+                            <property name="tooltip-text" translatable="yes">Prune Stopped Containers</property>
+                          </object>
+                        </child>
+
+                        <child type="start">
+                          <object class="GtkMenuButton" id="overhang_menu_button">
+                            <property name="menu-model">overhang-menu</property>
+                            <property name="tooltip-text" translatable="yes">More Actions</property>
+                          </object>
+                        </child>
+
+                        <child type="title">
+                          <object class="AdwWindowTitle" id="window_title">
+                            <style>
+                              <class name="pre"/>
+                            </style>
+
+                            <property name="title" translatable="yes">Containers</property>
+                          </object>
+                        </child>
+
+                        <child type="end">
+                          <object class="GtkToggleButton" id="show_only_running_toggle_button">
+                            <signal name="notify::active" handler="on_show_only_running_toggle_button_notify_active" swapped="true"/>
+                            <property name="icon-name">funnel-symbolic</property>
+                            <property name="tooltip-text" translatable="yes">Show Only Running Containers</property>
+                          </object>
+                        </child>
+
+                        <child type="end">
+                          <object class="GtkButton">
+                            <property name="action-name">containers-panel.enter-selection-mode</property>
+                            <property name="icon-name">selection-mode-symbolic</property>
+                            <property name="tooltip-text" translatable="yes">Multi-Selection</property>
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                    <child type="top">
+                      <object class="AdwHeaderBar" id="selection_header_bar">
+
+                        <child type="start">
+                          <object class="GtkButton">
+                            <property name="action-name">containers-panel.exit-selection-mode</property>
+                            <property name="label" translatable="yes">Cancel</property>
+                          </object>
+                        </child>
+
+                        <child type="title">
+                          <object class="GtkMenuButton" id="selected_containers_button">
+                            <style>
+                              <class name="flat"/>
+                            </style>
+                            <property name="can-shrink">True</property>
+                            <property name="menu-model">selection-menu</property>
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                    <child type="top">
+                      <object class="GtkSearchBar" id="search_bar">
+                        <signal name="notify::search-mode-enabled" handler="on_notify_search_mode_enabled" swapped="true"/>
+
+                        <child>
+                          <object class="GtkSearchEntry" id="search_entry">
+                            <signal name="search-changed" handler="on_search_changed" swapped="true"/>
+                            <property name="max-width-chars">28</property>
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="AdwPreferencesPage">
+                        <property name="vexpand">True</property>
+
+                        <child>
+                          <object class="AdwPreferencesGroup">
+
+                            <child>
+                              <object class="GtkListBox" id="list_box">
+                                <style>
+                                  <class name="boxed-list"/>
+                                </style>
+                                <property name="selection-mode">none</property>
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                    <child type="bottom">
+                      <object class="GtkActionBar">
+                        <binding name="revealed">
+                          <lookup name="selection-mode" type="ContainerList">
+                            <lookup name="container-list">PdsContainersPanel</lookup>
+                          </lookup>
                         </binding>
-                        <property name="title" translatable="yes">Summary</property>
-                        <property name="show-running-settings-key">show-only-running-containers</property>
-                        <property name="no-containers-label" translatable="yes">No containers found</property>
-                      </object>
-                    </child>
 
-                  </object>
-                </child>
-
-                <child>
-                  <object class="GtkActionBar">
-                    <binding name="revealed">
-                      <lookup name="selection-mode" type="ContainerList">
-                        <lookup name="container-list">PdsContainersPanel</lookup>
-                      </lookup>
-                    </binding>
-
-                    <child type="center">
-                      <object class="AdwSqueezer">
-                        <property name="transition-type">crossfade</property>
-
-                        <child>
-                          <object class="GtkBox">
-                            <style>
-                              <class name="toolbar"/>
-                            </style>
-                            <property name="halign">center</property>
+                        <child type="center">
+                          <object class="AdwClamp">
+                            <property name="maximum-size">400</property>
+                            <property name="tightening-threshold">300</property>
 
                             <child>
-                              <object class="GtkButton">
-                                <style>
-                                  <class name="flat"/>
-                                </style>
-                                <property name="action-name">containers-panel.start-or-resume-selection</property>
+                              <object class="GtkCenterBox">
+                                <property name="hexpand">True</property>
 
-                                <child>
-                                  <object class="GtkBox">
-                                    <property name="spacing">6</property>
-
-                                    <child>
-                                      <object class="GtkImage">
-                                        <property name="icon-name">media-playback-start-symbolic</property>
-                                      </object>
-                                    </child>
-
-                                    <child>
-                                      <object class="GtkLabel">
-                                        <property name="label" translatable="yes">Start/Resume</property>
-                                      </object>
-                                    </child>
-
+                                <property name="start-widget">
+                                  <object class="GtkButton">
+                                    <style>
+                                      <class name="circular"/>
+                                      <class name="raised"/>
+                                    </style>
+                                    <property name="action-name">containers-panel.kill-selection</property>
+                                    <property name="icon-name">skull-symbolic</property>
+                                    <property name="tooltip-text" translatable="yes">Kill</property>
+                                    <property name="valign">center</property>
                                   </object>
-                                </child>
+                                </property>
 
-                              </object>
-                            </child>
-
-                            <child>
-                              <object class="GtkButton">
-                                <style>
-                                  <class name="flat"/>
-                                </style>
-                                <property name="action-name">containers-panel.stop-selection</property>
-
-                                <child>
+                                <property name="center-widget">
                                   <object class="GtkBox">
-                                    <property name="spacing">6</property>
+                                    <property name="halign">center</property>
+                                    <property name="hexpand">True</property>
+                                    <property name="spacing">12</property>
 
                                     <child>
-                                      <object class="GtkImage">
-                                        <property name="icon-name">media-playback-stop-symbolic</property>
-                                      </object>
-                                    </child>
-
-                                    <child>
-                                      <object class="GtkLabel">
-                                        <property name="label" translatable="yes">Stop</property>
-                                      </object>
-                                    </child>
-
-                                  </object>
-                                </child>
-
-                              </object>
-                            </child>
-
-                            <child>
-                              <object class="GtkButton">
-                                <style>
-                                  <class name="flat"/>
-                                </style>
-                                <property name="action-name">containers-panel.pause-selection</property>
-
-                                <child>
-                                  <object class="GtkBox">
-                                    <property name="spacing">6</property>
-
-                                    <child>
-                                      <object class="GtkImage">
-                                        <property name="icon-name">media-playback-pause-symbolic</property>
-                                      </object>
-                                    </child>
-
-                                    <child>
-                                      <object class="GtkLabel">
-                                        <property name="label" translatable="yes">Pause</property>
-                                      </object>
-                                    </child>
-
-                                  </object>
-                                </child>
-
-                              </object>
-                            </child>
-
-                            <child>
-                              <object class="GtkButton">
-                                <style>
-                                  <class name="flat"/>
-                                </style>
-                                <property name="action-name">containers-panel.restart-selection</property>
-
-                                <child>
-                                  <object class="GtkBox">
-                                    <property name="spacing">6</property>
-
-                                    <child>
-                                      <object class="GtkImage">
+                                      <object class="GtkButton">
+                                        <style>
+                                          <class name="circular"/>
+                                          <class name="raised"/>
+                                        </style>
+                                        <property name="action-name">containers-panel.restart-selection</property>
                                         <property name="icon-name">view-refresh-symbolic</property>
+                                        <property name="tooltip-text" translatable="yes">Restart</property>
+                                        <property name="valign">center</property>
                                       </object>
                                     </child>
 
                                     <child>
-                                      <object class="GtkLabel">
-                                        <property name="label" translatable="yes">Restart</property>
+                                      <object class="GtkBox">
+                                        <style>
+                                          <class name="linked"/>
+                                        </style>
+
+                                        <child>
+                                          <object class="GtkButton" id="start_or_resume_button">
+                                            <style>
+                                              <class name="circular"/>
+                                              <class name="medium"/>
+                                            </style>
+                                            <property name="action-name">containers-panel.start-or-resume-selection</property>
+                                            <property name="tooltip-text" translatable="yes">Start/Resume</property>
+                                            <property name="valign">center</property>
+
+                                            <child>
+                                              <object class="GtkImage">
+                                                <property name="icon-name">media-playback-start-symbolic</property>
+                                              </object>
+                                            </child>
+                                          </object>
+                                        </child>
+
+                                        <child>
+                                          <object class="GtkButton" id="stop_button">
+                                            <style>
+                                              <class name="circular"/>
+                                              <class name="medium"/>
+                                            </style>
+                                            <property name="action-name">containers-panel.stop-selection</property>
+                                            <property name="tooltip-text" translatable="yes">Stop</property>
+                                            <property name="valign">center</property>
+
+                                            <child>
+                                              <object class="GtkImage">
+                                                <property name="icon-name">media-playback-stop-symbolic</property>
+                                              </object>
+                                            </child>
+                                          </object>
+                                        </child>
+
+                                      </object>
+                                    </child>
+
+                                    <child>
+                                      <object class="GtkButton">
+                                        <style>
+                                          <class name="circular"/>
+                                          <class name="raised"/>
+                                        </style>
+                                        <property name="action-name">containers-panel.pause-selection</property>
+                                        <property name="icon-name">media-playback-pause-symbolic</property>
+                                        <property name="tooltip-text" translatable="yes">Pause</property>
+                                        <property name="valign">center</property>
                                       </object>
                                     </child>
 
                                   </object>
-                                </child>
-                                ^
-                              </object>
-                            </child>
+                                </property>
 
-                            <child>
-                              <object class="GtkButton">
-                                <style>
-                                  <class name="flat"/>
-                                </style>
-                                <property name="action-name">containers-panel.delete-selection</property>
-
-                                <child>
-                                  <object class="GtkBox">
-                                    <property name="spacing">6</property>
-
-                                    <child>
-                                      <object class="GtkImage">
-                                        <property name="icon-name">user-trash-symbolic</property>
-                                      </object>
-                                    </child>
-
-                                    <child>
-                                      <object class="GtkLabel">
-                                        <property name="label" translatable="yes">Delete</property>
-                                      </object>
-                                    </child>
-
+                                <property name="end-widget">
+                                  <object class="GtkButton">
+                                    <style>
+                                      <class name="circular"/>
+                                      <class name="destructive-button"/>
+                                      <class name="raised"/>
+                                    </style>
+                                    <property name="action-name">containers-panel.delete-selection</property>
+                                    <property name="icon-name">user-trash-symbolic</property>
+                                    <property name="tooltip-text" translatable="yes">Delete</property>
+                                    <property name="valign">center</property>
                                   </object>
-                                </child>
+                                </property>
 
-                              </object>
-                            </child>
-
-                          </object>
-                        </child>
-
-                        <child>
-                          <object class="GtkBox">
-                            <style>
-                              <class name="toolbar"/>
-                            </style>
-                            <property name="halign">center</property>
-
-                            <child>
-                              <object class="GtkButton">
-                                <style>
-                                  <class name="flat"/>
-                                </style>
-                                <property name="action-name">containers-panel.start-or-resume-selection</property>
-                                <property name="icon-name">media-playback-start-symbolic</property>
-                                <property name="tooltip-text" translatable="yes">Start/Resume</property>
-                              </object>
-                            </child>
-
-                            <child>
-                              <object class="GtkButton">
-                                <style>
-                                  <class name="flat"/>
-                                </style>
-                                <property name="action-name">containers-panel.stop-selection</property>
-                                <property name="icon-name">media-playback-stop-symbolic</property>
-                                <property name="tooltip-text" translatable="yes">Stop</property>
-                              </object>
-                            </child>
-
-                            <child>
-                              <object class="GtkButton">
-                                <style>
-                                  <class name="flat"/>
-                                </style>
-                                <property name="action-name">containers-panel.pause-selection</property>
-                                <property name="icon-name">media-playback-pause-symbolic</property>
-                                <property name="tooltip-text" translatable="yes">Pause</property>
-                              </object>
-                            </child>
-
-                            <child>
-                              <object class="GtkButton">
-                                <style>
-                                  <class name="flat"/>
-                                </style>
-                                <property name="action-name">containers-panel.restart-selection</property>
-                                <property name="icon-name">view-refresh-symbolic</property>
-                                <property name="tooltip-text" translatable="yes">Restart</property>
-                              </object>
-                            </child>
-
-                            <child>
-                              <object class="GtkButton">
-                                <style>
-                                  <class name="flat"/>
-                                </style>
-                                <property name="action-name">containers-panel.delete-selection</property>
-                                <property name="icon-name">user-trash-symbolic</property>
-                                <property name="tooltip-text" translatable="yes">Delete</property>
                               </object>
                             </child>
 
@@ -288,38 +346,54 @@
                     </child>
 
                   </object>
-                </child>
+                </property>
 
               </object>
-            </property>
+            </child>
 
-          </object>
-        </child>
+            <child>
+              <object class="GtkStackPage">
+                <property name="name">empty</property>
 
-        <child>
-          <object class="GtkStackPage">
-            <property name="name">empty</property>
+                <property name="child">
+                  <object class="AdwToolbarView">
 
-            <property name="child">
-              <object class="AdwStatusPage">
-                <property name="title" translatable="yes">No Containers Found</property>
-                <property name="description" translatable="yes">You can use the button below to create an initial container.</property>
+                    <child type="top">
+                      <object class="AdwHeaderBar">
+                        <property name="title-widget">
+                          <object class="AdwWindowTitle">
+                            <property name="title" translatable="yes">Containers</property>
+                          </object>
+                        </property>
+                      </object>
+                    </child>
 
-                <child>
-                  <object class="GtkButton">
-                    <style>
-                      <class name="pill"/>
-                      <class name="suggested-action"/>
-                    </style>
-                    <property name="action-name">containers-group.create-container</property>
-                    <property name="halign">center</property>
-                    <property name="label" translatable="yes">_Create Container</property>
-                    <property name="use-underline">True</property>
+                    <child>
+                      <object class="AdwStatusPage">
+                        <property name="title" translatable="yes">No Containers Found</property>
+                        <property name="description" translatable="yes">You can use the button below to create an initial container.</property>
+
+                        <child>
+                          <object class="GtkButton">
+                            <style>
+                              <class name="pill"/>
+                              <class name="suggested-action"/>
+                            </style>
+                            <property name="action-name">containers-panel.create-container</property>
+                            <property name="halign">center</property>
+                            <property name="label" translatable="yes">_Create Container</property>
+                            <property name="use-underline">True</property>
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
                   </object>
-                </child>
+                </property>
 
               </object>
-            </property>
+            </child>
 
           </object>
         </child>

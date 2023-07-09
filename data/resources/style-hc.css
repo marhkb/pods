@@ -6,6 +6,7 @@
   font-weight: bold;
 }
 
+.version,
 .container-status-configured,
 .container-status-created,
 .container-status-exited,
@@ -15,6 +16,8 @@
 .pod-status-created,
 .pod-status-exited,
 .pod-status-stopped,
+.image-unused,
+.volume-unused,
 .container-health-status-checking,
 .container-health-status-unconfigured,
 .rich-expander-row-header #badge {
@@ -35,7 +38,9 @@
 }
 
 .container-status-running,
-.pod-status-running {
+.pod-status-running,
+.image-used,
+.volume-used {
   background-color: @accent_bg_color;
   color: @accent_fg_color;
 }

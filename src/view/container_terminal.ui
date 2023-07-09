@@ -59,29 +59,37 @@
             <property name="name">running</property>
 
             <property name="child">
-              <object class="VteTerminal" id="terminal">
-                <property name="backspace-binding">ascii-delete</property>
-                <property name="bold-is-bright">True</property>
-                <property name="vexpand">True</property>
+              <object class="GtkScrolledWindow">
+                <property name="hscrollbar-policy">never</property>
 
                 <child>
-                  <object class="GtkEventControllerKey">
-                    <signal name="key-pressed" handler="on_key_pressed" swapped="true"/>
-                  </object>
-                </child>
+                  <object class="VteTerminal" id="terminal">
+                    <signal name="notify::font-scale" handler="on_terminal_notify_font_scale" swapped="true"/>
+                    <signal name="selection-changed" handler="on_terminal_selection_changed" swapped="true"/>
+                    <property name="backspace-binding">ascii-delete</property>
+                    <property name="bold-is-bright">True</property>
 
-                <child>
-                  <object class="GtkGestureClick">
-                    <property name="button">3</property>
-                    <signal name="pressed" handler="on_mouse_pressed" swapped="true"/>
-                  </object>
-                </child>
+                    <child>
+                      <object class="GtkEventControllerKey">
+                        <signal name="key-pressed" handler="on_terminal_key_pressed" swapped="true"/>
+                      </object>
+                    </child>
 
-                <child>
-                  <object class="GtkEventControllerScroll">
-                    <property name="flags">vertical</property>
-                    <property name="propagation-phase">capture</property>
-                    <signal name="scroll" handler="on_scroll" swapped="true"/>
+                    <child>
+                      <object class="GtkGestureClick">
+                        <property name="button">3</property>
+                        <signal name="pressed" handler="on_mouse_3_pressed" swapped="true"/>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkEventControllerScroll">
+                        <property name="flags">vertical</property>
+                        <property name="propagation-phase">capture</property>
+                        <signal name="scroll" handler="on_scroll" swapped="true"/>
+                      </object>
+                    </child>
+
                   </object>
                 </child>
 

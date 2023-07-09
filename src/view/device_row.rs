@@ -1,12 +1,12 @@
 use std::cell::RefCell;
 
+use adw::prelude::*;
 use adw::subclass::prelude::ExpanderRowImpl;
 use adw::subclass::prelude::PreferencesRowImpl;
+use adw::subclass::prelude::*;
 use glib::closure;
 use glib::Properties;
 use gtk::glib;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
 
 use crate::model;
@@ -16,7 +16,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::DeviceRow)]
-    #[template(file = "device_row.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/device_row.ui")]
     pub(crate) struct DeviceRow {
         pub(super) bindings: RefCell<Vec<glib::Binding>>,
         #[property(get, set = Self::set_device, nullable)]
@@ -34,11 +34,11 @@ mod imp {
         #[template_child]
         pub(super) container_path_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
-        pub(super) readable_switch: TemplateChild<gtk::Switch>,
+        pub(super) readable_switch_row: TemplateChild<adw::SwitchRow>,
         #[template_child]
-        pub(super) writable_switch: TemplateChild<gtk::Switch>,
+        pub(super) writable_switch_row: TemplateChild<adw::SwitchRow>,
         #[template_child]
-        pub(super) mknod_switch: TemplateChild<gtk::Switch>,
+        pub(super) mknod_switch_row: TemplateChild<adw::SwitchRow>,
     }
 
     #[glib::object_subclass]
@@ -150,17 +150,17 @@ mod imp {
 
             if let Some(ref device) = value {
                 let binding = device
-                    .bind_property("writable", &*self.writable_switch, "active")
+                    .bind_property("writable", &*self.writable_switch_row, "active")
                     .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
                     .build();
                 bindings.push(binding);
                 let binding = device
-                    .bind_property("readable", &*self.readable_switch, "active")
+                    .bind_property("readable", &*self.readable_switch_row, "active")
                     .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
                     .build();
                 bindings.push(binding);
                 let binding = device
-                    .bind_property("mknod", &*self.mknod_switch, "active")
+                    .bind_property("mknod", &*self.mknod_switch_row, "active")
                     .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
                     .build();
                 bindings.push(binding);

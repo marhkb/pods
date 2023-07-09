@@ -1,3 +1,7 @@
+use std::cell::OnceCell;
+
+use adw::prelude::*;
+use adw::subclass::prelude::*;
 use futures::stream;
 use futures::StreamExt;
 use futures::TryStreamExt;
@@ -5,10 +9,7 @@ use gettextrs::gettext;
 use glib::clone;
 use glib::Properties;
 use gtk::glib;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::podman;
@@ -19,10 +20,10 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::TopPage)]
-    #[template(file = "top_page.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/top_page.ui")]
     pub(crate) struct TopPage {
         /// A `Container` or a `Pod`
-        pub(super) tree_store: UnsyncOnceCell<gtk::TreeStore>,
+        pub(super) tree_store: OnceCell<gtk::TreeStore>,
         #[property(get, set, construct_only, nullable)]
         pub(super) top_source: glib::WeakRef<glib::Object>,
         #[template_child]
@@ -123,9 +124,8 @@ impl TopPage {
             utils::run_stream(
                 processes_source,
                 move |container| container.stream(),
-                clone!(@weak self as obj => @default-return glib::Continue(false), move |result: podman::Result<TopStreamElement>| {
-
-                    glib::Continue(match result {
+                clone!(@weak self as obj => @default-return glib::ControlFlow::Break, move |result: podman::Result<TopStreamElement>| {
+                    match result {
                         Ok(top) => {
                             let imp = obj.imp();
                             let tree_store = imp.tree_store.get_or_init(|| {
@@ -160,7 +160,7 @@ impl TopPage {
                                 {
                                     tree_store.remove(iter);
                                 }
-                                false
+                                true
                             });
 
                             // Replace and add processes.
@@ -187,13 +187,13 @@ impl TopPage {
                                 }
                             });
 
-                            true
+                            glib::ControlFlow::Continue
                         }
                         Err(e) => {
                             log::warn!("Stopping top stream due to error: {e}");
-                            false
+                            glib::ControlFlow::Break
                         }
-                    })
+                    }
                 }),
             );
         }

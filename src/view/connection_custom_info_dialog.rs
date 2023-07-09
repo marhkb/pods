@@ -1,12 +1,11 @@
-use adw::subclass::window::AdwWindowImpl;
+use adw::prelude::*;
+use adw::subclass::prelude::*;
 use gettextrs::gettext;
+use glib::clone;
 use gtk::gdk;
 use gtk::glib;
-use gtk::glib::clone;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use sourceview5::traits::BufferExt;
+use sourceview5::prelude::*;
 
 const ACTION_COPY_ROOT_SYSTEMD_UNIT_PATH: &str =
     "connection-custom-info-dialog.copy-root-systemd-unit-path";
@@ -20,7 +19,7 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(file = "connection_custom_info_dialog.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/connection_custom_info_dialog.ui")]
     pub(crate) struct ConnectionCustomInfoDialog {
         #[template_child]
         pub(super) toast_overlay: TemplateChild<adw::ToastOverlay>,
@@ -96,22 +95,37 @@ mod imp {
 
             let obj = &*self.obj();
 
-            let adw_style_manager = adw::StyleManager::default();
-            obj.on_notify_dark(&adw_style_manager);
-            adw_style_manager.connect_dark_notify(clone!(@weak obj => move |style_manager| {
-                obj.on_notify_dark(style_manager);
-            }));
             self.root_systemd_unit_content_buffer.set_language(
                 sourceview5::LanguageManager::default()
                     .language("ini")
                     .as_ref(),
             );
+
+            let style_manager = adw::StyleManager::default();
+            style_manager.connect_dark_notify(clone!(@weak obj => move |style_manager| {
+                obj.imp().on_notify_dark(style_manager);
+            }));
+            self.on_notify_dark(&style_manager);
         }
     }
 
     impl WidgetImpl for ConnectionCustomInfoDialog {}
     impl WindowImpl for ConnectionCustomInfoDialog {}
     impl AdwWindowImpl for ConnectionCustomInfoDialog {}
+
+    impl ConnectionCustomInfoDialog {
+        fn on_notify_dark(&self, style_manager: &adw::StyleManager) {
+            self.root_systemd_unit_content_buffer.set_style_scheme(
+                sourceview5::StyleSchemeManager::default()
+                    .scheme(if style_manager.is_dark() {
+                        "solarized-dark"
+                    } else {
+                        "solarized-light"
+                    })
+                    .as_ref(),
+            );
+        }
+    }
 }
 
 glib::wrapper! {
@@ -167,19 +181,5 @@ impl ConnectionCustomInfoDialog {
                 .title(title)
                 .build(),
         );
-    }
-
-    fn on_notify_dark(&self, style_manager: &adw::StyleManager) {
-        self.imp()
-            .root_systemd_unit_content_buffer
-            .set_style_scheme(
-                sourceview5::StyleSchemeManager::default()
-                    .scheme(if style_manager.is_dark() {
-                        "solarized-dark"
-                    } else {
-                        "solarized-light"
-                    })
-                    .as_ref(),
-            );
     }
 }

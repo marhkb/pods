@@ -71,6 +71,8 @@
                         <style>
                           <class name="numeric"/>
                         </style>
+                        <property name="wrap">True</property>
+                        <property name="wrap-mode">word</property>
                         <property name="xalign">0</property>
                       </object>
                     </child>
@@ -85,7 +87,7 @@
                     </style>
                     <property name="use-markup">True</property>
                     <property name="wrap">True</property>
-                    <property name="wrap-mode">word</property>
+                    <property name="wrap-mode">word-char</property>
                     <property name="xalign">0</property>
                   </object>
                 </child>
@@ -94,9 +96,9 @@
             </child>
 
             <child>
-              <object class="GtkLabel" id="health_status_label">
+              <object class="GtkImage" id="health_status_image">
                 <style>
-                  <class name="status-badge"/>
+                  <class name="circle-big"/>
                 </style>
                 <property name="valign">center</property>
               </object>

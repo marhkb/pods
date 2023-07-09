@@ -6,6 +6,7 @@
 
     <child>
       <object class="GtkImage" id="image">
+        <signal name="notify::icon-name" handler="on_image_notify_icon_name" swapped="true"/>
         <style>
           <class name="dim-icon"/>
         </style>

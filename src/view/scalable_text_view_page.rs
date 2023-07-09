@@ -1,3 +1,7 @@
+use std::cell::OnceCell;
+
+use adw::prelude::*;
+use adw::subclass::prelude::*;
 use ashpd::desktop::file_chooser::SaveFileRequest;
 use ashpd::WindowIdentifier;
 use gettextrs::gettext;
@@ -5,19 +9,16 @@ use gtk::gdk;
 use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::unsync::OnceCell;
-use sourceview5::traits::BufferExt;
+use sourceview5::prelude::*;
 
 use crate::model;
 use crate::utils;
 use crate::widget;
 
-const ACTION_SAVE_TO_FILE: &str = "source-view-page.save-to-file";
-const ACTION_ENTER_SEARCH: &str = "source-view-page.enter-search";
+const ACTION_TOGGLE_SEARCH: &str = "source-view-page.toggle-search";
 const ACTION_EXIT_SEARCH: &str = "source-view-page.exit-search";
+const ACTION_SAVE_TO_FILE: &str = "source-view-page.save-to-file";
 const ACTION_ZOOM_OUT: &str = "source-view-page.zoom-out";
 const ACTION_ZOOM_IN: &str = "source-view-page.zoom-in";
 const ACTION_ZOOM_NORMAL: &str = "source-view-page.zoom-normal";
@@ -74,7 +75,7 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(file = "scalable_text_view_page.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/scalable_text_view_page.ui")]
     pub(crate) struct ScalableTextViewPage {
         pub(super) entity: OnceCell<Entity>,
         #[template_child]
@@ -83,8 +84,6 @@ mod imp {
         pub(super) window_title: TemplateChild<adw::WindowTitle>,
         #[template_child]
         pub(super) menu_button: TemplateChild<gtk::MenuButton>,
-        #[template_child]
-        pub(super) search_button: TemplateChild<gtk::ToggleButton>,
         #[template_child]
         pub(super) search_bar: TemplateChild<gtk::SearchBar>,
         #[template_child]
@@ -109,22 +108,14 @@ mod imp {
             klass.bind_template();
             klass.bind_template_callbacks();
 
-            klass.install_action_async(ACTION_SAVE_TO_FILE, None, |widget, _, _| async move {
-                widget.save_to_file().await;
-            });
-
-            klass.install_action(ACTION_ENTER_SEARCH, None, |widget, _, _| {
-                widget.enter_search();
-            });
             klass.add_binding_action(
                 gdk::Key::F,
                 gdk::ModifierType::CONTROL_MASK,
-                ACTION_ENTER_SEARCH,
+                ACTION_TOGGLE_SEARCH,
                 None,
             );
-
-            klass.install_action(ACTION_EXIT_SEARCH, None, |widget, _, _| {
-                widget.exit_search();
+            klass.install_action(ACTION_TOGGLE_SEARCH, None, |widget, _, _| {
+                widget.toggle_search_mode();
             });
 
             klass.add_binding_action(
@@ -133,6 +124,13 @@ mod imp {
                 ACTION_EXIT_SEARCH,
                 None,
             );
+            klass.install_action(ACTION_EXIT_SEARCH, None, |widget, _, _| {
+                widget.set_search_mode(false);
+            });
+
+            klass.install_action_async(ACTION_SAVE_TO_FILE, None, |widget, _, _| async move {
+                widget.save_to_file().await;
+            });
 
             klass.install_action(ACTION_ZOOM_OUT, None, |widget, _, _| {
                 widget.imp().source_view.zoom_out();
@@ -189,26 +187,6 @@ mod imp {
         }
     }
 
-    #[gtk::template_callbacks]
-    impl ScalableTextViewPage {
-        #[template_callback]
-        fn on_scroll(&self, _dx: f64, dy: f64, scroll: gtk::EventControllerScroll) -> gtk::Inhibit {
-            gtk::Inhibit(
-                if scroll.current_event_state() == gdk::ModifierType::CONTROL_MASK {
-                    let view = &*self.source_view;
-                    if dy.is_sign_negative() {
-                        view.zoom_in();
-                    } else {
-                        view.zoom_out();
-                    }
-                    true
-                } else {
-                    false
-                },
-            )
-        }
-    }
-
     impl ObjectImpl for ScalableTextViewPage {
         fn constructed(&self) {
             self.parent_constructed();
@@ -222,29 +200,10 @@ mod imp {
                 .unwrap()
                 .add_child(&*self.zoom_control, "zoom-control");
 
-            self.search_bar.connect_search_mode_enabled_notify(
-                clone!(@weak obj => move |search_bar| {
-                    let search_entry = &*obj.imp().search_widget;
-                    if search_bar.is_search_mode() {
-                        search_entry.grab_focus();
-                    } else {
-                        search_entry.set_text("");
-                    }
-                }),
-            );
-
-            self.search_button
-                .bind_property("active", &*self.search_bar, "search-mode-enabled")
-                .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
-                .build();
-
-            self.search_widget
-                .set_source_view(Some(self.source_view.upcast_ref()));
-
             let adw_style_manager = adw::StyleManager::default();
-            obj.on_notify_dark(&adw_style_manager);
+            self.on_notify_dark(&adw_style_manager);
             adw_style_manager.connect_dark_notify(clone!(@weak obj => move |style_manager| {
-                obj.on_notify_dark(style_manager);
+                obj.imp().on_notify_dark(style_manager);
             }));
         }
 
@@ -254,6 +213,49 @@ mod imp {
     }
 
     impl WidgetImpl for ScalableTextViewPage {}
+
+    #[gtk::template_callbacks]
+    impl ScalableTextViewPage {
+        #[template_callback]
+        fn on_scroll(
+            &self,
+            _dx: f64,
+            dy: f64,
+            scroll: gtk::EventControllerScroll,
+        ) -> glib::Propagation {
+            if scroll.current_event_state() == gdk::ModifierType::CONTROL_MASK {
+                let view = &*self.source_view;
+                if dy.is_sign_negative() {
+                    view.zoom_in();
+                } else {
+                    view.zoom_out();
+                }
+            }
+
+            glib::Propagation::Proceed
+        }
+
+        #[template_callback]
+        fn on_search_bar_notify_search_mode_enabled(&self) {
+            if self.search_bar.is_search_mode() {
+                self.search_widget.grab_focus();
+            } else {
+                self.search_widget.set_text("");
+            }
+        }
+
+        fn on_notify_dark(&self, style_manager: &adw::StyleManager) {
+            self.source_buffer.set_style_scheme(
+                sourceview5::StyleSchemeManager::default()
+                    .scheme(if style_manager.is_dark() {
+                        "Adwaita-dark"
+                    } else {
+                        "Adwaita"
+                    })
+                    .as_ref(),
+            );
+        }
+    }
 }
 
 glib::wrapper! {
@@ -420,9 +422,7 @@ impl ScalableTextViewPage {
                     },
                     &e.to_string(),
                 );
-                utils::parent_leaflet_overlay(self.upcast_ref())
-                    .unwrap()
-                    .hide_details();
+                utils::navigation_view(self.upcast_ref()).pop();
             }
         }
     }
@@ -466,26 +466,11 @@ impl ScalableTextViewPage {
         .await;
     }
 
-    fn enter_search(&self) {
-        let imp = self.imp();
-        imp.search_button.set_active(true);
-        imp.search_widget.delete_text(0, -1);
-        imp.search_widget.grab_focus();
+    pub(crate) fn set_search_mode(&self, value: bool) {
+        self.imp().search_bar.set_search_mode(value);
     }
 
-    fn exit_search(&self) {
-        self.imp().search_button.set_active(false);
-    }
-
-    fn on_notify_dark(&self, style_manager: &adw::StyleManager) {
-        self.imp().source_buffer.set_style_scheme(
-            sourceview5::StyleSchemeManager::default()
-                .scheme(if style_manager.is_dark() {
-                    "Adwaita-dark"
-                } else {
-                    "Adwaita"
-                })
-                .as_ref(),
-        );
+    pub(crate) fn toggle_search_mode(&self) {
+        self.set_search_mode(!self.imp().search_bar.is_search_mode());
     }
 }

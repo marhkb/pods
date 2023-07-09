@@ -1,16 +1,15 @@
 use std::cell::Cell;
+use std::cell::OnceCell;
 use std::ops::Deref;
 
-use gio::prelude::ListModelExt;
+use gio::prelude::*;
 use glib::clone;
-use glib::prelude::*;
+use glib::once_cell::sync::Lazy as SyncLazy;
 use glib::subclass::prelude::*;
 use glib::subclass::Signal;
 use glib::Properties;
 use gtk::gio;
 use gtk::glib;
-use once_cell::sync::Lazy as SyncLazy;
-use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::monad_boxed_type;
@@ -28,13 +27,13 @@ mod imp {
         #[property(get, set, construct_only, nullable)]
         pub(super) volume_list: glib::WeakRef<model::VolumeList>,
         #[property(get, set, construct_only)]
-        pub(super) inner: UnsyncOnceCell<BoxedVolume>,
+        pub(super) inner: OnceCell<BoxedVolume>,
         #[property(get, set)]
         pub(super) searching_containers: Cell<bool>,
         #[property(get, set)]
         pub(super) action_ongoing: Cell<bool>,
         #[property(get = Self::container_list)]
-        pub(super) container_list: UnsyncOnceCell<model::SimpleContainerList>,
+        pub(super) container_list: OnceCell<model::SimpleContainerList>,
         #[property(get)]
         pub(super) to_be_deleted: Cell<bool>,
         #[property(get, set)]
@@ -72,7 +71,7 @@ mod imp {
             let obj = &*self.obj();
             obj.container_list().connect_items_changed(
                 clone!(@weak obj => move |_, _, _, _| if let Some(volume_list) = obj.volume_list() {
-                    volume_list.notify("used");
+                    volume_list.notify_num_volumes();
                 }),
             );
         }

@@ -15,57 +15,42 @@
     </property>
 
     <child>
-      <object class="GtkStack" id="stack">
-        <property name="transition-type">crossfade</property>
+      <object class="AdwNavigationView" id="navigation_view">
 
         <child>
-          <object class="GtkBox">
-            <property name="orientation">vertical</property>
-
-            <!-- Headerbar -->
-            <child>
-              <object class="AdwHeaderBar">
-                <property name="show-end-title-buttons">False</property>
-                <property name="show-start-title-buttons">False</property>
-
-                <child type="start">
-                  <object class="GtkButton" id="cancel_button">
-                    <property name="action-name">action.cancel</property>
-                    <property name="label" translatable="yes">_Cancel</property>
-                    <property name="use-underline">True</property>
-                  </object>
-                </child>
-
-                <child type="title">
-                  <object class="AdwWindowTitle">
-                    <property name="title" translatable="yes">Build Image</property>
-                  </object>
-                </child>
-
-                <child type="end">
-                  <object class="GtkButton" id="build_button">
-                    <style>
-                      <class name="suggested-action"/>
-                    </style>
-                    <property name="action-name">image-build-page.build-image</property>
-                    <property name="label" translatable="yes">_Build</property>
-                    <property name="use-underline">True</property>
-                  </object>
-                </child>
-
-              </object>
-            </child>
+          <object class="AdwNavigationPage">
+            <property name="title" translatable="yes">Preferences</property>
 
             <child>
-              <object class="AdwPreferencesPage">
+              <object class="AdwToolbarView">
 
-                <child>
-                  <object class="AdwPreferencesGroup">
+                <child type="top">
+                  <object class="AdwHeaderBar">
+                    <property name="show-end-title-buttons">False</property>
+                    <property name="show-start-title-buttons">False</property>
 
-                    <child>
-                      <object class="AdwEntryRow" id="tag_entry_row">
-                        <property name="activates-default">True</property>
-                        <property name="title" translatable="yes">Image Name</property>
+                    <child type="start">
+                      <object class="GtkButton" id="cancel_button">
+                        <property name="action-name">action.cancel</property>
+                        <property name="label" translatable="yes">_Cancel</property>
+                        <property name="use-underline">True</property>
+                      </object>
+                    </child>
+
+                    <child type="title">
+                      <object class="AdwWindowTitle">
+                        <property name="title" translatable="yes">Build Image</property>
+                      </object>
+                    </child>
+
+                    <child type="end">
+                      <object class="GtkButton" id="build_button">
+                        <style>
+                          <class name="suggested-action"/>
+                        </style>
+                        <property name="action-name">image-build-page.build-image</property>
+                        <property name="label" translatable="yes">_Build</property>
+                        <property name="use-underline">True</property>
                       </object>
                     </child>
 
@@ -73,108 +58,129 @@
                 </child>
 
                 <child>
-                  <object class="AdwPreferencesGroup">
+                  <object class="AdwPreferencesPage">
 
                     <child>
-                      <object class="AdwPreferencesRow">
-                        <property name="activatable">False</property>
+                      <object class="AdwPreferencesGroup">
 
                         <child>
-                          <object class="AdwViewSwitcher">
-                            <property name="margin-top">6</property>
-                            <property name="margin-bottom">6</property>
-                            <property name="stack">view_stack</property>
-                            <property name="policy">wide</property>
-                            <property name="halign">center</property>
-                            <property name="height-request">36</property>
+                          <object class="AdwEntryRow" id="tag_entry_row">
+                            <signal name="changed" handler="trigger_opts_changed" swapped="true"/>
+                            <property name="activates-default">True</property>
+                            <property name="title" translatable="yes">Image Name</property>
                           </object>
                         </child>
 
                       </object>
                     </child>
 
-                  </object>
-                </child>
-
-                <child>
-                  <object class="AdwPreferencesGroup">
-
                     <child>
-                      <object class="AdwViewStack" id="view_stack">
-                        <property name="vhomogeneous">False</property>
+                      <object class="AdwPreferencesGroup">
 
                         <child>
-                          <object class="AdwViewStackPage">
-                            <property name="title" translatable="yes">Details</property>
-                            <property name="icon-name">preferences-system-symbolic</property>
+                          <object class="AdwPreferencesRow">
+                            <property name="activatable">False</property>
 
-                            <property name="child">
-                              <object class="GtkBox">
-                                <property name="orientation">vertical</property>
-                                <property name="spacing">18</property>
+                            <child>
+                              <object class="AdwViewSwitcher">
+                                <property name="margin-top">6</property>
+                                <property name="margin-bottom">6</property>
+                                <property name="stack">view_stack</property>
+                                <property name="policy">wide</property>
+                                <property name="halign">center</property>
+                                <property name="height-request">36</property>
+                              </object>
+                            </child>
 
-                                <child>
-                                  <object class="AdwPreferencesGroup">
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="AdwPreferencesGroup">
+
+                        <child>
+                          <object class="AdwViewStack" id="view_stack">
+                            <property name="vhomogeneous">False</property>
+
+                            <child>
+                              <object class="AdwViewStackPage">
+                                <property name="title" translatable="yes">Details</property>
+                                <property name="icon-name">preferences-system-symbolic</property>
+
+                                <property name="child">
+                                  <object class="GtkBox">
+                                    <property name="orientation">vertical</property>
+                                    <property name="spacing">18</property>
 
                                     <child>
-                                      <object class="AdwActionRow" id="context_dir_row">
-                                        <property name="activatable-widget">open_context_dir_button</property>
-                                        <property name="title" translatable="yes">Build Context Directory</property>
+                                      <object class="AdwPreferencesGroup">
 
-                                        <child type="suffix">
-                                          <object class="GtkButton" id="open_context_dir_button">
-                                            <property name="action-name">image-build-page.select-context-dir</property>
-                                            <property name="label" translatable="yes">Select…</property>
-                                            <property name="valign">center</property>
+                                        <child>
+                                          <object class="AdwActionRow" id="context_dir_row">
+                                            <signal name="notify::subtitle" handler="trigger_opts_changed" swapped="true"/>
+                                            <property name="activatable-widget">open_context_dir_button</property>
+                                            <property name="title" translatable="yes">Build Context Directory</property>
+
+                                            <child type="suffix">
+                                              <object class="GtkButton" id="open_context_dir_button">
+                                                <property name="action-name">image-build-page.select-context-dir</property>
+                                                <property name="label" translatable="yes">Select…</property>
+                                                <property name="valign">center</property>
+                                              </object>
+                                            </child>
+
+                                          </object>
+                                        </child>
+
+                                        <child>
+                                          <object class="AdwEntryRow" id="container_file_path_entry_row">
+                                            <property name="activates-default">True</property>
+                                            <property name="title" translatable="yes">Containerfile Path Relative to Build Context Directory</property>
                                           </object>
                                         </child>
 
                                       </object>
                                     </child>
 
+                                  </object>
+                                </property>
+
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="AdwViewStackPage">
+                                <property name="title" translatable="yes">Integration</property>
+                                <property name="icon-name">application-x-addon-symbolic</property>
+
+                                <property name="child">
+                                  <object class="GtkBox">
+                                    <property name="orientation">vertical</property>
+                                    <property name="spacing">18</property>
+
                                     <child>
-                                      <object class="AdwEntryRow" id="container_file_path_entry_row">
-                                        <property name="activates-default">True</property>
-                                        <property name="title" translatable="yes">Containerfile Path Relative to Build Context Directory</property>
+                                      <object class="AdwPreferencesGroup">
+                                        <property name="title" translatable="yes">Labels</property>
+
+                                        <child>
+                                          <object class="GtkListBox" id="labels_list_box">
+                                            <style>
+                                              <class name="boxed-list"/>
+                                            </style>
+                                          </object>
+                                        </child>
+
                                       </object>
                                     </child>
 
                                   </object>
-                                </child>
+                                </property>
 
                               </object>
-                            </property>
-
-                          </object>
-                        </child>
-
-                        <child>
-                          <object class="AdwViewStackPage">
-                            <property name="title" translatable="yes">Integration</property>
-                            <property name="icon-name">application-x-addon-symbolic</property>
-
-                            <property name="child">
-                              <object class="GtkBox">
-                                <property name="orientation">vertical</property>
-                                <property name="spacing">18</property>
-
-                                <child>
-                                  <object class="AdwPreferencesGroup">
-                                    <property name="title" translatable="yes">Labels</property>
-
-                                    <child>
-                                      <object class="GtkListBox" id="labels_list_box">
-                                        <style>
-                                          <class name="boxed-list"/>
-                                        </style>
-                                      </object>
-                                    </child>
-
-                                  </object>
-                                </child>
-
-                              </object>
-                            </property>
+                            </child>
 
                           </object>
                         </child>
@@ -189,10 +195,6 @@
             </child>
 
           </object>
-        </child>
-
-        <child>
-          <object class="AdwBin" id="action_page_bin"/>
         </child>
 
       </object>

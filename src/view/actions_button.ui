@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="PdsActionsButton" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBinLayout"/>
+    </property>
+
+    <child>
+      <object class="GtkButton" id="button">
+        <style>
+          <class name="image-button"/>
+        </style>
+
+        <child>
+          <object class="PdsCountBadge">
+
+            <property name="child">
+              <object class="GtkImage" id="image">
+                <property name="icon-name">bell-outline-symbolic</property>
+              </object>
+            </property>
+
+            <binding name="count">
+              <lookup name="len" type="ActionList">
+                <lookup name="action-list">PdsActionsButton</lookup>
+              </lookup>
+            </binding>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>

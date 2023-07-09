@@ -28,194 +28,211 @@
     <property name="zoom-factor" bind-source="scalable_text_view" bind-property="font-scale" bind-flags="sync-create"/>
   </object>
 
+  <object class="GtkSourceGutterRendererText" id="timestamps_renderer">
+    <signal name="query-data" handler="on_timestamps_renderer_query_data" swapped="true"/>
+    <signal name="notify::visible" handler="on_timestamps_renderer_notify_visible" swapped="true"/>
+    <property name="margin-end">6</property>
+  </object>
+
   <template class="PdsContainerLogPage" parent="GtkWidget">
     <property name="layout-manager">
-      <object class="GtkBoxLayout">
-        <property name="orientation">vertical</property>
-      </object>
+      <object class="GtkBinLayout"/>
     </property>
 
     <child>
       <object class="GtkEventControllerScroll">
+        <signal name="scroll" handler="on_scroll" swapped="true"/>
         <property name="flags">vertical</property>
         <property name="propagation-phase">capture</property>
-        <signal name="scroll" handler="on_scroll" swapped="true"/>
-      </object>
-    </child>
-
-    <!-- Headerbar -->
-    <child>
-      <object class="AdwHeaderBar">
-
-        <child type="start">
-          <object class="PdsBackNavigationControls"/>
-        </child>
-
-        <child type="title">
-          <object class="AdwWindowTitle">
-            <property name="title" translatable="yes">Container Logs</property>
-            <binding name="subtitle">
-              <lookup name="name" type="Container">
-                <lookup name="container">PdsContainerLogPage</lookup>
-              </lookup>
-            </binding>
-          </object>
-        </child>
-
-        <child type="end">
-          <object class="GtkMenuButton" id="menu_button">
-            <property name="icon-name">view-more-symbolic</property>
-            <property name="menu-model">menu</property>
-          </object>
-        </child>
-
-        <child type="end">
-          <object class="GtkToggleButton" id="search_button">
-            <property name="icon-name">system-search-symbolic</property>
-            <property name="tooltip-text" translatable="yes">Search</property>
-          </object>
-        </child>
-
       </object>
     </child>
 
     <child>
-      <object class="GtkSearchBar" id="search_bar">
+      <object class="AdwToolbarView">
 
-        <property name="child">
-          <object class="PdsSourceViewSearchWidget" id="search_widget"/>
-        </property>
+        <child type="top">
+          <object class="AdwHeaderBar">
 
-      </object>
-    </child>
+            <child type="start">
+              <object class="GtkToggleButton" id="search_button">
+                <property name="active" bind-source="search_bar" bind-property="search-mode-enabled" bind-flags="sync-create|bidirectional"/>
+                <property name="icon-name">system-search-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Search</property>
+              </object>
+            </child>
 
-    <child>
-      <object class="GtkStack" id="stack">
+            <child type="title">
+              <object class="AdwWindowTitle">
+                <property name="title" translatable="yes">Container Logs</property>
+                <binding name="subtitle">
+                  <lookup name="name" type="Container">
+                    <lookup name="container">PdsContainerLogPage</lookup>
+                  </lookup>
+                </binding>
+              </object>
+            </child>
 
-        <child>
-          <object class="PdsEfficientSpinner">
-            <property name="halign">center</property>
-            <property name="valign">center</property>
-            <property name="height-request">30</property>
-            <property name="width-request">30</property>
+            <child type="end">
+              <object class="GtkMenuButton" id="menu_button">
+                <property name="icon-name">view-more-symbolic</property>
+                <property name="menu-model">menu</property>
+              </object>
+            </child>
+
           </object>
         </child>
 
-        <child>
-          <object class="GtkStackPage">
-            <property name="name">loaded</property>
+        <child type="top">
+          <object class="GtkSearchBar" id="search_bar">
+            <signal name="notify::search-mode-enabled" handler="on_search_bar_search_mode_enabled" swapped="true"/>
 
             <property name="child">
-              <object class="GtkBox">
-                <property name="orientation">vertical</property>
-
-                <child>
-                  <object class="GtkRevealer" id="lines_loading_revealer">
-                    <property name="reveal-child">False</property>
-                    <property name="transition-type">slide-down</property>
-
-                    <child>
-                      <object class="GtkBox">
-                        <property name="margin-bottom">12</property>
-                        <property name="margin-top">12</property>
-                        <property name="halign">center</property>
-                        <property name="valign">center</property>
-                        <property name="spacing">6</property>
-
-                        <child>
-                          <object class="PdsEfficientSpinner"/>
-                        </child>
-
-                        <child>
-                          <object class="GtkLabel">
-                            <property name="label" translatable="yes">Loading previous lines</property>
-                          </object>
-                        </child>
-
-                      </object>
-                    </child>
-
-                  </object>
-                </child>
-
-                <child>
-                  <object class="GtkOverlay">
-
-                    <child type="overlay">
-                      <object class="GtkRevealer">
-                        <property name="halign">end</property>
-                        <property name="margin-bottom">18</property>
-                        <property name="margin-end">18</property>
-                        <property name="reveal-child" bind-source="PdsContainerLogPage" bind-property="sticky" bind-flags="sync-create | invert-boolean"/>
-                        <property name="transition-type">crossfade</property>
-                        <property name="valign">end</property>
-
-                        <child>
-                          <object class="GtkButton">
-                            <property name="action-name">container-log-page.scroll-down</property>
-                            <property name="halign">center</property>
-                            <property name="icon-name">go-bottom-symbolic</property>
-                            <property name="valign">end</property>
-                            <accessibility>
-                              <property name="label" translatable="yes">Scroll to bottom</property>
-                            </accessibility>
-                            <style>
-                              <class name="osd"/>
-                              <class name="circular"/>
-                            </style>
-                          </object>
-                        </child>
-
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="GtkScrolledWindow" id="scrolled_window">
-                        <property name="hscrollbar-policy">never</property>
-                        <property name="vexpand">True</property>
-
-                        <child>
-                          <object class="PdsScalableTextView" id="scalable_text_view">
-                            <style>
-                              <class name="text-view"/>
-                            </style>
-                            <property name="buffer">
-                              <object class="GtkSourceBuffer" id="source_buffer">
-                                <property name="highlight-matching-brackets">False</property>
-                              </object>
-                            </property>
-                            <property name="top-margin">12</property>
-                            <property name="bottom-margin">12</property>
-                            <property name="right-margin">12</property>
-                            <property name="cursor-visible">False</property>
-                            <property name="editable">False</property>
-                            <property name="highlight-current-line">True</property>
-                            <property name="monospace">True</property>
-                            <property name="show-line-numbers">True</property>
-                            <property name="wrap-mode">char</property>
-                          </object>
-                        </child>
-
-                      </object>
-                    </child>
-
-                  </object>
-                </child>
-
+              <object class="PdsSourceViewSearchWidget" id="search_widget">
+                <property name="source-view">scalable_text_view</property>
               </object>
             </property>
 
           </object>
         </child>
 
-      </object>
-    </child>
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
 
-    <child>
-      <object class="AdwBanner" id="banner">
-        <property name="action-name">container-log-page.start-container</property>
-        <property name="button-label" translatable="yes">Start/Resume Container.</property>
-        <property name="title" translatable="yes">Streaming is disconnected because container isn't running.</property>
+            <child>
+              <object class="GtkStack" id="stack">
+
+                <child>
+                  <object class="PdsEfficientSpinner">
+                    <property name="halign">center</property>
+                    <property name="valign">center</property>
+                    <property name="height-request">30</property>
+                    <property name="width-request">30</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkStackPage">
+                    <property name="name">loaded</property>
+
+                    <property name="child">
+                      <object class="GtkBox">
+                        <property name="orientation">vertical</property>
+
+                        <child>
+                          <object class="GtkRevealer" id="lines_loading_revealer">
+                            <property name="reveal-child">False</property>
+                            <property name="transition-type">slide-down</property>
+
+                            <child>
+                              <object class="GtkBox">
+                                <property name="margin-bottom">12</property>
+                                <property name="margin-top">12</property>
+                                <property name="halign">center</property>
+                                <property name="valign">center</property>
+                                <property name="spacing">6</property>
+
+                                <child>
+                                  <object class="PdsEfficientSpinner"/>
+                                </child>
+
+                                <child>
+                                  <object class="GtkLabel">
+                                    <property name="label" translatable="yes">Loading previous lines</property>
+                                  </object>
+                                </child>
+
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="GtkOverlay">
+
+                            <child type="overlay">
+                              <object class="GtkRevealer">
+                                <property name="halign">end</property>
+                                <property name="margin-bottom">18</property>
+                                <property name="margin-end">18</property>
+                                <property name="reveal-child" bind-source="PdsContainerLogPage" bind-property="sticky" bind-flags="sync-create | invert-boolean"/>
+                                <property name="transition-type">crossfade</property>
+                                <property name="valign">end</property>
+
+                                <child>
+                                  <object class="GtkButton">
+                                    <property name="action-name">container-log-page.scroll-down</property>
+                                    <property name="halign">center</property>
+                                    <property name="icon-name">go-bottom-symbolic</property>
+                                    <property name="valign">end</property>
+                                    <accessibility>
+                                      <property name="label" translatable="yes">Scroll to bottom</property>
+                                    </accessibility>
+                                    <style>
+                                      <class name="osd"/>
+                                      <class name="circular"/>
+                                    </style>
+                                  </object>
+                                </child>
+
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="GtkScrolledWindow" id="scrolled_window">
+                                <property name="hscrollbar-policy">never</property>
+                                <property name="vexpand">True</property>
+
+                                <child>
+                                  <object class="PdsScalableTextView" id="scalable_text_view">
+                                    <style>
+                                      <class name="text-view"/>
+                                    </style>
+                                    <property name="buffer">
+                                      <object class="GtkSourceBuffer" id="source_buffer">
+                                        <signal name="cursor-moved" handler="on_source_buffer_cursor_moved" swapped="true"/>
+                                        <property name="highlight-matching-brackets">False</property>
+                                      </object>
+                                    </property>
+                                    <property name="top-margin">12</property>
+                                    <property name="bottom-margin">12</property>
+                                    <property name="right-margin">12</property>
+                                    <property name="cursor-visible">False</property>
+                                    <property name="editable">False</property>
+                                    <property name="highlight-current-line">True</property>
+                                    <property name="monospace">True</property>
+                                    <property name="show-line-numbers">True</property>
+                                    <property name="wrap-mode">char</property>
+                                  </object>
+                                </child>
+
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
+                      </object>
+                    </property>
+
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwBanner" id="banner">
+                <property name="action-name">container-log-page.start-container</property>
+                <property name="button-label" translatable="yes">Start/Resume Container.</property>
+                <property name="title" translatable="yes">Streaming is disconnected because container isn't running.</property>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
       </object>
     </child>
 

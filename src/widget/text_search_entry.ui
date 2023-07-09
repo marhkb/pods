@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <template class="PdsTextSearchEntry" parent="GtkWidget">
-    <property name="layout-manager">
-      <object class="GtkBoxLayout"/>
-    </property>
-    <property name="width-request">375</property>
 
     <child>
-      <object class="GtkImage">
+      <object class="GtkImage" id="image">
         <property name="icon-name">edit-find-symbolic</property>
       </object>
     </child>
 
     <child>
       <object class="GtkText" id="text">
-        <property name="hexpand">true</property>
+        <signal name="notify" handler="on_text_notify" swapped="true"/>
+        <property name="max-width-chars">32</property>
       </object>
     </child>
 
@@ -23,6 +20,7 @@
         <style>
           <class name="numeric"/>
         </style>
+        <signal name="notify::label" handler="on_info_label_notify_label" swapped="true"/>
         <property name="xalign">1</property>
         <attributes>
           <attribute name="foreground-alpha" value="33000"/>
@@ -31,13 +29,14 @@
     </child>
 
     <child>
-      <object class="GtkBox">
+      <object class="GtkBox" id="options_box">
         <style>
           <class name="linked"/>
         </style>
 
         <child>
           <object class="GtkToggleButton" id="regex_button">
+            <signal name="notify::active" handler="on_regex_button_notify_active" swapped="true"/>
             <property name="icon-name">regex-symbolic</property>
             <property name="tooltip-text" translatable="yes">Regular Expression</property>
             <property name="valign">center</property>
@@ -46,6 +45,7 @@
 
         <child>
           <object class="GtkToggleButton" id="case_button">
+            <signal name="notify::active" handler="on_case_button_notify_active" swapped="true"/>
             <property name="icon-name">uppercase-symbolic</property>
             <property name="tooltip-text" translatable="yes">Case Sensitive</property>
             <property name="valign">center</property>
@@ -54,6 +54,7 @@
 
         <child>
           <object class="GtkToggleButton" id="word_button">
+            <signal name="notify::active" handler="on_word_button_notify_active" swapped="true"/>
             <property name="icon-name">whole-word-symbolic</property>
             <property name="tooltip-text" translatable="yes">Whole Word</property>
             <property name="valign">center</property>

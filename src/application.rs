@@ -1,20 +1,19 @@
 use std::cell::Cell;
+use std::cell::OnceCell;
 
-use adw::subclass::prelude::AdwApplicationImpl;
+use adw::prelude::*;
+use adw::subclass::prelude::*;
 use gettextrs::gettext;
 use glib::clone;
+use glib::once_cell::sync::Lazy;
 use gtk::gdk;
 use gtk::gio;
 use gtk::glib;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
 use log::debug;
 use log::info;
-use once_cell::sync::Lazy;
-use once_cell::sync::OnceCell;
 
 use crate::config;
-use crate::window::Window;
+use crate::view;
 
 mod imp {
     use super::*;
@@ -22,7 +21,7 @@ mod imp {
     #[derive(Default)]
     pub(crate) struct Application {
         pub(super) ticks: Cell<u64>,
-        pub(super) window: OnceCell<glib::WeakRef<Window>>,
+        pub(super) window: OnceCell<glib::WeakRef<view::Window>>,
     }
 
     #[glib::object_subclass]
@@ -54,9 +53,9 @@ mod imp {
 
             glib::timeout_add_seconds_local(
                 10,
-                clone!(@weak obj => @default-return glib::Continue(false), move || {
+                clone!(@weak obj => @default-return glib::ControlFlow::Break, move || {
                     obj.tick();
-                    glib::Continue(true)
+                    glib::ControlFlow::Continue
                 }),
             );
         }
@@ -75,7 +74,7 @@ mod imp {
                 return;
             }
 
-            let window = Window::new(app);
+            let window = view::Window::new(app);
             self.window
                 .set(window.downgrade())
                 .expect("Window already set.");
@@ -127,13 +126,13 @@ impl Application {
         self.notify("ticks");
     }
 
-    pub(super) fn main_window(&self) -> Window {
+    pub(super) fn main_window(&self) -> view::Window {
         let imp = self.imp();
 
         match imp.window.get() {
             Some(window) => window.upgrade().unwrap(),
             None => {
-                let window = Window::new(self);
+                let window = view::Window::new(self);
                 imp.window.set(window.downgrade()).unwrap();
                 window
             }
@@ -207,11 +206,11 @@ impl Application {
 
         let controller = gtk::EventControllerKey::new();
         controller.connect_key_pressed(clone!(
-            @weak dialog => @default-return glib::signal::Inhibit(true), move |_, key, _, modifier| {
+            @weak dialog => @default-return glib::Propagation::Stop, move |_, key, _, modifier| {
                 if key == gdk::Key::w && modifier == gdk::ModifierType::CONTROL_MASK{
                     dialog.close();
                 }
-                glib::signal::Inhibit(false)
+                glib::Propagation::Proceed
             }
         ));
         dialog.add_controller(controller);
