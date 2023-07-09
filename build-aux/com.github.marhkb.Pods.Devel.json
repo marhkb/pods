@@ -50,6 +50,81 @@
     ],
     "modules": [
         {
+            "name": "gtk",
+            "buildsystem": "meson",
+            "config-opts": [
+                "-Dintrospection=disabled",
+                "-Dbuild-demos=false",
+                "-Dbuild-testsuite=false",
+                "-Dbuild-examples=false",
+                "-Dbuild-tests=false"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://gitlab.gnome.org/GNOME/gtk.git",
+                    "commit": "7d7a090875964a01e1b840c0039b708387c84a31"
+                }
+            ]
+        },
+        {
+            "name": "appstream",
+            "buildsystem": "meson",
+            "config-opts": [
+                "-Dstemming=false",
+                "-Dapidocs=false"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/ximion/appstream.git",
+                    "branch": "main"
+                }
+            ],
+            "modules": [
+                {
+                    "name": "libyaml",
+                    "buildsystem": "autotools",
+                    "sources": [
+                        {
+                            "type": "git",
+                            "url": "https://github.com/yaml/libyaml.git"
+                        }
+                    ]
+                },
+                {
+                    "name": "libxmlb",
+                    "buildsystem": "meson",
+                    "config-opts": [
+                        "-Dgtkdoc=false"
+                    ],
+                    "sources": [
+                        {
+                            "type": "git",
+                            "url": "https://github.com/hughsie/libxmlb.git",
+                            "branch": "main"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "libadwaita",
+            "buildsystem": "meson",
+            "config-opts": [
+                "-Dvapi=false",
+                "-Dtests=false",
+                "-Dexamples=false"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://gitlab.gnome.org/GNOME/libadwaita.git",
+                    "commit": "f70d15f2bb6642505204a85b0f2bbd2f2d555323"
+                }
+            ]
+        },
+        {
             "name": "libpanel",
             "buildsystem": "meson",
             "config-opts": [
@@ -62,7 +137,7 @@
                 {
                     "type": "git",
                     "url": "https://gitlab.gnome.org/GNOME/libpanel.git",
-                    "tag": "1.2.0"
+                    "tag": "1.3.0"
                 }
             ]
         },
@@ -81,7 +156,7 @@
                 {
                     "type": "git",
                     "url": "https://gitlab.gnome.org/GNOME/vte.git",
-                    "tag": "0.72.1"
+                    "tag": "0.72.2"
                 }
             ]
         },

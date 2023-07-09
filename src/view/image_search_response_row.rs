@@ -13,7 +13,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ImageSearchResponseRow)]
-    #[template(file = "image_search_response_row.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/image_search_response_row.ui")]
     pub(crate) struct ImageSearchResponseRow {
         #[property(get, set, construct, nullable)]
         pub(super) image_search_response: glib::WeakRef<model::ImageSearchResponse>,

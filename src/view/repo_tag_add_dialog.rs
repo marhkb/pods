@@ -8,7 +8,6 @@ use gtk::glib;
 use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::unsync::OnceCell;
 
 use crate::model;
 use crate::podman;
@@ -18,11 +17,10 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(file = "repo_tag_add_dialog.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/repo_tag_add_dialog.ui")]
     pub(crate) struct RepoTagAddDialog {
+        pub(super) close_request_handler_id: RefCell<Option<glib::SignalHandlerId>>,
         pub(super) image: glib::WeakRef<model::Image>,
-        pub(super) response: RefCell<Option<String>>,
-        pub(super) rename_finished: OnceCell<()>,
         #[template_child]
         pub(super) entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
@@ -56,14 +54,67 @@ mod imp {
             _: u32,
             _: gdk::ModifierType,
             _: &gtk::EventControllerKey,
-        ) -> gtk::Inhibit {
-            gtk::Inhibit(if key == gdk::Key::Escape {
-                self.response.replace(Some("close".to_string()));
-                self.obj().close();
-                true
+        ) -> glib::Propagation {
+            if key == gdk::Key::Escape {
+                self.obj().force_close();
+                glib::Propagation::Stop
             } else {
-                false
-            })
+                glib::Propagation::Proceed
+            }
+        }
+
+        #[template_callback]
+        fn on_response(&self, response: &str) {
+            let obj = &*self.obj();
+
+            if response == "close" {
+                obj.force_close();
+                return;
+            }
+
+            if let Some(image) = self.image.upgrade().as_ref().and_then(model::Image::api) {
+                let repo_tag = self.entry_row.text();
+                match repo_tag.split_once(':') {
+                    Some((repo, tag)) => {
+                        let repo = repo.trim().to_owned();
+                        let tag = tag.trim().to_owned();
+                        utils::do_async(
+                            async move {
+                                image
+                                    .tag(
+                                        &podman::opts::ImageTagOpts::builder()
+                                            .repo(repo)
+                                            .tag(tag)
+                                            .build(),
+                                    )
+                                    .await
+                            },
+                            clone!(@weak obj => move |result| match result {
+                                Ok(_) => obj.force_close(),
+                                Err(e) => obj.set_error(&e.to_string()),
+                            }),
+                        );
+                    }
+                    None => {
+                        obj.set_error(&gettext("Repo tag must contain a colon “:”"));
+                    }
+                }
+            }
+        }
+
+        #[template_callback]
+        fn on_entry_row_changed(&self) {
+            self.entry_row.remove_css_class("error");
+            self.error_label_revealer.set_reveal_child(false);
+            self.obj()
+                .set_response_enabled("add", !self.entry_row.text().is_empty());
+        }
+
+        #[template_callback]
+        fn on_error_label_revealer_notify_child_revealed(&self) {
+            if !self.error_label_revealer.reveals_child() {
+                self.error_label_revealer.set_visible(false);
+            }
         }
     }
 
@@ -73,85 +124,10 @@ mod imp {
 
             let obj = &*self.obj();
 
-            obj.connect_response(None, |obj, response| {
-                obj.imp().response.replace(Some(response.to_owned()));
-            });
+            let handler_id = obj.connect_close_request(|_| glib::Propagation::Stop);
+            self.close_request_handler_id.replace(Some(handler_id));
 
-            obj.connect_close_request(|obj| {
-                let imp = obj.imp();
-
-                if imp.rename_finished.get().is_some() {
-                    return gtk::Inhibit(false);
-                }
-
-                match imp.response.take() {
-                    Some(response) => {
-                        if &response == "close" {
-                            return gtk::Inhibit(false);
-                        }
-
-                        if let Some(image) =
-                            imp.image.upgrade().as_ref().and_then(model::Image::api)
-                        {
-                            let repo_tag = imp.entry_row.text();
-                            match repo_tag.split_once(':') {
-                                Some((repo, tag)) => {
-                                    let repo = repo.trim().to_owned();
-                                    let tag = tag.trim().to_owned();
-                                    utils::do_async(
-                                        async move {
-                                            image
-                                                .tag(
-                                                    &podman::opts::ImageTagOpts::builder()
-                                                        .repo(repo)
-                                                        .tag(tag)
-                                                        .build(),
-                                                )
-                                                .await
-                                        },
-                                        clone!(@weak obj => move |result| match result {
-                                            Ok(_) => {
-                                                obj.imp().rename_finished.set(()).unwrap();
-                                                obj.close();
-                                            },
-                                            Err(e) => {
-                                                obj.set_error(&e.to_string());
-                                            }
-                                        }),
-                                    );
-                                }
-                                None => {
-                                    obj.set_error(&gettext("Repo tag must contain a colon “:”"));
-                                }
-                            }
-                        }
-
-                        gtk::Inhibit(true)
-                    }
-                    None => {
-                        glib::idle_add_local_once(clone!(@weak obj => move || {
-                            obj.close();
-                        }));
-                        gtk::Inhibit(true)
-                    }
-                }
-            });
-
-            self.entry_row
-                .connect_changed(clone!(@weak obj => move |entry| {
-                    let imp = obj.imp();
-                    imp.entry_row.remove_css_class("error");
-                    imp.error_label_revealer.set_reveal_child(false);
-                    obj.set_response_enabled("rename", !entry.text().is_empty());
-                }));
-
-            self.error_label_revealer.connect_child_revealed_notify(
-                clone!(@weak obj => move |revealer| {
-                    if !revealer.reveals_child() {
-                        revealer.set_visible(false);
-                    }
-                }),
-            );
+            self.entry_row.grab_focus();
         }
     }
 
@@ -175,6 +151,13 @@ impl From<&model::Image> for RepoTagAddDialog {
 }
 
 impl RepoTagAddDialog {
+    pub(crate) fn force_close(&self) {
+        if let Some(handler_id) = self.imp().close_request_handler_id.replace(None) {
+            self.disconnect(handler_id);
+            self.close();
+        }
+    }
+
     fn set_error(&self, msg: &str) {
         let imp = self.imp();
         imp.entry_row.add_css_class("error");

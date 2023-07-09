@@ -9,7 +9,7 @@ mod imp {
     use super::*;
 
     #[derive(Default, CompositeTemplate)]
-    #[template(file = "efficient_spinner.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/widget/efficient_spinner.ui")]
     pub(crate) struct EfficientSpinner {
         #[template_child]
         pub(super) spinner: TemplateChild<gtk::Spinner>,

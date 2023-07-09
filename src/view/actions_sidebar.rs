@@ -1,11 +1,13 @@
 use glib::clone;
+use glib::closure;
 use glib::subclass::InitializingObject;
+use glib::subclass::Signal;
 use glib::Properties;
 use gtk::glib;
-use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
+use once_cell::sync::Lazy as SyncLazy;
 
 use crate::model;
 use crate::utils;
@@ -18,7 +20,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ActionsSidebar)]
-    #[template(file = "actions_sidebar.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/actions_sidebar.ui")]
     pub(crate) struct ActionsSidebar {
         #[property(get, set = Self::set_action_list, nullable)]
         pub(super) action_list: glib::WeakRef<model::ActionList>,
@@ -36,8 +38,9 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
-            klass.set_css_name("actionssidebar");
             klass.bind_template_callbacks();
+
+            klass.set_css_name("actionssidebar");
 
             klass.install_action(
                 ACTIONS_OVERVIEW_ACTION_CLEAR_ACTIONS,
@@ -53,27 +56,13 @@ mod imp {
         }
     }
 
-    #[gtk::template_callbacks]
-    impl ActionsSidebar {
-        #[template_callback]
-        fn activated(&self, pos: u32) {
-            let action = self
-                .action_list_view
-                .model()
-                .unwrap()
-                .item(pos)
-                .unwrap()
-                .downcast::<model::Action>()
-                .unwrap();
-
-            utils::show_dialog(
-                self.obj().upcast_ref(),
-                view::ActionPage::from(&action).upcast_ref(),
-            );
-        }
-    }
-
     impl ObjectImpl for ActionsSidebar {
+        fn signals() -> &'static [Signal] {
+            static SIGNALS: SyncLazy<Vec<Signal>> =
+                SyncLazy::new(|| vec![Signal::builder("cleared").build()]);
+            SIGNALS.as_ref()
+        }
+
         fn properties() -> &'static [glib::ParamSpec] {
             Self::derived_properties()
         }
@@ -129,7 +118,25 @@ mod imp {
 
     impl WidgetImpl for ActionsSidebar {}
 
+    #[gtk::template_callbacks]
     impl ActionsSidebar {
+        #[template_callback]
+        fn activated(&self, pos: u32) {
+            let action = self
+                .action_list_view
+                .model()
+                .unwrap()
+                .item(pos)
+                .unwrap()
+                .downcast::<model::Action>()
+                .unwrap();
+
+            utils::show_dialog(
+                self.obj().upcast_ref(),
+                view::ActionPage::from(&action).upcast_ref(),
+            );
+        }
+
         pub(super) fn set_action_list(&self, value: Option<&model::ActionList>) {
             let obj = self.obj();
             if obj.action_list().as_ref() == value {
@@ -169,6 +176,8 @@ impl ActionsSidebar {
     pub(crate) fn clear_actions(&self) {
         if let Some(action_list) = self.action_list() {
             action_list.clear();
+
+            self.emit_by_name::<()>("cleared", &[]);
         }
     }
 }

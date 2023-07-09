@@ -3,7 +3,6 @@ use adw::subclass::prelude::PreferencesRowImpl;
 use adw::traits::BinExt;
 use adw::traits::PreferencesRowExt;
 use gtk::glib;
-use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
@@ -13,7 +12,7 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(file = "property_widget_row.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/widget/property_widget_row.ui")]
     pub(crate) struct PropertyWidgetRow {
         #[template_child]
         pub(super) bin: TemplateChild<adw::Bin>,
@@ -27,6 +26,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+            klass.bind_template_callbacks();
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -66,27 +66,25 @@ mod imp {
                 _ => unimplemented!(),
             }
         }
-
-        fn constructed(&self) {
-            self.parent_constructed();
-
-            let obj = &*self.obj();
-
-            obj.connect_notify_local(
-                Some("title"),
-                clone!(@weak obj => move |_, _| obj.notify("key")),
-            );
-            self.bin.connect_notify_local(
-                Some("child"),
-                clone!(@weak obj => move |_, _| obj.notify("widget")),
-            );
-        }
     }
 
     impl WidgetImpl for PropertyWidgetRow {}
     impl ListBoxRowImpl for PropertyWidgetRow {}
     impl PreferencesRowImpl for PropertyWidgetRow {}
     impl ActionRowImpl for PropertyWidgetRow {}
+
+    #[gtk::template_callbacks]
+    impl PropertyWidgetRow {
+        #[template_callback]
+        fn on_notify_title(&self) {
+            self.obj().notify("key");
+        }
+
+        #[template_callback]
+        fn on_bin_notify_child(&self) {
+            self.obj().notify("widget");
+        }
+    }
 }
 
 glib::wrapper! {

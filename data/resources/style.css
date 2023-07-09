@@ -1,14 +1,5 @@
-.flat-headerbar-content scrollbar.vertical {
-  /* The size a typical headerbar takes: 46px + 1px for the bottom border. */
-  margin-top: 47px;
-
-  /* Relevant for scrollbars without .overlay-indicator. */
-  background: none;
-  box-shadow: none;
-}
-
-.flat-headerbar-normal-scrollbar scrollbar.vertical {
-  margin-top: 0;
+.navigation-sidebar .list-separator {
+  margin: -12px 0;
 }
 
 .text-box textview {
@@ -17,6 +8,11 @@
 
 .circle {
   border-radius: 9999px;
+}
+
+.circle-big {
+  border-radius: 9999px;
+  padding: 8px;
 }
 
 .dim-icon {
@@ -28,8 +24,14 @@ entry button {
   padding: 0 3px;
 }
 
+button.medium {
+  padding: 6px;
+  -gtk-icon-size: 24px;
+}
+
 button.large {
   padding: 9px;
+  -gtk-icon-size: 24px;
 }
 
 .action-bar {
@@ -38,6 +40,47 @@ button.large {
 
 .destructive-button label, .destructive-button image {
   color: @destructive_color;
+}
+
+.sidebar-row {
+  margin: 12px 6px;
+}
+
+actionsbutton .action-count-mask {
+  background-color: @headerbar_bg_color;
+  border-radius: 9999px;
+  margin-left: 10px;
+  padding: 7px;
+}
+
+actionsbutton .action-count-badge {
+  border-radius: 9999px;
+  font-feature-settings: "tnum";
+  font-size: x-small;
+  font-weight: bold;
+  margin-top: 1px;
+  margin-left: 10px;
+  padding: 6px;
+}
+
+actionsbutton.good .action-count-badge {
+  background-color: @accent_bg_color;
+  color: @accent_fg_color;
+}
+
+actionsbutton.finished .action-count-badge {
+  background-color: @success_bg_color;
+  color: @success_fg_color;
+}
+
+actionsbutton.cancelled .action-count-badge {
+  background-color: @warning_bg_color;
+  color: @warning_fg_color;
+}
+
+actionsbutton.failed .action-count-badge {
+  background-color: @error_bg_color;
+  color: @error_fg_color;
 }
 
 connectionswitcher row #selection-indicator #background,
@@ -100,11 +143,20 @@ connectionchooserpage connectionswitcher row {
 }
 
 .status-badge {
-  font-size: 0.8em;
+  font-size: 0.9em;
   font-weight: bold;
   min-width: 1.7em;
   border-radius: 9999px;
   padding: 5px 7px;
+}
+
+.status-badge-small {
+  font-size: small;
+  font-weight: bold;
+  font-feature-settings: "tnum";
+  min-width: 10px;
+  border-radius: 9999px;
+  padding: 1px 4px;
 }
 
 .repo-tags-small {
@@ -112,6 +164,7 @@ connectionchooserpage connectionswitcher row {
   margin: 0 0 -4px -2px;
 }
 
+.version,
 .container-status-configured,
 .container-status-created,
 .container-status-exited,
@@ -122,6 +175,8 @@ connectionchooserpage connectionswitcher row {
 .pod-status-created,
 .pod-status-exited,
 .pod-status-stopped,
+.image-unused,
+.volume-unused,
 .container-health-status-checking,
 .container-health-status-unconfigured,
 .rich-expander-row-header #badge {
@@ -142,7 +197,9 @@ connectionchooserpage connectionswitcher row {
 }
 
 .container-status-running,
-.pod-status-running {
+.pod-status-running,
+.image-used,
+.volume-used {
   color: @blue_4;
   background-color: alpha(@blue_3, .25);
 }

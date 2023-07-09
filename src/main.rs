@@ -9,7 +9,6 @@ mod model;
 mod utils;
 mod view;
 mod widget;
-mod window;
 
 use std::path::PathBuf;
 use std::str::FromStr;
@@ -19,13 +18,11 @@ use gettextrs::LocaleCategory;
 use gtk::gio;
 use gtk::glib;
 use gtk::prelude::ApplicationExt;
+use gtk::prelude::StaticType;
 use once_cell::sync::Lazy;
 use once_cell::sync::OnceCell;
 
 use self::application::Application;
-use self::config::GETTEXT_PACKAGE;
-use self::config::LOCALEDIR;
-use self::config::RESOURCES_FILE;
 
 pub(crate) static APPLICATION_OPTS: OnceCell<ApplicationOptions> = OnceCell::new();
 pub(crate) static RUNTIME: Lazy<tokio::runtime::Runtime> =
@@ -33,22 +30,6 @@ pub(crate) static RUNTIME: Lazy<tokio::runtime::Runtime> =
 pub(crate) static KEYRING: OnceCell<oo7::Keyring> = OnceCell::new();
 
 fn main() {
-    glib::log_set_writer_func(glib::log_writer_journald);
-
-    adw::init().expect("Failed to init GTK/libadwaita");
-    panel::init();
-    sourceview5::init();
-
-    // Prepare i18n
-    gettextrs::setlocale(LocaleCategory::LcAll, "");
-    gettextrs::bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR).expect("Unable to bind the text domain");
-    gettextrs::textdomain(GETTEXT_PACKAGE).expect("Unable to switch to the text domain");
-
-    glib::set_application_name(&gettext("Pods"));
-
-    let res = gio::Resource::load(RESOURCES_FILE).expect("Could not load gresource file");
-    gio::resources_register(&res);
-
     let app = setup_cli(Application::default());
 
     // Command line handling
@@ -59,6 +40,31 @@ fn main() {
             // ... and exit application.
             1
         } else {
+            glib::log_set_writer_func(glib::log_writer_journald);
+
+            adw::init().expect("Failed to init GTK/libadwaita");
+            panel::init();
+            sourceview5::init();
+            crate::init();
+
+            // Prepare i18n
+            gettextrs::setlocale(LocaleCategory::LcAll, "");
+            gettextrs::bindtextdomain(config::GETTEXT_PACKAGE, config::LOCALEDIR)
+                .expect("Unable to bind the text domain");
+            gettextrs::textdomain(config::GETTEXT_PACKAGE)
+                .expect("Unable to switch to the text domain");
+
+            glib::set_application_name(&gettext("Pods"));
+
+            gio::resources_register(
+                &gio::Resource::load(config::RESOURCES_FILE)
+                    .expect("Could not load gresource file"),
+            );
+            gio::resources_register(
+                &gio::Resource::load(config::UI_RESOURCES_FILE)
+                    .expect("Could not load UI gresource file"),
+            );
+
             let log_level_filter = match dict.lookup::<String>("log-level").unwrap() {
                 Some(level) => {
                     log::LevelFilter::from_str(&level).expect("Error on parsing log-level")
@@ -135,4 +141,81 @@ fn setup_cli(app: Application) -> Application {
     );
 
     app
+}
+
+fn init() {
+    model::Connection::static_type();
+
+    view::ActionPage::static_type();
+    view::ActionRow::static_type();
+    view::ActionsButton::static_type();
+    view::ActionsSidebar::static_type();
+    view::ClientView::static_type();
+    view::ConnectionChooserPage::static_type();
+    view::ConnectionCustomInfoDialog::static_type();
+    view::ConnectionRow::static_type();
+    view::ConnectionSwitcher::static_type();
+    view::ConnectionsSidebar::static_type();
+    view::ContainerCommitPage::static_type();
+    view::ContainerFilesGetPage::static_type();
+    view::ContainerFilesPutPage::static_type();
+    view::ContainerHealthCheckLogRow::static_type();
+    view::ContainerHealthCheckPage::static_type();
+    view::ContainerLogPage::static_type();
+    view::ContainerMenuButton::static_type();
+    view::ContainerPropertiesGroup::static_type();
+    view::ContainerResources::static_type();
+    view::ContainerTerminal::static_type();
+    view::ContainerTerminalPage::static_type();
+    view::ContainerVolumeRow::static_type();
+    view::ContainersCountBar::static_type();
+    view::ContainersGroup::static_type();
+    view::ContainersPanel::static_type();
+    view::ContainersPrunePage::static_type();
+    view::ContainersRow::static_type();
+    view::ImageBuildPage::static_type();
+    view::ImageHistoryPage::static_type();
+    view::ImageMenuButton::static_type();
+    view::ImageSearchResponseRow::static_type();
+    view::ImageSelectionComboRow::static_type();
+    view::ImageSelectionPage::static_type();
+    view::ImagesPanel::static_type();
+    view::ImagesRow::static_type();
+    view::InfoPanel::static_type();
+    view::InfoRow::static_type();
+    view::PodMenuButton::static_type();
+    view::PodRow::static_type();
+    view::PodSelectionPage::static_type();
+    view::PodsPanel::static_type();
+    view::PodsPrunePage::static_type();
+    view::PodsRow::static_type();
+    view::RepoTagAddDialog::static_type();
+    view::RepoTagPushPage::static_type();
+    view::RepoTagRow::static_type();
+    view::RepoTagSimpleRow::static_type();
+    view::ScalableTextViewPage::static_type();
+    view::SearchPanel::static_type();
+    view::SearchRow::static_type();
+    view::VolumeRow::static_type();
+    view::VolumesGroup::static_type();
+    view::VolumesPanel::static_type();
+    view::VolumesPrunePage::static_type();
+    view::VolumesRow::static_type();
+    view::WelcomePage::static_type();
+    view::Window::static_type();
+
+    widget::CircularProgressBar::static_type();
+    widget::CountBadge::static_type();
+    widget::DateTimeRow::static_type();
+    widget::EfficientSpinner::static_type();
+    widget::MainMenuButton::static_type();
+    widget::PropertyRow::static_type();
+    widget::PropertyWidgetRow::static_type();
+    widget::RandomNameEntryRow::static_type();
+    widget::ScalableTextView::static_type();
+    widget::SeparatorRow::static_type();
+    widget::SourceViewSearchWidget::static_type();
+    widget::Spinner::static_type();
+    widget::TextSearchEntry::static_type();
+    widget::ZoomControl::static_type();
 }

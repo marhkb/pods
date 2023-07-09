@@ -1,90 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <template class="PdsConnectionChooserPage" parent="GtkWidget">
-    <style>
-      <class name="flat-headerbar-content"/>
-    </style>
     <property name="layout-manager">
       <object class="GtkBinLayout"/>
     </property>
 
     <child>
-      <object class="GtkOverlay">
+      <object class="AdwToolbarView">
 
-        <child type="overlay">
+        <child type="top">
           <object class="AdwHeaderBar">
-            <style>
-              <class name="flat"/>
-            </style>
-            <property name="valign">start</property>
-            <property name="title-widget">
-              <object class="AdwWindowTitle">
-                <property name="visible">False</property>
-              </object>
-            </property>
+            <property name="show-title">False</property>
+
+            <child type="end">
+              <object class="PdsMainMenuButton"/>
+            </child>
+
           </object>
         </child>
 
         <child>
-          <object class="GtkWindowHandle">
-            <property name="vexpand">True</property>
+          <object class="AdwStatusPage" id="status_page">
+            <property name="title" translatable="yes">Connect to Podman</property>
+            <property name="description" translatable="yes">Either choose an existing connection or create a new one.</property>
 
             <child>
-              <object class="AdwStatusPage" id="status_page">
-                <property name="title" translatable="yes">Connect to Podman</property>
-                <property name="description" translatable="yes">Either choose an existing connection or create a new one.</property>
-                <property name="vexpand">True</property>
-
+              <object class="AdwClamp">
                 <child>
-                  <object class="AdwClamp">
+                  <object class="GtkBox">
+                    <property name="spacing">18</property>
+                    <property name="orientation">vertical</property>
+
                     <child>
-                      <object class="GtkBox">
-                        <property name="spacing">18</property>
-                        <property name="orientation">vertical</property>
+                      <object class="AdwBin">
+                        <style>
+                          <class name="card"/>
+                        </style>
+                        <property name="overflow">hidden</property>
 
                         <child>
-                          <object class="AdwBin">
+                          <object class="GtkScrolledWindow" id="scrolled_window">
                             <style>
-                              <class name="card"/>
+                              <class name="flat-headerbar-normal-scrollbar"/>
                             </style>
-                            <property name="overflow">hidden</property>
+                            <property name="height-request">350</property>
+                            <property name="hexpand">True</property>
+                            <property name="vexpand">True</property>
+                            <property name="hscrollbar-policy">never</property>
 
                             <child>
-                              <object class="GtkScrolledWindow" id="scrolled_window">
-                                <style>
-                                  <class name="flat-headerbar-normal-scrollbar"/>
-                                </style>
-                                <property name="height-request">350</property>
-                                <property name="hexpand">True</property>
-                                <property name="vexpand">True</property>
-                                <property name="hscrollbar-policy">never</property>
-
-                                <child>
-                                  <object class="PdsConnectionSwitcher">
-                                    <binding name="connection-manager">
-                                      <lookup name="connection-manager">PdsConnectionChooserPage</lookup>
-                                    </binding>
-                                  </object>
-                                </child>
-
+                              <object class="PdsConnectionSwitcher">
+                                <binding name="connection-manager">
+                                  <lookup name="connection-manager">PdsConnectionChooserPage</lookup>
+                                </binding>
                               </object>
                             </child>
 
                           </object>
                         </child>
 
-                        <child>
-                          <object class="GtkButton" id="button">
-                            <style>
-                              <class name="pill"/>
-                            </style>
-                            <property name="action-name">win.new-connection</property>
-                            <property name="halign">center</property>
-                            <property name="label" translatable="yes">_New Connection</property>
-                            <property name="use-underline">True</property>
-                          </object>
-                        </child>
+                      </object>
+                    </child>
 
+                    <child>
+                      <object class="GtkButton" id="button">
+                        <style>
+                          <class name="pill"/>
+                        </style>
+                        <property name="action-name">win.create-connection</property>
+                        <property name="halign">center</property>
+                        <property name="label" translatable="yes">_New Connection</property>
+                        <property name="use-underline">True</property>
                       </object>
                     </child>
 

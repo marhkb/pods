@@ -1,17 +1,17 @@
+use std::cell::RefCell;
+
 use adw::prelude::MessageDialogExtManual;
 use adw::traits::MessageDialogExt;
 use gettextrs::gettext;
 use gettextrs::ngettext;
 use glib::clone;
 use glib::closure;
-use glib::subclass::Signal;
 use glib::Properties;
 use gtk::gdk;
 use gtk::glib;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy as SyncLazy;
 use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
@@ -19,19 +19,26 @@ use crate::model::SelectableListExt;
 use crate::utils;
 use crate::view;
 
-const ACTION_PRUNE_PODS: &str = "pods-panel.prune-pods";
 const ACTION_CREATE_POD: &str = "pods-panel.create-pod";
+const ACTION_PRUNE_PODS: &str = "pods-panel.prune-pods";
+const ACTION_ENTER_SELECTION_MODE: &str = "pods-panel.enter-selection-mode";
+
+const ACTION_EXIT_SELECTION_MODE: &str = "pods-panel.exit-selection-mode";
+const ACTION_SELECT_VISIBLE: &str = "pods-panel.select-visible";
+const ACTION_SELECT_NONE: &str = "pods-panel.select-none";
+const ACTION_KILL_SELECTION: &str = "pods-panel.kill-selection";
+const ACTION_RESTART_SELECTION: &str = "pods-panel.restart-selection";
 const ACTION_START_OR_RESUME_SELECTION: &str = "pods-panel.start-or-resume-selection";
 const ACTION_STOP_SELECTION: &str = "pods-panel.stop-selection";
 const ACTION_PAUSE_SELECTION: &str = "pods-panel.pause-selection";
-const ACTION_RESTART_SELECTION: &str = "pods-panel.restart-selection";
 const ACTION_DELETE_SELECTION: &str = "pods-panel.delete-selection";
 
 const ACTIONS_SELECTION: &[&str] = &[
+    ACTION_KILL_SELECTION,
+    ACTION_RESTART_SELECTION,
     ACTION_START_OR_RESUME_SELECTION,
     ACTION_STOP_SELECTION,
     ACTION_PAUSE_SELECTION,
-    ACTION_RESTART_SELECTION,
     ACTION_DELETE_SELECTION,
 ];
 
@@ -40,25 +47,30 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::PodsPanel)]
-    #[template(file = "pods_panel.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/pods_panel.ui")]
     pub(crate) struct PodsPanel {
         pub(super) settings: utils::PodsSettings,
-        pub(super) properties_filter: UnsyncOnceCell<gtk::Filter>,
+        pub(super) filter: UnsyncOnceCell<gtk::Filter>,
         pub(super) sorter: UnsyncOnceCell<gtk::Sorter>,
+        pub(super) search_term: RefCell<String>,
         #[property(get, set = Self::set_pod_list, nullable)]
         pub(super) pod_list: glib::WeakRef<model::PodList>,
         #[template_child]
-        pub(super) create_pod_row: TemplateChild<gtk::ListBoxRow>,
-        #[template_child]
         pub(super) main_stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub(super) pods_group: TemplateChild<adw::PreferencesGroup>,
+        pub(super) main_header_bar: TemplateChild<adw::HeaderBar>,
         #[template_child]
-        pub(super) header_suffix_box: TemplateChild<gtk::Box>,
+        pub(super) window_title: TemplateChild<adw::WindowTitle>,
         #[template_child]
-        pub(super) show_only_running_switch: TemplateChild<gtk::Switch>,
+        pub(super) show_only_running_toggle_button: TemplateChild<gtk::ToggleButton>,
         #[template_child]
-        pub(super) header_suffix_button_box: TemplateChild<gtk::Box>,
+        pub(super) selection_header_bar: TemplateChild<adw::HeaderBar>,
+        #[template_child]
+        pub(super) selected_pods_button: TemplateChild<gtk::MenuButton>,
+        #[template_child]
+        pub(super) search_bar: TemplateChild<gtk::SearchBar>,
+        #[template_child]
+        pub(super) search_entry: TemplateChild<gtk::SearchEntry>,
         #[template_child]
         pub(super) list_box: TemplateChild<gtk::ListBox>,
     }
@@ -71,10 +83,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
-
-            klass.install_action(ACTION_PRUNE_PODS, None, |widget, _, _| {
-                widget.prune_pods();
-            });
+            klass.bind_template_callbacks();
 
             klass.add_binding_action(
                 gdk::Key::N,
@@ -86,6 +95,30 @@ mod imp {
                 widget.create_pod();
             });
 
+            klass.install_action(ACTION_PRUNE_PODS, None, |widget, _, _| {
+                widget.prune_pods();
+            });
+
+            klass.install_action(ACTION_ENTER_SELECTION_MODE, None, |widget, _, _| {
+                widget.enter_selection_mode();
+            });
+            klass.install_action(ACTION_EXIT_SELECTION_MODE, None, |widget, _, _| {
+                widget.exit_selection_mode();
+            });
+
+            klass.install_action(ACTION_SELECT_VISIBLE, None, |widget, _, _| {
+                widget.select_visible();
+            });
+            klass.install_action(ACTION_SELECT_NONE, None, |widget, _, _| {
+                widget.select_none();
+            });
+
+            klass.install_action(ACTION_KILL_SELECTION, None, move |widget, _, _| {
+                widget.stop_selection(true);
+            });
+            klass.install_action(ACTION_RESTART_SELECTION, None, |widget, _, _| {
+                widget.restart_selection();
+            });
             klass.install_action(
                 ACTION_START_OR_RESUME_SELECTION,
                 None,
@@ -94,13 +127,10 @@ mod imp {
                 },
             );
             klass.install_action(ACTION_STOP_SELECTION, None, |widget, _, _| {
-                widget.stop_selection();
+                widget.stop_selection(false);
             });
             klass.install_action(ACTION_PAUSE_SELECTION, None, |widget, _, _| {
                 widget.pause_selection();
-            });
-            klass.install_action(ACTION_RESTART_SELECTION, None, |widget, _, _| {
-                widget.restart_selection();
             });
             klass.install_action(ACTION_DELETE_SELECTION, None, |widget, _, _| {
                 widget.delete_selection();
@@ -113,12 +143,6 @@ mod imp {
     }
 
     impl ObjectImpl for PodsPanel {
-        fn signals() -> &'static [Signal] {
-            static SIGNALS: SyncLazy<Vec<Signal>> =
-                SyncLazy::new(|| vec![Signal::builder("exit-selection-mode").build()]);
-            SIGNALS.as_ref()
-        }
-
         fn properties() -> &'static [glib::ParamSpec] {
             Self::derived_properties()
         }
@@ -139,36 +163,18 @@ mod imp {
             self.settings
                 .bind(
                     "show-only-running-pods",
-                    &*self.show_only_running_switch,
+                    &self.show_only_running_toggle_button.get(),
                     "active",
                 )
                 .build();
 
             let pod_list_expr = Self::Type::this_expression("pod-list");
             let pod_list_len_expr = pod_list_expr.chain_property::<model::PodList>("len");
-            let is_selection_mode_expr = pod_list_expr
-                .chain_property::<model::PodList>("selection-mode")
-                .chain_closure::<bool>(closure!(|_: Self::Type, selection_mode: bool| {
-                    !selection_mode
-                }));
-
-            pod_list_len_expr
-                .chain_closure::<bool>(closure!(|_: Self::Type, len: u32| len > 0))
-                .bind(&*self.header_suffix_box, "visible", Some(obj));
-
-            is_selection_mode_expr.bind(&*self.header_suffix_button_box, "visible", Some(obj));
-            is_selection_mode_expr.bind(&*self.create_pod_row, "visible", Some(obj));
-
-            pod_list_len_expr.watch(
-                Some(obj),
-                clone!(@weak obj => move || {
-                    let list = obj.pod_list().unwrap();
-                    if list.is_selection_mode() && list.len() == 0 {
-                        list.set_selection_mode(false);
-                        obj.emit_by_name::<()>("exit-selection-mode", &[]);
-                    }
-                }),
-            );
+            let selection_mode_expr =
+                pod_list_expr.chain_property::<model::PodList>("selection-mode");
+            let not_selection_mode_expr = selection_mode_expr.chain_closure::<bool>(closure!(
+                |_: Self::Type, selection_mode: bool| { !selection_mode }
+            ));
 
             gtk::ClosureExpression::new::<Option<String>>(
                 [
@@ -192,16 +198,18 @@ mod imp {
                     }
                 ),
             )
-            .bind(&*self.main_stack, "visible-child-name", Some(obj));
+            .bind(&self.main_stack.get(), "visible-child-name", Some(obj));
+
+            not_selection_mode_expr.bind(&self.main_header_bar.get(), "visible", Some(obj));
 
             gtk::ClosureExpression::new::<Option<String>>(
-                &[
-                    pod_list_len_expr,
-                    pod_list_expr.chain_property::<model::PodList>("running"),
+                [
+                    &pod_list_len_expr,
+                    &pod_list_expr.chain_property::<model::PodList>("running"),
                 ],
                 closure!(|_: Self::Type, len: u32, running: u32| {
                     if len == 0 {
-                        gettext("No pods found")
+                        String::new()
                     } else if len == 1 {
                         if running == 1 {
                             gettext("1 pod, running")
@@ -210,9 +218,8 @@ mod imp {
                         }
                     } else {
                         ngettext!(
-                            // Translators: There's a wide space (U+2002) between ", {}".
-                            "{} pod total, {} running",
-                            "{} pods total, {} running",
+                            "{} pod total, {} running",
+                            "{} pods total, {} running",
                             len,
                             len,
                             running,
@@ -220,48 +227,95 @@ mod imp {
                     }
                 }),
             )
-            .bind(&*self.pods_group, "description", Some(obj));
+            .bind(&self.window_title.get(), "subtitle", Some(obj));
 
-            let properties_filter = gtk::AnyFilter::new();
-            properties_filter.append(gtk::CustomFilter::new(
+            selection_mode_expr.bind(&self.selection_header_bar.get(), "visible", Some(obj));
+
+            pod_list_expr
+                .chain_property::<model::PodList>("num-selected")
+                .chain_closure::<String>(closure!(|_: Self::Type, selected: u32| ngettext!(
+                    "{} Selected Pod",
+                    "{} Selected Pods",
+                    selected,
+                    selected
+                )))
+                .bind(&self.selected_pods_button.get(), "label", Some(obj));
+
+            let search_filter =
+                gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
+                    let term = &*obj.imp().search_term.borrow();
+                    item.downcast_ref::<model::Pod>()
+                        .unwrap()
+                        .name()
+                        .to_lowercase()
+                        .contains(term)
+                }));
+
+            not_selection_mode_expr.bind(&self.search_bar.get(), "visible", Some(obj));
+
+            let state_filter = gtk::AnyFilter::new();
+            state_filter.append(gtk::CustomFilter::new(
                 clone!(@weak obj => @default-return false, move |_| {
-                    !obj.imp().show_only_running_switch.is_active()
+                    !obj.imp().show_only_running_toggle_button.is_active()
                 }),
             ));
-            properties_filter.append(gtk::BoolFilter::new(Some(
+            state_filter.append(gtk::BoolFilter::new(Some(
                 model::Pod::this_expression("status").chain_closure::<bool>(closure!(
                     |_: model::Pod, status: model::PodStatus| status == model::PodStatus::Running
                 )),
             )));
 
+            let filter = gtk::EveryFilter::new();
+            filter.append(search_filter);
+            filter.append(state_filter);
+
             let sorter = gtk::StringSorter::new(Some(model::Pod::this_expression("name")));
 
-            self.properties_filter
-                .set(properties_filter.upcast())
-                .unwrap();
+            self.filter.set(filter.upcast()).unwrap();
             self.sorter.set(sorter.upcast()).unwrap();
-
-            self.show_only_running_switch.connect_active_notify(
-                clone!(@weak obj => move |switch| {
-                    obj.update_properties_filter(
-                        if switch.is_active() {
-                            gtk::FilterChange::MoreStrict
-                        } else {
-                            gtk::FilterChange::LessStrict
-                        }
-                    );
-                }),
-            );
         }
 
         fn dispose(&self) {
-            self.main_stack.unparent();
+            utils::unparent_children(self.obj().upcast_ref());
         }
     }
 
     impl WidgetImpl for PodsPanel {}
 
+    #[gtk::template_callbacks]
     impl PodsPanel {
+        #[template_callback]
+        fn on_notify_search_mode_enabled(&self) {
+            if self.search_bar.is_search_mode() {
+                self.search_entry.grab_focus();
+            } else {
+                self.search_entry.set_text("");
+            }
+        }
+
+        #[template_callback]
+        fn on_search_changed(&self) {
+            let term = self.search_entry.text().trim().to_lowercase();
+
+            let filter_change = if self.search_term.borrow().contains(&term) {
+                gtk::FilterChange::LessStrict
+            } else {
+                gtk::FilterChange::MoreStrict
+            };
+
+            self.search_term.replace(term);
+            self.update_filter(filter_change);
+        }
+
+        #[template_callback]
+        fn on_show_only_running_toggle_button_notify_active(&self) {
+            self.update_filter(if self.show_only_running_toggle_button.is_active() {
+                gtk::FilterChange::MoreStrict
+            } else {
+                gtk::FilterChange::LessStrict
+            });
+        }
+
         pub(crate) fn set_pod_list(&self, value: &model::PodList) {
             let obj = &*self.obj();
             if obj.pod_list().as_ref() == Some(value) {
@@ -271,14 +325,14 @@ mod imp {
             value.connect_notify_local(
                 Some("running"),
                 clone!(@weak obj => move |_ ,_| {
-                    obj.update_properties_filter(gtk::FilterChange::Different);
+                    obj.imp().update_filter(gtk::FilterChange::Different);
                 }),
             );
 
             let model = gtk::SortListModel::new(
                 Some(gtk::FilterListModel::new(
                     Some(value.to_owned()),
-                    self.properties_filter.get().cloned(),
+                    self.filter.get().cloned(),
                 )),
                 self.sorter.get().cloned(),
             );
@@ -286,7 +340,11 @@ mod imp {
             self.list_box.bind_model(Some(&model), |item| {
                 view::PodRow::from(item.downcast_ref().unwrap()).upcast()
             });
-            self.list_box.append(&*self.create_pod_row);
+
+            self.list_box.set_visible(model.n_items() > 0);
+            model.connect_items_changed(clone!(@weak obj => move |model, _, _, _| {
+                obj.imp().list_box.set_visible(model.n_items() > 0);
+            }));
 
             ACTIONS_SELECTION
                 .iter()
@@ -304,6 +362,12 @@ mod imp {
 
             self.pod_list.set(Some(value));
         }
+
+        fn update_filter(&self, filter_change: gtk::FilterChange) {
+            if let Some(filter) = self.filter.get() {
+                filter.changed(filter_change);
+            }
+        }
     }
 }
 
@@ -320,16 +384,21 @@ impl Default for PodsPanel {
 }
 
 impl PodsPanel {
-    pub(crate) fn action_create_pod() -> &'static str {
-        ACTION_CREATE_POD
+    pub(crate) fn set_search_mode(&self, value: bool) {
+        self.imp().search_bar.set_search_mode(value);
     }
 
-    pub(crate) fn update_properties_filter(&self, filter_change: gtk::FilterChange) {
-        self.imp()
-            .properties_filter
-            .get()
-            .unwrap()
-            .changed(filter_change);
+    pub(crate) fn toggle_search_mode(&self) {
+        self.set_search_mode(!self.imp().search_bar.is_search_mode());
+    }
+
+    pub(crate) fn create_pod(&self) {
+        if let Some(client) = self.pod_list().as_ref().and_then(model::PodList::client) {
+            utils::show_dialog(
+                self.upcast_ref(),
+                view::PodCreationPage::from(&client).upcast_ref(),
+            );
+        }
     }
 
     pub(crate) fn prune_pods(&self) {
@@ -341,16 +410,40 @@ impl PodsPanel {
         }
     }
 
-    fn create_pod(&self) {
-        if let Some(client) = self.pod_list().as_ref().and_then(model::PodList::client) {
-            utils::show_dialog(
-                self.upcast_ref(),
-                view::PodCreationPage::from(&client).upcast_ref(),
-            );
+    pub(crate) fn enter_selection_mode(&self) {
+        if let Some(list) = self.pod_list().filter(|list| list.len() > 0) {
+            list.select_none();
+            list.set_selection_mode(true);
         }
     }
 
-    fn start_selection(&self) {
+    pub(crate) fn exit_selection_mode(&self) {
+        if let Some(list) = self.pod_list() {
+            list.set_selection_mode(false);
+        }
+    }
+
+    pub(crate) fn select_visible(&self) {
+        (0..)
+            .map(|pos| self.imp().list_box.row_at_index(pos))
+            .take_while(Option::is_some)
+            .flatten()
+            .for_each(|row| {
+                row.downcast_ref::<view::PodRow>()
+                    .unwrap()
+                    .pod()
+                    .unwrap()
+                    .set_selected(row.is_visible());
+            });
+    }
+
+    pub(crate) fn select_none(&self) {
+        if let Some(list) = self.pod_list().filter(|list| list.is_selection_mode()) {
+            list.select_none();
+        }
+    }
+
+    pub(crate) fn start_selection(&self) {
         if let Some(list) = self.pod_list() {
             list.selected_items()
                 .iter()
@@ -381,11 +474,10 @@ impl PodsPanel {
                     _ => (),
                 });
             list.set_selection_mode(false);
-            self.emit_by_name::<()>("exit-selection-mode", &[]);
         }
     }
 
-    fn stop_selection(&self) {
+    pub(crate) fn stop_selection(&self, force: bool) {
         if let Some(list) = self.pod_list() {
             list.selected_items()
                 .iter()
@@ -393,12 +485,16 @@ impl PodsPanel {
                 .filter(|pod| matches!(pod.status(), model::PodStatus::Running))
                 .for_each(|pod| {
                     pod.stop(
-                        false,
+                        force,
                         clone!(@weak self as obj => move |result| {
                             if let Err(e) = result {
                                 utils::show_error_toast(
                                     obj.upcast_ref(),
-                                    &gettext("Error on stopping pod"),
+                                    &if force {
+                                        gettext("Error on killing pod")
+                                    } else {
+                                        gettext("Error on stopping pod")
+                                    },
                                     &e.to_string(),
                                 );
                             }
@@ -406,11 +502,10 @@ impl PodsPanel {
                     );
                 });
             list.set_selection_mode(false);
-            self.emit_by_name::<()>("exit-selection-mode", &[]);
         }
     }
 
-    fn pause_selection(&self) {
+    pub(crate) fn pause_selection(&self) {
         if let Some(list) = self.pod_list() {
             list.selected_items()
                 .iter()
@@ -428,11 +523,10 @@ impl PodsPanel {
                     }));
                 });
             list.set_selection_mode(false);
-            self.emit_by_name::<()>("exit-selection-mode", &[]);
         }
     }
 
-    fn restart_selection(&self) {
+    pub(crate) fn restart_selection(&self) {
         if let Some(list) = self.pod_list() {
             list.selected_items()
                 .iter()
@@ -453,11 +547,10 @@ impl PodsPanel {
                     );
                 });
             list.set_selection_mode(false);
-            self.emit_by_name::<()>("exit-selection-mode", &[]);
         }
     }
 
-    fn delete_selection(&self) {
+    pub(crate) fn delete_selection(&self) {
         if self.pod_list().map(|list| list.num_selected()).unwrap_or(0) == 0 {
             return;
         }
@@ -497,23 +590,10 @@ impl PodsPanel {
                         }));
                     });
                     list.set_selection_mode(false);
-                    obj.emit_by_name::<()>("exit-selection-mode", &[]);
                 }
             }),
         );
 
         dialog.present();
-    }
-
-    pub(crate) fn connect_exit_selection_mode<F: Fn(&Self) + 'static>(
-        &self,
-        f: F,
-    ) -> glib::SignalHandlerId {
-        self.connect_local("exit-selection-mode", true, move |values| {
-            let obj = values[0].get::<Self>().unwrap();
-            f(&obj);
-
-            None
-        })
     }
 }

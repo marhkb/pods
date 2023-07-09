@@ -1,5 +1,4 @@
 use adw::traits::ActionRowExt;
-use adw::traits::BinExt;
 use ashpd::desktop::file_chooser::OpenFileRequest;
 use ashpd::WindowIdentifier;
 use gettextrs::gettext;
@@ -10,6 +9,7 @@ use gtk::glib;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
+use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::podman;
@@ -26,14 +26,14 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ImageBuildPage)]
-    #[template(file = "image_build_page.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/image_build_page.ui")]
     pub(crate) struct ImageBuildPage {
         pub(super) settings: utils::PodsSettings,
-        pub(super) labels: gio::ListStore,
+        pub(super) labels: UnsyncOnceCell<gio::ListStore>,
         #[property(get, set, construct_only, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
         #[template_child]
-        pub(super) stack: TemplateChild<gtk::Stack>,
+        pub(super) navigation_view: TemplateChild<adw::NavigationView>,
         #[template_child]
         pub(super) build_button: TemplateChild<gtk::Button>,
         #[template_child]
@@ -44,8 +44,6 @@ mod imp {
         pub(super) container_file_path_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
         pub(super) labels_list_box: TemplateChild<gtk::ListBox>,
-        #[template_child]
-        pub(super) action_page_bin: TemplateChild<adw::Bin>,
     }
 
     #[glib::object_subclass]
@@ -56,6 +54,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+            klass.bind_template_callbacks();
 
             klass.install_action(ACTION_BUILD, None, |widget, _, _| {
                 widget.build();
@@ -103,15 +102,10 @@ mod imp {
                     .string(GSETTINGS_KEY_LAST_USED_CONTAINER_FILE_PATH),
             );
 
-            obj.on_opts_changed();
-            self.tag_entry_row
-                .connect_text_notify(clone!(@weak obj => move |_| obj.on_opts_changed()));
-            self.context_dir_row
-                .connect_subtitle_notify(clone!(@weak obj => move |_| obj.on_opts_changed()));
-
-            self.labels_list_box.bind_model(Some(&self.labels), |item| {
-                view::KeyValRow::from(item.downcast_ref::<model::KeyVal>().unwrap()).upcast()
-            });
+            self.labels_list_box
+                .bind_model(Some(self.labels()), |item| {
+                    view::KeyValRow::from(item.downcast_ref::<model::KeyVal>().unwrap()).upcast()
+                });
             self.labels_list_box.append(
                 &gtk::ListBoxRow::builder()
                     .action_name(ACTION_ADD_LABEL)
@@ -125,6 +119,8 @@ mod imp {
                     )
                     .build(),
             );
+
+            obj.on_opts_changed();
         }
 
         fn dispose(&self) {
@@ -139,9 +135,9 @@ mod imp {
             let widget = &*self.obj();
 
             glib::idle_add_local(
-                clone!(@weak widget => @default-return glib::Continue(false), move || {
+                clone!(@weak widget => @default-return glib::ControlFlow::Break, move || {
                     widget.imp().tag_entry_row.grab_focus();
-                    glib::Continue(false)
+                    glib::ControlFlow::Break
                 }),
             );
             utils::root(widget.upcast_ref()).set_default_widget(Some(&*self.build_button));
@@ -150,6 +146,19 @@ mod imp {
         fn unroot(&self) {
             utils::root(self.obj().upcast_ref()).set_default_widget(gtk::Widget::NONE);
             self.parent_unroot()
+        }
+    }
+
+    #[gtk::template_callbacks]
+    impl ImageBuildPage {
+        #[template_callback]
+        fn trigger_opts_changed(&self) {
+            self.obj().on_opts_changed();
+        }
+
+        pub(super) fn labels(&self) -> &gio::ListStore {
+            self.labels
+                .get_or_init(gio::ListStore::new::<model::KeyVal>)
         }
     }
 }
@@ -207,13 +216,13 @@ impl ImageBuildPage {
         let label = model::KeyVal::default();
 
         label.connect_remove_request(clone!(@weak self as obj => move |label| {
-            let labels = &obj.imp().labels;
+            let labels = obj.imp().labels();
             if let Some(pos) = labels.find(label) {
                 labels.remove(pos);
             }
         }));
 
-        self.imp().labels.append(&label);
+        self.imp().labels().append(&label);
     }
 
     fn build(&self) {
@@ -233,9 +242,9 @@ impl ImageBuildPage {
                     .dockerfile(imp.container_file_path_entry_row.text())
                     .tag(imp.tag_entry_row.text())
                     .labels(
-                        imp.labels
-                            .iter::<glib::Object>()
-                            .map(|entry| entry.unwrap().downcast::<model::KeyVal>().unwrap())
+                        imp.labels()
+                            .iter::<model::KeyVal>()
+                            .map(Result::unwrap)
                             .map(|entry| (entry.key(), entry.value())),
                     )
                     .build();
@@ -248,8 +257,12 @@ impl ImageBuildPage {
                         .build_image(imp.tag_entry_row.text().as_str(), opts),
                 );
 
-                imp.action_page_bin.set_child(Some(&page));
-                imp.stack.set_visible_child(&*imp.action_page_bin);
+                imp.navigation_view.push(
+                    &adw::NavigationPage::builder()
+                        .can_pop(false)
+                        .child(&page)
+                        .build(),
+                );
 
                 if let Err(e) = imp.settings.set_string(
                     GSETTINGS_KEY_LAST_USED_CONTAINER_FILE_PATH,

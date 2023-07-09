@@ -57,12 +57,7 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for ScalableTextView {
-        fn realize(&self) {
-            self.parent_realize();
-        }
-    }
-
+    impl WidgetImpl for ScalableTextView {}
     impl TextViewImpl for ScalableTextView {}
     impl ViewImpl for ScalableTextView {}
 }

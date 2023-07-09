@@ -8,7 +8,9 @@
     <property name="valign">center</property>
 
     <child>
-      <object class="GtkImage" id="image"/>
+      <object class="GtkImage" id="image">
+        <signal name="notify::icon-name" handler="on_image_notify_icon_name" swapped="true"/>
+      </object>
     </child>
 
   </template>

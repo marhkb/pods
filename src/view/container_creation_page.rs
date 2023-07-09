@@ -2,7 +2,6 @@ use std::cell::RefCell;
 
 use adw::subclass::prelude::*;
 use adw::traits::ActionRowExt;
-use adw::traits::BinExt;
 use gettextrs::gettext;
 use glib::clone;
 use glib::Properties;
@@ -11,6 +10,7 @@ use gtk::glib;
 use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::CompositeTemplate;
+use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::podman;
@@ -33,13 +33,13 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ContainerCreationPage)]
-    #[template(file = "container_creation_page.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/container_creation_page.ui")]
     pub(crate) struct ContainerCreationPage {
-        pub(super) cmd_args: gio::ListStore,
-        pub(super) port_mappings: gio::ListStore,
-        pub(super) volumes: gio::ListStore,
-        pub(super) env_vars: gio::ListStore,
-        pub(super) labels: gio::ListStore,
+        pub(super) cmd_args: UnsyncOnceCell<gio::ListStore>,
+        pub(super) port_mappings: UnsyncOnceCell<gio::ListStore>,
+        pub(super) volumes: UnsyncOnceCell<gio::ListStore>,
+        pub(super) env_vars: UnsyncOnceCell<gio::ListStore>,
+        pub(super) labels: UnsyncOnceCell<gio::ListStore>,
         pub(super) command_row_handler:
             RefCell<Option<(glib::SignalHandlerId, glib::WeakRef<model::Image>)>>,
         #[property(get = Self::client, set, construct, nullable)]
@@ -51,9 +51,7 @@ mod imp {
         #[property(get, set, construct, nullable)]
         pub(super) volume: glib::WeakRef<model::Volume>,
         #[template_child]
-        pub(super) stack: TemplateChild<gtk::Stack>,
-        #[template_child]
-        pub(super) leaflet_overlay: TemplateChild<widget::LeafletOverlay>,
+        pub(super) navigation_view: TemplateChild<adw::NavigationView>,
         #[template_child]
         pub(super) create_button: TemplateChild<adw::SplitButton>,
         #[template_child]
@@ -63,15 +61,13 @@ mod imp {
         #[template_child]
         pub(super) pod_row: TemplateChild<adw::ActionRow>,
         #[template_child]
-        pub(super) pull_latest_image_row: TemplateChild<adw::ActionRow>,
-        #[template_child]
-        pub(super) pull_latest_image_switch: TemplateChild<gtk::Switch>,
+        pub(super) pull_latest_image_switch_row: TemplateChild<adw::SwitchRow>,
         #[template_child]
         pub(super) command_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
         pub(super) command_arg_list_box: TemplateChild<gtk::ListBox>,
         #[template_child]
-        pub(super) terminal_switch: TemplateChild<gtk::Switch>,
+        pub(super) terminal_switch_row: TemplateChild<adw::SwitchRow>,
         #[template_child]
         pub(super) memory_switch: TemplateChild<gtk::Switch>,
         #[template_child]
@@ -96,8 +92,6 @@ mod imp {
         pub(super) health_check_start_period_value: TemplateChild<gtk::Adjustment>,
         #[template_child]
         pub(super) health_check_retries_value: TemplateChild<gtk::Adjustment>,
-        #[template_child]
-        pub(super) action_page_bin: TemplateChild<adw::Bin>,
     }
 
     #[glib::object_subclass]
@@ -108,6 +102,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+            klass.bind_template_callbacks();
 
             klass.install_action(ACTION_ADD_CMD_ARG, None, |widget, _, _| {
                 widget.add_cmd_arg();
@@ -161,13 +156,8 @@ mod imp {
 
             let obj = &*self.obj();
 
-            self.name_entry_row
-                .connect_text_notify(clone!(@weak obj => move |_| obj.on_name_changed()));
-
             self.image_selection_combo_row
                 .set_client(obj.client().as_ref());
-            self.image_selection_combo_row
-                .connect_subtitle_notify(clone!(@weak obj => move |_| obj.update_data()));
 
             Self::Type::this_expression("pod")
                 .chain_closure::<String>(closure!(|_: Self::Type, pod: Option<&model::Pod>| pod
@@ -187,7 +177,7 @@ mod imp {
 
             bind_model(
                 &self.command_arg_list_box,
-                &self.cmd_args,
+                self.cmd_args(),
                 |item| {
                     view::ValueRow::new(item.downcast_ref().unwrap(), &gettext("Argument")).upcast()
                 },
@@ -196,7 +186,7 @@ mod imp {
 
             bind_model(
                 &self.port_mapping_list_box,
-                &self.port_mappings,
+                self.port_mappings(),
                 |item| {
                     view::PortMappingRow::from(item.downcast_ref::<model::PortMapping>().unwrap())
                         .upcast()
@@ -206,14 +196,14 @@ mod imp {
 
             bind_model(
                 &self.volume_list_box,
-                &self.volumes,
+                self.volumes(),
                 |item| view::MountRow::from(item.downcast_ref::<model::Mount>().unwrap()).upcast(),
                 ACTION_ADD_VOLUME,
             );
 
             bind_model(
                 &self.env_var_list_box,
-                &self.env_vars,
+                self.env_vars(),
                 |item| {
                     view::KeyValRow::from(item.downcast_ref::<model::KeyVal>().unwrap()).upcast()
                 },
@@ -222,7 +212,7 @@ mod imp {
 
             bind_model(
                 &self.labels_list_box,
-                &self.labels,
+                self.labels(),
                 |item| {
                     view::KeyValRow::from(item.downcast_ref::<model::KeyVal>().unwrap()).upcast()
                 },
@@ -242,9 +232,9 @@ mod imp {
             let widget = &*self.obj();
 
             glib::idle_add_local(
-                clone!(@weak widget => @default-return glib::Continue(false), move || {
+                clone!(@weak widget => @default-return glib::ControlFlow::Break, move || {
                     widget.imp().name_entry_row.grab_focus();
-                    glib::Continue(false)
+                    glib::ControlFlow::Break
                 }),
             );
             utils::root(widget.upcast_ref()).set_default_widget(Some(&*self.create_button));
@@ -256,7 +246,47 @@ mod imp {
         }
     }
 
+    #[gtk::template_callbacks]
     impl ContainerCreationPage {
+        #[template_callback]
+        fn on_name_entry_row_notify_text(&self) {
+            let enabled = self.name_entry_row.text().len() > 0;
+
+            let obj = &*self.obj();
+            obj.action_set_enabled(ACTION_CREATE_AND_RUN, enabled);
+            obj.action_set_enabled(ACTION_CREATE, enabled);
+        }
+
+        #[template_callback]
+        fn on_image_selection_combo_row_notify_subtitle(&self) {
+            self.obj().update_data();
+        }
+
+        pub(super) fn cmd_args(&self) -> &gio::ListStore {
+            self.cmd_args
+                .get_or_init(gio::ListStore::new::<model::Value>)
+        }
+
+        pub(super) fn port_mappings(&self) -> &gio::ListStore {
+            self.port_mappings
+                .get_or_init(gio::ListStore::new::<model::PortMapping>)
+        }
+
+        pub(super) fn volumes(&self) -> &gio::ListStore {
+            self.volumes
+                .get_or_init(gio::ListStore::new::<model::Mount>)
+        }
+
+        pub(super) fn env_vars(&self) -> &gio::ListStore {
+            self.env_vars
+                .get_or_init(gio::ListStore::new::<model::KeyVal>)
+        }
+
+        pub(super) fn labels(&self) -> &gio::ListStore {
+            self.labels
+                .get_or_init(gio::ListStore::new::<model::KeyVal>)
+        }
+
         pub(super) fn client(&self) -> Option<model::Client> {
             self.client
                 .upgrade()
@@ -330,25 +360,19 @@ impl From<&model::Volume> for ContainerCreationPage {
 }
 
 impl ContainerCreationPage {
-    fn on_name_changed(&self) {
-        let enabled = self.imp().name_entry_row.text().len() > 0;
-        self.action_set_enabled(ACTION_CREATE_AND_RUN, enabled);
-        self.action_set_enabled(ACTION_CREATE, enabled);
-    }
-
     fn update_local_data(&self, config: &model::ImageConfig) {
         let imp = self.imp();
 
         imp.command_entry_row
             .set_text(&config.cmd().unwrap_or_default());
 
-        imp.port_mappings.remove_all();
+        imp.port_mappings().remove_all();
 
         let exposed_ports = config.exposed_ports();
         for i in 0..exposed_ports.n_items() {
             let exposed = exposed_ports.string(i).unwrap();
 
-            let port_mapping = add_port_mapping(&imp.port_mappings);
+            let port_mapping = add_port_mapping(imp.port_mappings());
             imp.port_mapping_list_box.set_visible(true);
 
             let mut split = exposed.split_terminator('/');
@@ -397,7 +421,7 @@ impl ContainerCreationPage {
             },
             None => {
                 imp.command_entry_row.set_text("");
-                imp.port_mappings.remove_all();
+                imp.port_mappings().remove_all();
             }
         }
     }
@@ -408,9 +432,11 @@ impl ContainerCreationPage {
             pod_selection_page.connect_pod_selected(clone!(@weak self as obj => move |_, pod| {
                 obj.set_pod(Some(&pod));
             }));
-            self.imp()
-                .leaflet_overlay
-                .show_details(pod_selection_page.upcast_ref());
+            self.imp().navigation_view.push(
+                &adw::NavigationPage::builder()
+                    .child(&pod_selection_page)
+                    .build(),
+            );
         }
     }
 
@@ -419,24 +445,24 @@ impl ContainerCreationPage {
     }
 
     fn add_cmd_arg(&self) {
-        add_value(&self.imp().cmd_args);
+        add_value(self.imp().cmd_args());
     }
 
     fn add_port_mapping(&self) {
-        add_port_mapping(&self.imp().port_mappings);
+        add_port_mapping(self.imp().port_mappings());
     }
 
     fn add_mount(&self) -> Option<model::Mount> {
         self.client()
-            .map(|ref client| add_mount(&self.imp().volumes, client))
+            .map(|ref client| add_mount(self.imp().volumes(), client))
     }
 
     fn add_env_var(&self) {
-        add_key_val(&self.imp().env_vars);
+        add_key_val(self.imp().env_vars());
     }
 
     fn add_label(&self) {
-        add_key_val(&self.imp().labels);
+        add_key_val(self.imp().labels());
     }
 
     fn finish(&self, run: bool) {
@@ -445,7 +471,7 @@ impl ContainerCreationPage {
         match imp.image_selection_combo_row.mode() {
             view::ImageSelectionMode::Local => {
                 let image = imp.image_selection_combo_row.subtitle().unwrap();
-                if imp.pull_latest_image_switch.is_active() {
+                if imp.pull_latest_image_switch_row.is_active() {
                     self.pull_and_create(image.as_str(), false, run);
                 } else {
                     let page = view::ActionPage::from(
@@ -456,8 +482,12 @@ impl ContainerCreationPage {
                         ),
                     );
 
-                    imp.action_page_bin.set_child(Some(&page));
-                    imp.stack.set_visible_child(&*imp.action_page_bin);
+                    imp.navigation_view.push(
+                        &adw::NavigationPage::builder()
+                            .can_pop(false)
+                            .child(&page)
+                            .build(),
+                    );
                 }
             }
             view::ImageSelectionMode::Remote => {
@@ -503,8 +533,8 @@ impl ContainerCreationPage {
                 ),
         );
 
-        imp.action_page_bin.set_child(Some(&page));
-        imp.stack.set_visible_child(&*imp.action_page_bin);
+        imp.navigation_view
+            .push(&adw::NavigationPage::builder().child(&page).build());
     }
 
     fn create(&self) -> podman::opts::ContainerCreateOptsBuilder {
@@ -513,11 +543,11 @@ impl ContainerCreationPage {
         let create_opts = podman::opts::ContainerCreateOpts::builder()
             .name(imp.name_entry_row.text().as_str())
             .pod(self.pod().as_ref().map(model::Pod::name))
-            .terminal(imp.terminal_switch.is_active())
+            .terminal(imp.terminal_switch_row.is_active())
             .portmappings(
-                imp.port_mappings
-                    .iter::<glib::Object>()
-                    .map(|mapping| mapping.unwrap().downcast::<model::PortMapping>().unwrap())
+                imp.port_mappings()
+                    .iter::<model::PortMapping>()
+                    .map(Result::unwrap)
                     .map(|port_mapping| podman::models::PortMapping {
                         container_port: Some(port_mapping.container_port() as u16),
                         host_ip: None,
@@ -527,9 +557,9 @@ impl ContainerCreationPage {
                     }),
             )
             .mounts(
-                imp.volumes
-                    .iter::<glib::Object>()
-                    .map(|mount| mount.unwrap().downcast::<model::Mount>().unwrap())
+                imp.volumes()
+                    .iter::<model::Mount>()
+                    .map(Result::unwrap)
                     .filter(|mount| mount.mount_type() == model::MountType::Bind)
                     .map(|mount| podman::models::ContainerMount {
                         destination: Some(mount.container_path()),
@@ -541,9 +571,9 @@ impl ContainerCreationPage {
                     }),
             )
             .volumes(
-                imp.volumes
-                    .iter::<glib::Object>()
-                    .map(|mount| mount.unwrap().downcast::<model::Mount>().unwrap())
+                imp.volumes()
+                    .iter::<model::Mount>()
+                    .map(Result::unwrap)
                     .filter(|mount| mount.mount_type() == model::MountType::Volume)
                     .map(|mount| podman::models::NamedVolume {
                         dest: Some(mount.container_path()),
@@ -553,15 +583,15 @@ impl ContainerCreationPage {
                     }),
             )
             .env(
-                imp.env_vars
-                    .iter::<glib::Object>()
-                    .map(|entry| entry.unwrap().downcast::<model::KeyVal>().unwrap())
+                imp.env_vars()
+                    .iter::<model::KeyVal>()
+                    .map(Result::unwrap)
                     .map(|entry| (entry.key(), entry.value())),
             )
             .labels(
-                imp.labels
-                    .iter::<glib::Object>()
-                    .map(|entry| entry.unwrap().downcast::<model::KeyVal>().unwrap())
+                imp.labels()
+                    .iter::<model::KeyVal>()
+                    .map(Result::unwrap)
                     .map(|entry| (entry.key(), entry.value())),
             );
 
@@ -598,9 +628,9 @@ impl ContainerCreationPage {
             create_opts
         } else {
             let args = imp
-                .cmd_args
-                .iter::<glib::Object>()
-                .map(|value| value.unwrap().downcast::<model::Value>().unwrap())
+                .cmd_args()
+                .iter::<model::Value>()
+                .map(Result::unwrap)
                 .map(|value| value.value());
             let mut cmd = vec![cmd.to_string()];
             cmd.extend(args);

@@ -11,6 +11,7 @@ use once_cell::unsync::OnceCell;
 
 use crate::model;
 use crate::model::AbstractContainerListExt;
+use crate::utils;
 use crate::view;
 
 mod imp {
@@ -18,7 +19,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::SearchPanel)]
-    #[template(file = "search_panel.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/search_panel.ui")]
     pub(crate) struct SearchPanel {
         pub(super) filter: OnceCell<gtk::Filter>,
         pub(super) sorter: OnceCell<gtk::Sorter>,
@@ -28,8 +29,8 @@ mod imp {
         pub(super) volumes_model: RefCell<Option<gio::ListModel>>,
         #[property(get, set = Self::set_client, explicit_notify, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
-        #[property(get, set)]
-        pub(super) term: RefCell<String>,
+        #[template_child]
+        pub(super) search_entry: TemplateChild<gtk::SearchEntry>,
         #[template_child]
         pub(super) main_stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -58,6 +59,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+            klass.bind_template_callbacks();
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -85,7 +87,7 @@ mod imp {
 
             let filter =
                 gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
-                    let term = obj.term().to_lowercase();
+                    let term = obj.imp().search_entry.text().to_lowercase();
 
                     if term.is_empty() {
                         false
@@ -140,21 +142,40 @@ mod imp {
 
             self.filter.set(filter.upcast()).unwrap();
             self.sorter.set(sorter.upcast()).unwrap();
-
-            obj.connect_notify_local(Some("term"), |obj, _| {
-                obj.update_filter();
-                obj.update_view();
-            });
         }
 
         fn dispose(&self) {
-            self.main_stack.unparent();
+            utils::unparent_children(self.obj().upcast_ref());
         }
     }
 
-    impl WidgetImpl for SearchPanel {}
+    impl WidgetImpl for SearchPanel {
+        fn map(&self) {
+            self.parent_map();
+            self.search_entry
+                .set_key_capture_widget(Some(&utils::root(self.obj().upcast_ref())));
+            self.search_entry.grab_focus();
+            self.search_entry.select_region(0, -1);
+        }
 
+        fn unmap(&self) {
+            self.parent_unmap();
+            self.search_entry.set_key_capture_widget(gtk::Widget::NONE);
+        }
+    }
+
+    #[gtk::template_callbacks]
     impl SearchPanel {
+        #[template_callback]
+        fn on_search_changed(&self) {
+            let obj = &*self.obj();
+
+            obj.update_filter();
+            if self.search_entry.text().is_empty() {
+                obj.update_view();
+            }
+        }
+
         pub(super) fn set_client(&self, value: Option<&model::Client>) {
             let obj = &*self.obj();
             if obj.client().as_ref() == value {
@@ -287,7 +308,7 @@ impl SearchPanel {
                 || imp.volumes_group.is_visible()
             {
                 "results"
-            } else if self.term().is_empty() {
+            } else if imp.search_entry.text().is_empty() {
                 "search"
             } else {
                 "no-results"

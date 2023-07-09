@@ -17,7 +17,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ConnectionSwitcher)]
-    #[template(file = "connection_switcher.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/connection_switcher.ui")]
     pub(crate) struct ConnectionSwitcher {
         #[property(get, set, construct, nullable)]
         pub(super) connection_manager: glib::WeakRef<model::ConnectionManager>,

@@ -22,175 +22,14 @@
     </property>
 
     <child>
-      <object class="AdwLeaflet">
-        <property name="can-navigate-back">True</property>
-        <property name="can-unfold">False</property>
+      <object class="AdwToolbarView">
 
-        <child>
-          <object class="GtkBox">
-            <property name="orientation">vertical</property>
+        <child type="top">
+          <object class="AdwHeaderBar">
 
-            <child>
-              <object class="AdwHeaderBar">
-
-                <child type="start">
-                  <object class="PdsBackNavigationControls" id="back_navigation_controls"/>
-                </child>
-
-                <child type="title">
-                  <object class="AdwWindowTitle" id="window_title">
-                    <property name="title" translatable="yes">Image</property>
-                  </object>
-                </child>
-
-              </object>
-            </child>
-
-            <child>
-              <object class="AdwPreferencesPage">
-                <property name="vexpand">True</property>
-
-                <child>
-                  <object class="AdwPreferencesGroup">
-                    <property name="title" translatable="yes">Properties</property>
-
-                    <property name="header-suffix">
-                      <object class="GtkBox">
-                        <property name="margin-bottom">6</property>
-                        <property name="spacing">6</property>
-
-                        <child>
-                          <object class="PdsEfficientSpinner" id="inspection_spinner">
-                            <property name="width-request">18</property>
-                          </object>
-                        </child>
-
-                        <child>
-                          <object class="GtkButton">
-                            <style>
-                              <class name="circular"/>
-                              <class name="destructive-button"/>
-                            </style>
-
-                            <property name="action-name">image-details-page.delete-image</property>
-                            <property name="icon-name">user-trash-symbolic</property>
-                            <property name="tooltip-text" translatable="yes">Delete Image</property>
-                          </object>
-                        </child>
-
-                      </object>
-                    </property>
-
-                    <child>
-                      <object class="PdsPropertyRow" id="id_row">
-                        <property name="key" translatable="yes">Id</property>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="PdsPropertyRow" id="created_row">
-                        <property name="key" translatable="yes">Created</property>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="PdsPropertyRow" id="size_row">
-                        <property name="key" translatable="yes">Disk space</property>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="PdsPropertyRow" id="command_row">
-                        <property name="key" translatable="yes">Command</property>
-                        <property name="visible">False</property>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="PdsPropertyRow" id="entrypoint_row">
-                        <property name="key" translatable="yes">Entry Point</property>
-                        <property name="visible">False</property>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="PdsPropertyRow" id="ports_row">
-                        <property name="key" translatable="yes">Ports</property>
-                        <property name="visible">False</property>
-                      </object>
-                    </child>
-
-                  </object>
-                </child>
-
-                <child>
-                  <object class="AdwPreferencesGroup">
-                    <property name="title" translatable="yes">Utilities</property>
-
-                    <child>
-                      <object class="AdwActionRow">
-                        <property name="title" translatable="yes">Inspection</property>
-                        <property name="subtitle" translatable="yes">View all image properties in a structured text form.</property>
-                        <property name="activatable">True</property>
-                        <property name="action-name">image-details-page.inspect-image</property>
-                        <property name="icon-name">system-search-symbolic</property>
-
-                        <child>
-                          <object class="GtkImage">
-                            <property name="icon_name">go-next-symbolic</property>
-                          </object>
-                        </child>
-
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="AdwActionRow">
-                        <property name="title" translatable="yes">History</property>
-                        <property name="subtitle" translatable="yes">View parent layers of this image.</property>
-                        <property name="activatable">True</property>
-                        <property name="action-name">image-details-page.show-history</property>
-                        <property name="icon-name">stacked-plates-symbolic</property>
-
-                        <child>
-                          <object class="GtkImage">
-                            <property name="icon_name">go-next-symbolic</property>
-                          </object>
-                        </child>
-
-                      </object>
-                    </child>
-
-                  </object>
-                </child>
-
-                <child>
-                  <object class="AdwPreferencesGroup">
-                    <property name="title" translatable="yes">Repository Tags</property>
-
-                    <child>
-                      <object class="GtkListBox" id="repo_tags_list_box">
-                        <style>
-                          <class name="boxed-list"/>
-                        </style>
-                      </object>
-                    </child>
-
-                  </object>
-                </child>
-
-                <child>
-                  <object class="PdsContainersGroup">
-                    <binding name="container-list">
-                      <lookup name="container-list" type="Image">
-                        <lookup name="image">PdsImageDetailsPage</lookup>
-                      </lookup>
-                    </binding>
-                    <property name="title" translatable="yes">Containers</property>
-                    <property name="no-containers-label" translatable="yes">There are no containers associated with this image.</property>
-                  </object>
-                </child>
-
+            <child type="title">
+              <object class="AdwWindowTitle" id="window_title">
+                <property name="title" translatable="yes">Image</property>
               </object>
             </child>
 
@@ -198,12 +37,147 @@
         </child>
 
         <child>
-          <object class="AdwLeafletPage">
-            <property name="name">overlay</property>
+          <object class="AdwPreferencesPage">
 
-            <property name="child">
-              <object class="PdsLeafletOverlay" id="leaflet_overlay"/>
-            </property>
+            <child>
+              <object class="AdwPreferencesGroup">
+                <property name="title" translatable="yes">Properties</property>
+
+                <property name="header-suffix">
+                  <object class="GtkBox">
+                    <property name="margin-bottom">6</property>
+                    <property name="spacing">6</property>
+
+                    <child>
+                      <object class="PdsEfficientSpinner" id="inspection_spinner">
+                        <property name="width-request">18</property>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkButton">
+                        <style>
+                          <class name="circular"/>
+                          <class name="destructive-button"/>
+                        </style>
+
+                        <property name="action-name">image-details-page.delete-image</property>
+                        <property name="icon-name">user-trash-symbolic</property>
+                        <property name="tooltip-text" translatable="yes">Delete Image</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </property>
+
+                <child>
+                  <object class="PdsPropertyRow" id="id_row">
+                    <property name="key" translatable="yes">Id</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="PdsPropertyRow" id="created_row">
+                    <property name="key" translatable="yes">Created</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="PdsPropertyRow" id="size_row">
+                    <property name="key" translatable="yes">Disk space</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="PdsPropertyRow" id="command_row">
+                    <property name="key" translatable="yes">Command</property>
+                    <property name="visible">False</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="PdsPropertyRow" id="entrypoint_row">
+                    <property name="key" translatable="yes">Entry Point</property>
+                    <property name="visible">False</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="PdsPropertyRow" id="ports_row">
+                    <property name="key" translatable="yes">Ports</property>
+                    <property name="visible">False</property>
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwPreferencesGroup">
+                <property name="title" translatable="yes">Utilities</property>
+
+                <child>
+                  <object class="AdwActionRow">
+                    <property name="title" translatable="yes">Inspection</property>
+                    <property name="subtitle" translatable="yes">View all image properties in a structured text form.</property>
+                    <property name="activatable">True</property>
+                    <property name="action-name">image-details-page.inspect-image</property>
+                    <property name="icon-name">system-search-symbolic</property>
+
+                    <child>
+                      <object class="GtkImage">
+                        <property name="icon_name">go-next-symbolic</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwActionRow">
+                    <property name="title" translatable="yes">History</property>
+                    <property name="subtitle" translatable="yes">View parent layers of this image.</property>
+                    <property name="activatable">True</property>
+                    <property name="action-name">image-details-page.show-history</property>
+                    <property name="icon-name">stacked-plates-symbolic</property>
+
+                    <child>
+                      <object class="GtkImage">
+                        <property name="icon_name">go-next-symbolic</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwPreferencesGroup">
+                <property name="title" translatable="yes">Repository Tags</property>
+
+                <child>
+                  <object class="GtkListBox" id="repo_tags_list_box">
+                    <style>
+                      <class name="boxed-list"/>
+                    </style>
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="PdsContainersGroup">
+                <binding name="container-list">
+                  <lookup name="container-list" type="Image">
+                    <lookup name="image">PdsImageDetailsPage</lookup>
+                  </lookup>
+                </binding>
+                <property name="title" translatable="yes">Containers</property>
+              </object>
+            </child>
 
           </object>
         </child>

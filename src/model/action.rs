@@ -216,35 +216,33 @@ impl Action {
             image,
             move |image| stream::Abortable::new(image.push(&opts), abort_registration).boxed(),
             clone!(
-                @weak obj => @default-return glib::Continue(false),
+                @weak obj => @default-return glib::ControlFlow::Break,
                 move |result: podman::Result<String>|
             {
-                glib::Continue(
-                    match result.map_err(anyhow::Error::from).and_then(|line| {
-                        serde_json::from_str::<Report>(&line).map_err(anyhow::Error::from)
-                    }) {
-                        Ok(report) => match report.stream {
-                            Some(line) => {
+                match result.map_err(anyhow::Error::from).and_then(|line| {
+                    serde_json::from_str::<Report>(&line).map_err(anyhow::Error::from)
+                }) {
+                    Ok(report) => match report.stream {
+                        Some(line) => {
+                            obj.insert(&line);
+                            glib::ControlFlow::Continue
+                        }
+                        None => {
+                            if let Some(line) = report.error {
+                                log::error!("Error on pushing image: {line}");
                                 obj.insert(&line);
-                                true
                             }
-                            None => {
-                                if let Some(line) = report.error {
-                                    log::error!("Error on pushing image: {line}");
-                                    obj.insert(&line);
-                                }
-                                obj.set_state(State::Failed);
-                                false
-                            }
-                        },
-                        Err(e) => {
-                            log::error!("Error on pushing image: {e}");
-                            obj.insert_line(&e.to_string());
                             obj.set_state(State::Failed);
-                            false
+                            glib::ControlFlow::Break
                         }
                     },
-                )
+                    Err(e) => {
+                        log::error!("Error on pushing image: {e}");
+                        obj.insert_line(&e.to_string());
+                        obj.set_state(State::Failed);
+                        glib::ControlFlow::Break
+                    }
+                }
             }),
             clone!(@weak obj => move || {
                 if obj.state() != State::Failed {
@@ -281,21 +279,21 @@ impl Action {
                 }
             },
             clone!(
-                @weak obj, @weak client => @default-return glib::Continue(false),
+                @weak obj, @weak client => @default-return glib::ControlFlow::Break,
                 move |result: podman::Result<podman::models::ImageBuildLibpod200Response>|
             {
-                glib::Continue(match result {
+                match result {
                     Ok(stream) => {
                         obj.insert(&stream.stream);
-                        true
+                        glib::ControlFlow::Continue
                     }
                     Err(e) => {
                         log::error!("Error on building image: {e}");
                         obj.insert_line(&e.to_string());
                         obj.set_state(State::Failed);
-                        false
+                        glib::ControlFlow::Break
                     },
-                })
+                }
             }),
             clone!(@weak obj, @weak client => move || {
                 let output = obj.output();
@@ -585,21 +583,21 @@ impl Action {
             clone!(
                 @weak obj,
                 @strong buf
-                => @default-return glib::Continue(false), move |result: podman::Result<Vec<u8>>|
+                => @default-return glib::ControlFlow::Break, move |result: podman::Result<Vec<u8>>|
             {
-                glib::Continue(match result {
+                match result {
                     Ok(chunk) => {
                         let mut buf = buf.lock().unwrap();
                         buf.extend(chunk);
                         obj.replace_last_line(&gettext!("Size: {}", glib::format_size(buf.len() as u64)));
-                        true
+                        glib::ControlFlow::Continue
                     }
                     Err(e) => {
                         obj.insert_line(&e.to_string());
                         obj.set_state(State::Failed);
-                        false
+                        glib::ControlFlow::Break
                     }
-                })
+                }
             }),
             clone!(@weak obj => move || {
                 let mut buf_ = Vec::<u8>::new();
@@ -696,25 +694,25 @@ impl Action {
             client.podman().images(),
             move |images| stream::Abortable::new(images.pull(&opts), abort_registration).boxed(),
             clone!(
-                @weak self as obj, @weak client => @default-return glib::Continue(false),
+                @weak self as obj, @weak client => @default-return glib::ControlFlow::Break,
                 move |result: podman::Result<podman::models::LibpodImagesPullReport>|
             {
-                glib::Continue(match result {
+                match result {
                     Ok(report) => match report.error {
                         Some(error) => {
                             log::error!("Error on downloading image: {error}");
                             obj.insert_line(&error);
                             obj.set_state(State::Failed);
-                            false
+                            glib::ControlFlow::Break
                         }
                         None => match report.stream {
                             Some(stream) => {
                                 obj.insert(&stream);
-                                true
+                                glib::ControlFlow::Continue
                             }
                             None => {
                                 op.clone()(obj, client, report);
-                                false
+                                glib::ControlFlow::Break
                             }
                         }
                     }
@@ -722,9 +720,9 @@ impl Action {
                         log::error!("Error on downloading image: {e}");
                         obj.insert_line(&e.to_string());
                         obj.set_state(State::Failed);
-                        false
+                        glib::ControlFlow::Break
                     },
-                })
+                }
             }),
         );
 

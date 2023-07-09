@@ -24,103 +24,106 @@
 
   <template class="PdsScalableTextViewPage" parent="GtkWidget">
     <property name="layout-manager">
-      <object class="GtkBoxLayout">
-        <property name="orientation">vertical</property>
-      </object>
+      <object class="GtkBinLayout"/>
     </property>
 
     <child>
       <object class="GtkEventControllerScroll">
+        <signal name="scroll" handler="on_scroll" swapped="true"/>
         <property name="flags">vertical</property>
         <property name="propagation-phase">capture</property>
-        <signal name="scroll" handler="on_scroll" swapped="true"/>
-      </object>
-    </child>
-
-    <!-- Headerbar -->
-    <child>
-      <object class="AdwHeaderBar">
-
-        <child type="start">
-          <object class="PdsBackNavigationControls"/>
-        </child>
-
-        <child type="title">
-          <object class="AdwWindowTitle" id="window_title"/>
-        </child>
-
-        <child type="end">
-          <object class="GtkMenuButton" id="menu_button">
-            <property name="icon-name">view-more-symbolic</property>
-            <property name="menu-model">menu</property>
-          </object>
-        </child>
-
-        <child type="end">
-          <object class="GtkToggleButton" id="search_button">
-            <property name="icon-name">system-search-symbolic</property>
-            <property name="tooltip-text" translatable="yes">Search</property>
-          </object>
-        </child>
-
       </object>
     </child>
 
     <child>
-      <object class="GtkSearchBar" id="search_bar">
+      <object class="AdwToolbarView">
 
-        <property name="child">
-          <object class="PdsSourceViewSearchWidget" id="search_widget"/>
-        </property>
+        <child type="top">
+          <object class="AdwHeaderBar">
 
-      </object>
-    </child>
+            <child type="start">
+              <object class="GtkToggleButton">
+                <property name="active" bind-source="search_bar" bind-property="search-mode-enabled" bind-flags="sync-create|bidirectional"/>
+                <property name="icon-name">system-search-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Search</property>
+              </object>
+            </child>
 
-    <child>
-      <object class="GtkStack" id="stack">
+            <child type="title">
+              <object class="AdwWindowTitle" id="window_title"/>
+            </child>
 
-        <child>
-          <object class="PdsEfficientSpinner" id="spinner">
-            <property name="halign">center</property>
-            <property name="valign">center</property>
-            <property name="height-request">30</property>
-            <property name="width-request">30</property>
+            <child type="end">
+              <object class="GtkMenuButton" id="menu_button">
+                <property name="icon-name">view-more-symbolic</property>
+                <property name="menu-model">menu</property>
+              </object>
+            </child>
+
           </object>
         </child>
 
-        <child>
-          <object class="GtkStackPage">
-            <property name="name">loaded</property>
+        <child type="top">
+          <object class="GtkSearchBar" id="search_bar">
+            <signal name="notify::search-mode-enabled" handler="on_search_bar_notify_search_mode_enabled" swapped="true"/>
 
             <property name="child">
-              <object class="GtkScrolledWindow">
-                <property name="hscrollbar-policy">never</property>
-                <property name="vexpand">True</property>
-
-                <child>
-                  <object class="PdsScalableTextView" id="source_view">
-                    <style>
-                      <class name="text-view"/>
-                    </style>
-                    <property name="buffer">
-                      <object class="GtkSourceBuffer" id="source_buffer">
-                        <property name="highlight-matching-brackets">False</property>
-                      </object>
-                    </property>
-                    <property name="top-margin">12</property>
-                    <property name="bottom-margin">12</property>
-                    <property name="right-margin">12</property>
-                    <property name="cursor-visible">False</property>
-                    <property name="editable">False</property>
-                    <property name="highlight-current-line">True</property>
-                    <property name="monospace">True</property>
-                    <property name="show-line-numbers">True</property>
-                    <property name="wrap-mode">char</property>
-                  </object>
-                </child>
-
+              <object class="PdsSourceViewSearchWidget" id="search_widget">
+                <property name="source-view">source_view</property>
               </object>
             </property>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkStack" id="stack">
+
+            <child>
+              <object class="PdsEfficientSpinner" id="spinner">
+                <property name="halign">center</property>
+                <property name="valign">center</property>
+                <property name="height-request">30</property>
+                <property name="width-request">30</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkStackPage">
+                <property name="name">loaded</property>
+
+                <property name="child">
+                  <object class="GtkScrolledWindow">
+                    <property name="hscrollbar-policy">never</property>
+                    <property name="vexpand">True</property>
+
+                    <child>
+                      <object class="PdsScalableTextView" id="source_view">
+                        <style>
+                          <class name="text-view"/>
+                        </style>
+                        <property name="buffer">
+                          <object class="GtkSourceBuffer" id="source_buffer">
+                            <property name="highlight-matching-brackets">False</property>
+                          </object>
+                        </property>
+                        <property name="top-margin">12</property>
+                        <property name="bottom-margin">12</property>
+                        <property name="right-margin">12</property>
+                        <property name="cursor-visible">False</property>
+                        <property name="editable">False</property>
+                        <property name="highlight-current-line">True</property>
+                        <property name="monospace">True</property>
+                        <property name="show-line-numbers">True</property>
+                        <property name="wrap-mode">char</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </property>
+
+              </object>
+            </child>
 
           </object>
         </child>

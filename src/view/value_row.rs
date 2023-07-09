@@ -16,7 +16,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ValueRow)]
-    #[template(file = "value_row.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/value_row.ui")]
     pub(crate) struct ValueRow {
         #[property(get, set = Self::set_value, construct)]
         pub(super) value: RefCell<Option<model::Value>>,

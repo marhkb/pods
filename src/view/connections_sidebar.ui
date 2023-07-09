@@ -2,55 +2,46 @@
 <interface>
   <template class="PdsConnectionsSidebar" parent="GtkWidget">
     <property name="layout-manager">
-      <object class="GtkBoxLayout">
-        <property name="orientation">vertical</property>
-      </object>
+      <object class="GtkBinLayout"/>
     </property>
 
     <child>
-      <object class="AdwHeaderBar">
-        <style>
-          <class name="flat"/>
-        </style>
+      <object class="AdwToolbarView">
 
-        <property name="show-end-title-buttons">False</property>
-        <property name="show-start-title-buttons">False</property>
+        <child type="top">
+          <object class="AdwHeaderBar">
+            <property name="show-end-title-buttons">False</property>
+            <property name="show-start-title-buttons">False</property>
 
-        <child type="start">
-          <object class="GtkButton">
-            <property name="action-name">win.exit-connections-sidebar</property>
-            <property name="icon-name">go-previous-symbolic</property>
-            <property name="tooltip-text" translatable="yes">Fold</property>
+            <property name="title-widget">
+              <object class="AdwWindowTitle">
+                <property name="title" translatable="yes">Connections</property>
+              </object>
+            </property>
+
+            <child type="end">
+              <object class="GtkButton">
+                <property name="action-name">win.create-connection</property>
+                <property name="icon-name">list-add-symbolic</property>
+                <property name="tooltip-text" translatable="yes">New Connection (Ctrl+Shift+N)</property>
+              </object>
+            </child>
+
           </object>
         </child>
-
-        <property name="title-widget">
-          <object class="AdwWindowTitle">
-            <property name="title" translatable="yes">Connections</property>
-          </object>
-        </property>
-
-        <child type="end">
-          <object class="GtkButton">
-            <property name="action-name">win.new-connection</property>
-            <property name="icon-name">list-add-symbolic</property>
-            <property name="tooltip-text" translatable="yes">New Connection (Ctrl+Shift+N)</property>
-          </object>
-        </child>
-
-      </object>
-    </child>
-
-    <child>
-      <object class="GtkScrolledWindow">
-        <property name="vexpand">True</property>
 
         <child>
-          <object class="PdsConnectionSwitcher">
-            <property name="sidebar">True</property>
-            <binding name="connection-manager">
-              <lookup name="connection-manager">PdsConnectionsSidebar</lookup>
-            </binding>
+          <object class="GtkScrolledWindow">
+
+            <child>
+              <object class="PdsConnectionSwitcher">
+                <property name="sidebar">True</property>
+                <binding name="connection-manager">
+                  <lookup name="connection-manager">PdsConnectionsSidebar</lookup>
+                </binding>
+              </object>
+            </child>
+
           </object>
         </child>
 

@@ -1,6 +1,6 @@
 use std::cell::RefCell;
 
-use adw::traits::BinExt;
+use adw::traits::NavigationPageExt;
 use gettextrs::gettext;
 use glib::clone;
 use glib::closure;
@@ -14,7 +14,6 @@ use gtk::CompositeTemplate;
 use crate::model;
 use crate::utils;
 use crate::view;
-use crate::widget;
 
 const ACTION_RENAME: &str = "container-details-page.rename";
 const ACTION_COMMIT: &str = "container-details-page.commit";
@@ -42,13 +41,11 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ContainerDetailsPage)]
-    #[template(file = "container_details_page.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/container_details_page.ui")]
     pub(crate) struct ContainerDetailsPage {
         pub(super) handler_id: RefCell<Option<glib::SignalHandlerId>>,
         #[property(get, set = Self::set_container, construct, nullable)]
         pub(super) container: glib::WeakRef<model::Container>,
-        #[template_child]
-        pub(super) back_navigation_controls: TemplateChild<widget::BackNavigationControls>,
         #[template_child]
         pub(super) action_row: TemplateChild<adw::PreferencesRow>,
         #[template_child]
@@ -63,8 +60,6 @@ mod imp {
         pub(super) volumes_list_box: TemplateChild<gtk::ListBox>,
         #[template_child]
         pub(super) resources: TemplateChild<view::ContainerResources>,
-        #[template_child]
-        pub(super) leaflet_overlay: TemplateChild<widget::LeafletOverlay>,
     }
 
     #[glib::object_subclass]
@@ -255,7 +250,7 @@ mod imp {
 
                 let handler_id = container.connect_deleted(clone!(@weak obj => move |container| {
                     utils::show_toast(obj.upcast_ref(), gettext!("Container '{}' has been deleted", container.name()));
-                    obj.imp().back_navigation_controls.navigate_back();
+                    utils::navigation_view(obj.upcast_ref()).pop();
                 }));
                 self.handler_id.replace(Some(handler_id));
 
@@ -379,9 +374,11 @@ impl ContainerDetailsPage {
     pub(crate) fn show_health_details(&self) {
         self.exec_action(|| {
             if let Some(ref container) = self.container() {
-                self.imp()
-                    .leaflet_overlay
-                    .show_details(view::ContainerHealthCheckPage::from(container).upcast_ref());
+                utils::navigation_view(self.upcast_ref()).push(
+                    &adw::NavigationPage::builder()
+                        .child(&view::ContainerHealthCheckPage::from(container))
+                        .build(),
+                );
             }
         });
     }
@@ -389,9 +386,11 @@ impl ContainerDetailsPage {
     pub(crate) fn show_image_details(&self) {
         self.exec_action(|| {
             if let Some(image) = self.container().as_ref().and_then(model::Container::image) {
-                self.imp()
-                    .leaflet_overlay
-                    .show_details(view::ImageDetailsPage::from(&image).upcast_ref());
+                utils::navigation_view(self.upcast_ref()).push(
+                    &adw::NavigationPage::builder()
+                        .child(&view::ImageDetailsPage::from(&image))
+                        .build(),
+                );
             }
         });
     }
@@ -399,9 +398,11 @@ impl ContainerDetailsPage {
     pub(crate) fn show_pod_details(&self) {
         self.exec_action(|| {
             if let Some(pod) = self.container().as_ref().and_then(model::Container::pod) {
-                self.imp()
-                    .leaflet_overlay
-                    .show_details(view::PodDetailsPage::from(&pod).upcast_ref());
+                utils::navigation_view(self.upcast_ref()).push(
+                    &adw::NavigationPage::builder()
+                        .child(&view::PodDetailsPage::from(&pod))
+                        .build(),
+                );
             }
         });
     }
@@ -420,12 +421,13 @@ impl ContainerDetailsPage {
                 let weak_ref = glib::WeakRef::new();
                 weak_ref.set(Some(&container));
 
-                self.imp().leaflet_overlay.show_details(
-                    view::ScalableTextViewPage::from(view::Entity::Container {
-                        container: weak_ref,
-                        mode,
-                    })
-                    .upcast_ref(),
+                utils::navigation_view(self.upcast_ref()).push(
+                    &adw::NavigationPage::builder()
+                        .child(&view::ScalableTextViewPage::from(view::Entity::Container {
+                            container: weak_ref,
+                            mode,
+                        }))
+                        .build(),
                 );
             }
         });
@@ -434,9 +436,11 @@ impl ContainerDetailsPage {
     pub(crate) fn show_log(&self) {
         self.exec_action(|| {
             if let Some(container) = self.container() {
-                self.imp()
-                    .leaflet_overlay
-                    .show_details(view::ContainerLogPage::from(&container).upcast_ref());
+                utils::navigation_view(self.upcast_ref()).push(
+                    &adw::NavigationPage::builder()
+                        .child(&view::ContainerLogPage::from(&container))
+                        .build(),
+                );
             }
         });
     }
@@ -444,9 +448,11 @@ impl ContainerDetailsPage {
     pub(crate) fn show_processes(&self) {
         self.exec_action(|| {
             if let Some(container) = self.container() {
-                self.imp()
-                    .leaflet_overlay
-                    .show_details(view::TopPage::from(&container).upcast_ref());
+                utils::navigation_view(self.upcast_ref()).push(
+                    &adw::NavigationPage::builder()
+                        .child(&view::TopPage::from(&container))
+                        .build(),
+                );
             }
         });
     }
@@ -454,15 +460,21 @@ impl ContainerDetailsPage {
     pub(crate) fn show_tty(&self) {
         self.exec_action(|| {
             if let Some(container) = self.container() {
-                self.imp()
-                    .leaflet_overlay
-                    .show_details(view::ContainerTerminalPage::from(&container).upcast_ref());
+                utils::navigation_view(self.upcast_ref()).push(
+                    &adw::NavigationPage::builder()
+                        .child(&view::ContainerTerminalPage::from(&container))
+                        .build(),
+                );
             }
         });
     }
 
     fn exec_action<F: Fn()>(&self, op: F) {
-        if self.imp().leaflet_overlay.child().is_none() {
+        if utils::navigation_view(self.upcast_ref())
+            .visible_page()
+            .filter(|page| page.child().as_ref() == Some(self.upcast_ref()))
+            .is_some()
+        {
             op();
         }
     }

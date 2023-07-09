@@ -1,5 +1,4 @@
 use adw::subclass::prelude::*;
-use glib::clone;
 use glib::subclass::Signal;
 use glib::Properties;
 use gtk::gdk;
@@ -11,7 +10,6 @@ use once_cell::sync::Lazy as SyncLazy;
 use crate::model;
 use crate::utils;
 use crate::view;
-use crate::widget;
 
 const ACTION_EXIT: &str = "image-search-page.exit";
 
@@ -20,14 +18,12 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ImageSearchPage)]
-    #[template(file = "image_search_page.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/image_search_page.ui")]
     pub(crate) struct ImageSearchPage {
         #[property(get, set, construct_only, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
         #[template_child]
         pub(super) header_bar: TemplateChild<adw::HeaderBar>,
-        #[template_child]
-        pub(super) back_navigation_controls: TemplateChild<widget::BackNavigationControls>,
         #[template_child]
         pub(super) image_search_widget: TemplateChild<view::ImageSearchWidget>,
     }
@@ -40,9 +36,10 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+            klass.bind_template_callbacks();
 
             klass.install_action(ACTION_EXIT, None, |widget, _, _| {
-                if !widget.imp().back_navigation_controls.navigate_back() {
+                if !utils::navigation_view(widget.upcast_ref()).pop() {
                     utils::root(widget.upcast_ref()).close();
                 }
             });
@@ -92,25 +89,27 @@ mod imp {
 
         fn constructed(&self) {
             self.parent_constructed();
-
-            let obj = &*self.obj();
-
-            obj.action_set_enabled(view::ImageSearchWidget::action_select(), false);
-            self.image_search_widget.connect_notify_local(
-                Some("selected-image"),
-                clone!(@weak obj => move |widget, _| {
-                    obj.action_set_enabled(view::ImageSearchWidget::action_select(), widget.selected_image().is_some());
-                }),
-            );
+            self.obj()
+                .action_set_enabled(view::ImageSearchWidget::action_select(), false);
         }
 
         fn dispose(&self) {
-            self.header_bar.unparent();
-            self.image_search_widget.unparent();
+            utils::unparent_children(self.obj().upcast_ref());
         }
     }
 
     impl WidgetImpl for ImageSearchPage {}
+
+    #[gtk::template_callbacks]
+    impl ImageSearchPage {
+        #[template_callback]
+        fn on_image_search_widget_notify_selected_image(&self) {
+            self.obj().action_set_enabled(
+                view::ImageSearchWidget::action_select(),
+                self.image_search_widget.selected_image().is_some(),
+            );
+        }
+    }
 }
 
 glib::wrapper! {
@@ -138,7 +137,7 @@ impl ImageSearchPage {
 
             self.emit_by_name::<()>("image-selected", &[&image]);
 
-            imp.back_navigation_controls.navigate_back();
+            utils::navigation_view(self.upcast_ref()).pop();
         }
     }
 

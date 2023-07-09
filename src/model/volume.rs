@@ -72,7 +72,7 @@ mod imp {
             let obj = &*self.obj();
             obj.container_list().connect_items_changed(
                 clone!(@weak obj => move |_, _, _, _| if let Some(volume_list) = obj.volume_list() {
-                    volume_list.notify("used");
+                    volume_list.notify_num_volumes();
                 }),
             );
         }

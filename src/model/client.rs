@@ -366,10 +366,10 @@ impl Client {
                     .boxed()
             },
             clone!(
-                @weak self as obj => @default-return glib::Continue(false),
+                @weak self as obj => @default-return glib::ControlFlow::Break,
                 move |result: podman::Result<podman::models::Event>|
             {
-                glib::Continue(match result {
+                match result {
                     Ok(event) => {
                         log::debug!("Event: {event:?}");
                         match event.typ.as_str() {
@@ -391,14 +391,14 @@ impl Client {
                             }),
                             other => log::warn!("Unhandled event type: {other}"),
                         }
-                        true
+                        glib::ControlFlow::Continue
                     }
                     Err(e) => {
                         log::error!("Stopping image event stream due to error: {e}");
                         finish_op.clone()(e);
-                        false
+                        glib::ControlFlow::Break
                     }
-                })
+                }
             }),
         );
     }
@@ -408,7 +408,7 @@ impl Client {
     fn start_refresh_interval(&self) {
         glib::timeout_add_seconds_local(
             SYNC_INTERVAL,
-            clone!(@weak self as obj => @default-return glib::Continue(false), move || {
+            clone!(@weak self as obj => @default-return glib::ControlFlow::Break, move || {
                 log::debug!("Syncing images, containers and pods");
 
                 obj.image_list().refresh(|_| {});
@@ -417,7 +417,7 @@ impl Client {
 
                 log::debug!("Sleeping for {SYNC_INTERVAL} until next sync");
 
-                glib::Continue(true)
+                glib::ControlFlow::Continue
             }),
         );
     }

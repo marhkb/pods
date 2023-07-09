@@ -47,9 +47,14 @@ mod imp {
     impl ObjectImpl for ImageList {
         fn signals() -> &'static [Signal] {
             static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
-                vec![Signal::builder("image-added")
-                    .param_types([model::Image::static_type()])
-                    .build()]
+                vec![
+                    Signal::builder("image-added")
+                        .param_types([model::Image::static_type()])
+                        .build(),
+                    Signal::builder("image-removed")
+                        .param_types([model::Image::static_type()])
+                        .build(),
+                ]
             });
             SIGNALS.as_ref()
         }
@@ -65,6 +70,7 @@ mod imp {
                         glib::ParamSpecUInt::builder("intermediates")
                             .read_only()
                             .build(),
+                        glib::ParamSpecUInt::builder("used").read_only().build(),
                         glib::ParamSpecUInt::builder("num-selected")
                             .read_only()
                             .build(),
@@ -81,6 +87,7 @@ mod imp {
             match pspec.name() {
                 "len" => self.obj().len().to_value(),
                 "intermediates" => self.obj().intermediates().to_value(),
+                "used" => self.obj().used().to_value(),
                 "num-selected" => self.obj().num_selected().to_value(),
                 _ => self.derived_property(id, pspec),
             }
@@ -88,8 +95,13 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
             let obj = &*self.obj();
+
             model::SelectableList::bootstrap(obj.upcast_ref());
+
             obj.connect_items_changed(|self_, _, _, _| self_.notify("len"));
+
+            obj.connect_image_added(|list, _| list.notify_num_images());
+            obj.connect_image_removed(|list, _| list.notify_num_images());
         }
     }
 
@@ -147,6 +159,11 @@ impl From<&model::Client> for ImageList {
 }
 
 impl ImageList {
+    pub(crate) fn notify_num_images(&self) {
+        self.notify("intermediates");
+        self.notify("used");
+    }
+
     pub(crate) fn len(&self) -> u32 {
         self.n_items()
     }
@@ -158,6 +175,10 @@ impl ImageList {
             .values()
             .filter(|image| image.repo_tags().n_items() == 0)
             .count() as u32
+    }
+
+    pub(crate) fn used(&self) -> u32 {
+        self.len() - self.intermediates()
     }
 
     pub(crate) fn total_size(&self) -> u64 {
@@ -189,6 +210,7 @@ impl ImageList {
             drop(list);
 
             self.items_changed(idx as u32, 1, 0);
+            self.image_removed(&image);
             image.emit_deleted();
         }
     }
@@ -269,7 +291,7 @@ impl ImageList {
             repo_tags.add(model::RepoTag::new(&repo_tags, tag));
 
             if repo_tags_len == 0 {
-                self.notify("intermediates");
+                self.notify_num_images();
             }
         }
     }
@@ -280,7 +302,7 @@ impl ImageList {
             repo_tags.remove(tag);
 
             if repo_tags.len() == 0 {
-                self.notify("intermediates");
+                self.notify_num_images();
             }
         }
     }
@@ -302,9 +324,10 @@ impl ImageList {
     }
 
     fn image_added(&self, image: &model::Image) {
+        self.notify_num_images();
         image.connect_notify_local(
             Some("repo-tags"),
-            clone!(@weak self as obj => move |_, _| obj.notify("intermediates")),
+            clone!(@weak self as obj => move |_, _| obj.notify_num_images()),
         );
         self.emit_by_name::<()>("image-added", &[image]);
     }
@@ -314,6 +337,23 @@ impl ImageList {
         f: F,
     ) -> glib::SignalHandlerId {
         self.connect_local("image-added", true, move |values| {
+            let obj = values[0].get::<Self>().unwrap();
+            let image = values[1].get::<model::Image>().unwrap();
+            f(&obj, &image);
+
+            None
+        })
+    }
+
+    fn image_removed(&self, image: &model::Image) {
+        self.emit_by_name::<()>("image-removed", &[image]);
+    }
+
+    pub(crate) fn connect_image_removed<F: Fn(&Self, &model::Image) + 'static>(
+        &self,
+        f: F,
+    ) -> glib::SignalHandlerId {
+        self.connect_local("image-removed", true, move |values| {
             let obj = values[0].get::<Self>().unwrap();
             let image = values[1].get::<model::Image>().unwrap();
             f(&obj, &image);

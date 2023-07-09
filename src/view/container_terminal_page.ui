@@ -10,56 +10,61 @@
   </menu>
 
   <object class="PdsZoomControl" id="zoom_control">
+    <property name="zoom-in-action-name">container-terminal-page.zoom-in</property>
+    <property name="zoom-normal-action-name">container-terminal-page.zoom-normal</property>
+    <property name="zoom-out-action-name">container-terminal-page.zoom-out</property>
     <property name="zoom-factor" bind-source="terminal" bind-property="font-scale" bind-flags="sync-create"/>
   </object>
 
   <template class="PdsContainerTerminalPage" parent="GtkWidget">
     <property name="layout-manager">
-      <object class="GtkBoxLayout">
-        <property name="orientation">vertical</property>
-      </object>
+      <object class="GtkBinLayout"/>
     </property>
 
     <child>
-      <object class="AdwHeaderBar">
+      <object class="AdwToolbarView" id="toolbar_view">
 
-        <child type="start">
-          <object class="PdsBackNavigationControls" id="back_navigation_controls"/>
-        </child>
+        <child type="top">
+          <object class="AdwHeaderBar">
 
-        <child type="title">
-          <object class="AdwWindowTitle">
-            <property name="title" translatable="yes">Container Terminal</property>
-            <binding name="subtitle">
-              <lookup name="name" type="Container">
-                <lookup name="container">PdsContainerTerminalPage</lookup>
-              </lookup>
-            </binding>
+            <child type="start">
+              <object class="GtkButton" id="detach_button">
+                <property name="action-name">container-terminal-page.pip-out</property>
+                <property name="icon-name">pip-out-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Detach Terminal</property>
+                <property name="visible" bind-source="detach_button" bind-property="sensitive" bind-flags="sync-create"/>
+              </object>
+            </child>
+
+            <child type="title">
+              <object class="AdwWindowTitle">
+                <property name="title" translatable="yes">Container Terminal</property>
+                <binding name="subtitle">
+                  <lookup name="name" type="Container">
+                    <lookup name="container">PdsContainerTerminalPage</lookup>
+                  </lookup>
+                </binding>
+              </object>
+            </child>
+
+            <child type="end">
+              <object class="GtkMenuButton" id="menu_button">
+                <property name="icon-name">view-more-symbolic</property>
+                <property name="menu-model">menu</property>
+              </object>
+            </child>
+
           </object>
         </child>
 
-        <child type="end">
-          <object class="GtkMenuButton" id="menu_button">
-            <property name="icon-name">view-more-symbolic</property>
-            <property name="menu-model">menu</property>
+        <child>
+          <object class="PdsContainerTerminal" id="terminal">
+            <signal name="terminated" handler="on_terminal_terminated" swapped="true"/>
+            <property name="vexpand">True</property>
+            <property name="container" bind-source="PdsContainerTerminalPage" bind-property="container" bind-flags="sync-create"/>
           </object>
         </child>
 
-        <child type="end">
-          <object class="GtkButton" id="detach_button">
-            <property name="icon-name">pip-out-symbolic</property>
-            <property name="tooltip-text" translatable="yes">Detach Terminal</property>
-            <property name="visible" bind-source="detach_button" bind-property="sensitive" bind-flags="sync-create"/>
-          </object>
-        </child>
-
-      </object>
-    </child>
-
-    <child>
-      <object class="PdsContainerTerminal" id="terminal">
-        <property name="vexpand">True</property>
-        <property name="container" bind-source="PdsContainerTerminalPage" bind-property="container" bind-flags="sync-create"/>
       </object>
     </child>
 

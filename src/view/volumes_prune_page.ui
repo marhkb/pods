@@ -15,57 +15,62 @@
     </property>
 
     <child>
-      <object class="GtkStack" id="stack">
-        <property name="transition-type">crossfade</property>
+      <object class="AdwNavigationView" id="navigation_view">
 
         <child>
-          <object class="GtkBox">
-            <property name="orientation">vertical</property>
+          <object class="AdwNavigationPage">
+            <property name="title" translatable="yes">Preferences</property>
 
             <child>
-              <object class="AdwHeaderBar">
-                <property name="show-end-title-buttons">False</property>
-                <property name="show-start-title-buttons">False</property>
+              <object class="AdwToolbarView">
 
-                <child type="start">
-                  <object class="GtkButton" id="cancel_button">
-                    <property name="action-name">action.cancel</property>
-                    <property name="label" translatable="yes">_Cancel</property>
-                    <property name="use-underline">True</property>
+                <child type="top">
+                  <object class="AdwHeaderBar">
+                    <property name="show-end-title-buttons">False</property>
+                    <property name="show-start-title-buttons">False</property>
+
+                    <child type="start">
+                      <object class="GtkButton" id="cancel_button">
+                        <property name="action-name">action.cancel</property>
+                        <property name="label" translatable="yes">_Cancel</property>
+                        <property name="use-underline">True</property>
+                      </object>
+                    </child>
+
+                    <child type="title">
+                      <object class="AdwWindowTitle">
+                        <property name="title" translatable="yes">Prune Volumes</property>
+                      </object>
+                    </child>
+
+                    <child type="end">
+                      <object class="GtkButton" id="prune_button">
+                        <style>
+                          <class name="destructive-action"/>
+                        </style>
+                        <property name="action-name">volumes-prune-page.prune</property>
+                        <property name="label" translatable="yes">_Prune</property>
+                        <property name="use-underline">True</property>
+                      </object>
+                    </child>
+
                   </object>
                 </child>
-
-                <child type="title">
-                  <object class="AdwWindowTitle">
-                    <property name="title" translatable="yes">Prune Volumes</property>
-                  </object>
-                </child>
-
-                <child type="end">
-                  <object class="GtkButton" id="prune_button">
-                    <style>
-                      <class name="destructive-action"/>
-                    </style>
-                    <property name="action-name">volumes-prune-page.prune</property>
-                    <property name="label" translatable="yes">_Prune</property>
-                    <property name="use-underline">True</property>
-                  </object>
-                </child>
-
-              </object>
-            </child>
-
-            <child>
-              <object class="AdwPreferencesPage">
-                <property name="vexpand">True</property>
 
                 <child>
-                  <object class="AdwPreferencesGroup">
-                    <property name="title" translatable="yes">Prune Options</property>
+                  <object class="AdwPreferencesPage">
+                    <property name="vexpand">True</property>
 
                     <child>
-                      <object class="PdsDateTimeRow" id="prune_until_row">
-                        <property name="subtitle" translatable="yes">Prune volumes created before this timestamp.</property>
+                      <object class="AdwPreferencesGroup">
+                        <property name="title" translatable="yes">Prune Options</property>
+
+                        <child>
+                          <object class="PdsDateTimeRow" id="prune_until_row">
+                            <property name="subtitle" translatable="yes">Prune volumes created before this timestamp.</property>
+                          </object>
+                        </child>
+
                       </object>
                     </child>
 
@@ -76,10 +81,6 @@
             </child>
 
           </object>
-        </child>
-
-        <child>
-          <object class="AdwBin" id="action_page_bin"/>
         </child>
 
       </object>

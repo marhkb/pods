@@ -1,6 +1,6 @@
 use std::cell::RefCell;
 
-use adw::traits::BinExt;
+use adw::traits::NavigationPageExt;
 use gettextrs::gettext;
 use glib::clone;
 use glib::closure;
@@ -32,13 +32,11 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::PodDetailsPage)]
-    #[template(file = "pod_details_page.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/pod_details_page.ui")]
     pub(crate) struct PodDetailsPage {
         pub(super) handler_id: RefCell<Option<glib::SignalHandlerId>>,
         #[property(get, set = Self::set_pod, construct, nullable)]
         pub(super) pod: glib::WeakRef<model::Pod>,
-        #[template_child]
-        pub(super) back_navigation_controls: TemplateChild<widget::BackNavigationControls>,
         #[template_child]
         pub(super) window_title: TemplateChild<adw::WindowTitle>,
         #[template_child]
@@ -59,8 +57,6 @@ mod imp {
         pub(super) status_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) hostname_row: TemplateChild<widget::PropertyRow>,
-        #[template_child]
-        pub(super) leaflet_overlay: TemplateChild<widget::LeafletOverlay>,
     }
 
     #[glib::object_subclass]
@@ -237,7 +233,7 @@ mod imp {
 
                 let handler_id = pod.connect_deleted(clone!(@weak obj => move |pod| {
                     utils::show_toast(obj.upcast_ref(), gettext!("Pod '{}' has been deleted", pod.name()));
-                    obj.imp().back_navigation_controls.navigate_back();
+                    utils::navigation_view(obj.upcast_ref()).pop();
                 }));
                 self.handler_id.replace(Some(handler_id));
             }
@@ -301,12 +297,13 @@ impl PodDetailsPage {
                 let weak_ref = glib::WeakRef::new();
                 weak_ref.set(Some(&pod));
 
-                self.imp().leaflet_overlay.show_details(
-                    view::ScalableTextViewPage::from(view::Entity::Pod {
-                        pod: weak_ref,
-                        mode,
-                    })
-                    .upcast_ref(),
+                utils::navigation_view(self.upcast_ref()).push(
+                    &adw::NavigationPage::builder()
+                        .child(&view::ScalableTextViewPage::from(view::Entity::Pod {
+                            pod: weak_ref,
+                            mode,
+                        }))
+                        .build(),
                 );
             }
         });
@@ -315,9 +312,11 @@ impl PodDetailsPage {
     fn show_processes(&self) {
         self.exec_action(|| {
             if let Some(pod) = self.pod() {
-                self.imp()
-                    .leaflet_overlay
-                    .show_details(view::TopPage::from(&pod).upcast_ref());
+                utils::navigation_view(self.upcast_ref()).push(
+                    &adw::NavigationPage::builder()
+                        .child(&view::TopPage::from(&pod))
+                        .build(),
+                );
             }
         });
     }
@@ -329,7 +328,11 @@ impl PodDetailsPage {
     }
 
     fn exec_action<F: Fn()>(&self, op: F) {
-        if self.imp().leaflet_overlay.child().is_none() {
+        if utils::navigation_view(self.upcast_ref())
+            .visible_page()
+            .filter(|page| page.child().as_ref() == Some(self.upcast_ref()))
+            .is_some()
+        {
             op();
         }
     }

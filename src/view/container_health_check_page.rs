@@ -21,7 +21,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ContainerHealthCheckPage)]
-    #[template(file = "container_health_check_page.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/container_health_check_page.ui")]
     pub(crate) struct ContainerHealthCheckPage {
         #[property(get, set = Self::set_container, construct, nullable)]
         pub(super) container: glib::WeakRef<model::Container>,

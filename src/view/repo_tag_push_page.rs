@@ -1,7 +1,6 @@
 use std::collections::HashMap;
 
 use adw::subclass::prelude::*;
-use adw::traits::BinExt;
 use gettextrs::gettext;
 use glib::clone;
 use glib::Properties;
@@ -30,20 +29,20 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::RepoTagPushPage)]
-    #[template(file = "repo_tag_push_page.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/repo_tag_push_page.ui")]
     pub(crate) struct RepoTagPushPage {
         #[property(get, set, construct_only, nullable)]
         pub(super) repo_tag: glib::WeakRef<model::RepoTag>,
         #[template_child]
         pub(super) toast_overlay: TemplateChild<adw::ToastOverlay>,
         #[template_child]
-        pub(super) stack: TemplateChild<gtk::Stack>,
+        pub(super) navigation_view: TemplateChild<adw::NavigationView>,
         #[template_child]
         pub(super) window_title: TemplateChild<adw::WindowTitle>,
         #[template_child]
         pub(super) push_button: TemplateChild<gtk::Button>,
         #[template_child]
-        pub(super) tls_verify_row_switch: TemplateChild<gtk::Switch>,
+        pub(super) tls_verify_switch_row: TemplateChild<adw::SwitchRow>,
         #[template_child]
         pub(super) login_group: TemplateChild<adw::PreferencesGroup>,
         #[template_child]
@@ -59,9 +58,7 @@ mod imp {
         #[template_child]
         pub(super) token_entry_row: TemplateChild<adw::PasswordEntryRow>,
         #[template_child]
-        pub(super) save_credentials_switch: TemplateChild<gtk::Switch>,
-        #[template_child]
-        pub(super) action_page_bin: TemplateChild<adw::Bin>,
+        pub(super) save_credentials_switch_row: TemplateChild<adw::SwitchRow>,
     }
 
     #[glib::object_subclass]
@@ -152,7 +149,7 @@ mod imp {
                                     match result {
                                         Ok(auth) => {
                                             imp.login_switch.set_active(true);
-                                            imp.save_credentials_switch.set_active(true);
+                                            imp.save_credentials_switch_row.set_active(true);
 
                                             match auth {
                                                 RegistryAuth::Password { username, password } => {
@@ -226,7 +223,7 @@ impl RepoTagPushPage {
                     let destination = repo_tag.full();
 
                     let opts = podman::opts::ImagePushOpts::builder()
-                        .tls_verify(imp.tls_verify_row_switch.is_active())
+                        .tls_verify(imp.tls_verify_switch_row.is_active())
                         .destination(&destination)
                         .quiet(false);
 
@@ -234,7 +231,7 @@ impl RepoTagPushPage {
                         let host = repo_tag.host();
                         let namespace = repo_tag.namespace();
 
-                        if imp.save_credentials_switch.is_active() {
+                        if imp.save_credentials_switch_row.is_active() {
                             match crate::KEYRING.get() {
                                 Some(keyring) => {
                                     let secret = if imp.password_toggle_button.is_active() {
@@ -293,8 +290,12 @@ impl RepoTagPushPage {
                         opts.build(),
                     ));
 
-                    imp.action_page_bin.set_child(Some(&page));
-                    imp.stack.set_visible_child(&*imp.action_page_bin);
+                    imp.navigation_view.push(
+                        &adw::NavigationPage::builder()
+                            .can_pop(false)
+                            .child(&page)
+                            .build(),
+                    );
                 }
             }
         }

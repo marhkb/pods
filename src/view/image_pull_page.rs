@@ -1,6 +1,4 @@
 use adw::subclass::prelude::*;
-use adw::traits::BinExt;
-use glib::clone;
 use glib::Properties;
 use gtk::glib;
 use gtk::prelude::*;
@@ -11,25 +9,21 @@ use crate::podman;
 use crate::utils;
 use crate::view;
 
-const ACTION_PULL: &str = "image-pull-page.pull";
-
 mod imp {
     use super::*;
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ImagePullPage)]
-    #[template(file = "image_pull_page.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/image_pull_page.ui")]
     pub(crate) struct ImagePullPage {
         #[property(get, set, construct_only, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
         #[template_child]
-        pub(super) stack: TemplateChild<gtk::Stack>,
+        pub(super) navigation_view: TemplateChild<adw::NavigationView>,
         #[template_child]
         pub(super) pull_button: TemplateChild<gtk::Button>,
         #[template_child]
         pub(super) image_search_widget: TemplateChild<view::ImageSearchWidget>,
-        #[template_child]
-        pub(super) action_page_bin: TemplateChild<adw::Bin>,
     }
 
     #[glib::object_subclass]
@@ -40,10 +34,15 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+            klass.bind_template_callbacks();
 
-            klass.install_action(ACTION_PULL, None, |widget, _, _| {
-                widget.pull();
-            });
+            klass.install_action(
+                view::ImageSearchWidget::action_select(),
+                None,
+                |widget, _, _| {
+                    widget.pull();
+                },
+            );
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -66,16 +65,8 @@ mod imp {
 
         fn constructed(&self) {
             self.parent_constructed();
-
-            let obj = &*self.obj();
-
-            obj.action_set_enabled(view::ImageSearchWidget::action_select(), false);
-            self.image_search_widget.connect_notify_local(
-                Some("selected-image"),
-                clone!(@weak obj => move |widget, _| {
-                    obj.action_set_enabled(view::ImageSearchWidget::action_select(), widget.selected_image().is_some());
-                }),
-            );
+            self.obj()
+                .action_set_enabled(view::ImageSearchWidget::action_select(), false);
         }
 
         fn dispose(&self) {
@@ -92,6 +83,17 @@ mod imp {
         fn unroot(&self) {
             utils::root(self.obj().upcast_ref()).set_default_widget(gtk::Widget::NONE);
             self.parent_unroot()
+        }
+    }
+
+    #[gtk::template_callbacks]
+    impl ImagePullPage {
+        #[template_callback]
+        fn on_image_search_widget_notify_selected_image(&self) {
+            self.obj().action_set_enabled(
+                view::ImageSearchWidget::action_select(),
+                self.image_search_widget.selected_image().is_some(),
+            );
         }
     }
 }
@@ -131,8 +133,12 @@ impl ImagePullPage {
                     .download_image(&reference, opts),
             );
 
-            imp.action_page_bin.set_child(Some(&page));
-            imp.stack.set_visible_child(&*imp.action_page_bin);
+            imp.navigation_view.push(
+                &adw::NavigationPage::builder()
+                    .can_pop(false)
+                    .child(&page)
+                    .build(),
+            );
         }
     }
 }

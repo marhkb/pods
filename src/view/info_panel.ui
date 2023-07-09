@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="PdsInfoPanel" parent="GtkWidget">
+    <signal name="notify::client" handler="on_notify_client" swapped="true"/>
+    <property name="layout-manager">
+      <object class="GtkBinLayout"/>
+    </property>
+
+    <child>
+      <object class="AdwToolbarView">
+
+        <child type="top">
+          <object class="AdwHeaderBar">
+
+            <child type="start">
+              <object class="GtkButton">
+                <property name="action-name">info-panel.refresh</property>
+                <property name="icon-name">view-refresh-symbolic</property>
+              </object>
+            </child>
+
+            <child type="title">
+              <object class="AdwWindowTitle">
+                <property name="title" translatable="yes">Info</property>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkStack" id="stack">
+            <property name="transition-type">crossfade</property>
+
+            <child>
+              <object class="GtkStackPage">
+                <property name="name">spinner</property>
+
+                <property name="child">
+                  <object class="PdsEfficientSpinner">
+                    <property name="halign">center</property>
+                    <property name="valign">center</property>
+                    <property name="height-request">30</property>
+                    <property name="width-request">30</property>
+                  </object>
+                </property>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkStackPage">
+                <property name="name">content</property>
+
+                <property name="child">
+                  <object class="AdwPreferencesPage">
+
+                    <child>
+                      <object class="AdwPreferencesGroup">
+                        <property name="title" translatable="yes">Version</property>
+
+                        <child>
+                          <object class="PdsPropertyRow" id="version_api_version_row">
+                            <property name="key" translatable="yes">API Version</property>
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="PdsPropertyRow" id="version_built_time_row">
+                            <property name="key" translatable="yes">Built Time</property>
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="PdsPropertyRow" id="version_git_commit_row">
+                            <property name="key" translatable="yes">Git Commit</property>
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="PdsPropertyRow" id="version_go_version_row">
+                            <property name="key" translatable="yes">Go Version</property>
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="PdsPropertyRow" id="version_os_arch_row">
+                            <property name="key" translatable="yes">Os Arch</property>
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="PdsPropertyRow" id="version_version_row">
+                            <property name="key" translatable="yes">Version</property>
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="AdwPreferencesGroup">
+                        <property name="title" translatable="yes">Storage</property>
+                        <property name="description" translatable="yes">Describes the container storage and its attributes.</property>
+
+                        <child>
+                          <object class="PdsPropertyRow" id="store_config_file_row">
+                            <property name="key" translatable="yes">Config File</property>
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="AdwExpanderRow">
+                            <property name="title" translatable="yes">Container Store</property>
+                            <property name="subtitle" translatable="yes">Describes the quantity of containers in the store by status.</property>
+
+                            <child type="action">
+                              <object class="GtkLabel" id="store_container_store_label">
+                                <style>
+                                  <class name="dim-label"/>
+                                </style>
+                                <property name="hexpand">True</property>
+                                <property name="selectable">True</property>
+                                <property name="wrap">True</property>
+                                <property name="wrap-mode">word</property>
+                                <property name="xalign">1</property>
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="PdsPropertyRow" id="store_container_store_paused_row">
+                                <property name="key" translatable="yes">Paused</property>
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="PdsPropertyRow" id="store_container_store_running_row">
+                                <property name="key" translatable="yes">Running</property>
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="PdsPropertyRow" id="store_container_store_stopped_row">
+                                <property name="key" translatable="yes">Stopped</property>
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="PdsPropertyRow" id="store_graph_driver_name_row">
+                            <property name="key" translatable="yes">Graph Driver Name</property>
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="AdwExpanderRow" id="store_graph_options_row">
+                            <property name="title" translatable="yes">Graph Options</property>
+
+                            <child type="action">
+                              <object class="GtkLabel" id="store_graph_options_label">
+                                <style>
+                                  <class name="dim-label"/>
+                                </style>
+                                <property name="hexpand">True</property>
+                                <property name="selectable">True</property>
+                                <property name="wrap">True</property>
+                                <property name="wrap-mode">word</property>
+                                <property name="xalign">1</property>
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="PdsPropertyRow" id="store_graph_root_row">
+                            <property name="key" translatable="yes">Graph Root</property>
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="AdwExpanderRow" id="store_graph_status_row">
+                            <property name="title" translatable="yes">Graph Status</property>
+
+                            <child type="action">
+                              <object class="GtkLabel" id="store_graph_status_label">
+                                <style>
+                                  <class name="dim-label"/>
+                                </style>
+                                <property name="hexpand">True</property>
+                                <property name="selectable">True</property>
+                                <property name="wrap">True</property>
+                                <property name="wrap-mode">word</property>
+                                <property name="xalign">1</property>
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="PdsPropertyRow" id="store_image_store_row">
+                            <property name="key" translatable="yes">Image Store</property>
+                            <property name="subtitle" translatable="yes">Describes the image store. Right now only the number of images present.</property>
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="PdsPropertyRow" id="store_run_root_row">
+                            <property name="key" translatable="yes">Run Root</property>
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="PdsPropertyRow" id="store_volume_path_row">
+                            <property name="key" translatable="yes">Volume Path</property>
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                  </object>
+                </property>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkStackPage">
+                <property name="name">error</property>
+
+                <property name="child">
+                  <object class="AdwStatusPage" id="error_status_page">
+                    <property name="title" translatable="yes">Error While Gathering Info</property>
+                    <property name="description" translatable="yes">You can use the buttons below to retry.</property>
+
+                    <child>
+                      <object class="GtkButton">
+                        <style>
+                          <class name="pill"/>
+                          <class name="suggested-action"/>
+                        </style>
+                        <property name="action-name">info-panel.refresh</property>
+                        <property name="halign">center</property>
+                        <property name="label" translatable="yes">_Retry</property>
+                        <property name="use-underline">True</property>
+                        <property name="width-request">200</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </property>
+
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>

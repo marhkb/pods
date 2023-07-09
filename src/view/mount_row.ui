@@ -141,14 +141,8 @@
     </child>
 
     <child>
-      <object class="AdwActionRow">
-        <property name="activatable_widget">writable_switch</property>
+      <object class="AdwSwitchRow" id="writable_switch_row">
         <property name="title" translatable="yes">Writable</property>
-        <child>
-          <object class="GtkSwitch" id="writable_switch">
-            <property name="valign">center</property>
-          </object>
-        </child>
       </object>
     </child>
 

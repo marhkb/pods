@@ -15,59 +15,61 @@
     </property>
 
     <child>
-      <object class="GtkStack" id="stack">
-        <property name="transition-type">crossfade</property>
+      <object class="AdwNavigationView" id="navigation_view">
 
         <child>
-          <object class="GtkBox">
-            <property name="orientation">vertical</property>
+          <object class="AdwNavigationPage">
+            <property name="title" translatable="yes">Preferences</property>
 
             <child>
-              <object class="AdwHeaderBar">
-                <property name="show-end-title-buttons">False</property>
-                <property name="show-start-title-buttons">False</property>
+              <object class="AdwToolbarView">
 
-                <child type="start">
-                  <object class="GtkButton" id="cancel_button">
-                    <property name="action-name">action.cancel</property>
-                    <property name="label" translatable="yes">_Cancel</property>
-                    <property name="use-underline">True</property>
+                <child type="top">
+                  <object class="AdwHeaderBar">
+                    <property name="show-end-title-buttons">False</property>
+                    <property name="show-start-title-buttons">False</property>
+
+                    <child type="start">
+                      <object class="GtkButton" id="cancel_button">
+                        <property name="action-name">action.cancel</property>
+                        <property name="label" translatable="yes">_Cancel</property>
+                        <property name="use-underline">True</property>
+                      </object>
+                    </child>
+
+                    <child type="title">
+                      <object class="AdwWindowTitle">
+                        <property name="title" translatable="yes">Download Image</property>
+                      </object>
+                    </child>
+
+                    <child type="end">
+                      <object class="GtkButton" id="pull_button">
+                        <style>
+                          <class name="suggested-action"/>
+                        </style>
+                        <property name="action-name">image-search-widget.select</property>
+                        <property name="label" translatable="yes">_Download</property>
+                        <property name="use-underline">True</property>
+                      </object>
+                    </child>
+
                   </object>
                 </child>
 
-                <child type="title">
-                  <object class="AdwWindowTitle">
-                    <property name="title" translatable="yes">Download Image</property>
+                <child>
+                  <object class="PdsImageSearchWidget" id="image_search_widget">
+                    <signal name="notify::selected-image" handler="on_image_search_widget_notify_selected_image" swapped="true"/>
+                    <binding name="client">
+                      <lookup name="client">PdsImagePullPage</lookup>
+                    </binding>
                   </object>
                 </child>
 
-                <child type="end">
-                  <object class="GtkButton" id="pull_button">
-                    <style>
-                      <class name="suggested-action"/>
-                    </style>
-                    <property name="action-name">image-pull-page.pull</property>
-                    <property name="label" translatable="yes">_Download</property>
-                    <property name="use-underline">True</property>
-                  </object>
-                </child>
-
-              </object>
-            </child>
-
-            <child>
-              <object class="PdsImageSearchWidget" id="image_search_widget">
-                <binding name="client">
-                  <lookup name="client">PdsImagePullPage</lookup>
-                </binding>
               </object>
             </child>
 
           </object>
-        </child>
-
-        <child>
-          <object class="AdwBin" id="action_page_bin"/>
         </child>
 
       </object>

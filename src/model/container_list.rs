@@ -60,6 +60,9 @@ mod imp {
                         glib::ParamSpecUInt::builder("created").read_only().build(),
                         glib::ParamSpecUInt::builder("dead").read_only().build(),
                         glib::ParamSpecUInt::builder("exited").read_only().build(),
+                        glib::ParamSpecUInt::builder("not-running")
+                            .read_only()
+                            .build(),
                         glib::ParamSpecUInt::builder("paused").read_only().build(),
                         glib::ParamSpecUInt::builder("removing").read_only().build(),
                         glib::ParamSpecUInt::builder("running").read_only().build(),
@@ -84,6 +87,7 @@ mod imp {
                 "created" => obj.created().to_value(),
                 "dead" => obj.dead().to_value(),
                 "exited" => obj.exited().to_value(),
+                "not-running" => obj.not_running().to_value(),
                 "paused" => obj.paused().to_value(),
                 "removing" => obj.removing().to_value(),
                 "running" => obj.running().to_value(),
@@ -113,7 +117,7 @@ mod imp {
                         .boxed()
                 },
                 clone!(
-                    @weak obj => @default-return glib::Continue(false),
+                    @weak obj => @default-return glib::ControlFlow::Break,
                     move |result: podman::Result<podman::models::ContainerStats200Response>|
                 {
                     match result
@@ -144,7 +148,7 @@ mod imp {
                         Err(e) => log::warn!("Error occurred on receiving stats stream element: {e}"),
                     }
 
-                    glib::Continue(true)
+                    glib::ControlFlow::Continue
                 }),
             );
 

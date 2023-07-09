@@ -100,45 +100,33 @@
     </child>
 
     <child>
-      <object class="AdwActionRow">
+      <object class="AdwSpinRow">
         <property name="title" translatable="yes">Host Port</property>
         <property name="subtitle" translatable="yes">If 0, a random port on the host (guaranteed to be over 1024) will be assigned.</property>
-
-        <child>
-          <object class="GtkSpinButton">
-            <property name="valign">center</property>
-            <property name="adjustment">
-              <object class="GtkAdjustment" id="host_port_adjustment">
-                <property name="lower">0</property>
-                <property name="upper">65536</property>
-                <property name="page_increment">16</property>
-                <property name="step-increment">1</property>
-              </object>
-            </property>
+        <property name="numeric">True</property>
+        <property name="adjustment">
+          <object class="GtkAdjustment" id="host_port_adjustment">
+            <property name="lower">0</property>
+            <property name="upper">65536</property>
+            <property name="page_increment">16</property>
+            <property name="step-increment">1</property>
           </object>
-        </child>
-
+        </property>
       </object>
     </child>
 
     <child>
-      <object class="AdwActionRow">
+      <object class="AdwSpinRow">
         <property name="title" translatable="yes">Container Port</property>
-
-        <child>
-          <object class="GtkSpinButton">
-            <property name="valign">center</property>
-            <property name="adjustment">
-              <object class="GtkAdjustment" id="container_port_adjustment">
-                <property name="lower">1</property>
-                <property name="upper">65536</property>
-                <property name="page_increment">16</property>
-                <property name="step-increment">1</property>
-              </object>
-            </property>
+        <property name="numeric">True</property>
+        <property name="adjustment">
+          <object class="GtkAdjustment" id="container_port_adjustment">
+            <property name="lower">1</property>
+            <property name="upper">65536</property>
+            <property name="page_increment">16</property>
+            <property name="step-increment">1</property>
           </object>
-        </child>
-
+        </property>
       </object>
     </child>
 

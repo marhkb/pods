@@ -1,17 +1,17 @@
+use std::cell::RefCell;
+
 use adw::prelude::MessageDialogExtManual;
 use adw::traits::MessageDialogExt;
 use gettextrs::gettext;
 use gettextrs::ngettext;
 use glib::clone;
 use glib::closure;
-use glib::subclass::Signal;
 use glib::Properties;
 use gtk::gdk;
 use gtk::glib;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy as SyncLazy;
 use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
@@ -19,10 +19,13 @@ use crate::model::SelectableListExt;
 use crate::utils;
 use crate::view;
 
-pub(crate) const ACTION_PULL_IMAGE: &str = "images-panel.pull-image";
+const ACTION_PULL_IMAGE: &str = "images-panel.pull-image";
 const ACTION_BUILD_IMAGE: &str = "images-panel.build-image";
 const ACTION_PRUNE_UNUSED_IMAGES: &str = "images-panel.prune-unused-images";
-const ACTION_SHOW_ADD_IMAGE_MENU: &str = "images-panel.show-add-image-menu";
+const ACTION_ENTER_SELECTION_MODE: &str = "images-panel.enter-selection-mode";
+const ACTION_EXIT_SELECTION_MODE: &str = "images-panel.exit-selection-mode";
+const ACTION_SELECT_VISIBLE: &str = "images-panel.select-visible";
+const ACTION_SELECT_NONE: &str = "images-panel.select-none";
 const ACTION_DELETE_SELECTION: &str = "images-panel.delete-selection";
 
 mod imp {
@@ -30,27 +33,32 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ImagesPanel)]
-    #[template(file = "images_panel.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/images_panel.ui")]
     pub(crate) struct ImagesPanel {
         pub(super) settings: utils::PodsSettings,
-        pub(super) properties_filter: UnsyncOnceCell<gtk::Filter>,
+        pub(super) filter: UnsyncOnceCell<gtk::Filter>,
         pub(super) sorter: UnsyncOnceCell<gtk::Sorter>,
+        pub(super) search_term: RefCell<String>,
         #[property(get, set = Self::set_image_list, nullable)]
         pub(super) image_list: glib::WeakRef<model::ImageList>,
         #[template_child]
-        pub(super) add_image_row: TemplateChild<gtk::ListBoxRow>,
-        #[template_child]
-        pub(super) popover_menu: TemplateChild<gtk::PopoverMenu>,
-        #[template_child]
         pub(super) main_stack: TemplateChild<gtk::Stack>,
+        #[template_child]
+        pub(super) main_header_bar: TemplateChild<adw::HeaderBar>,
+        #[template_child]
+        pub(super) window_title: TemplateChild<adw::WindowTitle>,
+        #[template_child]
+        pub(super) hide_intermediates_toggle_button: TemplateChild<gtk::ToggleButton>,
+        #[template_child]
+        pub(super) selection_header_bar: TemplateChild<adw::HeaderBar>,
+        #[template_child]
+        pub(super) selected_images_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
         pub(super) images_group: TemplateChild<adw::PreferencesGroup>,
         #[template_child]
-        pub(super) header_suffix_box: TemplateChild<gtk::Box>,
+        pub(super) search_bar: TemplateChild<gtk::SearchBar>,
         #[template_child]
-        pub(super) show_intermediates_switch: TemplateChild<gtk::Switch>,
-        #[template_child]
-        pub(super) header_suffix_button_box: TemplateChild<gtk::Box>,
+        pub(super) search_entry: TemplateChild<gtk::SearchEntry>,
         #[template_child]
         pub(super) list_box: TemplateChild<gtk::ListBox>,
     }
@@ -63,6 +71,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+            klass.bind_template_callbacks();
 
             klass.add_binding_action(
                 gdk::Key::N,
@@ -73,7 +82,6 @@ mod imp {
             klass.install_action(ACTION_PULL_IMAGE, None, |widget, _, _| {
                 widget.show_download_page();
             });
-
             klass.install_action(ACTION_BUILD_IMAGE, None, |widget, _, _| {
                 widget.show_build_page();
             });
@@ -82,8 +90,18 @@ mod imp {
                 widget.show_prune_page();
             });
 
-            klass.install_action(ACTION_SHOW_ADD_IMAGE_MENU, None, |widget, _, _| {
-                widget.show_add_image_menu();
+            klass.install_action(ACTION_ENTER_SELECTION_MODE, None, |widget, _, _| {
+                widget.enter_selection_mode();
+            });
+            klass.install_action(ACTION_EXIT_SELECTION_MODE, None, |widget, _, _| {
+                widget.exit_selection_mode();
+            });
+
+            klass.install_action(ACTION_SELECT_VISIBLE, None, |widget, _, _| {
+                widget.select_visible();
+            });
+            klass.install_action(ACTION_SELECT_NONE, None, |widget, _, _| {
+                widget.select_none();
             });
 
             klass.install_action(ACTION_DELETE_SELECTION, None, |widget, _, _| {
@@ -97,12 +115,6 @@ mod imp {
     }
 
     impl ObjectImpl for ImagesPanel {
-        fn signals() -> &'static [Signal] {
-            static SIGNALS: SyncLazy<Vec<Signal>> =
-                SyncLazy::new(|| vec![Signal::builder("exit-selection-mode").build()]);
-            SIGNALS.as_ref()
-        }
-
         fn properties() -> &'static [glib::ParamSpec] {
             Self::derived_properties()
         }
@@ -120,41 +132,21 @@ mod imp {
 
             let obj = &*self.obj();
 
-            self.popover_menu.set_parent(&*self.add_image_row);
-
             self.settings
                 .bind(
-                    "show-intermediate-images",
-                    &*self.show_intermediates_switch,
+                    "hide-intermediate-images",
+                    &self.hide_intermediates_toggle_button.get(),
                     "active",
                 )
                 .build();
 
             let image_list_expr = Self::Type::this_expression("image-list");
             let image_list_len_expr = image_list_expr.chain_property::<model::ImageList>("len");
-            let is_selection_mode_expr = image_list_expr
-                .chain_property::<model::ImageList>("selection-mode")
-                .chain_closure::<bool>(closure!(|_: Self::Type, selection_mode: bool| {
-                    !selection_mode
-                }));
-
-            image_list_len_expr
-                .chain_closure::<bool>(closure!(|_: Self::Type, len: u32| len > 0))
-                .bind(&*self.header_suffix_box, "visible", Some(obj));
-
-            is_selection_mode_expr.bind(&*self.header_suffix_button_box, "visible", Some(obj));
-            is_selection_mode_expr.bind(&*self.add_image_row, "visible", Some(obj));
-
-            image_list_len_expr.watch(
-                Some(obj),
-                clone!(@weak obj => move || {
-                    let list = obj.image_list().unwrap();
-                    if list.is_selection_mode() && list.len() == 0 {
-                        list.set_selection_mode(false);
-                        obj.emit_by_name::<()>("exit-selection-mode", &[]);
-                    }
-                }),
-            );
+            let selection_mode_expr =
+                image_list_expr.chain_property::<model::ImageList>("selection-mode");
+            let not_selection_mode_expr = selection_mode_expr.chain_closure::<bool>(closure!(
+                |_: Self::Type, selection_mode: bool| { !selection_mode }
+            ));
 
             gtk::ClosureExpression::new::<Option<String>>(
                 [
@@ -178,49 +170,79 @@ mod imp {
                     }
                 ),
             )
-            .bind(&*self.main_stack, "visible-child-name", Some(obj));
+            .bind(&self.main_stack.get(), "visible-child-name", Some(obj));
+
+            not_selection_mode_expr.bind(&self.main_header_bar.get(), "visible", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
-                [image_list_expr, image_list_len_expr],
-                closure!(|_: Self::Type, list: Option<model::ImageList>, len: u32| {
-                    match list {
+                [
+                    &image_list_len_expr,
+                    &image_list_expr.chain_property::<model::ImageList>("intermediates"),
+                ],
+                closure!(|obj: Self::Type, len: u32, intermediates: u32| {
+                    match obj.image_list() {
                         Some(list) => {
                             if len == 0 {
-                                gettext("No images found")
+                                String::new()
                             } else if len == 1 {
-                                if list.intermediates() == 0 {
+                                if intermediates == 0 {
                                     gettext("1 image, used")
                                 } else {
                                     gettext("1 image, unused")
                                 }
                             } else {
                                 ngettext!(
-                                    // Translators: There's a wide space (U+2002) between ", {}".
-                                    "{} image total, {} {} unused, {}",
-                                    "{} images total, {} {} unused, {}",
+                                    "{} image total ({}), {} unused ({})",
+                                    "{} images total ({}), {} unused ({})",
                                     len,
                                     len,
                                     glib::format_size(list.total_size()),
-                                    list.intermediates(),
+                                    intermediates,
                                     glib::format_size(list.unused_size()),
                                 )
                             }
                         }
-                        None => gettext("No images found"),
+                        None => String::new(),
                     }
                 }),
             )
-            .bind(&*self.images_group, "description", Some(obj));
+            .bind(&self.window_title.get(), "subtitle", Some(obj));
 
-            let properties_filter =
+            selection_mode_expr.bind(&self.selection_header_bar.get(), "visible", Some(obj));
+
+            image_list_expr
+                .chain_property::<model::ImageList>("num-selected")
+                .chain_closure::<String>(closure!(|_: Self::Type, selected: u32| ngettext!(
+                    "{} Selected Image",
+                    "{} Selected Images",
+                    selected,
+                    selected
+                )))
+                .bind(&self.selected_images_button.get(), "label", Some(obj));
+
+            not_selection_mode_expr.bind(&self.search_bar.get(), "visible", Some(obj));
+
+            let search_filter =
                 gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
-                    obj.imp().show_intermediates_switch.is_active()
+                    let image = item.downcast_ref::<model::Image>().unwrap();
+                    let term = &*obj.imp().search_term.borrow();
+
+                    image.id().contains(term) || image.repo_tags().contains(term)
+                }));
+
+            let state_filter =
+                gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
+                    !obj.imp().hide_intermediates_toggle_button.is_active()
                     || item
                         .downcast_ref::<model::Image>()
                         .unwrap()
                         .repo_tags()
                         .n_items() > 0
                 }));
+
+            let filter = gtk::EveryFilter::new();
+            filter.append(search_filter);
+            filter.append(state_filter);
 
             let sorter = gtk::CustomSorter::new(|obj1, obj2| {
                 let image1 = obj1.downcast_ref::<model::Image>().unwrap();
@@ -239,33 +261,51 @@ mod imp {
                 }
             });
 
-            self.properties_filter
-                .set(properties_filter.upcast())
-                .unwrap();
+            self.filter.set(filter.upcast()).unwrap();
             self.sorter.set(sorter.upcast()).unwrap();
-
-            self.show_intermediates_switch.connect_active_notify(
-                clone!(@weak obj => move |switch| {
-                    obj.update_properties_filter(
-                        if switch.is_active() {
-                            gtk::FilterChange::LessStrict
-                        } else {
-                            gtk::FilterChange::MoreStrict
-                        }
-                    );
-                }),
-            );
         }
 
         fn dispose(&self) {
-            self.popover_menu.unparent();
-            self.main_stack.unparent();
+            utils::unparent_children(self.obj().upcast_ref());
         }
     }
 
     impl WidgetImpl for ImagesPanel {}
 
+    #[gtk::template_callbacks]
     impl ImagesPanel {
+        #[template_callback]
+        fn on_notify_search_mode_enabled(&self) {
+            if self.search_bar.is_search_mode() {
+                self.search_entry.grab_focus();
+            } else {
+                self.search_entry.set_text("");
+            }
+        }
+
+        #[template_callback]
+        fn on_search_changed(&self) {
+            let term = self.search_entry.text().trim().to_lowercase();
+
+            let filter_change = if self.search_term.borrow().contains(&term) {
+                gtk::FilterChange::LessStrict
+            } else {
+                gtk::FilterChange::MoreStrict
+            };
+
+            self.search_term.replace(term);
+            self.update_filter(filter_change);
+        }
+
+        #[template_callback]
+        fn on_hide_intermediates_toggle_button_notify_active(&self) {
+            self.update_filter(if self.hide_intermediates_toggle_button.is_active() {
+                gtk::FilterChange::MoreStrict
+            } else {
+                gtk::FilterChange::LessStrict
+            });
+        }
+
         pub(super) fn set_image_list(&self, value: &model::ImageList) {
             let obj = &*self.obj();
             if obj.image_list().as_ref() == Some(value) {
@@ -275,15 +315,16 @@ mod imp {
             value.connect_notify_local(
                 Some("intermediates"),
                 clone!(@weak obj => move |_ ,_| {
-                    obj.update_properties_filter(gtk::FilterChange::Different);
-                    obj.update_sorter();
+                    let imp = obj.imp();
+                    imp.update_filter(gtk::FilterChange::Different);
+                    imp.update_sorter();
                 }),
             );
 
             let model = gtk::SortListModel::new(
                 Some(gtk::FilterListModel::new(
                     Some(value.to_owned()),
-                    self.properties_filter.get().cloned(),
+                    self.filter.get().cloned(),
                 )),
                 self.sorter.get().cloned(),
             );
@@ -291,7 +332,11 @@ mod imp {
             self.list_box.bind_model(Some(&model), |item| {
                 view::ImageRow::from(item.downcast_ref().unwrap()).upcast()
             });
-            self.list_box.append(&*self.add_image_row);
+
+            self.list_box.set_visible(model.n_items() > 0);
+            model.connect_items_changed(clone!(@weak obj => move |model, _, _, _| {
+                obj.imp().list_box.set_visible(model.n_items() > 0);
+            }));
 
             obj.action_set_enabled(ACTION_DELETE_SELECTION, false);
             value.connect_notify_local(
@@ -302,6 +347,19 @@ mod imp {
             );
 
             self.image_list.set(Some(value));
+        }
+
+        fn update_filter(&self, filter_change: gtk::FilterChange) {
+            if let Some(filter) = self.filter.get() {
+                filter.changed(filter_change);
+            }
+        }
+
+        fn update_sorter(&self) {
+            self.sorter
+                .get()
+                .unwrap()
+                .changed(gtk::SorterChange::Different);
         }
     }
 }
@@ -319,19 +377,15 @@ impl Default for ImagesPanel {
 }
 
 impl ImagesPanel {
-    pub(crate) fn action_pull_image() -> &'static str {
-        ACTION_PULL_IMAGE
+    pub(crate) fn set_search_mode(&self, value: bool) {
+        self.imp().search_bar.set_search_mode(value);
     }
 
-    pub(crate) fn update_properties_filter(&self, filter_change: gtk::FilterChange) {
-        self.imp()
-            .properties_filter
-            .get()
-            .unwrap()
-            .changed(filter_change);
+    pub(crate) fn toggle_search_mode(&self) {
+        self.set_search_mode(!self.imp().search_bar.is_search_mode());
     }
 
-    fn show_download_page(&self) {
+    pub(crate) fn show_download_page(&self) {
         if let Some(client) = self.client() {
             utils::show_dialog(
                 self.upcast_ref(),
@@ -340,7 +394,7 @@ impl ImagesPanel {
         }
     }
 
-    fn show_build_page(&self) {
+    pub(crate) fn show_build_page(&self) {
         if let Some(client) = self.client() {
             utils::show_dialog(
                 self.upcast_ref(),
@@ -349,7 +403,7 @@ impl ImagesPanel {
         }
     }
 
-    fn show_prune_page(&self) {
+    pub(crate) fn show_prune_page(&self) {
         if let Some(client) = self.client() {
             utils::show_dialog(
                 self.upcast_ref(),
@@ -358,11 +412,40 @@ impl ImagesPanel {
         }
     }
 
-    fn show_add_image_menu(&self) {
-        self.imp().popover_menu.popup();
+    pub(crate) fn enter_selection_mode(&self) {
+        if let Some(list) = self.image_list().filter(|list| list.len() > 0) {
+            list.select_none();
+            list.set_selection_mode(true);
+        }
     }
 
-    fn delete_selection(&self) {
+    pub(crate) fn exit_selection_mode(&self) {
+        if let Some(list) = self.image_list() {
+            list.set_selection_mode(false);
+        }
+    }
+
+    pub(crate) fn select_visible(&self) {
+        (0..)
+            .map(|pos| self.imp().list_box.row_at_index(pos))
+            .take_while(Option::is_some)
+            .flatten()
+            .for_each(|row| {
+                row.downcast_ref::<view::ImageRow>()
+                    .unwrap()
+                    .image()
+                    .unwrap()
+                    .set_selected(row.is_visible());
+            });
+    }
+
+    pub(crate) fn select_none(&self) {
+        if let Some(list) = self.image_list().filter(|list| list.is_selection_mode()) {
+            list.select_none();
+        }
+    }
+
+    pub(crate) fn delete_selection(&self) {
         if self
             .image_list()
             .map(|list| list.num_selected())
@@ -409,7 +492,6 @@ impl ImagesPanel {
                         }));
                     });
                     list.set_selection_mode(false);
-                    obj.emit_by_name::<()>("exit-selection-mode", &[]);
                 }
             }),
         );
@@ -421,25 +503,5 @@ impl ImagesPanel {
         self.image_list()
             .as_ref()
             .and_then(model::ImageList::client)
-    }
-
-    fn update_sorter(&self) {
-        self.imp()
-            .sorter
-            .get()
-            .unwrap()
-            .changed(gtk::SorterChange::Different);
-    }
-
-    pub(crate) fn connect_exit_selection_mode<F: Fn(&Self) + 'static>(
-        &self,
-        f: F,
-    ) -> glib::SignalHandlerId {
-        self.connect_local("exit-selection-mode", true, move |values| {
-            let obj = values[0].get::<Self>().unwrap();
-            f(&obj);
-
-            None
-        })
     }
 }

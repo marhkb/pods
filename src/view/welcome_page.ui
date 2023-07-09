@@ -1,107 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <template class="PdsWelcomePage" parent="GtkWidget">
-    <style>
-      <class name="flat-headerbar-content"/>
-    </style>
     <property name="layout-manager">
       <object class="GtkBinLayout"/>
     </property>
 
     <child>
-      <object class="GtkOverlay">
+      <object class="AdwToolbarView">
 
-        <child type="overlay">
+        <child type="top">
           <object class="AdwHeaderBar">
-            <style>
-              <class name="flat"/>
-            </style>
-            <property name="valign">start</property>
-            <property name="title-widget">
-              <object class="AdwWindowTitle">
-                <property name="visible">False</property>
-              </object>
-            </property>
+            <property name="show-title">False</property>
+
+            <child type="end">
+              <object class="PdsMainMenuButton"/>
+            </child>
+
           </object>
         </child>
 
         <child>
-          <object class="GtkWindowHandle">
-            <property name="vexpand">True</property>
+          <object class="GtkScrolledWindow">
+            <property name="hscrollbar-policy">never</property>
+            <property name="propagate-natural-height">True</property>
 
-            <child>
-              <object class="GtkScrolledWindow">
-                <property name="hscrollbar-policy">never</property>
-                <property name="propagate-natural-height">True</property>
+            <property name="child">
+              <object class="GtkBox">
                 <property name="vexpand">true</property>
+                <property name="orientation">vertical</property>
+                <property name="valign">center</property>
+                <property name="spacing">12</property>
+                <property name="margin-bottom">24</property>
+                <property name="margin-start">24</property>
+                <property name="margin-end">24</property>
 
-                <property name="child">
-                  <object class="GtkBox">
-                    <property name="vexpand">true</property>
-                    <property name="orientation">vertical</property>
-                    <property name="valign">center</property>
-                    <property name="spacing">12</property>
-                    <property name="margin-bottom">24</property>
-                    <property name="margin-start">24</property>
-                    <property name="margin-end">24</property>
+                <child>
+                  <object class="AdwClamp">
+                    <property name="orientation">horizontal</property>
+                    <property name="maximum-size">450</property>
+                    <property name="tightening-threshold">450</property>
+                    <property name="margin-bottom">18</property>
 
-                    <child>
-                      <object class="AdwClamp">
-                        <property name="orientation">horizontal</property>
-                        <property name="maximum-size">450</property>
-                        <property name="tightening-threshold">450</property>
-                        <property name="margin-bottom">18</property>
-
-                        <property name="child">
-                          <object class="GtkPicture">
-                            <property name="file">resource:///com/github/marhkb/Pods/assets/welcome.svg</property>
-                            <property name="height-request">150</property>
-                          </object>
-                        </property>
-
+                    <property name="child">
+                      <object class="GtkPicture">
+                        <property name="file">resource:///com/github/marhkb/Pods/assets/welcome.svg</property>
+                        <property name="height-request">150</property>
                       </object>
-                    </child>
-
-                    <child>
-                      <object class="GtkLabel">
-                        <style>
-                          <class name="title-1"/>
-                        </style>
-                        <property name="label" translatable="yes">Welcome to Pods</property>
-                        <property name="justify">center</property>
-                        <property name="wrap">True</property>
-                        <property name="wrap-mode">word-char</property>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="label" translatable="yes">Use the button below to create a new connection to Podman.</property>
-                        <property name="justify">center</property>
-                        <property name="wrap">True</property>
-                        <property name="wrap-mode">word-char</property>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="GtkButton">
-                        <style>
-                          <class name="pill"/>
-                          <class name="suggested-action"/>
-                        </style>
-                        <property name="action-name">win.new-connection</property>
-                        <property name="label" translatable="yes">_New Connection</property>
-                        <property name="halign">center</property>
-                        <property name="margin-top">24</property>
-                        <property name="use-underline">True</property>
-                      </object>
-                    </child>
+                    </property>
 
                   </object>
-                </property>
+                </child>
+
+                <child>
+                  <object class="GtkLabel">
+                    <style>
+                      <class name="title-1"/>
+                    </style>
+                    <property name="label" translatable="yes">Welcome to Pods</property>
+                    <property name="justify">center</property>
+                    <property name="wrap">True</property>
+                    <property name="wrap-mode">word-char</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkLabel">
+                    <property name="label" translatable="yes">Use the button below to create a new connection to Podman.</property>
+                    <property name="justify">center</property>
+                    <property name="wrap">True</property>
+                    <property name="wrap-mode">word-char</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkButton">
+                    <style>
+                      <class name="pill"/>
+                      <class name="suggested-action"/>
+                    </style>
+                    <property name="action-name">win.create-connection</property>
+                    <property name="label" translatable="yes">_New Connection</property>
+                    <property name="halign">center</property>
+                    <property name="margin-top">24</property>
+                    <property name="use-underline">True</property>
+                  </object>
+                </child>
 
               </object>
-            </child>
+            </property>
 
           </object>
         </child>

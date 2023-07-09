@@ -15,146 +15,141 @@
     </property>
 
     <child>
-      <object class="GtkStack" id="stack">
-        <property name="transition-type">crossfade</property>
+      <object class="AdwNavigationView" id="navigation_view">
 
         <child>
-          <object class="GtkBox">
-            <property name="orientation">vertical</property>
+          <object class="AdwNavigationPage">
+            <property name="title" translatable="yes">Preferences</property>
 
-            <child>
-              <object class="AdwHeaderBar">
-                <property name="show-end-title-buttons">False</property>
-                <property name="show-start-title-buttons">False</property>
+            <property name="child">
+              <object class="AdwToolbarView">
 
-                <child type="start">
-                  <object class="GtkButton" id="cancel_button">
-                    <property name="action-name">action.cancel</property>
-                    <property name="label" translatable="yes">_Cancel</property>
-                    <property name="use-underline">True</property>
-                  </object>
-                </child>
+                <child type="top">
+                  <object class="AdwHeaderBar">
+                    <property name="show-end-title-buttons">False</property>
+                    <property name="show-start-title-buttons">False</property>
 
-                <child type="title">
-                  <object class="AdwWindowTitle">
-                    <property name="title" translatable="yes">Commit Container</property>
-                  </object>
-                </child>
-
-                <child type="end">
-                  <object class="GtkButton" id="commit_button">
-                    <style>
-                      <class name="suggested-action"/>
-                    </style>
-                    <property name="action-name">container-commit-page.commit</property>
-                    <property name="label" translatable="yes">_Commit</property>
-                    <property name="use-underline">True</property>
-                  </object>
-                </child>
-
-              </object>
-            </child>
-
-            <child>
-              <object class="AdwPreferencesPage">
-
-                <child>
-                  <object class="AdwPreferencesGroup">
-                    <property name="title" translatable="yes">General Commit Options</property>
-
-                    <child>
-                      <object class="AdwEntryRow" id="author_entry_row">
-                        <property name="activates-default">True</property>
-                        <property name="title" translatable="yes">Author</property>
-
-                        <child>
-                          <object class="GtkButton">
-                            <style>
-                              <class name="flat"/>
-                            </style>
-                            <property name="action-name">container-commit-page.fetch-username</property>
-                            <property name="icon-name">user-info-symbolic</property>
-                            <property name="tooltip-text" translatable="yes">Fetch Username</property>
-                            <property name="valign">center</property>
-                          </object>
-                        </child>
-
+                    <child type="start">
+                      <object class="GtkButton" id="cancel_button">
+                        <property name="action-name">action.cancel</property>
+                        <property name="label" translatable="yes">_Cancel</property>
+                        <property name="use-underline">True</property>
                       </object>
                     </child>
 
-                    <child>
-                      <object class="AdwEntryRow" id="comment_entry_row">
-                        <property name="activates-default">True</property>
-                        <property name="title" translatable="yes">Comment</property>
+                    <child type="title">
+                      <object class="AdwWindowTitle">
+                        <property name="title" translatable="yes">Commit Container</property>
                       </object>
                     </child>
 
-                    <child>
-                      <object class="AdwEntryRow" id="repo_entry_row">
-                        <property name="activates-default">True</property>
-                        <property name="title" translatable="yes">Repo</property>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="AdwEntryRow" id="tag_entry_row">
-                        <property name="activates-default">True</property>
-                        <property name="title" translatable="yes">Tag</property>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="AdwComboRow" id="format_combo_row">
-                        <property name="title" translatable="yes">Format</property>
-                        <property name="model">
-                          <object class="GtkStringList" id="format_list">
-                            <items>
-                              <item>oci</item>
-                              <item>docker</item>
-                            </items>
-                          </object>
-                        </property>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="AdwActionRow">
-                        <property name="activatable_widget">pause_switch</property>
-                        <property name="title" translatable="yes">Pause</property>
-                        <property name="subtitle" translatable="yes">Pause the container before committing it.</property>
-                        <child>
-                          <object class="GtkSwitch" id="pause_switch">
-                            <property name="valign">center</property>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-
-                  </object>
-                </child>
-
-                <child>
-                  <object class="AdwPreferencesGroup">
-                    <property name="title" translatable="yes">Changes</property>
-                    <property name="description" translatable="yes">Instructions to apply while committing in Dockerfile format (i.e. "CMD=/bin/foo").</property>
-                    <child>
-                      <object class="GtkListBox" id="changes_list_box">
+                    <child type="end">
+                      <object class="GtkButton" id="commit_button">
                         <style>
-                          <class name="boxed-list"/>
+                          <class name="suggested-action"/>
                         </style>
+                        <property name="action-name">container-commit-page.commit</property>
+                        <property name="label" translatable="yes">_Commit</property>
+                        <property name="use-underline">True</property>
                       </object>
                     </child>
+
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwPreferencesPage">
+
+                    <child>
+                      <object class="AdwPreferencesGroup">
+                        <property name="title" translatable="yes">General Commit Options</property>
+
+                        <child>
+                          <object class="AdwEntryRow" id="author_entry_row">
+                            <property name="activates-default">True</property>
+                            <property name="title" translatable="yes">Author</property>
+
+                            <child>
+                              <object class="GtkButton">
+                                <style>
+                                  <class name="flat"/>
+                                </style>
+                                <property name="action-name">container-commit-page.fetch-username</property>
+                                <property name="icon-name">user-info-symbolic</property>
+                                <property name="tooltip-text" translatable="yes">Fetch Username</property>
+                                <property name="valign">center</property>
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="AdwEntryRow" id="comment_entry_row">
+                            <property name="activates-default">True</property>
+                            <property name="title" translatable="yes">Comment</property>
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="AdwEntryRow" id="repo_entry_row">
+                            <property name="activates-default">True</property>
+                            <property name="title" translatable="yes">Repo</property>
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="AdwEntryRow" id="tag_entry_row">
+                            <property name="activates-default">True</property>
+                            <property name="title" translatable="yes">Tag</property>
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="AdwComboRow" id="format_combo_row">
+                            <property name="title" translatable="yes">Format</property>
+                            <property name="model">
+                              <object class="GtkStringList" id="format_list">
+                                <items>
+                                  <item>oci</item>
+                                  <item>docker</item>
+                                </items>
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="AdwSwitchRow" id="pause_switch_row">
+                            <property name="title" translatable="yes">Pause</property>
+                            <property name="subtitle" translatable="yes">Pause the container before committing it.</property>
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="AdwPreferencesGroup">
+                        <property name="title" translatable="yes">Changes</property>
+                        <property name="description" translatable="yes">Instructions to apply while committing in Dockerfile format (i.e. "CMD=/bin/foo").</property>
+                        <child>
+                          <object class="GtkListBox" id="changes_list_box">
+                            <style>
+                              <class name="boxed-list"/>
+                            </style>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+
                   </object>
                 </child>
 
               </object>
-            </child>
+            </property>
 
           </object>
-        </child>
-
-        <child>
-          <object class="AdwBin" id="action_page_bin"/>
         </child>
 
       </object>

@@ -1,5 +1,6 @@
 use std::cell::RefCell;
 
+use gettextrs::gettext;
 use glib::closure;
 use glib::Properties;
 use gtk::glib;
@@ -19,7 +20,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::PodRow)]
-    #[template(file = "pod_row.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/pod_row.ui")]
     pub(crate) struct PodRow {
         pub(super) bindings: RefCell<Vec<glib::Binding>>,
         #[property(get, set = Self::set_pod, construct, nullable)]
@@ -192,8 +193,12 @@ impl PodRow {
             {
                 pod.select();
             } else {
-                utils::find_leaflet_overlay(self.upcast_ref())
-                    .show_details(view::PodDetailsPage::from(pod).upcast_ref());
+                utils::navigation_view(self.upcast_ref()).push(
+                    &adw::NavigationPage::builder()
+                        .title(gettext("Pod Details"))
+                        .child(&view::PodDetailsPage::from(pod))
+                        .build(),
+                );
             }
         }
     }

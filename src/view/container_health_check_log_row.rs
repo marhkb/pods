@@ -15,7 +15,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ContainerHealthCheckLogRow)]
-    #[template(file = "container_health_check_log_row.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/container_health_check_log_row.ui")]
     pub(crate) struct ContainerHealthCheckLogRow {
         #[property(get, set = Self::set_log, nullable)]
         pub(super) log: glib::WeakRef<model::HealthCheckLog>,

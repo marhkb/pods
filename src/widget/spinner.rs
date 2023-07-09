@@ -21,12 +21,11 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(file = "spinner.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/widget/spinner.ui")]
     pub(crate) struct Spinner {
         pub(super) spinning: Cell<bool>,
         pub(super) animation: OnceCell<adw::TimedAnimation>,
         pub(super) animation_value: Cell<f32>,
-        pub(super) mask_shader: OnceCell<Option<gsk::GLShader>>,
         #[template_child]
         pub(super) image: TemplateChild<gtk::Image>,
     }
@@ -39,6 +38,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+            klass.bind_template_callbacks();
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -98,12 +98,6 @@ mod imp {
                 .build();
             self.animation.set(animation).unwrap();
 
-            self.image
-                .connect_icon_name_notify(clone!(@weak obj => move |_| {
-                    obj.queue_draw();
-                    obj.notify("icon-name");
-                }));
-
             let adw_style_manager = adw::StyleManager::default();
             adw_style_manager
                 .connect_high_contrast_notify(clone!(@weak obj => move |_| obj.queue_draw()));
@@ -116,25 +110,8 @@ mod imp {
     }
 
     impl WidgetImpl for Spinner {
-        fn realize(&self) {
-            self.parent_realize();
-
-            let shader = gsk::GLShader::from_resource("/com/github/marhkb/Pods/glsl/mask.glsl");
-            let renderer = self.obj().native().unwrap().renderer();
-            let compiled_shader = match shader.compile(&renderer) {
-                Err(e) => {
-                    // If shaders aren't supported, the error doesn't matter and we just silently fall
-                    // back.
-                    log::error!("Couldn't compile shader: {}", e);
-                    None
-                }
-                Ok(_) => Some(shader),
-            };
-
-            self.mask_shader.set(compiled_shader).unwrap();
-        }
-
-        fn measure(&self, _: gtk::Orientation, _: i32) -> (i32, i32, i32, i32) {
+        fn measure(&self, orientation: gtk::Orientation, for_size: i32) -> (i32, i32, i32, i32) {
+            self.image.measure(orientation, for_size);
             (SIZE, SIZE, -1, -1)
         }
 
@@ -196,46 +173,19 @@ mod imp {
 
             child_snapshot.pop();
 
-            let maybe_compiled_masked_shader = self.mask_shader.get().unwrap();
-            if let Some(ref compiled_mask_shader) = maybe_compiled_masked_shader {
-                snapshot.push_gl_shader(
-                    compiled_mask_shader,
-                    &rect,
-                    gsk::ShaderArgsBuilder::new(compiled_mask_shader, None).to_args(),
-                );
-            }
-
-            snapshot.append_node(&child_snapshot.to_node().unwrap());
+            snapshot.push_mask(gsk::MaskMode::InvertedAlpha);
 
             let border_width = BORDER_WIDTH as f32;
             let size = size - border_width;
             let rect = graphene::Rect::new(border_width / 2.0, border_width / 2.0, size, size);
 
-            if maybe_compiled_masked_shader.is_some() {
-                snapshot.gl_shader_pop_texture();
+            snapshot.push_rounded_clip(&gsk::RoundedRect::from_rect(rect, size / 2.0));
+            snapshot.append_color(&gdk::RGBA::GREEN, &rect);
+            snapshot.pop();
+            snapshot.pop();
 
-                snapshot.push_rounded_clip(&gsk::RoundedRect::from_rect(rect, size / 2.0));
-                snapshot.append_color(&gdk::RGBA::GREEN, &rect);
-                snapshot.pop();
-
-                snapshot.gl_shader_pop_texture();
-                snapshot.pop();
-            } else {
-                snapshot.push_rounded_clip(&gsk::RoundedRect::from_rect(rect, size / 2.0));
-                snapshot.append_color(
-                    &style_context
-                        .lookup_color("dialog_bg_color")
-                        .unwrap_or_else(|| {
-                            if adw::StyleManager::default().is_dark() {
-                                gdk::RGBA::new(0.22, 0.22, 0.22, 1.0)
-                            } else {
-                                gdk::RGBA::new(0.98, 0.98, 0.98, 1.0)
-                            }
-                        }),
-                    &rect,
-                );
-                snapshot.pop();
-            }
+            snapshot.append_node(&child_snapshot.to_node().unwrap());
+            snapshot.pop();
 
             widget.snapshot_child(&*self.image, snapshot);
         }
@@ -246,6 +196,16 @@ mod imp {
             if self.obj().is_spinning() {
                 self.animation.get().unwrap().play();
             }
+        }
+    }
+
+    #[gtk::template_callbacks]
+    impl Spinner {
+        #[template_callback]
+        fn on_image_notify_icon_name(&self) {
+            let obj = &*self.obj();
+            obj.queue_draw();
+            obj.notify("icon-name");
         }
     }
 }

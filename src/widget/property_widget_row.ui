@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <template class="PdsPropertyWidgetRow" parent="AdwActionRow">
+    <signal name="notify::title" handler="on_notify_title" swapped="true"/>
     <property name="activatable">False</property>
 
     <child>
-      <object class="AdwBin" id="bin"/>
+      <object class="AdwBin" id="bin">
+        <signal name="notify::child" handler="on_bin_notify_child" swapped="true"/>
+      </object>
     </child>
 
   </template>

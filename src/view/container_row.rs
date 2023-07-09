@@ -1,6 +1,7 @@
 use std::cell::RefCell;
 
 use adw::traits::AnimationExt;
+use gettextrs::gettext;
 use glib::clone;
 use glib::closure;
 use glib::Properties;
@@ -21,7 +22,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ContainerRow)]
-    #[template(file = "container_row.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/container_row.ui")]
     pub(crate) struct ContainerRow {
         pub(super) bindings: RefCell<Vec<glib::Binding>>,
         #[property(get, set = Self::set_container, construct, nullable)]
@@ -41,7 +42,7 @@ mod imp {
         #[template_child]
         pub(super) repo_label: TemplateChild<gtk::Label>,
         #[template_child]
-        pub(super) health_status_label: TemplateChild<gtk::Label>,
+        pub(super) health_status_image: TemplateChild<gtk::Image>,
         #[template_child]
         pub(super) stats_box: TemplateChild<gtk::Box>,
         #[template_child]
@@ -195,9 +196,14 @@ mod imp {
 
             health_status_expr
                 .chain_closure::<String>(closure!(
-                    |_: Self::Type, status: model::ContainerHealthStatus| status.to_string()
+                    |_: Self::Type, status: model::ContainerHealthStatus| match status {
+                        model::ContainerHealthStatus::Starting => "image-loading-symbolic",
+                        model::ContainerHealthStatus::Healthy => "emblem-ok-symbolic",
+                        model::ContainerHealthStatus::Unhealthy => "error-symbolic",
+                        _ => "dialog-question-symbolic",
+                    }
                 ))
-                .bind(&*self.health_status_label, "label", Some(obj));
+                .bind(&*self.health_status_image, "icon-name", Some(obj));
 
             gtk::ClosureExpression::new::<bool>(
                 [status_expr.upcast_ref(), health_status_expr.upcast_ref()],
@@ -208,9 +214,9 @@ mod imp {
                         && health_status != model::ContainerHealthStatus::Unconfigured
                 }),
             )
-            .bind(&*self.health_status_label, "visible", Some(obj));
+            .bind(&*self.health_status_image, "visible", Some(obj));
 
-            let css_classes = utils::css_classes(self.health_status_label.upcast_ref());
+            let css_classes = utils::css_classes(self.health_status_image.upcast_ref());
             health_status_expr
                 .chain_closure::<Vec<String>>(closure!(
                     |_: Self::Type, status: model::ContainerHealthStatus| {
@@ -223,7 +229,7 @@ mod imp {
                             .collect::<Vec<_>>()
                     }
                 ))
-                .bind(&*self.health_status_label, "css-classes", Some(obj));
+                .bind(&*self.health_status_image, "css-classes", Some(obj));
 
             status_expr
                 .chain_closure::<bool>(closure!(
@@ -349,8 +355,19 @@ impl ContainerRow {
             {
                 container.select();
             } else {
-                utils::find_leaflet_overlay(self.upcast_ref())
-                    .show_details(view::ContainerDetailsPage::from(container).upcast_ref());
+                let nav_page = adw::NavigationPage::builder()
+                    .child(&view::ContainerDetailsPage::from(container))
+                    .build();
+
+                Self::this_expression("container")
+                    .chain_property::<model::Container>("name")
+                    .chain_closure::<String>(closure!(|_: Self, name: &str| gettext!(
+                        "Container {}",
+                        name
+                    )))
+                    .bind(&nav_page, "title", Some(self));
+
+                utils::navigation_view(self.upcast_ref()).push(&nav_page);
             }
         }
     }

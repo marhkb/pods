@@ -36,9 +36,9 @@
       <summary>The last used view</summary>
       <description></description>
     </key>
-    <key name="show-intermediate-images" type="b">
+    <key name="hide-intermediate-images" type="b">
       <default>false</default>
-      <summary>Whether to show intermediate images</summary>
+      <summary>Whether to hide intermediate images</summary>
       <description></description>
     </key>
     <key name="last-used-container-file-path" type="s">

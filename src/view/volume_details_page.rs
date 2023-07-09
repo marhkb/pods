@@ -1,6 +1,6 @@
 use std::cell::RefCell;
 
-use adw::traits::BinExt;
+use adw::traits::NavigationPageExt;
 use gettextrs::gettext;
 use glib::clone;
 use glib::closure;
@@ -24,13 +24,11 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::VolumeDetailsPage)]
-    #[template(file = "volume_details_page.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/volume_details_page.ui")]
     pub(crate) struct VolumeDetailsPage {
         pub(super) handler_id: RefCell<Option<glib::SignalHandlerId>>,
         #[property(get, set = Self::set_volume, construct, explicit_notify, nullable)]
         pub(super) volume: glib::WeakRef<model::Volume>,
-        #[template_child]
-        pub(super) back_navigation_controls: TemplateChild<widget::BackNavigationControls>,
         #[template_child]
         pub(super) window_title: TemplateChild<adw::WindowTitle>,
         #[template_child]
@@ -41,8 +39,6 @@ mod imp {
         pub(super) driver_row: TemplateChild<widget::PropertyRow>,
         #[template_child]
         pub(super) mountpoint_row: TemplateChild<widget::PropertyRow>,
-        #[template_child]
-        pub(super) leaflet_overlay: TemplateChild<widget::LeafletOverlay>,
     }
 
     #[glib::object_subclass]
@@ -181,7 +177,7 @@ mod imp {
 
                 let handler_id = volume.connect_deleted(clone!(@weak obj => move |volume| {
                     utils::show_toast(obj.upcast_ref(), gettext!("Volume '{}' has been deleted", volume.inner().name));
-                    obj.imp().back_navigation_controls.navigate_back();
+                    utils::navigation_view(obj.upcast_ref()).pop();
                 }));
                 self.handler_id.replace(Some(handler_id));
             }
@@ -211,8 +207,12 @@ impl VolumeDetailsPage {
                 let weak_ref = glib::WeakRef::new();
                 weak_ref.set(Some(&volume));
 
-                self.imp().leaflet_overlay.show_details(
-                    view::ScalableTextViewPage::from(view::Entity::Volume(weak_ref)).upcast_ref(),
+                utils::navigation_view(self.upcast_ref()).push(
+                    &adw::NavigationPage::builder()
+                        .child(&view::ScalableTextViewPage::from(view::Entity::Volume(
+                            weak_ref,
+                        )))
+                        .build(),
                 );
             }
         });
@@ -225,7 +225,11 @@ impl VolumeDetailsPage {
     }
 
     fn exec_action<F: Fn()>(&self, op: F) {
-        if self.imp().leaflet_overlay.child().is_none() {
+        if utils::navigation_view(self.upcast_ref())
+            .visible_page()
+            .filter(|page| page.child().as_ref() == Some(self.upcast_ref()))
+            .is_some()
+        {
             op();
         }
     }

@@ -31,7 +31,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ImageSelectionComboRow)]
-    #[template(file = "image_selection_combo_row.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/image_selection_combo_row.ui")]
     pub(crate) struct ImageSelectionComboRow {
         #[property(get, set, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
@@ -138,8 +138,11 @@ impl ImageSelectionComboRow {
                     obj.set_image(Some(image));
                 }),
             );
-            utils::find_leaflet_overlay(self.upcast_ref())
-                .show_details(image_selection_page.upcast_ref());
+            utils::navigation_view(self.upcast_ref()).push(
+                &adw::NavigationPage::builder()
+                    .child(&image_selection_page)
+                    .build(),
+            );
         }
     }
 
@@ -151,8 +154,11 @@ impl ImageSelectionComboRow {
                 obj.set_mode(ImageSelectionMode::Remote);
                 obj.set_subtitle(&image);
             }));
-            utils::find_leaflet_overlay(self.upcast_ref())
-                .show_details(image_search_page.upcast_ref());
+            utils::navigation_view(self.upcast_ref()).push(
+                &adw::NavigationPage::builder()
+                    .child(&image_search_page)
+                    .build(),
+            );
         }
     }
 }

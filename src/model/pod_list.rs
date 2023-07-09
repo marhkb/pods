@@ -62,6 +62,11 @@ mod imp {
                     .cloned()
                     .chain(vec![
                         glib::ParamSpecUInt::builder("len").read_only().build(),
+                        glib::ParamSpecUInt::builder("degraded").read_only().build(),
+                        glib::ParamSpecUInt::builder("not-running")
+                            .read_only()
+                            .build(),
+                        glib::ParamSpecUInt::builder("paused").read_only().build(),
                         glib::ParamSpecUInt::builder("running").read_only().build(),
                         glib::ParamSpecUInt::builder("num-selected")
                             .read_only()
@@ -78,6 +83,9 @@ mod imp {
         fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
                 "len" => self.obj().len().to_value(),
+                "degraded" => self.obj().degraded().to_value(),
+                "not-running" => self.obj().not_running().to_value(),
+                "paused" => self.obj().paused().to_value(),
                 "running" => self.obj().running().to_value(),
                 "num-selected" => self.obj().num_selected().to_value(),
                 _ => self.derived_property(id, pspec),
@@ -145,16 +153,39 @@ impl From<&model::Client> for PodList {
 }
 
 impl PodList {
+    fn notify_num_pods(&self) {
+        self.notify("degraded");
+        self.notify("not-running");
+        self.notify("paused");
+        self.notify("running");
+    }
+
     pub(crate) fn len(&self) -> u32 {
         self.n_items()
     }
 
+    pub(crate) fn degraded(&self) -> u32 {
+        self.num_pods_of_status(model::PodStatus::Degraded)
+    }
+
+    pub(crate) fn not_running(&self) -> u32 {
+        self.len() - self.running() - self.paused() - self.degraded()
+    }
+
+    pub(crate) fn paused(&self) -> u32 {
+        self.num_pods_of_status(model::PodStatus::Paused)
+    }
+
     pub(crate) fn running(&self) -> u32 {
+        self.num_pods_of_status(model::PodStatus::Running)
+    }
+
+    pub(crate) fn num_pods_of_status(&self, status: model::PodStatus) -> u32 {
         self.imp()
             .list
             .borrow()
             .values()
-            .filter(|pod| pod.status() == model::PodStatus::Running)
+            .filter(|pod| pod.status() == status)
             .count() as u32
     }
 
@@ -168,6 +199,7 @@ impl PodList {
             drop(list);
 
             self.items_changed(idx as u32, 1, 0);
+            self.notify_num_pods();
             pod.emit_deleted();
         }
     }
@@ -266,9 +298,10 @@ impl PodList {
     }
 
     fn pod_added(&self, pod: &model::Pod) {
+        self.notify_num_pods();
         pod.connect_notify_local(
             Some("status"),
-            clone!(@weak self as obj => move |_, _| obj.notify("running")),
+            clone!(@weak self as obj => move |_, _| obj.notify_num_pods()),
         );
         self.emit_by_name::<()>("pod-added", &[pod]);
     }

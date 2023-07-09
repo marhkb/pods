@@ -1,33 +1,33 @@
 [package]
 name = "pods"
-version = "1.3.0-dev"
+version = "2.0.0-dev"
 authors = ["Marcus Behrendt <marcus.behrendt.86@gmail.com>"]
 edition = "2021"
 
 [dependencies]
-adw = { version = "0.3", package = "libadwaita", features = ["v1_3"] }
+adw = { git = "https://gitlab.gnome.org/World/Rust/libadwaita-rs", package = "libadwaita", features = ["v1_4"] }
 anyhow = "1"
-ashpd = { version = "0.4", default-features = false, features = ["gtk4", "tokio"] }
+ashpd = { git = "https://github.com/bilelmoussaoui/ashpd.git", default-features = false, features = ["gtk4", "tokio"] }
 futures = { version = "0.3", default-features = false }
 gettext-rs = { version = "0.7", features = ["gettext-system"] }
-gtk = { version = "0.6", package = "gtk4", features = ["gnome_44"] }
-indexmap = { version = "1", features = ["serde"] }
+gtk = { git = "https://github.com/gtk-rs/gtk4-rs.git", package = "gtk4", features = ["gnome_44"] }
+indexmap = { version = "2", features = ["serde"] }
 log = "0.4"
 names = { version = "0.14", default-features = false }
 once_cell = "1"
-oo7 = { version = "0.1", default-features = false, features = ["native_crypto", "tokio"] }
-panel = { version = "0.2", package = "libpanel" }
-paste = "1"
+oo7 = { version = "0.2", default-features = false, features = ["native_crypto", "tokio"] }
+panel = { git = "https://gitlab.gnome.org/World/Rust/libpanel-rs.git", package = "libpanel", features = ["adw_v1_2"] }
+paste = "1.0.4"
 podman-api = { git = "https://github.com/vv9k/podman-api-rs.git", commit = "363d945b9b9905c50dfa0bfe0f9331f9fdeef079", default-features = false }
 regex = "1"
 serde = "1"
 serde_json = "1"
-sourceview5 = "0.6"
+sourceview5 = { git = "https://gitlab.gnome.org/World/Rust/sourceview5-rs.git" }
 syslog = "6"
 tokio = "1"
 tokio-tar = "0.3"
 vte = { version = "0.11", default-features = false }
-vte4 = "0.6"
+vte4 = { git = "https://gitlab.gnome.org/World/Rust/vte4-rs.git" }
 
 [profile.release]
 lto = true

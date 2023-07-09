@@ -11,7 +11,9 @@
 }
 
 .container-status-running,
-.pod-status-running {
+.pod-status-running,
+.image-used,
+.volume-used {
 	color: @blue_1;
 	background-color: alpha(@blue_2, .35);
 }

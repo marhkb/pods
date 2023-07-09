@@ -9,36 +9,44 @@
     </widgets>
   </object>
 
-  <object class="GtkListBoxRow" id="add_image_row">
-    <property name="action-name">images-panel.show-add-image-menu</property>
-    <property name="selectable">False</property>
-
-    <child>
-      <object class="GtkImage">
-        <property name="icon-name">list-add-symbolic</property>
-        <property name="margin-top">15</property>
-        <property name="margin-bottom">15</property>
-      </object>
-    </child>
-
-  </object>
-
-  <menu id="menu">
+  <menu id="create-menu">
     <section>
       <item>
-        <attribute name="label" translatable="yes">_Download…</attribute>
+        <attribute name="label" translatable="yes">_Download</attribute>
         <attribute name="action">images-panel.pull-image</attribute>
       </item>
       <item>
-        <attribute name="label" translatable="yes">_Build…</attribute>
+        <attribute name="label" translatable="yes">_Build</attribute>
         <attribute name="action">images-panel.build-image</attribute>
       </item>
     </section>
   </menu>
 
-  <object class="GtkPopoverMenu" id="popover_menu">
-    <property name="menu-model">menu</property>
-  </object>
+  <menu id="overhang-menu">
+    <item>
+      <attribute name="label" translatable="yes">_Download</attribute>
+      <attribute name="action">images-panel.pull-image</attribute>
+    </item>
+    <item>
+      <attribute name="label" translatable="yes">_Build</attribute>
+      <attribute name="action">images-panel.build-image</attribute>
+    </item>
+    <item>
+      <attribute name="label" translatable="yes">_Prune Unused Images</attribute>
+      <attribute name="action">images-panel.prune-unused-images</attribute>
+    </item>
+  </menu>
+
+  <menu id="selection-menu">
+    <item>
+      <attribute name="label" translatable="yes">_Select Visible</attribute>
+      <attribute name="action">images-panel.select-visible</attribute>
+    </item>
+    <item>
+      <attribute name="label" translatable="yes">Select None</attribute>
+      <attribute name="action">images-panel.select-none</attribute>
+    </item>
+  </menu>
 
   <template class="PdsImagesPanel" parent="GtkWidget">
     <property name="layout-manager">
@@ -46,147 +54,265 @@
     </property>
 
     <child>
-      <object class="GtkStack" id="main_stack">
+      <object class="AdwBreakpointBin">
+        <property name="height-request">180</property>
+        <property name="width-request">360</property>
 
         <child>
-          <object class="GtkStackPage">
-            <property name="name">spinner</property>
-            <property name="child">
-              <object class="PdsEfficientSpinner">
-                <property name="halign">center</property>
-                <property name="valign">center</property>
-                <property name="height-request">30</property>
-                <property name="width-request">30</property>
-              </object>
-            </property>
+          <object class="AdwBreakpoint">
+            <condition>max-width: 400sp</condition>
+            <setter object="create_button" property="visible">False</setter>
+            <setter object="prune_button" property="visible">False</setter>
           </object>
         </child>
 
-        <!-- List of images -->
         <child>
-          <object class="GtkStackPage">
-            <property name="name">images</property>
+          <object class="AdwBreakpoint">
+            <condition>min-width: 400px</condition>
+            <setter object="overhang_menu_button" property="visible">False</setter>
+          </object>
+        </child>
 
-            <property name="child">
-              <object class="GtkBox">
-                <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkStack" id="main_stack">
 
-                <child>
-                  <object class="AdwPreferencesPage">
-                    <property name="vexpand">True</property>
+            <child>
+              <object class="GtkStackPage">
+                <property name="name">spinner</property>
 
-                    <child>
-                      <object class="AdwPreferencesGroup" id="images_group">
-                        <property name="title" translatable="yes">Summary</property>
+                <property name="child">
+                  <object class="AdwToolbarView">
 
-                        <property name="header-suffix">
-                          <object class="GtkBox" id="header_suffix_box">
-                            <property name="spacing">15</property>
-                            <property name="valign">center</property>
-
-                            <child>
-                              <object class="GtkBox">
-                                <property name="spacing">6</property>
-
-                                <child>
-                                  <object class="GtkLabel">
-                                    <property name="label" translatable="yes">Intermediates</property>
-                                  </object>
-                                </child>
-
-                                <child>
-                                  <object class="GtkSwitch" id="show_intermediates_switch">
-                                    <property name="valign">center</property>
-                                  </object>
-                                </child>
-
-                              </object>
-                            </child>
-
-                            <child>
-                              <object class="GtkBox" id="header_suffix_button_box">
-                                <property name="spacing">9</property>
-
-                                <child>
-                                  <object class="GtkButton">
-                                    <style>
-                                      <class name="circular"/>
-                                    </style>
-                                    <property name="action-name">images-panel.prune-unused-images</property>
-                                    <property name="icon-name">eraser5-symbolic</property>
-                                    <property name="tooltip-text" translatable="yes">Prune Images</property>
-                                  </object>
-                                </child>
-
-                                <child>
-                                  <object class="GtkMenuButton">
-                                    <style>
-                                      <class name="circular"/>
-                                    </style>
-                                    <property name="icon-name">list-add-symbolic</property>
-                                    <property name="tooltip-text" translatable="yes">Create Image</property>
-                                    <property name="menu-model">menu</property>
-                                  </object>
-                                </child>
-
-                              </object>
-                            </child>
-
+                    <child type="top">
+                      <object class="AdwHeaderBar">
+                        <property name="title-widget">
+                          <object class="AdwWindowTitle">
+                            <property name="title" translatable="yes">Images</property>
                           </object>
                         </property>
+                      </object>
+                    </child>
 
-                        <child>
-                          <object class="GtkListBox" id="list_box">
-                            <style>
-                              <class name="boxed-list"/>
-                            </style>
-                            <property name="selection-mode">none</property>
+                    <child>
+                      <object class="PdsEfficientSpinner">
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <property name="height-request">30</property>
+                        <property name="width-request">30</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </property>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkStackPage">
+                <property name="name">images</property>
+
+                <property name="child">
+                  <object class="AdwToolbarView">
+
+                    <child type="top">
+                      <object class="AdwHeaderBar" id="main_header_bar">
+
+                        <child type="start">
+                          <object class="GtkToggleButton">
+                            <property name="active" bind-source="search_bar" bind-property="search-mode-enabled" bind-flags="sync-create|bidirectional"/>
+                            <property name="icon-name">system-search-symbolic</property>
+                            <property name="tooltip-text" translatable="yes">Search</property>
+                          </object>
+                        </child>
+
+                        <child type="start">
+                          <object class="GtkMenuButton" id="create_button">
+                            <property name="icon-name">list-add-symbolic</property>
+                            <property name="tooltip-text" translatable="yes">Create Image</property>
+                            <property name="menu-model">create-menu</property>
+                          </object>
+                        </child>
+
+                        <child type="start">
+                          <object class="GtkButton" id="prune_button">
+                            <property name="action-name">images-panel.prune-unused-images</property>
+                            <property name="icon-name">eraser5-symbolic</property>
+                            <property name="tooltip-text" translatable="yes">Prune Unused Images</property>
+                          </object>
+                        </child>
+
+                        <child type="start">
+                          <object class="GtkMenuButton" id="overhang_menu_button">
+                            <property name="menu-model">overhang-menu</property>
+                            <property name="tooltip-text" translatable="yes">More Actions</property>
+                          </object>
+                        </child>
+
+                        <child type="title">
+                          <object class="AdwWindowTitle" id="window_title">
+                            <property name="title" translatable="yes">Images</property>
+                          </object>
+                        </child>
+
+                        <child type="end">
+                          <object class="GtkToggleButton" id="hide_intermediates_toggle_button">
+                            <signal name="notify::active" handler="on_hide_intermediates_toggle_button_notify_active" swapped="true"/>
+                            <property name="icon-name">funnel-symbolic</property>
+                            <property name="tooltip-text" translatable="yes">Show Only Tagged Images</property>
+                          </object>
+                        </child>
+
+                        <child type="end">
+                          <object class="GtkButton">
+                            <property name="action-name">images-panel.enter-selection-mode</property>
+                            <property name="icon-name">selection-mode-symbolic</property>
+                            <property name="tooltip-text" translatable="yes">Multi-Selection</property>
                           </object>
                         </child>
 
                       </object>
                     </child>
 
-                  </object>
-                </child>
+                    <child type="top">
+                      <object class="AdwHeaderBar" id="selection_header_bar">
 
-                <child>
-                  <object class="GtkActionBar">
-                    <binding name="revealed">
-                      <lookup name="selection-mode" type="ImageList">
-                        <lookup name="image-list">PdsImagesPanel</lookup>
-                      </lookup>
-                    </binding>
-
-                    <child type="center">
-                      <object class="AdwBin">
-                        <style>
-                          <class name="toolbar"/>
-                        </style>
-
-                        <child>
+                        <child type="start">
                           <object class="GtkButton">
+                            <property name="action-name">images-panel.exit-selection-mode</property>
+                            <property name="label" translatable="yes">Cancel</property>
+                          </object>
+                        </child>
+
+                        <child type="title">
+                          <object class="GtkMenuButton" id="selected_images_button">
                             <style>
                               <class name="flat"/>
                             </style>
-                            <property name="action-name">images-panel.delete-selection</property>
+                            <property name="can-shrink">True</property>
+                            <property name="menu-model">selection-menu</property>
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                    <child type="top">
+                      <object class="GtkSearchBar" id="search_bar">
+                        <signal name="notify::search-mode-enabled" handler="on_notify_search_mode_enabled" swapped="true"/>
+
+                        <child>
+                          <object class="GtkSearchEntry" id="search_entry">
+                            <signal name="search-changed" handler="on_search_changed" swapped="true"/>
+                            <property name="max-width-chars">28</property>
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="AdwPreferencesPage">
+                        <property name="vexpand">True</property>
+
+                        <child>
+                          <object class="AdwPreferencesGroup" id="images_group">
 
                             <child>
-                              <object class="GtkBox">
-                                <property name="spacing">6</property>
+                              <object class="GtkListBox" id="list_box">
+                                <style>
+                                  <class name="boxed-list"/>
+                                </style>
+                                <property name="selection-mode">none</property>
+                              </object>
+                            </child>
 
-                                <child>
-                                  <object class="GtkImage">
-                                    <property name="icon-name">user-trash-symbolic</property>
-                                  </object>
-                                </child>
+                          </object>
+                        </child>
 
-                                <child>
-                                  <object class="GtkLabel">
-                                    <property name="label" translatable="yes">Delete</property>
-                                  </object>
-                                </child>
+                      </object>
+                    </child>
 
+                    <child type="bottom">
+                      <object class="GtkActionBar">
+                        <binding name="revealed">
+                          <lookup name="selection-mode" type="ImageList">
+                            <lookup name="image-list">PdsImagesPanel</lookup>
+                          </lookup>
+                        </binding>
+
+                        <child type="center">
+                          <object class="GtkButton">
+                            <style>
+                              <class name="destructive-action"/>
+                              <class name="pill"/>
+                            </style>
+                            <property name="action-name">images-panel.delete-selection</property>
+                            <property name="label" translatable="yes">Delete</property>
+                            <property name="width-request">200</property>
+                            <property name="tooltip-text" translatable="yes">Delete</property>
+                            <property name="valign">center</property>
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                  </object>
+                </property>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkStackPage">
+                <property name="name">empty</property>
+
+                <property name="child">
+                  <object class="AdwToolbarView">
+
+                    <child type="top">
+                      <object class="AdwHeaderBar">
+                        <property name="title-widget">
+                          <object class="AdwWindowTitle">
+                            <property name="title" translatable="yes">Images</property>
+                          </object>
+                        </property>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="AdwStatusPage">
+                        <property name="title" translatable="yes">No Images Found</property>
+                        <property name="description" translatable="yes">You can use the buttons below to add an initial image.</property>
+
+                        <child>
+                          <object class="GtkBox">
+                            <property name="orientation">vertical</property>
+                            <property name="spacing">18</property>
+
+                            <child>
+                              <object class="GtkButton" id="pull_button">
+                                <style>
+                                  <class name="pill"/>
+                                  <class name="suggested-action"/>
+                                </style>
+                                <property name="action-name">images-panel.pull-image</property>
+                                <property name="halign">center</property>
+                                <property name="label" translatable="yes">_Download Image</property>
+                                <property name="use-underline">True</property>
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="GtkButton" id="build_button">
+                                <style>
+                                  <class name="pill"/>
+                                </style>
+                                <property name="action-name">images-panel.build-image</property>
+                                <property name="halign">center</property>
+                                <property name="label" translatable="yes">_Build Image</property>
+                                <property name="use-underline">True</property>
                               </object>
                             </child>
 
@@ -197,64 +323,15 @@
                     </child>
 
                   </object>
-                </child>
+                </property>
 
               </object>
-            </property>
-
-          </object>
-        </child>
-
-        <child>
-          <object class="GtkStackPage">
-            <property name="name">empty</property>
-
-            <property name="child">
-              <object class="AdwStatusPage">
-                <property name="title" translatable="yes">No Images Found</property>
-                <property name="description" translatable="yes">You can use the buttons below to add an initial image.</property>
-
-                <child>
-                  <object class="GtkBox">
-                    <property name="orientation">vertical</property>
-                    <property name="spacing">18</property>
-
-                    <child>
-                      <object class="GtkButton" id="pull_button">
-                        <style>
-                          <class name="pill"/>
-                          <class name="suggested-action"/>
-                        </style>
-                        <property name="action-name">images-panel.pull-image</property>
-                        <property name="halign">center</property>
-                        <property name="label" translatable="yes">_Download Image</property>
-                        <property name="use-underline">True</property>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="GtkButton" id="build_button">
-                        <style>
-                          <class name="pill"/>
-                        </style>
-                        <property name="action-name">images-panel.build-image</property>
-                        <property name="halign">center</property>
-                        <property name="label" translatable="yes">_Build Image</property>
-                        <property name="use-underline">True</property>
-                      </object>
-                    </child>
-
-                  </object>
-                </child>
-
-              </object>
-            </property>
+            </child>
 
           </object>
         </child>
 
       </object>
     </child>
-
   </template>
 </interface>

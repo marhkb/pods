@@ -16,7 +16,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::PortMappingRow)]
-    #[template(file = "port_mapping_row.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/port_mapping_row.ui")]
     pub(crate) struct PortMappingRow {
         pub(super) bindings: RefCell<Vec<glib::Binding>>,
         #[property(get, set = Self::set_port_mapping, construct)]

@@ -2,87 +2,74 @@
 <interface>
   <template class="PdsActionsSidebar" parent="GtkWidget">
     <property name="layout-manager">
-      <object class="GtkBoxLayout">
-        <property name="orientation">vertical</property>
-      </object>
+      <object class="GtkBinLayout"/>
     </property>
 
     <child>
-      <object class="AdwHeaderBar">
-        <style>
-          <class name="flat"/>
-        </style>
+      <object class="AdwToolbarView">
 
-        <property name="show-end-title-buttons">False</property>
-        <property name="show-start-title-buttons">False</property>
+        <child type="top">
+          <object class="AdwHeaderBar">
+            <property name="show-end-title-buttons">False</property>
+            <property name="show-start-title-buttons">False</property>
 
-        <child type="start">
-          <object class="GtkButton" id="clear_all_button">
-            <property name="action-name">actions-overview.clear-actions</property>
-            <property name="icon-name">edit-clear-all-symbolic</property>
-            <property name="tooltip-text" translatable="yes">Clear Finished Actions</property>
-            <property name="visible" bind-source="clear_all_button" bind-property="sensitive" bind-flags="sync-create"/>
-          </object>
-        </child>
-
-        <property name="title-widget">
-          <object class="AdwWindowTitle">
-            <property name="title" translatable="yes">Actions</property>
-          </object>
-        </property>
-
-        <child type="end">
-          <object class="GtkButton">
-            <property name="action-name">win.exit-actions-sidebar</property>
-            <property name="icon-name">go-next-symbolic</property>
-            <property name="tooltip-text" translatable="yes">Fold</property>
-          </object>
-        </child>
-
-
-      </object>
-    </child>
-
-    <child>
-      <object class="GtkStack" id="stack">
-        <property name="vexpand">True</property>
-
-        <child>
-          <object class="GtkStackPage">
-            <property name="name">empty</property>
-
-            <property name="child">
-              <object class="AdwStatusPage">
-                <style>
-                  <class name="compact"/>
-                </style>
-
-                <property name="icon-name">action-unavailable-symbolic</property>
-                <property name="title" translatable="yes">No Actions</property>
+            <property name="title-widget">
+              <object class="AdwWindowTitle">
+                <property name="title" translatable="yes">Actions</property>
               </object>
             </property>
 
+            <child type="end">
+              <object class="GtkButton" id="clear_all_button">
+                <property name="action-name">actions-overview.clear-actions</property>
+                <property name="icon-name">edit-clear-all-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Clear Finished Actions</property>
+                <property name="visible" bind-source="clear_all_button" bind-property="sensitive" bind-flags="sync-create"/>
+              </object>
+            </child>
+
           </object>
         </child>
 
         <child>
-          <object class="GtkStackPage">
-            <property name="name">actions</property>
+          <object class="GtkStack" id="stack">
 
-            <property name="child">
-              <object class="GtkScrolledWindow">
+            <child>
+              <object class="GtkStackPage">
+                <property name="name">empty</property>
 
-                <child>
-                  <object class="GtkListView" id="action_list_view">
+                <property name="child">
+                  <object class="AdwStatusPage">
                     <style>
-                      <class name="navigation-sidebar"/>
+                      <class name="compact"/>
                     </style>
 
-                    <signal name="activate" handler="activated" swapped="true"/>
-                    <property name="single-click-activate">True</property>
-                    <property name="factory">
-                      <object class="GtkBuilderListItemFactory">
-                        <property name="bytes">
+                    <property name="icon-name">action-unavailable-symbolic</property>
+                    <property name="title" translatable="yes">No Actions</property>
+                  </object>
+                </property>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkStackPage">
+                <property name="name">actions</property>
+
+                <property name="child">
+                  <object class="GtkScrolledWindow">
+
+                    <child>
+                      <object class="GtkListView" id="action_list_view">
+                        <style>
+                          <class name="navigation-sidebar"/>
+                        </style>
+
+                        <signal name="activate" handler="activated" swapped="true"/>
+                        <property name="single-click-activate">True</property>
+                        <property name="factory">
+                          <object class="GtkBuilderListItemFactory">
+                            <property name="bytes">
 <![CDATA[
   <?xml version="1.0" encoding="UTF-8"?>
   <interface>
@@ -97,14 +84,17 @@
     </template>
   </interface>
 ]]>
+                            </property>
+                          </object>
                         </property>
                       </object>
-                    </property>
+                    </child>
+
                   </object>
-                </child>
+                </property>
 
               </object>
-            </property>
+            </child>
 
           </object>
         </child>

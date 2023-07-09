@@ -49,6 +49,7 @@ You cannot search for images without registries. Please follow the instructions 
 
                     <child>
                       <object class="AdwEntryRow" id="search_entry_row">
+                        <signal name="changed" handler="on_search_entry_row_changed" swapped="true"/>
                         <property name="activates-default">True</property>
                         <property name="title" translatable="yes">Search for</property>
                       </object>
@@ -56,6 +57,7 @@ You cannot search for images without registries. Please follow the instructions 
 
                     <child>
                       <object class="AdwComboRow" id="registries_combo_row">
+                        <signal name="notify::selected-item" handler="on_registries_combo_row_selected_item" swapped="true"/>
                         <property name="selectable">False</property>
                         <property name="title" translatable="yes">Registry</property>
                       </object>
@@ -137,8 +139,14 @@ You cannot search for images without registries. Please follow the instructions 
                                     <property name="hscrollbar-policy">never</property>
 
                                     <child>
-                                      <object class="GtkListView" id="list_view">
+                                      <object class="GtkListView">
                                         <property name="show-separators">True</property>
+                                        <property name="factory">
+                                          <object class="GtkSignalListItemFactory" id="signal_list_item_factory">
+                                            <signal name="bind" handler="on_signal_list_item_factory_bind" swapped="true"/>
+                                            <signal name="unbind" handler="on_signal_list_item_factory_unbind" swapped="true"/>
+                                          </object>
+                                        </property>
                                         <property name="model">
                                           <object class="GtkSingleSelection" id="selection">
                                             <signal name="selection-changed" handler="on_image_selected" swapped="true"/>
@@ -162,6 +170,7 @@ You cannot search for images without registries. Please follow the instructions 
 
                     <child>
                       <object class="AdwEntryRow" id="tag_entry_row">
+                        <signal name="changed" handler="on_tag_entry_row_changed" swapped="true"/>
                         <property name="activates-default">True</property>
                         <property name="title" translatable="yes">Tag ('latest' if empty)</property>
                       </object>

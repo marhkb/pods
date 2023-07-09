@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="PdsImagesRow" parent="GtkWidget">
+    <style>
+      <class name="sidebar-row"/>
+    </style>
+    <property name="layout-manager">
+      <object class="GtkBoxLayout">
+        <property name="spacing">12</property>
+      </object>
+    </property>
+
+    <child>
+      <object class="GtkImage">
+        <property name="icon-name">image-x-generic-symbolic</property>
+      </object>
+    </child>
+
+    <child>
+      <object class="GtkLabel">
+        <property name="ellipsize">end</property>
+        <property name="label" translatable="yes">Images</property>
+        <property name="hexpand">True</property>
+        <property name="xalign">0</property>
+      </object>
+    </child>
+
+    <child>
+      <object class="GtkBox">
+        <property name="spacing">6</property>
+
+        <child>
+          <object class="GtkLabel">
+            <style>
+              <class name="status-badge-small"/>
+              <class name="image-used"/>
+            </style>
+            <binding name="label">
+              <lookup name="used" type="ImageList">
+                <lookup name="image-list">PdsImagesRow</lookup>
+              </lookup>
+            </binding>
+            <binding name="visible">
+              <lookup name="used" type="ImageList">
+                <lookup name="image-list">PdsImagesRow</lookup>
+              </lookup>
+            </binding>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkLabel">
+            <style>
+              <class name="status-badge-small"/>
+              <class name="image-unused"/>
+            </style>
+            <binding name="label">
+              <lookup name="intermediates" type="ImageList">
+                <lookup name="image-list">PdsImagesRow</lookup>
+              </lookup>
+            </binding>
+            <binding name="visible">
+              <lookup name="intermediates" type="ImageList">
+                <lookup name="image-list">PdsImagesRow</lookup>
+              </lookup>
+            </binding>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>

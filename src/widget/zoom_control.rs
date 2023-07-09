@@ -15,7 +15,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ZoomControl)]
-    #[template(file = "zoom_control.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/widget/zoom_control.ui")]
     pub(crate) struct ZoomControl {
         #[property(get, set, minimum = 0.0)]
         pub(super) zoom_factor: Cell<f64>,

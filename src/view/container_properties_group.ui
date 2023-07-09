@@ -23,6 +23,10 @@
                   <class name="dim-label"/>
                 </style>
                 <property name="selectable">True</property>
+                <property name="hexpand">True</property>
+                <property name="justify">right</property>
+                <property name="wrap">True</property>
+                <property name="wrap-mode">word-char</property>
                 <binding name="label">
                   <lookup name="name" type="Container">
                     <lookup name="container">PdsContainerPropertiesGroup</lookup>
@@ -174,8 +178,9 @@
                 </style>
                 <property name="hexpand">True</property>
                 <property name="selectable">True</property>
+                <property name="justify">right</property>
                 <property name="wrap">True</property>
-                <property name="wrap-mode">word</property>
+                <property name="wrap-mode">word-char</property>
               </object>
             </child>
 

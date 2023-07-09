@@ -26,7 +26,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ConnectionCreationPage)]
-    #[template(file = "connection_creation_page.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/connection_creation_page.ui")]
     pub(crate) struct ConnectionCreationPage {
         #[property(get, set, construct_only)]
         pub(super) connection_manager: UnsyncOnceCell<model::ConnectionManager>,
@@ -49,7 +49,7 @@ mod imp {
         #[template_child]
         pub(super) url_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
-        pub(super) color_button: TemplateChild<gtk::ColorButton>,
+        pub(super) color_dialog_button: TemplateChild<gtk::ColorDialogButton>,
         #[template_child]
         pub(super) color_switch: TemplateChild<gtk::Switch>,
     }
@@ -62,6 +62,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+            klass.bind_template_callbacks();
 
             klass.install_action(
                 ACTION_COPY_SOCKET_ACTIVATION_COMMAND,
@@ -121,9 +122,6 @@ mod imp {
                 .bind(&*self.preferences_page, "sensitive", Some(obj));
 
             obj.update_actions();
-            self.name_entry_row
-                .connect_changed(clone!(@weak obj => move |_| obj.update_actions()));
-
             obj.connection_manager().connect_notify_local(
                 Some("connecting"),
                 clone!(@weak obj => move|_ ,_|  obj.update_actions()),
@@ -144,7 +142,7 @@ mod imp {
             self.custom_url_radio_button
                 .set_active(obj.connection_manager().contains_local_connection());
 
-            self.color_button
+            self.color_dialog_button
                 .set_rgba(&gdk::RGBA::new(0.207, 0.517, 0.894, 1.0));
         }
 
@@ -163,9 +161,9 @@ mod imp {
             let widget = &*self.obj();
 
             glib::idle_add_local(
-                clone!(@weak widget => @default-return glib::Continue(false), move || {
+                clone!(@weak widget => @default-return glib::ControlFlow::Break, move || {
                     widget.imp().name_entry_row.grab_focus();
-                    glib::Continue(false)
+                    glib::ControlFlow::Break
                 }),
             );
             utils::root(widget.upcast_ref()).set_default_widget(Some(&*self.connect_button));
@@ -174,6 +172,14 @@ mod imp {
         fn unroot(&self) {
             utils::root(self.obj().upcast_ref()).set_default_widget(gtk::Widget::NONE);
             self.parent_unroot()
+        }
+    }
+
+    #[gtk::template_callbacks]
+    impl ConnectionCreationPage {
+        #[template_callback]
+        fn on_name_entry_row_changed(&self) {
+            self.obj().update_actions();
         }
     }
 }
@@ -222,7 +228,7 @@ impl ConnectionCreationPage {
                 }
                 .as_ref(),
                 if imp.color_switch.is_active() {
-                    Some(imp.color_button.rgba())
+                    Some(imp.color_dialog_button.rgba())
                 } else {
                     None
                 },

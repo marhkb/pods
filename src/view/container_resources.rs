@@ -21,7 +21,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ContainerResources)]
-    #[template(file = "container_resources.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/container_resources.ui")]
     pub(crate) struct ContainerResources {
         #[property(get, set, construct, nullable)]
         pub(super) container: glib::WeakRef<model::Container>,

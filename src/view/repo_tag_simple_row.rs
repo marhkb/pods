@@ -12,7 +12,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::RepoTagSimpleRow)]
-    #[template(file = "repo_tag_simple_row.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/repo_tag_simple_row.ui")]
     pub(crate) struct RepoTagSimpleRow {
         #[property(get, set, construct_only, nullable)]
         pub(super) repo_tag: glib::WeakRef<model::RepoTag>,
@@ -54,14 +54,14 @@ mod imp {
             let obj = &*self.obj();
 
             let style_manager = adw::StyleManager::default();
-            style_manager.connect_dark_notify(clone!(@weak obj => move |manager| {
-                obj.set_label(manager.is_dark(), manager.is_high_contrast());
+            style_manager.connect_dark_notify(clone!(@weak obj => move |style_manager| {
+                obj.set_label(style_manager);
             }));
-            style_manager.connect_high_contrast_notify(clone!(@weak obj => move |manager| {
-                obj.set_label(manager.is_dark(), manager.is_high_contrast());
+            style_manager.connect_high_contrast_notify(clone!(@weak obj => move |style_manager| {
+                obj.set_label(style_manager);
             }));
 
-            obj.set_label(style_manager.is_dark(), style_manager.is_high_contrast());
+            obj.set_label(&style_manager);
         }
     }
 
@@ -84,10 +84,10 @@ impl From<&model::RepoTag> for RepoTagSimpleRow {
 }
 
 impl RepoTagSimpleRow {
-    fn set_label(&self, is_dark: bool, is_hc: bool) {
+    fn set_label(&self, style_manager: &adw::StyleManager) {
         if let Some(repo_tag) = self.repo_tag() {
             let repo = repo_tag.repo();
-            let repo = if is_hc {
+            let repo = if style_manager.is_high_contrast() {
                 repo
             } else {
                 format!("<span alpha=\"55%\">{repo}</span>")
@@ -95,8 +95,16 @@ impl RepoTagSimpleRow {
 
             let tag = format!(
                 "<span foreground=\"{}\"{}>{}</span>",
-                if is_dark { "#78aeed" } else { "#1c71d8" },
-                if is_hc { " weight=\"bold\"" } else { "" },
+                if style_manager.is_dark() {
+                    "#78aeed"
+                } else {
+                    "#1c71d8"
+                },
+                if style_manager.is_high_contrast() {
+                    " weight=\"bold\""
+                } else {
+                    ""
+                },
                 repo_tag.tag(),
             );
 

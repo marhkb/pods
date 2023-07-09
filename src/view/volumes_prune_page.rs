@@ -1,5 +1,4 @@
 use adw::subclass::prelude::*;
-use adw::traits::BinExt;
 use adw::traits::ExpanderRowExt;
 use glib::Properties;
 use gtk::glib;
@@ -19,16 +18,14 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::VolumesPrunePage)]
-    #[template(file = "volumes_prune_page.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/volumes_prune_page.ui")]
     pub(crate) struct VolumesPrunePage {
         #[property(get, set, construct_only, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
         #[template_child]
-        pub(super) stack: TemplateChild<gtk::Stack>,
+        pub(super) navigation_view: TemplateChild<adw::NavigationView>,
         #[template_child]
         pub(super) prune_until_row: TemplateChild<widget::DateTimeRow>,
-        #[template_child]
-        pub(super) action_page_bin: TemplateChild<adw::Bin>,
     }
 
     #[glib::object_subclass]
@@ -99,8 +96,13 @@ impl VolumesPrunePage {
                 .build(),
         );
 
-        imp.action_page_bin
-            .set_child(Some(&view::ActionPage::from(&action)));
-        imp.stack.set_visible_child(&*imp.action_page_bin);
+        let page = view::ActionPage::from(&action);
+
+        imp.navigation_view.push(
+            &adw::NavigationPage::builder()
+                .can_pop(false)
+                .child(&page)
+                .build(),
+        );
     }
 }

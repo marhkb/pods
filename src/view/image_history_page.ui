@@ -2,55 +2,54 @@
 <interface>
   <template class="PdsImageHistoryPage" parent="GtkWidget">
     <property name="layout-manager">
-      <object class="GtkBoxLayout">
-        <property name="orientation">vertical</property>
-      </object>
+      <object class="GtkBinLayout"/>
     </property>
 
     <child>
-      <object class="AdwHeaderBar">
+      <object class="AdwToolbarView">
 
-        <child type="start">
-          <object class="PdsBackNavigationControls"/>
-        </child>
+        <child type="top">
+          <object class="AdwHeaderBar">
 
-        <child type="title">
-          <object class="AdwWindowTitle" id="window_title">
-            <property name="title" translatable="yes">Image History</property>
-          </object>
-        </child>
+            <child type="title">
+              <object class="AdwWindowTitle" id="window_title">
+                <property name="title" translatable="yes">Image History</property>
+              </object>
+            </child>
 
-      </object>
-    </child>
-
-    <child>
-      <object class="GtkStack" id="stack">
-        <property name="vexpand">True</property>
-
-        <child>
-          <object class="PdsEfficientSpinner" id="spinner">
-            <property name="halign">center</property>
-            <property name="valign">center</property>
-            <property name="height-request">30</property>
-            <property name="width-request">30</property>
           </object>
         </child>
 
         <child>
-          <object class="GtkStackPage">
-            <property name="name">loaded</property>
+          <object class="GtkStack" id="stack">
 
-            <property name="child">
-              <object class="AdwPreferencesPage">
+            <child>
+              <object class="PdsEfficientSpinner" id="spinner">
+                <property name="halign">center</property>
+                <property name="valign">center</property>
+                <property name="height-request">30</property>
+                <property name="width-request">30</property>
+              </object>
+            </child>
 
-                <child>
-                  <object class="AdwPreferencesGroup" id="preferences_group">
-                    <property name="title" translatable="yes">History List</property>
+            <child>
+              <object class="GtkStackPage">
+                <property name="name">loaded</property>
+
+                <property name="child">
+                  <object class="AdwPreferencesPage">
+
+                    <child>
+                      <object class="AdwPreferencesGroup" id="preferences_group">
+                        <property name="title" translatable="yes">History List</property>
+                      </object>
+                    </child>
+
                   </object>
-                </child>
+                </property>
 
               </object>
-            </property>
+            </child>
 
           </object>
         </child>
