@@ -2,7 +2,6 @@ use std::cmp::Ordering;
 
 use adw::subclass::prelude::*;
 use glib::clone;
-use glib::closure;
 use glib::Properties;
 use gtk::gdk;
 use gtk::glib;
@@ -232,16 +231,6 @@ mod imp {
             }
 
             if let Some(image_list) = value {
-                model::Image::this_expression("repo-tags").chain_closure::<String>(closure!(
-                    |image: model::Image, repo_tags: model::RepoTagList| {
-                        repo_tags
-                            .get(0)
-                            .as_ref()
-                            .map(model::RepoTag::full)
-                            .unwrap_or_else(|| utils::format_id(&image.id()))
-                    }
-                ));
-
                 let model = gtk::FilterListModel::new(
                     Some(image_list.to_owned()),
                     self.filter.get().cloned(),

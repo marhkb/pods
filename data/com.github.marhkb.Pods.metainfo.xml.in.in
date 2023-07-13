@@ -42,6 +42,21 @@
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="1.2.3" date="2023-07-13">
+      <description>
+        <p>Pods 1.2.3 is a small bugfix release:</p>
+        <ul>
+          <li>Fixed a bug where pressing backspace in a terminal printed "^H" instead of deleting characters in some cases.</li>
+          <li>The custom, efficient spinner implementation now correctly unparents its children on dispose.</li>
+          <li>The option "tls_verify" is now actually used when pushing images.</li>
+          <li>The README.md has been prettified and the dollar sign has been removed from the commands, thanks to @kianmeng.</li>
+          <li>Some dead code has been removed.</li>
+          <li>A little typo has been fixed.</li>
+          <li>Additional checks have been added to the CI pipeline.</li>
+          <li>Dependencies have been updated.</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.2.2" date="2023-06-1">
       <description>
         <p>Pods 1.2.2 contains the following bugfixes and improvements:</p>
