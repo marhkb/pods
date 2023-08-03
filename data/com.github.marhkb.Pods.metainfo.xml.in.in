@@ -26,16 +26,16 @@
   </description>
   <screenshots>
     <screenshot type="default">
-      <image>https://github.com/marhkb/pods/raw/main/data/resources/screenshots/screenshot1.png</image>
-      <caption>Images Overview</caption>
+      <image>https://github.com/marhkb/pods/raw/main/data/screenshots/screenshot1_dark.png</image>
+      <caption>Container Overview</caption>
     </screenshot>
     <screenshot>
-      <image>https://github.com/marhkb/pods/raw/main/data/resources/screenshots/screenshot2.png</image>
-      <caption>Containers Overview</caption>
+      <image>https://github.com/marhkb/pods/raw/main/data/screenshots/screenshot2_dark.png</image>
+      <caption>Containers Details in Compact Mode</caption>
     </screenshot>
     <screenshot>
-      <image>https://github.com/marhkb/pods/raw/main/data/resources/screenshots/screenshot3.png</image>
-      <caption>Pods Overview</caption>
+      <image>https://github.com/marhkb/pods/raw/main/data/screenshots/screenshot3_dark.png</image>
+      <caption>Search Results</caption>
     </screenshot>
   </screenshots>
   <url type="homepage">https://github.com/marhkb/pods</url>
