@@ -1,3 +1,5 @@
+use std::cell::OnceCell;
+
 use adw::subclass::prelude::*;
 use glib::clone;
 use glib::Properties;
@@ -8,7 +10,6 @@ use gtk::pango;
 use gtk::prelude::*;
 use gtk::CompositeTemplate;
 use once_cell::sync::Lazy as SyncLazy;
-use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::utils;
@@ -23,7 +24,7 @@ mod imp {
     #[properties(wrapper_type = super::PodSelectionPage)]
     #[template(resource = "/com/github/marhkb/Pods/ui/view/pod_selection_page.ui")]
     pub(crate) struct PodSelectionPage {
-        pub(super) filter: UnsyncOnceCell<gtk::Filter>,
+        pub(super) filter: OnceCell<gtk::Filter>,
         #[property(get, set = Self::set_pod_list, nullable)]
         pub(super) pod_list: glib::WeakRef<model::PodList>,
         #[template_child]

@@ -1,3 +1,5 @@
+use std::cell::OnceCell;
+
 use adw::subclass::prelude::PreferencesGroupImpl;
 use glib::clone;
 use glib::Properties;
@@ -5,7 +7,6 @@ use gtk::glib;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::model::AbstractContainerListExt;
@@ -18,7 +19,7 @@ mod imp {
     #[properties(wrapper_type = super::ContainersGroup)]
     #[template(resource = "/com/github/marhkb/Pods/ui/view/containers_group.ui")]
     pub(crate) struct ContainersGroup {
-        pub(super) sorter: UnsyncOnceCell<gtk::Sorter>,
+        pub(super) sorter: OnceCell<gtk::Sorter>,
         #[property(get, set = Self::set_container_list, nullable)]
         pub(super) container_list: glib::WeakRef<model::AbstractContainerList>,
         #[template_child]

@@ -1,3 +1,5 @@
+use std::cell::OnceCell;
+
 use futures::stream;
 use futures::StreamExt;
 use futures::TryStreamExt;
@@ -8,7 +10,6 @@ use gtk::glib;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::podman;
@@ -22,7 +23,7 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/view/top_page.ui")]
     pub(crate) struct TopPage {
         /// A `Container` or a `Pod`
-        pub(super) tree_store: UnsyncOnceCell<gtk::TreeStore>,
+        pub(super) tree_store: OnceCell<gtk::TreeStore>,
         #[property(get, set, construct_only, nullable)]
         pub(super) top_source: glib::WeakRef<glib::Object>,
         #[template_child]

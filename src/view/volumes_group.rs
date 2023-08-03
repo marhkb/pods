@@ -1,3 +1,5 @@
+use std::cell::OnceCell;
+
 use adw::subclass::prelude::PreferencesGroupImpl;
 use glib::closure;
 use glib::Properties;
@@ -5,7 +7,6 @@ use gtk::glib;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::view;
@@ -17,7 +18,7 @@ mod imp {
     #[properties(wrapper_type = super::VolumesGroup)]
     #[template(resource = "/com/github/marhkb/Pods/ui/view/volumes_group.ui")]
     pub(crate) struct VolumesGroup {
-        pub(super) sorter: UnsyncOnceCell<gtk::Sorter>,
+        pub(super) sorter: OnceCell<gtk::Sorter>,
         #[property(get, set = Self::set_volume_list, explicit_notify, nullable)]
         pub(super) volume_list: glib::WeakRef<model::VolumeList>,
         #[template_child]

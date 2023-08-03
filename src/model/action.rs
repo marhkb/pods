@@ -1,5 +1,6 @@
 use std::borrow::Cow;
 use std::cell::Cell;
+use std::cell::OnceCell;
 use std::cell::RefCell;
 use std::ffi::OsStr;
 use std::mem;
@@ -17,7 +18,6 @@ use glib::Properties;
 use gtk::gio;
 use gtk::glib;
 use gtk::traits::TextBufferExt;
-use once_cell::unsync::OnceCell as UnsyncOnceCell;
 use serde::Deserialize;
 
 use crate::model;
@@ -65,17 +65,17 @@ mod imp {
         #[property(get, nullable)]
         pub(super) artifact: glib::WeakRef<glib::Object>,
         #[property(get, set, construct_only)]
-        pub(super) num: UnsyncOnceCell<u32>,
+        pub(super) num: OnceCell<u32>,
         #[property(get, set, construct_only, builder(Type::default()))]
-        pub(super) action_type: UnsyncOnceCell<Type>,
+        pub(super) action_type: OnceCell<Type>,
         #[property(get, set, construct_only)]
-        pub(super) description: UnsyncOnceCell<String>,
+        pub(super) description: OnceCell<String>,
         #[property(get, builder(State::default()))]
         pub(super) state: Cell<State>,
         #[property(get, set, construct_only)]
-        pub(super) start_timestamp: UnsyncOnceCell<i64>,
+        pub(super) start_timestamp: OnceCell<i64>,
         #[property(get)]
-        pub(super) end_timestamp: UnsyncOnceCell<i64>,
+        pub(super) end_timestamp: OnceCell<i64>,
         #[property(get)]
         pub(super) output: gtk::TextBuffer,
     }

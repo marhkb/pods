@@ -1,3 +1,5 @@
+use std::cell::OnceCell;
+
 use adw::traits::ActionRowExt;
 use ashpd::desktop::file_chooser::OpenFileRequest;
 use ashpd::WindowIdentifier;
@@ -9,7 +11,6 @@ use gtk::glib;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::podman;
@@ -29,7 +30,7 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/view/image_build_page.ui")]
     pub(crate) struct ImageBuildPage {
         pub(super) settings: utils::PodsSettings,
-        pub(super) labels: UnsyncOnceCell<gio::ListStore>,
+        pub(super) labels: OnceCell<gio::ListStore>,
         #[property(get, set, construct_only, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
         #[template_child]

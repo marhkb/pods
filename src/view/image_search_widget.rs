@@ -1,4 +1,6 @@
+use std::cell::OnceCell;
 use std::cell::RefCell;
+use std::sync::OnceLock;
 
 use adw::subclass::prelude::*;
 use adw::traits::ComboRowExt;
@@ -10,8 +12,6 @@ use gtk::gio;
 use gtk::glib;
 use gtk::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::OnceCell as SyncOnceCell;
-use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::podman;
@@ -25,8 +25,8 @@ mod imp {
     #[properties(wrapper_type = super::ImageSearchWidget)]
     #[template(resource = "/com/github/marhkb/Pods/ui/view/image_search_widget.ui")]
     pub(crate) struct ImageSearchWidget {
-        pub(super) search_results: UnsyncOnceCell<gio::ListStore>,
-        pub(super) filter: UnsyncOnceCell<gtk::Filter>,
+        pub(super) filter: OnceCell<gtk::Filter>,
+        pub(super) search_results: OnceCell<gio::ListStore>,
         pub(super) search_abort_handle: RefCell<Option<future::AbortHandle>>,
         #[property(get, set = Self::set_client, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
@@ -66,7 +66,7 @@ mod imp {
 
     impl ObjectImpl for ImageSearchWidget {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: SyncOnceCell<Vec<glib::ParamSpec>> = SyncOnceCell::new();
+            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
             PROPERTIES.get_or_init(|| {
                 Self::derived_properties()
                     .iter()

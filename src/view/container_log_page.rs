@@ -1,5 +1,6 @@
 use std::borrow::Cow;
 use std::cell::Cell;
+use std::cell::OnceCell;
 use std::cell::RefCell;
 use std::collections::VecDeque;
 use std::io::BufWriter;
@@ -7,6 +8,7 @@ use std::io::Write;
 use std::mem;
 use std::sync::atomic::AtomicUsize;
 use std::sync::atomic::Ordering;
+use std::sync::OnceLock;
 
 use ashpd::desktop::file_chooser::Choice;
 use ashpd::desktop::file_chooser::SaveFileRequest;
@@ -22,8 +24,6 @@ use gtk::glib;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::OnceCell as SyncOnceCell;
-use once_cell::unsync::OnceCell as UnsyncOnceCell;
 use sourceview5::traits::BufferExt;
 use sourceview5::traits::GutterRendererTextExt;
 use sourceview5::traits::ViewExt;
@@ -60,7 +60,7 @@ mod imp {
     pub(crate) struct ContainerLogPage {
         pub(super) settings: utils::PodsSettings,
         pub(super) log_timestamps: RefCell<VecDeque<String>>,
-        pub(super) fetch_until: UnsyncOnceCell<String>,
+        pub(super) fetch_until: OnceCell<String>,
         pub(super) fetch_lines_state: Cell<FetchLinesState>,
         pub(super) fetched_lines: RefCell<VecDeque<Vec<u8>>>,
         pub(super) prev_adj: Cell<f64>,
@@ -194,7 +194,7 @@ mod imp {
 
     impl ObjectImpl for ContainerLogPage {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: SyncOnceCell<Vec<glib::ParamSpec>> = SyncOnceCell::new();
+            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
             PROPERTIES.get_or_init(|| {
                 Self::derived_properties()
                     .iter()

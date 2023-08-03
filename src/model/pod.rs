@@ -1,4 +1,5 @@
 use std::cell::Cell;
+use std::cell::OnceCell;
 use std::cell::RefCell;
 use std::fmt;
 use std::ops::Deref;
@@ -14,7 +15,6 @@ use glib::Properties;
 use gtk::glib;
 use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy;
-use once_cell::unsync::OnceCell;
 
 use crate::model;
 use crate::podman;

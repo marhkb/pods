@@ -1,8 +1,9 @@
+use std::cell::OnceCell;
+
 use glib::subclass::prelude::*;
 use glib::ObjectExt;
 use glib::Properties;
 use gtk::glib;
-use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::podman;
 
@@ -13,7 +14,7 @@ mod imp {
     #[properties(wrapper_type = super::PodData)]
     pub(crate) struct PodData {
         #[property(get, set, construct_only)]
-        pub(super) hostname: UnsyncOnceCell<String>,
+        pub(super) hostname: OnceCell<String>,
     }
 
     #[glib::object_subclass]

@@ -1,3 +1,5 @@
+use std::cell::OnceCell;
+
 use adw::traits::ActionRowExt;
 use gettextrs::gettext;
 use glib::clone;
@@ -8,7 +10,6 @@ use gtk::glib;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::utils;
@@ -29,7 +30,7 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/view/connection_creation_page.ui")]
     pub(crate) struct ConnectionCreationPage {
         #[property(get, set, construct_only)]
-        pub(super) connection_manager: UnsyncOnceCell<model::ConnectionManager>,
+        pub(super) connection_manager: OnceCell<model::ConnectionManager>,
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]

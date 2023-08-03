@@ -1,3 +1,5 @@
+use std::cell::OnceCell;
+
 use adw::subclass::prelude::*;
 use glib::clone;
 use glib::Properties;
@@ -8,7 +10,6 @@ use gtk::pango;
 use gtk::prelude::*;
 use gtk::CompositeTemplate;
 use once_cell::sync::Lazy as SyncLazy;
-use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::utils;
@@ -23,7 +24,7 @@ mod imp {
     #[properties(wrapper_type = super::VolumeSelectionPage)]
     #[template(resource = "/com/github/marhkb/Pods/ui/view/volume_selection_page.ui")]
     pub(crate) struct VolumeSelectionPage {
-        pub(super) filter: UnsyncOnceCell<gtk::Filter>,
+        pub(super) filter: OnceCell<gtk::Filter>,
         #[property(get, set = Self::set_volume_list, nullable)]
         pub(super) volume_list: glib::WeakRef<model::VolumeList>,
         #[template_child]

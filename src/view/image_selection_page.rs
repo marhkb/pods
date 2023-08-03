@@ -1,3 +1,4 @@
+use std::cell::OnceCell;
 use std::cmp::Ordering;
 
 use adw::subclass::prelude::*;
@@ -10,7 +11,6 @@ use gtk::pango;
 use gtk::prelude::*;
 use gtk::CompositeTemplate;
 use once_cell::sync::Lazy as SyncLazy;
-use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::utils;
@@ -25,7 +25,7 @@ mod imp {
     #[properties(wrapper_type = super::ImageSelectionPage)]
     #[template(resource = "/com/github/marhkb/Pods/ui/view/image_selection_page.ui")]
     pub(crate) struct ImageSelectionPage {
-        pub(super) filter: UnsyncOnceCell<gtk::Filter>,
+        pub(super) filter: OnceCell<gtk::Filter>,
         #[property(get, set = Self::set_image_list, nullable)]
         pub(super) image_list: glib::WeakRef<model::ImageList>,
         #[template_child]

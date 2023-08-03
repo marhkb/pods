@@ -1,5 +1,6 @@
 use std::cell::RefCell;
 use std::collections::HashSet;
+use std::sync::OnceLock;
 
 use gio::prelude::*;
 use gio::subclass::prelude::*;
@@ -7,7 +8,6 @@ use glib::Properties;
 use gtk::gio;
 use gtk::glib;
 use indexmap::map::IndexMap;
-use once_cell::sync::OnceCell as SyncOnceCell;
 
 use crate::model;
 
@@ -31,7 +31,7 @@ mod imp {
 
     impl ObjectImpl for RepoTagList {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: SyncOnceCell<Vec<glib::ParamSpec>> = SyncOnceCell::new();
+            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
             PROPERTIES.get_or_init(|| {
                 Self::derived_properties()
                     .iter()

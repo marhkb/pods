@@ -1,4 +1,5 @@
 use std::cell::Cell;
+use std::cell::OnceCell;
 
 use adw::subclass::prelude::AdwApplicationImpl;
 use gettextrs::gettext;
@@ -11,12 +12,12 @@ use gtk::subclass::prelude::*;
 use log::debug;
 use log::info;
 use once_cell::sync::Lazy;
-use once_cell::sync::OnceCell;
 
 use crate::config;
 use crate::view;
 
 mod imp {
+
     use super::*;
 
     #[derive(Default)]

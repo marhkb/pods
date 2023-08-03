@@ -1,4 +1,5 @@
 use std::cell::Cell;
+use std::cell::OnceCell;
 use std::cell::RefCell;
 use std::collections::HashSet;
 use std::fmt;
@@ -14,7 +15,6 @@ use gtk::glib::subclass::Signal;
 use gtk::prelude::ObjectExt;
 use gtk::subclass::prelude::*;
 use once_cell::sync::Lazy as SyncLazy;
-use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::monad_boxed_type;
@@ -139,23 +139,23 @@ mod imp {
                 >,
             >,
         >,
-        pub(super) mounts: UnsyncOnceCell<HashSet<String>>,
+        pub(super) mounts: OnceCell<HashSet<String>>,
         #[property(get, set, construct_only, nullable)]
         pub(super) container_list: glib::WeakRef<model::ContainerList>,
         #[property(get, set)]
         pub(super) action_ongoing: Cell<bool>,
         #[property(get, set, construct_only)]
-        pub(super) created: UnsyncOnceCell<i64>,
+        pub(super) created: OnceCell<i64>,
         #[property(get = Self::data, nullable)]
-        pub(super) data: UnsyncOnceCell<Option<model::ContainerData>>,
+        pub(super) data: OnceCell<Option<model::ContainerData>>,
         #[property(get, set, construct, builder(HealthStatus::default()))]
         pub(super) health_status: Cell<HealthStatus>,
         #[property(get, set, construct_only)]
-        pub(super) id: UnsyncOnceCell<String>,
+        pub(super) id: OnceCell<String>,
         #[property(get, set, nullable)]
         pub(super) image: glib::WeakRef<model::Image>,
         #[property(get, set, construct_only)]
-        pub(super) image_id: UnsyncOnceCell<String>,
+        pub(super) image_id: OnceCell<String>,
         #[property(get, set, construct, nullable)]
         pub(super) image_name: RefCell<Option<String>>,
         #[property(get, set, construct)]
@@ -163,9 +163,9 @@ mod imp {
         #[property(get, set = Self::set_pod, explicit_notify, nullable)]
         pub(super) pod: glib::WeakRef<model::Pod>,
         #[property(get = Self::pod_id, set, construct_only, nullable)]
-        pub(super) pod_id: UnsyncOnceCell<Option<String>>,
+        pub(super) pod_id: OnceCell<Option<String>>,
         #[property(get = Self::port, set, construct_only, nullable)]
-        pub(super) port: UnsyncOnceCell<Option<String>>,
+        pub(super) port: OnceCell<Option<String>>,
         #[property(get, set, nullable)]
         pub(super) stats: RefCell<Option<BoxedContainerStats>>,
         #[property(get, set = Self::set_status, construct, explicit_notify, builder(Status::default()))]
@@ -173,7 +173,7 @@ mod imp {
         #[property(get, set, construct)]
         pub(super) up_since: Cell<i64>,
         #[property(get = Self::volume_list)]
-        pub(super) volume_list: UnsyncOnceCell<model::ContainerVolumeList>,
+        pub(super) volume_list: OnceCell<model::ContainerVolumeList>,
         #[property(get)]
         pub(super) to_be_deleted: Cell<bool>,
         #[property(get, set)]

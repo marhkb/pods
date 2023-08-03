@@ -1,3 +1,5 @@
+use std::cell::OnceCell;
+
 use ashpd::desktop::file_chooser::SaveFileRequest;
 use ashpd::WindowIdentifier;
 use gettextrs::gettext;
@@ -8,7 +10,6 @@ use gtk::glib::clone;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::unsync::OnceCell;
 use sourceview5::traits::BufferExt;
 
 use crate::model;

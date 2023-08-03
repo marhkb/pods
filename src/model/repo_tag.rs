@@ -1,10 +1,10 @@
 use std::cell::Cell;
+use std::cell::OnceCell;
 
 use glib::prelude::*;
 use glib::subclass::prelude::*;
 use glib::Properties;
 use gtk::glib;
-use once_cell::unsync::OnceCell;
 
 use crate::model;
 

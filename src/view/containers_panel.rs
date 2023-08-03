@@ -1,3 +1,4 @@
+use std::cell::OnceCell;
 use std::cell::RefCell;
 
 use adw::prelude::MessageDialogExtManual;
@@ -12,7 +13,6 @@ use gtk::glib;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::model::AbstractContainerListExt;
@@ -50,8 +50,8 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/view/containers_panel.ui")]
     pub(crate) struct ContainersPanel {
         pub(super) settings: utils::PodsSettings,
-        pub(super) filter: UnsyncOnceCell<gtk::Filter>,
-        pub(super) sorter: UnsyncOnceCell<gtk::Sorter>,
+        pub(super) filter: OnceCell<gtk::Filter>,
+        pub(super) sorter: OnceCell<gtk::Sorter>,
         pub(super) search_term: RefCell<String>,
         #[property(get, set = Self::set_container_list, nullable)]
         pub(super) container_list: glib::WeakRef<model::ContainerList>,

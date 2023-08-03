@@ -1,3 +1,4 @@
+use std::cell::OnceCell;
 use std::cell::RefCell;
 
 use adw::subclass::prelude::*;
@@ -10,7 +11,6 @@ use gtk::glib;
 use gtk::glib::closure;
 use gtk::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::podman;
@@ -35,11 +35,11 @@ mod imp {
     #[properties(wrapper_type = super::ContainerCreationPage)]
     #[template(resource = "/com/github/marhkb/Pods/ui/view/container_creation_page.ui")]
     pub(crate) struct ContainerCreationPage {
-        pub(super) cmd_args: UnsyncOnceCell<gio::ListStore>,
-        pub(super) port_mappings: UnsyncOnceCell<gio::ListStore>,
-        pub(super) volumes: UnsyncOnceCell<gio::ListStore>,
-        pub(super) env_vars: UnsyncOnceCell<gio::ListStore>,
-        pub(super) labels: UnsyncOnceCell<gio::ListStore>,
+        pub(super) cmd_args: OnceCell<gio::ListStore>,
+        pub(super) port_mappings: OnceCell<gio::ListStore>,
+        pub(super) volumes: OnceCell<gio::ListStore>,
+        pub(super) env_vars: OnceCell<gio::ListStore>,
+        pub(super) labels: OnceCell<gio::ListStore>,
         pub(super) command_row_handler:
             RefCell<Option<(glib::SignalHandlerId, glib::WeakRef<model::Image>)>>,
         #[property(get = Self::client, set, construct, nullable)]

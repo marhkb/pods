@@ -1,4 +1,5 @@
 use std::cell::Cell;
+use std::cell::OnceCell;
 use std::ops::Deref;
 
 use gio::prelude::ListModelExt;
@@ -10,7 +11,6 @@ use glib::Properties;
 use gtk::gio;
 use gtk::glib;
 use once_cell::sync::Lazy as SyncLazy;
-use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::monad_boxed_type;
@@ -28,13 +28,13 @@ mod imp {
         #[property(get, set, construct_only, nullable)]
         pub(super) volume_list: glib::WeakRef<model::VolumeList>,
         #[property(get, set, construct_only)]
-        pub(super) inner: UnsyncOnceCell<BoxedVolume>,
+        pub(super) inner: OnceCell<BoxedVolume>,
         #[property(get, set)]
         pub(super) searching_containers: Cell<bool>,
         #[property(get, set)]
         pub(super) action_ongoing: Cell<bool>,
         #[property(get = Self::container_list)]
-        pub(super) container_list: UnsyncOnceCell<model::SimpleContainerList>,
+        pub(super) container_list: OnceCell<model::SimpleContainerList>,
         #[property(get)]
         pub(super) to_be_deleted: Cell<bool>,
         #[property(get, set)]

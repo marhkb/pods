@@ -1,4 +1,5 @@
 use std::cell::Cell;
+use std::cell::OnceCell;
 
 use adw::traits::AnimationExt;
 use gtk::gdk;
@@ -10,7 +11,6 @@ use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
 use once_cell::sync::Lazy;
-use once_cell::unsync::OnceCell;
 
 use crate::utils;
 

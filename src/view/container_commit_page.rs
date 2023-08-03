@@ -1,3 +1,5 @@
+use std::cell::OnceCell;
+
 use adw::subclass::prelude::*;
 use adw::traits::ComboRowExt;
 use ashpd::desktop::account::UserInformationRequest;
@@ -9,7 +11,6 @@ use gtk::gio;
 use gtk::glib;
 use gtk::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::podman;
@@ -27,7 +28,7 @@ mod imp {
     #[properties(wrapper_type = super::ContainerCommitPage)]
     #[template(resource = "/com/github/marhkb/Pods/ui/view/container_commit_page.ui")]
     pub(crate) struct ContainerCommitPage {
-        pub(super) changes: UnsyncOnceCell<gio::ListStore>,
+        pub(super) changes: OnceCell<gio::ListStore>,
         #[property(get, set = Self::set_container, construct, nullable)]
         pub(super) container: glib::WeakRef<model::Container>,
         #[template_child]

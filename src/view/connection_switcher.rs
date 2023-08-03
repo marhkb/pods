@@ -1,3 +1,5 @@
+use std::sync::OnceLock;
+
 use gettextrs::gettext;
 use glib::clone;
 use glib::closure;
@@ -6,7 +8,6 @@ use gtk::glib;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::OnceCell as SyncOnceCell;
 
 use crate::model;
 use crate::utils;
@@ -78,7 +79,7 @@ mod imp {
 
     impl ObjectImpl for ConnectionSwitcher {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: SyncOnceCell<Vec<glib::ParamSpec>> = SyncOnceCell::new();
+            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
             PROPERTIES.get_or_init(|| {
                 Self::derived_properties()
                     .iter()

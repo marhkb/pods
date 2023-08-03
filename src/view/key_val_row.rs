@@ -1,4 +1,5 @@
 use std::cell::RefCell;
+use std::sync::OnceLock;
 
 use gettextrs::gettext;
 use glib::Properties;
@@ -6,7 +7,6 @@ use gtk::glib;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::OnceCell as SyncOnceCell;
 
 use crate::model;
 
@@ -50,7 +50,7 @@ mod imp {
 
     impl ObjectImpl for KeyValRow {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: SyncOnceCell<Vec<glib::ParamSpec>> = SyncOnceCell::new();
+            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
             PROPERTIES.get_or_init(|| {
                 Self::derived_properties()
                     .iter()

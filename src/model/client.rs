@@ -1,3 +1,4 @@
+use std::cell::OnceCell;
 use std::rc::Rc;
 use std::sync::atomic::AtomicUsize;
 use std::sync::atomic::Ordering;
@@ -9,7 +10,6 @@ use gtk::glib;
 use gtk::glib::clone;
 use gtk::prelude::ListModelExtManual;
 use gtk::subclass::prelude::*;
-use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::model::AbstractContainerListExt;
@@ -37,23 +37,23 @@ mod imp {
     #[properties(wrapper_type = super::Client)]
     pub(crate) struct Client {
         #[property(get, set, construct_only)]
-        pub(super) connection: UnsyncOnceCell<model::Connection>,
+        pub(super) connection: OnceCell<model::Connection>,
         #[property(get, set, construct_only)]
-        pub(super) podman: UnsyncOnceCell<BoxedPodman>,
+        pub(super) podman: OnceCell<BoxedPodman>,
         #[property(get = Self::version, nullable)]
-        pub(super) version: UnsyncOnceCell<Option<String>>,
+        pub(super) version: OnceCell<Option<String>>,
         #[property(get = Self::cpus, nullable)]
-        pub(super) cpus: UnsyncOnceCell<i64>,
+        pub(super) cpus: OnceCell<i64>,
         #[property(get = Self::image_list)]
-        pub(super) image_list: UnsyncOnceCell<model::ImageList>,
+        pub(super) image_list: OnceCell<model::ImageList>,
         #[property(get = Self::container_list)]
-        pub(super) container_list: UnsyncOnceCell<model::ContainerList>,
+        pub(super) container_list: OnceCell<model::ContainerList>,
         #[property(get = Self::pod_list)]
-        pub(super) pod_list: UnsyncOnceCell<model::PodList>,
+        pub(super) pod_list: OnceCell<model::PodList>,
         #[property(get = Self::volume_list)]
-        pub(super) volume_list: UnsyncOnceCell<model::VolumeList>,
+        pub(super) volume_list: OnceCell<model::VolumeList>,
         #[property(get = Self::action_list)]
-        pub(super) action_list: UnsyncOnceCell<model::ActionList>,
+        pub(super) action_list: OnceCell<model::ActionList>,
     }
 
     #[glib::object_subclass]

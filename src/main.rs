@@ -12,6 +12,7 @@ mod widget;
 
 use std::path::PathBuf;
 use std::str::FromStr;
+use std::sync::OnceLock;
 
 use gettextrs::gettext;
 use gettextrs::LocaleCategory;
@@ -20,14 +21,13 @@ use gtk::glib;
 use gtk::prelude::ApplicationExt;
 use gtk::prelude::StaticType;
 use once_cell::sync::Lazy;
-use once_cell::sync::OnceCell;
 
 use self::application::Application;
 
-pub(crate) static APPLICATION_OPTS: OnceCell<ApplicationOptions> = OnceCell::new();
+pub(crate) static APPLICATION_OPTS: OnceLock<ApplicationOptions> = OnceLock::new();
 pub(crate) static RUNTIME: Lazy<tokio::runtime::Runtime> =
     Lazy::new(|| tokio::runtime::Runtime::new().unwrap());
-pub(crate) static KEYRING: OnceCell<oo7::Keyring> = OnceCell::new();
+pub(crate) static KEYRING: OnceLock<oo7::Keyring> = OnceLock::new();
 
 fn main() {
     let app = setup_cli(Application::default());

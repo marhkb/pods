@@ -1,11 +1,11 @@
 use std::cell::Cell;
+use std::cell::OnceCell;
 use std::collections::HashMap;
 
 use glib::Properties;
 use gtk::glib;
 use gtk::prelude::ObjectExt;
 use gtk::subclass::prelude::*;
-use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::monad_boxed_type;
@@ -23,15 +23,15 @@ mod imp {
     pub(crate) struct ContainerData {
         pub(super) health_check_log_list: model::HealthCheckLogList,
         #[property(get, set, construct_only)]
-        pub(super) health_config: UnsyncOnceCell<Option<BoxedSchema2HealthConfig>>,
+        pub(super) health_config: OnceCell<Option<BoxedSchema2HealthConfig>>,
         #[property(get, set, construct_only)]
         pub(super) health_failing_streak: Cell<u32>,
         #[property(get, set, construct_only)]
-        pub(super) mounts: UnsyncOnceCell<BoxedInspectMounts>,
+        pub(super) mounts: OnceCell<BoxedInspectMounts>,
         #[property(get, set, construct_only)]
-        pub(super) port_bindings: UnsyncOnceCell<Option<BoxedPortBindings>>,
+        pub(super) port_bindings: OnceCell<Option<BoxedPortBindings>>,
         #[property(get, set, construct_only)]
-        pub(super) size: UnsyncOnceCell<i64>,
+        pub(super) size: OnceCell<i64>,
     }
 
     #[glib::object_subclass]
