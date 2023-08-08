@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-30 22:11+0200\n"
-"PO-Revision-Date: 2023-05-08 18:08+0000\n"
+"PO-Revision-Date: 2023-08-09 08:17+0000\n"
 "Last-Translator: Lars Nielsen <lnc13.lars@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/pods/main/da/>\n"
 "Language: da\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.18-dev\n"
+"X-Generator: Weblate 5.0-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:47
@@ -27,7 +27,7 @@ msgstr "Pods"
 #: data/com.github.marhkb.Pods.desktop.in.in:4
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
 msgid "Keep track of your podman containers"
-msgstr "Hold styr på din podman kontainer"
+msgstr "Hold styr på din podman container"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:9
 msgid "Gnome;GTK;libadwaita;Podman;Containerization;"
@@ -69,7 +69,7 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:46
 msgid "The last used container file path"
-msgstr "Filestien for den sidst benyttet kontainer"
+msgstr "Filstien for den sidst benyttet container"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:51
 msgid "Remove all images not in use by containers, not just dangling ones"
@@ -82,12 +82,12 @@ msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)"
 msgstr ""
-"Fjern billeder selv hvis de benyttes af eksterne kontainer (e.g, af "
-"byggekontainer)"
+"Fjern billeder selv hvis de benyttes af eksterne container (e.g, af "
+"byggecontainer)"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:61
 msgid "Whether to show only running containers"
-msgstr "Skal kun kørende kontainer vises"
+msgstr "Skal kun kørende container vises"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:66
 msgid "Whether to show only running pods"
@@ -137,23 +137,23 @@ msgstr "Forbind til lokale og fjern Podman instanser."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:14
 msgid "Easily overview images, containers and pods."
-msgstr "Nem oversigt over billeder, kontainer, og pods."
+msgstr "Nem oversigt over billeder, container, og pods."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:15
 msgid "View prepared information about images, containers, and pods."
-msgstr "Se forberedt information of billeder, kontainer, og pods."
+msgstr "Se forberedt information of billeder, container, og pods."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:16
 msgid "Inspect images, containers and pods."
-msgstr "Inspicer billeder, kontainer, og pods."
+msgstr "Inspicer billeder, container, og pods."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:17
 msgid "View and search container logs."
-msgstr "Vis og søg i kontainerlogs."
+msgstr "Vis og søg i containerlogs."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:18
 msgid "Monitor processes of containers and pods."
-msgstr "Monitorer processer for kontainere og pods."
+msgstr "Monitorer processer for containere og pods."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:19
 msgid "Download images and build them using Dockerfiles."
@@ -161,7 +161,7 @@ msgstr "Hent billeder og byg dem ved brug af Dockerfiler."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:20
 msgid "Create pods and containers."
-msgstr "Opret pods og kontainer."
+msgstr "Opret pods og container."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:21
 msgid ""
@@ -171,7 +171,7 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:22
 msgid "Delete images, containers, and pods (in bulk)."
-msgstr "Slet billeder, kontainer, og pods (i bulk)."
+msgstr "Slet billeder, container, og pods (i bulk)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:23
 msgid "Prune images."
@@ -179,7 +179,7 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:24
 msgid "Rename containers."
-msgstr "Omnavndøb kontainere."
+msgstr "Omnavndøb containere."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:30
 msgid "Images Overview"
@@ -187,7 +187,7 @@ msgstr "Billede Oversigt"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:34
 msgid "Containers Overview"
-msgstr "Kontainer Oversigt"
+msgstr "Container Oversigt"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:38
 msgid "Pods Overview"
@@ -203,23 +203,23 @@ msgstr ""
 
 #: src/application.rs:192
 msgid "Translators"
-msgstr ""
+msgstr "Oversættere"
 
 #: src/main.rs:124
 msgid "Prints application version"
-msgstr ""
+msgstr "Printer applikations version"
 
 #: src/main.rs:133
 msgid "Specify the minimum log level"
-msgstr ""
+msgstr "Specificer minimum log niveau"
 
 #: src/model/action.rs:133
 msgid "Prune unused images"
-msgstr ""
+msgstr "Fjern ubrugt billeder"
 
 #: src/model/action.rs:171
 msgid "Pull image <b>{}</b>"
-msgstr ""
+msgstr "Hent billede <b>{}</b>"
 
 #: src/model/action.rs:209
 msgid "Push image <b>{}</b>"
@@ -227,29 +227,27 @@ msgstr ""
 
 #: src/model/action.rs:266
 msgid "Build image <b>{}</b>"
-msgstr ""
+msgstr "Byg billede <b>{}</b>"
 
 #: src/model/action.rs:270
 msgid "Generating tarball of context directory..."
 msgstr ""
 
 #: src/model/action.rs:337
-#, fuzzy
 msgid "Prune stopped containers"
-msgstr "Opret kontainer"
+msgstr "Opret container"
 
 #: src/model/action.rs:377
 msgid "Start new container <b>{}</b>"
-msgstr ""
+msgstr "Start ny container <b>{}</b>"
 
 #: src/model/action.rs:379
-#, fuzzy
 msgid "Create container <b>{}</b>"
-msgstr "Opret kontainer"
+msgstr "Opret container <b>{}</b>"
 
 #: src/model/action.rs:409
 msgid "none"
-msgstr ""
+msgstr "ingen"
 
 #: src/model/action.rs:405
 msgid "Commit image <b>{}</b> ({})"
@@ -258,7 +256,7 @@ msgstr ""
 #: src/model/action.rs:419 src/model/action.rs:524 src/model/action.rs:612
 #: src/model/action.rs:842
 msgid "Finished"
-msgstr ""
+msgstr "Færdig"
 
 #: src/model/action.rs:461
 msgid "Upload <b>{}</b> to <b>{}:{}</b>"
@@ -266,61 +264,61 @@ msgstr ""
 
 #: src/model/action.rs:468
 msgid "Creating tar archive…"
-msgstr ""
+msgstr "Opretter tar arkiv…"
 
 #: src/model/action.rs:501
 msgid "Tar archive created"
-msgstr ""
+msgstr "Tar arkiv oprettet"
 
 #: src/model/action.rs:502
 msgid "Unwrapping tar archive…"
-msgstr ""
+msgstr "Udpakker tar arkiv…"
 
 #: src/model/action.rs:510
 msgid "Tar archive unwrapped"
-msgstr ""
+msgstr "Tar arkiv udpakket"
 
 #: src/model/action.rs:511
 msgid "Copying files into container…"
-msgstr ""
+msgstr "Kopiere filer ind i container…"
 
 #: src/model/action.rs:563
 msgid "Download <b>{}:{}</b> to <b>{}</b>"
-msgstr ""
+msgstr "Hent <b>{}:{}</b> til <b>{}</b>"
 
 #: src/model/action.rs:572
 msgid "Copying bytes into memory…"
-msgstr ""
+msgstr "Kopier bytes ind i hukommelsen…"
 
 #: src/model/action.rs:575 src/model/action.rs:592
 msgid "Size: {}"
-msgstr ""
+msgstr "Størrelse: {}"
 
 #: src/model/action.rs:628
 msgid "Create pod <b>{}</b>"
-msgstr ""
+msgstr "Opret pod <b>{}</b>"
 
 #: src/model/action.rs:653
 msgid "Prune stopped pods"
-msgstr ""
+msgstr "Fjerne stoppede pods"
 
 #: src/model/connection_manager.rs:208
 msgid "Connection '{}' already exists."
-msgstr ""
+msgstr "Forbindelsen'{}' eksistere allerede."
 
 #: src/model/container.rs:68
 msgid "Configured"
-msgstr ""
+msgstr "Konfigureret"
 
 #: src/model/container.rs:69 src/model/pod.rs:64
 #: src/view/container_properties_group.ui:90 src/view/image_details_page.ui:93
 #: src/view/pod_details_page.ui:215
 msgid "Created"
-msgstr ""
+msgstr "Oprettet"
 
 #: src/model/container.rs:70 src/model/pod.rs:65
 msgid "Dead"
-msgstr ""
+msgstr "Død"
 
 #: src/model/container.rs:71 src/model/pod.rs:68
 msgid "Exited"
@@ -328,128 +326,128 @@ msgstr ""
 
 #: src/model/container.rs:72
 msgid "Initialized"
-msgstr ""
+msgstr "Initialiseret"
 
 #: src/model/container.rs:73 src/model/pod.rs:69 src/view/info_dialog.ui:85
 msgid "Paused"
-msgstr ""
+msgstr "Pauset"
 
 #: src/model/container.rs:74
 msgid "Removing"
-msgstr ""
+msgstr "Fjerne"
 
 #: src/model/container.rs:75 src/model/pod.rs:70
 msgid "Restarting"
-msgstr ""
+msgstr "Genstarter"
 
 #: src/model/container.rs:76 src/model/pod.rs:71 src/view/info_dialog.ui:91
 msgid "Running"
-msgstr ""
+msgstr "Kører"
 
 #: src/model/container.rs:77 src/model/pod.rs:72 src/view/info_dialog.ui:97
 msgid "Stopped"
-msgstr ""
+msgstr "Stoppet"
 
 #: src/model/container.rs:78
 msgid "Stopping"
-msgstr ""
+msgstr "Stopper"
 
 #: src/model/container.rs:79 src/model/container.rs:120 src/model/pod.rs:73
 msgid "Unknown"
-msgstr ""
+msgstr "Ukendt"
 
 #: src/model/container.rs:116
 msgid "Checking"
-msgstr ""
+msgstr "Tjekker"
 
 #: src/model/container.rs:117
 msgid "Healthy"
-msgstr ""
+msgstr "Sund"
 
 #: src/model/container.rs:118
 msgid "Unhealthy"
-msgstr ""
+msgstr "Usund"
 
 #: src/model/container.rs:119
 msgid "Unconfigured"
-msgstr ""
+msgstr "Ukonfigureret"
 
 #: src/model/pod.rs:66
 msgid "Degraded"
-msgstr ""
+msgstr "Forringet"
 
 #: src/model/pod.rs:67 src/view/connection_creation_page.rs:254
 #: src/view/scalable_text_view_page.rs:442
 msgid "Error"
-msgstr ""
+msgstr "Fejl"
 
 #: src/utils.rs:117
 msgid "{} h {} min {} s"
-msgstr ""
+msgstr "{} t {} min {} s"
 
 #: src/utils.rs:119
 msgid "{} h {} s"
-msgstr ""
+msgstr "{} t {} s"
 
 #: src/utils.rs:126
 msgid "{} min {} s"
-msgstr ""
+msgstr "{} min {} s"
 
 #: src/utils.rs:128
 msgid "{} min"
-msgstr ""
+msgstr "{} min"
 
 #: src/utils.rs:131
 msgid "{} s"
-msgstr ""
+msgstr "{} s"
 
 #: src/utils.rs:147
 msgid "a few seconds"
-msgstr ""
+msgstr "et par sekunder"
 
 #: src/utils.rs:149
 msgid "{} minute"
 msgid_plural "{} minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} minut"
+msgstr[1] "{} minutter"
 
 #: src/utils.rs:151
 msgid "{} hour"
 msgid_plural "{} hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} time"
+msgstr[1] "{} timer"
 
 #: src/utils.rs:154
 msgid "{} day"
 msgid_plural "{} days"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} dag"
+msgstr[1] "{} dage"
 
 #. Translators: Example: {3 hours} ago, {a few seconds} ago
 #: src/utils.rs:160
 msgid "{} ago"
-msgstr ""
+msgstr "{} siden"
 
 #. Translators: This string will be shown when a property of an entity like an image is null.
 #: src/utils.rs:276
 msgid "<none>"
-msgstr ""
+msgstr "<ingen>"
 
 #: src/utils.rs:463
 msgid "Error on open file dialog"
-msgstr ""
+msgstr "Fejl ved åbning af fildialog"
 
 #: src/view/action_page.rs:131
 msgid "Images Are Currently Being Pruned"
-msgstr ""
+msgstr "Billeder er ved at blive fjernet"
 
 #: src/view/action_page.rs:132
 msgid "Image Is Currently Being Downloaded"
-msgstr ""
+msgstr "Billede er ved at blive hentet"
 
 #: src/view/action_page.rs:133
 msgid "Image Is Currently Being Built"
-msgstr ""
+msgstr "Billede er ved at blive bygget"
 
 #: src/view/action_page.rs:134
 msgid "Image Is Currently Being Pushed"
@@ -457,15 +455,15 @@ msgstr ""
 
 #: src/view/action_page.rs:135 src/view/action_page.rs:151
 msgid "Containers Are Currently Being Pruned"
-msgstr ""
+msgstr "Containere er ved at blive fjernet"
 
 #: src/view/action_page.rs:136
 msgid "Container Is Currently Being Created"
-msgstr ""
+msgstr "Container er ved at blive oprettet"
 
 #: src/view/action_page.rs:137
 msgid "Container Is Currently Being Started"
-msgstr ""
+msgstr "Container er ved at blive startet"
 
 #: src/view/action_page.rs:138
 msgid "New Image Is Currently Being Committed"
@@ -473,27 +471,27 @@ msgstr ""
 
 #: src/view/action_page.rs:139
 msgid "Files Are Currently Being Copied"
-msgstr ""
+msgstr "Filere er ved at blive kopiret"
 
 #: src/view/action_page.rs:140
 msgid "Pods Are Currently Being Pruned"
-msgstr ""
+msgstr "Pods er ved at blive fjernet"
 
 #: src/view/action_page.rs:141
 msgid "Pod Is Currently Being Created"
-msgstr ""
+msgstr "Pods er ved at blive oprettet"
 
 #: src/view/action_page.rs:147
 msgid "Images Have Been Pruned"
-msgstr ""
+msgstr "Billeder er blevet fjernet"
 
 #: src/view/action_page.rs:148
 msgid "Image Has Been Downloaded"
-msgstr ""
+msgstr "Billede er blevet hentet"
 
 #: src/view/action_page.rs:149
 msgid "Image Has Been Built"
-msgstr ""
+msgstr "Billedet er blevet bygget"
 
 #: src/view/action_page.rs:150
 msgid "Image Has Been Pushed"
@@ -501,12 +499,11 @@ msgstr ""
 
 #: src/view/action_page.rs:152
 msgid "Container Has Been Created"
-msgstr ""
+msgstr "Container er blevet oprettet"
 
 #: src/view/action_page.rs:153
-#, fuzzy
 msgid "Container Has Been Started"
-msgstr "Kontainer Oversigt"
+msgstr "Container er blevet startet"
 
 #: src/view/action_page.rs:154
 msgid "New Image Has Been Committed"
@@ -514,15 +511,15 @@ msgstr ""
 
 #: src/view/action_page.rs:155
 msgid "Files Have Beeng Copied"
-msgstr ""
+msgstr "Filerne er blevet kopiret"
 
 #: src/view/action_page.rs:156
 msgid "Pods Have Been Pruned"
-msgstr ""
+msgstr "Pods er blevet fjernet"
 
 #: src/view/action_page.rs:157
 msgid "Pod Has Been Created"
-msgstr ""
+msgstr "Pods er blevet oprettet"
 
 #: src/view/action_page.rs:163
 msgid "Pruning of Images Has Been Aborted"
