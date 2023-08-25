@@ -259,7 +259,7 @@
                               </object>
                             </child>
 
-                            <child>
+                            <!-- <child>
                               <object class="GtkStackPage">
                                 <property name="name">pods</property>
                                 <property name="child">
@@ -328,7 +328,7 @@
                                   </object>
                                 </property>
                               </object>
-                            </child>
+                            </child> -->
 
                           </object>
                         </child>

@@ -63,10 +63,10 @@ mod imp {
         pub(super) window_title: TemplateChild<adw::WindowTitle>,
         #[template_child]
         pub(super) show_only_running_toggle_button: TemplateChild<gtk::ToggleButton>,
-        #[template_child]
-        pub(super) selection_header_bar: TemplateChild<adw::HeaderBar>,
-        #[template_child]
-        pub(super) selected_containers_button: TemplateChild<gtk::MenuButton>,
+        // #[template_child]
+        // pub(super) selection_header_bar: TemplateChild<adw::HeaderBar>,
+        // #[template_child]
+        // pub(super) selected_containers_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
         pub(super) search_bar: TemplateChild<gtk::SearchBar>,
         #[template_child]
@@ -85,12 +85,13 @@ mod imp {
             klass.bind_template();
             klass.bind_template_callbacks();
 
-            klass.add_binding_action(
-                gdk::Key::N,
-                gdk::ModifierType::CONTROL_MASK,
-                ACTION_CREATE_CONTAINER,
-                None,
-            );
+            // FIXME: Uncomment this and stutter will start
+            // klass.add_binding_action(
+            //     gdk::Key::N,
+            //     gdk::ModifierType::CONTROL_MASK,
+            //     ACTION_CREATE_CONTAINER,
+            //     None,
+            // );
             klass.install_action(ACTION_CREATE_CONTAINER, None, move |widget, _, _| {
                 widget.create_container();
             });
@@ -230,17 +231,17 @@ mod imp {
             )
             .bind(&self.window_title.get(), "subtitle", Some(obj));
 
-            selection_mode_expr.bind(&self.selection_header_bar.get(), "visible", Some(obj));
+            // selection_mode_expr.bind(&self.selection_header_bar.get(), "visible", Some(obj));
 
-            container_list_expr
-                .chain_property::<model::ContainerList>("num-selected")
-                .chain_closure::<String>(closure!(|_: Self::Type, selected: u32| ngettext!(
-                    "{} Selected Container",
-                    "{} Selected Containers",
-                    selected,
-                    selected
-                )))
-                .bind(&self.selected_containers_button.get(), "label", Some(obj));
+            // container_list_expr
+            //     .chain_property::<model::ContainerList>("num-selected")
+            //     .chain_closure::<String>(closure!(|_: Self::Type, selected: u32| ngettext!(
+            //         "{} Selected Container",
+            //         "{} Selected Containers",
+            //         selected,
+            //         selected
+            //     )))
+            //     .bind(&self.selected_containers_button.get(), "label", Some(obj));
 
             not_selection_mode_expr.bind(&self.search_bar.get(), "visible", Some(obj));
 
