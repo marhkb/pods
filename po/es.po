@@ -8,9 +8,8 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-30 22:11+0200\n"
-"PO-Revision-Date: 2023-05-27 11:53+0000\n"
-"Last-Translator: Óscar Fernández Díaz <oscfdezdz@users.noreply.hosted."
-"weblate.org>\n"
+"PO-Revision-Date: 2023-06-11 19:30+0000\n"
+"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/pods/main/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -516,9 +515,8 @@ msgid "Files Have Beeng Copied"
 msgstr "Archivos copiados"
 
 #: src/view/action_page.rs:156
-#, fuzzy
 msgid "Pods Have Been Pruned"
-msgstr "Imágenes eliminadas"
+msgstr "Los pods han sido cortados"
 
 #: src/view/action_page.rs:157
 msgid "Pod Has Been Created"
@@ -537,23 +535,20 @@ msgid "Image Built Has Been Aborted"
 msgstr "Interrumpida la construcción de la imagen"
 
 #: src/view/action_page.rs:166
-#, fuzzy
 msgid "Image Push Has Been Aborted"
-msgstr "Interrumpida la construcción de la imagen"
+msgstr "Se canceló el envío de las imágenes"
 
 #: src/view/action_page.rs:167
-#, fuzzy
 msgid "Pruning of Containers Has Been Aborted"
-msgstr "Interrumpida la eliminación de imágenes"
+msgstr "Se canceló la limpieza del contenedor"
 
 #: src/view/action_page.rs:168
 msgid "Container Creation Has Been Aborted"
 msgstr "Interrumpida la creación del contenedor"
 
 #: src/view/action_page.rs:169
-#, fuzzy
 msgid "Container Start Has Been Aborted"
-msgstr "Interrumpida la creación del contenedor"
+msgstr "Se canceló el inicio del contenedor"
 
 #: src/view/action_page.rs:170
 msgid "Image Commitment Has Been Aborted"
@@ -564,9 +559,8 @@ msgid "Copying Files Has Been Aborted"
 msgstr "Interrumpida la copia de archivos"
 
 #: src/view/action_page.rs:172
-#, fuzzy
 msgid "Pruning of Pods Has Been Aborted"
-msgstr "Interrumpida la eliminación de imágenes"
+msgstr "Se canceló la limpieza de pods"
 
 #: src/view/action_page.rs:173
 msgid "Pod Creation Has Been Aborted"
@@ -585,23 +579,20 @@ msgid "Image Built Has Failed"
 msgstr "Fallo al construir la imagen"
 
 #: src/view/action_page.rs:182
-#, fuzzy
 msgid "Image Push Has Failed"
-msgstr "Fallo al construir la imagen"
+msgstr "La inserción de la imagen ha fallado"
 
 #: src/view/action_page.rs:183
-#, fuzzy
 msgid "Pruning of Containers Has Failed"
-msgstr "Fallo al eliminar las imágenes"
+msgstr "La limpieza del contenedor falló"
 
 #: src/view/action_page.rs:184
 msgid "Container Creation Has Failed"
 msgstr "Fallo al crear el contenedor"
 
 #: src/view/action_page.rs:185
-#, fuzzy
 msgid "Container Start Has Failed"
-msgstr "Fallo al crear el contenedor"
+msgstr "El inicio del contenedor ha fallado"
 
 #: src/view/action_page.rs:186
 msgid "Image Commitment Has Failed"
@@ -612,9 +603,8 @@ msgid "Copying Files Has Failed"
 msgstr "Fallo al copiar los archivos"
 
 #: src/view/action_page.rs:188
-#, fuzzy
 msgid "Pruning of Pods Has Failed"
-msgstr "Fallo al eliminar las imágenes"
+msgstr "Error al eliminar contenedores"
 
 #: src/view/action_page.rs:189
 msgid "Pod Creation Has Failed"
@@ -1359,9 +1349,8 @@ msgid "Error on retrieving logs"
 msgstr "Error al recuperar los registros"
 
 #: src/view/container_log_page.rs:710
-#, fuzzy
 msgid "Log has been saved."
-msgstr "Cápsula creada"
+msgstr "El registro se ha guardado."
 
 #: src/view/container_log_page.rs:731
 msgid "Error starting container"
@@ -1488,12 +1477,12 @@ msgstr "_Renombrar"
 #: src/view/container_resources.rs:92
 msgid "Processor ({} CPU)"
 msgid_plural "Processor ({} CPUs)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Procesador ({} CPU)"
+msgstr[1] "Procesador ({} CPUs)"
 
 #: src/view/container_resources.rs:98
 msgid "Processor (? CPUs)"
-msgstr ""
+msgstr "Procesador (? CPUs)"
 
 #: src/view/container_resources.rs:110 src/view/container_resources.rs:145
 #: src/view/container_resources.rs:150 src/view/container_resources.rs:154
@@ -1563,9 +1552,8 @@ msgid "Start"
 msgstr "Iniciar"
 
 #: src/view/container_terminal_page.ui:32
-#, fuzzy
 msgid "Container Terminal"
-msgstr "Detalles del contenedor"
+msgstr "Terminales de los contenedores"
 
 #: src/view/container_terminal_page.ui:51
 msgid "Detach Terminal"
@@ -1914,9 +1902,8 @@ msgid "Tag ('latest' if empty)"
 msgstr "Etiqueta (\"última\" si está vacía)"
 
 #: src/view/image_selection_combo_row.rs:88
-#, fuzzy
 msgid "Select Image"
-msgstr "_Eliminar esta imagen"
+msgstr "Seleccionar una imagen"
 
 #: src/view/image_selection_combo_row.rs:89
 #: src/view/image_selection_combo_row.ui:4
@@ -2347,18 +2334,16 @@ msgid "Repository Tag"
 msgstr "Etiqueta de repositorio"
 
 #: src/view/repo_tag_push_page.rs:173
-#, fuzzy
 msgid "Error on accessing keyring"
-msgstr "Error al elegir la conexión"
+msgstr "Error al acceder al llavero"
 
 #: src/view/repo_tag_push_page.rs:266
-#, fuzzy
 msgid "Error saving credentials"
-msgstr "Error al guardar los registros"
+msgstr "Error al guardar las credenciales"
 
 #: src/view/repo_tag_push_page.rs:267
 msgid "Secret Service is not available"
-msgstr ""
+msgstr "El Servicio Secreto no está disponible"
 
 #: src/view/repo_tag_push_page.ui:43
 msgid "Push Image"
