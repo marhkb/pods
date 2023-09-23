@@ -1,19 +1,18 @@
 use std::cell::Cell;
+use std::cell::OnceCell;
 use std::cell::RefCell;
+use std::sync::OnceLock;
 
+use gio::prelude::*;
+use gio::subclass::prelude::*;
+use glib::clone;
+use glib::once_cell::sync::Lazy as SyncLazy;
+use glib::subclass::Signal;
 use glib::Properties;
 use gtk::gio;
 use gtk::glib;
-use gtk::glib::clone;
-use gtk::glib::subclass::Signal;
-use gtk::prelude::ParamSpecBuilderExt;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
 use indexmap::map::Entry;
 use indexmap::map::IndexMap;
-use once_cell::sync::Lazy as SyncLazy;
-use once_cell::sync::OnceCell as SyncOnceCell;
-use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::model::SelectableListExt;
@@ -32,7 +31,7 @@ mod imp {
         #[property(get)]
         pub(super) listing: Cell<bool>,
         #[property(get = Self::is_initialized, type = bool)]
-        pub(super) initialized: UnsyncOnceCell<()>,
+        pub(super) initialized: OnceCell<()>,
         #[property(get, set)]
         pub(super) selection_mode: Cell<bool>,
     }
@@ -55,13 +54,18 @@ mod imp {
         }
 
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: SyncOnceCell<Vec<glib::ParamSpec>> = SyncOnceCell::new();
+            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
             PROPERTIES.get_or_init(|| {
                 Self::derived_properties()
                     .iter()
                     .cloned()
                     .chain(vec![
                         glib::ParamSpecUInt::builder("len").read_only().build(),
+                        glib::ParamSpecUInt::builder("degraded").read_only().build(),
+                        glib::ParamSpecUInt::builder("not-running")
+                            .read_only()
+                            .build(),
+                        glib::ParamSpecUInt::builder("paused").read_only().build(),
                         glib::ParamSpecUInt::builder("running").read_only().build(),
                         glib::ParamSpecUInt::builder("num-selected")
                             .read_only()
@@ -78,6 +82,9 @@ mod imp {
         fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
                 "len" => self.obj().len().to_value(),
+                "degraded" => self.obj().degraded().to_value(),
+                "not-running" => self.obj().not_running().to_value(),
+                "paused" => self.obj().paused().to_value(),
                 "running" => self.obj().running().to_value(),
                 "num-selected" => self.obj().num_selected().to_value(),
                 _ => self.derived_property(id, pspec),
@@ -145,16 +152,39 @@ impl From<&model::Client> for PodList {
 }
 
 impl PodList {
+    fn notify_num_pods(&self) {
+        self.notify("degraded");
+        self.notify("not-running");
+        self.notify("paused");
+        self.notify("running");
+    }
+
     pub(crate) fn len(&self) -> u32 {
         self.n_items()
     }
 
+    pub(crate) fn degraded(&self) -> u32 {
+        self.num_pods_of_status(model::PodStatus::Degraded)
+    }
+
+    pub(crate) fn not_running(&self) -> u32 {
+        self.len() - self.running() - self.paused() - self.degraded()
+    }
+
+    pub(crate) fn paused(&self) -> u32 {
+        self.num_pods_of_status(model::PodStatus::Paused)
+    }
+
     pub(crate) fn running(&self) -> u32 {
+        self.num_pods_of_status(model::PodStatus::Running)
+    }
+
+    pub(crate) fn num_pods_of_status(&self, status: model::PodStatus) -> u32 {
         self.imp()
             .list
             .borrow()
             .values()
-            .filter(|pod| pod.status() == model::PodStatus::Running)
+            .filter(|pod| pod.status() == status)
             .count() as u32
     }
 
@@ -168,6 +198,7 @@ impl PodList {
             drop(list);
 
             self.items_changed(idx as u32, 1, 0);
+            self.notify_num_pods();
             pod.emit_deleted();
         }
     }
@@ -266,9 +297,10 @@ impl PodList {
     }
 
     fn pod_added(&self, pod: &model::Pod) {
+        self.notify_num_pods();
         pod.connect_notify_local(
             Some("status"),
-            clone!(@weak self as obj => move |_, _| obj.notify("running")),
+            clone!(@weak self as obj => move |_, _| obj.notify_num_pods()),
         );
         self.emit_by_name::<()>("pod-added", &[pod]);
     }

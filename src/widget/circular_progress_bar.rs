@@ -1,17 +1,16 @@
 use std::cell::Cell;
 use std::f64;
 
+use adw::prelude::*;
+use adw::subclass::prelude::*;
+use glib::once_cell::sync::Lazy;
 use gtk::gdk;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::graphene;
 use gtk::gsk;
 use gtk::prelude::ParamSpecBuilderExt;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
-use once_cell::unsync::OnceCell;
 
 use crate::utils;
 
@@ -22,10 +21,9 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(file = "circular_progress_bar.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/widget/circular_progress_bar.ui")]
     pub(crate) struct CircularProgressBar {
         pub(super) percentage: Cell<f64>,
-        pub(super) mask_shader: OnceCell<Option<gsk::GLShader>>,
         #[template_child]
         pub(super) image: TemplateChild<gtk::Image>,
     }
@@ -38,6 +36,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+            klass.bind_template_callbacks();
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -84,11 +83,6 @@ mod imp {
 
             let obj = &*self.obj();
 
-            self.image.connect_notify_local(
-                Some("icon-name"),
-                clone!(@weak obj => move |_, _| obj.notify("icon-name")),
-            );
-
             let adw_style_manager = adw::StyleManager::default();
             adw_style_manager
                 .connect_high_contrast_notify(clone!(@weak obj => move |_| obj.queue_draw()));
@@ -101,7 +95,8 @@ mod imp {
     }
 
     impl WidgetImpl for CircularProgressBar {
-        fn measure(&self, _: gtk::Orientation, _: i32) -> (i32, i32, i32, i32) {
+        fn measure(&self, orientation: gtk::Orientation, for_size: i32) -> (i32, i32, i32, i32) {
+            self.image.measure(orientation, for_size);
             (SIZE, SIZE, -1, -1)
         }
 
@@ -161,55 +156,46 @@ mod imp {
                     })
             };
 
-            let (bg_color, maybe_compiled_masked_shader) = if style_manager.is_high_contrast() {
-                (
-                    style_context
-                        .lookup_color("dark_1")
-                        .unwrap_or_else(|| gdk::RGBA::new(0.467, 0.463, 0.482, 1.0)),
-                    None,
-                )
+            let bg_color = if style_manager.is_high_contrast() {
+                style_context
+                    .lookup_color("dark_1")
+                    .unwrap_or_else(|| gdk::RGBA::new(0.467, 0.463, 0.482, 1.0))
             } else {
-                let maybe_compiled_masked_shader = widget.ensure_mask_shader();
-
-                let color = if maybe_compiled_masked_shader.is_some() {
-                    style_context
-                        .lookup_color("window_fg_color")
-                        .map(|color| {
-                            gdk::RGBA::new(
-                                color.red(),
-                                color.green(),
-                                color.blue(),
-                                if style_manager.is_dark() {
-                                    0.15
-                                } else {
-                                    // FIXME: Find the reason why we need 0.12 to match colors of
-                                    // container-status-* which have 'alpha(@window_fg_color, .15)'.
-                                    0.12
-                                },
-                            )
-                        })
-                        .unwrap_or_else(|| {
+                style_context
+                    .lookup_color("window_fg_color")
+                    .map(|color| {
+                        gdk::RGBA::new(
+                            color.red(),
+                            color.green(),
+                            color.blue(),
                             if style_manager.is_dark() {
-                                gdk::RGBA::new(1.0, 1.0, 1.0, 0.15)
+                                0.15
                             } else {
-                                gdk::RGBA::new(0.0, 0.0, 0.0, 0.12)
-                            }
-                        })
-                } else if style_manager.is_dark() {
-                    style_context
-                        .lookup_color("dark_2")
-                        .unwrap_or_else(|| gdk::RGBA::new(0.369, 0.361, 0.392, 1.0))
-                } else {
-                    style_context
-                        .lookup_color("light_3")
-                        .unwrap_or_else(|| gdk::RGBA::new(0.871, 0.867, 0.855, 1.0))
-                };
-
-                (color, maybe_compiled_masked_shader)
+                                // FIXME: Find the reason why we need 0.12 to match colors of
+                                // container-status-* which have 'alpha(@window_fg_color, .15)'.
+                                0.12
+                            },
+                        )
+                    })
+                    .unwrap_or_else(|| {
+                        if style_manager.is_dark() {
+                            gdk::RGBA::new(1.0, 1.0, 1.0, 0.15)
+                        } else {
+                            gdk::RGBA::new(0.0, 0.0, 0.0, 0.12)
+                        }
+                    })
             };
 
             let size_outer = SIZE as f32;
             let rect_outer = graphene::Rect::new(0.0, 0.0, size_outer, size_outer);
+            let border_width = BORDER_WIDTH as f32;
+            let size_inner = size_outer - border_width;
+            let rect_inner = graphene::Rect::new(
+                border_width / 2.0,
+                border_width / 2.0,
+                size_inner,
+                size_inner,
+            );
 
             let child_snapshot = gtk::Snapshot::new();
             child_snapshot
@@ -225,50 +211,33 @@ mod imp {
             );
             child_snapshot.pop();
 
-            if !style_manager.is_high_contrast() {
-                snapshot
-                    .push_rounded_clip(&gsk::RoundedRect::from_rect(rect_outer, size_outer / 2.0));
-                snapshot.append_color(&bg_color, &rect_outer);
-                snapshot.pop();
-            }
+            snapshot.push_rounded_clip(&if style_manager.is_high_contrast() {
+                gsk::RoundedRect::from_rect(rect_inner, size_inner / 2.0)
+            } else {
+                gsk::RoundedRect::from_rect(rect_outer, size_outer / 2.0)
+            });
+            snapshot.append_color(&bg_color, &rect_outer);
+            snapshot.pop();
 
-            if let Some(compiled_mask_shader) = maybe_compiled_masked_shader {
-                snapshot.push_gl_shader(
-                    compiled_mask_shader,
-                    &rect_outer,
-                    gsk::ShaderArgsBuilder::new(compiled_mask_shader, None).to_args(),
-                );
-            }
+            snapshot.push_mask(gsk::MaskMode::InvertedAlpha);
+
+            snapshot.push_rounded_clip(&gsk::RoundedRect::from_rect(rect_inner, size_inner / 2.0));
+            snapshot.append_color(&gdk::RGBA::GREEN, &rect_inner);
+            snapshot.pop();
+            snapshot.pop();
 
             snapshot.append_node(&child_snapshot.to_node().unwrap());
-
-            let border_width = BORDER_WIDTH as f32;
-            let size_inner = size_outer - border_width;
-            let rect_inner = graphene::Rect::new(
-                border_width / 2.0,
-                border_width / 2.0,
-                size_inner,
-                size_inner,
-            );
-
-            if maybe_compiled_masked_shader.is_some() {
-                snapshot.gl_shader_pop_texture();
-
-                snapshot
-                    .push_rounded_clip(&gsk::RoundedRect::from_rect(rect_inner, size_inner / 2.0));
-                snapshot.append_color(&gdk::RGBA::GREEN, &rect_inner);
-                snapshot.pop();
-
-                snapshot.gl_shader_pop_texture();
-                snapshot.pop();
-            } else {
-                snapshot
-                    .push_rounded_clip(&gsk::RoundedRect::from_rect(rect_inner, size_inner / 2.0));
-                snapshot.append_color(&bg_color, &rect_inner);
-                snapshot.pop();
-            }
+            snapshot.pop();
 
             widget.snapshot_child(&*self.image, snapshot);
+        }
+    }
+
+    #[gtk::template_callbacks]
+    impl CircularProgressBar {
+        #[template_callback]
+        fn on_image_notify_icon_name(&self) {
+            self.obj().notify("icon-name");
         }
     }
 }
@@ -306,25 +275,5 @@ impl CircularProgressBar {
 
     pub(crate) fn set_icon_name(&self, value: Option<&str>) {
         self.imp().image.set_icon_name(value);
-    }
-
-    fn ensure_mask_shader(&self) -> Option<&gsk::GLShader> {
-        self.imp()
-            .mask_shader
-            .get_or_init(|| {
-                let shader = gsk::GLShader::from_resource("/com/github/marhkb/Pods/glsl/mask.glsl");
-                let renderer = self.native().unwrap().renderer();
-
-                match shader.compile(&renderer) {
-                    Err(e) => {
-                        // If shaders aren't supported, the error doesn't matter and we just silently fall
-                        // back.
-                        log::error!("Couldn't compile shader: {}", e);
-                        None
-                    }
-                    Ok(_) => Some(shader),
-                }
-            })
-            .as_ref()
     }
 }

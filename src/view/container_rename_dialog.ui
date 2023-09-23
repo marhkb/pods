@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <template class="PdsContainerRenameDialog" parent="AdwMessageDialog">
+    <signal name="response" handler="on_response"/>
     <property name="default-response">rename</property>
     <property name="close-response">close</property>
+    <property name="heading-use-markup">True</property>
 
     <responses>
       <response id="close" translatable="yes">_Cancel</response>
@@ -26,6 +28,7 @@
 
             <child>
               <object class="PdsRandomNameEntryRow" id="entry_row">
+                <signal name="changed" handler="on_entry_row_changed" swapped="true"/>
                 <property name="activates-default">True</property>
                 <property name="title" translatable="yes">Name</property>
               </object>
@@ -36,6 +39,7 @@
 
         <child>
           <object class="GtkRevealer" id="error_label_revealer">
+            <signal name="notify::child-revealed" handler="on_error_label_revealer_notify_child_revealed" swapped="true"/>
             <property name="visible">False</property>
 
             <child>

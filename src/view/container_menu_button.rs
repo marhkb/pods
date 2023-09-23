@@ -1,9 +1,9 @@
+use adw::prelude::*;
+use adw::subclass::prelude::*;
 use glib::clone;
 use glib::closure;
 use glib::Properties;
 use gtk::glib;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
 
 use crate::model;
@@ -24,7 +24,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ContainerMenuButton)]
-    #[template(file = "container_menu_button.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/container_menu_button.ui")]
     pub(crate) struct ContainerMenuButton {
         #[property(get, set, nullable)]
         pub(super) container: glib::WeakRef<model::Container>,

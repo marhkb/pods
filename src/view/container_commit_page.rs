@@ -1,6 +1,7 @@
+use std::cell::OnceCell;
+
+use adw::prelude::*;
 use adw::subclass::prelude::*;
-use adw::traits::BinExt;
-use adw::traits::ComboRowExt;
 use ashpd::desktop::account::UserInformationRequest;
 use ashpd::WindowIdentifier;
 use gettextrs::gettext;
@@ -8,7 +9,6 @@ use glib::clone;
 use glib::Properties;
 use gtk::gio;
 use gtk::glib;
-use gtk::prelude::*;
 use gtk::CompositeTemplate;
 
 use crate::model;
@@ -25,13 +25,13 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ContainerCommitPage)]
-    #[template(file = "container_commit_page.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/container_commit_page.ui")]
     pub(crate) struct ContainerCommitPage {
-        pub(super) changes: gio::ListStore,
+        pub(super) changes: OnceCell<gio::ListStore>,
         #[property(get, set = Self::set_container, construct, nullable)]
         pub(super) container: glib::WeakRef<model::Container>,
         #[template_child]
-        pub(super) stack: TemplateChild<gtk::Stack>,
+        pub(super) navigation_view: TemplateChild<adw::NavigationView>,
         #[template_child]
         pub(super) commit_button: TemplateChild<gtk::Button>,
         #[template_child]
@@ -47,11 +47,9 @@ mod imp {
         #[template_child]
         pub(super) format_list: TemplateChild<gtk::StringList>,
         #[template_child]
-        pub(super) pause_switch: TemplateChild<gtk::Switch>,
+        pub(super) pause_switch_row: TemplateChild<adw::SwitchRow>,
         #[template_child]
         pub(super) changes_list_box: TemplateChild<gtk::ListBox>,
-        #[template_child]
-        pub(super) action_page_bin: TemplateChild<adw::Bin>,
     }
 
     #[glib::object_subclass]
@@ -96,7 +94,7 @@ mod imp {
             self.parent_constructed();
 
             self.changes_list_box
-                .bind_model(Some(&self.changes), |item| {
+                .bind_model(Some(self.changes()), |item| {
                     view::ValueRow::new(item.downcast_ref().unwrap(), &gettext("Change")).upcast()
                 });
             self.changes_list_box.append(
@@ -126,9 +124,9 @@ mod imp {
             let widget = &*self.obj();
 
             glib::idle_add_local(
-                clone!(@weak widget => @default-return glib::Continue(false), move || {
+                clone!(@weak widget => @default-return glib::ControlFlow::Break, move || {
                     widget.imp().author_entry_row.grab_focus();
-                    glib::Continue(false)
+                    glib::ControlFlow::Break
                 }),
             );
             utils::root(widget.upcast_ref()).set_default_widget(Some(&*self.commit_button));
@@ -141,6 +139,11 @@ mod imp {
     }
 
     impl ContainerCommitPage {
+        pub(super) fn changes(&self) -> &gio::ListStore {
+            self.changes
+                .get_or_init(gio::ListStore::new::<model::Value>)
+        }
+
         pub(super) fn set_container(&self, value: Option<&model::Container>) {
             let obj = &*self.obj();
             if obj.container().as_ref() == value {
@@ -205,13 +208,13 @@ impl ContainerCommitPage {
         let change = model::Value::default();
 
         change.connect_remove_request(clone!(@weak self as obj => move |change| {
-            let changes = &obj.imp().changes;
+            let changes = obj.imp().changes();
             if let Some(pos) = changes.find(change) {
                 changes.remove(pos);
             }
         }));
 
-        self.imp().changes.append(&change);
+        self.imp().changes().append(&change);
     }
 
     pub(crate) fn commit(&self) {
@@ -251,7 +254,7 @@ impl ContainerCommitPage {
                                 .string(imp.format_combo_row.selected())
                                 .unwrap(),
                         )
-                        .pause(imp.pause_switch.is_active());
+                        .pause(imp.pause_switch_row.is_active());
 
                     let page = view::ActionPage::from(
                         &client.action_list().commit_container(
@@ -271,8 +274,12 @@ impl ContainerCommitPage {
                         ),
                     );
 
-                    imp.action_page_bin.set_child(Some(&page));
-                    imp.stack.set_visible_child(&*imp.action_page_bin);
+                    imp.navigation_view.push(
+                        &adw::NavigationPage::builder()
+                            .can_pop(false)
+                            .child(&page)
+                            .build(),
+                    );
                 }
             }
         }

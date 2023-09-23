@@ -121,7 +121,11 @@
                             <style>
                               <class name="numeric"/>
                             </style>
+                            <property name="halign">end</property>
                             <property name="hexpand">True</property>
+                            <property name="justify">right</property>
+                            <property name="wrap">True</property>
+                            <property name="wrap-mode">word-char</property>
                             <property name="xalign">1.0</property>
                           </object>
                         </child>

@@ -1,18 +1,18 @@
-use glib::closure;
+use adw::prelude::*;
+use adw::subclass::prelude::*;
 use glib::Properties;
 use gtk::glib;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
 
 use crate::model;
+use crate::utils;
 
 mod imp {
     use super::*;
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ContainersCountBar)]
-    #[template(file = "containers_count_bar.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/containers_count_bar.ui")]
     pub(crate) struct ContainersCountBar {
         #[property(get, set, construct, nullable)]
         pub(super) container_list: glib::WeakRef<model::AbstractContainerList>,
@@ -70,25 +70,8 @@ mod imp {
             let container_list_expr = Self::Type::this_expression("container-list");
             let dead_expr =
                 container_list_expr.chain_property::<model::AbstractContainerList>("dead");
-            let not_running_expr = gtk::ClosureExpression::new::<u32>(
-                &[
-                    container_list_expr.chain_property::<model::AbstractContainerList>("created"),
-                    container_list_expr.chain_property::<model::AbstractContainerList>("exited"),
-                    container_list_expr.chain_property::<model::AbstractContainerList>("removing"),
-                    container_list_expr.chain_property::<model::AbstractContainerList>("stopped"),
-                    container_list_expr.chain_property::<model::AbstractContainerList>("stopping"),
-                ],
-                closure!(|_: Self::Type,
-                          created: u32,
-                          exited: u32,
-                          removing: u32,
-                          stopped: u32,
-                          stopping: u32| created
-                    + exited
-                    + removing
-                    + stopped
-                    + stopping),
-            );
+            let not_running_expr =
+                container_list_expr.chain_property::<model::AbstractContainerList>("not-running");
             let paused_expr =
                 container_list_expr.chain_property::<model::AbstractContainerList>("paused");
             let running_expr =
@@ -108,10 +91,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            self.dead_box.unparent();
-            self.not_running_box.unparent();
-            self.paused_box.unparent();
-            self.running_box.unparent();
+            utils::unparent_children(self.obj().upcast_ref());
         }
     }
 

@@ -2,45 +2,46 @@
 <interface>
   <template class="PdsImageSearchPage" parent="GtkWidget">
     <property name="layout-manager">
-      <object class="GtkBoxLayout">
-        <property name="orientation">vertical</property>
-      </object>
+      <object class="GtkBinLayout"/>
     </property>
 
     <child>
-      <object class="AdwHeaderBar" id="header_bar">
-        <property name="show-end-title-buttons">False</property>
-        <property name="show-start-title-buttons">False</property>
+      <object class="AdwToolbarView">
 
-        <child type="start">
-          <object class="PdsBackNavigationControls" id="back_navigation_controls"/>
-        </child>
+        <child type="top">
+          <object class="AdwHeaderBar" id="header_bar">
+            <property name="show-end-title-buttons">False</property>
+            <property name="show-start-title-buttons">False</property>
 
-        <child type="title">
-          <object class="AdwWindowTitle">
-            <property name="title" translatable="yes">Image Search</property>
+            <child type="title">
+              <object class="AdwWindowTitle">
+                <property name="title" translatable="yes">Image Search</property>
+              </object>
+            </child>
+
+            <child type="end">
+              <object class="GtkButton" id="build_button">
+                <style>
+                  <class name="suggested-action"/>
+                </style>
+                <property name="action-name">image-search-widget.select</property>
+                <property name="label" translatable="yes">_Select</property>
+                <property name="use-underline">True</property>
+              </object>
+            </child>
+
           </object>
         </child>
 
-        <child type="end">
-          <object class="GtkButton" id="build_button">
-            <style>
-              <class name="suggested-action"/>
-            </style>
-            <property name="action-name">image-search-widget.select</property>
-            <property name="label" translatable="yes">_Select</property>
-            <property name="use-underline">True</property>
+        <child>
+          <object class="PdsImageSearchWidget" id="image_search_widget">
+            <signal name="notify::selected-image" handler="on_image_search_widget_notify_selected_image" swapped="true"/>
+            <binding name="client">
+              <lookup name="client">PdsImageSearchPage</lookup>
+            </binding>
           </object>
         </child>
 
-      </object>
-    </child>
-
-    <child>
-      <object class="PdsImageSearchWidget" id="image_search_widget">
-        <binding name="client">
-          <lookup name="client">PdsImageSearchPage</lookup>
-        </binding>
       </object>
     </child>
 

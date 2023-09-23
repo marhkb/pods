@@ -1,9 +1,10 @@
+use std::cell::OnceCell;
+
+use glib::prelude::*;
+use glib::subclass::prelude::*;
 use glib::Properties;
 use gtk::gio;
 use gtk::glib;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
-use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::podman;
@@ -15,13 +16,13 @@ mod imp {
     #[properties(wrapper_type = super::HealthCheckLog)]
     pub(crate) struct HealthCheckLog {
         #[property(get, set, construct_only)]
-        pub(super) end: UnsyncOnceCell<String>,
+        pub(super) end: OnceCell<String>,
         #[property(get, set, construct_only)]
-        pub(super) exit_code: UnsyncOnceCell<i64>,
+        pub(super) exit_code: OnceCell<i64>,
         #[property(get, set, construct_only)]
-        pub(super) output: UnsyncOnceCell<String>,
+        pub(super) output: OnceCell<String>,
         #[property(get, set, construct_only)]
-        pub(super) start: UnsyncOnceCell<String>,
+        pub(super) start: OnceCell<String>,
     }
 
     #[glib::object_subclass]

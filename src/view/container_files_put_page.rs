@@ -1,8 +1,7 @@
 use std::cell::Cell;
 
+use adw::prelude::*;
 use adw::subclass::prelude::*;
-use adw::traits::ActionRowExt;
-use adw::traits::BinExt;
 use ashpd::desktop::file_chooser::OpenFileRequest;
 use ashpd::WindowIdentifier;
 use gettextrs::gettext;
@@ -10,7 +9,6 @@ use glib::clone;
 use glib::Properties;
 use gtk::gio;
 use gtk::glib;
-use gtk::prelude::*;
 use gtk::CompositeTemplate;
 
 use crate::model;
@@ -27,21 +25,19 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ContainerFilesPutPage)]
-    #[template(file = "container_files_put_page.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/container_files_put_page.ui")]
     pub(crate) struct ContainerFilesPutPage {
         pub(super) directory: Cell<bool>,
         #[property(get, set = Self::set_container, construct, nullable)]
         pub(super) container: glib::WeakRef<model::Container>,
         #[template_child]
-        pub(super) stack: TemplateChild<gtk::Stack>,
+        pub(super) navigation_view: TemplateChild<adw::NavigationView>,
         #[template_child]
         pub(super) put_button: TemplateChild<gtk::Button>,
         #[template_child]
         pub(super) host_path_row: TemplateChild<adw::ActionRow>,
         #[template_child]
         pub(super) container_path_row: TemplateChild<adw::EntryRow>,
-        #[template_child]
-        pub(super) action_page_bin: TemplateChild<adw::Bin>,
     }
 
     #[glib::object_subclass]
@@ -110,9 +106,9 @@ mod imp {
             let widget = &*self.obj();
 
             glib::idle_add_local(
-                clone!(@weak widget => @default-return glib::Continue(false), move || {
+                clone!(@weak widget => @default-return glib::ControlFlow::Break, move || {
                     widget.imp().container_path_row.grab_focus();
-                    glib::Continue(false)
+                    glib::ControlFlow::Break
                 }),
             );
             utils::root(widget.upcast_ref()).set_default_widget(Some(&*self.put_button));
@@ -217,8 +213,12 @@ impl ContainerFilesPutPage {
                     ),
             );
 
-            imp.action_page_bin.set_child(Some(&page));
-            imp.stack.set_visible_child(&*imp.action_page_bin);
+            imp.navigation_view.push(
+                &adw::NavigationPage::builder()
+                    .can_pop(false)
+                    .child(&page)
+                    .build(),
+            );
         }
     }
 }

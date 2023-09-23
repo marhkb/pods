@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <template class="PdsPropertyRow" parent="AdwActionRow">
+    <signal name="notify::title" handler="on_notify_title" swapped="true"/>
+    <signal name="notify::label" handler="on_notify_label" swapped="true"/>
+    <signal name="notify::wrap-mode" handler="on_notify_wrap_mode" swapped="true"/>
     <property name="activatable">False</property>
 
     <child>

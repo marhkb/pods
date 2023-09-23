@@ -33,6 +33,13 @@ mod value;
 mod volume;
 mod volume_list;
 
+#[allow(unused_imports)]
+pub(crate) mod prelude {
+    pub(crate) use super::AbstractContainerListExt;
+    pub(crate) use super::SelectableExt;
+    pub(crate) use super::SelectableListExt;
+}
+
 pub(crate) use self::abstract_container_list::AbstractContainerList;
 pub(crate) use self::abstract_container_list::AbstractContainerListExt;
 pub(crate) use self::action::Action;

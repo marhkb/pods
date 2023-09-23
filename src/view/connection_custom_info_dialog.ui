@@ -5,10 +5,9 @@
     <property name="default-width">640</property>
 
     <property name="content">
-      <object class="GtkBox">
-        <property name="orientation">vertical</property>
+       <object class="AdwToolbarView">
 
-        <child>
+        <child type="top">
           <object class="AdwHeaderBar">
 
             <child type="title">
@@ -25,7 +24,6 @@
 
             <child>
               <object class="AdwClamp">
-                <property name="vexpand">True</property>
                 <property name="margin-top">24</property>
                 <property name="margin-end">24</property>
                 <property name="margin-bottom">36</property>

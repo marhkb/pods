@@ -1,14 +1,14 @@
 use std::cell::RefCell;
 
+use adw::prelude::*;
 use adw::subclass::prelude::ExpanderRowImpl;
 use adw::subclass::prelude::PreferencesRowImpl;
+use adw::subclass::prelude::*;
 use gettextrs::gettext;
 use glib::clone;
 use glib::closure;
 use glib::Properties;
 use gtk::glib;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
 
 use crate::model;
@@ -25,7 +25,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::MountRow)]
-    #[template(file = "mount_row.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/mount_row.ui")]
     pub(crate) struct MountRow {
         #[property(get, set = Self::set_mount, construct, nullable)]
         pub(super) mount: RefCell<Option<model::Mount>>,
@@ -51,7 +51,7 @@ mod imp {
         #[template_child]
         pub(super) container_path_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
-        pub(super) writable_switch: TemplateChild<gtk::Switch>,
+        pub(super) writable_switch_row: TemplateChild<adw::SwitchRow>,
         #[template_child]
         pub(super) selinux_combo_row: TemplateChild<adw::ComboRow>,
     }
@@ -268,7 +268,7 @@ mod imp {
                 bindings.push(binding);
 
                 let binding = mount
-                    .bind_property("writable", &*self.writable_switch, "active")
+                    .bind_property("writable", &*self.writable_switch_row, "active")
                     .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
                     .build();
                 bindings.push(binding);
@@ -329,8 +329,11 @@ impl MountRow {
                     }
                 }),
             );
-            utils::find_leaflet_overlay(self.upcast_ref())
-                .show_details(volume_selection_page.upcast_ref());
+            utils::navigation_view(self.upcast_ref()).push(
+                &adw::NavigationPage::builder()
+                    .child(&volume_selection_page)
+                    .build(),
+            );
         }
     }
 

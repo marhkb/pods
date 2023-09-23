@@ -1,8 +1,9 @@
+use std::cell::OnceCell;
+
 use glib::prelude::*;
 use glib::subclass::prelude::*;
 use glib::Properties;
 use gtk::glib;
-use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 mod imp {
     use super::*;
@@ -11,7 +12,7 @@ mod imp {
     #[properties(wrapper_type = super::Registry)]
     pub(crate) struct Registry {
         #[property(get, set, construct_only)]
-        pub(super) name: UnsyncOnceCell<String>,
+        pub(super) name: OnceCell<String>,
     }
 
     #[glib::object_subclass]

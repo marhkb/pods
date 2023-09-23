@@ -1,11 +1,8 @@
-use adw::subclass::prelude::ExpanderRowImpl;
-use adw::subclass::prelude::PreferencesRowImpl;
-use adw::traits::PreferencesRowExt;
+use adw::prelude::*;
+use adw::subclass::prelude::*;
 use gettextrs::gettext;
 use glib::Properties;
 use gtk::glib;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
 
 use crate::model;
@@ -15,7 +12,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ContainerHealthCheckLogRow)]
-    #[template(file = "container_health_check_log_row.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/container_health_check_log_row.ui")]
     pub(crate) struct ContainerHealthCheckLogRow {
         #[property(get, set = Self::set_log, nullable)]
         pub(super) log: glib::WeakRef<model::HealthCheckLog>,

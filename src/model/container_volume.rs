@@ -1,8 +1,9 @@
+use std::cell::OnceCell;
+
 use glib::prelude::*;
 use glib::subclass::prelude::*;
 use glib::Properties;
 use gtk::glib;
-use once_cell::unsync::OnceCell as UnsyncOnceCell;
 
 use crate::model;
 use crate::monad_boxed_type;
@@ -21,7 +22,7 @@ mod imp {
         #[property(get, set, construct_only)]
         pub(super) volume: glib::WeakRef<model::Volume>,
         #[property(get, set, construct_only)]
-        pub(super) inner: UnsyncOnceCell<BoxedInspectMount>,
+        pub(super) inner: OnceCell<BoxedInspectMount>,
     }
 
     #[glib::object_subclass]

@@ -1,13 +1,12 @@
 use std::cell::RefCell;
+use std::sync::OnceLock;
 
+use adw::prelude::*;
+use adw::subclass::prelude::*;
 use gettextrs::gettext;
-use glib::clone;
 use glib::Properties;
 use gtk::glib;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::OnceCell as SyncOnceCell;
 
 use crate::model;
 
@@ -16,7 +15,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::KeyValRow)]
-    #[template(file = "key_val_row.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/key_val_row.ui")]
     pub(crate) struct KeyValRow {
         pub(super) bindings: RefCell<Vec<glib::Binding>>,
         #[property(get, set = Self::set_key_val, construct)]
@@ -35,6 +34,8 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+            klass.bind_template_callbacks();
+
             klass.install_action("key-val-row.remove", None, |widget, _, _| {
                 if let Some(key_val) = widget.key_val() {
                     key_val.remove_request();
@@ -49,7 +50,7 @@ mod imp {
 
     impl ObjectImpl for KeyValRow {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: SyncOnceCell<Vec<glib::ParamSpec>> = SyncOnceCell::new();
+            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
             PROPERTIES.get_or_init(|| {
                 Self::derived_properties()
                     .iter()
@@ -89,26 +90,23 @@ mod imp {
                 _ => self.derived_property(id, pspec),
             }
         }
-
-        fn constructed(&self) {
-            self.parent_constructed();
-
-            let obj = &*self.obj();
-            self.key_entry
-                .connect_placeholder_text_notify(clone!(@weak obj => move |_| {
-                    obj.notify("key-placeholder-text");
-                }));
-            self.key_entry
-                .connect_placeholder_text_notify(clone!(@weak obj => move |_| {
-                    obj.notify("value-placeholder-text");
-                }));
-        }
     }
 
     impl WidgetImpl for KeyValRow {}
     impl ListBoxRowImpl for KeyValRow {}
 
+    #[gtk::template_callbacks]
     impl KeyValRow {
+        #[template_callback]
+        fn on_key_entry_changed(&self) {
+            self.obj().notify("key-placeholder-text");
+        }
+
+        #[template_callback]
+        fn on_value_entry_changed(&self) {
+            self.obj().notify("value-placeholder-text");
+        }
+
         pub(super) fn set_key_val(&self, value: Option<model::KeyVal>) {
             let obj = &*self.obj();
             if obj.key_val() == value {

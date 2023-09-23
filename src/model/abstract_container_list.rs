@@ -1,11 +1,10 @@
-use gio::traits::ListModelExt;
+use gio::prelude::*;
 use glib::clone;
-use glib::prelude::*;
+use glib::once_cell::sync::Lazy as SyncLazy;
 use glib::subclass::prelude::*;
 use glib::subclass::Signal;
 use gtk::gio;
 use gtk::glib;
-use once_cell::sync::Lazy as SyncLazy;
 
 use crate::model;
 
@@ -45,6 +44,9 @@ mod imp {
                     glib::ParamSpecUInt::builder("dead").read_only().build(),
                     glib::ParamSpecUInt::builder("exited").read_only().build(),
                     glib::ParamSpecUInt::builder("paused").read_only().build(),
+                    glib::ParamSpecUInt::builder("not-running")
+                        .read_only()
+                        .build(),
                     glib::ParamSpecUInt::builder("removing").read_only().build(),
                     glib::ParamSpecUInt::builder("running").read_only().build(),
                     glib::ParamSpecUInt::builder("stopped").read_only().build(),
@@ -89,6 +91,7 @@ impl AbstractContainerList {
         list.notify("dead");
         list.notify("exited");
         list.notify("paused");
+        list.notify("not-running");
         list.notify("removing");
         list.notify("running");
         list.notify("stopped");
@@ -97,6 +100,13 @@ impl AbstractContainerList {
 }
 
 pub(crate) trait AbstractContainerListExt: IsA<AbstractContainerList> {
+    fn not_running(&self) -> u32 {
+        self.property::<u32>("len")
+            - self.property::<u32>("running")
+            - self.property::<u32>("paused")
+            - self.property::<u32>("dead")
+    }
+
     fn container_added(&self, container: &model::Container) {
         self.emit_by_name::<()>("container-added", &[container]);
     }

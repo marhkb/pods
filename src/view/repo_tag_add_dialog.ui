@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <template class="PdsRepoTagAddDialog" parent="AdwMessageDialog">
+    <signal name="response" handler="on_response"/>
     <property name="default-response">add</property>
     <property name="close-response">close</property>
     <property name="heading" translatable="yes">Add Repository Tag</property>
@@ -27,6 +28,7 @@
 
             <child>
               <object class="AdwEntryRow" id="entry_row">
+                <signal name="changed" handler="on_entry_row_changed" swapped="true"/>
                 <property name="activates-default">True</property>
                 <property name="title" translatable="yes">Repository Tag</property>
               </object>
@@ -37,6 +39,7 @@
 
         <child>
           <object class="GtkRevealer" id="error_label_revealer">
+            <signal name="notify::child-revealed" handler="on_error_label_revealer_notify_child_revealed" swapped="true"/>
             <property name="visible">False</property>
 
             <child>

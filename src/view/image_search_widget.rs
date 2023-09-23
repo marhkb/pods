@@ -1,16 +1,16 @@
+use std::cell::OnceCell;
 use std::cell::RefCell;
+use std::sync::OnceLock;
 
+use adw::prelude::*;
 use adw::subclass::prelude::*;
-use adw::traits::ComboRowExt;
 use futures::future;
 use gettextrs::gettext;
 use glib::clone;
 use glib::Properties;
 use gtk::gio;
 use gtk::glib;
-use gtk::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::OnceCell as SyncOnceCell;
 
 use crate::model;
 use crate::podman;
@@ -22,9 +22,10 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ImageSearchWidget)]
-    #[template(file = "image_search_widget.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/image_search_widget.ui")]
     pub(crate) struct ImageSearchWidget {
-        pub(super) search_results: gio::ListStore,
+        pub(super) filter: OnceCell<gtk::Filter>,
+        pub(super) search_results: OnceCell<gio::ListStore>,
         pub(super) search_abort_handle: RefCell<Option<future::AbortHandle>>,
         #[property(get, set = Self::set_client, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
@@ -39,7 +40,7 @@ mod imp {
         #[template_child]
         pub(super) no_results_status_page: TemplateChild<adw::StatusPage>,
         #[template_child]
-        pub(super) list_view: TemplateChild<gtk::ListView>,
+        pub(super) signal_list_item_factory: TemplateChild<gtk::SignalListItemFactory>,
         #[template_child]
         pub(super) selection: TemplateChild<gtk::SingleSelection>,
         #[template_child]
@@ -64,7 +65,7 @@ mod imp {
 
     impl ObjectImpl for ImageSearchWidget {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: SyncOnceCell<Vec<glib::ParamSpec>> = SyncOnceCell::new();
+            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
             PROPERTIES.get_or_init(|| {
                 Self::derived_properties()
                     .iter()
@@ -108,9 +109,6 @@ mod imp {
 
             let obj = &*self.obj();
 
-            self.search_entry_row
-                .connect_changed(clone!(@weak obj => move |_| obj.search()));
-
             self.registries_combo_row
                 .set_expression(Some(&model::Registry::this_expression("name")));
 
@@ -131,44 +129,12 @@ mod imp {
                             .unwrap()
                             .index()
                 }));
-
-            self.registries_combo_row.connect_selected_item_notify(
-                clone!(@weak filter => move |_| filter.changed(gtk::FilterChange::Different)),
-            );
-
             self.selection.set_model(Some(&gtk::FilterListModel::new(
-                Some(self.search_results.clone()),
-                Some(filter),
+                Some(self.search_results().to_owned()),
+                Some(filter.clone()),
             )));
 
-            let list_factory = gtk::SignalListItemFactory::new();
-            list_factory.connect_bind(clone!(@weak obj => move |_, list_item| {
-                let list_item = list_item.downcast_ref::<gtk::ListItem>().unwrap();
-
-                if let Some(item) = list_item.item() {
-                    let response = item.downcast::<model::ImageSearchResponse>().unwrap();
-                    let row = view::ImageSearchResponseRow::from(&response);
-
-                    list_item.set_child(Some(&row));
-                }
-            }));
-            list_factory.connect_unbind(|_, list_item| {
-                list_item
-                    .downcast_ref::<gtk::ListItem>()
-                    .unwrap()
-                    .set_child(gtk::Widget::NONE);
-            });
-            self.list_view.set_factory(Some(&list_factory));
-
-            self.tag_entry_row.connect_notify_local(
-                None,
-                clone!(@weak obj => move |_, pspec| {
-                    match pspec.name() {
-                        "tag" | "default-tag" => obj.notify(pspec.name()),
-                        _ => {}
-                    }
-                }),
-            );
+            self.filter.set(filter.upcast()).unwrap();
         }
 
         fn dispose(&self) {
@@ -183,9 +149,9 @@ mod imp {
             let widget = &*self.obj();
 
             glib::idle_add_local(
-                clone!(@weak widget => @default-return glib::Continue(false), move || {
+                clone!(@weak widget => @default-return glib::ControlFlow::Break, move || {
                     widget.imp().search_entry_row.grab_focus();
-                    glib::Continue(false)
+                    glib::ControlFlow::Break
                 }),
             );
         }
@@ -196,6 +162,39 @@ mod imp {
     #[gtk::template_callbacks]
     impl ImageSearchWidget {
         #[template_callback]
+        fn on_search_entry_row_changed(&self) {
+            self.obj().search();
+        }
+
+        #[template_callback]
+        fn on_registries_combo_row_selected_item(&self) {
+            self.filter
+                .get()
+                .unwrap()
+                .changed(gtk::FilterChange::Different)
+        }
+
+        #[template_callback]
+        fn on_signal_list_item_factory_bind(&self, list_item: &glib::Object) {
+            let list_item = list_item.downcast_ref::<gtk::ListItem>().unwrap();
+
+            if let Some(item) = list_item.item() {
+                let response = item.downcast::<model::ImageSearchResponse>().unwrap();
+                let row = view::ImageSearchResponseRow::from(&response);
+
+                list_item.set_child(Some(&row));
+            }
+        }
+
+        #[template_callback]
+        fn on_signal_list_item_factory_unbind(&self, list_item: &glib::Object) {
+            list_item
+                .downcast_ref::<gtk::ListItem>()
+                .unwrap()
+                .set_child(gtk::Widget::NONE);
+        }
+
+        #[template_callback]
         fn on_image_selected(&self) {
             self.obj().notify("selected-image");
         }
@@ -205,6 +204,16 @@ mod imp {
             self.obj()
                 .activate_action(<Self as ObjectSubclass>::Type::action_select(), None)
                 .unwrap();
+        }
+
+        #[template_callback]
+        fn on_tag_entry_row_changed(&self) {
+            self.obj().notify("tag");
+        }
+
+        pub(super) fn search_results(&self) -> &gio::ListStore {
+            self.search_results
+                .get_or_init(gio::ListStore::new::<model::ImageSearchResponse>)
         }
 
         pub(super) fn set_client(&self, client: Option<&model::Client>) {
@@ -224,7 +233,7 @@ mod imp {
                             let imp = obj.imp();
                             match info.registries.unwrap().get("search") {
                                 Some(search) => {
-                                    let model = gio::ListStore::new(model::Registry::static_type());
+                                    let model = gio::ListStore::new::<model::Registry>();
                                     model.append(&model::Registry::from(gettext("All registries").as_str()));
                                     search
                                         .as_array()
@@ -302,7 +311,7 @@ impl ImageSearchWidget {
             abort_handle.abort();
         }
 
-        imp.search_results.remove_all();
+        imp.search_results.get().unwrap().remove_all();
         self.notify("selected-image");
 
         let term = imp.search_entry_row.text();
@@ -336,7 +345,8 @@ impl ImageSearchWidget {
                             imp.no_results_status_page.set_title(&gettext!("No Results For {}", term));
                         } else {
                             responses.into_iter().for_each(|response| {
-                                imp.search_results.append(&model::ImageSearchResponse::from(response));
+                                imp.search_results()
+                                    .append(&model::ImageSearchResponse::from(response));
                             });
                             imp.search_stack.set_visible_child_name("results");
 

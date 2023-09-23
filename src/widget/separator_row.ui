@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="PdsSeparatorRow" parent="GtkListBoxRow">
+    <style>
+      <class name="list-separator"/>
+    </style>
+    <property name="activatable">False</property>
+    <property name="selectable">False</property>
+
+    <child>
+      <object class="GtkSeparator">
+        <property name="valign">center</property>
+      </object>
+    </child>
+
+  </template>
+</interface>

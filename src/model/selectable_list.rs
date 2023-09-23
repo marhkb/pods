@@ -1,12 +1,12 @@
+use gio::prelude::*;
+use gio::subclass::prelude::*;
+use glib::clone;
+use glib::once_cell::sync::Lazy as SyncLazy;
 use gtk::gio;
 use gtk::glib;
-use gtk::glib::clone;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
-use once_cell::sync::Lazy as SyncLazy;
 
 use crate::model;
-use crate::model::SelectableExt;
+use crate::model::prelude::*;
 
 mod imp {
     use super::*;

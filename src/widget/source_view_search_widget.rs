@@ -1,14 +1,14 @@
 use std::cell::RefCell;
 
+use adw::prelude::*;
+use adw::subclass::prelude::*;
 use gettextrs::gettext;
 use glib::Properties;
 use gtk::gdk;
 use gtk::glib;
 use gtk::glib::clone;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use sourceview5::traits::SearchSettingsExt;
+use sourceview5::prelude::*;
 
 use crate::utils;
 use crate::widget;
@@ -21,7 +21,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::SourceViewSearchWidget)]
-    #[template(file = "source_view_search_widget.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/widget/source_view_search_widget.ui")]
     pub(crate) struct SourceViewSearchWidget {
         pub(super) search_settings: sourceview5::SearchSettings,
         pub(super) search_context: RefCell<Option<sourceview5::SearchContext>>,

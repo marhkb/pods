@@ -1,11 +1,12 @@
 use std::cell::RefCell;
 
+use adw::prelude::*;
+use adw::subclass::prelude::*;
+use gettextrs::gettext;
 use glib::clone;
 use glib::closure;
 use glib::Properties;
 use gtk::glib;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
 
 use crate::model;
@@ -19,7 +20,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ImageRow)]
-    #[template(file = "image_row.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/image_row.ui")]
     pub(crate) struct ImageRow {
         pub(super) bindings: RefCell<Vec<glib::Binding>>,
         #[property(get, set = Self::set_image, construct, nullable)]
@@ -201,8 +202,12 @@ impl ImageRow {
             {
                 image.select();
             } else {
-                utils::find_leaflet_overlay(self.upcast_ref())
-                    .show_details(view::ImageDetailsPage::from(image).upcast_ref());
+                utils::navigation_view(self.upcast_ref()).push(
+                    &adw::NavigationPage::builder()
+                        .title(gettext!("Image {}", utils::format_id(&image.id())))
+                        .child(&view::ImageDetailsPage::from(image))
+                        .build(),
+                );
             }
         }
     }

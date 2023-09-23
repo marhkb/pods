@@ -71,38 +71,20 @@
     </child>
 
     <child>
-      <object class="AdwActionRow">
-        <property name="activatable_widget">readable_switch</property>
+      <object class="AdwSwitchRow" id="readable_switch_row">
         <property name="title" translatable="yes">Readable</property>
-        <child>
-          <object class="GtkSwitch" id="readable_switch">
-            <property name="valign">center</property>
-          </object>
-        </child>
       </object>
     </child>
 
     <child>
-      <object class="AdwActionRow">
-        <property name="activatable_widget">writable_switch</property>
+      <object class="AdwSwitchRow" id="writable_switch_row">
         <property name="title" translatable="yes">Writable</property>
-        <child>
-          <object class="GtkSwitch" id="writable_switch">
-            <property name="valign">center</property>
-          </object>
-        </child>
       </object>
     </child>
 
     <child>
-      <object class="AdwActionRow">
-        <property name="activatable_widget">mknod_switch</property>
+      <object class="AdwSwitchRow" id="mknod_switch_row">
         <property name="title" translatable="yes">mknod</property>
-        <child>
-          <object class="GtkSwitch" id="mknod_switch">
-            <property name="valign">center</property>
-          </object>
-        </child>
       </object>
     </child>
 

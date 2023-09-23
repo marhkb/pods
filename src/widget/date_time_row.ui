@@ -45,6 +45,7 @@
 
                 <child>
                   <object class="GtkSpinButton" id="hour_spin_button">
+                    <signal name="output" handler="on_spin_button_output"/>
                     <property name="adjustment">
                       <object class="GtkAdjustment" id="hour_adjustment">
                         <property name="lower">0</property>
@@ -65,6 +66,7 @@
 
                 <child>
                   <object class="GtkSpinButton" id="minute_spin_button">
+                    <signal name="output" handler="on_spin_button_output"/>
                     <property name="adjustment">
                       <object class="GtkAdjustment">
                         <property name="lower">0</property>

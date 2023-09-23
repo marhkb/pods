@@ -1,9 +1,9 @@
+use adw::prelude::*;
+use adw::subclass::prelude::*;
 use gettextrs::gettext;
 use glib::clone;
 use glib::Properties;
 use gtk::glib;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
 
 use crate::model;
@@ -20,7 +20,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::RepoTagRow)]
-    #[template(file = "repo_tag_row.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/repo_tag_row.ui")]
     pub(crate) struct RepoTagRow {
         #[property(get, set, construct_only, nullable)]
         pub(super) repo_tag: glib::WeakRef<model::RepoTag>,

@@ -3,12 +3,14 @@
   <gresource prefix="/com/github/marhkb/Pods/">
     <file preprocess="xml-stripblanks">assets/welcome.svg</file>
 
-    <file compressed="true" preprocess="xml-stripblanks" alias="gtk/help-overlay.ui">ui/shortcuts.ui</file>
-
+    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/about-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/arrow1-right-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/bell-outline-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/build-configure-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/code-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/cross-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/eraser5-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/funnel-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/get-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/hospital-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/memory-symbolic.svg</file>
@@ -23,7 +25,6 @@
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/stacked-plates-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/uppercase-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/whole-word-symbolic.svg</file>
-    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/status/bell-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/status/degraded-pod-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/status/error-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/status/local-connection-symbolic.svg</file>
@@ -32,7 +33,5 @@
     <file compressed="true">style.css</file>
     <file compressed="true">style-dark.css</file>
     <file compressed="true">style-hc.css</file>
-
-    <file>glsl/mask.glsl</file>
   </gresource>
 </gresources>

@@ -1,10 +1,10 @@
 use std::cell::RefCell;
 use std::collections::VecDeque;
 
+use gio::prelude::*;
+use gio::subclass::prelude::*;
 use gtk::gio;
 use gtk::glib;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
 
 use crate::model;
 use crate::podman;

@@ -1,12 +1,12 @@
 use std::cell::Cell;
 
+use adw::prelude::*;
 use adw::subclass::prelude::*;
 use gettextrs::gettext;
 use glib::clone;
 use glib::closure;
 use glib::Properties;
 use gtk::glib;
-use gtk::prelude::*;
 use gtk::CompositeTemplate;
 
 use crate::utils;
@@ -23,7 +23,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::DateTimeRow)]
-    #[template(file = "date_time_row.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/widget/date_time_row.ui")]
     pub(crate) struct DateTimeRow {
         pub(super) desktop_settings: utils::DesktopSettings,
         pub(super) time_format: Cell<TimeFormat>,
@@ -51,6 +51,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+            klass.bind_template_callbacks();
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -83,9 +84,6 @@ mod imp {
                     obj.load_time_format();
                 }),
             );
-
-            setup_time_spin_button(&self.hour_spin_button);
-            setup_time_spin_button(&self.minute_spin_button);
 
             gtk::ClosureExpression::new::<i64>(
                 [
@@ -150,6 +148,15 @@ mod imp {
     impl ListBoxRowImpl for DateTimeRow {}
     impl PreferencesRowImpl for DateTimeRow {}
     impl ExpanderRowImpl for DateTimeRow {}
+
+    #[gtk::template_callbacks]
+    impl DateTimeRow {
+        #[template_callback]
+        fn on_spin_button_output(spin_button: &gtk::SpinButton) -> glib::Propagation {
+            spin_button.set_text(&format!("{:02}", spin_button.value()));
+            glib::Propagation::Stop
+        }
+    }
 }
 
 glib::wrapper! {
@@ -178,12 +185,4 @@ impl DateTimeRow {
             }
         }
     }
-}
-
-fn setup_time_spin_button(spin_button: &gtk::SpinButton) {
-    spin_button.set_text(&format!("{:02}", spin_button.value()));
-    spin_button.connect_output(|spin_button| {
-        spin_button.set_text(&format!("{:02}", spin_button.value()));
-        gtk::Inhibit(true)
-    });
 }

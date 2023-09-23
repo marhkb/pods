@@ -3,13 +3,13 @@ use std::cell::RefCell;
 
 use gio::prelude::*;
 use gio::subclass::prelude::*;
+use glib::once_cell::sync::Lazy as SyncLazy;
 use gtk::gio;
 use gtk::glib;
 use indexmap::map::IndexMap;
-use once_cell::sync::Lazy as SyncLazy;
 
-use super::AbstractContainerListExt;
 use crate::model;
+use crate::model::prelude::*;
 
 mod imp {
     use super::*;
@@ -34,6 +34,9 @@ mod imp {
                     glib::ParamSpecUInt::builder("created").read_only().build(),
                     glib::ParamSpecUInt::builder("dead").read_only().build(),
                     glib::ParamSpecUInt::builder("exited").read_only().build(),
+                    glib::ParamSpecUInt::builder("not-running")
+                        .read_only()
+                        .build(),
                     glib::ParamSpecUInt::builder("paused").read_only().build(),
                     glib::ParamSpecUInt::builder("removing").read_only().build(),
                     glib::ParamSpecUInt::builder("running").read_only().build(),
@@ -51,6 +54,7 @@ mod imp {
                 "created" => obj.created().to_value(),
                 "dead" => obj.dead().to_value(),
                 "exited" => obj.exited().to_value(),
+                "not-running" => obj.not_running().to_value(),
                 "paused" => obj.paused().to_value(),
                 "removing" => obj.removing().to_value(),
                 "running" => obj.running().to_value(),

@@ -1,19 +1,15 @@
-use adw::subclass::prelude::ActionRowImpl;
-use adw::subclass::prelude::PreferencesRowImpl;
-use adw::traits::PreferencesRowExt;
+use adw::prelude::*;
+use adw::subclass::prelude::*;
+use glib::once_cell::sync::Lazy;
 use gtk::glib;
-use gtk::glib::clone;
 use gtk::pango;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
-use once_cell::sync::Lazy;
 
 mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(file = "property_row.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/widget/property_row.ui")]
     pub(crate) struct PropertyRow {
         #[template_child]
         pub(super) value_label: TemplateChild<gtk::Label>,
@@ -27,6 +23,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+            klass.bind_template_callbacks();
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -74,31 +71,30 @@ mod imp {
                 _ => unimplemented!(),
             }
         }
-
-        fn constructed(&self) {
-            self.parent_constructed();
-
-            let obj = &*self.obj();
-
-            obj.connect_notify_local(
-                Some("title"),
-                clone!(@weak obj => move |_, _| obj.notify("key")),
-            );
-            self.value_label.connect_notify_local(
-                Some("label"),
-                clone!(@weak obj => move |_, _| obj.notify("value")),
-            );
-            self.value_label.connect_notify_local(
-                Some("wrap-mode"),
-                clone!(@weak obj => move |_, _| obj.notify("value-wrap-mode")),
-            );
-        }
     }
 
     impl WidgetImpl for PropertyRow {}
     impl ListBoxRowImpl for PropertyRow {}
     impl PreferencesRowImpl for PropertyRow {}
     impl ActionRowImpl for PropertyRow {}
+
+    #[gtk::template_callbacks]
+    impl PropertyRow {
+        #[template_callback]
+        fn on_notify_title(&self) {
+            self.obj().notify("key");
+        }
+
+        #[template_callback]
+        fn on_notify_label(&self) {
+            self.obj().notify("value");
+        }
+
+        #[template_callback]
+        fn on_notify_wrap_mode(&self) {
+            self.obj().notify("value-wrap-mode");
+        }
+    }
 }
 
 glib::wrapper! {

@@ -1,7 +1,7 @@
 project(
   'pods',
   'rust',
-  version: '1.3.0-dev',
+  version: '2.0.0-dev',
   meson_version: '>= 0.59',
   license: 'GPL3+',
 )
@@ -13,8 +13,8 @@ base_id = 'com.github.marhkb.Pods'
 
 dependency('glib-2.0', version: '>= 2.66')
 dependency('gio-2.0', version: '>= 2.66')
-dependency('gtk4', version: '>= 4.10.0')
-dependency('libadwaita-1', version: '>= 1.3')
+dependency('gtk4', version: '>= 4.12.0')
+dependency('libadwaita-1', version: '>= 1.4')
 dependency('libpanel-1', version: '>= 1.2.0')
 dependency('gtksourceview-5', version: '>= 4.90')
 dependency('vte-2.91-gtk4', version: '>= 0.70.0')

@@ -2,89 +2,21 @@
 <interface>
   <template class="PdsContainerHealthCheckPage" parent="GtkWidget">
     <property name="layout-manager">
-      <object class="GtkBoxLayout">
-        <property name="orientation">vertical</property>
-      </object>
+      <object class="GtkBinLayout"/>
     </property>
 
-    <!-- Headerbar -->
     <child>
-      <object class="AdwHeaderBar">
-        <property name="centering-policy">strict</property>
+      <object class="AdwToolbarView">
 
-        <child type="start">
-          <object class="PdsBackNavigationControls"/>
-        </child>
+        <child type="top">
+          <object class="AdwHeaderBar">
 
-        <child type="title">
-          <object class="AdwWindowTitle">
-            <property name="title" translatable="yes">Container Health Check</property>
-            <binding name="subtitle">
-              <lookup name="name" type="Container">
-                <lookup name="container">PdsContainerHealthCheckPage</lookup>
-              </lookup>
-            </binding>
-          </object>
-        </child>
-
-      </object>
-    </child>
-
-    <child>
-      <object class="AdwPreferencesPage">
-
-        <child>
-          <object class="AdwPreferencesGroup">
-            <property name="title" translatable="yes">Configuration</property>
-
-            <child>
-              <object class="PdsPropertyWidgetRow">
-                <property name="key" translatable="yes">Status</property>
-
-                <property name="widget">
-                  <object class="GtkLabel" id="status_label">
-                    <style>
-                      <class name="status-badge"/>
-                    </style>
-                    <property name="valign">center</property>
-                  </object>
-                </property>
-
-              </object>
-            </child>
-
-            <child>
-              <object class="PdsPropertyRow" id="command_row">
-                <property name="key" translatable="yes">Command</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="PdsPropertyRow" id="interval_row">
-                <property name="key" translatable="yes">Interval</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="PdsPropertyRow" id="retries_row">
-                <property name="key" translatable="yes">Retries</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="PdsPropertyRow" id="timeout_row">
-                <property name="key" translatable="yes">Timeout</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="PdsPropertyRow" id="failing_streak_row">
-                <property name="key" translatable="yes">Failing Streak</property>
-                <binding name="value">
-                  <lookup name="health-failing-streak" type="ContainerData">
-                    <lookup name="data" type="Container">
-                      <lookup name="container">PdsContainerHealthCheckPage</lookup>
-                    </lookup>
+            <child type="title">
+              <object class="AdwWindowTitle">
+                <property name="title" translatable="yes">Container Health Check</property>
+                <binding name="subtitle">
+                  <lookup name="name" type="Container">
+                    <lookup name="container">PdsContainerHealthCheckPage</lookup>
                   </lookup>
                 </binding>
               </object>
@@ -94,25 +26,91 @@
         </child>
 
         <child>
-          <object class="AdwPreferencesGroup">
-            <property name="title" translatable="yes">Log</property>
-            <property name="description" translatable="yes">Rows describe the last 5 health check attempts and results.</property>
-
-            <property name="header-suffix">
-              <object class="GtkButton">
-                <property name="action-name">container-health-check-page.run-health-check</property>
-                  <property name="label" translatable="yes">_Run Health Check</property>
-                  <property name="use-underline">True</property>
-                  <property name="valign">center</property>
-              </object>
-            </property>
+          <object class="AdwPreferencesPage">
 
             <child>
-              <object class="GtkListBox" id="log_list_box">
-                <style>
-                  <class name="boxed-list"/>
-                </style>
-                <property name="selection-mode">none</property>
+              <object class="AdwPreferencesGroup">
+                <property name="title" translatable="yes">Configuration</property>
+
+                <child>
+                  <object class="PdsPropertyWidgetRow">
+                    <property name="key" translatable="yes">Status</property>
+
+                    <property name="widget">
+                      <object class="GtkLabel" id="status_label">
+                        <style>
+                          <class name="status-badge"/>
+                        </style>
+                        <property name="valign">center</property>
+                      </object>
+                    </property>
+
+                  </object>
+                </child>
+
+                <child>
+                  <object class="PdsPropertyRow" id="command_row">
+                    <property name="key" translatable="yes">Command</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="PdsPropertyRow" id="interval_row">
+                    <property name="key" translatable="yes">Interval</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="PdsPropertyRow" id="retries_row">
+                    <property name="key" translatable="yes">Retries</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="PdsPropertyRow" id="timeout_row">
+                    <property name="key" translatable="yes">Timeout</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="PdsPropertyRow" id="failing_streak_row">
+                    <property name="key" translatable="yes">Failing Streak</property>
+                    <binding name="value">
+                      <lookup name="health-failing-streak" type="ContainerData">
+                        <lookup name="data" type="Container">
+                          <lookup name="container">PdsContainerHealthCheckPage</lookup>
+                        </lookup>
+                      </lookup>
+                    </binding>
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwPreferencesGroup">
+                <property name="title" translatable="yes">Log</property>
+                <property name="description" translatable="yes">Rows describe the last 5 health check attempts and results.</property>
+
+                <property name="header-suffix">
+                  <object class="GtkButton">
+                    <property name="action-name">container-health-check-page.run-health-check</property>
+                      <property name="label" translatable="yes">_Run Health Check</property>
+                      <property name="use-underline">True</property>
+                      <property name="valign">center</property>
+                  </object>
+                </property>
+
+                <child>
+                  <object class="GtkListBox" id="log_list_box">
+                    <style>
+                      <class name="boxed-list"/>
+                    </style>
+                    <property name="selection-mode">none</property>
+                  </object>
+                </child>
+
               </object>
             </child>
 

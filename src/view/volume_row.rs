@@ -1,12 +1,12 @@
 use std::cell::RefCell;
 
+use adw::prelude::*;
+use adw::subclass::prelude::*;
 use gettextrs::gettext;
 use glib::clone;
 use glib::closure;
 use glib::Properties;
 use gtk::glib;
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
 use gtk::CompositeTemplate;
 
 use crate::model;
@@ -23,7 +23,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::VolumeRow)]
-    #[template(file = "volume_row.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/volume_row.ui")]
     pub(crate) struct VolumeRow {
         #[property(get, set = Self::set_volume, construct, nullable)]
         pub(super) volume: RefCell<Option<model::Volume>>,
@@ -265,8 +265,15 @@ impl VolumeRow {
             {
                 volume.select();
             } else {
-                utils::find_leaflet_overlay(self.upcast_ref())
-                    .show_details(view::VolumeDetailsPage::from(volume).upcast_ref());
+                utils::navigation_view(self.upcast_ref()).push(
+                    &adw::NavigationPage::builder()
+                        .title(gettext!(
+                            "Volume {}",
+                            utils::format_volume_name(&volume.inner().name)
+                        ))
+                        .child(&view::VolumeDetailsPage::from(volume))
+                        .build(),
+                );
             }
         }
     }

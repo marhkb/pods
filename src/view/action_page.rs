@@ -1,10 +1,10 @@
+use adw::prelude::*;
 use adw::subclass::prelude::*;
 use gettextrs::gettext;
 use glib::clone;
 use glib::Properties;
 use gtk::gio;
 use gtk::glib;
-use gtk::prelude::*;
 use gtk::CompositeTemplate;
 
 use crate::model;
@@ -20,7 +20,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ActionPage)]
-    #[template(file = "action_page.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/action_page.ui")]
     pub(crate) struct ActionPage {
         #[property(get, set, construct_only, nullable)]
         pub(super) action: glib::WeakRef<model::Action>,
@@ -93,8 +93,8 @@ mod imp {
             obj.set_description(&action);
             glib::timeout_add_seconds_local(
                 1,
-                clone!(@weak obj, @weak action => @default-return glib::Continue(false), move || {
-                    glib::Continue(obj.set_description(&action))
+                clone!(@weak obj, @weak action => @default-return glib::ControlFlow::Break, move || {
+                    obj.set_description(&action)
                 }),
             );
         }
@@ -225,7 +225,7 @@ impl ActionPage {
         );
     }
 
-    fn set_description(&self, action: &model::Action) -> bool {
+    fn set_description(&self, action: &model::Action) -> glib::ControlFlow {
         let state_label = &*self.imp().status_page;
 
         match action.state() {
@@ -234,7 +234,7 @@ impl ActionPage {
                     glib::DateTime::now_local().unwrap().to_unix() - action.start_timestamp(),
                 )));
 
-                true
+                glib::ControlFlow::Continue
             }
             _ => {
                 state_label.set_description(Some(&gettext!(
@@ -244,7 +244,7 @@ impl ActionPage {
                     )
                 )));
 
-                false
+                glib::ControlFlow::Break
             }
         }
     }
@@ -275,8 +275,13 @@ impl ActionPage {
                     .downcast::<crate::Application>()
                     .unwrap()
                     .main_window()
-                    .leaflet_overlay()
-                    .show_details(&page);
+                    .navigation_view()
+                    .push(
+                        &adw::NavigationPage::builder()
+                            .title(gettext("Action"))
+                            .child(&page)
+                            .build(),
+                    );
 
                 self.activate_action("action.cancel", None).unwrap();
             }

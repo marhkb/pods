@@ -3,6 +3,7 @@ use std::ops::Deref;
 use std::path::PathBuf;
 use std::rc::Rc;
 
+use adw::prelude::*;
 use ashpd::desktop::file_chooser::OpenFileRequest;
 use ashpd::desktop::file_chooser::SaveFileRequest;
 use ashpd::desktop::file_chooser::SelectedFiles;
@@ -11,24 +12,14 @@ use futures::Future;
 use futures::StreamExt;
 use gettextrs::gettext;
 use gettextrs::ngettext;
+use glib::clone;
 use gtk::gdk;
 use gtk::gio;
-use gtk::gio::traits::ActionMapExt;
 use gtk::glib;
-use gtk::glib::clone;
-use gtk::prelude::Cast;
-use gtk::prelude::StaticType;
-use gtk::traits::GtkWindowExt;
-use gtk::traits::WidgetExt;
-use once_cell::sync::Lazy as SyncLazy;
 
 use crate::config;
-use crate::widget;
 use crate::APPLICATION_OPTS;
 use crate::RUNTIME;
-
-pub(crate) static VOLUME_NAME_REGEX: SyncLazy<regex::Regex> =
-    SyncLazy::new(|| regex::Regex::new("^[0-9a-f]{64}$").unwrap());
 
 #[macro_export]
 macro_rules! monad_boxed_type {
@@ -192,13 +183,13 @@ pub(crate) fn show_dialog(widget: &gtk::Widget, content: &gtk::Widget) {
 
     let controller = gtk::EventControllerKey::new();
     controller.connect_key_pressed(clone!(
-        @weak dialog => @default-return glib::signal::Inhibit(true), move |_, key, _, modifier| {
+        @weak dialog => @default-return glib::Propagation::Stop, move |_, key, _, modifier| {
             if key == gdk::Key::Escape
                 || (key == gdk::Key::w && modifier == gdk::ModifierType::CONTROL_MASK)
             {
                 dialog.close();
             }
-            glib::signal::Inhibit(false)
+            glib::Propagation::Proceed
         }
     ));
     dialog.add_controller(controller);
@@ -224,43 +215,14 @@ pub(crate) fn show_error_toast(widget: &gtk::Widget, title: &str, msg: &str) {
     show_toast(widget, format!("{title}: {msg}"));
 }
 
-pub(crate) fn find_leaflet_overlay(widget: &gtk::Widget) -> widget::LeafletOverlay {
-    leaflet_overlay(
-        &widget
-            .ancestor(adw::Leaflet::static_type())
-            .unwrap()
-            .downcast::<adw::Leaflet>()
-            .unwrap(),
-    )
-}
-
-pub(crate) fn leaflet_overlay(leaflet: &adw::Leaflet) -> widget::LeafletOverlay {
-    leaflet
-        .child_by_name("overlay")
-        .unwrap()
-        .downcast::<widget::LeafletOverlay>()
-        .unwrap()
-}
-
-pub(crate) fn parent_leaflet_overlay(widget: &gtk::Widget) -> Option<widget::LeafletOverlay> {
+pub(crate) fn try_navigation_view(widget: &gtk::Widget) -> Option<adw::NavigationView> {
     widget
-        .ancestor(widget::LeafletOverlay::static_type())
-        .and_then(|ancestor| ancestor.downcast::<widget::LeafletOverlay>().ok())
+        .ancestor(adw::NavigationView::static_type())
+        .and_downcast::<adw::NavigationView>()
 }
 
-pub(crate) fn topmost_leaflet_overlay(widget: &gtk::Widget) -> Option<widget::LeafletOverlay> {
-    let mut topmost_leaflet_overlay = None;
-    let mut current_widget = widget.to_owned().upcast();
-
-    while let Some(leaflet_overlay) = parent_leaflet_overlay(&current_widget) {
-        topmost_leaflet_overlay = Some(leaflet_overlay.clone());
-        current_widget = match leaflet_overlay.parent() {
-            Some(parent) => parent,
-            None => break,
-        };
-    }
-
-    topmost_leaflet_overlay
+pub(crate) fn navigation_view(widget: &gtk::Widget) -> adw::NavigationView {
+    try_navigation_view(widget).unwrap()
 }
 
 pub(crate) fn escape(text: &str) -> String {
@@ -353,7 +315,7 @@ where
                 .borrow_mut()
                 .iter()
                 .for_each(|fun| (*fun)(r.clone()));
-            glib::Continue(false)
+            glib::ControlFlow::Break
         }
     });
 
@@ -369,7 +331,7 @@ where
     A: Send + 'static,
     for<'r> P: FnOnce(&'r A) -> BoxStream<'r, I> + Send + 'static,
     I: Send + 'static,
-    F: FnMut(I) -> glib::Continue + 'static,
+    F: FnMut(I) -> glib::ControlFlow + 'static,
 {
     run_stream_with_finish_handler(api_entity, stream_producer, glib_closure, || {});
 }
@@ -383,7 +345,7 @@ pub(crate) fn run_stream_with_finish_handler<A, P, I, F, X>(
     A: Send + 'static,
     for<'r> P: FnOnce(&'r A) -> BoxStream<'r, I> + Send + 'static,
     I: Send + 'static,
-    F: FnMut(I) -> glib::Continue + 'static,
+    F: FnMut(I) -> glib::ControlFlow + 'static,
     X: FnMut() + 'static,
 {
     let (tx_payload, rx_payload) = glib::MainContext::sync_channel::<I>(Default::default(), 5);
@@ -392,7 +354,7 @@ pub(crate) fn run_stream_with_finish_handler<A, P, I, F, X>(
     rx_payload.attach(None, glib_closure);
     rx_finish.attach(None, move |_| {
         finish_handler();
-        glib::Continue(false)
+        glib::ControlFlow::Break
     });
 
     RUNTIME.spawn(async move {
@@ -473,11 +435,14 @@ where
 }
 
 pub(crate) fn is_podman_id(name: &str) -> bool {
-    VOLUME_NAME_REGEX.is_match(name)
+    name.len() == 64
+        && name
+            .chars()
+            .all(|c| c.to_ascii_lowercase().is_ascii_hexdigit())
 }
 
 pub(crate) fn format_volume_name(name: &str) -> String {
-    if VOLUME_NAME_REGEX.is_match(name) {
+    if is_podman_id(name) {
         format_id(name)
     } else {
         name.to_owned()
