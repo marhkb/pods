@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-09-23 22:25+0200\n"
-"PO-Revision-Date: 2023-05-27 11:53+0000\n"
+"PO-Revision-Date: 2023-09-27 20:00+0000\n"
 "Last-Translator: SoftExpert <softexpert@gmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/pods/main/ro/>\n"
 "Language: ro\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
-"X-Generator: Weblate 4.18-dev\n"
+"X-Generator: Weblate 5.1-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:56
@@ -34,7 +34,7 @@ msgstr "Se ține evidența containerelor podman"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:9
 msgid "Gnome;GTK;libadwaita;Podman;Containerization;"
-msgstr ""
+msgstr "Gnome;GTK;libadwaita;Podman;Containerizare;"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:6
 #: data/com.github.marhkb.Pods.gschema.xml.in:7
@@ -67,9 +67,8 @@ msgid "The last used view"
 msgstr "Ultima vizualizare folosită"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:41
-#, fuzzy
 msgid "Whether to hide intermediate images"
-msgstr "Afișarea sau nu a imaginilor intermediare"
+msgstr "Ascunderea imaginilor intermediare"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:46
 msgid "The last used container file path"
@@ -97,9 +96,8 @@ msgid "Whether to show only running pods"
 msgstr "Să se afișeze doar podurile în funcțiune"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:71
-#, fuzzy
 msgid "Whether to show only used volumes"
-msgstr "Să se afișeze doar podurile în funcțiune"
+msgstr "Să se afișeze doar volumele în folosință"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:76
 msgid "Whether to show a timestamp for each log line"
@@ -123,9 +121,8 @@ msgid "The font scale of all text views"
 msgstr "Scara fontului pentru toate vizualizările de text"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:106
-#, fuzzy
 msgid "The font scale for terminals"
-msgstr "Scara fontului pentru toate vizualizările de text"
+msgstr "Scara fontului pentru terminale"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
 msgid ""
@@ -194,102 +191,113 @@ msgid "Rename containers."
 msgstr "Redenumiți containerele."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:30
-#, fuzzy
 msgid "Container Overview"
-msgstr "Prezentare generală a containerelor"
+msgstr "Trecere în revistă a containerelor"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:34
-#, fuzzy
 msgid "Containers Details in Compact Mode"
-msgstr "Containerul a fost creat"
+msgstr "Detaliile Containerului în modul compact"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:38
-#, fuzzy
 msgid "Search Results"
-msgstr "Căutare"
+msgstr "Rezultate de căutare"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:47
 msgid "Pods 1.2.1 contains the following bugfixes and improvements:"
-msgstr ""
+msgstr "Pods 1.2.1 prezintă următoarele remedieri și adăugiri:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:49
 msgid ""
 "Fixed a bug that caused the application to crash when the keyring could not "
 "be accessed."
 msgstr ""
+"A fost reparat un bug care genera un crash atunci când keyringul nu era "
+"disponibil."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:50
 msgid ""
 "Some languages like Romanian were not correctly included. This should be "
 "fixed now."
 msgstr ""
+"Unele limbaje, precum Româna, nu au fost incluse corect. Ar trebui sa "
+"funcționeze normal de acum."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:51
 msgid ""
 "Fixed a regression where the container list was not re-sorted once a "
 "container was renamed."
 msgstr ""
+"A fost reparată o regresie, în care lista de containere nu era triată după "
+"redenumirea unui container."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:52
 msgid "Minor cleanup work has been done in the code."
-msgstr ""
+msgstr "Optimizări minore au fost aduse în cod."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:58
 msgid "Pods 1.2.0 contains the following new features:"
-msgstr ""
+msgstr "Pods 1.2.0 conține următoarele noi funcții:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:60
 msgid "Usabilty and UX has been improved in many places."
-msgstr ""
+msgstr "Ergonomia interfeței a fost ameliorată în multe aspecte."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:61
-#, fuzzy
 msgid "Pruning of containers and pods is now possible."
-msgstr "Suprimarea imaginilor a eșuat"
+msgstr "Suprimarea containerelor și a imaginilor este acum posibilă."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:62
 msgid "Container terminals are now detachable and can be used in parallel."
 msgstr ""
+"Terminalele containerelor sunt, de acum înainte, detașabile și pot fi "
+"utilizate în paralel."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:63
 msgid "Images can be pushed to a registry."
-msgstr ""
+msgstr "Imaginile pot fi trimise într-un depozit."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:64
 msgid "The CPU utilization now takes the number of cores into account."
-msgstr ""
+msgstr "Utilizarea CPU ține cont de numărul de nuclee de acum.."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:70
 msgid "Pods 1.1.0 contains the following features, bug fixes and improvements:"
-msgstr ""
+msgstr "Pods 1.1.0 oferă următoarele funcții, reparații și ameliorări:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:72
 msgid ""
 "Dependencies have been updated. This includes the update to GNOME 44 "
 "libraries."
 msgstr ""
+"Dependințele au fost actualizate. Aceasta include folosirea librăriilor de "
+"la GNOME 44."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:73
 msgid "AdwBanner is now used in the container log page instead of GtkInfoBar."
 msgstr ""
+"AdwBanner este folosit în pagina de afișare a jurnalelor, în locul lui "
+"GtkInfoBar."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:74
 msgid "The GNOME Coc is acknowledged in the README.md."
-msgstr ""
+msgstr "Codul de conduită GNOME este recunoscut și menționat în README.md."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:75
 msgid "The main window and all dialogs can now be closed with Ctrl+W."
 msgstr ""
+"Fereastra principală și toate dialogurile pot fi închise de acum cu Ctrl+W."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:76
 msgid "The memory icon has been improved, thanks to @daudix-UFO."
-msgstr ""
+msgstr "Iconița de memorie a fost ameliorată datorită lui @daudix-UFO."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:77
 msgid ""
 "Internal code improvements have landed, like the port to glib-rs' new "
 "properties proc macro."
 msgstr ""
+"Ameliorările de cod intern au fost aplicate, precum portajul către noile "
+"macro-uri ale lui glib-rs."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:78
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:97
@@ -299,13 +307,14 @@ msgstr ""
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:158
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:172
 msgid "Translations have been updated."
-msgstr ""
+msgstr "Traducerile au fost actualizate."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:84
 msgid ""
 "Pods 1.1.0-beta.4 contains the following features, bug fixes and "
 "improvements:"
 msgstr ""
+"Pods 1.1.0-beta.4 conține următoarele noi funcții, rectificări și ameliorări:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:86
 msgid ""
@@ -313,60 +322,80 @@ msgid ""
 "the connection name in the connection overview, instead of a vertical bar at "
 "the beginning."
 msgstr ""
+"Culoarea conexiunii este afișată de acum ca un punct colorat înaintea "
+"numelui, în loc de o bara verticala la început."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:87
 msgid ""
 "The penguin icon to the left of the Podman version has been removed from the "
 "status bar."
 msgstr ""
+"Iconița cu un pinguin situata la stânga numărului de versiune Podman a fost "
+"suprimata de pe bara de status."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:88
 msgid ""
 "The Podman menu button in the status bar now shows a loading indicator until "
 "the Podman version is determined."
 msgstr ""
+"Butonul de meniu Podman situat în bara de status afișează de acum un "
+"indicator de încărcare pana când versiunea de Podman este aflată."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:89
 msgid ""
 "The label to show the version of the Podman menu button in the status bar "
 "now uses the <em>numeric</em> style class, which looks more harmonious."
 msgstr ""
+"Eticheta de versiune din bara de status folosește clasa de stil <em>numeric</"
+"em> pentru armonizarea aspectului general."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:90
 msgid ""
 "To eliminate the blur, the icons in the status bar now all have a size of 16 "
 "pixels instead of 12 pixels."
 msgstr ""
+"Pentru claritate, iconițele din bara de status au de acum o dimensiune de 16 "
+"pixeli în loc de 12 pixeli."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:91
 msgid "The desktop entry now uses the updated short description as comment."
 msgstr ""
+"Iconița de pe birou folosește de acum descrierea prescurtata drept "
+"comentariu."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:92
 msgid "Some appropriate categories have been added to the desktop entry."
 msgstr ""
+"Câteva categorii adecvate au fost adăugate în proprietățile iconiței de pe "
+"birou."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:93
 msgid ""
 "Fixed a bug where the Id of a container was replaced by the name once the "
 "name of the container was changed."
 msgstr ""
+"A fost rezolvat un bug relativ la înlocuirea eronată a identificatorului "
+"unui container cu numele său, în cazul redenumirii."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:94
 msgid ""
 "The container status <em>configured</em> was not handled before. This is now "
 "fixed."
 msgstr ""
+"Statusul <em>configured</em> al unui container nu era luat în cont. Aceasta "
+"problemă a fost remediată."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:95
 msgid ""
 "The spinner within the container log page did not disappear earlier if the "
 "log was empty. This is fixed now."
 msgstr ""
+"Animația de încărcare a jurnalului nu dispărea suficient de devreme dacă "
+"jurnalul era vid. Această problemă a fost rezolvată."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:96
 msgid "The code has been improved in some places."
-msgstr ""
+msgstr "Codul a fost ameliorat pe alocuri."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:98
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:116
@@ -374,24 +403,27 @@ msgstr ""
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:148
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:173
 msgid "Dependencies have been updated."
-msgstr ""
+msgstr "Dependințele au fost actualizate."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:104
 msgid ""
 "Pods 1.1.0-beta.3 contains the following features, bug fixes and "
 "improvements:"
-msgstr ""
+msgstr "Pods 1.1.0-beta.3 conține următoarele funcții, remedieri și ameliorări:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:106
 msgid ""
 "The connection menu has received an entry for disconnecting the current "
 "Podman connection."
 msgstr ""
+"Meniul de conectare a primit o opțiune pentru a deconecta versiunea curentă "
+"de Podman."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:107
 msgid ""
 "The status bar now has a menu button that shows the current Podman version."
 msgstr ""
+"Bara de status are acum un buton ce afișează versiunea curentă de Podman."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:108
 msgid ""
@@ -1025,9 +1057,8 @@ msgid ""
 msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:311
-#, fuzzy
 msgid "Image downloads can now be aborted."
-msgstr "Descărcarea imaginii a fost întreruptă"
+msgstr "Descărcarea imaginii a fost întreruptă."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:312
 msgid "Arguments can now be added to a container command, thanks to @vvk9."
@@ -1104,9 +1135,8 @@ msgid "Specify the minimum log level"
 msgstr "Specificați nivelul minim al jurnalului"
 
 #: src/model/action.rs:134
-#, fuzzy
 msgid "Prune unused images"
-msgstr "Suprimați imaginile."
+msgstr "Suprimă imaginile nefolosite"
 
 #: src/model/action.rs:172
 #, fuzzy
@@ -1157,9 +1187,8 @@ msgid "Finished"
 msgstr "Finalizat"
 
 #: src/model/action.rs:460
-#, fuzzy
 msgid "Upload <b>{}</b> to <b>{}:{}</b>"
-msgstr "Pod: <b>{}</b> ← {}"
+msgstr "Încarcă: <b>{}</b> către <b>{}:{}</b>"
 
 #: src/model/action.rs:467
 msgid "Creating tar archive…"
@@ -1209,9 +1238,8 @@ msgid "Create volume <b>{}</b>"
 msgstr "Pod: <b>{}</b>"
 
 #: src/model/action.rs:891
-#, fuzzy
 msgid "Prune unused volumes"
-msgstr "Suprimați imaginile."
+msgstr "Suprimă volumele nefolosite"
 
 #: src/model/connection_manager.rs:203
 msgid "Connection '{}' already exists."
@@ -1827,9 +1855,8 @@ msgid "Color"
 msgstr "Culoare"
 
 #: src/view/connection_creation_page.ui:296
-#, fuzzy
 msgid "Set the color of this connection."
-msgstr "Eroare la comutarea conexiunii"
+msgstr "Atribuie o culoare acestei conexiuni."
 
 #: src/view/connection_custom_info_dialog.rs:149
 msgid "systemd unit path copied"
@@ -1864,7 +1891,7 @@ msgstr ""
 
 #: src/view/connection_custom_info_dialog.ui:61
 msgid "http://somewhere:8081"
-msgstr "http://somewhere:8081"
+msgstr "http://undeva:8081"
 
 #: src/view/connection_custom_info_dialog.ui:80
 msgid "Podman Root Connection"
@@ -2356,9 +2383,8 @@ msgid "Error on retrieving logs"
 msgstr "Eroare la recuperarea jurnalelor"
 
 #: src/view/container_log_page.rs:697
-#, fuzzy
 msgid "Log has been saved."
-msgstr "Podul a fost creat"
+msgstr "Jurnalul a fost salvat."
 
 #: src/view/container_log_page.rs:720
 msgid "Error starting container"
@@ -2391,9 +2417,8 @@ msgid "Scroll to bottom"
 msgstr "Derulați până jos"
 
 #: src/view/container_log_page.ui:228
-#, fuzzy
 msgid "Start/Resume Container."
-msgstr "Porniți/Reluați containerul"
+msgstr "Pornire/Reluare Container."
 
 #: src/view/container_log_page.ui:229
 msgid "Streaming is disconnected because container isn't running."
@@ -2642,7 +2667,7 @@ msgstr "Anulează"
 
 #: src/view/containers_panel.ui:373
 msgid "No Containers Found"
-msgstr "Nu s-au găsit containere"
+msgstr "Nu au fost găsite containere"
 
 #: src/view/containers_panel.ui:374
 msgid "You can use the button below to create an initial container."
@@ -2952,7 +2977,7 @@ msgstr ""
 
 #: src/view/image_search_widget.ui:54
 msgid "Search for"
-msgstr "Căutare"
+msgstr "Căutare despre"
 
 #: src/view/image_search_widget.ui:62
 msgid "Registry"
@@ -3041,9 +3066,8 @@ msgstr ""
 "eliminate!"
 
 #: src/view/images_panel.ui:35
-#, fuzzy
 msgid "_Prune Unused Images"
-msgstr "Suprimați imaginile."
+msgstr "Su_primarea imaginilor nefolosite"
 
 #: src/view/images_panel.ui:132
 #, fuzzy
@@ -3051,9 +3075,8 @@ msgid "Create Image"
 msgstr "Imagine la distanță"
 
 #: src/view/images_panel.ui:141
-#, fuzzy
 msgid "Prune Unused Images"
-msgstr "Suprimați imaginile."
+msgstr "Suprimarea imaginilor nefolosite"
 
 #: src/view/images_panel.ui:162
 #, fuzzy
@@ -3330,7 +3353,7 @@ msgstr ""
 
 #: src/view/pod_details_page.ui:251
 msgid "Generate Kubernetes YAML based on this pod."
-msgstr "Generați un YAML Kubernetes pe baza acestui container."
+msgstr "Generați un fișier YAML Kubernetes pe baza acestui container."
 
 #: src/view/pod_details_page.ui:268
 msgid "View processes that are currently running inside the pod."
