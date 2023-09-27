@@ -44,11 +44,14 @@
 
                     <child>
                       <object class="GtkBox">
+                        <property name="spacing">9</property>
                         <property name="hexpand">True</property>
 
                         <child>
                           <object class="GtkLabel" id="cpu_name_label">
                             <property name="xalign">0.0</property>
+                            <property name="wrap">True</property>
+                            <property name="wrap-mode">word-char</property>
                           </object>
                         </child>
 
@@ -112,6 +115,8 @@
                         <child>
                           <object class="GtkLabel">
                             <property name="label" translatable="yes">Memory</property>
+                            <property name="wrap">True</property>
+                            <property name="wrap-mode">word-char</property>
                             <property name="xalign">0.0</property>
                           </object>
                         </child>
@@ -157,7 +162,7 @@
             <child>
               <object class="GtkBox">
                 <property name="margin-bottom">9</property>
-                <property name="margin-end">9</property>
+                <property name="margin-end">12</property>
                 <property name="margin-start">12</property>
                 <property name="margin-top">9</property>
                 <property name="spacing">12</property>
@@ -170,22 +175,24 @@
 
                 <child>
                   <object class="GtkBox">
-                    <property name="spacing">36</property>
+                    <property name="spacing">18</property>
 
                     <child>
                       <object class="GtkLabel" id="network_label">
                         <property name="label" translatable="yes">Network</property>
                         <property name="xalign">0.0</property>
+                        <property name="hexpand">True</property>
+                        <property name="wrap">True</property>
+                        <property name="wrap-mode">word-char</property>
+                        <property name="max-width-chars">6</property>
                       </object>
                     </child>
 
                     <child>
-                      <object class="GtkFlowBox">
-                        <property name="column-spacing">9</property>
-                        <property name="halign">fill</property>
-                        <property name="hexpand">True</property>
-                        <property name="max-children-per-line">2</property>
-                        <property name="selection-mode">none</property>
+                      <object class="GtkBox">
+                        <property name="orientation">vertical</property>
+                        <property name="spacing">9</property>
+                        <property name="valign">center</property>
 
                         <child>
                           <object class="AdwBin">
@@ -193,7 +200,7 @@
                               <class name="card"/>
                             </style>
                             <property name="valign">center</property>
-                            <property name="width-request">168</property>
+                            <property name="width-request">148</property>
 
                             <child>
                               <object class="GtkBox">
@@ -227,7 +234,7 @@
                               <class name="card"/>
                             </style>
                             <property name="valign">center</property>
-                            <property name="width-request">168</property>
+                            <property name="width-request">148</property>
 
                             <child>
                               <object class="GtkBox">
@@ -275,7 +282,7 @@
             <child>
               <object class="GtkBox">
                 <property name="margin-bottom">9</property>
-                <property name="margin-end">9</property>
+                <property name="margin-end">12</property>
                 <property name="margin-start">12</property>
                 <property name="margin-top">9</property>
                 <property name="spacing">12</property>
@@ -288,22 +295,24 @@
 
                 <child>
                   <object class="GtkBox">
-                    <property name="spacing">36</property>
+                    <property name="spacing">18</property>
 
                     <child>
                       <object class="GtkLabel" id="block_label">
                         <property name="label" translatable="yes">Disk</property>
                         <property name="xalign">0.0</property>
+                        <property name="hexpand">True</property>
+                        <property name="wrap">True</property>
+                        <property name="wrap-mode">word-char</property>
+                        <property name="max-width-chars">6</property>
                       </object>
                     </child>
 
                     <child>
-                      <object class="GtkFlowBox">
-                        <property name="column-spacing">9</property>
-                        <property name="halign">fill</property>
-                        <property name="hexpand">True</property>
-                        <property name="max-children-per-line">2</property>
-                        <property name="selection-mode">none</property>
+                      <object class="GtkBox">
+                        <property name="orientation">vertical</property>
+                        <property name="spacing">9</property>
+                        <property name="valign">center</property>
 
                         <child>
                           <object class="AdwBin">
@@ -311,7 +320,7 @@
                               <class name="card"/>
                             </style>
                             <property name="valign">center</property>
-                            <property name="width-request">168</property>
+                            <property name="width-request">148</property>
 
                             <child>
                               <object class="GtkBox">
@@ -345,7 +354,7 @@
                               <class name="card"/>
                             </style>
                             <property name="valign">center</property>
-                            <property name="width-request">168</property>
+                            <property name="width-request">148</property>
 
                             <child>
                               <object class="GtkBox">
