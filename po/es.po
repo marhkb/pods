@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-09-23 22:25+0200\n"
-"PO-Revision-Date: 2023-06-11 19:30+0000\n"
+"PO-Revision-Date: 2023-09-28 14:09+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/pods/main/es/>\n"
 "Language: es\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.18-dev\n"
+"X-Generator: Weblate 5.1-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:56
@@ -3694,27 +3694,24 @@ msgid "Show Only Used Volumes"
 msgstr ""
 
 #: src/view/volumes_panel.ui:261
-#, fuzzy
 msgid "No Volumes Found"
-msgstr "No se encontraron imágenes"
+msgstr "No se encontraron volúmenes"
 
 #: src/view/volumes_panel.ui:262
-#, fuzzy
 msgid "You can use the buttons below to add an initial volume."
-msgstr "Puede usar los botones de abajo para añadir una imagen inicial."
+msgstr "Puedes utilizar los botones siguientes para añadir un volumen inicial."
 
 #: src/view/volumes_prune_page.ui:70
-#, fuzzy
 msgid "Prune volumes created before this timestamp."
-msgstr "Eliminar las imágenes creadas antes de esta marca de tiempo."
+msgstr "Elimina los volúmenes creados antes de esta marca de tiempo."
 
 #: src/view/welcome_page.ui:59
 msgid "Welcome to Pods"
-msgstr "Le damos la bienvenida a Cápsulas"
+msgstr "Bienvenido a Pods"
 
 #: src/view/welcome_page.ui:68
 msgid "Use the button below to create a new connection to Podman."
-msgstr "Use el botón de abajo para crear una conexión nueva con Podman."
+msgstr "Usa el botón de abajo para crear una conexión nueva con Podman."
 
 #: src/view/window.rs:219
 msgid "Confirm Exiting The Application"
@@ -3731,23 +3728,21 @@ msgid "Error on loading containers"
 msgstr "Error al cargar los detalles del contenedor"
 
 #: src/view/window.rs:300
-#, fuzzy
 msgid "Error on loading pods"
-msgstr "Error al cargar los datos de la cápsula"
+msgstr "Error al cargar pods"
 
 #: src/view/window.rs:301
-#, fuzzy
 msgid "Error on loading volumes"
-msgstr "Error al cargar {}"
+msgstr "Error al cargar los volúmenes"
 
 #. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
 #: src/widget/date_time_row.rs:131
 msgid "%x %H:%M %p"
-msgstr "%x %H:%M"
+msgstr "%x %H:%M %p"
 
 #: src/widget/date_time_row.rs:133
 msgid "Invalid date format"
-msgstr "Formato de fecha no válido"
+msgstr "Formato de la fecha no válido"
 
 #: src/widget/date_time_row.ui:4
 msgid "Prune Until"
@@ -3767,12 +3762,11 @@ msgstr "_Atajos del teclado"
 
 #: src/widget/main_menu_button.ui:16
 msgid "_About Pods"
-msgstr "_Acerca de Cápsulas"
+msgstr "_Acerca de Pods"
 
 #: src/widget/main_menu_button.ui:32
-#, fuzzy
 msgid "Main Menu"
-msgstr "Vista principal"
+msgstr "Menú principal"
 
 #: src/widget/source_view_search_widget.rs:157
 msgid "0 of {}"
