@@ -65,7 +65,7 @@
 
                 <child>
                   <object class="GtkLabel">
-                    <property name="label" translatable="yes">Use the button below to create a new connection to Podman.</property>
+                    <property name="label" translatable="yes">Create a new connection to Podman to get started.</property>
                     <property name="justify">center</property>
                     <property name="wrap">True</property>
                     <property name="wrap-mode">word-char</property>
