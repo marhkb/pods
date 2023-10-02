@@ -2,12 +2,12 @@
 <schemalist>
   <schema path="/com/github/marhkb/Pods/" id="@app-id@" gettext-domain="@gettext-package@">
     <key name="window-width" type="i">
-      <default>600</default>
+      <default>900</default>
       <summary>Default window width</summary>
       <description>Default window width</description>
     </key>
     <key name="window-height" type="i">
-      <default>400</default>
+      <default>600</default>
       <summary>Default window height</summary>
       <description>Default window height</description>
     </key>
