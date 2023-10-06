@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-09-23 22:25+0200\n"
-"PO-Revision-Date: 2023-10-02 08:40+0000\n"
+"PO-Revision-Date: 2023-10-07 07:13+0000\n"
 "Last-Translator: SoftExpert <softexpert@gmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/pods/main/ro/>\n"
 "Language: ro\n"
@@ -68,7 +68,7 @@ msgstr "Ultima vizualizare folosită"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:41
 msgid "Whether to hide intermediate images"
-msgstr "Afișarea sau nu a imaginilor intermediare"
+msgstr "Se ascund imaginile intermediare"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:46
 msgid "The last used container file path"
@@ -1154,10 +1154,11 @@ msgstr ""
 "majorității acțiunilor."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:292
-#, fuzzy
 msgid ""
 "The local search for images, containers and pods is now case-insensitive."
-msgstr "Ștergeți imagini, containere și poduri (în masă)."
+msgstr ""
+"Căutarea locală de imagini, containere și capsule este sensibilă la "
+"majuscule și minuscule."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:293
 msgid "There were small visual adjustments all over the place."
@@ -1174,9 +1175,8 @@ msgstr "Îmbunătățiri ale codului intern"
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:296
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:314
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:327
-#, fuzzy
 msgid "Translation updates"
-msgstr "Traducători"
+msgstr "Actualizări de traduceri"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:302
 msgid ""
@@ -1237,7 +1237,7 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:311
 msgid "Image downloads can now be aborted."
-msgstr "Descărcarea imaginii poate fi întreruptă"
+msgstr "Descărcarea imaginii poate fi întreruptă."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:312
 msgid "Arguments can now be added to a container command, thanks to @vvk9."
@@ -1324,50 +1324,43 @@ msgstr "Specificați nivelul minim al jurnalului"
 
 #: src/model/action.rs:134
 msgid "Prune unused images"
-msgstr "Suprimați imaginile nefolosite."
+msgstr "Suprimați imaginile nefolosite"
 
 #: src/model/action.rs:172
-#, fuzzy
 msgid "Pull image <b>{}</b>"
-msgstr "Imagine: <b>{}</b>"
+msgstr "Descărcare imagine: <b>{}</b>"
 
 #: src/model/action.rs:210
-#, fuzzy
 msgid "Push image <b>{}</b>"
-msgstr "Imagine: <b>{}</b>"
+msgstr "Încărcare imagine: <b>{}</b>"
 
 #: src/model/action.rs:265
-#, fuzzy
 msgid "Build image <b>{}</b>"
-msgstr "Imagine: <b>{}</b>"
+msgstr "Construire imagine: <b>{}</b>"
 
 #: src/model/action.rs:269
 msgid "Generating tarball of context directory..."
 msgstr "Se generează un tarball al directorului de context..."
 
 #: src/model/action.rs:336
-#, fuzzy
 msgid "Prune stopped containers"
-msgstr "Eroare la oprirea containerului"
+msgstr "Ștergere containere oprite"
 
 #: src/model/action.rs:376
-#, fuzzy
 msgid "Start new container <b>{}</b>"
-msgstr "Container: <b>{}</b> ← {}"
+msgstr "Pornește un nou container: <b>{}</b>"
 
 #: src/model/action.rs:378
-#, fuzzy
 msgid "Create container <b>{}</b>"
-msgstr "Container: <b>{}</b> ← {}"
+msgstr "Creează un container: <b>{}</b>"
 
 #: src/model/action.rs:408
 msgid "none"
 msgstr "nici unul"
 
 #: src/model/action.rs:404
-#, fuzzy
 msgid "Commit image <b>{}</b> ({})"
-msgstr "Imagine: <b>{}</b> ← {}"
+msgstr "Salvare imagine: <b>{}</b> ({})"
 
 #: src/model/action.rs:418 src/model/action.rs:523 src/model/action.rs:611
 #: src/model/action.rs:927
@@ -1411,19 +1404,16 @@ msgid "Size: {}"
 msgstr "Dimensiune: {}"
 
 #: src/model/action.rs:627
-#, fuzzy
 msgid "Create pod <b>{}</b>"
-msgstr "Pod: <b>{}</b>"
+msgstr "Creează o capsulă <b>{}</b>"
 
 #: src/model/action.rs:652
-#, fuzzy
 msgid "Prune stopped pods"
-msgstr "Eroare la oprirea podului"
+msgstr "Șterge capsulele oprite"
 
 #: src/model/action.rs:843
-#, fuzzy
 msgid "Create volume <b>{}</b>"
-msgstr "Pod: <b>{}</b>"
+msgstr "Creează volume <b>{}</b>"
 
 #: src/model/action.rs:891
 msgid "Prune unused volumes"
@@ -1434,9 +1424,8 @@ msgid "Connection '{}' already exists."
 msgstr "Conexiunea '{}' există deja."
 
 #: src/model/container.rs:69
-#, fuzzy
 msgid "Configured"
-msgstr "Neconfigurat"
+msgstr "Configurat"
 
 #: src/model/container.rs:70 src/model/pod.rs:64
 #: src/view/container_properties_group.ui:93 src/view/image_details_page.ui:81
@@ -2044,7 +2033,7 @@ msgstr "Culoare"
 
 #: src/view/connection_creation_page.ui:296
 msgid "Set the color of this connection."
-msgstr "Atribuie o culoare acestei conexiuni"
+msgstr "Atribuie o culoare acestei conexiuni."
 
 #: src/view/connection_custom_info_dialog.rs:149
 msgid "systemd unit path copied"
@@ -2251,7 +2240,7 @@ msgstr "Detalii"
 #: src/view/container_creation_page.ui:139
 #: src/view/container_properties_group.ui:300 src/view/pod_details_page.ui:16
 msgid "Pod"
-msgstr "Pod"
+msgstr "Capsulă"
 
 #: src/view/container_creation_page.ui:166 src/view/pod_creation_page.ui:286
 msgid "Pull latest image"
@@ -2606,7 +2595,7 @@ msgstr "Derulați până jos"
 
 #: src/view/container_log_page.ui:228
 msgid "Start/Resume Container."
-msgstr "Porniți/Reluați containerul"
+msgstr "Porniți/Reluați containerul."
 
 #: src/view/container_log_page.ui:229
 msgid "Streaming is disconnected because container isn't running."
@@ -2855,7 +2844,7 @@ msgstr "Anulează"
 
 #: src/view/containers_panel.ui:373
 msgid "No Containers Found"
-msgstr "Nu au fost găsite containere"
+msgstr "Nu s-au găsit containere"
 
 #: src/view/containers_panel.ui:374
 msgid "You can use the button below to create an initial container."
@@ -3165,7 +3154,7 @@ msgstr ""
 
 #: src/view/image_search_widget.ui:54
 msgid "Search for"
-msgstr "Căutare despre"
+msgstr "Căutare"
 
 #: src/view/image_search_widget.ui:62
 msgid "Registry"
@@ -3255,7 +3244,7 @@ msgstr ""
 
 #: src/view/images_panel.ui:35
 msgid "_Prune Unused Images"
-msgstr "Su_primați imaginile nefolosite."
+msgstr "Su_primați imaginile nefolosite"
 
 #: src/view/images_panel.ui:132
 #, fuzzy
