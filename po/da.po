@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-09-23 22:25+0200\n"
-"PO-Revision-Date: 2023-08-09 08:17+0000\n"
+"PO-Revision-Date: 2023-10-19 04:12+0000\n"
 "Last-Translator: Lars Nielsen <lnc13.lars@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/pods/main/da/>\n"
 "Language: da\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.0-dev\n"
+"X-Generator: Weblate 5.1\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:56
@@ -199,13 +199,12 @@ msgid "Containers Details in Compact Mode"
 msgstr "Container er blevet oprettet"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:38
-#, fuzzy
 msgid "Search Results"
-msgstr "Søg"
+msgstr "Søg resultater"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:47
 msgid "Pods 1.2.1 contains the following bugfixes and improvements:"
-msgstr ""
+msgstr "Pods 1.2.1 indholder de følgende bugfixes og forbedringer:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:49
 msgid ""
@@ -231,7 +230,7 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:58
 msgid "Pods 1.2.0 contains the following new features:"
-msgstr ""
+msgstr "Pods 1.2.0 indeholder følgende ny funktionaliteter:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:60
 msgid "Usabilty and UX has been improved in many places."
