@@ -43,7 +43,7 @@
   <content_rating type="oars-1.1"/>
   <releases>
     <release version="1.2.1" date="2023-05-26">
-        <description>
+        <description translatable="no">
           <p>Pods 1.2.1 contains the following bugfixes and improvements:</p>
           <ul>
             <li>Fixed a bug that caused the application to crash when the keyring could not be accessed.</li>
@@ -54,7 +54,7 @@
         </description>
       </release>
     <release version="1.2.0" date="2023-05-25">
-      <description>
+      <description translatable="no">
         <p>Pods 1.2.0 contains the following new features:</p>
         <ul>
           <li>Usabilty and UX has been improved in many places.</li>
@@ -66,7 +66,7 @@
       </description>
     </release>
     <release version="1.1.0" date="2023-03-28">
-      <description>
+      <description translatable="no">
         <p>Pods 1.1.0 contains the following features, bug fixes and improvements:</p>
         <ul>
           <li>Dependencies have been updated. This includes the update to GNOME 44 libraries.</li>
@@ -80,7 +80,7 @@
       </description>
     </release>
     <release version="1.1.0~beta.4" date="2023-03-03">
-      <description>
+      <description translatable="no">
         <p>Pods 1.1.0-beta.4 contains the following features, bug fixes and improvements:</p>
         <ul>
           <li>The connection color is now displayed by means of a colored dot in front of the connection name in the connection overview, instead of a vertical bar at the beginning.</li>
@@ -100,7 +100,7 @@
       </description>
     </release>
     <release version="1.1.0~beta.3" date="2023-02-05">
-      <description>
+      <description translatable="no">
         <p>Pods 1.1.0-beta.3 contains the following features, bug fixes and improvements:</p>
         <ul>
           <li>The connection menu has received an entry for disconnecting the current Podman connection.</li>
@@ -118,7 +118,7 @@
       </description>
     </release>
     <release version="1.1.0~beta.2" date="2023-02-01">
-      <description>
+      <description translatable="no">
         <p>Pods 1.1.0-beta.2 contains the following features, bug fixes and improvements:</p>
         <ul>
           <li>It is now possible to assign colors to connections. Then, when the connection is active, the status bar is colored accordingly.</li>
@@ -134,7 +134,7 @@
       </description>
     </release>
     <release version="1.1.0~beta.1" date="2023-01-28">
-      <description>
+      <description translatable="no">
         <p>Pods 1.1.0-beta.1 contains the following features, bug fixes and improvements:</p>
         <ul>
           <li>The fonts in all text views, such as those in the inspection pages, are now scalable using typical shortcuts.</li>
@@ -150,7 +150,7 @@
       </description>
     </release>
     <release version="1.0.2" date="2023-01-08">
-      <description>
+      <description translatable="no">
         <p>Pods 1.0.2 contains the following changes:</p>
         <ul>
           <li>The search behavior has been adjusted so that pressing <em>Ctrl+F</em> again resets the search and that <em>Escape</em> closes it.</li>
@@ -160,7 +160,7 @@
       </description>
     </release>
     <release version="1.0.1" date="2022-12-30">
-      <description>
+      <description translatable="no">
         <p>The stable 1.0 release of Pods includes the following changes since the last RC:</p>
         <ul>
           <li>The welcome page now has a very attractive, colorful illustration, thanks to @daudix-UFO.</li>
@@ -175,7 +175,7 @@
       </description>
     </release>
     <release version="1.0.0-rc.3" date="2022-12-21">
-      <description>
+      <description translatable="no">
         <p>The third 1.0 release candidate of Pods contains the following changes:</p>
         <ul>
           <li>The application icon and symbolic icons have been improved, thanks to @daudix-UFO</li>
@@ -188,12 +188,12 @@
       </description>
     </release>
     <release version="1.0.0-rc.2" date="2022-12-16">
-      <description>
+      <description translatable="no">
         <p>This is a hotfix release that prevents the application from crashing when disconnected from Podman.</p>
       </description>
     </release>
     <release version="1.0.0-rc.1" date="2022-12-15">
-      <description>
+      <description translatable="no">
         <p>All features for version 1.0 are now implemented and Pods is thus in the release candidate phase. Among the changes since the last release are:</p>
         <ul>
           <li>Actions such as downloading an image or creating a container now take place in dialogs instead of in the main window.</li>
@@ -209,7 +209,7 @@
       </description>
     </release>
     <release version="1.0.0-beta.9" date="2022-12-05">
-      <description>
+      <description translatable="no">
         <p>The ninth beta of Pods in an important step towards the stable first version. It contains the following changes:</p>
         <ul>
           <li>It is now possible to have a terminal in a container.</li>
@@ -222,7 +222,7 @@
       </description>
     </release>
     <release version="1.0.0-beta.8" date="2022-11-22">
-      <description>
+      <description translatable="no">
         <p>The eight beta release of Pods 1.0.0 includes the following changes:</p>
         <ul>
           <li>Pods now uses the <strong>libpanel</strong> library to display a status bar. Thus, notifications and the name of the Podman connection are always visible.</li>
@@ -242,7 +242,7 @@
       </description>
     </release>
     <release version="1.0.0-beta.7" date="2022-10-30">
-      <description>
+      <description translatable="no">
         <p>The seventh beta release of Pods 1.0.0 includes the following changes:</p>
         <ul>
           <li>Relative times are now used everywhere in the application. For example, you can quickly see how long a container has been running or how many days ago an image was created.</li>
@@ -263,7 +263,7 @@
       </description>
     </release>
     <release version="1.0.0-beta.6" date="2022-10-16">
-      <description>
+      <description translatable="no">
         <p>The sixth beta release of Pods 1.0.0 includes the following changes:</p>
         <ul>
           <li>The duration for individual actions such as downloading an image is now displayed.</li>
@@ -283,7 +283,7 @@
       </description>
     </release>
     <release version="1.0.0-beta.5" date="2022-10-03">
-      <description>
+      <description translatable="no">
         <p>The fifth beta release of Pods 1.0.0 includes the following changes:</p>
         <ul>
           <li>Some typos were fixed, thanks to @kianmeng.</li>
@@ -298,7 +298,7 @@
       </description>
     </release>
     <release version="1.0.0-beta.4" date="2022-09-26">
-      <description>
+      <description translatable="no">
         <p>Here comes the fourth beta release of Pods 1.0.0 with the following changes:</p>
         <ul>
           <li>The blurry symbolic application icon has been fixed, thanks to @allaeddineomc.</li>
@@ -316,7 +316,7 @@
       </description>
     </release>
     <release version="1.0.0-beta.3" date="2022-09-18">
-      <description>
+      <description translatable="no">
         <p>The third beta release of Pods 1.0.0 contains the following changes:</p>
         <ul>
           <li>A periodic refresh interval to track entities which were created outside of podman (e.g. with buildah)</li>
@@ -329,7 +329,7 @@
       </description>
     </release>
     <release version="1.0.0-beta.2" date="2022-09-09">
-      <description>
+      <description translatable="no">
         <p>A small update with app data fixes:</p>
         <ul>
           <li>Updated app data content rating</li>
@@ -338,7 +338,7 @@
       </description>
     </release>
     <release version="1.0.0-beta.1" date="2022-09-08">
-      <description>
+      <description translatable="no">
         <p>This is the first 1.0.0 beta release of Pods.</p>
       </description>
     </release>
