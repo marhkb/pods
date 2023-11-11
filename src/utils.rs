@@ -1,4 +1,5 @@
 use std::cell::RefCell;
+use std::fmt::Debug;
 use std::ops::Deref;
 use std::path::PathBuf;
 use std::rc::Rc;
@@ -298,24 +299,24 @@ pub(crate) fn do_async_with_observers<R, Fut, F>(
     glib_closure: F,
 ) -> AsyncObservers<R>
 where
-    R: Clone + Send + 'static,
+    R: Clone + Send + Debug + 'static,
     Fut: Future<Output = R> + Send + 'static,
     F: Fn(R) + 'static,
 {
     let observers = AsyncObservers::new(glib_closure);
 
     let handle = RUNTIME.spawn(tokio_fut);
-    let (tx, rx) = glib::MainContext::channel(glib::Priority::default());
+    let (tx, rx) = tokio::sync::oneshot::channel::<R>();
 
-    rx.attach(None, {
+    glib::spawn_future_local({
         let observers = observers.clone();
-        move |r: R| {
+        async move {
+            let r = rx.await.unwrap();
             observers
                 .0
                 .borrow_mut()
                 .iter()
                 .for_each(|fun| (*fun)(r.clone()));
-            glib::ControlFlow::Break
         }
     });
 
@@ -339,7 +340,7 @@ where
 pub(crate) fn run_stream_with_finish_handler<A, P, I, F, X>(
     api_entity: A,
     stream_producer: P,
-    glib_closure: F,
+    mut glib_closure: F,
     mut finish_handler: X,
 ) where
     A: Send + 'static,
@@ -348,23 +349,22 @@ pub(crate) fn run_stream_with_finish_handler<A, P, I, F, X>(
     F: FnMut(I) -> glib::ControlFlow + 'static,
     X: FnMut() + 'static,
 {
-    let (tx_payload, rx_payload) = glib::MainContext::sync_channel::<I>(Default::default(), 5);
-    let (tx_finish, rx_finish) = glib::MainContext::sync_channel::<()>(Default::default(), 1);
+    let (tx_payload, mut rx_payload) = tokio::sync::mpsc::channel(5);
 
-    rx_payload.attach(None, glib_closure);
-    rx_finish.attach(None, move |_| {
+    glib::spawn_future_local(async move {
+        while let Some(i) = rx_payload.recv().await {
+            glib_closure(i);
+        }
         finish_handler();
-        glib::ControlFlow::Break
     });
 
     RUNTIME.spawn(async move {
         let mut stream = stream_producer(&api_entity);
         while let Some(item) = stream.next().await {
-            if tx_payload.send(item).is_err() {
+            if tx_payload.send(item).await.is_err() {
                 break;
             }
         }
-        tx_finish.send(()).unwrap();
     });
 }
 
