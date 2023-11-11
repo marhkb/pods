@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-09-23 22:25+0200\n"
-"PO-Revision-Date: 2023-05-30 16:52+0000\n"
+"PO-Revision-Date: 2023-10-02 08:40+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/pods/main/fi/>\n"
 "Language: fi\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.18-dev\n"
+"X-Generator: Weblate 5.1-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:56
@@ -1194,9 +1194,8 @@ msgid "Prune stopped pods"
 msgstr "Käyttämättömien poistamisen asetukset"
 
 #: src/model/action.rs:843
-#, fuzzy
 msgid "Create volume <b>{}</b>"
-msgstr "Luo podi <b>{}</b>"
+msgstr "Luo taltio <b>{}</b>"
 
 #: src/model/action.rs:891
 #, fuzzy
@@ -1439,9 +1438,8 @@ msgid "Pod Has Been Created"
 msgstr "Podi on luotu"
 
 #: src/view/action_page.rs:161
-#, fuzzy
 msgid "Volume Has Been Created"
-msgstr "Podi on luotu"
+msgstr "Taltio on luotu"
 
 #: src/view/action_page.rs:162
 #, fuzzy
@@ -1679,7 +1677,7 @@ msgstr ""
 
 #: src/view/client_view.ui:37 src/view/client_view.ui:45
 msgid "Home"
-msgstr ""
+msgstr "Koti"
 
 #: src/view/client_view.ui:57 src/view/client_view.ui:187
 #: src/view/connections_sidebar.ui:18
@@ -1687,15 +1685,13 @@ msgid "Connections"
 msgstr "Yhteydet"
 
 #: src/view/client_view.ui:82
-#, fuzzy
 msgctxt "app name"
 msgid "Pods"
 msgstr "Podit"
 
 #: src/view/client_view.ui:231
-#, fuzzy
 msgid "Content"
-msgstr "Kontti"
+msgstr "Sisältö"
 
 #: src/view/connection_chooser_page.ui:24
 msgid "Connect to Podman"
@@ -1808,9 +1804,8 @@ msgid "Color"
 msgstr "Väri"
 
 #: src/view/connection_creation_page.ui:296
-#, fuzzy
 msgid "Set the color of this connection."
-msgstr "Aseta tilapalkin väri tämän yhteyden ollessa aktiivisena."
+msgstr "Aseta tämän yhteyden väri."
 
 #: src/view/connection_custom_info_dialog.rs:149
 msgid "systemd unit path copied"
@@ -1919,7 +1914,7 @@ msgstr "Virhe käyttänimeä noutaessa"
 #: src/view/pods_prune_page.ui:22 src/view/repo_tag_push_page.ui:25
 #: src/view/volume_creation_page.ui:22 src/view/volumes_prune_page.ui:22
 msgid "Preferences"
-msgstr ""
+msgstr "Asetukset"
 
 #: src/view/container_commit_page.ui:42
 msgid "Commit Container"
@@ -2081,9 +2076,8 @@ msgid "Interval"
 msgstr "Väli"
 
 #: src/view/container_creation_page.ui:374
-#, fuzzy
 msgid "Interval in seconds how often health check is run."
-msgstr "Kuinka usein terveystarkastus suoritetaan."
+msgstr "Kuinka monen sekunnin välein terveystarkastus suoritetaan."
 
 #: src/view/container_creation_page.ui:390
 #: src/view/container_health_check_page.ui:71
@@ -2492,9 +2486,8 @@ msgid "Disk"
 msgstr "Levy"
 
 #: src/view/container_row.rs:363
-#, fuzzy
 msgid "Container {}"
-msgstr "Kontti"
+msgstr "Kontti {}"
 
 #: src/view/container.rs:56 src/view/containers_panel.rs:574
 msgid "Error on starting container"
@@ -2533,11 +2526,10 @@ msgid "1 container, stopped"
 msgstr "1 kontti, pysäytetty"
 
 #: src/view/containers_panel.rs:220
-#, fuzzy
 msgid "{} container total, {} running"
 msgid_plural "{} containers total, {} running"
-msgstr[0] "{} kontti yhteensä, {} käynnissä"
-msgstr[1] "{} konttia yhteensä, {} käynnissä"
+msgstr[0] "{} kontti yhteensä, {} käynnissä"
+msgstr[1] "{} konttia yhteensä, {} käynnissä"
 
 #: src/view/containers_panel.rs:236
 msgid "{} Selected Container"
@@ -2589,9 +2581,8 @@ msgid "More Actions"
 msgstr "Ei toimenpiteitä"
 
 #: src/view/containers_panel.ui:141
-#, fuzzy
 msgid "Show Only Running Containers"
-msgstr "Näytetäänkö vain käynnissä olevat kontit"
+msgstr "Näytä vain käynnissä olevat kontit"
 
 #: src/view/containers_panel.ui:149 src/view/images_panel.ui:170
 #: src/view/pods_panel.ui:145 src/view/volumes_panel.ui:145
@@ -2631,9 +2622,8 @@ msgid "Detach Terminal"
 msgstr "Irrota pääte"
 
 #: src/view/container_terminal_page.ui:39
-#, fuzzy
 msgid "Container Terminal"
-msgstr "Konttien tiedot"
+msgstr "Kontin pääte"
 
 #: src/view/container_terminal.rs:460
 msgid "Terminal error"
@@ -2668,7 +2658,6 @@ msgid "Start"
 msgstr "Käynnistä"
 
 #: src/view/device_row.ui:69 src/view/mount_row.ui:139
-#, fuzzy
 msgid "Container Path"
 msgstr "Kontin polku"
 
@@ -2828,9 +2817,8 @@ msgid "Download Image"
 msgstr "Lataa levykuva"
 
 #: src/view/image_row.rs:207
-#, fuzzy
 msgid "Image {}"
-msgstr "Levykuva"
+msgstr "Levykuva {}"
 
 #: src/view/image.rs:18
 msgid "Confirm Forced Image Deletion"
@@ -2952,7 +2940,7 @@ msgstr "Etälevykuva"
 #: src/view/image_selection_page.ui:19 src/view/pod_selection_page.ui:19
 #: src/view/volume_selection_page.ui:19
 msgid "Filter"
-msgstr ""
+msgstr "Suodata"
 
 #: src/view/image_selection_page.ui:35
 msgid "Select Local Image"
@@ -2967,11 +2955,10 @@ msgid "1 image, unused"
 msgstr "1 levykuva, käyttämätön"
 
 #: src/view/images_panel.rs:193
-#, fuzzy
 msgid "{} image total ({}), {} unused ({})"
 msgid_plural "{} images total ({}), {} unused ({})"
-msgstr[0] "{} levykuva yhteensä, {} {} käyttämätön, {}"
-msgstr[1] "{} levykuvaa yhteensä, {} {} käyttämättä, {}"
+msgstr[0] "{} levykuva yhteensä ({}), {} käyttämätön ({})"
+msgstr[1] "{} levykuvaa yhteensä ({}), {} käyttämättä ({})"
 
 #: src/view/images_panel.rs:214
 msgid "{} Selected Image"
@@ -3180,7 +3167,7 @@ msgstr "Arvo"
 
 #: src/view/mount_row.rs:187
 msgid "No volume selected (will create a new one)."
-msgstr ""
+msgstr "Taltiota ei ole valittu (uusi luodaan)."
 
 #: src/view/mount_row.ui:76
 msgid "Type"
@@ -3192,9 +3179,8 @@ msgstr ""
 
 #: src/view/mount_row.ui:94 src/view/mount_row.ui:111
 #: src/view/volume_details_page.ui:16
-#, fuzzy
 msgid "Volume"
-msgstr "Taltiot"
+msgstr "Taltio"
 
 #: src/view/mount_row.ui:151
 msgid "SELinux"
@@ -3331,9 +3317,8 @@ msgstr ""
 "kontit."
 
 #: src/view/pod_selection_page.ui:35
-#, fuzzy
 msgid "Select Pod"
-msgstr "{} valittu podi"
+msgstr "Valitse podi"
 
 #: src/view/pods_panel.rs:213
 msgid "1 pod, running"
@@ -3344,11 +3329,10 @@ msgid "1 pod, stopped"
 msgstr "1 podi, pysäytetty"
 
 #: src/view/pods_panel.rs:219
-#, fuzzy
 msgid "{} pod total, {} running"
 msgid_plural "{} pods total, {} running"
-msgstr[0] "{} podi yhteensä, {} käynnissä"
-msgstr[1] "{} podia yhteensä, {} käynnissä"
+msgstr[0] "{} podi yhteensä, {} käynnissä"
+msgstr[1] "{} podia yhteensä, {} käynnissä"
 
 #: src/view/pods_panel.rs:235
 msgid "{} Selected Pod"
@@ -3379,9 +3363,8 @@ msgid "Prune Stopped Pods"
 msgstr "Käyttämättömien poistamisen asetukset"
 
 #: src/view/pods_panel.ui:137
-#, fuzzy
 msgid "Show Only Running Pods"
-msgstr "Näytetäänkö vain käynnissä olevat podit"
+msgstr "Näytä vain käynnissä olevat podit"
 
 #: src/view/pods_panel.ui:369
 msgid "No Pods Found"
@@ -3393,7 +3376,7 @@ msgstr "Voit luoda ensimmäisen podin alla olevalla painikkeella."
 
 #: src/view/port_mapping_row.ui:83
 msgid "Protocol"
-msgstr ""
+msgstr "Yhteyskäytäntö"
 
 #: src/view/port_mapping_row.ui:87
 msgid "TCP"
@@ -3405,27 +3388,27 @@ msgstr "UDP"
 
 #: src/view/port_mapping_row.ui:89
 msgid "SCTP"
-msgstr ""
+msgstr "SCTP"
 
 #: src/view/port_mapping_row.ui:98
 msgid "IP Address"
-msgstr ""
+msgstr "IP-osoite"
 
 #: src/view/port_mapping_row.ui:104
-#, fuzzy
 msgid "Host Port"
-msgstr "Isännän polku"
+msgstr "Isännän portti"
 
 #: src/view/port_mapping_row.ui:105
 msgid ""
 "If 0, a random port on the host (guaranteed to be over 1024) will be "
 "assigned."
 msgstr ""
+"Jos 0, satunnainen isännän portti määritetään (tulee olemaan suurempi kuin "
+"1024)."
 
 #: src/view/port_mapping_row.ui:120
-#, fuzzy
 msgid "Container Port"
-msgstr "Konttien varasto"
+msgstr "Kontin portti"
 
 #: src/view/repo_tag_add_dialog.rs:98
 msgid "Repo tag must contain a colon “:”"
@@ -3541,9 +3524,8 @@ msgid "Pod Kube Generation"
 msgstr "Podin tutkinta"
 
 #: src/view/scalable_text_view_page.rs:301
-#, fuzzy
 msgid "Volume Inspection"
-msgstr "Levykuvan tutkinta"
+msgstr "Taltion tutkinta"
 
 #: src/view/scalable_text_view_page.rs:327
 msgid "Could not set language to '{}'"
@@ -3576,42 +3558,36 @@ msgstr "Podin prosessit"
 
 #: src/view/volume_creation_page.ui:42 src/view/volumes_group.ui:12
 #: src/view/volumes_panel.ui:108
-#, fuzzy
 msgid "Create Volume"
-msgstr "Luo levykuva"
+msgstr "Luo taltio"
 
 #: src/view/volume_details_page.rs:178
-#, fuzzy
 msgid "Volume '{}' has been deleted"
-msgstr "Levykuva '{}' on poistettu"
+msgstr "Taltio '{}' on poistettu"
 
 #: src/view/volume_details_page.ui:40
-#, fuzzy
 msgid "Delete Volume"
-msgstr "Poista levykuva"
+msgstr "Poista taltio"
 
 #: src/view/volume_details_page.ui:52
 msgid "Driver"
-msgstr ""
+msgstr "Ajuri"
 
 #: src/view/volume_details_page.ui:64
-#, fuzzy
 msgid "Mount Path"
-msgstr "Isännän polku"
+msgstr "Liitospolku"
 
 #: src/view/volume_details_page.ui:78
-#, fuzzy
 msgid "View all volume properties in a structured text form."
-msgstr "Näytä kaikki levykuvan ominaisuudet rakenteellisessa tekstimuodossa."
+msgstr "Näytä kaikki taltion ominaisuudet rakenteellisessa tekstimuodossa."
 
 #: src/view/volume_row.rs:174
 msgid "{} old"
-msgstr ""
+msgstr "{} vanha"
 
 #: src/view/volume_row.rs:271
-#, fuzzy
 msgid "Volume {}"
-msgstr "Taltiot"
+msgstr "Taltio {}"
 
 #: src/view/volume.rs:18
 #, fuzzy
@@ -3644,51 +3620,43 @@ msgid "Error on deleting volume '{}'"
 msgstr "Virhe levykuvaa '{}' poistaessa"
 
 #: src/view/volume_selection_page.ui:35
-#, fuzzy
 msgid "Select Volume"
-msgstr "Älä valitse mitään"
+msgstr "Valitse taltio"
 
 #: src/view/volumes_panel.rs:179
-#, fuzzy
 msgid "1 volume, used"
-msgstr "1 levykuva, käytössä"
+msgstr "1 taltio, käytössä"
 
 #: src/view/volumes_panel.rs:181
-#, fuzzy
 msgid "1 volume, unused"
-msgstr "1 levykuva, käyttämätön"
+msgstr "1 taltio, käyttämätön"
 
 #: src/view/volumes_panel.rs:185
-#, fuzzy
 msgid "{} volumes total, {} unused"
 msgid_plural "{} volumes total, {} unused"
-msgstr[0] "{} levykuva yhteensä, {} {} käyttämätön, {}"
-msgstr[1] "{} levykuvaa yhteensä, {} {} käyttämättä, {}"
+msgstr[0] "{} taltiota yhteensä, {} käyttämätön"
+msgstr[1] "{} taltiota yhteensä, {} käyttämättä"
 
 #: src/view/volumes_panel.rs:201
-#, fuzzy
 msgid "{} Selected Volume"
 msgid_plural "{} Selected Volumes"
-msgstr[0] "{} valittu levykuva"
-msgstr[1] "{} valittua levykuvaa"
+msgstr[0] "{} valittu taltio"
+msgstr[1] "{} valittua taltiota"
 
 #: src/view/volumes_panel.rs:428
-#, fuzzy
 msgid "Confirm Forced Deletion of Multiple Volumes"
-msgstr "Vahvista useiden levykuvien pakotettu poisto"
+msgstr "Vahvista useiden taltioiden pakotettu poisto"
 
 #: src/view/volumes_panel.rs:430
-#, fuzzy
 msgid ""
 "There may be containers associated with some of the volumes, which will also "
 "be removed!"
 msgstr ""
-"Näihin levykuviin saattaa liittyä kontteja, jotka tullaan myös poistamaan!"
+"Näihin taltioihin saattaa liittyä kontteja, jotka tullaan myös poistamaan!"
 
 #: src/view/volumes_panel.ui:6 src/view/volumes_panel.ui:272
-#, fuzzy
 msgid "_Create Volume"
-msgstr "_Luo podi"
+msgstr "_Luo taltio"
 
 #: src/view/volumes_panel.ui:10
 #, fuzzy
@@ -3702,12 +3670,11 @@ msgstr "Poista käyttämättömät levykuvat"
 
 #: src/view/volumes_panel.ui:137
 msgid "Show Only Used Volumes"
-msgstr ""
+msgstr "Näytä vain käytetyt taltiot"
 
 #: src/view/volumes_panel.ui:261
-#, fuzzy
 msgid "No Volumes Found"
-msgstr "Levykuvia ei löytynyt"
+msgstr "Taltioita ei löytynyt"
 
 #: src/view/volumes_panel.ui:262
 #, fuzzy
@@ -3732,19 +3699,16 @@ msgid "Confirm Exiting The Application"
 msgstr "Vahvista sovelluksesta poistuminen"
 
 #: src/view/window.rs:298
-#, fuzzy
 msgid "Error on loading images"
-msgstr "Virhe ladatessa levykuvan tietoja"
+msgstr "Virhe ladatessa levykuvia"
 
 #: src/view/window.rs:299
-#, fuzzy
 msgid "Error on loading containers"
-msgstr "Virhe ladatessa kontin tietoja"
+msgstr "Virhe ladatessa kontteja"
 
 #: src/view/window.rs:300
-#, fuzzy
 msgid "Error on loading pods"
-msgstr "Virhe ladatessa podin dataa"
+msgstr "Virhe ladatessa podeja"
 
 #: src/view/window.rs:301
 #, fuzzy
@@ -3781,9 +3745,8 @@ msgid "_About Pods"
 msgstr "_Tietoja - Podit"
 
 #: src/widget/main_menu_button.ui:32
-#, fuzzy
 msgid "Main Menu"
-msgstr "Päänäkymä"
+msgstr "Päävalikko"
 
 #: src/widget/source_view_search_widget.rs:157
 msgid "0 of {}"

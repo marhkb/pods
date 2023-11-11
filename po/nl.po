@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-09-23 22:25+0200\n"
-"PO-Revision-Date: 2023-09-11 14:54+0000\n"
-"Last-Translator: Gert-dev <qnyasgjhapqyuhoibr@kiabws.com>\n"
+"PO-Revision-Date: 2023-09-26 15:02+0000\n"
+"Last-Translator: Gert-dev <Gert-dev@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/pods/main/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.0.1-dev\n"
+"X-Generator: Weblate 5.1-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:56
@@ -1091,9 +1091,7 @@ msgstr "Marcus Behrendt"
 
 #: src/application.rs:187
 msgid "translator-credits"
-msgstr ""
-"Gert-dev\n"
-"Philip Goto https://flipflop97.github.io/"
+msgstr "Credits vertalers"
 
 #: src/application.rs:191
 msgid "Translators"
@@ -1319,7 +1317,7 @@ msgstr[1] "{} minuten"
 msgid "{} hour"
 msgid_plural "{} hours"
 msgstr[0] "{} uur"
-msgstr[1] "{} uur"
+msgstr[1] "{} uren"
 
 #: src/utils.rs:149
 msgid "{} day"
@@ -2323,7 +2321,7 @@ msgstr "Fout bij ophalen logboek"
 
 #: src/view/container_log_page.rs:697
 msgid "Log has been saved."
-msgstr "Logboek is opgeslagen"
+msgstr "Logboek werd opgeslagen."
 
 #: src/view/container_log_page.rs:720
 msgid "Error starting container"
@@ -2355,7 +2353,7 @@ msgstr "Naar beneden scrollen"
 
 #: src/view/container_log_page.ui:228
 msgid "Start/Resume Container."
-msgstr "Container starten/hervatten"
+msgstr "Container starten/hervatten."
 
 #: src/view/container_log_page.ui:229
 msgid "Streaming is disconnected because container isn't running."
@@ -2836,8 +2834,8 @@ msgid ""
 "Image is used by container <b>{}</b>. Deleting the image will also delete "
 "all its associated containers."
 msgstr ""
-"Schijfkopiebestand wordt gebruikt door container ‘{}’. Door deze te "
-"verwijderen worden ook alle bijbehorende containers verwijderd."
+"Schijfkopiebestand wordt gebruikt door container <b>{}</b>. Deze verwijderen "
+"zal ook alle bijhorende containers verwijderen."
 
 #: src/view/image.rs:28
 msgid ""
@@ -3321,8 +3319,8 @@ msgid ""
 "Pod contains container <b>{}</b>. Deleting the pod will also delete all its "
 "containers."
 msgstr ""
-"Pod bevat container ‘{}’. Door deze pod te verwijderen zullen ook alle "
-"onderliggende containers verwijderd worden."
+"Pod bevat container <b>{}</b>. De pod verwijderen zal ook alle onderliggende "
+"containers verwijderen."
 
 #: src/view/pod.rs:72
 msgid ""

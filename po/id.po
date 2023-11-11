@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-09-23 22:25+0200\n"
-"PO-Revision-Date: 2022-12-19 17:51+0000\n"
-"Last-Translator: yukidream <ahawaribagus@gmail.com>\n"
-"Language-Team: Indonesian <https://hosted.weblate.org/projects/pods/pods/id/"
-">\n"
+"PO-Revision-Date: 2023-10-09 16:04+0000\n"
+"Last-Translator: Ikhwanul Labib <ikhwanul.labib@protonmail.com>\n"
+"Language-Team: Indonesian <https://hosted.weblate.org/projects/pods/main/id/>"
+"\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.15.1-dev\n"
+"X-Generator: Weblate 5.1-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:56
@@ -40,7 +40,7 @@ msgstr ""
 #: data/com.github.marhkb.Pods.gschema.xml.in:6
 #: data/com.github.marhkb.Pods.gschema.xml.in:7
 msgid "Default window width"
-msgstr "Lebar jendela default"
+msgstr "Lebar jendela bawaan"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:11
 #: data/com.github.marhkb.Pods.gschema.xml.in:12
@@ -61,7 +61,7 @@ msgstr "Gunakan jenis tema terang atau tema gelap GTK"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:31
 msgid "The uuid of the connection that was used the last time"
-msgstr ""
+msgstr "UUID sambungan telah digunakan sebelumnya"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:36
 msgid "The last used view"
@@ -96,9 +96,8 @@ msgid "Whether to show only running containers"
 msgstr "Apakah hanya akan menunjukkan container yang sedang berjalan"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:66
-#, fuzzy
 msgid "Whether to show only running pods"
-msgstr "Apakah hanya akan menunjukkan container yang sedang berjalan"
+msgstr "Apakah hanya akan menunjukkan pods yang sedang berjalan"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:71
 #, fuzzy
@@ -117,11 +116,12 @@ msgstr "Apakah akan menampilkan penanda waktu pada tiap baris log"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:91
 msgid "Whether search should be case-sensitive"
-msgstr ""
+msgstr "Apakah pencarian harus peka kapital"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:96
+#, fuzzy
 msgid "Whether to match whole words when searching"
-msgstr ""
+msgstr "Apakah kata kunci harus sepenuhnya cocok saat pencarian"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:101
 msgid "The font scale of all text views"
@@ -140,51 +140,48 @@ msgstr ""
 "dan bertujuan mengikuti prinsip desain GNOME."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:11
-#, fuzzy
 msgid "With Pods you can, among other things:"
-msgstr "Dengan Pods anda bisa melakukan,dan hal yang lain:"
+msgstr "Dengan Pods anda dapat melakukan berbagai hal, antara lain"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:13
 msgid "Connect to local and remote Podman instances."
 msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:14
-#, fuzzy
 msgid "Easily overview images, containers and pods."
-msgstr "Tidak ada container yang terkait dengan citra ini."
+msgstr "Dengan mudah meninjau citra, kontainer, dan pod."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:15
 msgid "View prepared information about images, containers, and pods."
 msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:16
-#, fuzzy
 msgid "Inspect images, containers and pods."
-msgstr "Tidak ada container yang terkait dengan citra ini."
+msgstr "Memeriksa citra, kontainer, dan pod."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:17
 msgid "View and search container logs."
-msgstr ""
+msgstr "Menampilkan dan menelusuri log kontainer."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:18
-#, fuzzy
 msgid "Monitor processes of containers and pods."
-msgstr "Tidak ada container yang terkait dengan citra ini."
+msgstr "Memantau proses kontainer dan pod."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:19
 msgid "Download images and build them using Dockerfiles."
-msgstr ""
+msgstr "Mengunduh citra dan membangunnya menggunakan Dockerfile."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:20
-#, fuzzy
 msgid "Create pods and containers."
-msgstr "Buat Container"
+msgstr "Buat pod dan kontainer."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:21
 msgid ""
 "Control the lifecycle of containers and pods (in bulk) (start, stop, pause, "
 "etc.)."
 msgstr ""
+"Mengendalikan siklus hidup kontainer dan pod (sekaligus) (memulai, "
+"menghentikan, menjeda, dan lain-lain)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:22
 msgid "Delete images, containers, and pods (in bulk)."
@@ -196,14 +193,13 @@ msgid "Prune images."
 msgstr "Pangkas citra yang tidak digunakan"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:24
-#, fuzzy
 msgid "Rename containers."
-msgstr "Ubah nama container «{}»"
+msgstr "Ubah nama container."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:30
 #, fuzzy
 msgid "Container Overview"
-msgstr "Penyimpanan Container"
+msgstr "Tinjau Container"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:34
 #, fuzzy
