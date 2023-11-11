@@ -42,6 +42,16 @@
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="2.0.0" date="2023-11-11">
+      <description translatable="no">
+        <p>This is the first stable release of Pods 2.0 and includes the following changes:</p>
+        <ul>
+          <li>Some problems with AdwBreakpoints in the container detail view have been fixed.</li>
+          <li>The release notes are now marked as not translatable.</li>
+          <li>Some maintenance work and code cleanups have been carried out.</li>
+        </ul>
+      </description>
+    </release>
     <release version="2.0.0~beta.2" date="2023-09-26">
       <description translatable="no">
         <p>This is just a small follow-up bugfix release that fixes an incorrect screenshot path.</p>
