@@ -36,8 +36,6 @@ enum ExecInput {
 }
 
 mod imp {
-    use adw::StyleManager;
-
     use super::*;
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
@@ -206,7 +204,7 @@ mod imp {
 
             self.on_terminal_selection_changed();
 
-            StyleManager::default().connect_dark_notify(clone!(@weak obj => move |_| {
+            adw::StyleManager::default().connect_dark_notify(clone!(@weak obj => move |_| {
                 glib::idle_add_local_once(clone!(@weak obj => move || {
                     obj.imp().on_notify_dark();
                 }));
@@ -325,7 +323,7 @@ mod imp {
                 &style_context
                     .lookup_color("view_bg_color")
                     .unwrap_or_else(|| {
-                        if StyleManager::default().is_dark() {
+                        if adw::StyleManager::default().is_dark() {
                             gdk::RGBA::new(0.118, 0.118, 0.118, 1.0)
                         } else {
                             gdk::RGBA::new(1.0, 1.0, 1.0, 1.0)
@@ -336,7 +334,7 @@ mod imp {
                 &style_context
                     .lookup_color("view_fg_color")
                     .unwrap_or_else(|| {
-                        if StyleManager::default().is_dark() {
+                        if adw::StyleManager::default().is_dark() {
                             gdk::RGBA::new(1.0, 1.0, 1.0, 1.0)
                         } else {
                             gdk::RGBA::new(0.0, 0.0, 0.0, 0.8)
