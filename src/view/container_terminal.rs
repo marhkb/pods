@@ -368,20 +368,18 @@ impl ContainerTerminal {
 
         let container = container.api().unwrap();
 
-        let (tx_glib, rx_glib) = glib::MainContext::sync_channel::<Vec<u8>>(Default::default(), 5);
+        let (tx_output, mut rx_output) = tokio::sync::mpsc::channel::<Vec<u8>>(5);
 
-        rx_glib.attach(
-            None,
-            clone!(@weak self as obj => @default-return glib::ControlFlow::Break, move |buf| {
+        glib::spawn_future_local(clone!(@weak self as obj => async move {
+            while let Some(buf) = rx_output.recv().await {
                 obj.imp().terminal.feed(&buf);
-                glib::ControlFlow::Continue
-            }),
-        );
+            }
+        }));
 
-        let (tx_tokio, mut rx_tokio) = tokio::sync::mpsc::unbounded_channel::<ExecInput>();
-        imp.tx_tokio.replace(Some(tx_tokio.clone()));
+        let (tx_input, mut rx_input) = tokio::sync::mpsc::unbounded_channel::<ExecInput>();
+        imp.tx_tokio.replace(Some(tx_input.clone()));
         imp.terminal.connect_commit(move |_, data, _| {
-            _ = tx_tokio.send(ExecInput::Data(data.as_bytes().to_vec()));
+            _ = tx_input.send(ExecInput::Data(data.as_bytes().to_vec()));
         });
 
         let width = imp.terminal.column_count();
@@ -406,7 +404,7 @@ impl ContainerTerminal {
                 exec.resize(width as usize, height as usize).await?;
 
                 loop {
-                    match future::select(Box::pin(rx_tokio.recv()), reader.next()).await {
+                    match future::select(Box::pin(rx_input.recv()), reader.next()).await {
                         future::Either::Left((buf, _)) => match buf {
                             Some(buf) => match buf {
                                 ExecInput::Data(buf) => {
@@ -427,7 +425,7 @@ impl ContainerTerminal {
                         future::Either::Right((chunk, _)) => match chunk {
                             Some(chunk) => match chunk {
                                 Ok(chunk) => {
-                                    tx_glib.send(Vec::from(chunk)).unwrap();
+                                    tx_output.send(Vec::from(chunk)).await.unwrap();
                                 }
                                 Err(e) => {
                                     log::error!("Error on reading from terminal: {e}");
