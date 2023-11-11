@@ -7,7 +7,7 @@ edition = "2021"
 [dependencies]
 adw = { git = "https://gitlab.gnome.org/World/Rust/libadwaita-rs", version = "0.6", package = "libadwaita", features = ["v1_4"] }
 anyhow = "1"
-ashpd = { git = "https://github.com/bilelmoussaoui/ashpd.git", version = "0.6", default-features = false, features = ["gtk4", "tokio"] }
+ashpd = { git = "https://github.com/bilelmoussaoui/ashpd.git", version = "0.6", rev = "30216eccd3f4ecb50c4d34a493a33e6eef4e375c", default-features = false, features = ["gtk4", "tokio"] }
 futures = { version = "0.3", default-features = false }
 gettext-rs = { version = "0.7", features = ["gettext-system"] }
 gtk = { git = "https://github.com/gtk-rs/gtk4-rs.git", version = "0.8", package = "gtk4", features = ["gnome_45"] }
