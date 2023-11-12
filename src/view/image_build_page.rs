@@ -111,8 +111,8 @@ mod imp {
                     .action_name(ACTION_ADD_LABEL)
                     .selectable(false)
                     .child(
-                        &gtk::Image::builder()
-                            .icon_name("list-add-symbolic")
+                        &gtk::Label::builder()
+                            .label(gettext("Add Label"))
                             .margin_top(12)
                             .margin_bottom(12)
                             .build(),
