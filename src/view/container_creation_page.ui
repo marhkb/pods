@@ -88,20 +88,9 @@
                       <object class="AdwPreferencesGroup">
 
                         <child>
-                          <object class="AdwPreferencesRow">
-                            <property name="activatable">False</property>
-
-                            <child>
-                              <object class="AdwViewSwitcher">
-                                <property name="margin-top">6</property>
-                                <property name="margin-bottom">6</property>
-                                <property name="stack">view_stack</property>
-                                <property name="policy">wide</property>
-                                <property name="halign">center</property>
-                                <property name="height-request">36</property>
-                              </object>
-                            </child>
-
+                          <object class="GtkStackSwitcher">
+                            <property name="stack">stack</property>
+                            <property name="margin-top">12</property>
                           </object>
                         </child>
 
@@ -112,11 +101,11 @@
                       <object class="AdwPreferencesGroup">
 
                         <child>
-                          <object class="AdwViewStack" id="view_stack">
+                          <object class="GtkStack" id="stack">
                             <property name="vhomogeneous">False</property>
 
                             <child>
-                              <object class="AdwViewStackPage">
+                              <object class="GtkStackPage">
                                 <property name="title" translatable="yes">Details</property>
                                 <property name="icon-name">preferences-system-symbolic</property>
 
@@ -278,7 +267,7 @@
                             </child>
 
                             <child>
-                              <object class="AdwViewStackPage">
+                              <object class="GtkStackPage">
                                 <property name="title" translatable="yes">Integration</property>
                                 <property name="icon-name">application-x-addon-symbolic</property>
 
@@ -354,7 +343,7 @@
                             </child>
 
                             <child>
-                              <object class="AdwViewStackPage">
+                              <object class="GtkStackPage">
                                 <property name="title" translatable="yes">Health Check</property>
                                 <property name="icon-name">hospital-symbolic</property>
 
