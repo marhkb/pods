@@ -1,3 +1,4 @@
+use std::cell::Cell;
 use std::cell::OnceCell;
 use std::cell::RefCell;
 
@@ -9,6 +10,7 @@ use glib::clone;
 use glib::closure;
 use glib::Properties;
 use gtk::gdk;
+use gtk::gio;
 use gtk::glib;
 use gtk::CompositeTemplate;
 
@@ -25,6 +27,8 @@ const ACTION_EXIT_SELECTION_MODE: &str = "images-panel.exit-selection-mode";
 const ACTION_SELECT_VISIBLE: &str = "images-panel.select-visible";
 const ACTION_SELECT_NONE: &str = "images-panel.select-none";
 const ACTION_DELETE_SELECTION: &str = "images-panel.delete-selection";
+const ACTION_TOGGLE_HIDE_INTERMEDIATE_IMAGES: &str = "images-panel.toggle-hide-intermediate-images";
+const ACTION_SHOW_ALL_IMAGES: &str = "images-panel.show-all-images";
 
 mod imp {
     use super::*;
@@ -39,16 +43,14 @@ mod imp {
         pub(super) search_term: RefCell<String>,
         #[property(get, set = Self::set_image_list, nullable)]
         pub(super) image_list: glib::WeakRef<model::ImageList>,
+        #[property(get, set)]
+        pub(super) hide_intermediate_images: Cell<bool>,
         #[template_child]
         pub(super) main_stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub(super) main_header_bar: TemplateChild<adw::HeaderBar>,
+        pub(super) header_stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) window_title: TemplateChild<adw::WindowTitle>,
-        #[template_child]
-        pub(super) hide_intermediates_toggle_button: TemplateChild<gtk::ToggleButton>,
-        #[template_child]
-        pub(super) selection_header_bar: TemplateChild<adw::HeaderBar>,
         #[template_child]
         pub(super) selected_images_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
@@ -57,6 +59,8 @@ mod imp {
         pub(super) search_bar: TemplateChild<gtk::SearchBar>,
         #[template_child]
         pub(super) search_entry: TemplateChild<gtk::SearchEntry>,
+        #[template_child]
+        pub(super) filter_stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) list_box: TemplateChild<gtk::ListBox>,
     }
@@ -105,6 +109,15 @@ mod imp {
             klass.install_action(ACTION_DELETE_SELECTION, None, |widget, _, _| {
                 widget.delete_selection();
             });
+
+            klass.install_property_action(
+                ACTION_TOGGLE_HIDE_INTERMEDIATE_IMAGES,
+                "hide-intermediate-images",
+            );
+
+            klass.install_action(ACTION_SHOW_ALL_IMAGES, None, |widget, _, _| {
+                widget.set_hide_intermediate_images(false);
+            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -131,11 +144,7 @@ mod imp {
             let obj = &*self.obj();
 
             self.settings
-                .bind(
-                    "hide-intermediate-images",
-                    &self.hide_intermediates_toggle_button.get(),
-                    "active",
-                )
+                .bind("hide-intermediate-images", obj, "hide-intermediate-images")
                 .build();
 
             let image_list_expr = Self::Type::this_expression("image-list");
@@ -170,7 +179,15 @@ mod imp {
             )
             .bind(&self.main_stack.get(), "visible-child-name", Some(obj));
 
-            not_selection_mode_expr.bind(&self.main_header_bar.get(), "visible", Some(obj));
+            selection_mode_expr
+                .chain_closure::<String>(closure!(|_: Self::Type, selection_mode: bool| {
+                    if !selection_mode {
+                        "main"
+                    } else {
+                        "selection"
+                    }
+                }))
+                .bind(&self.header_stack.get(), "visible-child-name", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
                 [
@@ -206,8 +223,6 @@ mod imp {
             )
             .bind(&self.window_title.get(), "subtitle", Some(obj));
 
-            selection_mode_expr.bind(&self.selection_header_bar.get(), "visible", Some(obj));
-
             image_list_expr
                 .chain_property::<model::ImageList>("num-selected")
                 .chain_closure::<String>(closure!(|_: Self::Type, selected: u32| ngettext!(
@@ -230,7 +245,7 @@ mod imp {
 
             let state_filter =
                 gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
-                    !obj.imp().hide_intermediates_toggle_button.is_active()
+                    !obj.hide_intermediate_images()
                     || item
                         .downcast_ref::<model::Image>()
                         .unwrap()
@@ -273,6 +288,15 @@ mod imp {
     #[gtk::template_callbacks]
     impl ImagesPanel {
         #[template_callback]
+        fn on_notify_hide_intermediate_images(&self) {
+            self.update_filter(if self.obj().hide_intermediate_images() {
+                gtk::FilterChange::MoreStrict
+            } else {
+                gtk::FilterChange::LessStrict
+            });
+        }
+
+        #[template_callback]
         fn on_notify_search_mode_enabled(&self) {
             if self.search_bar.is_search_mode() {
                 self.search_entry.grab_focus();
@@ -293,15 +317,6 @@ mod imp {
 
             self.search_term.replace(term);
             self.update_filter(filter_change);
-        }
-
-        #[template_callback]
-        fn on_hide_intermediates_toggle_button_notify_active(&self) {
-            self.update_filter(if self.hide_intermediates_toggle_button.is_active() {
-                gtk::FilterChange::MoreStrict
-            } else {
-                gtk::FilterChange::LessStrict
-            });
         }
 
         pub(super) fn set_image_list(&self, value: &model::ImageList) {
@@ -331,9 +346,16 @@ mod imp {
                 view::ImageRow::from(item.downcast_ref().unwrap()).upcast()
             });
 
-            self.list_box.set_visible(model.n_items() > 0);
-            model.connect_items_changed(clone!(@weak obj => move |model, _, _, _| {
-                obj.imp().list_box.set_visible(model.n_items() > 0);
+            self.filter_stack
+                .set_visible_child_name(if model.n_items() > 0 { "list" } else { "empty" });
+            model.connect_items_changed(clone!(@weak obj => move |model, _, removed, _| {
+                obj.imp()
+                    .filter_stack
+                    .set_visible_child_name(if model.n_items() > 0 { "list" } else { "empty" });
+
+                if removed > 0 {
+                    obj.deselect_hidden_images(model.upcast_ref());
+                }
             }));
 
             obj.action_set_enabled(ACTION_DELETE_SELECTION, false);
@@ -495,6 +517,25 @@ impl ImagesPanel {
         );
 
         dialog.present();
+    }
+
+    fn deselect_hidden_images(&self, model: &gio::ListModel) {
+        let visible_images = model
+            .iter::<glib::Object>()
+            .map(Result::unwrap)
+            .map(|item| item.downcast::<model::Image>().unwrap())
+            .collect::<Vec<_>>();
+
+        self.image_list()
+            .unwrap()
+            .iter::<model::Image>()
+            .map(Result::unwrap)
+            .filter(model::Image::selected)
+            .for_each(|image| {
+                if !visible_images.contains(&image) {
+                    image.set_selected(false);
+                }
+            });
     }
 
     fn client(&self) -> Option<model::Client> {

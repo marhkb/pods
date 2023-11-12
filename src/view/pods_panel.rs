@@ -1,3 +1,4 @@
+use std::cell::Cell;
 use std::cell::OnceCell;
 use std::cell::RefCell;
 
@@ -9,6 +10,7 @@ use glib::clone;
 use glib::closure;
 use glib::Properties;
 use gtk::gdk;
+use gtk::gio;
 use gtk::glib;
 use gtk::CompositeTemplate;
 
@@ -30,6 +32,8 @@ const ACTION_START_OR_RESUME_SELECTION: &str = "pods-panel.start-or-resume-selec
 const ACTION_STOP_SELECTION: &str = "pods-panel.stop-selection";
 const ACTION_PAUSE_SELECTION: &str = "pods-panel.pause-selection";
 const ACTION_DELETE_SELECTION: &str = "pods-panel.delete-selection";
+const ACTION_TOGGLE_SHOW_ONLY_RUNNING_PODS: &str = "pods-panel.toggle-show-only-running-pods";
+const ACTION_SHOW_ALL_PODS: &str = "pods-panel.show-all-pods";
 
 const ACTIONS_SELECTION: &[&str] = &[
     ACTION_KILL_SELECTION,
@@ -53,22 +57,22 @@ mod imp {
         pub(super) search_term: RefCell<String>,
         #[property(get, set = Self::set_pod_list, nullable)]
         pub(super) pod_list: glib::WeakRef<model::PodList>,
+        #[property(get, set)]
+        pub(super) show_only_running_pods: Cell<bool>,
         #[template_child]
         pub(super) main_stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub(super) main_header_bar: TemplateChild<adw::HeaderBar>,
+        pub(super) header_stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) window_title: TemplateChild<adw::WindowTitle>,
-        #[template_child]
-        pub(super) show_only_running_toggle_button: TemplateChild<gtk::ToggleButton>,
-        #[template_child]
-        pub(super) selection_header_bar: TemplateChild<adw::HeaderBar>,
         #[template_child]
         pub(super) selected_pods_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
         pub(super) search_bar: TemplateChild<gtk::SearchBar>,
         #[template_child]
         pub(super) search_entry: TemplateChild<gtk::SearchEntry>,
+        #[template_child]
+        pub(super) filter_stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) list_box: TemplateChild<gtk::ListBox>,
     }
@@ -133,6 +137,15 @@ mod imp {
             klass.install_action(ACTION_DELETE_SELECTION, None, |widget, _, _| {
                 widget.delete_selection();
             });
+
+            klass.install_property_action(
+                ACTION_TOGGLE_SHOW_ONLY_RUNNING_PODS,
+                "show-only-running-pods",
+            );
+
+            klass.install_action(ACTION_SHOW_ALL_PODS, None, |widget, _, _| {
+                widget.set_show_only_running_pods(false);
+            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -159,11 +172,7 @@ mod imp {
             let obj = &*self.obj();
 
             self.settings
-                .bind(
-                    "show-only-running-pods",
-                    &self.show_only_running_toggle_button.get(),
-                    "active",
-                )
+                .bind("show-only-running-pods", obj, "show-only-running-pods")
                 .build();
 
             let pod_list_expr = Self::Type::this_expression("pod-list");
@@ -198,7 +207,15 @@ mod imp {
             )
             .bind(&self.main_stack.get(), "visible-child-name", Some(obj));
 
-            not_selection_mode_expr.bind(&self.main_header_bar.get(), "visible", Some(obj));
+            selection_mode_expr
+                .chain_closure::<String>(closure!(|_: Self::Type, selection_mode: bool| {
+                    if !selection_mode {
+                        "main"
+                    } else {
+                        "selection"
+                    }
+                }))
+                .bind(&self.header_stack.get(), "visible-child-name", Some(obj));
 
             gtk::ClosureExpression::new::<Option<String>>(
                 [
@@ -227,8 +244,6 @@ mod imp {
             )
             .bind(&self.window_title.get(), "subtitle", Some(obj));
 
-            selection_mode_expr.bind(&self.selection_header_bar.get(), "visible", Some(obj));
-
             pod_list_expr
                 .chain_property::<model::PodList>("num-selected")
                 .chain_closure::<String>(closure!(|_: Self::Type, selected: u32| ngettext!(
@@ -254,7 +269,7 @@ mod imp {
             let state_filter = gtk::AnyFilter::new();
             state_filter.append(gtk::CustomFilter::new(
                 clone!(@weak obj => @default-return false, move |_| {
-                    !obj.imp().show_only_running_toggle_button.is_active()
+                    !obj.show_only_running_pods()
                 }),
             ));
             state_filter.append(gtk::BoolFilter::new(Some(
@@ -283,6 +298,15 @@ mod imp {
     #[gtk::template_callbacks]
     impl PodsPanel {
         #[template_callback]
+        fn on_notify_show_only_running_pods(&self) {
+            self.update_filter(if self.obj().show_only_running_pods() {
+                gtk::FilterChange::MoreStrict
+            } else {
+                gtk::FilterChange::LessStrict
+            });
+        }
+
+        #[template_callback]
         fn on_notify_search_mode_enabled(&self) {
             if self.search_bar.is_search_mode() {
                 self.search_entry.grab_focus();
@@ -303,15 +327,6 @@ mod imp {
 
             self.search_term.replace(term);
             self.update_filter(filter_change);
-        }
-
-        #[template_callback]
-        fn on_show_only_running_toggle_button_notify_active(&self) {
-            self.update_filter(if self.show_only_running_toggle_button.is_active() {
-                gtk::FilterChange::MoreStrict
-            } else {
-                gtk::FilterChange::LessStrict
-            });
         }
 
         pub(crate) fn set_pod_list(&self, value: &model::PodList) {
@@ -339,9 +354,16 @@ mod imp {
                 view::PodRow::from(item.downcast_ref().unwrap()).upcast()
             });
 
-            self.list_box.set_visible(model.n_items() > 0);
-            model.connect_items_changed(clone!(@weak obj => move |model, _, _, _| {
-                obj.imp().list_box.set_visible(model.n_items() > 0);
+            self.filter_stack
+                .set_visible_child_name(if model.n_items() > 0 { "list" } else { "empty" });
+            model.connect_items_changed(clone!(@weak obj => move |model, _, removed, _| {
+                obj.imp()
+                    .filter_stack
+                    .set_visible_child_name(if model.n_items() > 0 { "list" } else { "empty" });
+
+                if removed > 0 {
+                    obj.deselect_hidden_pods(model.upcast_ref());
+                }
             }));
 
             ACTIONS_SELECTION
@@ -593,5 +615,24 @@ impl PodsPanel {
         );
 
         dialog.present();
+    }
+
+    fn deselect_hidden_pods(&self, model: &gio::ListModel) {
+        let visible_pods = model
+            .iter::<glib::Object>()
+            .map(Result::unwrap)
+            .map(|item| item.downcast::<model::Pod>().unwrap())
+            .collect::<Vec<_>>();
+
+        self.pod_list()
+            .unwrap()
+            .iter::<model::Pod>()
+            .map(Result::unwrap)
+            .filter(model::Pod::selected)
+            .for_each(|pod| {
+                if !visible_pods.contains(&pod) {
+                    pod.set_selected(false);
+                }
+            });
     }
 }

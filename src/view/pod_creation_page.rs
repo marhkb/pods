@@ -141,6 +141,7 @@ mod imp {
                     view::KeyValRow::from(item.downcast_ref::<model::KeyVal>().unwrap()).upcast()
                 },
                 ACTION_ADD_LABEL,
+                &gettext("Add Label"),
             );
 
             bind_model(
@@ -155,6 +156,7 @@ mod imp {
                     .upcast()
                 },
                 ACTION_ADD_HOST,
+                &gettext("Add Host"),
             );
 
             bind_model(
@@ -164,6 +166,7 @@ mod imp {
                     view::DeviceRow::from(item.downcast_ref::<model::Device>().unwrap()).upcast()
                 },
                 ACTION_ADD_DEVICE,
+                &gettext("Add Device"),
             );
 
             bind_model(
@@ -173,6 +176,7 @@ mod imp {
                     view::ValueRow::new(item.downcast_ref().unwrap(), &gettext("Argument")).upcast()
                 },
                 ACTION_ADD_POD_CREATE_CMD_ARGS,
+                &gettext("Add Argument"),
             );
 
             bind_model(
@@ -182,6 +186,7 @@ mod imp {
                     view::ValueRow::new(item.downcast_ref().unwrap(), &gettext("Argument")).upcast()
                 },
                 ACTION_ADD_INFRA_CMD_ARGS,
+                &gettext("Add Argument"),
             );
 
             self.infra_image_selection_combo_row
@@ -521,8 +526,13 @@ impl PodCreationPage {
     }
 }
 
-fn bind_model<F>(list_box: &gtk::ListBox, model: &gio::ListStore, widget_func: F, action_name: &str)
-where
+fn bind_model<F>(
+    list_box: &gtk::ListBox,
+    model: &gio::ListStore,
+    widget_func: F,
+    action_name: &str,
+    label: &str,
+) where
     F: Fn(&glib::Object) -> gtk::Widget + 'static,
 {
     list_box.bind_model(Some(model), widget_func);
@@ -531,8 +541,8 @@ where
             .action_name(action_name)
             .selectable(false)
             .child(
-                &gtk::Image::builder()
-                    .icon_name("list-add-symbolic")
+                &gtk::Label::builder()
+                    .label(label)
                     .margin_top(12)
                     .margin_bottom(12)
                     .build(),

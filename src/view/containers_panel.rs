@@ -1,3 +1,4 @@
+use std::cell::Cell;
 use std::cell::OnceCell;
 use std::cell::RefCell;
 
@@ -9,6 +10,7 @@ use glib::clone;
 use glib::closure;
 use glib::Properties;
 use gtk::gdk;
+use gtk::gio;
 use gtk::glib;
 use gtk::CompositeTemplate;
 
@@ -30,6 +32,9 @@ const ACTION_START_OR_RESUME_SELECTION: &str = "containers-panel.start-or-resume
 const ACTION_STOP_SELECTION: &str = "containers-panel.stop-selection";
 const ACTION_PAUSE_SELECTION: &str = "containers-panel.pause-selection";
 const ACTION_DELETE_SELECTION: &str = "containers-panel.delete-selection";
+const ACTION_TOGGLE_SHOW_ONLY_RUNNING_CONTAINERS: &str =
+    "containers-panel.toggle-show-only-running-containers";
+const ACTION_SHOW_ALL_CONTAINERS: &str = "containers-panel.show-all-containers";
 
 const ACTIONS_SELECTION: &[&str] = &[
     ACTION_KILL_SELECTION,
@@ -53,22 +58,22 @@ mod imp {
         pub(super) search_term: RefCell<String>,
         #[property(get, set = Self::set_container_list, nullable)]
         pub(super) container_list: glib::WeakRef<model::ContainerList>,
+        #[property(get, set)]
+        pub(super) show_only_running_containers: Cell<bool>,
         #[template_child]
         pub(super) main_stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub(super) main_header_bar: TemplateChild<adw::HeaderBar>,
+        pub(super) header_stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) window_title: TemplateChild<adw::WindowTitle>,
-        #[template_child]
-        pub(super) show_only_running_toggle_button: TemplateChild<gtk::ToggleButton>,
-        #[template_child]
-        pub(super) selection_header_bar: TemplateChild<adw::HeaderBar>,
         #[template_child]
         pub(super) selected_containers_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
         pub(super) search_bar: TemplateChild<gtk::SearchBar>,
         #[template_child]
         pub(super) search_entry: TemplateChild<gtk::SearchEntry>,
+        #[template_child]
+        pub(super) filter_stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) list_box: TemplateChild<gtk::ListBox>,
     }
@@ -133,6 +138,15 @@ mod imp {
             klass.install_action(ACTION_DELETE_SELECTION, None, |widget, _, _| {
                 widget.delete_selection();
             });
+
+            klass.install_property_action(
+                ACTION_TOGGLE_SHOW_ONLY_RUNNING_CONTAINERS,
+                "show-only-running-containers",
+            );
+
+            klass.install_action(ACTION_SHOW_ALL_CONTAINERS, None, |widget, _, _| {
+                widget.set_show_only_running_containers(false);
+            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -161,8 +175,8 @@ mod imp {
             self.settings
                 .bind(
                     "show-only-running-containers",
-                    &self.show_only_running_toggle_button.get(),
-                    "active",
+                    obj,
+                    "show-only-running-containers",
                 )
                 .build();
 
@@ -199,7 +213,15 @@ mod imp {
             )
             .bind(&self.main_stack.get(), "visible-child-name", Some(obj));
 
-            not_selection_mode_expr.bind(&self.main_header_bar.get(), "visible", Some(obj));
+            selection_mode_expr
+                .chain_closure::<String>(closure!(|_: Self::Type, selection_mode: bool| {
+                    if !selection_mode {
+                        "main"
+                    } else {
+                        "selection"
+                    }
+                }))
+                .bind(&self.header_stack.get(), "visible-child-name", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
                 [
@@ -227,8 +249,6 @@ mod imp {
                 }),
             )
             .bind(&self.window_title.get(), "subtitle", Some(obj));
-
-            selection_mode_expr.bind(&self.selection_header_bar.get(), "visible", Some(obj));
 
             container_list_expr
                 .chain_property::<model::ContainerList>("num-selected")
@@ -264,7 +284,7 @@ mod imp {
             let state_filter = gtk::AnyFilter::new();
             state_filter.append(gtk::CustomFilter::new(
                 clone!(@weak obj => @default-return false, move |_| {
-                    !obj.imp().show_only_running_toggle_button.is_active()
+                    !obj.show_only_running_containers()
                 }),
             ));
             state_filter.append(gtk::BoolFilter::new(Some(
@@ -308,6 +328,15 @@ mod imp {
     #[gtk::template_callbacks]
     impl ContainersPanel {
         #[template_callback]
+        fn on_notify_show_only_running_containers(&self) {
+            self.update_filter(if self.obj().show_only_running_containers() {
+                gtk::FilterChange::MoreStrict
+            } else {
+                gtk::FilterChange::LessStrict
+            });
+        }
+
+        #[template_callback]
         fn on_notify_search_mode_enabled(&self) {
             if self.search_bar.is_search_mode() {
                 self.search_entry.grab_focus();
@@ -328,15 +357,6 @@ mod imp {
 
             self.search_term.replace(term);
             self.update_filter(filter_change);
-        }
-
-        #[template_callback]
-        fn on_show_only_running_toggle_button_notify_active(&self) {
-            self.update_filter(if self.show_only_running_toggle_button.is_active() {
-                gtk::FilterChange::MoreStrict
-            } else {
-                gtk::FilterChange::LessStrict
-            });
         }
 
         pub(super) fn set_container_list(&self, value: Option<&model::ContainerList>) {
@@ -388,9 +408,16 @@ mod imp {
                     view::ContainerRow::from(item.downcast_ref().unwrap()).upcast()
                 });
 
-                self.list_box.set_visible(model.n_items() > 0);
-                model.connect_items_changed(clone!(@weak obj => move |model, _, _, _| {
-                    obj.imp().list_box.set_visible(model.n_items() > 0);
+                self.filter_stack
+                    .set_visible_child_name(if model.n_items() > 0 { "list" } else { "empty" });
+                model.connect_items_changed(clone!(@weak obj => move |model, _, removed, _| {
+                    obj.imp()
+                        .filter_stack
+                        .set_visible_child_name(if model.n_items() > 0 { "list" } else { "empty" });
+
+                    if removed > 0 {
+                        obj.deselect_hidden_containers(model.upcast_ref());
+                    }
                 }));
             }
 
@@ -657,5 +684,24 @@ impl ContainersPanel {
         );
 
         dialog.present();
+    }
+
+    fn deselect_hidden_containers(&self, model: &gio::ListModel) {
+        let visible_containers = model
+            .iter::<glib::Object>()
+            .map(Result::unwrap)
+            .map(|item| item.downcast::<model::Container>().unwrap())
+            .collect::<Vec<_>>();
+
+        self.container_list()
+            .unwrap()
+            .iter::<model::Container>()
+            .map(Result::unwrap)
+            .filter(model::Container::selected)
+            .for_each(|container| {
+                if !visible_containers.contains(&container) {
+                    container.set_selected(false);
+                }
+            });
     }
 }
