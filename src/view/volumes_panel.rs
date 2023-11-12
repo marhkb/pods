@@ -1,3 +1,4 @@
+use std::cell::Cell;
 use std::cell::OnceCell;
 use std::cell::RefCell;
 
@@ -9,6 +10,7 @@ use glib::clone;
 use glib::closure;
 use glib::Properties;
 use gtk::gdk;
+use gtk::gio;
 use gtk::glib;
 use gtk::CompositeTemplate;
 
@@ -24,6 +26,8 @@ const ACTION_EXIT_SELECTION_MODE: &str = "volumes-panel.exit-selection-mode";
 const ACTION_SELECT_VISIBLE: &str = "volumes-panel.select-visible";
 const ACTION_SELECT_NONE: &str = "volumes-panel.select-none";
 const ACTION_DELETE_SELECTION: &str = "volumes-panel.delete-selection";
+const ACTION_TOGGLE_SHOW_ONLY_USED_VOLUMES: &str = "volumes-panel.toggle-show-only-used-volumes";
+const ACTION_SHOW_ALL_VOLUMES: &str = "volumes-panel.show-all-volumes";
 
 mod imp {
     use super::*;
@@ -38,22 +42,22 @@ mod imp {
         pub(super) search_term: RefCell<String>,
         #[property(get, set = Self::set_volume_list, explicit_notify, nullable)]
         pub(super) volume_list: glib::WeakRef<model::VolumeList>,
+        #[property(get, set)]
+        pub(super) show_only_used_volumes: Cell<bool>,
         #[template_child]
         pub(super) main_stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub(super) main_header_bar: TemplateChild<adw::HeaderBar>,
+        pub(super) header_stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) window_title: TemplateChild<adw::WindowTitle>,
-        #[template_child]
-        pub(super) show_only_used_toggle_button: TemplateChild<gtk::ToggleButton>,
-        #[template_child]
-        pub(super) selection_header_bar: TemplateChild<adw::HeaderBar>,
         #[template_child]
         pub(super) selected_volumes_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
         pub(super) search_bar: TemplateChild<gtk::SearchBar>,
         #[template_child]
         pub(super) search_entry: TemplateChild<gtk::SearchEntry>,
+        #[template_child]
+        pub(super) filter_stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) list_box: TemplateChild<gtk::ListBox>,
     }
@@ -99,6 +103,15 @@ mod imp {
             klass.install_action(ACTION_DELETE_SELECTION, None, |widget, _, _| {
                 widget.delete_selection();
             });
+
+            klass.install_property_action(
+                ACTION_TOGGLE_SHOW_ONLY_USED_VOLUMES,
+                "show-only-used-volumes",
+            );
+
+            klass.install_action(ACTION_SHOW_ALL_VOLUMES, None, |widget, _, _| {
+                widget.set_show_only_used_volumes(false);
+            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -125,11 +138,7 @@ mod imp {
             let obj = &*self.obj();
 
             self.settings
-                .bind(
-                    "show-only-used-volumes",
-                    &self.show_only_used_toggle_button.get(),
-                    "active",
-                )
+                .bind("show-only-used-volumes", obj, "show-only-used-volumes")
                 .build();
 
             let volume_list_expr = Self::Type::this_expression("volume-list");
@@ -164,7 +173,15 @@ mod imp {
             )
             .bind(&self.main_stack.get(), "visible-child-name", Some(obj));
 
-            not_selection_mode_expr.bind(&self.main_header_bar.get(), "visible", Some(obj));
+            selection_mode_expr
+                .chain_closure::<String>(closure!(|_: Self::Type, selection_mode: bool| {
+                    if !selection_mode {
+                        "main"
+                    } else {
+                        "selection"
+                    }
+                }))
+                .bind(&self.header_stack.get(), "visible-child-name", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
                 &[
@@ -193,8 +210,6 @@ mod imp {
             )
             .bind(&self.window_title.get(), "subtitle", Some(obj));
 
-            selection_mode_expr.bind(&self.selection_header_bar.get(), "visible", Some(obj));
-
             volume_list_expr
                 .chain_property::<model::VolumeList>("num-selected")
                 .chain_closure::<String>(closure!(|_: Self::Type, selected: u32| ngettext!(
@@ -221,7 +236,7 @@ mod imp {
             let state_filter = gtk::AnyFilter::new();
             state_filter.append(gtk::CustomFilter::new(
                 clone!(@weak obj => @default-return false, move |_| {
-                    !obj.imp().show_only_used_toggle_button.is_active()
+                    !obj.show_only_used_volumes()
                 }),
             ));
             state_filter.append(gtk::BoolFilter::new(Some(
@@ -254,6 +269,15 @@ mod imp {
     #[gtk::template_callbacks]
     impl VolumesPanel {
         #[template_callback]
+        fn on_notify_show_only_used_volumes(&self) {
+            self.update_filter(if self.obj().show_only_used_volumes() {
+                gtk::FilterChange::MoreStrict
+            } else {
+                gtk::FilterChange::LessStrict
+            });
+        }
+
+        #[template_callback]
         fn on_notify_search_mode_enabled(&self) {
             if self.search_bar.is_search_mode() {
                 self.search_entry.grab_focus();
@@ -274,15 +298,6 @@ mod imp {
 
             self.search_term.replace(term);
             self.update_filter(filter_change);
-        }
-
-        #[template_callback]
-        fn on_show_only_used_toggle_button_notify_active(&self) {
-            self.update_filter(if self.show_only_used_toggle_button.is_active() {
-                gtk::FilterChange::MoreStrict
-            } else {
-                gtk::FilterChange::LessStrict
-            });
         }
 
         pub(super) fn set_volume_list(&self, value: Option<&model::VolumeList>) {
@@ -320,9 +335,16 @@ mod imp {
                     view::VolumeRow::from(item.downcast_ref().unwrap()).upcast()
                 });
 
-                self.list_box.set_visible(model.n_items() > 0);
-                model.connect_items_changed(clone!(@weak obj => move |model, _, _, _| {
-                    obj.imp().list_box.set_visible(model.n_items() > 0);
+                self.filter_stack
+                    .set_visible_child_name(if model.n_items() > 0 { "list" } else { "empty" });
+                model.connect_items_changed(clone!(@weak obj => move |model, _, removed, _| {
+                    obj.imp()
+                        .filter_stack
+                        .set_visible_child_name(if model.n_items() > 0 { "list" } else { "empty" });
+
+                    if removed > 0 {
+                        obj.deselect_hidden_volumes(model.upcast_ref());
+                    }
                 }));
             }
 
@@ -470,5 +492,24 @@ impl VolumesPanel {
         );
 
         dialog.present();
+    }
+
+    fn deselect_hidden_volumes(&self, model: &gio::ListModel) {
+        let visible_volumes = model
+            .iter::<glib::Object>()
+            .map(Result::unwrap)
+            .map(|item| item.downcast::<model::Volume>().unwrap())
+            .collect::<Vec<_>>();
+
+        self.volume_list()
+            .unwrap()
+            .iter::<model::Volume>()
+            .map(Result::unwrap)
+            .filter(model::Volume::selected)
+            .for_each(|volume| {
+                if !visible_volumes.contains(&volume) {
+                    volume.set_selected(false);
+                }
+            });
     }
 }
