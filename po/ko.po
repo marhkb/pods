@@ -8,14 +8,15 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-09-23 22:25+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2023-11-14 03:05+0000\n"
+"Last-Translator: 민웅기 <kali2005611@gmail.com>\n"
+"Language-Team: Korean <https://hosted.weblate.org/projects/pods/main/ko/>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.2-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:56
@@ -23,12 +24,12 @@ msgstr ""
 #: src/view/pods_panel.ui:129 src/view/pods_panel.ui:361
 #: src/view/pods_row.ui:22 src/view/search_panel.ui:81
 msgid "Pods"
-msgstr ""
+msgstr "Pods"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:4
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
 msgid "Keep track of your podman containers"
-msgstr ""
+msgstr "당신의 podman 컨테이너를 추적하세요"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:9
 msgid "Gnome;GTK;libadwaita;Podman;Containerization;"
@@ -37,241 +38,249 @@ msgstr ""
 #: data/com.github.marhkb.Pods.gschema.xml.in:6
 #: data/com.github.marhkb.Pods.gschema.xml.in:7
 msgid "Default window width"
-msgstr ""
+msgstr "기본 창 너비"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:11
 #: data/com.github.marhkb.Pods.gschema.xml.in:12
 msgid "Default window height"
-msgstr ""
+msgstr "기본 창 높이"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:16
 msgid "Default window maximized behaviour"
-msgstr ""
+msgstr "기본 창 최대화 동작"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:26
 msgid "Color Scheme"
-msgstr ""
+msgstr "색상 구성표"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:27
+#, fuzzy
 msgid "Use the light or dark variant of the GTK theme"
-msgstr ""
+msgstr "라이트 또는 다크모드 설정에 따라 자동으로 테마 변경"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:31
 msgid "The uuid of the connection that was used the last time"
-msgstr ""
+msgstr "마지막 연결에 사용된 uuid"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:36
+#, fuzzy
 msgid "The last used view"
-msgstr ""
+msgstr "마지막으로 사용한 view"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:41
 msgid "Whether to hide intermediate images"
-msgstr ""
+msgstr "중간 이미지를 숨길지 여부"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:46
 msgid "The last used container file path"
-msgstr ""
+msgstr "마지막으로 사용된 컨테이너 파일 경로"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:51
 msgid "Remove all images not in use by containers, not just dangling ones"
-msgstr ""
+msgstr "태그가 없는 이미지를 비롯해 모든 이미지 삭제"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:56
 msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)"
-msgstr ""
+msgstr "외부 컨테이너에서 사용되는 경우에도 이미지를 제거합니다 (e.g, 빌드 컨테이너)"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:61
 msgid "Whether to show only running containers"
-msgstr ""
+msgstr "실행 중인 컨테이너만 표시할지 여부"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:66
 msgid "Whether to show only running pods"
-msgstr ""
+msgstr "실행 중인 포드만 표시할지 여부"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:71
 msgid "Whether to show only used volumes"
-msgstr ""
+msgstr "사용 중인 볼륨만 표시할지 여부"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:76
 msgid "Whether to show a timestamp for each log line"
-msgstr ""
+msgstr "각 로그 줄에 대한 타임스탬프 표시할지 여부"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:81
 #: data/com.github.marhkb.Pods.gschema.xml.in:86
 msgid "Whether to use a regex for search"
-msgstr ""
+msgstr "검색에 정규식을 사용할지 여부"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:91
 msgid "Whether search should be case-sensitive"
-msgstr ""
+msgstr "검색 시 대소문자를 구분해야 하는지 여부"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:96
 msgid "Whether to match whole words when searching"
-msgstr ""
+msgstr "검색 시 전체 단어 일치 여부"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:101
 msgid "The font scale of all text views"
-msgstr ""
+msgstr "모든 텍스트 보기의 글꼴 크기"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:106
 msgid "The font scale for terminals"
-msgstr ""
+msgstr "터미널의 글꼴 크기"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
 msgid ""
 "Pods is a frontend for podman. It uses libadwaita for its user interface and "
 "strives to meet the design principles of GNOME."
 msgstr ""
+"Pods는 Podman의 프런트엔드입니다. 사용자 인터페이스로 libadwaita를 사용하고 "
+"GNOME의 디자인 원칙을 충족하려고 노력합니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:11
 msgid "With Pods you can, among other things:"
-msgstr ""
+msgstr "Pod를 사용하면 다음을 수행할 수 있습니다:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:13
 msgid "Connect to local and remote Podman instances."
-msgstr ""
+msgstr "로컬 및 원격 Podman 인스턴스에 연결합니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:14
 msgid "Easily overview images, containers and pods."
-msgstr ""
+msgstr "이미지, 컨테이너 및 포드를 쉽게 살펴보세요."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:15
 msgid "View prepared information about images, containers, and pods."
-msgstr ""
+msgstr "이미지, 컨테이너, Pod에 대해 준비된 정보를 봅니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:16
 msgid "Inspect images, containers and pods."
-msgstr ""
+msgstr "이미지, 컨테이너, 포드를 검사합니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:17
 msgid "View and search container logs."
-msgstr ""
+msgstr "컨테이너 로그를 보고 검색합니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:18
 msgid "Monitor processes of containers and pods."
-msgstr ""
+msgstr "컨테이너 및 포드의 프로세스를 모니터링합니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:19
 msgid "Download images and build them using Dockerfiles."
-msgstr ""
+msgstr "이미지를 다운로드하고 Dockerfiles를 사용하여 빌드합니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:20
 msgid "Create pods and containers."
-msgstr ""
+msgstr "포드와 컨테이너를 만듭니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:21
 msgid ""
 "Control the lifecycle of containers and pods (in bulk) (start, stop, pause, "
 "etc.)."
-msgstr ""
+msgstr "컨테이너 및 Pod의 수명 주기를 제어합니다 (대량의) (시작, 중지, 일시 중지 등)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:22
 msgid "Delete images, containers, and pods (in bulk)."
-msgstr ""
+msgstr "이미지, 컨테이너 및 Pod를 대량으로 삭제합니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:23
 msgid "Prune images."
-msgstr ""
+msgstr "이미지를 정리합니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:24
 msgid "Rename containers."
-msgstr ""
+msgstr "컨테이너의 이름을 바꿉니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:30
 msgid "Container Overview"
-msgstr ""
+msgstr "컨테이너 개요"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:34
 msgid "Containers Details in Compact Mode"
-msgstr ""
+msgstr "컴팩트 모드의 컨테이너 세부정보"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:38
 msgid "Search Results"
-msgstr ""
+msgstr "검색 결과"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:47
 msgid "Pods 1.2.1 contains the following bugfixes and improvements:"
-msgstr ""
+msgstr "Pod 1.2.1에는 다음과 같은 버그 수정 및 개선 사항이 포함되어 있습니다:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:49
 msgid ""
 "Fixed a bug that caused the application to crash when the keyring could not "
 "be accessed."
-msgstr ""
+msgstr "키링에 액세스할 수 없을 때 애플리케이션이 충돌하는 버그를 수정했습니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:50
 msgid ""
 "Some languages like Romanian were not correctly included. This should be "
 "fixed now."
-msgstr ""
+msgstr "루마니아어와 같은 일부 언어는 올바르게 포함되지 않았습니다. 이 문제는 지금 "
+"해결되어야 합니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:51
 msgid ""
 "Fixed a regression where the container list was not re-sorted once a "
 "container was renamed."
-msgstr ""
+msgstr "컨테이너 이름이 변경된 후 컨테이너 목록이 다시 정렬되지 않는 회귀 문제를 "
+"수정했습니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:52
 msgid "Minor cleanup work has been done in the code."
-msgstr ""
+msgstr "사소한 정리 작업이 코드에서 완료되었습니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:58
 msgid "Pods 1.2.0 contains the following new features:"
-msgstr ""
+msgstr "Pod 1.2.0에는 다음과 같은 새로운 기능이 포함되어 있습니다:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:60
 msgid "Usabilty and UX has been improved in many places."
-msgstr ""
+msgstr "여러 곳에서 사용성 및 UX가 개선되었습니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:61
 msgid "Pruning of containers and pods is now possible."
-msgstr ""
+msgstr "이제 컨테이너와 포드를 정리할 수 있습니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:62
 msgid "Container terminals are now detachable and can be used in parallel."
-msgstr ""
+msgstr "컨테이너 터미널은 이제 분리 가능하며 병렬로 사용할 수 있습니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:63
 msgid "Images can be pushed to a registry."
-msgstr ""
+msgstr "이미지를 레지스트리에 푸시할 수 있습니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:64
 msgid "The CPU utilization now takes the number of cores into account."
-msgstr ""
+msgstr "이제 CPU 사용률은 코어 수를 고려합니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:70
 msgid "Pods 1.1.0 contains the following features, bug fixes and improvements:"
-msgstr ""
+msgstr "Pods 1.1.0에는 다음 기능, 버그 수정 및 개선 사항이 포함되어 있습니다:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:72
 msgid ""
 "Dependencies have been updated. This includes the update to GNOME 44 "
 "libraries."
-msgstr ""
+msgstr "종속성이 업데이트되었습니다. 여기에는 GNOME 44 라이브러리 업데이트가 "
+"포함됩니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:73
 msgid "AdwBanner is now used in the container log page instead of GtkInfoBar."
-msgstr ""
+msgstr "AdwBanner는 이제 GtkInfoBar 대신 컨테이너 로그 페이지에서 사용됩니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:74
 msgid "The GNOME Coc is acknowledged in the README.md."
-msgstr ""
+msgstr "GNOME Coc은 README.md에서 인식됩니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:75
 msgid "The main window and all dialogs can now be closed with Ctrl+W."
-msgstr ""
+msgstr "이제 Ctrl+W를 사용하여 기본 창과 모든 대화 상자를 닫을 수 있습니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:76
 msgid "The memory icon has been improved, thanks to @daudix-UFO."
-msgstr ""
+msgstr "@daudix-UFO 덕분에 메모리 아이콘이 개선되었습니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:77
 msgid ""
 "Internal code improvements have landed, like the port to glib-rs' new "
 "properties proc macro."
-msgstr ""
+msgstr "glib-rs의 새로운 속성 proc 매크로에 대한 포트와 같은 내부 코드 개선이 "
+"이루어졌습니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:78
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:97
@@ -281,74 +290,83 @@ msgstr ""
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:158
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:172
 msgid "Translations have been updated."
-msgstr ""
+msgstr "번역이 업데이트되었습니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:84
 msgid ""
 "Pods 1.1.0-beta.4 contains the following features, bug fixes and "
 "improvements:"
-msgstr ""
+msgstr "파드 1.1.0-beta.4에는 다음과 같은 기능, 버그 수정 및 개선 사항이 포함되어 "
+"있습니다:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:86
 msgid ""
 "The connection color is now displayed by means of a colored dot in front of "
 "the connection name in the connection overview, instead of a vertical bar at "
 "the beginning."
-msgstr ""
+msgstr "연결 색상은 이제 시작 부분의 수직 막대 대신 연결 개요의 연결 이름 앞에 있는 "
+"점으로 표시됩니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:87
 msgid ""
 "The penguin icon to the left of the Podman version has been removed from the "
 "status bar."
-msgstr ""
+msgstr "포드만 버전의 왼쪽에 있는 펭귄 아이콘은 상태 표시줄에서 제거되었다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:88
 msgid ""
 "The Podman menu button in the status bar now shows a loading indicator until "
 "the Podman version is determined."
-msgstr ""
+msgstr "상태 표시줄의 Podman 메뉴 버튼은 이제 Podman 버전이 결정될 때까지 로딩 "
+"표시기를 보여줍니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:89
 msgid ""
 "The label to show the version of the Podman menu button in the status bar "
 "now uses the <em>numeric</em> style class, which looks more harmonious."
 msgstr ""
+"상태 표시줄에 있는 Podman 메뉴 버튼의 버전을 보여주는 라벨은 이제 더 "
+"조화롭게 보이는 <em> numeric </em> 스타일 클래스를 사용합니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:90
 msgid ""
 "To eliminate the blur, the icons in the status bar now all have a size of 16 "
 "pixels instead of 12 pixels."
-msgstr ""
+msgstr "흐림을 제거하기 위해, 상태 표시줄의 아이콘은 이제 모두 12픽셀이 아닌 "
+"16픽셀의 크기를 가지고 있다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:91
 msgid "The desktop entry now uses the updated short description as comment."
-msgstr ""
+msgstr "데스크톱 항목은 이제 업데이트된 짧은 설명을 주석으로 사용합니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:92
 msgid "Some appropriate categories have been added to the desktop entry."
-msgstr ""
+msgstr "몇 가지 적절한 카테고리가 데스크톱 항목에 추가되었습니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:93
 msgid ""
 "Fixed a bug where the Id of a container was replaced by the name once the "
 "name of the container was changed."
-msgstr ""
+msgstr "컨테이너의 이름이 변경되면 컨테이너의 ID가 이름으로 대체되는 버그를 "
+"수정했습니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:94
 msgid ""
 "The container status <em>configured</em> was not handled before. This is now "
 "fixed."
-msgstr ""
+msgstr "컨테이너 상태 <em>configured</em>는 이전에 처리되지 않았다. 이제 "
+"고쳐졌습니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:95
 msgid ""
 "The spinner within the container log page did not disappear earlier if the "
 "log was empty. This is fixed now."
-msgstr ""
+msgstr "컨테이너 로그 페이지 내의 스피너는 로그가 비어 있다면 더 일찍 사라지지 "
+"않았다. 이제 고쳐졌습니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:96
 msgid "The code has been improved in some places."
-msgstr ""
+msgstr "그 코드는 몇몇 장소에서 개선되었다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:98
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:116
@@ -356,52 +374,56 @@ msgstr ""
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:148
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:173
 msgid "Dependencies have been updated."
-msgstr ""
+msgstr "종속성이 업데이트되었습니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:104
 msgid ""
 "Pods 1.1.0-beta.3 contains the following features, bug fixes and "
 "improvements:"
-msgstr ""
+msgstr "파드 1.1.0-beta.3에는 다음과 같은 기능, 버그 수정 및 개선 사항이 포함되어 "
+"있습니다:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:106
 msgid ""
 "The connection menu has received an entry for disconnecting the current "
 "Podman connection."
-msgstr ""
+msgstr "연결 메뉴는 현재 Podman 연결을 끊기 위한 항목을 받았습니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:107
 msgid ""
 "The status bar now has a menu button that shows the current Podman version."
-msgstr ""
+msgstr "상태 표시줄에는 현재 Podman 버전을 보여주는 메뉴 버튼이 있습니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:108
 msgid ""
 "The menu item to open the Podman information window has been moved from the "
 "main menu to the Podman menu in the status bar."
-msgstr ""
+msgstr "Podman 정보 창을 여는 메뉴 항목이 메인 메뉴에서 상태 표시줄의 Podman 메뉴로 "
+"이동되었습니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:109
 msgid ""
 "A new widget has been implemented that allows you to control the zoom level "
 "of text."
-msgstr ""
+msgstr "텍스트의 줌 레벨을 제어할 수 있는 새로운 위젯이 구현되었습니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:110
 msgid ""
 "On all pages with text, such as the inspection page, the download button has "
 "been moved to a menu in the header bar together with the zoom control widget."
-msgstr ""
+msgstr "검사 페이지와 같은 텍스트가 있는 모든 페이지에서 다운로드 버튼은 줌 제어 "
+"위젯과 함께 헤더 표시줄의 메뉴로 이동되었습니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:111
 msgid ""
 "On the container log page some buttons together with zoom control widget are "
 "moved to a menu in the header bar."
-msgstr ""
+msgstr "컨테이너 로그 페이지에서 줌 컨트롤 위젯과 함께 일부 버튼은 헤더 표시줄의 "
+"메뉴로 이동합니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:112
 msgid "The text in the container terminal can now be zoomed."
-msgstr ""
+msgstr "이제 컨테이너 터미널의 텍스트를 확대할 수 있습니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:113
 msgid ""
@@ -409,6 +431,9 @@ msgid ""
 "the default ANSI escape sequence. This resulted in text not being readable "
 "in the light theme under certain circumstances."
 msgstr ""
+"기본 ANSI 이스케이프 시퀀스에 대해 명시적인 색상이 설정된 컨테이너 로그 "
+"페이지의 버그를 수정했습니다. 이로 인해 특정 상황에서 가벼운 주제에서 "
+"텍스트를 읽을 수 없었음."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:114
 msgid ""
@@ -416,65 +441,74 @@ msgid ""
 "there is an error. For example, this would be the case if the cube YAML "
 "could not be generated."
 msgstr ""
+"검사 페이지와 같은 텍스트 뷰는 이제 오류가 발생하면 즉시 닫힙니다. 예를 "
+"들어, 큐브 YAML이 생성될 수 없는 경우일 것이다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:122
 msgid ""
 "Pods 1.1.0-beta.2 contains the following features, bug fixes and "
 "improvements:"
-msgstr ""
+msgstr "포드 1.1.0-beta.2에는 다음과 같은 기능, 버그 수정 및 개선 사항이 포함되어 "
+"있습니다:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:124
 msgid ""
 "It is now possible to assign colors to connections. Then, when the "
 "connection is active, the status bar is colored accordingly."
-msgstr ""
+msgstr "이제 연결에 색상을 할당할 수 있습니다. 그런 다음, 연결이 활성화되면, 상태 "
+"표시줄이 그에 따라 채색됩니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:125
 msgid "The progress bar in the status bar has been replaced by a label."
-msgstr ""
+msgstr "상태 표시줄의 진행률 표시줄은 라벨로 대체되었다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:126
 msgid "The formatting of the container log is now correctly kept across lines."
-msgstr ""
+msgstr "컨테이너 로그의 서식은 이제 여러 줄에 걸쳐 올바르게 유지됩니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:127
 msgid ""
 "Some strings has been marked as translatable that where previously forgotten."
-msgstr ""
+msgstr "일부 문자열은 이전에 잊혀진 곳에서 번역 가능한 것으로 표시되었다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:128
 msgid "Some strings has been changed to be more accurate."
-msgstr ""
+msgstr "몇몇 문자열은 더 정확하게 변경되었다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:129
 msgid ""
 "A workaround and a fix have been implemented specifically for crashes that "
 "led to crashes when using podman 3.0."
-msgstr ""
+msgstr "podman 3.0을 사용할 때 충돌로 이어지는 충돌에 대한 해결 방법과 수정이 특별히 "
+"구현되었습니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:130
 msgid ""
 "Fixed a style bug that caused the inner scrollbar on the connection "
 "selection page to have an offset."
-msgstr ""
+msgstr "연결 선택 페이지의 내부 스크롤바가 오프셋되는 스타일 버그를 수정했습니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:138
 msgid ""
 "Pods 1.1.0-beta.1 contains the following features, bug fixes and "
 "improvements:"
-msgstr ""
+msgstr "Pods 1.1.0-beta.1에는 다음과 같은 기능, 버그 수정 및 개선 사항이 포함되어 "
+"있습니다:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:140
 msgid ""
 "The fonts in all text views, such as those in the inspection pages, are now "
 "scalable using typical shortcuts."
-msgstr ""
+msgstr "검사 페이지와 같은 모든 텍스트 뷰의 글꼴은 이제 일반적인 단축키를 사용하여 "
+"확장 가능합니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:141
 msgid ""
 "It is now prevented that actions in subpages like the container inspection "
 "subpage can be triggered via shortcuts (e.g. the action to download files)."
 msgstr ""
+"이제 컨테이너 검사 하위 페이지와 같은 하위 페이지의 작업이 단축키(예: 파일 "
+"다운로드 작업)를 통해 트리거되는 것을 방지할 수 있습니다."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:142
 msgid ""
