@@ -358,32 +358,50 @@
                         <property name="title" translatable="yes">No Images Available</property>
 
                         <child>
-                          <object class="GtkBox">
-                            <property name="orientation">vertical</property>
-                            <property name="spacing">18</property>
+                          <object class="AdwBreakpointBin">
+                            <property name="height-request">1</property>
+                            <property name="width-request">336</property>
 
                             <child>
-                              <object class="GtkButton" id="pull_button">
-                                <style>
-                                  <class name="pill"/>
-                                  <class name="suggested-action"/>
-                                </style>
-                                <property name="action-name">images-panel.pull-image</property>
-                                <property name="halign">center</property>
-                                <property name="label" translatable="yes">_Download Image</property>
-                                <property name="use-underline">True</property>
+                              <object class="AdwBreakpoint">
+                                <condition>min-width: 500sp</condition>
+                                <setter object="create_button_box" property="orientation">horizontal</setter>
                               </object>
                             </child>
 
                             <child>
-                              <object class="GtkButton" id="build_button">
-                                <style>
-                                  <class name="pill"/>
-                                </style>
-                                <property name="action-name">images-panel.build-image</property>
+                              <object class="GtkBox" id="create_button_box">
+                                <property name="orientation">vertical</property>
+                                <property name="spacing">18</property>
                                 <property name="halign">center</property>
-                                <property name="label" translatable="yes">_Build Image</property>
-                                <property name="use-underline">True</property>
+
+                                <child>
+                                  <object class="GtkButton" id="pull_button">
+                                    <style>
+                                      <class name="pill"/>
+                                      <class name="suggested-action"/>
+                                    </style>
+                                    <property name="action-name">images-panel.pull-image</property>
+                                    <property name="can-shrink">True</property>
+                                    <property name="valign">center</property>
+                                    <property name="label" translatable="yes">_Download Image</property>
+                                    <property name="use-underline">True</property>
+                                  </object>
+                                </child>
+
+                                <child>
+                                  <object class="GtkButton" id="build_button">
+                                    <style>
+                                      <class name="pill"/>
+                                    </style>
+                                    <property name="action-name">images-panel.build-image</property>
+                                    <property name="can-shrink">True</property>
+                                    <property name="valign">center</property>
+                                    <property name="label" translatable="yes">_Build Image</property>
+                                    <property name="use-underline">True</property>
+                                  </object>
+                                </child>
+
                               </object>
                             </child>
 
