@@ -279,9 +279,8 @@
 
                             <property name="child">
                               <object class="AdwStatusPage">
-                                <property name="icon-name">action-unavailable-symbolic</property>
+                                <property name="icon-name">image-x-generic-symbolic</property>
                                 <property name="title" translatable="yes">No Tagged Images</property>
-                                <property name="description" translatable="yes">The result of filtering for tagged images is empty.</property>
 
                                 <child>
                                   <object class="GtkButton">

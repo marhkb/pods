@@ -254,9 +254,8 @@
 
                             <property name="child">
                               <object class="AdwStatusPage">
-                                <property name="icon-name">action-unavailable-symbolic</property>
+                                <property name="icon-name">package-x-generic-symbolic</property>
                                 <property name="title" translatable="yes">No Running Containers</property>
-                                <property name="description" translatable="yes">The result of filtering for running containers is empty.</property>
 
                                 <child>
                                   <object class="GtkButton">
