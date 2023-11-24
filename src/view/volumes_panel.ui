@@ -329,8 +329,8 @@
 
                     <child>
                       <object class="AdwStatusPage">
-                        <property name="title" translatable="yes">No Volumes Found</property>
-                        <property name="description" translatable="yes">You can use the buttons below to add an initial volume.</property>
+                        <property name="icon-name">drive-harddisk-symbolic</property>
+                        <property name="title" translatable="yes">No Volumes Available</property>
 
                         <child>
                           <object class="GtkButton">

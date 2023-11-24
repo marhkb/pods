@@ -437,8 +437,8 @@
 
                     <child>
                       <object class="AdwStatusPage">
-                        <property name="title" translatable="yes">No Pods Found</property>
-                        <property name="description" translatable="yes">You can use the button below to create an initial pod.</property>
+                        <property name="icon-name">pods-symbolic</property>
+                        <property name="title" translatable="yes">No Pods Available</property>
 
                         <child>
                           <object class="GtkButton">
