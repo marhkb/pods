@@ -34,11 +34,39 @@
           <object class="GtkScrolledWindow">
 
             <child>
-              <object class="PdsConnectionSwitcher">
-                <property name="sidebar">True</property>
-                <binding name="connection-manager">
-                  <lookup name="connection-manager">PdsConnectionsSidebar</lookup>
-                </binding>
+              <object class="GtkListView">
+                <style>
+                  <class name="navigation-sidebar"/>
+                </style>
+                <signal name="activate" handler="on_list_view_activated" swapped="true"/>
+                <property name="single-click-activate">true</property>
+                <property name="model">
+                  <object class="GtkSingleSelection" id="selection">
+                    <property name="autoselect">False</property>
+                    <property name="model" bind-source="PdsConnectionsSidebar" bind-property="connection-manager" bind-flags="sync-create"/>
+                  </object>
+                </property>
+                <property name="factory">
+                  <object class="GtkBuilderListItemFactory">
+                    <property name="bytes">
+<![CDATA[
+  <?xml version="1.0" encoding="UTF-8"?>
+  <interface>
+    <template class="GtkListItem">
+      <property name="selectable">False</property>
+      <property name="child">
+        <object class="PdsConnectionRow">
+          <binding name="connection">
+            <lookup name="item">GtkListItem</lookup>
+          </binding>
+        </object>
+      </property>
+    </template>
+  </interface>
+]]>
+                    </property>
+                  </object>
+                </property>
               </object>
             </child>
 
