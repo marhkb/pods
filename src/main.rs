@@ -157,7 +157,6 @@ fn init() {
     view::ConnectionChooserPage::static_type();
     view::ConnectionCustomInfoDialog::static_type();
     view::ConnectionRow::static_type();
-    view::ConnectionSwitcher::static_type();
     view::ConnectionsSidebar::static_type();
     view::ContainerCommitPage::static_type();
     view::ContainerFilesGetPage::static_type();
