@@ -1,11 +1,14 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use gettextrs::gettext;
+use glib::clone;
 use glib::Properties;
 use gtk::glib;
 use gtk::CompositeTemplate;
 
 use crate::model;
 use crate::utils;
+use crate::view;
 
 mod imp {
     use super::*;
@@ -16,6 +19,8 @@ mod imp {
     pub(crate) struct ConnectionChooserPage {
         #[property(get, set, nullable)]
         pub(crate) connection_manager: glib::WeakRef<model::ConnectionManager>,
+        #[template_child]
+        pub(super) connection_list_box: TemplateChild<gtk::ListBox>,
     }
 
     #[glib::object_subclass]
@@ -26,6 +31,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+            klass.bind_template_callbacks();
             klass.set_css_name("connectionchooserpage");
         }
 
@@ -53,6 +59,58 @@ mod imp {
     }
 
     impl WidgetImpl for ConnectionChooserPage {}
+
+    #[gtk::template_callbacks]
+    impl ConnectionChooserPage {
+        #[template_callback]
+        fn on_notify_connection_manager(&self) {
+            let obj = self.obj();
+            self.connection_list_box
+                .bind_model(obj.connection_manager().as_ref(), |item| {
+                    gtk::ListBoxRow::builder()
+                        .selectable(false)
+                        .child(&view::ConnectionRow::from(item.downcast_ref().unwrap()))
+                        .build()
+                        .upcast()
+                });
+        }
+
+        #[template_callback]
+        fn on_connection_list_box_activated(&self, row: &gtk::ListBoxRow) {
+            let obj = &*self.obj();
+
+            if let Some(connection_manager) = obj.connection_manager() {
+                let position = (0..connection_manager.n_items())
+                    .find(|position| {
+                        self.connection_list_box
+                            .row_at_index(*position as i32)
+                            .as_ref()
+                            == Some(row)
+                    })
+                    .unwrap();
+
+                let connection = connection_manager
+                    .item(position)
+                    .and_downcast::<model::Connection>()
+                    .unwrap();
+
+                if connection.is_active() {
+                    return;
+                }
+
+                connection_manager.set_client_from(
+                    &connection.uuid(),
+                    clone!(@weak obj => move |result| if let Err(e) = result {
+                       utils::show_error_toast(
+                           obj.upcast_ref(),
+                           &gettext("Error on establishing connection"),
+                           &e.to_string(),
+                       );
+                    }),
+                );
+            }
+        }
+    }
 }
 
 glib::wrapper! {
