@@ -74,3 +74,22 @@ if glib_compile_schemas.found()
     ],
   )
 endif
+
+# Resources
+resources_conf = configuration_data()
+resources_conf.set('app-id', application_id)
+appdata_resource = configure_file(
+  input: 'resources.gresource.xml.in',
+  output: 'resources.gresource.xml',
+  configuration: resources_conf,
+  install: false,
+)
+resources = gnome.compile_resources(
+  'appdata-resources',
+  '@0@/resources.gresource.xml'.format(meson.current_build_dir()),
+  gresource_bundle: true,
+  source_dir: meson.current_build_dir(),
+  install: true,
+  install_dir: pkgdatadir,
+  dependencies: [appdata_file, appdata_resource],
+)
