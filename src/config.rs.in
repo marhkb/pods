@@ -4,5 +4,6 @@ pub(crate) const LOCALEDIR: &str = @LOCALEDIR@;
 pub(crate) const PKGDATADIR: &str = @PKGDATADIR@;
 pub(crate) const PROFILE: &str = @PROFILE@;
 pub(crate) const RESOURCES_FILE: &str = concat!(@PKGDATADIR@, "/resources.gresource");
+pub(crate) const APPDATA_RESOURCES_FILE: &str = concat!(@PKGDATADIR@, "/appdata-resources.gresource");
 pub(crate) const UI_RESOURCES_FILE: &str = concat!(@PKGDATADIR@, "/ui-resources.gresource");
 pub(crate) const VERSION: &str = @VERSION@;

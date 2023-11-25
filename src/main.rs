@@ -60,6 +60,10 @@ fn main() {
                     .expect("Could not load gresource file"),
             );
             gio::resources_register(
+                &gio::Resource::load(config::APPDATA_RESOURCES_FILE)
+                    .expect("Could not load gresource file"),
+            );
+            gio::resources_register(
                 &gio::Resource::load(config::UI_RESOURCES_FILE)
                     .expect("Could not load UI gresource file"),
             );
