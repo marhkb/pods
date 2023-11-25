@@ -164,29 +164,32 @@ impl Application {
     }
 
     fn show_about_dialog(&self) {
-        let dialog = adw::AboutWindow::builder()
-            .transient_for(&self.main_window())
-            .application_name("Pods")
-            .application_icon(config::APP_ID)
-            .version(config::VERSION)
-            .website("https://github.com/marhkb/pods/")
-            .issue_url("https://github.com/marhkb/pods/issues")
-            .developer_name("Marcus Behrendt")
-            .copyright("© 2022 Marcus Behrendt")
-            .license_type(gtk::License::Gpl30)
-            .developers(vec![
-                "Marcus Behrendt https://github.com/marhkb",
-                "Wojciech Kępka https://github.com/vv9k",
-            ])
-            .designers(vec!["Marcus Behrendt https://github.com/marhkb"])
-            .artists(vec![
-                "Marcus Behrendt https://github.com/marhkb",
-                "Allaeddine Boulefaat https://github.com/allaeddineomc",
-                "David Lapshin https://github.com/daudix-UFO",
-            ])
-            .translator_credits(gettext("translator-credits").as_str())
-            .build();
-
+        let dialog = adw::AboutWindow::from_appdata(
+            &format!(
+                "/com/github/marhkb/Pods/appdata/{}.metainfo.xml",
+                config::APP_ID
+            ),
+            Some(&if config::PROFILE == "Devel" {
+                let split = config::VERSION.split('-').collect::<Vec<_>>();
+                split[..split.len() - 1].join("~")
+            } else {
+                config::VERSION.replace('-', "~")
+            }),
+        );
+        dialog.set_transient_for(Some(&self.main_window()));
+        dialog.set_version(config::VERSION);
+        dialog.set_copyright("© 2022 Marcus Behrendt");
+        dialog.set_developers(&[
+            "Marcus Behrendt https://github.com/marhkb",
+            "Wojciech Kępka https://github.com/vv9k",
+        ]);
+        dialog.set_designers(&["Marcus Behrendt https://github.com/marhkb"]);
+        dialog.set_artists(&[
+            "Marcus Behrendt https://github.com/marhkb",
+            "Allaeddine Boulefaat https://github.com/allaeddineomc",
+            "David Lapshin https://github.com/daudix-UFO",
+        ]);
+        dialog.set_translator_credits(gettext("translator-credits").as_str());
         dialog.add_credit_section(
             Some(&gettext("Translators")),
             &[
