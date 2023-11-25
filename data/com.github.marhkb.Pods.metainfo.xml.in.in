@@ -47,6 +47,7 @@
         <p>Pods 2.1.0 contains the following changes:</p>
         <ul>
           <li>Build about dialog from appdata. (#743)</li>
+          <li>Close all remaining processes after container terminal exits. (#744)</li>
         </ul>
       </description>
     </release>

@@ -1,3 +1,4 @@
+use std::cell::Cell;
 use std::cell::RefCell;
 use std::sync::OnceLock;
 
@@ -33,6 +34,7 @@ const ACTION_PASTE: &str = "container-terminal.paste";
 enum ExecInput {
     Data(Vec<u8>),
     Resize { columns: usize, rows: usize },
+    Terminate,
 }
 
 mod imp {
@@ -43,7 +45,8 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/view/container_terminal.ui")]
     pub(crate) struct ContainerTerminal {
         pub(super) settings: utils::PodsSettings,
-        pub(super) tx_tokio: RefCell<Option<tokio::sync::mpsc::UnboundedSender<ExecInput>>>,
+        pub(super) tx_input: RefCell<Option<tokio::sync::mpsc::UnboundedSender<ExecInput>>>,
+        pub(super) keep_alive_on_next_unroot: Cell<bool>,
         #[property(get, set, nullable)]
         pub(super) container: glib::WeakRef<model::Container>,
         #[template_child]
@@ -229,12 +232,22 @@ mod imp {
 
         fn size_allocate(&self, width: i32, height: i32, baseline: i32) {
             self.stack.allocate(width, height, baseline, None);
-            if let Some(tx_tokio) = &*self.tx_tokio.borrow() {
+            if let Some(tx_tokio) = &*self.tx_input.borrow() {
                 _ = tx_tokio.send(ExecInput::Resize {
                     columns: self.terminal.column_count() as usize,
                     rows: self.terminal.row_count() as usize,
                 });
             }
+        }
+
+        fn unroot(&self) {
+            if !self.keep_alive_on_next_unroot.get() {
+                if let Some(tx_input) = &*self.tx_input.borrow() {
+                    _ = tx_input.send(ExecInput::Terminate);
+                }
+            }
+            self.keep_alive_on_next_unroot.set(false);
+            self.parent_unroot();
         }
     }
 
@@ -352,6 +365,10 @@ glib::wrapper! {
 }
 
 impl ContainerTerminal {
+    pub(crate) fn keep_alive_on_next_unroot(&self) {
+        self.imp().keep_alive_on_next_unroot.set(true);
+    }
+
     pub(crate) fn font_scale(&self) -> f64 {
         self.imp().terminal.font_scale()
     }
@@ -377,7 +394,7 @@ impl ContainerTerminal {
         }));
 
         let (tx_input, mut rx_input) = tokio::sync::mpsc::unbounded_channel::<ExecInput>();
-        imp.tx_tokio.replace(Some(tx_input.clone()));
+        imp.tx_input.replace(Some(tx_input.clone()));
         imp.terminal.connect_commit(move |_, data, _| {
             _ = tx_input.send(ExecInput::Data(data.as_bytes().to_vec()));
         });
@@ -406,7 +423,7 @@ impl ContainerTerminal {
                 loop {
                     match future::select(Box::pin(rx_input.recv()), reader.next()).await {
                         future::Either::Left((buf, _)) => match buf {
-                            Some(buf) => match buf {
+                            Some(input) => match input {
                                 ExecInput::Data(buf) => {
                                     if let Err(e) = writer.write_all(&buf).await {
                                         log::error!("Error on writing to terminal: {e}");
@@ -419,6 +436,7 @@ impl ContainerTerminal {
                                         break;
                                     }
                                 }
+                                ExecInput::Terminate => break,
                             },
                             None => break,
                         },
@@ -437,7 +455,12 @@ impl ContainerTerminal {
                     }
                 }
 
-                // Close all processes.
+                // Close remaining processes.
+                log::info!(
+                    "Closing remaining processes of container {} for exec {}.",
+                    container.id(),
+                    exec.id()
+                );
                 while writer.write_all(&[3]).await.is_ok() && writer.write_all(&[4]).await.is_ok() {
                 }
 
