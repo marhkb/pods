@@ -46,6 +46,7 @@
       <description translatable="no">
         <p>Pods 2.1.0 contains the following changes:</p>
         <ul>
+          <li>Build about dialog from appdata. (#743)</li>
         </ul>
       </description>
     </release>
