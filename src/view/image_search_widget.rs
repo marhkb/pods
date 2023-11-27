@@ -40,8 +40,6 @@ mod imp {
         #[template_child]
         pub(super) no_results_status_page: TemplateChild<adw::StatusPage>,
         #[template_child]
-        pub(super) signal_list_item_factory: TemplateChild<gtk::SignalListItemFactory>,
-        #[template_child]
         pub(super) selection: TemplateChild<gtk::SingleSelection>,
         #[template_child]
         pub(super) tag_entry_row: TemplateChild<adw::EntryRow>,
@@ -175,23 +173,22 @@ mod imp {
         }
 
         #[template_callback]
-        fn on_signal_list_item_factory_bind(&self, list_item: &glib::Object) {
-            let list_item = list_item.downcast_ref::<gtk::ListItem>().unwrap();
-
-            if let Some(item) = list_item.item() {
-                let response = item.downcast::<model::ImageSearchResponse>().unwrap();
-                let row = view::ImageSearchResponseRow::from(&response);
-
-                list_item.set_child(Some(&row));
-            }
+        fn on_signal_list_item_factory_setup(&self, list_item: &gtk::ListItem) {
+            list_item.set_child(Some(&view::ImageSearchResponseRow::default()));
         }
 
         #[template_callback]
-        fn on_signal_list_item_factory_unbind(&self, list_item: &glib::Object) {
+        fn on_signal_list_item_factory_bind(&self, list_item: &gtk::ListItem) {
+            let response = list_item
+                .item()
+                .and_downcast::<model::ImageSearchResponse>()
+                .unwrap();
+
             list_item
-                .downcast_ref::<gtk::ListItem>()
+                .child()
+                .and_downcast::<view::ImageSearchResponseRow>()
                 .unwrap()
-                .set_child(gtk::Widget::NONE);
+                .set_image_search_response(Some(response));
         }
 
         #[template_callback]
