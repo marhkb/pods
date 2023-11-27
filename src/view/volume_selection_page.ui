@@ -82,8 +82,8 @@
                 <property name="show-separators">True</property>
                 <property name="factory">
                   <object class="GtkSignalListItemFactory" id="signal_list_item_factory">
+                    <signal name="setup" handler="on_signal_list_item_factory_setup" swapped="true"/>
                     <signal name="bind" handler="on_signal_list_item_factory_bind" swapped="true"/>
-                    <signal name="unbind" handler="on_signal_list_item_factory_unbind" swapped="true"/>
                   </object>
                 </property>
                 <property name="model">

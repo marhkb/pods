@@ -36,8 +36,6 @@ mod imp {
         #[template_child]
         pub(super) select_button: TemplateChild<gtk::Button>,
         #[template_child]
-        pub(super) signal_list_item_factory: TemplateChild<gtk::SignalListItemFactory>,
-        #[template_child]
         pub(super) selection: TemplateChild<gtk::SingleSelection>,
     }
 
@@ -164,33 +162,29 @@ mod imp {
         }
 
         #[template_callback]
-        fn on_signal_list_item_factory_bind(&self, list_item: &glib::Object) {
-            let list_item = list_item.downcast_ref::<gtk::ListItem>().unwrap();
+        fn on_signal_list_item_factory_setup(&self, list_item: &gtk::ListItem) {
+            let label = gtk::Label::builder()
+                .margin_top(9)
+                .margin_end(12)
+                .margin_bottom(9)
+                .margin_start(12)
+                .xalign(0.0)
+                .wrap(true)
+                .wrap_mode(pango::WrapMode::WordChar)
+                .build();
 
-            if let Some(item) = list_item.item() {
-                let volume = item.downcast::<model::Volume>().unwrap();
-
-                let label = gtk::Label::builder()
-                    .label(utils::format_volume_name(&volume.inner().name))
-                    .margin_top(9)
-                    .margin_end(12)
-                    .margin_bottom(9)
-                    .margin_start(12)
-                    .xalign(0.0)
-                    .wrap(true)
-                    .wrap_mode(pango::WrapMode::WordChar)
-                    .build();
-
-                list_item.set_child(Some(&label));
-            }
+            list_item.set_child(Some(&label));
         }
 
         #[template_callback]
-        fn on_signal_list_item_factory_unbind(&self, list_item: &glib::Object) {
+        fn on_signal_list_item_factory_bind(&self, list_item: &gtk::ListItem) {
+            let volume = list_item.item().and_downcast::<model::Volume>().unwrap();
+
             list_item
-                .downcast_ref::<gtk::ListItem>()
+                .child()
+                .and_downcast::<gtk::Label>()
                 .unwrap()
-                .set_child(gtk::Widget::NONE);
+                .set_label(&utils::format_volume_name(&volume.inner().name));
         }
 
         #[template_callback]

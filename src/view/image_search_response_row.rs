@@ -93,6 +93,12 @@ glib::wrapper! {
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
+impl Default for ImageSearchResponseRow {
+    fn default() -> Self {
+        glib::Object::builder().build()
+    }
+}
+
 impl From<&model::ImageSearchResponse> for ImageSearchResponseRow {
     fn from(response: &model::ImageSearchResponse) -> Self {
         glib::Object::builder()
