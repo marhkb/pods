@@ -37,8 +37,6 @@ mod imp {
         #[template_child]
         pub(super) select_button: TemplateChild<gtk::Button>,
         #[template_child]
-        pub(super) signal_list_item_factory: TemplateChild<gtk::SignalListItemFactory>,
-        #[template_child]
         pub(super) selection: TemplateChild<gtk::SingleSelection>,
     }
 
@@ -169,44 +167,42 @@ mod imp {
         }
 
         #[template_callback]
-        fn on_signal_list_item_factory_bind(&self, list_item: &glib::Object) {
-            let list_item = list_item.downcast_ref::<gtk::ListItem>().unwrap();
+        fn on_signal_list_item_factory_setup(&self, list_item: &gtk::ListItem) {
+            let label = gtk::Label::builder()
+                .margin_top(9)
+                .margin_end(12)
+                .margin_bottom(9)
+                .margin_start(12)
+                .xalign(0.0)
+                .wrap(true)
+                .wrap_mode(pango::WrapMode::WordChar)
+                .build();
 
-            if let Some(item) = list_item.item() {
-                let image = item.downcast::<model::Image>().unwrap();
-                let repo_tag = image.repo_tags().get(0);
-
-                let label = gtk::Label::builder()
-                    .label(
-                        repo_tag
-                            .as_ref()
-                            .map(|repo_tag| repo_tag.full())
-                            .unwrap_or_else(|| image.id()),
-                    )
-                    .margin_top(9)
-                    .margin_end(12)
-                    .margin_bottom(9)
-                    .margin_start(12)
-                    .xalign(0.0)
-                    .wrap(true)
-                    .wrap_mode(pango::WrapMode::WordChar)
-                    .build();
-
-                if repo_tag.is_none() {
-                    label.add_css_class("dim-label");
-                    label.add_css_class("numeric");
-                }
-
-                list_item.set_child(Some(&label));
-            }
+            list_item.set_child(Some(&label));
         }
 
         #[template_callback]
-        fn on_signal_list_item_factory_unbind(&self, list_item: &glib::Object) {
-            list_item
-                .downcast_ref::<gtk::ListItem>()
-                .unwrap()
-                .set_child(gtk::Widget::NONE);
+        fn on_signal_list_item_factory_bind(&self, list_item: &gtk::ListItem) {
+            let image = list_item.item().and_downcast::<model::Image>().unwrap();
+            let repo_tag = image.repo_tags().get(0);
+
+            let label = list_item.child().and_downcast::<gtk::Label>().unwrap();
+            label.set_label(
+                &repo_tag
+                    .as_ref()
+                    .map(|repo_tag| repo_tag.full())
+                    .unwrap_or_else(|| image.id()),
+            );
+            match image.repo_tags().get(0) {
+                Some(_) => {
+                    label.remove_css_class("dim-label");
+                    label.remove_css_class("numeric");
+                }
+                None => {
+                    label.add_css_class("dim-label");
+                    label.add_css_class("numeric");
+                }
+            }
         }
 
         #[template_callback]
