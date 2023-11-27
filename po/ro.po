@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-09-23 22:25+0200\n"
-"PO-Revision-Date: 2023-10-07 07:13+0000\n"
+"PO-Revision-Date: 2023-11-29 00:08+0000\n"
 "Last-Translator: SoftExpert <softexpert@gmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/pods/main/ro/>\n"
 "Language: ro\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
-"X-Generator: Weblate 5.1-dev\n"
+"X-Generator: Weblate 5.3-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:56
@@ -1570,23 +1570,20 @@ msgid "Image Is Currently Being Built"
 msgstr "Imaginea este în curs de construcție"
 
 #: src/view/action_page.rs:135
-#, fuzzy
 msgid "Image Is Currently Being Pushed"
-msgstr "Imaginea este în curs de construcție"
+msgstr "Imaginea este în curs de trimitere"
 
 #: src/view/action_page.rs:136 src/view/action_page.rs:154
-#, fuzzy
 msgid "Containers Are Currently Being Pruned"
-msgstr "Imaginile sunt în curs de suprimare"
+msgstr "Containerele sunt în curs de curățare"
 
 #: src/view/action_page.rs:137
 msgid "Container Is Currently Being Created"
 msgstr "Containerul este în curs de creare"
 
 #: src/view/action_page.rs:138
-#, fuzzy
 msgid "Container Is Currently Being Started"
-msgstr "Containerul este în curs de creare"
+msgstr "Containerul este în fază de pornire"
 
 #: src/view/action_page.rs:139
 msgid "New Image Is Currently Being Committed"
@@ -1597,23 +1594,20 @@ msgid "Files Are Currently Being Copied"
 msgstr "Fișierele sunt în curs de copiere"
 
 #: src/view/action_page.rs:141
-#, fuzzy
 msgid "Pods Are Currently Being Pruned"
-msgstr "Imaginile sunt în curs de suprimare"
+msgstr "Capsulele sunt în curs de suprimare"
 
 #: src/view/action_page.rs:142
 msgid "Pod Is Currently Being Created"
 msgstr "Podul este în curs de creare"
 
 #: src/view/action_page.rs:143
-#, fuzzy
 msgid "Volume Is Currently Being Created"
-msgstr "Podul este în curs de creare"
+msgstr "Volumul este în curs de creare"
 
 #: src/view/action_page.rs:144
-#, fuzzy
 msgid "Volumes Are Currently Being Pruned"
-msgstr "Imaginile sunt în curs de suprimare"
+msgstr "Volumele sunt în curs de suprimare"
 
 #: src/view/action_page.rs:150
 msgid "Images Have Been Pruned"
@@ -1628,18 +1622,16 @@ msgid "Image Has Been Built"
 msgstr "Imaginea a fost construită"
 
 #: src/view/action_page.rs:153
-#, fuzzy
 msgid "Image Has Been Pushed"
-msgstr "Imaginile au fost suprimate"
+msgstr "Imaginea a fost transferată"
 
 #: src/view/action_page.rs:155
 msgid "Container Has Been Created"
 msgstr "Containerul a fost creat"
 
 #: src/view/action_page.rs:156
-#, fuzzy
 msgid "Container Has Been Started"
-msgstr "Containerul a fost creat"
+msgstr "Containerul a fost pornit"
 
 #: src/view/action_page.rs:157
 msgid "New Image Has Been Committed"
@@ -1650,23 +1642,20 @@ msgid "Files Have Beeng Copied"
 msgstr "Fișierele au fost copiate"
 
 #: src/view/action_page.rs:159
-#, fuzzy
 msgid "Pods Have Been Pruned"
-msgstr "Imaginile au fost suprimate"
+msgstr "Capsulele au fost suprimate"
 
 #: src/view/action_page.rs:160
 msgid "Pod Has Been Created"
 msgstr "Podul a fost creat"
 
 #: src/view/action_page.rs:161
-#, fuzzy
 msgid "Volume Has Been Created"
-msgstr "Podul a fost creat"
+msgstr "Volumul a fost creat"
 
 #: src/view/action_page.rs:162
-#, fuzzy
 msgid "Volumes Have Been Pruned"
-msgstr "Imaginile au fost suprimate"
+msgstr "Volumele au fost suprimate"
 
 #: src/view/action_page.rs:168
 msgid "Pruning of Images Has Been Aborted"
@@ -1681,23 +1670,20 @@ msgid "Image Built Has Been Aborted"
 msgstr "Construcția Imaginii a fost întreruptă"
 
 #: src/view/action_page.rs:171
-#, fuzzy
 msgid "Image Push Has Been Aborted"
-msgstr "Construcția Imaginii a fost întreruptă"
+msgstr "Trimiterea imaginii a fost întreruptă"
 
 #: src/view/action_page.rs:172
-#, fuzzy
 msgid "Pruning of Containers Has Been Aborted"
-msgstr "Suprimarea imaginilor a fost abandonată"
+msgstr "Suprimarea containerelor a fost abandonată"
 
 #: src/view/action_page.rs:173
 msgid "Container Creation Has Been Aborted"
 msgstr "Crearea containerului a fost întreruptă"
 
 #: src/view/action_page.rs:174
-#, fuzzy
 msgid "Container Start Has Been Aborted"
-msgstr "Crearea containerului a fost întreruptă"
+msgstr "Pornirea containerului a fost abandonată"
 
 #: src/view/action_page.rs:175
 msgid "Image Commitment Has Been Aborted"
@@ -1708,23 +1694,20 @@ msgid "Copying Files Has Been Aborted"
 msgstr "Copierea fișierelor a fost întreruptă"
 
 #: src/view/action_page.rs:177
-#, fuzzy
 msgid "Pruning of Pods Has Been Aborted"
-msgstr "Suprimarea imaginilor a fost abandonată"
+msgstr "Suprimarea capsulelor a fost abandonată"
 
 #: src/view/action_page.rs:178
 msgid "Pod Creation Has Been Aborted"
 msgstr "Crearea podului a fost întreruptă"
 
 #: src/view/action_page.rs:179
-#, fuzzy
 msgid "Volume Creation Has Been Aborted"
-msgstr "Crearea podului a fost întreruptă"
+msgstr "Crearea volumelor a fost întreruptă"
 
 #: src/view/action_page.rs:180
-#, fuzzy
 msgid "Pruning of Volumes Has Been Aborted"
-msgstr "Suprimarea imaginilor a fost abandonată"
+msgstr "Suprimarea volumelor a fost abandonată"
 
 #: src/view/action_page.rs:186
 msgid "Pruning of Images Has Failed"
@@ -1739,23 +1722,20 @@ msgid "Image Built Has Failed"
 msgstr "Construcția Imaginii a eșuat"
 
 #: src/view/action_page.rs:189
-#, fuzzy
 msgid "Image Push Has Failed"
-msgstr "Construcția Imaginii a eșuat"
+msgstr "Trimiterea imaginii a eșuat"
 
 #: src/view/action_page.rs:190
-#, fuzzy
 msgid "Pruning of Containers Has Failed"
-msgstr "Suprimarea imaginilor a eșuat"
+msgstr "Suprimarea containerelor a eșuat"
 
 #: src/view/action_page.rs:191
 msgid "Container Creation Has Failed"
 msgstr "Crearea containerului a eșuat"
 
 #: src/view/action_page.rs:192
-#, fuzzy
 msgid "Container Start Has Failed"
-msgstr "Crearea containerului a eșuat"
+msgstr "Pornirea containerului a eșuat"
 
 #: src/view/action_page.rs:193
 msgid "Image Commitment Has Failed"
@@ -1766,32 +1746,28 @@ msgid "Copying Files Has Failed"
 msgstr "Copierea fișierelor a eșuat"
 
 #: src/view/action_page.rs:195
-#, fuzzy
 msgid "Pruning of Pods Has Failed"
-msgstr "Suprimarea imaginilor a eșuat"
+msgstr "Suprimarea capsulelor a eșuat"
 
 #: src/view/action_page.rs:196
 msgid "Pod Creation Has Failed"
 msgstr "Crearea podului a eșuat"
 
 #: src/view/action_page.rs:197
-#, fuzzy
 msgid "Volume Creation Has Failed"
-msgstr "Crearea podului a eșuat"
+msgstr "Crearea volumului a eșuat"
 
 #: src/view/action_page.rs:198
-#, fuzzy
 msgid "Pruning of Volumes Has Failed"
-msgstr "Suprimarea imaginilor a eșuat"
+msgstr "Suprimarea volumelor a eșuat"
 
 #: src/view/action_page.rs:241
 msgid "After {}"
 msgstr "După {}"
 
 #: src/view/action_page.rs:281
-#, fuzzy
 msgid "Action"
-msgstr "Conexiuni"
+msgstr "Acțiune"
 
 #: src/view/action_page.rs:290
 msgid "Error on opening artifact"
@@ -1847,19 +1823,16 @@ msgstr "A eșuat după {}"
 
 #: src/view/actions_sidebar.ui:18 src/view/client_view.ui:64
 #: src/view/client_view.ui:207
-#, fuzzy
 msgid "Actions"
-msgstr "Conexiuni"
+msgstr "Acțiuni"
 
 #: src/view/actions_sidebar.ui:26
-#, fuzzy
 msgid "Clear Finished Actions"
-msgstr "Acțiune asupra Podurilor terminate"
+msgstr "Curăță acțiunile terminate"
 
 #: src/view/actions_sidebar.ui:48
-#, fuzzy
 msgid "No Actions"
-msgstr "Nu există operațiuni"
+msgstr "Nu există acțiuni"
 
 #: src/view/client_view.rs:239 src/view/containers_panel.ui:65
 #: src/view/containers_panel.ui:133 src/view/containers_panel.ui:365
@@ -1910,15 +1883,13 @@ msgid "Connections"
 msgstr "Conexiuni"
 
 #: src/view/client_view.ui:82
-#, fuzzy
 msgctxt "app name"
 msgid "Pods"
 msgstr "Poduri"
 
 #: src/view/client_view.ui:231
-#, fuzzy
 msgid "Content"
-msgstr "Container"
+msgstr "Conținut"
 
 #: src/view/connection_chooser_page.ui:24
 msgid "Connect to Podman"
@@ -1929,9 +1900,8 @@ msgid "Either choose an existing connection or create a new one."
 msgstr "Alegeți o conexiune existentă sau creați una nouă."
 
 #: src/view/connection_chooser_page.ui:72 src/view/welcome_page.ui:82
-#, fuzzy
 msgid "_New Connection"
-msgstr "Conexiune nouă"
+msgstr "Conexiune _nouă"
 
 #: src/view/connection_creation_page.rs:138
 msgid "official documentation"
@@ -2118,9 +2088,8 @@ msgid "_Confirm"
 msgstr "_Confirmă"
 
 #: src/view/connections_sidebar.ui:26
-#, fuzzy
 msgid "New Connection (Ctrl+Shift+N)"
-msgstr "Anterior (Ctrl+Shift+G)"
+msgstr "Conexiune nouă (Ctrl+Shift+N)"
 
 #: src/view/connection_switcher.rs:123
 msgid "Confirm Switching Connection"
@@ -2308,9 +2277,8 @@ msgid "Interval"
 msgstr "Interval"
 
 #: src/view/container_creation_page.ui:374
-#, fuzzy
 msgid "Interval in seconds how often health check is run."
-msgstr "Frecvența cu care se execută verificarea stării de sănătate."
+msgstr "Frecvența în secunde cu care se execută verificarea stării de sănătate."
 
 #: src/view/container_creation_page.ui:390
 #: src/view/container_health_check_page.ui:71
@@ -2318,23 +2286,22 @@ msgid "Timeout"
 msgstr "Timeout"
 
 #: src/view/container_creation_page.ui:391
-#, fuzzy
 msgid ""
 "The maximum time in seconds allowed to complete the health check before an "
 "interval is considered failed."
 msgstr ""
-"Timpul maxim permis pentru a finaliza verificarea de sănătate înainte ca un "
-"interval să fie considerat eșuat."
+"Timpul maxim permis, în secunde, pentru a finaliza verificarea de sănătate "
+"înainte ca un interval să fie considerat eșuat."
 
 #: src/view/container_creation_page.ui:407
-#, fuzzy
 msgid "Start Period"
-msgstr "Perioada de început"
+msgstr "Perioadă de început"
 
 #: src/view/container_creation_page.ui:408
-#, fuzzy
 msgid "The initialization time in seconds needed for a container to bootstrap."
-msgstr "Timpul de inițializare necesar pentru ca un container să pornească."
+msgstr ""
+"Timpul de inițializare, în secunde, necesar pentru ca un container să se "
+"inițializeze."
 
 #: src/view/container_creation_page.ui:424
 #: src/view/container_health_check_page.ui:65
@@ -2572,14 +2539,12 @@ msgid "Error resuming container"
 msgstr "Eroare la reluarea containerului"
 
 #: src/view/container_log_page.ui:12 src/view/scalable_text_view_page.ui:12
-#, fuzzy
 msgid "_Save as File"
-msgstr "Salvare ca fișier"
+msgstr "_Salvare ca fișier"
 
 #: src/view/container_log_page.ui:18
-#, fuzzy
 msgid "Show _Timestamps"
-msgstr "Marcaje temporale"
+msgstr "Afișare marcaje _temporale"
 
 #: src/view/container_log_page.ui:66
 msgid "Container Logs"
@@ -2728,9 +2693,8 @@ msgid "Disk"
 msgstr "Disc"
 
 #: src/view/container_row.rs:363
-#, fuzzy
 msgid "Container {}"
-msgstr "Container"
+msgstr "Container {}"
 
 #: src/view/container.rs:56 src/view/containers_panel.rs:574
 msgid "Error on starting container"
@@ -2769,12 +2733,11 @@ msgid "1 container, stopped"
 msgstr "1 container, oprit"
 
 #: src/view/containers_panel.rs:220
-#, fuzzy
 msgid "{} container total, {} running"
 msgid_plural "{} containers total, {} running"
-msgstr[0] "{} container în total, {} în curs de executare"
-msgstr[1] "{} containere în total, {} în curs de executare"
-msgstr[2] "{} containere în total, {} în curs de executare"
+msgstr[0] "{} container în total, {} în curs de executare"
+msgstr[1] "{} containere în total, {} în curs de executare"
+msgstr[2] "{} containere în total, {} în curs de executare"
 
 #: src/view/containers_panel.rs:236
 msgid "{} Selected Container"
@@ -2796,20 +2759,17 @@ msgstr ""
 "containerele care rulează vor fi oprite!"
 
 #: src/view/containers_panel.ui:6 src/view/containers_panel.ui:384
-#, fuzzy
 msgid "_Create Container"
-msgstr "Creați un container"
+msgstr "_Creare de container"
 
 #: src/view/containers_panel.ui:10
-#, fuzzy
 msgid "_Prune Stopped Containers"
-msgstr "Creați un container"
+msgstr "Curățare de containere oprite"
 
 #: src/view/containers_panel.ui:17 src/view/images_panel.ui:42
 #: src/view/pods_panel.ui:17 src/view/volumes_panel.ui:17
-#, fuzzy
 msgid "_Select Visible"
-msgstr "Selectați fișier gazdă"
+msgstr "_Selectare vizibilitate"
 
 #: src/view/containers_panel.ui:21 src/view/images_panel.ui:46
 #: src/view/pods_panel.ui:21 src/view/volumes_panel.ui:21
@@ -2817,20 +2777,17 @@ msgid "Select None"
 msgstr "Selectați niciunul"
 
 #: src/view/containers_panel.ui:116 src/view/containers_prune_page.ui:42
-#, fuzzy
 msgid "Prune Stopped Containers"
-msgstr "Creați un container"
+msgstr "Curățare de containere oprite"
 
 #: src/view/containers_panel.ui:123 src/view/images_panel.ui:148
 #: src/view/pods_panel.ui:123 src/view/volumes_panel.ui:123
-#, fuzzy
 msgid "More Actions"
-msgstr "Nu există operațiuni"
+msgstr "Mai multe acțiuni"
 
 #: src/view/containers_panel.ui:141
-#, fuzzy
 msgid "Show Only Running Containers"
-msgstr "Să se afișeze doar containerele care rulează"
+msgstr "Afișarea doar a containerelor în curs de execuție"
 
 #: src/view/containers_panel.ui:149 src/view/images_panel.ui:170
 #: src/view/pods_panel.ui:145 src/view/volumes_panel.ui:145
@@ -2861,17 +2818,14 @@ msgid "Prune Options"
 msgstr "Opțiuni de suprimare"
 
 #: src/view/containers_prune_page.ui:69
-#, fuzzy
 msgid "Prune containers created before this timestamp."
-msgstr "Elimină imaginile create înainte de acest moment."
+msgstr "Elimină containerele create înainte de acest moment."
 
 #: src/view/container_terminal_page.ui:32
-#, fuzzy
 msgid "Detach Terminal"
-msgstr "Terminal"
+msgstr "Detașează Terminalul"
 
 #: src/view/container_terminal_page.ui:39
-#, fuzzy
 msgid "Container Terminal"
 msgstr "TTY în Container"
 
@@ -2909,7 +2863,6 @@ msgid "Start"
 msgstr "Start"
 
 #: src/view/device_row.ui:69 src/view/mount_row.ui:139
-#, fuzzy
 msgid "Container Path"
 msgstr "Calea în container"
 
@@ -2984,14 +2937,12 @@ msgid "Image '{}' has been deleted"
 msgstr "Imaginea '{}' a fost ștearsă"
 
 #: src/view/image_details_page.ui:7
-#, fuzzy
 msgid "Create Repository Tag"
-msgstr "Etichetă de depozit"
+msgstr "Creare de etichetă de depozit"
 
 #: src/view/image_details_page.ui:66
-#, fuzzy
 msgid "Delete Image"
-msgstr "_Ștergeți această imagine"
+msgstr "Suprimarea imaginii"
 
 #: src/view/image_details_page.ui:87
 msgid "Disk space"
@@ -3074,9 +3025,8 @@ msgid "Download Image"
 msgstr "Descărcați imaginea"
 
 #: src/view/image_row.rs:207
-#, fuzzy
 msgid "Image {}"
-msgstr "Imagine"
+msgstr "Imagine {}"
 
 #: src/view/image.rs:18
 msgid "Confirm Forced Image Deletion"
@@ -3181,14 +3131,12 @@ msgid "Tag ('latest' if empty)"
 msgstr "Etichetă ('cel mai recent' dacă este goală)"
 
 #: src/view/image_selection_combo_row.rs:87
-#, fuzzy
 msgid "Select Image"
-msgstr "{} Imagine selectată"
+msgstr "Selecționarea imaginii"
 
 #: src/view/image_selection_combo_row.rs:88
 #: src/view/image_selection_combo_row.ui:4
 #: src/view/image_selection_combo_row.ui:15
-#, fuzzy
 msgid "Local Image"
 msgstr "Imagine locală"
 
@@ -3203,9 +3151,8 @@ msgid "Filter"
 msgstr "Filtru"
 
 #: src/view/image_selection_page.ui:35
-#, fuzzy
 msgid "Select Local Image"
-msgstr "Imagine locală"
+msgstr "Selecționare de imagine locală"
 
 #: src/view/images_panel.rs:187
 msgid "1 image, used"
@@ -3216,12 +3163,11 @@ msgid "1 image, unused"
 msgstr "1 imagine, neutilizată"
 
 #: src/view/images_panel.rs:193
-#, fuzzy
 msgid "{} image total ({}), {} unused ({})"
 msgid_plural "{} images total ({}), {} unused ({})"
-msgstr[0] "{} imagine în total, {} {} neutilizată, {}"
-msgstr[1] "{} imagini în total, {} {} neutilizate, {}"
-msgstr[2] "{} imagini în total, {} {} neutilizate, {}"
+msgstr[0] "{} imagine în total ({}), {} neutilizată ({})"
+msgstr[1] "{} imagini în total ({}), {} neutilizate ({})"
+msgstr[2] "{} imagini în total ({}), {} neutilizate ({})"
 
 #: src/view/images_panel.rs:214
 msgid "{} Selected Image"
@@ -3247,32 +3193,28 @@ msgid "_Prune Unused Images"
 msgstr "Su_primați imaginile nefolosite"
 
 #: src/view/images_panel.ui:132
-#, fuzzy
 msgid "Create Image"
-msgstr "Imagine la distanță"
+msgstr "Creare de Imagine"
 
 #: src/view/images_panel.ui:141
 msgid "Prune Unused Images"
 msgstr "Suprimarea imaginilor nefolosite"
 
 #: src/view/images_panel.ui:162
-#, fuzzy
 msgid "Show Only Tagged Images"
-msgstr "Descărcați imaginea"
+msgstr "Afișarea numai a imaginilor etichetate"
 
 #: src/view/images_panel.ui:287
 msgid "You can use the buttons below to add an initial image."
 msgstr "Puteți folosi butoanele de mai jos pentru a adăuga o imagine inițială."
 
 #: src/view/images_panel.ui:302
-#, fuzzy
 msgid "_Download Image"
-msgstr "Descărcați imaginea"
+msgstr "_Descărcare de imagine"
 
 #: src/view/images_panel.ui:314
-#, fuzzy
 msgid "_Build Image"
-msgstr "Construiți imaginea"
+msgstr "Construcție de imagine"
 
 #: src/view/images_prune_page.ui:42
 msgid "Prune Images"
@@ -3336,9 +3278,8 @@ msgstr[1] "{} Imagini"
 msgstr[2] "{} Imagini"
 
 #: src/view/info_panel.rs:296
-#, fuzzy
 msgid "Error on retrieving info"
-msgstr "Eroare la recuperarea jurnalelor"
+msgstr "Eroare la recuperarea informației"
 
 #: src/view/info_panel.ui:60 src/view/info_panel.ui:94
 msgid "Version"
@@ -3418,14 +3359,12 @@ msgid "Volume Path"
 msgstr "Calea volumului"
 
 #: src/view/info_panel.ui:237
-#, fuzzy
 msgid "Error While Gathering Info"
-msgstr "Eroare în timpul urmăririi jurnalului"
+msgstr "Eroare în timpul colectării informațiilor"
 
 #: src/view/info_panel.ui:238
-#, fuzzy
 msgid "You can use the buttons below to retry."
-msgstr "Puteți folosi butonul de mai jos pentru a crea un pod inițial."
+msgstr "Puteți folosi butoanele de mai jos pentru a reîncerca."
 
 #: src/view/key_val_row.rs:149 src/view/key_val_row.ui:20
 msgid "Key"
@@ -3450,9 +3389,8 @@ msgstr "Corespondență"
 
 #: src/view/mount_row.ui:94 src/view/mount_row.ui:111
 #: src/view/volume_details_page.ui:16
-#, fuzzy
 msgid "Volume"
-msgstr "Volume"
+msgstr "Volum"
 
 #: src/view/mount_row.ui:151
 msgid "SELinux"
@@ -3530,16 +3468,15 @@ msgstr ""
 
 #: src/view/pod_details_page.ui:251
 msgid "Generate Kubernetes YAML based on this pod."
-msgstr "Generați un YAML Kubernetes pe baza acestui container."
+msgstr "Generați un YAML Kubernetes pe baza acestei capsule."
 
 #: src/view/pod_details_page.ui:268
 msgid "View processes that are currently running inside the pod."
 msgstr "Vizualizați procesele care rulează în prezent în pod."
 
 #: src/view/pod_row.rs:198
-#, fuzzy
 msgid "Pod Details"
-msgstr "Detalii"
+msgstr "Detaliile capsulei"
 
 #: src/view/pod.rs:46 src/view/pods_panel.rs:466
 msgid "Error on starting pod"
@@ -3591,9 +3528,8 @@ msgstr ""
 "containerele sale."
 
 #: src/view/pod_selection_page.ui:35
-#, fuzzy
 msgid "Select Pod"
-msgstr "{} Pod selectat"
+msgstr "Selectare de capsulă"
 
 #: src/view/pods_panel.rs:213
 msgid "1 pod, running"
@@ -3604,12 +3540,11 @@ msgid "1 pod, stopped"
 msgstr "1 pod, oprit"
 
 #: src/view/pods_panel.rs:219
-#, fuzzy
 msgid "{} pod total, {} running"
 msgid_plural "{} pods total, {} running"
-msgstr[0] "{} pod în total, {} în curs de execuție"
-msgstr[1] "{} poduri în total, {} în curs de execuție"
-msgstr[2] "{} poduri în total, {} în curs de execuție"
+msgstr[0] "{} capsulă în total, {} în curs de execuție"
+msgstr[1] "{} capsule în total, {} în curs de execuție"
+msgstr[2] "{} caosule în total, {} în curs de execuție"
 
 #: src/view/pods_panel.rs:235
 msgid "{} Selected Pod"
@@ -3627,23 +3562,20 @@ msgid "All associated containers will also be removed!"
 msgstr "Toate containerele asociate vor fi, de asemenea, eliminate!"
 
 #: src/view/pods_panel.ui:6 src/view/pods_panel.ui:380
-#, fuzzy
 msgid "_Create Pod"
-msgstr "Creați Pod"
+msgstr "_Creare de capsulă"
 
 #: src/view/pods_panel.ui:10
-#, fuzzy
 msgid "_Prune Stopped Pods"
-msgstr "Eroare la oprirea podului"
+msgstr "Curățare de capsule oprite"
 
 #: src/view/pods_panel.ui:116 src/view/pods_prune_page.ui:42
 msgid "Prune Stopped Pods"
 msgstr "Șterge capsulele oprite"
 
 #: src/view/pods_panel.ui:137
-#, fuzzy
 msgid "Show Only Running Pods"
-msgstr "Să se afișeze doar podurile în funcțiune"
+msgstr "Să se afișeze doar capsulele în funcțiune"
 
 #: src/view/pods_panel.ui:369
 msgid "No Pods Found"
@@ -3674,9 +3606,8 @@ msgid "IP Address"
 msgstr "Adresă IP"
 
 #: src/view/port_mapping_row.ui:104
-#, fuzzy
 msgid "Host Port"
-msgstr "Calea în sistemul gazdă"
+msgstr "Portul în sistemul gazdă"
 
 #: src/view/port_mapping_row.ui:105
 msgid ""
@@ -3687,9 +3618,8 @@ msgstr ""
 "1024)."
 
 #: src/view/port_mapping_row.ui:120
-#, fuzzy
 msgid "Container Port"
-msgstr "Magazin de containere"
+msgstr "Portul containerului"
 
 #: src/view/repo_tag_add_dialog.rs:98
 msgid "Repo tag must contain a colon “:”"
@@ -3708,32 +3638,28 @@ msgid "Repository Tag"
 msgstr "Etichetă de depozit"
 
 #: src/view/repo_tag_push_page.rs:170
-#, fuzzy
 msgid "Error on accessing keyring"
-msgstr "Eroare la întreruperea containerului"
+msgstr "Eroare la accesarea sistemului de chei"
 
 #: src/view/repo_tag_push_page.rs:264
-#, fuzzy
 msgid "Error saving credentials"
-msgstr "Eroare la salvarea jurnalelor"
+msgstr "Eroare la salvarea informațiilor de conectare"
 
 #: src/view/repo_tag_push_page.rs:265
 msgid "Secret Service is not available"
 msgstr "Secret Service nu este disponibil"
 
 #: src/view/repo_tag_push_page.ui:45
-#, fuzzy
 msgid "Push Image"
-msgstr "Suprimați imaginile"
+msgstr "Trimitere de imagine"
 
 #: src/view/repo_tag_push_page.ui:55
 msgid "_Push"
 msgstr "A_pasă"
 
 #: src/view/repo_tag_push_page.ui:68
-#, fuzzy
 msgid "Options"
-msgstr "Operațiuni"
+msgstr "Opțiuni"
 
 #: src/view/repo_tag_push_page.ui:72
 msgid "TLS Verify"
@@ -3760,9 +3686,8 @@ msgid "Token"
 msgstr "Jeton"
 
 #: src/view/repo_tag_push_page.ui:128
-#, fuzzy
 msgid "Username"
-msgstr "Recuperare nume de utilizator"
+msgstr "Nume de utilizator"
 
 #: src/view/repo_tag_push_page.ui:152
 msgid "Save Credentials"
@@ -3777,9 +3702,8 @@ msgid "Pull Latest"
 msgstr "Recuperează pe cel mai recent"
 
 #: src/view/repo_tag_row.ui:43
-#, fuzzy
 msgid "Push to Registry"
-msgstr "Registru"
+msgstr "Trimitere în Registru"
 
 #: src/view/repo_tag_row.ui:54
 msgid "Untag"
@@ -3806,9 +3730,8 @@ msgid "Pod Kube Generation"
 msgstr "Generare de Pod Kube"
 
 #: src/view/scalable_text_view_page.rs:301
-#, fuzzy
 msgid "Volume Inspection"
-msgstr "Inspecția imaginii"
+msgstr "Inspecția volumelor"
 
 #: src/view/scalable_text_view_page.rs:327
 msgid "Could not set language to '{}'"
@@ -3840,152 +3763,129 @@ msgstr "Procese pod"
 
 #: src/view/volume_creation_page.ui:42 src/view/volumes_group.ui:12
 #: src/view/volumes_panel.ui:108
-#, fuzzy
 msgid "Create Volume"
-msgstr "Imagine la distanță"
+msgstr "Creare de volum"
 
 #: src/view/volume_details_page.rs:178
-#, fuzzy
 msgid "Volume '{}' has been deleted"
-msgstr "Imaginea '{}' a fost ștearsă"
+msgstr "Volumul '{}' a fost șters"
 
 #: src/view/volume_details_page.ui:40
-#, fuzzy
 msgid "Delete Volume"
-msgstr "_Ștergeți această imagine"
+msgstr "Suprimarea volumului"
 
 #: src/view/volume_details_page.ui:52
 msgid "Driver"
 msgstr "Driver"
 
 #: src/view/volume_details_page.ui:64
-#, fuzzy
 msgid "Mount Path"
-msgstr "Calea în sistemul gazdă"
+msgstr "Montare de cale"
 
 #: src/view/volume_details_page.ui:78
-#, fuzzy
 msgid "View all volume properties in a structured text form."
 msgstr ""
-"Vizualizați toate proprietățile imaginii într-o formă de text structurată."
+"Vizualizați toate proprietățile volumului într-o formă de text structurată."
 
 #: src/view/volume_row.rs:174
 msgid "{} old"
 msgstr "{} vechi"
 
 #: src/view/volume_row.rs:271
-#, fuzzy
 msgid "Volume {}"
-msgstr "Volume"
+msgstr "Volum {}"
 
 #: src/view/volume.rs:18
-#, fuzzy
 msgid "Confirm Forced Volume Deletion"
-msgstr "Confirmați ștergerea forțată a imaginii"
+msgstr "Confirmați ștergerea forțată a volumelor"
 
 #. Translators: The "{}" is a placeholder for the container name.
 #: src/view/volume.rs:24
-#, fuzzy
 msgid ""
 "Volume is used by container <b>{}</b>. Deleting the volume will also delete "
 "these containers."
 msgstr ""
-"Imaginea este utilizată de containerul <b>{}</b>. Ștergerea imaginii va "
-"șterge, de asemenea, toate containerele asociate acesteia."
+"Volumul este utilizat de containerul <b>{}</b>. Suprimarea volumului va "
+"determina, de asemenea, ștergerea tuturor containerele asociate."
 
 #: src/view/volume.rs:28
-#, fuzzy
 msgid ""
 "Volume is used by a container. Deleting the volume will also delete all "
 "these containers."
 msgstr ""
-"Imaginea este utilizată de un container. Ștergerea imaginii va șterge, de "
-"asemenea, toate containerele asociate acesteia."
+"Volumul este utilizat de un container. Suprimarea volumului va determina, de "
+"asemenea, ștergerea tuturor containerelor asociate."
 
 #. Translators: The "{}" is a placeholder for the volume name.
 #: src/view/volume.rs:65 src/view/volumes_panel.rs:458
-#, fuzzy
 msgid "Error on deleting volume '{}'"
-msgstr "Eroare la ștergerea imaginii '{}'"
+msgstr "Eroare la ștergerea volumului '{}'"
 
 #: src/view/volume_selection_page.ui:35
-#, fuzzy
 msgid "Select Volume"
-msgstr "Selectați niciunul"
+msgstr "Selectare volum"
 
 #: src/view/volumes_panel.rs:179
-#, fuzzy
 msgid "1 volume, used"
-msgstr "1 imagine, utilizată"
+msgstr "1 volum, utilizat"
 
 #: src/view/volumes_panel.rs:181
-#, fuzzy
 msgid "1 volume, unused"
-msgstr "1 imagine, neutilizată"
+msgstr "1 volum, neutilizat"
 
 #: src/view/volumes_panel.rs:185
-#, fuzzy
 msgid "{} volumes total, {} unused"
 msgid_plural "{} volumes total, {} unused"
-msgstr[0] "{} imagine în total, {} {} neutilizată, {}"
-msgstr[1] "{} imagini în total, {} {} neutilizate, {}"
-msgstr[2] "{} imagini în total, {} {} neutilizate, {}"
+msgstr[0] "{} volum în total, {} neutilizat"
+msgstr[1] "{} volume în total, {} neutilizate"
+msgstr[2] "{} volume în total, {} neutilizate"
 
 #: src/view/volumes_panel.rs:201
-#, fuzzy
 msgid "{} Selected Volume"
 msgid_plural "{} Selected Volumes"
-msgstr[0] "{} Imagine selectată"
-msgstr[1] "{} Imagini selectate"
-msgstr[2] "{} Imagini selectate"
+msgstr[0] "{} volum selecționat"
+msgstr[1] "{} volume selectate"
+msgstr[2] "{} volume selectate"
 
 #: src/view/volumes_panel.rs:428
-#, fuzzy
 msgid "Confirm Forced Deletion of Multiple Volumes"
-msgstr "Confirmați ștergerea forțată a mai multor imagini"
+msgstr "Confirmați ștergerea forțată a mai multor volume"
 
 #: src/view/volumes_panel.rs:430
-#, fuzzy
 msgid ""
 "There may be containers associated with some of the volumes, which will also "
 "be removed!"
 msgstr ""
-"Pot exista containere asociate cu aceste imagini, care vor fi, de asemenea, "
+"Pot exista containere asociate cu aceste volume, care vor fi, de asemenea, "
 "eliminate!"
 
 #: src/view/volumes_panel.ui:6 src/view/volumes_panel.ui:272
-#, fuzzy
 msgid "_Create Volume"
-msgstr "Creați Pod"
+msgstr "_Creați Volum"
 
 #: src/view/volumes_panel.ui:10
-#, fuzzy
 msgid "_Prune Volumes"
-msgstr "Suprimați imaginile"
+msgstr "Suprimați volumele"
 
 #: src/view/volumes_panel.ui:116 src/view/volumes_prune_page.ui:42
-#, fuzzy
 msgid "Prune Volumes"
-msgstr "Suprimați imaginile"
+msgstr "Suprimați volumele"
 
 #: src/view/volumes_panel.ui:137
 msgid "Show Only Used Volumes"
 msgstr "Afișează doar volumele utilizate"
 
 #: src/view/volumes_panel.ui:261
-#, fuzzy
 msgid "No Volumes Found"
-msgstr "Nu au fost găsite imagini"
+msgstr "Nu au fost găsite volume"
 
 #: src/view/volumes_panel.ui:262
-#, fuzzy
 msgid "You can use the buttons below to add an initial volume."
-msgstr "Puteți folosi butoanele de mai jos pentru a adăuga o imagine inițială."
+msgstr "Puteți folosi butoanele de mai jos pentru a adăuga un volum inițial."
 
 #: src/view/volumes_prune_page.ui:70
-#, fuzzy
 msgid "Prune volumes created before this timestamp."
-msgstr "Elimină imaginile create înainte de acest moment."
+msgstr "Elimină volumele create înainte de acest moment."
 
 #: src/view/welcome_page.ui:59
 msgid "Welcome to Pods"
@@ -4000,24 +3900,20 @@ msgid "Confirm Exiting The Application"
 msgstr "Confirmați ieșirea din aplicație"
 
 #: src/view/window.rs:298
-#, fuzzy
 msgid "Error on loading images"
-msgstr "Eroare la încărcarea detaliilor imaginii"
+msgstr "Eroare la încărcarea imaginii"
 
 #: src/view/window.rs:299
-#, fuzzy
 msgid "Error on loading containers"
-msgstr "Eroare la încărcarea detaliilor containerului"
+msgstr "Eroare la încărcarea containerului"
 
 #: src/view/window.rs:300
-#, fuzzy
 msgid "Error on loading pods"
-msgstr "Eroare la încărcarea datelor podului"
+msgstr "Eroare la încărcarea datelor capsulei"
 
 #: src/view/window.rs:301
-#, fuzzy
 msgid "Error on loading volumes"
-msgstr "Eroare la încărcare {}"
+msgstr "Eroare la încărcarea volumelor"
 
 #. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
 #: src/widget/date_time_row.rs:131
@@ -4049,9 +3945,8 @@ msgid "_About Pods"
 msgstr "_Despre Pods"
 
 #: src/widget/main_menu_button.ui:32
-#, fuzzy
 msgid "Main Menu"
-msgstr "Vizualizarea principală"
+msgstr "Meniul principal"
 
 #: src/widget/source_view_search_widget.rs:157
 msgid "0 of {}"
