@@ -1,3 +1,4 @@
+use std::cell::OnceCell;
 use std::cell::RefCell;
 use std::collections::HashMap;
 use std::rc::Rc;
@@ -8,11 +9,14 @@ use gettextrs::gettext;
 use glib::clone;
 use glib::closure;
 use glib::Properties;
+use gtk::gdk;
 use gtk::glib;
 use gtk::CompositeTemplate;
 
 use crate::model;
 use crate::utils;
+
+const ACTION_SEARCH: &str = "top-page.search";
 
 mod imp {
     use super::*;
@@ -21,11 +25,19 @@ mod imp {
     #[properties(wrapper_type = super::TopPage)]
     #[template(resource = "/com/github/marhkb/Pods/ui/view/top_page.ui")]
     pub(crate) struct TopPage {
+        pub(super) filter: OnceCell<gtk::Filter>,
+        pub(super) search_term: RefCell<String>,
         #[property(get, set, construct_only, nullable)]
         /// A `Container` or a `Pod`
         pub(super) top_source: glib::WeakRef<glib::Object>,
         #[template_child]
+        pub(super) search_button: TemplateChild<gtk::ToggleButton>,
+        #[template_child]
         pub(super) window_title: TemplateChild<adw::WindowTitle>,
+        #[template_child]
+        pub(super) search_bar: TemplateChild<gtk::SearchBar>,
+        #[template_child]
+        pub(super) search_entry: TemplateChild<gtk::SearchEntry>,
         #[template_child]
         pub(super) column_view: TemplateChild<gtk::ColumnView>,
     }
@@ -38,6 +50,18 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+            klass.bind_template_callbacks();
+
+            klass.add_binding_action(
+                gdk::Key::F,
+                gdk::ModifierType::CONTROL_MASK,
+                ACTION_SEARCH,
+                None,
+            );
+
+            klass.install_action(ACTION_SEARCH, None, |widget, _, _| {
+                widget.toggle_search_mode();
+            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -62,6 +86,8 @@ mod imp {
             self.parent_constructed();
 
             let obj = &*self.obj();
+
+            self.search_entry.set_key_capture_widget(Some(obj));
 
             if let Some(top_source) = obj.top_source() {
                 if let Some(container) = top_source.downcast_ref::<model::Container>() {
@@ -273,14 +299,34 @@ mod imp {
                 .unwrap();
 
             let sorter = self.column_view.sorter().unwrap();
-
             model.connect_updated(clone!(@weak sorter => move |_| {
                 sorter.changed(gtk::SorterChange::Different);
             }));
 
+            let filter =
+                gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
+                    let term = &*obj.imp().search_term.borrow();
+
+                    if term.is_empty() {
+                        true
+                    } else {
+                        let process = item.downcast_ref::<model::Process>().unwrap();
+                        process
+                            .user().to_lowercase().contains(term)
+                            || process
+                                .tty().to_lowercase().contains(term)
+                            || process
+                                .command().to_lowercase().contains(term)
+                            || process.pid().to_string().contains(term)
+                            || process.ppid().to_string().contains(term)
+                    }
+                }));
+            let filter_list_model = gtk::FilterListModel::new(Some(model), Some(filter.clone()));
+            self.filter.set(filter.upcast()).unwrap();
+
             self.column_view
                 .set_model(Some(&gtk::MultiSelection::new(Some(
-                    gtk::SortListModel::new(Some(model), Some(sorter)),
+                    gtk::SortListModel::new(Some(filter_list_model), Some(sorter)),
                 ))));
         }
 
@@ -290,6 +336,43 @@ mod imp {
     }
 
     impl WidgetImpl for TopPage {}
+
+    #[gtk::template_callbacks]
+    impl TopPage {
+        #[template_callback]
+        fn on_notify_search_mode_enabled(&self) {
+            if self.search_bar.is_search_mode() {
+                self.search_entry.grab_focus();
+            } else {
+                self.search_entry.set_text("");
+            }
+        }
+
+        #[template_callback]
+        fn on_search_started(&self) {
+            self.search_button.set_active(true)
+        }
+
+        #[template_callback]
+        fn on_search_changed(&self) {
+            let term = self.search_entry.text().trim().to_lowercase();
+
+            let filter_change = if self.search_term.borrow().contains(&term) {
+                gtk::FilterChange::LessStrict
+            } else {
+                gtk::FilterChange::MoreStrict
+            };
+
+            self.search_term.replace(term);
+            self.update_filter(filter_change);
+        }
+
+        fn update_filter(&self, filter_change: gtk::FilterChange) {
+            if let Some(filter) = self.filter.get() {
+                filter.changed(filter_change);
+            }
+        }
+    }
 }
 
 glib::wrapper! {
@@ -309,6 +392,16 @@ impl From<&model::Container> for TopPage {
 impl From<&model::Pod> for TopPage {
     fn from(pod: &model::Pod) -> Self {
         glib::Object::builder().property("top-source", pod).build()
+    }
+}
+
+impl TopPage {
+    pub(crate) fn set_search_mode(&self, value: bool) {
+        self.imp().search_bar.set_search_mode(value);
+    }
+
+    pub(crate) fn toggle_search_mode(&self) {
+        self.set_search_mode(!self.imp().search_bar.is_search_mode());
     }
 }
 
