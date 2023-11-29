@@ -49,6 +49,7 @@
           <li>Build about dialog from appdata. (#743)</li>
           <li>Close all remaining processes after container terminal exits. (#744)</li>
           <li>Improve performance by utilizing the <em>SignalListItemFactory::setup</em> signal. (#745)</li>
+          <li>Port <em>GtkTreeView</em> to <em>GtkColumnView</em>. (#746)</li>
         </ul>
       </description>
     </release>
