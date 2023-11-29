@@ -50,6 +50,7 @@
           <li>Close all remaining processes after container terminal exits. (#744)</li>
           <li>Improve performance by utilizing the <em>SignalListItemFactory::setup</em> signal. (#745)</li>
           <li>Port <em>GtkTreeView</em> to <em>GtkColumnView</em>. (#746)</li>
+          <li>Enable searching for container and pod processes. (#747)</li>
         </ul>
       </description>
     </release>
