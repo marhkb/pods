@@ -19,10 +19,10 @@
         </child>
 
         <child>
-          <object class="GtkScrolledWindow" id="scrolled_window">
+          <object class="GtkScrolledWindow">
 
             <child>
-              <object class="GtkTreeView" id="tree_view"/>
+              <object class="GtkColumnView" id="column_view"/>
             </child>
 
           </object>

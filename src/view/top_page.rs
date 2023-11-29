@@ -1,18 +1,17 @@
-use std::cell::OnceCell;
+use std::cell::RefCell;
+use std::collections::HashMap;
+use std::rc::Rc;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use futures::stream;
-use futures::StreamExt;
-use futures::TryStreamExt;
 use gettextrs::gettext;
 use glib::clone;
+use glib::closure;
 use glib::Properties;
 use gtk::glib;
 use gtk::CompositeTemplate;
 
 use crate::model;
-use crate::podman;
 use crate::utils;
 
 mod imp {
@@ -22,14 +21,13 @@ mod imp {
     #[properties(wrapper_type = super::TopPage)]
     #[template(resource = "/com/github/marhkb/Pods/ui/view/top_page.ui")]
     pub(crate) struct TopPage {
-        /// A `Container` or a `Pod`
-        pub(super) tree_store: OnceCell<gtk::TreeStore>,
         #[property(get, set, construct_only, nullable)]
+        /// A `Container` or a `Pod`
         pub(super) top_source: glib::WeakRef<glib::Object>,
         #[template_child]
         pub(super) window_title: TemplateChild<adw::WindowTitle>,
         #[template_child]
-        pub(super) tree_view: TemplateChild<gtk::TreeView>,
+        pub(super) column_view: TemplateChild<gtk::ColumnView>,
     }
 
     #[glib::object_subclass]
@@ -79,7 +77,211 @@ mod imp {
                 }
             }
 
-            obj.connect_top_stream();
+            #[derive(Clone, Copy)]
+            enum PropertyType {
+                String,
+                Integer,
+                Float,
+                Elapsed,
+                CpuTime,
+            }
+
+            [
+                (
+                    "user",
+                    PropertyType::String,
+                    gettext("USER"),
+                    false,
+                    gtk::Align::Start,
+                ),
+                (
+                    "pid",
+                    PropertyType::Integer,
+                    gettext("PID"),
+                    false,
+                    gtk::Align::End,
+                ),
+                (
+                    "ppid",
+                    PropertyType::Integer,
+                    gettext("PPID"),
+                    false,
+                    gtk::Align::End,
+                ),
+                (
+                    "cpu",
+                    PropertyType::Float,
+                    gettext("%CPU"),
+                    false,
+                    gtk::Align::End,
+                ),
+                (
+                    "elapsed",
+                    PropertyType::Elapsed,
+                    gettext("ELAPSED"),
+                    false,
+                    gtk::Align::End,
+                ),
+                (
+                    "tty",
+                    PropertyType::String,
+                    gettext("TTY"),
+                    false,
+                    gtk::Align::Start,
+                ),
+                (
+                    "time",
+                    PropertyType::CpuTime,
+                    gettext("TIME"),
+                    false,
+                    gtk::Align::End,
+                ),
+                (
+                    "command",
+                    PropertyType::String,
+                    gettext("COMMAND"),
+                    true,
+                    gtk::Align::Start,
+                ),
+            ]
+            .into_iter()
+            .for_each(|(property_name, property_type, title, hexpand, halign)| {
+                let property_expr = model::Process::this_expression(property_name);
+                let display_expr: gtk::Expression = match property_type {
+                    PropertyType::String | PropertyType::Integer => property_expr.clone().upcast(),
+                    PropertyType::Float => property_expr
+                        .chain_closure::<String>(closure!(|_: glib::Object, float: f64| {
+                            format!(
+                                "{:.1$}",
+                                float,
+                                if float >= 100.0 {
+                                    0
+                                } else if float >= 10.0 {
+                                    1
+                                } else {
+                                    2
+                                }
+                            )
+                        }))
+                        .upcast(),
+                    PropertyType::Elapsed => property_expr
+                        .chain_closure::<String>(closure!(|_: glib::Object, elapsed: u64| {
+                            format_elapsed(elapsed as i64)
+                        }))
+                        .upcast(),
+                    PropertyType::CpuTime => property_expr
+                        .chain_closure::<String>(closure!(|_: glib::Object, cpu_time: u64| {
+                            format_cpu_time(cpu_time as i64)
+                        }))
+                        .upcast(),
+                };
+
+                let expr_watches = Rc::new(RefCell::new(HashMap::new()));
+
+                let factory = gtk::SignalListItemFactory::new();
+                factory.connect_setup(clone!(@weak expr_watches => move |_, list_item| {
+                    let label = gtk::Label::builder().halign(halign).build();
+                    if matches!(
+                        property_type,
+                        PropertyType::Integer
+                            | PropertyType::Float
+                            | PropertyType::Elapsed
+                            | PropertyType::CpuTime
+                    ) {
+                        label.add_css_class("numeric");
+                    }
+                    list_item
+                        .downcast_ref::<gtk::ListItem>()
+                        .unwrap()
+                        .set_child(Some(&label));
+
+                    expr_watches.borrow_mut().insert(label, None);
+                }));
+                factory.connect_bind(
+                    clone!(@strong display_expr, @strong expr_watches => move |_, list_item| {
+                        let list_item = list_item.downcast_ref::<gtk::ListItem>().unwrap();
+
+                        let process = list_item
+                            .item()
+                            .unwrap()
+                            .downcast::<model::Process>()
+                            .unwrap();
+
+                        let label = list_item.child().and_downcast::<gtk::Label>().unwrap();
+                        let expr_watch = display_expr.bind(&label, "label", Some(&process));
+                        *expr_watches.borrow_mut().get_mut(&label).unwrap() = Some(expr_watch);
+                    }),
+                );
+
+                factory.connect_unbind(clone!(@weak expr_watches => move |_, list_item| {
+                    let label = list_item
+                        .downcast_ref::<gtk::ListItem>()
+                        .unwrap()
+                        .child()
+                        .and_downcast::<gtk::Label>()
+                        .unwrap();
+                    expr_watches
+                        .borrow()
+                        .get(&label)
+                        .unwrap()
+                        .as_ref()
+                        .unwrap()
+                        .unwatch();
+                }));
+
+                factory.connect_teardown(move |_, list_item| {
+                    let label = list_item
+                        .downcast_ref::<gtk::ListItem>()
+                        .unwrap()
+                        .child()
+                        .and_downcast::<gtk::Label>()
+                        .unwrap();
+                    expr_watches.borrow_mut().remove(&label);
+                });
+
+                let column = gtk::ColumnViewColumn::builder()
+                    .title(title)
+                    .factory(&factory)
+                    .expand(hexpand)
+                    .sorter(&match property_type {
+                        PropertyType::String => {
+                            gtk::StringSorter::new(Some(property_expr)).upcast::<gtk::Sorter>()
+                        }
+                        PropertyType::Integer
+                        | PropertyType::Float
+                        | PropertyType::Elapsed
+                        | PropertyType::CpuTime => {
+                            gtk::NumericSorter::new(Some(property_expr)).upcast::<gtk::Sorter>()
+                        }
+                    })
+                    .build();
+
+                self.column_view.append_column(&column);
+            });
+
+            let model = obj
+                .top_source()
+                .map(|top_source| {
+                    if let Some(container) = top_source.downcast_ref::<model::Container>() {
+                        model::ProcessList::from(container)
+                    } else if let Some(pod) = top_source.downcast_ref::<model::Pod>() {
+                        model::ProcessList::from(pod)
+                    } else {
+                        unreachable!()
+                    }
+                })
+                .unwrap();
+
+            let sorter = self.column_view.sorter().unwrap();
+
+            model.connect_updated(clone!(@weak sorter => move |_| {
+                sorter.changed(gtk::SorterChange::Different);
+            }));
+
+            self.column_view
+                .set_model(Some(&gtk::MultiSelection::new(Some(
+                    gtk::SortListModel::new(Some(model), Some(sorter)),
+                ))));
         }
 
         fn dispose(&self) {
@@ -110,123 +312,25 @@ impl From<&model::Pod> for TopPage {
     }
 }
 
-impl TopPage {
-    fn connect_top_stream(&self) {
-        if let Some(processes_source) = self.top_source().as_ref().and_then(|obj| {
-            if let Some(container) = obj.downcast_ref::<model::Container>() {
-                container.api().map(|c| Box::new(c) as Box<dyn TopSource>)
-            } else if let Some(pod) = obj.downcast_ref::<model::Pod>() {
-                pod.api().map(|p| Box::new(p) as Box<dyn TopSource>)
-            } else {
-                unreachable!("unknown type for top source: {obj:?}")
-            }
-        }) {
-            utils::run_stream(
-                processes_source,
-                move |container| container.stream(),
-                clone!(@weak self as obj => @default-return glib::ControlFlow::Break, move |result: podman::Result<TopStreamElement>| {
-                    match result {
-                        Ok(top) => {
-                            let imp = obj.imp();
-                            let tree_store = imp.tree_store.get_or_init(|| {
-                                let tree_store = gtk::TreeStore::new(
-                                    &top.titles
-                                        .iter()
-                                        .map(|_| String::static_type())
-                                        .collect::<Vec<_>>(),
-                                );
-                                imp.tree_view.set_model(Some(&tree_store));
+pub(crate) fn format_elapsed(mut millis: i64) -> String {
+    let hours = millis / (60 * 60 * 1_000);
+    millis %= 60 * 60 * 1_000;
+    let minutes = millis / (60 * 1_000);
+    millis %= 60 * 1_000;
+    let seconds = millis / 1_000;
 
-                                top.titles.iter().enumerate().for_each(|(i, title)| {
-                                    let column = gtk::TreeViewColumn::with_attributes(
-                                        title,
-                                        &gtk::CellRendererText::new(),
-                                        &[("text", i as i32)],
-                                    );
-                                    column.set_sort_column_id(i as i32);
-                                    column.set_sizing(gtk::TreeViewColumnSizing::GrowOnly);
-                                    imp.tree_view.append_column(&column);
-                                });
-
-                                tree_store
-                            });
-
-                            // Remove processes that have disappeared.
-                            tree_store.foreach(|_, _, iter| {
-                                if !top
-                                    .processes
-                                    .iter()
-                                    .any(|process| process[1] == tree_store.get::<String>(iter, 1))
-                                {
-                                    tree_store.remove(iter);
-                                }
-                                true
-                            });
-
-                            // Replace and add processes.
-                            top.processes.iter().for_each(|process| {
-                                let row = process.iter()
-                                    .enumerate()
-                                    .map(|(i, v)| (i as u32, v as &dyn gtk::prelude::ToValue))
-                                    .collect::<Vec<_>>();
-
-                                let mut replaced = false;
-
-                                tree_store.foreach(|_, _, iter| {
-                                    if process[1] == tree_store.get::<String>(iter, 1) {
-                                        tree_store.set(iter, row.as_slice());
-                                        replaced = true;
-                                        true
-                                    } else {
-                                        false
-                                    }
-                                });
-
-                                if !replaced {
-                                    tree_store.set(&tree_store.append(None), row.as_slice());
-                                }
-                            });
-
-                            glib::ControlFlow::Continue
-                        }
-                        Err(e) => {
-                            log::warn!("Stopping top stream due to error: {e}");
-                            glib::ControlFlow::Break
-                        }
-                    }
-                }),
-            );
-        }
+    if hours > 0 {
+        format!("{}h{:02}:{:02}", hours, minutes, seconds)
+    } else {
+        format!("{}:{:02}.{:02}", minutes, seconds, (millis % 1_000) / 100)
     }
 }
 
-trait TopSource: Send {
-    fn stream(&self) -> stream::BoxStream<podman::Result<TopStreamElement>>;
-}
+pub(crate) fn format_cpu_time(mut millis: i64) -> String {
+    let minutes = millis / (60 * 1_000);
+    millis %= 60 * 1_000;
+    let seconds = millis / 1_000;
+    millis = (millis % 1_000) / 100;
 
-impl TopSource for podman::api::Container {
-    fn stream(&self) -> stream::BoxStream<podman::Result<TopStreamElement>> {
-        self.top_stream(&podman::opts::ContainerTopOpts::builder().delay(2).build())
-            .map_ok(|x| TopStreamElement {
-                processes: x.processes,
-                titles: x.titles,
-            })
-            .boxed()
-    }
-}
-
-impl TopSource for podman::api::Pod {
-    fn stream(&self) -> stream::BoxStream<podman::Result<TopStreamElement>> {
-        self.top_stream(&podman::opts::PodTopOpts::builder().delay(2).build())
-            .map_ok(|x| TopStreamElement {
-                processes: x.processes,
-                titles: x.titles,
-            })
-            .boxed()
-    }
-}
-
-struct TopStreamElement {
-    pub processes: Vec<Vec<String>>,
-    pub titles: Vec<String>,
+    format!("{}:{:02}.{:02}", minutes, seconds, millis)
 }
