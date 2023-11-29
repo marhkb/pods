@@ -11,8 +11,30 @@
         <child type="top">
           <object class="AdwHeaderBar">
 
+            <child type="start">
+              <object class="GtkToggleButton" id="search_button">
+                <property name="active" bind-source="search_bar" bind-property="search-mode-enabled" bind-flags="sync-create|bidirectional"/>
+                <property name="icon-name">system-search-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Search</property>
+              </object>
+            </child>
+
             <child type="title">
               <object class="AdwWindowTitle" id="window_title"/>
+            </child>
+
+          </object>
+        </child>
+
+        <child type="top">
+          <object class="GtkSearchBar" id="search_bar">
+
+            <child>
+              <object class="GtkSearchEntry" id="search_entry">
+                <signal name="search-started" handler="on_search_started" swapped="true"/>
+                <signal name="search-changed" handler="on_search_changed" swapped="true"/>
+                <property name="max-width-chars">28</property>
+              </object>
             </child>
 
           </object>
