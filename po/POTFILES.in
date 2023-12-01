@@ -31,6 +31,8 @@ src/model/pod_data.rs
 src/model/pod_list.rs
 src/model/pod.rs
 src/model/port_mapping.rs
+src/model/process_list.rs
+src/model/process.rs
 src/model/registry.rs
 src/model/repo_tag_list.rs
 src/model/repo_tag.rs
@@ -181,6 +183,8 @@ src/view/search_panel.rs
 src/view/search_panel.ui
 src/view/search_row.rs
 src/view/search_row.ui
+src/view/shortcuts.ui
+src/view/top_page_action_bar.ui
 src/view/top_page.rs
 src/view/top_page.ui
 src/view/value_row.rs
