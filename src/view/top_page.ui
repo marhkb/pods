@@ -44,7 +44,9 @@
           <object class="GtkScrolledWindow">
 
             <child>
-              <object class="GtkColumnView" id="column_view"/>
+              <object class="GtkColumnView" id="column_view">
+                <property name="enable-rubberband">True</property>
+              </object>
             </child>
 
           </object>
