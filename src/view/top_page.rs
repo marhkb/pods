@@ -5,6 +5,7 @@ use std::rc::Rc;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use futures::StreamExt;
 use gettextrs::gettext;
 use glib::clone;
 use glib::closure;
@@ -14,9 +15,11 @@ use gtk::glib;
 use gtk::CompositeTemplate;
 
 use crate::model;
+use crate::podman;
 use crate::utils;
 
 const ACTION_SEARCH: &str = "top-page.search";
+const ACTION_KILL: &str = "top-page.kill";
 
 mod imp {
     use super::*;
@@ -27,9 +30,13 @@ mod imp {
     pub(crate) struct TopPage {
         pub(super) filter: OnceCell<gtk::Filter>,
         pub(super) search_term: RefCell<String>,
+        pub(super) selection: OnceCell<gtk::MultiSelection>,
+        pub(super) action_bar: OnceCell<gtk::ActionBar>,
         #[property(get, set, construct_only, nullable)]
         /// A `Container` or a `Pod`
         pub(super) top_source: glib::WeakRef<glib::Object>,
+        #[template_child]
+        pub(super) toolbar_view: TemplateChild<adw::ToolbarView>,
         #[template_child]
         pub(super) search_button: TemplateChild<gtk::ToggleButton>,
         #[template_child]
@@ -61,6 +68,10 @@ mod imp {
 
             klass.install_action(ACTION_SEARCH, None, |widget, _, _| {
                 widget.toggle_search_mode();
+            });
+
+            klass.install_action(ACTION_KILL, None, |widget, _, _| {
+                widget.kill_selected_processes();
             });
         }
 
@@ -324,10 +335,43 @@ mod imp {
             let filter_list_model = gtk::FilterListModel::new(Some(model), Some(filter.clone()));
             self.filter.set(filter.upcast()).unwrap();
 
-            self.column_view
-                .set_model(Some(&gtk::MultiSelection::new(Some(
-                    gtk::SortListModel::new(Some(filter_list_model), Some(sorter)),
-                ))));
+            let selection_model = gtk::MultiSelection::new(Some(gtk::SortListModel::new(
+                Some(filter_list_model),
+                Some(sorter),
+            )));
+            match obj.top_source().and_downcast_ref::<model::Container>() {
+                Some(_) => {
+                    let action_bar = gtk::Builder::from_resource(
+                        "/com/github/marhkb/Pods/ui/view/top_page_action_bar.ui",
+                    )
+                    .object::<gtk::ActionBar>("action_bar")
+                    .unwrap();
+
+                    action_bar.set_revealed(false);
+                    self.toolbar_view.add_bottom_bar(&action_bar);
+
+                    selection_model.connect_items_changed(
+                        clone!(@weak action_bar => move |model, _, removed, _| {
+                            if removed > 0 {
+                                action_bar.set_revealed(model.selection().size() > 0);
+                            }
+                        }),
+                    );
+                    selection_model.connect_selection_changed(
+                        clone!(@weak action_bar => move |model, position, _| {
+                            action_bar
+                                .set_revealed(model.is_selected(position) || model.selection().size() > 0);
+                        }),
+                    );
+
+                    self.action_bar.set(action_bar).unwrap();
+                }
+                None => obj.action_set_enabled(ACTION_KILL, false),
+            }
+
+            self.column_view.set_model(Some(&selection_model));
+
+            self.selection.set(selection_model).unwrap();
         }
 
         fn dispose(&self) {
@@ -402,6 +446,82 @@ impl TopPage {
 
     pub(crate) fn toggle_search_mode(&self) {
         self.set_search_mode(!self.imp().search_bar.is_search_mode());
+    }
+
+    pub(crate) fn kill_selected_processes(&self) {
+        let top_source = self.top_source();
+
+        let selection = self.imp().selection.get().unwrap();
+        let selected_positions = selection.selection();
+
+        if let Some((iter, first_pid)) = gtk::BitsetIter::init_first(&selected_positions) {
+            let mut selected_pids = iter.chain(Some(first_pid)).collect::<Vec<_>>();
+            selected_pids.sort_unstable_by(|lhs, rhs| rhs.cmp(lhs));
+
+            let selected_pids = selected_pids
+                .into_iter()
+                .map(|position| {
+                    selection
+                        .item(position)
+                        .and_downcast::<model::Process>()
+                        .unwrap()
+                        .pid()
+                        .to_string()
+                })
+                .collect::<Vec<_>>();
+
+            match top_source.and_downcast_ref::<model::Container>() {
+                Some(container) => {
+                    let api = container.api().unwrap();
+
+                    utils::do_async(
+                        async move {
+                            let opts = podman::opts::ExecCreateOpts::builder()
+                                .attach_stderr(true)
+                                .attach_stdout(false)
+                                .attach_stdin(false)
+                                .tty(false)
+                                .command(
+                                    ["kill", "-9"]
+                                        .into_iter()
+                                        .chain(selected_pids.iter().map(String::as_str)),
+                                )
+                                .build();
+                            let exec = api.create_exec(&opts).await.unwrap();
+
+                            let opts = podman::opts::ExecStartOpts::builder().tty(false).build();
+                            let (reader, _) = exec.start(&opts).await.unwrap().unwrap().split();
+
+                            let err_output = reader
+                                .map(Result::unwrap)
+                                .map(Vec::from)
+                                .map(String::from_utf8)
+                                .map(Result::unwrap)
+                                .collect::<String>()
+                                .await;
+
+                            if err_output.is_empty() {
+                                Ok(())
+                            } else {
+                                Err(err_output)
+                            }
+                        },
+                        clone!(@weak self as obj => move |result| if let Err(e) = result {
+                            utils::show_error_toast(
+                                obj.upcast_ref(),
+                                &gettext("Error"),
+                                e.trim()
+                            );
+                        }),
+                    )
+                }
+                None => utils::show_error_toast(
+                    self.upcast_ref(),
+                    &gettext("Error"),
+                    &gettext("Killing pod processes is not supported"),
+                ),
+            }
+        }
     }
 }
 

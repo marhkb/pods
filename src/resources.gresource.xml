@@ -71,6 +71,7 @@
     <file compressed="true" preprocess="xml-stripblanks">view/search_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/shortcuts.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/top_page.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/top_page_action_bar.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/value_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/volume_creation_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/volume_details_page.ui</file>
