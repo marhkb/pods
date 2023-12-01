@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="GtkActionBar" id="action_bar">
+    <style>
+      <class name="view"/>
+    </style>
+
+    <child type="center">
+      <object class="GtkButton">
+        <style>
+          <class name="destructive-action"/>
+          <class name="pill"/>
+          <class name="raised"/>
+        </style>
+        <property name="action-name">top-page.kill</property>
+        <property name="label" translatable="yes">Kill</property>
+        <property name="valign">center</property>
+      </object>
+    </child>
+
+  </object>
+</interface>
