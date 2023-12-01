@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-12-01 21:04+0100\n"
 "PO-Revision-Date: 2023-12-05 18:13+0000\n"
-"Last-Translator: Óscar García Amor <ogarcia@moire.org>\n"
+"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/pods/main/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -754,7 +754,7 @@ msgstr "Volúmenes"
 #: src/view/client_view.rs:243 src/view/info_panel.ui:24
 #: src/view/info_row.ui:22
 msgid "Info"
-msgstr ""
+msgstr "Información"
 
 #: src/view/client_view.rs:244 src/view/container_log_page.ui:60
 #: src/view/containers_panel.ui:109 src/view/images_panel.ui:134
@@ -767,11 +767,11 @@ msgstr "Buscar"
 #. .Translators: The maximum sidebar width
 #: src/view/client_view.ui:30
 msgid "280"
-msgstr ""
+msgstr "280"
 
 #: src/view/client_view.ui:37 src/view/client_view.ui:45
 msgid "Home"
-msgstr ""
+msgstr "Inicio"
 
 #: src/view/client_view.ui:57 src/view/client_view.ui:187
 #: src/view/connections_sidebar.ui:18
@@ -1720,7 +1720,7 @@ msgstr "No hay contenedores en ejecución"
 
 #: src/view/containers_panel.ui:259
 msgid "The result of filtering for running containers is empty."
-msgstr ""
+msgstr "El resultado del filtrado de los contenedores en ejecución está vacío."
 
 #: src/view/containers_panel.ui:269
 msgid "_Show All Containers"
@@ -2132,12 +2132,11 @@ msgstr "No hay imágenes etiquetadas"
 
 #: src/view/images_panel.ui:284
 msgid "The result of filtering for tagged images is empty."
-msgstr ""
+msgstr "El resultado del filtrado de las imágenes etiquetadas está vacío."
 
 #: src/view/images_panel.ui:294
-#, fuzzy
 msgid "_Show All Images"
-msgstr "Descargar imagen"
+msgstr "_Mostrar todas las imágenes"
 
 #: src/view/images_panel.ui:359
 msgid "You can use the buttons below to add an initial image."
@@ -2210,9 +2209,8 @@ msgstr[0] "{} Imagen"
 msgstr[1] "{} Imágenes"
 
 #: src/view/info_panel.rs:296
-#, fuzzy
 msgid "Error on retrieving info"
-msgstr "Error al recuperar los registros"
+msgstr "Error al recuperar la información"
 
 #: src/view/info_panel.ui:60 src/view/info_panel.ui:94
 msgid "Version"
@@ -2293,14 +2291,12 @@ msgid "Volume Path"
 msgstr "Ruta del volumen"
 
 #: src/view/info_panel.ui:237
-#, fuzzy
 msgid "Error While Gathering Info"
-msgstr "Error al seguir el registro"
+msgstr "Error al recopilar la información"
 
 #: src/view/info_panel.ui:238
-#, fuzzy
 msgid "You can use the buttons below to retry."
-msgstr "Puede usar el botón de abajo para crear una cápsula inicial."
+msgstr "Puede utilizar los botones inferiores para volver a intentarlo."
 
 #: src/view/key_val_row.rs:149 src/view/key_val_row.ui:20
 msgid "Key"
@@ -2313,21 +2309,20 @@ msgstr "Valor"
 
 #: src/view/mount_row.rs:187
 msgid "No volume selected (will create a new one)."
-msgstr ""
+msgstr "No hay un volumen seleccionado (se creará uno nuevo)."
 
 #: src/view/mount_row.ui:76
 msgid "Type"
-msgstr ""
+msgstr "Tipo"
 
 #: src/view/mount_row.ui:88
 msgid "Bind"
-msgstr ""
+msgstr "Unir"
 
 #: src/view/mount_row.ui:94 src/view/mount_row.ui:111
 #: src/view/volume_details_page.ui:16
-#, fuzzy
 msgid "Volume"
-msgstr "Volúmenes"
+msgstr "Volumen"
 
 #: src/view/mount_row.ui:151
 msgid "SELinux"
@@ -2355,14 +2350,12 @@ msgid "IP"
 msgstr "IP"
 
 #: src/view/pod_creation_page.rs:159
-#, fuzzy
 msgid "Add Host"
-msgstr "Anfitriones"
+msgstr "Añadir host"
 
 #: src/view/pod_creation_page.rs:169
-#, fuzzy
 msgid "Add Device"
-msgstr "Dispositivos"
+msgstr "Añadir un dispositivo"
 
 #: src/view/pod_creation_page.ui:42 src/view/pods_panel.ui:117
 msgid "Create Pod"
@@ -2534,7 +2527,7 @@ msgstr "_Mostrar sólo los contenedores en ejecución"
 
 #: src/view/pods_panel.ui:259
 msgid "The result of filtering for running pods is empty."
-msgstr ""
+msgstr "El resultado del filtrado de pods en ejecución está vacío."
 
 #: src/view/pods_panel.ui:269
 #, fuzzy
@@ -2563,7 +2556,7 @@ msgstr "UDP"
 
 #: src/view/port_mapping_row.ui:89
 msgid "SCTP"
-msgstr ""
+msgstr "SCTP"
 
 #: src/view/port_mapping_row.ui:98
 #, fuzzy
@@ -2580,6 +2573,8 @@ msgid ""
 "If 0, a random port on the host (guaranteed to be over 1024) will be "
 "assigned."
 msgstr ""
+"Si es 0, se asignará un puerto aleatorio en el host (se garantiza que sea "
+"superior a 1024)."
 
 #: src/view/port_mapping_row.ui:120
 #, fuzzy
@@ -2854,40 +2849,40 @@ msgstr "Procesos de la cápsula"
 
 #: src/view/top_page.rs:130
 msgid "USER"
-msgstr ""
+msgstr "USUARIO"
 
 #: src/view/top_page.rs:137
 msgid "PID"
-msgstr ""
+msgstr "PID"
 
 #: src/view/top_page.rs:144
 msgid "PPID"
-msgstr ""
+msgstr "PPID"
 
 #: src/view/top_page.rs:151
 #, c-format
 msgid "%CPU"
-msgstr ""
+msgstr "%CPU"
 
 #: src/view/top_page.rs:158
 msgid "ELAPSED"
-msgstr ""
+msgstr "TRANSCURRIDO"
 
 #: src/view/top_page.rs:165
 msgid "TTY"
-msgstr ""
+msgstr "TTY"
 
 #: src/view/top_page.rs:172
 msgid "TIME"
-msgstr ""
+msgstr "TIEMPO"
 
 #: src/view/top_page.rs:179
 msgid "COMMAND"
-msgstr ""
+msgstr "COMANDO"
 
 #: src/view/top_page.rs:521
 msgid "Killing pod processes is not supported"
-msgstr ""
+msgstr "No se admite la eliminación de los procesos de pod"
 
 #: src/view/volume_creation_page.ui:42 src/view/volumes_group.ui:12
 #: src/view/volumes_panel.ui:117
@@ -2907,7 +2902,7 @@ msgstr "Eliminar imagen"
 
 #: src/view/volume_details_page.ui:52
 msgid "Driver"
-msgstr ""
+msgstr "Driver"
 
 #: src/view/volume_details_page.ui:64
 #, fuzzy
@@ -2921,7 +2916,7 @@ msgstr "Ver todas las propiedades de la imagen en forma de texto estructurado."
 
 #: src/view/volume_row.rs:174
 msgid "{} old"
-msgstr ""
+msgstr "{} antiguo"
 
 #: src/view/volume_row.rs:271
 #, fuzzy
@@ -3018,21 +3013,19 @@ msgstr "Quitar imágenes"
 
 #: src/view/volumes_panel.ui:146 src/view/volumes_panel.ui:192
 msgid "Show Only Used Volumes"
-msgstr ""
+msgstr "Mostrar solo los volúmenes utilizados"
 
 #: src/view/volumes_panel.ui:258
-#, fuzzy
 msgid "No Volumes in Use"
-msgstr "No se encontraron volúmenes"
+msgstr "Ningún volumen en uso"
 
 #: src/view/volumes_panel.ui:259
 msgid "The result of filtering for volumes in use is empty."
-msgstr ""
+msgstr "El resultado de filtrar por volúmenes en uso está vacío."
 
 #: src/view/volumes_panel.ui:269
-#, fuzzy
 msgid "_Show All Volumes"
-msgstr "Seleccionar ninguno"
+msgstr "_Mostrar todos los volúmenes"
 
 #: src/view/volumes_panel.ui:333
 msgid "No Volumes Found"
