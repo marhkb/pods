@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-12-01 21:04+0100\n"
-"PO-Revision-Date: 2023-09-26 15:02+0000\n"
-"Last-Translator: Gert-dev <Gert-dev@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2023-12-05 18:13+0000\n"
+"Last-Translator: Philip Goto <philip.goto@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/pods/main/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.1-dev\n"
+"X-Generator: Weblate 5.3-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:56
@@ -67,9 +67,8 @@ msgid "The last used view"
 msgstr "Laatstgebruikte weergave"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:41
-#, fuzzy
 msgid "Whether to hide intermediate images"
-msgstr "Of tussengelegen afbeeldingen getoond moeten worden"
+msgstr "Of tussen­liggende schijf­kopie­bestanden verborgen moeten worden"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:46
 msgid "The last used container file path"
@@ -98,9 +97,8 @@ msgid "Whether to show only running pods"
 msgstr "Of alleen draaiende pods getoond moeten worden"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:71
-#, fuzzy
 msgid "Whether to show only used volumes"
-msgstr "Of alleen draaiende pods getoond moeten worden"
+msgstr "Of alleen gebruikte volumen getoond moeten worden"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:76
 msgid "Whether to show a timestamp for each log line"
@@ -197,19 +195,16 @@ msgid "Rename containers."
 msgstr "Containers hernoemen."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:30
-#, fuzzy
 msgid "Container Overview"
-msgstr "Overzicht van containers"
+msgstr "Cntainer­overzicht"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:34
-#, fuzzy
 msgid "Containers Details in Compact Mode"
-msgstr "Container is aangemaakt"
+msgstr "Container­details in compacte modus"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:38
-#, fuzzy
 msgid "Search Results"
-msgstr "Zoeken"
+msgstr "Zoek­resultaten"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:367
 msgid "Marcus Behrendt"
@@ -321,14 +316,12 @@ msgid "Prune stopped pods"
 msgstr "Gestopte pods opschonen"
 
 #: src/model/action.rs:843
-#, fuzzy
 msgid "Create volume <b>{}</b>"
-msgstr "Pod <b>{}</b> aanmaken"
+msgstr "Volume <b>{}</b> aanmaken"
 
 #: src/model/action.rs:891
-#, fuzzy
 msgid "Prune unused volumes"
-msgstr "Ongebruikte schijfkopie­bestanden opschonen"
+msgstr "Ongebruikte volumen opschonen"
 
 #: src/model/connection_manager.rs:203
 msgid "Connection '{}' already exists."
@@ -511,14 +504,12 @@ msgid "Pod Is Currently Being Created"
 msgstr "Pod wordt momenteel aangemaakt"
 
 #: src/view/action_page.rs:143
-#, fuzzy
 msgid "Volume Is Currently Being Created"
-msgstr "Pod wordt momenteel aangemaakt"
+msgstr "Volume wordt momenteel aangemaakt"
 
 #: src/view/action_page.rs:144
-#, fuzzy
 msgid "Volumes Are Currently Being Pruned"
-msgstr "Schijfkopiebestanden worden momenteel opgeschoond"
+msgstr "Volumen worden momenteel opgeschoond"
 
 #: src/view/action_page.rs:150
 msgid "Images Have Been Pruned"
@@ -561,14 +552,12 @@ msgid "Pod Has Been Created"
 msgstr "Pod is aangemaakt"
 
 #: src/view/action_page.rs:161
-#, fuzzy
 msgid "Volume Has Been Created"
-msgstr "Pod is aangemaakt"
+msgstr "Volume is aangemaakt"
 
 #: src/view/action_page.rs:162
-#, fuzzy
 msgid "Volumes Have Been Pruned"
-msgstr "Schijfkopiebestanden zijn opgeschoond"
+msgstr "Volumen zijn opgeschoond"
 
 #: src/view/action_page.rs:168
 msgid "Pruning of Images Has Been Aborted"
@@ -615,14 +604,12 @@ msgid "Pod Creation Has Been Aborted"
 msgstr "Aanmaken van pod is afgebroken"
 
 #: src/view/action_page.rs:179
-#, fuzzy
 msgid "Volume Creation Has Been Aborted"
-msgstr "Aanmaken van pod is afgebroken"
+msgstr "Aanmaken van volume is afgebroken"
 
 #: src/view/action_page.rs:180
-#, fuzzy
 msgid "Pruning of Volumes Has Been Aborted"
-msgstr "Opschonen van schijfkopiebestanden is afgebroken"
+msgstr "Opschonen van volumen is afgebroken"
 
 #: src/view/action_page.rs:186
 msgid "Pruning of Images Has Failed"
@@ -669,23 +656,20 @@ msgid "Pod Creation Has Failed"
 msgstr "Aanmaken van pod is mislukt"
 
 #: src/view/action_page.rs:197
-#, fuzzy
 msgid "Volume Creation Has Failed"
-msgstr "Aanmaken van pod is mislukt"
+msgstr "Aanmaken van volume is mislukt"
 
 #: src/view/action_page.rs:198
-#, fuzzy
 msgid "Pruning of Volumes Has Failed"
-msgstr "Opschonen van schijfkopiebestanden is mislukt"
+msgstr "Opschonen van volumenn is mislukt"
 
 #: src/view/action_page.rs:241
 msgid "After {}"
 msgstr "Na {}"
 
 #: src/view/action_page.rs:281
-#, fuzzy
 msgid "Action"
-msgstr "Acties"
+msgstr "Actie"
 
 #: src/view/action_page.rs:290
 msgid "Error on opening artifact"
@@ -776,7 +760,7 @@ msgstr "Volumen"
 #: src/view/client_view.rs:243 src/view/info_panel.ui:24
 #: src/view/info_row.ui:22
 msgid "Info"
-msgstr ""
+msgstr "Info"
 
 #: src/view/client_view.rs:244 src/view/container_log_page.ui:60
 #: src/view/containers_panel.ui:109 src/view/images_panel.ui:134
@@ -789,11 +773,11 @@ msgstr "Zoeken"
 #. .Translators: The maximum sidebar width
 #: src/view/client_view.ui:30
 msgid "280"
-msgstr ""
+msgstr "280"
 
 #: src/view/client_view.ui:37 src/view/client_view.ui:45
 msgid "Home"
-msgstr ""
+msgstr "Thuis"
 
 #: src/view/client_view.ui:57 src/view/client_view.ui:187
 #: src/view/connections_sidebar.ui:18
@@ -801,24 +785,21 @@ msgid "Connections"
 msgstr "Verbindingen"
 
 #: src/view/client_view.ui:82
-#, fuzzy
 msgctxt "app name"
 msgid "Pods"
 msgstr "Pods"
 
 #: src/view/client_view.ui:231
-#, fuzzy
 msgid "Content"
-msgstr "Container"
+msgstr "Inhoud"
 
 #: src/view/connection_chooser_page.ui:24
 msgid "Connect to Podman"
 msgstr "Verbinding maken met Podman"
 
 #: src/view/connection_chooser_page.ui:25
-#, fuzzy
 msgid "Choose an existing connection or create a new one"
-msgstr "Kies een bestaande verbinding of maak een nieuwe aan."
+msgstr "Kies een bestaande verbinding of maak een nieuwe aan"
 
 #: src/view/connection_chooser_page.ui:72 src/view/welcome_page.ui:82
 msgid "_New Connection"
@@ -924,9 +905,8 @@ msgid "Color"
 msgstr "Kleur"
 
 #: src/view/connection_creation_page.ui:296
-#, fuzzy
 msgid "Set the color of this connection."
-msgstr "Stelt de kleur in van de statusbalk wanneer deze verbinding actief is."
+msgstr "Stelt de kleur van deze verbinding in."
 
 #: src/view/connection_custom_info_dialog.rs:149
 msgid "systemd unit path copied"
@@ -1036,9 +1016,8 @@ msgstr "Fout bij verkrijgen van gebruikersnaam"
 #: src/view/images_prune_page.ui:22 src/view/pod_creation_page.ui:22
 #: src/view/pods_prune_page.ui:22 src/view/repo_tag_push_page.ui:25
 #: src/view/volume_creation_page.ui:22 src/view/volumes_prune_page.ui:22
-#, fuzzy
 msgid "Preferences"
-msgstr "_Voorkeuren"
+msgstr "Voorkeuren"
 
 #: src/view/container_commit_page.ui:42
 msgid "Commit Container"
@@ -1105,30 +1084,25 @@ msgstr "Argument"
 
 #: src/view/container_creation_page.rs:184 src/view/pod_creation_page.rs:179
 #: src/view/pod_creation_page.rs:189
-#, fuzzy
 msgid "Add Argument"
-msgstr "Argument"
+msgstr "Argument toevoegen"
 
 #: src/view/container_creation_page.rs:195
-#, fuzzy
 msgid "Add Port Mapping"
-msgstr "Poort-mapping"
+msgstr "Poort­indeling toevoegen"
 
 #: src/view/container_creation_page.rs:203
-#, fuzzy
 msgid "Add Volume"
-msgstr "Volumen"
+msgstr "Volume toevoegen"
 
 #: src/view/container_creation_page.rs:213
-#, fuzzy
 msgid "Add Environment Variable"
-msgstr "Omgevingsvariabelen"
+msgstr "Omgevings­variabele toevoegen"
 
 #: src/view/container_creation_page.rs:223 src/view/image_build_page.rs:115
 #: src/view/pod_creation_page.rs:144
-#, fuzzy
 msgid "Add Label"
-msgstr "Labels"
+msgstr "Label toevoegen"
 
 #: src/view/container_creation_page.rs:508
 msgid "Failed to create container"
@@ -1227,9 +1201,10 @@ msgid "Interval"
 msgstr "Interval"
 
 #: src/view/container_creation_page.ui:363
-#, fuzzy
 msgid "Interval in seconds how often health check is run."
-msgstr "Hoe vaak de gezondheidscheck moet worden uitgevoerd."
+msgstr ""
+"Interval in seconden voor hoe vaak de gezond­heids­check moet worden "
+"uitgevoerd."
 
 #: src/view/container_creation_page.ui:379
 #: src/view/container_health_check_page.ui:71
@@ -1237,23 +1212,22 @@ msgid "Timeout"
 msgstr "Time-out"
 
 #: src/view/container_creation_page.ui:380
-#, fuzzy
 msgid ""
 "The maximum time in seconds allowed to complete the health check before an "
 "interval is considered failed."
 msgstr ""
-"De maximaal toegestane tijd dat een gezondheidscheck mag duren voor een "
-"interval wordt beschouwd als mislukt."
+"De maximaal toegestane tijd in seconden dat een gezondheidscheck mag duren "
+"voor een interval wordt beschouwd als mislukt."
 
 #: src/view/container_creation_page.ui:396
-#, fuzzy
 msgid "Start Period"
-msgstr "Starttijd"
+msgstr "Start­duur"
 
 #: src/view/container_creation_page.ui:397
-#, fuzzy
 msgid "The initialization time in seconds needed for a container to bootstrap."
-msgstr "De benodigde initialisatietijd voor een container om op te starten."
+msgstr ""
+"De benodigde initialisatietijd in seconden voor een container om op te "
+"starten."
 
 #: src/view/container_creation_page.ui:413
 #: src/view/container_health_check_page.ui:65
@@ -1641,9 +1615,8 @@ msgid "Disk"
 msgstr "Schijf"
 
 #: src/view/container_row.rs:363
-#, fuzzy
 msgid "Container {}"
-msgstr "Container"
+msgstr "Container {}"
 
 #: src/view/container.rs:56 src/view/containers_panel.rs:601
 msgid "Error on starting container"
@@ -1711,15 +1684,13 @@ msgid "_Create Container"
 msgstr "Container _aanmaken"
 
 #: src/view/containers_panel.ui:10
-#, fuzzy
 msgid "_Prune Stopped Containers"
-msgstr "Gestopte containers opschonen"
+msgstr "Gestopte containers _opschonen"
 
 #: src/view/containers_panel.ui:17 src/view/images_panel.ui:42
 #: src/view/pods_panel.ui:17 src/view/volumes_panel.ui:17
-#, fuzzy
 msgid "_Select Visible"
-msgstr "Host-bestand selecteren"
+msgstr "Zichtbare _selecteren"
 
 #: src/view/containers_panel.ui:21 src/view/images_panel.ui:46
 #: src/view/pods_panel.ui:21 src/view/volumes_panel.ui:21
@@ -1732,14 +1703,12 @@ msgstr "Gestopte containers opschonen"
 
 #: src/view/containers_panel.ui:132 src/view/images_panel.ui:157
 #: src/view/pods_panel.ui:132 src/view/volumes_panel.ui:132
-#, fuzzy
 msgid "More Actions"
-msgstr "Geen acties"
+msgstr "Meer acties"
 
 #: src/view/containers_panel.ui:146 src/view/containers_panel.ui:192
-#, fuzzy
 msgid "Show Only Running Containers"
-msgstr "Enkel draaiende containers _tonen"
+msgstr "Enkel draaiende containers tonen"
 
 #: src/view/containers_panel.ui:154 src/view/images_panel.ui:179
 #: src/view/pods_panel.ui:154 src/view/volumes_panel.ui:154
@@ -1752,18 +1721,16 @@ msgid "Cancel"
 msgstr "Annuleren"
 
 #: src/view/containers_panel.ui:258
-#, fuzzy
 msgid "No Running Containers"
-msgstr "Enkel draaiende containers _tonen"
+msgstr "Geen draaiende containers"
 
 #: src/view/containers_panel.ui:259
 msgid "The result of filtering for running containers is empty."
 msgstr ""
 
 #: src/view/containers_panel.ui:269
-#, fuzzy
 msgid "_Show All Containers"
-msgstr "Enkel draaiende containers _tonen"
+msgstr "Alle containers _tonen"
 
 #: src/view/containers_panel.ui:441
 msgid "No Containers Found"
@@ -1829,9 +1796,8 @@ msgid "Start"
 msgstr "Starten"
 
 #: src/view/device_row.ui:69 src/view/mount_row.ui:139
-#, fuzzy
 msgid "Container Path"
-msgstr "Containerpad"
+msgstr "Container­pad"
 
 #: src/view/device_row.ui:75
 msgid "Readable"
@@ -1990,9 +1956,8 @@ msgid "Download Image"
 msgstr "Schijfkopiebestand downloaden"
 
 #: src/view/image_row.rs:207
-#, fuzzy
 msgid "Image {}"
-msgstr "Schijfkopiebestand"
+msgstr "Schijfkopiebestand {}"
 
 #: src/view/image.rs:18
 msgid "Confirm Forced Image Deletion"
@@ -2156,37 +2121,32 @@ msgstr ""
 "welke ook zullen worden verwijderd!"
 
 #: src/view/images_panel.ui:35
-#, fuzzy
 msgid "_Prune Unused Images"
-msgstr "Ongebruikte schijfkopie­bestanden opschonen"
+msgstr "Ongebruikte schijfkopie­bestanden _opschonen"
 
 #: src/view/images_panel.ui:141
 msgid "Create Image"
 msgstr "Schijfkopiebestand aanmaken"
 
 #: src/view/images_panel.ui:150
-#, fuzzy
 msgid "Prune Unused Images"
 msgstr "Ongebruikte schijfkopie­bestanden opschonen"
 
 #: src/view/images_panel.ui:171 src/view/images_panel.ui:217
-#, fuzzy
 msgid "Show Only Tagged Images"
-msgstr "Schijfkopiebestand downloaden"
+msgstr "Enkel getagde schijf­kopie­bestanden tonen"
 
 #: src/view/images_panel.ui:283
-#, fuzzy
 msgid "No Tagged Images"
-msgstr "Schijfkopiebestand downloaden"
+msgstr "Geen getagde schijf­kopie­bestanden"
 
 #: src/view/images_panel.ui:284
 msgid "The result of filtering for tagged images is empty."
 msgstr ""
 
 #: src/view/images_panel.ui:294
-#, fuzzy
 msgid "_Show All Images"
-msgstr "Schijfkopiebestand downloaden"
+msgstr "Alle schijf­kopie­bestanden _tonen"
 
 #: src/view/images_panel.ui:359
 msgid "You can use the buttons below to add an initial image."
@@ -2261,9 +2221,8 @@ msgstr[0] "{} schijfkopiebestand"
 msgstr[1] "{} schijfkopiebestanden"
 
 #: src/view/info_panel.rs:296
-#, fuzzy
 msgid "Error on retrieving info"
-msgstr "Fout bij ophalen logboek"
+msgstr "Fout bij ophalen van info"
 
 #: src/view/info_panel.ui:60 src/view/info_panel.ui:94
 msgid "Version"
@@ -2344,9 +2303,8 @@ msgid "Volume Path"
 msgstr "Volumepad"
 
 #: src/view/info_panel.ui:237
-#, fuzzy
 msgid "Error While Gathering Info"
-msgstr "Fout bij volgen logboek"
+msgstr "Fout bij verzamelen van info"
 
 #: src/view/info_panel.ui:238
 #, fuzzy
@@ -2368,17 +2326,16 @@ msgstr ""
 
 #: src/view/mount_row.ui:76
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 #: src/view/mount_row.ui:88
 msgid "Bind"
-msgstr ""
+msgstr "Koppelen"
 
 #: src/view/mount_row.ui:94 src/view/mount_row.ui:111
 #: src/view/volume_details_page.ui:16
-#, fuzzy
 msgid "Volume"
-msgstr "Volumen"
+msgstr "Volume"
 
 #: src/view/mount_row.ui:151
 msgid "SELinux"
@@ -2406,14 +2363,12 @@ msgid "IP"
 msgstr "IP-adres"
 
 #: src/view/pod_creation_page.rs:159
-#, fuzzy
 msgid "Add Host"
-msgstr "Hosts"
+msgstr "Host toevoegen"
 
 #: src/view/pod_creation_page.rs:169
-#, fuzzy
 msgid "Add Device"
-msgstr "Apparaten"
+msgstr "Apparaat toevoegen"
 
 #: src/view/pod_creation_page.ui:42 src/view/pods_panel.ui:117
 msgid "Create Pod"
@@ -2525,9 +2480,8 @@ msgstr ""
 "bijbehorende containers verwijderd worden."
 
 #: src/view/pod_selection_page.ui:35
-#, fuzzy
 msgid "Select Pod"
-msgstr "{} geselecteerde pod"
+msgstr "Pod selecteren"
 
 #: src/view/pods_panel.rs:230
 msgid "1 pod, running"
@@ -2563,32 +2517,28 @@ msgid "_Create Pod"
 msgstr "Pod _aanmaken"
 
 #: src/view/pods_panel.ui:10
-#, fuzzy
 msgid "_Prune Stopped Pods"
-msgstr "Gestopte pods opschonen"
+msgstr "Gestopte pods _opschonen"
 
 #: src/view/pods_panel.ui:125 src/view/pods_prune_page.ui:42
 msgid "Prune Stopped Pods"
 msgstr "Gestopte pods opschonen"
 
 #: src/view/pods_panel.ui:146 src/view/pods_panel.ui:192
-#, fuzzy
 msgid "Show Only Running Pods"
-msgstr "Enkel draaiende containers _tonen"
+msgstr "Enkel draaiende pods tonen"
 
 #: src/view/pods_panel.ui:258
-#, fuzzy
 msgid "No Running Pods"
-msgstr "Enkel draaiende containers _tonen"
+msgstr "Geen draaiende pods"
 
 #: src/view/pods_panel.ui:259
 msgid "The result of filtering for running pods is empty."
 msgstr ""
 
 #: src/view/pods_panel.ui:269
-#, fuzzy
 msgid "_Show All Pods"
-msgstr "Enkel draaiende containers _tonen"
+msgstr "Alle pods _tonen"
 
 #: src/view/pods_panel.ui:441
 msgid "No Pods Found"
@@ -2612,15 +2562,13 @@ msgstr "UDP"
 
 #: src/view/port_mapping_row.ui:89
 msgid "SCTP"
-msgstr ""
+msgstr "SCTP"
 
 #: src/view/port_mapping_row.ui:98
-#, fuzzy
 msgid "IP Address"
 msgstr "IP-adres"
 
 #: src/view/port_mapping_row.ui:104
-#, fuzzy
 msgid "Host Port"
 msgstr "Host-poort"
 
@@ -2631,9 +2579,8 @@ msgid ""
 msgstr ""
 
 #: src/view/port_mapping_row.ui:120
-#, fuzzy
 msgid "Container Port"
-msgstr "Containerpoort"
+msgstr "Container­poort"
 
 #: src/view/repo_tag_add_dialog.rs:98
 msgid "Repo tag must contain a colon “:”"
@@ -2744,9 +2691,8 @@ msgid "Pod Kube Generation"
 msgstr "Pod-Kube-generatie"
 
 #: src/view/scalable_text_view_page.rs:301
-#, fuzzy
 msgid "Volume Inspection"
-msgstr "Schijfkopiebestand-inspectie"
+msgstr "Volume-inspectie"
 
 #: src/view/scalable_text_view_page.rs:327
 msgid "Could not set language to '{}'"
@@ -2903,36 +2849,36 @@ msgstr "Pod-processen"
 
 #: src/view/top_page.rs:130
 msgid "USER"
-msgstr ""
+msgstr "GEBRUIKER"
 
 #: src/view/top_page.rs:137
 msgid "PID"
-msgstr ""
+msgstr "PID"
 
 #: src/view/top_page.rs:144
 msgid "PPID"
-msgstr ""
+msgstr "PPID"
 
 #: src/view/top_page.rs:151
 #, c-format
 msgid "%CPU"
-msgstr ""
+msgstr "% CPU"
 
 #: src/view/top_page.rs:158
 msgid "ELAPSED"
-msgstr ""
+msgstr "VERSTREKEN"
 
 #: src/view/top_page.rs:165
 msgid "TTY"
-msgstr ""
+msgstr "TTY"
 
 #: src/view/top_page.rs:172
 msgid "TIME"
-msgstr ""
+msgstr "TIJD"
 
 #: src/view/top_page.rs:179
 msgid "COMMAND"
-msgstr ""
+msgstr "OPDRACHT"
 
 #: src/view/top_page.rs:521
 msgid "Killing pod processes is not supported"
@@ -2940,28 +2886,24 @@ msgstr ""
 
 #: src/view/volume_creation_page.ui:42 src/view/volumes_group.ui:12
 #: src/view/volumes_panel.ui:117
-#, fuzzy
 msgid "Create Volume"
-msgstr "Schijfkopiebestand aanmaken"
+msgstr "Volume aanmaken"
 
 #: src/view/volume_details_page.rs:178
-#, fuzzy
 msgid "Volume '{}' has been deleted"
-msgstr "Schijfkopiebestand ‘{}’ is verwijderd"
+msgstr "Volume ‘{}’ is verwijderd"
 
 #: src/view/volume_details_page.ui:40
-#, fuzzy
 msgid "Delete Volume"
-msgstr "Schijfkopiebestand verwijderen"
+msgstr "Volume verwijderen"
 
 #: src/view/volume_details_page.ui:52
 msgid "Driver"
-msgstr ""
+msgstr "Stuurprogramma"
 
 #: src/view/volume_details_page.ui:64
-#, fuzzy
 msgid "Mount Path"
-msgstr "Host-pad"
+msgstr "Koppelings­pad"
 
 #: src/view/volume_details_page.ui:78
 #, fuzzy
@@ -2972,17 +2914,15 @@ msgstr ""
 
 #: src/view/volume_row.rs:174
 msgid "{} old"
-msgstr ""
+msgstr "{} oud"
 
 #: src/view/volume_row.rs:271
-#, fuzzy
 msgid "Volume {}"
-msgstr "Volumen"
+msgstr "Volume {}"
 
 #: src/view/volume.rs:18
-#, fuzzy
 msgid "Confirm Forced Volume Deletion"
-msgstr "Geforceerde verwijdering van schijfkopiebestand bevestigen"
+msgstr "Geforceerde verwijdering van volume bevestigen"
 
 #. Translators: The "{}" is a placeholder for the container name.
 #: src/view/volume.rs:24
@@ -3005,24 +2945,20 @@ msgstr ""
 
 #. Translators: The "{}" is a placeholder for the volume name.
 #: src/view/volume.rs:65 src/view/volumes_panel.rs:480
-#, fuzzy
 msgid "Error on deleting volume '{}'"
-msgstr "Fout bij verwijderen schijfkopiebestand ‘{}’"
+msgstr "Fout bij verwijderen van volume ‘{}’"
 
 #: src/view/volume_selection_page.ui:35
-#, fuzzy
 msgid "Select Volume"
-msgstr "Geen selecteren"
+msgstr "Volume selecteren"
 
 #: src/view/volumes_panel.rs:196
-#, fuzzy
 msgid "1 volume, used"
-msgstr "1 schijfkopiebestand, in gebruik"
+msgstr "1 volume, in gebruik"
 
 #: src/view/volumes_panel.rs:198
-#, fuzzy
 msgid "1 volume, unused"
-msgstr "1 schijfkopiebestand, niet in gebruik"
+msgstr "1 volume, niet in gebruik"
 
 #: src/view/volumes_panel.rs:202
 #, fuzzy
@@ -3034,11 +2970,10 @@ msgstr[1] ""
 "{} schijfkopiebestanden in totaal, {} {} ongebruikte schijfkopiebestanden, {}"
 
 #: src/view/volumes_panel.rs:216
-#, fuzzy
 msgid "{} Selected Volume"
 msgid_plural "{} Selected Volumes"
-msgstr[0] "{} geselecteerd schijfkopiebestand"
-msgstr[1] "{} geselecteerde schijfkopiebestanden"
+msgstr[0] "{} geselecteerd volume"
+msgstr[1] "{} geselecteerde volumen"
 
 #: src/view/volumes_panel.rs:450
 #, fuzzy
@@ -3055,42 +2990,36 @@ msgstr ""
 "welke ook zullen worden verwijderd!"
 
 #: src/view/volumes_panel.ui:6 src/view/volumes_panel.ui:344
-#, fuzzy
 msgid "_Create Volume"
-msgstr "Pod _aanmaken"
+msgstr "Volume _aanmaken"
 
 #: src/view/volumes_panel.ui:10
-#, fuzzy
 msgid "_Prune Volumes"
-msgstr "Schijfkopiebestanden opschonen"
+msgstr "Volumen _opschonen"
 
 #: src/view/volumes_panel.ui:125 src/view/volumes_prune_page.ui:42
-#, fuzzy
 msgid "Prune Volumes"
-msgstr "Schijfkopiebestanden opschonen"
+msgstr "Volumen opschonen"
 
 #: src/view/volumes_panel.ui:146 src/view/volumes_panel.ui:192
 msgid "Show Only Used Volumes"
-msgstr ""
+msgstr "Enkel gebruikte volumen tonen"
 
 #: src/view/volumes_panel.ui:258
-#, fuzzy
 msgid "No Volumes in Use"
-msgstr "Geen schijfkopiebestanden gevonden"
+msgstr "Geen volumen in gebruik"
 
 #: src/view/volumes_panel.ui:259
 msgid "The result of filtering for volumes in use is empty."
 msgstr ""
 
 #: src/view/volumes_panel.ui:269
-#, fuzzy
 msgid "_Show All Volumes"
-msgstr "Geen selecteren"
+msgstr "Alle volumen _tonen"
 
 #: src/view/volumes_panel.ui:333
-#, fuzzy
 msgid "No Volumes Found"
-msgstr "Geen schijfkopiebestanden gevonden"
+msgstr "Geen volumen gevonden"
 
 #: src/view/volumes_panel.ui:334
 #, fuzzy
@@ -3118,24 +3047,20 @@ msgid "Confirm Exiting The Application"
 msgstr "Bevestig het afsluiten van de app"
 
 #: src/view/window.rs:298
-#, fuzzy
 msgid "Error on loading images"
-msgstr "Fout bij laden details van schijfkopiebestand"
+msgstr "Fout bij laden van schijf­kopie­bestanden"
 
 #: src/view/window.rs:299
-#, fuzzy
 msgid "Error on loading containers"
-msgstr "Fout bij laden container-details"
+msgstr "Fout bij laden van containers"
 
 #: src/view/window.rs:300
-#, fuzzy
 msgid "Error on loading pods"
-msgstr "Fout bij laden pod-data"
+msgstr "Fout bij laden van pods"
 
 #: src/view/window.rs:301
-#, fuzzy
 msgid "Error on loading volumes"
-msgstr "Fout bij laden van {}"
+msgstr "Fout bij laden van volumen"
 
 #. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
 #: src/widget/date_time_row.rs:131
@@ -3167,9 +3092,8 @@ msgid "_About Pods"
 msgstr "_Over Pods"
 
 #: src/widget/main_menu_button.ui:32
-#, fuzzy
 msgid "Main Menu"
-msgstr "Hoofdweergave"
+msgstr "Hoofd­menu"
 
 #: src/widget/source_view_search_widget.rs:157
 msgid "0 of {}"
