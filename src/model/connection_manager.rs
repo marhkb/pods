@@ -189,7 +189,7 @@ impl ConnectionManager {
         name: &str,
         url: &str,
         rgb: Option<gdk::RGBA>,
-    ) -> Option<anyhow::Result<podman::models::LibpodPingInfo>> {
+    ) -> Option<anyhow::Result<()>> {
         let imp = self.imp();
 
         if imp.connections.borrow().values().any(|c| c.name() == name) {
@@ -210,9 +210,9 @@ impl ConnectionManager {
         self.set_creating_new_connection(true);
 
         let result = rt::Promise::new({
-            let podman = client.podman();
+            let engine = client.engine();
             let abort_registration = self.abort_registration();
-            async move { future::Abortable::new(podman.ping(), abort_registration).await }
+            async move { future::Abortable::new(engine.ping(), abort_registration).await }
         })
         .exec()
         .await;
@@ -311,9 +311,9 @@ impl ConnectionManager {
         };
 
         rt::Promise::new({
-            let podman = client.podman();
+            let engine = client.engine();
             let abort_registration = self.abort_registration();
-            async move { future::Abortable::new(podman.ping(), abort_registration).await }
+            async move { future::Abortable::new(engine.ping(), abort_registration).await }
         })
         .defer(clone!(
             #[weak(rename_to = obj)]

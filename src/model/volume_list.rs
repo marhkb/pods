@@ -14,6 +14,7 @@ use gtk::glib;
 use indexmap::IndexMap;
 use indexmap::map::Entry;
 
+use crate::engine;
 use crate::model;
 use crate::model::prelude::*;
 use crate::podman;
@@ -204,13 +205,8 @@ impl VolumeList {
         self.imp().set_listing(true);
 
         rt::Promise::new({
-            let podman = self.client().unwrap().podman();
-            async move {
-                podman
-                    .volumes()
-                    .list(&podman::opts::VolumeListOpts::builder().build())
-                    .await
-            }
+            let engine = self.client().unwrap().engine();
+            async move { engine.list_volumes().await }
         })
         .defer(clone!(
             #[weak(rename_to = obj)]
@@ -258,7 +254,7 @@ impl VolumeList {
         ));
     }
 
-    pub(crate) fn handle_event<F>(&self, event: podman::models::Event, err_op: F)
+    pub(crate) fn handle_event<F>(&self, event: engine::Event, err_op: F)
     where
         F: FnOnce(super::RefreshError) + Clone + 'static,
     {

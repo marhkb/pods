@@ -9,6 +9,7 @@ astral-tokio-tar = { version = "0.5.6", default-features = false }
 adw = { version = "0.9", package = "libadwaita", features = ["v1_8"] }
 anyhow = "1"
 ashpd = { version = "0.13", default-features = false, features = ["account", "file_chooser", "gtk4", "notification", "tokio"] }
+docker-api = "0.14"
 futures = { version = "0.3", default-features = false, features = ["std"] }
 gettext-rs = { version = "=0.7.0", features = ["gettext-system"] }
 gtk = { version = "0.11", package = "gtk4", features = ["gnome_49"] }
