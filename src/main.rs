@@ -5,6 +5,7 @@ mod application;
 mod podman;
 #[rustfmt::skip]
 mod config;
+mod engine;
 mod model;
 mod utils;
 mod view;

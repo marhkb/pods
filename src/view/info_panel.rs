@@ -140,8 +140,8 @@ impl InfoPanel {
 
             utils::do_async(
                 {
-                    let podman = client.podman();
-                    async move { podman.info().await }
+                    let engine = client.engine();
+                    async move { engine.info().await }
                 },
                 clone!(@weak self as obj => move |result| {
                     let imp = obj.imp();
@@ -155,10 +155,10 @@ impl InfoPanel {
                             // Version
                             let version = info.version.as_ref();
                             imp.version_api_version_row.set_value(&utils::format_option(
-                                version.and_then(|version| version.api_version.as_ref()),
+                                info.api_version.as_ref(),
                             ));
                             imp.version_built_time_row
-                                .set_value(&utils::format_option(version.and_then(|v| v.built.and_then(|t|
+                                .set_value(&utils::format_option(info.built.and_then(|t|
                                     glib::DateTime::from_unix_local(t).ok().map(|d| {
                                         d.format(
                                             // Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
@@ -166,128 +166,129 @@ impl InfoPanel {
                                         )
                                         .unwrap()
                                     })
-                                ))));
+                                )));
                             imp.version_git_commit_row
-                                .set_value(&utils::format_option(version.and_then(|v| v.git_commit.as_ref().and_then(|s| {
+                                .set_value(&utils::format_option(info.git_commit.as_ref().and_then(|s| {
                                     if s.is_empty() {
                                         None
                                     } else {
                                         Some(s)
                                     }
-                                }))));
+                                })));
                             imp.version_go_version_row.set_value(&utils::format_option(
-                                version.and_then(|v| v.go_version.as_ref())
+                                info.go_version.as_ref()
                             ));
                             imp.version_os_arch_row.set_value(&utils::format_option(
-                                version.and_then(|v| v.os_arch.as_ref())
+                                info.os_arch.as_ref()
                             ));
                             imp.version_version_row.set_value(&utils::format_option(
-                                version.and_then(|v| v.version.as_ref())
+                                info.version.as_ref()
                             ));
 
+                            // TODO: Store
                             // Store
-                            let store = info.store.as_ref();
-                            let container_store = store.and_then(|s| s.container_store.as_ref());
-                            imp.store_config_file_row.set_value(&utils::format_option(
-                                store.and_then(|v| v.config_file.as_ref()),
-                            ));
-                            imp.store_container_store_label
-                                .set_label(&utils::format_option(
-                                    container_store.and_then(|c| c.number.map(|n| {
-                                        // Translators: "{}" is a placeholder for a cardinal numbers.
-                                        ngettext!("{} Container", "{} Containers", n as u32, n)
-                                    })
-                                )));
-                            imp.store_container_store_paused_row
-                                .set_value(&utils::format_option(container_store.and_then(|s| s
-                                    .paused
-                                    .as_ref()
-                                    .map(i64::to_string)
-                                )));
-                            imp.store_container_store_running_row
-                                .set_value(&utils::format_option(container_store.and_then(|s| s
-                                    .running
-                                    .as_ref()
-                                    .map(i64::to_string)
-                                )));
-                            imp.store_container_store_stopped_row
-                                .set_value(&utils::format_option(container_store.and_then(|s| s
-                                    .stopped
-                                    .as_ref()
-                                    .map(i64::to_string)
-                                )));
-                            imp.store_graph_driver_name_row
-                                .set_value(&utils::format_option(
-                                    store.and_then(|s| s.graph_driver_name.as_ref())
-                                ));
+                            // let store = info.store.as_ref();
+                            // let container_store = store.and_then(|s| s.container_store.as_ref());
+                            // imp.store_config_file_row.set_value(&utils::format_option(
+                            //     store.and_then(|v| v.config_file.as_ref()),
+                            // ));
+                            // imp.store_container_store_label
+                            //     .set_label(&utils::format_option(
+                            //         container_store.and_then(|c| c.number.map(|n| {
+                            //             // Translators: "{}" is a placeholder for a cardinal numbers.
+                            //             ngettext!("{} Container", "{} Containers", n as u32, n)
+                            //         })
+                            //     )));
+                            // imp.store_container_store_paused_row
+                            //     .set_value(&utils::format_option(container_store.and_then(|s| s
+                            //         .paused
+                            //         .as_ref()
+                            //         .map(i64::to_string)
+                            //     )));
+                            // imp.store_container_store_running_row
+                            //     .set_value(&utils::format_option(container_store.and_then(|s| s
+                            //         .running
+                            //         .as_ref()
+                            //         .map(i64::to_string)
+                            //     )));
+                            // imp.store_container_store_stopped_row
+                            //     .set_value(&utils::format_option(container_store.and_then(|s| s
+                            //         .stopped
+                            //         .as_ref()
+                            //         .map(i64::to_string)
+                            //     )));
+                            // imp.store_graph_driver_name_row
+                            //     .set_value(&utils::format_option(
+                            //         store.and_then(|s| s.graph_driver_name.as_ref())
+                            //     ));
 
-                            let graph_options = store.and_then(|s| s.graph_options.as_ref());
-                            imp.store_graph_options_label
-                                .set_label(&utils::format_option(
-                                    graph_options.as_ref().map(|o| {
-                                        let len = o.as_object().unwrap().len();
-                                        // Translators: "{}" is a placeholder for a cardinal number.
-                                        ngettext!("{} Option", "{} Options", len as u32, len)
-                                    })
-                                ));
+                            // let graph_options = store.and_then(|s| s.graph_options.as_ref());
+                            // imp.store_graph_options_label
+                            //     .set_label(&utils::format_option(
+                            //         graph_options.as_ref().map(|o| {
+                            //             let len = o.as_object().unwrap().len();
+                            //             // Translators: "{}" is a placeholder for a cardinal number.
+                            //             ngettext!("{} Option", "{} Options", len as u32, len)
+                            //         })
+                            //     ));
 
-                            let mut store_graph_options_rows =
-                                imp.store_graph_options_rows.borrow_mut();
-                            while let Some(row) = store_graph_options_rows.pop() {
-                                imp.store_graph_options_row.remove(&row);
-                            }
+                            // let mut store_graph_options_rows =
+                            //     imp.store_graph_options_rows.borrow_mut();
+                            // while let Some(row) = store_graph_options_rows.pop() {
+                            //     imp.store_graph_options_row.remove(&row);
+                            // }
 
-                            if let Some(graph_options) = store.and_then(|s| s.graph_options.as_ref()) {
-                                graph_options.as_object().unwrap().iter().for_each(|(k, v)| {
-                                    let row = widget::PropertyRow::default();
-                                    row.set_key(k);
-                                    row.set_value(&v.to_string());
+                            // if let Some(graph_options) = store.and_then(|s| s.graph_options.as_ref()) {
+                            //     graph_options.as_object().unwrap().iter().for_each(|(k, v)| {
+                            //         let row = widget::PropertyRow::default();
+                            //         row.set_key(k);
+                            //         row.set_value(&v.to_string());
 
-                                    imp.store_graph_options_row.add_row(&row);
-                                    store_graph_options_rows.push(row);
-                                });
-                            }
+                            //         imp.store_graph_options_row.add_row(&row);
+                            //         store_graph_options_rows.push(row);
+                            //     });
+                            // }
 
-                            imp.store_graph_root_row.set_value(&utils::format_option(
-                                store.and_then(|s| s.graph_root.as_ref())
-                            ));
-                            imp.store_graph_status_label
-                                .set_label(&utils::format_option(
-                                    store.and_then(|s| s.graph_status.as_ref().map(|s| {
-                                        // Translators: "{}" is placeholders for a cardinal number.
-                                        ngettext!("{} State", "{} States", s.len() as u32, s.len())
-                                    }))
-                                ));
+                            // imp.store_graph_root_row.set_value(&utils::format_option(
+                            //     store.and_then(|s| s.graph_root.as_ref())
+                            // ));
+                            // imp.store_graph_status_label
+                            //     .set_label(&utils::format_option(
+                            //         store.and_then(|s| s.graph_status.as_ref().map(|s| {
+                            //             // Translators: "{}" is placeholders for a cardinal number.
+                            //             ngettext!("{} State", "{} States", s.len() as u32, s.len())
+                            //         }))
+                            //     ));
 
-                            let mut store_graph_status_rows = imp.store_graph_status_rows.borrow_mut();
-                            while let Some(row) = store_graph_status_rows.pop() {
-                                imp.store_graph_status_row.remove(&row);
-                            }
+                            // let mut store_graph_status_rows = imp.store_graph_status_rows.borrow_mut();
+                            // while let Some(row) = store_graph_status_rows.pop() {
+                            //     imp.store_graph_status_row.remove(&row);
+                            // }
 
-                            if let Some(graph_status) = store.and_then(|s| s.graph_status.as_ref())
-                            {
-                                graph_status.iter().for_each(|(k, v)| {
-                                    let row = widget::PropertyRow::default();
-                                    row.set_key(k);
-                                    row.set_value(v);
+                            // if let Some(graph_status) = store.and_then(|s| s.graph_status.as_ref())
+                            // {
+                            //     graph_status.iter().for_each(|(k, v)| {
+                            //         let row = widget::PropertyRow::default();
+                            //         row.set_key(k);
+                            //         row.set_value(v);
 
-                                    imp.store_graph_status_row.add_row(&row);
-                                    store_graph_status_rows.push(row);
-                                });
-                            }
-                            imp.store_image_store_row
-                                .set_value(&utils::format_option(
-                                    store.and_then(|s| s.image_store.as_ref()).and_then(|s| s.number.map(|n| {
-                                        // Translators: "{}" is placeholders for a cardinal number.
-                                        ngettext!("{} Image", "{} Images", n as u32, n)
-                                    })
-                                )));
-                            imp.store_run_root_row.set_value(&utils::format_option(
-                                store.and_then(|s| s.run_root.as_ref())
-                            ));
-                            imp.store_volume_path_row.set_value(&utils::format_option(
-                                store.and_then(|s| s.volume_path.as_ref())
-                            ));
+                            //         imp.store_graph_status_row.add_row(&row);
+                            //         store_graph_status_rows.push(row);
+                            //     });
+                            // }
+                            // imp.store_image_store_row
+                            //     .set_value(&utils::format_option(
+                            //         store.and_then(|s| s.image_store.as_ref()).and_then(|s| s.number.map(|n| {
+                            //             // Translators: "{}" is placeholders for a cardinal number.
+                            //             ngettext!("{} Image", "{} Images", n as u32, n)
+                            //         })
+                            //     )));
+                            // imp.store_run_root_row.set_value(&utils::format_option(
+                            //     store.and_then(|s| s.run_root.as_ref())
+                            // ));
+                            // imp.store_volume_path_row.set_value(&utils::format_option(
+                            //     store.and_then(|s| s.volume_path.as_ref())
+                            // ));
                         }
                         Err(e) => {
                             imp.stack.set_visible_child_name("error");

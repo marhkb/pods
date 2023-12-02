@@ -7,7 +7,7 @@ use gtk::gio;
 use gtk::glib;
 
 use crate::model;
-use crate::podman;
+use crate::engine;
 
 mod imp {
     use super::*;
@@ -68,8 +68,8 @@ glib::wrapper! {
         @implements gio::ListModel;
 }
 
-impl From<Vec<podman::models::PortMapping>> for PortMappingList {
-    fn from(port_mappings: Vec<podman::models::PortMapping>) -> Self {
+impl From<Vec<engine::PortMapping>> for PortMappingList {
+    fn from(port_mappings: Vec<engine::PortMapping>) -> Self {
         let obj: Self = glib::Object::builder().build();
         obj.imp()
             .list

@@ -194,7 +194,7 @@ impl ConnectionManager {
         op: F,
     ) -> anyhow::Result<()>
     where
-        F: FnOnce(podman::Result<podman::models::LibpodPingInfo>) + 'static,
+        F: FnOnce(anyhow::Result<()>) + 'static,
     {
         let imp = self.imp();
 
@@ -214,9 +214,9 @@ impl ConnectionManager {
 
         utils::do_async(
             {
-                let podman = client.podman();
+                let engine = client.engine();
                 let abort_registration = self.abort_registration();
-                async move { future::Abortable::new(podman.ping(), abort_registration).await }
+                async move { future::Abortable::new(engine.ping(), abort_registration).await }
             },
             clone!(@weak self as obj => move |result| {
                 if let Ok(result) = result {
@@ -309,9 +309,9 @@ impl ConnectionManager {
 
         utils::do_async(
             {
-                let podman = client.podman();
+                let engine = client.engine();
                 let abort_registration = self.abort_registration();
-                async move { future::Abortable::new(podman.ping(), abort_registration).await }
+                async move { future::Abortable::new(engine.ping(), abort_registration).await }
             },
             clone!(@weak self as obj => move |result| {
                 if let Ok(result) = result {

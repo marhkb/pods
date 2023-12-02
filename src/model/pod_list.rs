@@ -13,6 +13,7 @@ use gtk::glib;
 use indexmap::map::Entry;
 use indexmap::map::IndexMap;
 
+use crate::engine;
 use crate::model;
 use crate::model::SelectableListExt;
 use crate::podman;
@@ -206,84 +207,84 @@ impl PodList {
     where
         F: FnOnce(super::RefreshError) + Clone + 'static,
     {
-        self.imp().set_listing(true);
-        utils::do_async(
-            {
-                let podman = self.client().unwrap().podman();
-                let id = id.clone();
-                async move {
-                    podman
-                        .pods()
-                        .list(
-                            &podman::opts::PodListOpts::builder()
-                                .filter(
-                                    id.map(podman::Id::from)
-                                        .map(podman::opts::PodListFilter::Id),
-                                )
-                                .build(),
-                        )
-                        .await
-                }
-            },
-            clone!(@weak self as obj => move |result| {
-                match result {
-                    Ok(list_pods) => {
-                        if id.is_none() {
-                            let to_remove = obj
-                                .imp()
-                                .list
-                                .borrow()
-                                .keys()
-                                .filter(|id| {
-                                    !list_pods
-                                        .iter()
-                                        .any(|list_pod| list_pod.id.as_ref() == Some(id))
-                                })
-                                .cloned()
-                                .collect::<Vec<_>>();
-                            to_remove.iter().for_each(|id| {
-                                obj.remove_pod(id);
-                            });
-                        }
+        // self.imp().set_listing(true);
+        // utils::do_async(
+        //     {
+        //         let podman = self.client().unwrap().podman();
+        //         let id = id.clone();
+        //         async move {
+        //             podman
+        //                 .pods()
+        //                 .list(
+        //                     &podman::opts::PodListOpts::builder()
+        //                         .filter(
+        //                             id.map(podman::Id::from)
+        //                                 .map(podman::opts::PodListFilter::Id),
+        //                         )
+        //                         .build(),
+        //                 )
+        //                 .await
+        //         }
+        //     },
+        //     clone!(@weak self as obj => move |result| {
+        //         match result {
+        //             Ok(list_pods) => {
+        //                 if id.is_none() {
+        //                     let to_remove = obj
+        //                         .imp()
+        //                         .list
+        //                         .borrow()
+        //                         .keys()
+        //                         .filter(|id| {
+        //                             !list_pods
+        //                                 .iter()
+        //                                 .any(|list_pod| list_pod.id.as_ref() == Some(id))
+        //                         })
+        //                         .cloned()
+        //                         .collect::<Vec<_>>();
+        //                     to_remove.iter().for_each(|id| {
+        //                         obj.remove_pod(id);
+        //                     });
+        //                 }
 
-                        list_pods
-                            .into_iter()
-                            .for_each(|report| {
-                                let index = obj.len();
+        //                 list_pods
+        //                     .into_iter()
+        //                     .for_each(|report| {
+        //                         let index = obj.len();
 
-                                let mut list = obj.imp().list.borrow_mut();
+        //                         let mut list = obj.imp().list.borrow_mut();
 
-                                match list.entry(report.id.as_ref().unwrap().to_owned()) {
-                                    Entry::Vacant(e) => {
-                                        let pod = model::Pod::new(&obj, report);
-                                        e.insert(pod.clone());
+        //                         match list.entry(report.id.as_ref().unwrap().to_owned()) {
+        //                             Entry::Vacant(e) => {
+        //                                 let pod = model::Pod::new(&obj, report);
+        //                                 e.insert(pod.clone());
 
-                                        drop(list);
+        //                                 drop(list);
 
-                                        obj.items_changed(index, 0, 1);
-                                        obj.pod_added(&pod);
-                                    }
-                                    Entry::Occupied(e) => {
-                                        let pod = e.get().clone();
-                                        drop(list);
-                                        pod.update(report);
-                                    }
-                                }
-                            });
-                    }
-                    Err(e) => {
-                        log::error!("Error on retrieving pods: {}", e);
-                        err_op(super::RefreshError);
-                    }
-                }
-                let imp = obj.imp();
-                imp.set_listing(false);
-                imp.set_as_initialized();
-            }),
-        );
+        //                                 obj.items_changed(index, 0, 1);
+        //                                 obj.pod_added(&pod);
+        //                             }
+        //                             Entry::Occupied(e) => {
+        //                                 let pod = e.get().clone();
+        //                                 drop(list);
+        //                                 pod.update(report);
+        //                             }
+        //                         }
+        //                     });
+        //             }
+        //             Err(e) => {
+        //                 log::error!("Error on retrieving pods: {}", e);
+        //                 err_op(super::RefreshError);
+        //             }
+        //         }
+        //         let imp = obj.imp();
+        //         imp.set_listing(false);
+        //         imp.set_as_initialized();
+        //     }),
+        // );
     }
 
-    pub(crate) fn handle_event<F>(&self, event: podman::models::Event, err_op: F)
+    pub(crate) fn handle_event<F>(&self, event: engine::Event, err_op: F)
     where
         F: FnOnce(super::RefreshError) + Clone + 'static,
     {

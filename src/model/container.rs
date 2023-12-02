@@ -16,6 +16,7 @@ use glib::subclass::Signal;
 use glib::Properties;
 use gtk::glib;
 
+use crate::engine;
 use crate::model;
 use crate::monad_boxed_type;
 use crate::podman;
@@ -279,36 +280,33 @@ glib::wrapper! {
 impl Container {
     pub(crate) fn new(
         container_list: &model::ContainerList,
-        list_container: podman::models::ListContainer,
+        container_summary: engine::ContainerSummary,
     ) -> Self {
         let obj: Self = glib::Object::builder()
             .property("container-list", container_list)
-            .property(
-                "created",
-                list_container.created.map(|dt| dt.timestamp()).unwrap_or(0),
-            )
+            .property("created", container_summary.created.unwrap_or(0))
             .property(
                 "health-status",
-                health_status(list_container.status.as_deref()),
+                health_status(container_summary.status.as_deref()),
             )
-            .property("id", list_container.id)
-            .property("image-id", list_container.image_id)
-            .property("image-name", list_container.image)
-            .property("is-infra", list_container.is_infra.unwrap_or(false))
-            .property("name", &list_container.names.unwrap()[0])
-            .property("pod-id", list_container.pod)
+            .property("id", container_summary.id)
+            .property("image-id", container_summary.image_id)
+            .property("image-name", container_summary.image)
+            .property("is-infra", container_summary.is_infra.unwrap_or(false))
+            .property("name", &container_summary.names.unwrap()[0])
+            .property("pod-id", container_summary.pod)
             .property(
                 "ports",
-                model::PortMappingList::from(list_container.ports.unwrap_or_default()),
+                model::PortMappingList::from(container_summary.ports.unwrap_or_default()),
             )
-            .property("status", status(list_container.state.as_deref()))
-            .property("up-since", list_container.started_at.unwrap())
+            .property("status", status(container_summary.state.as_deref()))
+            .property("up-since", container_summary.started_at.unwrap())
             .build();
 
         obj.imp()
             .mounts
             .set(HashSet::from_iter(
-                list_container.mounts.unwrap_or_default(),
+                container_summary.mounts.unwrap_or_default(),
             ))
             .unwrap();
         obj
@@ -318,13 +316,13 @@ impl Container {
         self.imp().mounts.get().unwrap()
     }
 
-    pub(crate) fn update(&self, list_container: podman::models::ListContainer) {
+    pub(crate) fn update(&self, container_summary: engine::ContainerSummary) {
         self.set_action_ongoing(false);
-        self.set_health_status(health_status(list_container.status.as_deref()));
-        self.set_image_name(list_container.image);
-        self.set_name(list_container.names.unwrap()[0].clone());
-        self.set_status(status(list_container.state.as_deref()));
-        self.set_up_since(list_container.started_at.unwrap());
+        self.set_health_status(health_status(container_summary.status.as_deref()));
+        self.set_image_name(container_summary.image);
+        self.set_name(container_summary.names.unwrap()[0].clone());
+        self.set_status(status(container_summary.state.as_deref()));
+        self.set_up_since(container_summary.started_at.unwrap());
     }
 
     pub(crate) fn inspect<F>(&self, op: F)

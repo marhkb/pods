@@ -14,6 +14,7 @@ use gtk::glib;
 use indexmap::map::Entry;
 use indexmap::map::IndexMap;
 
+use crate::engine;
 use crate::model;
 use crate::model::AbstractContainerListExt;
 use crate::model::SelectableListExt;
@@ -275,22 +276,9 @@ impl ContainerList {
         self.imp().set_listing(true);
         utils::do_async(
             {
-                let podman = self.client().unwrap().podman();
+                let engine = self.client().unwrap().engine();
                 let id = id.clone();
-                async move {
-                    podman
-                        .containers()
-                        .list(
-                            &podman::opts::ContainerListOpts::builder()
-                                .all(true)
-                                .filter(
-                                    id.map(podman::Id::from)
-                                        .map(podman::opts::ContainerListFilter::Id),
-                                )
-                                .build(),
-                        )
-                        .await
-                }
+                async move { engine.list_containers(id).await }
             },
             clone!(@weak self as obj => move |result| {
                 match result {
@@ -350,7 +338,7 @@ impl ContainerList {
         );
     }
 
-    pub(crate) fn handle_event<F>(&self, event: podman::models::Event, err_op: F)
+    pub(crate) fn handle_event<F>(&self, event: engine::Event, err_op: F)
     where
         F: FnOnce(super::RefreshError) + Clone + 'static,
     {

@@ -11,6 +11,7 @@ use glib::Properties;
 use gtk::gio;
 use gtk::glib;
 
+use crate::engine;
 use crate::model;
 use crate::model::AbstractContainerListExt;
 use crate::monad_boxed_type;
@@ -20,6 +21,7 @@ use crate::utils;
 /// Sync interval in seconds
 const SYNC_INTERVAL: u32 = 15;
 
+monad_boxed_type!(pub(crate) BoxedEngine(engine::Engine) impls Debug);
 monad_boxed_type!(pub(crate) BoxedPodman(podman::Podman) impls Debug);
 
 #[derive(Clone, Debug)]
@@ -38,6 +40,8 @@ mod imp {
     pub(crate) struct Client {
         #[property(get, set, construct_only)]
         pub(super) connection: OnceCell<model::Connection>,
+        #[property(get, set, construct_only)]
+        pub(super) engine: OnceCell<BoxedEngine>,
         #[property(get, set, construct_only)]
         pub(super) podman: OnceCell<BoxedPodman>,
         #[property(get = Self::version, nullable)]
@@ -107,29 +111,29 @@ mod imp {
                     }
 
                     if !container.mounts().is_empty() {
-                        container.inspect(clone!(@weak obj => move |result| {
-                            if let Ok(container) = result {
-                                container.data().unwrap().mounts().values().filter_map(
-                                    |mount| {
-                                        obj.volume_list()
-                                            .get_volume(mount.name.as_ref().unwrap())
-                                            .map(|volume| (volume, mount))
-                                    },
-                                )
-                                .for_each(|(volume, mount)| {
-                                    volume.container_list().add_container(&container);
+                        // container.inspect(clone!(@weak obj => move |result| {
+                        //     if let Ok(container) = result {
+                        //         container.data().unwrap().mounts().values().filter_map(
+                        //             |mount| {
+                        //                 obj.volume_list()
+                        //                     .get_volume(mount.name.as_ref().unwrap())
+                        //                     .map(|volume| (volume, mount))
+                        //             },
+                        //         )
+                        //         .for_each(|(volume, mount)| {
+                        //             volume.container_list().add_container(&container);
 
-                                    let container_volume_list = container.volume_list();
-                                    container_volume_list.add_volume(
-                                        model::ContainerVolume::new(
-                                            &container_volume_list,
-                                            &volume,
-                                            mount.clone(),
-                                        ),
-                                    );
-                                });
-                            }
-                        }));
+                        //             let container_volume_list = container.volume_list();
+                        //             container_volume_list.add_volume(
+                        //                 model::ContainerVolume::new(
+                        //                     &container_volume_list,
+                        //                     &volume,
+                        //                     mount.clone(),
+                        //                 ),
+                        //             );
+                        //         });
+                        //     }
+                        // }));
                     }
                 }));
             obj.container_list().connect_container_removed(
@@ -185,34 +189,34 @@ mod imp {
                     container_list
                         .iter()
                         .for_each(|container| {
-                            container.inspect(clone!(
-                                @weak volume,
-                                @strong containers_left
-                                => move |result|
-                            {
-                                if let Ok(container) = result {
-                                    if let Some(mount) =
-                                        container.data().unwrap().mounts().values().find(|mount| {
-                                            mount.name.as_ref() == Some(&volume.inner().name)
-                                        })
-                                    {
-                                        volume.container_list().add_container(&container);
+                            // container.inspect(clone!(
+                            //     @weak volume,
+                            //     @strong containers_left
+                            //     => move |result|
+                            // {
+                            //     if let Ok(container) = result {
+                            //         if let Some(mount) =
+                            //             container.data().unwrap().mounts().values().find(|mount| {
+                            //                 mount.name.as_ref() == Some(&volume.inner().name)
+                            //             })
+                            //         {
+                            //             volume.container_list().add_container(&container);
 
-                                        let container_volume_list = container.volume_list();
-                                        container_volume_list.add_volume(
-                                            model::ContainerVolume::new(
-                                                &container_volume_list,
-                                                &volume,
-                                                mount.clone(),
-                                            ),
-                                        );
-                                    }
-                                }
+                            //             let container_volume_list = container.volume_list();
+                            //             container_volume_list.add_volume(
+                            //                 model::ContainerVolume::new(
+                            //                     &container_volume_list,
+                            //                     &volume,
+                            //                     mount.clone(),
+                            //                 ),
+                            //             );
+                            //         }
+                            //     }
 
-                                if containers_left.fetch_sub(1, Ordering::Relaxed) == 1 {
-                                    volume.set_searching_containers(false);
-                                }
-                            }));
+                            //     if containers_left.fetch_sub(1, Ordering::Relaxed) == 1 {
+                            //         volume.set_searching_containers(false);
+                            //     }
+                            // }));
                         });
                 }));
         }
@@ -264,33 +268,40 @@ glib::wrapper! {
 }
 
 impl TryFrom<&model::Connection> for Client {
-    type Error = podman::Error;
+    type Error = anyhow::Error;
 
     fn try_from(connection: &model::Connection) -> Result<Self, Self::Error> {
-        podman::Podman::new(connection.url()).map(|podman| {
-            let obj: Self = glib::Object::builder()
-                .property("connection", connection)
-                .property("podman", BoxedPodman::from(podman.clone()))
-                .build();
+        crate::runtime()
+            .block_on(async { engine::Engine::new(connection.url()).await })
+            .map(|engine| {
+                let obj: Self = glib::Object::builder()
+                    .property("connection", connection)
+                    .property("engine", BoxedEngine::from(engine.clone()))
+                    // TODO: Remove once abtraction is finished
+                    .property(
+                        "podman",
+                        BoxedPodman::from(podman::Podman::new(connection.url()).unwrap()),
+                    )
+                    .build();
 
-            utils::do_async(
-                async move { podman.info().await },
-                clone!(@weak obj => move |info| match info {
-                    Ok(info) => {
-                        obj.set_version(info.version.unwrap().version);
-                        obj.set_cpus(info.host.unwrap().cpus);
-                    }
-                    Err(e) => {
-                        log::error!("Error on retrieving podmnan info: {e}");
+                utils::do_async(
+                    async move { engine.info().await },
+                    clone!(@weak obj => move |info| match info {
+                        Ok(info) => {
+                            obj.set_version(info.version);
+                            obj.set_cpus(info.cpus);
+                        }
+                        Err(e) => {
+                            log::error!("Error on retrieving engine info: {e}");
 
-                        obj.set_version(None);
-                        obj.set_cpus(None);
-                    }
-                }),
-            );
+                            obj.set_version(None);
+                            obj.set_cpus(None);
+                        }
+                    }),
+                );
 
-            obj
-        })
+                obj
+            })
     }
 }
 
@@ -309,12 +320,12 @@ impl Client {
     where
         T: FnOnce() + 'static,
         E: FnOnce(ClientError) + Clone + 'static,
-        F: FnOnce(podman::Error) + Clone + 'static,
+        F: FnOnce(anyhow::Error) + Clone + 'static,
     {
         utils::do_async(
             {
-                let podman = self.podman();
-                async move { podman.ping().await }
+                let engine = self.engine();
+                async move { engine.ping().await }
             },
             clone!(@weak self as obj => move |result| match result {
                 Ok(_) => {
@@ -356,18 +367,14 @@ impl Client {
     fn start_event_listener<E, F>(&self, err_op: E, finish_op: F)
     where
         E: FnOnce(ClientError) + Clone + 'static,
-        F: FnOnce(podman::Error) + Clone + 'static,
+        F: FnOnce(anyhow::Error) + Clone + 'static,
     {
         utils::run_stream(
-            self.podman(),
-            |podman| {
-                podman
-                    .events(&podman::opts::EventsOpts::builder().build())
-                    .boxed()
-            },
+            self.engine(),
+            |engine| engine.events().boxed(),
             clone!(
                 @weak self as obj => @default-return glib::ControlFlow::Break,
-                move |result: podman::Result<podman::models::Event>|
+                move |result: anyhow::Result<engine::Event>|
             {
                 match result {
                     Ok(event) => {

@@ -8,6 +8,7 @@ edition = "2021"
 adw = { version = "0.6", package = "libadwaita", features = ["v1_4"] }
 anyhow = "1"
 ashpd = { version = "0.7", default-features = false, features = ["gtk4", "tokio"] }
+docker-api = "0.14"
 futures = { version = "0.3", default-features = false }
 gettext-rs = { version = "0.7", features = ["gettext-system"] }
 gtk = { version = "0.8", package = "gtk4", features = ["gnome_45"] }

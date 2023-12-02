@@ -10,7 +10,7 @@ use glib::subclass::Signal;
 use glib::Properties;
 use gtk::glib;
 
-use crate::podman;
+use crate::engine;
 
 #[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
 #[enum_type(name = "PortMappingProtocol")]
@@ -102,8 +102,8 @@ impl Default for PortMapping {
     }
 }
 
-impl From<podman::models::PortMapping> for PortMapping {
-    fn from(port_mapping: podman::models::PortMapping) -> Self {
+impl From<engine::PortMapping> for PortMapping {
+    fn from(port_mapping: engine::PortMapping) -> Self {
         glib::Object::builder()
             .property("ip-address", port_mapping.host_ip.unwrap_or_default())
             .property(

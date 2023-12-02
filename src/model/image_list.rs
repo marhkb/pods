@@ -14,6 +14,7 @@ use gtk::glib;
 use indexmap::map::Entry;
 use indexmap::IndexMap;
 
+use crate::engine;
 use crate::model;
 use crate::model::SelectableListExt;
 use crate::podman;
@@ -221,13 +222,8 @@ impl ImageList {
         self.imp().set_listing(true);
         utils::do_async(
             {
-                let podman = self.client().unwrap().podman();
-                async move {
-                    podman
-                        .images()
-                        .list(&podman::opts::ImageListOpts::builder().all(true).build())
-                        .await
-                }
+                let engine = self.client().unwrap().engine();
+                async move { engine.list_images().await }
             },
             clone!(@weak self as obj => move |result| {
                 match result {
@@ -306,7 +302,7 @@ impl ImageList {
         }
     }
 
-    pub(crate) fn handle_event<F>(&self, event: podman::models::Event, err_op: F)
+    pub(crate) fn handle_event<F>(&self, event: engine::Event, err_op: F)
     where
         F: FnOnce(super::RefreshError) + Clone + 'static,
     {
