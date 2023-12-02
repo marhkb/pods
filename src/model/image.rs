@@ -12,6 +12,7 @@ use glib::subclass::Signal;
 use glib::subclass::prelude::*;
 use gtk::glib;
 
+use crate::engine;
 use crate::model;
 use crate::podman;
 use crate::rt;
@@ -154,10 +155,7 @@ glib::wrapper! {
 }
 
 impl Image {
-    pub(crate) fn new(
-        image_list: &model::ImageList,
-        summary: &podman::models::LibpodImageSummary,
-    ) -> Self {
+    pub(crate) fn new(image_list: &model::ImageList, summary: &engine::ImageSummary) -> Self {
         glib::Object::builder::<Self>()
             .property("image-list", image_list)
             .property("created", summary.created.unwrap_or(0))
@@ -168,11 +166,7 @@ impl Image {
             .to_owned()
     }
 
-    fn update_internal(
-        &self,
-        summary: &podman::models::LibpodImageSummary,
-        notify_repo_tags: bool,
-    ) -> &Self {
+    fn update_internal(&self, summary: &engine::ImageSummary, notify_repo_tags: bool) -> &Self {
         let imp = self.imp();
 
         imp.set_containers(summary.containers.unwrap_or_default() as u64);
@@ -190,7 +184,7 @@ impl Image {
         self
     }
 
-    pub(crate) fn update(&self, summary: &podman::models::LibpodImageSummary) -> &Self {
+    pub(crate) fn update(&self, summary: &engine::ImageSummary) -> &Self {
         self.update_internal(summary, true)
     }
 

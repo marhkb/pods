@@ -11,12 +11,13 @@ use glib::subclass::prelude::*;
 use gtk::gio;
 use gtk::glib;
 
+use crate::engine;
 use crate::model;
 use crate::monad_boxed_type;
 use crate::podman;
 use crate::rt;
 
-monad_boxed_type!(pub(crate) BoxedVolume(podman::models::Volume) impls Debug);
+monad_boxed_type!(pub(crate) BoxedVolume(engine::Volume) impls Debug);
 
 mod imp {
     use super::*;
@@ -99,7 +100,7 @@ glib::wrapper! {
 }
 
 impl Volume {
-    pub(crate) fn new(volume_list: &model::VolumeList, inner: podman::models::Volume) -> Self {
+    pub(crate) fn new(volume_list: &model::VolumeList, inner: engine::Volume) -> Self {
         glib::Object::builder()
             .property("volume-list", volume_list)
             .property("inner", BoxedVolume::from(inner))

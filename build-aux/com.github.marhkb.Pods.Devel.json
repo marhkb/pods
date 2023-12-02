@@ -16,7 +16,8 @@
     "--device=dri",
     "--env=RUST_BACKTRACE=1",
     "--filesystem=/run/systemd/journal",
-    "--filesystem=xdg-run/podman:ro"
+    "--filesystem=xdg-run/podman:ro",
+    "--filesystem=/var/run/docker.sock:ro"
   ],
   "build-options": {
     "append-path": "/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/llvm21/bin",
