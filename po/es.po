@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-12-01 21:04+0100\n"
-"PO-Revision-Date: 2023-09-28 14:09+0000\n"
-"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
+"PO-Revision-Date: 2023-12-05 18:13+0000\n"
+"Last-Translator: Óscar García Amor <ogarcia@moire.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/pods/main/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.1-dev\n"
+"X-Generator: Weblate 5.3-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:56
@@ -66,9 +66,8 @@ msgid "The last used view"
 msgstr "La última vista usada"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:41
-#, fuzzy
 msgid "Whether to hide intermediate images"
-msgstr "Si se muestran las imágenes intermedias"
+msgstr "Ocultar o no las imágenes intermedias"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:46
 msgid "The last used container file path"
@@ -97,9 +96,8 @@ msgid "Whether to show only running pods"
 msgstr "Si se muestran sólo las cápsulas en funcionamiento"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:71
-#, fuzzy
 msgid "Whether to show only used volumes"
-msgstr "Si se muestran sólo las cápsulas en funcionamiento"
+msgstr "Mostrar o no sólo los volúmenes utilizados"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:76
 msgid "Whether to show a timestamp for each log line"
@@ -191,19 +189,16 @@ msgid "Rename containers."
 msgstr "Renombrar contenedores."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:30
-#, fuzzy
 msgid "Container Overview"
-msgstr "Vista general de los contenedores"
+msgstr "Visión general de los contenedores"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:34
-#, fuzzy
 msgid "Containers Details in Compact Mode"
-msgstr "Contenedor creado"
+msgstr "Detalles de los contenedores en modo compacto"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:38
-#, fuzzy
 msgid "Search Results"
-msgstr "Buscar"
+msgstr "Resultados de la búsqueda"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:367
 msgid "Marcus Behrendt"
@@ -315,14 +310,12 @@ msgid "Prune stopped pods"
 msgstr "Eliminar cápsulas no usadas"
 
 #: src/model/action.rs:843
-#, fuzzy
 msgid "Create volume <b>{}</b>"
-msgstr "Crear cápsula <b>{}</b>"
+msgstr "Crear volumen <b>{}</b>"
 
 #: src/model/action.rs:891
-#, fuzzy
 msgid "Prune unused volumes"
-msgstr "Eliminar imágenes no usadas"
+msgstr "Eliminar volúmenes no utilizados"
 
 #: src/model/connection_manager.rs:203
 msgid "Connection '{}' already exists."
@@ -505,14 +498,12 @@ msgid "Pod Is Currently Being Created"
 msgstr "Cápsula creándose"
 
 #: src/view/action_page.rs:143
-#, fuzzy
 msgid "Volume Is Currently Being Created"
-msgstr "Cápsula creándose"
+msgstr "El volumen se está creando actualmente"
 
 #: src/view/action_page.rs:144
-#, fuzzy
 msgid "Volumes Are Currently Being Pruned"
-msgstr "Imágenes eliminándose"
+msgstr "Los volúmenes se están eliminando actualmente"
 
 #: src/view/action_page.rs:150
 msgid "Images Have Been Pruned"
@@ -555,14 +546,12 @@ msgid "Pod Has Been Created"
 msgstr "Cápsula creada"
 
 #: src/view/action_page.rs:161
-#, fuzzy
 msgid "Volume Has Been Created"
-msgstr "Cápsula creada"
+msgstr "Se ha creado el volumen"
 
 #: src/view/action_page.rs:162
-#, fuzzy
 msgid "Volumes Have Been Pruned"
-msgstr "Imágenes eliminadas"
+msgstr "Se han eliminado los volúmenes"
 
 #: src/view/action_page.rs:168
 msgid "Pruning of Images Has Been Aborted"
@@ -609,14 +598,12 @@ msgid "Pod Creation Has Been Aborted"
 msgstr "Interrumpida la creación de la cápsula"
 
 #: src/view/action_page.rs:179
-#, fuzzy
 msgid "Volume Creation Has Been Aborted"
-msgstr "Interrumpida la creación de la cápsula"
+msgstr "Se ha abortado la creación del volumen"
 
 #: src/view/action_page.rs:180
-#, fuzzy
 msgid "Pruning of Volumes Has Been Aborted"
-msgstr "Interrumpida la eliminación de imágenes"
+msgstr "Se ha abortado la eliminación de los volúmenes"
 
 #: src/view/action_page.rs:186
 msgid "Pruning of Images Has Failed"
@@ -663,23 +650,20 @@ msgid "Pod Creation Has Failed"
 msgstr "Fallo al crear la cápsula"
 
 #: src/view/action_page.rs:197
-#, fuzzy
 msgid "Volume Creation Has Failed"
-msgstr "Fallo al crear la cápsula"
+msgstr "La creación del volumen ha fallado"
 
 #: src/view/action_page.rs:198
-#, fuzzy
 msgid "Pruning of Volumes Has Failed"
-msgstr "Fallo al eliminar las imágenes"
+msgstr "La eliminación de volúmenes ha fallado"
 
 #: src/view/action_page.rs:241
 msgid "After {}"
 msgstr "Después {}"
 
 #: src/view/action_page.rs:281
-#, fuzzy
 msgid "Action"
-msgstr "Acciones"
+msgstr "Acción"
 
 #: src/view/action_page.rs:290
 msgid "Error on opening artifact"
@@ -795,24 +779,21 @@ msgid "Connections"
 msgstr "Conexiones"
 
 #: src/view/client_view.ui:82
-#, fuzzy
 msgctxt "app name"
 msgid "Pods"
 msgstr "Cápsulas"
 
 #: src/view/client_view.ui:231
-#, fuzzy
 msgid "Content"
-msgstr "Contenedor"
+msgstr "Contenido"
 
 #: src/view/connection_chooser_page.ui:24
 msgid "Connect to Podman"
 msgstr "Conectar con Podman"
 
 #: src/view/connection_chooser_page.ui:25
-#, fuzzy
 msgid "Choose an existing connection or create a new one"
-msgstr "Elija una conexión existente o cree una nueva."
+msgstr "Elige una conexión existente o crea una nueva"
 
 #: src/view/connection_chooser_page.ui:72 src/view/welcome_page.ui:82
 msgid "_New Connection"
@@ -917,10 +898,8 @@ msgid "Color"
 msgstr "Color"
 
 #: src/view/connection_creation_page.ui:296
-#, fuzzy
 msgid "Set the color of this connection."
-msgstr ""
-"Define el color de la barra de estado cuando esta conexión está activa."
+msgstr "Establece el color de esta conexión."
 
 #: src/view/connection_custom_info_dialog.rs:149
 msgid "systemd unit path copied"
@@ -1030,9 +1009,8 @@ msgstr "Error al obtener el nombre de usuario"
 #: src/view/images_prune_page.ui:22 src/view/pod_creation_page.ui:22
 #: src/view/pods_prune_page.ui:22 src/view/repo_tag_push_page.ui:25
 #: src/view/volume_creation_page.ui:22 src/view/volumes_prune_page.ui:22
-#, fuzzy
 msgid "Preferences"
-msgstr "_Preferencias"
+msgstr "Preferencias"
 
 #: src/view/container_commit_page.ui:42
 msgid "Commit Container"
@@ -1099,30 +1077,25 @@ msgstr "Argumento"
 
 #: src/view/container_creation_page.rs:184 src/view/pod_creation_page.rs:179
 #: src/view/pod_creation_page.rs:189
-#, fuzzy
 msgid "Add Argument"
-msgstr "Argumento"
+msgstr "Añadir argumento"
 
 #: src/view/container_creation_page.rs:195
-#, fuzzy
 msgid "Add Port Mapping"
-msgstr "Asignación de puertos"
+msgstr "Añadir asignación de puertos"
 
 #: src/view/container_creation_page.rs:203
-#, fuzzy
 msgid "Add Volume"
-msgstr "Volúmenes"
+msgstr "Añadir volumen"
 
 #: src/view/container_creation_page.rs:213
-#, fuzzy
 msgid "Add Environment Variable"
-msgstr "Variables de entorno"
+msgstr "Añadir variable de entorno"
 
 #: src/view/container_creation_page.rs:223 src/view/image_build_page.rs:115
 #: src/view/pod_creation_page.rs:144
-#, fuzzy
 msgid "Add Label"
-msgstr "Etiquetas"
+msgstr "Añadir etiqueta"
 
 #: src/view/container_creation_page.rs:508
 msgid "Failed to create container"
@@ -1221,23 +1194,21 @@ msgid "Interval"
 msgstr "Intervalo"
 
 #: src/view/container_creation_page.ui:363
-#, fuzzy
 msgid "Interval in seconds how often health check is run."
-msgstr "Intervalo con el que se ejecuta el análisis de salud."
+msgstr "Intervalo en segundos con el que se ejecuta la comprobación de estado."
 
 #: src/view/container_creation_page.ui:379
 #: src/view/container_health_check_page.ui:71
 msgid "Timeout"
-msgstr "Tiempo límite"
+msgstr "Tiempo de espera"
 
 #: src/view/container_creation_page.ui:380
-#, fuzzy
 msgid ""
 "The maximum time in seconds allowed to complete the health check before an "
 "interval is considered failed."
 msgstr ""
-"El tiempo límite para completar el análisis de salud antes de que un "
-"intervalo se considere fallido."
+"El tiempo máximo en segundos permitido para completar la comprobación de "
+"estado antes de que un intervalo se considere fallido."
 
 #: src/view/container_creation_page.ui:396
 #, fuzzy
@@ -1245,9 +1216,10 @@ msgid "Start Period"
 msgstr "Período inicial"
 
 #: src/view/container_creation_page.ui:397
-#, fuzzy
 msgid "The initialization time in seconds needed for a container to bootstrap."
-msgstr "El tiempo de inicio que necesita un contenedor para arrancar."
+msgstr ""
+"El tiempo de inicialización en segundos necesario para que un contenedor "
+"arranque."
 
 #: src/view/container_creation_page.ui:413
 #: src/view/container_health_check_page.ui:65
@@ -1638,9 +1610,8 @@ msgid "Disk"
 msgstr "Disco"
 
 #: src/view/container_row.rs:363
-#, fuzzy
 msgid "Container {}"
-msgstr "Contenedor"
+msgstr "Contenedor {}"
 
 #: src/view/container.rs:56 src/view/containers_panel.rs:601
 msgid "Error on starting container"
@@ -1679,11 +1650,10 @@ msgid "1 container, stopped"
 msgstr "1 contenedor, detenido"
 
 #: src/view/containers_panel.rs:242
-#, fuzzy
 msgid "{} container total, {} running"
 msgid_plural "{} containers total, {} running"
-msgstr[0] "{} contenedor en total, {} en ejecución"
-msgstr[1] "{} contenedores en total, {} en ejecución"
+msgstr[0] "{} contenedor en total, {} en ejecución"
+msgstr[1] "{} contenedores en total, {} en ejecución"
 
 #: src/view/containers_panel.rs:256
 msgid "{} Selected Container"
@@ -1708,15 +1678,13 @@ msgid "_Create Container"
 msgstr "_Crear contenedor"
 
 #: src/view/containers_panel.ui:10
-#, fuzzy
 msgid "_Prune Stopped Containers"
-msgstr "Retirar contenedores detenidos"
+msgstr "_Eliminar contenedores detenidos"
 
 #: src/view/containers_panel.ui:17 src/view/images_panel.ui:42
 #: src/view/pods_panel.ui:17 src/view/volumes_panel.ui:17
-#, fuzzy
 msgid "_Select Visible"
-msgstr "Seleccionar archivo anfitrión"
+msgstr "_Seleccionar Visible"
 
 #: src/view/containers_panel.ui:21 src/view/images_panel.ui:46
 #: src/view/pods_panel.ui:21 src/view/volumes_panel.ui:21
@@ -1729,14 +1697,12 @@ msgstr "Retirar contenedores detenidos"
 
 #: src/view/containers_panel.ui:132 src/view/images_panel.ui:157
 #: src/view/pods_panel.ui:132 src/view/volumes_panel.ui:132
-#, fuzzy
 msgid "More Actions"
-msgstr "No hay acciones"
+msgstr "Más acciones"
 
 #: src/view/containers_panel.ui:146 src/view/containers_panel.ui:192
-#, fuzzy
 msgid "Show Only Running Containers"
-msgstr "_Mostrar sólo los contenedores en ejecución"
+msgstr "Mostrar sólo contenedores en ejecución"
 
 #: src/view/containers_panel.ui:154 src/view/images_panel.ui:179
 #: src/view/pods_panel.ui:154 src/view/volumes_panel.ui:154
@@ -1749,18 +1715,16 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #: src/view/containers_panel.ui:258
-#, fuzzy
 msgid "No Running Containers"
-msgstr "_Mostrar sólo los contenedores en ejecución"
+msgstr "No hay contenedores en ejecución"
 
 #: src/view/containers_panel.ui:259
 msgid "The result of filtering for running containers is empty."
 msgstr ""
 
 #: src/view/containers_panel.ui:269
-#, fuzzy
 msgid "_Show All Containers"
-msgstr "_Mostrar sólo los contenedores en ejecución"
+msgstr "_Mostrar todos los contenedores"
 
 #: src/view/containers_panel.ui:441
 msgid "No Containers Found"
@@ -1825,9 +1789,8 @@ msgid "Start"
 msgstr "Iniciar"
 
 #: src/view/device_row.ui:69 src/view/mount_row.ui:139
-#, fuzzy
 msgid "Container Path"
-msgstr "Ruta del contenedor"
+msgstr "Ruta al contenedor"
 
 #: src/view/device_row.ui:75
 msgid "Readable"
@@ -1986,9 +1949,8 @@ msgid "Download Image"
 msgstr "Descargar imagen"
 
 #: src/view/image_row.rs:207
-#, fuzzy
 msgid "Image {}"
-msgstr "Imagen"
+msgstr "Imagen {}"
 
 #: src/view/image.rs:18
 msgid "Confirm Forced Image Deletion"
@@ -2125,11 +2087,10 @@ msgid "1 image, unused"
 msgstr "1 imagen, sin usar"
 
 #: src/view/images_panel.rs:210
-#, fuzzy
 msgid "{} image total ({}), {} unused ({})"
 msgid_plural "{} images total ({}), {} unused ({})"
-msgstr[0] "{} imagen en total, {} {} sin usar, {}"
-msgstr[1] "{} imágenes en total, {} {} sin usar, {}"
+msgstr[0] "{} imagen en total ({}), {} sin usar ({})"
+msgstr[1] "{} imágenes en total ({}), {} sin usar ({})"
 
 #: src/view/images_panel.rs:229
 msgid "{} Selected Image"
@@ -2150,28 +2111,24 @@ msgstr ""
 "eliminarán!"
 
 #: src/view/images_panel.ui:35
-#, fuzzy
 msgid "_Prune Unused Images"
-msgstr "Eliminar imágenes no usadas"
+msgstr "_Eliminar imágenes no utilizadas"
 
 #: src/view/images_panel.ui:141
 msgid "Create Image"
 msgstr "Crear imagen"
 
 #: src/view/images_panel.ui:150
-#, fuzzy
 msgid "Prune Unused Images"
-msgstr "Eliminar imágenes no usadas"
+msgstr "Eliminar imágenes no utilizadas"
 
 #: src/view/images_panel.ui:171 src/view/images_panel.ui:217
-#, fuzzy
 msgid "Show Only Tagged Images"
-msgstr "Descargar imagen"
+msgstr "Mostrar sólo imágenes etiquetadas"
 
 #: src/view/images_panel.ui:283
-#, fuzzy
 msgid "No Tagged Images"
-msgstr "Descargar imagen"
+msgstr "No hay imágenes etiquetadas"
 
 #: src/view/images_panel.ui:284
 msgid "The result of filtering for tagged images is empty."
@@ -2263,11 +2220,11 @@ msgstr "Versión"
 
 #: src/view/info_panel.ui:64
 msgid "API Version"
-msgstr "Versión API"
+msgstr "Versión de la API"
 
 #: src/view/info_panel.ui:70
 msgid "Built Time"
-msgstr "Tiempo de construcción"
+msgstr "Fecha de construcción"
 
 #: src/view/info_panel.ui:76
 msgid "Git Commit"
@@ -2295,7 +2252,7 @@ msgstr "Archivo de configuración"
 
 #: src/view/info_panel.ui:114
 msgid "Container Store"
-msgstr "Tienda de contenedores"
+msgstr "Almacén de contenedores"
 
 #: src/view/info_panel.ui:115
 msgid "Describes the quantity of containers in the store by status."
@@ -2303,23 +2260,23 @@ msgstr "Describe la cantidad de contenedores en el almacén por estado."
 
 #: src/view/info_panel.ui:153
 msgid "Graph Driver Name"
-msgstr "Nombre del driver gráfico"
+msgstr "Nombre del controlador gráfico"
 
 #: src/view/info_panel.ui:159
 msgid "Graph Options"
-msgstr "Opciones de gráfica"
+msgstr "Opciones de gráfico"
 
 #: src/view/info_panel.ui:179
 msgid "Graph Root"
-msgstr "Raíz del gráfico"
+msgstr "Raíz de gráfico"
 
 #: src/view/info_panel.ui:185
 msgid "Graph Status"
-msgstr "Estado del gráfico"
+msgstr "Estado de gráfico"
 
 #: src/view/info_panel.ui:205
 msgid "Image Store"
-msgstr "Tienda de imágenes"
+msgstr "Almacén de imágenes"
 
 #: src/view/info_panel.ui:206
 msgid "Describes the image store. Right now only the number of images present."
@@ -2329,7 +2286,7 @@ msgstr ""
 
 #: src/view/info_panel.ui:212
 msgid "Run Root"
-msgstr "Ejecutar Raíz"
+msgstr "Raíz de ejecución"
 
 #: src/view/info_panel.ui:218
 msgid "Volume Path"
