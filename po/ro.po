@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-12-01 21:04+0100\n"
-"PO-Revision-Date: 2023-11-29 00:08+0000\n"
+"PO-Revision-Date: 2023-12-05 18:13+0000\n"
 "Last-Translator: SoftExpert <softexpert@gmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/pods/main/ro/>\n"
 "Language: ro\n"
@@ -797,9 +797,8 @@ msgid "Connect to Podman"
 msgstr "Conectați-vă la Podman"
 
 #: src/view/connection_chooser_page.ui:25
-#, fuzzy
 msgid "Choose an existing connection or create a new one"
-msgstr "Alegeți o conexiune existentă sau creați una nouă."
+msgstr "Alegeți o conexiune existentă sau creați una nouă"
 
 #: src/view/connection_chooser_page.ui:72 src/view/welcome_page.ui:82
 msgid "_New Connection"
@@ -1084,30 +1083,25 @@ msgstr "Argument"
 
 #: src/view/container_creation_page.rs:184 src/view/pod_creation_page.rs:179
 #: src/view/pod_creation_page.rs:189
-#, fuzzy
 msgid "Add Argument"
-msgstr "Argument"
+msgstr "Adăugare argument"
 
 #: src/view/container_creation_page.rs:195
-#, fuzzy
 msgid "Add Port Mapping"
-msgstr "Mapări de porturi"
+msgstr "Adăugare de mapări de porturi"
 
 #: src/view/container_creation_page.rs:203
-#, fuzzy
 msgid "Add Volume"
-msgstr "Volum"
+msgstr "Adăugare de Volum"
 
 #: src/view/container_creation_page.rs:213
-#, fuzzy
 msgid "Add Environment Variable"
-msgstr "Variabile de mediu"
+msgstr "Adăugare de variabile de mediu"
 
 #: src/view/container_creation_page.rs:223 src/view/image_build_page.rs:115
 #: src/view/pod_creation_page.rs:144
-#, fuzzy
 msgid "Add Label"
-msgstr "Etichete"
+msgstr "Adăugare de Etichete"
 
 #: src/view/container_creation_page.rs:508
 msgid "Failed to create container"
@@ -1731,18 +1725,16 @@ msgid "Cancel"
 msgstr "Anulează"
 
 #: src/view/containers_panel.ui:258
-#, fuzzy
 msgid "No Running Containers"
-msgstr "Afișarea doar a containerelor în curs de execuție"
+msgstr "Nici un container în curs de execuție"
 
 #: src/view/containers_panel.ui:259
 msgid "The result of filtering for running containers is empty."
-msgstr ""
+msgstr "Filtrul de containere în curs de execuție este fără rezultat."
 
 #: src/view/containers_panel.ui:269
-#, fuzzy
 msgid "_Show All Containers"
-msgstr "Afișarea doar a containerelor în curs de execuție"
+msgstr "Afișează toate containerele"
 
 #: src/view/containers_panel.ui:441
 msgid "No Containers Found"
@@ -2150,18 +2142,16 @@ msgid "Show Only Tagged Images"
 msgstr "Afișarea numai a imaginilor etichetate"
 
 #: src/view/images_panel.ui:283
-#, fuzzy
 msgid "No Tagged Images"
-msgstr "Afișarea numai a imaginilor etichetate"
+msgstr "Nu există imagini etichetate"
 
 #: src/view/images_panel.ui:284
 msgid "The result of filtering for tagged images is empty."
-msgstr ""
+msgstr "Filtrul de imagini etichetate este fără rezultat."
 
 #: src/view/images_panel.ui:294
-#, fuzzy
 msgid "_Show All Images"
-msgstr "Afișarea numai a imaginilor etichetate"
+msgstr "Afișarea tuturor imaginilor"
 
 #: src/view/images_panel.ui:359
 msgid "You can use the buttons below to add an initial image."
@@ -2377,14 +2367,12 @@ msgid "IP"
 msgstr "IP"
 
 #: src/view/pod_creation_page.rs:159
-#, fuzzy
 msgid "Add Host"
-msgstr "Gazde"
+msgstr "Adaugă o Gazdă"
 
 #: src/view/pod_creation_page.rs:169
-#, fuzzy
 msgid "Add Device"
-msgstr "Dispozitive"
+msgstr "Adaugă un dispozitiv"
 
 #: src/view/pod_creation_page.ui:42 src/view/pods_panel.ui:117
 msgid "Create Pod"
@@ -2547,18 +2535,16 @@ msgid "Show Only Running Pods"
 msgstr "Să se afișeze doar capsulele în funcțiune"
 
 #: src/view/pods_panel.ui:258
-#, fuzzy
 msgid "No Running Pods"
-msgstr "Să se afișeze doar capsulele în funcțiune"
+msgstr "Nu exista capsule în curs de execuție"
 
 #: src/view/pods_panel.ui:259
 msgid "The result of filtering for running pods is empty."
-msgstr ""
+msgstr "Filtrul de capsule în curs de execuție este fără rezultat."
 
 #: src/view/pods_panel.ui:269
-#, fuzzy
 msgid "_Show All Pods"
-msgstr "Să se afișeze doar capsulele în funcțiune"
+msgstr "Să se afișeze toate capsulele"
 
 #: src/view/pods_panel.ui:441
 msgid "No Pods Found"
@@ -2759,12 +2745,12 @@ msgstr "Închidere"
 #: src/view/shortcuts.ui:38
 msgctxt "shortcut window"
 msgid "Close window"
-msgstr ""
+msgstr "Închide fereastra"
 
 #: src/view/shortcuts.ui:45
 msgctxt "shortcut window"
 msgid "Close dialog"
-msgstr ""
+msgstr "Închide fereastra de dialog"
 
 #: src/view/shortcuts.ui:52
 msgctxt "shortcut window"
@@ -2804,7 +2790,7 @@ msgstr "Comitere"
 #: src/view/shortcuts.ui:101
 msgctxt "shortcut window"
 msgid "Download files"
-msgstr "Descărcați fișiere"
+msgstr "Descărcare fișiere"
 
 #: src/view/shortcuts.ui:108
 msgctxt "shortcut window"
@@ -2871,40 +2857,40 @@ msgstr "Procese pod"
 
 #: src/view/top_page.rs:130
 msgid "USER"
-msgstr ""
+msgstr "UTILIZATOR"
 
 #: src/view/top_page.rs:137
 msgid "PID"
-msgstr ""
+msgstr "PID"
 
 #: src/view/top_page.rs:144
 msgid "PPID"
-msgstr ""
+msgstr "PPID"
 
 #: src/view/top_page.rs:151
 #, c-format
 msgid "%CPU"
-msgstr ""
+msgstr "%CPU"
 
 #: src/view/top_page.rs:158
 msgid "ELAPSED"
-msgstr ""
+msgstr "PETRECUT"
 
 #: src/view/top_page.rs:165
 msgid "TTY"
-msgstr ""
+msgstr "TTY"
 
 #: src/view/top_page.rs:172
 msgid "TIME"
-msgstr ""
+msgstr "TIMP"
 
 #: src/view/top_page.rs:179
 msgid "COMMAND"
-msgstr ""
+msgstr "COMANDĂ"
 
 #: src/view/top_page.rs:521
 msgid "Killing pod processes is not supported"
-msgstr ""
+msgstr "Terminarea forțată a proceselor capsulelor nu este suportată"
 
 #: src/view/volume_creation_page.ui:42 src/view/volumes_group.ui:12
 #: src/view/volumes_panel.ui:117
@@ -3021,18 +3007,16 @@ msgid "Show Only Used Volumes"
 msgstr "Afișează doar volumele utilizate"
 
 #: src/view/volumes_panel.ui:258
-#, fuzzy
 msgid "No Volumes in Use"
-msgstr "Nu au fost găsite volume"
+msgstr "Nu au fost găsite volume în curs de utilizare"
 
 #: src/view/volumes_panel.ui:259
 msgid "The result of filtering for volumes in use is empty."
-msgstr ""
+msgstr "Filtrarea pe volume în curs de utilizare nu are rezultat."
 
 #: src/view/volumes_panel.ui:269
-#, fuzzy
 msgid "_Show All Volumes"
-msgstr "Afișează doar volumele utilizate"
+msgstr "Afișează toate volumele"
 
 #: src/view/volumes_panel.ui:333
 msgid "No Volumes Found"
@@ -3051,9 +3035,8 @@ msgid "Welcome to Pods"
 msgstr "Bine ați venit în Pods"
 
 #: src/view/welcome_page.ui:68
-#, fuzzy
 msgid "Create a new connection to Podman to get started."
-msgstr "Folosiți butonul de mai jos pentru a crea o nouă conexiune cu Podman."
+msgstr "Crearea unei noi conexiuni cu Podman pentru început."
 
 #: src/view/window.rs:219
 msgid "Confirm Exiting The Application"
