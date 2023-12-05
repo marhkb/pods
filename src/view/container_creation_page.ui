@@ -163,6 +163,13 @@
                                         </child>
 
                                         <child>
+                                          <object class="AdwSwitchRow" id="privileged_switch_row">
+                                            <property name="title" translatable="yes">Privileged</property>
+                                            <property name="subtitle" translatable="yes">Give extended privileges to container</property>
+                                          </object>
+                                        </child>
+
+                                        <child>
                                           <object class="AdwExpanderRow">
                                             <property name="enable-expansion" bind-source="memory_switch" bind-property="active" bind-flags="sync-create"/>
                                             <property name="title" translatable="yes">Memory Limit</property>

@@ -68,6 +68,8 @@ mod imp {
         #[template_child]
         pub(super) terminal_switch_row: TemplateChild<adw::SwitchRow>,
         #[template_child]
+        pub(super) privileged_switch_row: TemplateChild<adw::SwitchRow>,
+        #[template_child]
         pub(super) memory_switch: TemplateChild<gtk::Switch>,
         #[template_child]
         pub(super) mem_value: TemplateChild<gtk::Adjustment>,
@@ -548,6 +550,7 @@ impl ContainerCreationPage {
             .name(imp.name_entry_row.text().as_str())
             .pod(self.pod().as_ref().map(model::Pod::name))
             .terminal(imp.terminal_switch_row.is_active())
+            .privileged(imp.privileged_switch_row.is_active())
             .portmappings(
                 imp.port_mappings()
                     .iter::<model::PortMapping>()
