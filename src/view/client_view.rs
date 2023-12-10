@@ -138,6 +138,22 @@ mod imp {
                 )
                 .build();
 
+            self.sidebar_list_box.set_header_func(|row, _| {
+                row.set_header(
+                    row.child()
+                        .filter(|child| {
+                            child.is::<view::InfoRow>() || child.is::<view::SearchRow>()
+                        })
+                        .map(|_| {
+                            gtk::Separator::builder()
+                                .orientation(gtk::Orientation::Horizontal)
+                                .hexpand(true)
+                                .build()
+                        })
+                        .as_ref(),
+                );
+            });
+
             self.color_bin
                 .style_context()
                 .add_provider(&self.css_provider, gtk::STYLE_PROVIDER_PRIORITY_APPLICATION);
@@ -186,8 +202,8 @@ mod imp {
                                 "pods" => 1,
                                 "images" => 2,
                                 "volumes" => 3,
-                                "info" => 5,
-                                "search" => 7,
+                                "info" => 4,
+                                "search" => 5,
                                 _ => unreachable!(),
                             },
                         )
