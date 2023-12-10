@@ -83,63 +83,62 @@ actionsbutton.failed .action-count-badge {
   color: @error_fg_color;
 }
 
-connectionswitcher row #selection-indicator #background,
+connectionrow #selection-indicator #background,
 actionssidebar #type {
   background-color: @shade_color;
   border-radius: 9999px;
 }
 
-connectionchooserpage connectionswitcher row #color {
+connectionchooserpage connectionrow #color {
   border-radius: 9999px;
   margin: 0 9px 0 0;
   padding: 9px;
 }
 
-connectionssidebar connectionswitcher row #color {
+connectionssidebar connectionrow #color {
   border-radius: 9999px;
   margin: 0 6px 0 0;
   padding: 7px;
 }
 
-connectionssidebar connectionswitcher row #selection-indicator #background,
-connectionssidebar connectionswitcher row #delete-button,
+connectionssidebar connectionrow #selection-indicator #background,
+connectionssidebar connectionrow #delete-button,
 actionssidebar #action,
 actionssidebar #type {
   min-height: 34px;
   min-width: 34px;
 }
 
-connectionchooserpage connectionswitcher row #selection-indicator #background,
-connectionchooserpage connectionswitcher row #delete-button {
-  min-height: 44px;
-  min-width: 44px;
+connectionchooserpage connectionrow #selection-indicator #background,
+connectionchooserpage connectionrow #delete-button {
+  min-height: 38px;
+  min-width: 38px;
 }
 
-connectionswitcher row #selection-indicator #checkmark {
+connectionrow #selection-indicator #checkmark {
   color: @light_1;
   border-radius: 9999px;
   border: solid @accent_bg_color 2px;
   background-color: @accent_bg_color;
 }
 
-connectionswitcher row #selection-indicator .selected-connection {
+connectionrow #selection-indicator .selected-connection {
   border: 2px solid @accent_bg_color;
 }
 
-connectionswitcher row #selection-indicator .unselected-connection,
+connectionrow #selection-indicator .unselected-connection,
 actionssidebar #type {
   padding: 1px;
   border: 1px solid @borders;
 }
 
-connectionssidebar connectionswitcher row,
-actionssidebar row {
-  border-radius: 9px;
-  padding: 6px;
+connectionssidebar connectionrow,
+actionssidebar actionrow {
+  padding: 6px 0;
 }
 
-connectionchooserpage connectionswitcher row {
-  padding: 9px 12px;
+connectionchooserpage connectionrow {
+  padding: 6px;
 }
 
 .status-badge {

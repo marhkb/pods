@@ -254,9 +254,8 @@
 
                             <property name="child">
                               <object class="AdwStatusPage">
-                                <property name="icon-name">action-unavailable-symbolic</property>
+                                <property name="icon-name">drive-harddisk-symbolic</property>
                                 <property name="title" translatable="yes">No Volumes in Use</property>
-                                <property name="description" translatable="yes">The result of filtering for volumes in use is empty.</property>
 
                                 <child>
                                   <object class="GtkButton">
@@ -330,8 +329,8 @@
 
                     <child>
                       <object class="AdwStatusPage">
-                        <property name="title" translatable="yes">No Volumes Found</property>
-                        <property name="description" translatable="yes">You can use the buttons below to add an initial volume.</property>
+                        <property name="icon-name">drive-harddisk-symbolic</property>
+                        <property name="title" translatable="yes">No Volumes Available</property>
 
                         <child>
                           <object class="GtkButton">

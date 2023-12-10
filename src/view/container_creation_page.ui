@@ -107,7 +107,6 @@
                             <child>
                               <object class="GtkStackPage">
                                 <property name="title" translatable="yes">Details</property>
-                                <property name="icon-name">preferences-system-symbolic</property>
 
                                 <property name="child">
                                   <object class="GtkBox">
@@ -269,7 +268,6 @@
                             <child>
                               <object class="GtkStackPage">
                                 <property name="title" translatable="yes">Integration</property>
-                                <property name="icon-name">application-x-addon-symbolic</property>
 
                                 <property name="child">
                                   <object class="GtkBox">
@@ -345,7 +343,6 @@
                             <child>
                               <object class="GtkStackPage">
                                 <property name="title" translatable="yes">Health Check</property>
-                                <property name="icon-name">hospital-symbolic</property>
 
                                 <property name="child">
                                   <object class="AdwPreferencesGroup">

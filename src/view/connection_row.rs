@@ -176,3 +176,11 @@ glib::wrapper! {
         @extends gtk::Widget,
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
+
+impl From<&model::Connection> for ConnectionRow {
+    fn from(connection: &model::Connection) -> Self {
+        glib::Object::builder()
+            .property("connection", connection)
+            .build()
+    }
+}

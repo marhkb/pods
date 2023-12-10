@@ -5,6 +5,8 @@
       <object class="GtkBinLayout"/>
     </property>
 
+    <signal name="notify::connection-manager" handler="on_notify_connection_manager"/>
+
     <child>
       <object class="AdwToolbarView">
 
@@ -20,57 +22,38 @@
         </child>
 
         <child>
-          <object class="AdwStatusPage" id="status_page">
+          <object class="AdwStatusPage">
             <property name="title" translatable="yes">Connect to Podman</property>
             <property name="description" translatable="yes">Choose an existing connection or create a new one</property>
 
             <child>
               <object class="AdwClamp">
+                <property name="maximum-size">570</property>
+
                 <child>
                   <object class="GtkBox">
-                    <property name="spacing">18</property>
                     <property name="orientation">vertical</property>
+                    <property name="spacing">12</property>
 
                     <child>
-                      <object class="AdwBin">
+                      <object class="GtkListBox" id="connection_list_box">
                         <style>
-                          <class name="card"/>
+                          <class name="boxed-list"/>
                         </style>
-                        <property name="overflow">hidden</property>
-
-                        <child>
-                          <object class="GtkScrolledWindow" id="scrolled_window">
-                            <style>
-                              <class name="flat-headerbar-normal-scrollbar"/>
-                            </style>
-                            <property name="height-request">350</property>
-                            <property name="hexpand">True</property>
-                            <property name="vexpand">True</property>
-                            <property name="hscrollbar-policy">never</property>
-
-                            <child>
-                              <object class="PdsConnectionSwitcher">
-                                <binding name="connection-manager">
-                                  <lookup name="connection-manager">PdsConnectionChooserPage</lookup>
-                                </binding>
-                              </object>
-                            </child>
-
-                          </object>
-                        </child>
-
+                        <property name="selection-mode">none</property>
+                        <signal name="row-activated" handler="on_connection_list_box_activated" swapped="true"/>
                       </object>
                     </child>
 
                     <child>
-                      <object class="GtkButton" id="button">
+                      <object class="GtkButton">
                         <style>
                           <class name="pill"/>
                         </style>
                         <property name="action-name">win.create-connection</property>
+                        <property name="label">New Connection</property>
                         <property name="halign">center</property>
-                        <property name="label" translatable="yes">_New Connection</property>
-                        <property name="use-underline">True</property>
+                        <property name="valign">center</property>
                       </object>
                     </child>
 
