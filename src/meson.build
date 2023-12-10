@@ -60,3 +60,25 @@ cargo_build = custom_target(
     'cp', 'src' / rust_target / meson.project_name(), '@OUTPUT@',
   ]
 )
+
+cargo = find_program('cargo', required: true)
+cargo_target_dir = meson.project_build_root() / 'target'
+cargo_home = meson.project_build_root() / 'cargo-home'
+manifest_path = meson.project_source_root() / 'Cargo.toml'
+test (
+  'clippy',
+  cargo,
+  args: [
+    'clippy',
+    '--manifest-path=@0@'.format(manifest_path),
+    '--target-dir=@0@'.format(cargo_target_dir),
+    '--',
+    '-D',
+    'warnings',
+  ],
+  env: [
+    'CARGO_HOME=@0@'.format(cargo_home),
+    'PATH=/app/bin:/usr/bin:/usr/lib/sdk/llvm16/bin:/usr/lib/sdk/rust-stable/bin',
+  ],
+  timeout: 300, # Give cargo more time
+)
