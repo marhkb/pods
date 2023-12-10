@@ -218,7 +218,6 @@ fn init() {
     widget::PropertyWidgetRow::static_type();
     widget::RandomNameEntryRow::static_type();
     widget::ScalableTextView::static_type();
-    widget::SeparatorRow::static_type();
     widget::SourceViewSearchWidget::static_type();
     widget::Spinner::static_type();
     widget::TextSearchEntry::static_type();
