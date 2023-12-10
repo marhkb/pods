@@ -20,6 +20,7 @@
                   <class name="selection-mode"/>
                 </style>
                 <property name="margin-end">12</property>
+                <property name="valign">center</property>
               </object>
             </child>
 
