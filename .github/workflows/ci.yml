@@ -12,14 +12,14 @@ jobs:
     name: Check Commit Style
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: webiny/action-conventional-commits@v1.1.0
+      - uses: actions/checkout@v4
+      - uses: webiny/action-conventional-commits@v1.2.0
 
   typos:
     name: Typos
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: crate-ci/typos@master
         with:
           config: ./.typos.toml
@@ -28,7 +28,7 @@ jobs:
     name: Rustfmt
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
@@ -44,7 +44,7 @@ jobs:
     name: Flatpak
     runs-on: ubuntu-latest
     container:
-      image: bilelmoussaoui/flatpak-github-actions:gnome-44
+      image: bilelmoussaoui/flatpak-github-actions:gnome-45
       options: --privileged
     strategy:
       matrix:
@@ -53,7 +53,7 @@ jobs:
       fail-fast: false
     needs: [check-commit-style, typos, rustfmt]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       # Docker is required by the docker/setup-qemu-action which enables emulation
       - name: Install dependencies
         if: ${{ matrix.arch != 'x86_64' }}
@@ -61,7 +61,7 @@ jobs:
       - name: Set up QEMU
         if: ${{ matrix.arch != 'x86_64' }}
         id: qemu
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
         with:
           platforms: arm64
       - uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v6
@@ -78,7 +78,7 @@ jobs:
     needs: [flatpak]
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Create vendored sources
         run: build-aux/dist-vendor.sh ../ src
         shell: bash
