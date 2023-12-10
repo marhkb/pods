@@ -22,6 +22,8 @@ const ACTION_SELECT_POD: &str = "container-creation-page.select-pod";
 const ACTION_CLEAR_POD: &str = "container-creation-page.clear-pod";
 const ACTION_ADD_PORT_MAPPING: &str = "container-creation-page.add-port-mapping";
 const ACTION_ADD_VOLUME: &str = "container-creation-page.add-volume";
+const ACTION_SET_ENV_FILE: &str = "container-creation-page.set-env-file";
+
 const ACTION_ADD_ENV_VAR: &str = "container-creation-page.add-env-var";
 const ACTION_ADD_LABEL: &str = "container-creation-page.add-label";
 const ACTION_CREATE_AND_RUN: &str = "container-creation-page.create-and-run";
@@ -117,6 +119,9 @@ mod imp {
             });
             klass.install_action(ACTION_ADD_VOLUME, None, |widget, _, _| {
                 widget.add_mount();
+            });
+            klass.install_action(ACTION_SET_ENV_FILE, None, |widget, _, _| {
+                widget.add_env_var();
             });
             klass.install_action(ACTION_ADD_ENV_VAR, None, |widget, _, _| {
                 widget.add_env_var();

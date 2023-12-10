@@ -33,6 +33,7 @@ mod containers_panel;
 mod containers_prune_page;
 mod containers_row;
 mod device_row;
+mod env_row;
 mod image;
 mod image_build_page;
 mod image_details_page;

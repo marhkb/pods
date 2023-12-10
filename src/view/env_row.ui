@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="PdsEventRow" parent="AdwExpanderRow">
+    <property name="activatable">False</property>
+    <property name="selectable">False</property>
+
+    <child type="prefix">
+      <object class="GtkBox">
+        <style>
+          <class name="rich-expander-row-header"/>
+          <class name="title-4"/>
+        </style>
+        <property name="spacing">1</property>
+        <property name="valign">center</property>
+
+        <child>
+          <object class="GtkLabel" id="type_label">
+            <property name="name">badge</property>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkImage">
+            <property name="icon-name">arrow1-right-symbolic</property>
+            <property name="margin-end">3</property>
+            <property name="margin-start">6</property>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkLabel" id="src_label">
+            <property name="name">badge</property>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkLabel">
+            <property name="label">:</property>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkLabel" id="container_path_label">
+            <property name="name">badge</property>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkLabel">
+            <property name="label">:</property>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkLabel" id="options_label">
+            <property name="name">badge</property>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <child type="action">
+      <object class="GtkButton">
+        <style>
+          <class name="flat"/>
+        </style>
+        <property name="action-name">mount-row.remove</property>
+        <property name="icon-name">edit-delete-symbolic</property>
+        <property name="valign">center</property>
+      </object>
+    </child>
+
+    <child>
+      <object class="PdsPropertyWidgetRow" id="mount_type_row">
+        <property name="key" translatable="yes">Type</property>
+
+        <property name="widget">
+          <object class="GtkBox">
+            <style>
+              <class name="linked"/>
+            </style>
+            <property name="homogeneous">True</property>
+            <property name="valign">center</property>
+
+            <child>
+              <object class="GtkToggleButton" id="mount_button">
+                <property name="label" translatable="yes">Bind</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkToggleButton" id="volume_button">
+                <property name="label" translatable="yes">Volume</property>
+              </object>
+            </child>
+
+          </object>
+        </property>
+      </object>
+    </child>
+
+    <child>
+      <object class="AdwEntryRow" id="host_path_entry_row">
+        <property name="title" translatable="yes">Host Path</property>
+      </object>
+    </child>
+
+    <child>
+      <object class="AdwActionRow" id="volume_row">
+        <property name="title" translatable="yes">Volume</property>
+        <property name="action-name">mount-row.select-volume</property>
+        <property name="activatable">True</property>
+        <property name="use-markup">True</property>
+
+        <child type="suffix">
+          <object class="GtkButton" id="clear_volume_button">
+            <style>
+              <class name="flat"/>
+            </style>
+            <property name="action-name">mount-row.clear-volume</property>
+            <property name="icon-name">edit-delete-symbolic</property>
+            <property name="valign">center</property>
+            <property name="visible" bind-source="clear_volume_button" bind-property="sensitive" bind-flags="sync-create"/>
+          </object>
+        </child>
+
+        <child type="suffix">
+          <object class="GtkImage">
+            <property name="icon-name">go-next-symbolic</property>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <child>
+      <object class="AdwEntryRow" id="container_path_entry_row">
+        <property name="title" translatable="yes">Container Path</property>
+      </object>
+    </child>
+
+    <child>
+      <object class="AdwSwitchRow" id="writable_switch_row">
+        <property name="title" translatable="yes">Writable</property>
+      </object>
+    </child>
+
+    <child>
+      <object class="AdwComboRow" id="selinux_combo_row">
+        <property name="title" translatable="yes">SELinux</property>
+        <property name="model">
+          <object class="GtkStringList">
+            <items>
+              <item translatable="yes">No label</item>
+              <item translatable="yes">Shared</item>
+              <item translatable="yes">Private</item>
+            </items>
+          </object>
+        </property>
+      </object>
+    </child>
+
+  </template>
+</interface>
