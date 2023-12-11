@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-09-23 22:25+0200\n"
-"PO-Revision-Date: 2023-12-11 05:07+0000\n"
+"PO-Revision-Date: 2023-12-12 06:07+0000\n"
 "Last-Translator: 민웅기 <kali2005611@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/pods/main/ko/>\n"
 "Language: ko\n"
@@ -1168,23 +1168,23 @@ msgstr ""
 
 #: src/model/action.rs:467
 msgid "Creating tar archive…"
-msgstr ""
+msgstr "tar 아카이브 생성 중…"
 
 #: src/model/action.rs:500
 msgid "Tar archive created"
-msgstr ""
+msgstr "Tar 아카이브가 생성됨"
 
 #: src/model/action.rs:501
 msgid "Unwrapping tar archive…"
-msgstr ""
+msgstr "tar 아카이브를 푸는 중…"
 
 #: src/model/action.rs:509
 msgid "Tar archive unwrapped"
-msgstr ""
+msgstr "Tar 아카이브가 압축 해제됨"
 
 #: src/model/action.rs:510
 msgid "Copying files into container…"
-msgstr ""
+msgstr "파일을 컨테이너에 복사하는 중…"
 
 #: src/model/action.rs:562
 msgid "Download <b>{}:{}</b> to <b>{}</b>"
@@ -1192,11 +1192,11 @@ msgstr ""
 
 #: src/model/action.rs:571
 msgid "Copying bytes into memory…"
-msgstr ""
+msgstr "바이트를 메모리에 복사하는 중…"
 
 #: src/model/action.rs:574 src/model/action.rs:591
 msgid "Size: {}"
-msgstr ""
+msgstr "크기: {}"
 
 #: src/model/action.rs:627
 msgid "Create pod <b>{}</b>"
@@ -1204,94 +1204,94 @@ msgstr ""
 
 #: src/model/action.rs:652
 msgid "Prune stopped pods"
-msgstr ""
+msgstr "중지된 포드 정리"
 
 #: src/model/action.rs:843
 msgid "Create volume <b>{}</b>"
-msgstr ""
+msgstr "볼륨 생성 <b>{}</b>"
 
 #: src/model/action.rs:891
 msgid "Prune unused volumes"
-msgstr ""
+msgstr "사용하지 않는 볼륨 정리"
 
 #: src/model/connection_manager.rs:203
 msgid "Connection '{}' already exists."
-msgstr ""
+msgstr "'{}' 연결이 이미 존재함."
 
 #: src/model/container.rs:69
 msgid "Configured"
-msgstr ""
+msgstr "구성됨"
 
 #: src/model/container.rs:70 src/model/pod.rs:64
 #: src/view/container_properties_group.ui:93 src/view/image_details_page.ui:81
 #: src/view/pod_details_page.ui:196 src/view/volume_details_page.ui:58
 msgid "Created"
-msgstr ""
+msgstr "생성됨"
 
 #: src/model/container.rs:71 src/model/pod.rs:65
 msgid "Dead"
-msgstr ""
+msgstr "폐기됨"
 
 #: src/model/container.rs:72 src/model/pod.rs:68
 msgid "Exited"
-msgstr ""
+msgstr "종료됨"
 
 #: src/model/container.rs:73
 msgid "Initialized"
-msgstr ""
+msgstr "초기화됨"
 
 #: src/model/container.rs:74 src/model/pod.rs:69 src/view/info_panel.ui:132
 msgid "Paused"
-msgstr ""
+msgstr "일시중지됨"
 
 #: src/model/container.rs:75
 msgid "Removing"
-msgstr ""
+msgstr "삭제중"
 
 #: src/model/container.rs:76 src/model/pod.rs:70
 msgid "Restarting"
-msgstr ""
+msgstr "재시작중"
 
 #: src/model/container.rs:77 src/model/pod.rs:71 src/view/info_panel.ui:138
 msgid "Running"
-msgstr ""
+msgstr "실행중"
 
 #: src/model/container.rs:78 src/model/pod.rs:72 src/view/info_panel.ui:144
 msgid "Stopped"
-msgstr ""
+msgstr "중지됨"
 
 #: src/model/container.rs:79
 msgid "Stopping"
-msgstr ""
+msgstr "중지중"
 
 #: src/model/container.rs:80 src/model/container.rs:121 src/model/pod.rs:73
 msgid "Unknown"
-msgstr ""
+msgstr "알수없음"
 
 #: src/model/container.rs:117
 msgid "Checking"
-msgstr ""
+msgstr "확인중"
 
 #: src/model/container.rs:118
 msgid "Healthy"
-msgstr ""
+msgstr "정상"
 
 #: src/model/container.rs:119
 msgid "Unhealthy"
-msgstr ""
+msgstr "비정상"
 
 #: src/model/container.rs:120
 msgid "Unconfigured"
-msgstr ""
+msgstr "구성안됨"
 
 #: src/model/pod.rs:66
 msgid "Degraded"
-msgstr ""
+msgstr "저하됨"
 
 #: src/model/pod.rs:67 src/view/connection_creation_page.rs:260
 #: src/view/scalable_text_view_page.rs:460
 msgid "Error"
-msgstr ""
+msgstr "오류"
 
 #: src/utils.rs:112
 msgid "{} h {} min {} s"
