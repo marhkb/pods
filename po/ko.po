@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-09-23 22:25+0200\n"
-"PO-Revision-Date: 2023-11-14 03:05+0000\n"
+"PO-Revision-Date: 2023-12-11 05:07+0000\n"
 "Last-Translator: 민웅기 <kali2005611@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/pods/main/ko/>\n"
 "Language: ko\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.2-dev\n"
+"X-Generator: Weblate 5.3-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:56
@@ -1115,19 +1115,22 @@ msgstr ""
 
 #: src/model/action.rs:134
 msgid "Prune unused images"
-msgstr ""
+msgstr "사용하지 않는 이미지 정리"
 
 #: src/model/action.rs:172
+#, fuzzy
 msgid "Pull image <b>{}</b>"
-msgstr ""
+msgstr "Pull image <b>{}</b>"
 
 #: src/model/action.rs:210
+#, fuzzy
 msgid "Push image <b>{}</b>"
-msgstr ""
+msgstr "Push image <b>{}</b>"
 
 #: src/model/action.rs:265
+#, fuzzy
 msgid "Build image <b>{}</b>"
-msgstr ""
+msgstr "Build image <b>{}</b>"
 
 #: src/model/action.rs:269
 msgid "Generating tarball of context directory..."
@@ -1135,28 +1138,29 @@ msgstr ""
 
 #: src/model/action.rs:336
 msgid "Prune stopped containers"
-msgstr ""
+msgstr "중지된 컨테이너 정리"
 
 #: src/model/action.rs:376
 msgid "Start new container <b>{}</b>"
-msgstr ""
+msgstr "새 컨테이너 시작 <b>{}</b>"
 
 #: src/model/action.rs:378
 msgid "Create container <b>{}</b>"
-msgstr ""
+msgstr "컨테이너 생성 <b>{}</b>"
 
 #: src/model/action.rs:408
 msgid "none"
-msgstr ""
+msgstr "없음"
 
 #: src/model/action.rs:404
+#, fuzzy
 msgid "Commit image <b>{}</b> ({})"
-msgstr ""
+msgstr "Commit image <b>{}</b> ({})"
 
 #: src/model/action.rs:418 src/model/action.rs:523 src/model/action.rs:611
 #: src/model/action.rs:927
 msgid "Finished"
-msgstr ""
+msgstr "완료됨"
 
 #: src/model/action.rs:460
 msgid "Upload <b>{}</b> to <b>{}:{}</b>"
@@ -1831,6 +1835,10 @@ msgid ""
 "is not readable for normal users. However, there is a workaround using a "
 "systemd unit. Save the following snippet:"
 msgstr ""
+"불행하게도 일반 사용자는 <span weight=\"bold\">/run/podman/podman.sock</"
+"span>을 읽을 수 없기 때문에 현재 Podman 루트 인스턴스에 직접 연결할 수 "
+"없습니다. 그러나 systemd 장치를 사용하는 해결 방법이 있습니다. 다음 스니펫을 "
+"저장:"
 
 #: src/view/connection_custom_info_dialog.ui:201
 msgid "Enable the service by issuing the command:"
