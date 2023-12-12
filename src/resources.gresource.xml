@@ -42,7 +42,6 @@
     <file compressed="true" preprocess="xml-stripblanks">view/image_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/image_search_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/image_search_response_row.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/image_search_widget.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/image_selection_combo_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/image_selection_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/images_panel.ui</file>

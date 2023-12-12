@@ -22,6 +22,8 @@ mod imp {
         #[template_child]
         pub(super) description_label: TemplateChild<gtk::Label>,
         #[template_child]
+        pub(super) stars_box: TemplateChild<gtk::Box>,
+        #[template_child]
         pub(super) stars_label: TemplateChild<gtk::Label>,
     }
 
@@ -59,12 +61,44 @@ mod imp {
             let obj = &*self.obj();
 
             let response_expr = Self::Type::this_expression("image-search-response");
+            let name_expr = response_expr.chain_property::<model::ImageSearchResponse>("name");
+            let tag_expr = response_expr.chain_property::<model::ImageSearchResponse>("tag");
+            let has_no_tag_expr =
+                tag_expr.chain_closure::<bool>(closure!(|_: Self::Type, tag: Option<&str>| tag
+                    .filter(|tag| !tag.is_empty())
+                    .is_none()));
             let description_expr =
                 response_expr.chain_property::<model::ImageSearchResponse>("description");
+            let stars_expr = response_expr.chain_property::<model::ImageSearchResponse>("stars");
 
-            response_expr
-                .chain_property::<model::ImageSearchResponse>("name")
-                .bind(&self.name_label.get(), "label", Some(obj));
+            let style_manager = adw::StyleManager::default();
+
+            gtk::ClosureExpression::new::<String>(
+                [
+                    &name_expr,
+                    &tag_expr,
+                    &style_manager.property_expression("dark"),
+                    &style_manager.property_expression("high-contrast"),
+                ],
+                closure!(|_: Self::Type,
+                          name: String,
+                          tag: Option<String>,
+                          is_dark: bool,
+                          is_hc| {
+                    tag.map(|tag| {
+                        let tag = format!(
+                            "<span foreground=\"{}\"{}>{}</span>",
+                            if is_dark { "#78aeed" } else { "#1c71d8" },
+                            if is_hc { " weight=\"bold\"" } else { "" },
+                            tag,
+                        );
+
+                        format!("{name} {tag}")
+                    })
+                    .unwrap_or(name)
+                }),
+            )
+            .bind(&self.name_label.get(), "label", Some(obj));
 
             description_expr.bind(&self.description_label.get(), "label", Some(obj));
 
@@ -74,9 +108,8 @@ mod imp {
                 }))
                 .bind(&*self.description_label, "visible", Some(obj));
 
-            response_expr
-                .chain_property::<model::ImageSearchResponse>("stars")
-                .bind(&self.stars_label.get(), "label", Some(obj));
+            has_no_tag_expr.bind(&self.stars_box.get(), "visible", Some(obj));
+            stars_expr.bind(&self.stars_label.get(), "label", Some(obj));
         }
 
         fn dispose(&self) {

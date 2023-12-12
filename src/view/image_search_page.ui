@@ -1,44 +1,185 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
+
+  <object class="GtkSizeGroup" id="size_group">
+    <property name="mode">horizontal</property>
+    <widgets>
+      <widget name="action_button"/>
+    </widgets>
+  </object>
+
   <template class="PdsImageSearchPage" parent="GtkWidget">
     <property name="layout-manager">
       <object class="GtkBinLayout"/>
     </property>
+    <signal name="notify::show-cancel-button" handler="on_notify_show_cancel_button"/>
 
     <child>
-      <object class="AdwToolbarView">
-
-        <child type="top">
-          <object class="AdwHeaderBar" id="header_bar">
-            <property name="show-end-title-buttons">False</property>
-            <property name="show-start-title-buttons">False</property>
-
-            <child type="title">
-              <object class="AdwWindowTitle">
-                <property name="title" translatable="yes">Image Search</property>
-              </object>
-            </child>
-
-            <child type="end">
-              <object class="GtkButton" id="build_button">
-                <style>
-                  <class name="suggested-action"/>
-                </style>
-                <property name="action-name">image-search-widget.select</property>
-                <property name="label" translatable="yes">_Select</property>
-                <property name="use-underline">True</property>
-              </object>
-            </child>
-
-          </object>
-        </child>
+      <object class="AdwNavigationView" id="navigation_view">
 
         <child>
-          <object class="PdsImageSearchWidget" id="image_search_widget">
-            <signal name="notify::selected-image" handler="on_image_search_widget_notify_selected_image" swapped="true"/>
-            <binding name="client">
-              <lookup name="client">PdsImageSearchPage</lookup>
-            </binding>
+          <object class="AdwNavigationPage">
+
+            <child>
+              <object class="AdwToolbarView">
+
+                <child type="top">
+                  <object class="AdwHeaderBar">
+                    <property name="show-end-title-buttons">False</property>
+                    <property name="show-start-title-buttons">False</property>
+
+                    <child type="start">
+                      <object class="GtkButton" id="cancel_button">
+                        <property name="action-name">action.cancel</property>
+                        <property name="label" translatable="yes">_Cancel</property>
+                        <property name="use-underline">True</property>
+                        <binding name="visible">
+                          <lookup name="show-cancel-button">PdsImageSearchPage</lookup>
+                        </binding>
+                      </object>
+                    </child>
+
+                    <child type="title">
+                      <object class="GtkSearchEntry" id="search_entry">
+                        <signal name="search-changed" handler="on_search_entry_search_changed" swapped="true"/>
+                        <property name="activates-default">True</property>
+                        <property name="max-width-chars">28</property>
+                        <property name="placeholder-text" translatable="yes">Enter image search term</property>
+
+                        <child>
+                          <object class="GtkEventControllerKey">
+                            <signal name="key-pressed" handler="on_search_entry_key_pressed" swapped="true"/>
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                    <child type="end">
+                      <object class="GtkButton" id="action_button">
+                        <style>
+                          <class name="suggested-action"/>
+                        </style>
+                        <property name="action-name">image-search-page.select</property>
+                        <property name="label" translatable="yes">Next</property>
+                        <property name="use-underline">True</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkStack" id="stack">
+
+                    <child>
+                      <object class="GtkStackPage">
+                        <property name="name">search</property>
+
+                        <property name="child">
+
+                          <object class="GtkStack" id="search_stack">
+
+                            <child>
+                              <object class="GtkStackPage">
+                                <property name="name">initial</property>
+                                <property name="child">
+                                  <object class="AdwStatusPage">
+                                    <style>
+                                      <class name="compact"/>
+                                    </style>
+                                    <property name="icon-name">system-search-symbolic</property>
+                                    <property name="title" translatable="yes">Find Remote Images</property>
+                                    <property name="description" translatable="yes">Please start typing to look for remote images</property>
+                                  </object>
+                                </property>
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="GtkStackPage">
+                                <property name="name">searching</property>
+                                <property name="child">
+                                  <object class="AdwStatusPage">
+                                    <style>
+                                      <class name="compact"/>
+                                    </style>
+                                    <property name="icon-name">system-search-symbolic</property>
+                                    <property name="title" translatable="yes">Searching</property>
+
+                                    <child>
+                                      <object class="PdsEfficientSpinner" id="spinner">
+                                        <property name="halign">center</property>
+                                        <property name="valign">center</property>
+                                        <property name="height-request">30</property>
+                                        <property name="width-request">30</property>
+                                      </object>
+                                    </child>
+
+                                  </object>
+                                </property>
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="GtkStackPage">
+                                <property name="name">nothing</property>
+                                <property name="child">
+                                  <object class="AdwStatusPage" id="no_results_status_page">
+                                    <style>
+                                      <class name="compact"/>
+                                    </style>
+                                    <property name="icon-name">emblem-important-symbolic</property>
+                                    <property name="description" translatable="yes">Please retry another term.</property>
+                                  </object>
+                                </property>
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="GtkStackPage">
+                                <property name="name">results</property>
+                                <property name="child">
+
+                                  <object class="GtkScrolledWindow" id="scrolled_window">
+                                    <property name="hexpand">True</property>
+                                    <property name="vexpand">True</property>
+                                    <property name="hscrollbar-policy">never</property>
+
+                                    <child>
+                                      <object class="GtkListView">
+                                        <property name="show-separators">True</property>
+                                        <property name="factory">
+                                          <object class="GtkSignalListItemFactory">
+                                            <signal name="setup" handler="on_signal_list_item_factory_setup" swapped="true"/>
+                                            <signal name="bind" handler="on_signal_list_item_factory_bind" swapped="true"/>
+                                          </object>
+                                        </property>
+                                        <property name="model">
+                                          <object class="GtkSingleSelection" id="selection"/>
+                                        </property>
+                                        <signal name="activate" handler="on_image_activated" swapped="true"/>
+                                      </object>
+                                    </child>
+
+                                  </object>
+                                </property>
+
+                              </object>
+                            </child>
+
+                          </object>
+                        </property>
+
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
           </object>
         </child>
 
