@@ -407,9 +407,10 @@ impl ImagesPanel {
 
     pub(crate) fn show_download_page(&self) {
         if let Some(client) = self.client() {
-            utils::show_dialog(
+            utils::show_dialog_with_height(
                 self.upcast_ref(),
                 view::ImagePullPage::from(&client).upcast_ref(),
+                700,
             );
         }
     }

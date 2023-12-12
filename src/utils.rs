@@ -164,14 +164,20 @@ pub(crate) fn root(widget: &gtk::Widget) -> gtk::Window {
     widget.root().unwrap().downcast::<gtk::Window>().unwrap()
 }
 
-pub(crate) fn show_dialog(widget: &gtk::Widget, content: &gtk::Widget) {
+pub(crate) fn show_dialog_with_size(
+    widget: &gtk::Widget,
+    content: &gtk::Widget,
+    width: i32,
+    height: i32,
+) {
     let toast_overlay = adw::ToastOverlay::new();
     toast_overlay.set_child(Some(content));
 
     let dialog = adw::Window::builder()
         .modal(true)
         .transient_for(&root(widget))
-        .default_width(640)
+        .default_width(width)
+        .default_height(height)
         .content(&toast_overlay)
         .build();
 
@@ -195,6 +201,14 @@ pub(crate) fn show_dialog(widget: &gtk::Widget, content: &gtk::Widget) {
     ));
     dialog.add_controller(controller);
     dialog.present();
+}
+
+pub(crate) fn show_dialog_with_height(widget: &gtk::Widget, content: &gtk::Widget, height: i32) {
+    show_dialog_with_size(widget, content, 640, height);
+}
+
+pub(crate) fn show_dialog(widget: &gtk::Widget, content: &gtk::Widget) {
+    show_dialog_with_size(widget, content, 640, -1);
 }
 
 pub(crate) fn show_toast(widget: &gtk::Widget, title: impl Into<glib::GString>) {

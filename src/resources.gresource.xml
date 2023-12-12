@@ -42,7 +42,6 @@
     <file compressed="true" preprocess="xml-stripblanks">view/image_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/image_search_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/image_search_response_row.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/image_search_widget.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/image_selection_combo_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/image_selection_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/images_panel.ui</file>
@@ -64,6 +63,7 @@
     <file compressed="true" preprocess="xml-stripblanks">view/repo_tag_add_dialog.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/repo_tag_push_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/repo_tag_row.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/repo_tag_selection_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/repo_tag_simple_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/scalable_text_view_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/search_panel.ui</file>

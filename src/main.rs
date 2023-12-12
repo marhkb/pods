@@ -178,6 +178,8 @@ fn init() {
     view::ImageBuildPage::static_type();
     view::ImageHistoryPage::static_type();
     view::ImageMenuButton::static_type();
+    view::ImagePullPage::static_type();
+    view::ImageSearchPage::static_type();
     view::ImageSearchResponseRow::static_type();
     view::ImageSelectionComboRow::static_type();
     view::ImageSelectionPage::static_type();
@@ -194,6 +196,7 @@ fn init() {
     view::RepoTagAddDialog::static_type();
     view::RepoTagPushPage::static_type();
     view::RepoTagRow::static_type();
+    view::RepoTagSelectionPage::static_type();
     view::RepoTagSimpleRow::static_type();
     view::ScalableTextViewPage::static_type();
     view::SearchPanel::static_type();

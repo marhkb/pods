@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="PdsRepoTagSelectionPage" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBinLayout"/>
+    </property>
+
+    <child>
+      <object class="AdwToolbarView">
+
+        <child type="top">
+          <object class="AdwHeaderBar">
+            <property name="show-end-title-buttons">False</property>
+            <property name="show-start-title-buttons">False</property>
+
+            <child type="start">
+              <object class="GtkToggleButton" id="filter_button">
+                <property name="icon-name">system-search-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Filter</property>
+                <signal name="toggled" handler="on_filter_button_toggled" swapped="true"/>
+              </object>
+            </child>
+
+            <child type="title">
+              <object class="GtkStack" id="title_stack">
+                <property name="hexpand">True</property>
+                <property name="transition-type">crossfade</property>
+
+                <child>
+                  <object class="GtkStackPage">
+                    <property name="name">title</property>
+
+                    <property name="child">
+                      <object class="AdwWindowTitle">
+                        <property name="title" translatable="yes">Select Tag</property>
+                        <property name="subtitle" bind-source="PdsRepoTagSelectionPage" bind-property="image-name"/>
+                      </object>
+                    </property>
+
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkSearchEntry" id="filter_entry">
+                    <property name="hexpand">True</property>
+                    <property name="margin-start">36</property>
+                    <property name="margin-end">36</property>
+                    <signal name="search-started" handler="on_filter_started" swapped="true"/>
+                    <signal name="search-changed" handler="on_filter_changed" swapped="true"/>
+
+                    <child>
+                      <object class="GtkEventControllerKey">
+                        <signal name="key-pressed" handler="on_filter_key_pressed" swapped="true"/>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+            <child type="end">
+              <object class="GtkButton" id="action_button">
+                <style>
+                  <class name="suggested-action"/>
+                </style>
+                <property name="action-name">repo-tag-selection-page.select</property>
+                <property name="use-underline">True</property>
+                <binding name="label">
+                  <lookup name="action-button-name">PdsRepoTagSelectionPage</lookup>
+                </binding>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkStack" id="stack">
+
+            <child>
+              <object class="GtkStackPage">
+                <property name="name">search</property>
+
+                <property name="child">
+
+                  <object class="GtkStack" id="search_stack">
+
+                    <child>
+                      <object class="GtkStackPage">
+                        <property name="name">searching</property>
+                        <property name="child">
+                          <object class="AdwStatusPage">
+                            <style>
+                              <class name="compact"/>
+                            </style>
+                            <property name="icon-name">system-search-symbolic</property>
+                            <property name="title" translatable="yes">Fetching Tags</property>
+
+                            <child>
+                              <object class="PdsEfficientSpinner" id="spinner">
+                                <property name="halign">center</property>
+                                <property name="valign">center</property>
+                                <property name="height-request">30</property>
+                                <property name="width-request">30</property>
+                              </object>
+                            </child>
+
+                          </object>
+                        </property>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkStackPage">
+                        <property name="name">nothing</property>
+                        <property name="child">
+                          <object class="AdwStatusPage" id="no_results_status_page">
+                            <style>
+                              <class name="compact"/>
+                            </style>
+                            <property name="icon-name">emblem-important-symbolic</property>
+                            <property name="description" translatable="yes">Please retry another term.</property>
+                          </object>
+                        </property>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkStackPage">
+                        <property name="name">results</property>
+                        <property name="child">
+
+                          <object class="GtkScrolledWindow" id="scrolled_window">
+                            <property name="hexpand">True</property>
+                            <property name="vexpand">True</property>
+                            <property name="hscrollbar-policy">never</property>
+
+                            <child>
+                              <object class="GtkListView">
+                                <property name="show-separators">True</property>
+                                <property name="factory">
+                                  <object class="GtkSignalListItemFactory">
+                                    <signal name="setup" handler="on_signal_list_item_factory_setup" swapped="true"/>
+                                    <signal name="bind" handler="on_signal_list_item_factory_bind" swapped="true"/>
+                                  </object>
+                                </property>
+                                <property name="model">
+                                  <object class="GtkSingleSelection" id="selection"/>
+                                </property>
+                                <signal name="activate" handler="on_image_activated" swapped="true"/>
+                              </object>
+                            </child>
+
+                          </object>
+                        </property>
+
+                      </object>
+                    </child>
+
+                  </object>
+                </property>
+
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>

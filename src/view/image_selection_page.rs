@@ -285,7 +285,7 @@ impl ImageSelectionPage {
         let imp = self.imp();
 
         if !enable && !imp.filter_button.is_active() {
-            utils::navigation_view(self.upcast_ref()).pop();
+            self.activate_action("navigation.pop", None).unwrap();
         } else {
             imp.filter_button.set_active(enable);
             if !enable {
@@ -304,8 +304,7 @@ impl ImageSelectionPage {
     pub(crate) fn select(&self) {
         if let Some(image) = self.selected_image() {
             self.emit_by_name::<()>("image-selected", &[&image]);
-
-            utils::navigation_view(self.upcast_ref()).pop();
+            self.activate_action("navigation.pop", None).unwrap();
         }
     }
 
