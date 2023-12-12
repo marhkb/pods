@@ -194,6 +194,7 @@ fn init() {
     view::RepoTagAddDialog::static_type();
     view::RepoTagPushPage::static_type();
     view::RepoTagRow::static_type();
+    view::RepoTagSelectionPage::static_type();
     view::RepoTagSimpleRow::static_type();
     view::ScalableTextViewPage::static_type();
     view::SearchPanel::static_type();

@@ -64,6 +64,7 @@
     <file compressed="true" preprocess="xml-stripblanks">view/repo_tag_add_dialog.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/repo_tag_push_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/repo_tag_row.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/repo_tag_selection_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/repo_tag_simple_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/scalable_text_view_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/search_panel.ui</file>
