@@ -123,9 +123,10 @@
                 <child>
                   <object class="AdwActionRow" id="unix_socket_url_row">
                     <property name="title" translatable="yes">Unix Socket</property>
+                    <property name="activatable-widget">unix_socket_radio_button</property>
 
                     <child type="prefix">
-                      <object class="GtkCheckButton">
+                      <object class="GtkCheckButton" id="unix_socket_radio_button">
                         <property name="active">True</property>
                         <property name="group">custom_url_radio_button</property>
                         <property name="valign">center</property>
@@ -251,10 +252,10 @@
                 </child>
 
                 <child>
-                  <object class="AdwExpanderRow">
-                    <property name="activatable">False</property>
-                    <property name="enable-expansion" bind-source="custom_url_radio_button" bind-property="active" bind-flags="sync-create|bidirectional"/>
-                    <property name="title" translatable="yes">Custom</property>
+                  <object class="AdwEntryRow" id="custom_url_entry_row">
+                    <signal name="entry-activated" handler="on_custom_url_entry_row_activated" swapped="true"/>
+                    <signal name="changed" handler="on_custom_url_entry_row_changed" swapped="true"/>
+                    <property name="title" translatable="yes">Custom URL</property>
 
                     <child type="prefix">
                       <object class="GtkCheckButton" id="custom_url_radio_button">
@@ -262,21 +263,21 @@
                       </object>
                     </child>
 
+                    <child type="suffix">
+                      <object class="GtkButton">
+                        <style>
+                          <class name="flat"/>
+                        </style>
+                        <property name="action-name">connection-creation-page.show-custom-info-dialog</property>
+                        <property name="icon-name">dialog-information-symbolic</property>
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+
                     <child>
-                      <object class="AdwEntryRow" id="url_entry_row">
-                        <property name="title" translatable="yes">Connection String</property>
-
-                        <child type="suffix">
-                          <object class="GtkButton">
-                            <style>
-                              <class name="flat"/>
-                            </style>
-                            <property name="action-name">connection-creation-page.show-custom-info-dialog</property>
-                            <property name="icon-name">dialog-information-symbolic</property>
-                            <property name="valign">center</property>
-                          </object>
-                        </child>
-
+                      <object class="GtkEventControllerKey">
+                        <signal name="key-pressed" handler="on_custom_url_entry_key_pressed" swapped="true"/>
+                        <property name="propagation-phase">capture</property>
                       </object>
                     </child>
 

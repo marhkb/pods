@@ -47,7 +47,7 @@ mod imp {
         #[template_child]
         pub(super) custom_url_radio_button: TemplateChild<gtk::CheckButton>,
         #[template_child]
-        pub(super) url_entry_row: TemplateChild<adw::EntryRow>,
+        pub(super) custom_url_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
         pub(super) color_dialog_button: TemplateChild<gtk::ColorDialogButton>,
         #[template_child]
@@ -181,6 +181,32 @@ mod imp {
         fn on_name_entry_row_changed(&self) {
             self.obj().update_actions();
         }
+
+        #[template_callback]
+        fn on_custom_url_entry_row_activated(&self) {
+            self.custom_url_radio_button.set_active(true);
+        }
+
+        #[template_callback]
+        fn on_custom_url_entry_row_changed(&self) {
+            self.custom_url_radio_button.set_active(true);
+        }
+
+        #[template_callback]
+        fn on_custom_url_entry_key_pressed(
+            &self,
+            key: gdk::Key,
+            _: u32,
+            _: gdk::ModifierType,
+            _: &gtk::EventControllerKey,
+        ) -> glib::Propagation {
+            if key == gdk::Key::space {
+                self.custom_url_radio_button.set_active(true);
+                glib::Propagation::Stop
+            } else {
+                glib::Propagation::Proceed
+            }
+        }
     }
 }
 
@@ -222,7 +248,7 @@ impl ConnectionCreationPage {
             if let Err(e) = self.connection_manager().try_connect(
                 imp.name_entry_row.text().as_str(),
                 if imp.custom_url_radio_button.is_active() {
-                    imp.url_entry_row.text().into()
+                    imp.custom_url_entry_row.text().into()
                 } else {
                     utils::unix_socket_url()
                 }
