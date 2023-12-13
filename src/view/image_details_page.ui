@@ -84,7 +84,7 @@
 
                 <child>
                   <object class="PdsPropertyRow" id="size_row">
-                    <property name="key" translatable="yes">Disk space</property>
+                    <property name="key" translatable="yes">Disk Space</property>
                   </object>
                 </child>
 
