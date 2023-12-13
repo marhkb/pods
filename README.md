@@ -4,7 +4,7 @@
   Pods
 </h1>
 
-<p align="center"><strong>Keep track of your podman containers</strong></p>
+<p align="center"><strong>Manage your Podman containers</strong></p>
 
 <p align="center">
   <a href="https://flathub.org/apps/details/com.github.marhkb.Pods">
