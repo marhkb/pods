@@ -174,10 +174,14 @@ mod imp {
 
             let filter =
                 gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
-                    let term = obj.imp().filter_entry.text().to_lowercase();
-
-                    let image = item.downcast_ref::<model::ImageSearchResponse>().unwrap();
-                    image.tag().unwrap().contains(&term)
+                    let text = obj.imp().filter_entry.text();
+                    let mut terms = text.split_ascii_whitespace();
+                    let tag = item
+                        .downcast_ref::<model::ImageSearchResponse>()
+                        .unwrap()
+                        .tag()
+                        .unwrap();
+                    terms.all(|term| tag.contains(&term.to_ascii_lowercase()))
                 }));
             self.filter.set(filter.clone().upcast()).unwrap();
             let filter_list_model =
