@@ -184,7 +184,7 @@ mod imp {
                             .unwrap_or_else(|| {
                                 format!(
                                     "<i>{}</i>",
-                                    gettext("No volume selected (will create a new one).")
+                                    gettext("No volume selected (will create a new one)")
                                 )
                             })
                     }

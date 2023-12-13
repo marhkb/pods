@@ -84,7 +84,7 @@
 
                 <child>
                   <object class="PdsPropertyRow" id="size_row">
-                    <property name="key" translatable="yes">Disk space</property>
+                    <property name="key" translatable="yes">Disk Space</property>
                   </object>
                 </child>
 
@@ -119,7 +119,7 @@
                 <child>
                   <object class="AdwActionRow">
                     <property name="title" translatable="yes">Inspection</property>
-                    <property name="subtitle" translatable="yes">View all image properties in a structured text form.</property>
+                    <property name="subtitle" translatable="yes">View all image properties in a structured text form</property>
                     <property name="activatable">True</property>
                     <property name="action-name">image-details-page.inspect-image</property>
                     <property name="icon-name">system-search-symbolic</property>
@@ -136,7 +136,7 @@
                 <child>
                   <object class="AdwActionRow">
                     <property name="title" translatable="yes">History</property>
-                    <property name="subtitle" translatable="yes">View parent layers of this image.</property>
+                    <property name="subtitle" translatable="yes">View parent layers of this image</property>
                     <property name="activatable">True</property>
                     <property name="action-name">image-details-page.show-history</property>
                     <property name="icon-name">stacked-plates-symbolic</property>

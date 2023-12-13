@@ -150,19 +150,11 @@
                                     </child>
 
                                     <child>
-                                      <object class="PdsSeparatorRow"/>
-                                    </child>
-
-                                    <child>
                                       <object class="PdsInfoRow">
                                         <binding name="client">
                                           <lookup name="client">PdsClientView</lookup>
                                         </binding>
                                       </object>
-                                    </child>
-
-                                    <child>
-                                      <object class="PdsSeparatorRow"/>
                                     </child>
 
                                     <child>

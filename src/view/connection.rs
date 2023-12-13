@@ -19,7 +19,7 @@ pub(crate) fn show_ongoing_actions_warning_dialog(
             .heading(heading)
             .body_use_markup(true)
             .body(gettext(
-                "There are ongoing actions whose progress will be irretrievably lost.",
+                "There are ongoing actions whose progress will be irretrievably lost",
             ))
             .transient_for(&utils::root(widget))
             .build();

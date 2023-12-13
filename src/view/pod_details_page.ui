@@ -231,7 +231,7 @@
                 <child>
                   <object class="AdwActionRow">
                     <property name="title" translatable="yes">Inspection</property>
-                    <property name="subtitle" translatable="yes">View all pod properties in a structured text form.</property>
+                    <property name="subtitle" translatable="yes">View all pod properties in a structured text form</property>
                     <property name="activatable">True</property>
                     <property name="action-name">pod-details-page.inspect-pod</property>
                     <property name="icon-name">system-search-symbolic</property>
@@ -248,7 +248,7 @@
                 <child>
                   <object class="AdwActionRow">
                     <property name="title" translatable="yes">Kube</property>
-                    <property name="subtitle" translatable="yes">Generate Kubernetes YAML based on this pod.</property>
+                    <property name="subtitle" translatable="yes">Generate Kubernetes YAML based on this pod</property>
                     <property name="activatable">True</property>
                     <property name="action-name">pod-details-page.generate-kube</property>
                     <property name="icon-name">code-symbolic</property>
@@ -265,7 +265,7 @@
                 <child>
                   <object class="AdwActionRow">
                     <property name="title" translatable="yes">Processes</property>
-                    <property name="subtitle" translatable="yes">View processes that are currently running inside the pod.</property>
+                    <property name="subtitle" translatable="yes">View processes of the pod</property>
                     <property name="activatable">True</property>
                     <property name="action-name">pod-details-page.show-processes</property>
                     <property name="icon-name">application-x-executable-symbolic</property>

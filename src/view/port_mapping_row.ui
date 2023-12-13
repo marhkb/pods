@@ -102,7 +102,7 @@
     <child>
       <object class="AdwSpinRow">
         <property name="title" translatable="yes">Host Port</property>
-        <property name="subtitle" translatable="yes">If 0, a random port on the host (guaranteed to be over 1024) will be assigned.</property>
+        <property name="subtitle" translatable="yes">If 0, a random port is assigned on the host (guaranteed above 1024)</property>
         <property name="numeric">True</property>
         <property name="adjustment">
           <object class="GtkAdjustment" id="host_port_adjustment">

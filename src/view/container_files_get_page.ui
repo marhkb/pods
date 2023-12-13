@@ -74,7 +74,7 @@
                             <object class="AdwActionRow" id="host_path_row">
                               <property name="activatable">False</property>
                               <property name="title" translatable="yes">Host Path</property>
-                              <property name="subtitle" translatable="yes">Select a destination tar archive on the host.</property>
+                              <property name="subtitle" translatable="yes">Select a destination tar archive on the host</property>
 
                               <child type="suffix">
                                 <object class="GtkButton">

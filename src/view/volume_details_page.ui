@@ -75,7 +75,7 @@
                 <child>
                   <object class="AdwActionRow">
                     <property name="title" translatable="yes">Inspection</property>
-                    <property name="subtitle" translatable="yes">View all volume properties in a structured text form.</property>
+                    <property name="subtitle" translatable="yes">View all volume properties in a structured text form</property>
                     <property name="activatable">True</property>
                     <property name="action-name">volume-details-page.inspect-volume</property>
                     <property name="icon-name">system-search-symbolic</property>

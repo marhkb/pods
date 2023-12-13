@@ -269,7 +269,7 @@
 
                                             <child>
                                               <object class="AdwSwitchRow" id="infra_pull_latest_image_switch_row">
-                                                <property name="title" translatable="yes">Pull latest image</property>
+                                                <property name="title" translatable="yes">Pull Latest Image</property>
                                               </object>
                                             </child>
 

@@ -91,7 +91,6 @@
     <file compressed="true" preprocess="xml-stripblanks">widget/property_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">widget/property_widget_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">widget/random_name_entry_row.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">widget/separator_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">widget/source_view_search_widget.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">widget/spinner.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">widget/text_search_entry.ui</file>

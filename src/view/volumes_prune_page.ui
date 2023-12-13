@@ -67,7 +67,7 @@
 
                         <child>
                           <object class="PdsDateTimeRow" id="prune_until_row">
-                            <property name="subtitle" translatable="yes">Prune volumes created before this timestamp.</property>
+                            <property name="subtitle" translatable="yes">Prune volumes created before this timestamp</property>
                           </object>
                         </child>
 

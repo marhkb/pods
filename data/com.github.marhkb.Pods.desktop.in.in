@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Pods
-Comment=Keep track of your podman containers
+Comment=Manage your Podman containers
 Type=Application
 Exec=pods
 Terminal=false

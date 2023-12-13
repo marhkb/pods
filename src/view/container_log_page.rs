@@ -694,7 +694,7 @@ impl ContainerLogPage {
                             }),
                             clone!(@weak obj => move || {
                                 obj.action_set_enabled(ACTION_SAVE_TO_FILE, true);
-                                utils::show_toast(obj.upcast_ref(), gettext("Log has been saved."));
+                                utils::show_toast(obj.upcast_ref(), gettext("Log has been saved"));
                             }),
                         );
                     }
