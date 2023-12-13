@@ -160,6 +160,14 @@ mod imp {
                 }),
             );
 
+            self.connection_manager.connect_items_changed(
+                clone!(@weak obj => move |connection_manager, _, _, _| {
+                    if connection_manager.n_items() == 0 {
+                        obj.imp().main_stack.set_visible_child_name("welcome");
+                    }
+                }),
+            );
+
             self.connection_manager.connect_client_notify(
                 clone!(@weak obj => move |manager| match manager.client() {
                     Some(client) => client.check_service(
@@ -192,13 +200,11 @@ mod imp {
                 }),
             );
 
-            self.connection_manager
-                .setup(clone!(@weak obj => move |result| match result {
-                    Ok(_) => if obj.connection_manager().n_items() == 0 {
-                        obj.imp().main_stack.set_visible_child_name("welcome");
-                    }
-                    Err(e) => obj.on_connection_manager_setup_error(e),
-                }));
+            self.connection_manager.setup(
+                clone!(@weak obj => move |result| if let Err(e) = result {
+                    obj.on_connection_manager_setup_error(e);
+                }),
+            );
         }
     }
 
@@ -277,6 +283,7 @@ impl Window {
 
     fn on_connection_manager_setup_error(&self, e: impl ToString) {
         let imp = self.imp();
+
         imp.main_stack
             .set_visible_child_name(if imp.connection_manager.n_items() > 0 {
                 "connection-chooser"
