@@ -70,7 +70,7 @@
                             <child>
                               <object class="AdwSwitchRow" id="tls_verify_switch_row">
                                 <property name="title" translatable="yes">TLS Verify</property>
-                                <property name="subtitle">Require TLS verification.</property>
+                                <property name="subtitle">Require TLS verification</property>
                               </object>
                             </child>
 
@@ -80,7 +80,7 @@
                         <child>
                           <object class="AdwPreferencesGroup" id="login_group">
                             <property name="title" translatable="yes">Login</property>
-                            <property name="description" translatable="yes">Some registries require authentication.</property>
+                            <property name="description" translatable="yes">Some registries require authentication</property>
                             <property name="sensitive">False</property>
 
                             <property name="header-suffix">

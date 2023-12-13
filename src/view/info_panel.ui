@@ -101,7 +101,7 @@
                     <child>
                       <object class="AdwPreferencesGroup">
                         <property name="title" translatable="yes">Storage</property>
-                        <property name="description" translatable="yes">Describes the container storage and its attributes.</property>
+                        <property name="description" translatable="yes">Describes the container storage and its attributes</property>
 
                         <child>
                           <object class="PdsPropertyRow" id="store_config_file_row">
@@ -112,7 +112,7 @@
                         <child>
                           <object class="AdwExpanderRow">
                             <property name="title" translatable="yes">Container Store</property>
-                            <property name="subtitle" translatable="yes">Describes the quantity of containers in the store by status.</property>
+                            <property name="subtitle" translatable="yes">Describes the quantity of containers in the store by status</property>
 
                             <child type="action">
                               <object class="GtkLabel" id="store_container_store_label">
@@ -203,7 +203,7 @@
                         <child>
                           <object class="PdsPropertyRow" id="store_image_store_row">
                             <property name="key" translatable="yes">Image Store</property>
-                            <property name="subtitle" translatable="yes">Describes the image store. Right now only the number of images present.</property>
+                            <property name="subtitle" translatable="yes">Describes number of images</property>
                           </object>
                         </child>
 
@@ -234,8 +234,8 @@
 
                 <property name="child">
                   <object class="AdwStatusPage" id="error_status_page">
-                    <property name="title" translatable="yes">Error While Gathering Info</property>
-                    <property name="description" translatable="yes">You can use the buttons below to retry.</property>
+                    <property name="title" translatable="yes">No Info</property>
+                    <property name="description" translatable="yes">There was an error while fetching the information</property>
 
                     <child>
                       <object class="GtkButton">

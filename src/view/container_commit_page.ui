@@ -122,7 +122,7 @@
                         <child>
                           <object class="AdwSwitchRow" id="pause_switch_row">
                             <property name="title" translatable="yes">Pause</property>
-                            <property name="subtitle" translatable="yes">Pause the container before committing it.</property>
+                            <property name="subtitle" translatable="yes">Pause the container before committing it</property>
                           </object>
                         </child>
 
@@ -132,7 +132,7 @@
                     <child>
                       <object class="AdwPreferencesGroup">
                         <property name="title" translatable="yes">Changes</property>
-                        <property name="description" translatable="yes">Instructions to apply while committing in Dockerfile format (i.e. "CMD=/bin/foo").</property>
+                        <property name="description" translatable="yes">Instructions to apply while committing in Dockerfile format (i.e. "CMD=/bin/foo")</property>
                         <child>
                           <object class="GtkListBox" id="changes_list_box">
                             <style>

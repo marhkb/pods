@@ -118,7 +118,7 @@
             <child>
               <object class="AdwPreferencesGroup">
                 <property name="title" translatable="yes">URL</property>
-                <property name="description" translatable="yes">Choose how you want to connect to Podman.</property>
+                <property name="description" translatable="yes">Choose how to connect to Podman</property>
 
                 <child>
                   <object class="AdwActionRow" id="unix_socket_url_row">
@@ -293,7 +293,7 @@
                   <object class="AdwActionRow">
                     <property name="activatable-widget">color_switch</property>
                     <property name="title" translatable="yes">Color</property>
-                    <property name="subtitle" translatable="yes">Set the color of this connection.</property>
+                    <property name="subtitle" translatable="yes">Set the color of this connection</property>
 
                     <child>
                       <object class="GtkBox">

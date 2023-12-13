@@ -67,20 +67,20 @@
                         <child>
                           <object class="AdwSwitchRow" id="prune_all_switch_row">
                             <property name="title" translatable="yes">Prune All</property>
-                            <property name="subtitle" translatable="yes">Remove all images not in use by containers, not just dangling ones.</property>
+                            <property name="subtitle" translatable="yes">Remove all images not in use by containers, not just dangling ones</property>
                           </object>
                         </child>
 
                         <child>
                           <object class="AdwSwitchRow" id="prune_external_switch_row">
                             <property name="title" translatable="yes">Prune External</property>
-                            <property name="subtitle" translatable="yes">Remove images even when they are used by external containers (e.g, by build containers).</property>
+                            <property name="subtitle" translatable="yes">Remove images even when they are used by external containers (e.g, by build containers)</property>
                           </object>
                         </child>
 
                         <child>
                           <object class="PdsDateTimeRow" id="prune_until_row">
-                            <property name="subtitle" translatable="yes">Prune images created before this timestamp.</property>
+                            <property name="subtitle" translatable="yes">Prune images created before this timestamp</property>
                           </object>
                         </child>
 

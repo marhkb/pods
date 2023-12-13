@@ -231,7 +231,7 @@ impl ImageBuildPage {
         if imp.tag_entry_row.text().contains(char::is_uppercase) {
             utils::show_toast(
                 self.upcast_ref(),
-                gettext("Image name should not contain uppercase characters."),
+                gettext("Image name must not contain uppercase characters"),
             );
             return;
         }

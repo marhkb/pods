@@ -201,7 +201,7 @@
                 <child>
                   <object class="AdwActionRow">
                     <property name="title" translatable="yes">Inspection</property>
-                    <property name="subtitle" translatable="yes">View all container properties in a structured text form.</property>
+                    <property name="subtitle" translatable="yes">View all container properties in a structured text form</property>
                     <property name="activatable">True</property>
                     <property name="action-name">container-details-page.inspect</property>
                     <property name="icon-name">system-search-symbolic</property>
@@ -218,7 +218,7 @@
                 <child>
                   <object class="AdwActionRow">
                     <property name="title" translatable="yes">Kube</property>
-                    <property name="subtitle" translatable="yes">Generate Kubernetes YAML based on this container.</property>
+                    <property name="subtitle" translatable="yes">Generate Kubernetes YAML based on this container</property>
                     <property name="activatable">True</property>
                     <property name="action-name">container-details-page.generate-kube</property>
                     <property name="icon-name">code-symbolic</property>
@@ -235,7 +235,7 @@
                 <child>
                   <object class="AdwActionRow">
                     <property name="title" translatable="yes">Terminal</property>
-                    <property name="subtitle" translatable="yes">Connect to the container's terminal.</property>
+                    <property name="subtitle" translatable="yes">Connect to the container's terminal</property>
                     <property name="activatable">True</property>
                     <property name="action-name">container-details-page.show-tty</property>
                     <property name="icon-name">utilities-terminal-symbolic</property>
@@ -252,7 +252,7 @@
                 <child>
                   <object class="AdwActionRow">
                     <property name="title" translatable="yes">Logs</property>
-                    <property name="subtitle" translatable="yes">View and search through container logs.</property>
+                    <property name="subtitle" translatable="yes">View and search through container logs</property>
                     <property name="activatable">True</property>
                     <property name="action-name">container-details-page.show-log</property>
                     <property name="icon-name">text-editor-symbolic</property>
@@ -269,7 +269,7 @@
                 <child>
                   <object class="AdwActionRow">
                     <property name="title" translatable="yes">Processes</property>
-                    <property name="subtitle" translatable="yes">View processes that are currently running inside the container.</property>
+                    <property name="subtitle" translatable="yes">View and manage processes of the container</property>
                     <property name="activatable">True</property>
                     <property name="action-name">container-details-page.show-processes</property>
                     <property name="icon-name">application-x-executable-symbolic</property>

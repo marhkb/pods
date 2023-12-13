@@ -33,7 +33,7 @@
               <object class="AdwStatusPage">
                 <property name="icon-name">utilities-terminal-symbolic</property>
                 <property name="title" translatable="yes">No Terminal</property>
-                <property name="description" translatable="yes">The container must be running to use the terminal.</property>
+                <property name="description" translatable="yes">The container must be running to use the terminal</property>
 
                 <child>
                   <object class="GtkButton">

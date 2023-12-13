@@ -121,7 +121,7 @@
                               <class name="compact"/>
                             </style>
                             <property name="icon-name">emblem-important-symbolic</property>
-                            <property name="description" translatable="yes">Please retry another term.</property>
+                            <property name="description" translatable="yes">Please retry another term</property>
                           </object>
                         </property>
                       </object>

@@ -91,7 +91,7 @@
             <child>
               <object class="AdwPreferencesGroup">
                 <property name="title" translatable="yes">Log</property>
-                <property name="description" translatable="yes">Rows describe the last 5 health check attempts and results.</property>
+                <property name="description" translatable="yes">Rows describe the last 5 health check attempts and results</property>
 
                 <property name="header-suffix">
                   <object class="GtkButton">

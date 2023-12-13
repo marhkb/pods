@@ -30,7 +30,7 @@
                   <object class="AdwStatusPage">
                     <property name="icon-name">system-search-symbolic</property>
                     <property name="title" translatable="yes">Search</property>
-                    <property name="description" translatable="yes">Please start typing to look for results.</property>
+                    <property name="description" translatable="yes">Start typing to look for results</property>
                   </object>
                 </property>
 
@@ -45,7 +45,7 @@
                   <object class="AdwStatusPage">
                     <property name="icon-name">system-search-symbolic</property>
                     <property name="title" translatable="yes">No Results Found</property>
-                    <property name="description" translatable="yes">Please retry another term.</property>
+                    <property name="description" translatable="yes">Please retry another term</property>
                   </object>
                 </property>
 

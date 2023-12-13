@@ -357,7 +357,7 @@
                                     <child>
                                       <object class="AdwSpinRow">
                                         <property name="title" translatable="yes">Interval</property>
-                                        <property name="subtitle" translatable="yes">Interval in seconds how often health check is run.</property>
+                                        <property name="subtitle" translatable="yes">Health check interval in seconds</property>
                                         <property name="numeric">True</property>
                                         <property name="adjustment">
                                           <object class="GtkAdjustment" id="health_check_interval_value">
@@ -374,7 +374,7 @@
                                     <child>
                                       <object class="AdwSpinRow">
                                         <property name="title" translatable="yes">Timeout</property>
-                                        <property name="subtitle" translatable="yes">The maximum time in seconds allowed to complete the health check before an interval is considered failed.</property>
+                                        <property name="subtitle" translatable="yes">Seconds allowed to complete the command before it fails</property>
                                         <property name="numeric">True</property>
                                         <property name="adjustment">
                                           <object class="GtkAdjustment" id="health_check_timeout_value">
@@ -391,7 +391,7 @@
                                     <child>
                                       <object class="AdwSpinRow">
                                         <property name="title" translatable="yes">Start Period</property>
-                                        <property name="subtitle" translatable="yes">The initialization time in seconds needed for a container to bootstrap.</property>
+                                        <property name="subtitle" translatable="yes">Initial delay of the command in seconds to grant the container time to boot</property>
                                         <property name="numeric">True</property>
                                         <property name="adjustment">
                                           <object class="GtkAdjustment" id="health_check_start_period_value">
@@ -408,7 +408,7 @@
                                     <child>
                                       <object class="AdwSpinRow">
                                         <property name="title" translatable="yes">Retries</property>
-                                        <property name="subtitle" translatable="yes">The number of retries allowed before a healthcheck is considered to be unhealthy.</property>
+                                        <property name="subtitle" translatable="yes">Number of retries allowed before a healthcheck fails</property>
                                         <property name="numeric">True</property>
                                         <property name="adjustment">
                                           <object class="GtkAdjustment" id="health_check_retries_value">
