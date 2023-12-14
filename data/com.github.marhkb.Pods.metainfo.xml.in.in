@@ -45,15 +45,30 @@
     <release version="2.1.0~devel" date="2023-11-25">
       <description translatable="no">
         <p>Pods 2.1.0 contains the following changes:</p>
+        <p>Features</p>
         <ul>
-          <li>Build about dialog from appdata. (#743)</li>
-          <li>Close all remaining processes after container terminal exits. (#744)</li>
+          <li>
+            The image search has been completely revised and is now much more streamlined.
+            In addition, the tags of an image are suggested. (#758)
+          </li>
+          <li>Enable searching for container and pod processes. (#747)</li>
+          <li>Killing container processes is now supported. (#748)</li>
+          <li>The image search results now have an "verified" icon if an image is official. (#761)</li>
+        </ul>
+        <p>Fixes</p>
+        <ul>
+          <li>All remaining processes are now closed after a container terminal exits. (#744)</li>
+        </ul>
+        <p>Improvements</p>
+        <ul>
+          <li>We now use appdata to construct the about dialog. (#743)</li>
           <li>Improve performance by utilizing the <em>SignalListItemFactory::setup</em> signal. (#745)</li>
           <li>Port <em>GtkTreeView</em> to <em>GtkColumnView</em>. (#746)</li>
-          <li>Enable searching for container and pod processes. (#747)</li>
-          <li>feat(top-page): Enable killing container processes. (#748)</li>
-          <li>The image search results now have an "verified" icon if an image is official. (#?)</li>
-          <li>Various style improvements have landed. (#741)</li>
+          <li>
+            After the last connection has been removed from the page with the connection selection,
+            the home page is displayed again. (#760)
+          </li>
+          <li>Various style improvements (#741, #757)</li>
         </ul>
       </description>
     </release>
