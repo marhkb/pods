@@ -22,7 +22,7 @@ mod imp {
         #[property(get, set, construct_only, nullable)]
         pub(super) name: OnceCell<Option<String>>,
         #[property(get, set, construct_only, nullable)]
-        pub(super) official: OnceCell<Option<String>>,
+        pub(super) official: OnceCell<bool>,
         #[property(get, set, construct_only)]
         pub(super) stars: OnceCell<i64>,
         #[property(get, set, construct_only, nullable)]
@@ -61,7 +61,10 @@ impl From<podman::models::RegistrySearchResponse> for ImageSearchResponse {
             .property("description", response.description)
             .property("index", response.index)
             .property("name", response.name)
-            .property("official", response.official)
+            .property(
+                "official",
+                response.official.map(|s| !s.is_empty()).unwrap_or(false),
+            )
             .property("stars", response.stars.unwrap_or(-1))
             .property("tag", response.tag)
             .build()
