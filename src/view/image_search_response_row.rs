@@ -20,6 +20,8 @@ mod imp {
         #[template_child]
         pub(super) name_label: TemplateChild<gtk::Label>,
         #[template_child]
+        pub(super) official_icon: TemplateChild<gtk::Image>,
+        #[template_child]
         pub(super) description_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) stars_box: TemplateChild<gtk::Box>,
@@ -62,6 +64,8 @@ mod imp {
 
             let response_expr = Self::Type::this_expression("image-search-response");
             let name_expr = response_expr.chain_property::<model::ImageSearchResponse>("name");
+            let official_expr =
+                response_expr.chain_property::<model::ImageSearchResponse>("official");
             let tag_expr = response_expr.chain_property::<model::ImageSearchResponse>("tag");
             let has_no_tag_expr =
                 tag_expr.chain_closure::<bool>(closure!(|_: Self::Type, tag: Option<&str>| tag
@@ -99,6 +103,8 @@ mod imp {
                 }),
             )
             .bind(&self.name_label.get(), "label", Some(obj));
+
+            official_expr.bind(&self.official_icon.get(), "visible", Some(obj));
 
             description_expr.bind(&self.description_label.get(), "label", Some(obj));
 

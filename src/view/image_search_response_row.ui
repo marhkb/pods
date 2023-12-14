@@ -19,11 +19,28 @@
         <property name="hexpand">true</property>
 
         <child>
-          <object class="GtkLabel" id="name_label">
-            <property name="use-markup">True</property>
-            <property name="wrap">True</property>
-            <property name="wrap-mode">word</property>
-            <property name="xalign">0</property>
+          <object class="GtkBox">
+            <property name="spacing">3</property>
+
+            <child>
+              <object class="GtkLabel" id="name_label">
+                <property name="use-markup">True</property>
+                <property name="wrap">True</property>
+                <property name="wrap-mode">word</property>
+                <property name="xalign">0</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkImage" id="official_icon">
+                <style>
+                  <class name="accent"/>
+                </style>
+                <property name="icon-name">verified-checkmark-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Official</property>
+              </object>
+            </child>
+
           </object>
         </child>
 
