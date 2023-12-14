@@ -52,6 +52,7 @@
           <li>Port <em>GtkTreeView</em> to <em>GtkColumnView</em>. (#746)</li>
           <li>Enable searching for container and pod processes. (#747)</li>
           <li>feat(top-page): Enable killing container processes. (#748)</li>
+          <li>The image search results now have an "verified" icon if an image is official. (#?)</li>
           <li>Various style improvements have landed. (#741)</li>
         </ul>
       </description>
