@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-12-01 21:04+0100\n"
-"PO-Revision-Date: 2023-05-08 18:08+0000\n"
-"Last-Translator: William Gabriel Karvat <linkwgk@gmail.com>\n"
-"Language-Team: Portuguese <https://hosted.weblate.org/projects/pods/main/pt/"
-">\n"
+"PO-Revision-Date: 2023-12-15 20:09+0000\n"
+"Last-Translator: ssantos <ssantos@web.de>\n"
+"Language-Team: Portuguese <https://hosted.weblate.org/projects/pods/main/pt/>"
+"\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.18-dev\n"
+"X-Generator: Weblate 5.3\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:56
@@ -34,7 +34,7 @@ msgstr "Acompanhe seus contêineres podman"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:9
 msgid "Gnome;GTK;libadwaita;Podman;Containerization;"
-msgstr ""
+msgstr "Gnome;GTK;libadwaita;Podman;Containerização;Conteinerização;"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:6
 #: data/com.github.marhkb.Pods.gschema.xml.in:7
@@ -1920,17 +1920,17 @@ msgstr ""
 #. Translators: "{}" are placeholders for storage space.
 #: src/view/image_details_page.rs:183
 msgid "{} (Virtual: {})"
-msgstr ""
+msgstr "{} (virtual: {})"
 
 #. Translators: "{}" are placeholders for storage space.
 #: src/view/image_details_page.rs:192
 msgid "{} (Shared: {})"
-msgstr ""
+msgstr "{} (partilhado: {})"
 
 #. Translators: "{}" are placeholders for storage space.
 #: src/view/image_details_page.rs:202
 msgid "{} (Shared: {}, Virtual: {})"
-msgstr ""
+msgstr "{} (partilhado: {}, virtual: {})"
 
 #: src/view/image_details_page.rs:276
 msgid "Error on loading image details"
@@ -1977,7 +1977,7 @@ msgstr "Visualize as camadas principais desta imagem."
 
 #: src/view/image_details_page.ui:158
 msgid "Repository Tags"
-msgstr ""
+msgstr "Etiquetas do repositório"
 
 #: src/view/image_history_page.rs:81
 msgid "{} entry"
@@ -2153,7 +2153,7 @@ msgstr "Imagem remota"
 #: src/view/image_selection_page.ui:19 src/view/pod_selection_page.ui:19
 #: src/view/volume_selection_page.ui:19
 msgid "Filter"
-msgstr ""
+msgstr "Filtrar"
 
 #: src/view/image_selection_page.ui:35
 #, fuzzy
@@ -2171,14 +2171,14 @@ msgstr ""
 #: src/view/images_panel.rs:210
 msgid "{} image total ({}), {} unused ({})"
 msgid_plural "{} images total ({}), {} unused ({})"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} imagem no total ({}), {} não usada ({})"
+msgstr[1] "{} imagens no total ({}), {} não usadas ({})"
 
 #: src/view/images_panel.rs:229
 msgid "{} Selected Image"
 msgid_plural "{} Selected Images"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} imagem selecionada"
+msgstr[1] "{} imagens selecionadas"
 
 #: src/view/images_panel.rs:479
 msgid "Confirm Forced Deletion of Multiple Images"
@@ -2324,7 +2324,7 @@ msgstr "Versão do Go"
 
 #: src/view/info_panel.ui:88
 msgid "Os Arch"
-msgstr ""
+msgstr "Arquitetura do SO"
 
 #: src/view/info_panel.ui:103
 msgid "Storage"
@@ -2675,7 +2675,7 @@ msgstr ""
 
 #: src/view/repo_tag_add_dialog.ui:7
 msgid "Add Repository Tag"
-msgstr ""
+msgstr "Adiciona marcador do repositorio"
 
 #: src/view/repo_tag_add_dialog.ui:11
 msgid "_Add"
@@ -2683,7 +2683,7 @@ msgstr "_Adicionar"
 
 #: src/view/repo_tag_add_dialog.ui:33
 msgid "Repository Tag"
-msgstr ""
+msgstr "Marcador do repositorio"
 
 #: src/view/repo_tag_push_page.rs:170
 msgid "Error on accessing keyring"
