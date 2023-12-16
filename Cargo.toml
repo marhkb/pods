@@ -13,6 +13,7 @@ gettext-rs = { version = "0.7", features = ["gettext-system"] }
 gtk = { git = "https://github.com/gtk-rs/gtk4-rs.git", version = "0.8", package = "gtk4", features = ["gnome_45"] }
 indexmap = { version = "2", features = ["serde"] }
 log = "0.4"
+multi_log = "0.1"
 names = { version = "0.14", default-features = false }
 oo7 = { version = "0.2", default-features = false, features = ["native_crypto", "tokio"] }
 panel = { git = "https://gitlab.gnome.org/World/Rust/libpanel-rs.git", version = "0.3", package = "libpanel", features = ["adw_v1_2"] }
@@ -20,6 +21,7 @@ paste = "1"
 podman-api = { git = "https://github.com/vv9k/podman-api-rs.git", commit = "363d945b9b9905c50dfa0bfe0f9331f9fdeef079", default-features = false }
 serde = "1"
 serde_json = "1"
+simplelog = { version = "0.12", features = ["paris"] }
 sourceview5 = { git = "https://gitlab.gnome.org/World/Rust/sourceview5-rs.git", version = "0.8", features = ["gtk_v4_12"] }
 syslog = "6"
 tokio = "1"
