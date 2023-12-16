@@ -17,6 +17,7 @@ use std::sync::OnceLock;
 use adw::prelude::*;
 use gettextrs::gettext;
 use gettextrs::LocaleCategory;
+use glib::clone;
 use glib::once_cell::sync::Lazy;
 use gtk::gio;
 use gtk::glib;
@@ -39,7 +40,61 @@ fn main() {
             // ... and exit application.
             1
         } else {
-            glib::log_set_writer_func(glib::log_writer_journald);
+            let (log_level_filter, log_level) = match dict.lookup::<String>("log-level").unwrap() {
+                Some(level) => (
+                    log::LevelFilter::from_str(&level).expect("Error on parsing log-level-filter"),
+                    log::Level::from_str(&level).expect("Error on parsing log-level"),
+                ),
+                // Standard log levels if not specified by user
+                #[cfg(debug_assertions)]
+                None => (log::LevelFilter::Debug, log::Level::Debug),
+                #[cfg(not(debug_assertions))]
+                None => (log::LevelFilter::Info, log::Level::Info),
+            };
+
+            let mut loggers: Vec<Box<dyn log::Log>> = Vec::new();
+
+            let term_logger = simplelog::TermLogger::new(
+                log_level_filter,
+                simplelog::Config::default(),
+                simplelog::TerminalMode::Mixed,
+                simplelog::ColorChoice::Auto,
+            );
+            loggers.push(term_logger);
+
+            let syslog_formatter = syslog::Formatter3164 {
+                facility: syslog::Facility::LOG_USER,
+                hostname: None,
+                process: String::from("pods"),
+                pid: std::process::id(),
+            };
+            match syslog::unix(syslog_formatter.clone())
+                .or_else(|_| syslog::unix_custom(syslog_formatter, "/run/systemd/journal/dev-log"))
+            {
+                Ok(logger) => {
+                    loggers.push(Box::new(syslog::BasicLogger::new(logger)));
+                }
+                Err(_) => println!("Could not initialize syslog logging."),
+            }
+
+            multi_log::MultiLogger::init(loggers, log_level).unwrap();
+
+            glib::log_set_writer_func(clone!(@strong log_level => move |glib_log_level, fields| {
+                if (glib_log_level == glib::LogLevel::Debug && log_level >= log::Level::Debug )
+                    || (glib_log_level == glib::LogLevel::Info && log_level >= log::Level::Info)
+                    || (glib_log_level == glib::LogLevel::Message && log_level >= log::Level::Info)
+                    || (glib_log_level == glib::LogLevel::Warning && log_level >= log::Level::Warn)
+                    || (glib_log_level == glib::LogLevel::Error && log_level >= log::Level::Error)
+                    || (glib_log_level == glib::LogLevel::Critical && log_level >= log::Level::Error)
+                {
+                    glib::log_writer_standard_streams(glib_log_level, fields);
+                    glib::log_writer_journald(glib_log_level, fields);
+
+                    glib::LogWriterOutput::Handled
+                } else {
+                    glib::LogWriterOutput::Unhandled
+                }
+            }));
 
             adw::init().expect("Failed to init GTK/libadwaita");
             panel::init();
@@ -67,31 +122,6 @@ fn main() {
                 &gio::Resource::load(config::UI_RESOURCES_FILE)
                     .expect("Could not load UI gresource file"),
             );
-
-            let log_level_filter = match dict.lookup::<String>("log-level").unwrap() {
-                Some(level) => {
-                    log::LevelFilter::from_str(&level).expect("Error on parsing log-level")
-                }
-                // Standard log levels if not specified by user
-                #[cfg(debug_assertions)]
-                None => log::LevelFilter::Debug,
-                #[cfg(not(debug_assertions))]
-                None => log::LevelFilter::Info,
-            };
-
-            if syslog::init_unix(syslog::Facility::LOG_USER, log_level_filter).is_err()
-                && syslog::init_unix_custom(
-                    syslog::Facility::LOG_USER,
-                    log_level_filter,
-                    "/run/systemd/journal/dev-log",
-                )
-                .is_err()
-            {
-                println!(
-                    "Could not initialize logging. \
-                    Tried socket paths '/dev/log' and '/run/systemd/journal/dev-log'"
-                );
-            }
 
             APPLICATION_OPTS.set(ApplicationOptions::default()).unwrap();
 
