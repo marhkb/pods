@@ -138,7 +138,10 @@
                             <property name="hscrollbar-policy">never</property>
 
                             <child>
-                              <object class="GtkListView">
+                              <object class="GtkListView" id="list_view">
+                                <style>
+                                  <class name="background"/>
+                                </style>
                                 <property name="show-separators">True</property>
                                 <property name="factory">
                                   <object class="GtkSignalListItemFactory">

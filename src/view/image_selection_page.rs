@@ -37,6 +37,8 @@ mod imp {
         #[template_child]
         pub(super) select_button: TemplateChild<gtk::Button>,
         #[template_child]
+        pub(super) list_view: TemplateChild<gtk::ListView>,
+        #[template_child]
         pub(super) selection: TemplateChild<gtk::SingleSelection>,
     }
 
@@ -117,6 +119,8 @@ mod imp {
                         .unwrap_or_else(|| image.id().contains(&term))
                 }));
             self.filter.set(filter.upcast()).unwrap();
+
+            self.list_view.remove_css_class("view");
         }
 
         fn dispose(&self) {

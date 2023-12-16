@@ -53,6 +53,8 @@ mod imp {
         #[template_child]
         pub(super) scrolled_window: TemplateChild<gtk::ScrolledWindow>,
         #[template_child]
+        pub(super) list_view: TemplateChild<gtk::ListView>,
+        #[template_child]
         pub(super) selection: TemplateChild<gtk::SingleSelection>,
     }
 
@@ -213,6 +215,8 @@ mod imp {
                     gtk::Ordering::Equal
                 })),
             );
+
+            self.list_view.remove_css_class("view");
 
             self.selection.set_model(Some(&sort_list_model));
         }

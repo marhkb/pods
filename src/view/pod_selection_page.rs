@@ -36,6 +36,8 @@ mod imp {
         #[template_child]
         pub(super) select_button: TemplateChild<gtk::Button>,
         #[template_child]
+        pub(super) list_view: TemplateChild<gtk::ListView>,
+        #[template_child]
         pub(super) selection: TemplateChild<gtk::SingleSelection>,
     }
 
@@ -112,6 +114,8 @@ mod imp {
                     pod.name().to_lowercase().contains(&term)
                 }));
             self.filter.set(filter.upcast()).unwrap();
+
+            self.list_view.remove_css_class("view");
         }
 
         fn dispose(&self) {
