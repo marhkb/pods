@@ -60,6 +60,7 @@
         <p>Fixes</p>
         <ul>
           <li>All remaining processes are now closed after a container terminal exits. (#744)</li>
+          <li>Streams are now closed correctly so that they do not run forever when the user changes the connection. (#764)</li>
         </ul>
         <p>Improvements</p>
         <ul>
