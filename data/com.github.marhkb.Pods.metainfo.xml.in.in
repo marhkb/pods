@@ -42,6 +42,17 @@
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="2.0.1" date="2023-12-18">
+      <description translatable="no">
+        <p>The first point release of Pods contains the following fixes and style improvements:</p>
+        <ul>
+          <li>All remaining processes are now closed after a container terminal exits. (#744)</li>
+          <li>Separators in the sidebar now are no longer navigatable. (Part of #757)</li>
+          <li>The focus indicator of selection mode toggle buttons is now a circle instead of an ellipse. (Part of #757)</li>
+          <li>Streams are now closed correctly so that they do not run forever when the user changes the connection. (#764)</li>
+        </ul>
+      </description>
+    </release>
     <release version="2.0.0" date="2023-11-11">
       <description translatable="no">
         <p>This is the first stable release of Pods 2.0 and includes the following changes:</p>

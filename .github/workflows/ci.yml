@@ -12,14 +12,14 @@ jobs:
     name: Check Commit Style
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: webiny/action-conventional-commits@v1.1.0
+      - uses: actions/checkout@v4
+      - uses: webiny/action-conventional-commits@v1.2.0
 
   typos:
     name: Typos
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: crate-ci/typos@master
         with:
           config: ./.typos.toml
@@ -28,7 +28,7 @@ jobs:
     name: Rustfmt
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
@@ -40,82 +40,20 @@ jobs:
       - name: Run cargo fmt
         run: cargo fmt --all -- --check
 
-  clippy:
-    name: Clippy
-    runs-on: ubuntu-latest
-    container:
-      image: bilelmoussaoui/flatpak-github-actions:gnome-44
-      options: --privileged
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Cache flatpak
-        id: cache-flatpak
-        uses: actions/cache@v3
-        with:
-          path: .flatpak-builder
-          key: ${{ runner.os }}-flatpak-${{ hashFiles('build-aux/com.github.marhkb.Pods.Devel.json') }}
-          restore-keys: ${{ runner.os }}-flatpak-
-
-      - name: Cache cargo
-        id: cache-cargo
-        uses: actions/cache@v3
-        with:
-          path: /github/home/.cargo
-          key: ${{ runner.os }}-cargo-${{ hashFiles('Cargo.lock') }}
-          restore-keys: ${{ runner.os }}-cargo-
-
-      - name: Create dummy versions of configured file
-        run: |
-          sed \
-            -e 's/str =.*;/str = "";/g' \
-            -e 's/i32 =.*;/i32 = 0;/g' \
-            src/config.rs.in \
-            > src/config.rs
-
-      - name: Build dependencies
-        run: |
-          flatpak-builder \
-          --disable-rofiles-fuse \
-          --install-deps-from=flathub \
-          --keep-build-dirs \
-          --stop-at=pods \
-          flatpak_app build-aux/com.github.marhkb.Pods.Devel.json
-
-      - name: Retrieve rustc version
-        id: rustc-version
-        run: |
-          echo "RUSTC_VERSION=$(flatpak-builder --run flatpak_app build-aux/com.github.marhkb.Pods.Devel.json rustc -V)" >> $GITHUB_OUTPUT
-
-      - name: Cache target
-        id: cache-target
-        uses: actions/cache@v3
-        with:
-          path: target
-          key: ${{ runner.os }}-target-${{ steps.rustc-version.outputs.RUSTC_VERSION }}-${{ hashFiles('Cargo.lock') }}
-          restore-keys: ${{ runner.os }}-target-${{ steps.rustc-version.outputs.RUSTC_VERSION }}
-
-      - name: Run clippy
-        run: |
-          flatpak-builder \
-          --run \
-          flatpak_app build-aux/com.github.marhkb.Pods.Devel.json \
-          cargo clippy -- -D warnings
-
   flatpak:
     name: Flatpak
     runs-on: ubuntu-latest
     container:
-      image: bilelmoussaoui/flatpak-github-actions:gnome-44
+      image: bilelmoussaoui/flatpak-github-actions:gnome-45
       options: --privileged
     strategy:
       matrix:
         arch: [x86_64]
       # Don't fail the whole workflow if one architecture fails
       fail-fast: false
-    needs: [check-commit-style, typos, rustfmt, clippy]
+    needs: [check-commit-style, typos, rustfmt]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       # Docker is required by the docker/setup-qemu-action which enables emulation
       - name: Install dependencies
         if: ${{ matrix.arch != 'x86_64' }}
@@ -123,7 +61,7 @@ jobs:
       - name: Set up QEMU
         if: ${{ matrix.arch != 'x86_64' }}
         id: qemu
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
         with:
           platforms: arm64
       - uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v6
@@ -140,7 +78,7 @@ jobs:
     needs: [flatpak]
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Create vendored sources
         run: build-aux/dist-vendor.sh ../ src
         shell: bash

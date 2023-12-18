@@ -1,6 +1,6 @@
 [package]
 name = "pods"
-version = "2.0.0"
+version = "2.0.1"
 authors = ["Marcus Behrendt <marcus.behrendt.86@gmail.com>"]
 edition = "2021"
 
@@ -24,7 +24,7 @@ sourceview5 = { git = "https://gitlab.gnome.org/World/Rust/sourceview5-rs.git", 
 syslog = "6"
 tokio = "1"
 tokio-tar = { version = "0.3", default-features = false }
-vte = { version = "0.12", default-features = false }
+vte = { version = "0.13", default-features = false }
 vte4 = { git = "https://gitlab.gnome.org/World/Rust/vte4-rs.git", version = "0.8" }
 
 [profile.release]

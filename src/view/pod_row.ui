@@ -21,6 +21,7 @@
                 </style>
                 <property name="margin-start">2</property>
                 <property name="margin-end">10</property>
+                <property name="valign">center</property>
               </object>
             </child>
 

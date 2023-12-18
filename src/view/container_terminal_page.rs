@@ -165,6 +165,8 @@ impl From<&model::Container> for ContainerTerminalPage {
 impl ContainerTerminalPage {
     pub(crate) fn pip_out(&self) {
         if let Some(navigation_view) = utils::try_navigation_view(self.upcast_ref()) {
+            self.imp().terminal.keep_alive_on_next_unroot();
+
             self.action_set_enabled(ACTION_PIP_OUT, false);
 
             let animate_transitions = navigation_view.is_animate_transitions();
