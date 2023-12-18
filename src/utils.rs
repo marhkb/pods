@@ -367,7 +367,9 @@ pub(crate) fn run_stream_with_finish_handler<A, P, I, F, X>(
 
     glib::spawn_future_local(async move {
         while let Some(i) = rx_payload.recv().await {
-            glib_closure(i);
+            if glib_closure(i) == glib::ControlFlow::Break {
+                break;
+            }
         }
         finish_handler();
     });
