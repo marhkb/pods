@@ -387,12 +387,13 @@ impl ContainerLogPage {
         self.imp().timestamps_renderer.set_visible(value);
     }
 
-    fn scroll_down(&self) {
+    pub(crate) fn scroll_down(&self) {
         let imp = self.imp();
 
         imp.is_auto_scrolling.set(true);
-        imp.scrolled_window
-            .emit_scroll_child(gtk::ScrollType::End, false);
+        glib::idle_add_local_once(clone!(@weak self as obj => move || {
+            obj.imp().scrolled_window.vadjustment().set_value(f64::MAX);
+        }));
     }
 
     fn on_adjustment_changed(&self, adj: &gtk::Adjustment) {
