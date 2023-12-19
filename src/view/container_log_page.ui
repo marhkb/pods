@@ -100,6 +100,14 @@
             <property name="orientation">vertical</property>
 
             <child>
+              <object class="AdwBanner" id="banner">
+                <property name="action-name">container-log-page.start-container</property>
+                <property name="button-label" translatable="yes">Start/Resume Container</property>
+                <property name="title" translatable="yes">Streaming is disconnected because container is not running</property>
+              </object>
+            </child>
+
+            <child>
               <object class="GtkStack" id="stack">
 
                 <child>
@@ -219,14 +227,6 @@
                   </object>
                 </child>
 
-              </object>
-            </child>
-
-            <child>
-              <object class="AdwBanner" id="banner">
-                <property name="action-name">container-log-page.start-container</property>
-                <property name="button-label" translatable="yes">Start/Resume Container</property>
-                <property name="title" translatable="yes">Streaming is disconnected because container is not running</property>
               </object>
             </child>
 
