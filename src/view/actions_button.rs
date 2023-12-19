@@ -89,14 +89,14 @@ mod imp {
             gtk::ClosureExpression::new::<Vec<String>>(
                 &[
                     action_list_expr.chain_property::<model::ActionList>("failed"),
-                    action_list_expr.chain_property::<model::ActionList>("cancelled"),
+                    action_list_expr.chain_property::<model::ActionList>("aborted"),
                     action_list_expr.chain_property::<model::ActionList>("ongoing"),
                 ],
-                closure!(|_: Self::Type, failed: u32, cancelled: u32, ongoing: u32| {
+                closure!(|_: Self::Type, failed: u32, aborted: u32, ongoing: u32| {
                     vec![if failed > 0 {
                         "failed"
-                    } else if cancelled > 0 {
-                        "cancelled"
+                    } else if aborted > 0 {
+                        "aborted"
                     } else if ongoing > 0 {
                         "good"
                     } else {

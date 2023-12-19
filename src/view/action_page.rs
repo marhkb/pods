@@ -163,7 +163,7 @@ impl ActionPage {
                     _ => unreachable!(),
                 });
             }
-            Cancelled => {
+            Aborted => {
                 imp.status_page.set_title(&match action.action_type() {
                     PruneImages => gettext("Pruning of Images Has Been Aborted"),
                     DownloadImage => gettext("Image Download Has Been Aborted"),
@@ -220,7 +220,7 @@ impl ActionPage {
         );
         self.action_set_enabled(
             ACTION_RETRY,
-            matches!(action.state(), Cancelled | Failed)
+            matches!(action.state(), Aborted | Failed)
                 && self.ancestor(gtk::Stack::static_type()).is_some(),
         );
     }

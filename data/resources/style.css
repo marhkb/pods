@@ -69,7 +69,7 @@ actionsbutton.finished .action-count-badge {
   color: @success_fg_color;
 }
 
-actionsbutton.cancelled .action-count-badge {
+actionsbutton.aborted .action-count-badge {
   background-color: @warning_bg_color;
   color: @warning_fg_color;
 }

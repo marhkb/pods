@@ -43,9 +43,7 @@ mod imp {
                         glib::ParamSpecUInt::builder("len").read_only().build(),
                         glib::ParamSpecUInt::builder("ongoing").read_only().build(),
                         glib::ParamSpecUInt::builder("finished").read_only().build(),
-                        glib::ParamSpecUInt::builder("cancelled")
-                            .read_only()
-                            .build(),
+                        glib::ParamSpecUInt::builder("aborted").read_only().build(),
                         glib::ParamSpecUInt::builder("failed").read_only().build(),
                     ])
                     .collect::<Vec<_>>()
@@ -61,7 +59,7 @@ mod imp {
                 "len" => self.obj().len().to_value(),
                 "ongoing" => self.obj().ongoing().to_value(),
                 "finished" => self.obj().finished().to_value(),
-                "cancelled" => self.obj().cancelled().to_value(),
+                "aborted" => self.obj().aborted().to_value(),
                 "failed" => self.obj().failed().to_value(),
                 _ => self.derived_property(id, pspec),
             }
@@ -119,8 +117,8 @@ impl ActionList {
         self.count_state(model::ActionState::Finished)
     }
 
-    pub(crate) fn cancelled(&self) -> u32 {
-        self.count_state(model::ActionState::Cancelled)
+    pub(crate) fn aborted(&self) -> u32 {
+        self.count_state(model::ActionState::Aborted)
     }
 
     pub(crate) fn failed(&self) -> u32 {
@@ -379,7 +377,7 @@ impl ActionList {
     fn notify_num_states(&self) {
         self.notify("ongoing");
         self.notify("finished");
-        self.notify("cancelled");
+        self.notify("aborted");
         self.notify("failed");
     }
 }

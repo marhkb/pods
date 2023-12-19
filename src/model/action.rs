@@ -30,7 +30,7 @@ pub(crate) enum State {
     #[default]
     Ongoing,
     Finished,
-    Cancelled,
+    Aborted,
     Failed,
 }
 
@@ -108,7 +108,7 @@ impl Action {
     pub(crate) fn cancel(&self) {
         if let Some(handle) = &*self.imp().abort_handle.borrow() {
             handle.abort();
-            self.set_state(State::Cancelled);
+            self.set_state(State::Aborted);
         }
     }
 }
