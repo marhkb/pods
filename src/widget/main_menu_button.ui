@@ -4,11 +4,6 @@
   <menu id="menu">
     <section>
       <item>
-        <attribute name="custom">theme</attribute>
-      </item>
-    </section>
-    <section>
-      <item>
         <attribute name="label" translatable="yes">_Keyboard Shortcuts</attribute>
         <attribute name="action">win.show-help-overlay</attribute>
       </item>
@@ -25,7 +20,7 @@
     </property>
 
     <child>
-      <object class="GtkMenuButton" id="menu_button">
+      <object class="GtkMenuButton">
         <property name="icon-name">open-menu-symbolic</property>
         <property name="menu-model">menu</property>
         <property name="primary">True</property>

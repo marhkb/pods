@@ -1391,36 +1391,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4ec2a862134d2a7d32d7983ddcdd1c4923530833c9f2ea1a44fc5fa473989058"
 
 [[package]]
-name = "libpanel"
-version = "0.3.0"
-source = "git+https://gitlab.gnome.org/World/Rust/libpanel-rs.git#7dd6d088f92079893f0e5d2afc2c8258b807ddcd"
-dependencies = [
- "futures-core",
- "gdk4",
- "gio",
- "glib",
- "gtk4",
- "libadwaita",
- "libc",
- "libpanel-sys",
-]
-
-[[package]]
-name = "libpanel-sys"
-version = "0.3.0"
-source = "git+https://gitlab.gnome.org/World/Rust/libpanel-rs.git#7dd6d088f92079893f0e5d2afc2c8258b807ddcd"
-dependencies = [
- "gdk4-sys",
- "gio-sys",
- "glib-sys",
- "gobject-sys",
- "gtk4-sys",
- "libadwaita-sys",
- "libc",
- "system-deps",
-]
-
-[[package]]
 name = "linux-raw-sys"
 version = "0.3.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1910,7 +1880,6 @@ dependencies = [
  "gtk4",
  "indexmap",
  "libadwaita",
- "libpanel",
  "log",
  "multi_log",
  "names",

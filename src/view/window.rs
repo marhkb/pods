@@ -131,35 +131,6 @@ mod imp {
                 obj.maximize();
             }
 
-            let style_manager = adw::StyleManager::default();
-
-            self.settings
-                .bind("color-scheme", &style_manager, "color-scheme")
-                .get()
-                .set_mapping(|value, _| {
-                    Some(color_scheme_to_str(value.get().unwrap()).to_variant())
-                })
-                .set()
-                .mapping(|variant, _| Some(str_to_color_scheme(variant.str().unwrap()).to_value()))
-                .build();
-
-            let action = gio::SimpleAction::new_stateful(
-                "theme",
-                Some(glib::VariantTy::STRING),
-                &color_scheme_to_str(style_manager.color_scheme()).to_variant(),
-            );
-            action.connect_activate(clone!(@weak self as obj => move |_, param| {
-                adw::StyleManager::default()
-                    .set_color_scheme(str_to_color_scheme(param.unwrap().str().unwrap()));
-            }));
-            obj.add_action(&action);
-
-            adw::StyleManager::default().connect_color_scheme_notify(
-                clone!(@weak action => move |style_manager| {
-                    action.set_state(&color_scheme_to_str(style_manager.color_scheme()).to_variant());
-                }),
-            );
-
             self.connection_manager.connect_items_changed(
                 clone!(@weak obj => move |connection_manager, _, _, _| {
                     if connection_manager.n_items() == 0 {
@@ -311,21 +282,5 @@ impl Window {
                 .priority(adw::ToastPriority::High)
                 .build(),
         );
-    }
-}
-
-fn str_to_color_scheme(scheme: &str) -> adw::ColorScheme {
-    match scheme {
-        "light" => adw::ColorScheme::ForceLight,
-        "dark" => adw::ColorScheme::ForceDark,
-        _ => adw::ColorScheme::Default,
-    }
-}
-
-fn color_scheme_to_str(scheme: adw::ColorScheme) -> &'static str {
-    match scheme {
-        adw::ColorScheme::ForceDark | adw::ColorScheme::PreferDark => "dark",
-        adw::ColorScheme::ForceLight | adw::ColorScheme::PreferLight => "light",
-        _ => "default",
     }
 }

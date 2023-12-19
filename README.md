@@ -92,7 +92,6 @@ The following packages are required to build Pods:
 - glib2 >= 2.66
 - gtk4 >= 4.10
 - libadwaita >= 1.3
-- libpanel >= 1.2
 - gtksourceview > 4.90
 - vte-2.91-gtk4 >= 0.70
 

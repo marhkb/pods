@@ -10,10 +10,7 @@ mod imp {
 
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/widget/main_menu_button.ui")]
-    pub(crate) struct MainMenuButton {
-        #[template_child]
-        pub(super) menu_button: TemplateChild<gtk::MenuButton>,
-    }
+    pub(crate) struct MainMenuButton;
 
     #[glib::object_subclass]
     impl ObjectSubclass for MainMenuButton {
@@ -31,24 +28,6 @@ mod imp {
     }
 
     impl ObjectImpl for MainMenuButton {
-        fn constructed(&self) {
-            self.parent_constructed();
-
-            let popover_menu = self
-                .menu_button
-                .popover()
-                .unwrap()
-                .downcast::<gtk::PopoverMenu>()
-                .unwrap();
-
-            popover_menu.add_child(
-                &panel::ThemeSelector::builder()
-                    .action_name("win.theme")
-                    .build(),
-                "theme",
-            );
-        }
-
         fn dispose(&self) {
             utils::unparent_children(self.obj().upcast_ref());
         }
