@@ -1,3 +1,5 @@
+use std::cell::Cell;
+
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use gettextrs::gettext;
@@ -24,6 +26,8 @@ mod imp {
     pub(crate) struct ActionPage {
         #[property(get, set, construct_only, nullable)]
         pub(super) action: glib::WeakRef<model::Action>,
+        #[property(get, set, construct_only)]
+        pub(super) show_view_artifact: Cell<bool>,
         #[template_child]
         pub(super) status_page: TemplateChild<adw::StatusPage>,
     }
@@ -115,11 +119,18 @@ glib::wrapper! {
 
 impl From<&model::Action> for ActionPage {
     fn from(action: &model::Action) -> Self {
-        glib::Object::builder().property("action", action).build()
+        Self::new(action, true)
     }
 }
 
 impl ActionPage {
+    pub(crate) fn new(action: &model::Action, show_view_artifact: bool) -> Self {
+        glib::Object::builder()
+            .property("action", action)
+            .property("show-view-artifact", show_view_artifact)
+            .build()
+    }
+
     fn update_state(&self, action: &model::Action) {
         use model::ActionState::*;
         use model::ActionType::*;
@@ -206,7 +217,8 @@ impl ActionPage {
         self.action_set_enabled(ACTION_CANCEL, action.state() == Ongoing);
         self.action_set_enabled(
             ACTION_VIEW_ARTIFACT,
-            action.state() == Finished
+            self.show_view_artifact()
+                && action.state() == Finished
                 && !matches!(
                     action.action_type(),
                     PruneContainers
