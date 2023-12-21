@@ -1,3 +1,5 @@
+use std::cell::Cell;
+
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use glib::clone;
@@ -22,6 +24,8 @@ mod imp {
     pub(crate) struct VolumeCreationPage {
         #[property(get, set, construct_only)]
         pub(super) client: glib::WeakRef<model::Client>,
+        #[property(get, set, construct_only)]
+        pub(super) show_view_artifact: Cell<bool>,
         #[template_child]
         pub(super) navigation_view: TemplateChild<adw::NavigationView>,
         #[template_child]
@@ -97,24 +101,32 @@ glib::wrapper! {
 
 impl From<&model::Client> for VolumeCreationPage {
     fn from(client: &model::Client) -> Self {
-        glib::Object::builder().property("client", client).build()
+        Self::new(client, true)
     }
 }
 
 impl VolumeCreationPage {
+    pub(crate) fn new(client: &model::Client, show_view_artifact: bool) -> Self {
+        glib::Object::builder()
+            .property("client", client)
+            .property("show-view-artifact", show_view_artifact)
+            .build()
+    }
+
     fn create_volume(&self) {
         if let Some(client) = self.client() {
             let imp = self.imp();
 
             let name = imp.name_entry_row.text();
 
-            let page = view::ActionPage::from(
+            let page = view::ActionPage::new(
                 &client.action_list().create_volume(
                     name.as_str(),
                     podman::opts::VolumeCreateOpts::builder()
                         .name(name.as_str())
                         .build(),
                 ),
+                self.show_view_artifact(),
             );
 
             imp.navigation_view.push(
