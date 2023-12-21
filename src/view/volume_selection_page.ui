@@ -6,50 +6,39 @@
     </property>
 
     <child>
-      <object class="AdwToolbarView">
+      <object class="GtkStack" id="main_stack">
 
-        <child type="top">
-          <object class="AdwHeaderBar" id="header_bar">
-            <property name="show-end-title-buttons">False</property>
-            <property name="show-start-title-buttons">False</property>
+        <child>
+          <object class="GtkStackPage">
+            <property name="name">empty</property>
 
-            <child type="start">
-              <object class="GtkToggleButton" id="filter_button">
-                <property name="icon-name">system-search-symbolic</property>
-                <property name="tooltip-text" translatable="yes">Filter</property>
-                <signal name="toggled" handler="on_filter_button_toggled" swapped="true"/>
-              </object>
-            </child>
+            <property name="child">
+              <object class="AdwToolbarView">
 
-            <child type="title">
-              <object class="GtkStack" id="title_stack">
-                <property name="hexpand">True</property>
-                <property name="transition-type">crossfade</property>
-
-                <child>
-                  <object class="GtkStackPage">
-                    <property name="name">title</property>
-
-                    <property name="child">
-                      <object class="AdwWindowTitle">
-                        <property name="title" translatable="yes">Select Volume</property>
-                      </object>
-                    </property>
+                <child type="top">
+                  <object class="AdwHeaderBar">
+                    <property name="show-end-title-buttons">False</property>
+                    <property name="show-start-title-buttons">False</property>
 
                   </object>
                 </child>
 
                 <child>
-                  <object class="GtkSearchEntry" id="filter_entry">
-                    <signal name="search-started" handler="on_filter_started" swapped="true"/>
-                    <signal name="search-changed" handler="on_filter_changed" swapped="true"/>
-                    <property name="hexpand">True</property>
-                    <property name="margin-start">36</property>
-                    <property name="margin-end">36</property>
+                  <object class="AdwStatusPage">
+                    <property name="icon-name">drive-harddisk-symbolic</property>
+                    <property name="title" translatable="yes">No Volume Available</property>
 
                     <child>
-                      <object class="GtkEventControllerKey">
-                        <signal name="key-pressed" handler="on_filter_key_pressed" swapped="true"/>
+                      <object class="GtkButton">
+                        <style>
+                          <class name="pill"/>
+                          <class name="suggested-action"/>
+                        </style>
+                        <property name="action-name">volume-selection-page.create-volume</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <property name="label" translatable="yes">_Create Volume</property>
+                        <property name="use-underline">True</property>
                       </object>
                     </child>
 
@@ -57,46 +46,164 @@
                 </child>
 
               </object>
-            </child>
-
-            <child type="end">
-              <object class="GtkButton" id="select_button">
-                <style>
-                  <class name="suggested-action"/>
-                </style>
-                <property name="action-name">volume-selection-page.select</property>
-                <property name="label" translatable="yes">_Select</property>
-                <property name="use-underline">True</property>
-              </object>
-            </child>
+            </property>
 
           </object>
         </child>
 
         <child>
-          <object class="GtkScrolledWindow">
-            <property name="hscrollbar-policy">never</property>
+          <object class="GtkStackPage">
+            <property name="name">volumes</property>
 
-            <child>
-              <object class="GtkListView" id="list_view">
-                <style>
-                  <class name="background"/>
-                </style>
-                <property name="show-separators">True</property>
-                <property name="factory">
-                  <object class="GtkSignalListItemFactory" id="signal_list_item_factory">
-                    <signal name="setup" handler="on_signal_list_item_factory_setup" swapped="true"/>
-                    <signal name="bind" handler="on_signal_list_item_factory_bind" swapped="true"/>
+            <property name="child">
+              <object class="AdwToolbarView">
+
+                <child type="top">
+                  <object class="AdwHeaderBar" id="header_bar">
+                    <property name="show-end-title-buttons">False</property>
+                    <property name="show-start-title-buttons">False</property>
+
+                    <child type="start">
+                      <object class="GtkButton">
+                        <property name="action-name">volume-selection-page.create-volume</property>
+                        <property name="icon-name">list-add-symbolic</property>
+                        <property name="tooltip-text" translatable="yes">Create Volume</property>
+                      </object>
+                    </child>
+
+                    <child type="start">
+                      <object class="GtkToggleButton" id="filter_button">
+                        <property name="icon-name">system-search-symbolic</property>
+                        <property name="tooltip-text" translatable="yes">Filter</property>
+                        <signal name="toggled" handler="on_filter_button_toggled" swapped="true"/>
+                      </object>
+                    </child>
+
+                    <child type="title">
+                      <object class="GtkStack" id="title_stack">
+                        <property name="hexpand">True</property>
+                        <property name="transition-type">crossfade</property>
+
+                        <child>
+                          <object class="GtkStackPage">
+                            <property name="name">title</property>
+
+                            <property name="child">
+                              <object class="AdwWindowTitle">
+                                <property name="title" translatable="yes">Select Volume</property>
+                              </object>
+                            </property>
+
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="GtkSearchEntry" id="filter_entry">
+                            <signal name="search-started" handler="on_filter_started" swapped="true"/>
+                            <signal name="search-changed" handler="on_filter_changed" swapped="true"/>
+                            <property name="hexpand">True</property>
+                            <property name="margin-start">36</property>
+                            <property name="margin-end">36</property>
+
+                            <child>
+                              <object class="GtkEventControllerKey">
+                                <signal name="key-pressed" handler="on_filter_key_pressed" swapped="true"/>
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                    <child type="end">
+                      <object class="GtkButton" id="select_button">
+                        <style>
+                          <class name="suggested-action"/>
+                        </style>
+                        <property name="action-name">volume-selection-page.select</property>
+                        <property name="label" translatable="yes">_Select</property>
+                        <property name="use-underline">True</property>
+                      </object>
+                    </child>
+
                   </object>
-                </property>
-                <property name="model">
-                  <object class="GtkSingleSelection" id="selection">
-                    <signal name="selection-changed" handler="on_volume_selected" swapped="true"/>
+                </child>
+
+                <child>
+                  <object class="GtkStack" id="volumes_stack">
+
+                    <child>
+                      <object class="GtkStackPage">
+                        <property name="name">results</property>
+
+                        <property name="child">
+                          <object class="GtkScrolledWindow">
+                            <property name="hscrollbar-policy">never</property>
+
+                            <child>
+                              <object class="GtkListView" id="list_view">
+                                <style>
+                                  <class name="background"/>
+                                </style>
+                                <property name="show-separators">True</property>
+                                <property name="factory">
+                                  <object class="GtkSignalListItemFactory" id="signal_list_item_factory">
+                                    <signal name="setup" handler="on_signal_list_item_factory_setup" swapped="true"/>
+                                    <signal name="bind" handler="on_signal_list_item_factory_bind" swapped="true"/>
+                                  </object>
+                                </property>
+                                <property name="model">
+                                  <object class="GtkSingleSelection" id="selection">
+                                    <signal name="selection-changed" handler="on_volume_selected" swapped="true"/>
+                                  </object>
+                                </property>
+                                <signal name="activate" handler="on_volume_activated" swapped="true"/>
+                              </object>
+                            </child>
+
+                          </object>
+                        </property>
+
+                      </object>
+                    </child>
+
+
+                    <child>
+                      <object class="GtkStackPage">
+                        <property name="name">empty</property>
+
+                        <property name="child">
+                          <object class="AdwStatusPage">
+                            <property name="icon-name">drive-harddisk-symbolic</property>
+                            <property name="title" translatable="yes">No Results</property>
+
+                            <child>
+                              <object class="GtkButton">
+                                <style>
+                                  <class name="pill"/>
+                                  <class name="suggested-action"/>
+                                </style>
+                                <property name="action-name">volume-selection-page.clear-filter</property>
+                                <property name="halign">center</property>
+                                <property name="valign">center</property>
+                                <property name="label" translatable="yes">_Clear Filter</property>
+                                <property name="use-underline">True</property>
+                              </object>
+                            </child>
+
+                          </object>
+                        </property>
+
+                      </object>
+                    </child>
+
                   </object>
-                </property>
-                <signal name="activate" handler="on_volume_activated" swapped="true"/>
+                </child>
+
               </object>
-            </child>
+            </property>
 
           </object>
         </child>
