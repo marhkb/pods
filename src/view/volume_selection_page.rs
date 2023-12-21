@@ -3,6 +3,7 @@ use std::cell::OnceCell;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use glib::clone;
+use glib::closure;
 use glib::once_cell::sync::Lazy as SyncLazy;
 use glib::Properties;
 use gtk::gdk;
@@ -13,9 +14,12 @@ use gtk::CompositeTemplate;
 
 use crate::model;
 use crate::utils;
+use crate::view;
 
+const ACTION_CREATE_VOLUME: &str = "volume-selection-page.create-volume";
 const ACTION_FILTER: &str = "volume-selection-page.filter";
 const ACTION_SELECT: &str = "volume-selection-page.select";
+const ACTION_CLEAR_FILTER: &str = "volume-selection-page.clear-filter";
 
 mod imp {
     use super::*;
@@ -28,6 +32,8 @@ mod imp {
         #[property(get, set = Self::set_volume_list, nullable)]
         pub(super) volume_list: glib::WeakRef<model::VolumeList>,
         #[template_child]
+        pub(super) main_stack: TemplateChild<gtk::Stack>,
+        #[template_child]
         pub(super) filter_button: TemplateChild<gtk::ToggleButton>,
         #[template_child]
         pub(super) title_stack: TemplateChild<gtk::Stack>,
@@ -35,6 +41,10 @@ mod imp {
         pub(super) filter_entry: TemplateChild<gtk::SearchEntry>,
         #[template_child]
         pub(super) select_button: TemplateChild<gtk::Button>,
+        #[template_child]
+        pub(super) volumes_stack: TemplateChild<gtk::Stack>,
+        #[template_child]
+        pub(super) list_view: TemplateChild<gtk::ListView>,
         #[template_child]
         pub(super) selection: TemplateChild<gtk::SingleSelection>,
     }
@@ -48,6 +58,10 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
             klass.bind_template_callbacks();
+
+            klass.install_action(ACTION_CREATE_VOLUME, None, |widget, _, _| {
+                widget.create_volume();
+            });
 
             klass.install_action(ACTION_FILTER, Some("b"), |widget, _, data| {
                 widget.enable_search_mode(data.unwrap().get().unwrap());
@@ -64,6 +78,10 @@ mod imp {
                 ACTION_FILTER,
                 Some(&false.to_variant()),
             );
+
+            klass.install_action(ACTION_CLEAR_FILTER, None, |widget, _, _| {
+                widget.clear_filter();
+            });
 
             klass.install_action(ACTION_SELECT, None, |widget, _, _| {
                 widget.select();
@@ -102,6 +120,15 @@ mod imp {
 
             let obj = &*self.obj();
 
+            Self::Type::this_expression("volume-list")
+                .chain_property::<model::VolumeList>("len")
+                .chain_closure::<String>(closure!(|_: Self::Type, len: u32| if len > 0 {
+                    "volumes"
+                } else {
+                    "empty"
+                }))
+                .bind(&self.main_stack.get(), "visible-child-name", Some(obj));
+
             self.filter_entry.set_key_capture_widget(Some(obj));
 
             let filter =
@@ -112,6 +139,19 @@ mod imp {
                     volume.inner().name.to_lowercase().contains(&term)
                 }));
             self.filter.set(filter.upcast()).unwrap();
+
+            self.list_view.remove_css_class("view");
+
+            self.selection
+                .connect_items_changed(clone!(@weak obj => move |selection, _, _, _| {
+                    obj.imp()
+                        .volumes_stack
+                        .set_visible_child_name(if selection.n_items() > 0 {
+                            "results"
+                        } else {
+                            "empty"
+                        });
+                }));
         }
 
         fn dispose(&self) {
@@ -273,6 +313,21 @@ impl VolumeSelectionPage {
             .selection
             .selected_item()
             .and_then(|item| item.downcast().ok())
+    }
+
+    pub(crate) fn create_volume(&self) {
+        if let Some(client) = self.volume_list().and_then(|list| list.client()) {
+            utils::show_dialog(
+                self.upcast_ref(),
+                view::VolumeCreationPage::new(&client, false).upcast_ref(),
+            );
+        }
+    }
+
+    pub(crate) fn clear_filter(&self) {
+        let filter_entry = self.imp().filter_entry.get();
+        filter_entry.set_text("");
+        filter_entry.grab_focus();
     }
 
     pub(crate) fn select(&self) {

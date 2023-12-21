@@ -1,3 +1,5 @@
+use std::cell::Cell;
+
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use gettextrs::gettext;
@@ -24,6 +26,8 @@ mod imp {
     pub(crate) struct ActionPage {
         #[property(get, set, construct_only, nullable)]
         pub(super) action: glib::WeakRef<model::Action>,
+        #[property(get, set, construct_only)]
+        pub(super) show_view_artifact: Cell<bool>,
         #[template_child]
         pub(super) status_page: TemplateChild<adw::StatusPage>,
     }
@@ -115,11 +119,18 @@ glib::wrapper! {
 
 impl From<&model::Action> for ActionPage {
     fn from(action: &model::Action) -> Self {
-        glib::Object::builder().property("action", action).build()
+        Self::new(action, true)
     }
 }
 
 impl ActionPage {
+    pub(crate) fn new(action: &model::Action, show_view_artifact: bool) -> Self {
+        glib::Object::builder()
+            .property("action", action)
+            .property("show-view-artifact", show_view_artifact)
+            .build()
+    }
+
     fn update_state(&self, action: &model::Action) {
         use model::ActionState::*;
         use model::ActionType::*;
@@ -129,73 +140,73 @@ impl ActionPage {
         match action.state() {
             model::ActionState::Ongoing => {
                 imp.status_page.set_title(&match action.action_type() {
-                    PruneImages => gettext("Images Are Currently Being Pruned"),
-                    DownloadImage => gettext("Image Is Currently Being Downloaded"),
-                    BuildImage => gettext("Image Is Currently Being Built"),
-                    PushImage => gettext("Image Is Currently Being Pushed"),
-                    PruneContainers => gettext("Containers Are Currently Being Pruned"),
-                    CreateContainer => gettext("Container Is Currently Being Created"),
-                    CreateAndRunContainer => gettext("Container Is Currently Being Started"),
-                    Commit => gettext("New Image Is Currently Being Committed"),
-                    CopyFiles => gettext("Files Are Currently Being Copied"),
-                    PrunePods => gettext("Pods Are Currently Being Pruned"),
-                    Pod => gettext("Pod Is Currently Being Created"),
-                    Volume => gettext("Volume Is Currently Being Created"),
-                    PruneVolumes => gettext("Volumes Are Currently Being Pruned"),
+                    PruneImages => gettext("Pruning Images"),
+                    DownloadImage => gettext("Downloading Image"),
+                    BuildImage => gettext("Building Image"),
+                    PushImage => gettext("Pushing Image"),
+                    PruneContainers => gettext("Pruning Containers"),
+                    CreateContainer => gettext("Creating Container"),
+                    CreateAndRunContainer => gettext("Starting Container"),
+                    Commit => gettext("Committing Image"),
+                    CopyFiles => gettext("Copying Files"),
+                    PrunePods => gettext("Pruning Pods"),
+                    Pod => gettext("Creating Pod"),
+                    Volume => gettext("Creating Volume"),
+                    PruneVolumes => gettext("Pruning Volumes"),
                     _ => unreachable!(),
                 });
             }
             Finished => {
                 imp.status_page.set_title(&match action.action_type() {
-                    PruneImages => gettext("Images Have Been Pruned"),
-                    DownloadImage => gettext("Image Has Been Downloaded"),
-                    BuildImage => gettext("Image Has Been Built"),
-                    PushImage => gettext("Image Has Been Pushed"),
-                    PruneContainers => gettext("Containers Are Currently Being Pruned"),
-                    CreateContainer => gettext("Container Has Been Created"),
-                    CreateAndRunContainer => gettext("Container Has Been Started"),
-                    Commit => gettext("New Image Has Been Committed"),
-                    CopyFiles => gettext("Files Have Beeng Copied"),
-                    PrunePods => gettext("Pods Have Been Pruned"),
-                    Pod => gettext("Pod Has Been Created"),
-                    Volume => gettext("Volume Has Been Created"),
-                    PruneVolumes => gettext("Volumes Have Been Pruned"),
+                    PruneImages => gettext("Images Pruned"),
+                    DownloadImage => gettext("Image Downloaded"),
+                    BuildImage => gettext("Image Built"),
+                    PushImage => gettext("Image Pushed"),
+                    PruneContainers => gettext("Containers Pruned"),
+                    CreateContainer => gettext("Container Created"),
+                    CreateAndRunContainer => gettext("Container Started"),
+                    Commit => gettext("Image Committed"),
+                    CopyFiles => gettext("Files Copied"),
+                    PrunePods => gettext("Pods Pruned"),
+                    Pod => gettext("Pod Created"),
+                    Volume => gettext("Volume Created"),
+                    PruneVolumes => gettext("Volumes Pruned"),
                     _ => unreachable!(),
                 });
             }
-            Cancelled => {
+            Aborted => {
                 imp.status_page.set_title(&match action.action_type() {
-                    PruneImages => gettext("Pruning of Images Has Been Aborted"),
-                    DownloadImage => gettext("Image Download Has Been Aborted"),
-                    BuildImage => gettext("Image Built Has Been Aborted"),
-                    PushImage => gettext("Image Push Has Been Aborted"),
-                    PruneContainers => gettext("Pruning of Containers Has Been Aborted"),
-                    CreateContainer => gettext("Container Creation Has Been Aborted"),
-                    CreateAndRunContainer => gettext("Container Start Has Been Aborted"),
-                    Commit => gettext("Image Commitment Has Been Aborted"),
-                    CopyFiles => gettext("Copying Files Has Been Aborted"),
-                    PrunePods => gettext("Pruning of Pods Has Been Aborted"),
-                    Pod => gettext("Pod Creation Has Been Aborted"),
-                    Volume => gettext("Volume Creation Has Been Aborted"),
-                    PruneVolumes => gettext("Pruning of Volumes Has Been Aborted"),
+                    PruneImages => gettext("Image Pruning Aborted"),
+                    DownloadImage => gettext("Image Download Aborted"),
+                    BuildImage => gettext("Image Built Aborted"),
+                    PushImage => gettext("Image Push Aborted"),
+                    PruneContainers => gettext("Container Pruning Aborted"),
+                    CreateContainer => gettext("Container Creation Aborted"),
+                    CreateAndRunContainer => gettext("Container Start Aborted"),
+                    Commit => gettext("Image Commit Aborted"),
+                    CopyFiles => gettext("File Copying Aborted"),
+                    PrunePods => gettext("Pod Pruning Aborted"),
+                    Pod => gettext("Pod Creation Aborted"),
+                    Volume => gettext("Volume Creation Aborted"),
+                    PruneVolumes => gettext("Volume Pruning Aborted"),
                     _ => unreachable!(),
                 });
             }
             Failed => {
                 imp.status_page.set_title(&match action.action_type() {
-                    PruneImages => gettext("Pruning of Images Has Failed"),
-                    DownloadImage => gettext("Image Download Has Failed"),
-                    BuildImage => gettext("Image Built Has Failed"),
-                    PushImage => gettext("Image Push Has Failed"),
-                    PruneContainers => gettext("Pruning of Containers Has Failed"),
-                    CreateContainer => gettext("Container Creation Has Failed"),
-                    CreateAndRunContainer => gettext("Container Start Has Failed"),
-                    Commit => gettext("Image Commitment Has Failed"),
-                    CopyFiles => gettext("Copying Files Has Failed"),
-                    PrunePods => gettext("Pruning of Pods Has Failed"),
-                    Pod => gettext("Pod Creation Has Failed"),
-                    Volume => gettext("Volume Creation Has Failed"),
-                    PruneVolumes => gettext("Pruning of Volumes Has Failed"),
+                    PruneImages => gettext("Pruning Image Failed"),
+                    DownloadImage => gettext("Downloading Image Failed"),
+                    BuildImage => gettext("Building Image Failed"),
+                    PushImage => gettext("Pushing Image Failed"),
+                    PruneContainers => gettext("Pruning Containers Failed"),
+                    CreateContainer => gettext("Creating Container Failed"),
+                    CreateAndRunContainer => gettext("Starting Container Failed"),
+                    Commit => gettext("Committing Image Failed"),
+                    CopyFiles => gettext("Copying Files Failed"),
+                    PrunePods => gettext("Pruning Pods Failed"),
+                    Pod => gettext("Creating Pod Failed"),
+                    Volume => gettext("Creating Volume Failed"),
+                    PruneVolumes => gettext("Pruning Volumes Failed"),
                     _ => unreachable!(),
                 });
             }
@@ -206,7 +217,8 @@ impl ActionPage {
         self.action_set_enabled(ACTION_CANCEL, action.state() == Ongoing);
         self.action_set_enabled(
             ACTION_VIEW_ARTIFACT,
-            action.state() == Finished
+            self.show_view_artifact()
+                && action.state() == Finished
                 && !matches!(
                     action.action_type(),
                     PruneContainers
@@ -220,7 +232,7 @@ impl ActionPage {
         );
         self.action_set_enabled(
             ACTION_RETRY,
-            matches!(action.state(), Cancelled | Failed)
+            matches!(action.state(), Aborted | Failed)
                 && self.ancestor(gtk::Stack::static_type()).is_some(),
         );
     }

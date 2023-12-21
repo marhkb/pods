@@ -115,7 +115,7 @@ mod imp {
                             .chain(Some(String::from(match state {
                                 Ongoing => "accent",
                                 Finished => "success",
-                                Cancelled => "warning",
+                                Aborted => "warning",
                                 Failed => "error",
                             })))
                             .collect::<Vec<_>>()
@@ -270,7 +270,7 @@ impl ActionRow {
 
                 state_label.set_text(&match action.state() {
                     model::ActionState::Finished => gettext!("Finished after {}", duration),
-                    model::ActionState::Cancelled => gettext!("Cancelled after {}", duration),
+                    model::ActionState::Aborted => gettext!("Aborted after {}", duration),
                     model::ActionState::Failed => gettext!("Failed after {}", duration),
                     _ => unreachable!(),
                 });

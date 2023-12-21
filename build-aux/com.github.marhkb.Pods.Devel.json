@@ -48,23 +48,6 @@
     ],
     "modules": [
         {
-            "name": "libpanel",
-            "buildsystem": "meson",
-            "config-opts": [
-                "-Dinstall-examples=false",
-                "-Dintrospection=disabled",
-                "-Ddocs=disabled",
-                "-Dvapi=false"
-            ],
-            "sources": [
-                {
-                    "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/libpanel.git",
-                    "tag": "1.4.0"
-                }
-            ]
-        },
-        {
             "name" : "vte",
             "config-opts" : [
                 "-Dgir=false",

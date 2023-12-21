@@ -16,16 +16,6 @@
       <summary>Default window maximized behaviour</summary>
       <description></description>
     </key>
-    <key name="color-scheme" type="s">
-      <choices>
-        <choice value="default"/>
-        <choice value="light"/>
-        <choice value="dark"/>
-      </choices>
-      <default>'default'</default>
-      <summary>Color Scheme</summary>
-      <description>Use the light or dark variant of the GTK theme</description>
-    </key>
     <key name="last-used-connection" type="s">
       <default>''</default>
       <summary>The uuid of the connection that was used the last time</summary>

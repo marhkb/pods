@@ -1,3 +1,4 @@
+use std::cell::Cell;
 use std::cell::OnceCell;
 use std::cell::RefCell;
 
@@ -41,6 +42,8 @@ mod imp {
         pub(super) client: glib::WeakRef<model::Client>,
         #[property(get, set, construct_only, nullable)]
         pub(super) infra_image: glib::WeakRef<model::Image>,
+        #[property(get, set, construct_only)]
+        pub(super) show_view_artifact: Cell<bool>,
         #[template_child]
         pub(super) navigation_view: TemplateChild<adw::NavigationView>,
         #[template_child]
@@ -296,11 +299,18 @@ glib::wrapper! {
 
 impl From<&model::Client> for PodCreationPage {
     fn from(client: &model::Client) -> Self {
-        glib::Object::builder().property("client", client).build()
+        Self::new(client, true)
     }
 }
 
 impl PodCreationPage {
+    pub(crate) fn new(client: &model::Client, show_view_artifact: bool) -> Self {
+        glib::Object::builder()
+            .property("client", client)
+            .property("show-view-artifact", show_view_artifact)
+            .build()
+    }
+
     fn on_name_changed(&self) {
         self.action_set_enabled(ACTION_CREATE, self.imp().name_entry_row.text().len() > 0);
     }
@@ -363,12 +373,13 @@ impl PodCreationPage {
             opts
         };
 
-        let page = view::ActionPage::from(
+        let page = view::ActionPage::new(
             &self
                 .client()
                 .unwrap()
                 .action_list()
                 .create_pod(imp.name_entry_row.text().as_str(), opts.build()),
+            self.show_view_artifact(),
         );
 
         imp.navigation_view.push(
@@ -387,7 +398,7 @@ impl PodCreationPage {
             .quiet(false)
             .build();
 
-        let page = view::ActionPage::from(
+        let page = view::ActionPage::new(
             &self
                 .client()
                 .unwrap()
@@ -397,6 +408,7 @@ impl PodCreationPage {
                     pull_opts,
                     self.opts(),
                 ),
+            self.show_view_artifact(),
         );
 
         imp.navigation_view.push(

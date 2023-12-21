@@ -56,11 +56,13 @@
           <li>The image search results now have an "verified" icon if an image is official. (#761)</li>
           <li>Logs are now sent to both std and syslog. (#763)</li>
           <li>Make it possible to create privileged containers. (#753)</li>
+          <li>Better handling of empty states when selecting images, pods and volumes for a container to be created. (#769)</li>
         </ul>
         <p>Fixes</p>
         <ul>
           <li>All remaining processes are now closed after a container terminal exits. (#744)</li>
           <li>Streams are now closed correctly so that they do not run forever when the user changes the connection. (#764)</li>
+          <li>A bug was fixed where the content of the container log page was initially too large. (#769)</li>
         </ul>
         <p>Improvements</p>
         <ul>
@@ -71,6 +73,9 @@
             After the last connection has been removed from the page with the connection selection,
             the home page is displayed again. (#760)
           </li>
+          <li>The same background color is now used for list views as for the window. (#769)</li>
+          <li>We have moved the banner from the bottom to the top in the container log page. (#769)</li>
+          <li>Some titles have been shortened. (#769)</li>
           <li>Various style improvements (#741, #757)</li>
         </ul>
       </description>

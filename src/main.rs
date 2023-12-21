@@ -97,7 +97,6 @@ fn main() {
             }));
 
             adw::init().expect("Failed to init GTK/libadwaita");
-            panel::init();
             sourceview5::init();
             crate::init();
 
