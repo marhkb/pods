@@ -47,17 +47,17 @@
       <description></description>
     </key>
     <key name="show-only-running-containers" type="b">
-      <default>true</default>
+      <default>false</default>
       <summary>Whether to show only running containers</summary>
       <description></description>
     </key>
     <key name="show-only-running-pods" type="b">
-      <default>true</default>
+      <default>false</default>
       <summary>Whether to show only running pods</summary>
       <description></description>
     </key>
     <key name="show-only-used-volumes" type="b">
-      <default>true</default>
+      <default>false</default>
       <summary>Whether to show only used volumes</summary>
       <description></description>
     </key>
