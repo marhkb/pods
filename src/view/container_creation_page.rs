@@ -41,7 +41,7 @@ mod imp {
         pub(super) labels: OnceCell<gio::ListStore>,
         pub(super) command_row_handler:
             RefCell<Option<(glib::SignalHandlerId, glib::WeakRef<model::Image>)>>,
-        #[property(get = Self::client, set, construct, nullable)]
+        #[property(get = Self::client, set, construct)]
         pub(super) client: glib::WeakRef<model::Client>,
         #[property(get, set, construct, nullable)]
         pub(super) image: glib::WeakRef<model::Image>,
@@ -75,6 +75,8 @@ mod imp {
         pub(super) mem_value: TemplateChild<gtk::Adjustment>,
         #[template_child]
         pub(super) mem_drop_down: TemplateChild<gtk::DropDown>,
+        #[template_child]
+        pub(super) port_mapping_preferences_group: TemplateChild<adw::PreferencesGroup>,
         #[template_child]
         pub(super) port_mapping_list_box: TemplateChild<gtk::ListBox>,
         #[template_child]
@@ -160,11 +162,23 @@ mod imp {
             self.image_selection_combo_row
                 .set_client(obj.client().as_ref());
 
-            Self::Type::this_expression("pod")
+            let pod_expr = Self::Type::this_expression("pod");
+
+            pod_expr
                 .chain_closure::<String>(closure!(|_: Self::Type, pod: Option<&model::Pod>| pod
                     .map(model::Pod::name)
                     .unwrap_or_default()))
                 .bind(&self.pod_row.get(), "subtitle", Some(obj));
+
+            pod_expr
+                .chain_closure::<bool>(closure!(|_: Self::Type, pod: Option<&model::Pod>| {
+                    pod.is_none()
+                }))
+                .bind(
+                    &self.port_mapping_preferences_group.get(),
+                    "visible",
+                    Some(obj),
+                );
 
             if let Some(image) = obj.image() {
                 self.image_selection_combo_row.set_image(Some(image));
@@ -551,18 +565,22 @@ impl ContainerCreationPage {
             .pod(self.pod().as_ref().map(model::Pod::name))
             .terminal(imp.terminal_switch_row.is_active())
             .privileged(imp.privileged_switch_row.is_active())
-            .portmappings(
-                imp.port_mappings()
-                    .iter::<model::PortMapping>()
-                    .map(Result::unwrap)
-                    .map(|port_mapping| podman::models::PortMapping {
-                        container_port: Some(port_mapping.container_port() as u16),
-                        host_ip: None,
-                        host_port: Some(port_mapping.host_port() as u16),
-                        protocol: Some(port_mapping.protocol().to_string()),
-                        range: None,
-                    }),
-            )
+            .portmappings(if self.pod().is_none() {
+                Box::new(
+                    imp.port_mappings()
+                        .iter::<model::PortMapping>()
+                        .map(Result::unwrap)
+                        .map(|port_mapping| podman::models::PortMapping {
+                            container_port: Some(port_mapping.container_port() as u16),
+                            host_ip: None,
+                            host_port: Some(port_mapping.host_port() as u16),
+                            protocol: Some(port_mapping.protocol().to_string()),
+                            range: None,
+                        }),
+                ) as Box<dyn Iterator<Item = _>>
+            } else {
+                Box::new(std::iter::empty()) as Box<dyn Iterator<Item = _>>
+            })
             .mounts(
                 imp.volumes()
                     .iter::<model::Mount>()
