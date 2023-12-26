@@ -168,6 +168,21 @@
 
                                     <child>
                                       <object class="AdwPreferencesGroup">
+                                        <property name="title" translatable="yes">Port Mappings</property>
+
+                                        <child>
+                                          <object class="GtkListBox" id="port_mapping_list_box">
+                                            <style>
+                                              <class name="boxed-list"/>
+                                            </style>
+                                          </object>
+                                        </child>
+
+                                      </object>
+                                    </child>
+
+                                    <child>
+                                      <object class="AdwPreferencesGroup">
                                         <property name="title" translatable="yes">Devices</property>
 
                                         <child>
