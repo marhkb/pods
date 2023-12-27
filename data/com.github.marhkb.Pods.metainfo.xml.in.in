@@ -51,6 +51,7 @@
             The image search has been completely revised and is now much more streamlined.
             In addition, the tags of an image are suggested. (#758)
           </li>
+          <li>Port mappings can now be configured when creating pods. (#772)</li>
           <li>Enable searching for container and pod processes. (#747)</li>
           <li>Killing container processes is now supported. (#748)</li>
           <li>The image search results now have an "verified" icon if an image is official. (#761)</li>
