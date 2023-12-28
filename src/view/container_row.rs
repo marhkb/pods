@@ -40,8 +40,6 @@ mod imp {
         #[template_child]
         pub(super) repo_label: TemplateChild<gtk::Label>,
         #[template_child]
-        pub(super) health_status_image: TemplateChild<gtk::Image>,
-        #[template_child]
         pub(super) stats_box: TemplateChild<gtk::Box>,
         #[template_child]
         pub(super) cpu_bar: TemplateChild<widget::CircularProgressBar>,
@@ -191,43 +189,6 @@ mod imp {
                     utils::escape(&utils::format_option(name))
                 }))
                 .bind(&*self.repo_label, "label", Some(obj));
-
-            health_status_expr
-                .chain_closure::<String>(closure!(
-                    |_: Self::Type, status: model::ContainerHealthStatus| match status {
-                        model::ContainerHealthStatus::Starting => "image-loading-symbolic",
-                        model::ContainerHealthStatus::Healthy => "emblem-ok-symbolic",
-                        model::ContainerHealthStatus::Unhealthy => "error-symbolic",
-                        _ => "dialog-question-symbolic",
-                    }
-                ))
-                .bind(&*self.health_status_image, "icon-name", Some(obj));
-
-            gtk::ClosureExpression::new::<bool>(
-                [status_expr.upcast_ref(), health_status_expr.upcast_ref()],
-                closure!(|_: Self::Type,
-                          status: model::ContainerStatus,
-                          health_status: model::ContainerHealthStatus| {
-                    status == model::ContainerStatus::Running
-                        && health_status != model::ContainerHealthStatus::Unconfigured
-                }),
-            )
-            .bind(&*self.health_status_image, "visible", Some(obj));
-
-            let css_classes = utils::css_classes(self.health_status_image.upcast_ref());
-            health_status_expr
-                .chain_closure::<Vec<String>>(closure!(
-                    |_: Self::Type, status: model::ContainerHealthStatus| {
-                        css_classes
-                            .iter()
-                            .cloned()
-                            .chain(Some(String::from(
-                                view::container::container_health_status_css_class(status),
-                            )))
-                            .collect::<Vec<_>>()
-                    }
-                ))
-                .bind(&*self.health_status_image, "css-classes", Some(obj));
 
             status_expr
                 .chain_closure::<bool>(closure!(
