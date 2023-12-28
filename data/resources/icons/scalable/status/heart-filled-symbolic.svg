@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   height="16px"
+   viewBox="0 0 16 16"
+   width="16px"
+   version="1.1"
+   id="svg13"
+   sodipodi:docname="heart-filled-symbolic.svg"
+   inkscape:version="1.3.2 (091e20ef0f, 2023-11-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs13" />
+  <sodipodi:namedview
+     id="namedview13"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="52.281708"
+     inkscape:cx="8.3394369"
+     inkscape:cy="9.2862307"
+     inkscape:current-layer="svg13" />
+  <filter
+     id="a"
+     height="1"
+     width="1"
+     x="0"
+     y="0">
+    <feColorMatrix
+       color-interpolation-filters="sRGB"
+       values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0"
+       id="feColorMatrix1" />
+  </filter>
+  <mask
+     id="b">
+    <g
+       filter="url(#a)"
+       id="g1">
+      <path
+         d="m -1.6 -1.6 h 19.2 v 19.2 h -19.2 z"
+         fill-opacity="0.5"
+         id="path1" />
+    </g>
+  </mask>
+  <clipPath
+     id="c">
+    <path
+       d="m 0 0 h 1600 v 1200 h -1600 z"
+       id="path2" />
+  </clipPath>
+  <mask
+     id="d">
+    <g
+       filter="url(#a)"
+       id="g3">
+      <path
+         d="m -1.6 -1.6 h 19.2 v 19.2 h -19.2 z"
+         fill-opacity="0.7"
+         id="path3" />
+    </g>
+  </mask>
+  <clipPath
+     id="e">
+    <path
+       d="m 0 0 h 1600 v 1200 h -1600 z"
+       id="path4" />
+  </clipPath>
+  <mask
+     id="f">
+    <g
+       filter="url(#a)"
+       id="g5">
+      <path
+         d="m -1.6 -1.6 h 19.2 v 19.2 h -19.2 z"
+         fill-opacity="0.35"
+         id="path5" />
+    </g>
+  </mask>
+  <clipPath
+     id="g">
+    <path
+       d="m 0 0 h 1600 v 1200 h -1600 z"
+       id="path6" />
+  </clipPath>
+  <path
+     d="M 11.366118,2.5015207 C 10.397067,2.4734867 9.4513656,2.8339211 8.735279,3.5107386 L 7.9841666,4.2035742 7.2291628,3.5107386 C 6.2367599,2.5896265 4.8357209,2.2892638 3.5670017,2.7217867 2.294391,3.1503031 1.3447989,4.2476277 1.0762656,5.597256 0.80773343,6.9468845 1.2591793,8.3405662 2.2593652,9.253668 L 7.9841666,14.5 13.705076,9.253668 C 14.872607,8.216416 15.300703,6.5464011 14.783097,5.0525988 14.265492,3.5587965 12.907261,2.5455731 11.366118,2.5015207 Z m 0,0"
+     fill="#222222"
+     id="path7"
+     style="stroke-width:1" />
+  <g
+     mask="url(#b)"
+     id="g9">
+    <g
+       clip-path="url(#c)"
+       transform="matrix(1 0 0 1 -580 -500)"
+       id="g8">
+      <path
+         d="m 550 182 c -0.351562 0.003906 -0.695312 0.101562 -1 0.28125 v 3.4375 c 0.304688 0.179688 0.648438 0.277344 1 0.28125 c 1.105469 0 2 -0.894531 2 -2 s -0.894531 -2 -2 -2 z m 0 5 c -0.339844 0 -0.679688 0.058594 -1 0.175781 v 6.824219 h 4 v -4 c 0 -1.65625 -1.34375 -3 -3 -3 z m 0 0"
+         id="path8" />
+    </g>
+  </g>
+  <g
+     mask="url(#d)"
+     id="g11">
+    <g
+       clip-path="url(#e)"
+       transform="matrix(1 0 0 1 -580 -500)"
+       id="g10">
+      <path
+         d="m 569 182 v 4 c 1.105469 0 2 -0.894531 2 -2 s -0.894531 -2 -2 -2 z m 0 5 v 7 h 3 v -4 c 0 -1.65625 -1.34375 -3 -3 -3 z m 0 0"
+         id="path9" />
+    </g>
+  </g>
+  <g
+     mask="url(#f)"
+     id="g13">
+    <g
+       clip-path="url(#g)"
+       transform="matrix(1 0 0 1 -580 -500)"
+       id="g12">
+      <path
+         d="m 573 182.269531 v 3.449219 c 0.613281 -0.355469 0.996094 -1.007812 1 -1.71875 c 0 -0.714844 -0.382812 -1.375 -1 -1.730469 z m 0 4.90625 v 6.824219 h 2 v -4 c 0 -1.269531 -0.800781 -2.402344 -2 -2.824219 z m 0 0"
+         id="path11" />
+    </g>
+  </g>
+</svg>
