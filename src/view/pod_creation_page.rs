@@ -20,6 +20,7 @@ use crate::widget;
 const ACTION_CREATE: &str = "pod-creation-page.create";
 const ACTION_ADD_LABEL: &str = "pod-creation-page.add-label";
 const ACTION_ADD_HOST: &str = "pod-creation-page.add-host";
+const ACTION_ADD_PORT_MAPPING: &str = "pod-creation-page.add-port-mapping";
 const ACTION_ADD_DEVICE: &str = "pod-creation-page.add-device";
 const ACTION_ADD_INFRA_CMD_ARGS: &str = "pod-creation-page.add-infra-cmd-arg";
 const ACTION_ADD_POD_CREATE_CMD_ARGS: &str = "pod-creation-page.add-pod-create-cmd-arg";
@@ -33,6 +34,7 @@ mod imp {
     pub(crate) struct PodCreationPage {
         pub(super) labels: OnceCell<gio::ListStore>,
         pub(super) hosts: OnceCell<gio::ListStore>,
+        pub(super) port_mappings: OnceCell<gio::ListStore>,
         pub(super) devices: OnceCell<gio::ListStore>,
         pub(super) pod_create_cmd_args: OnceCell<gio::ListStore>,
         pub(super) infra_cmd_args: OnceCell<gio::ListStore>,
@@ -60,6 +62,8 @@ mod imp {
         pub(super) hosts_list_box: TemplateChild<gtk::ListBox>,
         #[template_child]
         pub(super) labels_list_box: TemplateChild<gtk::ListBox>,
+        #[template_child]
+        pub(super) port_mapping_list_box: TemplateChild<gtk::ListBox>,
         #[template_child]
         pub(super) devices_list_box: TemplateChild<gtk::ListBox>,
         #[template_child]
@@ -102,6 +106,9 @@ mod imp {
             });
             klass.install_action(ACTION_ADD_HOST, None, |widget, _, _| {
                 widget.add_host();
+            });
+            klass.install_action(ACTION_ADD_PORT_MAPPING, None, |widget, _, _| {
+                widget.add_port_mapping();
             });
             klass.install_action(ACTION_ADD_DEVICE, None, |widget, _, _| {
                 widget.add_device();
@@ -160,6 +167,17 @@ mod imp {
                 },
                 ACTION_ADD_HOST,
                 &gettext("Add Host"),
+            );
+
+            bind_model(
+                &self.port_mapping_list_box,
+                self.port_mappings(),
+                |item| {
+                    view::PortMappingRow::from(item.downcast_ref::<model::PortMapping>().unwrap())
+                        .upcast()
+                },
+                ACTION_ADD_PORT_MAPPING,
+                &gettext("Add Port Mapping"),
             );
 
             bind_model(
@@ -274,6 +292,11 @@ mod imp {
             self.hosts.get_or_init(gio::ListStore::new::<model::KeyVal>)
         }
 
+        pub(super) fn port_mappings(&self) -> &gio::ListStore {
+            self.port_mappings
+                .get_or_init(gio::ListStore::new::<model::PortMapping>)
+        }
+
         pub(super) fn devices(&self) -> &gio::ListStore {
             self.devices
                 .get_or_init(gio::ListStore::new::<model::Device>)
@@ -321,6 +344,10 @@ impl PodCreationPage {
 
     fn add_host(&self) {
         add_key_val(self.imp().hosts());
+    }
+
+    fn add_port_mapping(&self) {
+        add_port_mapping(self.imp().port_mappings());
     }
 
     fn add_device(&self) {
@@ -430,6 +457,18 @@ impl PodCreationPage {
                     .iter::<model::KeyVal>()
                     .map(Result::unwrap)
                     .map(|entry| (entry.key(), entry.value())),
+            )
+            .portmappings(
+                imp.port_mappings()
+                    .iter::<model::PortMapping>()
+                    .map(Result::unwrap)
+                    .map(|port_mapping| podman::models::PortMapping {
+                        container_port: Some(port_mapping.container_port() as u16),
+                        host_ip: None,
+                        host_port: Some(port_mapping.host_port() as u16),
+                        protocol: Some(port_mapping.protocol().to_string()),
+                        range: None,
+                    }),
             );
 
         if imp.disable_infra_switch_row.is_active() {
@@ -585,6 +624,20 @@ fn add_value(model: &gio::ListStore) {
     }));
 
     model.append(&value);
+}
+
+fn add_port_mapping(model: &gio::ListStore) -> model::PortMapping {
+    let port_mapping = model::PortMapping::default();
+
+    port_mapping.connect_remove_request(clone!(@weak model => move |port_mapping| {
+        if let Some(pos) = model.find(port_mapping) {
+            model.remove(pos);
+        }
+    }));
+
+    model.append(&port_mapping);
+
+    port_mapping
 }
 
 fn add_device(model: &gio::ListStore) {
