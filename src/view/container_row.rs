@@ -111,32 +111,43 @@ mod imp {
                 .chain_property::<model::Container>("action-ongoing")
                 .bind(&*self.spinner, "spinning", Some(obj));
 
-            status_expr
-                .chain_closure::<String>(closure!(
-                    |_: Self::Type, status: model::ContainerStatus| {
-                        match status {
-                            model::ContainerStatus::Running => "media-playback-start-symbolic",
-                            model::ContainerStatus::Paused => "media-playback-pause-symbolic",
-                            _ => "media-playback-stop-symbolic",
-                        }
+            gtk::ClosureExpression::new::<String>(
+                [&status_expr, &health_status_expr],
+                closure!(|_: Self::Type,
+                          status: model::ContainerStatus,
+                          health_status: model::ContainerHealthStatus| {
+                    match status {
+                        model::ContainerStatus::Running => match health_status {
+                            model::ContainerHealthStatus::Healthy => "heart-filled-symbolic",
+                            model::ContainerHealthStatus::Unhealthy => "heart-broken-symbolic",
+                            _ => "media-playback-start-symbolic",
+                        },
+                        model::ContainerStatus::Paused => "media-playback-pause-symbolic",
+                        _ => "media-playback-stop-symbolic",
                     }
-                ))
-                .bind(&*self.spinner, "icon-name", Some(obj));
+                }),
+            )
+            .bind(&*self.spinner, "icon-name", Some(obj));
 
             let css_classes = utils::css_classes(self.spinner.upcast_ref());
-            status_expr
-                .chain_closure::<Vec<String>>(closure!(
-                    |_: Self::Type, status: model::ContainerStatus| {
-                        css_classes
-                            .iter()
-                            .cloned()
-                            .chain(Some(String::from(
-                                view::container::container_status_css_class(status),
-                            )))
-                            .collect::<Vec<_>>()
-                    }
-                ))
-                .bind(&*self.spinner, "css-classes", Some(obj));
+            gtk::ClosureExpression::new::<Vec<String>>(
+                [&status_expr, &health_status_expr],
+                closure!(|_: Self::Type,
+                          status: model::ContainerStatus,
+                          health_status: model::ContainerHealthStatus| {
+                    css_classes
+                        .iter()
+                        .cloned()
+                        .chain(Some(String::from(
+                            view::container::container_status_combined_css_class(
+                                status,
+                                health_status,
+                            ),
+                        )))
+                        .collect::<Vec<_>>()
+                }),
+            )
+            .bind(&*self.spinner, "css-classes", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
                 &[
