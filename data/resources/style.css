@@ -1,3 +1,7 @@
+flowbox > flowboxchild {
+  padding: 0;
+}
+
 .text-box textview {
   background: none;
 }
