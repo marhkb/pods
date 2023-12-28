@@ -1,6 +1,7 @@
 use std::cell::Cell;
 use std::cell::RefCell;
 use std::fmt;
+use std::str::FromStr;
 
 use glib::once_cell::sync::Lazy as SyncLazy;
 use glib::prelude::*;
@@ -16,6 +17,19 @@ pub(crate) enum Protocol {
     Tcp,
     Udp,
     Sctp,
+}
+
+impl FromStr for Protocol {
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "tcp" => Ok(Self::Tcp),
+            "udp" => Ok(Self::Udp),
+            "sctp" => Ok(Self::Sctp),
+            _ => Err(()),
+        }
+    }
 }
 
 impl fmt::Display for Protocol {
