@@ -93,6 +93,7 @@ pub(crate) use self::connection_creation_page::ConnectionCreationPage;
 pub(crate) use self::connection_custom_info_dialog::ConnectionCustomInfoDialog;
 pub(crate) use self::connection_row::ConnectionRow;
 pub(crate) use self::connections_sidebar::ConnectionsSidebar;
+pub(crate) use self::container::container_status_css_class;
 pub(crate) use self::container_commit_page::ContainerCommitPage;
 pub(crate) use self::container_creation_page::ContainerCreationPage;
 pub(crate) use self::container_details_page::ContainerDetailsPage;
