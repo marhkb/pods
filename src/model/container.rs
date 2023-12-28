@@ -158,6 +158,8 @@ mod imp {
         pub(super) image_id: OnceCell<String>,
         #[property(get, set, construct, nullable)]
         pub(super) image_name: RefCell<Option<String>>,
+        #[property(get, set, construct_only)]
+        pub(super) is_infra: Cell<bool>,
         #[property(get, set, construct)]
         pub(super) name: RefCell<String>,
         #[property(get, set = Self::set_pod, explicit_notify, nullable)]
@@ -293,6 +295,7 @@ impl Container {
             .property("id", list_container.id)
             .property("image-id", list_container.image_id)
             .property("image-name", list_container.image)
+            .property("is-infra", list_container.is_infra.unwrap_or(false))
             .property("name", &list_container.names.unwrap()[0])
             .property("pod-id", list_container.pod)
             .property(
