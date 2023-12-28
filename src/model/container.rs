@@ -544,6 +544,10 @@ impl Container {
         })
     }
 
+    pub(crate) fn has_pod(&self) -> bool {
+        self.pod_id().filter(|id| !id.is_empty()).is_some()
+    }
+
     pub(crate) fn can_start(&self) -> bool {
         matches!(
             self.status(),
