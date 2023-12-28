@@ -315,7 +315,6 @@ impl ContainerList {
 
                         list_containers
                             .into_iter()
-                            .filter(|list_container| !list_container.is_infra.unwrap_or_default())
                             .for_each(|list_container| {
                                 let index = obj.len();
 
