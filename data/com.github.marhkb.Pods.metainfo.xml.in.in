@@ -58,6 +58,7 @@
           <li>Logs are now sent to both std and syslog. (#763)</li>
           <li>Make it possible to create privileged containers. (#753)</li>
           <li>Better handling of empty states when selecting images, pods and volumes for a container to be created. (#769)</li>
+          <li>Unification of status and health status in the container row. (#774)</li>
         </ul>
         <p>Fixes</p>
         <ul>

@@ -40,8 +40,6 @@ mod imp {
         #[template_child]
         pub(super) repo_label: TemplateChild<gtk::Label>,
         #[template_child]
-        pub(super) health_status_image: TemplateChild<gtk::Image>,
-        #[template_child]
         pub(super) stats_box: TemplateChild<gtk::Box>,
         #[template_child]
         pub(super) cpu_bar: TemplateChild<widget::CircularProgressBar>,
@@ -113,32 +111,43 @@ mod imp {
                 .chain_property::<model::Container>("action-ongoing")
                 .bind(&*self.spinner, "spinning", Some(obj));
 
-            status_expr
-                .chain_closure::<String>(closure!(
-                    |_: Self::Type, status: model::ContainerStatus| {
-                        match status {
-                            model::ContainerStatus::Running => "media-playback-start-symbolic",
-                            model::ContainerStatus::Paused => "media-playback-pause-symbolic",
-                            _ => "media-playback-stop-symbolic",
-                        }
+            gtk::ClosureExpression::new::<String>(
+                [&status_expr, &health_status_expr],
+                closure!(|_: Self::Type,
+                          status: model::ContainerStatus,
+                          health_status: model::ContainerHealthStatus| {
+                    match status {
+                        model::ContainerStatus::Running => match health_status {
+                            model::ContainerHealthStatus::Healthy => "heart-filled-symbolic",
+                            model::ContainerHealthStatus::Unhealthy => "heart-broken-symbolic",
+                            _ => "media-playback-start-symbolic",
+                        },
+                        model::ContainerStatus::Paused => "media-playback-pause-symbolic",
+                        _ => "media-playback-stop-symbolic",
                     }
-                ))
-                .bind(&*self.spinner, "icon-name", Some(obj));
+                }),
+            )
+            .bind(&*self.spinner, "icon-name", Some(obj));
 
             let css_classes = utils::css_classes(self.spinner.upcast_ref());
-            status_expr
-                .chain_closure::<Vec<String>>(closure!(
-                    |_: Self::Type, status: model::ContainerStatus| {
-                        css_classes
-                            .iter()
-                            .cloned()
-                            .chain(Some(String::from(
-                                view::container::container_status_css_class(status),
-                            )))
-                            .collect::<Vec<_>>()
-                    }
-                ))
-                .bind(&*self.spinner, "css-classes", Some(obj));
+            gtk::ClosureExpression::new::<Vec<String>>(
+                [&status_expr, &health_status_expr],
+                closure!(|_: Self::Type,
+                          status: model::ContainerStatus,
+                          health_status: model::ContainerHealthStatus| {
+                    css_classes
+                        .iter()
+                        .cloned()
+                        .chain(Some(String::from(
+                            view::container::container_status_combined_css_class(
+                                status,
+                                health_status,
+                            ),
+                        )))
+                        .collect::<Vec<_>>()
+                }),
+            )
+            .bind(&*self.spinner, "css-classes", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
                 &[
@@ -191,43 +200,6 @@ mod imp {
                     utils::escape(&utils::format_option(name))
                 }))
                 .bind(&*self.repo_label, "label", Some(obj));
-
-            health_status_expr
-                .chain_closure::<String>(closure!(
-                    |_: Self::Type, status: model::ContainerHealthStatus| match status {
-                        model::ContainerHealthStatus::Starting => "image-loading-symbolic",
-                        model::ContainerHealthStatus::Healthy => "emblem-ok-symbolic",
-                        model::ContainerHealthStatus::Unhealthy => "error-symbolic",
-                        _ => "dialog-question-symbolic",
-                    }
-                ))
-                .bind(&*self.health_status_image, "icon-name", Some(obj));
-
-            gtk::ClosureExpression::new::<bool>(
-                [status_expr.upcast_ref(), health_status_expr.upcast_ref()],
-                closure!(|_: Self::Type,
-                          status: model::ContainerStatus,
-                          health_status: model::ContainerHealthStatus| {
-                    status == model::ContainerStatus::Running
-                        && health_status != model::ContainerHealthStatus::Unconfigured
-                }),
-            )
-            .bind(&*self.health_status_image, "visible", Some(obj));
-
-            let css_classes = utils::css_classes(self.health_status_image.upcast_ref());
-            health_status_expr
-                .chain_closure::<Vec<String>>(closure!(
-                    |_: Self::Type, status: model::ContainerHealthStatus| {
-                        css_classes
-                            .iter()
-                            .cloned()
-                            .chain(Some(String::from(
-                                view::container::container_health_status_css_class(status),
-                            )))
-                            .collect::<Vec<_>>()
-                    }
-                ))
-                .bind(&*self.health_status_image, "css-classes", Some(obj));
 
             status_expr
                 .chain_closure::<bool>(closure!(

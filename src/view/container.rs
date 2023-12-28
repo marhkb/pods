@@ -33,6 +33,36 @@ pub(crate) fn container_health_status_css_class(
     }
 }
 
+pub(crate) fn container_status_combined_css_class(
+    status: model::ContainerStatus,
+    health_status: model::ContainerHealthStatus,
+) -> &'static str {
+    use model::ContainerStatus::*;
+
+    match status {
+        Configured => "container-status-configured",
+        Created => "container-status-created",
+        Dead => "container-status-dead",
+        Exited => "container-status-exited",
+        Initialized => "container-status-initialized",
+        Paused => "container-status-paused",
+        Removing => "container-status-removing",
+        Restarting => "container-status-restarting",
+        Running => {
+            use model::ContainerHealthStatus::*;
+
+            match health_status {
+                Healthy => "container-health-status-healthy",
+                Unhealthy => "container-health-status-unhealthy",
+                _ => "container-status-running",
+            }
+        }
+        Stopped => "container-status-stopped",
+        Stopping => "container-status-stopping",
+        Unknown => "container-status-unknown",
+    }
+}
+
 macro_rules! container_action {
     (fn $name:ident => $action:ident($($param:literal),*) => $error:tt) => {
         pub(crate) fn $name(widget: &gtk::Widget) {

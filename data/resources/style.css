@@ -6,11 +6,6 @@
   border-radius: 9999px;
 }
 
-.circle-big {
-  border-radius: 9999px;
-  padding: 8px;
-}
-
 .dim-icon {
   color: alpha(@window_fg_color, .75);
 }

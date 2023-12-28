@@ -97,15 +97,6 @@
             </child>
 
             <child>
-              <object class="GtkImage" id="health_status_image">
-                <style>
-                  <class name="circle-big"/>
-                </style>
-                <property name="valign">center</property>
-              </object>
-            </child>
-
-            <child>
               <object class="GtkBox" id="stats_box">
                 <property name="spacing">6</property>
 
