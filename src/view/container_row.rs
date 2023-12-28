@@ -23,7 +23,7 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/view/container_row.ui")]
     pub(crate) struct ContainerRow {
         pub(super) bindings: RefCell<Vec<glib::Binding>>,
-        #[property(get, set = Self::set_container, construct, nullable)]
+        #[property(get, set, construct, nullable)]
         pub(super) container: glib::WeakRef<model::Container>,
         #[template_child]
         pub(super) spinner: TemplateChild<widget::Spinner>,
@@ -36,9 +36,9 @@ mod imp {
         #[template_child]
         pub(super) pod_image: TemplateChild<gtk::Image>,
         #[template_child]
-        pub(super) port_label: TemplateChild<gtk::Label>,
-        #[template_child]
         pub(super) repo_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub(super) ports_flow_box: TemplateChild<gtk::FlowBox>,
         #[template_child]
         pub(super) stats_box: TemplateChild<gtk::Box>,
         #[template_child]
@@ -57,6 +57,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+            klass.bind_template_callbacks();
 
             klass.install_action("container-row.activate", None, |widget, _, _| {
                 widget.activate();
@@ -101,7 +102,6 @@ mod imp {
                 .bind(&*self.end_box_revealer, "reveal-child", Some(obj));
 
             let status_expr = container_expr.chain_property::<model::Container>("status");
-            let port_expr = container_expr.chain_property::<model::Container>("port");
             let health_status_expr =
                 container_expr.chain_property::<model::Container>("health-status");
             let pod_expr = container_expr.chain_property::<model::Container>("pod");
@@ -171,28 +171,18 @@ mod imp {
                 ))
                 .bind(&*self.pod_image, "visible", Some(obj));
 
-            port_expr.bind(&*self.port_label, "label", Some(obj));
-            port_expr
-                .chain_closure::<bool>(closure!(
-                    |_: Self::Type, port: Option<String>| port.is_some()
-                ))
-                .bind(&*self.port_label, "visible", Some(obj));
-
-            let css_classes = utils::css_classes(self.port_label.upcast_ref());
-            status_expr
-                .chain_closure::<Vec<String>>(closure!(
-                    |_: Self::Type, status: model::ContainerStatus| {
-                        css_classes
-                            .iter()
-                            .cloned()
-                            .chain(Some(String::from(match status {
-                                model::ContainerStatus::Running => "accent",
-                                _ => "dim-label",
-                            })))
-                            .collect::<Vec<_>>()
-                    }
-                ))
-                .bind(&*self.port_label, "css-classes", Some(obj));
+            gtk::ClosureExpression::new::<bool>(
+                [
+                    &pod_expr,
+                    &container_expr
+                        .chain_property::<model::Container>("ports")
+                        .chain_property::<model::PortMappingList>("len"),
+                ],
+                closure!(|_: Self::Type, pod: Option<&model::Pod>, len: u32| {
+                    pod.is_none() && len > 0
+                }),
+            )
+            .bind(&*self.ports_flow_box, "visible", Some(obj));
 
             container_expr
                 .chain_property::<model::Container>("image-name")
@@ -250,28 +240,70 @@ mod imp {
     impl WidgetImpl for ContainerRow {}
     impl ListBoxRowImpl for ContainerRow {}
 
+    #[gtk::template_callbacks]
     impl ContainerRow {
-        pub(super) fn set_container(&self, value: Option<&model::Container>) {
-            let obj = &*self.obj();
-            if obj.container().as_ref() == value {
-                return;
-            }
-
+        #[template_callback]
+        fn on_notify_container(&self) {
             let mut bindings = self.bindings.borrow_mut();
             while let Some(binding) = bindings.pop() {
                 binding.unbind();
             }
 
-            if let Some(container) = value {
+            let obj = &*self.obj();
+
+            if let Some(container) = obj.container() {
                 let binding = container
                     .bind_property("selected", &*self.check_button, "active")
                     .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
                     .build();
 
                 bindings.push(binding);
-            }
 
-            self.container.set(value);
+                if !container.has_pod() {
+                    self.ports_flow_box.bind_model(
+                        Some(&container.ports()),
+                        clone!(@weak obj => @default-panic, move |item| {
+                            let port_mapping =
+                                item.downcast_ref::<model::PortMapping>().unwrap();
+
+                            let label = gtk::Label::builder()
+                                .css_classes([
+                                    "status-badge-small",
+                                    "numeric",
+                                ])
+                                .halign(gtk::Align::Center)
+                                .label(format!(
+                                    "{}/{}",
+                                    port_mapping.host_port(),
+                                    port_mapping.protocol()
+                                ))
+                                .build();
+
+                            let css_classes = utils::css_classes(label.upcast_ref());
+                            super::ContainerRow::this_expression("container")
+                                .chain_property::<model::Container>("status")
+                                .chain_closure::<Vec<String>>(closure!(
+                                    |_: super::ContainerRow, status: model::ContainerStatus| {
+                                        css_classes
+                                            .iter()
+                                            .cloned()
+                                            .chain(Some(String::from(
+                                                super::super::container_status_css_class(status)
+                                            )))
+                                            .collect::<Vec<_>>()
+                                    }
+                                ))
+                                .bind(&label, "css-classes", Some(&obj));
+
+                            gtk::FlowBoxChild::builder()
+                                .halign(gtk::Align::Start)
+                                .child(&label)
+                                .build()
+                                .upcast()
+                        }),
+                    );
+                }
+            }
         }
     }
 }

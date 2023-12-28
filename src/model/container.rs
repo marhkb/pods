@@ -166,8 +166,8 @@ mod imp {
         pub(super) pod: glib::WeakRef<model::Pod>,
         #[property(get = Self::pod_id, set, construct_only, nullable)]
         pub(super) pod_id: OnceCell<Option<String>>,
-        #[property(get = Self::port, set, construct_only, nullable)]
-        pub(super) port: OnceCell<Option<String>>,
+        #[property(get = Self::ports, set, construct_only, nullable)]
+        pub(super) ports: OnceCell<model::PortMappingList>,
         #[property(get, set, nullable)]
         pub(super) stats: RefCell<Option<BoxedContainerStats>>,
         #[property(get, set = Self::set_status, construct, explicit_notify, builder(Status::default()))]
@@ -242,8 +242,8 @@ mod imp {
             self.pod_id.get().cloned().flatten()
         }
 
-        pub(super) fn port(&self) -> Option<String> {
-            self.port.get().cloned().flatten()
+        pub(super) fn ports(&self) -> model::PortMappingList {
+            self.ports.get().unwrap().to_owned()
         }
 
         pub(super) fn set_status(&self, value: Status) {
@@ -299,19 +299,8 @@ impl Container {
             .property("name", &list_container.names.unwrap()[0])
             .property("pod-id", list_container.pod)
             .property(
-                "port",
-                list_container
-                    .ports
-                    .unwrap_or_default()
-                    .first()
-                    .and_then(|mapping| {
-                        mapping.host_port.map(|host_port| {
-                            format!(
-                                "{host_port}/{}",
-                                mapping.protocol.as_deref().unwrap_or("tcp")
-                            )
-                        })
-                    }),
+                "ports",
+                model::PortMappingList::from(list_container.ports.unwrap_or_default()),
             )
             .property("status", status(list_container.state.as_deref()))
             .property("up-since", list_container.started_at.unwrap())
