@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-01 21:04+0100\n"
+"POT-Creation-Date: 2023-12-28 12:57+0100\n"
 "PO-Revision-Date: 2022-12-19 17:51+0000\n"
 "Last-Translator: Can ESER <mail@cankutayeser.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/pods/pods/tr/>\n"
@@ -19,9 +19,9 @@ msgstr ""
 "X-Generator: Weblate 4.15.1-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:56
-#: src/view/client_view.rs:240 src/view/pods_panel.ui:67
-#: src/view/pods_panel.ui:138 src/view/pods_panel.ui:433
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:110
+#: src/view/client_view.rs:256 src/view/pods_panel.ui:67
+#: src/view/pods_panel.ui:138 src/view/pods_panel.ui:432
 #: src/view/pods_row.ui:22 src/view/search_panel.ui:81
 msgid "Pods"
 msgstr "Podlar"
@@ -29,7 +29,7 @@ msgstr "Podlar"
 #: data/com.github.marhkb.Pods.desktop.in.in:4
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
 #, fuzzy
-msgid "Keep track of your podman containers"
+msgid "Manage your Podman containers"
 msgstr "Pod ve konteynerler yarat."
 
 #: data/com.github.marhkb.Pods.desktop.in.in:9
@@ -50,37 +50,31 @@ msgstr "Varsayılan pencere boyu"
 msgid "Default window maximized behaviour"
 msgstr "Varsayılan pencere büyütme davranışı"
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:26
-msgid "Color Scheme"
-msgstr "Renk düzeni"
-
-#: data/com.github.marhkb.Pods.gschema.xml.in:27
-msgid "Use the light or dark variant of the GTK theme"
-msgstr "Koyu yada açık renk düzenini kullan"
-
-#: data/com.github.marhkb.Pods.gschema.xml.in:31
+#: data/com.github.marhkb.Pods.gschema.xml.in:21
 msgid "The uuid of the connection that was used the last time"
 msgstr "Son bağlantıiçin kullanılan uuid"
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:36
+#: data/com.github.marhkb.Pods.gschema.xml.in:26
 msgid "The last used view"
 msgstr "En son görünüm"
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:41
+#: data/com.github.marhkb.Pods.gschema.xml.in:31
 msgid "Whether to hide intermediate images"
 msgstr ""
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:46
+#: data/com.github.marhkb.Pods.gschema.xml.in:36
 msgid "The last used container file path"
 msgstr "Son kullanılan konteyner dosya yolu"
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:51
+#: data/com.github.marhkb.Pods.gschema.xml.in:41
+#: src/view/images_prune_page.ui:70
 msgid "Remove all images not in use by containers, not just dangling ones"
 msgstr ""
 "Askıdakiler de dahil, konteynerler tarafından kullanılmayan tüm imajları "
 "kaldır"
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:56
+#: data/com.github.marhkb.Pods.gschema.xml.in:46
+#: src/view/images_prune_page.ui:77
 msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)"
@@ -88,46 +82,46 @@ msgstr ""
 "İmajları, harici konteynerler(örn: derlenen imajlar) tarafından kullanılsa "
 "bile kaldır"
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:61
+#: data/com.github.marhkb.Pods.gschema.xml.in:51
 #, fuzzy
 msgid "Whether to show only running containers"
 msgstr "Sadece çalışan konteynerlerin gösterilip gösterilmeyeceğini belirler"
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:66
+#: data/com.github.marhkb.Pods.gschema.xml.in:56
 #, fuzzy
 msgid "Whether to show only running pods"
 msgstr "Sadece çalışan podların gösterilip gösterilmeyeceğini belirler"
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:71
+#: data/com.github.marhkb.Pods.gschema.xml.in:61
 #, fuzzy
 msgid "Whether to show only used volumes"
 msgstr "Sadece çalışan podların gösterilip gösterilmeyeceğini belirler"
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:76
+#: data/com.github.marhkb.Pods.gschema.xml.in:66
 msgid "Whether to show a timestamp for each log line"
 msgstr ""
 "Herbir log satırında tarih bilgisi gösterilip gösterilmeyeceğini belirler"
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:81
-#: data/com.github.marhkb.Pods.gschema.xml.in:86
+#: data/com.github.marhkb.Pods.gschema.xml.in:71
+#: data/com.github.marhkb.Pods.gschema.xml.in:76
 msgid "Whether to use a regex for search"
 msgstr ""
 "Aramada kurallı ifadeler(regex) kullanılabilir kullanılamayacağını belirler"
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:91
+#: data/com.github.marhkb.Pods.gschema.xml.in:81
 #, fuzzy
 msgid "Whether search should be case-sensitive"
 msgstr "Aramada küçük-büyük harf hassasiyeti olup olmadığını belirler"
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:96
+#: data/com.github.marhkb.Pods.gschema.xml.in:86
 msgid "Whether to match whole words when searching"
 msgstr "Aramda bütün kelime ile eşleşme olup olmadığını belirler"
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:101
+#: data/com.github.marhkb.Pods.gschema.xml.in:91
 msgid "The font scale of all text views"
 msgstr ""
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:106
+#: data/com.github.marhkb.Pods.gschema.xml.in:96
 msgid "The font scale for terminals"
 msgstr ""
 
@@ -210,7 +204,7 @@ msgstr "Konteynerlere genel bakış"
 msgid "Search Results"
 msgstr "Ara"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:367
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:395
 msgid "Marcus Behrendt"
 msgstr "Marcus Behrendt"
 
@@ -222,11 +216,11 @@ msgstr ""
 msgid "Translators"
 msgstr ""
 
-#: src/main.rs:133
+#: src/main.rs:162
 msgid "Prints application version"
 msgstr ""
 
-#: src/main.rs:142
+#: src/main.rs:171
 msgid "Specify the minimum log level"
 msgstr ""
 
@@ -333,7 +327,7 @@ msgid "Prune unused volumes"
 msgstr "{} yüklenirken hata"
 
 #: src/model/connection_manager.rs:203
-msgid "Connection '{}' already exists."
+msgid "Connection '{}' already exists"
 msgstr ""
 
 #: src/model/container.rs:69
@@ -406,7 +400,7 @@ msgstr ""
 msgid "Degraded"
 msgstr ""
 
-#: src/model/pod.rs:67 src/view/connection_creation_page.rs:260
+#: src/model/pod.rs:67 src/view/connection_creation_page.rs:286
 #: src/view/scalable_text_view_page.rs:460 src/view/top_page.rs:512
 #: src/view/top_page.rs:520
 msgid "Error"
@@ -460,239 +454,269 @@ msgid "{} ago"
 msgstr ""
 
 #. Translators: This string will be shown when a property of an entity like an image is null.
-#: src/utils.rs:243
+#: src/utils.rs:257
 msgid "<none>"
 msgstr ""
 
-#: src/utils.rs:429
+#: src/utils.rs:445
 msgid "Error on open file dialog"
 msgstr ""
 
-#: src/view/action_page.rs:132
-msgid "Images Are Currently Being Pruned"
-msgstr ""
-
-#: src/view/action_page.rs:133
-msgid "Image Is Currently Being Downloaded"
-msgstr ""
-
-#: src/view/action_page.rs:134
-msgid "Image Is Currently Being Built"
-msgstr ""
-
-#: src/view/action_page.rs:135
-msgid "Image Is Currently Being Pushed"
-msgstr ""
-
-#: src/view/action_page.rs:136 src/view/action_page.rs:154
-msgid "Containers Are Currently Being Pruned"
-msgstr ""
-
-#: src/view/action_page.rs:137
-msgid "Container Is Currently Being Created"
-msgstr ""
-
-#: src/view/action_page.rs:138
-msgid "Container Is Currently Being Started"
-msgstr ""
-
-#: src/view/action_page.rs:139
-msgid "New Image Is Currently Being Committed"
-msgstr ""
-
-#: src/view/action_page.rs:140
-msgid "Files Are Currently Being Copied"
-msgstr ""
-
-#: src/view/action_page.rs:141
-msgid "Pods Are Currently Being Pruned"
-msgstr ""
-
-#: src/view/action_page.rs:142
-msgid "Pod Is Currently Being Created"
-msgstr ""
-
 #: src/view/action_page.rs:143
-msgid "Volume Is Currently Being Created"
-msgstr ""
+#, fuzzy
+msgid "Pruning Images"
+msgstr "{} yüklenirken hata"
 
 #: src/view/action_page.rs:144
-msgid "Volumes Are Currently Being Pruned"
+#, fuzzy
+msgid "Downloading Image"
+msgstr "{} yüklenirken hata"
+
+#: src/view/action_page.rs:145
+msgid "Building Image"
 msgstr ""
 
+#: src/view/action_page.rs:146
+msgid "Pushing Image"
+msgstr ""
+
+#: src/view/action_page.rs:147
+#, fuzzy
+msgid "Pruning Containers"
+msgstr "Sadece çalışan konteynerlerin gösterilip gösterilmeyeceğini belirler"
+
+#: src/view/action_page.rs:148
+#, fuzzy
+msgid "Creating Container"
+msgstr "Pod ve konteynerler yarat."
+
+#: src/view/action_page.rs:149
+#, fuzzy
+msgid "Starting Container"
+msgstr "Konteynerler yeniden adlandır."
+
 #: src/view/action_page.rs:150
-msgid "Images Have Been Pruned"
+msgid "Committing Image"
 msgstr ""
 
 #: src/view/action_page.rs:151
-msgid "Image Has Been Downloaded"
+msgid "Copying Files"
 msgstr ""
 
 #: src/view/action_page.rs:152
-msgid "Image Has Been Built"
-msgstr ""
+#, fuzzy
+msgid "Pruning Pods"
+msgstr "Sadece çalışan podların gösterilip gösterilmeyeceğini belirler"
 
 #: src/view/action_page.rs:153
-msgid "Image Has Been Pushed"
+msgid "Creating Pod"
 msgstr ""
+
+#: src/view/action_page.rs:154
+#, fuzzy
+msgid "Creating Volume"
+msgstr "Pod ve konteynerler yarat."
 
 #: src/view/action_page.rs:155
-msgid "Container Has Been Created"
-msgstr ""
-
-#: src/view/action_page.rs:156
 #, fuzzy
-msgid "Container Has Been Started"
-msgstr "Konteynerlere genel bakış"
-
-#: src/view/action_page.rs:157
-msgid "New Image Has Been Committed"
-msgstr ""
-
-#: src/view/action_page.rs:158
-msgid "Files Have Beeng Copied"
-msgstr ""
-
-#: src/view/action_page.rs:159
-msgid "Pods Have Been Pruned"
-msgstr ""
-
-#: src/view/action_page.rs:160
-msgid "Pod Has Been Created"
-msgstr ""
+msgid "Pruning Volumes"
+msgstr "{} yüklenirken hata"
 
 #: src/view/action_page.rs:161
 #, fuzzy
-msgid "Volume Has Been Created"
-msgstr "Konteynerlere genel bakış"
+msgid "Images Pruned"
+msgstr "İmajlara genel bakış"
 
 #: src/view/action_page.rs:162
-msgid "Volumes Have Been Pruned"
+msgid "Image Downloaded"
 msgstr ""
 
+#: src/view/action_page.rs:163
+msgid "Image Built"
+msgstr ""
+
+#: src/view/action_page.rs:164
+#, fuzzy
+msgid "Image Pushed"
+msgstr "Konteynerlere genel bakış"
+
+#: src/view/action_page.rs:165
+#, fuzzy
+msgid "Containers Pruned"
+msgstr "konteynerler"
+
+#: src/view/action_page.rs:166
+#, fuzzy
+msgid "Container Created"
+msgstr "konteynerler"
+
+#: src/view/action_page.rs:167
+#, fuzzy
+msgid "Container Started"
+msgstr "Konteynerlere genel bakış"
+
 #: src/view/action_page.rs:168
-msgid "Pruning of Images Has Been Aborted"
+msgid "Image Committed"
 msgstr ""
 
 #: src/view/action_page.rs:169
-msgid "Image Download Has Been Aborted"
+msgid "Files Copied"
 msgstr ""
 
 #: src/view/action_page.rs:170
-msgid "Image Built Has Been Aborted"
+msgid "Pods Pruned"
 msgstr ""
 
 #: src/view/action_page.rs:171
-#, fuzzy
-msgid "Image Push Has Been Aborted"
-msgstr "Konteynerlere genel bakış"
+msgid "Pod Created"
+msgstr ""
 
 #: src/view/action_page.rs:172
 #, fuzzy
-msgid "Pruning of Containers Has Been Aborted"
+msgid "Volume Created"
 msgstr "Konteynerlere genel bakış"
 
 #: src/view/action_page.rs:173
-msgid "Container Creation Has Been Aborted"
-msgstr ""
-
-#: src/view/action_page.rs:174
-msgid "Container Start Has Been Aborted"
-msgstr ""
-
-#: src/view/action_page.rs:175
-msgid "Image Commitment Has Been Aborted"
-msgstr ""
-
-#: src/view/action_page.rs:176
-msgid "Copying Files Has Been Aborted"
-msgstr ""
-
-#: src/view/action_page.rs:177
-msgid "Pruning of Pods Has Been Aborted"
-msgstr ""
-
-#: src/view/action_page.rs:178
-msgid "Pod Creation Has Been Aborted"
-msgstr ""
+#, fuzzy
+msgid "Volumes Pruned"
+msgstr "Hiçbir pod bulunamadı"
 
 #: src/view/action_page.rs:179
 #, fuzzy
-msgid "Volume Creation Has Been Aborted"
+msgid "Image Pruning Aborted"
 msgstr "Konteynerlere genel bakış"
 
 #: src/view/action_page.rs:180
 #, fuzzy
-msgid "Pruning of Volumes Has Been Aborted"
+msgid "Image Download Aborted"
 msgstr "Konteynerlere genel bakış"
 
+#: src/view/action_page.rs:181
+#, fuzzy
+msgid "Image Built Aborted"
+msgstr "Konteynerlere genel bakış"
+
+#: src/view/action_page.rs:182
+#, fuzzy
+msgid "Image Push Aborted"
+msgstr "Konteynerlere genel bakış"
+
+#: src/view/action_page.rs:183
+#, fuzzy
+msgid "Container Pruning Aborted"
+msgstr "konteynerler"
+
+#: src/view/action_page.rs:184
+#, fuzzy
+msgid "Container Creation Aborted"
+msgstr "Konteynerlere genel bakış"
+
+#: src/view/action_page.rs:185
+#, fuzzy
+msgid "Container Start Aborted"
+msgstr "konteynerler"
+
 #: src/view/action_page.rs:186
-msgid "Pruning of Images Has Failed"
+msgid "Image Commit Aborted"
 msgstr ""
 
 #: src/view/action_page.rs:187
-msgid "Image Download Has Failed"
+msgid "File Copying Aborted"
 msgstr ""
 
 #: src/view/action_page.rs:188
-msgid "Image Built Has Failed"
+msgid "Pod Pruning Aborted"
 msgstr ""
 
 #: src/view/action_page.rs:189
-msgid "Image Push Has Failed"
-msgstr ""
-
-#: src/view/action_page.rs:190
-msgid "Pruning of Containers Has Failed"
-msgstr ""
-
-#: src/view/action_page.rs:191
-msgid "Container Creation Has Failed"
-msgstr ""
-
-#: src/view/action_page.rs:192
-msgid "Container Start Has Failed"
-msgstr ""
-
-#: src/view/action_page.rs:193
-msgid "Image Commitment Has Failed"
-msgstr ""
-
-#: src/view/action_page.rs:194
-msgid "Copying Files Has Failed"
-msgstr ""
-
-#: src/view/action_page.rs:195
-msgid "Pruning of Pods Has Failed"
-msgstr ""
-
-#: src/view/action_page.rs:196
-msgid "Pod Creation Has Failed"
-msgstr ""
-
-#: src/view/action_page.rs:197
-msgid "Volume Creation Has Failed"
-msgstr ""
-
-#: src/view/action_page.rs:198
 #, fuzzy
-msgid "Pruning of Volumes Has Failed"
+msgid "Pod Creation Aborted"
 msgstr "Konteynerlere genel bakış"
 
-#: src/view/action_page.rs:241
+#: src/view/action_page.rs:190
+#, fuzzy
+msgid "Volume Creation Aborted"
+msgstr "Konteynerlere genel bakış"
+
+#: src/view/action_page.rs:191
+#, fuzzy
+msgid "Volume Pruning Aborted"
+msgstr "Konteynerlere genel bakış"
+
+#: src/view/action_page.rs:197
+#, fuzzy
+msgid "Pruning Image Failed"
+msgstr "Konteynerlere genel bakış"
+
+#: src/view/action_page.rs:198
+msgid "Downloading Image Failed"
+msgstr ""
+
+#: src/view/action_page.rs:199
+msgid "Building Image Failed"
+msgstr ""
+
+#: src/view/action_page.rs:200
+#, fuzzy
+msgid "Pushing Image Failed"
+msgstr "Konteynerlere genel bakış"
+
+#: src/view/action_page.rs:201
+#, fuzzy
+msgid "Pruning Containers Failed"
+msgstr "Konteynerlere genel bakış"
+
+#: src/view/action_page.rs:202
+#, fuzzy
+msgid "Creating Container Failed"
+msgstr "Pod ve konteynerler yarat."
+
+#: src/view/action_page.rs:203
+#, fuzzy
+msgid "Starting Container Failed"
+msgstr "Konteynerler yeniden adlandır."
+
+#: src/view/action_page.rs:204
+msgid "Committing Image Failed"
+msgstr ""
+
+#: src/view/action_page.rs:205
+msgid "Copying Files Failed"
+msgstr ""
+
+#: src/view/action_page.rs:206
+#, fuzzy
+msgid "Pruning Pods Failed"
+msgstr "Konteynerlere genel bakış"
+
+#: src/view/action_page.rs:207
+msgid "Creating Pod Failed"
+msgstr ""
+
+#: src/view/action_page.rs:208
+#, fuzzy
+msgid "Creating Volume Failed"
+msgstr "Konteynerlere genel bakış"
+
+#: src/view/action_page.rs:209
+#, fuzzy
+msgid "Pruning Volumes Failed"
+msgstr "Konteynerlere genel bakış"
+
+#: src/view/action_page.rs:253
 msgid "After {}"
 msgstr ""
 
-#: src/view/action_page.rs:281
+#: src/view/action_page.rs:293
 #, fuzzy
 msgid "Action"
 msgstr "İşlem yok"
 
-#: src/view/action_page.rs:290
+#: src/view/action_page.rs:302
 msgid "Error on opening artifact"
 msgstr ""
 
-#: src/view/action_page.rs:291
+#: src/view/action_page.rs:303
 msgid "Artifact has been deleted"
 msgstr ""
 
@@ -708,40 +732,40 @@ msgstr "_Görüntüle"
 msgid "_Retry"
 msgstr ""
 
-#: src/view/action_row.rs:138
+#: src/view/action_row.rs:139
 msgid "Abort"
 msgstr ""
 
-#: src/view/action_row.rs:140
+#: src/view/action_row.rs:141
 msgid "Remove"
 msgstr ""
 
-#: src/view/action_row.rs:203
+#: src/view/action_row.rs:204
 msgid "Failed Pods Action"
 msgstr ""
 
-#: src/view/action_row.rs:207
+#: src/view/action_row.rs:208
 msgid "Finished Pods Action"
 msgstr ""
 
-#: src/view/action_row.rs:257
+#: src/view/action_row.rs:258
 msgid "Ongoing ({})"
 msgstr ""
 
-#: src/view/action_row.rs:271
+#: src/view/action_row.rs:272
 msgid "Finished after {}"
 msgstr ""
 
-#: src/view/action_row.rs:272
-msgid "Cancelled after {}"
+#: src/view/action_row.rs:273
+msgid "Aborted after {}"
 msgstr ""
 
-#: src/view/action_row.rs:273
+#: src/view/action_row.rs:274
 msgid "Failed after {}"
 msgstr ""
 
 #: src/view/actions_sidebar.ui:18 src/view/client_view.ui:64
-#: src/view/client_view.ui:207
+#: src/view/client_view.ui:199
 msgid "Actions"
 msgstr ""
 
@@ -754,33 +778,33 @@ msgstr ""
 msgid "No Actions"
 msgstr "İşlem yok"
 
-#: src/view/client_view.rs:239 src/view/containers_panel.ui:67
-#: src/view/containers_panel.ui:138 src/view/containers_panel.ui:433
+#: src/view/client_view.rs:255 src/view/containers_panel.ui:67
+#: src/view/containers_panel.ui:138 src/view/containers_panel.ui:432
 #: src/view/containers_row.ui:22 src/view/image_details_page.ui:178
 #: src/view/pod_details_page.ui:293 src/view/search_panel.ui:65
 #: src/view/volume_details_page.ui:102
 msgid "Containers"
 msgstr ""
 
-#: src/view/client_view.rs:241 src/view/images_panel.ui:92
-#: src/view/images_panel.ui:163 src/view/images_panel.ui:350
+#: src/view/client_view.rs:257 src/view/images_panel.ui:92
+#: src/view/images_panel.ui:163 src/view/images_panel.ui:349
 #: src/view/images_row.ui:22 src/view/search_panel.ui:97
 msgid "Images"
 msgstr ""
 
-#: src/view/client_view.rs:242 src/view/container_creation_page.ui:296
+#: src/view/client_view.rs:258 src/view/container_creation_page.ui:301
 #: src/view/container_details_page.ui:183 src/view/search_panel.ui:113
 #: src/view/volumes_panel.ui:67 src/view/volumes_panel.ui:138
-#: src/view/volumes_panel.ui:325 src/view/volumes_row.ui:22
+#: src/view/volumes_panel.ui:324 src/view/volumes_row.ui:22
 msgid "Volumes"
 msgstr ""
 
-#: src/view/client_view.rs:243 src/view/info_panel.ui:24
+#: src/view/client_view.rs:259 src/view/info_panel.ui:24
 #: src/view/info_row.ui:22
 msgid "Info"
 msgstr ""
 
-#: src/view/client_view.rs:244 src/view/container_log_page.ui:60
+#: src/view/client_view.rs:260 src/view/container_log_page.ui:60
 #: src/view/containers_panel.ui:109 src/view/images_panel.ui:134
 #: src/view/pods_panel.ui:109 src/view/scalable_text_view_page.ui:48
 #: src/view/search_panel.ui:32 src/view/search_row.ui:22
@@ -797,7 +821,7 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
-#: src/view/client_view.ui:57 src/view/client_view.ui:187
+#: src/view/client_view.ui:57 src/view/client_view.ui:179
 #: src/view/connections_sidebar.ui:18
 msgid "Connections"
 msgstr ""
@@ -808,24 +832,48 @@ msgctxt "app name"
 msgid "Pods"
 msgstr "Podlar"
 
-#: src/view/client_view.ui:231
+#: src/view/client_view.ui:223
 #, fuzzy
 msgid "Content"
 msgstr "konteynerler"
 
-#: src/view/connection_chooser_page.ui:24
+#: src/view/connection.rs:22
+msgid "There are ongoing actions whose progress will be irretrievably lost"
+msgstr ""
+
+#: src/view/connection.rs:28 src/view/connection_creation_page.ui:28
+#: src/view/container_commit_page.ui:35 src/view/container_creation_page.ui:44
+#: src/view/container_files_get_page.ui:35
+#: src/view/container_files_put_page.ui:44
+#: src/view/container_rename_dialog.ui:10 src/view/containers_panel.rs:655
+#: src/view/containers_prune_page.ui:35 src/view/image.rs:37
+#: src/view/image_build_page.ui:35 src/view/image_search_page.ui:34
+#: src/view/images_panel.rs:489 src/view/images_prune_page.ui:35
+#: src/view/pod.rs:82 src/view/pod_creation_page.ui:35
+#: src/view/pods_panel.rs:587 src/view/pods_prune_page.ui:35
+#: src/view/repo_tag_add_dialog.ui:10 src/view/repo_tag_push_page.ui:38
+#: src/view/volume.rs:37 src/view/volume_creation_page.ui:35
+#: src/view/volumes_panel.rs:459 src/view/volumes_prune_page.ui:35
+msgid "_Cancel"
+msgstr "_İptal"
+
+#: src/view/connection.rs:29
+msgid "_Confirm"
+msgstr ""
+
+#: src/view/connection_chooser_page.rs:106
+#, fuzzy
+msgid "Error on establishing connection"
+msgstr "{} yüklenirken hata"
+
+#: src/view/connection_chooser_page.ui:26
 msgid "Connect to Podman"
 msgstr "Podman'e bağlan"
 
-#: src/view/connection_chooser_page.ui:25
+#: src/view/connection_chooser_page.ui:27
 #, fuzzy
 msgid "Choose an existing connection or create a new one"
 msgstr "Bir bağlantı yarat yada varolanı kullan."
-
-#: src/view/connection_chooser_page.ui:72 src/view/welcome_page.ui:82
-#, fuzzy
-msgid "_New Connection"
-msgstr "Yeni Bağlantı"
 
 #: src/view/connection_creation_page.rs:138
 msgid "official documentation"
@@ -836,25 +884,9 @@ msgstr ""
 msgid "Visit the {} for more information."
 msgstr ""
 
-#: src/view/connection_creation_page.rs:218
+#: src/view/connection_creation_page.rs:244
 msgid "Confirm Connecting to New Instance"
 msgstr ""
-
-#: src/view/connection_creation_page.ui:28 src/view/connection.rs:28
-#: src/view/container_commit_page.ui:35 src/view/container_creation_page.ui:44
-#: src/view/container_files_get_page.ui:35
-#: src/view/container_files_put_page.ui:44
-#: src/view/container_rename_dialog.ui:10 src/view/containers_panel.rs:655
-#: src/view/containers_prune_page.ui:35 src/view/image_build_page.ui:35
-#: src/view/image_pull_page.ui:35 src/view/image.rs:37
-#: src/view/images_panel.rs:488 src/view/images_prune_page.ui:35
-#: src/view/pod_creation_page.ui:35 src/view/pod.rs:82
-#: src/view/pods_panel.rs:587 src/view/pods_prune_page.ui:35
-#: src/view/repo_tag_add_dialog.ui:10 src/view/repo_tag_push_page.ui:38
-#: src/view/volume_creation_page.ui:35 src/view/volume.rs:37
-#: src/view/volumes_panel.rs:459 src/view/volumes_prune_page.ui:35
-msgid "_Cancel"
-msgstr "_İptal"
 
 #: src/view/connection_creation_page.ui:35
 msgid "New Connection"
@@ -868,7 +900,7 @@ msgstr "_Bağlan"
 #: src/view/container_creation_page.ui:80
 #: src/view/container_properties_group.ui:14
 #: src/view/container_rename_dialog.ui:33 src/view/pod_creation_page.ui:70
-#: src/view/pod_creation_page.ui:263 src/view/pod_details_page.ui:179
+#: src/view/pod_creation_page.ui:275 src/view/pod_details_page.ui:179
 #: src/view/volume_creation_page.ui:69 src/view/volume_details_page.ui:46
 msgid "Name"
 msgstr "Ad"
@@ -878,18 +910,19 @@ msgid "URL"
 msgstr ""
 
 #: src/view/connection_creation_page.ui:121
-msgid "Choose how you want to connect to Podman."
+#, fuzzy
+msgid "Choose how to connect to Podman"
 msgstr "Podman'e nasıl bağlanacağını seç."
 
 #: src/view/connection_creation_page.ui:125
 msgid "Unix Socket"
 msgstr "Unix Soket"
 
-#: src/view/connection_creation_page.ui:160
+#: src/view/connection_creation_page.ui:161
 msgid "Podman Socket Activation"
 msgstr "Podman Soket Aktivasyonu"
 
-#: src/view/connection_creation_page.ui:167
+#: src/view/connection_creation_page.ui:168
 #, fuzzy
 msgid ""
 "To connect to the local Podman instance, the systemd socket must be enabled. "
@@ -898,7 +931,7 @@ msgstr ""
 "Yerel bir Podman'e bağlanmak için systemd soketi etkinleştirilmeli. "
 "Aşağıdaki kodu çalıştırarak daimi olarak etkinleştirebilirsin:"
 
-#: src/view/connection_creation_page.ui:216
+#: src/view/connection_creation_page.ui:217
 #: src/view/connection_custom_info_dialog.ui:136
 #: src/view/connection_custom_info_dialog.ui:192
 #: src/view/connection_custom_info_dialog.ui:250
@@ -906,28 +939,23 @@ msgstr ""
 msgid "Copy to Clipboard"
 msgstr "Panoya kopyala"
 
-#: src/view/connection_creation_page.ui:232
+#: src/view/connection_creation_page.ui:233
 msgid ""
 "To connect to the local root Podman instance, create a custom connection "
 "(read the hints there)."
 msgstr ""
 
-#: src/view/connection_creation_page.ui:257
+#: src/view/connection_creation_page.ui:258
 #, fuzzy
-msgid "Custom"
+msgid "Custom URL"
 msgstr "Özel"
 
-#: src/view/connection_creation_page.ui:267
-#, fuzzy
-msgid "Connection String"
-msgstr "Bağlantı Metni"
-
-#: src/view/connection_creation_page.ui:295
+#: src/view/connection_creation_page.ui:296
 msgid "Color"
 msgstr "Renk"
 
-#: src/view/connection_creation_page.ui:296
-msgid "Set the color of this connection."
+#: src/view/connection_creation_page.ui:297
+msgid "Set the color of this connection"
 msgstr ""
 
 #: src/view/connection_custom_info_dialog.rs:149
@@ -991,19 +1019,19 @@ msgid "Local connection"
 msgstr ""
 
 #: src/view/connection_row.ui:95 src/view/container_details_page.ui:158
-#: src/view/containers_panel.ui:402 src/view/image_menu_button.ui:11
-#: src/view/images_panel.ui:323 src/view/images_panel.ui:325
-#: src/view/pod_details_page.ui:152 src/view/pods_panel.ui:402
-#: src/view/volumes_panel.ui:298 src/view/volumes_panel.ui:300
+#: src/view/containers_panel.ui:401 src/view/image_menu_button.ui:11
+#: src/view/images_panel.ui:322 src/view/images_panel.ui:324
+#: src/view/pod_details_page.ui:152 src/view/pods_panel.ui:401
+#: src/view/volumes_panel.ui:297 src/view/volumes_panel.ui:299
 msgid "Delete"
 msgstr ""
 
-#: src/view/connection.rs:22
-msgid "There are ongoing actions whose progress will be irretrievably lost."
+#: src/view/connections_sidebar.rs:97
+msgid "Confirm Switching Connection"
 msgstr ""
 
-#: src/view/connection.rs:29
-msgid "_Confirm"
+#: src/view/connections_sidebar.rs:104
+msgid "Error on switching connection"
 msgstr ""
 
 #: src/view/connections_sidebar.ui:26
@@ -1011,13 +1039,39 @@ msgstr ""
 msgid "New Connection (Ctrl+Shift+N)"
 msgstr "Önceki (Ctrl+Shift+G)"
 
-#: src/view/connection_switcher.rs:123
-msgid "Confirm Switching Connection"
+#: src/view/container.rs:86 src/view/containers_panel.rs:601
+#, fuzzy
+msgid "Error on starting container"
+msgstr "{} yüklenirken hata"
+
+#: src/view/container.rs:87 src/view/containers_panel.rs:543
+#, fuzzy
+msgid "Error on stopping container"
+msgstr "{} yüklenirken hata"
+
+#: src/view/container.rs:88 src/view/containers_panel.rs:541
+#, fuzzy
+msgid "Error on killing container"
+msgstr "{} yüklenirken hata"
+
+#: src/view/container.rs:89 src/view/containers_panel.rs:568
+msgid "Error on restarting container"
 msgstr ""
 
-#: src/view/connection_switcher.rs:164
-msgid "Error on switching connection"
-msgstr ""
+#: src/view/container.rs:90 src/view/containers_panel.rs:624
+#, fuzzy
+msgid "Error on pausing container"
+msgstr "{} yüklenirken hata"
+
+#: src/view/container.rs:91 src/view/containers_panel.rs:590
+#, fuzzy
+msgid "Error on resuming container"
+msgstr "Sadece çalışan konteynerlerin gösterilip gösterilmeyeceğini belirler"
+
+#: src/view/container.rs:92 src/view/containers_panel.rs:675
+#, fuzzy
+msgid "Error on deleting container"
+msgstr "{} yüklenirken hata"
 
 #: src/view/container_commit_page.rs:98
 msgid "Change"
@@ -1030,7 +1084,7 @@ msgstr ""
 #: src/view/container_commit_page.ui:22 src/view/container_creation_page.ui:31
 #: src/view/container_files_get_page.ui:22
 #: src/view/container_files_put_page.ui:31 src/view/containers_prune_page.ui:22
-#: src/view/image_build_page.ui:22 src/view/image_pull_page.ui:22
+#: src/view/image_build_page.ui:22 src/view/image_pull_page.ui:13
 #: src/view/images_prune_page.ui:22 src/view/pod_creation_page.ui:22
 #: src/view/pods_prune_page.ui:22 src/view/repo_tag_push_page.ui:25
 #: src/view/volume_creation_page.ui:22 src/view/volumes_prune_page.ui:22
@@ -1074,13 +1128,13 @@ msgid "Format"
 msgstr ""
 
 #: src/view/container_commit_page.ui:124 src/view/container_details_page.ui:141
-#: src/view/containers_panel.ui:385 src/view/pod_details_page.ui:135
-#: src/view/pods_panel.ui:385
+#: src/view/containers_panel.ui:384 src/view/pod_details_page.ui:135
+#: src/view/pods_panel.ui:384
 msgid "Pause"
 msgstr ""
 
 #: src/view/container_commit_page.ui:125
-msgid "Pause the container before committing it."
+msgid "Pause the container before committing it"
 msgstr ""
 
 #: src/view/container_commit_page.ui:134
@@ -1090,42 +1144,42 @@ msgstr ""
 #: src/view/container_commit_page.ui:135
 msgid ""
 "Instructions to apply while committing in Dockerfile format (i.e. \"CMD=/bin/"
-"foo\")."
+"foo\")"
 msgstr ""
 
-#: src/view/container_creation_page.rs:181 src/view/pod_creation_page.rs:176
-#: src/view/pod_creation_page.rs:186 src/view/value_row.ui:4
+#: src/view/container_creation_page.rs:197 src/view/pod_creation_page.rs:197
+#: src/view/pod_creation_page.rs:207 src/view/value_row.ui:4
 msgid "Argument"
 msgstr ""
 
-#: src/view/container_creation_page.rs:184 src/view/pod_creation_page.rs:179
-#: src/view/pod_creation_page.rs:189
+#: src/view/container_creation_page.rs:200 src/view/pod_creation_page.rs:200
+#: src/view/pod_creation_page.rs:210
 msgid "Add Argument"
 msgstr ""
 
-#: src/view/container_creation_page.rs:195
+#: src/view/container_creation_page.rs:211 src/view/pod_creation_page.rs:180
 msgid "Add Port Mapping"
 msgstr ""
 
-#: src/view/container_creation_page.rs:203
+#: src/view/container_creation_page.rs:219
 #, fuzzy
 msgid "Add Volume"
 msgstr "Pod ve konteynerler yarat."
 
-#: src/view/container_creation_page.rs:213
+#: src/view/container_creation_page.rs:229
 msgid "Add Environment Variable"
 msgstr ""
 
-#: src/view/container_creation_page.rs:223 src/view/image_build_page.rs:115
-#: src/view/pod_creation_page.rs:144
+#: src/view/container_creation_page.rs:239 src/view/image_build_page.rs:115
+#: src/view/pod_creation_page.rs:154
 msgid "Add Label"
 msgstr ""
 
-#: src/view/container_creation_page.rs:508
+#: src/view/container_creation_page.rs:524
 msgid "Failed to create container"
 msgstr ""
 
-#: src/view/container_creation_page.rs:509
+#: src/view/container_creation_page.rs:525
 msgid "no image selected"
 msgstr ""
 
@@ -1147,108 +1201,113 @@ msgstr ""
 msgid "Details"
 msgstr ""
 
-#: src/view/container_creation_page.ui:128
+#: src/view/container_creation_page.ui:127
 #: src/view/container_properties_group.ui:300 src/view/pod_details_page.ui:16
 msgid "Pod"
 msgstr ""
 
-#: src/view/container_creation_page.ui:155 src/view/pod_creation_page.ui:275
-msgid "Pull latest image"
+#: src/view/container_creation_page.ui:154 src/view/pod_creation_page.ui:287
+msgid "Pull Latest Image"
 msgstr ""
 
-#: src/view/container_creation_page.ui:161
+#: src/view/container_creation_page.ui:160
 #: src/view/container_details_page.ui:237
 msgid "Terminal"
 msgstr ""
 
-#: src/view/container_creation_page.ui:169
-msgid "Memory limit"
+#: src/view/container_creation_page.ui:167
+msgid "Privileged"
 msgstr ""
 
-#: src/view/container_creation_page.ui:213
+#: src/view/container_creation_page.ui:168
+msgid "Give extended privileges to container"
+msgstr ""
+
+#: src/view/container_creation_page.ui:175
+msgid "Memory Limit"
+msgstr ""
+
+#: src/view/container_creation_page.ui:219
 msgid "KB"
 msgstr ""
 
-#: src/view/container_creation_page.ui:214
+#: src/view/container_creation_page.ui:220
 msgid "MB"
 msgstr ""
 
-#: src/view/container_creation_page.ui:215
+#: src/view/container_creation_page.ui:221
 msgid "GB"
 msgstr ""
 
-#: src/view/container_creation_page.ui:244
-#: src/view/container_creation_page.ui:356
+#: src/view/container_creation_page.ui:250
+#: src/view/container_creation_page.ui:360
 #: src/view/container_health_check_page.ui:53 src/view/image_details_page.ui:93
-#: src/view/pod_creation_page.ui:295
+#: src/view/pod_creation_page.ui:307
 msgid "Command"
 msgstr ""
 
-#: src/view/container_creation_page.ui:252 src/view/pod_creation_page.ui:142
-#: src/view/pod_creation_page.ui:304
+#: src/view/container_creation_page.ui:258 src/view/pod_creation_page.ui:141
+#: src/view/pod_creation_page.ui:316
 msgid "Arguments"
 msgstr ""
 
-#: src/view/container_creation_page.ui:271 src/view/image_build_page.ui:145
-#: src/view/pod_creation_page.ui:163
+#: src/view/container_creation_page.ui:277 src/view/image_build_page.ui:144
+#: src/view/pod_creation_page.ui:162
 msgid "Integration"
 msgstr ""
 
-#: src/view/container_creation_page.ui:281
+#: src/view/container_creation_page.ui:286 src/view/pod_creation_page.ui:171
 msgid "Port Mappings"
 msgstr ""
 
-#: src/view/container_creation_page.ui:311
+#: src/view/container_creation_page.ui:316
 msgid "Environment Variables"
 msgstr ""
 
-#: src/view/container_creation_page.ui:326 src/view/image_build_page.ui:155
-#: src/view/pod_creation_page.ui:210
+#: src/view/container_creation_page.ui:331 src/view/image_build_page.ui:153
+#: src/view/pod_creation_page.ui:223
 msgid "Labels"
 msgstr ""
 
-#: src/view/container_creation_page.ui:347
+#: src/view/container_creation_page.ui:352
 #: src/view/container_properties_group.ui:223
 msgid "Health Check"
 msgstr ""
 
-#: src/view/container_creation_page.ui:362
+#: src/view/container_creation_page.ui:366
 #: src/view/container_health_check_page.ui:59
 msgid "Interval"
 msgstr ""
 
-#: src/view/container_creation_page.ui:363
-msgid "Interval in seconds how often health check is run."
+#: src/view/container_creation_page.ui:367
+msgid "Health check interval in seconds"
 msgstr ""
 
-#: src/view/container_creation_page.ui:379
+#: src/view/container_creation_page.ui:383
 #: src/view/container_health_check_page.ui:71
 msgid "Timeout"
 msgstr ""
 
-#: src/view/container_creation_page.ui:380
-msgid ""
-"The maximum time in seconds allowed to complete the health check before an "
-"interval is considered failed."
+#: src/view/container_creation_page.ui:384
+msgid "Seconds allowed to complete the command before it fails"
 msgstr ""
 
-#: src/view/container_creation_page.ui:396
+#: src/view/container_creation_page.ui:400
 msgid "Start Period"
 msgstr ""
 
-#: src/view/container_creation_page.ui:397
-msgid "The initialization time in seconds needed for a container to bootstrap."
+#: src/view/container_creation_page.ui:401
+msgid ""
+"Initial delay of the command in seconds to grant the container time to boot"
 msgstr ""
 
-#: src/view/container_creation_page.ui:413
+#: src/view/container_creation_page.ui:417
 #: src/view/container_health_check_page.ui:65
 msgid "Retries"
 msgstr ""
 
-#: src/view/container_creation_page.ui:414
-msgid ""
-"The number of retries allowed before a healthcheck is considered to be "
-"unhealthy."
+#: src/view/container_creation_page.ui:418
+msgid "Number of retries allowed before a healthcheck fails"
 msgstr ""
 
 #: src/view/container_details_page.rs:247
@@ -1264,24 +1323,24 @@ msgstr ""
 msgid "Container"
 msgstr "konteynerler"
 
-#: src/view/container_details_page.ui:54 src/view/containers_panel.ui:308
-#: src/view/pod_details_page.ui:48 src/view/pods_panel.ui:308
+#: src/view/container_details_page.ui:54 src/view/containers_panel.ui:307
+#: src/view/pod_details_page.ui:48 src/view/pods_panel.ui:307
 #: src/view/top_page_action_bar.ui:16
 msgid "Kill"
 msgstr ""
 
-#: src/view/container_details_page.ui:73 src/view/containers_panel.ui:327
-#: src/view/pod_details_page.ui:67 src/view/pods_panel.ui:327
+#: src/view/container_details_page.ui:73 src/view/containers_panel.ui:326
+#: src/view/pod_details_page.ui:67 src/view/pods_panel.ui:326
 msgid "Restart"
 msgstr ""
 
-#: src/view/container_details_page.ui:86 src/view/containers_panel.ui:345
-#: src/view/pod_details_page.ui:80 src/view/pods_panel.ui:345
+#: src/view/container_details_page.ui:86 src/view/containers_panel.ui:344
+#: src/view/pod_details_page.ui:80 src/view/pods_panel.ui:344
 msgid "Start/Resume"
 msgstr ""
 
-#: src/view/container_details_page.ui:105 src/view/containers_panel.ui:363
-#: src/view/pod_details_page.ui:99 src/view/pods_panel.ui:363
+#: src/view/container_details_page.ui:105 src/view/containers_panel.ui:362
+#: src/view/pod_details_page.ui:99 src/view/pods_panel.ui:362
 msgid "Stop"
 msgstr ""
 
@@ -1296,7 +1355,7 @@ msgid "Inspection"
 msgstr ""
 
 #: src/view/container_details_page.ui:204
-msgid "View all container properties in a structured text form."
+msgid "View all container properties in a structured text form"
 msgstr ""
 
 #: src/view/container_details_page.ui:220 src/view/pod_details_page.ui:250
@@ -1304,28 +1363,31 @@ msgid "Kube"
 msgstr ""
 
 #: src/view/container_details_page.ui:221
-msgid "Generate Kubernetes YAML based on this container."
+msgid "Generate Kubernetes YAML based on this container"
 msgstr ""
 
 #: src/view/container_details_page.ui:238
-msgid "Connect to the container's terminal."
-msgstr ""
+#, fuzzy
+msgid "Connect to the container's terminal"
+msgstr "Konteynerlere genel bakış"
 
 #: src/view/container_details_page.ui:254
 msgid "Logs"
 msgstr ""
 
 #: src/view/container_details_page.ui:255
-msgid "View and search through container logs."
-msgstr ""
+#, fuzzy
+msgid "View and search through container logs"
+msgstr "Konteyner günlüklerini ara ve görüntüle."
 
 #: src/view/container_details_page.ui:271 src/view/pod_details_page.ui:267
 msgid "Processes"
 msgstr ""
 
 #: src/view/container_details_page.ui:272
-msgid "View processes that are currently running inside the container."
-msgstr ""
+#, fuzzy
+msgid "View and manage processes of the container"
+msgstr "Konteyner günlüklerini ara ve görüntüle."
 
 #: src/view/container_files_get_page.rs:148
 msgid "Select Host Destination Path"
@@ -1335,7 +1397,7 @@ msgstr ""
 msgid "Download Files"
 msgstr ""
 
-#: src/view/container_files_get_page.ui:52 src/view/image_pull_page.ui:52
+#: src/view/container_files_get_page.ui:52 src/view/image_pull_page.ui:20
 #: src/view/images_panel.ui:15 src/view/images_panel.ui:27
 msgid "_Download"
 msgstr ""
@@ -1352,7 +1414,7 @@ msgid "Host Path"
 msgstr ""
 
 #: src/view/container_files_get_page.ui:77
-msgid "Select a destination tar archive on the host."
+msgid "Select a destination tar archive on the host"
 msgstr ""
 
 #: src/view/container_files_get_page.ui:82
@@ -1380,7 +1442,7 @@ msgid "_Upload"
 msgstr ""
 
 #: src/view/container_files_put_page.ui:79
-msgid "Either select a file or a directory from the host to upload."
+msgid "Select a file or a directory from the host to upload"
 msgstr ""
 
 #: src/view/container_files_put_page.ui:84
@@ -1435,38 +1497,38 @@ msgid "Log"
 msgstr ""
 
 #: src/view/container_health_check_page.ui:94
-msgid "Rows describe the last 5 health check attempts and results."
+msgid "Rows describe the last 5 health check attempts and results"
 msgstr ""
 
 #: src/view/container_health_check_page.ui:99
 msgid "_Run Health Check"
 msgstr ""
 
-#: src/view/container_log_page.rs:487
+#: src/view/container_log_page.rs:488
 msgid "Error while following log"
 msgstr ""
 
-#: src/view/container_log_page.rs:622
+#: src/view/container_log_page.rs:623
 msgid "Include timestamps"
 msgstr ""
 
-#: src/view/container_log_page.rs:674
+#: src/view/container_log_page.rs:675
 msgid "Error on saving logs"
 msgstr ""
 
-#: src/view/container_log_page.rs:688
+#: src/view/container_log_page.rs:689
 msgid "Error on retrieving logs"
 msgstr ""
 
-#: src/view/container_log_page.rs:697
-msgid "Log has been saved."
+#: src/view/container_log_page.rs:698
+msgid "Log has been saved"
 msgstr ""
 
-#: src/view/container_log_page.rs:720
+#: src/view/container_log_page.rs:721
 msgid "Error starting container"
 msgstr ""
 
-#: src/view/container_log_page.rs:726
+#: src/view/container_log_page.rs:727
 msgid "Error resuming container"
 msgstr ""
 
@@ -1483,21 +1545,21 @@ msgstr ""
 msgid "Container Logs"
 msgstr ""
 
-#: src/view/container_log_page.ui:141
+#: src/view/container_log_page.ui:105
+#, fuzzy
+msgid "Start/Resume Container"
+msgstr "Konteynerler yeniden adlandır."
+
+#: src/view/container_log_page.ui:106
+msgid "Streaming is disconnected because container is not running"
+msgstr ""
+
+#: src/view/container_log_page.ui:149
 msgid "Loading previous lines"
 msgstr ""
 
-#: src/view/container_log_page.ui:170
+#: src/view/container_log_page.ui:178
 msgid "Scroll to bottom"
-msgstr ""
-
-#: src/view/container_log_page.ui:228
-#, fuzzy
-msgid "Start/Resume Container."
-msgstr "Konteynerler yeniden adlandır."
-
-#: src/view/container_log_page.ui:229
-msgid "Streaming is disconnected because container isn't running."
 msgstr ""
 
 #: src/view/container_menu_button.ui:7 src/view/pod_menu_button.ui:13
@@ -1525,7 +1587,7 @@ msgid "Re_name…"
 msgstr ""
 
 #: src/view/container_menu_button.ui:41 src/view/containers_panel.rs:656
-#: src/view/images_panel.rs:489 src/view/pod_menu_button.ui:40
+#: src/view/images_panel.rs:490 src/view/pod_menu_button.ui:40
 #: src/view/pods_panel.rs:588 src/view/volumes_panel.rs:460
 msgid "_Delete"
 msgstr ""
@@ -1625,44 +1687,51 @@ msgstr ""
 msgid "Disk"
 msgstr ""
 
-#: src/view/container_row.rs:363
+#: src/view/container_row.rs:335
 #, fuzzy
 msgid "Container {}"
 msgstr "konteynerler"
 
-#: src/view/container.rs:56 src/view/containers_panel.rs:601
-#, fuzzy
-msgid "Error on starting container"
-msgstr "{} yüklenirken hata"
-
-#: src/view/container.rs:57 src/view/containers_panel.rs:543
-#, fuzzy
-msgid "Error on stopping container"
-msgstr "{} yüklenirken hata"
-
-#: src/view/container.rs:58 src/view/containers_panel.rs:541
-#, fuzzy
-msgid "Error on killing container"
-msgstr "{} yüklenirken hata"
-
-#: src/view/container.rs:59 src/view/containers_panel.rs:568
-msgid "Error on restarting container"
+#: src/view/container_terminal.rs:479
+msgid "Terminal error"
 msgstr ""
 
-#: src/view/container.rs:60 src/view/containers_panel.rs:624
-#, fuzzy
-msgid "Error on pausing container"
-msgstr "{} yüklenirken hata"
+#: src/view/container_terminal.rs:480
+msgid "'/bin/sh' not found"
+msgstr ""
 
-#: src/view/container.rs:61 src/view/containers_panel.rs:590
-#, fuzzy
-msgid "Error on resuming container"
-msgstr "Sadece çalışan konteynerlerin gösterilip gösterilmeyeceğini belirler"
+#: src/view/container_terminal.ui:6
+msgid "_Copy"
+msgstr ""
 
-#: src/view/container.rs:62 src/view/containers_panel.rs:675
+#: src/view/container_terminal.ui:10
+msgid "Copy as _HTML"
+msgstr ""
+
+#: src/view/container_terminal.ui:14
+msgid "_Paste"
+msgstr ""
+
+#: src/view/container_terminal.ui:35
+msgid "No Terminal"
+msgstr ""
+
+#: src/view/container_terminal.ui:36
+msgid "The container must be running to use the terminal"
+msgstr ""
+
+#: src/view/container_terminal.ui:46
+msgid "Start"
+msgstr ""
+
+#: src/view/container_terminal_page.ui:32
+msgid "Detach Terminal"
+msgstr ""
+
+#: src/view/container_terminal_page.ui:39
 #, fuzzy
-msgid "Error on deleting container"
-msgstr "{} yüklenirken hata"
+msgid "Container Terminal"
+msgstr "Konteynerlere genel bakış"
 
 #: src/view/containers_panel.rs:236
 msgid "1 container, running"
@@ -1694,7 +1763,7 @@ msgid ""
 "containers will be stopped!"
 msgstr ""
 
-#: src/view/containers_panel.ui:6 src/view/containers_panel.ui:452
+#: src/view/containers_panel.ui:6 src/view/containers_panel.ui:451
 #, fuzzy
 msgid "_Create Container"
 msgstr "Pod ve konteynerler yarat."
@@ -1746,22 +1815,15 @@ msgstr "_İptal"
 msgid "No Running Containers"
 msgstr "Sadece çalışan konteynerlerin gösterilip gösterilmeyeceğini belirler"
 
-#: src/view/containers_panel.ui:259
-msgid "The result of filtering for running containers is empty."
-msgstr ""
-
-#: src/view/containers_panel.ui:269
+#: src/view/containers_panel.ui:268
 #, fuzzy
 msgid "_Show All Containers"
 msgstr "Sadece çalışan konteynerlerin gösterilip gösterilmeyeceğini belirler"
 
 #: src/view/containers_panel.ui:441
-msgid "No Containers Found"
-msgstr ""
-
-#: src/view/containers_panel.ui:442
-msgid "You can use the button below to create an initial container."
-msgstr ""
+#, fuzzy
+msgid "No Containers Available"
+msgstr "Konteynerlere genel bakış"
 
 #: src/view/containers_prune_page.ui:52 src/view/images_prune_page.ui:52
 #: src/view/pods_prune_page.ui:52 src/view/volumes_prune_page.ui:52
@@ -1774,48 +1836,7 @@ msgid "Prune Options"
 msgstr ""
 
 #: src/view/containers_prune_page.ui:69
-msgid "Prune containers created before this timestamp."
-msgstr ""
-
-#: src/view/container_terminal_page.ui:32
-msgid "Detach Terminal"
-msgstr ""
-
-#: src/view/container_terminal_page.ui:39
-#, fuzzy
-msgid "Container Terminal"
-msgstr "Konteynerlere genel bakış"
-
-#: src/view/container_terminal.rs:479
-msgid "Terminal error"
-msgstr ""
-
-#: src/view/container_terminal.rs:480
-msgid "'/bin/sh' not found"
-msgstr ""
-
-#: src/view/container_terminal.ui:6
-msgid "_Copy"
-msgstr ""
-
-#: src/view/container_terminal.ui:10
-msgid "Copy as _HTML"
-msgstr ""
-
-#: src/view/container_terminal.ui:14
-msgid "_Paste"
-msgstr ""
-
-#: src/view/container_terminal.ui:35
-msgid "No Terminal"
-msgstr ""
-
-#: src/view/container_terminal.ui:36
-msgid "The container must be running to use the terminal."
-msgstr ""
-
-#: src/view/container_terminal.ui:46
-msgid "Start"
+msgid "Prune containers created before this timestamp"
 msgstr ""
 
 #: src/view/device_row.ui:69 src/view/mount_row.ui:139
@@ -1835,12 +1856,39 @@ msgstr ""
 msgid "mknod"
 msgstr ""
 
+#: src/view/image.rs:18
+msgid "Confirm Forced Image Deletion"
+msgstr ""
+
+#. Translators: The "{}" is a placeholder for the container name.
+#: src/view/image.rs:24
+msgid ""
+"Image is used by container <b>{}</b>. Deleting the image will also delete "
+"all its associated containers."
+msgstr ""
+
+#: src/view/image.rs:28
+msgid ""
+"Image is used by a container. Deleting the image will also delete all its "
+"associated containers."
+msgstr ""
+
+#: src/view/image.rs:38 src/view/pod.rs:83 src/view/volume.rs:38
+msgid "_Force Delete"
+msgstr ""
+
+#. Translators: The "{}" is a placeholder for the image id.
+#. Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
+#: src/view/image.rs:63 src/view/images_panel.rs:509
+msgid "Error on deleting image '{}'"
+msgstr ""
+
 #: src/view/image_build_page.rs:195
 msgid "Select Build Context Directory"
 msgstr ""
 
 #: src/view/image_build_page.rs:234
-msgid "Image name should not contain uppercase characters."
+msgid "Image name must not contain uppercase characters"
 msgstr ""
 
 #: src/view/image_build_page.ui:42
@@ -1856,15 +1904,15 @@ msgstr ""
 msgid "Image Name"
 msgstr ""
 
-#: src/view/image_build_page.ui:114
+#: src/view/image_build_page.ui:113
 msgid "Build Context Directory"
 msgstr ""
 
-#: src/view/image_build_page.ui:119
+#: src/view/image_build_page.ui:118
 msgid "Select…"
 msgstr ""
 
-#: src/view/image_build_page.ui:130
+#: src/view/image_build_page.ui:129
 msgid "Containerfile Path Relative to Build Context Directory"
 msgstr ""
 
@@ -1900,7 +1948,7 @@ msgid "Delete Image"
 msgstr ""
 
 #: src/view/image_details_page.ui:87
-msgid "Disk space"
+msgid "Disk Space"
 msgstr ""
 
 #: src/view/image_details_page.ui:100
@@ -1912,7 +1960,7 @@ msgid "Ports"
 msgstr ""
 
 #: src/view/image_details_page.ui:122
-msgid "View all image properties in a structured text form."
+msgid "View all image properties in a structured text form"
 msgstr ""
 
 #: src/view/image_details_page.ui:138
@@ -1920,7 +1968,7 @@ msgid "History"
 msgstr ""
 
 #: src/view/image_details_page.ui:139
-msgid "View parent layers of this image."
+msgid "View parent layers of this image"
 msgstr ""
 
 #: src/view/image_details_page.ui:158
@@ -1973,105 +2021,50 @@ msgstr ""
 msgid "_Create Container…"
 msgstr ""
 
-#: src/view/image_pull_page.ui:42
-msgid "Download Image"
-msgstr ""
-
 #: src/view/image_row.rs:207
 msgid "Image {}"
 msgstr ""
 
-#: src/view/image.rs:18
-msgid "Confirm Forced Image Deletion"
-msgstr ""
-
-#. Translators: The "{}" is a placeholder for the container name.
-#: src/view/image.rs:24
-msgid ""
-"Image is used by container <b>{}</b>. Deleting the image will also delete "
-"all its associated containers."
-msgstr ""
-
-#: src/view/image.rs:28
-msgid ""
-"Image is used by a container. Deleting the image will also delete all its "
-"associated containers."
-msgstr ""
-
-#: src/view/image.rs:38 src/view/pod.rs:83 src/view/volume.rs:38
-msgid "_Force Delete"
-msgstr ""
-
-#. Translators: The "{}" is a placeholder for the image id.
-#. Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
-#: src/view/image.rs:63 src/view/images_panel.rs:508
-msgid "Error on deleting image '{}'"
-msgstr ""
-
-#: src/view/image_search_page.ui:18
-msgid "Image Search"
-msgstr ""
-
-#: src/view/image_search_page.ui:28 src/view/image_selection_page.ui:68
-#: src/view/pod_selection_page.ui:68 src/view/volume_selection_page.ui:68
-msgid "_Select"
-msgstr ""
-
-#: src/view/image_search_widget.rs:234
-msgid "All registries"
-msgstr ""
-
-#: src/view/image_search_widget.rs:253
-msgid "Failed to retrieve podman info"
-msgstr ""
-
-#: src/view/image_search_widget.rs:342
+#: src/view/image_search_page.rs:207
 msgid "No Results For {}"
 msgstr ""
 
-#: src/view/image_search_widget.rs:357
+#: src/view/image_search_page.rs:228 src/view/repo_tag_selection_page.rs:168
 msgid "Failed to search for images"
 msgstr ""
 
-#: src/view/image_search_widget.ui:30
-msgid "No Registries Found"
+#: src/view/image_search_page.rs:335 src/view/repo_tag_selection_page.ui:35
+msgid "Select Tag"
 msgstr ""
 
-#: src/view/image_search_widget.ui:31
-msgid ""
-"\n"
-"You cannot search for images without registries. Please follow the "
-"instructions on this <a href=\"https://github.com/containers/image/blob/"
-"b80addc01c0dab40c5d8945a1df61f3c72a3e40d/docs/containers-registries.conf.5."
-"md\">website</a> in order to add registries.\n"
+#: src/view/image_search_page.ui:47
+msgid "Enter image search term"
 msgstr ""
 
-#: src/view/image_search_widget.ui:54
-msgid "Search for"
+#: src/view/image_search_page.ui:64
+msgid "Next"
 msgstr ""
 
-#: src/view/image_search_widget.ui:62
-msgid "Registry"
+#: src/view/image_search_page.ui:92
+msgid "Find Remote Images"
 msgstr ""
 
-#: src/view/image_search_widget.ui:84 src/view/images_panel.ui:358
-msgid "No Images Found"
+#: src/view/image_search_page.ui:93
+msgid "Please start typing to look for remote images"
 msgstr ""
 
-#: src/view/image_search_widget.ui:85
-msgid "Please start typing to look for images."
+#: src/view/image_search_page.ui:108
+#, fuzzy
+msgid "Searching"
+msgstr "Ara"
+
+#: src/view/image_search_page.ui:133 src/view/repo_tag_selection_page.ui:124
+#: src/view/search_panel.ui:48
+msgid "Please retry another term"
 msgstr ""
 
-#: src/view/image_search_widget.ui:100
-msgid "Searching…"
-msgstr ""
-
-#: src/view/image_search_widget.ui:125 src/view/search_panel.ui:48
-msgid "Please retry another term."
-msgstr ""
-
-#: src/view/image_search_widget.ui:175
-msgid "Tag ('latest' if empty)"
+#: src/view/image_search_response_row.ui:40
+msgid "Official"
 msgstr ""
 
 #: src/view/image_selection_combo_row.rs:87
@@ -2089,14 +2082,39 @@ msgstr ""
 msgid "Remote Image"
 msgstr ""
 
-#: src/view/image_selection_page.ui:19 src/view/pod_selection_page.ui:19
-#: src/view/volume_selection_page.ui:19
+#: src/view/image_selection_combo_row.rs:150
+msgid "Select"
+msgstr ""
+
+#: src/view/image_selection_page.ui:25
+msgid "No Local Images Available"
+msgstr ""
+
+#: src/view/image_selection_page.ui:50 src/view/pod_selection_page.ui:77
+#: src/view/repo_tag_selection_page.ui:19 src/view/volume_selection_page.ui:77
 msgid "Filter"
 msgstr ""
 
-#: src/view/image_selection_page.ui:35
+#: src/view/image_selection_page.ui:66
 msgid "Select Local Image"
 msgstr ""
+
+#: src/view/image_selection_page.ui:99 src/view/pod_selection_page.ui:126
+#: src/view/volume_selection_page.ui:126
+msgid "_Select"
+msgstr ""
+
+#: src/view/image_selection_page.ui:152 src/view/pod_selection_page.ui:179
+#: src/view/volume_selection_page.ui:180
+#, fuzzy
+msgid "No Results"
+msgstr "Hiçbir pod bulunamadı"
+
+#: src/view/image_selection_page.ui:163 src/view/pod_selection_page.ui:190
+#: src/view/volume_selection_page.ui:191
+#, fuzzy
+msgid "_Clear Filter"
+msgstr "Dosyaya kaydet"
 
 #: src/view/images_panel.rs:204
 msgid "1 image, used"
@@ -2118,11 +2136,11 @@ msgid_plural "{} Selected Images"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/view/images_panel.rs:479
+#: src/view/images_panel.rs:480
 msgid "Confirm Forced Deletion of Multiple Images"
 msgstr ""
 
-#: src/view/images_panel.rs:481
+#: src/view/images_panel.rs:482
 msgid ""
 "There may be containers associated with those images, which will also be "
 "removed!"
@@ -2149,23 +2167,19 @@ msgstr ""
 msgid "No Tagged Images"
 msgstr ""
 
-#: src/view/images_panel.ui:284
-msgid "The result of filtering for tagged images is empty."
-msgstr ""
-
-#: src/view/images_panel.ui:294
+#: src/view/images_panel.ui:293
 msgid "_Show All Images"
 msgstr ""
 
-#: src/view/images_panel.ui:359
-msgid "You can use the buttons below to add an initial image."
+#: src/view/images_panel.ui:358
+msgid "No Images Available"
 msgstr ""
 
-#: src/view/images_panel.ui:374
+#: src/view/images_panel.ui:387
 msgid "_Download Image"
 msgstr ""
 
-#: src/view/images_panel.ui:386
+#: src/view/images_panel.ui:400
 msgid "_Build Image"
 msgstr ""
 
@@ -2177,22 +2191,12 @@ msgstr ""
 msgid "Prune All"
 msgstr ""
 
-#: src/view/images_prune_page.ui:70
-msgid "Remove all images not in use by containers, not just dangling ones."
-msgstr ""
-
 #: src/view/images_prune_page.ui:76
 msgid "Prune External"
 msgstr ""
 
-#: src/view/images_prune_page.ui:77
-msgid ""
-"Remove images even when they are used by external containers (e.g, by build "
-"containers)."
-msgstr ""
-
 #: src/view/images_prune_page.ui:83
-msgid "Prune images created before this timestamp."
+msgid "Prune images created before this timestamp"
 msgstr ""
 
 #. Translators: "{}" is a placeholder for a cardinal numbers.
@@ -2257,7 +2261,7 @@ msgid "Storage"
 msgstr ""
 
 #: src/view/info_panel.ui:104
-msgid "Describes the container storage and its attributes."
+msgid "Describes the container storage and its attributes"
 msgstr ""
 
 #: src/view/info_panel.ui:108
@@ -2269,7 +2273,7 @@ msgid "Container Store"
 msgstr ""
 
 #: src/view/info_panel.ui:115
-msgid "Describes the quantity of containers in the store by status."
+msgid "Describes the quantity of containers in the store by status"
 msgstr ""
 
 #: src/view/info_panel.ui:153
@@ -2293,7 +2297,7 @@ msgid "Image Store"
 msgstr ""
 
 #: src/view/info_panel.ui:206
-msgid "Describes the image store. Right now only the number of images present."
+msgid "Describes number of images"
 msgstr ""
 
 #: src/view/info_panel.ui:212
@@ -2305,11 +2309,11 @@ msgid "Volume Path"
 msgstr ""
 
 #: src/view/info_panel.ui:237
-msgid "Error While Gathering Info"
+msgid "No Info"
 msgstr ""
 
 #: src/view/info_panel.ui:238
-msgid "You can use the buttons below to retry."
+msgid "There was an error while fetching the information"
 msgstr ""
 
 #: src/view/key_val_row.rs:149 src/view/key_val_row.ui:20
@@ -2322,7 +2326,7 @@ msgid "Value"
 msgstr ""
 
 #: src/view/mount_row.rs:187
-msgid "No volume selected (will create a new one)."
+msgid "No volume selected (will create a new one)"
 msgstr ""
 
 #: src/view/mount_row.ui:76
@@ -2352,83 +2356,6 @@ msgstr ""
 
 #: src/view/mount_row.ui:157
 msgid "Private"
-msgstr ""
-
-#: src/view/pod_creation_page.rs:152 src/view/pod_creation_page.ui:113
-#: src/view/pod_details_page.ui:220
-msgid "Hostname"
-msgstr ""
-
-#: src/view/pod_creation_page.rs:153
-msgid "IP"
-msgstr ""
-
-#: src/view/pod_creation_page.rs:159
-msgid "Add Host"
-msgstr ""
-
-#: src/view/pod_creation_page.rs:169
-msgid "Add Device"
-msgstr ""
-
-#: src/view/pod_creation_page.ui:42 src/view/pods_panel.ui:117
-msgid "Create Pod"
-msgstr ""
-
-#: src/view/pod_creation_page.ui:52 src/view/volume_creation_page.ui:52
-msgid "_Create"
-msgstr ""
-
-#: src/view/pod_creation_page.ui:119
-msgid "Disable /etc/resolv.conf management"
-msgstr ""
-
-#: src/view/pod_creation_page.ui:133
-msgid "Pod Create Command"
-msgstr ""
-
-#: src/view/pod_creation_page.ui:173
-msgid "Devices"
-msgstr ""
-
-#: src/view/pod_creation_page.ui:188
-msgid "Hosts"
-msgstr ""
-
-#: src/view/pod_creation_page.ui:231
-msgid "Infra"
-msgstr ""
-
-#: src/view/pod_creation_page.ui:245
-msgid "Disable Infra"
-msgstr ""
-
-#: src/view/pod_creation_page.ui:282
-msgid "Common PID File"
-msgstr ""
-
-#: src/view/pod_details_page.rs:230
-msgid "Error on loading pod data"
-msgstr ""
-
-#: src/view/pod_details_page.rs:234
-msgid "Pod '{}' has been deleted"
-msgstr ""
-
-#: src/view/pod_details_page.ui:234
-msgid "View all pod properties in a structured text form."
-msgstr ""
-
-#: src/view/pod_details_page.ui:251
-msgid "Generate Kubernetes YAML based on this pod."
-msgstr ""
-
-#: src/view/pod_details_page.ui:268
-msgid "View processes that are currently running inside the pod."
-msgstr ""
-
-#: src/view/pod_row.rs:198
-msgid "Pod Details"
 msgstr ""
 
 #: src/view/pod.rs:46 src/view/pods_panel.rs:488
@@ -2483,7 +2410,95 @@ msgid ""
 "containers."
 msgstr ""
 
-#: src/view/pod_selection_page.ui:35
+#: src/view/pod_creation_page.rs:162 src/view/pod_creation_page.ui:112
+#: src/view/pod_details_page.ui:220
+msgid "Hostname"
+msgstr ""
+
+#: src/view/pod_creation_page.rs:163
+msgid "IP"
+msgstr ""
+
+#: src/view/pod_creation_page.rs:169
+msgid "Add Host"
+msgstr ""
+
+#: src/view/pod_creation_page.rs:190
+msgid "Add Device"
+msgstr ""
+
+#: src/view/pod_creation_page.ui:42 src/view/pod_selection_page.ui:70
+#: src/view/pods_panel.ui:117
+msgid "Create Pod"
+msgstr ""
+
+#: src/view/pod_creation_page.ui:52 src/view/volume_creation_page.ui:52
+msgid "_Create"
+msgstr ""
+
+#: src/view/pod_creation_page.ui:118
+msgid "Disable /etc/resolv.conf management"
+msgstr ""
+
+#: src/view/pod_creation_page.ui:132
+msgid "Pod Create Command"
+msgstr ""
+
+#: src/view/pod_creation_page.ui:186
+msgid "Devices"
+msgstr ""
+
+#: src/view/pod_creation_page.ui:201
+msgid "Hosts"
+msgstr ""
+
+#: src/view/pod_creation_page.ui:244
+msgid "Infra"
+msgstr ""
+
+#: src/view/pod_creation_page.ui:257
+msgid "Disable Infra"
+msgstr ""
+
+#: src/view/pod_creation_page.ui:294
+msgid "Common PID File"
+msgstr ""
+
+#: src/view/pod_details_page.rs:230
+msgid "Error on loading pod data"
+msgstr ""
+
+#: src/view/pod_details_page.rs:234
+msgid "Pod '{}' has been deleted"
+msgstr ""
+
+#: src/view/pod_details_page.ui:234
+msgid "View all pod properties in a structured text form"
+msgstr ""
+
+#: src/view/pod_details_page.ui:251
+msgid "Generate Kubernetes YAML based on this pod"
+msgstr ""
+
+#: src/view/pod_details_page.ui:268
+#, fuzzy
+msgid "View processes of the pod"
+msgstr "Konteyner ve podların işlemleri gözlemle."
+
+#: src/view/pod_row.rs:198
+msgid "Pod Details"
+msgstr ""
+
+#: src/view/pod_selection_page.ui:29
+msgid "No Pod Available"
+msgstr ""
+
+#: src/view/pod_selection_page.ui:40 src/view/pods_panel.ui:6
+#: src/view/pods_panel.ui:451
+msgid "_Create Pod"
+msgstr ""
+
+#: src/view/pod_selection_page.ui:93
 msgid "Select Pod"
 msgstr ""
 
@@ -2517,10 +2532,6 @@ msgstr ""
 msgid "All associated containers will also be removed!"
 msgstr ""
 
-#: src/view/pods_panel.ui:6 src/view/pods_panel.ui:452
-msgid "_Create Pod"
-msgstr ""
-
 #: src/view/pods_panel.ui:10
 #, fuzzy
 msgid "_Prune Stopped Pods"
@@ -2540,21 +2551,13 @@ msgstr "Sadece çalışan podların gösterilip gösterilmeyeceğini belirler"
 msgid "No Running Pods"
 msgstr "Sadece çalışan podların gösterilip gösterilmeyeceğini belirler"
 
-#: src/view/pods_panel.ui:259
-msgid "The result of filtering for running pods is empty."
-msgstr ""
-
-#: src/view/pods_panel.ui:269
+#: src/view/pods_panel.ui:268
 #, fuzzy
 msgid "_Show All Pods"
 msgstr "Sadece çalışan podların gösterilip gösterilmeyeceğini belirler"
 
 #: src/view/pods_panel.ui:441
-msgid "No Pods Found"
-msgstr ""
-
-#: src/view/pods_panel.ui:442
-msgid "You can use the button below to create an initial pod."
+msgid "No Pods Available"
 msgstr ""
 
 #: src/view/port_mapping_row.ui:83
@@ -2582,9 +2585,7 @@ msgid "Host Port"
 msgstr ""
 
 #: src/view/port_mapping_row.ui:105
-msgid ""
-"If 0, a random port on the host (guaranteed to be over 1024) will be "
-"assigned."
+msgid "If 0, a random port is assigned on the host (guaranteed above 1024)"
 msgstr ""
 
 #: src/view/port_mapping_row.ui:120
@@ -2643,7 +2644,7 @@ msgid "Login"
 msgstr ""
 
 #: src/view/repo_tag_push_page.ui:83
-msgid "Some registries require authentication."
+msgid "Some registries require authentication"
 msgstr ""
 
 #: src/view/repo_tag_push_page.ui:96
@@ -2680,6 +2681,10 @@ msgstr ""
 
 #: src/view/repo_tag_row.ui:54
 msgid "Untag"
+msgstr ""
+
+#: src/view/repo_tag_selection_page.ui:99
+msgid "Fetching Tags"
 msgstr ""
 
 #: src/view/scalable_text_view_page.rs:274
@@ -2719,7 +2724,7 @@ msgid "Kube generation error"
 msgstr ""
 
 #: src/view/search_panel.ui:33
-msgid "Please start typing to look for results."
+msgid "Start typing to look for results"
 msgstr ""
 
 #: src/view/search_panel.ui:47
@@ -2902,40 +2907,6 @@ msgstr ""
 msgid "Killing pod processes is not supported"
 msgstr ""
 
-#: src/view/volume_creation_page.ui:42 src/view/volumes_group.ui:12
-#: src/view/volumes_panel.ui:117
-#, fuzzy
-msgid "Create Volume"
-msgstr "Pod ve konteynerler yarat."
-
-#: src/view/volume_details_page.rs:178
-msgid "Volume '{}' has been deleted"
-msgstr ""
-
-#: src/view/volume_details_page.ui:40
-msgid "Delete Volume"
-msgstr ""
-
-#: src/view/volume_details_page.ui:52
-msgid "Driver"
-msgstr ""
-
-#: src/view/volume_details_page.ui:64
-msgid "Mount Path"
-msgstr ""
-
-#: src/view/volume_details_page.ui:78
-msgid "View all volume properties in a structured text form."
-msgstr ""
-
-#: src/view/volume_row.rs:174
-msgid "{} old"
-msgstr ""
-
-#: src/view/volume_row.rs:271
-msgid "Volume {}"
-msgstr ""
-
 #: src/view/volume.rs:18
 msgid "Confirm Forced Volume Deletion"
 msgstr ""
@@ -2959,7 +2930,52 @@ msgstr ""
 msgid "Error on deleting volume '{}'"
 msgstr "{} yüklenirken hata"
 
-#: src/view/volume_selection_page.ui:35
+#: src/view/volume_creation_page.ui:42 src/view/volume_selection_page.ui:70
+#: src/view/volumes_group.ui:12 src/view/volumes_panel.ui:117
+#, fuzzy
+msgid "Create Volume"
+msgstr "Pod ve konteynerler yarat."
+
+#: src/view/volume_details_page.rs:178
+msgid "Volume '{}' has been deleted"
+msgstr ""
+
+#: src/view/volume_details_page.ui:40
+msgid "Delete Volume"
+msgstr ""
+
+#: src/view/volume_details_page.ui:52
+msgid "Driver"
+msgstr ""
+
+#: src/view/volume_details_page.ui:64
+msgid "Mount Path"
+msgstr ""
+
+#: src/view/volume_details_page.ui:78
+msgid "View all volume properties in a structured text form"
+msgstr ""
+
+#: src/view/volume_row.rs:174
+msgid "{} old"
+msgstr ""
+
+#: src/view/volume_row.rs:271
+msgid "Volume {}"
+msgstr ""
+
+#: src/view/volume_selection_page.ui:29
+#, fuzzy
+msgid "No Volume Available"
+msgstr "Hiçbir pod bulunamadı"
+
+#: src/view/volume_selection_page.ui:40 src/view/volumes_panel.ui:6
+#: src/view/volumes_panel.ui:343
+#, fuzzy
+msgid "_Create Volume"
+msgstr "Pod ve konteynerler yarat."
+
+#: src/view/volume_selection_page.ui:93
 msgid "Select Volume"
 msgstr ""
 
@@ -2993,11 +3009,6 @@ msgid ""
 "be removed!"
 msgstr ""
 
-#: src/view/volumes_panel.ui:6 src/view/volumes_panel.ui:344
-#, fuzzy
-msgid "_Create Volume"
-msgstr "Pod ve konteynerler yarat."
-
 #: src/view/volumes_panel.ui:10
 msgid "_Prune Volumes"
 msgstr ""
@@ -3015,26 +3026,17 @@ msgstr ""
 msgid "No Volumes in Use"
 msgstr "Hiçbir pod bulunamadı"
 
-#: src/view/volumes_panel.ui:259
-msgid "The result of filtering for volumes in use is empty."
-msgstr ""
-
-#: src/view/volumes_panel.ui:269
+#: src/view/volumes_panel.ui:268
 msgid "_Show All Volumes"
 msgstr ""
 
 #: src/view/volumes_panel.ui:333
 #, fuzzy
-msgid "No Volumes Found"
+msgid "No Volumes Available"
 msgstr "Hiçbir pod bulunamadı"
 
-#: src/view/volumes_panel.ui:334
-#, fuzzy
-msgid "You can use the buttons below to add an initial volume."
-msgstr "Podman'e nasıl bağlanacağını seç."
-
 #: src/view/volumes_prune_page.ui:70
-msgid "Prune volumes created before this timestamp."
+msgid "Prune volumes created before this timestamp"
 msgstr ""
 
 #: src/view/welcome_page.ui:59
@@ -3043,29 +3045,34 @@ msgstr ""
 
 #: src/view/welcome_page.ui:68
 #, fuzzy
-msgid "Create a new connection to Podman to get started."
+msgid "Create a new connection to Podman to get started"
 msgstr "Podman'e nasıl bağlanacağını seç."
 
-#: src/view/window.rs:219
+#: src/view/welcome_page.ui:82
+#, fuzzy
+msgid "_New Connection"
+msgstr "Yeni Bağlantı"
+
+#: src/view/window.rs:196
 msgid "Confirm Exiting The Application"
 msgstr ""
 
-#: src/view/window.rs:298
+#: src/view/window.rs:276
 #, fuzzy
 msgid "Error on loading images"
 msgstr "{} yüklenirken hata"
 
-#: src/view/window.rs:299
+#: src/view/window.rs:277
 #, fuzzy
 msgid "Error on loading containers"
 msgstr "{} yüklenirken hata"
 
-#: src/view/window.rs:300
+#: src/view/window.rs:278
 #, fuzzy
 msgid "Error on loading pods"
 msgstr "{} yüklenirken hata"
 
-#: src/view/window.rs:301
+#: src/view/window.rs:279
 #, fuzzy
 msgid "Error on loading volumes"
 msgstr "{} yüklenirken hata"
@@ -3091,15 +3098,15 @@ msgstr ""
 msgid "PM"
 msgstr ""
 
-#: src/widget/main_menu_button.ui:12
+#: src/widget/main_menu_button.ui:7
 msgid "_Keyboard Shortcuts"
 msgstr ""
 
-#: src/widget/main_menu_button.ui:16
+#: src/widget/main_menu_button.ui:11
 msgid "_About Pods"
 msgstr ""
 
-#: src/widget/main_menu_button.ui:32
+#: src/widget/main_menu_button.ui:27
 msgid "Main Menu"
 msgstr ""
 
@@ -3131,6 +3138,24 @@ msgstr "Büyük küçuk harfe duyarlı"
 msgid "Whole Word"
 msgstr "Bütün kelime"
 
+#~ msgid "Color Scheme"
+#~ msgstr "Renk düzeni"
+
+#~ msgid "Use the light or dark variant of the GTK theme"
+#~ msgstr "Koyu yada açık renk düzenini kullan"
+
+#, fuzzy
+#~ msgid "Pruning of Volumes Has Been Aborted"
+#~ msgstr "Konteynerlere genel bakış"
+
+#, fuzzy
+#~ msgid "Connection String"
+#~ msgstr "Bağlantı Metni"
+
+#, fuzzy
+#~ msgid "You can use the buttons below to add an initial volume."
+#~ msgstr "Podman'e nasıl bağlanacağını seç."
+
 #, fuzzy
 #~ msgid "Pruning of containers and pods is now possible."
 #~ msgstr "Konteynerlere genel bakış"
@@ -3139,9 +3164,6 @@ msgstr "Bütün kelime"
 #~ msgid ""
 #~ "The local search for images, containers and pods is now case-insensitive."
 #~ msgstr "İmaj, konteyner ve podları sil (topluca)."
-
-#~ msgid "Images Overview"
-#~ msgstr "İmajlara genel bakış"
 
 #~ msgid "Pods Overview"
 #~ msgstr "Podlara genel bakış"

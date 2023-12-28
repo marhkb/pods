@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-01 21:04+0100\n"
+"POT-Creation-Date: 2023-12-28 12:57+0100\n"
 "PO-Revision-Date: 2023-12-05 18:13+0000\n"
 "Last-Translator: SoftExpert <softexpert@gmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/pods/main/ro/>\n"
@@ -20,16 +20,17 @@ msgstr ""
 "X-Generator: Weblate 5.3-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:56
-#: src/view/client_view.rs:240 src/view/pods_panel.ui:67
-#: src/view/pods_panel.ui:138 src/view/pods_panel.ui:433
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:110
+#: src/view/client_view.rs:256 src/view/pods_panel.ui:67
+#: src/view/pods_panel.ui:138 src/view/pods_panel.ui:432
 #: src/view/pods_row.ui:22 src/view/search_panel.ui:81
 msgid "Pods"
 msgstr "Poduri"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:4
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
-msgid "Keep track of your podman containers"
+#, fuzzy
+msgid "Manage your Podman containers"
 msgstr "Se ține evidența containerelor podman"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:9
@@ -50,36 +51,30 @@ msgstr "Înălțimea implicită a ferestrei"
 msgid "Default window maximized behaviour"
 msgstr "Comportamentul implicit de maximizare a ferestrei"
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:26
-msgid "Color Scheme"
-msgstr "Schemă de culori"
-
-#: data/com.github.marhkb.Pods.gschema.xml.in:27
-msgid "Use the light or dark variant of the GTK theme"
-msgstr "Utilizați varianta luminoasă sau întunecată a temei GTK"
-
-#: data/com.github.marhkb.Pods.gschema.xml.in:31
+#: data/com.github.marhkb.Pods.gschema.xml.in:21
 msgid "The uuid of the connection that was used the last time"
 msgstr "Uuid-ul conexiunii care a fost utilizată ultima dată"
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:36
+#: data/com.github.marhkb.Pods.gschema.xml.in:26
 msgid "The last used view"
 msgstr "Ultima vizualizare folosită"
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:41
+#: data/com.github.marhkb.Pods.gschema.xml.in:31
 msgid "Whether to hide intermediate images"
 msgstr "Se ascund imaginile intermediare"
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:46
+#: data/com.github.marhkb.Pods.gschema.xml.in:36
 msgid "The last used container file path"
 msgstr "Ultima cale a fișierului container utilizat"
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:51
+#: data/com.github.marhkb.Pods.gschema.xml.in:41
+#: src/view/images_prune_page.ui:70
 msgid "Remove all images not in use by containers, not just dangling ones"
 msgstr ""
 "Îndepărtați toate imaginile nefolosite de containere, nu doar cele rămase"
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:56
+#: data/com.github.marhkb.Pods.gschema.xml.in:46
+#: src/view/images_prune_page.ui:77
 msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)"
@@ -87,40 +82,40 @@ msgstr ""
 "Elimină imaginile, inclusiv cele utilizate de containere externe (ex. "
 "containere de construcție)"
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:61
+#: data/com.github.marhkb.Pods.gschema.xml.in:51
 msgid "Whether to show only running containers"
 msgstr "Să se afișeze doar containerele care rulează"
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:66
+#: data/com.github.marhkb.Pods.gschema.xml.in:56
 msgid "Whether to show only running pods"
 msgstr "Să se afișeze doar podurile în funcțiune"
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:71
+#: data/com.github.marhkb.Pods.gschema.xml.in:61
 msgid "Whether to show only used volumes"
 msgstr "Să se afișeze doar volumele folosite"
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:76
+#: data/com.github.marhkb.Pods.gschema.xml.in:66
 msgid "Whether to show a timestamp for each log line"
 msgstr "Să se afișeaze timpul pentru fiecare linie de jurnal"
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:81
-#: data/com.github.marhkb.Pods.gschema.xml.in:86
+#: data/com.github.marhkb.Pods.gschema.xml.in:71
+#: data/com.github.marhkb.Pods.gschema.xml.in:76
 msgid "Whether to use a regex for search"
 msgstr "Se utilizează un regex pentru căutare"
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:91
+#: data/com.github.marhkb.Pods.gschema.xml.in:81
 msgid "Whether search should be case-sensitive"
 msgstr "Căutare sensibilă la majuscule și minuscule"
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:96
+#: data/com.github.marhkb.Pods.gschema.xml.in:86
 msgid "Whether to match whole words when searching"
 msgstr "Căutarea se face pe cuvinte întregi"
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:101
+#: data/com.github.marhkb.Pods.gschema.xml.in:91
 msgid "The font scale of all text views"
 msgstr "Scara fontului pentru toate vizualizările de text"
 
-#: data/com.github.marhkb.Pods.gschema.xml.in:106
+#: data/com.github.marhkb.Pods.gschema.xml.in:96
 msgid "The font scale for terminals"
 msgstr "Scara fontului pentru terminale"
 
@@ -202,7 +197,7 @@ msgstr "Detaliile containerelor în modul compact"
 msgid "Search Results"
 msgstr "Rezultate de căutare"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:367
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:395
 msgid "Marcus Behrendt"
 msgstr "Marcus Behrendt"
 
@@ -214,11 +209,11 @@ msgstr "credite de traducător"
 msgid "Translators"
 msgstr "Traducători"
 
-#: src/main.rs:133
+#: src/main.rs:162
 msgid "Prints application version"
 msgstr "Tipărește versiunea aplicației"
 
-#: src/main.rs:142
+#: src/main.rs:171
 msgid "Specify the minimum log level"
 msgstr "Specificați nivelul minim al jurnalului"
 
@@ -320,7 +315,8 @@ msgid "Prune unused volumes"
 msgstr "Suprimă volumele nefolosite"
 
 #: src/model/connection_manager.rs:203
-msgid "Connection '{}' already exists."
+#, fuzzy
+msgid "Connection '{}' already exists"
 msgstr "Conexiunea '{}' există deja."
 
 #: src/model/container.rs:69
@@ -393,7 +389,7 @@ msgstr "Neconfigurat"
 msgid "Degraded"
 msgstr "Degradat"
 
-#: src/model/pod.rs:67 src/view/connection_creation_page.rs:260
+#: src/model/pod.rs:67 src/view/connection_creation_page.rs:286
 #: src/view/scalable_text_view_page.rs:460 src/view/top_page.rs:512
 #: src/view/top_page.rs:520
 msgid "Error"
@@ -450,231 +446,287 @@ msgid "{} ago"
 msgstr "{} în trecut"
 
 #. Translators: This string will be shown when a property of an entity like an image is null.
-#: src/utils.rs:243
+#: src/utils.rs:257
 msgid "<none>"
 msgstr "<nimic>"
 
-#: src/utils.rs:429
+#: src/utils.rs:445
 msgid "Error on open file dialog"
 msgstr "Eroare în dialogul de deschidere a fișierului"
 
-#: src/view/action_page.rs:132
-msgid "Images Are Currently Being Pruned"
-msgstr "Imaginile sunt în curs de suprimare"
-
-#: src/view/action_page.rs:133
-msgid "Image Is Currently Being Downloaded"
-msgstr "Imaginea este în curs de descărcare"
-
-#: src/view/action_page.rs:134
-msgid "Image Is Currently Being Built"
-msgstr "Imaginea este în curs de construcție"
-
-#: src/view/action_page.rs:135
-msgid "Image Is Currently Being Pushed"
-msgstr "Imaginea este în curs de trimitere"
-
-#: src/view/action_page.rs:136 src/view/action_page.rs:154
-msgid "Containers Are Currently Being Pruned"
-msgstr "Containerele sunt în curs de curățare"
-
-#: src/view/action_page.rs:137
-msgid "Container Is Currently Being Created"
-msgstr "Containerul este în curs de creare"
-
-#: src/view/action_page.rs:138
-msgid "Container Is Currently Being Started"
-msgstr "Containerul este în fază de pornire"
-
-#: src/view/action_page.rs:139
-msgid "New Image Is Currently Being Committed"
-msgstr "Noua imagine este în curs de salvare"
-
-#: src/view/action_page.rs:140
-msgid "Files Are Currently Being Copied"
-msgstr "Fișierele sunt în curs de copiere"
-
-#: src/view/action_page.rs:141
-msgid "Pods Are Currently Being Pruned"
-msgstr "Capsulele sunt în curs de suprimare"
-
-#: src/view/action_page.rs:142
-msgid "Pod Is Currently Being Created"
-msgstr "Podul este în curs de creare"
-
 #: src/view/action_page.rs:143
-msgid "Volume Is Currently Being Created"
-msgstr "Volumul este în curs de creare"
+#, fuzzy
+msgid "Pruning Images"
+msgstr "Suprimați imaginile"
 
 #: src/view/action_page.rs:144
-msgid "Volumes Are Currently Being Pruned"
-msgstr "Volumele sunt în curs de suprimare"
+#, fuzzy
+msgid "Downloading Image"
+msgstr "Descărcați imaginea"
+
+#: src/view/action_page.rs:145
+#, fuzzy
+msgid "Building Image"
+msgstr "Construiți imaginea"
+
+#: src/view/action_page.rs:146
+#, fuzzy
+msgid "Pushing Image"
+msgstr "Trimitere de imagine"
+
+#: src/view/action_page.rs:147
+#, fuzzy
+msgid "Pruning Containers"
+msgstr "Nici un container în curs de execuție"
+
+#: src/view/action_page.rs:148
+#, fuzzy
+msgid "Creating Container"
+msgstr "Creați un container"
+
+#: src/view/action_page.rs:149
+#, fuzzy
+msgid "Starting Container"
+msgstr "Eroare la pornirea containerului"
 
 #: src/view/action_page.rs:150
-msgid "Images Have Been Pruned"
-msgstr "Imaginile au fost suprimate"
+#, fuzzy
+msgid "Committing Image"
+msgstr "Salvează containerul"
 
 #: src/view/action_page.rs:151
-msgid "Image Has Been Downloaded"
-msgstr "Imaginea a fost descărcată"
+#, fuzzy
+msgid "Copying Files"
+msgstr "Fișier de configurare"
 
 #: src/view/action_page.rs:152
-msgid "Image Has Been Built"
-msgstr "Imaginea a fost construită"
+#, fuzzy
+msgid "Pruning Pods"
+msgstr "Nu exista capsule în curs de execuție"
 
 #: src/view/action_page.rs:153
-msgid "Image Has Been Pushed"
-msgstr "Imaginea a fost transferată"
+#, fuzzy
+msgid "Creating Pod"
+msgstr "Creați Pod"
+
+#: src/view/action_page.rs:154
+#, fuzzy
+msgid "Creating Volume"
+msgstr "Creare de volum"
 
 #: src/view/action_page.rs:155
-msgid "Container Has Been Created"
-msgstr "Containerul a fost creat"
-
-#: src/view/action_page.rs:156
-msgid "Container Has Been Started"
-msgstr "Containerul a fost pornit"
-
-#: src/view/action_page.rs:157
-msgid "New Image Has Been Committed"
-msgstr "O nouă imagine a fost comisă"
-
-#: src/view/action_page.rs:158
-msgid "Files Have Beeng Copied"
-msgstr "Fișierele au fost copiate"
-
-#: src/view/action_page.rs:159
-msgid "Pods Have Been Pruned"
-msgstr "Capsulele au fost suprimate"
-
-#: src/view/action_page.rs:160
-msgid "Pod Has Been Created"
-msgstr "Podul a fost creat"
+#, fuzzy
+msgid "Pruning Volumes"
+msgstr "Suprimați volumele"
 
 #: src/view/action_page.rs:161
-msgid "Volume Has Been Created"
-msgstr "Volumul a fost creat"
+#, fuzzy
+msgid "Images Pruned"
+msgstr "Imagini: <b>Suprimare</b>"
 
 #: src/view/action_page.rs:162
-msgid "Volumes Have Been Pruned"
-msgstr "Volumele au fost suprimate"
+#, fuzzy
+msgid "Image Downloaded"
+msgstr "Imaginea a fost descărcată"
+
+#: src/view/action_page.rs:163
+#, fuzzy
+msgid "Image Built"
+msgstr "Imaginea a fost construită"
+
+#: src/view/action_page.rs:164
+#, fuzzy
+msgid "Image Pushed"
+msgstr "Imaginea a fost transferată"
+
+#: src/view/action_page.rs:165
+#, fuzzy
+msgid "Containers Pruned"
+msgstr "Nu s-au găsit containere"
+
+#: src/view/action_page.rs:166
+#, fuzzy
+msgid "Container Created"
+msgstr "Containerul a fost creat"
+
+#: src/view/action_page.rs:167
+#, fuzzy
+msgid "Container Started"
+msgstr "Magazin de containere"
 
 #: src/view/action_page.rs:168
-msgid "Pruning of Images Has Been Aborted"
-msgstr "Suprimarea imaginilor a fost abandonată"
-
-#: src/view/action_page.rs:169
-msgid "Image Download Has Been Aborted"
-msgstr "Descărcarea imaginii a fost întreruptă"
-
-#: src/view/action_page.rs:170
-msgid "Image Built Has Been Aborted"
-msgstr "Construcția Imaginii a fost întreruptă"
-
-#: src/view/action_page.rs:171
-msgid "Image Push Has Been Aborted"
-msgstr "Trimiterea imaginii a fost întreruptă"
-
-#: src/view/action_page.rs:172
-msgid "Pruning of Containers Has Been Aborted"
-msgstr "Suprimarea containerelor a fost abandonată"
-
-#: src/view/action_page.rs:173
-msgid "Container Creation Has Been Aborted"
-msgstr "Crearea containerului a fost întreruptă"
-
-#: src/view/action_page.rs:174
-msgid "Container Start Has Been Aborted"
-msgstr "Pornirea containerului a fost abandonată"
-
-#: src/view/action_page.rs:175
-msgid "Image Commitment Has Been Aborted"
-msgstr "Comiterea imaginii a fost întreruptă"
-
-#: src/view/action_page.rs:176
-msgid "Copying Files Has Been Aborted"
-msgstr "Copierea fișierelor a fost întreruptă"
-
-#: src/view/action_page.rs:177
-msgid "Pruning of Pods Has Been Aborted"
-msgstr "Suprimarea capsulelor a fost abandonată"
-
-#: src/view/action_page.rs:178
-msgid "Pod Creation Has Been Aborted"
-msgstr "Crearea podului a fost întreruptă"
-
-#: src/view/action_page.rs:179
-msgid "Volume Creation Has Been Aborted"
-msgstr "Crearea volumelor a fost întreruptă"
-
-#: src/view/action_page.rs:180
-msgid "Pruning of Volumes Has Been Aborted"
-msgstr "Suprimarea volumelor a fost abandonată"
-
-#: src/view/action_page.rs:186
-msgid "Pruning of Images Has Failed"
-msgstr "Suprimarea imaginilor a eșuat"
-
-#: src/view/action_page.rs:187
-msgid "Image Download Has Failed"
-msgstr "Descărcarea imaginii a eșuat"
-
-#: src/view/action_page.rs:188
-msgid "Image Built Has Failed"
-msgstr "Construcția Imaginii a eșuat"
-
-#: src/view/action_page.rs:189
-msgid "Image Push Has Failed"
-msgstr "Trimiterea imaginii a eșuat"
-
-#: src/view/action_page.rs:190
-msgid "Pruning of Containers Has Failed"
-msgstr "Suprimarea containerelor a eșuat"
-
-#: src/view/action_page.rs:191
-msgid "Container Creation Has Failed"
-msgstr "Crearea containerului a eșuat"
-
-#: src/view/action_page.rs:192
-msgid "Container Start Has Failed"
-msgstr "Pornirea containerului a eșuat"
-
-#: src/view/action_page.rs:193
-msgid "Image Commitment Has Failed"
+#, fuzzy
+msgid "Image Committed"
 msgstr "Comiterea imaginii a eșuat"
 
-#: src/view/action_page.rs:194
-msgid "Copying Files Has Failed"
-msgstr "Copierea fișierelor a eșuat"
+#: src/view/action_page.rs:169
+#, fuzzy
+msgid "Files Copied"
+msgstr "Fișierele au fost copiate"
 
-#: src/view/action_page.rs:195
-msgid "Pruning of Pods Has Failed"
-msgstr "Suprimarea capsulelor a eșuat"
+#: src/view/action_page.rs:170
+#, fuzzy
+msgid "Pods Pruned"
+msgstr "Capsulele au fost suprimate"
 
-#: src/view/action_page.rs:196
-msgid "Pod Creation Has Failed"
-msgstr "Crearea podului a eșuat"
+#: src/view/action_page.rs:171
+#, fuzzy
+msgid "Pod Created"
+msgstr "Creat"
+
+#: src/view/action_page.rs:172
+#, fuzzy
+msgid "Volume Created"
+msgstr "Volumul a fost creat"
+
+#: src/view/action_page.rs:173
+#, fuzzy
+msgid "Volumes Pruned"
+msgstr "Volumele au fost suprimate"
+
+#: src/view/action_page.rs:179
+#, fuzzy
+msgid "Image Pruning Aborted"
+msgstr "Trimiterea imaginii a fost întreruptă"
+
+#: src/view/action_page.rs:180
+#, fuzzy
+msgid "Image Download Aborted"
+msgstr "Descărcarea imaginii a fost întreruptă"
+
+#: src/view/action_page.rs:181
+#, fuzzy
+msgid "Image Built Aborted"
+msgstr "Construcția Imaginii a fost întreruptă"
+
+#: src/view/action_page.rs:182
+#, fuzzy
+msgid "Image Push Aborted"
+msgstr "Trimiterea imaginii a fost întreruptă"
+
+#: src/view/action_page.rs:183
+#, fuzzy
+msgid "Container Pruning Aborted"
+msgstr "Portul containerului"
+
+#: src/view/action_page.rs:184
+#, fuzzy
+msgid "Container Creation Aborted"
+msgstr "Crearea containerului a fost întreruptă"
+
+#: src/view/action_page.rs:185
+#, fuzzy
+msgid "Container Start Aborted"
+msgstr "Pornirea containerului a fost abandonată"
+
+#: src/view/action_page.rs:186
+#, fuzzy
+msgid "Image Commit Aborted"
+msgstr "Comiterea imaginii a fost întreruptă"
+
+#: src/view/action_page.rs:187
+#, fuzzy
+msgid "File Copying Aborted"
+msgstr "Copierea fișierelor a fost întreruptă"
+
+#: src/view/action_page.rs:188
+#, fuzzy
+msgid "Pod Pruning Aborted"
+msgstr "Crearea podului a fost întreruptă"
+
+#: src/view/action_page.rs:189
+#, fuzzy
+msgid "Pod Creation Aborted"
+msgstr "Crearea podului a fost întreruptă"
+
+#: src/view/action_page.rs:190
+#, fuzzy
+msgid "Volume Creation Aborted"
+msgstr "Crearea volumelor a fost întreruptă"
+
+#: src/view/action_page.rs:191
+#, fuzzy
+msgid "Volume Pruning Aborted"
+msgstr "Crearea volumelor a fost întreruptă"
 
 #: src/view/action_page.rs:197
-msgid "Volume Creation Has Failed"
-msgstr "Crearea volumului a eșuat"
+#, fuzzy
+msgid "Pruning Image Failed"
+msgstr "Suprimarea imaginilor a eșuat"
 
 #: src/view/action_page.rs:198
-msgid "Pruning of Volumes Has Failed"
+#, fuzzy
+msgid "Downloading Image Failed"
+msgstr "Descărcați imaginea"
+
+#: src/view/action_page.rs:199
+#, fuzzy
+msgid "Building Image Failed"
+msgstr "Suprimarea imaginilor a eșuat"
+
+#: src/view/action_page.rs:200
+#, fuzzy
+msgid "Pushing Image Failed"
+msgstr "Suprimarea imaginilor a eșuat"
+
+#: src/view/action_page.rs:201
+#, fuzzy
+msgid "Pruning Containers Failed"
+msgstr "Suprimarea containerelor a eșuat"
+
+#: src/view/action_page.rs:202
+#, fuzzy
+msgid "Creating Container Failed"
+msgstr "Suprimarea containerelor a eșuat"
+
+#: src/view/action_page.rs:203
+#, fuzzy
+msgid "Starting Container Failed"
+msgstr "Suprimarea containerelor a eșuat"
+
+#: src/view/action_page.rs:204
+#, fuzzy
+msgid "Committing Image Failed"
+msgstr "Comiterea imaginii a eșuat"
+
+#: src/view/action_page.rs:205
+#, fuzzy
+msgid "Copying Files Failed"
+msgstr "Copierea fișierelor a eșuat"
+
+#: src/view/action_page.rs:206
+#, fuzzy
+msgid "Pruning Pods Failed"
+msgstr "Suprimarea capsulelor a eșuat"
+
+#: src/view/action_page.rs:207
+#, fuzzy
+msgid "Creating Pod Failed"
+msgstr "Crearea podului a eșuat"
+
+#: src/view/action_page.rs:208
+#, fuzzy
+msgid "Creating Volume Failed"
 msgstr "Suprimarea volumelor a eșuat"
 
-#: src/view/action_page.rs:241
+#: src/view/action_page.rs:209
+#, fuzzy
+msgid "Pruning Volumes Failed"
+msgstr "Suprimarea volumelor a eșuat"
+
+#: src/view/action_page.rs:253
 msgid "After {}"
 msgstr "După {}"
 
-#: src/view/action_page.rs:281
+#: src/view/action_page.rs:293
 msgid "Action"
 msgstr "Acțiune"
 
-#: src/view/action_page.rs:290
+#: src/view/action_page.rs:302
 msgid "Error on opening artifact"
 msgstr "Eroare la deschiderea artefactului"
 
-#: src/view/action_page.rs:291
+#: src/view/action_page.rs:303
 msgid "Artifact has been deleted"
 msgstr "Artefactul a fost șters"
 
@@ -690,40 +742,41 @@ msgstr "_Vedere"
 msgid "_Retry"
 msgstr "_Reîncercare"
 
-#: src/view/action_row.rs:138
+#: src/view/action_row.rs:139
 msgid "Abort"
 msgstr "Abandonează"
 
-#: src/view/action_row.rs:140
+#: src/view/action_row.rs:141
 msgid "Remove"
 msgstr "Eliminare"
 
-#: src/view/action_row.rs:203
+#: src/view/action_row.rs:204
 msgid "Failed Pods Action"
 msgstr "Acțiune asupra podurilor eșuate"
 
-#: src/view/action_row.rs:207
+#: src/view/action_row.rs:208
 msgid "Finished Pods Action"
 msgstr "Acțiune asupra Podurilor terminate"
 
-#: src/view/action_row.rs:257
+#: src/view/action_row.rs:258
 msgid "Ongoing ({})"
 msgstr "În curs de desfășurare ({})"
 
-#: src/view/action_row.rs:271
+#: src/view/action_row.rs:272
 msgid "Finished after {}"
 msgstr "Terminat după {}"
 
-#: src/view/action_row.rs:272
-msgid "Cancelled after {}"
-msgstr "Anulat după {}"
-
 #: src/view/action_row.rs:273
+#, fuzzy
+msgid "Aborted after {}"
+msgstr "A eșuat după {}"
+
+#: src/view/action_row.rs:274
 msgid "Failed after {}"
 msgstr "A eșuat după {}"
 
 #: src/view/actions_sidebar.ui:18 src/view/client_view.ui:64
-#: src/view/client_view.ui:207
+#: src/view/client_view.ui:199
 msgid "Actions"
 msgstr "Acțiuni"
 
@@ -735,33 +788,33 @@ msgstr "Curăță acțiunile terminate"
 msgid "No Actions"
 msgstr "Nu există acțiuni"
 
-#: src/view/client_view.rs:239 src/view/containers_panel.ui:67
-#: src/view/containers_panel.ui:138 src/view/containers_panel.ui:433
+#: src/view/client_view.rs:255 src/view/containers_panel.ui:67
+#: src/view/containers_panel.ui:138 src/view/containers_panel.ui:432
 #: src/view/containers_row.ui:22 src/view/image_details_page.ui:178
 #: src/view/pod_details_page.ui:293 src/view/search_panel.ui:65
 #: src/view/volume_details_page.ui:102
 msgid "Containers"
 msgstr "Containere"
 
-#: src/view/client_view.rs:241 src/view/images_panel.ui:92
-#: src/view/images_panel.ui:163 src/view/images_panel.ui:350
+#: src/view/client_view.rs:257 src/view/images_panel.ui:92
+#: src/view/images_panel.ui:163 src/view/images_panel.ui:349
 #: src/view/images_row.ui:22 src/view/search_panel.ui:97
 msgid "Images"
 msgstr "Imagini"
 
-#: src/view/client_view.rs:242 src/view/container_creation_page.ui:296
+#: src/view/client_view.rs:258 src/view/container_creation_page.ui:301
 #: src/view/container_details_page.ui:183 src/view/search_panel.ui:113
 #: src/view/volumes_panel.ui:67 src/view/volumes_panel.ui:138
-#: src/view/volumes_panel.ui:325 src/view/volumes_row.ui:22
+#: src/view/volumes_panel.ui:324 src/view/volumes_row.ui:22
 msgid "Volumes"
 msgstr "Volume"
 
-#: src/view/client_view.rs:243 src/view/info_panel.ui:24
+#: src/view/client_view.rs:259 src/view/info_panel.ui:24
 #: src/view/info_row.ui:22
 msgid "Info"
 msgstr "Info"
 
-#: src/view/client_view.rs:244 src/view/container_log_page.ui:60
+#: src/view/client_view.rs:260 src/view/container_log_page.ui:60
 #: src/view/containers_panel.ui:109 src/view/images_panel.ui:134
 #: src/view/pods_panel.ui:109 src/view/scalable_text_view_page.ui:48
 #: src/view/search_panel.ui:32 src/view/search_row.ui:22
@@ -778,7 +831,7 @@ msgstr "280"
 msgid "Home"
 msgstr "Acasă"
 
-#: src/view/client_view.ui:57 src/view/client_view.ui:187
+#: src/view/client_view.ui:57 src/view/client_view.ui:179
 #: src/view/connections_sidebar.ui:18
 msgid "Connections"
 msgstr "Conexiuni"
@@ -788,21 +841,49 @@ msgctxt "app name"
 msgid "Pods"
 msgstr "Poduri"
 
-#: src/view/client_view.ui:231
+#: src/view/client_view.ui:223
 msgid "Content"
 msgstr "Conținut"
 
-#: src/view/connection_chooser_page.ui:24
+#: src/view/connection.rs:22
+#, fuzzy
+msgid "There are ongoing actions whose progress will be irretrievably lost"
+msgstr ""
+"Există acțiuni în curs de desfășurare ale căror progrese vor fi iremediabil "
+"pierdute."
+
+#: src/view/connection.rs:28 src/view/connection_creation_page.ui:28
+#: src/view/container_commit_page.ui:35 src/view/container_creation_page.ui:44
+#: src/view/container_files_get_page.ui:35
+#: src/view/container_files_put_page.ui:44
+#: src/view/container_rename_dialog.ui:10 src/view/containers_panel.rs:655
+#: src/view/containers_prune_page.ui:35 src/view/image.rs:37
+#: src/view/image_build_page.ui:35 src/view/image_search_page.ui:34
+#: src/view/images_panel.rs:489 src/view/images_prune_page.ui:35
+#: src/view/pod.rs:82 src/view/pod_creation_page.ui:35
+#: src/view/pods_panel.rs:587 src/view/pods_prune_page.ui:35
+#: src/view/repo_tag_add_dialog.ui:10 src/view/repo_tag_push_page.ui:38
+#: src/view/volume.rs:37 src/view/volume_creation_page.ui:35
+#: src/view/volumes_panel.rs:459 src/view/volumes_prune_page.ui:35
+msgid "_Cancel"
+msgstr "Anulare"
+
+#: src/view/connection.rs:29
+msgid "_Confirm"
+msgstr "_Confirmă"
+
+#: src/view/connection_chooser_page.rs:106
+#, fuzzy
+msgid "Error on establishing connection"
+msgstr "Eroare la comutarea conexiunii"
+
+#: src/view/connection_chooser_page.ui:26
 msgid "Connect to Podman"
 msgstr "Conectați-vă la Podman"
 
-#: src/view/connection_chooser_page.ui:25
+#: src/view/connection_chooser_page.ui:27
 msgid "Choose an existing connection or create a new one"
 msgstr "Alegeți o conexiune existentă sau creați una nouă"
-
-#: src/view/connection_chooser_page.ui:72 src/view/welcome_page.ui:82
-msgid "_New Connection"
-msgstr "Conexiune _nouă"
 
 #: src/view/connection_creation_page.rs:138
 msgid "official documentation"
@@ -813,25 +894,9 @@ msgstr "documentație oficială"
 msgid "Visit the {} for more information."
 msgstr "Vizitați {} pentru mai multe informații."
 
-#: src/view/connection_creation_page.rs:218
+#: src/view/connection_creation_page.rs:244
 msgid "Confirm Connecting to New Instance"
 msgstr "Confirmați conectarea la noua instanță"
-
-#: src/view/connection_creation_page.ui:28 src/view/connection.rs:28
-#: src/view/container_commit_page.ui:35 src/view/container_creation_page.ui:44
-#: src/view/container_files_get_page.ui:35
-#: src/view/container_files_put_page.ui:44
-#: src/view/container_rename_dialog.ui:10 src/view/containers_panel.rs:655
-#: src/view/containers_prune_page.ui:35 src/view/image_build_page.ui:35
-#: src/view/image_pull_page.ui:35 src/view/image.rs:37
-#: src/view/images_panel.rs:488 src/view/images_prune_page.ui:35
-#: src/view/pod_creation_page.ui:35 src/view/pod.rs:82
-#: src/view/pods_panel.rs:587 src/view/pods_prune_page.ui:35
-#: src/view/repo_tag_add_dialog.ui:10 src/view/repo_tag_push_page.ui:38
-#: src/view/volume_creation_page.ui:35 src/view/volume.rs:37
-#: src/view/volumes_panel.rs:459 src/view/volumes_prune_page.ui:35
-msgid "_Cancel"
-msgstr "Anulare"
 
 #: src/view/connection_creation_page.ui:35
 msgid "New Connection"
@@ -845,7 +910,7 @@ msgstr "_Conectați-vă"
 #: src/view/container_creation_page.ui:80
 #: src/view/container_properties_group.ui:14
 #: src/view/container_rename_dialog.ui:33 src/view/pod_creation_page.ui:70
-#: src/view/pod_creation_page.ui:263 src/view/pod_details_page.ui:179
+#: src/view/pod_creation_page.ui:275 src/view/pod_details_page.ui:179
 #: src/view/volume_creation_page.ui:69 src/view/volume_details_page.ui:46
 msgid "Name"
 msgstr "Nume"
@@ -855,18 +920,19 @@ msgid "URL"
 msgstr "URL"
 
 #: src/view/connection_creation_page.ui:121
-msgid "Choose how you want to connect to Podman."
+#, fuzzy
+msgid "Choose how to connect to Podman"
 msgstr "Alegeți modul în care doriți să vă conectați la Podman."
 
 #: src/view/connection_creation_page.ui:125
 msgid "Unix Socket"
 msgstr "Socket Unix"
 
-#: src/view/connection_creation_page.ui:160
+#: src/view/connection_creation_page.ui:161
 msgid "Podman Socket Activation"
 msgstr "Activarea Socket-ului Podman"
 
-#: src/view/connection_creation_page.ui:167
+#: src/view/connection_creation_page.ui:168
 msgid ""
 "To connect to the local Podman instance, the systemd socket must be enabled. "
 "You can enable it permanently by issuing the following command:"
@@ -874,7 +940,7 @@ msgstr ""
 "Pentru a vă conecta la instanța locală Podman, socket-ul systemd trebuie să "
 "fie activat. Îl puteți activa permanent lansând următoarea comandă:"
 
-#: src/view/connection_creation_page.ui:216
+#: src/view/connection_creation_page.ui:217
 #: src/view/connection_custom_info_dialog.ui:136
 #: src/view/connection_custom_info_dialog.ui:192
 #: src/view/connection_custom_info_dialog.ui:250
@@ -882,7 +948,7 @@ msgstr ""
 msgid "Copy to Clipboard"
 msgstr "Copiere în clipboard"
 
-#: src/view/connection_creation_page.ui:232
+#: src/view/connection_creation_page.ui:233
 msgid ""
 "To connect to the local root Podman instance, create a custom connection "
 "(read the hints there)."
@@ -890,20 +956,18 @@ msgstr ""
 "Pentru a vă conecta la instanța rădăcină locală Podman, creați o conexiune "
 "personalizată (citiți indicațiile de acolo)."
 
-#: src/view/connection_creation_page.ui:257
-msgid "Custom"
+#: src/view/connection_creation_page.ui:258
+#, fuzzy
+msgid "Custom URL"
 msgstr "Personalizat"
 
-#: src/view/connection_creation_page.ui:267
-msgid "Connection String"
-msgstr "String de conexiune"
-
-#: src/view/connection_creation_page.ui:295
+#: src/view/connection_creation_page.ui:296
 msgid "Color"
 msgstr "Culoare"
 
-#: src/view/connection_creation_page.ui:296
-msgid "Set the color of this connection."
+#: src/view/connection_creation_page.ui:297
+#, fuzzy
+msgid "Set the color of this connection"
 msgstr "Atribuie o culoare acestei conexiuni."
 
 #: src/view/connection_custom_info_dialog.rs:149
@@ -971,34 +1035,52 @@ msgid "Local connection"
 msgstr "Conexiune locală"
 
 #: src/view/connection_row.ui:95 src/view/container_details_page.ui:158
-#: src/view/containers_panel.ui:402 src/view/image_menu_button.ui:11
-#: src/view/images_panel.ui:323 src/view/images_panel.ui:325
-#: src/view/pod_details_page.ui:152 src/view/pods_panel.ui:402
-#: src/view/volumes_panel.ui:298 src/view/volumes_panel.ui:300
+#: src/view/containers_panel.ui:401 src/view/image_menu_button.ui:11
+#: src/view/images_panel.ui:322 src/view/images_panel.ui:324
+#: src/view/pod_details_page.ui:152 src/view/pods_panel.ui:401
+#: src/view/volumes_panel.ui:297 src/view/volumes_panel.ui:299
 msgid "Delete"
 msgstr "Ștergeți"
 
-#: src/view/connection.rs:22
-msgid "There are ongoing actions whose progress will be irretrievably lost."
-msgstr ""
-"Există acțiuni în curs de desfășurare ale căror progrese vor fi iremediabil "
-"pierdute."
+#: src/view/connections_sidebar.rs:97
+msgid "Confirm Switching Connection"
+msgstr "Confirmați comutarea conexiunii"
 
-#: src/view/connection.rs:29
-msgid "_Confirm"
-msgstr "_Confirmă"
+#: src/view/connections_sidebar.rs:104
+msgid "Error on switching connection"
+msgstr "Eroare la comutarea conexiunii"
 
 #: src/view/connections_sidebar.ui:26
 msgid "New Connection (Ctrl+Shift+N)"
 msgstr "Conexiune nouă (Ctrl+Shift+N)"
 
-#: src/view/connection_switcher.rs:123
-msgid "Confirm Switching Connection"
-msgstr "Confirmați comutarea conexiunii"
+#: src/view/container.rs:86 src/view/containers_panel.rs:601
+msgid "Error on starting container"
+msgstr "Eroare la pornirea containerului"
 
-#: src/view/connection_switcher.rs:164
-msgid "Error on switching connection"
-msgstr "Eroare la comutarea conexiunii"
+#: src/view/container.rs:87 src/view/containers_panel.rs:543
+msgid "Error on stopping container"
+msgstr "Eroare la oprirea containerului"
+
+#: src/view/container.rs:88 src/view/containers_panel.rs:541
+msgid "Error on killing container"
+msgstr "Eroare la terminarea containerului"
+
+#: src/view/container.rs:89 src/view/containers_panel.rs:568
+msgid "Error on restarting container"
+msgstr "Eroare la repornirea containerului"
+
+#: src/view/container.rs:90 src/view/containers_panel.rs:624
+msgid "Error on pausing container"
+msgstr "Eroare la întreruperea containerului"
+
+#: src/view/container.rs:91 src/view/containers_panel.rs:590
+msgid "Error on resuming container"
+msgstr "Eroare la reluarea containerului"
+
+#: src/view/container.rs:92 src/view/containers_panel.rs:675
+msgid "Error on deleting container"
+msgstr "Eroare la ștergerea containerului"
 
 #: src/view/container_commit_page.rs:98
 msgid "Change"
@@ -1011,7 +1093,7 @@ msgstr "Eroare la preluarea numelui de utilizator"
 #: src/view/container_commit_page.ui:22 src/view/container_creation_page.ui:31
 #: src/view/container_files_get_page.ui:22
 #: src/view/container_files_put_page.ui:31 src/view/containers_prune_page.ui:22
-#: src/view/image_build_page.ui:22 src/view/image_pull_page.ui:22
+#: src/view/image_build_page.ui:22 src/view/image_pull_page.ui:13
 #: src/view/images_prune_page.ui:22 src/view/pod_creation_page.ui:22
 #: src/view/pods_prune_page.ui:22 src/view/repo_tag_push_page.ui:25
 #: src/view/volume_creation_page.ui:22 src/view/volumes_prune_page.ui:22
@@ -1055,13 +1137,14 @@ msgid "Format"
 msgstr "Format"
 
 #: src/view/container_commit_page.ui:124 src/view/container_details_page.ui:141
-#: src/view/containers_panel.ui:385 src/view/pod_details_page.ui:135
-#: src/view/pods_panel.ui:385
+#: src/view/containers_panel.ui:384 src/view/pod_details_page.ui:135
+#: src/view/pods_panel.ui:384
 msgid "Pause"
 msgstr "Pauză"
 
 #: src/view/container_commit_page.ui:125
-msgid "Pause the container before committing it."
+#, fuzzy
+msgid "Pause the container before committing it"
 msgstr "Puneți în pauză containerul înainte de a-l comite."
 
 #: src/view/container_commit_page.ui:134
@@ -1069,45 +1152,46 @@ msgid "Changes"
 msgstr "Modificări"
 
 #: src/view/container_commit_page.ui:135
+#, fuzzy
 msgid ""
 "Instructions to apply while committing in Dockerfile format (i.e. \"CMD=/bin/"
-"foo\")."
+"foo\")"
 msgstr ""
 "Instrucțiuni care trebuie aplicate în timpul comiterii în format Dockerfile "
 "(de exemplu \"CMD=/bin/foo\")."
 
-#: src/view/container_creation_page.rs:181 src/view/pod_creation_page.rs:176
-#: src/view/pod_creation_page.rs:186 src/view/value_row.ui:4
+#: src/view/container_creation_page.rs:197 src/view/pod_creation_page.rs:197
+#: src/view/pod_creation_page.rs:207 src/view/value_row.ui:4
 msgid "Argument"
 msgstr "Argument"
 
-#: src/view/container_creation_page.rs:184 src/view/pod_creation_page.rs:179
-#: src/view/pod_creation_page.rs:189
+#: src/view/container_creation_page.rs:200 src/view/pod_creation_page.rs:200
+#: src/view/pod_creation_page.rs:210
 msgid "Add Argument"
 msgstr "Adăugare argument"
 
-#: src/view/container_creation_page.rs:195
+#: src/view/container_creation_page.rs:211 src/view/pod_creation_page.rs:180
 msgid "Add Port Mapping"
 msgstr "Adăugare de mapări de porturi"
 
-#: src/view/container_creation_page.rs:203
+#: src/view/container_creation_page.rs:219
 msgid "Add Volume"
 msgstr "Adăugare de Volum"
 
-#: src/view/container_creation_page.rs:213
+#: src/view/container_creation_page.rs:229
 msgid "Add Environment Variable"
 msgstr "Adăugare de variabile de mediu"
 
-#: src/view/container_creation_page.rs:223 src/view/image_build_page.rs:115
-#: src/view/pod_creation_page.rs:144
+#: src/view/container_creation_page.rs:239 src/view/image_build_page.rs:115
+#: src/view/pod_creation_page.rs:154
 msgid "Add Label"
 msgstr "Adăugare de Etichete"
 
-#: src/view/container_creation_page.rs:508
+#: src/view/container_creation_page.rs:524
 msgid "Failed to create container"
 msgstr "Crearea containerului nu a reușit"
 
-#: src/view/container_creation_page.rs:509
+#: src/view/container_creation_page.rs:525
 msgid "no image selected"
 msgstr "nicio imagine selectată"
 
@@ -1129,113 +1213,119 @@ msgstr "Lansa_Re"
 msgid "Details"
 msgstr "Detalii"
 
-#: src/view/container_creation_page.ui:128
+#: src/view/container_creation_page.ui:127
 #: src/view/container_properties_group.ui:300 src/view/pod_details_page.ui:16
 msgid "Pod"
 msgstr "Capsulă"
 
-#: src/view/container_creation_page.ui:155 src/view/pod_creation_page.ui:275
-msgid "Pull latest image"
+#: src/view/container_creation_page.ui:154 src/view/pod_creation_page.ui:287
+#, fuzzy
+msgid "Pull Latest Image"
 msgstr "Recuperați cea mai recentă imagine"
 
-#: src/view/container_creation_page.ui:161
+#: src/view/container_creation_page.ui:160
 #: src/view/container_details_page.ui:237
 msgid "Terminal"
 msgstr "Terminal"
 
-#: src/view/container_creation_page.ui:169
-msgid "Memory limit"
+#: src/view/container_creation_page.ui:167
+msgid "Privileged"
+msgstr ""
+
+#: src/view/container_creation_page.ui:168
+msgid "Give extended privileges to container"
+msgstr ""
+
+#: src/view/container_creation_page.ui:175
+#, fuzzy
+msgid "Memory Limit"
 msgstr "Limită de memorie"
 
-#: src/view/container_creation_page.ui:213
+#: src/view/container_creation_page.ui:219
 msgid "KB"
 msgstr "KB"
 
-#: src/view/container_creation_page.ui:214
+#: src/view/container_creation_page.ui:220
 msgid "MB"
 msgstr "MB"
 
-#: src/view/container_creation_page.ui:215
+#: src/view/container_creation_page.ui:221
 msgid "GB"
 msgstr "GB"
 
-#: src/view/container_creation_page.ui:244
-#: src/view/container_creation_page.ui:356
+#: src/view/container_creation_page.ui:250
+#: src/view/container_creation_page.ui:360
 #: src/view/container_health_check_page.ui:53 src/view/image_details_page.ui:93
-#: src/view/pod_creation_page.ui:295
+#: src/view/pod_creation_page.ui:307
 msgid "Command"
 msgstr "Comandă"
 
-#: src/view/container_creation_page.ui:252 src/view/pod_creation_page.ui:142
-#: src/view/pod_creation_page.ui:304
+#: src/view/container_creation_page.ui:258 src/view/pod_creation_page.ui:141
+#: src/view/pod_creation_page.ui:316
 msgid "Arguments"
 msgstr "Argumente"
 
-#: src/view/container_creation_page.ui:271 src/view/image_build_page.ui:145
-#: src/view/pod_creation_page.ui:163
+#: src/view/container_creation_page.ui:277 src/view/image_build_page.ui:144
+#: src/view/pod_creation_page.ui:162
 msgid "Integration"
 msgstr "Integrare"
 
-#: src/view/container_creation_page.ui:281
+#: src/view/container_creation_page.ui:286 src/view/pod_creation_page.ui:171
 msgid "Port Mappings"
 msgstr "Mapări de porturi"
 
-#: src/view/container_creation_page.ui:311
+#: src/view/container_creation_page.ui:316
 msgid "Environment Variables"
 msgstr "Variabile de mediu"
 
-#: src/view/container_creation_page.ui:326 src/view/image_build_page.ui:155
-#: src/view/pod_creation_page.ui:210
+#: src/view/container_creation_page.ui:331 src/view/image_build_page.ui:153
+#: src/view/pod_creation_page.ui:223
 msgid "Labels"
 msgstr "Etichete"
 
-#: src/view/container_creation_page.ui:347
+#: src/view/container_creation_page.ui:352
 #: src/view/container_properties_group.ui:223
 msgid "Health Check"
 msgstr "Verificarea stării de sănătate"
 
-#: src/view/container_creation_page.ui:362
+#: src/view/container_creation_page.ui:366
 #: src/view/container_health_check_page.ui:59
 msgid "Interval"
 msgstr "Interval"
 
-#: src/view/container_creation_page.ui:363
-msgid "Interval in seconds how often health check is run."
+#: src/view/container_creation_page.ui:367
+msgid "Health check interval in seconds"
 msgstr ""
-"Frecvența în secunde cu care se execută verificarea stării de sănătate."
 
-#: src/view/container_creation_page.ui:379
+#: src/view/container_creation_page.ui:383
 #: src/view/container_health_check_page.ui:71
 msgid "Timeout"
 msgstr "Timeout"
 
-#: src/view/container_creation_page.ui:380
-msgid ""
-"The maximum time in seconds allowed to complete the health check before an "
-"interval is considered failed."
+#: src/view/container_creation_page.ui:384
+msgid "Seconds allowed to complete the command before it fails"
 msgstr ""
-"Timpul maxim permis, în secunde, pentru a finaliza verificarea de sănătate "
-"înainte ca un interval să fie considerat eșuat."
 
-#: src/view/container_creation_page.ui:396
+#: src/view/container_creation_page.ui:400
 msgid "Start Period"
 msgstr "Perioadă de început"
 
-#: src/view/container_creation_page.ui:397
-msgid "The initialization time in seconds needed for a container to bootstrap."
+#: src/view/container_creation_page.ui:401
+#, fuzzy
+msgid ""
+"Initial delay of the command in seconds to grant the container time to boot"
 msgstr ""
 "Timpul de inițializare, în secunde, necesar pentru ca un container să se "
 "inițializeze."
 
-#: src/view/container_creation_page.ui:413
+#: src/view/container_creation_page.ui:417
 #: src/view/container_health_check_page.ui:65
 msgid "Retries"
 msgstr "Încercări"
 
-#: src/view/container_creation_page.ui:414
-msgid ""
-"The number of retries allowed before a healthcheck is considered to be "
-"unhealthy."
+#: src/view/container_creation_page.ui:418
+#, fuzzy
+msgid "Number of retries allowed before a healthcheck fails"
 msgstr ""
 "Numărul de încercări permise înainte ca o verificare a stării de sănătate să "
 "fie considerată eșuată."
@@ -1252,24 +1342,24 @@ msgstr "Containerul '{}' a fost șters"
 msgid "Container"
 msgstr "Container"
 
-#: src/view/container_details_page.ui:54 src/view/containers_panel.ui:308
-#: src/view/pod_details_page.ui:48 src/view/pods_panel.ui:308
+#: src/view/container_details_page.ui:54 src/view/containers_panel.ui:307
+#: src/view/pod_details_page.ui:48 src/view/pods_panel.ui:307
 #: src/view/top_page_action_bar.ui:16
 msgid "Kill"
 msgstr "Termină"
 
-#: src/view/container_details_page.ui:73 src/view/containers_panel.ui:327
-#: src/view/pod_details_page.ui:67 src/view/pods_panel.ui:327
+#: src/view/container_details_page.ui:73 src/view/containers_panel.ui:326
+#: src/view/pod_details_page.ui:67 src/view/pods_panel.ui:326
 msgid "Restart"
 msgstr "Reîncepe"
 
-#: src/view/container_details_page.ui:86 src/view/containers_panel.ui:345
-#: src/view/pod_details_page.ui:80 src/view/pods_panel.ui:345
+#: src/view/container_details_page.ui:86 src/view/containers_panel.ui:344
+#: src/view/pod_details_page.ui:80 src/view/pods_panel.ui:344
 msgid "Start/Resume"
 msgstr "Start/Reluare"
 
-#: src/view/container_details_page.ui:105 src/view/containers_panel.ui:363
-#: src/view/pod_details_page.ui:99 src/view/pods_panel.ui:363
+#: src/view/container_details_page.ui:105 src/view/containers_panel.ui:362
+#: src/view/pod_details_page.ui:99 src/view/pods_panel.ui:362
 msgid "Stop"
 msgstr "Stop"
 
@@ -1284,7 +1374,8 @@ msgid "Inspection"
 msgstr "Inspecție"
 
 #: src/view/container_details_page.ui:204
-msgid "View all container properties in a structured text form."
+#, fuzzy
+msgid "View all container properties in a structured text form"
 msgstr ""
 "Vizualizați toate proprietățile containerului într-o formă de text "
 "structurată."
@@ -1294,11 +1385,13 @@ msgid "Kube"
 msgstr "Kube"
 
 #: src/view/container_details_page.ui:221
-msgid "Generate Kubernetes YAML based on this container."
+#, fuzzy
+msgid "Generate Kubernetes YAML based on this container"
 msgstr "Generați un YAML Kubernetes pe baza acestui container."
 
 #: src/view/container_details_page.ui:238
-msgid "Connect to the container's terminal."
+#, fuzzy
+msgid "Connect to the container's terminal"
 msgstr "Conectați-vă la terminalul containerului."
 
 #: src/view/container_details_page.ui:254
@@ -1306,7 +1399,8 @@ msgid "Logs"
 msgstr "Jurnale"
 
 #: src/view/container_details_page.ui:255
-msgid "View and search through container logs."
+#, fuzzy
+msgid "View and search through container logs"
 msgstr "Vizualizaţi şi căutaţi prin jurnalele containerelor."
 
 #: src/view/container_details_page.ui:271 src/view/pod_details_page.ui:267
@@ -1314,8 +1408,9 @@ msgid "Processes"
 msgstr "Procese"
 
 #: src/view/container_details_page.ui:272
-msgid "View processes that are currently running inside the container."
-msgstr "Vizualizați procesele care rulează în prezent în container."
+#, fuzzy
+msgid "View and manage processes of the container"
+msgstr "Vizualizați și căutați în jurnalele containerelor."
 
 #: src/view/container_files_get_page.rs:148
 msgid "Select Host Destination Path"
@@ -1325,7 +1420,7 @@ msgstr "Selectați calea de destinație pe gazdă"
 msgid "Download Files"
 msgstr "Descărcați fișiere"
 
-#: src/view/container_files_get_page.ui:52 src/view/image_pull_page.ui:52
+#: src/view/container_files_get_page.ui:52 src/view/image_pull_page.ui:20
 #: src/view/images_panel.ui:15 src/view/images_panel.ui:27
 msgid "_Download"
 msgstr "_Descărcare"
@@ -1342,7 +1437,8 @@ msgid "Host Path"
 msgstr "Calea în sistemul gazdă"
 
 #: src/view/container_files_get_page.ui:77
-msgid "Select a destination tar archive on the host."
+#, fuzzy
+msgid "Select a destination tar archive on the host"
 msgstr "Selectați o arhivă tar de destinație pe gazdă."
 
 #: src/view/container_files_get_page.ui:82
@@ -1370,7 +1466,8 @@ msgid "_Upload"
 msgstr "_Încărcați"
 
 #: src/view/container_files_put_page.ui:79
-msgid "Either select a file or a directory from the host to upload."
+#, fuzzy
+msgid "Select a file or a directory from the host to upload"
 msgstr "Selectați un fișier sau un director din gazdă pentru a încărca."
 
 #: src/view/container_files_put_page.ui:84
@@ -1426,7 +1523,8 @@ msgid "Log"
 msgstr "Jurnal"
 
 #: src/view/container_health_check_page.ui:94
-msgid "Rows describe the last 5 health check attempts and results."
+#, fuzzy
+msgid "Rows describe the last 5 health check attempts and results"
 msgstr ""
 "Rândurile descriu ultimele 5 încercări și rezultate ale verificării stării "
 "de sănătate."
@@ -1435,31 +1533,32 @@ msgstr ""
 msgid "_Run Health Check"
 msgstr "_Executați verificarea stării de sănătate"
 
-#: src/view/container_log_page.rs:487
+#: src/view/container_log_page.rs:488
 msgid "Error while following log"
 msgstr "Eroare în timpul urmăririi jurnalului"
 
-#: src/view/container_log_page.rs:622
+#: src/view/container_log_page.rs:623
 msgid "Include timestamps"
 msgstr "Include marcajele temporale"
 
-#: src/view/container_log_page.rs:674
+#: src/view/container_log_page.rs:675
 msgid "Error on saving logs"
 msgstr "Eroare la salvarea jurnalelor"
 
-#: src/view/container_log_page.rs:688
+#: src/view/container_log_page.rs:689
 msgid "Error on retrieving logs"
 msgstr "Eroare la recuperarea jurnalelor"
 
-#: src/view/container_log_page.rs:697
-msgid "Log has been saved."
+#: src/view/container_log_page.rs:698
+#, fuzzy
+msgid "Log has been saved"
 msgstr "Jurnalul a fost salvat."
 
-#: src/view/container_log_page.rs:720
+#: src/view/container_log_page.rs:721
 msgid "Error starting container"
 msgstr "Eroare la pornirea containerului"
 
-#: src/view/container_log_page.rs:726
+#: src/view/container_log_page.rs:727
 msgid "Error resuming container"
 msgstr "Eroare la reluarea containerului"
 
@@ -1475,21 +1574,23 @@ msgstr "Afișare marcaje _temporale"
 msgid "Container Logs"
 msgstr "Jurnalele de la containere"
 
-#: src/view/container_log_page.ui:141
+#: src/view/container_log_page.ui:105
+#, fuzzy
+msgid "Start/Resume Container"
+msgstr "Porniți/Reluați containerul."
+
+#: src/view/container_log_page.ui:106
+#, fuzzy
+msgid "Streaming is disconnected because container is not running"
+msgstr "Streamingul este deconectat deoarece containerul nu rulează."
+
+#: src/view/container_log_page.ui:149
 msgid "Loading previous lines"
 msgstr "Încărcarea liniilor anterioare"
 
-#: src/view/container_log_page.ui:170
+#: src/view/container_log_page.ui:178
 msgid "Scroll to bottom"
 msgstr "Derulați până jos"
-
-#: src/view/container_log_page.ui:228
-msgid "Start/Resume Container."
-msgstr "Porniți/Reluați containerul."
-
-#: src/view/container_log_page.ui:229
-msgid "Streaming is disconnected because container isn't running."
-msgstr "Streamingul este deconectat deoarece containerul nu rulează."
 
 #: src/view/container_menu_button.ui:7 src/view/pod_menu_button.ui:13
 msgid "_Start"
@@ -1516,7 +1617,7 @@ msgid "Re_name…"
 msgstr "Re_denumire…"
 
 #: src/view/container_menu_button.ui:41 src/view/containers_panel.rs:656
-#: src/view/images_panel.rs:489 src/view/pod_menu_button.ui:40
+#: src/view/images_panel.rs:490 src/view/pod_menu_button.ui:40
 #: src/view/pods_panel.rs:588 src/view/volumes_panel.rs:460
 msgid "_Delete"
 msgstr "_Ștergeți"
@@ -1617,37 +1718,51 @@ msgstr "Rețea"
 msgid "Disk"
 msgstr "Disc"
 
-#: src/view/container_row.rs:363
+#: src/view/container_row.rs:335
 msgid "Container {}"
 msgstr "Container {}"
 
-#: src/view/container.rs:56 src/view/containers_panel.rs:601
-msgid "Error on starting container"
-msgstr "Eroare la pornirea containerului"
+#: src/view/container_terminal.rs:479
+msgid "Terminal error"
+msgstr "Eroare de terminal"
 
-#: src/view/container.rs:57 src/view/containers_panel.rs:543
-msgid "Error on stopping container"
-msgstr "Eroare la oprirea containerului"
+#: src/view/container_terminal.rs:480
+msgid "'/bin/sh' not found"
+msgstr "'/bin/sh' nu a fost găsit"
 
-#: src/view/container.rs:58 src/view/containers_panel.rs:541
-msgid "Error on killing container"
-msgstr "Eroare la terminarea containerului"
+#: src/view/container_terminal.ui:6
+msgid "_Copy"
+msgstr "_Copie"
 
-#: src/view/container.rs:59 src/view/containers_panel.rs:568
-msgid "Error on restarting container"
-msgstr "Eroare la repornirea containerului"
+#: src/view/container_terminal.ui:10
+msgid "Copy as _HTML"
+msgstr "Copiați ca _HTML"
 
-#: src/view/container.rs:60 src/view/containers_panel.rs:624
-msgid "Error on pausing container"
-msgstr "Eroare la întreruperea containerului"
+#: src/view/container_terminal.ui:14
+msgid "_Paste"
+msgstr "Li_pește"
 
-#: src/view/container.rs:61 src/view/containers_panel.rs:590
-msgid "Error on resuming container"
-msgstr "Eroare la reluarea containerului"
+#: src/view/container_terminal.ui:35
+msgid "No Terminal"
+msgstr "Fără terminal"
 
-#: src/view/container.rs:62 src/view/containers_panel.rs:675
-msgid "Error on deleting container"
-msgstr "Eroare la ștergerea containerului"
+#: src/view/container_terminal.ui:36
+#, fuzzy
+msgid "The container must be running to use the terminal"
+msgstr ""
+"Containerul trebuie să fie în curs de execuție pentru a utiliza terminalul."
+
+#: src/view/container_terminal.ui:46
+msgid "Start"
+msgstr "Start"
+
+#: src/view/container_terminal_page.ui:32
+msgid "Detach Terminal"
+msgstr "Detașează Terminalul"
+
+#: src/view/container_terminal_page.ui:39
+msgid "Container Terminal"
+msgstr "TTY în Container"
 
 #: src/view/containers_panel.rs:236
 msgid "1 container, running"
@@ -1683,7 +1798,7 @@ msgstr ""
 "Toate datele create în interiorul containerelor se vor pierde și "
 "containerele care rulează vor fi oprite!"
 
-#: src/view/containers_panel.ui:6 src/view/containers_panel.ui:452
+#: src/view/containers_panel.ui:6 src/view/containers_panel.ui:451
 msgid "_Create Container"
 msgstr "_Creare de container"
 
@@ -1728,21 +1843,14 @@ msgstr "Anulează"
 msgid "No Running Containers"
 msgstr "Nici un container în curs de execuție"
 
-#: src/view/containers_panel.ui:259
-msgid "The result of filtering for running containers is empty."
-msgstr "Filtrul de containere în curs de execuție este fără rezultat."
-
-#: src/view/containers_panel.ui:269
+#: src/view/containers_panel.ui:268
 msgid "_Show All Containers"
 msgstr "Afișează toate containerele"
 
 #: src/view/containers_panel.ui:441
-msgid "No Containers Found"
+#, fuzzy
+msgid "No Containers Available"
 msgstr "Nu s-au găsit containere"
-
-#: src/view/containers_panel.ui:442
-msgid "You can use the button below to create an initial container."
-msgstr "Puteți folosi butonul de mai jos pentru a crea un container inițial."
 
 #: src/view/containers_prune_page.ui:52 src/view/images_prune_page.ui:52
 #: src/view/pods_prune_page.ui:52 src/view/volumes_prune_page.ui:52
@@ -1755,49 +1863,9 @@ msgid "Prune Options"
 msgstr "Opțiuni de suprimare"
 
 #: src/view/containers_prune_page.ui:69
-msgid "Prune containers created before this timestamp."
+#, fuzzy
+msgid "Prune containers created before this timestamp"
 msgstr "Elimină containerele create înainte de acest moment."
-
-#: src/view/container_terminal_page.ui:32
-msgid "Detach Terminal"
-msgstr "Detașează Terminalul"
-
-#: src/view/container_terminal_page.ui:39
-msgid "Container Terminal"
-msgstr "TTY în Container"
-
-#: src/view/container_terminal.rs:479
-msgid "Terminal error"
-msgstr "Eroare de terminal"
-
-#: src/view/container_terminal.rs:480
-msgid "'/bin/sh' not found"
-msgstr "'/bin/sh' nu a fost găsit"
-
-#: src/view/container_terminal.ui:6
-msgid "_Copy"
-msgstr "_Copie"
-
-#: src/view/container_terminal.ui:10
-msgid "Copy as _HTML"
-msgstr "Copiați ca _HTML"
-
-#: src/view/container_terminal.ui:14
-msgid "_Paste"
-msgstr "Li_pește"
-
-#: src/view/container_terminal.ui:35
-msgid "No Terminal"
-msgstr "Fără terminal"
-
-#: src/view/container_terminal.ui:36
-msgid "The container must be running to use the terminal."
-msgstr ""
-"Containerul trebuie să fie în curs de execuție pentru a utiliza terminalul."
-
-#: src/view/container_terminal.ui:46
-msgid "Start"
-msgstr "Start"
 
 #: src/view/device_row.ui:69 src/view/mount_row.ui:139
 msgid "Container Path"
@@ -1815,12 +1883,44 @@ msgstr "Inscriptibil"
 msgid "mknod"
 msgstr "mknod"
 
+#: src/view/image.rs:18
+msgid "Confirm Forced Image Deletion"
+msgstr "Confirmați ștergerea forțată a imaginii"
+
+#. Translators: The "{}" is a placeholder for the container name.
+#: src/view/image.rs:24
+msgid ""
+"Image is used by container <b>{}</b>. Deleting the image will also delete "
+"all its associated containers."
+msgstr ""
+"Imaginea este utilizată de containerul <b>{}</b>. Ștergerea imaginii va "
+"șterge, de asemenea, toate containerele asociate acesteia."
+
+#: src/view/image.rs:28
+msgid ""
+"Image is used by a container. Deleting the image will also delete all its "
+"associated containers."
+msgstr ""
+"Imaginea este utilizată de un container. Ștergerea imaginii va șterge, de "
+"asemenea, toate containerele asociate acesteia."
+
+#: src/view/image.rs:38 src/view/pod.rs:83 src/view/volume.rs:38
+msgid "_Force Delete"
+msgstr "_Forțați ștergerea"
+
+#. Translators: The "{}" is a placeholder for the image id.
+#. Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
+#: src/view/image.rs:63 src/view/images_panel.rs:509
+msgid "Error on deleting image '{}'"
+msgstr "Eroare la ștergerea imaginii '{}'"
+
 #: src/view/image_build_page.rs:195
 msgid "Select Build Context Directory"
 msgstr "Selectați directorul contextual de construcție"
 
 #: src/view/image_build_page.rs:234
-msgid "Image name should not contain uppercase characters."
+#, fuzzy
+msgid "Image name must not contain uppercase characters"
 msgstr "Numele imaginii nu trebuie să conțină caractere majuscule."
 
 #: src/view/image_build_page.ui:42
@@ -1836,15 +1936,15 @@ msgstr "_Construire"
 msgid "Image Name"
 msgstr "Numele imaginii"
 
-#: src/view/image_build_page.ui:114
+#: src/view/image_build_page.ui:113
 msgid "Build Context Directory"
 msgstr "Directorul contextual de construcție"
 
-#: src/view/image_build_page.ui:119
+#: src/view/image_build_page.ui:118
 msgid "Select…"
 msgstr "Selectați…"
 
-#: src/view/image_build_page.ui:130
+#: src/view/image_build_page.ui:129
 msgid "Containerfile Path Relative to Build Context Directory"
 msgstr ""
 "Calea fișierului containerului în raport cu directorul de construcție din "
@@ -1882,7 +1982,8 @@ msgid "Delete Image"
 msgstr "Suprimarea imaginii"
 
 #: src/view/image_details_page.ui:87
-msgid "Disk space"
+#, fuzzy
+msgid "Disk Space"
 msgstr "Spațiu pe disc"
 
 #: src/view/image_details_page.ui:100
@@ -1894,7 +1995,8 @@ msgid "Ports"
 msgstr "Porturi"
 
 #: src/view/image_details_page.ui:122
-msgid "View all image properties in a structured text form."
+#, fuzzy
+msgid "View all image properties in a structured text form"
 msgstr ""
 "Vizualizați toate proprietățile imaginii într-o formă de text structurată."
 
@@ -1903,7 +2005,8 @@ msgid "History"
 msgstr "Istorie"
 
 #: src/view/image_details_page.ui:139
-msgid "View parent layers of this image."
+#, fuzzy
+msgid "View parent layers of this image"
 msgstr "Vizualizați straturile părinte ale acestei imagini."
 
 #: src/view/image_details_page.ui:158
@@ -1957,115 +2060,56 @@ msgstr "Listă de istorice"
 msgid "_Create Container…"
 msgstr "_Creează container…"
 
-#: src/view/image_pull_page.ui:42
-msgid "Download Image"
-msgstr "Descărcați imaginea"
-
 #: src/view/image_row.rs:207
 msgid "Image {}"
 msgstr "Imagine {}"
 
-#: src/view/image.rs:18
-msgid "Confirm Forced Image Deletion"
-msgstr "Confirmați ștergerea forțată a imaginii"
-
-#. Translators: The "{}" is a placeholder for the container name.
-#: src/view/image.rs:24
-msgid ""
-"Image is used by container <b>{}</b>. Deleting the image will also delete "
-"all its associated containers."
-msgstr ""
-"Imaginea este utilizată de containerul <b>{}</b>. Ștergerea imaginii va "
-"șterge, de asemenea, toate containerele asociate acesteia."
-
-#: src/view/image.rs:28
-msgid ""
-"Image is used by a container. Deleting the image will also delete all its "
-"associated containers."
-msgstr ""
-"Imaginea este utilizată de un container. Ștergerea imaginii va șterge, de "
-"asemenea, toate containerele asociate acesteia."
-
-#: src/view/image.rs:38 src/view/pod.rs:83 src/view/volume.rs:38
-msgid "_Force Delete"
-msgstr "_Forțați ștergerea"
-
-#. Translators: The "{}" is a placeholder for the image id.
-#. Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
-#: src/view/image.rs:63 src/view/images_panel.rs:508
-msgid "Error on deleting image '{}'"
-msgstr "Eroare la ștergerea imaginii '{}'"
-
-#: src/view/image_search_page.ui:18
-msgid "Image Search"
-msgstr "Căutare de imagini"
-
-#: src/view/image_search_page.ui:28 src/view/image_selection_page.ui:68
-#: src/view/pod_selection_page.ui:68 src/view/volume_selection_page.ui:68
-msgid "_Select"
-msgstr "_Selectați"
-
-#: src/view/image_search_widget.rs:234
-msgid "All registries"
-msgstr "Toate registrele"
-
-#: src/view/image_search_widget.rs:253
-msgid "Failed to retrieve podman info"
-msgstr "Nu s-au putut prelua informațiile despre podman"
-
-#: src/view/image_search_widget.rs:342
+#: src/view/image_search_page.rs:207
 msgid "No Results For {}"
 msgstr "Niciun rezultat pentru {}"
 
-#: src/view/image_search_widget.rs:357
+#: src/view/image_search_page.rs:228 src/view/repo_tag_selection_page.rs:168
 msgid "Failed to search for images"
 msgstr "Eșec la căutarea de imagini"
 
-#: src/view/image_search_widget.ui:30
-msgid "No Registries Found"
-msgstr "Nu au fost găsite registre"
+#: src/view/image_search_page.rs:335 src/view/repo_tag_selection_page.ui:35
+#, fuzzy
+msgid "Select Tag"
+msgstr "Selecționarea imaginii"
 
-#: src/view/image_search_widget.ui:31
-msgid ""
-"\n"
-"You cannot search for images without registries. Please follow the "
-"instructions on this <a href=\"https://github.com/containers/image/blob/"
-"b80addc01c0dab40c5d8945a1df61f3c72a3e40d/docs/containers-registries.conf.5."
-"md\">website</a> in order to add registries.\n"
+#: src/view/image_search_page.ui:47
+#, fuzzy
+msgid "Enter image search term"
+msgstr "nicio imagine selectată"
+
+#: src/view/image_search_page.ui:64
+msgid "Next"
 msgstr ""
-"\n"
-"Nu puteți căuta imagini fără registre. Vă rugăm să urmați instrucțiunile de "
-"pe site-ul <a href=\"https://github.com/containers/image/blob/"
-"b80addc01c0dab40c5d8945a1df61f3c72a3e40d/docs/containers-registries.conf.5."
-"md\"></a> pentru a adăuga registre.\n"
 
-#: src/view/image_search_widget.ui:54
-msgid "Search for"
-msgstr "Căutare"
+#: src/view/image_search_page.ui:92
+#, fuzzy
+msgid "Find Remote Images"
+msgstr "Imagine la distanță"
 
-#: src/view/image_search_widget.ui:62
-msgid "Registry"
-msgstr "Registru"
-
-#: src/view/image_search_widget.ui:84 src/view/images_panel.ui:358
-msgid "No Images Found"
-msgstr "Nu au fost găsite imagini"
-
-#: src/view/image_search_widget.ui:85
-msgid "Please start typing to look for images."
+#: src/view/image_search_page.ui:93
+#, fuzzy
+msgid "Please start typing to look for remote images"
 msgstr "Vă rugăm să începeți să tastați pentru a căuta imagini."
 
-#: src/view/image_search_widget.ui:100
-msgid "Searching…"
+#: src/view/image_search_page.ui:108
+#, fuzzy
+msgid "Searching"
 msgstr "În căutare …"
 
-#: src/view/image_search_widget.ui:125 src/view/search_panel.ui:48
-msgid "Please retry another term."
+#: src/view/image_search_page.ui:133 src/view/repo_tag_selection_page.ui:124
+#: src/view/search_panel.ui:48
+#, fuzzy
+msgid "Please retry another term"
 msgstr "Vă rugăm să încercați un alt termen."
 
-#: src/view/image_search_widget.ui:175
-msgid "Tag ('latest' if empty)"
-msgstr "Etichetă ('cel mai recent' dacă este goală)"
+#: src/view/image_search_response_row.ui:40
+msgid "Official"
+msgstr ""
 
 #: src/view/image_selection_combo_row.rs:87
 msgid "Select Image"
@@ -2082,14 +2126,41 @@ msgstr "Imagine locală"
 msgid "Remote Image"
 msgstr "Imagine la distanță"
 
-#: src/view/image_selection_page.ui:19 src/view/pod_selection_page.ui:19
-#: src/view/volume_selection_page.ui:19
+#: src/view/image_selection_combo_row.rs:150
+#, fuzzy
+msgid "Select"
+msgstr "_Selectați"
+
+#: src/view/image_selection_page.ui:25
+#, fuzzy
+msgid "No Local Images Available"
+msgstr "Imagine locală"
+
+#: src/view/image_selection_page.ui:50 src/view/pod_selection_page.ui:77
+#: src/view/repo_tag_selection_page.ui:19 src/view/volume_selection_page.ui:77
 msgid "Filter"
 msgstr "Filtru"
 
-#: src/view/image_selection_page.ui:35
+#: src/view/image_selection_page.ui:66
 msgid "Select Local Image"
 msgstr "Selecționare de imagine locală"
+
+#: src/view/image_selection_page.ui:99 src/view/pod_selection_page.ui:126
+#: src/view/volume_selection_page.ui:126
+msgid "_Select"
+msgstr "_Selectați"
+
+#: src/view/image_selection_page.ui:152 src/view/pod_selection_page.ui:179
+#: src/view/volume_selection_page.ui:180
+#, fuzzy
+msgid "No Results"
+msgstr "Nu s-au găsit rezultate"
+
+#: src/view/image_selection_page.ui:163 src/view/pod_selection_page.ui:190
+#: src/view/volume_selection_page.ui:191
+#, fuzzy
+msgid "_Clear Filter"
+msgstr "Filtru"
 
 #: src/view/images_panel.rs:204
 msgid "1 image, used"
@@ -2113,11 +2184,11 @@ msgstr[0] "{} Imagine selectată"
 msgstr[1] "{} Imagini selectate"
 msgstr[2] "{} Imagini selectate"
 
-#: src/view/images_panel.rs:479
+#: src/view/images_panel.rs:480
 msgid "Confirm Forced Deletion of Multiple Images"
 msgstr "Confirmați ștergerea forțată a mai multor imagini"
 
-#: src/view/images_panel.rs:481
+#: src/view/images_panel.rs:482
 msgid ""
 "There may be containers associated with those images, which will also be "
 "removed!"
@@ -2145,23 +2216,19 @@ msgstr "Afișarea numai a imaginilor etichetate"
 msgid "No Tagged Images"
 msgstr "Nu există imagini etichetate"
 
-#: src/view/images_panel.ui:284
-msgid "The result of filtering for tagged images is empty."
-msgstr "Filtrul de imagini etichetate este fără rezultat."
-
-#: src/view/images_panel.ui:294
+#: src/view/images_panel.ui:293
 msgid "_Show All Images"
 msgstr "Afișarea tuturor imaginilor"
 
-#: src/view/images_panel.ui:359
-msgid "You can use the buttons below to add an initial image."
-msgstr "Puteți folosi butoanele de mai jos pentru a adăuga o imagine inițială."
+#: src/view/images_panel.ui:358
+msgid "No Images Available"
+msgstr ""
 
-#: src/view/images_panel.ui:374
+#: src/view/images_panel.ui:387
 msgid "_Download Image"
 msgstr "_Descărcare de imagine"
 
-#: src/view/images_panel.ui:386
+#: src/view/images_panel.ui:400
 msgid "_Build Image"
 msgstr "Construcție de imagine"
 
@@ -2173,25 +2240,13 @@ msgstr "Suprimați imaginile"
 msgid "Prune All"
 msgstr "Suprimă tot"
 
-#: src/view/images_prune_page.ui:70
-msgid "Remove all images not in use by containers, not just dangling ones."
-msgstr ""
-"Îndepărtați toate imaginile nefolosite de containere, nu doar cele rămase."
-
 #: src/view/images_prune_page.ui:76
 msgid "Prune External"
 msgstr "Suprimare externă"
 
-#: src/view/images_prune_page.ui:77
-msgid ""
-"Remove images even when they are used by external containers (e.g, by build "
-"containers)."
-msgstr ""
-"Elimină imaginile, inclusiv cele utilizate de containere externe (ex. "
-"containere de construcție)."
-
 #: src/view/images_prune_page.ui:83
-msgid "Prune images created before this timestamp."
+#, fuzzy
+msgid "Prune images created before this timestamp"
 msgstr "Elimină imaginile create înainte de acest moment."
 
 #. Translators: "{}" is a placeholder for a cardinal numbers.
@@ -2259,7 +2314,8 @@ msgid "Storage"
 msgstr "Stocaj"
 
 #: src/view/info_panel.ui:104
-msgid "Describes the container storage and its attributes."
+#, fuzzy
+msgid "Describes the container storage and its attributes"
 msgstr "Descrie stocajul containerului și atributele sale."
 
 #: src/view/info_panel.ui:108
@@ -2271,7 +2327,8 @@ msgid "Container Store"
 msgstr "Magazin de containere"
 
 #: src/view/info_panel.ui:115
-msgid "Describes the quantity of containers in the store by status."
+#, fuzzy
+msgid "Describes the quantity of containers in the store by status"
 msgstr "Descrie cantitatea de containere din magazin în funcție de statut."
 
 #: src/view/info_panel.ui:153
@@ -2295,9 +2352,8 @@ msgid "Image Store"
 msgstr "Magazin de imagini"
 
 #: src/view/info_panel.ui:206
-msgid "Describes the image store. Right now only the number of images present."
+msgid "Describes number of images"
 msgstr ""
-"Descrie magazinul de imagini. Momentan doar numărul de imagini prezente."
 
 #: src/view/info_panel.ui:212
 msgid "Run Root"
@@ -2308,12 +2364,13 @@ msgid "Volume Path"
 msgstr "Calea volumului"
 
 #: src/view/info_panel.ui:237
-msgid "Error While Gathering Info"
-msgstr "Eroare în timpul colectării informațiilor"
+#, fuzzy
+msgid "No Info"
+msgstr "Info"
 
 #: src/view/info_panel.ui:238
-msgid "You can use the buttons below to retry."
-msgstr "Puteți folosi butoanele de mai jos pentru a reîncerca."
+msgid "There was an error while fetching the information"
+msgstr ""
 
 #: src/view/key_val_row.rs:149 src/view/key_val_row.ui:20
 msgid "Key"
@@ -2325,7 +2382,8 @@ msgid "Value"
 msgstr "Valoare"
 
 #: src/view/mount_row.rs:187
-msgid "No volume selected (will create a new one)."
+#, fuzzy
+msgid "No volume selected (will create a new one)"
 msgstr "Nu este selectat niciun volum (se va crea unul nou)."
 
 #: src/view/mount_row.ui:76
@@ -2356,84 +2414,6 @@ msgstr "Partajat"
 #: src/view/mount_row.ui:157
 msgid "Private"
 msgstr "Privat"
-
-#: src/view/pod_creation_page.rs:152 src/view/pod_creation_page.ui:113
-#: src/view/pod_details_page.ui:220
-msgid "Hostname"
-msgstr "Nume gazdă"
-
-#: src/view/pod_creation_page.rs:153
-msgid "IP"
-msgstr "IP"
-
-#: src/view/pod_creation_page.rs:159
-msgid "Add Host"
-msgstr "Adaugă o Gazdă"
-
-#: src/view/pod_creation_page.rs:169
-msgid "Add Device"
-msgstr "Adaugă un dispozitiv"
-
-#: src/view/pod_creation_page.ui:42 src/view/pods_panel.ui:117
-msgid "Create Pod"
-msgstr "Creați Pod"
-
-#: src/view/pod_creation_page.ui:52 src/view/volume_creation_page.ui:52
-msgid "_Create"
-msgstr "_Creare"
-
-#: src/view/pod_creation_page.ui:119
-msgid "Disable /etc/resolv.conf management"
-msgstr "Dezactivați gestionarea /etc/resolv.conf"
-
-#: src/view/pod_creation_page.ui:133
-msgid "Pod Create Command"
-msgstr "Comandă Creare pod"
-
-#: src/view/pod_creation_page.ui:173
-msgid "Devices"
-msgstr "Dispozitive"
-
-#: src/view/pod_creation_page.ui:188
-msgid "Hosts"
-msgstr "Gazde"
-
-#: src/view/pod_creation_page.ui:231
-msgid "Infra"
-msgstr "Infra"
-
-#: src/view/pod_creation_page.ui:245
-msgid "Disable Infra"
-msgstr "Dezactivați Infra"
-
-#: src/view/pod_creation_page.ui:282
-msgid "Common PID File"
-msgstr "Fișier PID comun"
-
-#: src/view/pod_details_page.rs:230
-msgid "Error on loading pod data"
-msgstr "Eroare la încărcarea datelor podului"
-
-#: src/view/pod_details_page.rs:234
-msgid "Pod '{}' has been deleted"
-msgstr "Podul '{}' a fost suprimat"
-
-#: src/view/pod_details_page.ui:234
-msgid "View all pod properties in a structured text form."
-msgstr ""
-"Vizualizați toate proprietățile podului într-o formă de text structurată."
-
-#: src/view/pod_details_page.ui:251
-msgid "Generate Kubernetes YAML based on this pod."
-msgstr "Generați un YAML Kubernetes pe baza acestei capsule."
-
-#: src/view/pod_details_page.ui:268
-msgid "View processes that are currently running inside the pod."
-msgstr "Vizualizați procesele care rulează în prezent în pod."
-
-#: src/view/pod_row.rs:198
-msgid "Pod Details"
-msgstr "Detaliile capsulei"
 
 #: src/view/pod.rs:46 src/view/pods_panel.rs:488
 msgid "Error on starting pod"
@@ -2484,7 +2464,98 @@ msgstr ""
 "Podul conține un container. Suprimarea podului va șterge, de asemenea, toate "
 "containerele sale."
 
-#: src/view/pod_selection_page.ui:35
+#: src/view/pod_creation_page.rs:162 src/view/pod_creation_page.ui:112
+#: src/view/pod_details_page.ui:220
+msgid "Hostname"
+msgstr "Nume gazdă"
+
+#: src/view/pod_creation_page.rs:163
+msgid "IP"
+msgstr "IP"
+
+#: src/view/pod_creation_page.rs:169
+msgid "Add Host"
+msgstr "Adaugă o Gazdă"
+
+#: src/view/pod_creation_page.rs:190
+msgid "Add Device"
+msgstr "Adaugă un dispozitiv"
+
+#: src/view/pod_creation_page.ui:42 src/view/pod_selection_page.ui:70
+#: src/view/pods_panel.ui:117
+msgid "Create Pod"
+msgstr "Creați Pod"
+
+#: src/view/pod_creation_page.ui:52 src/view/volume_creation_page.ui:52
+msgid "_Create"
+msgstr "_Creare"
+
+#: src/view/pod_creation_page.ui:118
+msgid "Disable /etc/resolv.conf management"
+msgstr "Dezactivați gestionarea /etc/resolv.conf"
+
+#: src/view/pod_creation_page.ui:132
+msgid "Pod Create Command"
+msgstr "Comandă Creare pod"
+
+#: src/view/pod_creation_page.ui:186
+msgid "Devices"
+msgstr "Dispozitive"
+
+#: src/view/pod_creation_page.ui:201
+msgid "Hosts"
+msgstr "Gazde"
+
+#: src/view/pod_creation_page.ui:244
+msgid "Infra"
+msgstr "Infra"
+
+#: src/view/pod_creation_page.ui:257
+msgid "Disable Infra"
+msgstr "Dezactivați Infra"
+
+#: src/view/pod_creation_page.ui:294
+msgid "Common PID File"
+msgstr "Fișier PID comun"
+
+#: src/view/pod_details_page.rs:230
+msgid "Error on loading pod data"
+msgstr "Eroare la încărcarea datelor podului"
+
+#: src/view/pod_details_page.rs:234
+msgid "Pod '{}' has been deleted"
+msgstr "Podul '{}' a fost suprimat"
+
+#: src/view/pod_details_page.ui:234
+#, fuzzy
+msgid "View all pod properties in a structured text form"
+msgstr ""
+"Vizualizați toate proprietățile podului într-o formă de text structurată."
+
+#: src/view/pod_details_page.ui:251
+#, fuzzy
+msgid "Generate Kubernetes YAML based on this pod"
+msgstr "Generați un YAML Kubernetes pe baza acestei capsule."
+
+#: src/view/pod_details_page.ui:268
+#, fuzzy
+msgid "View processes of the pod"
+msgstr "Monitorizarea proceselor de containere și poduri."
+
+#: src/view/pod_row.rs:198
+msgid "Pod Details"
+msgstr "Detaliile capsulei"
+
+#: src/view/pod_selection_page.ui:29
+msgid "No Pod Available"
+msgstr ""
+
+#: src/view/pod_selection_page.ui:40 src/view/pods_panel.ui:6
+#: src/view/pods_panel.ui:451
+msgid "_Create Pod"
+msgstr "_Creare de capsulă"
+
+#: src/view/pod_selection_page.ui:93
 msgid "Select Pod"
 msgstr "Selectare de capsulă"
 
@@ -2518,10 +2589,6 @@ msgstr "Confirmați ștergerea forțată a mai multor poduri"
 msgid "All associated containers will also be removed!"
 msgstr "Toate containerele asociate vor fi, de asemenea, eliminate!"
 
-#: src/view/pods_panel.ui:6 src/view/pods_panel.ui:452
-msgid "_Create Pod"
-msgstr "_Creare de capsulă"
-
 #: src/view/pods_panel.ui:10
 msgid "_Prune Stopped Pods"
 msgstr "Curățare de capsule oprite"
@@ -2538,21 +2605,13 @@ msgstr "Să se afișeze doar capsulele în funcțiune"
 msgid "No Running Pods"
 msgstr "Nu exista capsule în curs de execuție"
 
-#: src/view/pods_panel.ui:259
-msgid "The result of filtering for running pods is empty."
-msgstr "Filtrul de capsule în curs de execuție este fără rezultat."
-
-#: src/view/pods_panel.ui:269
+#: src/view/pods_panel.ui:268
 msgid "_Show All Pods"
 msgstr "Să se afișeze toate capsulele"
 
 #: src/view/pods_panel.ui:441
-msgid "No Pods Found"
-msgstr "Nu s-au găsit poduri"
-
-#: src/view/pods_panel.ui:442
-msgid "You can use the button below to create an initial pod."
-msgstr "Puteți folosi butonul de mai jos pentru a crea un pod inițial."
+msgid "No Pods Available"
+msgstr ""
 
 #: src/view/port_mapping_row.ui:83
 msgid "Protocol"
@@ -2579,9 +2638,8 @@ msgid "Host Port"
 msgstr "Portul în sistemul gazdă"
 
 #: src/view/port_mapping_row.ui:105
-msgid ""
-"If 0, a random port on the host (guaranteed to be over 1024) will be "
-"assigned."
+#, fuzzy
+msgid "If 0, a random port is assigned on the host (guaranteed above 1024)"
 msgstr ""
 "Dacă este 0, va fi atribuit un port aleatoriu pe gazdă (garantat a fi peste "
 "1024)."
@@ -2639,7 +2697,8 @@ msgid "Login"
 msgstr "Login"
 
 #: src/view/repo_tag_push_page.ui:83
-msgid "Some registries require authentication."
+#, fuzzy
+msgid "Some registries require authentication"
 msgstr "Unele registre necesită autentificare."
 
 #: src/view/repo_tag_push_page.ui:96
@@ -2678,6 +2737,10 @@ msgstr "Trimitere în Registru"
 msgid "Untag"
 msgstr "Deetichetează"
 
+#: src/view/repo_tag_selection_page.ui:99
+msgid "Fetching Tags"
+msgstr ""
+
 #: src/view/scalable_text_view_page.rs:274
 msgid "Image Inspection"
 msgstr "Inspecția imaginii"
@@ -2715,7 +2778,8 @@ msgid "Kube generation error"
 msgstr "Eroare de generare Kube"
 
 #: src/view/search_panel.ui:33
-msgid "Please start typing to look for results."
+#, fuzzy
+msgid "Start typing to look for results"
 msgstr "Vă rugăm să începeți să tastați pentru a căuta rezultate."
 
 #: src/view/search_panel.ui:47
@@ -2892,40 +2956,6 @@ msgstr "COMANDĂ"
 msgid "Killing pod processes is not supported"
 msgstr "Terminarea forțată a proceselor capsulelor nu este suportată"
 
-#: src/view/volume_creation_page.ui:42 src/view/volumes_group.ui:12
-#: src/view/volumes_panel.ui:117
-msgid "Create Volume"
-msgstr "Creare de volum"
-
-#: src/view/volume_details_page.rs:178
-msgid "Volume '{}' has been deleted"
-msgstr "Volumul '{}' a fost șters"
-
-#: src/view/volume_details_page.ui:40
-msgid "Delete Volume"
-msgstr "Suprimarea volumului"
-
-#: src/view/volume_details_page.ui:52
-msgid "Driver"
-msgstr "Driver"
-
-#: src/view/volume_details_page.ui:64
-msgid "Mount Path"
-msgstr "Montare de cale"
-
-#: src/view/volume_details_page.ui:78
-msgid "View all volume properties in a structured text form."
-msgstr ""
-"Vizualizați toate proprietățile volumului într-o formă de text structurată."
-
-#: src/view/volume_row.rs:174
-msgid "{} old"
-msgstr "{} vechi"
-
-#: src/view/volume_row.rs:271
-msgid "Volume {}"
-msgstr "Volum {}"
-
 #: src/view/volume.rs:18
 msgid "Confirm Forced Volume Deletion"
 msgstr "Confirmați ștergerea forțată a volumelor"
@@ -2952,7 +2982,52 @@ msgstr ""
 msgid "Error on deleting volume '{}'"
 msgstr "Eroare la ștergerea volumului '{}'"
 
-#: src/view/volume_selection_page.ui:35
+#: src/view/volume_creation_page.ui:42 src/view/volume_selection_page.ui:70
+#: src/view/volumes_group.ui:12 src/view/volumes_panel.ui:117
+msgid "Create Volume"
+msgstr "Creare de volum"
+
+#: src/view/volume_details_page.rs:178
+msgid "Volume '{}' has been deleted"
+msgstr "Volumul '{}' a fost șters"
+
+#: src/view/volume_details_page.ui:40
+msgid "Delete Volume"
+msgstr "Suprimarea volumului"
+
+#: src/view/volume_details_page.ui:52
+msgid "Driver"
+msgstr "Driver"
+
+#: src/view/volume_details_page.ui:64
+msgid "Mount Path"
+msgstr "Montare de cale"
+
+#: src/view/volume_details_page.ui:78
+#, fuzzy
+msgid "View all volume properties in a structured text form"
+msgstr ""
+"Vizualizați toate proprietățile volumului într-o formă de text structurată."
+
+#: src/view/volume_row.rs:174
+msgid "{} old"
+msgstr "{} vechi"
+
+#: src/view/volume_row.rs:271
+msgid "Volume {}"
+msgstr "Volum {}"
+
+#: src/view/volume_selection_page.ui:29
+#, fuzzy
+msgid "No Volume Available"
+msgstr "Nu au fost găsite volume în curs de utilizare"
+
+#: src/view/volume_selection_page.ui:40 src/view/volumes_panel.ui:6
+#: src/view/volumes_panel.ui:343
+msgid "_Create Volume"
+msgstr "_Creați Volum"
+
+#: src/view/volume_selection_page.ui:93
 msgid "Select Volume"
 msgstr "Selectare volum"
 
@@ -2990,10 +3065,6 @@ msgstr ""
 "Pot exista containere asociate cu aceste volume, care vor fi, de asemenea, "
 "eliminate!"
 
-#: src/view/volumes_panel.ui:6 src/view/volumes_panel.ui:344
-msgid "_Create Volume"
-msgstr "_Creați Volum"
-
 #: src/view/volumes_panel.ui:10
 msgid "_Prune Volumes"
 msgstr "Suprimați volumele"
@@ -3010,24 +3081,18 @@ msgstr "Afișează doar volumele utilizate"
 msgid "No Volumes in Use"
 msgstr "Nu au fost găsite volume în curs de utilizare"
 
-#: src/view/volumes_panel.ui:259
-msgid "The result of filtering for volumes in use is empty."
-msgstr "Filtrarea pe volume în curs de utilizare nu are rezultat."
-
-#: src/view/volumes_panel.ui:269
+#: src/view/volumes_panel.ui:268
 msgid "_Show All Volumes"
 msgstr "Afișează toate volumele"
 
 #: src/view/volumes_panel.ui:333
-msgid "No Volumes Found"
-msgstr "Nu au fost găsite volume"
-
-#: src/view/volumes_panel.ui:334
-msgid "You can use the buttons below to add an initial volume."
-msgstr "Puteți folosi butoanele de mai jos pentru a adăuga un volum inițial."
+#, fuzzy
+msgid "No Volumes Available"
+msgstr "Nu au fost găsite volume în curs de utilizare"
 
 #: src/view/volumes_prune_page.ui:70
-msgid "Prune volumes created before this timestamp."
+#, fuzzy
+msgid "Prune volumes created before this timestamp"
 msgstr "Elimină volumele create înainte de acest moment."
 
 #: src/view/welcome_page.ui:59
@@ -3035,26 +3100,31 @@ msgid "Welcome to Pods"
 msgstr "Bine ați venit în Pods"
 
 #: src/view/welcome_page.ui:68
-msgid "Create a new connection to Podman to get started."
+#, fuzzy
+msgid "Create a new connection to Podman to get started"
 msgstr "Crearea unei noi conexiuni cu Podman pentru început."
 
-#: src/view/window.rs:219
+#: src/view/welcome_page.ui:82
+msgid "_New Connection"
+msgstr "Conexiune _nouă"
+
+#: src/view/window.rs:196
 msgid "Confirm Exiting The Application"
 msgstr "Confirmați ieșirea din aplicație"
 
-#: src/view/window.rs:298
+#: src/view/window.rs:276
 msgid "Error on loading images"
 msgstr "Eroare la încărcarea imaginii"
 
-#: src/view/window.rs:299
+#: src/view/window.rs:277
 msgid "Error on loading containers"
 msgstr "Eroare la încărcarea containerului"
 
-#: src/view/window.rs:300
+#: src/view/window.rs:278
 msgid "Error on loading pods"
 msgstr "Eroare la încărcarea datelor capsulei"
 
-#: src/view/window.rs:301
+#: src/view/window.rs:279
 msgid "Error on loading volumes"
 msgstr "Eroare la încărcarea volumelor"
 
@@ -3079,15 +3149,15 @@ msgstr "A.M"
 msgid "PM"
 msgstr "P.M"
 
-#: src/widget/main_menu_button.ui:12
+#: src/widget/main_menu_button.ui:7
 msgid "_Keyboard Shortcuts"
 msgstr "_Comenzi rapide de la tastatură"
 
-#: src/widget/main_menu_button.ui:16
+#: src/widget/main_menu_button.ui:11
 msgid "_About Pods"
 msgstr "_Despre Pods"
 
-#: src/widget/main_menu_button.ui:32
+#: src/widget/main_menu_button.ui:27
 msgid "Main Menu"
 msgstr "Meniul principal"
 
@@ -3118,6 +3188,208 @@ msgstr "Sensibil la litere mari și mici"
 #: src/widget/text_search_entry.ui:59
 msgid "Whole Word"
 msgstr "Cuvânt întreg"
+
+#~ msgid "Color Scheme"
+#~ msgstr "Schemă de culori"
+
+#~ msgid "Use the light or dark variant of the GTK theme"
+#~ msgstr "Utilizați varianta luminoasă sau întunecată a temei GTK"
+
+#~ msgid "Images Are Currently Being Pruned"
+#~ msgstr "Imaginile sunt în curs de suprimare"
+
+#~ msgid "Image Is Currently Being Downloaded"
+#~ msgstr "Imaginea este în curs de descărcare"
+
+#~ msgid "Image Is Currently Being Built"
+#~ msgstr "Imaginea este în curs de construcție"
+
+#~ msgid "Image Is Currently Being Pushed"
+#~ msgstr "Imaginea este în curs de trimitere"
+
+#~ msgid "Containers Are Currently Being Pruned"
+#~ msgstr "Containerele sunt în curs de curățare"
+
+#~ msgid "Container Is Currently Being Created"
+#~ msgstr "Containerul este în curs de creare"
+
+#~ msgid "Container Is Currently Being Started"
+#~ msgstr "Containerul este în fază de pornire"
+
+#~ msgid "New Image Is Currently Being Committed"
+#~ msgstr "Noua imagine este în curs de salvare"
+
+#~ msgid "Files Are Currently Being Copied"
+#~ msgstr "Fișierele sunt în curs de copiere"
+
+#~ msgid "Pods Are Currently Being Pruned"
+#~ msgstr "Capsulele sunt în curs de suprimare"
+
+#~ msgid "Pod Is Currently Being Created"
+#~ msgstr "Podul este în curs de creare"
+
+#~ msgid "Volume Is Currently Being Created"
+#~ msgstr "Volumul este în curs de creare"
+
+#~ msgid "Volumes Are Currently Being Pruned"
+#~ msgstr "Volumele sunt în curs de suprimare"
+
+#~ msgid "Images Have Been Pruned"
+#~ msgstr "Imaginile au fost suprimate"
+
+#~ msgid "Container Has Been Started"
+#~ msgstr "Containerul a fost pornit"
+
+#~ msgid "New Image Has Been Committed"
+#~ msgstr "O nouă imagine a fost comisă"
+
+#~ msgid "Pod Has Been Created"
+#~ msgstr "Podul a fost creat"
+
+#~ msgid "Pruning of Images Has Been Aborted"
+#~ msgstr "Suprimarea imaginilor a fost abandonată"
+
+#~ msgid "Pruning of Containers Has Been Aborted"
+#~ msgstr "Suprimarea containerelor a fost abandonată"
+
+#~ msgid "Pruning of Pods Has Been Aborted"
+#~ msgstr "Suprimarea capsulelor a fost abandonată"
+
+#~ msgid "Pruning of Volumes Has Been Aborted"
+#~ msgstr "Suprimarea volumelor a fost abandonată"
+
+#~ msgid "Image Download Has Failed"
+#~ msgstr "Descărcarea imaginii a eșuat"
+
+#~ msgid "Image Built Has Failed"
+#~ msgstr "Construcția Imaginii a eșuat"
+
+#~ msgid "Image Push Has Failed"
+#~ msgstr "Trimiterea imaginii a eșuat"
+
+#~ msgid "Container Creation Has Failed"
+#~ msgstr "Crearea containerului a eșuat"
+
+#~ msgid "Container Start Has Failed"
+#~ msgstr "Pornirea containerului a eșuat"
+
+#~ msgid "Volume Creation Has Failed"
+#~ msgstr "Crearea volumului a eșuat"
+
+#~ msgid "Cancelled after {}"
+#~ msgstr "Anulat după {}"
+
+#~ msgid "Connection String"
+#~ msgstr "String de conexiune"
+
+#~ msgid "Interval in seconds how often health check is run."
+#~ msgstr ""
+#~ "Frecvența în secunde cu care se execută verificarea stării de sănătate."
+
+#~ msgid ""
+#~ "The maximum time in seconds allowed to complete the health check before "
+#~ "an interval is considered failed."
+#~ msgstr ""
+#~ "Timpul maxim permis, în secunde, pentru a finaliza verificarea de "
+#~ "sănătate înainte ca un interval să fie considerat eșuat."
+
+#~ msgid "View processes that are currently running inside the container."
+#~ msgstr "Vizualizați procesele care rulează în prezent în container."
+
+#~ msgid "The result of filtering for running containers is empty."
+#~ msgstr "Filtrul de containere în curs de execuție este fără rezultat."
+
+#~ msgid "You can use the button below to create an initial container."
+#~ msgstr ""
+#~ "Puteți folosi butonul de mai jos pentru a crea un container inițial."
+
+#~ msgid "Image Search"
+#~ msgstr "Căutare de imagini"
+
+#~ msgid "All registries"
+#~ msgstr "Toate registrele"
+
+#~ msgid "Failed to retrieve podman info"
+#~ msgstr "Nu s-au putut prelua informațiile despre podman"
+
+#~ msgid "No Registries Found"
+#~ msgstr "Nu au fost găsite registre"
+
+#~ msgid ""
+#~ "\n"
+#~ "You cannot search for images without registries. Please follow the "
+#~ "instructions on this <a href=\"https://github.com/containers/image/blob/"
+#~ "b80addc01c0dab40c5d8945a1df61f3c72a3e40d/docs/containers-registries."
+#~ "conf.5.md\">website</a> in order to add registries.\n"
+#~ msgstr ""
+#~ "\n"
+#~ "Nu puteți căuta imagini fără registre. Vă rugăm să urmați instrucțiunile "
+#~ "de pe site-ul <a href=\"https://github.com/containers/image/blob/"
+#~ "b80addc01c0dab40c5d8945a1df61f3c72a3e40d/docs/containers-registries."
+#~ "conf.5.md\"></a> pentru a adăuga registre.\n"
+
+#~ msgid "Search for"
+#~ msgstr "Căutare"
+
+#~ msgid "Registry"
+#~ msgstr "Registru"
+
+#~ msgid "No Images Found"
+#~ msgstr "Nu au fost găsite imagini"
+
+#~ msgid "Tag ('latest' if empty)"
+#~ msgstr "Etichetă ('cel mai recent' dacă este goală)"
+
+#~ msgid "The result of filtering for tagged images is empty."
+#~ msgstr "Filtrul de imagini etichetate este fără rezultat."
+
+#~ msgid "You can use the buttons below to add an initial image."
+#~ msgstr ""
+#~ "Puteți folosi butoanele de mai jos pentru a adăuga o imagine inițială."
+
+#~ msgid "Remove all images not in use by containers, not just dangling ones."
+#~ msgstr ""
+#~ "Îndepărtați toate imaginile nefolosite de containere, nu doar cele rămase."
+
+#~ msgid ""
+#~ "Remove images even when they are used by external containers (e.g, by "
+#~ "build containers)."
+#~ msgstr ""
+#~ "Elimină imaginile, inclusiv cele utilizate de containere externe (ex. "
+#~ "containere de construcție)."
+
+#~ msgid ""
+#~ "Describes the image store. Right now only the number of images present."
+#~ msgstr ""
+#~ "Descrie magazinul de imagini. Momentan doar numărul de imagini prezente."
+
+#~ msgid "Error While Gathering Info"
+#~ msgstr "Eroare în timpul colectării informațiilor"
+
+#~ msgid "You can use the buttons below to retry."
+#~ msgstr "Puteți folosi butoanele de mai jos pentru a reîncerca."
+
+#~ msgid "View processes that are currently running inside the pod."
+#~ msgstr "Vizualizați procesele care rulează în prezent în pod."
+
+#~ msgid "The result of filtering for running pods is empty."
+#~ msgstr "Filtrul de capsule în curs de execuție este fără rezultat."
+
+#~ msgid "No Pods Found"
+#~ msgstr "Nu s-au găsit poduri"
+
+#~ msgid "You can use the button below to create an initial pod."
+#~ msgstr "Puteți folosi butonul de mai jos pentru a crea un pod inițial."
+
+#~ msgid "The result of filtering for volumes in use is empty."
+#~ msgstr "Filtrarea pe volume în curs de utilizare nu are rezultat."
+
+#~ msgid "No Volumes Found"
+#~ msgstr "Nu au fost găsite volume"
+
+#~ msgid "You can use the buttons below to add an initial volume."
+#~ msgstr ""
+#~ "Puteți folosi butoanele de mai jos pentru a adăuga un volum inițial."
 
 #~ msgid "Pods 1.2.1 contains the following bugfixes and improvements:"
 #~ msgstr "Pods 1.2.1 prezintă următoarele remedieri și adăugiri:"
@@ -4207,9 +4479,6 @@ msgstr "Cuvânt întreg"
 
 #~ msgid "About _Podman"
 #~ msgstr "Despre _Podman"
-
-#~ msgid "Images: <b>Prune</b>"
-#~ msgstr "Imagini: <b>Suprimare</b>"
 
 #~ msgid "Files: <b>{}</b> ({}) ← {}"
 #~ msgstr "Fișiere: <b>{}</b> ({}) ← {}"
