@@ -124,7 +124,7 @@ mod imp {
                                     .map_err(anyhow::Error::from)
                                 {
                                     Ok(items) => {
-                                        let item = items.get(0)?;
+                                        let item = items.first()?;
                                         Some(
                                             item.secret()
                                                 .await
