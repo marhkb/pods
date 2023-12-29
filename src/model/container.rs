@@ -158,14 +158,16 @@ mod imp {
         pub(super) image_id: OnceCell<String>,
         #[property(get, set, construct, nullable)]
         pub(super) image_name: RefCell<Option<String>>,
+        #[property(get, set, construct_only)]
+        pub(super) is_infra: Cell<bool>,
         #[property(get, set, construct)]
         pub(super) name: RefCell<String>,
         #[property(get, set = Self::set_pod, explicit_notify, nullable)]
         pub(super) pod: glib::WeakRef<model::Pod>,
         #[property(get = Self::pod_id, set, construct_only, nullable)]
         pub(super) pod_id: OnceCell<Option<String>>,
-        #[property(get = Self::port, set, construct_only, nullable)]
-        pub(super) port: OnceCell<Option<String>>,
+        #[property(get = Self::ports, set, construct_only, nullable)]
+        pub(super) ports: OnceCell<model::PortMappingList>,
         #[property(get, set, nullable)]
         pub(super) stats: RefCell<Option<BoxedContainerStats>>,
         #[property(get, set = Self::set_status, construct, explicit_notify, builder(Status::default()))]
@@ -240,8 +242,8 @@ mod imp {
             self.pod_id.get().cloned().flatten()
         }
 
-        pub(super) fn port(&self) -> Option<String> {
-            self.port.get().cloned().flatten()
+        pub(super) fn ports(&self) -> model::PortMappingList {
+            self.ports.get().unwrap().to_owned()
         }
 
         pub(super) fn set_status(&self, value: Status) {
@@ -293,22 +295,12 @@ impl Container {
             .property("id", list_container.id)
             .property("image-id", list_container.image_id)
             .property("image-name", list_container.image)
+            .property("is-infra", list_container.is_infra.unwrap_or(false))
             .property("name", &list_container.names.unwrap()[0])
             .property("pod-id", list_container.pod)
             .property(
-                "port",
-                list_container
-                    .ports
-                    .unwrap_or_default()
-                    .first()
-                    .and_then(|mapping| {
-                        mapping.host_port.map(|host_port| {
-                            format!(
-                                "{host_port}/{}",
-                                mapping.protocol.as_deref().unwrap_or("tcp")
-                            )
-                        })
-                    }),
+                "ports",
+                model::PortMappingList::from(list_container.ports.unwrap_or_default()),
             )
             .property("status", status(list_container.state.as_deref()))
             .property("up-since", list_container.started_at.unwrap())
@@ -539,6 +531,10 @@ impl Container {
 
             None
         })
+    }
+
+    pub(crate) fn has_pod(&self) -> bool {
+        self.pod_id().filter(|id| !id.is_empty()).is_some()
     }
 
     pub(crate) fn can_start(&self) -> bool {

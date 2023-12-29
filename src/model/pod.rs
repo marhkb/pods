@@ -3,6 +3,7 @@ use std::cell::OnceCell;
 use std::cell::RefCell;
 use std::fmt;
 use std::ops::Deref;
+use std::rc::Rc;
 use std::str::FromStr;
 
 use futures::prelude::*;
@@ -17,6 +18,7 @@ use glib::Properties;
 use gtk::glib;
 
 use crate::model;
+use crate::model::AbstractContainerListExt;
 use crate::podman;
 use crate::utils;
 
@@ -88,6 +90,8 @@ mod imp {
         pub(super) pod_list: glib::WeakRef<model::PodList>,
         #[property(get = Self::container_list)]
         pub(super) container_list: OnceCell<model::SimpleContainerList>,
+        #[property(get)]
+        pub(super) infra_container: glib::WeakRef<model::Container>,
         #[property(get, set)]
         pub(super) action_ongoing: Cell<bool>,
         #[property(get, set, construct_only)]
@@ -132,6 +136,23 @@ mod imp {
 
         fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             self.derived_property(id, pspec)
+        }
+
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            let obj = &*self.obj();
+
+            let handler_id_ref = Rc::new(RefCell::new(None));
+            let handler_id = obj.container_list().connect_container_added(
+                clone!(@weak obj, @strong handler_id_ref => move |list, container| if container.is_infra() {
+                    list.disconnect(handler_id_ref.take().unwrap());
+
+                    obj.imp().infra_container.set(Some(container));
+                    obj.notify_infra_container();
+                }),
+            );
+            handler_id_ref.set(Some(handler_id));
         }
     }
 

@@ -295,6 +295,12 @@ mod imp {
             )));
 
             let filter = gtk::EveryFilter::new();
+            filter.append(
+                gtk::BoolFilter::builder()
+                    .expression(model::Container::this_expression("is-infra"))
+                    .invert(true)
+                    .build(),
+            );
             filter.append(search_filter);
             filter.append(state_filter);
 

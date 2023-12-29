@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <template class="PdsContainerRow" parent="GtkListBoxRow">
+    <signal name="notify::container" handler="on_notify_container"/>
     <property name="action-name">container-row.activate</property>
 
     <child>
@@ -67,17 +68,6 @@
                       </object>
                     </child>
 
-                    <child>
-                      <object class="GtkLabel" id="port_label">
-                        <style>
-                          <class name="numeric"/>
-                        </style>
-                        <property name="wrap">True</property>
-                        <property name="wrap-mode">word</property>
-                        <property name="xalign">0</property>
-                      </object>
-                    </child>
-
                   </object>
                 </child>
 
@@ -90,6 +80,17 @@
                     <property name="wrap">True</property>
                     <property name="wrap-mode">word-char</property>
                     <property name="xalign">0</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkFlowBox" id="ports_flow_box">
+                    <property name="can-target">False</property>
+                    <property name="column-spacing">3</property>
+                    <property name="row-spacing">3</property>
+                    <property name="margin-top">6</property>
+                    <property name="max-children-per-line">96</property>
+                    <property name="selection-mode">none</property>
                   </object>
                 </child>
 

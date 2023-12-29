@@ -1,8 +1,10 @@
 use std::cell::RefCell;
+use std::rc::Rc;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use gettextrs::gettext;
+use glib::clone;
 use glib::closure;
 use glib::Properties;
 use gtk::glib;
@@ -23,7 +25,7 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/view/pod_row.ui")]
     pub(crate) struct PodRow {
         pub(super) bindings: RefCell<Vec<glib::Binding>>,
-        #[property(get, set = Self::set_pod, construct, nullable)]
+        #[property(get, set, construct, nullable)]
         pub(super) pod: glib::WeakRef<model::Pod>,
         #[template_child]
         pub(super) spinner: TemplateChild<widget::Spinner>,
@@ -36,6 +38,8 @@ mod imp {
         #[template_child]
         pub(super) id_label: TemplateChild<gtk::Label>,
         #[template_child]
+        pub(super) ports_flow_box: TemplateChild<gtk::FlowBox>,
+        #[template_child]
         pub(super) end_box_revealer: TemplateChild<gtk::Revealer>,
     }
 
@@ -47,6 +51,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+            klass.bind_template_callbacks();
 
             klass.install_action("pod-row.activate", None, |widget, _, _| {
                 widget.activate();
@@ -145,28 +150,93 @@ mod imp {
     impl WidgetImpl for PodRow {}
     impl ListBoxRowImpl for PodRow {}
 
+    #[gtk::template_callbacks]
     impl PodRow {
-        pub(super) fn set_pod(&self, value: Option<&model::Pod>) {
-            let obj = &*self.obj();
-            if obj.pod().as_ref() == value {
-                return;
-            }
-
+        #[template_callback]
+        fn on_notify_pod(&self) {
             let mut bindings = self.bindings.borrow_mut();
             while let Some(binding) = bindings.pop() {
                 binding.unbind();
             }
 
-            if let Some(pod) = value {
+            let obj = &*self.obj();
+
+            if let Some(pod) = obj.pod() {
                 let binding = pod
                     .bind_property("selected", &*self.check_button, "active")
                     .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
                     .build();
 
                 bindings.push(binding);
-            }
 
-            self.pod.set(value);
+                match pod.infra_container() {
+                    Some(container) => self.setup_ports(&container),
+                    None => {
+                        let handler_id_ref = Rc::new(RefCell::new(None));
+                        let handler_id = pod.connect_infra_container_notify(
+                            clone!(@weak obj, @strong handler_id_ref => move |pod| {
+                                if let Some(container) = pod.infra_container() {
+                                    pod.disconnect(handler_id_ref.take().unwrap());
+                                    obj.imp().setup_ports(&container);
+                                }
+                            }),
+                        );
+                        handler_id_ref.set(Some(handler_id));
+                    }
+                }
+            }
+        }
+
+        fn setup_ports(&self, container: &model::Container) {
+            let obj = &self.obj();
+
+            model::Container::this_expression("ports")
+                .chain_property::<model::PortMappingList>("len")
+                .chain_closure::<bool>(closure!(|_: model::Container, len: u32| { len > 0 }))
+                .bind(&self.ports_flow_box.get(), "visible", Some(container));
+
+            self.ports_flow_box.bind_model(
+                Some(&container.ports()),
+                clone!(@weak obj => @default-panic, move |item| {
+                    let port_mapping =
+                        item.downcast_ref::<model::PortMapping>().unwrap();
+
+                    let label = gtk::Label::builder()
+                        .css_classes([
+                            "status-badge-small",
+                            "numeric",
+                        ])
+                        .halign(gtk::Align::Center)
+                        .label(format!(
+                            "{}/{}",
+                            port_mapping.host_port(),
+                            port_mapping.protocol()
+                        ))
+                        .build();
+
+                    let css_classes = utils::css_classes(label.upcast_ref());
+                    super::PodRow::this_expression("pod")
+                        .chain_property::<model::Pod>("status")
+                        .chain_closure::<Vec<String>>(closure!(
+                            |_: super::PodRow, status: model::PodStatus| {
+                                css_classes
+                                    .iter()
+                                    .cloned()
+                                    .chain(Some(String::from(
+                                        super::super::pod_status_css_class(status)
+                                    )))
+                                    .collect::<Vec<_>>()
+                            }
+                        ))
+                        .bind(&label, "css-classes", Some(&obj));
+
+                    gtk::FlowBoxChild::builder()
+                        .halign(gtk::Align::Start)
+                        .child(&label)
+                        .build()
+                        .upcast()
+                }),
+            );
         }
     }
 }
