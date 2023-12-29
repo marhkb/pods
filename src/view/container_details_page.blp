@@ -227,6 +227,18 @@ template $PdsContainerDetailsPage: Widget {
             icon-name: "go-next-symbolic";
           }
         }
+
+        Adw.ActionRow {
+          title: _("Systemd");
+          subtitle: _("Generate Systemd Units based on this container");
+          activatable: true;
+          action-name: "container-details-page.generate-systemd-unit";
+          icon-name: "code-symbolic";
+
+          Image {
+            icon-name: "go-next-symbolic";
+          }
+        }
       }
 
       $PdsContainerResources resources {
