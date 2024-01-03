@@ -36,5 +36,6 @@
     <file compressed="true">style.css</file>
     <file compressed="true">style-dark.css</file>
     <file compressed="true">style-hc.css</file>
+    <file compressed="true">style-hc-dark.css</file>
   </gresource>
 </gresources>

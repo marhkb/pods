@@ -1,0 +1,7 @@
+containercard separator {
+	background-color: @borders;
+}
+
+containercard.not-running {
+	background-color: transparent;
+}

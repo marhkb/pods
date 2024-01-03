@@ -187,6 +187,7 @@ fn init() {
     view::ConnectionCustomInfoDialog::static_type();
     view::ConnectionRow::static_type();
     view::ConnectionsSidebar::static_type();
+    view::ContainerCard::static_type();
     view::ContainerCommitPage::static_type();
     view::ContainerFilesGetPage::static_type();
     view::ContainerFilesPutPage::static_type();
