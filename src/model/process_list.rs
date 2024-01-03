@@ -72,56 +72,55 @@ mod imp {
                 utils::run_stream(
                     processes_source,
                     move |top_source| top_source.stream(),
-                    clone!(@weak obj => @default-return glib::ControlFlow::Break, move |result: podman::Result<ProcessFields>| match result {
-                        Ok(process_fields) => {
-                            let to_remove = obj
-                                .imp()
-                                .list
-                                .borrow()
-                                .keys()
-                                .filter(|pid| {
-                                    !process_fields
-                                        .iter()
-                                        .any(|process_field| &process_field[1] == *pid)
-                                })
-                                .cloned()
-                                .collect::<Vec<_>>();
-                            to_remove.iter().for_each(|pid| {
-                                obj.remove(pid);
-                            });
+                    clone!(@weak obj => @default-return glib::ControlFlow::Break, move |result: podman::Result<ProcessFields>| {
+                        match result {
+                            Ok(process_fields) => {
+                                let to_remove = obj
+                                    .imp()
+                                    .list
+                                    .borrow()
+                                    .keys()
+                                    .filter(|pid| {
+                                        !process_fields
+                                            .iter()
+                                            .any(|process_field| &process_field[1] == *pid)
+                                    })
+                                    .cloned()
+                                    .collect::<Vec<_>>();
+                                to_remove.iter().for_each(|pid| {
+                                    obj.remove(pid);
+                                });
 
-                            process_fields.into_iter().for_each(|process_field| {
-                                use indexmap::map::Entry;
+                                process_fields.into_iter().for_each(|process_field| {
+                                    use indexmap::map::Entry;
 
-                                let mut list = obj.imp().list.borrow_mut();
-                                let index = list.len() as u32;
+                                    let mut list = obj.imp().list.borrow_mut();
+                                    let index = list.len() as u32;
 
-                                match list.entry(process_field[1].clone()) {
-                                    Entry::Vacant(e) => {
-                                        let process =
-                                            model::Process::new(&obj, process_field.as_slice());
-                                        e.insert(process.clone());
+                                    match list.entry(process_field[1].clone()) {
+                                        Entry::Vacant(e) => {
+                                            let process =
+                                                model::Process::new(&obj, process_field.as_slice());
+                                            e.insert(process.clone());
 
-                                        drop(list);
+                                            drop(list);
 
-                                        obj.items_changed(index, 0, 1);
+                                            obj.items_changed(index, 0, 1);
+                                        }
+                                        Entry::Occupied(e) => {
+                                            let process = e.get().clone();
+                                            drop(list);
+                                            process.update(process_field.as_slice());
+                                        }
                                     }
-                                    Entry::Occupied(e) => {
-                                        let process = e.get().clone();
-                                        drop(list);
-                                        process.update(process_field.as_slice());
-                                    }
-                                }
-                            });
+                                });
 
-                            obj.emit_by_name::<()>("updated", &[]);
+                                obj.emit_by_name::<()>("updated", &[]);
+                            }
+                            Err(e) => log::warn!("Failed to read top stream element: {e}"),
+                        }
 
-                            glib::ControlFlow::Continue
-                        }
-                        Err(e) => {
-                            log::warn!("Stopping top stream due to error: {e}");
-                            glib::ControlFlow::Break
-                        }
+                        glib::ControlFlow::Continue
                     }),
                 );
             }
