@@ -1,3 +1,7 @@
+containercard.not-running {
+	background-color: @sidebar_bg_color;
+}
+
 .dim-icon {
   color: #ffffff;
 }

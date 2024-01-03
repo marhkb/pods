@@ -224,20 +224,22 @@
                             <property name="name">list</property>
 
                             <property name="child">
-                              <object class="AdwPreferencesPage">
-                                <property name="vexpand">True</property>
+                              <object class="GtkScrolledWindow">
 
                                 <child>
-                                  <object class="AdwPreferencesGroup">
+                                  <object class="GtkFlowBox" id="flow_box">
+                                    <property name="column-spacing">21</property>
+                                    <property name="halign">center</property>
+                                    <property name="homogeneous">True</property>
+                                    <property name="max-children-per-line">5</property>
+                                    <property name="row-spacing">21</property>
+                                    <property name="selection-mode">none</property>
+                                    <property name="valign">start</property>
 
-                                    <child>
-                                      <object class="GtkListBox" id="list_box">
-                                        <style>
-                                          <class name="boxed-list"/>
-                                        </style>
-                                        <property name="selection-mode">none</property>
-                                      </object>
-                                    </child>
+                                    <property name="margin-top">30</property>
+                                    <property name="margin-bottom">30</property>
+                                    <property name="margin-start">36</property>
+                                    <property name="margin-end">36</property>
 
                                   </object>
                                 </child>

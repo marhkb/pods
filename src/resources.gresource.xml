@@ -12,6 +12,7 @@
     <file compressed="true" preprocess="xml-stripblanks">view/connection_custom_info_dialog.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/connection_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/connections_sidebar.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/container_card.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/container_commit_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/container_creation_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/container_details_page.ui</file>

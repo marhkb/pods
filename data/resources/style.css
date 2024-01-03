@@ -1,3 +1,7 @@
+containercard.not-running {
+  background-color: @secondary_sidebar_bg_color;
+}
+
 flowbox > flowboxchild {
   padding: 0;
 }
@@ -151,6 +155,13 @@ connectionchooserpage connectionrow {
   min-width: 10px;
   border-radius: 9999px;
   padding: 1px 4px;
+}
+
+.status-badge-normal {
+  font-weight: bold;
+  min-width: 1.7em;
+  border-radius: 9999px;
+  padding: 5px 7px;
 }
 
 .repo-tags-small {

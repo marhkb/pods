@@ -1,3 +1,7 @@
+containercard separator {
+	background-color: @window_bg_color;
+}
+
 .container-status-paused,
 .pod-status-paused {
 	color: @brown_1;

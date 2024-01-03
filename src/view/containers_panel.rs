@@ -75,7 +75,7 @@ mod imp {
         #[template_child]
         pub(super) filter_stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub(super) list_box: TemplateChild<gtk::ListBox>,
+        pub(super) flow_box: TemplateChild<gtk::FlowBox>,
     }
 
     #[glib::object_subclass]
@@ -410,8 +410,12 @@ mod imp {
                     self.sorter.get().cloned(),
                 );
 
-                self.list_box.bind_model(Some(&model), |item| {
-                    view::ContainerRow::from(item.downcast_ref().unwrap()).upcast()
+                self.flow_box.bind_model(Some(&model), |item| {
+                    gtk::FlowBoxChild::builder()
+                        .focusable(false)
+                        .child(&view::ContainerCard::from(item.downcast_ref().unwrap()))
+                        .build()
+                        .upcast()
                 });
 
                 self.filter_stack
@@ -509,11 +513,13 @@ impl ContainersPanel {
 
     pub(crate) fn select_visible(&self) {
         (0..)
-            .map(|pos| self.imp().list_box.row_at_index(pos))
+            .map(|pos| self.imp().flow_box.child_at_index(pos))
             .take_while(Option::is_some)
             .flatten()
             .for_each(|row| {
-                row.downcast_ref::<view::ContainerRow>()
+                row.child()
+                    .unwrap()
+                    .downcast_ref::<view::ContainerCard>()
                     .unwrap()
                     .container()
                     .unwrap()

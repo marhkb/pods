@@ -1,0 +1,571 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="PdsContainerCard" parent="GtkWidget">
+    <style>
+      <class name="activatable"/>
+      <class name="card"/>
+    </style>
+    <property name="layout-manager">
+      <object class="GtkBinLayout"/>
+    </property>
+    <property name="focusable">True</property>
+    <property name="width-request">250</property>
+
+    <signal name="notify::container" handler="on_notify_container"/>
+
+    <child>
+      <object class="GtkGestureClick" id="gesture_click">
+        <property name="button">1</property>
+        <property name="propagation-phase">bubble</property>
+        <signal name="released" handler="on_mouse_1_released"/>
+      </object>
+    </child>
+
+    <child>
+      <object class="GtkEventControllerKey">
+        <signal name="key-pressed" handler="on_key_pressed" swapped="true"/>
+      </object>
+    </child>
+
+    <child>
+      <object class="AdwClamp">
+        <property name="maximum-size">250</property>
+        <property name="unit">px</property>
+
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+            <property name="spacing">9</property>
+            <property name="margin-top">9</property>
+            <property name="margin-bottom">9</property>
+
+            <child>
+              <object class="GtkBox">
+                <property name="margin-start">12</property>
+                <property name="margin-end">12</property>
+
+                <child>
+                  <object class="GtkBox">
+                    <property name="spacing">9</property>
+
+                    <child>
+                      <object class="PdsSpinner" id="spinner"/>
+                    </child>
+
+                    <child>
+                      <object class="GtkBox">
+                        <property name="hexpand">True</property>
+                        <property name="valign">center</property>
+                        <property name="orientation">vertical</property>
+
+                        <child>
+                          <object class="GtkLabel" id="name_label">
+                            <style>
+                              <class name="title"/>
+                            </style>
+                            <property name="use-markup">True</property>
+                            <property name="ellipsize">end</property>
+                            <property name="xalign">0</property>
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="GtkLabel" id="repo_label">
+                            <style>
+                              <class name="caption"/>
+                              <class name="dim-label"/>
+                            </style>
+                            <property name="use-markup">True</property>
+                            <property name="ellipsize">end</property>
+                            <property name="xalign">0</property>
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkStack" id="edit_select_stack">
+                        <property name="transition-type">crossfade</property>
+
+                        <child>
+                          <object class="GtkStackPage">
+                            <property name="name">edit</property>
+
+                            <property name="child">
+                              <object class="GtkButton">
+                                <style>
+                                  <class name="circular"/>
+                                </style>
+                                <property name="action-name">container-card.rename</property>
+                                <property name="icon-name">document-edit-symbolic</property>
+                                <property name="tooltip-text" translatable="yes">Rename</property>
+                              </object>
+                            </property>
+
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="GtkStackPage">
+                            <property name="name">select</property>
+
+                            <property name="child">
+                              <object class="GtkCheckButton" id="selection_check_button">
+                                <style>
+                                  <class name="selection-mode"/>
+                                </style>
+                              </object>
+                            </property>
+
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkSeparator"/>
+            </child>
+
+            <child>
+              <object class="GtkStack" id="resources_status_stack">
+
+                <child>
+                  <object class="GtkStackPage">
+                    <property name="name">running</property>
+
+                    <property name="child">
+                      <object class="GtkBox">
+                        <style>
+                          <class name="caption"/>
+                          <class name="numeric"/>
+                        </style>
+                        <property name="orientation">vertical</property>
+                        <property name="spacing">6</property>
+                        <property name="margin-start">18</property>
+                        <property name="margin-end">18</property>
+
+                        <child>
+                          <object class="GtkBox">
+                            <property name="spacing">9</property>
+
+                            <child>
+                              <object class="GtkImage">
+                                <style>
+                                  <class name="dim-label"/>
+                                </style>
+                                <property name="icon-name">processor-symbolic</property>
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="GtkProgressBar" id="cpu_progress_bar">
+                                <property name="fraction">0.2</property>
+                                <property name="valign">center</property>
+                                <property name="hexpand">true</property>
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="GtkBox">
+                            <property name="spacing">9</property>
+
+                            <child>
+                              <object class="GtkImage">
+                                <style>
+                                  <class name="dim-label"/>
+                                </style>
+                                <property name="icon-name">memory-symbolic</property>
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="GtkProgressBar" id="memory_progress_bar">
+                                <property name="fraction">0.7</property>
+                                <property name="valign">center</property>
+                                <property name="hexpand">true</property>
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="GtkBox">
+
+                            <child>
+                              <object class="GtkImage">
+                                <style>
+                                  <class name="dim-label"/>
+                                </style>
+                                <property name="icon-name">network-transmit-receive-symbolic</property>
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="GtkBox">
+                                <property name="homogeneous">True</property>
+
+                                <child>
+                                  <object class="GtkBox" id="network_down_box">
+                                    <property name="halign">center</property>
+                                    <property name="hexpand">True</property>
+                                    <property name="spacing">3</property>
+
+                                    <child>
+                                      <object class="GtkLabel">
+                                        <property name="label">↓</property>
+                                      </object>
+                                    </child>
+
+                                    <child>
+                                      <object class="GtkLabel" id="network_down_label">
+                                        <property name="halign">center</property>
+                                        <property name="hexpand">True</property>
+                                      </object>
+                                    </child>
+
+                                  </object>
+                                </child>
+
+                                <child>
+                                  <object class="GtkBox" id="network_up_box">
+                                    <property name="halign">center</property>
+                                    <property name="hexpand">True</property>
+                                    <property name="spacing">3</property>
+
+                                    <child>
+                                      <object class="GtkLabel">
+                                        <property name="label">↑</property>
+                                      </object>
+                                    </child>
+
+                                    <child>
+                                      <object class="GtkLabel" id="network_up_label">
+                                        <property name="halign">center</property>
+                                        <property name="hexpand">True</property>
+                                      </object>
+                                    </child>
+
+                                  </object>
+                                </child>
+
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="GtkBox">
+
+                            <child>
+                              <object class="GtkImage">
+                                <style>
+                                  <class name="dim-label"/>
+                                </style>
+                                <property name="icon-name">drive-harddisk-symbolic</property>
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="GtkBox">
+                                <property name="homogeneous">True</property>
+
+                                <child>
+                                  <object class="GtkBox" id="disk_write_box">
+                                    <property name="halign">center</property>
+                                    <property name="hexpand">True</property>
+                                    <property name="spacing">3</property>
+
+                                    <child>
+                                      <object class="GtkLabel">
+                                        <property name="label">↑</property>
+                                      </object>
+                                    </child>
+
+                                    <child>
+                                      <object class="GtkLabel" id="disk_write_label">
+                                        <property name="halign">center</property>
+                                        <property name="hexpand">True</property>
+                                      </object>
+                                    </child>
+
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkBox" id="disk_read_box">
+                                    <property name="halign">center</property>
+                                    <property name="hexpand">True</property>
+                                    <property name="spacing">3</property>
+
+                                    <child>
+                                      <object class="GtkLabel">
+                                        <property name="label">↓</property>
+                                      </object>
+                                    </child>
+
+                                    <child>
+                                      <object class="GtkLabel" id="disk_read_label">
+                                        <property name="halign">center</property>
+                                        <property name="hexpand">True</property>
+                                      </object>
+                                    </child>
+
+                                  </object>
+                                </child>
+
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
+                      </object>
+                    </property>
+
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkStackPage">
+                    <property name="name">not-running</property>
+
+                    <property name="child">
+                      <object class="GtkLabel" id="status_label">
+                        <style>
+                          <class name="dim-label"/>
+                        </style>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                      </object>
+                    </property>
+
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkSeparator"/>
+            </child>
+
+            <child>
+              <object class="GtkStack" id="ports_pod_stack">
+                <property name="margin-start">12</property>
+                <property name="margin-end">12</property>
+
+                <child>
+                  <object class="GtkStackPage">
+                    <property name="name">ports</property>
+
+                    <property name="child">
+                      <object class="GtkFlowBox" id="ports_flow_box">
+                        <property name="can-focus">False</property>
+                        <property name="can-target">False</property>
+                        <property name="column-spacing">3</property>
+                        <property name="row-spacing">6</property>
+                        <property name="max-children-per-line">3</property>
+                        <property name="selection-mode">none</property>
+                        <property name="vexpand">True</property>
+                        <property name="homogeneous">True</property>
+                      </object>
+                    </property>
+
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkStackPage">
+                    <property name="name">no-ports</property>
+
+                    <property name="child">
+                      <object class="GtkLabel">
+                        <style>
+                          <class name="dim-label"/>
+                        </style>
+                        <property name="label" translatable="yes">No Ports Mappings</property>
+                      </object>
+                    </property>
+
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkStackPage">
+                    <property name="name">pod</property>
+
+                    <property name="child">
+                      <object class="GtkCenterBox" id="pod_center_box">
+                        <style>
+                          <class name="status-badge"/>
+                        </style>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+
+                        <property name="start-widget">
+                          <object class="GtkImage">
+                            <property name="icon-name">pods-symbolic</property>
+                          </object>
+                        </property>
+
+                        <property name="center-widget">
+                          <object class="GtkLabel" id="pod_name_label">
+                            <property name="ellipsize">end</property>
+                            <property name="margin-start">6</property>
+                          </object>
+                        </property>
+
+                      </object>
+                    </property>
+
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkSeparator"/>
+            </child>
+
+            <child>
+              <object class="GtkCenterBox" id="action_center_box">
+                <property name="margin-start">12</property>
+                <property name="margin-end">12</property>
+                <property name="hexpand">True</property>
+
+                <property name="start-widget">
+                  <object class="GtkButton">
+                    <style>
+                      <class name="circular"/>
+                    </style>
+                    <property name="action-name">container-card.kill</property>
+                    <property name="icon-name">skull-symbolic</property>
+                    <property name="tooltip-text" translatable="yes">Kill</property>
+                    <property name="valign">center</property>
+                  </object>
+                </property>
+
+                <property name="center-widget">
+                  <object class="GtkBox">
+                    <property name="halign">center</property>
+                    <property name="hexpand">True</property>
+                    <property name="spacing">6</property>
+
+                    <child>
+                      <object class="GtkButton">
+                        <style>
+                          <class name="circular"/>
+                        </style>
+                        <property name="action-name">container-card.restart</property>
+                        <property name="icon-name">view-refresh-symbolic</property>
+                        <property name="tooltip-text" translatable="yes">Restart</property>
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkButton" id="start_or_resume_button">
+                        <style>
+                          <class name="circular"/>
+                        </style>
+                        <property name="action-name">container-card.start</property>
+                        <property name="tooltip-text" translatable="yes">Start/Resume</property>
+                        <property name="valign">center</property>
+
+                        <child>
+                          <object class="GtkImage">
+                            <property name="icon-name">media-playback-start-symbolic</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkButton" id="stop_button">
+                        <style>
+                          <class name="circular"/>
+                        </style>
+                        <property name="action-name">container-card.stop</property>
+                        <property name="tooltip-text" translatable="yes">Stop</property>
+                        <property name="valign">center</property>
+
+                        <child>
+                          <object class="GtkImage">
+                            <property name="icon-name">media-playback-stop-symbolic</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkButton" id="spinning_button">
+                        <style>
+                          <class name="circular"/>
+                        </style>
+                        <property name="sensitive">False</property>
+                        <property name="valign">center</property>
+
+                        <child>
+                          <object class="PdsEfficientSpinner">
+                            <property name="halign">center</property>
+                            <property name="valign">center</property>
+                            <property name="width-request">24</property>
+                            <property name="height-request">24</property>
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkButton">
+                        <style>
+                          <class name="circular"/>
+                        </style>
+                        <property name="action-name">container-card.pause</property>
+                        <property name="icon-name">media-playback-pause-symbolic</property>
+                        <property name="tooltip-text" translatable="yes">Pause</property>
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </property>
+
+                <property name="end-widget">
+                  <object class="GtkButton">
+                    <style>
+                      <class name="circular"/>
+                      <class name="destructive-button"/>
+                    </style>
+                    <property name="action-name">container-card.delete</property>
+                    <property name="icon-name">user-trash-symbolic</property>
+                    <property name="tooltip-text" translatable="yes">Delete</property>
+                    <property name="valign">center</property>
+                  </object>
+                </property>
+
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>
