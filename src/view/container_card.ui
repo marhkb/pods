@@ -49,14 +49,16 @@
                     <property name="spacing">9</property>
 
                     <child>
-                      <object class="PdsSpinner" id="spinner"/>
+                      <object class="PdsSpinner" id="spinner">
+                        <property name="valign">start</property>
+                      </object>
                     </child>
 
                     <child>
                       <object class="GtkBox">
                         <property name="hexpand">True</property>
-                        <property name="valign">center</property>
                         <property name="orientation">vertical</property>
+                        <property name="valign">start</property>
 
                         <child>
                           <object class="GtkLabel" id="name_label">
@@ -75,9 +77,14 @@
                               <class name="caption"/>
                               <class name="dim-label"/>
                             </style>
-                            <property name="use-markup">True</property>
                             <property name="ellipsize">end</property>
+                            <property name="height-request">30</property>
+                            <property name="lines">2</property>
+                            <property name="use-markup">True</property>
+                            <property name="wrap">True</property>
+                            <property name="wrap-mode">word-char</property>
                             <property name="xalign">0</property>
+                            <property name="yalign">0</property>
                           </object>
                         </child>
 
@@ -87,6 +94,7 @@
                     <child>
                       <object class="GtkStack" id="edit_select_stack">
                         <property name="transition-type">crossfade</property>
+                        <property name="valign">start</property>
 
                         <child>
                           <object class="GtkStackPage">
