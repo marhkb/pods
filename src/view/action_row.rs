@@ -95,6 +95,8 @@ mod imp {
                         CreateAndRunContainer => "media-playback-start-symbolic",
                         CreateContainer | Pod => "list-add-symbolic",
                         CopyFiles => "edit-copy-symbolic",
+                        // TODO
+                        CreateNetwork => "edit-copy-symbolic",
                         _ => unreachable!(),
                     }
                 }))

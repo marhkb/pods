@@ -95,6 +95,8 @@ mod imp {
                     CopyFiles => "edit-copy-symbolic",
                     Pod => "pods-symbolic",
                     Volume => "drive-harddisk-symbolic",
+                    // TODO
+                    CreateNetwork => "drive-harddisk-symbolic",
                     _ => unimplemented!(),
                 }));
 
@@ -163,6 +165,7 @@ impl ActionPage {
                     Pod => gettext("Creating Pod"),
                     Volume => gettext("Creating Volume"),
                     PruneVolumes => gettext("Pruning Volumes"),
+                    CreateNetwork => gettext("Creating Network"),
                     _ => unreachable!(),
                 });
             }
@@ -181,6 +184,7 @@ impl ActionPage {
                     Pod => gettext("Pod Created"),
                     Volume => gettext("Volume Created"),
                     PruneVolumes => gettext("Volumes Pruned"),
+                    CreateNetwork => gettext("Network Created"),
                     _ => unreachable!(),
                 });
             }
@@ -199,6 +203,7 @@ impl ActionPage {
                     Pod => gettext("Pod Creation Aborted"),
                     Volume => gettext("Volume Creation Aborted"),
                     PruneVolumes => gettext("Volume Pruning Aborted"),
+                    CreateNetwork => gettext("Network Creation Aborted"),
                     _ => unreachable!(),
                 });
             }
@@ -217,6 +222,7 @@ impl ActionPage {
                     Pod => gettext("Creating Pod Failed"),
                     Volume => gettext("Creating Volume Failed"),
                     PruneVolumes => gettext("Pruning Volumes Failed"),
+                    CreateNetwork => gettext("Network Creation Failed"),
                     _ => unreachable!(),
                 });
             }
