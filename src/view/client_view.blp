@@ -238,6 +238,36 @@ template $PdsClientView: Widget {
                         }
                       };
                     }
+
+                    Adw.SidebarItem {
+                      icon-name: "emblem-shared-symbolic";
+                      title: _("Networks");
+
+                      suffix: Box {
+                        spacing: 6;
+                        valign: center;
+
+                        Label {
+                          styles [
+                            "status-badge-small",
+                            "volume-used",
+                          ]
+
+                          label: bind template.client as <$PdsClient>.volumes as <$PdsVolumeList>.used;
+                          visible: bind template.client as <$PdsClient>.volumes as <$PdsVolumeList>.used;
+                        }
+
+                        Label {
+                          styles [
+                            "status-badge-small",
+                            "volume-unused",
+                          ]
+
+                          label: bind template.client as <$PdsClient>.volumes as <$PdsVolumeList>.unused;
+                          visible: bind template.client as <$PdsClient>.volumes as <$PdsVolumeList>.unused;
+                        }
+                      };
+                    }
                   }
 
                   Adw.SidebarSection {
@@ -352,6 +382,15 @@ template $PdsClientView: Widget {
                     child: $PdsVolumesPanel volumes_panel {
                       collapsed: bind navigation_split_view.collapsed;
                       volume-list: bind template.client as <$PdsClient>.volumes;
+                    };
+                  }
+
+                  StackPage {
+                    name: "networks";
+
+                    child: $PdsNetworksPanel networks_panel {
+                      collapsed: bind navigation_split_view.collapsed;
+                      network-list: bind template.client as <$PdsClient>.networks;
                     };
                   }
 

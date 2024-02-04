@@ -98,6 +98,13 @@ impl Engine {
         }
     }
 
+    pub(crate) fn networks(&self) -> engine::api::Networks {
+        match self {
+            Self::Docker(docker) => engine::api::Networks::Docker(docker.to_owned()),
+            Self::Podman(podman) => engine::api::Networks::Podman(podman.networks()),
+        }
+    }
+
     pub(crate) fn pods(&self) -> engine::api::Pods {
         match self {
             Self::Docker(_) => engine::api::Pods::Docker,

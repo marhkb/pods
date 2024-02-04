@@ -31,6 +31,8 @@ mod imp {
         pub(super) containers: OnceCell<model::ContainerList>,
         #[property(get = Self::pods, nullable)]
         pub(super) pods: OnceCell<Option<model::PodList>>,
+        #[property(get = Self::network_list)]
+        pub(super) networks: OnceCell<model::NetworkList>,
         #[property(get = Self::volumes)]
         pub(super) volumes: OnceCell<model::VolumeList>,
         #[property(get = Self::info, set, nullable)]
@@ -161,6 +163,56 @@ mod imp {
                         }
                     })
             ));
+
+            obj.networks().connect_network_added(clone!(
+                #[weak]
+                obj,
+                move |_, network| {
+                    let container_list: Vec<_> = obj
+                        .containers()
+                        .iter::<model::Container>()
+                        .map(|container| container.unwrap())
+                        .filter(|container| !container.mounts().is_empty())
+                        .collect();
+
+                    if container_list.is_empty() {
+                        return;
+                    }
+
+                    //                     container_list.iter().for_each(|container| {
+                    //                         container.inspect(clone!(
+                    //                             #[weak]
+                    //                             network,
+                    //                             #[strong]
+                    //                             containers_left,
+                    //                             move |result| {
+                    //                                 // if let Ok(container) = result {
+                    //                                 //     if let Some(mount) =
+                    //                                 //         container.data().unwrap().mounts().values().find(|mount| {
+                    //                                 //             mount.name.as_ref() == Some(&volume.inner().name)
+                    //                                 //         })
+                    //                                 //     {
+                    //                                 //         volume.container_list().add_container(&container);
+                    //
+                    //                                 //         let container_volume_list = container.volume_list();
+                    //                                 //         container_volume_list.add_volume(
+                    //                                 //             model::ContainerVolume::new(
+                    //                                 //                 &container_volume_list,
+                    //                                 //                 &volume,
+                    //                                 //                 mount.clone(),
+                    //                                 //             ),
+                    //                                 //         );
+                    //                                 //     }
+                    //                                 // }
+                    //
+                    //                                 // if containers_left.fetch_sub(1, Ordering::Relaxed) == 1 {
+                    //                                 //     volume.set_searching_containers(false);
+                    //                                 // }
+                    //                             }
+                    //                         ));
+                    //                     });
+                }
+            ));
         }
     }
 
@@ -193,6 +245,12 @@ mod imp {
         fn volumes(&self) -> model::VolumeList {
             self.volumes
                 .get_or_init(|| model::VolumeList::from(&*self.obj()))
+                .to_owned()
+        }
+
+        fn network_list(&self) -> model::NetworkList {
+            self.networks
+                .get_or_init(|| model::NetworkList::from(&*self.obj()))
                 .to_owned()
         }
 
@@ -278,6 +336,7 @@ impl Client {
                         pods.refresh(err_op.clone());
                     }
                     obj.volumes().refresh(err_op.clone());
+                    obj.networks().refresh(err_op.clone());
 
                     op();
                     obj.start_event_listener(err_op, finish_op);
@@ -316,7 +375,9 @@ impl Client {
                                 pods.handle_event(event, err_op.clone());
                             }
                         }
-
+                        engine::dto::EventType::Network => {
+                            obj.networks().handle_event(event, err_op.clone());
+                        }
                         engine::dto::EventType::Volume => {
                             obj.volumes().handle_event(event, err_op.clone())
                         }
