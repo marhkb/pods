@@ -1,0 +1,97 @@
+using Gtk 4.0;
+using Adw 1;
+
+SizeGroup {
+  mode: horizontal;
+
+  widgets [
+    cancel_button,
+    create_button,
+  ]
+}
+
+template $PdsNetworkCreationPage: Widget {
+  layout-manager: BinLayout {};
+
+  Adw.NavigationView navigation_view {
+    Adw.NavigationPage {
+      title: _("Preferences");
+
+      Adw.ToolbarView {
+        [top]
+        Adw.HeaderBar {
+          show-end-title-buttons: false;
+          show-start-title-buttons: false;
+
+          [start]
+          Button cancel_button {
+            action-name: "win.close";
+            label: _("_Cancel");
+            use-underline: true;
+          }
+
+          [title]
+          Adw.WindowTitle {
+            title: _("Create Network");
+          }
+
+          [end]
+          Button create_button {
+            styles [
+              "suggested-action",
+            ]
+
+            action-name: "network-creation-page.create";
+            label: _("_Create");
+            use-underline: true;
+          }
+        }
+
+        Adw.PreferencesPage {
+          Adw.PreferencesGroup {
+            $PdsRandomNameEntryRow name_entry_row {
+              changed => $on_name_entry_row_changed() swapped;
+              activates-default: "True";
+              title: _("Name");
+            }
+          }
+
+          Adw.PreferencesGroup {
+            Adw.ComboRow driver_combo_row {
+              title: _("Driver");
+
+              model: StringList driver_list {
+                strings [
+                  "bridge",
+                  "macvlan",
+                ]
+              };
+            }
+          }
+
+          Adw.PreferencesGroup {
+            Adw.SwitchRow dns_switch_row {
+              title: _("DNS");
+              subtitle: _("whether name resolution is active for container on this Network (bridge driver only)");
+              active: true;
+            }
+
+            Adw.SwitchRow internal_switch_row {
+              title: _("Internal");
+              subtitle: _("Whether the Network should not have external routes to public or other Networks");
+            }
+
+            Adw.SwitchRow ipv6_switch_row {
+              title: _("IPv6");
+              subtitle: _("Whether ipv6 subnet should be created for this net");
+            }
+
+            Adw.EntryRow network_interface_row {
+              title: _("Network Interface");
+            }
+          }
+        }
+      }
+    }
+  }
+}

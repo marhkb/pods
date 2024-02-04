@@ -1,0 +1,20 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsNetworksListView: Widget {
+  layout-manager: BinLayout {};
+
+  Adw.PreferencesPage {
+    vexpand: true;
+
+    Adw.PreferencesGroup {
+      ListBox list_box {
+        styles [
+          "boxed-list",
+        ]
+
+        selection-mode: none;
+      }
+    }
+  }
+}

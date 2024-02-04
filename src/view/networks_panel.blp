@@ -1,0 +1,255 @@
+using Gtk 4.0;
+using Adw 1;
+
+menu view-options-menu {
+  section {
+    label: "Sort";
+
+    item {
+      label: _("Name");
+      action: "networks-panel.change-sort-attribute";
+      target: "name";
+    }
+
+    item {
+      label: _("Containers");
+      action: "networks-panel.change-sort-attribute";
+      target: "containers";
+    }
+  }
+}
+
+menu selection-menu {
+  item {
+    label: _("_Select Visible");
+    action: "networks-panel.select-visible";
+  }
+
+  item {
+    label: _("Select None");
+    action: "networks-panel.select-none";
+  }
+}
+
+Button create_network_button {
+  action-name: "networks-panel.create-network";
+  icon-name: "list-add-symbolic";
+  tooltip-text: _("Create network");
+}
+
+Button prune_button {
+  action-name: "networks-panel.prune-unused-networks";
+  icon-name: "eraser5-symbolic";
+  tooltip-text: _("Prune Unused Networks");
+}
+
+Button view_button {
+  action-name: "networks-panel.toggle-networks-view";
+}
+
+Adw.SplitButton view_options_split_button {
+  action-name: "networks-panel.toggle-sort-direction";
+  menu-model: view-options-menu;
+}
+
+template $PdsNetworksPanel: Widget {
+  layout-manager: BinLayout {};
+
+  notify::collapsed => $on_notify_collapsed();
+  notify::sort-attribute => $on_notify_sort_attribute();
+
+  Stack main_stack {
+    StackPage {
+      name: "spinner";
+
+      child: Adw.ToolbarView {
+        [top]
+        Adw.HeaderBar {
+          title-widget: Adw.WindowTitle {
+            title: _("Networks");
+          };
+        }
+
+        Adw.Spinner {
+          halign: center;
+          valign: center;
+          height-request: 30;
+          width-request: 30;
+        }
+      };
+    }
+
+    StackPage {
+      name: "networks";
+
+      child: Adw.ToolbarView toolbar_view {
+        [top]
+        Stack header_stack {
+          StackPage {
+            name: "main";
+
+            child: Adw.HeaderBar {
+              [start]
+              ToggleButton {
+                active: bind search_bar.search-mode-enabled bidirectional;
+                icon-name: "system-search-symbolic";
+                tooltip-text: _("Search");
+              }
+
+              [start]
+              Adw.Bin create_network_button_top_bin {}
+
+              [start]
+              Adw.Bin prune_button_top_bin {}
+
+              [title]
+              Adw.WindowTitle window_title {
+                title: _("Networks");
+              }
+
+              [end]
+              Button {
+                action-name: "networks-panel.enter-selection-mode";
+                icon-name: "selection-mode-symbolic";
+                tooltip-text: _("Start Multi-Selection");
+              }
+
+              [end]
+              Adw.Bin view_options_split_button_top_bin {}
+
+              [end]
+              Adw.Bin view_button_top_bin {}
+            };
+          }
+
+          StackPage {
+            name: "selection";
+
+            child: Adw.HeaderBar {
+              [title]
+              MenuButton selected_networks_button {
+                styles [
+                  "flat",
+                ]
+
+                can-shrink: true;
+                menu-model: selection-menu;
+              }
+
+              [end]
+              ToggleButton {
+                active: true;
+                action-name: "networks-panel.exit-selection-mode";
+                icon-name: "selection-mode-symbolic";
+                tooltip-text: _("Exit Multi-Selection");
+              }
+            };
+          }
+        }
+
+        [top]
+        SearchBar search_bar {
+          notify::search-mode-enabled => $on_notify_search_mode_enabled() swapped;
+
+          SearchEntry search_entry {
+            search-changed => $on_search_changed() swapped;
+            max-width-chars: 28;
+          }
+        }
+
+        Stack filter_stack {
+          StackPage {
+            name: "networks";
+
+            child: Adw.Bin networks_view_bin {};
+          }
+
+          StackPage {
+            name: "empty";
+
+            child: Adw.StatusPage {
+              icon-name: "package-x-generic-symbolic";
+              title: _("No Matching Networks");
+
+              Button {
+                styles [
+                  "pill",
+                  "suggested-action",
+                ]
+
+                action-name: "networks-panel.show-all-networks";
+                halign: center;
+                label: _("_Show All Networks");
+                use-underline: true;
+              }
+            };
+          }
+        }
+
+        [bottom]
+        ActionBar {
+          revealed: bind template.network-list as <$NetworkList>.selection-mode;
+
+          [center]
+          Button {
+            styles [
+              "destructive-action",
+              "pill",
+            ]
+
+            action-name: "networks-panel.delete-selection";
+            label: _("Delete");
+            width-request: 200;
+            tooltip-text: _("Delete");
+            valign: center;
+          }
+        }
+
+        [bottom]
+        ActionBar overhang_action_bar {
+          [start]
+          Adw.Bin create_network_button_bottom_bin {}
+
+          [start]
+          Adw.Bin prune_button_bottom_bin {}
+
+          [end]
+          Adw.Bin view_options_split_button_bottom_bin {}
+
+          [end]
+          Adw.Bin view_button_bottom_bin {}
+        }
+      };
+    }
+
+    StackPage {
+      name: "empty";
+
+      child: Adw.ToolbarView {
+        [top]
+        Adw.HeaderBar {
+          title-widget: Adw.WindowTitle {
+            title: _("Networks");
+          };
+        }
+
+        Adw.StatusPage {
+          icon-name: "package-x-generic-symbolic";
+          title: _("No Networks Available");
+
+          Button {
+            styles [
+              "pill",
+              "suggested-action",
+            ]
+
+            action-name: "networks-panel.create-network";
+            halign: center;
+            label: _("_Create Network");
+            use-underline: true;
+          }
+        }
+      };
+    }
+  }
+}

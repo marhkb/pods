@@ -1,0 +1,16 @@
+// Project-local debug tasks
+//
+// For more documentation on how to configure debug tasks,
+// see: https://zed.dev/docs/debugger
+[
+  {
+    "adapter": "CodeLLDB",
+    "label": "Pods",
+    "request": "launch",
+    "program": "/usr/bin/flatpak",
+    "args": ["build"],
+    "build": {
+      "command": "./build-aux/devcontainer/build.sh"
+    }
+  }
+]
