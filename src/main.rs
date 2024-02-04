@@ -227,6 +227,9 @@ fn init() {
     view::ImagesRow::static_type();
     view::InfoPanel::static_type();
     view::InfoRow::static_type();
+    view::NetworksPanel::static_type();
+    view::NetworksRow::static_type();
+    view::NetworksRow::static_type();
     view::PodMenuButton::static_type();
     view::PodRow::static_type();
     view::PodSelectionPage::static_type();
