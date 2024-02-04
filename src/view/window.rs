@@ -326,6 +326,7 @@ impl Window {
                     model::ClientError::Containers => gettext("Error on loading containers"),
                     model::ClientError::Pods => gettext("Error on loading pods"),
                     model::ClientError::Volumes => gettext("Error on loading volumes"),
+                    model::ClientError::Networks => gettext("Error on loading networks"),
                 })
                 .timeout(3)
                 .priority(adw::ToastPriority::High)

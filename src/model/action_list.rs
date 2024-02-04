@@ -358,6 +358,19 @@ impl ActionList {
         ))
     }
 
+    pub(crate) fn create_network(
+        &self,
+        name: &str,
+        opts: podman::opts::NetworkCreateOpts,
+    ) -> model::Action {
+        self.insert_action(model::Action::create_network(
+            self.imp().action_counter.get(),
+            name,
+            self.client().unwrap(),
+            opts,
+        ))
+    }
+
     fn insert_action(&self, action: model::Action) -> model::Action {
         let imp = self.imp();
 

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<interface>
+
+  <template class="PdsNetworksListView" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBinLayout"/>
+    </property>
+
+    <child>
+      <object class="AdwPreferencesPage">
+        <property name="vexpand">True</property>
+
+        <child>
+          <object class="AdwPreferencesGroup">
+
+            <child>
+              <object class="GtkListBox" id="list_box">
+                <style>
+                  <class name="boxed-list"/>
+                </style>
+                <property name="selection-mode">none</property>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+
+</interface>

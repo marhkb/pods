@@ -164,6 +164,16 @@
                                     </child>
 
                                     <child>
+                                      <object class="PdsNetworksRow">
+                                        <!-- <binding name="volume-list">
+                                          <lookup name="volume-list" type="Client">
+                                            <lookup name="client">PdsClientView</lookup>
+                                          </lookup>
+                                        </binding> -->
+                                      </object>
+                                    </child>
+
+                                    <child>
                                       <object class="PdsInfoRow">
                                         <binding name="client">
                                           <lookup name="client">PdsClientView</lookup>
@@ -307,6 +317,23 @@
                                             <property name="collapsed" bind-source="navigation_split_view" bind-property="collapsed" bind-flags="sync-create"/>
                                             <binding name="volume-list">
                                               <lookup name="volume-list" type="Client">
+                                                <lookup name="client">PdsClientView</lookup>
+                                              </lookup>
+                                            </binding>
+                                          </object>
+                                        </property>
+                                      </object>
+                                    </child>
+
+                                    <child>
+                                      <object class="GtkStackPage">
+                                        <property name="name">networks</property>
+                                        <property name="child">
+                                          <object class="AdwBin"/>
+                                          <object class="PdsNetworksPanel" id="networks_panel">
+                                          <property name="collapsed" bind-source="navigation_split_view" bind-property="collapsed" bind-flags="sync-create"/>
+                                            <binding name="network-list">
+                                              <lookup name="network-list" type="Client">
                                                 <lookup name="client">PdsClientView</lookup>
                                               </lookup>
                                             </binding>

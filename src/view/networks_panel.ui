@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+
+  <menu id="view-options-menu">
+    <section>
+      <attribute name="label">Sort</attribute>
+      <item>
+        <attribute name="label" translatable="yes">Name</attribute>
+        <attribute name="action">networks-panel.change-sort-attribute</attribute>
+        <attribute name="target">name</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Containers</attribute>
+        <attribute name="action">networks-panel.change-sort-attribute</attribute>
+        <attribute name="target">containers</attribute>
+      </item>
+    </section>
+  </menu>
+
+  <menu id="selection-menu">
+    <item>
+      <attribute name="label" translatable="yes">_Select Visible</attribute>
+      <attribute name="action">networks-panel.select-visible</attribute>
+    </item>
+    <item>
+      <attribute name="label" translatable="yes">Select None</attribute>
+      <attribute name="action">networks-panel.select-none</attribute>
+    </item>
+  </menu>
+
+  <object class="GtkButton" id="create_network_button">
+    <property name="action-name">networks-panel.create-network</property>
+    <property name="icon-name">list-add-symbolic</property>
+    <property name="tooltip-text" translatable="yes">Create network</property>
+  </object>
+
+  <object class="GtkButton" id="prune_button">
+    <property name="action-name">networks-panel.prune-unused-networks</property>
+    <property name="icon-name">eraser5-symbolic</property>
+    <property name="tooltip-text" translatable="yes">Prune Unused Networks</property>
+  </object>
+
+  <object class="GtkButton" id="view_button">
+    <property name="action-name">networks-panel.toggle-networks-view</property>
+  </object>
+
+  <object class="AdwSplitButton" id="view_options_split_button">
+    <property name="action-name">networks-panel.toggle-sort-direction</property>
+    <property name="menu-model">view-options-menu</property>
+  </object>
+
+  <template class="PdsNetworksPanel" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBinLayout"/>
+    </property>
+
+    <signal name="notify::collapsed" handler="on_notify_collapsed"/>
+    <signal name="notify::sort-attribute" handler="on_notify_sort_attribute"/>
+
+    <child>
+      <object class="GtkStack" id="main_stack">
+
+        <child>
+          <object class="GtkStackPage">
+            <property name="name">spinner</property>
+
+            <property name="child">
+              <object class="AdwToolbarView">
+
+                <child type="top">
+                  <object class="AdwHeaderBar">
+                    <property name="title-widget">
+                      <object class="AdwWindowTitle">
+                        <property name="title" translatable="yes">Networks</property>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwSpinner">
+                    <property name="halign">center</property>
+                    <property name="valign">center</property>
+                    <property name="height-request">30</property>
+                    <property name="width-request">30</property>
+                  </object>
+                </child>
+
+              </object>
+            </property>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkStackPage">
+            <property name="name">networks</property>
+
+            <property name="child">
+              <object class="AdwToolbarView" id="toolbar_view">
+
+                <child type="top">
+                  <object class="GtkStack" id="header_stack">
+
+                    <child>
+                      <object class="GtkStackPage">
+                        <property name="name">main</property>
+
+                        <property name="child">
+                          <object class="AdwHeaderBar">
+
+                            <child type="start">
+                              <object class="GtkToggleButton">
+                                <property name="active" bind-source="search_bar" bind-property="search-mode-enabled" bind-flags="sync-create|bidirectional"/>
+                                <property name="icon-name">system-search-symbolic</property>
+                                <property name="tooltip-text" translatable="yes">Search</property>
+                              </object>
+                            </child>
+
+                            <child type="start">
+                              <object class="AdwBin" id="create_network_button_top_bin"/>
+                            </child>
+
+                            <child type="start">
+                              <object class="AdwBin" id="prune_button_top_bin"/>
+                            </child>
+
+                            <child type="title">
+                              <object class="AdwWindowTitle" id="window_title">
+                                <property name="title" translatable="yes">Networks</property>
+                              </object>
+                            </child>
+
+                            <child type="end">
+                              <object class="GtkButton">
+                                <property name="action-name">networks-panel.enter-selection-mode</property>
+                                <property name="icon-name">selection-mode-symbolic</property>
+                                <property name="tooltip-text" translatable="yes">Start Multi-Selection</property>
+                              </object>
+                            </child>
+
+                            <child type="end">
+                              <object class="AdwBin" id="view_options_split_button_top_bin"/>
+                            </child>
+
+                            <child type="end">
+                              <object class="AdwBin" id="view_button_top_bin"/>
+                            </child>
+
+                          </object>
+                        </property>
+
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkStackPage">
+                        <property name="name">selection</property>
+
+                        <property name="child">
+                          <object class="AdwHeaderBar">
+
+                            <child type="title">
+                              <object class="GtkMenuButton" id="selected_networks_button">
+                                <style>
+                                  <class name="flat"/>
+                                </style>
+                                <property name="can-shrink">True</property>
+                                <property name="menu-model">selection-menu</property>
+                              </object>
+                            </child>
+
+                            <child type="end">
+                              <object class="GtkToggleButton">
+                                <property name="active">True</property>
+                                <property name="action-name">networks-panel.exit-selection-mode</property>
+                                <property name="icon-name">selection-mode-symbolic</property>
+                                <property name="tooltip-text" translatable="yes">Exit Multi-Selection</property>
+                              </object>
+                            </child>
+
+                          </object>
+                        </property>
+
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+                <child type="top">
+                  <object class="GtkSearchBar" id="search_bar">
+                    <signal name="notify::search-mode-enabled" handler="on_notify_search_mode_enabled" swapped="true"/>
+
+                    <child>
+                      <object class="GtkSearchEntry" id="search_entry">
+                        <signal name="search-changed" handler="on_search_changed" swapped="true"/>
+                        <property name="max-width-chars">28</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkStack" id="filter_stack">
+
+                    <child>
+                      <object class="GtkStackPage">
+                        <property name="name">networks</property>
+
+                        <property name="child">
+                          <object class="AdwBin" id="networks_view_bin"/>
+                        </property>
+
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkStackPage">
+                        <property name="name">empty</property>
+
+                        <property name="child">
+                          <object class="AdwStatusPage">
+                            <property name="icon-name">package-x-generic-symbolic</property>
+                            <property name="title" translatable="yes">No Matching Networks</property>
+
+                            <child>
+                              <object class="GtkButton">
+                                <style>
+                                  <class name="pill"/>
+                                  <class name="suggested-action"/>
+                                </style>
+                                <property name="action-name">networks-panel.show-all-networks</property>
+                                <property name="halign">center</property>
+                                <property name="label" translatable="yes">_Show All Networks</property>
+                                <property name="use-underline">True</property>
+                              </object>
+                            </child>
+
+                          </object>
+                        </property>
+
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+                <child type="bottom">
+                  <object class="GtkActionBar">
+                    <binding name="revealed">
+                      <lookup name="selection-mode" type="NetworkList">
+                        <lookup name="network-list">PdsNetworksPanel</lookup>
+                      </lookup>
+                    </binding>
+
+                    <child type="center">
+                      <object class="GtkButton">
+                        <style>
+                          <class name="destructive-action"/>
+                          <class name="pill"/>
+                        </style>
+                        <property name="action-name">networks-panel.delete-selection</property>
+                        <property name="label" translatable="yes">Delete</property>
+                        <property name="width-request">200</property>
+                        <property name="tooltip-text" translatable="yes">Delete</property>
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+                <child type="bottom">
+                  <object class="GtkActionBar" id="overhang_action_bar">
+
+                    <child type="start">
+                      <object class="AdwBin" id="create_network_button_bottom_bin"/>
+                    </child>
+
+                    <child type="start">
+                      <object class="AdwBin" id="prune_button_bottom_bin"/>
+                    </child>
+
+                    <child type="end">
+                      <object class="AdwBin" id="view_options_split_button_bottom_bin"/>
+                    </child>
+
+                    <child type="end">
+                      <object class="AdwBin" id="view_button_bottom_bin"/>
+                    </child>
+
+                  </object>
+                </child>
+
+              </object>
+            </property>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkStackPage">
+            <property name="name">empty</property>
+
+            <property name="child">
+              <object class="AdwToolbarView">
+
+                <child type="top">
+                  <object class="AdwHeaderBar">
+                    <property name="title-widget">
+                      <object class="AdwWindowTitle">
+                        <property name="title" translatable="yes">Networks</property>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwStatusPage">
+                    <property name="icon-name">package-x-generic-symbolic</property>
+                    <property name="title" translatable="yes">No Networks Available</property>
+
+                    <child>
+                      <object class="GtkButton">
+                        <style>
+                          <class name="pill"/>
+                          <class name="suggested-action"/>
+                        </style>
+                        <property name="action-name">networks-panel.create-network</property>
+                        <property name="halign">center</property>
+                        <property name="label" translatable="yes">_Create Network</property>
+                        <property name="use-underline">True</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+              </object>
+            </property>
+
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>

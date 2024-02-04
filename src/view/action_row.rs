@@ -96,6 +96,8 @@ mod imp {
                         CreateContainer | Pod => "list-add-symbolic",
                         CopyFiles => "edit-copy-symbolic",
                         Volume => "drive-harddisk-symbolic",
+                        // TODO
+                        CreateNetwork => "edit-copy-symbolic",
                         _ => unreachable!(),
                     }
                 }))

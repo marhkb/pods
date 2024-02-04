@@ -1,4 +1,5 @@
-containercard separator {
+containercard separator,
+networkcard separator {
 	background-color: var(--window-bg-color);
 }
 
