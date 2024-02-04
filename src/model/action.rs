@@ -164,6 +164,63 @@ pub(crate) trait ActionExt: IsA<Action> {
     {
         self.upcast_ref::<Action>().connect_state_notify(callback);
     }
+
+    // pub(crate) fn create_network(
+    //     num: u32,
+    //     name: &str,
+    //     client: model::Client,
+    //     opts: podman::opts::NetworkCreateOpts,
+    // ) -> Self {
+    //     let obj = Self::new(
+    //         num,
+    //         Type::CreateNetwork,
+    //         &gettext!("Create network <b>{}</b>", name),
+    //     );
+
+    //     let abort_registration = obj.setup_abort_handle();
+
+    //     rt::Promise::new({
+    //         let podman = client.podman();
+    //         async move {
+    //             future::Abortable::new(podman.networks().create(&opts), abort_registration).await
+    //         }
+    //     })
+    //     .defer(clone!(
+    //         #[weak]
+    //         obj,
+    //         move |result| if let Ok(result) = result {
+    //             match result.map(|response| response.id.unwrap_or_default()) {
+    //                 Ok(id) => match client.network_list().get_network(&id) {
+    //                     Some(network) => {
+    //                         obj.set_artifact(network.upcast_ref());
+    //                         obj.set_state(State::Finished);
+    //                     }
+    //                     None => {
+    //                         client.network_list().connect_network_added(clone!(
+    //                             #[weak]
+    //                             obj,
+    //                             #[strong]
+    //                             id,
+    //                             move |_, network| {
+    //                                 if network.inner().id.as_ref() == Some(&id) {
+    //                                     obj.set_artifact(network.upcast_ref());
+    //                                     obj.set_state(State::Finished);
+    //                                 }
+    //                             }
+    //                         ));
+    //                     }
+    //                 },
+    //                 Err(e) => {
+    //                     log::error!("Error on creating network: {e}");
+    //                     obj.insert_line(&e.to_string());
+    //                     obj.set_state(State::Failed);
+    //                 }
+    //             }
+    //         }
+    //     ));
+
+    //     obj
+    // }
 }
 
 impl<O: IsA<Action>> ActionExt for O {}

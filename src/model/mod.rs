@@ -35,6 +35,8 @@ mod images_prune_action;
 mod info;
 mod key_val;
 mod mount;
+mod network;
+mod network_list;
 mod opts;
 mod pod;
 mod pod_create_action;
@@ -76,6 +78,7 @@ pub(crate) use self::artifact_action::ArtifactActionExt;
 pub(crate) use self::connection::ConnectionInfo;
 pub(crate) use self::mount::MountType;
 pub(crate) use self::mount::SELinux as MountSELinux;
+pub(crate) use self::network::BoxedNetwork;
 pub(crate) use self::selectable::SelectableExt;
 pub(crate) use self::selectable_list::SelectableListExt;
 
@@ -130,6 +133,8 @@ export_gobjects![
     pub(crate) use self::opts::BoxedPodCreateOpts;
     pub(crate) use self::opts::BoxedVolumeCreateOpts;
     pub(crate) use self::opts::BoxedVolumesPruneOpts;
+    pub(crate) use self::network::Network;
+    pub(crate) use self::network_list::NetworkList;
     pub(crate) use self::pod::Pod;
     pub(crate) use self::pod_create_action::PodCreateAction;
     pub(crate) use self::pod_details::PodDetails;

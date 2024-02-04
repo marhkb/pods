@@ -220,6 +220,20 @@ impl ActionList {
         self.insert_action(model::ContainerCreateAction::new(self, opts, run, |_| {}))
     }
 
+    pub(crate) fn create_network(
+        &self,
+        name: &str,
+        // opts: podman::opts::NetworkCreateOpts,
+    ) -> model::Action {
+        todo!();
+        // self.insert_action(model::Action::create_network(
+        //     self.imp().action_counter.get(),
+        //     name,
+        //     self.client().unwrap(),
+        //     opts,
+        // ))
+    }
+
     pub(crate) fn create_pod(&self, opts: engine::opts::PodCreateOpts) -> model::PodCreateAction {
         self.insert_action(model::PodCreateAction::new(self, opts))
     }

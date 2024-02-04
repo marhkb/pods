@@ -34,6 +34,8 @@ mod imp {
         pub(super) container_list: OnceCell<model::ContainerList>,
         #[property(get = Self::pod_list, nullable)]
         pub(super) pod_list: OnceCell<Option<model::PodList>>,
+        #[property(get = Self::network_list)]
+        pub(super) network_list: OnceCell<model::NetworkList>,
         #[property(get = Self::volume_list)]
         pub(super) volume_list: OnceCell<model::VolumeList>,
         #[property(get = Self::info, set, nullable)]
@@ -204,6 +206,59 @@ mod imp {
                     });
                 }
             ));
+
+            obj.network_list().connect_network_added(clone!(
+                #[weak]
+                obj,
+                move |_, network| {
+                    let container_list: Vec<_> = obj
+                        .container_list()
+                        .iter::<model::Container>()
+                        .map(|container| container.unwrap())
+                        .filter(|container| !container.mounts().is_empty())
+                        .collect();
+
+                    if container_list.is_empty() {
+                        return;
+                    }
+
+                    network.set_searching_containers(true);
+                    let containers_left = Rc::new(AtomicUsize::new(container_list.len()));
+
+                    container_list.iter().for_each(|container| {
+                        container.inspect(clone!(
+                            #[weak]
+                            network,
+                            #[strong]
+                            containers_left,
+                            move |result| {
+                                // if let Ok(container) = result {
+                                //     if let Some(mount) =
+                                //         container.data().unwrap().mounts().values().find(|mount| {
+                                //             mount.name.as_ref() == Some(&volume.inner().name)
+                                //         })
+                                //     {
+                                //         volume.container_list().add_container(&container);
+
+                                //         let container_volume_list = container.volume_list();
+                                //         container_volume_list.add_volume(
+                                //             model::ContainerVolume::new(
+                                //                 &container_volume_list,
+                                //                 &volume,
+                                //                 mount.clone(),
+                                //             ),
+                                //         );
+                                //     }
+                                // }
+
+                                // if containers_left.fetch_sub(1, Ordering::Relaxed) == 1 {
+                                //     volume.set_searching_containers(false);
+                                // }
+                            }
+                        ));
+                    });
+                }
+            ));
         }
     }
 
@@ -230,6 +285,12 @@ mod imp {
                         None
                     }
                 })
+                .to_owned()
+        }
+
+        fn network_list(&self) -> model::NetworkList {
+            self.network_list
+                .get_or_init(|| model::NetworkList::from(&*self.obj()))
                 .to_owned()
         }
 
@@ -295,6 +356,7 @@ impl Client {
                     if let Some(pod_list) = obj.pod_list() {
                         pod_list.refresh(err_op.clone());
                     }
+                    obj.network_list().refresh();
                     obj.volume_list().refresh(err_op.clone());
 
                     op();
@@ -334,7 +396,9 @@ impl Client {
                                 pod_list.handle_event(event, err_op.clone());
                             }
                         }
-
+                        engine::dto::EventType::Network => {
+                            // TODO
+                        }
                         engine::dto::EventType::Volume => {
                             obj.volume_list().handle_event(event, err_op.clone())
                         }

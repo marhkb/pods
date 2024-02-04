@@ -182,4 +182,35 @@
       <description></description>
     </key>
   </schema>
+
+  <schema path="/com/github/marhkb/Pods/view/panels/networks/" id="@app-id@.view.panels.networks" gettext-domain="@gettext-package@">
+    <key name="view" type="s">
+      <choices>
+        <choice value='grid'/>
+        <choice value='list'/>
+      </choices>
+      <default>'grid'</default>
+      <summary>Networks representation</summary>
+      <description></description>
+    </key>
+    <key name="sort-direction" type="s">
+      <choices>
+        <choice value='asc'/>
+        <choice value='desc'/>
+      </choices>
+      <default>'asc'</default>
+      <summary>Sort direction for networks</summary>
+      <description></description>
+    </key>
+    <key name="sort-attribute" type="s">
+      <choices>
+        <choice value='name'/>
+        <choice value='age'/>
+        <choice value='containers'/>
+      </choices>
+      <default>'name'</default>
+      <summary>Sort attribute for networks</summary>
+      <description></description>
+    </key>
+  </schema>
 </schemalist>

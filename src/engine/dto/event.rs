@@ -15,6 +15,7 @@ impl Event {
 pub(crate) enum EventType {
     Container,
     Image,
+    Network,
     Pod,
     Volume,
     #[default]
