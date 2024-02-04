@@ -159,7 +159,8 @@ connectionchooserpage connectionrow {
   padding: 5px 7px;
 }
 
-.repo-tags-small {
+.repo-tags-small,
+.subnets-small {
   background-color: transparent;
   margin: 0 0 -3px -2px;
 }
@@ -168,6 +169,9 @@ connectionchooserpage connectionrow {
 .container-health-status-not-running,
 .container-status-not-running,
 .image-unused,
+.network-dns-no,
+.network-ipv6-no,
+.network-public-no,
 .pod-status-not-running,
 .volume-unused,
 .volume-unused,
@@ -179,6 +183,9 @@ connectionchooserpage connectionrow {
 .container-health-status-healthy,
 .container-status-running,
 .image-used,
+.network-public,
+.network-dns,
+.network-ipv6,
 .pod-status-running,
 .volume-used {
   background-color: alpha(var(--accent-color), 0.25);

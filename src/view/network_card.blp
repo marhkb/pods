@@ -1,0 +1,198 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsNetworkCard: Widget {
+  styles [
+    "activatable",
+    "card",
+  ]
+
+  layout-manager: BinLayout {};
+
+  focusable: true;
+  width-request: 250;
+  notify::network => $on_notify_network();
+
+  GestureClick gesture_click {
+    button: 1;
+    propagation-phase: bubble;
+    released => $on_mouse_1_released();
+  }
+
+  EventControllerKey {
+    key-pressed => $on_key_pressed() swapped;
+  }
+
+  Adw.Clamp {
+    maximum-size: 250;
+    unit: px;
+
+    Box {
+      orientation: vertical;
+      spacing: 9;
+      margin-top: 9;
+      margin-bottom: 9;
+
+      Box {
+        margin-start: 12;
+        margin-end: 12;
+
+        Box {
+          spacing: 9;
+
+          Box {
+            hexpand: true;
+            orientation: vertical;
+            valign: start;
+
+            Label name_label {
+              styles [
+                "title",
+              ]
+
+              use-markup: true;
+              ellipsize: end;
+              xalign: 0;
+            }
+
+            Label id_label {
+              styles [
+                "caption",
+                "dim-label",
+              ]
+
+              ellipsize: end;
+              lines: 2;
+              use-markup: true;
+              wrap: true;
+              wrap-mode: word_char;
+              xalign: 0;
+              yalign: 0;
+            }
+          }
+
+          Stack edit_select_stack {
+            transition-type: crossfade;
+            valign: start;
+
+            StackPage {
+              name: "edit";
+
+              child: Button {
+                styles [
+                  "circular",
+                ]
+
+                action-name: "container-card.rename";
+                icon-name: "document-edit-symbolic";
+                tooltip-text: _("Rename");
+              };
+            }
+
+            StackPage {
+              name: "select";
+
+              child: CheckButton selection_check_button {
+                styles [
+                  "selection-mode",
+                ]
+              };
+            }
+          }
+        }
+      }
+
+      Separator {}
+
+      Label driver_label {
+        styles [
+          "dim-label",
+        ]
+
+        halign: center;
+        valign: center;
+      }
+
+      Separator {}
+
+      Box {
+        spacing: 9;
+
+        Box public_box {
+          styles [
+            "status-badge",
+          ]
+
+          spacing: 3;
+          halign: end;
+          hexpand: true;
+
+          Image public_icon {
+            icon-name: "check-round-outline2-symbolic";
+          }
+
+          Label {
+            label: _("Public");
+            xalign: 1;
+          }
+        }
+
+        Box dns_box {
+          styles [
+            "status-badge",
+          ]
+
+          spacing: 3;
+
+          Image dns_icon {
+            icon-name: "check-round-outline2-symbolic";
+          }
+
+          Label {
+            label: _("DNS");
+            xalign: 1;
+          }
+        }
+
+        Box ipv6_box {
+          styles [
+            "status-badge",
+          ]
+
+          spacing: 3;
+          halign: start;
+          hexpand: true;
+
+          Image ipv6_icon {
+            icon-name: "check-round-outline2-symbolic";
+          }
+
+          Label {
+            label: _("Ipv6");
+            xalign: 1;
+          }
+        }
+      }
+
+      Separator {}
+
+      Box {
+        orientation: vertical;
+        spacing: 6;
+
+        Label {
+          label: _("Gateways & Subnets");
+        }
+
+        ListBox subnets_list_box {
+          styles [
+            "subnets-small",
+            "dim-label",
+          ]
+
+          selection-mode: none;
+        }
+      }
+    }
+  }
+}
