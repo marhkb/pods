@@ -35,12 +35,14 @@ listview.no-outline row {
   outline: none;
 }
 
-list.repo-tags-small {
+list.repo-tags-small,
+list.subnets-small {
   background-color: transparent;
   margin: 3px 0 -1px -2px;
 }
 
-list.repo-tags-small > row {
+list.repo-tags-small > row,
+list.subnets-small > row {
   margin: -2px 0;
 }
 
@@ -213,6 +215,9 @@ connectionchooserpage connectionrow {
 .container-health-status-healthy,
 .container-status-running,
 .image-used,
+.network-public,
+.network-dns,
+.network-ipv6,
 .pod-status-running,
 .volume-used {
   background-color: alpha(var(--accent-color), 0.25);
@@ -280,7 +285,8 @@ progressbar.error progress {
 /* Dark */
 
 @media (prefers-color-scheme: dark) {
-  containercard separator {
+  containercard separator,
+  networkcard separator {
     background-color: var(--window-bg-color);
   }
 

@@ -36,6 +36,8 @@ mod images_prune_action;
 mod info;
 mod key_val;
 mod mount;
+mod network;
+mod network_list;
 mod opts;
 mod pod;
 mod pod_create_action;
@@ -133,6 +135,8 @@ export_gobjects![
     pub(crate) use self::opts::BoxedPodCreateOpts;
     pub(crate) use self::opts::BoxedVolumeCreateOpts;
     pub(crate) use self::opts::BoxedVolumesPruneOpts;
+    pub(crate) use self::network::Network;
+    pub(crate) use self::network_list::NetworkList;
     pub(crate) use self::pod::Pod;
     pub(crate) use self::pod_create_action::PodCreateAction;
     pub(crate) use self::pod_details::PodDetails;

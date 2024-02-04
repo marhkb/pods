@@ -1,0 +1,82 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsNetworkRow: ListBoxRow {
+  action-name: "network-row.activate";
+
+  Box {
+    margin-top: 7;
+    margin-end: 12;
+    margin-bottom: 7;
+    margin-start: 12;
+
+    Revealer check_button_revealer {
+      transition-type: slide_right;
+
+      CheckButton check_button {
+        styles [
+          "selection-mode",
+        ]
+
+        margin-end: 12;
+        valign: center;
+      }
+    }
+
+    Box {
+      spacing: 6;
+
+      Box {
+        hexpand: true;
+        valign: center;
+        orientation: vertical;
+        spacing: 3;
+
+        Label name_label {
+          use-markup: true;
+          xalign: 0;
+          yalign: 0;
+          wrap: true;
+          wrap-mode: word_char;
+        }
+
+        Label age_label {
+          styles [
+            "subtitle",
+          ]
+
+          wrap: true;
+          wrap-mode: word;
+          xalign: 0;
+        }
+      }
+
+      Adw.Spinner spinner {}
+
+      $PdsContainersCountBar containers_count_bar {}
+    }
+
+    Revealer end_box_revealer {
+      transition-type: slide_left;
+
+      Box {
+        margin-start: 6;
+        spacing: 3;
+
+        Button {
+          styles [
+            "flat",
+          ]
+
+          action-name: "network-row.delete";
+          icon-name: "user-trash-symbolic";
+          valign: center;
+        }
+
+        Image {
+          icon-name: "go-next-symbolic";
+        }
+      }
+    }
+  }
+}
