@@ -49,6 +49,8 @@ mod imp {
         #[template_child]
         pub(super) volumes_panel: TemplateChild<view::VolumesPanel>,
         #[template_child]
+        pub(super) networks_panel: TemplateChild<view::NetworksPanel>,
+        #[template_child]
         pub(super) color_bin: TemplateChild<adw::Bin>,
     }
 
@@ -199,8 +201,9 @@ mod imp {
                                 "pods" => 1,
                                 "images" => 2,
                                 "volumes" => 3,
-                                "info" => 4,
-                                "search" => 5,
+                                "networks" => 4,
+                                "info" => 5,
+                                "search" => 6,
                                 _ => unreachable!(),
                             },
                         )
@@ -223,6 +226,8 @@ mod imp {
                         "images"
                     } else if child.is::<view::VolumesRow>() {
                         "volumes"
+                    } else if child.is::<view::NetworksRow>() {
+                        "networks"
                     } else if child.is::<view::InfoRow>() {
                         "info"
                     } else if child.is::<view::SearchRow>() {
@@ -253,6 +258,7 @@ mod imp {
                 "pods" => gettext("Pods"),
                 "images" => gettext("Images"),
                 "volumes" => gettext("Volumes"),
+                "networks" => gettext("Networks"),
                 "info" => gettext("Info"),
                 "search" => gettext("Search"),
                 _ => unreachable!(),
@@ -266,6 +272,7 @@ mod imp {
             self.pods_panel.set_search_mode(false);
             self.images_panel.set_search_mode(false);
             self.volumes_panel.set_search_mode(false);
+            self.networks_panel.set_search_mode(false);
         }
 
         fn exit_selection_mode(&self) {
@@ -273,6 +280,7 @@ mod imp {
             self.pods_panel.exit_selection_mode();
             self.images_panel.exit_selection_mode();
             self.volumes_panel.exit_selection_mode();
+            self.networks_panel.exit_selection_mode();
         }
 
         fn set_background(&self, bg_color: Option<gdk::RGBA>) {
@@ -318,6 +326,7 @@ impl ClientView {
             "pods" => imp.pods_panel.toggle_search_mode(),
             "images" => imp.images_panel.toggle_search_mode(),
             "volumes" => imp.volumes_panel.toggle_search_mode(),
+            "networks" => imp.networks_panel.toggle_search_mode(),
             _ => {}
         }
     }
@@ -344,6 +353,8 @@ impl ClientView {
                 imp.images_panel.show_download_page();
             } else if imp.volumes_panel.is_mapped() {
                 imp.volumes_panel.create_volume();
+            } else if imp.networks_panel.is_mapped() {
+                imp.networks_panel.create_container();
             }
         }
     }

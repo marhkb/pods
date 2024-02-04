@@ -164,12 +164,16 @@ connectionchooserpage connectionrow {
   padding: 5px 7px;
 }
 
-.repo-tags-small {
+.repo-tags-small,
+.subnets-small {
   background-color: transparent;
   margin: 0 0 -4px -2px;
 }
 
 .version,
+.network-public-no,
+.network-dns-no,
+.network-ipv6-no,
 .container-status-configured,
 .container-status-created,
 .container-status-exited,
@@ -225,6 +229,9 @@ connectionchooserpage connectionrow {
   background-color: alpha(@red_2, .25);
 }
 
+.network-public,
+.network-dns,
+.network-ipv6,
 .container-health-status-healthy {
   color: @green_5;
   background-color: alpha(@green_3, .25);

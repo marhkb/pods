@@ -52,6 +52,9 @@
     <file compressed="true" preprocess="xml-stripblanks">view/info_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/key_val_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/mount_row.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/network_card.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/networks_panel.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/networks_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/pod_creation_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/pod_details_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/pod_menu_button.ui</file>
