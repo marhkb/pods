@@ -28,6 +28,7 @@ pub(crate) enum ClientError {
     Containers,
     Pods,
     Volumes,
+    Networks,
 }
 
 mod imp {
@@ -52,6 +53,8 @@ mod imp {
         pub(super) pod_list: OnceCell<model::PodList>,
         #[property(get = Self::volume_list)]
         pub(super) volume_list: OnceCell<model::VolumeList>,
+        #[property(get = Self::network_list)]
+        pub(super) network_list: OnceCell<model::NetworkList>,
         #[property(get = Self::action_list)]
         pub(super) action_list: OnceCell<model::ActionList>,
     }
@@ -279,6 +282,12 @@ mod imp {
                 .to_owned()
         }
 
+        fn network_list(&self) -> model::NetworkList {
+            self.network_list
+                .get_or_init(|| model::NetworkList::from(&*self.obj()))
+                .to_owned()
+        }
+
         fn action_list(&self) -> model::ActionList {
             self.action_list
                 .get_or_init(|| model::ActionList::from(&*self.obj()))
@@ -369,6 +378,10 @@ impl Client {
                             let err_op = err_op.clone();
                             |_| err_op(ClientError::Volumes)
                         });
+                        obj.network_list().refresh({
+                            let err_op = err_op.clone();
+                            |_| err_op(ClientError::Networks)
+                        });
 
                         op();
                         obj.start_event_listener(err_op, finish_op);
@@ -420,6 +433,10 @@ impl Client {
                                 "volume" => obj.volume_list().handle_event(event, {
                                     let err_op = err_op.clone();
                                     |_| err_op(ClientError::Volumes)
+                                }),
+                                "network" => obj.network_list().handle_event(event, {
+                                    let err_op = err_op.clone();
+                                    |_| err_op(ClientError::Networks)
                                 }),
                                 other => log::warn!("Unhandled event type: {other}"),
                             }
