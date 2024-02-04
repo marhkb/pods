@@ -6,7 +6,6 @@ use std::sync::OnceLock;
 use gio::prelude::*;
 use gio::subclass::prelude::*;
 use glib::clone;
-use glib::once_cell::sync::Lazy as SyncLazy;
 use glib::subclass::Signal;
 use glib::Properties;
 use gtk::gio;
@@ -45,12 +44,12 @@ mod imp {
 
     impl ObjectImpl for PodList {
         fn signals() -> &'static [Signal] {
-            static SIGNALS: SyncLazy<Vec<Signal>> = SyncLazy::new(|| {
+            static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+            SIGNALS.get_or_init(|| {
                 vec![Signal::builder("pod-added")
                     .param_types([model::Pod::static_type()])
                     .build()]
-            });
-            SIGNALS.as_ref()
+            })
         }
 
         fn properties() -> &'static [glib::ParamSpec] {

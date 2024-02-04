@@ -1,9 +1,9 @@
 use std::cell::Cell;
 use std::cell::OnceCell;
+use std::sync::OnceLock;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use glib::once_cell::sync::Lazy;
 use gtk::gdk;
 use gtk::glib;
 use gtk::glib::clone;
@@ -47,7 +47,8 @@ mod imp {
 
     impl ObjectImpl for Spinner {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
+            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
+            PROPERTIES.get_or_init(|| {
                 vec![
                     glib::ParamSpecString::builder("icon-name")
                         .explicit_notify()
@@ -56,8 +57,7 @@ mod imp {
                         .explicit_notify()
                         .build(),
                 ]
-            });
-            PROPERTIES.as_ref()
+            })
         }
 
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {

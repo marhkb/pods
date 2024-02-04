@@ -1,4 +1,5 @@
 use std::cell::RefCell;
+use std::sync::OnceLock;
 
 use futures::stream;
 use futures::StreamExt;
@@ -6,7 +7,6 @@ use futures::TryStreamExt;
 use gio::prelude::*;
 use gio::subclass::prelude::*;
 use glib::clone;
-use glib::once_cell::sync::Lazy as SyncLazy;
 use glib::subclass::Signal;
 use glib::Properties;
 use gtk::gio;
@@ -38,9 +38,8 @@ mod imp {
 
     impl ObjectImpl for ProcessList {
         fn signals() -> &'static [Signal] {
-            static SIGNALS: SyncLazy<Vec<Signal>> =
-                SyncLazy::new(|| vec![Signal::builder("updated").build()]);
-            SIGNALS.as_ref()
+            static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+            SIGNALS.get_or_init(|| vec![Signal::builder("updated").build()])
         }
 
         fn properties() -> &'static [glib::ParamSpec] {

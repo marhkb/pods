@@ -14,7 +14,6 @@ use crate::model;
 use crate::podman;
 use crate::utils;
 use crate::view;
-use crate::RUNTIME;
 
 const ACTION_PUSH: &str = "repo-tag-push-page.push";
 
@@ -243,7 +242,7 @@ impl RepoTagPushPage {
                                         RegistryAuth::Token(imp.token_entry_row.text().into())
                                     };
 
-                                    RUNTIME.spawn({
+                                    crate::runtime().spawn({
                                         async move {
                                             keyring
                                                 .create_item(
@@ -267,7 +266,7 @@ impl RepoTagPushPage {
                                 }
                             }
                         } else if let Some(keyring) = crate::KEYRING.get() {
-                            RUNTIME.spawn({
+                            crate::runtime().spawn({
                                 async move {
                                     keyring.delete(attributes(&host, &namespace)).await.unwrap();
                                 }

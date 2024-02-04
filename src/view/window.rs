@@ -1,8 +1,9 @@
+use std::sync::OnceLock;
+
 use adw::prelude::*;
 use adw::subclass::prelude::AdwApplicationWindowImpl;
 use adw::subclass::prelude::*;
 use gettextrs::gettext;
-use glib::once_cell::sync::Lazy;
 use gtk::gdk;
 use gtk::gio;
 use gtk::glib;
@@ -48,23 +49,21 @@ mod imp {
                 gdk::Key::N,
                 gdk::ModifierType::CONTROL_MASK | gdk::ModifierType::SHIFT_MASK,
                 ACTION_CREATE_CONNECTION,
-                None,
             );
             klass.install_action(ACTION_CREATE_CONNECTION, None, |widget, _, _| {
                 widget.add_connection();
             });
 
-            klass.install_action(ACTION_REMOVE_CONNECTION, Some("s"), |widget, _, data| {
-                let uuid: String = data.unwrap().get().unwrap();
-                widget.remove_connection(&uuid);
-            });
-
-            klass.add_binding_action(
-                gdk::Key::W,
-                gdk::ModifierType::CONTROL_MASK,
-                ACTION_CLOSE,
-                None,
+            klass.install_action(
+                ACTION_REMOVE_CONNECTION,
+                Some(glib::VariantTy::STRING),
+                |widget, _, data| {
+                    let uuid: String = data.unwrap().get().unwrap();
+                    widget.remove_connection(&uuid);
+                },
             );
+
+            klass.add_binding_action(gdk::Key::W, gdk::ModifierType::CONTROL_MASK, ACTION_CLOSE);
             klass.install_action(ACTION_CLOSE, None, |widget, _, _| {
                 widget.close();
             });
@@ -77,15 +76,14 @@ mod imp {
 
     impl ObjectImpl for Window {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
+            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
+            PROPERTIES.get_or_init(|| {
                 vec![glib::ParamSpecObject::builder::<model::ConnectionManager>(
                     "connection-manager",
                 )
                 .read_only()
                 .build()]
-            });
-
-            PROPERTIES.as_ref()
+            })
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {

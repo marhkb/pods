@@ -20,7 +20,6 @@ use gtk::glib;
 
 use crate::config;
 use crate::APPLICATION_OPTS;
-use crate::RUNTIME;
 
 #[macro_export]
 macro_rules! monad_boxed_type {
@@ -288,7 +287,7 @@ where
     Fut: Future<Output = R> + Send + 'static,
     F: FnOnce(R) + 'static,
 {
-    let handle = RUNTIME.spawn(tokio_fut);
+    let handle = crate::runtime().spawn(tokio_fut);
 
     glib::MainContext::default().spawn_local_with_priority(Default::default(), async move {
         glib_closure(handle.await.unwrap());
@@ -319,7 +318,7 @@ where
 {
     let observers = AsyncObservers::new(glib_closure);
 
-    let handle = RUNTIME.spawn(tokio_fut);
+    let handle = crate::runtime().spawn(tokio_fut);
     let (tx, rx) = tokio::sync::oneshot::channel::<R>();
 
     glib::spawn_future_local({
@@ -374,7 +373,7 @@ pub(crate) fn run_stream_with_finish_handler<A, P, I, F, X>(
         finish_handler();
     });
 
-    RUNTIME.spawn(async move {
+    crate::runtime().spawn(async move {
         let mut stream = stream_producer(&api_entity);
         while let Some(item) = stream.next().await {
             if tx_payload.send(item).await.is_err() {

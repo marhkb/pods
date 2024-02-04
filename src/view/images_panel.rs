@@ -79,7 +79,6 @@ mod imp {
                 gdk::Key::N,
                 gdk::ModifierType::CONTROL_MASK,
                 ACTION_PULL_IMAGE,
-                None,
             );
             klass.install_action(ACTION_PULL_IMAGE, None, |widget, _, _| {
                 widget.show_download_page();

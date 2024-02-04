@@ -59,12 +59,7 @@ mod imp {
             klass.bind_template();
             klass.bind_template_callbacks();
 
-            klass.add_binding_action(
-                gdk::Key::F,
-                gdk::ModifierType::CONTROL_MASK,
-                ACTION_SEARCH,
-                None,
-            );
+            klass.add_binding_action(gdk::Key::F, gdk::ModifierType::CONTROL_MASK, ACTION_SEARCH);
 
             klass.install_action(ACTION_SEARCH, None, |widget, _, _| {
                 widget.toggle_search_mode();

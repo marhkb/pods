@@ -61,7 +61,6 @@ mod imp {
                 gdk::Key::N,
                 gdk::ModifierType::CONTROL_MASK,
                 view::ContainersGroup::action_create_container(),
-                None,
             );
             klass.install_action(
                 view::ContainersGroup::action_create_container(),

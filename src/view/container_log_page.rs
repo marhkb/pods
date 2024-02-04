@@ -107,7 +107,6 @@ mod imp {
                 gdk::Key::F,
                 gdk::ModifierType::CONTROL_MASK,
                 ACTION_TOGGLE_SEARCH,
-                None,
             );
             klass.install_action(ACTION_TOGGLE_SEARCH, None, |widget, _, _| {
                 widget.toggle_search_mode();
@@ -117,7 +116,6 @@ mod imp {
                 gdk::Key::Escape,
                 gdk::ModifierType::empty(),
                 ACTION_EXIT_SEARCH,
-                None,
             );
             klass.install_action(ACTION_EXIT_SEARCH, None, |widget, _, _| {
                 widget.set_search_mode(false);
@@ -149,39 +147,33 @@ mod imp {
                 gdk::Key::minus,
                 gdk::ModifierType::CONTROL_MASK,
                 ACTION_ZOOM_OUT,
-                None,
             );
             klass.add_binding_action(
                 gdk::Key::KP_Subtract,
                 gdk::ModifierType::CONTROL_MASK,
                 ACTION_ZOOM_OUT,
-                None,
             );
 
             klass.add_binding_action(
                 gdk::Key::plus,
                 gdk::ModifierType::CONTROL_MASK,
                 ACTION_ZOOM_IN,
-                None,
             );
             klass.add_binding_action(
                 gdk::Key::KP_Add,
                 gdk::ModifierType::CONTROL_MASK,
                 ACTION_ZOOM_IN,
-                None,
             );
             klass.add_binding_action(
                 gdk::Key::equal,
                 gdk::ModifierType::CONTROL_MASK,
                 ACTION_ZOOM_IN,
-                None,
             );
 
             klass.add_binding_action(
                 gdk::Key::_0,
                 gdk::ModifierType::CONTROL_MASK,
                 ACTION_ZOOM_NORMAL,
-                None,
             );
         }
 

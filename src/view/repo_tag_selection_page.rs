@@ -1,12 +1,12 @@
 use std::cell::OnceCell;
 use std::cell::RefCell;
+use std::sync::OnceLock;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use futures::future;
 use gettextrs::gettext;
 use glib::clone;
-use glib::once_cell::sync::Lazy as SyncLazy;
 use glib::Properties;
 use gtk::gdk;
 use gtk::gio;
@@ -19,7 +19,6 @@ use crate::podman;
 use crate::utils;
 use crate::view;
 
-const ACTION_FILTER: &str = "repo-tag-selection-page.filter";
 const ACTION_SELECT: &str = "repo-tag-selection-page.select";
 
 mod imp {
@@ -68,21 +67,14 @@ mod imp {
             klass.bind_template();
             klass.bind_template_callbacks();
 
-            klass.install_action(ACTION_FILTER, Some("b"), |widget, _, data| {
-                widget.enable_search_mode(data.unwrap().get().unwrap());
+            klass.add_binding(gdk::Key::F, gdk::ModifierType::CONTROL_MASK, |widget| {
+                widget.enable_search_mode(true);
+                glib::Propagation::Proceed
             });
-            klass.add_binding_action(
-                gdk::Key::F,
-                gdk::ModifierType::CONTROL_MASK,
-                ACTION_FILTER,
-                Some(&true.to_variant()),
-            );
-            klass.add_binding_action(
-                gdk::Key::Escape,
-                gdk::ModifierType::empty(),
-                ACTION_FILTER,
-                Some(&false.to_variant()),
-            );
+            klass.add_binding(gdk::Key::Escape, gdk::ModifierType::empty(), |widget| {
+                widget.enable_search_mode(false);
+                glib::Propagation::Proceed
+            });
 
             klass.install_action(ACTION_SELECT, None, |widget, _, _| {
                 widget.select();
@@ -96,12 +88,12 @@ mod imp {
 
     impl ObjectImpl for RepoTagSelectionPage {
         fn signals() -> &'static [Signal] {
-            static SIGNALS: SyncLazy<Vec<Signal>> = SyncLazy::new(|| {
+            static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+            SIGNALS.get_or_init(|| {
                 vec![Signal::builder("image-selected")
                     .param_types([String::static_type()])
                     .build()]
-            });
-            SIGNALS.as_ref()
+            })
         }
 
         fn properties() -> &'static [glib::ParamSpec] {
