@@ -1,13 +1,13 @@
 use std::cell::Cell;
 use std::cell::OnceCell;
 use std::cell::RefCell;
+use std::sync::OnceLock;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use futures::future;
 use gettextrs::gettext;
 use glib::clone;
-use glib::once_cell::sync::Lazy as SyncLazy;
 use glib::Properties;
 use gtk::gdk;
 use gtk::gio;
@@ -72,12 +72,7 @@ mod imp {
             klass.bind_template();
             klass.bind_template_callbacks();
 
-            klass.add_binding_action(
-                gdk::Key::F,
-                gdk::ModifierType::CONTROL_MASK,
-                ACTION_SEARCH,
-                None,
-            );
+            klass.add_binding_action(gdk::Key::F, gdk::ModifierType::CONTROL_MASK, ACTION_SEARCH);
             klass.install_action(ACTION_SEARCH, None, |widget, _, _| {
                 widget.grab_search_entry_focus();
             });
@@ -94,12 +89,12 @@ mod imp {
 
     impl ObjectImpl for ImageSearchPage {
         fn signals() -> &'static [Signal] {
-            static SIGNALS: SyncLazy<Vec<Signal>> = SyncLazy::new(|| {
+            static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+            SIGNALS.get_or_init(|| {
                 vec![Signal::builder("image-selected")
                     .param_types([String::static_type()])
                     .build()]
-            });
-            SIGNALS.as_ref()
+            })
         }
 
         fn properties() -> &'static [glib::ParamSpec] {

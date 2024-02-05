@@ -1,6 +1,7 @@
+use std::sync::OnceLock;
+
 use gio::prelude::*;
 use glib::clone;
-use glib::once_cell::sync::Lazy as SyncLazy;
 use glib::subclass::prelude::*;
 use glib::subclass::Signal;
 use gtk::gio;
@@ -20,7 +21,8 @@ mod imp {
         type Prerequisites = (gio::ListModel,);
 
         fn signals() -> &'static [Signal] {
-            static SIGNALS: SyncLazy<Vec<Signal>> = SyncLazy::new(|| {
+            static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+            SIGNALS.get_or_init(|| {
                 vec![
                     Signal::builder("container-added")
                         .param_types([model::Container::static_type()])
@@ -32,12 +34,12 @@ mod imp {
                         .param_types([model::Container::static_type()])
                         .build(),
                 ]
-            });
-            SIGNALS.as_ref()
+            })
         }
 
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: SyncLazy<Vec<glib::ParamSpec>> = SyncLazy::new(|| {
+            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
+            PROPERTIES.get_or_init(|| {
                 vec![
                     glib::ParamSpecUInt::builder("len").read_only().build(),
                     glib::ParamSpecUInt::builder("created").read_only().build(),
@@ -52,8 +54,7 @@ mod imp {
                     glib::ParamSpecUInt::builder("stopped").read_only().build(),
                     glib::ParamSpecUInt::builder("stopping").read_only().build(),
                 ]
-            });
-            PROPERTIES.as_ref()
+            })
         }
     }
 }

@@ -1,8 +1,8 @@
 use std::cell::OnceCell;
+use std::sync::OnceLock;
 
 use gio::prelude::*;
 use gio::subclass::prelude::*;
-use glib::once_cell::sync::Lazy as SyncLazy;
 use gtk::gio;
 use gtk::glib;
 
@@ -26,12 +26,12 @@ mod imp {
 
     impl ObjectImpl for PortMappingList {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: SyncLazy<Vec<glib::ParamSpec>> = SyncLazy::new(|| {
+            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
+            PROPERTIES.get_or_init(|| {
                 vec![glib::ParamSpecUInt::builder("len")
                     .explicit_notify()
                     .build()]
-            });
-            PROPERTIES.as_ref()
+            })
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {

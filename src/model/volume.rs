@@ -1,10 +1,10 @@
 use std::cell::Cell;
 use std::cell::OnceCell;
 use std::ops::Deref;
+use std::sync::OnceLock;
 
 use gio::prelude::*;
 use glib::clone;
-use glib::once_cell::sync::Lazy as SyncLazy;
 use glib::subclass::prelude::*;
 use glib::subclass::Signal;
 use glib::Properties;
@@ -49,9 +49,8 @@ mod imp {
 
     impl ObjectImpl for Volume {
         fn signals() -> &'static [Signal] {
-            static SIGNALS: SyncLazy<Vec<Signal>> =
-                SyncLazy::new(|| vec![Signal::builder("deleted").build()]);
-            SIGNALS.as_ref()
+            static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+            SIGNALS.get_or_init(|| vec![Signal::builder("deleted").build()])
         }
 
         fn properties() -> &'static [glib::ParamSpec] {

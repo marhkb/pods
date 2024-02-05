@@ -1,10 +1,10 @@
 use std::cell::OnceCell;
+use std::sync::OnceLock;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use glib::clone;
 use glib::closure;
-use glib::once_cell::sync::Lazy as SyncLazy;
 use glib::Properties;
 use gtk::gdk;
 use gtk::glib;
@@ -17,7 +17,6 @@ use crate::utils;
 use crate::view;
 
 const ACTION_CREATE_VOLUME: &str = "volume-selection-page.create-volume";
-const ACTION_FILTER: &str = "volume-selection-page.filter";
 const ACTION_SELECT: &str = "volume-selection-page.select";
 const ACTION_CLEAR_FILTER: &str = "volume-selection-page.clear-filter";
 
@@ -63,21 +62,14 @@ mod imp {
                 widget.create_volume();
             });
 
-            klass.install_action(ACTION_FILTER, Some("b"), |widget, _, data| {
-                widget.enable_search_mode(data.unwrap().get().unwrap());
+            klass.add_binding(gdk::Key::F, gdk::ModifierType::CONTROL_MASK, |widget| {
+                widget.enable_search_mode(true);
+                glib::Propagation::Proceed
             });
-            klass.add_binding_action(
-                gdk::Key::F,
-                gdk::ModifierType::CONTROL_MASK,
-                ACTION_FILTER,
-                Some(&true.to_variant()),
-            );
-            klass.add_binding_action(
-                gdk::Key::Escape,
-                gdk::ModifierType::empty(),
-                ACTION_FILTER,
-                Some(&false.to_variant()),
-            );
+            klass.add_binding(gdk::Key::Escape, gdk::ModifierType::empty(), |widget| {
+                widget.enable_search_mode(false);
+                glib::Propagation::Proceed
+            });
 
             klass.install_action(ACTION_CLEAR_FILTER, None, |widget, _, _| {
                 widget.clear_filter();
@@ -95,12 +87,12 @@ mod imp {
 
     impl ObjectImpl for VolumeSelectionPage {
         fn signals() -> &'static [Signal] {
-            static SIGNALS: SyncLazy<Vec<Signal>> = SyncLazy::new(|| {
+            static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+            SIGNALS.get_or_init(|| {
                 vec![Signal::builder("volume-selected")
                     .param_types([model::Volume::static_type()])
                     .build()]
-            });
-            SIGNALS.as_ref()
+            })
         }
 
         fn properties() -> &'static [glib::ParamSpec] {

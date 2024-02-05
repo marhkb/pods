@@ -1,6 +1,6 @@
 use std::cell::RefCell;
+use std::sync::OnceLock;
 
-use glib::once_cell::sync::Lazy as SyncLazy;
 // use gtk::glib::subclass::Signal;
 use glib::prelude::*;
 use glib::subclass::prelude::*;
@@ -26,9 +26,8 @@ mod imp {
 
     impl ObjectImpl for Value {
         fn signals() -> &'static [Signal] {
-            static SIGNALS: SyncLazy<Vec<Signal>> =
-                SyncLazy::new(|| vec![Signal::builder("remove-request").build()]);
-            SIGNALS.as_ref()
+            static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+            SIGNALS.get_or_init(|| vec![Signal::builder("remove-request").build()])
         }
 
         fn properties() -> &'static [glib::ParamSpec] {

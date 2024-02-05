@@ -1,4 +1,5 @@
-use glib::once_cell::sync::Lazy as SyncLazy;
+use std::sync::OnceLock;
+
 use glib::prelude::*;
 use glib::subclass::prelude::*;
 use gtk::glib;
@@ -14,19 +15,19 @@ mod imp {
         const NAME: &'static str = "Selectable";
 
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: SyncLazy<Vec<glib::ParamSpec>> = SyncLazy::new(|| {
+            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
+            PROPERTIES.get_or_init(|| {
                 vec![glib::ParamSpecBoolean::builder("selected")
                     .explicit_notify()
                     .build()]
-            });
-            PROPERTIES.as_ref()
+            })
         }
     }
 }
 
 glib::wrapper! { pub(crate) struct Selectable(ObjectInterface<imp::Selectable>); }
 
-pub(crate) trait SelectableExt: glib::IsA<Selectable> {
+pub(crate) trait SelectableExt: IsA<Selectable> {
     fn is_selected(&self) -> bool;
 
     fn set_selected(&self, value: bool);

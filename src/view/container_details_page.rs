@@ -132,29 +132,17 @@ mod imp {
                 widget.show_processes();
             });
 
-            klass.add_binding_action(
-                gdk::Key::F2,
-                gdk::ModifierType::empty(),
-                ACTION_RENAME,
-                None,
-            );
-            klass.add_binding_action(
-                gdk::Key::K,
-                gdk::ModifierType::CONTROL_MASK,
-                ACTION_COMMIT,
-                None,
-            );
+            klass.add_binding_action(gdk::Key::F2, gdk::ModifierType::empty(), ACTION_RENAME);
+            klass.add_binding_action(gdk::Key::K, gdk::ModifierType::CONTROL_MASK, ACTION_COMMIT);
             klass.add_binding_action(
                 gdk::Key::D,
                 gdk::ModifierType::CONTROL_MASK,
                 ACTION_GET_FILES,
-                None,
             );
             klass.add_binding_action(
                 gdk::Key::U,
                 gdk::ModifierType::CONTROL_MASK,
                 ACTION_PUT_FILES,
-                None,
             );
         }
 

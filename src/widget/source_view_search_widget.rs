@@ -46,7 +46,6 @@ mod imp {
                 gdk::Key::G,
                 gdk::ModifierType::CONTROL_MASK | gdk::ModifierType::SHIFT_MASK,
                 ACTION_SEARCH_BACKWARDS,
-                None,
             );
             klass.install_action(ACTION_SEARCH_BACKWARDS, None, |widget, _, _| {
                 widget.search_backward();
@@ -56,7 +55,6 @@ mod imp {
                 gdk::Key::G,
                 gdk::ModifierType::CONTROL_MASK,
                 ACTION_SEARCH_FORWARD,
-                None,
             );
             klass.install_action(ACTION_SEARCH_FORWARD, None, |widget, _, _| {
                 widget.search_forward();
