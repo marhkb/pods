@@ -7,6 +7,7 @@ use gtk::glib;
 mod imp {
     use super::*;
 
+    #[allow(dead_code)]
     #[derive(Copy, Clone, Debug)]
     pub(crate) struct Selectable(glib::gobject_ffi::GTypeInterface);
 

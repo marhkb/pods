@@ -12,6 +12,7 @@ use crate::model;
 mod imp {
     use super::*;
 
+    #[allow(dead_code)]
     #[derive(Copy, Clone, Debug)]
     pub(crate) struct AbstractContainerList(glib::gobject_ffi::GTypeInterface);
 
