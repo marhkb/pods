@@ -118,7 +118,7 @@ mod imp {
                         utils::do_async(
                             async move {
                                 match keyring
-                                    .search_items(attributes(&host, &namespace))
+                                    .search_items(&attributes(&host, &namespace))
                                     .await
                                     .map_err(anyhow::Error::from)
                                 {
@@ -247,7 +247,7 @@ impl RepoTagPushPage {
                                             keyring
                                                 .create_item(
                                                     &format!("{host}:{namespace}"),
-                                                    attributes(&host, &namespace),
+                                                    &attributes(&host, &namespace),
                                                     serde_json::to_vec(&secret).unwrap(),
                                                     true,
                                                 )
@@ -268,7 +268,10 @@ impl RepoTagPushPage {
                         } else if let Some(keyring) = crate::KEYRING.get() {
                             crate::runtime().spawn({
                                 async move {
-                                    keyring.delete(attributes(&host, &namespace)).await.unwrap();
+                                    keyring
+                                        .delete(&attributes(&host, &namespace))
+                                        .await
+                                        .unwrap();
                                 }
                             });
                         }
