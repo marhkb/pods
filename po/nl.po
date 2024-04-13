@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-12-28 12:57+0100\n"
-"PO-Revision-Date: 2024-02-21 20:01+0000\n"
-"Last-Translator: Philip Goto <philip.goto@gmail.com>\n"
+"PO-Revision-Date: 2024-04-14 20:01+0000\n"
+"Last-Translator: Gert-dev <Gert-dev@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/pods/main/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
@@ -207,7 +207,9 @@ msgstr "Marcus Behrendt"
 
 #: src/application.rs:192
 msgid "translator-credits"
-msgstr "Credits vertalers"
+msgstr ""
+"Gert-dev\n"
+"Philip Goto https://flipflop97.github.io/"
 
 #: src/application.rs:194
 msgid "Translators"
@@ -988,7 +990,7 @@ msgstr "Schakel de service in door de volgende opdracht uit te voeren:"
 #: src/view/connection_custom_info_dialog.ui:259
 msgid ""
 "Enter the following URL here into the text field and create the connection:"
-msgstr "Voer de volgende URL in in het tekstveld en maak de verbinding aan:"
+msgstr "Geef de volgende URL in het tekstveld in en maak de verbinding aan:"
 
 #: src/view/connection_row.rs:98
 msgid "Local connection"
@@ -1725,7 +1727,6 @@ msgid "1 container, stopped"
 msgstr "1 container, gestopt"
 
 #: src/view/containers_panel.rs:242
-#, fuzzy
 msgid "{} container total, {} running"
 msgid_plural "{} containers total, {} running"
 msgstr[0] "{} container in totaal, {} draaiend"
@@ -1844,8 +1845,8 @@ msgid ""
 "Image is used by container <b>{}</b>. Deleting the image will also delete "
 "all its associated containers."
 msgstr ""
-"Schijfkopiebestand wordt gebruikt door container <b>{}</b>. Deze verwijderen "
-"zal ook alle bijhorende containers verwijderen."
+"Schijfkopiebestand wordt gebruikt door container <b>{}</b>. Door deze te "
+"verwijderen worden ook alle bijbehorende containers verwijderd."
 
 #: src/view/image.rs:28
 msgid ""
@@ -2114,13 +2115,13 @@ msgid "1 image, unused"
 msgstr "1 schijfkopiebestand, niet in gebruik"
 
 #: src/view/images_panel.rs:210
-#, fuzzy
 msgid "{} image total ({}), {} unused ({})"
 msgid_plural "{} images total ({}), {} unused ({})"
 msgstr[0] ""
-"{} schijfkopiebestand in totaal, {} {} ongebruikte schijfkopiebestand, {}"
+"{} schijfkopiebestand in totaal ({}), {} ongebruikt schijfkopiebestand ({})"
 msgstr[1] ""
-"{} schijfkopiebestanden in totaal, {} {} ongebruikte schijfkopiebestanden, {}"
+"{} schijfkopiebestanden in totaal ({}), {} ongebruikte schijfkopiebestanden "
+"({})"
 
 #: src/view/images_panel.rs:229
 msgid "{} Selected Image"
@@ -2391,8 +2392,8 @@ msgid ""
 "Pod contains container <b>{}</b>. Deleting the pod will also delete all its "
 "containers."
 msgstr ""
-"Pod bevat container <b>{}</b>. De pod verwijderen zal ook alle onderliggende "
-"containers verwijderen."
+"Pod bevat container <b>{}</b>. Door deze pod te verwijderen zullen ook alle "
+"onderliggende containers verwijderd worden."
 
 #: src/view/pod.rs:72
 msgid ""
@@ -2505,11 +2506,10 @@ msgid "1 pod, stopped"
 msgstr "1 pod, gestopt"
 
 #: src/view/pods_panel.rs:236
-#, fuzzy
 msgid "{} pod total, {} running"
 msgid_plural "{} pods total, {} running"
-msgstr[0] "{} pod, {} draaiend"
-msgstr[1] "{} pods, {} draaiend"
+msgstr[0] "{} pod in totaal, {} draaiend"
+msgstr[1] "{} pods in totaal, {} draaiend"
 
 #: src/view/pods_panel.rs:250
 msgid "{} Selected Pod"
@@ -2895,22 +2895,20 @@ msgstr "Geforceerde verwijdering van volume bevestigen"
 
 #. Translators: The "{}" is a placeholder for the container name.
 #: src/view/volume.rs:24
-#, fuzzy
 msgid ""
 "Volume is used by container <b>{}</b>. Deleting the volume will also delete "
 "these containers."
 msgstr ""
-"Schijfkopiebestand wordt gebruikt door container ‘{}’. Door deze te "
-"verwijderen worden ook alle bijbehorende containers verwijderd."
+"Volume wordt gebruikt door container <b>{}</b>. Door deze te verwijderen "
+"worden ook alle bijbehorende containers verwijderd."
 
 #: src/view/volume.rs:28
-#, fuzzy
 msgid ""
 "Volume is used by a container. Deleting the volume will also delete all "
 "these containers."
 msgstr ""
-"Schijfkopiebestand wordt gebruikt door een container. Door deze te "
-"verwijderen worden ook alle bijbehorende containers verwijderd."
+"Volume wordt gebruikt door een container. Door deze te verwijderen worden "
+"ook alle bijbehorende containers verwijderd."
 
 #. Translators: The "{}" is a placeholder for the volume name.
 #: src/view/volume.rs:65 src/view/volumes_panel.rs:480
@@ -2976,13 +2974,10 @@ msgid "1 volume, unused"
 msgstr "1 volume, niet in gebruik"
 
 #: src/view/volumes_panel.rs:202
-#, fuzzy
 msgid "{} volumes total, {} unused"
 msgid_plural "{} volumes total, {} unused"
-msgstr[0] ""
-"{} schijfkopiebestand in totaal, {} {} ongebruikte schijfkopiebestand, {}"
-msgstr[1] ""
-"{} schijfkopiebestanden in totaal, {} {} ongebruikte schijfkopiebestanden, {}"
+msgstr[0] "{} volume in totaal, {} ongebruikt"
+msgstr[1] "{} volumes in totaal, {} ongebruikt"
 
 #: src/view/volumes_panel.rs:216
 msgid "{} Selected Volume"
@@ -2991,18 +2986,16 @@ msgstr[0] "{} geselecteerd volume"
 msgstr[1] "{} geselecteerde volumen"
 
 #: src/view/volumes_panel.rs:450
-#, fuzzy
 msgid "Confirm Forced Deletion of Multiple Volumes"
-msgstr "Geforceerde verwijdering van meerdere schijfkopiebestanden bevestigen"
+msgstr "Geforceerde verwijdering van meerdere volumes bevestigen"
 
 #: src/view/volumes_panel.rs:452
-#, fuzzy
 msgid ""
 "There may be containers associated with some of the volumes, which will also "
 "be removed!"
 msgstr ""
-"Er zijn mogelijk containers geassocieerd met deze schijfkopiebestanden, "
-"welke ook zullen worden verwijderd!"
+"Er zijn mogelijk containers geassocieerd met deze volumes, die mee zullen "
+"worden verwijderd!"
 
 #: src/view/volumes_panel.ui:10
 msgid "_Prune Volumes"
