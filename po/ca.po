@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-12-28 12:57+0100\n"
-"PO-Revision-Date: 2022-09-20 18:24+0000\n"
-"Last-Translator: Minkiu <oscardomingo@gmail.com>\n"
-"Language-Team: Catalan <https://hosted.weblate.org/projects/pods/pods/ca/>\n"
+"PO-Revision-Date: 2024-06-14 08:09+0000\n"
+"Last-Translator: jolupa <jolupameister@gmail.com>\n"
+"Language-Team: Catalan <https://hosted.weblate.org/projects/pods/main/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.14.1\n"
+"X-Generator: Weblate 5.6-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:110
@@ -24,16 +24,16 @@ msgstr ""
 #: src/view/pods_panel.ui:138 src/view/pods_panel.ui:432
 #: src/view/pods_row.ui:22 src/view/search_panel.ui:81
 msgid "Pods"
-msgstr ""
+msgstr "Pods"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:4
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
 msgid "Manage your Podman containers"
-msgstr ""
+msgstr "Controla els teus contenidors Podman"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:9
 msgid "Gnome;GTK;libadwaita;Podman;Containerization;"
-msgstr ""
+msgstr "Gnome;GTK;libadwaita;Podman;Containeritzacio;"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:6
 #: data/com.github.marhkb.Pods.gschema.xml.in:7
