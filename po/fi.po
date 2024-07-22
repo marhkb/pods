@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-12-28 12:57+0100\n"
-"PO-Revision-Date: 2023-10-02 08:40+0000\n"
+"PO-Revision-Date: 2024-07-22 22:06+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/pods/main/fi/>\n"
 "Language: fi\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.1-dev\n"
+"X-Generator: Weblate 5.7-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:110
@@ -28,7 +28,6 @@ msgstr "Podit"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:4
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
-#, fuzzy
 msgid "Manage your Podman containers"
 msgstr "Pidä Podman-kontit hallinnassasi"
 
@@ -188,9 +187,8 @@ msgid "Rename containers."
 msgstr "Nimeä kontteja uudelleen."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:30
-#, fuzzy
 msgid "Container Overview"
-msgstr "Konttien yleisnäkymä"
+msgstr "Kontin yleisnäkymä"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:34
 #, fuzzy
@@ -198,9 +196,8 @@ msgid "Containers Details in Compact Mode"
 msgstr "Kontti on luotu"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:38
-#, fuzzy
 msgid "Search Results"
-msgstr "Etsi"
+msgstr "Hakutulokset"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:395
 msgid "Marcus Behrendt"
@@ -324,9 +321,8 @@ msgid "Prune unused volumes"
 msgstr "Poista käyttämättömät levykuvat"
 
 #: src/model/connection_manager.rs:203
-#, fuzzy
 msgid "Connection '{}' already exists"
-msgstr "Yhteys '{}' on jo olemassa."
+msgstr "Yhteys '{}' on jo olemassa"
 
 #: src/model/container.rs:69
 msgid "Configured"
@@ -467,14 +463,12 @@ msgid "Pruning Images"
 msgstr "Poista käyttämättömät levykuvat"
 
 #: src/view/action_page.rs:144
-#, fuzzy
 msgid "Downloading Image"
-msgstr "Lataa levykuva"
+msgstr "Ladataan levykuva"
 
 #: src/view/action_page.rs:145
-#, fuzzy
 msgid "Building Image"
-msgstr "Koosta levykuva"
+msgstr "Koostetaan levykuva"
 
 #: src/view/action_page.rs:146
 #, fuzzy
@@ -487,24 +481,20 @@ msgid "Pruning Containers"
 msgstr "Näytä vain käynnissä olevat kontit"
 
 #: src/view/action_page.rs:148
-#, fuzzy
 msgid "Creating Container"
-msgstr "Luo kontti"
+msgstr "Luodaan kontti"
 
 #: src/view/action_page.rs:149
-#, fuzzy
 msgid "Starting Container"
-msgstr "Virhe konttia käynnistäessä"
+msgstr "Käynnistetään kontti"
 
 #: src/view/action_page.rs:150
-#, fuzzy
 msgid "Committing Image"
-msgstr "Kommitoi kontti"
+msgstr "Kommitoidaan levykuva"
 
 #: src/view/action_page.rs:151
-#, fuzzy
 msgid "Copying Files"
-msgstr "Määritystiedosto"
+msgstr "Kopioidaan tiedostoja"
 
 #: src/view/action_page.rs:152
 #, fuzzy
@@ -512,14 +502,12 @@ msgid "Pruning Pods"
 msgstr "Näytä vain käynnissä olevat podit"
 
 #: src/view/action_page.rs:153
-#, fuzzy
 msgid "Creating Pod"
-msgstr "Luo podi"
+msgstr "Luodaan podi"
 
 #: src/view/action_page.rs:154
-#, fuzzy
 msgid "Creating Volume"
-msgstr "Luo taltio"
+msgstr "Luodaan taltio"
 
 #: src/view/action_page.rs:155
 #, fuzzy
@@ -532,14 +520,12 @@ msgid "Images Pruned"
 msgstr "Levykuvia ei löytynyt"
 
 #: src/view/action_page.rs:162
-#, fuzzy
 msgid "Image Downloaded"
-msgstr "Levykuvan lataus epäonnistui"
+msgstr "Levykuva ladattu"
 
 #: src/view/action_page.rs:163
-#, fuzzy
 msgid "Image Built"
-msgstr "Levykuva on koostettu"
+msgstr "Levykuva koostettu"
 
 #: src/view/action_page.rs:164
 #, fuzzy
@@ -552,14 +538,12 @@ msgid "Containers Pruned"
 msgstr "Kontteja ei löytynyt"
 
 #: src/view/action_page.rs:166
-#, fuzzy
 msgid "Container Created"
-msgstr "Kontti on luotu"
+msgstr "Kontti luotu"
 
 #: src/view/action_page.rs:167
-#, fuzzy
 msgid "Container Started"
-msgstr "Konttien varasto"
+msgstr "Kontti käynnistetty"
 
 #: src/view/action_page.rs:168
 #, fuzzy
@@ -568,7 +552,7 @@ msgstr "Levykuvan kommitointi epäonnistui"
 
 #: src/view/action_page.rs:169
 msgid "Files Copied"
-msgstr ""
+msgstr "Tiedostot kopioitu"
 
 #: src/view/action_page.rs:170
 #, fuzzy
@@ -576,14 +560,12 @@ msgid "Pods Pruned"
 msgstr "Podi on luotu"
 
 #: src/view/action_page.rs:171
-#, fuzzy
 msgid "Pod Created"
-msgstr "Luotu"
+msgstr "Podi luotu"
 
 #: src/view/action_page.rs:172
-#, fuzzy
 msgid "Volume Created"
-msgstr "Taltio on luotu"
+msgstr "Taltio luotu"
 
 #: src/view/action_page.rs:173
 #, fuzzy
@@ -661,14 +643,12 @@ msgid "Pruning Image Failed"
 msgstr "Tiedostojen kopioiminen epäonnistui"
 
 #: src/view/action_page.rs:198
-#, fuzzy
 msgid "Downloading Image Failed"
-msgstr "Lataa levykuva"
+msgstr "Levykuvan lataaminen epäonnistui"
 
 #: src/view/action_page.rs:199
-#, fuzzy
 msgid "Building Image Failed"
-msgstr "Koosta levykuva"
+msgstr "Levykuvan koostaminen epäonnistui"
 
 #: src/view/action_page.rs:200
 #, fuzzy
@@ -696,7 +676,6 @@ msgid "Committing Image Failed"
 msgstr "Levykuvan kommitointi epäonnistui"
 
 #: src/view/action_page.rs:205
-#, fuzzy
 msgid "Copying Files Failed"
 msgstr "Tiedostojen kopioiminen epäonnistui"
 
@@ -706,7 +685,6 @@ msgid "Pruning Pods Failed"
 msgstr "Tiedostojen kopioiminen epäonnistui"
 
 #: src/view/action_page.rs:207
-#, fuzzy
 msgid "Creating Pod Failed"
 msgstr "Podin luonti epäonnistui"
 
@@ -820,7 +798,7 @@ msgstr "Taltiot"
 #: src/view/client_view.rs:259 src/view/info_panel.ui:24
 #: src/view/info_row.ui:22
 msgid "Info"
-msgstr ""
+msgstr "Tietoja"
 
 #: src/view/client_view.rs:260 src/view/container_log_page.ui:60
 #: src/view/containers_panel.ui:109 src/view/images_panel.ui:134
@@ -879,18 +857,16 @@ msgid "_Confirm"
 msgstr "_Vahvista"
 
 #: src/view/connection_chooser_page.rs:106
-#, fuzzy
 msgid "Error on establishing connection"
-msgstr "Virhe yhteyttä vaihtaessa"
+msgstr "Virhe yhteyttä muodostaessa"
 
 #: src/view/connection_chooser_page.ui:26
 msgid "Connect to Podman"
 msgstr "Yhdistä Podmaniin"
 
 #: src/view/connection_chooser_page.ui:27
-#, fuzzy
 msgid "Choose an existing connection or create a new one"
-msgstr "Valitse olemassa oleva yhteys tai luo uusi yhteys."
+msgstr "Valitse olemassa oleva yhteys tai luo uusi yhteys"
 
 #: src/view/connection_creation_page.rs:138
 msgid "official documentation"
@@ -927,9 +903,8 @@ msgid "URL"
 msgstr "URL-osoite"
 
 #: src/view/connection_creation_page.ui:121
-#, fuzzy
 msgid "Choose how to connect to Podman"
-msgstr "Valitse miten haluat yhdistää Podmaniin."
+msgstr "Valitse miten haluat yhdistää Podmaniin"
 
 #: src/view/connection_creation_page.ui:125
 msgid "Unix Socket"
@@ -964,18 +939,16 @@ msgstr ""
 "(lue vinkit tästä)."
 
 #: src/view/connection_creation_page.ui:258
-#, fuzzy
 msgid "Custom URL"
-msgstr "Mukautettu"
+msgstr "Mukautettu URL-osoite"
 
 #: src/view/connection_creation_page.ui:296
 msgid "Color"
 msgstr "Väri"
 
 #: src/view/connection_creation_page.ui:297
-#, fuzzy
 msgid "Set the color of this connection"
-msgstr "Aseta tämän yhteyden väri."
+msgstr "Aseta tämän yhteyden väri"
 
 #: src/view/connection_custom_info_dialog.rs:149
 msgid "systemd unit path copied"
@@ -1173,30 +1146,25 @@ msgstr "Argumentti"
 
 #: src/view/container_creation_page.rs:200 src/view/pod_creation_page.rs:200
 #: src/view/pod_creation_page.rs:210
-#, fuzzy
 msgid "Add Argument"
-msgstr "Argumentti"
+msgstr "Lisää argumentti"
 
 #: src/view/container_creation_page.rs:211 src/view/pod_creation_page.rs:180
-#, fuzzy
 msgid "Add Port Mapping"
-msgstr "Porttisidokset"
+msgstr "Lisää porttisidos"
 
 #: src/view/container_creation_page.rs:219
-#, fuzzy
 msgid "Add Volume"
-msgstr "Taltio"
+msgstr "Lisää taltio"
 
 #: src/view/container_creation_page.rs:229
-#, fuzzy
 msgid "Add Environment Variable"
-msgstr "Ympäristömuuttujat"
+msgstr "Lisää ympäristömuuttuja"
 
 #: src/view/container_creation_page.rs:239 src/view/image_build_page.rs:115
 #: src/view/pod_creation_page.rs:154
-#, fuzzy
 msgid "Add Label"
-msgstr "Nimikkeet"
+msgstr "Lisää nimike"
 
 #: src/view/container_creation_page.rs:524
 msgid "Failed to create container"
@@ -1230,7 +1198,6 @@ msgid "Pod"
 msgstr "Podi"
 
 #: src/view/container_creation_page.ui:154 src/view/pod_creation_page.ui:287
-#, fuzzy
 msgid "Pull Latest Image"
 msgstr "Vedä viimeisin levykuva"
 
@@ -1248,7 +1215,6 @@ msgid "Give extended privileges to container"
 msgstr ""
 
 #: src/view/container_creation_page.ui:175
-#, fuzzy
 msgid "Memory Limit"
 msgstr "Muistiraja"
 
@@ -1306,7 +1272,7 @@ msgstr "Väli"
 
 #: src/view/container_creation_page.ui:367
 msgid "Health check interval in seconds"
-msgstr ""
+msgstr "Terveystarkastuksen väli sekunneissa"
 
 #: src/view/container_creation_page.ui:383
 #: src/view/container_health_check_page.ui:71
@@ -1392,32 +1358,28 @@ msgid "Kube"
 msgstr ""
 
 #: src/view/container_details_page.ui:221
-#, fuzzy
 msgid "Generate Kubernetes YAML based on this container"
-msgstr "Luo Kuberneteksen YAML pohjautuen tähän konttiin."
+msgstr "Luo Kuberneteksen YAML pohjautuen tähän konttiin"
 
 #: src/view/container_details_page.ui:238
-#, fuzzy
 msgid "Connect to the container's terminal"
-msgstr "Yhdistä kontin päätteeseen."
+msgstr "Yhdistä kontin päätteeseen"
 
 #: src/view/container_details_page.ui:254
 msgid "Logs"
 msgstr "Lokit"
 
 #: src/view/container_details_page.ui:255
-#, fuzzy
 msgid "View and search through container logs"
-msgstr "Katsele konttien lokeja ja etsi niiden sisällöstä."
+msgstr "Katsele konttien lokeja ja etsi niiden sisällöstä"
 
 #: src/view/container_details_page.ui:271 src/view/pod_details_page.ui:267
 msgid "Processes"
 msgstr "Prosessit"
 
 #: src/view/container_details_page.ui:272
-#, fuzzy
 msgid "View and manage processes of the container"
-msgstr "Katsele konttien lokeja ja etsi niiden sisällöstä."
+msgstr "Näytä kontin prosessit ja hallitse niitä"
 
 #: src/view/container_files_get_page.rs:148
 msgid "Select Host Destination Path"
@@ -1555,9 +1517,8 @@ msgid "Error on retrieving logs"
 msgstr "Virhe lokeja noutaessa"
 
 #: src/view/container_log_page.rs:698
-#, fuzzy
 msgid "Log has been saved"
-msgstr "Loki on tallennettu."
+msgstr "Loki on tallennettu"
 
 #: src/view/container_log_page.rs:721
 msgid "Error starting container"
@@ -1580,14 +1541,12 @@ msgid "Container Logs"
 msgstr "Konttilokit"
 
 #: src/view/container_log_page.ui:105
-#, fuzzy
 msgid "Start/Resume Container"
-msgstr "Käynnistä/palauta kontti."
+msgstr "Käynnistä/palauta kontti"
 
 #: src/view/container_log_page.ui:106
-#, fuzzy
 msgid "Streaming is disconnected because container is not running"
-msgstr "Lokin suoratoisto on katkaistu, koska kontti ei ole käynnissä."
+msgstr "Lokin suoratoisto on katkaistu, koska kontti ei ole käynnissä"
 
 #: src/view/container_log_page.ui:149
 msgid "Loading previous lines"
@@ -1751,9 +1710,8 @@ msgid "No Terminal"
 msgstr "Ei päätettä"
 
 #: src/view/container_terminal.ui:36
-#, fuzzy
 msgid "The container must be running to use the terminal"
-msgstr "Kontin tulee olla käynnissä, jotta päätettä voi käyttää."
+msgstr "Kontin tulee olla käynnissä, jotta päätettä voi käyttää"
 
 #: src/view/container_terminal.ui:46
 msgid "Start"
@@ -1845,19 +1803,16 @@ msgid "Cancel"
 msgstr "Peru"
 
 #: src/view/containers_panel.ui:258
-#, fuzzy
 msgid "No Running Containers"
-msgstr "Näytä vain käynnissä olevat kontit"
+msgstr "Ei käynnissä olevia kontteja"
 
 #: src/view/containers_panel.ui:268
-#, fuzzy
 msgid "_Show All Containers"
-msgstr "Näytä vain käynnissä olevat kontit"
+msgstr "Näytä _kaikki kontit"
 
 #: src/view/containers_panel.ui:441
-#, fuzzy
 msgid "No Containers Available"
-msgstr "Kontteja ei löytynyt"
+msgstr "Kontteja ei saatavilla"
 
 #: src/view/containers_prune_page.ui:52 src/view/images_prune_page.ui:52
 #: src/view/pods_prune_page.ui:52 src/view/volumes_prune_page.ui:52
@@ -1926,9 +1881,8 @@ msgid "Select Build Context Directory"
 msgstr "Valitse koostamisen kontekstihakemisto"
 
 #: src/view/image_build_page.rs:234
-#, fuzzy
 msgid "Image name must not contain uppercase characters"
-msgstr "Levykuvan nimen ei tule sisältää isoja kirjaimia."
+msgstr "Levykuvan nimen ei tule sisältää isoja kirjaimia"
 
 #: src/view/image_build_page.ui:42
 msgid "Build Image"
@@ -1988,7 +1942,6 @@ msgid "Delete Image"
 msgstr "Poista levykuva"
 
 #: src/view/image_details_page.ui:87
-#, fuzzy
 msgid "Disk Space"
 msgstr "Levytila"
 
@@ -2010,9 +1963,8 @@ msgid "History"
 msgstr "Historia"
 
 #: src/view/image_details_page.ui:139
-#, fuzzy
 msgid "View parent layers of this image"
-msgstr "Näytä tämän levykuvan ylätasot."
+msgstr "Näytä tämän levykuvan ylätasot"
 
 #: src/view/image_details_page.ui:158
 msgid "Repository Tags"
@@ -2088,32 +2040,28 @@ msgstr "levykuvaa ei ole valittu"
 
 #: src/view/image_search_page.ui:64
 msgid "Next"
-msgstr ""
+msgstr "Seuraava"
 
 #: src/view/image_search_page.ui:92
-#, fuzzy
 msgid "Find Remote Images"
-msgstr "Etälevykuva"
+msgstr "Löydä etälevykuvia"
 
 #: src/view/image_search_page.ui:93
-#, fuzzy
 msgid "Please start typing to look for remote images"
-msgstr "Aloita kirjoittaminen etsiäksesi levykuvia."
+msgstr "Aloita kirjoittaminen etsiäksesi etälevykuvia"
 
 #: src/view/image_search_page.ui:108
-#, fuzzy
 msgid "Searching"
-msgstr "Etsitään…"
+msgstr "Etsitään"
 
 #: src/view/image_search_page.ui:133 src/view/repo_tag_selection_page.ui:124
 #: src/view/search_panel.ui:48
-#, fuzzy
 msgid "Please retry another term"
-msgstr "Yritä uudelleen eri hakuehdolla."
+msgstr "Yritä uudelleen eri hakuehdolla"
 
 #: src/view/image_search_response_row.ui:40
 msgid "Official"
-msgstr ""
+msgstr "Virallinen"
 
 #: src/view/image_selection_combo_row.rs:87
 msgid "Select Image"
@@ -2131,14 +2079,12 @@ msgid "Remote Image"
 msgstr "Etälevykuva"
 
 #: src/view/image_selection_combo_row.rs:150
-#, fuzzy
 msgid "Select"
-msgstr "_Valitse"
+msgstr "Valitse"
 
 #: src/view/image_selection_page.ui:25
-#, fuzzy
 msgid "No Local Images Available"
-msgstr "Paikallinen levykuva"
+msgstr "Paikallisia levykuvia ei saatavilla"
 
 #: src/view/image_selection_page.ui:50 src/view/pod_selection_page.ui:77
 #: src/view/repo_tag_selection_page.ui:19 src/view/volume_selection_page.ui:77
@@ -2156,15 +2102,13 @@ msgstr "_Valitse"
 
 #: src/view/image_selection_page.ui:152 src/view/pod_selection_page.ui:179
 #: src/view/volume_selection_page.ui:180
-#, fuzzy
 msgid "No Results"
-msgstr "Tuloksia ei löytynyt"
+msgstr "Ei tuloksia"
 
 #: src/view/image_selection_page.ui:163 src/view/pod_selection_page.ui:190
 #: src/view/volume_selection_page.ui:191
-#, fuzzy
 msgid "_Clear Filter"
-msgstr "Suodata"
+msgstr "_Tyhjennä suodatin"
 
 #: src/view/images_panel.rs:204
 msgid "1 image, used"
@@ -2222,13 +2166,12 @@ msgid "No Tagged Images"
 msgstr "Lataa levykuva"
 
 #: src/view/images_panel.ui:293
-#, fuzzy
 msgid "_Show All Images"
-msgstr "Lataa levykuva"
+msgstr "Näytä kaikki _levykuvat"
 
 #: src/view/images_panel.ui:358
 msgid "No Images Available"
-msgstr ""
+msgstr "Levykuvia ei saatavilla"
 
 #: src/view/images_panel.ui:387
 msgid "_Download Image"
@@ -2368,11 +2311,11 @@ msgstr "Taltion polku"
 
 #: src/view/info_panel.ui:237
 msgid "No Info"
-msgstr ""
+msgstr "Ei tietoja"
 
 #: src/view/info_panel.ui:238
 msgid "There was an error while fetching the information"
-msgstr ""
+msgstr "Tietoja noutaessa tapahtui virhe"
 
 #: src/view/key_val_row.rs:149 src/view/key_val_row.ui:20
 msgid "Key"
@@ -2384,13 +2327,12 @@ msgid "Value"
 msgstr "Arvo"
 
 #: src/view/mount_row.rs:187
-#, fuzzy
 msgid "No volume selected (will create a new one)"
-msgstr "Taltiota ei ole valittu (uusi luodaan)."
+msgstr "Taltiota ei ole valittu (uusi luodaan)"
 
 #: src/view/mount_row.ui:76
 msgid "Type"
-msgstr ""
+msgstr "Tyyppi"
 
 #: src/view/mount_row.ui:88
 msgid "Bind"
@@ -2481,9 +2423,8 @@ msgid "Add Host"
 msgstr "Isännät"
 
 #: src/view/pod_creation_page.rs:190
-#, fuzzy
 msgid "Add Device"
-msgstr "Laitteet"
+msgstr "Lisää laite"
 
 #: src/view/pod_creation_page.ui:42 src/view/pod_selection_page.ui:70
 #: src/view/pods_panel.ui:117
@@ -2531,19 +2472,16 @@ msgid "Pod '{}' has been deleted"
 msgstr "Podi '{}' on poistettu"
 
 #: src/view/pod_details_page.ui:234
-#, fuzzy
 msgid "View all pod properties in a structured text form"
-msgstr "Näytä kaikki podin ominaisuudet rakenteellisessa tekstimuodossa."
+msgstr "Näytä kaikki podin ominaisuudet rakenteellisessa tekstimuodossa"
 
 #: src/view/pod_details_page.ui:251
-#, fuzzy
 msgid "Generate Kubernetes YAML based on this pod"
-msgstr "Luo Kuberneteksen YAML pohjautuen tähän podiin."
+msgstr "Luo Kuberneteksen YAML pohjautuen tähän podiin"
 
 #: src/view/pod_details_page.ui:268
-#, fuzzy
 msgid "View processes of the pod"
-msgstr "Tarkastele konttien ja podien prosesseja."
+msgstr "Tarkastele podin prosesseja"
 
 #: src/view/pod_row.rs:198
 msgid "Pod Details"
@@ -2551,7 +2489,7 @@ msgstr "Podien tiedot"
 
 #: src/view/pod_selection_page.ui:29
 msgid "No Pod Available"
-msgstr ""
+msgstr "Podia ei saatavilla"
 
 #: src/view/pod_selection_page.ui:40 src/view/pods_panel.ui:6
 #: src/view/pods_panel.ui:451
@@ -2605,18 +2543,16 @@ msgid "Show Only Running Pods"
 msgstr "Näytä vain käynnissä olevat podit"
 
 #: src/view/pods_panel.ui:258
-#, fuzzy
 msgid "No Running Pods"
-msgstr "Näytä vain käynnissä olevat podit"
+msgstr "Ei käynnissä olevia podeja"
 
 #: src/view/pods_panel.ui:268
-#, fuzzy
 msgid "_Show All Pods"
-msgstr "Näytä vain käynnissä olevat podit"
+msgstr "Näytä kaikki _podit"
 
 #: src/view/pods_panel.ui:441
 msgid "No Pods Available"
-msgstr ""
+msgstr "Podeja ei saatavilla"
 
 #: src/view/port_mapping_row.ui:83
 msgid "Protocol"
@@ -2643,11 +2579,10 @@ msgid "Host Port"
 msgstr "Isännän portti"
 
 #: src/view/port_mapping_row.ui:105
-#, fuzzy
 msgid "If 0, a random port is assigned on the host (guaranteed above 1024)"
 msgstr ""
 "Jos 0, satunnainen isännän portti määritetään (tulee olemaan suurempi kuin "
-"1024)."
+"1024)"
 
 #: src/view/port_mapping_row.ui:120
 msgid "Container Port"
@@ -2704,9 +2639,8 @@ msgid "Login"
 msgstr "Kirjaudu"
 
 #: src/view/repo_tag_push_page.ui:83
-#, fuzzy
 msgid "Some registries require authentication"
-msgstr "Jotkin rekisterit vaativat tunnistautumisen."
+msgstr "Jotkin rekisterit vaativat tunnistautumisen"
 
 #: src/view/repo_tag_push_page.ui:96
 msgid "Authentication"
@@ -2789,9 +2723,8 @@ msgid "Kube generation error"
 msgstr "Tutkintavirhe"
 
 #: src/view/search_panel.ui:33
-#, fuzzy
 msgid "Start typing to look for results"
-msgstr "Aloita kirjoittaminen etsiäksesi tuloksia."
+msgstr "Aloita kirjoittaminen etsiäksesi tuloksia"
 
 #: src/view/search_panel.ui:47
 msgid "No Results Found"
@@ -2957,15 +2890,15 @@ msgstr ""
 
 #: src/view/top_page.rs:172
 msgid "TIME"
-msgstr ""
+msgstr "AIKA"
 
 #: src/view/top_page.rs:179
 msgid "COMMAND"
-msgstr ""
+msgstr "KOMENTO"
 
 #: src/view/top_page.rs:521
 msgid "Killing pod processes is not supported"
-msgstr ""
+msgstr "Podin prosessien tappaminen ei ole tuettu"
 
 #: src/view/volume.rs:18
 #, fuzzy
@@ -3032,9 +2965,8 @@ msgid "Volume {}"
 msgstr "Taltio {}"
 
 #: src/view/volume_selection_page.ui:29
-#, fuzzy
 msgid "No Volume Available"
-msgstr "Taltioita ei löytynyt"
+msgstr "Taltiota ei saatavilla"
 
 #: src/view/volume_selection_page.ui:40 src/view/volumes_panel.ui:6
 #: src/view/volumes_panel.ui:343
@@ -3091,19 +3023,16 @@ msgid "Show Only Used Volumes"
 msgstr "Näytä vain käytetyt taltiot"
 
 #: src/view/volumes_panel.ui:258
-#, fuzzy
 msgid "No Volumes in Use"
-msgstr "Taltioita ei löytynyt"
+msgstr "Ei taltioita käytössä"
 
 #: src/view/volumes_panel.ui:268
-#, fuzzy
 msgid "_Show All Volumes"
-msgstr "Näytä vain käytetyt taltiot"
+msgstr "Näytä kaikki _taltiot"
 
 #: src/view/volumes_panel.ui:333
-#, fuzzy
 msgid "No Volumes Available"
-msgstr "Taltioita ei löytynyt"
+msgstr "Taltioita ei saatavilla"
 
 #: src/view/volumes_prune_page.ui:70
 #, fuzzy
@@ -3115,9 +3044,8 @@ msgid "Welcome to Pods"
 msgstr "Tervetuloa, käytössäsi on Podit"
 
 #: src/view/welcome_page.ui:68
-#, fuzzy
 msgid "Create a new connection to Podman to get started"
-msgstr "Käytä alla olevaa painiketta luodaksesi uuden yhteyden Podmaniin."
+msgstr "Luo uusi yhteys Podmaniin aloittaaksesi"
 
 #: src/view/welcome_page.ui:82
 msgid "_New Connection"
