@@ -14,12 +14,19 @@ mod imp {
 
     #[allow(dead_code)]
     #[derive(Copy, Clone, Debug)]
-    pub(crate) struct SelectableList(glib::gobject_ffi::GTypeInterface);
+    pub(crate) struct SelectableListClass(glib::gobject_ffi::GTypeInterface);
+
+    unsafe impl InterfaceStruct for SelectableListClass {
+        type Type = SelectableList;
+    }
+
+    pub(crate) struct SelectableList;
 
     #[glib::object_interface]
-    unsafe impl ObjectInterface for SelectableList {
+    impl ObjectInterface for SelectableList {
         const NAME: &'static str = "SelectableList";
         type Prerequisites = (gio::ListModel,);
+        type Interface = SelectableListClass;
 
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
@@ -58,8 +65,10 @@ impl SelectableList {
 pub(crate) trait SelectableListExt: IsA<SelectableList> {
     fn is_selection_mode(&self) -> bool;
 
+    #[allow(dead_code)]
     fn set_selection_mode(&self, value: bool);
 
+    #[allow(dead_code)]
     fn select_all(&self) {
         self.select(true);
     }

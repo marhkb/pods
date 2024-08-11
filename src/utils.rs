@@ -256,18 +256,18 @@ where
             gettext("<none>"))
 }
 
-pub(crate) fn format_iter<'a, I, T: ?Sized>(iter: I, sep: &str) -> String
+pub(crate) fn format_iter<'a, I, T>(iter: I, sep: &str) -> String
 where
     I: IntoIterator<Item = &'a T>,
-    T: AsRef<str> + 'a,
+    T: AsRef<str> + ?Sized + 'a,
 {
     format_option(format_iter_or_none(iter, sep))
 }
 
-pub(crate) fn format_iter_or_none<'a, I, T: ?Sized + 'a>(iter: I, sep: &str) -> Option<String>
+pub(crate) fn format_iter_or_none<'a, I, T>(iter: I, sep: &str) -> Option<String>
 where
     I: IntoIterator<Item = &'a T>,
-    T: AsRef<str> + 'a,
+    T: AsRef<str> + ?Sized + 'a,
 {
     let mut iter = iter.into_iter();
     iter.next().map(|first| {
