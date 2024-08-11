@@ -183,7 +183,7 @@ mod imp {
             snapshot.pop();
             snapshot.pop();
 
-            snapshot.append_node(&child_snapshot.to_node().unwrap());
+            snapshot.append_node(child_snapshot.to_node().unwrap());
             snapshot.pop();
 
             widget.snapshot_child(&*self.image, snapshot);

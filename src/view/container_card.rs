@@ -413,6 +413,7 @@ mod imp {
             gesture_click.set_state(gtk::EventSequenceState::Claimed);
             gesture_click
                 .widget()
+                .unwrap()
                 .downcast::<<Self as ObjectSubclass>::Type>()
                 .unwrap()
                 .activate();

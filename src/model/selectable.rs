@@ -9,11 +9,18 @@ mod imp {
 
     #[allow(dead_code)]
     #[derive(Copy, Clone, Debug)]
-    pub(crate) struct Selectable(glib::gobject_ffi::GTypeInterface);
+    pub(crate) struct SelectableClass(glib::gobject_ffi::GTypeInterface);
+
+    unsafe impl InterfaceStruct for SelectableClass {
+        type Type = Selectable;
+    }
+
+    pub(crate) struct Selectable;
 
     #[glib::object_interface]
-    unsafe impl ObjectInterface for Selectable {
+    impl ObjectInterface for Selectable {
         const NAME: &'static str = "Selectable";
+        type Interface = SelectableClass;
 
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();

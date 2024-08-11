@@ -14,12 +14,19 @@ mod imp {
 
     #[allow(dead_code)]
     #[derive(Copy, Clone, Debug)]
-    pub(crate) struct AbstractContainerList(glib::gobject_ffi::GTypeInterface);
+    pub(crate) struct AbstractContainerListClass(glib::gobject_ffi::GTypeInterface);
+
+    unsafe impl InterfaceStruct for AbstractContainerListClass {
+        type Type = AbstractContainerList;
+    }
+
+    pub(crate) struct AbstractContainerList;
 
     #[glib::object_interface]
-    unsafe impl ObjectInterface for AbstractContainerList {
+    impl ObjectInterface for AbstractContainerList {
         const NAME: &'static str = "AbstractContainerList";
         type Prerequisites = (gio::ListModel,);
+        type Interface = AbstractContainerListClass;
 
         fn signals() -> &'static [Signal] {
             static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
