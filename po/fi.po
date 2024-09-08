@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-12-28 12:57+0100\n"
-"PO-Revision-Date: 2024-07-22 22:06+0000\n"
+"PO-Revision-Date: 2024-09-09 07:09+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/pods/main/fi/>\n"
 "Language: fi\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.7-dev\n"
+"X-Generator: Weblate 5.8-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:110
@@ -623,14 +623,12 @@ msgid "Pod Pruning Aborted"
 msgstr "Podin luonti on keskeytetty"
 
 #: src/view/action_page.rs:189
-#, fuzzy
 msgid "Pod Creation Aborted"
-msgstr "Podin luonti on keskeytetty"
+msgstr "Podin luonti keskeytetty"
 
 #: src/view/action_page.rs:190
-#, fuzzy
 msgid "Volume Creation Aborted"
-msgstr "Podin luonti on keskeytetty"
+msgstr "Taltion luonti keskeytetty"
 
 #: src/view/action_page.rs:191
 #, fuzzy
@@ -661,14 +659,12 @@ msgid "Pruning Containers Failed"
 msgstr "Tiedostojen kopioiminen epäonnistui"
 
 #: src/view/action_page.rs:202
-#, fuzzy
 msgid "Creating Container Failed"
-msgstr "Tiedostojen kopioiminen epäonnistui"
+msgstr "Kontin luonti epäonnistui"
 
 #: src/view/action_page.rs:203
-#, fuzzy
 msgid "Starting Container Failed"
-msgstr "Tiedostojen kopioiminen epäonnistui"
+msgstr "Kontin käynnistys epäonnistui"
 
 #: src/view/action_page.rs:204
 #, fuzzy
@@ -689,9 +685,8 @@ msgid "Creating Pod Failed"
 msgstr "Podin luonti epäonnistui"
 
 #: src/view/action_page.rs:208
-#, fuzzy
 msgid "Creating Volume Failed"
-msgstr "Tiedostojen kopioiminen epäonnistui"
+msgstr "Taltion luonti epäonnistui"
 
 #: src/view/action_page.rs:209
 #, fuzzy
@@ -703,9 +698,8 @@ msgid "After {}"
 msgstr ""
 
 #: src/view/action_page.rs:293
-#, fuzzy
 msgid "Action"
-msgstr "Toimenpiteet"
+msgstr "Toimenpide"
 
 #: src/view/action_page.rs:302
 msgid "Error on opening artifact"
@@ -1212,7 +1206,7 @@ msgstr ""
 
 #: src/view/container_creation_page.ui:168
 msgid "Give extended privileges to container"
-msgstr ""
+msgstr "Anna laajennetut oikeudet kontille"
 
 #: src/view/container_creation_page.ui:175
 msgid "Memory Limit"
@@ -1281,12 +1275,11 @@ msgstr "Aikakatkaisu"
 
 #: src/view/container_creation_page.ui:384
 msgid "Seconds allowed to complete the command before it fails"
-msgstr ""
+msgstr "Komennon valmistumiseen sallitut sekunnit, ennen kuin se epäonnistuu"
 
 #: src/view/container_creation_page.ui:400
-#, fuzzy
 msgid "Start Period"
-msgstr "Aloituksen aika"
+msgstr "Aloituksen ajankohta"
 
 #: src/view/container_creation_page.ui:401
 #, fuzzy
@@ -1300,10 +1293,8 @@ msgid "Retries"
 msgstr "Uudelleenyritykset"
 
 #: src/view/container_creation_page.ui:418
-#, fuzzy
 msgid "Number of retries allowed before a healthcheck fails"
-msgstr ""
-"Uudelleenyritysten määrä, ennen kuin terveystarkastuksen tulos on epäterve."
+msgstr "Uudelleenyritysten määrä, ennen kuin terveystarkastus epäonnistuu"
 
 #: src/view/container_details_page.rs:247
 msgid "Error on loading container details"
@@ -1349,9 +1340,8 @@ msgid "Inspection"
 msgstr "Tutkinta"
 
 #: src/view/container_details_page.ui:204
-#, fuzzy
 msgid "View all container properties in a structured text form"
-msgstr "Näytä kaikki kontin ominaisuudet rakenteellisessa tekstimuodossa."
+msgstr "Näytä kaikki kontin ominaisuudet rakenteellisessa tekstimuodossa"
 
 #: src/view/container_details_page.ui:220 src/view/pod_details_page.ui:250
 msgid "Kube"
@@ -1437,7 +1427,7 @@ msgstr "_Lähetä"
 
 #: src/view/container_files_put_page.ui:79
 msgid "Select a file or a directory from the host to upload"
-msgstr ""
+msgstr "Valitse tiedosto tai kansio lähetettäväksi isäntäkoneelta"
 
 #: src/view/container_files_put_page.ui:84
 msgid "Select _File…"
@@ -1491,10 +1481,9 @@ msgid "Log"
 msgstr "Loki"
 
 #: src/view/container_health_check_page.ui:94
-#, fuzzy
 msgid "Rows describe the last 5 health check attempts and results"
 msgstr ""
-"Rivit kuvaavat viisi viimeisintä terveystarkastusyritystä ja niiden tulokset."
+"Rivit kuvaavat viisi viimeisintä terveystarkastusyritystä ja niiden tulokset"
 
 #: src/view/container_health_check_page.ui:99
 msgid "_Run Health Check"
@@ -1768,9 +1757,8 @@ msgstr "Luo kontti"
 
 #: src/view/containers_panel.ui:17 src/view/images_panel.ui:42
 #: src/view/pods_panel.ui:17 src/view/volumes_panel.ui:17
-#, fuzzy
 msgid "_Select Visible"
-msgstr "Älä valitse mitään"
+msgstr "_Valitse näkyvissä olevat"
 
 #: src/view/containers_panel.ui:21 src/view/images_panel.ui:46
 #: src/view/pods_panel.ui:21 src/view/volumes_panel.ui:21
@@ -1784,9 +1772,8 @@ msgstr "Luo kontti"
 
 #: src/view/containers_panel.ui:132 src/view/images_panel.ui:157
 #: src/view/pods_panel.ui:132 src/view/volumes_panel.ui:132
-#, fuzzy
 msgid "More Actions"
-msgstr "Ei toimenpiteitä"
+msgstr "Lisää toimenpiteitä"
 
 #: src/view/containers_panel.ui:146 src/view/containers_panel.ui:192
 msgid "Show Only Running Containers"
@@ -1933,9 +1920,8 @@ msgid "Image '{}' has been deleted"
 msgstr "Levykuva '{}' on poistettu"
 
 #: src/view/image_details_page.ui:7
-#, fuzzy
 msgid "Create Repository Tag"
-msgstr "Tietovaraston tagi"
+msgstr "Luo tietovaraston tagi"
 
 #: src/view/image_details_page.ui:66
 msgid "Delete Image"
@@ -1954,9 +1940,8 @@ msgid "Ports"
 msgstr "Portit"
 
 #: src/view/image_details_page.ui:122
-#, fuzzy
 msgid "View all image properties in a structured text form"
-msgstr "Näytä kaikki levykuvan ominaisuudet rakenteellisessa tekstimuodossa."
+msgstr "Näytä kaikki levykuvan ominaisuudet rakenteellisessa tekstimuodossa"
 
 #: src/view/image_details_page.ui:138
 msgid "History"
@@ -2029,14 +2014,12 @@ msgid "Failed to search for images"
 msgstr "Levykuvien etsiminen epäonnistui"
 
 #: src/view/image_search_page.rs:335 src/view/repo_tag_selection_page.ui:35
-#, fuzzy
 msgid "Select Tag"
-msgstr "Valitse levykuva"
+msgstr "Valitse tagi"
 
 #: src/view/image_search_page.ui:47
-#, fuzzy
 msgid "Enter image search term"
-msgstr "levykuvaa ei ole valittu"
+msgstr "Kirjoita levykuvan hakuehdot"
 
 #: src/view/image_search_page.ui:64
 msgid "Next"
@@ -2156,14 +2139,12 @@ msgid "Prune Unused Images"
 msgstr "Poista käyttämättömät levykuvat"
 
 #: src/view/images_panel.ui:171 src/view/images_panel.ui:217
-#, fuzzy
 msgid "Show Only Tagged Images"
-msgstr "Lataa levykuva"
+msgstr "Näytä vain tagitetut levykuvat"
 
 #: src/view/images_panel.ui:283
-#, fuzzy
 msgid "No Tagged Images"
-msgstr "Lataa levykuva"
+msgstr "Ei tagitettuja levykuvia"
 
 #: src/view/images_panel.ui:293
 msgid "_Show All Images"
@@ -2227,9 +2208,8 @@ msgstr[0] "{} levykuva"
 msgstr[1] "{} levykuvaa"
 
 #: src/view/info_panel.rs:296
-#, fuzzy
 msgid "Error on retrieving info"
-msgstr "Virhe lokeja noutaessa"
+msgstr "Virhe tietoja noutaessa"
 
 #: src/view/info_panel.ui:60 src/view/info_panel.ui:94
 msgid "Version"
@@ -2260,9 +2240,8 @@ msgid "Storage"
 msgstr "Tallennustila"
 
 #: src/view/info_panel.ui:104
-#, fuzzy
 msgid "Describes the container storage and its attributes"
-msgstr "Kuvaa kontin tallennustilan ja sen attribuutit."
+msgstr "Kuvaa kontin tallennustilan ja sen attribuutit"
 
 #: src/view/info_panel.ui:108
 msgid "Config File"
@@ -2299,7 +2278,7 @@ msgstr "Levykuvien varasto"
 
 #: src/view/info_panel.ui:206
 msgid "Describes number of images"
-msgstr ""
+msgstr "Kuvaa levykuvien määrän"
 
 #: src/view/info_panel.ui:212
 msgid "Run Root"
@@ -2418,9 +2397,8 @@ msgid "IP"
 msgstr "IP"
 
 #: src/view/pod_creation_page.rs:169
-#, fuzzy
 msgid "Add Host"
-msgstr "Isännät"
+msgstr "Lisää isäntäkone"
 
 #: src/view/pod_creation_page.rs:190
 msgid "Add Device"
@@ -2681,7 +2659,7 @@ msgstr ""
 
 #: src/view/repo_tag_selection_page.ui:99
 msgid "Fetching Tags"
-msgstr ""
+msgstr "Noudetaan tageja"
 
 #: src/view/scalable_text_view_page.rs:274
 msgid "Image Inspection"
@@ -2901,34 +2879,30 @@ msgid "Killing pod processes is not supported"
 msgstr "Podin prosessien tappaminen ei ole tuettu"
 
 #: src/view/volume.rs:18
-#, fuzzy
 msgid "Confirm Forced Volume Deletion"
-msgstr "Vahvista pakotettu levykuvan poisto"
+msgstr "Vahvista pakotettu taltion poisto"
 
 #. Translators: The "{}" is a placeholder for the container name.
 #: src/view/volume.rs:24
-#, fuzzy
 msgid ""
 "Volume is used by container <b>{}</b>. Deleting the volume will also delete "
 "these containers."
 msgstr ""
-"Levykuva on kontin <b>{}</b> käytössä. Levykuvan poistaminen poistaa myös "
-"kaikki siihen liittyvät kontit."
+"Taltio on kontin <b>{}</b> käytössä. Taltion poistaminen poistaa myös kaikki "
+"siihen liittyvät kontit."
 
 #: src/view/volume.rs:28
-#, fuzzy
 msgid ""
 "Volume is used by a container. Deleting the volume will also delete all "
 "these containers."
 msgstr ""
-"Levykuva on kontin käytössä. Levykuvan poistaminen poistaa myös kaikki "
-"siihen liittyvät kontit."
+"Taltio on kontin käytössä. Taltion poistaminen poistaa myös kaikki siihen "
+"liittyvät kontit."
 
 #. Translators: The "{}" is a placeholder for the volume name.
 #: src/view/volume.rs:65 src/view/volumes_panel.rs:480
-#, fuzzy
 msgid "Error on deleting volume '{}'"
-msgstr "Virhe levykuvaa '{}' poistaessa"
+msgstr "Virhe taltiota '{}' poistaessa"
 
 #: src/view/volume_creation_page.ui:42 src/view/volume_selection_page.ui:70
 #: src/view/volumes_group.ui:12 src/view/volumes_panel.ui:117
@@ -2952,9 +2926,8 @@ msgid "Mount Path"
 msgstr "Liitospolku"
 
 #: src/view/volume_details_page.ui:78
-#, fuzzy
 msgid "View all volume properties in a structured text form"
-msgstr "Näytä kaikki taltion ominaisuudet rakenteellisessa tekstimuodossa."
+msgstr "Näytä kaikki taltion ominaisuudet rakenteellisessa tekstimuodossa"
 
 #: src/view/volume_row.rs:174
 msgid "{} old"
@@ -3068,9 +3041,8 @@ msgid "Error on loading pods"
 msgstr "Virhe ladatessa podeja"
 
 #: src/view/window.rs:279
-#, fuzzy
 msgid "Error on loading volumes"
-msgstr "Virhe ladatessa {}"
+msgstr "Virhe ladatessa taltioita"
 
 #. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
 #: src/widget/date_time_row.rs:131
