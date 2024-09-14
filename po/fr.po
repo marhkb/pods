@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-12-28 12:57+0100\n"
-"PO-Revision-Date: 2024-03-23 19:01+0000\n"
-"Last-Translator: Maxim Therrien <maxim@veryloud.ca>\n"
+"PO-Revision-Date: 2024-09-15 22:09+0000\n"
+"Last-Translator: ascpial <mail@ascpial.fr>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/pods/main/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.5-dev\n"
+"X-Generator: Weblate 5.8-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:110
@@ -1847,9 +1847,8 @@ msgid "Select None"
 msgstr "Sélectionnez Aucun"
 
 #: src/view/containers_panel.ui:125 src/view/containers_prune_page.ui:42
-#, fuzzy
 msgid "Prune Stopped Containers"
-msgstr "Créer le conteneur"
+msgstr "Nettoyer les conteneurs arrêtés"
 
 #: src/view/containers_panel.ui:132 src/view/images_panel.ui:157
 #: src/view/pods_panel.ui:132 src/view/volumes_panel.ui:132
@@ -2284,11 +2283,11 @@ msgstr "Supprimez les images"
 
 #: src/view/images_prune_page.ui:69
 msgid "Prune All"
-msgstr "Tout supprimé"
+msgstr "Tout supprimer"
 
 #: src/view/images_prune_page.ui:76
 msgid "Prune External"
-msgstr "Supprimé externe"
+msgstr "Supprimer les image externes"
 
 #: src/view/images_prune_page.ui:83
 #, fuzzy
