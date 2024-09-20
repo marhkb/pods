@@ -1,7 +1,8 @@
+use std::sync::OnceLock;
+
 use gio::prelude::*;
 use gio::subclass::prelude::*;
 use glib::clone;
-use glib::once_cell::sync::Lazy as SyncLazy;
 use gtk::gio;
 use gtk::glib;
 
@@ -12,7 +13,7 @@ mod imp {
     use super::*;
 
     #[derive(Copy, Clone, Debug)]
-    pub(crate) struct SelectableList(glib::gobject_ffi::GTypeInterface);
+    pub(crate) struct SelectableList(#[allow(dead_code)] glib::gobject_ffi::GTypeInterface);
 
     #[glib::object_interface]
     unsafe impl ObjectInterface for SelectableList {
@@ -20,15 +21,15 @@ mod imp {
         type Prerequisites = (gio::ListModel,);
 
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: SyncLazy<Vec<glib::ParamSpec>> = SyncLazy::new(|| {
+            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
+            PROPERTIES.get_or_init(|| {
                 vec![
                     glib::ParamSpecBoolean::builder("selection-mode").build(),
                     glib::ParamSpecUInt::builder("num-selected")
                         .read_only()
                         .build(),
                 ]
-            });
-            PROPERTIES.as_ref()
+            })
         }
     }
 }
@@ -53,11 +54,13 @@ impl SelectableList {
     }
 }
 
-pub(crate) trait SelectableListExt: glib::IsA<SelectableList> {
+pub(crate) trait SelectableListExt: IsA<SelectableList> {
     fn is_selection_mode(&self) -> bool;
 
+    #[allow(dead_code)]
     fn set_selection_mode(&self, value: bool);
 
+    #[allow(dead_code)]
     fn select_all(&self) {
         self.select(true);
     }

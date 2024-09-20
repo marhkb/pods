@@ -765,7 +765,7 @@ impl Action {
                         }
 
                         if run {
-                            crate::RUNTIME.spawn({
+                            crate::runtime().spawn({
                                 let podman = client.podman();
                                 async move {
                                     podman

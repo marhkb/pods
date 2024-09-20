@@ -1,8 +1,9 @@
+use std::sync::OnceLock;
+
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use glib::clone;
 use glib::closure;
-use glib::once_cell::sync::Lazy as SyncLazy;
 use glib::subclass::InitializingObject;
 use glib::subclass::Signal;
 use glib::Properties;
@@ -58,9 +59,8 @@ mod imp {
 
     impl ObjectImpl for ActionsSidebar {
         fn signals() -> &'static [Signal] {
-            static SIGNALS: SyncLazy<Vec<Signal>> =
-                SyncLazy::new(|| vec![Signal::builder("cleared").build()]);
-            SIGNALS.as_ref()
+            static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+            SIGNALS.get_or_init(|| vec![Signal::builder("cleared").build()])
         }
 
         fn properties() -> &'static [glib::ParamSpec] {

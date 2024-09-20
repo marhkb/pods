@@ -1,9 +1,9 @@
 use std::cell::Cell;
 use std::f64;
+use std::sync::OnceLock;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use glib::once_cell::sync::Lazy;
 use gtk::gdk;
 use gtk::glib;
 use gtk::glib::clone;
@@ -46,7 +46,8 @@ mod imp {
 
     impl ObjectImpl for CircularProgressBar {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
+            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
+            PROPERTIES.get_or_init(|| {
                 vec![
                     glib::ParamSpecDouble::builder("percentage")
                         .maximum(1.0)
@@ -56,8 +57,7 @@ mod imp {
                         .explicit_notify()
                         .build(),
                 ]
-            });
-            PROPERTIES.as_ref()
+            })
         }
 
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
@@ -226,7 +226,7 @@ mod imp {
             snapshot.pop();
             snapshot.pop();
 
-            snapshot.append_node(&child_snapshot.to_node().unwrap());
+            snapshot.append_node(child_snapshot.to_node().unwrap());
             snapshot.pop();
 
             widget.snapshot_child(&*self.image, snapshot);

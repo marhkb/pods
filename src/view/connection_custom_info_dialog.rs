@@ -45,18 +45,8 @@ mod imp {
             klass.install_action("win.close", None, |widget, _, _| {
                 widget.close();
             });
-            klass.add_binding_action(
-                gdk::Key::W,
-                gdk::ModifierType::CONTROL_MASK,
-                "win.close",
-                None,
-            );
-            klass.add_binding_action(
-                gdk::Key::Escape,
-                gdk::ModifierType::empty(),
-                "win.close",
-                None,
-            );
+            klass.add_binding_action(gdk::Key::W, gdk::ModifierType::CONTROL_MASK, "win.close");
+            klass.add_binding_action(gdk::Key::Escape, gdk::ModifierType::empty(), "win.close");
 
             klass.install_action(
                 ACTION_COPY_ROOT_SYSTEMD_UNIT_PATH,

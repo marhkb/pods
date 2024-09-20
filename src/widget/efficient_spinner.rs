@@ -1,5 +1,5 @@
 use adw::subclass::prelude::*;
-use glib::Cast;
+use glib::prelude::*;
 use gtk::glib;
 use gtk::CompositeTemplate;
 

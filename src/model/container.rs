@@ -5,11 +5,11 @@ use std::collections::HashSet;
 use std::fmt;
 use std::ops::Deref;
 use std::str::FromStr;
+use std::sync::OnceLock;
 
 use futures::Future;
 use gettextrs::gettext;
 use glib::clone;
-use glib::once_cell::sync::Lazy as SyncLazy;
 use glib::prelude::*;
 use glib::subclass::prelude::*;
 use glib::subclass::Signal;
@@ -189,9 +189,8 @@ mod imp {
 
     impl ObjectImpl for Container {
         fn signals() -> &'static [Signal] {
-            static SIGNALS: SyncLazy<Vec<Signal>> =
-                SyncLazy::new(|| vec![Signal::builder("deleted").build()]);
-            SIGNALS.as_ref()
+            static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+            SIGNALS.get_or_init(|| vec![Signal::builder("deleted").build()])
         }
 
         fn properties() -> &'static [glib::ParamSpec] {

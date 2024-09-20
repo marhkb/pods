@@ -116,7 +116,7 @@ mod imp {
             widget.snapshot_child(&*self.count_mask, snapshot);
             snapshot.pop();
 
-            snapshot.append_node(&child_snapshot.to_node().unwrap());
+            snapshot.append_node(child_snapshot.to_node().unwrap());
             snapshot.pop();
 
             widget.snapshot_child(&*self.count_badge, snapshot);

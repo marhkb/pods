@@ -66,7 +66,6 @@ mod imp {
                 gdk::Key::F,
                 gdk::ModifierType::CONTROL_MASK | gdk::ModifierType::SHIFT_MASK,
                 ACTION_GLOBAL_SEARCH,
-                None,
             );
             klass.install_action(ACTION_GLOBAL_SEARCH, None, |widget, _, _| {
                 widget.global_search();
@@ -76,7 +75,6 @@ mod imp {
                 gdk::Key::F,
                 gdk::ModifierType::CONTROL_MASK,
                 ACTION_PANEL_SEARCH,
-                None,
             );
             klass.install_action(ACTION_PANEL_SEARCH, None, |widget, _, _| {
                 widget.toggle_panel_search();
@@ -92,7 +90,7 @@ mod imp {
 
             klass.install_action(
                 ACTION_CANCEL_OR_DELETE_ACTION,
-                Some("u"),
+                Some(glib::VariantTy::UINT32),
                 |widget, _, data| {
                     widget.cancel_or_delete_action(data);
                 },
@@ -102,7 +100,6 @@ mod imp {
                 gdk::Key::N,
                 gdk::ModifierType::CONTROL_MASK,
                 ACTION_CREATE_ENTITY,
-                None,
             );
             klass.install_action(ACTION_CREATE_ENTITY, None, |widget, _, _| {
                 widget.create_entity();

@@ -4,12 +4,12 @@ use std::cell::RefCell;
 use std::fmt;
 use std::ops::Deref;
 use std::str::FromStr;
+use std::sync::OnceLock;
 
 use futures::prelude::*;
 use futures::Future;
 use gettextrs::gettext;
 use glib::clone;
-use glib::once_cell::sync::Lazy;
 use glib::prelude::*;
 use glib::subclass::prelude::*;
 use glib::subclass::Signal;
@@ -117,9 +117,8 @@ mod imp {
 
     impl ObjectImpl for Pod {
         fn signals() -> &'static [Signal] {
-            static SIGNALS: Lazy<Vec<Signal>> =
-                Lazy::new(|| vec![Signal::builder("deleted").build()]);
-            SIGNALS.as_ref()
+            static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+            SIGNALS.get_or_init(|| vec![Signal::builder("deleted").build()])
         }
 
         fn properties() -> &'static [glib::ParamSpec] {

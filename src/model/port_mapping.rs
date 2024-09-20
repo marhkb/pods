@@ -1,8 +1,8 @@
 use std::cell::Cell;
 use std::cell::RefCell;
 use std::fmt;
+use std::sync::OnceLock;
 
-use glib::once_cell::sync::Lazy as SyncLazy;
 use glib::prelude::*;
 use glib::subclass::prelude::*;
 use glib::subclass::Signal;
@@ -56,9 +56,8 @@ mod imp {
 
     impl ObjectImpl for PortMapping {
         fn signals() -> &'static [Signal] {
-            static SIGNALS: SyncLazy<Vec<Signal>> =
-                SyncLazy::new(|| vec![Signal::builder("remove-request").build()]);
-            SIGNALS.as_ref()
+            static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+            SIGNALS.get_or_init(|| vec![Signal::builder("remove-request").build()])
         }
 
         fn properties() -> &'static [glib::ParamSpec] {
