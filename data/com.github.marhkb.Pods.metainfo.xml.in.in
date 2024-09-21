@@ -254,8 +254,8 @@
         <p>The ninth beta of Pods in an important step towards the stable first version. It contains the following changes:</p>
         <ul>
           <li>It is now possible to have a terminal in a container.</li>
-          <li>As one works with the terminal and views text in the form of logs or inspection data, the theme selector has been reintroduced. This is provided by <strong>libpanel</strong>, which should simplify maintenance.</li>
-          <li>The dialog for renaming a container is now based on <strong>AdwMessageDialog</strong>.</li>
+          <li>As one works with the terminal and views text in the form of logs or inspection data, the theme selector has been reintroduced. This is provided by <em>libpanel</em>, which should simplify maintenance.</li>
+          <li>The dialog for renaming a container is now based on <em>AdwMessageDialog</em>.</li>
           <li>The style of the container series was tweaked in many ways.</li>
           <li>Some minor internal code improvements have landed.</li>
           <li>Dependencies and translations have been updated.</li>
@@ -266,7 +266,7 @@
       <description translatable="no">
         <p>The eight beta release of Pods 1.0.0 includes the following changes:</p>
         <ul>
-          <li>Pods now uses the <strong>libpanel</strong> library to display a status bar. Thus, notifications and the name of the Podman connection are always visible.</li>
+          <li>Pods now uses the <em>libpanel</em> library to display a status bar. Thus, notifications and the name of the Podman connection are always visible.</li>
           <li>When creating a new connection, there is now a hint on how to enable the Podman UNIX socket and a small example on how to use the Podman root instance.</li>
           <li>The history of an image can now be inspected.</li>
           <li>The design of the port bindings in the container details page has been revised.</li>
@@ -392,7 +392,9 @@
     <kudo>ModernToolkit</kudo>
     <kudo>HiDpiIcon</kudo>
   </kudos>
-  <developer_name>Marcus Behrendt</developer_name>
+  <developer id="com.github.marhkb">
+    <name>Marcus Behrendt</name>
+  </developer>
   <update_contact>marcus.behrendt.86@gmail.com</update_contact>
   <translation type="gettext">@gettext-package@</translation>
   <launchable type="desktop-id">@app-id@.desktop</launchable>
