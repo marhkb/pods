@@ -60,6 +60,7 @@
           <li>Make it possible to create privileged containers. (#753)</li>
           <li>Better handling of empty states when selecting images, pods and volumes for a container to be created. (#769)</li>
           <li>Unification of status and health status in the container row. (#774)</li>
+          <li>The recently introduced libadwaita Spinner now replaces all gtk Spinners. (#802)</li>
         </ul>
         <p>Fixes</p>
         <ul>
@@ -80,6 +81,7 @@
           <li>The same background color is now used for list views as for the window. (#769)</li>
           <li>We have moved the banner from the bottom to the top in the container log page. (#769)</li>
           <li>Some titles have been shortened. (#769)</li>
+          <li>We now use AboutDialog instead of AboutWindow. (803)</li>
           <li>Various style improvements (#741, #757)</li>
         </ul>
       </description>
