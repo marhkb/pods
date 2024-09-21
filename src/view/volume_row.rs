@@ -5,6 +5,7 @@ use adw::subclass::prelude::*;
 use gettextrs::gettext;
 use glib::clone;
 use glib::closure;
+use glib::property::PropertySet;
 use glib::Properties;
 use gtk::glib;
 use gtk::CompositeTemplate;

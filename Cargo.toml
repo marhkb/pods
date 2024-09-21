@@ -5,12 +5,12 @@ authors = ["Marcus Behrendt <marcus.behrendt.86@gmail.com>"]
 edition = "2021"
 
 [dependencies]
-adw = { version = "0.7", package = "libadwaita", features = ["v1_5"] }
+adw = { version = "0.7", package = "libadwaita", features = ["v1_6"] }
 anyhow = "1"
 ashpd = { version = "0.9", default-features = false, features = ["gtk4", "tokio"] }
 futures = { version = "0.3", default-features = false }
-gettext-rs = { version = "0.7", features = ["gettext-system"] }
-gtk = { version = "0.9", package = "gtk4", features = ["gnome_46"] }
+gettext-rs = { version = "=0.7.0", features = ["gettext-system"] }
+gtk = { version = "0.9", package = "gtk4", features = ["gnome_47"] }
 indexmap = { version = "2", features = ["serde"] }
 log = "0.4"
 multi_log = "0.1"

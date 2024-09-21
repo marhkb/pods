@@ -12,6 +12,7 @@ use futures::Future;
 use gettextrs::gettext;
 use glib::clone;
 use glib::prelude::*;
+use glib::property::PropertySet;
 use glib::subclass::prelude::*;
 use glib::subclass::Signal;
 use glib::Properties;
