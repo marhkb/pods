@@ -163,7 +163,7 @@ impl Application {
     }
 
     fn show_about_dialog(&self) {
-        let dialog = adw::AboutWindow::from_appdata(
+        let dialog = adw::AboutDialog::from_appdata(
             &format!(
                 "/com/github/marhkb/Pods/appdata/{}.metainfo.xml",
                 config::APP_ID
@@ -175,7 +175,6 @@ impl Application {
                 config::VERSION.replace('-', "~")
             }),
         );
-        dialog.set_transient_for(Some(&self.main_window()));
         dialog.set_version(config::VERSION);
         dialog.set_copyright("© 2022 Marcus Behrendt");
         dialog.set_developers(&[
@@ -217,7 +216,7 @@ impl Application {
         ));
         dialog.add_controller(controller);
 
-        dialog.present();
+        dialog.present(Some(&self.main_window()));
     }
 
     pub(crate) fn run(&self) {
