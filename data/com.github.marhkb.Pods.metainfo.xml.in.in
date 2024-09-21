@@ -42,6 +42,11 @@
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="2.0.3" date="2024-09-20">
+      <description translatable="no">
+        <p>This release fixes validation issues in appstream and updates the runtime to v47.</p>
+      </description>
+    </release>
     <release version="2.0.2" date="2024-09-20">
       <description translatable="no">
         <p>This release updates the project dependencies to stable versions.</p>
