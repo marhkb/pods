@@ -108,7 +108,7 @@
                                     <property name="title" translatable="yes">Searching</property>
 
                                     <child>
-                                      <object class="PdsEfficientSpinner" id="spinner">
+                                      <object class="AdwSpinner" id="spinner">
                                         <property name="halign">center</property>
                                         <property name="valign">center</property>
                                         <property name="height-request">30</property>

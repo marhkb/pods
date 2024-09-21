@@ -102,7 +102,7 @@
                 <property name="title" translatable="yes">Containers</property>
 
                 <property name="header-suffix">
-                  <object class="PdsEfficientSpinner">
+                  <object class="AdwSpinner">
                     <property name="height-request">21</property>
                     <property name="width-request">21</property>
                     <binding name="visible">

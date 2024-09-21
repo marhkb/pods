@@ -118,7 +118,7 @@
                                 <property name="valign">center</property>
 
                                 <child>
-                                  <object class="PdsEfficientSpinner"/>
+                                  <object class="AdwSpinner"/>
                                 </child>
 
                               </object>
@@ -169,7 +169,7 @@
                 <property name="title" translatable="yes">Properties</property>
 
                 <property name="header-suffix">
-                  <object class="PdsEfficientSpinner" id="inspection_spinner">
+                  <object class="AdwSpinner" id="inspection_spinner">
                     <property name="width-request">18</property>
                   </object>
                 </property>
