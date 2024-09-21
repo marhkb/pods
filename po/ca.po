@@ -741,7 +741,7 @@ msgid "Headerbar titles were adjusted to be shorter and more concise"
 msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:239
-msgid "Many minor internal code improvements habe landed"
+msgid "Many minor internal code improvements have landed"
 msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:246

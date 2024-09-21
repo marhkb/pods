@@ -7,7 +7,6 @@ use std::sync::OnceLock;
 use gio::prelude::*;
 use gio::subclass::prelude::*;
 use glib::clone;
-use glib::once_cell::sync::Lazy;
 use glib::subclass::Signal;
 use glib::Properties;
 use gtk::gio;
@@ -46,7 +45,8 @@ mod imp {
 
     impl ObjectImpl for ImageList {
         fn signals() -> &'static [Signal] {
-            static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
+            static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+            SIGNALS.get_or_init(|| {
                 vec![
                     Signal::builder("image-added")
                         .param_types([model::Image::static_type()])
@@ -55,8 +55,7 @@ mod imp {
                         .param_types([model::Image::static_type()])
                         .build(),
                 ]
-            });
-            SIGNALS.as_ref()
+            })
         }
 
         fn properties() -> &'static [glib::ParamSpec] {

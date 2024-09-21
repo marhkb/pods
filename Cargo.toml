@@ -1,31 +1,31 @@
 [package]
 name = "pods"
-version = "2.0.1"
+version = "2.0.2"
 authors = ["Marcus Behrendt <marcus.behrendt.86@gmail.com>"]
 edition = "2021"
 
 [dependencies]
-adw = { git = "https://gitlab.gnome.org/World/Rust/libadwaita-rs", version = "0.6", package = "libadwaita", features = ["v1_4"] }
+adw = { version = "0.6", package = "libadwaita", features = ["v1_4"] }
 anyhow = "1"
-ashpd = { git = "https://github.com/bilelmoussaoui/ashpd.git", version = "0.6", rev = "30216eccd3f4ecb50c4d34a493a33e6eef4e375c", default-features = false, features = ["gtk4", "tokio"] }
+ashpd = { version = "0.8", default-features = false, features = ["gtk4", "tokio"] }
 futures = { version = "0.3", default-features = false }
-gettext-rs = { version = "0.7", features = ["gettext-system"] }
-gtk = { git = "https://github.com/gtk-rs/gtk4-rs.git", version = "0.8", package = "gtk4", features = ["gnome_45"] }
+gettext-rs = { version = "=0.7.0", features = ["gettext-system"] }
+gtk = { version = "0.8", package = "gtk4", features = ["gnome_45"] }
 indexmap = { version = "2", features = ["serde"] }
 log = "0.4"
 names = { version = "0.14", default-features = false }
 oo7 = { version = "0.2", default-features = false, features = ["native_crypto", "tokio"] }
-panel = { git = "https://gitlab.gnome.org/World/Rust/libpanel-rs.git", version = "0.3", package = "libpanel", features = ["adw_v1_2"] }
+panel = { version = "0.4", package = "libpanel", features = ["adw_v1_2"] }
 paste = "1"
 podman-api = { git = "https://github.com/vv9k/podman-api-rs.git", commit = "363d945b9b9905c50dfa0bfe0f9331f9fdeef079", default-features = false }
 serde = "1"
 serde_json = "1"
-sourceview5 = { git = "https://gitlab.gnome.org/World/Rust/sourceview5-rs.git", version = "0.8", features = ["gtk_v4_12"] }
-syslog = "6"
+sourceview5 = { version = "0.8", features = ["gtk_v4_12"] }
+syslog = "7"
 tokio = "1"
 tokio-tar = { version = "0.3", default-features = false }
 vte = { version = "0.13", default-features = false }
-vte4 = { git = "https://gitlab.gnome.org/World/Rust/vte4-rs.git", version = "0.8" }
+vte4 = "0.7"
 
 [profile.release]
 lto = true

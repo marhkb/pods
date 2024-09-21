@@ -1,7 +1,6 @@
 use adw::prelude::*;
 use gettextrs::gettext;
 use glib::clone;
-use glib::Cast;
 use gtk::gio;
 use gtk::glib;
 

@@ -42,6 +42,11 @@
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="2.0.2" date="2024-09-20">
+      <description translatable="no">
+        <p>This release updates the project dependencies to stable versions.</p>
+      </description>
+    </release>
     <release version="2.0.1" date="2023-12-18">
       <description translatable="no">
         <p>The first point release of Pods contains the following fixes and style improvements:</p>
@@ -272,7 +277,7 @@
           <li>If a container is in a pod, it will now get a badge with the pod name in the container list.</li>
           <li>Logs, the result of the inspection of images, containers, and pods, and the result Kubernetes YAML generation can now be saved directly as a file.</li>
           <li>Headerbar titles were adjusted to be shorter and more concise</li>
-          <li>Many minor internal code improvements habe landed</li>
+          <li>Many minor internal code improvements have landed</li>
           <li>Dependencies and translations have been updated.</li>
         </ul>
       </description>

@@ -87,7 +87,6 @@ mod imp {
                 gdk::Key::N,
                 gdk::ModifierType::CONTROL_MASK,
                 ACTION_CREATE_POD,
-                None,
             );
             klass.install_action(ACTION_CREATE_POD, None, |widget, _, _| {
                 widget.create_pod();

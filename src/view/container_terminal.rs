@@ -10,7 +10,6 @@ use futures::StreamExt;
 use gettextrs::gettext;
 use glib::clone;
 use glib::closure;
-use glib::once_cell::sync::Lazy as SyncLazy;
 use glib::subclass::Signal;
 use glib::Properties;
 use gtk::gdk;
@@ -87,13 +86,11 @@ mod imp {
                 gdk::Key::C,
                 gdk::ModifierType::CONTROL_MASK | gdk::ModifierType::SHIFT_MASK,
                 ACTION_COPY,
-                None,
             );
             klass.add_binding_action(
                 gdk::Key::V,
                 gdk::ModifierType::CONTROL_MASK | gdk::ModifierType::SHIFT_MASK,
                 ACTION_PASTE,
-                None,
             );
         }
 
@@ -104,9 +101,8 @@ mod imp {
 
     impl ObjectImpl for ContainerTerminal {
         fn signals() -> &'static [Signal] {
-            static SIGNALS: SyncLazy<Vec<Signal>> =
-                SyncLazy::new(|| vec![Signal::builder("terminated").build()]);
-            SIGNALS.as_ref()
+            static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+            SIGNALS.get_or_init(|| vec![Signal::builder("terminated").build()])
         }
 
         fn properties() -> &'static [glib::ParamSpec] {

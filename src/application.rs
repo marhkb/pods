@@ -1,11 +1,11 @@
 use std::cell::Cell;
 use std::cell::OnceCell;
+use std::sync::OnceLock;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use gettextrs::gettext;
 use glib::clone;
-use glib::once_cell::sync::Lazy;
 use gtk::gdk;
 use gtk::gio;
 use gtk::glib;
@@ -33,10 +33,9 @@ mod imp {
 
     impl ObjectImpl for Application {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> =
-                Lazy::new(|| vec![glib::ParamSpecUInt64::builder("ticks").read_only().build()]);
-
-            PROPERTIES.as_ref()
+            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
+            PROPERTIES
+                .get_or_init(|| vec![glib::ParamSpecUInt64::builder("ticks").read_only().build()])
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {

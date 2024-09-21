@@ -1,9 +1,9 @@
 use std::borrow::Borrow;
 use std::cell::RefCell;
+use std::sync::OnceLock;
 
 use gio::prelude::*;
 use gio::subclass::prelude::*;
-use glib::once_cell::sync::Lazy as SyncLazy;
 use gtk::gio;
 use gtk::glib;
 use indexmap::map::IndexMap;
@@ -28,7 +28,8 @@ mod imp {
 
     impl ObjectImpl for SimpleContainerList {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: SyncLazy<Vec<glib::ParamSpec>> = SyncLazy::new(|| {
+            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
+            PROPERTIES.get_or_init(|| {
                 vec![
                     glib::ParamSpecUInt::builder("len").read_only().build(),
                     glib::ParamSpecUInt::builder("created").read_only().build(),
@@ -43,8 +44,7 @@ mod imp {
                     glib::ParamSpecUInt::builder("stopped").read_only().build(),
                     glib::ParamSpecUInt::builder("stopping").read_only().build(),
                 ]
-            });
-            PROPERTIES.as_ref()
+            })
         }
 
         fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {

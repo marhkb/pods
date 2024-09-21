@@ -1,6 +1,7 @@
+use std::sync::OnceLock;
+
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use glib::once_cell::sync::Lazy as SyncLazy;
 use glib::subclass::Signal;
 use glib::Properties;
 use gtk::gdk;
@@ -44,12 +45,7 @@ mod imp {
                 }
             });
 
-            klass.add_binding_action(
-                gdk::Key::Escape,
-                gdk::ModifierType::empty(),
-                ACTION_EXIT,
-                None,
-            );
+            klass.add_binding_action(gdk::Key::Escape, gdk::ModifierType::empty(), ACTION_EXIT);
 
             klass.install_action(
                 view::ImageSearchWidget::action_select(),
@@ -67,12 +63,12 @@ mod imp {
 
     impl ObjectImpl for ImageSearchPage {
         fn signals() -> &'static [Signal] {
-            static SIGNALS: SyncLazy<Vec<Signal>> = SyncLazy::new(|| {
+            static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+            SIGNALS.get_or_init(|| {
                 vec![Signal::builder("image-selected")
                     .param_types([String::static_type()])
                     .build()]
-            });
-            SIGNALS.as_ref()
+            })
         }
 
         fn properties() -> &'static [glib::ParamSpec] {

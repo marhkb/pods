@@ -62,7 +62,7 @@
                 {
                     "type": "git",
                     "url": "https://gitlab.gnome.org/GNOME/libpanel.git",
-                    "tag": "1.4.0"
+                    "tag": "1.4.1"
                 }
             ]
         },

@@ -72,7 +72,6 @@ mod imp {
                 gdk::Key::N,
                 gdk::ModifierType::CONTROL_MASK,
                 ACTION_CREATE_VOLUME,
-                None,
             );
             klass.install_action(ACTION_CREATE_VOLUME, None, move |widget, _, _| {
                 widget.create_volume();

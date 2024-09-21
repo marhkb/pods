@@ -13,7 +13,6 @@ use gtk::CompositeTemplate;
 
 use crate::model;
 use crate::utils;
-use crate::RUNTIME;
 
 mod imp {
     use super::*;
@@ -161,7 +160,7 @@ mod imp {
 
             let id = self.notification_id.get().unwrap().to_owned();
 
-            RUNTIME.spawn(async move {
+            crate::runtime().spawn(async move {
                 let _ = ashpd::notification::NotificationProxy::new()
                     .await
                     .unwrap()
@@ -211,7 +210,7 @@ mod imp {
                         .body(action.description().as_ref())
                         .default_action("");
 
-                        RUNTIME.spawn(async move {
+                        crate::runtime().spawn(async move {
                             let _ = ashpd::notification::NotificationProxy::new().await.unwrap()
                                 .add_notification(&id, notification)
                                 .await;
