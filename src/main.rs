@@ -244,7 +244,6 @@ fn init() {
     widget::CircularProgressBar::static_type();
     widget::CountBadge::static_type();
     widget::DateTimeRow::static_type();
-    adw::Spinner::static_type();
     widget::MainMenuButton::static_type();
     widget::PropertyRow::static_type();
     widget::PropertyWidgetRow::static_type();
