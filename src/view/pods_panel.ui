@@ -71,7 +71,7 @@
                     </child>
 
                     <child>
-                      <object class="PdsEfficientSpinner">
+                      <object class="AdwSpinner">
                         <property name="halign">center</property>
                         <property name="valign">center</property>
                         <property name="height-request">30</property>

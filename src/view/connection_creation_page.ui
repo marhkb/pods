@@ -73,7 +73,7 @@
                             <property name="spacing">6</property>
 
                             <child>
-                              <object class="PdsEfficientSpinner"/>
+                              <object class="AdwSpinner"/>
                             </child>
 
                             <child>

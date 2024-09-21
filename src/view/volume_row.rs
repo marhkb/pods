@@ -15,7 +15,6 @@ use crate::model::SelectableExt;
 use crate::model::SelectableListExt;
 use crate::utils;
 use crate::view;
-use crate::widget;
 
 const ACTION_DELETE_VOLUME: &str = "volume-row.delete-volume";
 
@@ -38,7 +37,7 @@ mod imp {
         #[template_child]
         pub(super) age_label: TemplateChild<gtk::Label>,
         #[template_child]
-        pub(super) spinner: TemplateChild<widget::EfficientSpinner>,
+        pub(super) spinner: TemplateChild<adw::Spinner>,
         #[template_child]
         pub(super) containers_count_bar: TemplateChild<view::ContainersCountBar>,
         #[template_child]

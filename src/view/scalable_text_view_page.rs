@@ -91,7 +91,7 @@ mod imp {
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub(super) spinner: TemplateChild<widget::EfficientSpinner>,
+        pub(super) spinner: TemplateChild<adw::Spinner>,
         #[template_child]
         pub(super) source_view: TemplateChild<widget::ScalableTextView>,
         #[template_child]

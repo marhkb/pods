@@ -87,7 +87,6 @@
     <file compressed="true" preprocess="xml-stripblanks">widget/circular_progress_bar.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">widget/count_badge.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">widget/date_time_row.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">widget/efficient_spinner.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">widget/main_menu_button.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">widget/property_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">widget/property_widget_row.ui</file>

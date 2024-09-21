@@ -49,7 +49,7 @@
                     <property name="spacing">6</property>
 
                     <child>
-                      <object class="PdsEfficientSpinner" id="inspection_spinner">
+                      <object class="AdwSpinner" id="inspection_spinner">
                         <property name="width-request">18</property>
                       </object>
                     </child>

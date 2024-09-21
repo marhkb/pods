@@ -35,7 +35,7 @@ mod imp {
         #[template_child]
         pub(super) window_title: TemplateChild<adw::WindowTitle>,
         #[template_child]
-        pub(super) inspection_spinner: TemplateChild<widget::EfficientSpinner>,
+        pub(super) inspection_spinner: TemplateChild<adw::Spinner>,
         #[template_child]
         pub(super) id_row: TemplateChild<widget::PropertyRow>,
         #[template_child]

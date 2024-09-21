@@ -1,7 +1,6 @@
 mod circular_progress_bar;
 mod count_badge;
 mod date_time_row;
-mod efficient_spinner;
 mod main_menu_button;
 mod property_row;
 mod property_widget_row;
@@ -15,7 +14,6 @@ mod zoom_control;
 pub(crate) use self::circular_progress_bar::CircularProgressBar;
 pub(crate) use self::count_badge::CountBadge;
 pub(crate) use self::date_time_row::DateTimeRow;
-pub(crate) use self::efficient_spinner::EfficientSpinner;
 pub(crate) use self::main_menu_button::MainMenuButton;
 pub(crate) use self::property_row::PropertyRow;
 pub(crate) use self::property_widget_row::PropertyWidgetRow;

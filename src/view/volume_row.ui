@@ -63,7 +63,7 @@
             </child>
 
             <child>
-              <object class="PdsEfficientSpinner" id="spinner"/>
+              <object class="AdwSpinner" id="spinner"/>
             </child>
 
             <child>

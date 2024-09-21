@@ -527,7 +527,7 @@
                         <property name="valign">center</property>
 
                         <child>
-                          <object class="PdsEfficientSpinner">
+                          <object class="AdwSpinner">
                             <property name="halign">center</property>
                             <property name="valign">center</property>
                             <property name="width-request">24</property>

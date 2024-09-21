@@ -4,7 +4,7 @@
     <property name="title" translatable="yes">Properties</property>
 
     <property name="header-suffix">
-      <object class="PdsEfficientSpinner" id="inspection_spinner">
+      <object class="AdwSpinner" id="inspection_spinner">
         <property name="width-request">18</property>
       </object>
     </property>
@@ -106,7 +106,7 @@
               <object class="GtkStackPage">
                 <property name="name">waiting</property>
                 <property name="child">
-                  <object class="PdsEfficientSpinner">
+                  <object class="AdwSpinner">
                     <property name="halign">end</property>
                   </object>
                 </property>
@@ -273,7 +273,7 @@
               <object class="GtkStackPage">
                 <property name="name">waiting</property>
                 <property name="child">
-                  <object class="PdsEfficientSpinner"/>
+                  <object class="AdwSpinner"/>
                 </property>
               </object>
             </child>
