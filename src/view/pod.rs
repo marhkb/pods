@@ -48,46 +48,37 @@ pub(crate) fn show_delete_confirmation_dialog(widget: &gtk::Widget) {
     if let Some(pod) =
         <gtk::Widget as gtk::prelude::ObjectExt>::property::<Option<model::Pod>>(widget, "pod")
     {
-        let first_container = pod.container_list().get(0);
-
-        if pod.num_containers() > 0 || first_container.is_some() {
-            let dialog = adw::MessageDialog::builder()
+        match pod.container_list().first_non_infra() {
+            Some(container) => {
+                let dialog = adw::MessageDialog::builder()
                 .heading(gettext("Confirm Forced Pod Deletion"))
                 .body_use_markup(true)
-                .body(
-                    match first_container.as_ref().map(|c| c.name()) {
-                        Some(id) => gettext!(
-                            // Translators: The "{}" is a placeholder for the pod name.
-                            "Pod contains container <b>{}</b>. Deleting the pod will also delete all its containers.",
-                            id
-                        ),
-                        None => gettext(
-                           "Pod contains a container. Deleting the pod will also delete all its containers.",
-                       ),
-                    }
-
-                )
+                .body(gettext!(
+                    // Translators: The "{}" is a placeholder for the container name.
+                    "Pod contains container <b>{}</b>. Deleting the pod will also delete all its containers.",
+                    container.name()
+                ))
                 .modal(true)
                 .transient_for(&utils::root(widget))
                 .build();
 
-            dialog.add_responses(&[
-                ("cancel", &gettext("_Cancel")),
-                ("delete", &gettext("_Force Delete")),
-            ]);
-            dialog.set_default_response(Some("cancel"));
-            dialog.set_response_appearance("delete", adw::ResponseAppearance::Destructive);
+                dialog.add_responses(&[
+                    ("cancel", &gettext("_Cancel")),
+                    ("delete", &gettext("_Force Delete")),
+                ]);
+                dialog.set_default_response(Some("cancel"));
+                dialog.set_response_appearance("delete", adw::ResponseAppearance::Destructive);
 
-            dialog.choose(
-                gio::Cancellable::NONE,
-                clone!(@weak widget, @weak pod => move |response| {
-                    if response == "delete" {
-                        delete(&widget);
-                    }
-                }),
-            );
-        } else {
-            delete(widget);
+                dialog.choose(
+                    gio::Cancellable::NONE,
+                    clone!(@weak widget, @weak pod => move |response| {
+                        if response == "delete" {
+                            delete(&widget);
+                        }
+                    }),
+                );
+            }
+            None => delete(widget),
         }
     }
 }

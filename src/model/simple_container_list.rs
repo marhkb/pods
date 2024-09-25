@@ -104,6 +104,21 @@ impl Default for SimpleContainerList {
 }
 
 impl SimpleContainerList {
+    pub(crate) fn first_non_infra(&self) -> Option<model::Container> {
+        self.imp()
+            .0
+            .borrow()
+            .values()
+            .filter_map(glib::WeakRef::upgrade)
+            .find_map(|container| {
+                if container.is_infra() {
+                    None
+                } else {
+                    Some(container)
+                }
+            })
+    }
+
     pub(crate) fn get(&self, index: usize) -> Option<model::Container> {
         self.imp()
             .0
