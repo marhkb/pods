@@ -32,6 +32,9 @@ mod imp {
             PROPERTIES.get_or_init(|| {
                 vec![
                     glib::ParamSpecUInt::builder("len").read_only().build(),
+                    glib::ParamSpecUInt::builder("containers")
+                        .read_only()
+                        .build(),
                     glib::ParamSpecUInt::builder("created").read_only().build(),
                     glib::ParamSpecUInt::builder("dead").read_only().build(),
                     glib::ParamSpecUInt::builder("exited").read_only().build(),
@@ -51,6 +54,7 @@ mod imp {
             let obj = &*self.obj();
             match pspec.name() {
                 "len" => obj.len().to_value(),
+                "containers" => obj.containers().to_value(),
                 "created" => obj.created().to_value(),
                 "dead" => obj.dead().to_value(),
                 "exited" => obj.exited().to_value(),
@@ -134,6 +138,10 @@ impl SimpleContainerList {
 
     pub(crate) fn len(&self) -> u32 {
         self.n_items()
+    }
+
+    pub(crate) fn containers(&self) -> u32 {
+        self.len()
     }
 
     pub(crate) fn created(&self) -> u32 {
