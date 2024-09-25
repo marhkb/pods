@@ -62,24 +62,18 @@ actionsbutton .action-count-badge {
   padding: 6px;
 }
 
-actionsbutton.good .action-count-badge {
+actionsbutton.ongoing .action-count-badge {
   background-color: var(--accent-bg-color);
-  color: var(--accent_fg-color);
+  color: var(--accent-fg-color);
 }
 
 actionsbutton.finished .action-count-badge {
-  background-color: var(--success-bg-color);
-  color: var(--success_fg-color);
+  background-color: var(--dark-3);
+  color: var(--light-1);
 }
 
-actionsbutton.aborted .action-count-badge {
-  background-color: var(--warning-bg-color);
-  color: var(--warning_fg-color);
-}
-
-actionsbutton.failed .action-count-badge {
-  background-color: var(--error-bg-color);
-  color: var(--error_fg-color);
+actionsbutton.failed .image-button {
+  color: var(--error-color);
 }
 
 connectionrow #selection-indicator #background,

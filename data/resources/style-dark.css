@@ -2,6 +2,11 @@ containercard separator {
 	background-color: var(--window-bg-color);
 }
 
+actionsbutton.finished .action-count-badge {
+  background-color: var(--light-3);
+  color: var(--dark-5);
+}
+
 .version,
 .container-health-status-not-running,
 .container-status-not-running,

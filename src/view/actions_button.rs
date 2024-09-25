@@ -88,21 +88,18 @@ mod imp {
 
             gtk::ClosureExpression::new::<Vec<String>>(
                 &[
-                    action_list_expr.chain_property::<model::ActionList>("failed"),
-                    action_list_expr.chain_property::<model::ActionList>("aborted"),
                     action_list_expr.chain_property::<model::ActionList>("ongoing"),
+                    action_list_expr.chain_property::<model::ActionList>("failed"),
                 ],
-                closure!(|_: Self::Type, failed: u32, aborted: u32, ongoing: u32| {
-                    vec![if failed > 0 {
-                        "failed"
-                    } else if aborted > 0 {
-                        "aborted"
-                    } else if ongoing > 0 {
-                        "good"
-                    } else {
-                        "finished"
-                    }
-                    .to_string()]
+                closure!(|_: Self::Type, ongoing: u32, failed: u32| {
+                    Some(if ongoing > 0 { "ongoing" } else { "finished" }.to_string())
+                        .into_iter()
+                        .chain(if failed > 0 {
+                            Some(String::from("failed"))
+                        } else {
+                            None
+                        })
+                        .collect::<Vec<_>>()
                 }),
             )
             .bind(obj, "css-classes", Some(obj));
