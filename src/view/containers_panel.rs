@@ -180,8 +180,8 @@ mod imp {
                 .build();
 
             let container_list_expr = Self::Type::this_expression("container-list");
-            let container_list_len_expr =
-                container_list_expr.chain_property::<model::ContainerList>("len");
+            let container_list_containers_expr =
+                container_list_expr.chain_property::<model::ContainerList>("containers");
             let selection_mode_expr =
                 container_list_expr.chain_property::<model::ContainerList>("selection-mode");
             let not_selection_mode_expr = selection_mode_expr.chain_closure::<bool>(closure!(
@@ -190,13 +190,13 @@ mod imp {
 
             gtk::ClosureExpression::new::<Option<String>>(
                 [
-                    &container_list_len_expr,
+                    &container_list_containers_expr,
                     &container_list_expr.chain_property::<model::ContainerList>("listing"),
                     &container_list_expr.chain_property::<model::ContainerList>("initialized"),
                 ],
                 closure!(
-                    |_: Self::Type, len: u32, listing: bool, initialized: bool| {
-                        if len == 0 {
+                    |_: Self::Type, containers: u32, listing: bool, initialized: bool| {
+                        if containers == 0 {
                             if initialized {
                                 Some("empty")
                             } else if listing {
@@ -224,13 +224,13 @@ mod imp {
 
             gtk::ClosureExpression::new::<String>(
                 [
-                    &container_list_len_expr,
+                    &container_list_containers_expr,
                     &container_list_expr.chain_property::<model::AbstractContainerList>("running"),
                 ],
-                closure!(|_: Self::Type, len: u32, running: u32| {
-                    if len == 0 {
+                closure!(|_: Self::Type, containers: u32, running: u32| {
+                    if containers == 0 {
                         String::new()
-                    } else if len == 1 {
+                    } else if containers == 1 {
                         if running == 1 {
                             gettext("1 container, running")
                         } else {
@@ -240,8 +240,8 @@ mod imp {
                         ngettext!(
                             "{} container total, {} running",
                             "{} containers total, {} running",
-                            len,
-                            len,
+                            containers,
+                            containers,
                             running,
                         )
                     }
