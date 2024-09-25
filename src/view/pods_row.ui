@@ -52,26 +52,7 @@
           <object class="GtkLabel">
             <style>
               <class name="status-badge-small"/>
-              <class name="pod-status-paused"/>
-            </style>
-            <binding name="label">
-              <lookup name="paused" type="PodList">
-                <lookup name="pod-list">PdsPodsRow</lookup>
-              </lookup>
-            </binding>
-            <binding name="visible">
-              <lookup name="paused" type="PodList">
-                <lookup name="pod-list">PdsPodsRow</lookup>
-              </lookup>
-            </binding>
-          </object>
-        </child>
-
-        <child>
-          <object class="GtkLabel">
-            <style>
-              <class name="status-badge-small"/>
-              <class name="pod-status-stopped"/>
+              <class name="pod-status-not-running"/>
             </style>
             <binding name="label">
               <lookup name="not-running" type="PodList">

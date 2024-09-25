@@ -1,43 +1,14 @@
 containercard separator {
-	background-color: @window_bg_color;
+	background-color: var(--window-bg-color);
 }
 
-.container-status-paused,
-.pod-status-paused {
-	color: @brown_1;
-	background: alpha(@brown_3, .35);
-}
-
-.container-status-restarting,
-.pod-status-restarting {
-	color: @purple_1;
-	background: alpha(@purple_2, .35);
-}
-
-.container-status-running,
-.pod-status-running,
-.image-used,
-.volume-used {
-	color: @blue_1;
-	background-color: alpha(@blue_2, .35);
-}
-
-.pod-status-degraded {
-	color: @yellow_2;
-	background: alpha(#cd9309, .35);
-}
-
-.container-status-dead,
-.container-status-unknown,
-.pod-status-error,
-.pod-status-dead,
-.pod-status-unknown,
-.container-health-status-unhealthy,
-.container-health-status-unknown {
-	color: #ff7b63;
-}
-
-.container-health-status-healthy {
-	color: @green_1;
-	background-color: alpha(@green_4, .25);
+.version,
+.container-health-status-not-running,
+.container-status-not-running,
+.image-unused,
+.pod-status-not-running,
+.volume-unused,
+.rich-expander-row-header #badge {
+  color: var(--dark-3);
+  background-color: var(--light-5);
 }

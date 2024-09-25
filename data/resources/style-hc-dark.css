@@ -1,5 +1,5 @@
 containercard separator {
-	background-color: @borders;
+	background-color: var(--border-color);
 }
 
 containercard.not-running {

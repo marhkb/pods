@@ -110,10 +110,7 @@ impl AbstractContainerList {
 
 pub(crate) trait AbstractContainerListExt: IsA<AbstractContainerList> {
     fn not_running(&self) -> u32 {
-        self.property::<u32>("len")
-            - self.property::<u32>("running")
-            - self.property::<u32>("paused")
-            - self.property::<u32>("dead")
+        self.property::<u32>("len") - self.property::<u32>("running")
     }
 
     fn container_added(&self, container: &model::Container) {

@@ -37,7 +37,7 @@
       <object class="GtkBox" id="not_running_box">
         <style>
           <class name="status-badge"/>
-          <class name="container-status-exited"/>
+          <class name="container-status-not-running"/>
           <class name="numeric"/>
         </style>
         <property name="spacing">4</property>
@@ -45,31 +45,6 @@
 
         <child>
           <object class="GtkLabel" id="not_running_label"/>
-        </child>
-
-        <child>
-          <object class="GtkImage">
-            <property name="icon-name">package-x-generic-symbolic</property>
-            <property name="pixel-size">14</property>
-          </object>
-        </child>
-
-      </object>
-    </child>
-
-    <!-- Paused Containers -->
-    <child>
-      <object class="GtkBox" id="paused_box">
-        <style>
-          <class name="status-badge"/>
-          <class name="container-status-paused"/>
-          <class name="numeric"/>
-        </style>
-        <property name="spacing">4</property>
-        <property name="valign">center</property>
-
-        <child>
-          <object class="GtkLabel" id="paused_label"/>
         </child>
 
         <child>
