@@ -126,8 +126,8 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct InfoPanel(ObjectSubclass<imp::InfoPanel>)
-        @extends gtk::Widget, gtk::Window, adw::Window, adw::PreferencesWindow,
-        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget, gtk::Native, gtk::Root, gtk::ShortcutManager;
+        @extends gtk::Widget,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl InfoPanel {
