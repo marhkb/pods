@@ -1,5 +1,5 @@
 containercard.not-running {
-  background-color: @secondary_sidebar_bg_color;
+  background-color: var(--secondary-sidebar-bg-color);
 }
 
 flowbox > flowboxchild {
@@ -15,7 +15,7 @@ flowbox > flowboxchild {
 }
 
 .dim-icon {
-  color: alpha(@window_fg_color, .75);
+  color: alpha(var(--window-fg-color), .75);
 }
 
 entry button {
@@ -38,7 +38,7 @@ button.large {
 }
 
 .destructive-button label, .destructive-button image {
-  color: @destructive_color;
+  color: var(--destructive-color);
 }
 
 .sidebar-row {
@@ -46,7 +46,7 @@ button.large {
 }
 
 actionsbutton .action-count-mask {
-  background-color: @headerbar_bg_color;
+  background-color: var(--headerbar-bg-color);
   border-radius: 9999px;
   margin-left: 10px;
   padding: 7px;
@@ -63,28 +63,28 @@ actionsbutton .action-count-badge {
 }
 
 actionsbutton.good .action-count-badge {
-  background-color: @accent_bg_color;
-  color: @accent_fg_color;
+  background-color: var(--accent-bg-color);
+  color: var(--accent_fg-color);
 }
 
 actionsbutton.finished .action-count-badge {
-  background-color: @success_bg_color;
-  color: @success_fg_color;
+  background-color: var(--success-bg-color);
+  color: var(--success_fg-color);
 }
 
 actionsbutton.aborted .action-count-badge {
-  background-color: @warning_bg_color;
-  color: @warning_fg_color;
+  background-color: var(--warning-bg-color);
+  color: var(--warning_fg-color);
 }
 
 actionsbutton.failed .action-count-badge {
-  background-color: @error_bg_color;
-  color: @error_fg_color;
+  background-color: var(--error-bg-color);
+  color: var(--error_fg-color);
 }
 
 connectionrow #selection-indicator #background,
 actionssidebar #type {
-  background-color: @shade_color;
+  background-color: var(--shade-color);
   border-radius: 9999px;
 }
 
@@ -115,20 +115,20 @@ connectionchooserpage connectionrow #delete-button {
 }
 
 connectionrow #selection-indicator #checkmark {
-  color: @light_1;
+  color: var(--light-1);
   border-radius: 9999px;
-  border: solid @accent_bg_color 2px;
-  background-color: @accent_bg_color;
+  border: solid var(--accent-bg-color) 2px;
+  background-color: var(--accent-bg-color);
 }
 
 connectionrow #selection-indicator .selected-connection {
-  border: 2px solid @accent_bg_color;
+  border: 2px solid var(--accent-bg-color);
 }
 
 connectionrow #selection-indicator .unselected-connection,
 actionssidebar #type {
   padding: 1px;
-  border: 1px solid @borders;
+  border: 1px solid var(--border-color);
 }
 
 connectionssidebar connectionrow,
@@ -152,9 +152,8 @@ connectionchooserpage connectionrow {
   font-size: small;
   font-weight: bold;
   font-feature-settings: "tnum";
-  min-width: 10px;
   border-radius: 9999px;
-  padding: 1px 4px;
+  padding: 0 5px;
 }
 
 .status-badge-normal {
@@ -170,48 +169,29 @@ connectionchooserpage connectionrow {
 }
 
 .version,
-.container-status-configured,
-.container-status-created,
-.container-status-exited,
-.container-status-initialized,
-.container-status-removing,
-.container-status-stopped,
-.container-status-stopping,
-.pod-status-created,
-.pod-status-exited,
-.pod-status-stopped,
+.container-health-status-not-running,
+.container-status-not-running,
 .image-unused,
+.pod-status-not-running,
 .volume-unused,
-.container-health-status-checking,
-.container-health-status-unconfigured,
+.volume-unused,
 .rich-expander-row-header #badge {
-  color: alpha(@window_fg_color, .75);
-  background-color: alpha(@window_fg_color, .15);
+  background-color: var(--dark-1);
+  color: var(--light-2);
 }
 
-.container-status-paused,
-.pod-status-paused {
-  color: @brown_4;
-  background: alpha(@brown_3, .25);
-}
-
-.container-status-restarting,
-.pod-status-restarting {
-  color: @purple_3;
-  background: alpha(@purple_2, .25);
-}
-
+.container-health-status-healthy,
 .container-status-running,
-.pod-status-running,
 .image-used,
+.pod-status-running,
 .volume-used {
-  color: @blue_4;
-  background-color: alpha(@blue_3, .25);
+  background-color: alpha(var(--accent-color), .25);
+  color: var(--accent-color);
 }
 
 .pod-status-degraded {
-  color: #ae7b03;
-  background: alpha(@yellow_5, .3);
+  background-color: alpha(oklab(from var(--accent-yellow) var(--standalone-color-oklab)), .25);
+  color: oklab(from var(--accent-yellow) var(--standalone-color-oklab));
 }
 
 .container-status-dead,
@@ -221,17 +201,12 @@ connectionchooserpage connectionrow {
 .pod-status-unknown,
 .container-health-status-unhealthy,
 .container-health-status-unknown {
-  color: @red_4;
-  background-color: alpha(@red_2, .25);
-}
-
-.container-health-status-healthy {
-  color: @green_5;
-  background-color: alpha(@green_3, .25);
+  background-color: alpha(oklab(from var(--accent-red) var(--standalone-color-oklab)), .25);
+  color: oklab(from var(--accent-red) var(--standalone-color-oklab));
 }
 
 .rich-expander-row-header {
-  color: alpha(@window_fg_color, .75);
+  color: alpha(var(--window-fg-color), .75);
 }
 
 .rich-expander-row-header #badge {
@@ -241,15 +216,15 @@ connectionchooserpage connectionrow {
 }
 
 progressbar.success progress {
-  background-color: @success_bg_color;
+  background-color: var(--success-bg-color);
 }
 
 progressbar.warning progress {
-  background-color: @warning_bg_color;
+  background-color: var(--warning-bg-color);
 }
 
 progressbar.error progress {
-  background-color: @error_bg_color;
+  background-color: var(--error-bg-color);
 }
 
 .text-view {
@@ -262,5 +237,5 @@ progressbar.error progress {
 }
 
 .star>icon {
-  color: @yellow_3;
+  color: var(--yellow-3);
 }

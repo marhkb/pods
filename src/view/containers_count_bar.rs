@@ -25,10 +25,6 @@ mod imp {
         #[template_child]
         pub(super) not_running_label: TemplateChild<gtk::Label>,
         #[template_child]
-        pub(super) paused_box: TemplateChild<gtk::Box>,
-        #[template_child]
-        pub(super) paused_label: TemplateChild<gtk::Label>,
-        #[template_child]
         pub(super) running_box: TemplateChild<gtk::Box>,
         #[template_child]
         pub(super) running_label: TemplateChild<gtk::Label>,
@@ -72,8 +68,6 @@ mod imp {
                 container_list_expr.chain_property::<model::AbstractContainerList>("dead");
             let not_running_expr =
                 container_list_expr.chain_property::<model::AbstractContainerList>("not-running");
-            let paused_expr =
-                container_list_expr.chain_property::<model::AbstractContainerList>("paused");
             let running_expr =
                 container_list_expr.chain_property::<model::AbstractContainerList>("running");
 
@@ -82,9 +76,6 @@ mod imp {
 
             not_running_expr.bind(&*self.not_running_box, "visible", Some(obj));
             not_running_expr.bind(&*self.not_running_label, "label", Some(obj));
-
-            paused_expr.bind(&*self.paused_box, "visible", Some(obj));
-            paused_expr.bind(&*self.paused_label, "label", Some(obj));
 
             running_expr.bind(&*self.running_box, "visible", Some(obj));
             running_expr.bind(&*self.running_label, "label", Some(obj));
