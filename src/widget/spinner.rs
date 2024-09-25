@@ -14,7 +14,8 @@ use gtk::CompositeTemplate;
 use crate::utils;
 
 const SIZE: i32 = 34;
-const BORDER_WIDTH: i32 = 4;
+const BORDER_WIDTH: i32 = 6;
+const BORDER_MARGIN: i32 = 1;
 
 mod imp {
     use super::*;
@@ -132,15 +133,24 @@ mod imp {
 
             let style_context = widget.style_context();
 
-            let animation_value = self.animation_value.get();
+            let animation_value: f32 = self.animation_value.get();
 
-            let size = SIZE as f32;
-            let rect = graphene::Rect::new(0.0, 0.0, size, size);
+            let border_margin = BORDER_MARGIN as f32;
+
+            let outer_clip_size = SIZE as f32 - border_margin * 2.0;
+            let outer_clip_rect = graphene::Rect::new(
+                border_margin,
+                border_margin,
+                outer_clip_size,
+                outer_clip_size,
+            );
 
             let child_snapshot = gtk::Snapshot::new();
 
-            child_snapshot.push_rounded_clip(&gsk::RoundedRect::from_rect(rect, size / 2.0));
-            let color_transparent = gdk::RGBA::new(0.0, 0.0, 0.0, 0.0);
+            child_snapshot.push_rounded_clip(&gsk::RoundedRect::from_rect(
+                outer_clip_rect,
+                outer_clip_size / 2.0,
+            ));
 
             if widget.is_spinning() {
                 let is_growing = animation_value as i32 % 2 == 0;
@@ -153,8 +163,8 @@ mod imp {
 
                 let percentage_clamped = percentage.clamp(0.15, 0.75);
                 child_snapshot.append_conic_gradient(
-                    &rect,
-                    &graphene::Point::new(size / 2.0, size / 2.0),
+                    &outer_clip_rect,
+                    &graphene::Point::new(outer_clip_size / 2.0, outer_clip_size / 2.0),
                     if is_growing {
                         percentage * 60.0
                     } else {
@@ -163,11 +173,11 @@ mod imp {
                         + (percentage - percentage_clamped) * 180.0,
                     &[
                         gsk::ColorStop::new(percentage_clamped, style_context.color()),
-                        gsk::ColorStop::new(percentage_clamped, color_transparent),
+                        gsk::ColorStop::new(percentage_clamped, gdk::RGBA::TRANSPARENT),
                     ],
                 );
             } else {
-                child_snapshot.append_color(&color_transparent, &rect);
+                child_snapshot.append_color(&gdk::RGBA::TRANSPARENT, &outer_clip_rect);
             }
 
             child_snapshot.pop();
@@ -175,11 +185,21 @@ mod imp {
             snapshot.push_mask(gsk::MaskMode::InvertedAlpha);
 
             let border_width = BORDER_WIDTH as f32;
-            let size = size - border_width;
-            let rect = graphene::Rect::new(border_width / 2.0, border_width / 2.0, size, size);
 
-            snapshot.push_rounded_clip(&gsk::RoundedRect::from_rect(rect, size / 2.0));
-            snapshot.append_color(&gdk::RGBA::GREEN, &rect);
+            let inner_clip_anchor = border_width / 2.0 + border_margin;
+            let inner_clip_size = outer_clip_size - border_width;
+            let inner_clip_rect = graphene::Rect::new(
+                inner_clip_anchor,
+                inner_clip_anchor,
+                inner_clip_size,
+                inner_clip_size,
+            );
+
+            snapshot.push_rounded_clip(&gsk::RoundedRect::from_rect(
+                inner_clip_rect,
+                inner_clip_size / 2.0,
+            ));
+            snapshot.append_color(&gdk::RGBA::GREEN, &inner_clip_rect);
             snapshot.pop();
             snapshot.pop();
 
