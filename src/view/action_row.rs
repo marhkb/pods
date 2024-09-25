@@ -113,7 +113,7 @@ mod imp {
                             .cloned()
                             .chain(Some(String::from(match state {
                                 Ongoing => "accent",
-                                Finished => "success",
+                                Finished => "dim-label",
                                 Aborted => "warning",
                                 Failed => "error",
                             })))
