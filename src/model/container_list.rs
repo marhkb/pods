@@ -57,6 +57,9 @@ mod imp {
                     .cloned()
                     .chain(vec![
                         glib::ParamSpecUInt::builder("len").read_only().build(),
+                        glib::ParamSpecUInt::builder("containers")
+                            .read_only()
+                            .build(),
                         glib::ParamSpecUInt::builder("created").read_only().build(),
                         glib::ParamSpecUInt::builder("dead").read_only().build(),
                         glib::ParamSpecUInt::builder("exited").read_only().build(),
@@ -84,6 +87,7 @@ mod imp {
             let obj = &*self.obj();
             match pspec.name() {
                 "len" => obj.len().to_value(),
+                "containers" => obj.containers().to_value(),
                 "created" => obj.created().to_value(),
                 "dead" => obj.dead().to_value(),
                 "exited" => obj.exited().to_value(),
@@ -212,6 +216,15 @@ impl ContainerList {
         self.n_items()
     }
 
+    pub(crate) fn containers(&self) -> u32 {
+        self.imp()
+            .list
+            .borrow()
+            .values()
+            .filter(|container| !container.is_infra())
+            .count() as u32
+    }
+
     pub(crate) fn created(&self) -> u32 {
         self.num_containers_of_status(model::ContainerStatus::Created)
     }
@@ -249,7 +262,7 @@ impl ContainerList {
             .list
             .borrow()
             .values()
-            .filter(|container| container.status() == status)
+            .filter(|container| !container.is_infra() && container.status() == status)
             .count() as u32
     }
 
