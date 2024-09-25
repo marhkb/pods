@@ -427,7 +427,6 @@ mod imp {
             _: gdk::ModifierType,
             _: &gtk::EventControllerKey,
         ) -> glib::ControlFlow {
-            println!("{key}");
             match key {
                 gdk::Key::Return => {
                     self.obj().activate();
