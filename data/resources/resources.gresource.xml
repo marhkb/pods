@@ -4,6 +4,7 @@
     <file preprocess="xml-stripblanks">assets/welcome.svg</file>
 
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/about-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/ambulance-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/arrow1-right-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/bell-outline-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/build-configure-symbolic.svg</file>
