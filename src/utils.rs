@@ -14,7 +14,6 @@ use futures::StreamExt;
 use gettextrs::gettext;
 use gettextrs::ngettext;
 use glib::clone;
-use gtk::gdk;
 use gtk::gio;
 use gtk::glib;
 
@@ -163,51 +162,52 @@ pub(crate) fn root(widget: &gtk::Widget) -> gtk::Window {
     widget.root().unwrap().downcast::<gtk::Window>().unwrap()
 }
 
-pub(crate) fn show_dialog_with_size(
-    widget: &gtk::Widget,
-    content: &gtk::Widget,
-    width: i32,
-    height: i32,
-) {
-    let toast_overlay = adw::ToastOverlay::new();
-    toast_overlay.set_child(Some(content));
+pub(crate) struct Dialog<'a> {
+    widget: &'a gtk::Widget,
+    content: &'a gtk::Widget,
+    height: Option<i32>,
+    width: Option<i32>,
+    follows_content_size: Option<bool>,
+}
 
-    let dialog = adw::Window::builder()
-        .modal(true)
-        .transient_for(&root(widget))
-        .default_width(width)
-        .default_height(height)
-        .content(&toast_overlay)
-        .build();
-
-    let action = gio::SimpleAction::new("cancel", None);
-    action.connect_activate(clone!(@weak dialog => move |_, _| dialog.close()));
-
-    let action_group = gio::SimpleActionGroup::new();
-    action_group.add_action(&action);
-    dialog.insert_action_group("action", Some(&action_group));
-
-    let controller = gtk::EventControllerKey::new();
-    controller.connect_key_pressed(clone!(
-        @weak dialog => @default-return glib::Propagation::Stop, move |_, key, _, modifier| {
-            if key == gdk::Key::Escape
-                || (key == gdk::Key::w && modifier == gdk::ModifierType::CONTROL_MASK)
-            {
-                dialog.close();
-            }
-            glib::Propagation::Proceed
+impl<'a> Dialog<'a> {
+    #[must_use]
+    pub(crate) fn new(widget: &'a gtk::Widget, content: &'a gtk::Widget) -> Self {
+        Self {
+            widget,
+            content,
+            height: None,
+            width: None,
+            follows_content_size: None,
         }
-    ));
-    dialog.add_controller(controller);
-    dialog.present();
-}
+    }
 
-pub(crate) fn show_dialog_with_height(widget: &gtk::Widget, content: &gtk::Widget, height: i32) {
-    show_dialog_with_size(widget, content, 640, height);
-}
+    #[must_use]
+    pub(crate) fn height(mut self, height: i32) -> Self {
+        self.height = Some(height);
+        self
+    }
 
-pub(crate) fn show_dialog(widget: &gtk::Widget, content: &gtk::Widget) {
-    show_dialog_with_size(widget, content, 640, -1);
+    #[must_use]
+    pub(crate) fn follows_content_size(mut self, follows_content_size: bool) -> Self {
+        self.follows_content_size = Some(follows_content_size);
+        self
+    }
+
+    pub(crate) fn present(self) {
+        let toast_overlay = adw::ToastOverlay::new();
+        toast_overlay.set_child(Some(self.content));
+
+        let dialog = adw::Dialog::builder()
+            .child(&toast_overlay)
+            .width_request(360)
+            .content_height(self.height.unwrap_or(-1))
+            .content_width(self.width.unwrap_or(-1))
+            .follows_content_size(self.follows_content_size.unwrap_or(false))
+            .build();
+
+        dialog.present(Some(self.widget));
+    }
 }
 
 pub(crate) fn show_toast(widget: &gtk::Widget, title: impl Into<glib::GString>) {

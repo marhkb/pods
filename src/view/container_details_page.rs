@@ -328,10 +328,11 @@ impl ContainerDetailsPage {
     pub(crate) fn commit(&self) {
         self.exec_action(|| {
             if let Some(container) = self.container() {
-                utils::show_dialog(
+                utils::Dialog::new(
                     self.upcast_ref(),
                     view::ContainerCommitPage::from(&container).upcast_ref(),
-                );
+                )
+                .present();
             }
         });
     }
@@ -339,10 +340,11 @@ impl ContainerDetailsPage {
     pub(crate) fn get_files(&self) {
         self.exec_action(|| {
             if let Some(container) = self.container() {
-                utils::show_dialog(
+                utils::Dialog::new(
                     self.upcast_ref(),
                     view::ContainerFilesGetPage::from(&container).upcast_ref(),
-                );
+                )
+                .present();
             }
         });
     }
@@ -350,10 +352,11 @@ impl ContainerDetailsPage {
     pub(crate) fn put_files(&self) {
         self.exec_action(|| {
             if let Some(container) = self.container() {
-                utils::show_dialog(
+                utils::Dialog::new(
                     self.upcast_ref(),
                     view::ContainerFilesPutPage::from(&container).upcast_ref(),
-                );
+                )
+                .present();
             }
         });
     }

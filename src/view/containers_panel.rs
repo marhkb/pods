@@ -481,19 +481,22 @@ impl ContainersPanel {
             .as_ref()
             .and_then(model::ContainerList::client)
         {
-            utils::show_dialog(
+            utils::Dialog::new(
                 self.upcast_ref(),
                 view::ContainerCreationPage::from(&client).upcast_ref(),
-            );
+            )
+            .present();
         }
     }
 
     pub(crate) fn show_prune_page(&self) {
         if let Some(client) = self.client() {
-            utils::show_dialog(
+            utils::Dialog::new(
                 self.upcast_ref(),
                 view::ContainersPrunePage::from(&client).upcast_ref(),
-            );
+            )
+            .follows_content_size(true)
+            .present();
         }
     }
 
@@ -652,14 +655,12 @@ impl ContainersPanel {
             return;
         }
 
-        let dialog = adw::MessageDialog::builder()
+        let dialog = adw::AlertDialog::builder()
             .heading(gettext("Confirm Forced Deletion of Multiple Containers"))
             .body_use_markup(true)
             .body(gettext(
                 "All the data created inside the containers will be lost and running containers will be stopped!",
             ))
-            .modal(true)
-            .transient_for(&utils::root(self.upcast_ref()))
             .build();
 
         dialog.add_responses(&[
@@ -694,7 +695,7 @@ impl ContainersPanel {
             }),
         );
 
-        dialog.present();
+        dialog.present(Some(self));
     }
 
     fn deselect_hidden_containers(&self, model: &gio::ListModel) {

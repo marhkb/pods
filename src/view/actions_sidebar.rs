@@ -131,10 +131,11 @@ mod imp {
                 .downcast::<model::Action>()
                 .unwrap();
 
-            utils::show_dialog(
+            utils::Dialog::new(
                 self.obj().upcast_ref(),
                 view::ActionPage::from(&action).upcast_ref(),
-            );
+            )
+            .present();
         }
 
         pub(super) fn set_action_list(&self, value: Option<&model::ActionList>) {

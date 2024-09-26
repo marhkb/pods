@@ -295,7 +295,7 @@ impl ActionPage {
                             .build(),
                     );
 
-                self.activate_action("action.cancel", None).unwrap();
+                self.activate_action("win.close", None).unwrap();
             }
             None => utils::show_error_toast(
                 self.upcast_ref(),

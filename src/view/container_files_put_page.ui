@@ -40,7 +40,7 @@
 
                     <child type="start">
                       <object class="GtkButton" id="cancel_button">
-                        <property name="action-name">action.cancel</property>
+                        <property name="action-name">win.close</property>
                         <property name="label" translatable="yes">_Cancel</property>
                         <property name="use-underline">True</property>
                       </object>

@@ -560,13 +560,12 @@ impl ContainerCard {
     }
 
     pub(crate) fn delete(&self) {
-        let dialog = adw::MessageDialog::builder()
+        let dialog = adw::AlertDialog::builder()
             .heading(gettext("Delete Container?"))
             .body_use_markup(true)
             .body(gettext(
                 "All settings and all changes made within the container will be irreversibly lost",
             ))
-            .transient_for(&utils::root(self.upcast_ref()))
             .build();
 
         dialog.add_responses(&[
@@ -576,7 +575,7 @@ impl ContainerCard {
         dialog.set_default_response(Some("cancel"));
         dialog.set_response_appearance("confirm", adw::ResponseAppearance::Destructive);
 
-        if glib::MainContext::default().block_on(dialog.choose_future()) == "confirm" {
+        if glib::MainContext::default().block_on(dialog.choose_future(self)) == "confirm" {
             view::container::delete(self.upcast_ref())
         }
     }

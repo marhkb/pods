@@ -306,10 +306,11 @@ impl PodSelectionPage {
 
     pub(crate) fn create_pod(&self) {
         if let Some(client) = self.pod_list().and_then(|list| list.client()) {
-            utils::show_dialog(
+            utils::Dialog::new(
                 self.upcast_ref(),
                 view::PodCreationPage::new(&client, false).upcast_ref(),
-            );
+            )
+            .present();
         }
     }
 

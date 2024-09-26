@@ -9,7 +9,7 @@
     <file compressed="true" preprocess="xml-stripblanks">view/client_view.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/connection_chooser_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/connection_creation_page.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/connection_custom_info_dialog.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/connection_custom_info_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/connection_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/connections_sidebar.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/container_card.ui</file>

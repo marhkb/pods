@@ -31,6 +31,8 @@ mod imp {
         #[property(get, set, construct_only)]
         pub(super) connection_manager: OnceCell<model::ConnectionManager>,
         #[template_child]
+        pub(super) navigation_view: TemplateChild<adw::NavigationView>,
+        #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) connect_button: TemplateChild<gtk::Button>,
@@ -232,9 +234,9 @@ impl ConnectionCreationPage {
     }
 
     pub(crate) fn show_custom_info_dialog(&self) {
-        let dialog = view::ConnectionCustomInfoDialog::default();
-        dialog.set_transient_for(Some(&utils::root(self.upcast_ref())));
-        dialog.present();
+        self.imp()
+            .navigation_view
+            .push_by_tag("custom-connection-info");
     }
 
     pub(crate) fn try_connect(&self) {
@@ -259,7 +261,7 @@ impl ConnectionCreationPage {
                     None
                 },
                 clone!(@weak self as obj => move |result| match result {
-                    Ok(_) => obj.activate_action("action.cancel", None).unwrap(),
+                    Ok(_) => obj.activate_action("win.close", None).unwrap(),
                     Err(e) => obj.on_error(&e.to_string()),
                 }),
             ) {

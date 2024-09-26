@@ -129,7 +129,7 @@ mod imp {
 
             if let Some(container) = value {
                 container.connect_deleted(clone!(@weak obj => move |_| {
-                    obj.activate_action("action.cancel", None).unwrap();
+                    obj.activate_action("win.close", None).unwrap();
                 }));
             }
 
