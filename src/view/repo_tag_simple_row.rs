@@ -54,7 +54,7 @@ mod imp {
             let obj = &*self.obj();
 
             let style_manager = adw::StyleManager::default();
-            style_manager.connect_dark_notify(clone!(@weak obj => move |style_manager| {
+            style_manager.connect_accent_color_notify(clone!(@weak obj => move |style_manager| {
                 obj.set_label(style_manager);
             }));
             style_manager.connect_high_contrast_notify(clone!(@weak obj => move |style_manager| {
@@ -93,13 +93,12 @@ impl RepoTagSimpleRow {
                 format!("<span alpha=\"55%\">{repo}</span>")
             };
 
+            let accent_color = style_manager.accent_color_rgba();
             let tag = format!(
-                "<span foreground=\"{}\"{}>{}</span>",
-                if style_manager.is_dark() {
-                    "#78aeed"
-                } else {
-                    "#1c71d8"
-                },
+                "<span foreground=\"#{:02x}{:02x}{:02x}\"{}>{}</span>",
+                (accent_color.red() * 255.0) as i32,
+                (accent_color.green() * 255.0) as i32,
+                (accent_color.blue() * 255.0) as i32,
                 if style_manager.is_high_contrast() {
                     " weight=\"bold\""
                 } else {
