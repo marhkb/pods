@@ -72,22 +72,23 @@ mod imp {
             let obj = &*self.obj();
 
             let style_manager = adw::StyleManager::default();
-            style_manager.connect_dark_notify(clone!(@weak obj => move |manager| {
-                obj.set_label(manager.is_dark(), manager.is_high_contrast());
+            style_manager.connect_high_contrast_notify(clone!(@weak obj => move |style_manager| {
+                obj.set_label(style_manager);
             }));
-            style_manager.connect_high_contrast_notify(clone!(@weak obj => move |manager| {
-                obj.set_label(manager.is_dark(), manager.is_high_contrast());
+            style_manager.connect_accent_color_notify(clone!(@weak obj => move |style_manager| {
+                obj.set_label(style_manager);
             }));
+
             if let Some(repo_tag) = obj.repo_tag() {
                 repo_tag.connect_notify_local(
                     Some("to-be-deleted"),
                     clone!(@weak obj, @weak style_manager => move |_, _| {
-                        obj.set_label(style_manager.is_dark(), style_manager.is_high_contrast());
+                        obj.set_label(&style_manager);
                     }),
                 );
             }
 
-            obj.set_label(style_manager.is_dark(), style_manager.is_high_contrast());
+            obj.set_label(&style_manager);
         }
     }
 
@@ -110,13 +111,21 @@ impl From<&model::RepoTag> for RepoTagRow {
 }
 
 impl RepoTagRow {
-    fn set_label(&self, is_dark: bool, is_hc: bool) {
+    fn set_label(&self, style_manager: &adw::StyleManager) {
         if let Some(repo_tag) = self.repo_tag() {
             let repo = repo_tag.repo();
+
+            let accent_color = style_manager.accent_color_rgba();
             let tag = format!(
-                "<span foreground=\"{}\"{}>{}</span>",
-                if is_dark { "#78aeed" } else { "#1c71d8" },
-                if is_hc { " weight=\"bold\"" } else { "" },
+                "<span foreground=\"#{:02x}{:02x}{:02x}\"{}>{}</span>",
+                (accent_color.red() * 255.0) as i32,
+                (accent_color.green() * 255.0) as i32,
+                (accent_color.blue() * 255.0) as i32,
+                if style_manager.is_high_contrast() {
+                    " weight=\"bold\""
+                } else {
+                    ""
+                },
                 repo_tag.tag(),
             );
 
