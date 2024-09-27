@@ -41,6 +41,20 @@ mod imp {
     }
 
     impl ObjectImpl for RandomNameEntryRow {
+        fn set_property(&self, _: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            match pspec.name() {
+                "text" => self.obj().set_text(value.get().unwrap()),
+                _ => unimplemented!(),
+            }
+        }
+
+        fn property(&self, _: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            match pspec.name() {
+                "text" => self.obj().text().to_value(),
+                _ => unimplemented!(),
+            }
+        }
+
         fn constructed(&self) {
             self.parent_constructed();
             self.obj().generate_random_name()
@@ -58,6 +72,12 @@ glib::wrapper! {
     pub(crate) struct RandomNameEntryRow(ObjectSubclass<imp::RandomNameEntryRow>)
         @extends gtk::Widget, gtk::ListBoxRow, adw::PreferencesRow, adw::EntryRow,
         @implements gtk::Editable;
+}
+
+impl Default for RandomNameEntryRow {
+    fn default() -> Self {
+        glib::Object::builder().build()
+    }
 }
 
 impl RandomNameEntryRow {
