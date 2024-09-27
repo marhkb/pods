@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-12-28 12:57+0100\n"
-"PO-Revision-Date: 2023-05-27 11:53+0000\n"
-"Last-Translator: SoftExpert <softexpert@gmail.com>\n"
+"PO-Revision-Date: 2024-09-15 22:09+0000\n"
+"Last-Translator: ascpial <mail@ascpial.fr>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/pods/main/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.18-dev\n"
+"X-Generator: Weblate 5.8-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:110
@@ -1847,9 +1847,8 @@ msgid "Select None"
 msgstr "Sélectionnez Aucun"
 
 #: src/view/containers_panel.ui:125 src/view/containers_prune_page.ui:42
-#, fuzzy
 msgid "Prune Stopped Containers"
-msgstr "Créer le conteneur"
+msgstr "Nettoyer les conteneurs arrêtés"
 
 #: src/view/containers_panel.ui:132 src/view/images_panel.ui:157
 #: src/view/pods_panel.ui:132 src/view/volumes_panel.ui:132
@@ -2237,9 +2236,8 @@ msgstr ""
 "supprimés !"
 
 #: src/view/images_panel.ui:35
-#, fuzzy
 msgid "_Prune Unused Images"
-msgstr "Éliminé les images inutilisées"
+msgstr "Éliminer les images inutilisées"
 
 #: src/view/images_panel.ui:141
 #, fuzzy
@@ -2247,9 +2245,8 @@ msgid "Create Image"
 msgstr "Image distante"
 
 #: src/view/images_panel.ui:150
-#, fuzzy
 msgid "Prune Unused Images"
-msgstr "Éliminé les images inutilisées"
+msgstr "Éliminer les images inutilisées"
 
 #: src/view/images_panel.ui:171 src/view/images_panel.ui:217
 #, fuzzy
@@ -2286,11 +2283,11 @@ msgstr "Supprimez les images"
 
 #: src/view/images_prune_page.ui:69
 msgid "Prune All"
-msgstr "Tout supprimé"
+msgstr "Tout supprimer"
 
 #: src/view/images_prune_page.ui:76
 msgid "Prune External"
-msgstr "Supprimé externe"
+msgstr "Supprimer les image externes"
 
 #: src/view/images_prune_page.ui:83
 #, fuzzy
@@ -2410,11 +2407,11 @@ msgstr "Chemin du volume"
 
 #: src/view/info_panel.ui:237
 msgid "No Info"
-msgstr ""
+msgstr "Sans information"
 
 #: src/view/info_panel.ui:238
 msgid "There was an error while fetching the information"
-msgstr ""
+msgstr "Une erreur est survenue lors de la récupération de l'information"
 
 #: src/view/key_val_row.rs:149 src/view/key_val_row.ui:20
 msgid "Key"
@@ -2427,15 +2424,15 @@ msgstr "Valeur"
 
 #: src/view/mount_row.rs:187
 msgid "No volume selected (will create a new one)"
-msgstr ""
+msgstr "Aucun volume sélectionné (un nouveau sera créé)"
 
 #: src/view/mount_row.ui:76
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 #: src/view/mount_row.ui:88
 msgid "Bind"
-msgstr ""
+msgstr "Lier"
 
 #: src/view/mount_row.ui:94 src/view/mount_row.ui:111
 #: src/view/volume_details_page.ui:16
@@ -2593,7 +2590,7 @@ msgstr "Détails du Pod"
 
 #: src/view/pod_selection_page.ui:29
 msgid "No Pod Available"
-msgstr ""
+msgstr "Aucun pod de disponible"
 
 #: src/view/pod_selection_page.ui:40 src/view/pods_panel.ui:6
 #: src/view/pods_panel.ui:451
@@ -2662,7 +2659,7 @@ msgstr "_Afficher uniquement les conteneurs en cours d'exécution"
 
 #: src/view/pods_panel.ui:441
 msgid "No Pods Available"
-msgstr ""
+msgstr "Aucun pods de disponible"
 
 #: src/view/port_mapping_row.ui:83
 msgid "Protocol"
@@ -2678,7 +2675,7 @@ msgstr "UDP"
 
 #: src/view/port_mapping_row.ui:89
 msgid "SCTP"
-msgstr ""
+msgstr "SCTP"
 
 #: src/view/port_mapping_row.ui:98
 #, fuzzy
@@ -2693,6 +2690,8 @@ msgstr "Port de l'hôte"
 #: src/view/port_mapping_row.ui:105
 msgid "If 0, a random port is assigned on the host (guaranteed above 1024)"
 msgstr ""
+"Si 0, un port aléatoire sera assigné sur l'hôte (garanti d'être au delà de "
+"1024)"
 
 #: src/view/port_mapping_row.ui:120
 #, fuzzy
@@ -2725,8 +2724,9 @@ msgid "Error saving credentials"
 msgstr "Erreur lors de la sauvegarde des journaux"
 
 #: src/view/repo_tag_push_page.rs:265
+#, fuzzy
 msgid "Secret Service is not available"
-msgstr ""
+msgstr "Le service de secrets n'est pas disponible"
 
 #: src/view/repo_tag_push_page.ui:45
 #, fuzzy
@@ -2795,7 +2795,7 @@ msgstr "Démarquer"
 
 #: src/view/repo_tag_selection_page.ui:99
 msgid "Fetching Tags"
-msgstr ""
+msgstr "Récupération des étiquettes"
 
 #: src/view/scalable_text_view_page.rs:274
 msgid "Image Inspection"
@@ -2978,41 +2978,46 @@ msgid "Pod Processes"
 msgstr "Processus du pod"
 
 #: src/view/top_page.rs:130
+#, fuzzy
 msgid "USER"
-msgstr ""
+msgstr "USAGER"
 
 #: src/view/top_page.rs:137
 msgid "PID"
-msgstr ""
+msgstr "PID"
 
 #: src/view/top_page.rs:144
 msgid "PPID"
-msgstr ""
+msgstr "PPID"
 
 #: src/view/top_page.rs:151
 #, c-format
 msgid "%CPU"
-msgstr ""
+msgstr "%CPU"
 
 #: src/view/top_page.rs:158
+#, fuzzy
 msgid "ELAPSED"
-msgstr ""
+msgstr "ÉCOULÉ"
 
 #: src/view/top_page.rs:165
 msgid "TTY"
-msgstr ""
+msgstr "TTY"
 
 #: src/view/top_page.rs:172
+#, fuzzy
 msgid "TIME"
-msgstr ""
+msgstr "TEMPS"
 
 #: src/view/top_page.rs:179
+#, fuzzy
 msgid "COMMAND"
-msgstr ""
+msgstr "COMMANDE"
 
 #: src/view/top_page.rs:521
+#, fuzzy
 msgid "Killing pod processes is not supported"
-msgstr ""
+msgstr "La suppression des processus pod n'est pas supportée"
 
 #: src/view/volume.rs:18
 #, fuzzy
@@ -3063,7 +3068,7 @@ msgstr "_Supprimer cette image"
 
 #: src/view/volume_details_page.ui:52
 msgid "Driver"
-msgstr ""
+msgstr "Pilote"
 
 #: src/view/volume_details_page.ui:64
 #, fuzzy
@@ -3078,7 +3083,7 @@ msgstr ""
 
 #: src/view/volume_row.rs:174
 msgid "{} old"
-msgstr ""
+msgstr "Il y a {}"
 
 #: src/view/volume_row.rs:271
 #, fuzzy
@@ -3151,7 +3156,7 @@ msgstr "Supprimez les images"
 
 #: src/view/volumes_panel.ui:146 src/view/volumes_panel.ui:192
 msgid "Show Only Used Volumes"
-msgstr ""
+msgstr "N'afficher que les volumes utilisés"
 
 #: src/view/volumes_panel.ui:258
 #, fuzzy
