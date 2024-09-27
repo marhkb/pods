@@ -123,6 +123,9 @@ mod imp {
             container_list_expr.bind(&*self.containers_count_bar, "container-list", Some(obj));
 
             let style_manager = adw::StyleManager::default();
+            style_manager.connect_dark_notify(clone!(@weak obj => move |style_manager| {
+                obj.imp().set_path_label(style_manager);
+            }));
             style_manager.connect_accent_color_notify(clone!(@weak obj => move |style_manager| {
                 obj.imp().set_path_label(style_manager);
             }));
@@ -151,7 +154,9 @@ mod imp {
                 };
                 label.push(' ');
 
-                let accent_color = style_manager.accent_color_rgba();
+                let accent_color = style_manager
+                    .accent_color()
+                    .to_standalone_rgba(style_manager.is_dark());
                 label.push_str(&format!(
                     "<span foreground=\"#{:02x}{:02x}{:02x}\"{}>",
                     (accent_color.red() * 255.0) as i32,
