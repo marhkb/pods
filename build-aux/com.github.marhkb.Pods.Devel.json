@@ -62,7 +62,7 @@
                 {
                     "type": "git",
                     "url": "https://gitlab.gnome.org/GNOME/vte.git",
-                    "tag": "0.76.4"
+                    "tag": "0.78.0"
                 }
             ]
         },
