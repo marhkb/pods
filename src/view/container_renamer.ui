@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="PdsContainerRenamer" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBinLayout"/>
+    </property>
+
+    <child>
+      <object class="AdwPreferencesGroup">
+
+        <child>
+          <object class="PdsRandomNameEntryRow" id="entry_row">
+            <property name="activates-default">True</property>
+            <property name="title" translatable="yes">Name</property>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>

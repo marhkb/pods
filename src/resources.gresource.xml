@@ -23,7 +23,7 @@
     <file compressed="true" preprocess="xml-stripblanks">view/container_log_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/container_menu_button.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/container_properties_group.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/container_rename_dialog.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/container_renamer.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/container_resources.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/container_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/container_terminal.ui</file>

@@ -71,7 +71,7 @@ mod imp {
             klass.bind_template();
 
             klass.install_action(ACTION_RENAME, None, |widget, _, _| {
-                widget.rename();
+                view::container::rename(widget.upcast_ref(), widget.container().as_ref());
             });
             klass.install_action(ACTION_COMMIT, None, |widget, _, _| {
                 widget.commit();
@@ -313,16 +313,6 @@ impl ContainerDetailsPage {
             self.action_set_enabled(ACTION_PAUSE, container.can_pause());
             self.action_set_enabled(ACTION_DELETE, container.can_delete());
         }
-    }
-
-    pub(crate) fn rename(&self) {
-        self.exec_action(|| {
-            if let Some(container) = self.container() {
-                let dialog = view::ContainerRenameDialog::from(&container);
-                dialog.set_transient_for(Some(&utils::root(self.upcast_ref())));
-                dialog.present();
-            }
-        });
     }
 
     pub(crate) fn commit(&self) {

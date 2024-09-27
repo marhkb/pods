@@ -61,7 +61,7 @@ mod imp {
             });
 
             klass.install_action(ACTION_RENAME, None, |widget, _, _| {
-                widget.rename();
+                view::container::rename(widget.upcast_ref(), widget.container().as_ref());
             });
 
             klass.install_action(ACTION_DELETE, None, |widget, _, _| {
@@ -127,14 +127,6 @@ glib::wrapper! {
 }
 
 impl ContainerMenuButton {
-    pub(crate) fn rename(&self) {
-        if let Some(container) = self.container() {
-            let dialog = view::ContainerRenameDialog::from(&container);
-            dialog.set_transient_for(Some(&utils::root(self.upcast_ref())));
-            dialog.present();
-        }
-    }
-
     fn update_actions(&self) {
         if let Some(container) = self.container() {
             let can_stop = container.can_stop();
