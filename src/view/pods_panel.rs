@@ -413,19 +413,21 @@ impl PodsPanel {
 
     pub(crate) fn create_pod(&self) {
         if let Some(client) = self.pod_list().as_ref().and_then(model::PodList::client) {
-            utils::show_dialog(
+            utils::Dialog::new(
                 self.upcast_ref(),
                 view::PodCreationPage::from(&client).upcast_ref(),
-            );
+            )
+            .present();
         }
     }
 
     pub(crate) fn prune_pods(&self) {
         if let Some(client) = self.pod_list().and_then(|pod_list| pod_list.client()) {
-            utils::show_dialog(
+            utils::Dialog::new(
                 self.upcast_ref(),
                 view::PodsPrunePage::from(&client).upcast_ref(),
-            );
+            )
+            .present();
         }
     }
 
@@ -574,12 +576,10 @@ impl PodsPanel {
             return;
         }
 
-        let dialog = adw::MessageDialog::builder()
+        let dialog = adw::AlertDialog::builder()
             .heading(gettext("Confirm Forced Deletion of Multiple Pods"))
             .body_use_markup(true)
             .body(gettext("All associated containers will also be removed!"))
-            .modal(true)
-            .transient_for(&utils::root(self.upcast_ref()))
             .build();
 
         dialog.add_responses(&[
@@ -613,7 +613,7 @@ impl PodsPanel {
             }),
         );
 
-        dialog.present();
+        dialog.present(Some(self));
     }
 
     fn deselect_hidden_pods(&self, model: &gio::ListModel) {

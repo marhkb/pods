@@ -48,6 +48,7 @@
         <p>Features</p>
         <ul>
           <li>Accent colors are now properly supported. (#804, #807, #809)</li>
+          <li>All dialogs have been ported to AdwDialog to be more adaptive. (#810)</li>
           <li>Containers are now represented by cards in the container panel. (#778)</li>
           <li>
             The image search has been completely revised and is now much more streamlined.

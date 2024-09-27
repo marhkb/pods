@@ -386,19 +386,22 @@ impl VolumesPanel {
             .as_ref()
             .and_then(model::VolumeList::client)
         {
-            utils::show_dialog(
+            utils::Dialog::new(
                 self.upcast_ref(),
                 view::VolumeCreationPage::from(&client).upcast_ref(),
-            );
+            )
+            .present();
         }
     }
 
     pub(crate) fn show_prune_page(&self) {
         if let Some(client) = self.volume_list().and_then(|list| list.client()) {
-            utils::show_dialog(
+            utils::Dialog::new(
                 self.upcast_ref(),
                 view::VolumesPrunePage::from(&client).upcast_ref(),
-            );
+            )
+            .follows_content_size(true)
+            .present();
         }
     }
 
@@ -445,13 +448,11 @@ impl VolumesPanel {
             return;
         }
 
-        let dialog = adw::MessageDialog::builder()
+        let dialog = adw::AlertDialog::builder()
             .heading(gettext("Confirm Forced Deletion of Multiple Volumes"))
             .body(gettext(
                 "There may be containers associated with some of the volumes, which will also be removed!",
             ))
-            .modal(true)
-            .transient_for(&utils::root(self.upcast_ref()))
             .build();
 
         dialog.add_responses(&[
@@ -490,7 +491,7 @@ impl VolumesPanel {
             }),
         );
 
-        dialog.present();
+        dialog.present(Some(self));
     }
 
     fn deselect_hidden_volumes(&self, model: &gio::ListModel) {

@@ -21,13 +21,14 @@
         <property name="activatable">False</property>
 
         <child>
-          <object class="GtkBox">
+          <object class="GtkBox" id="date_time_box">
             <property name="halign">center</property>
             <property name="margin-bottom">18</property>
-            <property name="margin-end">12</property>
-            <property name="margin-start">12</property>
+            <property name="margin-end">3</property>
+            <property name="margin-start">3</property>
             <property name="margin-top">18</property>
-            <property name="spacing">36</property>
+            <property name="spacing">18</property>
+            <property name="orientation">vertical</property>
 
             <child>
               <object class="GtkCalendar" id="calendar">
@@ -41,6 +42,7 @@
             <child>
               <object class="GtkBox">
                 <property name="spacing">6</property>
+                <property name="halign">center</property>
                 <property name="valign">center</property>
 
                 <child>
@@ -53,7 +55,6 @@
                         <property name="step-increment">1</property>
                       </object>
                     </property>
-                    <property name="orientation">vertical</property>
                     <property name="wrap">True</property>
                   </object>
                 </child>
@@ -75,7 +76,6 @@
                         <property name="upper">59</property>
                       </object>
                     </property>
-                    <property name="orientation">vertical</property>
                     <property name="wrap">True</property>
                   </object>
                 </child>

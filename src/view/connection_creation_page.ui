@@ -15,71 +15,277 @@
     </property>
 
     <child>
-      <object class="AdwToolbarView">
+      <object class="AdwNavigationView" id="navigation_view">
 
-        <child type="top">
-          <object class="AdwHeaderBar">
-            <property name="show-end-title-buttons">False</property>
-            <property name="show-start-title-buttons">False</property>
+        <child>
+          <object class="AdwNavigationPage">
+            <property name="tag">new-connection</property>
+            <property name="title" translatable="yes">New Connection</property>
 
-            <child type="start">
-              <object class="GtkButton" id="cancel_button">
-                <property name="action-name">action.cancel</property>
-                <property name="label" translatable="yes">_Cancel</property>
-                <property name="use-underline">True</property>
-              </object>
-            </child>
+            <child>
+              <object class="AdwToolbarView">
 
-            <child type="title">
-              <object class="AdwWindowTitle">
-                <property name="title" translatable="yes">New Connection</property>
-              </object>
-            </child>
+                <child type="top">
+                  <object class="AdwHeaderBar">
+                    <property name="show-end-title-buttons">False</property>
+                    <property name="show-start-title-buttons">False</property>
 
-            <child type="end">
-              <object class="GtkStack" id="stack">
-
-                <child>
-                  <object class="GtkStackPage">
-                    <property name="name">connect</property>
-
-                    <property name="child">
-                      <object class="GtkButton" id="connect_button">
-                        <style>
-                          <class name="suggested-action"/>
-                        </style>
-                        <property name="action-name">connection-creation-page.try-connect</property>
-                        <property name="label" translatable="yes">_Connect</property>
+                    <child type="start">
+                      <object class="GtkButton" id="cancel_button">
+                        <property name="action-name">win.close</property>
+                        <property name="label" translatable="yes">_Cancel</property>
                         <property name="use-underline">True</property>
                       </object>
-                    </property>
+                    </child>
+
+                    <child type="title">
+                      <object class="AdwWindowTitle">
+                        <property name="title" translatable="yes">New Connection</property>
+                      </object>
+                    </child>
+
+                    <child type="end">
+                      <object class="GtkStack" id="stack">
+
+                        <child>
+                          <object class="GtkStackPage">
+                            <property name="name">connect</property>
+
+                            <property name="child">
+                              <object class="GtkButton" id="connect_button">
+                                <style>
+                                  <class name="suggested-action"/>
+                                </style>
+                                <property name="action-name">connection-creation-page.try-connect</property>
+                                <property name="label" translatable="yes">_Connect</property>
+                                <property name="use-underline">True</property>
+                              </object>
+                            </property>
+
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="GtkStackPage">
+                            <property name="name">abort</property>
+
+                            <property name="child">
+                              <object class="GtkButton">
+                                <style>
+                                  <class name="destructive-action"/>
+                                </style>
+                                <property name="action-name">connection-creation-page.abort</property>
+
+                                <child>
+                                  <object class="GtkBox">
+                                    <property name="spacing">6</property>
+
+                                    <child>
+                                      <object class="AdwSpinner"/>
+                                    </child>
+
+                                    <child>
+                                      <object class="GtkLabel">
+                                        <property name="label" translatable="yes">_Abort</property>
+                                        <property name="use-underline">True</property>
+                                      </object>
+                                    </child>
+
+                                  </object>
+                                </child>
+
+                              </object>
+                            </property>
+
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
 
                   </object>
                 </child>
 
                 <child>
-                  <object class="GtkStackPage">
-                    <property name="name">abort</property>
+                  <object class="AdwPreferencesPage" id="preferences_page">
 
-                    <property name="child">
-                      <object class="GtkButton">
-                        <style>
-                          <class name="destructive-action"/>
-                        </style>
-                        <property name="action-name">connection-creation-page.abort</property>
+                    <child>
+                      <object class="AdwPreferencesGroup">
 
                         <child>
-                          <object class="GtkBox">
-                            <property name="spacing">6</property>
+                          <object class="AdwEntryRow" id="name_entry_row">
+                            <signal name="changed" handler="on_name_entry_row_changed" swapped="true"/>
+                            <property name="activates-default">True</property>
+                            <property name="title" translatable="yes">Name</property>
+                          </object>
+                        </child>
 
-                            <child>
-                              <object class="AdwSpinner"/>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="AdwPreferencesGroup">
+                        <property name="title" translatable="yes">URL</property>
+                        <property name="description" translatable="yes">Choose how to connect to Podman</property>
+
+                        <child>
+                          <object class="AdwActionRow" id="unix_socket_url_row">
+                            <property name="title" translatable="yes">Unix Socket</property>
+                            <property name="activatable-widget">unix_socket_radio_button</property>
+
+                            <child type="prefix">
+                              <object class="GtkCheckButton" id="unix_socket_radio_button">
+                                <property name="active">True</property>
+                                <property name="group">custom_url_radio_button</property>
+                                <property name="valign">center</property>
+                              </object>
+                            </child>
+
+                            <child type="suffix">
+                              <object class="GtkMenuButton">
+                                <style>
+                                  <class name="flat"/>
+                                </style>
+                                <property name="icon-name">dialog-information-symbolic</property>
+                                <property name="valign">center</property>
+
+                                <property name="popover">
+                                  <object class="GtkPopover">
+
+                                    <child>
+                                      <object class="GtkBox">
+                                        <property name="orientation">vertical</property>
+                                        <property name="spacing">12</property>
+                                        <property name="margin-top">12</property>
+                                        <property name="margin-end">9</property>
+                                        <property name="margin-bottom">30</property>
+                                        <property name="margin-start">9</property>
+
+                                        <child>
+                                          <object class="GtkLabel">
+                                            <style>
+                                              <class name="title-3"/>
+                                            </style>
+                                            <property name="label" translatable="yes">Podman Socket Activation</property>
+                                            <property name="margin-bottom">3</property>
+                                          </object>
+                                        </child>
+
+                                        <child>
+                                          <object class="GtkLabel">
+                                            <property name="label" translatable="yes">To connect to the local Podman instance, the systemd socket must be enabled. You can enable it permanently by issuing the following command:</property>
+                                            <property name="max-width-chars">1</property>
+                                            <property name="wrap">True</property>
+                                            <property name="wrap-mode">word-char</property>
+                                            <property name="xalign">0</property>
+                                          </object>
+                                        </child>
+
+                                        <child>
+                                          <object class="GtkBox">
+                                            <style>
+                                              <class name="card"/>
+                                              <class name="frame"/>
+                                              <class name="linked"/>
+                                              <class name="view"/>
+                                            </style>
+                                            <property name="spacing">12</property>
+                                            <property name="overflow">hidden</property>
+
+                                            <child>
+                                              <object class="GtkLabel">
+                                                <style>
+                                                  <class name="monospace"/>
+                                                </style>
+                                                <property name="label">$</property>
+                                                <property name="xalign">0</property>
+                                                <property name="margin-start">9</property>
+                                              </object>
+                                            </child>
+
+                                            <child>
+                                              <object class="GtkLabel" id="socket_activation_command_label">
+                                                <style>
+                                                  <class name="monospace"/>
+                                                </style>
+                                                <property name="label">systemctl --user enable --now podman.socket</property>
+                                                <property name="selectable">True</property>
+                                                <property name="hexpand">True</property>
+                                                <property name="xalign">0</property>
+                                              </object>
+                                            </child>
+
+                                            <child>
+                                              <object class="GtkButton">
+                                                <style>
+                                                  <class name="flat"/>
+                                                </style>
+                                                <property name="action-name">connection-creator-page.copy-socket-activation-command</property>
+                                                <property name="icon-name">edit-copy-symbolic</property>
+                                                <property name="tooltip-text" translatable="yes">Copy to Clipboard</property>
+                                              </object>
+                                            </child>
+
+                                          </object>
+                                        </child>
+
+                                        <child>
+                                          <object class="GtkLabel" id="socket_url_label">
+                                            <property name="margin-top">3</property>
+                                            <property name="xalign">0</property>
+                                          </object>
+                                        </child>
+
+                                        <child>
+                                          <object class="GtkLabel">
+                                            <property name="label" translatable="yes">To connect to the local root Podman instance, create a custom connection (read the hints there).</property>
+                                            <property name="max-width-chars">1</property>
+                                            <property name="margin-top">3</property>
+                                            <property name="wrap">True</property>
+                                            <property name="wrap-mode">word-char</property>
+                                            <property name="xalign">0</property>
+                                          </object>
+                                        </child>
+
+                                      </object>
+                                    </child>
+
+                                  </object>
+                                </property>
+
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="AdwEntryRow" id="custom_url_entry_row">
+                            <signal name="entry-activated" handler="on_custom_url_entry_row_activated" swapped="true"/>
+                            <signal name="changed" handler="on_custom_url_entry_row_changed" swapped="true"/>
+                            <property name="title" translatable="yes">Custom URL</property>
+
+                            <child type="prefix">
+                              <object class="GtkCheckButton" id="custom_url_radio_button">
+                                <property name="valign">center</property>
+                              </object>
+                            </child>
+
+                            <child type="suffix">
+                              <object class="GtkButton">
+                                <style>
+                                  <class name="flat"/>
+                                </style>
+                                <property name="action-name">connection-creation-page.show-custom-info-dialog</property>
+                                <property name="icon-name">dialog-information-symbolic</property>
+                                <property name="valign">center</property>
+                              </object>
                             </child>
 
                             <child>
-                              <object class="GtkLabel">
-                                <property name="label" translatable="yes">_Abort</property>
-                                <property name="use-underline">True</property>
+                              <object class="GtkEventControllerKey">
+                                <signal name="key-pressed" handler="on_custom_url_entry_key_pressed" swapped="true"/>
+                                <property name="propagation-phase">capture</property>
                               </object>
                             </child>
 
@@ -87,7 +293,48 @@
                         </child>
 
                       </object>
-                    </property>
+                    </child>
+
+                    <child>
+                      <object class="AdwPreferencesGroup">
+
+                        <child>
+                          <object class="AdwActionRow">
+                            <property name="activatable-widget">color_switch</property>
+                            <property name="title" translatable="yes">Color</property>
+                            <property name="subtitle" translatable="yes">Set the color of this connection</property>
+
+                            <child>
+                              <object class="GtkBox">
+                                <property name="spacing">6</property>
+                                <property name="valign">center</property>
+
+                                <child>
+                                  <object class="GtkColorDialogButton" id="color_dialog_button">
+                                    <property name="valign">center</property>
+                                    <property name="visible" bind-source="color_switch" bind-property="active" bind-flags="sync-create"/>
+
+                                    <property name="dialog">
+                                      <object class="GtkColorDialog"/>
+                                    </property>
+
+                                  </object>
+                                </child>
+
+                                <child>
+                                  <object class="GtkSwitch" id="color_switch">
+                                    <property name="valign">center</property>
+                                  </object>
+                                </child>
+
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
 
                   </object>
                 </child>
@@ -99,233 +346,12 @@
         </child>
 
         <child>
-          <object class="AdwPreferencesPage" id="preferences_page">
+          <object class="AdwNavigationPage">
+            <property name="tag">custom-connection-info</property>
+            <property name="title" translatable="yes">Custom Connection Info</property>
 
             <child>
-              <object class="AdwPreferencesGroup">
-
-                <child>
-                  <object class="AdwEntryRow" id="name_entry_row">
-                    <signal name="changed" handler="on_name_entry_row_changed" swapped="true"/>
-                    <property name="activates-default">True</property>
-                    <property name="title" translatable="yes">Name</property>
-                  </object>
-                </child>
-
-              </object>
-            </child>
-
-            <child>
-              <object class="AdwPreferencesGroup">
-                <property name="title" translatable="yes">URL</property>
-                <property name="description" translatable="yes">Choose how to connect to Podman</property>
-
-                <child>
-                  <object class="AdwActionRow" id="unix_socket_url_row">
-                    <property name="title" translatable="yes">Unix Socket</property>
-                    <property name="activatable-widget">unix_socket_radio_button</property>
-
-                    <child type="prefix">
-                      <object class="GtkCheckButton" id="unix_socket_radio_button">
-                        <property name="active">True</property>
-                        <property name="group">custom_url_radio_button</property>
-                        <property name="valign">center</property>
-                      </object>
-                    </child>
-
-                    <child type="suffix">
-                      <object class="GtkMenuButton">
-                        <style>
-                          <class name="flat"/>
-                        </style>
-                        <property name="icon-name">dialog-information-symbolic</property>
-                        <property name="valign">center</property>
-
-                        <property name="popover">
-                          <object class="GtkPopover">
-
-                            <child>
-                              <object class="GtkBox">
-                                <property name="orientation">vertical</property>
-                                <property name="spacing">12</property>
-                                <property name="margin-top">12</property>
-                                <property name="margin-end">9</property>
-                                <property name="margin-bottom">30</property>
-                                <property name="margin-start">9</property>
-
-                                <child>
-                                  <object class="GtkLabel">
-                                    <style>
-                                      <class name="title-3"/>
-                                    </style>
-                                    <property name="label" translatable="yes">Podman Socket Activation</property>
-                                    <property name="margin-bottom">3</property>
-                                  </object>
-                                </child>
-
-                                <child>
-                                  <object class="GtkLabel">
-                                    <property name="label" translatable="yes">To connect to the local Podman instance, the systemd socket must be enabled. You can enable it permanently by issuing the following command:</property>
-                                    <property name="max-width-chars">1</property>
-                                    <property name="wrap">True</property>
-                                    <property name="wrap-mode">word-char</property>
-                                    <property name="xalign">0</property>
-                                  </object>
-                                </child>
-
-                                <child>
-                                  <object class="GtkBox">
-                                    <style>
-                                      <class name="card"/>
-                                      <class name="frame"/>
-                                      <class name="linked"/>
-                                      <class name="view"/>
-                                    </style>
-                                    <property name="spacing">12</property>
-                                    <property name="overflow">hidden</property>
-
-                                    <child>
-                                      <object class="GtkLabel">
-                                        <style>
-                                          <class name="monospace"/>
-                                        </style>
-                                        <property name="label">$</property>
-                                        <property name="xalign">0</property>
-                                        <property name="margin-start">9</property>
-                                      </object>
-                                    </child>
-
-                                    <child>
-                                      <object class="GtkLabel" id="socket_activation_command_label">
-                                        <style>
-                                          <class name="monospace"/>
-                                        </style>
-                                        <property name="label">systemctl --user enable --now podman.socket</property>
-                                        <property name="selectable">True</property>
-                                        <property name="hexpand">True</property>
-                                        <property name="xalign">0</property>
-                                      </object>
-                                    </child>
-
-                                    <child>
-                                      <object class="GtkButton">
-                                        <style>
-                                          <class name="flat"/>
-                                        </style>
-                                        <property name="action-name">connection-creator-page.copy-socket-activation-command</property>
-                                        <property name="icon-name">edit-copy-symbolic</property>
-                                        <property name="tooltip-text" translatable="yes">Copy to Clipboard</property>
-                                      </object>
-                                    </child>
-
-                                  </object>
-                                </child>
-
-                                <child>
-                                  <object class="GtkLabel" id="socket_url_label">
-                                    <property name="margin-top">3</property>
-                                    <property name="xalign">0</property>
-                                  </object>
-                                </child>
-
-                                <child>
-                                  <object class="GtkLabel">
-                                    <property name="label" translatable="yes">To connect to the local root Podman instance, create a custom connection (read the hints there).</property>
-                                    <property name="max-width-chars">1</property>
-                                    <property name="margin-top">3</property>
-                                    <property name="wrap">True</property>
-                                    <property name="wrap-mode">word-char</property>
-                                    <property name="xalign">0</property>
-                                  </object>
-                                </child>
-
-                              </object>
-                            </child>
-
-                          </object>
-                        </property>
-
-                      </object>
-                    </child>
-
-                  </object>
-                </child>
-
-                <child>
-                  <object class="AdwEntryRow" id="custom_url_entry_row">
-                    <signal name="entry-activated" handler="on_custom_url_entry_row_activated" swapped="true"/>
-                    <signal name="changed" handler="on_custom_url_entry_row_changed" swapped="true"/>
-                    <property name="title" translatable="yes">Custom URL</property>
-
-                    <child type="prefix">
-                      <object class="GtkCheckButton" id="custom_url_radio_button">
-                        <property name="valign">center</property>
-                      </object>
-                    </child>
-
-                    <child type="suffix">
-                      <object class="GtkButton">
-                        <style>
-                          <class name="flat"/>
-                        </style>
-                        <property name="action-name">connection-creation-page.show-custom-info-dialog</property>
-                        <property name="icon-name">dialog-information-symbolic</property>
-                        <property name="valign">center</property>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="GtkEventControllerKey">
-                        <signal name="key-pressed" handler="on_custom_url_entry_key_pressed" swapped="true"/>
-                        <property name="propagation-phase">capture</property>
-                      </object>
-                    </child>
-
-                  </object>
-                </child>
-
-              </object>
-            </child>
-
-            <child>
-              <object class="AdwPreferencesGroup">
-
-                <child>
-                  <object class="AdwActionRow">
-                    <property name="activatable-widget">color_switch</property>
-                    <property name="title" translatable="yes">Color</property>
-                    <property name="subtitle" translatable="yes">Set the color of this connection</property>
-
-                    <child>
-                      <object class="GtkBox">
-                        <property name="spacing">6</property>
-                        <property name="valign">center</property>
-
-                        <child>
-                          <object class="GtkColorDialogButton" id="color_dialog_button">
-                            <property name="valign">center</property>
-                            <property name="visible" bind-source="color_switch" bind-property="active" bind-flags="sync-create"/>
-
-                            <property name="dialog">
-                              <object class="GtkColorDialog"/>
-                            </property>
-
-                          </object>
-                        </child>
-
-                        <child>
-                          <object class="GtkSwitch" id="color_switch">
-                            <property name="valign">center</property>
-                          </object>
-                        </child>
-
-                      </object>
-                    </child>
-
-                  </object>
-                </child>
-
-              </object>
+              <object class="PdsConnectionCustomInfoPage"/>
             </child>
 
           </object>

@@ -309,10 +309,11 @@ impl VolumeSelectionPage {
 
     pub(crate) fn create_volume(&self) {
         if let Some(client) = self.volume_list().and_then(|list| list.client()) {
-            utils::show_dialog(
+            utils::Dialog::new(
                 self.upcast_ref(),
                 view::VolumeCreationPage::new(&client, false).upcast_ref(),
-            );
+            )
+            .present();
         }
     }
 

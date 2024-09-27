@@ -50,26 +50,25 @@ pub(crate) fn show_delete_confirmation_dialog(widget: &gtk::Widget) {
     {
         match pod.container_list().first_non_infra() {
             Some(container) => {
-                let dialog = adw::MessageDialog::builder()
-                .heading(gettext("Confirm Forced Pod Deletion"))
+                let dialog = adw::AlertDialog::builder()
+                .heading(gettext("Confirm Pod Deletion"))
                 .body_use_markup(true)
                 .body(gettext!(
                     // Translators: The "{}" is a placeholder for the container name.
                     "Pod contains container <b>{}</b>. Deleting the pod will also delete all its containers.",
                     container.name()
                 ))
-                .modal(true)
-                .transient_for(&utils::root(widget))
                 .build();
 
                 dialog.add_responses(&[
                     ("cancel", &gettext("_Cancel")),
-                    ("delete", &gettext("_Force Delete")),
+                    ("delete", &gettext("_Delete")),
                 ]);
                 dialog.set_default_response(Some("cancel"));
                 dialog.set_response_appearance("delete", adw::ResponseAppearance::Destructive);
 
                 dialog.choose(
+                    widget,
                     gio::Cancellable::NONE,
                     clone!(@weak widget, @weak pod => move |response| {
                         if response == "delete" {
@@ -85,6 +84,6 @@ pub(crate) fn show_delete_confirmation_dialog(widget: &gtk::Widget) {
 
 pub(crate) fn create_container(widget: &gtk::Widget, pod: Option<model::Pod>) {
     if let Some(pod) = pod {
-        utils::show_dialog(widget, view::ContainerCreationPage::from(&pod).upcast_ref());
+        utils::Dialog::new(widget, view::ContainerCreationPage::from(&pod).upcast_ref()).present();
     }
 }

@@ -228,10 +228,11 @@ impl Window {
     }
 
     pub(crate) fn add_connection(&self) {
-        utils::show_dialog(
+        utils::Dialog::new(
             self.upcast_ref(),
             view::ConnectionCreationPage::from(&self.connection_manager()).upcast_ref(),
-        );
+        )
+        .present();
     }
 
     pub(crate) fn remove_connection(&self, uuid: &str) {

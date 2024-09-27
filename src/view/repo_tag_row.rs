@@ -165,10 +165,11 @@ impl RepoTagRow {
 
     fn push(&self) {
         if let Some(repo_tag) = self.repo_tag() {
-            utils::show_dialog(
+            utils::Dialog::new(
                 self.upcast_ref(),
                 view::RepoTagPushPage::from(&repo_tag).upcast_ref(),
-            );
+            )
+            .present();
         }
     }
 

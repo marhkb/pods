@@ -9,7 +9,7 @@
     <file compressed="true" preprocess="xml-stripblanks">view/client_view.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/connection_chooser_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/connection_creation_page.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/connection_custom_info_dialog.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/connection_custom_info_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/connection_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/connections_sidebar.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/container_card.ui</file>
@@ -23,7 +23,7 @@
     <file compressed="true" preprocess="xml-stripblanks">view/container_log_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/container_menu_button.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/container_properties_group.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/container_rename_dialog.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/container_renamer.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/container_resources.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/container_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/container_terminal.ui</file>

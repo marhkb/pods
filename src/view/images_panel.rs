@@ -406,29 +406,33 @@ impl ImagesPanel {
 
     pub(crate) fn show_download_page(&self) {
         if let Some(client) = self.client() {
-            utils::show_dialog_with_height(
+            utils::Dialog::new(
                 self.upcast_ref(),
                 view::ImagePullPage::from(&client).upcast_ref(),
-                700,
-            );
+            )
+            .height(640)
+            .present();
         }
     }
 
     pub(crate) fn show_build_page(&self) {
         if let Some(client) = self.client() {
-            utils::show_dialog(
+            utils::Dialog::new(
                 self.upcast_ref(),
                 view::ImageBuildPage::from(&client).upcast_ref(),
-            );
+            )
+            .present();
         }
     }
 
     pub(crate) fn show_prune_page(&self) {
         if let Some(client) = self.client() {
-            utils::show_dialog(
+            utils::Dialog::new(
                 self.upcast_ref(),
                 view::ImagesPrunePage::from(&client).upcast_ref(),
-            );
+            )
+            .follows_content_size(true)
+            .present();
         }
     }
 
@@ -475,13 +479,11 @@ impl ImagesPanel {
             return;
         }
 
-        let dialog = adw::MessageDialog::builder()
+        let dialog = adw::AlertDialog::builder()
             .heading(gettext("Confirm Forced Deletion of Multiple Images"))
             .body(gettext(
                 "There may be containers associated with those images, which will also be removed!",
             ))
-            .modal(true)
-            .transient_for(&utils::root(self.upcast_ref()))
             .build();
 
         dialog.add_responses(&[
@@ -516,7 +518,7 @@ impl ImagesPanel {
             }),
         );
 
-        dialog.present();
+        dialog.present(Some(self));
     }
 
     fn deselect_hidden_images(&self, model: &gio::ListModel) {

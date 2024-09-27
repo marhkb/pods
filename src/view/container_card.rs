@@ -106,7 +106,7 @@ mod imp {
             });
 
             klass.install_action(ACTION_RENAME, None, |widget, _, _| {
-                widget.rename();
+                view::container::rename(widget.upcast_ref(), widget.container().as_ref());
             });
 
             klass.install_action(ACTION_START_OR_RESUME, None, |widget, _, _| {
@@ -551,22 +551,13 @@ impl ContainerCard {
         }
     }
 
-    pub(crate) fn rename(&self) {
-        if let Some(container) = self.container() {
-            let dialog = view::ContainerRenameDialog::from(&container);
-            dialog.set_transient_for(Some(&utils::root(self.upcast_ref())));
-            dialog.present();
-        }
-    }
-
     pub(crate) fn delete(&self) {
-        let dialog = adw::MessageDialog::builder()
+        let dialog = adw::AlertDialog::builder()
             .heading(gettext("Delete Container?"))
             .body_use_markup(true)
             .body(gettext(
                 "All settings and all changes made within the container will be irreversibly lost",
             ))
-            .transient_for(&utils::root(self.upcast_ref()))
             .build();
 
         dialog.add_responses(&[
@@ -576,7 +567,7 @@ impl ContainerCard {
         dialog.set_default_response(Some("cancel"));
         dialog.set_response_appearance("confirm", adw::ResponseAppearance::Destructive);
 
-        if glib::MainContext::default().block_on(dialog.choose_future()) == "confirm" {
+        if glib::MainContext::default().block_on(dialog.choose_future(self)) == "confirm" {
             view::container::delete(self.upcast_ref())
         }
     }

@@ -7,22 +7,22 @@ use gtk::glib;
 use gtk::CompositeTemplate;
 use sourceview5::prelude::*;
 
+use crate::utils;
+
 const ACTION_COPY_ROOT_SYSTEMD_UNIT_PATH: &str =
-    "connection-custom-info-dialog.copy-root-systemd-unit-path";
+    "connection-custom-info-page.copy-root-systemd-unit-path";
 const ACTION_COPY_ROOT_SYSTEMD_UNIT_CONTENT: &str =
-    "connection-custom-info-dialog.copy-root-systemd-unit-content";
+    "connection-custom-info-page.copy-root-systemd-unit-content";
 const ACTION_COPY_ROOT_SOCKET_ACTIVATION_COMMAND: &str =
-    "connection-custom-info-dialog.copy-root-socket-activation-command";
-const ACTION_COPY_ROOT_URL: &str = "connection-custom-info-dialog.copy-root-url";
+    "connection-custom-info-page.copy-root-socket-activation-command";
+const ACTION_COPY_ROOT_URL: &str = "connection-custom-info-page.copy-root-url";
 
 mod imp {
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
-    #[template(resource = "/com/github/marhkb/Pods/ui/view/connection_custom_info_dialog.ui")]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/connection_custom_info_page.ui")]
     pub(crate) struct ConnectionCustomInfoDialog {
-        #[template_child]
-        pub(super) toast_overlay: TemplateChild<adw::ToastOverlay>,
         #[template_child]
         pub(super) root_systemd_unit_path_label: TemplateChild<gtk::Label>,
         #[template_child]
@@ -35,18 +35,12 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for ConnectionCustomInfoDialog {
-        const NAME: &'static str = "PdsConnectionCustomInfoDialog";
+        const NAME: &'static str = "PdsConnectionCustomInfoPage";
         type Type = super::ConnectionCustomInfoDialog;
-        type ParentType = adw::Window;
+        type ParentType = gtk::Widget;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
-
-            klass.install_action("win.close", None, |widget, _, _| {
-                widget.close();
-            });
-            klass.add_binding_action(gdk::Key::W, gdk::ModifierType::CONTROL_MASK, "win.close");
-            klass.add_binding_action(gdk::Key::Escape, gdk::ModifierType::empty(), "win.close");
 
             klass.install_action(
                 ACTION_COPY_ROOT_SYSTEMD_UNIT_PATH,
@@ -100,8 +94,6 @@ mod imp {
     }
 
     impl WidgetImpl for ConnectionCustomInfoDialog {}
-    impl WindowImpl for ConnectionCustomInfoDialog {}
-    impl AdwWindowImpl for ConnectionCustomInfoDialog {}
 
     impl ConnectionCustomInfoDialog {
         fn on_notify_dark(&self, style_manager: &adw::StyleManager) {
@@ -120,8 +112,8 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct ConnectionCustomInfoDialog(ObjectSubclass<imp::ConnectionCustomInfoDialog>)
-    @extends gtk::Widget, gtk::Window, adw::Window,
-    @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget, gtk::Native, gtk::Root, gtk::ShortcutManager;
+    @extends gtk::Widget,
+    @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl Default for ConnectionCustomInfoDialog {
@@ -136,7 +128,7 @@ impl ConnectionCustomInfoDialog {
         label.select_region(0, -1);
         label.emit_copy_clipboard();
 
-        self.show_toast(&gettext("systemd unit path copied"));
+        utils::show_toast(self.upcast_ref(), gettext("systemd unit path copied"));
     }
 
     fn copy_root_systemd_unit_content(&self) {
@@ -144,7 +136,7 @@ impl ConnectionCustomInfoDialog {
         buffer.select_range(&buffer.start_iter(), &buffer.end_iter());
         buffer.copy_clipboard(&gdk::Display::default().unwrap().clipboard());
 
-        self.show_toast(&gettext("systemd unit content copied"));
+        utils::show_toast(self.upcast_ref(), gettext("systemd unit content copied"));
     }
 
     fn copy_root_socket_acivation_command(&self) {
@@ -152,7 +144,10 @@ impl ConnectionCustomInfoDialog {
         label.select_region(0, -1);
         label.emit_copy_clipboard();
 
-        self.show_toast(&gettext("socket activation command copied"));
+        utils::show_toast(
+            self.upcast_ref(),
+            gettext("socket activation command copied"),
+        );
     }
 
     fn copy_root_url(&self) {
@@ -160,16 +155,6 @@ impl ConnectionCustomInfoDialog {
         label.select_region(0, -1);
         label.emit_copy_clipboard();
 
-        self.show_toast(&gettext("URL copied"));
-    }
-
-    fn show_toast(&self, title: &str) {
-        self.imp().toast_overlay.add_toast(
-            adw::Toast::builder()
-                .timeout(2)
-                .priority(adw::ToastPriority::High)
-                .title(title)
-                .build(),
-        );
+        utils::show_toast(self.upcast_ref(), gettext("URL copied"));
     }
 }
