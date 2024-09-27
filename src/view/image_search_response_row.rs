@@ -2,7 +2,6 @@ use adw::prelude::*;
 use adw::subclass::prelude::*;
 use glib::closure;
 use glib::Properties;
-use gtk::gdk;
 use gtk::glib;
 use gtk::CompositeTemplate;
 
@@ -82,15 +81,18 @@ mod imp {
                 [
                     &name_expr,
                     &tag_expr,
-                    &style_manager.property_expression("accent-color-rgba"),
+                    &style_manager.property_expression("is-dark"),
+                    &style_manager.property_expression("accent-color"),
                     &style_manager.property_expression("high-contrast"),
                 ],
                 closure!(|_: Self::Type,
                           name: String,
                           tag: Option<String>,
-                          accent_color: gdk::RGBA,
+                          is_dark: bool,
+                          accent_color: adw::AccentColor,
                           is_hc: bool| {
                     tag.map(|tag| {
+                        let accent_color = accent_color.to_standalone_rgba(is_dark);
                         let tag = format!(
                             "<span foreground=\"#{:02x}{:02x}{:02x}\"{}>{}</span>",
                             (accent_color.red() * 255.0) as i32,

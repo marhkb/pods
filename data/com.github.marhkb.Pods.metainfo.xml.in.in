@@ -47,7 +47,7 @@
         <p>Pods 2.1.0 contains the following changes:</p>
         <p>Features</p>
         <ul>
-          <li>Accent colors are now properly supported. (#804, #807, #809)</li>
+          <li>Accent colors are now properly supported. (#804, #807, #809, #811)</li>
           <li>All dialogs have been ported to AdwDialog to be more adaptive. (#810)</li>
           <li>Containers are now represented by cards in the container panel. (#778)</li>
           <li>
