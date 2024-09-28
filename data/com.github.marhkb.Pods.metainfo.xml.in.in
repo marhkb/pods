@@ -42,7 +42,7 @@
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.1"/>
   <releases>
-    <release version="2.1.0~devel" date="2023-11-25">
+    <release version="2.1.0" date="2023-11-25">
       <description translatable="no">
         <p>Pods 2.1.0 contains the following changes:</p>
         <p>Features</p>
