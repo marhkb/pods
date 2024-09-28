@@ -24,6 +24,10 @@
       <li>Rename containers.</li>
     </ul>
   </description>
+  <branding>
+    <color type="primary" scheme_preference="light">#cdab8f</color>
+    <color type="primary" scheme_preference="dark">#865e3c</color>
+  </branding>
   <screenshots>
     <screenshot type="default">
       <image>https://github.com/marhkb/pods/raw/main/data/screenshots/screenshot1_dark.png</image>
