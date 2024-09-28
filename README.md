@@ -28,8 +28,8 @@
 <br>
 
 <p align="center">
-  <img src="data/screenshots/preview_light.png#gh-light-mode-only" alt="Preview"/>
-  <img src="data/screenshots/preview_dark.png#gh-dark-mode-only" alt="Preview"/>
+  <img src="data/screenshots/light.png#gh-light-mode-only" alt="Preview"/>
+  <img src="data/screenshots/dark.png#gh-dark-mode-only" alt="Preview"/>
 </p>
 
 Pods is a frontend for podman. It uses libadwaita for its user interface and strives to meet the design principles of GNOME.
