@@ -30,16 +30,8 @@
   </branding>
   <screenshots>
     <screenshot type="default">
-      <image>https://github.com/marhkb/pods/raw/main/data/screenshots/screenshot1_dark.png</image>
-      <caption>Container Overview</caption>
-    </screenshot>
-    <screenshot>
-      <image>https://github.com/marhkb/pods/raw/main/data/screenshots/screenshot2_dark.png</image>
-      <caption>Containers Details in Compact Mode</caption>
-    </screenshot>
-    <screenshot>
-      <image>https://github.com/marhkb/pods/raw/main/data/screenshots/screenshot3_dark.png</image>
-      <caption>Search Results</caption>
+      <image>https://github.com/marhkb/pods/raw/pods-2-1/data/screenshots/light.png</image>
+      <caption>Pods main window</caption>
     </screenshot>
   </screenshots>
   <url type="homepage">https://github.com/marhkb/pods</url>
