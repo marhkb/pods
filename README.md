@@ -8,7 +8,7 @@
 
 <p align="center">
   <a href="https://flathub.org/apps/details/com.github.marhkb.Pods">
-    <img width="200" alt="Download on Flathub" src="https://flathub.org/assets/badges/flathub-badge-en.svg"/>
+    <img alt="Get it on Flathub" src="https://flathub.org/api/badge?locale=en"/>
   </a>
   <br>
 </p>
