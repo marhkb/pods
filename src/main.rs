@@ -240,7 +240,6 @@ fn init() {
     view::RepoTagSimpleRow::static_type();
     view::ScalableTextViewPage::static_type();
     view::SearchPanel::static_type();
-    view::SearchRow::static_type();
     view::VolumeRow::static_type();
     view::VolumesGroup::static_type();
     view::VolumesPanel::static_type();

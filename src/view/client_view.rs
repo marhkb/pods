@@ -138,9 +138,7 @@ mod imp {
             self.sidebar_list_box.set_header_func(|row, _| {
                 row.set_header(
                     row.child()
-                        .filter(|child| {
-                            child.is::<view::InfoRow>() || child.is::<view::SearchRow>()
-                        })
+                        .filter(gtk::Widget::is::<view::InfoRow>)
                         .map(|_| {
                             gtk::Separator::builder()
                                 .orientation(gtk::Orientation::Horizontal)
@@ -225,8 +223,6 @@ mod imp {
                         "volumes"
                     } else if child.is::<view::InfoRow>() {
                         "info"
-                    } else if child.is::<view::SearchRow>() {
-                        "search"
                     } else {
                         unreachable!()
                     });
