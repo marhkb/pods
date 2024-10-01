@@ -198,10 +198,24 @@ mod imp {
                 ))
                 .bind(&*self.hostname_row, "visible", Some(obj));
 
-            status_expr.watch(Some(obj), clone!(@weak obj => move || obj.update_actions()));
+            status_expr.watch(
+                Some(obj),
+                clone!(
+                    #[weak]
+                    obj,
+                    move || obj.update_actions()
+                ),
+            );
             pod_expr
                 .chain_property::<model::Pod>("action-ongoing")
-                .watch(Some(obj), clone!(@weak obj => move || obj.update_actions()));
+                .watch(
+                    Some(obj),
+                    clone!(
+                        #[weak]
+                        obj,
+                        move || obj.update_actions()
+                    ),
+                );
         }
 
         fn dispose(&self) {
@@ -225,14 +239,29 @@ mod imp {
 
             if let Some(pod) = value {
                 self.window_title.set_subtitle(&pod.name());
-                pod.inspect(clone!(@weak obj => move |result| if let Err(e) = result {
-                    utils::show_error_toast(obj.upcast_ref(), &gettext("Error on loading pod data"), &e.to_string());
-                }));
+                pod.inspect(clone!(
+                    #[weak]
+                    obj,
+                    move |result| if let Err(e) = result {
+                        utils::show_error_toast(
+                            obj.upcast_ref(),
+                            &gettext("Error on loading pod data"),
+                            &e.to_string(),
+                        );
+                    }
+                ));
 
-                let handler_id = pod.connect_deleted(clone!(@weak obj => move |pod| {
-                    utils::show_toast(obj.upcast_ref(), gettext!("Pod '{}' has been deleted", pod.name()));
-                    utils::navigation_view(obj.upcast_ref()).pop();
-                }));
+                let handler_id = pod.connect_deleted(clone!(
+                    #[weak]
+                    obj,
+                    move |pod| {
+                        utils::show_toast(
+                            obj.upcast_ref(),
+                            gettext!("Pod '{}' has been deleted", pod.name()),
+                        );
+                        utils::navigation_view(obj.upcast_ref()).pop();
+                    }
+                ));
                 self.handler_id.replace(Some(handler_id));
             }
 

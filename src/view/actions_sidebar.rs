@@ -102,12 +102,16 @@ mod imp {
 
             action_list_can_clear_expr.clone().watch(
                 Some(obj),
-                clone!(@weak obj => move || {
-                    obj.action_set_enabled(
-                        ACTIONS_OVERVIEW_ACTION_CLEAR_ACTIONS,
-                        action_list_can_clear_expr.evaluate_as(Some(&obj)).unwrap()
-                    );
-                }),
+                clone!(
+                    #[weak]
+                    obj,
+                    move || {
+                        obj.action_set_enabled(
+                            ACTIONS_OVERVIEW_ACTION_CLEAR_ACTIONS,
+                            action_list_can_clear_expr.evaluate_as(Some(&obj)).unwrap(),
+                        );
+                    }
+                ),
             );
         }
 

@@ -123,15 +123,27 @@ mod imp {
             container_list_expr.bind(&*self.containers_count_bar, "container-list", Some(obj));
 
             let style_manager = adw::StyleManager::default();
-            style_manager.connect_dark_notify(clone!(@weak obj => move |style_manager| {
-                obj.imp().set_path_label(style_manager);
-            }));
-            style_manager.connect_accent_color_notify(clone!(@weak obj => move |style_manager| {
-                obj.imp().set_path_label(style_manager);
-            }));
-            style_manager.connect_high_contrast_notify(clone!(@weak obj => move |style_manager| {
-                obj.imp().set_path_label(style_manager);
-            }));
+            style_manager.connect_dark_notify(clone!(
+                #[weak]
+                obj,
+                move |style_manager| {
+                    obj.imp().set_path_label(style_manager);
+                }
+            ));
+            style_manager.connect_accent_color_notify(clone!(
+                #[weak]
+                obj,
+                move |style_manager| {
+                    obj.imp().set_path_label(style_manager);
+                }
+            ));
+            style_manager.connect_high_contrast_notify(clone!(
+                #[weak]
+                obj,
+                move |style_manager| {
+                    obj.imp().set_path_label(style_manager);
+                }
+            ));
             self.set_path_label(&style_manager);
         }
     }

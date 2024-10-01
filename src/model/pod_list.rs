@@ -225,30 +225,31 @@ impl PodList {
                         .await
                 }
             },
-            clone!(@weak self as obj => move |result| {
-                match result {
-                    Ok(list_pods) => {
-                        if id.is_none() {
-                            let to_remove = obj
-                                .imp()
-                                .list
-                                .borrow()
-                                .keys()
-                                .filter(|id| {
-                                    !list_pods
-                                        .iter()
-                                        .any(|list_pod| list_pod.id.as_ref() == Some(id))
-                                })
-                                .cloned()
-                                .collect::<Vec<_>>();
-                            to_remove.iter().for_each(|id| {
-                                obj.remove_pod(id);
-                            });
-                        }
+            clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |result| {
+                    match result {
+                        Ok(list_pods) => {
+                            if id.is_none() {
+                                let to_remove = obj
+                                    .imp()
+                                    .list
+                                    .borrow()
+                                    .keys()
+                                    .filter(|id| {
+                                        !list_pods
+                                            .iter()
+                                            .any(|list_pod| list_pod.id.as_ref() == Some(id))
+                                    })
+                                    .cloned()
+                                    .collect::<Vec<_>>();
+                                to_remove.iter().for_each(|id| {
+                                    obj.remove_pod(id);
+                                });
+                            }
 
-                        list_pods
-                            .into_iter()
-                            .for_each(|report| {
+                            list_pods.into_iter().for_each(|report| {
                                 let index = obj.len();
 
                                 let mut list = obj.imp().list.borrow_mut();
@@ -270,16 +271,17 @@ impl PodList {
                                     }
                                 }
                             });
+                        }
+                        Err(e) => {
+                            log::error!("Error on retrieving pods: {}", e);
+                            err_op(super::RefreshError);
+                        }
                     }
-                    Err(e) => {
-                        log::error!("Error on retrieving pods: {}", e);
-                        err_op(super::RefreshError);
-                    }
+                    let imp = obj.imp();
+                    imp.set_listing(false);
+                    imp.set_as_initialized();
                 }
-                let imp = obj.imp();
-                imp.set_listing(false);
-                imp.set_as_initialized();
-            }),
+            ),
         );
     }
 
@@ -299,7 +301,11 @@ impl PodList {
         self.notify_num_pods();
         pod.connect_notify_local(
             Some("status"),
-            clone!(@weak self as obj => move |_, _| obj.notify_num_pods()),
+            clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |_, _| obj.notify_num_pods()
+            ),
         );
         self.emit_by_name::<()>("pod-added", &[pod]);
     }

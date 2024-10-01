@@ -88,10 +88,13 @@ mod imp {
             let obj = self.obj();
 
             obj.action_set_enabled(ACTION_PUT, false);
-            self.host_path_row
-                .connect_subtitle_notify(clone!(@weak obj => move |row| {
+            self.host_path_row.connect_subtitle_notify(clone!(
+                #[weak]
+                obj,
+                move |row| {
                     obj.action_set_enabled(ACTION_PUT, row.subtitle().is_some());
-                }));
+                }
+            ));
         }
 
         fn dispose(&self) {
@@ -105,12 +108,16 @@ mod imp {
 
             let widget = &*self.obj();
 
-            glib::idle_add_local(
-                clone!(@weak widget => @default-return glib::ControlFlow::Break, move || {
+            glib::idle_add_local(clone!(
+                #[weak]
+                widget,
+                #[upgrade_or]
+                glib::ControlFlow::Break,
+                move || {
                     widget.imp().container_path_row.grab_focus();
                     glib::ControlFlow::Break
-                }),
-            );
+                }
+            ));
             utils::root(widget.upcast_ref()).set_default_widget(Some(&*self.put_button));
         }
 
@@ -128,9 +135,13 @@ mod imp {
             }
 
             if let Some(container) = value {
-                container.connect_deleted(clone!(@weak obj => move |_| {
-                    obj.activate_action("win.close", None).unwrap();
-                }));
+                container.connect_deleted(clone!(
+                    #[weak]
+                    obj,
+                    move |_| {
+                        obj.activate_action("win.close", None).unwrap();
+                    }
+                ));
             }
 
             self.container.set(value);
@@ -170,16 +181,20 @@ impl ContainerFilesPutPage {
         utils::show_open_file_dialog(
             request,
             self.upcast_ref(),
-            clone!(@weak self as obj => move |files| {
-                let file = gio::File::for_uri(files.uris()[0].as_str());
+            clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |files| {
+                    let file = gio::File::for_uri(files.uris()[0].as_str());
 
-                if let Some(path) = file.path() {
-                    let imp = obj.imp();
+                    if let Some(path) = file.path() {
+                        let imp = obj.imp();
 
-                    imp.host_path_row.set_subtitle(path.to_str().unwrap());
-                    imp.directory.set(directory);
+                        imp.host_path_row.set_subtitle(path.to_str().unwrap());
+                        imp.directory.set(directory);
+                    }
                 }
-            }),
+            ),
         )
         .await;
     }

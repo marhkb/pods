@@ -84,14 +84,22 @@ impl AbstractContainerList {
 
             container.connect_notify_local(
                 Some("status"),
-                clone!(@weak list => move |_, _| Self::notify_num_containers(&list)),
+                clone!(
+                    #[weak]
+                    list,
+                    move |_, _| Self::notify_num_containers(&list)
+                ),
             );
 
             container.connect_notify_local(
                 Some("name"),
-                clone!(@weak list => move |container, _| {
-                    list.container_name_changed(container);
-                }),
+                clone!(
+                    #[weak]
+                    list,
+                    move |container, _| {
+                        list.container_name_changed(container);
+                    }
+                ),
             );
         });
 

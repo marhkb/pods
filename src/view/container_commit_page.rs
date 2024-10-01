@@ -123,12 +123,16 @@ mod imp {
 
             let widget = &*self.obj();
 
-            glib::idle_add_local(
-                clone!(@weak widget => @default-return glib::ControlFlow::Break, move || {
+            glib::idle_add_local(clone!(
+                #[weak]
+                widget,
+                #[upgrade_or]
+                glib::ControlFlow::Break,
+                move || {
                     widget.imp().author_entry_row.grab_focus();
                     glib::ControlFlow::Break
-                }),
-            );
+                }
+            ));
             utils::root(widget.upcast_ref()).set_default_widget(Some(&*self.commit_button));
         }
 
@@ -151,9 +155,13 @@ mod imp {
             }
 
             if let Some(container) = value {
-                container.connect_deleted(clone!(@weak obj => move |_| {
-                    obj.activate_action("win.close", None).unwrap();
-                }));
+                container.connect_deleted(clone!(
+                    #[weak]
+                    obj,
+                    move |_| {
+                        obj.activate_action("win.close", None).unwrap();
+                    }
+                ));
             }
 
             self.container.set(value);
@@ -187,32 +195,40 @@ impl ContainerCommitPage {
                     .await
                     .and_then(|user_info| user_info.response())
             },
-            clone!(@weak self as obj => move |user_info| {
-                match user_info {
-                    Ok(user_info) => obj.imp().author_entry_row.set_text(user_info.name()),
-                    Err(e) => {
-                        if let ashpd::Error::Portal(ashpd::PortalError::Cancelled(_)) = e {
-                            utils::show_error_toast(
-                                obj.upcast_ref(),
-                                &gettext("Error on fetching user name"),
-                                &e.to_string(),
-                            );
+            clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |user_info| {
+                    match user_info {
+                        Ok(user_info) => obj.imp().author_entry_row.set_text(user_info.name()),
+                        Err(e) => {
+                            if let ashpd::Error::Portal(ashpd::PortalError::Cancelled(_)) = e {
+                                utils::show_error_toast(
+                                    obj.upcast_ref(),
+                                    &gettext("Error on fetching user name"),
+                                    &e.to_string(),
+                                );
+                            }
                         }
                     }
                 }
-            }),
+            ),
         );
     }
 
     pub(crate) fn add_change(&self) {
         let change = model::Value::default();
 
-        change.connect_remove_request(clone!(@weak self as obj => move |change| {
-            let changes = obj.imp().changes();
-            if let Some(pos) = changes.find(change) {
-                changes.remove(pos);
+        change.connect_remove_request(clone!(
+            #[weak(rename_to = obj)]
+            self,
+            move |change| {
+                let changes = obj.imp().changes();
+                if let Some(pos) = changes.find(change) {
+                    changes.remove(pos);
+                }
             }
-        }));
+        ));
 
         self.imp().changes().append(&change);
     }

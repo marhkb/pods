@@ -105,7 +105,11 @@ mod imp {
 
             let controller = gtk::EventControllerKey::new();
             controller.connect_key_pressed(clone!(
-                @weak shortcuts => @default-return glib::Propagation::Stop, move |_, key, _, modifier| {
+                #[weak]
+                shortcuts,
+                #[upgrade_or]
+                glib::Propagation::Stop,
+                move |_, key, _, modifier| {
                     if key == gdk::Key::w && modifier == gdk::ModifierType::CONTROL_MASK {
                         shortcuts.close();
                     }
@@ -129,32 +133,50 @@ mod imp {
                 obj.maximize();
             }
 
-            self.connection_manager.connect_items_changed(
-                clone!(@weak obj => move |connection_manager, _, _, _| {
+            self.connection_manager.connect_items_changed(clone!(
+                #[weak]
+                obj,
+                move |connection_manager, _, _, _| {
                     if connection_manager.n_items() == 0 {
                         obj.imp().main_stack.set_visible_child_name("welcome");
                     }
-                }),
-            );
+                }
+            ));
 
-            self.connection_manager.connect_client_notify(
-                clone!(@weak obj => move |manager| match manager.client() {
+            self.connection_manager.connect_client_notify(clone!(
+                #[weak]
+                obj,
+                move |manager| match manager.client() {
                     Some(client) => client.check_service(
-                        clone!(@weak obj, @weak client => move || {
-                            obj
-                                .imp()
-                                .main_stack
-                                .set_visible_child_full("client", gtk::StackTransitionType::None);
-                        }),
-                        clone!(@weak obj => move |e| obj.client_err_op(e)),
-                        clone!(@weak obj, @weak manager => move |e| {
-                            utils::show_error_toast(
-                                obj.imp().toast_overlay.upcast_ref(),
-                                "Connection lost",
-                                &e.to_string()
-                            );
-                            manager.unset_client();
-                        }),
+                        clone!(
+                            #[weak]
+                            obj,
+                            move || {
+                                obj.imp().main_stack.set_visible_child_full(
+                                    "client",
+                                    gtk::StackTransitionType::None,
+                                );
+                            }
+                        ),
+                        clone!(
+                            #[weak]
+                            obj,
+                            move |e| obj.client_err_op(e)
+                        ),
+                        clone!(
+                            #[weak]
+                            obj,
+                            #[weak]
+                            manager,
+                            move |e| {
+                                utils::show_error_toast(
+                                    obj.imp().toast_overlay.upcast_ref(),
+                                    "Connection lost",
+                                    &e.to_string(),
+                                );
+                                manager.unset_client();
+                            }
+                        ),
                     ),
                     None => {
                         obj.imp().main_stack.set_visible_child_full(
@@ -163,17 +185,19 @@ mod imp {
                             } else {
                                 "welcome"
                             },
-                            gtk::StackTransitionType::Crossfade
+                            gtk::StackTransitionType::Crossfade,
                         );
                     }
-                }),
-            );
+                }
+            ));
 
-            self.connection_manager.setup(
-                clone!(@weak obj => move |result| if let Err(e) = result {
+            self.connection_manager.setup(clone!(
+                #[weak]
+                obj,
+                move |result| if let Err(e) = result {
                     obj.on_connection_manager_setup_error(e);
-                }),
-            );
+                }
+            ));
         }
     }
 

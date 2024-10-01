@@ -417,7 +417,11 @@ where
 {
     do_async(
         async move { request.send().await.and_then(|files| files.response()) },
-        clone!(@weak widget => move |files| show_file_dialog(files, &widget, op)),
+        clone!(
+            #[weak]
+            widget,
+            move |files| show_file_dialog(files, &widget, op)
+        ),
     );
 }
 
@@ -427,7 +431,11 @@ where
 {
     do_async(
         async move { request.send().await.and_then(|files| files.response()) },
-        clone!(@weak widget => move |files| show_file_dialog(files, &widget, op)),
+        clone!(
+            #[weak]
+            widget,
+            move |files| show_file_dialog(files, &widget, op)
+        ),
     );
 }
 

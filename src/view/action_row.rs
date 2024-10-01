@@ -191,46 +191,71 @@ mod imp {
 
                 let handler = action.connect_notify_local(
                     Some("state"),
-                    clone!(@weak obj => move |action, _| {
-                        obj.set_state_label(action);
+                    clone!(
+                        #[weak]
+                        obj,
+                        move |action, _| {
+                            obj.set_state_label(action);
 
-                        if !matches!(action.state(), model::ActionState::Failed | model::ActionState::Finished) {
-                            return;
-                        }
+                            if !matches!(
+                                action.state(),
+                                model::ActionState::Failed | model::ActionState::Finished
+                            ) {
+                                return;
+                            }
 
-                        let id = obj.imp().notification_id.get().unwrap().to_owned();
-                        let notification = if action.state() == model::ActionState::Failed {
-                            ashpd::notification::Notification::new(&gettext("Failed Pods Action"))
-                                .icon(ashpd::Icon::Names(vec!["computer-fail-symbolic".to_string()]))
+                            let id = obj.imp().notification_id.get().unwrap().to_owned();
+                            let notification = if action.state() == model::ActionState::Failed {
+                                ashpd::notification::Notification::new(&gettext(
+                                    "Failed Pods Action",
+                                ))
+                                .icon(ashpd::Icon::Names(vec![
+                                    "computer-fail-symbolic".to_string()
+                                ]))
                                 .priority(ashpd::notification::Priority::High)
-                        } else {
-                            ashpd::notification::Notification::new(&gettext("Finished Pods Action"))
-                                .icon(ashpd::Icon::Names(vec!["checkbox-checked-symbolic".to_string()]))
+                            } else {
+                                ashpd::notification::Notification::new(&gettext(
+                                    "Finished Pods Action",
+                                ))
+                                .icon(ashpd::Icon::Names(vec![
+                                    "checkbox-checked-symbolic".to_string()
+                                ]))
                                 .priority(ashpd::notification::Priority::Low)
-                        }
-                        .body(action.description().as_ref())
-                        .default_action("");
+                            }
+                            .body(action.description().as_ref())
+                            .default_action("");
 
-                        crate::runtime().spawn(async move {
-                            let _ = ashpd::notification::NotificationProxy::new().await.unwrap()
-                                .add_notification(&id, notification)
-                                .await;
-                        });
-                    }),
+                            crate::runtime().spawn(async move {
+                                let _ = ashpd::notification::NotificationProxy::new()
+                                    .await
+                                    .unwrap()
+                                    .add_notification(&id, notification)
+                                    .await;
+                            });
+                        }
+                    ),
                 );
                 self.handler.replace(Some(handler));
 
                 let timer = glib::timeout_add_seconds_local(
                     1,
-                    clone!(@weak obj, @weak action => @default-return glib::ControlFlow::Break, move || {
-                        let control_flow = obj.set_state_label(&action);
-                        if control_flow.is_break() {
-                            if let Some(timer) = obj.imp().timer.take() {
-                                timer.remove();
+                    clone!(
+                        #[weak]
+                        obj,
+                        #[weak]
+                        action,
+                        #[upgrade_or]
+                        glib::ControlFlow::Break,
+                        move || {
+                            let control_flow = obj.set_state_label(&action);
+                            if control_flow.is_break() {
+                                if let Some(timer) = obj.imp().timer.take() {
+                                    timer.remove();
+                                }
                             }
+                            control_flow
                         }
-                        control_flow
-                    }),
+                    ),
                 );
                 self.timer.replace(Some(timer));
             }

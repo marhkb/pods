@@ -126,7 +126,11 @@ mod imp {
             obj.update_actions();
             obj.connection_manager().connect_notify_local(
                 Some("connecting"),
-                clone!(@weak obj => move|_ ,_|  obj.update_actions()),
+                clone!(
+                    #[weak]
+                    obj,
+                    move |_, _| obj.update_actions()
+                ),
             );
 
             self.unix_socket_url_row
@@ -162,12 +166,16 @@ mod imp {
 
             let widget = &*self.obj();
 
-            glib::idle_add_local(
-                clone!(@weak widget => @default-return glib::ControlFlow::Break, move || {
+            glib::idle_add_local(clone!(
+                #[weak]
+                widget,
+                #[upgrade_or]
+                glib::ControlFlow::Break,
+                move || {
                     widget.imp().name_entry_row.grab_focus();
                     glib::ControlFlow::Break
-                }),
-            );
+                }
+            ));
             utils::root(widget.upcast_ref()).set_default_widget(Some(&*self.connect_button));
         }
 
@@ -260,10 +268,14 @@ impl ConnectionCreationPage {
                 } else {
                     None
                 },
-                clone!(@weak self as obj => move |result| match result {
-                    Ok(_) => obj.activate_action("win.close", None).unwrap(),
-                    Err(e) => obj.on_error(&e.to_string()),
-                }),
+                clone!(
+                    #[weak(rename_to = obj)]
+                    self,
+                    move |result| match result {
+                        Ok(_) => obj.activate_action("win.close", None).unwrap(),
+                        Err(e) => obj.on_error(&e.to_string()),
+                    }
+                ),
             ) {
                 self.on_error(&e.to_string());
             }

@@ -72,22 +72,40 @@ mod imp {
             let obj = &*self.obj();
 
             let style_manager = adw::StyleManager::default();
-            style_manager.connect_dark_notify(clone!(@weak obj => move |style_manager| {
-                obj.set_label(style_manager);
-            }));
-            style_manager.connect_high_contrast_notify(clone!(@weak obj => move |style_manager| {
-                obj.set_label(style_manager);
-            }));
-            style_manager.connect_accent_color_notify(clone!(@weak obj => move |style_manager| {
-                obj.set_label(style_manager);
-            }));
+            style_manager.connect_dark_notify(clone!(
+                #[weak]
+                obj,
+                move |style_manager| {
+                    obj.set_label(style_manager);
+                }
+            ));
+            style_manager.connect_high_contrast_notify(clone!(
+                #[weak]
+                obj,
+                move |style_manager| {
+                    obj.set_label(style_manager);
+                }
+            ));
+            style_manager.connect_accent_color_notify(clone!(
+                #[weak]
+                obj,
+                move |style_manager| {
+                    obj.set_label(style_manager);
+                }
+            ));
 
             if let Some(repo_tag) = obj.repo_tag() {
                 repo_tag.connect_notify_local(
                     Some("to-be-deleted"),
-                    clone!(@weak obj, @weak style_manager => move |_, _| {
-                        obj.set_label(&style_manager);
-                    }),
+                    clone!(
+                        #[weak]
+                        obj,
+                        #[weak]
+                        style_manager,
+                        move |_, _| {
+                            obj.set_label(&style_manager);
+                        }
+                    ),
                 );
             }
 
@@ -202,17 +220,21 @@ impl RepoTagRow {
                             )
                             .await
                     },
-                    clone!(@weak self as obj => move |result| if let Err(e) = result {
-                        if let Some(repo_tag) = obj.repo_tag() {
-                            repo_tag.set_to_be_deleted(false);
+                    clone!(
+                        #[weak(rename_to = obj)]
+                        self,
+                        move |result| if let Err(e) = result {
+                            if let Some(repo_tag) = obj.repo_tag() {
+                                repo_tag.set_to_be_deleted(false);
+                            }
+                            log::warn!("Error on untagging image: {e}");
+                            utils::show_error_toast(
+                                obj.upcast_ref(),
+                                &gettext("Error on untagging image"),
+                                &e.to_string(),
+                            );
                         }
-                        log::warn!("Error on untagging image: {e}");
-                        utils::show_error_toast(
-                            obj.upcast_ref(),
-                            &gettext("Error on untagging image"),
-                            &e.to_string()
-                        );
-                    }),
+                    ),
                 );
             }
         }

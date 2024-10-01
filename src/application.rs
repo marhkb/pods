@@ -52,10 +52,16 @@ mod imp {
 
             glib::timeout_add_seconds_local(
                 10,
-                clone!(@weak obj => @default-return glib::ControlFlow::Break, move || {
-                    obj.tick();
-                    glib::ControlFlow::Continue
-                }),
+                clone!(
+                    #[weak]
+                    obj,
+                    #[upgrade_or]
+                    glib::ControlFlow::Break,
+                    move || {
+                        obj.tick();
+                        glib::ControlFlow::Continue
+                    }
+                ),
             );
         }
     }
@@ -207,8 +213,12 @@ impl Application {
 
         let controller = gtk::EventControllerKey::new();
         controller.connect_key_pressed(clone!(
-            @weak dialog => @default-return glib::Propagation::Stop, move |_, key, _, modifier| {
-                if key == gdk::Key::w && modifier == gdk::ModifierType::CONTROL_MASK{
+            #[weak]
+            dialog,
+            #[upgrade_or]
+            glib::Propagation::Stop,
+            move |_, key, _, modifier| {
+                if key == gdk::Key::w && modifier == gdk::ModifierType::CONTROL_MASK {
                     dialog.close();
                 }
                 glib::Propagation::Proceed

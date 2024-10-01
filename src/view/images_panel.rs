@@ -234,23 +234,34 @@ mod imp {
 
             not_selection_mode_expr.bind(&self.search_bar.get(), "visible", Some(obj));
 
-            let search_filter =
-                gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
+            let search_filter = gtk::CustomFilter::new(clone!(
+                #[weak]
+                obj,
+                #[upgrade_or]
+                false,
+                move |item| {
                     let image = item.downcast_ref::<model::Image>().unwrap();
                     let term = &*obj.imp().search_term.borrow();
 
                     image.id().contains(term) || image.repo_tags().contains(term)
-                }));
+                }
+            ));
 
-            let state_filter =
-                gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
+            let state_filter = gtk::CustomFilter::new(clone!(
+                #[weak]
+                obj,
+                #[upgrade_or]
+                false,
+                move |item| {
                     !obj.hide_intermediate_images()
-                    || item
-                        .downcast_ref::<model::Image>()
-                        .unwrap()
-                        .repo_tags()
-                        .n_items() > 0
-                }));
+                        || item
+                            .downcast_ref::<model::Image>()
+                            .unwrap()
+                            .repo_tags()
+                            .n_items()
+                            > 0
+                }
+            ));
 
             let filter = gtk::EveryFilter::new();
             filter.append(search_filter);
@@ -326,11 +337,15 @@ mod imp {
 
             value.connect_notify_local(
                 Some("intermediates"),
-                clone!(@weak obj => move |_ ,_| {
-                    let imp = obj.imp();
-                    imp.update_filter(gtk::FilterChange::Different);
-                    imp.update_sorter();
-                }),
+                clone!(
+                    #[weak]
+                    obj,
+                    move |_, _| {
+                        let imp = obj.imp();
+                        imp.update_filter(gtk::FilterChange::Different);
+                        imp.update_sorter();
+                    }
+                ),
             );
 
             let model = gtk::SortListModel::new(
@@ -347,22 +362,30 @@ mod imp {
 
             self.filter_stack
                 .set_visible_child_name(if model.n_items() > 0 { "list" } else { "empty" });
-            model.connect_items_changed(clone!(@weak obj => move |model, _, removed, _| {
-                obj.imp()
-                    .filter_stack
-                    .set_visible_child_name(if model.n_items() > 0 { "list" } else { "empty" });
+            model.connect_items_changed(clone!(
+                #[weak]
+                obj,
+                move |model, _, removed, _| {
+                    obj.imp()
+                        .filter_stack
+                        .set_visible_child_name(if model.n_items() > 0 { "list" } else { "empty" });
 
-                if removed > 0 {
-                    obj.deselect_hidden_images(model.upcast_ref());
+                    if removed > 0 {
+                        obj.deselect_hidden_images(model.upcast_ref());
+                    }
                 }
-            }));
+            ));
 
             obj.action_set_enabled(ACTION_DELETE_SELECTION, false);
             value.connect_notify_local(
                 Some("num-selected"),
-                clone!(@weak obj => move |list, _| {
-                    obj.action_set_enabled(ACTION_DELETE_SELECTION, list.num_selected() > 0);
-                }),
+                clone!(
+                    #[weak]
+                    obj,
+                    move |list, _| {
+                        obj.action_set_enabled(ACTION_DELETE_SELECTION, list.num_selected() > 0);
+                    }
+                ),
             );
 
             self.image_list.set(Some(value));
@@ -495,27 +518,37 @@ impl ImagesPanel {
 
         dialog.connect_response(
             None,
-            clone!(@weak self as obj => move |_, response| if response == "delete" {
-                if let Some(list) = obj.image_list() {
-                    list
-                        .selected_items()
-                        .iter().map(|obj| obj.downcast_ref::<model::Image>().unwrap())
-                        .for_each(|image|
-                    {
-                        image.delete(clone!(@weak obj => move |image, result| {
-                            if let Err(e) = result {
-                                utils::show_error_toast(
-                                    obj.upcast_ref(),
-                                    // Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
-                                    &gettext!("Error on deleting image '{}'", image.id()),
-                                    &e.to_string()
-                                );
-                            }
-                        }));
-                    });
-                    list.set_selection_mode(false);
+            clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |_, response| if response == "delete" {
+                    if let Some(list) = obj.image_list() {
+                        list.selected_items()
+                            .iter()
+                            .map(|obj| obj.downcast_ref::<model::Image>().unwrap())
+                            .for_each(|image| {
+                                image.delete(clone!(
+                                    #[weak]
+                                    obj,
+                                    move |image, result| {
+                                        if let Err(e) = result {
+                                            utils::show_error_toast(
+                                                obj.upcast_ref(),
+                                                // Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
+                                                &gettext!(
+                                                    "Error on deleting image '{}'",
+                                                    image.id()
+                                                ),
+                                                &e.to_string(),
+                                            );
+                                        }
+                                    }
+                                ));
+                            });
+                        list.set_selection_mode(false);
+                    }
                 }
-            }),
+            ),
         );
 
         dialog.present(Some(self));

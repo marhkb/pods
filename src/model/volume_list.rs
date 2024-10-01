@@ -209,50 +209,50 @@ impl VolumeList {
                         .await
                 }
             },
-            clone!(@weak self as obj => move |result| {
-                match result {
-                    Ok(volumes) => {
-                        let imp = obj.imp();
+            clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |result| {
+                    match result {
+                        Ok(volumes) => {
+                            let imp = obj.imp();
 
-                        let to_remove = imp
-                            .list
-                            .borrow()
-                            .keys()
-                            .filter(|name| {
-                                !volumes
-                                    .iter()
-                                    .any(|volume| &volume.name == *name)
-                            })
-                            .cloned()
-                            .collect::<Vec<_>>();
-                        to_remove.iter().for_each(|name| {
-                            obj.remove_volume(name);
-                        });
+                            let to_remove = imp
+                                .list
+                                .borrow()
+                                .keys()
+                                .filter(|name| !volumes.iter().any(|volume| &volume.name == *name))
+                                .cloned()
+                                .collect::<Vec<_>>();
+                            to_remove.iter().for_each(|name| {
+                                obj.remove_volume(name);
+                            });
 
-                        volumes.into_iter().for_each(|volume| {
-                            let index = obj.len();
+                            volumes.into_iter().for_each(|volume| {
+                                let index = obj.len();
 
-                            let mut list = imp.list.borrow_mut();
-                            if let Entry::Vacant(e) = list.entry(volume.name.clone()) {
-                                let volume = model::Volume::new(&obj, volume);
-                                e.insert(volume.clone());
+                                let mut list = imp.list.borrow_mut();
+                                if let Entry::Vacant(e) = list.entry(volume.name.clone()) {
+                                    let volume = model::Volume::new(&obj, volume);
+                                    e.insert(volume.clone());
 
-                                drop(list);
+                                    drop(list);
 
-                                obj.items_changed(index, 0, 1);
-                                obj.volume_added(&volume);
-                            }
-                        });
+                                    obj.items_changed(index, 0, 1);
+                                    obj.volume_added(&volume);
+                                }
+                            });
+                        }
+                        Err(e) => {
+                            log::error!("Error on retrieving volumes: {}", e);
+                            err_op(super::RefreshError);
+                        }
                     }
-                    Err(e) => {
-                        log::error!("Error on retrieving volumes: {}", e);
-                        err_op(super::RefreshError);
-                    }
+                    let imp = obj.imp();
+                    imp.set_listing(false);
+                    imp.set_as_initialized();
                 }
-                let imp = obj.imp();
-                imp.set_listing(false);
-                imp.set_as_initialized();
-            }),
+            ),
         );
     }
 

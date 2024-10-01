@@ -85,15 +85,18 @@ mod imp {
 
             let obj = &*self.obj();
 
-            let filter =
-                gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
+            let filter = gtk::CustomFilter::new(clone!(
+                #[weak]
+                obj,
+                #[upgrade_or]
+                false,
+                move |item| {
                     let term = obj.imp().search_entry.text().to_lowercase();
 
                     if term.is_empty() {
                         false
                     } else if let Some(container) = item.downcast_ref::<model::Container>() {
-                        container
-                            .name().to_lowercase().contains(&term)
+                        container.name().to_lowercase().contains(&term)
                             || container.id().contains(&term)
                             || container
                                 .image_name()
@@ -109,7 +112,8 @@ mod imp {
                     } else {
                         unreachable!();
                     }
-                }));
+                }
+            ));
 
             let sorter = gtk::CustomSorter::new(|obj1, obj2| {
                 if let Some(container1) = obj1.downcast_ref::<model::Container>() {
@@ -211,17 +215,25 @@ mod imp {
                     &self.volumes_model,
                 );
 
-                client.container_list().connect_container_name_changed(
-                    clone!(@weak obj => move |_, _| {
-                        glib::timeout_add_seconds_local_once(
-                            1,
-                            clone!(@weak obj => move || {
-                                obj.update_filter();
-                                obj.update_sorter();
-                            }),
-                        );
-                    }),
-                );
+                client
+                    .container_list()
+                    .connect_container_name_changed(clone!(
+                        #[weak]
+                        obj,
+                        move |_, _| {
+                            glib::timeout_add_seconds_local_once(
+                                1,
+                                clone!(
+                                    #[weak]
+                                    obj,
+                                    move || {
+                                        obj.update_filter();
+                                        obj.update_sorter();
+                                    }
+                                ),
+                            );
+                        }
+                    ));
             }
 
             self.client.set(value);
@@ -257,9 +269,11 @@ impl SearchPanel {
             0,
             6,
         );
-        model.connect_items_changed(
-            clone!(@weak self as obj => move |_, _, _, _| obj.update_view()),
-        );
+        model.connect_items_changed(clone!(
+            #[weak(rename_to = obj)]
+            self,
+            move |_, _, _, _| obj.update_view()
+        ));
         list_box.bind_model(Some(&model), move |item| {
             create_widget_func(item.downcast_ref().unwrap())
         });

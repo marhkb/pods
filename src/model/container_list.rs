@@ -121,39 +121,44 @@ mod imp {
                         .boxed()
                 },
                 clone!(
-                    @weak obj => @default-return glib::ControlFlow::Break,
-                    move |result: podman::Result<podman::models::ContainerStats200Response>|
-                {
-                    match result
-                        .map_err(anyhow::Error::from)
-                        .and_then(|mut value| {
-                            value
-                                .as_object_mut()
-                                .and_then(|object| object.remove("Stats"))
-                                .ok_or_else(|| anyhow!("Field 'Stats' is not present"))
-                        })
-                        .and_then(|value| {
-                            serde_json::from_value::<Vec<podman::models::ContainerStats>>(value)
-                                .map_err(anyhow::Error::from)
-                        }) {
-                        Ok(stats) => {
-                            stats.into_iter().for_each(|stat| {
-                                if let Some(container) =
-                                    obj.get_container(stat.container_id.as_ref().unwrap())
-                                {
-                                    if container.status() == model::ContainerStatus::Running {
-                                        container.set_stats(
-                                            Some(model::BoxedContainerStats::from(stat))
-                                        );
+                    #[weak]
+                    obj,
+                    #[upgrade_or]
+                    glib::ControlFlow::Break,
+                    move |result: podman::Result<podman::models::ContainerStats200Response>| {
+                        match result
+                            .map_err(anyhow::Error::from)
+                            .and_then(|mut value| {
+                                value
+                                    .as_object_mut()
+                                    .and_then(|object| object.remove("Stats"))
+                                    .ok_or_else(|| anyhow!("Field 'Stats' is not present"))
+                            })
+                            .and_then(|value| {
+                                serde_json::from_value::<Vec<podman::models::ContainerStats>>(value)
+                                    .map_err(anyhow::Error::from)
+                            }) {
+                            Ok(stats) => {
+                                stats.into_iter().for_each(|stat| {
+                                    if let Some(container) =
+                                        obj.get_container(stat.container_id.as_ref().unwrap())
+                                    {
+                                        if container.status() == model::ContainerStatus::Running {
+                                            container.set_stats(Some(
+                                                model::BoxedContainerStats::from(stat),
+                                            ));
+                                        }
                                     }
-                                }
-                            });
+                                });
+                            }
+                            Err(e) => {
+                                log::warn!("Error occurred on receiving stats stream element: {e}")
+                            }
                         }
-                        Err(e) => log::warn!("Error occurred on receiving stats stream element: {e}"),
-                    }
 
-                    glib::ControlFlow::Continue
-                }),
+                        glib::ControlFlow::Continue
+                    }
+                ),
             );
         }
     }
@@ -305,30 +310,31 @@ impl ContainerList {
                         .await
                 }
             },
-            clone!(@weak self as obj => move |result| {
-                match result {
-                    Ok(list_containers) => {
-                        if id.is_none() {
-                            let to_remove = obj
-                                .imp()
-                                .list
-                                .borrow()
-                                .keys()
-                                .filter(|id| {
-                                    !list_containers
-                                        .iter()
-                                        .any(|list_container| list_container.id.as_ref() == Some(id))
-                                })
-                                .cloned()
-                                .collect::<Vec<_>>();
-                            to_remove.iter().for_each(|id| {
-                                obj.remove_container(id);
-                            });
-                        }
+            clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |result| {
+                    match result {
+                        Ok(list_containers) => {
+                            if id.is_none() {
+                                let to_remove = obj
+                                    .imp()
+                                    .list
+                                    .borrow()
+                                    .keys()
+                                    .filter(|id| {
+                                        !list_containers.iter().any(|list_container| {
+                                            list_container.id.as_ref() == Some(id)
+                                        })
+                                    })
+                                    .cloned()
+                                    .collect::<Vec<_>>();
+                                to_remove.iter().for_each(|id| {
+                                    obj.remove_container(id);
+                                });
+                            }
 
-                        list_containers
-                            .into_iter()
-                            .for_each(|list_container| {
+                            list_containers.into_iter().for_each(|list_container| {
                                 let index = obj.len();
 
                                 let mut list = obj.imp().list.borrow_mut();
@@ -351,15 +357,16 @@ impl ContainerList {
                                 }
                             });
                         }
-                    Err(e) => {
-                        log::error!("Error on retrieving containers: {}", e);
-                        err_op(super::RefreshError);
+                        Err(e) => {
+                            log::error!("Error on retrieving containers: {}", e);
+                            err_op(super::RefreshError);
+                        }
                     }
+                    let imp = obj.imp();
+                    imp.set_listing(false);
+                    imp.set_as_initialized();
                 }
-                let imp = obj.imp();
-                imp.set_listing(false);
-                imp.set_as_initialized();
-            }),
+            ),
         );
     }
 

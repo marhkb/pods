@@ -85,22 +85,33 @@ mod imp {
             let data_expr = container_expr.chain_property::<model::Container>("data");
 
             gtk::ClosureExpression::new::<bool>(
-                [&container_expr.chain_property::<model::Container>("status"), &health_status_expr],
+                [
+                    &container_expr.chain_property::<model::Container>("status"),
+                    &health_status_expr,
+                ],
                 closure!(|_: Self::Type,
                           _: model::ContainerStatus,
                           _: model::ContainerHealthStatus| false),
             )
-            .watch(Some(obj), clone!(@weak obj => move || {
-                obj.action_set_enabled(
-                    ACTION_RUN_HEALTH_COMMAND,
-                    obj.container()
-                        .map(|container| {
-                            container.health_status() != model::ContainerHealthStatus::Unconfigured
-                                && container.status() == model::ContainerStatus::Running
-                        })
-                        .unwrap_or(false),
-                );
-            }));
+            .watch(
+                Some(obj),
+                clone!(
+                    #[weak]
+                    obj,
+                    move || {
+                        obj.action_set_enabled(
+                            ACTION_RUN_HEALTH_COMMAND,
+                            obj.container()
+                                .map(|container| {
+                                    container.health_status()
+                                        != model::ContainerHealthStatus::Unconfigured
+                                        && container.status() == model::ContainerStatus::Running
+                                })
+                                .unwrap_or(false),
+                        );
+                    }
+                ),
+            );
 
             health_status_expr
                 .chain_closure::<String>(closure!(
@@ -123,31 +134,48 @@ mod imp {
                 ))
                 .bind(&*self.status_label, "css-classes", Some(obj));
 
-            data_expr.watch(Some(obj), clone!(@weak obj => move || {
-                let model = obj
-                    .container()
-                    .as_ref()
-                    .and_then(model::Container::data)
-                    .as_ref()
-                    .map(model::ContainerData::health_check_log_list);
+            data_expr.watch(
+                Some(obj),
+                clone!(
+                    #[weak]
+                    obj,
+                    move || {
+                        let model = obj
+                            .container()
+                            .as_ref()
+                            .and_then(model::Container::data)
+                            .as_ref()
+                            .map(model::ContainerData::health_check_log_list);
 
-                if let Some(ref model) = model {
-                    obj.set_list_box_visibility(model.upcast_ref());
-                    model.connect_items_changed(clone!(@weak obj => move |model, _, _, _| {
-                        obj.set_list_box_visibility(model.upcast_ref());
-                    }));
-                }
+                        if let Some(ref model) = model {
+                            obj.set_list_box_visibility(model.upcast_ref());
+                            model.connect_items_changed(clone!(
+                                #[weak]
+                                obj,
+                                move |model, _, _, _| {
+                                    obj.set_list_box_visibility(model.upcast_ref());
+                                }
+                            ));
+                        }
 
-                let sort_model = gtk::SortListModel::new(model, Some(gtk::CustomSorter::new(|item1, item2| {
-                    let log1 = item1.downcast_ref::<model::HealthCheckLog>().unwrap();
-                    let log2 = item2.downcast_ref::<model::HealthCheckLog>().unwrap();
-                    log2.start().cmp(&log1.start()).into()
-                })));
+                        let sort_model = gtk::SortListModel::new(
+                            model,
+                            Some(gtk::CustomSorter::new(|item1, item2| {
+                                let log1 = item1.downcast_ref::<model::HealthCheckLog>().unwrap();
+                                let log2 = item2.downcast_ref::<model::HealthCheckLog>().unwrap();
+                                log2.start().cmp(&log1.start()).into()
+                            })),
+                        );
 
-                obj.imp().log_list_box.bind_model(Some(&sort_model), move |log| {
-                    view::ContainerHealthCheckLogRow::from(log.downcast_ref().unwrap()).upcast()
-                })
-            }));
+                        obj.imp()
+                            .log_list_box
+                            .bind_model(Some(&sort_model), move |log| {
+                                view::ContainerHealthCheckLogRow::from(log.downcast_ref().unwrap())
+                                    .upcast()
+                            })
+                    }
+                ),
+            );
         }
 
         fn dispose(&self) {
@@ -231,13 +259,17 @@ impl ContainerHealthCheckPage {
         if let Some(container) = self.container().as_ref().and_then(model::Container::api) {
             utils::do_async(
                 async move { container.healthcheck().await },
-                clone!(@weak self as obj => move |result| if let Err(e) = result {
-                    utils::show_error_toast(
-                        obj.upcast_ref(),
-                        &gettext("Error on running health check"),
-                        &e.to_string()
-                    );
-                }),
+                clone!(
+                    #[weak(rename_to = obj)]
+                    self,
+                    move |result| if let Err(e) = result {
+                        utils::show_error_toast(
+                            obj.upcast_ref(),
+                            &gettext("Error on running health check"),
+                            &e.to_string(),
+                        );
+                    }
+                ),
             );
         }
     }

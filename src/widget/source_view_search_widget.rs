@@ -149,13 +149,15 @@ mod imp {
                     Some(&self.search_settings),
                 );
 
-                search_context.connect_occurrences_count_notify(clone!(@weak obj => move |ctx| {
-                    obj.imp().search_entry.set_info(&
-                        gettext!(
-                            "0 of {}",
-                            ctx.occurrences_count(),
-                        ));
-                }));
+                search_context.connect_occurrences_count_notify(clone!(
+                    #[weak]
+                    obj,
+                    move |ctx| {
+                        obj.imp()
+                            .search_entry
+                            .set_info(&gettext!("0 of {}", ctx.occurrences_count(),));
+                    }
+                ));
 
                 self.search_context.replace(Some(search_context));
             }

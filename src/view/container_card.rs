@@ -192,10 +192,24 @@ mod imp {
             let pod_status_expr = pod_expr.chain_property::<model::Pod>("status");
             let stats_expr = container_expr.chain_property::<model::Container>("stats");
 
-            status_expr.watch(Some(obj), clone!(@weak obj => move || obj.update_actions()));
+            status_expr.watch(
+                Some(obj),
+                clone!(
+                    #[weak]
+                    obj,
+                    move || obj.update_actions()
+                ),
+            );
             container_expr
                 .chain_property::<model::Container>("action-ongoing")
-                .watch(Some(obj), clone!(@weak obj => move || obj.update_actions()));
+                .watch(
+                    Some(obj),
+                    clone!(
+                        #[weak]
+                        obj,
+                        move || obj.update_actions()
+                    ),
+                );
 
             let css_classes = utils::css_classes(obj.upcast_ref());
             status_expr
@@ -458,28 +472,29 @@ mod imp {
                         self.ports_pod_stack.set_visible_child_name("ports");
                         self.ports_flow_box.bind_model(
                             Some(&container.ports()),
-                            clone!(@weak obj => @default-panic, move |item| {
-                                let port_mapping =
-                                    item.downcast_ref::<model::PortMapping>().unwrap();
+                            clone!(
+                                #[weak]
+                                obj,
+                                #[upgrade_or_panic]
+                                move |item| {
+                                    let port_mapping =
+                                        item.downcast_ref::<model::PortMapping>().unwrap();
 
-                                let label = gtk::Label::builder()
-                                    .css_classes([
-                                        "status-badge-small",
-                                        "numeric",
-                                    ])
-                                    .halign(gtk::Align::Center)
-                                    .valign(gtk::Align::Center)
-                                    .label(format!(
-                                        "{}/{}",
-                                        port_mapping.host_port(),
-                                        port_mapping.protocol()
-                                    ))
-                                    .build();
+                                    let label = gtk::Label::builder()
+                                        .css_classes(["status-badge-small", "numeric"])
+                                        .halign(gtk::Align::Center)
+                                        .valign(gtk::Align::Center)
+                                        .label(format!(
+                                            "{}/{}",
+                                            port_mapping.host_port(),
+                                            port_mapping.protocol()
+                                        ))
+                                        .build();
 
-                                let css_classes = utils::css_classes(label.upcast_ref());
-                                super::ContainerCard::this_expression("container")
-                                    .chain_property::<model::Container>("status")
-                                    .chain_closure::<Vec<String>>(closure!(
+                                    let css_classes = utils::css_classes(label.upcast_ref());
+                                    super::ContainerCard::this_expression("container")
+                                        .chain_property::<model::Container>("status")
+                                        .chain_closure::<Vec<String>>(closure!(
                                         |_: super::ContainerCard, status: model::ContainerStatus| {
                                             css_classes
                                                 .iter()
@@ -490,14 +505,15 @@ mod imp {
                                                 .collect::<Vec<_>>()
                                         }
                                     ))
-                                    .bind(&label, "css-classes", Some(&obj));
+                                        .bind(&label, "css-classes", Some(&obj));
 
-                                gtk::FlowBoxChild::builder()
-                                    .halign(gtk::Align::Start)
-                                    .child(&label)
-                                    .build()
-                                    .upcast()
-                            }),
+                                    gtk::FlowBoxChild::builder()
+                                        .halign(gtk::Align::Start)
+                                        .child(&label)
+                                        .build()
+                                        .upcast()
+                                }
+                            ),
                         );
                     } else {
                         self.ports_pod_stack.set_visible_child_name("no-ports");
@@ -585,11 +601,19 @@ impl ContainerCard {
 
         percent_expr.watch(
             Some(self),
-            clone!(@weak self as obj, @weak progress_bar, @strong percent_expr => move || {
-                animation.set_value_from(progress_bar.fraction());
-                animation.set_value_to(percent_expr.evaluate_as(Some(&obj)).unwrap_or(0.0));
-                animation.play();
-            }),
+            clone!(
+                #[weak(rename_to = obj)]
+                self,
+                #[weak]
+                progress_bar,
+                #[strong]
+                percent_expr,
+                move || {
+                    animation.set_value_from(progress_bar.fraction());
+                    animation.set_value_to(percent_expr.evaluate_as(Some(&obj)).unwrap_or(0.0));
+                    animation.play();
+                }
+            ),
         );
 
         let classes = utils::css_classes(progress_bar.upcast_ref());

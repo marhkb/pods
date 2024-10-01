@@ -144,14 +144,18 @@ mod imp {
             let obj = &*self.obj();
 
             let handler_id_ref = Rc::new(RefCell::new(None));
-            let handler_id = obj.container_list().connect_container_added(
-                clone!(@weak obj, @strong handler_id_ref => move |list, container| if container.is_infra() {
+            let handler_id = obj.container_list().connect_container_added(clone!(
+                #[weak]
+                obj,
+                #[strong]
+                handler_id_ref,
+                move |list, container| if container.is_infra() {
                     list.disconnect(handler_id_ref.take().unwrap());
 
                     obj.imp().infra_container.set(Some(container));
                     obj.notify_infra_container();
-                }),
-            );
+                }
+            ));
             handler_id_ref.set(Some(handler_id));
         }
     }
@@ -223,13 +227,17 @@ impl Pod {
         F: Fn(Result<model::Pod, podman::Error>) + 'static,
     {
         if let Some(observers) = self.imp().inspection_observers.borrow().as_ref() {
-            observers.add(clone!(@weak self as obj => move |result| match result {
-                Ok(_) => op(Ok(obj)),
-                Err(e) => {
-                    log::error!("Error on inspecting pod '{}': {e}", obj.id());
-                    op(Err(e));
+            observers.add(clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |result| match result {
+                    Ok(_) => op(Ok(obj)),
+                    Err(e) => {
+                        log::error!("Error on inspecting pod '{}': {e}", obj.id());
+                        op(Err(e));
+                    }
                 }
-            }));
+            ));
 
             return;
         }
@@ -239,22 +247,26 @@ impl Pod {
                 let pod = self.api().unwrap();
                 async move { pod.inspect().await }
             },
-            clone!(@weak self as obj => move |result| {
-                let imp = obj.imp();
+            clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |result| {
+                    let imp = obj.imp();
 
-                imp.inspection_observers.replace(None);
+                    imp.inspection_observers.replace(None);
 
-                match result {
-                    Ok(data) => {
-                        imp.set_data(model::PodData::from(data));
-                        op(Ok(obj));
-                    },
-                    Err(e) => {
-                        log::error!("Error on inspecting pod '{}': {e}", obj.id());
-                        op(Err(e));
+                    match result {
+                        Ok(data) => {
+                            imp.set_data(model::PodData::from(data));
+                            op(Ok(obj));
+                        }
+                        Err(e) => {
+                            log::error!("Error on inspecting pod '{}': {e}", obj.id());
+                            op(Err(e));
+                        }
                     }
                 }
-            }),
+            ),
         );
 
         self.imp().inspection_observers.replace(Some(observers));
@@ -292,24 +304,22 @@ impl Pod {
 
             utils::do_async(
                 async move { fut_op(pod).await },
-                clone!(@weak self as obj => move |result| {
-                    match &result {
-                        Ok(_) => {
-                            log::info!(
-                                "Pod <{}>: {name} has finished",
-                                obj.id()
-                            );
+                clone!(
+                    #[weak(rename_to = obj)]
+                    self,
+                    move |result| {
+                        match &result {
+                            Ok(_) => {
+                                log::info!("Pod <{}>: {name} has finished", obj.id());
+                            }
+                            Err(e) => {
+                                log::error!("Pod <{}>: Error while {name}: {e}", obj.id(),);
+                                obj.set_action_ongoing(false);
+                            }
                         }
-                        Err(e) => {
-                            log::error!(
-                                "Pod <{}>: Error while {name}: {e}",
-                                obj.id(),
-                            );
-                            obj.set_action_ongoing(false);
-                        }
+                        res_op(result)
                     }
-                    res_op(result)
-                }),
+                ),
             );
         }
     }
@@ -402,12 +412,16 @@ impl Pod {
                 }
                 .map(|_| ())
             },
-            clone!(@weak self as obj => move |result| {
-                if result.is_err() {
-                    obj.imp().set_to_be_deleted(false);
+            clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |result| {
+                    if result.is_err() {
+                        obj.imp().set_to_be_deleted(false);
+                    }
+                    op(result)
                 }
-                op(result)
-            }),
+            ),
         );
     }
 

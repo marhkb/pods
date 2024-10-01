@@ -86,9 +86,13 @@ mod imp {
             );
 
             let style_manager = adw::StyleManager::default();
-            style_manager.connect_dark_notify(clone!(@weak obj => move |style_manager| {
-                obj.imp().on_notify_dark(style_manager);
-            }));
+            style_manager.connect_dark_notify(clone!(
+                #[weak]
+                obj,
+                move |style_manager| {
+                    obj.imp().on_notify_dark(style_manager);
+                }
+            ));
             self.on_notify_dark(&style_manager);
         }
     }

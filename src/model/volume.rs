@@ -68,11 +68,13 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
             let obj = &*self.obj();
-            obj.container_list().connect_items_changed(
-                clone!(@weak obj => move |_, _, _, _| if let Some(volume_list) = obj.volume_list() {
+            obj.container_list().connect_items_changed(clone!(
+                #[weak]
+                obj,
+                move |_, _, _, _| if let Some(volume_list) = obj.volume_list() {
                     volume_list.notify_num_volumes();
-                }),
-            );
+                }
+            ));
         }
     }
 
@@ -119,13 +121,17 @@ impl Volume {
                         volume.delete().await
                     }
                 },
-                clone!(@weak self as obj => move |result| {
-                    if let Err(ref e) = result {
-                        obj.imp().set_to_be_deleted(false);
-                        log::error!("Error on removing volume: {}", e);
+                clone!(
+                    #[weak(rename_to = obj)]
+                    self,
+                    move |result| {
+                        if let Err(ref e) = result {
+                            obj.imp().set_to_be_deleted(false);
+                            log::error!("Error on removing volume: {}", e);
+                        }
+                        op(&obj, result);
                     }
-                    op(&obj, result);
-                }),
+                ),
             );
         }
     }

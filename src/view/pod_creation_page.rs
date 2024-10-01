@@ -227,12 +227,16 @@ mod imp {
 
             let widget = &*self.obj();
 
-            glib::idle_add_local(
-                clone!(@weak widget => @default-return glib::ControlFlow::Break, move || {
+            glib::idle_add_local(clone!(
+                #[weak]
+                widget,
+                #[upgrade_or]
+                glib::ControlFlow::Break,
+                move || {
                     widget.imp().name_entry_row.grab_focus();
                     glib::ControlFlow::Break
-                }),
-            );
+                }
+            ));
             utils::root(widget.upcast_ref()).set_default_widget(Some(&*self.create_button));
         }
 
@@ -559,12 +563,15 @@ impl PodCreationPage {
                             image.disconnect(handler);
                         }
                     }
-                    let handler =
-                        image.connect_data_notify(clone!(@weak self as obj => move |image| {
+                    let handler = image.connect_data_notify(clone!(
+                        #[weak(rename_to = obj)]
+                        self,
+                        move |image| {
                             obj.imp().infra_command_entry_row.set_text(
-                                &image.data().unwrap().config().cmd().unwrap_or_default()
+                                &image.data().unwrap().config().cmd().unwrap_or_default(),
                             );
-                        }));
+                        }
+                    ));
                     let image_weak = glib::WeakRef::new();
                     image_weak.set(Some(&image));
                     imp.command_row_handler.replace(Some((handler, image_weak)));
@@ -605,11 +612,15 @@ fn bind_model<F>(
 fn add_key_val(model: &gio::ListStore) {
     let entry = model::KeyVal::default();
 
-    entry.connect_remove_request(clone!(@weak model => move |entry| {
-        if let Some(pos) = model.find(entry) {
-            model.remove(pos);
+    entry.connect_remove_request(clone!(
+        #[weak]
+        model,
+        move |entry| {
+            if let Some(pos) = model.find(entry) {
+                model.remove(pos);
+            }
         }
-    }));
+    ));
 
     model.append(&entry);
 }
@@ -617,11 +628,15 @@ fn add_key_val(model: &gio::ListStore) {
 fn add_value(model: &gio::ListStore) {
     let value = model::Value::default();
 
-    value.connect_remove_request(clone!(@weak model => move |value| {
-        if let Some(pos) = model.find(value) {
-            model.remove(pos);
+    value.connect_remove_request(clone!(
+        #[weak]
+        model,
+        move |value| {
+            if let Some(pos) = model.find(value) {
+                model.remove(pos);
+            }
         }
-    }));
+    ));
 
     model.append(&value);
 }
@@ -629,11 +644,15 @@ fn add_value(model: &gio::ListStore) {
 fn add_port_mapping(model: &gio::ListStore) -> model::PortMapping {
     let port_mapping = model::PortMapping::default();
 
-    port_mapping.connect_remove_request(clone!(@weak model => move |port_mapping| {
-        if let Some(pos) = model.find(port_mapping) {
-            model.remove(pos);
+    port_mapping.connect_remove_request(clone!(
+        #[weak]
+        model,
+        move |port_mapping| {
+            if let Some(pos) = model.find(port_mapping) {
+                model.remove(pos);
+            }
         }
-    }));
+    ));
 
     model.append(&port_mapping);
 
@@ -643,11 +662,15 @@ fn add_port_mapping(model: &gio::ListStore) -> model::PortMapping {
 fn add_device(model: &gio::ListStore) {
     let device = model::Device::default();
 
-    device.connect_remove_request(clone!(@weak model => move |device| {
-        if let Some(pos) = model.find(device) {
-            model.remove(pos);
+    device.connect_remove_request(clone!(
+        #[weak]
+        model,
+        move |device| {
+            if let Some(pos) = model.find(device) {
+                model.remove(pos);
+            }
         }
-    }));
+    ));
 
     model.append(&device);
 }

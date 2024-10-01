@@ -178,37 +178,64 @@ mod imp {
                 }))
                 .bind(&*self.resources, "visible", Some(obj));
 
-            status_expr.watch(Some(obj), clone!(@weak obj => move || obj.update_actions()));
+            status_expr.watch(
+                Some(obj),
+                clone!(
+                    #[weak]
+                    obj,
+                    move || obj.update_actions()
+                ),
+            );
             container_expr
                 .chain_property::<model::Container>("action-ongoing")
-                .watch(Some(obj), clone!(@weak obj => move || obj.update_actions()));
+                .watch(
+                    Some(obj),
+                    clone!(
+                        #[weak]
+                        obj,
+                        move || obj.update_actions()
+                    ),
+                );
 
             container_expr
                 .chain_property::<model::Container>("health_status")
                 .watch(
                     Some(obj),
-                    clone!(@weak obj => move || {
-                        obj.action_set_enabled(
-                            ACTION_SHOW_HEALTH_DETAILS,
-                            obj.container()
-                                .as_ref()
-                                .map(model::Container::health_status)
-                                .map(|status| status != model::ContainerHealthStatus::Unconfigured)
-                                .unwrap_or(false),
-                        );
-                    }),
+                    clone!(
+                        #[weak]
+                        obj,
+                        move || {
+                            obj.action_set_enabled(
+                                ACTION_SHOW_HEALTH_DETAILS,
+                                obj.container()
+                                    .as_ref()
+                                    .map(model::Container::health_status)
+                                    .map(|status| {
+                                        status != model::ContainerHealthStatus::Unconfigured
+                                    })
+                                    .unwrap_or(false),
+                            );
+                        }
+                    ),
                 );
 
             container_expr
                 .chain_property::<model::Container>("image")
                 .watch(
                     Some(obj),
-                    clone!(@weak obj => move || {
-                        obj.action_set_enabled(
-                            ACTION_SHOW_IMAGE_DETAILS,
-                            obj.container().as_ref().and_then(model::Container::image).is_some()
-                        );
-                    }),
+                    clone!(
+                        #[weak]
+                        obj,
+                        move || {
+                            obj.action_set_enabled(
+                                ACTION_SHOW_IMAGE_DETAILS,
+                                obj.container()
+                                    .as_ref()
+                                    .and_then(model::Container::image)
+                                    .is_some(),
+                            );
+                        }
+                    ),
                 );
         }
 
@@ -231,14 +258,29 @@ mod imp {
             }
 
             if let Some(container) = value {
-                container.inspect(clone!(@weak obj => move |result| if let Err(e) = result {
-                    utils::show_error_toast(obj.upcast_ref(), &gettext("Error on loading container details"), &e.to_string());
-                }));
+                container.inspect(clone!(
+                    #[weak]
+                    obj,
+                    move |result| if let Err(e) = result {
+                        utils::show_error_toast(
+                            obj.upcast_ref(),
+                            &gettext("Error on loading container details"),
+                            &e.to_string(),
+                        );
+                    }
+                ));
 
-                let handler_id = container.connect_deleted(clone!(@weak obj => move |container| {
-                    utils::show_toast(obj.upcast_ref(), gettext!("Container '{}' has been deleted", container.name()));
-                    utils::navigation_view(obj.upcast_ref()).pop();
-                }));
+                let handler_id = container.connect_deleted(clone!(
+                    #[weak]
+                    obj,
+                    move |container| {
+                        utils::show_toast(
+                            obj.upcast_ref(),
+                            gettext!("Container '{}' has been deleted", container.name()),
+                        );
+                        utils::navigation_view(obj.upcast_ref()).pop();
+                    }
+                ));
                 self.handler_id.replace(Some(handler_id));
 
                 let sorter = gtk::StringSorter::new(Some(
@@ -257,9 +299,11 @@ mod imp {
                 });
 
                 obj.update_volumes_visibility();
-                container.volume_list().connect_items_changed(
-                    clone!(@weak obj => move |_, _, _, _| obj.update_volumes_visibility()),
-                );
+                container.volume_list().connect_items_changed(clone!(
+                    #[weak]
+                    obj,
+                    move |_, _, _, _| obj.update_volumes_visibility()
+                ));
             }
 
             self.container.set(value);

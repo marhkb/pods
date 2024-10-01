@@ -77,7 +77,11 @@ mod imp {
             obj.update_state(&action);
             action.connect_notify_local(
                 Some("state"),
-                clone!(@weak obj => move |action, _| obj.update_state(action)),
+                clone!(
+                    #[weak]
+                    obj,
+                    move |action, _| obj.update_state(action)
+                ),
             );
 
             self.status_page
@@ -97,9 +101,15 @@ mod imp {
             obj.set_description(&action);
             glib::timeout_add_seconds_local(
                 1,
-                clone!(@weak obj, @weak action => @default-return glib::ControlFlow::Break, move || {
-                    obj.set_description(&action)
-                }),
+                clone!(
+                    #[weak]
+                    obj,
+                    #[weak]
+                    action,
+                    #[upgrade_or]
+                    glib::ControlFlow::Break,
+                    move || obj.set_description(&action)
+                ),
             );
         }
 

@@ -202,13 +202,17 @@ impl Image {
         F: Fn(Result<model::Image, podman::Error>) + 'static,
     {
         if let Some(observers) = self.imp().inspection_observers.borrow().as_ref() {
-            observers.add(clone!(@weak self as obj => move |result| match result {
-                Ok(_) => op(Ok(obj)),
-                Err(e) => {
-                    log::error!("Error on inspecting image '{}': {e}", obj.id());
-                    op(Err(e));
+            observers.add(clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |result| match result {
+                    Ok(_) => op(Ok(obj)),
+                    Err(e) => {
+                        log::error!("Error on inspecting image '{}': {e}", obj.id());
+                        op(Err(e));
+                    }
                 }
-            }));
+            ));
 
             return;
         }
@@ -218,22 +222,26 @@ impl Image {
                 let image = self.api().unwrap();
                 async move { image.inspect().await }
             },
-            clone!(@weak self as obj => move |result| {
-                let imp = obj.imp();
+            clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |result| {
+                    let imp = obj.imp();
 
-                imp.inspection_observers.replace(None);
+                    imp.inspection_observers.replace(None);
 
-                match result {
-                    Ok(data) => {
-                        imp.set_data(model::ImageData::from(data));
-                        op(Ok(obj));
-                    },
-                    Err(e) => {
-                        log::error!("Error on inspecting image '{}': {e}", obj.id());
-                        op(Err(e));
+                    match result {
+                        Ok(data) => {
+                            imp.set_data(model::ImageData::from(data));
+                            op(Ok(obj));
+                        }
+                        Err(e) => {
+                            log::error!("Error on inspecting image '{}': {e}", obj.id());
+                            op(Err(e));
+                        }
                     }
                 }
-            }),
+            ),
         );
 
         self.imp().inspection_observers.replace(Some(observers));
@@ -250,13 +258,17 @@ impl Image {
 
             utils::do_async(
                 async move { image.remove().await },
-                clone!(@weak self as obj => move |result| {
-                    if let Err(ref e) = result {
-                        obj.imp().set_to_be_deleted(false);
-                        log::error!("Error on removing image: {}", e);
+                clone!(
+                    #[weak(rename_to = obj)]
+                    self,
+                    move |result| {
+                        if let Err(ref e) = result {
+                            obj.imp().set_to_be_deleted(false);
+                            log::error!("Error on removing image: {}", e);
+                        }
+                        op(&obj, result);
                     }
-                    op(&obj, result);
-                }),
+                ),
             );
         }
     }

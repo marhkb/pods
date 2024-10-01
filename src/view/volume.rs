@@ -32,11 +32,17 @@ pub(crate) fn delete_volume_show_confirmation(widget: &gtk::Widget, volume: Opti
                 dialog.choose(
                     widget,
                     gio::Cancellable::NONE,
-                    clone!(@weak widget, @weak volume => move |response| {
-                        if response == "delete" {
-                            delete_volume(&widget, &volume, true);
+                    clone!(
+                        #[weak]
+                        widget,
+                        #[weak]
+                        volume,
+                        move |response| {
+                            if response == "delete" {
+                                delete_volume(&widget, &volume, true);
+                            }
                         }
-                    }),
+                    ),
                 );
             }
             None => delete_volume(widget, &volume, false),
@@ -47,16 +53,20 @@ pub(crate) fn delete_volume_show_confirmation(widget: &gtk::Widget, volume: Opti
 fn delete_volume(widget: &gtk::Widget, volume: &model::Volume, force: bool) {
     volume.delete(
         force,
-        clone!(@weak widget => move |volume, result| {
-            if let Err(e) = result {
-                utils::show_error_toast(
-                    &widget,
-                    // Translators: The "{}" is a placeholder for the volume name.
-                    &gettext!("Error on deleting volume '{}'", &volume.inner().name),
-                    &e.to_string(),
-                );
+        clone!(
+            #[weak]
+            widget,
+            move |volume, result| {
+                if let Err(e) = result {
+                    utils::show_error_toast(
+                        &widget,
+                        // Translators: The "{}" is a placeholder for the volume name.
+                        &gettext!("Error on deleting volume '{}'", &volume.inner().name),
+                        &e.to_string(),
+                    );
+                }
             }
-        }),
+        ),
     );
 }
 

@@ -321,14 +321,16 @@ impl MountRow {
     pub(crate) fn select_volume(&self) {
         if let Some(client) = self.mount().and_then(|mount| mount.client()) {
             let volume_selection_page = view::VolumeSelectionPage::from(&client.volume_list());
-            volume_selection_page.connect_volume_selected(
-                clone!(@weak self as obj => move |_, volume| {
+            volume_selection_page.connect_volume_selected(clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |_, volume| {
                     if let Some(mount) = obj.mount() {
                         mount.set_volume(Some(volume));
                         obj.action_set_enabled(ACTION_CLEAR_VOLUME, true);
                     }
-                }),
-            );
+                }
+            ));
             utils::navigation_view(self.upcast_ref()).push(
                 &adw::NavigationPage::builder()
                     .child(&volume_selection_page)

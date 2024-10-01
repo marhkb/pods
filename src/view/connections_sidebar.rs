@@ -98,13 +98,17 @@ mod imp {
                 ) {
                     connection_manager.set_client_from(
                         &connection.uuid(),
-                        clone!(@weak obj => move |result| if let Err(e) = result {
-                            utils::show_error_toast(
-                                obj.upcast_ref(),
-                                &gettext("Error on switching connection"),
-                                &e.to_string(),
-                            );
-                        }),
+                        clone!(
+                            #[weak]
+                            obj,
+                            move |result| if let Err(e) = result {
+                                utils::show_error_toast(
+                                    obj.upcast_ref(),
+                                    &gettext("Error on switching connection"),
+                                    &e.to_string(),
+                                );
+                            }
+                        ),
                     );
                 }
             }

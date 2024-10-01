@@ -194,9 +194,13 @@ mod imp {
 
             let adw_style_manager = adw::StyleManager::default();
             self.on_notify_dark(&adw_style_manager);
-            adw_style_manager.connect_dark_notify(clone!(@weak obj => move |style_manager| {
-                obj.imp().on_notify_dark(style_manager);
-            }));
+            adw_style_manager.connect_dark_notify(clone!(
+                #[weak]
+                obj,
+                move |style_manager| {
+                    obj.imp().on_notify_dark(style_manager);
+                }
+            ));
         }
 
         fn dispose(&self) {
@@ -334,7 +338,11 @@ impl From<Entity> for ScalableTextViewPage {
                                 serde_json::to_string_pretty(&data).map_err(anyhow::Error::from)
                             })
                     },
-                    clone!(@weak obj => move |result| obj.init(result, Mode::Inspect)),
+                    clone!(
+                        #[weak]
+                        obj,
+                        move |result| obj.init(result, Mode::Inspect)
+                    ),
                 );
             }
             Entity::Container { container, mode } => {
@@ -356,7 +364,11 @@ impl From<Entity> for ScalableTextViewPage {
                                 .map_err(anyhow::Error::from),
                         }
                     },
-                    clone!(@weak obj => move |result| obj.init(result, mode)),
+                    clone!(
+                        #[weak]
+                        obj,
+                        move |result| obj.init(result, mode)
+                    ),
                 );
             }
             Entity::Pod { pod, mode } => {
@@ -378,7 +390,11 @@ impl From<Entity> for ScalableTextViewPage {
                                 .map_err(anyhow::Error::from),
                         }
                     },
-                    clone!(@weak obj => move |result| obj.init(result, mode)),
+                    clone!(
+                        #[weak]
+                        obj,
+                        move |result| obj.init(result, mode)
+                    ),
                 );
             }
             Entity::Volume(volume) => {
@@ -430,30 +446,42 @@ impl ScalableTextViewPage {
         utils::show_save_file_dialog(
             request,
             self.upcast_ref(),
-            clone!(@weak self as obj => move |files| {
-                let file = gio::File::for_uri(files.uris()[0].as_str());
+            clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |files| {
+                    let file = gio::File::for_uri(files.uris()[0].as_str());
 
-                if let Some(path) = file.path() {
-                    let file = std::fs::OpenOptions::new()
-                        .write(true)
-                        .create(true)
-                        .truncate(true)
-                        .open(path)
-                        .unwrap();
+                    if let Some(path) = file.path() {
+                        let file = std::fs::OpenOptions::new()
+                            .write(true)
+                            .create(true)
+                            .truncate(true)
+                            .open(path)
+                            .unwrap();
 
-                    let buffer = &*obj.imp().source_buffer;
-                    let text = buffer.text(&buffer.start_iter(), &buffer.end_iter(), false);
+                        let buffer = &*obj.imp().source_buffer;
+                        let text = buffer.text(&buffer.start_iter(), &buffer.end_iter(), false);
 
-                    glib::MainContext::default().spawn_local(clone!(@weak obj => async move {
-                        if let Err((msg, _)) = gio::WriteOutputStream::new(file)
-                            .write_all_future(text, glib::Priority::default())
-                            .await
-                        {
-                            utils::show_error_toast(obj.upcast_ref(), &gettext("Error"), &msg);
-                        }
-                    }));
+                        glib::MainContext::default().spawn_local(clone!(
+                            #[weak]
+                            obj,
+                            async move {
+                                if let Err((msg, _)) = gio::WriteOutputStream::new(file)
+                                    .write_all_future(text, glib::Priority::default())
+                                    .await
+                                {
+                                    utils::show_error_toast(
+                                        obj.upcast_ref(),
+                                        &gettext("Error"),
+                                        &msg,
+                                    );
+                                }
+                            }
+                        ));
+                    }
                 }
-            }),
+            ),
         )
         .await;
     }

@@ -190,41 +190,52 @@ mod imp {
                             .await
                     }
                 },
-                clone!(@weak obj => move |result| if let Ok(responses) = result {
-                    match responses {
-                        Ok(responses) => {
-                            let imp = obj.imp();
+                clone!(
+                    #[weak]
+                    obj,
+                    move |result| if let Ok(responses) = result {
+                        match responses {
+                            Ok(responses) => {
+                                let imp = obj.imp();
 
-                            if responses.is_empty() {
-                                obj.action_set_enabled(ACTION_SELECT, false);
+                                if responses.is_empty() {
+                                    obj.action_set_enabled(ACTION_SELECT, false);
 
-                                imp.search_stack.set_visible_child_name("nothing");
-                                imp.no_results_status_page.set_title(&gettext!("No Results For {}", term));
+                                    imp.search_stack.set_visible_child_name("nothing");
+                                    imp.no_results_status_page
+                                        .set_title(&gettext!("No Results For {}", term));
+                                } else {
+                                    obj.action_set_enabled(ACTION_SELECT, true);
 
-                            } else {
-                                obj.action_set_enabled(ACTION_SELECT, true);
+                                    responses.into_iter().for_each(|response| {
+                                        imp.search_results()
+                                            .append(&model::ImageSearchResponse::from(response));
+                                    });
+                                    imp.selection.set_selected(0);
+                                    imp.search_stack.set_visible_child_name("results");
 
-                                responses.into_iter().for_each(|response| {
-                                    imp.search_results()
-                                        .append(&model::ImageSearchResponse::from(response));
-                                });
-                                imp.selection.set_selected(0);
-                                imp.search_stack.set_visible_child_name("results");
-
-                                glib::idle_add_local_once(clone!(@weak obj => move || {
-                                    obj.imp().scrolled_window.emit_scroll_child(gtk::ScrollType::Start, false);
-                                }));
+                                    glib::idle_add_local_once(clone!(
+                                        #[weak]
+                                        obj,
+                                        move || {
+                                            obj.imp()
+                                                .scrolled_window
+                                                .emit_scroll_child(gtk::ScrollType::Start, false);
+                                        }
+                                    ));
+                                }
+                            }
+                            Err(e) => {
+                                log::error!("Failed to search for images: {}", e);
+                                utils::show_error_toast(
+                                    obj.upcast_ref(),
+                                    &gettext("Failed to search for images"),
+                                    &e.to_string(),
+                                );
                             }
                         }
-                        Err(e) => {
-                            log::error!("Failed to search for images: {}", e);
-                            utils::show_error_toast(
-                                obj.upcast_ref(),
-                                &gettext("Failed to search for images"),
-                                &e.to_string());
-                        }
                     }
-                }),
+                ),
             );
         }
 
@@ -320,10 +331,14 @@ impl ImageSearchPage {
 
         let page = view::RepoTagSelectionPage::new(&client, &image, &self.action_button_name());
 
-        page.connect_image_selected(clone!(@weak self as obj => move |_, image| {
-            obj.imp().navigation_view.pop();
-            obj.emit_by_name::<()>("image-selected", &[image]);
-        }));
+        page.connect_image_selected(clone!(
+            #[weak(rename_to = obj)]
+            self,
+            move |_, image| {
+                obj.imp().navigation_view.pop();
+                obj.emit_by_name::<()>("image-selected", &[image]);
+            }
+        ));
 
         self.imp()
             .navigation_view

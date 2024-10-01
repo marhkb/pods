@@ -27,7 +27,7 @@ macro_rules! pod_action {
             if let Some(pod) = <gtk::Widget as gtk::prelude::ObjectExt>::property::<Option<crate::model::Pod>>(widget, "pod") {
                 pod.$action(
                     $($param,)*
-                    glib::clone!(@weak widget => move |result| if let Err(e) = result {
+                    glib::clone!(#[weak] widget, move |result| if let Err(e) = result {
                         crate::utils::show_error_toast(&widget, &$error, &e.to_string());
                     }),
                 );
@@ -70,11 +70,15 @@ pub(crate) fn show_delete_confirmation_dialog(widget: &gtk::Widget) {
                 dialog.choose(
                     widget,
                     gio::Cancellable::NONE,
-                    clone!(@weak widget, @weak pod => move |response| {
-                        if response == "delete" {
-                            delete(&widget);
+                    clone!(
+                        #[weak]
+                        widget,
+                        move |response| {
+                            if response == "delete" {
+                                delete(&widget);
+                            }
                         }
-                    }),
+                    ),
                 );
             }
             None => delete(widget),

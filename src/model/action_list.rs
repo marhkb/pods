@@ -366,7 +366,11 @@ impl ActionList {
 
         action.connect_notify_local(
             Some("state"),
-            clone!(@weak self as obj => move |_, _| obj.notify_num_states()),
+            clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |_, _| obj.notify_num_states()
+            ),
         );
 
         self.items_changed(position as u32, 0, 1);
