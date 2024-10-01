@@ -95,6 +95,10 @@ mod imp {
             ));
             self.on_notify_dark(&style_manager);
         }
+
+        fn dispose(&self) {
+            utils::unparent_children(self.obj().upcast_ref());
+        }
     }
 
     impl WidgetImpl for ConnectionCustomInfoDialog {}
