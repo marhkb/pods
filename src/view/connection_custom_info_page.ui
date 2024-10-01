@@ -79,7 +79,6 @@
                       </style>
                       <property name="label" translatable="yes">Podman Root Connection</property>
                       <property name="margin-top">15</property>
-                      <property name="margin-bottom"></property>
                       <property name="wrap">True</property>
                       <property name="wrap-mode">word-char</property>
                       <property name="xalign">0.5</property>
