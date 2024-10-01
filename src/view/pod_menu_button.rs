@@ -107,9 +107,14 @@ mod imp {
                 }))
                 .bind(&*self.menu_button, "sensitive", Some(obj));
 
-            pod_expr
-                .chain_property::<model::Pod>("status")
-                .watch(Some(obj), clone!(@weak obj => move || obj.update_actions()));
+            pod_expr.chain_property::<model::Pod>("status").watch(
+                Some(obj),
+                clone!(
+                    #[weak]
+                    obj,
+                    move || obj.update_actions()
+                ),
+            );
         }
 
         fn dispose(&self) {

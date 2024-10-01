@@ -80,9 +80,13 @@ mod imp {
             obj.load_time_format();
             self.desktop_settings.connect_changed(
                 Some("clock-format"),
-                clone!(@weak obj => move |_, _| {
-                    obj.load_time_format();
-                }),
+                clone!(
+                    #[weak]
+                    obj,
+                    move |_, _| {
+                        obj.load_time_format();
+                    }
+                ),
             );
 
             gtk::ClosureExpression::new::<i64>(

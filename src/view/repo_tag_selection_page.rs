@@ -132,42 +132,56 @@ mod imp {
                             .await
                     }
                 },
-                clone!(@weak obj => move |result| if let Ok(responses) = result {
-                    match responses {
-                        Ok(responses) => {
-                            let imp = obj.imp();
+                clone!(
+                    #[weak]
+                    obj,
+                    move |result| if let Ok(responses) = result {
+                        match responses {
+                            Ok(responses) => {
+                                let imp = obj.imp();
 
-                            obj.action_set_enabled(ACTION_SELECT, true);
+                                obj.action_set_enabled(ACTION_SELECT, true);
 
-                            responses.into_iter().for_each(|response| {
-                                obj
-                                    .imp()
-                                    .search_results()
-                                    .append(&model::ImageSearchResponse::from(response));
-                            });
+                                responses.into_iter().for_each(|response| {
+                                    obj.imp()
+                                        .search_results()
+                                        .append(&model::ImageSearchResponse::from(response));
+                                });
 
-                            imp.selection.set_selected(0);
-                            imp.search_stack.set_visible_child_name("results");
+                                imp.selection.set_selected(0);
+                                imp.search_stack.set_visible_child_name("results");
 
-                            glib::idle_add_local_once(clone!(@weak obj => move || {
-                                obj.imp().scrolled_window.emit_scroll_child(gtk::ScrollType::Start, false);
-                            }));
-                        }
-                        Err(e) => {
-                            log::error!("Failed to search for images: {}", e);
-                            utils::show_error_toast(
-                                obj.upcast_ref(),
-                                &gettext("Failed to search for images"),
-                                &e.to_string());
+                                glib::idle_add_local_once(clone!(
+                                    #[weak]
+                                    obj,
+                                    move || {
+                                        obj.imp()
+                                            .scrolled_window
+                                            .emit_scroll_child(gtk::ScrollType::Start, false);
+                                    }
+                                ));
+                            }
+                            Err(e) => {
+                                log::error!("Failed to search for images: {}", e);
+                                utils::show_error_toast(
+                                    obj.upcast_ref(),
+                                    &gettext("Failed to search for images"),
+                                    &e.to_string(),
+                                );
+                            }
                         }
                     }
-                }),
+                ),
             );
 
             self.filter_entry.set_key_capture_widget(Some(obj));
 
-            let filter =
-                gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
+            let filter = gtk::CustomFilter::new(clone!(
+                #[weak]
+                obj,
+                #[upgrade_or]
+                false,
+                move |item| {
                     let text = obj.imp().filter_entry.text();
                     let mut terms = text.split_ascii_whitespace();
                     let tag = item
@@ -176,7 +190,8 @@ mod imp {
                         .tag()
                         .unwrap();
                     terms.all(|term| tag.contains(&term.to_ascii_lowercase()))
-                }));
+                }
+            ));
             self.filter.set(filter.clone().upcast()).unwrap();
             let filter_list_model =
                 gtk::FilterListModel::new(Some(self.search_results().to_owned()), Some(filter));

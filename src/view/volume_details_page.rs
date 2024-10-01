@@ -101,12 +101,18 @@ mod imp {
                 .chain_property::<model::Volume>("to-be-deleted")
                 .watch(
                     Some(obj),
-                    clone!(@weak obj => move || {
-                        obj.action_set_enabled(
-                            ACTION_DELETE_VOLUME,
-                            obj.volume().map(|volume| !volume.to_be_deleted()).unwrap_or(false),
-                        );
-                    }),
+                    clone!(
+                        #[weak]
+                        obj,
+                        move || {
+                            obj.action_set_enabled(
+                                ACTION_DELETE_VOLUME,
+                                obj.volume()
+                                    .map(|volume| !volume.to_be_deleted())
+                                    .unwrap_or(false),
+                            );
+                        }
+                    ),
                 );
 
             volume_inner_expr
@@ -173,10 +179,17 @@ mod imp {
                 self.window_title
                     .set_subtitle(&utils::format_volume_name(&volume.inner().name));
 
-                let handler_id = volume.connect_deleted(clone!(@weak obj => move |volume| {
-                    utils::show_toast(obj.upcast_ref(), gettext!("Volume '{}' has been deleted", volume.inner().name));
-                    utils::navigation_view(obj.upcast_ref()).pop();
-                }));
+                let handler_id = volume.connect_deleted(clone!(
+                    #[weak]
+                    obj,
+                    move |volume| {
+                        utils::show_toast(
+                            obj.upcast_ref(),
+                            gettext!("Volume '{}' has been deleted", volume.inner().name),
+                        );
+                        utils::navigation_view(obj.upcast_ref()).pop();
+                    }
+                ));
                 self.handler_id.replace(Some(handler_id));
             }
 

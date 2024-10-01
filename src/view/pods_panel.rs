@@ -253,24 +253,31 @@ mod imp {
                 )))
                 .bind(&self.selected_pods_button.get(), "label", Some(obj));
 
-            let search_filter =
-                gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
+            let search_filter = gtk::CustomFilter::new(clone!(
+                #[weak]
+                obj,
+                #[upgrade_or]
+                false,
+                move |item| {
                     let term = &*obj.imp().search_term.borrow();
                     item.downcast_ref::<model::Pod>()
                         .unwrap()
                         .name()
                         .to_lowercase()
                         .contains(term)
-                }));
+                }
+            ));
 
             not_selection_mode_expr.bind(&self.search_bar.get(), "visible", Some(obj));
 
             let state_filter = gtk::AnyFilter::new();
-            state_filter.append(gtk::CustomFilter::new(
-                clone!(@weak obj => @default-return false, move |_| {
-                    !obj.show_only_running_pods()
-                }),
-            ));
+            state_filter.append(gtk::CustomFilter::new(clone!(
+                #[weak]
+                obj,
+                #[upgrade_or]
+                false,
+                move |_| !obj.show_only_running_pods()
+            )));
             state_filter.append(gtk::BoolFilter::new(Some(
                 model::Pod::this_expression("status").chain_closure::<bool>(closure!(
                     |_: model::Pod, status: model::PodStatus| status == model::PodStatus::Running
@@ -336,9 +343,13 @@ mod imp {
 
             value.connect_notify_local(
                 Some("running"),
-                clone!(@weak obj => move |_ ,_| {
-                    obj.imp().update_filter(gtk::FilterChange::Different);
-                }),
+                clone!(
+                    #[weak]
+                    obj,
+                    move |_, _| {
+                        obj.imp().update_filter(gtk::FilterChange::Different);
+                    }
+                ),
             );
 
             let model = gtk::SortListModel::new(
@@ -355,28 +366,34 @@ mod imp {
 
             self.filter_stack
                 .set_visible_child_name(if model.n_items() > 0 { "list" } else { "empty" });
-            model.connect_items_changed(clone!(@weak obj => move |model, _, removed, _| {
-                obj.imp()
-                    .filter_stack
-                    .set_visible_child_name(if model.n_items() > 0 { "list" } else { "empty" });
+            model.connect_items_changed(clone!(
+                #[weak]
+                obj,
+                move |model, _, removed, _| {
+                    obj.imp()
+                        .filter_stack
+                        .set_visible_child_name(if model.n_items() > 0 { "list" } else { "empty" });
 
-                if removed > 0 {
-                    obj.deselect_hidden_pods(model.upcast_ref());
+                    if removed > 0 {
+                        obj.deselect_hidden_pods(model.upcast_ref());
+                    }
                 }
-            }));
+            ));
 
             ACTIONS_SELECTION
                 .iter()
                 .for_each(|action_name| obj.action_set_enabled(action_name, false));
             value.connect_notify_local(
                 Some("num-selected"),
-                clone!(@weak obj => move |list, _| {
-                    ACTIONS_SELECTION
-                        .iter()
-                        .for_each(|action_name| {
+                clone!(
+                    #[weak]
+                    obj,
+                    move |list, _| {
+                        ACTIONS_SELECTION.iter().for_each(|action_name| {
                             obj.action_set_enabled(action_name, list.num_selected() > 0);
-                    });
-                }),
+                        });
+                    }
+                ),
             );
 
             self.pod_list.set(Some(value));
@@ -471,26 +488,34 @@ impl PodsPanel {
                 .map(|obj| obj.downcast_ref::<model::Pod>().unwrap())
                 .for_each(|pod| match pod.status() {
                     model::PodStatus::Paused => {
-                        pod.resume(clone!(@weak  self as obj => move |result| {
-                            if let Err(e) = result {
-                                utils::show_error_toast(
-                                    obj.upcast_ref(),
-                                    &gettext("Error on resuming pod"),
-                                    &e.to_string(),
-                                );
+                        pod.resume(clone!(
+                            #[weak(rename_to = obj)]
+                            self,
+                            move |result| {
+                                if let Err(e) = result {
+                                    utils::show_error_toast(
+                                        obj.upcast_ref(),
+                                        &gettext("Error on resuming pod"),
+                                        &e.to_string(),
+                                    );
+                                }
                             }
-                        }));
+                        ));
                     }
                     other if other != model::PodStatus::Running => {
-                        pod.start(clone!(@weak  self as obj => move |result| {
-                            if let Err(e) = result {
-                                utils::show_error_toast(
-                                    obj.upcast_ref(),
-                                    &gettext("Error on starting pod"),
-                                    &e.to_string(),
-                                );
+                        pod.start(clone!(
+                            #[weak(rename_to = obj)]
+                            self,
+                            move |result| {
+                                if let Err(e) = result {
+                                    utils::show_error_toast(
+                                        obj.upcast_ref(),
+                                        &gettext("Error on starting pod"),
+                                        &e.to_string(),
+                                    );
+                                }
                             }
-                        }));
+                        ));
                     }
                     _ => (),
                 });
@@ -507,19 +532,23 @@ impl PodsPanel {
                 .for_each(|pod| {
                     pod.stop(
                         force,
-                        clone!(@weak self as obj => move |result| {
-                            if let Err(e) = result {
-                                utils::show_error_toast(
-                                    obj.upcast_ref(),
-                                    &if force {
-                                        gettext("Error on killing pod")
-                                    } else {
-                                        gettext("Error on stopping pod")
-                                    },
-                                    &e.to_string(),
-                                );
+                        clone!(
+                            #[weak(rename_to = obj)]
+                            self,
+                            move |result| {
+                                if let Err(e) = result {
+                                    utils::show_error_toast(
+                                        obj.upcast_ref(),
+                                        &if force {
+                                            gettext("Error on killing pod")
+                                        } else {
+                                            gettext("Error on stopping pod")
+                                        },
+                                        &e.to_string(),
+                                    );
+                                }
                             }
-                        }),
+                        ),
                     );
                 });
             list.set_selection_mode(false);
@@ -533,15 +562,19 @@ impl PodsPanel {
                 .map(|obj| obj.downcast_ref::<model::Pod>().unwrap())
                 .filter(|pod| matches!(pod.status(), model::PodStatus::Running))
                 .for_each(|pod| {
-                    pod.pause(clone!(@weak self as obj => move |result| {
-                        if let Err(e) = result {
-                            utils::show_error_toast(
-                                obj.upcast_ref(),
-                                &gettext("Error on stopping pod"),
-                                &e.to_string(),
-                            );
+                    pod.pause(clone!(
+                        #[weak(rename_to = obj)]
+                        self,
+                        move |result| {
+                            if let Err(e) = result {
+                                utils::show_error_toast(
+                                    obj.upcast_ref(),
+                                    &gettext("Error on stopping pod"),
+                                    &e.to_string(),
+                                );
+                            }
                         }
-                    }));
+                    ));
                 });
             list.set_selection_mode(false);
         }
@@ -556,15 +589,19 @@ impl PodsPanel {
                 .for_each(|pod| {
                     pod.restart(
                         false,
-                        clone!(@weak self as obj => move |result| {
-                            if let Err(e) = result {
-                                utils::show_error_toast(
-                                    obj.upcast_ref(),
-                                    &gettext("Error on restarting pod"),
-                                    &e.to_string(),
-                                );
+                        clone!(
+                            #[weak(rename_to = obj)]
+                            self,
+                            move |result| {
+                                if let Err(e) = result {
+                                    utils::show_error_toast(
+                                        obj.upcast_ref(),
+                                        &gettext("Error on restarting pod"),
+                                        &e.to_string(),
+                                    );
+                                }
                             }
-                        }),
+                        ),
                     );
                 });
             list.set_selection_mode(false);
@@ -591,26 +628,36 @@ impl PodsPanel {
 
         dialog.connect_response(
             None,
-            clone!(@weak self as obj => move |_, response| if response == "delete" {
-                if let Some(list) = obj.pod_list() {
-                    list
-                        .selected_items()
-                        .iter().map(|obj| obj.downcast_ref::<model::Pod>().unwrap())
-                        .for_each(|pod|
-                    {
-                        pod.delete(true, clone!(@weak obj => move |result| {
-                            if let Err(e) = result {
-                                utils::show_error_toast(
-                                    obj.upcast_ref(),
-                                    &gettext("Error on deleting pod"),
-                                    &e.to_string(),
+            clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |_, response| if response == "delete" {
+                    if let Some(list) = obj.pod_list() {
+                        list.selected_items()
+                            .iter()
+                            .map(|obj| obj.downcast_ref::<model::Pod>().unwrap())
+                            .for_each(|pod| {
+                                pod.delete(
+                                    true,
+                                    clone!(
+                                        #[weak]
+                                        obj,
+                                        move |result| {
+                                            if let Err(e) = result {
+                                                utils::show_error_toast(
+                                                    obj.upcast_ref(),
+                                                    &gettext("Error on deleting pod"),
+                                                    &e.to_string(),
+                                                );
+                                            }
+                                        }
+                                    ),
                                 );
-                            }
-                        }));
-                    });
-                    list.set_selection_mode(false);
+                            });
+                        list.set_selection_mode(false);
+                    }
                 }
-            }),
+            ),
         );
 
         dialog.present(Some(self));

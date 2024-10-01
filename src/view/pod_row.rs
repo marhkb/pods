@@ -174,14 +174,18 @@ mod imp {
                     Some(container) => self.setup_ports(&container),
                     None => {
                         let handler_id_ref = Rc::new(RefCell::new(None));
-                        let handler_id = pod.connect_infra_container_notify(
-                            clone!(@weak obj, @strong handler_id_ref => move |pod| {
+                        let handler_id = pod.connect_infra_container_notify(clone!(
+                            #[weak]
+                            obj,
+                            #[strong]
+                            handler_id_ref,
+                            move |pod| {
                                 if let Some(container) = pod.infra_container() {
                                     pod.disconnect(handler_id_ref.take().unwrap());
                                     obj.imp().setup_ports(&container);
                                 }
-                            }),
-                        );
+                            }
+                        ));
                         handler_id_ref.set(Some(handler_id));
                     }
                 }
@@ -198,45 +202,46 @@ mod imp {
 
             self.ports_flow_box.bind_model(
                 Some(&container.ports()),
-                clone!(@weak obj => @default-panic, move |item| {
-                    let port_mapping =
-                        item.downcast_ref::<model::PortMapping>().unwrap();
+                clone!(
+                    #[weak]
+                    obj,
+                    #[upgrade_or_panic]
+                    move |item| {
+                        let port_mapping = item.downcast_ref::<model::PortMapping>().unwrap();
 
-                    let label = gtk::Label::builder()
-                        .css_classes([
-                            "status-badge-small",
-                            "numeric",
-                        ])
-                        .halign(gtk::Align::Center)
-                        .label(format!(
-                            "{}/{}",
-                            port_mapping.host_port(),
-                            port_mapping.protocol()
-                        ))
-                        .build();
+                        let label = gtk::Label::builder()
+                            .css_classes(["status-badge-small", "numeric"])
+                            .halign(gtk::Align::Center)
+                            .label(format!(
+                                "{}/{}",
+                                port_mapping.host_port(),
+                                port_mapping.protocol()
+                            ))
+                            .build();
 
-                    let css_classes = utils::css_classes(label.upcast_ref());
-                    super::PodRow::this_expression("pod")
-                        .chain_property::<model::Pod>("status")
-                        .chain_closure::<Vec<String>>(closure!(
-                            |_: super::PodRow, status: model::PodStatus| {
-                                css_classes
-                                    .iter()
-                                    .cloned()
-                                    .chain(Some(String::from(
-                                        super::super::pod_status_css_class(status)
-                                    )))
-                                    .collect::<Vec<_>>()
-                            }
-                        ))
-                        .bind(&label, "css-classes", Some(&obj));
+                        let css_classes = utils::css_classes(label.upcast_ref());
+                        super::PodRow::this_expression("pod")
+                            .chain_property::<model::Pod>("status")
+                            .chain_closure::<Vec<String>>(closure!(
+                                |_: super::PodRow, status: model::PodStatus| {
+                                    css_classes
+                                        .iter()
+                                        .cloned()
+                                        .chain(Some(String::from(
+                                            super::super::pod_status_css_class(status),
+                                        )))
+                                        .collect::<Vec<_>>()
+                                }
+                            ))
+                            .bind(&label, "css-classes", Some(&obj));
 
-                    gtk::FlowBoxChild::builder()
-                        .halign(gtk::Align::Start)
-                        .child(&label)
-                        .build()
-                        .upcast()
-                }),
+                        gtk::FlowBoxChild::builder()
+                            .halign(gtk::Align::Start)
+                            .child(&label)
+                            .build()
+                            .upcast()
+                    }
+                ),
             );
         }
     }

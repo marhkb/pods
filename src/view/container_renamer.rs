@@ -80,12 +80,16 @@ mod imp {
 
             let widget = &*self.obj();
 
-            glib::idle_add_local(
-                clone!(@weak widget => @default-return glib::ControlFlow::Break, move || {
+            glib::idle_add_local(clone!(
+                #[weak]
+                widget,
+                #[upgrade_or]
+                glib::ControlFlow::Break,
+                move || {
                     widget.imp().entry_row.grab_focus();
                     glib::ControlFlow::Break
-                }),
-            );
+                }
+            ));
         }
     }
 }

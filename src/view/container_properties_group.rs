@@ -141,107 +141,116 @@ mod imp {
 
             port_bindings_expr.watch(
                 Some(obj),
-                clone!(@weak obj, @to-owned port_bindings_expr => move || {
-                    let imp = obj.imp();
+                clone!(
+                    #[weak]
+                    obj,
+                    #[to_owned]
+                    port_bindings_expr,
+                    move || {
+                        let imp = obj.imp();
 
-                    imp.port_bindings_label.set_label("");
-                    utils::ChildIter::from(imp.port_bindings_row.upcast_ref())
-                        .filter(|child| child.is::<gtk::ListBoxRow>())
-                        .for_each(|child| imp.port_bindings_row.remove(&child));
+                        imp.port_bindings_label.set_label("");
+                        utils::ChildIter::from(imp.port_bindings_row.upcast_ref())
+                            .filter(|child| child.is::<gtk::ListBoxRow>())
+                            .for_each(|child| imp.port_bindings_row.remove(&child));
 
-                    let port_bindings: Option<model::BoxedPortBindings> =
-                        port_bindings_expr.evaluate_as(Some(&obj));
+                        let port_bindings: Option<model::BoxedPortBindings> =
+                            port_bindings_expr.evaluate_as(Some(&obj));
 
-                    if let Some(port_bindings) = port_bindings {
-                        let client = obj
-                            .container()
-                            .unwrap()
-                            .container_list()
-                            .unwrap()
-                            .client()
-                            .unwrap();
-                        let connection = client.connection();
+                        if let Some(port_bindings) = port_bindings {
+                            let client = obj
+                                .container()
+                                .unwrap()
+                                .container_list()
+                                .unwrap()
+                                .client()
+                                .unwrap();
+                            let connection = client.connection();
 
-                        imp.port_bindings_label.set_label(&port_bindings.len().to_string());
+                            imp.port_bindings_label
+                                .set_label(&port_bindings.len().to_string());
 
-                        port_bindings
-                            .iter()
-                            .flat_map(|(container_port, hosts)| {
-                                hosts
-                                    .as_deref()
-                                    .unwrap_or_default()
-                                    .iter()
-                                    .map(move |host| (container_port, host))
-                            })
-                            .map(|(container_port, host)| {
-                                let host_ip = host.host_ip.as_deref().unwrap_or("");
-                                let host = format!(
-                                    "{}:{}",
-                                    if host_ip.is_empty() {
-                                        if connection.is_remote() {
-                                            let url = connection.url();
-                                            let host_with_port = url.split_once("://").unwrap().1;
+                            port_bindings
+                                .iter()
+                                .flat_map(|(container_port, hosts)| {
+                                    hosts
+                                        .as_deref()
+                                        .unwrap_or_default()
+                                        .iter()
+                                        .map(move |host| (container_port, host))
+                                })
+                                .map(|(container_port, host)| {
+                                    let host_ip = host.host_ip.as_deref().unwrap_or("");
+                                    let host = format!(
+                                        "{}:{}",
+                                        if host_ip.is_empty() {
+                                            if connection.is_remote() {
+                                                let url = connection.url();
+                                                let host_with_port =
+                                                    url.split_once("://").unwrap().1;
 
-                                            Cow::Owned(
-                                                host_with_port
-                                                    .split_once(':')
-                                                    .map(|(host, _)| host)
-                                                    .unwrap_or(host_with_port)
-                                                    .to_string()
-                                            )
+                                                Cow::Owned(
+                                                    host_with_port
+                                                        .split_once(':')
+                                                        .map(|(host, _)| host)
+                                                        .unwrap_or(host_with_port)
+                                                        .to_string(),
+                                                )
+                                            } else {
+                                                Cow::Borrowed("127.0.0.1")
+                                            }
                                         } else {
-                                            Cow::Borrowed("127.0.0.1")
-                                        }
-                                    } else {
-                                        Cow::Borrowed(host_ip)
-                                    },
-                                    host.host_port.as_deref().unwrap_or("0")
-                                );
+                                            Cow::Borrowed(host_ip)
+                                        },
+                                        host.host_port.as_deref().unwrap_or("0")
+                                    );
 
-                                let box_ = gtk::CenterBox::builder()
-                                    .margin_top(12)
-                                    .margin_end(12)
-                                    .margin_bottom(12)
-                                    .margin_start(12)
-                                    .build();
-
-                                box_.set_start_widget(Some(
-                                    &gtk::Label::builder()
-                                        .label(format!("<a href='http://{host}'>{host}</a>"))
-                                        .hexpand(true)
-                                        .selectable(true)
-                                        .use_markup(true)
-                                        .wrap(true)
-                                        .wrap_mode(pango::WrapMode::WordChar)
-                                        .xalign(0.0)
-                                        .build(),
-                                ));
-                                box_.set_center_widget(Some(
-                                    &gtk::Image::builder()
-                                        .icon_name("arrow1-right-symbolic")
-                                        .margin_start(15)
+                                    let box_ = gtk::CenterBox::builder()
+                                        .margin_top(12)
                                         .margin_end(12)
-                                        .build()
-                                ));
-                                box_.set_end_widget(Some(&gtk::Label::builder()
-                                    .label(container_port)
-                                    .css_classes(vec!["dim-label".to_string()])
-                                    .hexpand(true)
-                                    .selectable(true)
-                                    .wrap(true)
-                                    .wrap_mode(pango::WrapMode::WordChar)
-                                    .xalign(1.0)
-                                    .build()
-                                ));
+                                        .margin_bottom(12)
+                                        .margin_start(12)
+                                        .build();
 
-                                gtk::ListBoxRow::builder()
-                                    .activatable(false)
-                                    .child(&box_)
-                                    .build()
-                            })
-                            .for_each(|row| imp.port_bindings_row.add_row(&row));
+                                    box_.set_start_widget(Some(
+                                        &gtk::Label::builder()
+                                            .label(format!("<a href='http://{host}'>{host}</a>"))
+                                            .hexpand(true)
+                                            .selectable(true)
+                                            .use_markup(true)
+                                            .wrap(true)
+                                            .wrap_mode(pango::WrapMode::WordChar)
+                                            .xalign(0.0)
+                                            .build(),
+                                    ));
+                                    box_.set_center_widget(Some(
+                                        &gtk::Image::builder()
+                                            .icon_name("arrow1-right-symbolic")
+                                            .margin_start(15)
+                                            .margin_end(12)
+                                            .build(),
+                                    ));
+                                    box_.set_end_widget(Some(
+                                        &gtk::Label::builder()
+                                            .label(container_port)
+                                            .css_classes(vec!["dim-label".to_string()])
+                                            .hexpand(true)
+                                            .selectable(true)
+                                            .wrap(true)
+                                            .wrap_mode(pango::WrapMode::WordChar)
+                                            .xalign(1.0)
+                                            .build(),
+                                    ));
+
+                                    gtk::ListBoxRow::builder()
+                                        .activatable(false)
+                                        .child(&box_)
+                                        .build()
+                                })
+                                .for_each(|row| imp.port_bindings_row.add_row(&row));
+                        }
                     }
-                }),
+                ),
             );
 
             #[rustfmt::skip]

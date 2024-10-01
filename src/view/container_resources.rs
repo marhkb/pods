@@ -238,11 +238,19 @@ impl ContainerResources {
 
         percent_expr.watch(
             Some(self),
-            clone!(@weak self as obj, @weak progress_bar, @strong percent_expr => move || {
-                animation.set_value_from(progress_bar.fraction());
-                animation.set_value_to(percent_expr.evaluate_as(Some(&obj)).unwrap_or(0.0));
-                animation.play();
-            }),
+            clone!(
+                #[weak(rename_to = obj)]
+                self,
+                #[weak]
+                progress_bar,
+                #[strong]
+                percent_expr,
+                move || {
+                    animation.set_value_from(progress_bar.fraction());
+                    animation.set_value_to(percent_expr.evaluate_as(Some(&obj)).unwrap_or(0.0));
+                    animation.play();
+                }
+            ),
         );
 
         let classes = utils::css_classes(progress_bar.upcast_ref());

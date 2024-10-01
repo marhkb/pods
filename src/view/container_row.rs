@@ -230,11 +230,19 @@ impl ContainerRow {
 
         perc_expr.watch(
             Some(self),
-            clone!(@weak self as obj, @weak progress_bar, @strong perc_expr => move || {
-                animation.set_value_from(progress_bar.percentage());
-                animation.set_value_to(perc_expr.evaluate_as(Some(&obj)).unwrap_or(0.0));
-                animation.play();
-            }),
+            clone!(
+                #[weak(rename_to = obj)]
+                self,
+                #[weak]
+                progress_bar,
+                #[strong]
+                perc_expr,
+                move || {
+                    animation.set_value_from(progress_bar.percentage());
+                    animation.set_value_to(perc_expr.evaluate_as(Some(&obj)).unwrap_or(0.0));
+                    animation.play();
+                }
+            ),
         );
     }
 

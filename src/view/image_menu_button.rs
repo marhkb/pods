@@ -83,12 +83,18 @@ mod imp {
 
             to_be_deleted_expr.watch(
                 Some(obj),
-                clone!(@weak obj => move || {
-                    obj.action_set_enabled(
-                        ACTION_DELETE_IMAGE,
-                        obj.image().map(|image| !image.to_be_deleted()).unwrap_or(false)
-                    );
-                }),
+                clone!(
+                    #[weak]
+                    obj,
+                    move || {
+                        obj.action_set_enabled(
+                            ACTION_DELETE_IMAGE,
+                            obj.image()
+                                .map(|image| !image.to_be_deleted())
+                                .unwrap_or(false),
+                        );
+                    }
+                ),
             );
         }
 

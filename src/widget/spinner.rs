@@ -83,10 +83,14 @@ mod imp {
 
             let obj = &*self.obj();
 
-            let target = adw::CallbackAnimationTarget::new(clone!(@weak obj => move |value| {
-                obj.imp().animation_value.set(value as f32);
-                obj.queue_draw();
-            }));
+            let target = adw::CallbackAnimationTarget::new(clone!(
+                #[weak]
+                obj,
+                move |value| {
+                    obj.imp().animation_value.set(value as f32);
+                    obj.queue_draw();
+                }
+            ));
             let animation = adw::TimedAnimation::builder()
                 .widget(obj)
                 .target(&target)
@@ -99,9 +103,16 @@ mod imp {
             self.animation.set(animation).unwrap();
 
             let adw_style_manager = adw::StyleManager::default();
-            adw_style_manager
-                .connect_high_contrast_notify(clone!(@weak obj => move |_| obj.queue_draw()));
-            adw_style_manager.connect_dark_notify(clone!(@weak obj => move |_| obj.queue_draw()));
+            adw_style_manager.connect_high_contrast_notify(clone!(
+                #[weak]
+                obj,
+                move |_| obj.queue_draw()
+            ));
+            adw_style_manager.connect_dark_notify(clone!(
+                #[weak]
+                obj,
+                move |_| obj.queue_draw()
+            ));
         }
 
         fn dispose(&self) {

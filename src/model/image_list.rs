@@ -229,57 +229,61 @@ impl ImageList {
                         .await
                 }
             },
-            clone!(@weak self as obj => move |result| {
-                match result {
-                    Ok(summaries) => {
-                        let to_remove = obj
-                            .imp()
-                            .list
-                            .borrow()
-                            .keys()
-                            .filter(|id| {
-                                !summaries
-                                    .iter()
-                                    .any(|summary| summary.id.as_ref() == Some(id))
-                            })
-                            .cloned()
-                            .collect::<Vec<_>>();
-                        to_remove.iter().for_each(|id| {
-                            obj.remove_image(id);
-                        });
+            clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |result| {
+                    match result {
+                        Ok(summaries) => {
+                            let to_remove = obj
+                                .imp()
+                                .list
+                                .borrow()
+                                .keys()
+                                .filter(|id| {
+                                    !summaries
+                                        .iter()
+                                        .any(|summary| summary.id.as_ref() == Some(id))
+                                })
+                                .cloned()
+                                .collect::<Vec<_>>();
+                            to_remove.iter().for_each(|id| {
+                                obj.remove_image(id);
+                            });
 
-                        summaries.iter().for_each(|summary| {
-                            let index = obj.len();
+                            summaries.iter().for_each(|summary| {
+                                let index = obj.len();
 
-                            let mut list = obj.imp().list.borrow_mut();
+                                let mut list = obj.imp().list.borrow_mut();
 
-                            match list.entry(summary.id.as_ref().unwrap().to_owned()) {
-                                Entry::Vacant(e) => {
-                                    let image = model::Image::new(&obj, summary);
-                                    e.insert(image.clone());
+                                match list.entry(summary.id.as_ref().unwrap().to_owned()) {
+                                    Entry::Vacant(e) => {
+                                        let image = model::Image::new(&obj, summary);
+                                        e.insert(image.clone());
 
-                                    drop(list);
+                                        drop(list);
 
-                                    obj.items_changed(index, 0, 1);
-                                    obj.image_added(&image);
+                                        obj.items_changed(index, 0, 1);
+                                        obj.image_added(&image);
+                                    }
+                                    Entry::Occupied(e) => {
+                                        let image = e.get().to_owned();
+                                        drop(list);
+                                        image.update(summary);
+                                    }
                                 }
-                                Entry::Occupied(e) => {
-                                    let image = e.get().to_owned();
-                                    drop(list);
-                                    image.update(summary);
-                                }
-                            }
-                        });
+                            });
+                        }
+                        Err(e) => {
+                            log::error!("Error on retrieving images: {}", e);
+                            err_op(super::RefreshError);
+                        }
                     }
-                    Err(e) => {
-                        log::error!("Error on retrieving images: {}", e);
-                        err_op(super::RefreshError);
-                    }
+                    let imp = obj.imp();
+                    imp.set_listing(false);
+                    imp.set_as_initialized();
                 }
-                let imp = obj.imp();
-                imp.set_listing(false);
-                imp.set_as_initialized();
-            }),
+            ),
         );
     }
 
@@ -326,7 +330,11 @@ impl ImageList {
         self.notify_num_images();
         image.connect_notify_local(
             Some("repo-tags"),
-            clone!(@weak self as obj => move |_, _| obj.notify_num_images()),
+            clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |_, _| obj.notify_num_images()
+            ),
         );
         self.emit_by_name::<()>("image-added", &[image]);
     }

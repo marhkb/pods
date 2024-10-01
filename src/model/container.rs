@@ -332,13 +332,17 @@ impl Container {
         F: Fn(Result<model::Container, podman::Error>) + 'static,
     {
         if let Some(observers) = self.imp().inspection_observers.borrow().as_ref() {
-            observers.add(clone!(@weak self as obj => move |result| match result {
-                Ok(_) => op(Ok(obj)),
-                Err(e) => {
-                    log::error!("Error on inspecting container '{}': {e}", obj.id());
-                    op(Err(e));
+            observers.add(clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |result| match result {
+                    Ok(_) => op(Ok(obj)),
+                    Err(e) => {
+                        log::error!("Error on inspecting container '{}': {e}", obj.id());
+                        op(Err(e));
+                    }
                 }
-            }));
+            ));
 
             return;
         }
@@ -348,22 +352,26 @@ impl Container {
                 let container = self.api().unwrap();
                 async move { container.inspect().await }
             },
-            clone!(@weak self as obj => move |result| {
-                let imp = obj.imp();
+            clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |result| {
+                    let imp = obj.imp();
 
-                imp.inspection_observers.replace(None);
+                    imp.inspection_observers.replace(None);
 
-                match result {
-                    Ok(data) => {
-                        imp.set_data(data);
-                        op(Ok(obj));
-                    },
-                    Err(e) => {
-                        log::error!("Error on inspecting container '{}': {e}", obj.id());
-                        op(Err(e));
+                    match result {
+                        Ok(data) => {
+                            imp.set_data(data);
+                            op(Ok(obj));
+                        }
+                        Err(e) => {
+                            log::error!("Error on inspecting container '{}': {e}", obj.id());
+                            op(Err(e));
+                        }
                     }
                 }
-            }),
+            ),
         );
 
         self.imp().inspection_observers.replace(Some(observers));
@@ -387,24 +395,22 @@ impl Container {
 
             utils::do_async(
                 async move { fut_op(container).await },
-                clone!(@weak self as obj => move |result| {
-                    match &result {
-                        Ok(_) => {
-                            log::info!(
-                                "Container <{}>: {name} has finished",
-                                obj.id()
-                            );
+                clone!(
+                    #[weak(rename_to = obj)]
+                    self,
+                    move |result| {
+                        match &result {
+                            Ok(_) => {
+                                log::info!("Container <{}>: {name} has finished", obj.id());
+                            }
+                            Err(e) => {
+                                log::error!("Container <{}>: Error while {name}: {e}", obj.id(),);
+                                obj.set_action_ongoing(false);
+                            }
                         }
-                        Err(e) => {
-                            log::error!(
-                                "Container <{}>: Error while {name}: {e}",
-                                obj.id(),
-                            );
-                            obj.set_action_ongoing(false);
-                        }
+                        res_op(result)
                     }
-                    res_op(result)
-                }),
+                ),
             );
         }
     }
@@ -509,12 +515,16 @@ impl Container {
                     )
                     .await
             },
-            clone!(@weak self as obj => move |result| {
-                if result.is_err() {
-                    obj.imp().set_to_be_deleted(false);
+            clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |result| {
+                    if result.is_err() {
+                        obj.imp().set_to_be_deleted(false);
+                    }
+                    op(result)
                 }
-                op(result)
-            }),
+            ),
         );
     }
 

@@ -81,22 +81,30 @@ fn main() {
 
             multi_log::MultiLogger::init(loggers, log_level).unwrap();
 
-            glib::log_set_writer_func(clone!(@strong log_level => move |glib_log_level, fields| {
-                if (glib_log_level == glib::LogLevel::Debug && log_level >= log::Level::Debug )
-                    || (glib_log_level == glib::LogLevel::Info && log_level >= log::Level::Info)
-                    || (glib_log_level == glib::LogLevel::Message && log_level >= log::Level::Info)
-                    || (glib_log_level == glib::LogLevel::Warning && log_level >= log::Level::Warn)
-                    || (glib_log_level == glib::LogLevel::Error && log_level >= log::Level::Error)
-                    || (glib_log_level == glib::LogLevel::Critical && log_level >= log::Level::Error)
-                {
-                    glib::log_writer_standard_streams(glib_log_level, fields);
-                    glib::log_writer_journald(glib_log_level, fields);
+            glib::log_set_writer_func(clone!(
+                #[strong]
+                log_level,
+                move |glib_log_level, fields| {
+                    if (glib_log_level == glib::LogLevel::Debug && log_level >= log::Level::Debug)
+                        || (glib_log_level == glib::LogLevel::Info && log_level >= log::Level::Info)
+                        || (glib_log_level == glib::LogLevel::Message
+                            && log_level >= log::Level::Info)
+                        || (glib_log_level == glib::LogLevel::Warning
+                            && log_level >= log::Level::Warn)
+                        || (glib_log_level == glib::LogLevel::Error
+                            && log_level >= log::Level::Error)
+                        || (glib_log_level == glib::LogLevel::Critical
+                            && log_level >= log::Level::Error)
+                    {
+                        glib::log_writer_standard_streams(glib_log_level, fields);
+                        glib::log_writer_journald(glib_log_level, fields);
 
-                    glib::LogWriterOutput::Handled
-                } else {
-                    glib::LogWriterOutput::Unhandled
+                        glib::LogWriterOutput::Handled
+                    } else {
+                        glib::LogWriterOutput::Unhandled
+                    }
                 }
-            }));
+            ));
 
             adw::init().expect("Failed to init GTK/libadwaita");
             sourceview5::init();

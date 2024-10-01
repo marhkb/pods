@@ -211,26 +211,34 @@ mod imp {
                 let expr_watches = Rc::new(RefCell::new(HashMap::new()));
 
                 let factory = gtk::SignalListItemFactory::new();
-                factory.connect_setup(clone!(@weak expr_watches => move |_, list_item| {
-                    let label = gtk::Label::builder().halign(halign).build();
-                    if matches!(
-                        property_type,
-                        PropertyType::Integer
-                            | PropertyType::Float
-                            | PropertyType::Elapsed
-                            | PropertyType::CpuTime
-                    ) {
-                        label.add_css_class("numeric");
-                    }
-                    list_item
-                        .downcast_ref::<gtk::ListItem>()
-                        .unwrap()
-                        .set_child(Some(&label));
+                factory.connect_setup(clone!(
+                    #[weak]
+                    expr_watches,
+                    move |_, list_item| {
+                        let label = gtk::Label::builder().halign(halign).build();
+                        if matches!(
+                            property_type,
+                            PropertyType::Integer
+                                | PropertyType::Float
+                                | PropertyType::Elapsed
+                                | PropertyType::CpuTime
+                        ) {
+                            label.add_css_class("numeric");
+                        }
+                        list_item
+                            .downcast_ref::<gtk::ListItem>()
+                            .unwrap()
+                            .set_child(Some(&label));
 
-                    expr_watches.borrow_mut().insert(label, None);
-                }));
-                factory.connect_bind(
-                    clone!(@strong display_expr, @strong expr_watches => move |_, list_item| {
+                        expr_watches.borrow_mut().insert(label, None);
+                    }
+                ));
+                factory.connect_bind(clone!(
+                    #[strong]
+                    display_expr,
+                    #[strong]
+                    expr_watches,
+                    move |_, list_item| {
                         let list_item = list_item.downcast_ref::<gtk::ListItem>().unwrap();
 
                         let process = list_item
@@ -242,24 +250,28 @@ mod imp {
                         let label = list_item.child().and_downcast::<gtk::Label>().unwrap();
                         let expr_watch = display_expr.bind(&label, "label", Some(&process));
                         *expr_watches.borrow_mut().get_mut(&label).unwrap() = Some(expr_watch);
-                    }),
-                );
+                    }
+                ));
 
-                factory.connect_unbind(clone!(@weak expr_watches => move |_, list_item| {
-                    let label = list_item
-                        .downcast_ref::<gtk::ListItem>()
-                        .unwrap()
-                        .child()
-                        .and_downcast::<gtk::Label>()
-                        .unwrap();
-                    expr_watches
-                        .borrow()
-                        .get(&label)
-                        .unwrap()
-                        .as_ref()
-                        .unwrap()
-                        .unwatch();
-                }));
+                factory.connect_unbind(clone!(
+                    #[weak]
+                    expr_watches,
+                    move |_, list_item| {
+                        let label = list_item
+                            .downcast_ref::<gtk::ListItem>()
+                            .unwrap()
+                            .child()
+                            .and_downcast::<gtk::Label>()
+                            .unwrap();
+                        expr_watches
+                            .borrow()
+                            .get(&label)
+                            .unwrap()
+                            .as_ref()
+                            .unwrap()
+                            .unwatch();
+                    }
+                ));
 
                 factory.connect_teardown(move |_, list_item| {
                     let label = list_item
@@ -305,28 +317,34 @@ mod imp {
                 .unwrap();
 
             let sorter = self.column_view.sorter().unwrap();
-            model.connect_updated(clone!(@weak sorter => move |_| {
-                sorter.changed(gtk::SorterChange::Different);
-            }));
+            model.connect_updated(clone!(
+                #[weak]
+                sorter,
+                move |_| {
+                    sorter.changed(gtk::SorterChange::Different);
+                }
+            ));
 
-            let filter =
-                gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
+            let filter = gtk::CustomFilter::new(clone!(
+                #[weak]
+                obj,
+                #[upgrade_or]
+                false,
+                move |item| {
                     let term = &*obj.imp().search_term.borrow();
 
                     if term.is_empty() {
                         true
                     } else {
                         let process = item.downcast_ref::<model::Process>().unwrap();
-                        process
-                            .user().to_lowercase().contains(term)
-                            || process
-                                .tty().to_lowercase().contains(term)
-                            || process
-                                .command().to_lowercase().contains(term)
+                        process.user().to_lowercase().contains(term)
+                            || process.tty().to_lowercase().contains(term)
+                            || process.command().to_lowercase().contains(term)
                             || process.pid().to_string().contains(term)
                             || process.ppid().to_string().contains(term)
                     }
-                }));
+                }
+            ));
             let filter_list_model = gtk::FilterListModel::new(Some(model), Some(filter.clone()));
             self.filter.set(filter.upcast()).unwrap();
 
@@ -345,19 +363,24 @@ mod imp {
                     action_bar.set_revealed(false);
                     self.toolbar_view.add_bottom_bar(&action_bar);
 
-                    selection_model.connect_items_changed(
-                        clone!(@weak action_bar => move |model, _, removed, _| {
+                    selection_model.connect_items_changed(clone!(
+                        #[weak]
+                        action_bar,
+                        move |model, _, removed, _| {
                             if removed > 0 {
                                 action_bar.set_revealed(model.selection().size() > 0);
                             }
-                        }),
-                    );
-                    selection_model.connect_selection_changed(
-                        clone!(@weak action_bar => move |model, position, _| {
-                            action_bar
-                                .set_revealed(model.is_selected(position) || model.selection().size() > 0);
-                        }),
-                    );
+                        }
+                    ));
+                    selection_model.connect_selection_changed(clone!(
+                        #[weak]
+                        action_bar,
+                        move |model, position, _| {
+                            action_bar.set_revealed(
+                                model.is_selected(position) || model.selection().size() > 0,
+                            );
+                        }
+                    ));
 
                     self.action_bar.set(action_bar).unwrap();
                 }
@@ -501,13 +524,17 @@ impl TopPage {
                                 Err(err_output)
                             }
                         },
-                        clone!(@weak self as obj => move |result| if let Err(e) = result {
-                            utils::show_error_toast(
-                                obj.upcast_ref(),
-                                &gettext("Error"),
-                                e.trim()
-                            );
-                        }),
+                        clone!(
+                            #[weak(rename_to = obj)]
+                            self,
+                            move |result| if let Err(e) = result {
+                                utils::show_error_toast(
+                                    obj.upcast_ref(),
+                                    &gettext("Error"),
+                                    e.trim(),
+                                );
+                            }
+                        ),
                     )
                 }
                 None => utils::show_error_toast(

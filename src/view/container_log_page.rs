@@ -234,9 +234,13 @@ mod imp {
 
             let adw_style_manager = adw::StyleManager::default();
             obj.on_notify_dark(&adw_style_manager);
-            adw_style_manager.connect_dark_notify(clone!(@weak obj => move |style_manager| {
-                obj.on_notify_dark(style_manager);
-            }));
+            adw_style_manager.connect_dark_notify(clone!(
+                #[weak]
+                obj,
+                move |style_manager| {
+                    obj.on_notify_dark(style_manager);
+                }
+            ));
 
             <widget::ScalableTextView as ViewExt>::gutter(
                 &*self.scalable_text_view,
@@ -260,15 +264,23 @@ mod imp {
 
             let adj = self.scrolled_window.vadjustment();
             obj.on_adjustment_changed(&adj);
-            adj.connect_value_changed(clone!(@weak obj => move |adj| {
-                obj.on_adjustment_changed(adj);
-            }));
-
-            adj.connect_upper_notify(clone!(@weak obj => move |_| {
-                if obj.sticky() || obj.imp().is_auto_scrolling.get() {
-                    obj.scroll_down();
+            adj.connect_value_changed(clone!(
+                #[weak]
+                obj,
+                move |adj| {
+                    obj.on_adjustment_changed(adj);
                 }
-            }));
+            ));
+
+            adj.connect_upper_notify(clone!(
+                #[weak]
+                obj,
+                move |_| {
+                    if obj.sticky() || obj.imp().is_auto_scrolling.get() {
+                        obj.scroll_down();
+                    }
+                }
+            ));
 
             Self::Type::this_expression("container")
                 .chain_property::<model::Container>("status")
@@ -280,11 +292,15 @@ mod imp {
             if let Some(container) = obj.container() {
                 container.connect_notify_local(
                     Some("status"),
-                    clone!(@weak obj => move |container, _| {
-                        if container.status() == model::ContainerStatus::Running {
-                            obj.follow_log();
+                    clone!(
+                        #[weak]
+                        obj,
+                        move |container, _| {
+                            if container.status() == model::ContainerStatus::Running {
+                                obj.follow_log();
+                            }
                         }
-                    }),
+                    ),
                 );
             }
 
@@ -383,9 +399,13 @@ impl ContainerLogPage {
         let imp = self.imp();
 
         imp.is_auto_scrolling.set(true);
-        glib::idle_add_local_once(clone!(@weak self as obj => move || {
-            obj.imp().scrolled_window.vadjustment().set_value(f64::MAX);
-        }));
+        glib::idle_add_local_once(clone!(
+            #[weak(rename_to = obj)]
+            self,
+            move || {
+                obj.imp().scrolled_window.vadjustment().set_value(f64::MAX);
+            }
+        ));
     }
 
     fn on_adjustment_changed(&self, adj: &gtk::Adjustment) {
@@ -415,14 +435,24 @@ impl ContainerLogPage {
                         .logs(&basic_opts_builder(false, true).tail("512").build())
                         .boxed()
                 },
-                clone!(@weak self as obj => @default-return glib::ControlFlow::Break, move |result| {
-                    obj.imp().stack.set_visible_child_name("loaded");
-                    obj.append_line(result, &mut perform)
-                }),
-                clone!(@weak self as obj => move || {
-                    obj.imp().stack.set_visible_child_name("loaded");
-                    obj.follow_log();
-                }),
+                clone!(
+                    #[weak(rename_to = obj)]
+                    self,
+                    #[upgrade_or]
+                    glib::ControlFlow::Break,
+                    move |result| {
+                        obj.imp().stack.set_visible_child_name("loaded");
+                        obj.append_line(result, &mut perform)
+                    }
+                ),
+                clone!(
+                    #[weak(rename_to = obj)]
+                    self,
+                    move || {
+                        obj.imp().stack.set_visible_child_name("loaded");
+                        obj.follow_log();
+                    }
+                ),
             );
         }
     }
@@ -451,14 +481,20 @@ impl ContainerLogPage {
             utils::run_stream(
                 container,
                 move |container| container.logs(&opts.build()).boxed(),
-                clone!(@weak self as obj => @default-return glib::ControlFlow::Break, move |result: podman::Result<podman::conn::TtyChunk>| {
-                    if skip.load(Ordering::Relaxed) == 0 {
-                        obj.append_line(result, &mut perform)
-                    } else {
-                        skip.fetch_sub(1, Ordering::Relaxed);
-                        glib::ControlFlow::Continue
+                clone!(
+                    #[weak(rename_to = obj)]
+                    self,
+                    #[upgrade_or]
+                    glib::ControlFlow::Break,
+                    move |result: podman::Result<podman::conn::TtyChunk>| {
+                        if skip.load(Ordering::Relaxed) == 0 {
+                            obj.append_line(result, &mut perform)
+                        } else {
+                            skip.fetch_sub(1, Ordering::Relaxed);
+                            glib::ControlFlow::Continue
+                        }
                     }
-                }),
+                ),
             );
         }
     }
@@ -539,28 +575,42 @@ impl ContainerLogPage {
                                     .logs(&basic_opts_builder(false, true).until(until).build())
                                     .boxed()
                             },
-                            clone!(@weak self as obj => @default-return glib::ControlFlow::Break, move |result| {
-                                let imp = obj.imp();
-                                imp.fetch_lines_state.set(FetchLinesState::Fetching);
+                            clone!(
+                                #[weak(rename_to = obj)]
+                                self,
+                                #[upgrade_or]
+                                glib::ControlFlow::Break,
+                                move |result| {
+                                    let imp = obj.imp();
+                                    imp.fetch_lines_state.set(FetchLinesState::Fetching);
 
-                                match result {
-                                    Ok(line) => {
-                                        imp.fetched_lines.borrow_mut().push_back(Vec::from(line));
-                                        glib::ControlFlow::Continue
-                                    }
-                                    Err(e) => {
-                                        log::warn!("Stopping container log stream due to error: {e}");
-                                        glib::ControlFlow::Break
+                                    match result {
+                                        Ok(line) => {
+                                            imp.fetched_lines
+                                                .borrow_mut()
+                                                .push_back(Vec::from(line));
+                                            glib::ControlFlow::Continue
+                                        }
+                                        Err(e) => {
+                                            log::warn!(
+                                                "Stopping container log stream due to error: {e}"
+                                            );
+                                            glib::ControlFlow::Break
+                                        }
                                     }
                                 }
-                            }),
-                            clone!(@weak self as obj => move || {
-                                let imp = obj.imp();
-                                imp.lines_loading_revealer.set_reveal_child(false);
-                                imp.fetch_lines_state.set(FetchLinesState::Finished);
+                            ),
+                            clone!(
+                                #[weak(rename_to = obj)]
+                                self,
+                                move || {
+                                    let imp = obj.imp();
+                                    imp.lines_loading_revealer.set_reveal_child(false);
+                                    imp.fetch_lines_state.set(FetchLinesState::Finished);
 
-                                obj.move_lines_to_buffer();
-                            }),
+                                    obj.move_lines_to_buffer();
+                                }
+                            ),
                         );
                     }
                 }
@@ -620,78 +670,92 @@ impl ContainerLogPage {
             utils::show_save_file_dialog(
                 request,
                 self.upcast_ref(),
-                clone!(@weak self as obj => move |files| {
-                    obj.action_set_enabled(ACTION_SAVE_TO_FILE, false);
+                clone!(
+                    #[weak(rename_to = obj)]
+                    self,
+                    move |files| {
+                        obj.action_set_enabled(ACTION_SAVE_TO_FILE, false);
 
-                    let file = gio::File::for_uri(files.uris()[0].as_str());
+                        let file = gio::File::for_uri(files.uris()[0].as_str());
 
-                    if let Some(path) = file.path() {
-                        let file = std::fs::OpenOptions::new()
-                            .write(true)
-                            .create(true)
-                            .truncate(true)
-                            .open(path)
-                            .unwrap();
+                        if let Some(path) = file.path() {
+                            let file = std::fs::OpenOptions::new()
+                                .write(true)
+                                .create(true)
+                                .truncate(true)
+                                .open(path)
+                                .unwrap();
 
-                        let mut writer = BufWriter::new(file);
-                        let mut perform = PlainTextPerform::default();
+                            let mut writer = BufWriter::new(file);
+                            let mut perform = PlainTextPerform::default();
 
-                        let timestamps = files.choices()[0].1 == "true";
+                            let timestamps = files.choices()[0].1 == "true";
 
-                        utils::run_stream_with_finish_handler(
-                            container.api().unwrap(),
-                            move |container| {
-                                container
-                                    .logs(&basic_opts_builder(false, timestamps).build())
-                                    .boxed()
-                            },
-                            clone!(
-                                @weak obj => @default-return glib::ControlFlow::Break,
-                                move |result: podman::Result<podman::conn::TtyChunk>|
-                            {
-                                match result.map(Vec::from) {
-                                    Ok(line) => {
-                                        perform.decode(&line);
+                            utils::run_stream_with_finish_handler(
+                                container.api().unwrap(),
+                                move |container| {
+                                    container
+                                        .logs(&basic_opts_builder(false, timestamps).build())
+                                        .boxed()
+                                },
+                                clone!(
+                                    #[weak]
+                                    obj,
+                                    #[upgrade_or]
+                                    glib::ControlFlow::Break,
+                                    move |result: podman::Result<podman::conn::TtyChunk>| {
+                                        match result.map(Vec::from) {
+                                            Ok(line) => {
+                                                perform.decode(&line);
 
-                                        let line = perform.move_out_buffer();
-                                        if !line.is_empty() {
-                                            match writer
-                                                .write_all(line.as_bytes())
-                                                .and_then(|_| writer.write_all(b"\n"))
-                                            {
-                                                Ok(_) => glib::ControlFlow::Continue,
-                                                Err(e) => {
-                                                    log::warn!("Error on saving logs: {e}");
-                                                    utils::show_error_toast(
-                                                        obj.upcast_ref(),
-                                                        &gettext("Error on saving logs"),
-                                                        &e.to_string(),
-                                                    );
-                                                    glib::ControlFlow::Break
+                                                let line = perform.move_out_buffer();
+                                                if !line.is_empty() {
+                                                    match writer
+                                                        .write_all(line.as_bytes())
+                                                        .and_then(|_| writer.write_all(b"\n"))
+                                                    {
+                                                        Ok(_) => glib::ControlFlow::Continue,
+                                                        Err(e) => {
+                                                            log::warn!("Error on saving logs: {e}");
+                                                            utils::show_error_toast(
+                                                                obj.upcast_ref(),
+                                                                &gettext("Error on saving logs"),
+                                                                &e.to_string(),
+                                                            );
+                                                            glib::ControlFlow::Break
+                                                        }
+                                                    }
+                                                } else {
+                                                    glib::ControlFlow::Continue
                                                 }
                                             }
-                                        } else {
-                                            glib::ControlFlow::Continue
+                                            Err(e) => {
+                                                log::warn!("Error on retrieving logs: {e}");
+                                                utils::show_error_toast(
+                                                    obj.upcast_ref(),
+                                                    &gettext("Error on retrieving logs"),
+                                                    &e.to_string(),
+                                                );
+                                                glib::ControlFlow::Break
+                                            }
                                         }
                                     }
-                                    Err(e) => {
-                                        log::warn!("Error on retrieving logs: {e}");
-                                        utils::show_error_toast(
+                                ),
+                                clone!(
+                                    #[weak]
+                                    obj,
+                                    move || {
+                                        obj.action_set_enabled(ACTION_SAVE_TO_FILE, true);
+                                        utils::show_toast(
                                             obj.upcast_ref(),
-                                            &gettext("Error on retrieving logs"),
-                                            &e.to_string(),
+                                            gettext("Log has been saved"),
                                         );
-                                        glib::ControlFlow::Break
                                     }
-                                }
-                            }),
-                            clone!(@weak obj => move || {
-                                obj.action_set_enabled(ACTION_SAVE_TO_FILE, true);
-                                utils::show_toast(obj.upcast_ref(), gettext("Log has been saved"));
-                            }),
-                        );
+                                ),
+                            );
+                        }
                     }
-                }),
+                ),
             )
             .await;
         }
@@ -708,17 +772,33 @@ impl ContainerLogPage {
     pub(crate) fn start_or_resume_container(&self) {
         if let Some(container) = self.container() {
             if container.can_start() {
-                container.start(clone!(@weak self as obj => move |result| {
-                    if let Err(e) = result {
-                        utils::show_error_toast(obj.upcast_ref(), &gettext("Error starting container"), &e.to_string());
+                container.start(clone!(
+                    #[weak(rename_to = obj)]
+                    self,
+                    move |result| {
+                        if let Err(e) = result {
+                            utils::show_error_toast(
+                                obj.upcast_ref(),
+                                &gettext("Error starting container"),
+                                &e.to_string(),
+                            );
+                        }
                     }
-                }));
+                ));
             } else if container.can_resume() {
-                container.resume(clone!(@weak self as obj => move |result| {
-                    if let Err(e) = result {
-                        utils::show_error_toast(obj.upcast_ref(), &gettext("Error resuming container"), &e.to_string());
+                container.resume(clone!(
+                    #[weak(rename_to = obj)]
+                    self,
+                    move |result| {
+                        if let Err(e) = result {
+                            utils::show_error_toast(
+                                obj.upcast_ref(),
+                                &gettext("Error resuming container"),
+                                &e.to_string(),
+                            );
+                        }
                     }
-                }));
+                ));
             }
         }
     }

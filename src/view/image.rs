@@ -32,11 +32,17 @@ pub(crate) fn delete_image_show_confirmation(widget: &gtk::Widget, image: Option
                 dialog.choose(
                     widget,
                     gio::Cancellable::NONE,
-                    clone!(@weak widget, @weak image => move |response| {
-                        if response == "delete" {
-                            delete_image(&widget, &image);
+                    clone!(
+                        #[weak]
+                        widget,
+                        #[weak]
+                        image,
+                        move |response| {
+                            if response == "delete" {
+                                delete_image(&widget, &image);
+                            }
                         }
-                    }),
+                    ),
                 );
             }
             None => delete_image(widget, &image),
@@ -45,16 +51,20 @@ pub(crate) fn delete_image_show_confirmation(widget: &gtk::Widget, image: Option
 }
 
 pub(crate) fn delete_image(widget: &gtk::Widget, image: &model::Image) {
-    image.delete(clone!(@weak widget => move |image, result| {
-        if let Err(e) = result {
-            utils::show_error_toast(
-                &widget,
-                // Translators: The "{}" is a placeholder for the image id.
-                &gettext!("Error on deleting image '{}'", image.id()),
-                &e.to_string(),
-            );
+    image.delete(clone!(
+        #[weak]
+        widget,
+        move |image, result| {
+            if let Err(e) = result {
+                utils::show_error_toast(
+                    &widget,
+                    // Translators: The "{}" is a placeholder for the image id.
+                    &gettext!("Error on deleting image '{}'", image.id()),
+                    &e.to_string(),
+                );
+            }
         }
-    }));
+    ));
 }
 
 pub(crate) fn create_container(widget: &gtk::Widget, image: Option<model::Image>) {

@@ -128,12 +128,18 @@ mod imp {
                 .chain_property::<model::Image>("to-be-deleted")
                 .watch(
                     Some(obj),
-                    clone!(@weak obj => move || {
-                        obj.action_set_enabled(
-                            ACTION_DELETE_IMAGE,
-                            obj.image().map(|image| !image.to_be_deleted()).unwrap_or(false),
-                        );
-                    }),
+                    clone!(
+                        #[weak]
+                        obj,
+                        move || {
+                            obj.action_set_enabled(
+                                ACTION_DELETE_IMAGE,
+                                obj.image()
+                                    .map(|image| !image.to_be_deleted())
+                                    .unwrap_or(false),
+                            );
+                        }
+                    ),
                 );
 
             data_expr
@@ -271,14 +277,29 @@ mod imp {
             if let Some(image) = value {
                 self.window_title
                     .set_subtitle(&utils::format_id(&image.id()));
-                image.inspect(clone!(@weak obj => move |result| if let Err(e) = result {
-                    utils::show_error_toast(obj.upcast_ref(), &gettext("Error on loading image details"), &e.to_string());
-                }));
+                image.inspect(clone!(
+                    #[weak]
+                    obj,
+                    move |result| if let Err(e) = result {
+                        utils::show_error_toast(
+                            obj.upcast_ref(),
+                            &gettext("Error on loading image details"),
+                            &e.to_string(),
+                        );
+                    }
+                ));
 
-                let handler_id = image.connect_deleted(clone!(@weak obj => move |image| {
-                    utils::show_toast(obj.upcast_ref(), gettext!("Image '{}' has been deleted", image.id()));
-                    utils::navigation_view(obj.upcast_ref()).pop();
-                }));
+                let handler_id = image.connect_deleted(clone!(
+                    #[weak]
+                    obj,
+                    move |image| {
+                        utils::show_toast(
+                            obj.upcast_ref(),
+                            gettext!("Image '{}' has been deleted", image.id()),
+                        );
+                        utils::navigation_view(obj.upcast_ref()).pop();
+                    }
+                ));
                 self.handler_id.replace(Some(handler_id));
 
                 let model = gtk::SortListModel::new(

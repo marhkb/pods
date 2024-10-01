@@ -89,12 +89,20 @@ mod imp {
             }
 
             if let Some(list) = value {
-                list.connect_container_name_changed(clone!(@weak obj => move |_, _| {
-                    glib::timeout_add_seconds_local_once(
-                        1,
-                        clone!(@weak obj => move || obj.update_sorter()),
-                    );
-                }));
+                list.connect_container_name_changed(clone!(
+                    #[weak]
+                    obj,
+                    move |_, _| {
+                        glib::timeout_add_seconds_local_once(
+                            1,
+                            clone!(
+                                #[weak]
+                                obj,
+                                move || obj.update_sorter()
+                            ),
+                        );
+                    }
+                ));
 
                 let model =
                     gtk::SortListModel::new(Some(list.to_owned()), self.sorter.get().cloned());

@@ -109,7 +109,14 @@ mod imp {
 
             container_expr
                 .chain_property::<model::Container>("status")
-                .watch(Some(obj), clone!(@weak obj => move || obj.update_actions()));
+                .watch(
+                    Some(obj),
+                    clone!(
+                        #[weak]
+                        obj,
+                        move || obj.update_actions()
+                    ),
+                );
         }
 
         fn dispose(&self) {

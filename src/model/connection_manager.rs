@@ -182,7 +182,7 @@ impl ConnectionManager {
 
                 file.write_all(&buf).await.map_err(anyhow::Error::from)
             },
-            clone!(@weak self as obj => move |result| op(result)),
+            op,
         );
     }
 
@@ -218,27 +218,32 @@ impl ConnectionManager {
                 let abort_registration = self.abort_registration();
                 async move { future::Abortable::new(podman.ping(), abort_registration).await }
             },
-            clone!(@weak self as obj => move |result| {
-                if let Ok(result) = result {
-                    match &result {
-                        Ok(_) => {
-                            let (position, _) = obj.imp()
-                                .connections
-                                .borrow_mut()
-                                .insert_full(connection.uuid(), connection.clone());
+            clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |result| {
+                    if let Ok(result) = result {
+                        match &result {
+                            Ok(_) => {
+                                let (position, _) = obj
+                                    .imp()
+                                    .connections
+                                    .borrow_mut()
+                                    .insert_full(connection.uuid(), connection.clone());
 
-                            obj.items_changed(position as u32, 0, 1);
+                                obj.items_changed(position as u32, 0, 1);
 
-                            obj.set_client(Some(client));
+                                obj.set_client(Some(client));
 
-                            obj.sync_to_disk(|_| {});
+                                obj.sync_to_disk(|_| {});
+                            }
+                            Err(e) => log::error!("Error on pinging connection: {e}"),
                         }
-                        Err(e) => log::error!("Error on pinging connection: {e}"),
+                        op(result);
                     }
-                    op(result);
+                    obj.set_creating_new_connection(false);
                 }
-                obj.set_creating_new_connection(false);
-            }),
+            ),
         );
 
         Ok(())
@@ -313,20 +318,24 @@ impl ConnectionManager {
                 let abort_registration = self.abort_registration();
                 async move { future::Abortable::new(podman.ping(), abort_registration).await }
             },
-            clone!(@weak self as obj => move |result| {
-                if let Ok(result) = result {
-                    match result {
-                        Ok(_) => {
-                            obj.set_client(Some(client));
+            clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |result| {
+                    if let Ok(result) = result {
+                        match result {
+                            Ok(_) => {
+                                obj.set_client(Some(client));
+                            }
+                            Err(ref e) => {
+                                log::error!("Failed to search for images: {}", e);
+                            }
                         }
-                        Err(ref e) => {
-                            log::error!("Failed to search for images: {}", e);
-                        }
+                        op(result.map(|_| ()).map_err(anyhow::Error::from));
                     }
-                    op(result.map(|_| ()).map_err(anyhow::Error::from));
+                    connection.set_connecting(false);
                 }
-                connection.set_connecting(false);
-            }),
+            ),
         );
     }
 

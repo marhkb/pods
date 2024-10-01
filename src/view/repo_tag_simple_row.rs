@@ -54,15 +54,27 @@ mod imp {
             let obj = &*self.obj();
 
             let style_manager = adw::StyleManager::default();
-            style_manager.connect_dark_notify(clone!(@weak obj => move |style_manager| {
-                obj.set_label(style_manager);
-            }));
-            style_manager.connect_accent_color_notify(clone!(@weak obj => move |style_manager| {
-                obj.set_label(style_manager);
-            }));
-            style_manager.connect_high_contrast_notify(clone!(@weak obj => move |style_manager| {
-                obj.set_label(style_manager);
-            }));
+            style_manager.connect_dark_notify(clone!(
+                #[weak]
+                obj,
+                move |style_manager| {
+                    obj.set_label(style_manager);
+                }
+            ));
+            style_manager.connect_accent_color_notify(clone!(
+                #[weak]
+                obj,
+                move |style_manager| {
+                    obj.set_label(style_manager);
+                }
+            ));
+            style_manager.connect_high_contrast_notify(clone!(
+                #[weak]
+                obj,
+                move |style_manager| {
+                    obj.set_label(style_manager);
+                }
+            ));
 
             obj.set_label(&style_manager);
         }

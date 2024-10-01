@@ -130,9 +130,13 @@ mod imp {
                 obj.action_set_enabled("image.show-details", !image.to_be_deleted());
                 image.connect_notify_local(
                     Some("to-be-deleted"),
-                    clone!(@weak obj => move|image, _| {
-                        obj.action_set_enabled("image.show-details", !image.to_be_deleted());
-                    }),
+                    clone!(
+                        #[weak]
+                        obj,
+                        move |image, _| {
+                            obj.action_set_enabled("image.show-details", !image.to_be_deleted());
+                        }
+                    ),
                 );
             }
         }

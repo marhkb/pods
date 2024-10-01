@@ -88,10 +88,14 @@ mod imp {
                                     )
                                     .await
                             },
-                            clone!(@weak obj => move |result| match result {
-                                Ok(_) => obj.force_close(),
-                                Err(e) => obj.set_error(&e.to_string()),
-                            }),
+                            clone!(
+                                #[weak]
+                                obj,
+                                move |result| match result {
+                                    Ok(_) => obj.force_close(),
+                                    Err(e) => obj.set_error(&e.to_string()),
+                                }
+                            ),
                         );
                     }
                     None => {

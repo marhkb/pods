@@ -221,8 +221,12 @@ mod imp {
 
             not_selection_mode_expr.bind(&self.search_bar.get(), "visible", Some(obj));
 
-            let search_filter =
-                gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
+            let search_filter = gtk::CustomFilter::new(clone!(
+                #[weak]
+                obj,
+                #[upgrade_or]
+                false,
+                move |item| {
                     let term = &*obj.imp().search_term.borrow();
                     item.downcast_ref::<model::Volume>()
                         .unwrap()
@@ -230,14 +234,17 @@ mod imp {
                         .name
                         .to_lowercase()
                         .contains(term)
-                }));
+                }
+            ));
 
             let state_filter = gtk::AnyFilter::new();
-            state_filter.append(gtk::CustomFilter::new(
-                clone!(@weak obj => @default-return false, move |_| {
-                    !obj.show_only_used_volumes()
-                }),
-            ));
+            state_filter.append(gtk::CustomFilter::new(clone!(
+                #[weak]
+                obj,
+                #[upgrade_or]
+                false,
+                move |_| !obj.show_only_used_volumes()
+            )));
             state_filter.append(gtk::BoolFilter::new(Some(
                 model::Volume::this_expression("container-list")
                     .chain_property::<model::SimpleContainerList>("len")
@@ -310,16 +317,27 @@ mod imp {
             if let Some(volume_list) = value {
                 volume_list.connect_notify_local(
                     Some("num-selected"),
-                    clone!(@weak obj => move |list, _| {
-                        obj.action_set_enabled(ACTION_DELETE_SELECTION, list.num_selected() > 0);
-                    }),
+                    clone!(
+                        #[weak]
+                        obj,
+                        move |list, _| {
+                            obj.action_set_enabled(
+                                ACTION_DELETE_SELECTION,
+                                list.num_selected() > 0,
+                            );
+                        }
+                    ),
                 );
 
                 volume_list.connect_notify_local(
                     Some("used"),
-                    clone!(@weak obj => move |_, _| {
-                        obj.imp().update_filter(gtk::FilterChange::Different);
-                    }),
+                    clone!(
+                        #[weak]
+                        obj,
+                        move |_, _| {
+                            obj.imp().update_filter(gtk::FilterChange::Different);
+                        }
+                    ),
                 );
 
                 let model = gtk::SortListModel::new(
@@ -336,15 +354,23 @@ mod imp {
 
                 self.filter_stack
                     .set_visible_child_name(if model.n_items() > 0 { "list" } else { "empty" });
-                model.connect_items_changed(clone!(@weak obj => move |model, _, removed, _| {
-                    obj.imp()
-                        .filter_stack
-                        .set_visible_child_name(if model.n_items() > 0 { "list" } else { "empty" });
+                model.connect_items_changed(clone!(
+                    #[weak]
+                    obj,
+                    move |model, _, removed, _| {
+                        obj.imp()
+                            .filter_stack
+                            .set_visible_child_name(if model.n_items() > 0 {
+                                "list"
+                            } else {
+                                "empty"
+                            });
 
-                    if removed > 0 {
-                        obj.deselect_hidden_volumes(model.upcast_ref());
+                        if removed > 0 {
+                            obj.deselect_hidden_volumes(model.upcast_ref());
+                        }
                     }
-                }));
+                ));
             }
 
             self.volume_list.set(value);
@@ -464,31 +490,40 @@ impl VolumesPanel {
 
         dialog.connect_response(
             None,
-            clone!(@weak self as obj => move |_, response| if response == "delete" {
-                if let Some(list) = obj.volume_list() {
-                    list
-                        .selected_items()
-                        .iter()
-                        .map(|obj| obj.downcast_ref::<model::Volume>().unwrap())
-                        .for_each(|volume|
-                    {
-                        volume.delete(true, clone!(@weak obj => move |volume, result| {
-                            if let Err(e) = result {
-                                utils::show_error_toast(
-                                    obj.upcast_ref(),
-                                    &gettext!(
-                                        "Error on deleting volume '{}'",
-                                        volume.inner().name
+            clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |_, response| if response == "delete" {
+                    if let Some(list) = obj.volume_list() {
+                        list.selected_items()
+                            .iter()
+                            .map(|obj| obj.downcast_ref::<model::Volume>().unwrap())
+                            .for_each(|volume| {
+                                volume.delete(
+                                    true,
+                                    clone!(
+                                        #[weak]
+                                        obj,
+                                        move |volume, result| {
+                                            if let Err(e) = result {
+                                                utils::show_error_toast(
+                                                    obj.upcast_ref(),
+                                                    &gettext!(
+                                                        "Error on deleting volume '{}'",
+                                                        volume.inner().name
+                                                    ),
+                                                    &e.to_string(),
+                                                );
+                                            }
+                                        }
                                     ),
-                                    &e.to_string()
                                 );
-                            }
-                        }));
-                    });
-                    list.set_selection_mode(false);
-                    obj.emit_by_name::<()>("exit-selection-mode", &[]);
+                            });
+                        list.set_selection_mode(false);
+                        obj.emit_by_name::<()>("exit-selection-mode", &[]);
+                    }
                 }
-            }),
+            ),
         );
 
         dialog.present(Some(self));

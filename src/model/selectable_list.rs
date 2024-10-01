@@ -48,14 +48,18 @@ glib::wrapper! {
 
 impl SelectableList {
     pub(super) fn bootstrap(list: &Self) {
-        list.connect_items_changed(|self_, position, _, added| {
-            self_.notify("num-selected");
+        list.connect_items_changed(|obj, position, _, added| {
+            obj.notify("num-selected");
             (position..position + added)
-                .map(|i| self_.item(i).unwrap())
+                .map(|i| obj.item(i).unwrap())
                 .for_each(|item| {
                     item.connect_notify_local(
                         Some("selected"),
-                        clone!(@weak self_ as obj => move |_, _| obj.notify("num-selected")),
+                        clone!(
+                            #[weak]
+                            obj,
+                            move |_, _| obj.notify("num-selected")
+                        ),
                     );
                 });
         });

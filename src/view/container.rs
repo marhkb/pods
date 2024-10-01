@@ -62,14 +62,20 @@ pub(crate) fn rename(widget: &gtk::Widget, container: Option<&model::Container>)
             .extra_child(&container_renamer)
             .build();
 
-        container.connect_deleted(clone!(@weak widget, @weak dialog => move |_| {
-            dialog.force_close();
-            utils::show_error_toast(
-                &widget,
-                &gettext("Error renaming container"),
-                &gettext("Container has been deleted"),
-            );
-        }));
+        container.connect_deleted(clone!(
+            #[weak]
+            widget,
+            #[weak]
+            dialog,
+            move |_| {
+                dialog.force_close();
+                utils::show_error_toast(
+                    &widget,
+                    &gettext("Error renaming container"),
+                    &gettext("Container has been deleted"),
+                );
+            }
+        ));
 
         container
             .property_expression_weak("name")
@@ -91,18 +97,30 @@ pub(crate) fn rename(widget: &gtk::Widget, container: Option<&model::Container>)
 
         dialog.connect_response(
             Some("rename"),
-            clone!(@weak widget, @weak container, @weak container_renamer => move |dialog, _| {
-                container.rename(
-                    container_renamer.new_name(),
-                    clone!(@weak widget, @weak dialog => move |result| if let Err(e) = result {
-                        utils::show_error_toast(
-                            &widget,
-                            &gettext("Error renaming container"),
-                            &e.to_string()
-                        );
-                    }),
-                );
-            }),
+            clone!(
+                #[weak]
+                widget,
+                #[weak]
+                container,
+                #[weak]
+                container_renamer,
+                move |_, _| {
+                    container.rename(
+                        container_renamer.new_name(),
+                        clone!(
+                            #[weak]
+                            widget,
+                            move |result| if let Err(e) = result {
+                                utils::show_error_toast(
+                                    &widget,
+                                    &gettext("Error renaming container"),
+                                    &e.to_string(),
+                                );
+                            }
+                        ),
+                    );
+                }
+            ),
         );
 
         dialog.present(Some(widget));
@@ -116,7 +134,7 @@ macro_rules! container_action {
             if let Some(container) = <gtk::Widget as gtk::prelude::ObjectExt>::property::<Option<crate::model::Container>>(widget, "container") {
                 container.$action(
                     $($param,)*
-                    glib::clone!(@weak widget => move |result| if let Err(e) = result {
+                    glib::clone!(#[weak] widget, move |result| if let Err(e) = result {
                         crate::utils::show_error_toast(
                             &widget,
                             &$error,

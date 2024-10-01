@@ -251,12 +251,16 @@ mod imp {
 
             let widget = &*self.obj();
 
-            glib::idle_add_local(
-                clone!(@weak widget => @default-return glib::ControlFlow::Break, move || {
+            glib::idle_add_local(clone!(
+                #[weak]
+                widget,
+                #[upgrade_or]
+                glib::ControlFlow::Break,
+                move || {
                     widget.imp().name_entry_row.grab_focus();
                     glib::ControlFlow::Break
-                }),
-            );
+                }
+            ));
             utils::root(widget.upcast_ref()).set_default_widget(Some(&*self.create_button));
         }
 
@@ -428,10 +432,13 @@ impl ContainerCreationPage {
                             image.disconnect(handler);
                         }
                     }
-                    let handler =
-                        image.connect_data_notify(clone!(@weak self as obj => move |image| {
+                    let handler = image.connect_data_notify(clone!(
+                        #[weak(rename_to = obj)]
+                        self,
+                        move |image| {
                             obj.update_local_data(&image.data().unwrap().config());
-                        }));
+                        }
+                    ));
                     let image_weak = glib::WeakRef::new();
                     image_weak.set(Some(&image));
                     imp.command_row_handler.replace(Some((handler, image_weak)));
@@ -449,9 +456,13 @@ impl ContainerCreationPage {
     pub(crate) fn select_pod(&self) {
         if let Some(client) = self.client() {
             let pod_selection_page = view::PodSelectionPage::from(&client.pod_list());
-            pod_selection_page.connect_pod_selected(clone!(@weak self as obj => move |_, pod| {
-                obj.set_pod(Some(&pod));
-            }));
+            pod_selection_page.connect_pod_selected(clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |_, pod| {
+                    obj.set_pod(Some(&pod));
+                }
+            ));
             self.imp().navigation_view.push(
                 &adw::NavigationPage::builder()
                     .child(&pod_selection_page)
@@ -713,11 +724,15 @@ fn bind_model<F>(
 fn add_port_mapping(model: &gio::ListStore) -> model::PortMapping {
     let port_mapping = model::PortMapping::default();
 
-    port_mapping.connect_remove_request(clone!(@weak model => move |port_mapping| {
-        if let Some(pos) = model.find(port_mapping) {
-            model.remove(pos);
+    port_mapping.connect_remove_request(clone!(
+        #[weak]
+        model,
+        move |port_mapping| {
+            if let Some(pos) = model.find(port_mapping) {
+                model.remove(pos);
+            }
         }
-    }));
+    ));
 
     model.append(&port_mapping);
 
@@ -727,11 +742,15 @@ fn add_port_mapping(model: &gio::ListStore) -> model::PortMapping {
 fn add_mount(model: &gio::ListStore, client: &model::Client) -> model::Mount {
     let mount = model::Mount::from(client);
 
-    mount.connect_remove_request(clone!(@weak model => move |mount| {
-        if let Some(pos) = model.find(mount) {
-            model.remove(pos);
+    mount.connect_remove_request(clone!(
+        #[weak]
+        model,
+        move |mount| {
+            if let Some(pos) = model.find(mount) {
+                model.remove(pos);
+            }
         }
-    }));
+    ));
 
     model.append(&mount);
     mount
@@ -740,11 +759,15 @@ fn add_mount(model: &gio::ListStore, client: &model::Client) -> model::Mount {
 fn add_value(model: &gio::ListStore) {
     let value = model::Value::default();
 
-    value.connect_remove_request(clone!(@weak model => move |value| {
-        if let Some(pos) = model.find(value) {
-            model.remove(pos);
+    value.connect_remove_request(clone!(
+        #[weak]
+        model,
+        move |value| {
+            if let Some(pos) = model.find(value) {
+                model.remove(pos);
+            }
         }
-    }));
+    ));
 
     model.append(&value);
 }
@@ -752,11 +775,15 @@ fn add_value(model: &gio::ListStore) {
 fn add_key_val(model: &gio::ListStore) {
     let entry = model::KeyVal::default();
 
-    entry.connect_remove_request(clone!(@weak model => move |entry| {
-        if let Some(pos) = model.find(entry) {
-            model.remove(pos);
+    entry.connect_remove_request(clone!(
+        #[weak]
+        model,
+        move |entry| {
+            if let Some(pos) = model.find(entry) {
+                model.remove(pos);
+            }
         }
-    }));
+    ));
 
     model.append(&entry);
 }

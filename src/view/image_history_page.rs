@@ -69,127 +69,133 @@ impl From<&model::Image> for ImageHistoryPage {
                 let api = image.api().unwrap();
                 async move { api.history().await }
             },
-            clone!(@weak obj => move |result| {
-                let imp = obj.imp();
+            clone!(
+                #[weak]
+                obj,
+                move |result| {
+                    let imp = obj.imp();
 
-                match result {
-                    Ok(entries) => {
-                        let len = entries.len() as u32;
+                    match result {
+                        Ok(entries) => {
+                            let len = entries.len() as u32;
 
-                        imp.preferences_group.set_description(Some(&format!(
-                            "{}, {}",
-                            ngettext!("{} entry", "{} entries", len, len,),
-                            gettext!(
-                                "{} in total",
-                                glib::format_size(
-                                    entries
-                                        .iter()
-                                        .filter_map(|item| item.size)
-                                        .map(|size| size as u64)
-                                        .sum()
-                                ),
-                            )
-                        )));
-
-                        entries.into_iter().for_each(|entry| {
-                            let row = adw::ExpanderRow::builder()
-                                .title(
-                                    entry
-                                        .id
-                                        .as_deref()
-                                        .map(utils::format_id)
-                                        .unwrap_or_else(|| gettext("<None>")),
+                            imp.preferences_group.set_description(Some(&format!(
+                                "{}, {}",
+                                ngettext!("{} entry", "{} entries", len, len,),
+                                gettext!(
+                                    "{} in total",
+                                    glib::format_size(
+                                        entries
+                                            .iter()
+                                            .filter_map(|item| item.size)
+                                            .map(|size| size as u64)
+                                            .sum()
+                                    ),
                                 )
-                                .subtitle(
-                                    entry
-                                        .created
-                                        .map(|created| {
-                                            glib::DateTime::from_unix_local(created)
-                                                .unwrap()
-                                                .format(
-                                                    // Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
-                                                    &gettext("%x %X"),
-                                                )
-                                                .unwrap()
-                                                .to_string()
-                                        })
-                                        .unwrap_or_else(|| gettext("Unknown Date")),
-                                )
-                                .use_markup(false)
-                                .build();
+                            )));
 
-                            row.add_action(
-                                &gtk::Label::builder()
-                                    .label(
+                            entries.into_iter().for_each(|entry| {
+                                let row = adw::ExpanderRow::builder()
+                                    .title(
                                         entry
-                                            .size
-                                            .map(|size| String::from(glib::format_size(size as u64)))
-                                            .unwrap_or_else(|| gettext("Unknown size")),
+                                            .id
+                                            .as_deref()
+                                            .map(utils::format_id)
+                                            .unwrap_or_else(|| gettext("<None>")),
                                     )
-                                    .css_classes(vec!["dim-label".to_string()])
-                                    .build(),
-                            );
-
-                            if let Some(created_by) = entry.created_by {
-                                let box_ = gtk::Box::builder()
-                                    .orientation(gtk::Orientation::Vertical)
-                                    .spacing(9)
-                                    .margin_top(9)
-                                    .margin_end(12)
-                                    .margin_bottom(9)
-                                    .margin_start(12)
+                                    .subtitle(
+                                        entry
+                                            .created
+                                            .map(|created| {
+                                                glib::DateTime::from_unix_local(created)
+                                                    .unwrap()
+                                                    .format(
+                                                        // Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
+                                                        &gettext("%x %X"),
+                                                    )
+                                                    .unwrap()
+                                                    .to_string()
+                                            })
+                                            .unwrap_or_else(|| gettext("Unknown Date")),
+                                    )
+                                    .use_markup(false)
                                     .build();
-                                box_.append(
+
+                                row.add_action(
                                     &gtk::Label::builder()
-                                        .label(gettext("Created by"))
-                                        .xalign(0.0)
-                                        .css_classes(vec!["heading".to_string()])
-                                        .build(),
-                                );
-                                box_.append(
-                                    &gtk::Label::builder()
-                                        .label(created_by)
-                                        .single_line_mode(false)
-                                        .xalign(0.0)
-                                        .wrap(true)
-                                        .wrap_mode(pango::WrapMode::WordChar)
-                                        .selectable(true)
+                                        .label(
+                                            entry
+                                                .size
+                                                .map(|size| {
+                                                    String::from(glib::format_size(size as u64))
+                                                })
+                                                .unwrap_or_else(|| gettext("Unknown size")),
+                                        )
+                                        .css_classes(vec!["dim-label".to_string()])
                                         .build(),
                                 );
 
-                                row.add_row(
-                                    &adw::PreferencesRow::builder()
-                                        .activatable(false)
-                                        .child(&box_)
-                                        .build(),
-                                );
-                            }
-                            if let Some(comment) = entry.comment {
-                                if !comment.is_empty() {
-                                    row.add_row(&property_row(&gettext("Comment"), &comment));
+                                if let Some(created_by) = entry.created_by {
+                                    let box_ = gtk::Box::builder()
+                                        .orientation(gtk::Orientation::Vertical)
+                                        .spacing(9)
+                                        .margin_top(9)
+                                        .margin_end(12)
+                                        .margin_bottom(9)
+                                        .margin_start(12)
+                                        .build();
+                                    box_.append(
+                                        &gtk::Label::builder()
+                                            .label(gettext("Created by"))
+                                            .xalign(0.0)
+                                            .css_classes(vec!["heading".to_string()])
+                                            .build(),
+                                    );
+                                    box_.append(
+                                        &gtk::Label::builder()
+                                            .label(created_by)
+                                            .single_line_mode(false)
+                                            .xalign(0.0)
+                                            .wrap(true)
+                                            .wrap_mode(pango::WrapMode::WordChar)
+                                            .selectable(true)
+                                            .build(),
+                                    );
+
+                                    row.add_row(
+                                        &adw::PreferencesRow::builder()
+                                            .activatable(false)
+                                            .child(&box_)
+                                            .build(),
+                                    );
                                 }
-                            }
-                            if let Some(tags) = entry.tags {
-                                row.add_row(&property_row(&gettext("Tags"), &tags.join(", ")));
-                            }
+                                if let Some(comment) = entry.comment {
+                                    if !comment.is_empty() {
+                                        row.add_row(&property_row(&gettext("Comment"), &comment));
+                                    }
+                                }
+                                if let Some(tags) = entry.tags {
+                                    row.add_row(&property_row(&gettext("Tags"), &tags.join(", ")));
+                                }
 
-                            imp.preferences_group.add(&row);
-                        });
+                                imp.preferences_group.add(&row);
+                            });
 
-                        imp.stack.set_visible_child_name("loaded");
-                    }
-                    Err(e) => {
-                        log::error!("Error on retrieving history: {e}");
+                            imp.stack.set_visible_child_name("loaded");
+                        }
+                        Err(e) => {
+                            log::error!("Error on retrieving history: {e}");
 
-                        imp.spinner.set_visible(false);
-                        utils::show_error_toast(
-                            obj.upcast_ref(),
-                            &gettext("Error on retrieving history"),
-                            &e.to_string()
-                        );
+                            imp.spinner.set_visible(false);
+                            utils::show_error_toast(
+                                obj.upcast_ref(),
+                                &gettext("Error on retrieving history"),
+                                &e.to_string(),
+                            );
+                        }
                     }
                 }
-            }),
+            ),
         );
 
         obj

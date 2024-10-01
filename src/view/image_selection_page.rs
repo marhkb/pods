@@ -118,8 +118,12 @@ mod imp {
 
             self.filter_entry.set_key_capture_widget(Some(obj));
 
-            let filter =
-                gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
+            let filter = gtk::CustomFilter::new(clone!(
+                #[weak]
+                obj,
+                #[upgrade_or]
+                false,
+                move |item| {
                     let term = obj.imp().filter_entry.text().to_lowercase();
 
                     let image = item.downcast_ref::<model::Image>().unwrap();
@@ -128,13 +132,16 @@ mod imp {
                         .get(0)
                         .map(|repo_tag| repo_tag.full().contains(&term))
                         .unwrap_or_else(|| image.id().contains(&term))
-                }));
+                }
+            ));
             self.filter.set(filter.upcast()).unwrap();
 
             self.list_view.remove_css_class("view");
 
-            self.selection
-                .connect_items_changed(clone!(@weak obj => move |selection, _, _, _| {
+            self.selection.connect_items_changed(clone!(
+                #[weak]
+                obj,
+                move |selection, _, _, _| {
                     obj.imp()
                         .images_stack
                         .set_visible_child_name(if selection.n_items() > 0 {
@@ -142,7 +149,8 @@ mod imp {
                         } else {
                             "empty"
                         });
-                }));
+                }
+            ));
         }
 
         fn dispose(&self) {
@@ -274,9 +282,13 @@ mod imp {
 
                 let model = gtk::SingleSelection::new(Some(model));
 
-                model.connect_selected_item_notify(clone!(@weak obj => move |selection| {
-                    obj.action_set_enabled(ACTION_SELECT, selection.selected_item().is_some());
-                }));
+                model.connect_selected_item_notify(clone!(
+                    #[weak]
+                    obj,
+                    move |selection| {
+                        obj.action_set_enabled(ACTION_SELECT, selection.selected_item().is_some());
+                    }
+                ));
 
                 self.selection.set_model(Some(&model));
 

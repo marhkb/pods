@@ -184,30 +184,41 @@ mod imp {
 
             status_expr.watch(
                 Some(obj),
-                clone!(@weak obj => move || {
-                    obj.action_set_enabled(
-                        ACTION_START_OR_RESUME,
-                        match obj
-                            .container()
-                            .filter(|container| container.status() == model::ContainerStatus::Running)
-                        {
-                            Some(container) => {
-                                obj.setup_tty_connection(&container);
-                                false
-                            }
-                            None => true,
-                        },
-                    );
-                }),
+                clone!(
+                    #[weak]
+                    obj,
+                    move || {
+                        obj.action_set_enabled(
+                            ACTION_START_OR_RESUME,
+                            match obj.container().filter(|container| {
+                                container.status() == model::ContainerStatus::Running
+                            }) {
+                                Some(container) => {
+                                    obj.setup_tty_connection(&container);
+                                    false
+                                }
+                                None => true,
+                            },
+                        );
+                    }
+                ),
             );
 
             self.on_terminal_selection_changed();
 
-            adw::StyleManager::default().connect_dark_notify(clone!(@weak obj => move |_| {
-                glib::idle_add_local_once(clone!(@weak obj => move || {
-                    obj.imp().on_notify_dark();
-                }));
-            }));
+            adw::StyleManager::default().connect_dark_notify(clone!(
+                #[weak]
+                obj,
+                move |_| {
+                    glib::idle_add_local_once(clone!(
+                        #[weak]
+                        obj,
+                        move || {
+                            obj.imp().on_notify_dark();
+                        }
+                    ));
+                }
+            ));
             self.on_notify_dark();
         }
 
@@ -383,11 +394,15 @@ impl ContainerTerminal {
 
         let (tx_output, mut rx_output) = tokio::sync::mpsc::channel::<Vec<u8>>(5);
 
-        glib::spawn_future_local(clone!(@weak self as obj => async move {
-            while let Some(buf) = rx_output.recv().await {
-                obj.imp().terminal.feed(&buf);
+        glib::spawn_future_local(clone!(
+            #[weak(rename_to = obj)]
+            self,
+            async move {
+                while let Some(buf) = rx_output.recv().await {
+                    obj.imp().terminal.feed(&buf);
+                }
             }
-        }));
+        ));
 
         let (tx_input, mut rx_input) = tokio::sync::mpsc::unbounded_channel::<ExecInput>();
         imp.tx_input.replace(Some(tx_input.clone()));
@@ -462,22 +477,26 @@ impl ContainerTerminal {
 
                 Ok(())
             },
-            clone!(@weak self as obj => move |result: podman::Result<_>| {
-                if result.is_err() {
-                    utils::show_error_toast(
-                        gio::Application::default()
-                            .unwrap()
-                            .downcast::<crate::Application>()
-                            .unwrap()
-                            .main_window()
-                            .toast_overlay()
-                            .upcast_ref(),
-                        &gettext("Terminal error"),
-                        &gettext("'/bin/sh' not found"),
-                    );
+            clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |result: podman::Result<_>| {
+                    if result.is_err() {
+                        utils::show_error_toast(
+                            gio::Application::default()
+                                .unwrap()
+                                .downcast::<crate::Application>()
+                                .unwrap()
+                                .main_window()
+                                .toast_overlay()
+                                .upcast_ref(),
+                            &gettext("Terminal error"),
+                            &gettext("'/bin/sh' not found"),
+                        );
+                    }
+                    obj.emit_by_name::<()>("terminated", &[]);
                 }
-                obj.emit_by_name::<()>("terminated", &[]);
-            }),
+            ),
         );
     }
 
@@ -512,12 +531,13 @@ impl ContainerTerminal {
         if let Some(display) = gdk::Display::default() {
             display.clipboard().read_text_async(
                 gio::Cancellable::NONE,
-                clone!(@weak self as obj => move |result| if let Some(text) = result
-                    .ok()
-                    .flatten()
-                {
-                    obj.imp().terminal.paste_text(text.as_str());
-                }),
+                clone!(
+                    #[weak(rename_to = obj)]
+                    self,
+                    move |result| if let Some(text) = result.ok().flatten() {
+                        obj.imp().terminal.paste_text(text.as_str());
+                    }
+                ),
             );
         }
     }

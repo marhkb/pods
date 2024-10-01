@@ -134,12 +134,16 @@ mod imp {
 
             let widget = &*self.obj();
 
-            glib::idle_add_local(
-                clone!(@weak widget => @default-return glib::ControlFlow::Break, move || {
+            glib::idle_add_local(clone!(
+                #[weak]
+                widget,
+                #[upgrade_or]
+                glib::ControlFlow::Break,
+                move || {
                     widget.imp().tag_entry_row.grab_focus();
                     glib::ControlFlow::Break
-                }),
-            );
+                }
+            ));
             utils::root(widget.upcast_ref()).set_default_widget(Some(&*self.build_button));
         }
 
@@ -199,15 +203,19 @@ impl ImageBuildPage {
         utils::show_open_file_dialog(
             request,
             self.upcast_ref(),
-            clone!(@weak self as obj => move |files| {
-                let file = gio::File::for_uri(files.uris()[0].as_str());
+            clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |files| {
+                    let file = gio::File::for_uri(files.uris()[0].as_str());
 
-                if let Some(path) = file.path() {
-                    obj.imp()
-                        .context_dir_row
-                        .set_subtitle(path.to_str().unwrap());
+                    if let Some(path) = file.path() {
+                        obj.imp()
+                            .context_dir_row
+                            .set_subtitle(path.to_str().unwrap());
+                    }
                 }
-            }),
+            ),
         )
         .await;
     }
@@ -215,12 +223,16 @@ impl ImageBuildPage {
     fn add_label(&self) {
         let label = model::KeyVal::default();
 
-        label.connect_remove_request(clone!(@weak self as obj => move |label| {
-            let labels = obj.imp().labels();
-            if let Some(pos) = labels.find(label) {
-                labels.remove(pos);
+        label.connect_remove_request(clone!(
+            #[weak(rename_to = obj)]
+            self,
+            move |label| {
+                let labels = obj.imp().labels();
+                if let Some(pos) = labels.find(label) {
+                    labels.remove(pos);
+                }
             }
-        }));
+        ));
 
         self.imp().labels().append(&label);
     }

@@ -193,21 +193,33 @@ mod imp {
 
             volume_to_be_deleted_expr.watch(
                 Some(obj),
-                clone!(@weak obj, @strong volume_to_be_deleted_expr => move || {
-                    obj.action_set_enabled(
-                        ACTION_DELETE_VOLUME,
-                        !volume_to_be_deleted_expr.evaluate_as::<bool, _>(Some(&obj)).unwrap()
-                    );
-                }),
+                clone!(
+                    #[weak]
+                    obj,
+                    #[strong]
+                    volume_to_be_deleted_expr,
+                    move || {
+                        obj.action_set_enabled(
+                            ACTION_DELETE_VOLUME,
+                            !volume_to_be_deleted_expr
+                                .evaluate_as::<bool, _>(Some(&obj))
+                                .unwrap(),
+                        );
+                    }
+                ),
             );
 
             if let Some(volume) = obj.volume() {
                 obj.action_set_enabled("volume.show-details", !volume.to_be_deleted());
                 volume.connect_notify_local(
                     Some("to-be-deleted"),
-                    clone!(@weak obj => move|volume, _| {
-                        obj.action_set_enabled("volume.show-details", !volume.to_be_deleted());
-                    }),
+                    clone!(
+                        #[weak]
+                        obj,
+                        move |volume, _| {
+                            obj.action_set_enabled("volume.show-details", !volume.to_be_deleted());
+                        }
+                    ),
                 );
             }
         }

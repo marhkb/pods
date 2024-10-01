@@ -80,8 +80,10 @@ mod imp {
 
             let obj = &*self.obj();
 
-            obj.image_list()
-                .connect_image_added(clone!(@weak obj => move |_, image| {
+            obj.image_list().connect_image_added(clone!(
+                #[weak]
+                obj,
+                move |_, image| {
                     obj.container_list()
                         .iter::<model::Container>()
                         .map(|container| container.unwrap())
@@ -90,56 +92,74 @@ mod imp {
                             container.set_image(Some(image));
                             image.container_list().add_container(&container);
                         });
-                }));
+                }
+            ));
 
-            obj.container_list()
-                .connect_container_added(clone!(@weak obj => move |_, container| {
+            obj.container_list().connect_container_added(clone!(
+                #[weak]
+                obj,
+                move |_, container| {
                     let image = obj.image_list().get_image(container.image_id().as_str());
                     if let Some(ref image) = image {
                         container.set_image(Some(image));
                         image.container_list().add_container(container);
                     }
 
-                    if let Some(pod) = container.pod_id().and_then(|id| obj.pod_list().get_pod(&id))
+                    if let Some(pod) = container
+                        .pod_id()
+                        .and_then(|id| obj.pod_list().get_pod(&id))
                     {
                         container.set_pod(Some(&pod));
                         pod.container_list().add_container(container);
                     }
 
                     if !container.mounts().is_empty() {
-                        container.inspect(clone!(@weak obj => move |result| {
-                            if let Ok(container) = result {
-                                container.data().unwrap().mounts().values().filter_map(
-                                    |mount| {
-                                        obj.volume_list()
-                                            .get_volume(mount.name.as_ref().unwrap())
-                                            .map(|volume| (volume, mount))
-                                    },
-                                )
-                                .for_each(|(volume, mount)| {
-                                    volume.container_list().add_container(&container);
+                        container.inspect(clone!(
+                            #[weak]
+                            obj,
+                            move |result| {
+                                if let Ok(container) = result {
+                                    container
+                                        .data()
+                                        .unwrap()
+                                        .mounts()
+                                        .values()
+                                        .filter_map(|mount| {
+                                            obj.volume_list()
+                                                .get_volume(mount.name.as_ref().unwrap())
+                                                .map(|volume| (volume, mount))
+                                        })
+                                        .for_each(|(volume, mount)| {
+                                            volume.container_list().add_container(&container);
 
-                                    let container_volume_list = container.volume_list();
-                                    container_volume_list.add_volume(
-                                        model::ContainerVolume::new(
-                                            &container_volume_list,
-                                            &volume,
-                                            mount.clone(),
-                                        ),
-                                    );
-                                });
+                                            let container_volume_list = container.volume_list();
+                                            container_volume_list.add_volume(
+                                                model::ContainerVolume::new(
+                                                    &container_volume_list,
+                                                    &volume,
+                                                    mount.clone(),
+                                                ),
+                                            );
+                                        });
+                                }
                             }
-                        }));
+                        ));
                     }
-                }));
-            obj.container_list().connect_container_removed(
-                clone!(@weak obj => move |_, container| {
+                }
+            ));
+            obj.container_list().connect_container_removed(clone!(
+                #[weak]
+                obj,
+                move |_, container| {
                     if let Some(image) = obj.image_list().get_image(container.image_id().as_str()) {
-                        image.container_list().remove_container(container.id().as_str());
+                        image
+                            .container_list()
+                            .remove_container(container.id().as_str());
                     }
 
                     if let Some(pod) = container.pod() {
-                        pod.container_list().remove_container(container.id().as_str());
+                        pod.container_list()
+                            .remove_container(container.id().as_str());
                     }
 
                     container
@@ -153,11 +173,13 @@ mod imp {
                                     .remove_container(container.id().as_str());
                             }
                         });
-                }),
-            );
+                }
+            ));
 
-            obj.pod_list()
-                .connect_pod_added(clone!(@weak obj => move |_, pod| {
+            obj.pod_list().connect_pod_added(clone!(
+                #[weak]
+                obj,
+                move |_, pod| {
                     obj.container_list()
                         .iter::<model::Container>()
                         .map(|container| container.unwrap())
@@ -166,11 +188,16 @@ mod imp {
                             container.set_pod(Some(pod));
                             pod.container_list().add_container(&container);
                         });
-                }));
+                }
+            ));
 
-            obj.volume_list()
-                .connect_volume_added(clone!(@weak obj => move |_, volume| {
-                    let container_list: Vec<_> = obj.container_list().iter::<model::Container>()
+            obj.volume_list().connect_volume_added(clone!(
+                #[weak]
+                obj,
+                move |_, volume| {
+                    let container_list: Vec<_> = obj
+                        .container_list()
+                        .iter::<model::Container>()
                         .map(|container| container.unwrap())
                         .filter(|container| !container.mounts().is_empty())
                         .collect();
@@ -182,14 +209,13 @@ mod imp {
                     volume.set_searching_containers(true);
                     let containers_left = Rc::new(AtomicUsize::new(container_list.len()));
 
-                    container_list
-                        .iter()
-                        .for_each(|container| {
-                            container.inspect(clone!(
-                                @weak volume,
-                                @strong containers_left
-                                => move |result|
-                            {
+                    container_list.iter().for_each(|container| {
+                        container.inspect(clone!(
+                            #[weak]
+                            volume,
+                            #[strong]
+                            containers_left,
+                            move |result| {
                                 if let Ok(container) = result {
                                     if let Some(mount) =
                                         container.data().unwrap().mounts().values().find(|mount| {
@@ -212,9 +238,11 @@ mod imp {
                                 if containers_left.fetch_sub(1, Ordering::Relaxed) == 1 {
                                     volume.set_searching_containers(false);
                                 }
-                            }));
-                        });
-                }));
+                            }
+                        ));
+                    });
+                }
+            ));
         }
     }
 
@@ -275,18 +303,22 @@ impl TryFrom<&model::Connection> for Client {
 
             utils::do_async(
                 async move { podman.info().await },
-                clone!(@weak obj => move |info| match info {
-                    Ok(info) => {
-                        obj.set_version(info.version.unwrap().version);
-                        obj.set_cpus(info.host.unwrap().cpus);
-                    }
-                    Err(e) => {
-                        log::error!("Error on retrieving podmnan info: {e}");
+                clone!(
+                    #[weak]
+                    obj,
+                    move |info| match info {
+                        Ok(info) => {
+                            obj.set_version(info.version.unwrap().version);
+                            obj.set_cpus(info.host.unwrap().cpus);
+                        }
+                        Err(e) => {
+                            log::error!("Error on retrieving podmnan info: {e}");
 
-                        obj.set_version(None);
-                        obj.set_cpus(None);
+                            obj.set_version(None);
+                            obj.set_cpus(None);
+                        }
                     }
-                }),
+                ),
             );
 
             obj
@@ -316,40 +348,38 @@ impl Client {
                 let podman = self.podman();
                 async move { podman.ping().await }
             },
-            clone!(@weak self as obj => move |result| match result {
-                Ok(_) => {
-                    obj.image_list().refresh({
-                        let err_op = err_op.clone();
-                        |_| err_op(ClientError::Images)
-                    });
-                    obj.container_list().refresh(
-                        None,
-                        {
+            clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |result| match result {
+                    Ok(_) => {
+                        obj.image_list().refresh({
+                            let err_op = err_op.clone();
+                            |_| err_op(ClientError::Images)
+                        });
+                        obj.container_list().refresh(None, {
                             let err_op = err_op.clone();
                             |_| err_op(ClientError::Containers)
-                        }
-                    );
-                    obj.pod_list().refresh(
-                        None,
-                        {
+                        });
+                        obj.pod_list().refresh(None, {
                             let err_op = err_op.clone();
                             |_| err_op(ClientError::Pods)
-                        }
-                    );
-                    obj.volume_list().refresh({
-                        let err_op = err_op.clone();
-                        |_| err_op(ClientError::Volumes)
-                    });
+                        });
+                        obj.volume_list().refresh({
+                            let err_op = err_op.clone();
+                            |_| err_op(ClientError::Volumes)
+                        });
 
-                    op();
-                    obj.start_event_listener(err_op, finish_op);
-                    obj.start_refresh_interval();
+                        op();
+                        obj.start_event_listener(err_op, finish_op);
+                        obj.start_refresh_interval();
+                    }
+                    Err(e) => {
+                        log::error!("Could not connect to Podman: {e}");
+                        // No need to show a toast. The start service page is enough.
+                    }
                 }
-                Err(e) => {
-                    log::error!("Could not connect to Podman: {e}");
-                    // No need to show a toast. The start service page is enough.
-                }
-            }),
+            ),
         );
     }
 
@@ -366,40 +396,43 @@ impl Client {
                     .boxed()
             },
             clone!(
-                @weak self as obj => @default-return glib::ControlFlow::Break,
-                move |result: podman::Result<podman::models::Event>|
-            {
-                match result {
-                    Ok(event) => {
-                        log::debug!("Event: {event:?}");
-                        match event.typ.as_str() {
-                            "image" => obj.image_list().handle_event(event, {
-                                let err_op = err_op.clone();
-                                |_| err_op(ClientError::Images)
-                            }),
-                            "container" => obj.container_list().handle_event(event, {
-                                let err_op = err_op.clone();
-                                |_| err_op(ClientError::Containers)
-                            }),
-                            "pod" => obj.pod_list().handle_event(event, {
-                                let err_op = err_op.clone();
-                                |_| err_op(ClientError::Pods)
-                            }),
-                            "volume" => obj.volume_list().handle_event(event, {
-                                let err_op = err_op.clone();
-                                |_| err_op(ClientError::Volumes)
-                            }),
-                            other => log::warn!("Unhandled event type: {other}"),
+                #[weak(rename_to = obj)]
+                self,
+                #[upgrade_or]
+                glib::ControlFlow::Break,
+                move |result: podman::Result<podman::models::Event>| {
+                    match result {
+                        Ok(event) => {
+                            log::debug!("Event: {event:?}");
+                            match event.typ.as_str() {
+                                "image" => obj.image_list().handle_event(event, {
+                                    let err_op = err_op.clone();
+                                    |_| err_op(ClientError::Images)
+                                }),
+                                "container" => obj.container_list().handle_event(event, {
+                                    let err_op = err_op.clone();
+                                    |_| err_op(ClientError::Containers)
+                                }),
+                                "pod" => obj.pod_list().handle_event(event, {
+                                    let err_op = err_op.clone();
+                                    |_| err_op(ClientError::Pods)
+                                }),
+                                "volume" => obj.volume_list().handle_event(event, {
+                                    let err_op = err_op.clone();
+                                    |_| err_op(ClientError::Volumes)
+                                }),
+                                other => log::warn!("Unhandled event type: {other}"),
+                            }
+                            glib::ControlFlow::Continue
                         }
-                        glib::ControlFlow::Continue
-                    }
-                    Err(e) => {
-                        log::error!("Stopping image event stream due to error: {e}");
-                        finish_op.clone()(e);
-                        glib::ControlFlow::Break
+                        Err(e) => {
+                            log::error!("Stopping image event stream due to error: {e}");
+                            finish_op.clone()(e);
+                            glib::ControlFlow::Break
+                        }
                     }
                 }
-            }),
+            ),
         );
     }
 
@@ -408,17 +441,23 @@ impl Client {
     fn start_refresh_interval(&self) {
         glib::timeout_add_seconds_local(
             SYNC_INTERVAL,
-            clone!(@weak self as obj => @default-return glib::ControlFlow::Break, move || {
-                log::debug!("Syncing images, containers and pods");
+            clone!(
+                #[weak(rename_to = obj)]
+                self,
+                #[upgrade_or]
+                glib::ControlFlow::Break,
+                move || {
+                    log::debug!("Syncing images, containers and pods");
 
-                obj.image_list().refresh(|_| {});
-                obj.container_list().refresh(None, |_| {});
-                obj.pod_list().refresh(None, |_| {});
+                    obj.image_list().refresh(|_| {});
+                    obj.container_list().refresh(None, |_| {});
+                    obj.pod_list().refresh(None, |_| {});
 
-                log::debug!("Sleeping for {SYNC_INTERVAL} until next sync");
+                    log::debug!("Sleeping for {SYNC_INTERVAL} until next sync");
 
-                glib::ControlFlow::Continue
-            }),
+                    glib::ControlFlow::Continue
+                }
+            ),
         );
     }
 }

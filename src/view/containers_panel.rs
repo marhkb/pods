@@ -261,16 +261,19 @@ mod imp {
 
             not_selection_mode_expr.bind(&self.search_bar.get(), "visible", Some(obj));
 
-            let search_filter =
-                gtk::CustomFilter::new(clone!(@weak obj => @default-return false, move |item| {
+            let search_filter = gtk::CustomFilter::new(clone!(
+                #[weak]
+                obj,
+                #[upgrade_or]
+                false,
+                move |item| {
                     let term = &*obj.imp().search_term.borrow();
 
                     if term.is_empty() {
                         true
                     } else {
                         let container = item.downcast_ref::<model::Container>().unwrap();
-                        container
-                            .name().to_lowercase().contains(term)
+                        container.name().to_lowercase().contains(term)
                             || container.id().contains(term)
                             || container
                                 .image_name()
@@ -278,14 +281,17 @@ mod imp {
                                 .unwrap_or(false)
                             || container.image_id().contains(term)
                     }
-                }));
+                }
+            ));
 
             let state_filter = gtk::AnyFilter::new();
-            state_filter.append(gtk::CustomFilter::new(
-                clone!(@weak obj => @default-return false, move |_| {
-                    !obj.show_only_running_containers()
-                }),
-            ));
+            state_filter.append(gtk::CustomFilter::new(clone!(
+                #[weak]
+                obj,
+                #[upgrade_or]
+                false,
+                move |_| !obj.show_only_running_containers()
+            )));
             state_filter.append(gtk::BoolFilter::new(Some(
                 model::Container::this_expression("status").chain_closure::<bool>(closure!(
                     |_: model::Container, status: model::ContainerStatus| status
@@ -377,29 +383,41 @@ mod imp {
             if let Some(container_list) = value {
                 container_list.connect_notify_local(
                     Some("num-selected"),
-                    clone!(@weak obj => move |list, _| {
-                        ACTIONS_SELECTION
-                            .iter()
-                            .for_each(|action_name| {
+                    clone!(
+                        #[weak]
+                        obj,
+                        move |list, _| {
+                            ACTIONS_SELECTION.iter().for_each(|action_name| {
                                 obj.action_set_enabled(action_name, list.num_selected() > 0);
-                        });
-                    }),
+                            });
+                        }
+                    ),
                 );
 
                 container_list.connect_notify_local(
                     Some("running"),
-                    clone!(@weak obj => move |_, _| {
-                        obj.imp().update_filter(gtk::FilterChange::Different)
-                    }),
+                    clone!(
+                        #[weak]
+                        obj,
+                        move |_, _| obj.imp().update_filter(gtk::FilterChange::Different)
+                    ),
                 );
 
-                container_list.connect_container_name_changed(clone!(@weak obj => move |_, _| {
-                    obj.imp().update_filter(gtk::FilterChange::Different);
-                    glib::timeout_add_seconds_local_once(
-                        1,
-                        clone!(@weak obj => move || obj.imp().update_sorter()),
-                    );
-                }));
+                container_list.connect_container_name_changed(clone!(
+                    #[weak]
+                    obj,
+                    move |_, _| {
+                        obj.imp().update_filter(gtk::FilterChange::Different);
+                        glib::timeout_add_seconds_local_once(
+                            1,
+                            clone!(
+                                #[weak]
+                                obj,
+                                move || obj.imp().update_sorter()
+                            ),
+                        );
+                    }
+                ));
 
                 let model = gtk::SortListModel::new(
                     Some(gtk::FilterListModel::new(
@@ -419,15 +437,23 @@ mod imp {
 
                 self.filter_stack
                     .set_visible_child_name(if model.n_items() > 0 { "list" } else { "empty" });
-                model.connect_items_changed(clone!(@weak obj => move |model, _, removed, _| {
-                    obj.imp()
-                        .filter_stack
-                        .set_visible_child_name(if model.n_items() > 0 { "list" } else { "empty" });
+                model.connect_items_changed(clone!(
+                    #[weak]
+                    obj,
+                    move |model, _, removed, _| {
+                        obj.imp()
+                            .filter_stack
+                            .set_visible_child_name(if model.n_items() > 0 {
+                                "list"
+                            } else {
+                                "empty"
+                            });
 
-                    if removed > 0 {
-                        obj.deselect_hidden_containers(model.upcast_ref());
+                        if removed > 0 {
+                            obj.deselect_hidden_containers(model.upcast_ref());
+                        }
                     }
-                }));
+                ));
             }
 
             self.container_list.set(value);
@@ -547,19 +573,23 @@ impl ContainersPanel {
                 .for_each(|container| {
                     container.stop(
                         force,
-                        clone!(@weak self as obj => move |result| {
-                            if let Err(e) = result {
-                                utils::show_error_toast(
-                                    obj.upcast_ref(),
-                                    &if force {
-                                        gettext("Error on killing container")
-                                    } else {
-                                        gettext("Error on stopping container")
-                                    },
-                                    &e.to_string(),
-                                );
+                        clone!(
+                            #[weak(rename_to = obj)]
+                            self,
+                            move |result| {
+                                if let Err(e) = result {
+                                    utils::show_error_toast(
+                                        obj.upcast_ref(),
+                                        &if force {
+                                            gettext("Error on killing container")
+                                        } else {
+                                            gettext("Error on stopping container")
+                                        },
+                                        &e.to_string(),
+                                    );
+                                }
                             }
-                        }),
+                        ),
                     );
                 });
             list.set_selection_mode(false);
@@ -575,15 +605,19 @@ impl ContainersPanel {
                 .for_each(|container| {
                     container.restart(
                         false,
-                        clone!(@weak self as obj => move |result| {
-                            if let Err(e) = result {
-                                utils::show_error_toast(
-                                    obj.upcast_ref(),
-                                    &gettext("Error on restarting container"),
-                                    &e.to_string(),
-                                );
+                        clone!(
+                            #[weak(rename_to = obj)]
+                            self,
+                            move |result| {
+                                if let Err(e) = result {
+                                    utils::show_error_toast(
+                                        obj.upcast_ref(),
+                                        &gettext("Error on restarting container"),
+                                        &e.to_string(),
+                                    );
+                                }
                             }
-                        }),
+                        ),
                     );
                 });
             list.set_selection_mode(false);
@@ -597,26 +631,34 @@ impl ContainersPanel {
                 .map(|obj| obj.downcast_ref::<model::Container>().unwrap())
                 .for_each(|container| match container.status() {
                     model::ContainerStatus::Paused => {
-                        container.resume(clone!(@weak  self as obj => move |result| {
-                            if let Err(e) = result {
-                                utils::show_error_toast(
-                                    obj.upcast_ref(),
-                                    &gettext("Error on resuming container"),
-                                    &e.to_string(),
-                                );
+                        container.resume(clone!(
+                            #[weak(rename_to = obj)]
+                            self,
+                            move |result| {
+                                if let Err(e) = result {
+                                    utils::show_error_toast(
+                                        obj.upcast_ref(),
+                                        &gettext("Error on resuming container"),
+                                        &e.to_string(),
+                                    );
+                                }
                             }
-                        }));
+                        ));
                     }
                     other if other != model::ContainerStatus::Running => {
-                        container.start(clone!(@weak  self as obj => move |result| {
-                            if let Err(e) = result {
-                                utils::show_error_toast(
-                                    obj.upcast_ref(),
-                                    &gettext("Error on starting container"),
-                                    &e.to_string(),
-                                );
+                        container.start(clone!(
+                            #[weak(rename_to = obj)]
+                            self,
+                            move |result| {
+                                if let Err(e) = result {
+                                    utils::show_error_toast(
+                                        obj.upcast_ref(),
+                                        &gettext("Error on starting container"),
+                                        &e.to_string(),
+                                    );
+                                }
                             }
-                        }));
+                        ));
                     }
                     _ => (),
                 });
@@ -631,15 +673,19 @@ impl ContainersPanel {
                 .map(|obj| obj.downcast_ref::<model::Container>().unwrap())
                 .filter(|container| matches!(container.status(), model::ContainerStatus::Running))
                 .for_each(|container| {
-                    container.pause(clone!(@weak self as obj => move |result| {
-                        if let Err(e) = result {
-                            utils::show_error_toast(
-                                obj.upcast_ref(),
-                                &gettext("Error on pausing container"),
-                                &e.to_string(),
-                            );
+                    container.pause(clone!(
+                        #[weak(rename_to = obj)]
+                        self,
+                        move |result| {
+                            if let Err(e) = result {
+                                utils::show_error_toast(
+                                    obj.upcast_ref(),
+                                    &gettext("Error on pausing container"),
+                                    &e.to_string(),
+                                );
+                            }
                         }
-                    }));
+                    ));
                 });
             list.set_selection_mode(false);
         }
@@ -672,27 +718,36 @@ impl ContainersPanel {
 
         dialog.connect_response(
             None,
-            clone!(@weak self as obj => move |_, response| if response == "delete" {
-                if let Some(list) = obj.container_list() {
-                    list
-                        .selected_items()
-                        .iter()
-                        .map(|obj| obj.downcast_ref::<model::Container>().unwrap())
-                        .for_each(|container|
-                    {
-                        container.delete(true, clone!(@weak obj => move |result| {
-                            if let Err(e) = result {
-                                utils::show_error_toast(
-                                    obj.upcast_ref(),
-                                    &gettext("Error on deleting container"),
-                                    &e.to_string(),
+            clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |_, response| if response == "delete" {
+                    if let Some(list) = obj.container_list() {
+                        list.selected_items()
+                            .iter()
+                            .map(|obj| obj.downcast_ref::<model::Container>().unwrap())
+                            .for_each(|container| {
+                                container.delete(
+                                    true,
+                                    clone!(
+                                        #[weak]
+                                        obj,
+                                        move |result| {
+                                            if let Err(e) = result {
+                                                utils::show_error_toast(
+                                                    obj.upcast_ref(),
+                                                    &gettext("Error on deleting container"),
+                                                    &e.to_string(),
+                                                );
+                                            }
+                                        }
+                                    ),
                                 );
-                            }
-                        }));
-                    });
-                    list.set_selection_mode(false);
+                            });
+                        list.set_selection_mode(false);
+                    }
                 }
-            }),
+            ),
         );
 
         dialog.present(Some(self));
