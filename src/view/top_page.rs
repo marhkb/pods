@@ -393,7 +393,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::unparent_children(self.obj().upcast_ref());
+            utils::unparent_children(&*self.obj());
         }
     }
 
@@ -528,17 +528,13 @@ impl TopPage {
                             #[weak(rename_to = obj)]
                             self,
                             move |result| if let Err(e) = result {
-                                utils::show_error_toast(
-                                    obj.upcast_ref(),
-                                    &gettext("Error"),
-                                    e.trim(),
-                                );
+                                utils::show_error_toast(&obj, &gettext("Error"), e.trim());
                             }
                         ),
                     )
                 }
                 None => utils::show_error_toast(
-                    self.upcast_ref(),
+                    self,
                     &gettext("Error"),
                     &gettext("Killing pod processes is not supported"),
                 ),

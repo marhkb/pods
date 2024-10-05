@@ -101,7 +101,7 @@ mod imp {
             )
             .bind(&*self.url_label, "label", Some(obj));
 
-            let classes = utils::css_classes(self.image.upcast_ref());
+            let classes = utils::css_classes(&*self.image);
             is_active_expr
                 .chain_closure::<Vec<String>>(closure!(|_: Self::Type, is_active: bool| {
                     classes
@@ -142,7 +142,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::unparent_children(self.obj().upcast_ref());
+            utils::unparent_children(&*self.obj());
         }
     }
 

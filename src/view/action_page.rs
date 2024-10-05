@@ -114,7 +114,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::unparent_children(self.obj().upcast_ref());
+            utils::unparent_children(&*self.obj());
         }
     }
 
@@ -308,7 +308,7 @@ impl ActionPage {
                 self.activate_action("win.close", None).unwrap();
             }
             None => utils::show_error_toast(
-                self.upcast_ref(),
+                self,
                 &gettext("Error on opening artifact"),
                 &gettext("Artifact has been deleted"),
             ),

@@ -170,7 +170,7 @@ mod imp {
                             manager,
                             move |e| {
                                 utils::show_error_toast(
-                                    obj.imp().toast_overlay.upcast_ref(),
+                                    &*obj.imp().toast_overlay,
                                     "Connection lost",
                                     &e.to_string(),
                                 );
@@ -253,8 +253,8 @@ impl Window {
 
     pub(crate) fn add_connection(&self) {
         utils::Dialog::new(
-            self.upcast_ref(),
-            view::ConnectionCreationPage::from(&self.connection_manager()).upcast_ref(),
+            self,
+            &view::ConnectionCreationPage::from(&self.connection_manager()),
         )
         .present();
     }
@@ -285,11 +285,7 @@ impl Window {
                 "welcome"
             });
 
-        utils::show_error_toast(
-            imp.toast_overlay.upcast_ref(),
-            "Connection lost",
-            &e.to_string(),
-        );
+        utils::show_error_toast(&*imp.toast_overlay, "Connection lost", &e.to_string());
     }
 
     fn client_err_op(&self, e: model::ClientError) {

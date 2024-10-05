@@ -204,7 +204,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::unparent_children(self.obj().upcast_ref());
+            utils::unparent_children(&*self.obj());
         }
     }
 
@@ -318,10 +318,7 @@ impl From<Entity> for ScalableTextViewPage {
             Some(lang) => imp.source_buffer.set_language(Some(&lang)),
             None => {
                 log::warn!("Could not set language to '{language}'");
-                utils::show_toast(
-                    obj.upcast_ref(),
-                    gettext!("Could not set language to '{}'", language),
-                );
+                utils::show_toast(&obj, gettext!("Could not set language to '{}'", language));
             }
         }
 
@@ -423,14 +420,14 @@ impl ScalableTextViewPage {
             Err(e) => {
                 imp.spinner.set_visible(false);
                 utils::show_error_toast(
-                    self.upcast_ref(),
+                    self,
                     &match mode {
                         Mode::Inspect => gettext("Inspection error"),
                         Mode::Kube => gettext("Kube generation error"),
                     },
                     &e.to_string(),
                 );
-                utils::navigation_view(self.upcast_ref()).pop();
+                utils::navigation_view(self).pop();
             }
         }
     }
@@ -445,7 +442,7 @@ impl ScalableTextViewPage {
 
         utils::show_save_file_dialog(
             request,
-            self.upcast_ref(),
+            self,
             clone!(
                 #[weak(rename_to = obj)]
                 self,
@@ -471,11 +468,7 @@ impl ScalableTextViewPage {
                                     .write_all_future(text, glib::Priority::default())
                                     .await
                                 {
-                                    utils::show_error_toast(
-                                        obj.upcast_ref(),
-                                        &gettext("Error"),
-                                        &msg,
-                                    );
+                                    utils::show_error_toast(&obj, &gettext("Error"), &msg);
                                 }
                             }
                         ));

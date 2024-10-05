@@ -155,7 +155,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::unparent_children(self.obj().upcast_ref());
+            utils::unparent_children(&*self.obj());
         }
     }
 
@@ -303,7 +303,7 @@ impl VolumeSelectionPage {
         let imp = self.imp();
 
         if !enable && !imp.filter_button.is_active() {
-            utils::navigation_view(self.upcast_ref()).pop();
+            utils::navigation_view(self).pop();
         } else {
             imp.filter_button.set_active(enable);
             if !enable {
@@ -321,11 +321,7 @@ impl VolumeSelectionPage {
 
     pub(crate) fn create_volume(&self) {
         if let Some(client) = self.volume_list().and_then(|list| list.client()) {
-            utils::Dialog::new(
-                self.upcast_ref(),
-                view::VolumeCreationPage::new(&client, false).upcast_ref(),
-            )
-            .present();
+            utils::Dialog::new(self, &view::VolumeCreationPage::new(&client, false)).present();
         }
     }
 
@@ -339,7 +335,7 @@ impl VolumeSelectionPage {
         if let Some(volume) = self.selected_volume() {
             self.emit_by_name::<()>("volume-selected", &[&volume]);
 
-            utils::navigation_view(self.upcast_ref()).pop();
+            utils::navigation_view(self).pop();
         }
     }
 

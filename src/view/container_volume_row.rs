@@ -105,7 +105,7 @@ mod imp {
             )
             .bind(&*self.name_label, "label", Some(obj));
 
-            let css_classes = utils::css_classes(self.name_label.upcast_ref());
+            let css_classes = utils::css_classes(&*self.name_label);
             volume_name_is_id_expr
                 .chain_closure::<Vec<String>>(closure!(|_: Self::Type, name_is_id: bool| {
                     css_classes
@@ -219,7 +219,7 @@ impl ContainerVolumeRow {
             .as_ref()
             .and_then(model::ContainerVolume::volume)
         {
-            utils::navigation_view(self.upcast_ref()).push(
+            utils::navigation_view(self).push(
                 &adw::NavigationPage::builder()
                     .child(&view::VolumeDetailsPage::from(volume))
                     .build(),

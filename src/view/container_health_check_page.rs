@@ -119,7 +119,7 @@ mod imp {
                 ))
                 .bind(&*self.status_label, "label", Some(obj));
 
-            let css_classes = utils::css_classes(self.status_label.upcast_ref());
+            let css_classes = utils::css_classes(&*self.status_label);
             health_status_expr
                 .chain_closure::<Vec<String>>(closure!(
                     |_: Self::Type, status: model::ContainerHealthStatus| {
@@ -179,7 +179,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::unparent_children(self.obj().upcast_ref());
+            utils::unparent_children(&*self.obj());
         }
     }
 
@@ -264,7 +264,7 @@ impl ContainerHealthCheckPage {
                     self,
                     move |result| if let Err(e) = result {
                         utils::show_error_toast(
-                            obj.upcast_ref(),
+                            &obj,
                             &gettext("Error on running health check"),
                             &e.to_string(),
                         );

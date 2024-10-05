@@ -71,7 +71,7 @@ mod imp {
             klass.bind_template();
 
             klass.install_action(ACTION_RENAME, None, |widget, _, _| {
-                view::container::rename(widget.upcast_ref(), widget.container().as_ref());
+                view::container::rename(widget, widget.container().as_ref());
             });
             klass.install_action(ACTION_COMMIT, None, |widget, _, _| {
                 widget.commit();
@@ -93,28 +93,28 @@ mod imp {
             });
             klass.install_action(ACTION_START_OR_RESUME, None, |widget, _, _| {
                 if widget.container().map(|c| c.can_start()).unwrap_or(false) {
-                    view::container::start(widget.upcast_ref());
+                    view::container::start(widget, widget.container());
                 } else {
-                    view::container::resume(widget.upcast_ref());
+                    view::container::resume(widget, widget.container());
                 }
             });
             klass.install_action(ACTION_STOP, None, |widget, _, _| {
-                view::container::stop(widget.upcast_ref());
+                view::container::stop(widget, widget.container());
             });
             klass.install_action(ACTION_KILL, None, |widget, _, _| {
-                view::container::kill(widget.upcast_ref());
+                view::container::kill(widget, widget.container());
             });
             klass.install_action(ACTION_RESTART, None, |widget, _, _| {
-                view::container::restart(widget.upcast_ref());
+                view::container::restart(widget, widget.container());
             });
             klass.install_action(ACTION_PAUSE, None, |widget, _, _| {
-                view::container::pause(widget.upcast_ref());
+                view::container::pause(widget, widget.container());
             });
             klass.install_action(ACTION_RESUME, None, |widget, _, _| {
-                view::container::resume(widget.upcast_ref());
+                view::container::resume(widget, widget.container());
             });
             klass.install_action(ACTION_DELETE, None, |widget, _, _| {
-                view::container::delete(widget.upcast_ref());
+                view::container::delete(widget, widget.container());
             });
             klass.install_action(ACTION_INSPECT, None, |widget, _, _| {
                 widget.show_inspection();
@@ -240,7 +240,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::unparent_children(self.obj().upcast_ref());
+            utils::unparent_children(&*self.obj());
         }
     }
 
@@ -263,7 +263,7 @@ mod imp {
                     obj,
                     move |result| if let Err(e) = result {
                         utils::show_error_toast(
-                            obj.upcast_ref(),
+                            &obj,
                             &gettext("Error on loading container details"),
                             &e.to_string(),
                         );
@@ -275,10 +275,10 @@ mod imp {
                     obj,
                     move |container| {
                         utils::show_toast(
-                            obj.upcast_ref(),
+                            &obj,
                             gettext!("Container '{}' has been deleted", container.name()),
                         );
-                        utils::navigation_view(obj.upcast_ref()).pop();
+                        utils::navigation_view(&obj).pop();
                     }
                 ));
                 self.handler_id.replace(Some(handler_id));
@@ -362,11 +362,7 @@ impl ContainerDetailsPage {
     pub(crate) fn commit(&self) {
         self.exec_action(|| {
             if let Some(container) = self.container() {
-                utils::Dialog::new(
-                    self.upcast_ref(),
-                    view::ContainerCommitPage::from(&container).upcast_ref(),
-                )
-                .present();
+                utils::Dialog::new(self, &view::ContainerCommitPage::from(&container)).present();
             }
         });
     }
@@ -374,11 +370,7 @@ impl ContainerDetailsPage {
     pub(crate) fn get_files(&self) {
         self.exec_action(|| {
             if let Some(container) = self.container() {
-                utils::Dialog::new(
-                    self.upcast_ref(),
-                    view::ContainerFilesGetPage::from(&container).upcast_ref(),
-                )
-                .present();
+                utils::Dialog::new(self, &view::ContainerFilesGetPage::from(&container)).present();
             }
         });
     }
@@ -386,11 +378,7 @@ impl ContainerDetailsPage {
     pub(crate) fn put_files(&self) {
         self.exec_action(|| {
             if let Some(container) = self.container() {
-                utils::Dialog::new(
-                    self.upcast_ref(),
-                    view::ContainerFilesPutPage::from(&container).upcast_ref(),
-                )
-                .present();
+                utils::Dialog::new(self, &view::ContainerFilesPutPage::from(&container)).present();
             }
         });
     }
@@ -398,7 +386,7 @@ impl ContainerDetailsPage {
     pub(crate) fn show_health_details(&self) {
         self.exec_action(|| {
             if let Some(ref container) = self.container() {
-                utils::navigation_view(self.upcast_ref()).push(
+                utils::navigation_view(self).push(
                     &adw::NavigationPage::builder()
                         .child(&view::ContainerHealthCheckPage::from(container))
                         .build(),
@@ -410,7 +398,7 @@ impl ContainerDetailsPage {
     pub(crate) fn show_image_details(&self) {
         self.exec_action(|| {
             if let Some(image) = self.container().as_ref().and_then(model::Container::image) {
-                utils::navigation_view(self.upcast_ref()).push(
+                utils::navigation_view(self).push(
                     &adw::NavigationPage::builder()
                         .child(&view::ImageDetailsPage::from(&image))
                         .build(),
@@ -422,7 +410,7 @@ impl ContainerDetailsPage {
     pub(crate) fn show_pod_details(&self) {
         self.exec_action(|| {
             if let Some(pod) = self.container().as_ref().and_then(model::Container::pod) {
-                utils::navigation_view(self.upcast_ref()).push(
+                utils::navigation_view(self).push(
                     &adw::NavigationPage::builder()
                         .child(&view::PodDetailsPage::from(&pod))
                         .build(),
@@ -445,7 +433,7 @@ impl ContainerDetailsPage {
                 let weak_ref = glib::WeakRef::new();
                 weak_ref.set(Some(&container));
 
-                utils::navigation_view(self.upcast_ref()).push(
+                utils::navigation_view(self).push(
                     &adw::NavigationPage::builder()
                         .child(&view::ScalableTextViewPage::from(view::Entity::Container {
                             container: weak_ref,
@@ -460,7 +448,7 @@ impl ContainerDetailsPage {
     pub(crate) fn show_log(&self) {
         self.exec_action(|| {
             if let Some(container) = self.container() {
-                utils::navigation_view(self.upcast_ref()).push(
+                utils::navigation_view(self).push(
                     &adw::NavigationPage::builder()
                         .child(&view::ContainerLogPage::from(&container))
                         .build(),
@@ -472,7 +460,7 @@ impl ContainerDetailsPage {
     pub(crate) fn show_processes(&self) {
         self.exec_action(|| {
             if let Some(container) = self.container() {
-                utils::navigation_view(self.upcast_ref()).push(
+                utils::navigation_view(self).push(
                     &adw::NavigationPage::builder()
                         .child(&view::TopPage::from(&container))
                         .build(),
@@ -484,7 +472,7 @@ impl ContainerDetailsPage {
     pub(crate) fn show_tty(&self) {
         self.exec_action(|| {
             if let Some(container) = self.container() {
-                utils::navigation_view(self.upcast_ref()).push(
+                utils::navigation_view(self).push(
                     &adw::NavigationPage::builder()
                         .child(&view::ContainerTerminalPage::from(&container))
                         .build(),
@@ -494,7 +482,7 @@ impl ContainerDetailsPage {
     }
 
     fn exec_action<F: Fn()>(&self, op: F) {
-        if utils::navigation_view(self.upcast_ref())
+        if utils::navigation_view(self)
             .visible_page()
             .filter(|page| page.child().as_ref() == Some(self.upcast_ref()))
             .is_some()

@@ -106,30 +106,30 @@ mod imp {
             });
 
             klass.install_action(ACTION_RENAME, None, |widget, _, _| {
-                view::container::rename(widget.upcast_ref(), widget.container().as_ref());
+                view::container::rename(widget, widget.container().as_ref());
             });
 
             klass.install_action(ACTION_START_OR_RESUME, None, |widget, _, _| {
                 if widget.container().map(|c| c.can_start()).unwrap_or(false) {
-                    view::container::start(widget.upcast_ref());
+                    view::container::start(widget, widget.container());
                 } else {
-                    view::container::resume(widget.upcast_ref());
+                    view::container::resume(widget, widget.container());
                 }
             });
             klass.install_action(ACTION_STOP, None, |widget, _, _| {
-                view::container::stop(widget.upcast_ref());
+                view::container::stop(widget, widget.container());
             });
             klass.install_action(ACTION_KILL, None, |widget, _, _| {
-                view::container::kill(widget.upcast_ref());
+                view::container::kill(widget, widget.container());
             });
             klass.install_action(ACTION_RESTART, None, |widget, _, _| {
-                view::container::restart(widget.upcast_ref());
+                view::container::restart(widget, widget.container());
             });
             klass.install_action(ACTION_PAUSE, None, |widget, _, _| {
-                view::container::pause(widget.upcast_ref());
+                view::container::pause(widget, widget.container());
             });
             klass.install_action(ACTION_RESUME, None, |widget, _, _| {
-                view::container::resume(widget.upcast_ref());
+                view::container::resume(widget, widget.container());
             });
             klass.install_action(ACTION_DELETE, None, |widget, _, _| {
                 widget.delete();
@@ -211,7 +211,7 @@ mod imp {
                     ),
                 );
 
-            let css_classes = utils::css_classes(obj.upcast_ref());
+            let css_classes = utils::css_classes(obj);
             status_expr
                 .chain_closure::<Vec<String>>(closure!(
                     |_: Self::Type, status: model::ContainerStatus| {
@@ -250,7 +250,7 @@ mod imp {
             )
             .bind(&*self.spinner, "icon-name", Some(obj));
 
-            let css_classes = utils::css_classes(self.spinner.upcast_ref());
+            let css_classes = utils::css_classes(&*self.spinner);
             gtk::ClosureExpression::new::<Vec<String>>(
                 [&status_expr, &health_status_expr],
                 closure!(|_: Self::Type,
@@ -399,7 +399,7 @@ mod imp {
 
             pod_name_expr.bind(&*self.pod_name_label, "label", Some(obj));
 
-            let css_classes = utils::css_classes(self.pod_center_box.upcast_ref());
+            let css_classes = utils::css_classes(&*self.pod_center_box);
             pod_status_expr
                 .chain_closure::<Vec<String>>(closure!(
                     |_: Self::Type, status: model::PodStatus| {
@@ -414,7 +414,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::unparent_children(self.obj().upcast_ref());
+            utils::unparent_children(&*self.obj());
         }
     }
 
@@ -491,7 +491,7 @@ mod imp {
                                         ))
                                         .build();
 
-                                    let css_classes = utils::css_classes(label.upcast_ref());
+                                    let css_classes = utils::css_classes(&label);
                                     super::ContainerCard::this_expression("container")
                                         .chain_property::<model::Container>("status")
                                         .chain_closure::<Vec<String>>(closure!(
@@ -562,7 +562,7 @@ impl ContainerCard {
                     )))
                     .bind(&nav_page, "title", Some(self));
 
-                utils::navigation_view(self.upcast_ref()).push(&nav_page);
+                utils::navigation_view(self).push(&nav_page);
             }
         }
     }
@@ -584,7 +584,7 @@ impl ContainerCard {
         dialog.set_response_appearance("confirm", adw::ResponseAppearance::Destructive);
 
         if glib::MainContext::default().block_on(dialog.choose_future(self)) == "confirm" {
-            view::container::delete(self.upcast_ref())
+            view::container::delete(self, self.container())
         }
     }
 
@@ -616,7 +616,7 @@ impl ContainerCard {
             ),
         );
 
-        let classes = utils::css_classes(progress_bar.upcast_ref());
+        let classes = utils::css_classes(progress_bar);
 
         #[rustfmt::skip]
         percent_expr.chain_closure::<Vec<String>>(closure!(|_: Self, value: f64| {
@@ -653,7 +653,7 @@ impl ContainerCard {
             }))
             .bind(label, "label", Some(self));
 
-        let css_classes = utils::css_classes(box_.upcast_ref());
+        let css_classes = utils::css_classes(box_);
         self.curr_value_expr(stats_expr)
             .chain_closure::<Vec<String>>(closure!(|_: Self, value: u64| {
                 css_classes

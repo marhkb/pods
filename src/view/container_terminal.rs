@@ -69,10 +69,10 @@ mod imp {
             klass.install_action(ACTION_START_OR_RESUME, None, |widget, _, _| {
                 if let Some(container) = widget.container() {
                     if container.can_start() {
-                        view::container::start(widget.upcast_ref());
+                        view::container::start(widget, widget.container());
                         widget.action_set_enabled(ACTION_START_OR_RESUME, false);
                     } else if container.can_resume() {
-                        view::container::resume(widget.upcast_ref());
+                        view::container::resume(widget, widget.container());
                         widget.action_set_enabled(ACTION_START_OR_RESUME, false);
                     }
                 }
@@ -223,7 +223,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::unparent_children(self.obj().upcast_ref());
+            utils::unparent_children(&*self.obj());
         }
     }
 
@@ -483,13 +483,12 @@ impl ContainerTerminal {
                 move |result: podman::Result<_>| {
                     if result.is_err() {
                         utils::show_error_toast(
-                            gio::Application::default()
+                            &gio::Application::default()
                                 .unwrap()
                                 .downcast::<crate::Application>()
                                 .unwrap()
                                 .main_window()
-                                .toast_overlay()
-                                .upcast_ref(),
+                                .toast_overlay(),
                             &gettext("Terminal error"),
                             &gettext("'/bin/sh' not found"),
                         );

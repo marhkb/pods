@@ -137,7 +137,7 @@ mod imp {
             if let Some(abort_handle) = self.search_abort_handle.take() {
                 abort_handle.abort();
             }
-            utils::unparent_children(self.obj().upcast_ref());
+            utils::unparent_children(&*self.obj());
         }
     }
 
@@ -228,7 +228,7 @@ mod imp {
                             Err(e) => {
                                 log::error!("Failed to search for images: {}", e);
                                 utils::show_error_toast(
-                                    obj.upcast_ref(),
+                                    &obj,
                                     &gettext("Failed to search for images"),
                                     &e.to_string(),
                                 );

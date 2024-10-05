@@ -109,7 +109,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::unparent_children(self.obj().upcast_ref());
+            utils::unparent_children(&*self.obj());
         }
     }
 
@@ -325,7 +325,7 @@ impl InfoPanel {
 
                                 log::error!("Failed to retrieve host info: {e}");
                                 utils::show_error_toast(
-                                    obj.upcast_ref(),
+                                    &obj,
                                     &gettext("Error on retrieving info"),
                                     &e.to_string(),
                                 );

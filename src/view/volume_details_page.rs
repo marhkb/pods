@@ -157,7 +157,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::unparent_children(self.obj().upcast_ref());
+            utils::unparent_children(&*self.obj());
         }
     }
 
@@ -184,10 +184,10 @@ mod imp {
                     obj,
                     move |volume| {
                         utils::show_toast(
-                            obj.upcast_ref(),
+                            &obj,
                             gettext!("Volume '{}' has been deleted", volume.inner().name),
                         );
-                        utils::navigation_view(obj.upcast_ref()).pop();
+                        utils::navigation_view(&obj).pop();
                     }
                 ));
                 self.handler_id.replace(Some(handler_id));
@@ -218,7 +218,7 @@ impl VolumeDetailsPage {
                 let weak_ref = glib::WeakRef::new();
                 weak_ref.set(Some(&volume));
 
-                utils::navigation_view(self.upcast_ref()).push(
+                utils::navigation_view(self).push(
                     &adw::NavigationPage::builder()
                         .child(&view::ScalableTextViewPage::from(view::Entity::Volume(
                             weak_ref,
@@ -231,12 +231,12 @@ impl VolumeDetailsPage {
 
     pub(crate) fn delete_volume(&self) {
         self.exec_action(|| {
-            view::volume::delete_volume_show_confirmation(self.upcast_ref(), self.volume());
+            view::volume::delete_volume_show_confirmation(self, self.volume());
         });
     }
 
     fn exec_action<F: Fn()>(&self, op: F) {
-        if utils::navigation_view(self.upcast_ref())
+        if utils::navigation_view(self)
             .visible_page()
             .filter(|page| page.child().as_ref() == Some(self.upcast_ref()))
             .is_some()
@@ -247,7 +247,7 @@ impl VolumeDetailsPage {
 
     pub(crate) fn create_container(&self) {
         self.exec_action(|| {
-            view::volume::create_container(self.upcast_ref(), self.volume());
+            view::volume::create_container(self, self.volume());
         });
     }
 }

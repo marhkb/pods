@@ -102,7 +102,7 @@ mod imp {
             description_expr.bind(obj, "tooltip-markup", Some(obj));
             description_expr.bind(&*self.description_label, "label", Some(obj));
 
-            let classes = utils::css_classes(self.state_label.upcast_ref());
+            let classes = utils::css_classes(&*self.state_label);
             state_expr
                 .chain_closure::<Vec<String>>(closure!(
                     |_: Self::Type, state: model::ActionState| {
@@ -151,7 +151,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::unparent_children(self.obj().upcast_ref());
+            utils::unparent_children(&*self.obj());
         }
     }
 

@@ -188,11 +188,7 @@ impl RepoTagRow {
 
     fn push(&self) {
         if let Some(repo_tag) = self.repo_tag() {
-            utils::Dialog::new(
-                self.upcast_ref(),
-                view::RepoTagPushPage::from(&repo_tag).upcast_ref(),
-            )
-            .present();
+            utils::Dialog::new(self, &view::RepoTagPushPage::from(&repo_tag)).present();
         }
     }
 
@@ -229,7 +225,7 @@ impl RepoTagRow {
                             }
                             log::warn!("Error on untagging image: {e}");
                             utils::show_error_toast(
-                                obj.upcast_ref(),
+                                &obj,
                                 &gettext("Error on untagging image"),
                                 &e.to_string(),
                             );

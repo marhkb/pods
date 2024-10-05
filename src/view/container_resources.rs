@@ -253,7 +253,7 @@ impl ContainerResources {
             ),
         );
 
-        let classes = utils::css_classes(progress_bar.upcast_ref());
+        let classes = utils::css_classes(progress_bar);
 
         #[rustfmt::skip]
         percent_expr.chain_closure::<Vec<String>>(closure!(|_: Self, value: f64| {

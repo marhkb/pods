@@ -295,7 +295,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::unparent_children(self.obj().upcast_ref());
+            utils::unparent_children(&*self.obj());
         }
     }
 
@@ -430,21 +430,13 @@ impl PodsPanel {
 
     pub(crate) fn create_pod(&self) {
         if let Some(client) = self.pod_list().as_ref().and_then(model::PodList::client) {
-            utils::Dialog::new(
-                self.upcast_ref(),
-                view::PodCreationPage::from(&client).upcast_ref(),
-            )
-            .present();
+            utils::Dialog::new(self, &view::PodCreationPage::from(&client)).present();
         }
     }
 
     pub(crate) fn prune_pods(&self) {
         if let Some(client) = self.pod_list().and_then(|pod_list| pod_list.client()) {
-            utils::Dialog::new(
-                self.upcast_ref(),
-                view::PodsPrunePage::from(&client).upcast_ref(),
-            )
-            .present();
+            utils::Dialog::new(self, &view::PodsPrunePage::from(&client)).present();
         }
     }
 
@@ -494,7 +486,7 @@ impl PodsPanel {
                             move |result| {
                                 if let Err(e) = result {
                                     utils::show_error_toast(
-                                        obj.upcast_ref(),
+                                        &obj,
                                         &gettext("Error on resuming pod"),
                                         &e.to_string(),
                                     );
@@ -509,7 +501,7 @@ impl PodsPanel {
                             move |result| {
                                 if let Err(e) = result {
                                     utils::show_error_toast(
-                                        obj.upcast_ref(),
+                                        &obj,
                                         &gettext("Error on starting pod"),
                                         &e.to_string(),
                                     );
@@ -538,7 +530,7 @@ impl PodsPanel {
                             move |result| {
                                 if let Err(e) = result {
                                     utils::show_error_toast(
-                                        obj.upcast_ref(),
+                                        &obj,
                                         &if force {
                                             gettext("Error on killing pod")
                                         } else {
@@ -568,7 +560,7 @@ impl PodsPanel {
                         move |result| {
                             if let Err(e) = result {
                                 utils::show_error_toast(
-                                    obj.upcast_ref(),
+                                    &obj,
                                     &gettext("Error on stopping pod"),
                                     &e.to_string(),
                                 );
@@ -595,7 +587,7 @@ impl PodsPanel {
                             move |result| {
                                 if let Err(e) = result {
                                     utils::show_error_toast(
-                                        obj.upcast_ref(),
+                                        &obj,
                                         &gettext("Error on restarting pod"),
                                         &e.to_string(),
                                     );
@@ -645,7 +637,7 @@ impl PodsPanel {
                                         move |result| {
                                             if let Err(e) = result {
                                                 utils::show_error_toast(
-                                                    obj.upcast_ref(),
+                                                    &obj,
                                                     &gettext("Error on deleting pod"),
                                                     &e.to_string(),
                                                 );

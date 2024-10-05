@@ -150,7 +150,7 @@ mod imp {
                         let imp = obj.imp();
 
                         imp.port_bindings_label.set_label("");
-                        utils::ChildIter::from(imp.port_bindings_row.upcast_ref())
+                        utils::ChildIter::from(&*imp.port_bindings_row)
                             .filter(|child| child.is::<gtk::ListBoxRow>())
                             .for_each(|child| imp.port_bindings_row.remove(&child));
 
@@ -292,7 +292,7 @@ mod imp {
                 ))
                 .bind(&*self.status_label, "label", Some(obj));
 
-            let css_classes = utils::css_classes(self.status_label.upcast_ref());
+            let css_classes = utils::css_classes(&*self.status_label);
             status_expr
                 .chain_closure::<Vec<String>>(closure!(
                     |_: Self::Type, status: model::ContainerStatus| {
@@ -313,7 +313,7 @@ mod imp {
                 ))
                 .bind(&*self.health_status_label, "label", Some(obj));
 
-            let css_classes = utils::css_classes(self.status_label.upcast_ref());
+            let css_classes = utils::css_classes(&*self.status_label);
             health_status_expr
                 .chain_closure::<Vec<String>>(closure!(
                     |_: Self::Type, status: model::ContainerHealthStatus| {

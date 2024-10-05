@@ -98,7 +98,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::unparent_children(self.obj().upcast_ref());
+            utils::unparent_children(&*self.obj());
         }
     }
 
@@ -118,11 +118,11 @@ mod imp {
                     glib::ControlFlow::Break
                 }
             ));
-            utils::root(widget.upcast_ref()).set_default_widget(Some(&*self.put_button));
+            utils::root(widget).set_default_widget(Some(&*self.put_button));
         }
 
         fn unroot(&self) {
-            utils::root(self.obj().upcast_ref()).set_default_widget(gtk::Widget::NONE);
+            utils::root(&*self.obj()).set_default_widget(gtk::Widget::NONE);
             self.parent_unroot()
         }
     }
@@ -180,7 +180,7 @@ impl ContainerFilesPutPage {
 
         utils::show_open_file_dialog(
             request,
-            self.upcast_ref(),
+            self,
             clone!(
                 #[weak(rename_to = obj)]
                 self,

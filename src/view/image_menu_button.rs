@@ -99,7 +99,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::unparent_children(self.obj().upcast_ref());
+            utils::unparent_children(&*self.obj());
         }
     }
 
@@ -114,10 +114,10 @@ glib::wrapper! {
 
 impl ImageMenuButton {
     pub(crate) fn delete_image(&self) {
-        view::image::delete_image_show_confirmation(self.upcast_ref(), self.image());
+        view::image::delete_image_show_confirmation(self, self.image());
     }
 
     pub(crate) fn create_container(&self) {
-        view::image::create_container(self.upcast_ref(), self.image());
+        view::image::create_container(self, self.image());
     }
 }

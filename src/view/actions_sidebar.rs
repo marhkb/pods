@@ -116,7 +116,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::unparent_children(self.obj().upcast_ref());
+            utils::unparent_children(&*self.obj());
         }
     }
 
@@ -135,11 +135,7 @@ mod imp {
                 .downcast::<model::Action>()
                 .unwrap();
 
-            utils::Dialog::new(
-                self.obj().upcast_ref(),
-                view::ActionPage::from(&action).upcast_ref(),
-            )
-            .present();
+            utils::Dialog::new(&*self.obj(), &view::ActionPage::from(&action)).present();
         }
 
         pub(super) fn set_action_list(&self, value: Option<&model::ActionList>) {

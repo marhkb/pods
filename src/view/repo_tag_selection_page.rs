@@ -164,7 +164,7 @@ mod imp {
                             Err(e) => {
                                 log::error!("Failed to search for images: {}", e);
                                 utils::show_error_toast(
-                                    obj.upcast_ref(),
+                                    &obj,
                                     &gettext("Failed to search for images"),
                                     &e.to_string(),
                                 );
@@ -230,7 +230,7 @@ mod imp {
 
         fn dispose(&self) {
             self.search_abort_handle.get().unwrap().abort();
-            utils::unparent_children(self.obj().upcast_ref());
+            utils::unparent_children(&*self.obj());
         }
     }
 

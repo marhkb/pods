@@ -112,7 +112,7 @@ mod imp {
                 }))
                 .bind(&*self.spinner, "icon-name", Some(obj));
 
-            let css_classes = utils::css_classes(self.spinner.upcast_ref());
+            let css_classes = utils::css_classes(&*self.spinner);
             status_expr
                 .chain_closure::<Vec<String>>(closure!(
                     |_: Self::Type, status: model::PodStatus| {
@@ -219,7 +219,7 @@ mod imp {
                             ))
                             .build();
 
-                        let css_classes = utils::css_classes(label.upcast_ref());
+                        let css_classes = utils::css_classes(&label);
                         super::PodRow::this_expression("pod")
                             .chain_property::<model::Pod>("status")
                             .chain_closure::<Vec<String>>(closure!(
@@ -269,7 +269,7 @@ impl PodRow {
             {
                 pod.select();
             } else {
-                utils::navigation_view(self.upcast_ref()).push(
+                utils::navigation_view(self).push(
                     &adw::NavigationPage::builder()
                         .title(gettext("Pod Details"))
                         .child(&view::PodDetailsPage::from(pod))

@@ -103,7 +103,7 @@ mod imp {
             )
             .bind(&*self.spinner, "icon-name", Some(obj));
 
-            let css_classes = utils::css_classes(self.spinner.upcast_ref());
+            let css_classes = utils::css_classes(&*self.spinner);
             gtk::ClosureExpression::new::<Vec<String>>(
                 [&status_expr, &health_status_expr],
                 closure!(|_: Self::Type,
@@ -260,7 +260,7 @@ impl ContainerRow {
                 )))
                 .bind(&nav_page, "title", Some(self));
 
-            utils::navigation_view(self.upcast_ref()).push(&nav_page);
+            utils::navigation_view(self).push(&nav_page);
         }
     }
 }

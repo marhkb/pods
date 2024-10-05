@@ -3,6 +3,7 @@ use gettextrs::gettext;
 use glib::clone;
 use glib::closure;
 use gtk::glib;
+use gtk::glib::clone::Downgrade;
 
 use crate::model;
 use crate::utils;
@@ -52,7 +53,10 @@ pub(crate) fn container_status_combined_css_class(
     }
 }
 
-pub(crate) fn rename(widget: &gtk::Widget, container: Option<&model::Container>) {
+pub(crate) fn rename<W>(widget: &W, container: Option<&model::Container>)
+where
+    W: IsA<gtk::Widget> + Downgrade<Weak = glib::WeakRef<W>>,
+{
     if let Some(container) = container {
         let container_renamer = view::ContainerRenamer::from(container);
 
@@ -129,12 +133,14 @@ pub(crate) fn rename(widget: &gtk::Widget, container: Option<&model::Container>)
 
 macro_rules! container_action {
     (fn $name:ident => $action:ident($($param:literal),*) => $error:tt) => {
-        pub(crate) fn $name(widget: &gtk::Widget) {
-            use gtk::glib;
-            if let Some(container) = <gtk::Widget as gtk::prelude::ObjectExt>::property::<Option<crate::model::Container>>(widget, "container") {
+        pub(crate) fn $name<W>(widget: &W, container: Option<crate::model::Container>)
+        where
+            W: gtk::glib::prelude::IsA<gtk::Widget> + gtk::glib::clone::Downgrade<Weak = gtk::glib::WeakRef<W>>,
+        {
+            if let Some(container) = container {
                 container.$action(
                     $($param,)*
-                    glib::clone!(#[weak] widget, move |result| if let Err(e) = result {
+                    gtk::glib::clone!(#[weak] widget, move |result| if let Err(e) = result {
                         crate::utils::show_error_toast(
                             &widget,
                             &$error,

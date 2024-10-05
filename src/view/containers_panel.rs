@@ -330,7 +330,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::unparent_children(self.obj().upcast_ref());
+            utils::unparent_children(&*self.obj());
         }
     }
 
@@ -507,22 +507,15 @@ impl ContainersPanel {
             .as_ref()
             .and_then(model::ContainerList::client)
         {
-            utils::Dialog::new(
-                self.upcast_ref(),
-                view::ContainerCreationPage::from(&client).upcast_ref(),
-            )
-            .present();
+            utils::Dialog::new(self, &view::ContainerCreationPage::from(&client)).present();
         }
     }
 
     pub(crate) fn show_prune_page(&self) {
         if let Some(client) = self.client() {
-            utils::Dialog::new(
-                self.upcast_ref(),
-                view::ContainersPrunePage::from(&client).upcast_ref(),
-            )
-            .follows_content_size(true)
-            .present();
+            utils::Dialog::new(self, &view::ContainersPrunePage::from(&client))
+                .follows_content_size(true)
+                .present();
         }
     }
 
@@ -579,7 +572,7 @@ impl ContainersPanel {
                             move |result| {
                                 if let Err(e) = result {
                                     utils::show_error_toast(
-                                        obj.upcast_ref(),
+                                        &obj,
                                         &if force {
                                             gettext("Error on killing container")
                                         } else {
@@ -611,7 +604,7 @@ impl ContainersPanel {
                             move |result| {
                                 if let Err(e) = result {
                                     utils::show_error_toast(
-                                        obj.upcast_ref(),
+                                        &obj,
                                         &gettext("Error on restarting container"),
                                         &e.to_string(),
                                     );
@@ -637,7 +630,7 @@ impl ContainersPanel {
                             move |result| {
                                 if let Err(e) = result {
                                     utils::show_error_toast(
-                                        obj.upcast_ref(),
+                                        &obj,
                                         &gettext("Error on resuming container"),
                                         &e.to_string(),
                                     );
@@ -652,7 +645,7 @@ impl ContainersPanel {
                             move |result| {
                                 if let Err(e) = result {
                                     utils::show_error_toast(
-                                        obj.upcast_ref(),
+                                        &obj,
                                         &gettext("Error on starting container"),
                                         &e.to_string(),
                                     );
@@ -679,7 +672,7 @@ impl ContainersPanel {
                         move |result| {
                             if let Err(e) = result {
                                 utils::show_error_toast(
-                                    obj.upcast_ref(),
+                                    &obj,
                                     &gettext("Error on pausing container"),
                                     &e.to_string(),
                                 );
@@ -735,7 +728,7 @@ impl ContainersPanel {
                                         move |result| {
                                             if let Err(e) = result {
                                                 utils::show_error_toast(
-                                                    obj.upcast_ref(),
+                                                    &obj,
                                                     &gettext("Error on deleting container"),
                                                     &e.to_string(),
                                                 );
