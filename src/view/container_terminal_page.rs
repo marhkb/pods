@@ -122,7 +122,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::unparent_children(self.obj().upcast_ref());
+            utils::unparent_children(&*self.obj());
         }
     }
 
@@ -133,12 +133,11 @@ mod imp {
         #[template_callback]
         fn on_terminal_terminated(&self) {
             let obj = &*self.obj();
-            let widget = obj.upcast_ref();
-            match utils::try_navigation_view(widget) {
+            match utils::try_navigation_view(obj) {
                 Some(navigation_view) => {
                     navigation_view.pop();
                 }
-                None => utils::root(widget).close(),
+                None => utils::root(obj).close(),
             }
         }
     }
@@ -158,7 +157,7 @@ impl From<&model::Container> for ContainerTerminalPage {
 
 impl ContainerTerminalPage {
     pub(crate) fn pip_out(&self) {
-        if let Some(navigation_view) = utils::try_navigation_view(self.upcast_ref()) {
+        if let Some(navigation_view) = utils::try_navigation_view(self) {
             self.imp().terminal.keep_alive_on_next_unroot();
 
             self.action_set_enabled(ACTION_PIP_OUT, false);

@@ -331,7 +331,7 @@ impl MountRow {
                     }
                 }
             ));
-            utils::navigation_view(self.upcast_ref()).push(
+            utils::navigation_view(self).push(
                 &adw::NavigationPage::builder()
                     .child(&volume_selection_page)
                     .build(),

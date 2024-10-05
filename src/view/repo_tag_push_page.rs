@@ -174,7 +174,7 @@ mod imp {
                                             Err(e) => {
                                                 log::error!("Error on accessing keyring: {e}");
                                                 utils::show_error_toast(
-                                                    imp.toast_overlay.upcast_ref(),
+                                                    &*imp.toast_overlay,
                                                     &gettext("Error on accessing keyring"),
                                                     &e.to_string(),
                                                 );
@@ -191,18 +191,18 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::unparent_children(self.obj().upcast_ref());
+            utils::unparent_children(&*self.obj());
         }
     }
 
     impl WidgetImpl for RepoTagPushPage {
         fn root(&self) {
             self.parent_root();
-            utils::root(self.obj().upcast_ref()).set_default_widget(Some(&*self.push_button));
+            utils::root(&*self.obj()).set_default_widget(Some(&*self.push_button));
         }
 
         fn unroot(&self) {
-            utils::root(self.obj().upcast_ref()).set_default_widget(gtk::Widget::NONE);
+            utils::root(&*self.obj()).set_default_widget(gtk::Widget::NONE);
             self.parent_unroot()
         }
     }
@@ -269,7 +269,7 @@ impl RepoTagPushPage {
                                 None => {
                                     log::error!("Cannot save credentials, because secret service isn't available.");
                                     utils::show_error_toast(
-                                        imp.toast_overlay.upcast_ref(),
+                                        &*imp.toast_overlay,
                                         &gettext("Error saving credentials"),
                                         &gettext("Secret Service is not available"),
                                     );

@@ -109,7 +109,7 @@ mod imp {
             )
             .bind(&*self.id_label, "label", Some(obj));
 
-            let css_classes = utils::css_classes(self.id_label.upcast_ref());
+            let css_classes = utils::css_classes(&*self.id_label);
             image_expr
                 .chain_property::<model::Image>("repo-tags")
                 .chain_property::<model::RepoTagList>("len")
@@ -206,7 +206,7 @@ impl ImageRow {
             {
                 image.select();
             } else {
-                utils::navigation_view(self.upcast_ref()).push(
+                utils::navigation_view(self).push(
                     &adw::NavigationPage::builder()
                         .title(gettext!("Image {}", utils::format_id(&image.id())))
                         .child(&view::ImageDetailsPage::from(image))

@@ -308,7 +308,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::unparent_children(self.obj().upcast_ref());
+            utils::unparent_children(&*self.obj());
         }
     }
 
@@ -512,7 +512,7 @@ impl ContainerLogPage {
             Err(e) => {
                 log::warn!("Stopping container log stream due to error: {e}");
                 utils::show_error_toast(
-                    self.upcast_ref(),
+                    self,
                     &gettext("Error while following log"),
                     &e.to_string(),
                 );
@@ -669,7 +669,7 @@ impl ContainerLogPage {
 
             utils::show_save_file_dialog(
                 request,
-                self.upcast_ref(),
+                self,
                 clone!(
                     #[weak(rename_to = obj)]
                     self,
@@ -718,7 +718,7 @@ impl ContainerLogPage {
                                                         Err(e) => {
                                                             log::warn!("Error on saving logs: {e}");
                                                             utils::show_error_toast(
-                                                                obj.upcast_ref(),
+                                                                &obj,
                                                                 &gettext("Error on saving logs"),
                                                                 &e.to_string(),
                                                             );
@@ -732,7 +732,7 @@ impl ContainerLogPage {
                                             Err(e) => {
                                                 log::warn!("Error on retrieving logs: {e}");
                                                 utils::show_error_toast(
-                                                    obj.upcast_ref(),
+                                                    &obj,
                                                     &gettext("Error on retrieving logs"),
                                                     &e.to_string(),
                                                 );
@@ -746,10 +746,7 @@ impl ContainerLogPage {
                                     obj,
                                     move || {
                                         obj.action_set_enabled(ACTION_SAVE_TO_FILE, true);
-                                        utils::show_toast(
-                                            obj.upcast_ref(),
-                                            gettext("Log has been saved"),
-                                        );
+                                        utils::show_toast(&obj, gettext("Log has been saved"));
                                     }
                                 ),
                             );
@@ -778,7 +775,7 @@ impl ContainerLogPage {
                     move |result| {
                         if let Err(e) = result {
                             utils::show_error_toast(
-                                obj.upcast_ref(),
+                                &obj,
                                 &gettext("Error starting container"),
                                 &e.to_string(),
                             );
@@ -792,7 +789,7 @@ impl ContainerLogPage {
                     move |result| {
                         if let Err(e) = result {
                             utils::show_error_toast(
-                                obj.upcast_ref(),
+                                &obj,
                                 &gettext("Error resuming container"),
                                 &e.to_string(),
                             );

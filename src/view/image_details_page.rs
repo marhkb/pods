@@ -255,7 +255,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::unparent_children(self.obj().upcast_ref());
+            utils::unparent_children(&*self.obj());
         }
     }
 
@@ -282,7 +282,7 @@ mod imp {
                     obj,
                     move |result| if let Err(e) = result {
                         utils::show_error_toast(
-                            obj.upcast_ref(),
+                            &obj,
                             &gettext("Error on loading image details"),
                             &e.to_string(),
                         );
@@ -294,10 +294,10 @@ mod imp {
                     obj,
                     move |image| {
                         utils::show_toast(
-                            obj.upcast_ref(),
+                            &obj,
                             gettext!("Image '{}' has been deleted", image.id()),
                         );
-                        utils::navigation_view(obj.upcast_ref()).pop();
+                        utils::navigation_view(&obj).pop();
                     }
                 ));
                 self.handler_id.replace(Some(handler_id));
@@ -337,7 +337,7 @@ impl ImageDetailsPage {
         self.exec_action(|| {
             if let Some(image) = self.image() {
                 let dialog = view::RepoTagAddDialog::from(&image);
-                dialog.set_transient_for(Some(&utils::root(self.upcast_ref())));
+                dialog.set_transient_for(Some(&utils::root(self)));
                 dialog.present();
             }
         });
@@ -349,7 +349,7 @@ impl ImageDetailsPage {
                 let weak_ref = glib::WeakRef::new();
                 weak_ref.set(Some(&image));
 
-                utils::navigation_view(self.upcast_ref()).push(
+                utils::navigation_view(self).push(
                     &adw::NavigationPage::builder()
                         .child(&view::ScalableTextViewPage::from(view::Entity::Image(
                             weak_ref,
@@ -363,7 +363,7 @@ impl ImageDetailsPage {
     fn show_history(&self) {
         self.exec_action(|| {
             if let Some(image) = self.image() {
-                utils::navigation_view(self.upcast_ref()).push(
+                utils::navigation_view(self).push(
                     &adw::NavigationPage::builder()
                         .child(&view::ImageHistoryPage::from(&image))
                         .build(),
@@ -374,18 +374,18 @@ impl ImageDetailsPage {
 
     fn delete_image(&self) {
         self.exec_action(|| {
-            view::image::delete_image_show_confirmation(self.upcast_ref(), self.image());
+            view::image::delete_image_show_confirmation(self, self.image());
         });
     }
 
     fn create_container(&self) {
         self.exec_action(|| {
-            view::image::create_container(self.upcast_ref(), self.image());
+            view::image::create_container(self, self.image());
         });
     }
 
     fn exec_action<F: Fn()>(&self, op: F) {
-        if utils::navigation_view(self.upcast_ref())
+        if utils::navigation_view(self)
             .visible_page()
             .filter(|page| page.child().as_ref() == Some(self.upcast_ref()))
             .is_some()

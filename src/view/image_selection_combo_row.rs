@@ -139,7 +139,7 @@ impl ImageSelectionComboRow {
                     obj.set_image(Some(image));
                 }
             ));
-            utils::navigation_view(self.upcast_ref()).push(
+            utils::navigation_view(self).push(
                 &adw::NavigationPage::builder()
                     .child(&image_selection_page)
                     .build(),
@@ -162,7 +162,7 @@ impl ImageSelectionComboRow {
                     obj.set_subtitle(image);
                 }
             ));
-            utils::navigation_view(self.upcast_ref()).push(
+            utils::navigation_view(self).push(
                 &adw::NavigationPage::builder()
                     .child(&image_search_page)
                     .build(),

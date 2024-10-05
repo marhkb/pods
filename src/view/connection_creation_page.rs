@@ -156,7 +156,7 @@ mod imp {
             let obj = &*self.obj();
 
             obj.abort();
-            utils::unparent_children(obj.upcast_ref());
+            utils::unparent_children(obj);
         }
     }
 
@@ -176,11 +176,11 @@ mod imp {
                     glib::ControlFlow::Break
                 }
             ));
-            utils::root(widget.upcast_ref()).set_default_widget(Some(&*self.connect_button));
+            utils::root(widget).set_default_widget(Some(&*self.connect_button));
         }
 
         fn unroot(&self) {
-            utils::root(self.obj().upcast_ref()).set_default_widget(gtk::Widget::NONE);
+            utils::root(&*self.obj()).set_default_widget(gtk::Widget::NONE);
             self.parent_unroot()
         }
     }
@@ -297,6 +297,6 @@ impl ConnectionCreationPage {
     }
 
     fn on_error(&self, msg: &str) {
-        utils::show_error_toast(self.upcast_ref(), &gettext("Error"), msg);
+        utils::show_error_toast(self, &gettext("Error"), msg);
     }
 }

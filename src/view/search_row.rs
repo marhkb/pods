@@ -1,4 +1,3 @@
-use adw::prelude::*;
 use adw::subclass::prelude::*;
 use gtk::glib;
 use gtk::CompositeTemplate;
@@ -29,7 +28,7 @@ mod imp {
 
     impl ObjectImpl for SearchRow {
         fn dispose(&self) {
-            utils::unparent_children(self.obj().upcast_ref());
+            utils::unparent_children(&*self.obj());
         }
     }
 

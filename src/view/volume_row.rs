@@ -139,7 +139,7 @@ mod imp {
             )
             .bind(&*self.name_label, "label", Some(obj));
 
-            let css_classes = utils::css_classes(self.name_label.upcast_ref());
+            let css_classes = utils::css_classes(&*self.name_label);
             gtk::ClosureExpression::new::<Vec<String>>(
                 [
                     container_list_expr
@@ -277,7 +277,7 @@ impl VolumeRow {
             {
                 volume.select();
             } else {
-                utils::navigation_view(self.upcast_ref()).push(
+                utils::navigation_view(self).push(
                     &adw::NavigationPage::builder()
                         .title(gettext!(
                             "Volume {}",
@@ -291,6 +291,6 @@ impl VolumeRow {
     }
 
     pub(crate) fn delete_volume(&self) {
-        view::volume::delete_volume_show_confirmation(self.upcast_ref(), self.volume());
+        view::volume::delete_volume_show_confirmation(self, self.volume());
     }
 }

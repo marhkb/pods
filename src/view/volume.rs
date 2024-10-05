@@ -1,6 +1,7 @@
 use adw::prelude::*;
 use gettextrs::gettext;
 use glib::clone;
+use glib::clone::Downgrade;
 use gtk::gio;
 use gtk::glib;
 
@@ -8,7 +9,10 @@ use crate::model;
 use crate::utils;
 use crate::view;
 
-pub(crate) fn delete_volume_show_confirmation(widget: &gtk::Widget, volume: Option<model::Volume>) {
+pub(crate) fn delete_volume_show_confirmation<W>(widget: &W, volume: Option<model::Volume>)
+where
+    W: IsA<gtk::Widget> + Downgrade<Weak = glib::WeakRef<W>>,
+{
     if let Some(volume) = volume {
         match volume.container_list().get(0) {
             Some(container) => {
@@ -50,7 +54,10 @@ pub(crate) fn delete_volume_show_confirmation(widget: &gtk::Widget, volume: Opti
     }
 }
 
-fn delete_volume(widget: &gtk::Widget, volume: &model::Volume, force: bool) {
+fn delete_volume<W>(widget: &W, volume: &model::Volume, force: bool)
+where
+    W: IsA<gtk::Widget> + Downgrade<Weak = glib::WeakRef<W>>,
+{
     volume.delete(
         force,
         clone!(
@@ -70,12 +77,8 @@ fn delete_volume(widget: &gtk::Widget, volume: &model::Volume, force: bool) {
     );
 }
 
-pub(crate) fn create_container(widget: &gtk::Widget, volume: Option<model::Volume>) {
+pub(crate) fn create_container<W: IsA<gtk::Widget>>(widget: &W, volume: Option<model::Volume>) {
     if let Some(volume) = volume {
-        utils::Dialog::new(
-            widget,
-            view::ContainerCreationPage::from(&volume).upcast_ref(),
-        )
-        .present();
+        utils::Dialog::new(widget, &view::ContainerCreationPage::from(&volume)).present();
     }
 }

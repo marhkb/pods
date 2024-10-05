@@ -16,6 +16,7 @@ use gettextrs::ngettext;
 use glib::clone;
 use gtk::gio;
 use gtk::glib;
+use gtk::glib::clone::Downgrade;
 
 use crate::config;
 use crate::APPLICATION_OPTS;
@@ -158,23 +159,23 @@ pub(crate) fn format_id(id: &str) -> String {
     id.chars().take(12).collect::<String>()
 }
 
-pub(crate) fn root(widget: &gtk::Widget) -> gtk::Window {
+pub(crate) fn root<W: IsA<gtk::Widget>>(widget: &W) -> gtk::Window {
     widget.root().unwrap().downcast::<gtk::Window>().unwrap()
 }
 
-pub(crate) struct Dialog<'a> {
-    widget: &'a gtk::Widget,
-    content: &'a gtk::Widget,
+pub(crate) struct Dialog<'a, P, C> {
+    parent: &'a P,
+    content: &'a C,
     height: Option<i32>,
     width: Option<i32>,
     follows_content_size: Option<bool>,
 }
 
-impl<'a> Dialog<'a> {
+impl<'a, C, P> Dialog<'a, C, P> {
     #[must_use]
-    pub(crate) fn new(widget: &'a gtk::Widget, content: &'a gtk::Widget) -> Self {
+    pub(crate) fn new(widget: &'a C, content: &'a P) -> Self {
         Self {
-            widget,
+            parent: widget,
             content,
             height: None,
             width: None,
@@ -193,7 +194,13 @@ impl<'a> Dialog<'a> {
         self.follows_content_size = Some(follows_content_size);
         self
     }
+}
 
+impl<'a, C, P> Dialog<'a, C, P>
+where
+    C: IsA<gtk::Widget>,
+    P: IsA<gtk::Widget>,
+{
     pub(crate) fn present(self) {
         let toast_overlay = adw::ToastOverlay::new();
         toast_overlay.set_child(Some(self.content));
@@ -206,11 +213,11 @@ impl<'a> Dialog<'a> {
             .follows_content_size(self.follows_content_size.unwrap_or(false))
             .build();
 
-        dialog.present(Some(self.widget));
+        dialog.present(Some(self.parent));
     }
 }
 
-pub(crate) fn show_toast(widget: &gtk::Widget, title: impl Into<glib::GString>) {
+pub(crate) fn show_toast<W: IsA<gtk::Widget>>(widget: &W, title: impl Into<glib::GString>) {
     widget
         .ancestor(adw::ToastOverlay::static_type())
         .unwrap()
@@ -225,17 +232,17 @@ pub(crate) fn show_toast(widget: &gtk::Widget, title: impl Into<glib::GString>) 
         );
 }
 
-pub(crate) fn show_error_toast(widget: &gtk::Widget, title: &str, msg: &str) {
+pub(crate) fn show_error_toast<W: IsA<gtk::Widget>>(widget: &W, title: &str, msg: &str) {
     show_toast(widget, format!("{title}: {msg}"));
 }
 
-pub(crate) fn try_navigation_view(widget: &gtk::Widget) -> Option<adw::NavigationView> {
+pub(crate) fn try_navigation_view<W: IsA<gtk::Widget>>(widget: &W) -> Option<adw::NavigationView> {
     widget
         .ancestor(adw::NavigationView::static_type())
         .and_downcast::<adw::NavigationView>()
 }
 
-pub(crate) fn navigation_view(widget: &gtk::Widget) -> adw::NavigationView {
+pub(crate) fn navigation_view<W: IsA<gtk::Widget>>(widget: &W) -> adw::NavigationView {
     try_navigation_view(widget).unwrap()
 }
 
@@ -383,7 +390,7 @@ pub(crate) fn run_stream_with_finish_handler<A, P, I, F, X>(
     });
 }
 
-pub(crate) fn css_classes(widget: &gtk::Widget) -> Vec<String> {
+pub(crate) fn css_classes<W: IsA<gtk::Widget>>(widget: &W) -> Vec<String> {
     widget
         .css_classes()
         .iter()
@@ -392,8 +399,8 @@ pub(crate) fn css_classes(widget: &gtk::Widget) -> Vec<String> {
 }
 
 pub(crate) struct ChildIter(Option<gtk::Widget>);
-impl From<&gtk::Widget> for ChildIter {
-    fn from(widget: &gtk::Widget) -> Self {
+impl<W: IsA<gtk::Widget>> From<&W> for ChildIter {
+    fn from(widget: &W) -> Self {
         Self(widget.first_child())
     }
 }
@@ -407,12 +414,13 @@ impl Iterator for ChildIter {
     }
 }
 
-pub(crate) fn unparent_children(widget: &gtk::Widget) {
+pub(crate) fn unparent_children<W: IsA<gtk::Widget>>(widget: &W) {
     ChildIter::from(widget).for_each(|child| child.unparent());
 }
 
-pub(crate) async fn show_open_file_dialog<F>(request: OpenFileRequest, widget: &gtk::Widget, op: F)
+pub(crate) async fn show_open_file_dialog<W, F>(request: OpenFileRequest, widget: &W, op: F)
 where
+    W: IsA<gtk::Widget> + Downgrade<Weak = glib::WeakRef<W>>,
     F: Fn(SelectedFiles) + 'static,
 {
     do_async(
@@ -425,8 +433,9 @@ where
     );
 }
 
-pub(crate) async fn show_save_file_dialog<F>(request: SaveFileRequest, widget: &gtk::Widget, op: F)
+pub(crate) async fn show_save_file_dialog<W, F>(request: SaveFileRequest, widget: &W, op: F)
 where
+    W: IsA<gtk::Widget> + Downgrade<Weak = glib::WeakRef<W>>,
     F: Fn(SelectedFiles) + 'static,
 {
     do_async(
@@ -439,8 +448,9 @@ where
     );
 }
 
-fn show_file_dialog<F>(files: Result<SelectedFiles, ashpd::Error>, widget: &gtk::Widget, op: F)
+fn show_file_dialog<W, F>(files: Result<SelectedFiles, ashpd::Error>, widget: &W, op: F)
 where
+    W: IsA<gtk::Widget>,
     F: Fn(SelectedFiles),
 {
     match files {

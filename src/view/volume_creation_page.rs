@@ -67,7 +67,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::unparent_children(self.obj().upcast_ref());
+            utils::unparent_children(&*self.obj());
         }
     }
 
@@ -87,11 +87,11 @@ mod imp {
                     glib::ControlFlow::Break
                 }
             ));
-            utils::root(widget.upcast_ref()).set_default_widget(Some(&*self.create_button));
+            utils::root(widget).set_default_widget(Some(&*self.create_button));
         }
 
         fn unroot(&self) {
-            utils::root(self.obj().upcast_ref()).set_default_widget(gtk::Widget::NONE);
+            utils::root(&*self.obj()).set_default_widget(gtk::Widget::NONE);
             self.parent_unroot()
         }
     }

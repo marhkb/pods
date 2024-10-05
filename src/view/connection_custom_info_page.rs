@@ -97,7 +97,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::unparent_children(self.obj().upcast_ref());
+            utils::unparent_children(&*self.obj());
         }
     }
 
@@ -136,7 +136,7 @@ impl ConnectionCustomInfoDialog {
         label.select_region(0, -1);
         label.emit_copy_clipboard();
 
-        utils::show_toast(self.upcast_ref(), gettext("systemd unit path copied"));
+        utils::show_toast(self, gettext("systemd unit path copied"));
     }
 
     fn copy_root_systemd_unit_content(&self) {
@@ -144,7 +144,7 @@ impl ConnectionCustomInfoDialog {
         buffer.select_range(&buffer.start_iter(), &buffer.end_iter());
         buffer.copy_clipboard(&gdk::Display::default().unwrap().clipboard());
 
-        utils::show_toast(self.upcast_ref(), gettext("systemd unit content copied"));
+        utils::show_toast(self, gettext("systemd unit content copied"));
     }
 
     fn copy_root_socket_acivation_command(&self) {
@@ -152,10 +152,7 @@ impl ConnectionCustomInfoDialog {
         label.select_region(0, -1);
         label.emit_copy_clipboard();
 
-        utils::show_toast(
-            self.upcast_ref(),
-            gettext("socket activation command copied"),
-        );
+        utils::show_toast(self, gettext("socket activation command copied"));
     }
 
     fn copy_root_url(&self) {
@@ -163,6 +160,6 @@ impl ConnectionCustomInfoDialog {
         label.select_region(0, -1);
         label.emit_copy_clipboard();
 
-        utils::show_toast(self.upcast_ref(), gettext("URL copied"));
+        utils::show_toast(self, gettext("URL copied"));
     }
 }

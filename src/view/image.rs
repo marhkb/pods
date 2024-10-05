@@ -1,6 +1,7 @@
 use adw::prelude::*;
 use gettextrs::gettext;
 use glib::clone;
+use glib::clone::Downgrade;
 use gtk::gio;
 use gtk::glib;
 
@@ -8,7 +9,10 @@ use crate::model;
 use crate::utils;
 use crate::view;
 
-pub(crate) fn delete_image_show_confirmation(widget: &gtk::Widget, image: Option<model::Image>) {
+pub(crate) fn delete_image_show_confirmation<W>(widget: &W, image: Option<model::Image>)
+where
+    W: IsA<gtk::Widget> + Downgrade<Weak = glib::WeakRef<W>>,
+{
     if let Some(image) = image {
         match image.container_list().get(0) {
             Some(container) => {
@@ -50,7 +54,10 @@ pub(crate) fn delete_image_show_confirmation(widget: &gtk::Widget, image: Option
     }
 }
 
-pub(crate) fn delete_image(widget: &gtk::Widget, image: &model::Image) {
+pub(crate) fn delete_image<W>(widget: &W, image: &model::Image)
+where
+    W: IsA<gtk::Widget> + Downgrade<Weak = glib::WeakRef<W>>,
+{
     image.delete(clone!(
         #[weak]
         widget,
@@ -67,12 +74,8 @@ pub(crate) fn delete_image(widget: &gtk::Widget, image: &model::Image) {
     ));
 }
 
-pub(crate) fn create_container(widget: &gtk::Widget, image: Option<model::Image>) {
+pub(crate) fn create_container<W: IsA<gtk::Widget>>(widget: &W, image: Option<model::Image>) {
     if let Some(image) = image {
-        utils::Dialog::new(
-            widget,
-            view::ContainerCreationPage::from(&image).upcast_ref(),
-        )
-        .present();
+        utils::Dialog::new(widget, &view::ContainerCreationPage::from(&image)).present();
     }
 }

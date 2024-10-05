@@ -149,7 +149,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::unparent_children(self.obj().upcast_ref());
+            utils::unparent_children(&*self.obj());
         }
     }
 
@@ -157,7 +157,7 @@ mod imp {
         fn map(&self) {
             self.parent_map();
             self.search_entry
-                .set_key_capture_widget(Some(&utils::root(self.obj().upcast_ref())));
+                .set_key_capture_widget(Some(&utils::root(&*self.obj())));
             self.search_entry.grab_focus();
             self.search_entry.select_region(0, -1);
         }

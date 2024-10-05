@@ -46,26 +46,26 @@ mod imp {
             });
 
             klass.install_action(ACTION_START, None, |widget, _, _| {
-                view::pod::start(widget.upcast_ref());
+                view::pod::start(widget, widget.pod());
             });
             klass.install_action(ACTION_STOP, None, |widget, _, _| {
-                view::pod::stop(widget.upcast_ref());
+                view::pod::stop(widget, widget.pod());
             });
             klass.install_action(ACTION_KILL, None, |widget, _, _| {
-                view::pod::kill(widget.upcast_ref());
+                view::pod::kill(widget, widget.pod());
             });
             klass.install_action(ACTION_RESTART, None, |widget, _, _| {
-                view::pod::restart(widget.upcast_ref());
+                view::pod::restart(widget, widget.pod());
             });
             klass.install_action(ACTION_PAUSE, None, |widget, _, _| {
-                view::pod::pause(widget.upcast_ref());
+                view::pod::pause(widget, widget.pod());
             });
             klass.install_action(ACTION_RESUME, None, |widget, _, _| {
-                view::pod::resume(widget.upcast_ref());
+                view::pod::resume(widget, widget.pod());
             });
 
             klass.install_action(ACTION_DELETE, None, |widget, _, _| {
-                view::pod::show_delete_confirmation_dialog(widget.upcast_ref());
+                view::pod::show_delete_confirmation_dialog(widget, widget.pod());
             });
         }
 
@@ -118,7 +118,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::unparent_children(self.obj().upcast_ref());
+            utils::unparent_children(&*self.obj());
         }
     }
 
@@ -133,7 +133,7 @@ glib::wrapper! {
 
 impl PodMenuButton {
     pub(crate) fn create_container(&self) {
-        view::pod::create_container(self.upcast_ref(), self.pod());
+        view::pod::create_container(self, self.pod());
     }
 
     fn update_actions(&self) {

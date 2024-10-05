@@ -289,7 +289,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::unparent_children(self.obj().upcast_ref());
+            utils::unparent_children(&*self.obj());
         }
     }
 
@@ -429,33 +429,23 @@ impl ImagesPanel {
 
     pub(crate) fn show_download_page(&self) {
         if let Some(client) = self.client() {
-            utils::Dialog::new(
-                self.upcast_ref(),
-                view::ImagePullPage::from(&client).upcast_ref(),
-            )
-            .height(640)
-            .present();
+            utils::Dialog::new(self, &view::ImagePullPage::from(&client))
+                .height(640)
+                .present();
         }
     }
 
     pub(crate) fn show_build_page(&self) {
         if let Some(client) = self.client() {
-            utils::Dialog::new(
-                self.upcast_ref(),
-                view::ImageBuildPage::from(&client).upcast_ref(),
-            )
-            .present();
+            utils::Dialog::new(self, &view::ImageBuildPage::from(&client)).present();
         }
     }
 
     pub(crate) fn show_prune_page(&self) {
         if let Some(client) = self.client() {
-            utils::Dialog::new(
-                self.upcast_ref(),
-                view::ImagesPrunePage::from(&client).upcast_ref(),
-            )
-            .follows_content_size(true)
-            .present();
+            utils::Dialog::new(self, &view::ImagesPrunePage::from(&client))
+                .follows_content_size(true)
+                .present();
         }
     }
 
@@ -533,7 +523,7 @@ impl ImagesPanel {
                                     move |image, result| {
                                         if let Err(e) = result {
                                             utils::show_error_toast(
-                                                obj.upcast_ref(),
+                                                &obj,
                                                 // Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
                                                 &gettext!(
                                                     "Error on deleting image '{}'",

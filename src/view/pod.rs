@@ -1,6 +1,7 @@
 use adw::prelude::*;
 use gettextrs::gettext;
 use glib::clone;
+use glib::clone::Downgrade;
 use gtk::gio;
 use gtk::glib;
 
@@ -21,13 +22,14 @@ pub(crate) fn pod_status_css_class(status: model::PodStatus) -> &'static str {
 
 macro_rules! pod_action {
     (fn $name:ident => $action:ident($($param:literal),*) => $error:tt) => {
-        pub(crate) fn $name(widget: &gtk::Widget) {
-            use gtk::glib;
-
-            if let Some(pod) = <gtk::Widget as gtk::prelude::ObjectExt>::property::<Option<crate::model::Pod>>(widget, "pod") {
+        pub(crate) fn $name<W>(widget: &W, pod: Option<crate::model::Pod>)
+        where
+            W: gtk::glib::prelude::IsA<gtk::Widget> + gtk::glib::clone::Downgrade<Weak = gtk::glib::WeakRef<W>>,
+        {
+            if let Some(pod) = pod {
                 pod.$action(
                     $($param,)*
-                    glib::clone!(#[weak] widget, move |result| if let Err(e) = result {
+                    gtk::glib::clone!(#[weak] widget, move |result| if let Err(e) = result {
                         crate::utils::show_error_toast(&widget, &$error, &e.to_string());
                     }),
                 );
@@ -44,10 +46,11 @@ pod_action!(fn pause => pause() => { gettextrs::gettext("Error on pausing pod") 
 pod_action!(fn resume => resume() => { gettextrs::gettext("Error on resuming pod") });
 pod_action!(fn delete => delete(false) => { gettextrs::gettext("Error on deleting pod") });
 
-pub(crate) fn show_delete_confirmation_dialog(widget: &gtk::Widget) {
-    if let Some(pod) =
-        <gtk::Widget as gtk::prelude::ObjectExt>::property::<Option<model::Pod>>(widget, "pod")
-    {
+pub(crate) fn show_delete_confirmation_dialog<W>(widget: &W, pod: Option<model::Pod>)
+where
+    W: IsA<gtk::Widget> + Downgrade<Weak = glib::WeakRef<W>>,
+{
+    if let Some(pod) = pod {
         match pod.container_list().first_non_infra() {
             Some(container) => {
                 let dialog = adw::AlertDialog::builder()
@@ -75,19 +78,19 @@ pub(crate) fn show_delete_confirmation_dialog(widget: &gtk::Widget) {
                         widget,
                         move |response| {
                             if response == "delete" {
-                                delete(&widget);
+                                delete(&widget, Some(pod));
                             }
                         }
                     ),
                 );
             }
-            None => delete(widget),
+            None => delete(widget, Some(pod)),
         }
     }
 }
 
-pub(crate) fn create_container(widget: &gtk::Widget, pod: Option<model::Pod>) {
+pub(crate) fn create_container<W: IsA<gtk::Widget>>(widget: &W, pod: Option<model::Pod>) {
     if let Some(pod) = pod {
-        utils::Dialog::new(widget, view::ContainerCreationPage::from(&pod).upcast_ref()).present();
+        utils::Dialog::new(widget, &view::ContainerCreationPage::from(&pod)).present();
     }
 }

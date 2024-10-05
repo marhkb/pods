@@ -155,7 +155,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::unparent_children(self.obj().upcast_ref());
+            utils::unparent_children(&*self.obj());
         }
     }
 
@@ -300,7 +300,7 @@ impl PodSelectionPage {
         let imp = self.imp();
 
         if !enable && !imp.filter_button.is_active() {
-            utils::navigation_view(self.upcast_ref()).pop();
+            utils::navigation_view(self).pop();
         } else {
             imp.filter_button.set_active(enable);
             if !enable {
@@ -318,11 +318,7 @@ impl PodSelectionPage {
 
     pub(crate) fn create_pod(&self) {
         if let Some(client) = self.pod_list().and_then(|list| list.client()) {
-            utils::Dialog::new(
-                self.upcast_ref(),
-                view::PodCreationPage::new(&client, false).upcast_ref(),
-            )
-            .present();
+            utils::Dialog::new(self, &view::PodCreationPage::new(&client, false)).present();
         }
     }
 
@@ -336,7 +332,7 @@ impl PodSelectionPage {
         if let Some(pod) = self.selected_pod() {
             self.emit_by_name::<()>("pod-selected", &[&pod]);
 
-            utils::navigation_view(self.upcast_ref()).pop();
+            utils::navigation_view(self).pop();
         }
     }
 

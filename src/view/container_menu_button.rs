@@ -42,30 +42,30 @@ mod imp {
             klass.bind_template();
 
             klass.install_action(ACTION_START, None, |widget, _, _| {
-                view::container::start(widget.upcast_ref());
+                view::container::start(widget, widget.container());
             });
             klass.install_action(ACTION_STOP, None, |widget, _, _| {
-                view::container::stop(widget.upcast_ref());
+                view::container::stop(widget, widget.container());
             });
             klass.install_action(ACTION_KILL, None, |widget, _, _| {
-                view::container::kill(widget.upcast_ref());
+                view::container::kill(widget, widget.container());
             });
             klass.install_action(ACTION_RESTART, None, |widget, _, _| {
-                view::container::restart(widget.upcast_ref());
+                view::container::restart(widget, widget.container());
             });
             klass.install_action(ACTION_PAUSE, None, |widget, _, _| {
-                view::container::pause(widget.upcast_ref());
+                view::container::pause(widget, widget.container());
             });
             klass.install_action(ACTION_RESUME, None, |widget, _, _| {
-                view::container::resume(widget.upcast_ref());
+                view::container::resume(widget, widget.container());
             });
 
             klass.install_action(ACTION_RENAME, None, |widget, _, _| {
-                view::container::rename(widget.upcast_ref(), widget.container().as_ref());
+                view::container::rename(widget, widget.container().as_ref());
             });
 
             klass.install_action(ACTION_DELETE, None, |widget, _, _| {
-                view::container::delete(widget.upcast_ref());
+                view::container::delete(widget, widget.container());
             });
         }
 
@@ -120,7 +120,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::unparent_children(self.obj().upcast_ref());
+            utils::unparent_children(&*self.obj());
         }
     }
 

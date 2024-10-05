@@ -54,7 +54,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::unparent_children(self.obj().upcast_ref());
+            utils::unparent_children(&*self.obj());
         }
     }
 
@@ -105,7 +105,7 @@ mod imp {
                         obj,
                         move |result| if let Err(e) = result {
                             utils::show_error_toast(
-                                obj.upcast_ref(),
+                                &obj,
                                 &gettext("Error on establishing connection"),
                                 &e.to_string(),
                             );

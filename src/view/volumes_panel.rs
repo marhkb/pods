@@ -266,7 +266,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::unparent_children(self.obj().upcast_ref());
+            utils::unparent_children(&*self.obj());
         }
     }
 
@@ -412,22 +412,15 @@ impl VolumesPanel {
             .as_ref()
             .and_then(model::VolumeList::client)
         {
-            utils::Dialog::new(
-                self.upcast_ref(),
-                view::VolumeCreationPage::from(&client).upcast_ref(),
-            )
-            .present();
+            utils::Dialog::new(self, &view::VolumeCreationPage::from(&client)).present();
         }
     }
 
     pub(crate) fn show_prune_page(&self) {
         if let Some(client) = self.volume_list().and_then(|list| list.client()) {
-            utils::Dialog::new(
-                self.upcast_ref(),
-                view::VolumesPrunePage::from(&client).upcast_ref(),
-            )
-            .follows_content_size(true)
-            .present();
+            utils::Dialog::new(self, &view::VolumesPrunePage::from(&client))
+                .follows_content_size(true)
+                .present();
         }
     }
 
@@ -507,7 +500,7 @@ impl VolumesPanel {
                                         move |volume, result| {
                                             if let Err(e) = result {
                                                 utils::show_error_toast(
-                                                    obj.upcast_ref(),
+                                                    &obj,
                                                     &gettext!(
                                                         "Error on deleting volume '{}'",
                                                         volume.inner().name

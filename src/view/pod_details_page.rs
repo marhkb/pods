@@ -69,28 +69,28 @@ mod imp {
 
             klass.install_action(ACTION_START_OR_RESUME, None, |widget, _, _| {
                 if widget.pod().map(|pod| pod.can_start()).unwrap_or(false) {
-                    view::pod::start(widget.upcast_ref());
+                    view::pod::start(widget, widget.pod());
                 } else {
-                    view::pod::resume(widget.upcast_ref());
+                    view::pod::resume(widget, widget.pod());
                 }
             });
             klass.install_action(ACTION_STOP, None, |widget, _, _| {
-                view::pod::stop(widget.upcast_ref());
+                view::pod::stop(widget, widget.pod());
             });
             klass.install_action(ACTION_KILL, None, |widget, _, _| {
-                view::pod::kill(widget.upcast_ref());
+                view::pod::kill(widget, widget.pod());
             });
             klass.install_action(ACTION_RESTART, None, |widget, _, _| {
-                view::pod::restart(widget.upcast_ref());
+                view::pod::restart(widget, widget.pod());
             });
             klass.install_action(ACTION_PAUSE, None, |widget, _, _| {
-                view::pod::pause(widget.upcast_ref());
+                view::pod::pause(widget, widget.pod());
             });
             klass.install_action(ACTION_RESUME, None, |widget, _, _| {
-                view::pod::resume(widget.upcast_ref());
+                view::pod::resume(widget, widget.pod());
             });
             klass.install_action(ACTION_DELETE, None, |widget, _, _| {
-                view::pod::delete(widget.upcast_ref());
+                view::pod::delete(widget, widget.pod());
             });
 
             klass.install_action(ACTION_INSPECT_POD, None, |widget, _, _| {
@@ -176,7 +176,7 @@ mod imp {
                 }))
                 .bind(&*self.status_label, "label", Some(obj));
 
-            let css_classes = utils::css_classes(self.status_label.upcast_ref());
+            let css_classes = utils::css_classes(&*self.status_label);
             status_expr
                 .chain_closure::<Vec<String>>(closure!(
                     |_: Self::Type, status: model::PodStatus| {
@@ -219,7 +219,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            utils::unparent_children(self.obj().upcast_ref());
+            utils::unparent_children(&*self.obj());
         }
     }
 
@@ -244,7 +244,7 @@ mod imp {
                     obj,
                     move |result| if let Err(e) = result {
                         utils::show_error_toast(
-                            obj.upcast_ref(),
+                            &obj,
                             &gettext("Error on loading pod data"),
                             &e.to_string(),
                         );
@@ -255,11 +255,8 @@ mod imp {
                     #[weak]
                     obj,
                     move |pod| {
-                        utils::show_toast(
-                            obj.upcast_ref(),
-                            gettext!("Pod '{}' has been deleted", pod.name()),
-                        );
-                        utils::navigation_view(obj.upcast_ref()).pop();
+                        utils::show_toast(&obj, gettext!("Pod '{}' has been deleted", pod.name()));
+                        utils::navigation_view(&obj).pop();
                     }
                 ));
                 self.handler_id.replace(Some(handler_id));
@@ -324,7 +321,7 @@ impl PodDetailsPage {
                 let weak_ref = glib::WeakRef::new();
                 weak_ref.set(Some(&pod));
 
-                utils::navigation_view(self.upcast_ref()).push(
+                utils::navigation_view(self).push(
                     &adw::NavigationPage::builder()
                         .child(&view::ScalableTextViewPage::from(view::Entity::Pod {
                             pod: weak_ref,
@@ -339,7 +336,7 @@ impl PodDetailsPage {
     fn show_processes(&self) {
         self.exec_action(|| {
             if let Some(pod) = self.pod() {
-                utils::navigation_view(self.upcast_ref()).push(
+                utils::navigation_view(self).push(
                     &adw::NavigationPage::builder()
                         .child(&view::TopPage::from(&pod))
                         .build(),
@@ -350,12 +347,12 @@ impl PodDetailsPage {
 
     fn create_container(&self) {
         self.exec_action(|| {
-            view::pod::create_container(self.upcast_ref(), self.pod());
+            view::pod::create_container(self, self.pod());
         });
     }
 
     fn exec_action<F: Fn()>(&self, op: F) {
-        if utils::navigation_view(self.upcast_ref())
+        if utils::navigation_view(self)
             .visible_page()
             .filter(|page| page.child().as_ref() == Some(self.upcast_ref()))
             .is_some()
