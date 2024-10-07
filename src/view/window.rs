@@ -17,6 +17,8 @@ use crate::utils;
 use crate::view;
 
 const ACTION_CLOSE: &str = "win.close";
+const ACTION_GLOBAL_SEARCH: &str = "win.toggle-global-search";
+const ACTION_SEARCH: &str = "win.toggle-search";
 const ACTION_CREATE_CONNECTION: &str = "win.create-connection";
 const ACTION_REMOVE_CONNECTION: &str = "win.remove-connection";
 
@@ -33,6 +35,8 @@ mod imp {
         #[template_child]
         pub(super) main_stack: TemplateChild<gtk::Stack>,
         #[template_child]
+        pub(super) connection_chooser_page: TemplateChild<view::ConnectionChooserPage>,
+        #[template_child]
         pub(super) client_view: TemplateChild<view::ClientView>,
     }
 
@@ -44,6 +48,20 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+
+            klass.add_binding_action(
+                gdk::Key::F,
+                gdk::ModifierType::CONTROL_MASK | gdk::ModifierType::SHIFT_MASK,
+                ACTION_GLOBAL_SEARCH,
+            );
+            klass.install_action(ACTION_GLOBAL_SEARCH, None, |widget, _, _| {
+                widget.toggle_global_search();
+            });
+
+            klass.add_binding_action(gdk::Key::F, gdk::ModifierType::CONTROL_MASK, ACTION_SEARCH);
+            klass.install_action(ACTION_SEARCH, None, |widget, _, _| {
+                widget.toggle_search();
+            });
 
             klass.add_binding_action(
                 gdk::Key::N,
@@ -237,6 +255,36 @@ glib::wrapper! {
 impl Window {
     pub(crate) fn new(app: &Application) -> Self {
         glib::Object::builder().property("application", app).build()
+    }
+
+    pub(crate) fn toggle_global_search(&self) {
+        let imp = self.imp();
+
+        match imp
+            .main_stack
+            .visible_child_name()
+            .unwrap_or_default()
+            .as_str()
+        {
+            "client" => imp.client_view.toggle_global_search(),
+            "connection-chooser" => imp.connection_chooser_page.toggle_filter_mode(),
+            _ => {}
+        }
+    }
+
+    pub(crate) fn toggle_search(&self) {
+        let imp = self.imp();
+
+        match imp
+            .main_stack
+            .visible_child_name()
+            .unwrap_or_default()
+            .as_str()
+        {
+            "client" => imp.client_view.toggle_panel_search(),
+            "connection-chooser" => imp.connection_chooser_page.toggle_filter_mode(),
+            _ => {}
+        }
     }
 
     pub(crate) fn connection_manager(&self) -> model::ConnectionManager {
