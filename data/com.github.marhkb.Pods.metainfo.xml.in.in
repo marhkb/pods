@@ -42,7 +42,12 @@
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.1"/>
   <releases>
-    <release version="2.1.0" date="2023-11-25">
+    <release version="2.1.1" date="2024-10-07">
+      <description translatable="no">
+        <p>Pods 2.1.1 is a bug fix which, among other things, fixes a crash that occurred when searching for remote images. (#832)</p>
+      </description>
+    </release>
+    <release version="2.1.0" date="2024-09-25">
       <description translatable="no">
         <p>Pods 2.1.0 contains the following changes:</p>
         <p>Features</p>
