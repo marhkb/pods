@@ -81,7 +81,7 @@ mod imp {
                 [
                     &name_expr,
                     &tag_expr,
-                    &style_manager.property_expression("is-dark"),
+                    &style_manager.property_expression("dark"),
                     &style_manager.property_expression("accent-color"),
                     &style_manager.property_expression("high-contrast"),
                 ],
