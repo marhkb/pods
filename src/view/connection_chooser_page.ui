@@ -8,11 +8,58 @@
     <signal name="notify::connection-manager" handler="on_notify_connection_manager"/>
 
     <child>
+      <object class="GtkEventControllerKey">
+        <signal name="key-pressed" handler="on_filter_key_pressed" swapped="true"/>
+      </object>
+    </child>
+
+    <child>
       <object class="AdwToolbarView">
 
         <child type="top">
           <object class="AdwHeaderBar">
-            <property name="show-title">False</property>
+            <child type="start">
+              <object class="GtkToggleButton" id="filter_button">
+                <property name="icon-name">system-search-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Filter</property>
+                <signal name="toggled" handler="on_filter_button_toggled" swapped="true"/>
+              </object>
+            </child>
+
+            <child type="title">
+              <object class="GtkStack" id="title_stack">
+                <property name="transition-type">crossfade</property>
+
+                <child>
+                  <object class="GtkStackPage">
+                    <property name="name">title</property>
+
+                    <property name="child">
+                      <object class="AdwWindowTitle">
+                        <property name="title" translatable="yes"/>
+                      </object>
+                    </property>
+
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkSearchEntry" id="filter_entry">
+                    <signal name="search-started" handler="on_filter_started" swapped="true"/>
+                    <signal name="search-changed" handler="on_filter_changed" swapped="true"/>
+                    <property name="max-width-chars">32</property>
+
+                    <child>
+                      <object class="GtkEventControllerKey">
+                        <signal name="key-pressed" handler="on_filter_key_pressed" swapped="true"/>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+              </object>
+            </child>
 
             <child type="end">
               <object class="PdsMainMenuButton"/>

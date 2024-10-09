@@ -10,8 +10,6 @@ use crate::model;
 use crate::utils;
 use crate::view;
 
-const ACTION_GLOBAL_SEARCH: &str = "client-view.global-search";
-const ACTION_PANEL_SEARCH: &str = "client-view.panel-search";
 const ACTION_SHOW_CONNECTIONS: &str = "client-view.show-connections";
 const ACTION_SHOW_ACTIONS: &str = "client-view.show-actions";
 const ACTION_CANCEL_OR_DELETE_ACTION: &str = "client-view.cancel-or-delete-action";
@@ -33,13 +31,17 @@ mod imp {
         #[template_child]
         pub(super) sidebar_navigation_view: TemplateChild<adw::NavigationView>,
         #[template_child]
+        pub(super) search_button: TemplateChild<gtk::ToggleButton>,
+        #[template_child]
         pub(super) sidebar_list_box: TemplateChild<gtk::ListBox>,
         #[template_child]
-        pub(super) content_navigation_view: TemplateChild<adw::NavigationView>,
+        pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub(super) content_navigation_page: TemplateChild<adw::NavigationPage>,
+        pub(super) panels_navigation_view: TemplateChild<adw::NavigationView>,
         #[template_child]
-        pub(super) panel_stack: TemplateChild<gtk::Stack>,
+        pub(super) panels_navigation_page: TemplateChild<adw::NavigationPage>,
+        #[template_child]
+        pub(super) panels_stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) containers_panel: TemplateChild<view::ContainersPanel>,
         #[template_child]
@@ -48,6 +50,8 @@ mod imp {
         pub(super) images_panel: TemplateChild<view::ImagesPanel>,
         #[template_child]
         pub(super) volumes_panel: TemplateChild<view::VolumesPanel>,
+        #[template_child]
+        pub(super) search_navigation_view: TemplateChild<adw::NavigationView>,
         #[template_child]
         pub(super) color_bin: TemplateChild<adw::Bin>,
     }
@@ -61,24 +65,6 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
             klass.bind_template_callbacks();
-
-            klass.add_binding_action(
-                gdk::Key::F,
-                gdk::ModifierType::CONTROL_MASK | gdk::ModifierType::SHIFT_MASK,
-                ACTION_GLOBAL_SEARCH,
-            );
-            klass.install_action(ACTION_GLOBAL_SEARCH, None, |widget, _, _| {
-                widget.global_search();
-            });
-
-            klass.add_binding_action(
-                gdk::Key::F,
-                gdk::ModifierType::CONTROL_MASK,
-                ACTION_PANEL_SEARCH,
-            );
-            klass.install_action(ACTION_PANEL_SEARCH, None, |widget, _, _| {
-                widget.toggle_panel_search();
-            });
 
             klass.install_action(ACTION_SHOW_CONNECTIONS, None, |widget, _, _| {
                 widget.show_connections();
@@ -130,7 +116,7 @@ mod imp {
             self.settings
                 .bind(
                     "last-used-view",
-                    &self.panel_stack.get(),
+                    &self.panels_stack.get(),
                     "visible-child-name",
                 )
                 .build();
@@ -138,9 +124,7 @@ mod imp {
             self.sidebar_list_box.set_header_func(|row, _| {
                 row.set_header(
                     row.child()
-                        .filter(|child| {
-                            child.is::<view::InfoRow>() || child.is::<view::SearchRow>()
-                        })
+                        .filter(gtk::Widget::is::<view::InfoRow>)
                         .map(|_| {
                             gtk::Separator::builder()
                                 .orientation(gtk::Orientation::Horizontal)
@@ -155,7 +139,7 @@ mod imp {
                 .style_context()
                 .add_provider(&self.css_provider, gtk::STYLE_PROVIDER_PRIORITY_APPLICATION);
 
-            self.on_panel_stack_notify_visible_child();
+            self.on_panels_stack_notify_visible_child();
         }
 
         fn dispose(&self) {
@@ -168,10 +152,24 @@ mod imp {
     #[gtk::template_callbacks]
     impl ClientView {
         #[template_callback]
+        fn on_key_pressed(
+            &self,
+            key: gdk::Key,
+            _: u32,
+            _: gdk::ModifierType,
+            _: &gtk::EventControllerKey,
+        ) -> glib::Propagation {
+            if key == gdk::Key::Escape {
+                self.search_button.set_active(false);
+            }
+            glib::Propagation::Proceed
+        }
+
+        #[template_callback]
         fn on_notify_client(&self) {
             self.exit_panel_search_mode();
             self.sidebar_navigation_view.pop_to_tag("home");
-            self.content_navigation_view.pop_to_tag("home");
+            self.panels_navigation_view.pop_to_tag("home");
 
             if let Some(client) = self.obj().client() {
                 self.set_background(client.connection().rgb());
@@ -181,6 +179,7 @@ mod imp {
         #[template_callback]
         fn on_navigation_split_view_notify_show_content(&self) {
             if self.navigation_split_view.is_collapsed() {
+                self.search_button.set_active(false);
                 self.sidebar_list_box.select_row(gtk::ListBoxRow::NONE);
                 self.exit_selection_mode();
             }
@@ -190,22 +189,20 @@ mod imp {
         fn on_navigation_split_view_notify_collapsed(&self) {
             if !self.navigation_split_view.is_collapsed() {
                 self.navigation_split_view.set_show_content(true);
+                self.restore_sidebar();
+            }
+        }
 
-                self.sidebar_list_box.select_row(
-                    self.sidebar_list_box
-                        .row_at_index(
-                            match self.panel_stack.visible_child_name().unwrap().as_str() {
-                                "containers" => 0,
-                                "pods" => 1,
-                                "images" => 2,
-                                "volumes" => 3,
-                                "info" => 4,
-                                "search" => 5,
-                                _ => unreachable!(),
-                            },
-                        )
-                        .as_ref(),
-                );
+        #[template_callback]
+        fn on_search_button_toggled(&self) {
+            if self.search_button.is_active() {
+                self.stack.set_visible_child_name("search");
+                self.sidebar_list_box.select_row(gtk::ListBoxRow::NONE);
+                self.navigation_split_view.set_show_content(true);
+            } else if !self.navigation_split_view.is_collapsed() {
+                self.stack.set_visible_child_name("panels");
+                self.search_navigation_view.pop_to_tag("home");
+                self.restore_sidebar();
             }
         }
 
@@ -214,7 +211,7 @@ mod imp {
             if let Some(row) = row {
                 let child = row.child().unwrap();
 
-                self.panel_stack
+                self.panels_stack
                     .set_visible_child_name(if child.is::<view::ContainersRow>() {
                         "containers"
                     } else if child.is::<view::PodsRow>() {
@@ -225,14 +222,16 @@ mod imp {
                         "volumes"
                     } else if child.is::<view::InfoRow>() {
                         "info"
-                    } else if child.is::<view::SearchRow>() {
-                        "search"
                     } else {
                         unreachable!()
                     });
 
-                self.content_navigation_view.pop_to_tag("home");
+                self.stack.set_visible_child_name("panels");
+                self.panels_navigation_view.pop_to_tag("home");
+                self.search_navigation_view.pop_to_tag("home");
                 self.navigation_split_view.set_show_content(true);
+
+                self.search_button.set_active(false);
             }
         }
 
@@ -242,9 +241,9 @@ mod imp {
         }
 
         #[template_callback]
-        fn on_panel_stack_notify_visible_child(&self) {
-            self.content_navigation_page.set_title(&match self
-                .panel_stack
+        fn on_panels_stack_notify_visible_child(&self) {
+            self.panels_navigation_page.set_title(&match self
+                .panels_stack
                 .visible_child_name()
                 .unwrap()
                 .as_str()
@@ -254,11 +253,31 @@ mod imp {
                 "images" => gettext("Images"),
                 "volumes" => gettext("Volumes"),
                 "info" => gettext("Info"),
-                "search" => gettext("Search"),
                 _ => unreachable!(),
             });
 
             self.exit_selection_mode();
+        }
+
+        fn restore_sidebar(&self) {
+            match self.stack.visible_child_name().as_deref() {
+                Some("search") => self.search_button.set_active(true),
+                Some("panels") => self.sidebar_list_box.select_row(
+                    self.sidebar_list_box
+                        .row_at_index(
+                            match self.panels_stack.visible_child_name().unwrap().as_str() {
+                                "containers" => 0,
+                                "pods" => 1,
+                                "images" => 2,
+                                "volumes" => 3,
+                                "info" => 4,
+                                _ => unreachable!(),
+                            },
+                        )
+                        .as_ref(),
+                ),
+                _ => {}
+            }
         }
 
         fn exit_panel_search_mode(&self) {
@@ -298,27 +317,28 @@ glib::wrapper! {
 
 impl ClientView {
     pub(crate) fn navigation_view(&self) -> &adw::NavigationView {
-        &self.imp().content_navigation_view
+        &self.imp().panels_navigation_view
     }
 
-    pub(crate) fn global_search(&self) {
-        self.imp()
-            .sidebar_list_box
-            .row_at_index(7)
-            .as_ref()
-            .unwrap()
-            .activate();
+    pub(crate) fn toggle_global_search(&self) {
+        let imp = self.imp();
+        if imp.client.upgrade().is_some() {
+            imp.sidebar_navigation_view.pop_to_tag("home");
+            imp.search_button.set_active(!imp.search_button.is_active());
+        }
     }
 
     pub(crate) fn toggle_panel_search(&self) {
         let imp = self.imp();
 
-        match imp.panel_stack.visible_child_name().unwrap().as_str() {
-            "containers" => imp.containers_panel.toggle_search_mode(),
-            "pods" => imp.pods_panel.toggle_search_mode(),
-            "images" => imp.images_panel.toggle_search_mode(),
-            "volumes" => imp.volumes_panel.toggle_search_mode(),
-            _ => {}
+        if imp.stack.visible_child_name().as_deref() == Some("panels") {
+            match imp.panels_stack.visible_child_name().unwrap().as_str() {
+                "containers" => imp.containers_panel.toggle_search_mode(),
+                "pods" => imp.pods_panel.toggle_search_mode(),
+                "images" => imp.images_panel.toggle_search_mode(),
+                "volumes" => imp.volumes_panel.toggle_search_mode(),
+                _ => {}
+            }
         }
     }
 

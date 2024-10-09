@@ -68,7 +68,6 @@
     <file compressed="true" preprocess="xml-stripblanks">view/repo_tag_simple_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/scalable_text_view_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/search_panel.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/search_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/shortcuts.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/top_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/top_page_action_bar.ui</file>
