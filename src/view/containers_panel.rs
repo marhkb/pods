@@ -144,7 +144,7 @@ mod imp {
             );
 
             klass.install_action(ACTION_SHOW_ALL_CONTAINERS, None, |widget, _, _| {
-                widget.set_show_only_running_containers(false);
+                widget.show_all_containers();
             });
         }
 
@@ -364,9 +364,9 @@ mod imp {
             self.update_filter(filter_change);
         }
 
-        pub(super) fn set_container_list(&self, value: Option<&model::ContainerList>) {
+        pub(super) fn set_container_list(&self, value: &model::ContainerList) {
             let obj = &*self.obj();
-            if obj.container_list().as_ref() == value {
+            if obj.container_list().as_ref() == Some(value) {
                 return;
             }
 
@@ -374,74 +374,99 @@ mod imp {
                 .iter()
                 .for_each(|action_name| obj.action_set_enabled(action_name, false));
 
-            if let Some(container_list) = value {
-                container_list.connect_notify_local(
-                    Some("num-selected"),
-                    clone!(@weak obj => move |list, _| {
-                        ACTIONS_SELECTION
-                            .iter()
-                            .for_each(|action_name| {
-                                obj.action_set_enabled(action_name, list.num_selected() > 0);
+            value.connect_notify_local(
+                Some("num-selected"),
+                clone!(
+                    #[weak]
+                    obj,
+                    move |list, _| {
+                        ACTIONS_SELECTION.iter().for_each(|action_name| {
+                            obj.action_set_enabled(action_name, list.num_selected() > 0);
                         });
-                    }),
-                );
+                    }
+                ),
+            );
 
-                container_list.connect_notify_local(
-                    Some("running"),
-                    clone!(@weak obj => move |_, _| {
-                        obj.imp().update_filter(gtk::FilterChange::Different)
-                    }),
-                );
+            value.connect_notify_local(
+                Some("running"),
+                clone!(
+                    #[weak]
+                    obj,
+                    move |_, _| obj.imp().update_filter(gtk::FilterChange::Different)
+                ),
+            );
 
-                container_list.connect_container_name_changed(clone!(@weak obj => move |_, _| {
+            value.connect_container_name_changed(clone!(
+                #[weak]
+                obj,
+                move |_, _| {
                     obj.imp().update_filter(gtk::FilterChange::Different);
                     glib::timeout_add_seconds_local_once(
                         1,
-                        clone!(@weak obj => move || obj.imp().update_sorter()),
+                        clone!(
+                            #[weak]
+                            obj,
+                            move || obj.imp().update_sorter()
+                        ),
                     );
-                }));
+                }
+            ));
 
-                let model = gtk::SortListModel::new(
-                    Some(gtk::FilterListModel::new(
-                        Some(container_list.to_owned()),
-                        self.filter.get().cloned(),
-                    )),
-                    self.sorter.get().cloned(),
-                );
+            let model = gtk::SortListModel::new(
+                Some(gtk::FilterListModel::new(
+                    Some(value.to_owned()),
+                    self.filter.get().cloned(),
+                )),
+                self.sorter.get().cloned(),
+            );
 
-                self.flow_box.bind_model(Some(&model), |item| {
-                    gtk::FlowBoxChild::builder()
-                        .focusable(false)
-                        .child(&view::ContainerCard::from(item.downcast_ref().unwrap()))
-                        .build()
-                        .upcast()
-                });
+            self.flow_box.bind_model(Some(&model), |item| {
+                gtk::FlowBoxChild::builder()
+                    .focusable(false)
+                    .child(&view::ContainerCard::from(item.downcast_ref().unwrap()))
+                    .build()
+                    .upcast()
+            });
 
-                model.connect_items_changed(clone!(
-                    #[weak]
-                    obj,
-                    move |model, _, removed, _| {
-                        obj.imp().filter_stack.set_visible_child_name(
-                            if model.n_items() > 0
-                                || !obj
-                                    .container_list()
-                                    .as_ref()
-                                    .is_some_and(model::ContainerList::initialized)
-                            {
-                                "list"
-                            } else {
-                                "empty"
-                            },
-                        );
+            self.set_filter_stack_visible_child(value, &model);
+            model.connect_items_changed(clone!(
+                #[weak]
+                obj,
+                #[weak]
+                value,
+                move |model, _, removed, _| {
+                    obj.imp().set_filter_stack_visible_child(&value, model);
 
-                        if removed > 0 {
-                            obj.deselect_hidden_containers(model.upcast_ref());
-                        }
+                    if removed > 0 {
+                        obj.deselect_hidden_containers(model.upcast_ref());
                     }
-                ));
-            }
+                }
+            ));
+            value.connect_initialized_notify(clone!(
+                #[weak]
+                obj,
+                #[weak]
+                model,
+                move |container_list| obj
+                    .imp()
+                    .set_filter_stack_visible_child(container_list, &model)
+            ));
 
-            self.container_list.set(value);
+            self.container_list.set(Some(value));
+        }
+
+        fn set_filter_stack_visible_child(
+            &self,
+            container_list: &model::ContainerList,
+            model: &impl IsA<gio::ListModel>,
+        ) {
+            self.filter_stack.set_visible_child_name(
+                if model.n_items() > 0 || !container_list.initialized() {
+                    "list"
+                } else {
+                    "empty"
+                },
+            );
         }
 
         fn update_filter(&self, filter_change: gtk::FilterChange) {
@@ -476,6 +501,11 @@ impl ContainersPanel {
         self.container_list()
             .as_ref()
             .and_then(model::ContainerList::client)
+    }
+
+    pub(crate) fn show_all_containers(&self) {
+        self.set_show_only_running_containers(false);
+        self.set_search_mode(false);
     }
 
     pub(crate) fn set_search_mode(&self, value: bool) {
