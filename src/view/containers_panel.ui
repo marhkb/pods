@@ -257,7 +257,7 @@
                             <property name="child">
                               <object class="AdwStatusPage">
                                 <property name="icon-name">package-x-generic-symbolic</property>
-                                <property name="title" translatable="yes">No Running Containers</property>
+                                <property name="title" translatable="yes">No Matching Containers</property>
 
                                 <child>
                                   <object class="GtkButton">
