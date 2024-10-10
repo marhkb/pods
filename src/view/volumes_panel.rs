@@ -109,7 +109,7 @@ mod imp {
             );
 
             klass.install_action(ACTION_SHOW_ALL_VOLUMES, None, |widget, _, _| {
-                widget.set_show_only_used_volumes(false);
+                widget.show_all_volumes();
             });
         }
 
@@ -398,6 +398,11 @@ impl Default for VolumesPanel {
 }
 
 impl VolumesPanel {
+    pub(crate) fn show_all_volumes(&self) {
+        self.set_show_only_used_volumes(false);
+        self.set_search_mode(false);
+    }
+
     pub(crate) fn set_search_mode(&self, value: bool) {
         self.imp().search_bar.set_search_mode(value);
     }
