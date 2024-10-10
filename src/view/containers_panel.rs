@@ -144,7 +144,7 @@ mod imp {
             );
 
             klass.install_action(ACTION_SHOW_ALL_CONTAINERS, None, |widget, _, _| {
-                widget.set_show_only_running_containers(false);
+                widget.show_all_containers();
             });
         }
 
@@ -491,6 +491,11 @@ impl ContainersPanel {
         self.container_list()
             .as_ref()
             .and_then(model::ContainerList::client)
+    }
+
+    pub(crate) fn show_all_containers(&self) {
+        self.set_show_only_running_containers(false);
+        self.set_search_mode(false);
     }
 
     pub(crate) fn set_search_mode(&self, value: bool) {

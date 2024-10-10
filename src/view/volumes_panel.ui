@@ -255,7 +255,7 @@
                             <property name="child">
                               <object class="AdwStatusPage">
                                 <property name="icon-name">drive-harddisk-symbolic</property>
-                                <property name="title" translatable="yes">No Volumes in Use</property>
+                                <property name="title" translatable="yes">No Matching Volumes</property>
 
                                 <child>
                                   <object class="GtkButton">
