@@ -115,7 +115,7 @@ mod imp {
             );
 
             klass.install_action(ACTION_SHOW_ALL_IMAGES, None, |widget, _, _| {
-                widget.set_hide_intermediate_images(false);
+                widget.show_all_images();
             });
         }
 
@@ -419,6 +419,11 @@ impl Default for ImagesPanel {
 }
 
 impl ImagesPanel {
+    pub(crate) fn show_all_images(&self) {
+        self.set_hide_intermediate_images(false);
+        self.set_search_mode(false);
+    }
+
     pub(crate) fn set_search_mode(&self, value: bool) {
         self.imp().search_bar.set_search_mode(value);
     }
