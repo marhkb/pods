@@ -58,9 +58,13 @@ mod imp {
         #[property(get, set = Self::set_pod_list, nullable)]
         pub(super) pod_list: glib::WeakRef<model::PodList>,
         #[property(get, set)]
+        pub(super) collapsed: Cell<bool>,
+        #[property(get, set)]
         pub(super) show_only_running_pods: Cell<bool>,
         #[template_child]
         pub(super) main_stack: TemplateChild<gtk::Stack>,
+        #[template_child]
+        pub(super) toolbar_view: TemplateChild<adw::ToolbarView>,
         #[template_child]
         pub(super) header_stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -75,6 +79,8 @@ mod imp {
         pub(super) filter_stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) list_box: TemplateChild<gtk::ListBox>,
+        #[template_child]
+        pub(super) overhang_action_bar: TemplateChild<gtk::ActionBar>,
     }
 
     #[glib::object_subclass]
@@ -181,6 +187,7 @@ mod imp {
             let not_selection_mode_expr = selection_mode_expr.chain_closure::<bool>(closure!(
                 |_: Self::Type, selection_mode: bool| { !selection_mode }
             ));
+            let collapsed_expr = Self::Type::this_expression("collapsed");
 
             gtk::ClosureExpression::new::<Option<String>>(
                 [
@@ -253,6 +260,28 @@ mod imp {
                 )))
                 .bind(&self.selected_pods_button.get(), "label", Some(obj));
 
+            gtk::ClosureExpression::new::<bool>(
+                [
+                    collapsed_expr.upcast_ref(),
+                    not_selection_mode_expr.upcast_ref(),
+                ],
+                closure!(|_: Self::Type, collapsed: bool, not_selection_mode: bool| {
+                    collapsed && not_selection_mode
+                }),
+            )
+            .bind(&self.overhang_action_bar.get(), "revealed", Some(obj));
+
+            gtk::ClosureExpression::new::<bool>(
+                [
+                    collapsed_expr.upcast_ref(),
+                    selection_mode_expr.upcast_ref(),
+                ],
+                closure!(|_: Self::Type, collapsed: bool, selection_mode: bool| {
+                    collapsed || selection_mode
+                }),
+            )
+            .bind(&self.toolbar_view.get(), "reveal-bottom-bars", Some(obj));
+
             let search_filter = gtk::CustomFilter::new(clone!(
                 #[weak]
                 obj,
@@ -316,8 +345,6 @@ mod imp {
         fn on_notify_search_mode_enabled(&self) {
             if self.search_bar.is_search_mode() {
                 self.search_entry.grab_focus();
-            } else {
-                self.search_entry.set_text("");
             }
         }
 
