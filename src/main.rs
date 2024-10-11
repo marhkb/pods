@@ -213,6 +213,7 @@ fn init() {
     view::ContainersCountBar::static_type();
     view::ContainersGridView::static_type();
     view::ContainersGroup::static_type();
+    view::ContainersListView::static_type();
     view::ContainersPanel::static_type();
     view::ContainersPrunePage::static_type();
     view::ContainersRow::static_type();
