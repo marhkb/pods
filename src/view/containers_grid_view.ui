@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<interface>
+
+  <template class="PdsContainersGridView" parent="GtkWidget">
+    <property name="layout-manager">
+      <object class="GtkBinLayout"/>
+    </property>
+
+    <child>
+      <object class="GtkScrolledWindow">
+
+        <child>
+          <object class="GtkFlowBox" id="flow_box">
+            <property name="column-spacing">21</property>
+            <property name="halign">center</property>
+            <property name="homogeneous">True</property>
+            <property name="max-children-per-line">5</property>
+            <property name="row-spacing">21</property>
+            <property name="selection-mode">none</property>
+            <property name="valign">start</property>
+
+            <property name="margin-top">30</property>
+            <property name="margin-bottom">30</property>
+            <property name="margin-start">36</property>
+            <property name="margin-end">36</property>
+
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+
+</interface>

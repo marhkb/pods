@@ -28,6 +28,7 @@ mod container_terminal;
 mod container_terminal_page;
 mod container_volume_row;
 mod containers_count_bar;
+mod containers_grid_view;
 mod containers_group;
 mod containers_panel;
 mod containers_prune_page;
