@@ -1,3 +1,5 @@
+use std::cell::RefCell;
+
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use gettextrs::gettext;
@@ -8,6 +10,7 @@ use gtk::glib;
 use gtk::CompositeTemplate;
 
 use crate::model;
+use crate::model::prelude::*;
 use crate::utils;
 use crate::view;
 use crate::widget;
@@ -19,30 +22,42 @@ mod imp {
     #[properties(wrapper_type = super::ContainerRow)]
     #[template(resource = "/com/github/marhkb/Pods/ui/view/container_row.ui")]
     pub(crate) struct ContainerRow {
+        pub(super) bindings: RefCell<Vec<glib::Binding>>,
         #[property(get, set, construct, nullable)]
         pub(super) container: glib::WeakRef<model::Container>,
         #[template_child]
         pub(super) spinner: TemplateChild<widget::Spinner>,
-        // #[template_child]
-        // pub(super) name_label: TemplateChild<gtk::Label>,
-        // #[template_child]
-        // pub(super) repo_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub(super) check_button_revealer: TemplateChild<gtk::Revealer>,
+        #[template_child]
+        pub(super) check_button: TemplateChild<gtk::CheckButton>,
+        #[template_child]
+        pub(super) name_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub(super) pod_image: TemplateChild<gtk::Image>,
+        #[template_child]
+        pub(super) repo_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub(super) ports_flow_box: TemplateChild<gtk::FlowBox>,
         #[template_child]
         pub(super) stats_box: TemplateChild<gtk::Box>,
         #[template_child]
         pub(super) cpu_bar: TemplateChild<widget::CircularProgressBar>,
         #[template_child]
         pub(super) mem_bar: TemplateChild<widget::CircularProgressBar>,
+        #[template_child]
+        pub(super) end_box_revealer: TemplateChild<gtk::Revealer>,
     }
 
     #[glib::object_subclass]
     impl ObjectSubclass for ContainerRow {
         const NAME: &'static str = "PdsContainerRow";
         type Type = super::ContainerRow;
-        type ParentType = adw::ActionRow;
+        type ParentType = gtk::ListBoxRow;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+            klass.bind_template_callbacks();
 
             klass.install_action("container-row.activate", None, |widget, _, _| {
                 widget.activate();
@@ -76,9 +91,20 @@ mod imp {
             let container_list_expr =
                 container_expr.chain_property::<model::Container>("container-list");
 
+            let selection_mode_expr =
+                container_list_expr.chain_property::<model::ContainerList>("selection-mode");
+
+            selection_mode_expr.bind(&*self.check_button_revealer, "reveal-child", Some(obj));
+            selection_mode_expr
+                .chain_closure::<bool>(closure!(|_: Self::Type, is_selection_mode: bool| {
+                    !is_selection_mode
+                }))
+                .bind(&*self.end_box_revealer, "reveal-child", Some(obj));
+
             let status_expr = container_expr.chain_property::<model::Container>("status");
             let health_status_expr =
                 container_expr.chain_property::<model::Container>("health-status");
+            let pod_expr = container_expr.chain_property::<model::Container>("pod");
             let stats_expr = container_expr.chain_property::<model::Container>("stats");
 
             container_expr
@@ -137,14 +163,33 @@ mod imp {
                     }
                 }),
             )
-            .bind(obj, "title", Some(obj));
+            .bind(&*self.name_label, "label", Some(obj));
+
+            pod_expr
+                .chain_closure::<bool>(closure!(
+                    |_: Self::Type, pod: Option<model::Pod>| pod.is_some()
+                ))
+                .bind(&*self.pod_image, "visible", Some(obj));
+
+            gtk::ClosureExpression::new::<bool>(
+                [
+                    &pod_expr,
+                    &container_expr
+                        .chain_property::<model::Container>("ports")
+                        .chain_property::<model::PortMappingList>("len"),
+                ],
+                closure!(|_: Self::Type, pod: Option<&model::Pod>, len: u32| {
+                    pod.is_none() && len > 0
+                }),
+            )
+            .bind(&*self.ports_flow_box, "visible", Some(obj));
 
             container_expr
                 .chain_property::<model::Container>("image-name")
                 .chain_closure::<String>(closure!(|_: Self::Type, name: Option<String>| {
                     utils::escape(&utils::format_option(name))
                 }))
-                .bind(obj, "subtitle", Some(obj));
+                .bind(&*self.repo_label, "label", Some(obj));
 
             status_expr
                 .chain_closure::<bool>(closure!(
@@ -194,13 +239,78 @@ mod imp {
 
     impl WidgetImpl for ContainerRow {}
     impl ListBoxRowImpl for ContainerRow {}
-    impl PreferencesRowImpl for ContainerRow {}
-    impl ActionRowImpl for ContainerRow {}
+
+    #[gtk::template_callbacks]
+    impl ContainerRow {
+        #[template_callback]
+        fn on_notify_container(&self) {
+            let mut bindings = self.bindings.borrow_mut();
+            while let Some(binding) = bindings.pop() {
+                binding.unbind();
+            }
+
+            let obj = &*self.obj();
+
+            if let Some(container) = obj.container() {
+                let binding = container
+                    .bind_property("selected", &*self.check_button, "active")
+                    .flags(glib::BindingFlags::SYNC_CREATE | glib::BindingFlags::BIDIRECTIONAL)
+                    .build();
+
+                bindings.push(binding);
+
+                if !container.has_pod() {
+                    self.ports_flow_box.bind_model(
+                        Some(&container.ports()),
+                        clone!(@weak obj => @default-panic, move |item| {
+                            let port_mapping =
+                                item.downcast_ref::<model::PortMapping>().unwrap();
+
+                            let label = gtk::Label::builder()
+                                .css_classes([
+                                    "status-badge-small",
+                                    "numeric",
+                                ])
+                                .halign(gtk::Align::Center)
+                                .label(format!(
+                                    "{}/{}",
+                                    port_mapping.host_port(),
+                                    port_mapping.protocol()
+                                ))
+                                .build();
+
+                            let css_classes = utils::css_classes(&label);
+                            super::ContainerRow::this_expression("container")
+                                .chain_property::<model::Container>("status")
+                                .chain_closure::<Vec<String>>(closure!(
+                                    |_: super::ContainerRow, status: model::ContainerStatus| {
+                                        css_classes
+                                            .iter()
+                                            .cloned()
+                                            .chain(Some(String::from(
+                                                super::super::container_status_css_class(status)
+                                            )))
+                                            .collect::<Vec<_>>()
+                                    }
+                                ))
+                                .bind(&label, "css-classes", Some(&obj));
+
+                            gtk::FlowBoxChild::builder()
+                                .halign(gtk::Align::Start)
+                                .child(&label)
+                                .build()
+                                .upcast()
+                        }),
+                    );
+                }
+            }
+        }
+    }
 }
 
 glib::wrapper! {
     pub(crate) struct ContainerRow(ObjectSubclass<imp::ContainerRow>)
-        @extends gtk::Widget, gtk::ListBoxRow, adw::PreferencesRow, adw::ActionRow,
+        @extends gtk::Widget, gtk::ListBoxRow,
         @implements gtk::Accessible, gtk::Actionable, gtk::Buildable, gtk::ConstraintTarget;
 }
 
@@ -248,19 +358,27 @@ impl ContainerRow {
 
     fn activate(&self) {
         if let Some(container) = self.container().as_ref() {
-            let nav_page = adw::NavigationPage::builder()
-                .child(&view::ContainerDetailsPage::from(container))
-                .build();
+            if container
+                .container_list()
+                .map(|list| list.is_selection_mode())
+                .unwrap_or(false)
+            {
+                container.select();
+            } else {
+                let nav_page = adw::NavigationPage::builder()
+                    .child(&view::ContainerDetailsPage::from(container))
+                    .build();
 
-            Self::this_expression("container")
-                .chain_property::<model::Container>("name")
-                .chain_closure::<String>(closure!(|_: Self, name: &str| gettext!(
-                    "Container {}",
-                    name
-                )))
-                .bind(&nav_page, "title", Some(self));
+                Self::this_expression("container")
+                    .chain_property::<model::Container>("name")
+                    .chain_closure::<String>(closure!(|_: Self, name: &str| gettext!(
+                        "Container {}",
+                        name
+                    )))
+                    .bind(&nav_page, "title", Some(self));
 
-            utils::navigation_view(self).push(&nav_page);
+                utils::navigation_view(self).push(&nav_page);
+            }
         }
     }
 }
