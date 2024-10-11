@@ -22,6 +22,7 @@ use crate::view;
 
 const ACTION_CREATE_CONTAINER: &str = "containers-panel.create-container";
 const ACTION_PRUNE_UNUSED_CONTAINERS: &str = "containers-panel.prune-unused-containers";
+const ACTION_TOGGLE_CONTAINERS_VIEW: &str = "containers-panel.toggle-containers-view";
 const ACTION_ENTER_SELECTION_MODE: &str = "containers-panel.enter-selection-mode";
 const ACTION_EXIT_SELECTION_MODE: &str = "containers-panel.exit-selection-mode";
 const ACTION_SELECT_VISIBLE: &str = "containers-panel.select-visible";
@@ -45,6 +46,35 @@ const ACTIONS_SELECTION: &[&str] = &[
     ACTION_DELETE_SELECTION,
 ];
 
+#[derive(Debug)]
+enum ContainersView {
+    Grid(view::ContainersGridView),
+    List(view::ContainersListView),
+}
+
+impl ContainersView {
+    fn view(&self) -> &gtk::Widget {
+        match self {
+            Self::Grid(view) => view.upcast_ref(),
+            Self::List(view) => view.upcast_ref(),
+        }
+    }
+
+    fn set_model(&self, model: Option<&gio::ListModel>) {
+        match self {
+            Self::Grid(view) => view.set_model(model),
+            Self::List(view) => view.set_model(model),
+        }
+    }
+
+    pub(crate) fn select_visible(&self) {
+        match self {
+            Self::Grid(view) => view.select_visible(),
+            Self::List(view) => view.select_visible(),
+        }
+    }
+}
+
 mod imp {
     use super::*;
 
@@ -53,9 +83,11 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/view/containers_panel.ui")]
     pub(crate) struct ContainersPanel {
         pub(super) settings: utils::PodsSettings,
+        pub(super) containers_view: RefCell<Option<ContainersView>>,
         pub(super) filter: OnceCell<gtk::Filter>,
         pub(super) sorter: OnceCell<gtk::Sorter>,
         pub(super) search_term: RefCell<String>,
+        pub(super) model: RefCell<Option<gio::ListModel>>,
         #[property(get, set = Self::set_container_list, nullable)]
         pub(super) container_list: glib::WeakRef<model::ContainerList>,
         #[property(get, set)]
@@ -71,6 +103,8 @@ mod imp {
         #[template_child]
         pub(super) window_title: TemplateChild<adw::WindowTitle>,
         #[template_child]
+        pub(super) view_options_split_button_1: TemplateChild<adw::SplitButton>,
+        #[template_child]
         pub(super) selected_containers_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
         pub(super) search_bar: TemplateChild<gtk::SearchBar>,
@@ -79,9 +113,11 @@ mod imp {
         #[template_child]
         pub(super) filter_stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub(super) flow_box: TemplateChild<gtk::FlowBox>,
+        pub(super) containers_view_bin: TemplateChild<adw::Bin>,
         #[template_child]
         pub(super) overhang_action_bar: TemplateChild<gtk::ActionBar>,
+        #[template_child]
+        pub(super) view_options_split_button_2: TemplateChild<adw::SplitButton>,
     }
 
     #[glib::object_subclass]
@@ -105,6 +141,10 @@ mod imp {
 
             klass.install_action(ACTION_PRUNE_UNUSED_CONTAINERS, None, |widget, _, _| {
                 widget.show_prune_page();
+            });
+
+            klass.install_action(ACTION_TOGGLE_CONTAINERS_VIEW, None, |widget, _, _| {
+                widget.toggle_containers_view();
             });
 
             klass.install_action(ACTION_ENTER_SELECTION_MODE, None, |widget, _, _| {
@@ -176,6 +216,18 @@ mod imp {
             self.parent_constructed();
 
             let obj = &*self.obj();
+
+            self.set_containers_view();
+            self.settings.connect_changed(
+                Some("containers-view"),
+                clone!(
+                    #[weak]
+                    obj,
+                    move |_, _| {
+                        obj.imp().set_containers_view();
+                    }
+                ),
+            );
 
             self.settings
                 .bind(
@@ -367,6 +419,40 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl ContainersPanel {
+        fn set_containers_view(&self) {
+            let model = self.model.borrow();
+            let view = if self.settings.string("containers-view") == "grid" {
+                self.view_options_split_button_1
+                    .set_icon_name("view-list-symbolic");
+                self.view_options_split_button_2
+                    .set_icon_name("view-list-symbolic");
+
+                let tooltip = gettext("List View");
+                self.view_options_split_button_1
+                    .set_tooltip_text(Some(&tooltip));
+                self.view_options_split_button_2
+                    .set_tooltip_text(Some(&tooltip));
+
+                ContainersView::Grid(view::ContainersGridView::from(model.as_ref()))
+            } else {
+                self.view_options_split_button_1
+                    .set_icon_name("view-grid-symbolic");
+                self.view_options_split_button_2
+                    .set_icon_name("view-grid-symbolic");
+
+                let tooltip = gettext("Grid View");
+                self.view_options_split_button_1
+                    .set_tooltip_text(Some(&tooltip));
+                self.view_options_split_button_2
+                    .set_tooltip_text(Some(&tooltip));
+
+                ContainersView::List(view::ContainersListView::from(model.as_ref()))
+            };
+
+            self.containers_view_bin.set_child(Some(view.view()));
+            self.containers_view.replace(Some(view));
+        }
+
         #[template_callback]
         fn on_notify_show_only_running_containers(&self) {
             self.update_filter(if self.obj().show_only_running_containers() {
@@ -446,7 +532,7 @@ mod imp {
                     }
                 ));
 
-                let model = gtk::SortListModel::new(
+                let model: gtk::SortListModel = gtk::SortListModel::new(
                     Some(gtk::FilterListModel::new(
                         Some(container_list.to_owned()),
                         self.filter.get().cloned(),
@@ -454,13 +540,9 @@ mod imp {
                     self.sorter.get().cloned(),
                 );
 
-                self.flow_box.bind_model(Some(&model), |item| {
-                    gtk::FlowBoxChild::builder()
-                        .focusable(false)
-                        .child(&view::ContainerCard::from(item.downcast_ref().unwrap()))
-                        .build()
-                        .upcast()
-                });
+                if let Some(view) = &*self.containers_view.borrow() {
+                    view.set_model(Some(model.upcast_ref()));
+                }
 
                 model.connect_items_changed(clone!(
                     #[weak]
@@ -473,7 +555,7 @@ mod imp {
                                     .as_ref()
                                     .is_some_and(model::ContainerList::initialized)
                             {
-                                "list"
+                                "containers"
                             } else {
                                 "empty"
                             },
@@ -484,6 +566,8 @@ mod imp {
                         }
                     }
                 ));
+
+                self.model.replace(Some(model.upcast()));
             }
 
             self.container_list.set(value);
@@ -554,6 +638,20 @@ impl ContainersPanel {
         }
     }
 
+    pub(crate) fn toggle_containers_view(&self) {
+        let settings = &self.imp().settings;
+        settings
+            .set_string(
+                "containers-view",
+                if settings.string("containers-view") == "grid" {
+                    "list"
+                } else {
+                    "grid"
+                },
+            )
+            .unwrap();
+    }
+
     pub(crate) fn enter_selection_mode(&self) {
         if let Some(list) = self.container_list().filter(|list| list.len() > 0) {
             list.select_none();
@@ -568,19 +666,9 @@ impl ContainersPanel {
     }
 
     pub(crate) fn select_visible(&self) {
-        (0..)
-            .map(|pos| self.imp().flow_box.child_at_index(pos))
-            .take_while(Option::is_some)
-            .flatten()
-            .for_each(|row| {
-                row.child()
-                    .unwrap()
-                    .downcast_ref::<view::ContainerCard>()
-                    .unwrap()
-                    .container()
-                    .unwrap()
-                    .set_selected(row.is_visible());
-            });
+        if let Some(view) = &*self.imp().containers_view.borrow() {
+            view.select_visible();
+        }
     }
 
     pub(crate) fn select_none(&self) {

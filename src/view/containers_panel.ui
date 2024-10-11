@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
 
+  <menu id="view-options-menu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">_Hide Non-Running</attribute>
+        <attribute name="action">containers-panel.toggle-show-only-running-containers</attribute>
+      </item>
+    </section>
+  </menu>
+
   <menu id="selection-menu">
     <item>
       <attribute name="label" translatable="yes">_Select Visible</attribute>
@@ -112,11 +121,10 @@
                             </child>
 
                             <child type="end">
-                              <object class="GtkToggleButton">
+                              <object class="AdwSplitButton" id="view_options_split_button_1">
                                 <property name="visible" bind-source="PdsContainersPanel" bind-property="collapsed" bind-flags="sync-create|invert-boolean"/>
-                                <property name="action-name">containers-panel.toggle-show-only-running-containers</property>
-                                <property name="icon-name">funnel-symbolic</property>
-                                <property name="tooltip-text" translatable="yes">Show Only Running Containers</property>
+                                <property name="action-name">containers-panel.toggle-containers-view</property>
+                                <property name="menu-model">view-options-menu</property>
                               </object>
                             </child>
 
@@ -180,30 +188,10 @@
 
                     <child>
                       <object class="GtkStackPage">
-                        <property name="name">list</property>
+                        <property name="name">containers</property>
 
                         <property name="child">
-                          <object class="GtkScrolledWindow">
-
-                            <child>
-                              <object class="GtkFlowBox" id="flow_box">
-                                <property name="column-spacing">21</property>
-                                <property name="halign">center</property>
-                                <property name="homogeneous">True</property>
-                                <property name="max-children-per-line">5</property>
-                                <property name="row-spacing">21</property>
-                                <property name="selection-mode">none</property>
-                                <property name="valign">start</property>
-
-                                <property name="margin-top">30</property>
-                                <property name="margin-bottom">30</property>
-                                <property name="margin-start">36</property>
-                                <property name="margin-end">36</property>
-
-                              </object>
-                            </child>
-
-                          </object>
+                          <object class="AdwBin" id="containers_view_bin"/>
                         </property>
 
                       </object>
@@ -393,10 +381,9 @@
                     </child>
 
                     <child type="end">
-                      <object class="GtkToggleButton">
-                        <property name="action-name">containers-panel.toggle-show-only-running-containers</property>
-                        <property name="icon-name">funnel-symbolic</property>
-                        <property name="tooltip-text" translatable="yes">Show Only Running Containers</property>
+                      <object class="AdwSplitButton" id="view_options_split_button_2">
+                        <property name="action-name">containers-panel.toggle-containers-view</property>
+                        <property name="menu-model">view-options-menu</property>
                       </object>
                     </child>
 
