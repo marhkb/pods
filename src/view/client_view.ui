@@ -15,7 +15,7 @@
 
         <child>
           <object class="AdwBreakpoint">
-            <condition>min-width: 600sp</condition>
+            <condition>min-width: 668sp</condition>
             <setter object="navigation_split_view" property="collapsed">False</setter>
           </object>
         </child>
@@ -256,6 +256,7 @@
                                         <property name="name">containers</property>
                                         <property name="child">
                                           <object class="PdsContainersPanel" id="containers_panel">
+                                            <property name="collapsed" bind-source="navigation_split_view" bind-property="collapsed" bind-flags="sync-create"/>
                                             <binding name="container-list">
                                               <lookup name="container-list" type="Client">
                                                 <lookup name="client">PdsClientView</lookup>
@@ -271,6 +272,7 @@
                                         <property name="name">pods</property>
                                         <property name="child">
                                           <object class="PdsPodsPanel" id="pods_panel">
+                                            <property name="collapsed" bind-source="navigation_split_view" bind-property="collapsed" bind-flags="sync-create"/>
                                             <binding name="pod-list">
                                               <lookup name="pod-list" type="Client">
                                                 <lookup name="client">PdsClientView</lookup>
@@ -286,6 +288,7 @@
                                         <property name="name">images</property>
                                         <property name="child">
                                           <object class="PdsImagesPanel" id="images_panel">
+                                            <property name="collapsed" bind-source="navigation_split_view" bind-property="collapsed" bind-flags="sync-create"/>
                                             <binding name="image-list">
                                               <lookup name="image-list" type="Client">
                                                 <lookup name="client">PdsClientView</lookup>
@@ -301,6 +304,7 @@
                                         <property name="name">volumes</property>
                                         <property name="child">
                                           <object class="PdsVolumesPanel" id="volumes_panel">
+                                            <property name="collapsed" bind-source="navigation_split_view" bind-property="collapsed" bind-flags="sync-create"/>
                                             <binding name="volume-list">
                                               <lookup name="volume-list" type="Client">
                                                 <lookup name="client">PdsClientView</lookup>
