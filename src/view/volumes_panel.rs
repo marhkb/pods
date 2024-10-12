@@ -109,7 +109,7 @@ mod imp {
             );
 
             klass.install_action(ACTION_SHOW_ALL_VOLUMES, None, |widget, _, _| {
-                widget.set_show_only_used_volumes(false);
+                widget.show_all_volumes();
             });
         }
 
@@ -334,17 +334,27 @@ mod imp {
                     view::VolumeRow::from(item.downcast_ref().unwrap()).upcast()
                 });
 
-                self.filter_stack
-                    .set_visible_child_name(if model.n_items() > 0 { "list" } else { "empty" });
-                model.connect_items_changed(clone!(@weak obj => move |model, _, removed, _| {
-                    obj.imp()
-                        .filter_stack
-                        .set_visible_child_name(if model.n_items() > 0 { "list" } else { "empty" });
+                model.connect_items_changed(clone!(
+                    #[weak]
+                    obj,
+                    move |model, _, removed, _| {
+                        obj.imp().filter_stack.set_visible_child_name(
+                            if model.n_items() > 0 || {
+                                !obj.volume_list()
+                                    .as_ref()
+                                    .is_some_and(model::VolumeList::initialized)
+                            } {
+                                "list"
+                            } else {
+                                "empty"
+                            },
+                        );
 
-                    if removed > 0 {
-                        obj.deselect_hidden_volumes(model.upcast_ref());
+                        if removed > 0 {
+                            obj.deselect_hidden_volumes(model.upcast_ref());
+                        }
                     }
-                }));
+                ));
             }
 
             self.volume_list.set(value);
@@ -372,6 +382,11 @@ impl Default for VolumesPanel {
 }
 
 impl VolumesPanel {
+    pub(crate) fn show_all_volumes(&self) {
+        self.set_show_only_used_volumes(false);
+        self.set_search_mode(false);
+    }
+
     pub(crate) fn set_search_mode(&self, value: bool) {
         self.imp().search_bar.set_search_mode(value);
     }
