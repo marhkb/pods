@@ -334,17 +334,27 @@ mod imp {
                     view::VolumeRow::from(item.downcast_ref().unwrap()).upcast()
                 });
 
-                self.filter_stack
-                    .set_visible_child_name(if model.n_items() > 0 { "list" } else { "empty" });
-                model.connect_items_changed(clone!(@weak obj => move |model, _, removed, _| {
-                    obj.imp()
-                        .filter_stack
-                        .set_visible_child_name(if model.n_items() > 0 { "list" } else { "empty" });
+                model.connect_items_changed(clone!(
+                    #[weak]
+                    obj,
+                    move |model, _, removed, _| {
+                        obj.imp().filter_stack.set_visible_child_name(
+                            if model.n_items() > 0 || {
+                                !obj.volume_list()
+                                    .as_ref()
+                                    .is_some_and(model::VolumeList::initialized)
+                            } {
+                                "list"
+                            } else {
+                                "empty"
+                            },
+                        );
 
-                    if removed > 0 {
-                        obj.deselect_hidden_volumes(model.upcast_ref());
+                        if removed > 0 {
+                            obj.deselect_hidden_volumes(model.upcast_ref());
+                        }
                     }
-                }));
+                ));
             }
 
             self.volume_list.set(value);
