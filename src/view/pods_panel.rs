@@ -353,17 +353,28 @@ mod imp {
                 view::PodRow::from(item.downcast_ref().unwrap()).upcast()
             });
 
-            self.filter_stack
-                .set_visible_child_name(if model.n_items() > 0 { "list" } else { "empty" });
-            model.connect_items_changed(clone!(@weak obj => move |model, _, removed, _| {
-                obj.imp()
-                    .filter_stack
-                    .set_visible_child_name(if model.n_items() > 0 { "list" } else { "empty" });
+            model.connect_items_changed(clone!(
+                #[weak]
+                obj,
+                move |model, _, removed, _| {
+                    obj.imp().filter_stack.set_visible_child_name(
+                        if model.n_items() > 0
+                            || !obj
+                                .pod_list()
+                                .as_ref()
+                                .is_some_and(model::PodList::initialized)
+                        {
+                            "list"
+                        } else {
+                            "empty"
+                        },
+                    );
 
-                if removed > 0 {
-                    obj.deselect_hidden_pods(model.upcast_ref());
+                    if removed > 0 {
+                        obj.deselect_hidden_pods(model.upcast_ref());
+                    }
                 }
-            }));
+            ));
 
             ACTIONS_SELECTION
                 .iter()
