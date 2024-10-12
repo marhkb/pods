@@ -26,6 +26,15 @@
       <summary>The last used view</summary>
       <description></description>
     </key>
+    <key name="containers-view" type="s">
+      <choices>
+        <choice value='grid'/>
+        <choice value='list'/>
+      </choices>
+      <default>'grid'</default>
+      <summary>Containers representation</summary>
+      <description></description>
+    </key>
     <key name="hide-intermediate-images" type="b">
       <default>false</default>
       <summary>Whether to hide intermediate images</summary>

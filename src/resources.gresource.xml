@@ -30,7 +30,9 @@
     <file compressed="true" preprocess="xml-stripblanks">view/container_terminal_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/container_volume_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/containers_count_bar.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/containers_grid_view.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/containers_group.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/containers_list_view.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/containers_panel.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/containers_prune_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/containers_row.ui</file>

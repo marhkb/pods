@@ -1,30 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="PdsContainerRow" parent="AdwActionRow">
+  <template class="PdsContainerRow" parent="GtkListBoxRow">
+    <signal name="notify::container" handler="on_notify_container"/>
     <property name="action-name">container-row.activate</property>
-    <property name="activatable">True</property>
 
-    <child type="prefix">
-      <object class="PdsSpinner" id="spinner"/>
-    </child>
-
-    <child type="suffix">
+    <child>
       <object class="GtkBox">
-        <property name="spacing">6</property>
+        <property name="margin-top">7</property>
+        <property name="margin-end">12</property>
+        <property name="margin-bottom">7</property>
+        <property name="margin-start">10</property>
 
         <child>
-          <object class="GtkBox" id="stats_box">
-            <property name="spacing">6</property>
+          <object class="GtkRevealer" id="check_button_revealer">
+            <property name="transition-type">slide-right</property>
 
             <child>
-              <object class="PdsCircularProgressBar" id="cpu_bar">
-                <property name="icon-name">processor-symbolic</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="PdsCircularProgressBar" id="mem_bar">
-                <property name="icon-name">memory-symbolic</property>
+              <object class="GtkCheckButton" id="check_button">
+                <style>
+                  <class name="selection-mode"/>
+                </style>
+                <property name="margin-start">2</property>
+                <property name="margin-end">10</property>
+                <property name="valign">center</property>
               </object>
             </child>
 
@@ -33,23 +31,121 @@
 
         <child>
           <object class="GtkBox">
-            <property name="spacing">3</property>
+            <property name="spacing">6</property>
 
             <child>
-              <object class="PdsContainerMenuButton" id="menu_button">
-                <style>
-                  <class name="flat"/>
-                </style>
-                <binding name="container">
-                  <lookup name="container">PdsContainerRow</lookup>
-                </binding>
-                <property name="valign">center</property>
+              <object class="PdsSpinner" id="spinner">
+                <property name="margin-end">4</property>
               </object>
             </child>
 
             <child>
-              <object class="GtkImage">
-                <property name="icon_name">go-next-symbolic</property>
+              <object class="GtkBox">
+                <property name="hexpand">True</property>
+                <property name="valign">center</property>
+                <property name="orientation">vertical</property>
+                <property name="spacing">3</property>
+
+                <child>
+                  <object class="GtkBox">
+                    <property name="spacing">6</property>
+
+                    <child>
+                      <object class="GtkLabel" id="name_label">
+                        <property name="use-markup">True</property>
+                        <property name="wrap">True</property>
+                        <property name="wrap-mode">word-char</property>
+                        <property name="xalign">0</property>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkImage" id="pod_image">
+                        <style>
+                          <class name="dim-icon"/>
+                        </style>
+                        <property name="icon-name">pod-circle-symbolic</property>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkLabel" id="repo_label">
+                    <style>
+                      <class name="subtitle"/>
+                    </style>
+                    <property name="use-markup">True</property>
+                    <property name="wrap">True</property>
+                    <property name="wrap-mode">word-char</property>
+                    <property name="xalign">0</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkFlowBox" id="ports_flow_box">
+                    <property name="can-target">False</property>
+                    <property name="column-spacing">3</property>
+                    <property name="row-spacing">3</property>
+                    <property name="margin-top">6</property>
+                    <property name="max-children-per-line">96</property>
+                    <property name="selection-mode">none</property>
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkBox" id="stats_box">
+                <property name="spacing">6</property>
+
+                <child>
+                  <object class="PdsCircularProgressBar" id="cpu_bar">
+                    <property name="icon-name">processor-symbolic</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="PdsCircularProgressBar" id="mem_bar">
+                    <property name="icon-name">memory-symbolic</property>
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkRevealer" id="end_box_revealer">
+            <property name="transition-type">slide-left</property>
+
+            <child>
+              <object class="GtkBox" id="end_box">
+                <property name="margin-start">6</property>
+                <property name="spacing">3</property>
+
+                <child>
+                  <object class="PdsContainerMenuButton" id="menu_button">
+                    <style>
+                      <class name="flat"/>
+                    </style>
+                    <binding name="container">
+                      <lookup name="container">PdsContainerRow</lookup>
+                    </binding>
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkImage">
+                    <property name="icon_name">go-next-symbolic</property>
+                  </object>
+                </child>
+
               </object>
             </child>
 

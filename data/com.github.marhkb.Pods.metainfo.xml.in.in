@@ -46,6 +46,7 @@
           <li>The search entry to a toggle button in the headerbar. (#830)</li>
           <li>Search is now possible in the connection chooser page. (#830)</li>
           <li>The control elements of the header bar are now moved to a lower bar if space becomes too tight. (#837)</li>
+          <li>Allow switching between grid and list view in the containers panel. (#838)</li>
         </ul>
       </description>
     </release>
