@@ -345,17 +345,28 @@ mod imp {
                 view::ImageRow::from(item.downcast_ref().unwrap()).upcast()
             });
 
-            self.filter_stack
-                .set_visible_child_name(if model.n_items() > 0 { "list" } else { "empty" });
-            model.connect_items_changed(clone!(@weak obj => move |model, _, removed, _| {
-                obj.imp()
-                    .filter_stack
-                    .set_visible_child_name(if model.n_items() > 0 { "list" } else { "empty" });
+            model.connect_items_changed(clone!(
+                #[weak]
+                obj,
+                move |model, _, removed, _| {
+                    obj.imp().filter_stack.set_visible_child_name(
+                        if model.n_items() > 0
+                            || !obj
+                                .image_list()
+                                .as_ref()
+                                .is_some_and(model::ImageList::initialized)
+                        {
+                            "list"
+                        } else {
+                            "empty"
+                        },
+                    );
 
-                if removed > 0 {
-                    obj.deselect_hidden_images(model.upcast_ref());
+                    if removed > 0 {
+                        obj.deselect_hidden_images(model.upcast_ref());
+                    }
                 }
-            }));
+            ));
 
             obj.action_set_enabled(ACTION_DELETE_SELECTION, false);
             value.connect_notify_local(
