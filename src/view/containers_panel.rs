@@ -483,9 +483,9 @@ mod imp {
             self.update_filter(filter_change);
         }
 
-        pub(super) fn set_container_list(&self, value: Option<&model::ContainerList>) {
+        pub(super) fn set_container_list(&self, value: &model::ContainerList) {
             let obj = &*self.obj();
-            if obj.container_list().as_ref() == value {
+            if obj.container_list().as_ref() == Some(value) {
                 return;
             }
 
@@ -493,84 +493,97 @@ mod imp {
                 .iter()
                 .for_each(|action_name| obj.action_set_enabled(action_name, false));
 
-            if let Some(container_list) = value {
-                container_list.connect_notify_local(
-                    Some("num-selected"),
-                    clone!(
-                        #[weak]
-                        obj,
-                        move |list, _| {
-                            ACTIONS_SELECTION.iter().for_each(|action_name| {
-                                obj.action_set_enabled(action_name, list.num_selected() > 0);
-                            });
-                        }
-                    ),
-                );
-
-                container_list.connect_notify_local(
-                    Some("running"),
-                    clone!(
-                        #[weak]
-                        obj,
-                        move |_, _| obj.imp().update_filter(gtk::FilterChange::Different)
-                    ),
-                );
-
-                container_list.connect_container_name_changed(clone!(
+            value.connect_notify_local(
+                Some("num-selected"),
+                clone!(
                     #[weak]
                     obj,
-                    move |_, _| {
-                        obj.imp().update_filter(gtk::FilterChange::Different);
-                        glib::timeout_add_seconds_local_once(
-                            1,
-                            clone!(
-                                #[weak]
-                                obj,
-                                move || obj.imp().update_sorter()
-                            ),
-                        );
+                    move |list, _| {
+                        ACTIONS_SELECTION.iter().for_each(|action_name| {
+                            obj.action_set_enabled(action_name, list.num_selected() > 0);
+                        });
                     }
-                ));
+                ),
+            );
 
-                let model: gtk::SortListModel = gtk::SortListModel::new(
-                    Some(gtk::FilterListModel::new(
-                        Some(container_list.to_owned()),
-                        self.filter.get().cloned(),
-                    )),
-                    self.sorter.get().cloned(),
-                );
+            value.connect_notify_local(
+                Some("running"),
+                clone!(
+                    #[weak]
+                    obj,
+                    move |_, _| obj.imp().update_filter(gtk::FilterChange::Different)
+                ),
+            );
 
-                if let Some(view) = &*self.containers_view.borrow() {
-                    view.set_model(Some(model.upcast_ref()));
+            value.connect_container_name_changed(clone!(
+                #[weak]
+                obj,
+                move |_, _| {
+                    obj.imp().update_filter(gtk::FilterChange::Different);
+                    glib::timeout_add_seconds_local_once(
+                        1,
+                        clone!(
+                            #[weak]
+                            obj,
+                            move || obj.imp().update_sorter()
+                        ),
+                    );
                 }
+            ));
 
-                model.connect_items_changed(clone!(
-                    #[weak]
-                    obj,
-                    move |model, _, removed, _| {
-                        obj.imp().filter_stack.set_visible_child_name(
-                            if model.n_items() > 0
-                                || !obj
-                                    .container_list()
-                                    .as_ref()
-                                    .is_some_and(model::ContainerList::initialized)
-                            {
-                                "containers"
-                            } else {
-                                "empty"
-                            },
-                        );
+            let model = gtk::SortListModel::new(
+                Some(gtk::FilterListModel::new(
+                    Some(value.to_owned()),
+                    self.filter.get().cloned(),
+                )),
+                self.sorter.get().cloned(),
+            );
 
-                        if removed > 0 {
-                            obj.deselect_hidden_containers(model.upcast_ref());
-                        }
-                    }
-                ));
-
-                self.model.replace(Some(model.upcast()));
+            if let Some(view) = &*self.containers_view.borrow() {
+                view.set_model(Some(model.upcast_ref()));
             }
 
-            self.container_list.set(value);
+            self.set_filter_stack_visible_child(value, &model);
+            model.connect_items_changed(clone!(
+                #[weak]
+                obj,
+                #[weak]
+                value,
+                move |model, _, removed, _| {
+                    obj.imp().set_filter_stack_visible_child(&value, model);
+
+                    if removed > 0 {
+                        obj.deselect_hidden_containers(model.upcast_ref());
+                    }
+                }
+            ));
+            value.connect_initialized_notify(clone!(
+                #[weak]
+                obj,
+                #[weak]
+                model,
+                move |container_list| obj
+                    .imp()
+                    .set_filter_stack_visible_child(container_list, &model)
+            ));
+
+            self.model.replace(Some(model.upcast()));
+
+            self.container_list.set(Some(value));
+        }
+
+        fn set_filter_stack_visible_child(
+            &self,
+            container_list: &model::ContainerList,
+            model: &impl IsA<gio::ListModel>,
+        ) {
+            self.filter_stack.set_visible_child_name(
+                if model.n_items() > 0 || !container_list.initialized() {
+                    "containers"
+                } else {
+                    "empty"
+                },
+            );
         }
 
         fn update_filter(&self, filter_change: gtk::FilterChange) {

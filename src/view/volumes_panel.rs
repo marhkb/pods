@@ -40,7 +40,7 @@ mod imp {
         pub(super) filter: OnceCell<gtk::Filter>,
         pub(super) sorter: OnceCell<gtk::Sorter>,
         pub(super) search_term: RefCell<String>,
-        #[property(get, set = Self::set_volume_list, explicit_notify, nullable)]
+        #[property(get, set = Self::set_volume_list)]
         pub(super) volume_list: glib::WeakRef<model::VolumeList>,
         #[property(get, set)]
         pub(super) collapsed: Cell<bool>,
@@ -333,77 +333,87 @@ mod imp {
             self.update_filter(filter_change);
         }
 
-        pub(super) fn set_volume_list(&self, value: Option<&model::VolumeList>) {
+        pub(super) fn set_volume_list(&self, value: &model::VolumeList) {
             let obj = &*self.obj();
-            if obj.volume_list().as_ref() == value {
+            if obj.volume_list().as_ref() == Some(value) {
                 return;
             }
 
             obj.action_set_enabled(ACTION_DELETE_SELECTION, false);
 
-            if let Some(volume_list) = value {
-                volume_list.connect_notify_local(
-                    Some("num-selected"),
-                    clone!(
-                        #[weak]
-                        obj,
-                        move |list, _| {
-                            obj.action_set_enabled(
-                                ACTION_DELETE_SELECTION,
-                                list.num_selected() > 0,
-                            );
-                        }
-                    ),
-                );
-
-                volume_list.connect_notify_local(
-                    Some("used"),
-                    clone!(
-                        #[weak]
-                        obj,
-                        move |_, _| {
-                            obj.imp().update_filter(gtk::FilterChange::Different);
-                        }
-                    ),
-                );
-
-                let model = gtk::SortListModel::new(
-                    Some(gtk::FilterListModel::new(
-                        Some(volume_list.to_owned()),
-                        self.filter.get().cloned(),
-                    )),
-                    self.sorter.get().cloned(),
-                );
-
-                self.list_box.bind_model(Some(&model), |item| {
-                    view::VolumeRow::from(item.downcast_ref().unwrap()).upcast()
-                });
-
-                model.connect_items_changed(clone!(
+            value.connect_notify_local(
+                Some("num-selected"),
+                clone!(
                     #[weak]
                     obj,
-                    move |model, _, removed, _| {
-                        obj.imp().filter_stack.set_visible_child_name(
-                            if model.n_items() > 0 || {
-                                !obj.volume_list()
-                                    .as_ref()
-                                    .is_some_and(model::VolumeList::initialized)
-                            } {
-                                "list"
-                            } else {
-                                "empty"
-                            },
-                        );
-
-                        if removed > 0 {
-                            obj.deselect_hidden_volumes(model.upcast_ref());
-                        }
+                    move |list, _| {
+                        obj.action_set_enabled(ACTION_DELETE_SELECTION, list.num_selected() > 0);
                     }
-                ));
-            }
+                ),
+            );
 
-            self.volume_list.set(value);
-            obj.notify("volume-list");
+            value.connect_notify_local(
+                Some("used"),
+                clone!(
+                    #[weak]
+                    obj,
+                    move |_, _| {
+                        obj.imp().update_filter(gtk::FilterChange::Different);
+                    }
+                ),
+            );
+
+            let model = gtk::SortListModel::new(
+                Some(gtk::FilterListModel::new(
+                    Some(value.to_owned()),
+                    self.filter.get().cloned(),
+                )),
+                self.sorter.get().cloned(),
+            );
+
+            self.list_box.bind_model(Some(&model), |item| {
+                view::VolumeRow::from(item.downcast_ref().unwrap()).upcast()
+            });
+
+            self.set_filter_stack_visible_child(value, &model);
+            model.connect_items_changed(clone!(
+                #[weak]
+                obj,
+                #[weak]
+                value,
+                move |model, _, removed, _| {
+                    obj.imp().set_filter_stack_visible_child(&value, model);
+
+                    if removed > 0 {
+                        obj.deselect_hidden_volumes(model.upcast_ref());
+                    }
+                }
+            ));
+            value.connect_initialized_notify(clone!(
+                #[weak]
+                obj,
+                #[weak]
+                model,
+                move |volume_list| obj
+                    .imp()
+                    .set_filter_stack_visible_child(volume_list, &model)
+            ));
+
+            self.volume_list.set(Some(value));
+        }
+
+        fn set_filter_stack_visible_child(
+            &self,
+            volume_list: &model::VolumeList,
+            model: &impl IsA<gio::ListModel>,
+        ) {
+            self.filter_stack.set_visible_child_name(
+                if model.n_items() > 0 || !volume_list.initialized() {
+                    "list"
+                } else {
+                    "empty"
+                },
+            );
         }
 
         fn update_filter(&self, filter_change: gtk::FilterChange) {
