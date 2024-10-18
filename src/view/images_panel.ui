@@ -280,7 +280,7 @@
                             <property name="child">
                               <object class="AdwStatusPage">
                                 <property name="icon-name">image-x-generic-symbolic</property>
-                                <property name="title" translatable="yes">No Tagged Images</property>
+                                <property name="title" translatable="yes">No Matching Images</property>
 
                                 <child>
                                   <object class="GtkButton">
