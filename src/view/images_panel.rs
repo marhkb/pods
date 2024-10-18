@@ -115,7 +115,7 @@ mod imp {
             );
 
             klass.install_action(ACTION_SHOW_ALL_IMAGES, None, |widget, _, _| {
-                widget.set_hide_intermediate_images(false);
+                widget.show_all_images();
             });
         }
 
@@ -345,27 +345,26 @@ mod imp {
                 view::ImageRow::from(item.downcast_ref().unwrap()).upcast()
             });
 
+            self.set_filter_stack_visible_child(value, &model);
             model.connect_items_changed(clone!(
                 #[weak]
                 obj,
+                #[weak]
+                value,
                 move |model, _, removed, _| {
-                    obj.imp().filter_stack.set_visible_child_name(
-                        if model.n_items() > 0
-                            || !obj
-                                .image_list()
-                                .as_ref()
-                                .is_some_and(model::ImageList::initialized)
-                        {
-                            "list"
-                        } else {
-                            "empty"
-                        },
-                    );
+                    obj.imp().set_filter_stack_visible_child(&value, model);
 
                     if removed > 0 {
                         obj.deselect_hidden_images(model.upcast_ref());
                     }
                 }
+            ));
+            value.connect_initialized_notify(clone!(
+                #[weak]
+                obj,
+                #[weak]
+                model,
+                move |value| obj.imp().set_filter_stack_visible_child(value, &model)
             ));
 
             obj.action_set_enabled(ACTION_DELETE_SELECTION, false);
@@ -377,6 +376,20 @@ mod imp {
             );
 
             self.image_list.set(Some(value));
+        }
+
+        fn set_filter_stack_visible_child(
+            &self,
+            image_list: &model::ImageList,
+            model: &impl IsA<gio::ListModel>,
+        ) {
+            self.filter_stack.set_visible_child_name(
+                if model.n_items() > 0 || !image_list.initialized() {
+                    "list"
+                } else {
+                    "empty"
+                },
+            );
         }
 
         fn update_filter(&self, filter_change: gtk::FilterChange) {
@@ -407,6 +420,11 @@ impl Default for ImagesPanel {
 }
 
 impl ImagesPanel {
+    pub(crate) fn show_all_images(&self) {
+        self.set_hide_intermediate_images(false);
+        self.set_search_mode(false);
+    }
+
     pub(crate) fn set_search_mode(&self, value: bool) {
         self.imp().search_bar.set_search_mode(value);
     }
