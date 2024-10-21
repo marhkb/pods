@@ -3,14 +3,16 @@ use std::cell::Cell;
 use std::cell::OnceCell;
 use std::cell::RefCell;
 use std::ffi::OsStr;
-use std::mem;
 use std::path::PathBuf;
 use std::sync::Arc;
-use std::sync::Mutex;
 
 use adw::prelude::*;
+use futures::lock::Mutex;
 use futures::stream;
+use futures::FutureExt;
 use futures::StreamExt;
+use futures::TryFutureExt;
+use futures::TryStreamExt;
 use gettextrs::gettext;
 use gio::subclass::prelude::*;
 use glib::clone;
@@ -18,6 +20,8 @@ use glib::Properties;
 use gtk::gio;
 use gtk::glib;
 use serde::Deserialize;
+use tokio::io::AsyncWriteExt;
+use tokio::io::BufWriter;
 
 use crate::model;
 use crate::model::AbstractContainerListExt;
@@ -630,70 +634,128 @@ impl Action {
 
         let abort_registration = obj.setup_abort_handle();
 
-        obj.insert_line(&gettext("Copying bytes into memory…"));
+        obj.insert_line(&gettext("Writing to file…"));
 
-        let buf = Arc::new(Mutex::new(Vec::new()));
-        obj.insert_line(&gettext!("Size: {}", glib::format_size(0)));
-
-        utils::run_stream_with_finish_handler(
-            container.api().unwrap(),
-            |container| {
-                stream::Abortable::new(container.copy_from(container_path), abort_registration)
-                    .boxed()
+        utils::do_async(
+            async move {
+                tokio::fs::File::options()
+                    .write(true)
+                    .create(true)
+                    .truncate(true)
+                    .open(&host_path)
+                    .await
             },
             clone!(
                 #[weak]
                 obj,
-                #[strong]
-                buf,
-                #[upgrade_or]
-                glib::ControlFlow::Break,
-                move |result: podman::Result<Vec<u8>>| {
-                    match result {
-                        Ok(chunk) => {
-                            let mut buf = buf.lock().unwrap();
-                            buf.extend(chunk);
-                            obj.replace_last_line(&gettext!(
-                                "Size: {}",
-                                glib::format_size(buf.len() as u64)
-                            ));
-                            glib::ControlFlow::Continue
-                        }
+                #[weak]
+                container,
+                move |file| {
+                    match file {
                         Err(e) => {
                             obj.insert_line(&e.to_string());
                             obj.set_state(State::Failed);
-                            glib::ControlFlow::Break
+                        }
+                        Ok(file) => {
+                            let writer = Arc::new(Mutex::new(BufWriter::new(file)));
+                            obj.insert_line(&gettext!("Written: {}", glib::format_size(0)));
+
+                            utils::run_stream_with_finish_handler(
+                                container.api().unwrap(),
+                                {
+                                    let writer = writer.clone();
+                                    move |container| {
+                                        stream::Abortable::new(
+                                            container.copy_from(container_path),
+                                            abort_registration,
+                                        )
+                                        .map_err(anyhow::Error::from)
+                                        .scan(
+                                            Ok((writer, 0)),
+                                            |state: &mut anyhow::Result<_>, chunk| match state {
+                                                Err(_) => futures::future::ready(None).boxed(),
+                                                Ok((writer, written)) => match chunk {
+                                                    Err(e) => {
+                                                        futures::future::ready(Some(Err(e))).boxed()
+                                                    }
+                                                    Ok(chunk) => {
+                                                        *written += chunk.len();
+
+                                                        let writer = writer.clone();
+                                                        let written = *written;
+                                                        async move {
+                                                            Some({
+                                                                let mut writer =
+                                                                    writer.lock().await;
+                                                                writer
+                                                                    .write_all(&chunk)
+                                                                    .map_err(anyhow::Error::from)
+                                                                    .map_ok(|_| written)
+                                                                    .await
+                                                            })
+                                                        }
+                                                        .boxed()
+                                                    }
+                                                },
+                                            },
+                                        )
+                                        .boxed()
+                                    }
+                                },
+                                clone!(
+                                    #[weak]
+                                    obj,
+                                    #[upgrade_or]
+                                    glib::ControlFlow::Break,
+                                    move |result: anyhow::Result<usize>| {
+                                        match result {
+                                            Ok(written) => {
+                                                obj.replace_last_line(&gettext!(
+                                                    "Written: {}",
+                                                    glib::format_size(written as u64)
+                                                ));
+                                                glib::ControlFlow::Continue
+                                            }
+                                            Err(e) => {
+                                                obj.insert_line(&e.to_string());
+                                                obj.set_state(State::Failed);
+                                                glib::ControlFlow::Break
+                                            }
+                                        }
+                                    }
+                                ),
+                                clone!(
+                                    #[weak]
+                                    obj,
+                                    move || {
+                                        obj.insert_line(&gettext("Flushing…"));
+                                        utils::do_async(
+                                            {
+                                                let writer = writer.clone();
+                                                async move { writer.lock().await.flush().await }
+                                            },
+                                            clone!(
+                                                #[weak]
+                                                obj,
+                                                move |result| {
+                                                    match result {
+                                                        Ok(_) => {
+                                                            obj.insert_line(&gettext("Finished"));
+                                                            obj.set_state(State::Finished);
+                                                        }
+                                                        Err(e) => {
+                                                            obj.insert_line(&e.to_string());
+                                                            obj.set_state(State::Failed);
+                                                        }
+                                                    }
+                                                }
+                                            ),
+                                        );
+                                    }
+                                ),
+                            );
                         }
                     }
-                }
-            ),
-            clone!(
-                #[weak]
-                obj,
-                move || {
-                    let mut buf_ = Vec::<u8>::new();
-                    mem::swap(&mut *buf.lock().unwrap(), &mut buf_);
-
-                    utils::do_async(
-                        {
-                            let path = host_path.clone();
-                            async move { tokio::fs::write(path, buf_).await }
-                        },
-                        clone!(
-                            #[weak]
-                            obj,
-                            move |result| match result {
-                                Ok(_) => {
-                                    obj.insert_line(&gettext("Finished"));
-                                    obj.set_state(State::Finished);
-                                }
-                                Err(e) => {
-                                    obj.insert_line(&e.to_string());
-                                    obj.set_state(State::Failed);
-                                }
-                            }
-                        ),
-                    );
                 }
             ),
         );
