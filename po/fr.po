@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-27 19:46+0200\n"
-"PO-Revision-Date: 2024-09-15 22:09+0000\n"
-"Last-Translator: ascpial <mail@ascpial.fr>\n"
+"PO-Revision-Date: 2024-10-23 15:16+0000\n"
+"Last-Translator: Stan SZLAPKA <stansz@free.fr>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/pods/main/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.8-dev\n"
+"X-Generator: Weblate 5.8.2-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:112
@@ -372,15 +372,17 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:98
 msgid "Minor cleanup work has been done in the code."
-msgstr ""
+msgstr "Un travail de nettoyage mineur a été effectué dans le code."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:104
 msgid "Pods 1.2.0 contains the following new features:"
-msgstr ""
+msgstr "Pods 1.2.0 contient les nouvelles fonctionnalités suivantes :"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:106
 msgid "Usabilty and UX has been improved in many places."
 msgstr ""
+"La convivialité et l'interface utilisateur ont été améliorées à de nombreux "
+"endroits."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:107
 #, fuzzy
@@ -390,46 +392,60 @@ msgstr "La suppression des images a échoué"
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:108
 msgid "Container terminals are now detachable and can be used in parallel."
 msgstr ""
+"Les terminaux à conteneurs sont désormais détachables et peuvent être "
+"utilisés en parallèle."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:109
 msgid "Images can be pushed to a registry."
-msgstr ""
+msgstr "Les images peuvent être transférées dans un registre."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:110
 msgid "The CPU utilization now takes the number of cores into account."
-msgstr ""
+msgstr "L'utilisation du CPU prend désormais en compte le nombre de cœurs."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:116
 msgid "Pods 1.1.0 contains the following features, bug fixes and improvements:"
 msgstr ""
+"Pods 1.1.0 contient les fonctionnalités, corrections de bogues et "
+"améliorations suivantes :"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:118
 msgid ""
 "Dependencies have been updated. This includes the update to GNOME 44 "
 "libraries."
 msgstr ""
+"Les dépendances ont été mises à jour. Cela inclut la mise à jour des "
+"bibliothèques de GNOME 44."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:119
 msgid "AdwBanner is now used in the container log page instead of GtkInfoBar."
 msgstr ""
+"AdwBanner est désormais utilisé dans la page de log du conteneur à la place "
+"de GtkInfoBar."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:120
+#, fuzzy
 msgid "The GNOME Coc is acknowledged in the README.md."
-msgstr ""
+msgstr "La Coc GNOME est reconnue dans le README.md."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:121
 msgid "The main window and all dialogs can now be closed with Ctrl+W."
 msgstr ""
+"La fenêtre principale et toutes les boîtes de dialogue peuvent désormais "
+"être fermées avec Ctrl+W."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:122
 msgid "The memory icon has been improved, thanks to @daudix-UFO."
-msgstr ""
+msgstr "L'icône de la mémoire a été améliorée, grâce à @daudix-UFO."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:123
+#, fuzzy
 msgid ""
 "Internal code improvements have landed, like the port to glib-rs' new "
 "properties proc macro."
 msgstr ""
+"Des améliorations du code interne ont été apportées, comme le portage de la "
+"nouvelle macro proc properties de la glib-rs."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:124
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:143
@@ -438,15 +454,16 @@ msgstr ""
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:193
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:204
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:218
-#, fuzzy
 msgid "Translations have been updated."
-msgstr "Traducteurs"
+msgstr "Les traductions ont été mises à jour."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:130
 msgid ""
 "Pods 1.1.0-beta.4 contains the following features, bug fixes and "
 "improvements:"
 msgstr ""
+"Pods 1.1.0-beta.4 contient les fonctionnalités, corrections de bogues et "
+"améliorations suivantes :"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:132
 msgid ""
@@ -454,60 +471,82 @@ msgid ""
 "the connection name in the connection overview, instead of a vertical bar at "
 "the beginning."
 msgstr ""
+"La couleur de la connexion est désormais affichée au moyen d'un point de "
+"couleur devant le nom de la connexion dans l'aperçu des connexions, au lieu "
+"d'une barre verticale au début."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:133
 msgid ""
 "The penguin icon to the left of the Podman version has been removed from the "
 "status bar."
 msgstr ""
+"L'icône du pingouin à gauche de la version Podman a été supprimée de la "
+"barre d'état."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:134
 msgid ""
 "The Podman menu button in the status bar now shows a loading indicator until "
 "the Podman version is determined."
 msgstr ""
+"Le bouton de menu Podman dans la barre d'état affiche maintenant un "
+"indicateur de chargement jusqu'à ce que la version de Podman soit déterminée."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:135
+#, fuzzy
 msgid ""
 "The label to show the version of the Podman menu button in the status bar "
 "now uses the <em>numeric</em> style class, which looks more harmonious."
 msgstr ""
+"L'étiquette indiquant la version du bouton de menu Podman dans la barre "
+"d'état utilise désormais la classe de style <em>numérique</em>, ce qui est "
+"plus harmonieux."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:136
 msgid ""
 "To eliminate the blur, the icons in the status bar now all have a size of 16 "
 "pixels instead of 12 pixels."
 msgstr ""
+"Pour éliminer le flou, les icônes de la barre d'état ont désormais toutes "
+"une taille de 16 pixels au lieu de 12."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:137
 msgid "The desktop entry now uses the updated short description as comment."
 msgstr ""
+"L'entrée du bureau utilise maintenant la description courte mise à jour "
+"comme commentaire."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:138
 msgid "Some appropriate categories have been added to the desktop entry."
-msgstr ""
+msgstr "Certaines catégories appropriées ont été ajoutées à l'entrée du bureau."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:139
 msgid ""
 "Fixed a bug where the Id of a container was replaced by the name once the "
 "name of the container was changed."
 msgstr ""
+"Correction d'un bug où l'Id d'un conteneur était remplacé par le nom une "
+"fois que le nom du conteneur était modifié."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:140
 msgid ""
 "The container status <em>configured</em> was not handled before. This is now "
 "fixed."
 msgstr ""
+"L'état du conteneur <em>configuré</em> n'était pas géré auparavant. Ceci est "
+"maintenant corrigé."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:141
+#, fuzzy
 msgid ""
 "The spinner within the container log page did not disappear earlier if the "
 "log was empty. This is fixed now."
 msgstr ""
+"Le curseur dans la page de journal du conteneur ne disparaissait pas plus "
+"tôt si le journal était vide. Ce problème est désormais résolu."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:142
 msgid "The code has been improved in some places."
-msgstr ""
+msgstr "Le code a été amélioré à certains endroits."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:144
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:162
@@ -515,60 +554,80 @@ msgstr ""
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:194
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:219
 msgid "Dependencies have been updated."
-msgstr ""
+msgstr "Les dépendances ont été mises à jour."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:150
 msgid ""
 "Pods 1.1.0-beta.3 contains the following features, bug fixes and "
 "improvements:"
 msgstr ""
+"Pods 1.1.0-beta.3 contient les fonctionnalités, corrections de bogues et "
+"améliorations suivantes :"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:152
 msgid ""
 "The connection menu has received an entry for disconnecting the current "
 "Podman connection."
 msgstr ""
+"Le menu de connexion a reçu une entrée pour déconnecter la connexion Podman "
+"actuelle."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:153
 msgid ""
 "The status bar now has a menu button that shows the current Podman version."
 msgstr ""
+"La barre d'état comporte désormais un bouton de menu qui affiche la version "
+"actuelle de Podman."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:154
 msgid ""
 "The menu item to open the Podman information window has been moved from the "
 "main menu to the Podman menu in the status bar."
 msgstr ""
+"L'élément de menu permettant d'ouvrir la fenêtre d'information Podman a été "
+"déplacé du menu principal au menu Podman dans la barre d'état."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:155
 msgid ""
 "A new widget has been implemented that allows you to control the zoom level "
 "of text."
 msgstr ""
+"Un nouveau widget a été implémenté pour vous permettre de contrôler le "
+"niveau de zoom du texte."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:156
 msgid ""
 "On all pages with text, such as the inspection page, the download button has "
 "been moved to a menu in the header bar together with the zoom control widget."
 msgstr ""
+"Sur toutes les pages contenant du texte, comme la page d'inspection, le "
+"bouton de téléchargement a été déplacé dans un menu de la barre d'en-tête, "
+"en même temps que le widget de contrôle du zoom."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:157
+#, fuzzy
 msgid ""
 "On the container log page some buttons together with zoom control widget are "
 "moved to a menu in the header bar."
 msgstr ""
+"Sur la page des logs du container, certains boutons ainsi que le widget de "
+"contrôle du zoom ont été déplacés vers un menu dans la barre d'en-tête."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:158
-#, fuzzy
 msgid "The text in the container terminal can now be zoomed."
-msgstr "Se connecter au terminal du conteneur."
+msgstr ""
+"Il est désormais possible de zoomer sur le texte du terminal de conteneurs."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:159
+#, fuzzy
 msgid ""
 "Fixed a bug in the container log page where an explicit color was set for "
 "the default ANSI escape sequence. This resulted in text not being readable "
 "in the light theme under certain circumstances."
 msgstr ""
+"Correction d'un bogue dans la page de log où une couleur explicite était "
+"définie pour la séquence d'échappement ANSI par défaut. Dans certaines "
+"circonstances, le texte n'était donc pas lisible dans le thème léger."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:160
 msgid ""
@@ -576,93 +635,127 @@ msgid ""
 "there is an error. For example, this would be the case if the cube YAML "
 "could not be generated."
 msgstr ""
+"Les vues textuelles, comme la page d'inspection, sont désormais fermées "
+"immédiatement en cas d'erreur. Ce serait le cas, par exemple, si le cube "
+"YAML ne pouvait être généré."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:168
 msgid ""
 "Pods 1.1.0-beta.2 contains the following features, bug fixes and "
 "improvements:"
 msgstr ""
+"Pods 1.1.0-beta.2 contient les fonctionnalités, corrections de bogues et "
+"améliorations suivantes :"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:170
 msgid ""
 "It is now possible to assign colors to connections. Then, when the "
 "connection is active, the status bar is colored accordingly."
 msgstr ""
+"Il est désormais possible d'attribuer des couleurs aux connexions. Lorsque "
+"la connexion est active, la barre d'état est colorée en conséquence."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:171
 msgid "The progress bar in the status bar has been replaced by a label."
 msgstr ""
+"La barre de progression dans la barre d'état a été remplacée par une "
+"étiquette."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:172
 msgid "The formatting of the container log is now correctly kept across lines."
 msgstr ""
+"Le formatage du journal des conteneurs est désormais correctement conservé "
+"d'une ligne à l'autre."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:173
 msgid ""
 "Some strings has been marked as translatable that where previously forgotten."
 msgstr ""
+"Certaines chaînes ont été marquées comme traduisibles alors qu'elles avaient "
+"été oubliées."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:174
 msgid "Some strings has been changed to be more accurate."
 msgstr ""
+"Certaines chaînes de caractères ont été modifiées pour être plus précises."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:175
 msgid ""
 "A workaround and a fix have been implemented specifically for crashes that "
 "led to crashes when using podman 3.0."
 msgstr ""
+"Une solution de contournement et un correctif ont été implémentés "
+"spécifiquement pour les crashs qui conduisaient à des plantages lors de "
+"l'utilisation de podman 3.0."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:176
+#, fuzzy
 msgid ""
 "Fixed a style bug that caused the inner scrollbar on the connection "
 "selection page to have an offset."
 msgstr ""
+"Correction d'un bug de style qui provoquait un décalage de la barre de "
+"défilement intérieure sur la page de sélection des connexions."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:184
 msgid ""
 "Pods 1.1.0-beta.1 contains the following features, bug fixes and "
 "improvements:"
 msgstr ""
+"Pods 1.1.0-beta.1 contient les fonctionnalités, corrections de bogues et "
+"améliorations suivantes :"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:186
 msgid ""
 "The fonts in all text views, such as those in the inspection pages, are now "
 "scalable using typical shortcuts."
 msgstr ""
+"Les polices de toutes les vues de texte, telles que celles des pages "
+"d'inspection, sont désormais extensibles à l'aide de raccourcis typiques."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:187
+#, fuzzy
 msgid ""
 "It is now prevented that actions in subpages like the container inspection "
 "subpage can be triggered via shortcuts (e.g. the action to download files)."
 msgstr ""
+"Il est désormais possible d'empêcher que des actions dans des sous-pages "
+"telles que la sous-page d'inspection des conteneurs soient déclenchées par "
+"des raccourcis (par exemple, l'action de téléchargement de fichiers)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:188
 msgid ""
 "More ANSI escape sequences like background colors and bright colors has been "
 "added to the container log page."
 msgstr ""
+"Plus de séquences d'échappement ANSI comme les couleurs d'arrière-plan et "
+"les couleurs vives ont été ajoutées à la page du journal des conteneurs."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:189
 msgid "Fixed a bug that caused some containers to not display most log lines."
 msgstr ""
+"Correction d'un bug qui faisait que certains conteneurs n'affichaient pas la "
+"plupart des lignes de journal."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:190
 msgid ""
 "The name of the container is now also displayed as a subtitle in the health "
 "check page."
 msgstr ""
+"Le nom du conteneur est désormais également affiché comme sous-titre dans la "
+"page du bilan de santé."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:191
 msgid "The README file has been updated and improved."
-msgstr ""
+msgstr "Le fichier README a été mis à jour et amélioré."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:192
 msgid "There were a lot of internal improvements to the code."
-msgstr ""
+msgstr "De nombreuses améliorations ont été apportées au code."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:200
 msgid "Pods 1.0.2 contains the following changes:"
-msgstr ""
+msgstr "Pods 1.0.2 contient les changements suivants :"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:202
 msgid ""
