@@ -34,8 +34,6 @@ mod imp {
         #[template_child]
         pub(super) name_label: TemplateChild<gtk::Label>,
         #[template_child]
-        pub(super) pod_image: TemplateChild<gtk::Image>,
-        #[template_child]
         pub(super) repo_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) ports_flow_box: TemplateChild<gtk::FlowBox>,
@@ -164,12 +162,6 @@ mod imp {
                 }),
             )
             .bind(&*self.name_label, "label", Some(obj));
-
-            pod_expr
-                .chain_closure::<bool>(closure!(
-                    |_: Self::Type, pod: Option<model::Pod>| pod.is_some()
-                ))
-                .bind(&*self.pod_image, "visible", Some(obj));
 
             gtk::ClosureExpression::new::<bool>(
                 [
