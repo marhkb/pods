@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
 
+  <menu id="view-options-menu">
+    <section>
+      <attribute name="label">Sort</attribute>
+      <item>
+        <attribute name="label" translatable="yes">Name</attribute>
+        <attribute name="action">pods-panel.change-sort-attribute</attribute>
+        <attribute name="target">name</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Containers</attribute>
+        <attribute name="action">pods-panel.change-sort-attribute</attribute>
+        <attribute name="target">containers</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">_Show Running First</attribute>
+        <attribute name="action">pods-panel.toggle-show-running-pods-first</attribute>
+      </item>
+    </section>
+  </menu>
+
   <menu id="selection-menu">
     <item>
       <attribute name="label" translatable="yes">_Select Visible</attribute>
@@ -12,12 +34,31 @@
     </item>
   </menu>
 
+  <object class="GtkButton" id="create_pod_button">
+    <property name="action-name">pods-panel.create-pod</property>
+    <property name="icon-name">list-add-symbolic</property>
+    <property name="tooltip-text" translatable="yes">Create Pod</property>
+  </object>
+
+  <object class="GtkButton" id="prune_button">
+    <property name="action-name">pods-panel.prune-pods</property>
+    <property name="icon-name">eraser5-symbolic</property>
+    <property name="tooltip-text" translatable="yes">Prune Stopped Pods</property>
+  </object>
+
+  <object class="AdwSplitButton" id="view_options_split_button">
+    <property name="action-name">pods-panel.toggle-sort-direction</property>
+    <property name="menu-model">view-options-menu</property>
+  </object>
+
   <template class="PdsPodsPanel" parent="GtkWidget">
     <property name="layout-manager">
       <object class="GtkBinLayout"/>
     </property>
 
-    <signal name="notify::show-only-running-pods" handler="on_notify_show_only_running_pods"/>
+    <signal name="notify::collapsed" handler="on_notify_collapsed"/>
+    <signal name="notify::sort-attribute" handler="on_notify_sort_attribute"/>
+    <signal name="notify::show-running-pods-first" handler="on_notify_show_running_pods_first"/>
 
     <child>
       <object class="GtkStack" id="main_stack">
@@ -79,22 +120,12 @@
                               </object>
                             </child>
 
-                            <child>
-                              <object class="GtkButton">
-                                <property name="visible" bind-source="PdsPodsPanel" bind-property="collapsed" bind-flags="sync-create|invert-boolean"/>
-                                <property name="action-name">pods-panel.create-pod</property>
-                                <property name="icon-name">list-add-symbolic</property>
-                                <property name="tooltip-text" translatable="yes">Create Pod</property>
-                              </object>
+                            <child type="start">
+                              <object class="AdwBin" id="create_pod_button_top_bin"/>
                             </child>
 
                             <child type="start">
-                              <object class="GtkButton">
-                                <property name="visible" bind-source="PdsPodsPanel" bind-property="collapsed" bind-flags="sync-create|invert-boolean"/>
-                                <property name="action-name">pods-panel.prune-pods</property>
-                                <property name="icon-name">eraser5-symbolic</property>
-                                <property name="tooltip-text" translatable="yes">Prune Stopped Pods</property>
-                              </object>
+                              <object class="AdwBin" id="prune_button_top_bin"/>
                             </child>
 
                             <child type="title">
@@ -112,12 +143,7 @@
                             </child>
 
                             <child type="end">
-                              <object class="GtkToggleButton">
-                                <property name="visible" bind-source="PdsPodsPanel" bind-property="collapsed" bind-flags="sync-create|invert-boolean"/>
-                                <property name="action-name">pods-panel.toggle-show-only-running-pods</property>
-                                <property name="icon-name">funnel-symbolic</property>
-                                <property name="tooltip-text" translatable="yes">Show Only Running Pods</property>
-                              </object>
+                              <object class="AdwBin" id="view_options_split_button_top_bin"/>
                             </child>
 
                           </object>
@@ -374,28 +400,16 @@
                 <child type="bottom">
                   <object class="GtkActionBar" id="overhang_action_bar">
 
-                    <child>
-                      <object class="GtkButton">
-                        <property name="action-name">pods-panel.create-pod</property>
-                        <property name="icon-name">list-add-symbolic</property>
-                        <property name="tooltip-text" translatable="yes">Create Pod</property>
-                      </object>
+                    <child type="start">
+                      <object class="AdwBin" id="create_pod_button_bottom_bin"/>
                     </child>
 
                     <child type="start">
-                      <object class="GtkButton">
-                        <property name="action-name">pods-panel.prune-pods</property>
-                        <property name="icon-name">eraser5-symbolic</property>
-                        <property name="tooltip-text" translatable="yes">Prune Stopped Pods</property>
-                      </object>
+                      <object class="AdwBin" id="prune_button_bottom_bin"/>
                     </child>
 
                     <child type="end">
-                      <object class="GtkToggleButton">
-                        <property name="action-name">pods-panel.toggle-show-only-running-pods</property>
-                        <property name="icon-name">funnel-symbolic</property>
-                        <property name="tooltip-text" translatable="yes">Show Only Running Pods</property>
-                      </object>
+                      <object class="AdwBin" id="view_options_split_button_bottom_bin"/>
                     </child>
 
                   </object>
