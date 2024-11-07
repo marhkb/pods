@@ -106,4 +106,109 @@
       <description></description>
     </key>
   </schema>
+
+  <schema path="/com/github/marhkb/Pods/view/panels/containers/" id="@app-id@.view.panels.containers" gettext-domain="@gettext-package@">
+    <key name="view" type="s">
+      <choices>
+        <choice value='grid'/>
+        <choice value='list'/>
+      </choices>
+      <default>'grid'</default>
+      <summary>Containers representation</summary>
+      <description></description>
+    </key>
+    <key name="sort-direction" type="s">
+      <choices>
+        <choice value='asc'/>
+        <choice value='desc'/>
+      </choices>
+      <default>'asc'</default>
+      <summary>Sort direction for containers</summary>
+      <description></description>
+    </key>
+    <key name="sort-attribute" type="s">
+      <choices>
+        <choice value='name'/>
+        <choice value='image'/>
+      </choices>
+      <default>'name'</default>
+      <summary>sort attribute for containers</summary>
+      <description></description>
+    </key>
+    <key name="show-running-first" type="b">
+      <default>false</default>
+      <summary>Whether to show running containers first</summary>
+      <description></description>
+    </key>
+  </schema>
+
+  <schema path="/com/github/marhkb/Pods/view/panels/pods/" id="@app-id@.view.panels.pods" gettext-domain="@gettext-package@">
+    <key name="sort-direction" type="s">
+      <choices>
+        <choice value='asc'/>
+        <choice value='desc'/>
+      </choices>
+      <default>'asc'</default>
+      <summary>Sort direction for pods</summary>
+      <description></description>
+    </key>
+    <key name="sort-attribute" type="s">
+      <choices>
+        <choice value='name'/>
+        <choice value='containers'/>
+      </choices>
+      <default>'name'</default>
+      <summary>Sort attribute for pods</summary>
+      <description></description>
+    </key>
+    <key name="show-running-first" type="b">
+      <default>false</default>
+      <summary>Whether to show running pods first</summary>
+      <description></description>
+    </key>
+  </schema>
+
+  <schema path="/com/github/marhkb/Pods/view/panels/images/" id="@app-id@.view.panels.images" gettext-domain="@gettext-package@">
+    <key name="sort-direction" type="s">
+      <choices>
+        <choice value='asc'/>
+        <choice value='desc'/>
+      </choices>
+      <default>'asc'</default>
+      <summary>Sort direction for images</summary>
+      <description></description>
+    </key>
+    <key name="sort-attribute" type="s">
+      <choices>
+        <choice value='name'/>
+        <choice value='tag'/>
+        <choice value='containers'/>
+      </choices>
+      <default>'name'</default>
+      <summary>Sort attribute for images</summary>
+      <description></description>
+    </key>
+  </schema>
+
+  <schema path="/com/github/marhkb/Pods/view/panels/volumes/" id="@app-id@.view.panels.volumes" gettext-domain="@gettext-package@">
+    <key name="sort-direction" type="s">
+      <choices>
+        <choice value='asc'/>
+        <choice value='desc'/>
+      </choices>
+      <default>'asc'</default>
+      <summary>Sort direction for volumes</summary>
+      <description></description>
+    </key>
+    <key name="sort-attribute" type="s">
+      <choices>
+        <choice value='name'/>
+        <choice value='age'/>
+        <choice value='containers'/>
+      </choices>
+      <default>'name'</default>
+      <summary>Sort attribute for volumes</summary>
+      <description></description>
+    </key>
+  </schema>
 </schemalist>
