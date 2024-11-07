@@ -26,20 +26,6 @@
       <summary>The last used view</summary>
       <description></description>
     </key>
-    <key name="containers-view" type="s">
-      <choices>
-        <choice value='grid'/>
-        <choice value='list'/>
-      </choices>
-      <default>'grid'</default>
-      <summary>Containers representation</summary>
-      <description></description>
-    </key>
-    <key name="hide-intermediate-images" type="b">
-      <default>false</default>
-      <summary>Whether to hide intermediate images</summary>
-      <description></description>
-    </key>
     <key name="last-used-container-file-path" type="s">
       <default>''</default>
       <summary>The last used container file path</summary>
@@ -53,21 +39,6 @@
     <key name="prune-external-images" type="b">
       <default>false</default>
       <summary>Remove images even when they are used by external containers (e.g, by build containers)</summary>
-      <description></description>
-    </key>
-    <key name="show-only-running-containers" type="b">
-      <default>false</default>
-      <summary>Whether to show only running containers</summary>
-      <description></description>
-    </key>
-    <key name="show-only-running-pods" type="b">
-      <default>false</default>
-      <summary>Whether to show only running pods</summary>
-      <description></description>
-    </key>
-    <key name="show-only-used-volumes" type="b">
-      <default>false</default>
-      <summary>Whether to show only used volumes</summary>
       <description></description>
     </key>
     <key name="show-log-timestamps" type="b">
