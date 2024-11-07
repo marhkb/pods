@@ -3,9 +3,22 @@
 
   <menu id="view-options-menu">
     <section>
+      <attribute name="label">Sort</attribute>
       <item>
-        <attribute name="label" translatable="yes">_Hide Non-Running</attribute>
-        <attribute name="action">containers-panel.toggle-show-only-running-containers</attribute>
+        <attribute name="label" translatable="yes">Name</attribute>
+        <attribute name="action">containers-panel.change-sort-attribute</attribute>
+        <attribute name="target">name</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Image</attribute>
+        <attribute name="action">containers-panel.change-sort-attribute</attribute>
+        <attribute name="target">image</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">_Show Running First</attribute>
+        <attribute name="action">containers-panel.toggle-show-running-containers-first</attribute>
       </item>
     </section>
   </menu>
@@ -21,12 +34,35 @@
     </item>
   </menu>
 
+  <object class="GtkButton" id="create_container_button">
+    <property name="action-name">containers-panel.create-container</property>
+    <property name="icon-name">list-add-symbolic</property>
+    <property name="tooltip-text" translatable="yes">Create Container</property>
+  </object>
+
+  <object class="GtkButton" id="prune_button">
+    <property name="action-name">containers-panel.prune-unused-containers</property>
+    <property name="icon-name">eraser5-symbolic</property>
+    <property name="tooltip-text" translatable="yes">Prune Stopped Containers</property>
+  </object>
+
+  <object class="GtkButton" id="view_button">
+    <property name="action-name">containers-panel.toggle-containers-view</property>
+  </object>
+
+  <object class="AdwSplitButton" id="view_options_split_button">
+    <property name="action-name">containers-panel.toggle-sort-direction</property>
+    <property name="menu-model">view-options-menu</property>
+  </object>
+
   <template class="PdsContainersPanel" parent="GtkWidget">
     <property name="layout-manager">
       <object class="GtkBinLayout"/>
     </property>
 
-    <signal name="notify::show-only-running-containers" handler="on_notify_show_only_running_containers"/>
+    <signal name="notify::collapsed" handler="on_notify_collapsed"/>
+    <signal name="notify::sort-attribute" handler="on_notify_sort_attribute"/>
+    <signal name="notify::show-running-containers-first" handler="on_notify_show_running_containers_first"/>
 
     <child>
       <object class="GtkStack" id="main_stack">
@@ -89,21 +125,11 @@
                             </child>
 
                             <child type="start">
-                              <object class="GtkButton">
-                                <property name="visible" bind-source="PdsContainersPanel" bind-property="collapsed" bind-flags="sync-create|invert-boolean"/>
-                                <property name="action-name">containers-panel.create-container</property>
-                                <property name="icon-name">list-add-symbolic</property>
-                                <property name="tooltip-text" translatable="yes">Create Container</property>
-                              </object>
+                              <object class="AdwBin" id="create_container_button_top_bin"/>
                             </child>
 
                             <child type="start">
-                              <object class="GtkButton">
-                                <property name="visible" bind-source="PdsContainersPanel" bind-property="collapsed" bind-flags="sync-create|invert-boolean"/>
-                                <property name="action-name">containers-panel.prune-unused-containers</property>
-                                <property name="icon-name">eraser5-symbolic</property>
-                                <property name="tooltip-text" translatable="yes">Prune Stopped Containers</property>
-                              </object>
+                              <object class="AdwBin" id="prune_button_top_bin"/>
                             </child>
 
                             <child type="title">
@@ -121,11 +147,11 @@
                             </child>
 
                             <child type="end">
-                              <object class="AdwSplitButton" id="view_options_split_button_1">
-                                <property name="visible" bind-source="PdsContainersPanel" bind-property="collapsed" bind-flags="sync-create|invert-boolean"/>
-                                <property name="action-name">containers-panel.toggle-containers-view</property>
-                                <property name="menu-model">view-options-menu</property>
-                              </object>
+                              <object class="AdwBin" id="view_options_split_button_top_bin"/>
+                            </child>
+
+                            <child type="end">
+                              <object class="AdwBin" id="view_button_top_bin"/>
                             </child>
 
                           </object>
@@ -365,26 +391,19 @@
                   <object class="GtkActionBar" id="overhang_action_bar">
 
                     <child type="start">
-                      <object class="GtkButton">
-                        <property name="action-name">containers-panel.create-container</property>
-                        <property name="icon-name">list-add-symbolic</property>
-                        <property name="tooltip-text" translatable="yes">Create Container</property>
-                      </object>
+                      <object class="AdwBin" id="create_container_button_bottom_bin"/>
                     </child>
 
                     <child type="start">
-                      <object class="GtkButton">
-                        <property name="action-name">containers-panel.prune-unused-containers</property>
-                        <property name="icon-name">eraser5-symbolic</property>
-                        <property name="tooltip-text" translatable="yes">Prune Stopped Containers</property>
-                      </object>
+                      <object class="AdwBin" id="prune_button_bottom_bin"/>
                     </child>
 
                     <child type="end">
-                      <object class="AdwSplitButton" id="view_options_split_button_2">
-                        <property name="action-name">containers-panel.toggle-containers-view</property>
-                        <property name="menu-model">view-options-menu</property>
-                      </object>
+                      <object class="AdwBin" id="view_options_split_button_bottom_bin"/>
+                    </child>
+
+                    <child type="end">
+                      <object class="AdwBin" id="view_button_bottom_bin"/>
                     </child>
 
                   </object>
