@@ -56,6 +56,9 @@ mod imp {
                     Signal::builder("volume-removed")
                         .param_types([model::Volume::static_type()])
                         .build(),
+                    Signal::builder("containers-of-volume-changed")
+                        .param_types([model::Volume::static_type()])
+                        .build(),
                 ]
             })
         }
@@ -189,7 +192,7 @@ impl VolumeList {
             drop(list);
 
             self.items_changed(idx as u32, 1, 0);
-            self.volume_removed(&volume);
+            self.emit_by_name::<()>("volume-removed", &[&volume]);
             volume.emit_deleted();
         }
     }
@@ -269,30 +272,47 @@ impl VolumeList {
 
     fn volume_added(&self, volume: &model::Volume) {
         self.emit_by_name::<()>("volume-added", &[volume]);
+        volume.container_list().connect_notify_local(
+            Some("len"),
+            clone!(
+                #[weak(rename_to=obj)]
+                self,
+                #[weak]
+                volume,
+                move |_, _| {
+                    obj.emit_by_name::<()>("containers-of-volume-changed", &[&volume]);
+                }
+            ),
+        );
     }
 
     pub(crate) fn connect_volume_added<F: Fn(&Self, &model::Volume) + 'static>(
         &self,
         f: F,
     ) -> glib::SignalHandlerId {
-        self.connect_local("volume-added", true, move |values| {
-            let obj = values[0].get::<Self>().unwrap();
-            let volume = values[1].get::<model::Volume>().unwrap();
-            f(&obj, &volume);
-
-            None
-        })
-    }
-
-    fn volume_removed(&self, volume: &model::Volume) {
-        self.emit_by_name::<()>("volume-removed", &[volume]);
+        self.connect_signal("volume-added", f)
     }
 
     pub(crate) fn connect_volume_removed<F: Fn(&Self, &model::Volume) + 'static>(
         &self,
         f: F,
     ) -> glib::SignalHandlerId {
-        self.connect_local("volume-removed", true, move |values| {
+        self.connect_signal("volume-removed", f)
+    }
+
+    pub(crate) fn connect_containers_of_volume_changed<F: Fn(&Self, &model::Volume) + 'static>(
+        &self,
+        f: F,
+    ) -> glib::SignalHandlerId {
+        self.connect_signal("containers-of-volume-changed", f)
+    }
+
+    fn connect_signal<F: Fn(&Self, &model::Volume) + 'static>(
+        &self,
+        signal: &str,
+        f: F,
+    ) -> glib::SignalHandlerId {
+        self.connect_local(signal, true, move |values| {
             let obj = values[0].get::<Self>().unwrap();
             let volume = values[1].get::<model::Volume>().unwrap();
             f(&obj, &volume);
