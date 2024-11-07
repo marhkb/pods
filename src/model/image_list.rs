@@ -54,6 +54,12 @@ mod imp {
                     Signal::builder("image-removed")
                         .param_types([model::Image::static_type()])
                         .build(),
+                    Signal::builder("containers-of-image-changed")
+                        .param_types([model::Image::static_type()])
+                        .build(),
+                    Signal::builder("tags-of-image-changed")
+                        .param_types([model::Image::static_type()])
+                        .build(),
                 ]
             })
         }
@@ -98,9 +104,6 @@ mod imp {
             model::SelectableList::bootstrap(obj.upcast_ref());
 
             obj.connect_items_changed(|self_, _, _, _| self_.notify("len"));
-
-            obj.connect_image_added(|list, _| list.notify_num_images());
-            obj.connect_image_removed(|list, _| list.notify_num_images());
         }
     }
 
@@ -209,7 +212,8 @@ impl ImageList {
             drop(list);
 
             self.items_changed(idx as u32, 1, 0);
-            self.image_removed(&image);
+            self.emit_by_name::<()>("image-removed", &[&image]);
+            self.notify_num_images();
             image.emit_deleted();
         }
     }
@@ -333,7 +337,11 @@ impl ImageList {
             clone!(
                 #[weak(rename_to = obj)]
                 self,
-                move |_, _| obj.notify_num_images()
+                move |image, _| {
+                    obj.notify_num_images();
+                    obj.emit_by_name::<()>("containers-of-image-changed", &[&image]);
+                    obj.emit_by_name::<()>("tags-of-image-changed", &[&image]);
+                }
             ),
         );
         self.emit_by_name::<()>("image-added", &[image]);
@@ -343,24 +351,29 @@ impl ImageList {
         &self,
         f: F,
     ) -> glib::SignalHandlerId {
-        self.connect_local("image-added", true, move |values| {
-            let obj = values[0].get::<Self>().unwrap();
-            let image = values[1].get::<model::Image>().unwrap();
-            f(&obj, &image);
-
-            None
-        })
+        self.connect_signal("image-added", f)
     }
 
-    fn image_removed(&self, image: &model::Image) {
-        self.emit_by_name::<()>("image-removed", &[image]);
-    }
-
-    pub(crate) fn connect_image_removed<F: Fn(&Self, &model::Image) + 'static>(
+    pub(crate) fn connect_containers_of_image_changed<F: Fn(&Self, &model::Image) + 'static>(
         &self,
         f: F,
     ) -> glib::SignalHandlerId {
-        self.connect_local("image-removed", true, move |values| {
+        self.connect_signal("containers-of-image-changed", f)
+    }
+
+    pub(crate) fn connect_tags_of_image_changed<F: Fn(&Self, &model::Image) + 'static>(
+        &self,
+        f: F,
+    ) -> glib::SignalHandlerId {
+        self.connect_signal("tags-of-image-changed", f)
+    }
+
+    fn connect_signal<F: Fn(&Self, &model::Image) + 'static>(
+        &self,
+        signal: &str,
+        f: F,
+    ) -> glib::SignalHandlerId {
+        self.connect_local(signal, true, move |values| {
             let obj = values[0].get::<Self>().unwrap();
             let image = values[1].get::<model::Image>().unwrap();
             f(&obj, &image);
