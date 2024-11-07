@@ -46,9 +46,14 @@ mod imp {
         fn signals() -> &'static [Signal] {
             static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
             SIGNALS.get_or_init(|| {
-                vec![Signal::builder("pod-added")
-                    .param_types([model::Pod::static_type()])
-                    .build()]
+                vec![
+                    Signal::builder("pod-added")
+                        .param_types([model::Pod::static_type()])
+                        .build(),
+                    Signal::builder("containers-in-pod-changed")
+                        .param_types([model::Pod::static_type()])
+                        .build(),
+                ]
             })
         }
 
@@ -94,6 +99,14 @@ mod imp {
             let obj = &*self.obj();
             model::SelectableList::bootstrap(obj.upcast_ref());
             obj.connect_items_changed(|self_, _, _, _| self_.notify("len"));
+
+            obj.connect_pod_added(|list, pod| {
+                pod.connect_num_containers_notify(clone!(
+                    #[weak]
+                    list,
+                    move |pod| list.emit_by_name::<()>("containers-in-pod-changed", &[pod])
+                ));
+            });
         }
     }
 
@@ -314,7 +327,22 @@ impl PodList {
         &self,
         f: F,
     ) -> glib::SignalHandlerId {
-        self.connect_local("pod-added", true, move |values| {
+        self.connect_signal("pod-added", f)
+    }
+
+    pub(crate) fn connect_containers_in_pod_changed<F: Fn(&Self, &model::Pod) + 'static>(
+        &self,
+        f: F,
+    ) -> glib::SignalHandlerId {
+        self.connect_signal("containers-in-pod-changed", f)
+    }
+
+    fn connect_signal<F: Fn(&Self, &model::Pod) + 'static>(
+        &self,
+        signal: &str,
+        f: F,
+    ) -> glib::SignalHandlerId {
+        self.connect_local(signal, true, move |values| {
             let obj = values[0].get::<Self>().unwrap();
             let pod = values[1].get::<model::Pod>().unwrap();
             f(&obj, &pod);
