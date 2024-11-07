@@ -39,6 +39,35 @@ pub(crate) enum Status {
     Unknown,
 }
 
+impl std::cmp::Ord for Status {
+    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+        match self {
+            Self::Running => {
+                if let Self::Running = other {
+                    std::cmp::Ordering::Equal
+                } else {
+                    std::cmp::Ordering::Greater
+                }
+            }
+            Self::Paused => match other {
+                Self::Running => std::cmp::Ordering::Less,
+                Self::Paused => std::cmp::Ordering::Equal,
+                _ => std::cmp::Ordering::Greater,
+            },
+            _ => match other {
+                Self::Running | Self::Paused => std::cmp::Ordering::Less,
+                _ => std::cmp::Ordering::Equal,
+            },
+        }
+    }
+}
+
+impl std::cmp::PartialOrd for Status {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        Some(self.cmp(other))
+    }
+}
+
 impl FromStr for Status {
     type Err = Self;
 
