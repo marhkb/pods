@@ -1,6 +1,7 @@
 use std::cell::Cell;
 use std::cell::OnceCell;
 use std::cell::RefCell;
+use std::ops::Deref;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
@@ -14,6 +15,7 @@ use gtk::gio;
 use gtk::glib;
 use gtk::CompositeTemplate;
 
+use crate::config;
 use crate::model;
 use crate::model::SelectableListExt;
 use crate::utils;
@@ -27,8 +29,49 @@ const ACTION_EXIT_SELECTION_MODE: &str = "images-panel.exit-selection-mode";
 const ACTION_SELECT_VISIBLE: &str = "images-panel.select-visible";
 const ACTION_SELECT_NONE: &str = "images-panel.select-none";
 const ACTION_DELETE_SELECTION: &str = "images-panel.delete-selection";
-const ACTION_TOGGLE_HIDE_INTERMEDIATE_IMAGES: &str = "images-panel.toggle-hide-intermediate-images";
+const ACTION_TOGGLE_SORT_DIRECTION: &str = "images-panel.toggle-sort-direction";
+const ACTION_CHANGE_SORT_ATTRIBUTE: &str = "images-panel.change-sort-attribute";
 const ACTION_SHOW_ALL_IMAGES: &str = "images-panel.show-all-images";
+
+#[derive(Debug)]
+struct Settings(gio::Settings);
+impl Default for Settings {
+    fn default() -> Self {
+        Self(gio::Settings::new(&format!(
+            "{}.view.panels.images",
+            config::APP_ID
+        )))
+    }
+}
+impl Deref for Settings {
+    type Target = gio::Settings;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+#[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
+#[enum_type(name = "ImagesPanelSortDirection")]
+pub(crate) enum SortDirection {
+    #[default]
+    #[enum_value(nick = "asc")]
+    Asc,
+    #[enum_value(nick = "desc")]
+    Desc,
+}
+
+#[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
+#[enum_type(name = "ImagesPanelSortAttribute")]
+pub(crate) enum SortAttribute {
+    #[default]
+    #[enum_value(nick = "name")]
+    Name,
+    #[enum_value(nick = "tag")]
+    Tag,
+    #[enum_value(nick = "containers")]
+    Containers,
+}
 
 mod imp {
     use super::*;
@@ -37,7 +80,7 @@ mod imp {
     #[properties(wrapper_type = super::ImagesPanel)]
     #[template(resource = "/com/github/marhkb/Pods/ui/view/images_panel.ui")]
     pub(crate) struct ImagesPanel {
-        pub(super) settings: utils::PodsSettings,
+        pub(super) settings: Settings,
         pub(super) filter: OnceCell<gtk::Filter>,
         pub(super) sorter: OnceCell<gtk::Sorter>,
         pub(super) search_term: RefCell<String>,
@@ -45,8 +88,16 @@ mod imp {
         pub(super) image_list: glib::WeakRef<model::ImageList>,
         #[property(get, set)]
         pub(super) collapsed: Cell<bool>,
-        #[property(get, set)]
-        pub(super) hide_intermediate_images: Cell<bool>,
+        #[property(get, set, builder(SortDirection::default()))]
+        pub(super) sort_direction: RefCell<SortDirection>,
+        #[property(get, set, builder(SortAttribute::default()))]
+        pub(super) sort_attribute: RefCell<SortAttribute>,
+        #[template_child]
+        pub(super) create_image_menu_button: TemplateChild<gtk::MenuButton>,
+        #[template_child]
+        pub(super) prune_button: TemplateChild<gtk::Button>,
+        #[template_child]
+        pub(super) view_options_split_button: TemplateChild<adw::SplitButton>,
         #[template_child]
         pub(super) main_stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -54,7 +105,13 @@ mod imp {
         #[template_child]
         pub(super) header_stack: TemplateChild<gtk::Stack>,
         #[template_child]
+        pub(super) create_image_menu_button_top_bin: TemplateChild<adw::Bin>,
+        #[template_child]
+        pub(super) prune_button_top_bin: TemplateChild<adw::Bin>,
+        #[template_child]
         pub(super) window_title: TemplateChild<adw::WindowTitle>,
+        #[template_child]
+        pub(super) view_options_split_button_top_bin: TemplateChild<adw::Bin>,
         #[template_child]
         pub(super) selected_images_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
@@ -69,6 +126,12 @@ mod imp {
         pub(super) list_box: TemplateChild<gtk::ListBox>,
         #[template_child]
         pub(super) overhang_action_bar: TemplateChild<gtk::ActionBar>,
+        #[template_child]
+        pub(super) create_image_menu_button_bottom_bin: TemplateChild<adw::Bin>,
+        #[template_child]
+        pub(super) prune_button_bottom_bin: TemplateChild<adw::Bin>,
+        #[template_child]
+        pub(super) view_options_split_button_bottom_bin: TemplateChild<adw::Bin>,
     }
 
     #[glib::object_subclass]
@@ -115,10 +178,10 @@ mod imp {
                 widget.delete_selection();
             });
 
-            klass.install_property_action(
-                ACTION_TOGGLE_HIDE_INTERMEDIATE_IMAGES,
-                "hide-intermediate-images",
-            );
+            klass.install_action(ACTION_TOGGLE_SORT_DIRECTION, None, |widget, _, _| {
+                widget.toggle_sort_direction();
+            });
+            klass.install_property_action(ACTION_CHANGE_SORT_ATTRIBUTE, "sort-attribute");
 
             klass.install_action(ACTION_SHOW_ALL_IMAGES, None, |widget, _, _| {
                 widget.show_all_images();
@@ -149,7 +212,10 @@ mod imp {
             let obj = &*self.obj();
 
             self.settings
-                .bind("hide-intermediate-images", obj, "hide-intermediate-images")
+                .bind("sort-direction", obj, "sort-direction")
+                .build();
+            self.settings
+                .bind("sort-attribute", obj, "sort-attribute")
                 .build();
 
             let image_list_expr = Self::Type::this_expression("image-list");
@@ -229,6 +295,19 @@ mod imp {
             )
             .bind(&self.window_title.get(), "subtitle", Some(obj));
 
+            Self::Type::this_expression("sort-direction")
+                .chain_closure::<String>(closure!(|_: Self::Type, direction: SortDirection| {
+                    match direction {
+                        SortDirection::Asc => "view-sort-ascending-rtl-symbolic",
+                        SortDirection::Desc => "view-sort-descending-rtl-symbolic",
+                    }
+                }))
+                .bind(
+                    &self.view_options_split_button.get(),
+                    "icon-name",
+                    Some(obj),
+                );
+
             image_list_expr
                 .chain_property::<model::ImageList>("num-selected")
                 .chain_closure::<String>(closure!(|_: Self::Type, selected: u32| ngettext!(
@@ -263,7 +342,7 @@ mod imp {
             )
             .bind(&self.toolbar_view.get(), "reveal-bottom-bars", Some(obj));
 
-            let search_filter = gtk::CustomFilter::new(clone!(
+            let filter = gtk::CustomFilter::new(clone!(
                 #[weak]
                 obj,
                 #[upgrade_or]
@@ -276,42 +355,34 @@ mod imp {
                 }
             ));
 
-            let state_filter = gtk::CustomFilter::new(clone!(
+            let sorter = gtk::CustomSorter::new(clone!(
                 #[weak]
                 obj,
                 #[upgrade_or]
-                false,
-                move |item| {
-                    !obj.hide_intermediate_images()
-                        || item
-                            .downcast_ref::<model::Image>()
-                            .unwrap()
+                gtk::Ordering::Equal,
+                move |item1, item2| {
+                    let image1 = item1.downcast_ref::<model::Image>().unwrap();
+                    let image2 = item2.downcast_ref::<model::Image>().unwrap();
+
+                    let ordering = match obj.sort_attribute() {
+                        SortAttribute::Name => {
+                            image1.id().to_lowercase().cmp(&image2.id().to_lowercase())
+                        }
+                        SortAttribute::Tag => image1
                             .repo_tags()
-                            .n_items()
-                            > 0
+                            .get(0)
+                            .map(|repo_tag| repo_tag.full())
+                            .cmp(&image2.repo_tags().get(0).map(|repo_tag| repo_tag.full())),
+                        SortAttribute::Containers => image1.containers().cmp(&image2.containers()),
+                    };
+
+                    match obj.sort_direction() {
+                        SortDirection::Asc => ordering,
+                        SortDirection::Desc => ordering.reverse(),
+                    }
+                    .into()
                 }
             ));
-
-            let filter = gtk::EveryFilter::new();
-            filter.append(search_filter);
-            filter.append(state_filter);
-
-            let sorter = gtk::CustomSorter::new(|obj1, obj2| {
-                let image1 = obj1.downcast_ref::<model::Image>().unwrap();
-                let image2 = obj2.downcast_ref::<model::Image>().unwrap();
-
-                if image1.repo_tags().len() == 0 {
-                    if image2.repo_tags().len() == 0 {
-                        image1.id().cmp(&image2.id()).into()
-                    } else {
-                        gtk::Ordering::Larger
-                    }
-                } else if image2.repo_tags().len() == 0 {
-                    gtk::Ordering::Smaller
-                } else {
-                    image1.id().cmp(&image2.id()).into()
-                }
-            });
 
             self.filter.set(filter.upcast()).unwrap();
             self.sorter.set(sorter.upcast()).unwrap();
@@ -327,12 +398,39 @@ mod imp {
     #[gtk::template_callbacks]
     impl ImagesPanel {
         #[template_callback]
-        fn on_notify_hide_intermediate_images(&self) {
-            self.update_filter(if self.obj().hide_intermediate_images() {
-                gtk::FilterChange::MoreStrict
+        fn on_notify_collapsed(&self) {
+            if self.obj().collapsed() {
+                self.create_image_menu_button_top_bin
+                    .set_child(gtk::Widget::NONE);
+                self.prune_button_top_bin.set_child(gtk::Widget::NONE);
+                self.view_options_split_button_top_bin
+                    .set_child(gtk::Widget::NONE);
+
+                self.create_image_menu_button_bottom_bin
+                    .set_child(Some(&self.create_image_menu_button.get()));
+                self.prune_button_bottom_bin
+                    .set_child(Some(&self.prune_button.get()));
+                self.view_options_split_button_bottom_bin
+                    .set_child(Some(&self.view_options_split_button.get()));
             } else {
-                gtk::FilterChange::LessStrict
-            });
+                self.create_image_menu_button_bottom_bin
+                    .set_child(gtk::Widget::NONE);
+                self.prune_button_bottom_bin.set_child(gtk::Widget::NONE);
+                self.view_options_split_button_bottom_bin
+                    .set_child(gtk::Widget::NONE);
+
+                self.create_image_menu_button_top_bin
+                    .set_child(Some(&self.create_image_menu_button.get()));
+                self.prune_button_top_bin
+                    .set_child(Some(&self.prune_button.get()));
+                self.view_options_split_button_top_bin
+                    .set_child(Some(&self.view_options_split_button.get()));
+            }
+        }
+
+        #[template_callback]
+        fn on_notify_sort_attribute(&self) {
+            self.update_sorter();
         }
 
         #[template_callback]
@@ -362,18 +460,39 @@ mod imp {
                 return;
             }
 
-            value.connect_notify_local(
-                Some("intermediates"),
-                clone!(
-                    #[weak]
-                    obj,
-                    move |_, _| {
-                        let imp = obj.imp();
-                        imp.update_filter(gtk::FilterChange::Different);
-                        imp.update_sorter();
-                    }
-                ),
-            );
+            value.connect_containers_of_image_changed(clone!(
+                #[weak]
+                obj,
+                move |_, _| {
+                    glib::timeout_add_seconds_local_once(
+                        1,
+                        clone!(
+                            #[weak]
+                            obj,
+                            move || if obj.sort_attribute() == SortAttribute::Name {
+                                obj.imp().update_sorter();
+                            }
+                        ),
+                    );
+                }
+            ));
+
+            value.connect_tags_of_image_changed(clone!(
+                #[weak]
+                obj,
+                move |_, _| {
+                    glib::timeout_add_seconds_local_once(
+                        1,
+                        clone!(
+                            #[weak]
+                            obj,
+                            move || if obj.sort_attribute() == SortAttribute::Tag {
+                                obj.imp().update_sorter();
+                            }
+                        ),
+                    );
+                }
+            ));
 
             let model = gtk::SortListModel::new(
                 Some(gtk::FilterListModel::new(
@@ -444,7 +563,7 @@ mod imp {
             }
         }
 
-        fn update_sorter(&self) {
+        pub(super) fn update_sorter(&self) {
             self.sorter
                 .get()
                 .unwrap()
@@ -466,8 +585,15 @@ impl Default for ImagesPanel {
 }
 
 impl ImagesPanel {
+    pub(crate) fn toggle_sort_direction(&self) {
+        self.set_sort_direction(match self.sort_direction() {
+            SortDirection::Asc => SortDirection::Desc,
+            SortDirection::Desc => SortDirection::Asc,
+        });
+        self.imp().update_sorter();
+    }
+
     pub(crate) fn show_all_images(&self) {
-        self.set_hide_intermediate_images(false);
         self.set_search_mode(false);
     }
 
