@@ -22,6 +22,27 @@
     </section>
   </menu>
 
+  <menu id="view-options-menu">
+    <section>
+      <attribute name="label">Sort</attribute>
+      <item>
+        <attribute name="label" translatable="yes">Name</attribute>
+        <attribute name="action">images-panel.change-sort-attribute</attribute>
+        <attribute name="target">name</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Tag</attribute>
+        <attribute name="action">images-panel.change-sort-attribute</attribute>
+        <attribute name="target">tag</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Containers</attribute>
+        <attribute name="action">images-panel.change-sort-attribute</attribute>
+        <attribute name="target">containers</attribute>
+      </item>
+    </section>
+  </menu>
+
   <menu id="selection-menu">
     <item>
       <attribute name="label" translatable="yes">_Select Visible</attribute>
@@ -33,12 +54,30 @@
     </item>
   </menu>
 
+  <object class="GtkMenuButton" id="create_image_menu_button">
+    <property name="icon-name">list-add-symbolic</property>
+    <property name="tooltip-text" translatable="yes">Create Image</property>
+    <property name="menu-model">create-menu</property>
+  </object>
+
+  <object class="GtkButton" id="prune_button">
+    <property name="action-name">images-panel.prune-unused-images</property>
+    <property name="icon-name">eraser5-symbolic</property>
+    <property name="tooltip-text" translatable="yes">Prune Unused Images</property>
+  </object>
+
+  <object class="AdwSplitButton" id="view_options_split_button">
+    <property name="action-name">images-panel.toggle-sort-direction</property>
+    <property name="menu-model">view-options-menu</property>
+  </object>
+
   <template class="PdsImagesPanel" parent="GtkWidget">
     <property name="layout-manager">
       <object class="GtkBinLayout"/>
     </property>
 
-    <signal name="notify::hide-intermediate-images" handler="on_notify_hide_intermediate_images"/>
+    <signal name="notify::collapsed" handler="on_notify_collapsed"/>
+    <signal name="notify::sort-attribute" handler="on_notify_sort_attribute"/>
 
     <child>
       <object class="GtkStack" id="main_stack">
@@ -101,21 +140,11 @@
                             </child>
 
                             <child type="start">
-                              <object class="GtkMenuButton">
-                                <property name="visible" bind-source="PdsImagesPanel" bind-property="collapsed" bind-flags="sync-create|invert-boolean"/>
-                                <property name="icon-name">list-add-symbolic</property>
-                                <property name="tooltip-text" translatable="yes">Create Image</property>
-                                <property name="menu-model">create-menu</property>
-                              </object>
+                              <object class="AdwBin" id="create_image_menu_button_top_bin"/>
                             </child>
 
                             <child type="start">
-                              <object class="GtkButton">
-                                <property name="visible" bind-source="PdsImagesPanel" bind-property="collapsed" bind-flags="sync-create|invert-boolean"/>
-                                <property name="action-name">images-panel.prune-unused-images</property>
-                                <property name="icon-name">eraser5-symbolic</property>
-                                <property name="tooltip-text" translatable="yes">Prune Unused Images</property>
-                              </object>
+                              <object class="AdwBin" id="prune_button_top_bin"/>
                             </child>
 
                             <child type="title">
@@ -133,12 +162,7 @@
                             </child>
 
                             <child type="end">
-                              <object class="GtkToggleButton">
-                                <property name="visible" bind-source="PdsImagesPanel" bind-property="collapsed" bind-flags="sync-create|invert-boolean"/>
-                                <property name="action-name">images-panel.toggle-hide-intermediate-images</property>
-                                <property name="icon-name">funnel-symbolic</property>
-                                <property name="tooltip-text" translatable="yes">Show Only Tagged Images</property>
-                              </object>
+                              <object class="AdwBin" id="view_options_split_button_top_bin"/>
                             </child>
 
                           </object>
@@ -288,27 +312,15 @@
                   <object class="GtkActionBar" id="overhang_action_bar">
 
                     <child type="start">
-                      <object class="GtkMenuButton">
-                        <property name="icon-name">list-add-symbolic</property>
-                        <property name="tooltip-text" translatable="yes">Create Image</property>
-                        <property name="menu-model">create-menu</property>
-                      </object>
+                      <object class="AdwBin" id="create_image_menu_button_bottom_bin"/>
                     </child>
 
                     <child type="start">
-                      <object class="GtkButton">
-                        <property name="action-name">images-panel.prune-unused-images</property>
-                        <property name="icon-name">eraser5-symbolic</property>
-                        <property name="tooltip-text" translatable="yes">Prune Unused Images</property>
-                      </object>
+                      <object class="AdwBin" id="prune_button_bottom_bin"/>
                     </child>
 
                     <child type="end">
-                      <object class="GtkToggleButton">
-                        <property name="action-name">images-panel.toggle-hide-intermediate-images</property>
-                        <property name="icon-name">funnel-symbolic</property>
-                        <property name="tooltip-text" translatable="yes">Show Only Tagged Images</property>
-                      </object>
+                      <object class="AdwBin" id="view_options_split_button_bottom_bin"/>
                     </child>
 
                   </object>

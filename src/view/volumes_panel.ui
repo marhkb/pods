@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
 
+  <menu id="view-options-menu">
+    <section>
+      <attribute name="label">Sort</attribute>
+      <item>
+        <attribute name="label" translatable="yes">Name</attribute>
+        <attribute name="action">volumes-panel.change-sort-attribute</attribute>
+        <attribute name="target">name</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Age</attribute>
+        <attribute name="action">volumes-panel.change-sort-attribute</attribute>
+        <attribute name="target">age</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Containers</attribute>
+        <attribute name="action">volumes-panel.change-sort-attribute</attribute>
+        <attribute name="target">containers</attribute>
+      </item>
+    </section>
+  </menu>
+
   <menu id="selection-menu">
     <item>
       <attribute name="label" translatable="yes">_Select Visible</attribute>
@@ -12,11 +33,29 @@
     </item>
   </menu>
 
+  <object class="GtkButton" id="create_volume_button">
+    <property name="icon-name">list-add-symbolic</property>
+    <property name="tooltip-text" translatable="yes">Create Volume</property>
+  </object>
+
+  <object class="GtkButton" id="prune_button">
+    <property name="action-name">volumes-panel.prune-unused-volumes</property>
+    <property name="icon-name">eraser5-symbolic</property>
+    <property name="tooltip-text" translatable="yes">Prune Unused Volumes</property>
+  </object>
+
+  <object class="AdwSplitButton" id="view_options_split_button">
+    <property name="action-name">volumes-panel.toggle-sort-direction</property>
+    <property name="menu-model">view-options-menu</property>
+  </object>
+
   <template class="PdsVolumesPanel" parent="GtkWidget">
     <property name="layout-manager">
       <object class="GtkBinLayout"/>
     </property>
 
+    <signal name="notify::collapsed" handler="on_notify_collapsed"/>
+    <signal name="notify::sort-attribute" handler="on_notify_sort_attribute"/>
     <signal name="notify::show-only-used-volumes" handler="on_notify_show_only_used_volumes"/>
 
     <child>
@@ -80,22 +119,13 @@
                             </child>
 
                             <child type="start">
-                              <object class="GtkButton">
-                                <property name="visible" bind-source="PdsVolumesPanel" bind-property="collapsed" bind-flags="sync-create|invert-boolean"/>
-                                <property name="action-name">volumes-panel.create-volume</property>
-                                <property name="icon-name">list-add-symbolic</property>
-                                <property name="tooltip-text" translatable="yes">Create Volume</property>
-                              </object>
+                              <object class="AdwBin" id="create_volume_menu_button_top_bin"/>
                             </child>
 
                             <child type="start">
-                              <object class="GtkButton">
-                                <property name="visible" bind-source="PdsVolumesPanel" bind-property="collapsed" bind-flags="sync-create|invert-boolean"/>
-                                <property name="action-name">volumes-panel.prune-volumes</property>
-                                <property name="icon-name">eraser5-symbolic</property>
-                                <property name="tooltip-text" translatable="yes">Prune Volumes</property>
-                              </object>
+                              <object class="AdwBin" id="prune_button_top_bin"/>
                             </child>
+
 
                             <child type="title">
                               <object class="AdwWindowTitle" id="window_title">
@@ -112,12 +142,7 @@
                             </child>
 
                             <child type="end">
-                              <object class="GtkToggleButton">
-                                <property name="visible" bind-source="PdsVolumesPanel" bind-property="collapsed" bind-flags="sync-create|invert-boolean"/>
-                                <property name="action-name">volumes-panel.toggle-show-only-used-volumes</property>
-                                <property name="icon-name">funnel-symbolic</property>
-                                <property name="tooltip-text" translatable="yes">Show Only Used Volumes</property>
-                              </object>
+                              <object class="AdwBin" id="view_options_split_button_top_bin"/>
                             </child>
 
                           </object>
@@ -267,27 +292,15 @@
                   <object class="GtkActionBar" id="overhang_action_bar">
 
                     <child type="start">
-                      <object class="GtkButton">
-                        <property name="action-name">volumes-panel.create-volume</property>
-                        <property name="icon-name">list-add-symbolic</property>
-                        <property name="tooltip-text" translatable="yes">Create Volume</property>
-                      </object>
+                      <object class="AdwBin" id="create_volume_menu_button_bottom_bin"/>
                     </child>
 
                     <child type="start">
-                      <object class="GtkButton">
-                        <property name="action-name">volumes-panel.prune-volumes</property>
-                        <property name="icon-name">eraser5-symbolic</property>
-                        <property name="tooltip-text" translatable="yes">Prune Volumes</property>
-                      </object>
+                      <object class="AdwBin" id="prune_button_bottom_bin"/>
                     </child>
 
                     <child type="end">
-                      <object class="GtkToggleButton">
-                        <property name="action-name">volumes-panel.toggle-show-only-used-volumes</property>
-                        <property name="icon-name">funnel-symbolic</property>
-                        <property name="tooltip-text" translatable="yes">Show Only Used Volumes</property>
-                      </object>
+                      <object class="AdwBin" id="view_options_split_button_bottom_bin"/>
                     </child>
 
                   </object>

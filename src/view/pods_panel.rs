@@ -1,6 +1,7 @@
 use std::cell::Cell;
 use std::cell::OnceCell;
 use std::cell::RefCell;
+use std::ops::Deref;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
@@ -14,6 +15,7 @@ use gtk::gio;
 use gtk::glib;
 use gtk::CompositeTemplate;
 
+use crate::config;
 use crate::model;
 use crate::model::SelectableListExt;
 use crate::utils;
@@ -32,7 +34,9 @@ const ACTION_START_OR_RESUME_SELECTION: &str = "pods-panel.start-or-resume-selec
 const ACTION_STOP_SELECTION: &str = "pods-panel.stop-selection";
 const ACTION_PAUSE_SELECTION: &str = "pods-panel.pause-selection";
 const ACTION_DELETE_SELECTION: &str = "pods-panel.delete-selection";
-const ACTION_TOGGLE_SHOW_ONLY_RUNNING_PODS: &str = "pods-panel.toggle-show-only-running-pods";
+const ACTION_TOGGLE_SORT_DIRECTION: &str = "pods-panel.toggle-sort-direction";
+const ACTION_CHANGE_SORT_ATTRIBUTE: &str = "pods-panel.change-sort-attribute";
+const ACTION_TOGGLE_SHOW_RUNNING_PODS_FIRST: &str = "pods-panel.toggle-show-running-pods-first";
 const ACTION_SHOW_ALL_PODS: &str = "pods-panel.show-all-pods";
 
 const ACTIONS_SELECTION: &[&str] = &[
@@ -44,6 +48,44 @@ const ACTIONS_SELECTION: &[&str] = &[
     ACTION_DELETE_SELECTION,
 ];
 
+#[derive(Debug)]
+pub(crate) struct Settings(gio::Settings);
+impl Default for Settings {
+    fn default() -> Self {
+        Self(gio::Settings::new(&format!(
+            "{}.view.panels.pods",
+            config::APP_ID
+        )))
+    }
+}
+impl Deref for Settings {
+    type Target = gio::Settings;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+#[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
+#[enum_type(name = "PodsPanelSortDirection")]
+pub(crate) enum SortDirection {
+    #[default]
+    #[enum_value(nick = "asc")]
+    Asc,
+    #[enum_value(nick = "desc")]
+    Desc,
+}
+
+#[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
+#[enum_type(name = "PodsPanelSortAttribute")]
+pub(crate) enum SortAttribute {
+    #[default]
+    #[enum_value(nick = "name")]
+    Name,
+    #[enum_value(nick = "containers")]
+    Containers,
+}
+
 mod imp {
     use super::*;
 
@@ -51,7 +93,7 @@ mod imp {
     #[properties(wrapper_type = super::PodsPanel)]
     #[template(resource = "/com/github/marhkb/Pods/ui/view/pods_panel.ui")]
     pub(crate) struct PodsPanel {
-        pub(super) settings: utils::PodsSettings,
+        pub(super) settings: Settings,
         pub(super) filter: OnceCell<gtk::Filter>,
         pub(super) sorter: OnceCell<gtk::Sorter>,
         pub(super) search_term: RefCell<String>,
@@ -59,8 +101,18 @@ mod imp {
         pub(super) pod_list: glib::WeakRef<model::PodList>,
         #[property(get, set)]
         pub(super) collapsed: Cell<bool>,
+        #[property(get, set, builder(SortDirection::default()))]
+        pub(super) sort_direction: RefCell<SortDirection>,
+        #[property(get, set, builder(SortAttribute::default()))]
+        pub(super) sort_attribute: RefCell<SortAttribute>,
         #[property(get, set)]
-        pub(super) show_only_running_pods: Cell<bool>,
+        pub(super) show_running_pods_first: Cell<bool>,
+        #[template_child]
+        pub(super) create_pod_button: TemplateChild<gtk::Button>,
+        #[template_child]
+        pub(super) prune_button: TemplateChild<gtk::Button>,
+        #[template_child]
+        pub(super) view_options_split_button: TemplateChild<adw::SplitButton>,
         #[template_child]
         pub(super) main_stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -68,7 +120,13 @@ mod imp {
         #[template_child]
         pub(super) header_stack: TemplateChild<gtk::Stack>,
         #[template_child]
+        pub(super) create_pod_button_top_bin: TemplateChild<adw::Bin>,
+        #[template_child]
+        pub(super) prune_button_top_bin: TemplateChild<adw::Bin>,
+        #[template_child]
         pub(super) window_title: TemplateChild<adw::WindowTitle>,
+        #[template_child]
+        pub(super) view_options_split_button_top_bin: TemplateChild<adw::Bin>,
         #[template_child]
         pub(super) selected_pods_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
@@ -81,6 +139,12 @@ mod imp {
         pub(super) list_box: TemplateChild<gtk::ListBox>,
         #[template_child]
         pub(super) overhang_action_bar: TemplateChild<gtk::ActionBar>,
+        #[template_child]
+        pub(super) create_pod_button_bottom_bin: TemplateChild<adw::Bin>,
+        #[template_child]
+        pub(super) prune_button_bottom_bin: TemplateChild<adw::Bin>,
+        #[template_child]
+        pub(super) view_options_split_button_bottom_bin: TemplateChild<adw::Bin>,
     }
 
     #[glib::object_subclass]
@@ -143,9 +207,13 @@ mod imp {
                 widget.delete_selection();
             });
 
+            klass.install_action(ACTION_TOGGLE_SORT_DIRECTION, None, |widget, _, _| {
+                widget.toggle_sort_direction();
+            });
+            klass.install_property_action(ACTION_CHANGE_SORT_ATTRIBUTE, "sort-attribute");
             klass.install_property_action(
-                ACTION_TOGGLE_SHOW_ONLY_RUNNING_PODS,
-                "show-only-running-pods",
+                ACTION_TOGGLE_SHOW_RUNNING_PODS_FIRST,
+                "show-running-pods-first",
             );
 
             klass.install_action(ACTION_SHOW_ALL_PODS, None, |widget, _, _| {
@@ -177,7 +245,13 @@ mod imp {
             let obj = &*self.obj();
 
             self.settings
-                .bind("show-only-running-pods", obj, "show-only-running-pods")
+                .bind("sort-direction", obj, "sort-direction")
+                .build();
+            self.settings
+                .bind("sort-attribute", obj, "sort-attribute")
+                .build();
+            self.settings
+                .bind("show-running-first", obj, "show-running-pods-first")
                 .build();
 
             let pod_list_expr = Self::Type::this_expression("pod-list");
@@ -250,6 +324,19 @@ mod imp {
             )
             .bind(&self.window_title.get(), "subtitle", Some(obj));
 
+            Self::Type::this_expression("sort-direction")
+                .chain_closure::<String>(closure!(|_: Self::Type, direction: SortDirection| {
+                    match direction {
+                        SortDirection::Asc => "view-sort-ascending-rtl-symbolic",
+                        SortDirection::Desc => "view-sort-descending-rtl-symbolic",
+                    }
+                }))
+                .bind(
+                    &self.view_options_split_button.get(),
+                    "icon-name",
+                    Some(obj),
+                );
+
             pod_list_expr
                 .chain_property::<model::PodList>("num-selected")
                 .chain_closure::<String>(closure!(|_: Self::Type, selected: u32| ngettext!(
@@ -259,6 +346,8 @@ mod imp {
                     selected
                 )))
                 .bind(&self.selected_pods_button.get(), "label", Some(obj));
+
+            not_selection_mode_expr.bind(&self.search_bar.get(), "visible", Some(obj));
 
             gtk::ClosureExpression::new::<bool>(
                 [
@@ -282,7 +371,7 @@ mod imp {
             )
             .bind(&self.toolbar_view.get(), "reveal-bottom-bars", Some(obj));
 
-            let search_filter = gtk::CustomFilter::new(clone!(
+            let filter = gtk::CustomFilter::new(clone!(
                 #[weak]
                 obj,
                 #[upgrade_or]
@@ -297,27 +386,26 @@ mod imp {
                 }
             ));
 
-            not_selection_mode_expr.bind(&self.search_bar.get(), "visible", Some(obj));
-
-            let state_filter = gtk::AnyFilter::new();
-            state_filter.append(gtk::CustomFilter::new(clone!(
+            let sorter = gtk::CustomSorter::new(clone!(
                 #[weak]
                 obj,
                 #[upgrade_or]
-                false,
-                move |_| !obj.show_only_running_pods()
-            )));
-            state_filter.append(gtk::BoolFilter::new(Some(
-                model::Pod::this_expression("status").chain_closure::<bool>(closure!(
-                    |_: model::Pod, status: model::PodStatus| status == model::PodStatus::Running
-                )),
-            )));
+                gtk::Ordering::Equal,
+                move |item1, item2| {
+                    let pod1 = item1.downcast_ref::<model::Pod>().unwrap();
+                    let pod2 = item2.downcast_ref::<model::Pod>().unwrap();
 
-            let filter = gtk::EveryFilter::new();
-            filter.append(search_filter);
-            filter.append(state_filter);
-
-            let sorter = gtk::StringSorter::new(Some(model::Pod::this_expression("name")));
+                    if obj.show_running_pods_first() {
+                        match pod2.status().cmp(&pod1.status()) {
+                            std::cmp::Ordering::Equal => obj.imp().ordering(pod1, pod2),
+                            other => other,
+                        }
+                    } else {
+                        obj.imp().ordering(pod1, pod2)
+                    }
+                    .into()
+                }
+            ));
 
             self.filter.set(filter.upcast()).unwrap();
             self.sorter.set(sorter.upcast()).unwrap();
@@ -332,13 +420,57 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl PodsPanel {
+        fn ordering(&self, pod1: &model::Pod, pod2: &model::Pod) -> std::cmp::Ordering {
+            let obj = self.obj();
+            let ordering = match obj.sort_attribute() {
+                SortAttribute::Name => pod1.name().to_lowercase().cmp(&pod2.name().to_lowercase()),
+                SortAttribute::Containers => pod1.num_containers().cmp(&pod2.num_containers()),
+            };
+
+            match obj.sort_direction() {
+                SortDirection::Asc => ordering,
+                SortDirection::Desc => ordering.reverse(),
+            }
+        }
+
         #[template_callback]
-        fn on_notify_show_only_running_pods(&self) {
-            self.update_filter(if self.obj().show_only_running_pods() {
-                gtk::FilterChange::MoreStrict
+        fn on_notify_collapsed(&self) {
+            if self.obj().collapsed() {
+                self.create_pod_button_top_bin.set_child(gtk::Widget::NONE);
+                self.prune_button_top_bin.set_child(gtk::Widget::NONE);
+                self.view_options_split_button_top_bin
+                    .set_child(gtk::Widget::NONE);
+
+                self.create_pod_button_bottom_bin
+                    .set_child(Some(&self.create_pod_button.get()));
+                self.prune_button_bottom_bin
+                    .set_child(Some(&self.prune_button.get()));
+                self.view_options_split_button_bottom_bin
+                    .set_child(Some(&self.view_options_split_button.get()));
             } else {
-                gtk::FilterChange::LessStrict
-            });
+                self.create_pod_button_bottom_bin
+                    .set_child(gtk::Widget::NONE);
+                self.prune_button_bottom_bin.set_child(gtk::Widget::NONE);
+                self.view_options_split_button_bottom_bin
+                    .set_child(gtk::Widget::NONE);
+
+                self.create_pod_button_top_bin
+                    .set_child(Some(&self.create_pod_button.get()));
+                self.prune_button_top_bin
+                    .set_child(Some(&self.prune_button.get()));
+                self.view_options_split_button_top_bin
+                    .set_child(Some(&self.view_options_split_button.get()));
+            }
+        }
+
+        #[template_callback]
+        fn on_notify_sort_attribute(&self) {
+            self.update_sorter();
+        }
+
+        #[template_callback]
+        fn on_notify_show_running_pods_first(&self) {
+            self.update_sorter();
         }
 
         #[template_callback]
@@ -368,16 +500,22 @@ mod imp {
                 return;
             }
 
-            value.connect_notify_local(
-                Some("running"),
-                clone!(
-                    #[weak]
-                    obj,
-                    move |_, _| {
-                        obj.imp().update_filter(gtk::FilterChange::Different);
-                    }
-                ),
-            );
+            value.connect_containers_in_pod_changed(clone!(
+                #[weak]
+                obj,
+                move |_, _| {
+                    glib::timeout_add_seconds_local_once(
+                        1,
+                        clone!(
+                            #[weak]
+                            obj,
+                            move || if obj.sort_attribute() == SortAttribute::Containers {
+                                obj.imp().update_sorter();
+                            }
+                        ),
+                    );
+                }
+            ));
 
             let model = gtk::SortListModel::new(
                 Some(gtk::FilterListModel::new(
@@ -451,6 +589,13 @@ mod imp {
                 filter.changed(filter_change);
             }
         }
+
+        pub(super) fn update_sorter(&self) {
+            self.sorter
+                .get()
+                .unwrap()
+                .changed(gtk::SorterChange::Different);
+        }
     }
 }
 
@@ -467,8 +612,15 @@ impl Default for PodsPanel {
 }
 
 impl PodsPanel {
+    pub(crate) fn toggle_sort_direction(&self) {
+        self.set_sort_direction(match self.sort_direction() {
+            SortDirection::Asc => SortDirection::Desc,
+            SortDirection::Desc => SortDirection::Asc,
+        });
+        self.imp().update_sorter();
+    }
+
     pub(crate) fn show_all_pods(&self) {
-        self.set_show_only_running_pods(false);
         self.set_search_mode(false);
     }
 
