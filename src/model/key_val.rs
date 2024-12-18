@@ -12,7 +12,6 @@ mod imp {
 
     #[derive(Debug, Default, Properties)]
     #[properties(wrapper_type = super::KeyVal)]
-
     pub(crate) struct KeyVal {
         #[property(get, set)]
         pub(super) key: RefCell<String>,

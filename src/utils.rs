@@ -196,7 +196,7 @@ impl<'a, C, P> Dialog<'a, C, P> {
     }
 }
 
-impl<'a, C, P> Dialog<'a, C, P>
+impl<C, P> Dialog<'_, C, P>
 where
     C: IsA<gtk::Widget>,
     P: IsA<gtk::Widget>,
