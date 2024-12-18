@@ -13,7 +13,6 @@ mod imp {
 
     #[derive(Debug, Default, Properties)]
     #[properties(wrapper_type = super::Process)]
-
     pub(crate) struct Process {
         #[property(get, set, construct_only, nullable)]
         pub(super) process_list: glib::WeakRef<model::ProcessList>,
