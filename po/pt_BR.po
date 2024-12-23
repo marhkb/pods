@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-27 19:46+0200\n"
-"PO-Revision-Date: 2024-12-22 20:50+0000\n"
+"PO-Revision-Date: 2024-12-24 02:00+0000\n"
 "Last-Translator: John Peter Sa <johnppetersa@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/pods/"
 "main/pt_BR/>\n"
@@ -790,7 +790,7 @@ msgid ""
 "The welcome page now has a very attractive, colorful illustration, thanks to "
 "@daudix-UFO."
 msgstr ""
-"A página de boas-vindas agora tem uma ilustração muito atraente, colorida, "
+"A página de boas-vindas agora tem uma ilustração muito atraente e colorida, "
 "graças a @daudix-UFO."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:213
@@ -4240,7 +4240,7 @@ msgstr "Podar volumes criados antes deste registro de data e hora"
 
 #: src/view/welcome_page.ui:59
 msgid "Welcome to Pods"
-msgstr "Boas-vindas ao Pods"
+msgstr "Bem-vindo às cápsulas"
 
 #: src/view/welcome_page.ui:68
 msgid "Create a new connection to Podman to get started"
