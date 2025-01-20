@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-27 19:46+0200\n"
-"PO-Revision-Date: 2023-05-28 20:50+0000\n"
+"PO-Revision-Date: 2025-01-20 22:04+0100\n"
 "Last-Translator: Marcus Behrendt <marcus.behrendt.86@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/pods/main/de/>\n"
 "Language: de\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.18-dev\n"
+"X-Generator: Poedit 3.4.4\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:112
@@ -28,9 +28,8 @@ msgstr "Pods"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:4
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
-#, fuzzy
 msgid "Manage your Podman containers"
-msgstr "Behalte den Überblick über deine Podman-Container"
+msgstr "Verwalten Sie Ihre Podman-Container"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:9
 msgid "Gnome;GTK;libadwaita;Podman;Containerization;"
@@ -44,7 +43,7 @@ msgstr "Standard-Fensterbreite"
 #: data/com.github.marhkb.Pods.gschema.xml.in:11
 #: data/com.github.marhkb.Pods.gschema.xml.in:12
 msgid "Default window height"
-msgstr "Standardmäßige Fensterhöhe"
+msgstr "Standard Fensterhöhe"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:16
 msgid "Default window maximized behaviour"
@@ -52,16 +51,15 @@ msgstr "Standardverhalten bei maximiertem Fenster"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:21
 msgid "The uuid of the connection that was used the last time"
-msgstr "Die UUID der beim letzten Mal verwendeten Verbindung"
+msgstr "Die uuid der Verbindung, die das letzte Mal verwendet wurde"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:26
 msgid "The last used view"
 msgstr "Die zuletzt verwendete Ansicht"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:31
-#, fuzzy
 msgid "Whether to hide intermediate images"
-msgstr "Ob Zwischenabbilder angezeigt werden sollen"
+msgstr "Ob Zwischenbilder ausgeblendet werden sollen"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:36
 msgid "The last used container file path"
@@ -71,7 +69,7 @@ msgstr "Der Dateipfad des zuletzt verwendeten Containers"
 #: src/view/images_prune_page.ui:70
 msgid "Remove all images not in use by containers, not just dangling ones"
 msgstr ""
-"Entferne alle nicht von Containern verwendeten Abbilder, nicht nur hängende"
+"Alle nicht von Containern verwendeten Images entfernen, nicht nur verwaiste."
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:46
 #: src/view/images_prune_page.ui:77
@@ -79,8 +77,8 @@ msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)"
 msgstr ""
-"Entferne selbst Abbilder, die noch von externen Containern verwendet werden "
-"(z. B. von Build-Containern)"
+"Bilder entfernen, auch wenn sie von externen Containern verwendet werden (z. "
+"B. von Build-Containern)."
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:51
 msgid "Whether to show only running containers"
@@ -91,9 +89,8 @@ msgid "Whether to show only running pods"
 msgstr "Ob nur laufende Pods angezeigt werden sollen"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:61
-#, fuzzy
 msgid "Whether to show only used volumes"
-msgstr "Ob nur laufende Pods angezeigt werden sollen"
+msgstr "Ob nur verwendete Volumes angezeigt werden sollen."
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:66
 msgid "Whether to show a timestamp for each log line"
@@ -125,8 +122,8 @@ msgid ""
 "Pods is a frontend for podman. It uses libadwaita for its user interface and "
 "strives to meet the design principles of GNOME."
 msgstr ""
-"Pods ist ein Frontend für Podman. Es benutzt Libadwaita für seine "
-"Benutzeroberfläche und bemüht sich den Designprinzipien von GNOME zu folgen."
+"Pods ist ein Frontend für Podman. Es verwendet Libadwaita für seine "
+"Benutzeroberfläche und orientiert sich an den Designprinzipien von GNOME."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:11
 msgid "With Pods you can, among other things:"
@@ -138,20 +135,19 @@ msgstr "Zu lokalen und entfernten Podman-Instanzen verbinden."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:14
 msgid "Easily overview images, containers and pods."
-msgstr "Einfach Abbilder, Container und Pods überblicken."
+msgstr "Einen einfachen Überblick über Images, Container und Pods erhalten."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:15
 msgid "View prepared information about images, containers, and pods."
-msgstr ""
-"Vorbereitete Informationen von Abbildern, Containern und Pods betrachten."
+msgstr "Vorbereitete Informationen zu Images, Containern und Pods anzeigen."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:16
 msgid "Inspect images, containers and pods."
-msgstr "Abbilder, Container und Pods inspizieren."
+msgstr "Images, Container und Pods inspizieren."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:17
 msgid "View and search container logs."
-msgstr "Container-Protokolle betrachten und durchsuchen."
+msgstr "Container-Protokolle anzeigen und durchsuchen."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:18
 msgid "Monitor processes of containers and pods."
@@ -159,7 +155,7 @@ msgstr "Prozesse von Containern und Pods überwachen."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:19
 msgid "Download images and build them using Dockerfiles."
-msgstr "Abbilder herunterladen und mittels Dockerfiles bauen."
+msgstr "Images herunterladen und mit Dockerfiles erstellen."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:20
 msgid "Create pods and containers."
@@ -170,43 +166,40 @@ msgid ""
 "Control the lifecycle of containers and pods (in bulk) (start, stop, pause, "
 "etc.)."
 msgstr ""
-"Die Laufzeit von Containern und Pods kontrollieren (Start, Stop, Pause, "
-"etc.)."
+"Den Lebenszyklus von Containern und Pods (auch mit Mehrfachauswahl) steuern "
+"(starten, stoppen, pausieren usw.)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:22
 msgid "Delete images, containers, and pods (in bulk)."
-msgstr "Abbilder, Container und Pods entfernen."
+msgstr "Bilder, Container und Pods (auch mit Mehrfachauswahl) löschen."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:23
 msgid "Prune images."
-msgstr "Nicht benutzte Abbilder entfernen."
+msgstr "Nicht benutzte Images entfernen."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:24
 msgid "Rename containers."
 msgstr "Container umbenennen."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:30
-#, fuzzy
 msgid "Container Overview"
-msgstr "Container-Übersicht"
+msgstr "Containerübersicht"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:34
-#, fuzzy
 msgid "Containers Details in Compact Mode"
-msgstr "Der Container Wurde Erstellt"
+msgstr "Containerdetails im kompakten Modus."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:38
-#, fuzzy
 msgid "Search Results"
-msgstr "Suchen"
+msgstr "Suchergebnisse"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:47
 msgid "Pods 2.1.0 contains the following changes:"
-msgstr ""
+msgstr "Pods 2.1.0 enthält die folgenden Änderungen:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:48
 msgid "Features"
-msgstr ""
+msgstr "Funktionen"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:50
 msgid "Accent colors are now properly supported. (#804, #807, #809, #811)"
@@ -231,9 +224,8 @@ msgid "Port mappings can now be configured when creating pods. (#772)"
 msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:58
-#, fuzzy
 msgid "Enable searching for container and pod processes. (#747)"
-msgstr "Abbilder, Container und Pods entfernen."
+msgstr "Aktivieren der Suche nach Container- und Pod-Prozessen. (#747)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:59
 msgid "Killing container processes is now supported. (#748)"
@@ -967,11 +959,12 @@ msgid ""
 msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:304
-#, fuzzy
 msgid ""
 "The multi-selection mode of images, containers and pods is now animated a "
 "bit more nicely."
-msgstr "Abbilder, Container und Pods entfernen."
+msgstr ""
+"Der Mehrfachauswahlmodus für Images, Container und Pods ist jetzt etwas "
+"schöner animiert."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:305
 msgid ""
@@ -1093,10 +1086,10 @@ msgid ""
 msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:338
-#, fuzzy
 msgid ""
 "The local search for images, containers and pods is now case-insensitive."
-msgstr "Abbilder, Container und Pods entfernen."
+msgstr ""
+"Die lokale Suche nach Images, Containern und Pods ist jetzt Case-Sensitiv."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:339
 msgid "There were small visual adjustments all over the place."
@@ -1162,9 +1155,8 @@ msgid ""
 msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:357
-#, fuzzy
 msgid "Image downloads can now be aborted."
-msgstr "Der Download des Abbildes Wurde Abgebrochen"
+msgstr "Der Download des Images wurde abgebrochen"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:358
 msgid "Arguments can now be added to a container command, thanks to @vvk9."
@@ -1242,31 +1234,31 @@ msgstr "Geben Sie den minimalen Log-Level an"
 
 #: src/model/action.rs:134
 msgid "Prune unused images"
-msgstr "Nicht benutzte Abbilder entfernen"
+msgstr "Bereinige nicht benutzte Images"
 
 #: src/model/action.rs:172
 msgid "Pull image <b>{}</b>"
-msgstr "Abbild <b>{}</b> laden"
+msgstr "Image <b>{}</b> laden"
 
 #: src/model/action.rs:210
 msgid "Push image <b>{}</b>"
-msgstr "Abbild <b>{}</b> hochladen"
+msgstr "Image <b>{}</b> hochladen"
 
 #: src/model/action.rs:265
 msgid "Build image <b>{}</b>"
-msgstr "Abbild <b>{}</b> bauen"
+msgstr "Image <b>{}</b> bauen"
 
 #: src/model/action.rs:269
 msgid "Generating tarball of context directory..."
-msgstr "Erzeugen eines Tarballs des Kontextverzeichnisses..."
+msgstr "Erzeuge Tarball des Kontextverzeichnisses..."
 
 #: src/model/action.rs:336
 msgid "Prune stopped containers"
-msgstr "Gestoppte Container Beschneiden"
+msgstr "Bereinige gestoppte Container"
 
 #: src/model/action.rs:376
 msgid "Start new container <b>{}</b>"
-msgstr "Neuen Container <b>{}</b> starten"
+msgstr "Starte neuen Container <b>{}</b>"
 
 #: src/model/action.rs:378
 msgid "Create container <b>{}</b>"
@@ -1278,7 +1270,7 @@ msgstr "nichts"
 
 #: src/model/action.rs:404
 msgid "Commit image <b>{}</b> ({})"
-msgstr "Abbild <b>{}</b> committen"
+msgstr "Committe Image <b>{}</b>"
 
 #: src/model/action.rs:418 src/model/action.rs:523 src/model/action.rs:611
 #: src/model/action.rs:927
@@ -1323,26 +1315,23 @@ msgstr "Größe: {}"
 
 #: src/model/action.rs:627
 msgid "Create pod <b>{}</b>"
-msgstr "Pod <b>{}</b> erstellen"
+msgstr "Erstelle <b>{}</b> Pod"
 
 #: src/model/action.rs:652
 msgid "Prune stopped pods"
-msgstr "Gestoppte Pods beschneiden"
+msgstr "Bereinige gestoppte Pods"
 
 #: src/model/action.rs:843
-#, fuzzy
 msgid "Create volume <b>{}</b>"
-msgstr "Pod <b>{}</b> erstellen"
+msgstr "Erstelle Volume <b>{}</b>"
 
 #: src/model/action.rs:891
-#, fuzzy
 msgid "Prune unused volumes"
-msgstr "Nicht benutzte Abbilder entfernen"
+msgstr "Bereinige unbenutzte Images"
 
 #: src/model/connection_manager.rs:203
-#, fuzzy
 msgid "Connection '{}' already exists"
-msgstr "Die Verbindung '{}' existiert bereits."
+msgstr "Die Verbindung '{}' existiert bereits"
 
 #: src/model/container.rs:69
 msgid "Configured"
@@ -1380,7 +1369,7 @@ msgstr "Neustart"
 
 #: src/model/container.rs:77 src/model/pod.rs:74 src/view/info_panel.ui:138
 msgid "Running"
-msgstr "Laufend"
+msgstr "Laufen"
 
 #: src/model/container.rs:78 src/model/pod.rs:75 src/view/info_panel.ui:144
 msgid "Stopped"
@@ -1388,7 +1377,7 @@ msgstr "Gestoppt"
 
 #: src/model/container.rs:79
 msgid "Stopping"
-msgstr "Anhaltend"
+msgstr "Stoppen"
 
 #: src/model/container.rs:80 src/model/container.rs:121 src/model/pod.rs:76
 msgid "Unknown"
@@ -1396,7 +1385,7 @@ msgstr "Unbekannt"
 
 #: src/model/container.rs:117
 msgid "Checking"
-msgstr "Überprüfung"
+msgstr "Überprüfen"
 
 #: src/model/container.rs:118
 msgid "Healthy"
@@ -1460,12 +1449,12 @@ msgstr[1] "{} Stunden"
 msgid "{} day"
 msgid_plural "{} days"
 msgstr[0] "{} Tag"
-msgstr[1] "{} Tage"
+msgstr[1] "{} Tagen"
 
 #. Translators: Example: {3 hours} ago, {a few seconds} ago
 #: src/utils.rs:154
 msgid "{} ago"
-msgstr "{} früher"
+msgstr "vor {}"
 
 #. Translators: This string will be shown when a property of an entity like an image is null.
 #: src/utils.rs:256
@@ -1477,271 +1466,218 @@ msgid "Error on open file dialog"
 msgstr "Fehler beim Öffnen des Dateidialogs"
 
 #: src/view/action_page.rs:143
-#, fuzzy
 msgid "Pruning Images"
-msgstr "Abbilder Beschneiden"
+msgstr "Bereinige Images"
 
 #: src/view/action_page.rs:144
-#, fuzzy
 msgid "Downloading Image"
-msgstr "Abbild Herunterladen"
+msgstr "Image herunterladen"
 
 #: src/view/action_page.rs:145
-#, fuzzy
 msgid "Building Image"
-msgstr "Abbild Erstellen"
+msgstr "Image erstellen"
 
 #: src/view/action_page.rs:146
-#, fuzzy
 msgid "Pushing Image"
-msgstr "Abbild Hochladen"
+msgstr "Image hochladen"
 
 #: src/view/action_page.rs:147
-#, fuzzy
 msgid "Pruning Containers"
-msgstr "Ob nur laufende Container angezeigt werden sollen"
+msgstr "Container werden bereinigt"
 
 #: src/view/action_page.rs:148
-#, fuzzy
 msgid "Creating Container"
-msgstr "Container erstellen"
+msgstr "Erstelle Container"
 
 #: src/view/action_page.rs:149
-#, fuzzy
 msgid "Starting Container"
-msgstr "Fehler beim Starten des Containers"
+msgstr "Starte Container"
 
 #: src/view/action_page.rs:150
-#, fuzzy
 msgid "Committing Image"
-msgstr "Container Committen"
+msgstr "Committe Image"
 
 #: src/view/action_page.rs:151
-#, fuzzy
 msgid "Copying Files"
-msgstr "Konfigurationsdatei"
+msgstr "Kopiere Dateien"
 
 #: src/view/action_page.rs:152
-#, fuzzy
 msgid "Pruning Pods"
-msgstr "Ob nur laufende Pods angezeigt werden sollen"
+msgstr "Bereinige Pods"
 
 #: src/view/action_page.rs:153
-#, fuzzy
 msgid "Creating Pod"
-msgstr "Pod erzeugen"
+msgstr "Erstelle Pod"
 
 #: src/view/action_page.rs:154
-#, fuzzy
 msgid "Creating Volume"
-msgstr "Abbild Erstellen"
+msgstr "Erstelle Volume"
 
 #: src/view/action_page.rs:155
-#, fuzzy
 msgid "Pruning Volumes"
-msgstr "Abbilder Beschneiden"
+msgstr "Bereinige Volume"
 
 #: src/view/action_page.rs:161
-#, fuzzy
 msgid "Images Pruned"
-msgstr "Abbilder: <b>Beschneiden</b>"
+msgstr "Images sind bereinigt"
 
 #: src/view/action_page.rs:162
-#, fuzzy
 msgid "Image Downloaded"
-msgstr "Container"
+msgstr "Image wurde herunter geladen"
 
 #: src/view/action_page.rs:163
-#, fuzzy
 msgid "Image Built"
-msgstr "Das Abbild Wurde Erstellt"
+msgstr "Image wurde erstellt"
 
 #: src/view/action_page.rs:164
-#, fuzzy
 msgid "Image Pushed"
-msgstr "Das Abbild Wurde Hochgeladen"
+msgstr "Image wurde gepusht"
 
 #: src/view/action_page.rs:165
-#, fuzzy
 msgid "Containers Pruned"
-msgstr "Keine Container Gefunden"
+msgstr "Container wurden bereinigt"
 
 #: src/view/action_page.rs:166
-#, fuzzy
 msgid "Container Created"
-msgstr "Der Container Wurde Erstellt"
+msgstr "Container wurde erstellt"
 
 #: src/view/action_page.rs:167
-#, fuzzy
 msgid "Container Started"
-msgstr "Containerspeicher"
+msgstr "Container wurde gestartet"
 
 #: src/view/action_page.rs:168
-#, fuzzy
 msgid "Image Committed"
-msgstr "Das Committen des Abbildes ist Fehlgeschlagen"
+msgstr "Image wurde committet"
 
 #: src/view/action_page.rs:169
-#, fuzzy
 msgid "Files Copied"
-msgstr "Dateien Wurden Kopiert"
+msgstr "Dateien wurden kopiert"
 
 #: src/view/action_page.rs:170
-#, fuzzy
 msgid "Pods Pruned"
-msgstr "Die Pods Wurden Beschnitten"
+msgstr "Pods wurden bereinigt"
 
 #: src/view/action_page.rs:171
-#, fuzzy
 msgid "Pod Created"
-msgstr "Erstellt"
+msgstr "Pod wurde erstellt"
 
 #: src/view/action_page.rs:172
-#, fuzzy
 msgid "Volume Created"
-msgstr "Der Pod Wurde Erstellt"
+msgstr "Volume wurde erstellt"
 
 #: src/view/action_page.rs:173
-#, fuzzy
 msgid "Volumes Pruned"
-msgstr "Die Abbilder Wurden Beschnitten"
+msgstr "Volumes wurden bereinigt"
 
 #: src/view/action_page.rs:179
-#, fuzzy
 msgid "Image Pruning Aborted"
-msgstr "Das Hochladen des Abbildes Wurde Abgebrochen"
+msgstr "Das Bereinigen der Images wurde abgebrochen"
 
 #: src/view/action_page.rs:180
-#, fuzzy
 msgid "Image Download Aborted"
-msgstr "Der Download des Abbildes Wurde Abgebrochen"
+msgstr "Das Herunterladen des Images wurde abgebrochen"
 
 #: src/view/action_page.rs:181
-#, fuzzy
 msgid "Image Built Aborted"
-msgstr "Die Erstellung des Abbildes Wurde Abgebrochen"
+msgstr "Die Erstellung des Images wurde abgebrochen"
 
 #: src/view/action_page.rs:182
-#, fuzzy
 msgid "Image Push Aborted"
-msgstr "Das Hochladen des Abbildes Wurde Abgebrochen"
+msgstr "Das Pushen des Images wurde abgebrochen"
 
 #: src/view/action_page.rs:183
-#, fuzzy
 msgid "Container Pruning Aborted"
-msgstr "Container"
+msgstr "Das Bereinigen der Container wurde abgebrochen"
 
 #: src/view/action_page.rs:184
-#, fuzzy
 msgid "Container Creation Aborted"
-msgstr "Die Erstellung des Containers Wurde Abgebrochen"
+msgstr "Die Erstellung des Containers wurde abgebrochen"
 
 #: src/view/action_page.rs:185
-#, fuzzy
 msgid "Container Start Aborted"
-msgstr "Der Start des Containers Wurde Abgebrochen"
+msgstr "Der Start des Containers wurde abgebrochen"
 
 #: src/view/action_page.rs:186
-#, fuzzy
 msgid "Image Commit Aborted"
-msgstr "Das Committen des Abbildes Wurde Abgebrochen"
+msgstr "Das Committen des Images wurde abgebrochen"
 
 #: src/view/action_page.rs:187
-#, fuzzy
 msgid "File Copying Aborted"
-msgstr "Das Kopieren der Dateien Wurde Abgebrochen"
+msgstr "Das Kopieren der Datei wurde abgebrochen"
 
 #: src/view/action_page.rs:188
-#, fuzzy
 msgid "Pod Pruning Aborted"
-msgstr "Die Pod-Erstellung Wurde Abgebrochen"
+msgstr "Die Bereinigung der Pods wurde abgebrochen"
 
 #: src/view/action_page.rs:189
-#, fuzzy
 msgid "Pod Creation Aborted"
-msgstr "Die Pod-Erstellung Wurde Abgebrochen"
+msgstr "Die Erstellung des Pods wurde abgebrochen"
 
 #: src/view/action_page.rs:190
-#, fuzzy
 msgid "Volume Creation Aborted"
-msgstr "Die Pod-Erstellung Wurde Abgebrochen"
+msgstr "Die Erstellung des Volumes wurde abgebrochen"
 
 #: src/view/action_page.rs:191
-#, fuzzy
 msgid "Volume Pruning Aborted"
-msgstr "Die Pod-Erstellung Wurde Abgebrochen"
+msgstr "Die Bereinigung der Volumes wurde abgebrochen"
 
 #: src/view/action_page.rs:197
-#, fuzzy
 msgid "Pruning Image Failed"
-msgstr "Das Beschneiden der Abbilder ist Fehlgeschlagen"
+msgstr "Das Beschneiden der Images ist fehlgeschlagen"
 
 #: src/view/action_page.rs:198
-#, fuzzy
 msgid "Downloading Image Failed"
-msgstr "Abbild Herunterladen"
+msgstr "Das Herunterladen des Images ist fehlgeschlagen"
 
 #: src/view/action_page.rs:199
-#, fuzzy
 msgid "Building Image Failed"
-msgstr "Das Beschneiden der Abbilder ist Fehlgeschlagen"
+msgstr "Das Erstellen des Images ist fehlgeschlagen"
 
 #: src/view/action_page.rs:200
-#, fuzzy
 msgid "Pushing Image Failed"
-msgstr "Das Beschneiden der Abbilder ist Fehlgeschlagen"
+msgstr "Das Pushen des Images ist fehlgeschlagen"
 
 #: src/view/action_page.rs:201
-#, fuzzy
 msgid "Pruning Containers Failed"
-msgstr "Das Beschneiden der Container ist Fehlgeschlagen"
+msgstr "Das Bereinigen des Containers ist fehlgeschlagen"
 
 #: src/view/action_page.rs:202
-#, fuzzy
 msgid "Creating Container Failed"
-msgstr "Das Beschneiden der Container ist Fehlgeschlagen"
+msgstr "Das Erstellen des Containers ist fehlgeschlagen"
 
 #: src/view/action_page.rs:203
-#, fuzzy
 msgid "Starting Container Failed"
-msgstr "Das Beschneiden der Container ist Fehlgeschlagen"
+msgstr "Das Starten des Containers ist fehlgeschlagen"
 
 #: src/view/action_page.rs:204
-#, fuzzy
 msgid "Committing Image Failed"
-msgstr "Das Committen des Abbildes ist Fehlgeschlagen"
+msgstr "Das Committen des Images ist fehlgeschlagen"
 
 #: src/view/action_page.rs:205
-#, fuzzy
 msgid "Copying Files Failed"
-msgstr "Das Kopieren der Dateien ist Fehlgeschlagen"
+msgstr "Das Kopieren der Dateien ist fehlgeschlagen"
 
 #: src/view/action_page.rs:206
-#, fuzzy
 msgid "Pruning Pods Failed"
-msgstr "Das Beschneiden der Pods ist Fehlgeschlagen"
+msgstr "Das Bereinigen der Pods ist fehlgeschlagen"
 
 #: src/view/action_page.rs:207
-#, fuzzy
 msgid "Creating Pod Failed"
-msgstr "Die Erstellung des Pods ist Fehlgeschlagen"
+msgstr "Das Erstellen des Pods ist fehlgeschlagen"
 
 #: src/view/action_page.rs:208
-#, fuzzy
 msgid "Creating Volume Failed"
-msgstr "Das Beschneiden der Abbilder ist Fehlgeschlagen"
+msgstr "Das Erstellen des Volumes ist fehlgeschlagen"
 
 #: src/view/action_page.rs:209
-#, fuzzy
 msgid "Pruning Volumes Failed"
-msgstr "Das Beschneiden der Abbilder ist Fehlgeschlagen"
+msgstr "Das Bereinigen der Volumes ist fehlgeschlagen"
 
 #: src/view/action_page.rs:253
 msgid "After {}"
 msgstr "Nach {}"
 
 #: src/view/action_page.rs:293
-#, fuzzy
 msgid "Action"
 msgstr "Aktionen"
 
@@ -1790,9 +1726,8 @@ msgid "Finished after {}"
 msgstr "Beendet nach {}"
 
 #: src/view/action_row.rs:272
-#, fuzzy
 msgid "Aborted after {}"
-msgstr "Gescheitert nach {}"
+msgstr "Abgebrochen nach {}"
 
 #: src/view/action_row.rs:273
 msgid "Failed after {}"
@@ -1805,7 +1740,7 @@ msgstr "Aktionen"
 
 #: src/view/actions_sidebar.ui:26
 msgid "Clear Finished Actions"
-msgstr "Beendete Aktionen Löschen"
+msgstr "Beendete Aktionen löschen"
 
 #: src/view/actions_sidebar.ui:48
 msgid "No Actions"
@@ -1823,7 +1758,7 @@ msgstr "Container"
 #: src/view/images_panel.ui:163 src/view/images_panel.ui:349
 #: src/view/images_row.ui:22 src/view/search_panel.ui:97
 msgid "Images"
-msgstr "Abbilder"
+msgstr "Images"
 
 #: src/view/client_view.rs:255 src/view/container_creation_page.ui:303
 #: src/view/container_details_page.ui:183 src/view/search_panel.ui:113
@@ -1835,7 +1770,7 @@ msgstr "Volumes"
 #: src/view/client_view.rs:256 src/view/info_panel.ui:24
 #: src/view/info_row.ui:22
 msgid "Info"
-msgstr ""
+msgstr "Info"
 
 #: src/view/client_view.rs:257 src/view/container_log_page.ui:60
 #: src/view/containers_panel.ui:109 src/view/images_panel.ui:134
@@ -1852,7 +1787,7 @@ msgstr ""
 
 #: src/view/client_view.ui:37 src/view/client_view.ui:45
 msgid "Home"
-msgstr ""
+msgstr "Start"
 
 #: src/view/client_view.ui:57 src/view/client_view.ui:179
 #: src/view/connections_sidebar.ui:18
@@ -1860,30 +1795,26 @@ msgid "Connections"
 msgstr "Verbindungen"
 
 #: src/view/client_view.ui:82
-#, fuzzy
 msgctxt "app name"
 msgid "Pods"
 msgstr "Pods"
 
 #: src/view/client_view.ui:223
-#, fuzzy
 msgid "Content"
-msgstr "Container"
+msgstr "Inhalt"
 
 #: src/view/connection_chooser_page.rs:106
-#, fuzzy
 msgid "Error on establishing connection"
-msgstr "Fehler beim Verbindungswechsel"
+msgstr "Fehler beim Verbindungsaufbau"
 
 #: src/view/connection_chooser_page.ui:26
 msgid "Connect to Podman"
 msgstr "Mit Podman verbinden"
 
 #: src/view/connection_chooser_page.ui:27
-#, fuzzy
 msgid "Choose an existing connection or create a new one"
 msgstr ""
-"Wählen Sie entweder eine bestehende Verbindung oder erstellen Sie eine neue."
+"Wählen Sie entweder eine bestehende Verbindung oder erstellen Sie eine neue"
 
 #: src/view/connection_creation_page.rs:140
 msgid "official documentation"
@@ -1937,9 +1868,8 @@ msgid "URL"
 msgstr "URL"
 
 #: src/view/connection_creation_page.ui:129
-#, fuzzy
 msgid "Choose how to connect to Podman"
-msgstr "Wählen Sie, wie Sie sich mit Podman verbinden möchten."
+msgstr "Wählen Sie, wie die Verbindung zu Podman hergestellt werden soll."
 
 #: src/view/connection_creation_page.ui:133
 msgid "Unix Socket"
@@ -1954,9 +1884,9 @@ msgid ""
 "To connect to the local Podman instance, the systemd socket must be enabled. "
 "You can enable it permanently by issuing the following command:"
 msgstr ""
-"Um sich mit der Podman-Instanz zu verbinden, muss der systemd-Socket "
-"aktiviert werden. Du kannst ihn dauerhaft mit dem folgenden Befehl "
-"aktivieren:"
+"Um eine Verbindung zur lokalen Podman-Instanz herzustellen, muss der systemd-"
+"Socket aktiviert sein. Sie können ihn dauerhaft aktivieren, indem Sie den "
+"folgenden Befehl ausführen:"
 
 #: src/view/connection_creation_page.ui:225
 #: src/view/connection_custom_info_page.ui:140
@@ -1971,28 +1901,24 @@ msgid ""
 "To connect to the local root Podman instance, create a custom connection "
 "(read the hints there)."
 msgstr ""
-"Erstelle eine benutzerdefinierte Verbindung, um die lokale Podman-Instanz zu "
-"verwenden (lies die Hinweise dort)."
+"Um eine Verbindung zur lokalen Root-Podman-Instanz herzustellen, erstellen "
+"Sie eine benutzerdefinierte Verbindung (lesen Sie dazu die Hinweise dort)."
 
 #: src/view/connection_creation_page.ui:266
-#, fuzzy
 msgid "Custom URL"
-msgstr "Benutzerdefiniert"
+msgstr "Benutzerdefinierte URL"
 
 #: src/view/connection_creation_page.ui:304
 msgid "Color"
 msgstr "Farbe"
 
 #: src/view/connection_creation_page.ui:305
-#, fuzzy
 msgid "Set the color of this connection"
-msgstr ""
-"Legen Sie die Farbe der Statusleiste fest, wenn diese Verbindung aktiv ist."
+msgstr "Die Farbe der Statusleiste bei dieser Verbindung festlegen"
 
 #: src/view/connection_creation_page.ui:351
-#, fuzzy
 msgid "Custom Connection Info"
-msgstr "Benutzerdefinierte Verbindung"
+msgstr "Benutzerdefinierte Verbindungsinformationen"
 
 #: src/view/connection_custom_info_page.rs:131
 msgid "systemd unit path copied"
@@ -2000,7 +1926,7 @@ msgstr "Pfad der systemd-Unit kopiert"
 
 #: src/view/connection_custom_info_page.rs:139
 msgid "systemd unit content copied"
-msgstr "Inhalt der systemd-Einheit kopiert"
+msgstr "Inhalt der systemd-Unit kopiert"
 
 #: src/view/connection_custom_info_page.rs:149
 msgid "socket activation command copied"
@@ -2047,7 +1973,7 @@ msgstr ""
 
 #: src/view/connection_custom_info_page.ui:205
 msgid "Enable the service by issuing the command:"
-msgstr "Aktivieren Sie den Dienst, indem Sie den Befehl eingeben:"
+msgstr "Aktivieren Sie den Dienst, indem Sie folgenden Befehl eingeben:"
 
 #: src/view/connection_custom_info_page.ui:265
 msgid ""
@@ -2070,11 +1996,9 @@ msgid "Delete"
 msgstr "Löschen"
 
 #: src/view/connection.rs:22
-#, fuzzy
 msgid "There are ongoing actions whose progress will be irretrievably lost"
 msgstr ""
-"Es gibt laufende Aktionen, deren Fortschritt unwiederbringlich verloren "
-"gehen wird."
+"Es gibt laufende Aktionen, deren Fortschritt unwiederbringlich verloren geht."
 
 #: src/view/connection.rs:29 src/view/container_card.rs:565
 msgid "_Confirm"
@@ -2093,20 +2017,20 @@ msgid "New Connection (Ctrl+Shift+N)"
 msgstr "Neue Verbindung (Strg+Shift+N)"
 
 #: src/view/container_card.rs:544 src/view/container_row.rs:250
-#, fuzzy
 msgid "Container {}"
-msgstr "Container"
+msgstr "Container {}"
 
 #: src/view/container_card.rs:556
-#, fuzzy
 msgid "Delete Container?"
-msgstr "{} Ausgewählter Container"
+msgstr "Container löschen?"
 
 #: src/view/container_card.rs:559
 msgid ""
 "All settings and all changes made within the container will be irreversibly "
 "lost"
 msgstr ""
+"Alle Einstellungen und alle innerhalb des Containers vorgenommenen "
+"Änderungen gehen unwiderruflich verloren"
 
 #. Translators: For example 5 MB / s.
 #: src/view/container_card.rs:626 src/view/container_resources.rs:276
@@ -2114,20 +2038,18 @@ msgid "{} / s"
 msgstr "{} / s"
 
 #: src/view/container_card.ui:110
-#, fuzzy
 msgid "Rename"
 msgstr "Umbenennen"
 
 #: src/view/container_card.ui:406
-#, fuzzy
 msgid "No Ports Mappings"
-msgstr "Portzuordnungen"
+msgstr "Keine Portzuordnungen"
 
 #: src/view/container_card.ui:464 src/view/container_details_page.ui:54
 #: src/view/containers_panel.ui:309 src/view/pod_details_page.ui:48
 #: src/view/pods_panel.ui:307 src/view/top_page_action_bar.ui:16
 msgid "Kill"
-msgstr "Killen"
+msgstr "Abwürgen"
 
 #: src/view/container_card.ui:482 src/view/container_details_page.ui:73
 #: src/view/containers_panel.ui:328 src/view/pod_details_page.ui:67
@@ -2169,7 +2091,7 @@ msgstr "Fehler beim Ermitteln des Nutzernamens"
 #: src/view/pods_prune_page.ui:22 src/view/repo_tag_push_page.ui:25
 #: src/view/volume_creation_page.ui:22 src/view/volumes_prune_page.ui:22
 msgid "Preferences"
-msgstr ""
+msgstr "Einstellungen"
 
 #: src/view/container_commit_page.ui:42
 msgid "Commit Container"
@@ -2189,7 +2111,7 @@ msgstr "Autor"
 
 #: src/view/container_commit_page.ui:79
 msgid "Fetch Username"
-msgstr "Nutzernamen Ermitteln"
+msgstr "Ermittle Nutzernamen"
 
 #: src/view/container_commit_page.ui:90 src/view/image_history_page.rs:169
 msgid "Comment"
@@ -2208,22 +2130,20 @@ msgid "Format"
 msgstr "Format"
 
 #: src/view/container_commit_page.ui:125
-#, fuzzy
 msgid "Pause the container before committing it"
-msgstr "Halten Sie den Container an, bevor Sie ihn committen."
+msgstr "Pausieren Sie den Container vor dem Commit"
 
 #: src/view/container_commit_page.ui:134
 msgid "Changes"
 msgstr "Änderungen"
 
 #: src/view/container_commit_page.ui:135
-#, fuzzy
 msgid ""
 "Instructions to apply while committing in Dockerfile format (i.e. \"CMD=/bin/"
 "foo\")"
 msgstr ""
-"Anweisungen zum Anwenden beim Commit im Dockerfile-Format (z. B. \"CMD=/bin/"
-"foo\")."
+"Anweisungen, die während des Commits im Dockerfile-Format angewendet werden "
+"sollen (z. B. \"CMD=/bin/foo\")"
 
 #: src/view/container_creation_page.rs:197 src/view/pod_creation_page.rs:197
 #: src/view/pod_creation_page.rs:207 src/view/value_row.ui:4
@@ -2232,30 +2152,25 @@ msgstr "Argument"
 
 #: src/view/container_creation_page.rs:200 src/view/pod_creation_page.rs:200
 #: src/view/pod_creation_page.rs:210
-#, fuzzy
 msgid "Add Argument"
-msgstr "Argument"
+msgstr "Füge Argument hinzu"
 
 #: src/view/container_creation_page.rs:211 src/view/pod_creation_page.rs:180
-#, fuzzy
 msgid "Add Port Mapping"
-msgstr "Portzuordnungen"
+msgstr "Füge Portzuordnungen hinzu"
 
 #: src/view/container_creation_page.rs:219
-#, fuzzy
 msgid "Add Volume"
-msgstr "Volumes"
+msgstr "Füge Volumes hinzu"
 
 #: src/view/container_creation_page.rs:229
-#, fuzzy
 msgid "Add Environment Variable"
-msgstr "Umgebungsvariablen"
+msgstr "Füge Umgebungsvariable hinzu"
 
 #: src/view/container_creation_page.rs:239 src/view/image_build_page.rs:115
 #: src/view/pod_creation_page.rs:154
-#, fuzzy
 msgid "Add Label"
-msgstr "Labels"
+msgstr "Füge Label hinzu"
 
 #: src/view/container_creation_page.rs:524
 msgid "Failed to create container"
@@ -2263,7 +2178,7 @@ msgstr "Fehler beim Erstellen des Containers"
 
 #: src/view/container_creation_page.rs:525
 msgid "no image selected"
-msgstr "kein Abbild ausgewählt"
+msgstr "kein Image ausgewählt"
 
 #: src/view/container_creation_page.ui:15
 msgid "_Create Only"
@@ -2272,7 +2187,7 @@ msgstr "Nur _Erstellen"
 #: src/view/container_creation_page.ui:51 src/view/containers_group.ui:12
 #: src/view/containers_panel.ui:117
 msgid "Create Container"
-msgstr "Container erstellen"
+msgstr "Erstelle Container"
 
 #: src/view/container_creation_page.ui:61
 msgid "_Run"
@@ -2289,9 +2204,8 @@ msgid "Pod"
 msgstr "Pod"
 
 #: src/view/container_creation_page.ui:155 src/view/pod_creation_page.ui:290
-#, fuzzy
 msgid "Pull Latest Image"
-msgstr "Neuestes Abbild herunterladen"
+msgstr "Neuestes Image herunterladen"
 
 #: src/view/container_creation_page.ui:161
 #: src/view/container_details_page.ui:237
@@ -2300,16 +2214,15 @@ msgstr "Terminal"
 
 #: src/view/container_creation_page.ui:168
 msgid "Privileged"
-msgstr ""
+msgstr "Priveligiert"
 
 #: src/view/container_creation_page.ui:169
 msgid "Give extended privileges to container"
-msgstr ""
+msgstr "Dem Container erweiterte Berechtigungen erteilen"
 
 #: src/view/container_creation_page.ui:176
-#, fuzzy
 msgid "Memory Limit"
-msgstr "Speichergrenze"
+msgstr "Speicherlimit"
 
 #: src/view/container_creation_page.ui:220
 msgid "KB"
@@ -2365,7 +2278,7 @@ msgstr "Intervall"
 
 #: src/view/container_creation_page.ui:370
 msgid "Health check interval in seconds"
-msgstr ""
+msgstr "Intervall für Gesundheitsprüfung in Sekunden"
 
 #: src/view/container_creation_page.ui:386
 #: src/view/container_health_check_page.ui:71
@@ -2375,17 +2288,16 @@ msgstr "Zeitüberschreitung"
 #: src/view/container_creation_page.ui:387
 msgid "Seconds allowed to complete the command before it fails"
 msgstr ""
+"Sekunden, die zum Abschluss des Befehls erlaubt sind, bevor er fehlschlägt"
 
 #: src/view/container_creation_page.ui:403
-#, fuzzy
 msgid "Start Period"
-msgstr "Startzeitraum"
+msgstr "Startperiode"
 
 #: src/view/container_creation_page.ui:404
-#, fuzzy
 msgid ""
 "Initial delay of the command in seconds to grant the container time to boot"
-msgstr "Die für das Booten eines Containers benötigte Initialisierungszeit."
+msgstr "Die für das Booten eines Containers benötigte Initialisierungszeit"
 
 #: src/view/container_creation_page.ui:420
 #: src/view/container_health_check_page.ui:65
@@ -2393,11 +2305,10 @@ msgid "Retries"
 msgstr "Wiederholungen"
 
 #: src/view/container_creation_page.ui:421
-#, fuzzy
 msgid "Number of retries allowed before a healthcheck fails"
 msgstr ""
 "Die Anzahl der Wiederholungsversuche, die zulässig sind, bevor eine "
-"Gesundheitsprüfung als ungesund angesehen wird."
+"Gesundheitsprüfung als ungesund angesehen wird"
 
 #: src/view/container_details_page.rs:235
 msgid "Error on loading container details"
@@ -2422,41 +2333,36 @@ msgid "Inspection"
 msgstr "Inspektion"
 
 #: src/view/container_details_page.ui:204
-#, fuzzy
 msgid "View all container properties in a structured text form"
-msgstr "Anzeige aller Containereigenschaften in strukturierter Textform."
+msgstr "Anzeige aller Containereigenschaften in strukturierter Textform"
 
 #: src/view/container_details_page.ui:220 src/view/pod_details_page.ui:250
 msgid "Kube"
 msgstr "Kube"
 
 #: src/view/container_details_page.ui:221
-#, fuzzy
 msgid "Generate Kubernetes YAML based on this container"
-msgstr "Erzeugen Sie Kubernetes YAML auf der Grundlage dieses Containers."
+msgstr "Generiere Kubernetes-YAML basierend auf diesem Container"
 
 #: src/view/container_details_page.ui:238
-#, fuzzy
 msgid "Connect to the container's terminal"
-msgstr "Verbinden Sie sich mit dem Terminal des Containers."
+msgstr "Verbinde mit dem Terminal des Containers"
 
 #: src/view/container_details_page.ui:254
 msgid "Logs"
 msgstr "Protokolle"
 
 #: src/view/container_details_page.ui:255
-#, fuzzy
 msgid "View and search through container logs"
-msgstr "Anzeigen und Durchsuchen von Containerprotokollen."
+msgstr "Anzeigen und Durchsuchen von Containerprotokollen"
 
 #: src/view/container_details_page.ui:271 src/view/pod_details_page.ui:267
 msgid "Processes"
 msgstr "Prozesse"
 
 #: src/view/container_details_page.ui:272
-#, fuzzy
 msgid "View and manage processes of the container"
-msgstr "Container-Protokolle betrachten und durchsuchen."
+msgstr " Betrachte und durchsuche Container-Protokoll"
 
 #: src/view/container_files_get_page.rs:148
 msgid "Select Host Destination Path"
@@ -2483,9 +2389,8 @@ msgid "Host Path"
 msgstr "Hostpfad"
 
 #: src/view/container_files_get_page.ui:77
-#, fuzzy
 msgid "Select a destination tar archive on the host"
-msgstr "Wählen Sie ein tar-Zielarchiv auf dem Host."
+msgstr "Wählen Sie ein tar-Zielarchiv auf dem Host"
 
 #: src/view/container_files_get_page.ui:82
 msgid "Select _Path…"
@@ -2512,11 +2417,9 @@ msgid "_Upload"
 msgstr "_Hochladen"
 
 #: src/view/container_files_put_page.ui:79
-#, fuzzy
 msgid "Select a file or a directory from the host to upload"
 msgstr ""
-"Wählen Sie entweder eine Datei oder ein Verzeichnis auf dem Host zum "
-"Hochladen aus."
+"Wählen Sie eine Datei oder ein Verzeichnis vom Host aus, um es hochzuladen"
 
 #: src/view/container_files_put_page.ui:84
 msgid "Select _File…"
@@ -2570,11 +2473,10 @@ msgid "Log"
 msgstr "Protokoll"
 
 #: src/view/container_health_check_page.ui:94
-#, fuzzy
 msgid "Rows describe the last 5 health check attempts and results"
 msgstr ""
 "Die Zeilen beschreiben die letzten 5 Versuche und Ergebnisse der "
-"Gesundheitsprüfung."
+"Gesundheitsprüfungen"
 
 #: src/view/container_health_check_page.ui:99
 msgid "_Run Health Check"
@@ -2597,9 +2499,8 @@ msgid "Error on retrieving logs"
 msgstr "Fehler beim Abrufen des Protokolls"
 
 #: src/view/container_log_page.rs:690
-#, fuzzy
 msgid "Log has been saved"
-msgstr "Das Protokoll wurde gespeichert."
+msgstr "Das Protokoll wurde gespeichert"
 
 #: src/view/container_log_page.rs:713
 msgid "Error starting container"
@@ -2622,14 +2523,12 @@ msgid "Container Logs"
 msgstr "Containerprotokolle"
 
 #: src/view/container_log_page.ui:105
-#, fuzzy
 msgid "Start/Resume Container"
-msgstr "Container Starten/Fortsetzen."
+msgstr "Container Starten/Fortsetzen"
 
 #: src/view/container_log_page.ui:106
-#, fuzzy
 msgid "Streaming is disconnected because container is not running"
-msgstr "Das Streaming wurde getrennt, da der Container nicht ausgeführt wird."
+msgstr "Das Streaming wurde getrennt, da der Container nicht ausgeführt wird"
 
 #: src/view/container_log_page.ui:149
 msgid "Loading previous lines"
@@ -2710,7 +2609,7 @@ msgstr "Portbindungen"
 
 #: src/view/container_properties_group.ui:249 src/view/image_details_page.ui:32
 msgid "Image"
-msgstr "Abbild"
+msgstr "Image"
 
 #: src/view/container_resources.rs:90
 msgid "Processor ({} CPU)"
@@ -2757,9 +2656,8 @@ msgid "Detach Terminal"
 msgstr "Terminal Abtrennen"
 
 #: src/view/container_terminal_page.ui:39
-#, fuzzy
 msgid "Container Terminal"
-msgstr "Container-Details"
+msgstr "Container Terminal"
 
 #: src/view/container_terminal.rs:475
 msgid "Terminal error"
@@ -2786,28 +2684,24 @@ msgid "No Terminal"
 msgstr "Kein Terminal"
 
 #: src/view/container_terminal.ui:36
-#, fuzzy
 msgid "The container must be running to use the terminal"
-msgstr ""
-"Der Container muss ausgeführt werden, um das Terminal nutzen zu können."
+msgstr "Der Container muss ausgeführt werden, um das Terminal nutzen zu können"
 
 #: src/view/container_terminal.ui:46
 msgid "Start"
 msgstr "Starten"
 
 #: src/view/container.rs:69 src/view/container.rs:100
-#, fuzzy
 msgid "Error renaming container"
-msgstr "Fehler beim Fortsetzen des Containers"
+msgstr "Fehler beim Umbenennen des Containers"
 
 #: src/view/container.rs:70
-#, fuzzy
 msgid "Container has been deleted"
-msgstr "Container '{}' wurde gelöscht"
+msgstr "Container wurde gelöscht"
 
 #: src/view/container.rs:79
 msgid "Rename Container"
-msgstr "Container Umbenennen"
+msgstr "Benenne Container um"
 
 #: src/view/container.rs:87
 msgid "_Rename"
@@ -2843,18 +2737,17 @@ msgstr "Fehler beim Löschen des Containers"
 
 #: src/view/containers_panel.rs:235
 msgid "1 container, running"
-msgstr "1 Container, laufend"
+msgstr "1 Container, läuft"
 
 #: src/view/containers_panel.rs:237
 msgid "1 container, stopped"
 msgstr "1 Container, gestoppt"
 
 #: src/view/containers_panel.rs:241
-#, fuzzy
 msgid "{} container total, {} running"
 msgid_plural "{} containers total, {} running"
-msgstr[0] "{} Container total, {} laufend"
-msgstr[1] "{} Container total, {} laufend"
+msgstr[0] "{} Container insgesamt, {} läuft"
+msgstr[1] "{} Container insgesamt, {} laufen"
 
 #: src/view/containers_panel.rs:255
 msgid "{} Selected Container"
@@ -2879,35 +2772,31 @@ msgid "_Create Container"
 msgstr "Container _Erstellen"
 
 #: src/view/containers_panel.ui:10
-#, fuzzy
 msgid "_Prune Stopped Containers"
-msgstr "Beschneide Gestoppte Container"
+msgstr "Bereinige gestoppte Container"
 
 #: src/view/containers_panel.ui:17 src/view/images_panel.ui:42
 #: src/view/pods_panel.ui:17 src/view/volumes_panel.ui:17
-#, fuzzy
 msgid "_Select Visible"
-msgstr "Host-Datei Auswählen"
+msgstr "_Sichtbare auswählen"
 
 #: src/view/containers_panel.ui:21 src/view/images_panel.ui:46
 #: src/view/pods_panel.ui:21 src/view/volumes_panel.ui:21
 msgid "Select None"
-msgstr "Nicht Auswählen"
+msgstr "Nichts auswählen"
 
 #: src/view/containers_panel.ui:125 src/view/containers_prune_page.ui:42
 msgid "Prune Stopped Containers"
-msgstr "Beschneide Gestoppte Container"
+msgstr "Bereinige gestoppte Container"
 
 #: src/view/containers_panel.ui:132 src/view/images_panel.ui:157
 #: src/view/pods_panel.ui:132 src/view/volumes_panel.ui:132
-#, fuzzy
 msgid "More Actions"
-msgstr "Keine Aktionen"
+msgstr "Weitere Aktionen"
 
 #: src/view/containers_panel.ui:146 src/view/containers_panel.ui:192
-#, fuzzy
 msgid "Show Only Running Containers"
-msgstr "Ob nur laufende Container angezeigt werden sollen"
+msgstr "Nur laufende Container angezeigen"
 
 #: src/view/containers_panel.ui:154 src/view/images_panel.ui:179
 #: src/view/pods_panel.ui:154 src/view/volumes_panel.ui:154
@@ -2920,19 +2809,16 @@ msgid "Cancel"
 msgstr "Abbrechen"
 
 #: src/view/containers_panel.ui:260
-#, fuzzy
 msgid "No Running Containers"
-msgstr "Ob nur laufende Container angezeigt werden sollen"
+msgstr "Keine laufenden Container"
 
 #: src/view/containers_panel.ui:270
-#, fuzzy
 msgid "_Show All Containers"
-msgstr "Ob nur laufende Container angezeigt werden sollen"
+msgstr "_Alle Container anzeigen"
 
 #: src/view/containers_panel.ui:443
-#, fuzzy
 msgid "No Containers Available"
-msgstr "Keine Container Gefunden"
+msgstr "Keine Container gefunden"
 
 #: src/view/containers_prune_page.ui:52 src/view/images_prune_page.ui:52
 #: src/view/pods_prune_page.ui:52 src/view/volumes_prune_page.ui:52
@@ -2942,15 +2828,13 @@ msgstr "_Reduzieren"
 #: src/view/containers_prune_page.ui:65 src/view/images_prune_page.ui:65
 #: src/view/volumes_prune_page.ui:66
 msgid "Prune Options"
-msgstr "Optionen zur Reduzierung"
+msgstr "Optionen zum Bereininge"
 
 #: src/view/containers_prune_page.ui:69
-#, fuzzy
 msgid "Prune containers created before this timestamp"
-msgstr "Container beschneiden, die vor diesem Zeitpunkt erzeugt wurden."
+msgstr "Container bereinigen, die vor diesem Zeitpunkt erzeugt wurden."
 
 #: src/view/device_row.ui:69 src/view/mount_row.ui:139
-#, fuzzy
 msgid "Container Path"
 msgstr "Containerpfad"
 
@@ -2971,13 +2855,12 @@ msgid "Select Build Context Directory"
 msgstr "Wählen Sie das Erstellungskontextverzeichnis"
 
 #: src/view/image_build_page.rs:234
-#, fuzzy
 msgid "Image name must not contain uppercase characters"
-msgstr "Der Name des Abbildes sollte keine Großbuchstaben enthalten."
+msgstr "Der Name des Images darf keine Großbuchstaben enthalten"
 
 #: src/view/image_build_page.ui:42
 msgid "Build Image"
-msgstr "Abbild Erstellen"
+msgstr "Erstelle Image"
 
 #: src/view/image_build_page.ui:52 src/view/images_panel.ui:19
 #: src/view/images_panel.ui:31
@@ -2986,7 +2869,7 @@ msgstr "_Erstellen"
 
 #: src/view/image_build_page.ui:70
 msgid "Image Name"
-msgstr "Name des Abbildes"
+msgstr "Image Name"
 
 #: src/view/image_build_page.ui:113
 msgid "Build Context Directory"
@@ -3017,11 +2900,11 @@ msgstr "{} (Geteilt: {}, Virtuell: {})"
 
 #: src/view/image_details_page.rs:275
 msgid "Error on loading image details"
-msgstr "Fehler beim Laden der Details über das Abbild"
+msgstr "Fehler beim Laden der Details über des Images"
 
 #: src/view/image_details_page.rs:279
 msgid "Image '{}' has been deleted"
-msgstr "Abbild '{}' wurde gelöscht"
+msgstr "Image '{}' wurde gelöscht"
 
 #: src/view/image_details_page.ui:7
 msgid "Create Repository Tag"
@@ -3029,12 +2912,11 @@ msgstr "Erstelle Repository-Tag"
 
 #: src/view/image_details_page.ui:66
 msgid "Delete Image"
-msgstr "Lösche Abbild"
+msgstr "Lösche Image"
 
 #: src/view/image_details_page.ui:87
-#, fuzzy
 msgid "Disk Space"
-msgstr "Festplattenplatz"
+msgstr "Speicherplatz"
 
 #: src/view/image_details_page.ui:100
 msgid "Entry Point"
@@ -3045,18 +2927,16 @@ msgid "Ports"
 msgstr "Ports"
 
 #: src/view/image_details_page.ui:122
-#, fuzzy
 msgid "View all image properties in a structured text form"
-msgstr "Anzeige aller Eigenschaften des Abbildes in strukturierter Textform."
+msgstr "Alle Image Eigenschaften in einer strukturierten Textform anzeigen"
 
 #: src/view/image_details_page.ui:138
 msgid "History"
 msgstr "Historie"
 
 #: src/view/image_details_page.ui:139
-#, fuzzy
 msgid "View parent layers of this image"
-msgstr "Übergeordnete Ebenen dieses Abbildes anzeigen."
+msgstr "Übergeordnete Ebenen des Images anzeigen"
 
 #: src/view/image_details_page.ui:158
 msgid "Repository Tags"
@@ -3098,7 +2978,7 @@ msgstr "Fehler beim Abrufen der Historie"
 
 #: src/view/image_history_page.ui:16
 msgid "Image History"
-msgstr "Historie des Abbildes"
+msgstr "Historie des Images"
 
 #: src/view/image_history_page.ui:44
 msgid "History List"
@@ -3109,81 +2989,72 @@ msgid "_Create Container…"
 msgstr "Container _Erstellen…"
 
 #: src/view/image_row.rs:207
-#, fuzzy
 msgid "Image {}"
-msgstr "Abbild"
+msgstr "Image {}"
 
 #: src/view/image_search_page.rs:202
 msgid "No Results For {}"
-msgstr "Keine Ergebnisse Für {}"
+msgstr "Keine Ergebnisse für {}"
 
 #: src/view/image_search_page.rs:223 src/view/repo_tag_selection_page.rs:160
 msgid "Failed to search for images"
-msgstr "Fehler bei der Suche nach Abbildern"
+msgstr "Fehler bei der Suche nach Images"
 
 #: src/view/image_search_page.rs:330 src/view/repo_tag_selection_page.ui:35
-#, fuzzy
 msgid "Select Tag"
-msgstr "Abbild Auswählen"
+msgstr "Wähle Tag aus"
 
 #: src/view/image_search_page.ui:47
-#, fuzzy
 msgid "Enter image search term"
-msgstr "kein Abbild ausgewählt"
+msgstr "Suchbegriff für Image eingeben"
 
 #: src/view/image_search_page.ui:64
 msgid "Next"
-msgstr ""
+msgstr "Nächstes"
 
 #: src/view/image_search_page.ui:92
-#, fuzzy
 msgid "Find Remote Images"
-msgstr "Entferntes Abbild"
+msgstr "Entferntes Image finden"
 
 #: src/view/image_search_page.ui:93
-#, fuzzy
 msgid "Please start typing to look for remote images"
-msgstr "Bitte beginnen Sie mit der Eingabe, um nach Abbildern zu suchen."
+msgstr "Bitte beginnen Sie mit der Eingabe, um nach Images zu suchen."
 
 #: src/view/image_search_page.ui:108
-#, fuzzy
 msgid "Searching"
-msgstr "Suche…"
+msgstr "Suche"
 
 #: src/view/image_search_page.ui:133 src/view/repo_tag_selection_page.ui:124
 #: src/view/search_panel.ui:48
-#, fuzzy
 msgid "Please retry another term"
-msgstr "Bitte versuchen Sie es mit einem anderen Begriff."
+msgstr "Bitte versuchen Sie es mit einem anderen Begriff"
 
 #: src/view/image_search_response_row.ui:40
 msgid "Official"
-msgstr ""
+msgstr "Offiziell"
 
 #: src/view/image_selection_combo_row.rs:87
 msgid "Select Image"
-msgstr "Abbild Auswählen"
+msgstr "Wähle Image aus"
 
 #: src/view/image_selection_combo_row.rs:88
 #: src/view/image_selection_combo_row.ui:4
 #: src/view/image_selection_combo_row.ui:15
 msgid "Local Image"
-msgstr "Lokales Abbild"
+msgstr "Lokales Image"
 
 #: src/view/image_selection_combo_row.rs:89
 #: src/view/image_selection_combo_row.ui:28
 msgid "Remote Image"
-msgstr "Entferntes Abbild"
+msgstr "Entferntes Image"
 
 #: src/view/image_selection_combo_row.rs:150
-#, fuzzy
 msgid "Select"
-msgstr "_Auswählen"
+msgstr "Auswählen"
 
 #: src/view/image_selection_page.ui:25
-#, fuzzy
 msgid "No Local Images Available"
-msgstr "Lokales Abbild"
+msgstr " Kein lokales Images verfügbar"
 
 #: src/view/image_selection_page.ui:50 src/view/pod_selection_page.ui:77
 #: src/view/repo_tag_selection_page.ui:19 src/view/volume_selection_page.ui:77
@@ -3192,7 +3063,7 @@ msgstr "Filtern"
 
 #: src/view/image_selection_page.ui:66
 msgid "Select Local Image"
-msgstr "Lokales Abbild Auswählen"
+msgstr "Lokales Image auswählen"
 
 #: src/view/image_selection_page.ui:99 src/view/pod_selection_page.ui:126
 #: src/view/volume_selection_page.ui:126
@@ -3201,20 +3072,17 @@ msgstr "_Auswählen"
 
 #: src/view/image_selection_page.ui:152 src/view/pod_selection_page.ui:179
 #: src/view/volume_selection_page.ui:180
-#, fuzzy
 msgid "No Results"
-msgstr "Keine Ergebnisse Gefunden"
+msgstr "Keine Ergebnisse gefunden"
 
 #: src/view/image_selection_page.ui:163 src/view/pod_selection_page.ui:190
 #: src/view/volume_selection_page.ui:191
-#, fuzzy
 msgid "_Clear Filter"
-msgstr "Filtern"
+msgstr "Filtern _löschen"
 
 #: src/view/image.rs:16
-#, fuzzy
 msgid "Confirm Image Deletion"
-msgstr "Bestätigen Sie die erzwungene Löschung des Abbildes"
+msgstr "Bestätigen Sie das Löschen des Images"
 
 #. Translators: The "{}" is a placeholder for the container name.
 #: src/view/image.rs:20
@@ -3222,105 +3090,98 @@ msgid ""
 "Image is used by container <b>{}</b>. Deleting the image will also delete "
 "all its associated containers."
 msgstr ""
-"Das Abbild wird vom Container <b>{}</b> verwendet. Beim Löschen des Abbildes "
+"Das Image wird vom Container <b>{}</b> verwendet. Beim Löschen des Images "
 "werden auch alle zugehörigen Container gelöscht."
 
 #. Translators: The "{}" is a placeholder for the image id.
 #. Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
 #: src/view/image.rs:53 src/view/images_panel.rs:510
 msgid "Error on deleting image '{}'"
-msgstr "Fehler beim Löschen des Abbildes '{} '"
+msgstr "Fehler beim Löschen des Images '{} '"
 
 #: src/view/images_panel.rs:203
 msgid "1 image, used"
-msgstr "1 Abbild, verwendet"
+msgstr "1 Image, verwendet"
 
 #: src/view/images_panel.rs:205
 msgid "1 image, unused"
-msgstr "1 Abbild, unbenutzt"
+msgstr "1 Image, unbenutzt"
 
 #: src/view/images_panel.rs:209
-#, fuzzy
 msgid "{} image total ({}), {} unused ({})"
 msgid_plural "{} images total ({}), {} unused ({})"
-msgstr[0] "{} Abbild gesamt, {} {} unbenutzt, {}"
-msgstr[1] "{} Abbilder gesamt, {} {} unbenutzt, {}"
+msgstr[0] "{} Image gesamt ({}), {} unbenutzt ({})"
+msgstr[1] "{} Images gesamt ({}), {} unbenutzt ({})"
 
 #: src/view/images_panel.rs:228
 msgid "{} Selected Image"
 msgid_plural "{} Selected Images"
-msgstr[0] "{} Ausgewähltes Abbild"
-msgstr[1] "{} Ausgewählte Abbilder"
+msgstr[0] "{} Ausgewähltes Image"
+msgstr[1] "{} Ausgewählte Images"
 
 #: src/view/images_panel.rs:483
 msgid "Confirm Forced Deletion of Multiple Images"
-msgstr "Erzwungene Löschung Mehrerer Abbilder Bestätigen"
+msgstr "Bestätigen Sie das erzwungene Löschung mehrerer Images"
 
 #: src/view/images_panel.rs:485
 msgid ""
 "There may be containers associated with those images, which will also be "
 "removed!"
 msgstr ""
-"Möglicherweise sind mit diesen Abbildern auch Container verbunden, die "
-"ebenfalls entfernt werden!"
+"Mit diesen Images können Container verknüpft sein, die ebenfalls entfernt "
+"werden!"
 
 #: src/view/images_panel.ui:35
-#, fuzzy
 msgid "_Prune Unused Images"
-msgstr "Nicht benutzte Abbilder entfernen"
+msgstr "Nicht benutzte Images entfernen"
 
 #: src/view/images_panel.ui:141
 msgid "Create Image"
-msgstr "Abbild Erstellen"
+msgstr "Image erstellen"
 
 #: src/view/images_panel.ui:150
-#, fuzzy
 msgid "Prune Unused Images"
-msgstr "Nicht benutzte Abbilder entfernen"
+msgstr "Nicht benutzte Images entfernen"
 
 #: src/view/images_panel.ui:171 src/view/images_panel.ui:217
-#, fuzzy
 msgid "Show Only Tagged Images"
-msgstr "Abbild Herunterladen"
+msgstr "Nur getaggte Images anzeigen"
 
 #: src/view/images_panel.ui:283
-#, fuzzy
 msgid "No Tagged Images"
-msgstr "Abbild Herunterladen"
+msgstr "Keine getaggten Images"
 
 #: src/view/images_panel.ui:293
-#, fuzzy
 msgid "_Show All Images"
-msgstr "Abbild Herunterladen"
+msgstr "_Zeige alle Images"
 
 #: src/view/images_panel.ui:358
 msgid "No Images Available"
-msgstr ""
+msgstr "Keine Images verfügbar"
 
 #: src/view/images_panel.ui:387
 msgid "_Download Image"
-msgstr "Abbild _Herunterladen"
+msgstr "_Lade Image herungter"
 
 #: src/view/images_panel.ui:400
 msgid "_Build Image"
-msgstr "Abbild _Erstellen"
+msgstr "_Erstelle Image"
 
 #: src/view/images_prune_page.ui:42
 msgid "Prune Images"
-msgstr "Abbilder Beschneiden"
+msgstr "Bereinige Images"
 
 #: src/view/images_prune_page.ui:69
 msgid "Prune All"
-msgstr "Alles reduzieren"
+msgstr "Alles bereinigen"
 
 #: src/view/images_prune_page.ui:76
 msgid "Prune External"
-msgstr "Externe reduzieren"
+msgstr "Externe bereiningen"
 
 #: src/view/images_prune_page.ui:83
-#, fuzzy
 msgid "Prune images created before this timestamp"
-msgstr "Abbilder beschneiden, die vor diesem Zeitpunkt erzeugt wurden."
+msgstr "Images bereinigen, die vor diesem Zeitpunkt erzeugt wurden."
 
 #. Translators: "{}" is a placeholder for a cardinal numbers.
 #: src/view/info_panel.rs:198
@@ -3347,13 +3208,12 @@ msgstr[1] "{} Zustände"
 #: src/view/info_panel.rs:282
 msgid "{} Image"
 msgid_plural "{} Images"
-msgstr[0] "{} Abbild"
-msgstr[1] "{} Abbilder"
+msgstr[0] "{} Image"
+msgstr[1] "{} Images"
 
 #: src/view/info_panel.rs:296
-#, fuzzy
 msgid "Error on retrieving info"
-msgstr "Fehler beim Abrufen des Protokolls"
+msgstr "Fehler beim Abrufen von Informationen"
 
 #: src/view/info_panel.ui:60 src/view/info_panel.ui:94
 msgid "Version"
@@ -3384,9 +3244,8 @@ msgid "Storage"
 msgstr "Speicher"
 
 #: src/view/info_panel.ui:104
-#, fuzzy
 msgid "Describes the container storage and its attributes"
-msgstr "Beschreibt den Containerspeicher und seine Attribute."
+msgstr "Beschreibt den Container-Speicher und seine Attribute"
 
 #: src/view/info_panel.ui:108
 msgid "Config File"
@@ -3397,9 +3256,8 @@ msgid "Container Store"
 msgstr "Containerspeicher"
 
 #: src/view/info_panel.ui:115
-#, fuzzy
 msgid "Describes the quantity of containers in the store by status"
-msgstr "Beschreibt die Menge der Container im Speicher nach Status."
+msgstr "Beschreibt die Menge der Container im Speicher nach Status"
 
 #: src/view/info_panel.ui:153
 msgid "Graph Driver Name"
@@ -3419,11 +3277,11 @@ msgstr "Graphstatus"
 
 #: src/view/info_panel.ui:205
 msgid "Image Store"
-msgstr "Abbildspeicher"
+msgstr "Image-Speicher"
 
 #: src/view/info_panel.ui:206
 msgid "Describes number of images"
-msgstr ""
+msgstr "Beschreibt die Anzahl der Images"
 
 #: src/view/info_panel.ui:212
 msgid "Run Root"
@@ -3435,11 +3293,11 @@ msgstr "Volume-Pfad"
 
 #: src/view/info_panel.ui:237
 msgid "No Info"
-msgstr ""
+msgstr "Keine Info"
 
 #: src/view/info_panel.ui:238
 msgid "There was an error while fetching the information"
-msgstr ""
+msgstr "Beim Abrufen der Informationen ist ein Fehler aufgetreten"
 
 #: src/view/key_val_row.rs:149 src/view/key_val_row.ui:20
 msgid "Key"
@@ -3452,21 +3310,20 @@ msgstr "Wert"
 
 #: src/view/mount_row.rs:187
 msgid "No volume selected (will create a new one)"
-msgstr ""
+msgstr "Kein Volume ausgewählt (es wird ein neues erstellt)."
 
 #: src/view/mount_row.ui:76
 msgid "Type"
-msgstr ""
+msgstr "Typ"
 
 #: src/view/mount_row.ui:88
 msgid "Bind"
-msgstr ""
+msgstr "Binde"
 
 #: src/view/mount_row.ui:94 src/view/mount_row.ui:111
 #: src/view/volume_details_page.ui:16
-#, fuzzy
 msgid "Volume"
-msgstr "Volumes"
+msgstr "Volume"
 
 #: src/view/mount_row.ui:151
 msgid "SELinux"
@@ -3494,14 +3351,12 @@ msgid "IP"
 msgstr "IP"
 
 #: src/view/pod_creation_page.rs:169
-#, fuzzy
 msgid "Add Host"
-msgstr "Hosts"
+msgstr "Füge Host hinzu"
 
 #: src/view/pod_creation_page.rs:190
-#, fuzzy
 msgid "Add Device"
-msgstr "Geräte"
+msgstr "Füge Gerät hinzu"
 
 #: src/view/pod_creation_page.ui:42 src/view/pod_selection_page.ui:70
 #: src/view/pods_panel.ui:117
@@ -3549,19 +3404,16 @@ msgid "Pod '{}' has been deleted"
 msgstr "Pod '{}' wurde gelöscht"
 
 #: src/view/pod_details_page.ui:234
-#, fuzzy
 msgid "View all pod properties in a structured text form"
-msgstr "Anzeige aller Pod-Eigenschaften in strukturierter Textform."
+msgstr "Anzeige aller Pod-Eigenschaften in strukturierter Textform"
 
 #: src/view/pod_details_page.ui:251
-#, fuzzy
 msgid "Generate Kubernetes YAML based on this pod"
-msgstr "Erzeugen Sie Kubernetes-YAML auf der Grundlage dieses Pods."
+msgstr "Erzeuge Kubernetes-YAML auf der Grundlage dieses Pods"
 
 #: src/view/pod_details_page.ui:268
-#, fuzzy
 msgid "View processes of the pod"
-msgstr "Prozesse von Containern und Pods überwachen."
+msgstr "Prozesse von Pods überwachen"
 
 #: src/view/pod_row.rs:269
 msgid "Pod Details"
@@ -3569,7 +3421,7 @@ msgstr "Pod-Details"
 
 #: src/view/pod_selection_page.ui:29
 msgid "No Pod Available"
-msgstr ""
+msgstr "Kein Pod verfügbar"
 
 #: src/view/pod_selection_page.ui:40 src/view/pods_panel.ui:6
 #: src/view/pods_panel.ui:451
@@ -3577,9 +3429,8 @@ msgid "_Create Pod"
 msgstr "Pod _Erzeugen"
 
 #: src/view/pod_selection_page.ui:93
-#, fuzzy
 msgid "Select Pod"
-msgstr "{} Ausgewählter Pod"
+msgstr "Wähle Pod aus"
 
 #: src/view/pod.rs:39 src/view/pods_panel.rs:489
 msgid "Error on starting pod"
@@ -3610,9 +3461,8 @@ msgid "Error on deleting pod"
 msgstr "Fehler beim Löschen des Pods"
 
 #: src/view/pod.rs:54
-#, fuzzy
 msgid "Confirm Pod Deletion"
-msgstr "Bestätigen Sie die Erzwungene Löschung des Pods"
+msgstr "Bestätigen Sie das Löschen des Pods"
 
 #. Translators: The "{}" is a placeholder for the container name.
 #: src/view/pod.rs:58
@@ -3632,11 +3482,10 @@ msgid "1 pod, stopped"
 msgstr "1 Pod, gestoppt"
 
 #: src/view/pods_panel.rs:235
-#, fuzzy
 msgid "{} pod total, {} running"
 msgid_plural "{} pods total, {} running"
-msgstr[0] "{} Pod insgesamt {} laufend"
-msgstr[1] "{} Pods insgesamt {} laufend"
+msgstr[0] "{} Pod insgesamt, {} laufend"
+msgstr[1] "{} Pods insgesamt, {} laufend"
 
 #: src/view/pods_panel.rs:249
 msgid "{} Selected Pod"
@@ -3653,36 +3502,32 @@ msgid "All associated containers will also be removed!"
 msgstr "Alle zugehörigen Container werden ebenfalls entfernt!"
 
 #: src/view/pods_panel.ui:10
-#, fuzzy
 msgid "_Prune Stopped Pods"
-msgstr "Gestoppte Pods Beschneiden"
+msgstr "_Bereinige gestoppte Pods"
 
 #: src/view/pods_panel.ui:125 src/view/pods_prune_page.ui:42
 msgid "Prune Stopped Pods"
-msgstr "Gestoppte Pods Beschneiden"
+msgstr "Bereinige gestoppte Pods"
 
 #: src/view/pods_panel.ui:146 src/view/pods_panel.ui:192
-#, fuzzy
 msgid "Show Only Running Pods"
-msgstr "Ob nur laufende Pods angezeigt werden sollen"
+msgstr "Zeige nur laufende Pods"
 
 #: src/view/pods_panel.ui:258
-#, fuzzy
 msgid "No Running Pods"
-msgstr "Ob nur laufende Pods angezeigt werden sollen"
+msgstr "Keine laufenden Pods"
 
 #: src/view/pods_panel.ui:268
-#, fuzzy
 msgid "_Show All Pods"
-msgstr "Ob nur laufende Pods angezeigt werden sollen"
+msgstr "Zeige _alle Pods"
 
 #: src/view/pods_panel.ui:441
 msgid "No Pods Available"
-msgstr ""
+msgstr "Keine Pods verfügbar"
 
 #: src/view/port_mapping_row.ui:83
 msgid "Protocol"
-msgstr ""
+msgstr "Protokoll"
 
 #: src/view/port_mapping_row.ui:87
 msgid "TCP"
@@ -3694,25 +3539,25 @@ msgstr "UDP"
 
 #: src/view/port_mapping_row.ui:89
 msgid "SCTP"
-msgstr ""
+msgstr "SCTP"
 
 #: src/view/port_mapping_row.ui:98
 msgid "IP Address"
-msgstr ""
+msgstr "IP Adresse"
 
 #: src/view/port_mapping_row.ui:104
-#, fuzzy
 msgid "Host Port"
-msgstr "Hostpfad"
+msgstr "Host Port"
 
 #: src/view/port_mapping_row.ui:105
 msgid "If 0, a random port is assigned on the host (guaranteed above 1024)"
 msgstr ""
+"Wenn 0, wird auf dem Host ein zufälliger Port zugewiesen (garantiert über "
+"1024)."
 
 #: src/view/port_mapping_row.ui:120
-#, fuzzy
 msgid "Container Port"
-msgstr "Container"
+msgstr "Container Port"
 
 #: src/view/repo_tag_add_dialog.rs:98
 msgid "Repo tag must contain a colon “:”"
@@ -3735,17 +3580,16 @@ msgid "Error on accessing keyring"
 msgstr "Fehler beim Zugriff auf den Schlüsselbund"
 
 #: src/view/repo_tag_push_page.rs:263
-#, fuzzy
 msgid "Error saving credentials"
 msgstr "Fehler beim Speichern der Anmeldeinformationen"
 
 #: src/view/repo_tag_push_page.rs:264
 msgid "Secret Service is not available"
-msgstr ""
+msgstr "Secret Service ist nicht verfügbar"
 
 #: src/view/repo_tag_push_page.ui:45
 msgid "Push Image"
-msgstr "Abbild Hochladen"
+msgstr "Image hochladen"
 
 #: src/view/repo_tag_push_page.ui:55
 msgid "_Push"
@@ -3764,9 +3608,8 @@ msgid "Login"
 msgstr "Anmeldung"
 
 #: src/view/repo_tag_push_page.ui:83
-#, fuzzy
 msgid "Some registries require authentication"
-msgstr "Einige Register erfordern eine Authentifizierung."
+msgstr "Einige Registrys erfordern eine Authentifizierung"
 
 #: src/view/repo_tag_push_page.ui:96
 msgid "Authentication"
@@ -3790,7 +3633,7 @@ msgstr "Anmeldeinformationen Speichern"
 
 #: src/view/repo_tag_row.rs:212
 msgid "Error on untagging image"
-msgstr "Fehler beim Aufheben der Kennzeichnung des Abbildes"
+msgstr "Fehler beim Entfernen des Tags vom Image"
 
 #: src/view/repo_tag_row.ui:32
 msgid "Pull Latest"
@@ -3802,15 +3645,15 @@ msgstr "Ins Register Hochladen"
 
 #: src/view/repo_tag_row.ui:54
 msgid "Untag"
-msgstr "Markierung aufheben"
+msgstr "Tag entfernen"
 
 #: src/view/repo_tag_selection_page.ui:99
 msgid "Fetching Tags"
-msgstr ""
+msgstr "Hole Tags"
 
 #: src/view/scalable_text_view_page.rs:266
 msgid "Image Inspection"
-msgstr "Abbild-Inspizierung"
+msgstr "Image-Inspizierung"
 
 #: src/view/scalable_text_view_page.rs:274
 msgid "Container Inspection"
@@ -3829,9 +3672,8 @@ msgid "Pod Kube Generation"
 msgstr "Pod-Kube-Generierung"
 
 #: src/view/scalable_text_view_page.rs:293
-#, fuzzy
 msgid "Volume Inspection"
-msgstr "Abbild-Inspizierung"
+msgstr "Volume-Inspektion"
 
 #: src/view/scalable_text_view_page.rs:319
 msgid "Could not set language to '{}'"
@@ -3846,9 +3688,8 @@ msgid "Kube generation error"
 msgstr "Kube-Generierungsfehler"
 
 #: src/view/search_panel.ui:33
-#, fuzzy
 msgid "Start typing to look for results"
-msgstr "Bitte beginnen Sie mit der Eingabe, um nach Ergebnisse zu suchen."
+msgstr "Bitte beginnen Sie mit der Eingabe, um nach Ergebnisse zu suchen"
 
 #: src/view/search_panel.ui:47
 msgid "No Results Found"
@@ -4022,166 +3863,139 @@ msgstr ""
 
 #: src/view/top_page.rs:516
 msgid "Killing pod processes is not supported"
-msgstr ""
+msgstr "Das Abwürgen von Pod-Prozessen wird nicht unterstützt"
 
 #: src/view/volume_creation_page.ui:42 src/view/volume_selection_page.ui:70
 #: src/view/volumes_group.ui:12 src/view/volumes_panel.ui:117
-#, fuzzy
 msgid "Create Volume"
-msgstr "Abbild Erstellen"
+msgstr "Erstelle Volume"
 
 #: src/view/volume_details_page.rs:177
-#, fuzzy
 msgid "Volume '{}' has been deleted"
-msgstr "Abbild '{}' wurde gelöscht"
+msgstr "Volume '{}' wurde gelöscht"
 
 #: src/view/volume_details_page.ui:40
-#, fuzzy
 msgid "Delete Volume"
-msgstr "Lösche Abbild"
+msgstr "Lösche Volume"
 
 #: src/view/volume_details_page.ui:52
 msgid "Driver"
-msgstr ""
+msgstr "Treiber"
 
 #: src/view/volume_details_page.ui:64
-#, fuzzy
 msgid "Mount Path"
-msgstr "Hostpfad"
+msgstr "Einhängepfad"
 
 #: src/view/volume_details_page.ui:78
-#, fuzzy
 msgid "View all volume properties in a structured text form"
-msgstr "Anzeige aller Eigenschaften des Abbildes in strukturierter Textform."
+msgstr "Anzeige aller Eigenschaften des Volumes in strukturierter Textform"
 
 #: src/view/volume_row.rs:174
 msgid "{} old"
-msgstr ""
+msgstr "{} alt"
 
 #: src/view/volume_row.rs:271
-#, fuzzy
 msgid "Volume {}"
-msgstr "Volumes"
+msgstr "Volume {}"
 
 #: src/view/volume_selection_page.ui:29
-#, fuzzy
 msgid "No Volume Available"
-msgstr "Keine Abbilder Gefunden"
+msgstr "Keine VolumeVo gefunden"
 
 #: src/view/volume_selection_page.ui:40 src/view/volumes_panel.ui:6
 #: src/view/volumes_panel.ui:343
-#, fuzzy
 msgid "_Create Volume"
-msgstr "Pod _Erzeugen"
+msgstr "_Erzeuge Volume"
 
 #: src/view/volume_selection_page.ui:93
-#, fuzzy
 msgid "Select Volume"
-msgstr "Nicht Auswählen"
+msgstr "Wähle Volume aus"
 
 #: src/view/volume.rs:16
-#, fuzzy
 msgid "Confirm Volume Deletion"
-msgstr "Bestätigen Sie die erzwungene Löschung des Abbildes"
+msgstr "Löschung des Volumes bestätigen"
 
 #. Translators: The "{}" is a placeholder for the container name.
 #: src/view/volume.rs:20
-#, fuzzy
 msgid ""
 "Volume is used by container <b>{}</b>. Deleting the volume will also delete "
 "these containers."
 msgstr ""
-"Das Abbild wird vom Container <b>{}</b> verwendet. Beim Löschen des Abbildes "
-"werden auch alle zugehörigen Container gelöscht."
+"Das Volume wird von Container <b>{}</b> verwendet. Das Löschen des Volumes "
+"wird auch diese Container löschen."
 
 #. Translators: The "{}" is a placeholder for the volume name.
 #: src/view/volume.rs:55 src/view/volumes_panel.rs:480
-#, fuzzy
 msgid "Error on deleting volume '{}'"
-msgstr "Fehler beim Löschen des Abbildes '{} '"
+msgstr "Fehler beim Löschen des Volume '{} '"
 
 #: src/view/volumes_panel.rs:195
-#, fuzzy
 msgid "1 volume, used"
-msgstr "1 Abbild, verwendet"
+msgstr "1 Volume, verwendet"
 
 #: src/view/volumes_panel.rs:197
-#, fuzzy
 msgid "1 volume, unused"
-msgstr "1 Abbild, unbenutzt"
+msgstr "1 Volume, unbenutzt"
 
 #: src/view/volumes_panel.rs:201
-#, fuzzy
 msgid "{} volumes total, {} unused"
 msgid_plural "{} volumes total, {} unused"
-msgstr[0] "{} Abbild gesamt, {} {} unbenutzt, {}"
-msgstr[1] "{} Abbilder gesamt, {} {} unbenutzt, {}"
+msgstr[0] "{} Volumes gesamt, {} {} unbenutzt, {}"
+msgstr[1] "{} Images gesamt, {} {} unbenutzt, {}"
 
 #: src/view/volumes_panel.rs:215
-#, fuzzy
 msgid "{} Selected Volume"
 msgid_plural "{} Selected Volumes"
-msgstr[0] "{} Ausgewähltes Abbild"
-msgstr[1] "{} Ausgewählte Abbilder"
+msgstr[0] "{} Ausgewähltes Volume"
+msgstr[1] "{} Ausgewählte Images"
 
 #: src/view/volumes_panel.rs:452
-#, fuzzy
 msgid "Confirm Forced Deletion of Multiple Volumes"
-msgstr "Erzwungene Löschung Mehrerer Abbilder Bestätigen"
+msgstr "Bestätigen Sie das erzwungene Löschen mehrerer Volumes"
 
 #: src/view/volumes_panel.rs:454
-#, fuzzy
 msgid ""
 "There may be containers associated with some of the volumes, which will also "
 "be removed!"
 msgstr ""
-"Möglicherweise sind mit diesen Abbildern auch Container verbunden, die "
-"ebenfalls entfernt werden!"
+"Mit einigen der Volumes können Container verknüpft sein, die ebenfalls "
+"entfernt werden!"
 
 #: src/view/volumes_panel.ui:10
-#, fuzzy
 msgid "_Prune Volumes"
-msgstr "Abbilder Beschneiden"
+msgstr "_Bereinige Volumes"
 
 #: src/view/volumes_panel.ui:125 src/view/volumes_prune_page.ui:42
-#, fuzzy
 msgid "Prune Volumes"
-msgstr "Abbilder Beschneiden"
+msgstr "_Bereinige Volumes"
 
 #: src/view/volumes_panel.ui:146 src/view/volumes_panel.ui:192
 msgid "Show Only Used Volumes"
-msgstr ""
+msgstr "Zeige nur benutzte Volumes"
 
 #: src/view/volumes_panel.ui:258
-#, fuzzy
 msgid "No Volumes in Use"
-msgstr "Keine Abbilder Gefunden"
+msgstr " Es werden keine Volumes benutzt"
 
 #: src/view/volumes_panel.ui:268
-#, fuzzy
 msgid "_Show All Volumes"
-msgstr "Nicht Auswählen"
+msgstr "Zeige _alle Volumes"
 
 #: src/view/volumes_panel.ui:333
-#, fuzzy
 msgid "No Volumes Available"
-msgstr "Keine Abbilder Gefunden"
+msgstr "Keine Volumes vergfügbar"
 
 #: src/view/volumes_prune_page.ui:70
-#, fuzzy
 msgid "Prune volumes created before this timestamp"
-msgstr "Abbilder beschneiden, die vor diesem Zeitpunkt erzeugt wurden."
+msgstr "Bereinige Volumes welche vor dem Zeitpunkt erstellt wurden"
 
 #: src/view/welcome_page.ui:59
 msgid "Welcome to Pods"
 msgstr "Willkommen bei Pods"
 
 #: src/view/welcome_page.ui:68
-#, fuzzy
 msgid "Create a new connection to Podman to get started"
-msgstr ""
-"Verwenden Sie die Schaltfläche unten, um eine neue Verbindung zu Podman "
-"herzustellen."
+msgstr "Erstellen Sie eine neue Verbindung zu Podman, um zu beginnen."
 
 #: src/view/welcome_page.ui:82
 msgid "_New Connection"
@@ -4192,24 +4006,20 @@ msgid "Confirm Exiting The Application"
 msgstr "Bestätigen Sie das Beenden der Anwendung"
 
 #: src/view/window.rs:275
-#, fuzzy
 msgid "Error on loading images"
-msgstr "Fehler beim Laden der Details über das Abbild"
+msgstr "Fehler beim Laden der Images"
 
 #: src/view/window.rs:276
-#, fuzzy
 msgid "Error on loading containers"
-msgstr "Fehler beim Laden der Containerdetails"
+msgstr "Fehler beim Laden der Container"
 
 #: src/view/window.rs:277
-#, fuzzy
 msgid "Error on loading pods"
-msgstr "Fehler beim Laden von Pod-Daten"
+msgstr "Fehler beim Laden der Pods"
 
 #: src/view/window.rs:278
-#, fuzzy
 msgid "Error on loading volumes"
-msgstr "Fehler beim Laden {}"
+msgstr "Fehler beim Laden der Volumes"
 
 #. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
 #: src/widget/date_time_row.rs:131
@@ -4222,7 +4032,7 @@ msgstr "Ungültiges Datumsformat"
 
 #: src/widget/date_time_row.ui:4
 msgid "Prune Until"
-msgstr "Reduzieren bis"
+msgstr "Bereinige bis"
 
 #: src/widget/date_time_row.ui:89
 msgid "AM"
@@ -4241,9 +4051,8 @@ msgid "_About Pods"
 msgstr "_Über Pods"
 
 #: src/widget/main_menu_button.ui:27
-#, fuzzy
 msgid "Main Menu"
-msgstr "Hauptansicht"
+msgstr "Hauptmenü"
 
 #: src/widget/source_view_search_widget.rs:155
 msgid "0 of {}"
