@@ -1158,8 +1158,8 @@ msgid ""
 "The multi-selection mode of images, containers and pods is now animated a "
 "bit more nicely."
 msgstr ""
-"O modo multisseleção de imagens, contêineres e pods é agora animado de forma "
-"um pouco mais legal."
+"O modo multisseleção de imagens, contêineres e cápsulas é agora animado de "
+"forma um pouco mais legal."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:305
 msgid ""
@@ -1189,7 +1189,7 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:313
 msgid "The sixth beta release of Pods 1.0.0 includes the following changes:"
-msgstr "A sexta versão beta do Pods 1.0.0 inclui as seguintes alterações:"
+msgstr "O sexto release beta do Cápsulas 1.0.0 inclui as seguintes mudanças:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:315
 msgid ""
@@ -1209,8 +1209,8 @@ msgstr ""
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:317
 msgid "Missing settings for creating pods have been added, thanks to @vv9k."
 msgstr ""
-"As configurações ausentes para a criação de cápsula foram adicionadas, "
-"graças ao @vv9k."
+"Configurações ausentes para a criação de cápsulas foram adicionadas, graças "
+"a @vv9k."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:318
 msgid ""
@@ -1294,7 +1294,7 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:333
 msgid "The fifth beta release of Pods 1.0.0 includes the following changes:"
-msgstr "O quinto lançamento beta do PODS 1.0.0 inclui as seguintes alterações:"
+msgstr "O quinto release beta do Cápsulas 1.0.0 inclui as seguintes mudanças:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:335
 msgid "Some typos were fixed, thanks to @kianmeng."
@@ -1320,7 +1320,8 @@ msgstr ""
 msgid ""
 "The local search for images, containers and pods is now case-insensitive."
 msgstr ""
-"A busca local de imagens, contêineres e cáppsulas agora é insensível ao caso."
+"A pesquisa local por imagens, contêineres e cápsulas agora é sem "
+"diferenciação de maiúsculas e minúsculas."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:339
 msgid "There were small visual adjustments all over the place."
@@ -1358,8 +1359,8 @@ msgstr ""
 msgid ""
 "A status page is now displayed if there are no images, containers or pods."
 msgstr ""
-"Uma página de status agora é exibida se não houver imagens, contêineres ou "
-"pods."
+"Agora, uma página de status é exibida caso não haja imagens, contêineres ou "
+"cápsulas."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:352
 msgid ""
@@ -1417,7 +1418,7 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:366
 msgid "The third beta release of Pods 1.0.0 contains the following changes:"
-msgstr "A terceira versão beta do Pods 1.0.0 contém as seguintes alterações:"
+msgstr "O terceiro release beta do Cápsulas 1.0.0 contém as seguintes mudanças:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:368
 msgid ""
@@ -1461,7 +1462,7 @@ msgstr "Releases adicionais nos dados do aplicativo"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:388
 msgid "This is the first 1.0.0 beta release of Pods."
-msgstr "Esta é a primeira versão beta 1.0.0 do cápsula."
+msgstr "Este é o primeiro release beta 1.0.0 do Cápsulas."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:400
 msgid "Marcus Behrendt"
@@ -1572,7 +1573,7 @@ msgstr "Criar cápsula <b>{}</b>"
 
 #: src/model/action.rs:652
 msgid "Prune stopped pods"
-msgstr "Prune parou cápsulas"
+msgstr "Remover cápsulas paradas"
 
 #: src/model/action.rs:843
 msgid "Create volume <b>{}</b>"
@@ -3754,15 +3755,15 @@ msgstr "All associated containers will also be removed!"
 
 #: src/view/pods_panel.ui:10
 msgid "_Prune Stopped Pods"
-msgstr "_Prune parou as cápsulas"
+msgstr "_Remover Cápsulas Paradas"
 
 #: src/view/pods_panel.ui:125 src/view/pods_prune_page.ui:42
 msgid "Prune Stopped Pods"
-msgstr "Prune parou as cápsulas"
+msgstr "Remover Cápsulas Paradas"
 
 #: src/view/pods_panel.ui:146 src/view/pods_panel.ui:192
 msgid "Show Only Running Pods"
-msgstr "Mostre apenas cápsulas"
+msgstr "Exibir Somente Cápsulas em Execução"
 
 #: src/view/pods_panel.ui:258
 msgid "No Running Pods"
@@ -4242,7 +4243,7 @@ msgstr "Podar volumes criados antes deste registro de data e hora"
 
 #: src/view/welcome_page.ui:59
 msgid "Welcome to Pods"
-msgstr "Boas-vindas ao Pods"
+msgstr "Boas-vindas ao cápsulas"
 
 #: src/view/welcome_page.ui:68
 msgid "Create a new connection to Podman to get started"
