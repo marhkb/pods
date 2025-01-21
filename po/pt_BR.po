@@ -3231,7 +3231,7 @@ msgstr "História da imagem"
 
 #: src/view/image_history_page.ui:44
 msgid "History List"
-msgstr "histórico"
+msgstr "Lista de histórico"
 
 #: src/view/image_menu_button.ui:6 src/view/pod_menu_button.ui:7
 msgid "_Create Container…"
