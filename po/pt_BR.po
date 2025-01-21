@@ -3490,7 +3490,7 @@ msgstr "Arquitetura do SO"
 
 #: src/view/info_panel.ui:103
 msgid "Storage"
-msgstr "armazenamento"
+msgstr "Armazenar"
 
 #: src/view/info_panel.ui:104
 msgid "Describes the container storage and its attributes"
