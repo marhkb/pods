@@ -1042,8 +1042,8 @@ msgid ""
 "If a container is in a pod, it will now get a badge with the pod name in the "
 "container list."
 msgstr ""
-"Se um contêiner estiver em uma pod, ele vai agora obter um emblema com o "
-"nome do pod na lista de contêineres."
+"Se um contêiner estiver em uma cápsula, ele agora receberá um distintivo com "
+"o nome da cápsula na lista de contêineres."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:283
 msgid ""
