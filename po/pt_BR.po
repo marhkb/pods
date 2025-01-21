@@ -3626,7 +3626,7 @@ msgstr "Comando para criar Pod"
 
 #: src/view/pod_creation_page.ui:188
 msgid "Devices"
-msgstr "dispositivos"
+msgstr "Dispositivos"
 
 #: src/view/pod_creation_page.ui:203
 msgid "Hosts"
