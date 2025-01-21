@@ -883,9 +883,9 @@ msgid ""
 "All features for version 1.0 are now implemented and Pods is thus in the "
 "release candidate phase. Among the changes since the last release are:"
 msgstr ""
-"Todos os recursos para a versão 1.0 estão agora implementados e Pods está, "
-"portanto, na fase de candidato a lançamento. Entre as mudanças desde a "
-"última versão estão:"
+"Todas as funcionalidades para a versão 1.0 foram implementadas e, portanto, "
+"o Cápsulas está na fase de release candidate. Entre as mudanças desde o "
+"último release estão:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:245
 msgid ""
