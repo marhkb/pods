@@ -1051,9 +1051,9 @@ msgid ""
 "Logs, the result of the inspection of images, containers, and pods, and the "
 "result Kubernetes YAML generation can now be saved directly as a file."
 msgstr ""
-"Logs, o resultado da inspeção de imagens, contêineres e pods, e o resultado "
-"da geração de Kubernetes YAML geração agora podem ser salvos diretamente "
-"como um arquivo."
+"Logs, o resultado da inspeção de imagens, contêineres e cápsulas, e o "
+"resultado da geração de Kubernetes YAML geração agora podem ser salvos "
+"diretamente como um arquivo."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:284
 msgid "Headerbar titles were adjusted to be shorter and more concise"
