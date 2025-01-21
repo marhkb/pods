@@ -760,7 +760,7 @@ msgstr "Houve muitas melhorias internas no código."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:200
 msgid "Pods 1.0.2 contains the following changes:"
-msgstr "Pods 1.0.2 contém as seguintes alterações:"
+msgstr "cápsulas 1.0.2 contém as seguintes alterações:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:202
 msgid ""
