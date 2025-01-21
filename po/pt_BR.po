@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-27 19:46+0200\n"
-"PO-Revision-Date: 2025-01-21 15:58+0000\n"
+"PO-Revision-Date: 2025-01-21 16:15+0000\n"
 "Last-Translator: John Peter Sa <johnppetersa@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/pods/"
 "main/pt_BR/>\n"
@@ -3638,7 +3638,7 @@ msgstr "Infra-estruturas"
 
 #: src/view/pod_creation_page.ui:260
 msgid "Disable Infra"
-msgstr "desabilitar infraestrutura"
+msgstr "Desativar Infra"
 
 #: src/view/pod_creation_page.ui:297
 msgid "Common PID File"
@@ -3728,7 +3728,7 @@ msgstr "1 Cápsula, correndo"
 
 #: src/view/pods_panel.rs:231
 msgid "1 pod, stopped"
-msgstr "1 Cápsula, parada"
+msgstr "1 Cápsula, parou"
 
 #: src/view/pods_panel.rs:235
 msgid "{} pod total, {} running"
@@ -3748,7 +3748,7 @@ msgstr "Confirmar exclusão forçada de várias cápsulas"
 
 #: src/view/pods_panel.rs:582
 msgid "All associated containers will also be removed!"
-msgstr "Todos os contêineres associados também serão removidos!"
+msgstr "All associated containers will also be removed!"
 
 #: src/view/pods_panel.ui:10
 msgid "_Prune Stopped Pods"
@@ -4141,7 +4141,7 @@ msgstr ""
 
 #: src/view/volume_row.rs:174
 msgid "{} old"
-msgstr "{} old"
+msgstr "{} velho"
 
 #: src/view/volume_row.rs:271
 msgid "Volume {}"
@@ -4240,7 +4240,7 @@ msgstr "Podar volumes criados antes deste registro de data e hora"
 
 #: src/view/welcome_page.ui:59
 msgid "Welcome to Pods"
-msgstr "Bem-vindo às cápsulas"
+msgstr "Boas-vindas ao Pods"
 
 #: src/view/welcome_page.ui:68
 msgid "Create a new connection to Podman to get started"
