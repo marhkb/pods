@@ -480,7 +480,7 @@ msgid ""
 "Pods 1.1.0-beta.4 contains the following features, bug fixes and "
 "improvements:"
 msgstr ""
-"Pods 1.1.0-beta.4 contém os seguintes recursos, correções de bugs e "
+"cápsulas 1.1.0-beta.4 contém os seguintes recursos, correções de bugs e "
 "melhorias:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:132
