@@ -1,6 +1,7 @@
 use std::cell::Cell;
 use std::cell::OnceCell;
 use std::cell::RefCell;
+use std::ops::Deref;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
@@ -14,6 +15,7 @@ use gtk::gio;
 use gtk::glib;
 use gtk::CompositeTemplate;
 
+use crate::config;
 use crate::model;
 use crate::model::AbstractContainerListExt;
 use crate::model::SelectableListExt;
@@ -33,8 +35,10 @@ const ACTION_START_OR_RESUME_SELECTION: &str = "containers-panel.start-or-resume
 const ACTION_STOP_SELECTION: &str = "containers-panel.stop-selection";
 const ACTION_PAUSE_SELECTION: &str = "containers-panel.pause-selection";
 const ACTION_DELETE_SELECTION: &str = "containers-panel.delete-selection";
-const ACTION_TOGGLE_SHOW_ONLY_RUNNING_CONTAINERS: &str =
-    "containers-panel.toggle-show-only-running-containers";
+const ACTION_TOGGLE_SORT_DIRECTION: &str = "containers-panel.toggle-sort-direction";
+const ACTION_CHANGE_SORT_ATTRIBUTE: &str = "containers-panel.change-sort-attribute";
+const ACTION_TOGGLE_SHOW_RUNNING_CONTAINERS_FIRST: &str =
+    "containers-panel.toggle-show-running-containers-first";
 const ACTION_SHOW_ALL_CONTAINERS: &str = "containers-panel.show-all-containers";
 
 const ACTIONS_SELECTION: &[&str] = &[
@@ -45,6 +49,24 @@ const ACTIONS_SELECTION: &[&str] = &[
     ACTION_PAUSE_SELECTION,
     ACTION_DELETE_SELECTION,
 ];
+
+#[derive(Debug)]
+pub(crate) struct Settings(gio::Settings);
+impl Default for Settings {
+    fn default() -> Self {
+        Self(gio::Settings::new(&format!(
+            "{}.view.panels.containers",
+            config::APP_ID
+        )))
+    }
+}
+impl Deref for Settings {
+    type Target = gio::Settings;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
 
 #[derive(Debug)]
 enum ContainersView {
@@ -75,6 +97,26 @@ impl ContainersView {
     }
 }
 
+#[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
+#[enum_type(name = "ContainersPanelSortDirection")]
+pub(crate) enum SortDirection {
+    #[default]
+    #[enum_value(nick = "asc")]
+    Asc,
+    #[enum_value(nick = "desc")]
+    Desc,
+}
+
+#[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
+#[enum_type(name = "ContainersPanelSortAttribute")]
+pub(crate) enum SortAttribute {
+    #[default]
+    #[enum_value(nick = "name")]
+    Name,
+    #[enum_value(nick = "image")]
+    Image,
+}
+
 mod imp {
     use super::*;
 
@@ -82,7 +124,7 @@ mod imp {
     #[properties(wrapper_type = super::ContainersPanel)]
     #[template(resource = "/com/github/marhkb/Pods/ui/view/containers_panel.ui")]
     pub(crate) struct ContainersPanel {
-        pub(super) settings: utils::PodsSettings,
+        pub(super) settings: Settings,
         pub(super) containers_view: RefCell<Option<ContainersView>>,
         pub(super) filter: OnceCell<gtk::Filter>,
         pub(super) sorter: OnceCell<gtk::Sorter>,
@@ -92,8 +134,20 @@ mod imp {
         pub(super) container_list: glib::WeakRef<model::ContainerList>,
         #[property(get, set)]
         pub(super) collapsed: Cell<bool>,
+        #[property(get, set, builder(SortDirection::default()))]
+        pub(super) sort_direction: RefCell<SortDirection>,
+        #[property(get, set, builder(SortAttribute::default()))]
+        pub(super) sort_attribute: RefCell<SortAttribute>,
         #[property(get, set)]
-        pub(super) show_only_running_containers: Cell<bool>,
+        pub(super) show_running_containers_first: Cell<bool>,
+        #[template_child]
+        pub(super) create_container_button: TemplateChild<gtk::Button>,
+        #[template_child]
+        pub(super) prune_button: TemplateChild<gtk::Button>,
+        #[template_child]
+        pub(super) view_button: TemplateChild<gtk::Button>,
+        #[template_child]
+        pub(super) view_options_split_button: TemplateChild<adw::SplitButton>,
         #[template_child]
         pub(super) main_stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -101,9 +155,15 @@ mod imp {
         #[template_child]
         pub(super) header_stack: TemplateChild<gtk::Stack>,
         #[template_child]
+        pub(super) create_container_button_top_bin: TemplateChild<adw::Bin>,
+        #[template_child]
+        pub(super) prune_button_top_bin: TemplateChild<adw::Bin>,
+        #[template_child]
         pub(super) window_title: TemplateChild<adw::WindowTitle>,
         #[template_child]
-        pub(super) view_options_split_button_1: TemplateChild<adw::SplitButton>,
+        pub(super) view_options_split_button_top_bin: TemplateChild<adw::Bin>,
+        #[template_child]
+        pub(super) view_button_top_bin: TemplateChild<adw::Bin>,
         #[template_child]
         pub(super) selected_containers_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
@@ -117,7 +177,13 @@ mod imp {
         #[template_child]
         pub(super) overhang_action_bar: TemplateChild<gtk::ActionBar>,
         #[template_child]
-        pub(super) view_options_split_button_2: TemplateChild<adw::SplitButton>,
+        pub(super) create_container_button_bottom_bin: TemplateChild<adw::Bin>,
+        #[template_child]
+        pub(super) prune_button_bottom_bin: TemplateChild<adw::Bin>,
+        #[template_child]
+        pub(super) view_options_split_button_bottom_bin: TemplateChild<adw::Bin>,
+        #[template_child]
+        pub(super) view_button_bottom_bin: TemplateChild<adw::Bin>,
     }
 
     #[glib::object_subclass]
@@ -184,9 +250,13 @@ mod imp {
                 widget.delete_selection();
             });
 
+            klass.install_action(ACTION_TOGGLE_SORT_DIRECTION, None, |widget, _, _| {
+                widget.toggle_sort_direction();
+            });
+            klass.install_property_action(ACTION_CHANGE_SORT_ATTRIBUTE, "sort-attribute");
             klass.install_property_action(
-                ACTION_TOGGLE_SHOW_ONLY_RUNNING_CONTAINERS,
-                "show-only-running-containers",
+                ACTION_TOGGLE_SHOW_RUNNING_CONTAINERS_FIRST,
+                "show-running-containers-first",
             );
 
             klass.install_action(ACTION_SHOW_ALL_CONTAINERS, None, |widget, _, _| {
@@ -219,7 +289,7 @@ mod imp {
 
             self.set_containers_view();
             self.settings.connect_changed(
-                Some("containers-view"),
+                Some("view"),
                 clone!(
                     #[weak]
                     obj,
@@ -230,11 +300,14 @@ mod imp {
             );
 
             self.settings
-                .bind(
-                    "show-only-running-containers",
-                    obj,
-                    "show-only-running-containers",
-                )
+                .bind("sort-direction", obj, "sort-direction")
+                .build();
+            self.settings
+                .bind("sort-attribute", obj, "sort-attribute")
+                .build();
+
+            self.settings
+                .bind("show-running-first", obj, "show-running-containers-first")
                 .build();
 
             let container_list_expr = Self::Type::this_expression("container-list");
@@ -308,6 +381,19 @@ mod imp {
             )
             .bind(&self.window_title.get(), "subtitle", Some(obj));
 
+            Self::Type::this_expression("sort-direction")
+                .chain_closure::<String>(closure!(|_: Self::Type, direction: SortDirection| {
+                    match direction {
+                        SortDirection::Asc => "view-sort-ascending-rtl-symbolic",
+                        SortDirection::Desc => "view-sort-descending-rtl-symbolic",
+                    }
+                }))
+                .bind(
+                    &self.view_options_split_button.get(),
+                    "icon-name",
+                    Some(obj),
+                );
+
             container_list_expr
                 .chain_property::<model::ContainerList>("num-selected")
                 .chain_closure::<String>(closure!(|_: Self::Type, selected: u32| ngettext!(
@@ -342,7 +428,14 @@ mod imp {
             )
             .bind(&self.toolbar_view.get(), "reveal-bottom-bars", Some(obj));
 
-            let search_filter = gtk::CustomFilter::new(clone!(
+            let filter = gtk::EveryFilter::new();
+            filter.append(
+                gtk::BoolFilter::builder()
+                    .expression(model::Container::this_expression("is-infra"))
+                    .invert(true)
+                    .build(),
+            );
+            filter.append(gtk::CustomFilter::new(clone!(
                 #[weak]
                 obj,
                 #[upgrade_or]
@@ -363,48 +456,28 @@ mod imp {
                             || container.image_id().contains(term)
                     }
                 }
-            ));
+            )));
 
-            let state_filter = gtk::AnyFilter::new();
-            state_filter.append(gtk::CustomFilter::new(clone!(
+            let sorter = gtk::CustomSorter::new(clone!(
                 #[weak]
                 obj,
                 #[upgrade_or]
-                false,
-                move |_| !obj.show_only_running_containers()
-            )));
-            state_filter.append(gtk::BoolFilter::new(Some(
-                model::Container::this_expression("status").chain_closure::<bool>(closure!(
-                    |_: model::Container, status: model::ContainerStatus| status
-                        == model::ContainerStatus::Running
-                )),
-            )));
+                gtk::Ordering::Equal,
+                move |item1, item2| {
+                    let container1 = item1.downcast_ref::<model::Container>().unwrap();
+                    let container2 = item2.downcast_ref::<model::Container>().unwrap();
 
-            let filter = gtk::EveryFilter::new();
-            filter.append(
-                gtk::BoolFilter::builder()
-                    .expression(model::Container::this_expression("is-infra"))
-                    .invert(true)
-                    .build(),
-            );
-            filter.append(search_filter);
-            filter.append(state_filter);
-
-            let sorter = gtk::CustomSorter::new(|item1, item2| {
-                item1
-                    .downcast_ref::<model::Container>()
-                    .unwrap()
-                    .name()
-                    .to_lowercase()
-                    .cmp(
-                        &item2
-                            .downcast_ref::<model::Container>()
-                            .unwrap()
-                            .name()
-                            .to_lowercase(),
-                    )
+                    if obj.show_running_containers_first() {
+                        match container2.status().cmp(&container1.status()) {
+                            std::cmp::Ordering::Equal => obj.imp().ordering(container1, container2),
+                            other => other,
+                        }
+                    } else {
+                        obj.imp().ordering(container1, container2)
+                    }
                     .into()
-            });
+                }
+            ));
 
             self.filter.set(filter.upcast()).unwrap();
             self.sorter.set(sorter.upcast()).unwrap();
@@ -419,32 +492,40 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl ContainersPanel {
+        fn ordering(
+            &self,
+            container1: &model::Container,
+            container2: &model::Container,
+        ) -> std::cmp::Ordering {
+            let obj = self.obj();
+            let ordering = match obj.sort_attribute() {
+                SortAttribute::Name => container1
+                    .name()
+                    .to_lowercase()
+                    .cmp(&container2.name().to_lowercase()),
+                SortAttribute::Image => container1.image_name().cmp(&container2.image_name()),
+            };
+
+            match obj.sort_direction() {
+                SortDirection::Asc => ordering,
+                SortDirection::Desc => ordering.reverse(),
+            }
+        }
+
         fn set_containers_view(&self) {
             let model = self.model.borrow();
-            let view = if self.settings.string("containers-view") == "grid" {
-                self.view_options_split_button_1
-                    .set_icon_name("view-list-symbolic");
-                self.view_options_split_button_2
-                    .set_icon_name("view-list-symbolic");
+            let view = if self.settings.string("view") == "grid" {
+                self.view_button.set_icon_name("view-list-symbolic");
 
-                let tooltip = gettext("List View");
-                self.view_options_split_button_1
-                    .set_tooltip_text(Some(&tooltip));
-                self.view_options_split_button_2
-                    .set_tooltip_text(Some(&tooltip));
+                self.view_button
+                    .set_tooltip_text(Some(&gettext("List View")));
 
                 ContainersView::Grid(view::ContainersGridView::from(model.as_ref()))
             } else {
-                self.view_options_split_button_1
-                    .set_icon_name("view-grid-symbolic");
-                self.view_options_split_button_2
-                    .set_icon_name("view-grid-symbolic");
+                self.view_button.set_icon_name("view-grid-symbolic");
 
-                let tooltip = gettext("Grid View");
-                self.view_options_split_button_1
-                    .set_tooltip_text(Some(&tooltip));
-                self.view_options_split_button_2
-                    .set_tooltip_text(Some(&tooltip));
+                self.view_button
+                    .set_tooltip_text(Some(&gettext("Grid View")));
 
                 ContainersView::List(view::ContainersListView::from(model.as_ref()))
             };
@@ -454,12 +535,50 @@ mod imp {
         }
 
         #[template_callback]
-        fn on_notify_show_only_running_containers(&self) {
-            self.update_filter(if self.obj().show_only_running_containers() {
-                gtk::FilterChange::MoreStrict
+        fn on_notify_collapsed(&self) {
+            if self.obj().collapsed() {
+                self.create_container_button_top_bin
+                    .set_child(gtk::Widget::NONE);
+                self.prune_button_top_bin.set_child(gtk::Widget::NONE);
+                self.view_options_split_button_top_bin
+                    .set_child(gtk::Widget::NONE);
+                self.view_button_top_bin.set_child(gtk::Widget::NONE);
+
+                self.create_container_button_bottom_bin
+                    .set_child(Some(&self.create_container_button.get()));
+                self.prune_button_bottom_bin
+                    .set_child(Some(&self.prune_button.get()));
+                self.view_options_split_button_bottom_bin
+                    .set_child(Some(&self.view_options_split_button.get()));
+                self.view_button_bottom_bin
+                    .set_child(Some(&self.view_button.get()));
             } else {
-                gtk::FilterChange::LessStrict
-            });
+                self.create_container_button_bottom_bin
+                    .set_child(gtk::Widget::NONE);
+                self.prune_button_bottom_bin.set_child(gtk::Widget::NONE);
+                self.view_options_split_button_bottom_bin
+                    .set_child(gtk::Widget::NONE);
+                self.view_button_bottom_bin.set_child(gtk::Widget::NONE);
+
+                self.create_container_button_top_bin
+                    .set_child(Some(&self.create_container_button.get()));
+                self.prune_button_top_bin
+                    .set_child(Some(&self.prune_button.get()));
+                self.view_options_split_button_top_bin
+                    .set_child(Some(&self.view_options_split_button.get()));
+                self.view_button_top_bin
+                    .set_child(Some(&self.view_button.get()));
+            }
+        }
+
+        #[template_callback]
+        fn on_notify_sort_attribute(&self) {
+            self.update_sorter();
+        }
+
+        #[template_callback]
+        fn on_notify_show_running_containers_first(&self) {
+            self.update_sorter();
         }
 
         #[template_callback]
@@ -592,7 +711,7 @@ mod imp {
             }
         }
 
-        fn update_sorter(&self) {
+        pub(super) fn update_sorter(&self) {
             self.sorter
                 .get()
                 .unwrap()
@@ -620,8 +739,16 @@ impl ContainersPanel {
             .and_then(model::ContainerList::client)
     }
 
+    pub(crate) fn toggle_sort_direction(&self) {
+        self.set_sort_direction(match self.sort_direction() {
+            SortDirection::Asc => SortDirection::Desc,
+            SortDirection::Desc => SortDirection::Asc,
+        });
+        self.imp().update_sorter();
+    }
+
     pub(crate) fn show_all_containers(&self) {
-        self.set_show_only_running_containers(false);
+        self.set_show_running_containers_first(false);
         self.set_search_mode(false);
     }
 
@@ -655,8 +782,8 @@ impl ContainersPanel {
         let settings = &self.imp().settings;
         settings
             .set_string(
-                "containers-view",
-                if settings.string("containers-view") == "grid" {
+                "view",
+                if settings.string("view") == "grid" {
                     "list"
                 } else {
                     "grid"
