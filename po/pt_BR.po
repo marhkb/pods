@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-27 19:46+0200\n"
-"PO-Revision-Date: 2024-12-24 02:00+0000\n"
+"PO-Revision-Date: 2025-01-21 15:58+0000\n"
 "Last-Translator: John Peter Sa <johnppetersa@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/pods/"
 "main/pt_BR/>\n"
@@ -25,7 +25,7 @@ msgstr ""
 #: src/view/pods_panel.ui:138 src/view/pods_panel.ui:432
 #: src/view/pods_row.ui:22 src/view/search_panel.ui:81
 msgid "Pods"
-msgstr "Cápsulas"
+msgstr "Pods"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:4
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
@@ -34,7 +34,7 @@ msgstr "Gerencie seus contêineres Podman"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:9
 msgid "Gnome;GTK;libadwaita;Podman;Containerization;"
-msgstr "Gnome;GTK;libadwaita;Podman;Conteinerização;"
+msgstr "Gnome;GTK;libadwaita;Podman;Containerização;Conteinerização;"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:6
 #: data/com.github.marhkb.Pods.gschema.xml.in:7
@@ -52,7 +52,7 @@ msgstr "Comportamento padrão da janela maximizada"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:21
 msgid "The uuid of the connection that was used the last time"
-msgstr "O uuid da conexão que foi usada na última vez"
+msgstr "A UUID da conexão que foi utilizada na vez anterior"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:26
 msgid "The last used view"
@@ -124,28 +124,28 @@ msgid ""
 "Pods is a frontend for podman. It uses libadwaita for its user interface and "
 "strives to meet the design principles of GNOME."
 msgstr ""
-"Cápsulas é um frontend para podman. Ele usa libadwaita para sua interface de "
+"Pods é um frontend para podman. Ele usa libadwaita para sua interface de "
 "usuário e se esforça para atender aos princípios de design do GNOME."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:11
 msgid "With Pods you can, among other things:"
-msgstr "Com Cápsulas você pode, entre outras coisas:"
+msgstr "Com Pods você pode, entre outras coisas:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:13
 msgid "Connect to local and remote Podman instances."
-msgstr "Conecte-se a instâncias locais e remotas do Podman."
+msgstr "Conectar-se a instâncias locais e remotas do Podman."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:14
 msgid "Easily overview images, containers and pods."
-msgstr "Visualize facilmente imagens, recipientes e cápsulas."
+msgstr "Visualizar facilmente imagens, contêineres e pods."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:15
 msgid "View prepared information about images, containers, and pods."
-msgstr "Visualize informações preparadas sobre imagens, recipientes e cápsulas."
+msgstr "Visualizar informações preparadas sobre imagens, contêineres e pods."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:16
 msgid "Inspect images, containers and pods."
-msgstr "Inspecione imagens, recipientes e cápsulas."
+msgstr "Inspecionar imagens, contêineres e pods."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:17
 msgid "View and search container logs."
@@ -153,22 +153,22 @@ msgstr "Exibir e pesquisar logs de contêiner."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:18
 msgid "Monitor processes of containers and pods."
-msgstr "Monitorar processos de recipientes e cápsulas."
+msgstr "Monitorar processos de contêineres e pods."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:19
 msgid "Download images and build them using Dockerfiles."
-msgstr "Faça o download das imagens e crie -as usando o DockerFiles."
+msgstr "Baixar imagens e criá-las usando Dockerfiles."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:20
 msgid "Create pods and containers."
-msgstr "Crie pods e contêineres."
+msgstr "Criar pods e contêineres."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:21
 msgid ""
 "Control the lifecycle of containers and pods (in bulk) (start, stop, pause, "
 "etc.)."
 msgstr ""
-"Controle o ciclo de vida de contêineres e pods (em massa) (iniciar, parar, "
+"Controlar o ciclo de vida de contêineres e pods (em massa) (iniciar, parar, "
 "pausar, etc.)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:22
@@ -177,7 +177,7 @@ msgstr "Excluir imagens, contêineres e pods (em massa)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:23
 msgid "Prune images."
-msgstr "Podar imagens."
+msgstr "Eliminar imagens."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:24
 msgid "Rename containers."
@@ -790,7 +790,7 @@ msgid ""
 "The welcome page now has a very attractive, colorful illustration, thanks to "
 "@daudix-UFO."
 msgstr ""
-"A página de boas-vindas agora tem uma ilustração muito atraente e colorida, "
+"A página de boas-vindas agora tem uma ilustração muito atraente, colorida, "
 "graças a @daudix-UFO."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:213
@@ -963,11 +963,11 @@ msgstr "Agora é possível ter um terminal em um contêiner."
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:262
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:274
 msgid "libpanel"
-msgstr "painel de biblioteca"
+msgstr "libpanel"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:263
 msgid "AdwMessageDialog"
-msgstr "Caixa de diálogo AdwMessage"
+msgstr "AdwMessageDialog"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:264
 msgid "The style of the container series was tweaked in many ways."
@@ -1304,8 +1304,8 @@ msgid ""
 "A tab to specify infra settings were added to the pod creation page, thanks "
 "to @vv9k."
 msgstr ""
-"Uma guia para especificar configurações de infra foi adicionada à página de "
-"criação da Cápsula, graças a @vv9k."
+"Uma aba para especificar as configurações de infraestrutura foi adicionada à "
+"página de criação de cápsulas, graças a @vv9k."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:337
 msgid ""
@@ -1358,7 +1358,7 @@ msgid ""
 "A status page is now displayed if there are no images, containers or pods."
 msgstr ""
 "Uma página de status agora é exibida se não houver imagens, contêineres ou "
-"cápsulas."
+"pods."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:352
 msgid ""
@@ -1381,8 +1381,8 @@ msgid ""
 "A lot of smaller UI improvements have been implemented to give Pods a more "
 "polished look."
 msgstr ""
-"Muitas melhorias menores da interface do usuário foram implementadas para "
-"dar a Cápsulas uma aparência mais polida."
+"Foram implementadas várias melhorias menores na interface do usuário para "
+"dar às Cápsulas uma aparência mais refinada."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:355
 msgid "The flatpak runtime has been updated to version 43"
@@ -1403,8 +1403,8 @@ msgstr "Agora é possível interromper o download de imagens."
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:358
 msgid "Arguments can now be added to a container command, thanks to @vvk9."
 msgstr ""
-"Agora é possível adicionar argumentos a um comando de contêiner, graças a "
-"@vvk9."
+"Os argumentos agora podem ser adicionados a um comando de contêiner, graças "
+"a @vvk9."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:359
 msgid ""
@@ -1423,8 +1423,8 @@ msgid ""
 "A periodic refresh interval to track entities which were created outside of "
 "podman (e.g. with buildah)"
 msgstr ""
-"Um intervalo de atualização periódica para rastrear entidades que foram "
-"criadas fora do podman (por exemplo, com buildah)"
+"Um intervalo de atualização periódico para rastrear entidades que foram "
+"criadas fora do Podman (por exemplo, com o Buildah)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:369
 msgid ""
@@ -1456,7 +1456,7 @@ msgstr "Classificação de conteúdo de dados do aplicativo atualizada"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:382
 msgid "Added releases in app data"
-msgstr "Lançamentos adicionados em dados do aplicativo"
+msgstr "Releases adicionais nos dados do aplicativo"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:388
 msgid "This is the first 1.0.0 beta release of Pods."
@@ -1468,7 +1468,8 @@ msgstr "Marcus Behrendt"
 
 #: src/application.rs:190
 msgid "translator-credits"
-msgstr "créditos do tradutor"
+msgstr ""
+"Gustavo Costa <xfgusta@gmail.com>\"johnpetersa\"<johnppetersa@gmail.com>"
 
 #: src/application.rs:192
 msgid "Translators"
@@ -1476,11 +1477,11 @@ msgstr "Tradutores"
 
 #: src/main.rs:164
 msgid "Prints application version"
-msgstr "Versão do aplicativo de impressão"
+msgstr "Exibe a versão da aplicação"
 
 #: src/main.rs:173
 msgid "Specify the minimum log level"
-msgstr "Especifique o nível mínimo de log"
+msgstr "Especifica o nível mínimo de log"
 
 #: src/model/action.rs:134
 msgid "Prune unused images"
@@ -1623,7 +1624,7 @@ msgstr "Executando"
 
 #: src/model/container.rs:78 src/model/pod.rs:75 src/view/info_panel.ui:144
 msgid "Stopped"
-msgstr "Parou"
+msgstr "Parado"
 
 #: src/model/container.rs:79
 msgid "Stopping"
@@ -1945,11 +1946,11 @@ msgstr "_Abortar"
 
 #: src/view/action_page.ui:118
 msgid "_View"
-msgstr "_Visualizar"
+msgstr "_Ver"
 
 #: src/view/action_page.ui:133 src/view/info_panel.ui:248
 msgid "_Retry"
-msgstr "_Repetir"
+msgstr "_Tentar novamente"
 
 #: src/view/action_row.rs:138
 msgid "Abort"
@@ -2059,7 +2060,7 @@ msgstr "Erro ao estabelecer conexão"
 
 #: src/view/connection_chooser_page.ui:26
 msgid "Connect to Podman"
-msgstr "Conecte-se ao Podman"
+msgstr "Conectar ao Podman"
 
 #: src/view/connection_chooser_page.ui:27
 msgid "Choose an existing connection or create a new one"
@@ -2122,20 +2123,19 @@ msgstr "Escolha como se conectar ao Podman"
 
 #: src/view/connection_creation_page.ui:133
 msgid "Unix Socket"
-msgstr "Soquete Unix"
+msgstr "Socket Unix"
 
 #: src/view/connection_creation_page.ui:169
 msgid "Podman Socket Activation"
-msgstr "Ativação do soquete Podman"
+msgstr "Ativação do soquete do Podman"
 
 #: src/view/connection_creation_page.ui:176
 msgid ""
 "To connect to the local Podman instance, the systemd socket must be enabled. "
 "You can enable it permanently by issuing the following command:"
 msgstr ""
-"Para conectar-se à instância local do Podman, o socket systemd deve estar "
-"habilitado. Você pode habilitá-lo permanentemente emitindo o seguinte "
-"comando:"
+"Para se conectar à instância local do Podman, o soquete systemd deve estar "
+"habilitado. Você pode ativá-lo permanentemente emitindo o seguinte comando:"
 
 #: src/view/connection_creation_page.ui:225
 #: src/view/connection_custom_info_page.ui:140
@@ -2197,8 +2197,8 @@ msgid ""
 msgstr ""
 "Você pode se conectar a uma instância do Podman usando os protocolos <span "
 "weight=\"bold\">HTTP</span>, <span weight=\"bold\">TCP</span> e <span weight="
-"\"bold\">UNIX</span>. Por exemplo, a string de conexão pode ser parecida com "
-"esta:"
+"\"bold\">UNIX</span>. Por exemplo, a string de conexão pode ter esta "
+"aparência:"
 
 #: src/view/connection_custom_info_page.ui:59
 msgid "http://somewhere:8081"
@@ -2217,8 +2217,8 @@ msgid ""
 msgstr ""
 "Infelizmente, atualmente não é possível conectar-se diretamente à instância "
 "raiz do Podman, pois <span weight=\"bold\">/run/podman/podman.sock</span> "
-"não é legível para usuários normais. No entanto, há uma solução alternativa "
-"usando uma unidade systemd. Salve o seguinte snippet:"
+"não pode ser lido por usuários normais. No entanto, há uma solução "
+"alternativa usando uma unidade systemd. Salve o seguinte trecho:"
 
 #: src/view/connection_custom_info_page.ui:205
 msgid "Enable the service by issuing the command:"
@@ -2341,15 +2341,15 @@ msgstr "Preferências"
 
 #: src/view/container_commit_page.ui:42
 msgid "Commit Container"
-msgstr "Contêiner de confirmação"
+msgstr "Fazer commit do contêiner"
 
 #: src/view/container_commit_page.ui:52
 msgid "_Commit"
-msgstr "_Comprometer-se"
+msgstr "Fazer _commit"
 
 #: src/view/container_commit_page.ui:65
 msgid "General Commit Options"
-msgstr "Opções gerais de confirmação"
+msgstr "Opções gerais de commit"
 
 #: src/view/container_commit_page.ui:70
 msgid "Author"
@@ -2365,7 +2365,7 @@ msgstr "Comentário"
 
 #: src/view/container_commit_page.ui:97
 msgid "Repo"
-msgstr "Repositório"
+msgstr "Repo"
 
 #: src/view/container_commit_page.ui:104
 msgid "Tag"
@@ -2447,7 +2447,7 @@ msgstr "Detalhes"
 #: src/view/container_creation_page.ui:128
 #: src/view/container_properties_group.ui:300 src/view/pod_details_page.ui:16
 msgid "Pod"
-msgstr "cápsula"
+msgstr "Pod"
 
 #: src/view/container_creation_page.ui:155 src/view/pod_creation_page.ui:290
 msgid "Pull Latest Image"
@@ -2549,7 +2549,7 @@ msgstr ""
 #: src/view/container_creation_page.ui:420
 #: src/view/container_health_check_page.ui:65
 msgid "Retries"
-msgstr "Tentativas"
+msgstr "Novas tentativas"
 
 #: src/view/container_creation_page.ui:421
 msgid "Number of retries allowed before a healthcheck fails"
@@ -2587,7 +2587,7 @@ msgstr ""
 
 #: src/view/container_details_page.ui:220 src/view/pod_details_page.ui:250
 msgid "Kube"
-msgstr "Cubo"
+msgstr "Kube"
 
 #: src/view/container_details_page.ui:221
 msgid "Generate Kubernetes YAML based on this container"
@@ -2599,7 +2599,7 @@ msgstr "Conecte-se ao terminal do contêiner"
 
 #: src/view/container_details_page.ui:254
 msgid "Logs"
-msgstr "Registros"
+msgstr "Logs"
 
 #: src/view/container_details_page.ui:255
 msgid "View and search through container logs"
@@ -2629,13 +2629,13 @@ msgstr "_Baixar"
 #: src/view/container_files_get_page.ui:69
 #: src/view/container_files_put_page.ui:97
 msgid "Container Path ('/' if empty)"
-msgstr "Caminho do contêiner ('/' se vazio)"
+msgstr "Caminho do contêiner (\"/\" se estiver vazio)"
 
 #: src/view/container_files_get_page.ui:76
 #: src/view/container_files_put_page.ui:78 src/view/device_row.ui:63
 #: src/view/mount_row.ui:105
 msgid "Host Path"
-msgstr "Caminho do host"
+msgstr "Caminho no host"
 
 #: src/view/container_files_get_page.ui:77
 msgid "Select a destination tar archive on the host"
@@ -2655,15 +2655,15 @@ msgstr "Selecione o arquivo host"
 
 #: src/view/container_files_put_page.ui:15
 msgid "Select _Directory…"
-msgstr "Selecione _Diretório…"
+msgstr "Selecionar _diretório…"
 
 #: src/view/container_files_put_page.ui:51
 msgid "Upload Files"
-msgstr "Carregar arquivos"
+msgstr "Enviar arquivos"
 
 #: src/view/container_files_put_page.ui:61
 msgid "_Upload"
-msgstr "_carregar"
+msgstr "_Enviar"
 
 #: src/view/container_files_put_page.ui:79
 msgid "Select a file or a directory from the host to upload"
@@ -2718,7 +2718,7 @@ msgstr "Sequência de falhas"
 
 #: src/view/container_health_check_page.ui:93
 msgid "Log"
-msgstr "Registro"
+msgstr "Log"
 
 #: src/view/container_health_check_page.ui:94
 msgid "Rows describe the last 5 health check attempts and results"
@@ -2768,7 +2768,7 @@ msgstr "Mostrar _Carimbos de data/hora"
 
 #: src/view/container_log_page.ui:66
 msgid "Container Logs"
-msgstr "registros do contêiner"
+msgstr "Logs do contêiner"
 
 #: src/view/container_log_page.ui:105
 msgid "Start/Resume Container"
@@ -2808,7 +2808,7 @@ msgstr "_Pausar"
 
 #: src/view/container_menu_button.ui:34
 msgid "Re_name…"
-msgstr "_Renomear…"
+msgstr "Re_nomear…"
 
 #: src/view/container_menu_button.ui:41 src/view/containers_panel.rs:668
 #: src/view/image.rs:27 src/view/images_panel.rs:491
@@ -2837,7 +2837,7 @@ msgstr "Id"
 
 #: src/view/container_properties_group.ui:80
 msgid "Commit (Ctrl+K)"
-msgstr "Confirmar (Ctrl+K)"
+msgstr "Commit (Ctrl+K)"
 
 #: src/view/container_properties_group.ui:99
 msgid "Size"
