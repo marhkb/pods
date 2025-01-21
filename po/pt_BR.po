@@ -3422,7 +3422,7 @@ msgstr "Eliminar imagens"
 
 #: src/view/images_prune_page.ui:69
 msgid "Prune All"
-msgstr "delete todos"
+msgstr "Remover Todos"
 
 #: src/view/images_prune_page.ui:76
 msgid "Prune External"
