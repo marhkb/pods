@@ -369,7 +369,7 @@ msgstr "Várias melhorias de estilo ( #741, #757)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:93
 msgid "Pods 1.2.1 contains the following bugfixes and improvements:"
-msgstr "Pods 1.2.1 contém as seguintes correções de bugs e melhorias:"
+msgstr "cápsulas 1.2.1 contém as seguintes correções de bugs e melhorias:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:95
 msgid ""
