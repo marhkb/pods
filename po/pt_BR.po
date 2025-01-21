@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-27 19:46+0200\n"
-"PO-Revision-Date: 2025-01-21 16:15+0000\n"
+"PO-Revision-Date: 2025-01-21 16:26+0000\n"
 "Last-Translator: John Peter Sa <johnppetersa@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/pods/"
 "main/pt_BR/>\n"
@@ -25,7 +25,7 @@ msgstr ""
 #: src/view/pods_panel.ui:138 src/view/pods_panel.ui:432
 #: src/view/pods_row.ui:22 src/view/search_panel.ui:81
 msgid "Pods"
-msgstr "Pods"
+msgstr "cápsulas"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:4
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
@@ -3623,7 +3623,7 @@ msgstr "Disabilita gerenciamento e configurações em /etc/resolv.conf"
 
 #: src/view/pod_creation_page.ui:133
 msgid "Pod Create Command"
-msgstr "Comando para criar Pod"
+msgstr "Comando de Criação de Cápsula"
 
 #: src/view/pod_creation_page.ui:188
 msgid "Devices"
@@ -3647,11 +3647,11 @@ msgstr "Arquivo PID comum"
 
 #: src/view/pod_details_page.rs:229
 msgid "Error on loading pod data"
-msgstr "Erro ao carregar dados da cápsula"
+msgstr "Erro ao carregar os dados da cápsula"
 
 #: src/view/pod_details_page.rs:233
 msgid "Pod '{}' has been deleted"
-msgstr "cápsula '{}' foi deletada"
+msgstr "A cápsula '{}' foi deletada."
 
 #: src/view/pod_details_page.ui:234
 msgid "View all pod properties in a structured text form"
@@ -3667,7 +3667,7 @@ msgstr "Visualizar processos da cápsola"
 
 #: src/view/pod_row.rs:269
 msgid "Pod Details"
-msgstr "cápsula Detalhes"
+msgstr "Detalhes da Cápsula"
 
 #: src/view/pod_selection_page.ui:29
 msgid "No Pod Available"
@@ -3676,31 +3676,31 @@ msgstr "Nenhuma cápsula disponível"
 #: src/view/pod_selection_page.ui:40 src/view/pods_panel.ui:6
 #: src/view/pods_panel.ui:451
 msgid "_Create Pod"
-msgstr "_Criar cápsula"
+msgstr "_Criar Cápsula"
 
 #: src/view/pod_selection_page.ui:93
 msgid "Select Pod"
-msgstr "Selecione cápsula"
+msgstr "Selecionar Cápsula"
 
 #: src/view/pod.rs:39 src/view/pods_panel.rs:489
 msgid "Error on starting pod"
-msgstr "Erro ao iniciar cápsula"
+msgstr "Erro ao iniciar a cápsula"
 
 #: src/view/pod.rs:40 src/view/pods_panel.rs:517 src/view/pods_panel.rs:540
 msgid "Error on stopping pod"
-msgstr "Erro ao parar cápsula"
+msgstr "Erro ao parar a cápsula"
 
 #: src/view/pod.rs:41 src/view/pods_panel.rs:515
 msgid "Error on killing pod"
-msgstr "Erro ao matar cápsula"
+msgstr "Erro ao finalizar a cápsula"
 
 #: src/view/pod.rs:42 src/view/pods_panel.rs:563
 msgid "Error on restarting pod"
-msgstr "Erro ao reiniciar cápsula"
+msgstr "Erro ao reiniciar a cápsula"
 
 #: src/view/pod.rs:43
 msgid "Error on pausing pod"
-msgstr "Erro ao pausar cápsula"
+msgstr "Erro ao pausar a cápsula"
 
 #: src/view/pod.rs:44 src/view/pods_panel.rs:478
 msgid "Error on resuming pod"
@@ -3708,7 +3708,7 @@ msgstr "Erro ao retomar a cápsula"
 
 #: src/view/pod.rs:45 src/view/pods_panel.rs:605
 msgid "Error on deleting pod"
-msgstr "Erro ao excluir cápsula"
+msgstr "Erro ao deletar a cápsula"
 
 #: src/view/pod.rs:54
 msgid "Confirm Pod Deletion"
@@ -3720,12 +3720,12 @@ msgid ""
 "Pod contains container <b>{}</b>. Deleting the pod will also delete all its "
 "containers."
 msgstr ""
-"Cápsula contém o contêiner <b>{}</b>. Excluir a Cápsula também excluirá "
+"A cápsula contém o contêiner <b>{}</b>. Deletar a cápsula também deletará "
 "todos os seus contêineres."
 
 #: src/view/pods_panel.rs:229
 msgid "1 pod, running"
-msgstr "1 Cápsula, correndo"
+msgstr "1 cápsula, em execução."
 
 #: src/view/pods_panel.rs:231
 msgid "1 pod, stopped"
@@ -3734,8 +3734,8 @@ msgstr "1 Cápsula, parou"
 #: src/view/pods_panel.rs:235
 msgid "{} pod total, {} running"
 msgid_plural "{} pods total, {} running"
-msgstr[0] "{} cápsula total, {} correndo"
-msgstr[1] "{} cápsulas totais, {} em execução"
+msgstr[0] "{} cápsula(s) no total, {} em execução."
+msgstr[1] "{} cápsulas no total, {} em execução."
 
 #: src/view/pods_panel.rs:249
 msgid "{} Selected Pod"
@@ -3914,11 +3914,11 @@ msgstr "Geração de Kube em contêiner"
 
 #: src/view/scalable_text_view_page.rs:285
 msgid "Pod Inspection"
-msgstr "Inspeção de cápsula"
+msgstr "Inspeção da Cápsula"
 
 #: src/view/scalable_text_view_page.rs:286
 msgid "Pod Kube Generation"
-msgstr "Cápsulas de Geração Kube"
+msgstr "Geração de Cápsula Kube"
 
 #: src/view/scalable_text_view_page.rs:293
 msgid "Volume Inspection"
@@ -4075,7 +4075,7 @@ msgstr "Processos de contêiner"
 
 #: src/view/top_page.rs:107
 msgid "Pod Processes"
-msgstr "Processos de Cápsula"
+msgstr "Processos da Cápsula"
 
 #: src/view/top_page.rs:125
 msgid "USER"
@@ -4253,7 +4253,7 @@ msgstr "_Nova conexão"
 
 #: src/view/window.rs:194
 msgid "Confirm Exiting The Application"
-msgstr "Confirmar a saída do aplicativo"
+msgstr "Confirme a saída do aplicativo"
 
 #: src/view/window.rs:275
 msgid "Error on loading images"
