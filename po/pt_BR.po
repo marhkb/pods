@@ -1125,8 +1125,8 @@ msgid ""
 "Also the selection of a pod in the container creation page has been improved "
 "similarly to the image selection."
 msgstr ""
-"Também a seleção de um pod na página de criação do contêiner foi melhorada "
-"da mesma forma à seleção da imagem."
+"Além disso, a seleção de uma cápsula na página de criação de contêiner foi "
+"aprimorada de forma semelhante à seleção de imagem."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:301
 msgid ""
@@ -1232,9 +1232,9 @@ msgid ""
 "The container details page and pod details page have been revised: The menus "
 "have been removed and instead there is now a control bar."
 msgstr ""
-"A página Detalhes do contêiner e a página Detalhes da Cápsula foram "
-"revisados: os menus foram removidos e, em vez disso, agora existe uma barra "
-"de controle."
+"A página de detalhes do contêiner e a página de detalhes da cápsula foram "
+"revisadas: Os menus foram removidos e, em vez disso, agora há uma barra de "
+"controle."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:321
 msgid ""
@@ -1305,7 +1305,7 @@ msgid ""
 "to @vv9k."
 msgstr ""
 "Uma aba para especificar as configurações de infraestrutura foi adicionada à "
-"página de criação de cápsulas, graças a @vv9k."
+"página de criação da cápsula, graças a @vv9k."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:337
 msgid ""
@@ -1343,7 +1343,7 @@ msgstr "Atualizações de tradução"
 msgid ""
 "Here comes the fourth beta release of Pods 1.0.0 with the following changes:"
 msgstr ""
-"Aí vem o quarto lançamento beta do pods 1.0.0 com as seguintes alterações:"
+"Aqui vem o quarto release beta do Cápsulas 1.0.0 com as seguintes mudanças:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:350
 msgid ""
@@ -1411,8 +1411,8 @@ msgid ""
 "It's now possible to set labels on images, containers and pods, thanks to "
 "@vv9k."
 msgstr ""
-"Agora é possível definir rótulos em imagens, recipientes e cápsulas, graças "
-"ao @vv9k."
+"Agora é possível definir rótulos em imagens, contêineres e cápsulas, graças "
+"a @vv9k."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:366
 msgid "The third beta release of Pods 1.0.0 contains the following changes:"
@@ -1469,7 +1469,8 @@ msgstr "Marcus Behrendt"
 #: src/application.rs:190
 msgid "translator-credits"
 msgstr ""
-"Gustavo Costa <xfgusta@gmail.com>\"johnpetersa\"<johnppetersa@gmail.com>"
+"Gustavo Costa \"xfgusta\"<xfgusta@gmail.com>\"johnpetersa\""
+"<johnppetersa@gmail.com>"
 
 #: src/application.rs:192
 msgid "Translators"
@@ -1521,7 +1522,7 @@ msgstr "nenhum"
 
 #: src/model/action.rs:404
 msgid "Commit image <b>{}</b> ({})"
-msgstr "Confirmar imagem <b>{}</b> ({})"
+msgstr "Imagem de comprometimento <b> {} </b> ({})"
 
 #: src/model/action.rs:418 src/model/action.rs:523 src/model/action.rs:611
 #: src/model/action.rs:927
@@ -1566,7 +1567,7 @@ msgstr "Tamanho: {}"
 
 #: src/model/action.rs:627
 msgid "Create pod <b>{}</b>"
-msgstr "Criar Cápsula <b>{}</b>"
+msgstr "Criar cápsula <b>{}</b>"
 
 #: src/model/action.rs:652
 msgid "Prune stopped pods"
@@ -1962,7 +1963,7 @@ msgstr "Remover"
 
 #: src/view/action_row.rs:203
 msgid "Failed Pods Action"
-msgstr "Ação Falhou em cápsulas"
+msgstr "Ação de Cápsulas com Falha"
 
 #: src/view/action_row.rs:207
 msgid "Finished Pods Action"
@@ -1991,7 +1992,7 @@ msgstr "Ações"
 
 #: src/view/actions_sidebar.ui:26
 msgid "Clear Finished Actions"
-msgstr "Limpar ações concluídas"
+msgstr "Ações finalizadas"
 
 #: src/view/actions_sidebar.ui:48
 msgid "No Actions"
@@ -2447,7 +2448,7 @@ msgstr "Detalhes"
 #: src/view/container_creation_page.ui:128
 #: src/view/container_properties_group.ui:300 src/view/pod_details_page.ui:16
 msgid "Pod"
-msgstr "Pod"
+msgstr "cápsula"
 
 #: src/view/container_creation_page.ui:155 src/view/pod_creation_page.ui:290
 msgid "Pull Latest Image"
@@ -3610,7 +3611,7 @@ msgstr "Adicionar dispositivo"
 #: src/view/pod_creation_page.ui:42 src/view/pod_selection_page.ui:70
 #: src/view/pods_panel.ui:117
 msgid "Create Pod"
-msgstr "Criar cápsula"
+msgstr "Criar Cápsula"
 
 #: src/view/pod_creation_page.ui:52 src/view/volume_creation_page.ui:52
 msgid "_Create"
