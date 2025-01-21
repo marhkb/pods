@@ -88,7 +88,7 @@ msgstr "Se deve mostrar apenas contêineres em execução"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:56
 msgid "Whether to show only running pods"
-msgstr "Se deve mostrar apenas pods em execução"
+msgstr "Se deve mostrar apenas cápsulas em execução"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:61
 msgid "Whether to show only used volumes"
@@ -124,12 +124,12 @@ msgid ""
 "Pods is a frontend for podman. It uses libadwaita for its user interface and "
 "strives to meet the design principles of GNOME."
 msgstr ""
-"Pods é um frontend para podman. Ele usa libadwaita para sua interface de "
+"cápsulas é um frontend para podman. Ele usa libadwaita para sua interface de "
 "usuário e se esforça para atender aos princípios de design do GNOME."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:11
 msgid "With Pods you can, among other things:"
-msgstr "Com Pods você pode, entre outras coisas:"
+msgstr "Com cápsulas você pode, entre outras coisas:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:13
 msgid "Connect to local and remote Podman instances."
@@ -137,15 +137,16 @@ msgstr "Conectar-se a instâncias locais e remotas do Podman."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:14
 msgid "Easily overview images, containers and pods."
-msgstr "Visualizar facilmente imagens, contêineres e pods."
+msgstr "Visualizar facilmente imagens, contêineres e cápsulas."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:15
 msgid "View prepared information about images, containers, and pods."
-msgstr "Visualizar informações preparadas sobre imagens, contêineres e pods."
+msgstr ""
+"Visualizar informações preparadas sobre imagens, contêineres e cápsulas."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:16
 msgid "Inspect images, containers and pods."
-msgstr "Inspecionar imagens, contêineres e pods."
+msgstr "Inspecionar imagens, contêineres e cápsulas."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:17
 msgid "View and search container logs."
@@ -153,7 +154,7 @@ msgstr "Exibir e pesquisar logs de contêiner."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:18
 msgid "Monitor processes of containers and pods."
-msgstr "Monitorar processos de contêineres e pods."
+msgstr "Monitorar processos de contêineres e cápsulas."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:19
 msgid "Download images and build them using Dockerfiles."
@@ -161,15 +162,15 @@ msgstr "Baixar imagens e criá-las usando Dockerfiles."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:20
 msgid "Create pods and containers."
-msgstr "Criar pods e contêineres."
+msgstr "Criar cápsulas e contêineres."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:21
 msgid ""
 "Control the lifecycle of containers and pods (in bulk) (start, stop, pause, "
 "etc.)."
 msgstr ""
-"Controlar o ciclo de vida de contêineres e pods (em massa) (iniciar, parar, "
-"pausar, etc.)."
+"Controle o ciclo de vida de contêineres e cápsulas (em massa) (iniciar, "
+"parar, pausar, etc.)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:22
 msgid "Delete images, containers, and pods (in bulk)."
