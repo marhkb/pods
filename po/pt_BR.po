@@ -3534,7 +3534,7 @@ msgstr "Descreve o número de imagens"
 
 #: src/view/info_panel.ui:212
 msgid "Run Root"
-msgstr "executar como root"
+msgstr "Executar Root"
 
 #: src/view/info_panel.ui:218
 msgid "Volume Path"
