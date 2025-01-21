@@ -401,7 +401,7 @@ msgstr "Um pequeno trabalho de limpeza foi feito no código."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:104
 msgid "Pods 1.2.0 contains the following new features:"
-msgstr "Pods 1.2.0 contém os seguintes novos recursos:"
+msgstr "cápsulas 1.2.0 contém os seguintes novos recursos:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:106
 msgid "Usabilty and UX has been improved in many places."
