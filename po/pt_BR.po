@@ -954,8 +954,8 @@ msgid ""
 "The ninth beta of Pods in an important step towards the stable first "
 "version. It contains the following changes:"
 msgstr ""
-"O nono beta de Pods em um passo importante para a primeira versão estável. "
-"Contém as seguintes alterações:"
+"O nono beta de cápsulas em um passo importante para a primeira versão "
+"estável. Contém as seguintes alterações:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:261
 msgid "It is now possible to have a terminal in a container."
