@@ -1034,8 +1034,8 @@ msgid ""
 "There is now a rotating animation when a container or pod is in a state "
 "transition (start, stop, pause)."
 msgstr ""
-"Há agora uma animação rotativa quando um contêiner ou pod está em uma "
-"transição do estado (start, stop, pause)."
+"Agora há uma animação de rotação quando um contêiner ou cápsula está em uma "
+"transição de estado (iniciar, parar, pausar)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:282
 msgid ""
