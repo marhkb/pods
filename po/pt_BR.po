@@ -913,8 +913,8 @@ msgid ""
 "The subtitle property of the header bars is now used to display the image "
 "id, or the name of the container or pod."
 msgstr ""
-"A propriedade de legendas das barras de cabeçalho é agora usada para exibir "
-"o id da imagem, ou o nome do contêiner ou pod."
+"A propriedade de subtítulo das barras de cabeçalho agora é usada para exibir "
+"o ID da imagem, ou o nome do contêiner ou cápsula."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:249
 msgid ""
