@@ -1012,7 +1012,7 @@ msgstr ""
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:278
 msgid "Kubernetes YAML files can now be generated for containers and pods."
 msgstr ""
-"Arquivos YAML Kubernetes agora podem ser gerados para contêineres e pods."
+"Arquivos YAML Kubernetes agora podem ser gerados para contêineres e cápsulas."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:279
 msgid ""
