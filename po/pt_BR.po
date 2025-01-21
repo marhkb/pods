@@ -825,7 +825,7 @@ msgstr "A animação do widget de spinner interno foi embelezada."
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:225
 msgid "The third 1.0 release candidate of Pods contains the following changes:"
 msgstr ""
-"O terceiro candidato a versão 1.0 de Pods contém as seguintes alterações:"
+"O terceiro candidato a versão 1.0 de cápsulas contém as seguintes alterações:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:227
 msgid ""
