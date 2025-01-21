@@ -3550,7 +3550,7 @@ msgstr "Ocorreu um erro ao obter as informações"
 
 #: src/view/key_val_row.rs:149 src/view/key_val_row.ui:20
 msgid "Key"
-msgstr "chave"
+msgstr "Chaveiro"
 
 #: src/view/key_val_row.rs:149 src/view/key_val_row.ui:28
 #: src/view/value_row.rs:100
