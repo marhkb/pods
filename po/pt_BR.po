@@ -3173,7 +3173,7 @@ msgstr "Ponto de entrada"
 
 #: src/view/image_details_page.ui:107
 msgid "Ports"
-msgstr "portas"
+msgstr "Portos"
 
 #: src/view/image_details_page.ui:122
 msgid "View all image properties in a structured text form"
