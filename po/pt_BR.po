@@ -409,7 +409,7 @@ msgstr "Usabilidade e UX foram melhorados em muitos lugares."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:107
 msgid "Pruning of containers and pods is now possible."
-msgstr "Agora é possível eliminar contêineres e pods."
+msgstr "Agora é possível eliminar contêineres e cápsulas."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:108
 msgid "Container terminals are now detachable and can be used in parallel."
