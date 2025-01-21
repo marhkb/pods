@@ -428,7 +428,7 @@ msgstr "A utilização da CPU agora leva em conta o número de núcleos."
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:116
 msgid "Pods 1.1.0 contains the following features, bug fixes and improvements:"
 msgstr ""
-"Pods 1.1.0 contém os seguintes recursos, correções de bugs e melhorias:"
+"cápsulas 1.1.0 contém os seguintes recursos, correções de bugs e melhorias:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:118
 msgid ""
