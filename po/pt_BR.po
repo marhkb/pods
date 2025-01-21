@@ -174,7 +174,7 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:22
 msgid "Delete images, containers, and pods (in bulk)."
-msgstr "Excluir imagens, contêineres e pods (em massa)."
+msgstr "Deletar imagens, contêineres e cápsulas (em massa)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:23
 msgid "Prune images."
