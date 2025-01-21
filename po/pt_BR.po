@@ -3555,7 +3555,7 @@ msgstr "Chaveiro"
 #: src/view/key_val_row.rs:149 src/view/key_val_row.ui:28
 #: src/view/value_row.rs:100
 msgid "Value"
-msgstr "valor"
+msgstr "Valor"
 
 #: src/view/mount_row.rs:187
 msgid "No volume selected (will create a new one)"
