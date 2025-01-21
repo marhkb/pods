@@ -783,8 +783,8 @@ msgid ""
 "The stable 1.0 release of Pods includes the following changes since the last "
 "RC:"
 msgstr ""
-"A versão estável 1.0 dos Pods inclui as seguintes alterações desde o último "
-"RC:"
+"A versão estável 1.0 dos cápsulas inclui as seguintes alterações desde o "
+"último RC:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:212
 msgid ""
