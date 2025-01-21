@@ -3474,7 +3474,7 @@ msgstr "Versão da API"
 
 #: src/view/info_panel.ui:70
 msgid "Built Time"
-msgstr "tempo de construção"
+msgstr "Tempo de construção"
 
 #: src/view/info_panel.ui:76
 msgid "Git Commit"
