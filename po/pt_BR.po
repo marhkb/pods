@@ -1067,7 +1067,7 @@ msgstr "Muitas pequenas melhorias internas de código chegaram"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:292
 msgid "The seventh beta release of Pods 1.0.0 includes the following changes:"
-msgstr "A sétima versão beta de Pods 1.0.0 inclui as seguintes alterações:"
+msgstr "A sétima versão beta de cápsulas 1.0.0 inclui as seguintes alterações:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:294
 msgid ""
