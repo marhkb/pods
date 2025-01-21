@@ -985,7 +985,7 @@ msgstr "As dependências e traduções foram atualizadas."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:272
 msgid "The eight beta release of Pods 1.0.0 includes the following changes:"
-msgstr "A oitava versão beta de Pods 1.0.0 inclui as seguintes alterações:"
+msgstr "A oitava versão beta de cápsulas 1.0.0 inclui as seguintes alterações:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:275
 msgid ""
