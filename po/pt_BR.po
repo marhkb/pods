@@ -3634,7 +3634,7 @@ msgstr "Hospedar"
 
 #: src/view/pod_creation_page.ui:246
 msgid "Infra"
-msgstr "infraestrutura"
+msgstr "Infra-estruturas"
 
 #: src/view/pod_creation_page.ui:260
 msgid "Disable Infra"
