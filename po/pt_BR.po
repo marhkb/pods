@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-27 19:46+0200\n"
-"PO-Revision-Date: 2025-01-21 18:09+0000\n"
+"PO-Revision-Date: 2025-01-22 06:02+0000\n"
 "Last-Translator: John Peter Sa <johnppetersa@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/pods/"
 "main/pt_BR/>\n"
@@ -2368,7 +2368,7 @@ msgstr "Comentário"
 
 #: src/view/container_commit_page.ui:97
 msgid "Repo"
-msgstr "Repo"
+msgstr "Repositório"
 
 #: src/view/container_commit_page.ui:104
 msgid "Tag"
