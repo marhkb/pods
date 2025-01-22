@@ -179,11 +179,11 @@ pub(crate) struct Dialog<'a, P, C> {
     follows_content_size: Option<bool>,
 }
 
-impl<'a, C, P> Dialog<'a, C, P> {
+impl<'a, P, C> Dialog<'a, P, C> {
     #[must_use]
-    pub(crate) fn new(widget: &'a C, content: &'a P) -> Self {
+    pub(crate) fn new(parent: &'a P, content: &'a C) -> Self {
         Self {
-            parent: widget,
+            parent,
             content,
             height: None,
             width: None,
@@ -207,7 +207,7 @@ impl<'a, C, P> Dialog<'a, C, P> {
 impl<C, P> Dialog<'_, C, P>
 where
     C: IsA<gtk::Widget>,
-    P: IsA<gtk::Widget>,
+    P: IsA<gtk::Widget> + MaybeDefaultWidget,
 {
     pub(crate) fn present(self) {
         let toast_overlay = adw::ToastOverlay::new();
@@ -218,10 +218,15 @@ where
             .width_request(360)
             .content_height(self.height.unwrap_or(-1))
             .content_width(self.width.unwrap_or(-1))
-            .follows_content_size(self.follows_content_size.unwrap_or(false))
-            .build();
+            .follows_content_size(self.follows_content_size.unwrap_or(false));
 
-        dialog.present(Some(self.parent));
+        if let Some(ref widget) = self.content.default_widget() {
+            dialog.default_widget(widget)
+        } else {
+            dialog
+        }
+        .build()
+        .present(Some(self.parent));
     }
 }
 
