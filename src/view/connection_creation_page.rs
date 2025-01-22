@@ -231,7 +231,11 @@ impl From<&model::ConnectionManager> for ConnectionCreationPage {
 }
 
 impl utils::MaybeDefaultWidget for ConnectionCreationPage {
-    type Default = gtk::Widget;
+    type Default = gtk::Button;
+
+    fn default_widget(&self) -> Option<Self::Default> {
+        Some(self.imp().connect_button.get())
+    }
 }
 
 impl ConnectionCreationPage {
