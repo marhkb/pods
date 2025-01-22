@@ -22,7 +22,7 @@ use crate::utils;
 use crate::view;
 
 const ACTION_CREATE_VOLUME: &str = "volumes-panel.create-volume";
-const ACTION_PRUNE_VOLUMES: &str = "volumes-panel.prune-volumes";
+const ACTION_PRUNE_VOLUMES: &str = "volumes-panel.prune-unused-volumes";
 const ACTION_ENTER_SELECTION_MODE: &str = "volumes-panel.enter-selection-mode";
 const ACTION_EXIT_SELECTION_MODE: &str = "volumes-panel.exit-selection-mode";
 const ACTION_SELECT_VISIBLE: &str = "volumes-panel.select-visible";
