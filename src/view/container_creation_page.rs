@@ -384,7 +384,11 @@ impl From<&model::Volume> for ContainerCreationPage {
 }
 
 impl utils::MaybeDefaultWidget for ContainerCreationPage {
-    type Default = gtk::Widget;
+    type Default = adw::SplitButton;
+
+    fn default_widget(&self) -> Option<Self::Default> {
+        Some(self.imp().create_button.get())
+    }
 }
 
 impl ContainerCreationPage {
