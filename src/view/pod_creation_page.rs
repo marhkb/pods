@@ -331,7 +331,11 @@ impl From<&model::Client> for PodCreationPage {
 }
 
 impl utils::MaybeDefaultWidget for PodCreationPage {
-    type Default = gtk::Widget;
+    type Default = gtk::Button;
+
+    fn default_widget(&self) -> Option<Self::Default> {
+        Some(self.imp().create_button.get())
+    }
 }
 
 impl PodCreationPage {

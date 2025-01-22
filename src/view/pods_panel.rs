@@ -630,7 +630,7 @@ impl PodsPanel {
 
     pub(crate) fn create_pod(&self) {
         if let Some(client) = self.pod_list().as_ref().and_then(model::PodList::client) {
-            utils::Dialog::new(self, &view::PodCreationPage::from(&client)).present();
+            utils::Dialog::new(self, &view::PodCreationPage::new(&client, false)).present();
         }
     }
 
