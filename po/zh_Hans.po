@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-27 19:46+0200\n"
-"PO-Revision-Date: 2023-10-24 10:03+0000\n"
-"Last-Translator: sky96111 <sky96111@outlook.com>\n"
-"Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
-"pods/main/zh_Hans/>\n"
+"PO-Revision-Date: 2025-01-03 11:01+0000\n"
+"Last-Translator: Ujhhgtg <feyxiexzf@gmail.com>\n"
+"Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
+"projects/pods/main/zh_Hans/>\n"
 "Language: zh_Hans\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.1.1-dev\n"
+"X-Generator: Weblate 5.10-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:112
@@ -29,9 +29,8 @@ msgstr "Pods"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:4
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
-#, fuzzy
 msgid "Manage your Podman containers"
-msgstr "跟踪你的 Podman 容器"
+msgstr "管理你的 Podman 容器"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:9
 msgid "Gnome;GTK;libadwaita;Podman;Containerization;"
@@ -93,178 +92,179 @@ msgstr "是否只显示已使用的卷"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:66
 msgid "Whether to show a timestamp for each log line"
-msgstr ""
+msgstr "是否为每一行日志显示时间戳"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:71
 #: data/com.github.marhkb.Pods.gschema.xml.in:76
 msgid "Whether to use a regex for search"
-msgstr ""
+msgstr "是否使用正则表达式进行搜索"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:81
 msgid "Whether search should be case-sensitive"
-msgstr ""
+msgstr "是否使用大小写敏感搜索"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:86
 msgid "Whether to match whole words when searching"
-msgstr ""
+msgstr "是否在搜索时进行全字匹配"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:91
 msgid "The font scale of all text views"
-msgstr ""
+msgstr "所有文字视图中的字体比例"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:96
 msgid "The font scale for terminals"
-msgstr ""
+msgstr "终端的字体比例"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
 msgid ""
 "Pods is a frontend for podman. It uses libadwaita for its user interface and "
 "strives to meet the design principles of GNOME."
-msgstr ""
+msgstr "Pods 是一个 podman 的前端。它的用户界面使用 libadwaita 并力求符合 GNOME "
+"的设计原则。"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:11
 msgid "With Pods you can, among other things:"
-msgstr ""
+msgstr "除了一些其他的以外，有了 Pods，你可以："
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:13
 msgid "Connect to local and remote Podman instances."
-msgstr ""
+msgstr "连接到本地和远程 Podman 实例。"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:14
 msgid "Easily overview images, containers and pods."
-msgstr ""
+msgstr "简单地查看镜像、容器和 pod 的总览。"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:15
 msgid "View prepared information about images, containers, and pods."
-msgstr ""
+msgstr "查看关于镜像、容器与 Pod 准备好的信息。"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:16
 msgid "Inspect images, containers and pods."
-msgstr ""
+msgstr "检查镜像、容器与 Pod。"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:17
 msgid "View and search container logs."
-msgstr ""
+msgstr "查看并搜索容器日志。"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:18
 msgid "Monitor processes of containers and pods."
-msgstr ""
+msgstr "监视容器与 Pod 的进程。"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:19
 msgid "Download images and build them using Dockerfiles."
-msgstr ""
+msgstr "下载镜像并使用 Dockerfile 构建。"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:20
 msgid "Create pods and containers."
-msgstr ""
+msgstr "创建 Pod 与容器。"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:21
 msgid ""
 "Control the lifecycle of containers and pods (in bulk) (start, stop, pause, "
 "etc.)."
-msgstr ""
+msgstr "（批量）控制容器与 Pod 的生命周期（启动、停止、暂停等）。"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:22
 msgid "Delete images, containers, and pods (in bulk)."
-msgstr ""
+msgstr "（批量）删除镜像、容器与 Pod。"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:23
 msgid "Prune images."
-msgstr ""
+msgstr "修剪镜像。"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:24
 msgid "Rename containers."
-msgstr ""
+msgstr "重命名容器。"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:30
 msgid "Container Overview"
-msgstr ""
+msgstr "容器总览"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:34
 msgid "Containers Details in Compact Mode"
-msgstr ""
+msgstr "紧凑模式下的容器详情"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:38
 msgid "Search Results"
-msgstr ""
+msgstr "搜索结果"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:47
 msgid "Pods 2.1.0 contains the following changes:"
-msgstr ""
+msgstr "Pods 2.1.0 包含以下更改："
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:48
 msgid "Features"
-msgstr ""
+msgstr "功能"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:50
 msgid "Accent colors are now properly supported. (#804, #807, #809, #811)"
-msgstr ""
+msgstr "现在正确支持强调色。（#804，#807，#809，#811）"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:51
 msgid "All dialogs have been ported to AdwDialog to be more adaptive. (#810)"
-msgstr ""
+msgstr "所有对话框已被移植到 AdwDialog 以使其更具适应性。（#810）"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:52
 msgid "Containers are now represented by cards in the container panel. (#778)"
-msgstr ""
+msgstr "容器现在在容器面板中用卡片表示。（#778）"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:53
 msgid ""
 "The image search has been completely revised and is now much more "
 "streamlined. In addition, the tags of an image are suggested. (#758)"
-msgstr ""
+msgstr "镜像搜索功能已被完全修改和简化。此外，建议使用镜像的标签。（#758）"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:57
 msgid "Port mappings can now be configured when creating pods. (#772)"
-msgstr ""
+msgstr "现在可以在创建 Pod 时配置端口映射。（#772）"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:58
 msgid "Enable searching for container and pod processes. (#747)"
-msgstr ""
+msgstr "为容器与 Pod 进程启用了搜索。（#747）"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:59
 msgid "Killing container processes is now supported. (#748)"
-msgstr ""
+msgstr "现在支持杀死容器进程。（#748）"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:60
 msgid ""
 "The image search results now have an \"verified\" icon if an image is "
 "official. (#761)"
-msgstr ""
+msgstr "现在官方镜像在镜像搜索结果中拥有“已验证”图标。（#761）"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:61
 msgid "Logs are now sent to both std and syslog. (#763)"
-msgstr ""
+msgstr "日志现在会被同时发送到标准输出与系统日志。（#763）"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:62
 msgid "Make it possible to create privileged containers. (#753)"
-msgstr ""
+msgstr "现在可以创建特权容器。（#753）"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:63
 msgid ""
 "Better handling of empty states when selecting images, pods and volumes for "
 "a container to be created. (#769)"
-msgstr ""
+msgstr "更好地处理为创建容器时选择镜像、Pod 与卷的空状态。（#769）"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:64
 msgid "Unification of status and health status in the container row. (#774)"
-msgstr ""
+msgstr "容器栏中状态与健康状态的统一。（#774）"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:65
 msgid ""
 "The recently introduced libadwaita Spinner now replaces all gtk Spinners. "
 "(#802)"
-msgstr ""
+msgstr "最近引入的 libadwaita 旋转图标现在替换了所有 GTK 旋转图标。（#802）"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:67
 msgid "Fixes"
-msgstr ""
+msgstr "修复"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:69
 msgid ""
 "All remaining processes are now closed after a container terminal exits. "
 "(#744)"
-msgstr ""
+msgstr "所有存在的进程现在会在容器终端退出后关闭。（#744）"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:70
 msgid ""
