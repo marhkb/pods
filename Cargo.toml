@@ -7,7 +7,7 @@ edition = "2021"
 [dependencies]
 adw = { version = "0.7", package = "libadwaita", features = ["v1_6"] }
 anyhow = "1"
-ashpd = { version = "0.9", default-features = false, features = ["gtk4", "tokio"] }
+ashpd = { version = "0.10", default-features = false, features = ["gtk4", "tokio"] }
 futures = { version = "0.3", default-features = false }
 gettext-rs = { version = "=0.7.0", features = ["gettext-system"] }
 gtk = { version = "0.9", package = "gtk4", features = ["gnome_47"] }
@@ -25,7 +25,7 @@ sourceview5 = { version = "0.9" }
 syslog = "7"
 tokio = "1"
 tokio-tar = { version = "0.3", default-features = false }
-vte = { version = "0.13", default-features = false }
+vte = { version = "0.14", default-features = false }
 vte4 = "0.8"
 
 [profile.release]

@@ -887,7 +887,7 @@ impl MarkupPerform {
         let line = String::from_utf8_lossy(ansi_encoded_bytes);
         let (timestamp, message) = line.split_once(' ').unwrap();
 
-        message.bytes().for_each(|byte| parser.advance(self, byte));
+        parser.advance(self, message.as_bytes());
 
         self.end_line();
 
@@ -988,9 +988,10 @@ impl PlainTextPerform {
     fn decode(&mut self, ansi_encoded_bytes: &[u8]) {
         let mut parser = vte::Parser::new();
 
-        String::from_utf8_lossy(ansi_encoded_bytes)
-            .bytes()
-            .for_each(|byte| parser.advance(self, byte));
+        parser.advance(self, ansi_encoded_bytes);
+        // String::from_utf8_lossy(ansi_encoded_bytes)
+        //     .bytes()
+        //     .for_each(|byte| parser.advance(self, byte));
     }
 }
 
