@@ -180,7 +180,11 @@ impl From<&model::Client> for ImageBuildPage {
 }
 
 impl utils::MaybeDefaultWidget for ImageBuildPage {
-    type Default = gtk::Widget;
+    type Default = gtk::Button;
+
+    fn default_widget(&self) -> Option<Self::Default> {
+        Some(self.imp().build_button.get())
+    }
 }
 
 impl ImageBuildPage {
@@ -254,6 +258,8 @@ impl ImageBuildPage {
 
         if !imp.tag_entry_row.text().is_empty() {
             if let Some(context_dir_row) = imp.context_dir_row.subtitle() {
+                self.action_set_enabled(ACTION_BUILD, false);
+
                 let opts = podman::opts::ImageBuildOptsBuilder::new(context_dir_row)
                     .dockerfile(imp.container_file_path_entry_row.text())
                     .tag(imp.tag_entry_row.text())
