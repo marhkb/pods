@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-27 19:46+0200\n"
-"PO-Revision-Date: 2024-04-25 08:07+0000\n"
-"Last-Translator: Luis Da Costa <aliasbody@gmail.com>\n"
-"Language-Team: Portuguese <https://hosted.weblate.org/projects/pods/main/pt/"
-">\n"
+"PO-Revision-Date: 2025-01-29 22:01+0000\n"
+"Last-Translator: Tiago Lucas Flach <tiagolucas9830@gmail.com>\n"
+"Language-Team: Portuguese <https://hosted.weblate.org/projects/pods/main/pt/>"
+"\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.5.1-dev\n"
+"X-Generator: Weblate 5.10-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:112
@@ -1325,7 +1325,7 @@ msgstr "Copiando arquivo para dentro do contêiner…"
 
 #: src/model/action.rs:562
 msgid "Download <b>{}:{}</b> to <b>{}</b>"
-msgstr ""
+msgstr "Download <b>{}:{}</b> to <b>{}</b>"
 
 #: src/model/action.rs:571
 msgid "Copying bytes into memory…"
@@ -1342,7 +1342,7 @@ msgstr "Pod: <b>{}</b>"
 
 #: src/model/action.rs:652
 msgid "Prune stopped pods"
-msgstr ""
+msgstr "Podar pods parados"
 
 #: src/model/action.rs:843
 #, fuzzy
@@ -1818,7 +1818,7 @@ msgstr "Conexões"
 
 #: src/view/actions_sidebar.ui:26
 msgid "Clear Finished Actions"
-msgstr ""
+msgstr "Limpar Ações Concluídas"
 
 #: src/view/actions_sidebar.ui:48
 #, fuzzy
@@ -3038,7 +3038,7 @@ msgstr ""
 
 #: src/view/image_details_page.ui:7
 msgid "Create Repository Tag"
-msgstr ""
+msgstr "Criar Tag de Repositório"
 
 #: src/view/image_details_page.ui:66
 #, fuzzy
@@ -3675,8 +3675,9 @@ msgid "_Prune Stopped Pods"
 msgstr "Criar contêiner"
 
 #: src/view/pods_panel.ui:125 src/view/pods_prune_page.ui:42
+#, fuzzy
 msgid "Prune Stopped Pods"
-msgstr ""
+msgstr "Podar Pods Parados"
 
 #: src/view/pods_panel.ui:146 src/view/pods_panel.ui:192
 #, fuzzy
@@ -3766,7 +3767,7 @@ msgstr "Limpar Imagens"
 
 #: src/view/repo_tag_push_page.ui:55
 msgid "_Push"
-msgstr ""
+msgstr "_Empurrar"
 
 #: src/view/repo_tag_push_page.ui:68
 #, fuzzy
@@ -3775,11 +3776,11 @@ msgstr "Operações"
 
 #: src/view/repo_tag_push_page.ui:72
 msgid "TLS Verify"
-msgstr ""
+msgstr "Verificação TLS"
 
 #: src/view/repo_tag_push_page.ui:82
 msgid "Login"
-msgstr ""
+msgstr "Login"
 
 #: src/view/repo_tag_push_page.ui:83
 msgid "Some registries require authentication"
@@ -3787,15 +3788,15 @@ msgstr ""
 
 #: src/view/repo_tag_push_page.ui:96
 msgid "Authentication"
-msgstr ""
+msgstr "Autenticação"
 
 #: src/view/repo_tag_push_page.ui:109 src/view/repo_tag_push_page.ui:136
 msgid "Password"
-msgstr ""
+msgstr "Senha"
 
 #: src/view/repo_tag_push_page.ui:115 src/view/repo_tag_push_page.ui:144
 msgid "Token"
-msgstr ""
+msgstr "Token"
 
 #: src/view/repo_tag_push_page.ui:128
 #, fuzzy
@@ -3804,7 +3805,7 @@ msgstr "Buscar nome de usuário"
 
 #: src/view/repo_tag_push_page.ui:152
 msgid "Save Credentials"
-msgstr ""
+msgstr "Salvar Credenciais"
 
 #: src/view/repo_tag_row.rs:212
 msgid "Error on untagging image"
@@ -3896,12 +3897,12 @@ msgstr "Sair"
 #: src/view/shortcuts.ui:38
 msgctxt "shortcut window"
 msgid "Close window"
-msgstr ""
+msgstr "Fechar janela"
 
 #: src/view/shortcuts.ui:45
 msgctxt "shortcut window"
 msgid "Close dialog"
-msgstr ""
+msgstr "Fechar diálogo"
 
 #: src/view/shortcuts.ui:52
 msgctxt "shortcut window"
