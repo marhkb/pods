@@ -79,6 +79,10 @@ impl From<&model::Client> for ContainersPrunePage {
     }
 }
 
+impl utils::MaybeDefaultWidget for ContainersPrunePage {
+    type Default = gtk::Widget;
+}
+
 impl ContainersPrunePage {
     fn prune(&self) {
         let imp = self.imp();

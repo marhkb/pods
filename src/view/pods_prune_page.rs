@@ -75,6 +75,10 @@ impl From<&model::Client> for PodsPrunePage {
     }
 }
 
+impl utils::MaybeDefaultWidget for PodsPrunePage {
+    type Default = gtk::Widget;
+}
+
 impl PodsPrunePage {
     pub(crate) fn prune(&self) {
         let imp = self.imp();

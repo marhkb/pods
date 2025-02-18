@@ -79,6 +79,10 @@ impl From<&model::Client> for VolumesPrunePage {
     }
 }
 
+impl utils::MaybeDefaultWidget for VolumesPrunePage {
+    type Default = gtk::Widget;
+}
+
 impl VolumesPrunePage {
     pub(crate) fn prune(&self) {
         let imp = self.imp();

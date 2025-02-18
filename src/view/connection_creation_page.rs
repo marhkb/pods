@@ -230,6 +230,10 @@ impl From<&model::ConnectionManager> for ConnectionCreationPage {
     }
 }
 
+impl utils::MaybeDefaultWidget for ConnectionCreationPage {
+    type Default = gtk::Widget;
+}
+
 impl ConnectionCreationPage {
     pub(crate) fn copy_socket_acivation_command(&self) {
         let label = &*self.imp().socket_activation_command_label;

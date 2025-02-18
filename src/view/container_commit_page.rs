@@ -183,6 +183,10 @@ impl From<&model::Container> for ContainerCommitPage {
     }
 }
 
+impl utils::MaybeDefaultWidget for ContainerCommitPage {
+    type Default = gtk::Widget;
+}
+
 impl ContainerCommitPage {
     pub(crate) async fn fetch_user_information(&self) {
         let request = UserInformationRequest::default()

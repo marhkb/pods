@@ -383,6 +383,10 @@ impl From<&model::Volume> for ContainerCreationPage {
     }
 }
 
+impl utils::MaybeDefaultWidget for ContainerCreationPage {
+    type Default = gtk::Widget;
+}
+
 impl ContainerCreationPage {
     fn update_local_data(&self, config: &model::ImageConfig) {
         let imp = self.imp();
