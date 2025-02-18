@@ -92,6 +92,10 @@ glib::wrapper! {
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
+impl utils::MaybeDefaultWidget for ImagePullPage {
+    type Default = gtk::Widget;
+}
+
 impl From<&model::Client> for ImagePullPage {
     fn from(client: &model::Client) -> Self {
         glib::Object::builder().property("client", client).build()

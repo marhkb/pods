@@ -100,6 +100,10 @@ impl From<&model::Client> for ImagesPrunePage {
     }
 }
 
+impl utils::MaybeDefaultWidget for ImagesPrunePage {
+    type Default = gtk::Widget;
+}
+
 impl ImagesPrunePage {
     fn prune(&self) {
         let imp = self.imp();

@@ -152,6 +152,10 @@ impl From<&model::Container> for ContainerFilesGetPage {
     }
 }
 
+impl utils::MaybeDefaultWidget for ContainerFilesGetPage {
+    type Default = gtk::Widget;
+}
+
 impl ContainerFilesGetPage {
     async fn select_path(&self) {
         let request = SaveFileRequest::default()

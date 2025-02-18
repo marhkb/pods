@@ -179,6 +179,10 @@ impl From<&model::Client> for ImageBuildPage {
     }
 }
 
+impl utils::MaybeDefaultWidget for ImageBuildPage {
+    type Default = gtk::Widget;
+}
+
 impl ImageBuildPage {
     fn on_opts_changed(&self) {
         let imp = self.imp();

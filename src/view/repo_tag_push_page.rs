@@ -222,6 +222,10 @@ impl From<&model::RepoTag> for RepoTagPushPage {
     }
 }
 
+impl utils::MaybeDefaultWidget for RepoTagPushPage {
+    type Default = gtk::Widget;
+}
+
 impl RepoTagPushPage {
     pub(crate) fn push(&self) {
         if let Some(repo_tag) = self.repo_tag() {

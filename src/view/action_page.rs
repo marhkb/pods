@@ -133,6 +133,10 @@ impl From<&model::Action> for ActionPage {
     }
 }
 
+impl utils::MaybeDefaultWidget for ActionPage {
+    type Default = gtk::Widget;
+}
+
 impl ActionPage {
     pub(crate) fn new(action: &model::Action, show_view_artifact: bool) -> Self {
         glib::Object::builder()

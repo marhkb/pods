@@ -330,6 +330,10 @@ impl From<&model::Client> for PodCreationPage {
     }
 }
 
+impl utils::MaybeDefaultWidget for PodCreationPage {
+    type Default = gtk::Widget;
+}
+
 impl PodCreationPage {
     pub(crate) fn new(client: &model::Client, show_view_artifact: bool) -> Self {
         glib::Object::builder()

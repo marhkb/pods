@@ -163,6 +163,10 @@ impl From<&model::Container> for ContainerFilesPutPage {
     }
 }
 
+impl utils::MaybeDefaultWidget for ContainerFilesPutPage {
+    type Default = gtk::Widget;
+}
+
 impl ContainerFilesPutPage {
     async fn select_file(&self, directory: bool) {
         let request = OpenFileRequest::default()
