@@ -133,7 +133,7 @@ mod imp {
                                                 .map_err(anyhow::Error::from)
                                                 .and_then(|secret| {
                                                     serde_json::from_slice::<RegistryAuth>(
-                                                        secret.as_slice(),
+                                                        secret.as_bytes(),
                                                     )
                                                     .map_err(anyhow::Error::from)
                                                 }),
