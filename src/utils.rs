@@ -163,6 +163,14 @@ pub(crate) fn root<W: IsA<gtk::Widget>>(widget: &W) -> gtk::Window {
     widget.root().unwrap().downcast::<gtk::Window>().unwrap()
 }
 
+pub(crate) trait MaybeDefaultWidget {
+    type Default: IsA<gtk::Widget>;
+
+    fn default_widget(&self) -> Option<Self::Default> {
+        None
+    }
+}
+
 pub(crate) struct Dialog<'a, P, C> {
     parent: &'a P,
     content: &'a C,
