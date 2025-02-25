@@ -101,7 +101,7 @@ impl ConnectionManager {
     where
         F: Fn(anyhow::Result<()>) + 'static,
     {
-        let connections = match self.load_from_disk().map_err(anyhow::Error::from) {
+        let connections = match self.load_from_disk() {
             Ok(connections) => connections,
             Err(e) => {
                 op(Err(e));
