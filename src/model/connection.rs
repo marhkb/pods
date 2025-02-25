@@ -2,9 +2,9 @@ use std::cell::Cell;
 use std::cell::OnceCell;
 use std::sync::OnceLock;
 
+use glib::Properties;
 use glib::prelude::*;
 use glib::subclass::prelude::*;
-use glib::Properties;
 use gtk::gdk;
 use gtk::glib;
 use serde::Deserialize;

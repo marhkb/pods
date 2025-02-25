@@ -9,11 +9,11 @@ use std::sync::OnceLock;
 
 use futures::Future;
 use gettextrs::gettext;
+use glib::Properties;
 use glib::clone;
 use glib::prelude::*;
-use glib::subclass::prelude::*;
 use glib::subclass::Signal;
-use glib::Properties;
+use glib::subclass::prelude::*;
 use gtk::glib;
 
 use crate::model;

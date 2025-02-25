@@ -5,11 +5,11 @@ use std::collections::HashSet;
 use std::ops::Deref;
 use std::sync::OnceLock;
 
+use glib::Properties;
 use glib::clone;
 use glib::prelude::*;
-use glib::subclass::prelude::*;
 use glib::subclass::Signal;
-use glib::Properties;
+use glib::subclass::prelude::*;
 use gtk::glib;
 
 use crate::model;

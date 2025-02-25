@@ -4,9 +4,9 @@ use std::sync::OnceLock;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use glib::Properties;
+use gtk::CompositeTemplate;
 use gtk::glib;
 use gtk::glib::closure;
-use gtk::CompositeTemplate;
 
 use crate::utils;
 

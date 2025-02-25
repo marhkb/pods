@@ -1,8 +1,8 @@
 use std::cell::OnceCell;
 
+use glib::Properties;
 use glib::prelude::*;
 use glib::subclass::prelude::*;
-use glib::Properties;
 use gtk::gio;
 use gtk::glib;
 

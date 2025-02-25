@@ -4,13 +4,13 @@ use std::cell::RefCell;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use gettextrs::gettext;
+use glib::Properties;
 use glib::clone;
 use glib::closure;
 use glib::closure_local;
-use glib::Properties;
+use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
-use gtk::CompositeTemplate;
 
 use crate::model;
 use crate::model::prelude::*;
@@ -168,11 +168,7 @@ mod imp {
 
             selection_mode_expr
                 .chain_closure::<String>(closure!(|_: Self::Type, is_selection_mode: bool| {
-                    if is_selection_mode {
-                        "select"
-                    } else {
-                        "edit"
-                    }
+                    if is_selection_mode { "select" } else { "edit" }
                 }))
                 .bind(
                     &self.edit_select_stack.get(),

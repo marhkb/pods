@@ -3,12 +3,12 @@ use std::borrow::Cow;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use gettextrs::gettext;
+use glib::Properties;
 use glib::clone;
 use glib::closure;
-use glib::Properties;
+use gtk::CompositeTemplate;
 use gtk::glib;
 use gtk::pango;
-use gtk::CompositeTemplate;
 
 use crate::model;
 use crate::utils;

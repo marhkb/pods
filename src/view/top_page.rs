@@ -7,12 +7,12 @@ use adw::prelude::*;
 use adw::subclass::prelude::*;
 use futures::StreamExt;
 use gettextrs::gettext;
+use glib::Properties;
 use glib::clone;
 use glib::closure;
-use glib::Properties;
+use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
-use gtk::CompositeTemplate;
 
 use crate::model;
 use crate::podman;

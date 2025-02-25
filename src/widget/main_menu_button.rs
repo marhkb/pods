@@ -1,6 +1,6 @@
 use adw::subclass::prelude::*;
-use gtk::glib;
 use gtk::CompositeTemplate;
+use gtk::glib;
 
 use crate::utils;
 

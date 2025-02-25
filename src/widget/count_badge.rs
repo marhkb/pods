@@ -3,11 +3,11 @@ use std::sync::OnceLock;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use glib::closure;
 use glib::Properties;
+use glib::closure;
+use gtk::CompositeTemplate;
 use gtk::glib;
 use gtk::gsk;
-use gtk::CompositeTemplate;
 
 use crate::utils;
 

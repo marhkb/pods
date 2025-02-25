@@ -4,12 +4,12 @@ use std::sync::OnceLock;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::graphene;
 use gtk::gsk;
-use gtk::CompositeTemplate;
 
 use crate::utils;
 

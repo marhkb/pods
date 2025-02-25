@@ -2,9 +2,9 @@ use adw::prelude::*;
 use adw::subclass::prelude::*;
 use gettextrs::gettext;
 use glib::clone;
+use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
-use gtk::CompositeTemplate;
 use sourceview5::prelude::*;
 
 use crate::utils;

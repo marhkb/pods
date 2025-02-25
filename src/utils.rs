@@ -8,9 +8,9 @@ use adw::prelude::*;
 use ashpd::desktop::file_chooser::OpenFileRequest;
 use ashpd::desktop::file_chooser::SaveFileRequest;
 use ashpd::desktop::file_chooser::SelectedFiles;
-use futures::stream::BoxStream;
 use futures::Future;
 use futures::StreamExt;
+use futures::stream::BoxStream;
 use gettextrs::gettext;
 use gettextrs::ngettext;
 use glib::clone;
@@ -18,8 +18,8 @@ use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone::Downgrade;
 
-use crate::config;
 use crate::APPLICATION_OPTS;
+use crate::config;
 
 #[macro_export]
 macro_rules! monad_boxed_type {

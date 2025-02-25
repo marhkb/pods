@@ -8,8 +8,8 @@ use futures::future;
 use gettextrs::gettext;
 use gio::prelude::*;
 use gio::subclass::prelude::*;
-use glib::clone;
 use glib::Properties;
+use glib::clone;
 use gtk::gdk;
 use gtk::gio;
 use gtk::glib;
@@ -101,7 +101,7 @@ impl ConnectionManager {
     where
         F: Fn(anyhow::Result<()>) + 'static,
     {
-        let connections = match self.load_from_disk().map_err(anyhow::Error::from) {
+        let connections = match self.load_from_disk() {
             Ok(connections) => connections,
             Err(e) => {
                 op(Err(e));

@@ -6,24 +6,24 @@ use std::collections::VecDeque;
 use std::io::BufWriter;
 use std::io::Write;
 use std::mem;
+use std::sync::OnceLock;
 use std::sync::atomic::AtomicUsize;
 use std::sync::atomic::Ordering;
-use std::sync::OnceLock;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use ashpd::WindowIdentifier;
 use ashpd::desktop::file_chooser::Choice;
 use ashpd::desktop::file_chooser::SaveFileRequest;
-use ashpd::WindowIdentifier;
 use futures::prelude::*;
 use gettextrs::gettext;
+use glib::Properties;
 use glib::clone;
 use glib::closure;
-use glib::Properties;
+use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::gio;
 use gtk::glib;
-use gtk::CompositeTemplate;
 use sourceview5::prelude::*;
 
 use crate::model;

@@ -25,9 +25,11 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
             PROPERTIES.get_or_init(|| {
-                vec![glib::ParamSpecBoolean::builder("selected")
-                    .explicit_notify()
-                    .build()]
+                vec![
+                    glib::ParamSpecBoolean::builder("selected")
+                        .explicit_notify()
+                        .build(),
+                ]
             })
         }
     }

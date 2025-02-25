@@ -5,9 +5,9 @@ use std::sync::atomic::Ordering;
 
 use futures::StreamExt;
 use gio::prelude::*;
+use glib::Properties;
 use glib::clone;
 use glib::subclass::prelude::*;
-use glib::Properties;
 use gtk::gio;
 use gtk::glib;
 

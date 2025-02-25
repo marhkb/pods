@@ -28,9 +28,11 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
             PROPERTIES.get_or_init(|| {
-                vec![glib::ParamSpecUInt::builder("len")
-                    .explicit_notify()
-                    .build()]
+                vec![
+                    glib::ParamSpecUInt::builder("len")
+                        .explicit_notify()
+                        .build(),
+                ]
             })
         }
 

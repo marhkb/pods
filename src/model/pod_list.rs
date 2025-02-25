@@ -5,9 +5,9 @@ use std::sync::OnceLock;
 
 use gio::prelude::*;
 use gio::subclass::prelude::*;
+use glib::Properties;
 use glib::clone;
 use glib::subclass::Signal;
-use glib::Properties;
 use gtk::gio;
 use gtk::glib;
 use indexmap::map::Entry;

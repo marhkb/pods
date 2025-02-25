@@ -2,10 +2,10 @@ use adw::prelude::*;
 use adw::subclass::prelude::*;
 use gettextrs::gettext;
 use gettextrs::ngettext;
+use gtk::CompositeTemplate;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::pango;
-use gtk::CompositeTemplate;
 
 use crate::model;
 use crate::utils;

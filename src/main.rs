@@ -15,8 +15,8 @@ use std::str::FromStr;
 use std::sync::OnceLock;
 
 use adw::prelude::*;
-use gettextrs::gettext;
 use gettextrs::LocaleCategory;
+use gettextrs::gettext;
 use glib::clone;
 use gtk::gio;
 use gtk::glib;

@@ -2,8 +2,8 @@ use std::cell::RefCell;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use gtk::glib;
 use gtk::CompositeTemplate;
+use gtk::glib;
 
 mod imp {
     use super::*;

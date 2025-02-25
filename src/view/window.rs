@@ -4,11 +4,11 @@ use adw::prelude::*;
 use adw::subclass::prelude::AdwApplicationWindowImpl;
 use adw::subclass::prelude::*;
 use gettextrs::gettext;
+use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
-use gtk::CompositeTemplate;
 
 use crate::application::Application;
 use crate::config;
@@ -96,11 +96,13 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
             PROPERTIES.get_or_init(|| {
-                vec![glib::ParamSpecObject::builder::<model::ConnectionManager>(
-                    "connection-manager",
-                )
-                .read_only()
-                .build()]
+                vec![
+                    glib::ParamSpecObject::builder::<model::ConnectionManager>(
+                        "connection-manager",
+                    )
+                    .read_only()
+                    .build(),
+                ]
             })
         }
 

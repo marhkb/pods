@@ -2,14 +2,14 @@ use std::cell::OnceCell;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use ashpd::desktop::file_chooser::SaveFileRequest;
 use ashpd::WindowIdentifier;
+use ashpd::desktop::file_chooser::SaveFileRequest;
 use gettextrs::gettext;
+use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone;
-use gtk::CompositeTemplate;
 use sourceview5::prelude::*;
 
 use crate::model;

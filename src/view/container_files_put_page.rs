@@ -2,14 +2,14 @@ use std::cell::Cell;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use ashpd::desktop::file_chooser::OpenFileRequest;
 use ashpd::WindowIdentifier;
+use ashpd::desktop::file_chooser::OpenFileRequest;
 use gettextrs::gettext;
-use glib::clone;
 use glib::Properties;
+use glib::clone;
+use gtk::CompositeTemplate;
 use gtk::gio;
 use gtk::glib;
-use gtk::CompositeTemplate;
 
 use crate::model;
 use crate::utils;

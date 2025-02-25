@@ -3,12 +3,12 @@ use std::cell::OnceCell;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use gettextrs::gettext;
+use glib::Properties;
 use glib::clone;
 use glib::closure;
-use glib::Properties;
+use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
-use gtk::CompositeTemplate;
 
 use crate::model;
 use crate::utils;
@@ -112,11 +112,7 @@ mod imp {
 
             connecting_expr
                 .chain_closure::<String>(closure!(|_: Self::Type, connecting: bool| {
-                    if connecting {
-                        "abort"
-                    } else {
-                        "connect"
-                    }
+                    if connecting { "abort" } else { "connect" }
                 }))
                 .bind(&*self.stack, "visible-child-name", Some(obj));
             connecting_expr

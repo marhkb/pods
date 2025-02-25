@@ -4,14 +4,14 @@ use std::sync::OnceLock;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use glib::Properties;
 use glib::clone;
 use glib::closure;
-use glib::Properties;
+use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
 use gtk::glib::subclass::Signal;
 use gtk::pango;
-use gtk::CompositeTemplate;
 
 use crate::model;
 use crate::utils;
@@ -84,9 +84,11 @@ mod imp {
         fn signals() -> &'static [Signal] {
             static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
             SIGNALS.get_or_init(|| {
-                vec![Signal::builder("image-selected")
-                    .param_types([model::Image::static_type()])
-                    .build()]
+                vec![
+                    Signal::builder("image-selected")
+                        .param_types([model::Image::static_type()])
+                        .build(),
+                ]
             })
         }
 

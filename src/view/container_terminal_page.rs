@@ -1,9 +1,9 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use glib::Properties;
+use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
-use gtk::CompositeTemplate;
 
 use crate::model;
 use crate::utils;

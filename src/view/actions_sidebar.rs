@@ -2,13 +2,13 @@ use std::sync::OnceLock;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use glib::Properties;
 use glib::clone;
 use glib::closure;
 use glib::subclass::InitializingObject;
 use glib::subclass::Signal;
-use glib::Properties;
-use gtk::glib;
 use gtk::CompositeTemplate;
+use gtk::glib;
 
 use crate::model;
 use crate::utils;
@@ -83,11 +83,7 @@ mod imp {
             Self::Type::this_expression("action-list")
                 .chain_property::<model::ActionList>("len")
                 .chain_closure::<String>(closure!(|_: Self::Type, len: u32| {
-                    if len > 0 {
-                        "actions"
-                    } else {
-                        "empty"
-                    }
+                    if len > 0 { "actions" } else { "empty" }
                 }))
                 .bind(&*self.stack, "visible-child-name", Some(obj));
 
