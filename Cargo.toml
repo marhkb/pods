@@ -2,7 +2,7 @@
 name = "pods"
 version = "2.1.0-devel"
 authors = ["Marcus Behrendt <marcus.behrendt.86@gmail.com>"]
-edition = "2021"
+edition = "2024"
 
 [dependencies]
 adw = { version = "0.7", package = "libadwaita", features = ["v1_6"] }
