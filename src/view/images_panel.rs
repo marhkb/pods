@@ -7,13 +7,13 @@ use adw::prelude::*;
 use adw::subclass::prelude::*;
 use gettextrs::gettext;
 use gettextrs::ngettext;
+use glib::Properties;
 use glib::clone;
 use glib::closure;
-use glib::Properties;
+use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::gio;
 use gtk::glib;
-use gtk::CompositeTemplate;
 
 use crate::config;
 use crate::model;
@@ -253,11 +253,7 @@ mod imp {
 
             selection_mode_expr
                 .chain_closure::<String>(closure!(|_: Self::Type, selection_mode: bool| {
-                    if !selection_mode {
-                        "main"
-                    } else {
-                        "selection"
-                    }
+                    if !selection_mode { "main" } else { "selection" }
                 }))
                 .bind(&self.header_stack.get(), "visible-child-name", Some(obj));
 

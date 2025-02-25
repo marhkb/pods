@@ -4,18 +4,18 @@ use std::sync::OnceLock;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use futures::future;
 use futures::AsyncWriteExt;
 use futures::StreamExt;
+use futures::future;
 use gettextrs::gettext;
+use glib::Properties;
 use glib::clone;
 use glib::closure;
 use glib::subclass::Signal;
-use glib::Properties;
+use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::gio;
 use gtk::glib;
-use gtk::CompositeTemplate;
 use vte4::TerminalExt;
 use vte4::TerminalExtManual;
 

@@ -4,10 +4,10 @@ use adw::prelude::*;
 use adw::subclass::prelude::*;
 use gettextrs::gettext;
 use gettextrs::ngettext;
-use glib::clone;
 use glib::Properties;
-use gtk::glib;
+use glib::clone;
 use gtk::CompositeTemplate;
+use gtk::glib;
 
 use crate::model;
 use crate::utils;
@@ -175,13 +175,9 @@ impl InfoPanel {
                                 ));
                                 imp.version_git_commit_row.set_value(&utils::format_option(
                                     version.and_then(|v| {
-                                        v.git_commit.as_ref().and_then(|s| {
-                                            if s.is_empty() {
-                                                None
-                                            } else {
-                                                Some(s)
-                                            }
-                                        })
+                                        v.git_commit
+                                            .as_ref()
+                                            .and_then(|s| if s.is_empty() { None } else { Some(s) })
                                     }),
                                 ));
                                 imp.version_go_version_row.set_value(&utils::format_option(

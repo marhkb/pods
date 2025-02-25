@@ -2,8 +2,8 @@ use std::sync::OnceLock;
 
 use gio::prelude::*;
 use glib::clone;
-use glib::subclass::prelude::*;
 use glib::subclass::Signal;
+use glib::subclass::prelude::*;
 use gtk::gio;
 use gtk::glib;
 

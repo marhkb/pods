@@ -5,11 +5,11 @@ use std::cell::RefCell;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use gettextrs::gettext;
-use glib::clone;
 use glib::Properties;
+use glib::clone;
+use gtk::CompositeTemplate;
 use gtk::gio;
 use gtk::glib;
-use gtk::CompositeTemplate;
 
 use crate::model;
 use crate::podman;

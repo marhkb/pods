@@ -4,10 +4,10 @@ use adw::prelude::*;
 use adw::subclass::prelude::*;
 use gettextrs::gettext;
 use glib::Properties;
+use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
 use gtk::glib::clone;
-use gtk::CompositeTemplate;
 use sourceview5::prelude::*;
 
 use crate::utils;
@@ -203,11 +203,7 @@ impl SourceViewSearchWidget {
 
             let iter_at_cursor = source_buffer.iter_at_offset({
                 let pos = source_buffer.cursor_position();
-                if pos >= 0 {
-                    pos
-                } else {
-                    i32::MAX
-                }
+                if pos >= 0 { pos } else { i32::MAX }
             });
 
             imp.search_iters.replace_with(|iters| {
@@ -243,11 +239,7 @@ impl SourceViewSearchWidget {
 
             let iter_at_cursor = source_buffer.iter_at_offset({
                 let pos = source_buffer.cursor_position();
-                if pos > 0 {
-                    pos
-                } else {
-                    0
-                }
+                if pos > 0 { pos } else { 0 }
             });
 
             imp.search_iters.replace_with(|iters| {

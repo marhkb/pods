@@ -3,10 +3,10 @@ use std::cell::RefCell;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use gettextrs::gettext;
+use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
 use gtk::glib::clone;
-use gtk::CompositeTemplate;
 
 use crate::model;
 use crate::podman;

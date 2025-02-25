@@ -7,13 +7,13 @@ use adw::prelude::*;
 use adw::subclass::prelude::*;
 use futures::future;
 use gettextrs::gettext;
-use glib::clone;
 use glib::Properties;
+use glib::clone;
+use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::gio;
 use gtk::glib;
 use gtk::glib::subclass::Signal;
-use gtk::CompositeTemplate;
 
 use crate::model;
 use crate::podman;
@@ -91,9 +91,11 @@ mod imp {
         fn signals() -> &'static [Signal] {
             static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
             SIGNALS.get_or_init(|| {
-                vec![Signal::builder("image-selected")
-                    .param_types([String::static_type()])
-                    .build()]
+                vec![
+                    Signal::builder("image-selected")
+                        .param_types([String::static_type()])
+                        .build(),
+                ]
             })
         }
 

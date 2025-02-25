@@ -2,8 +2,8 @@ use adw::prelude::*;
 use adw::subclass::prelude::*;
 use gettextrs::gettext;
 use glib::Properties;
-use gtk::glib;
 use gtk::CompositeTemplate;
+use gtk::glib;
 
 use crate::model;
 

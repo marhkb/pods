@@ -4,10 +4,10 @@ use adw::prelude::*;
 use adw::subclass::prelude::ExpanderRowImpl;
 use adw::subclass::prelude::PreferencesRowImpl;
 use adw::subclass::prelude::*;
-use glib::closure;
 use glib::Properties;
-use gtk::glib;
+use glib::closure;
 use gtk::CompositeTemplate;
+use gtk::glib;
 
 use crate::model;
 

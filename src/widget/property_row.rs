@@ -2,9 +2,9 @@ use std::sync::OnceLock;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use gtk::CompositeTemplate;
 use gtk::glib;
 use gtk::pango;
-use gtk::CompositeTemplate;
 
 mod imp {
     use super::*;

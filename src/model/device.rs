@@ -2,10 +2,10 @@ use std::cell::Cell;
 use std::cell::RefCell;
 use std::sync::OnceLock;
 
-use glib::prelude::*;
-use glib::subclass::prelude::*;
-use glib::subclass::Signal;
 use glib::Properties;
+use glib::prelude::*;
+use glib::subclass::Signal;
+use glib::subclass::prelude::*;
 use gtk::glib;
 
 mod imp {

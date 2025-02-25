@@ -3,10 +3,10 @@ use std::collections::HashMap;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use gettextrs::gettext;
-use glib::clone;
 use glib::Properties;
-use gtk::glib;
+use glib::clone;
 use gtk::CompositeTemplate;
+use gtk::glib;
 use serde::Deserialize;
 use serde::Serialize;
 
@@ -267,7 +267,9 @@ impl RepoTagPushPage {
                                     });
                                 }
                                 None => {
-                                    log::error!("Cannot save credentials, because secret service isn't available.");
+                                    log::error!(
+                                        "Cannot save credentials, because secret service isn't available."
+                                    );
                                     utils::show_error_toast(
                                         &*imp.toast_overlay,
                                         &gettext("Error saving credentials"),

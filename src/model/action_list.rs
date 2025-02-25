@@ -4,8 +4,8 @@ use std::sync::OnceLock;
 
 use gio::prelude::*;
 use gio::subclass::prelude::*;
-use glib::clone;
 use glib::Properties;
+use glib::clone;
 use gtk::gio;
 use gtk::glib;
 use indexmap::IndexMap;

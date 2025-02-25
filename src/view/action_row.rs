@@ -5,11 +5,11 @@ use adw::prelude::*;
 use adw::subclass::prelude::*;
 use ashpd::desktop as ashpd;
 use gettextrs::gettext;
+use glib::Properties;
 use glib::clone;
 use glib::closure;
-use glib::Properties;
-use gtk::glib;
 use gtk::CompositeTemplate;
+use gtk::glib;
 
 use crate::model;
 use crate::utils;
@@ -210,7 +210,7 @@ mod imp {
                                     "Failed Pods Action",
                                 ))
                                 .icon(ashpd::Icon::Names(vec![
-                                    "computer-fail-symbolic".to_string()
+                                    "computer-fail-symbolic".to_string(),
                                 ]))
                                 .priority(ashpd::notification::Priority::High)
                             } else {
@@ -218,7 +218,7 @@ mod imp {
                                     "Finished Pods Action",
                                 ))
                                 .icon(ashpd::Icon::Names(vec![
-                                    "checkbox-checked-symbolic".to_string()
+                                    "checkbox-checked-symbolic".to_string(),
                                 ]))
                                 .priority(ashpd::notification::Priority::Low)
                             }
