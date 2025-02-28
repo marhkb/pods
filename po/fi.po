@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-27 19:46+0200\n"
-"PO-Revision-Date: 2024-09-09 07:09+0000\n"
-"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
+"PO-Revision-Date: 2025-03-01 11:22+0000\n"
+"Last-Translator: Ricky Tigg <ricky.tigg@gmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/pods/main/fi/>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.8-dev\n"
+"X-Generator: Weblate 5.10.3-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:112
@@ -115,12 +115,11 @@ msgstr "Etsitäänkö vain kokonaisia sanoja"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:91
 msgid "The font scale of all text views"
-msgstr "Kaikkien tekstinäkymien fonttiskaalaus"
+msgstr "Kaikkien tekstinäkymien kirjaisinskaalaus"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:96
-#, fuzzy
 msgid "The font scale for terminals"
-msgstr "Kaikkien tekstinäkymien fonttiskaalaus"
+msgstr "Päätteiden kirjaisinasteikko"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
 msgid ""
