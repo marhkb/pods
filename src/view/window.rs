@@ -72,12 +72,12 @@ mod imp {
                 widget.add_connection();
             });
 
-            klass.install_action(
+            klass.install_action_async(
                 ACTION_REMOVE_CONNECTION,
                 Some(glib::VariantTy::STRING),
-                |widget, _, data| {
+                async |widget, _, data| {
                     let uuid: String = data.unwrap().get().unwrap();
-                    widget.remove_connection(&uuid);
+                    widget.remove_connection(&uuid).await;
                 },
             );
 
@@ -233,7 +233,7 @@ mod imp {
             }
 
             if view::show_ongoing_actions_warning_dialog(
-                window.upcast_ref(),
+                window,
                 &self.connection_manager,
                 &gettext("Confirm Exiting The Application"),
             ) {
@@ -309,8 +309,8 @@ impl Window {
         .present();
     }
 
-    pub(crate) fn remove_connection(&self, uuid: &str) {
-        self.connection_manager().remove_connection(uuid);
+    pub(crate) async fn remove_connection(&self, uuid: &str) {
+        self.connection_manager().remove_connection(uuid).await;
     }
 
     pub(crate) fn save_window_size(&self) -> Result<(), glib::BoolError> {

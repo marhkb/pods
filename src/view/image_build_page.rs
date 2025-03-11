@@ -56,8 +56,8 @@ mod imp {
             klass.bind_template();
             klass.bind_template_callbacks();
 
-            klass.install_action(ACTION_BUILD, None, |widget, _, _| {
-                widget.build();
+            klass.install_action_async(ACTION_BUILD, None, async |widget, _, _| {
+                widget.build().await;
             });
 
             klass.install_action_async(
@@ -237,7 +237,7 @@ impl ImageBuildPage {
         self.imp().labels().append(&label);
     }
 
-    fn build(&self) {
+    async fn build(&self) {
         let imp = self.imp();
 
         if imp.tag_entry_row.text().contains(char::is_uppercase) {
@@ -266,7 +266,8 @@ impl ImageBuildPage {
                         .client()
                         .unwrap()
                         .action_list()
-                        .build_image(imp.tag_entry_row.text().as_str(), opts),
+                        .build_image(imp.tag_entry_row.text().as_str(), opts)
+                        .await,
                 );
 
                 imp.navigation_view.push(

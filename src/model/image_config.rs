@@ -48,7 +48,7 @@ glib::wrapper! {
 }
 
 impl ImageConfig {
-    pub(crate) fn from_libpod(config: podman::models::ImageConfig) -> Self {
+    pub(crate) fn from_libpod(config: &podman::models::ImageConfig) -> Self {
         glib::Object::builder()
             .property(
                 "cmd",
@@ -66,10 +66,9 @@ impl ImageConfig {
                 gtk::StringList::new(
                     &config
                         .exposed_ports
-                        .unwrap_or_default()
-                        .keys()
-                        .map(String::as_str)
-                        .collect::<Vec<_>>(),
+                        .as_ref()
+                        .map(|ports| ports.keys().map(String::as_str).collect::<Vec<_>>())
+                        .unwrap_or_default(),
                 ),
             )
             .build()

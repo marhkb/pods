@@ -18,7 +18,7 @@ use crate::model;
 use crate::model::AbstractContainerListExt;
 use crate::model::SelectableListExt;
 use crate::podman;
-use crate::utils;
+use crate::rt;
 
 mod imp {
     use super::*;
@@ -109,57 +109,54 @@ mod imp {
             model::AbstractContainerList::bootstrap(obj.upcast_ref());
             model::SelectableList::bootstrap(obj.upcast_ref());
 
-            utils::run_stream(
-                obj.client().unwrap().podman().containers(),
-                |containers| {
-                    containers
-                        .stats_stream(
-                            &podman::opts::ContainerStatsOptsBuilder::default()
-                                .interval(1)
-                                .build(),
-                        )
-                        .boxed()
-                },
-                clone!(
-                    #[weak]
-                    obj,
-                    #[upgrade_or]
-                    glib::ControlFlow::Break,
-                    move |result: podman::Result<podman::models::ContainerStats200Response>| {
-                        match result
-                            .map_err(anyhow::Error::from)
-                            .and_then(|mut value| {
-                                value
-                                    .as_object_mut()
-                                    .and_then(|object| object.remove("Stats"))
-                                    .ok_or_else(|| anyhow!("Field 'Stats' is not present"))
-                            })
-                            .and_then(|value| {
-                                serde_json::from_value::<Vec<podman::models::ContainerStats>>(value)
-                                    .map_err(anyhow::Error::from)
-                            }) {
-                            Ok(stats) => {
-                                stats.into_iter().for_each(|stat| {
-                                    if let Some(container) =
-                                        obj.get_container(stat.container_id.as_ref().unwrap())
-                                    {
-                                        if container.status() == model::ContainerStatus::Running {
-                                            container.set_stats(Some(
-                                                model::BoxedContainerStats::from(stat),
-                                            ));
-                                        }
+            rt::Pipe::new(obj.client().unwrap().podman().containers(), |containers| {
+                containers
+                    .stats_stream(
+                        &podman::opts::ContainerStatsOptsBuilder::default()
+                            .interval(1)
+                            .build(),
+                    )
+                    .boxed()
+            })
+            .on_next(clone!(
+                #[weak]
+                obj,
+                #[upgrade_or]
+                glib::ControlFlow::Break,
+                move |result: podman::Result<podman::models::ContainerStats200Response>| {
+                    match result
+                        .map_err(anyhow::Error::from)
+                        .and_then(|mut value| {
+                            value
+                                .as_object_mut()
+                                .and_then(|object| object.remove("Stats"))
+                                .ok_or_else(|| anyhow!("Field 'Stats' is not present"))
+                        })
+                        .and_then(|value| {
+                            serde_json::from_value::<Vec<podman::models::ContainerStats>>(value)
+                                .map_err(anyhow::Error::from)
+                        }) {
+                        Ok(stats) => {
+                            stats.into_iter().for_each(|stat| {
+                                if let Some(container) =
+                                    obj.get_container(stat.container_id.as_ref().unwrap())
+                                {
+                                    if container.status() == model::ContainerStatus::Running {
+                                        container.set_stats(Some(
+                                            model::BoxedContainerStats::from(stat),
+                                        ));
                                     }
-                                });
-                            }
-                            Err(e) => {
-                                log::warn!("Error occurred on receiving stats stream element: {e}")
-                            }
+                                }
+                            });
                         }
-
-                        glib::ControlFlow::Continue
+                        Err(e) => {
+                            log::warn!("Error occurred on receiving stats stream element: {e}")
+                        }
                     }
-                ),
-            );
+
+                    glib::ControlFlow::Continue
+                }
+            ));
         }
     }
 
@@ -291,83 +288,81 @@ impl ContainerList {
         F: FnOnce(super::RefreshError) + Clone + 'static,
     {
         self.imp().set_listing(true);
-        utils::do_async(
-            {
-                let podman = self.client().unwrap().podman();
-                let id = id.clone();
-                async move {
-                    podman
-                        .containers()
-                        .list(
-                            &podman::opts::ContainerListOpts::builder()
-                                .all(true)
-                                .filter(
-                                    id.map(podman::Id::from)
-                                        .map(podman::opts::ContainerListFilter::Id),
-                                )
-                                .build(),
-                        )
-                        .await
-                }
-            },
-            clone!(
-                #[weak(rename_to = obj)]
-                self,
-                move |result| {
-                    match result {
-                        Ok(list_containers) => {
-                            if id.is_none() {
-                                let to_remove = obj
-                                    .imp()
-                                    .list
-                                    .borrow()
-                                    .keys()
-                                    .filter(|id| {
-                                        !list_containers.iter().any(|list_container| {
-                                            list_container.id.as_ref() == Some(id)
-                                        })
+        rt::Promise::new({
+            let podman = self.client().unwrap().podman();
+            let id = id.clone();
+            async move {
+                podman
+                    .containers()
+                    .list(
+                        &podman::opts::ContainerListOpts::builder()
+                            .all(true)
+                            .filter(
+                                id.map(podman::Id::from)
+                                    .map(podman::opts::ContainerListFilter::Id),
+                            )
+                            .build(),
+                    )
+                    .await
+            }
+        })
+        .defer(clone!(
+            #[weak(rename_to = obj)]
+            self,
+            move |result| {
+                match result {
+                    Ok(list_containers) => {
+                        if id.is_none() {
+                            let to_remove = obj
+                                .imp()
+                                .list
+                                .borrow()
+                                .keys()
+                                .filter(|id| {
+                                    !list_containers.iter().any(|list_container| {
+                                        list_container.id.as_ref() == Some(id)
                                     })
-                                    .cloned()
-                                    .collect::<Vec<_>>();
-                                to_remove.iter().for_each(|id| {
-                                    obj.remove_container(id);
-                                });
-                            }
-
-                            list_containers.into_iter().for_each(|list_container| {
-                                let index = obj.len();
-
-                                let mut list = obj.imp().list.borrow_mut();
-
-                                match list.entry(list_container.id.as_ref().unwrap().to_owned()) {
-                                    Entry::Vacant(e) => {
-                                        let container = model::Container::new(&obj, list_container);
-                                        e.insert(container.clone());
-
-                                        drop(list);
-
-                                        obj.items_changed(index, 0, 1);
-                                        obj.container_added(&container);
-                                    }
-                                    Entry::Occupied(e) => {
-                                        let container = e.get().clone();
-                                        drop(list);
-                                        container.update(list_container);
-                                    }
-                                }
+                                })
+                                .cloned()
+                                .collect::<Vec<_>>();
+                            to_remove.iter().for_each(|id| {
+                                obj.remove_container(id);
                             });
                         }
-                        Err(e) => {
-                            log::error!("Error on retrieving containers: {}", e);
-                            err_op(super::RefreshError);
-                        }
+
+                        list_containers.into_iter().for_each(|list_container| {
+                            let index = obj.len();
+
+                            let mut list = obj.imp().list.borrow_mut();
+
+                            match list.entry(list_container.id.as_ref().unwrap().to_owned()) {
+                                Entry::Vacant(e) => {
+                                    let container = model::Container::new(&obj, list_container);
+                                    e.insert(container.clone());
+
+                                    drop(list);
+
+                                    obj.items_changed(index, 0, 1);
+                                    obj.container_added(&container);
+                                }
+                                Entry::Occupied(e) => {
+                                    let container = e.get().clone();
+                                    drop(list);
+                                    container.update(list_container);
+                                }
+                            }
+                        });
                     }
-                    let imp = obj.imp();
-                    imp.set_listing(false);
-                    imp.set_as_initialized();
+                    Err(e) => {
+                        log::error!("Error on retrieving containers: {}", e);
+                        err_op(super::RefreshError);
+                    }
                 }
-            ),
-        );
+                let imp = obj.imp();
+                imp.set_listing(false);
+                imp.set_as_initialized();
+            }
+        ));
     }
 
     pub(crate) fn handle_event<F>(&self, event: podman::models::Event, err_op: F)

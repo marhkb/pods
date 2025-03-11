@@ -10,6 +10,7 @@ use gtk::gio;
 use gtk::glib;
 
 use crate::model;
+use crate::rt;
 use crate::utils;
 use crate::view;
 use crate::widget;
@@ -50,8 +51,8 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
 
-            klass.install_action(ACTION_RUN_HEALTH_COMMAND, None, |widget, _, _| {
-                widget.run_health_check()
+            klass.install_action_async(ACTION_RUN_HEALTH_COMMAND, None, async |widget, _, _| {
+                widget.run_health_check().await;
             });
         }
 
@@ -255,21 +256,22 @@ impl ContainerHealthCheckPage {
         self.imp().log_list_box.set_visible(model.n_items() > 0);
     }
 
-    pub(crate) fn run_health_check(&self) {
-        if let Some(container) = self.container().as_ref().and_then(model::Container::api) {
-            utils::do_async(
-                async move { container.healthcheck().await },
-                clone!(
-                    #[weak(rename_to = obj)]
-                    self,
-                    move |result| if let Err(e) = result {
-                        utils::show_error_toast(
-                            &obj,
-                            &gettext("Error on running health check"),
-                            &e.to_string(),
-                        );
-                    }
-                ),
+    pub(crate) async fn run_health_check(&self) {
+        if let Err(e) = rt::Promise::new({
+            let container = self
+                .container()
+                .as_ref()
+                .and_then(model::Container::api)
+                .unwrap();
+            async move { container.healthcheck().await }
+        })
+        .exec()
+        .await
+        {
+            utils::show_error_toast(
+                self,
+                &gettext("Error on running health check"),
+                &e.to_string(),
             );
         }
     }

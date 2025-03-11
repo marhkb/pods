@@ -59,14 +59,16 @@ glib::wrapper! {
     pub(crate) struct ContainerData(ObjectSubclass<imp::ContainerData>);
 }
 
-impl From<podman::models::InspectContainerData> for ContainerData {
-    fn from(data: podman::models::InspectContainerData) -> Self {
+impl From<&podman::models::InspectContainerData> for ContainerData {
+    fn from(data: &podman::models::InspectContainerData) -> Self {
         let obj: Self = glib::Object::builder()
             .property(
                 "health-config",
                 data.config
+                    .as_ref()
                     .unwrap()
                     .healthcheck
+                    .clone()
                     .map(BoxedSchema2HealthConfig),
             )
             .property(
@@ -77,11 +79,14 @@ impl From<podman::models::InspectContainerData> for ContainerData {
                 "mounts",
                 BoxedInspectMounts::from(
                     data.mounts
+                        .as_deref()
                         .unwrap_or_default()
-                        .into_iter()
-                        .filter_map(|mount| match mount.name {
-                            Some(ref name) => Some((name.to_owned(), mount)),
-                            None => None,
+                        .iter()
+                        .filter_map(|mount| {
+                            mount
+                                .name
+                                .as_ref()
+                                .map(|name| (name.to_owned(), mount.to_owned()))
                         })
                         .collect::<HashMap<_, _>>(),
                 ),
@@ -89,7 +94,8 @@ impl From<podman::models::InspectContainerData> for ContainerData {
             .property(
                 "port-bindings",
                 data.host_config
-                    .and_then(|config| config.port_bindings)
+                    .as_ref()
+                    .and_then(|config| config.port_bindings.clone())
                     .map(BoxedPortBindings::from),
             )
             .property("size", data.size_root_fs.unwrap_or(0))
@@ -97,8 +103,9 @@ impl From<podman::models::InspectContainerData> for ContainerData {
 
         if let Some(logs) = data
             .state
-            .and_then(|state| state.health)
-            .and_then(|health| health.log)
+            .as_ref()
+            .and_then(|state| state.health.as_ref())
+            .and_then(|health| health.log.as_ref())
         {
             obj.imp().health_check_log_list.sync(logs);
         }
@@ -108,12 +115,13 @@ impl From<podman::models::InspectContainerData> for ContainerData {
 }
 
 impl ContainerData {
-    pub(crate) fn update(&self, data: podman::models::InspectContainerData) {
+    pub(crate) fn update(&self, data: &podman::models::InspectContainerData) {
         self.set_health_failing_streak(health_failing_streak(data.state.as_ref()));
         if let Some(logs) = data
             .state
-            .and_then(|state| state.health)
-            .and_then(|health| health.log)
+            .as_ref()
+            .and_then(|state| state.health.as_ref())
+            .and_then(|health| health.log.as_ref())
         {
             self.imp().health_check_log_list.sync(logs);
         }

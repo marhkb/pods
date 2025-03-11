@@ -11,6 +11,7 @@ use futures::FutureExt;
 use futures::StreamExt;
 use futures::TryFutureExt;
 use futures::TryStreamExt;
+use futures::future;
 use futures::lock::Mutex;
 use futures::stream;
 use gettextrs::gettext;
@@ -26,7 +27,7 @@ use tokio::io::BufWriter;
 use crate::model;
 use crate::model::AbstractContainerListExt;
 use crate::podman;
-use crate::utils;
+use crate::rt;
 
 #[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
 #[enum_type(name = "ActionState")]
@@ -138,35 +139,29 @@ impl Action {
         let obj = Self::new(num, Type::PruneImages, &gettext("Prune unused images"));
         let abort_registration = obj.setup_abort_handle();
 
-        utils::do_async(
-            {
-                let podman = client.podman();
-                async move {
-                    stream::Abortable::new(podman.images().prune(&opts), abort_registration).await
+        rt::Promise::new({
+            let podman = client.podman();
+            async move {
+                future::Abortable::new(podman.images().prune(&opts), abort_registration).await
+            }
+        })
+        .defer(clone!(#[weak] obj, move |result|  if let Ok(result) = result {
+            let output = obj.output();
+            let mut start_iter = output.start_iter();
+            match result.as_ref() {
+                Ok(report) => {
+                    output.insert(
+                        &mut start_iter,
+                        &serde_json::to_string_pretty(&report).unwrap(),
+                    );
+                    obj.set_state(State::Finished);
                 }
-            },
-            clone!(
-                #[weak]
-                obj,
-                move |result| if let Ok(result) = result {
-                    let output = obj.output();
-                    let mut start_iter = output.start_iter();
-                    match result.as_ref() {
-                        Ok(report) => {
-                            output.insert(
-                                &mut start_iter,
-                                &serde_json::to_string_pretty(&report).unwrap(),
-                            );
-                            obj.set_state(State::Finished);
-                        }
-                        Err(e) => {
-                            output.insert(&mut start_iter, &e.to_string());
-                            obj.set_state(State::Failed);
-                        }
-                    }
+                Err(e) => {
+                    output.insert(&mut start_iter, &e.to_string());
+                    obj.set_state(State::Failed);
                 }
-            ),
-        );
+            }
+        }));
 
         obj
     }
@@ -224,56 +219,55 @@ impl Action {
         );
         let abort_registration = obj.setup_abort_handle();
 
-        utils::run_stream_with_finish_handler(
-            image,
-            move |image| stream::Abortable::new(image.push(&opts), abort_registration).boxed(),
-            clone!(
-                #[weak]
-                obj,
-                #[upgrade_or]
-                glib::ControlFlow::Break,
-                move |result: podman::Result<String>| {
-                    match result.map_err(anyhow::Error::from).and_then(|line| {
-                        serde_json::from_str::<Report>(&line).map_err(anyhow::Error::from)
-                    }) {
-                        Ok(report) => match report.stream {
-                            Some(line) => {
+        rt::Pipe::new(image, move |image| {
+            future::Abortable::new(image.push(&opts), abort_registration).boxed()
+        })
+        .on_next(clone!(
+            #[weak]
+            obj,
+            #[upgrade_or]
+            glib::ControlFlow::Break,
+            move |result: podman::Result<String>| {
+                match result.map_err(anyhow::Error::from).and_then(|line| {
+                    serde_json::from_str::<Report>(&line).map_err(anyhow::Error::from)
+                }) {
+                    Ok(report) => match report.stream {
+                        Some(line) => {
+                            obj.insert(&line);
+                            glib::ControlFlow::Continue
+                        }
+                        None => {
+                            if let Some(line) = report.error {
+                                log::error!("Error on pushing image: {line}");
                                 obj.insert(&line);
-                                glib::ControlFlow::Continue
                             }
-                            None => {
-                                if let Some(line) = report.error {
-                                    log::error!("Error on pushing image: {line}");
-                                    obj.insert(&line);
-                                }
-                                obj.set_state(State::Failed);
-                                glib::ControlFlow::Break
-                            }
-                        },
-                        Err(e) => {
-                            log::error!("Error on pushing image: {e}");
-                            obj.insert_line(&e.to_string());
                             obj.set_state(State::Failed);
                             glib::ControlFlow::Break
                         }
+                    },
+                    Err(e) => {
+                        log::error!("Error on pushing image: {e}");
+                        obj.insert_line(&e.to_string());
+                        obj.set_state(State::Failed);
+                        glib::ControlFlow::Break
                     }
                 }
-            ),
-            clone!(
-                #[weak]
-                obj,
-                move || {
-                    if obj.state() != State::Failed {
-                        obj.set_state(State::Finished);
-                    }
+            }
+        ))
+        .on_finish(clone!(
+            #[weak]
+            obj,
+            move || {
+                if obj.state() != State::Failed {
+                    obj.set_state(State::Finished);
                 }
-            ),
-        );
+            }
+        ));
 
         obj
     }
 
-    pub(crate) fn build_image(
+    pub(crate) async fn build_image(
         num: u32,
         image: &str,
         client: model::Client,
@@ -288,70 +282,65 @@ impl Action {
 
         obj.insert_line(&gettext("Generating tarball of context directory..."));
 
-        utils::run_stream_with_finish_handler(
-            client.podman().images(),
-            move |images| match images.build(&opts) {
+        let mut stream = rt::Pipe::new(client.podman().images(), move |images| {
+            match images.build(&opts) {
                 Ok(stream) => stream::Abortable::new(stream, abort_registration).boxed(),
                 Err(e) => {
                     log::error!("Error on building image: {e}");
                     futures::stream::empty().boxed()
                 }
-            },
-            clone!(
-                #[weak]
-                obj,
-                #[upgrade_or]
-                glib::ControlFlow::Break,
-                move |result: podman::Result<podman::models::ImageBuildLibpod200Response>| {
+            }
+        })
+        .stream();
+
+        glib::MainContext::default().spawn_local(clone!(
+            #[weak]
+            obj,
+            async move {
+                while let Some(result) = stream.next().await {
                     match result {
                         Ok(stream) => {
                             obj.insert(&stream.stream);
-                            glib::ControlFlow::Continue
+                            // glib::ControlFlow::Continue
                         }
                         Err(e) => {
                             log::error!("Error on building image: {e}");
                             obj.insert_line(&e.to_string());
                             obj.set_state(State::Failed);
-                            glib::ControlFlow::Break
+                            // glib::ControlFlow::Break
+                            break;
                         }
                     }
                 }
-            ),
-            clone!(
-                #[weak]
-                obj,
-                #[weak]
-                client,
-                move || {
-                    let output = obj.output();
 
-                    let start = output.iter_at_line(0).unwrap();
-                    let mut end = output.iter_at_line(0).unwrap();
-                    end.forward_to_line_end();
+                let output = obj.output();
 
-                    let image_id = output.text(&start, &end, false).trim().to_owned();
+                let start = output.iter_at_line(0).unwrap();
+                let mut end = output.iter_at_line(0).unwrap();
+                end.forward_to_line_end();
 
-                    match client.image_list().get_image(&image_id) {
-                        Some(image) => {
-                            obj.set_artifact(image.upcast_ref());
-                            obj.set_state(State::Finished);
-                        }
-                        None => {
-                            client.image_list().connect_image_added(clone!(
-                                #[weak]
-                                obj,
-                                move |_, image| {
-                                    if image.id() == image_id {
-                                        obj.set_artifact(image.upcast_ref());
-                                        obj.set_state(State::Finished);
-                                    }
+                let image_id = output.text(&start, &end, false).trim().to_owned();
+
+                match client.image_list().get_image(&image_id) {
+                    Some(image) => {
+                        obj.set_artifact(image.upcast_ref());
+                        obj.set_state(State::Finished);
+                    }
+                    None => {
+                        client.image_list().connect_image_added(clone!(
+                            #[weak]
+                            obj,
+                            move |_, image| {
+                                if image.id() == image_id {
+                                    obj.set_artifact(image.upcast_ref());
+                                    obj.set_state(State::Finished);
                                 }
-                            ));
-                        }
+                            }
+                        ));
                     }
                 }
-            ),
-        );
+            }
+        ));
 
         obj
     }
@@ -368,36 +357,33 @@ impl Action {
         );
         let abort_registration = obj.setup_abort_handle();
 
-        utils::do_async(
-            {
-                let podman = client.podman();
-                async move {
-                    stream::Abortable::new(podman.containers().prune(&opts), abort_registration)
-                        .await
-                }
-            },
-            clone!(
-                #[weak]
-                obj,
-                move |result| if let Ok(result) = result {
-                    let output = obj.output();
-                    let mut start_iter = output.start_iter();
-                    match result.as_ref() {
-                        Ok(report) => {
-                            output.insert(
-                                &mut start_iter,
-                                &serde_json::to_string_pretty(&report).unwrap(),
-                            );
-                            obj.set_state(State::Finished);
-                        }
-                        Err(e) => {
-                            output.insert(&mut start_iter, &e.to_string());
-                            obj.set_state(State::Failed);
-                        }
+        rt::Promise::new({
+            let podman = client.podman();
+            async move {
+                future::Abortable::new(podman.containers().prune(&opts), abort_registration).await
+            }
+        })
+        .defer(clone!(
+            #[weak]
+            obj,
+            move |result| if let Ok(result) = result {
+                let output = obj.output();
+                let mut start_iter = output.start_iter();
+                match result.as_ref() {
+                    Ok(report) => {
+                        output.insert(
+                            &mut start_iter,
+                            &serde_json::to_string_pretty(&report).unwrap(),
+                        );
+                        obj.set_state(State::Finished);
+                    }
+                    Err(e) => {
+                        output.insert(&mut start_iter, &e.to_string());
+                        obj.set_state(State::Failed);
                     }
                 }
-            ),
-        );
+            }
+        ));
 
         obj
     }
@@ -446,27 +432,26 @@ impl Action {
                     .unwrap_or_else(|| Cow::Owned(format!("<i>&lt;{}&gt;</i>", gettext("none")))),
             ),
         );
+
         let abort_registration = obj.setup_abort_handle();
 
-        utils::do_async(
-            async move { stream::Abortable::new(api.commit(&opts), abort_registration).await },
-            clone!(
-                #[weak]
-                obj,
-                move |result| if let Ok(result) = result {
-                    match result.as_ref() {
-                        Ok(_) => {
-                            obj.insert_line(&gettext("Finished"));
-                            obj.set_state(State::Finished);
-                        }
-                        Err(e) => {
-                            obj.insert_line(&e.to_string());
-                            obj.set_state(State::Failed);
-                        }
-                    }
+        rt::Promise::new(async move {
+            future::Abortable::new(api.commit(&opts), abort_registration).await
+        })
+        .defer(clone!(
+            #[weak]
+            obj,
+            move |result| match result.as_ref() {
+                Ok(_) => {
+                    obj.insert_line(&gettext("Finished"));
+                    obj.set_state(State::Finished);
                 }
-            ),
-        );
+                Err(e) => {
+                    obj.insert_line(&e.to_string());
+                    obj.set_state(State::Failed);
+                }
+            }
+        ));
 
         obj
     }
@@ -510,107 +495,94 @@ impl Action {
 
         let abort_registration = obj.setup_abort_handle();
 
-        utils::do_async(
-            async move {
-                let mut ar = tokio_tar::Builder::new(Vec::new());
+        rt::Promise::new(async move {
+            let mut ar = tokio_tar::Builder::new(Vec::new());
 
-                stream::Abortable::new(
-                    async move {
-                        let host_path = PathBuf::from(host_path);
-                        let file_name = host_path.file_name();
-                        if directory {
-                            ar.append_dir_all(
-                                file_name.unwrap_or_else(|| OsStr::new(".")),
-                                &host_path,
-                            )
+            future::Abortable::new(
+                async move {
+                    let host_path = PathBuf::from(host_path);
+                    let file_name = host_path.file_name();
+                    if directory {
+                        ar.append_dir_all(file_name.unwrap_or_else(|| OsStr::new(".")), &host_path)
                             .await
-                        } else {
-                            match tokio::fs::File::open(&host_path).await {
-                                Ok(mut file) => ar.append_file(file_name.unwrap(), &mut file).await,
-                                Err(e) => Err(e),
-                            }
-                        }
-                        .map(|_| ar)
-                    },
-                    abort_registration,
-                )
-                .await
-            },
-            clone!(
-                #[weak]
-                obj,
-                #[weak]
-                container,
-                move |result| if let Ok(result) = result {
-                    match result {
-                        Ok(ar) => {
-                            obj.insert_line(&gettext("Tar archive created"));
-                            obj.insert_line(&gettext("Unwrapping tar archive…"));
-
-                            let abort_registration = obj.setup_abort_handle();
-                            utils::do_async(
-                                stream::Abortable::new(ar.into_inner(), abort_registration),
-                                clone!(
-                                    #[weak]
-                                    obj,
-                                    #[weak]
-                                    container,
-                                    move |result| if let Ok(result) = result {
-                                        match result {
-                                            Ok(data) => {
-                                                obj.insert_line(&gettext("Tar archive unwrapped"));
-                                                obj.insert_line(&gettext(
-                                                    "Copying files into container…",
-                                                ));
-
-                                                let abort_registration = obj.setup_abort_handle();
-                                                let api = container.api().unwrap();
-                                                utils::do_async(
-                                                    async move {
-                                                        stream::Abortable::new(
-                                                            api.copy_to(
-                                                                container_path,
-                                                                data.into(),
-                                                            ),
-                                                            abort_registration,
-                                                        )
-                                                        .await
-                                                    },
-                                                    clone!(
-                                                        #[weak]
-                                                        obj,
-                                                        move |result| match result {
-                                                            Ok(_) => {
-                                                                obj.insert_line(&gettext(
-                                                                    "Finished",
-                                                                ));
-                                                                obj.set_state(State::Finished);
-                                                            }
-                                                            Err(e) => {
-                                                                obj.insert_line(&e.to_string());
-                                                                obj.set_state(State::Failed);
-                                                            }
-                                                        }
-                                                    ),
-                                                );
-                                            }
-                                            Err(e) => {
-                                                obj.insert_line(&e.to_string());
-                                                obj.set_state(State::Failed);
-                                            }
-                                        }
-                                    }
-                                ),
-                            );
-                        }
-                        Err(e) => {
-                            obj.insert_line(&e.to_string());
-                            obj.set_state(State::Failed);
+                    } else {
+                        match tokio::fs::File::open(&host_path).await {
+                            Ok(mut file) => ar.append_file(file_name.unwrap(), &mut file).await,
+                            Err(e) => Err(e),
                         }
                     }
+                    .map(|_| ar)
+                },
+                abort_registration,
+            )
+            .await
+        })
+        .defer(clone!(
+            #[weak]
+            obj,
+            #[weak]
+            container,
+            move |result| if let Ok(result) = result {
+                match result {
+                    Ok(ar) => {
+                        obj.insert_line(&gettext("Tar archive created"));
+                        obj.insert_line(&gettext("Unwrapping tar archive…"));
+
+                        let abort_registration = obj.setup_abort_handle();
+                        rt::Promise::new(future::Abortable::new(
+                            ar.into_inner(),
+                            abort_registration,
+                        ))
+                        .defer(clone!(
+                            #[weak]
+                            obj,
+                            #[weak]
+                            container,
+                            move |result| if let Ok(result) = result {
+                                match result {
+                                    Ok(data) => {
+                                        obj.insert_line(&gettext("Tar archive unwrapped"));
+                                        obj.insert_line(&gettext("Copying files into container…"));
+
+                                        let abort_registration = obj.setup_abort_handle();
+                                        let api = container.api().unwrap();
+                                        rt::Promise::new(async move {
+                                            stream::Abortable::new(
+                                                api.copy_to(container_path, data.into()),
+                                                abort_registration,
+                                            )
+                                            .await
+                                        })
+                                        .defer(clone!(
+                                            #[weak]
+                                            obj,
+                                            move |result| match result {
+                                                Ok(_) => {
+                                                    obj.insert_line(&gettext("Finished"));
+                                                    obj.set_state(State::Finished);
+                                                }
+                                                Err(e) => {
+                                                    obj.insert_line(&e.to_string());
+                                                    obj.set_state(State::Failed);
+                                                }
+                                            }
+                                        ));
+                                    }
+                                    Err(e) => {
+                                        obj.insert_line(&e.to_string());
+                                        obj.set_state(State::Failed);
+                                    }
+                                }
+                            }
+                        ));
+                    }
+                    Err(e) => {
+                        obj.insert_line(&e.to_string());
+                        obj.set_state(State::Failed);
+                    }
                 }
-            ),
-        );
+            }
+        ));
 
         obj
     }
@@ -636,129 +608,116 @@ impl Action {
 
         obj.insert_line(&gettext("Writing to file…"));
 
-        utils::do_async(
-            async move {
-                tokio::fs::File::options()
-                    .write(true)
-                    .create(true)
-                    .truncate(true)
-                    .open(&host_path)
-                    .await
-            },
-            clone!(
-                #[weak]
-                obj,
-                #[weak]
-                container,
-                move |file| {
-                    match file {
-                        Err(e) => {
-                            obj.insert_line(&e.to_string());
-                            obj.set_state(State::Failed);
+        rt::Promise::new(async move {
+            tokio::fs::File::options()
+                .write(true)
+                .create(true)
+                .truncate(true)
+                .open(&host_path)
+                .await
+        })
+        .defer(clone!(
+            #[weak]
+            obj,
+            #[weak]
+            container,
+            move |result| match result {
+                Err(e) => {
+                    obj.insert_line(&e.to_string());
+                    obj.set_state(State::Failed);
+                }
+                Ok(file) => {
+                    let writer = Arc::new(Mutex::new(BufWriter::new(file)));
+                    obj.insert_line(&gettext!("Written: {}", glib::format_size(0)));
+
+                    rt::Pipe::new(container.api().unwrap(), {
+                        let writer = writer.clone();
+                        move |container| {
+                            stream::Abortable::new(
+                                container.copy_from(container_path),
+                                abort_registration,
+                            )
+                            .map_err(anyhow::Error::from)
+                            .scan(Ok((writer, 0)), |state: &mut anyhow::Result<_>, chunk| {
+                                match state {
+                                    Err(_) => future::ready(None).boxed(),
+                                    Ok((writer, written)) => match chunk {
+                                        Err(e) => future::ready(Some(Err(e))).boxed(),
+                                        Ok(chunk) => {
+                                            *written += chunk.len();
+
+                                            let writer = writer.clone();
+                                            let written = *written;
+                                            async move {
+                                                Some({
+                                                    let mut writer = writer.lock().await;
+                                                    writer
+                                                        .write_all(&chunk)
+                                                        .map_err(anyhow::Error::from)
+                                                        .map_ok(|_| written)
+                                                        .await
+                                                })
+                                            }
+                                            .boxed()
+                                        }
+                                    },
+                                }
+                            })
+                            .boxed()
                         }
-                        Ok(file) => {
-                            let writer = Arc::new(Mutex::new(BufWriter::new(file)));
-                            obj.insert_line(&gettext!("Written: {}", glib::format_size(0)));
-
-                            utils::run_stream_with_finish_handler(
-                                container.api().unwrap(),
-                                {
-                                    let writer = writer.clone();
-                                    move |container| {
-                                        stream::Abortable::new(
-                                            container.copy_from(container_path),
-                                            abort_registration,
-                                        )
-                                        .map_err(anyhow::Error::from)
-                                        .scan(
-                                            Ok((writer, 0)),
-                                            |state: &mut anyhow::Result<_>, chunk| match state {
-                                                Err(_) => futures::future::ready(None).boxed(),
-                                                Ok((writer, written)) => match chunk {
-                                                    Err(e) => {
-                                                        futures::future::ready(Some(Err(e))).boxed()
-                                                    }
-                                                    Ok(chunk) => {
-                                                        *written += chunk.len();
-
-                                                        let writer = writer.clone();
-                                                        let written = *written;
-                                                        async move {
-                                                            Some({
-                                                                let mut writer =
-                                                                    writer.lock().await;
-                                                                writer
-                                                                    .write_all(&chunk)
-                                                                    .map_err(anyhow::Error::from)
-                                                                    .map_ok(|_| written)
-                                                                    .await
-                                                            })
-                                                        }
-                                                        .boxed()
-                                                    }
-                                                },
-                                            },
-                                        )
-                                        .boxed()
-                                    }
-                                },
-                                clone!(
-                                    #[weak]
-                                    obj,
-                                    #[upgrade_or]
-                                    glib::ControlFlow::Break,
-                                    move |result: anyhow::Result<usize>| {
-                                        match result {
-                                            Ok(written) => {
-                                                obj.replace_last_line(&gettext!(
-                                                    "Written: {}",
-                                                    glib::format_size(written as u64)
-                                                ));
-                                                glib::ControlFlow::Continue
-                                            }
-                                            Err(e) => {
-                                                obj.insert_line(&e.to_string());
-                                                obj.set_state(State::Failed);
-                                                glib::ControlFlow::Break
-                                            }
+                    })
+                    .on_next(clone!(
+                        #[weak]
+                        obj,
+                        #[upgrade_or]
+                        glib::ControlFlow::Break,
+                        move |result: anyhow::Result<usize>| {
+                            match result {
+                                Ok(written) => {
+                                    obj.replace_last_line(&gettext!(
+                                        "Written: {}",
+                                        glib::format_size(written as u64)
+                                    ));
+                                    glib::ControlFlow::Continue
+                                }
+                                Err(e) => {
+                                    obj.insert_line(&e.to_string());
+                                    obj.set_state(State::Failed);
+                                    glib::ControlFlow::Break
+                                }
+                            }
+                        }
+                    ))
+                    .on_finish(clone!(
+                        #[weak]
+                        obj,
+                        move || {
+                            obj.insert_line(&gettext("Flushing…"));
+                            rt::Promise::new({
+                                let writer = writer.clone();
+                                async move { writer.lock().await.flush().await }
+                            })
+                            .defer(clone!(
+                                #[weak]
+                                obj,
+                                move |result| {
+                                    match result {
+                                        Ok(_) => {
+                                            obj.insert_line(&gettext("Finished"));
+                                            obj.set_state(State::Finished);
+                                        }
+                                        Err(e) => {
+                                            obj.insert_line(&e.to_string());
+                                            obj.set_state(State::Failed);
                                         }
                                     }
-                                ),
-                                clone!(
-                                    #[weak]
-                                    obj,
-                                    move || {
-                                        obj.insert_line(&gettext("Flushing…"));
-                                        utils::do_async(
-                                            {
-                                                let writer = writer.clone();
-                                                async move { writer.lock().await.flush().await }
-                                            },
-                                            clone!(
-                                                #[weak]
-                                                obj,
-                                                move |result| {
-                                                    match result {
-                                                        Ok(_) => {
-                                                            obj.insert_line(&gettext("Finished"));
-                                                            obj.set_state(State::Finished);
-                                                        }
-                                                        Err(e) => {
-                                                            obj.insert_line(&e.to_string());
-                                                            obj.set_state(State::Failed);
-                                                        }
-                                                    }
-                                                }
-                                            ),
-                                        );
-                                    }
-                                ),
-                            );
+                                }
+                            ));
                         }
-                    }
+                    ));
                 }
-            ),
-        );
+            }
+        ));
 
         obj
     }
@@ -783,7 +742,7 @@ impl Action {
         pull_opts: podman::opts::PullOpts,
         create_opts_builder: podman::opts::PodCreateOptsBuilder,
     ) -> Self {
-        Self::pod(num, pod).download_image_(client, pull_opts, move |obj, client, report| {
+        Self::pod(num, pod).download_image_(client, pull_opts, |obj, client, report| {
             obj.create_pod_(client, create_opts_builder.infra_image(report.id).build());
         })
     }
@@ -792,33 +751,31 @@ impl Action {
         let obj = Self::new(num, Type::PrunePods, &gettext("Prune stopped pods"));
         let abort_registration = obj.setup_abort_handle();
 
-        utils::do_async(
-            {
-                let podman = client.podman();
-                async move { stream::Abortable::new(podman.pods().prune(), abort_registration).await }
-            },
-            clone!(
-                #[weak]
-                obj,
-                move |result| if let Ok(result) = result {
-                    let output = obj.output();
-                    let mut start_iter = output.start_iter();
-                    match result.as_ref() {
-                        Ok(report) => {
-                            output.insert(
-                                &mut start_iter,
-                                &serde_json::to_string_pretty(&report).unwrap(),
-                            );
-                            obj.set_state(State::Finished);
-                        }
-                        Err(e) => {
-                            output.insert(&mut start_iter, &e.to_string());
-                            obj.set_state(State::Failed);
-                        }
+        rt::Promise::new({
+            let podman: model::client::BoxedPodman = client.podman();
+            async move { future::Abortable::new(podman.pods().prune(), abort_registration).await }
+        })
+        .defer(clone!(
+            #[weak]
+            obj,
+            move |result| if let Ok(result) = result {
+                let output = obj.output();
+                let mut start_iter = output.start_iter();
+                match result.as_ref() {
+                    Ok(report) => {
+                        output.insert(
+                            &mut start_iter,
+                            &serde_json::to_string_pretty(&report).unwrap(),
+                        );
+                        obj.set_state(State::Finished);
+                    }
+                    Err(e) => {
+                        output.insert(&mut start_iter, &e.to_string());
+                        obj.set_state(State::Failed);
                     }
                 }
-            ),
-        );
+            }
+        ));
 
         obj
     }
@@ -836,46 +793,45 @@ impl Action {
     {
         let abort_registration = self.setup_abort_handle();
 
-        utils::run_stream(
-            client.podman().images(),
-            move |images| stream::Abortable::new(images.pull(&opts), abort_registration).boxed(),
-            clone!(
-                #[weak(rename_to = obj)]
-                self,
-                #[weak]
-                client,
-                #[upgrade_or]
-                glib::ControlFlow::Break,
-                move |result: podman::Result<podman::models::LibpodImagesPullReport>| {
-                    match result {
-                        Ok(report) => match report.error {
-                            Some(error) => {
-                                log::error!("Error on downloading image: {error}");
-                                obj.insert_line(&error);
-                                obj.set_state(State::Failed);
-                                glib::ControlFlow::Break
-                            }
-                            None => match report.stream {
-                                Some(stream) => {
-                                    obj.insert(&stream);
-                                    glib::ControlFlow::Continue
-                                }
-                                None => {
-                                    op.clone()(obj, client, report);
-                                    glib::ControlFlow::Break
-                                }
-                            },
-                        },
-                        Err(e) => {
-                            log::error!("Error on downloading image: {e}");
-                            obj.insert_line(&e.to_string());
+        rt::Pipe::new(client.podman().images(), move |images| {
+            stream::Abortable::new(images.pull(&opts), abort_registration).boxed()
+        })
+        .on_next(clone!(
+            #[weak(rename_to = obj)]
+            self,
+            #[weak]
+            client,
+            #[upgrade_or]
+            glib::ControlFlow::Break,
+            move |result: podman::Result<podman::models::LibpodImagesPullReport>| {
+                match result {
+                    Ok(report) => match report.error {
+                        Some(error) => {
+                            log::error!("Error on downloading image: {error}");
+                            obj.insert_line(&error);
                             obj.set_state(State::Failed);
                             glib::ControlFlow::Break
                         }
+                        None => match report.stream {
+                            Some(stream) => {
+                                obj.insert(&stream);
+                                glib::ControlFlow::Continue
+                            }
+                            None => {
+                                op.clone()(obj, client, report);
+                                glib::ControlFlow::Break
+                            }
+                        },
+                    },
+                    Err(e) => {
+                        log::error!("Error on downloading image: {e}");
+                        obj.insert_line(&e.to_string());
+                        obj.set_state(State::Failed);
+                        glib::ControlFlow::Break
                     }
                 }
-            ),
-        );
+            }
+        ));
 
         self
     }
@@ -888,65 +844,55 @@ impl Action {
     ) -> Self {
         let abort_registration = self.setup_abort_handle();
 
-        utils::do_async(
-            {
-                let podman = client.podman();
-                async move {
-                    stream::Abortable::new(podman.containers().create(&opts), abort_registration)
-                        .await
-                }
-            },
-            clone!(
-                #[weak(rename_to = obj)]
-                self,
-                #[weak]
-                client,
-                move |result| if let Ok(result) = result {
-                    match result.map(|info| info.id) {
-                        Ok(id) => {
-                            match client.container_list().get_container(&id) {
-                                Some(container) => {
-                                    obj.set_artifact(container.upcast_ref());
-                                    obj.set_state(State::Finished);
-                                }
-                                None => {
-                                    client.container_list().connect_container_added(clone!(
-                                        #[weak]
-                                        obj,
-                                        #[strong]
-                                        id,
-                                        move |_, container| {
-                                            if container.id() == id.as_str() {
-                                                obj.set_artifact(container.upcast_ref());
-                                                obj.set_state(State::Finished);
-                                            }
-                                        }
-                                    ));
-                                }
+        rt::Promise::new({
+            let podman = client.podman();
+            async move {
+                future::Abortable::new(podman.containers().create(&opts), abort_registration).await
+            }
+        })
+        .defer(clone!(
+            #[weak(rename_to = obj)]
+            self,
+            move |result| if let Ok(result) = result {
+                match result.map(|info| info.id) {
+                    Ok(id) => {
+                        match client.container_list().get_container(&id) {
+                            Some(container) => {
+                                obj.set_artifact(container.upcast_ref());
+                                obj.set_state(State::Finished);
                             }
-
-                            if run {
-                                crate::runtime().spawn({
-                                let podman = client.podman();
-                                async move {
-                                    podman
-                                        .containers()
-                                        .get(id.clone())
-                                        .start(None)
-                                        .await
-                                }
-                            });
+                            None => {
+                                client.container_list().connect_container_added(clone!(
+                                    #[weak]
+                                    obj,
+                                    #[strong]
+                                    id,
+                                    move |_, container| {
+                                        if container.id() == id.as_str() {
+                                            obj.set_artifact(container.upcast_ref());
+                                            obj.set_state(State::Finished);
+                                        }
+                                    }
+                                ));
                             }
                         }
-                        Err(e) => {
-                            log::error!("Error on creating container: {e}");
-                            obj.insert_line(&e.to_string());
-                            obj.set_state(State::Failed);
+
+                        if run {
+                            rt::Promise::new({
+                                let podman = client.podman();
+                                async move { podman.containers().get(id.clone()).start(None).await }
+                            })
+                            .spawn();
                         }
                     }
+                    Err(e) => {
+                        log::error!("Error on creating container: {e}");
+                        obj.insert_line(&e.to_string());
+                        obj.set_state(State::Failed);
+                    }
                 }
-            ),
-        );
+            }
+        ));
 
         self
     }
@@ -954,13 +900,13 @@ impl Action {
     fn create_pod_(self, client: model::Client, opts: podman::opts::PodCreateOpts) -> Self {
         let abort_registration = self.setup_abort_handle();
 
-        utils::do_async(
+        rt::Promise::new(
             {
                 let podman = client.podman();
                 async move {
                     stream::Abortable::new(podman.pods().create(&opts), abort_registration).await
                 }
-            },
+            }).defer(
             clone!(
                 #[weak(rename_to = obj)]
                 self,
@@ -1014,49 +960,46 @@ impl Action {
         );
 
         let abort_registration = obj.setup_abort_handle();
-        utils::do_async(
-            {
-                let podman = client.podman();
-                async move {
-                    stream::Abortable::new(podman.volumes().create(&opts), abort_registration).await
-                }
-            },
-            clone!(
-                #[weak]
-                obj,
-                #[weak]
-                client,
-                move |result| if let Ok(result) = result {
-                    match result.map(|response| response.name.unwrap_or_default()) {
-                        Ok(name) => match client.volume_list().get_volume(&name) {
-                            Some(volume) => {
-                                obj.set_artifact(volume.upcast_ref());
-                                obj.set_state(State::Finished);
-                            }
-                            None => {
-                                client.volume_list().connect_volume_added(clone!(
-                                    #[weak]
-                                    obj,
-                                    #[strong]
-                                    name,
-                                    move |_, volume| {
-                                        if volume.inner().name == name {
-                                            obj.set_artifact(volume.upcast_ref());
-                                            obj.set_state(State::Finished);
-                                        }
-                                    }
-                                ));
-                            }
-                        },
-                        Err(e) => {
-                            log::error!("Error on creating volume: {e}");
-                            obj.insert_line(&e.to_string());
-                            obj.set_state(State::Failed);
+
+        rt::Promise::new({
+            let podman = client.podman();
+            async move {
+                future::Abortable::new(podman.volumes().create(&opts), abort_registration).await
+            }
+        })
+        .defer(clone!(
+            #[weak]
+            obj,
+            move |result| if let Ok(result) = result {
+                match result.map(|response| response.name.unwrap_or_default()) {
+                    Ok(name) => match client.volume_list().get_volume(&name) {
+                        Some(volume) => {
+                            obj.set_artifact(volume.upcast_ref());
+                            obj.set_state(State::Finished);
                         }
+                        None => {
+                            client.volume_list().connect_volume_added(clone!(
+                                #[weak]
+                                obj,
+                                #[strong]
+                                name,
+                                move |_, volume| {
+                                    if volume.inner().name == name {
+                                        obj.set_artifact(volume.upcast_ref());
+                                        obj.set_state(State::Finished);
+                                    }
+                                }
+                            ));
+                        }
+                    },
+                    Err(e) => {
+                        log::error!("Error on creating volume: {e}");
+                        obj.insert_line(&e.to_string());
+                        obj.set_state(State::Failed);
                     }
                 }
-            ),
-        );
+            }
+        ));
 
         obj
     }
@@ -1069,35 +1012,33 @@ impl Action {
         let obj = Self::new(num, Type::PruneVolumes, &gettext("Prune unused volumes"));
         let abort_registration = obj.setup_abort_handle();
 
-        utils::do_async(
-            {
-                let podman = client.podman();
-                async move {
-                    stream::Abortable::new(podman.volumes().prune(&opts), abort_registration).await
-                }
-            },
-            clone!(
-                #[weak]
-                obj,
-                move |result| if let Ok(result) = result {
-                    let output = obj.output();
-                    let mut start_iter = output.start_iter();
-                    match result.as_ref() {
-                        Ok(report) => {
-                            output.insert(
-                                &mut start_iter,
-                                &serde_json::to_string_pretty(&report).unwrap(),
-                            );
-                            obj.set_state(State::Finished);
-                        }
-                        Err(e) => {
-                            output.insert(&mut start_iter, &e.to_string());
-                            obj.set_state(State::Failed);
-                        }
+        rt::Promise::new({
+            let podman = client.podman();
+            async move {
+                future::Abortable::new(podman.volumes().prune(&opts), abort_registration).await
+            }
+        })
+        .defer(clone!(
+            #[weak]
+            obj,
+            move |result| if let Ok(result) = result {
+                let output = obj.output();
+                let mut start_iter = output.start_iter();
+                match result.as_ref() {
+                    Ok(report) => {
+                        output.insert(
+                            &mut start_iter,
+                            &serde_json::to_string_pretty(&report).unwrap(),
+                        );
+                        obj.set_state(State::Finished);
+                    }
+                    Err(e) => {
+                        output.insert(&mut start_iter, &e.to_string());
+                        obj.set_state(State::Failed);
                     }
                 }
-            ),
-        );
+            }
+        ));
 
         obj
     }

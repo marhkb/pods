@@ -23,6 +23,7 @@ const ACTION_SELECT: &str = "repo-tag-selection-page.select";
 
 mod imp {
     use super::*;
+    use crate::rt;
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::RepoTagSelectionPage)]
@@ -120,61 +121,58 @@ mod imp {
             let (abort_handle, abort_registration) = future::AbortHandle::new_pair();
             self.search_abort_handle.set(abort_handle).unwrap();
 
-            utils::do_async(
-                {
-                    let opts = podman::opts::ImageSearchOpts::builder()
-                        .term(self.image_name.get().unwrap())
-                        .list_tags(true)
-                        .limit(u32::MAX as usize)
-                        .build();
+            rt::Promise::new({
+                let opts = podman::opts::ImageSearchOpts::builder()
+                    .term(self.image_name.get().unwrap())
+                    .list_tags(true)
+                    .limit(u32::MAX as usize)
+                    .build();
 
-                    let podman = obj.client().unwrap().podman();
-                    async move {
-                        future::Abortable::new(podman.images().search(&opts), abort_registration)
-                            .await
-                    }
-                },
-                clone!(
-                    #[weak]
-                    obj,
-                    move |result| if let Ok(responses) = result {
-                        match responses {
-                            Ok(responses) => {
-                                let imp = obj.imp();
+                let podman = obj.client().unwrap().podman();
+                async move {
+                    future::Abortable::new(podman.images().search(&opts), abort_registration).await
+                }
+            })
+            .defer(clone!(
+                #[weak]
+                obj,
+                move |result| if let Ok(responses) = result {
+                    match responses {
+                        Ok(responses) => {
+                            let imp = obj.imp();
 
-                                obj.action_set_enabled(ACTION_SELECT, true);
+                            obj.action_set_enabled(ACTION_SELECT, true);
 
-                                responses.into_iter().for_each(|response| {
+                            responses.into_iter().for_each(|response| {
+                                obj.imp()
+                                    .search_results()
+                                    .append(&model::ImageSearchResponse::from(response));
+                            });
+
+                            imp.selection.set_selected(0);
+                            imp.search_stack.set_visible_child_name("results");
+
+                            glib::idle_add_local_once(clone!(
+                                #[weak]
+                                obj,
+                                move || {
                                     obj.imp()
-                                        .search_results()
-                                        .append(&model::ImageSearchResponse::from(response));
-                                });
-
-                                imp.selection.set_selected(0);
-                                imp.search_stack.set_visible_child_name("results");
-
-                                glib::idle_add_local_once(clone!(
-                                    #[weak]
-                                    obj,
-                                    move || {
-                                        obj.imp()
-                                            .scrolled_window
-                                            .emit_scroll_child(gtk::ScrollType::Start, false);
-                                    }
-                                ));
-                            }
-                            Err(e) => {
-                                log::error!("Failed to search for images: {}", e);
-                                utils::show_error_toast(
-                                    &obj,
-                                    &gettext("Failed to search for images"),
-                                    &e.to_string(),
-                                );
-                            }
+                                        .scrolled_window
+                                        .emit_scroll_child(gtk::ScrollType::Start, false);
+                                }
+                            ));
+                        }
+                        Err(e) => {
+                            log::error!("Failed to search for images: {}", e);
+                            utils::show_error_toast(
+                                &obj,
+                                &gettext("Failed to search for images"),
+                                &e.to_string(),
+                            );
                         }
                     }
-                ),
-            );
+                }
+            ));
 
             self.filter_entry.set_key_capture_widget(Some(obj));
 

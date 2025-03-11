@@ -79,39 +79,46 @@ mod imp {
         #[template_callback]
         fn on_list_view_activated(&self, position: u32) {
             let obj = &*self.obj();
-            if let Some(connection_manager) = obj.connection_manager() {
-                let connection = self
-                    .selection
-                    .item(position)
-                    .unwrap()
-                    .downcast::<model::Connection>()
-                    .unwrap();
 
-                if connection.is_active() {
-                    return;
-                }
+            let connection_manager = if let Some(connection_manager) = obj.connection_manager() {
+                connection_manager
+            } else {
+                return;
+            };
 
-                if view::show_ongoing_actions_warning_dialog(
-                    obj.upcast_ref(),
-                    &connection_manager,
-                    &gettext("Confirm Switching Connection"),
-                ) {
-                    connection_manager.set_client_from(
-                        &connection.uuid(),
-                        clone!(
-                            #[weak]
-                            obj,
-                            move |result| if let Err(e) = result {
-                                utils::show_error_toast(
-                                    &obj,
-                                    &gettext("Error on switching connection"),
-                                    &e.to_string(),
-                                );
-                            }
-                        ),
-                    );
-                }
+            let connection = self
+                .selection
+                .item(position)
+                .unwrap()
+                .downcast::<model::Connection>()
+                .unwrap();
+
+            if connection.is_active() {
+                return;
             }
+
+            if !view::show_ongoing_actions_warning_dialog(
+                obj,
+                &connection_manager,
+                &gettext("Confirm Switching Connection"),
+            ) {
+                return;
+            }
+
+            connection_manager.set_client_from(
+                &connection.uuid(),
+                clone!(
+                    #[weak]
+                    obj,
+                    move |result| if let Err(e) = result {
+                        utils::show_error_toast(
+                            &obj,
+                            &gettext("Error on switching connection"),
+                            &e.to_string(),
+                        );
+                    }
+                ),
+            );
         }
     }
 }

@@ -18,6 +18,7 @@ use tokio::io::AsyncWriteExt;
 
 use crate::model;
 use crate::podman;
+use crate::rt;
 use crate::utils;
 use crate::utils::config_dir;
 
@@ -153,10 +154,7 @@ impl ConnectionManager {
         }
     }
 
-    pub(crate) fn sync_to_disk<F>(&self, op: F)
-    where
-        F: FnOnce(anyhow::Result<()>) + 'static,
-    {
+    pub(crate) async fn sync_to_disk(&self) -> anyhow::Result<()> {
         let value = self
             .imp()
             .connections
@@ -167,105 +165,105 @@ impl ConnectionManager {
 
         let buf = serde_json::to_vec_pretty(&value).unwrap();
 
-        utils::do_async(
-            async move {
-                if !utils::config_dir().exists() {
-                    tokio::fs::create_dir_all(&config_dir()).await?;
-                }
+        rt::Promise::new(async move {
+            if !utils::config_dir().exists() {
+                tokio::fs::create_dir_all(&config_dir()).await?;
+            }
 
-                let mut file = tokio::fs::OpenOptions::new()
-                    .write(true)
-                    .create(true)
-                    .truncate(true)
-                    .open(path())
-                    .await?;
+            let mut file = tokio::fs::OpenOptions::new()
+                .write(true)
+                .create(true)
+                .truncate(true)
+                .open(path())
+                .await?;
 
-                file.write_all(&buf).await.map_err(anyhow::Error::from)
-            },
-            op,
-        );
+            file.write_all(&buf).await.map_err(anyhow::Error::from)
+        })
+        .exec()
+        .await
+        .inspect_err(|e| log::error!("Failed to sync connections to disk: {e}"))
     }
 
-    pub(crate) fn try_connect<F>(
+    pub(crate) async fn try_connect(
         &self,
         name: &str,
         url: &str,
         rgb: Option<gdk::RGBA>,
-        op: F,
-    ) -> anyhow::Result<()>
-    where
-        F: FnOnce(podman::Result<podman::models::LibpodPingInfo>) + 'static,
-    {
+    ) -> Option<anyhow::Result<podman::models::LibpodPingInfo>> {
         let imp = self.imp();
 
         if imp.connections.borrow().values().any(|c| c.name() == name) {
-            return Err(anyhow::anyhow!(gettext!(
+            return Some(Err(anyhow::anyhow!(gettext!(
                 "Connection '{}' already exists",
                 name
-            )));
+            ))));
         }
 
         let connection =
             model::Connection::new(glib::uuid_string_random().as_str(), name, url, rgb, self);
 
-        let client = model::Client::try_from(&connection)?;
+        let client = match model::Client::try_from(&connection) {
+            Ok(client) => client,
+            Err(e) => return Some(Err(anyhow::Error::from(e))),
+        };
 
         self.set_creating_new_connection(true);
 
-        utils::do_async(
-            {
-                let podman = client.podman();
-                let abort_registration = self.abort_registration();
-                async move { future::Abortable::new(podman.ping(), abort_registration).await }
-            },
-            clone!(
-                #[weak(rename_to = obj)]
-                self,
-                move |result| {
-                    if let Ok(result) = result {
-                        match &result {
-                            Ok(_) => {
-                                let (position, _) = obj
-                                    .imp()
-                                    .connections
-                                    .borrow_mut()
-                                    .insert_full(connection.uuid(), connection.clone());
+        let result = rt::Promise::new({
+            let podman = client.podman();
+            let abort_registration = self.abort_registration();
+            async move { future::Abortable::new(podman.ping(), abort_registration).await }
+        })
+        .exec()
+        .await;
 
-                                obj.items_changed(position as u32, 0, 1);
+        self.set_creating_new_connection(false);
 
-                                obj.set_client(Some(client));
+        match result {
+            Ok(result) => {
+                match result {
+                    Ok(_) => {
+                        let (position, _) = imp
+                            .connections
+                            .borrow_mut()
+                            .insert_full(connection.uuid(), connection.clone());
 
-                                obj.sync_to_disk(|_| {});
-                            }
-                            Err(e) => log::error!("Error on pinging connection: {e}"),
-                        }
-                        op(result);
+                        self.items_changed(position as u32, 0, 1);
+
+                        self.set_client(Some(client));
+
+                        _ = self.sync_to_disk().await;
                     }
-                    obj.set_creating_new_connection(false);
+                    Err(ref e) => log::error!("Error on pinging connection: {e}"),
                 }
-            ),
-        );
 
-        Ok(())
+                Some(result.map_err(anyhow::Error::from))
+            }
+            Err(_) => None,
+        }
     }
 
-    pub(crate) fn remove_connection(&self, uuid: &str) {
-        let mut connections = self.imp().connections.borrow_mut();
-        if let Some((position, _, _)) = connections.shift_remove_full(uuid) {
-            drop(connections);
-
-            self.items_changed(position as u32, 1, 0);
-
-            if self
-                .client()
-                .map(|client| client.connection().uuid() == uuid)
-                .unwrap_or(false)
-            {
-                self.set_client(None);
+    pub(crate) async fn remove_connection(&self, uuid: &str) {
+        let position = {
+            let mut connections = self.imp().connections.borrow_mut();
+            if let Some((position, _, _)) = connections.shift_remove_full(uuid) {
+                position
+            } else {
+                return;
             }
+        };
 
-            self.sync_to_disk(|_| {});
+        self.items_changed(position as u32, 1, 0);
+
+        if self
+            .client()
+            .map(|client| client.connection().uuid() == uuid)
+            .unwrap_or(false)
+        {
+            self.set_client(None);
         }
+
+        _ = self.sync_to_disk().await;
     }
 
     pub(crate) fn contains_local_connection(&self) -> bool {
@@ -312,31 +310,29 @@ impl ConnectionManager {
             }
         };
 
-        utils::do_async(
-            {
-                let podman = client.podman();
-                let abort_registration = self.abort_registration();
-                async move { future::Abortable::new(podman.ping(), abort_registration).await }
-            },
-            clone!(
-                #[weak(rename_to = obj)]
-                self,
-                move |result| {
-                    if let Ok(result) = result {
-                        match result {
-                            Ok(_) => {
-                                obj.set_client(Some(client));
-                            }
-                            Err(ref e) => {
-                                log::error!("Failed to search for images: {}", e);
-                            }
+        rt::Promise::new({
+            let podman = client.podman();
+            let abort_registration = self.abort_registration();
+            async move { future::Abortable::new(podman.ping(), abort_registration).await }
+        })
+        .defer(clone!(
+            #[weak(rename_to = obj)]
+            self,
+            move |result| {
+                if let Ok(result) = result {
+                    match result {
+                        Ok(_) => {
+                            obj.set_client(Some(client));
                         }
-                        op(result.map(|_| ()).map_err(anyhow::Error::from));
+                        Err(ref e) => {
+                            log::error!("Failed to search for images: {}", e);
+                        }
                     }
-                    connection.set_connecting(false);
+                    op(result.map(|_| ()).map_err(anyhow::Error::from));
                 }
-            ),
-        );
+                connection.set_connecting(false);
+            }
+        ));
     }
 
     fn set_client(&self, value: Option<model::Client>) {

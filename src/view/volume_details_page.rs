@@ -49,12 +49,12 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
 
-            klass.install_action(ACTION_INSPECT_VOLUME, None, |widget, _, _| {
-                widget.show_inspection();
+            klass.install_action_async(ACTION_INSPECT_VOLUME, None, async |widget, _, _| {
+                widget.show_inspection().await;
             });
 
-            klass.install_action(ACTION_DELETE_VOLUME, None, |widget, _, _| {
-                widget.delete_volume();
+            klass.install_action_async(ACTION_DELETE_VOLUME, None, async |widget, _, _| {
+                widget.delete_volume().await;
             });
 
             klass.add_binding_action(
@@ -62,11 +62,11 @@ mod imp {
                 gdk::ModifierType::CONTROL_MASK,
                 view::ContainersGroup::action_create_container(),
             );
-            klass.install_action(
+            klass.install_action_async(
                 view::ContainersGroup::action_create_container(),
                 None,
-                move |widget, _, _| {
-                    widget.create_container();
+                async |widget, _, _| {
+                    widget.create_container().await;
                 },
             );
         }
@@ -212,8 +212,8 @@ impl From<&model::Volume> for VolumeDetailsPage {
 }
 
 impl VolumeDetailsPage {
-    pub(crate) fn show_inspection(&self) {
-        self.exec_action(|| {
+    pub(crate) async fn show_inspection(&self) {
+        self.exec_action(async || {
             if let Some(volume) = self.volume() {
                 let weak_ref = glib::WeakRef::new();
                 weak_ref.set(Some(&volume));
@@ -226,28 +226,31 @@ impl VolumeDetailsPage {
                         .build(),
                 );
             }
-        });
+        })
+        .await;
     }
 
-    pub(crate) fn delete_volume(&self) {
-        self.exec_action(|| {
-            view::volume::delete_volume_show_confirmation(self, self.volume());
-        });
+    pub(crate) async fn delete_volume(&self) {
+        self.exec_action(async || {
+            view::volume::delete_volume_show_confirmation(self, self.volume().as_ref()).await;
+        })
+        .await;
     }
 
-    fn exec_action<F: Fn()>(&self, op: F) {
+    pub(crate) async fn create_container(&self) {
+        self.exec_action(async || {
+            view::volume::create_container(self, self.volume());
+        })
+        .await;
+    }
+
+    async fn exec_action<F: AsyncFn()>(&self, op: F) {
         if utils::navigation_view(self)
             .visible_page()
             .filter(|page| page.child().as_ref() == Some(self.upcast_ref()))
             .is_some()
         {
-            op();
+            op().await;
         }
-    }
-
-    pub(crate) fn create_container(&self) {
-        self.exec_action(|| {
-            view::volume::create_container(self, self.volume());
-        });
     }
 }

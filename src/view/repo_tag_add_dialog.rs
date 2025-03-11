@@ -6,14 +6,13 @@ use gettextrs::gettext;
 use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
-use gtk::glib::clone;
 
 use crate::model;
 use crate::podman;
-use crate::utils;
 
 mod imp {
     use super::*;
+    use crate::rt;
 
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/marhkb/Pods/ui/view/repo_tag_add_dialog.ui")]
@@ -63,7 +62,14 @@ mod imp {
         }
 
         #[template_callback]
-        fn on_response(&self, response: &str) {
+        async fn on_response(&self, response: &str) {
+            let image =
+                if let Some(image) = self.image.upgrade().as_ref().and_then(model::Image::api) {
+                    image
+                } else {
+                    return;
+                };
+
             let obj = &*self.obj();
 
             if response == "close" {
@@ -71,36 +77,32 @@ mod imp {
                 return;
             }
 
-            if let Some(image) = self.image.upgrade().as_ref().and_then(model::Image::api) {
-                let repo_tag = self.entry_row.text();
-                match repo_tag.split_once(':') {
-                    Some((repo, tag)) => {
-                        let repo = repo.trim().to_owned();
-                        let tag = tag.trim().to_owned();
-                        utils::do_async(
-                            async move {
-                                image
-                                    .tag(
-                                        &podman::opts::ImageTagOpts::builder()
-                                            .repo(repo)
-                                            .tag(tag)
-                                            .build(),
-                                    )
-                                    .await
-                            },
-                            clone!(
-                                #[weak]
-                                obj,
-                                move |result| match result {
-                                    Ok(_) => obj.force_close(),
-                                    Err(e) => obj.set_error(&e.to_string()),
-                                }
-                            ),
-                        );
+            let repo_tag = self.entry_row.text();
+            match repo_tag.split_once(':') {
+                Some((repo, tag)) => {
+                    let repo = repo.trim().to_owned();
+                    let tag = tag.trim().to_owned();
+
+                    let result = rt::Promise::new(async move {
+                        image
+                            .tag(
+                                &podman::opts::ImageTagOpts::builder()
+                                    .repo(repo)
+                                    .tag(tag)
+                                    .build(),
+                            )
+                            .await
+                    })
+                    .exec()
+                    .await;
+
+                    match result {
+                        Ok(_) => obj.force_close(),
+                        Err(e) => obj.set_error(&e.to_string()),
                     }
-                    None => {
-                        obj.set_error(&gettext("Repo tag must contain a colon “:”"));
-                    }
+                }
+                None => {
+                    obj.set_error(&gettext("Repo tag must contain a colon “:”"));
                 }
             }
         }

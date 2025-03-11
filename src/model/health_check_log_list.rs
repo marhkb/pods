@@ -57,7 +57,7 @@ impl Default for HealthCheckLogList {
 }
 
 impl HealthCheckLogList {
-    pub(crate) fn sync(&self, logs: Vec<podman::models::HealthCheckLog>) {
+    pub(crate) fn sync(&self, logs: &[podman::models::HealthCheckLog]) {
         let mut list = self.imp().list.borrow_mut();
 
         let len_old = list.len();

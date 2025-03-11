@@ -57,8 +57,8 @@ mod imp {
                 widget.activate();
             });
 
-            klass.install_action(ACTION_DELETE_VOLUME, None, |widget, _, _| {
-                widget.delete_volume();
+            klass.install_action_async(ACTION_DELETE_VOLUME, None, async |widget, _, _| {
+                widget.delete_volume().await;
             });
         }
 
@@ -290,7 +290,7 @@ impl VolumeRow {
         }
     }
 
-    pub(crate) fn delete_volume(&self) {
-        view::volume::delete_volume_show_confirmation(self, self.volume());
+    pub(crate) async fn delete_volume(&self) {
+        view::volume::delete_volume_show_confirmation(self, self.volume().as_ref()).await;
     }
 }

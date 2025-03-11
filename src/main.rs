@@ -6,6 +6,7 @@ mod podman;
 #[rustfmt::skip]
 mod config;
 mod model;
+mod rt;
 mod utils;
 mod view;
 mod widget;
@@ -25,11 +26,6 @@ use self::application::Application;
 
 pub(crate) static APPLICATION_OPTS: OnceLock<ApplicationOptions> = OnceLock::new();
 pub(crate) static KEYRING: OnceLock<oo7::Keyring> = OnceLock::new();
-
-fn runtime() -> &'static tokio::runtime::Runtime {
-    static RUNTIME: OnceLock<tokio::runtime::Runtime> = OnceLock::new();
-    RUNTIME.get_or_init(|| tokio::runtime::Runtime::new().unwrap())
-}
 
 fn main() {
     let app = setup_cli(Application::default());
@@ -138,12 +134,13 @@ fn main() {
         }
     });
 
-    crate::runtime().block_on(async {
+    rt::Promise::new(async {
         match oo7::Keyring::new().await {
             Ok(keyring) => KEYRING.set(keyring).unwrap(),
             Err(e) => log::error!("Failed to start Secret Service: {e}"),
         }
-    });
+    })
+    .block_on();
 
     app.run();
 }

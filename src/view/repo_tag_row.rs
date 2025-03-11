@@ -8,6 +8,7 @@ use gtk::glib;
 
 use crate::model;
 use crate::podman;
+use crate::rt;
 use crate::utils;
 use crate::view;
 
@@ -43,8 +44,8 @@ mod imp {
             klass.install_action(ACTION_PUSH, None, |widget, _, _| {
                 widget.push();
             });
-            klass.install_action(ACTION_UNTAG, None, |widget, _, _| {
-                widget.untag();
+            klass.install_action_async(ACTION_UNTAG, None, async |widget, _, _| {
+                widget.untag().await;
             });
         }
 
@@ -192,47 +193,39 @@ impl RepoTagRow {
         }
     }
 
-    fn untag(&self) {
-        if let Some(repo_tag) = self.repo_tag() {
-            if let Some(image) = repo_tag
-                .repo_tag_list()
-                .as_ref()
-                .and_then(model::RepoTagList::image)
-                .as_ref()
-                .and_then(model::Image::api)
-            {
-                repo_tag.set_to_be_deleted(true);
+    async fn untag(&self) {
+        let repo_tag = self.repo_tag().unwrap();
+        repo_tag.set_to_be_deleted(true);
 
-                let repo = repo_tag.repo();
-                let tag = repo_tag.tag();
-                utils::do_async(
-                    async move {
-                        image
-                            .untag(
-                                &podman::opts::ImageTagOpts::builder()
-                                    .repo(repo)
-                                    .tag(tag)
-                                    .build(),
-                            )
-                            .await
-                    },
-                    clone!(
-                        #[weak(rename_to = obj)]
-                        self,
-                        move |result| if let Err(e) = result {
-                            if let Some(repo_tag) = obj.repo_tag() {
-                                repo_tag.set_to_be_deleted(false);
-                            }
-                            log::warn!("Error on untagging image: {e}");
-                            utils::show_error_toast(
-                                &obj,
-                                &gettext("Error on untagging image"),
-                                &e.to_string(),
-                            );
-                        }
-                    ),
-                );
+        let result = rt::Promise::new({
+            let image = repo_tag
+                .repo_tag_list()
+                .unwrap()
+                .image()
+                .unwrap()
+                .api()
+                .unwrap();
+            let repo = repo_tag.repo();
+            let tag = repo_tag.tag();
+            async move {
+                image
+                    .untag(
+                        &podman::opts::ImageTagOpts::builder()
+                            .repo(repo)
+                            .tag(tag)
+                            .build(),
+                    )
+                    .await
             }
+        })
+        .exec()
+        .await;
+
+        if let Err(e) = result {
+            repo_tag.set_to_be_deleted(false);
+
+            log::warn!("Error on untagging image: {e}");
+            utils::show_error_toast(self, &gettext("Error on untagging image"), &e.to_string());
         }
     }
 }

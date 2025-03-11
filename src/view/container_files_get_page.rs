@@ -45,11 +45,11 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
 
-            klass.install_action_async(ACTION_SELECT_HOST_PATH, None, |widget, _, _| async move {
+            klass.install_action_async(ACTION_SELECT_HOST_PATH, None, async |widget, _, _| {
                 widget.select_path().await;
             });
-            klass.install_action_async(ACTION_GET, None, |widget, _, _| async move {
-                widget.get().await;
+            klass.install_action(ACTION_GET, None, |widget, _, _| {
+                widget.get();
             });
         }
 
@@ -178,7 +178,7 @@ impl ContainerFilesGetPage {
         .await;
     }
 
-    async fn get(&self) {
+    fn get(&self) {
         if let Some(container) = self.container() {
             let imp = self.imp();
 

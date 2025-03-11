@@ -13,6 +13,7 @@ use gtk::glib::clone;
 use sourceview5::prelude::*;
 
 use crate::model;
+use crate::rt;
 use crate::utils;
 use crate::widget;
 
@@ -326,73 +327,69 @@ impl From<Entity> for ScalableTextViewPage {
             Entity::Image(image) => {
                 let api = image.upgrade().unwrap().api().unwrap();
 
-                utils::do_async(
-                    async move {
-                        api.inspect()
-                            .await
-                            .map_err(anyhow::Error::from)
-                            .and_then(|data| {
-                                serde_json::to_string_pretty(&data).map_err(anyhow::Error::from)
-                            })
-                    },
-                    clone!(
-                        #[weak]
-                        obj,
-                        move |result| obj.init(result, Mode::Inspect)
-                    ),
-                );
+                rt::Promise::new(async move {
+                    api.inspect()
+                        .await
+                        .map_err(anyhow::Error::from)
+                        .and_then(|data| {
+                            serde_json::to_string_pretty(&data).map_err(anyhow::Error::from)
+                        })
+                })
+                .defer(clone!(
+                    #[weak]
+                    obj,
+                    move |result| obj.init(result, Mode::Inspect)
+                ));
             }
             Entity::Container { container, mode } => {
                 let api = container.upgrade().unwrap().api().unwrap();
 
-                utils::do_async(
-                    async move {
-                        match mode {
-                            Mode::Inspect => api
-                                .inspect()
+                rt::Promise::new(async move {
+                    match mode {
+                        Mode::Inspect => {
+                            api.inspect()
                                 .await
                                 .map_err(anyhow::Error::from)
                                 .and_then(|data| {
                                     serde_json::to_string_pretty(&data).map_err(anyhow::Error::from)
-                                }),
-                            Mode::Kube => api
-                                .generate_kube_yaml(false)
-                                .await
-                                .map_err(anyhow::Error::from),
+                                })
                         }
-                    },
-                    clone!(
-                        #[weak]
-                        obj,
-                        move |result| obj.init(result, mode)
-                    ),
-                );
+                        Mode::Kube => api
+                            .generate_kube_yaml(false)
+                            .await
+                            .map_err(anyhow::Error::from),
+                    }
+                })
+                .defer(clone!(
+                    #[weak]
+                    obj,
+                    move |result| obj.init(result, mode)
+                ));
             }
             Entity::Pod { pod, mode } => {
                 let api = pod.upgrade().unwrap().api().unwrap();
 
-                utils::do_async(
-                    async move {
-                        match mode {
-                            Mode::Inspect => api
-                                .inspect()
+                rt::Promise::new(async move {
+                    match mode {
+                        Mode::Inspect => {
+                            api.inspect()
                                 .await
                                 .map_err(anyhow::Error::from)
                                 .and_then(|data| {
                                     serde_json::to_string_pretty(&data).map_err(anyhow::Error::from)
-                                }),
-                            Mode::Kube => api
-                                .generate_kube_yaml(false)
-                                .await
-                                .map_err(anyhow::Error::from),
+                                })
                         }
-                    },
-                    clone!(
-                        #[weak]
-                        obj,
-                        move |result| obj.init(result, mode)
-                    ),
-                );
+                        Mode::Kube => api
+                            .generate_kube_yaml(false)
+                            .await
+                            .map_err(anyhow::Error::from),
+                    }
+                })
+                .defer(clone!(
+                    #[weak]
+                    obj,
+                    move |result| obj.init(result, mode)
+                ));
             }
             Entity::Volume(volume) => {
                 obj.init(

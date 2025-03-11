@@ -1,25 +1,20 @@
-use std::cell::RefCell;
 use std::fmt::Debug;
 use std::ops::Deref;
 use std::path::PathBuf;
-use std::rc::Rc;
 
 use adw::prelude::*;
 use ashpd::desktop::file_chooser::OpenFileRequest;
 use ashpd::desktop::file_chooser::SaveFileRequest;
 use ashpd::desktop::file_chooser::SelectedFiles;
-use futures::Future;
-use futures::StreamExt;
-use futures::stream::BoxStream;
 use gettextrs::gettext;
 use gettextrs::ngettext;
-use glib::clone;
 use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone::Downgrade;
 
 use crate::APPLICATION_OPTS;
 use crate::config;
+use crate::rt;
 
 #[macro_export]
 macro_rules! monad_boxed_type {
@@ -287,109 +282,6 @@ where
     })
 }
 
-// Function from https://gitlab.gnome.org/GNOME/fractal/-/blob/fractal-next/src/utils.rs
-pub(crate) fn do_async<R, Fut, F>(tokio_fut: Fut, glib_closure: F)
-where
-    R: Send + 'static,
-    Fut: Future<Output = R> + Send + 'static,
-    F: FnOnce(R) + 'static,
-{
-    let handle = crate::runtime().spawn(tokio_fut);
-
-    glib::MainContext::default().spawn_local_with_priority(Default::default(), async move {
-        glib_closure(handle.await.unwrap());
-    });
-}
-
-#[derive(Clone)]
-#[allow(clippy::type_complexity)]
-pub(crate) struct AsyncObservers<R: Clone>(Rc<RefCell<Vec<Box<dyn Fn(R) + 'static>>>>);
-impl<R: Clone> AsyncObservers<R> {
-    fn new<F: Fn(R) + 'static>(glib_closure: F) -> Self {
-        Self(Rc::new(RefCell::new(vec![Box::new(glib_closure)])))
-    }
-
-    pub(crate) fn add<F: Fn(R) + 'static>(&self, f: F) {
-        self.0.borrow_mut().push(Box::new(f));
-    }
-}
-
-pub(crate) fn do_async_with_observers<R, Fut, F>(
-    tokio_fut: Fut,
-    glib_closure: F,
-) -> AsyncObservers<R>
-where
-    R: Clone + Send + Debug + 'static,
-    Fut: Future<Output = R> + Send + 'static,
-    F: Fn(R) + 'static,
-{
-    let observers = AsyncObservers::new(glib_closure);
-
-    let handle = crate::runtime().spawn(tokio_fut);
-    let (tx, rx) = tokio::sync::oneshot::channel::<R>();
-
-    glib::spawn_future_local({
-        let observers = observers.clone();
-        async move {
-            let r = rx.await.unwrap();
-            observers
-                .0
-                .borrow_mut()
-                .iter()
-                .for_each(|fun| (*fun)(r.clone()));
-        }
-    });
-
-    glib::MainContext::default().spawn_local_with_priority(Default::default(), async move {
-        tx.send(handle.await.unwrap()).unwrap();
-    });
-
-    observers
-}
-
-pub(crate) fn run_stream<A, P, I, F>(api_entity: A, stream_producer: P, glib_closure: F)
-where
-    A: Send + 'static,
-    for<'r> P: FnOnce(&'r A) -> BoxStream<'r, I> + Send + 'static,
-    I: Send + 'static,
-    F: FnMut(I) -> glib::ControlFlow + 'static,
-{
-    run_stream_with_finish_handler(api_entity, stream_producer, glib_closure, || {});
-}
-
-pub(crate) fn run_stream_with_finish_handler<A, P, I, F, X>(
-    api_entity: A,
-    stream_producer: P,
-    mut glib_closure: F,
-    mut finish_handler: X,
-) where
-    A: Send + 'static,
-    for<'r> P: FnOnce(&'r A) -> BoxStream<'r, I> + Send + 'static,
-    I: Send + 'static,
-    F: FnMut(I) -> glib::ControlFlow + 'static,
-    X: FnMut() + 'static,
-{
-    let (tx_payload, mut rx_payload) = tokio::sync::mpsc::channel(5);
-
-    glib::spawn_future_local(async move {
-        while let Some(i) = rx_payload.recv().await {
-            if glib_closure(i) == glib::ControlFlow::Break {
-                break;
-            }
-        }
-        finish_handler();
-    });
-
-    crate::runtime().spawn(async move {
-        let mut stream = stream_producer(&api_entity);
-        while let Some(item) = stream.next().await {
-            if tx_payload.send(item).await.is_err() {
-                break;
-            }
-        }
-    });
-}
-
 pub(crate) fn css_classes<W: IsA<gtk::Widget>>(widget: &W) -> Vec<String> {
     widget
         .css_classes()
@@ -423,13 +315,12 @@ where
     W: IsA<gtk::Widget> + Downgrade<Weak = glib::WeakRef<W>>,
     F: Fn(SelectedFiles) + 'static,
 {
-    do_async(
-        async move { request.send().await.and_then(|files| files.response()) },
-        clone!(
-            #[weak]
-            widget,
-            move |files| show_file_dialog(files, &widget, op)
-        ),
+    show_file_dialog(
+        rt::Promise::new(async move { request.send().await.and_then(|files| files.response()) })
+            .exec()
+            .await,
+        widget,
+        op,
     );
 }
 
@@ -438,13 +329,12 @@ where
     W: IsA<gtk::Widget> + Downgrade<Weak = glib::WeakRef<W>>,
     F: Fn(SelectedFiles) + 'static,
 {
-    do_async(
-        async move { request.send().await.and_then(|files| files.response()) },
-        clone!(
-            #[weak]
-            widget,
-            move |files| show_file_dialog(files, &widget, op)
-        ),
+    show_file_dialog(
+        rt::Promise::new(async move { request.send().await.and_then(|files| files.response()) })
+            .exec()
+            .await,
+        widget,
+        op,
     );
 }
 

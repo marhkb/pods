@@ -12,6 +12,7 @@ use serde::Serialize;
 
 use crate::model;
 use crate::podman;
+use crate::rt;
 use crate::utils;
 use crate::view;
 
@@ -25,6 +26,7 @@ enum RegistryAuth {
 
 mod imp {
     use super::*;
+    use crate::rt;
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::RepoTagPushPage)]
@@ -114,78 +116,70 @@ mod imp {
                 self.window_title.set_subtitle(&repo_tag.full());
 
                 match crate::KEYRING.get() {
+                    None => self.login_group.set_sensitive(true),
                     Some(keyring) => {
                         let host = repo_tag.host();
                         let namespace = repo_tag.namespace();
 
-                        utils::do_async(
-                            async move {
-                                match keyring
-                                    .search_items(&attributes(&host, &namespace))
-                                    .await
-                                    .map_err(anyhow::Error::from)
-                                {
-                                    Ok(items) => {
-                                        let item = items.first()?;
-                                        Some(
-                                            item.secret()
-                                                .await
-                                                .map_err(anyhow::Error::from)
-                                                .and_then(|secret| {
-                                                    serde_json::from_slice::<RegistryAuth>(
-                                                        secret.as_bytes(),
-                                                    )
-                                                    .map_err(anyhow::Error::from)
-                                                }),
-                                        )
-                                    }
-                                    Err(e) => Some(Err(e)),
+                        rt::Promise::new(async move {
+                            match keyring
+                                .search_items(&attributes(&host, &namespace))
+                                .await
+                                .map_err(anyhow::Error::from)
+                            {
+                                Ok(items) => {
+                                    let item = items.first()?;
+                                    Some(item.secret().await.map_err(anyhow::Error::from).and_then(
+                                        |secret| {
+                                            serde_json::from_slice::<RegistryAuth>(
+                                                secret.as_bytes(),
+                                            )
+                                            .map_err(anyhow::Error::from)
+                                        },
+                                    ))
                                 }
-                            },
-                            clone!(
-                                #[weak]
-                                obj,
-                                move |maybe| {
-                                    let imp = obj.imp();
+                                Err(e) => Some(Err(e)),
+                            }
+                        })
+                        .defer(clone!(
+                            #[weak]
+                            obj,
+                            move |maybe| {
+                                let imp = obj.imp();
 
-                                    imp.login_group.set_sensitive(true);
+                                imp.login_group.set_sensitive(true);
 
-                                    if let Some(result) = maybe {
-                                        match result {
-                                            Ok(auth) => {
-                                                imp.login_switch.set_active(true);
-                                                imp.save_credentials_switch_row.set_active(true);
+                                if let Some(result) = maybe {
+                                    match result {
+                                        Ok(auth) => {
+                                            imp.login_switch.set_active(true);
+                                            imp.save_credentials_switch_row.set_active(true);
 
-                                                match auth {
-                                                    RegistryAuth::Password {
-                                                        username,
-                                                        password,
-                                                    } => {
-                                                        imp.password_toggle_button.set_active(true);
-                                                        imp.username_entry_row.set_text(&username);
-                                                        imp.password_entry_row.set_text(&password);
-                                                    }
-                                                    RegistryAuth::Token(token) => {
-                                                        imp.token_toggle_button.set_active(true);
-                                                        imp.token_entry_row.set_text(&token);
-                                                    }
+                                            match auth {
+                                                RegistryAuth::Password { username, password } => {
+                                                    imp.password_toggle_button.set_active(true);
+                                                    imp.username_entry_row.set_text(&username);
+                                                    imp.password_entry_row.set_text(&password);
+                                                }
+                                                RegistryAuth::Token(token) => {
+                                                    imp.token_toggle_button.set_active(true);
+                                                    imp.token_entry_row.set_text(&token);
                                                 }
                                             }
-                                            Err(e) => {
-                                                log::error!("Error on accessing keyring: {e}");
-                                                utils::show_error_toast(
-                                                    &*imp.toast_overlay,
-                                                    &gettext("Error on accessing keyring"),
-                                                    &e.to_string(),
-                                                );
-                                            }
+                                        }
+                                        Err(e) => {
+                                            log::error!("Error on accessing keyring: {e}");
+                                            utils::show_error_toast(
+                                                &*imp.toast_overlay,
+                                                &gettext("Error on accessing keyring"),
+                                                &e.to_string(),
+                                            );
                                         }
                                     }
                                 }
-                            ),
-                        );
+                            }
+                        ));
                     }
-                    None => self.login_group.set_sensitive(true),
                 }
             }
         }
@@ -224,95 +218,109 @@ impl From<&model::RepoTag> for RepoTagPushPage {
 
 impl RepoTagPushPage {
     pub(crate) fn push(&self) {
-        if let Some(repo_tag) = self.repo_tag() {
-            if let Some(image) = repo_tag.repo_tag_list().and_then(|list| list.image()) {
-                if let Some(client) = image.image_list().and_then(|list| list.client()) {
-                    let imp = self.imp();
+        let repo_tag = if let Some(repo_tag) = self.repo_tag() {
+            repo_tag
+        } else {
+            return;
+        };
 
-                    let destination = repo_tag.full();
+        let image = if let Some(image) = repo_tag.repo_tag_list().and_then(|list| list.image()) {
+            image
+        } else {
+            return;
+        };
 
-                    let opts = podman::opts::ImagePushOpts::builder()
-                        .tls_verify(imp.tls_verify_switch_row.is_active())
-                        .destination(&destination)
-                        .quiet(false);
+        let client = if let Some(client) = image.image_list().and_then(|list| list.client()) {
+            client
+        } else {
+            return;
+        };
 
-                    let opts = if imp.login_switch.is_active() {
-                        let host = repo_tag.host();
-                        let namespace = repo_tag.namespace();
+        let imp = self.imp();
 
-                        if imp.save_credentials_switch_row.is_active() {
-                            match crate::KEYRING.get() {
-                                Some(keyring) => {
-                                    let secret = if imp.password_toggle_button.is_active() {
-                                        RegistryAuth::Password {
-                                            username: imp.username_entry_row.text().into(),
-                                            password: imp.password_entry_row.text().into(),
-                                        }
-                                    } else {
-                                        RegistryAuth::Token(imp.token_entry_row.text().into())
-                                    };
+        let destination = repo_tag.full();
 
-                                    crate::runtime().spawn({
-                                        async move {
-                                            keyring
-                                                .create_item(
-                                                    &format!("{host}:{namespace}"),
-                                                    &attributes(&host, &namespace),
-                                                    serde_json::to_vec(&secret).unwrap(),
-                                                    true,
-                                                )
-                                                .await
-                                                .unwrap();
-                                        }
-                                    });
-                                }
-                                None => {
-                                    log::error!(
-                                        "Cannot save credentials, because secret service isn't available."
-                                    );
-                                    utils::show_error_toast(
-                                        &*imp.toast_overlay,
-                                        &gettext("Error saving credentials"),
-                                        &gettext("Secret Service is not available"),
-                                    );
-                                }
+        let opts = podman::opts::ImagePushOpts::builder()
+            .tls_verify(imp.tls_verify_switch_row.is_active())
+            .destination(&destination)
+            .quiet(false);
+
+        let opts = if imp.login_switch.is_active() {
+            let host = repo_tag.host();
+            let namespace = repo_tag.namespace();
+
+            if imp.save_credentials_switch_row.is_active() {
+                match crate::KEYRING.get() {
+                    Some(keyring) => {
+                        let secret = if imp.password_toggle_button.is_active() {
+                            RegistryAuth::Password {
+                                username: imp.username_entry_row.text().into(),
+                                password: imp.password_entry_row.text().into(),
                             }
-                        } else if let Some(keyring) = crate::KEYRING.get() {
-                            crate::runtime().spawn({
-                                async move {
-                                    keyring
-                                        .delete(&attributes(&host, &namespace))
-                                        .await
-                                        .unwrap();
-                                }
-                            });
-                        }
+                        } else {
+                            RegistryAuth::Token(imp.token_entry_row.text().into())
+                        };
 
-                        opts.auth(
-                            podman::opts::RegistryAuth::builder()
-                                .username(imp.username_entry_row.text())
-                                .password(imp.password_entry_row.text())
-                                .build(),
-                        )
-                    } else {
-                        opts
-                    };
-
-                    let page = view::ActionPage::from(&client.action_list().push_image(
-                        &destination,
-                        image.api().unwrap(),
-                        opts.build(),
-                    ));
-
-                    imp.navigation_view.push(
-                        &adw::NavigationPage::builder()
-                            .can_pop(false)
-                            .child(&page)
-                            .build(),
-                    );
+                        rt::Promise::new({
+                            async move {
+                                keyring
+                                    .create_item(
+                                        &format!("{host}:{namespace}"),
+                                        &attributes(&host, &namespace),
+                                        serde_json::to_vec(&secret).unwrap(),
+                                        true,
+                                    )
+                                    .await
+                                    .unwrap();
+                            }
+                        })
+                        .spawn();
+                    }
+                    None => {
+                        log::error!(
+                            "Cannot save credentials, because secret service isn't available."
+                        );
+                        utils::show_error_toast(
+                            &*imp.toast_overlay,
+                            &gettext("Error saving credentials"),
+                            &gettext("Secret Service is not available"),
+                        );
+                    }
                 }
+            } else if let Some(keyring) = crate::KEYRING.get() {
+                rt::Promise::new({
+                    async move {
+                        keyring
+                            .delete(&attributes(&host, &namespace))
+                            .await
+                            .unwrap();
+                    }
+                })
+                .spawn();
             }
-        }
+
+            opts.auth(
+                podman::opts::RegistryAuth::builder()
+                    .username(imp.username_entry_row.text())
+                    .password(imp.password_entry_row.text())
+                    .build(),
+            )
+        } else {
+            opts
+        };
+
+        let page = view::ActionPage::from(&client.action_list().push_image(
+            &destination,
+            image.api().unwrap(),
+            opts.build(),
+        ));
+
+        imp.navigation_view.push(
+            &adw::NavigationPage::builder()
+                .can_pop(false)
+                .child(&page)
+                .build(),
+        );
     }
 }
 

@@ -5,8 +5,8 @@ use gtk::glib;
 use crate::model;
 use crate::utils;
 
-pub(crate) fn show_ongoing_actions_warning_dialog(
-    widget: &gtk::Widget,
+pub(crate) fn show_ongoing_actions_warning_dialog<W: IsA<gtk::Widget>>(
+    widget: &W,
     connection_manager: &model::ConnectionManager,
     heading: &str,
 ) -> bool {

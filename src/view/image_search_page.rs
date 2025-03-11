@@ -25,6 +25,7 @@ const ACTION_SELECT: &str = "image-search-page.select";
 
 mod imp {
     use super::*;
+    use crate::rt;
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ImageSearchPage)]
@@ -159,8 +160,8 @@ mod imp {
         }
 
         #[template_callback]
-        fn on_search_entry_search_changed(&self) {
-            let obj = self.obj();
+        async fn on_search_entry_search_changed(&self) {
+            let obj = &*self.obj();
 
             if let Some(abort_handle) = self.search_abort_handle.take() {
                 abort_handle.abort();
@@ -181,64 +182,58 @@ mod imp {
             let (abort_handle, abort_registration) = future::AbortHandle::new_pair();
             self.search_abort_handle.replace(Some(abort_handle));
 
-            utils::do_async(
-                {
-                    let opts = podman::opts::ImageSearchOpts::builder()
-                        .term(term.as_str())
-                        .build();
-                    let podman = obj.client().unwrap().podman();
-                    async move {
-                        future::Abortable::new(podman.images().search(&opts), abort_registration)
-                            .await
-                    }
-                },
-                clone!(
-                    #[weak]
-                    obj,
-                    move |result| if let Ok(responses) = result {
-                        match responses {
-                            Ok(responses) => {
-                                let imp = obj.imp();
+            let result = rt::Promise::new({
+                let opts = podman::opts::ImageSearchOpts::builder()
+                    .term(term.as_str())
+                    .build();
+                let podman = obj.client().unwrap().podman();
+                async move {
+                    future::Abortable::new(podman.images().search(&opts), abort_registration).await
+                }
+            })
+            .exec()
+            .await;
 
-                                if responses.is_empty() {
-                                    obj.action_set_enabled(ACTION_SELECT, false);
+            if let Ok(responses) = result {
+                match responses {
+                    Ok(responses) => {
+                        if responses.is_empty() {
+                            obj.action_set_enabled(ACTION_SELECT, false);
 
-                                    imp.search_stack.set_visible_child_name("nothing");
-                                    imp.no_results_status_page
-                                        .set_title(&gettext!("No Results For {}", term));
-                                } else {
-                                    obj.action_set_enabled(ACTION_SELECT, true);
+                            self.search_stack.set_visible_child_name("nothing");
+                            self.no_results_status_page
+                                .set_title(&gettext!("No Results For {}", term));
+                        } else {
+                            obj.action_set_enabled(ACTION_SELECT, true);
 
-                                    responses.into_iter().for_each(|response| {
-                                        imp.search_results()
-                                            .append(&model::ImageSearchResponse::from(response));
-                                    });
-                                    imp.selection.set_selected(0);
-                                    imp.search_stack.set_visible_child_name("results");
+                            responses.into_iter().for_each(|response| {
+                                self.search_results()
+                                    .append(&model::ImageSearchResponse::from(response));
+                            });
+                            self.selection.set_selected(0);
+                            self.search_stack.set_visible_child_name("results");
 
-                                    glib::idle_add_local_once(clone!(
-                                        #[weak]
-                                        obj,
-                                        move || {
-                                            obj.imp()
-                                                .scrolled_window
-                                                .emit_scroll_child(gtk::ScrollType::Start, false);
-                                        }
-                                    ));
+                            glib::idle_add_local_once(clone!(
+                                #[weak]
+                                obj,
+                                move || {
+                                    obj.imp()
+                                        .scrolled_window
+                                        .emit_scroll_child(gtk::ScrollType::Start, false);
                                 }
-                            }
-                            Err(e) => {
-                                log::error!("Failed to search for images: {}", e);
-                                utils::show_error_toast(
-                                    &obj,
-                                    &gettext("Failed to search for images"),
-                                    &e.to_string(),
-                                );
-                            }
+                            ));
                         }
                     }
-                ),
-            );
+                    Err(e) => {
+                        log::error!("Failed to search for images: {}", e);
+                        utils::show_error_toast(
+                            obj,
+                            &gettext("Failed to search for images"),
+                            &e.to_string(),
+                        );
+                    }
+                }
+            }
         }
 
         #[template_callback]

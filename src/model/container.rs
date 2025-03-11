@@ -19,7 +19,7 @@ use gtk::glib;
 use crate::model;
 use crate::monad_boxed_type;
 use crate::podman;
-use crate::utils;
+use crate::rt;
 
 #[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
 #[enum_type(name = "ContainerStatus")]
@@ -161,12 +161,8 @@ mod imp {
     #[derive(Default, Properties)]
     #[properties(wrapper_type = super::Container)]
     pub(crate) struct Container {
-        pub(super) inspection_observers: RefCell<
-            Option<
-                utils::AsyncObservers<
-                    podman::Result<podman::models::ContainerInspectResponseLibpod>,
-                >,
-            >,
+        pub(super) inspection_callbacks: RefCell<
+            Option<rt::Callbacks<podman::Result<podman::models::ContainerInspectResponseLibpod>>>,
         >,
         pub(super) mounts: OnceCell<HashSet<String>>,
         #[property(get, set, construct_only, nullable)]
@@ -242,7 +238,7 @@ mod imp {
             self.data.get().cloned().flatten()
         }
 
-        pub(super) fn set_data(&self, data: podman::models::InspectContainerData) {
+        pub(super) fn set_data(&self, data: &podman::models::InspectContainerData) {
             let obj = &*self.obj();
             if let Some(old) = self.data() {
                 old.update(data);
@@ -358,10 +354,10 @@ impl Container {
 
     pub(crate) fn inspect<F>(&self, op: F)
     where
-        F: Fn(Result<model::Container, podman::Error>) + 'static,
+        F: Fn(Result<model::Container, &podman::Error>) + 'static,
     {
-        if let Some(observers) = self.imp().inspection_observers.borrow().as_ref() {
-            observers.add(clone!(
+        if let Some(callbacks) = self.imp().inspection_callbacks.borrow().as_ref() {
+            callbacks.add(clone!(
                 #[weak(rename_to = obj)]
                 self,
                 move |result| match result {
@@ -376,34 +372,32 @@ impl Container {
             return;
         }
 
-        let observers = utils::do_async_with_observers(
-            {
-                let container = self.api().unwrap();
-                async move { container.inspect().await }
-            },
-            clone!(
-                #[weak(rename_to = obj)]
-                self,
-                move |result| {
-                    let imp = obj.imp();
+        let callbacks = rt::Promise::new({
+            let container = self.api().unwrap();
+            async move { container.inspect().await }
+        })
+        .defer_with_callbacks(clone!(
+            #[weak(rename_to = obj)]
+            self,
+            move |result| {
+                let imp = obj.imp();
 
-                    imp.inspection_observers.replace(None);
+                imp.inspection_callbacks.replace(None);
 
-                    match result {
-                        Ok(data) => {
-                            imp.set_data(data);
-                            op(Ok(obj));
-                        }
-                        Err(e) => {
-                            log::error!("Error on inspecting container '{}': {e}", obj.id());
-                            op(Err(e));
-                        }
+                match result {
+                    Ok(data) => {
+                        imp.set_data(data);
+                        op(Ok(obj));
+                    }
+                    Err(e) => {
+                        log::error!("Error on inspecting container '{}': {e}", obj.id());
+                        op(Err(e));
                     }
                 }
-            ),
-        );
+            }
+        ));
 
-        self.imp().inspection_observers.replace(Some(observers));
+        self.imp().inspection_callbacks.replace(Some(callbacks));
     }
 
     fn action<Fut, FutOp, ResOp>(&self, name: &'static str, fut_op: FutOp, res_op: ResOp)
@@ -412,36 +406,37 @@ impl Container {
         FutOp: FnOnce(podman::api::Container) -> Fut + Send + 'static,
         ResOp: FnOnce(podman::Result<()>) + 'static,
     {
-        if let Some(container) = self.api() {
-            if self.action_ongoing() {
-                return;
-            }
+        let container = if let Some(container) = self.api() {
+            container
+        } else {
+            return;
+        };
 
-            // This will be either set back to `false` in `Self::update` or in case of an error.
-            self.set_action_ongoing(true);
-
-            log::info!("Container <{}>: {name}…'", self.id());
-
-            utils::do_async(
-                async move { fut_op(container).await },
-                clone!(
-                    #[weak(rename_to = obj)]
-                    self,
-                    move |result| {
-                        match &result {
-                            Ok(_) => {
-                                log::info!("Container <{}>: {name} has finished", obj.id());
-                            }
-                            Err(e) => {
-                                log::error!("Container <{}>: Error while {name}: {e}", obj.id(),);
-                                obj.set_action_ongoing(false);
-                            }
-                        }
-                        res_op(result)
-                    }
-                ),
-            );
+        if self.action_ongoing() {
+            return;
         }
+
+        // This will be either set back to `false` in `Self::update` or in case of an error.
+        self.set_action_ongoing(true);
+
+        log::info!("Container <{}>: {name}…'", self.id());
+
+        rt::Promise::new(async move { fut_op(container).await }).defer(clone!(
+            #[weak(rename_to = obj)]
+            self,
+            move |result| {
+                match &result {
+                    Ok(_) => {
+                        log::info!("Container <{}>: {name} has finished", obj.id());
+                    }
+                    Err(e) => {
+                        log::error!("Container <{}>: Error while {name}: {e}", obj.id(),);
+                        obj.set_action_ongoing(false);
+                    }
+                }
+                res_op(result)
+            }
+        ));
     }
 
     pub(crate) fn start<F>(&self, op: F)

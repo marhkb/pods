@@ -1859,6 +1859,7 @@ dependencies = [
  "sourceview5",
  "syslog",
  "tokio",
+ "tokio-stream",
  "tokio-tar",
  "vte",
  "vte4",

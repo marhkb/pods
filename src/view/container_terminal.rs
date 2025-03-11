@@ -21,6 +21,7 @@ use vte4::TerminalExtManual;
 
 use crate::model;
 use crate::podman;
+use crate::rt;
 use crate::utils;
 use crate::view;
 
@@ -415,88 +416,85 @@ impl ContainerTerminal {
 
         self.grab_focus();
 
-        utils::do_async(
-            async move {
-                let opts = podman::opts::ExecCreateOpts::builder()
-                    .attach_stderr(true)
-                    .attach_stdout(true)
-                    .attach_stdin(true)
-                    .tty(true)
-                    .command(["/bin/sh"])
-                    .build();
-                let exec = container.create_exec(&opts).await.unwrap();
+        rt::Promise::new(async move {
+            let opts = podman::opts::ExecCreateOpts::builder()
+                .attach_stderr(true)
+                .attach_stdout(true)
+                .attach_stdin(true)
+                .tty(true)
+                .command(["/bin/sh"])
+                .build();
+            let exec = container.create_exec(&opts).await.unwrap();
 
-                let opts = podman::opts::ExecStartOpts::builder().tty(true).build();
-                let (mut reader, mut writer) = exec.start(&opts).await.unwrap().unwrap().split();
+            let opts = podman::opts::ExecStartOpts::builder().tty(true).build();
+            let (mut reader, mut writer) = exec.start(&opts).await.unwrap().unwrap().split();
 
-                exec.resize(width as usize, height as usize).await?;
+            exec.resize(width as usize, height as usize).await?;
 
-                loop {
-                    match future::select(Box::pin(rx_input.recv()), reader.next()).await {
-                        future::Either::Left((buf, _)) => match buf {
-                            Some(input) => match input {
-                                ExecInput::Data(buf) => {
-                                    if let Err(e) = writer.write_all(&buf).await {
-                                        log::error!("Error on writing to terminal: {e}");
-                                        break;
-                                    }
-                                }
-                                ExecInput::Resize { columns, rows } => {
-                                    if let Err(e) = exec.resize(columns, rows).await {
-                                        log::error!("Error on resizing terminal: {e}");
-                                        break;
-                                    }
-                                }
-                                ExecInput::Terminate => break,
-                            },
-                            None => break,
-                        },
-                        future::Either::Right((chunk, _)) => match chunk {
-                            Some(chunk) => match chunk {
-                                Ok(chunk) => {
-                                    tx_output.send(Vec::from(chunk)).await.unwrap();
-                                }
-                                Err(e) => {
-                                    log::error!("Error on reading from terminal: {e}");
+            loop {
+                match future::select(Box::pin(rx_input.recv()), reader.next()).await {
+                    future::Either::Left((buf, _)) => match buf {
+                        Some(input) => match input {
+                            ExecInput::Data(buf) => {
+                                if let Err(e) = writer.write_all(&buf).await {
+                                    log::error!("Error on writing to terminal: {e}");
                                     break;
                                 }
-                            },
-                            None => break,
+                            }
+                            ExecInput::Resize { columns, rows } => {
+                                if let Err(e) = exec.resize(columns, rows).await {
+                                    log::error!("Error on resizing terminal: {e}");
+                                    break;
+                                }
+                            }
+                            ExecInput::Terminate => break,
                         },
-                    }
+                        None => break,
+                    },
+                    future::Either::Right((chunk, _)) => match chunk {
+                        Some(chunk) => match chunk {
+                            Ok(chunk) => {
+                                tx_output.send(Vec::from(chunk)).await.unwrap();
+                            }
+                            Err(e) => {
+                                log::error!("Error on reading from terminal: {e}");
+                                break;
+                            }
+                        },
+                        None => break,
+                    },
                 }
+            }
 
-                // Close remaining processes.
-                log::info!(
-                    "Closing remaining processes of container {} for exec {}.",
-                    container.id(),
-                    exec.id()
-                );
-                while writer.write_all(&[3]).await.is_ok() && writer.write_all(&[4]).await.is_ok() {
-                }
+            // Close remaining processes.
+            log::info!(
+                "Closing remaining processes of container {} for exec {}.",
+                container.id(),
+                exec.id()
+            );
+            while writer.write_all(&[3]).await.is_ok() && writer.write_all(&[4]).await.is_ok() {}
 
-                Ok(())
-            },
-            clone!(
-                #[weak(rename_to = obj)]
-                self,
-                move |result: podman::Result<_>| {
-                    if result.is_err() {
-                        utils::show_error_toast(
-                            &gio::Application::default()
-                                .unwrap()
-                                .downcast::<crate::Application>()
-                                .unwrap()
-                                .main_window()
-                                .toast_overlay(),
-                            &gettext("Terminal error"),
-                            &gettext("'/bin/sh' not found"),
-                        );
-                    }
-                    obj.emit_by_name::<()>("terminated", &[]);
+            Ok(())
+        })
+        .defer(clone!(
+            #[weak(rename_to = obj)]
+            self,
+            move |result: podman::Result<_>| {
+                if result.is_err() {
+                    utils::show_error_toast(
+                        &gio::Application::default()
+                            .unwrap()
+                            .downcast::<crate::Application>()
+                            .unwrap()
+                            .main_window()
+                            .toast_overlay(),
+                        &gettext("Terminal error"),
+                        &gettext("'/bin/sh' not found"),
+                    );
                 }
-            ),
-        );
+                obj.emit_by_name::<()>("terminated", &[]);
+            }
+        ));
     }
 
     pub(crate) fn zoom_out(&self) {
