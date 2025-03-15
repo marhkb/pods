@@ -42,10 +42,10 @@ glib::wrapper! {
     pub(crate) struct PodData(ObjectSubclass<imp::PodData>);
 }
 
-impl From<podman::models::InspectPodData> for PodData {
-    fn from(data: podman::models::InspectPodData) -> Self {
+impl From<&podman::models::InspectPodData> for PodData {
+    fn from(data: &podman::models::InspectPodData) -> Self {
         glib::Object::builder()
-            .property("hostname", data.hostname.unwrap_or_default())
+            .property("hostname", data.hostname.as_deref().unwrap_or_default())
             .build()
     }
 }

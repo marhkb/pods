@@ -28,6 +28,7 @@ use sourceview5::prelude::*;
 
 use crate::model;
 use crate::podman;
+use crate::rt;
 use crate::utils;
 use crate::widget;
 
@@ -425,78 +426,83 @@ impl ContainerLogPage {
     }
 
     fn init_log(&self) {
-        if let Some(container) = self.container().as_ref().and_then(model::Container::api) {
-            let mut perform = MarkupPerform::default();
+        let container =
+            if let Some(container) = self.container().as_ref().and_then(model::Container::api) {
+                container
+            } else {
+                return;
+            };
 
-            utils::run_stream_with_finish_handler(
-                container,
-                move |container| {
-                    container
-                        .logs(&basic_opts_builder(false, true).tail("512").build())
-                        .boxed()
-                },
-                clone!(
-                    #[weak(rename_to = obj)]
-                    self,
-                    #[upgrade_or]
-                    glib::ControlFlow::Break,
-                    move |result| {
-                        obj.imp().stack.set_visible_child_name("loaded");
-                        obj.append_line(result, &mut perform)
-                    }
-                ),
-                clone!(
-                    #[weak(rename_to = obj)]
-                    self,
-                    move || {
-                        obj.imp().stack.set_visible_child_name("loaded");
-                        obj.follow_log();
-                    }
-                ),
-            );
-        }
+        let mut perform = MarkupPerform::default();
+
+        rt::Pipe::new(container, move |container| {
+            container
+                .logs(&basic_opts_builder(false, true).tail("512").build())
+                .boxed()
+        })
+        .on_next(clone!(
+            #[weak(rename_to = obj)]
+            self,
+            #[upgrade_or]
+            glib::ControlFlow::Break,
+            move |result| {
+                obj.imp().stack.set_visible_child_name("loaded");
+                obj.append_line(result, &mut perform)
+            }
+        ))
+        .on_finish(clone!(
+            #[weak(rename_to = obj)]
+            self,
+            move || {
+                obj.imp().stack.set_visible_child_name("loaded");
+                obj.follow_log();
+            }
+        ));
     }
 
     fn follow_log(&self) {
-        if let Some(container) = self.container().as_ref().and_then(model::Container::api) {
-            let timestamps = self.imp().log_timestamps.borrow();
-            let mut iter = timestamps.iter().rev();
-
-            let opts = basic_opts_builder(true, true);
-            let (opts, skip) = match iter.next() {
-                Some(last) => (
-                    opts.since(
-                        glib::DateTime::from_iso8601(last, None)
-                            .unwrap()
-                            .to_unix()
-                            .to_string(),
-                    ),
-                    AtomicUsize::new(iter.take_while(|t| *t == last).count() + 1),
-                ),
-                None => (opts, AtomicUsize::new(0)),
+        let container =
+            if let Some(container) = self.container().as_ref().and_then(model::Container::api) {
+                container
+            } else {
+                return;
             };
 
-            let mut perform = MarkupPerform::default();
+        let timestamps = self.imp().log_timestamps.borrow();
+        let mut iter = timestamps.iter().rev();
 
-            utils::run_stream(
-                container,
-                move |container| container.logs(&opts.build()).boxed(),
-                clone!(
-                    #[weak(rename_to = obj)]
-                    self,
-                    #[upgrade_or]
-                    glib::ControlFlow::Break,
-                    move |result: podman::Result<podman::conn::TtyChunk>| {
-                        if skip.load(Ordering::Relaxed) == 0 {
-                            obj.append_line(result, &mut perform)
-                        } else {
-                            skip.fetch_sub(1, Ordering::Relaxed);
-                            glib::ControlFlow::Continue
-                        }
-                    }
+        let opts = basic_opts_builder(true, true);
+        let (opts, skip) = match iter.next() {
+            Some(last) => (
+                opts.since(
+                    glib::DateTime::from_iso8601(last, None)
+                        .unwrap()
+                        .to_unix()
+                        .to_string(),
                 ),
-            );
-        }
+                AtomicUsize::new(iter.take_while(|t| *t == last).count() + 1),
+            ),
+            None => (opts, AtomicUsize::new(0)),
+        };
+
+        let mut perform = MarkupPerform::default();
+
+        rt::Pipe::new(container, |container| container.logs(&opts.build()).boxed()).on_next(
+            clone!(
+                #[weak(rename_to = obj)]
+                self,
+                #[upgrade_or]
+                glib::ControlFlow::Break,
+                move |result: podman::Result<podman::conn::TtyChunk>| {
+                    if skip.load(Ordering::Relaxed) == 0 {
+                        obj.append_line(result, &mut perform)
+                    } else {
+                        skip.fetch_sub(1, Ordering::Relaxed);
+                        glib::ControlFlow::Continue
+                    }
+                }
+            ),
+        );
     }
 
     fn append_line(
@@ -562,58 +568,58 @@ impl ContainerLogPage {
 
         match imp.fetch_lines_state.get() {
             FetchLinesState::Waiting => {
-                if let Some(until) = imp.fetch_until.get().map(ToOwned::to_owned) {
-                    if let Some(container) =
-                        self.container().as_ref().and_then(model::Container::api)
-                    {
-                        imp.lines_loading_revealer.set_reveal_child(true);
+                let until = if let Some(until) = imp.fetch_until.get().map(ToOwned::to_owned) {
+                    until
+                } else {
+                    return;
+                };
+                let container = if let Some(container) =
+                    self.container().as_ref().and_then(model::Container::api)
+                {
+                    container
+                } else {
+                    return;
+                };
 
-                        utils::run_stream_with_finish_handler(
-                            container,
-                            move |container| {
-                                container
-                                    .logs(&basic_opts_builder(false, true).until(until).build())
-                                    .boxed()
-                            },
-                            clone!(
-                                #[weak(rename_to = obj)]
-                                self,
-                                #[upgrade_or]
-                                glib::ControlFlow::Break,
-                                move |result| {
-                                    let imp = obj.imp();
-                                    imp.fetch_lines_state.set(FetchLinesState::Fetching);
+                imp.lines_loading_revealer.set_reveal_child(true);
 
-                                    match result {
-                                        Ok(line) => {
-                                            imp.fetched_lines
-                                                .borrow_mut()
-                                                .push_back(Vec::from(line));
-                                            glib::ControlFlow::Continue
-                                        }
-                                        Err(e) => {
-                                            log::warn!(
-                                                "Stopping container log stream due to error: {e}"
-                                            );
-                                            glib::ControlFlow::Break
-                                        }
-                                    }
-                                }
-                            ),
-                            clone!(
-                                #[weak(rename_to = obj)]
-                                self,
-                                move || {
-                                    let imp = obj.imp();
-                                    imp.lines_loading_revealer.set_reveal_child(false);
-                                    imp.fetch_lines_state.set(FetchLinesState::Finished);
+                rt::Pipe::new(container, |container| {
+                    container
+                        .logs(&basic_opts_builder(false, true).until(until).build())
+                        .boxed()
+                })
+                .on_next(clone!(
+                    #[weak(rename_to = obj)]
+                    self,
+                    #[upgrade_or]
+                    glib::ControlFlow::Break,
+                    move |result| {
+                        let imp = obj.imp();
+                        imp.fetch_lines_state.set(FetchLinesState::Fetching);
 
-                                    obj.move_lines_to_buffer();
-                                }
-                            ),
-                        );
+                        match result {
+                            Ok(line) => {
+                                imp.fetched_lines.borrow_mut().push_back(Vec::from(line));
+                                glib::ControlFlow::Continue
+                            }
+                            Err(e) => {
+                                log::warn!("Stopping container log stream due to error: {e}");
+                                glib::ControlFlow::Break
+                            }
+                        }
                     }
-                }
+                ))
+                .on_finish(clone!(
+                    #[weak(rename_to = obj)]
+                    self,
+                    move || {
+                        let imp = obj.imp();
+                        imp.lines_loading_revealer.set_reveal_child(false);
+                        imp.fetch_lines_state.set(FetchLinesState::Finished);
+
+                        obj.move_lines_to_buffer();
+                    }
+                ));
             }
             FetchLinesState::Finished => self.move_lines_to_buffer(),
             _ => {}
@@ -678,79 +684,80 @@ impl ContainerLogPage {
 
                         let file = gio::File::for_uri(files.uris()[0].as_str());
 
-                        if let Some(path) = file.path() {
-                            let file = std::fs::OpenOptions::new()
-                                .write(true)
-                                .create(true)
-                                .truncate(true)
-                                .open(path)
-                                .unwrap();
+                        let path = if let Some(path) = file.path() {
+                            path
+                        } else {
+                            return;
+                        };
 
-                            let mut writer = BufWriter::new(file);
-                            let mut perform = PlainTextPerform::default();
+                        let file = std::fs::OpenOptions::new()
+                            .write(true)
+                            .create(true)
+                            .truncate(true)
+                            .open(path)
+                            .unwrap();
 
-                            let timestamps = files.choices()[0].1 == "true";
+                        let mut writer = BufWriter::new(file);
+                        let mut perform = PlainTextPerform::default();
 
-                            utils::run_stream_with_finish_handler(
-                                container.api().unwrap(),
-                                move |container| {
-                                    container
-                                        .logs(&basic_opts_builder(false, timestamps).build())
-                                        .boxed()
-                                },
-                                clone!(
-                                    #[weak]
-                                    obj,
-                                    #[upgrade_or]
-                                    glib::ControlFlow::Break,
-                                    move |result: podman::Result<podman::conn::TtyChunk>| {
-                                        match result.map(Vec::from) {
-                                            Ok(line) => {
-                                                perform.decode(&line);
+                        let timestamps = files.choices()[0].1 == "true";
 
-                                                let line = perform.move_out_buffer();
-                                                if !line.is_empty() {
-                                                    match writer
-                                                        .write_all(line.as_bytes())
-                                                        .and_then(|_| writer.write_all(b"\n"))
-                                                    {
-                                                        Ok(_) => glib::ControlFlow::Continue,
-                                                        Err(e) => {
-                                                            log::warn!("Error on saving logs: {e}");
-                                                            utils::show_error_toast(
-                                                                &obj,
-                                                                &gettext("Error on saving logs"),
-                                                                &e.to_string(),
-                                                            );
-                                                            glib::ControlFlow::Break
-                                                        }
-                                                    }
-                                                } else {
-                                                    glib::ControlFlow::Continue
+                        rt::Pipe::new(container.api().unwrap(), move |container| {
+                            container
+                                .logs(&basic_opts_builder(false, timestamps).build())
+                                .boxed()
+                        })
+                        .on_next(clone!(
+                            #[weak]
+                            obj,
+                            #[upgrade_or]
+                            glib::ControlFlow::Break,
+                            move |result: podman::Result<podman::conn::TtyChunk>| {
+                                match result.map(Vec::from) {
+                                    Ok(line) => {
+                                        perform.decode(&line);
+
+                                        let line = perform.move_out_buffer();
+                                        if !line.is_empty() {
+                                            match writer
+                                                .write_all(line.as_bytes())
+                                                .and_then(|_| writer.write_all(b"\n"))
+                                            {
+                                                Ok(_) => glib::ControlFlow::Continue,
+                                                Err(e) => {
+                                                    log::warn!("Error on saving logs: {e}");
+                                                    utils::show_error_toast(
+                                                        &obj,
+                                                        &gettext("Error on saving logs"),
+                                                        &e.to_string(),
+                                                    );
+                                                    glib::ControlFlow::Break
                                                 }
                                             }
-                                            Err(e) => {
-                                                log::warn!("Error on retrieving logs: {e}");
-                                                utils::show_error_toast(
-                                                    &obj,
-                                                    &gettext("Error on retrieving logs"),
-                                                    &e.to_string(),
-                                                );
-                                                glib::ControlFlow::Break
-                                            }
+                                        } else {
+                                            glib::ControlFlow::Continue
                                         }
                                     }
-                                ),
-                                clone!(
-                                    #[weak]
-                                    obj,
-                                    move || {
-                                        obj.action_set_enabled(ACTION_SAVE_TO_FILE, true);
-                                        utils::show_toast(&obj, gettext("Log has been saved"));
+                                    Err(e) => {
+                                        log::warn!("Error on retrieving logs: {e}");
+                                        utils::show_error_toast(
+                                            &obj,
+                                            &gettext("Error on retrieving logs"),
+                                            &e.to_string(),
+                                        );
+                                        glib::ControlFlow::Break
                                     }
-                                ),
-                            );
-                        }
+                                }
+                            }
+                        ))
+                        .on_finish(clone!(
+                            #[weak]
+                            obj,
+                            move || {
+                                obj.action_set_enabled(ACTION_SAVE_TO_FILE, true);
+                                utils::show_toast(&obj, gettext("Log has been saved"));
+                            }
+                        ));
                     }
                 ),
             )

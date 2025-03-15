@@ -13,6 +13,7 @@ use gtk::glib;
 
 use crate::model;
 use crate::podman;
+use crate::rt;
 use crate::utils;
 use crate::view;
 
@@ -188,32 +189,27 @@ impl ContainerCommitPage {
         let request = UserInformationRequest::default()
             .identifier(WindowIdentifier::from_native(&self.native().unwrap()).await);
 
-        utils::do_async(
-            async move {
-                request
-                    .send()
-                    .await
-                    .and_then(|user_info| user_info.response())
-            },
-            clone!(
-                #[weak(rename_to = obj)]
-                self,
-                move |user_info| {
-                    match user_info {
-                        Ok(user_info) => obj.imp().author_entry_row.set_text(user_info.name()),
-                        Err(e) => {
-                            if let ashpd::Error::Portal(ashpd::PortalError::Cancelled(_)) = e {
-                                utils::show_error_toast(
-                                    &obj,
-                                    &gettext("Error on fetching user name"),
-                                    &e.to_string(),
-                                );
-                            }
-                        }
-                    }
+        let user_info = rt::Promise::new(async move {
+            request
+                .send()
+                .await
+                .and_then(|user_info| user_info.response())
+        })
+        .exec()
+        .await;
+
+        match user_info {
+            Ok(user_info) => self.imp().author_entry_row.set_text(user_info.name()),
+            Err(e) => {
+                if let ashpd::Error::Portal(ashpd::PortalError::Cancelled(_)) = e {
+                    utils::show_error_toast(
+                        self,
+                        &gettext("Error on fetching user name"),
+                        &e.to_string(),
+                    );
                 }
-            ),
-        );
+            }
+        }
     }
 
     pub(crate) fn add_change(&self) {

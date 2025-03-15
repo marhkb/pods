@@ -21,7 +21,7 @@ use gtk::glib;
 use crate::model;
 use crate::model::AbstractContainerListExt;
 use crate::podman;
-use crate::utils;
+use crate::rt;
 
 #[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
 #[enum_type(name = "PodStatus")]
@@ -114,8 +114,8 @@ mod imp {
     #[derive(Default, Properties)]
     #[properties(wrapper_type = super::Pod)]
     pub(crate) struct Pod {
-        pub(super) inspection_observers:
-            RefCell<Option<utils::AsyncObservers<podman::Result<podman::models::InspectPodData>>>>,
+        pub(super) inspection_callbacks:
+            RefCell<Option<rt::Callbacks<podman::Result<podman::models::InspectPodData>>>>,
         #[property(get, set, construct_only, nullable)]
         pub(super) pod_list: glib::WeakRef<model::PodList>,
         #[property(get = Self::container_list)]
@@ -253,10 +253,10 @@ impl Pod {
 
     pub(crate) fn inspect<F>(&self, op: F)
     where
-        F: Fn(Result<model::Pod, podman::Error>) + 'static,
+        F: Fn(Result<model::Pod, &podman::Error>) + 'static,
     {
-        if let Some(observers) = self.imp().inspection_observers.borrow().as_ref() {
-            observers.add(clone!(
+        if let Some(callbacks) = self.imp().inspection_callbacks.borrow().as_ref() {
+            callbacks.add(clone!(
                 #[weak(rename_to = obj)]
                 self,
                 move |result| match result {
@@ -271,34 +271,32 @@ impl Pod {
             return;
         }
 
-        let observers = utils::do_async_with_observers(
-            {
-                let pod = self.api().unwrap();
-                async move { pod.inspect().await }
-            },
-            clone!(
-                #[weak(rename_to = obj)]
-                self,
-                move |result| {
-                    let imp = obj.imp();
+        let callbacks = rt::Promise::new({
+            let pod = self.api().unwrap();
+            async move { pod.inspect().await }
+        })
+        .defer_with_callbacks(clone!(
+            #[weak(rename_to = obj)]
+            self,
+            move |result| {
+                let imp = obj.imp();
 
-                    imp.inspection_observers.replace(None);
+                imp.inspection_callbacks.replace(None);
 
-                    match result {
-                        Ok(data) => {
-                            imp.set_data(model::PodData::from(data));
-                            op(Ok(obj));
-                        }
-                        Err(e) => {
-                            log::error!("Error on inspecting pod '{}': {e}", obj.id());
-                            op(Err(e));
-                        }
+                match result {
+                    Ok(data) => {
+                        imp.set_data(model::PodData::from(data));
+                        op(Ok(obj));
+                    }
+                    Err(e) => {
+                        log::error!("Error on inspecting pod '{}': {e}", obj.id());
+                        op(Err(e));
                     }
                 }
-            ),
-        );
+            }
+        ));
 
-        self.imp().inspection_observers.replace(Some(observers));
+        self.imp().inspection_callbacks.replace(Some(callbacks));
     }
 
     pub(super) fn emit_deleted(&self) {
@@ -321,36 +319,37 @@ impl Pod {
         FutOp: FnOnce(podman::api::Pod) -> Fut + Send + 'static,
         ResOp: FnOnce(podman::Result<()>) + 'static,
     {
-        if let Some(pod) = self.api() {
-            if self.action_ongoing() {
-                return;
-            }
+        let pod = if let Some(pod) = self.api() {
+            pod
+        } else {
+            return;
+        };
 
-            // This will be either set back to `false` in `Self::update` or in case of an error.
-            self.set_action_ongoing(true);
-
-            log::info!("Pod <{}>: {name}…'", self.id());
-
-            utils::do_async(
-                async move { fut_op(pod).await },
-                clone!(
-                    #[weak(rename_to = obj)]
-                    self,
-                    move |result| {
-                        match &result {
-                            Ok(_) => {
-                                log::info!("Pod <{}>: {name} has finished", obj.id());
-                            }
-                            Err(e) => {
-                                log::error!("Pod <{}>: Error while {name}: {e}", obj.id(),);
-                                obj.set_action_ongoing(false);
-                            }
-                        }
-                        res_op(result)
-                    }
-                ),
-            );
+        if self.action_ongoing() {
+            return;
         }
+
+        // This will be either set back to `false` in `Self::update` or in case of an error.
+        self.set_action_ongoing(true);
+
+        log::info!("Pod <{}>: {name}…'", self.id());
+
+        rt::Promise::new(async move { fut_op(pod).await }).defer(clone!(
+            #[weak(rename_to = obj)]
+            self,
+            move |result| {
+                match &result {
+                    Ok(_) => {
+                        log::info!("Pod <{}>: {name} has finished", obj.id());
+                    }
+                    Err(e) => {
+                        log::error!("Pod <{}>: Error while {name}: {e}", obj.id(),);
+                        obj.set_action_ongoing(false);
+                    }
+                }
+                res_op(result)
+            }
+        ));
     }
 
     pub(crate) fn start<F>(&self, op: F)

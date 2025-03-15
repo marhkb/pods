@@ -15,10 +15,10 @@ use indexmap::map::IndexMap;
 
 use crate::model;
 use crate::podman;
-use crate::utils;
 
 mod imp {
     use super::*;
+    use crate::rt;
 
     #[derive(Debug, Default, Properties)]
     #[properties(wrapper_type = super::ProcessList)]
@@ -59,78 +59,77 @@ mod imp {
 
             let obj = &*self.obj();
 
-            if let Some(processes_source) = obj.top_source().as_ref().and_then(|obj| {
-                if let Some(container) = obj.downcast_ref::<model::Container>() {
-                    container.api().map(|c| Box::new(c) as Box<dyn TopSource>)
-                } else if let Some(pod) = obj.downcast_ref::<model::Pod>() {
-                    pod.api().map(|p| Box::new(p) as Box<dyn TopSource>)
-                } else {
-                    unreachable!("unknown type for top source: {obj:?}")
-                }
-            }) {
-                utils::run_stream(
-                    processes_source,
-                    move |top_source| top_source.stream(),
-                    clone!(
-                        #[weak]
-                        obj,
-                        #[upgrade_or]
-                        glib::ControlFlow::Break,
-                        move |result: podman::Result<ProcessFields>| {
-                            match result {
-                                Ok(process_fields) => {
-                                    let to_remove = obj
-                                        .imp()
-                                        .list
-                                        .borrow()
-                                        .keys()
-                                        .filter(|pid| {
-                                            !process_fields
-                                                .iter()
-                                                .any(|process_field| &process_field[1] == *pid)
-                                        })
-                                        .cloned()
-                                        .collect::<Vec<_>>();
-                                    to_remove.iter().for_each(|pid| {
-                                        obj.remove(pid);
-                                    });
+            let processes_source = if let Some(processes_source) =
+                obj.top_source().as_ref().and_then(|obj| {
+                    if let Some(container) = obj.downcast_ref::<model::Container>() {
+                        container.api().map(|c| Box::new(c) as Box<dyn TopSource>)
+                    } else if let Some(pod) = obj.downcast_ref::<model::Pod>() {
+                        pod.api().map(|p| Box::new(p) as Box<dyn TopSource>)
+                    } else {
+                        unreachable!("unknown type for top source: {obj:?}")
+                    }
+                }) {
+                processes_source
+            } else {
+                return;
+            };
 
-                                    process_fields.into_iter().for_each(|process_field| {
-                                        use indexmap::map::Entry;
+            rt::Pipe::new(processes_source, |top_source| top_source.stream()).on_next(clone!(
+                #[weak]
+                obj,
+                #[upgrade_or]
+                glib::ControlFlow::Break,
+                move |result: podman::Result<ProcessFields>| {
+                    match result {
+                        Ok(process_fields) => {
+                            let to_remove = obj
+                                .imp()
+                                .list
+                                .borrow()
+                                .keys()
+                                .filter(|pid| {
+                                    !process_fields
+                                        .iter()
+                                        .any(|process_field| &process_field[1] == *pid)
+                                })
+                                .cloned()
+                                .collect::<Vec<_>>();
+                            to_remove.iter().for_each(|pid| {
+                                obj.remove(pid);
+                            });
 
-                                        let mut list = obj.imp().list.borrow_mut();
-                                        let index = list.len() as u32;
+                            process_fields.into_iter().for_each(|process_field| {
+                                use indexmap::map::Entry;
 
-                                        match list.entry(process_field[1].clone()) {
-                                            Entry::Vacant(e) => {
-                                                let process = model::Process::new(
-                                                    &obj,
-                                                    process_field.as_slice(),
-                                                );
-                                                e.insert(process.clone());
+                                let mut list = obj.imp().list.borrow_mut();
+                                let index = list.len() as u32;
 
-                                                drop(list);
+                                match list.entry(process_field[1].clone()) {
+                                    Entry::Vacant(e) => {
+                                        let process =
+                                            model::Process::new(&obj, process_field.as_slice());
+                                        e.insert(process.clone());
 
-                                                obj.items_changed(index, 0, 1);
-                                            }
-                                            Entry::Occupied(e) => {
-                                                let process = e.get().clone();
-                                                drop(list);
-                                                process.update(process_field.as_slice());
-                                            }
-                                        }
-                                    });
+                                        drop(list);
 
-                                    obj.emit_by_name::<()>("updated", &[]);
+                                        obj.items_changed(index, 0, 1);
+                                    }
+                                    Entry::Occupied(e) => {
+                                        let process = e.get().clone();
+                                        drop(list);
+                                        process.update(process_field.as_slice());
+                                    }
                                 }
-                                Err(e) => log::warn!("Failed to read top stream element: {e}"),
-                            }
+                            });
 
-                            glib::ControlFlow::Continue
+                            obj.emit_by_name::<()>("updated", &[]);
                         }
-                    ),
-                );
-            }
+                        Err(e) => log::warn!("Failed to read top stream element: {e}"),
+                    }
+
+                    glib::ControlFlow::Continue
+                }
+            ));
         }
     }
 

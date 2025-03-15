@@ -16,6 +16,7 @@ use gtk::glib;
 
 use crate::model;
 use crate::podman;
+use crate::rt;
 use crate::utils;
 
 const ACTION_SEARCH: &str = "top-page.search";
@@ -65,8 +66,8 @@ mod imp {
                 widget.toggle_search_mode();
             });
 
-            klass.install_action(ACTION_KILL, None, |widget, _, _| {
-                widget.kill_selected_processes();
+            klass.install_action_async(ACTION_KILL, None, async |widget, _, _| {
+                widget.kill_selected_processes().await;
             });
         }
 
@@ -466,7 +467,7 @@ impl TopPage {
         self.set_search_mode(!self.imp().search_bar.is_search_mode());
     }
 
-    pub(crate) fn kill_selected_processes(&self) {
+    pub(crate) async fn kill_selected_processes(&self) {
         let top_source = self.top_source();
 
         let selection = self.imp().selection.get().unwrap();
@@ -490,22 +491,21 @@ impl TopPage {
 
             match top_source.and_downcast_ref::<model::Container>() {
                 Some(container) => {
-                    let api = container.api().unwrap();
-
-                    utils::do_async(
+                    let result = rt::Promise::new({
+                        let container = container.api().unwrap();
+                        let opts = podman::opts::ExecCreateOpts::builder()
+                            .attach_stderr(true)
+                            .attach_stdout(false)
+                            .attach_stdin(false)
+                            .tty(false)
+                            .command(
+                                ["kill", "-9"]
+                                    .into_iter()
+                                    .chain(selected_pids.iter().map(String::as_str)),
+                            )
+                            .build();
                         async move {
-                            let opts = podman::opts::ExecCreateOpts::builder()
-                                .attach_stderr(true)
-                                .attach_stdout(false)
-                                .attach_stdin(false)
-                                .tty(false)
-                                .command(
-                                    ["kill", "-9"]
-                                        .into_iter()
-                                        .chain(selected_pids.iter().map(String::as_str)),
-                                )
-                                .build();
-                            let exec = api.create_exec(&opts).await.unwrap();
+                            let exec = container.create_exec(&opts).await.unwrap();
 
                             let opts = podman::opts::ExecStartOpts::builder().tty(false).build();
                             let (reader, _) = exec.start(&opts).await.unwrap().unwrap().split();
@@ -523,15 +523,14 @@ impl TopPage {
                             } else {
                                 Err(err_output)
                             }
-                        },
-                        clone!(
-                            #[weak(rename_to = obj)]
-                            self,
-                            move |result| if let Err(e) = result {
-                                utils::show_error_toast(&obj, &gettext("Error"), e.trim());
-                            }
-                        ),
-                    )
+                        }
+                    })
+                    .exec()
+                    .await;
+
+                    if let Err(e) = result {
+                        utils::show_error_toast(self, &gettext("Error"), e.trim());
+                    }
                 }
                 None => utils::show_error_toast(
                     self,

@@ -17,7 +17,7 @@ use indexmap::map::Entry;
 use crate::model;
 use crate::model::prelude::*;
 use crate::podman;
-use crate::utils;
+use crate::rt;
 
 mod imp {
     use super::*;
@@ -202,61 +202,60 @@ impl VolumeList {
         F: FnOnce(super::RefreshError) + Clone + 'static,
     {
         self.imp().set_listing(true);
-        utils::do_async(
-            {
-                let podman = self.client().unwrap().podman();
-                async move {
-                    podman
-                        .volumes()
-                        .list(&podman::opts::VolumeListOpts::builder().build())
-                        .await
-                }
-            },
-            clone!(
-                #[weak(rename_to = obj)]
-                self,
-                move |result| {
-                    match result {
-                        Ok(volumes) => {
-                            let imp = obj.imp();
 
-                            let to_remove = imp
-                                .list
-                                .borrow()
-                                .keys()
-                                .filter(|name| !volumes.iter().any(|volume| &volume.name == *name))
-                                .cloned()
-                                .collect::<Vec<_>>();
-                            to_remove.iter().for_each(|name| {
-                                obj.remove_volume(name);
-                            });
+        rt::Promise::new({
+            let podman = self.client().unwrap().podman();
+            async move {
+                podman
+                    .volumes()
+                    .list(&podman::opts::VolumeListOpts::builder().build())
+                    .await
+            }
+        })
+        .defer(clone!(
+            #[weak(rename_to = obj)]
+            self,
+            move |result| {
+                match result {
+                    Ok(volumes) => {
+                        let imp = obj.imp();
 
-                            volumes.into_iter().for_each(|volume| {
-                                let index = obj.len();
+                        let to_remove = imp
+                            .list
+                            .borrow()
+                            .keys()
+                            .filter(|name| !volumes.iter().any(|volume| &volume.name == *name))
+                            .cloned()
+                            .collect::<Vec<_>>();
+                        to_remove.iter().for_each(|name| {
+                            obj.remove_volume(name);
+                        });
 
-                                let mut list = imp.list.borrow_mut();
-                                if let Entry::Vacant(e) = list.entry(volume.name.clone()) {
-                                    let volume = model::Volume::new(&obj, volume);
-                                    e.insert(volume.clone());
+                        volumes.into_iter().for_each(|volume| {
+                            let index = obj.len();
 
-                                    drop(list);
+                            let mut list = imp.list.borrow_mut();
+                            if let Entry::Vacant(e) = list.entry(volume.name.clone()) {
+                                let volume = model::Volume::new(&obj, volume);
+                                e.insert(volume.clone());
 
-                                    obj.items_changed(index, 0, 1);
-                                    obj.volume_added(&volume);
-                                }
-                            });
-                        }
-                        Err(e) => {
-                            log::error!("Error on retrieving volumes: {}", e);
-                            err_op(super::RefreshError);
-                        }
+                                drop(list);
+
+                                obj.items_changed(index, 0, 1);
+                                obj.volume_added(&volume);
+                            }
+                        });
                     }
-                    let imp = obj.imp();
-                    imp.set_listing(false);
-                    imp.set_as_initialized();
+                    Err(e) => {
+                        log::error!("Error on retrieving volumes: {}", e);
+                        err_op(super::RefreshError);
+                    }
                 }
-            ),
-        );
+                let imp = obj.imp();
+                imp.set_listing(false);
+                imp.set_as_initialized();
+            }
+        ));
     }
 
     pub(crate) fn handle_event<F>(&self, event: podman::models::Event, err_op: F)

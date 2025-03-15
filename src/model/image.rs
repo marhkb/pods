@@ -14,7 +14,7 @@ use gtk::glib;
 
 use crate::model;
 use crate::podman;
-use crate::utils;
+use crate::rt;
 
 mod imp {
     use super::*;
@@ -22,10 +22,8 @@ mod imp {
     #[derive(Default, Properties)]
     #[properties(wrapper_type = super::Image)]
     pub(crate) struct Image {
-        pub(super) inspection_observers: RefCell<
-            Option<
-                utils::AsyncObservers<podman::Result<podman::models::InspectImageResponseLibpod>>,
-            >,
+        pub(super) inspection_callbacks: RefCell<
+            Option<rt::Callbacks<podman::Result<podman::models::InspectImageResponseLibpod>>>,
         >,
         #[property(get, set, construct_only, nullable)]
         pub(super) image_list: glib::WeakRef<model::ImageList>,
@@ -199,10 +197,10 @@ impl Image {
 
     pub(crate) fn inspect<F>(&self, op: F)
     where
-        F: Fn(Result<model::Image, podman::Error>) + 'static,
+        F: Fn(Result<model::Image, &podman::Error>) + 'static,
     {
-        if let Some(observers) = self.imp().inspection_observers.borrow().as_ref() {
-            observers.add(clone!(
+        if let Some(callbacks) = self.imp().inspection_callbacks.borrow().as_ref() {
+            callbacks.add(clone!(
                 #[weak(rename_to = obj)]
                 self,
                 move |result| match result {
@@ -217,34 +215,32 @@ impl Image {
             return;
         }
 
-        let observers = utils::do_async_with_observers(
-            {
-                let image = self.api().unwrap();
-                async move { image.inspect().await }
-            },
-            clone!(
-                #[weak(rename_to = obj)]
-                self,
-                move |result| {
-                    let imp = obj.imp();
+        let callbacks = rt::Promise::new({
+            let image = self.api().unwrap();
+            async move { image.inspect().await }
+        })
+        .defer_with_callbacks(clone!(
+            #[weak(rename_to = obj)]
+            self,
+            move |result| {
+                let imp = obj.imp();
 
-                    imp.inspection_observers.replace(None);
+                imp.inspection_callbacks.replace(None);
 
-                    match result {
-                        Ok(data) => {
-                            imp.set_data(model::ImageData::from(data));
-                            op(Ok(obj));
-                        }
-                        Err(e) => {
-                            log::error!("Error on inspecting image '{}': {e}", obj.id());
-                            op(Err(e));
-                        }
+                match result {
+                    Ok(data) => {
+                        imp.set_data(model::ImageData::from(data));
+                        op(Ok(obj));
+                    }
+                    Err(e) => {
+                        log::error!("Error on inspecting image '{}': {e}", obj.id());
+                        op(Err(e));
                     }
                 }
-            ),
-        );
+            }
+        ));
 
-        self.imp().inspection_observers.replace(Some(observers));
+        self.imp().inspection_callbacks.replace(Some(callbacks));
     }
 }
 
@@ -253,24 +249,25 @@ impl Image {
     where
         F: FnOnce(&Self, podman::Result<()>) + 'static,
     {
-        if let Some(image) = self.api() {
-            self.imp().set_to_be_deleted(true);
+        let image = if let Some(image) = self.api() {
+            image
+        } else {
+            return;
+        };
 
-            utils::do_async(
-                async move { image.remove().await },
-                clone!(
-                    #[weak(rename_to = obj)]
-                    self,
-                    move |result| {
-                        if let Err(ref e) = result {
-                            obj.imp().set_to_be_deleted(false);
-                            log::error!("Error on removing image: {}", e);
-                        }
-                        op(&obj, result);
-                    }
-                ),
-            );
-        }
+        self.imp().set_to_be_deleted(true);
+
+        rt::Promise::new(async move { image.remove().await }).defer(clone!(
+            #[weak(rename_to = obj)]
+            self,
+            move |result| {
+                if let Err(ref e) = result {
+                    obj.imp().set_to_be_deleted(false);
+                    log::error!("Error on removing image: {}", e);
+                }
+                op(&obj, result);
+            }
+        ));
     }
 
     pub(super) fn emit_deleted(&self) {

@@ -14,7 +14,7 @@ use gtk::glib;
 use crate::model;
 use crate::monad_boxed_type;
 use crate::podman;
-use crate::utils;
+use crate::rt;
 
 monad_boxed_type!(pub(crate) BoxedVolume(podman::models::Volume) impls Debug);
 
@@ -106,34 +106,27 @@ impl Volume {
             .build()
     }
 
-    pub(crate) fn delete<F>(&self, force: bool, op: F)
-    where
-        F: FnOnce(&Self, podman::Result<()>) + 'static,
-    {
-        if let Some(volume) = self.api() {
-            self.imp().set_to_be_deleted(true);
+    pub(crate) async fn delete(&self, force: bool) -> podman::Result<()> {
+        let imp = self.imp();
 
-            utils::do_async(
-                async move {
-                    if force {
-                        volume.remove().await
-                    } else {
-                        volume.delete().await
-                    }
-                },
-                clone!(
-                    #[weak(rename_to = obj)]
-                    self,
-                    move |result| {
-                        if let Err(ref e) = result {
-                            obj.imp().set_to_be_deleted(false);
-                            log::error!("Error on removing volume: {}", e);
-                        }
-                        op(&obj, result);
-                    }
-                ),
-            );
-        }
+        imp.set_to_be_deleted(true);
+
+        rt::Promise::new({
+            let volume = self.api().unwrap();
+            async move {
+                if force {
+                    volume.remove().await
+                } else {
+                    volume.delete().await
+                }
+            }
+        })
+        .exec()
+        .await
+        .inspect_err(|e| {
+            imp.set_to_be_deleted(false);
+            log::error!("Error on removing volume: {}", e);
+        })
     }
 
     pub(crate) fn api(&self) -> Option<podman::api::Volume> {

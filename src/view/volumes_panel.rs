@@ -5,6 +5,8 @@ use std::ops::Deref;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use futures::StreamExt;
+use futures::stream;
 use gettextrs::gettext;
 use gettextrs::ngettext;
 use glib::Properties;
@@ -170,8 +172,8 @@ mod imp {
                 widget.select_none();
             });
 
-            klass.install_action(ACTION_DELETE_SELECTION, None, |widget, _, _| {
-                widget.delete_selection();
+            klass.install_action_async(ACTION_DELETE_SELECTION, None, async |widget, _, _| {
+                widget.delete_selection().await;
             });
 
             klass.install_action(ACTION_TOGGLE_SORT_DIRECTION, None, |widget, _, _| {
@@ -656,13 +658,14 @@ impl VolumesPanel {
         }
     }
 
-    pub(crate) fn delete_selection(&self) {
-        if self
-            .volume_list()
-            .map(|list| list.num_selected())
-            .unwrap_or(0)
-            == 0
-        {
+    pub(crate) async fn delete_selection(&self) {
+        let volume_list = if let Some(volume_list) = self.volume_list() {
+            volume_list
+        } else {
+            return;
+        };
+
+        if volume_list.num_selected() == 0 {
             return;
         }
 
@@ -680,45 +683,29 @@ impl VolumesPanel {
         dialog.set_default_response(Some("cancel"));
         dialog.set_response_appearance("delete", adw::ResponseAppearance::Destructive);
 
-        dialog.connect_response(
-            None,
-            clone!(
-                #[weak(rename_to = obj)]
-                self,
-                move |_, response| if response == "delete" {
-                    if let Some(list) = obj.volume_list() {
-                        list.selected_items()
-                            .iter()
-                            .map(|obj| obj.downcast_ref::<model::Volume>().unwrap())
-                            .for_each(|volume| {
-                                volume.delete(
-                                    true,
-                                    clone!(
-                                        #[weak]
-                                        obj,
-                                        move |volume, result| {
-                                            if let Err(e) = result {
-                                                utils::show_error_toast(
-                                                    &obj,
-                                                    &gettext!(
-                                                        "Error on deleting volume '{}'",
-                                                        volume.inner().name
-                                                    ),
-                                                    &e.to_string(),
-                                                );
-                                            }
-                                        }
-                                    ),
-                                );
-                            });
-                        list.set_selection_mode(false);
-                        obj.emit_by_name::<()>("exit-selection-mode", &[]);
-                    }
-                }
-            ),
-        );
+        if "delete" != dialog.choose_future(self).await {
+            return;
+        }
 
-        dialog.present(Some(self));
+        stream::iter(
+            volume_list
+                .selected_items()
+                .iter()
+                .map(|obj| obj.downcast_ref::<model::Volume>().unwrap()),
+        )
+        .for_each(async |volume| {
+            if let Err(e) = volume.delete(true).await {
+                utils::show_error_toast(
+                    self,
+                    &gettext!("Error on deleting volume '{}'", volume.inner().name),
+                    &e.to_string(),
+                );
+            }
+        })
+        .await;
+
+        volume_list.set_selection_mode(false);
+        self.emit_by_name::<()>("exit-selection-mode", &[]);
     }
 
     fn deselect_hidden_volumes(&self, model: &gio::ListModel) {

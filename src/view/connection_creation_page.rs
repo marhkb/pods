@@ -76,8 +76,8 @@ mod imp {
             klass.install_action(ACTION_SHOW_CUSTOM_INFO_DIALOG, None, |widget, _, _| {
                 widget.show_custom_info_dialog();
             });
-            klass.install_action(ACTION_TRY_CONNECT, None, |widget, _, _| {
-                widget.try_connect();
+            klass.install_action_async(ACTION_TRY_CONNECT, None, async |widget, _, _| {
+                widget.try_connect().await;
             });
             klass.install_action(ACTION_ABORT, None, |widget, _, _| {
                 widget.abort();
@@ -243,15 +243,20 @@ impl ConnectionCreationPage {
             .push_by_tag("custom-connection-info");
     }
 
-    pub(crate) fn try_connect(&self) {
-        if view::show_ongoing_actions_warning_dialog(
-            self.upcast_ref(),
+    pub(crate) async fn try_connect(&self) {
+        if !view::show_ongoing_actions_warning_dialog(
+            self,
             &self.connection_manager(),
             &gettext("Confirm Connecting to New Instance"),
         ) {
-            let imp = self.imp();
+            return;
+        }
 
-            if let Err(e) = self.connection_manager().try_connect(
+        let imp = self.imp();
+
+        let result = self
+            .connection_manager()
+            .try_connect(
                 imp.name_entry_row.text().as_str(),
                 if imp.custom_url_radio_button.is_active() {
                     imp.custom_url_entry_row.text().into()
@@ -264,17 +269,18 @@ impl ConnectionCreationPage {
                 } else {
                     None
                 },
-                clone!(
-                    #[weak(rename_to = obj)]
-                    self,
-                    move |result| match result {
-                        Ok(_) => obj.activate_action("win.close", None).unwrap(),
-                        Err(e) => obj.on_error(&e.to_string()),
-                    }
-                ),
-            ) {
-                self.on_error(&e.to_string());
-            }
+            )
+            .await;
+
+        let result = if let Some(result) = result {
+            result
+        } else {
+            return;
+        };
+
+        match result {
+            Ok(_) => self.activate_action("win.close", None).unwrap(),
+            Err(e) => self.on_error(&e.to_string()),
         }
     }
 

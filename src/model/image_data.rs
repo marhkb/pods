@@ -49,15 +49,15 @@ glib::wrapper! {
     pub(crate) struct ImageData(ObjectSubclass<imp::ImageData>);
 }
 
-impl From<podman::models::ImageData> for ImageData {
-    fn from(data: podman::models::ImageData) -> Self {
+impl From<&podman::models::ImageData> for ImageData {
+    fn from(data: &podman::models::ImageData) -> Self {
         glib::Object::builder()
-            .property("architecture", data.architecture)
-            .property("author", data.author)
-            .property("comment", data.comment)
+            .property("architecture", data.architecture.as_ref())
+            .property("author", data.author.as_ref())
+            .property("comment", data.comment.as_ref())
             .property(
                 "config",
-                model::ImageConfig::from_libpod(data.config.unwrap()),
+                model::ImageConfig::from_libpod(data.config.as_ref().unwrap()),
             )
             .build()
     }

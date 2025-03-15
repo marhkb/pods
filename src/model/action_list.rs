@@ -204,17 +204,20 @@ impl ActionList {
         ))
     }
 
-    pub(crate) fn build_image(
+    pub(crate) async fn build_image(
         &self,
         image: &str,
         opts: podman::opts::ImageBuildOpts,
     ) -> model::Action {
-        self.insert_action(model::Action::build_image(
-            self.imp().action_counter.get(),
-            image,
-            self.client().unwrap(),
-            opts,
-        ))
+        self.insert_action(
+            model::Action::build_image(
+                self.imp().action_counter.get(),
+                image,
+                self.client().unwrap(),
+                opts,
+            )
+            .await,
+        )
     }
 
     pub(crate) fn prune_containers(&self, opts: podman::opts::ContainerPruneOpts) -> model::Action {

@@ -16,6 +16,7 @@ use crate::utils;
 
 mod imp {
     use super::*;
+    use crate::rt;
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ActionRow)]
@@ -161,13 +162,14 @@ mod imp {
 
             let id = self.notification_id.get().unwrap().to_owned();
 
-            crate::runtime().spawn(async move {
+            rt::Promise::new(async move {
                 let _ = ashpd::notification::NotificationProxy::new()
                     .await
                     .unwrap()
                     .remove_notification(&id)
                     .await;
-            });
+            })
+            .spawn();
         }
     }
 
@@ -225,13 +227,14 @@ mod imp {
                             .body(action.description().as_ref())
                             .default_action("");
 
-                            crate::runtime().spawn(async move {
+                            rt::Promise::new(async move {
                                 let _ = ashpd::notification::NotificationProxy::new()
                                     .await
                                     .unwrap()
                                     .add_notification(&id, notification)
                                     .await;
-                            });
+                            })
+                            .spawn();
                         }
                     ),
                 );

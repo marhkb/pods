@@ -17,7 +17,7 @@ use indexmap::map::Entry;
 use crate::model;
 use crate::model::SelectableListExt;
 use crate::podman;
-use crate::utils;
+use crate::rt;
 
 mod imp {
     use super::*;
@@ -223,72 +223,71 @@ impl ImageList {
         F: FnOnce(super::RefreshError) + Clone + 'static,
     {
         self.imp().set_listing(true);
-        utils::do_async(
-            {
-                let podman = self.client().unwrap().podman();
-                async move {
-                    podman
-                        .images()
-                        .list(&podman::opts::ImageListOpts::builder().all(true).build())
-                        .await
-                }
-            },
-            clone!(
-                #[weak(rename_to = obj)]
-                self,
-                move |result| {
-                    match result {
-                        Ok(summaries) => {
-                            let to_remove = obj
-                                .imp()
-                                .list
-                                .borrow()
-                                .keys()
-                                .filter(|id| {
-                                    !summaries
-                                        .iter()
-                                        .any(|summary| summary.id.as_ref() == Some(id))
-                                })
-                                .cloned()
-                                .collect::<Vec<_>>();
-                            to_remove.iter().for_each(|id| {
-                                obj.remove_image(id);
-                            });
 
-                            summaries.iter().for_each(|summary| {
-                                let index = obj.len();
+        rt::Promise::new({
+            let podman = self.client().unwrap().podman();
+            async move {
+                podman
+                    .images()
+                    .list(&podman::opts::ImageListOpts::builder().all(true).build())
+                    .await
+            }
+        })
+        .defer(clone!(
+            #[weak(rename_to = obj)]
+            self,
+            move |result| {
+                match result {
+                    Ok(summaries) => {
+                        let to_remove = obj
+                            .imp()
+                            .list
+                            .borrow()
+                            .keys()
+                            .filter(|id| {
+                                !summaries
+                                    .iter()
+                                    .any(|summary| summary.id.as_ref() == Some(id))
+                            })
+                            .cloned()
+                            .collect::<Vec<_>>();
+                        to_remove.iter().for_each(|id| {
+                            obj.remove_image(id);
+                        });
 
-                                let mut list = obj.imp().list.borrow_mut();
+                        summaries.iter().for_each(|summary| {
+                            let index = obj.len();
 
-                                match list.entry(summary.id.as_ref().unwrap().to_owned()) {
-                                    Entry::Vacant(e) => {
-                                        let image = model::Image::new(&obj, summary);
-                                        e.insert(image.clone());
+                            let mut list = obj.imp().list.borrow_mut();
 
-                                        drop(list);
+                            match list.entry(summary.id.as_ref().unwrap().to_owned()) {
+                                Entry::Vacant(e) => {
+                                    let image = model::Image::new(&obj, summary);
+                                    e.insert(image.clone());
 
-                                        obj.items_changed(index, 0, 1);
-                                        obj.image_added(&image);
-                                    }
-                                    Entry::Occupied(e) => {
-                                        let image = e.get().to_owned();
-                                        drop(list);
-                                        image.update(summary);
-                                    }
+                                    drop(list);
+
+                                    obj.items_changed(index, 0, 1);
+                                    obj.image_added(&image);
                                 }
-                            });
-                        }
-                        Err(e) => {
-                            log::error!("Error on retrieving images: {}", e);
-                            err_op(super::RefreshError);
-                        }
+                                Entry::Occupied(e) => {
+                                    let image = e.get().to_owned();
+                                    drop(list);
+                                    image.update(summary);
+                                }
+                            }
+                        });
                     }
-                    let imp = obj.imp();
-                    imp.set_listing(false);
-                    imp.set_as_initialized();
+                    Err(e) => {
+                        log::error!("Error on retrieving images: {}", e);
+                        err_op(super::RefreshError);
+                    }
                 }
-            ),
-        );
+                let imp = obj.imp();
+                imp.set_listing(false);
+                imp.set_as_initialized();
+            }
+        ));
     }
 
     fn tag(&self, id: &str, tag: &str) {

@@ -24,6 +24,7 @@ simplelog = { version = "0.12", features = ["paris"] }
 sourceview5 = { version = "0.9" }
 syslog = "7"
 tokio = "1"
+tokio-stream = { version = "0.1", default-features = false }
 tokio-tar = { version = "0.3", default-features = false }
 vte = { version = "0.15", default-features = false }
 vte4 = "0.8"
