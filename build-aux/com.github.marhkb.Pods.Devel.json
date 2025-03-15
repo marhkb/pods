@@ -5,7 +5,7 @@
     "sdk": "org.gnome.Sdk",
     "sdk-extensions": [
         "org.freedesktop.Sdk.Extension.rust-stable",
-        "org.freedesktop.Sdk.Extension.llvm18"
+        "org.freedesktop.Sdk.Extension.llvm19"
     ],
     "command": "pods",
     "finish-args": [
@@ -19,7 +19,7 @@
         "--filesystem=xdg-run/podman:ro"
     ],
     "build-options": {
-        "append-path": "/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/llvm18/bin",
+        "append-path": "/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/llvm19/bin",
         "env": {
             "CARGO_REGISTRIES_CRATES_IO_PROTOCOL": "sparse",
             "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER": "clang",
