@@ -78,7 +78,7 @@ test (
   ],
   env: [
     'CARGO_HOME=@0@'.format(cargo_home),
-    'PATH=/app/bin:/usr/bin:/usr/lib/sdk/llvm18/bin:/usr/lib/sdk/rust-stable/bin',
+    'PATH=/app/bin:/usr/bin:/usr/lib/sdk/llvm19/bin:/usr/lib/sdk/rust-stable/bin',
   ],
   timeout: 300, # Give cargo more time
 )
