@@ -23,7 +23,7 @@
             <property name="name">checkmark</property>
             <property name="halign">end</property>
             <property name="valign">end</property>
-            <property name="icon-name">emblem-ok-symbolic</property>
+            <property name="icon-name">success-small-symbolic</property>
           </object>
         </child>
 
