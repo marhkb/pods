@@ -24,6 +24,7 @@
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/regex-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/skull-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/stacked-plates-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/success-small-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/uppercase-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/whole-word-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/status/error-symbolic.svg</file>

@@ -111,7 +111,7 @@ connectionchooserpage connectionrow #delete-button {
 connectionrow #selection-indicator #checkmark {
   color: var(--light-1);
   border-radius: 9999px;
-  border: solid var(--accent-bg-color) 2px;
+  border: solid var(--accent-bg-color) 1px;
   background-color: var(--accent-bg-color);
 }
 
