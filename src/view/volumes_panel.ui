@@ -34,6 +34,7 @@
   </menu>
 
   <object class="GtkButton" id="create_volume_button">
+    <property name="action-name">volumes-panel.create-volume</property>
     <property name="icon-name">list-add-symbolic</property>
     <property name="tooltip-text" translatable="yes">Create Volume</property>
   </object>
