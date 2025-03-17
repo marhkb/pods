@@ -39,7 +39,7 @@
 
                     <child type="title">
                       <object class="AdwWindowTitle">
-                        <property name="title" translatable="yes">Create Pod</property>
+                        <property name="title" translatable="yes">Create Network</property>
                       </object>
                     </child>
 
@@ -48,7 +48,7 @@
                         <style>
                           <class name="suggested-action"/>
                         </style>
-                        <property name="action-name">pod-creation-page.create</property>
+                        <property name="action-name">network-creation-page.create</property>
                         <property name="label" translatable="yes">_Create</property>
                         <property name="use-underline">True</property>
                       </object>
@@ -78,9 +78,16 @@
                       <object class="AdwPreferencesGroup">
 
                         <child>
-                          <object class="GtkStackSwitcher">
-                            <property name="stack">stack</property>
-                            <property name="margin-top">12</property>
+                          <object class="AdwComboRow" id="driver_combo_row">
+                            <property name="title" translatable="yes">Driver</property>
+                            <property name="model">
+                              <object class="GtkStringList" id="driver_list">
+                                <items>
+                                  <item>bridge</item>
+                                  <item>macvlan</item>
+                                </items>
+                              </object>
+                            </property>
                           </object>
                         </child>
 
@@ -91,253 +98,30 @@
                       <object class="AdwPreferencesGroup">
 
                         <child>
-                          <object class="GtkStack" id="stack">
-                            <property name="vhomogeneous">False</property>
+                          <object class="AdwSwitchRow" id="dns_switch_row">
+                            <property name="title" translatable="yes">DNS</property>
+                            <property name="subtitle" translatable="yes">whether name resolution is active for container on this Network (bridge driver only)</property>
+                          </object>
+                        </child>
 
-                            <child>
-                              <object class="GtkStackPage">
-                                <property name="title" translatable="yes">Details</property>
-                                <property name="icon-name">build-configure-symbolic</property>
+                        <child>
+                          <object class="AdwSwitchRow" id="internal_switch_row">
+                            <property name="title" translatable="yes">Internal</property>
+                            <property name="subtitle" translatable="yes">Whether the Network should not have external routes to public or other Networks</property>
+                          </object>
+                        </child>
 
-                                <property name="child">
-                                  <object class="GtkBox">
-                                    <property name="orientation">vertical</property>
-                                    <property name="spacing">18</property>
+                        <child>
+                          <object class="AdwSwitchRow" id="ipv6_switch_row">
+                            <property name="title" translatable="yes">IPv6</property>
+                            <property name="subtitle" translatable="yes">Whether ipv6 subnet should be created for this net</property>
+                          </object>
+                        </child>
 
-                                    <child>
-                                      <object class="AdwPreferencesGroup">
-
-                                        <child>
-                                          <object class="AdwEntryRow" id="hostname_entry_row">
-                                            <property name="activates-default">True</property>
-                                            <property name="title" translatable="yes">Hostname</property>
-                                          </object>
-                                        </child>
-
-                                        <child>
-                                          <object class="AdwSwitchRow" id="disable_resolv_switch_row">
-                                            <property name="title" translatable="yes">Disable /etc/resolv.conf management</property>
-                                            <signal name="notify::active" handler="on_disable_resolv_switch_row_active_changed" swapped="true"/>
-                                          </object>
-                                        </child>
-
-                                      </object>
-                                    </child>
-
-                                    <child>
-                                      <object class="AdwPreferencesGroup">
-
-                                        <child>
-                                          <object class="AdwEntryRow" id="pod_create_command_entry_row">
-                                            <property name="activates-default">True</property>
-                                            <property name="title" translatable="yes">Pod Create Command</property>
-                                          </object>
-                                        </child>
-
-                                      </object>
-                                    </child>
-
-                                    <child>
-                                      <object class="AdwPreferencesGroup">
-                                        <property name="title" translatable="yes">Arguments</property>
-
-                                        <child>
-                                          <object class="GtkListBox" id="pod_create_command_arg_list_box">
-                                            <style>
-                                              <class name="boxed-list"/>
-                                            </style>
-                                          </object>
-                                        </child>
-
-                                      </object>
-                                    </child>
-
-                                  </object>
-                                </property>
-
-                              </object>
-                            </child>
-
-                            <child>
-                              <object class="GtkStackPage">
-                                <property name="title" translatable="yes">Integration</property>
-                                <property name="icon-name">puzzle-piece-symbolic</property>
-
-                                <property name="child">
-                                  <object class="GtkBox">
-                                    <property name="orientation">vertical</property>
-                                    <property name="spacing">18</property>
-
-                                    <child>
-                                      <object class="AdwPreferencesGroup">
-                                        <property name="title" translatable="yes">Port Mappings</property>
-
-                                        <child>
-                                          <object class="GtkListBox" id="port_mapping_list_box">
-                                            <style>
-                                              <class name="boxed-list"/>
-                                            </style>
-                                          </object>
-                                        </child>
-
-                                      </object>
-                                    </child>
-
-                                    <child>
-                                      <object class="AdwPreferencesGroup">
-                                        <property name="title" translatable="yes">Devices</property>
-
-                                        <child>
-                                          <object class="GtkListBox" id="devices_list_box">
-                                            <style>
-                                              <class name="boxed-list"/>
-                                            </style>
-                                          </object>
-                                        </child>
-
-                                      </object>
-                                    </child>
-
-                                    <child>
-                                      <object class="AdwPreferencesGroup">
-                                        <property name="title" translatable="yes">Hosts</property>
-                                        <property name="header-suffix">
-                                          <object class="GtkSwitch" id="enable_hosts_switch">
-                                            <signal name="notify::active" handler="on_enable_hosts_switch_active_changed" swapped="true"/>
-                                            <property name="valign">center</property>
-                                            <property name="active">true</property>
-                                          </object>
-                                        </property>
-
-                                        <child>
-                                          <object class="GtkListBox" id="hosts_list_box">
-                                            <style>
-                                              <class name="boxed-list"/>
-                                            </style>
-                                          </object>
-                                        </child>
-
-                                      </object>
-                                    </child>
-
-                                    <child>
-                                      <object class="AdwPreferencesGroup">
-                                        <property name="title" translatable="yes">Labels</property>
-
-                                        <child>
-                                          <object class="GtkListBox" id="labels_list_box">
-                                            <style>
-                                              <class name="boxed-list"/>
-                                            </style>
-                                          </object>
-                                        </child>
-
-                                      </object>
-                                    </child>
-
-                                  </object>
-                                </property>
-
-                              </object>
-                            </child>
-
-                            <child>
-                              <object class="GtkStackPage">
-                                <property name="title" translatable="yes">Infra</property>
-                                <property name="icon-name">city-symbolic</property>
-
-                                <property name="child">
-                                  <object class="GtkBox">
-                                    <property name="orientation">vertical</property>
-                                    <property name="spacing">18</property>
-
-                                    <child>
-                                      <object class="AdwPreferencesGroup">
-
-                                        <child>
-                                          <object class="AdwSwitchRow" id="disable_infra_switch_row">
-                                            <signal name="notify::active" handler="on_disable_infra_switch_row_active_changed" swapped="true"/>
-                                            <property name="title" translatable="yes">Disable Infra</property>
-                                          </object>
-                                        </child>
-
-                                      </object>
-                                    </child>
-
-                                    <child>
-                                      <object class="GtkBox" id="infra_settings_box">
-                                        <property name="orientation">vertical</property>
-                                        <property name="spacing">18</property>
-
-                                        <child>
-                                          <object class="AdwPreferencesGroup">
-
-                                            <child>
-                                              <object class="AdwEntryRow" id="infra_name_entry_row">
-                                                <property name="activates-default">True</property>
-                                                <property name="title" translatable="yes">Name</property>
-                                              </object>
-                                            </child>
-
-                                            <child>
-                                              <object class="PdsImageSelectionComboRow" id="infra_image_selection_combo_row">
-                                                <signal name="notify::subtitle" handler="on_infra_image_selection_combo_row_notify_subtitle" swapped="true"/>
-                                              </object>
-                                            </child>
-
-                                            <child>
-                                              <object class="AdwSwitchRow" id="infra_pull_latest_image_switch_row">
-                                                <property name="title" translatable="yes">Pull Latest Image</property>
-                                              </object>
-                                            </child>
-
-                                            <child>
-                                              <object class="AdwEntryRow" id="infra_common_pid_file_entry_row">
-                                                <property name="activates-default">True</property>
-                                                <property name="title" translatable="yes">Common PID File</property>
-                                              </object>
-                                            </child>
-
-                                          </object>
-                                        </child>
-
-                                        <child>
-                                          <object class="AdwPreferencesGroup">
-
-                                            <child>
-                                              <object class="AdwEntryRow" id="infra_command_entry_row">
-                                                <property name="activates-default">True</property>
-                                                <property name="title" translatable="yes">Command</property>
-                                              </object>
-                                            </child>
-
-                                          </object>
-                                        </child>
-
-                                        <child>
-                                          <object class="AdwPreferencesGroup">
-                                            <property name="title" translatable="yes">Arguments</property>
-
-                                            <child>
-                                              <object class="GtkListBox" id="infra_command_arg_list_box">
-                                                <style>
-                                                  <class name="boxed-list"/>
-                                                </style>
-                                              </object>
-                                            </child>
-
-                                          </object>
-                                        </child>
-
-                                      </object>
-                                    </child>
-
-                                  </object>
-                                </property>
-
-                              </object>
-                            </child>
-
+                        <child>
+                          <object class="AdwEntryRow" id="network_interface_row">
+                            <property name="title" translatable="yes">Network Interface</property>
+                            <!-- <property name="subtitle" translatable="yes">Whether ipv6 subnet should be created for this net</property> -->
                           </object>
                         </child>
 
