@@ -28,8 +28,6 @@ mod imp {
     pub(crate) struct NetworkCreationPage {
         #[property(get, set, construct_only, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
-        #[property(get, set, construct_only, nullable)]
-        pub(super) infra_image: glib::WeakRef<model::Image>,
         #[property(get, set, construct_only)]
         pub(super) show_view_artifact: Cell<bool>,
         #[template_child]
@@ -38,6 +36,18 @@ mod imp {
         pub(super) create_button: TemplateChild<gtk::Button>,
         #[template_child]
         pub(super) name_entry_row: TemplateChild<widget::RandomNameEntryRow>,
+        #[template_child]
+        pub(super) driver_combo_row: TemplateChild<adw::ComboRow>,
+        #[template_child]
+        pub(super) driver_list: TemplateChild<gtk::StringList>,
+        #[template_child]
+        pub(super) dns_switch_row: TemplateChild<adw::SwitchRow>,
+        #[template_child]
+        pub(super) internal_switch_row: TemplateChild<adw::SwitchRow>,
+        #[template_child]
+        pub(super) ipv6_switch_row: TemplateChild<adw::SwitchRow>,
+        #[template_child]
+        pub(super) network_interface_row: TemplateChild<adw::EntryRow>,
     }
 
     #[glib::object_subclass]
@@ -169,29 +179,18 @@ impl NetworkCreationPage {
     fn opts(&self) -> podman::opts::NetworkCreateOptsBuilder {
         let imp = self.imp();
 
-        let mut opts = podman::opts::NetworkCreateOpts::builder()
+        podman::opts::NetworkCreateOpts::builder()
             .name(imp.name_entry_row.text().as_str())
-            // .hostname(imp.hostname_entry_row.text().as_str())
-            // .labels(
-            //     imp.labels()
-            //         .iter::<model::KeyVal>()
-            //         .map(Result::unwrap)
-            //         .map(|entry| (entry.key(), entry.value())),
-            // )
-            // .portmappings(
-            //     imp.port_mappings()
-            //         .iter::<model::PortMapping>()
-            //         .map(Result::unwrap)
-            //         .map(|port_mapping| podman::models::PortMapping {
-            //             container_port: Some(port_mapping.container_port() as u16),
-            //             host_ip: None,
-            //             host_port: Some(port_mapping.host_port() as u16),
-            //             protocol: Some(port_mapping.protocol().to_string()),
-            //             range: None,
-            //         }),
-            // );
-            ;
-        opts
+            .driver(
+                imp.driver_list
+                    .string(imp.driver_combo_row.selected())
+                    .unwrap()
+                    .as_str(),
+            )
+            .dns_enabled(imp.dns_switch_row.is_active())
+            .internal(imp.internal_switch_row.is_active())
+            .ipv6_enabled(imp.ipv6_switch_row.is_active())
+            .network_interface(imp.network_interface_row.text().as_str())
     }
 }
 
