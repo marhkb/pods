@@ -101,6 +101,7 @@
                           <object class="AdwSwitchRow" id="dns_switch_row">
                             <property name="title" translatable="yes">DNS</property>
                             <property name="subtitle" translatable="yes">whether name resolution is active for container on this Network (bridge driver only)</property>
+                            <property name="active">True</property>
                           </object>
                         </child>
 
