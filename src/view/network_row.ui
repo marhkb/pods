@@ -88,7 +88,7 @@
                       <class name="flat"/>
                     </style>
 
-                    <property name="action-name">volume-row.delete-volume</property>
+                    <property name="action-name">network-row.delete</property>
                     <property name="icon-name">user-trash-symbolic</property>
                     <property name="valign">center</property>
                   </object>
