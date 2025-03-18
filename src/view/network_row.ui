@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <template class="PdsNetworkRow" parent="GtkListBoxRow">
-    <property name="action-name">volume-row.activate</property>
+    <property name="action-name">network-row.activate</property>
 
     <child>
       <object class="GtkBox">
