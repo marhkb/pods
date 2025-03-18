@@ -3,6 +3,7 @@ mod action_row;
 mod actions_button;
 mod actions_sidebar;
 mod client_view;
+mod network;
 mod connection;
 mod connection_chooser_page;
 mod connection_creation_page;
