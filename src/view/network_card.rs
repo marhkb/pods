@@ -13,16 +13,9 @@ use gtk::gdk;
 use gtk::glib;
 
 use crate::model;
-use crate::model::prelude::*;
 use crate::utils;
 use crate::view;
 
-const ACTION_RENAME: &str = "network-card.rename";
-const ACTION_STOP: &str = "network-card.stop";
-const ACTION_KILL: &str = "network-card.kill";
-const ACTION_RESTART: &str = "network-card.restart";
-const ACTION_PAUSE: &str = "network-card.pause";
-const ACTION_RESUME: &str = "network-card.resume";
 const ACTION_DELETE: &str = "network-card.delete";
 
 mod imp {
@@ -77,35 +70,9 @@ mod imp {
                 widget.activate();
             });
 
-            klass.install_action(ACTION_RENAME, None, |widget, _, _| {
-                widget.rename();
+            klass.install_action(ACTION_DELETE, None, |widget, _, _| {
+                widget.delete();
             });
-
-            // klass.install_action(ACTION_START_OR_RESUME, None, |widget, _, _| {
-            //     if widget.container().map(|c| c.can_start()).unwrap_or(false) {
-            //         view::container::start(widget.upcast_ref());
-            //     } else {
-            //         view::container::resume(widget.upcast_ref());
-            //     }
-            // });
-            // klass.install_action(ACTION_STOP, None, |widget, _, _| {
-            //     view::container::stop(widget, widget.network());
-            // });
-            // klass.install_action(ACTION_KILL, None, |widget, _, _| {
-            //     view::container::kill(widget, widget.network());
-            // });
-            // klass.install_action(ACTION_RESTART, None, |widget, _, _| {
-            //     view::container::restart(widget, widget.network());
-            // });
-            // klass.install_action(ACTION_PAUSE, None, |widget, _, _| {
-            //     view::container::pause(widget, widget.network());
-            // });
-            // klass.install_action(ACTION_RESUME, None, |widget, _, _| {
-            //     view::container::resume(widget, widget.network());
-            // });
-            // klass.install_action(ACTION_DELETE, None, |widget, _, _| {
-            //     widget.delete();
-            // });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -405,17 +372,9 @@ impl NetworkCard {
         }
     }
 
-    pub(crate) fn rename(&self) {
-        // if let Some(container) = self.network() {
-        //     let dialog = view::ContainerRenameDialog::from(&container);
-        //     dialog.set_transient_for(Some(&utils::root(self.upcast_ref())));
-        //     dialog.present();
-        // }
-    }
-
     pub(crate) fn delete(&self) {
         let dialog = adw::MessageDialog::builder()
-            .heading(gettext("Delete Container?"))
+            .heading(gettext("Delete Volume?"))
             .body_use_markup(true)
             .body(gettext(
                 "All settings and all changes made within the container will be irreversibly lost",
@@ -431,98 +390,8 @@ impl NetworkCard {
         dialog.set_response_appearance("confirm", adw::ResponseAppearance::Destructive);
 
         if glib::MainContext::default().block_on(dialog.choose_future()) == "confirm" {
-            // view::container::delete(&self)
+            // view::network::delete_show_confirmation(self)
         }
-    }
-
-    fn bind_stats_fraction(&self, stats_expr: &gtk::Expression, progress_bar: &gtk::ProgressBar) {
-        let percent_expr =
-            stats_expr.chain_closure::<f64>(closure!(|_: Self, value: f64| value * 0.01));
-
-        let target = adw::PropertyAnimationTarget::new(progress_bar, "fraction");
-        let animation = adw::TimedAnimation::builder()
-            .widget(progress_bar)
-            .duration(750)
-            .target(&target)
-            .build();
-
-        percent_expr.watch(
-            Some(self),
-            clone!(@weak self as obj, @weak progress_bar, @strong percent_expr => move || {
-                animation.set_value_from(progress_bar.fraction());
-                animation.set_value_to(percent_expr.evaluate_as(Some(&obj)).unwrap_or(0.0));
-                animation.play();
-            }),
-        );
-
-        let classes = utils::css_classes(progress_bar);
-
-        #[rustfmt::skip]
-        percent_expr.chain_closure::<Vec<String>>(closure!(|_: Self, value: f64| {
-            classes
-                .iter()
-                .cloned()
-                .chain(if value >= 0.8 {
-                    Some(String::from(if value < 0.95 {
-                        "warning"
-                    } else {
-                        "error"
-                    }))
-                } else {
-                    None
-                })
-                .collect::<Vec<_>>()
-        }))
-        .bind(progress_bar, "css-classes", Some(self));
-    }
-
-    fn bind_stats_throughput(
-        &self,
-        stats_expr: &gtk::Expression,
-        box_: &gtk::Box,
-        label: &gtk::Label,
-    ) {
-        self.curr_value_expr(stats_expr)
-            .chain_closure::<String>(closure!(|_: Self, value: u64| {
-                gettext!(
-                    // Translators: For example 5 MB / s.
-                    "{} / s",
-                    glib::format_size(value)
-                )
-            }))
-            .bind(label, "label", Some(self));
-
-        let css_classes = utils::css_classes(box_);
-        self.curr_value_expr(stats_expr)
-            .chain_closure::<Vec<String>>(closure!(|_: Self, value: u64| {
-                css_classes
-                    .iter()
-                    .cloned()
-                    .chain(if value > 0 {
-                        None
-                    } else {
-                        Some("dim-label".to_string())
-                    })
-                    .collect::<Vec<_>>()
-            }))
-            .bind(box_, "css-classes", Some(self));
-    }
-
-    fn curr_value_expr(&self, stats_expr: &gtk::Expression) -> gtk::Expression {
-        let prev_value = Cell::new(u64::MAX);
-
-        stats_expr
-            .chain_closure::<u64>(closure_local!(move |_: Self, value: u64| {
-                let next_value = if prev_value.get() >= value {
-                    0
-                } else {
-                    value - prev_value.get()
-                };
-
-                prev_value.set(value);
-                next_value
-            }))
-            .upcast()
     }
 
     fn update_actions(&self) {

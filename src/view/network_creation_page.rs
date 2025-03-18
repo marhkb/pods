@@ -1,10 +1,7 @@
 use std::cell::Cell;
-use std::cell::OnceCell;
-use std::cell::RefCell;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use gettextrs::gettext;
 use glib::Properties;
 use glib::clone;
 use gtk::CompositeTemplate;
