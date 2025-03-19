@@ -10,9 +10,9 @@ use gtk::CompositeTemplate;
 use gtk::glib;
 
 use crate::model;
-use crate::utils;
 use crate::model::SelectableExt;
 use crate::model::SelectableListExt;
+use crate::utils;
 use crate::view;
 
 const ACTION_DELETE: &str = "network-row.delete";
@@ -95,7 +95,8 @@ mod imp {
             // ));
             let network_to_be_deleted_expr =
                 network_expr.chain_property::<model::Network>("to-be-deleted");
-            let container_list_expr = network_expr.chain_property::<model::Network>("container-list");
+            let container_list_expr =
+                network_expr.chain_property::<model::Network>("container-list");
 
             let selection_mode_expr = network_expr
                 .chain_property::<model::Network>("network-list")
@@ -113,32 +114,34 @@ mod imp {
                     network_inner_expr.upcast_ref(),
                     network_to_be_deleted_expr.upcast_ref(),
                 ],
-                closure!(|_: Self::Type, inner: model::BoxedNetwork, to_be_deleted: bool| {
-                    let name = inner.name.as_ref().unwrap();
-                    if to_be_deleted {
-                        format!("<s>{name}</s>")
-                    } else {
-                        name.to_owned()
+                closure!(
+                    |_: Self::Type, inner: model::BoxedNetwork, to_be_deleted: bool| {
+                        let name = inner.name.as_ref().unwrap();
+                        if to_be_deleted {
+                            format!("<s>{name}</s>")
+                        } else {
+                            name.to_owned()
+                        }
                     }
-                }),
+                ),
             )
             .bind(&*self.name_label, "label", Some(obj));
 
             let css_classes = utils::css_classes(&*self.name_label);
             container_list_expr
-                        .chain_property::<model::SimpleContainerList>("len")
-                        .chain_closure::<Vec<String>>(closure!(|_: Self::Type, len: u32| {
-                            css_classes
-                                .iter()
-                                .cloned()
-                                .chain(if len == 0 {
-                                    Some(String::from("dim-label"))
-                                } else {
-                                    None
-                                })
-                                .collect::<Vec<_>>()
-                        }))
-            .bind(&*self.name_label, "css-classes", Some(obj));
+                .chain_property::<model::SimpleContainerList>("len")
+                .chain_closure::<Vec<String>>(closure!(|_: Self::Type, len: u32| {
+                    css_classes
+                        .iter()
+                        .cloned()
+                        .chain(if len == 0 {
+                            Some(String::from("dim-label"))
+                        } else {
+                            None
+                        })
+                        .collect::<Vec<_>>()
+                }))
+                .bind(&*self.name_label, "css-classes", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
                 [&ticks_expr, &network_inner_expr],
@@ -192,7 +195,10 @@ mod imp {
                         #[weak]
                         obj,
                         move |network, _| {
-                            obj.action_set_enabled("network.show-details", !network.to_be_deleted());
+                            obj.action_set_enabled(
+                                "network.show-details",
+                                !network.to_be_deleted(),
+                            );
                         }
                     ),
                 );
@@ -268,5 +274,4 @@ impl NetworkRow {
     pub(crate) async fn delete(&self) {
         view::network::delete_show_confirmation(self, self.network().as_ref()).await;
     }
-
 }

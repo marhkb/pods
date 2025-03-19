@@ -109,7 +109,7 @@ impl Network {
 
     pub(crate) async fn delete(&self, force: bool) -> anyhow::Result<()> {
         if self.default() {
-            return Err(anyhow::anyhow!("default network podman cannot be removed"))
+            return Err(anyhow::anyhow!("default network podman cannot be removed"));
         }
         let network = if let Some(network) = self.api() {
             network

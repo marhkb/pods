@@ -51,7 +51,10 @@ where
         utils::show_error_toast(
             widget,
             // Translators: The "{}" is a placeholder for the network name.
-            &gettext!("Error on deleting network '{}'", &network.inner().name.as_ref().unwrap()),
+            &gettext!(
+                "Error on deleting network '{}'",
+                &network.inner().name.as_ref().unwrap()
+            ),
             &e.to_string(),
         );
     }
