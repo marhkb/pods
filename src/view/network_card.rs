@@ -1,4 +1,3 @@
-use std::cell::Cell;
 use std::cell::RefCell;
 
 use adw::prelude::*;
@@ -7,14 +6,12 @@ use gettextrs::gettext;
 use glib::Properties;
 use glib::clone;
 use glib::closure;
-use glib::closure_local;
 use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
 
 use crate::model;
 use crate::utils;
-use crate::view;
 
 const ACTION_DELETE: &str = "network-card.delete";
 
