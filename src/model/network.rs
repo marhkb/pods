@@ -28,6 +28,8 @@ mod imp {
         pub(super) network_list: glib::WeakRef<model::NetworkList>,
         #[property(get, set, construct_only)]
         pub(super) inner: OnceCell<BoxedNetwork>,
+        #[property(get, set, construct_only)]
+        pub(super) default: OnceCell<bool>,
         #[property(get, set)]
         pub(super) searching_containers: Cell<bool>,
         #[property(get, set)]
@@ -100,11 +102,15 @@ impl Network {
     pub(crate) fn new(network_list: &model::NetworkList, inner: podman::models::Network) -> Self {
         glib::Object::builder()
             .property("network-list", network_list)
+            .property("default", inner.name.as_ref().unwrap() == "podman")
             .property("inner", BoxedNetwork::from(inner))
             .build()
     }
 
-    pub(crate) async fn delete(&self, force: bool) -> podman::Result<()> {
+    pub(crate) async fn delete(&self, force: bool) -> anyhow::Result<()> {
+        if self.default() {
+            return Err(anyhow::anyhow!("default network podman cannot be removed"))
+        }
         let network = if let Some(network) = self.api() {
             network
         } else {
@@ -128,6 +134,7 @@ impl Network {
             imp.set_to_be_deleted(false);
             log::error!("Error on removing network: {}", e);
         })
+        .map_err(anyhow::Error::from)
         .map(|_| ())
     }
 

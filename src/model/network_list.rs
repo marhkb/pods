@@ -311,7 +311,11 @@ impl NetworkList {
         let network_id = event.actor.id;
 
         match event.action.as_str() {
-            "remove" => self.remove_network(&network_id),
+            "remove" => {
+                if event.actor.attributes.get("network").is_some_and(|network| network != "podman") {
+                    // ignore removal of podman network, which sends an event but cant be removed
+                    self.remove_network(&network_id)}
+                }
             _ => self.refresh(self.get_network(&network_id).map(|_| network_id), err_op),
         }
     }
