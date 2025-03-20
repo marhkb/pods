@@ -2,10 +2,6 @@ containercard.not-running {
   background-color: var(--secondary-sidebar-bg-color);
 }
 
-flowbox > flowboxchild {
-  padding: 0;
-}
-
 .text-box textview {
   background: none;
 }
