@@ -143,7 +143,7 @@ connectionchooserpage connectionrow {
   font-weight: bold;
   font-feature-settings: "tnum";
   border-radius: 9999px;
-  padding: 0 5px;
+  padding: 1px 4px 0 5px;
 }
 
 .status-badge-normal {
