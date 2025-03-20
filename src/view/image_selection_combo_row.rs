@@ -124,7 +124,7 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct ImageSelectionComboRow(ObjectSubclass<imp::ImageSelectionComboRow>)
-        @extends adw::ActionRow, gtk::ListBoxRow, gtk::Widget,
+        @extends adw::PreferencesRow, adw::ActionRow, gtk::ListBoxRow, gtk::Widget,
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget, gtk::Actionable;
 }
 

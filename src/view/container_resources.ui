@@ -181,17 +181,14 @@
                       <object class="GtkLabel" id="network_label">
                         <property name="label" translatable="yes">Network</property>
                         <property name="xalign">0.0</property>
-                        <property name="hexpand">True</property>
                         <property name="wrap">True</property>
-                        <property name="wrap-mode">word-char</property>
-                        <property name="max-width-chars">6</property>
                       </object>
                     </child>
 
                     <child>
-                      <object class="GtkBox">
-                        <property name="orientation">vertical</property>
-                        <property name="spacing">9</property>
+                      <object class="AdwWrapBox">
+                        <property name="child-spacing">9</property>
+                        <property name="line-spacing">9</property>
                         <property name="valign">center</property>
 
                         <child>
@@ -301,17 +298,14 @@
                       <object class="GtkLabel" id="block_label">
                         <property name="label" translatable="yes">Disk</property>
                         <property name="xalign">0.0</property>
-                        <property name="hexpand">True</property>
                         <property name="wrap">True</property>
-                        <property name="wrap-mode">word-char</property>
-                        <property name="max-width-chars">6</property>
                       </object>
                     </child>
 
                     <child>
-                      <object class="GtkBox">
-                        <property name="orientation">vertical</property>
-                        <property name="spacing">9</property>
+                      <object class="AdwWrapBox">
+                        <property name="child-spacing">9</property>
+                        <property name="line-spacing">9</property>
                         <property name="valign">center</property>
 
                         <child>

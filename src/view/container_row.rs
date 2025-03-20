@@ -36,7 +36,7 @@ mod imp {
         #[template_child]
         pub(super) repo_label: TemplateChild<gtk::Label>,
         #[template_child]
-        pub(super) ports_flow_box: TemplateChild<gtk::FlowBox>,
+        pub(super) ports_wrap_box: TemplateChild<adw::WrapBox>,
         #[template_child]
         pub(super) stats_box: TemplateChild<gtk::Box>,
         #[template_child]
@@ -174,7 +174,7 @@ mod imp {
                     pod.is_none() && len > 0
                 }),
             )
-            .bind(&*self.ports_flow_box, "visible", Some(obj));
+            .bind(&*self.ports_wrap_box, "visible", Some(obj));
 
             container_expr
                 .chain_property::<model::Container>("image-name")
@@ -252,18 +252,15 @@ mod imp {
                 bindings.push(binding);
 
                 if !container.has_pod() {
-                    self.ports_flow_box.bind_model(
-                        Some(&container.ports()),
-                        clone!(@weak obj => @default-panic, move |item| {
-                            let port_mapping =
-                                item.downcast_ref::<model::PortMapping>().unwrap();
-
+                    container
+                        .ports()
+                        .iter::<model::PortMapping>()
+                        .map(Result::unwrap)
+                        .for_each(|port_mapping| {
                             let label = gtk::Label::builder()
-                                .css_classes([
-                                    "status-badge-small",
-                                    "numeric",
-                                ])
+                                .css_classes(["status-badge-small", "numeric"])
                                 .halign(gtk::Align::Center)
+                                .valign(gtk::Align::Center)
                                 .label(format!(
                                     "{}/{}",
                                     port_mapping.host_port(),
@@ -280,20 +277,15 @@ mod imp {
                                             .iter()
                                             .cloned()
                                             .chain(Some(String::from(
-                                                super::super::container_status_css_class(status)
+                                                super::super::container_status_css_class(status),
                                             )))
                                             .collect::<Vec<_>>()
                                     }
                                 ))
-                                .bind(&label, "css-classes", Some(&obj));
+                                .bind(&label, "css-classes", Some(obj));
 
-                            gtk::FlowBoxChild::builder()
-                                .halign(gtk::Align::Start)
-                                .child(&label)
-                                .build()
-                                .upcast()
-                        }),
-                    );
+                            self.ports_wrap_box.append(&label);
+                        });
                 }
             }
         }

@@ -373,21 +373,18 @@
               <object class="GtkStack" id="ports_pod_stack">
                 <property name="margin-start">12</property>
                 <property name="margin-end">12</property>
+                <property name="vexpand">True</property>
 
                 <child>
                   <object class="GtkStackPage">
                     <property name="name">ports</property>
 
                     <property name="child">
-                      <object class="GtkFlowBox" id="ports_flow_box">
-                        <property name="can-focus">False</property>
-                        <property name="can-target">False</property>
-                        <property name="column-spacing">3</property>
-                        <property name="row-spacing">6</property>
-                        <property name="max-children-per-line">3</property>
-                        <property name="selection-mode">none</property>
-                        <property name="vexpand">True</property>
-                        <property name="homogeneous">True</property>
+                      <object class="AdwWrapBox" id="ports_wrap_box">
+                        <property name="align">0.5</property>
+                        <property name="child-spacing">6</property>
+                        <property name="line-spacing">6</property>
+                        <property name="valign">center</property>
                       </object>
                     </property>
 

@@ -68,13 +68,9 @@
                 </child>
 
                 <child>
-                  <object class="GtkFlowBox" id="ports_flow_box">
-                    <property name="can-target">False</property>
-                    <property name="column-spacing">3</property>
-                    <property name="row-spacing">3</property>
-                    <property name="margin-top">6</property>
-                    <property name="max-children-per-line">96</property>
-                    <property name="selection-mode">none</property>
+                  <object class="AdwWrapBox" id="ports_wrap_box">
+                    <property name="child-spacing">6</property>
+                    <property name="line-spacing">6</property>
                   </object>
                 </child>
 

@@ -293,7 +293,7 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct ImageSearchPage(ObjectSubclass<imp::ImageSearchPage>)
-        @extends gtk::Widget,
+        @extends adw::PreferencesGroup, gtk::Widget,
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 

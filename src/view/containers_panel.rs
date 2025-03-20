@@ -287,7 +287,6 @@ mod imp {
 
             let obj = &*self.obj();
 
-            self.set_containers_view();
             self.settings.connect_changed(
                 Some("view"),
                 clone!(
@@ -484,7 +483,12 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for ContainersPanel {}
+    impl WidgetImpl for ContainersPanel {
+        fn realize(&self) {
+            self.parent_realize();
+            self.set_containers_view();
+        }
+    }
 
     #[gtk::template_callbacks]
     impl ContainersPanel {
