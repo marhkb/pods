@@ -236,8 +236,6 @@ mod imp {
 
     impl WidgetImpl for RepoTagSelectionPage {}
 
-    impl PreferencesGroupImpl for RepoTagSelectionPage {}
-
     #[gtk::template_callbacks]
     impl RepoTagSelectionPage {
         #[template_callback]
