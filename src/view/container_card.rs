@@ -74,7 +74,7 @@ mod imp {
         #[template_child]
         pub(super) ports_pod_stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub(super) ports_flow_box: TemplateChild<gtk::FlowBox>,
+        pub(super) ports_wrap_box: TemplateChild<adw::WrapBox>,
         #[template_child]
         pub(super) pod_center_box: TemplateChild<gtk::CenterBox>,
         #[template_child]
@@ -466,31 +466,27 @@ mod imp {
                 if !container.has_pod() {
                     if container.ports().len() > 0 {
                         self.ports_pod_stack.set_visible_child_name("ports");
-                        self.ports_flow_box.bind_model(
-                            Some(&container.ports()),
-                            clone!(
-                                #[weak]
-                                obj,
-                                #[upgrade_or_panic]
-                                move |item| {
-                                    let port_mapping =
-                                        item.downcast_ref::<model::PortMapping>().unwrap();
 
-                                    let label = gtk::Label::builder()
-                                        .css_classes(["status-badge-small", "numeric"])
-                                        .halign(gtk::Align::Center)
-                                        .valign(gtk::Align::Center)
-                                        .label(format!(
-                                            "{}/{}",
-                                            port_mapping.host_port(),
-                                            port_mapping.protocol()
-                                        ))
-                                        .build();
+                        container
+                            .ports()
+                            .iter::<model::PortMapping>()
+                            .map(Result::unwrap)
+                            .for_each(|port_mapping| {
+                                let label = gtk::Label::builder()
+                                    .css_classes(["status-badge-small", "numeric"])
+                                    .halign(gtk::Align::Center)
+                                    .valign(gtk::Align::Center)
+                                    .label(format!(
+                                        "{}/{}",
+                                        port_mapping.host_port(),
+                                        port_mapping.protocol()
+                                    ))
+                                    .build();
 
-                                    let css_classes = utils::css_classes(&label);
-                                    super::ContainerCard::this_expression("container")
-                                        .chain_property::<model::Container>("status")
-                                        .chain_closure::<Vec<String>>(closure!(
+                                let css_classes = utils::css_classes(&label);
+                                super::ContainerCard::this_expression("container")
+                                    .chain_property::<model::Container>("status")
+                                    .chain_closure::<Vec<String>>(closure!(
                                         |_: super::ContainerCard, status: model::ContainerStatus| {
                                             css_classes
                                                 .iter()
@@ -501,16 +497,10 @@ mod imp {
                                                 .collect::<Vec<_>>()
                                         }
                                     ))
-                                        .bind(&label, "css-classes", Some(&obj));
+                                    .bind(&label, "css-classes", Some(obj));
 
-                                    gtk::FlowBoxChild::builder()
-                                        .halign(gtk::Align::Start)
-                                        .child(&label)
-                                        .build()
-                                        .upcast()
-                                }
-                            ),
-                        );
+                                self.ports_wrap_box.append(&label);
+                            });
                     } else {
                         self.ports_pod_stack.set_visible_child_name("no-ports");
                     }
