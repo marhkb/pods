@@ -90,8 +90,8 @@ The following packages are required to build Pods:
 - appstream-glib (for checks)
 - cargo
 - glib2 >= 2.66
-- gtk4 >= 4.16
-- libadwaita >= 1.6
+- gtk4 >= 4.18
+- libadwaita >= 1.7
 - gtksourceview > 4.90
 - vte-2.91-gtk4 >= 0.70
 
