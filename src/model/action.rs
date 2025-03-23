@@ -955,7 +955,7 @@ impl Action {
     ) -> Self {
         let obj = Self::new(
             num,
-            Type::CreateContainer,
+            Type::Volume,
             &gettext!("Create volume <b>{}</b>", name),
         );
 
