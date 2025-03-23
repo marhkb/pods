@@ -30,6 +30,8 @@ mod imp {
         pub(super) show_view_artifact: Cell<bool>,
         #[template_child]
         pub(super) status_page: TemplateChild<adw::StatusPage>,
+        #[template_child]
+        pub(super) view_artifact_button: TemplateChild<gtk::Button>,
     }
 
     #[glib::object_subclass]
@@ -183,6 +185,16 @@ impl ActionPage {
                     PruneVolumes => gettext("Volumes Pruned"),
                     _ => unreachable!(),
                 });
+                imp.view_artifact_button
+                    .set_label(&match action.action_type() {
+                        DownloadImage => gettext("View Image"),
+                        BuildImage => gettext("View Image"),
+                        CreateContainer => gettext("View Container"),
+                        CreateAndRunContainer => gettext("View Container"),
+                        Pod => gettext("View Pod"),
+                        Volume => gettext("View Volume"),
+                        _ => unreachable!(),
+                    });
             }
             Aborted => {
                 imp.status_page.set_title(&match action.action_type() {
