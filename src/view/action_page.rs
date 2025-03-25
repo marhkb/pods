@@ -193,7 +193,7 @@ impl ActionPage {
                         CreateAndRunContainer => gettext("View Container"),
                         Pod => gettext("View Pod"),
                         Volume => gettext("View Volume"),
-                        _ => unreachable!(),
+                        _ => gettext("View"),
                     });
             }
             Aborted => {
