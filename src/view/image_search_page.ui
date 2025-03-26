@@ -158,6 +158,7 @@
                                             <signal name="bind" handler="on_signal_list_item_factory_bind" swapped="true"/>
                                           </object>
                                         </property>
+                                        
                                         <property name="model">
                                           <object class="GtkSingleSelection" id="selection"/>
                                         </property>

@@ -5,25 +5,21 @@
       <object class="GtkBinLayout"/>
     </property>
 
+    <property name="height-request">640</property>
+
     <child>
-      <object class="AdwNavigationView" id="navigation_view">
+      <object class="AdwNavigationPage">
+        <property name="title" translatable="yes">Preferences</property>
 
         <child>
-          <object class="AdwNavigationPage">
-            <property name="title" translatable="yes">Preferences</property>
-
-            <child>
-              <object class="PdsImageSearchPage">
-                <signal name="image-selected" handler="on_image_selected" swapped="true"/>
-                <property name="top-level">True</property>
-                <property name="show-cancel-button">True</property>
-                <property name="action-button-name" translatable="yes">_Download</property>
-                <binding name="client">
-                  <lookup name="client">PdsImagePullPage</lookup>
-                </binding>
-              </object>
-            </child>
-
+          <object class="PdsImageSearchPage">
+            <signal name="image-selected" handler="on_image_selected" swapped="true"/>
+            <property name="top-level">True</property>
+            <property name="show-cancel-button">True</property>
+            <property name="action-button-name" translatable="yes">_Download</property>
+            <binding name="model">
+              <lookup name="model">PdsImagePullPage</lookup>
+            </binding>
           </object>
         </child>
 

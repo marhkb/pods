@@ -17,6 +17,7 @@ use gtk::glib::subclass::Signal;
 
 use crate::model;
 use crate::podman;
+use crate::rt;
 use crate::utils;
 use crate::view;
 
@@ -25,16 +26,14 @@ const ACTION_SELECT: &str = "image-search-page.select";
 
 mod imp {
     use super::*;
-    use crate::rt;
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ImageSearchPage)]
     #[template(resource = "/com/github/marhkb/Pods/ui/view/image_search_page.ui")]
     pub(crate) struct ImageSearchPage {
-        pub(super) search_results: OnceCell<gio::ListStore>,
         pub(super) search_abort_handle: RefCell<Option<future::AbortHandle>>,
         #[property(get, set, nullable)]
-        pub(super) client: glib::WeakRef<model::Client>,
+        pub(super) model: RefCell<model::ImageSearch>,
         #[property(get, set)]
         pub(super) show_cancel_button: Cell<bool>,
         #[property(get, set, construct)]
@@ -75,7 +74,7 @@ mod imp {
 
             klass.add_binding_action(gdk::Key::F, gdk::ModifierType::CONTROL_MASK, ACTION_SEARCH);
             klass.install_action(ACTION_SEARCH, None, |widget, _, _| {
-                widget.grab_search_entry_focus();
+                widget.imp().search_entry.grab_focus();
             });
 
             klass.install_action(ACTION_SELECT, None, |widget, _, _| {
@@ -122,7 +121,7 @@ mod imp {
             self.search_entry.set_key_capture_widget(Some(obj));
 
             let sort_list_model = gtk::SortListModel::new(
-                Some(self.search_results().to_owned()),
+                Some(obj.model().results()),
                 Some(
                     gtk::NumericSorter::builder()
                         .sort_order(gtk::SortType::Descending)
@@ -130,8 +129,19 @@ mod imp {
                         .build(),
                 ),
             );
-
             self.selection.set_model(Some(&sort_list_model));
+
+            obj.model()
+                .bind_property("name", &self.search_entry.get(), "text")
+                .sync_create()
+                .bidirectional()
+                .build();
+
+            obj.model()
+                .bind_property("selected", &self.selection.get(), "selected")
+                .sync_create()
+                .bidirectional()
+                .build();
 
             self.list_view.remove_css_class("view");
         }
@@ -169,7 +179,7 @@ mod imp {
 
             obj.action_set_enabled(ACTION_SELECT, false);
 
-            self.search_results.get().unwrap().remove_all();
+            obj.model().results().remove_all();
 
             let term = self.search_entry.text();
             if term.is_empty() {
@@ -186,7 +196,7 @@ mod imp {
                 let opts = podman::opts::ImageSearchOpts::builder()
                     .term(term.as_str())
                     .build();
-                let podman = obj.client().unwrap().podman();
+                let podman = obj.model().client().unwrap().podman();
                 async move {
                     future::Abortable::new(podman.images().search(&opts), abort_registration).await
                 }
@@ -207,7 +217,8 @@ mod imp {
                             obj.action_set_enabled(ACTION_SELECT, true);
 
                             responses.into_iter().for_each(|response| {
-                                self.search_results()
+                                obj.model()
+                                    .results()
                                     .append(&model::ImageSearchResponse::from(response));
                             });
                             self.selection.set_selected(0);
@@ -283,11 +294,6 @@ mod imp {
         fn on_image_activated(&self, _: u32) {
             self.obj().activate_action(ACTION_SELECT, None).unwrap();
         }
-
-        pub(super) fn search_results(&self) -> &gio::ListStore {
-            self.search_results
-                .get_or_init(gio::ListStore::new::<model::ImageSearchResponse>)
-        }
     }
 }
 
@@ -298,20 +304,45 @@ glib::wrapper! {
 }
 
 impl ImageSearchPage {
-    pub(crate) fn new(client: &model::Client, action_button_name: &str, top_level: bool) -> Self {
+    fn init(
+        model: &model::ImageSearch,
+        show_cancel_button: bool,
+        action_button_name: &str,
+        top_level: bool,
+    ) -> Self {
         glib::Object::builder()
-            .property("client", client)
+            .property("model", model)
+            .property("show-cancel-button", show_cancel_button)
             .property("action-button-name", action_button_name)
             .property("top-level", top_level)
             .build()
     }
 
-    pub(crate) fn grab_search_entry_focus(&self) {
-        self.imp().search_entry.grab_focus();
+    pub(crate) fn new(
+        client: &model::Client,
+        show_cancel_button: bool,
+        action_button_name: &str,
+        top_level: bool,
+    ) -> Self {
+        Self::init(
+            &model::ImageSearch::from(client),
+            show_cancel_button,
+            action_button_name,
+            top_level,
+        )
+    }
+
+    pub(crate) fn restore(
+        model: &model::ImageSearch,
+        show_cancel_button: bool,
+        action_button_name: &str,
+        top_level: bool,
+    ) -> Self {
+        Self::init(model, show_cancel_button, action_button_name, top_level)
     }
 
     pub(crate) fn select(&self) {
-        let Some(client) = self.client() else {
+        let Some(client) = self.model().client() else {
             return;
         };
 

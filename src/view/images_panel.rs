@@ -603,9 +603,7 @@ impl ImagesPanel {
 
     pub(crate) fn show_download_page(&self) {
         if let Some(client) = self.client() {
-            utils::Dialog::new(self, &view::ImagePullPage::from(&client))
-                .height(640)
-                .present();
+            utils::Dialog::new(self, &view::ImagePullPage::new(&client)).present();
         }
     }
 

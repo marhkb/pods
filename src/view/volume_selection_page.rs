@@ -323,7 +323,7 @@ impl VolumeSelectionPage {
 
     pub(crate) fn create_volume(&self) {
         if let Some(client) = self.volume_list().and_then(|list| list.client()) {
-            utils::Dialog::new(self, &view::VolumeCreationPage::new(&client, false)).present();
+            utils::Dialog::new(self, &view::VolumeCreationPage::init(&client, false)).present();
         }
     }
 

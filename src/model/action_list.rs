@@ -12,6 +12,7 @@ use indexmap::IndexMap;
 
 use crate::model;
 use crate::podman;
+use crate::view;
 
 mod imp {
     use super::*;
@@ -177,16 +178,10 @@ impl ActionList {
         ))
     }
 
-    pub(crate) fn download_image(
-        &self,
-        image: &str,
-        opts: podman::opts::PullOpts,
-    ) -> model::Action {
+    pub(crate) fn download_image(&self, model: &model::ImageSearch) -> model::Action {
         self.insert_action(model::Action::download_image(
             self.imp().action_counter.get(),
-            image,
-            self.client().unwrap(),
-            opts,
+            model,
         ))
     }
 
@@ -230,15 +225,12 @@ impl ActionList {
 
     pub(crate) fn create_container(
         &self,
-        container: &str,
-        opts: podman::opts::ContainerCreateOpts,
+        model: &model::ContainerCreation,
         run: bool,
     ) -> model::Action {
         self.insert_action(model::Action::create_container(
             self.imp().action_counter.get(),
-            container,
-            self.client().unwrap(),
-            opts,
+            model,
             run,
         ))
     }
@@ -261,17 +253,12 @@ impl ActionList {
 
     pub(crate) fn create_container_download_image(
         &self,
-        container: &str,
-        pull_opts: podman::opts::PullOpts,
-        create_opts_builder: podman::opts::ContainerCreateOptsBuilder,
+        model: &model::ContainerCreation,
         run: bool,
     ) -> model::Action {
         self.insert_action(model::Action::create_container_download_image(
             self.imp().action_counter.get(),
-            container,
-            self.client().unwrap(),
-            pull_opts,
-            create_opts_builder,
+            model,
             run,
         ))
     }
@@ -337,16 +324,10 @@ impl ActionList {
         ))
     }
 
-    pub(crate) fn create_volume(
-        &self,
-        name: &str,
-        opts: podman::opts::VolumeCreateOpts,
-    ) -> model::Action {
+    pub(crate) fn create_volume(&self, model: &model::VolumeCreation) -> model::Action {
         self.insert_action(model::Action::create_volume(
             self.imp().action_counter.get(),
-            name,
-            self.client().unwrap(),
-            opts,
+            model,
         ))
     }
 

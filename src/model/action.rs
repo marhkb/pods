@@ -28,6 +28,7 @@ use crate::model;
 use crate::model::AbstractContainerListExt;
 use crate::podman;
 use crate::rt;
+use crate::view;
 
 #[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
 #[enum_type(name = "ActionState")]
@@ -66,6 +67,8 @@ mod imp {
     #[properties(wrapper_type = super::Action)]
     pub(crate) struct Action {
         pub(super) abort_handle: RefCell<Option<stream::AbortHandle>>,
+        #[property(get, set, construct_only)]
+        pub(super) model: OnceCell<glib::Object>,
         #[property(get, nullable)]
         pub(super) artifact: glib::WeakRef<glib::Object>,
         #[property(get, set, construct_only)]
@@ -119,9 +122,10 @@ impl Action {
 }
 
 impl Action {
-    fn new(num: u32, type_: Type, description: &str) -> Self {
+    fn new(num: u32, model: &glib::Object, type_: Type, description: &str) -> Self {
         glib::Object::builder()
             .property("num", num)
+            .property("model", model)
             .property("action-type", type_)
             .property("description", description)
             .property(
@@ -136,7 +140,12 @@ impl Action {
         client: model::Client,
         opts: podman::opts::ImagePruneOpts,
     ) -> Self {
-        let obj = Self::new(num, Type::PruneImages, &gettext("Prune unused images"));
+        let obj = Self::new(
+            num,
+            todo!(),
+            Type::PruneImages,
+            &gettext("Prune unused images"),
+        );
         let abort_registration = obj.setup_abort_handle();
 
         rt::Promise::new({
@@ -166,18 +175,14 @@ impl Action {
         obj
     }
 
-    pub(crate) fn download_image(
-        num: u32,
-        image: &str,
-        client: model::Client,
-        opts: podman::opts::PullOpts,
-    ) -> Self {
+    pub(crate) fn download_image(num: u32, model: &model::ImageSearch) -> Self {
         Self::new(
             num,
+            model.upcast_ref(),
             Type::DownloadImage,
-            &gettext!("Pull image <b>{}</b>", image),
+            &gettext!("Pull image <b>{}</b>", "todo"),
         )
-        .download_image_(client, opts, |obj, client, report| {
+        .download_image_(model, |obj, client, report| {
             let image_id = report.images.unwrap().swap_remove(0);
             match client.image_list().get_image(&image_id) {
                 Some(image) => {
@@ -214,6 +219,7 @@ impl Action {
 
         let obj = Self::new(
             num,
+            todo!(),
             Type::PushImage,
             &gettext!("Push image <b>{}</b>", destination),
         );
@@ -275,6 +281,7 @@ impl Action {
     ) -> Self {
         let obj = Self::new(
             num,
+            todo!(),
             Type::BuildImage,
             &gettext!("Build image <b>{}</b>", image),
         );
@@ -352,6 +359,7 @@ impl Action {
     ) -> Self {
         let obj = Self::new(
             num,
+            todo!(),
             Type::PruneContainers,
             &gettext("Prune stopped containers"),
         );
@@ -388,30 +396,25 @@ impl Action {
         obj
     }
 
-    fn container(num: u32, container: &str, run: bool) -> Self {
+    fn container(num: u32, model: &model::ContainerCreation, run: bool) -> Self {
         Self::new(
             num,
+            model.upcast_ref(),
             if run {
                 Type::CreateAndRunContainer
             } else {
                 Type::CreateContainer
             },
             &if run {
-                gettext!("Start new container <b>{}</b>", container)
+                gettext!("Start new container <b>{}</b>", model.name())
             } else {
-                gettext!("Create container <b>{}</b>", container)
+                gettext!("Create container <b>{}</b>", model.name())
             },
         )
     }
 
-    pub(crate) fn create_container(
-        num: u32,
-        container: &str,
-        client: model::Client,
-        opts: podman::opts::ContainerCreateOpts,
-        run: bool,
-    ) -> Self {
-        Self::container(num, container, run).create_container_(client, opts, run)
+    pub(crate) fn create_container(num: u32, model: &model::ContainerCreation, run: bool) -> Self {
+        Self::container(num, model, run).create_container_(run)
     }
 
     pub(crate) fn commit_container(
@@ -423,6 +426,7 @@ impl Action {
     ) -> Self {
         let obj = Self::new(
             num,
+            todo!(),
             Type::Commit,
             &gettext!(
                 "Commit image <b>{}</b> ({})",
@@ -458,17 +462,14 @@ impl Action {
 
     pub(crate) fn create_container_download_image(
         num: u32,
-        container: &str,
-        client: model::Client,
-        pull_opts: podman::opts::PullOpts,
-        create_opts_builder: podman::opts::ContainerCreateOptsBuilder,
+        model: &model::ContainerCreation,
         run: bool,
     ) -> Self {
-        Self::container(num, container, run).download_image_(
-            client,
-            pull_opts,
+        Self::container(num, model, run).download_image_(
+            todo!(),
+            // FIXME: ContainerCreation should deliver ContainerPull sub model
             move |obj, client, report| {
-                obj.create_container_(client, create_opts_builder.image(report.id).build(), run);
+                obj.create_container_(run);
             },
         )
     }
@@ -482,6 +483,7 @@ impl Action {
     ) -> Self {
         let obj = Self::new(
             num,
+            todo!(),
             Type::CopyFiles,
             &gettext!(
                 "Upload <b>{}</b> to <b>{}:{}</b>",
@@ -595,6 +597,7 @@ impl Action {
     ) -> Self {
         let obj = Self::new(
             num,
+            todo!(),
             Type::CopyFiles,
             &gettext!(
                 "Download <b>{}:{}</b> to <b>{}</b>",
@@ -723,7 +726,12 @@ impl Action {
     }
 
     pub(crate) fn pod(num: u32, pod: &str) -> Self {
-        Self::new(num, Type::Pod, &gettext!("Create pod <b>{}</b>", pod))
+        Self::new(
+            num,
+            todo!(),
+            Type::Pod,
+            &gettext!("Create pod <b>{}</b>", pod),
+        )
     }
 
     pub(crate) fn create_pod(
@@ -742,13 +750,18 @@ impl Action {
         pull_opts: podman::opts::PullOpts,
         create_opts_builder: podman::opts::PodCreateOptsBuilder,
     ) -> Self {
-        Self::pod(num, pod).download_image_(client, pull_opts, |obj, client, report| {
+        Self::pod(num, pod).download_image_(todo!(), |obj, client, report| {
             obj.create_pod_(client, create_opts_builder.infra_image(report.id).build());
         })
     }
 
     pub(crate) fn prune_pods(num: u32, client: model::Client) -> Self {
-        let obj = Self::new(num, Type::PrunePods, &gettext("Prune stopped pods"));
+        let obj = Self::new(
+            num,
+            todo!(),
+            Type::PrunePods,
+            &gettext("Prune stopped pods"),
+        );
         let abort_registration = obj.setup_abort_handle();
 
         rt::Promise::new({
@@ -787,10 +800,17 @@ impl Action {
         abort_registration
     }
 
-    fn download_image_<F>(self, client: model::Client, opts: podman::opts::PullOpts, op: F) -> Self
+    fn download_image_<F>(self, model: &model::ImageSearch, op: F) -> Self
     where
         F: FnOnce(Self, model::Client, podman::models::LibpodImagesPullReport) + Clone + 'static,
     {
+        let opts = podman::opts::PullOpts::builder()
+            // TODO
+            .reference("alpine:latest")
+            .quiet(false)
+            .build();
+
+        let client = model.client().unwrap();
         let abort_registration = self.setup_abort_handle();
 
         rt::Pipe::new(client.podman().images(), move |images| {
@@ -836,16 +856,18 @@ impl Action {
         self
     }
 
-    fn create_container_(
-        self,
-        client: model::Client,
-        opts: podman::opts::ContainerCreateOpts,
-        run: bool,
-    ) -> Self {
+    fn create_container_(self, run: bool) -> Self {
+        let model = self.model().downcast::<model::ContainerCreation>().unwrap();
+
+        let client = model.client().unwrap();
+
         let abort_registration = self.setup_abort_handle();
 
         rt::Promise::new({
             let podman = client.podman();
+            let opts = podman::opts::ContainerCreateOpts::builder()
+                .name(model.name())
+                .build();
             async move {
                 future::Abortable::new(podman.containers().create(&opts), abort_registration).await
             }
@@ -947,22 +969,23 @@ impl Action {
         self
     }
 
-    pub(crate) fn create_volume(
-        num: u32,
-        name: &str,
-        client: model::Client,
-        opts: podman::opts::VolumeCreateOpts,
-    ) -> Self {
+    pub(crate) fn create_volume(num: u32, model: &model::VolumeCreation) -> Self {
         let obj = Self::new(
             num,
+            model.upcast_ref(),
             Type::Volume,
-            &gettext!("Create volume <b>{}</b>", name),
+            &gettext!("Create volume <b>{}</b>", model.name()),
         );
+
+        let client = model.client().unwrap();
 
         let abort_registration = obj.setup_abort_handle();
 
         rt::Promise::new({
             let podman = client.podman();
+            let opts = podman::opts::VolumeCreateOpts::builder()
+                .name(&model.name())
+                .build();
             async move {
                 future::Abortable::new(podman.volumes().create(&opts), abort_registration).await
             }
@@ -1009,7 +1032,12 @@ impl Action {
         client: model::Client,
         opts: podman::opts::VolumePruneOpts,
     ) -> Self {
-        let obj = Self::new(num, Type::PruneVolumes, &gettext("Prune unused volumes"));
+        let obj = Self::new(
+            num,
+            todo!(),
+            Type::PruneVolumes,
+            &gettext("Prune unused volumes"),
+        );
         let abort_registration = obj.setup_abort_handle();
 
         rt::Promise::new({

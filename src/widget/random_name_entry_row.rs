@@ -1,17 +1,23 @@
+use std::cell::Cell;
 use std::cell::RefCell;
+use std::sync::OnceLock;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use glib::Properties;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
+use crate::utils;
 mod imp {
     use super::*;
 
-    #[derive(Default, CompositeTemplate)]
+    #[derive(Default, CompositeTemplate, Properties)]
+    #[properties(wrapper_type = super::RandomNameEntryRow)]
     #[template(resource = "/com/github/marhkb/Pods/ui/widget/random_name_entry_row.ui")]
     pub(crate) struct RandomNameEntryRow {
-        pub(super) names: RefCell<names::Generator<'static>>,
+        #[property(get, set)]
+        pub(super) blank: Cell<bool>,
         #[template_child]
         pub(super) generate_button: TemplateChild<gtk::Button>,
     }
@@ -41,27 +47,35 @@ mod imp {
     }
 
     impl ObjectImpl for RandomNameEntryRow {
-        fn set_property(&self, _: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+        fn properties() -> &'static [glib::ParamSpec] {
+            Self::derived_properties()
+        }
+
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
                 "text" => self.obj().set_text(value.get().unwrap()),
-                _ => unimplemented!(),
+                _ => self.derived_set_property(id, value, pspec),
             }
         }
 
-        fn property(&self, _: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
                 "text" => self.obj().text().to_value(),
-                _ => unimplemented!(),
+                _ => self.derived_property(id, pspec),
             }
-        }
-
-        fn constructed(&self) {
-            self.parent_constructed();
-            self.obj().generate_random_name()
         }
     }
 
-    impl WidgetImpl for RandomNameEntryRow {}
+    impl WidgetImpl for RandomNameEntryRow {
+        fn realize(&self) {
+            self.parent_realize();
+
+            let obj = &*self.obj();
+            if !obj.blank() {
+                obj.generate_random_name();
+            }
+        }
+    }
     impl ListBoxRowImpl for RandomNameEntryRow {}
     impl PreferencesRowImpl for RandomNameEntryRow {}
     impl EntryRowImpl for RandomNameEntryRow {}
@@ -82,6 +96,6 @@ impl Default for RandomNameEntryRow {
 
 impl RandomNameEntryRow {
     pub(crate) fn generate_random_name(&self) {
-        self.set_text(&self.imp().names.borrow_mut().next().unwrap());
+        self.set_text(&utils::NAME_GENERATOR.borrow_mut().next().unwrap());
     }
 }

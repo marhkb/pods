@@ -1,4 +1,5 @@
 use std::cell::Cell;
+use std::cell::OnceCell;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
@@ -8,7 +9,6 @@ use gtk::CompositeTemplate;
 use gtk::glib;
 
 use crate::model;
-use crate::podman;
 use crate::utils;
 use crate::view;
 use crate::widget;
@@ -23,11 +23,9 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/view/volume_creation_page.ui")]
     pub(crate) struct VolumeCreationPage {
         #[property(get, set, construct_only)]
-        pub(super) client: glib::WeakRef<model::Client>,
+        pub(super) model: OnceCell<model::VolumeCreation>,
         #[property(get, set, construct_only)]
         pub(super) show_view_artifact: Cell<bool>,
-        #[template_child]
-        pub(super) navigation_view: TemplateChild<adw::NavigationView>,
         #[template_child]
         pub(super) create_button: TemplateChild<gtk::Button>,
         #[template_child]
@@ -64,6 +62,18 @@ mod imp {
 
         fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             self.derived_property(id, pspec)
+        }
+
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            let obj = &*self.obj();
+
+            obj.model()
+                .bind_property("name", &self.name_entry_row.get(), "text")
+                .sync_create()
+                .bidirectional()
+                .build();
         }
 
         fn dispose(&self) {
@@ -103,42 +113,39 @@ glib::wrapper! {
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
-impl From<&model::Client> for VolumeCreationPage {
-    fn from(client: &model::Client) -> Self {
-        Self::new(client, true)
-    }
-}
-
 impl VolumeCreationPage {
-    pub(crate) fn new(client: &model::Client, show_view_artifact: bool) -> Self {
+    fn new(model: &model::VolumeCreation, show_view_artifact: bool) -> Self {
         glib::Object::builder()
-            .property("client", client)
-            .property("show-view-artifact", show_view_artifact)
+            .property("model", model)
+            .property("show_view_artifact", show_view_artifact)
             .build()
     }
 
+    pub(crate) fn init(client: &model::Client, show_view_artifact: bool) -> Self {
+        Self::new(&model::VolumeCreation::from(client), show_view_artifact)
+    }
+
+    pub(crate) fn restore(model: &model::VolumeCreation) -> Self {
+        Self::new(model, true)
+    }
+
     fn create_volume(&self) {
-        if let Some(client) = self.client() {
-            let imp = self.imp();
+        let model = self.model();
 
-            let name = imp.name_entry_row.text();
+        let Some(client) = model.client() else {
+            return;
+        };
 
-            let page = view::ActionPage::new(
-                &client.action_list().create_volume(
-                    name.as_str(),
-                    podman::opts::VolumeCreateOpts::builder()
-                        .name(name.as_str())
-                        .build(),
-                ),
+        self.activate_action("win.close", None).unwrap();
+
+        utils::Dialog::new(
+            self,
+            &view::ActionPage::new(
+                &client.action_list().create_volume(&model),
                 self.show_view_artifact(),
-            );
-
-            imp.navigation_view.push(
-                &adw::NavigationPage::builder()
-                    .can_pop(false)
-                    .child(&page)
-                    .build(),
-            );
-        }
+            ),
+        )
+        .follows_content_size(true)
+        .present();
     }
 }

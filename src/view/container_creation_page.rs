@@ -34,21 +34,11 @@ mod imp {
     #[properties(wrapper_type = super::ContainerCreationPage)]
     #[template(resource = "/com/github/marhkb/Pods/ui/view/container_creation_page.ui")]
     pub(crate) struct ContainerCreationPage {
-        pub(super) cmd_args: OnceCell<gio::ListStore>,
-        pub(super) port_mappings: OnceCell<gio::ListStore>,
-        pub(super) volumes: OnceCell<gio::ListStore>,
-        pub(super) env_vars: OnceCell<gio::ListStore>,
-        pub(super) labels: OnceCell<gio::ListStore>,
+        #[property(get, set, construct_only)]
+        pub(super) model: OnceCell<model::ContainerCreation>,
+
         pub(super) command_row_handler:
             RefCell<Option<(glib::SignalHandlerId, glib::WeakRef<model::Image>)>>,
-        #[property(get = Self::client, set, construct)]
-        pub(super) client: glib::WeakRef<model::Client>,
-        #[property(get, set, construct, nullable)]
-        pub(super) image: glib::WeakRef<model::Image>,
-        #[property(get, set = Self::set_pod, construct, nullable, explicit_notify)]
-        pub(super) pod: glib::WeakRef<model::Pod>,
-        #[property(get, set, construct, nullable)]
-        pub(super) volume: glib::WeakRef<model::Volume>,
         #[template_child]
         pub(super) navigation_view: TemplateChild<adw::NavigationView>,
         #[template_child]
@@ -108,25 +98,25 @@ mod imp {
             klass.bind_template_callbacks();
 
             klass.install_action(ACTION_ADD_CMD_ARG, None, |widget, _, _| {
-                widget.add_cmd_arg();
+                add_value(&widget.model().cmd_args());
             });
             klass.install_action(ACTION_SELECT_POD, None, |widget, _, _| {
                 widget.select_pod();
             });
             klass.install_action(ACTION_CLEAR_POD, None, |widget, _, _| {
-                widget.clear_pod();
+                widget.model().set_pod(Option::<model::Pod>::None);
             });
             klass.install_action(ACTION_ADD_PORT_MAPPING, None, |widget, _, _| {
-                widget.add_port_mapping();
+                add_key_val(&widget.model().port_mappings());
             });
             klass.install_action(ACTION_ADD_VOLUME, None, |widget, _, _| {
-                widget.add_mount();
+                add_key_val(&widget.model().volumes());
             });
             klass.install_action(ACTION_ADD_ENV_VAR, None, |widget, _, _| {
-                widget.add_env_var();
+                add_key_val(&widget.model().env_vars());
             });
             klass.install_action(ACTION_ADD_LABEL, None, |widget, _, _| {
-                widget.add_label();
+                add_key_val(&widget.model().labels());
             });
             klass.install_action(ACTION_CREATE_AND_RUN, None, |widget, _, _| {
                 widget.finish(true);
@@ -160,9 +150,10 @@ mod imp {
             let obj = &*self.obj();
 
             self.image_selection_combo_row
-                .set_client(obj.client().as_ref());
+                .set_client(obj.model().client().as_ref());
 
-            let pod_expr = Self::Type::this_expression("pod");
+            let pod_expr = Self::Type::this_expression("model")
+                .chain_property::<model::ContainerCreation>("pod");
 
             pod_expr
                 .chain_closure::<String>(closure!(|_: Self::Type, pod: Option<&model::Pod>| pod
@@ -180,19 +171,21 @@ mod imp {
                     Some(obj),
                 );
 
-            if let Some(image) = obj.image() {
+            if let Some(image) = obj.model().image() {
                 self.image_selection_combo_row.set_image(Some(image));
                 obj.update_data();
-            } else if let Some(volume) = obj.volume() {
-                if let Some(mount) = obj.add_mount() {
-                    mount.set_mount_type(model::MountType::Volume);
-                    mount.set_volume(Some(volume));
-                }
+            } else if let Some(volume) = obj.model().volume() {
+                let mount = add_mount(
+                    &obj.model().volumes(),
+                    obj.model().client().as_ref().unwrap(),
+                );
+                mount.set_mount_type(model::MountType::Volume);
+                mount.set_volume(Some(volume));
             }
 
             bind_model(
                 &self.command_arg_list_box,
-                self.cmd_args(),
+                &obj.model().cmd_args(),
                 |item| {
                     view::ValueRow::new(item.downcast_ref().unwrap(), &gettext("Argument")).upcast()
                 },
@@ -202,7 +195,7 @@ mod imp {
 
             bind_model(
                 &self.port_mapping_list_box,
-                self.port_mappings(),
+                &obj.model().port_mappings(),
                 |item| {
                     view::PortMappingRow::from(item.downcast_ref::<model::PortMapping>().unwrap())
                         .upcast()
@@ -213,7 +206,7 @@ mod imp {
 
             bind_model(
                 &self.volume_list_box,
-                self.volumes(),
+                &obj.model().volumes(),
                 |item| view::MountRow::from(item.downcast_ref::<model::Mount>().unwrap()).upcast(),
                 ACTION_ADD_VOLUME,
                 &gettext("Add Volume"),
@@ -221,7 +214,7 @@ mod imp {
 
             bind_model(
                 &self.env_var_list_box,
-                self.env_vars(),
+                &obj.model().env_vars(),
                 |item| {
                     view::KeyValRow::from(item.downcast_ref::<model::KeyVal>().unwrap()).upcast()
                 },
@@ -231,7 +224,7 @@ mod imp {
 
             bind_model(
                 &self.labels_list_box,
-                self.labels(),
+                &obj.model().labels(),
                 |item| {
                     view::KeyValRow::from(item.downcast_ref::<model::KeyVal>().unwrap()).upcast()
                 },
@@ -285,71 +278,6 @@ mod imp {
         fn on_image_selection_combo_row_notify_subtitle(&self) {
             self.obj().update_data();
         }
-
-        pub(super) fn cmd_args(&self) -> &gio::ListStore {
-            self.cmd_args
-                .get_or_init(gio::ListStore::new::<model::Value>)
-        }
-
-        pub(super) fn port_mappings(&self) -> &gio::ListStore {
-            self.port_mappings
-                .get_or_init(gio::ListStore::new::<model::PortMapping>)
-        }
-
-        pub(super) fn volumes(&self) -> &gio::ListStore {
-            self.volumes
-                .get_or_init(gio::ListStore::new::<model::Mount>)
-        }
-
-        pub(super) fn env_vars(&self) -> &gio::ListStore {
-            self.env_vars
-                .get_or_init(gio::ListStore::new::<model::KeyVal>)
-        }
-
-        pub(super) fn labels(&self) -> &gio::ListStore {
-            self.labels
-                .get_or_init(gio::ListStore::new::<model::KeyVal>)
-        }
-
-        pub(super) fn client(&self) -> Option<model::Client> {
-            self.client
-                .upgrade()
-                .or_else(|| {
-                    self.obj()
-                        .image()
-                        .as_ref()
-                        .and_then(model::Image::image_list)
-                        .as_ref()
-                        .and_then(model::ImageList::client)
-                })
-                .or_else(|| {
-                    self.obj()
-                        .pod()
-                        .as_ref()
-                        .and_then(model::Pod::pod_list)
-                        .as_ref()
-                        .and_then(model::PodList::client)
-                })
-                .or_else(|| {
-                    self.obj()
-                        .volume()
-                        .and_then(|volume| volume.volume_list())
-                        .and_then(|list| list.client())
-                })
-        }
-
-        pub(super) fn set_pod(&self, value: Option<&model::Pod>) {
-            let obj = &*self.obj();
-
-            obj.action_set_enabled(ACTION_CLEAR_POD, value.is_some());
-
-            if obj.pod().as_ref() == value {
-                return;
-            }
-
-            self.pod.set(value);
-            obj.notify_pod();
-        }
     }
 }
 
@@ -361,42 +289,70 @@ glib::wrapper! {
 
 impl From<&model::Client> for ContainerCreationPage {
     fn from(client: &model::Client) -> Self {
-        glib::Object::builder().property("client", client).build()
+        Self::new(&model::ContainerCreation::from(client))
     }
 }
 
 impl From<&model::Image> for ContainerCreationPage {
     fn from(image: &model::Image) -> Self {
-        glib::Object::builder().property("image", image).build()
+        Self::new(&model::ContainerCreation::from(image))
     }
 }
 
 impl From<&model::Pod> for ContainerCreationPage {
     fn from(pod: &model::Pod) -> Self {
-        glib::Object::builder().property("pod", pod).build()
+        Self::new(&model::ContainerCreation::from(pod))
     }
 }
 
 impl From<&model::Volume> for ContainerCreationPage {
     fn from(volume: &model::Volume) -> Self {
-        glib::Object::builder().property("volume", volume).build()
+        Self::new(&model::ContainerCreation::from(volume))
     }
 }
 
 impl ContainerCreationPage {
+    fn new(model: &model::ContainerCreation) -> Self {
+        let obj: Self = glib::Object::builder().property("model", model).build();
+
+        let imp = obj.imp();
+
+        imp.name_entry_row
+            .bind_property("text", model, "name")
+            .sync_create()
+            .bidirectional()
+            .build();
+
+        obj
+    }
+
+    pub(crate) fn restore(model: &model::ContainerCreation) -> Self {
+        let obj: Self = glib::Object::builder().property("model", model).build();
+
+        let imp = obj.imp();
+
+        model
+            .bind_property("name", &imp.name_entry_row.get(), "text")
+            .sync_create()
+            .bidirectional()
+            .build();
+
+        obj
+    }
+
     fn update_local_data(&self, config: &model::ImageConfig) {
         let imp = self.imp();
 
         imp.command_entry_row
             .set_text(&config.cmd().unwrap_or_default());
 
-        imp.port_mappings().remove_all();
+        self.model().port_mappings().remove_all();
 
         let exposed_ports = config.exposed_ports();
         for i in 0..exposed_ports.n_items() {
             let exposed = exposed_ports.string(i).unwrap();
 
-            let port_mapping = add_port_mapping(imp.port_mappings());
+            let port_mapping = add_port_mapping(&self.model().port_mappings());
             imp.port_mapping_list_box.set_visible(true);
 
             let mut split = exposed.split_terminator('/');
@@ -448,52 +404,32 @@ impl ContainerCreationPage {
             },
             None => {
                 imp.command_entry_row.set_text("");
-                imp.port_mappings().remove_all();
+                self.model().port_mappings().remove_all();
             }
         }
     }
 
     pub(crate) fn select_pod(&self) {
-        if let Some(client) = self.client() {
-            let pod_selection_page = view::PodSelectionPage::from(&client.pod_list());
-            pod_selection_page.connect_pod_selected(clone!(
-                #[weak(rename_to = obj)]
-                self,
-                move |_, pod| {
-                    obj.set_pod(Some(&pod));
-                }
-            ));
-            self.imp().navigation_view.push(
-                &adw::NavigationPage::builder()
-                    .child(&pod_selection_page)
-                    .build(),
-            );
-        }
-    }
+        let client = if let Some(client) = self.model().client() {
+            client
+        } else {
+            return;
+        };
 
-    pub(crate) fn clear_pod(&self) {
-        self.set_pod(Option::<model::Pod>::None);
-    }
-
-    fn add_cmd_arg(&self) {
-        add_value(self.imp().cmd_args());
-    }
-
-    fn add_port_mapping(&self) {
-        add_port_mapping(self.imp().port_mappings());
-    }
-
-    fn add_mount(&self) -> Option<model::Mount> {
-        self.client()
-            .map(|ref client| add_mount(self.imp().volumes(), client))
-    }
-
-    fn add_env_var(&self) {
-        add_key_val(self.imp().env_vars());
-    }
-
-    fn add_label(&self) {
-        add_key_val(self.imp().labels());
+        // TODO: new Dialog????
+        let pod_selection_page = view::PodSelectionPage::from(&client.pod_list());
+        pod_selection_page.connect_pod_selected(clone!(
+            #[weak(rename_to = obj)]
+            self,
+            move |_, pod| {
+                obj.model().set_pod(Some(&pod));
+            }
+        ));
+        self.imp().navigation_view.push(
+            &adw::NavigationPage::builder()
+                .child(&pod_selection_page)
+                .build(),
+        );
     }
 
     fn finish(&self, run: bool) {
@@ -505,20 +441,20 @@ impl ContainerCreationPage {
                 if imp.pull_latest_image_switch_row.is_active() {
                     self.pull_and_create(image.as_str(), false, run);
                 } else {
-                    let page = view::ActionPage::from(
-                        &self.client().unwrap().action_list().create_container(
-                            imp.name_entry_row.text().as_str(),
-                            self.create().image(image.as_str()).build(),
-                            run,
-                        ),
-                    );
+                    // let page = view::ActionPage::from(
+                    //     // &self.client().unwrap().action_list().create_container(
+                    //     //     imp.name_entry_row.text().as_str(),
+                    //     //     self.create().image(image.as_str()).build(),
+                    //     //     run,
+                    //     // ),
+                    // );
 
-                    imp.navigation_view.push(
-                        &adw::NavigationPage::builder()
-                            .can_pop(false)
-                            .child(&page)
-                            .build(),
-                    );
+                    // imp.navigation_view.push(
+                    //     &adw::NavigationPage::builder()
+                    //         .can_pop(false)
+                    //         .child(&page)
+                    //         .build(),
+                    // );
                 }
             }
             view::ImageSelectionMode::Remote => {
@@ -551,148 +487,149 @@ impl ContainerCreationPage {
             })
             .build();
 
-        let page = view::ActionPage::from(
-            &self
-                .client()
-                .unwrap()
-                .action_list()
-                .create_container_download_image(
-                    imp.name_entry_row.text().as_str(),
-                    pull_opts,
-                    self.create(),
-                    run,
-                ),
-        );
+        // let page = view::ActionPage::from(
+        //     &self
+        //         .client()
+        //         .unwrap()
+        //         .action_list()
+        //         .create_container_download_image(
+        //             imp.name_entry_row.text().as_str(),
+        //             pull_opts,
+        //             self.create(),
+        //             run,
+        //         ),
+        // );
 
-        imp.navigation_view
-            .push(&adw::NavigationPage::builder().child(&page).build());
+        // imp.navigation_view
+        //     .push(&adw::NavigationPage::builder().child(&page).build());
     }
 
     fn create(&self) -> podman::opts::ContainerCreateOptsBuilder {
-        let imp = self.imp();
+        todo!()
+        //     let imp = self.imp();
 
-        let create_opts = podman::opts::ContainerCreateOpts::builder()
-            .name(imp.name_entry_row.text().as_str())
-            .pod(self.pod().as_ref().map(model::Pod::name))
-            .terminal(imp.terminal_switch_row.is_active())
-            .privileged(imp.privileged_switch_row.is_active())
-            .portmappings(if self.pod().is_none() {
-                Box::new(
-                    imp.port_mappings()
-                        .iter::<model::PortMapping>()
-                        .map(Result::unwrap)
-                        .map(|port_mapping| podman::models::PortMapping {
-                            container_port: Some(port_mapping.container_port() as u16),
-                            host_ip: None,
-                            host_port: Some(port_mapping.host_port() as u16),
-                            protocol: Some(port_mapping.protocol().to_string()),
-                            range: None,
-                        }),
-                ) as Box<dyn Iterator<Item = _>>
-            } else {
-                Box::new(std::iter::empty()) as Box<dyn Iterator<Item = _>>
-            })
-            .mounts(
-                imp.volumes()
-                    .iter::<model::Mount>()
-                    .map(Result::unwrap)
-                    .filter(|mount| mount.mount_type() == model::MountType::Bind)
-                    .map(|mount| podman::models::ContainerMount {
-                        destination: Some(mount.container_path()),
-                        source: Some(mount.host_path()),
-                        _type: Some("bind".to_owned()),
-                        options: mount_options(&mount),
-                        uid_mappings: None,
-                        gid_mappings: None,
-                    }),
-            )
-            .volumes(
-                imp.volumes()
-                    .iter::<model::Mount>()
-                    .map(Result::unwrap)
-                    .filter(|mount| mount.mount_type() == model::MountType::Volume)
-                    .map(|mount| podman::models::NamedVolume {
-                        dest: Some(mount.container_path()),
-                        is_anonymous: None,
-                        name: mount.volume().map(|volume| volume.inner().name.clone()),
-                        options: mount_options(&mount),
-                    }),
-            )
-            .env(
-                imp.env_vars()
-                    .iter::<model::KeyVal>()
-                    .map(Result::unwrap)
-                    .map(|entry| (entry.key(), entry.value())),
-            )
-            .labels(
-                imp.labels()
-                    .iter::<model::KeyVal>()
-                    .map(Result::unwrap)
-                    .map(|entry| (entry.key(), entry.value())),
-            );
+        //     let create_opts = podman::opts::ContainerCreateOpts::builder()
+        //         .name(imp.name_entry_row.text().as_str())
+        //         .pod(self.pod().as_ref().map(model::Pod::name))
+        //         .terminal(imp.terminal_switch_row.is_active())
+        //         .privileged(imp.privileged_switch_row.is_active())
+        //         .portmappings(if self.pod().is_none() {
+        //             Box::new(
+        //                 imp.port_mappings()
+        //                     .iter::<model::PortMapping>()
+        //                     .map(Result::unwrap)
+        //                     .map(|port_mapping| podman::models::PortMapping {
+        //                         container_port: Some(port_mapping.container_port() as u16),
+        //                         host_ip: None,
+        //                         host_port: Some(port_mapping.host_port() as u16),
+        //                         protocol: Some(port_mapping.protocol().to_string()),
+        //                         range: None,
+        //                     }),
+        //             ) as Box<dyn Iterator<Item = _>>
+        //         } else {
+        //             Box::new(std::iter::empty()) as Box<dyn Iterator<Item = _>>
+        //         })
+        //         .mounts(
+        //             imp.volumes()
+        //                 .iter::<model::Mount>()
+        //                 .map(Result::unwrap)
+        //                 .filter(|mount| mount.mount_type() == model::MountType::Bind)
+        //                 .map(|mount| podman::models::ContainerMount {
+        //                     destination: Some(mount.container_path()),
+        //                     source: Some(mount.host_path()),
+        //                     _type: Some("bind".to_owned()),
+        //                     options: mount_options(&mount),
+        //                     uid_mappings: None,
+        //                     gid_mappings: None,
+        //                 }),
+        //         )
+        //         .volumes(
+        //             imp.volumes()
+        //                 .iter::<model::Mount>()
+        //                 .map(Result::unwrap)
+        //                 .filter(|mount| mount.mount_type() == model::MountType::Volume)
+        //                 .map(|mount| podman::models::NamedVolume {
+        //                     dest: Some(mount.container_path()),
+        //                     is_anonymous: None,
+        //                     name: mount.volume().map(|volume| volume.inner().name.clone()),
+        //                     options: mount_options(&mount),
+        //                 }),
+        //         )
+        //         .env(
+        //             imp.env_vars()
+        //                 .iter::<model::KeyVal>()
+        //                 .map(Result::unwrap)
+        //                 .map(|entry| (entry.key(), entry.value())),
+        //         )
+        //         .labels(
+        //             imp.labels()
+        //                 .iter::<model::KeyVal>()
+        //                 .map(Result::unwrap)
+        //                 .map(|entry| (entry.key(), entry.value())),
+        //         );
 
-        let create_opts = if imp.memory_switch.is_active() {
-            create_opts.resource_limits(podman::models::LinuxResources {
-                block_io: None,
-                cpu: None,
-                devices: None,
-                hugepage_limits: None,
-                memory: Some(podman::models::LinuxMemory {
-                    disable_oom_killer: None,
-                    kernel: None,
-                    kernel_tcp: None,
-                    limit: Some(
-                        imp.mem_value.value() as i64
-                            * 1000_i64.pow(imp.mem_drop_down.selected() + 1),
-                    ),
-                    reservation: None,
-                    swap: None,
-                    swappiness: None,
-                    use_hierarchy: None,
-                }),
-                network: None,
-                pids: None,
-                rdma: None,
-                unified: None,
-            })
-        } else {
-            create_opts
-        };
+        //     let create_opts = if imp.memory_switch.is_active() {
+        //         create_opts.resource_limits(podman::models::LinuxResources {
+        //             block_io: None,
+        //             cpu: None,
+        //             devices: None,
+        //             hugepage_limits: None,
+        //             memory: Some(podman::models::LinuxMemory {
+        //                 disable_oom_killer: None,
+        //                 kernel: None,
+        //                 kernel_tcp: None,
+        //                 limit: Some(
+        //                     imp.mem_value.value() as i64
+        //                         * 1000_i64.pow(imp.mem_drop_down.selected() + 1),
+        //                 ),
+        //                 reservation: None,
+        //                 swap: None,
+        //                 swappiness: None,
+        //                 use_hierarchy: None,
+        //             }),
+        //             network: None,
+        //             pids: None,
+        //             rdma: None,
+        //             unified: None,
+        //         })
+        //     } else {
+        //         create_opts
+        //     };
 
-        let cmd = imp.command_entry_row.text();
-        let create_opts = if cmd.is_empty() {
-            create_opts
-        } else {
-            let args = imp
-                .cmd_args()
-                .iter::<model::Value>()
-                .map(Result::unwrap)
-                .map(|value| value.value());
-            let mut cmd = vec![cmd.to_string()];
-            cmd.extend(args);
-            create_opts.command(&cmd)
-        };
+        //     let cmd = imp.command_entry_row.text();
+        //     let create_opts = if cmd.is_empty() {
+        //         create_opts
+        //     } else {
+        //         let args = imp
+        //             .cmd_args()
+        //             .iter::<model::Value>()
+        //             .map(Result::unwrap)
+        //             .map(|value| value.value());
+        //         let mut cmd = vec![cmd.to_string()];
+        //         cmd.extend(args);
+        //         create_opts.command(&cmd)
+        //     };
 
-        let healthcheck_cmd = imp.health_check_command_entry_row.text();
+        //     let healthcheck_cmd = imp.health_check_command_entry_row.text();
 
-        if healthcheck_cmd.is_empty() {
-            create_opts
-        } else {
-            create_opts.health_config(podman::models::Schema2HealthConfig {
-                interval: Some(imp.health_check_interval_value.value() as i64 * 1_000_000_000),
-                retries: Some(imp.health_check_retries_value.value() as i64),
-                start_period: Some(
-                    imp.health_check_start_period_value.value() as i64 * 1_000_000_000,
-                ),
-                test: Some(
-                    healthcheck_cmd
-                        .split(' ')
-                        .map(str::to_string)
-                        .collect::<Vec<_>>(),
-                ),
-                timeout: Some(imp.health_check_timeout_value.value() as i64 * 1_000_000_000),
-            })
-        }
+        //     if healthcheck_cmd.is_empty() {
+        //         create_opts
+        //     } else {
+        //         create_opts.health_config(podman::models::Schema2HealthConfig {
+        //             interval: Some(imp.health_check_interval_value.value() as i64 * 1_000_000_000),
+        //             retries: Some(imp.health_check_retries_value.value() as i64),
+        //             start_period: Some(
+        //                 imp.health_check_start_period_value.value() as i64 * 1_000_000_000,
+        //             ),
+        //             test: Some(
+        //                 healthcheck_cmd
+        //                     .split(' ')
+        //                     .map(str::to_string)
+        //                     .collect::<Vec<_>>(),
+        //             ),
+        //             timeout: Some(imp.health_check_timeout_value.value() as i64 * 1_000_000_000),
+        //         })
+        //     }
     }
 }
 

@@ -148,25 +148,28 @@ impl ImageSelectionComboRow {
     }
 
     pub(crate) fn search_image(&self) {
-        if let Some(client) = self.client() {
-            let image_search_page = view::ImageSearchPage::new(&client, &gettext("Select"), false);
+        let Some(client) = self.client() else {
+            return;
+        };
 
-            image_search_page.connect_image_selected(clone!(
-                #[weak(rename_to = obj)]
-                self,
-                move |_, image| {
-                    obj.activate_action("navigation.pop", None).unwrap();
+        let image_search_page =
+            view::ImageSearchPage::new(&client, false, &gettext("Select"), false);
 
-                    obj.set_image(Option::<model::Image>::None);
-                    obj.set_mode(ImageSelectionMode::Remote);
-                    obj.set_subtitle(image);
-                }
-            ));
-            utils::navigation_view(self).push(
-                &adw::NavigationPage::builder()
-                    .child(&image_search_page)
-                    .build(),
-            );
-        }
+        image_search_page.connect_image_selected(clone!(
+            #[weak(rename_to = obj)]
+            self,
+            move |_, image| {
+                obj.activate_action("navigation.pop", None).unwrap();
+
+                obj.set_image(Option::<model::Image>::None);
+                obj.set_mode(ImageSelectionMode::Remote);
+                obj.set_subtitle(image);
+            }
+        ));
+        utils::navigation_view(self).push(
+            &adw::NavigationPage::builder()
+                .child(&image_search_page)
+                .build(),
+        );
     }
 }

@@ -1,3 +1,5 @@
+use std::cell::LazyCell;
+use std::cell::RefCell;
 use std::fmt::Debug;
 use std::ops::Deref;
 use std::path::PathBuf;
@@ -15,6 +17,9 @@ use gtk::glib::clone::Downgrade;
 use crate::APPLICATION_OPTS;
 use crate::config;
 use crate::rt;
+
+pub(crate) const NAME_GENERATOR: LazyCell<RefCell<names::Generator<'static>>> =
+    LazyCell::new(|| RefCell::new(names::Generator::default()));
 
 #[macro_export]
 macro_rules! monad_boxed_type {
@@ -166,11 +171,11 @@ pub(crate) struct Dialog<'a, P, C> {
     follows_content_size: Option<bool>,
 }
 
-impl<'a, C, P> Dialog<'a, C, P> {
+impl<'a, P, C> Dialog<'a, P, C> {
     #[must_use]
-    pub(crate) fn new(widget: &'a C, content: &'a P) -> Self {
+    pub(crate) fn new(parent: &'a P, content: &'a C) -> Self {
         Self {
-            parent: widget,
+            parent,
             content,
             height: None,
             width: None,
@@ -191,10 +196,10 @@ impl<'a, C, P> Dialog<'a, C, P> {
     }
 }
 
-impl<C, P> Dialog<'_, C, P>
+impl<P, C> Dialog<'_, P, C>
 where
-    C: IsA<gtk::Widget>,
     P: IsA<gtk::Widget>,
+    C: IsA<gtk::Widget>,
 {
     pub(crate) fn present(self) {
         let toast_overlay = adw::ToastOverlay::new();

@@ -162,29 +162,34 @@ impl RepoTagRow {
     }
 
     fn update(&self) {
-        if let Some(repo_tag) = self.repo_tag() {
-            if let Some(action_list) = repo_tag
-                .repo_tag_list()
-                .as_ref()
-                .and_then(model::RepoTagList::image)
-                .as_ref()
-                .and_then(model::Image::image_list)
-                .as_ref()
-                .and_then(model::ImageList::client)
-                .as_ref()
-                .map(model::Client::action_list)
-            {
-                let reference = repo_tag.full();
+        let Some(repo_tag) = self.repo_tag() else {
+            return;
+        };
 
-                action_list.download_image(
-                    &reference,
-                    podman::opts::PullOpts::builder()
-                        .reference(&reference)
-                        .policy(podman::opts::PullPolicy::Newer)
-                        .build(),
-                );
-            }
-        }
+        let Some(action_list) = repo_tag
+            .repo_tag_list()
+            .as_ref()
+            .and_then(model::RepoTagList::image)
+            .as_ref()
+            .and_then(model::Image::image_list)
+            .as_ref()
+            .and_then(model::ImageList::client)
+            .as_ref()
+            .map(model::Client::action_list)
+        else {
+            return;
+        };
+
+        let reference = repo_tag.full();
+
+        // TODO: Implement this
+        // action_list.download_image(
+        //     &reference,
+        //     podman::opts::PullOpts::builder()
+        //         .reference(&reference)
+        //         .policy(podman::opts::PullPolicy::Newer)
+        //         .build(),
+        // );
     }
 
     fn push(&self) {

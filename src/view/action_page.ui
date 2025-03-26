@@ -13,7 +13,7 @@
     <property name="layout-manager">
       <object class="GtkBinLayout"/>
     </property>
-    <property name="height-request">450</property>
+    <property name="height-request">560</property>
 
     <child>
       <object class="AdwToolbarView">
@@ -42,46 +42,40 @@
                     <property name="margin-bottom">9</property>
 
                     <child>
-                      <object class="AdwClamp">
-                        <property name="orientation">vertical</property>
+                      <object class="AdwBin">
+                        <style>
+                          <class name="card"/>
+                          <class name="text-box"/>
+                        </style>
+                        <property name="overflow">hidden</property>
 
                         <property name="child">
-                          <object class="AdwBin">
-                            <style>
-                              <class name="card"/>
-                              <class name="text-box"/>
-                            </style>
-                            <property name="overflow">hidden</property>
+                          <object class="GtkScrolledWindow">
+                            <property name="height-request">120</property>
+                            <property name="hscrollbar-policy">never</property>
+                            <property name="hexpand">True</property>
+                            <property name="vexpand">True</property>
 
-                            <property name="child">
-                              <object class="GtkScrolledWindow">
-                                <property name="hscrollbar-policy">never</property>
-                                <property name="hexpand">True</property>
-                                <property name="vexpand">True</property>
-
-                                <child>
-                                  <object class="GtkTextView">
-                                    <style>
-                                      <class name="text-view"/>
-                                    </style>
-                                    <binding name="buffer">
-                                      <lookup name="output" type="Action">
-                                        <lookup name="action">PdsActionPage</lookup>
-                                      </lookup>
-                                    </binding>
-                                    <property name="top-margin">12</property>
-                                    <property name="bottom-margin">12</property>
-                                    <property name="left-margin">12</property>
-                                    <property name="right-margin">12</property>
-                                    <property name="cursor-visible">False</property>
-                                    <property name="editable">False</property>
-                                    <property name="monospace">True</property>
-                                    <property name="wrap-mode">char</property>
-                                  </object>
-                                </child>
-
+                            <child>
+                              <object class="GtkTextView">
+                                <style>
+                                  <class name="text-view"/>
+                                </style>
+                                <binding name="buffer">
+                                  <lookup name="output" type="Action">
+                                    <lookup name="action">PdsActionPage</lookup>
+                                  </lookup>
+                                </binding>
+                                <property name="top-margin">12</property>
+                                <property name="bottom-margin">12</property>
+                                <property name="left-margin">12</property>
+                                <property name="right-margin">12</property>
+                                <property name="cursor-visible">False</property>
+                                <property name="editable">False</property>
+                                <property name="monospace">True</property>
+                                <property name="wrap-mode">char</property>
                               </object>
-                            </property>
+                            </child>
 
                           </object>
                         </property>
@@ -126,7 +120,6 @@
                   <object class="GtkButton" id="retry_button">
                     <style>
                       <class name="pill"/>
-                      <class name="suggested-action"/>
                     </style>
                     <property name="action-name">action-page.retry</property>
                     <property name="halign">center</property>
