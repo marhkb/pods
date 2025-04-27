@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-27 19:46+0200\n"
-"PO-Revision-Date: 2025-01-20 22:04+0100\n"
-"Last-Translator: Marcus Behrendt <marcus.behrendt.86@gmail.com>\n"
+"PO-Revision-Date: 2025-04-28 08:02+0000\n"
+"Last-Translator: Dejan Spasic <dejan.spasic@bitweise.biz>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/pods/main/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 3.4.4\n"
+"X-Generator: Weblate 5.12-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:112
@@ -59,7 +59,7 @@ msgstr "Die zuletzt verwendete Ansicht"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:31
 msgid "Whether to hide intermediate images"
-msgstr "Ob Zwischenbilder ausgeblendet werden sollen"
+msgstr "Ob Zwischenabbilder ausgeblendet werden sollen"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:36
 msgid "The last used container file path"
@@ -90,7 +90,7 @@ msgstr "Ob nur laufende Pods angezeigt werden sollen"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:61
 msgid "Whether to show only used volumes"
-msgstr "Ob nur verwendete Volumes angezeigt werden sollen."
+msgstr "Ob nur verwendete Volumen  angezeigt werden sollen"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:66
 msgid "Whether to show a timestamp for each log line"
@@ -183,11 +183,11 @@ msgstr "Container umbenennen."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:30
 msgid "Container Overview"
-msgstr "Containerübersicht"
+msgstr "Container Übersicht"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:34
 msgid "Containers Details in Compact Mode"
-msgstr "Containerdetails im kompakten Modus."
+msgstr "Details zu Containern im Kompaktmodus"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:38
 msgid "Search Results"
@@ -203,15 +203,18 @@ msgstr "Funktionen"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:50
 msgid "Accent colors are now properly supported. (#804, #807, #809, #811)"
-msgstr ""
+msgstr "Akzentfarben werden nun korrekt unterstützt. (#804, #807, #809, #811)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:51
 msgid "All dialogs have been ported to AdwDialog to be more adaptive. (#810)"
 msgstr ""
+"Alle Dialoge wurden auf AdwDialog portiert, um anpassungsfähiger zu sein. "
+"(#810)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:52
 msgid "Containers are now represented by cards in the container panel. (#778)"
 msgstr ""
+"Container werden jetzt durch Cards im Container-Panel dargestellt. (#778)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:53
 msgid ""
@@ -337,25 +340,31 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:93
 msgid "Pods 1.2.1 contains the following bugfixes and improvements:"
-msgstr ""
+msgstr "Pods 1.2.1 enthält die folgenden Fehlerbehebungen und Verbesserungen:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:95
 msgid ""
 "Fixed a bug that caused the application to crash when the keyring could not "
 "be accessed."
 msgstr ""
+"Es wurde ein Fehler behoben, der zum Absturz der Anwendung führte, wenn auf "
+"den Schlüsselbund nicht zugegriffen werden konnte."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:96
 msgid ""
 "Some languages like Romanian were not correctly included. This should be "
 "fixed now."
 msgstr ""
+"Einige Sprachen wie z.B. Rumänisch waren nicht korrekt eingebunden. Dies "
+"sollte jetzt behoben sein."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:97
 msgid ""
 "Fixed a regression where the container list was not re-sorted once a "
 "container was renamed."
 msgstr ""
+"Es wurde ein Fehler behoben, bei dem die Containerliste nicht neu sortiert "
+"wurde, wenn ein Container umbenannt wurde."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:98
 msgid "Minor cleanup work has been done in the code."
