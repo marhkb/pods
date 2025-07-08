@@ -70,7 +70,7 @@ msgstr "En son kullanılan konteyner dosya yolu"
 #: src/view/images_prune_page.ui:70
 msgid "Remove all images not in use by containers, not just dangling ones"
 msgstr ""
-"Konteynerler tarafından kullanılmayan tüm görselleri kaldır (sadece boşta "
+"Konteynerler tarafından kullanılmayan tüm imajları kaldır (sadece boşta "
 "olanları değil)"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:46
@@ -79,59 +79,53 @@ msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)"
 msgstr ""
-"İmajları, harici konteynerler(örn: derlenen imajlar) tarafından kullanılsa "
-"bile kaldır"
+"Harici konteynerler tarafından kullanılıyor olsalar bile imajları kaldır ("
+"örneğin, build konteynerleri tarafından)"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:51
-#, fuzzy
 msgid "Whether to show only running containers"
-msgstr "Sadece çalışan konteynerlerin gösterilip gösterilmeyeceğini belirler"
+msgstr "Sadece çalışan konteynerlerin gösterilip gösterilmeyeceği"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:56
-#, fuzzy
 msgid "Whether to show only running pods"
-msgstr "Sadece çalışan podların gösterilip gösterilmeyeceğini belirler"
+msgstr "Sadece çalışan podların gösterilip gösterilmeyeceği"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:61
-#, fuzzy
 msgid "Whether to show only used volumes"
-msgstr "Sadece çalışan podların gösterilip gösterilmeyeceğini belirler"
+msgstr "Sadece kullanılan depolama alanlarının gösterilip gösterilmeyeceği"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:66
 msgid "Whether to show a timestamp for each log line"
-msgstr ""
-"Herbir log satırında tarih bilgisi gösterilip gösterilmeyeceğini belirler"
+msgstr "Her bir log satırı için zaman damgası gösterilip gösterilmeyeceği"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:71
 #: data/com.github.marhkb.Pods.gschema.xml.in:76
 msgid "Whether to use a regex for search"
-msgstr ""
-"Aramada kurallı ifadeler(regex) kullanılabilir kullanılamayacağını belirler"
+msgstr "Arama için regex (düzenli ifade) kullanılıp kullanılmayacağı"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:81
-#, fuzzy
 msgid "Whether search should be case-sensitive"
-msgstr "Aramada küçük-büyük harf hassasiyeti olup olmadığını belirler"
+msgstr "Aramanın büyük/küçük harf duyarlı olup olmayacağı"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:86
 msgid "Whether to match whole words when searching"
-msgstr "Aramda bütün kelime ile eşleşme olup olmadığını belirler"
+msgstr "Arama yaparken yalnızca tam kelimelerin eşleştirilip eşleştirilmeyeceği"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:91
 msgid "The font scale of all text views"
-msgstr ""
+msgstr "Tüm metin görünümlerinin yazı tipi ölçeği"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:96
 msgid "The font scale for terminals"
-msgstr ""
+msgstr "Terminal yazı tipi ölçeği"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
 msgid ""
 "Pods is a frontend for podman. It uses libadwaita for its user interface and "
 "strives to meet the design principles of GNOME."
 msgstr ""
-"Podlar podman uygulaması için bir önyüzdür. Arayüzünde libadwaita kullanır "
-"ve GNOME dizayn ilkelerini takip etmeye çalışır."
+"Podlar, podman uygulaması için bir önyüzdür. Arayüzünde libadwaita kullanır "
+"ve GNOME tasarım ilkelerini takip etmeye çalışır."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:11
 msgid "With Pods you can, among other things:"
