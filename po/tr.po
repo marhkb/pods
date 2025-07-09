@@ -184,42 +184,47 @@ msgstr "Konteynerler yeniden adlandır."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:30
 msgid "Container Overview"
-msgstr "Konteynerlere genel bakış"
+msgstr "Konteynerlere Genel Bakış"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:34
 msgid "Containers Details in Compact Mode"
 msgstr "Konteyner Ayrıntılarına Kompakt Bakış"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:38
-#, fuzzy
 msgid "Search Results"
-msgstr "Ara"
+msgstr "Arama Sonuçları"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:47
 msgid "Pods 2.1.0 contains the following changes:"
-msgstr ""
+msgstr "Podlar 2.1.0 değişiklikleri:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:48
 msgid "Features"
-msgstr ""
+msgstr "Özellikler"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:50
 msgid "Accent colors are now properly supported. (#804, #807, #809, #811)"
 msgstr ""
+"Vurgu renkleri artık düzgün şekilde destekleniyor. (#804, #807, #809, #811)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:51
 msgid "All dialogs have been ported to AdwDialog to be more adaptive. (#810)"
 msgstr ""
+"Tüm iletişim kutuları, uyarlanabilirliği artırmak için AdwDialog'a taşındı. "
+"(#810)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:52
 msgid "Containers are now represented by cards in the container panel. (#778)"
 msgstr ""
+"Konteynerler artık konteyner panelinde kartlar şeklinde gösteriliyor. (#778)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:53
 msgid ""
 "The image search has been completely revised and is now much more "
 "streamlined. In addition, the tags of an image are suggested. (#758)"
 msgstr ""
+"İmaj arama tamamen yenilendi ve artık çok daha sade ve hızlı. Ayrıca, bir "
+"imajın etiketleri öneriliyor. (#758)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:57
 msgid "Port mappings can now be configured when creating pods. (#772)"
@@ -292,7 +297,7 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:74
 msgid "Improvements"
-msgstr ""
+msgstr "İyileştirmeler"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:76
 msgid "We now use appdata to construct the about dialog. (#743)"
