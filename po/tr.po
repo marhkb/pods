@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-27 19:46+0200\n"
-"PO-Revision-Date: 2025-07-09 14:05+0000\n"
+"PO-Revision-Date: 2025-07-10 22:03+0000\n"
 "Last-Translator: Ahmet Öztürk <dev@oztr.uk>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/pods/main/tr/>\n"
 "Language: tr\n"
@@ -28,13 +28,12 @@ msgstr "Podlar"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:4
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
-#, fuzzy
 msgid "Manage your Podman containers"
-msgstr "Pod ve konteynerler yarat."
+msgstr "Podman konteynerlerini yönet"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:9
 msgid "Gnome;GTK;libadwaita;Podman;Containerization;"
-msgstr ""
+msgstr "Gnome;GTK;libadwaita;Podman;Konteynerleştirme;"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:6
 #: data/com.github.marhkb.Pods.gschema.xml.in:7
@@ -177,21 +176,19 @@ msgstr "İmaj, konteyner ve podları sil (topluca)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:23
 msgid "Prune images."
-msgstr ""
+msgstr "İmajları buda."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:24
 msgid "Rename containers."
 msgstr "Konteynerler yeniden adlandır."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:30
-#, fuzzy
 msgid "Container Overview"
 msgstr "Konteynerlere genel bakış"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:34
-#, fuzzy
 msgid "Containers Details in Compact Mode"
-msgstr "Konteynerlere genel bakış"
+msgstr "Konteyner Ayrıntılarına Kompakt Bakış"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:38
 #, fuzzy
