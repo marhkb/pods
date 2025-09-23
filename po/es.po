@@ -30,7 +30,7 @@ msgstr "Cápsulas"
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
 #, fuzzy
 msgid "Manage your Podman containers"
-msgstr "Crea cápsulas y contenedores"
+msgstr "Crea Cápsulas y contenedores"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:9
 msgid "Gnome;GTK;libadwaita;Podman;Containerization;"
@@ -88,7 +88,7 @@ msgstr "Si se muestran sólo los contenedores en funcionamiento"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:56
 msgid "Whether to show only running pods"
-msgstr "Si se muestran sólo las cápsulas en funcionamiento"
+msgstr "Si se muestran sólo las Cápsulas en funcionamiento"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:61
 msgid "Whether to show only used volumes"
@@ -137,15 +137,15 @@ msgstr "Conectar con instancias locales y remotas de Podman."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:14
 msgid "Easily overview images, containers and pods."
-msgstr "Vea fácilmente las imágenes, los contenedores y las cápsulas."
+msgstr "Vea fácilmente las imágenes, los contenedores y las Cápsulas."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:15
 msgid "View prepared information about images, containers, and pods."
-msgstr "Ver información preparada sobre imágenes, contenedores y cápsulas."
+msgstr "Ver información preparada sobre imágenes, contenedores y Cápsulas."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:16
 msgid "Inspect images, containers and pods."
-msgstr "Inspeccionar imágenes, contenedores y cápsulas."
+msgstr "Inspeccionar imágenes, contenedores y Cápsulas."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:17
 msgid "View and search container logs."
@@ -153,7 +153,7 @@ msgstr "Ver y buscar registros de contenedores."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:18
 msgid "Monitor processes of containers and pods."
-msgstr "Supervisar los procesos de los contenedores y las cápsulas."
+msgstr "Supervisar los procesos de los contenedores y las Cápsulas."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:19
 msgid "Download images and build them using Dockerfiles."
@@ -161,19 +161,19 @@ msgstr "Descargar imágenes y construirlas usando Dockerfiles."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:20
 msgid "Create pods and containers."
-msgstr "Crear cápsulas y contenedores."
+msgstr "Crear Cápsulas y contenedores."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:21
 msgid ""
 "Control the lifecycle of containers and pods (in bulk) (start, stop, pause, "
 "etc.)."
 msgstr ""
-"Controlar el ciclo de vida de los contenedores y las cápsulas (en bloque) "
+"Controlar el ciclo de vida de los contenedores y las Cápsulas (en bloque) "
 "(inicio, parada, pausa, etc.)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:22
 msgid "Delete images, containers, and pods (in bulk)."
-msgstr "Eliminar imágenes, contenedores y cápsulas (en bloque)."
+msgstr "Eliminar imágenes, contenedores y Cápsulas (en bloque)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:23
 msgid "Prune images."
@@ -228,7 +228,7 @@ msgstr ""
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:58
 #, fuzzy
 msgid "Enable searching for container and pod processes. (#747)"
-msgstr "Eliminar imágenes, contenedores y cápsulas (en bloque)."
+msgstr "Eliminar imágenes, contenedores y Cápsulas (en bloque)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:59
 #, fuzzy
@@ -966,7 +966,7 @@ msgstr ""
 msgid ""
 "The multi-selection mode of images, containers and pods is now animated a "
 "bit more nicely."
-msgstr "Eliminar imágenes, contenedores y cápsulas (en bloque)."
+msgstr "Eliminar imágenes, contenedores y Cápsulas (en bloque)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:305
 msgid ""
@@ -1091,7 +1091,7 @@ msgstr ""
 #, fuzzy
 msgid ""
 "The local search for images, containers and pods is now case-insensitive."
-msgstr "Eliminar imágenes, contenedores y cápsulas (en bloque)."
+msgstr "Eliminar imágenes, contenedores y Cápsulas (en bloque)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:339
 msgid "There were small visual adjustments all over the place."
@@ -1322,7 +1322,7 @@ msgstr "Crear cápsula <b>{}</b>"
 
 #: src/model/action.rs:652
 msgid "Prune stopped pods"
-msgstr "Eliminar cápsulas no usadas"
+msgstr "Eliminar Cápsulas no usadas"
 
 #: src/model/action.rs:843
 msgid "Create volume <b>{}</b>"
@@ -1767,11 +1767,11 @@ msgstr "Eliminar"
 
 #: src/view/action_row.rs:203
 msgid "Failed Pods Action"
-msgstr "Acción de cápsulas fallida"
+msgstr "Acción de Cápsulas fallida"
 
 #: src/view/action_row.rs:207
 msgid "Finished Pods Action"
-msgstr "Acción de cápsulas terminada"
+msgstr "Acción de Cápsulas terminada"
 
 #: src/view/action_row.rs:257
 msgid "Ongoing ({})"
@@ -3479,7 +3479,7 @@ msgstr "Desactivar la gestión de /etc/resolv.conf"
 
 #: src/view/pod_creation_page.ui:133
 msgid "Pod Create Command"
-msgstr "Comando de creación de cápsulas"
+msgstr "Comando de creación de Cápsulas"
 
 #: src/view/pod_creation_page.ui:188
 msgid "Devices"
@@ -3523,7 +3523,7 @@ msgstr "Generar YAML de Kubernetes basado en esta cápsula."
 #: src/view/pod_details_page.ui:268
 #, fuzzy
 msgid "View processes of the pod"
-msgstr "Supervisar los procesos de los contenedores y las cápsulas."
+msgstr "Supervisar los procesos de los contenedores y las Cápsulas."
 
 #: src/view/pod_row.rs:269
 msgid "Pod Details"
@@ -3598,17 +3598,17 @@ msgstr "1 cápsula, detenida"
 msgid "{} pod total, {} running"
 msgid_plural "{} pods total, {} running"
 msgstr[0] "{} cápsula en total, {} en ejecución"
-msgstr[1] "{} cápsulas en total, {} en ejecución"
+msgstr[1] "{} Cápsulas en total, {} en ejecución"
 
 #: src/view/pods_panel.rs:249
 msgid "{} Selected Pod"
 msgid_plural "{} Selected Pods"
 msgstr[0] "{} cápsula seleccionada"
-msgstr[1] "{} cápsulas seleccionadas"
+msgstr[1] "{} Cápsulas seleccionadas"
 
 #: src/view/pods_panel.rs:580
 msgid "Confirm Forced Deletion of Multiple Pods"
-msgstr "Confirmar la eliminación forzada de varias cápsulas"
+msgstr "Confirmar la eliminación forzada de varias Cápsulas"
 
 #: src/view/pods_panel.rs:582
 msgid "All associated containers will also be removed!"
@@ -3617,11 +3617,11 @@ msgstr "¡Todos los contenedores asociados también serán eliminados!"
 #: src/view/pods_panel.ui:10
 #, fuzzy
 msgid "_Prune Stopped Pods"
-msgstr "Retirar cápsulas detenidas"
+msgstr "Retirar Cápsulas detenidas"
 
 #: src/view/pods_panel.ui:125 src/view/pods_prune_page.ui:42
 msgid "Prune Stopped Pods"
-msgstr "Retirar cápsulas detenidas"
+msgstr "Retirar Cápsulas detenidas"
 
 #: src/view/pods_panel.ui:146 src/view/pods_panel.ui:192
 #, fuzzy
@@ -3787,7 +3787,7 @@ msgstr "Generación de contenedores Kube"
 
 #: src/view/scalable_text_view_page.rs:285
 msgid "Pod Inspection"
-msgstr "Inspección de cápsulas"
+msgstr "Inspección de Cápsulas"
 
 #: src/view/scalable_text_view_page.rs:286
 msgid "Pod Kube Generation"
@@ -4290,7 +4290,7 @@ msgstr "Palabra completa"
 #~ msgstr "Archivos copiándose"
 
 #~ msgid "Pods Are Currently Being Pruned"
-#~ msgstr "Las cápsulas están siendo eliminados"
+#~ msgstr "Las Cápsulas están siendo eliminados"
 
 #~ msgid "Pod Is Currently Being Created"
 #~ msgstr "Cápsula creándose"
@@ -4450,7 +4450,7 @@ msgstr "Palabra completa"
 #~ msgstr "El resultado del filtrado de pods en ejecución está vacío."
 
 #~ msgid "No Pods Found"
-#~ msgstr "No se han encontrado cápsulas"
+#~ msgstr "No se han encontrado Cápsulas"
 
 #~ msgid "You can use the button below to create an initial pod."
 #~ msgstr "Puede usar el botón de abajo para crear una cápsula inicial."
@@ -4472,7 +4472,7 @@ msgstr "Palabra completa"
 #~ msgstr "Resumen de las imágenes"
 
 #~ msgid "Pods Overview"
-#~ msgstr "Vista general de las cápsulas"
+#~ msgstr "Vista general de las Cápsulas"
 
 #~ msgid "Fold"
 #~ msgstr "Plegar"
@@ -4523,7 +4523,7 @@ msgstr "Palabra completa"
 #~ msgstr "No hay contenedores en esta cápsula."
 
 #~ msgid "No pods found"
-#~ msgstr "No se encontraron cápsulas"
+#~ msgstr "No se encontraron Cápsulas"
 
 #~ msgid "will be mapped to container port"
 #~ msgstr "se asignará al puerto de contenedor"
@@ -4548,7 +4548,7 @@ msgstr "Palabra completa"
 #~ msgstr "contenedores"
 
 #~ msgid "pods"
-#~ msgstr "cápsulas"
+#~ msgstr "Cápsulas"
 
 #~ msgid "_Select All"
 #~ msgstr "_Seleccionar todo"
@@ -4678,11 +4678,11 @@ msgstr "Palabra completa"
 
 #, fuzzy
 #~ msgid "Create a new image from this container."
-#~ msgstr "Crear cápsulas y contenedores."
+#~ msgstr "Crear Cápsulas y contenedores."
 
 #, fuzzy
 #~ msgid "Exchange files with this container."
-#~ msgstr "Crear cápsulas y contenedores."
+#~ msgstr "Crear Cápsulas y contenedores."
 
 #, fuzzy
 #~ msgid "Container File Download"
