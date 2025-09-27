@@ -71,7 +71,7 @@ mod imp {
 glib::wrapper! {
     pub(crate) struct RandomNameEntryRow(ObjectSubclass<imp::RandomNameEntryRow>)
         @extends gtk::Widget, gtk::ListBoxRow, adw::PreferencesRow, adw::EntryRow,
-        @implements gtk::Editable;
+        @implements gtk::Accessible, gtk::Actionable, gtk::Buildable, gtk::ConstraintTarget, gtk::Editable;
 }
 
 impl Default for RandomNameEntryRow {

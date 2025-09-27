@@ -216,23 +216,20 @@ mod imp {
                             #[strong]
                             containers_left,
                             move |result| {
-                                if let Ok(container) = result {
-                                    if let Some(mount) =
+                                if let Ok(container) = result
+                                    && let Some(mount) =
                                         container.data().unwrap().mounts().values().find(|mount| {
                                             mount.name.as_ref() == Some(&volume.inner().name)
                                         })
-                                    {
-                                        volume.container_list().add_container(&container);
+                                {
+                                    volume.container_list().add_container(&container);
 
-                                        let container_volume_list = container.volume_list();
-                                        container_volume_list.add_volume(
-                                            model::ContainerVolume::new(
-                                                &container_volume_list,
-                                                &volume,
-                                                mount.clone(),
-                                            ),
-                                        );
-                                    }
+                                    let container_volume_list = container.volume_list();
+                                    container_volume_list.add_volume(model::ContainerVolume::new(
+                                        &container_volume_list,
+                                        &volume,
+                                        mount.clone(),
+                                    ));
                                 }
 
                                 if containers_left.fetch_sub(1, Ordering::Relaxed) == 1 {

@@ -230,70 +230,66 @@ impl ContainerCommitPage {
     }
 
     pub(crate) fn commit(&self) {
-        if let Some(container) = self.container() {
-            if let Some(api) = container.api() {
-                if let Some(client) = container
-                    .container_list()
-                    .and_then(|container_list| container_list.client())
-                {
-                    let imp = self.imp();
+        if let Some(container) = self.container()
+            && let Some(api) = container.api()
+            && let Some(client) = container
+                .container_list()
+                .and_then(|container_list| container_list.client())
+        {
+            let imp = self.imp();
 
-                    let opts = podman::opts::ContainerCommitOpts::builder();
+            let opts = podman::opts::ContainerCommitOpts::builder();
 
-                    let opts = set_opts_builder_field(
-                        opts,
-                        imp.author_entry_row.text().trim(),
-                        |opts, field| opts.author(field),
-                    );
-                    let opts = set_opts_builder_field(
-                        opts,
-                        imp.comment_entry_row.text().trim(),
-                        |opts, field| opts.comment(field),
-                    );
+            let opts =
+                set_opts_builder_field(opts, imp.author_entry_row.text().trim(), |opts, field| {
+                    opts.author(field)
+                });
+            let opts =
+                set_opts_builder_field(opts, imp.comment_entry_row.text().trim(), |opts, field| {
+                    opts.comment(field)
+                });
 
-                    let repo = imp.repo_entry_row.text();
-                    let repo = repo.trim();
-                    let opts = set_opts_builder_field(opts, repo, |opts, field| opts.repo(field));
+            let repo = imp.repo_entry_row.text();
+            let repo = repo.trim();
+            let opts = set_opts_builder_field(opts, repo, |opts, field| opts.repo(field));
 
-                    let tag = imp.tag_entry_row.text();
-                    let tag = tag.trim();
-                    let opts = set_opts_builder_field(opts, tag, |opts, field| opts.tag(field));
+            let tag = imp.tag_entry_row.text();
+            let tag = tag.trim();
+            let opts = set_opts_builder_field(opts, tag, |opts, field| opts.tag(field));
 
-                    let opts = opts
-                        .format(
-                            imp.format_list
-                                .get()
-                                .string(imp.format_combo_row.selected())
-                                .unwrap(),
-                        )
-                        .pause(imp.pause_switch_row.is_active());
+            let opts = opts
+                .format(
+                    imp.format_list
+                        .get()
+                        .string(imp.format_combo_row.selected())
+                        .unwrap(),
+                )
+                .pause(imp.pause_switch_row.is_active());
 
-                    let page = view::ActionPage::from(
-                        &client.action_list().commit_container(
-                            if repo.is_empty() {
-                                None
-                            } else {
-                                Some(format!(
-                                    "{}:{}",
-                                    repo,
-                                    if tag.is_empty() { "latest" } else { tag }
-                                ))
-                            }
-                            .as_deref(),
-                            &container.name(),
-                            api,
-                            opts.build(),
-                        ),
-                    );
+            let page = view::ActionPage::from(
+                &client.action_list().commit_container(
+                    if repo.is_empty() {
+                        None
+                    } else {
+                        Some(format!(
+                            "{}:{}",
+                            repo,
+                            if tag.is_empty() { "latest" } else { tag }
+                        ))
+                    }
+                    .as_deref(),
+                    &container.name(),
+                    api,
+                    opts.build(),
+                ),
+            );
 
-                    imp.navigation_view.push(
-                        &adw::NavigationPage::builder()
-                            .can_pop(false)
-                            .child(&page)
-                            .build(),
-                    );
-                }
-            }
+            imp.navigation_view.push(
+                &adw::NavigationPage::builder()
+                    .can_pop(false)
+                    .child(&page)
+                    .build(),
+            );
         }
     }
 }

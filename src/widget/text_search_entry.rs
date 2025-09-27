@@ -190,7 +190,7 @@ mod imp {
         #[template_callback]
         fn on_text_notify(&self, pspec: &glib::ParamSpec) {
             let obj = &*self.obj();
-            if obj.has_property(pspec.name(), None) {
+            if obj.has_property(pspec.name()) {
                 obj.notify(pspec.name());
             }
         }
@@ -220,7 +220,7 @@ mod imp {
 glib::wrapper! {
     pub(crate) struct TextSearchEntry(ObjectSubclass<imp::TextSearchEntry>)
         @extends gtk::Widget,
-        @implements gtk::Editable;
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget, gtk::Editable;
 }
 
 impl TextSearchEntry {

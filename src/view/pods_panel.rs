@@ -823,31 +823,31 @@ impl PodsPanel {
             clone!(
                 #[weak(rename_to = obj)]
                 self,
-                move |_, response| if response == "delete" {
-                    if let Some(list) = obj.pod_list() {
-                        list.selected_items()
-                            .iter()
-                            .map(|obj| obj.downcast_ref::<model::Pod>().unwrap())
-                            .for_each(|pod| {
-                                pod.delete(
-                                    true,
-                                    clone!(
-                                        #[weak]
-                                        obj,
-                                        move |result| {
-                                            if let Err(e) = result {
-                                                utils::show_error_toast(
-                                                    &obj,
-                                                    &gettext("Error on deleting pod"),
-                                                    &e.to_string(),
-                                                );
-                                            }
+                move |_, response| if response == "delete"
+                    && let Some(list) = obj.pod_list()
+                {
+                    list.selected_items()
+                        .iter()
+                        .map(|obj| obj.downcast_ref::<model::Pod>().unwrap())
+                        .for_each(|pod| {
+                            pod.delete(
+                                true,
+                                clone!(
+                                    #[weak]
+                                    obj,
+                                    move |result| {
+                                        if let Err(e) = result {
+                                            utils::show_error_toast(
+                                                &obj,
+                                                &gettext("Error on deleting pod"),
+                                                &e.to_string(),
+                                            );
                                         }
-                                    ),
-                                );
-                            });
-                        list.set_selection_mode(false);
-                    }
+                                    }
+                                ),
+                            );
+                        });
+                    list.set_selection_mode(false);
                 }
             ),
         );

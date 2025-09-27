@@ -252,11 +252,12 @@ mod imp {
                         glib::ControlFlow::Break,
                         move || {
                             let control_flow = obj.set_state_label(&action);
-                            if control_flow.is_break() {
-                                if let Some(timer) = obj.imp().timer.take() {
-                                    timer.remove();
-                                }
+                            if control_flow.is_break()
+                                && let Some(timer) = obj.imp().timer.take()
+                            {
+                                timer.remove();
                             }
+
                             control_flow
                         }
                     ),

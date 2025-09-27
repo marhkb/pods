@@ -180,10 +180,9 @@ impl Image {
         if self.repo_tags().update(HashSet::from_iter(
             summary.repo_tags.as_deref().unwrap_or_default().iter(),
         )) && notify_repo_tags
+            && let Some(list) = self.image_list()
         {
-            if let Some(list) = self.image_list() {
-                list.notify("intermediates");
-            }
+            list.notify("intermediates");
         }
         imp.set_shared_size(summary.shared_size.unwrap_or_default() as u64);
         imp.set_virtual_size(summary.virtual_size.unwrap_or_default() as u64);

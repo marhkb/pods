@@ -183,7 +183,7 @@ impl ImageBuildPage {
     fn on_opts_changed(&self) {
         let imp = self.imp();
 
-        let enabled = imp.tag_entry_row.text().len() > 0
+        let enabled: bool = !imp.tag_entry_row.text().is_empty()
             && imp
                 .context_dir_row
                 .subtitle()
@@ -248,45 +248,45 @@ impl ImageBuildPage {
             return;
         }
 
-        if !imp.tag_entry_row.text().is_empty() {
-            if let Some(context_dir_row) = imp.context_dir_row.subtitle() {
-                let opts = podman::opts::ImageBuildOptsBuilder::new(context_dir_row)
-                    .dockerfile(imp.container_file_path_entry_row.text())
-                    .tag(imp.tag_entry_row.text())
-                    .labels(
-                        imp.labels()
-                            .iter::<model::KeyVal>()
-                            .map(Result::unwrap)
-                            .map(|entry| (entry.key(), entry.value())),
-                    )
-                    .build();
+        if !imp.tag_entry_row.text().is_empty()
+            && let Some(context_dir_row) = imp.context_dir_row.subtitle()
+        {
+            let opts = podman::opts::ImageBuildOptsBuilder::new(context_dir_row)
+                .dockerfile(imp.container_file_path_entry_row.text())
+                .tag(imp.tag_entry_row.text())
+                .labels(
+                    imp.labels()
+                        .iter::<model::KeyVal>()
+                        .map(Result::unwrap)
+                        .map(|entry| (entry.key(), entry.value())),
+                )
+                .build();
 
-                let page = view::ActionPage::from(
-                    &self
-                        .client()
-                        .unwrap()
-                        .action_list()
-                        .build_image(imp.tag_entry_row.text().as_str(), opts)
-                        .await,
-                );
+            let page = view::ActionPage::from(
+                &self
+                    .client()
+                    .unwrap()
+                    .action_list()
+                    .build_image(imp.tag_entry_row.text().as_str(), opts)
+                    .await,
+            );
 
-                imp.navigation_view.push(
-                    &adw::NavigationPage::builder()
-                        .can_pop(false)
-                        .child(&page)
-                        .build(),
-                );
+            imp.navigation_view.push(
+                &adw::NavigationPage::builder()
+                    .can_pop(false)
+                    .child(&page)
+                    .build(),
+            );
 
-                if let Err(e) = imp.settings.set_string(
+            if let Err(e) = imp.settings.set_string(
+                GSETTINGS_KEY_LAST_USED_CONTAINER_FILE_PATH,
+                imp.container_file_path_entry_row.text().as_str(),
+            ) {
+                log::warn!(
+                    "Error on saving gsettings '{}': {}",
                     GSETTINGS_KEY_LAST_USED_CONTAINER_FILE_PATH,
-                    imp.container_file_path_entry_row.text().as_str(),
-                ) {
-                    log::warn!(
-                        "Error on saving gsettings '{}': {}",
-                        GSETTINGS_KEY_LAST_USED_CONTAINER_FILE_PATH,
-                        e
-                    );
-                }
+                    e
+                );
             }
         }
     }

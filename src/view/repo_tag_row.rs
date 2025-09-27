@@ -162,8 +162,8 @@ impl RepoTagRow {
     }
 
     fn update(&self) {
-        if let Some(repo_tag) = self.repo_tag() {
-            if let Some(action_list) = repo_tag
+        if let Some(repo_tag) = self.repo_tag()
+            && let Some(action_list) = repo_tag
                 .repo_tag_list()
                 .as_ref()
                 .and_then(model::RepoTagList::image)
@@ -173,17 +173,16 @@ impl RepoTagRow {
                 .and_then(model::ImageList::client)
                 .as_ref()
                 .map(model::Client::action_list)
-            {
-                let reference = repo_tag.full();
+        {
+            let reference = repo_tag.full();
 
-                action_list.download_image(
-                    &reference,
-                    podman::opts::PullOpts::builder()
-                        .reference(&reference)
-                        .policy(podman::opts::PullPolicy::Newer)
-                        .build(),
-                );
-            }
+            action_list.download_image(
+                &reference,
+                podman::opts::PullOpts::builder()
+                    .reference(&reference)
+                    .policy(podman::opts::PullPolicy::Newer)
+                    .build(),
+            );
         }
     }
 

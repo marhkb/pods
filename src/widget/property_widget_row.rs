@@ -86,7 +86,8 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct PropertyWidgetRow(ObjectSubclass<imp::PropertyWidgetRow>)
-        @extends gtk::Widget, gtk::ListBoxRow, adw::PreferencesRow, adw::ActionRow;
+        @extends gtk::Widget, gtk::ListBoxRow, adw::PreferencesRow, adw::ActionRow,
+        @implements gtk::Accessible, gtk::Actionable, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl Default for PropertyWidgetRow {

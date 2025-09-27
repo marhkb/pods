@@ -685,32 +685,29 @@ impl ImagesPanel {
             clone!(
                 #[weak(rename_to = obj)]
                 self,
-                move |_, response| if response == "delete" {
-                    if let Some(list) = obj.image_list() {
-                        list.selected_items()
-                            .iter()
-                            .map(|obj| obj.downcast_ref::<model::Image>().unwrap())
-                            .for_each(|image| {
-                                image.delete(clone!(
-                                    #[weak]
-                                    obj,
-                                    move |image, result| {
-                                        if let Err(e) = result {
-                                            utils::show_error_toast(
-                                                &obj,
-                                                // Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
-                                                &gettext!(
-                                                    "Error on deleting image '{}'",
-                                                    image.id()
-                                                ),
-                                                &e.to_string(),
-                                            );
-                                        }
+                move |_, response| if response == "delete"
+                    && let Some(list) = obj.image_list()
+                {
+                    list.selected_items()
+                        .iter()
+                        .map(|obj| obj.downcast_ref::<model::Image>().unwrap())
+                        .for_each(|image| {
+                            image.delete(clone!(
+                                #[weak]
+                                obj,
+                                move |image, result| {
+                                    if let Err(e) = result {
+                                        utils::show_error_toast(
+                                            &obj,
+                                            // Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
+                                            &gettext!("Error on deleting image '{}'", image.id()),
+                                            &e.to_string(),
+                                        );
                                     }
-                                ));
-                            });
-                        list.set_selection_mode(false);
-                    }
+                                }
+                            ));
+                        });
+                    list.set_selection_mode(false);
                 }
             ),
         );
