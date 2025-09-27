@@ -36,40 +36,36 @@ template $PdsActionPage: Widget {
         Adw.Clamp {
           margin-bottom: 9;
 
-          Adw.Clamp {
-            orientation: vertical;
+          child: Adw.Bin {
+            styles [
+              "card",
+              "text-box",
+            ]
 
-            child: Adw.Bin {
-              styles [
-                "card",
-                "text-box",
-              ]
+            overflow: hidden;
 
-              overflow: hidden;
+            child: ScrolledWindow {
+              hscrollbar-policy: never;
+              hexpand: true;
+              vexpand: true;
 
-              child: ScrolledWindow {
-                hscrollbar-policy: never;
-                hexpand: true;
-                vexpand: true;
+              TextView {
+                styles [
+                  "text-view",
+                ]
 
-                TextView {
-                  styles [
-                    "text-view",
-                  ]
-
-                  buffer: bind template.action as <$Action>.output;
-                  top-margin: 12;
-                  bottom-margin: 12;
-                  left-margin: 12;
-                  right-margin: 12;
-                  cursor-visible: false;
-                  editable: false;
-                  monospace: true;
-                  wrap-mode: char;
-                }
-              };
+                buffer: bind template.action as <$Action>.output;
+                top-margin: 12;
+                bottom-margin: 12;
+                left-margin: 12;
+                right-margin: 12;
+                cursor-visible: false;
+                editable: false;
+                monospace: true;
+                wrap-mode: char;
+              }
             };
-          }
+          };
         }
 
         Button abort_button {

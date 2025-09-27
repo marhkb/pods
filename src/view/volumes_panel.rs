@@ -613,7 +613,7 @@ impl VolumesPanel {
             .as_ref()
             .and_then(model::VolumeList::client)
         {
-            utils::Dialog::new(self, &view::VolumeCreationPage::from(&client)).present();
+            utils::Dialog::new(self, &view::VolumeCreationPage::init(&client, true)).present();
         }
     }
 

@@ -4,17 +4,15 @@ using Adw 1;
 template $PdsImagePullPage: Widget {
   layout-manager: BinLayout {};
 
-  Adw.NavigationView navigation_view {
-    Adw.NavigationPage {
-      title: _("Preferences");
+  Adw.NavigationPage {
+    title: _("Preferences");
 
-      $PdsImageSearchPage {
-        image-selected => $on_image_selected() swapped;
-        top-level: "True";
-        show-cancel-button: "True";
-        action-button-name: _("_Download");
-        client: bind template.client;
-      }
+    $PdsImageSearchPage {
+      image-selected => $on_image_selected() swapped;
+      top-level: "True";
+      show-cancel-button: "True";
+      action-button-name: _("_Download");
+      model: bind template.model;
     }
   }
 }

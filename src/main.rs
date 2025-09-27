@@ -1,3 +1,5 @@
+// TODO: Remove this once the module is implemented
+#![allow(warnings)]
 #![allow(clippy::format_push_string)]
 #![allow(deprecated)]
 

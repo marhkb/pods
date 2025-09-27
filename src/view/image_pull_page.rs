@@ -1,6 +1,11 @@
+use std::cell::OnceCell;
+use std::cell::RefCell;
+
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use gettextrs::gettext;
 use glib::Properties;
+use glib::clone;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
@@ -16,10 +21,8 @@ mod imp {
     #[properties(wrapper_type = super::ImagePullPage)]
     #[template(resource = "/com/github/marhkb/Pods/ui/view/image_pull_page.ui")]
     pub(crate) struct ImagePullPage {
-        #[property(get, set, construct_only, nullable)]
-        pub(super) client: glib::WeakRef<model::Client>,
-        #[template_child]
-        pub(super) navigation_view: TemplateChild<adw::NavigationView>,
+        #[property(get, set, construct_only)]
+        pub(super) model: OnceCell<model::ImagePull>,
     }
 
     #[glib::object_subclass]
@@ -62,26 +65,29 @@ mod imp {
     impl ImagePullPage {
         #[template_callback]
         fn on_image_selected(&self, image: &str) {
+            let obj = &*self.obj();
+
+            let model = obj.model();
+            model.set_image(image);
+
+            let Some(client) = model.client() else {
+                return;
+            };
+
             let opts = podman::opts::PullOpts::builder()
                 .reference(image)
                 .quiet(false)
                 .build();
 
-            let page = view::ActionPage::from(
-                &self
-                    .obj()
-                    .client()
-                    .unwrap()
-                    .action_list()
-                    .download_image(image, opts),
-            );
-
-            self.navigation_view.push(
-                &adw::NavigationPage::builder()
-                    .can_pop(false)
-                    .child(&page)
-                    .build(),
-            );
+            utils::Dialog::new(
+                obj,
+                &view::ActionPage::from(
+                    &client
+                        .action_list()
+                        .download_image(&model::ImagePull::from(&client)),
+                ),
+            )
+            .present();
         }
     }
 }
@@ -93,7 +99,65 @@ glib::wrapper! {
 }
 
 impl From<&model::Client> for ImagePullPage {
-    fn from(client: &model::Client) -> Self {
-        glib::Object::builder().property("client", client).build()
+    fn from(value: &model::Client) -> Self {
+        glib::Object::builder()
+            .property("model", &model::ImagePull::from(value))
+            .build()
+    }
+}
+
+impl ImagePullPage {
+    pub(crate) fn new(client: &model::Client) -> Self {
+        let obj: Self = glib::Object::builder()
+            .property("model", model::ImageSearch::from(client))
+            .build();
+
+        // let t = view::ImageSearchPage::new(client, true, &gettext("_Download"), true);
+
+        // t.connect_image_selected(clone!(
+        //     #[weak]
+        //     obj,
+        //     move |_, image| obj.on_image_selected(&image)
+        // ));
+
+        // obj.imp().bin.set_child(Some(&t));
+
+        obj
+    }
+
+    pub(crate) fn restore(model: &model::ImageSearch) -> Self {
+        let obj: Self = glib::Object::builder().property("model", model).build();
+
+        // obj.imp()
+        //     .bin
+        //     .set_child(Some(&view::ImageSearchPage::restore(
+        //         model,
+        //         true,
+        //         &gettext("_Download"),
+        //         true,
+        //     )));
+
+        obj
+    }
+
+    fn on_image_selected(&self, image: &str) {
+        let model = self.model();
+
+        let Some(client) = model.client() else {
+            return;
+        };
+
+        self.activate_action("win.close", None).unwrap();
+
+        let opts = podman::opts::PullOpts::builder()
+            .reference(image)
+            .quiet(false)
+            .build();
+
+        utils::Dialog::new(
+            self,
+            &view::ActionPage::from(&client.action_list().download_image(&model)),
+        )
+        .present();
     }
 }

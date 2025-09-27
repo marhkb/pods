@@ -150,7 +150,7 @@ impl ActionPage {
         let imp = self.imp();
 
         match action.state() {
-            model::ActionState::Ongoing => {
+            Ongoing => {
                 imp.status_page.set_title(&match action.action_type() {
                     PruneImages => gettext("Pruning Images"),
                     DownloadImage => gettext("Downloading Image"),
@@ -254,9 +254,7 @@ impl ActionPage {
         );
         self.action_set_enabled(
             ACTION_RETRY,
-            matches!(action.state(), Aborted | Failed)
-                && (self.ancestor(gtk::Stack::static_type()).is_some()
-                    || self.ancestor(adw::NavigationView::static_type()).is_some()),
+            matches!(action.state(), Finished | Aborted | Failed),
         );
 
         if (matches!(action.state(), Aborted | Failed)
@@ -344,22 +342,23 @@ impl ActionPage {
     }
 
     fn retry(&self) {
-        if let Some(stack) = self
-            .ancestor(gtk::Stack::static_type())
-            .and_then(|ancestor| ancestor.downcast::<gtk::Stack>().ok())
-        {
-            stack.set_visible_child(&stack.first_child().unwrap());
-            return;
-        }
+        self.activate_action("win.close", None).unwrap();
 
-        if let Some(navigation_view) = self
-            .ancestor(adw::NavigationView::static_type())
-            .and_then(|ancestor| ancestor.downcast::<adw::NavigationView>().ok())
-        {
-            if let Some(page) = navigation_view.visible_page() {
-                page.set_property("can-pop", true);
-            }
-            navigation_view.pop();
-        }
+        let model = self.action().unwrap().model();
+
+        utils::Dialog::new(
+            self,
+            &if let Some(model) = model.downcast_ref::<model::ContainerCreation>() {
+                view::ContainerCreationPage::restore(model).upcast::<gtk::Widget>()
+            } else if let Some(model) = model.downcast_ref::<model::ImageSearch>() {
+                view::ImagePullPage::restore(model).upcast()
+            } else if let Some(model) = model.downcast_ref::<model::VolumeCreation>() {
+                view::VolumeCreationPage::restore(model).upcast()
+            } else {
+                panic!()
+            },
+        )
+        .follows_content_size(true)
+        .present();
     }
 }

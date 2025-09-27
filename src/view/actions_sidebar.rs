@@ -131,7 +131,9 @@ mod imp {
                 .downcast::<model::Action>()
                 .unwrap();
 
-            utils::Dialog::new(&*self.obj(), &view::ActionPage::from(&action)).present();
+            utils::Dialog::new(&*self.obj(), &view::ActionPage::from(&action))
+                .follows_content_size(true)
+                .present();
         }
 
         pub(super) fn set_action_list(&self, value: Option<&model::ActionList>) {
