@@ -339,7 +339,7 @@ impl PodCreationPage {
     }
 
     fn on_name_changed(&self) {
-        self.action_set_enabled(ACTION_CREATE, self.imp().name_entry_row.text().len() > 0);
+        self.action_set_enabled(ACTION_CREATE, !self.imp().name_entry_row.text().is_empty());
     }
 
     fn add_label(&self) {
@@ -558,10 +558,10 @@ impl PodCreationPage {
                     .infra_command_entry_row
                     .set_text(&details.config().cmd().unwrap_or_default()),
                 None => {
-                    if let Some((handler, image)) = imp.command_row_handler.take() {
-                        if let Some(image) = image.upgrade() {
-                            image.disconnect(handler);
-                        }
+                    if let Some((handler, image)) = imp.command_row_handler.take()
+                        && let Some(image) = image.upgrade()
+                    {
+                        image.disconnect(handler);
                     }
                     let handler = image.connect_data_notify(clone!(
                         #[weak(rename_to = obj)]

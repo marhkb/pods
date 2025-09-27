@@ -249,10 +249,10 @@ mod imp {
         }
 
         fn unroot(&self) {
-            if !self.keep_alive_on_next_unroot.get() {
-                if let Some(tx_input) = &*self.tx_input.borrow() {
-                    _ = tx_input.send(ExecInput::Terminate);
-                }
+            if !self.keep_alive_on_next_unroot.get()
+                && let Some(tx_input) = &*self.tx_input.borrow()
+            {
+                _ = tx_input.send(ExecInput::Terminate);
             }
             self.keep_alive_on_next_unroot.set(false);
             self.parent_unroot();

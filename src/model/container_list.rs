@@ -140,12 +140,10 @@ mod imp {
                             stats.into_iter().for_each(|stat| {
                                 if let Some(container) =
                                     obj.get_container(stat.container_id.as_ref().unwrap())
+                                    && container.status() == model::ContainerStatus::Running
                                 {
-                                    if container.status() == model::ContainerStatus::Running {
-                                        container.set_stats(Some(
-                                            model::BoxedContainerStats::from(stat),
-                                        ));
-                                    }
+                                    container
+                                        .set_stats(Some(model::BoxedContainerStats::from(stat)));
                                 }
                             });
                         }

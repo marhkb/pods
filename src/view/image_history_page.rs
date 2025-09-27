@@ -169,10 +169,10 @@ impl From<&model::Image> for ImageHistoryPage {
                                         .build(),
                                 );
                             }
-                            if let Some(comment) = entry.comment {
-                                if !comment.is_empty() {
-                                    row.add_row(&property_row(&gettext("Comment"), &comment));
-                                }
+                            if let Some(comment) = entry.comment
+                                && !comment.is_empty()
+                            {
+                                row.add_row(&property_row(&gettext("Comment"), &comment));
                             }
                             if let Some(tags) = entry.tags {
                                 row.add_row(&property_row(&gettext("Tags"), &tags.join(", ")));

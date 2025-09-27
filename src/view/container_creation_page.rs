@@ -183,11 +183,11 @@ mod imp {
             if let Some(image) = obj.image() {
                 self.image_selection_combo_row.set_image(Some(image));
                 obj.update_data();
-            } else if let Some(volume) = obj.volume() {
-                if let Some(mount) = obj.add_mount() {
-                    mount.set_mount_type(model::MountType::Volume);
-                    mount.set_volume(Some(volume));
-                }
+            } else if let Some(volume) = obj.volume()
+                && let Some(mount) = obj.add_mount()
+            {
+                mount.set_mount_type(model::MountType::Volume);
+                mount.set_volume(Some(volume));
             }
 
             bind_model(
@@ -274,7 +274,7 @@ mod imp {
     impl ContainerCreationPage {
         #[template_callback]
         fn on_name_entry_row_notify_text(&self) {
-            let enabled = self.name_entry_row.text().len() > 0;
+            let enabled = !self.name_entry_row.text().is_empty();
 
             let obj = &*self.obj();
             obj.action_set_enabled(ACTION_CREATE_AND_RUN, enabled);
@@ -427,10 +427,10 @@ impl ContainerCreationPage {
             Some(image) => match image.data() {
                 Some(data) => self.update_local_data(&data.config()),
                 None => {
-                    if let Some((handler, image)) = imp.command_row_handler.take() {
-                        if let Some(image) = image.upgrade() {
-                            image.disconnect(handler);
-                        }
+                    if let Some((handler, image)) = imp.command_row_handler.take()
+                        && let Some(image) = image.upgrade()
+                    {
+                        image.disconnect(handler);
                     }
                     let handler = image.connect_data_notify(clone!(
                         #[weak(rename_to = obj)]
