@@ -73,7 +73,7 @@ mod imp {
 
         fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             let name = pspec.name();
-            if self.search_entry.has_property(name, None) {
+            if self.search_entry.has_property(name) {
                 self.search_entry.set_property(name, value);
             } else {
                 self.derived_set_property(id, value, pspec);
@@ -82,7 +82,7 @@ mod imp {
 
         fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             let name = pspec.name();
-            if self.search_entry.has_property(name, None) {
+            if self.search_entry.has_property(name) {
                 self.search_entry.property(name)
             } else {
                 self.derived_property(id, pspec)

@@ -55,5 +55,7 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub(crate) struct VolumesRow(ObjectSubclass<imp::VolumesRow>) @extends gtk::Widget;
+    pub(crate) struct VolumesRow(ObjectSubclass<imp::VolumesRow>)
+        @extends gtk::Widget,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }

@@ -166,7 +166,7 @@ mod imp {
 glib::wrapper! {
     pub(crate) struct DateTimeRow(ObjectSubclass<imp::DateTimeRow>)
         @extends gtk::Widget, gtk::ListBox, adw::PreferencesRow, adw::ExpanderRow,
-        @implements gtk::Accessible, gtk::Actionable, gtk::Buildable, gtk::ConstraintTarget;
+        @implements gtk::Accessible, gtk::Actionable, gtk::Buildable, gtk::ConstraintTarget, gtk::ListBoxRow;
 }
 
 impl DateTimeRow {

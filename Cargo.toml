@@ -5,29 +5,29 @@ authors = ["Marcus Behrendt <marcus.behrendt.86@gmail.com>"]
 edition = "2024"
 
 [dependencies]
-adw = { version = "0.7", package = "libadwaita", features = ["v1_7"] }
+adw = { version = "0.8", package = "libadwaita", features = ["v1_8"] }
 anyhow = "1"
-ashpd = { version = "0.11", default-features = false, features = ["gtk4", "tokio"] }
+ashpd = { version = "0.12", default-features = false, features = ["gtk4", "tokio"] }
 futures = { version = "0.3", default-features = false }
 gettext-rs = { version = "=0.7.0", features = ["gettext-system"] }
-gtk = { version = "0.9", package = "gtk4", features = ["gnome_47"] }
+gtk = { version = "0.10", package = "gtk4", features = ["gnome_48"] }
 indexmap = { version = "2", features = ["serde"] }
 log = "0.4"
 multi_log = "0.1"
 names = { version = "0.14", default-features = false }
-oo7 = { version = "0.4", default-features = false, features = ["native_crypto", "tokio"] }
+oo7 = { version = "0.5", default-features = false, features = ["native_crypto", "tokio"] }
 paste = "1"
 podman-api = { git = "https://github.com/vv9k/podman-api-rs.git", rev = "363d945b9b9905c50dfa0bfe0f9331f9fdeef079", default-features = false }
 serde = "1"
 serde_json = "1"
 simplelog = { version = "0.12", features = ["paris"] }
-sourceview5 = { version = "0.9" }
+sourceview5 = { version = "0.10" }
 syslog = "7"
 tokio = "1"
 tokio-stream = { version = "0.1", default-features = false }
 tokio-tar = { version = "0.3", default-features = false }
 vte = { version = "0.15", default-features = false }
-vte4 = "0.8"
+vte4 = "0.9"
 
 [profile.release]
 lto = true

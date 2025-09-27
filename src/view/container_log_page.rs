@@ -824,7 +824,7 @@ enum MarkupAttribute {
 }
 
 impl MarkupAttribute {
-    fn open_tag(&self) -> Cow<str> {
+    fn open_tag(&'_ self) -> Cow<'_, str> {
         match self {
             Self::Bold => Cow::Borrowed("<b>"),
             Self::Foreground(value) => Cow::Owned(format!("<span foreground=\"{value}\">")),

@@ -191,11 +191,11 @@ impl ProcessList {
 }
 
 trait TopSource: Send {
-    fn stream(&self) -> stream::BoxStream<podman::Result<ProcessFields>>;
+    fn stream(&'_ self) -> stream::BoxStream<'_, podman::Result<ProcessFields>>;
 }
 
 impl TopSource for podman::api::Container {
-    fn stream(&self) -> stream::BoxStream<podman::Result<ProcessFields>> {
+    fn stream(&'_ self) -> stream::BoxStream<'_, podman::Result<ProcessFields>> {
         self.top_stream(&podman::opts::ContainerTopOpts::builder().delay(1).build())
             .map_ok(|top| top.processes)
             .boxed()
@@ -203,7 +203,7 @@ impl TopSource for podman::api::Container {
 }
 
 impl TopSource for podman::api::Pod {
-    fn stream(&self) -> stream::BoxStream<podman::Result<ProcessFields>> {
+    fn stream(&'_ self) -> stream::BoxStream<'_, podman::Result<ProcessFields>> {
         self.top_stream(&podman::opts::PodTopOpts::builder().delay(1).build())
             .map_ok(|top| top.processes)
             .boxed()

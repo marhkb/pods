@@ -11,6 +11,7 @@ mod utils;
 mod view;
 mod widget;
 
+use std::ops::ControlFlow;
 use std::path::PathBuf;
 use std::str::FromStr;
 use std::sync::OnceLock;
@@ -36,7 +37,7 @@ fn main() {
             // Print version ...
             println!("pods {}", config::VERSION);
             // ... and exit application.
-            1
+            ControlFlow::Break(glib::ExitCode::new(0))
         } else {
             let (log_level_filter, log_level) = match dict.lookup::<String>("log-level").unwrap() {
                 Some(level) => (
@@ -130,7 +131,7 @@ fn main() {
 
             APPLICATION_OPTS.set(ApplicationOptions::default()).unwrap();
 
-            -1
+            ControlFlow::Continue(())
         }
     });
 
