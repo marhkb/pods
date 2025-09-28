@@ -181,8 +181,6 @@ src/view/scalable_text_view_page.rs
 src/view/scalable_text_view_page.ui
 src/view/search_panel.rs
 src/view/search_panel.ui
-src/view/search_row.rs
-src/view/search_row.ui
 src/view/shortcuts.ui
 src/view/top_page_action_bar.ui
 src/view/top_page.rs
