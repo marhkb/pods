@@ -118,28 +118,6 @@ mod imp {
 
             let obj = &*self.obj();
 
-            let shortcuts: gtk::ShortcutsWindow =
-                gtk::Builder::from_resource("/com/github/marhkb/Pods/ui/view/shortcuts.ui")
-                    .object("shortcuts")
-                    .unwrap();
-
-            let controller = gtk::EventControllerKey::new();
-            controller.connect_key_pressed(clone!(
-                #[weak]
-                shortcuts,
-                #[upgrade_or]
-                glib::Propagation::Stop,
-                move |_, key, _, modifier| {
-                    if key == gdk::Key::w && modifier == gdk::ModifierType::CONTROL_MASK {
-                        shortcuts.close();
-                    }
-                    glib::Propagation::Proceed
-                }
-            ));
-            shortcuts.add_controller(controller);
-
-            obj.set_help_overlay(Some(&shortcuts));
-
             if config::PROFILE == "Devel" {
                 obj.add_css_class("devel");
             }

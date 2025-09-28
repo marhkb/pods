@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
+  <gresource prefix="/com/github/marhkb/Pods/">
+    <file compressed="true" preprocess="xml-stripblanks" alias="shortcuts-dialog.ui">view/shortcuts.ui</file>
+  </gresource>
+
   <gresource prefix="/com/github/marhkb/Pods/ui/">
 
     <file compressed="true" preprocess="xml-stripblanks">view/action_page.ui</file>
@@ -70,7 +74,6 @@
     <file compressed="true" preprocess="xml-stripblanks">view/repo_tag_simple_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/scalable_text_view_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/search_panel.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/shortcuts.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/top_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/top_page_action_bar.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/value_row.ui</file>
