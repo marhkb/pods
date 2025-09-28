@@ -1,206 +1,198 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <object class="GtkShortcutsWindow" id="shortcuts">
-    <property name="modal">True</property>
+  <object class="AdwShortcutsDialog" id="shortcuts_dialog">
 
     <child>
-      <object class="GtkShortcutsSection">
-        <property name="section-name">shortcuts</property>
-        <property name="max-height">10</property>
+      <object class="AdwShortcutsSection">
+        <property name="title" translatable="yes" context="shortcut window">General</property>
 
         <child>
-          <object class="GtkShortcutsGroup">
-            <property name="title" translatable="yes" context="shortcut window">General</property>
-
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes" context="shortcut window">Show Shortcuts</property>
-                <property name="action-name">win.show-help-overlay</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes" context="shortcut window">Show menu</property>
-                <property name="accelerator">F10</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes" context="shortcut window">Quit</property>
-                <property name="action-name">app.quit</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes" context="shortcut window">Close window</property>
-                <property name="accelerator">&lt;ctrl&gt;w</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes" context="shortcut window">Close dialog</property>
-                <property name="accelerator">Escape</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes" context="shortcut window">Search</property>
-                <property name="accelerator">&lt;ctrl&gt;f</property>
-              </object>
-            </child>
-
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes" context="shortcut window">Show Shortcuts</property>
+            <property name="action-name">app.shortcuts</property>
           </object>
         </child>
 
         <child>
-          <object class="GtkShortcutsGroup">
-            <property name="title" translatable="yes" context="shortcut window">Navigation</property>
-
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes" context="shortcut window">Go back</property>
-                <property name="accelerator">&lt;alt&gt;Left</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes" context="shortcut window">Return to main view</property>
-                <property name="accelerator">&lt;alt&gt;Home</property>
-              </object>
-            </child>
-
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes" context="shortcut window">Show menu</property>
+            <property name="accelerator">F10</property>
           </object>
         </child>
 
         <child>
-          <object class="GtkShortcutsGroup">
-            <property name="title" translatable="yes" context="shortcut window">Container</property>
-
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes" context="shortcut window">Rename</property>
-                <property name="accelerator">F2</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes" context="shortcut window">Commit</property>
-                <property name="accelerator">&lt;ctrl&gt;K</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes" context="shortcut window">Download files</property>
-                <property name="accelerator">&lt;ctrl&gt;D</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes" context="shortcut window">Upload files</property>
-                <property name="accelerator">&lt;ctrl&gt;U</property>
-              </object>
-            </child>
-
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes" context="shortcut window">Quit</property>
+            <property name="action-name">app.quit</property>
           </object>
         </child>
 
         <child>
-          <object class="GtkShortcutsGroup">
-            <property name="title" translatable="yes" context="shortcut window">Text view</property>
-
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes" context="shortcut window">Zoom in</property>
-                <property name="accelerator">&lt;ctrl&gt;plus</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes" context="shortcut window">Zoom out</property>
-                <property name="accelerator">&lt;ctrl&gt;minus</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes" context="shortcut window">Reset zoom</property>
-                <property name="accelerator">&lt;ctrl&gt;0</property>
-              </object>
-            </child>
-
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes" context="shortcut window">Close window</property>
+            <property name="accelerator">&lt;ctrl&gt;w</property>
           </object>
         </child>
 
         <child>
-          <object class="GtkShortcutsGroup">
-            <property name="title" translatable="yes" context="shortcut window">Terminal</property>
-
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes" context="shortcut window">Zoom in</property>
-                <property name="accelerator">&lt;ctrl&gt;plus</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes" context="shortcut window">Zoom out</property>
-                <property name="accelerator">&lt;ctrl&gt;minus</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes" context="shortcut window">Reset zoom</property>
-                <property name="accelerator">&lt;ctrl&gt;0</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes" context="shortcut window">Copy selection to clipboard</property>
-                <property name="accelerator">&lt;ctrl&gt;&lt;shift&gt;C</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes" context="shortcut window">Paste from clipboard</property>
-                <property name="accelerator">&lt;ctrl&gt;&lt;shift&gt;V</property>
-              </object>
-            </child>
-
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes" context="shortcut window">Close dialog</property>
+            <property name="accelerator">Escape</property>
           </object>
         </child>
 
         <child>
-          <object class="GtkShortcutsGroup">
-            <property name="title" translatable="yes" context="shortcut window">Podman</property>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes" context="shortcut window">Search</property>
+            <property name="accelerator">&lt;ctrl&gt;f</property>
+          </object>
+        </child>
 
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes" context="shortcut window">Add a new connection</property>
-                <property name="accelerator">&lt;ctrl&gt;&lt;shift&gt;N</property>
-              </object>
-            </child>
+      </object>
+    </child>
 
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes" context="shortcut window">Create a new entity</property>
-                <property name="accelerator">&lt;ctrl&gt;N</property>
-              </object>
-            </child>
+    <child>
+      <object class="AdwShortcutsSection">
+        <property name="title" translatable="yes" context="shortcut window">Navigation</property>
 
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes" context="shortcut window">Go back</property>
+            <property name="accelerator">&lt;alt&gt;Left</property>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes" context="shortcut window">Return to main view</property>
+            <property name="accelerator">&lt;alt&gt;Home</property>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <child>
+      <object class="AdwShortcutsSection">
+        <property name="title" translatable="yes" context="shortcut window">Container</property>
+
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes" context="shortcut window">Rename</property>
+            <property name="accelerator">F2</property>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes" context="shortcut window">Commit</property>
+            <property name="accelerator">&lt;ctrl&gt;K</property>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes" context="shortcut window">Download files</property>
+            <property name="accelerator">&lt;ctrl&gt;D</property>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes" context="shortcut window">Upload files</property>
+            <property name="accelerator">&lt;ctrl&gt;U</property>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <child>
+      <object class="AdwShortcutsSection">
+        <property name="title" translatable="yes" context="shortcut window">Text view</property>
+
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes" context="shortcut window">Zoom in</property>
+            <property name="accelerator">&lt;ctrl&gt;plus</property>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes" context="shortcut window">Zoom out</property>
+            <property name="accelerator">&lt;ctrl&gt;minus</property>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes" context="shortcut window">Reset zoom</property>
+            <property name="accelerator">&lt;ctrl&gt;0</property>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <child>
+      <object class="AdwShortcutsSection">
+        <property name="title" translatable="yes" context="shortcut window">Terminal</property>
+
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes" context="shortcut window">Zoom in</property>
+            <property name="accelerator">&lt;ctrl&gt;plus</property>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes" context="shortcut window">Zoom out</property>
+            <property name="accelerator">&lt;ctrl&gt;minus</property>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes" context="shortcut window">Reset zoom</property>
+            <property name="accelerator">&lt;ctrl&gt;0</property>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes" context="shortcut window">Copy selection to
+              clipboard</property>
+            <property name="accelerator">&lt;ctrl&gt;&lt;shift&gt;C</property>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes" context="shortcut window">Paste from clipboard</property>
+            <property name="accelerator">&lt;ctrl&gt;&lt;shift&gt;V</property>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <child>
+      <object class="AdwShortcutsSection">
+        <property name="title" translatable="yes" context="shortcut window">Podman</property>
+
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes" context="shortcut window">Add a new connection</property>
+            <property name="accelerator">&lt;ctrl&gt;&lt;shift&gt;N</property>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes" context="shortcut window">Create a new entity</property>
+            <property name="accelerator">&lt;ctrl&gt;N</property>
           </object>
         </child>
 
