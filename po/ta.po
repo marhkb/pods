@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-27 19:46+0200\n"
-"PO-Revision-Date: 2025-01-27 20:21+0000\n"
+"PO-Revision-Date: 2025-06-16 11:01+0000\n"
 "Last-Translator: தமிழ்நேரம் <anishprabu.t@gmail.com>\n"
 "Language-Team: Tamil <https://hosted.weblate.org/projects/pods/main/ta/>\n"
 "Language: ta\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10-dev\n"
+"X-Generator: Weblate 5.12-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:112
@@ -360,7 +360,8 @@ msgstr "சில தலைப்புகள் சுருக்கப்ப�
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:86
 msgid "We now use AboutDialog instead of AboutWindow. (803)"
-msgstr "நாங்கள் இப்போது பற்றி பற்றி டீயாலாக் பயன்படுத்துகிறோம். (803)"
+msgstr ""
+"நாங்கள் இப்போது பற்றிச் சாளரத்திற்கு பதில் பற்றி உரையாடல் பயன்படுத்துகிறோம். (803)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:87
 msgid "Various style improvements (#741, #757)"
@@ -825,7 +826,7 @@ msgid ""
 "Actions, such as creating a container, can now be repeated initially if they "
 "fail."
 msgstr ""
-"ஒரு கொள்கலனை உருவாக்குவது போன்ற செயல்கள் இப்போது தோல்வியுற்றால் ஆரம்பத்தில் மீண்டும் மீண்டும் "
+"ஒரு கொள்கலனை உருவாக்குவது போன்ற செயல்கள் இப்போது தோல்வியுற்றால் ஆரம்பத்தில் மறுநிகழ்வு "
 "செய்யப்படலாம்."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:229
@@ -2162,13 +2163,13 @@ msgid ""
 "span>, <span weight=\"bold\">TCP</span>, and <span weight=\"bold\">UNIX</"
 "span> protocols. For example, the connection string might look like this:"
 msgstr ""
-"<ச்பான் எடை = \"தைரியமான\"> http </span>, <ச்பான் எடை = \"தைரியமான\"> டி.சி.பி "
-"</ச்பான்>, மற்றும் <ச்பான் எடை = \"தைரியமான\"> யூனிக்ச் </ச்பான்> நெறிமுறைகள். "
-"எடுத்துக்காட்டாக, இணைப்பு சரம் இப்படி தோன்றலாம்:"
+"<span weight=\"bold\">http </span>, <span weight=\"bold\">டி.சி.பி</span>, "
+"மற்றும் <span weight=\"bold\">யூனிக்ச்</span> நெறிமுறைகள். எடுத்துக்காட்டாக, இணைப்பு "
+"சரம் இப்படி தோன்றலாம்:"
 
 #: src/view/connection_custom_info_page.ui:59
 msgid "http://somewhere:8081"
-msgstr "http://somewhere:8081"
+msgstr "http://எங்கோ:8081"
 
 #: src/view/connection_custom_info_page.ui:80
 msgid "Podman Root Connection"
@@ -2181,8 +2182,10 @@ msgid ""
 "is not readable for normal users. However, there is a workaround using a "
 "systemd unit. Save the following snippet:"
 msgstr ""
-"துரதிர்ச்டவசமாக. இருப்பினும், ஒரு சிச்டம் டி அலகைப் பயன்படுத்தி ஒரு பணித்தொகுப்பு உள்ளது"
-". பின்வரும் துணுக்கை சேமிக்கவும்:"
+"துரதிர்ஷ்டவசமாக, Podman ரூட் நிகழ்வை நேரடியாக இணைப்பது தற்போது சாத்தியமில்லை, ஏனெனில் "
+"<span weight=\"bold\">/run/podman/podman.sock</span> சாதாரண பயனர்களால் படிக்க "
+"முடியாது. இருப்பினும், systemd யூனிட்டைப் பயன்படுத்தி ஒரு தீர்வு உள்ளது. பின்வரும் "
+"துணுக்கைச் சேமிக்கவும்:"
 
 #: src/view/connection_custom_info_page.ui:205
 msgid "Enable the service by issuing the command:"
@@ -2213,7 +2216,7 @@ msgstr ""
 
 #: src/view/connection.rs:29 src/view/container_card.rs:565
 msgid "_Confirm"
-msgstr "_Confirm"
+msgstr "_உறுதி"
 
 #: src/view/connections_sidebar.rs:97
 msgid "Confirm Switching Connection"
@@ -2511,7 +2514,7 @@ msgstr "துவக்க கொள்கலனின் நேரத்தை 
 #: src/view/container_creation_page.ui:420
 #: src/view/container_health_check_page.ui:65
 msgid "Retries"
-msgstr "மீண்டும் மீண்டும்"
+msgstr "மறுமுயற்சிகள்"
 
 #: src/view/container_creation_page.ui:421
 msgid "Number of retries allowed before a healthcheck fails"
@@ -2645,7 +2648,7 @@ msgstr "தோல்வியுற்ற சுகாதார ரன்: {}"
 #: src/view/image_history_page.rs:111 src/view/info_panel.rs:165
 #, c-format
 msgid "%x %X"
-msgstr "%x %x"
+msgstr "%x %X"
 
 #: src/view/container_health_check_page.rs:184
 #: src/view/container_health_check_page.rs:200
@@ -2714,7 +2717,7 @@ msgstr "தொடக்க கொள்கலன்"
 
 #: src/view/container_log_page.rs:719
 msgid "Error resuming container"
-msgstr "மீண்டும் மீண்டும் கொள்கலன்"
+msgstr "தொடர கொள்கலன் பிழை"
 
 #: src/view/container_log_page.ui:12 src/view/scalable_text_view_page.ui:12
 msgid "_Save as File"
@@ -2754,7 +2757,7 @@ msgstr "S_TOP"
 
 #: src/view/container_menu_button.ui:17 src/view/pod_menu_button.ui:23
 msgid "R_estart"
-msgstr "R_estart"
+msgstr "மறுதொடக்கம்"
 
 #: src/view/container_menu_button.ui:22 src/view/pod_menu_button.ui:28
 msgid "_Resume"
@@ -4144,7 +4147,7 @@ msgstr "1 தொகுதி, பயன்படுத்தப்படாத�
 msgid "{} volumes total, {} unused"
 msgid_plural "{} volumes total, {} unused"
 msgstr[0] "{} தொகுதிகள் மொத்தம், {} பயன்படுத்தப்படாதது"
-msgstr[1] "{} தொகுதிகள் மொத்தம், {} பயன்படுத்தப்படாதது"
+msgstr[1] "{} தொகுதிகள் மொத்தம், {} பயன்படுத்தப்படாவை"
 
 #: src/view/volumes_panel.rs:215
 msgid "{} Selected Volume"

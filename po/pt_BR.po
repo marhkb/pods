@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-27 19:46+0200\n"
-"PO-Revision-Date: 2025-01-22 06:02+0000\n"
-"Last-Translator: John Peter Sa <johnppetersa@gmail.com>\n"
+"PO-Revision-Date: 2025-08-13 17:02+0000\n"
+"Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/pods/"
 "main/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.10-dev\n"
+"X-Generator: Weblate 5.13-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:112
@@ -25,7 +25,7 @@ msgstr ""
 #: src/view/pods_panel.ui:138 src/view/pods_panel.ui:432
 #: src/view/pods_row.ui:22 src/view/search_panel.ui:81
 msgid "Pods"
-msgstr "cápsulas"
+msgstr "Pods"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:4
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
@@ -52,11 +52,11 @@ msgstr "Comportamento padrão da janela maximizada"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:21
 msgid "The uuid of the connection that was used the last time"
-msgstr "A UUID da conexão que foi utilizada na vez anterior"
+msgstr "O UUID da conexão que foi utilizada na última vez"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:26
 msgid "The last used view"
-msgstr "A última visualização usada"
+msgstr "O último modo de exibição usado"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:31
 msgid "Whether to hide intermediate images"
@@ -70,8 +70,8 @@ msgstr "O último caminho de arquivo de contêiner usado"
 #: src/view/images_prune_page.ui:70
 msgid "Remove all images not in use by containers, not just dangling ones"
 msgstr ""
-"Remove todas as imagens que não são usada por contêineres, não apenas as "
-"pendentes"
+"Remover todas as imagens que não estão em uso pelos contêineres, não apenas "
+"as pendentes"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:46
 #: src/view/images_prune_page.ui:77
@@ -79,20 +79,20 @@ msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)"
 msgstr ""
-"Remove imagens mesmo quando usadas por contêineres externos (por exemplo, "
-"por criar contêineres)"
+"Remover imagens mesmo se estiverem sendo usadas por contêineres externos ("
+"por exemplo, por contêineres de compilação)"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:51
 msgid "Whether to show only running containers"
-msgstr "Se deve mostrar apenas contêineres em execução"
+msgstr "Se deve mostrar apenas os contêineres em execução"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:56
 msgid "Whether to show only running pods"
-msgstr "Se deve mostrar apenas cápsulas em execução"
+msgstr "Se deve mostrar apenas os pods em execução"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:61
 msgid "Whether to show only used volumes"
-msgstr "Se deve mostrar apenas volumes usados"
+msgstr "Se deve mostrar apenas os volumes usados"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:66
 msgid "Whether to show a timestamp for each log line"
@@ -124,12 +124,12 @@ msgid ""
 "Pods is a frontend for podman. It uses libadwaita for its user interface and "
 "strives to meet the design principles of GNOME."
 msgstr ""
-"cápsulas é um frontend para podman. Ele usa libadwaita para sua interface de "
+"Pods é um frontend para podman. Ele usa libadwaita para sua interface de "
 "usuário e se esforça para atender aos princípios de design do GNOME."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:11
 msgid "With Pods you can, among other things:"
-msgstr "Com cápsulas você pode, entre outras coisas:"
+msgstr "Com o Pods, você pode, entre outras coisas:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:13
 msgid "Connect to local and remote Podman instances."
@@ -137,16 +137,15 @@ msgstr "Conectar-se a instâncias locais e remotas do Podman."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:14
 msgid "Easily overview images, containers and pods."
-msgstr "Visualizar facilmente imagens, contêineres e cápsulas."
+msgstr "Visualizar facilmente imagens, contêineres e pods."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:15
 msgid "View prepared information about images, containers, and pods."
-msgstr ""
-"Visualizar informações preparadas sobre imagens, contêineres e cápsulas."
+msgstr "Visualizar informações preparadas sobre imagens, contêineres e pods."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:16
 msgid "Inspect images, containers and pods."
-msgstr "Inspecionar imagens, contêineres e cápsulas."
+msgstr "Inspecionar imagens, contêineres e pods."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:17
 msgid "View and search container logs."
@@ -154,7 +153,7 @@ msgstr "Exibir e pesquisar logs de contêiner."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:18
 msgid "Monitor processes of containers and pods."
-msgstr "Monitorar processos de contêineres e cápsulas."
+msgstr "Monitorar processos de contêineres e pods."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:19
 msgid "Download images and build them using Dockerfiles."
@@ -162,19 +161,19 @@ msgstr "Baixar imagens e criá-las usando Dockerfiles."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:20
 msgid "Create pods and containers."
-msgstr "Criar cápsulas e contêineres."
+msgstr "Criar pods e contêineres."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:21
 msgid ""
 "Control the lifecycle of containers and pods (in bulk) (start, stop, pause, "
 "etc.)."
 msgstr ""
-"Controle o ciclo de vida de contêineres e cápsulas (em massa) (iniciar, "
-"parar, pausar, etc.)."
+"Controle o ciclo de vida de contêineres e pods (em massa) (iniciar, parar, "
+"pausar, etc.)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:22
 msgid "Delete images, containers, and pods (in bulk)."
-msgstr "Deletar imagens, contêineres e cápsulas (em massa)."
+msgstr "Deletar imagens, contêineres e pods (em massa)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:23
 msgid "Prune images."
@@ -369,7 +368,7 @@ msgstr "Várias melhorias de estilo ( #741, #757)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:93
 msgid "Pods 1.2.1 contains the following bugfixes and improvements:"
-msgstr "cápsulas 1.2.1 contém as seguintes correções de bugs e melhorias:"
+msgstr "Pods 1.2.1 contém as seguintes correções de bugs e melhorias:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:95
 msgid ""
@@ -401,7 +400,7 @@ msgstr "Um pequeno trabalho de limpeza foi feito no código."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:104
 msgid "Pods 1.2.0 contains the following new features:"
-msgstr "cápsulas 1.2.0 contém os seguintes novos recursos:"
+msgstr "Pods 1.2.0 contém os seguintes novos recursos:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:106
 msgid "Usabilty and UX has been improved in many places."
@@ -409,7 +408,7 @@ msgstr "Usabilidade e UX foram melhorados em muitos lugares."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:107
 msgid "Pruning of containers and pods is now possible."
-msgstr "Agora é possível eliminar contêineres e cápsulas."
+msgstr "Agora é possível eliminar contêineres e pods."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:108
 msgid "Container terminals are now detachable and can be used in parallel."
@@ -427,8 +426,7 @@ msgstr "A utilização da CPU agora leva em conta o número de núcleos."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:116
 msgid "Pods 1.1.0 contains the following features, bug fixes and improvements:"
-msgstr ""
-"cápsulas 1.1.0 contém os seguintes recursos, correções de bugs e melhorias:"
+msgstr "Pods 1.1.0 contém os seguintes recursos, correções de bugs e melhorias:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:118
 msgid ""
@@ -480,7 +478,7 @@ msgid ""
 "Pods 1.1.0-beta.4 contains the following features, bug fixes and "
 "improvements:"
 msgstr ""
-"cápsulas 1.1.0-beta.4 contém os seguintes recursos, correções de bugs e "
+"Pods 1.1.0-beta.4 contém os seguintes recursos, correções de bugs e "
 "melhorias:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:132
@@ -575,7 +573,7 @@ msgid ""
 "Pods 1.1.0-beta.3 contains the following features, bug fixes and "
 "improvements:"
 msgstr ""
-"cápsulas 1.1.0-beta.3 contém os seguintes recursos, correções de bugs e "
+"Pods 1.1.0-beta.3 contém os seguintes recursos, correções de bugs e "
 "melhorias:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:152
@@ -655,7 +653,7 @@ msgid ""
 "Pods 1.1.0-beta.2 contains the following features, bug fixes and "
 "improvements:"
 msgstr ""
-"cápsulas 1.1.0-beta.2 contém os seguintes recursos, correções de bugs e "
+"Pods 1.1.0-beta.2 contém os seguintes recursos, correções de bugs e "
 "melhorias:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:170
@@ -708,7 +706,7 @@ msgid ""
 "Pods 1.1.0-beta.1 contains the following features, bug fixes and "
 "improvements:"
 msgstr ""
-"cápsulas 1.1.0-beta.1 contém os seguintes recursos, correções de bugs e "
+"Pods 1.1.0-beta.1 contém os seguintes recursos, correções de bugs e "
 "melhorias:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:186
@@ -760,7 +758,7 @@ msgstr "Houve muitas melhorias internas no código."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:200
 msgid "Pods 1.0.2 contains the following changes:"
-msgstr "cápsulas 1.0.2 contém as seguintes alterações:"
+msgstr "Pods 1.0.2 contém as seguintes alterações:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:202
 msgid ""
@@ -783,8 +781,8 @@ msgid ""
 "The stable 1.0 release of Pods includes the following changes since the last "
 "RC:"
 msgstr ""
-"A versão estável 1.0 dos cápsulas inclui as seguintes alterações desde o "
-"último RC:"
+"A versão estável 1.0 do Pods inclui as seguintes alterações desde o último "
+"RC:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:212
 msgid ""
@@ -825,7 +823,7 @@ msgstr "A animação do widget de spinner interno foi embelezada."
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:225
 msgid "The third 1.0 release candidate of Pods contains the following changes:"
 msgstr ""
-"O terceiro candidato a versão 1.0 de cápsulas contém as seguintes alterações:"
+"O terceiro candidato a versão 1.0 do Pods contém as seguintes alterações:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:227
 msgid ""
@@ -884,8 +882,8 @@ msgid ""
 "release candidate phase. Among the changes since the last release are:"
 msgstr ""
 "Todas as funcionalidades para a versão 1.0 foram implementadas e, portanto, "
-"o Cápsulas está na fase de release candidate. Entre as mudanças desde o "
-"último release estão:"
+"o Pods está na fase de release candidate. Entre as mudanças desde o último "
+"release estão:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:245
 msgid ""
@@ -915,7 +913,7 @@ msgid ""
 "id, or the name of the container or pod."
 msgstr ""
 "A propriedade de subtítulo das barras de cabeçalho agora é usada para exibir "
-"o ID da imagem, ou o nome do contêiner ou cápsula."
+"o ID da imagem, ou o nome do contêiner ou pod."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:249
 msgid ""
@@ -954,8 +952,8 @@ msgid ""
 "The ninth beta of Pods in an important step towards the stable first "
 "version. It contains the following changes:"
 msgstr ""
-"O nono beta de cápsulas em um passo importante para a primeira versão "
-"estável. Contém as seguintes alterações:"
+"O nono beta do Pods em um passo importante para a primeira versão estável. "
+"Contém as seguintes alterações:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:261
 msgid "It is now possible to have a terminal in a container."
@@ -985,7 +983,7 @@ msgstr "As dependências e traduções foram atualizadas."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:272
 msgid "The eight beta release of Pods 1.0.0 includes the following changes:"
-msgstr "A oitava versão beta de cápsulas 1.0.0 inclui as seguintes alterações:"
+msgstr "A oitava versão beta do Pods 1.0.0 inclui as seguintes alterações:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:275
 msgid ""
@@ -1012,7 +1010,7 @@ msgstr ""
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:278
 msgid "Kubernetes YAML files can now be generated for containers and pods."
 msgstr ""
-"Arquivos YAML Kubernetes agora podem ser gerados para contêineres e cápsulas."
+"Arquivos YAML Kubernetes agora podem ser gerados para contêineres e pods."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:279
 msgid ""
@@ -1035,7 +1033,7 @@ msgid ""
 "There is now a rotating animation when a container or pod is in a state "
 "transition (start, stop, pause)."
 msgstr ""
-"Agora há uma animação de rotação quando um contêiner ou cápsula está em uma "
+"Agora há uma animação de rotação quando um contêiner ou pod está em uma "
 "transição de estado (iniciar, parar, pausar)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:282
@@ -1043,17 +1041,17 @@ msgid ""
 "If a container is in a pod, it will now get a badge with the pod name in the "
 "container list."
 msgstr ""
-"Se um contêiner estiver em uma cápsula, ele agora receberá um distintivo com "
-"o nome da cápsula na lista de contêineres."
+"Se um contêiner estiver em um pod, ele agora receberá um distintivo com o "
+"nome do pod na lista de contêineres."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:283
 msgid ""
 "Logs, the result of the inspection of images, containers, and pods, and the "
 "result Kubernetes YAML generation can now be saved directly as a file."
 msgstr ""
-"Logs, o resultado da inspeção de imagens, contêineres e cápsulas, e o "
-"resultado da geração de Kubernetes YAML geração agora podem ser salvos "
-"diretamente como um arquivo."
+"Logs, o resultado da inspeção de imagens, contêineres e pods, e o resultado "
+"da geração de Kubernetes YAML agora podem ser salvos diretamente como um "
+"arquivo."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:284
 msgid "Headerbar titles were adjusted to be shorter and more concise"
@@ -1067,7 +1065,7 @@ msgstr "Muitas pequenas melhorias no código interno chegaram"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:292
 msgid "The seventh beta release of Pods 1.0.0 includes the following changes:"
-msgstr "A sétima versão beta de cápsulas 1.0.0 inclui as seguintes alterações:"
+msgstr "A sétima versão beta do Pods 1.0.0 inclui as seguintes alterações:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:294
 msgid ""
@@ -1126,7 +1124,7 @@ msgid ""
 "Also the selection of a pod in the container creation page has been improved "
 "similarly to the image selection."
 msgstr ""
-"Além disso, a seleção de uma cápsula na página de criação de contêiner foi "
+"Além disso, a seleção de um pod na página de criação de contêiner foi "
 "aprimorada de forma semelhante à seleção de imagem."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:301
@@ -1158,8 +1156,8 @@ msgid ""
 "The multi-selection mode of images, containers and pods is now animated a "
 "bit more nicely."
 msgstr ""
-"O modo multisseleção de imagens, contêineres e cápsulas é agora animado de "
-"forma um pouco mais legal."
+"O modo multisseleção de imagens, contêineres e pods é agora animado de forma "
+"um pouco mais legal."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:305
 msgid ""
@@ -1189,7 +1187,7 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:313
 msgid "The sixth beta release of Pods 1.0.0 includes the following changes:"
-msgstr "O sexto release beta do Cápsulas 1.0.0 inclui as seguintes mudanças:"
+msgstr "O sexto release beta do Pods 1.0.0 inclui as seguintes mudanças:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:315
 msgid ""
@@ -1209,8 +1207,8 @@ msgstr ""
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:317
 msgid "Missing settings for creating pods have been added, thanks to @vv9k."
 msgstr ""
-"Configurações ausentes para a criação de cápsulas foram adicionadas, graças "
-"a @vv9k."
+"Configurações ausentes para a criação de pods foram adicionadas, graças a "
+"@vv9k."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:318
 msgid ""
@@ -1233,7 +1231,7 @@ msgid ""
 "The container details page and pod details page have been revised: The menus "
 "have been removed and instead there is now a control bar."
 msgstr ""
-"A página de detalhes do contêiner e a página de detalhes da cápsula foram "
+"A página de detalhes do contêiner e a página de detalhes do pod foram "
 "revisadas: Os menus foram removidos e, em vez disso, agora há uma barra de "
 "controle."
 
@@ -1294,7 +1292,7 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:333
 msgid "The fifth beta release of Pods 1.0.0 includes the following changes:"
-msgstr "O quinto release beta do Cápsulas 1.0.0 inclui as seguintes mudanças:"
+msgstr "O quinto release beta do Pods 1.0.0 inclui as seguintes mudanças:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:335
 msgid "Some typos were fixed, thanks to @kianmeng."
@@ -1306,7 +1304,7 @@ msgid ""
 "to @vv9k."
 msgstr ""
 "Uma aba para especificar as configurações de infraestrutura foi adicionada à "
-"página de criação da cápsula, graças a @vv9k."
+"página de criação de pod, graças a @vv9k."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:337
 msgid ""
@@ -1320,8 +1318,8 @@ msgstr ""
 msgid ""
 "The local search for images, containers and pods is now case-insensitive."
 msgstr ""
-"A pesquisa local por imagens, contêineres e cápsulas agora é sem "
-"diferenciação de maiúsculas e minúsculas."
+"A pesquisa local por imagens, contêineres e pods agora é sem diferenciação "
+"de maiúsculas e minúsculas."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:339
 msgid "There were small visual adjustments all over the place."
@@ -1344,8 +1342,7 @@ msgstr "Atualizações de tradução"
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:348
 msgid ""
 "Here comes the fourth beta release of Pods 1.0.0 with the following changes:"
-msgstr ""
-"Aqui vem o quarto release beta do Cápsulas 1.0.0 com as seguintes mudanças:"
+msgstr "Aqui vem o quarto release beta do Pods 1.0.0 com as seguintes mudanças:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:350
 msgid ""
@@ -1360,7 +1357,7 @@ msgid ""
 "A status page is now displayed if there are no images, containers or pods."
 msgstr ""
 "Agora, uma página de status é exibida caso não haja imagens, contêineres ou "
-"cápsulas."
+"pods."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:352
 msgid ""
@@ -1384,7 +1381,7 @@ msgid ""
 "polished look."
 msgstr ""
 "Foram implementadas várias melhorias menores na interface do usuário para "
-"dar às Cápsulas uma aparência mais refinada."
+"dar ao Pods uma aparência mais refinada."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:355
 msgid "The flatpak runtime has been updated to version 43"
@@ -1413,12 +1410,12 @@ msgid ""
 "It's now possible to set labels on images, containers and pods, thanks to "
 "@vv9k."
 msgstr ""
-"Agora é possível definir rótulos em imagens, contêineres e cápsulas, graças "
-"a @vv9k."
+"Agora é possível definir rótulos em imagens, contêineres e pods, graças a "
+"@vv9k."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:366
 msgid "The third beta release of Pods 1.0.0 contains the following changes:"
-msgstr "O terceiro release beta do Cápsulas 1.0.0 contém as seguintes mudanças:"
+msgstr "O terceiro release beta do Pods 1.0.0 contém as seguintes mudanças:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:368
 msgid ""
@@ -1462,7 +1459,7 @@ msgstr "Releases adicionais nos dados do aplicativo"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:388
 msgid "This is the first 1.0.0 beta release of Pods."
-msgstr "Este é o primeiro release beta 1.0.0 do Cápsulas."
+msgstr "Este é o primeiro release beta 1.0.0 do Pods."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:400
 msgid "Marcus Behrendt"
@@ -1569,11 +1566,11 @@ msgstr "Tamanho: {}"
 
 #: src/model/action.rs:627
 msgid "Create pod <b>{}</b>"
-msgstr "Criar cápsula <b>{}</b>"
+msgstr "Criar pod <b>{}</b>"
 
 #: src/model/action.rs:652
 msgid "Prune stopped pods"
-msgstr "Remover cápsulas paradas"
+msgstr "Remover pods parados"
 
 #: src/model/action.rs:843
 msgid "Create volume <b>{}</b>"
@@ -1965,11 +1962,11 @@ msgstr "Retirar"
 
 #: src/view/action_row.rs:203
 msgid "Failed Pods Action"
-msgstr "Ação de Cápsulas com Falha"
+msgstr "Ação de Pods com Falha"
 
 #: src/view/action_row.rs:207
 msgid "Finished Pods Action"
-msgstr "Ação Concluída em cápsulas"
+msgstr "Ação de pods concluída"
 
 #: src/view/action_row.rs:257
 msgid "Ongoing ({})"
@@ -2051,7 +2048,7 @@ msgstr "Conexões"
 #: src/view/client_view.ui:82
 msgctxt "app name"
 msgid "Pods"
-msgstr "Cápsulas"
+msgstr "Pods"
 
 #: src/view/client_view.ui:223
 msgid "Content"
@@ -2450,7 +2447,7 @@ msgstr "Detalhes"
 #: src/view/container_creation_page.ui:128
 #: src/view/container_properties_group.ui:300 src/view/pod_details_page.ui:16
 msgid "Pod"
-msgstr "Cápsula"
+msgstr "Pod"
 
 #: src/view/container_creation_page.ui:155 src/view/pod_creation_page.ui:290
 msgid "Pull Latest Image"
@@ -2566,7 +2563,7 @@ msgstr "Erro ao carregar detalhes do contêiner"
 
 #: src/view/container_details_page.rs:239
 msgid "Container '{}' has been deleted"
-msgstr "O contêiner '{}' foi deletado."
+msgstr "O contentor '{}' foi apagado"
 
 #: src/view/container_details_page.ui:16
 msgid "Container"
@@ -3613,7 +3610,7 @@ msgstr "Adicionar dispositivo"
 #: src/view/pod_creation_page.ui:42 src/view/pod_selection_page.ui:70
 #: src/view/pods_panel.ui:117
 msgid "Create Pod"
-msgstr "Criar Cápsula"
+msgstr "Criar Pod"
 
 #: src/view/pod_creation_page.ui:52 src/view/volume_creation_page.ui:52
 msgid "_Create"
@@ -3625,7 +3622,7 @@ msgstr "Disabilita gerenciamento e configurações em /etc/resolv.conf"
 
 #: src/view/pod_creation_page.ui:133
 msgid "Pod Create Command"
-msgstr "Comando de Criação de Cápsula"
+msgstr "Comando de Criação de Pod"
 
 #: src/view/pod_creation_page.ui:188
 msgid "Devices"
@@ -3649,11 +3646,11 @@ msgstr "Arquivo PID comum"
 
 #: src/view/pod_details_page.rs:229
 msgid "Error on loading pod data"
-msgstr "Erro ao carregar os dados da cápsula"
+msgstr "Erro ao carregar os dados do pod"
 
 #: src/view/pod_details_page.rs:233
 msgid "Pod '{}' has been deleted"
-msgstr "A cápsula '{}' foi deletada."
+msgstr "O pod '{}' foi deletada."
 
 #: src/view/pod_details_page.ui:234
 msgid "View all pod properties in a structured text form"
@@ -3669,7 +3666,7 @@ msgstr "Visualizar processos da cápsola"
 
 #: src/view/pod_row.rs:269
 msgid "Pod Details"
-msgstr "Detalhes da Cápsula"
+msgstr "Detalhes do pod"
 
 #: src/view/pod_selection_page.ui:29
 msgid "No Pod Available"
@@ -3678,39 +3675,39 @@ msgstr "Nenhuma cápsula disponível"
 #: src/view/pod_selection_page.ui:40 src/view/pods_panel.ui:6
 #: src/view/pods_panel.ui:451
 msgid "_Create Pod"
-msgstr "_Criar Cápsula"
+msgstr "_Criar Pod"
 
 #: src/view/pod_selection_page.ui:93
 msgid "Select Pod"
-msgstr "Selecionar Cápsula"
+msgstr "Selecionar Pod"
 
 #: src/view/pod.rs:39 src/view/pods_panel.rs:489
 msgid "Error on starting pod"
-msgstr "Erro ao iniciar a cápsula"
+msgstr "Erro ao iniciar o pod"
 
 #: src/view/pod.rs:40 src/view/pods_panel.rs:517 src/view/pods_panel.rs:540
 msgid "Error on stopping pod"
-msgstr "Erro ao parar a cápsula"
+msgstr "Erro ao parar o pod"
 
 #: src/view/pod.rs:41 src/view/pods_panel.rs:515
 msgid "Error on killing pod"
-msgstr "Erro ao finalizar a cápsula"
+msgstr "Erro ao finalizar o pod"
 
 #: src/view/pod.rs:42 src/view/pods_panel.rs:563
 msgid "Error on restarting pod"
-msgstr "Erro ao reiniciar a cápsula"
+msgstr "Erro ao reiniciar o pod"
 
 #: src/view/pod.rs:43
 msgid "Error on pausing pod"
-msgstr "Erro ao pausar a cápsula"
+msgstr "Erro ao pausar o pod"
 
 #: src/view/pod.rs:44 src/view/pods_panel.rs:478
 msgid "Error on resuming pod"
-msgstr "Erro ao retomar a cápsula"
+msgstr "Erro ao retomar o pod"
 
 #: src/view/pod.rs:45 src/view/pods_panel.rs:605
 msgid "Error on deleting pod"
-msgstr "Erro ao deletar a cápsula"
+msgstr "Erro ao deletar o pod"
 
 #: src/view/pod.rs:54
 msgid "Confirm Pod Deletion"
@@ -3722,32 +3719,32 @@ msgid ""
 "Pod contains container <b>{}</b>. Deleting the pod will also delete all its "
 "containers."
 msgstr ""
-"A cápsula contém o contêiner <b>{}</b>. Deletar a cápsula também deletará "
-"todos os seus contêineres."
+"O pod contém o contêiner <b>{}</b>. Deletar o pod também deletará todos os "
+"seus contêineres."
 
 #: src/view/pods_panel.rs:229
 msgid "1 pod, running"
-msgstr "1 cápsula, em execução."
+msgstr "1 pod, em execução."
 
 #: src/view/pods_panel.rs:231
 msgid "1 pod, stopped"
-msgstr "1 Cápsula, parou"
+msgstr "1 pod, parado"
 
 #: src/view/pods_panel.rs:235
 msgid "{} pod total, {} running"
 msgid_plural "{} pods total, {} running"
-msgstr[0] "{} cápsula(s) no total, {} em execução."
-msgstr[1] "{} cápsulas no total, {} em execução."
+msgstr[0] "{} pod no total, {} em execução."
+msgstr[1] "{} pods no total, {} em execução."
 
 #: src/view/pods_panel.rs:249
 msgid "{} Selected Pod"
 msgid_plural "{} Selected Pods"
-msgstr[0] "{} Cápsula Selecionada"
-msgstr[1] "{} Cápsula Selecionadas"
+msgstr[0] "{} pod selecionado"
+msgstr[1] "{} pods selecionados"
 
 #: src/view/pods_panel.rs:580
 msgid "Confirm Forced Deletion of Multiple Pods"
-msgstr "Confirmar exclusão forçada de várias cápsulas"
+msgstr "Confirmar exclusão forçada de vários pods"
 
 #: src/view/pods_panel.rs:582
 msgid "All associated containers will also be removed!"
@@ -3755,15 +3752,15 @@ msgstr "All associated containers will also be removed!"
 
 #: src/view/pods_panel.ui:10
 msgid "_Prune Stopped Pods"
-msgstr "_Remover Cápsulas Paradas"
+msgstr "_Remover Pods Paradas"
 
 #: src/view/pods_panel.ui:125 src/view/pods_prune_page.ui:42
 msgid "Prune Stopped Pods"
-msgstr "Remover Cápsulas Paradas"
+msgstr "Remover Pods Parados"
 
 #: src/view/pods_panel.ui:146 src/view/pods_panel.ui:192
 msgid "Show Only Running Pods"
-msgstr "Exibir Somente Cápsulas em Execução"
+msgstr "Exibir somente pods em execução"
 
 #: src/view/pods_panel.ui:258
 msgid "No Running Pods"
@@ -3916,11 +3913,11 @@ msgstr "Geração de Contêiner Kube"
 
 #: src/view/scalable_text_view_page.rs:285
 msgid "Pod Inspection"
-msgstr "Inspeção da Cápsula"
+msgstr "Inspeção de pod"
 
 #: src/view/scalable_text_view_page.rs:286
 msgid "Pod Kube Generation"
-msgstr "Geração de Cápsula Kube"
+msgstr "Geração de Pod Kube"
 
 #: src/view/scalable_text_view_page.rs:293
 msgid "Volume Inspection"
@@ -4077,7 +4074,7 @@ msgstr "Processos do Contêiner"
 
 #: src/view/top_page.rs:107
 msgid "Pod Processes"
-msgstr "Processos da Cápsula"
+msgstr "Processos do Pod"
 
 #: src/view/top_page.rs:125
 msgid "USER"
@@ -4243,7 +4240,7 @@ msgstr "Podar volumes criados antes deste registro de data e hora"
 
 #: src/view/welcome_page.ui:59
 msgid "Welcome to Pods"
-msgstr "Boas-vindas ao cápsulas"
+msgstr "Boas-vindas ao Pods"
 
 #: src/view/welcome_page.ui:68
 msgid "Create a new connection to Podman to get started"
@@ -4267,7 +4264,7 @@ msgstr "Erro ao carregar contêineres"
 
 #: src/view/window.rs:277
 msgid "Error on loading pods"
-msgstr "Erro ao carregar as cápsulas"
+msgstr "Erro ao carregar pods"
 
 #: src/view/window.rs:278
 msgid "Error on loading volumes"
@@ -4300,7 +4297,7 @@ msgstr "_Atalhos de teclado"
 
 #: src/widget/main_menu_button.ui:11
 msgid "_About Pods"
-msgstr "_Sobre as Cápsulas"
+msgstr "_Sobre o Pods"
 
 #: src/widget/main_menu_button.ui:27
 msgid "Main Menu"

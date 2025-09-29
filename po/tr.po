@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-27 19:46+0200\n"
-"PO-Revision-Date: 2022-12-19 17:51+0000\n"
-"Last-Translator: Can ESER <mail@cankutayeser.com>\n"
-"Language-Team: Turkish <https://hosted.weblate.org/projects/pods/pods/tr/>\n"
+"PO-Revision-Date: 2025-07-10 22:03+0000\n"
+"Last-Translator: Ahmet Öztürk <dev@oztr.uk>\n"
+"Language-Team: Turkish <https://hosted.weblate.org/projects/pods/main/tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.15.1-dev\n"
+"X-Generator: Weblate 5.13-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:112
@@ -28,13 +28,12 @@ msgstr "Podlar"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:4
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
-#, fuzzy
 msgid "Manage your Podman containers"
-msgstr "Pod ve konteynerler yarat."
+msgstr "Podman konteynerlerini yönet"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:9
 msgid "Gnome;GTK;libadwaita;Podman;Containerization;"
-msgstr ""
+msgstr "Gnome;GTK;libadwaita;Podman;Konteynerleştirme;"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:6
 #: data/com.github.marhkb.Pods.gschema.xml.in:7
@@ -60,18 +59,18 @@ msgstr "En son görünüm"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:31
 msgid "Whether to hide intermediate images"
-msgstr ""
+msgstr "Aradaki (geçici) görsellerin gizlenip gizlenmeyeceği"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:36
 msgid "The last used container file path"
-msgstr "Son kullanılan konteyner dosya yolu"
+msgstr "En son kullanılan konteyner dosya yolu"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:41
 #: src/view/images_prune_page.ui:70
 msgid "Remove all images not in use by containers, not just dangling ones"
 msgstr ""
-"Askıdakiler de dahil, konteynerler tarafından kullanılmayan tüm imajları "
-"kaldır"
+"Konteynerler tarafından kullanılmayan tüm imajları kaldır (sadece boşta "
+"olanları değil)"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:46
 #: src/view/images_prune_page.ui:77
@@ -79,59 +78,53 @@ msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)"
 msgstr ""
-"İmajları, harici konteynerler(örn: derlenen imajlar) tarafından kullanılsa "
-"bile kaldır"
+"Harici konteynerler tarafından kullanılıyor olsalar bile imajları kaldır ("
+"örneğin, build konteynerleri tarafından)"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:51
-#, fuzzy
 msgid "Whether to show only running containers"
-msgstr "Sadece çalışan konteynerlerin gösterilip gösterilmeyeceğini belirler"
+msgstr "Sadece çalışan konteynerlerin gösterilip gösterilmeyeceği"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:56
-#, fuzzy
 msgid "Whether to show only running pods"
-msgstr "Sadece çalışan podların gösterilip gösterilmeyeceğini belirler"
+msgstr "Sadece çalışan podların gösterilip gösterilmeyeceği"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:61
-#, fuzzy
 msgid "Whether to show only used volumes"
-msgstr "Sadece çalışan podların gösterilip gösterilmeyeceğini belirler"
+msgstr "Sadece kullanılan depolama alanlarının gösterilip gösterilmeyeceği"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:66
 msgid "Whether to show a timestamp for each log line"
-msgstr ""
-"Herbir log satırında tarih bilgisi gösterilip gösterilmeyeceğini belirler"
+msgstr "Her bir log satırı için zaman damgası gösterilip gösterilmeyeceği"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:71
 #: data/com.github.marhkb.Pods.gschema.xml.in:76
 msgid "Whether to use a regex for search"
-msgstr ""
-"Aramada kurallı ifadeler(regex) kullanılabilir kullanılamayacağını belirler"
+msgstr "Arama için regex (düzenli ifade) kullanılıp kullanılmayacağı"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:81
-#, fuzzy
 msgid "Whether search should be case-sensitive"
-msgstr "Aramada küçük-büyük harf hassasiyeti olup olmadığını belirler"
+msgstr "Aramanın büyük/küçük harf duyarlı olup olmayacağı"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:86
 msgid "Whether to match whole words when searching"
-msgstr "Aramda bütün kelime ile eşleşme olup olmadığını belirler"
+msgstr "Arama yaparken yalnızca tam kelimelerin eşleştirilip eşleştirilmeyeceği"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:91
 msgid "The font scale of all text views"
-msgstr ""
+msgstr "Tüm metin görünümlerinin yazı tipi ölçeği"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:96
 msgid "The font scale for terminals"
-msgstr ""
+msgstr "Terminal yazı tipi ölçeği"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
 msgid ""
 "Pods is a frontend for podman. It uses libadwaita for its user interface and "
 "strives to meet the design principles of GNOME."
 msgstr ""
-"Podlar podman uygulaması için bir önyüzdür. Arayüzünde libadwaita kullanır "
-"ve GNOME dizayn ilkelerini takip etmeye çalışır."
+"Podlar, podman uygulaması için bir önyüzdür. Arayüzünde libadwaita kullanır "
+"ve GNOME tasarım ilkelerini takip etmeye çalışır."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:11
 msgid "With Pods you can, among other things:"
@@ -183,52 +176,55 @@ msgstr "İmaj, konteyner ve podları sil (topluca)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:23
 msgid "Prune images."
-msgstr ""
+msgstr "İmajları buda."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:24
 msgid "Rename containers."
 msgstr "Konteynerler yeniden adlandır."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:30
-#, fuzzy
 msgid "Container Overview"
-msgstr "Konteynerlere genel bakış"
+msgstr "Konteynerlere Genel Bakış"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:34
-#, fuzzy
 msgid "Containers Details in Compact Mode"
-msgstr "Konteynerlere genel bakış"
+msgstr "Konteyner Ayrıntılarına Kompakt Bakış"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:38
-#, fuzzy
 msgid "Search Results"
-msgstr "Ara"
+msgstr "Arama Sonuçları"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:47
 msgid "Pods 2.1.0 contains the following changes:"
-msgstr ""
+msgstr "Podlar 2.1.0 değişiklikleri:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:48
 msgid "Features"
-msgstr ""
+msgstr "Özellikler"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:50
 msgid "Accent colors are now properly supported. (#804, #807, #809, #811)"
 msgstr ""
+"Vurgu renkleri artık düzgün şekilde destekleniyor. (#804, #807, #809, #811)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:51
 msgid "All dialogs have been ported to AdwDialog to be more adaptive. (#810)"
 msgstr ""
+"Tüm iletişim kutuları, uyarlanabilirliği artırmak için AdwDialog'a taşındı. "
+"(#810)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:52
 msgid "Containers are now represented by cards in the container panel. (#778)"
 msgstr ""
+"Konteynerler artık konteyner panelinde kartlar şeklinde gösteriliyor. (#778)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:53
 msgid ""
 "The image search has been completely revised and is now much more "
 "streamlined. In addition, the tags of an image are suggested. (#758)"
 msgstr ""
+"İmaj arama tamamen yenilendi ve artık çok daha sade ve hızlı. Ayrıca, bir "
+"imajın etiketleri öneriliyor. (#758)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:57
 msgid "Port mappings can now be configured when creating pods. (#772)"
@@ -301,7 +297,7 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:74
 msgid "Improvements"
-msgstr ""
+msgstr "İyileştirmeler"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:76
 msgid "We now use appdata to construct the about dialog. (#743)"
