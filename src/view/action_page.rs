@@ -14,6 +14,7 @@ use crate::utils;
 use crate::view;
 
 const ACTION_CANCEL: &str = "action-page.cancel";
+const ACTION_VIEW_OUTPUT: &str = "action-page.view-output";
 const ACTION_VIEW_ARTIFACT: &str = "action-page.view-artifact";
 const ACTION_RETRY: &str = "action-page.retry";
 
@@ -32,6 +33,8 @@ mod imp {
         pub(super) status_page: TemplateChild<adw::StatusPage>,
         #[template_child]
         pub(super) view_artifact_button: TemplateChild<gtk::Button>,
+        #[template_child]
+        pub(super) output_box: TemplateChild<adw::Clamp>,
     }
 
     #[glib::object_subclass]
@@ -43,6 +46,9 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
             klass.install_action(ACTION_CANCEL, None, |widget, _, _| widget.cancel());
+            klass.install_action(ACTION_VIEW_OUTPUT, None, |widget, _, _| {
+                widget.view_output()
+            });
             klass.install_action(ACTION_VIEW_ARTIFACT, None, |widget, _, _| {
                 widget.view_artifact();
             });
@@ -287,6 +293,14 @@ impl ActionPage {
         if let Some(action) = self.action() {
             action.cancel();
         }
+    }
+
+    fn view_output(&self) {
+        let imp = self.imp();
+        imp.status_page.set_icon_name(None);
+        imp.status_page.set_description(None);
+        imp.output_box.set_visible(true);
+        self.action_set_enabled(ACTION_VIEW_OUTPUT, false);
     }
 
     fn view_artifact(&self) {
