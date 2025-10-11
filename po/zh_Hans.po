@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-27 19:46+0200\n"
-"PO-Revision-Date: 2025-04-20 07:05+0000\n"
-"Last-Translator: Dawn Chan <dawnchan030920@outlook.com>\n"
+"PO-Revision-Date: 2025-10-12 08:59+0000\n"
+"Last-Translator: Yesionio <yesionio@vivaldi.net>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/pods/main/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.11.1-dev\n"
+"X-Generator: Weblate 5.14-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:112
@@ -1212,7 +1212,7 @@ msgstr ""
 
 #: src/main.rs:164
 msgid "Prints application version"
-msgstr ""
+msgstr "打印应用版本"
 
 #: src/main.rs:173
 msgid "Specify the minimum log level"
@@ -1768,7 +1768,7 @@ msgstr ""
 #: src/view/search_panel.ui:32 src/view/search_row.ui:22
 #: src/view/top_page.ui:18 src/view/volumes_panel.ui:109
 msgid "Search"
-msgstr ""
+msgstr "搜索"
 
 #. .Translators: The maximum sidebar width
 #: src/view/client_view.ui:30
@@ -1799,7 +1799,7 @@ msgstr ""
 
 #: src/view/connection_chooser_page.ui:26
 msgid "Connect to Podman"
-msgstr ""
+msgstr "连接到 Podman"
 
 #: src/view/connection_chooser_page.ui:27
 msgid "Choose an existing connection or create a new one"
@@ -1821,7 +1821,7 @@ msgstr ""
 #: src/view/connection_creation_page.ui:23
 #: src/view/connection_creation_page.ui:43
 msgid "New Connection"
-msgstr ""
+msgstr "新建连接"
 
 #: src/view/connection_creation_page.ui:36 src/view/connection.rs:28
 #: src/view/container_card.rs:564 src/view/container_commit_page.ui:35
@@ -1850,7 +1850,7 @@ msgstr ""
 #: src/view/pod_details_page.ui:179 src/view/volume_creation_page.ui:69
 #: src/view/volume_details_page.ui:46
 msgid "Name"
-msgstr ""
+msgstr "名称"
 
 #: src/view/connection_creation_page.ui:128
 msgid "URL"
@@ -1866,13 +1866,14 @@ msgstr ""
 
 #: src/view/connection_creation_page.ui:169
 msgid "Podman Socket Activation"
-msgstr ""
+msgstr "Podman Socket 激活"
 
 #: src/view/connection_creation_page.ui:176
 msgid ""
 "To connect to the local Podman instance, the systemd socket must be enabled. "
 "You can enable it permanently by issuing the following command:"
-msgstr ""
+msgstr "要连接到本地 Podman 实例，必须启用 systemd socket。您可以通过使用以下命令永久"
+"启用它："
 
 #: src/view/connection_creation_page.ui:225
 #: src/view/connection_custom_info_page.ui:140
@@ -1880,13 +1881,13 @@ msgstr ""
 #: src/view/connection_custom_info_page.ui:256
 #: src/view/connection_custom_info_page.ui:306
 msgid "Copy to Clipboard"
-msgstr ""
+msgstr "复制到剪切板"
 
 #: src/view/connection_creation_page.ui:241
 msgid ""
 "To connect to the local root Podman instance, create a custom connection "
 "(read the hints there)."
-msgstr ""
+msgstr "要连接到本地 root Podman 实例，请创建一个自定义连接 (阅读这里的提示)。"
 
 #: src/view/connection_creation_page.ui:266
 msgid "Custom URL"
@@ -1894,7 +1895,7 @@ msgstr ""
 
 #: src/view/connection_creation_page.ui:304
 msgid "Color"
-msgstr ""
+msgstr "颜色"
 
 #: src/view/connection_creation_page.ui:305
 msgid "Set the color of this connection"
@@ -1922,7 +1923,7 @@ msgstr ""
 
 #: src/view/connection_custom_info_page.ui:16
 msgid "Custom Connection"
-msgstr ""
+msgstr "自定义连接"
 
 #: src/view/connection_custom_info_page.ui:37
 msgid ""
@@ -1930,6 +1931,9 @@ msgid ""
 "span>, <span weight=\"bold\">TCP</span>, and <span weight=\"bold\">UNIX</"
 "span> protocols. For example, the connection string might look like this:"
 msgstr ""
+"您可以使用 <span weight=\"bold\">HTTP</span>, <span weight=\"bold\">TCP</"
+"span>, 以及<span weight=\"bold\">UNIX</span>协议连接到 Podman 实例。例如，连"
+"接字符串可能如下所示："
 
 #: src/view/connection_custom_info_page.ui:59
 msgid "http://somewhere:8081"
@@ -1937,7 +1941,7 @@ msgstr ""
 
 #: src/view/connection_custom_info_page.ui:80
 msgid "Podman Root Connection"
-msgstr ""
+msgstr "Podman Root 连接"
 
 #: src/view/connection_custom_info_page.ui:91
 msgid ""
@@ -1946,10 +1950,13 @@ msgid ""
 "is not readable for normal users. However, there is a workaround using a "
 "systemd unit. Save the following snippet:"
 msgstr ""
+"不幸的是，目前无法直接连接到 Podman root 实例，因为普通用户无法读取 <span "
+"weight=\"bold\">/run/podman/podman.sock</span>但是，有一个使用 systemd 单元的"
+"解决方法。保存以下代码片段："
 
 #: src/view/connection_custom_info_page.ui:205
 msgid "Enable the service by issuing the command:"
-msgstr ""
+msgstr "通过使用以下命令启用服务:"
 
 #: src/view/connection_custom_info_page.ui:265
 msgid ""
@@ -2157,7 +2164,7 @@ msgstr ""
 #: src/view/container_creation_page.ui:51 src/view/containers_group.ui:12
 #: src/view/containers_panel.ui:117
 msgid "Create Container"
-msgstr ""
+msgstr "创建容器"
 
 #: src/view/container_creation_page.ui:61
 msgid "_Run"
@@ -2166,7 +2173,7 @@ msgstr ""
 #: src/view/container_creation_page.ui:109 src/view/image_build_page.ui:99
 #: src/view/pod_creation_page.ui:99
 msgid "Details"
-msgstr ""
+msgstr "详情"
 
 #: src/view/container_creation_page.ui:128
 #: src/view/container_properties_group.ui:300 src/view/pod_details_page.ui:16
@@ -2175,12 +2182,12 @@ msgstr ""
 
 #: src/view/container_creation_page.ui:155 src/view/pod_creation_page.ui:290
 msgid "Pull Latest Image"
-msgstr ""
+msgstr "拉取最新的镜像"
 
 #: src/view/container_creation_page.ui:161
 #: src/view/container_details_page.ui:237
 msgid "Terminal"
-msgstr ""
+msgstr "终端"
 
 #: src/view/container_creation_page.ui:168
 msgid "Privileged"
@@ -2188,11 +2195,11 @@ msgstr ""
 
 #: src/view/container_creation_page.ui:169
 msgid "Give extended privileges to container"
-msgstr ""
+msgstr "向容器授予扩展权限"
 
 #: src/view/container_creation_page.ui:176
 msgid "Memory Limit"
-msgstr ""
+msgstr "内存限制"
 
 #: src/view/container_creation_page.ui:220
 msgid "KB"
@@ -2216,20 +2223,20 @@ msgstr ""
 #: src/view/container_creation_page.ui:259 src/view/pod_creation_page.ui:142
 #: src/view/pod_creation_page.ui:319
 msgid "Arguments"
-msgstr ""
+msgstr "参数"
 
 #: src/view/container_creation_page.ui:278 src/view/image_build_page.ui:144
 #: src/view/pod_creation_page.ui:163
 msgid "Integration"
-msgstr ""
+msgstr "集成"
 
 #: src/view/container_creation_page.ui:288 src/view/pod_creation_page.ui:173
 msgid "Port Mappings"
-msgstr ""
+msgstr "端口映射"
 
 #: src/view/container_creation_page.ui:318
 msgid "Environment Variables"
-msgstr ""
+msgstr "环境变量"
 
 #: src/view/container_creation_page.ui:333 src/view/image_build_page.ui:153
 #: src/view/pod_creation_page.ui:225
@@ -2239,25 +2246,25 @@ msgstr ""
 #: src/view/container_creation_page.ui:354
 #: src/view/container_properties_group.ui:223
 msgid "Health Check"
-msgstr ""
+msgstr "健康检查"
 
 #: src/view/container_creation_page.ui:369
 #: src/view/container_health_check_page.ui:59
 msgid "Interval"
-msgstr ""
+msgstr "间隔"
 
 #: src/view/container_creation_page.ui:370
 msgid "Health check interval in seconds"
-msgstr ""
+msgstr "健康检查间隔 (秒)"
 
 #: src/view/container_creation_page.ui:386
 #: src/view/container_health_check_page.ui:71
 msgid "Timeout"
-msgstr ""
+msgstr "超时"
 
 #: src/view/container_creation_page.ui:387
 msgid "Seconds allowed to complete the command before it fails"
-msgstr ""
+msgstr "在命令失败之前允许完成命令的秒数"
 
 #: src/view/container_creation_page.ui:403
 msgid "Start Period"
@@ -2287,12 +2294,12 @@ msgstr ""
 
 #: src/view/container_details_page.ui:16
 msgid "Container"
-msgstr ""
+msgstr "容器"
 
 #: src/view/container_details_page.ui:199 src/view/image_details_page.ui:117
 #: src/view/pod_details_page.ui:229 src/view/volume_details_page.ui:73
 msgid "Utilities"
-msgstr ""
+msgstr "通用"
 
 #: src/view/container_details_page.ui:203 src/view/image_details_page.ui:121
 #: src/view/pod_details_page.ui:233 src/view/volume_details_page.ui:77
@@ -2309,35 +2316,35 @@ msgstr ""
 
 #: src/view/container_details_page.ui:221
 msgid "Generate Kubernetes YAML based on this container"
-msgstr ""
+msgstr "生成该容器的 Kubernetes YAML"
 
 #: src/view/container_details_page.ui:238
 msgid "Connect to the container's terminal"
-msgstr ""
+msgstr "连接到该容器的终端"
 
 #: src/view/container_details_page.ui:254
 msgid "Logs"
-msgstr ""
+msgstr "日志"
 
 #: src/view/container_details_page.ui:255
 msgid "View and search through container logs"
-msgstr ""
+msgstr "查看和搜索容器日志"
 
 #: src/view/container_details_page.ui:271 src/view/pod_details_page.ui:267
 msgid "Processes"
-msgstr ""
+msgstr "进程"
 
 #: src/view/container_details_page.ui:272
 msgid "View and manage processes of the container"
-msgstr ""
+msgstr "查看和管理该容器的进程"
 
 #: src/view/container_files_get_page.rs:148
 msgid "Select Host Destination Path"
-msgstr ""
+msgstr "选择主机目标路径"
 
 #: src/view/container_files_get_page.ui:42
 msgid "Download Files"
-msgstr ""
+msgstr "下载文件"
 
 #: src/view/container_files_get_page.ui:52 src/view/image_pull_page.ui:20
 #: src/view/images_panel.ui:15 src/view/images_panel.ui:27
@@ -2347,17 +2354,17 @@ msgstr ""
 #: src/view/container_files_get_page.ui:69
 #: src/view/container_files_put_page.ui:97
 msgid "Container Path ('/' if empty)"
-msgstr ""
+msgstr "容器路径 (如果空的话则为 '/')"
 
 #: src/view/container_files_get_page.ui:76
 #: src/view/container_files_put_page.ui:78 src/view/device_row.ui:63
 #: src/view/mount_row.ui:105
 msgid "Host Path"
-msgstr ""
+msgstr "主机路径"
 
 #: src/view/container_files_get_page.ui:77
 msgid "Select a destination tar archive on the host"
-msgstr ""
+msgstr "选择主机上的目标tar存档"
 
 #: src/view/container_files_get_page.ui:82
 msgid "Select _Path…"
@@ -2365,11 +2372,11 @@ msgstr ""
 
 #: src/view/container_files_put_page.rs:161
 msgid "Select Host Directory"
-msgstr ""
+msgstr "选择主机目录"
 
 #: src/view/container_files_put_page.rs:163
 msgid "Select Host File"
-msgstr ""
+msgstr "选择主机文件"
 
 #: src/view/container_files_put_page.ui:15
 msgid "Select _Directory…"
@@ -2377,7 +2384,7 @@ msgstr ""
 
 #: src/view/container_files_put_page.ui:51
 msgid "Upload Files"
-msgstr ""
+msgstr "上传文件"
 
 #: src/view/container_files_put_page.ui:61
 msgid "_Upload"
@@ -2385,7 +2392,7 @@ msgstr ""
 
 #: src/view/container_files_put_page.ui:79
 msgid "Select a file or a directory from the host to upload"
-msgstr ""
+msgstr "从主机中选择要上传的文件或目录"
 
 #: src/view/container_files_put_page.ui:84
 msgid "Select _File…"
@@ -2419,24 +2426,24 @@ msgstr ""
 
 #: src/view/container_health_check_page.ui:16
 msgid "Container Health Check"
-msgstr ""
+msgstr "容器健康检查"
 
 #: src/view/container_health_check_page.ui:33
 msgid "Configuration"
-msgstr ""
+msgstr "配置"
 
 #: src/view/container_health_check_page.ui:37
 #: src/view/container_properties_group.ui:165 src/view/pod_details_page.ui:202
 msgid "Status"
-msgstr ""
+msgstr "状态"
 
 #: src/view/container_health_check_page.ui:77
 msgid "Failing Streak"
-msgstr ""
+msgstr "连续失败"
 
 #: src/view/container_health_check_page.ui:93
 msgid "Log"
-msgstr ""
+msgstr "日志"
 
 #: src/view/container_health_check_page.ui:94
 msgid "Rows describe the last 5 health check attempts and results"
@@ -2484,23 +2491,23 @@ msgstr ""
 
 #: src/view/container_log_page.ui:66
 msgid "Container Logs"
-msgstr ""
+msgstr "容器日志"
 
 #: src/view/container_log_page.ui:105
 msgid "Start/Resume Container"
-msgstr ""
+msgstr "启动/恢复容器"
 
 #: src/view/container_log_page.ui:106
 msgid "Streaming is disconnected because container is not running"
-msgstr ""
+msgstr "流已断开，因为容器未运行"
 
 #: src/view/container_log_page.ui:149
 msgid "Loading previous lines"
-msgstr ""
+msgstr "正在加载前面的行"
 
 #: src/view/container_log_page.ui:178
 msgid "Scroll to bottom"
-msgstr ""
+msgstr "滚动到底部"
 
 #: src/view/container_menu_button.ui:7 src/view/pod_menu_button.ui:13
 msgid "_Start"
@@ -2540,11 +2547,11 @@ msgstr ""
 #: src/view/container_properties_group.ui:4 src/view/image_details_page.ui:44
 #: src/view/pod_details_page.ui:169 src/view/volume_details_page.ui:28
 msgid "Properties"
-msgstr ""
+msgstr "属性"
 
 #: src/view/container_properties_group.ui:45
 msgid "Rename (F2)"
-msgstr ""
+msgstr "重命名 (F2)"
 
 #: src/view/container_properties_group.ui:58 src/view/image_details_page.ui:75
 #: src/view/pod_details_page.ui:190
@@ -2553,7 +2560,7 @@ msgstr ""
 
 #: src/view/container_properties_group.ui:80
 msgid "Commit (Ctrl+K)"
-msgstr ""
+msgstr "提交 (Ctrl+K)"
 
 #: src/view/container_properties_group.ui:99
 msgid "Size"
@@ -2561,19 +2568,19 @@ msgstr ""
 
 #: src/view/container_properties_group.ui:143
 msgid "Download Files (Ctrl+D)"
-msgstr ""
+msgstr "下载文件 (Ctrl+D)"
 
 #: src/view/container_properties_group.ui:155
 msgid "Upload Files (Ctrl+U)"
-msgstr ""
+msgstr "上传文件 (Ctrl+U)"
 
 #: src/view/container_properties_group.ui:204
 msgid "Port bindings"
-msgstr ""
+msgstr "端口绑定"
 
 #: src/view/container_properties_group.ui:249 src/view/image_details_page.ui:32
 msgid "Image"
-msgstr ""
+msgstr "镜像"
 
 #: src/view/container_resources.rs:90
 msgid "Processor ({} CPU)"
@@ -2605,31 +2612,31 @@ msgstr ""
 
 #: src/view/container_resources.ui:117
 msgid "Memory"
-msgstr ""
+msgstr "内存"
 
 #: src/view/container_resources.ui:182
 msgid "Network"
-msgstr ""
+msgstr "网络"
 
 #: src/view/container_resources.ui:302
 msgid "Disk"
-msgstr ""
+msgstr "磁盘"
 
 #: src/view/container_terminal_page.ui:32
 msgid "Detach Terminal"
-msgstr ""
+msgstr "分离终端"
 
 #: src/view/container_terminal_page.ui:39
 msgid "Container Terminal"
-msgstr ""
+msgstr "容器终端"
 
 #: src/view/container_terminal.rs:475
 msgid "Terminal error"
-msgstr ""
+msgstr "终端错误"
 
 #: src/view/container_terminal.rs:476
 msgid "'/bin/sh' not found"
-msgstr ""
+msgstr "'/bin/sh' 未找到"
 
 #: src/view/container_terminal.ui:6
 msgid "_Copy"
@@ -2645,15 +2652,15 @@ msgstr ""
 
 #: src/view/container_terminal.ui:35
 msgid "No Terminal"
-msgstr ""
+msgstr "无终端"
 
 #: src/view/container_terminal.ui:36
 msgid "The container must be running to use the terminal"
-msgstr ""
+msgstr "该容器必须运行才能使用终端"
 
 #: src/view/container_terminal.ui:46
 msgid "Start"
-msgstr ""
+msgstr "启动"
 
 #: src/view/container.rs:69 src/view/container.rs:100
 #, fuzzy
@@ -2662,11 +2669,11 @@ msgstr "是否仅显示正在运行的容器"
 
 #: src/view/container.rs:70
 msgid "Container has been deleted"
-msgstr ""
+msgstr "容器已被删除"
 
 #: src/view/container.rs:79
 msgid "Rename Container"
-msgstr ""
+msgstr "重命名容器"
 
 #: src/view/container.rs:87
 msgid "_Rename"
@@ -2674,31 +2681,31 @@ msgstr ""
 
 #: src/view/container.rs:132 src/view/containers_panel.rs:615
 msgid "Error on starting container"
-msgstr ""
+msgstr "启动容器时出错"
 
 #: src/view/container.rs:133 src/view/containers_panel.rs:557
 msgid "Error on stopping container"
-msgstr ""
+msgstr "停止容器时出错"
 
 #: src/view/container.rs:134 src/view/containers_panel.rs:555
 msgid "Error on killing container"
-msgstr ""
+msgstr "杀死容器时出错"
 
 #: src/view/container.rs:135 src/view/containers_panel.rs:582
 msgid "Error on restarting container"
-msgstr ""
+msgstr "重新启动容器时出错"
 
 #: src/view/container.rs:136 src/view/containers_panel.rs:638
 msgid "Error on pausing container"
-msgstr ""
+msgstr "暂停容器时出错"
 
 #: src/view/container.rs:137 src/view/containers_panel.rs:604
 msgid "Error on resuming container"
-msgstr ""
+msgstr "恢复容器时出错"
 
 #: src/view/container.rs:138 src/view/containers_panel.rs:687
 msgid "Error on deleting container"
-msgstr ""
+msgstr "删除容器时出错"
 
 #: src/view/containers_panel.rs:235
 msgid "1 container, running"
@@ -2750,31 +2757,30 @@ msgstr ""
 
 #: src/view/containers_panel.ui:125 src/view/containers_prune_page.ui:42
 msgid "Prune Stopped Containers"
-msgstr ""
+msgstr "Prune 已停止的容器"
 
 #: src/view/containers_panel.ui:132 src/view/images_panel.ui:157
 #: src/view/pods_panel.ui:132 src/view/volumes_panel.ui:132
 msgid "More Actions"
-msgstr ""
+msgstr "更多动作"
 
 #: src/view/containers_panel.ui:146 src/view/containers_panel.ui:192
 msgid "Show Only Running Containers"
-msgstr ""
+msgstr "仅显示正在运行的容器"
 
 #: src/view/containers_panel.ui:154 src/view/images_panel.ui:179
 #: src/view/pods_panel.ui:154 src/view/volumes_panel.ui:154
 msgid "Multi-Selection"
-msgstr ""
+msgstr "多选"
 
 #: src/view/containers_panel.ui:174 src/view/images_panel.ui:199
 #: src/view/pods_panel.ui:174 src/view/volumes_panel.ui:174
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #: src/view/containers_panel.ui:260
-#, fuzzy
 msgid "No Running Containers"
-msgstr "是否仅显示正在运行的容器"
+msgstr "没有正在运行的容器"
 
 #: src/view/containers_panel.ui:270
 msgid "_Show All Containers"
@@ -2782,7 +2788,7 @@ msgstr ""
 
 #: src/view/containers_panel.ui:443
 msgid "No Containers Available"
-msgstr ""
+msgstr "没有可用的容器"
 
 #: src/view/containers_prune_page.ui:52 src/view/images_prune_page.ui:52
 #: src/view/pods_prune_page.ui:52 src/view/volumes_prune_page.ui:52
@@ -2792,23 +2798,23 @@ msgstr ""
 #: src/view/containers_prune_page.ui:65 src/view/images_prune_page.ui:65
 #: src/view/volumes_prune_page.ui:66
 msgid "Prune Options"
-msgstr ""
+msgstr "Prune 选项"
 
 #: src/view/containers_prune_page.ui:69
 msgid "Prune containers created before this timestamp"
-msgstr ""
+msgstr "修剪在此时间戳之前创建的容器"
 
 #: src/view/device_row.ui:69 src/view/mount_row.ui:139
 msgid "Container Path"
-msgstr ""
+msgstr "容器路径"
 
 #: src/view/device_row.ui:75
 msgid "Readable"
-msgstr ""
+msgstr "可读"
 
 #: src/view/device_row.ui:81 src/view/mount_row.ui:145
 msgid "Writable"
-msgstr ""
+msgstr "可写"
 
 #: src/view/device_row.ui:87
 msgid "mknod"
@@ -2824,7 +2830,7 @@ msgstr ""
 
 #: src/view/image_build_page.ui:42
 msgid "Build Image"
-msgstr ""
+msgstr "构建镜像"
 
 #: src/view/image_build_page.ui:52 src/view/images_panel.ui:19
 #: src/view/images_panel.ui:31
@@ -2833,19 +2839,19 @@ msgstr ""
 
 #: src/view/image_build_page.ui:70
 msgid "Image Name"
-msgstr ""
+msgstr "镜像名称"
 
 #: src/view/image_build_page.ui:113
 msgid "Build Context Directory"
-msgstr ""
+msgstr "构建上下文目录"
 
 #: src/view/image_build_page.ui:118
 msgid "Select…"
-msgstr ""
+msgstr "选择…"
 
 #: src/view/image_build_page.ui:129
 msgid "Containerfile Path Relative to Build Context Directory"
-msgstr ""
+msgstr "相对于构建上下文目录的Containerfile路径"
 
 #. Translators: "{}" are placeholders for storage space.
 #: src/view/image_details_page.rs:182
@@ -2872,15 +2878,15 @@ msgstr ""
 
 #: src/view/image_details_page.ui:7
 msgid "Create Repository Tag"
-msgstr ""
+msgstr "创建存储库标记"
 
 #: src/view/image_details_page.ui:66
 msgid "Delete Image"
-msgstr ""
+msgstr "删除镜像"
 
 #: src/view/image_details_page.ui:87
 msgid "Disk Space"
-msgstr ""
+msgstr "磁盘空间"
 
 #: src/view/image_details_page.ui:100
 msgid "Entry Point"
@@ -2888,7 +2894,7 @@ msgstr ""
 
 #: src/view/image_details_page.ui:107
 msgid "Ports"
-msgstr ""
+msgstr "端口"
 
 #: src/view/image_details_page.ui:122
 msgid "View all image properties in a structured text form"
@@ -2896,7 +2902,7 @@ msgstr ""
 
 #: src/view/image_details_page.ui:138
 msgid "History"
-msgstr ""
+msgstr "历史"
 
 #: src/view/image_details_page.ui:139
 msgid "View parent layers of this image"
@@ -2904,7 +2910,7 @@ msgstr ""
 
 #: src/view/image_details_page.ui:158
 msgid "Repository Tags"
-msgstr ""
+msgstr "存储库 Tags"
 
 #: src/view/image_history_page.rs:81
 msgid "{} entry"
@@ -2942,11 +2948,11 @@ msgstr ""
 
 #: src/view/image_history_page.ui:16
 msgid "Image History"
-msgstr ""
+msgstr "镜像历史"
 
 #: src/view/image_history_page.ui:44
 msgid "History List"
-msgstr ""
+msgstr "历史列表"
 
 #: src/view/image_menu_button.ui:6 src/view/pod_menu_button.ui:7
 msgid "_Create Container…"
@@ -2970,28 +2976,28 @@ msgstr ""
 
 #: src/view/image_search_page.ui:47
 msgid "Enter image search term"
-msgstr ""
+msgstr "输入镜像关键字"
 
 #: src/view/image_search_page.ui:64
 msgid "Next"
-msgstr ""
+msgstr "下一步"
 
 #: src/view/image_search_page.ui:92
 msgid "Find Remote Images"
-msgstr ""
+msgstr "寻找远程镜像"
 
 #: src/view/image_search_page.ui:93
 msgid "Please start typing to look for remote images"
-msgstr ""
+msgstr "请开始键入以查找远程镜像"
 
 #: src/view/image_search_page.ui:108
 msgid "Searching"
-msgstr ""
+msgstr "搜索中"
 
 #: src/view/image_search_page.ui:133 src/view/repo_tag_selection_page.ui:124
 #: src/view/search_panel.ui:48
 msgid "Please retry another term"
-msgstr ""
+msgstr "请尝试其它关键字"
 
 #: src/view/image_search_response_row.ui:40
 msgid "Official"
@@ -2999,35 +3005,35 @@ msgstr ""
 
 #: src/view/image_selection_combo_row.rs:87
 msgid "Select Image"
-msgstr ""
+msgstr "选择镜像"
 
 #: src/view/image_selection_combo_row.rs:88
 #: src/view/image_selection_combo_row.ui:4
 #: src/view/image_selection_combo_row.ui:15
 msgid "Local Image"
-msgstr ""
+msgstr "本地镜像"
 
 #: src/view/image_selection_combo_row.rs:89
 #: src/view/image_selection_combo_row.ui:28
 msgid "Remote Image"
-msgstr ""
+msgstr "远程镜像"
 
 #: src/view/image_selection_combo_row.rs:150
 msgid "Select"
-msgstr ""
+msgstr "选择"
 
 #: src/view/image_selection_page.ui:25
 msgid "No Local Images Available"
-msgstr ""
+msgstr "没有可用的本地镜像"
 
 #: src/view/image_selection_page.ui:50 src/view/pod_selection_page.ui:77
 #: src/view/repo_tag_selection_page.ui:19 src/view/volume_selection_page.ui:77
 msgid "Filter"
-msgstr ""
+msgstr "过滤"
 
 #: src/view/image_selection_page.ui:66
 msgid "Select Local Image"
-msgstr ""
+msgstr "选择本地镜像"
 
 #: src/view/image_selection_page.ui:99 src/view/pod_selection_page.ui:126
 #: src/view/volume_selection_page.ui:126
@@ -3037,7 +3043,7 @@ msgstr ""
 #: src/view/image_selection_page.ui:152 src/view/pod_selection_page.ui:179
 #: src/view/volume_selection_page.ui:180
 msgid "No Results"
-msgstr ""
+msgstr "无结果"
 
 #: src/view/image_selection_page.ui:163 src/view/pod_selection_page.ui:190
 #: src/view/volume_selection_page.ui:191
@@ -3097,11 +3103,11 @@ msgstr ""
 
 #: src/view/images_panel.ui:141
 msgid "Create Image"
-msgstr ""
+msgstr "创建镜像"
 
 #: src/view/images_panel.ui:150
 msgid "Prune Unused Images"
-msgstr ""
+msgstr "修剪未使用的镜像"
 
 #: src/view/images_panel.ui:171 src/view/images_panel.ui:217
 msgid "Show Only Tagged Images"
@@ -3117,7 +3123,7 @@ msgstr ""
 
 #: src/view/images_panel.ui:358
 msgid "No Images Available"
-msgstr ""
+msgstr "没有可用镜像"
 
 #: src/view/images_panel.ui:387
 msgid "_Download Image"
@@ -3129,11 +3135,11 @@ msgstr ""
 
 #: src/view/images_prune_page.ui:42
 msgid "Prune Images"
-msgstr ""
+msgstr "修剪镜像"
 
 #: src/view/images_prune_page.ui:69
 msgid "Prune All"
-msgstr ""
+msgstr "修剪全部"
 
 #: src/view/images_prune_page.ui:76
 msgid "Prune External"
@@ -3141,7 +3147,7 @@ msgstr ""
 
 #: src/view/images_prune_page.ui:83
 msgid "Prune images created before this timestamp"
-msgstr ""
+msgstr "修剪在此时间戳之前创建的镜像"
 
 #. Translators: "{}" is a placeholder for a cardinal numbers.
 #: src/view/info_panel.rs:198
@@ -3177,7 +3183,7 @@ msgstr ""
 
 #: src/view/info_panel.ui:60 src/view/info_panel.ui:94
 msgid "Version"
-msgstr ""
+msgstr "版本"
 
 #: src/view/info_panel.ui:64
 msgid "API Version"
@@ -3185,7 +3191,7 @@ msgstr ""
 
 #: src/view/info_panel.ui:70
 msgid "Built Time"
-msgstr ""
+msgstr "构建时间"
 
 #: src/view/info_panel.ui:76
 msgid "Git Commit"
@@ -3193,7 +3199,7 @@ msgstr ""
 
 #: src/view/info_panel.ui:82
 msgid "Go Version"
-msgstr ""
+msgstr "Go 版本"
 
 #: src/view/info_panel.ui:88
 msgid "Os Arch"
@@ -3201,15 +3207,15 @@ msgstr ""
 
 #: src/view/info_panel.ui:103
 msgid "Storage"
-msgstr ""
+msgstr "存储"
 
 #: src/view/info_panel.ui:104
 msgid "Describes the container storage and its attributes"
-msgstr ""
+msgstr "描述容器存储及其属性"
 
 #: src/view/info_panel.ui:108
 msgid "Config File"
-msgstr ""
+msgstr "配置文件"
 
 #: src/view/info_panel.ui:114
 msgid "Container Store"
@@ -3257,7 +3263,7 @@ msgstr ""
 
 #: src/view/info_panel.ui:238
 msgid "There was an error while fetching the information"
-msgstr ""
+msgstr "获取信息时出错"
 
 #: src/view/key_val_row.rs:149 src/view/key_val_row.ui:20
 msgid "Key"
@@ -3270,7 +3276,7 @@ msgstr ""
 
 #: src/view/mount_row.rs:187
 msgid "No volume selected (will create a new one)"
-msgstr ""
+msgstr "未选择卷（将创建一个新卷）"
 
 #: src/view/mount_row.ui:76
 msgid "Type"
@@ -4024,11 +4030,11 @@ msgstr ""
 
 #: src/widget/text_search_entry.ui:41
 msgid "Regular Expression"
-msgstr ""
+msgstr "正则表达式"
 
 #: src/widget/text_search_entry.ui:50
 msgid "Case Sensitive"
-msgstr ""
+msgstr "区分大小写"
 
 #: src/widget/text_search_entry.ui:59
 msgid "Whole Word"
