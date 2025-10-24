@@ -70,7 +70,7 @@ mod imp {
                 ACTION_COPY_SOCKET_ACTIVATION_COMMAND,
                 None,
                 move |widget, _, _| {
-                    widget.copy_socket_acivation_command();
+                    widget.copy_socket_activation_command();
                 },
             );
             klass.install_action(ACTION_SHOW_CUSTOM_INFO_DIALOG, None, |widget, _, _| {
@@ -231,7 +231,7 @@ impl From<&model::ConnectionManager> for ConnectionCreationPage {
 }
 
 impl ConnectionCreationPage {
-    pub(crate) fn copy_socket_acivation_command(&self) {
+    pub(crate) fn copy_socket_activation_command(&self) {
         let label = &*self.imp().socket_activation_command_label;
         label.select_region(0, -1);
         label.emit_copy_clipboard();

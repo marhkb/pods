@@ -60,7 +60,7 @@ mod imp {
                 ACTION_COPY_ROOT_SOCKET_ACTIVATION_COMMAND,
                 None,
                 move |widget, _, _| {
-                    widget.copy_root_socket_acivation_command();
+                    widget.copy_root_socket_activation_command();
                 },
             );
             klass.install_action(ACTION_COPY_ROOT_URL, None, |widget, _, _| {
@@ -147,7 +147,7 @@ impl ConnectionCustomInfoDialog {
         utils::show_toast(self, gettext("systemd unit content copied"));
     }
 
-    fn copy_root_socket_acivation_command(&self) {
+    fn copy_root_socket_activation_command(&self) {
         let label = &*self.imp().root_socket_activation_command_label;
         label.select_region(0, -1);
         label.emit_copy_clipboard();

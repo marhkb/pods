@@ -125,6 +125,7 @@ mod imp {
             let width = self.settings.int("window-width");
             let height = self.settings.int("window-height");
             let is_maximized = self.settings.boolean("is-maximized");
+
             obj.set_default_size(width, height);
 
             if is_maximized {
