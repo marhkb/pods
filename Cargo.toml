@@ -5,6 +5,7 @@ authors = ["Marcus Behrendt <marcus.behrendt.86@gmail.com>"]
 edition = "2024"
 
 [dependencies]
+astral-tokio-tar = { version = "0.5.6", default-features = false }
 adw = { version = "0.8", package = "libadwaita", features = ["v1_8"] }
 anyhow = "1"
 ashpd = { version = "0.12", default-features = false, features = ["gtk4", "tokio"] }
@@ -25,7 +26,6 @@ sourceview5 = { version = "0.10" }
 syslog = "7"
 tokio = "1"
 tokio-stream = { version = "0.1", default-features = false }
-tokio-tar = { version = "0.3", default-features = false }
 vte = { version = "0.15", default-features = false }
 vte4 = "0.9"
 
