@@ -5,6 +5,7 @@
     <property name="mode">horizontal</property>
     <widgets>
       <widget name="abort_button"/>
+      <widget name="view_output_button"/>
       <widget name="view_artifact_button"/>
     </widgets>
   </object>
@@ -40,10 +41,14 @@
                 <child>
                   <object class="AdwClamp">
                     <property name="margin-bottom">9</property>
+                    <property name="orientation">vertical</property>
 
                     <child>
-                      <object class="AdwClamp">
+                      <object class="AdwClamp" id="output_box">
                         <property name="orientation">vertical</property>
+                        <property name="height-request">220</property>
+                        <property name="visible">False</property>
+
 
                         <property name="child">
                           <object class="AdwBin">
@@ -89,6 +94,21 @@
                       </object>
                     </child>
 
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkButton" id="view_output_button">
+                    <style>
+                      <class name="pill"/>
+                    </style>
+                    <property name="action-name">action-page.view-output</property>
+                    <property name="halign">center</property>
+                    <property name="label" translatable="yes">_View Output</property>
+                    <property name="use-underline">True</property>
+                    <property name="visible" bind-source="view_output_button" bind-property="sensitive" bind-flags="sync-create"/>
+                    <property name="width-request">200</property>
+                    <property name="visible">True</property>
                   </object>
                 </child>
 
