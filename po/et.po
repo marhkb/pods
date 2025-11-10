@@ -8,14 +8,15 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-27 19:46+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2025-11-11 08:51+0000\n"
+"Last-Translator: Priit Jõerüüt <jrthwlate@users.noreply.hosted.weblate.org>\n"
+"Language-Team: Estonian <https://hosted.weblate.org/projects/pods/main/et/>\n"
 "Language: et\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.15-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:112
@@ -28,33 +29,35 @@ msgstr ""
 #: data/com.github.marhkb.Pods.desktop.in.in:4
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
 msgid "Manage your Podman containers"
-msgstr ""
+msgstr "Sinu Podmani konteinerite haldus"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:9
 msgid "Gnome;GTK;libadwaita;Podman;Containerization;"
 msgstr ""
+"Gnome;GTK;libadwaita;Podman;Containerization;konteinerid;konteineriseerimine;kubernetes;pod;"
+""
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:6
 #: data/com.github.marhkb.Pods.gschema.xml.in:7
 msgid "Default window width"
-msgstr ""
+msgstr "Akna vaikimisi laius"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:11
 #: data/com.github.marhkb.Pods.gschema.xml.in:12
 msgid "Default window height"
-msgstr ""
+msgstr "Akna vaikimisi kõrgus"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:16
 msgid "Default window maximized behaviour"
-msgstr ""
+msgstr "Akna vaikimisi käitumine täisvaates"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:21
 msgid "The uuid of the connection that was used the last time"
-msgstr ""
+msgstr "Viimati kasutatud ühenduse UUID-tunnus"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:26
 msgid "The last used view"
-msgstr ""
+msgstr "Viimatikasutatud vaade"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:31
 msgid "Whether to hide intermediate images"
@@ -1197,23 +1200,23 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:400
 msgid "Marcus Behrendt"
-msgstr ""
+msgstr "Marcus Behrendt"
 
 #: src/application.rs:190
 msgid "translator-credits"
-msgstr ""
+msgstr "Priit Jõerüüt 2025"
 
 #: src/application.rs:192
 msgid "Translators"
-msgstr ""
+msgstr "Tõlkijad"
 
 #: src/main.rs:164
 msgid "Prints application version"
-msgstr ""
+msgstr "Väljastab rakenduse versiooni"
 
 #: src/main.rs:173
 msgid "Specify the minimum log level"
-msgstr ""
+msgstr "Määratle minimaalne logimistase"
 
 #: src/model/action.rs:134
 msgid "Prune unused images"
@@ -1318,57 +1321,57 @@ msgstr ""
 
 #: src/model/container.rs:69
 msgid "Configured"
-msgstr ""
+msgstr "Seadistatud"
 
 #: src/model/container.rs:70 src/model/pod.rs:67
 #: src/view/container_properties_group.ui:93 src/view/image_details_page.ui:81
 #: src/view/pod_details_page.ui:196 src/view/volume_details_page.ui:58
 msgid "Created"
-msgstr ""
+msgstr "Loodud"
 
 #: src/model/container.rs:71 src/model/pod.rs:68
 msgid "Dead"
-msgstr ""
+msgstr "Surnud"
 
 #: src/model/container.rs:72 src/model/pod.rs:71
 msgid "Exited"
-msgstr ""
+msgstr "Väljutud"
 
 #: src/model/container.rs:73
 msgid "Initialized"
-msgstr ""
+msgstr "Valmendatud"
 
 #: src/model/container.rs:74 src/model/pod.rs:72 src/view/info_panel.ui:132
 msgid "Paused"
-msgstr ""
+msgstr "Peatatud"
 
 #: src/model/container.rs:75
 msgid "Removing"
-msgstr ""
+msgstr "Eemaldan"
 
 #: src/model/container.rs:76 src/model/pod.rs:73
 msgid "Restarting"
-msgstr ""
+msgstr "Käivitan uuesti"
 
 #: src/model/container.rs:77 src/model/pod.rs:74 src/view/info_panel.ui:138
 msgid "Running"
-msgstr ""
+msgstr "Töös"
 
 #: src/model/container.rs:78 src/model/pod.rs:75 src/view/info_panel.ui:144
 msgid "Stopped"
-msgstr ""
+msgstr "Lõpetatud"
 
 #: src/model/container.rs:79
 msgid "Stopping"
-msgstr ""
+msgstr "Lõpetan"
 
 #: src/model/container.rs:80 src/model/container.rs:121 src/model/pod.rs:76
 msgid "Unknown"
-msgstr ""
+msgstr "Pole teada"
 
 #: src/model/container.rs:117
 msgid "Checking"
-msgstr ""
+msgstr "Kontrollin"
 
 #: src/model/container.rs:118
 msgid "Healthy"
@@ -1419,70 +1422,70 @@ msgstr ""
 #: src/utils.rs:143
 msgid "{} minute"
 msgid_plural "{} minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} minute"
+msgstr[1] "{} minutit"
 
 #: src/utils.rs:145
 msgid "{} hour"
 msgid_plural "{} hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} tund"
+msgstr[1] "{} tundi"
 
 #: src/utils.rs:148
 msgid "{} day"
 msgid_plural "{} days"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} päev"
+msgstr[1] "{} päeva"
 
 #. Translators: Example: {3 hours} ago, {a few seconds} ago
 #: src/utils.rs:154
 msgid "{} ago"
-msgstr ""
+msgstr "{} tagasi"
 
 #. Translators: This string will be shown when a property of an entity like an image is null.
 #: src/utils.rs:256
 msgid "<none>"
-msgstr ""
+msgstr "<tühi>"
 
 #: src/utils.rs:444
 msgid "Error on open file dialog"
-msgstr ""
+msgstr "Viga failivaate avamisel"
 
 #: src/view/action_page.rs:143
 msgid "Pruning Images"
-msgstr ""
+msgstr "Kärbin tõmmiseid"
 
 #: src/view/action_page.rs:144
 msgid "Downloading Image"
-msgstr ""
+msgstr "Laadin tõmmiseid alla"
 
 #: src/view/action_page.rs:145
 msgid "Building Image"
-msgstr ""
+msgstr "Kompileerin tõmmist"
 
 #: src/view/action_page.rs:146
 msgid "Pushing Image"
-msgstr ""
+msgstr "Tõukan tõmmist"
 
 #: src/view/action_page.rs:147
 msgid "Pruning Containers"
-msgstr ""
+msgstr "Kärbin konteinereid"
 
 #: src/view/action_page.rs:148
 msgid "Creating Container"
-msgstr ""
+msgstr "Loon konteinerit"
 
 #: src/view/action_page.rs:149
 msgid "Starting Container"
-msgstr ""
+msgstr "Käivitan konteinerit"
 
 #: src/view/action_page.rs:150
 msgid "Committing Image"
-msgstr ""
+msgstr "Teen tõmmisekohast sissekannet"
 
 #: src/view/action_page.rs:151
 msgid "Copying Files"
-msgstr ""
+msgstr "Kopeerin faile"
 
 #: src/view/action_page.rs:152
 msgid "Pruning Pods"
@@ -1686,11 +1689,11 @@ msgstr ""
 
 #: src/view/action_row.rs:138
 msgid "Abort"
-msgstr ""
+msgstr "Katkesta"
 
 #: src/view/action_row.rs:140
 msgid "Remove"
-msgstr ""
+msgstr "Eemalda"
 
 #: src/view/action_row.rs:203
 msgid "Failed Pods Action"
@@ -2217,7 +2220,7 @@ msgstr ""
 
 #: src/view/container_creation_page.ui:288 src/view/pod_creation_page.ui:173
 msgid "Port Mappings"
-msgstr ""
+msgstr "Portide vastendamine"
 
 #: src/view/container_creation_page.ui:318
 msgid "Environment Variables"
