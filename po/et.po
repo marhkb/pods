@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-27 19:46+0200\n"
-"PO-Revision-Date: 2025-11-11 08:51+0000\n"
+"PO-Revision-Date: 2025-11-12 09:51+0000\n"
 "Last-Translator: Priit Jõerüüt <jrthwlate@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Estonian <https://hosted.weblate.org/projects/pods/main/et/>\n"
 "Language: et\n"
@@ -121,6 +121,8 @@ msgid ""
 "Pods is a frontend for podman. It uses libadwaita for its user interface and "
 "strives to meet the design principles of GNOME."
 msgstr ""
+"Pods on kasutajaliides podmani jaoks. Liidese teegina on kasutusel "
+"libawdaita ja järgitud on GNOME'i põhimõtteid."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:11
 msgid "With Pods you can, among other things:"
@@ -1244,11 +1246,11 @@ msgstr ""
 
 #: src/model/action.rs:376
 msgid "Start new container <b>{}</b>"
-msgstr ""
+msgstr "Käivita uus konteiner <b>{}</b>"
 
 #: src/model/action.rs:378
 msgid "Create container <b>{}</b>"
-msgstr ""
+msgstr "Loo konteiner <b>{}</b>"
 
 #: src/model/action.rs:408
 msgid "none"
@@ -1261,19 +1263,19 @@ msgstr ""
 #: src/model/action.rs:418 src/model/action.rs:523 src/model/action.rs:611
 #: src/model/action.rs:927
 msgid "Finished"
-msgstr ""
+msgstr "Valmis"
 
 #: src/model/action.rs:460
 msgid "Upload <b>{}</b> to <b>{}:{}</b>"
-msgstr ""
+msgstr "Laadi <b>{}</b> üles asukohta <b>{}:{}</b>"
 
 #: src/model/action.rs:467
 msgid "Creating tar archive…"
-msgstr ""
+msgstr "Loo tar-arhiiv…"
 
 #: src/model/action.rs:500
 msgid "Tar archive created"
-msgstr ""
+msgstr "Tar-arhiiv on loodud"
 
 #: src/model/action.rs:501
 msgid "Unwrapping tar archive…"
@@ -1285,11 +1287,11 @@ msgstr ""
 
 #: src/model/action.rs:510
 msgid "Copying files into container…"
-msgstr ""
+msgstr "Kopeerin faile konteinerisse…"
 
 #: src/model/action.rs:562
 msgid "Download <b>{}:{}</b> to <b>{}</b>"
-msgstr ""
+msgstr "Laadi <b>{}:{}</b> alla asukohta <b>{}</b>"
 
 #: src/model/action.rs:571
 msgid "Copying bytes into memory…"
@@ -2405,8 +2407,8 @@ msgstr ""
 #: src/view/container_health_check_page.rs:200
 msgid "{} second"
 msgid_plural "{} seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} sekund"
+msgstr[1] "{} sekundit"
 
 #: src/view/container_health_check_page.rs:237
 msgid "Error on running health check"
@@ -2573,8 +2575,8 @@ msgstr ""
 #: src/view/container_resources.rs:90
 msgid "Processor ({} CPU)"
 msgid_plural "Processor ({} CPUs)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Protsessor ({} CPU)"
+msgstr[1] "Protsessor ({} CPU-d)"
 
 #: src/view/container_resources.rs:96
 msgid "Processor (? CPUs)"
@@ -2705,14 +2707,14 @@ msgstr ""
 #: src/view/containers_panel.rs:241
 msgid "{} container total, {} running"
 msgid_plural "{} containers total, {} running"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "kokku {} konteiner, neist {} on töös"
+msgstr[1] "kokku {} konteinerit, neist {} on töös"
 
 #: src/view/containers_panel.rs:255
 msgid "{} Selected Container"
 msgid_plural "{} Selected Containers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} valitud konteiner"
+msgstr[1] "{} valitud konteinerit"
 
 #: src/view/containers_panel.rs:659
 msgid "Confirm Forced Deletion of Multiple Containers"
@@ -2902,8 +2904,8 @@ msgstr ""
 #: src/view/image_history_page.rs:81
 msgid "{} entry"
 msgid_plural "{} entries"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} kirje"
+msgstr[1] "{} kirjet"
 
 #: src/view/image_history_page.rs:83
 msgid "{} in total"
@@ -3065,14 +3067,14 @@ msgstr ""
 #: src/view/images_panel.rs:209
 msgid "{} image total ({}), {} unused ({})"
 msgid_plural "{} images total ({}), {} unused ({})"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "kokku {} tõmmis ({}), neist {} kasutamata ({})"
+msgstr[1] "kokku {} tõmmist ({}), neist {} kasutamata ({})"
 
 #: src/view/images_panel.rs:228
 msgid "{} Selected Image"
 msgid_plural "{} Selected Images"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} valitud tõmmis"
+msgstr[1] "{} valitud tõmmist"
 
 #: src/view/images_panel.rs:483
 msgid "Confirm Forced Deletion of Multiple Images"
@@ -3140,29 +3142,29 @@ msgstr ""
 #: src/view/info_panel.rs:198
 msgid "{} Container"
 msgid_plural "{} Containers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} konteiner"
+msgstr[1] "{} konteinerit"
 
 #. Translators: "{}" is a placeholder for a cardinal number.
 #: src/view/info_panel.rs:230
 msgid "{} Option"
 msgid_plural "{} Options"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} valik"
+msgstr[1] "{} valikut"
 
 #. Translators: "{}" is placeholders for a cardinal number.
 #: src/view/info_panel.rs:258
 msgid "{} State"
 msgid_plural "{} States"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} olek"
+msgstr[1] "{} olekut"
 
 #. Translators: "{}" is placeholders for a cardinal number.
 #: src/view/info_panel.rs:282
 msgid "{} Image"
 msgid_plural "{} Images"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} tõmmis"
+msgstr[1] "{} tõmmist"
 
 #: src/view/info_panel.rs:296
 msgid "Error on retrieving info"
@@ -3887,14 +3889,14 @@ msgstr ""
 #: src/view/volumes_panel.rs:201
 msgid "{} volumes total, {} unused"
 msgid_plural "{} volumes total, {} unused"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "kokku {} köide, neist {} kasutamata"
+msgstr[1] "kokku {} köidet, neist {} kasutamata"
 
 #: src/view/volumes_panel.rs:215
 msgid "{} Selected Volume"
 msgid_plural "{} Selected Volumes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} valitud köide"
+msgstr[1] "{} valitud köidet"
 
 #: src/view/volumes_panel.rs:452
 msgid "Confirm Forced Deletion of Multiple Volumes"
