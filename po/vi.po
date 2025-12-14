@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-27 19:46+0200\n"
-"PO-Revision-Date: 2025-11-27 05:00+0000\n"
+"PO-Revision-Date: 2025-12-15 23:00+0000\n"
 "Last-Translator: Loc Huynh <huynhloc.contact@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/pods/main/vi/>"
 "\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.15-dev\n"
+"X-Generator: Weblate 5.15.1-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:112
@@ -30,46 +30,48 @@ msgstr "Pods"
 #: data/com.github.marhkb.Pods.desktop.in.in:4
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
 msgid "Manage your Podman containers"
-msgstr ""
+msgstr "Quản lý vùng chứa Podman của bạn"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:9
 msgid "Gnome;GTK;libadwaita;Podman;Containerization;"
-msgstr ""
+msgstr "Gnome;GTK;libadwaita;Podman;Containerization;"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:6
 #: data/com.github.marhkb.Pods.gschema.xml.in:7
 msgid "Default window width"
-msgstr ""
+msgstr "Chiều rộng cửa sổ mặc định"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:11
 #: data/com.github.marhkb.Pods.gschema.xml.in:12
 msgid "Default window height"
-msgstr ""
+msgstr "Chiều cao cửa sổ mặc định"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:16
 msgid "Default window maximized behaviour"
-msgstr ""
+msgstr "Hành vi tối đa hóa cửa sổ mặc định"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:21
 msgid "The uuid of the connection that was used the last time"
-msgstr ""
+msgstr "Uid của kết nối được sử dụng lần trước"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:26
 msgid "The last used view"
-msgstr ""
+msgstr "Xem được sử dụng lần cuối"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:31
 msgid "Whether to hide intermediate images"
-msgstr ""
+msgstr "Có ẩn hình ảnh trung gian hay không"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:36
 msgid "The last used container file path"
-msgstr ""
+msgstr "Đường dẫn tệp vùng chứa được sử dụng lần cuối"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:41
 #: src/view/images_prune_page.ui:70
 msgid "Remove all images not in use by containers, not just dangling ones"
 msgstr ""
+"Xóa tất cả hình ảnh không được vùng chứa sử dụng, không chỉ những hình ảnh "
+"treo lủng lẳng"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:46
 #: src/view/images_prune_page.ui:77
@@ -77,339 +79,383 @@ msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)"
 msgstr ""
+"Xóa hình ảnh ngay cả khi chúng được sử dụng bởi các vùng chứa bên ngoài (ví "
+"dụ: bằng các vùng chứa bản dựng)"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:51
 msgid "Whether to show only running containers"
-msgstr ""
+msgstr "Có chỉ hiển thị các container đang chạy hay không"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:56
 msgid "Whether to show only running pods"
-msgstr ""
+msgstr "Có chỉ hiển thị các nhóm đang chạy hay không"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:61
 msgid "Whether to show only used volumes"
-msgstr ""
+msgstr "Có chỉ hiển thị các tập đã sử dụng hay không"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:66
 msgid "Whether to show a timestamp for each log line"
-msgstr ""
+msgstr "Có hiển thị dấu thời gian cho từng dòng nhật ký hay không"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:71
 #: data/com.github.marhkb.Pods.gschema.xml.in:76
 msgid "Whether to use a regex for search"
-msgstr ""
+msgstr "Có nên sử dụng biểu thức chính quy để tìm kiếm hay không"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:81
 msgid "Whether search should be case-sensitive"
-msgstr ""
+msgstr "Liệu tìm kiếm có phân biệt chữ hoa chữ thường hay không"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:86
 msgid "Whether to match whole words when searching"
-msgstr ""
+msgstr "Có khớp toàn bộ từ khi tìm kiếm hay không"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:91
 msgid "The font scale of all text views"
-msgstr ""
+msgstr "Tỷ lệ phông chữ của tất cả các chế độ xem văn bản"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:96
 msgid "The font scale for terminals"
-msgstr ""
+msgstr "Tỷ lệ phông chữ cho thiết bị đầu cuối"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
 msgid ""
 "Pods is a frontend for podman. It uses libadwaita for its user interface and "
 "strives to meet the design principles of GNOME."
 msgstr ""
+"Pods là giao diện người dùng dành cho podman. Nó sử dụng libadwaita cho giao "
+"diện người dùng và cố gắng đáp ứng các nguyên tắc thiết kế của Gnome."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:11
 msgid "With Pods you can, among other things:"
-msgstr ""
+msgstr "Với Pods, bạn có thể, trong số những thứ khác:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:13
 msgid "Connect to local and remote Podman instances."
-msgstr ""
+msgstr "Kết nối với các phiên bản Podman cục bộ và từ xa."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:14
 msgid "Easily overview images, containers and pods."
-msgstr ""
+msgstr "Dễ dàng tổng quan về hình ảnh, vùng chứa và nhóm."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:15
 msgid "View prepared information about images, containers, and pods."
 msgstr ""
+"Xem giới thiệu về đã chuẩn bị giới thiệu về hình ảnh, vùng chứa và nhóm."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:16
 msgid "Inspect images, containers and pods."
-msgstr ""
+msgstr "Kiểm tra hình ảnh, thùng chứa và nhóm."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:17
 msgid "View and search container logs."
-msgstr ""
+msgstr "Xem và tìm kiếm nhật ký vùng chứa."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:18
 msgid "Monitor processes of containers and pods."
-msgstr ""
+msgstr "Giám sát quá trình của container và pod."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:19
 msgid "Download images and build them using Dockerfiles."
-msgstr ""
+msgstr "Tải xuống hình ảnh và xây dựng chúng bằng Dockerfiles."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:20
 msgid "Create pods and containers."
-msgstr ""
+msgstr "Tạo nhóm và thùng chứa."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:21
 msgid ""
 "Control the lifecycle of containers and pods (in bulk) (start, stop, pause, "
 "etc.)."
 msgstr ""
+"Kiểm soát vòng đời của vùng chứa và nhóm (với số lượng lớn) (bắt đầu, dừng, "
+"tạm dừng, v.v.)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:22
 msgid "Delete images, containers, and pods (in bulk)."
-msgstr ""
+msgstr "Xóa hình ảnh, vùng chứa và nhóm (với số lượng lớn)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:23
 msgid "Prune images."
-msgstr ""
+msgstr "Cắt tỉa hình ảnh."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:24
 msgid "Rename containers."
-msgstr ""
+msgstr "Đổi tên vùng chứa."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:30
 msgid "Container Overview"
-msgstr ""
+msgstr "Tổng quan về vùng chứa"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:34
 msgid "Containers Details in Compact Mode"
-msgstr ""
+msgstr "Chi tiết về vùng chứa ở Chế độ nhỏ gọn"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:38
 msgid "Search Results"
-msgstr ""
+msgstr "Kết quả tìm kiếm"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:47
 msgid "Pods 2.1.0 contains the following changes:"
-msgstr ""
+msgstr "Nhóm 2.1.0 có những thay đổi sau:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:48
 msgid "Features"
-msgstr ""
+msgstr "Đặc trưng"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:50
 msgid "Accent colors are now properly supported. (#804, #807, #809, #811)"
-msgstr ""
+msgstr "Màu nhấn hiện đã được hỗ trợ đúng cách. (#804, #807, #809, #811)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:51
 msgid "All dialogs have been ported to AdwDialog to be more adaptive. (#810)"
 msgstr ""
+"Tất cả các hộp thoại đã được chuyển sang AdwDialog để thích ứng hơn. (#810)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:52
 msgid "Containers are now represented by cards in the container panel. (#778)"
 msgstr ""
+"Các vùng chứa hiện được thể hiện bằng các thẻ trong bảng điều khiển vùng "
+"chứa. (#778)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:53
 msgid ""
 "The image search has been completely revised and is now much more "
 "streamlined. In addition, the tags of an image are suggested. (#758)"
 msgstr ""
+"Việc tìm kiếm hình ảnh đã được sửa đổi hoàn toàn và hiện được sắp xếp hợp lý "
+"hơn nhiều. Ngoài ra, các thẻ của một hình ảnh được đề xuất. (#758)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:57
 msgid "Port mappings can now be configured when creating pods. (#772)"
-msgstr ""
+msgstr "Ánh xạ cổng hiện có thể được định cấu hình khi tạo nhóm. (#772)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:58
 msgid "Enable searching for container and pod processes. (#747)"
-msgstr ""
+msgstr "Bật tìm kiếm các quy trình vùng chứa và nhóm. (#747)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:59
 msgid "Killing container processes is now supported. (#748)"
-msgstr ""
+msgstr "Quá trình tiêu diệt vùng chứa hiện được hỗ trợ. (#748)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:60
 msgid ""
 "The image search results now have an \"verified\" icon if an image is "
 "official. (#761)"
 msgstr ""
+"Kết quả tìm kiếm hình ảnh hiện có biểu tượng \"đã xác minh\" nếu hình ảnh là "
+"chính thức. (#761)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:61
 msgid "Logs are now sent to both std and syslog. (#763)"
-msgstr ""
+msgstr "Nhật ký hiện được gửi đến cả std và syslog. (#763)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:62
 msgid "Make it possible to create privileged containers. (#753)"
-msgstr ""
+msgstr "Làm cho nó có thể tạo các thùng chứa đặc quyền. (#753)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:63
 msgid ""
 "Better handling of empty states when selecting images, pods and volumes for "
 "a container to be created. (#769)"
 msgstr ""
+"Xử lý tốt hơn các trạng thái trống khi chọn hình ảnh, nhóm và khối lượng cho "
+"vùng chứa sẽ được tạo. (#769)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:64
 msgid "Unification of status and health status in the container row. (#774)"
 msgstr ""
+"Thống nhất tình trạng và tình trạng sức khỏe trong hàng container. (#774)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:65
 msgid ""
 "The recently introduced libadwaita Spinner now replaces all gtk Spinners. "
 "(#802)"
 msgstr ""
+"Libadwaita Spinner được giới thiệu gần đây hiện thay thế tất cả các Spinner "
+"gtk. (#802)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:67
 msgid "Fixes"
-msgstr ""
+msgstr "Sửa lỗi"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:69
 msgid ""
 "All remaining processes are now closed after a container terminal exits. "
 "(#744)"
 msgstr ""
+"Tất cả các quy trình còn lại hiện đã bị đóng sau khi thoát khỏi thiết bị đầu "
+"cuối container. (#744)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:70
 msgid ""
 "Streams are now closed correctly so that they do not run forever when the "
 "user changes the connection. (#764)"
 msgstr ""
+"Các luồng hiện đã được đóng chính xác để chúng không chạy mãi khi người dùng "
+"thay đổi kết nối. (#764)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:71
 msgid ""
 "A bug was fixed where the content of the container log page was initially "
 "too large. (#769)"
 msgstr ""
+"Đã sửa lỗi trong đó nội dung của trang nhật ký vùng chứa ban đầu quá lớn. "
+"(#769)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:72
 msgid "Stop filtering out containers, pods and volumes by default. (#770)"
-msgstr ""
+msgstr "Dừng lọc các vùng chứa, nhóm và khối lượng theo mặc định. (#770)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:74
 msgid "Improvements"
-msgstr ""
+msgstr "Cải tiến"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:76
 msgid "We now use appdata to construct the about dialog. (#743)"
 msgstr ""
+"Bây giờ chúng tôi sử dụng dữ liệu ứng dụng để xây dựng hộp thoại giới thiệu "
+"về giới thiệu về. (#743)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:77
 msgid ""
 "Improve performance by utilizing the <em>SignalListItemFactory::setup</em> "
 "signal. (#745)"
 msgstr ""
+"Cải thiện hiệu suất bằng cách sử dụng tín hiệu <em>"
+"SignalListItemFactory::setup</em>. (#745)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:78
 msgid "Port <em>GtkTreeView</em> to <em>GtkColumnView</em>. (#746)"
-msgstr ""
+msgstr "Chuyển <em>GtkTreeView</em> sang <em>GtkColumnView</em>. (#746)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:79
 msgid ""
 "After the last connection has been removed from the page with the connection "
 "selection, the home page is displayed again. (#760)"
 msgstr ""
+"Sau khi kết nối cuối cùng bị xóa khỏi trang có lựa chọn kết nối, trang chủ "
+"sẽ được hiển thị lại. (#760)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:83
 msgid ""
 "The same background color is now used for list views as for the window. "
 "(#769)"
 msgstr ""
+"Màu nền tương tự hiện được sử dụng cho chế độ xem danh sách cũng như cho cửa "
+"sổ. (#769)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:84
 msgid ""
 "We have moved the banner from the bottom to the top in the container log "
 "page. (#769)"
 msgstr ""
+"Chúng tôi đã di chuyển banner từ dưới lên trên trong trang nhật ký vùng "
+"chứa. (#769)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:85
 msgid "Some titles have been shortened. (#769)"
-msgstr ""
+msgstr "Một số tiêu đề đã được rút ngắn. (#769)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:86
 msgid "We now use AboutDialog instead of AboutWindow. (803)"
-msgstr ""
+msgstr "Bây giờ chúng tôi sử dụng AboutDialog thay vì AboutWindow. (803)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:87
 msgid "Various style improvements (#741, #757)"
-msgstr ""
+msgstr "Nhiều cải tiến về phong cách (#741, #757)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:93
 msgid "Pods 1.2.1 contains the following bugfixes and improvements:"
-msgstr ""
+msgstr "Nhóm 1.2.1 chứa các bản sửa lỗi và cải tiến sau:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:95
 msgid ""
 "Fixed a bug that caused the application to crash when the keyring could not "
 "be accessed."
-msgstr ""
+msgstr "Đã sửa lỗi khiến ứng dụng bị treo khi không thể truy cập vào khóa."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:96
 msgid ""
 "Some languages like Romanian were not correctly included. This should be "
 "fixed now."
 msgstr ""
+"Một số ngôn ngữ như tiếng Rumani không được đưa vào chính xác. Điều này cần "
+"được khắc phục ngay bây giờ."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:97
 msgid ""
 "Fixed a regression where the container list was not re-sorted once a "
 "container was renamed."
 msgstr ""
+"Đã sửa lỗi hồi quy trong đó danh sách vùng chứa không được sắp xếp lại sau "
+"khi vùng chứa được đổi tên."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:98
 msgid "Minor cleanup work has been done in the code."
-msgstr ""
+msgstr "Công việc dọn dẹp nhỏ đã được thực hiện trong mã."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:104
 msgid "Pods 1.2.0 contains the following new features:"
-msgstr ""
+msgstr "Pods 1.2.0 chứa các tính năng mới sau:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:106
 msgid "Usabilty and UX has been improved in many places."
-msgstr ""
+msgstr "Khả năng sử dụng và UX đã được cải thiện ở nhiều nơi."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:107
 msgid "Pruning of containers and pods is now possible."
-msgstr ""
+msgstr "Bây giờ có thể cắt tỉa các thùng chứa và vỏ quả."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:108
 msgid "Container terminals are now detachable and can be used in parallel."
-msgstr ""
+msgstr "Bến container hiện nay có thể tháo rời và sử dụng song song."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:109
 msgid "Images can be pushed to a registry."
-msgstr ""
+msgstr "Hình ảnh có thể được đẩy vào sổ đăng ký."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:110
 msgid "The CPU utilization now takes the number of cores into account."
-msgstr ""
+msgstr "Việc sử dụng CPU bây giờ tính đến số lượng lõi."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:116
 msgid "Pods 1.1.0 contains the following features, bug fixes and improvements:"
-msgstr ""
+msgstr "Pods 1.1.0 chứa các tính năng, sửa lỗi và cải tiến sau:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:118
 msgid ""
 "Dependencies have been updated. This includes the update to GNOME 44 "
 "libraries."
 msgstr ""
+"Các phần phụ thuộc đã được cập nhật. Điều này bao gồm bản cập nhật cho thư "
+"viện Gnome 44."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:119
 msgid "AdwBanner is now used in the container log page instead of GtkInfoBar."
 msgstr ""
+"AdwBanner hiện được sử dụng trong trang nhật ký vùng chứa thay vì GtkInfoBar."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:120
 msgid "The GNOME Coc is acknowledged in the README.md."
-msgstr ""
+msgstr "Gnome Coc được xác nhận trong README.md."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:121
 msgid "The main window and all dialogs can now be closed with Ctrl+W."
-msgstr ""
+msgstr "Cửa sổ chính và tất cả các hộp thoại hiện có thể được đóng bằng Ctrl+W."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:122
 msgid "The memory icon has been improved, thanks to @daudix-UFO."
-msgstr ""
+msgstr "Biểu tượng bộ nhớ đã được cải thiện nhờ @daudix-UFO."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:123
 msgid ""
 "Internal code improvements have landed, like the port to glib-rs' new "
 "properties proc macro."
 msgstr ""
+"Các cải tiến về mã nội bộ đã được triển khai, chẳng hạn như chuyển sang "
+"macro Proc thuộc tính mới của glib-rs."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:124
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:143
@@ -419,13 +465,13 @@ msgstr ""
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:204
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:218
 msgid "Translations have been updated."
-msgstr ""
+msgstr "Các bản dịch đã được cập nhật."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:130
 msgid ""
 "Pods 1.1.0-beta.4 contains the following features, bug fixes and "
 "improvements:"
-msgstr ""
+msgstr "Nhóm 1.1.0-beta.4 chứa các tính năng, sửa lỗi và cải tiến sau:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:132
 msgid ""
@@ -433,60 +479,78 @@ msgid ""
 "the connection name in the connection overview, instead of a vertical bar at "
 "the beginning."
 msgstr ""
+"Màu kết nối hiện được hiển thị bằng dấu chấm màu phía trước tên kết nối "
+"trong phần tổng quan về kết nối, thay vì thanh dọc ở đầu."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:133
 msgid ""
 "The penguin icon to the left of the Podman version has been removed from the "
 "status bar."
 msgstr ""
+"Biểu tượng chim cánh cụt bên trái phiên bản Podman đã bị loại bỏ khỏi thanh "
+"trạng thái."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:134
 msgid ""
 "The Podman menu button in the status bar now shows a loading indicator until "
 "the Podman version is determined."
 msgstr ""
+"Nút menu Podman trên thanh trạng thái hiện hiển thị chỉ báo tải cho đến khi "
+"phiên bản Podman được xác định."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:135
 msgid ""
 "The label to show the version of the Podman menu button in the status bar "
 "now uses the <em>numeric</em> style class, which looks more harmonious."
 msgstr ""
+"Nhãn hiển thị phiên bản của nút menu Podman trên thanh trạng thái hiện sử "
+"dụng lớp kiểu <em>số</em> trông hài hòa hơn."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:136
 msgid ""
 "To eliminate the blur, the icons in the status bar now all have a size of 16 "
 "pixels instead of 12 pixels."
 msgstr ""
+"Để loại bỏ hiện tượng mờ, các biểu tượng trên thanh trạng thái giờ đây đều "
+"có kích thước 16 pixel thay vì 12 pixel."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:137
 msgid "The desktop entry now uses the updated short description as comment."
 msgstr ""
+"Mục nhập trên máy tính để bàn hiện sử dụng mô tả ngắn được cập nhật làm nhận "
+"xét."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:138
 msgid "Some appropriate categories have been added to the desktop entry."
-msgstr ""
+msgstr "Một số danh mục thích hợp đã được thêm vào mục trên máy tính để bàn."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:139
 msgid ""
 "Fixed a bug where the Id of a container was replaced by the name once the "
 "name of the container was changed."
 msgstr ""
+"Đã khắc phục lỗi trong đó Id của vùng chứa được thay thế bằng tên sau khi "
+"tên của vùng chứa được thay đổi."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:140
 msgid ""
 "The container status <em>configured</em> was not handled before. This is now "
 "fixed."
 msgstr ""
+"Trạng thái vùng chứa <em>được định cấu hình</em> chưa được xử lý trước đây. "
+"Điều này hiện đã được sửa."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:141
 msgid ""
 "The spinner within the container log page did not disappear earlier if the "
 "log was empty. This is fixed now."
 msgstr ""
+"Công cụ quay vòng trong trang nhật ký vùng chứa không biến mất sớm hơn nếu "
+"nhật ký trống. Điều này đã được sửa ngay bây giờ."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:142
 msgid "The code has been improved in some places."
-msgstr ""
+msgstr "Mã đã được cải thiện ở một số nơi."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:144
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:162
@@ -494,52 +558,61 @@ msgstr ""
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:194
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:219
 msgid "Dependencies have been updated."
-msgstr ""
+msgstr "Các phần phụ thuộc đã được cập nhật."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:150
 msgid ""
 "Pods 1.1.0-beta.3 contains the following features, bug fixes and "
 "improvements:"
-msgstr ""
+msgstr "Nhóm 1.1.0-beta.3 chứa các tính năng, bản sửa lỗi và cải tiến sau:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:152
 msgid ""
 "The connection menu has received an entry for disconnecting the current "
 "Podman connection."
-msgstr ""
+msgstr "Menu kết nối đã nhận được mục ngắt kết nối Podman hiện tại."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:153
 msgid ""
 "The status bar now has a menu button that shows the current Podman version."
-msgstr ""
+msgstr "Thanh trạng thái hiện có nút menu hiển thị phiên bản Podman hiện tại."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:154
 msgid ""
 "The menu item to open the Podman information window has been moved from the "
 "main menu to the Podman menu in the status bar."
 msgstr ""
+"Mục menu để mở cửa sổ thông tin Podman đã được chuyển từ menu chính sang "
+"menu Podman trên thanh trạng thái."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:155
 msgid ""
 "A new widget has been implemented that allows you to control the zoom level "
 "of text."
 msgstr ""
+"Một tiện ích mới đã được triển khai cho phép bạn kiểm soát mức độ zoom của "
+"văn bản."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:156
 msgid ""
 "On all pages with text, such as the inspection page, the download button has "
 "been moved to a menu in the header bar together with the zoom control widget."
 msgstr ""
+"Trên tất cả các trang có văn bản, chẳng hạn như trang kiểm tra, nút tải "
+"xuống đã được chuyển đến menu trong thanh tiêu đề cùng với tiện ích điều "
+"khiển zoom."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:157
 msgid ""
 "On the container log page some buttons together with zoom control widget are "
 "moved to a menu in the header bar."
 msgstr ""
+"Trên trang nhật ký vùng chứa, một số nút cùng với tiện ích điều khiển zoom "
+"được chuyển đến menu trên thanh tiêu đề."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:158
 msgid "The text in the container terminal can now be zoomed."
-msgstr ""
+msgstr "Văn bản trong thiết bị đầu cuối container bây giờ có thể được zoom."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:159
 msgid ""
@@ -547,6 +620,9 @@ msgid ""
 "the default ANSI escape sequence. This resulted in text not being readable "
 "in the light theme under certain circumstances."
 msgstr ""
+"Đã khắc phục lỗi trong trang nhật ký vùng chứa trong đó màu rõ ràng được đặt "
+"cho chuỗi thoát ANSI mặc định. Điều này khiến văn bản không thể đọc được ở "
+"giao diện sáng trong một số trường hợp."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:160
 msgid ""
@@ -554,273 +630,332 @@ msgid ""
 "there is an error. For example, this would be the case if the cube YAML "
 "could not be generated."
 msgstr ""
+"Các chế độ xem văn bản, như trang Kiểm tra, hiện sẽ bị đóng ngay lập tức nếu "
+"có lỗi. Ví dụ: đây sẽ là trường hợp nếu không thể tạo khối YAML."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:168
 msgid ""
 "Pods 1.1.0-beta.2 contains the following features, bug fixes and "
 "improvements:"
-msgstr ""
+msgstr "Nhóm 1.1.0-beta.2 chứa các tính năng, sửa lỗi và cải tiến sau:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:170
 msgid ""
 "It is now possible to assign colors to connections. Then, when the "
 "connection is active, the status bar is colored accordingly."
 msgstr ""
+"Bây giờ có thể gán màu cho các kết nối. Sau đó, khi kết nối được kích hoạt, "
+"thanh trạng thái sẽ có màu tương ứng."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:171
 msgid "The progress bar in the status bar has been replaced by a label."
-msgstr ""
+msgstr "Thanh tiến trình trên thanh trạng thái đã được thay thế bằng nhãn."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:172
 msgid "The formatting of the container log is now correctly kept across lines."
 msgstr ""
+"Định dạng của nhật ký vùng chứa hiện được lưu giữ chính xác trên các dòng."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:173
 msgid ""
 "Some strings has been marked as translatable that where previously forgotten."
 msgstr ""
+"Một số chuỗi đã được đánh dấu là có thể dịch được mà trước đó đã bị lãng "
+"quên."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:174
 msgid "Some strings has been changed to be more accurate."
-msgstr ""
+msgstr "Một số chuỗi đã được thay đổi để chính xác hơn."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:175
 msgid ""
 "A workaround and a fix have been implemented specifically for crashes that "
 "led to crashes when using podman 3.0."
 msgstr ""
+"Một giải pháp thay thế và sửa lỗi đã được triển khai cụ thể cho các sự cố "
+"dẫn đến sự cố khi sử dụng podman 3.0."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:176
 msgid ""
 "Fixed a style bug that caused the inner scrollbar on the connection "
 "selection page to have an offset."
 msgstr ""
+"Đã sửa lỗi kiểu khiến thanh cuộn bên trong trên trang chọn kết nối bị lệch."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:184
 msgid ""
 "Pods 1.1.0-beta.1 contains the following features, bug fixes and "
 "improvements:"
-msgstr ""
+msgstr "Nhóm 1.1.0-beta.1 chứa các tính năng, bản sửa lỗi và cải tiến sau:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:186
 msgid ""
 "The fonts in all text views, such as those in the inspection pages, are now "
 "scalable using typical shortcuts."
 msgstr ""
+"Các phông chữ trong tất cả chế độ xem văn bản, chẳng hạn như phông chữ trong "
+"các trang kiểm tra, hiện có thể mở rộng bằng cách sử dụng các phím tắt thông "
+"thường."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:187
 msgid ""
 "It is now prevented that actions in subpages like the container inspection "
 "subpage can be triggered via shortcuts (e.g. the action to download files)."
 msgstr ""
+"Hiện tại, tính năng này đã ngăn chặn các hành động trong các trang con như "
+"trang con kiểm tra vùng chứa có thể được kích hoạt thông qua các phím tắt "
+"(ví dụ: hành động tải xuống tệp)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:188
 msgid ""
 "More ANSI escape sequences like background colors and bright colors has been "
 "added to the container log page."
 msgstr ""
+"Nhiều chuỗi thoát ANSI khác như màu nền và màu sáng đã được thêm vào trang "
+"nhật ký vùng chứa."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:189
 msgid "Fixed a bug that caused some containers to not display most log lines."
 msgstr ""
+"Đã sửa lỗi khiến một số vùng chứa không màn hình hầu hết các dòng nhật ký."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:190
 msgid ""
 "The name of the container is now also displayed as a subtitle in the health "
 "check page."
 msgstr ""
+"Tên của vùng chứa giờ đây cũng được hiển thị dưới dạng phụ đề trong trang "
+"kiểm tra tình trạng."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:191
 msgid "The README file has been updated and improved."
-msgstr ""
+msgstr "Tệp README đã được cập nhật và cải tiến."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:192
 msgid "There were a lot of internal improvements to the code."
-msgstr ""
+msgstr "Có rất nhiều cải tiến nội bộ đối với mã."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:200
 msgid "Pods 1.0.2 contains the following changes:"
-msgstr ""
+msgstr "Nhóm 1.0.2 chứa những thay đổi sau:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:202
 msgid ""
 "The search behavior has been adjusted so that pressing <em>Ctrl+F</em> again "
 "resets the search and that <em>Escape</em> closes it."
 msgstr ""
+"Hành vi tìm kiếm đã được điều chỉnh để việc nhấn lại <em>Ctrl+F</em> sẽ đặt "
+"lại tìm kiếm và <em>Escape</em> sẽ đóng nó."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:203
 msgid ""
 "The application icon and symbolic icons have been further improved, thanks "
 "to @daudix-UFO."
 msgstr ""
+"Biểu tượng ứng dụng và biểu tượng trưng đã được cải thiện hơn nữa nhờ "
+"@daudix-UFO."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:210
 msgid ""
 "The stable 1.0 release of Pods includes the following changes since the last "
 "RC:"
 msgstr ""
+"Bản phát hành 1.0 ổn định của Pod bao gồm những thay đổi sau kể từ RC cuối "
+"cùng:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:212
 msgid ""
 "The welcome page now has a very attractive, colorful illustration, thanks to "
 "@daudix-UFO."
 msgstr ""
+"Trang chào mừng hiện có hình minh họa rất hấp dẫn, đầy màu sắc nhờ @daudix-"
+"UFO."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:213
 msgid "Switching the Podman connection now no longer blocks the GUI."
-msgstr ""
+msgstr "Việc chuyển đổi kết nối Podman giờ đây không còn chặn GUI nữa."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:214
 msgid ""
 "Creating new Podman connections can now be canceled during the connection "
 "attempt."
 msgstr ""
+"Giờ đây, việc tạo kết nối Podman mới có thể bị hủy trong quá trình thử kết "
+"nối."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:215
 msgid ""
 "Copying and pasting text from/to the container terminal now works with "
 "<em>Ctrl+Shift+C</em> and <em>Ctrl+Shift+V</em>, respectively."
 msgstr ""
+"Giờ đây, việc sao chép và dán văn bản từ/đến thiết bị đầu cuối vùng chứa "
+"hoạt động tương ứng với <em>Ctrl+Shift+C</em> và <em>Ctrl+Shift+V</em>."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:216
 msgid "The container terminal now has a simple context menu."
-msgstr ""
+msgstr "Thiết bị đầu cuối container hiện có menu ngữ cảnh đơn giản."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:217
 msgid "The animation of the internal spinner widget has been beautified."
-msgstr ""
+msgstr "Hoạt ảnh của tiện ích con quay bên trong đã được làm đẹp."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:225
 msgid "The third 1.0 release candidate of Pods contains the following changes:"
-msgstr ""
+msgstr "Bản phát hành 1.0 thứ ba của Pods có những thay đổi sau:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:227
 msgid ""
 "The application icon and symbolic icons have been improved, thanks to "
 "@daudix-UFO"
 msgstr ""
+"Biểu tượng ứng dụng và biểu tượng trưng đã được cải thiện nhờ @daudix-UFO"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:228
 msgid ""
 "Actions, such as creating a container, can now be repeated initially if they "
 "fail."
 msgstr ""
+"Các hành động, chẳng hạn như tạo vùng chứa, giờ đây có thể được lặp lại ban "
+"đầu nếu không thành công."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:229
 msgid ""
 "Fixed a bug that prevented the label displaying the id of an image from "
 "being striked through if the image was being deleted."
 msgstr ""
+"Đã sửa lỗi khiến nhãn hiển thị id của hình ảnh không bị gạch bỏ nếu hình ảnh "
+"đó bị xóa."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:230
 msgid "Repository tags are now selectable within the image details page."
-msgstr ""
+msgstr "Thẻ kho lưu trữ hiện có thể được chọn trong trang chi tiết hình ảnh."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:231
 msgid "Translations have been updated. Thanks to all who contributed."
-msgstr ""
+msgstr "Các bản dịch đã được cập nhật. Cảm ơn tất cả những người đã đóng góp."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:232
 msgid ""
 "Internal code improvements have been made, such as reducing dependencies and "
 "enabling LTO for release builds."
 msgstr ""
+"Các cải tiến mã nội bộ đã được thực hiện, chẳng hạn như giảm sự phụ thuộc và "
+"bật LTO cho các bản dựng phát hành."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:238
 msgid ""
 "This is a hotfix release that prevents the application from crashing when "
 "disconnected from Podman."
 msgstr ""
+"Đây là bản phát hành hotfix giúp ngăn ứng dụng gặp sự cố khi ngắt kết nối "
+"với Podman."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:243
 msgid ""
 "All features for version 1.0 are now implemented and Pods is thus in the "
 "release candidate phase. Among the changes since the last release are:"
 msgstr ""
+"Tất cả các tính năng cho phiên bản 1.0 hiện đã được triển khai và do đó Pod "
+"đang trong giai đoạn thử nghiệm phát hành. Trong số những thay đổi kể từ lần "
+"phát hành cuối cùng là:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:245
 msgid ""
 "Actions such as downloading an image or creating a container now take place "
 "in dialogs instead of in the main window."
 msgstr ""
+"Các hành động như tải xuống hình ảnh hoặc tạo vùng chứa hiện diễn ra trong "
+"hộp thoại thay vì trong cửa sổ chính."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:246
 msgid ""
 "Image Rows have been revised to better reflect the presence of multiple repo "
 "tags."
 msgstr ""
+"Hàng hình ảnh đã được sửa đổi để phản ánh tốt hơn sự hiện diện của nhiều thẻ "
+"repo."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:247
 msgid "Repo tags can now be removed and added within the image details page."
-msgstr ""
+msgstr "Thẻ Repo hiện có thể được xóa và thêm vào trang chi tiết hình ảnh."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:248
 msgid ""
 "The subtitle property of the header bars is now used to display the image "
 "id, or the name of the container or pod."
 msgstr ""
+"Thuộc tính phụ đề của thanh tiêu đề hiện được sử dụng để màn hình id hình "
+"ảnh hoặc tên của vùng chứa hoặc nhóm."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:249
 msgid ""
 "The style of the container details page has been adjusted. Thus, some action "
 "rows have been moved to the properties."
 msgstr ""
+"Kiểu của trang chi tiết vùng chứa đã được điều chỉnh. Vì vậy, một số hàng "
+"hành động đã được chuyển đến thuộc tính."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:250
 msgid "Shortcuts have been added to the container details page."
-msgstr ""
+msgstr "Các phím tắt đã được thêm vào trang chi tiết vùng chứa."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:251
 msgid "Small improvements in the spirit of the GNOME HIG took place."
-msgstr ""
+msgstr "Những cải tiến nhỏ theo tinh thần của Gnome HIG đã diễn ra."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:252
 msgid ""
 "The usual changes such as improving the source code and updating the "
 "dependencies."
 msgstr ""
+"Những thay đổi thông thường như cải thiện mã nguồn và cập nhật các phần phụ "
+"thuộc."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:253
 msgid ""
 "Translations have been updated and all translatable strings are now "
 "considered frozen."
 msgstr ""
+"Các bản dịch đã được cập nhật và tất cả các chuỗi có thể dịch hiện được coi "
+"là bị đóng băng."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:259
 msgid ""
 "The ninth beta of Pods in an important step towards the stable first "
 "version. It contains the following changes:"
 msgstr ""
+"Bản beta thứ chín của Pods là một bước quan trọng hướng tới phiên bản đầu "
+"tiên ổn định. Nó chứa những thay đổi sau:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:261
 msgid "It is now possible to have a terminal in a container."
-msgstr ""
+msgstr "Bây giờ có thể có một thiết bị đầu cuối trong một container."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:262
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:274
 msgid "libpanel"
-msgstr ""
+msgstr "libpanel"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:263
 msgid "AdwMessageDialog"
-msgstr ""
+msgstr "AdwMessageDialog"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:264
 msgid "The style of the container series was tweaked in many ways."
-msgstr ""
+msgstr "Phong cách của loạt container đã được điều chỉnh theo nhiều cách."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:265
 msgid "Some minor internal code improvements have landed."
-msgstr ""
+msgstr "Một số cải tiến mã nội bộ nhỏ đã được tung ra."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:266
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:286
 msgid "Dependencies and translations have been updated."
-msgstr ""
+msgstr "Phụ thuộc và bản dịch đã được cập nhật."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:272
 msgid "The eight beta release of Pods 1.0.0 includes the following changes:"
-msgstr ""
+msgstr "Bản phát hành beta thứ tám của Pods 1.0.0 bao gồm những thay đổi sau:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:275
 msgid ""
@@ -828,62 +963,78 @@ msgid ""
 "Podman UNIX socket and a small example on how to use the Podman root "
 "instance."
 msgstr ""
+"Khi tạo kết nối mới, hiện có gợi ý về cách bật ổ cắm Podman UNIX và một ví "
+"dụ nhỏ về cách sử dụng phiên bản gốc Podman."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:276
 msgid "The history of an image can now be inspected."
-msgstr ""
+msgstr "Lịch sử của một hình ảnh bây giờ có thể được kiểm tra."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:277
 msgid ""
 "The design of the port bindings in the container details page has been "
 "revised."
 msgstr ""
+"Thiết kế của các ràng buộc cổng trong trang chi tiết về container đã được "
+"sửa đổi."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:278
 msgid "Kubernetes YAML files can now be generated for containers and pods."
 msgstr ""
+"Giờ đây, các tệp YAML của Kubernetes có thể được tạo cho các vùng chứa và "
+"nhóm."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:279
 msgid ""
 "Files can now be downloaded from a container as well as uploaded to a "
 "container."
 msgstr ""
+"Giờ đây, các tệp có thể được tải xuống từ vùng chứa cũng như tải lên vùng "
+"chứa."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:280
 msgid ""
 "The design of the circular progress bar for displaying container resources "
 "has been adjusted to be more consistent with the rest of the application."
 msgstr ""
+"Thiết kế của thanh tiến trình hình tròn để hiển thị tài nguyên vùng chứa đã "
+"được điều chỉnh để phù hợp hơn với phần còn lại của ứng dụng."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:281
 msgid ""
 "There is now a rotating animation when a container or pod is in a state "
 "transition (start, stop, pause)."
 msgstr ""
+"Hiện có hoạt ảnh xoay khi vùng chứa hoặc nhóm đang ở trạng thái chuyển đổi "
+"(bắt đầu, dừng, tạm dừng)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:282
 msgid ""
 "If a container is in a pod, it will now get a badge with the pod name in the "
 "container list."
 msgstr ""
+"Nếu một vùng chứa nằm trong một nhóm thì bây giờ nó sẽ nhận được huy hiệu có "
+"tên nhóm trong danh sách vùng chứa."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:283
 msgid ""
 "Logs, the result of the inspection of images, containers, and pods, and the "
 "result Kubernetes YAML generation can now be saved directly as a file."
 msgstr ""
+"Nhật ký, kết quả kiểm tra hình ảnh, vùng chứa và nhóm cũng như kết quả tạo "
+"Kubernetes YAML giờ đây có thể được lưu trực tiếp dưới dạng tệp."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:284
 msgid "Headerbar titles were adjusted to be shorter and more concise"
-msgstr ""
+msgstr "Tiêu đề headerbar được điều chỉnh ngắn gọn, súc tích hơn"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:285
 msgid "Many minor internal code improvements have landed"
-msgstr ""
+msgstr "Nhiều cải tiến mã nội bộ nhỏ đã có mặt"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:292
 msgid "The seventh beta release of Pods 1.0.0 includes the following changes:"
-msgstr ""
+msgstr "Bản phát hành beta thứ bảy của Pods 1.0.0 bao gồm những thay đổi sau:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:294
 msgid ""
@@ -891,6 +1042,9 @@ msgid ""
 "can quickly see how long a container has been running or how many days ago "
 "an image was created."
 msgstr ""
+"Thời gian tương đối hiện được sử dụng ở mọi nơi trong ứng dụng. Ví dụ: bạn "
+"có thể nhanh chóng xem vùng chứa đã chạy được bao lâu hoặc hình ảnh đã được "
+"tạo cách đây bao nhiêu ngày."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:295
 msgid ""
@@ -898,12 +1052,17 @@ msgid ""
 "instead of text. Icons have also been added to the resource monitor in the "
 "container details page."
 msgstr ""
+"Đối với thanh tiến trình hình tròn trong hàng vùng chứa, các biểu tượng hiện "
+"được sử dụng thay vì văn bản. Các biểu tượng cũng đã được thêm vào trình "
+"giám sát tài nguyên trong trang chi tiết vùng chứa."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:296
 msgid ""
 "The text field for searching in the container logs and the inspection page "
 "has been completely redesigned visually."
 msgstr ""
+"Trường văn bản để tìm kiếm trong nhật ký vùng chứa và trang kiểm tra đã được "
+"thiết kế lại hoàn toàn về mặt trực quan."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:297
 msgid ""
@@ -911,10 +1070,12 @@ msgid ""
 "running. The info bar also offers the possibility to start or resume the "
 "container."
 msgstr ""
+"Trang nhật ký vùng chứa hiện hiển thị thanh thông tin nếu vùng chứa không "
+"chạy. Thanh thông tin cũng cung cấp khả năng bắt đầu hoặc tiếp tục vùng chứa."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:298
 msgid "Desktop notifications are now triggered on actions."
-msgstr ""
+msgstr "Thông báo trên màn hình hiện được kích hoạt trên các hành động."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:299
 msgid ""
@@ -922,48 +1083,63 @@ msgid ""
 "For example, the list of images is sorted and image names are no longer "
 "ellipsized."
 msgstr ""
+"Việc lựa chọn hình ảnh trong trang tạo vùng chứa đã được cải thiện. Ví dụ: "
+"danh sách hình ảnh được sắp xếp và tên hình ảnh không còn có hình elip nữa."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:300
 msgid ""
 "Also the selection of a pod in the container creation page has been improved "
 "similarly to the image selection."
 msgstr ""
+"Ngoài ra, việc lựa chọn nhóm trong trang tạo vùng chứa cũng đã được cải "
+"thiện tương tự như việc lựa chọn hình ảnh."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:301
 msgid ""
 "The image row now shows the tag of an image in the accent color to the right "
 "of the image id."
 msgstr ""
+"Hàng hình ảnh hiện hiển thị thẻ của hình ảnh bằng màu nhấn ở bên phải id "
+"hình ảnh."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:302
 msgid ""
 "The container row now displays the mapped host port of a container next to "
 "the container name, if there is one."
 msgstr ""
+"Hàng vùng chứa hiện hiển thị cổng máy chủ được ánh xạ của vùng chứa bên cạnh "
+"tên vùng chứa, nếu có."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:303
 msgid ""
 "Port Bindings in the container details page are now shown inside an "
 "AdwExpanderRow"
 msgstr ""
+"Ràng buộc cổng trong trang chi tiết vùng chứa hiện được hiển thị bên trong "
+"AdwExpanderRow"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:304
 msgid ""
 "The multi-selection mode of images, containers and pods is now animated a "
 "bit more nicely."
 msgstr ""
+"Chế độ đa lựa chọn của hình ảnh, vùng chứa và nhóm giờ đây đã hoạt hình độc "
+"đáo hơn một chút."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:305
 msgid ""
 "The sizes of all GtkSpinners have been standardized throughout the "
 "application."
 msgstr ""
+"Kích thước của tất cả GtkSpinners đã được chuẩn hóa trong tất cả ứng dụng."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:306
 msgid ""
 "The gtk-rs library was updated to version 0.5, which made many internal code "
 "improvements possible."
 msgstr ""
+"Thư viện gtk-rs đã được cập nhật lên phiên bản 0.5, giúp cải thiện nhiều mã "
+"nội bộ."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:307
 msgid ""
@@ -971,765 +1147,812 @@ msgid ""
 "internal code improvements, and translation updates that have not been "
 "mentioned here."
 msgstr ""
+"Như mọi khi, có một số sửa lỗi nhỏ, cải tiến hình ảnh, cải tiến mã nội bộ và "
+"cập nhật bản dịch chưa được đề cập ở đây."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:313
 msgid "The sixth beta release of Pods 1.0.0 includes the following changes:"
-msgstr ""
+msgstr "Bản phát hành beta thứ sáu của Pods 1.0.0 bao gồm những thay đổi sau:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:315
 msgid ""
 "The duration for individual actions such as downloading an image is now "
 "displayed."
 msgstr ""
+"Thời lượng cho các hành động riêng lẻ như tải xuống hình ảnh hiện được hiển "
+"thị."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:316
 msgid ""
 "In the overview for all images, individual images can now be updated via the "
 "context menu."
 msgstr ""
+"Trong phần tổng quan cho tất cả hình ảnh, giờ đây bạn có thể cập nhật từng "
+"hình ảnh thông qua menu ngữ cảnh."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:317
 msgid "Missing settings for creating pods have been added, thanks to @vv9k."
-msgstr ""
+msgstr "Các cài đặt còn thiếu để tạo nhóm đã được thêm vào, nhờ @vv9k."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:318
 msgid ""
 "A simple progress bar is now displayed in the action menu button under the "
 "bell icon to indicate how many actions are currently running."
 msgstr ""
+"Một thanh tiến trình đơn giản hiện được hiển thị trong nút menu hành động "
+"bên dưới biểu tượng chuông để cho biết có bao nhiêu hành động hiện đang chạy."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:319
 msgid ""
 "The icon of the button to return to the main view has been changed to a home "
 "symbol, thanks to @vv9k."
 msgstr ""
+"Biểu tượng của nút quay lại xem chính đã được thay đổi thành biểu tượng màn "
+"hình chính, nhờ @vv9k."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:320
 msgid ""
 "The container details page and pod details page have been revised: The menus "
 "have been removed and instead there is now a control bar."
 msgstr ""
+"Trang chi tiết vùng chứa và trang chi tiết nhóm đã được sửa đổi: Các menu đã "
+"bị xóa và thay vào đó là thanh điều khiển."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:321
 msgid ""
 "Renaming a container within a container detail page must now be done via a "
 "button in the name row."
 msgstr ""
+"Giờ đây, việc đổi tên vùng chứa trong trang chi tiết vùng chứa phải được "
+"thực hiện thông qua một nút trong hàng tên."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:322
 msgid ""
 "Fixed a bug in the container log page that caused that no more than 512 log "
 "lines could be loaded and date were truncated."
 msgstr ""
+"Đã khắc phục lỗi trong trang nhật ký vùng chứa khiến không thể tải quá 512 "
+"dòng nhật ký và ngày bị cắt bớt."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:323
 msgid ""
 "The progress bars for CPU and memory in the container details page are now "
 "animated."
 msgstr ""
+"Các thanh tiến trình cho CPU và bộ nhớ trong trang chi tiết vùng chứa hiện "
+"có hình động."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:324
 msgid ""
 "The animations of the circular progress bars for CPU and memory in the "
 "overview of all containers now use better easing."
 msgstr ""
+"Hoạt ảnh của các thanh tiến trình hình tròn cho CPU và bộ nhớ trong phần "
+"tổng quan của tất cả các vùng chứa giờ đây sử dụng khả năng nới lỏng tốt hơn."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:325
 msgid ""
 "The icons and descriptions for actions like downloading an image have been "
 "made clearer."
 msgstr ""
+"Các biểu tượng và mô tả cho các hành động như tải hình ảnh đã được làm rõ "
+"ràng hơn."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:326
 msgid ""
 "Committing a new image from a container can now be done in a fine-grained "
 "way, in a dedicated page."
 msgstr ""
+"Giờ đây, việc gửi hình ảnh mới từ vùng chứa có thể được thực hiện theo cách "
+"chi tiết hơn trong một trang chuyên dụng."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:327
 msgid ""
 "As always, there were a number of minor bug fixes, visual improvements, "
 "internal code improvements and translation updates."
 msgstr ""
+"Như mọi khi, có một số sửa lỗi nhỏ, cải tiến hình ảnh, cải tiến mã nội bộ và "
+"cập nhật bản dịch."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:333
 msgid "The fifth beta release of Pods 1.0.0 includes the following changes:"
-msgstr ""
+msgstr "Bản phát hành beta thứ năm của Pods 1.0.0 bao gồm những thay đổi sau:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:335
 msgid "Some typos were fixed, thanks to @kianmeng."
-msgstr ""
+msgstr "Một số lỗi chính tả đã được sửa nhờ @kianmeng."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:336
 msgid ""
 "A tab to specify infra settings were added to the pod creation page, thanks "
 "to @vv9k."
 msgstr ""
+"Một tab để chỉ định cài đặt hạ tầng đã được thêm vào trang tạo nhóm nhờ "
+"@vv9k."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:337
 msgid ""
 "There is now a widget that provides an overview of actions, such as building "
 "an image. Thus, the state of most actions can now be tracked."
 msgstr ""
+"Hiện đã có một tiện ích cung cấp cái nhìn tổng quan về các hành động, chẳng "
+"hạn như xây dựng hình ảnh. Do đó, trạng thái của hầu hết các hành động hiện "
+"có thể được theo dõi."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:338
 msgid ""
 "The local search for images, containers and pods is now case-insensitive."
 msgstr ""
+"Tìm kiếm cục bộ cho hình ảnh, vùng chứa và nhóm hiện không phân biệt chữ hoa "
+"chữ thường."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:339
 msgid "There were small visual adjustments all over the place."
-msgstr ""
+msgstr "Có những điều chỉnh nhỏ về hình ảnh ở khắp mọi nơi."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:340
 msgid "Minor bug fixes"
-msgstr ""
+msgstr "Sửa lỗi nhỏ"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:341
 msgid "Internal code improvements"
-msgstr ""
+msgstr "Cải tiến mã nội bộ"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:342
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:360
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:373
 msgid "Translation updates"
-msgstr ""
+msgstr "Cập nhật bản dịch"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:348
 msgid ""
 "Here comes the fourth beta release of Pods 1.0.0 with the following changes:"
-msgstr ""
+msgstr "Đây là bản phát hành beta thứ tư của Pods 1.0.0 với những thay đổi sau:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:350
 msgid ""
 "The blurry symbolic application icon has been fixed, thanks to "
 "@allaeddineomc."
-msgstr ""
+msgstr "Biểu tượng ứng dụng tượng trưng bị mờ đã được sửa nhờ @allaeddineomc."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:351
 msgid ""
 "A status page is now displayed if there are no images, containers or pods."
 msgstr ""
+"Trang trạng thái hiện được hiển thị nếu không hình ảnh, vùng chứa hoặc nhóm."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:352
 msgid ""
 "The style has been improved, in particular, there is now better "
 "differentiation between light, dark and high contrast modes."
 msgstr ""
+"Phong cách đã được cải tiến, đặc biệt giờ đây có sự phân biệt tốt hơn giữa "
+"các chế độ sáng, tối và độ tương phản cao."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:353
 msgid ""
 "The feature for coloring the header bar has been removed. It will hopefully "
 "come back when there is API support for it."
 msgstr ""
+"Tính năng tô màu cho thanh tiêu đề đã bị loại bỏ. Hy vọng nó sẽ quay trở lại "
+"khi có hỗ trợ API cho nó."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:354
 msgid ""
 "A lot of smaller UI improvements have been implemented to give Pods a more "
 "polished look."
 msgstr ""
+"Rất nhiều cải tiến nhỏ hơn về giao diện người dùng đã được triển khai để "
+"mang lại cho Pod giao diện bóng bẩy hơn."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:355
 msgid "The flatpak runtime has been updated to version 43"
-msgstr ""
+msgstr "Runtime Flatpak đã được cập nhật lên phiên bản 43"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:356
 msgid ""
 "Improvements in infrastructure like an issue template have landed, thanks to "
 "@vv9k."
 msgstr ""
+"Những cải tiến về cơ sở hạ tầng như mẫu sự cố đã được thực hiện nhờ @vv9k."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:357
 msgid "Image downloads can now be aborted."
-msgstr ""
+msgstr "Tải xuống hình ảnh bây giờ có thể bị hủy bỏ."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:358
 msgid "Arguments can now be added to a container command, thanks to @vvk9."
-msgstr ""
+msgstr "Giờ đây, các đối số có thể được thêm vào lệnh chứa nhờ @vvk9."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:359
 msgid ""
 "It's now possible to set labels on images, containers and pods, thanks to "
 "@vv9k."
 msgstr ""
+"Giờ đây, bạn có thể đặt nhãn trên hình ảnh, vùng chứa và nhóm nhờ @vv9k."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:366
 msgid "The third beta release of Pods 1.0.0 contains the following changes:"
-msgstr ""
+msgstr "Bản phát hành beta thứ ba của Pods 1.0.0 có những thay đổi sau:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:368
 msgid ""
 "A periodic refresh interval to track entities which were created outside of "
 "podman (e.g. with buildah)"
 msgstr ""
+"Khoảng thời gian làm mới định kỳ để theo dõi các thực thể được tạo bên ngoài "
+"podman (ví dụ: với buildah)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:369
 msgid ""
 "Containers now provide a detailed view of health configuration and health "
 "status"
 msgstr ""
+"Các vùng chứa hiện cung cấp xem chi tiết về cấu hình sức khỏe và trạng thái "
+"sức khỏe"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:370
 msgid "Several smaller UI improvements"
-msgstr ""
+msgstr "Một số cải tiến giao diện người dùng nhỏ hơn"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:371
 msgid "Several smaller bugfixes and internal code improvements"
-msgstr ""
+msgstr "Một số sửa lỗi nhỏ hơn và cải tiến mã nội bộ"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:372
 msgid "Updated screenshots"
-msgstr ""
+msgstr "Ảnh chụp màn hình được cập nhật"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:379
 msgid "A small update with app data fixes:"
-msgstr ""
+msgstr "Một bản cập nhật nhỏ sửa lỗi dữ liệu ứng dụng:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:381
 msgid "Updated app data content rating"
-msgstr ""
+msgstr "Đã cập nhật xếp hạng nội dung dữ liệu ứng dụng"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:382
 msgid "Added releases in app data"
-msgstr ""
+msgstr "Đã thêm bản phát hành trong dữ liệu ứng dụng"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:388
 msgid "This is the first 1.0.0 beta release of Pods."
-msgstr ""
+msgstr "Đây là bản phát hành beta 1.0.0 đầu tiên của Pods."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:400
 msgid "Marcus Behrendt"
-msgstr ""
+msgstr "Marcus Behrendt"
 
 #: src/application.rs:190
 msgid "translator-credits"
 msgstr ""
+"Vietnam Linux L10n <https://github.com/linux-l10n-vi> Loc Huynh <https://"
+"github.com/hthienloc>"
 
 #: src/application.rs:192
 msgid "Translators"
 msgstr ""
+"Vietnam Linux L10n <https://github.com/linux-l10n-vi>\n"
+"Loc Huynh <https://github.com/hthienloc>"
 
 #: src/main.rs:164
 msgid "Prints application version"
-msgstr ""
+msgstr "Phiên bản ứng dụng in"
 
 #: src/main.rs:173
 msgid "Specify the minimum log level"
-msgstr ""
+msgstr "Chỉ định mức nhật ký tối thiểu"
 
 #: src/model/action.rs:134
 msgid "Prune unused images"
-msgstr ""
+msgstr "Cắt tỉa những hình ảnh không sử dụng"
 
 #: src/model/action.rs:172
 msgid "Pull image <b>{}</b>"
-msgstr ""
+msgstr "Kéo hình ảnh <b>{}</b>"
 
 #: src/model/action.rs:210
 msgid "Push image <b>{}</b>"
-msgstr ""
+msgstr "Đẩy hình ảnh <b>{}</b>"
 
 #: src/model/action.rs:265
 msgid "Build image <b>{}</b>"
-msgstr ""
+msgstr "Xây dựng hình ảnh <b>{}</b>"
 
 #: src/model/action.rs:269
 msgid "Generating tarball of context directory..."
-msgstr ""
+msgstr "Tạo tarball của thư mục ngữ cảnh..."
 
 #: src/model/action.rs:336
 msgid "Prune stopped containers"
-msgstr ""
+msgstr "Cắt tỉa các thùng chứa đã dừng"
 
 #: src/model/action.rs:376
 msgid "Start new container <b>{}</b>"
-msgstr ""
+msgstr "Bắt đầu vùng chứa mới <b>{}</b>"
 
 #: src/model/action.rs:378
 msgid "Create container <b>{}</b>"
-msgstr ""
+msgstr "Tạo vùng chứa <b>{}</b>"
 
 #: src/model/action.rs:408
 msgid "none"
-msgstr ""
+msgstr "không có"
 
 #: src/model/action.rs:404
 msgid "Commit image <b>{}</b> ({})"
-msgstr ""
+msgstr "Hình ảnh cam kết <b>{}</b> ({})"
 
 #: src/model/action.rs:418 src/model/action.rs:523 src/model/action.rs:611
 #: src/model/action.rs:927
 msgid "Finished"
-msgstr ""
+msgstr "Hoàn thành"
 
 #: src/model/action.rs:460
 msgid "Upload <b>{}</b> to <b>{}:{}</b>"
-msgstr ""
+msgstr "Tải <b>{}</b> lên <b>{}:{}</b>"
 
 #: src/model/action.rs:467
 msgid "Creating tar archive…"
-msgstr ""
+msgstr "Đang tạo kho lưu trữ tar…"
 
 #: src/model/action.rs:500
 msgid "Tar archive created"
-msgstr ""
+msgstr "Đã tạo kho lưu trữ Tar"
 
 #: src/model/action.rs:501
 msgid "Unwrapping tar archive…"
-msgstr ""
+msgstr "Đang mở gói kho lưu trữ tar…"
 
 #: src/model/action.rs:509
 msgid "Tar archive unwrapped"
-msgstr ""
+msgstr "Đã mở kho lưu trữ Tar"
 
 #: src/model/action.rs:510
 msgid "Copying files into container…"
-msgstr ""
+msgstr "Đang sao chép tập tin vào vùng chứa…"
 
 #: src/model/action.rs:562
 msgid "Download <b>{}:{}</b> to <b>{}</b>"
-msgstr ""
+msgstr "Tải xuống <b>{}:{}</b> về <b>{}</b>"
 
 #: src/model/action.rs:571
 msgid "Copying bytes into memory…"
-msgstr ""
+msgstr "Đang sao chép byte vào bộ nhớ…"
 
 #: src/model/action.rs:574 src/model/action.rs:591
 msgid "Size: {}"
-msgstr ""
+msgstr "Kích thước: {}"
 
 #: src/model/action.rs:627
 msgid "Create pod <b>{}</b>"
-msgstr ""
+msgstr "Tạo nhóm <b>{}</b>"
 
 #: src/model/action.rs:652
 msgid "Prune stopped pods"
-msgstr ""
+msgstr "Cắt tỉa quả đã ngừng"
 
 #: src/model/action.rs:843
 msgid "Create volume <b>{}</b>"
-msgstr ""
+msgstr "Tạo tập <b>{}</b>"
 
 #: src/model/action.rs:891
 msgid "Prune unused volumes"
-msgstr ""
+msgstr "Cắt tỉa khối lượng không sử dụng"
 
 #: src/model/connection_manager.rs:203
 msgid "Connection '{}' already exists"
-msgstr ""
+msgstr "Kết nối '{}' đã tồn tại"
 
 #: src/model/container.rs:69
 msgid "Configured"
-msgstr ""
+msgstr "Đã định cấu hình"
 
 #: src/model/container.rs:70 src/model/pod.rs:67
 #: src/view/container_properties_group.ui:93 src/view/image_details_page.ui:81
 #: src/view/pod_details_page.ui:196 src/view/volume_details_page.ui:58
 msgid "Created"
-msgstr ""
+msgstr "Tạo"
 
 #: src/model/container.rs:71 src/model/pod.rs:68
 msgid "Dead"
-msgstr ""
+msgstr "Chết"
 
 #: src/model/container.rs:72 src/model/pod.rs:71
 msgid "Exited"
-msgstr ""
+msgstr "Đã thoát"
 
 #: src/model/container.rs:73
 msgid "Initialized"
-msgstr ""
+msgstr "Đã khởi tạo"
 
 #: src/model/container.rs:74 src/model/pod.rs:72 src/view/info_panel.ui:132
 msgid "Paused"
-msgstr ""
+msgstr "Đã tạm dừng"
 
 #: src/model/container.rs:75
 msgid "Removing"
-msgstr ""
+msgstr "Đang xóa"
 
 #: src/model/container.rs:76 src/model/pod.rs:73
 msgid "Restarting"
-msgstr ""
+msgstr "Khởi động lại"
 
 #: src/model/container.rs:77 src/model/pod.rs:74 src/view/info_panel.ui:138
 msgid "Running"
-msgstr ""
+msgstr "Đang chạy"
 
 #: src/model/container.rs:78 src/model/pod.rs:75 src/view/info_panel.ui:144
 msgid "Stopped"
-msgstr ""
+msgstr "Đã dừng"
 
 #: src/model/container.rs:79
 msgid "Stopping"
-msgstr ""
+msgstr "Đang dừng"
 
 #: src/model/container.rs:80 src/model/container.rs:121 src/model/pod.rs:76
 msgid "Unknown"
-msgstr ""
+msgstr "Không xác định"
 
 #: src/model/container.rs:117
 msgid "Checking"
-msgstr ""
+msgstr "Kiểm tra"
 
 #: src/model/container.rs:118
 msgid "Healthy"
-msgstr ""
+msgstr "Khỏe mạnh"
 
 #: src/model/container.rs:119
 msgid "Unhealthy"
-msgstr ""
+msgstr "Không tốt cho sức khỏe"
 
 #: src/model/container.rs:120
 msgid "Unconfigured"
-msgstr ""
+msgstr "Chưa được định cấu hình"
 
 #: src/model/pod.rs:69
 msgid "Degraded"
-msgstr ""
+msgstr "Xuống cấp"
 
 #: src/model/pod.rs:70 src/view/connection_creation_page.rs:288
 #: src/view/scalable_text_view_page.rs:452 src/view/top_page.rs:507
 #: src/view/top_page.rs:515
 msgid "Error"
-msgstr ""
+msgstr "Lỗi"
 
 #: src/utils.rs:111
 msgid "{} h {} min {} s"
-msgstr ""
+msgstr "{} giờ {} phút {} giây"
 
 #: src/utils.rs:113
 msgid "{} h {} s"
-msgstr ""
+msgstr "{} giờ {} giây"
 
 #: src/utils.rs:120
 msgid "{} min {} s"
-msgstr ""
+msgstr "{} phút {} giây"
 
 #: src/utils.rs:122
 msgid "{} min"
-msgstr ""
+msgstr "{} phút"
 
 #: src/utils.rs:125
 msgid "{} s"
-msgstr ""
+msgstr "{} giây"
 
 #: src/utils.rs:141
 msgid "a few seconds"
-msgstr ""
+msgstr "một vài giây"
 
 #: src/utils.rs:143
 msgid "{} minute"
 msgid_plural "{} minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} phút"
 
 #: src/utils.rs:145
 msgid "{} hour"
 msgid_plural "{} hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} giờ"
 
 #: src/utils.rs:148
 msgid "{} day"
 msgid_plural "{} days"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} ngày"
 
 #. Translators: Example: {3 hours} ago, {a few seconds} ago
 #: src/utils.rs:154
 msgid "{} ago"
-msgstr ""
+msgstr "{} trước"
 
 #. Translators: This string will be shown when a property of an entity like an image is null.
 #: src/utils.rs:256
 msgid "<none>"
-msgstr ""
+msgstr "<không có có>"
 
 #: src/utils.rs:444
 msgid "Error on open file dialog"
-msgstr ""
+msgstr "Lỗi hộp thoại mở tệp"
 
 #: src/view/action_page.rs:143
 msgid "Pruning Images"
-msgstr ""
+msgstr "Cắt tỉa hình ảnh"
 
 #: src/view/action_page.rs:144
 msgid "Downloading Image"
-msgstr ""
+msgstr "Đang tải hình ảnh"
 
 #: src/view/action_page.rs:145
 msgid "Building Image"
-msgstr ""
+msgstr "Hình ảnh tòa nhà"
 
 #: src/view/action_page.rs:146
 msgid "Pushing Image"
-msgstr ""
+msgstr "Đẩy hình ảnh"
 
 #: src/view/action_page.rs:147
 msgid "Pruning Containers"
-msgstr ""
+msgstr "Cắt tỉa thùng chứa"
 
 #: src/view/action_page.rs:148
 msgid "Creating Container"
-msgstr ""
+msgstr "Tạo vùng chứa"
 
 #: src/view/action_page.rs:149
 msgid "Starting Container"
-msgstr ""
+msgstr "Vùng chứa khởi động"
 
 #: src/view/action_page.rs:150
 msgid "Committing Image"
-msgstr ""
+msgstr "Hình ảnh cam kết"
 
 #: src/view/action_page.rs:151
 msgid "Copying Files"
-msgstr ""
+msgstr "Sao chép tập tin"
 
 #: src/view/action_page.rs:152
 msgid "Pruning Pods"
-msgstr ""
+msgstr "Vỏ cắt tỉa"
 
 #: src/view/action_page.rs:153
 msgid "Creating Pod"
-msgstr ""
+msgstr "Tạo nhóm"
 
 #: src/view/action_page.rs:154
 msgid "Creating Volume"
-msgstr ""
+msgstr "Tạo âm lượng"
 
 #: src/view/action_page.rs:155
 msgid "Pruning Volumes"
-msgstr ""
+msgstr "Khối lượng cắt tỉa"
 
 #: src/view/action_page.rs:161
 msgid "Images Pruned"
-msgstr ""
+msgstr "Hình ảnh được cắt tỉa"
 
 #: src/view/action_page.rs:162
 msgid "Image Downloaded"
-msgstr ""
+msgstr "Đã tải xuống hình ảnh"
 
 #: src/view/action_page.rs:163
 msgid "Image Built"
-msgstr ""
+msgstr "Hình ảnh được xây dựng"
 
 #: src/view/action_page.rs:164
 msgid "Image Pushed"
-msgstr ""
+msgstr "Đã đẩy hình ảnh"
 
 #: src/view/action_page.rs:165
 msgid "Containers Pruned"
-msgstr ""
+msgstr "Container tỉa"
 
 #: src/view/action_page.rs:166
 msgid "Container Created"
-msgstr ""
+msgstr "Đã tạo vùng chứa"
 
 #: src/view/action_page.rs:167
 msgid "Container Started"
-msgstr ""
+msgstr "Vùng chứa đã bắt đầu"
 
 #: src/view/action_page.rs:168
 msgid "Image Committed"
-msgstr ""
+msgstr "Hình ảnh đã cam kết"
 
 #: src/view/action_page.rs:169
 msgid "Files Copied"
-msgstr ""
+msgstr "Tệp đã sao chép"
 
 #: src/view/action_page.rs:170
 msgid "Pods Pruned"
-msgstr ""
+msgstr "Quả được cắt tỉa"
 
 #: src/view/action_page.rs:171
 msgid "Pod Created"
-msgstr ""
+msgstr "Đã tạo nhóm"
 
 #: src/view/action_page.rs:172
 msgid "Volume Created"
-msgstr ""
+msgstr "Âm lượng đã tạo"
 
 #: src/view/action_page.rs:173
 msgid "Volumes Pruned"
-msgstr ""
+msgstr "Tập cắt tỉa"
 
 #: src/view/action_page.rs:179
 msgid "Image Pruning Aborted"
-msgstr ""
+msgstr "Cắt tỉa hình ảnh bị hủy bỏ"
 
 #: src/view/action_page.rs:180
 msgid "Image Download Aborted"
-msgstr ""
+msgstr "Tải xuống hình ảnh bị hủy bỏ"
 
 #: src/view/action_page.rs:181
 msgid "Image Built Aborted"
-msgstr ""
+msgstr "Hình ảnh được xây dựng bị hủy bỏ"
 
 #: src/view/action_page.rs:182
 msgid "Image Push Aborted"
-msgstr ""
+msgstr "Đẩy hình ảnh bị hủy bỏ"
 
 #: src/view/action_page.rs:183
 msgid "Container Pruning Aborted"
-msgstr ""
+msgstr "Việc cắt tỉa vùng chứa bị hủy bỏ"
 
 #: src/view/action_page.rs:184
 msgid "Container Creation Aborted"
-msgstr ""
+msgstr "Việc tạo vùng chứa bị hủy bỏ"
 
 #: src/view/action_page.rs:185
 msgid "Container Start Aborted"
-msgstr ""
+msgstr "Bắt đầu vùng chứa bị hủy bỏ"
 
 #: src/view/action_page.rs:186
 msgid "Image Commit Aborted"
-msgstr ""
+msgstr "Cam kết hình ảnh bị hủy bỏ"
 
 #: src/view/action_page.rs:187
 msgid "File Copying Aborted"
-msgstr ""
+msgstr "Sao chép tệp bị hủy bỏ"
 
 #: src/view/action_page.rs:188
 msgid "Pod Pruning Aborted"
-msgstr ""
+msgstr "Việc cắt tỉa quả đã bị hủy bỏ"
 
 #: src/view/action_page.rs:189
 msgid "Pod Creation Aborted"
-msgstr ""
+msgstr "Quá trình tạo nhóm bị hủy bỏ"
 
 #: src/view/action_page.rs:190
 msgid "Volume Creation Aborted"
-msgstr ""
+msgstr "Việc tạo tập đĩa bị hủy bỏ"
 
 #: src/view/action_page.rs:191
 msgid "Volume Pruning Aborted"
-msgstr ""
+msgstr "Cắt tỉa âm lượng bị hủy bỏ"
 
 #: src/view/action_page.rs:197
 msgid "Pruning Image Failed"
-msgstr ""
+msgstr "Cắt tỉa hình ảnh không thành công"
 
 #: src/view/action_page.rs:198
 msgid "Downloading Image Failed"
-msgstr ""
+msgstr "Tải xuống hình ảnh không thành công"
 
 #: src/view/action_page.rs:199
 msgid "Building Image Failed"
-msgstr ""
+msgstr "Hình ảnh tòa nhà không thành công"
 
 #: src/view/action_page.rs:200
 msgid "Pushing Image Failed"
-msgstr ""
+msgstr "Đẩy hình ảnh không thành công"
 
 #: src/view/action_page.rs:201
 msgid "Pruning Containers Failed"
-msgstr ""
+msgstr "Cắt tỉa thùng chứa không thành công"
 
 #: src/view/action_page.rs:202
 msgid "Creating Container Failed"
-msgstr ""
+msgstr "Tạo vùng chứa không thành công"
 
 #: src/view/action_page.rs:203
 msgid "Starting Container Failed"
-msgstr ""
+msgstr "Khởi động vùng chứa không thành công"
 
 #: src/view/action_page.rs:204
 msgid "Committing Image Failed"
-msgstr ""
+msgstr "Cam kết hình ảnh không thành công"
 
 #: src/view/action_page.rs:205
 msgid "Copying Files Failed"
-msgstr ""
+msgstr "Sao chép tập tin không thành công"
 
 #: src/view/action_page.rs:206
 msgid "Pruning Pods Failed"
-msgstr ""
+msgstr "Cắt tỉa quả không thành công"
 
 #: src/view/action_page.rs:207
 msgid "Creating Pod Failed"
-msgstr ""
+msgstr "Tạo nhóm không thành công"
 
 #: src/view/action_page.rs:208
 msgid "Creating Volume Failed"
-msgstr ""
+msgstr "Tạo tập không thành công"
 
 #: src/view/action_page.rs:209
 msgid "Pruning Volumes Failed"
-msgstr ""
+msgstr "Cắt tỉa khối lượng không thành công"
 
 #: src/view/action_page.rs:253
 msgid "After {}"
-msgstr ""
+msgstr "Sau {}"
 
 #: src/view/action_page.rs:293
 msgid "Action"
-msgstr ""
+msgstr "Hoạt động"
 
 #: src/view/action_page.rs:302
 msgid "Error on opening artifact"
-msgstr ""
+msgstr "Lỗi khi mở hiện vật"
 
 #: src/view/action_page.rs:303
 msgid "Artifact has been deleted"
-msgstr ""
+msgstr "Hiện vật đã bị xóa"
 
 #: src/view/action_page.ui:103 src/view/connection_creation_page.ui:89
 msgid "_Abort"
-msgstr ""
+msgstr "_Hủy bỏ"
 
 #: src/view/action_page.ui:118
 msgid "_View"
-msgstr ""
+msgstr "_Xem"
 
 #: src/view/action_page.ui:133 src/view/info_panel.ui:248
 msgid "_Retry"
-msgstr ""
+msgstr "_Thử lại"
 
 #: src/view/action_row.rs:138
 msgid "Abort"
-msgstr ""
+msgstr "Hủy bỏ"
 
 #: src/view/action_row.rs:140
 msgid "Remove"
-msgstr ""
+msgstr "Xóa"
 
 #: src/view/action_row.rs:203
 msgid "Failed Pods Action"
-msgstr ""
+msgstr "Hành động nhóm không thành công"
 
 #: src/view/action_row.rs:207
 msgid "Finished Pods Action"
-msgstr ""
+msgstr "Hành động nhóm đã hoàn tất"
 
 #: src/view/action_row.rs:257
 msgid "Ongoing ({})"
-msgstr ""
+msgstr "Đang diễn ra ({})"
 
 #: src/view/action_row.rs:271
 msgid "Finished after {}"
-msgstr ""
+msgstr "Hoàn thành sau {}"
 
 #: src/view/action_row.rs:272
 msgid "Aborted after {}"
-msgstr ""
+msgstr "Bị hủy bỏ sau {}"
 
 #: src/view/action_row.rs:273
 msgid "Failed after {}"
-msgstr ""
+msgstr "Thất bại sau {}"
 
 #: src/view/actions_sidebar.ui:18 src/view/client_view.ui:64
 #: src/view/client_view.ui:199
 msgid "Actions"
-msgstr ""
+msgstr "Hành động"
 
 #: src/view/actions_sidebar.ui:26
 msgid "Clear Finished Actions"
-msgstr ""
+msgstr "Xóa các hành động đã hoàn tất"
 
 #: src/view/actions_sidebar.ui:48
 msgid "No Actions"
-msgstr ""
+msgstr "Không hành động nào"
 
 #: src/view/client_view.rs:252 src/view/containers_panel.ui:67
 #: src/view/containers_panel.ui:138 src/view/containers_panel.ui:434
@@ -1737,25 +1960,25 @@ msgstr ""
 #: src/view/pod_details_page.ui:293 src/view/search_panel.ui:65
 #: src/view/volume_details_page.ui:102
 msgid "Containers"
-msgstr ""
+msgstr "Thùng chứa"
 
 #: src/view/client_view.rs:254 src/view/images_panel.ui:92
 #: src/view/images_panel.ui:163 src/view/images_panel.ui:349
 #: src/view/images_row.ui:22 src/view/search_panel.ui:97
 msgid "Images"
-msgstr ""
+msgstr "Hình ảnh"
 
 #: src/view/client_view.rs:255 src/view/container_creation_page.ui:303
 #: src/view/container_details_page.ui:183 src/view/search_panel.ui:113
 #: src/view/volumes_panel.ui:67 src/view/volumes_panel.ui:138
 #: src/view/volumes_panel.ui:324 src/view/volumes_row.ui:22
 msgid "Volumes"
-msgstr ""
+msgstr "Tập"
 
 #: src/view/client_view.rs:256 src/view/info_panel.ui:24
 #: src/view/info_row.ui:22
 msgid "Info"
-msgstr ""
+msgstr "Thông tin"
 
 #: src/view/client_view.rs:257 src/view/container_log_page.ui:60
 #: src/view/containers_panel.ui:109 src/view/images_panel.ui:134
@@ -1763,60 +1986,60 @@ msgstr ""
 #: src/view/search_panel.ui:32 src/view/search_row.ui:22
 #: src/view/top_page.ui:18 src/view/volumes_panel.ui:109
 msgid "Search"
-msgstr ""
+msgstr "Tìm kiếm"
 
 #. .Translators: The maximum sidebar width
 #: src/view/client_view.ui:30
 msgid "280"
-msgstr ""
+msgstr "280"
 
 #: src/view/client_view.ui:37 src/view/client_view.ui:45
 msgid "Home"
-msgstr ""
+msgstr "Thư mục chính"
 
 #: src/view/client_view.ui:57 src/view/client_view.ui:179
 #: src/view/connections_sidebar.ui:18
 msgid "Connections"
-msgstr ""
+msgstr "Kết nối"
 
 #: src/view/client_view.ui:82
 msgctxt "app name"
 msgid "Pods"
-msgstr ""
+msgstr "Vỏ"
 
 #: src/view/client_view.ui:223
 msgid "Content"
-msgstr ""
+msgstr "Nội dung"
 
 #: src/view/connection_chooser_page.rs:106
 msgid "Error on establishing connection"
-msgstr ""
+msgstr "Lỗi khi thiết lập kết nối"
 
 #: src/view/connection_chooser_page.ui:26
 msgid "Connect to Podman"
-msgstr ""
+msgstr "Kết nối với Podman"
 
 #: src/view/connection_chooser_page.ui:27
 msgid "Choose an existing connection or create a new one"
-msgstr ""
+msgstr "Chọn kết nối hiện có hoặc tạo kết nối mới"
 
 #: src/view/connection_creation_page.rs:140
 msgid "official documentation"
-msgstr ""
+msgstr "tài liệu chính thức"
 
 #. Translators: The placeholder '{}' is replaced by 'official documentation'.
 #: src/view/connection_creation_page.rs:137
 msgid "Visit the {} for more information."
-msgstr ""
+msgstr "Hãy truy cập {} để biết thêm thông tin."
 
 #: src/view/connection_creation_page.rs:246
 msgid "Confirm Connecting to New Instance"
-msgstr ""
+msgstr "Xác nhận kết nối với phiên bản mới"
 
 #: src/view/connection_creation_page.ui:23
 #: src/view/connection_creation_page.ui:43
 msgid "New Connection"
-msgstr ""
+msgstr "Kết nối mới"
 
 #: src/view/connection_creation_page.ui:36 src/view/connection.rs:28
 #: src/view/container_card.rs:564 src/view/container_commit_page.ui:35
@@ -1832,11 +2055,11 @@ msgstr ""
 #: src/view/volume_creation_page.ui:35 src/view/volume.rs:26
 #: src/view/volumes_panel.rs:459 src/view/volumes_prune_page.ui:35
 msgid "_Cancel"
-msgstr ""
+msgstr "_Hủy bỏ"
 
 #: src/view/connection_creation_page.ui:60
 msgid "_Connect"
-msgstr ""
+msgstr "_Kết nối"
 
 #: src/view/connection_creation_page.ui:119
 #: src/view/container_creation_page.ui:80
@@ -1845,29 +2068,31 @@ msgstr ""
 #: src/view/pod_details_page.ui:179 src/view/volume_creation_page.ui:69
 #: src/view/volume_details_page.ui:46
 msgid "Name"
-msgstr ""
+msgstr "Tên"
 
 #: src/view/connection_creation_page.ui:128
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: src/view/connection_creation_page.ui:129
 msgid "Choose how to connect to Podman"
-msgstr ""
+msgstr "Chọn cách kết nối với Podman"
 
 #: src/view/connection_creation_page.ui:133
 msgid "Unix Socket"
-msgstr ""
+msgstr "Ổ cắm Unix"
 
 #: src/view/connection_creation_page.ui:169
 msgid "Podman Socket Activation"
-msgstr ""
+msgstr "Kích hoạt ổ cắm Podman"
 
 #: src/view/connection_creation_page.ui:176
 msgid ""
 "To connect to the local Podman instance, the systemd socket must be enabled. "
 "You can enable it permanently by issuing the following command:"
 msgstr ""
+"Để kết nối với phiên bản Podman cục bộ, ổ cắm systemd phải đã bật. Bạn có "
+"thể bật nó vĩnh viễn bằng cách ban hành lệnh sau:"
 
 #: src/view/connection_creation_page.ui:225
 #: src/view/connection_custom_info_page.ui:140
@@ -1875,49 +2100,51 @@ msgstr ""
 #: src/view/connection_custom_info_page.ui:256
 #: src/view/connection_custom_info_page.ui:306
 msgid "Copy to Clipboard"
-msgstr ""
+msgstr "Sao chép vào bộ nhớ tạm"
 
 #: src/view/connection_creation_page.ui:241
 msgid ""
 "To connect to the local root Podman instance, create a custom connection "
 "(read the hints there)."
 msgstr ""
+"Để kết nối với phiên bản Podman gốc cục bộ, hãy tạo một kết nối tùy chỉnh "
+"(đọc gợi ý ở đó)."
 
 #: src/view/connection_creation_page.ui:266
 msgid "Custom URL"
-msgstr ""
+msgstr "URL tùy chỉnh"
 
 #: src/view/connection_creation_page.ui:304
 msgid "Color"
-msgstr ""
+msgstr "Màu sắc"
 
 #: src/view/connection_creation_page.ui:305
 msgid "Set the color of this connection"
-msgstr ""
+msgstr "Đặt màu của kết nối này"
 
 #: src/view/connection_creation_page.ui:351
 msgid "Custom Connection Info"
-msgstr ""
+msgstr "Thông tin kết nối tùy chỉnh"
 
 #: src/view/connection_custom_info_page.rs:131
 msgid "systemd unit path copied"
-msgstr ""
+msgstr "đường dẫn đơn vị systemd đã sao chép"
 
 #: src/view/connection_custom_info_page.rs:139
 msgid "systemd unit content copied"
-msgstr ""
+msgstr "nội dung đơn vị systemd được sao chép"
 
 #: src/view/connection_custom_info_page.rs:149
 msgid "socket activation command copied"
-msgstr ""
+msgstr "lệnh kích hoạt ổ cắm đã sao chép"
 
 #: src/view/connection_custom_info_page.rs:158
 msgid "URL copied"
-msgstr ""
+msgstr "Đã sao chép URL"
 
 #: src/view/connection_custom_info_page.ui:16
 msgid "Custom Connection"
-msgstr ""
+msgstr "Kết nối tùy chỉnh"
 
 #: src/view/connection_custom_info_page.ui:37
 msgid ""
@@ -1925,14 +2152,17 @@ msgid ""
 "span>, <span weight=\"bold\">TCP</span>, and <span weight=\"bold\">UNIX</"
 "span> protocols. For example, the connection string might look like this:"
 msgstr ""
+"Bạn có thể kết nối với phiên bản Podman bằng các giao thức <span "
+"weight=\"bold\">HTTP</span>, <span weight=\"bold\">TCP</span> và <span "
+"weight=\"bold\">UNIX</span>. Ví dụ: chuỗi kết nối có thể trông như thế này:"
 
 #: src/view/connection_custom_info_page.ui:59
 msgid "http://somewhere:8081"
-msgstr ""
+msgstr "http://somewhere:8081"
 
 #: src/view/connection_custom_info_page.ui:80
 msgid "Podman Root Connection"
-msgstr ""
+msgstr "Kết nối gốc Podman"
 
 #: src/view/connection_custom_info_page.ui:91
 msgid ""
@@ -1941,19 +2171,23 @@ msgid ""
 "is not readable for normal users. However, there is a workaround using a "
 "systemd unit. Save the following snippet:"
 msgstr ""
+"Rất tiếc, hiện tại không thể kết nối trực tiếp với phiên bản gốc của Podman "
+"vì <span weight=\"bold\">/run/podman/podman.sock</span> không thể đọc được "
+"đối với người dùng thông thường. Tuy nhiên, có một cách giải quyết khác là "
+"sử dụng đơn vị systemd. Lưu đoạn mã sau:"
 
 #: src/view/connection_custom_info_page.ui:205
 msgid "Enable the service by issuing the command:"
-msgstr ""
+msgstr "Bật dịch vụ bằng cách ra lệnh:"
 
 #: src/view/connection_custom_info_page.ui:265
 msgid ""
 "Enter the following URL here into the text field and create the connection:"
-msgstr ""
+msgstr "Nhập URL sau vào trường văn bản và tạo kết nối:"
 
 #: src/view/connection_row.rs:98
 msgid "Local connection"
-msgstr ""
+msgstr "Kết nối cục bộ"
 
 #: src/view/connection_row.ui:95 src/view/container_card.ui:564
 #: src/view/container_details_page.ui:158 src/view/containers_panel.ui:403
@@ -1962,92 +2196,96 @@ msgstr ""
 #: src/view/pods_panel.ui:401 src/view/volumes_panel.ui:297
 #: src/view/volumes_panel.ui:299
 msgid "Delete"
-msgstr ""
+msgstr "Xóa"
 
 #: src/view/connection.rs:22
 msgid "There are ongoing actions whose progress will be irretrievably lost"
 msgstr ""
+"Có những hành động đang diễn ra mà tiến độ của chúng sẽ bị mất đi không thể "
+"cứu vãn được"
 
 #: src/view/connection.rs:29 src/view/container_card.rs:565
 msgid "_Confirm"
-msgstr ""
+msgstr "Xá_c nhận"
 
 #: src/view/connections_sidebar.rs:97
 msgid "Confirm Switching Connection"
-msgstr ""
+msgstr "Xác nhận chuyển đổi kết nối"
 
 #: src/view/connections_sidebar.rs:104
 msgid "Error on switching connection"
-msgstr ""
+msgstr "Lỗi chuyển đổi kết nối"
 
 #: src/view/connections_sidebar.ui:26
 msgid "New Connection (Ctrl+Shift+N)"
-msgstr ""
+msgstr "Kết nối mới (Ctrl+Shift+N)"
 
 #: src/view/container_card.rs:544 src/view/container_row.rs:250
 msgid "Container {}"
-msgstr ""
+msgstr "Thùng chứa {}"
 
 #: src/view/container_card.rs:556
 msgid "Delete Container?"
-msgstr ""
+msgstr "Xóa vùng chứa?"
 
 #: src/view/container_card.rs:559
 msgid ""
 "All settings and all changes made within the container will be irreversibly "
 "lost"
 msgstr ""
+"Tất cả cài đặt và tất cả thay đổi được thực hiện trong vùng chứa sẽ bị mất "
+"mà không thể phục hồi được"
 
 #. Translators: For example 5 MB / s.
 #: src/view/container_card.rs:626 src/view/container_resources.rs:276
 msgid "{} / s"
-msgstr ""
+msgstr "{}/giây"
 
 #: src/view/container_card.ui:110
 msgid "Rename"
-msgstr ""
+msgstr "Đổi tên"
 
 #: src/view/container_card.ui:406
 msgid "No Ports Mappings"
-msgstr ""
+msgstr "Không bản đồ cổng"
 
 #: src/view/container_card.ui:464 src/view/container_details_page.ui:54
 #: src/view/containers_panel.ui:309 src/view/pod_details_page.ui:48
 #: src/view/pods_panel.ui:307 src/view/top_page_action_bar.ui:16
 msgid "Kill"
-msgstr ""
+msgstr "Giết"
 
 #: src/view/container_card.ui:482 src/view/container_details_page.ui:73
 #: src/view/containers_panel.ui:328 src/view/pod_details_page.ui:67
 #: src/view/pods_panel.ui:326
 msgid "Restart"
-msgstr ""
+msgstr "Khởi động lại"
 
 #: src/view/container_card.ui:493 src/view/container_details_page.ui:86
 #: src/view/containers_panel.ui:346 src/view/pod_details_page.ui:80
 #: src/view/pods_panel.ui:344
 msgid "Start/Resume"
-msgstr ""
+msgstr "Bắt đầu/Tiếp tục"
 
 #: src/view/container_card.ui:510 src/view/container_details_page.ui:105
 #: src/view/containers_panel.ui:364 src/view/pod_details_page.ui:99
 #: src/view/pods_panel.ui:362
 msgid "Stop"
-msgstr ""
+msgstr "Dừng"
 
 #: src/view/container_card.ui:548 src/view/container_commit_page.ui:124
 #: src/view/container_details_page.ui:141 src/view/containers_panel.ui:386
 #: src/view/pod_details_page.ui:135 src/view/pods_panel.ui:384
 msgid "Pause"
-msgstr ""
+msgstr "Tạm dừng"
 
 #: src/view/container_commit_page.rs:98
 msgid "Change"
-msgstr ""
+msgstr "Thay đổi"
 
 #: src/view/container_commit_page.rs:197
 msgid "Error on fetching user name"
-msgstr ""
+msgstr "Lỗi khi tìm nạp tên người dùng"
 
 #: src/view/container_commit_page.ui:22 src/view/container_creation_page.ui:31
 #: src/view/container_files_get_page.ui:22
@@ -2057,988 +2295,989 @@ msgstr ""
 #: src/view/pods_prune_page.ui:22 src/view/repo_tag_push_page.ui:25
 #: src/view/volume_creation_page.ui:22 src/view/volumes_prune_page.ui:22
 msgid "Preferences"
-msgstr ""
+msgstr "Tùy chỉnh"
 
 #: src/view/container_commit_page.ui:42
 msgid "Commit Container"
-msgstr ""
+msgstr "Cam kết vùng chứa"
 
 #: src/view/container_commit_page.ui:52
 msgid "_Commit"
-msgstr ""
+msgstr "_Làm"
 
 #: src/view/container_commit_page.ui:65
 msgid "General Commit Options"
-msgstr ""
+msgstr "Tùy chọn cam kết chung"
 
 #: src/view/container_commit_page.ui:70
 msgid "Author"
-msgstr ""
+msgstr "Tác giả"
 
 #: src/view/container_commit_page.ui:79
 msgid "Fetch Username"
-msgstr ""
+msgstr "Tìm nạp tên người dùng"
 
 #: src/view/container_commit_page.ui:90 src/view/image_history_page.rs:169
 msgid "Comment"
-msgstr ""
+msgstr "Bình luận"
 
 #: src/view/container_commit_page.ui:97
 msgid "Repo"
-msgstr ""
+msgstr "Repo"
 
 #: src/view/container_commit_page.ui:104
 msgid "Tag"
-msgstr ""
+msgstr "Thẻ"
 
 #: src/view/container_commit_page.ui:110
 msgid "Format"
-msgstr ""
+msgstr "Định dạng"
 
 #: src/view/container_commit_page.ui:125
 msgid "Pause the container before committing it"
-msgstr ""
+msgstr "Tạm dừng vùng chứa trước khi cam kết"
 
 #: src/view/container_commit_page.ui:134
 msgid "Changes"
-msgstr ""
+msgstr "Thay đổi"
 
 #: src/view/container_commit_page.ui:135
 msgid ""
 "Instructions to apply while committing in Dockerfile format (i.e. \"CMD=/bin/"
 "foo\")"
 msgstr ""
+"Hướng dẫn áp dụng trong khi cam kết ở định dạng Dockerfile (tức là \"CMD=/"
+"bin/foo\")"
 
 #: src/view/container_creation_page.rs:197 src/view/pod_creation_page.rs:197
 #: src/view/pod_creation_page.rs:207 src/view/value_row.ui:4
 msgid "Argument"
-msgstr ""
+msgstr "Lý lẽ"
 
 #: src/view/container_creation_page.rs:200 src/view/pod_creation_page.rs:200
 #: src/view/pod_creation_page.rs:210
 msgid "Add Argument"
-msgstr ""
+msgstr "Thêm đối số"
 
 #: src/view/container_creation_page.rs:211 src/view/pod_creation_page.rs:180
 msgid "Add Port Mapping"
-msgstr ""
+msgstr "Thêm bản đồ cổng"
 
 #: src/view/container_creation_page.rs:219
 msgid "Add Volume"
-msgstr ""
+msgstr "Thêm âm lượng"
 
 #: src/view/container_creation_page.rs:229
 msgid "Add Environment Variable"
-msgstr ""
+msgstr "Thêm biến môi trường"
 
 #: src/view/container_creation_page.rs:239 src/view/image_build_page.rs:115
 #: src/view/pod_creation_page.rs:154
 msgid "Add Label"
-msgstr ""
+msgstr "Thêm nhãn"
 
 #: src/view/container_creation_page.rs:524
 msgid "Failed to create container"
-msgstr ""
+msgstr "Không tạo được vùng chứa"
 
 #: src/view/container_creation_page.rs:525
 msgid "no image selected"
-msgstr ""
+msgstr "không hình ảnh nào được chọn"
 
 #: src/view/container_creation_page.ui:15
 msgid "_Create Only"
-msgstr ""
+msgstr "_Chỉ tạo"
 
 #: src/view/container_creation_page.ui:51 src/view/containers_group.ui:12
 #: src/view/containers_panel.ui:117
 msgid "Create Container"
-msgstr ""
+msgstr "Tạo vùng chứa"
 
 #: src/view/container_creation_page.ui:61
 msgid "_Run"
-msgstr ""
+msgstr "_Chạy"
 
 #: src/view/container_creation_page.ui:109 src/view/image_build_page.ui:99
 #: src/view/pod_creation_page.ui:99
 msgid "Details"
-msgstr ""
+msgstr "Chi tiết"
 
 #: src/view/container_creation_page.ui:128
 #: src/view/container_properties_group.ui:300 src/view/pod_details_page.ui:16
 msgid "Pod"
-msgstr ""
+msgstr "Nhóm"
 
 #: src/view/container_creation_page.ui:155 src/view/pod_creation_page.ui:290
 msgid "Pull Latest Image"
-msgstr ""
+msgstr "Kéo hình ảnh mới nhất"
 
 #: src/view/container_creation_page.ui:161
 #: src/view/container_details_page.ui:237
 msgid "Terminal"
-msgstr ""
+msgstr "Thiết bị đầu cuối"
 
 #: src/view/container_creation_page.ui:168
 msgid "Privileged"
-msgstr ""
+msgstr "Đặc quyền"
 
 #: src/view/container_creation_page.ui:169
 msgid "Give extended privileges to container"
-msgstr ""
+msgstr "Cấp đặc quyền mở rộng cho vùng chứa"
 
 #: src/view/container_creation_page.ui:176
 msgid "Memory Limit"
-msgstr ""
+msgstr "Giới hạn bộ nhớ"
 
 #: src/view/container_creation_page.ui:220
 msgid "KB"
-msgstr ""
+msgstr "KB"
 
 #: src/view/container_creation_page.ui:221
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 #: src/view/container_creation_page.ui:222
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #: src/view/container_creation_page.ui:251
 #: src/view/container_creation_page.ui:363
 #: src/view/container_health_check_page.ui:53 src/view/image_details_page.ui:93
 #: src/view/pod_creation_page.ui:310
 msgid "Command"
-msgstr ""
+msgstr "Lệnh"
 
 #: src/view/container_creation_page.ui:259 src/view/pod_creation_page.ui:142
 #: src/view/pod_creation_page.ui:319
 msgid "Arguments"
-msgstr ""
+msgstr "Đối số"
 
 #: src/view/container_creation_page.ui:278 src/view/image_build_page.ui:144
 #: src/view/pod_creation_page.ui:163
 msgid "Integration"
-msgstr ""
+msgstr "Tích hợp"
 
 #: src/view/container_creation_page.ui:288 src/view/pod_creation_page.ui:173
 msgid "Port Mappings"
-msgstr ""
+msgstr "Bản đồ cổng"
 
 #: src/view/container_creation_page.ui:318
 msgid "Environment Variables"
-msgstr ""
+msgstr "Biến môi trường"
 
 #: src/view/container_creation_page.ui:333 src/view/image_build_page.ui:153
 #: src/view/pod_creation_page.ui:225
 msgid "Labels"
-msgstr ""
+msgstr "Nhãn"
 
 #: src/view/container_creation_page.ui:354
 #: src/view/container_properties_group.ui:223
 msgid "Health Check"
-msgstr ""
+msgstr "Kiểm tra sức khỏe"
 
 #: src/view/container_creation_page.ui:369
 #: src/view/container_health_check_page.ui:59
 msgid "Interval"
-msgstr ""
+msgstr "Khoảng thời gian"
 
 #: src/view/container_creation_page.ui:370
 msgid "Health check interval in seconds"
-msgstr ""
+msgstr "Khoảng thời gian kiểm tra sức khỏe tính bằng giây"
 
 #: src/view/container_creation_page.ui:386
 #: src/view/container_health_check_page.ui:71
 msgid "Timeout"
-msgstr ""
+msgstr "Hết thời gian"
 
 #: src/view/container_creation_page.ui:387
 msgid "Seconds allowed to complete the command before it fails"
-msgstr ""
+msgstr "Số giây được phép hoàn thành lệnh trước khi nó thất bại"
 
 #: src/view/container_creation_page.ui:403
 msgid "Start Period"
-msgstr ""
+msgstr "Giai đoạn bắt đầu"
 
 #: src/view/container_creation_page.ui:404
 msgid ""
 "Initial delay of the command in seconds to grant the container time to boot"
 msgstr ""
+"Độ trễ ban đầu của lệnh tính bằng giây để cấp thời gian khởi động cho vùng "
+"chứa"
 
 #: src/view/container_creation_page.ui:420
 #: src/view/container_health_check_page.ui:65
 msgid "Retries"
-msgstr ""
+msgstr "Thử lại"
 
 #: src/view/container_creation_page.ui:421
 msgid "Number of retries allowed before a healthcheck fails"
-msgstr ""
+msgstr "Số lần thử lại được phép trước khi kiểm tra tình trạng không thành công"
 
 #: src/view/container_details_page.rs:235
 msgid "Error on loading container details"
-msgstr ""
+msgstr "Lỗi khi tải chi tiết vùng chứa"
 
 #: src/view/container_details_page.rs:239
 msgid "Container '{}' has been deleted"
-msgstr ""
+msgstr "Vùng chứa '{}' đã bị xóa"
 
 #: src/view/container_details_page.ui:16
 msgid "Container"
-msgstr ""
+msgstr "Thùng chứa"
 
 #: src/view/container_details_page.ui:199 src/view/image_details_page.ui:117
 #: src/view/pod_details_page.ui:229 src/view/volume_details_page.ui:73
 msgid "Utilities"
-msgstr ""
+msgstr "Tiện ích"
 
 #: src/view/container_details_page.ui:203 src/view/image_details_page.ui:121
 #: src/view/pod_details_page.ui:233 src/view/volume_details_page.ui:77
 msgid "Inspection"
-msgstr ""
+msgstr "Điều tra"
 
 #: src/view/container_details_page.ui:204
 msgid "View all container properties in a structured text form"
-msgstr ""
+msgstr "Xem tất cả thuộc tính vùng chứa ở dạng văn bản có cấu trúc"
 
 #: src/view/container_details_page.ui:220 src/view/pod_details_page.ui:250
 msgid "Kube"
-msgstr ""
+msgstr "Kube"
 
 #: src/view/container_details_page.ui:221
 msgid "Generate Kubernetes YAML based on this container"
-msgstr ""
+msgstr "Tạo Kubernetes YAML dựa trên vùng chứa này"
 
 #: src/view/container_details_page.ui:238
 msgid "Connect to the container's terminal"
-msgstr ""
+msgstr "Kết nối với thiết bị đầu cuối của container"
 
 #: src/view/container_details_page.ui:254
 msgid "Logs"
-msgstr ""
+msgstr "Nhật ký"
 
 #: src/view/container_details_page.ui:255
 msgid "View and search through container logs"
-msgstr ""
+msgstr "Xem và tìm kiếm thông qua nhật ký vùng chứa"
 
 #: src/view/container_details_page.ui:271 src/view/pod_details_page.ui:267
 msgid "Processes"
-msgstr ""
+msgstr "Quy trình"
 
 #: src/view/container_details_page.ui:272
 msgid "View and manage processes of the container"
-msgstr ""
+msgstr "Xem và quản lý các tiến trình của container"
 
 #: src/view/container_files_get_page.rs:148
 msgid "Select Host Destination Path"
-msgstr ""
+msgstr "Chọn đường dẫn đích của máy chủ"
 
 #: src/view/container_files_get_page.ui:42
 msgid "Download Files"
-msgstr ""
+msgstr "Tải tập tin"
 
 #: src/view/container_files_get_page.ui:52 src/view/image_pull_page.ui:20
 #: src/view/images_panel.ui:15 src/view/images_panel.ui:27
 msgid "_Download"
-msgstr ""
+msgstr "_Tải xuống"
 
 #: src/view/container_files_get_page.ui:69
 #: src/view/container_files_put_page.ui:97
 msgid "Container Path ('/' if empty)"
-msgstr ""
+msgstr "Đường dẫn vùng chứa ('/' nếu trống)"
 
 #: src/view/container_files_get_page.ui:76
 #: src/view/container_files_put_page.ui:78 src/view/device_row.ui:63
 #: src/view/mount_row.ui:105
 msgid "Host Path"
-msgstr ""
+msgstr "Đường dẫn máy chủ"
 
 #: src/view/container_files_get_page.ui:77
 msgid "Select a destination tar archive on the host"
-msgstr ""
+msgstr "Chọn kho lưu trữ tar đích trên máy chủ"
 
 #: src/view/container_files_get_page.ui:82
 msgid "Select _Path…"
-msgstr ""
+msgstr "_chọn đường dẫn…"
 
 #: src/view/container_files_put_page.rs:161
 msgid "Select Host Directory"
-msgstr ""
+msgstr "Chọn thư mục máy chủ"
 
 #: src/view/container_files_put_page.rs:163
 msgid "Select Host File"
-msgstr ""
+msgstr "Chọn tệp máy chủ"
 
 #: src/view/container_files_put_page.ui:15
 msgid "Select _Directory…"
-msgstr ""
+msgstr "_chọn thư mục…"
 
 #: src/view/container_files_put_page.ui:51
 msgid "Upload Files"
-msgstr ""
+msgstr "Tải tập tin lên"
 
 #: src/view/container_files_put_page.ui:61
 msgid "_Upload"
-msgstr ""
+msgstr "_Tải lên"
 
 #: src/view/container_files_put_page.ui:79
 msgid "Select a file or a directory from the host to upload"
-msgstr ""
+msgstr "Chọn một tệp hoặc một thư mục từ máy chủ để tải lên"
 
 #: src/view/container_files_put_page.ui:84
 msgid "Select _File…"
-msgstr ""
+msgstr "_chọn tệp…"
 
 #: src/view/container_health_check_log_row.rs:80
 msgid "Passed Health Run"
-msgstr ""
+msgstr "Đã vượt qua cuộc chạy sức khỏe"
 
 #: src/view/container_health_check_log_row.rs:84
 msgid "Failed Health Run: {}"
-msgstr ""
+msgstr "Cuộc chạy sức khỏe không thành công: {}"
 
 #. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
 #: src/view/container_health_check_log_row.rs:91
 #: src/view/image_history_page.rs:111 src/view/info_panel.rs:165
 #, c-format
 msgid "%x %X"
-msgstr ""
+msgstr "%x %X"
 
 #: src/view/container_health_check_page.rs:184
 #: src/view/container_health_check_page.rs:200
 msgid "{} second"
 msgid_plural "{} seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} giây"
 
 #: src/view/container_health_check_page.rs:237
 msgid "Error on running health check"
-msgstr ""
+msgstr "Lỗi khi chạy kiểm tra tình trạng"
 
 #: src/view/container_health_check_page.ui:16
 msgid "Container Health Check"
-msgstr ""
+msgstr "Kiểm tra tình trạng container"
 
 #: src/view/container_health_check_page.ui:33
 msgid "Configuration"
-msgstr ""
+msgstr "Cấu hình"
 
 #: src/view/container_health_check_page.ui:37
 #: src/view/container_properties_group.ui:165 src/view/pod_details_page.ui:202
 msgid "Status"
-msgstr ""
+msgstr "Trạng thái"
 
 #: src/view/container_health_check_page.ui:77
 msgid "Failing Streak"
-msgstr ""
+msgstr "Chuỗi thất bại"
 
 #: src/view/container_health_check_page.ui:93
 msgid "Log"
-msgstr ""
+msgstr "Nhật ký"
 
 #: src/view/container_health_check_page.ui:94
 msgid "Rows describe the last 5 health check attempts and results"
-msgstr ""
+msgstr "Các hàng mô tả 5 lần kiểm tra sức khỏe gần đây nhất và kết quả"
 
 #: src/view/container_health_check_page.ui:99
 msgid "_Run Health Check"
-msgstr ""
+msgstr "Chạy Kiểm t_ra tình trạng"
 
 #: src/view/container_log_page.rs:480
 msgid "Error while following log"
-msgstr ""
+msgstr "Lỗi khi theo dõi nhật ký"
 
 #: src/view/container_log_page.rs:615
 msgid "Include timestamps"
-msgstr ""
+msgstr "Bao gồm dấu thời gian"
 
 #: src/view/container_log_page.rs:667
 msgid "Error on saving logs"
-msgstr ""
+msgstr "Lỗi khi lưu nhật ký"
 
 #: src/view/container_log_page.rs:681
 msgid "Error on retrieving logs"
-msgstr ""
+msgstr "Lỗi khi truy xuất nhật ký"
 
 #: src/view/container_log_page.rs:690
 msgid "Log has been saved"
-msgstr ""
+msgstr "Nhật ký đã được lưu"
 
 #: src/view/container_log_page.rs:713
 msgid "Error starting container"
-msgstr ""
+msgstr "Lỗi khởi động vùng chứa"
 
 #: src/view/container_log_page.rs:719
 msgid "Error resuming container"
-msgstr ""
+msgstr "Lỗi khi tiếp tục vùng chứa"
 
 #: src/view/container_log_page.ui:12 src/view/scalable_text_view_page.ui:12
 msgid "_Save as File"
-msgstr ""
+msgstr "_Lưu dưới dạng tệp"
 
 #: src/view/container_log_page.ui:18
 msgid "Show _Timestamps"
-msgstr ""
+msgstr "Hiển _thị dấu thời gian"
 
 #: src/view/container_log_page.ui:66
 msgid "Container Logs"
-msgstr ""
+msgstr "Nhật ký vùng chứa"
 
 #: src/view/container_log_page.ui:105
 msgid "Start/Resume Container"
-msgstr ""
+msgstr "Vùng chứa Bắt đầu/Tiếp tục"
 
 #: src/view/container_log_page.ui:106
 msgid "Streaming is disconnected because container is not running"
-msgstr ""
+msgstr "Truyền phát bị ngắt kết nối vì vùng chứa không chạy"
 
 #: src/view/container_log_page.ui:149
 msgid "Loading previous lines"
-msgstr ""
+msgstr "Đang tải các dòng trước"
 
 #: src/view/container_log_page.ui:178
 msgid "Scroll to bottom"
-msgstr ""
+msgstr "Cuộn xuống dưới cùng"
 
 #: src/view/container_menu_button.ui:7 src/view/pod_menu_button.ui:13
 msgid "_Start"
-msgstr ""
+msgstr "_Bắt đầu"
 
 #: src/view/container_menu_button.ui:12 src/view/pod_menu_button.ui:18
 msgid "S_top"
-msgstr ""
+msgstr "_Dừng lại"
 
 #: src/view/container_menu_button.ui:17 src/view/pod_menu_button.ui:23
 msgid "R_estart"
-msgstr ""
+msgstr "_Khởi động lại"
 
 #: src/view/container_menu_button.ui:22 src/view/pod_menu_button.ui:28
 msgid "_Resume"
-msgstr ""
+msgstr "_Bản tóm tắt"
 
 #: src/view/container_menu_button.ui:27 src/view/pod_menu_button.ui:33
 msgid "_Pause"
-msgstr ""
+msgstr "_Tạm dừng"
 
 #: src/view/container_menu_button.ui:34
 msgid "Re_name…"
-msgstr ""
+msgstr "Đổi tê_n…"
 
 #: src/view/container_menu_button.ui:41 src/view/containers_panel.rs:668
 #: src/view/image.rs:27 src/view/images_panel.rs:491
 #: src/view/pod_menu_button.ui:40 src/view/pod.rs:65 src/view/pods_panel.rs:587
 #: src/view/volume.rs:27 src/view/volumes_panel.rs:460
 msgid "_Delete"
-msgstr ""
+msgstr "_Xóa bỏ"
 
 #: src/view/container_properties_group.rs:270
 msgid "since {}"
-msgstr ""
+msgstr "kể từ {}"
 
 #: src/view/container_properties_group.ui:4 src/view/image_details_page.ui:44
 #: src/view/pod_details_page.ui:169 src/view/volume_details_page.ui:28
 msgid "Properties"
-msgstr ""
+msgstr "Thuộc tính"
 
 #: src/view/container_properties_group.ui:45
 msgid "Rename (F2)"
-msgstr ""
+msgstr "Đổi tên (F2)"
 
 #: src/view/container_properties_group.ui:58 src/view/image_details_page.ui:75
 #: src/view/pod_details_page.ui:190
 msgid "Id"
-msgstr ""
+msgstr "ID"
 
 #: src/view/container_properties_group.ui:80
 msgid "Commit (Ctrl+K)"
-msgstr ""
+msgstr "Cam kết (Ctrl+K)"
 
 #: src/view/container_properties_group.ui:99
 msgid "Size"
-msgstr ""
+msgstr "Kích thước"
 
 #: src/view/container_properties_group.ui:143
 msgid "Download Files (Ctrl+D)"
-msgstr ""
+msgstr "Tải tập tin xuống (Ctrl+D)"
 
 #: src/view/container_properties_group.ui:155
 msgid "Upload Files (Ctrl+U)"
-msgstr ""
+msgstr "Tải tệp lên (Ctrl+U)"
 
 #: src/view/container_properties_group.ui:204
 msgid "Port bindings"
-msgstr ""
+msgstr "Ràng buộc cổng"
 
 #: src/view/container_properties_group.ui:249 src/view/image_details_page.ui:32
 msgid "Image"
-msgstr ""
+msgstr "Hình ảnh"
 
 #: src/view/container_resources.rs:90
 msgid "Processor ({} CPU)"
 msgid_plural "Processor ({} CPUs)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Bộ xử lý ({} CPU)"
 
 #: src/view/container_resources.rs:96
 msgid "Processor (? CPUs)"
-msgstr ""
+msgstr "Bộ xử lý (? CPU)"
 
 #: src/view/container_resources.rs:108 src/view/container_resources.rs:143
 #: src/view/container_resources.rs:148 src/view/container_resources.rs:152
 #: src/view/container_resources.rs:155
 msgid "?"
-msgstr ""
+msgstr "?"
 
 #: src/view/container_resources.rs:105
 msgid "{} %"
-msgstr ""
+msgstr "{} %"
 
 #: src/view/container_resources.rs:138
 msgid "{} / {} ({} %)"
-msgstr ""
+msgstr "{} / {} ({} %)"
 
 #: src/view/container_resources.ui:13
 msgid "Resources Quick Reference"
-msgstr ""
+msgstr "Tài nguyên Tham khảo nhanh"
 
 #: src/view/container_resources.ui:117
 msgid "Memory"
-msgstr ""
+msgstr "Ký ức"
 
 #: src/view/container_resources.ui:182
 msgid "Network"
-msgstr ""
+msgstr "Mạng"
 
 #: src/view/container_resources.ui:302
 msgid "Disk"
-msgstr ""
+msgstr "Đĩa"
 
 #: src/view/container_terminal_page.ui:32
 msgid "Detach Terminal"
-msgstr ""
+msgstr "Tách thiết bị đầu cuối"
 
 #: src/view/container_terminal_page.ui:39
 msgid "Container Terminal"
-msgstr ""
+msgstr "Bến container"
 
 #: src/view/container_terminal.rs:475
 msgid "Terminal error"
-msgstr ""
+msgstr "Lỗi thiết bị đầu cuối"
 
 #: src/view/container_terminal.rs:476
 msgid "'/bin/sh' not found"
-msgstr ""
+msgstr "'/bin/sh' không tìm thấy"
 
 #: src/view/container_terminal.ui:6
 msgid "_Copy"
-msgstr ""
+msgstr "Sao _chép"
 
 #: src/view/container_terminal.ui:10
 msgid "Copy as _HTML"
-msgstr ""
+msgstr "Sao chép dưới dạng _HTML"
 
 #: src/view/container_terminal.ui:14
 msgid "_Paste"
-msgstr ""
+msgstr "_Dán"
 
 #: src/view/container_terminal.ui:35
 msgid "No Terminal"
-msgstr ""
+msgstr "Không thiết bị đầu cuối"
 
 #: src/view/container_terminal.ui:36
 msgid "The container must be running to use the terminal"
-msgstr ""
+msgstr "Vùng chứa phải đang chạy để sử dụng thiết bị đầu cuối"
 
 #: src/view/container_terminal.ui:46
 msgid "Start"
-msgstr ""
+msgstr "Bắt đầu"
 
 #: src/view/container.rs:69 src/view/container.rs:100
 msgid "Error renaming container"
-msgstr ""
+msgstr "Lỗi đổi tên vùng chứa"
 
 #: src/view/container.rs:70
 msgid "Container has been deleted"
-msgstr ""
+msgstr "Vùng chứa đã bị xóa"
 
 #: src/view/container.rs:79
 msgid "Rename Container"
-msgstr ""
+msgstr "Đổi tên vùng chứa"
 
 #: src/view/container.rs:87
 msgid "_Rename"
-msgstr ""
+msgstr "Đổ_i tên"
 
 #: src/view/container.rs:132 src/view/containers_panel.rs:615
 msgid "Error on starting container"
-msgstr ""
+msgstr "Lỗi khi khởi động container"
 
 #: src/view/container.rs:133 src/view/containers_panel.rs:557
 msgid "Error on stopping container"
-msgstr ""
+msgstr "Lỗi dừng container"
 
 #: src/view/container.rs:134 src/view/containers_panel.rs:555
 msgid "Error on killing container"
-msgstr ""
+msgstr "Lỗi kill container"
 
 #: src/view/container.rs:135 src/view/containers_panel.rs:582
 msgid "Error on restarting container"
-msgstr ""
+msgstr "Lỗi khi khởi động lại vùng chứa"
 
 #: src/view/container.rs:136 src/view/containers_panel.rs:638
 msgid "Error on pausing container"
-msgstr ""
+msgstr "Lỗi khi tạm dừng vùng chứa"
 
 #: src/view/container.rs:137 src/view/containers_panel.rs:604
 msgid "Error on resuming container"
-msgstr ""
+msgstr "Lỗi khi tiếp tục vùng chứa"
 
 #: src/view/container.rs:138 src/view/containers_panel.rs:687
 msgid "Error on deleting container"
-msgstr ""
+msgstr "Lỗi khi xóa vùng chứa"
 
 #: src/view/containers_panel.rs:235
 msgid "1 container, running"
-msgstr ""
+msgstr "1 container đang chạy"
 
 #: src/view/containers_panel.rs:237
 msgid "1 container, stopped"
-msgstr ""
+msgstr "1 container đã dừng"
 
 #: src/view/containers_panel.rs:241
 msgid "{} container total, {} running"
 msgid_plural "{} containers total, {} running"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} tổng số container, {} đang chạy"
 
 #: src/view/containers_panel.rs:255
 msgid "{} Selected Container"
 msgid_plural "{} Selected Containers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} Vùng chứa đã chọn"
 
 #: src/view/containers_panel.rs:659
 msgid "Confirm Forced Deletion of Multiple Containers"
-msgstr ""
+msgstr "Xác nhận buộc xóa nhiều vùng chứa"
 
 #: src/view/containers_panel.rs:662
 msgid ""
 "All the data created inside the containers will be lost and running "
 "containers will be stopped!"
 msgstr ""
+"Tất cả dữ liệu được tạo bên trong vùng chứa sẽ bị mất và các vùng chứa đang "
+"chạy sẽ bị dừng!"
 
 #: src/view/containers_panel.ui:6 src/view/containers_panel.ui:453
 msgid "_Create Container"
-msgstr ""
+msgstr "Tạo vùng _chứa"
 
 #: src/view/containers_panel.ui:10
 msgid "_Prune Stopped Containers"
-msgstr ""
+msgstr "_Cắt tỉa các thùng chứa đã dừng"
 
 #: src/view/containers_panel.ui:17 src/view/images_panel.ui:42
 #: src/view/pods_panel.ui:17 src/view/volumes_panel.ui:17
 msgid "_Select Visible"
-msgstr ""
+msgstr "_Chọn Hiển thị"
 
 #: src/view/containers_panel.ui:21 src/view/images_panel.ui:46
 #: src/view/pods_panel.ui:21 src/view/volumes_panel.ui:21
 msgid "Select None"
-msgstr ""
+msgstr "Chọn không có"
 
 #: src/view/containers_panel.ui:125 src/view/containers_prune_page.ui:42
 msgid "Prune Stopped Containers"
-msgstr ""
+msgstr "Cắt tỉa các thùng chứa đã dừng"
 
 #: src/view/containers_panel.ui:132 src/view/images_panel.ui:157
 #: src/view/pods_panel.ui:132 src/view/volumes_panel.ui:132
 msgid "More Actions"
-msgstr ""
+msgstr "Thêm hành động"
 
 #: src/view/containers_panel.ui:146 src/view/containers_panel.ui:192
 msgid "Show Only Running Containers"
-msgstr ""
+msgstr "Chỉ hiển thị các container đang chạy"
 
 #: src/view/containers_panel.ui:154 src/view/images_panel.ui:179
 #: src/view/pods_panel.ui:154 src/view/volumes_panel.ui:154
 msgid "Multi-Selection"
-msgstr ""
+msgstr "Multi-Selection"
 
 #: src/view/containers_panel.ui:174 src/view/images_panel.ui:199
 #: src/view/pods_panel.ui:174 src/view/volumes_panel.ui:174
 msgid "Cancel"
-msgstr ""
+msgstr "Hủy"
 
 #: src/view/containers_panel.ui:260
 msgid "No Running Containers"
-msgstr ""
+msgstr "Không container đang chạy"
 
 #: src/view/containers_panel.ui:270
 msgid "_Show All Containers"
-msgstr ""
+msgstr "_Hiển thị tất cả các vùng chứa"
 
 #: src/view/containers_panel.ui:443
 msgid "No Containers Available"
-msgstr ""
+msgstr "Không thùng chứa nào"
 
 #: src/view/containers_prune_page.ui:52 src/view/images_prune_page.ui:52
 #: src/view/pods_prune_page.ui:52 src/view/volumes_prune_page.ui:52
 msgid "_Prune"
-msgstr ""
+msgstr "_Cắt tỉa"
 
 #: src/view/containers_prune_page.ui:65 src/view/images_prune_page.ui:65
 #: src/view/volumes_prune_page.ui:66
 msgid "Prune Options"
-msgstr ""
+msgstr "Tùy chọn cắt tỉa"
 
 #: src/view/containers_prune_page.ui:69
 msgid "Prune containers created before this timestamp"
-msgstr ""
+msgstr "Cắt bớt các vùng chứa được tạo trước dấu thời gian này"
 
 #: src/view/device_row.ui:69 src/view/mount_row.ui:139
 msgid "Container Path"
-msgstr ""
+msgstr "Đường dẫn vùng chứa"
 
 #: src/view/device_row.ui:75
 msgid "Readable"
-msgstr ""
+msgstr "Có thể đọc được"
 
 #: src/view/device_row.ui:81 src/view/mount_row.ui:145
 msgid "Writable"
-msgstr ""
+msgstr "Có thể ghi"
 
 #: src/view/device_row.ui:87
 msgid "mknod"
-msgstr ""
+msgstr "mknod"
 
 #: src/view/image_build_page.rs:195
 msgid "Select Build Context Directory"
-msgstr ""
+msgstr "Chọn thư mục bối cảnh xây dựng"
 
 #: src/view/image_build_page.rs:234
 msgid "Image name must not contain uppercase characters"
-msgstr ""
+msgstr "Tên hình ảnh không được chứa ký tự viết hoa"
 
 #: src/view/image_build_page.ui:42
 msgid "Build Image"
-msgstr ""
+msgstr "Xây dựng hình ảnh"
 
 #: src/view/image_build_page.ui:52 src/view/images_panel.ui:19
 #: src/view/images_panel.ui:31
 msgid "_Build"
-msgstr ""
+msgstr "_Xây dựng"
 
 #: src/view/image_build_page.ui:70
 msgid "Image Name"
-msgstr ""
+msgstr "Tên hình ảnh"
 
 #: src/view/image_build_page.ui:113
 msgid "Build Context Directory"
-msgstr ""
+msgstr "Xây dựng thư mục bối cảnh"
 
 #: src/view/image_build_page.ui:118
 msgid "Select…"
-msgstr ""
+msgstr "Chọn…"
 
 #: src/view/image_build_page.ui:129
 msgid "Containerfile Path Relative to Build Context Directory"
-msgstr ""
+msgstr "Đường dẫn tệp chứa liên quan đến thư mục ngữ cảnh xây dựng"
 
 #. Translators: "{}" are placeholders for storage space.
 #: src/view/image_details_page.rs:182
 msgid "{} (Virtual: {})"
-msgstr ""
+msgstr "{} (Ảo: {})"
 
 #. Translators: "{}" are placeholders for storage space.
 #: src/view/image_details_page.rs:191
 msgid "{} (Shared: {})"
-msgstr ""
+msgstr "{} (Chia sẻ: {})"
 
 #. Translators: "{}" are placeholders for storage space.
 #: src/view/image_details_page.rs:201
 msgid "{} (Shared: {}, Virtual: {})"
-msgstr ""
+msgstr "{} (Chia sẻ: {}, Ảo: {})"
 
 #: src/view/image_details_page.rs:275
 msgid "Error on loading image details"
-msgstr ""
+msgstr "Lỗi tải chi tiết hình ảnh"
 
 #: src/view/image_details_page.rs:279
 msgid "Image '{}' has been deleted"
-msgstr ""
+msgstr "Hình ảnh '{}' đã bị xóa"
 
 #: src/view/image_details_page.ui:7
 msgid "Create Repository Tag"
-msgstr ""
+msgstr "Tạo thẻ lưu trữ"
 
 #: src/view/image_details_page.ui:66
 msgid "Delete Image"
-msgstr ""
+msgstr "Xóa hình ảnh"
 
 #: src/view/image_details_page.ui:87
 msgid "Disk Space"
-msgstr ""
+msgstr "Dung lượng ổ đĩa"
 
 #: src/view/image_details_page.ui:100
 msgid "Entry Point"
-msgstr ""
+msgstr "Điểm vào"
 
 #: src/view/image_details_page.ui:107
 msgid "Ports"
-msgstr ""
+msgstr "Cổng"
 
 #: src/view/image_details_page.ui:122
 msgid "View all image properties in a structured text form"
-msgstr ""
+msgstr "Xem tất cả thuộc tính hình ảnh ở dạng văn bản có cấu trúc"
 
 #: src/view/image_details_page.ui:138
 msgid "History"
-msgstr ""
+msgstr "Lịch sử"
 
 #: src/view/image_details_page.ui:139
 msgid "View parent layers of this image"
-msgstr ""
+msgstr "Xem các lớp cha của hình ảnh này"
 
 #: src/view/image_details_page.ui:158
 msgid "Repository Tags"
-msgstr ""
+msgstr "Thẻ kho lưu trữ"
 
 #: src/view/image_history_page.rs:81
 msgid "{} entry"
 msgid_plural "{} entries"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} mục nhập"
 
 #: src/view/image_history_page.rs:83
 msgid "{} in total"
-msgstr ""
+msgstr "Tổng cộng {}"
 
 #: src/view/image_history_page.rs:101
 msgid "<None>"
-msgstr ""
+msgstr "<không có có>"
 
 #: src/view/image_history_page.rs:116
 msgid "Unknown Date"
-msgstr ""
+msgstr "Ngày không xác định"
 
 #: src/view/image_history_page.rs:127
 msgid "Unknown size"
-msgstr ""
+msgstr "Kích thước không xác định"
 
 #: src/view/image_history_page.rs:144
 msgid "Created by"
-msgstr ""
+msgstr "Tạo bởi"
 
 #: src/view/image_history_page.rs:173
 msgid "Tags"
-msgstr ""
+msgstr "Thẻ"
 
 #: src/view/image_history_page.rs:187
 msgid "Error on retrieving history"
-msgstr ""
+msgstr "Lỗi truy xuất lịch sử"
 
 #: src/view/image_history_page.ui:16
 msgid "Image History"
-msgstr ""
+msgstr "Lịch sử hình ảnh"
 
 #: src/view/image_history_page.ui:44
 msgid "History List"
-msgstr ""
+msgstr "Danh sách lịch sử"
 
 #: src/view/image_menu_button.ui:6 src/view/pod_menu_button.ui:7
 msgid "_Create Container…"
-msgstr ""
+msgstr "Tạo vùng _chứa…"
 
 #: src/view/image_row.rs:207
 msgid "Image {}"
-msgstr ""
+msgstr "Hình ảnh {}"
 
 #: src/view/image_search_page.rs:202
 msgid "No Results For {}"
-msgstr ""
+msgstr "Không kết quả cho {}"
 
 #: src/view/image_search_page.rs:223 src/view/repo_tag_selection_page.rs:160
 msgid "Failed to search for images"
-msgstr ""
+msgstr "Không thể tìm kiếm hình ảnh"
 
 #: src/view/image_search_page.rs:330 src/view/repo_tag_selection_page.ui:35
 msgid "Select Tag"
-msgstr ""
+msgstr "Chọn thẻ"
 
 #: src/view/image_search_page.ui:47
 msgid "Enter image search term"
-msgstr ""
+msgstr "Nhập cụm từ tìm kiếm hình ảnh"
 
 #: src/view/image_search_page.ui:64
 msgid "Next"
-msgstr ""
+msgstr "Kế tiếp"
 
 #: src/view/image_search_page.ui:92
 msgid "Find Remote Images"
-msgstr ""
+msgstr "Tìm kiếm hình ảnh từ xa"
 
 #: src/view/image_search_page.ui:93
 msgid "Please start typing to look for remote images"
-msgstr ""
+msgstr "Hãy bắt đầu gõ để tìm kiếm hình ảnh từ xa"
 
 #: src/view/image_search_page.ui:108
 msgid "Searching"
-msgstr ""
+msgstr "Tìm kiếm"
 
 #: src/view/image_search_page.ui:133 src/view/repo_tag_selection_page.ui:124
 #: src/view/search_panel.ui:48
 msgid "Please retry another term"
-msgstr ""
+msgstr "Vui lòng thử lại một thuật ngữ khác"
 
 #: src/view/image_search_response_row.ui:40
 msgid "Official"
-msgstr ""
+msgstr "Chính thức"
 
 #: src/view/image_selection_combo_row.rs:87
 msgid "Select Image"
-msgstr ""
+msgstr "Chọn hình ảnh"
 
 #: src/view/image_selection_combo_row.rs:88
 #: src/view/image_selection_combo_row.ui:4
 #: src/view/image_selection_combo_row.ui:15
 msgid "Local Image"
-msgstr ""
+msgstr "Hình ảnh cục bộ"
 
 #: src/view/image_selection_combo_row.rs:89
 #: src/view/image_selection_combo_row.ui:28
 msgid "Remote Image"
-msgstr ""
+msgstr "Hình ảnh từ xa"
 
 #: src/view/image_selection_combo_row.rs:150
 msgid "Select"
-msgstr ""
+msgstr "Chọn"
 
 #: src/view/image_selection_page.ui:25
 msgid "No Local Images Available"
-msgstr ""
+msgstr "Không hình ảnh địa phương nào"
 
 #: src/view/image_selection_page.ui:50 src/view/pod_selection_page.ui:77
 #: src/view/repo_tag_selection_page.ui:19 src/view/volume_selection_page.ui:77
 msgid "Filter"
-msgstr ""
+msgstr "Lọc"
 
 #: src/view/image_selection_page.ui:66
 msgid "Select Local Image"
-msgstr ""
+msgstr "Chọn hình ảnh cục bộ"
 
 #: src/view/image_selection_page.ui:99 src/view/pod_selection_page.ui:126
 #: src/view/volume_selection_page.ui:126
 msgid "_Select"
-msgstr ""
+msgstr "_Lựa chọn"
 
 #: src/view/image_selection_page.ui:152 src/view/pod_selection_page.ui:179
 #: src/view/volume_selection_page.ui:180
 msgid "No Results"
-msgstr ""
+msgstr "Không kết quả"
 
 #: src/view/image_selection_page.ui:163 src/view/pod_selection_page.ui:190
 #: src/view/volume_selection_page.ui:191
 msgid "_Clear Filter"
-msgstr ""
+msgstr "Xóa bộ lọ_c"
 
 #: src/view/image.rs:16
 msgid "Confirm Image Deletion"
-msgstr ""
+msgstr "Xác nhận xóa hình ảnh"
 
 #. Translators: The "{}" is a placeholder for the container name.
 #: src/view/image.rs:20
@@ -3046,375 +3285,372 @@ msgid ""
 "Image is used by container <b>{}</b>. Deleting the image will also delete "
 "all its associated containers."
 msgstr ""
+"Hình ảnh được sử dụng bởi vùng chứa <b>{}</b>. Xóa hình ảnh cũng sẽ xóa tất "
+"cả các vùng chứa liên quan của nó."
 
 #. Translators: The "{}" is a placeholder for the image id.
 #. Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
 #: src/view/image.rs:53 src/view/images_panel.rs:510
 msgid "Error on deleting image '{}'"
-msgstr ""
+msgstr "Lỗi xóa ảnh '{}'"
 
 #: src/view/images_panel.rs:203
 msgid "1 image, used"
-msgstr ""
+msgstr "1 hình ảnh, được sử dụng"
 
 #: src/view/images_panel.rs:205
 msgid "1 image, unused"
-msgstr ""
+msgstr "1 hình ảnh, chưa sử dụng"
 
 #: src/view/images_panel.rs:209
 msgid "{} image total ({}), {} unused ({})"
 msgid_plural "{} images total ({}), {} unused ({})"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} tổng số hình ảnh ({}), {} chưa sử dụng ({})"
 
 #: src/view/images_panel.rs:228
 msgid "{} Selected Image"
 msgid_plural "{} Selected Images"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} Hình ảnh đã chọn"
 
 #: src/view/images_panel.rs:483
 msgid "Confirm Forced Deletion of Multiple Images"
-msgstr ""
+msgstr "Xác nhận buộc xóa nhiều hình ảnh"
 
 #: src/view/images_panel.rs:485
 msgid ""
 "There may be containers associated with those images, which will also be "
 "removed!"
 msgstr ""
+"Có thể có các vùng chứa được liên kết với những hình ảnh đó cũng sẽ bị xóa!"
 
 #: src/view/images_panel.ui:35
 msgid "_Prune Unused Images"
-msgstr ""
+msgstr "_Cắt tỉa những hình ảnh không sử dụng"
 
 #: src/view/images_panel.ui:141
 msgid "Create Image"
-msgstr ""
+msgstr "Tạo hình ảnh"
 
 #: src/view/images_panel.ui:150
 msgid "Prune Unused Images"
-msgstr ""
+msgstr "Cắt tỉa những hình ảnh không sử dụng"
 
 #: src/view/images_panel.ui:171 src/view/images_panel.ui:217
 msgid "Show Only Tagged Images"
-msgstr ""
+msgstr "Chỉ hiển thị hình ảnh được gắn thẻ"
 
 #: src/view/images_panel.ui:283
 msgid "No Tagged Images"
-msgstr ""
+msgstr "Không hình ảnh được gắn thẻ"
 
 #: src/view/images_panel.ui:293
 msgid "_Show All Images"
-msgstr ""
+msgstr "_Hiển thị tất cả hình ảnh"
 
 #: src/view/images_panel.ui:358
 msgid "No Images Available"
-msgstr ""
+msgstr "Không hình ảnh nào"
 
 #: src/view/images_panel.ui:387
 msgid "_Download Image"
-msgstr ""
+msgstr "_Tải xuống hình ảnh"
 
 #: src/view/images_panel.ui:400
 msgid "_Build Image"
-msgstr ""
+msgstr "_Xây dựng hình ảnh"
 
 #: src/view/images_prune_page.ui:42
 msgid "Prune Images"
-msgstr ""
+msgstr "Cắt tỉa hình ảnh"
 
 #: src/view/images_prune_page.ui:69
 msgid "Prune All"
-msgstr ""
+msgstr "Cắt tỉa tất cả"
 
 #: src/view/images_prune_page.ui:76
 msgid "Prune External"
-msgstr ""
+msgstr "Cắt tỉa bên ngoài"
 
 #: src/view/images_prune_page.ui:83
 msgid "Prune images created before this timestamp"
-msgstr ""
+msgstr "Cắt bớt hình ảnh được tạo trước dấu thời gian này"
 
 #. Translators: "{}" is a placeholder for a cardinal numbers.
 #: src/view/info_panel.rs:198
 msgid "{} Container"
 msgid_plural "{} Containers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} Thùng chứa"
 
 #. Translators: "{}" is a placeholder for a cardinal number.
 #: src/view/info_panel.rs:230
 msgid "{} Option"
 msgid_plural "{} Options"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} Tùy chọn"
 
 #. Translators: "{}" is placeholders for a cardinal number.
 #: src/view/info_panel.rs:258
 msgid "{} State"
 msgid_plural "{} States"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} Bang"
 
 #. Translators: "{}" is placeholders for a cardinal number.
 #: src/view/info_panel.rs:282
 msgid "{} Image"
 msgid_plural "{} Images"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} Hình ảnh"
 
 #: src/view/info_panel.rs:296
 msgid "Error on retrieving info"
-msgstr ""
+msgstr "Lỗi khi truy xuất thông tin"
 
 #: src/view/info_panel.ui:60 src/view/info_panel.ui:94
 msgid "Version"
-msgstr ""
+msgstr "Phiên bản"
 
 #: src/view/info_panel.ui:64
 msgid "API Version"
-msgstr ""
+msgstr "Phiên bản API"
 
 #: src/view/info_panel.ui:70
 msgid "Built Time"
-msgstr ""
+msgstr "Thời gian xây dựng"
 
 #: src/view/info_panel.ui:76
 msgid "Git Commit"
-msgstr ""
+msgstr "Cam kết Git"
 
 #: src/view/info_panel.ui:82
 msgid "Go Version"
-msgstr ""
+msgstr "Phiên bản đi"
 
 #: src/view/info_panel.ui:88
 msgid "Os Arch"
-msgstr ""
+msgstr "Os Arch"
 
 #: src/view/info_panel.ui:103
 msgid "Storage"
-msgstr ""
+msgstr "Kho"
 
 #: src/view/info_panel.ui:104
 msgid "Describes the container storage and its attributes"
-msgstr ""
+msgstr "Mô tả bộ lưu trữ container và các thuộc tính của nó"
 
 #: src/view/info_panel.ui:108
 msgid "Config File"
-msgstr ""
+msgstr "Tệp cấu hình"
 
 #: src/view/info_panel.ui:114
 msgid "Container Store"
-msgstr ""
+msgstr "Cửa hàng container"
 
 #: src/view/info_panel.ui:115
 msgid "Describes the quantity of containers in the store by status"
-msgstr ""
+msgstr "Mô tả số lượng container trong cửa hàng theo trạng thái"
 
 #: src/view/info_panel.ui:153
 msgid "Graph Driver Name"
-msgstr ""
+msgstr "Tên trình điều khiển đồ thị"
 
 #: src/view/info_panel.ui:159
 msgid "Graph Options"
-msgstr ""
+msgstr "Tùy chọn biểu đồ"
 
 #: src/view/info_panel.ui:179
 msgid "Graph Root"
-msgstr ""
+msgstr "Đồ thị gốc"
 
 #: src/view/info_panel.ui:185
 msgid "Graph Status"
-msgstr ""
+msgstr "Trạng thái biểu đồ"
 
 #: src/view/info_panel.ui:205
 msgid "Image Store"
-msgstr ""
+msgstr "Cửa hàng hình ảnh"
 
 #: src/view/info_panel.ui:206
 msgid "Describes number of images"
-msgstr ""
+msgstr "Mô tả số lượng hình ảnh"
 
 #: src/view/info_panel.ui:212
 msgid "Run Root"
-msgstr ""
+msgstr "Chạy gốc"
 
 #: src/view/info_panel.ui:218
 msgid "Volume Path"
-msgstr ""
+msgstr "Đường dẫn âm lượng"
 
 #: src/view/info_panel.ui:237
 msgid "No Info"
-msgstr ""
+msgstr "Không thông tin"
 
 #: src/view/info_panel.ui:238
 msgid "There was an error while fetching the information"
-msgstr ""
+msgstr "Đã xảy ra lỗi khi tìm nạp thông tin"
 
 #: src/view/key_val_row.rs:149 src/view/key_val_row.ui:20
 msgid "Key"
-msgstr ""
+msgstr "Khóa"
 
 #: src/view/key_val_row.rs:149 src/view/key_val_row.ui:28
 #: src/view/value_row.rs:100
 msgid "Value"
-msgstr ""
+msgstr "Giá trị"
 
 #: src/view/mount_row.rs:187
 msgid "No volume selected (will create a new one)"
-msgstr ""
+msgstr "Chưa có tập nào được chọn (sẽ tạo một tập mới)"
 
 #: src/view/mount_row.ui:76
 msgid "Type"
-msgstr ""
+msgstr "Loại"
 
 #: src/view/mount_row.ui:88
 msgid "Bind"
-msgstr ""
+msgstr "Ràng buộc"
 
 #: src/view/mount_row.ui:94 src/view/mount_row.ui:111
 #: src/view/volume_details_page.ui:16
 msgid "Volume"
-msgstr ""
+msgstr "Âm lượng"
 
 #: src/view/mount_row.ui:151
 msgid "SELinux"
-msgstr ""
+msgstr "SELinux"
 
 #: src/view/mount_row.ui:155
 msgid "No label"
-msgstr ""
+msgstr "Không nhãn"
 
 #: src/view/mount_row.ui:156
 msgid "Shared"
-msgstr ""
+msgstr "Đã chia sẻ"
 
 #: src/view/mount_row.ui:157
 msgid "Private"
-msgstr ""
+msgstr "Riêng tư"
 
 #: src/view/pod_creation_page.rs:162 src/view/pod_creation_page.ui:113
 #: src/view/pod_details_page.ui:220
 msgid "Hostname"
-msgstr ""
+msgstr "Tên máy chủ"
 
 #: src/view/pod_creation_page.rs:163
 msgid "IP"
-msgstr ""
+msgstr "IP"
 
 #: src/view/pod_creation_page.rs:169
 msgid "Add Host"
-msgstr ""
+msgstr "Thêm máy chủ"
 
 #: src/view/pod_creation_page.rs:190
 msgid "Add Device"
-msgstr ""
+msgstr "Thêm thiết bị"
 
 #: src/view/pod_creation_page.ui:42 src/view/pod_selection_page.ui:70
 #: src/view/pods_panel.ui:117
 msgid "Create Pod"
-msgstr ""
+msgstr "Tạo nhóm"
 
 #: src/view/pod_creation_page.ui:52 src/view/volume_creation_page.ui:52
 msgid "_Create"
-msgstr ""
+msgstr "_Tạo nên"
 
 #: src/view/pod_creation_page.ui:119
 msgid "Disable /etc/resolv.conf management"
-msgstr ""
+msgstr "Tắt quản lý /etc/resolv.conf"
 
 #: src/view/pod_creation_page.ui:133
 msgid "Pod Create Command"
-msgstr ""
+msgstr "Lệnh tạo Pod"
 
 #: src/view/pod_creation_page.ui:188
 msgid "Devices"
-msgstr ""
+msgstr "Thiết bị"
 
 #: src/view/pod_creation_page.ui:203
 msgid "Hosts"
-msgstr ""
+msgstr "Máy chủ"
 
 #: src/view/pod_creation_page.ui:246
 msgid "Infra"
-msgstr ""
+msgstr "Hồng ngoại"
 
 #: src/view/pod_creation_page.ui:260
 msgid "Disable Infra"
-msgstr ""
+msgstr "Tắt hồng ngoại"
 
 #: src/view/pod_creation_page.ui:297
 msgid "Common PID File"
-msgstr ""
+msgstr "Tệp PID phổ biến"
 
 #: src/view/pod_details_page.rs:229
 msgid "Error on loading pod data"
-msgstr ""
+msgstr "Lỗi khi tải dữ liệu nhóm"
 
 #: src/view/pod_details_page.rs:233
 msgid "Pod '{}' has been deleted"
-msgstr ""
+msgstr "Nhóm '{}' đã bị xóa"
 
 #: src/view/pod_details_page.ui:234
 msgid "View all pod properties in a structured text form"
-msgstr ""
+msgstr "Xem tất cả các thuộc tính nhóm ở dạng văn bản có cấu trúc"
 
 #: src/view/pod_details_page.ui:251
 msgid "Generate Kubernetes YAML based on this pod"
-msgstr ""
+msgstr "Tạo Kubernetes YAML dựa trên nhóm này"
 
 #: src/view/pod_details_page.ui:268
 msgid "View processes of the pod"
-msgstr ""
+msgstr "Xem các quy trình của nhóm"
 
 #: src/view/pod_row.rs:269
 msgid "Pod Details"
-msgstr ""
+msgstr "Chi tiết nhóm"
 
 #: src/view/pod_selection_page.ui:29
 msgid "No Pod Available"
-msgstr ""
+msgstr "Không Pod"
 
 #: src/view/pod_selection_page.ui:40 src/view/pods_panel.ui:6
 #: src/view/pods_panel.ui:451
 msgid "_Create Pod"
-msgstr ""
+msgstr "_Tạo nhóm"
 
 #: src/view/pod_selection_page.ui:93
 msgid "Select Pod"
-msgstr ""
+msgstr "Chọn nhóm"
 
 #: src/view/pod.rs:39 src/view/pods_panel.rs:489
 msgid "Error on starting pod"
-msgstr ""
+msgstr "Lỗi khi khởi động nhóm"
 
 #: src/view/pod.rs:40 src/view/pods_panel.rs:517 src/view/pods_panel.rs:540
 msgid "Error on stopping pod"
-msgstr ""
+msgstr "Lỗi khi dừng nhóm"
 
 #: src/view/pod.rs:41 src/view/pods_panel.rs:515
 msgid "Error on killing pod"
-msgstr ""
+msgstr "Lỗi kill pod"
 
 #: src/view/pod.rs:42 src/view/pods_panel.rs:563
 msgid "Error on restarting pod"
-msgstr ""
+msgstr "Lỗi khi khởi động lại nhóm"
 
 #: src/view/pod.rs:43
 msgid "Error on pausing pod"
-msgstr ""
+msgstr "Lỗi khi tạm dừng nhóm"
 
 #: src/view/pod.rs:44 src/view/pods_panel.rs:478
 msgid "Error on resuming pod"
-msgstr ""
+msgstr "Lỗi khi tiếp tục nhóm"
 
 #: src/view/pod.rs:45 src/view/pods_panel.rs:605
 msgid "Error on deleting pod"
-msgstr ""
+msgstr "Lỗi khi xóa nhóm"
 
 #: src/view/pod.rs:54
 msgid "Confirm Pod Deletion"
-msgstr ""
+msgstr "Xác nhận xóa nhóm"
 
 #. Translators: The "{}" is a placeholder for the container name.
 #: src/view/pod.rs:58
@@ -3422,446 +3658,447 @@ msgid ""
 "Pod contains container <b>{}</b>. Deleting the pod will also delete all its "
 "containers."
 msgstr ""
+"Pod chứa vùng chứa <b>{}</b>. Xóa nhóm cũng sẽ xóa tất cả các vùng chứa của "
+"nó."
 
 #: src/view/pods_panel.rs:229
 msgid "1 pod, running"
-msgstr ""
+msgstr "1 nhóm đang chạy"
 
 #: src/view/pods_panel.rs:231
 msgid "1 pod, stopped"
-msgstr ""
+msgstr "1 nhóm, đã dừng"
 
 #: src/view/pods_panel.rs:235
 msgid "{} pod total, {} running"
 msgid_plural "{} pods total, {} running"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} tổng số nhóm, {} đang chạy"
 
 #: src/view/pods_panel.rs:249
 msgid "{} Selected Pod"
 msgid_plural "{} Selected Pods"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} Nhóm đã chọn"
 
 #: src/view/pods_panel.rs:580
 msgid "Confirm Forced Deletion of Multiple Pods"
-msgstr ""
+msgstr "Xác nhận buộc xóa nhiều nhóm"
 
 #: src/view/pods_panel.rs:582
 msgid "All associated containers will also be removed!"
-msgstr ""
+msgstr "Tất cả các vùng chứa liên quan cũng sẽ bị xóa!"
 
 #: src/view/pods_panel.ui:10
 msgid "_Prune Stopped Pods"
-msgstr ""
+msgstr "_Quả đã dừng cắt tỉa"
 
 #: src/view/pods_panel.ui:125 src/view/pods_prune_page.ui:42
 msgid "Prune Stopped Pods"
-msgstr ""
+msgstr "Quả đã dừng cắt tỉa"
 
 #: src/view/pods_panel.ui:146 src/view/pods_panel.ui:192
 msgid "Show Only Running Pods"
-msgstr ""
+msgstr "Chỉ hiển thị các nhóm đang chạy"
 
 #: src/view/pods_panel.ui:258
 msgid "No Running Pods"
-msgstr ""
+msgstr "Không Pod chạy"
 
 #: src/view/pods_panel.ui:268
 msgid "_Show All Pods"
-msgstr ""
+msgstr "_Hiển thị tất cả các nhóm"
 
 #: src/view/pods_panel.ui:441
 msgid "No Pods Available"
-msgstr ""
+msgstr "Không Pod nào"
 
 #: src/view/port_mapping_row.ui:83
 msgid "Protocol"
-msgstr ""
+msgstr "Giao thức"
 
 #: src/view/port_mapping_row.ui:87
 msgid "TCP"
-msgstr ""
+msgstr "TCP"
 
 #: src/view/port_mapping_row.ui:88
 msgid "UDP"
-msgstr ""
+msgstr "UDP"
 
 #: src/view/port_mapping_row.ui:89
 msgid "SCTP"
-msgstr ""
+msgstr "SCTP"
 
 #: src/view/port_mapping_row.ui:98
 msgid "IP Address"
-msgstr ""
+msgstr "Địa chỉ IP"
 
 #: src/view/port_mapping_row.ui:104
 msgid "Host Port"
-msgstr ""
+msgstr "Cổng máy chủ"
 
 #: src/view/port_mapping_row.ui:105
 msgid "If 0, a random port is assigned on the host (guaranteed above 1024)"
 msgstr ""
+"Nếu 0, một cổng ngẫu nhiên được gán trên máy chủ (được đảm bảo trên 1024)"
 
 #: src/view/port_mapping_row.ui:120
 msgid "Container Port"
-msgstr ""
+msgstr "Cảng container"
 
 #: src/view/repo_tag_add_dialog.rs:98
 msgid "Repo tag must contain a colon “:”"
-msgstr ""
+msgstr "Thẻ repo phải chứa dấu hai chấm “:”"
 
 #: src/view/repo_tag_add_dialog.ui:7
 msgid "Add Repository Tag"
-msgstr ""
+msgstr "Thêm thẻ kho lưu trữ"
 
 #: src/view/repo_tag_add_dialog.ui:11
 msgid "_Add"
-msgstr ""
+msgstr "_Thêm vào"
 
 #: src/view/repo_tag_add_dialog.ui:33
 msgid "Repository Tag"
-msgstr ""
+msgstr "Thẻ lưu trữ"
 
 #: src/view/repo_tag_push_page.rs:169
 msgid "Error on accessing keyring"
-msgstr ""
+msgstr "Lỗi khi truy cập khóa"
 
 #: src/view/repo_tag_push_page.rs:263
 msgid "Error saving credentials"
-msgstr ""
+msgstr "Lỗi lưu thông tin xác thực"
 
 #: src/view/repo_tag_push_page.rs:264
 msgid "Secret Service is not available"
-msgstr ""
+msgstr "Dịch vụ bí mật không có sẵn"
 
 #: src/view/repo_tag_push_page.ui:45
 msgid "Push Image"
-msgstr ""
+msgstr "Đẩy hình ảnh"
 
 #: src/view/repo_tag_push_page.ui:55
 msgid "_Push"
-msgstr ""
+msgstr "_Xô"
 
 #: src/view/repo_tag_push_page.ui:68
 msgid "Options"
-msgstr ""
+msgstr "Tùy chọn"
 
 #: src/view/repo_tag_push_page.ui:72
 msgid "TLS Verify"
-msgstr ""
+msgstr "Xác minh TLS"
 
 #: src/view/repo_tag_push_page.ui:82
 msgid "Login"
-msgstr ""
+msgstr "Đăng nhập"
 
 #: src/view/repo_tag_push_page.ui:83
 msgid "Some registries require authentication"
-msgstr ""
+msgstr "Một số cơ quan đăng ký yêu cầu xác thực"
 
 #: src/view/repo_tag_push_page.ui:96
 msgid "Authentication"
-msgstr ""
+msgstr "Xác thực"
 
 #: src/view/repo_tag_push_page.ui:109 src/view/repo_tag_push_page.ui:136
 msgid "Password"
-msgstr ""
+msgstr "Mật khẩu"
 
 #: src/view/repo_tag_push_page.ui:115 src/view/repo_tag_push_page.ui:144
 msgid "Token"
-msgstr ""
+msgstr "Mã thông báo"
 
 #: src/view/repo_tag_push_page.ui:128
 msgid "Username"
-msgstr ""
+msgstr "Tên người dùng"
 
 #: src/view/repo_tag_push_page.ui:152
 msgid "Save Credentials"
-msgstr ""
+msgstr "Lưu thông tin xác thực"
 
 #: src/view/repo_tag_row.rs:212
 msgid "Error on untagging image"
-msgstr ""
+msgstr "Lỗi khi bỏ gắn thẻ hình ảnh"
 
 #: src/view/repo_tag_row.ui:32
 msgid "Pull Latest"
-msgstr ""
+msgstr "Kéo mới nhất"
 
 #: src/view/repo_tag_row.ui:43
 msgid "Push to Registry"
-msgstr ""
+msgstr "Đẩy vào sổ đăng ký"
 
 #: src/view/repo_tag_row.ui:54
 msgid "Untag"
-msgstr ""
+msgstr "Bỏ gắn thẻ"
 
 #: src/view/repo_tag_selection_page.ui:99
 msgid "Fetching Tags"
-msgstr ""
+msgstr "Đang tìm nạp thẻ"
 
 #: src/view/scalable_text_view_page.rs:266
 msgid "Image Inspection"
-msgstr ""
+msgstr "Kiểm tra hình ảnh"
 
 #: src/view/scalable_text_view_page.rs:274
 msgid "Container Inspection"
-msgstr ""
+msgstr "Kiểm tra container"
 
 #: src/view/scalable_text_view_page.rs:275
 msgid "Container Kube Generation"
-msgstr ""
+msgstr "Thế hệ container Kube"
 
 #: src/view/scalable_text_view_page.rs:285
 msgid "Pod Inspection"
-msgstr ""
+msgstr "Kiểm tra nhóm"
 
 #: src/view/scalable_text_view_page.rs:286
 msgid "Pod Kube Generation"
-msgstr ""
+msgstr "Thế hệ Pod Kube"
 
 #: src/view/scalable_text_view_page.rs:293
 msgid "Volume Inspection"
-msgstr ""
+msgstr "Kiểm tra âm lượng"
 
 #: src/view/scalable_text_view_page.rs:319
 msgid "Could not set language to '{}'"
-msgstr ""
+msgstr "Không thể đặt ngôn ngữ thành '{}'"
 
 #: src/view/scalable_text_view_page.rs:412
 msgid "Inspection error"
-msgstr ""
+msgstr "Lỗi kiểm tra"
 
 #: src/view/scalable_text_view_page.rs:413
 msgid "Kube generation error"
-msgstr ""
+msgstr "Lỗi tạo Kube"
 
 #: src/view/search_panel.ui:33
 msgid "Start typing to look for results"
-msgstr ""
+msgstr "Bắt đầu gõ để tìm kiếm kết quả"
 
 #: src/view/search_panel.ui:47
 msgid "No Results Found"
-msgstr ""
+msgstr "Không tìm thấy kết quả"
 
 #: src/view/shortcuts.ui:13
 msgctxt "shortcut window"
 msgid "General"
-msgstr ""
+msgstr "Chung"
 
 #: src/view/shortcuts.ui:17
 msgctxt "shortcut window"
 msgid "Show Shortcuts"
-msgstr ""
+msgstr "Hiển thị phím tắt"
 
 #: src/view/shortcuts.ui:24
 msgctxt "shortcut window"
 msgid "Show menu"
-msgstr ""
+msgstr "Hiển thị thực đơn"
 
 #: src/view/shortcuts.ui:31
 msgctxt "shortcut window"
 msgid "Quit"
-msgstr ""
+msgstr "Thoát"
 
 #: src/view/shortcuts.ui:38
 msgctxt "shortcut window"
 msgid "Close window"
-msgstr ""
+msgstr "Đóng cửa sổ"
 
 #: src/view/shortcuts.ui:45
 msgctxt "shortcut window"
 msgid "Close dialog"
-msgstr ""
+msgstr "Đóng hộp thoại"
 
 #: src/view/shortcuts.ui:52
 msgctxt "shortcut window"
 msgid "Search"
-msgstr ""
+msgstr "Tìm kiếm"
 
 #: src/view/shortcuts.ui:62
 msgctxt "shortcut window"
 msgid "Navigation"
-msgstr ""
+msgstr "Điều hướng"
 
 #: src/view/shortcuts.ui:66
 msgctxt "shortcut window"
 msgid "Go back"
-msgstr ""
+msgstr "Quay lại"
 
 #: src/view/shortcuts.ui:73
 msgctxt "shortcut window"
 msgid "Return to main view"
-msgstr ""
+msgstr "Quay lại xem chính"
 
 #: src/view/shortcuts.ui:83
 msgctxt "shortcut window"
 msgid "Container"
-msgstr ""
+msgstr "Thùng chứa"
 
 #: src/view/shortcuts.ui:87
 msgctxt "shortcut window"
 msgid "Rename"
-msgstr ""
+msgstr "Đổi tên"
 
 #: src/view/shortcuts.ui:94
 msgctxt "shortcut window"
 msgid "Commit"
-msgstr ""
+msgstr "Làm"
 
 #: src/view/shortcuts.ui:101
 msgctxt "shortcut window"
 msgid "Download files"
-msgstr ""
+msgstr "Tải tập tin xuống"
 
 #: src/view/shortcuts.ui:108
 msgctxt "shortcut window"
 msgid "Upload files"
-msgstr ""
+msgstr "Tải tập tin lên"
 
 #: src/view/shortcuts.ui:118
 msgctxt "shortcut window"
 msgid "Text view"
-msgstr ""
+msgstr "Xem văn bản"
 
 #: src/view/shortcuts.ui:122 src/view/shortcuts.ui:150
 msgctxt "shortcut window"
 msgid "Zoom in"
-msgstr ""
+msgstr "Phóng to"
 
 #: src/view/shortcuts.ui:129 src/view/shortcuts.ui:157
 msgctxt "shortcut window"
 msgid "Zoom out"
-msgstr ""
+msgstr "Thu nhỏ"
 
 #: src/view/shortcuts.ui:136 src/view/shortcuts.ui:164
 msgctxt "shortcut window"
 msgid "Reset zoom"
-msgstr ""
+msgstr "Đặt lại zoom"
 
 #: src/view/shortcuts.ui:146
 msgctxt "shortcut window"
 msgid "Terminal"
-msgstr ""
+msgstr "Thiết bị đầu cuối"
 
 #: src/view/shortcuts.ui:171
 msgctxt "shortcut window"
 msgid "Copy selection to clipboard"
-msgstr ""
+msgstr "Sao chép lựa chọn vào bộ nhớ tạm"
 
 #: src/view/shortcuts.ui:178
 msgctxt "shortcut window"
 msgid "Paste from clipboard"
-msgstr ""
+msgstr "Dán từ bộ nhớ tạm"
 
 #: src/view/shortcuts.ui:188
 msgctxt "shortcut window"
 msgid "Podman"
-msgstr ""
+msgstr "Podman"
 
 #: src/view/shortcuts.ui:192
 msgctxt "shortcut window"
 msgid "Add a new connection"
-msgstr ""
+msgstr "Thêm kết nối mới"
 
 #: src/view/shortcuts.ui:199
 msgctxt "shortcut window"
 msgid "Create a new entity"
-msgstr ""
+msgstr "Tạo một thực thể mới"
 
 #: src/view/top_page.rs:100
 msgid "Container Processes"
-msgstr ""
+msgstr "Quy trình vùng chứa"
 
 #: src/view/top_page.rs:107
 msgid "Pod Processes"
-msgstr ""
+msgstr "Quy trình nhóm"
 
 #: src/view/top_page.rs:125
 msgid "USER"
-msgstr ""
+msgstr "USER"
 
 #: src/view/top_page.rs:132
 msgid "PID"
-msgstr ""
+msgstr "PID"
 
 #: src/view/top_page.rs:139
 msgid "PPID"
-msgstr ""
+msgstr "PPID"
 
 #: src/view/top_page.rs:146
 #, c-format
 msgid "%CPU"
-msgstr ""
+msgstr "%CPU"
 
 #: src/view/top_page.rs:153
 msgid "ELAPSED"
-msgstr ""
+msgstr "ĐÃ TRÔI QUA"
 
 #: src/view/top_page.rs:160
 msgid "TTY"
-msgstr ""
+msgstr "TTY"
 
 #: src/view/top_page.rs:167
 msgid "TIME"
-msgstr ""
+msgstr "THỜI GIAN"
 
 #: src/view/top_page.rs:174
 msgid "COMMAND"
-msgstr ""
+msgstr "LỆNH"
 
 #: src/view/top_page.rs:516
 msgid "Killing pod processes is not supported"
-msgstr ""
+msgstr "Quá trình tiêu diệt nhóm không được hỗ trợ"
 
 #: src/view/volume_creation_page.ui:42 src/view/volume_selection_page.ui:70
 #: src/view/volumes_group.ui:12 src/view/volumes_panel.ui:117
 msgid "Create Volume"
-msgstr ""
+msgstr "Tạo âm lượng"
 
 #: src/view/volume_details_page.rs:177
 msgid "Volume '{}' has been deleted"
-msgstr ""
+msgstr "Tập '{}' đã bị xóa"
 
 #: src/view/volume_details_page.ui:40
 msgid "Delete Volume"
-msgstr ""
+msgstr "Xóa tập"
 
 #: src/view/volume_details_page.ui:52
 msgid "Driver"
-msgstr ""
+msgstr "Trình điều khiển"
 
 #: src/view/volume_details_page.ui:64
 msgid "Mount Path"
-msgstr ""
+msgstr "Đường dẫn núi"
 
 #: src/view/volume_details_page.ui:78
 msgid "View all volume properties in a structured text form"
-msgstr ""
+msgstr "Xem tất cả các thuộc tính âm lượng ở dạng văn bản có cấu trúc"
 
 #: src/view/volume_row.rs:174
 msgid "{} old"
-msgstr ""
+msgstr "{} cũ"
 
 #: src/view/volume_row.rs:271
 msgid "Volume {}"
-msgstr ""
+msgstr "Tập {}"
 
 #: src/view/volume_selection_page.ui:29
 msgid "No Volume Available"
-msgstr ""
+msgstr "Không tập nào"
 
 #: src/view/volume_selection_page.ui:40 src/view/volumes_panel.ui:6
 #: src/view/volumes_panel.ui:343
 msgid "_Create Volume"
-msgstr ""
+msgstr "_Tạo âm lượng"
 
 #: src/view/volume_selection_page.ui:93
 msgid "Select Volume"
-msgstr ""
+msgstr "Chọn âm lượng"
 
 #: src/view/volume.rs:16
 msgid "Confirm Volume Deletion"
-msgstr ""
+msgstr "Xác nhận xóa tập"
 
 #. Translators: The "{}" is a placeholder for the container name.
 #: src/view/volume.rs:20
@@ -3869,159 +4106,159 @@ msgid ""
 "Volume is used by container <b>{}</b>. Deleting the volume will also delete "
 "these containers."
 msgstr ""
+"Âm lượng được sử dụng bởi container <b>{}</b>. Xóa ổ đĩa cũng sẽ xóa các "
+"vùng chứa này."
 
 #. Translators: The "{}" is a placeholder for the volume name.
 #: src/view/volume.rs:55 src/view/volumes_panel.rs:480
 msgid "Error on deleting volume '{}'"
-msgstr ""
+msgstr "Lỗi khi xóa tập '{}'"
 
 #: src/view/volumes_panel.rs:195
 msgid "1 volume, used"
-msgstr ""
+msgstr "1 tập đã sử dụng"
 
 #: src/view/volumes_panel.rs:197
 msgid "1 volume, unused"
-msgstr ""
+msgstr "1 tập chưa sử dụng"
 
 #: src/view/volumes_panel.rs:201
 msgid "{} volumes total, {} unused"
 msgid_plural "{} volumes total, {} unused"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Tổng số tập {}, {} chưa sử dụng"
 
 #: src/view/volumes_panel.rs:215
 msgid "{} Selected Volume"
 msgid_plural "{} Selected Volumes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} Tập đã chọn"
 
 #: src/view/volumes_panel.rs:452
 msgid "Confirm Forced Deletion of Multiple Volumes"
-msgstr ""
+msgstr "Xác nhận buộc xóa nhiều tập"
 
 #: src/view/volumes_panel.rs:454
 msgid ""
 "There may be containers associated with some of the volumes, which will also "
 "be removed!"
-msgstr ""
+msgstr "Có thể có các vùng chứa liên quan đến một số tập cũng sẽ bị xóa!"
 
 #: src/view/volumes_panel.ui:10
 msgid "_Prune Volumes"
-msgstr ""
+msgstr "_khối lượng tỉa"
 
 #: src/view/volumes_panel.ui:125 src/view/volumes_prune_page.ui:42
 msgid "Prune Volumes"
-msgstr ""
+msgstr "Khối lượng tỉa"
 
 #: src/view/volumes_panel.ui:146 src/view/volumes_panel.ui:192
 msgid "Show Only Used Volumes"
-msgstr ""
+msgstr "Chỉ hiển thị các tập đã sử dụng"
 
 #: src/view/volumes_panel.ui:258
 msgid "No Volumes in Use"
-msgstr ""
+msgstr "Không tập nào được sử dụng"
 
 #: src/view/volumes_panel.ui:268
 msgid "_Show All Volumes"
-msgstr ""
+msgstr "_Hiển thị tất cả các tập"
 
 #: src/view/volumes_panel.ui:333
 msgid "No Volumes Available"
-msgstr ""
+msgstr "Không tập nào"
 
 #: src/view/volumes_prune_page.ui:70
 msgid "Prune volumes created before this timestamp"
-msgstr ""
+msgstr "Cắt bớt các tập được tạo trước dấu thời gian này"
 
 #: src/view/welcome_page.ui:59
 msgid "Welcome to Pods"
-msgstr ""
+msgstr "Chào mừng đến với Pods"
 
 #: src/view/welcome_page.ui:68
 msgid "Create a new connection to Podman to get started"
-msgstr ""
+msgstr "Tạo kết nối mới với Podman để bắt đầu"
 
 #: src/view/welcome_page.ui:82
 msgid "_New Connection"
-msgstr ""
+msgstr "Kết _nối mới"
 
 #: src/view/window.rs:194
 msgid "Confirm Exiting The Application"
-msgstr ""
+msgstr "Xác nhận thoát khỏi ứng dụng"
 
 #: src/view/window.rs:275
 msgid "Error on loading images"
-msgstr ""
+msgstr "Lỗi khi tải hình ảnh"
 
 #: src/view/window.rs:276
 msgid "Error on loading containers"
-msgstr ""
+msgstr "Lỗi khi tải container"
 
 #: src/view/window.rs:277
 msgid "Error on loading pods"
-msgstr ""
+msgstr "Lỗi khi tải nhóm"
 
 #: src/view/window.rs:278
 msgid "Error on loading volumes"
-msgstr ""
+msgstr "Lỗi khi tải tập"
 
 #. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
 #: src/widget/date_time_row.rs:131
 msgid "%x %H:%M %p"
-msgstr ""
+msgstr "%x %H:%M %p"
 
 #: src/widget/date_time_row.rs:133
 msgid "Invalid date format"
-msgstr ""
+msgstr "Định dạng ngày không hợp lệ"
 
 #: src/widget/date_time_row.ui:4
 msgid "Prune Until"
-msgstr ""
+msgstr "Cắt tỉa cho đến khi"
 
 #: src/widget/date_time_row.ui:89
 msgid "AM"
-msgstr ""
+msgstr "AM"
 
 #: src/widget/date_time_row.ui:90
 msgid "PM"
-msgstr ""
+msgstr "PM"
 
 #: src/widget/main_menu_button.ui:7
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "_Phím tắt"
 
 #: src/widget/main_menu_button.ui:11
 msgid "_About Pods"
-msgstr ""
+msgstr "_Giới thiệu về Pod"
 
 #: src/widget/main_menu_button.ui:27
 msgid "Main Menu"
-msgstr ""
+msgstr "Thực đơn chính"
 
 #: src/widget/source_view_search_widget.rs:155
 msgid "0 of {}"
-msgstr ""
+msgstr "0 trong số {}"
 
 #: src/widget/source_view_search_widget.rs:182
 msgid "{} of {}"
-msgstr ""
+msgstr "{} trong số {}"
 
 #: src/widget/source_view_search_widget.ui:23
 msgid "Previous (Ctrl+Shift+G)"
-msgstr ""
+msgstr "Trước đó (Ctrl+Shift+G)"
 
 #: src/widget/source_view_search_widget.ui:30
 msgid "Next (Ctrl+G)"
-msgstr ""
+msgstr "Tiếp theo (Ctrl+G)"
 
 #: src/widget/text_search_entry.ui:41
 msgid "Regular Expression"
-msgstr ""
+msgstr "Biểu thức chính quy"
 
 #: src/widget/text_search_entry.ui:50
 msgid "Case Sensitive"
-msgstr ""
+msgstr "Phân biệt chữ hoa chữ thường"
 
 #: src/widget/text_search_entry.ui:59
 msgid "Whole Word"
-msgstr ""
+msgstr "Toàn bộ từ"
