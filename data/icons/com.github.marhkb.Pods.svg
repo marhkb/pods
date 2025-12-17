@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg height="128px" viewBox="0 0 128 128" width="128px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
     <linearGradient id="a" gradientTransform="matrix(0.196428 0 0 0.342105 2.59702 273.740051)" gradientUnits="userSpaceOnUse" x1="88.597115" x2="536.597778" y1="-449.393982" y2="-449.393982">
         <stop offset="0" stop-color="#77767b"/>
         <stop offset="0.0454546" stop-color="#c0bfbc"/>
@@ -85,6 +86,7 @@
         <stop offset="0" stop-color="#9a9996"/>
         <stop offset="1" stop-color="#c0bfbc"/>
     </linearGradient>
+    </defs>
     <path d="m 28 16 h 72 c 4.417969 0 8 3.582031 8 8 v 88 c 0 4.417969 -3.582031 8 -8 8 h -72 c -4.417969 0 -8 -3.582031 -8 -8 v -88 c 0 -4.417969 3.582031 -8 8 -8 z m 0 0" fill="url(#a)"/>
     <path d="m 28 8 h 72 c 4.417969 0 8 3.582031 8 8 v 20 c 0 4.417969 -3.582031 8 -8 8 h -72 c -4.417969 0 -8 -3.582031 -8 -8 v -20 c 0 -4.417969 3.582031 -8 8 -8 z m 0 0" fill="#deddda"/>
     <path d="m 32 64 h 64 c 2.210938 0 4 1.789062 4 4 v 40 c 0 2.210938 -1.789062 4 -4 4 h -64 c -2.210938 0 -4 -1.789062 -4 -4 v -40 c 0 -2.210938 1.789062 -4 4 -4 z m 0 0" fill="#3d3846"/>
