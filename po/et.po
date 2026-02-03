@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-27 19:46+0200\n"
-"PO-Revision-Date: 2025-11-12 09:51+0000\n"
+"PO-Revision-Date: 2026-02-04 09:01+0000\n"
 "Last-Translator: Priit Jõerüüt <jrthwlate@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Estonian <https://hosted.weblate.org/projects/pods/main/et/>\n"
 "Language: et\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.15-dev\n"
+"X-Generator: Weblate 5.16-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:112
@@ -24,7 +24,7 @@ msgstr ""
 #: src/view/pods_panel.ui:138 src/view/pods_panel.ui:432
 #: src/view/pods_row.ui:22 src/view/search_panel.ui:81
 msgid "Pods"
-msgstr ""
+msgstr "Pods"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:4
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
@@ -85,7 +85,7 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:56
 msgid "Whether to show only running pods"
-msgstr ""
+msgstr "Kas peaks näitama vaid töös olevaid pode"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:61
 msgid "Whether to show only used volumes"
@@ -126,23 +126,23 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:11
 msgid "With Pods you can, among other things:"
-msgstr ""
+msgstr "Podsi abil saad sa muu hulgas:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:13
 msgid "Connect to local and remote Podman instances."
-msgstr ""
+msgstr "Ühendada kohalike ja kaugsüsteemis asuvate Podmani keskkondadega."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:14
 msgid "Easily overview images, containers and pods."
-msgstr ""
+msgstr "Hõlpsasti saada ülevaadet tõmmistest, konteineritest ja podidest."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:15
 msgid "View prepared information about images, containers, and pods."
-msgstr ""
+msgstr "Vaadata ettevalmistatud teavet tõmmiste, konteinerite ja podide kohta."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:16
 msgid "Inspect images, containers and pods."
-msgstr ""
+msgstr "Uurida tõmmiseid, konteinereid ja pode."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:17
 msgid "View and search container logs."
@@ -150,7 +150,7 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:18
 msgid "Monitor processes of containers and pods."
-msgstr ""
+msgstr "Jälgida protsesse konteinerites ja podides."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:19
 msgid "Download images and build them using Dockerfiles."
@@ -158,17 +158,19 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:20
 msgid "Create pods and containers."
-msgstr ""
+msgstr "Luua pode ja konteinereid."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:21
 msgid ""
 "Control the lifecycle of containers and pods (in bulk) (start, stop, pause, "
 "etc.)."
 msgstr ""
+"Hallata konteinerite ja podide elutsüklit - käivitamine, lõpetamine, "
+"peatamine (ka masstöötlusena)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:22
 msgid "Delete images, containers, and pods (in bulk)."
-msgstr ""
+msgstr "Kustutada tõmmiseid, konteinereid ja pode (ka masstöötlusena)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:23
 msgid "Prune images."
@@ -192,7 +194,7 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:47
 msgid "Pods 2.1.0 contains the following changes:"
-msgstr ""
+msgstr "Rakenduse Pods versioonis 2.1.0 on järgnevad muudatused:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:48
 msgid "Features"
@@ -631,7 +633,7 @@ msgstr ""
 msgid ""
 "The name of the container is now also displayed as a subtitle in the health "
 "check page."
-msgstr ""
+msgstr "Nüüd kuvatakse seisundikontrolli lehel konteineri nimi alapealkirjana."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:191
 msgid "The README file has been updated and improved."
@@ -1144,7 +1146,7 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:357
 msgid "Image downloads can now be aborted."
-msgstr ""
+msgstr "Tõmmiste allalaadimist saab nüüd katkestada."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:358
 msgid "Arguments can now be added to a container command, thanks to @vvk9."
@@ -1198,7 +1200,7 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:388
 msgid "This is the first 1.0.0 beta release of Pods."
-msgstr ""
+msgstr "Rakenduse Pods eimene 1.0.0 beetaversioon."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:400
 msgid "Marcus Behrendt"
@@ -1303,11 +1305,11 @@ msgstr ""
 
 #: src/model/action.rs:627
 msgid "Create pod <b>{}</b>"
-msgstr ""
+msgstr "Loo pod <b>{}</b>"
 
 #: src/model/action.rs:652
 msgid "Prune stopped pods"
-msgstr ""
+msgstr "Eemalda töö lõpetanud podid"
 
 #: src/model/action.rs:843
 msgid "Create volume <b>{}</b>"
@@ -1491,11 +1493,11 @@ msgstr "Kopeerin faile"
 
 #: src/view/action_page.rs:152
 msgid "Pruning Pods"
-msgstr ""
+msgstr "Eemaldan pode"
 
 #: src/view/action_page.rs:153
 msgid "Creating Pod"
-msgstr ""
+msgstr "Loon podi"
 
 #: src/view/action_page.rs:154
 msgid "Creating Volume"
@@ -1543,11 +1545,11 @@ msgstr ""
 
 #: src/view/action_page.rs:170
 msgid "Pods Pruned"
-msgstr ""
+msgstr "Podid on eemaldatud"
 
 #: src/view/action_page.rs:171
 msgid "Pod Created"
-msgstr ""
+msgstr "Pod on loodud"
 
 #: src/view/action_page.rs:172
 msgid "Volume Created"
@@ -1595,11 +1597,11 @@ msgstr ""
 
 #: src/view/action_page.rs:188
 msgid "Pod Pruning Aborted"
-msgstr ""
+msgstr "Podide eemaldamine on katkestatud"
 
 #: src/view/action_page.rs:189
 msgid "Pod Creation Aborted"
-msgstr ""
+msgstr "Podi loomine on katkestatud"
 
 #: src/view/action_page.rs:190
 msgid "Volume Creation Aborted"
@@ -1647,11 +1649,11 @@ msgstr ""
 
 #: src/view/action_page.rs:206
 msgid "Pruning Pods Failed"
-msgstr ""
+msgstr "Podide eemaldamine ei õnnestunud"
 
 #: src/view/action_page.rs:207
 msgid "Creating Pod Failed"
-msgstr ""
+msgstr "Podi loomine ei õnnestunud"
 
 #: src/view/action_page.rs:208
 msgid "Creating Volume Failed"
@@ -1699,11 +1701,11 @@ msgstr "Eemalda"
 
 #: src/view/action_row.rs:203
 msgid "Failed Pods Action"
-msgstr ""
+msgstr "Toiming podidega ei õnnestunud"
 
 #: src/view/action_row.rs:207
 msgid "Finished Pods Action"
-msgstr ""
+msgstr "Toiming podidega lõppes"
 
 #: src/view/action_row.rs:257
 msgid "Ongoing ({})"
@@ -1785,7 +1787,7 @@ msgstr ""
 #: src/view/client_view.ui:82
 msgctxt "app name"
 msgid "Pods"
-msgstr ""
+msgstr "Podid"
 
 #: src/view/client_view.ui:223
 msgid "Content"
@@ -1797,7 +1799,7 @@ msgstr ""
 
 #: src/view/connection_chooser_page.ui:26
 msgid "Connect to Podman"
-msgstr ""
+msgstr "Ühenda Podmaniga"
 
 #: src/view/connection_chooser_page.ui:27
 msgid "Choose an existing connection or create a new one"
@@ -1814,12 +1816,12 @@ msgstr ""
 
 #: src/view/connection_creation_page.rs:246
 msgid "Confirm Connecting to New Instance"
-msgstr ""
+msgstr "Kinnita ühendamine uue serveriga"
 
 #: src/view/connection_creation_page.ui:23
 #: src/view/connection_creation_page.ui:43
 msgid "New Connection"
-msgstr ""
+msgstr "Uus ühendus"
 
 #: src/view/connection_creation_page.ui:36 src/view/connection.rs:28
 #: src/view/container_card.rs:564 src/view/container_commit_page.ui:35
@@ -1835,11 +1837,11 @@ msgstr ""
 #: src/view/volume_creation_page.ui:35 src/view/volume.rs:26
 #: src/view/volumes_panel.rs:459 src/view/volumes_prune_page.ui:35
 msgid "_Cancel"
-msgstr ""
+msgstr "_Katkesta"
 
 #: src/view/connection_creation_page.ui:60
 msgid "_Connect"
-msgstr ""
+msgstr "_Ühenda"
 
 #: src/view/connection_creation_page.ui:119
 #: src/view/container_creation_page.ui:80
@@ -1848,29 +1850,31 @@ msgstr ""
 #: src/view/pod_details_page.ui:179 src/view/volume_creation_page.ui:69
 #: src/view/volume_details_page.ui:46
 msgid "Name"
-msgstr ""
+msgstr "Nimi"
 
 #: src/view/connection_creation_page.ui:128
 msgid "URL"
-msgstr ""
+msgstr "Võrguaadress"
 
 #: src/view/connection_creation_page.ui:129
 msgid "Choose how to connect to Podman"
-msgstr ""
+msgstr "Vali Podmaniga ühendamise viis"
 
 #: src/view/connection_creation_page.ui:133
 msgid "Unix Socket"
-msgstr ""
+msgstr "Unixi sokkel"
 
 #: src/view/connection_creation_page.ui:169
 msgid "Podman Socket Activation"
-msgstr ""
+msgstr "Podmani sokli aktiveerimine"
 
 #: src/view/connection_creation_page.ui:176
 msgid ""
 "To connect to the local Podman instance, the systemd socket must be enabled. "
 "You can enable it permanently by issuing the following command:"
 msgstr ""
+"Kohaliku Podmani serveriga ühendamiseks peaks systemd sokkel olema "
+"sisselülitatud. Saad seda teha järgneva käsuga:"
 
 #: src/view/connection_creation_page.ui:225
 #: src/view/connection_custom_info_page.ui:140
@@ -1878,7 +1882,7 @@ msgstr ""
 #: src/view/connection_custom_info_page.ui:256
 #: src/view/connection_custom_info_page.ui:306
 msgid "Copy to Clipboard"
-msgstr ""
+msgstr "Kopeeri lõikelauale"
 
 #: src/view/connection_creation_page.ui:241
 msgid ""
@@ -2024,33 +2028,33 @@ msgstr ""
 #: src/view/containers_panel.ui:328 src/view/pod_details_page.ui:67
 #: src/view/pods_panel.ui:326
 msgid "Restart"
-msgstr ""
+msgstr "Käivita uuesti"
 
 #: src/view/container_card.ui:493 src/view/container_details_page.ui:86
 #: src/view/containers_panel.ui:346 src/view/pod_details_page.ui:80
 #: src/view/pods_panel.ui:344
 msgid "Start/Resume"
-msgstr ""
+msgstr "Käivita/jätka"
 
 #: src/view/container_card.ui:510 src/view/container_details_page.ui:105
 #: src/view/containers_panel.ui:364 src/view/pod_details_page.ui:99
 #: src/view/pods_panel.ui:362
 msgid "Stop"
-msgstr ""
+msgstr "Lõpeta"
 
 #: src/view/container_card.ui:548 src/view/container_commit_page.ui:124
 #: src/view/container_details_page.ui:141 src/view/containers_panel.ui:386
 #: src/view/pod_details_page.ui:135 src/view/pods_panel.ui:384
 msgid "Pause"
-msgstr ""
+msgstr "Peata"
 
 #: src/view/container_commit_page.rs:98
 msgid "Change"
-msgstr ""
+msgstr "Muuda"
 
 #: src/view/container_commit_page.rs:197
 msgid "Error on fetching user name"
-msgstr ""
+msgstr "Viga kasutajanime laadimisel/tuvastamisel"
 
 #: src/view/container_commit_page.ui:22 src/view/container_creation_page.ui:31
 #: src/view/container_files_get_page.ui:22
@@ -2060,7 +2064,7 @@ msgstr ""
 #: src/view/pods_prune_page.ui:22 src/view/repo_tag_push_page.ui:25
 #: src/view/volume_creation_page.ui:22 src/view/volumes_prune_page.ui:22
 msgid "Preferences"
-msgstr ""
+msgstr "Eelistused"
 
 #: src/view/container_commit_page.ui:42
 msgid "Commit Container"
@@ -2115,24 +2119,24 @@ msgstr ""
 #: src/view/container_creation_page.rs:197 src/view/pod_creation_page.rs:197
 #: src/view/pod_creation_page.rs:207 src/view/value_row.ui:4
 msgid "Argument"
-msgstr ""
+msgstr "Argument"
 
 #: src/view/container_creation_page.rs:200 src/view/pod_creation_page.rs:200
 #: src/view/pod_creation_page.rs:210
 msgid "Add Argument"
-msgstr ""
+msgstr "Lisa argument"
 
 #: src/view/container_creation_page.rs:211 src/view/pod_creation_page.rs:180
 msgid "Add Port Mapping"
-msgstr ""
+msgstr "Lisa portide vastendus"
 
 #: src/view/container_creation_page.rs:219
 msgid "Add Volume"
-msgstr ""
+msgstr "Lisa köide"
 
 #: src/view/container_creation_page.rs:229
 msgid "Add Environment Variable"
-msgstr ""
+msgstr "Lisa keskkonnamuutuja"
 
 #: src/view/container_creation_page.rs:239 src/view/image_build_page.rs:115
 #: src/view/pod_creation_page.rs:154
@@ -2168,7 +2172,7 @@ msgstr ""
 #: src/view/container_creation_page.ui:128
 #: src/view/container_properties_group.ui:300 src/view/pod_details_page.ui:16
 msgid "Pod"
-msgstr ""
+msgstr "Pod"
 
 #: src/view/container_creation_page.ui:155 src/view/pod_creation_page.ui:290
 msgid "Pull Latest Image"
@@ -2189,36 +2193,36 @@ msgstr ""
 
 #: src/view/container_creation_page.ui:176
 msgid "Memory Limit"
-msgstr ""
+msgstr "Mälupiirang"
 
 #: src/view/container_creation_page.ui:220
 msgid "KB"
-msgstr ""
+msgstr "KB"
 
 #: src/view/container_creation_page.ui:221
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 #: src/view/container_creation_page.ui:222
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #: src/view/container_creation_page.ui:251
 #: src/view/container_creation_page.ui:363
 #: src/view/container_health_check_page.ui:53 src/view/image_details_page.ui:93
 #: src/view/pod_creation_page.ui:310
 msgid "Command"
-msgstr ""
+msgstr "Käsk"
 
 #: src/view/container_creation_page.ui:259 src/view/pod_creation_page.ui:142
 #: src/view/pod_creation_page.ui:319
 msgid "Arguments"
-msgstr ""
+msgstr "Argumendid"
 
 #: src/view/container_creation_page.ui:278 src/view/image_build_page.ui:144
 #: src/view/pod_creation_page.ui:163
 msgid "Integration"
-msgstr ""
+msgstr "Lõimimine"
 
 #: src/view/container_creation_page.ui:288 src/view/pod_creation_page.ui:173
 msgid "Port Mappings"
@@ -2226,7 +2230,7 @@ msgstr "Portide vastendamine"
 
 #: src/view/container_creation_page.ui:318
 msgid "Environment Variables"
-msgstr ""
+msgstr "Keskkonnamuutujad"
 
 #: src/view/container_creation_page.ui:333 src/view/image_build_page.ui:153
 #: src/view/pod_creation_page.ui:225
@@ -2236,25 +2240,25 @@ msgstr ""
 #: src/view/container_creation_page.ui:354
 #: src/view/container_properties_group.ui:223
 msgid "Health Check"
-msgstr ""
+msgstr "Seisundikontroll"
 
 #: src/view/container_creation_page.ui:369
 #: src/view/container_health_check_page.ui:59
 msgid "Interval"
-msgstr ""
+msgstr "Välp"
 
 #: src/view/container_creation_page.ui:370
 msgid "Health check interval in seconds"
-msgstr ""
+msgstr "Seisundikontrolli välp sekundites"
 
 #: src/view/container_creation_page.ui:386
 #: src/view/container_health_check_page.ui:71
 msgid "Timeout"
-msgstr ""
+msgstr "Aegumine"
 
 #: src/view/container_creation_page.ui:387
 msgid "Seconds allowed to complete the command before it fails"
-msgstr ""
+msgstr "Lubatud aeg sekundites enne käsu märkimist ebaõnnestunuks"
 
 #: src/view/container_creation_page.ui:403
 msgid "Start Period"
@@ -2273,23 +2277,24 @@ msgstr ""
 #: src/view/container_creation_page.ui:421
 msgid "Number of retries allowed before a healthcheck fails"
 msgstr ""
+"Lubatud korduskatseid enne, kui seisundikontroll loetakse ebaõnnestunuks"
 
 #: src/view/container_details_page.rs:235
 msgid "Error on loading container details"
-msgstr ""
+msgstr "Viga konteineri üksikasjade laadimisel"
 
 #: src/view/container_details_page.rs:239
 msgid "Container '{}' has been deleted"
-msgstr ""
+msgstr "„{}“ konteiner on kustutatud"
 
 #: src/view/container_details_page.ui:16
 msgid "Container"
-msgstr ""
+msgstr "Konteiner"
 
 #: src/view/container_details_page.ui:199 src/view/image_details_page.ui:117
 #: src/view/pod_details_page.ui:229 src/view/volume_details_page.ui:73
 msgid "Utilities"
-msgstr ""
+msgstr "Tarvikud"
 
 #: src/view/container_details_page.ui:203 src/view/image_details_page.ui:121
 #: src/view/pod_details_page.ui:233 src/view/volume_details_page.ui:77
@@ -2314,19 +2319,19 @@ msgstr ""
 
 #: src/view/container_details_page.ui:254
 msgid "Logs"
-msgstr ""
+msgstr "Logid"
 
 #: src/view/container_details_page.ui:255
 msgid "View and search through container logs"
-msgstr ""
+msgstr "Vaata konteinerite logisid ning otsi neist"
 
 #: src/view/container_details_page.ui:271 src/view/pod_details_page.ui:267
 msgid "Processes"
-msgstr ""
+msgstr "Protsessid"
 
 #: src/view/container_details_page.ui:272
 msgid "View and manage processes of the container"
-msgstr ""
+msgstr "Vaata ja halda konteinerite protsesse"
 
 #: src/view/container_files_get_page.rs:148
 msgid "Select Host Destination Path"
@@ -2334,12 +2339,12 @@ msgstr ""
 
 #: src/view/container_files_get_page.ui:42
 msgid "Download Files"
-msgstr ""
+msgstr "Laadi failid alla"
 
 #: src/view/container_files_get_page.ui:52 src/view/image_pull_page.ui:20
 #: src/view/images_panel.ui:15 src/view/images_panel.ui:27
 msgid "_Download"
-msgstr ""
+msgstr "_Laadi alla"
 
 #: src/view/container_files_get_page.ui:69
 #: src/view/container_files_put_page.ui:97
@@ -2370,15 +2375,15 @@ msgstr ""
 
 #: src/view/container_files_put_page.ui:15
 msgid "Select _Directory…"
-msgstr ""
+msgstr "Vali _kaust…"
 
 #: src/view/container_files_put_page.ui:51
 msgid "Upload Files"
-msgstr ""
+msgstr "Laadi falid üles"
 
 #: src/view/container_files_put_page.ui:61
 msgid "_Upload"
-msgstr ""
+msgstr "Laadi _üles"
 
 #: src/view/container_files_put_page.ui:79
 msgid "Select a file or a directory from the host to upload"
@@ -2386,7 +2391,7 @@ msgstr ""
 
 #: src/view/container_files_put_page.ui:84
 msgid "Select _File…"
-msgstr ""
+msgstr "Vali _fail…"
 
 #: src/view/container_health_check_log_row.rs:80
 msgid "Passed Health Run"
@@ -2401,7 +2406,7 @@ msgstr ""
 #: src/view/image_history_page.rs:111 src/view/info_panel.rs:165
 #, c-format
 msgid "%x %X"
-msgstr ""
+msgstr "%x %X"
 
 #: src/view/container_health_check_page.rs:184
 #: src/view/container_health_check_page.rs:200
@@ -2412,11 +2417,11 @@ msgstr[1] "{} sekundit"
 
 #: src/view/container_health_check_page.rs:237
 msgid "Error on running health check"
-msgstr ""
+msgstr "Viga seisundikontrolli tegemisel"
 
 #: src/view/container_health_check_page.ui:16
 msgid "Container Health Check"
-msgstr ""
+msgstr "Konteineri seisundikontroll"
 
 #: src/view/container_health_check_page.ui:33
 msgid "Configuration"
@@ -2437,11 +2442,11 @@ msgstr ""
 
 #: src/view/container_health_check_page.ui:94
 msgid "Rows describe the last 5 health check attempts and results"
-msgstr ""
+msgstr "Read kirjeldavad vähemalt viit seisundikontrolli ja nende tulemust"
 
 #: src/view/container_health_check_page.ui:99
 msgid "_Run Health Check"
-msgstr ""
+msgstr "_Käivta seisundikontroll"
 
 #: src/view/container_log_page.rs:480
 msgid "Error while following log"
@@ -2449,104 +2454,104 @@ msgstr ""
 
 #: src/view/container_log_page.rs:615
 msgid "Include timestamps"
-msgstr ""
+msgstr "Kaasa ajatemplid"
 
 #: src/view/container_log_page.rs:667
 msgid "Error on saving logs"
-msgstr ""
+msgstr "Viga logide salvestamisel"
 
 #: src/view/container_log_page.rs:681
 msgid "Error on retrieving logs"
-msgstr ""
+msgstr "Viga logide laadimisel"
 
 #: src/view/container_log_page.rs:690
 msgid "Log has been saved"
-msgstr ""
+msgstr "Logi on salvestatud"
 
 #: src/view/container_log_page.rs:713
 msgid "Error starting container"
-msgstr ""
+msgstr "Viga konteineri käivitamisel"
 
 #: src/view/container_log_page.rs:719
 msgid "Error resuming container"
-msgstr ""
+msgstr "Viga konteineri töö jätkamisel"
 
 #: src/view/container_log_page.ui:12 src/view/scalable_text_view_page.ui:12
 msgid "_Save as File"
-msgstr ""
+msgstr "_Salvesta failina"
 
 #: src/view/container_log_page.ui:18
 msgid "Show _Timestamps"
-msgstr ""
+msgstr "Näita aja_templeid"
 
 #: src/view/container_log_page.ui:66
 msgid "Container Logs"
-msgstr ""
+msgstr "Konteineri logid"
 
 #: src/view/container_log_page.ui:105
 msgid "Start/Resume Container"
-msgstr ""
+msgstr "Käivita konteiner või jätka selle tööd"
 
 #: src/view/container_log_page.ui:106
 msgid "Streaming is disconnected because container is not running"
-msgstr ""
+msgstr "Kuna konteiner ei tööta, siis logide voogedastus on katkestatud"
 
 #: src/view/container_log_page.ui:149
 msgid "Loading previous lines"
-msgstr ""
+msgstr "Laadin eelmisi ridu"
 
 #: src/view/container_log_page.ui:178
 msgid "Scroll to bottom"
-msgstr ""
+msgstr "Keri lõpuni"
 
 #: src/view/container_menu_button.ui:7 src/view/pod_menu_button.ui:13
 msgid "_Start"
-msgstr ""
+msgstr "_Käivita"
 
 #: src/view/container_menu_button.ui:12 src/view/pod_menu_button.ui:18
 msgid "S_top"
-msgstr ""
+msgstr "Lõpe_ta"
 
 #: src/view/container_menu_button.ui:17 src/view/pod_menu_button.ui:23
 msgid "R_estart"
-msgstr ""
+msgstr "Käivita uu_esti"
 
 #: src/view/container_menu_button.ui:22 src/view/pod_menu_button.ui:28
 msgid "_Resume"
-msgstr ""
+msgstr "_Jätka"
 
 #: src/view/container_menu_button.ui:27 src/view/pod_menu_button.ui:33
 msgid "_Pause"
-msgstr ""
+msgstr "_Peata"
 
 #: src/view/container_menu_button.ui:34
 msgid "Re_name…"
-msgstr ""
+msgstr "Muuda _nime…"
 
 #: src/view/container_menu_button.ui:41 src/view/containers_panel.rs:668
 #: src/view/image.rs:27 src/view/images_panel.rs:491
 #: src/view/pod_menu_button.ui:40 src/view/pod.rs:65 src/view/pods_panel.rs:587
 #: src/view/volume.rs:27 src/view/volumes_panel.rs:460
 msgid "_Delete"
-msgstr ""
+msgstr "_Kustuta"
 
 #: src/view/container_properties_group.rs:270
 msgid "since {}"
-msgstr ""
+msgstr "alates {}"
 
 #: src/view/container_properties_group.ui:4 src/view/image_details_page.ui:44
 #: src/view/pod_details_page.ui:169 src/view/volume_details_page.ui:28
 msgid "Properties"
-msgstr ""
+msgstr "Omadused"
 
 #: src/view/container_properties_group.ui:45
 msgid "Rename (F2)"
-msgstr ""
+msgstr "Muuda nime (F2)"
 
 #: src/view/container_properties_group.ui:58 src/view/image_details_page.ui:75
 #: src/view/pod_details_page.ui:190
 msgid "Id"
-msgstr ""
+msgstr "Tunnus"
 
 #: src/view/container_properties_group.ui:80
 msgid "Commit (Ctrl+K)"
@@ -2570,7 +2575,7 @@ msgstr ""
 
 #: src/view/container_properties_group.ui:249 src/view/image_details_page.ui:32
 msgid "Image"
-msgstr ""
+msgstr "Tõmmis"
 
 #: src/view/container_resources.rs:90
 msgid "Processor ({} CPU)"
@@ -2580,69 +2585,69 @@ msgstr[1] "Protsessor ({} CPU-d)"
 
 #: src/view/container_resources.rs:96
 msgid "Processor (? CPUs)"
-msgstr ""
+msgstr "Protsessor (? CPU-d)"
 
 #: src/view/container_resources.rs:108 src/view/container_resources.rs:143
 #: src/view/container_resources.rs:148 src/view/container_resources.rs:152
 #: src/view/container_resources.rs:155
 msgid "?"
-msgstr ""
+msgstr "?"
 
 #: src/view/container_resources.rs:105
 msgid "{} %"
-msgstr ""
+msgstr "{} %"
 
 #: src/view/container_resources.rs:138
 msgid "{} / {} ({} %)"
-msgstr ""
+msgstr "{} / {} ({} %)"
 
 #: src/view/container_resources.ui:13
 msgid "Resources Quick Reference"
-msgstr ""
+msgstr "Ressursside kiirjuhend"
 
 #: src/view/container_resources.ui:117
 msgid "Memory"
-msgstr ""
+msgstr "Mälu"
 
 #: src/view/container_resources.ui:182
 msgid "Network"
-msgstr ""
+msgstr "Võrk"
 
 #: src/view/container_resources.ui:302
 msgid "Disk"
-msgstr ""
+msgstr "Andmekandja"
 
 #: src/view/container_terminal_page.ui:32
 msgid "Detach Terminal"
-msgstr ""
+msgstr "Eralda terminal"
 
 #: src/view/container_terminal_page.ui:39
 msgid "Container Terminal"
-msgstr ""
+msgstr "Konteineri terminal"
 
 #: src/view/container_terminal.rs:475
 msgid "Terminal error"
-msgstr ""
+msgstr "Terminali viga"
 
 #: src/view/container_terminal.rs:476
 msgid "'/bin/sh' not found"
-msgstr ""
+msgstr "„/bin/sh“ pole leitav"
 
 #: src/view/container_terminal.ui:6
 msgid "_Copy"
-msgstr ""
+msgstr "_Kopeeri"
 
 #: src/view/container_terminal.ui:10
 msgid "Copy as _HTML"
-msgstr ""
+msgstr "Kopeeri _HTML-ina"
 
 #: src/view/container_terminal.ui:14
 msgid "_Paste"
-msgstr ""
+msgstr "_Aseta"
 
 #: src/view/container_terminal.ui:35
 msgid "No Terminal"
-msgstr ""
+msgstr "Terminali pole"
 
 #: src/view/container_terminal.ui:36
 msgid "The container must be running to use the terminal"
@@ -2650,59 +2655,59 @@ msgstr ""
 
 #: src/view/container_terminal.ui:46
 msgid "Start"
-msgstr ""
+msgstr "Käivita"
 
 #: src/view/container.rs:69 src/view/container.rs:100
 msgid "Error renaming container"
-msgstr ""
+msgstr "Viga konteineri nime muutmisel"
 
 #: src/view/container.rs:70
 msgid "Container has been deleted"
-msgstr ""
+msgstr "Konteiner on kustutatud"
 
 #: src/view/container.rs:79
 msgid "Rename Container"
-msgstr ""
+msgstr "Muuda konteineri nime"
 
 #: src/view/container.rs:87
 msgid "_Rename"
-msgstr ""
+msgstr "_Muuda nime"
 
 #: src/view/container.rs:132 src/view/containers_panel.rs:615
 msgid "Error on starting container"
-msgstr ""
+msgstr "Viga konteineri käivitamisel"
 
 #: src/view/container.rs:133 src/view/containers_panel.rs:557
 msgid "Error on stopping container"
-msgstr ""
+msgstr "Viga konteineri töö lõpetamisel"
 
 #: src/view/container.rs:134 src/view/containers_panel.rs:555
 msgid "Error on killing container"
-msgstr ""
+msgstr "Viga konteineri töö hävitamisel"
 
 #: src/view/container.rs:135 src/view/containers_panel.rs:582
 msgid "Error on restarting container"
-msgstr ""
+msgstr "Viga konteineri töö uuesti käivitamisel"
 
 #: src/view/container.rs:136 src/view/containers_panel.rs:638
 msgid "Error on pausing container"
-msgstr ""
+msgstr "Viga konteineri töö peatamisel"
 
 #: src/view/container.rs:137 src/view/containers_panel.rs:604
 msgid "Error on resuming container"
-msgstr ""
+msgstr "Viga konteineri töö jätkamisel"
 
 #: src/view/container.rs:138 src/view/containers_panel.rs:687
 msgid "Error on deleting container"
-msgstr ""
+msgstr "Viga konteineri kustutamisel"
 
 #: src/view/containers_panel.rs:235
 msgid "1 container, running"
-msgstr ""
+msgstr "1 töötav konteiner"
 
 #: src/view/containers_panel.rs:237
 msgid "1 container, stopped"
-msgstr ""
+msgstr "1 konteiner, töö on lõpetatud"
 
 #: src/view/containers_panel.rs:241
 msgid "{} container total, {} running"
@@ -2728,7 +2733,7 @@ msgstr ""
 
 #: src/view/containers_panel.ui:6 src/view/containers_panel.ui:453
 msgid "_Create Container"
-msgstr ""
+msgstr "_Loo konteiner"
 
 #: src/view/containers_panel.ui:10
 msgid "_Prune Stopped Containers"
@@ -3316,7 +3321,7 @@ msgstr ""
 #: src/view/pod_creation_page.ui:42 src/view/pod_selection_page.ui:70
 #: src/view/pods_panel.ui:117
 msgid "Create Pod"
-msgstr ""
+msgstr "Loo pod"
 
 #: src/view/pod_creation_page.ui:52 src/view/volume_creation_page.ui:52
 msgid "_Create"
@@ -3328,7 +3333,7 @@ msgstr ""
 
 #: src/view/pod_creation_page.ui:133
 msgid "Pod Create Command"
-msgstr ""
+msgstr "Podi loomise käsk"
 
 #: src/view/pod_creation_page.ui:188
 msgid "Devices"
@@ -3352,72 +3357,72 @@ msgstr ""
 
 #: src/view/pod_details_page.rs:229
 msgid "Error on loading pod data"
-msgstr ""
+msgstr "Viga podi andmete laadimisel"
 
 #: src/view/pod_details_page.rs:233
 msgid "Pod '{}' has been deleted"
-msgstr ""
+msgstr "„{}“ pod on kustutatud"
 
 #: src/view/pod_details_page.ui:234
 msgid "View all pod properties in a structured text form"
-msgstr ""
+msgstr "Vaata kõiki podi omadusi struktureeritud viisil"
 
 #: src/view/pod_details_page.ui:251
 msgid "Generate Kubernetes YAML based on this pod"
-msgstr ""
+msgstr "Loo selle podi põhjal Kubernetese YAML-fail"
 
 #: src/view/pod_details_page.ui:268
 msgid "View processes of the pod"
-msgstr ""
+msgstr "Vaata podi protsesse"
 
 #: src/view/pod_row.rs:269
 msgid "Pod Details"
-msgstr ""
+msgstr "Podi üksikasjad"
 
 #: src/view/pod_selection_page.ui:29
 msgid "No Pod Available"
-msgstr ""
+msgstr "Ühtegi podi pole saadaval"
 
 #: src/view/pod_selection_page.ui:40 src/view/pods_panel.ui:6
 #: src/view/pods_panel.ui:451
 msgid "_Create Pod"
-msgstr ""
+msgstr "_Loo pod"
 
 #: src/view/pod_selection_page.ui:93
 msgid "Select Pod"
-msgstr ""
+msgstr "Vali pod"
 
 #: src/view/pod.rs:39 src/view/pods_panel.rs:489
 msgid "Error on starting pod"
-msgstr ""
+msgstr "Viga podi käivitamisel"
 
 #: src/view/pod.rs:40 src/view/pods_panel.rs:517 src/view/pods_panel.rs:540
 msgid "Error on stopping pod"
-msgstr ""
+msgstr "Viga podi töö lõpetamisel"
 
 #: src/view/pod.rs:41 src/view/pods_panel.rs:515
 msgid "Error on killing pod"
-msgstr ""
+msgstr "Viga podi hävitamisel"
 
 #: src/view/pod.rs:42 src/view/pods_panel.rs:563
 msgid "Error on restarting pod"
-msgstr ""
+msgstr "Viga podi uuesti käivitamisel"
 
 #: src/view/pod.rs:43
 msgid "Error on pausing pod"
-msgstr ""
+msgstr "Viga podi töö peatamisel"
 
 #: src/view/pod.rs:44 src/view/pods_panel.rs:478
 msgid "Error on resuming pod"
-msgstr ""
+msgstr "Viga podi töö jätkamisel"
 
 #: src/view/pod.rs:45 src/view/pods_panel.rs:605
 msgid "Error on deleting pod"
-msgstr ""
+msgstr "Viga podi kustutamisel"
 
 #: src/view/pod.rs:54
 msgid "Confirm Pod Deletion"
-msgstr ""
+msgstr "Kinnita podi kustutamine"
 
 #. Translators: The "{}" is a placeholder for the container name.
 #: src/view/pod.rs:58
@@ -3428,23 +3433,23 @@ msgstr ""
 
 #: src/view/pods_panel.rs:229
 msgid "1 pod, running"
-msgstr ""
+msgstr "1 pod, töös"
 
 #: src/view/pods_panel.rs:231
 msgid "1 pod, stopped"
-msgstr ""
+msgstr "1 pod, peatatud olekus"
 
 #: src/view/pods_panel.rs:235
 msgid "{} pod total, {} running"
 msgid_plural "{} pods total, {} running"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Kokku {} pod, sellest {} töötab"
+msgstr[1] "Kokku {} podi, neist {} töötavad"
 
 #: src/view/pods_panel.rs:249
 msgid "{} Selected Pod"
 msgid_plural "{} Selected Pods"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} valitud pod"
+msgstr[1] "{} valitud podi"
 
 #: src/view/pods_panel.rs:580
 msgid "Confirm Forced Deletion of Multiple Pods"
@@ -3464,19 +3469,19 @@ msgstr ""
 
 #: src/view/pods_panel.ui:146 src/view/pods_panel.ui:192
 msgid "Show Only Running Pods"
-msgstr ""
+msgstr "Näita vaid töötavaid pode"
 
 #: src/view/pods_panel.ui:258
 msgid "No Running Pods"
-msgstr ""
+msgstr "Ühtegi töötavat podi ei leidu"
 
 #: src/view/pods_panel.ui:268
 msgid "_Show All Pods"
-msgstr ""
+msgstr "_Näita kõik pode"
 
 #: src/view/pods_panel.ui:441
 msgid "No Pods Available"
-msgstr ""
+msgstr "Ühtegi podi pole saadaval"
 
 #: src/view/port_mapping_row.ui:83
 msgid "Protocol"
@@ -3759,7 +3764,7 @@ msgstr ""
 #: src/view/shortcuts.ui:188
 msgctxt "shortcut window"
 msgid "Podman"
-msgstr ""
+msgstr "Podman"
 
 #: src/view/shortcuts.ui:192
 msgctxt "shortcut window"
@@ -3777,7 +3782,7 @@ msgstr ""
 
 #: src/view/top_page.rs:107
 msgid "Pod Processes"
-msgstr ""
+msgstr "Podide protsessid"
 
 #: src/view/top_page.rs:125
 msgid "USER"
@@ -3938,11 +3943,11 @@ msgstr ""
 
 #: src/view/welcome_page.ui:59
 msgid "Welcome to Pods"
-msgstr ""
+msgstr "Tere tulemast, see on Pods"
 
 #: src/view/welcome_page.ui:68
 msgid "Create a new connection to Podman to get started"
-msgstr ""
+msgstr "Alustamiseks loo uus ühendus Podmaniga"
 
 #: src/view/welcome_page.ui:82
 msgid "_New Connection"
@@ -3962,7 +3967,7 @@ msgstr ""
 
 #: src/view/window.rs:277
 msgid "Error on loading pods"
-msgstr ""
+msgstr "Viga podide laadimisel"
 
 #: src/view/window.rs:278
 msgid "Error on loading volumes"
@@ -3995,7 +4000,7 @@ msgstr ""
 
 #: src/widget/main_menu_button.ui:11
 msgid "_About Pods"
-msgstr ""
+msgstr "R_akenduse teave: Pods"
 
 #: src/widget/main_menu_button.ui:27
 msgid "Main Menu"
